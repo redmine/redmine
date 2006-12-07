@@ -1,0 +1,18 @@
+<h2><%=l(:label_news_plural)%></h2>
+
+<% if @news.empty? %><p><i><%= l(:label_no_data) %></i></p><% end %>
+
+<ul>
+<% for news in @news %>
+	<li><%= link_to news.title, :controller => 'news', :action => 'show', :id => news %><br />
+	<% unless news.summary.empty? %><%= news.summary %><br /><% end %>
+	<em><%= news.author.name %>, <%= format_time(news.created_on) %></em><br />&nbsp;
+	</li>
+<% end %>
+</ul>
+
+
+<%= pagination_links_full @news_pages %>
+<p>
+<%= link_to_if_authorized '&#187; ' + l(:label_news_new), :controller => 'projects', :action => 'add_news', :id => @project %>
+</p>

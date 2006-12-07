@@ -1,0 +1,489 @@
+/* andreas08 - an open source xhtml/css website layout by Andreas Viklund - http://andreasviklund.com . Free to use in any way and for any purpose as long as the proper credits are given to the original designer. Version: 1.0, November 28, 2005 */
+/* Edited by Jean-Philippe Lang *>
+/**************** Body and tag styles ****************/
+
+
+#header * {margin:0; padding:0;}
+p, ul, ol, li {margin:0; padding:0;}
+
+
+body{
+font:76% Verdana,Tahoma,Arial,sans-serif;
+line-height:1.4em;
+text-align:center;
+color:#303030;
+background:#e8eaec;
+margin:0;
+}
+
+
+a{
+color:#467aa7;
+font-weight:bold;
+text-decoration:none;
+background-color:inherit;
+}
+
+a:hover{color:#2a5a8a; text-decoration:none; background-color:inherit;}
+a img{border:none;}
+
+p{padding:0 0 1em 0;}
+p form{margin-top:0; margin-bottom:20px;}
+
+img.left,img.center,img.right{padding:4px; border:1px solid #a0a0a0;}
+img.left{float:left; margin:0 12px 5px 0;}
+img.center{display:block; margin:0 auto 5px auto;}
+img.right{float:right; margin:0 0 5px 12px;}
+
+/**************** Header and navigation styles ****************/
+
+#container{
+width:100%;
+min-width: 800px;
+margin:0;
+padding:0;
+text-align:left;
+background:#ffffff;
+color:#303030;
+}
+
+#header{
+height:4.5em;
+/*width:758px;*/
+margin:0;
+background:#467aa7;
+color:#ffffff;
+margin-bottom:1px;
+}
+
+#header h1{
+padding:10px 0 0 20px;
+font-size:2em;
+background-color:inherit;
+color:#fff; /*rgb(152, 26, 33);*/
+letter-spacing:-1px;
+font-weight:bold;
+font-family: Trebuchet MS,Georgia,"Times New Roman",serif;
+}
+
+#header h2{
+margin:3px 0 0 40px;
+font-size:1.5em;
+background-color:inherit;
+color:#f0f2f4;
+letter-spacing:-1px;
+font-weight:normal;
+font-family: Trebuchet MS,Georgia,"Times New Roman",serif;
+}
+
+#navigation{
+height:2.2em;
+line-height:2.2em;
+/*width:758px;*/
+margin:0;
+background:#578bb8;
+color:#ffffff;
+}
+
+#navigation li{
+float:left;
+list-style-type:none;
+border-right:1px solid #ffffff;
+white-space:nowrap;
+}
+
+#navigation li.right {
+ float:right;
+list-style-type:none;
+border-right:0;
+border-left:1px solid #ffffff;
+white-space:nowrap;
+}
+
+#navigation li a{
+display:block;
+padding:0px 10px 0px 22px;
+font-size:0.8em;
+font-weight:normal;
+/*text-transform:uppercase;*/
+text-decoration:none;
+background-color:inherit;
+color: #ffffff;
+}
+
+* html #navigation a {width:1%;}
+
+#navigation .selected,#navigation a:hover{
+color:#ffffff;
+text-decoration:none;
+background-color: #80b0da;
+}
+
+/**************** Icons links *******************/
+.picHome {	background: url(../images/home.png) no-repeat 4px 50%; }
+.picUser {	background: url(../images/user.png) no-repeat 4px 50%; }
+.picUserPage {	background: url(../images/user_page.png) no-repeat 4px 50%; }
+.picAdmin {	background: url(../images/admin.png) no-repeat 4px 50%; }
+.picProject { background: url(../images/projects.png) no-repeat 4px 50%; }
+.picLogout { background: url(../images/logout.png) no-repeat 4px 50%; }
+.picHelp { background: url(../images/help.png) no-repeat 4px 50%; }
+
+/**************** Content styles ****************/
+
+html>body #content {
+height: auto;
+min-height: 500px;
+} 
+
+#content{
+/*float:right;*/
+/*width:530px;*/
+width: auto;
+height:500px;
+font-size:0.9em;
+padding:20px 10px 10px 20px;
+/*position: absolute;*/
+margin-left: 120px;
+border-left: 1px dashed #c0c0c0;
+
+}
+
+#content h2{
+display:block;
+margin:0 0 16px 0;
+font-size:1.7em;
+font-weight:normal;
+letter-spacing:-1px;
+color:#606060;
+background-color:inherit;
+font-family: Trebuchet MS,Georgia,"Times New Roman",serif;
+}
+
+#content h2 a{font-weight:normal;}
+#content h3{margin:0 0 12px 0; font-size:1.4em;color:#707070;font-family: Trebuchet MS,Georgia,"Times New Roman",serif;}
+#content a:hover,#subcontent a:hover{text-decoration:underline;}
+#content ul,#content ol{margin:0 5px 16px 35px;}
+#content dl{margin:0 5px 10px 25px;}
+#content dt{font-weight:bold; margin-bottom:5px;}
+#content dd{margin:0 0 10px 15px;}
+
+
+/***********************************************/
+
+/*
+form{
+	padding:15px; 
+	margin:0 0 20px 0;
+	border:1px solid #c0c0c0;
+	background-color:#CEE1ED;
+	width:600px;
+}
+*/
+
+form {
+	display: inline;
+}
+
+.noborder {
+	border:0px;
+	background-color:#fff;
+	width:100%;
+}
+
+textarea {
+    padding:0;
+    margin:0;
+}
+
+blockquote {
+    padding-left: 6px;
+    border-left: 2px solid #ccc;
+}
+
+input {
+	vertical-align: middle;
+}
+
+input.button-small 
+{
+    font-size: 0.8em;
+}
+
+select {
+	vertical-align: middle;
+}
+
+select.select-small 
+{
+   border: 1px solid #7F9DB9;
+   padding: 1px;
+   font-size: 0.8em;
+}
+
+.active-filter
+{
+  background-color: #F9FA9E;
+  
+}
+
+label {
+	font-weight: bold;
+	font-size: 1em;
+}
+
+fieldset {
+    border:1px solid #7F9DB9;
+    padding: 6px;
+}
+
+legend {
+    color: #505050;
+
+}
+
+.required {
+	color: #bb0000;
+}
+
+table.listTableContent {
+	border:1px solid #578bb8;
+	width:99%;
+	border-collapse: collapse;
+}
+
+table.listTableContent td {
+	padding:2px;
+}
+
+tr.ListHead {
+	background-color:#467aa7; 
+	color:#FFFFFF;
+	text-align:center;
+}
+
+tr.ListHead a {
+	color:#FFFFFF;
+	text-decoration:underline;
+}
+
+.odd {
+	background-color:#f0f1f2;
+}
+.even {
+	background-color: #fff;
+}
+
+table.reportTableContent {
+	border:1px solid #c0c0c0;
+	width:99%;
+	border-collapse: collapse;
+}
+
+table.reportTableContent td {
+	padding:2px;
+}
+
+table.calenderTable {
+	border:1px solid #578bb8;
+	width:99%;
+	border-collapse: collapse;
+}
+
+table.calenderTable td {
+	border:1px solid #578bb8;
+}
+
+hr { border:none; border-bottom: dotted 1px #c0c0c0; }
+
+
+/**************** Sidebar styles ****************/
+
+#subcontent{
+position: absolute;
+left: 0px;
+width:110px;
+padding:20px 20px 10px 5px;
+}
+
+#subcontent h2{
+display:block;
+margin:0 0 5px 0;
+font-size:1.0em;
+font-weight:bold;
+text-align:left;
+color:#606060;
+background-color:inherit;
+font-family: Trebuchet MS,Georgia,"Times New Roman",serif;
+}
+
+#subcontent p{margin:0 0 16px 0; font-size:0.9em;}
+
+/**************** Menublock styles ****************/
+
+.menublock{margin:0 0 20px 8px; font-size:0.8em;}
+.menublock li{list-style:none; display:block; padding:1px; margin-bottom:0px;}
+.menublock li a{font-weight:bold; text-decoration:none;}
+.menublock li a:hover{text-decoration:none;}
+.menublock li ul{margin:0; font-size:1em; font-weight:normal;}
+.menublock li ul li{margin-bottom:0;}
+.menublock li ul a{font-weight:normal;}
+
+/**************** Searchbar styles ****************/
+
+#searchbar{margin:0 0 20px 0;}
+#searchbar form fieldset{margin-left:10px; border:0 solid;}
+
+#searchbar #s{
+height:1.2em;
+width:110px;
+margin:0 5px 0 0;
+border:1px solid #a0a0a0;
+}
+
+#searchbar #searchbutton{
+width:auto;
+padding:0 1px;
+border:1px solid #808080;
+font-size:0.9em;
+text-align:center;
+}
+
+/**************** Footer styles ****************/
+
+#footer{
+clear:both;
+/*width:758px;*/
+padding:5px 0;
+margin:0;
+font-size:0.9em;
+color:#f0f0f0;
+background:#467aa7;
+}
+
+#footer p{padding:0; margin:0; text-align:center;}
+#footer a{color:#f0f0f0; background-color:inherit; font-weight:bold;}
+#footer a:hover{color:#ffffff; background-color:inherit; text-decoration: underline;}
+
+/**************** Misc classes and styles ****************/
+
+.splitcontentleft{float:left; width:49%;}
+.splitcontentright{float:right; width:49%;}
+.clear{clear:both;}
+.small{font-size:0.8em;line-height:1.4em;padding:0 0 0 0;}
+.hide{display:none;}
+.textcenter{text-align:center;}
+.textright{text-align:right;}
+.important{color:#f02025; background-color:inherit; font-weight:bold;}
+
+.box{
+margin:0 0 20px 0;
+padding:10px;
+border:1px solid #c0c0c0;
+background-color:#fafbfc;
+color:#505050;
+line-height:1.5em;
+}
+
+a.close-icon {
+display:block;
+margin-top:3px;
+overflow:hidden;
+width:12px;
+height:12px;
+background-repeat: no-repeat;
+cursor:hand;
+cursor:pointer;
+background-image:url('../images/close.png');
+}
+
+a.close-icon:hover {
+background-image:url('../images/close_hl.png');
+}
+
+.rightbox{
+background: #fafbfc;
+border: 1px solid #c0c0c0;
+float: right;
+padding: 8px;
+position: relative;
+margin: 0 5px 5px;
+}
+
+.layout-active {
+background: #ECF3E1;
+}
+
+.block-receiver {
+border:1px dashed #c0c0c0;
+margin-bottom: 20px;
+padding: 15px 0 15px 0;
+}
+
+.mypage-box {
+margin:0 0 20px 0;
+color:#505050;
+line-height:1.5em;
+}
+
+.handle {
+cursor: move;
+}
+
+.topright{
+position: absolute;
+right: 25px;
+top: 100px;
+}
+
+.login {
+width: 50%;
+text-align: left;
+}
+
+img.calendar-trigger {
+    cursor: pointer;
+    vertical-align: middle;
+    margin-left: 4px;
+}
+
+#history h4 {
+    font-size: 1em;
+    margin-bottom: 12px;
+    margin-top: 20px;
+    font-weight: normal;
+    border-bottom: dotted 1px #c0c0c0;    
+}
+
+#history p {
+    margin-left: 34px;
+}
+
+/***** CSS FORM ******/
+.tabular p{
+margin: 0;
+padding: 5px 0 8px 0;
+padding-left: 180px; /*width of left column containing the label elements*/
+height: 1%;
+}
+
+.tabular label{
+font-weight: bold;
+float: left;
+margin-left: -180px; /*width of left column*/
+width: 175px; /*width of labels. Should be smaller than left column to create some right 
+margin*/
+}
+
+.error {
+color: #cc0000;
+}
+
+
+/*.threepxfix class below:
+Targets IE6- ONLY. Adds 3 pixel indent for multi-line form contents.
+to account for 3 pixel bug: http://www.positioniseverything.net/explorer/threepxtest.html
+*/
+
+* html .threepxfix{
+margin-left: 3px;
+}
