@@ -208,8 +208,10 @@ class ProjectsController < ApplicationController
     sort_init 'issues.id', 'desc'
     sort_update
 
-    search_filter_init_list_issues
-    search_filter_update if params[:set_filter]
+    @query = Query.new
+    params[:fields].each do |field|
+      @query.add_filter(field, params[:operators][field], params[:values][field])
+    end if params[:fields]
 
     @results_per_page_options = [ 15, 25, 50, 100 ]
     if params[:per_page] and @results_per_page_options.include? params[:per_page].to_i
@@ -219,11 +221,11 @@ class ProjectsController < ApplicationController
       @results_per_page = session[:results_per_page] || 25
     end
 
-    @issue_count = Issue.count(:include => [:status, :project], :conditions => search_filter_clause)		
+    @issue_count = Issue.count(:include => [:status, :project], :conditions => @query.statement)		
     @issue_pages = Paginator.new self, @issue_count, @results_per_page, @params['page']								
     @issues = Issue.find :all, :order => sort_clause,
 						:include => [ :author, :status, :tracker, :project ],
-						:conditions => search_filter_clause,
+						:conditions => @query.statement,
 						:limit  =>  @issue_pages.items_per_page,
 						:offset =>  @issue_pages.current.offset						
     

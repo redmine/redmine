@@ -213,7 +213,7 @@ select {
 	vertical-align: middle;
 }
 
-select.select-small 
+.select-small 
 {
    border: 1px solid #7F9DB9;
    padding: 1px;
