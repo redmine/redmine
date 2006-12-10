@@ -7,12 +7,20 @@
 </small>
 </div>
 
-<div>
 <%= start_form_tag :action => 'list_issues' %>
 <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
+<table width="100%">
+<tr>
+<td align="right">
 <%= submit_tag l(:button_apply), :class => "button-small" %>
 <%= end_form_tag %>
-</div>
+<%= start_form_tag :action => 'list_issues', :set_filter => 1 %>
+<%= submit_tag l(:button_clear), :class => "button-small" %>
+<%= end_form_tag %>
+</td>
+</tr>
+</table>
+
  &nbsp;
 <table class="listTableContent">
     <tr>

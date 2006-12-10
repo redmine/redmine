@@ -1,7 +1,7 @@
 class Query < ActiveRecord::Base
   serialize :filters
   
-  validates_presence_of :name
+  validates_presence_of :name, :on => :save
     
   @@operators = { "="   => "Egal", 
                   "!"   => "Different",
@@ -56,7 +56,7 @@ class Query < ActiveRecord::Base
   
   def add_filter(field, operator, values)
     # values must be an array
-    return unless values and values.is_a? Array
+    return unless values and values.is_a? Array # and !values.first.empty?
     # check if field is defined as an available filter
     if @@available_filters.has_key? field
       filter_options = @@available_filters[field]

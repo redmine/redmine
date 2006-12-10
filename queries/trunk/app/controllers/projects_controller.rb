@@ -208,10 +208,15 @@ class ProjectsController < ApplicationController
     sort_init 'issues.id', 'desc'
     sort_update
 
-    @query = Query.new
-    params[:fields].each do |field|
-      @query.add_filter(field, params[:operators][field], params[:values][field])
-    end if params[:fields]
+    session[:query] = nil if params[:set_filter]
+    @query = session[:query] || Query.new
+    if params[:fields] and params[:fields].is_a? Array
+      @query.filters = {}
+      params[:fields].each do |field|
+        @query.add_filter(field, params[:operators][field], params[:values][field])
+      end
+    end
+    session[:query] = @query
 
     @results_per_page_options = [ 15, 25, 50, 100 ]
     if params[:per_page] and @results_per_page_options.include? params[:per_page].to_i
@@ -237,11 +242,11 @@ class ProjectsController < ApplicationController
     sort_init 'issues.id', 'desc'
     sort_update
 
-    search_filter_init_list_issues
+    @query = session[:query] || Query.new
 					
     @issues =  Issue.find :all, :order => sort_clause,
 						:include => [ :author, :status, :tracker, :project, :custom_values ],
-						:conditions => search_filter_clause							
+						:conditions => @query.statement				
 
     ic = Iconv.new('ISO-8859-1', 'UTF-8')    
     export = StringIO.new
@@ -270,11 +275,11 @@ class ProjectsController < ApplicationController
     sort_init 'issues.id', 'desc'
     sort_update
 
-    search_filter_init_list_issues
+    @query = session[:query] || Query.new
 					
     @issues =  Issue.find :all, :order => sort_clause,
 						:include => [ :author, :status, :tracker, :project, :custom_values ],
-						:conditions => search_filter_clause
+						:conditions => @query.statement
 											
     @options_for_rfpdf ||= {}
     @options_for_rfpdf[:file_name] = "export.pdf"
