@@ -21,9 +21,7 @@ class ProjectsController < ApplicationController
   before_filter :require_admin, :only => [ :add, :destroy ]
 
   helper :sort
-  include SortHelper	
-  helper :search_filter
-  include SearchFilterHelper	
+  include SortHelper
   helper :custom_fields
   include CustomFieldsHelper   
   helper :ifpdf
