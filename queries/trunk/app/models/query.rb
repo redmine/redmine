@@ -54,10 +54,10 @@ class Query < ActiveRecord::Base
   def initialize(attributes = nil)
     super attributes
     self.filters ||= { 'status_id' => {:operator => "o", :values => [""]} }
+    self.is_public = true
   end
   
   def validate
-    errors.add_to_base "Au moins un critere doit etre selectionne" unless filters && !filters.empty?
     filters.each_key do |field|
       errors.add field.gsub(/\_id$/, ""), :activerecord_error_blank unless 
           # filter requires one or more values

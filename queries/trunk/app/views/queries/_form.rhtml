@@ -5,9 +5,6 @@
 <div class="tabular">
 <p><label for="query_name"><%=l(:field_name)%></label>
 <%= text_field 'query', 'name', :size => 80 %></p>
-
-<p><label for="query_is_public"><%=l(:field_is_public)%></label>
-<%= check_box 'query', 'is_public' %></p>
 </div>
 
 <%= render :partial => 'queries/filters', :locals => {:query => query}%>
