@@ -16,7 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class ProjectsController < ApplicationController
-  layout 'base', :except => :export_issues_pdf
+  layout 'base'
   before_filter :find_project, :authorize, :except => [ :index, :list, :add ]
   before_filter :require_admin, :only => [ :add, :destroy ]
 
@@ -208,27 +208,7 @@ class ProjectsController < ApplicationController
     sort_init 'issues.id', 'desc'
     sort_update
 
-    if params[:query_id]
-      @query = @project.queries.find(params[:query_id])
-    else
-      if params[:set_filter] or !session[:query] or session[:query].project_id != @project.id
-        # Give it a name, required to be valid
-        @query = Query.new(:name => "_")
-        @query.project = @project
-        if params[:fields] and params[:fields].is_a? Array
-          params[:fields].each do |field|
-            @query.add_filter(field, params[:operators][field], params[:values][field])
-          end
-        else
-          @query.available_filters.keys.each do |field|
-            @query.add_short_filter(field, params[field]) if params[field]
-          end
-        end
-        session[:query] = @query
-      else
-        @query = session[:query]
-      end
-    end
+    retrieve_query
 
     @results_per_page_options = [ 15, 25, 50, 100 ]
     if params[:per_page] and @results_per_page_options.include? params[:per_page].to_i
@@ -255,7 +235,8 @@ class ProjectsController < ApplicationController
     sort_init 'issues.id', 'desc'
     sort_update
 
-    @query = session[:query] || Query.new
+    retrieve_query
+    render :action => 'list_issues' and return unless @query.valid?
 					
     @issues =  Issue.find :all, :order => sort_clause,
 						:include => [ :author, :status, :tracker, :project, :custom_values ],
@@ -288,7 +269,8 @@ class ProjectsController < ApplicationController
     sort_init 'issues.id', 'desc'
     sort_update
 
-    @query = session[:query] || Query.new
+    retrieve_query
+    render :action => 'list_issues' and return unless @query.valid?
 					
     @issues =  Issue.find :all, :order => sort_clause,
 						:include => [ :author, :status, :tracker, :project, :custom_values ],
@@ -296,6 +278,7 @@ class ProjectsController < ApplicationController
 											
     @options_for_rfpdf ||= {}
     @options_for_rfpdf[:file_name] = "export.pdf"
+    render :layout => false
   end
 
   def move_issues
@@ -502,5 +485,30 @@ private
     @html_title = @project.name
   rescue
     redirect_to :action => 'list'			
+  end
+  
+  # Retrieve query from session or build a new query
+  def retrieve_query
+    if params[:query_id]
+      @query = @project.queries.find(params[:query_id])
+    else
+      if params[:set_filter] or !session[:query] or session[:query].project_id != @project.id
+        # Give it a name, required to be valid
+        @query = Query.new(:name => "_")
+        @query.project = @project
+        if params[:fields] and params[:fields].is_a? Array
+          params[:fields].each do |field|
+            @query.add_filter(field, params[:operators][field], params[:values][field])
+          end
+        else
+          @query.available_filters.keys.each do |field|
+            @query.add_short_filter(field, params[field]) if params[field]
+          end
+        end
+        session[:query] = @query
+      else
+        @query = session[:query]
+      end
+    end  
   end
 end

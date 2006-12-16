@@ -123,6 +123,7 @@ class Query < ActiveRecord::Base
   
   def statement
     sql = "1=1" 
+    sql << " AND issues.project_id=%d" % project.id if project
     filters.each_key do |field|
       v = values_for field
       next unless v and !v.empty?  
