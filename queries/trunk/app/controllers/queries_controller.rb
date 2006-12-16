@@ -43,5 +43,7 @@ private
   def find_query
     @query = Query.find(params[:id])
     @project = @query.project
+    # check if user is allowed to manage queries (same permission as add_query)
+    authorize('projects', 'add_query')
   end
 end
