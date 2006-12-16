@@ -1,55 +1,47 @@
+# redMine - project management software
+# Copyright (C) 2006  Jean-Philippe Lang
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
 class QueriesController < ApplicationController
   layout 'base'
-  
-  def index
-    list
-    render :action => 'list'
-  end
-
-  # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
-  verify :method => :post, :only => [ :destroy, :create, :update ],
-         :redirect_to => { :action => :list }
-
-  def list
-    @query_pages, @queries = paginate :queries, :per_page => 10
-  end
-
-  def show
-    @query = Query.find(params[:id])
-  end
-
-  def new
-    @query = Query.new(params[:query])
-    
-    params[:fields].each do |field|
-      @query.add_filter(field, params[:operators][field], params[:values][field])
-    end if params[:fields]
-    
-    if request.post? and @query.save
-      flash[:notice] = 'Query was successfully created.'
-      redirect_to :action => 'list'
-    end
-  end
+  before_filter :require_login, :find_query
 
   def edit
-    @query = Query.find(params[:id])
-
     if request.post?
       @query.filters = {}
       params[:fields].each do |field|
         @query.add_filter(field, params[:operators][field], params[:values][field])
       end if params[:fields]
       @query.attributes = params[:query]
-    
+          
       if @query.save
-        flash[:notice] = 'Query was successfully updated.'
-        redirect_to :action => 'show', :id => @query
+        flash[:notice] = l(:notice_successful_update)
+        redirect_to :controller => 'projects', :action => 'list_issues', :id => @project, :query_id => @query
       end
     end
   end
 
   def destroy
-    Query.find(params[:id]).destroy
-    redirect_to :action => 'list'
+    @query.destroy if request.post?
+    redirect_to :controller => 'reports', :action => 'issue_report', :id => @project
+  end
+  
+private
+  def find_query
+    @query = Query.find(params[:id])
+    @project = @query.project
   end
 end

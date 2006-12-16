@@ -208,15 +208,27 @@ class ProjectsController < ApplicationController
     sort_init 'issues.id', 'desc'
     sort_update
 
-    session[:query] = nil if params[:set_filter]
-    @query = session[:query] || Query.new
-    if params[:fields] and params[:fields].is_a? Array
-      @query.filters = {}
-      params[:fields].each do |field|
-        @query.add_filter(field, params[:operators][field], params[:values][field])
+    if params[:query_id]
+      @query = @project.queries.find(params[:query_id])
+    else
+      if params[:set_filter] or !session[:query] or session[:query].project_id != @project.id
+        # Give it a name, required to be valid
+        @query = Query.new(:name => "_")
+        @query.project = @project
+        if params[:fields] and params[:fields].is_a? Array
+          params[:fields].each do |field|
+            @query.add_filter(field, params[:operators][field], params[:values][field])
+          end
+        else
+          @query.available_filters.keys.each do |field|
+            @query.add_short_filter(field, params[field]) if params[field]
+          end
+        end
+        session[:query] = @query
+      else
+        @query = session[:query]
       end
     end
-    session[:query] = @query
 
     @results_per_page_options = [ 15, 25, 50, 100 ]
     if params[:per_page] and @results_per_page_options.include? params[:per_page].to_i
@@ -226,14 +238,15 @@ class ProjectsController < ApplicationController
       @results_per_page = session[:results_per_page] || 25
     end
 
-    @issue_count = Issue.count(:include => [:status, :project], :conditions => @query.statement)		
-    @issue_pages = Paginator.new self, @issue_count, @results_per_page, @params['page']								
-    @issues = Issue.find :all, :order => sort_clause,
-						:include => [ :author, :status, :tracker, :project ],
-						:conditions => @query.statement,
-						:limit  =>  @issue_pages.items_per_page,
-						:offset =>  @issue_pages.current.offset						
-    
+    if @query.valid?
+      @issue_count = Issue.count(:include => [:status, :project], :conditions => @query.statement)		
+      @issue_pages = Paginator.new self, @issue_count, @results_per_page, @params['page']								
+      @issues = Issue.find :all, :order => sort_clause,
+  						:include => [ :author, :status, :tracker, :project ],
+  						:conditions => @query.statement,
+  						:limit  =>  @issue_pages.items_per_page,
+  						:offset =>  @issue_pages.current.offset						
+    end
     render :layout => false if request.xhr?
   end
 
@@ -307,6 +320,22 @@ class ProjectsController < ApplicationController
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'list_issues', :id => @project
     end
+  end
+
+  def add_query
+    @query = Query.new(params[:query])
+    @query.project = @project
+    @query.user = logged_in_user
+    
+    params[:fields].each do |field|
+      @query.add_filter(field, params[:operators][field], params[:values][field])
+    end if params[:fields]
+    
+    if request.post? and @query.save
+      flash[:notice] = l(:notice_successful_create)
+      redirect_to :controller => 'reports', :action => 'issue_report', :id => @project
+    end    
+    render :layout => false if request.xhr?
   end
 
   # Add a news to @project

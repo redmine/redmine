@@ -259,6 +259,11 @@ label_internal: Interno
 label_last_changes: %d cambios del último
 label_change_view_all: Ver todos los cambios
 label_personalize_page: Personalizar esta página
+label_query: Pregunta personalizada
+label_query_plural: Preguntas personalizadas
+label_query_new: Nueva preguntas
+label_filter_add: Agregar el filtro
+label_filter_plural: Filtros
 
 button_login: Conexión
 button_submit: Someter

@@ -1,8 +1,0 @@
-<% for column in Query.content_columns %>
-<p>
-  <b><%= column.human_name %>:</b> <%=h @query.send(column.name) %>
-</p>
-<% end %>
-
-<%= link_to 'Edit', :action => 'edit', :id => @query %> |
-<%= link_to 'Back', :action => 'list' %>

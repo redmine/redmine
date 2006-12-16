@@ -1,25 +1,46 @@
-<h2><%=l(:label_issue_plural)%></h2>
-<div class="topright">
-<small>
-<%= l(:label_export_to) %>&nbsp;
-<%= link_to 'CSV', :action => 'export_issues_csv', :id => @project %>,
-<%= link_to 'PDF', :action => 'export_issues_pdf', :id => @project %>
-</small>
-</div>
-
-<%= start_form_tag :action => 'list_issues' %>
-<%= render :partial => 'queries/filters', :locals => {:query => @query} %>
-<table width="100%">
-<tr>
-<td align="right">
-<%= submit_tag l(:button_apply), :class => "button-small" %>
-<%= end_form_tag %>
-<%= start_form_tag :action => 'list_issues', :set_filter => 1 %>
-<%= submit_tag l(:button_clear), :class => "button-small" %>
-<%= end_form_tag %>
-</td>
-</tr>
-</table>
+<% if @query.new_record? %>
+    <div style="float:right;">
+    <small>
+    <%= l(:label_export_to) %>
+    <%= link_to 'CSV', :action => 'export_issues_csv', :id => @project %>,
+    <%= link_to 'PDF', :action => 'export_issues_pdf', :id => @project %>
+    </small>
+    </div>
+    <h2><%=l(:label_issue_plural)%></h2>
+    
+    <%= start_form_tag({:action => 'list_issues'}, :id => 'query_form') %>
+    <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
+    <%= end_form_tag %>
+    <table width="100%">
+    <tr>
+    <td align="right"><small>
+    <%= link_to_remote l(:button_apply), 
+                       :url => { :controller => 'projects', :action => 'list_issues', :id => @project, :set_filter => 1 },
+                       :update => "content",
+                       :with => "Form.serialize('query_form')" %> 
+    |
+    <%= link_to l(:button_clear), :controller => 'projects', :action => 'list_issues', :id => @project, :set_filter => 1 %>
+    <% if loggedin? %>
+    |
+    <%= link_to_remote l(:button_save), 
+                       :url => { :controller => 'projects', :action => "add_query", :id => @project },
+                       :method => 'get',
+                       :update => "content",
+                       :with => "Form.serialize('query_form')" %>
+    <% end %>
+    </small></td>
+    </tr>
+    </table>
+<% else %>
+    <div style="float:right;">
+        <%= link_to l(:button_edit), :controller => 'queries', :action => 'edit', :id => @query %>
+        <%= link_to l(:button_delete), {:controller => 'queries', :action => 'destroy', :id => @query}, :confirm => l(:text_are_you_sure), :post => true %>
+    </div>
+    
+    <h2><%= @query.name %></h2>
+<% end %>
+<%= error_messages_for 'query' %>
+<% if @query.valid? %>
 
  &nbsp;
 <table class="listTableContent">
@@ -66,3 +87,4 @@
 </p>
 <%= submit_tag l(:button_move) %>
 <%= end_form_tag %>
+<% end %>

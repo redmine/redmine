@@ -55,12 +55,12 @@ function toggle_multi_select(field) {
 
 </script>
 
-<fieldset style="margin:0;"><legend>Filtres</legend>
+<fieldset style="margin:0;"><legend><%= l(:label_filter_plural) %></legend>
 <table width="100%" cellpadding=0 cellspacing=0>
 <tr>
 <td>
 <table>
-<% Query.available_filters.sort{|a,b| a[1][:order]<=>b[1][:order]}.each do |filter| %>
+<% query.available_filters.sort{|a,b| a[1][:order]<=>b[1][:order]}.each do |filter| %>
     <% field = filter[0]
        options = filter[1] %>
     <tr <%= 'style="display:none;"' unless query.has_filter?(field) %> id="tr_<%= field %>">
@@ -81,6 +81,8 @@ function toggle_multi_select(field) {
         <%= link_to_function image_tag('expand'), "toggle_multi_select('#{field}');" %>
     <% when :date, :date_past %>
         <%= text_field_tag "values[#{field}][]", query.values_for(field), :size => 3, :class => "select-small" %> jours
+    <% when :text %>
+        <%= text_field_tag "values[#{field}][]", query.values_for(field), :size => 30, :class => "select-small" %>
     <% end %>
     </div>
     </td>
@@ -90,8 +92,8 @@ function toggle_multi_select(field) {
 </table>
 </td>
 <td align="right" valign="top">
-Add filter:
-<%= select_tag 'add_filter_select', options_for_select([["",""]] + Query.available_filters.sort{|a,b| a[1][:order]<=>b[1][:order]}.collect{|field| [l(("field_"+field[0].to_s.gsub(/\_id$/, "")).to_sym), field[0]] unless query.has_filter?(field[0])}.compact), :onchange => "add_filter();", :class => "select-small" %>
+<%= l(:label_filter_add) %>:
+<%= select_tag 'add_filter_select', options_for_select([["",""]] + query.available_filters.sort{|a,b| a[1][:order]<=>b[1][:order]}.collect{|field| [l(("field_"+field[0].to_s.gsub(/\_id$/, "")).to_sym), field[0]] unless query.has_filter?(field[0])}.compact), :onchange => "add_filter();", :class => "select-small" %>
 </td>
 </tr>
 </table>

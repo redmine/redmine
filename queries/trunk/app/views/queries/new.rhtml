@@ -1,9 +1,0 @@
-<h1>New query</h1>
-
-<%= start_form_tag :action => 'new' %>
-  <%= render :partial => 'form', :locals => {:query => @query} %>
-  <%= submit_tag "Create" %>
-<%= end_form_tag %>
-
-<%= debug @query %>
-<%= debug params %>

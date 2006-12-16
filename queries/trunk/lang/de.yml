@@ -259,6 +259,11 @@ label_internal: Intern
 label_last_changes: %d änderungen des Letzten
 label_change_view_all: Alle änderungen ansehen
 label_personalize_page: Diese Seite personifizieren
+label_query: Benutzerdefiniertes Frage
+label_query_plural: Benutzerdefinierte Fragen
+label_query_new: Neue Frage
+label_filter_add: Filter addieren
+label_filter_plural: Filter
 
 button_login: Einloggen
 button_submit: Einreichen
