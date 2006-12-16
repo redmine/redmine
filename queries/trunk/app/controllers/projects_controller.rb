@@ -29,6 +29,8 @@ class ProjectsController < ApplicationController
   helper :ifpdf
   include IfpdfHelper
   helper IssuesHelper
+  helper :queries
+  include QueriesHelper
   
   def index
     list

@@ -24,21 +24,23 @@ class Query < ActiveRecord::Base
   
   validates_presence_of :name, :on => :save
     
-  @@operators = { "="   => "Egal", 
-                  "!"   => "Different",
-                  "o"   => "Ouvert",
-                  "c"   => "Ferme",
-                  "!*"  => "Aucun",
-                  "*"   => "Tous",
-                  "<t+" => "Dans moins de",
-                  ">t+" => "Dans plus de",
-                  "t+"  => "Dans exactement",
-                  "t"   => "Aujourd'hui",
-                  ">t-" => "Il y a moins de",
-                  "<t-" => "Il y a plus de",
-                  "t-"  => "Il y a exactement",
-                  "~"   => "Contient",
-                  "!~"  => "Ne contient pas" }
+  @@operators = { "="   => :label_equals, 
+                  "!"   => :label_not_equals,
+                  "o"   => :label_open_issues,
+                  "c"   => :label_closed_issues,
+                  "!*"  => :label_none,
+                  "*"   => :label_all,
+                  "<t+" => :label_in_less_than,
+                  ">t+" => :label_in_more_than,
+                  "t+"  => :label_in,
+                  "t"   => :label_today,
+                  ">t-" => :label_less_than_ago,
+                  "<t-" => :label_more_than_ago,
+                  "t-"  => :label_ago,
+                  "~"   => :label_contains,
+                  "!~"  => :label_not_contains }
+
+  cattr_reader :operators
     
   @@operators_by_filter_type = { :list => [ "=", "!" ],
                                  :list_status => [ "o", "=", "!", "c", "*" ],
@@ -46,7 +48,9 @@ class Query < ActiveRecord::Base
                                  :date => [ "<t+", ">t+", "t+", "t", ">t-", "<t-", "t-" ],
                                  :date_past => [ ">t-", "<t-", "t-", "t" ],
                                  :text => [  "~", "!~" ] }
-  
+
+  cattr_reader :operators_by_filter_type
+
   def initialize(attributes = nil)
     super attributes
     self.filters ||= { 'status_id' => {:operator => "o", :values => [""]} }
@@ -155,12 +159,7 @@ class Query < ActiveRecord::Base
       when "!~"
         sql = sql + "issues.#{field} NOT LIKE '%#{connection.quote_string(v.first)}%'"
       end
-    end if filters
+    end if filters and valid?
     sql
   end
-
-  def self.operators_for_select(filter_type)
-    @@operators_by_filter_type[filter_type].collect {|o| [@@operators[o], o]}
-  end
- 
 end

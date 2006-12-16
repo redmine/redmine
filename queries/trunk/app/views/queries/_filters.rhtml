@@ -69,7 +69,7 @@ function toggle_multi_select(field) {
         <label for="cb_<%= field %>"><%= l(("field_"+field.to_s.gsub(/\_id$/, "")).to_sym) %></label>
     </td>
     <td valign="top" width="150">
-        <%= select_tag "operators[#{field}]", options_for_select(Query.operators_for_select(options[:type]), query.operator_for(field)), :onchange => "toggle_operator('#{field}');", :class => "select-small", :style => "vertical-align: top;" %>
+        <%= select_tag "operators[#{field}]", options_for_select(operators_for_select(options[:type]), query.operator_for(field)), :onchange => "toggle_operator('#{field}');", :class => "select-small", :style => "vertical-align: top;" %>
     </td>
     <td valign="top">    
     <div id="values_div[<%= field %>]">
@@ -80,7 +80,7 @@ function toggle_multi_select(field) {
         </select>
         <%= link_to_function image_tag('expand'), "toggle_multi_select('#{field}');" %>
     <% when :date, :date_past %>
-        <%= text_field_tag "values[#{field}][]", query.values_for(field), :size => 3, :class => "select-small" %> jours
+        <%= text_field_tag "values[#{field}][]", query.values_for(field), :size => 3, :class => "select-small" %> <%= l(:label_day_plural) %>
     <% when :text %>
         <%= text_field_tag "values[#{field}][]", query.values_for(field), :size => 30, :class => "select-small" %>
     <% end %>
