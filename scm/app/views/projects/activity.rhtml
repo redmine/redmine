@@ -1,0 +1,56 @@
+<h2><%=l(:label_activity)%>: <%= "#{month_name(@month).downcase} #{@year}" %></h2>
+
+<div>
+<div class="rightbox">
+  <%= start_form_tag %>
+<p><%= select_month(@month, :prefix => "month", :discard_type => true) %>
+<%= select_year(@year, :prefix => "year", :discard_type => true) %></p>
+    <%= check_box_tag 'show_issues', 1, @show_issues %><%= hidden_field_tag 'show_issues', 0 %> <%=l(:label_issue_plural)%><br />
+    <%= check_box_tag 'show_news', 1, @show_news %><%= hidden_field_tag 'show_news', 0 %> <%=l(:label_news_plural)%><br />
+    <%= check_box_tag 'show_files', 1, @show_files %><%= hidden_field_tag 'show_files', 0 %> <%=l(:label_attachment_plural)%><br />
+    <%= check_box_tag 'show_documents', 1, @show_documents %><%= hidden_field_tag 'show_documents', 0 %> <%=l(:label_document_plural)%><br />
+    <p><center><%= submit_tag l(:button_apply), :class => 'button-small' %></center></p>
+  <%= end_form_tag %>
+  </div>
+<% @events_by_day.keys.sort {|x,y| y <=> x }.each do |day| %>
+  <h3><%= day_name(day.cwday) %> <%= day.day %></h3>
+  <ul>
+  <% @events_by_day[day].sort {|x,y| y.created_on <=> x.created_on }.each do |e| %>
+    <li><p>
+    <% if e.is_a? Issue %>
+      <%= e.created_on.strftime("%H:%M") %> <%= link_to "#{e.tracker.name} ##{e.id}", :controller => 'issues', :action => 'show', :id => e %> (<%= e.status.name %>): <%=h e.subject %><br />
+          <i><%= e.author.name %></i>
+    <% elsif e.is_a? News %>
+      <%= e.created_on.strftime("%H:%M") %> <%=l(:label_news)%>: <%= link_to h(e.title), :controller => 'news', :action => 'show', :id => e %><br />
+          <% unless e.summary.empty? %><%=h e.summary %><br /><% end %>
+          <i><%= e.author.name %></i>
+    <% elsif (e.is_a? Attachment) and (e.container.is_a? Version) %>
+      <%= e.created_on.strftime("%H:%M") %> <%=l(:label_attachment)%> (<%=h e.container.name %>): <%= link_to e.filename, :controller => 'projects', :action => 'list_files', :id => @project %><br />
+        <i><%= e.author.name %></i>
+    <% elsif (e.is_a? Attachment) and (e.container.is_a? Document) %>
+      <%= e.created_on.strftime("%H:%M") %> <%=l(:label_attachment)%>: <%= e.filename %> (<%= link_to h(e.container.title), :controller => 'documents', :action => 'show', :id => e.container %>)<br />
+        <i><%= e.author.name %></i>
+    <% elsif e.is_a? Document %>
+      <%= e.created_on.strftime("%H:%M") %> <%=l(:label_document)%>: <%= link_to h(e.title), :controller => 'documents', :action => 'show', :id => e %><br />
+    <% end %>
+    </p></li>
+  
+  <% end %>
+  </ul>
+<% end %>
+<% if @events_by_day.empty? %><p><i><%= l(:label_no_data) %></i></p><% end %>
+
+<div style="float:left;">
+<%= link_to_remote ('&#171; ' + (@month==1 ? "#{month_name(12)} #{@year-1}" : "#{month_name(@month-1)}")), 
+                    {:update => "content", :url => { :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1) }},
+                    {:href => url_for(:action => 'activity', :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1))}
+                    %>
+</div>
+<div style="float:right;">
+<%= link_to_remote ((@month==12 ? "#{month_name(1)} #{@year+1}" : "#{month_name(@month+1)}") + ' &#187;'), 
+                    {:update => "content", :url => { :year => (@month==12 ? @year+1 : @year), :month =>(@month==12 ? 1 : @month+1) }},
+                    {:href => url_for(:action => 'activity', :year => (@month==12 ? @year+1 : @year), :month =>(@month==12 ? 1 : @month+1))}
+                    %>&nbsp;
+</div>
+<br />
+</div>

@@ -1,0 +1,66 @@
+<h2><%= l(:label_calendar) %></h2>
+
+<table width="100%">
+<tr>
+<td align="left" width="150">
+    <%= link_to_remote ('&#171; ' + (@month==1 ? "#{month_name(12)} #{@year-1}" : "#{month_name(@month-1)}")), 
+                        {:update => "content", :url => { :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1) }},
+                        {:href => url_for(:action => 'calendar', :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1))}
+                        %>
+</td>
+<td align="center">
+    <%= start_form_tag :action => 'calendar', :id => @project %>
+    <%= select_month(@month, :prefix => "month", :discard_type => true) %>
+    <%= select_year(@year, :prefix => "year", :discard_type => true) %>
+    <%= submit_tag l(:button_submit), :class => "button-small" %>
+    <%= end_form_tag %>
+</td>
+<td align="right" width="150">
+    <%= link_to_remote ((@month==12 ? "#{month_name(1)} #{@year+1}" : "#{month_name(@month+1)}") + ' &#187;'), 
+                        {:update => "content", :url => { :year => (@month==12 ? @year+1 : @year), :month =>(@month==12 ? 1 : @month+1) }},
+                        {:href => url_for(:action => 'calendar', :year => (@month==12 ? @year+1 : @year), :month =>(@month==12 ? 1 : @month+1))}
+                        %>&nbsp;
+</td>
+</tr>
+</table>
+<br />
+
+<table class="calenderTable">
+<tr class="ListHead">
+<td></td>
+<% 1.upto(7) do |d| %>
+    <td align="center" width="14%"><%= day_name(d) %></td>
+<% end %>
+</tr>
+<tr height="100">
+<% day = @date_from
+while day <= @date_to
+	if day.cwday == 1 %>
+	<td valign="middle"><%= day.cweek %></td>
+	<% end %>	
+	<td valign="top" width="14%" class="<%= day.month==@month ? "even" : "odd" %>">
+	<p align="right"><%= day==Date.today ? "<b>#{day.day}</b>" : day.day %></p>	
+	<% day_issues = []
+	@issues.each { |i| day_issues << i if i.start_date == day or i.due_date == day } 
+	day_issues.each do |i| %>	
+		<%= if day == i.start_date and day == i.due_date
+		    image_tag('arrow_bw')
+		elsif day == i.start_date
+		    image_tag('arrow_from') 
+		elsif day == i.due_date
+		    image_tag('arrow_to') 
+		end %>
+		<small><%= link_to "#{i.tracker.name} ##{i.id}", :controller => 'issues', :action => 'show', :id => i %>: <%=h i.subject.sub(/^(.{30}[^\s]*\s).*$/, '\1 (...)') %></small><br />
+	<% end %>
+    </td>
+	<%= '</tr><tr height="100">' if day.cwday >= 7 and day!=@date_to %>
+	<%
+	day = day + 1
+end %>
+</tr>
+</table>
+
+<br />
+<%= image_tag 'arrow_from' %>&nbsp;&nbsp;<%= l(:text_tip_task_begin_day) %><br />
+<%= image_tag 'arrow_to' %>&nbsp;&nbsp;<%= l(:text_tip_task_end_day) %><br />
+<%= image_tag 'arrow_bw' %>&nbsp;&nbsp;<%= l(:text_tip_task_begin_end_day) %><br />

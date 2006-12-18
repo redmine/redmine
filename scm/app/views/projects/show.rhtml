@@ -1,0 +1,67 @@
+<h2><%=l(:label_overview)%></h2> 
+	
+<div class="splitcontentleft">
+	<%= simple_format(auto_link(h(@project.description))) %>	
+	<ul>
+	<% unless @project.homepage.empty? %><li><%=l(:field_homepage)%>: <%= auto_link @project.homepage %></li><% end %>
+	<li><%=l(:field_created_on)%>: <%= format_date(@project.created_on) %></li>
+	<% for custom_value in @custom_values %>
+	<% if !custom_value.value.empty? %>
+	   <li><%= custom_value.custom_field.name%>: <%=h show_value(custom_value) %></li>
+	<% end %>
+	<% end %>
+	</ul>	
+
+  <div class="box">
+    <h3><%= image_tag "tracker" %> <%=l(:label_tracker_plural)%></h3>
+    <ul>
+    <% for tracker in @trackers %>    
+      <li><%= link_to tracker.name, :controller => 'projects', :action => 'list_issues', :id => @project, 
+                                                :set_filter => 1, 
+                                                "tracker_id" => tracker.id %>:
+      <%= issue_count = Issue.count(:conditions => ["project_id=? and tracker_id=? and issue_statuses.is_closed=?", @project.id, tracker.id, false], :include => :status) %>
+      <%= lwr(:label_open_issues, issue_count) %>
+      </li>
+    <% end %>
+    </ul>
+    <% if authorize_for 'projects', 'add_issue' %>
+        &#187; <%=l(:label_issue_new)%>:
+        <ul>
+        <% @trackers.each do |tracker| %>
+        <li><%= link_to tracker.name, :controller => 'projects', :action => 'add_issue', :id => @project, :tracker_id => tracker %></li>
+        <% end %>
+        </ul>
+    <% end %>
+    <center><small><%= link_to l(:label_issue_view_all), :controller => 'projects', :action => 'list_issues', :id => @project, :set_filter => 1 %></small></center>
+  </div>
+</div>
+
+<div class="splitcontentright">
+	<div class="box">
+		<h3><%= image_tag "users" %> <%=l(:label_member_plural)%></h3>	
+		<% for member in @members %>
+		<%= link_to_user member.user %> (<%= member.role.name %>)<br />		
+		<% end %>		
+	</div>
+  
+  <% if @subprojects %>
+ 	<div class="box">
+		<h3><%= image_tag "projects" %> <%=l(:label_subproject_plural)%></h3>	
+		<% for subproject in @subprojects %>
+		<%= link_to subproject.name, :action => 'show', :id => subproject %><br />		
+		<% end %>		
+	</div>
+  <% end %>
+  
+  <div class="box">
+    <h3><%=l(:label_news_latest)%></h3>  
+    <%= render :partial => 'news/news', :collection => @news %>
+    <center><small><%= link_to l(:label_news_view_all), :controller => 'projects', :action => 'list_news', :id => @project %></small></center>
+  </div>  
+</div>
+
+	
+
+
+
+	
