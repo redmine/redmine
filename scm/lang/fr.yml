@@ -137,6 +137,7 @@ field_done_ratio: %% Réalisé
 field_auth_source: Mode d'authentification
 field_hide_mail: Cacher mon adresse mail
 field_comment: Commentaire
+field_url: URL
 
 label_user: Utilisateur
 label_user_plural: Utilisateurs
@@ -283,6 +284,11 @@ label_ago: il y a
 label_contains: contient
 label_not_contains: ne contient pas
 label_day_plural: jours
+label_repository: Dépôt SVN
+label_browse: Parcourir
+label_modification: %d modification
+label_modification_plural: %d modifications
+label_revision: Révision
 
 button_login: Connexion
 button_submit: Soumettre

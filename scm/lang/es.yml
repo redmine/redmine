@@ -136,6 +136,7 @@ field_start_date: Comienzo
 field_done_ratio: %% Realizado
 field_hide_mail: Ocultar mi email address
 field_comment: Comentario
+field_url: URL
 
 label_user: Usuario
 label_user_plural: Usuarios
@@ -282,6 +283,7 @@ label_ago: hace
 label_contains: contiene 
 label_not_contains: no contiene
 label_day_plural: días
+label_repository: Depósito SVN
 
 button_login: Conexión
 button_submit: Someter

@@ -136,6 +136,7 @@ field_start_date: Beginn
 field_done_ratio: %% Getan
 field_hide_mail: Mein email address verstecken
 field_comment: Anmerkung
+field_url: URL
 
 label_user: Benutzer
 label_user_plural: Benutzer
@@ -282,6 +283,7 @@ label_ago: vor
 label_contains: enthält
 label_not_contains: enthält nicht
 label_day_plural: Tage
+label_repository: SVN Behälter
 
 button_login: Einloggen
 button_submit: Einreichen

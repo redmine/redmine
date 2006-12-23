@@ -136,6 +136,7 @@ field_start_date: Start
 field_done_ratio: %% Done
 field_hide_mail: Hide my email address
 field_comment: Comment
+field_url: URL
 
 label_user: User
 label_user_plural: Users
@@ -282,6 +283,7 @@ label_ago: days ago
 label_contains: contains
 label_not_contains: doesn't contain
 label_day_plural: days
+label_repository: SVN Repository
 
 button_login: Login
 button_submit: Submit
