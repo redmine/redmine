@@ -58,7 +58,7 @@ module SvnRepos
       path ||= ''
       identifier_from = 'HEAD' unless identifier_from and identifier_from.to_i > 0
       identifier_to = 1 unless identifier_to and identifier_to.to_i > 0
-      revisions = []
+      revisions = Revisions.new
       cmd = "svn log --xml -r #{identifier_from}:#{identifier_to} "
       cmd << "--verbose " if  options[:with_paths]
       cmd << target(path)
@@ -128,7 +128,7 @@ module SvnRepos
   
   private
     def target(path)
-      " \"" << "#{@url}/#{path}".gsub(/["'<>]/, '') << "\""
+      " \"" << "#{@url}/#{path}".gsub(/["'?<>\*]/, '') << "\""
     end
     
     def logger
@@ -153,6 +153,10 @@ module SvnRepos
         end
       }   
     end
+    
+    def revisions
+      revisions ||= Revisions.new(collect{|entry| entry.lastrev})
+    end
   end
   
   class Entry
@@ -172,6 +176,12 @@ module SvnRepos
     def is_dir?
       'dir' == self.kind
     end
+  end
+  
+  class Revisions < Array
+    def latest
+      sort {|x,y| x.time <=> y.time}.last    
+    end 
   end
   
   class Revision
