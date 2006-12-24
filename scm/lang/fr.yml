@@ -289,6 +289,9 @@ label_browse: Parcourir
 label_modification: %d modification
 label_modification_plural: %d modifications
 label_revision: Révision
+label_added: ajouté
+label_modified: modifié
+label_deleted: supprimé
 
 button_login: Connexion
 button_submit: Soumettre

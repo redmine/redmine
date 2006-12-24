@@ -9,7 +9,7 @@ module SvnRepos
     @url = nil
     @login = nil
     @password = nil
-    
+        
     def initialize(url, login=nil, password=nil)
       @url = url
       @login = login if login && !login.empty?
@@ -19,31 +19,8 @@ module SvnRepos
     # Returns the entry identified by path and revision identifier
     # or nil if entry doesn't exist in the repository
     def entry(path=nil, identifier=nil)
-      path ||= ''
-      identifier = 'HEAD' unless identifier and identifier > 0
-      entry = nil
-      cmd = "svn info --xml -r #{identifier} #{target(path)}"
-      IO.popen(cmd) do |io|
-        begin
-          doc = REXML::Document.new(io)
-          doc.elements.each("info/entry") do |info|
-            entry = Entry.new({:name => info.attributes['path'],
-                           :path => path,
-                           :kind => info.attributes['kind'],
-                           :lastrev => Revision.new({
-                             :identifier => info.elements['commit'].attributes['revision'],
-                             :author => info.elements['commit'].elements['author'].text,
-                             :time => Time.parse(info.elements['commit'].elements['date'].text)
-                             })
-                           })
-          end
-        rescue
-        end
-      end
-      return nil if $? && $?.exitstatus != 0
-      entry
-    rescue Errno::ENOENT
-      raise RepositoryCmdFailed
+      e = entries(path, identifier)
+      e ? e.first : nil
     end
     
     # Returns an Entries collection
@@ -52,8 +29,8 @@ module SvnRepos
       path ||= ''
       identifier = 'HEAD' unless identifier and identifier > 0
       entries = Entries.new
-      cmd = "svn list --xml -r #{identifier} #{target(path)}"
-      IO.popen(cmd) do |io|
+      cmd = "svn list --xml #{target(path)}@#{identifier}"
+      shellout(cmd) do |io|
         begin
           doc = REXML::Document.new(io)
           doc.elements.each("lists/list/entry") do |entry|
@@ -85,7 +62,7 @@ module SvnRepos
       cmd = "svn log --xml -r #{identifier_from}:#{identifier_to} "
       cmd << "--verbose " if  options[:with_paths]
       cmd << target(path)
-      IO.popen(cmd) do |io|
+      shellout(cmd) do |io|
         begin
           doc = REXML::Document.new(io)
           doc.elements.each("log/logentry") do |logentry|
@@ -95,6 +72,8 @@ module SvnRepos
                         :path => path.text
                         }
             end
+            paths.sort! { |x,y| x[:path] <=> y[:path] }
+            
             revisions << Revision.new({:identifier => logentry.attributes['revision'],
                           :author => logentry.elements['author'].text,
                           :time => Time.parse(logentry.elements['date'].text),
@@ -121,9 +100,9 @@ module SvnRepos
       cmd = "svn diff -r "
       cmd << "#{identifier_to}:"
       cmd << "#{identifier_from}"
-      cmd << target(path)
+      cmd << "#{target(path)}@#{identifier_from}"
       diff = []
-      IO.popen(cmd) do |io|
+      shellout(cmd) do |io|
         io.each_line do |line|
           diff << line
         end
@@ -133,10 +112,34 @@ module SvnRepos
     rescue Errno::ENOENT => e
       raise CommandFailed    
     end
+    
+    def cat(path, identifier=nil)
+      identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : "HEAD"
+      cmd = "svn cat #{target(path)}@#{identifier}"
+      cat = nil
+      shellout(cmd) do |io|
+        cat = io.read
+      end
+      return nil if $? && $?.exitstatus != 0
+      cat
+    rescue Errno::ENOENT => e
+      raise CommandFailed    
+    end
   
   private
     def target(path)
       " \"" << "#{@url}/#{path}".gsub(/["'<>]/, '') << "\""
+    end
+    
+    def logger
+      RAILS_DEFAULT_LOGGER
+    end
+    
+    def shellout(cmd, &block)
+      logger.debug "Shelling out: #{cmd}" if logger && logger.debug?
+      IO.popen(cmd) do |io|
+        block.call(io) if block_given?
+      end
     end
   end
   

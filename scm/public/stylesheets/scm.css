@@ -29,6 +29,7 @@ table.list tbody th {
 	font-weight: normal;
     text-align: center;
     background: #eed;
+    border: 1px solid #d7d7d7;
 }
 
 .icon {
@@ -42,7 +43,7 @@ table.list tbody th {
 
 
 
-table.diff tr.spacing {
+tr.spacing {
     border: 1px solid #d7d7d7;
 }
 

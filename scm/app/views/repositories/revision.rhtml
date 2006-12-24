@@ -8,8 +8,14 @@
 
 <h2><%= l(:label_revision) %> <%= @revision.identifier %></h2>
 
-<p><%= l(:field_author) %>: <em><%= @revision.author %></em></p>
+<p><em><%= @revision.author %>, <%= format_time(@revision.time) %></em></p>
 <%= simple_format @revision.message %>
+
+<div style="float:right;">
+<div class="square action_A"></div> <div style="float:left;"><%= l(:label_added) %>&nbsp;</div>
+<div class="square action_M"></div> <div style="float:left;"><%= l(:label_modified) %>&nbsp;</div>
+<div class="square action_D"></div> <div style="float:left;"><%= l(:label_deleted) %>&nbsp;</div>
+</div>
 
 <h3><%= l(:label_attachment_plural) %></h3>
 <table class="list">
