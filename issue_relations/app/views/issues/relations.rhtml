@@ -1,0 +1,49 @@
+<h2><%= @issue.tracker.name %> #<%= @issue.id %> - <%=h @issue.subject %></h2>
+
+<table class="list">
+<thead>
+<th></th>
+<th>Task</th>
+<th>Debut</th>
+<th>Fin</th>
+<th>Type</th>
+<th>Retard</th>
+</thead>
+<tbody>
+<tr><th colspan="6">Predecesseurs</th></tr>
+<% @issue.relations_from.each do |relation| %>
+<tr class="<%= cycle 'odd', 'even' %>">
+<td style="width:20px;"><%= image_tag 'relation_from.png' %></td>
+<td><%= relation.issue_id %>: <%= relation.issue.subject %></td>
+<td align="center"><%= format_date(relation.issue.start_date) %></td>
+<td align="center"><%= format_date(relation.issue.due_date) %></td>
+<td align="center"><%= l(IssueRelation::TYPES[relation.relation_type][:name]) %></td>
+<td align="center"><%= relation.delay %> jours</td>
+</tr>
+<% end %>
+<tr><th colspan="6">Successeurs</th></tr>
+<% @issue.relations_to.each do |relation| %>
+<tr class="<%= cycle 'odd', 'even' %>">
+<td style="width:20px;"><%= image_tag 'relation_to.png' %></td>
+<td><%= relation.issue_to_id %>: <%= relation.issue_to.subject %></td>
+<td align="center"><%= format_date(relation.issue_to.start_date) %></td>
+<td align="center"><%= format_date(relation.issue_to.due_date) %></td>
+<td align="center"><%= l(IssueRelation::TYPES[relation.relation_type][:name]) %></td>
+<td align="center"><%= relation.delay %> jours</td>
+</tr>
+<% end %>
+</tbody>
+</table>
+<br />
+
+<p><strong>Nouveau predecesseur</strong></p>
+
+<% form_for :relation, @relation, :url => { :action => 'add_predecessor', :id => @issue } do |f| %>
+<%= error_messages_for 'relation' %>
+<p>
+<%= f.text_field :issue_id, :required => true %>
+<%= f.select :relation_type, relation_types_for_select, :required => true %>
+<%= f.text_field :delay, :required => true, :size => 3 %> jours
+<%= submit_tag l(:button_add) %>
+</p>
+<% end %>
