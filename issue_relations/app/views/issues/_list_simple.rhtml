@@ -1,0 +1,25 @@
+<% if issues.length > 0 %>
+	<table class="list">		
+		<thead><tr>
+		<th>#</th>
+		<th><%=l(:field_tracker)%></th>
+		<th><%=l(:field_subject)%></th>
+		</tr></thead>
+		<tbody>	
+		<% for issue in issues %>
+		<tr class="<%= cycle("odd", "even") %>">
+			<th align="center">
+				<%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %>
+			</th>
+			<td><p class="small"><%= issue.project.name %> - <%= issue.tracker.name %><br />
+                <%= issue.status.name %> - <%= format_time(issue.updated_on) %></p></td>
+			<td>
+                <p class="small"><%= link_to h(issue.subject), :controller => 'issues', :action => 'show', :id => issue %></p>
+            </td>
+		</tr>
+		<% end %>
+		</tbody>
+	</table>
+<% else %>
+	<i><%=l(:label_no_data)%></i>
+<% end %>

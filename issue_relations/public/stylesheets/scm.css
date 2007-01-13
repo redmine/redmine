@@ -1,0 +1,22 @@
+
+div.action_M { background: #fd8 }
+div.action_D { background: #f88 }
+div.action_A { background: #bfb }
+
+
+tr.spacing {
+    border: 1px solid #d7d7d7;
+}
+
+.line-num {
+    border: 1px solid #d7d7d7;
+	font-size: 0.8em;
+	text-align: right;
+	width: 3em;
+	padding-right: 3px;
+}
+
+.line-code {
+	font-family: "Courier New", monospace;
+	font-size: 1em;
+}

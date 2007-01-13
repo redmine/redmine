@@ -1,0 +1,29 @@
+<%= error_messages_for 'document' %>
+<div class="box">
+<!--[form:document]-->
+<p><label for="document_category_id"><%=l(:field_category)%></label>
+<select name="document[category_id]">
+<%= options_from_collection_for_select @categories, "id", "name", @document.category_id %>
+</select></p>
+
+<p><label for="document_title"><%=l(:field_title)%> <span class="required">*</span></label>
+<%= text_field 'document', 'title', :size => 60 %></p>
+
+<p><label for="document_description"><%=l(:field_description)%></label>
+<%= text_area 'document', 'description', :cols => 60, :rows => 15 %></p>
+<!--[eoform:document]-->
+</div>
+
+<% unless $RDM_TEXTILE_DISABLED %>
+<%= javascript_include_tag 'jstoolbar' %>
+<script type="text/javascript">
+//<![CDATA[
+if (document.getElementById) { 
+	if (document.getElementById('document_description')) { 
+		var commentTb = new jsToolBar(document.getElementById('document_description')); 
+		commentTb.draw(); 
+	}
+}
+//]]>
+</script>
+<% end %>
