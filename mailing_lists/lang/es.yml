@@ -1,0 +1,377 @@
+_gloc_rule_default: '|n| n==1 ? "" : "_plural" '
+
+actionview_datehelper_select_day_prefix:
+actionview_datehelper_select_month_names: Enero,Febrero,Marzo,Abril,Mayo,Junio,Julio,Agosto,Septiembre,Octubre,Noviembre,Diciembre
+actionview_datehelper_select_month_names_abbr: Ene,Feb,Mar,Abr,Mayo,Jun,Jul,Ago,Sep,Oct,Nov,Dic
+actionview_datehelper_select_month_prefix:
+actionview_datehelper_select_year_prefix:
+actionview_datehelper_time_in_words_day: 1 day
+actionview_datehelper_time_in_words_day_plural: %d days
+actionview_datehelper_time_in_words_hour_about: about an hour
+actionview_datehelper_time_in_words_hour_about_plural: about %d hours
+actionview_datehelper_time_in_words_hour_about_single: about an hour
+actionview_datehelper_time_in_words_minute: 1 minute
+actionview_datehelper_time_in_words_minute_half: half a minute
+actionview_datehelper_time_in_words_minute_less_than: less than a minute
+actionview_datehelper_time_in_words_minute_plural: %d minutes
+actionview_datehelper_time_in_words_minute_single: 1 minute
+actionview_datehelper_time_in_words_second_less_than: less than a second
+actionview_datehelper_time_in_words_second_less_than_plural: less than %d seconds
+actionview_instancetag_blank_option: Please select
+
+activerecord_error_inclusion: is not included in the list
+activerecord_error_exclusion: is reserved
+activerecord_error_invalid: is invalid
+activerecord_error_confirmation: doesn't match confirmation
+activerecord_error_accepted: must be accepted
+activerecord_error_empty: can't be empty
+activerecord_error_blank: can't be blank
+activerecord_error_too_long: is too long
+activerecord_error_too_short: is too short
+activerecord_error_wrong_length: is the wrong length
+activerecord_error_taken: has already been taken
+activerecord_error_not_a_number: is not a number
+activerecord_error_not_a_date: no es una fecha válida
+activerecord_error_greater_than_start_date: debe ser la fecha mayor que del comienzo
+
+general_fmt_age: %d año
+general_fmt_age_plural: %d años
+general_fmt_date: %%d/%%m/%%Y
+general_fmt_datetime: %%d/%%m/%%Y %%H:%%M
+general_fmt_datetime_short: %%d/%%m %%H:%%M
+general_fmt_time: %%H:%%M
+general_text_No: 'No'
+general_text_Yes: 'Sí'
+general_text_no: 'no'
+general_text_yes: 'sí'
+general_lang_es: 'Español'
+general_csv_separator: ';'
+general_day_names: Lunes,Martes,Miércoles,Jueves,Viernes,Sábado,Domingo
+
+notice_account_updated: Account was successfully updated.
+notice_account_invalid_creditentials: Invalid user or password
+notice_account_password_updated: Password was successfully updated.
+notice_account_wrong_password: Wrong password
+notice_account_register_done: Account was successfully created.
+notice_account_unknown_email: Unknown user.
+notice_can_t_change_password: This account uses an external authentication source. Impossible to change the password.
+notice_account_lost_email_sent: An email with instructions to choose a new password has been sent to you.
+notice_account_activated: Your account has been activated. You can now log in.
+notice_successful_create: Successful creation.
+notice_successful_update: Successful update.
+notice_successful_delete: Successful deletion.
+notice_successful_connection: Successful connection.
+notice_file_not_found: La página que intentabas tener acceso no existe ni se ha quitado.
+notice_locking_conflict: Data have been updated by another user.
+notice_scm_error: La entrada y/o la revisión no existe en el depósito.
+
+mail_subject_lost_password: Tu contraseña del redMine
+mail_subject_register: Activación de la cuenta del redMine
+
+gui_validation_error: 1 error
+gui_validation_error_plural: %d errores
+
+field_name: Nombre
+field_description: Descripción
+field_summary: Resumen
+field_is_required: Obligatorio
+field_firstname: Nombre
+field_lastname: Apellido
+field_mail: Email
+field_filename: Fichero
+field_filesize: Tamaño
+field_downloads: Telecargas
+field_author: Autor
+field_created_on: Creado
+field_updated_on: Actualizado
+field_field_format: Formato
+field_is_for_all: Para todos los proyectos
+field_possible_values: Valores posibles
+field_regexp: Expresión regular
+field_min_length: Longitud mínima
+field_max_length: Longitud máxima
+field_value: Valor
+field_category: Categoría
+field_title: Título
+field_project: Proyecto
+field_issue: Petición
+field_status: Estatuto
+field_notes: Notas
+field_is_closed: Petición resuelta
+field_is_default: Estatuto por defecto
+field_html_color: Color
+field_tracker: Tracker
+field_subject: Tema
+field_due_date: Fecha debida
+field_assigned_to: Asignado a
+field_priority: Prioridad
+field_fixed_version: Versión corregida
+field_user: Usuario
+field_role: Papel
+field_homepage: Sitio web
+field_is_public: Público
+field_parent: Proyecto secundario de
+field_is_in_chlog: Consultar las peticiones en el histórico
+field_login: Identificador
+field_mail_notification: Notificación por mail
+field_admin: Administrador
+field_locked: Cerrado
+field_last_login_on: Última conexión
+field_language: Lengua
+field_effective_date: Fecha
+field_password: Contraseña
+field_new_password: Nueva contraseña
+field_password_confirmation: Confirmación
+field_version: Versión
+field_type: Tipo
+field_host: Anfitrión
+field_port: Puerto
+field_account: Cuenta
+field_base_dn: Base DN
+field_attr_login: Cualidad del identificador
+field_attr_firstname: Cualidad del nombre
+field_attr_lastname: Cualidad del apellido
+field_attr_mail: Cualidad del Email
+field_onthefly: Creación del usuario On-the-fly
+field_start_date: Comienzo
+field_done_ratio: %% Realizado
+field_auth_source: Modo de la autentificación
+field_hide_mail: Ocultar mi email address
+field_comment: Comentario
+field_url: URL
+
+setting_app_title: Título del aplicación
+setting_app_subtitle: Subtítulo del aplicación
+setting_welcome_text: Texto acogida
+setting_default_language: Lengua del defecto
+setting_login_required: Autentif. requerida
+setting_self_registration: Registro permitido
+setting_attachment_max_size: Tamaño máximo del fichero
+setting_issues_export_limit: Issues export limit
+setting_mail_from: Email de la emisión
+setting_host_name: Nombre de anfitrión
+setting_text_formatting: Formato de texto
+
+label_user: Usuario
+label_user_plural: Usuarios
+label_user_new: Nuevo usuario
+label_project: Proyecto
+label_project_new: Nuevo proyecto
+label_project_plural: Proyectos
+label_project_latest: Los proyectos más últimos
+label_issue: Petición
+label_issue_new: Nueva petición
+label_issue_plural: Peticiones
+label_issue_view_all: Ver todas las peticiones
+label_document: Documento
+label_document_new: Nuevo documento
+label_document_plural: Documentos
+label_role: Papel
+label_role_plural: Papeles
+label_role_new: Nuevo papel
+label_role_and_permissions: Papeles y permisos
+label_member: Miembro
+label_member_new: Nuevo miembro
+label_member_plural: Miembros
+label_tracker: Tracker
+label_tracker_plural: Trackers
+label_tracker_new: Nuevo tracker
+label_workflow: Workflow
+label_issue_status: Estatuto de petición
+label_issue_status_plural: Estatutos de las peticiones
+label_issue_status_new: Nuevo estatuto
+label_issue_category: Categoría de las peticiones
+label_issue_category_plural: Categorías de las peticiones
+label_issue_category_new: Nueva categoría
+label_custom_field: Campo personalizado
+label_custom_field_plural: Campos personalizados
+label_custom_field_new: Nuevo campo personalizado
+label_enumerations: Listas de valores
+label_enumeration_new: Nuevo valor
+label_information: Informacion
+label_information_plural: Informaciones
+label_please_login: Conexión
+label_register: Registrar
+label_password_lost: ¿Olvidaste la contraseña?
+label_home: Acogida
+label_my_page: Mi página
+label_my_account: Mi cuenta
+label_my_projects: Mis proyectos
+label_administration: Administración
+label_login: Conexión
+label_logout: Desconexión
+label_help: Ayuda
+label_reported_issues: Peticiones registradas
+label_assigned_to_me_issues: Peticiones que me están asignadas
+label_last_login: Última conexión
+label_last_updates: Actualizado
+label_last_updates_plural: %d Actualizados
+label_registered_on: Inscrito el
+label_activity: Actividad
+label_new: Nuevo
+label_logged_as: Conectado como
+label_environment: Environment
+label_authentication: Autentificación
+label_auth_source: Modo de la autentificación
+label_auth_source_new: Nuevo modo de la autentificación
+label_auth_source_plural: Modos de la autentificación
+label_subproject: Proyecto secundario
+label_subproject_plural: Proyectos secundarios
+label_min_max_length: Longitud mín - máx
+label_list: Lista
+label_date: Fecha
+label_integer: Número
+label_boolean: Boleano
+label_string: Texto
+label_text: Texto largo
+label_attribute: Cualidad
+label_attribute_plural: Cualidades
+label_download: %d Telecarga
+label_download_plural: %d Telecargas
+label_no_data: Ningunos datos a exhibir
+label_change_status: Cambiar el estatuto
+label_history: Histórico
+label_attachment: Fichero
+label_attachment_new: Nuevo fichero
+label_attachment_delete: Suprimir el fichero
+label_attachment_plural: Ficheros
+label_report: Informe
+label_report_plural: Informes
+label_news: Noticia
+label_news_new: Nueva noticia
+label_news_plural: Noticias
+label_news_latest: Últimas noticias
+label_news_view_all: Ver todas las noticias
+label_change_log: Cambios
+label_settings: Configuración
+label_overview: Vistazo
+label_version: Versión
+label_version_new: Nueva versión
+label_version_plural: Versiónes
+label_confirmation: Confirmación
+label_export_to: Exportar a
+label_read: Leer...
+label_public_projects: Proyectos publicos
+label_open_issues: abierta
+label_open_issues_plural: abiertas
+label_closed_issues: cerrada
+label_closed_issues_plural: cerradas
+label_total: Total
+label_permissions: Permisos
+label_current_status: Estado actual
+label_new_statuses_allowed: Nuevos estatutos autorizados
+label_all: todos
+label_none: ninguno
+label_next: Próximo
+label_previous: Precedente
+label_used_by: Utilizado por
+label_details: Detalles...
+label_add_note: Agregar una nota
+label_per_page: Por la página
+label_calendar: Calendario
+label_months_from: meses de
+label_gantt: Gantt
+label_internal: Interno
+label_last_changes: %d cambios del último
+label_change_view_all: Ver todos los cambios
+label_personalize_page: Personalizar esta página
+label_comment: Comentario
+label_comment_plural: Comentarios
+label_comment_add: Agregar un comentario
+label_comment_added: Comentario agregó
+label_comment_delete: Suprimir comentarios
+label_query: Pregunta personalizada
+label_query_plural: Preguntas personalizadas
+label_query_new: Nueva preguntas
+label_filter_add: Agregar el filtro
+label_filter_plural: Filtros
+label_equals: igual
+label_not_equals: no igual
+label_in_less_than: en menos que
+label_in_more_than: en más que
+label_in: en
+label_today: hoy
+label_less_than_ago: hace menos de
+label_more_than_ago: hace más de
+label_ago: hace
+label_contains: contiene 
+label_not_contains: no contiene
+label_day_plural: días
+label_repository: Depósito SVN
+label_browse: Hojear
+label_modification: %d modificación
+label_modification_plural: %d modificaciones
+label_revision: Revisión
+label_revision_plural: Revisiones
+label_added: agregado
+label_modified: modificado
+label_deleted: suprimido
+label_latest_revision: La revisión más última
+label_view_revisions: Ver las revisiones
+label_max_size: Tamaño máximo
+label_on: en
+label_sort_highest: Primero
+label_sort_higher: Subir
+label_sort_lower: Bajar
+label_sort_lowest: Último
+label_roadmap: Roadmap
+
+button_login: Conexión
+button_submit: Someter
+button_save: Validar
+button_check_all: Seleccionar todo
+button_uncheck_all: No seleccionar nada
+button_delete: Suprimir
+button_create: Crear
+button_test: Testar
+button_edit: Modificar
+button_add: Añadir
+button_change: Cambiar
+button_apply: Aplicar
+button_clear: Anular
+button_lock: Bloquear
+button_unlock: Desbloquear
+button_download: Telecargar
+button_list: Listar
+button_view: Ver
+button_move: Mover
+button_back: Atrás
+button_cancel: Cancelar
+button_activate: Activar
+button_sort: Clasificar
+
+text_select_mail_notifications: Seleccionar las actividades que necesitan la activación de la notificación por mail.
+text_regexp_info: eg. ^[A-Z0-9]+$
+text_min_max_length_info: 0 para ninguna restricción
+text_project_destroy_confirmation: ¿ Estás seguro de querer eliminar el proyecto ?
+text_workflow_edit: Seleccionar un workflow para actualizar
+text_are_you_sure: ¿ Estás seguro ?
+text_journal_changed: cambiado de %s a %s
+text_journal_set_to: fijado a %s
+text_journal_deleted: suprimido
+text_tip_task_begin_day: tarea que comienza este día
+text_tip_task_end_day: tarea que termina este día
+text_tip_task_begin_end_day: tarea que comienza y termina este día
+
+default_role_manager: Manager
+default_role_developper: Desarrollador
+default_role_reporter: Informador
+default_tracker_bug: Anomalía
+default_tracker_feature: Evolución
+default_tracker_support: Asistencia
+default_issue_status_new: Nuevo
+default_issue_status_assigned: Asignada
+default_issue_status_resolved: Resuelta
+default_issue_status_feedback: Comentario
+default_issue_status_closed: Cerrada
+default_issue_status_rejected: Rechazada
+default_doc_category_user: Documentación del usuario
+default_doc_category_tech: Documentación tecnica
+default_priority_low: Bajo
+default_priority_normal: Normal
+default_priority_high: Alto
+default_priority_urgent: Urgente
+default_priority_immediate: Ahora
+
+enumeration_issue_priorities: Prioridad de las peticiones
+enumeration_doc_categories: Categorías del documento
