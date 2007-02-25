@@ -18,4 +18,6 @@
 class MailingMessage < ActiveRecord::Base
   belongs_to :mailing_list
   acts_as_tree :order => 'sent_on'
+  
+  validates_uniqueness_of :messageid, :scope => :mailing_list_id
 end

@@ -22,7 +22,7 @@ class MailingList < ActiveRecord::Base
   belongs_to :admin, :class_name => 'User', :foreign_key => 'admin_id'
   has_many :messages, :class_name => 'MailingMessage', :dependent => :delete_all
       
-  validates_presence_of :name, :description, :password
+  validates_presence_of :name, :description, :password, :admin_id
   validates_confirmation_of :password
   validates_format_of :name, :with => /^[a-z0-9\-]+$/i
   
