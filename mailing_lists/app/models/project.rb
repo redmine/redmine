@@ -18,6 +18,7 @@
 class Project < ActiveRecord::Base
   has_many :versions, :dependent => :destroy, :order => "versions.effective_date DESC, versions.name DESC"
   has_many :members, :dependent => :delete_all, :include => :user, :conditions => "users.status=#{User::STATUS_ACTIVE}"
+  has_many :mailing_lists, :dependent => :destroy
   has_many :users, :through => :members
   has_many :custom_values, :dependent => :delete_all, :as => :customized
   has_many :issues, :dependent => :destroy, :order => "issues.created_on DESC", :include => [:status, :tracker]

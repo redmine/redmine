@@ -1,0 +1,6 @@
+<h2><%= l(:label_mailing_list_new) %></h2>
+
+<% labelled_tabular_form_for :mailing_list, @mailing_list, :url => { :action => 'add', :project_id => @project } do |f| %>
+<%= render :partial => 'form', :locals => { :f => f } %>
+<%= submit_tag l(:button_create) %>
+<% end %>

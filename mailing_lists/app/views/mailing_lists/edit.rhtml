@@ -1,0 +1,6 @@
+<h2><%= l(:label_mailing_list )%> <%= @mailing_list.name %></h2>
+
+<% labelled_tabular_form_for :mailing_list, @mailing_list, :url => { :action => 'edit' } do |f| %>
+<%= render :partial => 'form', :locals => { :f => f } %>
+<%= submit_tag l(:button_save) %>
+<% end %>

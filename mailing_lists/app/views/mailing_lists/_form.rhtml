@@ -1,0 +1,10 @@
+<%= error_messages_for 'mailing_list' %>
+
+<div class="box">
+<!--[form:mailing_list]-->
+<p><%= f.text_field :name, :size => 25, :required => true %></p>
+<p><%= f.text_field :description, :size => 60, :required => true %></p>
+<p><%= f.check_box :is_public %></p>
+<p><%= f.select :admin_id, @project.users.collect {|p| [p.name, p.id]}, :required => true %></p>
+<!--[eoform:mailing_list]-->
+</div>

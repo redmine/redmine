@@ -315,6 +315,9 @@ label_sort_higher: Remonter
 label_sort_lower: Descendre
 label_sort_lowest: Descendre en dernier
 label_roadmap: Roadmap
+label_mailing_list: Liste
+label_mailing_list_plural: Listes
+label_mailing_list_new: Nouvelle liste
 
 button_login: Connexion
 button_submit: Soumettre
@@ -375,3 +378,7 @@ default_priority_immediate: Immédiat
 
 enumeration_issue_priorities: Priorités des demandes
 enumeration_doc_categories: Catégories des documents
+
+mailing_list_status_requested: En attente de création
+mailing_list_status_created: Créée
+mailing_list_status_to_be_deleted: En attente de suppression
