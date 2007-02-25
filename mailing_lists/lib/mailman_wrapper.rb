@@ -17,7 +17,7 @@
 
 module MailmanWrapper
   def self.create_list(list)
-    cmd = "newlist #{list.name} #{list.admin.mail} #{list.password}"
+    cmd = "newlist --emailhost=#{Setting.mailing_lists_domain} --quiet #{list.name} #{list.admin.mail} #{list.password}"
     puts "Shelling out: #{cmd}"    
     system(cmd) && $? && $?.exitstatus == 0 ? true : false
   end

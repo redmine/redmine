@@ -39,6 +39,8 @@ issues_export_limit:
   default: 500
 mail_from:
   default: redmine@somenet.foo
+mailing_lists_domain:
+  default: lists.somenet.foo
 text_formatting:
   default: textile
 default_language:
