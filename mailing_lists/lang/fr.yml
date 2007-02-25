@@ -318,6 +318,8 @@ label_roadmap: Roadmap
 label_mailing_list: Liste
 label_mailing_list_plural: Listes
 label_mailing_list_new: Nouvelle liste
+label_in_reply_to: En réponse à
+label_reply_plural: Réponses
 
 button_login: Connexion
 button_submit: Soumettre

@@ -1,0 +1,24 @@
+<h2><%= @mailing_list.name %> : <%= "#{month_name(@month).downcase} #{@year}" %></h2>
+
+<% if @messages.empty? %>
+<p><em><%= l(:label_no_data) %></em></p>
+<% else %>
+<%= render :partial => 'thread', :locals => {:messages => @messages} %>
+<% end %>
+
+<table width="100%">
+<tr>
+<td align="left" style="width:150px">
+    <%= link_to_remote ('&#171; ' + (@month==1 ? "#{month_name(12)} #{@year-1}" : "#{month_name(@month-1)}")), 
+                        {:update => "content", :url => { :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1) }},
+                        {:href => url_for(:action => 'calendar', :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1))}
+                        %>
+</td>
+<td align="right" style="width:150px">
+    <%= link_to_remote ((@month==12 ? "#{month_name(1)} #{@year+1}" : "#{month_name(@month+1)}") + ' &#187;'), 
+                        {:update => "content", :url => { :year => (@month==12 ? @year+1 : @year), :month =>(@month==12 ? 1 : @month+1) }},
+                        {:href => url_for(:action => 'calendar', :year => (@month==12 ? @year+1 : @year), :month =>(@month==12 ? 1 : @month+1))}
+                        %>&nbsp;
+</td>
+</tr>
+</table>

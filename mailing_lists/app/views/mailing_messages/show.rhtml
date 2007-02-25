@@ -1,0 +1,17 @@
+<h2><%=h @message.mailing_list.name %>: <%=h @message.subject %></h2>
+<p><em><%= @message.from %>, <%= format_time(@message.sent_on) %></em></p>
+
+<ul>
+    <% if @message.parent %>
+    <li><%= l(:label_in_reply_to) %>: <%= link_to @message.parent.subject, :controller => 'mailing_messages', :action => 'show', :id => @message.parent %> <em><%= @message.parent.from %> - <%= format_time(@message.parent.sent_on) %></em></li>
+    <% end %>
+    <% unless @message.children.empty? %>
+    <li><%= l(:label_reply_plural) %>:
+        <%= render :partial => 'mailing_lists/thread', :locals => {:messages => @message.children} %>
+    </li>
+    <% end %>
+</ul>
+
+<div class="box">
+<%= simple_format(auto_link(h(@message.body))) %>
+</div>

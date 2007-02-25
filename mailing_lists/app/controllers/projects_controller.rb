@@ -79,6 +79,7 @@ class ProjectsController < ApplicationController
   def show
     @custom_values = @project.custom_values.find(:all, :include => :custom_field)
     @members = @project.members.find(:all, :include => [:user, :role])
+    @mailing_lists = @project.mailing_lists
     @subprojects = @project.children if @project.children.size > 0
     @news = @project.news.find(:all, :limit => 5, :include => [ :author, :project ], :order => "news.created_on DESC")
     @trackers = Tracker.find(:all, :order => 'position')

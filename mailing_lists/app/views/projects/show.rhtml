@@ -37,7 +37,16 @@
 		<%= link_to_user member.user %> (<%= member.role.name %>)<br />		
 		<% end %>		
 	</div>
-  
+
+    <% unless @mailing_lists.empty? %>
+	<div class="box">
+		<h3 class="icon22 icon22-mail"><%=l(:label_mailing_list_plural)%></h3>	
+		<% for list in @mailing_lists %>
+		<%= link_to list.name, :controller => 'mailing_lists', :action => 'messages', :id => list %>: <%=h list.description %><br />
+		<% end %>		
+	</div>
+	<% end %>
+	  
   <% if @subprojects %>
  	<div class="box">
 		<h3 class="icon22 icon22-projects"><%=l(:label_subproject_plural)%></h3>	

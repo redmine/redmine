@@ -62,15 +62,15 @@
 
 <div id="tab-content-mailing-lists" class="tab-content" style="display:none;">
 <table class="list">
-	<thead><th><%= l(:field_name) %></th><th><%= l(:field_admin) %></th><th><%= l(:field_is_public) %></th><th><%= l(:field_status) %></th><th><%= l(:field_created_on) %></th><th></th><th></th></thead>
+	<thead><th><%= l(:field_name) %></th><th><%= l(:field_description) %></th><th><%= l(:field_admin) %></th><th><%= l(:field_is_public) %></th><th><%= l(:field_status) %></th><th></th><th></th></thead>
 	<tbody>
 <% for mailing_list in @project.mailing_lists %>
     <tr class="<%= cycle 'odd', 'even' %>">
-    <td><%= mailing_list.name %></td>
+    <td><%=h mailing_list.name %></td>
+    <td><%=h mailing_list.description %></td>
     <td align="center"><%= mailing_list.admin.name if mailing_list.admin %></td>
     <td align="center"><%= image_tag('true.png') if mailing_list.is_public? %></td>
     <td align="center"><%= l(mailing_list.status_name) if mailing_list.status_name %></td>
-    <td align="center"><%= format_date(mailing_list.created_on) %></td>
     <td align="center" style="width:10%"><%= link_to_if_authorized l(:button_edit), {:controller => 'mailing_lists', :action => 'edit', :id => mailing_list}, :class => 'icon icon-edit' %></td>
     <td align="center" style="width:10%"><%= link_to_if_authorized l(:button_delete), {:controller => 'mailing_lists', :action => 'destroy', :id => mailing_list}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %></td>
     </tr>

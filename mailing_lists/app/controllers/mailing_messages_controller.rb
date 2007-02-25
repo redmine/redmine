@@ -15,7 +15,20 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class MailingMessage < ActiveRecord::Base
-  belongs_to :mailing_list
-  acts_as_tree :order => 'sent_on'
+class MailingMessagesController < ApplicationController
+  layout 'base'
+  
+  before_filter :find_project, :authorize
+  
+  def show
+  
+  end
+  
+private
+  def find_project
+    @message = MailingMessage.find(params[:id], :include => :mailing_list)
+    @project = @message.mailing_list.project
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
 end

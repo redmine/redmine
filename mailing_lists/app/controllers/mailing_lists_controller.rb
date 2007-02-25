@@ -22,6 +22,22 @@ class MailingListsController < ApplicationController
 
   # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
   verify :method => :post, :only => [ :destroy ]
+  
+  def messages
+    if params[:year] and params[:year].to_i > 1900
+      @year = params[:year].to_i
+      if params[:month] and params[:month].to_i > 0 and params[:month].to_i < 13
+        @month = params[:month].to_i
+      end    
+    end
+    @year ||= Date.today.year
+    @month ||= Date.today.month    
+    @date_from = Date.civil(@year, @month, 1)
+    @date_to = (@date_from >> 1)-1
+    
+    @messages = @mailing_list.messages.find(:all, :conditions => ["parent_id is null and sent_on>=? and sent_on<=?", @date_from, @date_to])
+    render :layout => false if request.xhr?
+  end
 
   def add
     @mailing_list = MailingList.new(:project => @project, :admin => logged_in_user)
