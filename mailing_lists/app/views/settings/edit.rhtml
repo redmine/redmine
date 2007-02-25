@@ -33,7 +33,10 @@
 <%= text_field_tag 'settings[mail_from]', Setting.mail_from, :size => 60 %></p>
 
 <p><label><%= l(:setting_host_name) %></label>
-<%= text_field_tag 'settings[host_name]', Setting.host_name, :size => 60 %></p>
+<%= text_field_tag 'settings[host_name]', Setting.host_name, :size => 30 %></p>
+
+<p><label><%= l(:setting_mailing_lists_domain) %></label>
+<%= text_field_tag 'settings[mailing_lists_domain]', Setting.mailing_lists_domain, :size => 30 %></p>
 
 <p><label><%= l(:setting_text_formatting) %></label>
 <%= select_tag 'settings[text_formatting]', options_for_select( [[l(:label_none), 0], ["textile", "textile"]], Setting.text_formatting) %></p>
