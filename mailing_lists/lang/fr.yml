@@ -321,6 +321,10 @@ label_mailing_list_plural: Listes
 label_mailing_list_new: Nouvelle liste
 label_in_reply_to: En réponse à
 label_reply_plural: Réponses
+label_message: %d message
+label_message_plural: %d messages
+label_thread: %d fil de discussion
+label_thread_plural: %d fils de discussion
 
 button_login: Connexion
 button_submit: Soumettre

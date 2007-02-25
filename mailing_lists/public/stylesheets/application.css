@@ -493,6 +493,11 @@ img.calendar-trigger {
     margin-left: 34px;
 }
 
+
+#messages-list li { margin-bottom:8px; }
+#messages-list ul { margin-bottom:0px; }
+#messages-list li li { margin-bottom:0px; }
+
 /***** Contextual links div *****/
 .contextual {
 float: right;

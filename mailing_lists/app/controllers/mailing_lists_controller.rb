@@ -35,6 +35,7 @@ class MailingListsController < ApplicationController
     @date_from = Date.civil(@year, @month, 1)
     @date_to = (@date_from >> 1)-1
     
+    @message_count = @mailing_list.messages.count(:conditions => ["sent_on>=? and sent_on<=?", @date_from, @date_to])
     @messages = @mailing_list.messages.find(:all, :conditions => ["parent_id is null and sent_on>=? and sent_on<=?", @date_from, @date_to])
     render :layout => false if request.xhr?
   end

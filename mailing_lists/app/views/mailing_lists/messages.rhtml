@@ -3,7 +3,10 @@
 <% if @messages.empty? %>
 <p><em><%= l(:label_no_data) %></em></p>
 <% else %>
+<p><em><%= lwr(:label_thread, @messages.length) %>, <%= lwr(:label_message, @message_count) %></em></p>
+<div id="messages-list">
 <%= render :partial => 'thread', :locals => {:messages => @messages} %>
+</div>
 <% end %>
 
 <table width="100%">
