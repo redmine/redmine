@@ -15,12 +15,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+require 'mailman_wrapper'
+
 class MailingList < ActiveRecord::Base
   belongs_to :project
   belongs_to :admin, :class_name => 'User', :foreign_key => 'admin_id'
   has_many :messages, :class_name => 'MailingMessage', :dependent => :delete_all
   
-  validates_presence_of :name, :description
+  validates_presence_of :name, :description, :password
+  validates_confirmation_of :password
   
   STATUSES = {
 	  (STATUS_REQUESTED = 1)     => :mailing_list_status_requested,
@@ -32,17 +35,27 @@ class MailingList < ActiveRecord::Base
     STATUSES[self.status]
   end
   
-  # Should be called to create requested lists (from cron, for example)
-  # eg: ruby script/runner 'MailingList.create_requested_lists'
+  # Should be called to create requested lists and destroy unwanted ones
+  # From cron, for example:
+  # ruby script/runner 'MailingList.create_and_destroy_lists'
+  def self.create_and_destroy_lists
+    self.create_requested_lists
+    self.destroy_unwanted_lists
+  end
+  
   def self.create_requested_lists
     find(:all, :conditions => ["status=?", STATUS_REQUESTED]).each do |list|
-      # TO DO: call wrapper to create the list
+      if MailmanWrapper::create_list(list)
+        list.update_attribute(:status, STATUS_CREATED)
+      end
     end
   end
   
   def self.destroy_unwanted_lists
     find(:all, :conditions => ["status=?", STATUS_TO_BE_DELETED]).each do |list|
-      # TO DO: call wrapper to delete the list
+      if MailmanWrapper::destroy_list(list)
+        list.destroy
+      end
     end
   end
 end

@@ -57,7 +57,7 @@ class MailingListsController < ApplicationController
   end
 
   def destroy
-    @mailing_list.destroy
+    @mailing_list.update_attribute :status, MailingList::STATUS_TO_BE_DELETED
     redirect_to :controller => 'projects', :action => 'settings', :tab => 'mailing-lists', :id => @project
   end
   
