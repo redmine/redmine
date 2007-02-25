@@ -48,9 +48,8 @@ class MailingListsController < ApplicationController
     end
   end
 
-  def edit
-    @mailing_list = MailingList.find(params[:id])
-    if request.post? and @mailing_list.update_attributes(params[:mailing_list])
+  def edit    
+    if request.post? && @mailing_list.status == MailingList::STATUS_REQUESTED && @mailing_list.update_attributes(params[:mailing_list])
       flash[:notice] = l(:notice_successful_update)
       redirect_to :controller => 'projects', :action => 'settings', :tab => 'mailing-lists', :id => @project
     end
