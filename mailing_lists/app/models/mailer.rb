@@ -85,4 +85,19 @@ class Mailer < ActionMailer::Base
     @subject        = l(:mail_subject_register)
     @body['token']  = token
   end
+  
+  def receive(email)
+    to_names = email.to.collect { |to| to.gsub(/@.*$/,'') }  
+    @mailing_list = MailingList.find_all_by_name(to_names).first
+    
+    in_reply_to = @mailing_list.messages.find(:first, :conditions => ["messageid=?", email.in_reply_to.first]) if email.in_reply_to
+    
+    MailingMessage.create(:mailing_list => @mailing_list,
+                          :parent => in_reply_to,
+                          :messageid => email.message_id,
+                          :from => email.from.first,
+                          :subject => email.subject,
+                          :body => email.body,
+                          :sent_on => (email.date || Time.now)) if @mailing_list
+  end
 end
