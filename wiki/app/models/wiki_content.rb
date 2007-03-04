@@ -28,11 +28,18 @@ class WikiContent < ActiveRecord::Base
     attr_protected :data
     
     def text=(plain)
-      gz = Zlib::GzipWriter.new(compressed = StringIO.new)
-      gz.write(plain)
-      gz.close
-      self.data = compressed.string
-      self.compression = 'gzip'
+      case Setting.wiki_compression
+      when 'gzip'
+        gz = Zlib::GzipWriter.new(compressed = StringIO.new)
+        gz.write(plain)
+        gz.close
+        self.data = compressed.string
+        self.compression = 'gzip'
+      else
+        self.data = plain
+        self.compression = ''
+      end
+      plain
     end
     
     def text

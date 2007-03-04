@@ -152,6 +152,7 @@ setting_issues_export_limit: Limite export demandes
 setting_mail_from: Adresse d'émission
 setting_host_name: Nom d'hôte
 setting_text_formatting: Formatage du texte
+setting_wiki_compression: Compression de l'historique wiki
 
 label_user: Utilisateur
 label_user_plural: Utilisateurs
