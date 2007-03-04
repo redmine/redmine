@@ -32,6 +32,9 @@ class WikiController < ApplicationController
       export = render_to_string :action => 'export', :layout => false
       send_data(export, :type => 'text/html', :filename => "#{@page.title}.html")
       return
+    elsif params[:export] == 'txt'
+      send_data(@page.content.text, :type => 'text/plain', :filename => "#{@page.title}.txt")
+      return
     end
     render :action => 'show'
   end
@@ -66,11 +69,18 @@ class WikiController < ApplicationController
   def special
     page_title = params[:page].downcase
     case page_title
+    # show pages index, sorted by title
     when 'page_index'
-      # eagger load information about last updates, without loading text
+      # eager load information about last updates, without loading text
       @pages = @wiki.pages.find :all, :select => "wiki_pages.*, wiki_contents.updated_on",
                                       :joins => "LEFT JOIN wiki_contents ON wiki_contents.page_id = wiki_pages.id",
                                       :order => 'title'
+    # export wiki to a single html file
+    when 'export'
+      @pages = @wiki.pages.find :all, :order => 'title'
+      export = render_to_string :action => 'export_multiple', :layout => false
+      send_data(export, :type => 'text/html', :filename => "wiki.html")
+      return      
     else
       # requested special page doesn't exist, redirect to default page
       redirect_to :action => 'index', :id => @project, :page => nil and return

@@ -93,11 +93,17 @@ module ApplicationHelper
   end
   
   # textilize text according to system settings and RedCloth availability
-  # options:
-  # - basename: if set to true, generates local wiki links (used for html exports)
   def textilizable(text, options = {})
+    case options[:wiki_links]
+    when :local
+      wiki_link_format = 'Wiki.titleize($1) + ".html"'
+    when :anchor
+      wiki_link_format = '"#" + Wiki.titleize($1)'
+    else
+      wiki_link_format = '"/wiki/#{@project.id}/#{Wiki.titleize($1)}"'
+    end
     # turn wiki links in textile links: "text":url
-    text = text.gsub(/\[\[([^\]\|]+)(\|([^\]\|]+))?\]\]/) {|m| "\"#{$3 || $1}\":" + (options[:wiki_basename] ? Wiki.titleize($1) : "/wiki/#{@project.id}/#{Wiki.titleize($1)}") } if @project
+    text = text.gsub(/\[\[([^\]\|]+)(\|([^\]\|]+))?\]\]/) {|m| "\"#{$3 || $1}\":" + (eval wiki_link_format) } if @project
     text = (Setting.text_formatting == 'textile') && (ActionView::Helpers::TextHelper.method_defined? "textilize") ? auto_link(RedCloth.new(text, [:filter_html]).to_html) : simple_format(auto_link(h(text)))
     # turn "#id" patterns into links to issues
     text = text.gsub(/#(\d+)([^;\d])/, "<a href='/issues/show/\\1'>#\\1</a>\\2")

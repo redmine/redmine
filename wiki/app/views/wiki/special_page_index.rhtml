@@ -1,3 +1,9 @@
+<div class="contextual">
+<% unless @pages.empty? %>
+<%= l(:label_export_to) %> <%= link_to 'HTML', {:action => 'special', :page => 'export'}, :class => 'icon icon-html' %>
+<% end %>
+</div>
+
 <h2><%= l(:label_page_index) %></h2>
 
 <% if @pages.empty? %><p><i><%= l(:label_no_data) %></i></p><% end %>
