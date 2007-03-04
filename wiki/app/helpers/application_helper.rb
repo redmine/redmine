@@ -94,7 +94,7 @@ module ApplicationHelper
   
   def textilizable(text)
     # turn wiki links in textile links: "text":url
-    text = text.gsub(/\[\[([^\]]+)\]\]/) {|m| "\"#{$1}\":/wiki/#{@project.id}/#{Wiki.titleize($1)}" } if @project
+    text = text.gsub(/\[\[([^\]\|]+)(\|([^\]\|]+))?\]\]/) {|m| "\"#{$3 || $1}\":/wiki/#{@project.id}/#{Wiki.titleize($1)}" } if @project
     text = (Setting.text_formatting == 'textile') && (ActionView::Helpers::TextHelper.method_defined? "textilize") ? auto_link(RedCloth.new(text, [:filter_html]).to_html) : simple_format(auto_link(h(text)))
     # turn "#id" patterns into links to issues
     text = text.gsub(/#(\d+)([^;\d])/, "<a href='/issues/show/\\1'>#\\1</a>\\2")
