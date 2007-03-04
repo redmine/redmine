@@ -63,7 +63,7 @@ module ApplicationHelper
   end
   
   def format_time(time)
-    l_datetime(time) if time
+    l_datetime((time.is_a? String) ? time.to_time : time) if time
   end
   
   def day_name(day)
@@ -93,7 +93,9 @@ module ApplicationHelper
   end
   
   def textilizable(text)
-    text = (Setting.text_formatting == 'textile') && (ActionView::Helpers::TextHelper.method_defined? "textilize") ? RedCloth.new(h(text)).to_html : simple_format(auto_link(h(text)))
+    # turn wiki links in textile links: "text":url
+    text = text.gsub(/\[\[([^\]]+)\]\]/) {|m| "\"#{$1}\":/wiki/#{@project.id}/#{Wiki.titleize($1)}" } if @project
+    text = (Setting.text_formatting == 'textile') && (ActionView::Helpers::TextHelper.method_defined? "textilize") ? auto_link(RedCloth.new(text, [:filter_html]).to_html) : simple_format(auto_link(h(text)))
     # turn "#id" patterns into links to issues
     text = text.gsub(/#(\d+)([^;\d])/, "<a href='/issues/show/\\1'>#\\1</a>\\2")
   end

@@ -1,0 +1,13 @@
+<div class="contextual">
+<%= link_to('Page index', {:action => 'special', :page => 'Page_index'}, :class => 'icon icon-index') %>
+</div>
+
+<h2><%= @page.pretty_title %></h2>
+
+<h3><%= l(:label_history) %></h3>
+
+<p><% @versions.each do |ver| %>
+<%= link_to "#{ver.version}. #{format_time(ver.updated_on)}", :action => 'index', :page => @page.title, :version => ver.version %> <em>(<%= ver.author ? ver.author.name : "anonyme" %>)</em> <%= ver.comment %><br />
+<% end %></p>
+
+<p><%= link_to l(:button_back), :action => 'index', :page => @page.title %></p>

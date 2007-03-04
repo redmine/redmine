@@ -150,6 +150,8 @@ vertical-align: middle;
 .icon-logout { background-image: url(../images/logout.png); }
 .icon-help { background-image: url(../images/help.png); }
 .icon-attachment  { background-image: url(../images/attachment.png); }
+.icon-index  { background-image: url(../images/index.png); }
+.icon-history  { background-image: url(../images/history.png); }
 
 .icon22-projects { background-image: url(../images/22x22/projects.png); }
 .icon22-users { background-image: url(../images/22x22/users.png); }
@@ -576,4 +578,22 @@ to account for 3 pixel bug: http://www.positioniseverything.net/explorer/threepx
 
 * html .threepxfix{
 margin-left: 3px;
+}
+
+/***** Wiki sections ****/
+#content div.wiki { font-size: 110%}
+
+#content div.wiki h1, div.wiki h2, div.wiki h3 { font-family: Trebuchet MS,Georgia,"Times New Roman",serif; color:#606060; }
+#content div.wiki h1 { font-size: 1.5em; border-bottom: dotted 1px #c0c0c0;}
+#content div.wiki h2 { font-size: 1.4em;}
+#content div.wiki h3 { font-size: 1.2em;}
+
+div.wiki table {
+    border: 1px solid #505050;
+    border-collapse: collapse;
+}
+
+div.wiki table, div.wiki td {
+    border: 1px solid #bbb;
+    padding: 4px;
 }

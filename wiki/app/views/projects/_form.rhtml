@@ -36,6 +36,17 @@
 <%= javascript_tag "Element.hide('repository');" if @project.repository.nil? %>
 </div>
 
+<div class="box">
+<h3><%= check_box_tag "wiki_enabled", 1, !@project.wiki.nil?, :onclick => "Element.toggle('wiki');" %> <%= l(:label_wiki) %></h3>
+<%= hidden_field_tag "wiki_enabled", 0 %>
+<div id="wiki">
+<% fields_for :wiki, @project.wiki, { :builder => TabularFormBuilder, :lang => current_language} do |wiki| %>
+<p><%= wiki.text_field :start_page, :size => 60, :required => true %></p>
+<% end %>
+</div>
+<%= javascript_tag "Element.hide('wiki');" if @project.wiki.nil? %>
+</div>
+
 <% content_for :header_tags do %>
 <%= javascript_include_tag 'calendar/calendar' %>
 <%= javascript_include_tag "calendar/lang/calendar-#{current_language}.js" %>

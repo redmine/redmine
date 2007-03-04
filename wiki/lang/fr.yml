@@ -139,6 +139,7 @@ field_auth_source: Mode d'authentification
 field_hide_mail: Cacher mon adresse mail
 field_comment: Commentaire
 field_url: URL
+field_start_page: Page de démarrage
 
 setting_app_title: Titre de l'application
 setting_app_subtitle: Sous-titre de l'application
@@ -318,6 +319,7 @@ label_roadmap: Roadmap
 label_search: Recherche
 label_result: %d résultat
 label_result_plural: %d résultats
+label_wiki: Wiki
 
 button_login: Connexion
 button_submit: Soumettre
