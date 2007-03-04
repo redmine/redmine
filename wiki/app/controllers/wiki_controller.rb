@@ -17,7 +17,7 @@
 
 class WikiController < ApplicationController
   layout 'base'
-  before_filter :find_wiki
+  before_filter :find_wiki, :check_project_privacy
     
   # display a page (in editing mode if it doesn't exist)
   def index
