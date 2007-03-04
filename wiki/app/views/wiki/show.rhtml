@@ -24,3 +24,8 @@
 <%= textilizable @content.text %>
 <% end %>
 </div>
+
+<div class="contextual">
+<%= l(:label_export_to) %>
+<%= link_to 'HTML', {:export => 'html'}, :class => 'icon icon-html' %>
+</div>

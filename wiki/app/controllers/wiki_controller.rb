@@ -28,6 +28,11 @@ class WikiController < ApplicationController
       render :action => 'edit' and return
     end
     @content = (params[:version] ? @page.content.versions.find_by_version(params[:version]) : @page.content)
+    if params[:export] == 'html'
+      export = render_to_string :action => 'export', :layout => false
+      send_data(export, :type => 'text/html', :filename => "#{@page.title}.html")
+      return
+    end
     render :action => 'show'
   end
   
