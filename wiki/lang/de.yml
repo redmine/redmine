@@ -139,6 +139,7 @@ field_auth_source: Authentisierung Modus
 field_hide_mail: Mein email address verstecken
 field_comment: Anmerkung
 field_url: URL
+field_start_page: Seite beginnen
 
 setting_app_title: Applikation Titel
 setting_app_subtitle: Applikation Untertitel
@@ -151,6 +152,7 @@ setting_issues_export_limit: Issues export limit
 setting_mail_from: Emission address
 setting_host_name: Host Name
 setting_text_formatting: Textformatierung
+setting_wiki_compression: Wiki Geschichte Kompression
 
 label_user: Benutzer
 label_user_plural: Benutzer
@@ -318,6 +320,9 @@ label_roadmap: Roadmap
 label_search: Suche
 label_result: %d Resultat
 label_result_plural: %d Resultate
+label_wiki: Wiki
+label_page_index: Index
+label_current_version: Gegenwärtige Version
 
 button_login: Einloggen
 button_submit: Einreichen

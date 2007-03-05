@@ -140,6 +140,7 @@ field_auth_source: 認証モード
 field_hide_mail: Emailアドレスを隠す
 field_comment: コメント
 field_url: URL
+field_start_page: メインページ
 
 setting_app_title: アプリケーションのタイトル
 setting_app_subtitle: アプリケーションのサブタイトル
@@ -152,6 +153,7 @@ setting_issues_export_limit: 出力する問題数の上限
 setting_mail_from: Emission メールアドレス
 setting_host_name: ホスト名
 setting_text_formatting: テキストの書式
+setting_wiki_compression: Wiki history compression
 
 label_user: ユーザ
 label_user_plural: ユーザ
@@ -319,6 +321,9 @@ label_roadmap: ロードマップ
 label_search: Search
 label_result: %d result
 label_result_plural: %d results
+label_wiki: Wiki
+label_page_index: 索引
+label_current_version: 最近版
 
 button_login: ログイン
 button_submit: 変更
