@@ -33,7 +33,7 @@ class WikiController < ApplicationController
       send_data(export, :type => 'text/html', :filename => "#{@page.title}.html")
       return
     elsif params[:export] == 'txt'
-      send_data(@page.content.text, :type => 'text/plain', :filename => "#{@page.title}.txt")
+      send_data(@content.text, :type => 'text/plain', :filename => "#{@page.title}.txt")
       return
     end
     render :action => 'show'
