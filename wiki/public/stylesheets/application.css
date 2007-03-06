@@ -185,7 +185,7 @@ border-left: 1px dashed #c0c0c0;
 
 }
 
-#content h2{
+#content h2, #content div.wiki h1 {
 display:block;
 margin:0 0 16px 0;
 font-size:1.7em;
@@ -585,8 +585,7 @@ margin-left: 3px;
 /***** Wiki sections ****/
 #content div.wiki { font-size: 110%}
 
-#content div.wiki h1, div.wiki h2, div.wiki h3 { font-family: Trebuchet MS,Georgia,"Times New Roman",serif; color:#606060; }
-#content div.wiki h1 { font-size: 1.5em; border-bottom: dotted 1px #c0c0c0;}
+#content div.wiki h2, div.wiki h3 { font-family: Trebuchet MS,Georgia,"Times New Roman",serif; color:#606060; }
 #content div.wiki h2 { font-size: 1.4em;}
 #content div.wiki h3 { font-size: 1.2em;}
 

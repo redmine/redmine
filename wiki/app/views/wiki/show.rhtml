@@ -4,19 +4,17 @@
 <%= link_to(l(:label_page_index), {:action => 'special', :page => 'Page_index'}, :class => 'icon icon-index') %>
 </div>
 
-<h2><%=h @page.pretty_title %></h2>
-
 <% if @content.version != @page.content.version %>
-<div class="box">
-    <div style="float:right;">
-    <%= link_to(l(:label_current_version), :action => 'index', :page => @page.title) %> (<%= @page.content.version %>)
-    <%= " - " + link_to(('&#171; ' + l(:label_previous)), :action => 'index', :page => @page.title, :version => (@content.version - 1)) if @content.version > 1 %>
-    <%= " - " + link_to((l(:label_next) + ' &#187;'), :action => 'index', :page => @page.title, :version => (@content.version + 1)) if @content.version < @page.content.version %>
-    </div>    
-    <%= "<strong>#{l(:label_version)} #{@content.version}</strong> - #{format_time(@content.updated_on)}"  %>
-    <em>(<%= @content.author ? @content.author.name : "anonyme" %>)</em><br />
+    <p>    
+    <%= link_to(('&#171; ' + l(:label_previous)), :action => 'index', :page => @page.title, :version => (@content.version - 1)) + " - " if @content.version > 1 %>
+    <%= "#{l(:label_version)} #{@content.version}/#{@page.content.version}"  %> - 
+    <%= link_to((l(:label_next) + ' &#187;'), :action => 'index', :page => @page.title, :version => (@content.version + 1)) + " - " if @content.version < @page.content.version %>
+    <%= link_to(l(:label_current_version), :action => 'index', :page => @page.title) %>
+    <br />
+    <em><%= @content.author ? @content.author.name : "anonyme" %>, <%= format_time(@content.updated_on) %> </em><br />
     <%=h @content.comment %>
-</div>
+    </p>
+    <hr />
 <% end %>
 
 <div class="wiki">

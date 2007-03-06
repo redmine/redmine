@@ -44,6 +44,7 @@ class WikiController < ApplicationController
     @page = @wiki.find_or_new_page(params[:page])    
     @page.content = WikiContent.new(:page => @page) if @page.new_record?
     @content = @page.content
+    @content.text = "h1. #{@page.pretty_title}" if @content.text.empty?
     @content.comment = nil
     if request.post?
       @content.text = params[:content][:text]
