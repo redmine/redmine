@@ -4,11 +4,20 @@
 
 <h2><%= @page.pretty_title %></h2>
 
-<% form_for :content, @content, :url => {:action => 'edit', :page => @page.title} do |f| %>
+<% form_for :content, @content, :url => {:action => 'edit', :page => @page.title}, :html => {:id => 'wiki_form'} do |f| %>
 <%= error_messages_for 'content' %>
-<p><%= f.text_area :text, :cols => 100, :rows => 25 %></p>
+<p><%= f.text_area :text, :cols => 100, :rows => 25, :style => "width:99%;" %></p>
 <p><label><%= l(:field_comment) %></label><br /><%= f.text_field :comment, :size => 120 %></p>
-<p><%= submit_tag l(:button_save) %></p>
+<p><%= submit_tag l(:button_save) %>
+   <%= link_to_remote l(:label_preview), 
+                       { :url => { :controller => 'wiki', :action => 'preview' },
+                         :method => 'get',
+                         :update => 'preview',
+                         :with => "Form.serialize('wiki_form')",
+                         :complete => visual_effect(:highlight, 'preview')
+                       } %>
+</p>
+
 <% end %>
 
 <% if Setting.text_formatting == 'textile' %>
@@ -24,3 +33,5 @@ if (document.getElementById) {
 //]]>
 </script>
 <% end %>
+
+<div id="preview" class="wiki"></div>

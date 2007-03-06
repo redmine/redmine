@@ -323,6 +323,7 @@ label_result_plural: %d resultados
 label_wiki: Wiki
 label_page_index: Índice
 label_current_version: Versión actual
+label_preview: Previo
 
 button_login: Conexión
 button_submit: Someter

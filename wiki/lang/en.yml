@@ -323,6 +323,7 @@ label_result_plural: %d results
 label_wiki: Wiki
 label_page_index: Index
 label_current_version: Current version
+label_preview: Preview
 
 button_login: Login
 button_submit: Submit
