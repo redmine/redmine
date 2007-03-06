@@ -14,8 +14,10 @@
                          :method => 'get',
                          :update => 'preview',
                          :with => "Form.serialize('wiki_form')",
-                         :complete => visual_effect(:highlight, 'preview')
+                         :loading => "Element.show('indicator')",
+                         :loaded => "Element.hide('indicator')"
                        } %>
+   <span id="indicator" style="display:none"><%= image_tag "loading.gif", :align => "absmiddle" %></span>
 </p>
 
 <% end %>

@@ -598,3 +598,5 @@ div.wiki table, div.wiki td {
     border: 1px solid #bbb;
     padding: 4px;
 }
+
+#preview .preview { background: #fafbfc url(../images/draft.png); }
