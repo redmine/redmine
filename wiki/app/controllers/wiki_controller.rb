@@ -45,8 +45,14 @@ class WikiController < ApplicationController
     @page.content = WikiContent.new(:page => @page) if @page.new_record?
     @content = @page.content
     @content.text = "h1. #{@page.pretty_title}" if @content.text.empty?
+    # don't keep previous comment
     @content.comment = nil
-    if request.post?
+    if request.post?      
+      if @content.text == params[:content][:text]
+        # don't save if text wasn't changed
+        redirect_to :action => 'index', :id => @project, :page => @page.title
+        return
+      end
       @content.text = params[:content][:text]
       @content.comment = params[:content][:comment]
       @content.author = logged_in_user
