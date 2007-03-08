@@ -42,7 +42,7 @@ mail_from:
 text_formatting:
   default: textile
 wiki_compression:
-  default: gzip
+  default: ""
 default_language:
   default: en
 host_name:
