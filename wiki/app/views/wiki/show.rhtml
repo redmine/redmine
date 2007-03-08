@@ -18,7 +18,7 @@
 <% end %>
 
 <div class="wiki">
-<% cache :action => 'page', :id => @page.id, :ver => @content.version do %>
+<% cache "wiki/show/#{@page.id}/#{@content.version}" do %>
 <%= textilizable @content.text %>
 <% end %>
 </div>
