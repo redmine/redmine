@@ -30,11 +30,13 @@ class WikiContent < ActiveRecord::Base
     def text=(plain)
       case Setting.wiki_compression
       when 'gzip'
-        gz = Zlib::GzipWriter.new(compressed = StringIO.new)
-        gz.write(plain)
-        gz.close
-        self.data = compressed.string
+      begin
+        self.data = Zlib::Deflate.deflate(plain, Zlib::BEST_COMPRESSION)
         self.compression = 'gzip'
+      rescue
+        self.data = plain
+        self.compression = ''
+      end
       else
         self.data = plain
         self.compression = ''
@@ -43,12 +45,9 @@ class WikiContent < ActiveRecord::Base
     end
     
     def text
-      case compression
+      @text ||= case compression
       when 'gzip'
-        gz = Zlib::GzipReader.new(StringIO.new(data))
-        plain = gz.read
-        gz.close
-        plain
+         Zlib::Inflate.inflate(data)
       else
         # uncompressed data
         data
