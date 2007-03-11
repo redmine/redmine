@@ -1,0 +1,26 @@
+<h2><%= @user.display_name %></h2>
+
+<p>
+<%= mail_to @user.mail unless @user.pref.hide_mail %>
+<ul>
+    <li><%=l(:label_registered_on)%>: <%= format_date(@user.created_on) %></li>
+<% for custom_value in @custom_values %>
+<% if !custom_value.value.empty? %>
+    <li><%= custom_value.custom_field.name%>: <%=h show_value(custom_value) %></li>
+<% end %>
+<% end %>
+</ul>
+</p>
+
+<h3><%=l(:label_project_plural)%></h3>
+<p>
+<% for membership in @user.memberships %>
+	<%= membership.project.name %> (<%= membership.role.name %>, <%= format_date(membership.created_on) %>)
+	<br />
+<% end %>
+</p>
+
+<h3><%=l(:label_activity)%></h3>
+<p>
+<%=l(:label_reported_issues)%>: <%= Issue.count(["author_id=?", @user.id]) %>
+</p>

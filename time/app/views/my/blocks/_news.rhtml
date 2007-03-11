@@ -1,0 +1,8 @@
+<h3><%=l(:label_news_latest)%></h3>
+
+<%= render (:partial => 'news/news', 
+            :collection => News.find(:all,
+                                     :limit => 10,
+                                     :order => 'news.created_on DESC',
+                                     :conditions => "news.project_id in (#{@user.projects.collect{|m| m.id}.join(',')})",
+                                     :include => [:project, :author])) unless @user.projects.empty? %>

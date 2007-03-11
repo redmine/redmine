@@ -1,0 +1,10 @@
+<%	pdf=IfpdfHelper::IFPDF.new(current_language)
+	pdf.SetTitle("#{@project.name} - ##{@issue.tracker.name} #{@issue.id}")
+	pdf.AliasNbPages
+	pdf.footer_date = format_date(Date.today)
+	pdf.AddPage
+	
+	render :partial => 'issues/pdf', :locals => { :pdf => pdf, :issue => @issue }
+%>
+
+<%= pdf.Output %>
