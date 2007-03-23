@@ -143,6 +143,9 @@ field_hide_mail: Cacher mon adresse mail
 field_comment: Commentaire
 field_url: URL
 field_start_page: Page de démarrage
+field_hours: Heures
+field_activity: Activité
+field_spent_on: Date
 
 setting_app_title: Titre de l'application
 setting_app_subtitle: Sous-titre de l'application
@@ -328,6 +331,9 @@ label_wiki: Wiki
 label_page_index: Index
 label_current_version: Version actuelle
 label_preview: Prévisualisation
+label_spent_time: Temps passé
+label_f_hour: %.2f heure
+label_f_hour_plural: %.2f heures
 
 button_login: Connexion
 button_submit: Soumettre
@@ -352,6 +358,7 @@ button_back: Retour
 button_cancel: Annuler
 button_activate: Activer
 button_sort: Trier
+button_log_time: Saisir temps
 
 text_select_mail_notifications: Sélectionner les actions pour lesquelles la notification par mail doit être activée.
 text_regexp_info: ex. ^[A-Z0-9]+$

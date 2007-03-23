@@ -154,6 +154,7 @@ vertical-align: middle;
 .icon-attachment  { background-image: url(../images/attachment.png); }
 .icon-index  { background-image: url(../images/index.png); }
 .icon-history  { background-image: url(../images/history.png); }
+.icon-time  { background-image: url(../images/time.png); }
 
 .icon22-projects { background-image: url(../images/22x22/projects.png); }
 .icon22-users { background-image: url(../images/22x22/users.png); }
@@ -540,7 +541,7 @@ font-size: 1em;
 /***** Tooltips ******/
 .tooltip{position:relative;z-index:24;}
 .tooltip:hover{z-index:25;color:#000;}
-.tooltip span.tip{display: none}
+.tooltip span.tip{display: none; text-align:left;}
 
 div.tooltip:hover span.tip{
 display:block;
