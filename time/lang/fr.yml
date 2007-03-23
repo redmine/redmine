@@ -334,6 +334,7 @@ label_preview: Prévisualisation
 label_spent_time: Temps passé
 label_f_hour: %.2f heure
 label_f_hour_plural: %.2f heures
+label_time_tracking: Suivi du temps
 
 button_login: Connexion
 button_submit: Soumettre
@@ -392,6 +393,8 @@ default_priority_normal: Normal
 default_priority_high: Haut
 default_priority_urgent: Urgent
 default_priority_immediate: Immédiat
+default_activity_design: Conception
+default_activity_development: Développement
 
 enumeration_issue_priorities: Priorités des demandes
 enumeration_doc_categories: Catégories des documents
