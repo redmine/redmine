@@ -30,7 +30,7 @@ class TimelogController < ApplicationController
       redirect_to :action => 'details', :project_id => @time_entry.project, :issue_id => @time_entry.issue
       return
     end    
-    @activities = Enumeration.find :all
+    @activities = Enumeration::get_values('ACTI')
   end
 
 private

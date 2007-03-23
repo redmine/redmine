@@ -395,3 +395,4 @@ default_priority_immediate: Immédiat
 
 enumeration_issue_priorities: Priorités des demandes
 enumeration_doc_categories: Catégories des documents
+enumeration_activities: Activités (suivi du temps)
