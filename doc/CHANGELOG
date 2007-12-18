@@ -5,6 +5,11 @@ Copyright (C) 2006-2007  Jean-Philippe Lang
 http://www.redmine.org/
 
 
+== 2007-12-18 v0.6.3
+
+* Fixed: upload doesn't work in 'Files' section
+
+
 == 2007-12-16 v0.6.2
 
 * Search engine: issue custom fields can now be searched
