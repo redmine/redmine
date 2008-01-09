@@ -1,0 +1,42 @@
+<h2><%=l(:label_change_log)%></h2>
+
+<% if @versions.empty? %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
+
+<% @versions.each do |version| %>   
+    <a name="<%= version.name %>"><h3 class="icon22 icon22-package"><%= version.name %></h3></a>
+    <% if version.effective_date %>
+      <p><%= format_date(version.effective_date) %></p>
+    <% end %>
+    <p><%=h version.description %></p>
+    <% issues = version.fixed_issues.find(:all,
+                                 :include => [:status, :tracker],
+                                 :conditions => ["#{IssueStatus.table_name}.is_closed=? AND #{Issue.table_name}.tracker_id in (#{@selected_tracker_ids.join(',')})", true],
+                                 :order => "#{Tracker.table_name}.position") unless @selected_tracker_ids.empty?
+       issues ||= []
+    %>
+    <% if !issues.empty? %>
+    <ul>
+      <% issues.each do |issue| %>
+        <li><%= link_to_issue(issue) %>: <%=h issue.subject %></li>
+      <% end %>
+    </ul>
+    <% end %>
+<% end %>
+
+<% content_for :sidebar do %>
+<% form_tag do %>
+<h3><%= l(:label_change_log) %></h3>
+<% @trackers.each do |tracker| %>
+  <label><%= check_box_tag "tracker_ids[]", tracker.id, (@selected_tracker_ids.include? tracker.id.to_s) %>
+  <%= tracker.name %></label><br />
+<% end %>
+<p><%= submit_tag l(:button_apply), :class => 'button-small' %></p>
+<% end %>
+
+<h3><%= l(:label_version_plural) %></h3>
+<% @versions.each do |version| %>
+<%= link_to version.name, :anchor => version.name %><br />
+<% end %>
+<% end %>

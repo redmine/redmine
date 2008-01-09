@@ -1,0 +1,8 @@
+<h3><%=l(:label_document_plural)%></h3>
+
+<%= render(:partial => 'documents/document',
+           :collection => Document.find(:all,
+                         :limit => 10,
+                         :order => "#{Document.table_name}.created_on DESC",
+                         :conditions => "#{Document.table_name}.project_id in (#{@user.projects.collect{|m| m.id}.join(',')})",
+                         :include => [:project])) unless @user.projects.empty? %>

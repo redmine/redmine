@@ -1,0 +1,37 @@
+<h2><%=l(:label_permissions_report)%></h2>
+
+<% form_tag({:action => 'report'}, :id => 'permissions_form') do %>
+<%= hidden_field_tag 'permissions[0]', '' %>
+<table class="list">
+<thead>
+    <tr>
+    <th><%=l(:label_permissions)%></th>
+    <% @roles.each do |role| %>
+    <th><%= content_tag(role.builtin? ? 'em' : 'span', h(role.name)) %></th>
+    <% end %>
+    </tr>
+</thead>
+<tbody>
+<% perms_by_module = @permissions.group_by {|p| p.project_module.to_s} %>
+<% perms_by_module.keys.sort.each do |mod| %>
+    <% unless mod.blank? %>
+        <tr><%= content_tag('th', mod.humanize, :colspan => (@roles.size + 1), :align => 'left') %></tr>
+    <% end %>
+    <% perms_by_module[mod].each do |permission| %>
+        <tr class="<%= cycle('odd', 'even') %>">
+        <td><%= permission.name.to_s.humanize %></td>
+        <% @roles.each do |role| %>
+        <td align="center">
+        <% if role.setable_permissions.include? permission %>
+          <%= check_box_tag "permissions[#{role.id}][]", permission.name, (role.permissions.include? permission.name) %>
+        <% end %>
+        </td>
+        <% end %>
+        </tr>
+    <% end %>
+<% end %>
+</tbody>
+</table>
+<p><%= check_all_links 'permissions_form' %></p>
+<p><%= submit_tag l(:button_save) %></p>
+<% end %>
