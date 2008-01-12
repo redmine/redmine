@@ -158,6 +158,12 @@ class Project < ActiveRecord::Base
     m.select {|m| m.role.assignable?}.collect {|m| m.user}.uniq.sort
   end
   
+  def assignable_versions
+    v = versions
+    v +=  parent.versions if Setting.subprojects_inherit_versions? && parent
+    v.sort
+  end
+  
   # Returns the mail adresses of users that should be always notified on project events
   def recipients
     members.select {|m| m.mail_notification? || m.user.mail_notification?}.collect {|m| m.user.mail}

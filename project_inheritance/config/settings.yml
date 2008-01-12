@@ -107,3 +107,5 @@ emails_footer:
     To change your notification preferences, please click here: http://hostname/my/account
 subprojects_inherit_members:
   default: 1
+subprojects_inherit_versions:
+  default: 1

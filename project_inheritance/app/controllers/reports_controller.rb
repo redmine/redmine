@@ -31,7 +31,7 @@ class ReportsController < ApplicationController
       render :template => "reports/issue_report_details"
     when "version"
       @field = "fixed_version_id"
-      @rows = @project.versions.sort
+      @rows = @project.assignable_versions
       @data = issues_by_version
       @report_title = l(:field_version)
       render :template => "reports/issue_report_details"
@@ -61,7 +61,7 @@ class ReportsController < ApplicationController
       render :template => "reports/issue_report_details"  
     else
       @trackers = @project.trackers
-      @versions = @project.versions.sort
+      @versions = @project.assignable_versions
       @priorities = Enumeration::get_values('IPRI')
       @categories = @project.issue_categories
       @authors = @project.members.collect { |m| m.user }
