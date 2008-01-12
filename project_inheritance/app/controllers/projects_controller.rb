@@ -330,8 +330,12 @@ class ProjectsController < ApplicationController
   def roadmap
     @trackers = @project.trackers.find(:all, :conditions => ["is_in_roadmap=?", true])
     retrieve_selected_tracker_ids(@trackers)
-    @versions = @project.versions.sort
+    # Subprojects roadmap shows parent project versions (unless versions inheritance was disabled in settings)
+    @versions = @project.assignable_versions
+    # Parent project roadmap shows versions of all subprojects
+    @versions += Version.find(:all, :conditions => {:project_id => @project.child_ids}) unless @project.child_ids.empty?
     @versions = @versions.select {|v| !v.completed? } unless params[:completed]
+    @versions.sort!
   end
   
   def activity

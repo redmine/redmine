@@ -11,8 +11,8 @@
     <%= render(:partial => "wiki/content", :locals => {:content => version.wiki_page.content}) if version.wiki_page %>
 
     <% issues = version.fixed_issues.find(:all,
-                                          :include => [:status, :tracker],
-                                          :conditions => ["tracker_id in (#{@selected_tracker_ids.join(',')})"],
+                                          :include => [:status, :tracker, :project],
+                                          :conditions => ["#{Issue.table_name}.tracker_id IN (?) AND (#{Project.table_name}.id = ? OR #{Project.table_name}.parent_id = ?)", @selected_tracker_ids, @project.id, @project.id],
                                           :order => "#{Tracker.table_name}.position") unless @selected_tracker_ids.empty?
        issues ||= []
     %>
