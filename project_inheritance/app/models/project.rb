@@ -102,12 +102,16 @@ class Project < ActiveRecord::Base
   end	
 
   def self.visible_by(user=nil)
+    active_statement = "#{Project.table_name}.status = #{Project::STATUS_ACTIVE}"
+    public_statement = "#{Project.table_name}.is_public = #{connection.quoted_true}"
     if user && user.admin?
-      return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
+      active_statement
     elsif user && user.memberships.any?
-      return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND (#{Project.table_name}.is_public = #{connection.quoted_true} or #{Project.table_name}.id IN (#{user.memberships.collect{|m| m.project_id}.join(',')}))"
+      member_statement = "#{Project.table_name}.id IN (#{user.memberships.collect{|m| m.project_id}.join(',')})"
+      member_statement << " OR #{Project.table_name}.parent_id IN (#{user.memberships.collect{|m| m.project_id}.join(',')})" if Setting.subprojects_inherit_members?
+      "#{active_statement} AND (#{public_statement} OR #{member_statement})"
     else
-      return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND #{Project.table_name}.is_public = #{connection.quoted_true}"
+      "#{active_statement} AND #{public_statement}"
     end
   end
   
