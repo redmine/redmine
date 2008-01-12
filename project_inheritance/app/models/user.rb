@@ -182,6 +182,7 @@ class User < ActiveRecord::Base
     if logged?
       # Find project membership
       membership = memberships.detect {|m| m.project_id == project.id}
+      membership ||= memberships.detect {|m| m.project_id == project.parent_id} if Setting.subprojects_inherit_members?
       if membership
         membership.role
       else

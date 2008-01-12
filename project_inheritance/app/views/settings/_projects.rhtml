@@ -1,0 +1,10 @@
+<% form_tag({:action => 'edit'}) do %>
+
+<div class="box tabular settings">
+<p><label><%= l(:setting_subprojects_inherit_members) %></label>
+<%= check_box_tag 'settings[subprojects_inherit_members]', 1, Setting.subprojects_inherit_members? %>
+<%= hidden_field_tag 'settings[subprojects_inherit_members]', 0 %></p>
+</div>
+
+<%= submit_tag l(:button_save) %>
+<% end %>
