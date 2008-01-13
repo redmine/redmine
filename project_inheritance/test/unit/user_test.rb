@@ -18,7 +18,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class UserTest < Test::Unit::TestCase
-  fixtures :users, :members, :projects
+  fixtures :users, :members, :projects, :roles
 
   def setup
     @admin = User.find(1)
@@ -103,14 +103,60 @@ class UserTest < Test::Unit::TestCase
     assert_equal key, @jsmith.rss_key
   end
   
-  def test_role_for_project
-    # user with a role
-    role = @jsmith.role_for_project(Project.find(1))
+  def test_role_for_project_without_inheritance
+    Setting.subprojects_inherit_members = 0
+    
+    parent = Project.find(1)
+    child = parent.children.first
+    # user with a role on a parent project
+    role = @jsmith.role_for_project(parent)
     assert_kind_of Role, role
-    assert_equal "Manager", role.name
+    assert_equal 'Manager', role.name
+    
+    # not a member of the child
+    role = @jsmith.role_for_project(child)
+    assert_kind_of Role, role
+    assert_equal 'Non member', role.name
+    assert !@jsmith.member_of?(child)
     
     # user with no role
     assert !@dlopper.role_for_project(Project.find(2)).member?
+  end
+  
+  def test_role_for_project_with_inheritance
+    Setting.subprojects_inherit_members = 1
+    
+    parent = Project.find(1)
+    child = parent.children.first
+    # user with a role on a parent project
+    role = @jsmith.role_for_project(parent)
+    assert_kind_of Role, role
+    assert_equal 'Manager', role.name
+    
+    # member of the child
+    role = @jsmith.role_for_project(child)
+    assert_kind_of Role, role
+    assert_equal 'Manager', role.name
+    assert @jsmith.member_of?(child)
+  end
+  
+  def test_role_for_project_with_inheritance_and_role_override
+    Setting.subprojects_inherit_members = 1
+    
+    parent = Project.find(1)
+    child = parent.children.first
+    Member.create!(:user => @jsmith, :project => child, :role => Role.find_by_name('Developer'))
+    
+    # user with a role on a parent project
+    role = @jsmith.role_for_project(parent)
+    assert_kind_of Role, role
+    assert_equal 'Manager', role.name
+    
+    # member of the child
+    role = @jsmith.role_for_project(child)
+    assert_kind_of Role, role
+    assert_equal 'Developer', role.name
+    assert @jsmith.member_of?(child)
   end
   
   def test_mail_notification_all
