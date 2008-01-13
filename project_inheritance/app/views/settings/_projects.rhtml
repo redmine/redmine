@@ -8,6 +8,10 @@
 <p><label><%= l(:setting_subprojects_inherit_versions) %></label>
 <%= check_box_tag 'settings[subprojects_inherit_versions]', 1, Setting.subprojects_inherit_versions? %>
 <%= hidden_field_tag 'settings[subprojects_inherit_versions]', 0 %></p>
+
+<p><label><%= l(:setting_subprojects_inherit_categories) %></label>
+<%= check_box_tag 'settings[subprojects_inherit_categories]', 1, Setting.subprojects_inherit_categories? %>
+<%= hidden_field_tag 'settings[subprojects_inherit_categories]', 0 %></p>
 </div>
 
 <%= submit_tag l(:button_save) %>

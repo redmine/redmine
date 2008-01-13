@@ -43,7 +43,7 @@ class ReportsController < ApplicationController
       render :template => "reports/issue_report_details"   
     when "category"
       @field = "category_id"
-      @rows = @project.issue_categories
+      @rows = @project.assignable_categories
       @data = issues_by_category
       @report_title = l(:field_category)
       render :template => "reports/issue_report_details"   
@@ -63,7 +63,7 @@ class ReportsController < ApplicationController
       @trackers = @project.trackers
       @versions = @project.assignable_versions
       @priorities = Enumeration::get_values('IPRI')
-      @categories = @project.issue_categories
+      @categories = @project.assignable_categories
       @authors = @project.members.collect { |m| m.user }
       @subprojects = @project.active_children
       issues_by_tracker

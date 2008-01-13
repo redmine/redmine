@@ -164,8 +164,14 @@ class Project < ActiveRecord::Base
   
   def assignable_versions
     v = versions
-    v +=  parent.versions if Setting.subprojects_inherit_versions? && parent
+    v += parent.versions if Setting.subprojects_inherit_versions? && parent
     v.sort
+  end
+  
+  def assignable_categories
+    c = issue_categories
+    c += parent.issue_categories if Setting.subprojects_inherit_categories? && parent
+    c.sort
   end
   
   # Returns the mail adresses of users that should be always notified on project events

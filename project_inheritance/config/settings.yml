@@ -109,3 +109,5 @@ subprojects_inherit_members:
   default: 1
 subprojects_inherit_versions:
   default: 1
+subprojects_inherit_categories:
+  default: 1
