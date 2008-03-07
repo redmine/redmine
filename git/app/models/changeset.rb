@@ -32,7 +32,6 @@ class Changeset < ActiveRecord::Base
                      :date_column => 'committed_on'
   
   validates_presence_of :repository_id, :revision, :committed_on, :commit_date
-  validates_numericality_of :revision, :only_integer => true
   validates_uniqueness_of :revision, :scope => :repository_id
   validates_uniqueness_of :scmid, :scope => :repository_id, :allow_nil => true
   
@@ -110,11 +109,11 @@ class Changeset < ActiveRecord::Base
   
   # Returns the previous changeset
   def previous
-    @previous ||= Changeset.find(:first, :conditions => ['revision < ? AND repository_id = ?', self.revision, self.repository_id], :order => 'revision DESC')
+    @previous ||= Changeset.find(:first, :conditions => ['id < ? AND repository_id = ?', self.id, self.repository_id], :order => 'id DESC')
   end
 
   # Returns the next changeset
   def next
-    @next ||= Changeset.find(:first, :conditions => ['revision > ? AND repository_id = ?', self.revision, self.repository_id], :order => 'revision ASC')
+    @next ||= Changeset.find(:first, :conditions => ['id > ? AND repository_id = ?', self.id, self.repository_id], :order => 'id ASC')
   end
 end

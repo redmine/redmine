@@ -82,9 +82,6 @@ class Repository::Cvs < Repository
   end
   
   def fetch_changesets
-    #not the preferred way with CVS. maybe we should introduce always a cron-job for this
-    last_commit = changesets.maximum(:committed_on)
-    
     # some nifty bits to introduce a commit-id with cvs
     # natively cvs doesn't provide any kind of changesets, there is only a revision per file.
     # we now take a guess using the author, the commitlog and the commit-date.
@@ -94,8 +91,9 @@ class Repository::Cvs < Repository
     # we use a small delta here, to merge all changes belonging to _one_ changeset
     time_delta=10.seconds
     
+    fetch_since = latest_changeset ? latest_changeset.committed_on : nil
     transaction do
-      scm.revisions('', last_commit, nil, :with_paths => true) do |revision|
+      scm.revisions('', fetch_since, nil, :with_paths => true) do |revision|
         # only add the change to the database, if it doen't exists. the cvs log
         # is not exclusive at all. 
         unless changes.find_by_path_and_revision(scm.with_leading_slash(revision.paths[0][:path]), revision.paths[0][:revision])
@@ -107,18 +105,14 @@ class Repository::Cvs < Repository
           })
         
           # create a new changeset.... 
-          unless cs 
-            # we use a negative changeset-number here (just for inserting)
-            # later on, we calculate a continous positive number
-            next_rev = changesets.minimum(:revision)            
-            next_rev = 0 if next_rev.nil? or next_rev > 0 
-            next_rev = next_rev - 1
-            
-            cs=Changeset.create(:repository => self,
-            :revision => next_rev, 
-            :committer => revision.author, 
-            :committed_on => revision.time,
-            :comments => revision.message)
+          unless cs
+            latest = changesets.find(:first, :order => 'id DESC')
+            next_rev = latest ? latest.revision.to_i + 1 : '1'
+            cs = Changeset.create(:repository => self,
+                                  :revision => next_rev, 
+                                  :committer => revision.author, 
+                                  :committed_on => revision.time,
+                                  :comments => revision.message)
           end
         
           #convert CVS-File-States to internal Action-abbrevations
@@ -137,13 +131,6 @@ class Repository::Cvs < Repository
           :branch => revision.paths[0][:branch]
           )
         end
-      end
-      
-      next_rev = [changesets.maximum(:revision) || 0, 0].max
-      changesets.find(:all, :conditions=>["revision < 0"], :order=>"committed_on ASC").each() do |changeset|
-        next_rev = next_rev + 1
-        changeset.revision = next_rev
-        changeset.save!
       end
     end
   end

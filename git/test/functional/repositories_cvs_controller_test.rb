@@ -93,7 +93,7 @@ class RepositoriesCvsControllerTest < Test::Unit::TestCase
     
     def test_diff
       Project.find(1).repository.fetch_changesets
-      get :diff, :id => 1, :rev => 3, :type => 'inline'
+      get :diff, :id => 1, :rev => 1, :type => 'inline'
       assert_response :success
       assert_template 'diff'
       assert_tag :tag => 'td', :attributes => { :class => 'line-code diff_out' },
