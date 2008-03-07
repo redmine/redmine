@@ -1,0 +1,51 @@
+<div class="contextual">
+<%= link_to_if_authorized(l(:label_news_new),
+                          {:controller => 'news', :action => 'new', :project_id => @project},
+                          :class => 'icon icon-add',
+                          :onclick => 'Element.show("add-news"); return false;') if @project %>
+</div>
+
+<div id="add-news" style="display:none;">
+<h2><%=l(:label_news_new)%></h2>
+<% labelled_tabular_form_for :news, @news, :url => { :controller => 'news', :action => 'new', :project_id => @project },
+                                           :html => { :id => 'news-form' } do |f| %>
+<%= render :partial => 'news/form', :locals => { :f => f } %>
+<%= submit_tag l(:button_create) %>
+<%= link_to_remote l(:label_preview), 
+                   { :url => { :controller => 'news', :action => 'preview' },
+                     :method => 'post',
+                     :update => 'preview',
+                     :with => "Form.serialize('news-form')"
+                   }, :accesskey => accesskey(:preview) %> |
+<%= link_to l(:button_cancel), "#", :onclick => 'Element.hide("add-news")' %>
+<% end if @project %>
+<div id="preview" class="wiki"></div>
+</div>
+
+<h2><%=l(:label_news_plural)%></h2>
+
+<% if @newss.empty? %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% else %>
+<% @newss.each do |news| %>
+    <h3><%= link_to(h(news.project.name), :controller => 'projects', :action => 'show', :id => news.project) + ': ' unless news.project == @project %>
+    <%= link_to h(news.title), :controller => 'news', :action => 'show', :id => news %>
+    <%= "(#{news.comments_count} #{lwr(:label_comment, news.comments_count).downcase})" if news.comments_count > 0 %></h3>
+    <p class="author"><%= authoring news.created_on, news.author %></p>
+    <div class="wiki">
+    <%= textilizable(news.description) %>
+    </div>
+<% end %>
+<% end %>
+<p class="pagination"><%= pagination_links_full @news_pages %></p>
+
+<p class="other-formats">
+<%= l(:label_export_to) %>
+<span><%= link_to 'Atom', {:format => 'atom', :key => User.current.rss_key}, :class => 'feed' %></span>
+</p>
+
+<% content_for :header_tags do %>
+  <%= auto_discovery_link_tag(:atom, params.merge({:format => 'atom', :page => nil, :key => User.current.rss_key})) %>
+<% end %>
+
+<% html_title(l(:label_news_plural)) -%>

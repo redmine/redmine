@@ -1,0 +1,9 @@
+<%= l(:text_issue_updated, "##{@issue.id}", @journal.user) %>
+
+<% for detail in @journal.details -%>
+<%= show_detail(detail, true) %>
+<% end -%>
+
+<%= @journal.notes if @journal.notes? %>
+----------------------------------------
+<%= render :partial => "issue_text_plain", :locals => { :issue => @issue, :issue_url => @issue_url } %>
