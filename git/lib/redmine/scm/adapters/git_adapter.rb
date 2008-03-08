@@ -208,9 +208,7 @@ module Redmine
         
         def diff(path, identifier_from, identifier_to=nil, type="inline")
           path ||= ''
-          if identifier_to
-            identifier_to = identifier_to 
-          else
+          if !identifier_to
             identifier_to = nil
           end
           
