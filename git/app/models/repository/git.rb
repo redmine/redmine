@@ -29,6 +29,12 @@ class Repository::Git < Repository
     'Git'
   end
 
+  def changesets_for_path(path)
+    Change.find(:all, :include => :changeset, 
+                :conditions => ["repository_id = ? AND path = ?", id, path],
+                :order => "committed_on DESC, #{Changeset.table_name}.revision DESC").collect(&:changeset)
+  end
+
   def fetch_changesets
     scm_info = scm.info
     if scm_info
