@@ -27,8 +27,8 @@ module Redmine
 
         # Get the revision of a particuliar file
         def get_rev (rev,path)
-          cmd="cd #{target('')} && git show #{rev} -- #{path}" if rev!='latest'
-          cmd="cd #{target('')} && git log -1 master -- #{path}" if 
+          cmd="git --git-dir #{target('')} show #{shell_quote rev} -- #{shell_quote path}" if rev!='latest' and (! rev.nil?)
+          cmd="git --git-dir #{target('')} log -1 master -- #{shell_quote path}" if 
             rev=='latest' or rev.nil?
           rev=[]
           i=0
@@ -106,8 +106,9 @@ module Redmine
         def entries(path=nil, identifier=nil)
           path ||= ''
           entries = Entries.new
-          cmd = "cd #{target('')} && #{GIT_BIN} ls-tree -l HEAD:#{path}" if identifier.nil?
-          cmd = "cd #{target('')} && #{GIT_BIN} ls-tree -l #{identifier}:#{path}" if identifier
+          cmd = "#{GIT_BIN} --git-dir #{target('')} ls-tree -l "
+          cmd << shell_quote("HEAD:" + path) if identifier.nil?
+          cmd << shell_quote(identifier + ":" + path) if identifier
           shellout(cmd)  do |io|
             io.each_line do |line|
               e = line.chomp.to_s
@@ -140,10 +141,10 @@ module Redmine
         
         def revisions(path, identifier_from, identifier_to, options={})
           revisions = Revisions.new
-          cmd = "cd #{target('')} && #{GIT_BIN} log --raw "
-          cmd << " -n #{options[:limit].to_i}" if (!options.nil?) && options[:limit]
-          cmd << " #{identifier_from}.. " if identifier_from
-          cmd << " #{identifier_to} " if identifier_to
+          cmd = "#{GIT_BIN} --git-dir #{target('')} log --raw "
+          cmd << " -n #{options[:limit].to_i} " if (!options.nil?) && options[:limit]
+          cmd << " #{shell_quote(identifier_from + '..')} " if identifier_from
+          cmd << " #{shell_quote identifier_to} " if identifier_to
           #cmd << " HEAD " if !identifier_to
           shellout(cmd) do |io|
             files=[]
@@ -212,9 +213,9 @@ module Redmine
             identifier_to = nil
           end
           
-          cmd = "cd #{target('')} && #{GIT_BIN} show #{identifier_from}" if identifier_to.nil?
-          cmd = "cd #{target('')} && #{GIT_BIN} diff #{identifier_to} #{identifier_from}" if !identifier_to.nil?
-          cmd << " -- #{path}" unless path.empty?
+          cmd = "#{GIT_BIN} --git-dir #{target('')} show #{shell_quote identifier_from}" if identifier_to.nil?
+          cmd = "#{GIT_BIN} --git-dir #{target('')} diff #{shell_quote identifier_to} #{shell_quote identifier_from}" if !identifier_to.nil?
+          cmd << " -- #{shell_quote path}" unless path.empty?
           diff = []
           shellout(cmd) do |io|
             io.each_line do |line|
@@ -227,7 +228,7 @@ module Redmine
         
         def annotate(path, identifier=nil)
           identifier = 'HEAD' if identifier.blank?
-          cmd = "cd #{target('')} && #{GIT_BIN} blame -l #{identifier} -- #{path}"
+          cmd = "#{GIT_BIN} --git-dir #{target('')} blame -l #{shell_quote identifier} -- #{shell_quote path}"
           blame = Annotate.new
           shellout(cmd) do |io|
             io.each_line do |line|
@@ -243,7 +244,7 @@ module Redmine
           if identifier.nil?
             identifier = 'HEAD'
           end
-          cmd = "cd #{target('')} && #{GIT_BIN} show #{identifier}:#{path}"
+          cmd = "#{GIT_BIN} --git-dir #{target('')} show #{shell_quote(identifier + ':' + path)}"
           cat = nil
           shellout(cmd) do |io|
             io.binmode
