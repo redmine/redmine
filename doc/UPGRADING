@@ -1,7 +1,7 @@
 == Redmine upgrade procedure
 
 Redmine - project management software
-Copyright (C) 2006-2007  Jean-Philippe Lang
+Copyright (C) 2006-2008  Jean-Philippe Lang
 http://www.redmine.org/
 
 
@@ -20,16 +20,10 @@ http://www.redmine.org/
 
 6. Copy the RAILS_ROOT/files directory content into your new installation
 
-Note 1: Rails 1.2.2 or higher is required for version 0.4.2 and later.
+Note 1: Rails 1.2.6 or higher is required
 
 Note 2: when upgrading your code with svn update, don't forget to clear
 the application cache (RAILS_ROOT/tmp/cache) before restarting.
 
 Note 3: settings previously defined in custom_config.rb are now stored
 in database, as of version 0.4.2. Go to "Admin -> Settings" to edit them.
-
-   
-== From 0.2.x and below
-
-Due to major database changes since 0.2.x, there is no migration support
-from 0.2.x and previous versions.

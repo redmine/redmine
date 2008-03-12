@@ -1,8 +1,21 @@
 == Redmine changelog
 
 Redmine - project management software
-Copyright (C) 2006-2007  Jean-Philippe Lang
+Copyright (C) 2006-2008  Jean-Philippe Lang
 http://www.redmine.org/
+
+
+== 2007-03-12 v0.6.4
+
+* Fixed: private projects name are displayed on account/show even if the current user doesn't have access to these private projects
+* Fixed: potential LDAP authentication security flaw
+* Fixed: context submenus on the issue list don't show up with IE6.
+* Fixed: Themes are not applied with Rails 2.0
+* Fixed: crash when fetching Mercurial changesets if changeset[:files] is nil
+* Fixed: Mercurial repository browsing
+* Fixed: undefined local variable or method 'log' in CvsAdapter when a cvs command fails
+* Fixed: not null constraints not removed with Postgresql
+* Doctype set to transitional
 
 
 == 2007-12-18 v0.6.3
