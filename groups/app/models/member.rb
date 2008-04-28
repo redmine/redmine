@@ -50,7 +50,9 @@ class Member < ActiveRecord::Base
     if principal.is_a? Group
       Member.delete_all "inherited_from = #{id}"
       principal.users.each do |user|
-        Member.create! :project => project, :role => role, :principal => user, :inherited_from => id
+        inherited = Member.new :project => project, :role => role, :principal => user
+        inherited.inherited_from = id
+        inherited.save!
       end
     end
   end

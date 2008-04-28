@@ -85,7 +85,10 @@ class User < ActiveRecord::Base
       Member.delete_all "principal_type = 'User' AND principal_id = #{id} AND inherited_from IS NOT NULL"
       unless group.nil?
         group.memberships.each do |m|
-          Member.create! :project => m.project, :role => m.role, :principal => self, :inherited_from => m.id
+          inherited = Member.new :project => m.project, :role => m.role, :principal => self
+          # protected attribute
+          inherited.inherited_from = m.id
+          inherited.save!
         end
       end
     end
