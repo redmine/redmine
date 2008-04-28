@@ -16,27 +16,52 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Member < ActiveRecord::Base
-  belongs_to :user
-  belongs_to :role
   belongs_to :project
+  belongs_to :role
+  belongs_to :principal, :polymorphic => true
+  belongs_to :user, :foreign_key => 'principal_id'
 
-  validates_presence_of :role, :user, :project
-  validates_uniqueness_of :user_id, :scope => :project_id
-
+  attr_protected :inherited_from
+  
+  validates_presence_of :project, :role, :principal
+  validates_uniqueness_of :principal_id, :scope => [:project_id, :principal_type, :inherited_from]
+  
   def validate
     errors.add :role_id, :activerecord_error_invalid if role && !role.member?
   end
   
   def name
-    self.user.name
+    principal.name
   end
   
+  # Groups sorted by role then users sorted by role
   def <=>(member)
-    role == member.role ? (user <=> member.user) : (role <=> member.role)
+    principal_type == member.principal_type ?
+      (role == member.role ? principal <=> member.principal : role <=> member.role) :
+      (principal_type <=> member.principal_type)
+  end
+  
+  def to_s
+    principal.to_s
+  end
+  
+  def after_save
+    # Update memberships based on group inheritance
+    if principal.is_a? Group
+      Member.delete_all "inherited_from = #{id}"
+      principal.users.each do |user|
+        Member.create! :project => project, :role => role, :principal => user, :inherited_from => id
+      end
+    end
   end
   
   def before_destroy
-    # remove category based auto assignments for this member
-    IssueCategory.update_all "assigned_to_id = NULL", ["project_id = ? AND assigned_to_id = ?", project.id, user.id]
+    # Remove inherited memberships
+    Member.delete_all "inherited_from = #{id}"
+    
+    # Remove category based auto assignments for this member
+    if principal.is_a? User
+      IssueCategory.update_all "assigned_to_id = NULL", ["project_id = ? AND assigned_to_id = ?", project_id, principal_id]
+    end
   end
 end

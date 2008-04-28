@@ -1,0 +1,25 @@
+<h2><%= l(:label_group_plural) %></h2>
+
+<% if @groups.any? %>
+<table class="list groups">
+  <thead><tr>
+  <th><%=l(:label_group)%></th>
+  <th><%=l(:label_user_plural)%></th>
+  <th></th>
+  </tr></thead>
+  <tbody>
+<% @groups.each do |group| %>
+  <tr class="group <%= cycle 'odd', 'even' %>">
+    <td><%= link_to h(group.name), :action => 'edit', :id => group %></td>
+    <td align="center"><%= group.users.size %></td>
+    <td align="right"><%= link_to l(:button_delete), group, :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del' %></td>
+  </tr>
+<% end %>
+</table>
+<% else %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
+
+<% form_for(@group) do |f| %>
+<p><label><%= l(:label_group_new) %>: <%= f.text_field :name %> <%= f.submit l(:button_create) %></p>
+<% end %>

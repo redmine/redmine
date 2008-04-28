@@ -1,0 +1,10 @@
+<div class="box tabular">
+	<p><%= f.text_field :name %></p>
+	<% for @custom_value in @custom_values %>
+	<p><%= custom_field_tag_with_label @custom_value %></p>
+    <% end %>
+    
+	<% unless @group.users.empty? %>
+	<p><label><%= l(:label_user_plural) %> (<%= @group.users.size %>)</label><%= @group.users.collect {|u| link_to_user u }.join(', ') %></p>
+	<% end %>
+</div>

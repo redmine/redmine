@@ -105,11 +105,18 @@ tr.message td.last_message { font-size: 80%; }
 tr.message.locked td.subject a { background-image: url(../images/locked.png); }
 tr.message.sticky td.subject a { background-image: url(../images/sticky.png); font-weight: bold; }
 
+table.members td { vertical-align: middle; }
+table.members td.name { padding-left: 20px; }
+table.members tr.group td.name { background: url(../images/users.png) 0 50% no-repeat; }
+table.members tr.user td.name { background: url(../images/user.png) 0 50% no-repeat; }
+
 tr.user td { width:13%; }
 tr.user td.email { width:18%; }
 tr.user td { white-space: nowrap; }
 tr.user.locked, tr.user.registered { color: #aaa; }
 tr.user.locked a, tr.user.registered a { color: #aaa; }
+
+optgroup { font-style: normal; }
 
 tr.time-entry { text-align: center; white-space: nowrap; }
 tr.time-entry td.subject, tr.time-entry td.comments { text-align: left; white-space: normal; }
@@ -574,6 +581,7 @@ vertical-align: middle;
 
 .icon22-projects { background-image: url(../images/22x22/projects.png); }
 .icon22-users { background-image: url(../images/22x22/users.png); }
+.icon22-user { background-image: url(../images/22x22/user.png); }
 .icon22-tracker { background-image: url(../images/22x22/tracker.png); }
 .icon22-role { background-image: url(../images/22x22/role.png); }
 .icon22-workflow { background-image: url(../images/22x22/workflow.png); }

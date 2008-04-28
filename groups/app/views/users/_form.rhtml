@@ -7,6 +7,9 @@
 <p><%= f.text_field :firstname, :required => true %></p>
 <p><%= f.text_field :lastname, :required => true %></p>
 <p><%= f.text_field :mail, :required => true %></p>
+<% unless @groups.empty? -%>
+<p><%= f.select :group_id, @groups.collect {|g| [g.name, g.id]}, { :include_blank => true } %></p>
+<% end -%>
 <p><%= f.select :language, lang_options_for_select %></p>
 
 <% for @custom_value in @custom_values %>

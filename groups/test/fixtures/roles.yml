@@ -1,5 +1,5 @@
 --- 
-roles_001: 
+manager: 
   name: Manager
   id: 1
   builtin: 0
@@ -41,7 +41,7 @@ roles_001:
     - :view_changesets
 
   position: 1
-roles_002: 
+developer: 
   name: Developer
   id: 2
   builtin: 0
@@ -78,7 +78,7 @@ roles_002:
     - :view_changesets
 
   position: 2
-roles_003: 
+reporter: 
   name: Reporter
   id: 3
   builtin: 0
@@ -113,7 +113,7 @@ roles_003:
     - :view_changesets
 
   position: 3
-roles_004: 
+non_member: 
   name: Non member
   id: 4
   builtin: 1
@@ -141,7 +141,7 @@ roles_004:
     - :view_changesets
 
   position: 4
-roles_005: 
+anonymous: 
   name: Anonymous
   id: 5
   builtin: 2

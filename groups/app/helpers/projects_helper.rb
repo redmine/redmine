@@ -42,6 +42,19 @@ module ProjectsHelper
     tabs.select {|tab| User.current.allowed_to?(tab[:action], @project)}     
   end
   
+  def principal_select_tag(groups, users)
+    options = ''
+    options << "<optgroup label=\"#{l(:label_group_plural)}\" class=\"groups\">" + 
+                 options_for_select(groups.collect {|g| [g.name, "group_#{g.id}"]}) +
+                 "</optgroup>" unless groups.empty?
+
+    options << "<optgroup label=\"#{l(:label_user_plural)}\" class=\"users\">" + 
+                 options_for_select(users.collect {|u| [u.name, "user_#{u.id}"]}) +
+                 "</optgroup>" unless users.empty?
+                
+    select_tag 'principal', options
+  end
+  
   # Generates a gantt image
   # Only defined if RMagick is avalaible
   def gantt_image(events, date_from, months, zoom)

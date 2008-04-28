@@ -25,7 +25,7 @@ class MemberTest < Test::Unit::TestCase
   end
   
   def test_create
-    member = Member.new(:project_id => 1, :user_id => 4, :role_id => 1)
+    member = Member.new(:project_id => 1, :principal_type => 'User', :principal_id => 4, :role_id => 1)
     assert member.save
   end
 
@@ -39,7 +39,7 @@ class MemberTest < Test::Unit::TestCase
   end
   
   def test_validate
-    member = Member.new(:project_id => 1, :user_id => 2, :role_id =>2)
+    member = Member.new(:project_id => 1, :principal_type => 'User', :principal_id => 2, :role_id =>2)
     # same use can't have more than one role for a project
     assert !member.save
   end

@@ -1,0 +1,7 @@
+managers:
+  id: 1
+  name: Managers
+clients:
+  id: 2
+  name: Clients
+  

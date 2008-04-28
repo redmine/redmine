@@ -42,6 +42,7 @@ class UsersController < ApplicationController
 								per_page_option,
 								params['page']								
     @users =  User.find :all,:order => sort_clause,
+                        :include => :group,
                         :conditions => conditions,
 						:limit  =>  @user_pages.items_per_page,
 						:offset =>  @user_pages.current.offset
@@ -58,6 +59,7 @@ class UsersController < ApplicationController
       @user.admin = params[:user][:admin] || false
       @user.login = params[:user][:login]
       @user.password, @user.password_confirmation = params[:password], params[:password_confirmation] unless @user.auth_source_id
+      @user.group_id = params[:user][:group_id]
       @custom_values = UserCustomField.find(:all, :order => "#{CustomField.table_name}.position").collect { |x| CustomValue.new(:custom_field => x, :customized => @user, :value => (params[:custom_fields] ? params["custom_fields"][x.id.to_s] : nil)) }
       @user.custom_values = @custom_values			
       if @user.save
@@ -67,6 +69,7 @@ class UsersController < ApplicationController
       end
     end
     @auth_sources = AuthSource.find(:all)
+    @groups = Group.find(:all, :order => 'name')
   end
 
   def edit
@@ -77,6 +80,7 @@ class UsersController < ApplicationController
       @user.admin = params[:user][:admin] if params[:user][:admin]
       @user.login = params[:user][:login] if params[:user][:login]
       @user.password, @user.password_confirmation = params[:password], params[:password_confirmation] unless params[:password].nil? or params[:password].empty? or @user.auth_source_id
+      @user.group_id = params[:user][:group_id]
       if params[:custom_fields]
         @custom_values = UserCustomField.find(:all, :order => "#{CustomField.table_name}.position").collect { |x| CustomValue.new(:custom_field => x, :customized => @user, :value => params["custom_fields"][x.id.to_s]) }
         @user.custom_values = @custom_values
@@ -88,6 +92,7 @@ class UsersController < ApplicationController
       end
     end
     @auth_sources = AuthSource.find(:all)
+    @groups = Group.find(:all, :order => 'name')
     @roles = Role.find_all_givable
     @projects = Project.find(:all, :order => 'name', :conditions => "status=#{Project::STATUS_ACTIVE}") - @user.projects
     @membership ||= Member.new
@@ -95,7 +100,7 @@ class UsersController < ApplicationController
   
   def edit_membership
     @user = User.find(params[:id])
-    @membership = params[:membership_id] ? Member.find(params[:membership_id]) : Member.new(:user => @user)
+    @membership = params[:membership_id] ? Member.find(params[:membership_id], :conditions => 'inherited_from IS NULL') : Member.new(:principal => @user)
     @membership.attributes = params[:membership]
     if request.post? and @membership.save
       flash[:notice] = l(:notice_successful_update)
@@ -105,7 +110,7 @@ class UsersController < ApplicationController
   
   def destroy_membership
     @user = User.find(params[:id])
-    if request.post? and Member.find(params[:membership_id]).destroy
+    if request.post? and Member.find(params[:membership_id], :conditions => 'inherited_from IS NULL').destroy
       flash[:notice] = l(:notice_successful_update)
     end
     redirect_to :action => 'edit', :id => @user and return

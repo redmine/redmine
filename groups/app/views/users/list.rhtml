@@ -18,6 +18,7 @@
 	<%= sort_header_tag('firstname', :caption => l(:field_firstname)) %>
 	<%= sort_header_tag('lastname', :caption => l(:field_lastname)) %>
 	<%= sort_header_tag('mail', :caption => l(:field_mail)) %>
+	<%= sort_header_tag("#{Group.table_name}.name", :caption => l(:field_group)) %>
 	<%= sort_header_tag('admin', :caption => l(:field_admin), :default_order => 'desc') %>
 	<%= sort_header_tag('created_on', :caption => l(:field_created_on), :default_order => 'desc') %>
 	<%= sort_header_tag('last_login_on', :caption => l(:field_last_login_on), :default_order => 'desc') %>
@@ -27,9 +28,10 @@
 <% for user in @users -%>
   <tr class="user <%= cycle("odd", "even") %> <%= %w(anon active registered locked)[user.status] %>">
 	<td class="username"><%= link_to user.login, :action => 'edit', :id => user %></td>
-	<td class="firstname"><%= user.firstname %></td>
-	<td class="lastname"><%= user.lastname %></td>
-	<td class="email"><%= user.mail %></td>
+	<td class="firstname"><%=h user.firstname %></td>
+	<td class="lastname"><%=h user.lastname %></td>
+	<td class="email"><%=h user.mail %></td>
+	<td class="group"><%=h user.group %></td>
 	<td align="center"><%= image_tag('true.png') if user.admin? %></td>
 	<td class="created_on" align="center"><%= format_time(user.created_on) %></td>
 	<td class="last_login_on" align="center"><%= format_time(user.last_login_on) unless user.last_login_on.nil? %></td>

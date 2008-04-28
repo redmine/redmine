@@ -1,5 +1,5 @@
 # redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Copyright (C) 2006-2008  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -32,16 +32,18 @@ class CustomFieldsController < ApplicationController
   
   def new
     case params[:type]
-      when "IssueCustomField" 
-        @custom_field = IssueCustomField.new(params[:custom_field])
-        @custom_field.trackers = Tracker.find(params[:tracker_ids]) if params[:tracker_ids]
-      when "UserCustomField" 
-        @custom_field = UserCustomField.new(params[:custom_field])
-      when "ProjectCustomField" 
-        @custom_field = ProjectCustomField.new(params[:custom_field])
-      else
-        redirect_to :action => 'list'
-        return
+    when "IssueCustomField" 
+      @custom_field = IssueCustomField.new(params[:custom_field])
+      @custom_field.trackers = Tracker.find(params[:tracker_ids]) if params[:tracker_ids]
+    when "UserCustomField" 
+      @custom_field = UserCustomField.new(params[:custom_field])
+    when "ProjectCustomField" 
+      @custom_field = ProjectCustomField.new(params[:custom_field])
+    when "GroupCustomField" 
+      @custom_field = GroupCustomField.new(params[:custom_field])
+    else
+      render_404
+      return
     end  
     if request.post? and @custom_field.save
       flash[:notice] = l(:notice_successful_create)

@@ -1,7 +1,7 @@
 <div class="box" style="margin-top: 16px;">
 <h3><%= l(:label_project_plural) %></h3>
 
-<% @user.memberships.each do |membership| %>
+<% @user.memberships.select {|m| m.inherited_from.nil? }.each do |membership| %>
 <% form_tag({ :action => 'edit_membership', :id => @user, :membership_id => membership }, :class => "tabular") do %>
 <p style="margin:0;padding-top:0;">
     <label><%= membership.project.name %></label>
@@ -13,6 +13,8 @@
 </p>
 <% end %>
 <% end %>
+
+<% unless @projects.empty? || @roles.empty? %>
 <hr />
 <p>
 <label><%=l(:label_project_new)%></label><br/>
@@ -20,10 +22,12 @@
 <select name="membership[project_id]">
 <%= options_from_collection_for_select @projects, "id", "name", @membership.project_id %>
 </select>
+<%= l(:label_role) %>:
 <select name="membership[role_id]">
 <%= options_from_collection_for_select @roles, "id", "name", @membership.role_id %>
 </select>
 <%= submit_tag l(:button_add) %>
 <% end %>
 </p>
+<% end %>
 </div>

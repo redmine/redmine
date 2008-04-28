@@ -1,0 +1,8 @@
+<h2><%= l(:label_group) %></h2>
+
+<%= error_messages_for :group %>
+
+<% form_for(@group, :builder => TabularFormBuilder, :lang => current_language) do |f| %>
+<%= render :partial => 'form', :locals => { :f => f } %>
+<p><%= f.submit l(:button_save) %></p>
+<% end %>

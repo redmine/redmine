@@ -35,18 +35,25 @@ class User < ActiveRecord::Base
     :username => '#{login}'
   }
 
-  has_many :memberships, :class_name => 'Member', :include => [ :project, :role ], :conditions => "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}", :order => "#{Project.table_name}.name", :dependent => :delete_all
+  has_many :memberships, :class_name => 'Member',
+                         :as => :principal,
+                         :include => [ :project, :role ],
+                         :conditions => "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}",
+                         :order => "#{Project.table_name}.name, inherited_from ASC",
+                         :dependent => :delete_all
+                         
   has_many :projects, :through => :memberships
   has_many :custom_values, :dependent => :delete_all, :as => :customized
   has_many :issue_categories, :foreign_key => 'assigned_to_id', :dependent => :nullify
   has_one :preference, :dependent => :destroy, :class_name => 'UserPreference'
   has_one :rss_token, :dependent => :destroy, :class_name => 'Token', :conditions => "action='feeds'"
   belongs_to :auth_source
+  belongs_to :group
   
   attr_accessor :password, :password_confirmation
   attr_accessor :last_before_login_on
   # Prevents unauthorized assignments
-  attr_protected :login, :admin, :password, :password_confirmation, :hashed_password
+  attr_protected :login, :admin, :password, :password_confirmation, :hashed_password, :group_id
 	
   validates_presence_of :login, :firstname, :lastname, :mail, :if => Proc.new { |user| !user.is_a?(AnonymousUser) }
   validates_uniqueness_of :login, :if => Proc.new { |user| !user.login.blank? }
@@ -70,6 +77,23 @@ class User < ActiveRecord::Base
   def before_save
     # update hashed_password if password was set
     self.hashed_password = User.hash_password(self.password) if self.password
+  end
+  
+  def after_save
+    if @group_changed
+      # Update inherited memberships
+      Member.delete_all "principal_type = 'User' AND principal_id = #{id} AND inherited_from IS NOT NULL"
+      unless group.nil?
+        group.memberships.each do |m|
+          Member.create! :project => m.project, :role => m.role, :principal => self, :inherited_from => m.id
+        end
+      end
+    end
+  end
+  
+  def group_id=(gid)
+    @group_changed = true unless gid == group_id
+    write_attribute(:group_id, gid)
   end
 
   def self.active
@@ -167,8 +191,8 @@ class User < ActiveRecord::Base
   end
   
   def notified_project_ids=(ids)
-    Member.update_all("mail_notification = #{connection.quoted_false}", ['user_id = ?', id])
-    Member.update_all("mail_notification = #{connection.quoted_true}", ['user_id = ? AND project_id IN (?)', id, ids]) if ids && !ids.empty?
+    Member.update_all("mail_notification = #{connection.quoted_false}", ["principal_type = 'User' AND principal_id = ?", id])
+    Member.update_all("mail_notification = #{connection.quoted_true}", ["principal_type = 'User' AND principal_id = ? AND project_id IN (?)", id, ids]) if ids && !ids.empty?
     @notified_projects_ids = nil
     notified_projects_ids
   end

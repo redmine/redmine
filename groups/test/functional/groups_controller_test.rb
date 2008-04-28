@@ -1,5 +1,5 @@
 # redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Copyright (C) 2008  FreeCode
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,55 +16,61 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.dirname(__FILE__) + '/../test_helper'
-require 'users_controller'
+require 'groups_controller'
 
 # Re-raise errors caught by the controller.
-class UsersController; def rescue_action(e) raise e end; end
+class GroupsController; def rescue_action(e) raise e end; end
 
-class UsersControllerTest < Test::Unit::TestCase
-  fixtures :users, :projects, :members
+class GroupsControllerTest < Test::Unit::TestCase
+  fixtures :groups, :users
   
   def setup
-    @controller = UsersController.new
+    @controller = GroupsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     User.current = nil
     @request.session[:user_id] = 1 # admin
   end
   
-  def test_index
+  def test_should_get_index
     get :index
     assert_response :success
-    assert_template 'list'
+    assert_not_nil assigns(:groups)
   end
 
-  def test_list
-    get :list
+  def test_should_get_new
+    get :new
     assert_response :success
-    assert_template 'list'
-    assert_not_nil assigns(:users)
-    # active users only
-    assert_nil assigns(:users).detect {|u| !u.active?}
   end
-  
-  def test_should_add_membership
-    assert_difference('User.find(2).memberships.count') do
-      post :edit_membership, :id => 2, :membership => { :role_id => 1, :project_id => 3 }
-      assert_redirected_to 'users/edit/2'
-      assert User.find(2).member_of?(Project.find(3))
+
+  def test_should_create_group
+    assert_difference('Group.count') do
+      post :create, :group => { :name => 'New group' }
     end
+    assert_redirected_to groups_path
+    assert_not_nil Group.find_by_name('New group')
   end
-  
-  def test_edit_membership
-    post :edit_membership, :id => 2, :membership_id => 1,
-                           :membership => { :role_id => 2}
-    assert_redirected_to 'users/edit/2'
-    assert_equal 2, Member.find(1).role_id
+
+  def test_should_show_group
+    get :show, :id => 1
+    assert_response :success
   end
-  
-  def test_destroy_membership
-    post :destroy_membership, :id => 2, :membership_id => 1
-    assert_redirected_to 'users/edit/2'
-    assert_nil Member.find_by_id(1)
+
+  def test_should_get_edit
+    get :edit, :id => 1
+    assert_response :success
+  end
+
+  def test_should_update_group
+    put :update, :id => 1, :group => { :name => 'Renamed' }
+    assert_redirected_to groups_path
+    assert_equal 'Renamed', Group.find(1).name
+  end
+
+  def test_should_destroy_group
+    assert_difference('Group.count', -1) do
+      delete :destroy, :id => 1
+    end
+    assert_redirected_to groups_path
   end
 end

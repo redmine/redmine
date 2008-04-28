@@ -99,12 +99,9 @@ when "IssueCustomField" %>
     <p><%= f.check_box :is_filter %></p>
     <p><%= f.check_box :searchable %></p>
     
-<% when "UserCustomField" %>
+<% else %>
     <p><%= f.check_box :is_required %></p>
-
-<% when "ProjectCustomField" %>
-    <p><%= f.check_box :is_required %></p>
-
+    
 <% end %>
 </div>
 <%= javascript_tag "toggle_custom_field_format();" %>
