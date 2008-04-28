@@ -58,6 +58,9 @@ Authen::Simple::LDAP (and IO::Socket::SSL if LDAPS is used):
 
      PerlSetVar db_user redmine
      PerlSetVar db_pass password
+     # Optional where clause (fulltext search would be slow - and
+     # is database dependant).
+     # PerlSetVar db_where_clause "and members.role_id IN (1,2)"
   </Location>
 
 To be able to browse repository inside redmine, you must add something
@@ -182,8 +185,10 @@ sub is_member {
 
   my $pass_digest = Digest::SHA1::sha1_hex($redmine_pass);
 
+  my $query = "SELECT hashed_password, auth_source_id FROM members, projects, users WHERE projects.id=members.project_id AND users.id=members.user_id AND users.status=1 AND login=? AND identifier=? ";
+  my ($where_clause) = map { $r->dir_config($_) } qw/db_where_clause/;
   my $sth = $dbh->prepare(
-      "SELECT hashed_password, auth_source_id FROM members, projects, users WHERE projects.id=members.project_id AND users.id=members.user_id AND users.status=1 AND login=? AND identifier=?;"
+      $query.($where_clause ? $where_clause : "").";"
   );
   $sth->execute($redmine_user, $project_id);
 
