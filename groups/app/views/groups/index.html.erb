@@ -1,3 +1,7 @@
+<div class="contextual">
+<%= link_to l(:label_group_new), new_group_path, :class => 'icon icon-add' %>
+</div>
+
 <h2><%= l(:label_group_plural) %></h2>
 
 <% if @groups.any? %>
@@ -18,8 +22,4 @@
 </table>
 <% else %>
 <p class="nodata"><%= l(:label_no_data) %></p>
-<% end %>
-
-<% form_for(@group) do |f| %>
-<p><label><%= l(:label_group_new) %>: <%= f.text_field :name %> <%= f.submit l(:button_create) %></p>
 <% end %>
