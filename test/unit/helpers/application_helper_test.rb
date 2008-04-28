@@ -20,7 +20,7 @@ require File.dirname(__FILE__) + '/../../test_helper'
 class ApplicationHelperTest < HelperTestCase
   include ApplicationHelper
   include ActionView::Helpers::TextHelper
-  fixtures :projects, :repositories, :changesets, :trackers, :issue_statuses, :issues, :documents, :versions, :wikis, :wiki_pages, :wiki_contents
+  fixtures :projects, :repositories, :changesets, :trackers, :issue_statuses, :issues, :documents, :versions, :wikis, :wiki_pages, :wiki_contents, :roles, :enabled_modules
 
   def setup
     super
@@ -134,8 +134,9 @@ class ApplicationHelperTest < HelperTestCase
   
   def test_html_tags
     to_test = {
-      "<div>content</div>" => "<p>&lt;div>content&lt;/div></p>",
-      "<script>some script;</script>" => "<p>&lt;script>some script;&lt;/script></p>",
+      "<div>content</div>" => "<p>&lt;div&gt;content&lt;/div&gt;</p>",
+      "<div class=\"bold\">content</div>" => "<p>&lt;div class=\"bold\"&gt;content&lt;/div&gt;</p>",
+      "<script>some script;</script>" => "<p>&lt;script&gt;some script;&lt;/script&gt;</p>",
       # do not escape pre/code tags
       "<pre>\nline 1\nline2</pre>" => "<pre>\nline 1\nline2</pre>",
       "<pre><code>\nline 1\nline2</code></pre>" => "<pre><code>\nline 1\nline2</code></pre>",
@@ -165,6 +166,24 @@ class ApplicationHelperTest < HelperTestCase
     # escaping
     text = "!{{hello_world}}"
     assert_equal '<p>{{hello_world}}</p>', textilizable(text)
+  end
+  
+  def test_macro_include
+    @project = Project.find(1)
+    # include a page of the current project wiki
+    text = "{{include(Another page)}}"
+    assert textilizable(text).match(/This is a link to a ticket/)
+    
+    @project = nil
+    # include a page of a specific project wiki
+    text = "{{include(ecookbook:Another page)}}"
+    assert textilizable(text).match(/This is a link to a ticket/)
+
+    text = "{{include(ecookbook:)}}"
+    assert textilizable(text).match(/CookBook documentation/)
+
+    text = "{{include(unknowidentifier:somepage)}}"
+    assert textilizable(text).match(/Unknow project/)
   end
   
   def test_date_format_default

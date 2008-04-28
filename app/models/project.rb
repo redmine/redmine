@@ -33,7 +33,7 @@ class Project < ActiveRecord::Base
   has_many :documents, :dependent => :destroy
   has_many :news, :dependent => :delete_all, :include => :author
   has_many :issue_categories, :dependent => :delete_all, :order => "#{IssueCategory.table_name}.name"
-  has_many :boards, :order => "position ASC"
+  has_many :boards, :dependent => :destroy, :order => "position ASC"
   has_one :repository, :dependent => :destroy
   has_many :changesets, :through => :repository
   has_one :wiki, :dependent => :destroy
@@ -75,12 +75,14 @@ class Project < ActiveRecord::Base
     conditions = nil
     if include_subprojects && !active_children.empty?
       ids = [id] + active_children.collect {|c| c.id}
-      conditions = ["#{Issue.table_name}.project_id IN (#{ids.join(',')})"]
+      conditions = ["#{Project.table_name}.id IN (#{ids.join(',')})"]
     end
-    conditions ||= ["#{Issue.table_name}.project_id = ?", id]
+    conditions ||= ["#{Project.table_name}.id = ?", id]
     # Quick and dirty fix for Rails 2 compatibility
     Issue.send(:with_scope, :find => { :conditions => conditions }) do 
-      yield
+      Version.send(:with_scope, :find => { :conditions => conditions }) do
+        yield
+      end
     end 
   end
 

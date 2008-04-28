@@ -207,8 +207,10 @@ module ApplicationHelper
         rf = Regexp.new(filename,  Regexp::IGNORECASE)
         # search for the picture in attachments
         if found = attachments.detect { |att| att.filename =~ rf }
-          image_url = url_for :only_path => only_path, :controller => 'attachments', :action => 'download', :id => found.id
-          "!#{style}#{image_url}!"
+          image_url = url_for :only_path => only_path, :controller => 'attachments', :action => 'download', :id => found
+          desc = found.description.to_s.gsub(/^([^\(\)]*).*$/, "\\1")
+          alt = desc.blank? ? nil : "(#{desc})"
+          "!#{style}#{image_url}#{alt}!"
         else
           "!#{style}#{filename}!"
         end
@@ -425,6 +427,10 @@ module ApplicationHelper
     form_for(name, object, options.merge({ :builder => TabularFormBuilder, :lang => current_language}), &proc)
   end
   
+  def back_url_hidden_field_tag
+    hidden_field_tag 'back_url', (params[:back_url] || request.env['HTTP_REFERER'])
+  end
+  
   def check_all_links(form_name)
     link_to_function(l(:button_check_all), "checkAll('#{form_name}', true)") +
     " | " +
@@ -463,8 +469,21 @@ module ApplicationHelper
   end
   
   def calendar_for(field_id)
+    include_calendar_headers_tags
     image_tag("calendar.png", {:id => "#{field_id}_trigger",:class => "calendar-trigger"}) +
     javascript_tag("Calendar.setup({inputField : '#{field_id}', ifFormat : '%Y-%m-%d', button : '#{field_id}_trigger' });")
+  end
+
+  def include_calendar_headers_tags
+    unless @calendar_headers_tags_included
+      @calendar_headers_tags_included = true
+      content_for :header_tags do
+        javascript_include_tag('calendar/calendar') +
+        javascript_include_tag("calendar/lang/calendar-#{current_language}.js") +
+        javascript_include_tag('calendar/calendar-setup') +
+        stylesheet_link_tag('calendar')
+      end
+    end
   end
   
   def wikitoolbar_for(field_id)

@@ -181,6 +181,16 @@ class IssuesControllerTest < Test::Unit::TestCase
     assert_equal 'Value for field 2', v.value
   end
   
+  def test_post_new_without_custom_fields_param
+    @request.session[:user_id] = 2
+    post :new, :project_id => 1, 
+               :issue => {:tracker_id => 1,
+                          :subject => 'This is the test_new issue',
+                          :description => 'This is the description',
+                          :priority_id => 5}
+    assert_redirected_to 'issues/show'
+  end
+  
   def test_copy_issue
     @request.session[:user_id] = 2
     get :new, :project_id => 1, :copy_from => 1
@@ -440,10 +450,11 @@ class IssuesControllerTest < Test::Unit::TestCase
   end
   
   def test_destroy_issue_with_no_time_entries
+    assert_nil TimeEntry.find_by_issue_id(2)
     @request.session[:user_id] = 2
-    post :destroy, :id => 3
+    post :destroy, :id => 2
     assert_redirected_to 'projects/ecookbook/issues'
-    assert_nil Issue.find_by_id(3)
+    assert_nil Issue.find_by_id(2)
   end
 
   def test_destroy_issues_with_time_entries

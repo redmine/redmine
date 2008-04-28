@@ -18,6 +18,9 @@
 require "digest/sha1"
 
 class User < ActiveRecord::Base
+
+  class OnTheFlyCreationFailure < Exception; end
+
   # Account statuses
   STATUS_ANONYMOUS  = 0
   STATUS_ACTIVE     = 1
@@ -105,15 +108,17 @@ class User < ActiveRecord::Base
         onthefly.language = Setting.default_language
         if onthefly.save
           user = find(:first, :conditions => ["login=?", login])
-          logger.info("User '#{user.login}' created on the fly.") if logger
+          logger.info("User '#{user.login}' created from the LDAP") if logger
+        else
+          logger.error("User '#{onthefly.login}' found in LDAP but could not be created (#{onthefly.errors.full_messages.join(', ')})") if logger
+          raise OnTheFlyCreationFailure.new
         end
       end
     end    
     user.update_attribute(:last_login_on, Time.now) if user
     user
-    
-    rescue => text
-      raise text
+  rescue => text
+    raise text
   end
 	
   # Return user's full name for display
@@ -222,17 +227,26 @@ class User < ActiveRecord::Base
   # action can be:
   # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
   # * a permission Symbol (eg. :edit_project)
-  def allowed_to?(action, project)
-    # No action allowed on archived projects
-    return false unless project.active?
-    # No action allowed on disabled modules
-    return false unless project.allows_to?(action)
-    # Admin users are authorized for anything else
-    return true if admin?
-    
-    role = role_for_project(project)
-    return false unless role
-    role.allowed_to?(action) && (project.is_public? || role.member?)
+  def allowed_to?(action, project, options={})
+    if project
+      # No action allowed on archived projects
+      return false unless project.active?
+      # No action allowed on disabled modules
+      return false unless project.allows_to?(action)
+      # Admin users are authorized for anything else
+      return true if admin?
+      
+      role = role_for_project(project)
+      return false unless role
+      role.allowed_to?(action) && (project.is_public? || role.member?)
+      
+    elsif options[:global]
+      # authorize if user has at least one role that has this permission
+      roles = memberships.collect {|m| m.role}.uniq
+      roles.detect {|r| r.allowed_to?(action)}
+    else
+      false
+    end
   end
   
   def self.current=(user)

@@ -66,20 +66,20 @@ class ProjectsController < ApplicationController
                                   :conditions => "parent_id IS NULL AND status = #{Project::STATUS_ACTIVE}",
                                   :order => 'name')
     @project = Project.new(params[:project])
-    @project.enabled_module_names = Redmine::AccessControl.available_project_modules
     if request.get?
       @custom_values = ProjectCustomField.find(:all, :order => "#{CustomField.table_name}.position").collect { |x| CustomValue.new(:custom_field => x, :customized => @project) }
       @project.trackers = Tracker.all
       @project.is_public = Setting.default_projects_public?
+      @project.enabled_module_names = Redmine::AccessControl.available_project_modules
     else
       @project.custom_fields = CustomField.find(params[:custom_field_ids]) if params[:custom_field_ids]
       @custom_values = ProjectCustomField.find(:all, :order => "#{CustomField.table_name}.position").collect { |x| CustomValue.new(:custom_field => x, :customized => @project, :value => (params[:custom_fields] ? params["custom_fields"][x.id.to_s] : nil)) }
       @project.custom_values = @custom_values
+      @project.enabled_module_names = params[:enabled_modules]
       if @project.save
-        @project.enabled_module_names = params[:enabled_modules]
         flash[:notice] = l(:notice_successful_create)
         redirect_to :controller => 'admin', :action => 'projects'
-	    end		
+	  end		
     end	
   end
 	
@@ -204,7 +204,10 @@ class ProjectsController < ApplicationController
   end
   
   def list_files
-    @versions = @project.versions.sort.reverse
+    sort_init "#{Attachment.table_name}.filename", "asc"
+    sort_update
+    @versions = @project.versions.find(:all, :include => :attachments, :order => sort_clause).sort.reverse
+    render :layout => !request.xhr?
   end
   
   # Show changelog for @project
@@ -338,8 +341,9 @@ class ProjectsController < ApplicationController
                            :include => [:tracker, :status, :assigned_to, :priority, :project], 
                            :conditions => ["((start_date BETWEEN ? AND ?) OR (due_date BETWEEN ? AND ?)) AND #{Issue.table_name}.tracker_id IN (#{@selected_tracker_ids.join(',')})", @calendar.startdt, @calendar.enddt, @calendar.startdt, @calendar.enddt]
                            ) unless @selected_tracker_ids.empty?
+      events += Version.find(:all, :include => :project,
+                                   :conditions => ["effective_date BETWEEN ? AND ?", @calendar.startdt, @calendar.enddt])
     end
-    events += @project.versions.find(:all, :conditions => ["effective_date BETWEEN ? AND ?", @calendar.startdt, @calendar.enddt])
     @calendar.events = events
     
     render :layout => false if request.xhr?
@@ -383,8 +387,9 @@ class ProjectsController < ApplicationController
                            :include => [:tracker, :status, :assigned_to, :priority, :project], 
                            :conditions => ["(((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?) or (start_date<? and due_date>?)) and start_date is not null and due_date is not null and #{Issue.table_name}.tracker_id in (#{@selected_tracker_ids.join(',')}))", @date_from, @date_to, @date_from, @date_to, @date_from, @date_to]
                            ) unless @selected_tracker_ids.empty?
+      @events += Version.find(:all, :include => :project,
+                                    :conditions => ["effective_date BETWEEN ? AND ?", @date_from, @date_to])
     end
-    @events += @project.versions.find(:all, :conditions => ["effective_date BETWEEN ? AND ?", @date_from, @date_to])
     @events.sort! {|x,y| x.start_date <=> y.start_date }
     
     if params[:format]=='pdf'

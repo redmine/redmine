@@ -116,6 +116,11 @@ class Query < ActiveRecord::Base
     set_language_if_valid(User.current.language)
   end
   
+  def after_initialize
+    # Store the fact that project is nil (used in #editable_by?)
+    @is_for_all = project.nil?
+  end
+  
   def validate
     filters.each_key do |field|
       errors.add label_for(field), :activerecord_error_blank unless 
@@ -128,8 +133,10 @@ class Query < ActiveRecord::Base
   
   def editable_by?(user)
     return false unless user
-    return true if !is_public && self.user_id == user.id
-    is_public && user.allowed_to?(:manage_public_queries, project)
+    # Admin can edit them all and regular users can edit their private queries
+    return true if user.admin? || (!is_public && self.user_id == user.id)
+    # Members can not edit public queries that are for all project (only admin is allowed to)
+    is_public && !@is_for_all && user.allowed_to?(:manage_public_queries, project)
   end
   
   def available_filters
@@ -139,7 +146,7 @@ class Query < ActiveRecord::Base
     
     @available_filters = { "status_id" => { :type => :list_status, :order => 1, :values => IssueStatus.find(:all, :order => 'position').collect{|s| [s.name, s.id.to_s] } },       
                            "tracker_id" => { :type => :list, :order => 2, :values => trackers.collect{|s| [s.name, s.id.to_s] } },                                                                                                                
-                           "priority_id" => { :type => :list, :order => 3, :values => Enumeration.find(:all, :conditions => ['opt=?','IPRI']).collect{|s| [s.name, s.id.to_s] } },
+                           "priority_id" => { :type => :list, :order => 3, :values => Enumeration.find(:all, :conditions => ['opt=?','IPRI'], :order => 'position').collect{|s| [s.name, s.id.to_s] } },
                            "subject" => { :type => :text, :order => 8 },  
                            "created_on" => { :type => :date_past, :order => 9 },                        
                            "updated_on" => { :type => :date_past, :order => 10 },
@@ -294,7 +301,7 @@ class Query < ActiveRecord::Base
         # custom field
         db_table = CustomValue.table_name
         db_field = 'value'
-        sql << "#{Issue.table_name}.id IN (SELECT #{db_table}.customized_id FROM #{db_table} where #{db_table}.customized_type='Issue' AND #{db_table}.customized_id=#{Issue.table_name}.id AND #{db_table}.custom_field_id=#{$1} AND "
+        sql << "#{Issue.table_name}.id IN (SELECT #{Issue.table_name}.id FROM #{Issue.table_name} LEFT OUTER JOIN #{db_table} ON #{db_table}.customized_type='Issue' AND #{db_table}.customized_id=#{Issue.table_name}.id AND #{db_table}.custom_field_id=#{$1} WHERE "
       else
         # regular field
         db_table = Issue.table_name
@@ -313,9 +320,9 @@ class Query < ActiveRecord::Base
       when "!"
         sql = sql + "(#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field} NOT IN (" + v.collect{|val| "'#{connection.quote_string(val)}'"}.join(",") + "))"
       when "!*"
-        sql = sql + "#{db_table}.#{db_field} IS NULL"
+        sql = sql + "#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field} = ''"
       when "*"
-        sql = sql + "#{db_table}.#{db_field} IS NOT NULL"
+        sql = sql + "#{db_table}.#{db_field} IS NOT NULL AND #{db_table}.#{db_field} <> ''"
       when ">="
         sql = sql + "#{db_table}.#{db_field} >= #{v.first.to_i}"
       when "<="

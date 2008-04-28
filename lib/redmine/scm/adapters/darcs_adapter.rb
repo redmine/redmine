@@ -40,20 +40,15 @@ module Redmine
           rev ? Info.new({:root_url => @url, :lastrev => rev.last}) : nil
         end
         
-        # Returns the entry identified by path and revision identifier
-        # or nil if entry doesn't exist in the repository
-        def entry(path=nil, identifier=nil)
-          e = entries(path, identifier)
-          e ? e.first : nil
-        end
-        
         # Returns an Entries collection
         # or nil if the given path doesn't exist in the repository
         def entries(path=nil, identifier=nil)
           path_prefix = (path.blank? ? '' : "#{path}/")
           path = '.' if path.blank?
           entries = Entries.new          
-          cmd = "#{DARCS_BIN} annotate --repodir #{@url} --xml-output #{path}"
+          cmd = "#{DARCS_BIN} annotate --repodir #{@url} --xml-output"
+          cmd << " --match \"hash #{identifier}\"" if identifier
+          cmd << " #{path}"
           shellout(cmd) do |io|
             begin
               doc = REXML::Document.new(io)

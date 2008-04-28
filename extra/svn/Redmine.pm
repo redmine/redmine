@@ -8,8 +8,8 @@ against redmine database
 =head1 SYNOPSIS
 
 This module allow anonymous users to browse public project and
-registred users to browse and commit their project. authentication is
-done on the redmine database.
+registred users to browse and commit their project. Authentication is
+done against the redmine database or the LDAP configured in redmine.
 
 This method is far simpler than the one with pam_* and works with all
 database without an hassle but you need to have apache/mod_perl on the
@@ -28,6 +28,11 @@ work on allmost all databases).
 On debian/ubuntu you must do :
 
   aptitude install libapache-dbi-perl libapache2-mod-perl2 libdbd-mysql-perl
+
+If your Redmine users use LDAP authentication, you will also need
+Authen::Simple::LDAP (and IO::Socket::SSL if LDAPS is used):
+
+  aptitude install libauthen-simple-ldap-perl libio-socket-ssl-perl
 
 =head1 CONFIGURATION
 
@@ -90,6 +95,8 @@ use strict;
 
 use DBI;
 use Digest::SHA1;
+# optional module for LDAP authentication
+my $CanUseLDAPAuth = eval("use Authen::Simple::LDAP; 1");
 
 use Apache2::Module;
 use Apache2::Access;
@@ -140,7 +147,7 @@ sub is_public_project {
 
     my $dbh = connect_database($r);
     my $sth = $dbh->prepare(
-	"SELECT * FROM projects WHERE projects.identifier=? and projects.is_public=true;"
+        "SELECT * FROM projects WHERE projects.identifier=? and projects.is_public=true;"
     );
 
     $sth->execute($project_id);
@@ -176,17 +183,37 @@ sub is_member {
   my $pass_digest = Digest::SHA1::sha1_hex($redmine_pass);
 
   my $sth = $dbh->prepare(
-      "SELECT hashed_password FROM members, projects, users WHERE projects.id=members.project_id AND users.id=members.user_id AND users.status=1 AND login=? AND identifier=?;"
+      "SELECT hashed_password, auth_source_id FROM members, projects, users WHERE projects.id=members.project_id AND users.id=members.user_id AND users.status=1 AND login=? AND identifier=?;"
   );
   $sth->execute($redmine_user, $project_id);
 
   my $ret;
   while (my @row = $sth->fetchrow_array) {
-      if ($row[0] eq $pass_digest) {
-	  $ret = 1;
-	  last;
+      unless ($row[1]) {
+          if ($row[0] eq $pass_digest) {
+              $ret = 1;
+              last;
+          }
+      } elsif ($CanUseLDAPAuth) {
+          my $sthldap = $dbh->prepare(
+              "SELECT host,port,tls,account,account_password,base_dn,attr_login from auth_sources WHERE id = ?;"
+          );
+          $sthldap->execute($row[1]);
+          while (my @rowldap = $sthldap->fetchrow_array) {
+            my $ldap = Authen::Simple::LDAP->new(
+                host    =>      ($rowldap[2] == 1 || $rowldap[2] eq "t") ? "ldaps://$rowldap[0]" : $rowldap[0],
+                port    =>      $rowldap[1],
+                basedn  =>      $rowldap[5],
+                binddn  =>      $rowldap[3] ? $rowldap[3] : "",
+                bindpw  =>      $rowldap[4] ? $rowldap[4] : "",
+                filter  =>      "(".$rowldap[6]."=%s)"
+            );
+            $ret = 1 if ($ldap->authenticate($redmine_user, $redmine_pass));
+          }
+          $sthldap->finish();
       }
   }
+  $sth->finish();
   $dbh->disconnect();
 
   $ret;

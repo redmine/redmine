@@ -93,7 +93,11 @@ class Issue < ActiveRecord::Base
     self.priority = nil
     write_attribute(:priority_id, pid)
   end
-
+  
+  def estimated_hours=(h)
+    write_attribute :estimated_hours, (h.is_a?(String) ? h.to_hours : h)
+  end
+  
   def validate
     if self.due_date.nil? && @attributes['due_date'] && !@attributes['due_date'].empty?
       errors.add :due_date, :activerecord_error_not_a_date
@@ -153,6 +157,8 @@ class Issue < ActiveRecord::Base
     # Close duplicates if the issue was closed
     if @issue_before_change && !@issue_before_change.closed? && self.closed?
       duplicates.each do |duplicate|
+        # Reload is need in case the duplicate was updated by a previous duplicate
+        duplicate.reload
         # Don't re-close it if it's already closed
         next if duplicate.closed?
         # Same user and notes
@@ -236,5 +242,9 @@ class Issue < ActiveRecord::Base
     with_scope(:find => { :conditions => Project.visible_by(usr) }) do
       yield
     end
+  end
+  
+  def to_s
+    "#{tracker} ##{id}: #{subject}"
   end
 end

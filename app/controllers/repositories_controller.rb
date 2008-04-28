@@ -19,8 +19,8 @@ require 'SVG/Graph/Bar'
 require 'SVG/Graph/BarHorizontal'
 require 'digest/sha1'
 
-class ChangesetNotFound < Exception
-end
+class ChangesetNotFound < Exception; end
+class InvalidRevisionParam < Exception; end
 
 class RepositoriesController < ApplicationController
   layout 'base'
@@ -51,8 +51,8 @@ class RepositoriesController < ApplicationController
   def show
     # check if new revisions have been committed in the repository
     @repository.fetch_changesets if Setting.autofetch_changesets?
-    # get entries for the browse frame
-    @entries = @repository.entries('')    
+    # root entries
+    @entries = @repository.entries('', @rev)    
     # latest changesets
     @changesets = @repository.changesets.find(:all, :limit => 10, :order => "committed_on DESC")
     show_error_not_found unless @entries || @changesets.any?
@@ -65,7 +65,8 @@ class RepositoriesController < ApplicationController
     if request.xhr?
       @entries ? render(:partial => 'dir_list_content') : render(:nothing => true)
     else
-      show_error_not_found unless @entries
+      show_error_not_found and return unless @entries
+      render :action => 'browse'
     end
   rescue Redmine::Scm::Adapters::CommandFailed => e
     show_error_command_failed(e.message)
@@ -95,6 +96,12 @@ class RepositoriesController < ApplicationController
   end
   
   def entry
+    @entry = @repository.scm.entry(@path, @rev)
+    show_error_not_found and return unless @entry
+    
+    # If the entry is a dir, show the browser
+    browse and return if @entry.is_dir?
+    
     @content = @repository.scm.cat(@path, @rev)
     show_error_not_found and return unless @content
     if 'raw' == params[:format] || @content.is_binary_data?
@@ -135,7 +142,6 @@ class RepositoriesController < ApplicationController
   end
   
   def diff
-    @rev_to = params[:rev_to]
     @diff_type = params[:type] || User.current.pref[:diff_type] || 'inline'
     @diff_type = 'inline' unless %w(inline sbs).include?(@diff_type)
     
@@ -180,6 +186,8 @@ private
     render_404
   end
   
+  REV_PARAM_RE = %r{^[a-f0-9]*$}
+  
   def find_repository
     @project = Project.find(params[:id])
     @repository = @project.repository
@@ -187,8 +195,12 @@ private
     @path = params[:path].join('/') unless params[:path].nil?
     @path ||= ''
     @rev = params[:rev]
+    @rev_to = params[:rev_to]
+    raise InvalidRevisionParam unless @rev.to_s.match(REV_PARAM_RE) && @rev.to_s.match(REV_PARAM_RE)
   rescue ActiveRecord::RecordNotFound
     render_404
+  rescue InvalidRevisionParam
+    show_error_not_found
   end
 
   def show_error_not_found
@@ -254,6 +266,9 @@ private
     fields = fields + [""]*(10 - fields.length) if fields.length<10
     commits_data = commits_data + [0]*(10 - commits_data.length) if commits_data.length<10
     changes_data = changes_data + [0]*(10 - changes_data.length) if changes_data.length<10
+    
+    # Remove email adress in usernames
+    fields = fields.collect {|c| c.gsub(%r{<.+@.+>}, '') }
     
     graph = SVG::Graph::BarHorizontal.new(
       :height => 300,
