@@ -1,0 +1,16 @@
+<h2><%=l(:label_project_new)%></h2>
+
+<% labelled_tabular_form_for :project, @project, :url => { :action => "add" } do |f| %>
+<%= render :partial => 'form', :locals => { :f => f } %>
+
+<fieldset class="box"><legend><%= l(:label_module_plural) %></legend>
+<% Redmine::AccessControl.available_project_modules.each do |m| %>
+    <label class="floating">
+    <%= check_box_tag 'enabled_modules[]', m, @project.module_enabled?(m) %>
+    <%= (l_has_string?("project_module_#{m}".to_sym) ? l("project_module_#{m}".to_sym) : m.to_s.humanize) %>
+    </label>
+<% end %>
+</fieldset>
+
+<%= submit_tag l(:button_save) %>
+<% end %>

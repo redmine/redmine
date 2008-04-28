@@ -1,0 +1,14 @@
+<div id="block_<%= block_name %>" class="mypage-box">
+
+    <div style="float:right;margin-right:16px;z-index:500;">
+    <%= link_to_remote "", {
+        :url => { :action => "remove_block", :block => block_name },
+        :complete => "removeBlock('block_#{block_name}')" },
+        :class => "close-icon"
+         %>        
+    </div>
+     
+    <div class="handle">
+	<%= render :partial => "my/blocks/#{block_name}", :locals => { :user => user } %>
+	</div>
+</div>
