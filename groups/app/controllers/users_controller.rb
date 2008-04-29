@@ -80,7 +80,7 @@ class UsersController < ApplicationController
       @user.admin = params[:user][:admin] if params[:user][:admin]
       @user.login = params[:user][:login] if params[:user][:login]
       @user.password, @user.password_confirmation = params[:password], params[:password_confirmation] unless params[:password].nil? or params[:password].empty? or @user.auth_source_id
-      @user.group_id = params[:user][:group_id]
+      @user.group_id = params[:user][:group_id] if params[:user][:group_id]
       if params[:custom_fields]
         @custom_values = UserCustomField.find(:all, :order => "#{CustomField.table_name}.position").collect { |x| CustomValue.new(:custom_field => x, :customized => @user, :value => params["custom_fields"][x.id.to_s]) }
         @user.custom_values = @custom_values
