@@ -31,11 +31,20 @@ module ProjectsHelper
   
   # Renders the member list displayed on project overview
   def render_member_list(project)
-    members_by_role = project.members.find(:all, :include => [:user, :role], :order => 'position').group_by {|m| m.role}
-    if members_by_role.any?
+    parts = []
+    memberships_by_role = project.memberships.find(:all, :include => :role, :order => 'position').group_by {|m| m.role}
+    memberships_by_role.keys.sort.each do |role|
+      role_parts = []
+      # Display group name (with its 5 first users) or user name
+      memberships_by_role[role].select {|m| m.inherited_from.nil?}.collect(&:principal).sort.each do |p|
+        next if p.is_a?(User) && !p.active?
+        role_parts << (p.is_a?(Group) ? ("#{p} (#{p.users.sort.slice(0,5).collect {|u| link_to_user(u)}.join(', ')})") : link_to_user(p))
+      end
+      parts << "#{role.name}: #{role_parts.join(', ')}" unless role_parts.empty?
+    end
+    if !parts.empty?
       title = content_tag('h3', l(:label_member_plural), :class => 'icon22 icon22-users')
-      content = members_by_role.keys.sort.collect { |role| "#{role.name}: " + members_by_role[role].collect(&:user).sort.collect{|u| link_to_user u}.join(", ") }.join('<br />')
-      content_tag('div', title + content, :class => 'box')
+      content_tag('div', title + parts.join('<br />'), :class => 'box')
     end
   end
   
