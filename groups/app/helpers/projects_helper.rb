@@ -29,6 +29,16 @@ module ProjectsHelper
     h(truncate(text, 250))
   end
   
+  # Renders the member list displayed on project overview
+  def render_member_list(project)
+    members_by_role = project.members.find(:all, :include => [:user, :role], :order => 'position').group_by {|m| m.role}
+    if members_by_role.any?
+      title = content_tag('h3', l(:label_member_plural), :class => 'icon22 icon22-users')
+      content = members_by_role.keys.sort.collect { |role| "#{role.name}: " + members_by_role[role].collect(&:user).sort.collect{|u| link_to_user u}.join(", ") }.join('<br />')
+      content_tag('div', title + content, :class => 'box')
+    end
+  end
+  
   def project_settings_tabs
     tabs = [{:name => 'info', :action => :edit_project, :partial => 'projects/edit', :label => :label_information_plural},
             {:name => 'modules', :action => :select_project_modules, :partial => 'projects/settings/modules', :label => :label_module_plural},
