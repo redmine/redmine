@@ -1,0 +1,4 @@
+in_both_langs: This is in en+ja
+en_only: English only
+proc_test: !!proc '|c| "There are #{c} birds"'
+lambda_test: !!lambda '|name,age| "My name is #{name}. I am #{age} years old."'

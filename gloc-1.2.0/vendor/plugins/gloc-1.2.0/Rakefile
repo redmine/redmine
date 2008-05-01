@@ -1,0 +1,16 @@
+Dir.glob("#{File.dirname(__FILE__)}/tasks/*.rake").each {|f| load f}
+
+task :default => 'gloc:sort'
+
+# RDoc task
+require 'rake/rdoctask'
+Rake::RDocTask.new() { |rdoc|
+  rdoc.rdoc_dir = 'doc'
+  rdoc.title    = "GLoc Localization Library Documentation"
+  rdoc.options << '--line-numbers' << '--inline-source'
+  rdoc.rdoc_files.include('README', 'CHANGELOG', *Dir.glob('UPGRADING*.txt'))
+  rdoc.rdoc_files.include('lib/**/*.rb')
+  rdoc.rdoc_files.exclude('lib/gloc-dev.rb')
+  rdoc.rdoc_files.exclude('lib/gloc-internal.rb')
+  rdoc.rdoc_files.exclude('lib/gloc-custom_types.rb')
+}

@@ -1,0 +1,42 @@
+This file is mainly intended for users of GLoc v1.1.
+For a full list of changes see the CHANGELOG file and believe me, there are MANY a
+cool, new feature there!!
+
+== API changes between GLoc 1.1 and GLoc 1.2
+
+* l_strftime has had it argument ordcer reversed. It is now l_strftime(fmt,date)
+  instead of l_strftime(date,fmt)
+  
+* l_datetime_short() has been removed. Feel free to add as many date/time formats as you
+  like though. Use the new !!datetime_fmt directive. (See the sample app)
+
+* Date/time formats no longer require double hash-symbols. ie. '%%A' is now just '%A'.
+
+* Some localized strings used for Rails date/time helpers have been changed.
+  actionview_datehelper_select_*_prefix
+  has been renamed to
+  actionview_datehelper_select_*_suffix
+
+
+== Design change
+When I first created GLoc, I designed it so that language settings cascaded. So
+you could have a global language setting, and you could set a certain controller
+to have another certain language setting, and then setting the language in
+instances of that controller would only effect that instance, etc etc. First of all,
+not only did I find myself never actually needing that behaviour, but other users
+also found it confusing. Many users would set the language in the controller and then
+not understand why they would also need to explictly set the language of model instances
+before running validation methods. Well this behaviour has been replaced by a simpler,
+one-language-per-process model. In simple mode (which is now the default), there is only
+one language setting and it is shared by all instances and classes. This means you will
+now only need to call set_language() once-per-action.
+If you want to enable the old cascading behaviour, you still can by calling
+GLoc.set_language_mode(:cascading)
+
+
+== Sample GLoc Application
+
+To see the new functionality in action, it's best just to have a look at the new sample application.
+Specially for the new stuff like !!datetime_fmt and !!sameas
+Check it out here:
+  svn://rubyforge.org/var/svn/gloc/supp/sample_rails_app

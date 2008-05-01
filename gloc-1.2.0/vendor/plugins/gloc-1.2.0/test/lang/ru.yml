@@ -1,0 +1,2 @@
+general_fmt_date: !!datetime_fmt '%%b %d/%B/%Y %%b'
+general_fmt_datetime: !!datetime_fmt '%b %d _%%b:%%%B (%Y) %I:%M %p'
