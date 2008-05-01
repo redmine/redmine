@@ -108,11 +108,6 @@ module ActionMailer #:nodoc:
   # Eg. <tt>deliver_hello</tt> will render <tt>hello_en.rhtml</tt>.
   class Base
     include GLoc
-    private
-    alias :render_message_without_gloc :render_message
-    def render_message(method_name, body)
-      render_message_without_gloc("#{method_name}_#{current_language}", body)
-    end
   end
 end
 
