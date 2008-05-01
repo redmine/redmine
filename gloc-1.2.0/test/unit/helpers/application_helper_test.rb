@@ -194,7 +194,7 @@ class ApplicationHelperTest < HelperTestCase
   def test_date_format_default
     today = Date.today
     Setting.date_format = ''    
-    assert_equal l_date(today), format_date(today)
+    assert_equal today.strftime(l(:general_fmt_date)), format_date(today)
   end
   
   def test_date_format
@@ -207,8 +207,8 @@ class ApplicationHelperTest < HelperTestCase
     now = Time.now
     Setting.date_format = ''
     Setting.time_format = ''    
-    assert_equal l_datetime(now), format_time(now)
-    assert_equal l_time(now), format_time(now, false)
+    assert_equal now.strftime(l(:general_fmt_datetime)), format_time(now)
+    assert_equal now.strftime(l(:general_fmt_time)), format_time(now, false)
   end
   
   def test_time_format
