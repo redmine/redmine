@@ -1,0 +1,69 @@
+--- 
+queries_001: 
+  id: 1
+  project_id: 1
+  is_public: true
+  name: Multiple custom fields query
+  filters: |
+    --- 
+    cf_1: 
+      :values: 
+      - MySQL
+      :operator: "="
+    status_id: 
+      :values: 
+      - "1"
+      :operator: o
+    cf_2: 
+      :values: 
+      - "125"
+      :operator: "="
+
+  user_id: 1
+  column_names: 
+queries_002: 
+  id: 2
+  project_id: 1
+  is_public: false
+  name: Private query for cookbook
+  filters: |
+    --- 
+    tracker_id: 
+      :values: 
+      - "3"
+      :operator: "="
+    status_id: 
+      :values: 
+      - "1"
+      :operator: o
+
+  user_id: 3
+  column_names: 
+queries_003: 
+  id: 3
+  project_id: 
+  is_public: false
+  name: Private query for all projects
+  filters: |
+    --- 
+    tracker_id: 
+      :values: 
+      - "3"
+      :operator: "="
+
+  user_id: 3
+  column_names: 
+queries_004: 
+  id: 4
+  project_id: 
+  is_public: true
+  name: Public query for all projects
+  filters: |
+    --- 
+    tracker_id: 
+      :values: 
+      - "3"
+      :operator: "="
+
+  user_id: 2
+  column_names: 

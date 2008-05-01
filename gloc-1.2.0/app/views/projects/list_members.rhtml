@@ -1,0 +1,13 @@
+<h2><%=l(:label_member_plural)%></h2>
+
+<% if @members.empty? %><p><i><%= l(:label_no_data) %></i></p><% end %>
+
+<% members = @members.group_by {|m| m.role } %>
+<% members.keys.sort{|x,y| x.position <=> y.position}.each do |role| %>
+<h3><%= role.name %></h3>
+<ul>
+<% members[role].each do |m| %>
+<li><%= link_to m.name, :controller => 'account', :action => 'show', :id => m.user %> (<%= format_date m.created_on %>)</li>
+<% end %>
+</ul>
+<% end %>

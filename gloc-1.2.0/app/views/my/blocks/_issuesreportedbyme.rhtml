@@ -1,0 +1,17 @@
+<h3><%=l(:label_reported_issues)%></h3>
+<% reported_issues = Issue.find(:all, 
+                                :conditions => ["author_id=? AND #{Project.table_name}.status=#{Project::STATUS_ACTIVE}", user.id],
+                                :limit => 10, 
+                                :include => [ :status, :project, :tracker ], 
+                                :order => "#{Issue.table_name}.updated_on DESC") %>
+<%= render :partial => 'issues/list_simple', :locals => { :issues => reported_issues } %>
+<% if reported_issues.length > 0 %>
+<p class="small"><%= link_to l(:label_issue_view_all), :controller => 'issues', :action => 'index', :set_filter => 1, :author_id => 'me' %></p>
+<% end %>
+
+<% content_for :header_tags do %>
+<%= auto_discovery_link_tag(:atom, 
+                            {:controller => 'issues', :action => 'index', :set_filter => 1,
+                             :author_id => 'me', :format => 'atom', :key => User.current.rss_key},
+                            {:title => l(:label_reported_issues)}) %>
+<% end %>

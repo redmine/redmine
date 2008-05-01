@@ -1,0 +1,199 @@
+# redMine - project management software
+# Copyright (C) 2006-2007  Jean-Philippe Lang
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+require 'redmine/scm/adapters/abstract_adapter'
+
+module Redmine
+  module Scm
+    module Adapters    
+      class MercurialAdapter < AbstractAdapter
+      
+        # Mercurial executable name
+        HG_BIN = "hg"
+        
+        def info
+          cmd = "#{HG_BIN} -R #{target('')} root"
+          root_url = nil
+          shellout(cmd) do |io|
+            root_url = io.gets
+          end
+          return nil if $? && $?.exitstatus != 0
+          info = Info.new({:root_url => root_url.chomp,
+                           :lastrev => revisions(nil,nil,nil,{:limit => 1}).last
+                         })
+          info
+        rescue CommandFailed
+          return nil
+        end
+        
+        def entries(path=nil, identifier=nil)
+          path ||= ''
+          entries = Entries.new
+          cmd = "#{HG_BIN} -R #{target('')} --cwd #{target(path)} locate"
+          cmd << " -r #{identifier.to_i}" if identifier
+          cmd << " " + shell_quote('glob:**')
+          shellout(cmd) do |io|
+            io.each_line do |line|
+              e = line.chomp.split(%r{[\/\\]})
+              entries << Entry.new({:name => e.first,
+                                    :path => (path.empty? ? e.first : "#{path}/#{e.first}"),
+                                    :kind => (e.size > 1 ? 'dir' : 'file'),
+                                    :lastrev => Revision.new
+                                    }) unless entries.detect{|entry| entry.name == e.first}
+            end
+          end
+          return nil if $? && $?.exitstatus != 0
+          entries.sort_by_name
+        end
+          
+        def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={})
+          revisions = Revisions.new
+          cmd = "#{HG_BIN} -v --encoding utf8 -R #{target('')} log"
+          if identifier_from && identifier_to
+            cmd << " -r #{identifier_from.to_i}:#{identifier_to.to_i}"
+          elsif identifier_from
+            cmd << " -r #{identifier_from.to_i}:"
+          end
+          cmd << " --limit #{options[:limit].to_i}" if options[:limit]
+          shellout(cmd) do |io|
+            changeset = {}
+            parsing_descr = false
+            line_feeds = 0
+            
+            io.each_line do |line|
+              if line =~ /^(\w+):\s*(.*)$/
+                key = $1
+                value = $2
+                if parsing_descr && line_feeds > 1
+                  parsing_descr = false
+                  revisions << build_revision_from_changeset(changeset)
+                  changeset = {}
+                end
+                if !parsing_descr
+                  changeset.store key.to_sym, value
+                  if $1 == "description"
+                    parsing_descr = true
+                    line_feeds = 0
+                    next
+                  end
+                end
+              end
+              if parsing_descr
+                changeset[:description] << line
+                line_feeds += 1 if line.chomp.empty?
+              end
+            end
+            # Add the last changeset if there is one left
+            revisions << build_revision_from_changeset(changeset) if changeset[:date]
+          end
+          return nil if $? && $?.exitstatus != 0
+          revisions
+        end
+        
+        def diff(path, identifier_from, identifier_to=nil, type="inline")
+          path ||= ''
+          if identifier_to
+            identifier_to = identifier_to.to_i 
+          else
+            identifier_to = identifier_from.to_i - 1
+          end
+          cmd = "#{HG_BIN} -R #{target('')} diff -r #{identifier_to} -r #{identifier_from} --nodates"
+          cmd << " -I #{target(path)}" unless path.empty?
+          diff = []
+          shellout(cmd) do |io|
+            io.each_line do |line|
+              diff << line
+            end
+          end
+          return nil if $? && $?.exitstatus != 0
+          DiffTableList.new diff, type
+        end
+        
+        def cat(path, identifier=nil)
+          cmd = "#{HG_BIN} -R #{target('')} cat"
+          cmd << " -r #{identifier.to_i}" if identifier
+          cmd << " #{target(path)}"
+          cat = nil
+          shellout(cmd) do |io|
+            io.binmode
+            cat = io.read
+          end
+          return nil if $? && $?.exitstatus != 0
+          cat
+        end
+        
+        def annotate(path, identifier=nil)
+          path ||= ''
+          cmd = "#{HG_BIN} -R #{target('')}"
+          cmd << " annotate -n -u"
+          cmd << " -r #{identifier.to_i}" if identifier
+          cmd << " #{target(path)}"
+          blame = Annotate.new
+          shellout(cmd) do |io|
+            io.each_line do |line|
+              next unless line =~ %r{^([^:]+)\s(\d+):(.*)$}
+              blame.add_line($3.rstrip, Revision.new(:identifier => $2.to_i, :author => $1.strip))
+            end
+          end
+          return nil if $? && $?.exitstatus != 0
+          blame
+        end
+        
+        private
+        
+        # Builds a revision objet from the changeset returned by hg command
+        def build_revision_from_changeset(changeset)
+          rev_id = changeset[:changeset].to_s.split(':').first.to_i
+          
+          # Changes
+          paths = (rev_id == 0) ?
+            # Can't get changes for revision 0 with hg status
+            changeset[:files].to_s.split.collect{|path| {:action => 'A', :path => "/#{path}"}} :
+            status(rev_id)
+          
+          Revision.new({:identifier => rev_id,
+                        :scmid => changeset[:changeset].to_s.split(':').last,
+                        :author => changeset[:user],
+                        :time => Time.parse(changeset[:date]),
+                        :message => changeset[:description],
+                        :paths => paths
+                       })
+        end
+        
+        # Returns the file changes for a given revision
+        def status(rev_id)
+          cmd = "#{HG_BIN} -R #{target('')} status --rev #{rev_id.to_i - 1}:#{rev_id.to_i}"
+          result = []
+          shellout(cmd) do |io|
+            io.each_line do |line|
+              action, file = line.chomp.split
+              next unless action && file
+              file.gsub!("\\", "/")
+              case action
+              when 'R'
+                result << { :action => 'D' , :path => "/#{file}" }
+              else
+                result << { :action => action, :path => "/#{file}" }
+              end
+            end
+          end
+          result
+        end
+      end
+    end
+  end
+end
