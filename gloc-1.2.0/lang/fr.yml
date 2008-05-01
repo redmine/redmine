@@ -1,10 +1,9 @@
 _gloc_rule_default: '|n| n==1 ? "" : "_plural" '
 
 actionview_datehelper_select_day_prefix:
-actionview_datehelper_select_month_names: Janvier,Février,Mars,Avril,Mai,Juin,Juillet,Août,Septembre,Octobre,Novembre,Décembre
-actionview_datehelper_select_month_names_abbr: Jan,Fév,Mars,Avril,Mai,Juin,Juil,Août,Sept,Oct,Nov,Déc
 actionview_datehelper_select_month_prefix:
 actionview_datehelper_select_year_prefix:
+actionview_datehelper_select_year_suffix:
 actionview_datehelper_time_in_words_day: 1 jour
 actionview_datehelper_time_in_words_day_plural: %d jours
 actionview_datehelper_time_in_words_hour_about: environ une heure
@@ -50,7 +49,9 @@ general_lang_name: 'Français'
 general_csv_separator: ';'
 general_csv_encoding: ISO-8859-1
 general_pdf_encoding: ISO-8859-1
-general_day_names: Lundi,Mardi,Mercredi,Jeudi,Vendredi,Samedi,Dimanche
+general_day_names: [Lundi, Mardi, Mercredi, Jeudi, Vendredi, Samedi, Dimanche]
+general_text_month_names: [Janvier, Février, Mars, Avril, Mai, Juin, Juillet, Août, Septembre, Octobre, Novembre, Décembre]
+general_text_month_names_abbr: [Jan, Fév, Mars, Avril, Mai, Juin, Juil, Août, Sept, Oct, Nov, Déc]
 general_first_day_of_week: '1'
 
 notice_account_updated: Le compte a été mis à jour avec succès.
