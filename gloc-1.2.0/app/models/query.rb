@@ -26,7 +26,6 @@ class QueryColumn
   end
   
   def caption
-    set_language_if_valid(User.current.language)
     l("field_#{name}")
   end
 end
@@ -113,7 +112,6 @@ class Query < ActiveRecord::Base
   def initialize(attributes = nil)
     super attributes
     self.filters ||= { 'status_id' => {:operator => "o", :values => [""]} }
-    set_language_if_valid(User.current.language)
   end
   
   def after_initialize

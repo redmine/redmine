@@ -24,9 +24,8 @@ module IfpdfHelper
     include GLoc
     attr_accessor :footer_date
     
-    def initialize(lang)
+    def initialize(*args)
       super()
-      set_language_if_valid lang
       case current_language.to_s
       when 'ja'
         extend(PDF_Japanese)

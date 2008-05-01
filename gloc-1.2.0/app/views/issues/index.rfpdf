@@ -1,4 +1,4 @@
-<%	pdf=IfpdfHelper::IFPDF.new(current_language)
+<%	pdf=IfpdfHelper::IFPDF.new
 	title = @project ? "#{@project.name} - #{l(:label_issue_plural)}" : "#{l(:label_issue_plural)}"
 	pdf.SetTitle(title)
 	pdf.AliasNbPages
