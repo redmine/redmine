@@ -9,12 +9,12 @@ class ChangeMembersUsersAssociationToPolymorphic < ActiveRecord::Migration
   end
 
   def self.down
-    # Remove inherited memberships
-    Member.delete_all "inherited_from IS NOT NULL"
+    # Remove inherited and groups memberships
+    Member.delete_all "inherited_from IS NOT NULL OR principal_type = 'Group'"
     add_column :members, :user_id, :integer, :default => 0, :null => false
     Member.update_all "user_id = principal_id"
-    remove_column :members, :principal_type, :string
-    remove_column :members, :principal_id, :integer
-    remove_column :members, :inherited_from, :integer
+    remove_column :members, :principal_type
+    remove_column :members, :principal_id
+    remove_column :members, :inherited_from
   end
 end
