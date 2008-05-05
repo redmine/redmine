@@ -149,7 +149,13 @@ sub RedmineDbWhereClause {
                 AND users.status=1 
                 AND login=? 
                 AND identifier=? ";
-  $self->{RedmineQuery} = $query.($arg ? $arg : "").";";
+  $self->{RedmineQuery} = trim($query.($arg ? $arg : "").";");
+}
+
+sub trim {
+  my $string = shift;
+  $string =~ s/\s{2,}/ /g;
+  return $string;
 }
 
 sub set_val {
