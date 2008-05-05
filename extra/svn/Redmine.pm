@@ -52,15 +52,15 @@ Authen::Simple::LDAP (and IO::Socket::SSL if LDAPS is used):
      PerlAuthenHandler Apache::Authn::Redmine::authen_handler
   
      ## for mysql
-     PerlSetVar dsn DBI:mysql:database=databasename;host=my.db.server
+     RedmineDSN "DBI:mysql:database=databasename;host=my.db.server"
      ## for postgres
-     # PerlSetVar dsn DBI:Pg:dbname=databasename;host=my.db.server
+     # RedmineDSN "DBI:Pg:dbname=databasename;host=my.db.server;sslmode=disable"
 
-     PerlSetVar db_user redmine
-     PerlSetVar db_pass password
+     RedmineDbUser "redmine"
+     RedmineDbPass "password"
      # Optional where clause (fulltext search would be slow - and
-     # is database dependant).
-     # PerlSetVar db_where_clause "and members.role_id IN (1,2)"
+     # database dependant).
+     # RedmineDbWhereClause "and members.role_id IN (1,2)"
   </Location>
 
 To be able to browse repository inside redmine, you must add something
@@ -95,6 +95,7 @@ And you need to upgrade at least reposman.rb (after r860).
 =cut
 
 use strict;
+use warnings FATAL => 'all';
 
 use DBI;
 use Digest::SHA1;
@@ -106,8 +107,58 @@ use Apache2::Access;
 use Apache2::ServerRec qw();
 use Apache2::RequestRec qw();
 use Apache2::RequestUtil qw();
-use Apache2::Const qw(:common);
+use Apache2::Const qw(:common :override :cmd_how);
+
 # use Apache2::Directive qw();
+
+my @directives = (
+  {
+    name => 'RedmineDSN',
+    req_override => OR_AUTHCFG,
+    args_how => TAKE1,
+    errmsg => 'Dsn in format used by Perl DBI. eg: "DBI:Pg:dbname=databasename;host=my.db.server"',
+  },
+  {
+    name => 'RedmineDbUser',
+    req_override => OR_AUTHCFG,
+    args_how => TAKE1,
+  },
+  {
+    name => 'RedmineDbPass',
+    req_override => OR_AUTHCFG,
+    args_how => TAKE1,
+  },
+  {
+    name => 'RedmineDbWhereClause',
+    req_override => OR_AUTHCFG,
+    args_how => TAKE1,
+  },
+);
+
+sub RedmineDSN { set_val('RedmineDSN', @_); }
+sub RedmineDbUser { set_val('RedmineDbUser', @_); }
+sub RedmineDbPass { set_val('RedmineDbPass', @_); }
+sub RedmineDbWhereClause { 
+  my ($self, $parms, $arg) = @_;
+  my $query = "SELECT 
+                 hashed_password, auth_source_id 
+              FROM members, projects, users 
+              WHERE 
+                projects.id=members.project_id 
+                AND users.id=members.user_id 
+                AND users.status=1 
+                AND login=? 
+                AND identifier=? ";
+  $self->{RedmineQuery} = $query.($arg ? $arg : "").";";
+}
+
+sub set_val {
+  my ($key, $self, $parms, $arg) = @_;
+  $self->{$key} = $arg;
+}
+
+Apache2::Module::add(__PACKAGE__, \@directives);
+
 
 my %read_only_methods = map { $_ => 1 } qw/GET PROPFIND REPORT OPTIONS/;
 
@@ -185,11 +236,9 @@ sub is_member {
 
   my $pass_digest = Digest::SHA1::sha1_hex($redmine_pass);
 
-  my $query = "SELECT hashed_password, auth_source_id FROM members, projects, users WHERE projects.id=members.project_id AND users.id=members.user_id AND users.status=1 AND login=? AND identifier=? ";
-  my ($where_clause) = map { $r->dir_config($_) } qw/db_where_clause/;
-  my $sth = $dbh->prepare(
-      $query.($where_clause ? $where_clause : "").";"
-  );
+  my $cfg = Apache2::Module::get_config(__PACKAGE__, $r->server, $r->per_dir_config);
+  my $query = $cfg->{RedmineQuery};
+  my $sth = $dbh->prepare($query);
   $sth->execute($redmine_user, $project_id);
 
   my $ret;
@@ -234,9 +283,9 @@ sub get_project_identifier {
 
 sub connect_database {
     my $r = shift;
-
-    my ($dsn, $db_user, $db_pass) = map { $r->dir_config($_) } qw/dsn db_user db_pass/;
-    return DBI->connect($dsn, $db_user, $db_pass);
+    
+    my $cfg = Apache2::Module::get_config(__PACKAGE__, $r->server, $r->per_dir_config);
+    return DBI->connect($cfg->{RedmineDSN}, $cfg->{RedmineDbUser}, $cfg->{RedmineDbPass});
 }
 
 1;
