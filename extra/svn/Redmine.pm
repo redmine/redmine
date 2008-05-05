@@ -53,13 +53,13 @@ Authen::Simple::LDAP (and IO::Socket::SSL if LDAPS is used):
   
      ## for mysql
      RedmineDSN "DBI:mysql:database=databasename;host=my.db.server"
-     ## for postgres
+     ## for postgres (there is memory leak in libpq+ssl)
      # RedmineDSN "DBI:Pg:dbname=databasename;host=my.db.server;sslmode=disable"
 
      RedmineDbUser "redmine"
      RedmineDbPass "password"
-     # Optional where clause (fulltext search would be slow - and
-     # database dependant).
+     ## Optional where clause (fulltext search would be slow and
+     ## database dependant).
      # RedmineDbWhereClause "and members.role_id IN (1,2)"
   </Location>
 
