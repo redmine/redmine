@@ -61,6 +61,8 @@ Authen::Simple::LDAP (and IO::Socket::SSL if LDAPS is used):
      ## Optional where clause (fulltext search would be slow and
      ## database dependant).
      # RedmineDbWhereClause "and members.role_id IN (1,2)"
+     ## Optional credentials cache size
+     # RedmineCacheCredsMax 50
   </Location>
 
 To be able to browse repository inside redmine, you must add something
@@ -108,6 +110,8 @@ use Apache2::ServerRec qw();
 use Apache2::RequestRec qw();
 use Apache2::RequestUtil qw();
 use Apache2::Const qw(:common :override :cmd_how);
+use APR::Pool ();
+use APR::Table ();
 
 # use Apache2::Directive qw();
 
@@ -133,6 +137,11 @@ my @directives = (
     req_override => OR_AUTHCFG,
     args_how => TAKE1,
   },
+  {
+    name => 'RedmineCacheCredsMax',
+    req_override => OR_AUTHCFG,
+    args_how => TAKE1,
+  },
 );
 
 sub RedmineDSN { set_val('RedmineDSN', @_); }
@@ -150,6 +159,16 @@ sub RedmineDbWhereClause {
                 AND login=? 
                 AND identifier=? ";
   $self->{RedmineQuery} = trim($query.($arg ? $arg : "").";");
+}
+
+sub RedmineCacheCredsMax { 
+  my ($self, $parms, $arg) = @_;
+  if ($arg) {
+    $self->{RedmineCachePool} = APR::Pool->new;
+    $self->{RedmineCacheCreds} = APR::Table::make($self->{RedmineCachePool}, $arg);
+    $self->{RedmineCacheCredsCount} = 0;
+    $self->{RedmineCacheCredsMax} = $arg;
+  }
 }
 
 sub trim {
@@ -243,6 +262,11 @@ sub is_member {
   my $pass_digest = Digest::SHA1::sha1_hex($redmine_pass);
 
   my $cfg = Apache2::Module::get_config(__PACKAGE__, $r->server, $r->per_dir_config);
+  my $usrprojpass;
+  if ($cfg->{RedmineCacheCredsMax}) {
+    $usrprojpass = $cfg->{RedmineCacheCreds}->get($redmine_user.":".$project_id);
+    return 1 if (defined $usrprojpass and ($usrprojpass eq $pass_digest));
+  }
   my $query = $cfg->{RedmineQuery};
   my $sth = $dbh->prepare($query);
   $sth->execute($redmine_user, $project_id);
@@ -275,6 +299,20 @@ sub is_member {
   }
   $sth->finish();
   $dbh->disconnect();
+
+  if ($cfg->{RedmineCacheCredsMax} and $ret) {
+    if (defined $usrprojpass) {
+      $cfg->{RedmineCacheCreds}->set($redmine_user.":".$project_id, $pass_digest);
+    } else {
+      if ($cfg->{RedmineCacheCredsCount} < $cfg->{RedmineCacheCredsMax}) {
+        $cfg->{RedmineCacheCreds}->set($redmine_user.":".$project_id, $pass_digest);
+        $cfg->{RedmineCacheCredsCount}++;
+      } else {
+        $cfg->{RedmineCacheCreds}->clear();
+        $cfg->{RedmineCacheCredsCount} = 0;
+      }
+    }
+  }
 
   $ret;
 }
