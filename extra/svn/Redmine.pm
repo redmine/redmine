@@ -36,10 +36,9 @@ Authen::Simple::LDAP (and IO::Socket::SSL if LDAPS is used):
 
 =head1 CONFIGURATION
 
-   ## if the module isn't in your perl path
-   PerlRequire /usr/local/apache/Redmine.pm
-   ## else
-   # PerlModule Apache::Authn::Redmine
+   ## This module has to be in your perl path
+   ## eg:  /usr/lib/perl5/Apache/Authn/Redmine.pm
+   PerlLoadModule Apache::Authn::Redmine
    <Location /svn>
      DAV svn
      SVNParentPath "/var/svn"
