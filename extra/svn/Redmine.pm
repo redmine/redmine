@@ -143,11 +143,9 @@ my @directives = (
   },
 );
 
-sub RedmineDSN { set_val('RedmineDSN', @_); }
-sub RedmineDbUser { set_val('RedmineDbUser', @_); }
-sub RedmineDbPass { set_val('RedmineDbPass', @_); }
-sub RedmineDbWhereClause { 
+sub RedmineDSN { 
   my ($self, $parms, $arg) = @_;
+  $self->{RedmineDSN} = $arg;
   my $query = "SELECT 
                  hashed_password, auth_source_id 
               FROM members, projects, users 
@@ -157,7 +155,13 @@ sub RedmineDbWhereClause {
                 AND users.status=1 
                 AND login=? 
                 AND identifier=? ";
-  $self->{RedmineQuery} = trim($query.($arg ? $arg : "").";");
+  $self->{RedmineQuery} = trim($query);
+}
+sub RedmineDbUser { set_val('RedmineDbUser', @_); }
+sub RedmineDbPass { set_val('RedmineDbPass', @_); }
+sub RedmineDbWhereClause { 
+  my ($self, $parms, $arg) = @_;
+  $self->{RedmineQuery} = trim($self->{RedmineQuery}.($arg ? $arg : "").";");
 }
 
 sub RedmineCacheCredsMax { 
