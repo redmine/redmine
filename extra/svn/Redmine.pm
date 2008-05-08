@@ -96,7 +96,7 @@ And you need to upgrade at least reposman.rb (after r860).
 =cut
 
 use strict;
-use warnings FATAL => 'all';
+use warnings FATAL => 'all', NONFATAL => 'redefine';
 
 use DBI;
 use Digest::SHA1;
