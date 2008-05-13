@@ -140,6 +140,7 @@ my @directives = (
     name => 'RedmineCacheCredsMax',
     req_override => OR_AUTHCFG,
     args_how => TAKE1,
+    errmsg => 'RedmineCacheCredsMax must be decimal number',
   },
 );
 
@@ -161,7 +162,7 @@ sub RedmineDbUser { set_val('RedmineDbUser', @_); }
 sub RedmineDbPass { set_val('RedmineDbPass', @_); }
 sub RedmineDbWhereClause { 
   my ($self, $parms, $arg) = @_;
-  $self->{RedmineQuery} = trim($self->{RedmineQuery}.($arg ? $arg : "").";");
+  $self->{RedmineQuery} = trim($self->{RedmineQuery}.($arg ? $arg : "")." ");
 }
 
 sub RedmineCacheCredsMax { 
