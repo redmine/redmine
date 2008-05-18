@@ -223,6 +223,8 @@ height: 1%;
 clear:left;
 }
 
+html>body .tabular p {overflow:auto;}
+
 .tabular label{
 font-weight: bold;
 float: left;
@@ -238,6 +240,8 @@ margin-left: 0px;
 text-align: left;
 width: 200px;
 }
+
+input#time_entry_comments { width: 90%;}
 
 #preview fieldset {margin-top: 1em; background: url(../images/draft.png)}
 
