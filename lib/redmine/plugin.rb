@@ -116,10 +116,61 @@ module Redmine #:nodoc:
       self.instance_eval(&block)
       @project_module = nil
     end
+    
+    def add_hook(hook_name, method)
+      Redmine::Plugin::Hook.add_listener(hook_name, method)
+    end
 
     # Returns +true+ if the plugin can be configured.
     def configurable?
       settings && settings.is_a?(Hash) && !settings[:partial].blank?
+    end
+    
+    # TODO: Doc
+    class Hook
+      
+      # Hooks and the procs added
+      @@hooks = {
+        :issue_show => [],
+        :issue_edit => [],
+        :issue_bulk_edit => [],
+        :issue_update => [],
+        :project_member_list_header => [],
+        :project_member_list_column_three => []
+      }
+        
+      cattr_reader :hooks
+      
+      class << self
+        
+        # TODO: Doc
+        def valid_hook?(hook_name)
+          return @@hooks.has_key?(hook_name)
+        end
+
+        # TODO: Doc
+        def add_listener(hook_name, method)
+          if valid_hook?(hook_name)
+            @@hooks[hook_name.to_sym] << method
+            puts "Listener added for #{hook_name.to_s}"
+          end
+        end
+        
+        # TODO: Doc
+        def call_hook(hook_name, context = { })
+          response = ''
+          @@hooks[hook_name.to_sym].each do |method|
+            response += method.call(context)
+          end
+          response
+        end
+        
+        # TODO: Doc
+        def hook_registered?(hook_name)
+          return @@hooks[hook_name.to_sym].size > 0
+        end
+      end
+      
     end
   end
 end
