@@ -38,6 +38,9 @@
 <label><%= l(:field_done_ratio) %>: 
 <%= select_tag 'done_ratio', options_for_select([[l(:label_no_change_option), '']] + (0..10).to_a.collect {|r| ["#{r*10} %", r*10] }) %></label>
 </p>
+<% if Redmine::Plugin::Hook.hook_registered?(:issue_bulk_edit) %>
+  <%= Redmine::Plugin::Hook.call_hook(:issue_bulk_edit, {:project => @project, :issue => @issues }) %>
+<% end %>
 </fieldset>
 
 <fieldset><legend><%= l(:field_notes) %></legend>

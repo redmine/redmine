@@ -53,6 +53,10 @@
  <%end
 end %>
 </tr>
+<% if Redmine::Plugin::Hook.hook_registered?(:issue_show) %>
+  <%= Redmine::Plugin::Hook.call_hook(:issue_show, {:project => @project, :issue => @issue}) %>
+<% end %>
+       
 </table>
 <hr />
 
