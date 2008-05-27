@@ -58,20 +58,3 @@ class Test::Unit::TestCase
     ActionController::TestUploadedFile.new(Test::Unit::TestCase.fixture_path + "/files/#{name}", mime)
   end
 end
-
-
-# ActionController::TestUploadedFile bug
-# see http://dev.rubyonrails.org/ticket/4635
-class String
-  def original_filename
-    "testfile.txt"
-  end
-  
-  def content_type
-    "text/plain"
-  end
-  
-  def read
-    self.to_s
-  end
-end
