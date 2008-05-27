@@ -1,0 +1,47 @@
+<h2><%= l(:label_search) %></h2>
+
+<div class="box">
+<% form_tag({}, :method => :get) do %>
+<p><%= text_field_tag 'q', @question, :size => 60, :id => 'search-input' %>
+<%= javascript_tag "Field.focus('search-input')" %>
+<%= project_select_tag %>
+<label><%= check_box_tag 'all_words', 1, @all_words %> <%= l(:label_all_words) %></label>
+<label><%= check_box_tag 'titles_only', 1, @titles_only %> <%= l(:label_search_titles_only) %></label>
+</p>
+<p>
+<% @object_types.each do |t| %>
+<label><%= check_box_tag t, 1, @scope.include?(t) %> <%= l("label_#{t.singularize}_plural")%></label>
+<% end %>
+</p>
+
+<p><%= submit_tag l(:button_submit), :name => 'submit' %></p>
+<% end %>
+</div>
+
+<% if @results %>
+    <h3><%= l(:label_result_plural) %></h3>
+    <dl id="search-results">
+      <% @results.each do |e| %>
+        <dt class="<%= e.event_type %>"><%= content_tag('span', h(e.project), :class => 'project') unless @project == e.project %> <%= link_to highlight_tokens(truncate(e.event_title, 255), @tokens), e.event_url %></dt>
+        <dd><span class="description"><%= highlight_tokens(e.event_description, @tokens) %></span>
+        <span class="author"><%= format_time(e.event_datetime) %></span><dd>
+      <% end %>
+    </dl>
+<% end %>
+
+<p><center>
+<% if @pagination_previous_date %>
+<%= link_to_remote ('&#171; ' + l(:label_previous)),
+                   {:update => :content,
+                    :url => params.merge(:previous => 1, :offset => @pagination_previous_date.strftime("%Y%m%d%H%M%S"))
+                   }, :href => url_for(params.merge(:previous => 1, :offset => @pagination_previous_date.strftime("%Y%m%d%H%M%S"))) %>&nbsp;
+<% end %>
+<% if @pagination_next_date %>
+<%= link_to_remote (l(:label_next) + ' &#187;'),
+                   {:update => :content,
+                    :url => params.merge(:previous => nil, :offset => @pagination_next_date.strftime("%Y%m%d%H%M%S"))
+                   }, :href => url_for(params.merge(:previous => nil, :offset => @pagination_next_date.strftime("%Y%m%d%H%M%S"))) %>
+<% end %>
+</center></p>
+
+<% html_title(l(:label_search)) -%>
