@@ -1,3 +1,3 @@
 require 'rfpdf'
 
-ActionView::Base::register_template_handler 'rfpdf', RFPDF::View
+ActionView::Template::register_template_handler 'rfpdf', RFPDF::View
