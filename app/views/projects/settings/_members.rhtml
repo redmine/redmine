@@ -9,6 +9,9 @@
 	<thead>
 	  <th><%= l(:label_user) %></th>
 	  <th><%= l(:label_role) %></th>
+          <% if Redmine::Plugin::Hook.hook_registered?(:project_member_list_header) %>
+          <%=  Redmine::Plugin::Hook.call_hook(:project_member_list_header, {:project => @project }) %>
+          <% end %>
 	  <th style="width:15%"></th>
 	</thead>
 	<tbody>
@@ -24,6 +27,10 @@
       <% end %>
     <% end %>
     </td>
+    <% if Redmine::Plugin::Hook.hook_registered?(:project_member_list_column_three) %>
+    <%=  Redmine::Plugin::Hook.call_hook(:project_member_list_column_three, {:project => @project, :member => member }) %>
+    <% end %>
+
     <td align="center">
       <%= link_to_remote l(:button_delete), { :url => {:controller => 'members', :action => 'destroy', :id => member},                                              
                                               :method => :post
