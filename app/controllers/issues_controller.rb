@@ -223,7 +223,6 @@ class IssuesController < ApplicationController
       assigned_to = (params[:assigned_to_id].blank? || params[:assigned_to_id] == 'none') ? nil : User.find_by_id(params[:assigned_to_id])
       category = (params[:category_id].blank? || params[:category_id] == 'none') ? nil : @project.issue_categories.find_by_id(params[:category_id])
       fixed_version = (params[:fixed_version_id].blank? || params[:fixed_version_id] == 'none') ? nil : @project.versions.find_by_id(params[:fixed_version_id])
-      
       unsaved_issue_ids = []      
       @issues.each do |issue|
         journal = issue.init_journal(User.current, params[:notes])
@@ -234,6 +233,10 @@ class IssuesController < ApplicationController
         issue.start_date = params[:start_date] unless params[:start_date].blank?
         issue.due_date = params[:due_date] unless params[:due_date].blank?
         issue.done_ratio = params[:done_ratio] unless params[:done_ratio].blank?
+        if Redmine::Plugin::Hook.hook_registered?(:issue_bulk_edit_save)
+          Redmine::Plugin::Hook.call_hook(:issue_bulk_edit_save, {:params => params, :issue => issue })
+        end
+
         # Don't save any change to the issue if the user is not authorized to apply the requested status
         if (status.nil? || (issue.status.new_status_allowed_to?(status, current_role, issue.tracker) && issue.status = status)) && issue.save
           # Send notification for each issue (if changed)

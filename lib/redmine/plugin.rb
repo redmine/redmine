@@ -134,6 +134,7 @@ module Redmine #:nodoc:
         :issue_show => [],
         :issue_edit => [],
         :issue_bulk_edit => [],
+        :issue_bulk_edit_save => [],
         :issue_update => [],
         :project_member_list_header => [],
         :project_member_list_column_three => []
