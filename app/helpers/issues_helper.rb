@@ -86,7 +86,9 @@ module IssuesHelper
     when 'attachment'
       label = l(:label_attachment)
     end
-       
+
+    Redmine::Plugin::Hook.call_hook(:issues_helper_show_details, {:detail => detail, :label => label, :value => value, :old_value => old_value })
+    
     label ||= detail.prop_key
     value ||= detail.value
     old_value ||= detail.old_value

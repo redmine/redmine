@@ -137,7 +137,8 @@ module Redmine #:nodoc:
         :issue_bulk_edit_save => [],
         :issue_update => [],
         :project_member_list_header => [],
-        :project_member_list_column_three => []
+        :project_member_list_column_three => [],
+         :issues_helper_show_details => []
       }
         
       cattr_reader :hooks
