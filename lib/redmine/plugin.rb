@@ -174,9 +174,33 @@ module Redmine #:nodoc:
         end
       end
 
-      # Default class for Hooks to subclass
+      # Base class for Redmin Plugin hooks.
       class Base
-
+        
+        # Class level access to Rails' helper methods.
+        def self.help
+          Helper.instance
+        end
+        
+        # Includes several Helper methods to be used in the class
+        class Helper # :nodoc:
+          include Singleton
+          include ERB::Util
+          include ActionView::Helpers::TagHelper
+          include ActionView::Helpers::FormHelper
+          include ActionView::Helpers::FormTagHelper
+          include ActionView::Helpers::FormOptionsHelper
+          include ActionView::Helpers::JavaScriptHelper 
+          include ActionView::Helpers::PrototypeHelper
+          include ActionView::Helpers::UrlHelper
+          
+          include ActionController::UrlWriter 
+          
+          def protect_against_forgery? # :nodoc:
+            false
+          end
+          
+        end
       end
     end
   end
