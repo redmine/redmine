@@ -117,6 +117,14 @@ module Redmine #:nodoc:
       @project_module = nil
     end
     
+    # Registers a +method+ to be called when Redmine runs a hook called
+    # +hook_name+
+    #
+    #   # Run puts whenever the issue_show hook is called
+    #   add_hook :issue_show, Proc.new { puts 'Hello' }
+    #
+    #   # Call the class method +my_method+ passing in all the context
+    #   add_hook :issue_show, Proc.new {|context| MyPlugin.my_method(context)}
     def add_hook(hook_name, method)
       Redmine::Plugin::Hook::Manager.add_listener(hook_name, method)
     end
@@ -126,7 +134,8 @@ module Redmine #:nodoc:
       settings && settings.is_a?(Hash) && !settings[:partial].blank?
     end
     
-    # TODO: Doc
+    # Hook is used to allow plugins to hook into Redmine at specific sections
+    # to change it's behavior.  See +Redmine::Plugin.add_hook+ for details.
     class Hook
       class Manager
         # Hooks and the procs added
@@ -145,12 +154,11 @@ module Redmine #:nodoc:
       
         class << self
         
-          # TODO: Doc
           def valid_hook?(hook_name)
             return @@hooks.has_key?(hook_name)
           end
 
-          # TODO: Doc
+          # Add +method+ to +hook_name+
           def add_listener(hook_name, method)
             if valid_hook?(hook_name)
               @@hooks[hook_name.to_sym] << method
@@ -158,7 +166,7 @@ module Redmine #:nodoc:
             end
           end
         
-          # TODO: Doc
+          # Run all the hooks for +hook_name+ passing in +context+
           def call_hook(hook_name, context = { })
             response = ''
             @@hooks[hook_name.to_sym].each do |method|
@@ -167,7 +175,7 @@ module Redmine #:nodoc:
             response
           end
         
-          # TODO: Doc
+          # Are hooks registered for +hook_name+
           def hook_registered?(hook_name)
             return @@hooks[hook_name.to_sym].size > 0
           end
