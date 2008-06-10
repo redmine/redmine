@@ -233,9 +233,8 @@ class IssuesController < ApplicationController
         issue.start_date = params[:start_date] unless params[:start_date].blank?
         issue.due_date = params[:due_date] unless params[:due_date].blank?
         issue.done_ratio = params[:done_ratio] unless params[:done_ratio].blank?
-        if Redmine::Plugin::Hook.hook_registered?(:issue_bulk_edit_save)
-          Redmine::Plugin::Hook.call_hook(:issue_bulk_edit_save, {:params => params, :issue => issue })
-        end
+
+        Redmine::Plugin::Hook::Manager.call_hook(:issue_bulk_edit_save, {:params => params, :issue => issue })
 
         # Don't save any change to the issue if the user is not authorized to apply the requested status
         if (status.nil? || (issue.status.new_status_allowed_to?(status, current_role, issue.tracker) && issue.status = status)) && issue.save

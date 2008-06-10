@@ -48,8 +48,6 @@
 <p><label><%=l(:label_attachment_plural)%></label><%= render :partial => 'attachments/form' %></p>
 <% end %>
 
-<% if Redmine::Plugin::Hook.hook_registered?(:issue_edit) %>
-  <%= Redmine::Plugin::Hook.call_hook(:issue_edit, {:project => @project, :issue => @issue, :form => f }) %>
-<% end %>
+<%= Redmine::Plugin::Hook::Manager.call_hook(:issue_edit, {:project => @project, :issue => @issue, :form => f }) %>
 
 <%= wikitoolbar_for 'issue_description' %>

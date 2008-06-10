@@ -118,7 +118,7 @@ module Redmine #:nodoc:
     end
     
     def add_hook(hook_name, method)
-      Redmine::Plugin::Hook.add_listener(hook_name, method)
+      Redmine::Plugin::Hook::Manager.add_listener(hook_name, method)
     end
 
     # Returns +true+ if the plugin can be configured.
@@ -128,51 +128,56 @@ module Redmine #:nodoc:
     
     # TODO: Doc
     class Hook
-      
-      # Hooks and the procs added
-      @@hooks = {
-        :issue_show => [],
-        :issue_edit => [],
-        :issue_bulk_edit => [],
-        :issue_bulk_edit_save => [],
-        :issue_update => [],
-        :project_member_list_header => [],
-        :project_member_list_column_three => [],
-         :issues_helper_show_details => []
-      }
+      class Manager
+        # Hooks and the procs added
+        @@hooks = {
+          :issue_show => [],
+          :issue_edit => [],
+          :issue_bulk_edit => [],
+          :issue_bulk_edit_save => [],
+          :issue_update => [],
+          :project_member_list_header => [],
+          :project_member_list_column_three => [],
+          :issues_helper_show_details => []
+        }
         
-      cattr_reader :hooks
+        cattr_reader :hooks
       
-      class << self
+        class << self
         
-        # TODO: Doc
-        def valid_hook?(hook_name)
-          return @@hooks.has_key?(hook_name)
-        end
+          # TODO: Doc
+          def valid_hook?(hook_name)
+            return @@hooks.has_key?(hook_name)
+          end
 
-        # TODO: Doc
-        def add_listener(hook_name, method)
-          if valid_hook?(hook_name)
-            @@hooks[hook_name.to_sym] << method
-            puts "Listener added for #{hook_name.to_s}"
+          # TODO: Doc
+          def add_listener(hook_name, method)
+            if valid_hook?(hook_name)
+              @@hooks[hook_name.to_sym] << method
+              puts "Listener added for #{hook_name.to_s}"
+            end
           end
-        end
         
-        # TODO: Doc
-        def call_hook(hook_name, context = { })
-          response = ''
-          @@hooks[hook_name.to_sym].each do |method|
-            response += method.call(context)
+          # TODO: Doc
+          def call_hook(hook_name, context = { })
+            response = ''
+            @@hooks[hook_name.to_sym].each do |method|
+              response += method.call(context)
+            end
+            response
           end
-          response
-        end
         
-        # TODO: Doc
-        def hook_registered?(hook_name)
-          return @@hooks[hook_name.to_sym].size > 0
+          # TODO: Doc
+          def hook_registered?(hook_name)
+            return @@hooks[hook_name.to_sym].size > 0
+          end
         end
       end
-      
+
+      # Default class for Hooks to subclass
+      class Base
+
+      end
     end
   end
 end
