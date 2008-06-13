@@ -200,6 +200,7 @@ module Redmine #:nodoc:
           include ActionView::Helpers::FormOptionsHelper
           include ActionView::Helpers::JavaScriptHelper 
           include ActionView::Helpers::PrototypeHelper
+          include ActionView::Helpers::NumberHelper
           include ActionView::Helpers::UrlHelper
           
           include ActionController::UrlWriter 
