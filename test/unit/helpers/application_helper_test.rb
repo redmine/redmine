@@ -151,6 +151,14 @@ class ApplicationHelperTest < HelperTestCase
     to_test.each { |text, result| assert_equal result, textilizable(text) }
   end
   
+  def test_allowed_html_tags
+    to_test = {
+      "<pre>preformatted text</pre>" => "<pre>preformatted text</pre>",
+      "<notextile>no *textile* formatting</notextile>" => "no *textile* formatting",
+    }
+    to_test.each { |text, result| assert_equal result, textilizable(text) }
+  end
+  
   def test_wiki_links_in_tables
     to_test = {"|Cell 11|Cell 12|Cell 13|\n|Cell 21|Cell 22||\n|Cell 31||Cell 33|" => 
                  '<tr><td>Cell 11</td><td>Cell 12</td><td>Cell 13</td></tr>' +
