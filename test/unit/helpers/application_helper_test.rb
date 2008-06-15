@@ -186,6 +186,34 @@ class ApplicationHelperTest < HelperTestCase
     assert_equal '<p>Dashes: ---</p>', textilizable('Dashes: ---')
   end
   
+  def test_table_of_content
+    raw = <<-RAW
+{{toc}}
+
+h1. Title
+
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.
+
+h2. Subtitle
+
+Nullam commodo metus accumsan nulla. Curabitur lobortis dui id dolor.
+
+h2. Subtitle with %{color:red}red text%
+
+h1. Another title
+
+RAW
+
+    expected = '<div class="toc">' +
+               '<a href="#1" class="heading1">Title</a>' +
+               '<a href="#2" class="heading2">Subtitle</a>' + 
+               '<a href="#3" class="heading2">Subtitle with red text</a>' +
+               '<a href="#4" class="heading1">Another title</a>' +
+               '</div>'
+               
+    assert textilizable(raw).include?(expected)
+  end
+  
   def test_macro_hello_world
     text = "{{hello_world}}"
     assert textilizable(text).match(/Hello world!/)
