@@ -4,7 +4,7 @@ module Redmine
   module VERSION #:nodoc:
     MAJOR = 0
     MINOR = 7
-    TINY  = 1
+    TINY  = 2
 
     def self.revision
       revision = nil
