@@ -138,7 +138,7 @@ class IssuesController < ApplicationController
         @project.custom_fields_for_issues(@issue.tracker).collect { |x| CustomValue.new(:custom_field => x, :customized => @issue) } :
         @issue.custom_values
     else
-      requested_status = IssueStatus.find_by_id(params[:issue][:status_id])
+      requested_status = (params[:issue] && params[:issue][:status_id] ? IssueStatus.find_by_id(params[:issue][:status_id]) : default_status)
       # Check that the user is allowed to apply the requested status
       @issue.status = (@allowed_statuses.include? requested_status) ? requested_status : default_status
       @custom_values = @project.custom_fields_for_issues(@issue.tracker).collect { |x| CustomValue.new(:custom_field => x, 
