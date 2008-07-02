@@ -45,6 +45,14 @@ module RFPDF
         :temp_dir => "#{File.expand_path(RAILS_ROOT)}/tmp"
       }.merge(@action_view.controller.instance_eval{ @options_for_rfpdf } || {}).with_indifferent_access
     end
+    
+    def self.compilable?
+      false
+    end
+
+    def compilable?
+      self.class.compilable?
+    end
 
     def render(template, local_assigns = {})
 			@pdf_name = "Default.pdf" if @pdf_name.nil?
@@ -66,7 +74,7 @@ module RFPDF
 			  local_assigns.each do |key,val|
 		  		class << self; self; end.send(:define_method,key){ val }
 				end
-        ERB.new(template).result(binding)
+        ERB.new(template.source).result(binding) 
       end
     end
 
