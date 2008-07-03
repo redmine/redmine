@@ -5,19 +5,19 @@
 <td class="filename">
 <%= if entry.is_dir?
   link_to_remote h(entry.name),
-                 {:url => {:action => 'browse', :id => @project, :path => entry.path, :rev => @rev, :depth => (depth + 1), :parent_id => tr_id},
+                 {:url => {:action => 'browse', :id => @project, :path => to_path_param(entry.path), :rev => @rev, :depth => (depth + 1), :parent_id => tr_id},
                   :update => { :success => tr_id },
                   :position => :after,
                   :success => "scmEntryLoaded('#{tr_id}')",
                   :condition => "scmEntryClick('#{tr_id}')"
                  },
-                 {:href => url_for({:action => 'browse', :id => @project, :path => entry.path, :rev => @rev}),
+                 {:href => url_for({:action => 'browse', :id => @project, :path => to_path_param(entry.path), :rev => @rev}),
                   :class => ('icon icon-folder'),
                   :style => "margin-left: #{18 * depth}px;"
                  }
 else
   link_to h(entry.name),
-          {:action => (entry.is_dir? ? 'browse' : 'changes'), :id => @project, :path => entry.path, :rev => @rev},
+          {:action => (entry.is_dir? ? 'browse' : 'changes'), :id => @project, :path => to_path_param(entry.path), :rev => @rev},
           :class => 'icon icon-file',
           :style => "margin-left: #{18 * depth}px;"
 end %>
