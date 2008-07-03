@@ -15,14 +15,3 @@ ActiveRecord::Errors.default_error_messages = {
 }
 
 ActionView::Base.field_error_proc = Proc.new{ |html_tag, instance| "#{html_tag}" }
-
-Mime::SET << Mime::CSV unless Mime::SET.include?(Mime::CSV)
-Mime::Type.register 'application/pdf', :pdf
-
-GLoc.set_config :default_language => :en
-GLoc.clear_strings
-GLoc.set_kcode
-GLoc.load_localized_strings
-GLoc.set_config(:raise_string_not_found_errors => false)
-
-require 'redmine'
