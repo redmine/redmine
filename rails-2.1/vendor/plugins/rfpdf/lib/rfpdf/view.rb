@@ -30,6 +30,8 @@
 module RFPDF
   
   class View
+    @@backward_compatibility_mode = false
+    cattr_accessor :backward_compatibility_mode
     
     def initialize(action_view)
       @action_view = action_view
@@ -74,7 +76,7 @@ module RFPDF
 			  local_assigns.each do |key,val|
 		  		class << self; self; end.send(:define_method,key){ val }
 				end
-        ERB.new(template.source).result(binding) 
+        ERB.new(@@backward_compatibility_mode == true ? template : template.source).result(binding) 
       end
     end
 
