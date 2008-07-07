@@ -62,8 +62,7 @@ Authen::Simple::LDAP (and IO::Socket::SSL if LDAPS is used):
      # RedmineDbWhereClause "and members.role_id IN (1,2)"
      ## Configuration for memcached
      # RedmineMemcacheServers "127.0.0.1:112211"
-     # RedmineMemcacheExpirySec "12"
-     # # Defaults to "RedminePM:"
+     # RedmineMemcacheExpirySec "60"
      # RedmineMemcacheNamespace "RedmineCreds:"
   </Location>
 
@@ -184,11 +183,6 @@ sub RedmineMemcacheServers {
       'debug' => 1,
     };
     $self->{RedmineMemcache} = 1;
-    # Undocumented feature of Cache::Memcached, please don't kill me
-    if (0 == length $self->{RedmineMemcached}->{namespace}) {
-      $self->{RedmineMemcached}->{namespace} = "RedminePM:";
-      $self->{RedmineMemcached}->{namespace_len} = length $self->{RedmineMemcached}->{namespace};
-    }
   }
 }
 
