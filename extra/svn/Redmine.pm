@@ -60,8 +60,11 @@ Authen::Simple::LDAP (and IO::Socket::SSL if LDAPS is used):
      ## Optional where clause (fulltext search would be slow and
      ## database dependant).
      # RedmineDbWhereClause "and members.role_id IN (1,2)"
-     ## Optional credentials cache size
-     # RedmineCacheCredsMax 50
+     ## Configuration for memcached
+     # RedmineMemcacheServers "127.0.0.1:112211"
+     # RedmineMemcacheExpirySec "12"
+     # # Defaults to "RedminePM:"
+     # RedmineMemcacheNamespace "RedmineCreds:"
   </Location>
 
 To be able to browse repository inside redmine, you must add something
@@ -102,6 +105,7 @@ use DBI;
 use Digest::SHA1;
 # optional module for LDAP authentication
 my $CanUseLDAPAuth = eval("use Authen::Simple::LDAP; 1");
+my $CanUseMemcached = eval("use Cache::Memcached; 1");
 
 use Apache2::Module;
 use Apache2::Access;
@@ -109,8 +113,6 @@ use Apache2::ServerRec qw();
 use Apache2::RequestRec qw();
 use Apache2::RequestUtil qw();
 use Apache2::Const qw(:common :override :cmd_how);
-use APR::Pool ();
-use APR::Table ();
 
 # use Apache2::Directive qw();
 
@@ -137,10 +139,19 @@ my @directives = (
     args_how => TAKE1,
   },
   {
-    name => 'RedmineCacheCredsMax',
+    name => 'RedmineMemcacheServers',
     req_override => OR_AUTHCFG,
     args_how => TAKE1,
-    errmsg => 'RedmineCacheCredsMax must be decimal number',
+  },
+  {
+    name => 'RedmineMemcacheExpirySec',
+    req_override => OR_AUTHCFG,
+    args_how => TAKE1,
+  },
+  {
+    name => 'RedmineMemcacheNamespace',
+    req_override => OR_AUTHCFG,
+    args_how => TAKE1,
   },
 );
 
@@ -165,13 +176,30 @@ sub RedmineDbWhereClause {
   $self->{RedmineQuery} = trim($self->{RedmineQuery}.($arg ? $arg : "")." ");
 }
 
-sub RedmineCacheCredsMax { 
+sub RedmineMemcacheServers {
   my ($self, $parms, $arg) = @_;
-  if ($arg) {
-    $self->{RedmineCachePool} = APR::Pool->new;
-    $self->{RedmineCacheCreds} = APR::Table::make($self->{RedmineCachePool}, $arg);
-    $self->{RedmineCacheCredsCount} = 0;
-    $self->{RedmineCacheCredsMax} = $arg;
+  if ($arg && $CanUseMemcached) {
+    $self->{RedmineMemcached} = new Cache::Memcached {
+      'servers' => [ $arg, ],
+      'debug' => 1,
+    };
+    $self->{RedmineMemcache} = 1;
+    # Undocumented feature of Cache::Memcached, please don't kill me
+    if (0 == length $self->{RedmineMemcached}->{namespace}) {
+      $self->{RedmineMemcached}->{namespace} = "RedminePM:";
+      $self->{RedmineMemcached}->{namespace_len} = length $self->{RedmineMemcached}->{namespace};
+    }
+  }
+}
+
+sub RedmineMemcacheExpirySec { set_val('RedmineMemcacheExpirySec', @_); }
+
+sub RedmineMemcacheNamespace {
+  my ($self, $parms, $arg) = @_;
+  if ($CanUseMemcached) {
+    # Undocumented feature of Cache::Memcached, please don't kill me
+    $self->{RedmineMemcached}->{namespace} = $arg;
+    $self->{RedmineMemcached}->{namespace_len} = length $self->{RedmineMemcached}->{namespace};
   }
 }
 
@@ -228,6 +256,10 @@ sub is_public_project {
     my $project_id = shift;
     my $r = shift;
 
+    my $cfg = Apache2::Module::get_config(__PACKAGE__, $r->server, $r->per_dir_config);
+    if ($cfg->{RedmineMemcache}) {
+      return 1 if ($cfg->{RedmineMemcached}->get($project_id));
+    }
     my $dbh = connect_database($r);
     my $sth = $dbh->prepare(
         "SELECT * FROM projects WHERE projects.identifier=? and projects.is_public=true;"
@@ -237,6 +269,14 @@ sub is_public_project {
     my $ret = $sth->fetchrow_array ? 1 : 0;
     $sth->finish();
     $dbh->disconnect();
+    if ($cfg->{RedmineMemcache}) {
+      if ($cfg->{RedmineMemcacheExpirySec}) {
+        $cfg->{RedmineMemcached}->set($project_id, $ret, $cfg->{RedmineMemcacheExpirySec});
+      } else {
+        $cfg->{RedmineMemcached}->set($project_id, $ret);
+      }
+    }
+      
 
     $ret;
 }
@@ -268,8 +308,8 @@ sub is_member {
 
   my $cfg = Apache2::Module::get_config(__PACKAGE__, $r->server, $r->per_dir_config);
   my $usrprojpass;
-  if ($cfg->{RedmineCacheCredsMax}) {
-    $usrprojpass = $cfg->{RedmineCacheCreds}->get($redmine_user.":".$project_id);
+  if ($cfg->{RedmineMemcache}) {
+    $usrprojpass = $cfg->{RedmineMemcached}->get($redmine_user.":".$project_id);
     return 1 if (defined $usrprojpass and ($usrprojpass eq $pass_digest));
   }
   my $query = $cfg->{RedmineQuery};
@@ -305,17 +345,11 @@ sub is_member {
   $sth->finish();
   $dbh->disconnect();
 
-  if ($cfg->{RedmineCacheCredsMax} and $ret) {
-    if (defined $usrprojpass) {
-      $cfg->{RedmineCacheCreds}->set($redmine_user.":".$project_id, $pass_digest);
+  if ($cfg->{RedmineMemcache} and $ret) {
+    if ($cfg->{RedmineMemcacheExpirySec}) {
+      $cfg->{RedmineMemcached}->set($redmine_user.":".$project_id, $pass_digest, $cfg->{RedmineMemcacheExpirySec});
     } else {
-      if ($cfg->{RedmineCacheCredsCount} < $cfg->{RedmineCacheCredsMax}) {
-        $cfg->{RedmineCacheCreds}->set($redmine_user.":".$project_id, $pass_digest);
-        $cfg->{RedmineCacheCredsCount}++;
-      } else {
-        $cfg->{RedmineCacheCreds}->clear();
-        $cfg->{RedmineCacheCredsCount} = 0;
-      }
+      $cfg->{RedmineMemcached}->set($redmine_user.":".$project_id, $pass_digest);
     }
   }
 
