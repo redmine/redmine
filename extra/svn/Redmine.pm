@@ -180,7 +180,7 @@ sub RedmineMemcacheServers {
   if ($arg && $CanUseMemcached) {
     $self->{RedmineMemcached} = new Cache::Memcached {
       'servers' => [ $arg, ],
-      'debug' => 1,
+      'debug' => 0,
     };
     $self->{RedmineMemcache} = 1;
   }
@@ -190,7 +190,7 @@ sub RedmineMemcacheExpirySec { set_val('RedmineMemcacheExpirySec', @_); }
 
 sub RedmineMemcacheNamespace {
   my ($self, $parms, $arg) = @_;
-  if ($CanUseMemcached) {
+  if ($self->{RedmineMemcache}) {
     # Undocumented feature of Cache::Memcached, please don't kill me
     $self->{RedmineMemcached}->{namespace} = $arg;
     $self->{RedmineMemcached}->{namespace_len} = length $self->{RedmineMemcached}->{namespace};
