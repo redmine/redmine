@@ -147,6 +147,7 @@ class WikiController < ApplicationController
                                       :joins => "LEFT JOIN #{WikiContent.table_name} ON #{WikiContent.table_name}.page_id = #{WikiPage.table_name}.id",
                                       :order => 'title'
       @pages_by_date = @pages.group_by {|p| p.updated_on.to_date}
+      @pages_by_parent_id = @pages.group_by(&:parent_id)
     # export wiki to a single html file
     when 'export'
       @pages = @wiki.pages.find :all, :order => 'title'
@@ -164,7 +165,10 @@ class WikiController < ApplicationController
     page = @wiki.find_page(params[:page])
     # page is nil when previewing a new page
     return render_403 unless page.nil? || editable?(page)
-    @attachements = page.attachments if page
+    if page
+      @attachements = page.attachments
+      @previewed = page.content
+    end
     @text = params[:content][:text]
     render :partial => 'common/preview'
   end

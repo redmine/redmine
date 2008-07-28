@@ -133,6 +133,9 @@ class ApplicationHelperTest < HelperTestCase
     to_test = {
       '[[CookBook documentation]]' => '<a href="/wiki/ecookbook/CookBook_documentation" class="wiki-page">CookBook documentation</a>',
       '[[Another page|Page]]' => '<a href="/wiki/ecookbook/Another_page" class="wiki-page">Page</a>',
+      # link with anchor
+      '[[CookBook documentation#One-section]]' => '<a href="/wiki/ecookbook/CookBook_documentation#One-section" class="wiki-page">CookBook documentation</a>',
+      '[[Another page#anchor|Page]]' => '<a href="/wiki/ecookbook/Another_page#anchor" class="wiki-page">Page</a>',
       # page that doesn't exist
       '[[Unknown page]]' => '<a href="/wiki/ecookbook/Unknown_page" class="wiki-page new">Unknown page</a>',
       '[[Unknown page|404]]' => '<a href="/wiki/ecookbook/Unknown_page" class="wiki-page new">404</a>',
@@ -214,14 +217,14 @@ h1. Another title
 
 RAW
 
-    expected = '<div class="toc">' +
-               '<a href="#1" class="heading1">Title</a>' +
-               '<a href="#2" class="heading2">Subtitle</a>' + 
-               '<a href="#3" class="heading2">Subtitle with red text</a>' +
-               '<a href="#4" class="heading1">Another title</a>' +
-               '</div>'
+    expected = '<ul class="toc">' +
+               '<li class="heading1"><a href="#Title">Title</a></li>' +
+               '<li class="heading2"><a href="#Subtitle">Subtitle</a></li>' + 
+               '<li class="heading2"><a href="#Subtitle-with-red-text">Subtitle with red text</a></li>' +
+               '<li class="heading1"><a href="#Another-title">Another title</a></li>' +
+               '</ul>'
                
-    assert textilizable(raw).include?(expected)
+    assert textilizable(raw).gsub("\n", "").include?(expected)
   end
   
   def test_blockquote

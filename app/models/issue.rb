@@ -42,6 +42,8 @@ class Issue < ActiveRecord::Base
   acts_as_event :title => Proc.new {|o| "#{o.tracker.name} ##{o.id}: #{o.subject}"},
                 :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.id}}                
   
+  acts_as_activity_provider :find_options => {:include => [:project, :author, :tracker]}
+  
   validates_presence_of :subject, :description, :priority, :project, :tracker, :author, :status
   validates_length_of :subject, :maximum => 255
   validates_inclusion_of :done_ratio, :in => 0..100
@@ -77,7 +79,9 @@ class Issue < ActiveRecord::Base
           self.relations_to.clear
         end
         # issue is moved to another project
-        self.category = nil 
+        # reassign to the category with same name if any
+        new_category = category.nil? ? nil : new_project.issue_categories.find_by_name(category.name)
+        self.category = new_category
         self.fixed_version = nil
         self.project = new_project
       end

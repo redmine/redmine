@@ -177,7 +177,8 @@ module ApplicationHelper
   end
   
   def breadcrumb(*args)
-    content_tag('p', args.join(' &#187; ') + ' &#187; ', :class => 'breadcrumb')
+    elements = args.flatten
+    elements.any? ? content_tag('p', args.join(' &#187; ') + ' &#187; ', :class => 'breadcrumb') : nil
   end
   
   def html_title(*args)
@@ -205,7 +206,7 @@ module ApplicationHelper
     options = args.last.is_a?(Hash) ? args.pop : {}
     case args.size
     when 1
-      obj = nil
+      obj = options[:object]
       text = args.shift
     when 2
       obj = args.shift
@@ -245,12 +246,12 @@ module ApplicationHelper
     case options[:wiki_links]
     when :local
       # used for local links to html files
-      format_wiki_link = Proc.new {|project, title| "#{title}.html" }
+      format_wiki_link = Proc.new {|project, title, anchor| "#{title}.html" }
     when :anchor
       # used for single-file wiki export
-      format_wiki_link = Proc.new {|project, title| "##{title}" }
+      format_wiki_link = Proc.new {|project, title, anchor| "##{title}" }
     else
-      format_wiki_link = Proc.new {|project, title| url_for(:only_path => only_path, :controller => 'wiki', :action => 'index', :id => project, :page => title) }
+      format_wiki_link = Proc.new {|project, title, anchor| url_for(:only_path => only_path, :controller => 'wiki', :action => 'index', :id => project, :page => title, :anchor => anchor) }
     end
     
     project = options[:project] || @project || (obj && obj.respond_to?(:project) ? obj.project : nil)
@@ -276,9 +277,14 @@ module ApplicationHelper
         end
         
         if link_project && link_project.wiki
+          # extract anchor
+          anchor = nil
+          if page =~ /^(.+?)\#(.+)$/
+            page, anchor = $1, $2
+          end
           # check if page exists
           wiki_page = link_project.wiki.find_page(page)
-          link_to((title || page), format_wiki_link.call(link_project, Wiki.titleize(page)),
+          link_to((title || page), format_wiki_link.call(link_project, Wiki.titleize(page), anchor),
                                    :class => ('wiki-page' + (wiki_page ? '' : ' new')))
         else
           # project or wiki doesn't exist
@@ -451,7 +457,8 @@ module ApplicationHelper
   end
   
   def back_url_hidden_field_tag
-    hidden_field_tag 'back_url', (params[:back_url] || request.env['HTTP_REFERER'])
+    back_url = params[:back_url] || request.env['HTTP_REFERER']
+    hidden_field_tag('back_url', back_url) unless back_url.blank?
   end
   
   def check_all_links(form_name)
