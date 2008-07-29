@@ -191,6 +191,13 @@ module Redmine #:nodoc:
               puts "Listener added for #{hook_name.to_s}"
             end
           end
+
+          # Removes all listeners
+          def clear_listeners()
+            @@hooks.each do |hook, registrations|
+              @@hooks[hook] = []
+            end
+          end
         
           # Run all the hooks for +hook_name+ passing in +context+
           def call_hook(hook_name, context = { })
