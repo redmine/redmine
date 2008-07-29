@@ -94,6 +94,14 @@ class Redmine::Plugin::Hook::ManagerTest < Test::Unit::TestCase
      assert_equal '', @manager.call_hook(:issue_show)
    end
 
+   def test_hook_registered_yes
+     @manager.add_listener(:issue_show, Proc.new { })
+     assert @manager.hook_registered?(:issue_show)
+   end
+
+    def test_hook_registered_no
+     assert_equal false, @manager.hook_registered?(:issue_show)
+   end
 end
 
 class Redmine::Plugin::Hook::BaseTest < Test::Unit::TestCase
