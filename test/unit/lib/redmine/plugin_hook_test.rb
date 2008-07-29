@@ -47,6 +47,53 @@ class Redmine::Plugin::Hook::ManagerTest < Test::Unit::TestCase
     @manager.add_listener(:issue_show, Proc.new { } )
     assert_equal 1, @manager::hooks[:issue_show].length
   end
+  
+  def test_add_invalid_listener
+    hooks = @manager::hooks
+    @manager.add_listener(:invalid, Proc.new { } )
+    assert_equal hooks, @manager::hooks
+  end
+  
+  def test_call_hook_with_response
+    function = Proc.new { return 'response' }
+    
+    @manager.add_listener(:issue_show, function)
+    
+    assert_equal 'response', @manager.call_hook(:issue_show)
+  end
+
+  def test_call_multiple_hooks_with_response
+    function1 = Proc.new { return 'First Call.' }
+    function2 = Proc.new { return 'Second Call.' }
+    function3 = Proc.new { return 'Third Call.' }
+    
+    @manager.add_listener(:issue_show, function1)
+    @manager.add_listener(:issue_show, function2)
+    @manager.add_listener(:issue_show, function3)
+    
+    assert_equal 'First Call.Second Call.Third Call.', @manager.call_hook(:issue_show)
+  end
+
+  def test_call_hook_without_response
+    function = Proc.new { }
+    
+    @manager.add_listener(:issue_show, function)
+    
+    assert_equal '', @manager.call_hook(:issue_show)
+  end
+
+   def test_call_multiple_hooks_without_responses
+     function1 = Proc.new { }
+     function2 = Proc.new { }
+     function3 = Proc.new { }
+    
+     @manager.add_listener(:issue_show, function1)
+     @manager.add_listener(:issue_show, function2)
+     @manager.add_listener(:issue_show, function3)
+    
+     assert_equal '', @manager.call_hook(:issue_show)
+   end
+
 end
 
 class Redmine::Plugin::Hook::BaseTest < Test::Unit::TestCase

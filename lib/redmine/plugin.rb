@@ -203,7 +203,8 @@ module Redmine #:nodoc:
           def call_hook(hook_name, context = { })
             response = ''
             @@hooks[hook_name.to_sym].each do |method|
-              response += method.call(context)
+              method_response = method.call(context)
+              response += method_response unless method_response.nil?
             end
             response
           end
