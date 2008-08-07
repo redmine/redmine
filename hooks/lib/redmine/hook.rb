@@ -115,10 +115,3 @@ module Redmine
 end
 
 ApplicationHelper.send(:include, Redmine::Hook::Helper)
-
-class Hello < Redmine::Hook::ViewListener
-  def view_layouts_base_html_head(context)
-    context[:project].to_s
-  end
-end
-
