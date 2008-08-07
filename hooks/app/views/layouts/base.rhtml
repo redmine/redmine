@@ -14,8 +14,9 @@
       body {behavior: url(<%= stylesheet_path "csshover.htc" %>);}
     </style>
 <![endif]-->
-
-<!-- page specific tags --><%= yield :header_tags %>
+<%= call_hook :view_layouts_base_html_head, :project => @project %>
+<!-- page specific tags -->
+<%= yield :header_tags -%>
 </head>
 <body>
 <div id="wrapper">
