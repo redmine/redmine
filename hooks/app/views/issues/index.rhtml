@@ -1,0 +1,67 @@
+<% if @query.new_record? %>
+    <h2><%=l(:label_issue_plural)%></h2>
+    <% html_title(l(:label_issue_plural)) %>
+    
+    <% form_tag({ :controller => 'queries', :action => 'new' }, :id => 'query_form') do %>
+    <%= hidden_field_tag('project_id', @project.id) if @project %>
+    <fieldset id="filters"><legend><%= l(:label_filter_plural) %></legend>
+    <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
+    <p class="buttons">
+    <%= link_to_remote l(:button_apply), 
+                       { :url => { :set_filter => 1 },
+                         :update => "content",
+                         :with => "Form.serialize('query_form')"
+                       }, :class => 'icon icon-checked' %>
+                       
+    <%= link_to_remote l(:button_clear),
+                       { :url => { :set_filter => 1 }, 
+                         :update => "content",
+                       }, :class => 'icon icon-reload'  %>
+                       
+    <% if User.current.allowed_to?(:save_queries, @project, :global => true) %>
+    <%= link_to l(:button_save), {}, :onclick => "$('query_form').submit(); return false;", :class => 'icon icon-save' %>
+    <% end %>
+    </p>
+    </fieldset>
+    <% end %>
+<% else %>
+    <div class="contextual">
+    <% if @query.editable_by?(User.current) %>
+    <%= link_to l(:button_edit), {:controller => 'queries', :action => 'edit', :id => @query}, :class => 'icon icon-edit' %>
+    <%= link_to l(:button_delete), {:controller => 'queries', :action => 'destroy', :id => @query}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
+    <% end %>
+    </div>
+    <h2><%=h @query.name %></h2>
+    <div id="query_form"></div>
+    <% html_title @query.name %>
+<% end %>
+<%= error_messages_for 'query' %>
+<% if @query.valid? %>
+<% if @issues.empty? %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% else %>
+<%= render :partial => 'issues/list', :locals => {:issues => @issues, :query => @query} %>
+<p class="pagination"><%= pagination_links_full @issue_pages, @issue_count %></p>
+
+<p class="other-formats">
+<%= l(:label_export_to) %>
+<span><%= link_to 'Atom', {:query_id => @query, :format => 'atom', :key => User.current.rss_key}, :class => 'feed' %></span>
+<span><%= link_to 'CSV', {:format => 'csv'}, :class => 'csv' %></span>
+<span><%= link_to 'PDF', {:format => 'pdf'}, :class => 'pdf' %></span>
+</p>
+<% end %>
+<% end %>
+
+<% content_for :sidebar do %>
+    <%= render :partial => 'issues/sidebar' %>
+<% end %>
+
+<% content_for :header_tags do %>
+    <%= auto_discovery_link_tag(:atom, {:query_id => @query, :format => 'atom', :page => nil, :key => User.current.rss_key}, :title => l(:label_issue_plural)) %>
+    <%= auto_discovery_link_tag(:atom, {:action => 'changes', :query_id => @query, :format => 'atom', :page => nil, :key => User.current.rss_key}, :title => l(:label_changes_details)) %>
+    <%= javascript_include_tag 'context_menu' %>
+    <%= stylesheet_link_tag 'context_menu' %>
+<% end %>
+
+<div id="context-menu" style="display: none;"></div>
+<%= javascript_tag "new ContextMenu('#{url_for(:controller => 'issues', :action => 'context_menu')}')" %>

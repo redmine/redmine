@@ -1,0 +1,80 @@
+<h2><%=l(:label_overview)%></h2> 
+	
+<div class="splitcontentleft">
+	<%= textilizable @project.description %>	
+	<ul>
+	<% unless @project.homepage.blank? %><li><%=l(:field_homepage)%>: <%= auto_link(h(@project.homepage)) %></li><% end %>
+    <% if @subprojects.any? %>
+ 	<li><%=l(:label_subproject_plural)%>: <%= @subprojects.collect{|p| link_to(h(p.name), :action => 'show', :id => p)}.join(", ") %></li>
+    <% end %>
+	<% if @project.parent %>
+	<li><%=l(:field_parent)%>: <%= link_to h(@project.parent.name), :controller => 'projects', :action => 'show', :id => @project.parent %></li>
+	<% end %>
+	<% @project.custom_values.each do |custom_value| %>
+	<% if !custom_value.value.empty? %>
+	   <li><%= custom_value.custom_field.name%>: <%=h show_value(custom_value) %></li>
+	<% end %>
+	<% end %>
+	</ul>	
+
+  <% if User.current.allowed_to?(:view_issues, @project) %>
+  <div class="box">    
+    <h3 class="icon22 icon22-tracker"><%=l(:label_issue_tracking)%></h3>
+    <ul>
+    <% for tracker in @trackers %>    
+      <li><%= link_to tracker.name, :controller => 'issues', :action => 'index', :project_id => @project, 
+                                                :set_filter => 1, 
+                                                "tracker_id" => tracker.id %>:
+      <%= @open_issues_by_tracker[tracker] || 0 %> <%= lwr(:label_open_issues, @open_issues_by_tracker[tracker] || 0) %>
+      <%= l(:label_on) %> <%= @total_issues_by_tracker[tracker] || 0 %></li>
+    <% end %>
+    </ul>
+    <p><%= link_to l(:label_issue_view_all), :controller => 'issues', :action => 'index', :project_id => @project, :set_filter => 1 %></p>
+  </div>
+  <% end %>
+</div>
+
+<div class="splitcontentright">
+    <% if @members_by_role.any? %>
+	<div class="box">
+		<h3 class="icon22 icon22-users"><%=l(:label_member_plural)%></h3>	
+		<p><% @members_by_role.keys.sort.each do |role| %>
+		<%= role.name %>:
+		<%= @members_by_role[role].collect(&:user).sort.collect{|u| link_to_user u}.join(", ") %>
+		<br />
+		<% end %></p>
+	</div>
+	<% end %>
+    
+  <% if @news.any? && authorize_for('news', 'index') %>
+  <div class="box">
+    <h3><%=l(:label_news_latest)%></h3>  
+    <%= render :partial => 'news/news', :collection => @news %>
+    <p><%= link_to l(:label_news_view_all), :controller => 'news', :action => 'index', :project_id => @project %></p>
+  </div>  
+  <% end %>
+</div>
+
+<% content_for :sidebar do %>
+    <% planning_links = []
+      planning_links << link_to_if_authorized(l(:label_calendar), :action => 'calendar', :id => @project)
+      planning_links << link_to_if_authorized(l(:label_gantt), :action => 'gantt', :id => @project)
+      planning_links.compact!
+      unless planning_links.empty? %>
+    <h3><%= l(:label_planning) %></h3>
+    <p><%= planning_links.join(' | ') %></p>
+    <% end %>
+    
+    <% if @total_hours && User.current.allowed_to?(:view_time_entries, @project) %>
+    <h3><%= l(:label_spent_time) %></h3>
+    <p><span class="icon icon-time"><%= lwr(:label_f_hour, @total_hours) %></span></p>
+    <p><%= link_to(l(:label_details), {:controller => 'timelog', :action => 'details', :project_id => @project}) %> |
+    <%= link_to(l(:label_report), {:controller => 'timelog', :action => 'report', :project_id => @project}) %></p>
+    <% end %>
+<% end %>
+
+<% content_for :header_tags do %>
+<%= auto_discovery_link_tag(:atom, {:action => 'activity', :id => @project, :format => 'atom', :key => User.current.rss_key}) %>
+<% end %>
+
+<% html_title(l(:label_overview)) -%>
