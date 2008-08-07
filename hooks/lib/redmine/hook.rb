@@ -104,13 +104,21 @@ module Redmine
     # in views like this:
     #   <%= call_hook(:some_hook) %>
     #   <%= call_hook(:another_hook, :foo => 'bar' %>
+    # 
+    # Current project is automatically added to the call context.
     module Helper
       def call_hook(hook, context={})
-        Redmine::Hook.call_hook(hook, context)
+        Redmine::Hook.call_hook(hook, {:project => @project}.merge(context))
       end
     end
   end
 end
 
 ApplicationHelper.send(:include, Redmine::Hook::Helper)
+
+class Hello < Redmine::Hook::ViewListener
+  def view_layouts_base_html_head(context)
+    context[:project].to_s
+  end
+end
 
