@@ -16,11 +16,12 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class RedminePluginGenerator < Rails::Generator::NamedBase
-  attr_reader :plugin_path, :plugin_name
+  attr_reader :plugin_path, :plugin_name, :plugin_pretty_name
   
   def initialize(runtime_args, runtime_options = {})
     super
     @plugin_name = "redmine_#{file_name.underscore}"
+    @plugin_pretty_name = plugin_name.titleize
     @plugin_path = "vendor/plugins/#{plugin_name}"
   end
   
