@@ -19,28 +19,27 @@ require File.dirname(__FILE__) + '/../../../test_helper'
 
 class Redmine::Hook::ManagerTest < Test::Unit::TestCase
 
-  # Some fake hooks that are manually registered in these tests
-  class FakeHook
-    include Singleton
-  end
+  # Some hooks that are manually registered in these tests
+  class TestHook < Redmine::Hook::Listener; end
   
-  class TestHook1 < FakeHook
+  class TestHook1 < TestHook
     def view_layouts_base_html_head(context)
       'Test hook 1 listener.'
     end
   end
 
-  class TestHook2 < FakeHook
+  class TestHook2 < TestHook
     def view_layouts_base_html_head(context)
       'Test hook 2 listener.'
     end
   end
   
-  class TestHook3 < FakeHook
+  class TestHook3 < TestHook
     def view_layouts_base_html_head(context)
       "Context keys: #{context.keys.collect(&:to_s).sort.join(', ')}."
     end
   end
+  Redmine::Hook.clear_listeners
   
   def setup
     @hook_module = Redmine::Hook
