@@ -96,6 +96,7 @@ module Redmine
       include ActionView::Helpers::PrototypeHelper
       include ActionView::Helpers::NumberHelper
       include ActionView::Helpers::UrlHelper
+      include ActionView::Helpers::AssetTagHelper
       include ActionController::UrlWriter
       include ApplicationHelper
     end
