@@ -17,8 +17,6 @@
 
 module Redmine
   module Hook
-    HOOKS = %w(view_layouts_base_html_head).collect {|h| h.to_sym}
-    
     @@listener_classes = []
     @@listeners = nil
     @@hook_listeners = {}
@@ -62,14 +60,6 @@ module Redmine
           response << listener.send(hook, context).to_s
         end
         response
-      end
-      
-      def hooks
-        HOOKS.dup
-      end
-      
-      def valid_hook?(hook)
-        HOOKS.include?(hook)
       end
     end
 

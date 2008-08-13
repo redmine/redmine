@@ -49,27 +49,6 @@ class Redmine::Hook::ManagerTest < Test::Unit::TestCase
     @hook_module.clear_listeners
   end
   
-  def test_sanity
-    assert true
-  end
-  
-  def test_hooks_format
-    assert_kind_of Array, @hook_module.hooks
-    @hook_module.hooks.each do |hook|
-      assert_kind_of Symbol, hook
-      assert_kind_of Array, @hook_module.hook_listeners(hook)
-      assert_equal 0, @hook_module.hook_listeners(hook).length
-    end
-  end
-  
-  def test_valid_hook
-    assert @hook_module.valid_hook?(:view_layouts_base_html_head)
-  end
-  
-  def test_invalid_hook
-    assert !@hook_module.valid_hook?(:an_invalid_hook_name)
-  end
-  
   def test_clear_listeners
     assert_equal 0, @hook_module.hook_listeners(:view_layouts_base_html_head).size
     @hook_module.add_listener(TestHook1)
