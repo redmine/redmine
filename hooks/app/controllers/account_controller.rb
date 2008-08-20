@@ -16,7 +16,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class AccountController < ApplicationController
-  layout 'base'	
   helper :custom_fields
   include CustomFieldsHelper   
   
@@ -26,7 +25,7 @@ class AccountController < ApplicationController
   # Show user's account
   def show
     @user = User.find_active(params[:id])
-    @custom_values = @user.custom_values.find(:all, :include => :custom_field)
+    @custom_values = @user.custom_values
     
     # show only public projects and private projects that the logged in user is also a member of
     @memberships = @user.memberships.select do |membership|
