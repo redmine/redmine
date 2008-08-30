@@ -88,7 +88,7 @@ class Query < ActiveRecord::Base
                                  :date_past => [ ">t-", "<t-", "t-", "t", "w" ],
                                  :string => [ "=", "~", "!", "!~" ],
                                  :text => [  "~", "!~" ],
-                                 :integer => [ "=", ">=", "<=" ] }
+                                 :integer => [ "=", ">=", "<=", "!*", "*" ] }
 
   cattr_reader :operators_by_filter_type
 
@@ -125,7 +125,7 @@ class Query < ActiveRecord::Base
     filters.each_key do |field|
       errors.add label_for(field), :activerecord_error_blank unless 
           # filter requires one or more values
-          (values_for(field) and !values_for(field).first.empty?) or 
+          (values_for(field) and !values_for(field).first.blank?) or 
           # filter doesn't require any value
           ["o", "c", "!*", "*", "t", "w"].include? operator_for(field)
     end if filters
@@ -152,7 +152,8 @@ class Query < ActiveRecord::Base
                            "updated_on" => { :type => :date_past, :order => 10 },
                            "start_date" => { :type => :date, :order => 11 },
                            "due_date" => { :type => :date, :order => 12 },
-                           "done_ratio" =>  { :type => :integer, :order => 13 }}                          
+                           "estimated_hours" => { :type => :integer, :order => 13 },
+                           "done_ratio" =>  { :type => :integer, :order => 14 }}
     
     user_values = []
     user_values << ["<< #{l(:label_me)} >>", "me"] if User.current.logged?
@@ -166,29 +167,20 @@ class Query < ActiveRecord::Base
     @available_filters["author_id"] = { :type => :list, :order => 5, :values => user_values } unless user_values.empty?
   
     if project
-      # project specific filters      
-      @available_filters["category_id"] = { :type => :list_optional, :order => 6, :values => @project.issue_categories.collect{|s| [s.name, s.id.to_s] } }
-      @available_filters["fixed_version_id"] = { :type => :list_optional, :order => 7, :values => @project.versions.sort.collect{|s| [s.name, s.id.to_s] } }
+      # project specific filters
+      unless @project.issue_categories.empty?
+        @available_filters["category_id"] = { :type => :list_optional, :order => 6, :values => @project.issue_categories.collect{|s| [s.name, s.id.to_s] } }
+      end
+      unless @project.versions.empty?
+        @available_filters["fixed_version_id"] = { :type => :list_optional, :order => 7, :values => @project.versions.sort.collect{|s| [s.name, s.id.to_s] } }
+      end
       unless @project.active_children.empty?
         @available_filters["subproject_id"] = { :type => :list_subprojects, :order => 13, :values => @project.active_children.collect{|s| [s.name, s.id.to_s] } }
       end
-      @project.all_custom_fields.select(&:is_filter?).each do |field|
-        case field.field_format
-        when "text"
-          options = { :type => :text, :order => 20 }
-        when "list"
-          options = { :type => :list_optional, :values => field.possible_values, :order => 20}
-        when "date"
-          options = { :type => :date, :order => 20 }
-        when "bool"
-          options = { :type => :list, :values => [[l(:general_text_yes), "1"], [l(:general_text_no), "0"]], :order => 20 }
-        else
-          options = { :type => :string, :order => 20 }
-        end          
-        @available_filters["cf_#{field.id}"] = options.merge({ :name => field.name })
-      end
-      # remove category filter if no category defined
-      @available_filters.delete "category_id" if @available_filters["category_id"][:values].empty?
+      add_custom_fields_filters(@project.all_issue_custom_fields)
+    else
+      # global filters for cross project issue list
+      add_custom_fields_filters(IssueCustomField.find(:all, :conditions => {:is_filter => true, :is_for_all => true}))
     end
     @available_filters
   end
@@ -227,7 +219,7 @@ class Query < ActiveRecord::Base
   end
   
   def label_for(field)
-    label = @available_filters[field][:name] if @available_filters.has_key?(field)
+    label = available_filters[field][:name] if available_filters.has_key?(field)
     label ||= field.gsub(/\_id$/, "")
   end
 
@@ -235,7 +227,7 @@ class Query < ActiveRecord::Base
     return @available_columns if @available_columns
     @available_columns = Query.available_columns
     @available_columns += (project ? 
-                            project.all_custom_fields :
+                            project.all_issue_custom_fields :
                             IssueCustomField.find(:all, :conditions => {:is_for_all => true})
                            ).collect {|cf| QueryCustomFieldColumn.new(cf) }      
   end
@@ -265,7 +257,7 @@ class Query < ActiveRecord::Base
 
   def statement
     # project/subprojects clause
-    clause = ''
+    project_clauses = []
     if project && !@project.active_children.empty?
       ids = [project.id]
       if has_filter?("subproject_id")
@@ -277,17 +269,16 @@ class Query < ActiveRecord::Base
           # main project only
         else
           # all subprojects
-          ids += project.active_children.collect{|p| p.id}
+          ids += project.child_ids
         end
       elsif Setting.display_subprojects_issues?
-        ids += project.active_children.collect{|p| p.id}
+        ids += project.child_ids
       end
-      clause << "#{Issue.table_name}.project_id IN (%s)" % ids.join(',')
+      project_clauses << "#{Issue.table_name}.project_id IN (%s)" % ids.join(',')
     elsif project
-      clause << "#{Issue.table_name}.project_id = %d" % project.id
-    else
-      clause << Project.visible_by(User.current)
+      project_clauses << "#{Issue.table_name}.project_id = %d" % project.id
     end
+    project_clauses <<  Project.visible_by(User.current)
     
     # filters clauses
     filters_clauses = []
@@ -296,11 +287,13 @@ class Query < ActiveRecord::Base
       v = values_for(field).clone
       next unless v and !v.empty?
             
-      sql = ''      
+      sql = ''
+      is_custom_filter = false
       if field =~ /^cf_(\d+)$/
         # custom field
         db_table = CustomValue.table_name
         db_field = 'value'
+        is_custom_filter = true
         sql << "#{Issue.table_name}.id IN (SELECT #{Issue.table_name}.id FROM #{Issue.table_name} LEFT OUTER JOIN #{db_table} ON #{db_table}.customized_type='Issue' AND #{db_table}.customized_id=#{Issue.table_name}.id AND #{db_table}.custom_field_id=#{$1} WHERE "
       else
         # regular field
@@ -320,9 +313,11 @@ class Query < ActiveRecord::Base
       when "!"
         sql = sql + "(#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field} NOT IN (" + v.collect{|val| "'#{connection.quote_string(val)}'"}.join(",") + "))"
       when "!*"
-        sql = sql + "#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field} = ''"
+        sql = sql + "#{db_table}.#{db_field} IS NULL"
+        sql << " OR #{db_table}.#{db_field} = ''" if is_custom_filter
       when "*"
-        sql = sql + "#{db_table}.#{db_field} IS NOT NULL AND #{db_table}.#{db_field} <> ''"
+        sql = sql + "#{db_table}.#{db_field} IS NOT NULL"
+        sql << " AND #{db_table}.#{db_field} <> ''" if is_custom_filter
       when ">="
         sql = sql + "#{db_table}.#{db_field} >= #{v.first.to_i}"
       when "<="
@@ -361,8 +356,28 @@ class Query < ActiveRecord::Base
       filters_clauses << sql
     end if filters and valid?
     
-    clause << ' AND ' unless clause.empty?
-    clause << filters_clauses.join(' AND ') unless filters_clauses.empty?
-    clause
+    (project_clauses + filters_clauses).join(' AND ')
+  end
+  
+  private
+  
+  def add_custom_fields_filters(custom_fields)
+    @available_filters ||= {}
+    
+    custom_fields.select(&:is_filter?).each do |field|
+      case field.field_format
+      when "text"
+        options = { :type => :text, :order => 20 }
+      when "list"
+        options = { :type => :list_optional, :values => field.possible_values, :order => 20}
+      when "date"
+        options = { :type => :date, :order => 20 }
+      when "bool"
+        options = { :type => :list, :values => [[l(:general_text_yes), "1"], [l(:general_text_no), "0"]], :order => 20 }
+      else
+        options = { :type => :string, :order => 20 }
+      end
+      @available_filters["cf_#{field.id}"] = options.merge({ :name => field.name })
+    end
   end
 end

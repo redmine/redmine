@@ -15,18 +15,21 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require 'coderay'
-require 'coderay/helpers/file_type'
 require 'iconv'
 
 module RepositoriesHelper
-  def syntax_highlight(name, content)
-    type = CodeRay::FileType[name]
-    type ? CodeRay.scan(content, type).html : h(content)
-  end
-  
   def format_revision(txt)
     txt.to_s[0,8]
+  end
+  
+  def render_properties(properties)
+    unless properties.nil? || properties.empty?
+      content = ''
+      properties.keys.sort.each do |property|
+        content << content_tag('li', "<b>#{h property}</b>: <span>#{h properties[property]}</span>")
+      end
+      content_tag('ul', content, :class => 'properties')
+    end
   end
   
   def to_utf8(str)
@@ -48,10 +51,13 @@ module RepositoriesHelper
   end
   
   def scm_select_tag(repository)
-    container = [[]]
-    REDMINE_SUPPORTED_SCM.each {|scm| container << ["Repository::#{scm}".constantize.scm_name, scm]}
+    scm_options = [["--- #{l(:actionview_instancetag_blank_option)} ---", '']]
+    REDMINE_SUPPORTED_SCM.each do |scm|
+      scm_options << ["Repository::#{scm}".constantize.scm_name, scm] if Setting.enabled_scm.include?(scm) || (repository && repository.class.name.demodulize == scm)
+    end
+    
     select_tag('repository_scm', 
-               options_for_select(container, repository.class.name.demodulize),
+               options_for_select(scm_options, repository.class.name.demodulize),
                :disabled => (repository && !repository.new_record?),
                :onchange => remote_function(:url => { :controller => 'repositories', :action => 'edit', :id => @project }, :method => :get, :with => "Form.serialize(this.form)")
                )
@@ -94,5 +100,9 @@ module RepositoriesHelper
 
   def bazaar_field_tags(form, repository)
       content_tag('p', form.text_field(:url, :label => 'Root directory', :size => 60, :required => true, :disabled => (repository && !repository.new_record?)))
+  end
+  
+  def filesystem_field_tags(form, repository)
+    content_tag('p', form.text_field(:url, :label => 'Root directory', :size => 60, :required => true, :disabled => (repository && !repository.root_url.blank?)))
   end
 end

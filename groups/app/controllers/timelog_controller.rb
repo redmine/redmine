@@ -16,7 +16,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class TimelogController < ApplicationController
-  layout 'base'
   menu_item :issues
   before_filter :find_project, :authorize
 
@@ -54,8 +53,15 @@ class TimelogController < ApplicationController
                            }
     
     # Add list and boolean custom fields as available criterias
-    @project.all_custom_fields.select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
-      @available_criterias["cf_#{cf.id}"] = {:sql => "(SELECT c.value FROM custom_values c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'Issue' AND c.customized_id = issues.id)",
+    @project.all_issue_custom_fields.select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
+      @available_criterias["cf_#{cf.id}"] = {:sql => "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'Issue' AND c.customized_id = #{Issue.table_name}.id)",
+                                             :format => cf.field_format,
+                                             :label => cf.name}
+    end
+    
+    # Add list and boolean time entry custom fields
+    TimeEntryCustomField.find(:all).select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
+      @available_criterias["cf_#{cf.id}"] = {:sql => "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'TimeEntry' AND c.customized_id = #{TimeEntry.table_name}.id)",
                                              :format => cf.field_format,
                                              :label => cf.name}
     end
@@ -154,6 +160,14 @@ class TimelogController < ApplicationController
 
           render :layout => !request.xhr?
         }
+        format.atom {
+          entries = TimeEntry.find(:all,
+                                   :include => [:project, :activity, :user, {:issue => :tracker}],
+                                   :conditions => cond.conditions,
+                                   :order => "#{TimeEntry.table_name}.created_on DESC",
+                                   :limit => Setting.feeds_limit.to_i)
+          render_feed(entries, :title => l(:label_spent_time))
+        }
         format.csv {
           # Export all entries
           @entries = TimeEntry.find(:all, 
@@ -172,10 +186,9 @@ class TimelogController < ApplicationController
     @time_entry.attributes = params[:time_entry]
     if request.post? and @time_entry.save
       flash[:notice] = l(:notice_successful_update)
-      redirect_to(params[:back_url] || {:action => 'details', :project_id => @time_entry.project})
+      redirect_to(params[:back_url].blank? ? {:action => 'details', :project_id => @time_entry.project} : params[:back_url])
       return
     end    
-    @activities = Enumeration::get_values('ACTI')
   end
   
   def destroy

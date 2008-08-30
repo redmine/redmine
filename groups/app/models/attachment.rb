@@ -26,7 +26,19 @@ class Attachment < ActiveRecord::Base
   validates_length_of :disk_filename, :maximum => 255
 
   acts_as_event :title => :filename,
-                :url => Proc.new {|o| {:controller => 'attachments', :action => 'download', :id => o.id}}
+                :url => Proc.new {|o| {:controller => 'attachments', :action => 'download', :id => o.id, :filename => o.filename}}
+
+  acts_as_activity_provider :type => 'files',
+                            :permission => :view_files,
+                            :find_options => {:select => "#{Attachment.table_name}.*", 
+                                              :joins => "LEFT JOIN #{Version.table_name} ON #{Attachment.table_name}.container_type='Version' AND #{Version.table_name}.id = #{Attachment.table_name}.container_id " +
+                                                        "LEFT JOIN #{Project.table_name} ON #{Version.table_name}.project_id = #{Project.table_name}.id"}
+  
+  acts_as_activity_provider :type => 'documents',
+                            :permission => :view_documents,
+                            :find_options => {:select => "#{Attachment.table_name}.*", 
+                                              :joins => "LEFT JOIN #{Document.table_name} ON #{Attachment.table_name}.container_type='Document' AND #{Document.table_name}.id = #{Attachment.table_name}.container_id " +
+                                                        "LEFT JOIN #{Project.table_name} ON #{Document.table_name}.project_id = #{Project.table_name}.id"}
 
   cattr_accessor :storage_path
   @@storage_path = "#{RAILS_ROOT}/files"
@@ -40,7 +52,7 @@ class Attachment < ActiveRecord::Base
       @temp_file = incoming_file
       if @temp_file.size > 0
         self.filename = sanitize_filename(@temp_file.original_filename)
-        self.disk_filename = DateTime.now.strftime("%y%m%d%H%M%S") + "_" + self.filename
+        self.disk_filename = Attachment.disk_filename(filename)
         self.content_type = @temp_file.content_type.to_s.chomp
         self.filesize = @temp_file.size
       end
@@ -68,9 +80,7 @@ class Attachment < ActiveRecord::Base
 
   # Deletes file on the disk
   def after_destroy
-    if self.filename?
-      File.delete(diskfile) if File.exist?(diskfile)
-    end
+    File.delete(diskfile) if !filename.blank? && File.exist?(diskfile)
   end
 
   # Returns file's location on disk
@@ -90,6 +100,14 @@ class Attachment < ActiveRecord::Base
     self.filename =~ /\.(jpe?g|gif|png)$/i
   end
   
+  def is_text?
+    Redmine::MimeType.is_type?('text', filename)
+  end
+  
+  def is_diff?
+    self.filename =~ /\.(patch|diff)$/i
+  end
+  
 private
   def sanitize_filename(value)
     # get only the filename, not the whole path
@@ -99,5 +117,18 @@ private
 
     # Finally, replace all non alphanumeric, hyphens or periods with underscore
     @filename = just_filename.gsub(/[^\w\.\-]/,'_') 
+  end
+  
+  # Returns an ASCII or hashed filename
+  def self.disk_filename(filename)
+    df = DateTime.now.strftime("%y%m%d%H%M%S") + "_"
+    if filename =~ %r{^[a-zA-Z0-9_\.\-]*$}
+      df << filename
+    else
+      df << Digest::MD5.hexdigest(filename)
+      # keep the extension if any
+      df << $1 if filename =~ %r{(\.[a-zA-Z0-9]+)$}
+    end
+    df
   end
 end

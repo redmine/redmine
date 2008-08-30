@@ -25,16 +25,36 @@ module Redmine
         # Darcs executable name
         DARCS_BIN = "darcs"
         
+        class << self
+          def client_version
+            @@client_version ||= (darcs_binary_version || [])
+          end
+  	  
+          def darcs_binary_version
+            cmd = "#{DARCS_BIN} --version"
+            version = nil
+            shellout(cmd) do |io|
+              # Read darcs version in first returned line
+              if m = io.gets.match(%r{((\d+\.)+\d+)})
+                version = m[0].scan(%r{\d+}).collect(&:to_i)
+              end
+            end
+            return nil if $? && $?.exitstatus != 0
+            version
+          end
+        end
+
         def initialize(url, root_url=nil, login=nil, password=nil)
           @url = url
           @root_url = url
         end
 
         def supports_cat?
-          false
+          # cat supported in darcs 2.0.0 and higher
+          self.class.client_version_above?([2, 0, 0])
         end
-              
-        # Get info about the svn repository
+
+        # Get info about the darcs repository
         def info
           rev = revisions(nil,nil,nil,{:limit => 1})
           rev ? Info.new({:root_url => @url, :lastrev => rev.last}) : nil
@@ -94,7 +114,7 @@ module Redmine
           revisions
         end
         
-        def diff(path, identifier_from, identifier_to=nil, type="inline")
+        def diff(path, identifier_from, identifier_to=nil)
           path = '*' if path.blank?
           cmd = "#{DARCS_BIN} diff --repodir #{@url}"
           if identifier_to.nil?
@@ -111,9 +131,22 @@ module Redmine
             end
           end
           return nil if $? && $?.exitstatus != 0
-          DiffTableList.new diff, type    
+          diff
         end
         
+        def cat(path, identifier=nil)
+          cmd = "#{DARCS_BIN} show content --repodir #{@url}"
+          cmd << " --match \"hash #{identifier}\"" if identifier
+          cmd << " #{shell_quote path}"
+          cat = nil
+          shellout(cmd) do |io|
+            io.binmode
+            cat = io.read
+          end
+          return nil if $? && $?.exitstatus != 0
+          cat
+        end
+
         private
                 
         def entry_from_xml(element, path_prefix)

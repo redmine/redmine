@@ -48,6 +48,7 @@ general_text_no: 'nei'
 general_text_yes: 'ja'
 general_lang_name: 'Norwegian (Norsk bokmål)'
 general_csv_separator: ','
+general_csv_decimal_separator: '.'
 general_csv_encoding: ISO-8859-1
 general_pdf_encoding: ISO-8859-1
 general_day_names: Mandag,Tirsdag,Onsdag,Torsdag,Fredag,Lørdag,Søndag
@@ -91,6 +92,8 @@ mail_body_account_information_external: Du kan bruke din "%s"-konto for å logge
 mail_body_account_information: Informasjon om din konto
 mail_subject_account_activation_request: %s kontoaktivering
 mail_body_account_activation_request: 'En ny bruker (%s) er registrert, og avventer din godkjenning:'
+mail_subject_reminder: "%d sak(er) har frist de kommende dagene"
+mail_body_reminder: "%d sak(er) som er tildelt deg har frist de kommende %d dager:"
 
 gui_validation_error: 1 feil
 gui_validation_error_plural: %d feil
@@ -211,6 +214,7 @@ setting_per_page_options: Alternativer, objekter pr. side
 setting_user_format: Visningsformat, brukere
 setting_activity_days_default: Dager vist på prosjektaktivitet
 setting_display_subprojects_issues: Vis saker fra underprosjekter på hovedprosjekt som standard
+setting_enabled_scm: Aktiviserte SCM
 
 project_module_issue_tracking: Sakssporing
 project_module_time_tracking: Tidssporing
@@ -291,6 +295,7 @@ label_auth_source: Autentifikasjonsmodus
 label_auth_source_new: Ny autentifikasjonmodus
 label_auth_source_plural: Autentifikasjonsmoduser
 label_subproject_plural: Underprosjekter
+label_and_its_subprojects: %s og dets underprosjekter
 label_min_max_length: Min.-maks. lengde
 label_list: Liste
 label_date: Dato
@@ -444,7 +449,8 @@ label_loading: Laster...
 label_relation_new: Ny relasjon
 label_relation_delete: Slett relasjon
 label_relates_to: relatert til
-label_duplicates: duplikater
+label_duplicates: dupliserer
+label_duplicated_by: duplisert av
 label_blocks: blokkerer
 label_blocked_by: blokkert av
 label_precedes: kommer før
@@ -557,7 +563,7 @@ text_select_mail_notifications: Velg hendelser som skal varsles med e-post.
 text_regexp_info: eg. ^[A-Z0-9]+$
 text_min_max_length_info: 0 betyr ingen begrensning
 text_project_destroy_confirmation: Er du sikker på at du vil slette dette prosjekter og alle relatert data ?
-text_subprojects_destroy_warning: 'Underprojekt(ene): %s vil ogsÃ¥ bli slettet.'
+text_subprojects_destroy_warning: 'Underprojekt(ene): %s vil også bli slettet.'
 text_workflow_edit: Velg en rolle og en sakstype for å endre arbeidsflyten
 text_are_you_sure: Er du sikker ?
 text_journal_changed: endret fra %s til %s
@@ -593,6 +599,7 @@ text_destroy_time_entries_question: %.02f timer er ført på sakene du er i ferd
 text_destroy_time_entries: Slett førte timer
 text_assign_time_entries_to_project: Overfør førte timer til prosjektet
 text_reassign_time_entries: 'Overfør førte timer til denne saken:'
+text_user_wrote: '%s skrev:'
 
 default_role_manager: Leder
 default_role_developper: Utvikler
@@ -619,3 +626,14 @@ default_activity_development: Utvikling
 enumeration_issue_priorities: Sakssprioriteringer
 enumeration_doc_categories: Dokument-kategorier
 enumeration_activities: Aktiviteter (tidssporing)
+text_enumeration_category_reassign_to: 'Reassign them to this value:'
+text_enumeration_destroy_question: '%d objects are assigned to this value.'
+label_incoming_emails: Incoming emails
+label_generate_key: Generate a key
+setting_mail_handler_api_enabled: Enable WS for incoming emails
+setting_mail_handler_api_key: API key
+text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
+field_parent_title: Parent page
+label_issue_watchers: Watchers
+setting_commit_logs_encoding: Commit messages encoding
+button_quote: Quote

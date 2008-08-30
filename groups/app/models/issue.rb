@@ -28,23 +28,26 @@ class Issue < ActiveRecord::Base
   has_many :journals, :as => :journalized, :dependent => :destroy
   has_many :attachments, :as => :container, :dependent => :destroy
   has_many :time_entries, :dependent => :delete_all
-  has_many :custom_values, :dependent => :delete_all, :as => :customized
-  has_many :custom_fields, :through => :custom_values
-  has_and_belongs_to_many :changesets, :order => "revision ASC"
+  has_and_belongs_to_many :changesets, :order => "#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC"
   
   has_many :relations_from, :class_name => 'IssueRelation', :foreign_key => 'issue_from_id', :dependent => :delete_all
   has_many :relations_to, :class_name => 'IssueRelation', :foreign_key => 'issue_to_id', :dependent => :delete_all
   
+  acts_as_customizable
   acts_as_watchable
-  acts_as_searchable :columns => ['subject', 'description'], :with => {:journal => :issue}
+  acts_as_searchable :columns => ['subject', "#{table_name}.description", "#{Journal.table_name}.notes"],
+                     :include => [:project, :journals],
+                     # sort by id so that limited eager loading doesn't break with postgresql
+                     :order_column => "#{table_name}.id"
   acts_as_event :title => Proc.new {|o| "#{o.tracker.name} ##{o.id}: #{o.subject}"},
                 :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.id}}                
+  
+  acts_as_activity_provider :find_options => {:include => [:project, :author, :tracker]}
   
   validates_presence_of :subject, :description, :priority, :project, :tracker, :author, :status
   validates_length_of :subject, :maximum => 255
   validates_inclusion_of :done_ratio, :in => 0..100
   validates_numericality_of :estimated_hours, :allow_nil => true
-  validates_associated :custom_values, :on => :update
 
   def after_initialize
     if new_record?
@@ -52,6 +55,11 @@ class Issue < ActiveRecord::Base
       self.status ||= IssueStatus.default
       self.priority ||= Enumeration.default('IPRI')
     end
+  end
+  
+  # Overrides Redmine::Acts::Customizable::InstanceMethods#available_custom_fields
+  def available_custom_fields
+    (project && tracker) ? project.all_issue_custom_fields.select {|c| tracker.custom_fields.include? c } : []
   end
   
   def copy_from(arg)
@@ -71,7 +79,9 @@ class Issue < ActiveRecord::Base
           self.relations_to.clear
         end
         # issue is moved to another project
-        self.category = nil 
+        # reassign to the category with same name if any
+        new_category = category.nil? ? nil : new_project.issue_categories.find_by_name(category.name)
+        self.category = new_category
         self.fixed_version = nil
         self.project = new_project
       end
@@ -168,17 +178,14 @@ class Issue < ActiveRecord::Base
     end
   end
   
-  def custom_value_for(custom_field)
-    self.custom_values.each {|v| return v if v.custom_field_id == custom_field.id }
-    return nil
-  end
-  
   def init_journal(user, notes = "")
     @current_journal ||= Journal.new(:journalized => self, :user => user, :notes => notes)
     @issue_before_change = self.clone
     @issue_before_change.status = self.status
     @custom_values_before_change = {}
     self.custom_values.each {|c| @custom_values_before_change.store c.custom_field_id, c.value }
+    # Make sure updated_on is updated when adding a note.
+    updated_on_will_change!
     @current_journal
   end
   
@@ -225,9 +232,15 @@ class Issue < ActiveRecord::Base
     dependencies
   end
   
-  # Returns an array of the duplicate issues
+  # Returns an array of issues that duplicate this one
   def duplicates
-    relations.select {|r| r.relation_type == IssueRelation::TYPE_DUPLICATES}.collect {|r| r.other_issue(self)}
+    relations_to.select {|r| r.relation_type == IssueRelation::TYPE_DUPLICATES}.collect {|r| r.issue_from}
+  end
+  
+  # Returns the due date or the target due date if any
+  # Used on gantt chart
+  def due_before
+    due_date || (fixed_version ? fixed_version.effective_date : nil)
   end
   
   def duration

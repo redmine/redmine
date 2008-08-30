@@ -15,6 +15,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+require 'iconv'
+
 class Changeset < ActiveRecord::Base
   belongs_to :repository
   has_many :changes, :dependent => :delete_all
@@ -27,9 +29,12 @@ class Changeset < ActiveRecord::Base
                 :url => Proc.new {|o| {:controller => 'repositories', :action => 'revision', :id => o.repository.project_id, :rev => o.revision}}
                 
   acts_as_searchable :columns => 'comments',
-                     :include => :repository,
+                     :include => {:repository => :project},
                      :project_key => "#{Repository.table_name}.project_id",
                      :date_column => 'committed_on'
+                     
+  acts_as_activity_provider :timestamp => "#{table_name}.committed_on",
+                            :find_options => {:include => {:repository => :project}}
   
   validates_presence_of :repository_id, :revision, :committed_on, :commit_date
   validates_uniqueness_of :revision, :scope => :repository_id
@@ -40,7 +45,7 @@ class Changeset < ActiveRecord::Base
   end
   
   def comments=(comment)
-    write_attribute(:comments, comment.strip)
+    write_attribute(:comments, Changeset.normalize_comments(comment))
   end
 
   def committed_on=(date)
@@ -75,7 +80,7 @@ class Changeset < ActiveRecord::Base
     if ref_keywords.delete('*')
       # find any issue ID in the comments
       target_issue_ids = []
-      comments.scan(%r{([\s\(,-^])#(\d+)(?=[[:punct:]]|\s|<|$)}).each { |m| target_issue_ids << m[1] }
+      comments.scan(%r{([\s\(,-]|^)#(\d+)(?=[[:punct:]]|\s|<|$)}).each { |m| target_issue_ids << m[1] }
       referenced_issues += repository.project.issues.find_all_by_id(target_issue_ids)
     end
     
@@ -127,5 +132,25 @@ class Changeset < ActiveRecord::Base
   # Returns the next changeset
   def next
     @next ||= Changeset.find(:first, :conditions => ['id > ? AND repository_id = ?', self.id, self.repository_id], :order => 'id ASC')
+  end
+  
+  # Strips and reencodes a commit log before insertion into the database
+  def self.normalize_comments(str)
+    to_utf8(str.to_s.strip)
+  end
+  
+  private
+  
+  def self.to_utf8(str)
+    return str if /\A[\r\n\t\x20-\x7e]*\Z/n.match(str) # for us-ascii
+    encoding = Setting.commit_logs_encoding.to_s.strip
+    unless encoding.blank? || encoding == 'UTF-8'
+      begin
+        return Iconv.conv('UTF-8', encoding, str)
+      rescue Iconv::Failure
+        # do nothing here
+      end
+    end
+    str
   end
 end

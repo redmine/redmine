@@ -48,6 +48,7 @@ general_text_no: 'no'
 general_text_yes: 'yes'
 general_lang_name: 'English'
 general_csv_separator: ','
+general_csv_decimal_separator: '.'
 general_csv_encoding: ISO-8859-1
 general_pdf_encoding: ISO-8859-1
 general_day_names: Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday
@@ -91,6 +92,8 @@ mail_body_account_information_external: You can use your "%s" account to log in.
 mail_body_account_information: Your account information
 mail_subject_account_activation_request: %s account activation request
 mail_body_account_activation_request: 'A new user (%s) has registered. His account is pending your approval:'
+mail_subject_reminder: "%d issue(s) due in the next days"
+mail_body_reminder: "%d issue(s) that are assigned to you are due in the next %d days:"
 
 gui_validation_error: 1 error
 gui_validation_error_plural: %d errors
@@ -180,6 +183,7 @@ field_searchable: Searchable
 field_default_value: Default value
 field_comments_sorting: Display comments
 field_group: Group
+field_parent_title: Parent page
 
 setting_app_title: Application title
 setting_app_subtitle: Application subtitle
@@ -206,12 +210,16 @@ setting_time_format: Time format
 setting_cross_project_issue_relations: Allow cross-project issue relations
 setting_issue_list_default_columns: Default columns displayed on the issue list
 setting_repositories_encodings: Repositories encodings
+setting_commit_logs_encoding: Commit messages encoding
 setting_emails_footer: Emails footer
 setting_protocol: Protocol
 setting_per_page_options: Objects per page options
 setting_user_format: Users display format
 setting_activity_days_default: Days displayed on project activity
 setting_display_subprojects_issues: Display subprojects issues on main projects by default
+setting_enabled_scm: Enabled SCM
+setting_mail_handler_api_enabled: Enable WS for incoming emails
+setting_mail_handler_api_key: API key
 
 project_module_issue_tracking: Issue tracking
 project_module_time_tracking: Time tracking
@@ -292,6 +300,7 @@ label_auth_source: Authentication mode
 label_auth_source_new: New authentication mode
 label_auth_source_plural: Authentication modes
 label_subproject_plural: Subprojects
+label_and_its_subprojects: %s and its subprojects
 label_min_max_length: Min - Max length
 label_list: List
 label_date: Date
@@ -446,6 +455,7 @@ label_relation_new: New relation
 label_relation_delete: Delete relation
 label_relates_to: related to
 label_duplicates: duplicates
+label_duplicated_by: duplicated by
 label_blocks: blocks
 label_blocked_by: blocked by
 label_precedes: precedes
@@ -514,6 +524,9 @@ label_planning: Planning
 label_group: Group
 label_group_plural: Groups
 label_group_new: New group
+label_incoming_emails: Incoming emails
+label_generate_key: Generate a key
+label_issue_watchers: Watchers
 
 button_login: Login
 button_submit: Submit
@@ -552,6 +565,7 @@ button_copy: Copy
 button_annotate: Annotate
 button_update: Update
 button_configure: Configure
+button_quote: Quote
 
 status_active: active
 status_registered: registered
@@ -570,7 +584,7 @@ text_journal_deleted: deleted
 text_tip_task_begin_day: task beginning this day
 text_tip_task_end_day: task ending this day
 text_tip_task_begin_end_day: task beginning and ending this day
-text_project_identifier_info: 'Lower case letters (a-z), numbers and dashes allowed.<br />Once saved, the identifier can not be changed.'
+text_project_identifier_info: 'Only lower case letters (a-z), numbers and dashes are allowed.<br />Once saved, the identifier can not be changed.'
 text_caracters_maximum: %d characters maximum.
 text_caracters_minimum: Must be at least %d characters long.
 text_length_between: Length between %d and %d characters.
@@ -597,6 +611,10 @@ text_destroy_time_entries_question: %.02f hours were reported on the issues you 
 text_destroy_time_entries: Delete reported hours
 text_assign_time_entries_to_project: Assign reported hours to the project
 text_reassign_time_entries: 'Reassign reported hours to this issue:'
+text_user_wrote: '%s wrote:'
+text_enumeration_destroy_question: '%d objects are assigned to this value.'
+text_enumeration_category_reassign_to: 'Reassign them to this value:'
+text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
 
 default_role_manager: Manager
 default_role_developper: Developer

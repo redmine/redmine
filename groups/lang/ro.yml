@@ -48,6 +48,7 @@ general_text_no: 'nu'
 general_text_yes: 'da'
 general_lang_name: 'Română'
 general_csv_separator: ','
+general_csv_decimal_separator: '.'
 general_csv_encoding: ISO-8859-1
 general_pdf_encoding: ISO-8859-1
 general_day_names: Luni,Marti,Miercuri,Joi,Vineri,Sambata,Duminica
@@ -497,7 +498,7 @@ default_issue_status_new: Nou
 default_issue_status_assigned: Atribuit
 default_issue_status_resolved: Rezolvat
 default_issue_status_feedback: Feedback
-default_issue_status_closed: Rezolvat
+default_issue_status_closed: Closed
 default_issue_status_rejected: Respins
 default_doc_category_user: Documentatie
 default_doc_category_tech: Documentatie tehnica
@@ -618,3 +619,20 @@ setting_default_projects_public: New projects are public by default
 error_scm_annotate: "The entry does not exist or can not be annotated."
 label_planning: Planning
 text_subprojects_destroy_warning: 'Its subproject(s): %s will be also deleted.'
+label_and_its_subprojects: %s and its subprojects
+mail_body_reminder: "%d issue(s) that are assigned to you are due in the next %d days:"
+mail_subject_reminder: "%d issue(s) due in the next days"
+text_user_wrote: '%s wrote:'
+label_duplicated_by: duplicated by
+setting_enabled_scm: Enabled SCM
+text_enumeration_category_reassign_to: 'Reassign them to this value:'
+text_enumeration_destroy_question: '%d objects are assigned to this value.'
+label_incoming_emails: Incoming emails
+label_generate_key: Generate a key
+setting_mail_handler_api_enabled: Enable WS for incoming emails
+setting_mail_handler_api_key: API key
+text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
+field_parent_title: Parent page
+label_issue_watchers: Watchers
+setting_commit_logs_encoding: Commit messages encoding
+button_quote: Quote

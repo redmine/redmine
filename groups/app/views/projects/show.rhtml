@@ -3,14 +3,14 @@
 <div class="splitcontentleft">
 	<%= textilizable @project.description %>	
 	<ul>
-	<% unless @project.homepage.blank? %><li><%=l(:field_homepage)%>: <%= auto_link @project.homepage %></li><% end %>
+	<% unless @project.homepage.blank? %><li><%=l(:field_homepage)%>: <%= auto_link(h(@project.homepage)) %></li><% end %>
     <% if @subprojects.any? %>
  	<li><%=l(:label_subproject_plural)%>: <%= @subprojects.collect{|p| link_to(h(p.name), :action => 'show', :id => p)}.join(", ") %></li>
     <% end %>
 	<% if @project.parent %>
 	<li><%=l(:field_parent)%>: <%= link_to h(@project.parent.name), :controller => 'projects', :action => 'show', :id => @project.parent %></li>
 	<% end %>
-	<% for custom_value in @custom_values %>
+	<% @project.custom_values.each do |custom_value| %>
 	<% if !custom_value.value.empty? %>
 	   <li><%= custom_value.custom_field.name%>: <%=h show_value(custom_value) %></li>
 	<% end %>

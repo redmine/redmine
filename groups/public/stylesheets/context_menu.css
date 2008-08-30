@@ -1,4 +1,4 @@
-#context-menu { position: absolute; z-index: 10;}
+#context-menu { position: absolute; z-index: 40; font-size: 0.9em;}
 
 #context-menu ul, #context-menu li, #context-menu a {
 	display:block;
@@ -20,7 +20,7 @@
 #context-menu li {
 	position:relative;
 	padding:1px;
-	z-index:9;
+	z-index:39;
 }
 #context-menu li.folder ul { position:absolute; left:168px; /* IE6 */ top:-2px; }
 #context-menu li.folder>ul { left:148px; }
@@ -31,10 +31,10 @@
 
 #context-menu a {
 	border:1px solid white;
-	text-decoration:none;
+	text-decoration:none !important;
 	background-repeat: no-repeat;
 	background-position: 1px 50%;
-	padding: 2px 0px 2px 20px;
+	padding: 1px 0px 1px 20px;
 	width:100%; /* IE */
 }
 #context-menu li>a { width:auto; } /* others */
@@ -42,7 +42,7 @@
 #context-menu li a.submenu { background:url("../images/sub.gif") right no-repeat; }
 #context-menu a:hover { border-color:gray; background-color:#eee; color:#2A5685; }
 #context-menu li.folder a:hover { background-color:#eee; }	
-#context-menu li.folder:hover { z-index:10; }		
+#context-menu li.folder:hover { z-index:40; }		
 #context-menu ul ul, #context-menu  li:hover ul ul { display:none; }
 #context-menu li:hover ul, #context-menu li:hover li:hover ul {	display:block; }
 

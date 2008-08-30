@@ -65,7 +65,7 @@ module Redmine
           entries = Entries.new
           cmd = "#{CVS_BIN} -d #{root_url} rls -ed"
           cmd << " -D \"#{time_to_cvstime(identifier)}\"" if identifier
-          cmd << " #{path_with_project}"
+          cmd << " #{shell_quote path_with_project}"
           shellout(cmd) do |io|
             io.each_line(){|line|
               fields=line.chop.split('/',-1)
@@ -110,7 +110,7 @@ module Redmine
           path_with_project="#{url}#{with_leading_slash(path)}"
           cmd = "#{CVS_BIN} -d #{root_url} rlog"
           cmd << " -d\">#{time_to_cvstime(identifier_from)}\"" if identifier_from
-          cmd << " #{path_with_project}"
+          cmd << " #{shell_quote path_with_project}"
           shellout(cmd) do |io|
             state="entry_start"
             
@@ -227,10 +227,10 @@ module Redmine
           end
         end  
         
-        def diff(path, identifier_from, identifier_to=nil, type="inline")
+        def diff(path, identifier_from, identifier_to=nil)
           logger.debug "<cvs> diff path:'#{path}',identifier_from #{identifier_from}, identifier_to #{identifier_to}"
           path_with_project="#{url}#{with_leading_slash(path)}"
-          cmd = "#{CVS_BIN} -d #{root_url} rdiff -u -r#{identifier_to} -r#{identifier_from} #{path_with_project}"
+          cmd = "#{CVS_BIN} -d #{root_url} rdiff -u -r#{identifier_to} -r#{identifier_from} #{shell_quote path_with_project}"
           diff = []
           shellout(cmd) do |io|
             io.each_line do |line|
@@ -238,14 +238,16 @@ module Redmine
             end
           end
           return nil if $? && $?.exitstatus != 0
-          DiffTableList.new diff, type
+          diff
         end  
         
         def cat(path, identifier=nil)
           identifier = (identifier) ? identifier : "HEAD"
           logger.debug "<cvs> cat path:'#{path}',identifier #{identifier}"
           path_with_project="#{url}#{with_leading_slash(path)}"
-          cmd = "#{CVS_BIN} -d #{root_url} co -r#{identifier} -p #{path_with_project}"
+          cmd = "#{CVS_BIN} -d #{root_url} co"
+          cmd << " -D \"#{time_to_cvstime(identifier)}\"" if identifier
+          cmd << " -p #{shell_quote path_with_project}"
           cat = nil
           shellout(cmd) do |io|
             cat = io.read
@@ -258,7 +260,7 @@ module Redmine
           identifier = (identifier) ? identifier : "HEAD"
           logger.debug "<cvs> annotate path:'#{path}',identifier #{identifier}"
           path_with_project="#{url}#{with_leading_slash(path)}"
-          cmd = "#{CVS_BIN} -d #{root_url} rannotate -r#{identifier} #{path_with_project}"
+          cmd = "#{CVS_BIN} -d #{root_url} rannotate -r#{identifier} #{shell_quote path_with_project}"
           blame = Annotate.new
           shellout(cmd) do |io|
             io.each_line do |line|

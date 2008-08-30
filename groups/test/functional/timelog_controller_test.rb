@@ -30,11 +30,22 @@ class TimelogControllerTest < Test::Unit::TestCase
     @response   = ActionController::TestResponse.new
   end
   
-  def test_create
+  def test_get_edit
+    @request.session[:user_id] = 3
+    get :edit, :project_id => 1
+    assert_response :success
+    assert_template 'edit'
+    # Default activity selected
+    assert_tag :tag => 'option', :attributes => { :selected => 'selected' },
+                                 :content => 'Development'
+  end
+  
+  def test_post_edit
     @request.session[:user_id] = 3
     post :edit, :project_id => 1,
                 :time_entry => {:comments => 'Some work on TimelogControllerTest',
-                                :activity_id => '10',
+                                # Not the default activity
+                                :activity_id => '11',
                                 :spent_on => '2008-03-14',
                                 :issue_id => '1',
                                 :hours => '7.3'}
@@ -43,6 +54,7 @@ class TimelogControllerTest < Test::Unit::TestCase
     i = Issue.find(1)
     t = TimeEntry.find_by_comments('Some work on TimelogControllerTest')
     assert_not_nil t
+    assert_equal 11, t.activity_id
     assert_equal 7.3, t.hours
     assert_equal 3, t.user_id
     assert_equal i, t.issue
@@ -196,6 +208,14 @@ class TimelogControllerTest < Test::Unit::TestCase
     # display all time by default
     assert_equal '2007-03-11'.to_date, assigns(:from)
     assert_equal '2007-04-22'.to_date, assigns(:to)
+  end
+  
+  def test_details_atom_feed
+    get :details, :project_id => 1, :format => 'atom'
+    assert_response :success
+    assert_equal 'application/atom+xml', @response.content_type
+    assert_not_nil assigns(:items)
+    assert assigns(:items).first.is_a?(TimeEntry)
   end
   
   def test_details_csv_export

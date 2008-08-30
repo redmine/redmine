@@ -15,6 +15,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+require 'coderay'
+require 'coderay/helpers/file_type'
+
 module ApplicationHelper
   include Redmine::WikiFormatting::Macros::Definitions
 
@@ -31,6 +34,12 @@ module ApplicationHelper
   def link_to_if_authorized(name, options = {}, html_options = nil, *parameters_for_method_reference)
     link_to(name, options, html_options, *parameters_for_method_reference) if authorize_for(options[:controller] || params[:controller], options[:action])
   end
+  
+  # Display a link to remote if user is authorized
+  def link_to_remote_if_authorized(name, options = {}, html_options = nil)
+    url = options[:url] || {}
+    link_to_remote(name, options, html_options) if authorize_for(url[:controller] || params[:controller], url[:action])
+  end
 
   # Display a link to user's account page
   def link_to_user(user)
@@ -38,7 +47,21 @@ module ApplicationHelper
   end
   
   def link_to_issue(issue, options={})
+    options[:class] ||= ''
+    options[:class] << ' issue'
+    options[:class] << ' closed' if issue.closed?
     link_to "#{issue.tracker.name} ##{issue.id}", {:controller => "issues", :action => "show", :id => issue}, options
+  end
+  
+  # Generates a link to an attachment.
+  # Options:
+  # * :text - Link text (default to attachment filename)
+  # * :download - Force download (default: false)
+  def link_to_attachment(attachment, options={})
+    text = options.delete(:text) || attachment.filename
+    action = options.delete(:download) ? 'download' : 'show'
+    
+    link_to(h(text), {:controller => 'attachments', :action => action, :id => attachment, :filename => attachment.filename }, options)
   end
   
   def toggle_link(name, id, options={})
@@ -46,14 +69,6 @@ module ApplicationHelper
     onclick << (options[:focus] ? "Form.Element.focus('#{options[:focus]}'); " : "this.blur(); ")
     onclick << "return false;"
     link_to(name, "#", :onclick => onclick)
-  end
-  
-  def show_and_goto_link(name, id, options={})
-    onclick = "Element.show('#{id}'); "
-    onclick << (options[:focus] ? "Form.Element.focus('#{options[:focus]}'); " : "this.blur(); ")
-    onclick << "Element.scrollTo('#{id}'); "
-    onclick << "return false;"
-    link_to(name, "#", options.merge(:onclick => onclick))
   end
   
   def image_to_function(name, function, html_options = {})
@@ -80,14 +95,15 @@ module ApplicationHelper
     return nil unless time
     time = time.to_time if time.is_a?(String)
     zone = User.current.time_zone
-    if time.utc?
-      local = zone ? zone.adjust(time) : time.getlocal
-    else
-      local = zone ? zone.adjust(time.getutc) : time
-    end
+    local = zone ? time.in_time_zone(zone) : (time.utc? ? time.utc_to_local : time)
     @date_format ||= (Setting.date_format.blank? || Setting.date_format.size < 2 ? l(:general_fmt_date) : Setting.date_format)
     @time_format ||= (Setting.time_format.blank? ? l(:general_fmt_time) : Setting.time_format)
     include_date ? local.strftime("#{@date_format} #{@time_format}") : local.strftime(@time_format)
+  end
+  
+  # Truncates and returns the string as a single line
+  def truncate_single_line(string, *args)
+    truncate(string, *args).gsub(%r{[\r\n]+}m, ' ')
   end
   
   def html_hours(text)
@@ -96,7 +112,8 @@ module ApplicationHelper
   
   def authoring(created, author)
     time_tag = content_tag('acronym', distance_of_time_in_words(Time.now, created), :title => format_time(created))
-    l(:label_added_time_by, author || 'Anonymous', time_tag)
+    author_tag = (author.is_a?(User) && !author.anonymous?) ? link_to(h(author), :controller => 'account', :action => 'show', :id => author) : h(author || 'Anonymous')
+    l(:label_added_time_by, author_tag, time_tag)
   end
   
   def l_or_humanize(s)
@@ -109,6 +126,15 @@ module ApplicationHelper
   
   def month_name(month)
     l(:actionview_datehelper_select_month_names).split(',')[month-1]
+  end
+
+  def syntax_highlight(name, content)
+    type = CodeRay::FileType[name]
+    type ? CodeRay.scan(content, type).html : h(content)
+  end
+  
+  def to_path_param(path)
+    path.to_s.split(%r{[/\\]}).select {|p| !p.blank?}
   end
 
   def pagination_links_full(paginator, count=nil, options={})
@@ -157,7 +183,8 @@ module ApplicationHelper
   end
   
   def breadcrumb(*args)
-    content_tag('p', args.join(' &#187; ') + ' &#187; ', :class => 'breadcrumb')
+    elements = args.flatten
+    elements.any? ? content_tag('p', args.join(' &#187; ') + ' &#187; ', :class => 'breadcrumb') : nil
   end
   
   def html_title(*args)
@@ -185,7 +212,7 @@ module ApplicationHelper
     options = args.last.is_a?(Hash) ? args.pop : {}
     case args.size
     when 1
-      obj = nil
+      obj = options[:object]
       text = args.shift
     when 2
       obj = args.shift
@@ -225,12 +252,12 @@ module ApplicationHelper
     case options[:wiki_links]
     when :local
       # used for local links to html files
-      format_wiki_link = Proc.new {|project, title| "#{title}.html" }
+      format_wiki_link = Proc.new {|project, title, anchor| "#{title}.html" }
     when :anchor
       # used for single-file wiki export
-      format_wiki_link = Proc.new {|project, title| "##{title}" }
+      format_wiki_link = Proc.new {|project, title, anchor| "##{title}" }
     else
-      format_wiki_link = Proc.new {|project, title| url_for(:only_path => only_path, :controller => 'wiki', :action => 'index', :id => project, :page => title) }
+      format_wiki_link = Proc.new {|project, title, anchor| url_for(:only_path => only_path, :controller => 'wiki', :action => 'index', :id => project, :page => title, :anchor => anchor) }
     end
     
     project = options[:project] || @project || (obj && obj.respond_to?(:project) ? obj.project : nil)
@@ -256,9 +283,14 @@ module ApplicationHelper
         end
         
         if link_project && link_project.wiki
+          # extract anchor
+          anchor = nil
+          if page =~ /^(.+?)\#(.+)$/
+            page, anchor = $1, $2
+          end
           # check if page exists
           wiki_page = link_project.wiki.find_page(page)
-          link_to((title || page), format_wiki_link.call(link_project, Wiki.titleize(page)),
+          link_to((title || page), format_wiki_link.call(link_project, Wiki.titleize(page), anchor),
                                    :class => ('wiki-page' + (wiki_page ? '' : ' new')))
         else
           # project or wiki doesn't exist
@@ -293,7 +325,9 @@ module ApplicationHelper
     #     source:some/file#L120 -> Link to line 120 of the file
     #     source:some/file@52#L120 -> Link to line 120 of the file's revision 52
     #     export:some/file -> Force the download of the file
-    text = text.gsub(%r{([\s\(,-^])(!)?(attachment|document|version|commit|source|export)?((#|r)(\d+)|(:)([^"\s<>][^\s<>]*|"[^"]+"))(?=[[:punct:]]|\s|<|$)}) do |m|
+    #  Forum messages:
+    #     message#1218 -> Link to message with id 1218
+    text = text.gsub(%r{([\s\(,\-\>]|^)(!)?(attachment|document|version|commit|source|export|message)?((#|r)(\d+)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]]\W)|\s|<|$)}) do |m|
       leading, esc, prefix, sep, oid = $1, $2, $3, $5 || $7, $6 || $8
       link = nil
       if esc.nil?
@@ -301,7 +335,7 @@ module ApplicationHelper
           if project && (changeset = project.changesets.find_by_revision(oid))
             link = link_to("r#{oid}", {:only_path => only_path, :controller => 'repositories', :action => 'revision', :id => project, :rev => oid},
                                       :class => 'changeset',
-                                      :title => truncate(changeset.comments, 100))
+                                      :title => truncate_single_line(changeset.comments, 100))
           end
         elsif sep == '#'
           oid = oid.to_i
@@ -323,6 +357,16 @@ module ApplicationHelper
               link = link_to h(version.name), {:only_path => only_path, :controller => 'versions', :action => 'show', :id => version},
                                               :class => 'version'
             end
+          when 'message'
+            if message = Message.find_by_id(oid, :include => [:parent, {:board => :project}], :conditions => Project.visible_by(User.current))
+              link = link_to h(truncate(message.subject, 60)), {:only_path => only_path,
+                                                                :controller => 'messages',
+                                                                :action => 'show',
+                                                                :board_id => message.board,
+                                                                :id => message.root,
+                                                                :anchor => (message.parent ? "message-#{message.id}" : nil)},
+                                                 :class => 'message'
+            end
           end
         elsif sep == ':'
           # removes the double quotes if any
@@ -340,13 +384,16 @@ module ApplicationHelper
             end
           when 'commit'
             if project && (changeset = project.changesets.find(:first, :conditions => ["scmid LIKE ?", "#{name}%"]))
-              link = link_to h("#{name}"), {:only_path => only_path, :controller => 'repositories', :action => 'revision', :id => project, :rev => changeset.revision}, :class => 'changeset', :title => truncate(changeset.comments, 100)
+              link = link_to h("#{name}"), {:only_path => only_path, :controller => 'repositories', :action => 'revision', :id => project, :rev => changeset.revision},
+                                           :class => 'changeset',
+                                           :title => truncate_single_line(changeset.comments, 100)
             end
           when 'source', 'export'
             if project && project.repository
               name =~ %r{^[/\\]*(.*?)(@([0-9a-f]+))?(#(L\d+))?$}
               path, rev, anchor = $1, $3, $5
-              link = link_to h("#{prefix}:#{name}"), {:controller => 'repositories', :action => 'entry', :id => project, :path => path,
+              link = link_to h("#{prefix}:#{name}"), {:controller => 'repositories', :action => 'entry', :id => project,
+                                                      :path => to_path_param(path),
                                                       :rev => rev,
                                                       :anchor => anchor,
                                                       :format => (prefix == 'export' ? 'raw' : nil)},
@@ -428,7 +475,8 @@ module ApplicationHelper
   end
   
   def back_url_hidden_field_tag
-    hidden_field_tag 'back_url', (params[:back_url] || request.env['HTTP_REFERER'])
+    back_url = params[:back_url] || request.env['HTTP_REFERER']
+    hidden_field_tag('back_url', back_url) unless back_url.blank?
   end
   
   def check_all_links(form_name)

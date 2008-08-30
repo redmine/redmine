@@ -5,7 +5,10 @@ require 'search_controller'
 class SearchController; def rescue_action(e) raise e end; end
 
 class SearchControllerTest < Test::Unit::TestCase
-  fixtures :projects, :enabled_modules, :issues, :custom_fields, :custom_values
+  fixtures :projects, :enabled_modules, :roles, :users,
+           :issues, :trackers, :issue_statuses,
+           :custom_fields, :custom_values,
+           :repositories, :changesets
   
   def setup
     @controller = SearchController.new
@@ -25,6 +28,31 @@ class SearchControllerTest < Test::Unit::TestCase
     assert assigns(:results).include?(Project.find(1))
   end
   
+  def test_search_all_projects
+    get :index, :q => 'recipe subproject commit', :submit => 'Search'
+    assert_response :success
+    assert_template 'index'
+    
+    assert assigns(:results).include?(Issue.find(2))
+    assert assigns(:results).include?(Issue.find(5))
+    assert assigns(:results).include?(Changeset.find(101))
+    assert_tag :dt, :attributes => { :class => /issue/ },
+                    :child => { :tag => 'a',  :content => /Add ingredients categories/ },
+                    :sibling => { :tag => 'dd', :content => /should be classified by categories/ }
+    
+    assert assigns(:results_by_type).is_a?(Hash)
+    assert_equal 4, assigns(:results_by_type)['changesets']
+    assert_tag :a, :content => 'Changesets (4)'
+  end
+  
+  def test_search_project_and_subprojects
+    get :index, :id => 1, :q => 'recipe subproject', :scope => 'subprojects', :submit => 'Search'
+    assert_response :success
+    assert_template 'index'
+    assert assigns(:results).include?(Issue.find(1))
+    assert assigns(:results).include?(Issue.find(5))
+  end
+
   def test_search_without_searchable_custom_fields
     CustomField.update_all "searchable = #{ActiveRecord::Base.connection.quoted_false}"
     

@@ -24,6 +24,29 @@ module Redmine
       end
       
       class AbstractAdapter #:nodoc:
+        class << self
+          # Returns the version of the scm client
+          # Eg: [1, 5, 0] or [] if unknown
+          def client_version
+            []
+          end
+          
+          # Returns the version string of the scm client
+          # Eg: '1.5.0' or 'Unknown version' if unknown
+          def client_version_string
+            v = client_version || 'Unknown version'
+            v.is_a?(Array) ? v.join('.') : v.to_s
+          end
+          
+          # Returns true if the current client version is above
+          # or equals the given one
+          # If option is :unknown is set to true, it will return
+          # true if the client version is unknown
+          def client_version_above?(v, options={})
+            ((client_version <=> v) >= 0) || (client_version.empty? && options[:unknown])
+          end
+        end
+                
         def initialize(url, root_url=nil, login=nil, password=nil)
           @url = url
           @login = login if login && !login.empty?
@@ -77,12 +100,16 @@ module Redmine
         def entries(path=nil, identifier=nil)
           return nil
         end
+        
+        def properties(path, identifier=nil)
+          return nil
+        end
     
         def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={})
           return nil
         end
         
-        def diff(path, identifier_from, identifier_to=nil, type="inline")
+        def diff(path, identifier_from, identifier_to=nil)
           return nil
         end
         
@@ -94,15 +121,30 @@ module Redmine
           path ||= ''
           (path[0,1]!="/") ? "/#{path}" : path
         end
+
+        def with_trailling_slash(path)
+          path ||= ''
+          (path[-1,1] == "/") ? path : "#{path}/"
+        end
+        
+        def without_leading_slash(path)
+          path ||= ''
+          path.gsub(%r{^/+}, '')
+        end
+
+        def without_trailling_slash(path)
+          path ||= ''
+          (path[-1,1] == "/") ? path[0..-2] : path
+         end
         
         def shell_quote(str)
-          if RUBY_PLATFORM =~ /mswin/
+          if Redmine::Platform.mswin?
             '"' + str.gsub(/"/, '\\"') + '"'
           else
             "'" + str.gsub(/'/, "'\"'\"'") + "'"
           end
         end
-              
+
       private
         def retrieve_root_url
           info = self.info
@@ -116,10 +158,18 @@ module Redmine
         end
             
         def logger
+          self.class.logger
+        end
+        
+        def shellout(cmd, &block)
+          self.class.shellout(cmd, &block)
+        end
+        
+        def self.logger
           RAILS_DEFAULT_LOGGER
         end
-      
-        def shellout(cmd, &block)
+        
+        def self.shellout(cmd, &block)
           logger.debug "Shelling out: #{cmd}" if logger && logger.debug?
           begin
             IO.popen(cmd, "r+") do |io|
@@ -127,11 +177,22 @@ module Redmine
               block.call(io) if block_given?
             end
           rescue Errno::ENOENT => e
+            msg = strip_credential(e.message)
             # The command failed, log it and re-raise
-            logger.error("SCM command failed: #{cmd}\n  with: #{e.message}")
-            raise CommandFailed.new(e.message)
+            logger.error("SCM command failed, make sure that your SCM binary (eg. svn) is in PATH (#{ENV['PATH']}): #{strip_credential(cmd)}\n  with: #{msg}")
+            raise CommandFailed.new(msg)
           end
         end  
+        
+        # Hides username/password in a given command
+        def self.strip_credential(cmd)
+          q = (Redmine::Platform.mswin? ? '"' : "'")
+          cmd.to_s.gsub(/(\-\-(password|username))\s+(#{q}[^#{q}]+#{q}|[^#{q}]\S+)/, '\\1 xxxx')
+        end
+        
+        def strip_credential(cmd)
+          self.class.strip_credential(cmd)
+        end
       end
       
       class Entries < Array
@@ -208,167 +269,7 @@ module Redmine
         end
     
       end
-    
-      # A line of Diff
-      class Diff  
-        attr_accessor :nb_line_left
-        attr_accessor :line_left
-        attr_accessor :nb_line_right
-        attr_accessor :line_right
-        attr_accessor :type_diff_right
-        attr_accessor :type_diff_left
         
-        def initialize ()
-          self.nb_line_left = ''
-          self.nb_line_right = ''
-          self.line_left = ''
-          self.line_right = ''
-          self.type_diff_right = ''
-          self.type_diff_left = ''
-        end
-    
-        def inspect
-          puts '### Start Line Diff ###'
-          puts self.nb_line_left
-          puts self.line_left
-          puts self.nb_line_right
-          puts self.line_right
-        end
-      end
-    
-      class DiffTableList < Array  
-        def initialize (diff, type="inline")
-            diff_table = DiffTable.new type
-            diff.each do |line|
-                if line =~ /^(---|\+\+\+) (.*)$/
-                    self << diff_table if diff_table.length > 1
-                    diff_table = DiffTable.new type
-                end
-                a = diff_table.add_line line
-            end
-            self << diff_table unless diff_table.empty?
-            self
-        end
-      end
-    
-      # Class for create a Diff
-      class DiffTable < Hash  
-        attr_reader :file_name, :line_num_l, :line_num_r    
-    
-        # Initialize with a Diff file and the type of Diff View
-        # The type view must be inline or sbs (side_by_side)
-        def initialize(type="inline")
-          @parsing = false
-          @nb_line = 1
-          @start = false
-          @before = 'same'
-          @second = true
-          @type = type
-        end
-    
-        # Function for add a line of this Diff
-        def add_line(line)
-          unless @parsing
-            if line =~ /^(---|\+\+\+) (.*)$/
-              @file_name = $2
-              return false
-            elsif line =~ /^@@ (\+|\-)(\d+)(,\d+)? (\+|\-)(\d+)(,\d+)? @@/
-              @line_num_l = $5.to_i
-              @line_num_r = $2.to_i
-              @parsing = true
-            end
-          else
-            if line =~ /^[^\+\-\s@\\]/
-              self.delete(self.keys.sort.last)
-              @parsing = false
-              return false
-            elsif line =~ /^@@ (\+|\-)(\d+)(,\d+)? (\+|\-)(\d+)(,\d+)? @@/
-              @line_num_l = $5.to_i
-              @line_num_r = $2.to_i
-            else
-              @nb_line += 1 if parse_line(line, @type)          
-            end
-          end
-          return true
-        end
-    
-        def inspect
-          puts '### DIFF TABLE ###'
-          puts "file : #{file_name}"
-          self.each do |d|
-            d.inspect
-          end
-        end
-    
-      private  
-        # Test if is a Side By Side type
-        def sbs?(type, func)
-          if @start and type == "sbs"
-            if @before == func and @second
-              tmp_nb_line = @nb_line
-              self[tmp_nb_line] = Diff.new
-            else
-                @second = false
-                tmp_nb_line = @start
-                @start += 1
-                @nb_line -= 1
-            end
-          else
-            tmp_nb_line = @nb_line
-            @start = @nb_line
-            self[tmp_nb_line] = Diff.new
-            @second = true
-          end
-          unless self[tmp_nb_line]
-            @nb_line += 1
-            self[tmp_nb_line] = Diff.new
-          else
-            self[tmp_nb_line]
-          end
-        end
-    
-        # Escape the HTML for the diff
-        def escapeHTML(line)
-            CGI.escapeHTML(line)
-        end
-    
-        def parse_line(line, type="inline")
-          if line[0, 1] == "+"
-            diff = sbs? type, 'add'
-            @before = 'add'
-            diff.line_left = escapeHTML line[1..-1]
-            diff.nb_line_left = @line_num_l
-            diff.type_diff_left = 'diff_in'
-            @line_num_l += 1
-            true
-          elsif line[0, 1] == "-"
-            diff = sbs? type, 'remove'
-            @before = 'remove'
-            diff.line_right = escapeHTML line[1..-1]
-            diff.nb_line_right = @line_num_r
-            diff.type_diff_right = 'diff_out'
-            @line_num_r += 1
-            true
-          elsif line[0, 1] =~ /\s/
-            @before = 'same'
-            @start = false
-            diff = Diff.new
-            diff.line_right = escapeHTML line[1..-1]
-            diff.nb_line_right = @line_num_r
-            diff.line_left = escapeHTML line[1..-1]
-            diff.nb_line_left = @line_num_l
-            self[@nb_line] = diff
-            @line_num_l += 1
-            @line_num_r += 1
-            true
-          elsif line[0, 1] = "\\"
-            true
-          else
-            false
-          end
-        end
-      end
-    
       class Annotate
         attr_reader :lines, :revisions
         

@@ -15,7 +15,11 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+require 'uri'
+
 class ApplicationController < ActionController::Base
+  layout 'base'
+  
   before_filter :user_setup, :check_if_login_required, :set_localization
   filter_parameter_logging :password
   
@@ -61,11 +65,11 @@ class ApplicationController < ActionController::Base
   def set_localization
     User.current.language = nil unless User.current.logged?
     lang = begin
-      if !User.current.language.blank? and GLoc.valid_languages.include? User.current.language.to_sym
+      if !User.current.language.blank? && GLoc.valid_language?(User.current.language)
         User.current.language
       elsif request.env['HTTP_ACCEPT_LANGUAGE']
-        accept_lang = parse_qvalues(request.env['HTTP_ACCEPT_LANGUAGE']).first.split('-').first
-        if accept_lang and !accept_lang.empty? and GLoc.valid_languages.include? accept_lang.to_sym
+        accept_lang = parse_qvalues(request.env['HTTP_ACCEPT_LANGUAGE']).first.downcase
+        if !accept_lang.blank? && (GLoc.valid_language?(accept_lang) || GLoc.valid_language?(accept_lang = accept_lang.split('-').first))
           User.current.language = accept_lang
         end
       end
@@ -77,8 +81,7 @@ class ApplicationController < ActionController::Base
   
   def require_login
     if !User.current.logged?
-      store_location
-      redirect_to :controller => "account", :action => "login"
+      redirect_to :controller => "account", :action => "login", :back_url => request.request_uri
       return false
     end
     true
@@ -115,20 +118,16 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # store current uri in session.
-  # return to this location by calling redirect_back_or_default
-  def store_location
-    session[:return_to_params] = params
-  end
-
-  # move to the last store_location call or to the passed default one
   def redirect_back_or_default(default)
-    if session[:return_to_params].nil?
-      redirect_to default
-    else
-      redirect_to session[:return_to_params]
-      session[:return_to_params] = nil
+    back_url = params[:back_url]
+    if !back_url.blank?
+      uri = URI.parse(back_url)
+      # do not redirect user to another host
+      if uri.relative? || (uri.host == request.host)
+        redirect_to(back_url) and return
+      end
     end
+    redirect_to default
   end
   
   def render_403

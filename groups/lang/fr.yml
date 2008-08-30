@@ -48,6 +48,7 @@ general_text_no: 'non'
 general_text_yes: 'oui'
 general_lang_name: 'Français'
 general_csv_separator: ';'
+general_csv_decimal_separator: ','
 general_csv_encoding: ISO-8859-1
 general_pdf_encoding: ISO-8859-1
 general_day_names: Lundi,Mardi,Mercredi,Jeudi,Vendredi,Samedi,Dimanche
@@ -91,6 +92,8 @@ mail_body_account_information_external: Vous pouvez utiliser votre compte "%s" p
 mail_body_account_information: Paramètres de connexion de votre compte
 mail_subject_account_activation_request: "Demande d'activation d'un compte %s"
 mail_body_account_activation_request: "Un nouvel utilisateur (%s) s'est inscrit. Son compte nécessite votre approbation:"
+mail_subject_reminder: "%d demande(s) arrivent à échéance"
+mail_body_reminder: "%d demande(s) qui vous sont assignées arrivent à échéance dans les %d prochains jours:"
 
 gui_validation_error: 1 erreur
 gui_validation_error_plural: %d erreurs
@@ -180,6 +183,7 @@ field_time_zone: Fuseau horaire
 field_searchable: Utilisé pour les recherches
 field_default_value: Valeur par défaut
 field_comments_sorting: Afficher les commentaires
+field_parent_title: Page parent
 
 setting_app_title: Titre de l'application
 setting_app_subtitle: Sous-titre de l'application
@@ -206,12 +210,16 @@ setting_time_format: Format d'heure
 setting_cross_project_issue_relations: Autoriser les relations entre demandes de différents projets
 setting_issue_list_default_columns: Colonnes affichées par défaut sur la liste des demandes
 setting_repositories_encodings: Encodages des dépôts
+setting_commit_logs_encoding: Encodage des messages de commit
 setting_emails_footer: Pied-de-page des emails
 setting_protocol: Protocole
 setting_per_page_options: Options d'objets affichés par page
 setting_user_format: Format d'affichage des utilisateurs
 setting_activity_days_default: Nombre de jours affichés sur l'activité des projets
 setting_display_subprojects_issues: Afficher par défaut les demandes des sous-projets sur les projets principaux
+setting_enabled_scm: SCM activés
+setting_mail_handler_api_enabled: "Activer le WS pour la réception d'emails"
+setting_mail_handler_api_key: Clé de protection de l'API
 
 project_module_issue_tracking: Suivi des demandes
 project_module_time_tracking: Suivi du temps passé
@@ -291,6 +299,7 @@ label_auth_source: Mode d'authentification
 label_auth_source_new: Nouveau mode d'authentification
 label_auth_source_plural: Modes d'authentification
 label_subproject_plural: Sous-projets
+label_and_its_subprojects: %s et ses sous-projets
 label_min_max_length: Longueurs mini - maxi
 label_list: Liste
 label_date: Date
@@ -444,7 +453,8 @@ label_loading: Chargement...
 label_relation_new: Nouvelle relation
 label_relation_delete: Supprimer la relation
 label_relates_to: lié à
-label_duplicates: doublon de
+label_duplicates: duplique
+label_duplicated_by: dupliqué par
 label_blocks: bloque
 label_blocked_by: bloqué par
 label_precedes: précède
@@ -510,6 +520,9 @@ label_preferences: Préférences
 label_chronological_order: Dans l'ordre chronologique
 label_reverse_chronological_order: Dans l'ordre chronologique inverse
 label_planning: Planning
+label_incoming_emails: Emails entrants
+label_generate_key: Générer une clé
+label_issue_watchers: Utilisateurs surveillant cette demande
 
 button_login: Connexion
 button_submit: Soumettre
@@ -548,6 +561,7 @@ button_copy: Copier
 button_annotate: Annoter
 button_update: Mettre à jour
 button_configure: Configurer
+button_quote: Citer
 
 status_active: actif
 status_registered: enregistré
@@ -566,7 +580,7 @@ text_journal_deleted: supprimé
 text_tip_task_begin_day: tâche commençant ce jour
 text_tip_task_end_day: tâche finissant ce jour
 text_tip_task_begin_end_day: tâche commençant et finissant ce jour
-text_project_identifier_info: 'Lettres minuscules (a-z), chiffres et tirets autorisés.<br />Un fois sauvegardé, l''identifiant ne pourra plus être modifié.'
+text_project_identifier_info: 'Seuls les lettres minuscules (a-z), chiffres et tirets sont autorisés.<br />Un fois sauvegardé, l''identifiant ne pourra plus être modifié.'
 text_caracters_maximum: %d caractères maximum.
 text_caracters_minimum: %d caractères minimum.
 text_length_between: Longueur comprise entre %d et %d caractères.
@@ -593,6 +607,10 @@ text_destroy_time_entries_question: %.02f heures ont été enregistrées sur les
 text_destroy_time_entries: Supprimer les heures
 text_assign_time_entries_to_project: Reporter les heures sur le projet
 text_reassign_time_entries: 'Reporter les heures sur cette demande:'
+text_user_wrote: '%s a écrit:'
+text_enumeration_destroy_question: 'Cette valeur est affectée à %d objets.'
+text_enumeration_category_reassign_to: 'Réaffecter les objets à cette valeur:'
+text_email_delivery_not_configured: "L'envoi de mail n'est pas configuré, les notifications sont désactivées.\nConfigurez votre serveur SMTP dans config/email.yml et redémarrez l'application pour les activer."
 
 default_role_manager: Manager
 default_role_developper: Développeur

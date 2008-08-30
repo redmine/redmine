@@ -16,7 +16,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class CustomFieldsController < ApplicationController
-  layout 'base'		
   before_filter :require_admin
 
   def index
@@ -32,18 +31,20 @@ class CustomFieldsController < ApplicationController
   
   def new
     case params[:type]
-    when "IssueCustomField" 
-      @custom_field = IssueCustomField.new(params[:custom_field])
-      @custom_field.trackers = Tracker.find(params[:tracker_ids]) if params[:tracker_ids]
-    when "UserCustomField" 
-      @custom_field = UserCustomField.new(params[:custom_field])
-    when "ProjectCustomField" 
-      @custom_field = ProjectCustomField.new(params[:custom_field])
-    when "GroupCustomField" 
-      @custom_field = GroupCustomField.new(params[:custom_field])
-    else
-      render_404
-      return
+      when "IssueCustomField" 
+        @custom_field = IssueCustomField.new(params[:custom_field])
+        @custom_field.trackers = Tracker.find(params[:tracker_ids]) if params[:tracker_ids]
+      when "UserCustomField" 
+        @custom_field = UserCustomField.new(params[:custom_field])
+      when "ProjectCustomField" 
+        @custom_field = ProjectCustomField.new(params[:custom_field])
+      when "TimeEntryCustomField" 
+        @custom_field = TimeEntryCustomField.new(params[:custom_field])
+      when "GroupCustomField" 
+        @custom_field = GroupCustomField.new(params[:custom_field])
+      else
+        redirect_to :action => 'list'
+        return
     end  
     if request.post? and @custom_field.save
       flash[:notice] = l(:notice_successful_create)

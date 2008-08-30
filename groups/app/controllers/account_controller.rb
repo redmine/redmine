@@ -16,7 +16,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class AccountController < ApplicationController
-  layout 'base'	
   helper :custom_fields
   include CustomFieldsHelper   
   
@@ -26,7 +25,7 @@ class AccountController < ApplicationController
   # Show user's account
   def show
     @user = User.find_active(params[:id])
-    @custom_values = @user.custom_values.find(:all, :include => :custom_field)
+    @custom_values = @user.custom_values
     
     # show only public projects and private projects that the logged in user is also a member of
     @memberships = @user.memberships.select do |membership|
@@ -44,7 +43,16 @@ class AccountController < ApplicationController
     else
       # Authenticate user
       user = User.try_to_login(params[:username], params[:password])
-      if user
+      if user.nil?
+        # Invalid credentials
+        flash.now[:error] = l(:notice_account_invalid_creditentials)
+      elsif user.new_record?
+        # Onthefly creation failed, display the registration form to fill/fix attributes
+        @user = user
+        session[:auth_source_registration] = {:login => user.login, :auth_source_id => user.auth_source_id }
+        render :action => 'register'
+      else
+        # Valid user
         self.logged_user = user
         # generate a key and set cookie if autologin
         if params[:autologin] && Setting.autologin?
@@ -52,12 +60,8 @@ class AccountController < ApplicationController
           cookies[:autologin] = { :value => token.value, :expires => 1.year.from_now }
         end
         redirect_back_or_default :controller => 'my', :action => 'page'
-      else
-        flash.now[:error] = l(:notice_account_invalid_creditentials)
       end
     end
-  rescue User::OnTheFlyCreationFailure
-    flash.now[:error] = 'Redmine could not retrieve the required information from the LDAP to create your account. Please, contact your Redmine administrator.'
   end
 
   # Log out current user and redirect to welcome page
@@ -107,43 +111,52 @@ class AccountController < ApplicationController
   
   # User self-registration
   def register
-    redirect_to(home_url) && return unless Setting.self_registration?
+    redirect_to(home_url) && return unless Setting.self_registration? || session[:auth_source_registration]
     if request.get?
+      session[:auth_source_registration] = nil
       @user = User.new(:language => Setting.default_language)
-      @custom_values = UserCustomField.find(:all).collect { |x| CustomValue.new(:custom_field => x, :customized => @user) }
     else
       @user = User.new(params[:user])
       @user.admin = false
-      @user.login = params[:user][:login]
       @user.status = User::STATUS_REGISTERED
-      @user.password, @user.password_confirmation = params[:password], params[:password_confirmation]
-      @custom_values = UserCustomField.find(:all).collect { |x| CustomValue.new(:custom_field => x, 
-                                                                                :customized => @user, 
-                                                                                :value => (params["custom_fields"] ? params["custom_fields"][x.id.to_s] : nil)) }
-      @user.custom_values = @custom_values
-      case Setting.self_registration
-      when '1'
-        # Email activation
-        token = Token.new(:user => @user, :action => "register")
-        if @user.save and token.save
-          Mailer.deliver_register(token)
-          flash[:notice] = l(:notice_account_register_done)
-          redirect_to :action => 'login'
-        end
-      when '3'
-        # Automatic activation
+      if session[:auth_source_registration]
         @user.status = User::STATUS_ACTIVE
+        @user.login = session[:auth_source_registration][:login]
+        @user.auth_source_id = session[:auth_source_registration][:auth_source_id]
         if @user.save
+          session[:auth_source_registration] = nil
+          self.logged_user = @user
           flash[:notice] = l(:notice_account_activated)
-          redirect_to :action => 'login'
+          redirect_to :controller => 'my', :action => 'account'
         end
       else
-        # Manual activation by the administrator
-        if @user.save
-          # Sends an email to the administrators
-          Mailer.deliver_account_activation_request(@user)
-          flash[:notice] = l(:notice_account_pending)
-          redirect_to :action => 'login'
+        @user.login = params[:user][:login]
+        @user.password, @user.password_confirmation = params[:password], params[:password_confirmation]
+        case Setting.self_registration
+        when '1'
+          # Email activation
+          token = Token.new(:user => @user, :action => "register")
+          if @user.save and token.save
+            Mailer.deliver_register(token)
+            flash[:notice] = l(:notice_account_register_done)
+            redirect_to :action => 'login'
+          end
+        when '3'
+          # Automatic activation
+          @user.status = User::STATUS_ACTIVE
+          if @user.save
+            self.logged_user = @user
+            flash[:notice] = l(:notice_account_activated)
+            redirect_to :controller => 'my', :action => 'account'
+          end
+        else
+          # Manual activation by the administrator
+          if @user.save
+            # Sends an email to the administrators
+            Mailer.deliver_account_activation_request(@user)
+            flash[:notice] = l(:notice_account_pending)
+            redirect_to :action => 'login'
+          end
         end
       end
     end

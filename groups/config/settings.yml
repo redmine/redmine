@@ -43,7 +43,7 @@ activity_days_default:
 per_page_options:
   default: '25,50,100'
 mail_from:
-  default: redmine@somenet.foo
+  default: redmine@example.net
 bcc_recipients:
   default: 1
 text_formatting:
@@ -59,6 +59,15 @@ protocol:
 feeds_limit:
   format: int
   default: 15
+enabled_scm:
+  serialized: true
+  default: 
+  - Subversion
+  - Darcs
+  - Mercurial
+  - Cvs
+  - Bazaar
+  - Git
 autofetch_changesets:
   default: 1
 sys_api_enabled:
@@ -92,6 +101,10 @@ notified_events:
   default: 
   - issue_added
   - issue_updated
+mail_handler_api_enabled:
+  default: 0
+mail_handler_api_key:
+  default: 
 issue_list_default_columns:
   serialized: true
   default: 
@@ -109,6 +122,9 @@ default_projects_public:
 # multiple values accepted, comma separated
 repositories_encodings:
   default: ''
+# encoding used to convert commit logs to UTF-8
+commit_logs_encoding:
+  default: 'UTF-8'
 ui_theme:
   default: ''
 emails_footer:

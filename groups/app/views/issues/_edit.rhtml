@@ -4,6 +4,7 @@
                                        :class => nil,
                                        :multipart => true} do |f| %>
     <%= error_messages_for 'issue' %>
+    <%= error_messages_for 'time_entry' %>
     <div class="box">
     <% if @edit_allowed || !@allowed_statuses.empty? %>
         <fieldset class="tabular"><legend><%= l(:label_change_properties) %>
@@ -21,9 +22,12 @@
         <p><%= time_entry.text_field :hours, :size => 6, :label => :label_spent_time %> <%= l(:field_hours) %></p>
         </div>
         <div class="splitcontentright">
-        <p><%= time_entry.text_field :comments, :size => 40 %></p>
-        <p><%= time_entry.select :activity_id, (@activities.collect {|p| [p.name, p.id]}) %></p>
+        <p><%= time_entry.select :activity_id, activity_collection_for_select_options %></p>
         </div>
+        <p><%= time_entry.text_field :comments, :size => 60 %></p>
+        <% @time_entry.custom_field_values.each do |value| %>
+        	<p><%= custom_field_tag_with_label :time_entry, value %></p>
+        <% end %>
         <% end %>
     </fieldset>
     <% end %>

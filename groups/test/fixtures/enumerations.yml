@@ -19,6 +19,7 @@ enumerations_005:
   name: Normal
   id: 5
   opt: IPRI
+  is_default: true
 enumerations_006: 
   name: High
   id: 6
@@ -38,5 +39,10 @@ enumerations_009:
 enumerations_010: 
   name: Development
   id: 10
+  opt: ACTI
+  is_default: true
+enumerations_011: 
+  name: QA
+  id: 11
   opt: ACTI
   

@@ -26,7 +26,7 @@ module Redmine
     class TextileFormatter < RedCloth
       
       # auto_link rule after textile rules so that it doesn't break !image_url! tags
-      RULES = [:textile, :inline_auto_link, :inline_auto_mailto, :inline_toc, :inline_macros]
+      RULES = [:textile, :block_markdown_rule, :inline_auto_link, :inline_auto_mailto, :inline_toc, :inline_macros]
       
       def initialize(*args)
         super
@@ -45,7 +45,7 @@ module Redmine
       # Patch for RedCloth.  Fixed in RedCloth r128 but _why hasn't released it yet.
       # <a href="http://code.whytheluckystiff.net/redcloth/changeset/128">http://code.whytheluckystiff.net/redcloth/changeset/128</a>
       def hard_break( text ) 
-        text.gsub!( /(.)\n(?!\n|\Z| *([#*=]+(\s|$)|[{|]))/, "\\1<br />" ) if hard_breaks 
+        text.gsub!( /(.)\n(?!\n|\Z|>| *(>? *[#*=]+(\s|$)|[{|]))/, "\\1<br />\n" ) if hard_breaks 
       end
       
       # Patch to add code highlighting support to RedCloth
@@ -56,7 +56,7 @@ module Redmine
             content = @pre_list[$1.to_i]
             if content.match(/<code\s+class="(\w+)">\s?(.+)/m)
               content = "<code class=\"#{$1} CodeRay\">" + 
-                CodeRay.scan($2, $1).html(:escape => false, :line_numbers => :inline)
+                CodeRay.scan($2, $1.downcase).html(:escape => false, :line_numbers => :inline)
             end
             content
           end
@@ -65,10 +65,22 @@ module Redmine
       
       # Patch to add 'table of content' support to RedCloth
       def textile_p_withtoc(tag, atts, cite, content)
-        if tag =~ /^h(\d)$/
-          @toc << [$1.to_i, content]
+        # removes wiki links from the item
+        toc_item = content.gsub(/(\[\[|\]\])/, '')
+        # removes styles
+        # eg. %{color:red}Triggers% => Triggers
+        toc_item.gsub! %r[%\{[^\}]*\}([^%]+)%], '\\1'
+        
+        # replaces non word caracters by dashes
+        anchor = toc_item.gsub(%r{[^\w\s\-]}, '').gsub(%r{\s+(\-+\s*)?}, '-')
+
+        unless anchor.blank?
+          if tag =~ /^h(\d)$/
+            @toc << [$1.to_i, anchor, toc_item]
+          end
+          atts << " id=\"#{anchor}\""
+          content = content + "<a href=\"##{anchor}\" class=\"wiki-anchor\">&para;</a>"
         end
-        content = "<a name=\"#{@toc.length}\" class=\"wiki-page\"></a>" + content
         textile_p(tag, atts, cite, content)
       end
 
@@ -81,13 +93,12 @@ module Redmine
           div_class = 'toc'
           div_class << ' right' if $1 == '>'
           div_class << ' left' if $1 == '<'
-          out = "<div class=\"#{div_class}\">"
-          @toc.each_with_index do |heading, index|
-            # remove wiki links from the item
-            toc_item = heading.last.gsub(/(\[\[|\]\])/, '')
-            out << "<a href=\"##{index+1}\" class=\"heading#{heading.first}\">#{toc_item}</a>"
+          out = "<ul class=\"#{div_class}\">"
+          @toc.each do |heading|
+            level, anchor, toc_item = heading
+            out << "<li class=\"heading#{level}\"><a href=\"##{anchor}\">#{toc_item}</a></li>\n"
           end
-          out << '</div>'
+          out << '</ul>'
           out
         end
       end
@@ -126,6 +137,7 @@ module Redmine
                         )
                         (
                           (?:https?://)|           # protocol spec, or
+                          (?:ftp://)|
                           (?:www\.)                # www.*
                         )
                         (
@@ -149,12 +161,16 @@ module Redmine
           end
         end
       end
-      
+
       # Turns all email addresses into clickable links (code from Rails).
       def inline_auto_mailto(text)
         text.gsub!(/([\w\.!#\$%\-+.]+@[A-Za-z0-9\-]+(\.[A-Za-z0-9\-]+)+)/) do
-          text = $1
-          %{<a href="mailto:#{$1}" class="email">#{text}</a>}
+          mail = $1
+          if text.match(/<a\b[^>]*>(.*)(#{Regexp.escape(mail)})(.*)<\/a>/)
+            mail
+          else
+            %{<a href="mailto:#{mail}" class="email">#{mail}</a>}
+          end
         end
       end
     end

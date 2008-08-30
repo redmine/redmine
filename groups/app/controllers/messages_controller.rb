@@ -16,14 +16,15 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class MessagesController < ApplicationController
-  layout 'base'
   menu_item :boards
   before_filter :find_board, :only => [:new, :preview]
   before_filter :find_message, :except => [:new, :preview]
   before_filter :authorize, :except => :preview
 
   verify :method => :post, :only => [ :reply, :destroy ], :redirect_to => { :action => :show }
+  verify :xhr => true, :only => :quote
 
+  
   helper :attachments
   include AttachmentsHelper   
 
@@ -81,6 +82,20 @@ class MessagesController < ApplicationController
     redirect_to @message.parent.nil? ?
       { :controller => 'boards', :action => 'show', :project_id => @project, :id => @board } :
       { :action => 'show', :id => @message.parent }
+  end
+  
+  def quote
+    user = @message.author
+    text = @message.content
+    content = "#{ll(Setting.default_language, :text_user_wrote, user)}\\n> "
+    content << text.to_s.strip.gsub(%r{<pre>((.|\s)*?)</pre>}m, '[...]').gsub('"', '\"').gsub(/(\r?\n|\r\n?)/, "\\n> ") + "\\n\\n"
+    render(:update) { |page|
+      page.<< "$('message_content').value = \"#{content}\";"
+      page.show 'reply'
+      page << "Form.Element.focus('message_content');"
+      page << "Element.scrollTo('reply');"
+      page << "$('message_content').scrollTop = $('message_content').scrollHeight - $('message_content').clientHeight;"
+    }
   end
   
   def preview

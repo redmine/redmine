@@ -16,6 +16,14 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module TimelogHelper
+  def activity_collection_for_select_options
+    activities = Enumeration::get_values('ACTI')
+    collection = []
+    collection << [ "--- #{l(:actionview_instancetag_blank_option)} ---", '' ] unless activities.detect(&:is_default)
+    activities.each { |a| collection << [a.name, a.id] }
+    collection
+  end
+  
   def select_hours(data, criteria, value)
     data.select {|row| row[criteria] == value}
   end
@@ -44,6 +52,8 @@ module TimelogHelper
   
   def entries_to_csv(entries)
     ic = Iconv.new(l(:general_csv_encoding), 'UTF-8')    
+    decimal_separator = l(:general_csv_decimal_separator)
+    custom_fields = TimeEntryCustomField.find(:all)
     export = StringIO.new
     CSV::Writer.generate(export, l(:general_csv_separator)) do |csv|
       # csv header fields
@@ -57,6 +67,9 @@ module TimelogHelper
                  l(:field_hours),
                  l(:field_comments)
                  ]
+      # Export custom fields
+      headers += custom_fields.collect(&:name)
+      
       csv << headers.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }
       # csv lines
       entries.each do |entry|
@@ -67,9 +80,11 @@ module TimelogHelper
                   (entry.issue ? entry.issue.id : nil),
                   (entry.issue ? entry.issue.tracker : nil),
                   (entry.issue ? entry.issue.subject : nil),
-                  entry.hours,
+                  entry.hours.to_s.gsub('.', decimal_separator),
                   entry.comments
                   ]
+        fields += custom_fields.collect {|f| show_value(entry.custom_value_for(f)) }
+                  
         csv << fields.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }
       end
     end

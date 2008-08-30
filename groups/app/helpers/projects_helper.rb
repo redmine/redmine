@@ -21,18 +21,22 @@ module ProjectsHelper
     link_to h(version.name), { :controller => 'versions', :action => 'show', :id => version }, options
   end
   
+  def format_activity_title(text)
+    h(truncate_single_line(text, 100))
+  end
+  
   def format_activity_day(date)
     date == Date.today ? l(:label_today).titleize : format_date(date)
   end
   
   def format_activity_description(text)
-    h(truncate(text, 250))
+    h(truncate(text.to_s, 250).gsub(%r{<(pre|code)>.*$}m, '...'))
   end
   
   # Renders the member list displayed on project overview
   def render_member_list(project)
     parts = []
-    memberships_by_role = project.memberships.find(:all, :include => :role, :order => 'position').group_by {|m| m.role}
+    memberships_by_role = project.memberships.find(:all, :include => :role, :order => "#{Role.table_name}.position").group_by {|m| m.role}
     memberships_by_role.keys.sort.each do |role|
       role_parts = []
       # Display group name (with its 5 first users) or user name

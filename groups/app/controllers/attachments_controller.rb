@@ -16,24 +16,40 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class AttachmentsController < ApplicationController
-  layout 'base'
-  before_filter :find_project, :check_project_privacy
+  before_filter :find_project
 
+  def show
+    if @attachment.is_diff?
+      @diff = File.new(@attachment.diskfile, "rb").read
+      render :action => 'diff'
+    elsif @attachment.is_text?
+      @content = File.new(@attachment.diskfile, "rb").read
+      render :action => 'file'
+    elsif
+      download
+    end
+  end
+  
   def download
+    @attachment.increment_download if @attachment.container.is_a?(Version)
+    
     # images are sent inline
     send_file @attachment.diskfile, :filename => filename_for_content_disposition(@attachment.filename),
                                     :type => @attachment.content_type, 
                                     :disposition => (@attachment.image? ? 'inline' : 'attachment')
-  rescue
-    # in case the disk file was deleted
-    render_404
   end
  
 private
   def find_project
     @attachment = Attachment.find(params[:id])
+    # Show 404 if the filename in the url is wrong
+    raise ActiveRecord::RecordNotFound if params[:filename] && params[:filename] != @attachment.filename
+    
     @project = @attachment.project
-  rescue
+    permission = @attachment.container.is_a?(Version) ? :view_files : "view_#{@attachment.container.class.name.underscore.pluralize}".to_sym
+    allowed = User.current.allowed_to?(permission, @project)
+    allowed ? true : (User.current.logged? ? render_403 : require_login)
+  rescue ActiveRecord::RecordNotFound
     render_404
   end
 end

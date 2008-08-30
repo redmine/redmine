@@ -2,12 +2,25 @@
    Copyright (C) 2006-2008  Jean-Philippe Lang */
 
 function checkAll (id, checked) {
-	var el = document.getElementById(id);
-	for (var i = 0; i < el.elements.length; i++) {
-    if (el.elements[i].disabled==false) {
-      el.elements[i].checked = checked;
+	var els = Element.descendants(id);
+	for (var i = 0; i < els.length; i++) {
+    if (els[i].disabled==false) {
+      els[i].checked = checked;
     }
 	}
+}
+
+function toggleCheckboxesBySelector(selector) {
+	boxes = $$(selector);
+	var all_checked = true;
+	for (i = 0; i < boxes.length; i++) { if (boxes[i].checked == false) { all_checked = false; } }
+	for (i = 0; i < boxes.length; i++) { boxes[i].checked = !all_checked; }
+}
+
+function showAndScrollTo(id, focus) {
+	Element.show(id);
+	if (focus!=null) { Form.Element.focus(focus); }
+	Element.scrollTo(id);
 }
 
 var fileFieldCount = 1;
@@ -56,7 +69,7 @@ function setPredecessorFieldsVisibility() {
 function promptToRemote(text, param, url) {
     value = prompt(text + ':');
     if (value) {
-        new Ajax.Request(url + '?' + param + '=' + value, {asynchronous:true, evalScripts:true});
+        new Ajax.Request(url + '?' + param + '=' + encodeURIComponent(value), {asynchronous:true, evalScripts:true});
         return false;
     }
 }
@@ -105,6 +118,15 @@ function scmEntryLoaded(id) {
     Element.addClassName(id, 'open');
     Element.addClassName(id, 'loaded');
     Element.removeClassName(id, 'loading');
+}
+
+function randomKey(size) {
+	var chars = new Array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z');
+	var key = '';
+	for (i = 0; i < size; i++) {
+  	key += chars[Math.floor(Math.random() * chars.length)];
+	}
+	return key;
 }
 
 /* shows and hides ajax indicator */

@@ -71,11 +71,33 @@ class RepositoriesSubversionControllerTest < Test::Unit::TestCase
       assert_not_nil assigns(:entries)
       assert_equal ['folder', '.project', 'helloworld.c', 'helloworld.rb', 'textfile.txt'], assigns(:entries).collect(&:name)
     end
+    
+    def test_changes
+      get :changes, :id => 1, :path => ['subversion_test', 'folder', 'helloworld.rb' ]
+      assert_response :success
+      assert_template 'changes'
+      # svn properties
+      assert_not_nil assigns(:properties)
+      assert_equal 'native', assigns(:properties)['svn:eol-style']
+      assert_tag :ul,
+                 :child => { :tag => 'li',
+                             :child => { :tag => 'b', :content => 'svn:eol-style' },
+                             :child => { :tag => 'span', :content => 'native' } }
+    end
       
     def test_entry
       get :entry, :id => 1, :path => ['subversion_test', 'helloworld.c']
       assert_response :success
       assert_template 'entry'
+    end
+    
+    def test_entry_at_given_revision
+      get :entry, :id => 1, :path => ['subversion_test', 'helloworld.rb'], :rev => 2
+      assert_response :success
+      assert_template 'entry'
+      # this line was removed in r3 and file was moved in r6
+      assert_tag :tag => 'td', :attributes => { :class => /line-code/},
+                               :content => /Here's the code/
     end
     
     def test_entry_not_found
@@ -95,6 +117,37 @@ class RepositoriesSubversionControllerTest < Test::Unit::TestCase
       assert_template 'browse'
       assert_not_nil assigns(:entry)
       assert_equal 'folder', assigns(:entry).name
+    end
+    
+    def test_revision
+      get :revision, :id => 1, :rev => 2
+      assert_response :success
+      assert_template 'revision'
+      assert_tag :tag => 'tr',
+                 :child => { :tag => 'td', 
+                             # link to the entry at rev 2
+                             :child => { :tag => 'a', :attributes => {:href => 'repositories/entry/ecookbook/test/some/path/in/the/repo?rev=2'},
+                                                      :content => %r{/test/some/path/in/the/repo} }
+                           },
+                 :child => { :tag => 'td', 
+                             # link to partial diff
+                             :child => { :tag => 'a', :attributes => { :href => '/repositories/diff/ecookbook/test/some/path/in/the/repo?rev=2' } }
+                           }
+    end
+    
+    def test_revision_with_repository_pointing_to_a_subdirectory
+      r = Project.find(1).repository
+      # Changes repository url to a subdirectory
+      r.update_attribute :url, (r.url + '/test/some')
+      
+      get :revision, :id => 1, :rev => 2
+      assert_response :success
+      assert_template 'revision'
+      assert_tag :tag => 'tr',
+                 :child => { :tag => 'td', :content => %r{/test/some/path/in/the/repo} },
+                 :child => { :tag => 'td', 
+                             :child => { :tag => 'a', :attributes => { :href => '/repositories/diff/ecookbook/path/in/the/repo?rev=2' } }
+                           }
     end
     
     def test_diff

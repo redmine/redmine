@@ -48,6 +48,7 @@ general_text_no: 'nie'
 general_text_yes: 'tak'
 general_lang_name: 'Polski'
 general_csv_separator: ','
+general_csv_decimal_separator: '.'
 general_csv_encoding: ISO-8859-2
 general_pdf_encoding: ISO-8859-2
 general_day_names: Poniedziałek,Wtorek,Środa,Czwartek,Piątek,Sobota,Niedziela
@@ -70,7 +71,7 @@ notice_file_not_found: Strona do której próbujesz się dostać nie istnieje lu
 notice_locking_conflict: Dane poprawione przez innego użytkownika.
 notice_not_authorized: Nie jesteś autoryzowany by zobaczyć stronę.
 
-error_scm_not_found: "Wejście i/lub zmiana nie istnieje w repozytorium."
+error_scm_not_found: "Obiekt lub wersja nie zostały znalezione w repozytorium."
 error_scm_command_failed: "An error occurred when trying to access the repository: %s"
 
 mail_subject_lost_password: Twoje hasło do %s
@@ -114,12 +115,12 @@ field_subject: Temat
 field_due_date: Data oddania
 field_assigned_to: Przydzielony do
 field_priority: Priorytet
-field_fixed_version: Target version
+field_fixed_version: Wersja docelowa
 field_user: Użytkownik
 field_role: Rola
 field_homepage: Strona www
 field_is_public: Publiczny
-field_parent: Podprojekt
+field_parent: Nadprojekt
 field_is_in_chlog: Zagadnienie pokazywane w zapisie zmian
 field_is_in_roadmap: Zagadnienie pokazywane na mapie
 field_login: Login
@@ -172,10 +173,10 @@ setting_host_name: Nazwa hosta
 setting_text_formatting: Formatowanie tekstu
 setting_wiki_compression: Kompresja historii Wiki
 setting_feeds_limit: Limit danych RSS
-setting_autofetch_changesets: Auto-odświeżanie CVS
+setting_autofetch_changesets: Automatyczne pobieranie zmian
 setting_sys_api_enabled: Włączenie WS do zarządzania repozytorium
-setting_commit_ref_keywords: Terminy odnoszące (CVS)
-setting_commit_fix_keywords: Terminy ustalające (CVS)
+setting_commit_ref_keywords: Słowa tworzące powiązania
+setting_commit_fix_keywords: Słowa zmieniające status
 setting_autologin: Auto logowanie
 setting_date_format: Format daty
 
@@ -328,14 +329,14 @@ label_repository: Repozytorium
 label_browse: Przegląd
 label_modification: %d modyfikacja
 label_modification_plural: %d modyfikacja
-label_revision: Zmiana
-label_revision_plural: Zmiany
+label_revision: Rewizja
+label_revision_plural: Rewizje
 label_added: dodane
-label_modified: zmodufikowane
+label_modified: zmodyfikowane
 label_deleted: usunięte
-label_latest_revision: Ostatnia zmiana
-label_latest_revision_plural: Ostatnie zmiany
-label_view_revisions: Pokaż zmiany
+label_latest_revision: Najnowsza rewizja
+label_latest_revision_plural: Najnowsze rewizje
+label_view_revisions: Pokaż rewizje
 label_max_size: Maksymalny rozmiar
 label_on: 'z'
 label_sort_highest: Przesuń na górę
@@ -366,8 +367,8 @@ label_f_hour_plural: %.2f godzin
 label_time_tracking: Śledzenie czasu
 label_change_plural: Zmiany
 label_statistics: Statystyki
-label_commits_per_month: Wrzutek CVS w miesiącu
-label_commits_per_author: Wrzutek CVS przez autora
+label_commits_per_month: Zatwierdzenia według miesięcy
+label_commits_per_author: Zatwierdzenia według autorów
 label_view_diff: Pokaż różnice
 label_diff_inline: w linii
 label_diff_side_by_side: obok siebie
@@ -463,13 +464,13 @@ text_length_between: Długość pomiędzy %d i %d znaków.
 text_tracker_no_workflow: Brak przepływu zefiniowanego dla tego typu zagadnienia
 text_unallowed_characters: Niedozwolone znaki
 text_comma_separated: Wielokrotne wartości dozwolone (rozdzielone przecinkami).
-text_issues_ref_in_commit_messages: Zagadnienia odnoszące i ustalające we wrzutkach CVS
+text_issues_ref_in_commit_messages: Odwołania do zagadnień w komentarzach zatwierdzeń
 
 default_role_manager: Kierownik
 default_role_developper: Programista
 default_role_reporter: Wprowadzajacy
 default_tracker_bug: Błąd
-default_tracker_feature: Cecha
+default_tracker_feature: Zadanie
 default_tracker_support: Wsparcie
 default_issue_status_new: Nowy
 default_issue_status_assigned: Przypisany
@@ -483,7 +484,7 @@ default_priority_low: Niski
 default_priority_normal: Normalny
 default_priority_high: Wysoki
 default_priority_urgent: Pilny
-default_priority_immediate: Natyczmiastowy
+default_priority_immediate: Natychmiastowy
 default_activity_design: Projektowanie
 default_activity_development: Rozwój
 
@@ -618,3 +619,20 @@ setting_default_projects_public: Nowe projekty są domyślnie publiczne
 error_scm_annotate: "Wpis nie istnieje lub nie można do niego dodawać adnotacji."
 label_planning: Planning
 text_subprojects_destroy_warning: 'Its subproject(s): %s will be also deleted.'
+label_and_its_subprojects: %s and its subprojects
+mail_body_reminder: "%d issue(s) that are assigned to you are due in the next %d days:"
+mail_subject_reminder: "%d issue(s) due in the next days"
+text_user_wrote: '%s wrote:'
+label_duplicated_by: duplicated by
+setting_enabled_scm: Enabled SCM
+text_enumeration_category_reassign_to: 'Reassign them to this value:'
+text_enumeration_destroy_question: '%d objects are assigned to this value.'
+label_incoming_emails: Incoming emails
+label_generate_key: Generate a key
+setting_mail_handler_api_enabled: Enable WS for incoming emails
+setting_mail_handler_api_key: API key
+text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
+field_parent_title: Parent page
+label_issue_watchers: Watchers
+setting_commit_logs_encoding: Commit messages encoding
+button_quote: Quote

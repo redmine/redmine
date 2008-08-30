@@ -30,9 +30,9 @@ class CustomField < ActiveRecord::Base
   }.freeze
 
   validates_presence_of :name, :field_format
-  validates_uniqueness_of :name
+  validates_uniqueness_of :name, :scope => :type
   validates_length_of :name, :maximum => 30
-  validates_format_of :name, :with => /^[\w\s\'\-]*$/i
+  validates_format_of :name, :with => /^[\w\s\.\'\-]*$/i
   validates_inclusion_of :field_format, :in => FIELD_FORMATS.keys
 
   def initialize(attributes = nil)
@@ -66,7 +66,7 @@ class CustomField < ActiveRecord::Base
   
   # to move in project_custom_field
   def self.for_all
-    find(:all, :conditions => ["is_for_all=?", true])
+    find(:all, :conditions => ["is_for_all=?", true], :order => 'position')
   end
   
   def type_name

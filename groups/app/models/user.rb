@@ -19,8 +19,6 @@ require "digest/sha1"
 
 class User < ActiveRecord::Base
 
-  class OnTheFlyCreationFailure < Exception; end
-
   # Account statuses
   STATUS_ANONYMOUS  = 0
   STATUS_ACTIVE     = 1
@@ -39,16 +37,16 @@ class User < ActiveRecord::Base
                          :as => :principal,
                          :include => [ :project, :role ],
                          :conditions => "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}",
-                         :order => "#{Project.table_name}.name, inherited_from ASC",
-                         :dependent => :delete_all
-                         
+                         :order => "#{Project.table_name}.name, inherited_from ASC"
+  has_many :members, :as => :principal, :dependent => :delete_all
   has_many :projects, :through => :memberships
-  has_many :custom_values, :dependent => :delete_all, :as => :customized
   has_many :issue_categories, :foreign_key => 'assigned_to_id', :dependent => :nullify
   has_one :preference, :dependent => :destroy, :class_name => 'UserPreference'
   has_one :rss_token, :dependent => :destroy, :class_name => 'Token', :conditions => "action='feeds'"
   belongs_to :auth_source
   belongs_to :group
+  
+  acts_as_customizable
   
   attr_accessor :password, :password_confirmation
   attr_accessor :last_before_login_on
@@ -61,13 +59,12 @@ class User < ActiveRecord::Base
   # Login must contain lettres, numbers, underscores only
   validates_format_of :login, :with => /^[a-z0-9_\-@\.]*$/i
   validates_length_of :login, :maximum => 30
-  validates_format_of :firstname, :lastname, :with => /^[\w\s\'\-]*$/i
+  validates_format_of :firstname, :lastname, :with => /^[\w\s\'\-\.]*$/i
   validates_length_of :firstname, :lastname, :maximum => 30
   validates_format_of :mail, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :allow_nil => true
   validates_length_of :mail, :maximum => 60, :allow_nil => true
   validates_length_of :password, :minimum => 4, :allow_nil => true
   validates_confirmation_of :password, :allow_nil => true
-  validates_associated :custom_values, :on => :update
 
   def before_create
     self.mail_notification = false
@@ -96,6 +93,7 @@ class User < ActiveRecord::Base
   
   def group_id=(gid)
     @group_changed = true unless gid == group_id
+    group_id_will_change!
     write_attribute(:group_id, gid)
   end
 
@@ -130,19 +128,16 @@ class User < ActiveRecord::Base
       # user is not yet registered, try to authenticate with available sources
       attrs = AuthSource.authenticate(login, password)
       if attrs
-        onthefly = new(*attrs)
-        onthefly.login = login
-        onthefly.language = Setting.default_language
-        if onthefly.save
-          user = find(:first, :conditions => ["login=?", login])
+        user = new(*attrs)
+        user.login = login
+        user.language = Setting.default_language
+        if user.save
+          user.reload
           logger.info("User '#{user.login}' created from the LDAP") if logger
-        else
-          logger.error("User '#{onthefly.login}' found in LDAP but could not be created (#{onthefly.errors.full_messages.join(', ')})") if logger
-          raise OnTheFlyCreationFailure.new
         end
       end
     end    
-    user.update_attribute(:last_login_on, Time.now) if user
+    user.update_attribute(:last_login_on, Time.now) if user && !user.new_record?
     user
   rescue => text
     raise text
@@ -228,6 +223,10 @@ class User < ActiveRecord::Base
     true
   end
   
+  def anonymous?
+    !logged?
+  end
+  
   # Return user's role for project
   def role_for_project(project)
     # No role on archived projects
@@ -285,13 +284,12 @@ class User < ActiveRecord::Base
   end
   
   def self.anonymous
-    return @anonymous_user if @anonymous_user
     anonymous_user = AnonymousUser.find(:first)
     if anonymous_user.nil?
       anonymous_user = AnonymousUser.create(:lastname => 'Anonymous', :firstname => '', :mail => '', :login => '', :status => 0)
       raise 'Unable to create the anonymous user.' if anonymous_user.new_record?
     end
-    @anonymous_user = anonymous_user
+    anonymous_user
   end
   
 private
@@ -306,6 +304,10 @@ class AnonymousUser < User
   def validate_on_create
     # There should be only one AnonymousUser in the database
     errors.add_to_base 'An anonymous user already exists.' if AnonymousUser.find(:first)
+  end
+  
+  def available_custom_fields
+    []
   end
   
   # Overrides a few properties

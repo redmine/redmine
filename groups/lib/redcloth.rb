@@ -299,6 +299,8 @@ class RedCloth < String
         hard_break text 
         unless @lite_mode
             refs text
+            # need to do this before text is split by #blocks
+            block_textile_quotes text
             blocks text
         end
         inline text
@@ -376,13 +378,13 @@ class RedCloth < String
         re =
             case rtype
             when :limit
-                /(^|[>\s])
+                /(^|[>\s\(])
                 (#{rcq})
                 (#{C})
                 (?::(\S+?))?
                 ([^\s\-].*?[^\s\-]|\w)
                 #{rcq}
-                (?=[[:punct:]]|\s|$)/x
+                (?=[[:punct:]]|\s|\)|$)/x
             else
                 /(#{rcq})
                 (#{C})
@@ -502,26 +504,19 @@ class RedCloth < String
             tatts = shelve( tatts ) if tatts
             rows = []
 
-            fullrow.
-            split( /\|$/m ).
-            delete_if { |x| x.empty? }.
-            each do |row|
-
+            fullrow.each_line do |row|
                 ratts, row = pba( $1, 'tr' ), $2 if row =~ /^(#{A}#{C}\. )(.*)/m
-                
                 cells = []
-                #row.split( /\(?!\[\[[^\]])|(?![^\[]\]\])/ ).each do |cell|
-                row.split( /\|(?![^\[\|]*\]\])/ ).each do |cell|
+                row.split( /(\|)(?![^\[\|]*\]\])/ )[1..-2].each do |cell|
+                    next if cell == '|'
                     ctyp = 'd'
                     ctyp = 'h' if cell =~ /^_/
 
                     catts = ''
                     catts, cell = pba( $1, 'td' ), $2 if cell =~ /^(_?#{S}#{A}#{C}\. ?)(.*)/
 
-                    unless cell.strip.empty?
-                        catts = shelve( catts ) if catts
-                        cells << "\t\t\t<t#{ ctyp }#{ catts }>#{ cell }</t#{ ctyp }>" 
-                    end
+                    catts = shelve( catts ) if catts
+                    cells << "\t\t\t<t#{ ctyp }#{ catts }>#{ cell }</t#{ ctyp }>" 
                 end
                 ratts = shelve( ratts ) if ratts
                 rows << "\t\t<tr#{ ratts }>\n#{ cells.join( "\n" ) }\n\t\t</tr>"
@@ -575,6 +570,29 @@ class RedCloth < String
             end
             lines.join( "\n" )
         end
+    end
+    
+    QUOTES_RE = /(^>+([^\n]*?)\n?)+/m
+    QUOTES_CONTENT_RE = /^([> ]+)(.*)$/m
+    
+    def block_textile_quotes( text )
+      text.gsub!( QUOTES_RE ) do |match|
+        lines = match.split( /\n/ )
+        quotes = ''
+        indent = 0
+        lines.each do |line|
+          line =~ QUOTES_CONTENT_RE 
+          bq,content = $1, $2
+          l = bq.count('>')
+          if l != indent
+            quotes << ("\n\n" + (l>indent ? '<blockquote>' * (l-indent) : '</blockquote>' * (indent-l)) + "\n\n")
+            indent = l
+          end
+          quotes << (content + "\n")
+        end
+        quotes << ("\n" + '</blockquote>' * indent + "\n\n")
+        quotes
+      end
     end
 
     CODE_RE = /(\W)
@@ -726,7 +744,7 @@ class RedCloth < String
     end
 
     MARKDOWN_RULE_RE = /^(#{
-        ['*', '-', '_'].collect { |ch| '( ?' + Regexp::quote( ch ) + ' ?){3,}' }.join( '|' )
+        ['*', '-', '_'].collect { |ch| ' ?(' + Regexp::quote( ch ) + ' ?){3,}' }.join( '|' )
     })$/
 
     def block_markdown_rule( text )
@@ -764,11 +782,11 @@ class RedCloth < String
             ([\s\[{(]|[#{PUNCT}])?     # $pre
             "                          # start
             (#{C})                     # $atts
-            ([^"]+?)                   # $text
+            ([^"\n]+?)                 # $text
             \s?
             (?:\(([^)]+?)\)(?="))?     # $title
             ":
-            (\S+?)                     # $url
+            ([\w\/]\S+?)               # $url
             (\/)?                      # $slash
             ([^\w\/;]*?)               # $post
             (?=<|\s|$)
@@ -1131,10 +1149,10 @@ class RedCloth < String
         end
     end
     
-    ALLOWED_TAGS = %w(redpre pre code)
+    ALLOWED_TAGS = %w(redpre pre code notextile)
     
     def escape_html_tags(text)
-      text.gsub!(%r{<(\/?(\w+)[^>\n]*)(>?)}) {|m| ALLOWED_TAGS.include?($2) ? "<#{$1}#{$3}" : "&lt;#{$1}#{'&gt;' if $3}" }
+      text.gsub!(%r{<(\/?([!\w]+)[^<>\n]*)(>?)}) {|m| ALLOWED_TAGS.include?($2) ? "<#{$1}#{$3}" : "&lt;#{$1}#{'&gt;' unless $3.blank?}" }
     end
 end
 
