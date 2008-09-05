@@ -20,10 +20,12 @@ class RedminePluginGenerator < Rails::Generator::NamedBase
       m.directory "#{plugin_path}/assets/javascripts"
       m.directory "#{plugin_path}/assets/stylesheets"
       m.directory "#{plugin_path}/lang"
+      m.directory "#{plugin_path}/test"
       
       m.template 'README',    "#{plugin_path}/README"
       m.template 'init.rb',   "#{plugin_path}/init.rb"
       m.template 'en.yml',    "#{plugin_path}/lang/en.yml"
+      m.template 'test_helper.rb',    "#{plugin_path}/test/test_helper.rb"
     end
   end
 end
