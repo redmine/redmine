@@ -19,6 +19,11 @@ class Role < ActiveRecord::Base
   # Built-in roles
   BUILTIN_NON_MEMBER = 1
   BUILTIN_ANONYMOUS  = 2
+
+  named_scope :builtin, lambda { |*args|
+    compare = 'not' if args.first == true
+    { :conditions => "#{compare} builtin = 0" }
+  }
   
   before_destroy :check_deletable
   has_many :workflows, :dependent => :delete_all do
