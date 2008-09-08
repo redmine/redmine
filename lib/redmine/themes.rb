@@ -54,7 +54,7 @@ module Redmine
     private
         
     def self.scan_themes
-      dirs = Dir.glob('public/themes/*').select do |f|
+      dirs = Dir.glob("#{RAILS_ROOT}/public/themes/*").select do |f|
         # A theme should at least override application.css
         File.directory?(f) && File.exist?("#{f}/stylesheets/application.css")
       end
@@ -68,5 +68,9 @@ module ApplicationHelper
     @current_theme ||= Redmine::Themes.theme(Setting.ui_theme)
     super((@current_theme && @current_theme.stylesheets.include?(source)) ?
       "/themes/#{@current_theme.dir}/stylesheets/#{source}" : source)
+  end
+  
+  def path_to_stylesheet(source)
+    stylesheet_path source
   end
 end

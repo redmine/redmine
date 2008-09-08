@@ -3,11 +3,7 @@
 <% form_for :content, @content, :url => {:action => 'edit', :page => @page.title}, :html => {:id => 'wiki_form'} do |f| %>
 <%= f.hidden_field :version %>
 <%= error_messages_for 'content' %>
-<div class="contextual">
-<%= l(:setting_text_formatting) %>:
-<%= link_to l(:label_help), {:controller => 'help', :ctrl => 'wiki', :page => 'syntax' },
-                            :onclick => "window.open('#{ url_for :controller => 'help', :ctrl => 'wiki', :page => 'syntax' }', '', 'resizable=yes, location=no, width=300, height=500, menubar=no, status=no, scrollbars=yes'); return false;" %>
-</div>
+
 <p><%= f.text_area :text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit) %></p>
 <p><label><%= l(:field_comments) %></label><br /><%= f.text_field :comments, :size => 120 %></p>
 <p><%= submit_tag l(:button_save) %>
@@ -16,16 +12,15 @@
                          :method => 'post',
                          :update => 'preview',
                          :with => "Form.serialize('wiki_form')",
-                         :complete => "location.href='#preview-top'"
+                         :complete => "Element.scrollTo('preview')"
                        }, :accesskey => accesskey(:preview) %></p>
 <%= wikitoolbar_for 'content_text' %>
 <% end %>
 
-<a name="preview-top"></a>
 <div id="preview" class="wiki"></div>
 
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag 'scm' %>
 <% end %>
 
-<% set_html_title @page.pretty_title %>
+<% html_title @page.pretty_title %>

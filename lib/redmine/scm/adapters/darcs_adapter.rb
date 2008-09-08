@@ -25,26 +25,39 @@ module Redmine
         # Darcs executable name
         DARCS_BIN = "darcs"
         
+        class << self
+          def client_version
+            @@client_version ||= (darcs_binary_version || [])
+          end
+  	  
+          def darcs_binary_version
+            cmd = "#{DARCS_BIN} --version"
+            version = nil
+            shellout(cmd) do |io|
+              # Read darcs version in first returned line
+              if m = io.gets.match(%r{((\d+\.)+\d+)})
+                version = m[0].scan(%r{\d+}).collect(&:to_i)
+              end
+            end
+            return nil if $? && $?.exitstatus != 0
+            version
+          end
+        end
+
         def initialize(url, root_url=nil, login=nil, password=nil)
           @url = url
           @root_url = url
         end
 
         def supports_cat?
-          false
+          # cat supported in darcs 2.0.0 and higher
+          self.class.client_version_above?([2, 0, 0])
         end
-              
-        # Get info about the svn repository
+
+        # Get info about the darcs repository
         def info
           rev = revisions(nil,nil,nil,{:limit => 1})
           rev ? Info.new({:root_url => @url, :lastrev => rev.last}) : nil
-        end
-        
-        # Returns the entry identified by path and revision identifier
-        # or nil if entry doesn't exist in the repository
-        def entry(path=nil, identifier=nil)
-          e = entries(path, identifier)
-          e ? e.first : nil
         end
         
         # Returns an Entries collection
@@ -53,7 +66,9 @@ module Redmine
           path_prefix = (path.blank? ? '' : "#{path}/")
           path = '.' if path.blank?
           entries = Entries.new          
-          cmd = "#{DARCS_BIN} annotate --repodir #{@url} --xml-output #{path}"
+          cmd = "#{DARCS_BIN} annotate --repodir #{@url} --xml-output"
+          cmd << " --match \"hash #{identifier}\"" if identifier
+          cmd << " #{path}"
           shellout(cmd) do |io|
             begin
               doc = REXML::Document.new(io)
@@ -70,8 +85,6 @@ module Redmine
           end
           return nil if $? && $?.exitstatus != 0
           entries.sort_by_name
-        rescue Errno::ENOENT => e
-          raise CommandFailed
         end
     
         def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={})
@@ -99,15 +112,17 @@ module Redmine
           end
           return nil if $? && $?.exitstatus != 0
           revisions
-        rescue Errno::ENOENT => e
-          raise CommandFailed    
         end
         
-        def diff(path, identifier_from, identifier_to=nil, type="inline")
+        def diff(path, identifier_from, identifier_to=nil)
           path = '*' if path.blank?
           cmd = "#{DARCS_BIN} diff --repodir #{@url}"
-          cmd << " --to-match \"hash #{identifier_from}\""
-          cmd << " --from-match \"hash #{identifier_to}\"" if identifier_to
+          if identifier_to.nil?
+            cmd << " --match \"hash #{identifier_from}\""
+          else
+            cmd << " --to-match \"hash #{identifier_from}\""
+            cmd << " --from-match \"hash #{identifier_to}\""
+          end
           cmd << " -u #{path}"
           diff = []
           shellout(cmd) do |io|
@@ -116,11 +131,22 @@ module Redmine
             end
           end
           return nil if $? && $?.exitstatus != 0
-          DiffTableList.new diff, type    
-        rescue Errno::ENOENT => e
-          raise CommandFailed    
+          diff
         end
         
+        def cat(path, identifier=nil)
+          cmd = "#{DARCS_BIN} show content --repodir #{@url}"
+          cmd << " --match \"hash #{identifier}\"" if identifier
+          cmd << " #{shell_quote path}"
+          cat = nil
+          shellout(cmd) do |io|
+            io.binmode
+            cat = io.read
+          end
+          return nil if $? && $?.exitstatus != 0
+          cat
+        end
+
         private
                 
         def entry_from_xml(element, path_prefix)
@@ -154,7 +180,7 @@ module Redmine
             end
           end
           paths
-        rescue Errno::ENOENT => e
+        rescue CommandFailed
           paths
         end
       end

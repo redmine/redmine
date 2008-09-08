@@ -20,13 +20,17 @@ require 'iconv'
 
 class AuthSourceLdap < AuthSource 
   validates_presence_of :host, :port, :attr_login
-  validates_presence_of :attr_firstname, :attr_lastname, :attr_mail, :if => Proc.new { |a| a.onthefly_register? }
+  validates_length_of :name, :host, :account_password, :maximum => 60, :allow_nil => true
+  validates_length_of :account, :base_dn, :maximum => 255, :allow_nil => true
+  validates_length_of :attr_login, :attr_firstname, :attr_lastname, :attr_mail, :maximum => 30, :allow_nil => true
+  validates_numericality_of :port, :only_integer => true
   
   def after_initialize
     self.port = 389 if self.port == 0
   end
   
   def authenticate(login, password)
+    return nil if login.blank? || password.blank?
     attrs = []
     # get user's DN
     ldap_con = initialize_ldap_con(self.account, self.account_password)
@@ -69,11 +73,12 @@ class AuthSourceLdap < AuthSource
   
 private
   def initialize_ldap_con(ldap_user, ldap_password)
-    Net::LDAP.new( {:host => self.host, 
-                    :port => self.port, 
-                    :auth => { :method => :simple, :username => ldap_user, :password => ldap_password },
-                    :encryption => (self.tls ? :simple_tls : nil)} 
-    ) 
+    options = { :host => self.host,
+                :port => self.port,
+                :encryption => (self.tls ? :simple_tls : nil)
+              }
+    options.merge!(:auth => { :method => :simple, :username => ldap_user, :password => ldap_password }) unless ldap_user.blank? && ldap_password.blank?
+    Net::LDAP.new options
   end
   
   def self.get_attr(entry, attr_name)

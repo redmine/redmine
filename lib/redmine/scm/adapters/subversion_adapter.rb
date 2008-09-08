@@ -26,6 +26,25 @@ module Redmine
         # SVN executable name
         SVN_BIN = "svn"
         
+        class << self
+          def client_version
+            @@client_version ||= (svn_binary_version || [])
+          end
+          
+          def svn_binary_version
+            cmd = "#{SVN_BIN} --version"
+            version = nil
+            shellout(cmd) do |io|
+              # Read svn version in first returned line
+              if m = io.gets.match(%r{((\d+\.)+\d+)})
+                version = m[0].scan(%r{\d+}).collect(&:to_i)
+              end
+            end
+            return nil if $? && $?.exitstatus != 0
+            version
+          end
+        end
+        
         # Get info about the svn repository
         def info
           cmd = "#{SVN_BIN} info --xml #{target('')}"
@@ -47,31 +66,26 @@ module Redmine
           end
           return nil if $? && $?.exitstatus != 0
           info
-        rescue Errno::ENOENT => e
+        rescue CommandFailed
           return nil
-        end
-        
-        # Returns the entry identified by path and revision identifier
-        # or nil if entry doesn't exist in the repository
-        def entry(path=nil, identifier=nil)
-          e = entries(path, identifier)
-          e ? e.first : nil
         end
         
         # Returns an Entries collection
         # or nil if the given path doesn't exist in the repository
         def entries(path=nil, identifier=nil)
           path ||= ''
-          identifier = 'HEAD' unless identifier and identifier > 0
+          identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : "HEAD"
           entries = Entries.new
           cmd = "#{SVN_BIN} list --xml #{target(path)}@#{identifier}"
           cmd << credentials_string
-          cmd << " 2>&1"
           shellout(cmd) do |io|
             output = io.read
             begin
               doc = REXML::Document.new(output)
               doc.elements.each("lists/list/entry") do |entry|
+                # Skip directory if there is no commit date (usually that
+                # means that we don't have read access to it)
+                next if entry.attributes['kind'] == 'dir' && entry.elements['commit'].elements['date'].nil?
                 entries << Entry.new({:name => entry.elements['name'].text,
                             :path => ((path.empty? ? "" : "#{path}/") + entry.elements['name'].text),
                             :kind => entry.attributes['kind'],
@@ -91,19 +105,39 @@ module Redmine
           return nil if $? && $?.exitstatus != 0
           logger.debug("Found #{entries.size} entries in the repository for #{target(path)}") if logger && logger.debug?
           entries.sort_by_name
-        rescue Errno::ENOENT => e
-          raise CommandFailed
         end
-    
+        
+        def properties(path, identifier=nil)
+          # proplist xml output supported in svn 1.5.0 and higher
+          return nil unless self.class.client_version_above?([1, 5, 0])
+          
+          identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : "HEAD"
+          cmd = "#{SVN_BIN} proplist --verbose --xml #{target(path)}@#{identifier}"
+          cmd << credentials_string
+          properties = {}
+          shellout(cmd) do |io|
+            output = io.read
+            begin
+              doc = REXML::Document.new(output)
+              doc.elements.each("properties/target/property") do |property|
+                properties[ property.attributes['name'] ] = property.text
+              end
+            rescue
+            end
+          end
+          return nil if $? && $?.exitstatus != 0
+          properties
+        end
+        
         def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={})
           path ||= ''
-          identifier_from = 'HEAD' unless identifier_from and identifier_from.to_i > 0
-          identifier_to = 1 unless identifier_to and identifier_to.to_i > 0
+          identifier_from = (identifier_from and identifier_from.to_i > 0) ? identifier_from.to_i : "HEAD"
+          identifier_to = (identifier_to and identifier_to.to_i > 0) ? identifier_to.to_i : 1
           revisions = Revisions.new
           cmd = "#{SVN_BIN} log --xml -r #{identifier_from}:#{identifier_to}"
           cmd << credentials_string
           cmd << " --verbose " if  options[:with_paths]
-          cmd << target(path)
+          cmd << ' ' + target(path)
           shellout(cmd) do |io|
             begin
               doc = REXML::Document.new(io)
@@ -130,21 +164,17 @@ module Redmine
           end
           return nil if $? && $?.exitstatus != 0
           revisions
-        rescue Errno::ENOENT => e
-          raise CommandFailed    
         end
         
         def diff(path, identifier_from, identifier_to=nil, type="inline")
           path ||= ''
-          if identifier_to and identifier_to.to_i > 0
-            identifier_to = identifier_to.to_i 
-          else
-            identifier_to = identifier_from.to_i - 1
-          end
+          identifier_from = (identifier_from and identifier_from.to_i > 0) ? identifier_from.to_i : ''
+          identifier_to = (identifier_to and identifier_to.to_i > 0) ? identifier_to.to_i : (identifier_from.to_i - 1)
+          
           cmd = "#{SVN_BIN} diff -r "
           cmd << "#{identifier_to}:"
           cmd << "#{identifier_from}"
-          cmd << "#{target(path)}@#{identifier_from}"
+          cmd << " #{target(path)}@#{identifier_from}"
           cmd << credentials_string
           diff = []
           shellout(cmd) do |io|
@@ -153,9 +183,7 @@ module Redmine
             end
           end
           return nil if $? && $?.exitstatus != 0
-          DiffTableList.new diff, type    
-        rescue Errno::ENOENT => e
-          raise CommandFailed    
+          diff
         end
         
         def cat(path, identifier=nil)
@@ -169,8 +197,21 @@ module Redmine
           end
           return nil if $? && $?.exitstatus != 0
           cat
-        rescue Errno::ENOENT => e
-          raise CommandFailed    
+        end
+        
+        def annotate(path, identifier=nil)
+          identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : "HEAD"
+          cmd = "#{SVN_BIN} blame #{target(path)}@#{identifier}"
+          cmd << credentials_string
+          blame = Annotate.new
+          shellout(cmd) do |io|
+            io.each_line do |line|
+              next unless line =~ %r{^\s*(\d+)\s*(\S+)\s(.*)$}
+              blame.add_line($3.rstrip, Revision.new(:identifier => $1.to_i, :author => $2.strip))
+            end
+          end
+          return nil if $? && $?.exitstatus != 0
+          blame
         end
         
         private

@@ -16,7 +16,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class TrackersController < ApplicationController
-  layout 'base'
   before_filter :require_admin
 
   def index
@@ -37,14 +36,12 @@ class TrackersController < ApplicationController
     if request.post? and @tracker.save
       # workflow copy
       if !params[:copy_workflow_from].blank? && (copy_from = Tracker.find_by_id(params[:copy_workflow_from]))
-        copy_from.workflows.each do |w|
-          @tracker.workflows << w.clone
-        end
+        @tracker.workflows.copy(copy_from)
       end
       flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'list'
     end
-    @trackers = Tracker.find :all
+    @trackers = Tracker.find :all, :order => 'position'
   end
 
   def edit

@@ -16,27 +16,38 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class WatchersController < ApplicationController
-  layout 'base'
-  before_filter :require_login, :find_project, :check_project_privacy
+  before_filter :find_project
+  before_filter :require_login, :check_project_privacy, :only => [:watch, :unwatch]
+  before_filter :authorize, :only => :new
   
-  def add
-    user = User.current
-    @watched.add_watcher(user)
-    respond_to do |format|
-      format.html { render :text => 'Watcher added.', :layout => true }
-      format.js { render(:update) {|page| page.replace_html 'watcher', watcher_link(@watched, user)} }
-    end
+  verify :method => :post,
+         :only => [ :watch, :unwatch ],
+         :render => { :nothing => true, :status => :method_not_allowed }
+  
+  def watch
+    set_watcher(User.current, true)
   end
   
-  def remove
-    user = User.current
-    @watched.remove_watcher(user)
-    respond_to do |format|
-      format.html { render :text => 'Watcher removed.', :layout => true }
-      format.js { render(:update) {|page| page.replace_html 'watcher', watcher_link(@watched, user)} }
-    end
+  def unwatch
+    set_watcher(User.current, false)
   end
-
+  
+  def new
+    @watcher = Watcher.new(params[:watcher])
+    @watcher.watchable = @watched
+    @watcher.save if request.post?
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.js do
+        render :update do |page|
+          page.replace_html 'watchers', :partial => 'watchers/watchers', :locals => {:watched => @watched}
+        end
+      end
+    end
+  rescue ::ActionController::RedirectBackError
+    render :text => 'Watcher added.', :layout => true
+  end
+  
 private
   def find_project
     klass = Object.const_get(params[:object_type].camelcase)
@@ -45,5 +56,15 @@ private
     @project = @watched.project
   rescue
     render_404
+  end
+  
+  def set_watcher(user, watching)
+    @watched.set_watcher(user, watching)
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.js { render(:update) {|page| page.replace_html 'watcher', watcher_link(@watched, user)} }
+    end
+  rescue ::ActionController::RedirectBackError
+    render :text => (watching ? 'Watcher added.' : 'Watcher removed.'), :layout => true
   end
 end

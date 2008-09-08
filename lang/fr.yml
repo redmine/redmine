@@ -48,6 +48,7 @@ general_text_no: 'non'
 general_text_yes: 'oui'
 general_lang_name: 'Français'
 general_csv_separator: ';'
+general_csv_decimal_separator: ','
 general_csv_encoding: ISO-8859-1
 general_pdf_encoding: ISO-8859-1
 general_day_names: Lundi,Mardi,Mercredi,Jeudi,Vendredi,Samedi,Dimanche
@@ -68,23 +69,31 @@ notice_successful_delete: Suppression effectuée avec succès.
 notice_successful_connection: Connection réussie.
 notice_file_not_found: "La page à laquelle vous souhaitez accéder n'existe pas ou a été supprimée."
 notice_locking_conflict: Les données ont été mises à jour par un autre utilisateur. Mise à jour impossible.
-notice_scm_error: "L'entrée et/ou la révision demandée n'existe pas dans le dépôt."
 notice_not_authorized: "Vous n'êtes pas autorisés à accéder à cette page."
 notice_email_sent: "Un email a été envoyé à %s"
 notice_email_error: "Erreur lors de l'envoi de l'email (%s)"
-notice_feeds_access_key_reseted: Votre clé d'accès aux flux RSS a été réinitialisée.
+notice_feeds_access_key_reseted: "Votre clé d'accès aux flux RSS a été réinitialisée."
 notice_failed_to_save_issues: "%d demande(s) sur les %d sélectionnées n'ont pas pu être mise(s) à jour: %s."
 notice_no_issue_selected: "Aucune demande sélectionnée ! Cochez les demandes que vous voulez mettre à jour."
 notice_account_pending: "Votre compte a été créé et attend l'approbation de l'administrateur."
+notice_default_data_loaded: Paramétrage par défaut chargé avec succès.
 
-mail_subject_lost_password: Votre mot de passe redMine
-mail_body_lost_password: 'Pour changer votre mot de passe Redmine, cliquez sur le lien suivant:'
-mail_subject_register: Activation de votre compte redMine
-mail_body_register: 'Pour activer votre compte Redmine, cliquez sur le lien suivant:'
-mail_body_account_information_external: Vous pouvez utiliser votre compte "%s" pour vous connecter à Redmine.
-mail_body_account_information: Paramètres de connexion de votre compte Redmine
-mail_subject_account_activation_request: "Demande d'activation d'un compte Redmine"
+error_can_t_load_default_data: "Une erreur s'est produite lors du chargement du paramétrage: %s"
+error_scm_not_found: "L'entrée et/ou la révision demandée n'existe pas dans le dépôt."
+error_scm_command_failed: "Une erreur s'est produite lors de l'accès au dépôt: %s"
+error_scm_annotate: "L'entrée n'existe pas ou ne peut pas être annotée."
+error_issue_not_found_in_project: "La demande n'existe pas ou n'appartient pas à ce projet"
+
+mail_subject_lost_password: Votre mot de passe %s
+mail_body_lost_password: 'Pour changer votre mot de passe, cliquez sur le lien suivant:'
+mail_subject_register: Activation de votre compte %s
+mail_body_register: 'Pour activer votre compte, cliquez sur le lien suivant:'
+mail_body_account_information_external: Vous pouvez utiliser votre compte "%s" pour vous connecter.
+mail_body_account_information: Paramètres de connexion de votre compte
+mail_subject_account_activation_request: "Demande d'activation d'un compte %s"
 mail_body_account_activation_request: "Un nouvel utilisateur (%s) s'est inscrit. Son compte nécessite votre approbation:"
+mail_subject_reminder: "%d demande(s) arrivent à échéance"
+mail_body_reminder: "%d demande(s) qui vous sont assignées arrivent à échéance dans les %d prochains jours:"
 
 gui_validation_error: 1 erreur
 gui_validation_error_plural: %d erreurs
@@ -122,7 +131,7 @@ field_subject: Sujet
 field_due_date: Date d'échéance
 field_assigned_to: Assigné à
 field_priority: Priorité
-field_fixed_version: Version corrigée
+field_fixed_version: Version cible
 field_user: Utilisateur
 field_role: Rôle
 field_homepage: Site web
@@ -160,6 +169,7 @@ field_start_page: Page de démarrage
 field_subproject: Sous-projet
 field_hours: Heures
 field_activity: Activité
+label_overall_activity: Activité globale
 field_spent_on: Date
 field_identifier: Identifiant
 field_is_filter: Utilisé comme filtre
@@ -169,6 +179,11 @@ field_assignable: Demandes assignables à ce rôle
 field_redirect_existing_links: Rediriger les liens existants
 field_estimated_hours: Temps estimé
 field_column_names: Colonnes
+field_time_zone: Fuseau horaire
+field_searchable: Utilisé pour les recherches
+field_default_value: Valeur par défaut
+field_comments_sorting: Afficher les commentaires
+field_parent_title: Page parent
 
 setting_app_title: Titre de l'application
 setting_app_subtitle: Sous-titre de l'application
@@ -179,10 +194,12 @@ setting_self_registration: Inscription des nouveaux utilisateurs
 setting_attachment_max_size: Taille max des fichiers
 setting_issues_export_limit: Limite export demandes
 setting_mail_from: Adresse d'émission
+setting_bcc_recipients: Destinataires en copie cachée (cci)
 setting_host_name: Nom d'hôte
 setting_text_formatting: Formatage du texte
 setting_wiki_compression: Compression historique wiki
 setting_feeds_limit: Limite du contenu des flux RSS
+setting_default_projects_public: Définir les nouveaux projects comme publics par défaut
 setting_autofetch_changesets: Récupération auto. des commits
 setting_sys_api_enabled: Activer les WS pour la gestion des dépôts
 setting_commit_ref_keywords: Mot-clés de référencement
@@ -193,8 +210,26 @@ setting_time_format: Format d'heure
 setting_cross_project_issue_relations: Autoriser les relations entre demandes de différents projets
 setting_issue_list_default_columns: Colonnes affichées par défaut sur la liste des demandes
 setting_repositories_encodings: Encodages des dépôts
+setting_commit_logs_encoding: Encodage des messages de commit
 setting_emails_footer: Pied-de-page des emails
 setting_protocol: Protocole
+setting_per_page_options: Options d'objets affichés par page
+setting_user_format: Format d'affichage des utilisateurs
+setting_activity_days_default: Nombre de jours affichés sur l'activité des projets
+setting_display_subprojects_issues: Afficher par défaut les demandes des sous-projets sur les projets principaux
+setting_enabled_scm: SCM activés
+setting_mail_handler_api_enabled: "Activer le WS pour la réception d'emails"
+setting_mail_handler_api_key: Clé de protection de l'API
+setting_sequential_project_identifiers: Générer des identifiants de projet séquentiels
+
+project_module_issue_tracking: Suivi des demandes
+project_module_time_tracking: Suivi du temps passé
+project_module_news: Publication d'annonces
+project_module_documents: Publication de documents
+project_module_files: Publication de fichiers
+project_module_wiki: Wiki
+project_module_repository: Dépôt de sources
+project_module_boards: Forums de discussion
 
 label_user: Utilisateur
 label_user_plural: Utilisateurs
@@ -208,9 +243,13 @@ label_issue: Demande
 label_issue_new: Nouvelle demande
 label_issue_plural: Demandes
 label_issue_view_all: Voir toutes les demandes
+label_issue_added: Demande ajoutée
+label_issue_updated: Demande mise à jour
+label_issues_by: Demandes par %s
 label_document: Document
 label_document_new: Nouveau document
 label_document_plural: Documents
+label_document_added: Document ajouté
 label_role: Rôle
 label_role_plural: Rôles
 label_role_new: Nouveau rôle
@@ -261,6 +300,7 @@ label_auth_source: Mode d'authentification
 label_auth_source_new: Nouveau mode d'authentification
 label_auth_source_plural: Modes d'authentification
 label_subproject_plural: Sous-projets
+label_and_its_subprojects: %s et ses sous-projets
 label_min_max_length: Longueurs mini - maxi
 label_list: Liste
 label_date: Date
@@ -280,6 +320,7 @@ label_attachment: Fichier
 label_attachment_new: Nouveau fichier
 label_attachment_delete: Supprimer le fichier
 label_attachment_plural: Fichiers
+label_file_added: Fichier ajouté
 label_report: Rapport
 label_report_plural: Rapports
 label_news: Annonce
@@ -287,6 +328,7 @@ label_news_new: Nouvelle annonce
 label_news_plural: Annonces
 label_news_latest: Dernières annonces
 label_news_view_all: Voir toutes les annonces
+label_news_added: Annonce ajoutée
 label_change_log: Historique
 label_settings: Configuration
 label_overview: Aperçu
@@ -294,7 +336,7 @@ label_version: Version
 label_version_new: Nouvelle version
 label_version_plural: Versions
 label_confirmation: Confirmation
-label_export_to: Exporter en
+label_export_to: 'Formats disponibles:'
 label_read: Lire...
 label_public_projects: Projets publics
 label_open_issues: ouvert
@@ -337,7 +379,15 @@ label_in_less_than: dans moins de
 label_in_more_than: dans plus de
 label_in: dans
 label_today: aujourd'hui
+label_all_time: toute la période
+label_yesterday: hier
 label_this_week: cette semaine
+label_last_week: la semaine dernière
+label_last_n_days: les %d derniers jours
+label_this_month: ce mois-ci
+label_last_month: le mois dernier
+label_this_year: cette année
+label_date_range: Période
 label_less_than_ago: il y a moins de
 label_more_than_ago: il y a plus de
 label_ago: il y a
@@ -345,11 +395,13 @@ label_contains: contient
 label_not_contains: ne contient pas
 label_day_plural: jours
 label_repository: Dépôt
+label_repository_plural: Dépôts
 label_browse: Parcourir
 label_modification: %d modification
 label_modification_plural: %d modifications
 label_revision: Révision
 label_revision_plural: Révisions
+label_associated_revisions: Révisions associées
 label_added: ajouté
 label_modified: modifié
 label_deleted: supprimé
@@ -402,7 +454,8 @@ label_loading: Chargement...
 label_relation_new: Nouvelle relation
 label_relation_delete: Supprimer la relation
 label_relates_to: lié à
-label_duplicates: doublon de
+label_duplicates: duplique
+label_duplicated_by: dupliqué par
 label_blocks: bloque
 label_blocked_by: bloqué par
 label_precedes: précède
@@ -413,7 +466,7 @@ label_start_to_start: début à début
 label_start_to_end: début à fin
 label_stay_logged_in: Rester connecté
 label_disabled: désactivé
-label_show_completed_versions: Voire les versions passées
+label_show_completed_versions: Voir les versions passées
 label_me: moi
 label_board: Forum
 label_board_new: Nouveau forum
@@ -422,6 +475,7 @@ label_topic_plural: Discussions
 label_message_plural: Messages
 label_message_last: Dernier message
 label_message_new: Nouveau message
+label_message_posted: Message ajouté
 label_reply_plural: Réponses
 label_send_information: Envoyer les informations à l'utilisateur
 label_year: Année
@@ -452,6 +506,24 @@ label_user_mail_no_self_notified: "Je ne veux pas être notifié des changements
 label_registration_activation_by_email: activation du compte par email
 label_registration_manual_activation: activation manuelle du compte
 label_registration_automatic_activation: activation automatique du compte
+label_display_per_page: 'Par page: %s'
+label_age: Age
+label_change_properties: Changer les propriétés
+label_general: Général
+label_more: Plus
+label_scm: SCM
+label_plugins: Plugins
+label_ldap_authentication: Authentification LDAP
+label_downloads_abbr: D/L
+label_optional_description: Description facultative
+label_add_another_file: Ajouter un autre fichier
+label_preferences: Préférences
+label_chronological_order: Dans l'ordre chronologique
+label_reverse_chronological_order: Dans l'ordre chronologique inverse
+label_planning: Planning
+label_incoming_emails: Emails entrants
+label_generate_key: Générer une clé
+label_issue_watchers: Utilisateurs surveillant cette demande
 
 button_login: Connexion
 button_submit: Soumettre
@@ -487,15 +559,20 @@ button_reset: Réinitialiser
 button_rename: Renommer
 button_change_password: Changer de mot de passe
 button_copy: Copier
+button_annotate: Annoter
+button_update: Mettre à jour
+button_configure: Configurer
+button_quote: Citer
 
 status_active: actif
 status_registered: enregistré
 status_locked: vérouillé
 
-text_select_mail_notifications: Sélectionner les actions pour lesquelles la notification par mail doit être activée.
+text_select_mail_notifications: Actions pour lesquelles une notification par e-mail est envoyée
 text_regexp_info: ex. ^[A-Z0-9]+$
 text_min_max_length_info: 0 pour aucune restriction
-text_project_destroy_confirmation: Etes-vous sûr de vouloir supprimer ce projet et tout ce qui lui est rattaché ?
+text_project_destroy_confirmation: Etes-vous sûr de vouloir supprimer ce projet et toutes ses données ?
+text_subprojects_destroy_warning: 'Ses sous-projets: %s seront également supprimés.'
 text_workflow_edit: Sélectionner un tracker et un rôle pour éditer le workflow
 text_are_you_sure: Etes-vous sûr ?
 text_journal_changed: changé de %s à %s
@@ -504,20 +581,37 @@ text_journal_deleted: supprimé
 text_tip_task_begin_day: tâche commençant ce jour
 text_tip_task_end_day: tâche finissant ce jour
 text_tip_task_begin_end_day: tâche commençant et finissant ce jour
-text_project_identifier_info: 'Lettres minuscules (a-z), chiffres et tirets autorisés.<br />Un fois sauvegardé, l''identifiant ne pourra plus être modifié.'
+text_project_identifier_info: 'Seuls les lettres minuscules (a-z), chiffres et tirets sont autorisés.<br />Un fois sauvegardé, l''identifiant ne pourra plus être modifié.'
 text_caracters_maximum: %d caractères maximum.
+text_caracters_minimum: %d caractères minimum.
 text_length_between: Longueur comprise entre %d et %d caractères.
 text_tracker_no_workflow: Aucun worflow n'est défini pour ce tracker
 text_unallowed_characters: Caractères non autorisés
 text_comma_separated: Plusieurs valeurs possibles (séparées par des virgules).
 text_issues_ref_in_commit_messages: Référencement et résolution des demandes dans les commentaires de commits
-text_issue_added: La demande %s a été soumise.
-text_issue_updated: La demande %s a été mise à jour.
+text_issue_added: La demande %s a été soumise par %s.
+text_issue_updated: La demande %s a été mise à jour par %s.
 text_wiki_destroy_confirmation: Etes-vous sûr de vouloir supprimer ce wiki et tout son contenu ?
-text_issue_category_destroy_question: Des demandes (%d) sont affectées à cette catégories. Que voulez-vous faire ?
+text_issue_category_destroy_question: %d demandes sont affectées à cette catégories. Que voulez-vous faire ?
 text_issue_category_destroy_assignments: N'affecter les demandes à aucune autre catégorie
 text_issue_category_reassign_to: Réaffecter les demandes à cette catégorie
 text_user_mail_option: "Pour les projets non sélectionnés, vous recevrez seulement des notifications pour ce que vous surveillez ou à quoi vous participez (exemple: demandes dont vous êtes l'auteur ou la personne assignée)."
+text_no_configuration_data: "Les rôles, trackers, statuts et le workflow ne sont pas encore paramétrés.\nIl est vivement recommandé de charger le paramétrage par defaut. Vous pourrez le modifier une fois chargé."
+text_load_default_configuration: Charger le paramétrage par défaut
+text_status_changed_by_changeset: Appliqué par commit %s.
+text_issues_destroy_confirmation: 'Etes-vous sûr de vouloir supprimer le(s) demandes(s) selectionnée(s) ?'
+text_select_project_modules: 'Selectionner les modules à activer pour ce project:'
+text_default_administrator_account_changed: Compte administrateur par défaut changé
+text_file_repository_writable: Répertoire de stockage des fichiers accessible en écriture
+text_rmagick_available: Bibliothèque RMagick présente (optionnelle)
+text_destroy_time_entries_question: %.02f heures ont été enregistrées sur les demandes à supprimer. Que voulez-vous faire ?
+text_destroy_time_entries: Supprimer les heures
+text_assign_time_entries_to_project: Reporter les heures sur le projet
+text_reassign_time_entries: 'Reporter les heures sur cette demande:'
+text_user_wrote: '%s a écrit:'
+text_enumeration_destroy_question: 'Cette valeur est affectée à %d objets.'
+text_enumeration_category_reassign_to: 'Réaffecter les objets à cette valeur:'
+text_email_delivery_not_configured: "L'envoi de mail n'est pas configuré, les notifications sont désactivées.\nConfigurez votre serveur SMTP dans config/email.yml et redémarrez l'application pour les activer."
 
 default_role_manager: Manager
 default_role_developper: Développeur

@@ -35,11 +35,16 @@ class Repository::Subversion < Repository
     revisions ? changesets.find_all_by_revision(revisions.collect(&:identifier), :order => "committed_on DESC") : []
   end
   
+  # Returns a path relative to the url of the repository
+  def relative_path(path)
+    path.gsub(Regexp.new("^\/?#{Regexp.escape(relative_url)}"), '')
+  end
+  
   def fetch_changesets
     scm_info = scm.info
     if scm_info
       # latest revision found in database
-      db_revision = latest_changeset ? latest_changeset.revision : 0
+      db_revision = latest_changeset ? latest_changeset.revision.to_i : 0
       # latest revision in the repository
       scm_revision = scm_info.lastrev.identifier.to_i
       if db_revision < scm_revision
@@ -70,5 +75,15 @@ class Repository::Subversion < Repository
         end
       end
     end
+  end
+  
+  private
+  
+  # Returns the relative url of the repository
+  # Eg: root_url = file:///var/svn/foo
+  #     url      = file:///var/svn/foo/bar
+  #     => returns /bar
+  def relative_url
+    @relative_url ||= url.gsub(Regexp.new("^#{Regexp.escape(root_url)}"), '')
   end
 end

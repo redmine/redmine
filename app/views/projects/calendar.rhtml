@@ -1,5 +1,4 @@
-<% cache(:year => @year, :month => @month, :tracker_ids => @selected_tracker_ids, :subprojects => params[:with_subprojects], :lang => current_language) do %>
-<h2><%= l(:label_calendar) %>: <%= "#{month_name(@month).downcase} #{@year}" %></h2>
+<h2><%= "#{month_name(@month)} #{@year}" %></h2>
 
 <table width="100%">
 <tr><td align="left">
@@ -20,12 +19,11 @@
 <%= image_tag 'arrow_from.png' %>&nbsp;&nbsp;<%= l(:text_tip_task_begin_day) %><br />
 <%= image_tag 'arrow_to.png' %>&nbsp;&nbsp;<%= l(:text_tip_task_end_day) %><br />
 <%= image_tag 'arrow_bw.png' %>&nbsp;&nbsp;<%= l(:text_tip_task_begin_end_day) %><br />
-<% end %>
 
 <% content_for :sidebar do %>
     <h3><%= l(:label_calendar) %></h3>
     
-    <% form_tag() do %>
+    <% form_tag({}, :method => :get) do %>
     <p><%= select_month(@month, :prefix => "month", :discard_type => true) %>
     <%= select_year(@year, :prefix => "year", :discard_type => true) %></p>
     
@@ -33,8 +31,11 @@
       <label><%= check_box_tag "tracker_ids[]", tracker.id, (@selected_tracker_ids.include? tracker.id.to_s) %> <%= tracker.name %></label><br />
     <% end %>
     <% if @project.active_children.any? %>
-    <br /><label><%= check_box_tag "with_subprojects", 1, params[:with_subprojects] %> <%=l(:label_subproject_plural)%></label>
+    <br /><label><%= check_box_tag 'with_subprojects', 1, @with_subprojects %> <%=l(:label_subproject_plural)%></label>
+    <%= hidden_field_tag 'with_subprojects', 0 %>
     <% end %>
-    <p><%= submit_tag l(:button_apply), :class => 'button-small' %></p>
+    <p><%= submit_tag l(:button_apply), :class => 'button-small', :name => nil %></p>
     <% end %>
 <% end %>
+
+<% html_title(l(:label_calendar)) -%>

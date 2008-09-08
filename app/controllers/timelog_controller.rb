@@ -16,55 +16,80 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class TimelogController < ApplicationController
-  layout 'base'  
-  before_filter :find_project, :authorize
+  menu_item :issues
+  before_filter :find_project, :authorize, :only => [:edit, :destroy]
+  before_filter :find_optional_project, :only => [:report, :details]
 
+  verify :method => :post, :only => :destroy, :redirect_to => { :action => :details }
+  
   helper :sort
   include SortHelper
   helper :issues
+  include TimelogHelper
+  helper :custom_fields
+  include CustomFieldsHelper
   
   def report
-    @available_criterias = { 'version' => {:sql => "#{Issue.table_name}.fixed_version_id",
-                                          :values => @project.versions,
+    @available_criterias = { 'project' => {:sql => "#{TimeEntry.table_name}.project_id",
+                                          :klass => Project,
+                                          :label => :label_project},
+                             'version' => {:sql => "#{Issue.table_name}.fixed_version_id",
+                                          :klass => Version,
                                           :label => :label_version},
                              'category' => {:sql => "#{Issue.table_name}.category_id",
-                                            :values => @project.issue_categories,
+                                            :klass => IssueCategory,
                                             :label => :field_category},
                              'member' => {:sql => "#{TimeEntry.table_name}.user_id",
-                                         :values => @project.users,
+                                         :klass => User,
                                          :label => :label_member},
                              'tracker' => {:sql => "#{Issue.table_name}.tracker_id",
-                                          :values => Tracker.find(:all),
+                                          :klass => Tracker,
                                           :label => :label_tracker},
                              'activity' => {:sql => "#{TimeEntry.table_name}.activity_id",
-                                           :values => Enumeration::get_values('ACTI'),
-                                           :label => :label_activity}
+                                           :klass => Enumeration,
+                                           :label => :label_activity},
+                             'issue' => {:sql => "#{TimeEntry.table_name}.issue_id",
+                                         :klass => Issue,
+                                         :label => :label_issue}
                            }
+    
+    # Add list and boolean custom fields as available criterias
+    custom_fields = (@project.nil? ? IssueCustomField.for_all : @project.all_issue_custom_fields)
+    custom_fields.select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
+      @available_criterias["cf_#{cf.id}"] = {:sql => "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'Issue' AND c.customized_id = #{Issue.table_name}.id)",
+                                             :format => cf.field_format,
+                                             :label => cf.name}
+    end if @project
+    
+    # Add list and boolean time entry custom fields
+    TimeEntryCustomField.find(:all).select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
+      @available_criterias["cf_#{cf.id}"] = {:sql => "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'TimeEntry' AND c.customized_id = #{TimeEntry.table_name}.id)",
+                                             :format => cf.field_format,
+                                             :label => cf.name}
+    end
     
     @criterias = params[:criterias] || []
     @criterias = @criterias.select{|criteria| @available_criterias.has_key? criteria}
     @criterias.uniq!
+    @criterias = @criterias[0,3]
     
-    @columns = (params[:period] && %w(year month week).include?(params[:period])) ? params[:period] : 'month'
+    @columns = (params[:columns] && %w(year month week day).include?(params[:columns])) ? params[:columns] : 'month'
     
-    if params[:date_from]
-      begin; @date_from = params[:date_from].to_date; rescue; end
-    end
-    if params[:date_to]
-      begin; @date_to = params[:date_to].to_date; rescue; end
-    end
-    @date_from ||= Date.civil(Date.today.year, 1, 1)
-    @date_to ||= Date.civil(Date.today.year, Date.today.month+1, 1) - 1
+    retrieve_date_range
     
     unless @criterias.empty?
       sql_select = @criterias.collect{|criteria| @available_criterias[criteria][:sql] + " AS " + criteria}.join(', ')
       sql_group_by = @criterias.collect{|criteria| @available_criterias[criteria][:sql]}.join(', ')
       
-      sql = "SELECT #{sql_select}, tyear, tmonth, tweek, SUM(hours) AS hours"
-      sql << " FROM #{TimeEntry.table_name} LEFT JOIN #{Issue.table_name} ON #{TimeEntry.table_name}.issue_id = #{Issue.table_name}.id"
-      sql << " WHERE #{TimeEntry.table_name}.project_id = %s" % @project.id
-      sql << " AND spent_on BETWEEN '%s' AND '%s'" % [ActiveRecord::Base.connection.quoted_date(@date_from.to_time), ActiveRecord::Base.connection.quoted_date(@date_to.to_time)]
-      sql << " GROUP BY #{sql_group_by}, tyear, tmonth, tweek"
+      sql = "SELECT #{sql_select}, tyear, tmonth, tweek, spent_on, SUM(hours) AS hours"
+      sql << " FROM #{TimeEntry.table_name}"
+      sql << " LEFT JOIN #{Issue.table_name} ON #{TimeEntry.table_name}.issue_id = #{Issue.table_name}.id"
+      sql << " LEFT JOIN #{Project.table_name} ON #{TimeEntry.table_name}.project_id = #{Project.table_name}.id"
+      sql << " WHERE"
+      sql << " (%s) AND" % @project.project_condition(Setting.display_subprojects_issues?) if @project
+      sql << " (%s) AND" % Project.allowed_to_condition(User.current, :view_time_entries)
+      sql << " (spent_on BETWEEN '%s' AND '%s')" % [ActiveRecord::Base.connection.quoted_date(@from.to_time), ActiveRecord::Base.connection.quoted_date(@to.to_time)]
+      sql << " GROUP BY #{sql_group_by}, tyear, tmonth, tweek, spent_on"
       
       @hours = ActiveRecord::Base.connection.select_all(sql)
       
@@ -76,53 +101,112 @@ class TimelogController < ApplicationController
           row['month'] = "#{row['tyear']}-#{row['tmonth']}"
         when 'week'
           row['week'] = "#{row['tyear']}-#{row['tweek']}"
+        when 'day'
+          row['day'] = "#{row['spent_on']}"
+        end
+      end
+      
+      @total_hours = @hours.inject(0) {|s,k| s = s + k['hours'].to_f}
+      
+      @periods = []
+      # Date#at_beginning_of_ not supported in Rails 1.2.x
+      date_from = @from.to_time
+      # 100 columns max
+      while date_from <= @to.to_time && @periods.length < 100
+        case @columns
+        when 'year'
+          @periods << "#{date_from.year}"
+          date_from = (date_from + 1.year).at_beginning_of_year
+        when 'month'
+          @periods << "#{date_from.year}-#{date_from.month}"
+          date_from = (date_from + 1.month).at_beginning_of_month
+        when 'week'
+          @periods << "#{date_from.year}-#{date_from.to_date.cweek}"
+          date_from = (date_from + 7.day).at_beginning_of_week
+        when 'day'
+          @periods << "#{date_from.to_date}"
+          date_from = date_from + 1.day
         end
       end
     end
-       
-    @periods = []
-    date_from = @date_from
-    # 100 columns max
-    while date_from < @date_to && @periods.length < 100
-      case @columns
-      when 'year'
-        @periods << "#{date_from.year}"
-        date_from = date_from >> 12
-      when 'month'
-        @periods << "#{date_from.year}-#{date_from.month}"
-        date_from = date_from >> 1
-      when 'week'
-        @periods << "#{date_from.year}-#{date_from.cweek}"
-        date_from = date_from + 7
-      end
-    end
     
-    render :layout => false if request.xhr?
+    respond_to do |format|
+      format.html { render :layout => !request.xhr? }
+      format.csv  { send_data(report_to_csv(@criterias, @periods, @hours).read, :type => 'text/csv; header=present', :filename => 'timelog.csv') }
+    end
   end
   
   def details
     sort_init 'spent_on', 'desc'
     sort_update
     
-    @entries = (@issue ? @issue : @project).time_entries.find(:all, :include => [:activity, :user, {:issue => [:tracker, :assigned_to, :priority]}], :order => sort_clause)
-
-    @total_hours = @entries.inject(0) { |sum,entry| sum + entry.hours }
-    @owner_id = logged_in_user ? logged_in_user.id : 0
+    cond = ARCondition.new
+    if @project.nil?
+      cond << Project.allowed_to_condition(User.current, :view_time_entries)
+    elsif @issue.nil?
+      cond << @project.project_condition(Setting.display_subprojects_issues?)
+    else
+      cond << ["#{TimeEntry.table_name}.issue_id = ?", @issue.id]
+    end
     
-    send_csv and return if 'csv' == params[:export]    
-    render :action => 'details', :layout => false if request.xhr?
+    retrieve_date_range
+    cond << ['spent_on BETWEEN ? AND ?', @from, @to]
+
+    TimeEntry.visible_by(User.current) do
+      respond_to do |format|
+        format.html {
+          # Paginate results
+          @entry_count = TimeEntry.count(:include => :project, :conditions => cond.conditions)
+          @entry_pages = Paginator.new self, @entry_count, per_page_option, params['page']
+          @entries = TimeEntry.find(:all, 
+                                    :include => [:project, :activity, :user, {:issue => :tracker}],
+                                    :conditions => cond.conditions,
+                                    :order => sort_clause,
+                                    :limit  =>  @entry_pages.items_per_page,
+                                    :offset =>  @entry_pages.current.offset)
+          @total_hours = TimeEntry.sum(:hours, :include => :project, :conditions => cond.conditions).to_f
+
+          render :layout => !request.xhr?
+        }
+        format.atom {
+          entries = TimeEntry.find(:all,
+                                   :include => [:project, :activity, :user, {:issue => :tracker}],
+                                   :conditions => cond.conditions,
+                                   :order => "#{TimeEntry.table_name}.created_on DESC",
+                                   :limit => Setting.feeds_limit.to_i)
+          render_feed(entries, :title => l(:label_spent_time))
+        }
+        format.csv {
+          # Export all entries
+          @entries = TimeEntry.find(:all, 
+                                    :include => [:project, :activity, :user, {:issue => [:tracker, :assigned_to, :priority]}],
+                                    :conditions => cond.conditions,
+                                    :order => sort_clause)
+          send_data(entries_to_csv(@entries).read, :type => 'text/csv; header=present', :filename => 'timelog.csv')
+        }
+      end
+    end
   end
   
   def edit
-    render_404 and return if @time_entry && @time_entry.user != logged_in_user
-    @time_entry ||= TimeEntry.new(:project => @project, :issue => @issue, :user => logged_in_user, :spent_on => Date.today)
+    render_403 and return if @time_entry && !@time_entry.editable_by?(User.current)
+    @time_entry ||= TimeEntry.new(:project => @project, :issue => @issue, :user => User.current, :spent_on => Date.today)
     @time_entry.attributes = params[:time_entry]
     if request.post? and @time_entry.save
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'details', :project_id => @time_entry.project, :issue_id => @time_entry.issue
+      redirect_to(params[:back_url].blank? ? {:action => 'details', :project_id => @time_entry.project} : params[:back_url])
       return
     end    
-    @activities = Enumeration::get_values('ACTI')
+  end
+  
+  def destroy
+    render_404 and return unless @time_entry
+    render_403 and return unless @time_entry.editable_by?(User.current)
+    @time_entry.destroy
+    flash[:notice] = l(:notice_successful_delete)
+    redirect_to :back
+  rescue ::ActionController::RedirectBackError
+    redirect_to :action => 'details', :project_id => @time_entry.project
   end
 
 private
@@ -139,34 +223,63 @@ private
       render_404
       return false
     end
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
   
-  def send_csv
-    ic = Iconv.new(l(:general_csv_encoding), 'UTF-8')    
-    export = StringIO.new
-    CSV::Writer.generate(export, l(:general_csv_separator)) do |csv|
-      # csv header fields
-      headers = [l(:field_spent_on),
-                 l(:field_user),
-                 l(:field_activity),
-                 l(:field_issue),
-                 l(:field_hours),
-                 l(:field_comments)
-                 ]
-      csv << headers.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }
-      # csv lines
-      @entries.each do |entry|
-        fields = [l_date(entry.spent_on),
-                  entry.user.name,
-                  entry.activity.name,
-                  (entry.issue ? entry.issue.id : nil),
-                  entry.hours,
-                  entry.comments
-                  ]
-        csv << fields.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }
-      end
+  def find_optional_project
+    if !params[:issue_id].blank?
+      @issue = Issue.find(params[:issue_id])
+      @project = @issue.project
+    elsif !params[:project_id].blank?
+      @project = Project.find(params[:project_id])
     end
-    export.rewind
-    send_data(export.read, :type => 'text/csv; header=present', :filename => 'export.csv')
+    deny_access unless User.current.allowed_to?(:view_time_entries, @project, :global => true)
+  end
+  
+  # Retrieves the date range based on predefined ranges or specific from/to param dates
+  def retrieve_date_range
+    @free_period = false
+    @from, @to = nil, nil
+
+    if params[:period_type] == '1' || (params[:period_type].nil? && !params[:period].nil?)
+      case params[:period].to_s
+      when 'today'
+        @from = @to = Date.today
+      when 'yesterday'
+        @from = @to = Date.today - 1
+      when 'current_week'
+        @from = Date.today - (Date.today.cwday - 1)%7
+        @to = @from + 6
+      when 'last_week'
+        @from = Date.today - 7 - (Date.today.cwday - 1)%7
+        @to = @from + 6
+      when '7_days'
+        @from = Date.today - 7
+        @to = Date.today
+      when 'current_month'
+        @from = Date.civil(Date.today.year, Date.today.month, 1)
+        @to = (@from >> 1) - 1
+      when 'last_month'
+        @from = Date.civil(Date.today.year, Date.today.month, 1) << 1
+        @to = (@from >> 1) - 1
+      when '30_days'
+        @from = Date.today - 30
+        @to = Date.today
+      when 'current_year'
+        @from = Date.civil(Date.today.year, 1, 1)
+        @to = Date.civil(Date.today.year, 12, 31)
+      end
+    elsif params[:period_type] == '2' || (params[:period_type].nil? && (!params[:from].nil? || !params[:to].nil?))
+      begin; @from = params[:from].to_s.to_date unless params[:from].blank?; rescue; end
+      begin; @to = params[:to].to_s.to_date unless params[:to].blank?; rescue; end
+      @free_period = true
+    else
+      # default
+    end
+    
+    @from, @to = @to, @from if @from && @to && @from > @to
+    @from ||= (TimeEntry.minimum(:spent_on, :include => :project, :conditions => Project.allowed_to_condition(User.current, :view_time_entries)) || Date.today) - 1
+    @to   ||= (TimeEntry.maximum(:spent_on, :include => :project, :conditions => Project.allowed_to_condition(User.current, :view_time_entries)) || Date.today)
   end
 end

@@ -1,10 +1,11 @@
-<%= l(:text_issue_updated, "##{@issue.id}") %><br />
-<em><%= @journal.user.name %></em>
+<%= l(:text_issue_updated, "##{@issue.id}", @journal.user) %>
+
 <ul>
 <% for detail in @journal.details %>
     <li><%= show_detail(detail, true) %></li>
 <% end %>
 </ul>
-<%= textilizable(@journal.notes) %>
+
+<%= textilizable(@journal, :notes, :only_path => false) %>
 <hr />
-<%= render :file => "_issue_text_html", :use_full_path => true, :locals => { :issue => @issue, :issue_url => @issue_url } %>
+<%= render :partial => "issue_text_html", :locals => { :issue => @issue, :issue_url => @issue_url } %>

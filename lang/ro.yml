@@ -48,6 +48,7 @@ general_text_no: 'nu'
 general_text_yes: 'da'
 general_lang_name: 'Română'
 general_csv_separator: ','
+general_csv_decimal_separator: '.'
 general_csv_encoding: ISO-8859-1
 general_pdf_encoding: ISO-8859-1
 general_day_names: Luni,Marti,Miercuri,Joi,Vineri,Sambata,Duminica
@@ -68,16 +69,18 @@ notice_successful_delete: Stergere cu succes.
 notice_successful_connection: Conectare cu succes.
 notice_file_not_found: Pagina dorita nu exista sau nu mai este valabila.
 notice_locking_conflict: Informatiile au fost modificate de un alt utilizator.
-notice_scm_error: Articolul sau reviziunea nu exista in stoc (Repository).
 notice_not_authorized: Nu aveti autorizatia sa accesati aceasta pagina.
 notice_email_sent: Un e-mail a fost trimis la adresa %s
 notice_email_error: Eroare in trimiterea e-mailului (%s)
 notice_feeds_access_key_reseted: Parola de acces RSS a fost resetat.
 
-mail_subject_lost_password: Your Redmine password
-mail_body_lost_password: 'To change your Redmine password, click on the following link:'
-mail_subject_register: Redmine account activation
-mail_body_register: 'To activate your Redmine account, click on the following link:'
+error_scm_not_found: "Articolul sau reviziunea nu exista in stoc (Repository)."
+error_scm_command_failed: "An error occurred when trying to access the repository: %s"
+
+mail_subject_lost_password: Your %s password
+mail_body_lost_password: 'To change your password, click on the following link:'
+mail_subject_register: Your %s account activation
+mail_body_register: 'To activate your account, click on the following link:'
 
 gui_validation_error: 1 eroare
 gui_validation_error_plural: %d erori
@@ -115,7 +118,7 @@ field_subject: Subiect
 field_due_date: Data finalizarii 
 field_assigned_to: Atribuit pentru
 field_priority: Prioritate
-field_fixed_version: Versiune rezolvata 
+field_fixed_version: Target version
 field_user: Utilizator
 field_role: Rol
 field_homepage: Pagina principala
@@ -161,6 +164,7 @@ field_delay: Intarziere
 field_assignable: La acest rol se poate atribui tichete
 field_redirect_existing_links: Redirectare linkuri existente
 field_estimated_hours: Timpul estimat
+field_default_value: Default value
 
 setting_app_title: Titlul aplicatiei
 setting_app_subtitle: Subtitlul aplicatiei
@@ -477,8 +481,8 @@ text_tracker_no_workflow: Nu este definit nici un workflow pentru acest tip de t
 text_unallowed_characters: Caractere nepermise
 text_comma_separated: Se poate folosi valori multiple (separate de virgula).
 text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
-text_issue_added: Tichetul %s a fost raportat.
-text_issue_updated: tichetul %s a fost modificat.
+text_issue_added: Tichetul %s a fost raportat (by %s).
+text_issue_updated: tichetul %s a fost modificat (by %s).
 text_wiki_destroy_confirmation: Sunteti sigur ca vreti sa stergeti acest wiki si continutul ei ?
 text_issue_category_destroy_question: Cateva tichete (%d) apartin acestei categorii. Cum vreti sa procedati ?
 text_issue_category_destroy_assignments: Remove category assignments
@@ -494,7 +498,7 @@ default_issue_status_new: Nou
 default_issue_status_assigned: Atribuit
 default_issue_status_resolved: Rezolvat
 default_issue_status_feedback: Feedback
-default_issue_status_closed: Rezolvat
+default_issue_status_closed: Closed
 default_issue_status_rejected: Respins
 default_doc_category_user: Documentatie
 default_doc_category_tech: Documentatie tehnica
@@ -533,14 +537,103 @@ label_user_mail_option_none: "Only for things I watch or I'm involved in"
 setting_emails_footer: Emails footer
 label_float: Float
 button_copy: Copy
-mail_body_account_information_external: You can use your "%s" account to log into Redmine.
-mail_body_account_information: Your Redmine account information
+mail_body_account_information_external: You can use your "%s" account to log in.
+mail_body_account_information: Your account information
 setting_protocol: Protocol
 label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
 setting_time_format: Time format
 label_registration_activation_by_email: account activation by email
-mail_subject_account_activation_request: Redmine account activation request
+mail_subject_account_activation_request: %s account activation request
 mail_body_account_activation_request: 'A new user (%s) has registered. His account his pending your approval:'
 label_registration_automatic_activation: automatic account activation
 label_registration_manual_activation: manual account activation
 notice_account_pending: "Your account was created and is now pending administrator approval."
+field_time_zone: Time zone
+text_caracters_minimum: Must be at least %d characters long.
+setting_bcc_recipients: Blind carbon copy recipients (bcc)
+button_annotate: Annotate
+label_issues_by: Issues by %s
+field_searchable: Searchable
+label_display_per_page: 'Per page: %s'
+setting_per_page_options: Objects per page options
+label_age: Age
+notice_default_data_loaded: Default configuration successfully loaded.
+text_load_default_configuration: Load the default configuration
+text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
+error_can_t_load_default_data: "Default configuration could not be loaded: %s"
+button_update: Update
+label_change_properties: Change properties
+label_general: General
+label_repository_plural: Repositories
+label_associated_revisions: Associated revisions
+setting_user_format: Users display format
+text_status_changed_by_changeset: Applied in changeset %s.
+label_more: More
+text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s) ?'
+label_scm: SCM
+text_select_project_modules: 'Select modules to enable for this project:'
+label_issue_added: Issue added
+label_issue_updated: Issue updated
+label_document_added: Document added
+label_message_posted: Message added
+label_file_added: File added
+label_news_added: News added
+project_module_boards: Boards
+project_module_issue_tracking: Issue tracking
+project_module_wiki: Wiki
+project_module_files: Files
+project_module_documents: Documents
+project_module_repository: Repository
+project_module_news: News
+project_module_time_tracking: Time tracking
+text_file_repository_writable: File repository writable
+text_default_administrator_account_changed: Default administrator account changed
+text_rmagick_available: RMagick available (optional)
+button_configure: Configure
+label_plugins: Plugins
+label_ldap_authentication: LDAP authentication
+label_downloads_abbr: D/L
+label_this_month: this month
+label_last_n_days: last %d days
+label_all_time: all time
+label_this_year: this year
+label_date_range: Date range
+label_last_week: last week
+label_yesterday: yesterday
+label_last_month: last month
+label_add_another_file: Add another file
+label_optional_description: Optional description
+text_destroy_time_entries_question: %.02f hours were reported on the issues you are about to delete. What do you want to do ?
+error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
+text_assign_time_entries_to_project: Assign reported hours to the project
+text_destroy_time_entries: Delete reported hours
+text_reassign_time_entries: 'Reassign reported hours to this issue:'
+setting_activity_days_default: Days displayed on project activity
+label_chronological_order: In chronological order
+field_comments_sorting: Display comments
+label_reverse_chronological_order: In reverse chronological order
+label_preferences: Preferences
+setting_display_subprojects_issues: Display subprojects issues on main projects by default
+label_overall_activity: Overall activity
+setting_default_projects_public: New projects are public by default
+error_scm_annotate: "The entry does not exist or can not be annotated."
+label_planning: Planning
+text_subprojects_destroy_warning: 'Its subproject(s): %s will be also deleted.'
+label_and_its_subprojects: %s and its subprojects
+mail_body_reminder: "%d issue(s) that are assigned to you are due in the next %d days:"
+mail_subject_reminder: "%d issue(s) due in the next days"
+text_user_wrote: '%s wrote:'
+label_duplicated_by: duplicated by
+setting_enabled_scm: Enabled SCM
+text_enumeration_category_reassign_to: 'Reassign them to this value:'
+text_enumeration_destroy_question: '%d objects are assigned to this value.'
+label_incoming_emails: Incoming emails
+label_generate_key: Generate a key
+setting_mail_handler_api_enabled: Enable WS for incoming emails
+setting_mail_handler_api_key: API key
+text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
+field_parent_title: Parent page
+label_issue_watchers: Watchers
+setting_commit_logs_encoding: Commit messages encoding
+button_quote: Quote
+setting_sequential_project_identifiers: Generate sequential project identifiers

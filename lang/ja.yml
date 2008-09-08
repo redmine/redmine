@@ -7,7 +7,7 @@ actionview_datehelper_select_month_prefix:
 actionview_datehelper_select_year_prefix:
 actionview_datehelper_select_year_suffix: 月
 actionview_datehelper_time_in_words_day: 1日
-actionview_datehelper_time_in_words_day_plural: %d日間
+actionview_datehelper_time_in_words_day_plural: %d日
 actionview_datehelper_time_in_words_hour_about: 約1時間
 actionview_datehelper_time_in_words_hour_about_plural: 約%d時間
 actionview_datehelper_time_in_words_hour_about_single: 約1時間
@@ -49,8 +49,9 @@ general_text_no: 'いいえ'
 general_text_yes: 'はい'
 general_lang_name: 'Japanese (日本語)'
 general_csv_separator: ','
+general_csv_decimal_separator: '.'
 general_csv_encoding: SJIS
-general_pdf_encoding: SJIS
+general_pdf_encoding: UTF-8
 general_day_names: 月曜日,火曜日,水曜日,木曜日,金曜日,土曜日,日曜日
 general_first_day_of_week: '7'
 
@@ -69,16 +70,18 @@ notice_successful_delete: 削除しました。
 notice_successful_connection: 接続しました。
 notice_file_not_found: アクセスしようとしたページは存在しないか削除されています。
 notice_locking_conflict: 別のユーザがデータを更新しています。
-notice_scm_error: リポジトリに、エントリ/リビジョンが存在しません。
 notice_not_authorized: このページにアクセスするには認証が必要です。
 notice_email_sent: %s宛にメールを送信しました。
-notice_email_error: メール送信中にエラーが発生しました (%s)
+notice_email_error: メール送信中にエラーが発生しました(%s)
 notice_feeds_access_key_reseted: RSSアクセスキーを初期化しました。
 
-mail_subject_lost_password: redMineパスワード
+error_scm_not_found: リポジトリに、エントリ/リビジョンが存在しません。
+error_scm_command_failed: "リポジトリへアクセスしようとしてエラーになりました: %s"
+
+mail_subject_lost_password: %sパスワード
 mail_body_lost_password: 'パスワードを変更するには、以下のリンクをたどってください:'
-mail_subject_register: redMineアカウントが有効になりました
-mail_body_register: 'Redmine アカウントをアクティブにするには、以下のリンクをたどってください:'
+mail_subject_register: %sアカウントのアクティブ化
+mail_body_register: 'アカウントをアクティブにするには、以下のリンクをたどってください:'
 
 gui_validation_error: 1件のエラー
 gui_validation_error_plural: %d件のエラー
@@ -106,24 +109,24 @@ field_value: 値
 field_category: カテゴリ
 field_title: タイトル
 field_project: プロジェクト
-field_issue: 問題
+field_issue: チケット
 field_status: ステータス
 field_notes: 注記
-field_is_closed: 終了した問題
+field_is_closed: 終了したチケット
 field_is_default: デフォルトのステータス
 field_tracker: トラッカー
 field_subject: 題名
 field_due_date: 期限日
 field_assigned_to: 担当者
 field_priority: 優先度
-field_fixed_version: 修正されたバージョン
+field_fixed_version: Target version
 field_user: ユーザ
 field_role: 役割
 field_homepage: ホームページ
 field_is_public: 公開
 field_parent: 親プロジェクト名
-field_is_in_chlog: 変更記録に表示されている問題
-field_is_in_roadmap: ロードマップに表示されている問題
+field_is_in_chlog: 変更記録に表示されているチケット
+field_is_in_roadmap: ロードマップに表示されているチケット
 field_login: ログイン
 field_mail_notification: メール通知
 field_admin: 管理者
@@ -157,11 +160,12 @@ field_activity: 活動
 field_spent_on: 日付
 field_identifier: 識別子
 field_is_filter: フィルタとして使う
-field_issue_to_id: 関連する問題
+field_issue_to_id: 関連するチケット
 field_delay: 遅延
-field_assignable: Issues can be assigned to this role
-field_redirect_existing_links: Redirect existing links
+field_assignable: チケットはこのロールに割り当てることができます
+field_redirect_existing_links: 既存のリンクをリダイレクトする
 field_estimated_hours: 予定工数
+field_default_value: デフォルトのステータス
 
 setting_app_title: アプリケーションのタイトル
 setting_app_subtitle: アプリケーションのサブタイトル
@@ -170,7 +174,7 @@ setting_default_language: 既定の言語
 setting_login_required: 認証が必要
 setting_self_registration: ユーザは自分で登録できる
 setting_attachment_max_size: 添付の最大サイズ
-setting_issues_export_limit: 出力する問題数の上限
+setting_issues_export_limit: 出力するチケット数の上限
 setting_mail_from: 送信元メールアドレス
 setting_host_name: ホスト名
 setting_text_formatting: テキストの書式
@@ -182,7 +186,7 @@ setting_commit_ref_keywords: 参照用キーワード
 setting_commit_fix_keywords: 修正用キーワード
 setting_autologin: 自動ログイン
 setting_date_format: 日付の形式
-setting_cross_project_issue_relations: 異なるプロジェクトの問題間で関係の設定を許可
+setting_cross_project_issue_relations: 異なるプロジェクトのチケット間で関係の設定を許可
 
 label_user: ユーザ
 label_user_plural: ユーザ
@@ -192,10 +196,10 @@ label_project_new: 新しいプロジェクト
 label_project_plural: プロジェクト
 label_project_all: 全プロジェクト
 label_project_latest: 最近のプロジェクト
-label_issue: 問題
-label_issue_new: 新しい問題
-label_issue_plural: 問題
-label_issue_view_all: 問題を全て見る
+label_issue: チケット
+label_issue_new: 新しいチケット
+label_issue_plural: チケット
+label_issue_view_all: チケットを全て見る
 label_document: 文書
 label_document_new: 新しい文書
 label_document_plural: 文書
@@ -210,11 +214,11 @@ label_tracker: トラッカー
 label_tracker_plural: トラッカー
 label_tracker_new: 新しいトラッカーを作成
 label_workflow: ワークフロー
-label_issue_status: 問題のステータス
-label_issue_status_plural: 問題のステータス
+label_issue_status: チケットのステータス
+label_issue_status_plural: チケットのステータス
 label_issue_status_new: 新しいステータス
-label_issue_category: 問題のカテゴリ
-label_issue_category_plural: 問題のカテゴリ
+label_issue_category: チケットのカテゴリ
+label_issue_category_plural: チケットのカテゴリ
 label_issue_category_new: 新しいカテゴリ
 label_custom_field: カスタムフィールド
 label_custom_field_plural: カスタムフィールド
@@ -234,8 +238,8 @@ label_administration: 管理
 label_login: ログイン
 label_logout: ログアウト
 label_help: ヘルプ
-label_reported_issues: 報告した問題
-label_assigned_to_me_issues: 担当している問題
+label_reported_issues: 報告したチケット
+label_assigned_to_me_issues: 担当しているチケット
 label_last_login: 最近の接続
 label_last_updates: 最近の更新1件
 label_last_updates_plural: 最近の更新%d件
@@ -323,7 +327,7 @@ label_in_less_than: 残日数がこれより多い
 label_in_more_than: 残日数がこれより少ない
 label_in: 残日数
 label_today: 今日
-label_this_week: this week
+label_this_week: この週
 label_less_than_ago: 経過日数がこれより少ない
 label_more_than_ago: 経過日数がこれより多い
 label_ago: 日前
@@ -351,7 +355,7 @@ label_sort_lowest: 一番下へ
 label_roadmap: ロードマップ
 label_roadmap_due_in: 期日まで
 label_roadmap_overdue: %s late
-label_roadmap_no_issues: このバージョンに向けての問題はありません
+label_roadmap_no_issues: このバージョンに向けてのチケットはありません
 label_search: 検索
 label_result_plural: 結果
 label_all_words: すべての単語
@@ -360,13 +364,13 @@ label_wiki_edit: Wiki編集
 label_wiki_edit_plural: Wiki編集
 label_wiki_page: Wiki page
 label_wiki_page_plural: Wikiページ
-label_index_by_title: 索引
-label_index_by_date: Index by date
+label_index_by_title: 索引(名前順)
+label_index_by_date: 索引(日付順)
 label_current_version: 最新版
 label_preview: プレビュー
 label_feed_plural: フィード
 label_changes_details: 全変更の詳細
-label_issue_tracking: 問題トラッキング
+label_issue_tracking: チケットトラッキング
 label_spent_time: 経過時間
 label_f_hour: %.2f 時間
 label_f_hour_plural: %.2f 時間
@@ -381,8 +385,8 @@ label_diff_side_by_side: 横に並べる
 label_options: オプション
 label_copy_workflow_from: ワークフローをここからコピー
 label_permissions_report: 権限レポート
-label_watched_issues: ウォッチ中の問題
-label_related_issues: 関連する問題
+label_watched_issues: ウォッチ中のチケット
+label_related_issues: 関連するチケット
 label_applied_status: 適用されたステータス
 label_loading: ロード中...
 label_relation_new: 新しい関連
@@ -410,18 +414,18 @@ label_message_last: 最新のメッセージ
 label_message_new: 新しいメッセージ
 label_reply_plural: 返答
 label_send_information: アカウント情報をユーザに送信
-label_year: Year
-label_month: Month
-label_week: Week
-label_date_from: From
-label_date_to: To
+label_year: 年
+label_month: 月
+label_week: 週
+label_date_from: "日付指定: "
+label_date_to: から
 label_language_based: 既定の言語の設定に従う
-label_sort_by: Sort by %s
+label_sort_by: %sで並び替え
 label_send_test_email: テストメールを送信
-label_feeds_access_key_created_on: RSS access key created %s ago
-label_module_plural: Modules
-label_added_time_by: Added by %s %s ago
-label_updated_time: Updated %s ago
+label_feeds_access_key_created_on: RSSアクセスキーは%s前に作成されました
+label_module_plural: モジュール
+label_added_time_by: %sが%s前に追加しました
+label_updated_time: %s前に更新されました
 label_jump_to_a_project: プロジェクトへ移動...
 
 button_login: ログイン
@@ -454,8 +458,8 @@ button_unwatch: ウォッチをやめる
 button_reply: 返答
 button_archive: 書庫に保存
 button_unarchive: 書庫から戻す
-button_reset: Reset
-button_rename: Rename
+button_reset: リセット
+button_rename: 名前変更
 
 status_active: 有効
 status_registered: 登録
@@ -479,13 +483,13 @@ text_length_between: 長さは %d から %d 文字までです。
 text_tracker_no_workflow: このトラッカーにワークフローが定義されていません
 text_unallowed_characters: 使えない文字です
 text_comma_separated: (カンマで区切った)複数の値が使えます
-text_issues_ref_in_commit_messages: コミットメッセージ内で問題の参照/修正
-text_issue_added: 問題 %s が報告されました。
-text_issue_updated: 問題 %s が更新されました。
-text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all its content ?
-text_issue_category_destroy_question: Some issues (%d) are assigned to this category. What do you want to do ?
-text_issue_category_destroy_assignments: Remove category assignments
-text_issue_category_reassign_to: Reassing issues to this category
+text_issues_ref_in_commit_messages: コミットメッセージ内でチケットの参照/修正
+text_issue_added: チケット %s が報告されました。 (by %s)
+text_issue_updated: チケット %s が更新されました。 (by %s)
+text_wiki_destroy_confirmation: 本当にこのwikiとその内容の全てを削除しますか？
+text_issue_category_destroy_question: このカテゴリに割り当て済みのチケット(%d)があります。何をしようとしていますか？
+text_issue_category_destroy_assignments: カテゴリの割り当てを削除する
+text_issue_category_reassign_to: チケットをこのカテゴリに再割り当てする
 
 default_role_manager: 管理者
 default_role_developper: 開発者
@@ -509,39 +513,128 @@ default_priority_immediate: 今すぐ
 default_activity_design: デザイン作業
 default_activity_development: 開発作業
 
-enumeration_issue_priorities: 問題の優先度
+enumeration_issue_priorities: チケットの優先度
 enumeration_doc_categories: 文書カテゴリ
 enumeration_activities: 作業分類 (時間トラッキング)
-label_file_plural: Files
-label_changeset_plural: Changesets
+label_file_plural: ファイル
+label_changeset_plural: チェンジセット
 field_column_names: 項目
 label_default_columns: 既定の項目
-setting_issue_list_default_columns: 問題の一覧で表示する項目
+setting_issue_list_default_columns: チケットの一覧で表示する項目
 setting_repositories_encodings: リポジトリのエンコーディング
-notice_no_issue_selected: "問題が選択されていません! 更新対象の問題を選択してください。"
-label_bulk_edit_selected_issues: 問題の一括編集
+notice_no_issue_selected: "チケットが選択されていません! 更新対象のチケットを選択してください。"
+label_bulk_edit_selected_issues: チケットの一括編集
 label_no_change_option: (変更無し)
-notice_failed_to_save_issues: "%d件の問題が保存できませんでした(%d件選択のうち) : %s."
+notice_failed_to_save_issues: "%d件のチケットが保存できませんでした(%d件選択のうち) : %s."
 label_theme: テーマ
 label_default: 既定
 label_search_titles_only: タイトルのみ
 label_nobody: nobody
 button_change_password: パスワード変更
-text_user_mail_option: "未選択のプロジェクトでは、ウォッチまたは関係している問題(例: 自分が報告者もしくは担当者である問題)のみメールが送信されます。"
+text_user_mail_option: "未選択のプロジェクトでは、ウォッチまたは関係しているチケット(例: 自分が報告者もしくは担当者であるチケット)のみメールが送信されます。"
 label_user_mail_option_selected: "選択したプロジェクト..."
-label_user_mail_option_all: "参加しているプロジェクトの全ての問題"
-label_user_mail_option_none: "ウォッチまたは関係している問題のみ"
+label_user_mail_option_all: "参加しているプロジェクトの全てのチケット"
+label_user_mail_option_none: "ウォッチまたは関係しているチケットのみ"
 setting_emails_footer: メールのフッタ
 label_float: 小数
 button_copy: コピー
-mail_body_account_information_external: You can use your "%s" account to log into Redmine.
-mail_body_account_information: Your Redmine account information
-setting_protocol: Protocol
-label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
-setting_time_format: Time format
-label_registration_activation_by_email: account activation by email
-mail_subject_account_activation_request: Redmine account activation request
-mail_body_account_activation_request: 'A new user (%s) has registered. His account his pending your approval:'
-label_registration_automatic_activation: automatic account activation
-label_registration_manual_activation: manual account activation
-notice_account_pending: "Your account was created and is now pending administrator approval."
+mail_body_account_information_external: 「%s」アカウントを使ってにログインできます。
+mail_body_account_information: アカウント情報
+setting_protocol: プロトコル
+label_user_mail_no_self_notified: 自分自身による変更の通知は不要です
+setting_time_format: 時刻の形式
+label_registration_activation_by_email: メールでアカウントを有効化
+mail_subject_account_activation_request: %sアカウントの有効化要求
+mail_body_account_activation_request: 新しいユーザ(%s)が登録しています。このアカウントはあなたの承認待ちです：
+label_registration_automatic_activation: 自動でアカウントを有効化
+label_registration_manual_activation: 手動でアカウントを有効化
+notice_account_pending: アカウントは作成済みで、管理者の承認待ちです。
+field_time_zone: タイムゾーン
+text_caracters_minimum: 最低%d文字の長さが必要です
+setting_bcc_recipients: ブラインドカーボンコピーで受信(bcc)
+button_annotate: 注釈
+label_issues_by: %s別のチケット
+field_searchable: Searchable
+label_display_per_page: '1ページに: %s'
+setting_per_page_options: ページ毎の表示件数
+label_age: 年齢
+notice_default_data_loaded: デフォルト設定をロードしました。
+text_load_default_configuration: デフォルト設定をロード
+text_no_configuration_data: "ロール、トラッカー、チケットのステータス、ワークフローがまだ設定されていません。\nデフォルト設定のロードを強くお勧めします。ロードした後、それを修正することができます。"
+error_can_t_load_default_data: "デフォルト設定がロードできませんでした: %s"
+button_update: 更新
+label_change_properties: プロパティの変更
+label_general: 全般
+label_repository_plural: リポジトリ
+label_associated_revisions: 関係しているリビジョン
+setting_user_format: ユーザ名の表示書式
+text_status_changed_by_changeset: チェンジセット%sで適用されました。
+label_more: 続き
+text_issues_destroy_confirmation: '本当に選択したチケットを削除しますか？'
+label_scm: SCM
+text_select_project_modules: 'このプロジェクトで使用するモジュールを選択してください:'
+label_issue_added: チケットが追加されました
+label_issue_updated: チケットが更新されました
+label_document_added: 文書が追加されました
+label_message_posted: メッセージが追加されました
+label_file_added: ファイルが追加されました
+label_news_added: ニュースが追加されました
+project_module_boards: フォーラム
+project_module_issue_tracking: チケットトラッキング
+project_module_wiki: Wiki
+project_module_files: ファイル
+project_module_documents: 文書
+project_module_repository: リポジトリ
+project_module_news: ニュース
+project_module_time_tracking: 時間トラッキング
+text_file_repository_writable: ファイルリポジトリに書き込み可能
+text_default_administrator_account_changed: デフォルト管理アカウントが変更済
+text_rmagick_available: RMagickが使用可能 (オプション)
+button_configure: 設定
+label_plugins: プラグイン
+label_ldap_authentication: LDAP認証
+label_downloads_abbr: DL
+label_this_month: 今月
+label_last_n_days: 最後の%d日間
+label_all_time: 全期間
+label_this_year: 今年
+label_date_range: 日付の範囲
+label_last_week: 先週
+label_yesterday: 昨日
+label_last_month: 先月
+label_add_another_file: 別のファイルを追加
+text_destroy_time_entries_question: チケットに記録された%.02f時間を削除しようとしています。何がしたいのですか？
+error_issue_not_found_in_project: 'チケットが見つかりません、もしくはこのプロジェクトに属していません'
+text_assign_time_entries_to_project: 記録された時間をプロジェクトに割り当て
+label_optional_description: 任意のコメント
+text_destroy_time_entries: 記録された時間を削除
+text_reassign_time_entries: '記録された時間をこのチケットに再割り当て：'
+setting_activity_days_default: プロジェクトの活動ページに表示される日数
+label_chronological_order: 古い順
+field_comments_sorting: コメントを表示
+label_reverse_chronological_order: 新しい順
+label_preferences: 設定
+setting_display_subprojects_issues: デフォルトでサブプロジェクトのチケットをメインプロジェクトに表示する
+label_overall_activity: 全ての活動
+setting_default_projects_public: デフォルトで新しいプロジェクトは公開にする
+error_scm_annotate: "エントリが存在しない、もしくはアノテートできません。"
+label_planning: 計画
+text_subprojects_destroy_warning: 'Its subproject(s): %s will be also deleted.'
+label_and_its_subprojects: %s and its subprojects
+mail_body_reminder: "%d issue(s) that are assigned to you are due in the next %d days:"
+mail_subject_reminder: "%d issue(s) due in the next days"
+text_user_wrote: '%s wrote:'
+label_duplicated_by: duplicated by
+setting_enabled_scm: Enabled SCM
+text_enumeration_category_reassign_to: 'Reassign them to this value:'
+text_enumeration_destroy_question: '%d objects are assigned to this value.'
+label_incoming_emails: Incoming emails
+label_generate_key: Generate a key
+setting_mail_handler_api_enabled: Enable WS for incoming emails
+setting_mail_handler_api_key: API key
+text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
+field_parent_title: Parent page
+label_issue_watchers: Watchers
+setting_commit_logs_encoding: Commit messages encoding
+button_quote: Quote
+setting_sequential_project_identifiers: Generate sequential project identifiers

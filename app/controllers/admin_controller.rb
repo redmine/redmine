@@ -16,13 +16,13 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class AdminController < ApplicationController
-  layout 'base'	
   before_filter :require_admin
 
   helper :sort
   include SortHelper	
 
-  def index	
+  def index
+    @no_configuration_data = Redmine::DefaultData::Loader::no_data?
   end
 	
   def projects
@@ -35,7 +35,7 @@ class AdminController < ApplicationController
     
     @project_count = Project.count(:conditions => conditions)
     @project_pages = Paginator.new self, @project_count,
-								25,
+								per_page_option,
 								params['page']								
     @projects = Project.find :all, :order => sort_clause,
                         :conditions => conditions,
@@ -44,15 +44,19 @@ class AdminController < ApplicationController
 
     render :action => "projects", :layout => false if request.xhr?
   end
-
-  def mail_options
-    @notifiables = %w(issue_added issue_updated news_added document_added file_added message_posted)
+  
+  # Loads the default configuration
+  # (roles, trackers, statuses, workflow, enumerations)
+  def default_configuration
     if request.post?
-      Setting.notified_events = (params[:notified_events] || [])
-      Setting.emails_footer = params[:emails_footer] if params[:emails_footer]
-      flash[:notice] = l(:notice_successful_update)
-      redirect_to :controller => 'admin', :action => 'mail_options'
+      begin
+        Redmine::DefaultData::Loader::load(params[:lang])
+        flash[:notice] = l(:notice_default_data_loaded)
+      rescue Exception => e
+        flash[:error] = l(:error_can_t_load_default_data, e.message)
+      end
     end
+    redirect_to :action => 'index'
   end
   
   def test_email
@@ -66,7 +70,7 @@ class AdminController < ApplicationController
       flash[:error] = l(:notice_email_error, e.message)
     end
     ActionMailer::Base.raise_delivery_errors = raise_delivery_errors
-    redirect_to :action => 'mail_options'
+    redirect_to :controller => 'settings', :action => 'edit', :tab => 'notifications'
   end
   
   def info

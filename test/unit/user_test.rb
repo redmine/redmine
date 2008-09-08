@@ -57,10 +57,16 @@ class UserTest < Test::Unit::TestCase
     assert_equal "john", @admin.login
   end
   
+  def test_destroy
+    User.find(2).destroy
+    assert_nil User.find_by_id(2)
+    assert Member.find_all_by_user_id(2).empty?
+  end
+  
   def test_validate
     @admin.login = ""
     assert !@admin.save
-    assert_equal 2, @admin.errors.count
+    assert_equal 1, @admin.errors.count
   end
   
   def test_password
@@ -76,6 +82,14 @@ class UserTest < Test::Unit::TestCase
     assert_equal User.hash_password("hello"), user.hashed_password    
   end
   
+  def test_name_format
+    assert_equal 'Smith, John', @jsmith.name(:lastname_coma_firstname)
+    Setting.user_format = :firstname_lastname
+    assert_equal 'John Smith', @jsmith.name
+    Setting.user_format = :username
+    assert_equal 'jsmith', @jsmith.name
+  end
+  
   def test_lock
     user = User.try_to_login("jsmith", "jsmith")
     assert_equal @jsmith, user
@@ -85,6 +99,13 @@ class UserTest < Test::Unit::TestCase
     
     user = User.try_to_login("jsmith", "jsmith")
     assert_equal nil, user  
+  end
+  
+  def test_create_anonymous
+    AnonymousUser.delete_all
+    anon = User.anonymous
+    assert !anon.new_record?
+    assert_kind_of AnonymousUser, anon
   end
   
   def test_rss_key
@@ -128,5 +149,13 @@ class UserTest < Test::Unit::TestCase
     @jsmith.save
     @jsmith.reload
     assert !@jsmith.projects.first.recipients.include?(@jsmith.mail)
+  end
+  
+  def test_comments_sorting_preference
+    assert !@jsmith.wants_comments_in_reverse_order?
+    @jsmith.pref.comments_sorting = 'asc'
+    assert !@jsmith.wants_comments_in_reverse_order?
+    @jsmith.pref.comments_sorting = 'desc'
+    assert @jsmith.wants_comments_in_reverse_order?
   end
 end

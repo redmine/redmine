@@ -18,12 +18,19 @@
 module ProjectsHelper
   def link_to_version(version, options = {})
     return '' unless version && version.is_a?(Version)
-    link_to version.name, {:controller => 'projects',
-                           :action => 'roadmap',
-                           :id => version.project_id,
-                           :completed => (version.completed? ? 1 : nil),
-                           :anchor => version.name
-                          }, options
+    link_to h(version.name), { :controller => 'versions', :action => 'show', :id => version }, options
+  end
+  
+  def format_activity_title(text)
+    h(truncate_single_line(text, 100))
+  end
+  
+  def format_activity_day(date)
+    date == Date.today ? l(:label_today).titleize : format_date(date)
+  end
+  
+  def format_activity_description(text)
+    h(truncate(text.to_s, 250).gsub(%r{<(pre|code)>.*$}m, '...'))
   end
   
   def project_settings_tabs
@@ -179,21 +186,13 @@ module ProjectsHelper
     end
     
     # today red line
-    if Date.today >= @date_from and Date.today <= @date_to
+    if Date.today >= date_from and Date.today <= date_to
       gc.stroke('red')
-      x = (Date.today-@date_from+1)*zoom + subject_width
+      x = (Date.today-date_from+1)*zoom + subject_width
       gc.line(x, headers_heigth, x, headers_heigth + g_height-1)      
     end    
     
     gc.draw(imgl)
     imgl
   end if Object.const_defined?(:Magick)
-  
-  def new_issue_selector
-    trackers = Tracker.find(:all, :order => 'position')
-    # can't use form tag inside helper
-    content_tag('form',
-      select_tag('tracker_id', '<option></option>' + options_from_collection_for_select(trackers, 'id', 'name'), :onchange => "if (this.value != '') {this.form.submit()}"),
-      :action => url_for(:controller => 'projects', :action => 'add_issue', :id => @project), :method => 'get')
-  end
 end

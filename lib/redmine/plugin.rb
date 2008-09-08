@@ -66,11 +66,12 @@ module Redmine #:nodoc:
 
     # Adds an item to the given +menu+.
     # The +id+ parameter (equals to the project id) is automatically added to the url.
-    #   menu :project_menu, :label_plugin_example, :controller => 'example', :action => 'say_hello'
+    #   menu :project_menu, :plugin_example, { :controller => 'example', :action => 'say_hello' }, :caption => 'Sample'
     #   
-    # Currently, only the project menu can be extended. Thus, the +name+ parameter must be +:project_menu+
-    def menu(name, label, url)
-      Redmine::MenuManager.map(name) {|menu| menu.push label, url}
+    # +name+ parameter can be: :top_menu, :account_menu, :application_menu or :project_menu
+    # 
+    def menu(name, item, url, options={})
+      Redmine::MenuManager.map(name) {|menu| menu.push item, url, options}
     end
 
     # Defines a permission called +name+ for the given +actions+.
@@ -114,6 +115,32 @@ module Redmine #:nodoc:
       @project_module = name
       self.instance_eval(&block)
       @project_module = nil
+    end
+    
+    # Registers an activity provider.
+    #
+    # Options:
+    # * <tt>:class_name</tt> - one or more model(s) that provide these events (inferred from event_type by default)
+    # * <tt>:default</tt> - setting this option to false will make the events not displayed by default
+    # 
+    # A model can provide several activity event types.
+    # 
+    # Examples:
+    #   register :news
+    #   register :scrums, :class_name => 'Meeting'
+    #   register :issues, :class_name => ['Issue', 'Journal']
+    # 
+    # Retrieving events:
+    # Associated model(s) must implement the find_events class method.
+    # ActiveRecord models can use acts_as_activity_provider as a way to implement this class method.
+    # 
+    # The following call should return all the scrum events visible by current user that occured in the 5 last days: 
+    #   Meeting.find_events('scrums', User.current, 5.days.ago, Date.today)
+    #   Meeting.find_events('scrums', User.current, 5.days.ago, Date.today, :project => foo) # events for project foo only
+    # 
+    # Note that :view_scrums permission is required to view these events in the activity view.
+    def activity_provider(*args)
+      Redmine::Activity.register(*args)
     end
 
     # Returns +true+ if the plugin can be configured.

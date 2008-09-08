@@ -18,7 +18,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class ProjectTest < Test::Unit::TestCase
-  fixtures :projects, :issues, :issue_statuses, :journals, :journal_details
+  fixtures :projects, :issues, :issue_statuses, :journals, :journal_details, :users, :members, :roles, :projects_trackers, :trackers, :boards
 
   def setup
     @ecookbook = Project.find(1)
@@ -80,8 +80,19 @@ class ProjectTest < Test::Unit::TestCase
   end
   
   def test_destroy
+    # 2 active members
+    assert_equal 2, @ecookbook.members.size
+    # and 1 is locked
+    assert_equal 3, Member.find(:all, :conditions => ['project_id = ?', @ecookbook.id]).size
+    # some boards
+    assert @ecookbook.boards.any?
+    
     @ecookbook.destroy
+    # make sure that the project non longer exists
     assert_raise(ActiveRecord::RecordNotFound) { Project.find(@ecookbook.id) }
+    # make sure related data was removed
+    assert Member.find(:all, :conditions => ['project_id = ?', @ecookbook.id]).empty?
+    assert Board.find(:all, :conditions => ['project_id = ?', @ecookbook.id]).empty?
   end
   
   def test_subproject_ok
@@ -90,7 +101,7 @@ class ProjectTest < Test::Unit::TestCase
     assert sub.save
     assert_equal @ecookbook.id, sub.parent.id
     @ecookbook.reload
-    assert_equal 3, @ecookbook.children.size
+    assert_equal 4, @ecookbook.children.size
   end
   
   def test_subproject_invalid
@@ -104,13 +115,30 @@ class ProjectTest < Test::Unit::TestCase
     sub.parent = Project.find(2)
     assert !sub.save
   end
-
-  def test_issues_status_changes
-    journals = @ecookbook.issues_status_changes 3.days.ago.to_date, Date.today
-    assert_equal 1, journals.size
-    assert_kind_of Journal, journals.first
+  
+  def test_rolled_up_trackers
+    parent = Project.find(1)
+    parent.trackers = Tracker.find([1,2])
+    child = parent.children.find(3)
+  
+    assert_equal [1, 2], parent.tracker_ids
+    assert_equal [2, 3], child.tracker_ids
     
-    journals = @ecookbook.issues_status_changes 30.days.ago.to_date, 10.days.ago.to_date
-    assert_equal 0, journals.size
+    assert_kind_of Tracker, parent.rolled_up_trackers.first
+    assert_equal Tracker.find(1), parent.rolled_up_trackers.first
+    
+    assert_equal [1, 2, 3], parent.rolled_up_trackers.collect(&:id)
+    assert_equal [2, 3], child.rolled_up_trackers.collect(&:id)
+  end
+  
+  def test_next_identifier
+    ProjectCustomField.delete_all
+    Project.create!(:name => 'last', :identifier => 'p2008040')
+    assert_equal 'p2008041', Project.next_identifier
+  end
+  
+  def test_next_identifier_first_project
+    Project.delete_all
+    assert_nil Project.next_identifier
   end
 end

@@ -23,15 +23,25 @@ class Message < ActiveRecord::Base
   belongs_to :last_reply, :class_name => 'Message', :foreign_key => 'last_reply_id'
   
   acts_as_searchable :columns => ['subject', 'content'],
-                     :include => :board,
+                     :include => {:board, :project},
                      :project_key => 'project_id',
-                     :date_column => 'created_on'
+                     :date_column => "#{table_name}.created_on"
   acts_as_event :title => Proc.new {|o| "#{o.board.name}: #{o.subject}"},
                 :description => :content,
-                :url => Proc.new {|o| {:controller => 'messages', :action => 'show', :board_id => o.board_id, :id => o.id}}
-  
+                :type => Proc.new {|o| o.parent_id.nil? ? 'message' : 'reply'},
+                :url => Proc.new {|o| {:controller => 'messages', :action => 'show', :board_id => o.board_id}.merge(o.parent_id.nil? ? {:id => o.id} : 
+                                                                                                                                       {:id => o.parent_id, :anchor => "message-#{o.id}"})}
+
+  acts_as_activity_provider :find_options => {:include => [{:board => :project}, :author]}
+    
+  attr_protected :locked, :sticky
   validates_presence_of :subject, :content
   validates_length_of :subject, :maximum => 255
+  
+  def validate_on_create
+    # Can not reply to a locked topic
+    errors.add_to_base 'Topic is locked' if root.locked? && self != root
+  end
   
   def after_create
     board.update_attribute(:last_message_id, self.id)
@@ -41,6 +51,18 @@ class Message < ActiveRecord::Base
     else
       board.increment! :topics_count
     end
+  end
+  
+  def after_destroy
+    # The following line is required so that the previous counter
+    # updates (due to children removal) are not overwritten
+    board.reload
+    board.decrement! :messages_count
+    board.decrement! :topics_count unless parent
+  end
+  
+  def sticky?
+    sticky == 1
   end
   
   def project

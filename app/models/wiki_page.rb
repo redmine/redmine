@@ -16,19 +16,21 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require 'diff'
+require 'enumerator'
 
 class WikiPage < ActiveRecord::Base
   belongs_to :wiki
   has_one :content, :class_name => 'WikiContent', :foreign_key => 'page_id', :dependent => :destroy
   has_many :attachments, :as => :container, :dependent => :destroy
-
+  acts_as_tree :order => 'title'
+  
   acts_as_event :title => Proc.new {|o| "#{l(:label_wiki)}: #{o.title}"},
                 :description => :text,
                 :datetime => :created_on,
                 :url => Proc.new {|o| {:controller => 'wiki', :id => o.wiki.project_id, :page => o.title}}
 
   acts_as_searchable :columns => ['title', 'text'],
-                     :include => [:wiki, :content],
+                     :include => [{:wiki => :project}, :content],
                      :project_key => "#{Wiki.table_name}.project_id"
 
   attr_accessor :redirect_existing_links
@@ -87,6 +89,12 @@ class WikiPage < ActiveRecord::Base
     (content_to && content_from) ? WikiDiff.new(content_to, content_from) : nil
   end
   
+  def annotate(version=nil)
+    version = version ? version.to_i : self.content.version
+    c = content.versions.find_by_version(version)
+    c ? WikiAnnotate.new(c) : nil
+  end
+  
   def self.pretty_title(str)
     (str && str.is_a?(String)) ? str.tr('_', ' ') : str
   end
@@ -97,6 +105,29 @@ class WikiPage < ActiveRecord::Base
   
   def text
     content.text if content
+  end
+  
+  # Returns true if usr is allowed to edit the page, otherwise false
+  def editable_by?(usr)
+    !protected? || usr.allowed_to?(:protect_wiki_pages, wiki.project)
+  end
+  
+  def parent_title
+    @parent_title || (self.parent && self.parent.pretty_title)
+  end
+  
+  def parent_title=(t)
+    @parent_title = t
+    parent_page = t.blank? ? nil : self.wiki.find_page(t)
+    self.parent = parent_page
+  end
+  
+  protected
+  
+  def validate
+    errors.add(:parent_title, :activerecord_error_invalid) if !@parent_title.blank? && parent.nil?
+    errors.add(:parent_title, :activerecord_error_circular_dependency) if parent && (parent == self || parent.ancestors.include?(self))
+    errors.add(:parent_title, :activerecord_error_not_same_project) if parent && (parent.wiki_id != wiki_id)
   end
 end
 
@@ -111,5 +142,43 @@ class WikiDiff
     words_from = content_from.text.split(/(\s+)/)
     words_from = words_from.select {|word| word != ' '}    
     @diff = words_from.diff @words
+  end
+end
+
+class WikiAnnotate
+  attr_reader :lines, :content
+  
+  def initialize(content)
+    @content = content
+    current = content
+    current_lines = current.text.split(/\r?\n/)
+    @lines = current_lines.collect {|t| [nil, nil, t]}
+    positions = []
+    current_lines.size.times {|i| positions << i}
+    while (current.previous)
+      d = current.previous.text.split(/\r?\n/).diff(current.text.split(/\r?\n/)).diffs.flatten
+      d.each_slice(3) do |s|
+        sign, line = s[0], s[1]
+        if sign == '+' && positions[line] && positions[line] != -1
+          if @lines[positions[line]][0].nil?
+            @lines[positions[line]][0] = current.version
+            @lines[positions[line]][1] = current.author
+          end
+        end
+      end
+      d.each_slice(3) do |s|
+        sign, line = s[0], s[1]
+        if sign == '-'
+          positions.insert(line, -1)
+        else
+          positions[line] = nil
+        end
+      end
+      positions.compact!
+      # Stop if every line is annotated
+      break unless @lines.detect { |line| line[0].nil? }
+      current = current.previous
+    end
+    @lines.each { |line| line[0] ||= current.version }
   end
 end

@@ -16,14 +16,14 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class WikisController < ApplicationController
-  layout 'base'
+  menu_item :settings
   before_filter :find_project, :authorize
   
   # Create or update a project's wiki
   def edit
     @wiki = @project.wiki || Wiki.new(:project => @project)
     @wiki.attributes = params[:wiki]
-    @wiki.save if @request.post?
+    @wiki.save if request.post?
     render(:update) {|page| page.replace_html "tab-content-wiki", :partial => 'projects/settings/wiki'}
   end
 

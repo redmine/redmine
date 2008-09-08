@@ -20,10 +20,10 @@ class Project < ActiveRecord::Base
   STATUS_ACTIVE     = 1
   STATUS_ARCHIVED   = 9
   
-  has_many :members, :dependent => :delete_all, :include => :user, :conditions => "#{User.table_name}.status=#{User::STATUS_ACTIVE}"
+  has_many :members, :include => :user, :conditions => "#{User.table_name}.status=#{User::STATUS_ACTIVE}"
   has_many :users, :through => :members
-  has_many :custom_values, :dependent => :delete_all, :as => :customized
   has_many :enabled_modules, :dependent => :delete_all
+  has_and_belongs_to_many :trackers, :order => "#{Tracker.table_name}.position"
   has_many :issues, :dependent => :destroy, :order => "#{Issue.table_name}.created_on DESC", :include => [:status, :tracker]
   has_many :issue_changes, :through => :issues, :source => :journals
   has_many :versions, :dependent => :destroy, :order => "#{Version.table_name}.effective_date DESC, #{Version.table_name}.name DESC"
@@ -32,12 +32,12 @@ class Project < ActiveRecord::Base
   has_many :documents, :dependent => :destroy
   has_many :news, :dependent => :delete_all, :include => :author
   has_many :issue_categories, :dependent => :delete_all, :order => "#{IssueCategory.table_name}.name"
-  has_many :boards, :order => "position ASC"
+  has_many :boards, :dependent => :destroy, :order => "position ASC"
   has_one :repository, :dependent => :destroy
   has_many :changesets, :through => :repository
   has_one :wiki, :dependent => :destroy
   # Custom field for the project issues
-  has_and_belongs_to_many :custom_fields, 
+  has_and_belongs_to_many :issue_custom_fields, 
                           :class_name => 'IssueCustomField',
                           :order => "#{CustomField.table_name}.position",
                           :join_table => "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
@@ -45,22 +45,23 @@ class Project < ActiveRecord::Base
                           
   acts_as_tree :order => "name", :counter_cache => true
 
-  acts_as_searchable :columns => ['name', 'description'], :project_key => 'id'
+  acts_as_customizable
+  acts_as_searchable :columns => ['name', 'description'], :project_key => 'id', :permission => nil
   acts_as_event :title => Proc.new {|o| "#{l(:label_project)}: #{o.name}"},
-                :url => Proc.new {|o| {:controller => 'projects', :action => 'show', :id => o.id}}
+                :url => Proc.new {|o| {:controller => 'projects', :action => 'show', :id => o.id}},
+                :author => nil
 
   attr_protected :status, :enabled_module_names
   
-  validates_presence_of :name, :description, :identifier
+  validates_presence_of :name, :identifier
   validates_uniqueness_of :name, :identifier
-  validates_associated :custom_values, :on => :update
   validates_associated :repository, :wiki
   validates_length_of :name, :maximum => 30
-  validates_format_of :name, :with => /^[\w\s\'\-]*$/i
-  validates_length_of :description, :maximum => 255
-  validates_length_of :homepage, :maximum => 60
-  validates_length_of :identifier, :in => 3..12
+  validates_length_of :homepage, :maximum => 255
+  validates_length_of :identifier, :in => 3..20
   validates_format_of :identifier, :with => /^[a-z0-9\-]*$/
+  
+  before_destroy :delete_all_members
   
   def identifier=(identifier)
     super unless identifier_frozen?
@@ -72,24 +73,17 @@ class Project < ActiveRecord::Base
   
   def issues_with_subprojects(include_subprojects=false)
     conditions = nil
-    if include_subprojects && !active_children.empty?
-      ids = [id] + active_children.collect {|c| c.id}
-      conditions = ["#{Issue.table_name}.project_id IN (#{ids.join(',')})"]
+    if include_subprojects
+      ids = [id] + child_ids
+      conditions = ["#{Project.table_name}.id IN (#{ids.join(',')}) AND #{Project.visible_by}"]
     end
-    conditions ||= ["#{Issue.table_name}.project_id = ?", id]
-    Issue.with_scope :find => { :conditions => conditions } do 
-      yield
+    conditions ||= ["#{Project.table_name}.id = ?", id]
+    # Quick and dirty fix for Rails 2 compatibility
+    Issue.send(:with_scope, :find => { :conditions => conditions }) do 
+      Version.send(:with_scope, :find => { :conditions => conditions }) do
+        yield
+      end
     end 
-  end
-
-  # Return all issues status changes for the project between the 2 given dates
-  def issues_status_changes(from, to)
-    Journal.find(:all, :include => [:issue, :details, :user],
-                       :conditions => ["#{Journal.table_name}.journalized_type = 'Issue'" +
-                                       " AND #{Issue.table_name}.project_id = ?" +
-                                       " AND #{JournalDetail.table_name}.prop_key = 'status_id'" +
-                                       " AND #{Journal.table_name}.created_on BETWEEN ? AND ?",
-                                       id, from, to+1])
   end
 
   # returns latest created projects
@@ -99,6 +93,7 @@ class Project < ActiveRecord::Base
   end	
 
   def self.visible_by(user=nil)
+    user ||= User.current
     if user && user.admin?
       return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
     elsif user && user.memberships.any?
@@ -106,6 +101,53 @@ class Project < ActiveRecord::Base
     else
       return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND #{Project.table_name}.is_public = #{connection.quoted_true}"
     end
+  end
+  
+  def self.allowed_to_condition(user, permission, options={})
+    statements = []
+    base_statement = "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
+    if options[:project]
+      project_statement = "#{Project.table_name}.id = #{options[:project].id}"
+      project_statement << " OR #{Project.table_name}.parent_id = #{options[:project].id}" if options[:with_subprojects]
+      base_statement = "(#{project_statement}) AND (#{base_statement})"
+    end
+    if user.admin?
+      # no restriction
+    else
+      statements << "1=0"
+      if user.logged?
+        statements << "#{Project.table_name}.is_public = #{connection.quoted_true}" if Role.non_member.allowed_to?(permission)
+        allowed_project_ids = user.memberships.select {|m| m.role.allowed_to?(permission)}.collect {|m| m.project_id}
+        statements << "#{Project.table_name}.id IN (#{allowed_project_ids.join(',')})" if allowed_project_ids.any?
+      elsif Role.anonymous.allowed_to?(permission)
+        # anonymous user allowed on public project
+        statements << "#{Project.table_name}.is_public = #{connection.quoted_true}" 
+      else
+        # anonymous user is not authorized
+      end
+    end
+    statements.empty? ? base_statement : "((#{base_statement}) AND (#{statements.join(' OR ')}))"
+  end
+  
+  def project_condition(with_subprojects)
+    cond = "#{Project.table_name}.id = #{id}"
+    cond = "(#{cond} OR #{Project.table_name}.parent_id = #{id})" if with_subprojects
+    cond
+  end
+  
+  def self.find(*args)
+    if args.first && args.first.is_a?(String) && !args.first.match(/^\d*$/)
+      project = find_by_identifier(*args)
+      raise ActiveRecord::RecordNotFound, "Couldn't find Project with identifier=#{args.first}" if project.nil?
+      project
+    else
+      super
+    end
+  end
+ 
+  def to_param
+    # id is used for projects with a numeric identifier (compatibility)
+    @to_param ||= (identifier.to_s =~ %r{^\d*$} ? id : identifier)
   end
   
   def active?
@@ -129,9 +171,23 @@ class Project < ActiveRecord::Base
     children.select {|child| child.active?}
   end
   
+  # Returns an array of the trackers used by the project and its sub projects
+  def rolled_up_trackers
+    @rolled_up_trackers ||=
+      Tracker.find(:all, :include => :projects,
+                         :select => "DISTINCT #{Tracker.table_name}.*",
+                         :conditions => ["#{Project.table_name}.id = ? OR #{Project.table_name}.parent_id = ?", id, id],
+                         :order => "#{Tracker.table_name}.position")
+  end
+  
+  # Deletes all project's members
+  def delete_all_members
+    Member.delete_all(['project_id = ?', id])
+  end
+  
   # Users issues can be assigned to
   def assignable_users
-    members.select {|m| m.role.assignable?}.collect {|m| m.user}
+    members.select {|m| m.role.assignable?}.collect {|m| m.user}.sort
   end
   
   # Returns the mail adresses of users that should be always notified on project events
@@ -141,16 +197,25 @@ class Project < ActiveRecord::Base
   
   # Returns an array of all custom fields enabled for project issues
   # (explictly associated custom fields and custom fields enabled for all projects)
-  def custom_fields_for_issues(tracker)
-    all_custom_fields.select {|c| tracker.custom_fields.include? c }
+  def all_issue_custom_fields
+    @all_issue_custom_fields ||= (IssueCustomField.for_all + issue_custom_fields).uniq.sort
   end
   
-  def all_custom_fields
-    @all_custom_fields ||= (IssueCustomField.for_all + custom_fields).uniq
+  def project
+    self
   end
   
   def <=>(project)
-    name <=> project.name
+    name.downcase <=> project.name.downcase
+  end
+  
+  def to_s
+    name
+  end
+  
+  # Returns a short description of the projects (first lines)
+  def short_description(length = 255)
+    description.gsub(/^(.{#{length}}[^\n]*).*$/m, '\1').strip if description
   end
   
   def allows_to?(action)
@@ -173,11 +238,18 @@ class Project < ActiveRecord::Base
       enabled_modules << EnabledModule.new(:name => name.to_s)
     end
   end
+  
+  # Returns an auto-generated project identifier based on the last identifier used
+  def self.next_identifier
+    p = Project.find(:first, :order => 'created_on DESC')
+    p.nil? ? nil : p.identifier.to_s.succ
+  end
 
 protected
   def validate
     errors.add(parent_id, " must be a root project") if parent and parent.parent
     errors.add_to_base("A project with subprojects can't be a subproject") if parent and children.size > 0
+    errors.add(:identifier, :activerecord_error_invalid) if !identifier.blank? && identifier.match(/^\d*$/)
   end
   
 private

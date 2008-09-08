@@ -2,50 +2,33 @@
 <%= link_to_if_authorized l(:button_log_time), {:controller => 'timelog', :action => 'edit', :project_id => @project, :issue_id => @issue}, :class => 'icon icon-time' %>
 </div>
 
+<%= render_timelog_breadcrumb %>
+
 <h2><%= l(:label_spent_time) %></h2>
 
-<h3><%= link_to(@project.name, {:action => 'details', :project_id => @project}) if @project %>
-<%= "/ " + link_to_issue(@issue) + h(": #{@issue.subject}") if @issue %></h3>
+<% form_remote_tag( :url => {}, :method => :get, :update => 'content' ) do %>
+<%= hidden_field_tag 'project_id', params[:project_id] %>
+<%= hidden_field_tag 'issue_id', params[:issue_id] if @issue %>
+<%= render :partial => 'date_range' %>
+<% end %>
 
-<h3 class="textright"><%= l(:label_total) %>: <%= lwr(:label_f_hour, @total_hours) %></h3>
+<div class="total-hours">
+<p><%= l(:label_total) %>: <%= html_hours(lwr(:label_f_hour, @total_hours)) %></p>
+</div>
 
 <% unless @entries.empty? %>
-<table class="list">
-<thead>
-<%= sort_header_tag('spent_on', :caption => l(:label_date)) %>
-<%= sort_header_tag('user_id', :caption => l(:label_member)) %>
-<%= sort_header_tag('activity_id', :caption => l(:label_activity)) %>
-<%= sort_header_tag('issue_id', :caption => l(:label_issue)) %>
-<th><%= l(:field_comments) %></th>
-<%= sort_header_tag('hours', :caption => l(:field_hours)) %>
-<th></th>
-</thead>
-<tbody>
-<% @entries.each do |entry| %>
-<tr class="<%= cycle("odd", "even") %>">
-<td align="center"><%= format_date(entry.spent_on) %></td>
-<td align="center"><%= entry.user.name %></td>
-<td align="center"><%= entry.activity.name %></td>
-<td align="center">
-    <% if entry.issue %>
-    <div class="tooltip">
-    <%= link_to_issue entry.issue %>
-    <span class="tip">
-    <%= render_issue_tooltip entry.issue %>
-    </span>		
-	</div>
-	<% end %>
-</td>
-<td><%=h entry.comments %></td>
-<td align="center"><strong><%= entry.hours %></strong></td>
-<td align="center"><%= link_to_if_authorized(l(:button_edit), {:controller => 'timelog', :action => 'edit', :id => entry}, :class => "icon icon-edit") if entry.user_id == @owner_id %></td>
-</tr>
-<% end %>
-</tbdoy>
-</table>
+<%= render :partial => 'list', :locals => { :entries => @entries }%>
+<p class="pagination"><%= pagination_links_full @entry_pages, @entry_count %></p>
 
-<div class="contextual">
+<p class="other-formats">
 <%= l(:label_export_to) %>
-<%= link_to 'CSV', params.update(:export => 'csv'), :class => 'icon icon-csv' %>
-</div>
+<span><%= link_to 'Atom', {:issue_id => @issue, :format => 'atom', :key => User.current.rss_key}, :class => 'feed' %></span>
+<span><%= link_to 'CSV', params.merge(:format => 'csv'), :class => 'csv' %></span>
+</p>
+<% end %>
+
+<% html_title l(:label_spent_time), l(:label_details) %>
+
+<% content_for :header_tags do %>
+    <%= auto_discovery_link_tag(:atom, {:issue_id => @issue, :format => 'atom', :key => User.current.rss_key}, :title => l(:label_spent_time)) %>
 <% end %>

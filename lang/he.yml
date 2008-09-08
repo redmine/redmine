@@ -48,6 +48,7 @@ general_text_no: 'לא'
 general_text_yes: 'כן'
 general_lang_name: 'Hebrew (עברית)'
 general_csv_separator: ','
+general_csv_decimal_separator: '.'
 general_csv_encoding: ISO-8859-8-I
 general_pdf_encoding: ISO-8859-8-I
 general_day_names: שני,שלישי,רביעי,חמישי,שישי,שבת,ראשון
@@ -68,7 +69,6 @@ notice_successful_delete: מחיקה מוצלחת.
 notice_successful_connection: חיבור מוצלח.
 notice_file_not_found: הדף שאת\ה מנסה לגשת אליו אינו קיים או שהוסר.
 notice_locking_conflict: המידע עודכן על ידי משתמש אחר.
-notice_scm_error: כניסה ו\או גירסא אינם קיימים במאגר.
 notice_not_authorized: אינך מורשה לראות דף זה.
 notice_email_sent: דוא"ל נשלח לכתובת %s
 notice_email_error: ארעה שגיאה בעט שליחת הדוא"ל (%s)
@@ -76,9 +76,12 @@ notice_feeds_access_key_reseted: מפתח ה-RSS שלך אופס.
 notice_failed_to_save_issues: "נכשרת בשמירת %d נושא\ים ב %d נבחרו: %s."
 notice_no_issue_selected: "לא נבחר אף נושא! בחר בבקשה את הנושאים שברצונך לערוך."
 
-mail_subject_lost_password: סיסמת ה-Redmine שלך
+error_scm_not_found: כניסה ו\או גירסא אינם קיימים במאגר.
+error_scm_command_failed: "ארעה שגיאה בעת ניסון גישה למאגר: %s"
+
+mail_subject_lost_password: סיסמת ה-%s שלך
 mail_body_lost_password: 'לשינו סיסמת ה-Redmine שלך,לחץ על הקישור הבא:'
-mail_subject_register: הפעלת חשבון Redmine
+mail_subject_register: הפעלת חשבון %s
 mail_body_register: 'להפעלת חשבון ה-Redmine שלך, לחץ על הקישור הבא:'
 
 gui_validation_error: שגיאה 1
@@ -96,7 +99,7 @@ field_filesize: גודל
 field_downloads: הורדות
 field_author: כותב
 field_created_on: נוצר
-field_updated_on: עודגן
+field_updated_on: עודכן
 field_field_format: פורמט
 field_is_for_all: לכל הפרויקטים
 field_possible_values: ערכים אפשריים
@@ -117,7 +120,7 @@ field_subject: שם נושא
 field_due_date: תאריך סיום
 field_assigned_to: מוצב ל
 field_priority: עדיפות
-field_fixed_version: גירסא מקובעת
+field_fixed_version: גירסאת יעד
 field_user: מתשמש
 field_role: תפקיד
 field_homepage: דף הבית
@@ -138,7 +141,7 @@ field_version: גירסא
 field_type: סוג
 field_host: שרת
 field_port: פורט
-field_account: חשבום
+field_account: חשבון
 field_base_dn: בסיס DN
 field_attr_login: תכונת התחברות
 field_attr_firstname: תכונת שם פרטים
@@ -164,6 +167,7 @@ field_assignable: ניתן להקצות נושאים לתפקיד זה
 field_redirect_existing_links: העבר קישורים קיימים
 field_estimated_hours: זמן משוער
 field_column_names: עמודות
+field_default_value: ערך ברירת מחדל
 
 setting_app_title: כותרת ישום
 setting_app_subtitle: תת-כותרת ישום
@@ -179,7 +183,7 @@ setting_text_formatting: עיצוב טקסט
 setting_wiki_compression: כיווץ היסטורית WIKI
 setting_feeds_limit: גבול תוכן הזנות
 setting_autofetch_changesets: משיכה אוטומתי של עידכונים
-setting_sys_api_enabled: Enable WS for repository management
+setting_sys_api_enabled: אפשר WS לניהול המאגר
 setting_commit_ref_keywords: מילות מפתח מקשרות
 setting_commit_fix_keywords: מילות מפתח מתקנות
 setting_autologin: חיבור אוטומטי
@@ -230,7 +234,7 @@ label_information_plural: מידע
 label_please_login: התחבר בבקשה
 label_register: הרשמה
 label_password_lost: אבדה הסיסמה?
-label_home: דך הבית
+label_home: דף הבית
 label_my_page: הדף שלי
 label_my_account: השבון שלי
 label_my_projects: הפרויקטים שלי
@@ -256,7 +260,7 @@ label_subproject_plural: תת-פרויקטים
 label_min_max_length: אורך מינימאלי - מקסימאלי
 label_list: רשימה
 label_date: תאריך
-label_integer: מספר שלים
+label_integer: מספר שלם
 label_boolean: ערך בוליאני
 label_string: טקסט
 label_text: טקסט ארוך
@@ -266,7 +270,7 @@ label_download: הורדה %d
 label_download_plural: %d הורדות
 label_no_data: אין מידע להציג
 label_change_status: שנה מצב
-label_history: הידטוריה
+label_history: היסטוריה
 label_attachment: קובץ
 label_attachment_new: קובץ חדש
 label_attachment_delete: מחק קובץ
@@ -276,7 +280,7 @@ label_report_plural: דו"חות
 label_news: חדשות
 label_news_new: הוסף חדשות
 label_news_plural: חדשות
-label_news_latest: חדשות חדשות
+label_news_latest: חדשות אחרונות
 label_news_view_all: צפה בכל החדשות
 label_change_log: דו"ח שינויים
 label_settings: הגדרות
@@ -416,7 +420,7 @@ label_reply_plural: השבות
 label_send_information: שלח מידע על חשבון למשתמש
 label_year: שנה
 label_month: חודש
-label_week: שבו
+label_week: שבוע
 label_date_from: מאת
 label_date_to: אל
 label_language_based: מבוסס שפה
@@ -441,7 +445,7 @@ button_save: שמור
 button_check_all: בחר הכל
 button_uncheck_all: בחר כלום
 button_delete: מחק
-button_create: צוק
+button_create: צור
 button_test: בדוק
 button_edit: ערוך
 button_add: הוסף
@@ -451,13 +455,13 @@ button_clear: נקה
 button_lock: נעל
 button_unlock: בטל נעילה
 button_download: הורד
-button_list: קשימה
+button_list: רשימה
 button_view: צפה
 button_move: הזז
 button_back: הקודם
 button_cancel: בטח
 button_activate: הפעל
-button_sort: מין
+button_sort: מיין
 button_log_time: זמן לוג
 button_rollback: חזור לגירסא זו
 button_watch: צפה
@@ -491,8 +495,8 @@ text_tracker_no_workflow: זרימת עבודה לא הוגדרה עבור עו�
 text_unallowed_characters: תווים לא מורשים
 text_comma_separated: הכנסת ערכים מרובים מותרת (מופרדים בפסיקים).
 text_issues_ref_in_commit_messages: קישור ותיקום נושאים בהודעות הפקדות
-text_issue_added: הנושא %s דווח.
-text_issue_updated: הנושא %s עודכן.
+text_issue_added: הנושא %s דווח (by %s).
+text_issue_updated: הנושא %s עודכן (by %s).
 text_wiki_destroy_confirmation: האם אתה בטוח שברצונך למחוק את הWIKI הזה ואת כל תוכנו?
 text_issue_category_destroy_question: כמה נושאים (%d) מוצבים לקטגוריה הזו. מה ברצונך לעשות?
 text_issue_category_destroy_assignments: הסר הצבת קטגוריה
@@ -523,24 +527,113 @@ default_activity_development: פיתוח
 enumeration_issue_priorities: עדיפות נושאים
 enumeration_doc_categories: קטגוריות מסמכים
 enumeration_activities: פעילויות (מעקב אחר זמנים)
-label_search_titles_only: Search titles only
-label_nobody: nobody
-button_change_password: Change password
-text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee)."
-label_user_mail_option_selected: "For any event on the selected projects only..."
-label_user_mail_option_all: "For any event on all my projects"
-label_user_mail_option_none: "Only for things I watch or I'm involved in"
-setting_emails_footer: Emails footer
-label_float: Float
-button_copy: Copy
-mail_body_account_information_external: You can use your "%s" account to log into Redmine.
-mail_body_account_information: Your Redmine account information
-setting_protocol: Protocol
-label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
-setting_time_format: Time format
-label_registration_activation_by_email: account activation by email
-mail_subject_account_activation_request: Redmine account activation request
-mail_body_account_activation_request: 'A new user (%s) has registered. His account his pending your approval:'
-label_registration_automatic_activation: automatic account activation
-label_registration_manual_activation: manual account activation
-notice_account_pending: "Your account was created and is now pending administrator approval."
+label_search_titles_only: חפש בכותרות בלבד
+label_nobody: אף אחד
+button_change_password: שנה סיסמא
+text_user_mail_option: "בפרויקטים שלא בחרת, אתה רק תקבל התרעות על שאתה צופה או קשור אליהם (לדוגמא:נושאים שאתה היוצר שלהם או מוצבים אליך)."
+label_user_mail_option_selected: "לכל אירוע בפרויקטים שבחרתי בלבד..."
+label_user_mail_option_all: "לכל אירוע בכל הפרויקטים שלי"
+label_user_mail_option_none: "רק לנושאים שאני צופה או קשור אליהם"
+setting_emails_footer: תחתית דוא"ל
+label_float: צף
+button_copy: העתק
+mail_body_account_information_external: אתה יכול להשתמש בחשבון "%s" כדי להתחבר
+mail_body_account_information: פרטי החשבון שלך
+setting_protocol: פרוטוקול
+label_user_mail_no_self_notified: "אני לא רוצה שיודיעו לי על שינויים שאני מבצע"
+setting_time_format: פורמט זמן
+label_registration_activation_by_email: הפעל חשבון באמצעות דוא"ל
+mail_subject_account_activation_request: בקשת הפעלה לחשבון %s
+mail_body_account_activation_request: 'משתמש חדש (%s) נרשם. החשבון שלו מחכה לאישור שלך:'
+label_registration_automatic_activation: הפעלת חשבון אוטומטית
+label_registration_manual_activation: הפעלת חשבון ידנית
+notice_account_pending: "החשבון שלך נוצר ועתה מחכה לאישור מנהל המערכת."
+field_time_zone: איזור זמן
+text_caracters_minimum: חייב להיות לפחות באורך של %d תווים.
+setting_bcc_recipients: מוסתר (bcc)
+button_annotate: הוסף תיאור מסגרת
+label_issues_by: נושאים של %s
+field_searchable: ניתן לחיפוש
+label_display_per_page: 'לכל דף: %s'
+setting_per_page_options: אפשרויות אוביקטים לפי דף
+label_age: גיל
+notice_default_data_loaded: אפשרויות ברירת מחדל מופעלות.
+text_load_default_configuration: טען את אפשרויות ברירת המחדל
+text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. יהיה באפשרותך לשנותו לאחר שיטען."
+error_can_t_load_default_data: "אפשרויות ברירת המחדל לא הצליחו להיטען: %s"
+button_update: עדכן
+label_change_properties: שנה מאפיינים
+label_general: כללי
+label_repository_plural: מאגרים
+label_associated_revisions: שינויים קשורים
+setting_user_format: פורמט הצגת משתמשים
+text_status_changed_by_changeset: הוחל בסדרת השינויים %s.
+label_more: עוד
+text_issues_destroy_confirmation: 'האם את\ה בטוח שברצונך למחוק את הנושא\ים ?'
+label_scm: SCM
+text_select_project_modules: 'בחר מודולים להחיל על פקרויקט זה:'
+label_issue_added: נושא הוסף
+label_issue_updated: נושא עודכן
+label_document_added: מוסמך הוסף
+label_message_posted: הודעה הוספה
+label_file_added: קובץ הוסף
+label_news_added: חדשות הוספו
+project_module_boards: לוחות
+project_module_issue_tracking: מעקב נושאים
+project_module_wiki: Wiki
+project_module_files: קבצים
+project_module_documents: מסמכים
+project_module_repository: מאגר
+project_module_news: חדשות
+project_module_time_tracking: מעקב אחר זמנים
+text_file_repository_writable: מאגר הקבצים ניתן לכתיבה
+text_default_administrator_account_changed: מנהל המערכת ברירת המחדל שונה
+text_rmagick_available: RMagick available (optional)
+button_configure: אפשרויות
+label_plugins: פלאגינים
+label_ldap_authentication: אימות LDAP
+label_downloads_abbr: D/L
+label_this_month: החודש
+label_last_n_days: ב-%d ימים אחרונים
+label_all_time: תמיד
+label_this_year: השנה
+label_date_range: טווח תאריכים
+label_last_week: שבוע שעבר
+label_yesterday: אתמול
+label_last_month: חודש שעבר
+label_add_another_file: הוסף עוד קובץ
+label_optional_description: תיאור רשות
+text_destroy_time_entries_question: %.02f שעות דווחו על הנושים שאת\ה עומד\ת למחוק. מה ברצונך לעשות ?
+error_issue_not_found_in_project: 'הנושאים לא נמצאו או אינם שיכים לפרויקט'
+text_assign_time_entries_to_project: הצב שעות שדווחו לפרויקט הזה
+text_destroy_time_entries: מחק שעות שדווחו
+text_reassign_time_entries: 'הצב מחדש שעות שדווחו לפרויקט הזה:'
+setting_activity_days_default: ימים המוצגים על פעילות הפרויקט
+label_chronological_order: בסדר כרונולוגי
+field_comments_sorting: הצג הערות
+label_reverse_chronological_order: בסדר כרונולוגי הפוך
+label_preferences: העדפות
+setting_display_subprojects_issues: הצג נושאים של תת פרויקטים כברירת מחדל
+label_overall_activity: פעילות כוללת
+setting_default_projects_public: פרויקטים חדשים הינם פומביים כברירת מחדל
+error_scm_annotate: "הכניסה לא קיימת או שלא ניתן לתאר אותה."
+label_planning: תכנון
+text_subprojects_destroy_warning: 'Its subproject(s): %s will be also deleted.'
+label_and_its_subprojects: %s and its subprojects
+mail_body_reminder: "%d issue(s) that are assigned to you are due in the next %d days:"
+mail_subject_reminder: "%d issue(s) due in the next days"
+text_user_wrote: '%s wrote:'
+label_duplicated_by: duplicated by
+setting_enabled_scm: Enabled SCM
+text_enumeration_category_reassign_to: 'Reassign them to this value:'
+text_enumeration_destroy_question: '%d objects are assigned to this value.'
+label_incoming_emails: Incoming emails
+label_generate_key: Generate a key
+setting_mail_handler_api_enabled: Enable WS for incoming emails
+setting_mail_handler_api_key: API key
+text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
+field_parent_title: Parent page
+label_issue_watchers: Watchers
+setting_commit_logs_encoding: Commit messages encoding
+button_quote: Quote
+setting_sequential_project_identifiers: Generate sequential project identifiers

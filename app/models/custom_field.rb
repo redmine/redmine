@@ -30,9 +30,9 @@ class CustomField < ActiveRecord::Base
   }.freeze
 
   validates_presence_of :name, :field_format
-  validates_uniqueness_of :name
+  validates_uniqueness_of :name, :scope => :type
   validates_length_of :name, :maximum => 30
-  validates_format_of :name, :with => /^[\w\s\'\-]*$/i
+  validates_format_of :name, :with => /^[\w\s\.\'\-]*$/i
   validates_inclusion_of :field_format, :in => FIELD_FORMATS.keys
 
   def initialize(attributes = nil)
@@ -43,6 +43,9 @@ class CustomField < ActiveRecord::Base
   def before_validation
     # remove empty values
     self.possible_values = self.possible_values.collect{|v| v unless v.empty?}.compact
+    # make sure these fields are not searchable
+    self.searchable = false if %w(int float date bool).include?(field_format)
+    true
   end
   
   def validate
@@ -50,6 +53,11 @@ class CustomField < ActiveRecord::Base
       errors.add(:possible_values, :activerecord_error_blank) if self.possible_values.nil? || self.possible_values.empty?
       errors.add(:possible_values, :activerecord_error_invalid) unless self.possible_values.is_a? Array
     end
+    
+    # validate default value
+    v = CustomValue.new(:custom_field => self.clone, :value => default_value, :customized => nil)
+    v.custom_field.is_required = false
+    errors.add(:default_value, :activerecord_error_invalid) unless v.valid?
   end
 
   def <=>(field)
@@ -58,7 +66,7 @@ class CustomField < ActiveRecord::Base
   
   # to move in project_custom_field
   def self.for_all
-    find(:all, :conditions => ["is_for_all=?", true])
+    find(:all, :conditions => ["is_for_all=?", true], :order => 'position')
   end
   
   def type_name

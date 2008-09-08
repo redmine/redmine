@@ -83,7 +83,7 @@ module SortHelper
   # Use this to sort the controller's table items collection.
   #
   def sort_clause()
-    session[@sort_name][:key] + ' ' + session[@sort_name][:order]
+    session[@sort_name][:key] + ' ' + (session[@sort_name][:order] || 'ASC')
   end
 
   # Returns a link which sorts by the named column.
@@ -92,7 +92,7 @@ module SortHelper
   # - The optional caption explicitly specifies the displayed link text.
   # - A sort icon image is positioned to the right of the sort link.
   #
-  def sort_link(column, caption=nil)
+  def sort_link(column, caption, default_order)
     key, order = session[@sort_name][:key], session[@sort_name][:order]
     if key == column
       if order.downcase == 'asc'
@@ -104,15 +104,17 @@ module SortHelper
       end
     else
       icon = nil
-      order = 'desc' # changed for desc order by default
+      order = default_order
     end
     caption = titleize(Inflector::humanize(column)) unless caption
     
-    url = {:sort_key => column, :sort_order => order, :issue_id => params[:issue_id], :project_id => params[:project_id]}
+    sort_options = { :sort_key => column, :sort_order => order }
+    # don't reuse params if filters are present
+    url_options = params.has_key?(:set_filter) ? sort_options : params.merge(sort_options)
     
     link_to_remote(caption,
-                  {:update => "content", :url => url},
-                  {:href => url_for(url)}) +
+                  {:update => "content", :url => url_options},
+                  {:href => url_for(url_options)}) +
     (icon ? nbsp(2) + image_tag(icon) : '')
   end
 
@@ -138,8 +140,9 @@ module SortHelper
   #
   def sort_header_tag(column, options = {})
     caption = options.delete(:caption) || titleize(Inflector::humanize(column))
+    default_order = options.delete(:default_order) || 'asc'
     options[:title]= l(:label_sort_by, "\"#{caption}\"") unless options[:title]
-    content_tag('th', sort_link(column, caption), options)
+    content_tag('th', sort_link(column, caption, default_order), options)
   end
 
   private

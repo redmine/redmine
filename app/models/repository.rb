@@ -17,9 +17,26 @@
 
 class Repository < ActiveRecord::Base
   belongs_to :project
-  has_many :changesets, :dependent => :destroy, :order => "#{Changeset.table_name}.revision DESC"
+  has_many :changesets, :order => "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC"
   has_many :changes, :through => :changesets
-    
+  
+  # Raw SQL to delete changesets and changes in the database
+  # has_many :changesets, :dependent => :destroy is too slow for big repositories
+  before_destroy :clear_changesets
+  
+  # Checks if the SCM is enabled when creating a repository
+  validate_on_create { |r| r.errors.add(:type, :activerecord_error_invalid) unless Setting.enabled_scm.include?(r.class.name.demodulize) }
+  
+  # Removes leading and trailing whitespace
+  def url=(arg)
+    write_attribute(:url, arg ? arg.to_s.strip : nil)
+  end
+  
+  # Removes leading and trailing whitespace
+  def root_url=(arg)
+    write_attribute(:root_url, arg ? arg.to_s.strip : nil)
+  end
+
   def scm
     @scm ||= self.scm_adapter.new url, root_url, login, password
     update_attribute(:root_url, @scm.root_url) if root_url.blank?
@@ -33,13 +50,29 @@ class Repository < ActiveRecord::Base
   def supports_cat?
     scm.supports_cat?
   end
+
+  def supports_annotate?
+    scm.supports_annotate?
+  end
+  
+  def entry(path=nil, identifier=nil)
+    scm.entry(path, identifier)
+  end
   
   def entries(path=nil, identifier=nil)
     scm.entries(path, identifier)
   end
   
-  def diff(path, rev, rev_to, type)
-    scm.diff(path, rev, rev_to, type)
+  def properties(path, identifier=nil)
+    scm.properties(path, identifier)
+  end
+  
+  def cat(path, identifier=nil)
+    scm.cat(path, identifier)
+  end
+  
+  def diff(path, rev, rev_to)
+    scm.diff(path, rev, rev_to)
   end
   
   # Default behaviour: we search in cached changesets
@@ -47,7 +80,12 @@ class Repository < ActiveRecord::Base
     path = "/#{path}" unless path.starts_with?('/')
     Change.find(:all, :include => :changeset, 
       :conditions => ["repository_id = ? AND path = ?", id, path],
-      :order => "committed_on DESC, #{Changeset.table_name}.revision DESC").collect(&:changeset)
+      :order => "committed_on DESC, #{Changeset.table_name}.id DESC").collect(&:changeset)
+  end
+  
+  # Returns a path relative to the url of the repository
+  def relative_path(path)
+    path
   end
   
   def latest_changeset
@@ -83,5 +121,20 @@ class Repository < ActiveRecord::Base
     klass.new(*args)
   rescue
     nil
+  end
+  
+  private
+  
+  def before_save
+    # Strips url and root_url
+    url.strip!
+    root_url.strip!
+    true
+  end
+  
+  def clear_changesets
+    connection.delete("DELETE FROM changes WHERE changes.changeset_id IN (SELECT changesets.id FROM changesets WHERE changesets.repository_id = #{id})")
+    connection.delete("DELETE FROM changesets_issues WHERE changesets_issues.changeset_id IN (SELECT changesets.id FROM changesets WHERE changesets.repository_id = #{id})")
+    connection.delete("DELETE FROM changesets WHERE changesets.repository_id = #{id}")
   end
 end

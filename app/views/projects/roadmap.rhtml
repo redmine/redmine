@@ -2,67 +2,49 @@
 
 <% if @versions.empty? %>
 <p class="nodata"><%= l(:label_no_data) %></p>
-<% end %>
-
+<% else %>
+<div id="roadmap">
 <% @versions.each do |version| %>   
-    <a name="<%= version.name %>"><h3 class="icon22 icon22-package"><%= version.name %></h3></a>
-    <% if version.completed? %>
-      <p><%= format_date(version.effective_date) %></p>
-    <% elsif version.overdue? %>
-      <p><strong><%= l(:label_roadmap_overdue, distance_of_time_in_words(Time.now, version.effective_date)) %> (<%= format_date(version.effective_date) %>)</strong></p>
-    <% elsif version.effective_date %>
-      <p><strong><%=l(:label_roadmap_due_in)%> <%= distance_of_time_in_words Time.now, version.effective_date %> (<%= format_date(version.effective_date) %>)</strong></p>
+    <%= tag 'a', :name => version.name %>
+    <h3 class="icon22 icon22-package"><%= link_to h(version.name), :controller => 'versions', :action => 'show', :id => version %></h3>
+    <%= render :partial => 'versions/overview', :locals => {:version => version} %>
+    <%= render(:partial => "wiki/content", :locals => {:content => version.wiki_page.content}) if version.wiki_page %>
+
+    <% issues = version.fixed_issues.find(:all,
+                                          :include => [:status, :tracker],
+                                          :conditions => ["tracker_id in (#{@selected_tracker_ids.join(',')})"],
+                                          :order => "#{Tracker.table_name}.position, #{Issue.table_name}.id") unless @selected_tracker_ids.empty?
+       issues ||= []
+    %>
+    <% if issues.size > 0 %>
+    <fieldset class="related-issues"><legend><%= l(:label_related_issues) %></legend>
+    <ul>
+    <%- issues.each do |issue| -%>
+        <li><%= link_to_issue(issue) %>: <%=h issue.subject %></li>
+    <%- end -%>
+    </ul>
+    </fieldset>
     <% end %>
-    <p><%=h version.description %></p>        
-    
-    <% if version.fixed_issues.count > 0 %>
-        <%= progress_bar(version.completed_pourcent, :width => '40em', :legend => ('%0.0f%' % version.completed_pourcent)) %>
-        <p class="progress-info">
-            <%= link_to(version.closed_issues_count, :controller => 'issues', :action => 'index', :project_id => @project, :status_id => 'c', :fixed_version_id => version, :set_filter => 1) %>
-            <%= lwr(:label_closed_issues, version.closed_issues_count) %>
-            (<%= '%0.0f' % (version.closed_issues_count.to_f / version.fixed_issues.count * 100) %>%)
-            &#160;
-            <%= link_to(version.open_issues_count, :controller => 'issues', :action => 'index', :project_id => @project, :status_id => 'o', :fixed_version_id => version, :set_filter => 1) %>
-            <%= lwr(:label_open_issues, version.open_issues_count)%>
-            (<%= '%0.0f' % (version.open_issues_count.to_f / version.fixed_issues.count * 100) %>%)
-        </p>
-        <%= render(:partial => "wiki/content", :locals => {:content => version.wiki_page.content}) if version.wiki_page %>
-        <% issues = version.fixed_issues.find(:all,
-                                     :include => [:status, :tracker],
-                                     :conditions => ["tracker_id in (#{@selected_tracker_ids.join(',')})"],
-                                     :order => "#{Tracker.table_name}.position") unless @selected_tracker_ids.empty?
-           issues ||= []
-        %>
-        <ul>
-          <% if issues.size > 0 %>
-            <% issues.each do |issue| %>
-              <li>
-                <%= link = link_to_issue(issue)
-                    issue.status.is_closed? ? content_tag("del", link) : link %>: <%=h issue.subject %>
-                <%= content_tag "em", "(#{l(:label_closed_issues)})" if issue.status.is_closed? %>
-              </li>
-            <% end %>
-          <% end %>
-        </ul>
-    <% else %>
-        <p><em><%= l(:label_roadmap_no_issues) %></em></p>
-    <% end %>
+<% end %>
+</div>
 <% end %>
 
 <% content_for :sidebar do %>
-<% form_tag do %>
+<% form_tag({}, :method => :get) do %>
 <h3><%= l(:label_roadmap) %></h3>
 <% @trackers.each do |tracker| %>
-  <label><%= check_box_tag "tracker_ids[]", tracker.id, (@selected_tracker_ids.include? tracker.id.to_s) %>
+  <label><%= check_box_tag "tracker_ids[]", tracker.id, (@selected_tracker_ids.include? tracker.id.to_s), :id => nil %>
   <%= tracker.name %></label><br />
 <% end %>
 <br />
-<label for="completed"><%= check_box_tag "completed", 1, params[:completed] %> <%= l(:label_show_completed_versions) %>
-<p><%= submit_tag l(:button_apply), :class => 'button-small' %></p>
+<label for="completed"><%= check_box_tag "completed", 1, params[:completed] %> <%= l(:label_show_completed_versions) %></label>
+<p><%= submit_tag l(:button_apply), :class => 'button-small', :name => nil %></p>
 <% end %>
 
 <h3><%= l(:label_version_plural) %></h3>
 <% @versions.each do |version| %>
-<%= link_to version.name, :anchor => version.name %><br />
+<%= link_to version.name, "##{version.name}" %><br />
 <% end %>
 <% end %>
+
+<% html_title(l(:label_roadmap)) %>

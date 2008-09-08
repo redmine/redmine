@@ -16,7 +16,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class RolesController < ApplicationController
-  layout 'base'	
   before_filter :require_admin
 
   verify :method => :post, :only => [ :destroy, :move ],
@@ -33,12 +32,18 @@ class RolesController < ApplicationController
   end
 
   def new
-    @role = Role.new(params[:role])
+    # Prefills the form with 'Non member' role permissions
+    @role = Role.new(params[:role] || {:permissions => Role.non_member.permissions})
     if request.post? && @role.save
+      # workflow copy
+      if !params[:copy_workflow_from].blank? && (copy_from = Role.find_by_id(params[:copy_workflow_from]))
+        @role.workflows.copy(copy_from)
+      end
       flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'list'
     end
     @permissions = @role.setable_permissions
+    @roles = Role.find :all, :order => 'builtin, position'
   end
 
   def edit
@@ -52,12 +57,11 @@ class RolesController < ApplicationController
 
   def destroy
     @role = Role.find(params[:id])
-    #unless @role.members.empty?
-    #  flash[:error] = 'Some members have this role. Can\'t delete it.'
-    #else
-      @role.destroy
-    #end
+    @role.destroy
     redirect_to :action => 'list'
+  rescue
+    flash[:error] = 'This role is in use and can not be deleted.'
+    redirect_to :action => 'index'
   end
   
   def move
@@ -93,7 +97,7 @@ class RolesController < ApplicationController
     end
     @roles = Role.find(:all, :order => 'builtin, position')
     @trackers = Tracker.find(:all, :order => 'position')
-    @statuses = IssueStatus.find(:all, :include => :workflows, :order => 'position')
+    @statuses = IssueStatus.find(:all, :order => 'position')
   end
   
   def report    

@@ -55,8 +55,6 @@ t_height = g_height + headers_height
 </table>
 <% end %>
 
-<% cache(:year => @year_from, :month => @month_from, :months => @months, :zoom => @zoom, :tracker_ids => @selected_tracker_ids, :subprojects => params[:with_subprojects], :lang => current_language) do %>
-
 <table width="100%" style="border:0; border-collapse: collapse;">
 <tr>
 <td style="width:<%= subject_width %>px;">
@@ -72,10 +70,13 @@ top = headers_height + 8
 @events.each do |i| %>
     <div style="position: absolute;line-height:1.2em;height:16px;top:<%= top %>px;left:4px;overflow:hidden;"><small>    
     <% if i.is_a? Issue %>
-      	<%= link_to_issue i %><%= " (#{i.project.name})" unless @project && @project == i.project %>:
-      	<%=h i.subject %>
+      	<%= h("#{i.project} -") unless @project && @project == i.project %>
+      	<%= link_to_issue i %>:	<%=h i.subject %>
   	<% else %>
-      	<%= link_to_version i, :class => "icon icon-package" %>
+		<span class="icon icon-package">
+	      	<%= h("#{i.project} -") unless @project && @project == i.project %>
+	      	<%= link_to_version i %>
+		</span>
   	<% end %>  	
   	</small></div>
     <% top = top + 20
@@ -165,9 +166,9 @@ top = headers_height + 10
 @events.each do |i| 
   if i.is_a? Issue 
 	i_start_date = (i.start_date >= @date_from ? i.start_date : @date_from )
-	i_end_date = (i.due_date <= @date_to ? i.due_date : @date_to )
+	i_end_date = (i.due_before <= @date_to ? i.due_before : @date_to )
 	
-	i_done_date = i.start_date + ((i.due_date - i.start_date+1)*i.done_ratio/100).floor
+	i_done_date = i.start_date + ((i.due_before - i.start_date+1)*i.done_ratio/100).floor
 	i_done_date = (i_done_date <= @date_from ? @date_from : i_done_date )
 	i_done_date = (i_done_date >= @date_to ? @date_to : i_done_date )
 	
@@ -189,7 +190,6 @@ top = headers_height + 10
 	<%= i.status.name %>
 	<%= (i.done_ratio).to_i %>%
 	</div>
-	<% # === tooltip === %>
 	<div class="tooltip" style="position: absolute;top:<%= top %>px;left:<%= i_left %>px;width:<%= i_width %>px;height:12px;">
 	<span class="tip">
     <%= render_issue_tooltip i %>
@@ -199,14 +199,12 @@ top = headers_height + 10
     %>
     <div style="top:<%= top %>px;left:<%= i_left %>px;width:15px;" class="task milestone">&nbsp;</div>
 	<div style="top:<%= top %>px;left:<%= i_left + 12 %>px;background:#fff;" class="task">
-	<strong><%= i.name %></strong>
+		<%= h("#{i.project} -") unless @project && @project == i.project %>
+		<strong><%=h i %></strong>
 	</div>
 <% end %>
 	<% top = top + 20
 end %>
-
-<% end # cache 
-%>
 
 <%
 #
@@ -228,20 +226,24 @@ if Date.today >= @date_from and Date.today <= @date_to %>
 </tr>
 </table>
 
-<div class="contextual"><%= l(:label_export_to) %>
-<%= link_to 'PDF', {:zoom => @zoom, :year => @year_from, :month => @month_from, :months => @months, :tracker_ids => @selected_tracker_ids, :with_subprojects => params[:with_subprojects], :format => 'pdf'}, :class => 'icon icon-pdf' %>
-<%= link_to 'PNG', {:zoom => @zoom, :year => @year_from, :month => @month_from, :months => @months, :tracker_ids => @selected_tracker_ids, :with_subprojects => params[:with_subprojects], :format => 'png'}, :class => 'icon icon-image' if respond_to?('gantt_image') %>
-</div>
+<p class="other-formats">
+<%= l(:label_export_to) %>
+<span><%= link_to 'PDF', {:zoom => @zoom, :year => @year_from, :month => @month_from, :months => @months, :tracker_ids => @selected_tracker_ids, :with_subprojects => params[:with_subprojects], :format => 'pdf'}, :class => 'pdf' %></span>
+<%= content_tag('span', link_to('PNG', {:zoom => @zoom, :year => @year_from, :month => @month_from, :months => @months, :tracker_ids => @selected_tracker_ids, :with_subprojects => params[:with_subprojects], :format => 'png'}, :class => 'image')) if respond_to?('gantt_image') %>
+</p>
 
 <% content_for :sidebar do %>
     <h3><%= l(:label_gantt) %></h3>
-    <% form_tag(params.merge(:tracker_ids => nil, :with_subprojects => nil)) do %>
+    <% form_tag(params.merge(:tracker_ids => nil, :with_subprojects => nil), :method => :get) do %>
     <% @trackers.each do |tracker| %>
       <label><%= check_box_tag "tracker_ids[]", tracker.id, (@selected_tracker_ids.include? tracker.id.to_s) %> <%= tracker.name %></label><br />
     <% end %>
     <% if @project.active_children.any? %>
-    <br /><label><%= check_box_tag "with_subprojects", 1, params[:with_subprojects] %> <%=l(:label_subproject_plural)%></label>
+    <br /><label><%= check_box_tag 'with_subprojects', 1, @with_subprojects %> <%=l(:label_subproject_plural)%></label>
+    <%= hidden_field_tag 'with_subprojects', 0 %>
     <% end %>
-    <p><%= submit_tag l(:button_apply), :class => 'button-small' %></p>
+    <p><%= submit_tag l(:button_apply), :class => 'button-small', :name => nil %></p>
     <% end %>
 <% end %>
+
+<% html_title(l(:label_gantt)) -%>

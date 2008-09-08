@@ -1,8 +1,22 @@
-<%= error_messages_for 'issue' %>
-<div class="box">
+<% if @issue.new_record? %>
+<p><%= f.select :tracker_id, @project.trackers.collect {|t| [t.name, t.id]}, :required => true %></p>
+<%= observe_field :issue_tracker_id, :url => { :action => :new },
+                                     :update => :content,
+                                     :with => "Form.serialize('issue-form')" %>
+<hr />
+<% end %>
+
+<div id="issue_descr_fields" <%= 'style="display:none"' unless @issue.new_record? || @issue.errors.any? %>>
+<p><%= f.text_field :subject, :size => 80, :required => true %></p>
+<p><%= f.text_area :description, :required => true,
+                   :cols => 60,
+                   :rows => (@issue.description.blank? ? 10 : [[10, @issue.description.length / 50].max, 100].min),
+                   :accesskey => accesskey(:edit),
+                   :class => 'wiki-edit' %></p>
+</div>
 
 <div class="splitcontentleft">
-<% if @issue.new_record? %>
+<% if @issue.new_record? || @allowed_statuses.any? %>
 <p><%= f.select :status_id, (@allowed_statuses.collect {|p| [p.name, p.id]}), :required => true %></p>
 <% else %>
 <p><label><%= l(:field_status) %></label> <%= @issue.status.name %></p>
@@ -14,7 +28,10 @@
 <%= prompt_to_remote(l(:label_issue_category_new),
                      l(:label_issue_category_new), 'category[name]', 
                      {:controller => 'projects', :action => 'add_issue_category', :id => @project},
-                     :class => 'small') if authorize_for('projects', 'add_issue_category') %></p>
+                     :class => 'small', :tabindex => 199) if authorize_for('projects', 'add_issue_category') %></p>
+<%= content_tag('p', f.select(:fixed_version_id, 
+                              (@project.versions.sort.collect {|v| [v.name, v.id]}),
+                              { :include_blank => true })) unless @project.versions.empty? %>
 </div>
 
 <div class="splitcontentright">
@@ -24,29 +41,13 @@
 <p><%= f.select :done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }) %></p>
 </div>
 
-<p><%= f.text_field :subject, :size => 80, :required => true %></p>
-<p><%= f.text_area :description, :required => true,
-                   :cols => 60,
-                   :rows => (@issue.description.blank? ? 10 : [[10, @issue.description.length / 50].max, 100].min),
-                   :accesskey => accesskey(:edit),
-                   :class => 'wiki-edit' %></p>
-<p><%= f.select :fixed_version_id, (@project.versions.sort.collect {|v| [v.name, v.id]}), { :include_blank => true } %></p>
-<% for @custom_value in @custom_values %>
-	<p><%= custom_field_tag_with_label @custom_value %></p>
-<% end %>
+<div style="clear:both;"> </div>
+<%= render :partial => 'form_custom_fields' %>
 
 <% if @issue.new_record? %>
-<p id="attachments_p"><label for="attachment_file"><%=l(:label_attachment)%>
-<%= image_to_function "add.png", "addFileField();return false" %></label>
-<%= file_field_tag 'attachments[]', :size => 30  %> <em>(<%= l(:label_max_size) %>: <%= number_to_human_size(Setting.attachment_max_size.to_i.kilobytes) %>)</em></p>
+<p><label><%=l(:label_attachment_plural)%></label><%= render :partial => 'attachments/form' %></p>
 <% end %>
-</div>
+
+<%= call_hook(:view_issues_form_details_bottom, { :issue => @issue, :form => f }) %>
 
 <%= wikitoolbar_for 'issue_description' %>
-
-<% content_for :header_tags do %>
-    <%= javascript_include_tag 'calendar/calendar' %>
-    <%= javascript_include_tag "calendar/lang/calendar-#{current_language}.js" %>
-    <%= javascript_include_tag 'calendar/calendar-setup' %>
-    <%= stylesheet_link_tag 'calendar' %>
-<% end %>

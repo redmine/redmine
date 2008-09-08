@@ -16,21 +16,15 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class QueriesController < ApplicationController
-  layout 'base'
-  before_filter :find_project, :authorize
-
-  def index
-    @queries = @project.queries.find(:all, 
-                                     :order => "name ASC",
-                                     :conditions => ["is_public = ? or user_id = ?", true, (logged_in_user ? logged_in_user.id : 0)])
-  end
+  menu_item :issues
+  before_filter :find_query, :except => :new
+  before_filter :find_optional_project, :only => :new
   
   def new
     @query = Query.new(params[:query])
-    @query.project = @project
-    @query.user = logged_in_user
-    @query.executed_by = logged_in_user
-    @query.is_public = false unless current_role.allowed_to?(:manage_public_queries)
+    @query.project = params[:query_is_for_all] ? nil : @project
+    @query.user = User.current
+    @query.is_public = false unless (@query.project && current_role.allowed_to?(:manage_public_queries)) || User.current.admin?
     @query.column_names = nil if params[:default_columns]
     
     params[:fields].each do |field|
@@ -52,7 +46,8 @@ class QueriesController < ApplicationController
         @query.add_filter(field, params[:operators][field], params[:values][field])
       end if params[:fields]
       @query.attributes = params[:query]
-      @query.is_public = false unless current_role.allowed_to?(:manage_public_queries)
+      @query.project = nil if params[:query_is_for_all]
+      @query.is_public = false unless (@query.project && current_role.allowed_to?(:manage_public_queries)) || User.current.admin?
       @query.column_names = nil if params[:default_columns]
       
       if @query.save
@@ -64,19 +59,21 @@ class QueriesController < ApplicationController
 
   def destroy
     @query.destroy if request.post?
-    redirect_to :controller => 'queries', :project_id => @project
+    redirect_to :controller => 'issues', :action => 'index', :project_id => @project, :set_filter => 1
   end
   
 private
-  def find_project
-    if params[:id]
-      @query = Query.find(params[:id])
-      @query.executed_by = logged_in_user
-      @project = @query.project
-      render_403 unless @query.editable_by?(logged_in_user)
-    else
-      @project = Project.find(params[:project_id])
-    end
+  def find_query
+    @query = Query.find(params[:id])
+    @project = @query.project
+    render_403 unless @query.editable_by?(User.current)
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+  
+  def find_optional_project
+    @project = Project.find(params[:project_id]) if params[:project_id]
+    User.current.allowed_to?(:save_queries, @project, :global => true)
   rescue ActiveRecord::RecordNotFound
     render_404
   end

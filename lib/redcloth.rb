@@ -272,7 +272,7 @@ class RedCloth < String
         @shelf = []
         textile_rules = [:refs_textile, :block_textile_table, :block_textile_lists,
                          :block_textile_prefix, :inline_textile_image, :inline_textile_link,
-                         :inline_textile_code, :inline_textile_span, :glyphs_textile]
+                         :inline_textile_code, :inline_textile_span]
         markdown_rules = [:refs_markdown, :block_markdown_setext, :block_markdown_atx, :block_markdown_rule,
                           :block_markdown_bq, :block_markdown_lists, 
                           :inline_markdown_reflink, :inline_markdown_link]
@@ -295,9 +295,12 @@ class RedCloth < String
         @pre_list = []
         rip_offtags text
         no_textile text
+        escape_html_tags text
         hard_break text 
         unless @lite_mode
             refs text
+            # need to do this before text is split by #blocks
+            block_textile_quotes text
             blocks text
         end
         inline text
@@ -375,18 +378,18 @@ class RedCloth < String
         re =
             case rtype
             when :limit
-                /(\W)
+                /(^|[>\s\(])
                 (#{rcq})
                 (#{C})
                 (?::(\S+?))?
-                (\S.*?\S|\S)
+                ([^\s\-].*?[^\s\-]|\w)
                 #{rcq}
-                (?=\W)/x
+                (?=[[:punct:]]|\s|\)|$)/x
             else
                 /(#{rcq})
                 (#{C})
                 (?::(\S+))?
-                (\S.*?\S|\S)
+                ([^\s\-].*?[^\s\-]|\w)
                 #{rcq}/xm 
             end
         [rc, ht, re, rtype]
@@ -395,15 +398,15 @@ class RedCloth < String
     # Elements to handle
     GLYPHS = [
     #   [ /([^\s\[{(>])?\'([dmst]\b|ll\b|ve\b|\s|:|$)/, '\1&#8217;\2' ], # single closing
-        [ /([^\s\[{(>#{PUNCT_Q}][#{PUNCT_Q}]*)\'/, '\1&#8217;' ], # single closing
-        [ /\'(?=[#{PUNCT_Q}]*(s\b|[\s#{PUNCT_NOQ}]))/, '&#8217;' ], # single closing
-        [ /\'/, '&#8216;' ], # single opening
+    #   [ /([^\s\[{(>#{PUNCT_Q}][#{PUNCT_Q}]*)\'/, '\1&#8217;' ], # single closing
+    #   [ /\'(?=[#{PUNCT_Q}]*(s\b|[\s#{PUNCT_NOQ}]))/, '&#8217;' ], # single closing
+    #   [ /\'/, '&#8216;' ], # single opening
         [ /</, '&lt;' ], # less-than
         [ />/, '&gt;' ], # greater-than
     #   [ /([^\s\[{(])?"(\s|:|$)/, '\1&#8221;\2' ], # double closing
-        [ /([^\s\[{(>#{PUNCT_Q}][#{PUNCT_Q}]*)"/, '\1&#8221;' ], # double closing
-        [ /"(?=[#{PUNCT_Q}]*[\s#{PUNCT_NOQ}])/, '&#8221;' ], # double closing
-        [ /"/, '&#8220;' ], # double opening
+    #   [ /([^\s\[{(>#{PUNCT_Q}][#{PUNCT_Q}]*)"/, '\1&#8221;' ], # double closing
+    #   [ /"(?=[#{PUNCT_Q}]*[\s#{PUNCT_NOQ}])/, '&#8221;' ], # double closing
+    #   [ /"/, '&#8220;' ], # double opening
         [ /\b( )?\.{3}/, '\1&#8230;' ], # ellipsis
         [ /\b([A-Z][A-Z0-9]{2,})\b(?:[(]([^)]*)[)])/, '<acronym title="\2">\1</acronym>' ], # 3+ uppercase acronym
         [ /(^|[^"][>\s])([A-Z][A-Z0-9 ]+[A-Z0-9])([^<A-Za-z0-9]|$)/, '\1<span class="caps">\2</span>\3', :no_span_caps ], # 3+ uppercase caps
@@ -501,25 +504,19 @@ class RedCloth < String
             tatts = shelve( tatts ) if tatts
             rows = []
 
-            fullrow.
-            split( /\|$/m ).
-            delete_if { |x| x.empty? }.
-            each do |row|
-
+            fullrow.each_line do |row|
                 ratts, row = pba( $1, 'tr' ), $2 if row =~ /^(#{A}#{C}\. )(.*)/m
-                
                 cells = []
-                row.split( '|' ).each do |cell|
+                row.split( /(\|)(?![^\[\|]*\]\])/ )[1..-2].each do |cell|
+                    next if cell == '|'
                     ctyp = 'd'
                     ctyp = 'h' if cell =~ /^_/
 
                     catts = ''
                     catts, cell = pba( $1, 'td' ), $2 if cell =~ /^(_?#{S}#{A}#{C}\. ?)(.*)/
 
-                    unless cell.strip.empty?
-                        catts = shelve( catts ) if catts
-                        cells << "\t\t\t<t#{ ctyp }#{ catts }>#{ cell }</t#{ ctyp }>" 
-                    end
+                    catts = shelve( catts ) if catts
+                    cells << "\t\t\t<t#{ ctyp }#{ catts }>#{ cell }</t#{ ctyp }>" 
                 end
                 ratts = shelve( ratts ) if ratts
                 rows << "\t\t<tr#{ ratts }>\n#{ cells.join( "\n" ) }\n\t\t</tr>"
@@ -573,6 +570,29 @@ class RedCloth < String
             end
             lines.join( "\n" )
         end
+    end
+    
+    QUOTES_RE = /(^>+([^\n]*?)\n?)+/m
+    QUOTES_CONTENT_RE = /^([> ]+)(.*)$/m
+    
+    def block_textile_quotes( text )
+      text.gsub!( QUOTES_RE ) do |match|
+        lines = match.split( /\n/ )
+        quotes = ''
+        indent = 0
+        lines.each do |line|
+          line =~ QUOTES_CONTENT_RE 
+          bq,content = $1, $2
+          l = bq.count('>')
+          if l != indent
+            quotes << ("\n\n" + (l>indent ? '<blockquote>' * (l-indent) : '</blockquote>' * (indent-l)) + "\n\n")
+            indent = l
+          end
+          quotes << (content + "\n")
+        end
+        quotes << ("\n" + '</blockquote>' * indent + "\n\n")
+        quotes
+      end
     end
 
     CODE_RE = /(\W)
@@ -724,7 +744,7 @@ class RedCloth < String
     end
 
     MARKDOWN_RULE_RE = /^(#{
-        ['*', '-', '_'].collect { |ch| '( ?' + Regexp::quote( ch ) + ' ?){3,}' }.join( '|' )
+        ['*', '-', '_'].collect { |ch| ' ?(' + Regexp::quote( ch ) + ' ?){3,}' }.join( '|' )
     })$/
 
     def block_markdown_rule( text )
@@ -762,11 +782,11 @@ class RedCloth < String
             ([\s\[{(]|[#{PUNCT}])?     # $pre
             "                          # start
             (#{C})                     # $atts
-            ([^"]+?)                   # $text
+            ([^"\n]+?)                 # $text
             \s?
             (?:\(([^)]+?)\)(?="))?     # $title
             ":
-            (\S+?)                     # $url
+            ([\w\/]\S+?)               # $url
             (\/)?                      # $slash
             ([^\w\/;]*?)               # $post
             (?=<|\s|$)
@@ -784,7 +804,7 @@ class RedCloth < String
             atts << " title=\"#{ title }\"" if title
             atts = shelve( atts ) if atts
             
-            external = (url =~ /^http:\/\//) ? ' class="external"' : ''
+            external = (url =~ /^https?:\/\//) ? ' class="external"' : ''
             
             "#{ pre }<a#{ atts }#{ external }>#{ text }</a>#{ post }"
         end
@@ -1127,6 +1147,12 @@ class RedCloth < String
                 " "
             end
         end
+    end
+    
+    ALLOWED_TAGS = %w(redpre pre code notextile)
+    
+    def escape_html_tags(text)
+      text.gsub!(%r{<(\/?([!\w]+)[^<>\n]*)(>?)}) {|m| ALLOWED_TAGS.include?($2) ? "<#{$1}#{$3}" : "&lt;#{$1}#{'&gt;' unless $3.blank?}" }
     end
 end
 

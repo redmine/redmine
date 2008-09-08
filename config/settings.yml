@@ -37,8 +37,15 @@ attachment_max_size:
 issues_export_limit:
   format: int
   default: 500
+activity_days_default:
+  format: int
+  default: 30
+per_page_options:
+  default: '25,50,100'
 mail_from:
-  default: redmine@somenet.foo
+  default: redmine@example.net
+bcc_recipients:
+  default: 1
 text_formatting:
   default: textile
 wiki_compression:
@@ -52,6 +59,15 @@ protocol:
 feeds_limit:
   format: int
   default: 15
+enabled_scm:
+  serialized: true
+  default: 
+  - Subversion
+  - Darcs
+  - Mercurial
+  - Cvs
+  - Bazaar
+  - Git
 autofetch_changesets:
   default: 1
 sys_api_enabled:
@@ -75,30 +91,46 @@ date_format:
   default: ''
 time_format:
   default: ''
+user_format:
+  default: :firstname_lastname
+  format: symbol
 cross_project_issue_relations:
   default: 0
 notified_events:
   serialized: true
-  default: --
+  default: 
   - issue_added
   - issue_updated
+mail_handler_api_enabled:
+  default: 0
+mail_handler_api_key:
+  default: 
 issue_list_default_columns:
   serialized: true
-  default: --
+  default: 
   - tracker
   - status
   - priority
   - subject
   - assigned_to
   - updated_on
+display_subprojects_issues:
+  default: 1
+default_projects_public:
+  default: 1
+sequential_project_identifiers:
+  default: 0
 # encodings used to convert repository files content to UTF-8
 # multiple values accepted, comma separated
 repositories_encodings:
   default: ''
+# encoding used to convert commit logs to UTF-8
+commit_logs_encoding:
+  default: 'UTF-8'
 ui_theme:
   default: ''
 emails_footer:
   default: |-
-    You have received this notification because you have either subscribed to it, or are involved in.
+    You have received this notification because you have either subscribed to it, or are involved in it.
     To change your notification preferences, please click here: http://hostname/my/account
   

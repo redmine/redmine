@@ -16,7 +16,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class BoardsController < ApplicationController
-  layout 'base'
   before_filter :find_project, :authorize
 
   helper :messages
@@ -40,8 +39,8 @@ class BoardsController < ApplicationController
     sort_update	
       
     @topic_count = @board.topics.count
-    @topic_pages = Paginator.new self, @topic_count, 25, params['page']
-    @topics =  @board.topics.find :all, :order => sort_clause,
+    @topic_pages = Paginator.new self, @topic_count, per_page_option, params['page']
+    @topics =  @board.topics.find :all, :order => "#{Message.table_name}.sticky DESC, #{sort_clause}",
                                   :include => [:author, {:last_reply => :author}],
                                   :limit  =>  @topic_pages.items_per_page,
                                   :offset =>  @topic_pages.current.offset

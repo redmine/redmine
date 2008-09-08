@@ -16,7 +16,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class CustomFieldsController < ApplicationController
-  layout 'base'		
   before_filter :require_admin
 
   def index
@@ -39,6 +38,8 @@ class CustomFieldsController < ApplicationController
         @custom_field = UserCustomField.new(params[:custom_field])
       when "ProjectCustomField" 
         @custom_field = ProjectCustomField.new(params[:custom_field])
+      when "TimeEntryCustomField" 
+        @custom_field = TimeEntryCustomField.new(params[:custom_field])
       else
         redirect_to :action => 'list'
         return

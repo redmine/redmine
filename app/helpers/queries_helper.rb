@@ -22,7 +22,9 @@ module QueriesHelper
   end
   
   def column_header(column)
-    column.sortable ? sort_header_tag(column.sortable, :caption => column.caption) : content_tag('th', column.caption)
+    column.sortable ? sort_header_tag(column.sortable, :caption => column.caption,
+                                                       :default_order => column.default_order) : 
+                      content_tag('th', column.caption)
   end
   
   def column_content(column, issue)
@@ -38,7 +40,7 @@ module QueriesHelper
       else
         case column.name
         when :subject
-        ((@project.nil? || @project != issue.project) ? "#{issue.project.name} - " : '') +
+        h((@project.nil? || @project != issue.project) ? "#{issue.project.name} - " : '') +
           link_to(h(value), :controller => 'issues', :action => 'show', :id => issue)
         when :done_ratio
           progress_bar(value, :width => '80px')

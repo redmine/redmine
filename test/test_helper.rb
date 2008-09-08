@@ -49,25 +49,19 @@ class Test::Unit::TestCase
     assert_equal nil, session[:user_id]
     assert_response :success
     assert_template "account/login"
-    post "/account/login", :login => login, :password => password
+    post "/account/login", :username => login, :password => password
     assert_redirected_to "my/page"
     assert_equal login, User.find(session[:user_id]).login
   end
-end
-
-
-# ActionController::TestUploadedFile bug
-# see http://dev.rubyonrails.org/ticket/4635
-class String
-  def original_filename
-    "testfile.txt"
+  
+  def test_uploaded_file(name, mime)
+    ActionController::TestUploadedFile.new(Test::Unit::TestCase.fixture_path + "/files/#{name}", mime)
   end
   
-  def content_type
-    "text/plain"
-  end
-  
-  def read
-    self.to_s
+  # Use a temporary directory for attachment related tests
+  def set_tmp_attachments_directory
+    Dir.mkdir "#{RAILS_ROOT}/tmp/test" unless File.directory?("#{RAILS_ROOT}/tmp/test")
+    Dir.mkdir "#{RAILS_ROOT}/tmp/test/attachments" unless File.directory?("#{RAILS_ROOT}/tmp/test/attachments")
+    Attachment.storage_path = "#{RAILS_ROOT}/tmp/test/attachments"
   end
 end

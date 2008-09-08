@@ -15,18 +15,19 @@
 <%= text_field 'auth_source', 'account'  %></p>
 
 <p><label for="auth_source_account_password"><%=l(:field_password)%></label>
-<%= password_field 'auth_source', 'account_password'  %></p>
+<%= password_field 'auth_source', 'account_password', :name => 'ignore',
+                                           :value => ((@auth_source.new_record? || @auth_source.account_password.blank?) ? '' : ('x'*15)),
+                                           :onfocus => "this.value=''; this.name='auth_source[account_password]';",
+                                           :onchange => "this.name='auth_source[account_password]';" %></p>
 
 <p><label for="auth_source_base_dn"><%=l(:field_base_dn)%> <span class="required">*</span></label>
 <%= text_field 'auth_source', 'base_dn', :size => 60 %></p>
-</div>
 
-<div class="box">
 <p><label for="auth_source_onthefly_register"><%=l(:field_onthefly)%></label>
 <%= check_box 'auth_source', 'onthefly_register' %></p>
+</div>
 
-<p>
-<fieldset><legend><%=l(:label_attribute_plural)%></legend>
+<fieldset class="box"><legend><%=l(:label_attribute_plural)%></legend>
 <p><label for="auth_source_attr_login"><%=l(:field_login)%> <span class="required">*</span></label>
 <%= text_field 'auth_source', 'attr_login', :size => 20  %></p>
 
@@ -39,7 +40,5 @@
 <p><label for="auth_source_attr_mail"><%=l(:field_mail)%></label>
 <%= text_field 'auth_source', 'attr_mail', :size => 20  %></p>
 </fieldset>
-</p>
-</div>
 <!--[eoform:auth_source]-->
 

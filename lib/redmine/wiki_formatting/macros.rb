@@ -62,7 +62,7 @@ module Redmine
       end
           
       # Builtin macros
-      desc "Example macro."
+      desc "Sample macro."
       macro :hello_world do |obj, args|
         "Hello world! Object: #{obj.class.name}, " + (args.empty? ? "Called with no argument." : "Arguments: #{args.join(', ')}")
       end
@@ -72,9 +72,35 @@ module Redmine
         out = ''
         @@available_macros.keys.collect(&:to_s).sort.each do |macro|
           out << content_tag('dt', content_tag('code', macro))
-          out << content_tag('dd', simple_format(@@available_macros[macro.to_sym]))
+          out << content_tag('dd', textilizable(@@available_macros[macro.to_sym]))
         end
         content_tag('dl', out)
+      end
+      
+      desc "Displays a list of child pages."
+      macro :child_pages do |obj, args|
+        raise 'This macro applies to wiki pages only.' unless obj.is_a?(WikiContent)
+        render_page_hierarchy(obj.page.descendants.group_by(&:parent_id), obj.page.id)
+      end
+      
+      desc "Include a wiki page. Example:\n\n  !{{include(Foo)}}\n\nor to include a page of a specific project wiki:\n\n  !{{include(projectname:Foo)}}"
+      macro :include do |obj, args|
+        project = @project
+        title = args.first.to_s
+        if title =~ %r{^([^\:]+)\:(.*)$}
+          project_identifier, title = $1, $2
+          project = Project.find_by_identifier(project_identifier) || Project.find_by_name(project_identifier)
+        end
+        raise 'Unknow project' unless project && User.current.allowed_to?(:view_wiki_pages, project)
+        raise 'No wiki for this project' unless !project.wiki.nil?
+        page = project.wiki.find_page(title)
+        raise "Page #{args.first} doesn't exist" unless page && page.content
+        @included_wiki_pages ||= []
+        raise 'Circular inclusion detected' if @included_wiki_pages.include?(page.title)
+        @included_wiki_pages << page.title
+        out = textilizable(page.content, :text, :attachments => page.attachments)
+        @included_wiki_pages.pop
+        out
       end
     end
   end

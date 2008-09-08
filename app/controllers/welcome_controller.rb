@@ -16,10 +16,9 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class WelcomeController < ApplicationController
-  layout 'base'
 
   def index
-    @news = News.latest logged_in_user
-    @projects = Project.latest logged_in_user
+    @news = News.latest User.current
+    @projects = Project.latest User.current
   end
 end

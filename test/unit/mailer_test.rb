@@ -18,7 +18,26 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class MailerTest < Test::Unit::TestCase
-  fixtures :projects, :issues, :users, :members, :documents, :attachments, :news, :tokens, :journals, :journal_details, :trackers, :issue_statuses, :enumerations
+  fixtures :projects, :issues, :users, :members, :documents, :attachments, :news, :tokens, :journals, :journal_details, :changesets, :trackers, :issue_statuses, :enumerations
+  
+  def test_generated_links_in_emails
+    ActionMailer::Base.deliveries.clear
+    Setting.host_name = 'mydomain.foo'
+    Setting.protocol = 'https'
+    
+    journal = Journal.find(2)
+    assert Mailer.deliver_issue_edit(journal)
+    
+    mail = ActionMailer::Base.deliveries.last
+    assert_kind_of TMail::Mail, mail
+    # link to the main ticket
+    assert mail.body.include?('<a href="https://mydomain.foo/issues/show/1">Bug #1: Can\'t print recipes</a>')
+    
+    # link to a referenced ticket
+    assert mail.body.include?('<a href="https://mydomain.foo/issues/show/2" class="issue" title="Add ingredients categories (Assigned)">#2</a>')
+    # link to a changeset
+    assert mail.body.include?('<a href="https://mydomain.foo/repositories/revision/ecookbook/2" class="changeset" title="This commit fixes #1, #2 and references #1 &amp; #3">r2</a>')
+  end
   
   # test mailer methods for each language
   def test_issue_add
@@ -96,5 +115,14 @@ class MailerTest < Test::Unit::TestCase
       token.reload
       assert Mailer.deliver_register(token)
     end
+  end
+  
+  def test_reminders
+    ActionMailer::Base.deliveries.clear
+    Mailer.reminders(:days => 42)
+    assert_equal 1, ActionMailer::Base.deliveries.size
+    mail = ActionMailer::Base.deliveries.last
+    assert mail.bcc.include?('dlopper@somenet.foo')
+    assert mail.body.include?('Bug #3: Error 281 when updating a recipe')
   end
 end

@@ -23,17 +23,20 @@ class Journal < ActiveRecord::Base
   
   belongs_to :user
   has_many :details, :class_name => "JournalDetail", :dependent => :delete_all
+  attr_accessor :indice
   
-  acts_as_searchable :columns => 'notes',
-                     :include => :issue,
-                     :project_key => "#{Issue.table_name}.project_id",
-                     :date_column => "#{Issue.table_name}.created_on"
-  
-  acts_as_event :title => Proc.new {|o| "#{o.issue.tracker.name} ##{o.issue.id}: #{o.issue.subject}" + ((s = o.new_status) ? " (#{s})" : '') },
+  acts_as_event :title => Proc.new {|o| status = ((s = o.new_status) ? " (#{s})" : nil); "#{o.issue.tracker} ##{o.issue.id}#{status}: #{o.issue.subject}" },
                 :description => :notes,
                 :author => :user,
-                :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.issue.id}}
+                :type => Proc.new {|o| (s = o.new_status) ? (s.is_closed? ? 'issue-closed' : 'issue-edit') : 'issue-note' },
+                :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.issue.id, :anchor => "change-#{o.id}"}}
 
+  acts_as_activity_provider :type => 'issues',
+                            :permission => :view_issues,
+                            :find_options => {:include => [{:issue => :project}, :details, :user],
+                                              :conditions => "#{Journal.table_name}.journalized_type = 'Issue' AND" +
+                                                             " (#{JournalDetail.table_name}.prop_key = 'status_id' OR #{Journal.table_name}.notes <> '')"}
+  
   def save
     # Do not save an empty journal
     (details.empty? && notes.blank?) ? false : super
@@ -43,5 +46,22 @@ class Journal < ActiveRecord::Base
   def new_status
     c = details.detect {|detail| detail.prop_key == 'status_id'}
     (c && c.value) ? IssueStatus.find_by_id(c.value.to_i) : nil
+  end
+  
+  def new_value_for(prop)
+    c = details.detect {|detail| detail.prop_key == prop}
+    c ? c.value : nil
+  end
+  
+  def editable_by?(usr)
+    usr && usr.logged? && (usr.allowed_to?(:edit_issue_notes, project) || (self.user == usr && usr.allowed_to?(:edit_own_issue_notes, project)))
+  end
+  
+  def project
+    journalized.respond_to?(:project) ? journalized.project : nil
+  end
+  
+  def attachments
+    journalized.respond_to?(:attachments) ? journalized.attachments : nil
   end
 end

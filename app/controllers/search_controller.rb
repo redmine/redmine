@@ -16,7 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class SearchController < ApplicationController
-  layout 'base'
+  before_filter :find_optional_project
 
   helper :messages
   include MessagesHelper
@@ -27,73 +27,78 @@ class SearchController < ApplicationController
     @all_words = params[:all_words] || (params[:submit] ? false : true)
     @titles_only = !params[:titles_only].nil?
     
+    projects_to_search =
+      case params[:scope]
+      when 'all'
+        nil
+      when 'my_projects'
+        User.current.memberships.collect(&:project)
+      when 'subprojects'
+        @project ? ([ @project ] + @project.active_children) : nil
+      else
+        @project
+      end
+          
     offset = nil
     begin; offset = params[:offset].to_time if params[:offset]; rescue; end
     
     # quick jump to an issue
-    if @question.match(/^#?(\d+)$/) && Issue.find_by_id($1, :include => :project, :conditions => Project.visible_by(logged_in_user))
+    if @question.match(/^#?(\d+)$/) && Issue.find_by_id($1, :include => :project, :conditions => Project.visible_by(User.current))
       redirect_to :controller => "issues", :action => "show", :id => $1
       return
     end
     
-    if params[:id]
-      find_project
-      return unless check_project_privacy
-    end
-    
-    if @project
+    @object_types = %w(issues news documents changesets wiki_pages messages projects)
+    if projects_to_search.is_a? Project
+      # don't search projects
+      @object_types.delete('projects')
       # only show what the user is allowed to view
-      @object_types = %w(issues news documents changesets wiki_pages messages)
-      @object_types = @object_types.select {|o| User.current.allowed_to?("view_#{o}".to_sym, @project)}
-      
-      @scope = @object_types.select {|t| params[t]}
-      @scope = @object_types if @scope.empty?
-    else
-      @object_types = @scope = %w(projects)
+      @object_types = @object_types.select {|o| User.current.allowed_to?("view_#{o}".to_sym, projects_to_search)}
     end
+      
+    @scope = @object_types.select {|t| params[t]}
+    @scope = @object_types if @scope.empty?
     
+    # extract tokens from the question
+    # eg. hello "bye bye" => ["hello", "bye bye"]
+    @tokens = @question.scan(%r{((\s|^)"[\s\w]+"(\s|$)|\S+)}).collect {|m| m.first.gsub(%r{(^\s*"\s*|\s*"\s*$)}, '')}
     # tokens must be at least 3 character long
-    @tokens = @question.split.uniq.select {|w| w.length > 2 }
+    @tokens = @tokens.uniq.select {|w| w.length > 2 }
     
     if !@tokens.empty?
       # no more than 5 tokens to search for
       @tokens.slice! 5..-1 if @tokens.size > 5
       # strings used in sql like statement
       like_tokens = @tokens.collect {|w| "%#{w.downcase}%"}      
+      
       @results = []
+      @results_by_type = Hash.new {|h,k| h[k] = 0}
+      
       limit = 10
-      if @project        
-        @scope.each do |s|
-          @results += s.singularize.camelcase.constantize.search(like_tokens, @project,
-            :all_words => @all_words,
-            :titles_only => @titles_only,
-            :limit => (limit+1),
-            :offset => offset,
-            :before => params[:previous].nil?)
-        end
-        @results = @results.sort {|a,b| b.event_datetime <=> a.event_datetime}
-        if params[:previous].nil?
-          @pagination_previous_date = @results[0].event_datetime if offset && @results[0]
-          if @results.size > limit
-            @pagination_next_date = @results[limit-1].event_datetime 
-            @results = @results[0, limit]
-          end
-        else
-          @pagination_next_date = @results[-1].event_datetime if offset && @results[-1]
-          if @results.size > limit
-            @pagination_previous_date = @results[-(limit)].event_datetime 
-            @results = @results[-(limit), limit]
-          end
+      @scope.each do |s|
+        r, c = s.singularize.camelcase.constantize.search(like_tokens, projects_to_search,
+          :all_words => @all_words,
+          :titles_only => @titles_only,
+          :limit => (limit+1),
+          :offset => offset,
+          :before => params[:previous].nil?)
+        @results += r
+        @results_by_type[s] += c
+      end
+      @results = @results.sort {|a,b| b.event_datetime <=> a.event_datetime}
+      if params[:previous].nil?
+        @pagination_previous_date = @results[0].event_datetime if offset && @results[0]
+        if @results.size > limit
+          @pagination_next_date = @results[limit-1].event_datetime 
+          @results = @results[0, limit]
         end
       else
-        operator = @all_words ? ' AND ' : ' OR '
-        Project.with_scope(:find => {:conditions => Project.visible_by(logged_in_user)}) do
-          @results += Project.find(:all, :limit => limit, :conditions => [ (["(LOWER(name) like ? OR LOWER(description) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort] ) if @scope.include? 'projects'
+        @pagination_next_date = @results[-1].event_datetime if offset && @results[-1]
+        if @results.size > limit
+          @pagination_previous_date = @results[-(limit)].event_datetime 
+          @results = @results[-(limit), limit]
         end
-        # if only one project is found, user is redirected to its overview
-        redirect_to :controller => 'projects', :action => 'show', :id => @results.first and return if @results.size == 1
       end
-      @question = @tokens.join(" ")
     else
       @question = ""
     end
@@ -101,8 +106,10 @@ class SearchController < ApplicationController
   end
 
 private  
-  def find_project
+  def find_optional_project
+    return true unless params[:id]
     @project = Project.find(params[:id])
+    check_project_privacy
   rescue ActiveRecord::RecordNotFound
     render_404
   end

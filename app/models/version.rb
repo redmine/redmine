@@ -23,7 +23,7 @@ class Version < ActiveRecord::Base
 
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => [:project_id]
-  validates_length_of :name, :maximum => 30
+  validates_length_of :name, :maximum => 60
   validates_format_of :effective_date, :with => /^\d{4}-\d{2}-\d{2}$/, :message => :activerecord_error_not_a_date, :allow_nil => true
   
   def start_date
@@ -32,6 +32,16 @@ class Version < ActiveRecord::Base
   
   def due_date
     effective_date
+  end
+  
+  # Returns the total estimated time for this version
+  def estimated_hours
+    @estimated_hours ||= fixed_issues.sum(:estimated_hours).to_f
+  end
+  
+  # Returns the total reported time for this version
+  def spent_hours
+    @spent_hours ||= TimeEntry.sum(:hours, :include => :issue, :conditions => ["#{Issue.table_name}.fixed_version_id = ?", id]).to_f
   end
   
   # Returns true if the version is completed: due date reached and no open issues
@@ -46,6 +56,14 @@ class Version < ActiveRecord::Base
       100
     else
       (closed_issues_count * 100 + Issue.sum('done_ratio', :include => 'status', :conditions => ["fixed_version_id = ? AND is_closed = ?", id, false]).to_f) / fixed_issues.count
+    end
+  end
+  
+  def closed_pourcent
+    if fixed_issues.count == 0
+      0
+    else
+      closed_issues_count * 100.0 / fixed_issues.count
     end
   end
   
@@ -71,11 +89,11 @@ class Version < ActiveRecord::Base
   
   def to_s; name end
   
-  # Versions are sorted by effective_date 
+  # Versions are sorted by effective_date and name
   # Those with no effective_date are at the end, sorted by name
   def <=>(version)
     if self.effective_date
-      version.effective_date ? (self.effective_date <=> version.effective_date) : -1
+      version.effective_date ? (self.effective_date == version.effective_date ? self.name <=> version.name : self.effective_date <=> version.effective_date) : -1
     else
       version.effective_date ? 1 : (self.name <=> version.name)
     end
