@@ -62,6 +62,8 @@ class Project < ActiveRecord::Base
   validates_format_of :identifier, :with => /^[a-z0-9\-]*$/
   
   before_destroy :delete_all_members
+
+  named_scope :repository_enabled, { :include => :enabled_modules, :conditions => ['enabled_modules.name=?', 'repository'] }
   
   def identifier=(identifier)
     super unless identifier_frozen?

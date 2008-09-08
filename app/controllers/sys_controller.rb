@@ -23,8 +23,8 @@ class SysController < ActionController::Base
   before_invocation :check_enabled
   
   # Returns the projects list, with their repositories
-  def projects
-    Project.find(:all, :include => :repository)
+  def projects_with_repository_enabled
+    Project.repository_enabled(:all, :include => :repository)
   end
 
   # Registers a repository for the given project identifier

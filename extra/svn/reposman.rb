@@ -37,6 +37,13 @@
 #    -u file:///var/svn/                       # if the repository is local
 #    if this option isn't set, reposman won't register the repository
 #
+# -c, --command=COMMAND
+#    the default is to create an subversion repository. You can use this command
+#    to create another kind of repository
+#
+# -f, --force
+#    force repository creation even if a repository is already declared in redmine.
+#
 # -t, --test
 #    only show what should be done
 #
@@ -66,7 +73,9 @@ opts = GetoptLong.new(
                       ['--redmine-host', '-r', GetoptLong::REQUIRED_ARGUMENT],
                       ['--owner',        '-o', GetoptLong::REQUIRED_ARGUMENT],
                       ['--url',          '-u', GetoptLong::REQUIRED_ARGUMENT],
+                      ['--command' ,     '-c', GetoptLong::REQUIRED_ARGUMENT],
                       ['--test',         '-t', GetoptLong::NO_ARGUMENT],
+                      ['--force',        '-f', GetoptLong::NO_ARGUMENT],
                       ['--verbose',      '-v', GetoptLong::NO_ARGUMENT],
                       ['--version',      '-V', GetoptLong::NO_ARGUMENT],
                       ['--help'   ,      '-h', GetoptLong::NO_ARGUMENT],
@@ -81,6 +90,8 @@ $svn_owner    = 'root'
 $use_groupid  = true
 $svn_url      = false
 $test         = false
+$command      = "svnadmin create"
+$force        = false
 
 def log(text,level=0, exit=false)
   return if $quiet or level > $verbose
@@ -95,8 +106,10 @@ begin
     when '--redmine-host';   $redmine_host = arg.dup
     when '--owner';          $svn_owner    = arg.dup; $use_groupid = false;
     when '--url';            $svn_url      = arg.dup
+    when '--command';        $command =      arg.dup
     when '--verbose';        $verbose += 1
     when '--test';           $test = true
+    when '--force';          $force = true
     when '--version';        puts Version; exit
     when '--help';           RDoc::usage
     when '--quiet';          $quiet = true
@@ -133,7 +146,7 @@ rescue => e
   log("Unable to connect to #{wsdl_url} : #{e}", 0, true)
 end
 
-projects = soap.Projects
+projects = soap.ProjectsWithRepositoryEnabled
 
 if projects.nil?
   log('no project found, perhaps you forgot to "Enable WS for repository management"', 0, true)
@@ -201,6 +214,13 @@ projects.each do |project|
     log("\tmode change on #{repos_path}");
 
   else
+    # if repository is already declared in redmine, we don't create
+    # unless user use -f with reposman
+    if $force == false and not project.repository.nil?
+      log("\trepository for project #{project.identifier} already exists in Redmine", 1)
+      next
+    end
+
     project.is_public ? File.umask(0002) : File.umask(0007)
 
     if $test
@@ -211,7 +231,8 @@ projects.each do |project|
 
     begin
       set_owner_and_rights(project, repos_path) do
-        raise "svnadmin create #{repos_path} failed" unless system("svnadmin", "create", repos_path)
+        command = "#{$command} #{repos_path}"
+        raise "#{command} failed" unless system( command  )
       end
     rescue => e
       log("\tunable to create #{repos_path} : #{e}\n")
