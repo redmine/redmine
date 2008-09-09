@@ -63,7 +63,7 @@ class Project < ActiveRecord::Base
   
   before_destroy :delete_all_members
 
-  named_scope :repository_enabled, { :include => :enabled_modules, :conditions => ['enabled_modules.name=?', 'repository'] }
+  named_scope :repository_enabled, { :include => :enabled_modules, :conditions => ["#{EnabledModule.table_name}.name=?", 'repository'] }
   
   def identifier=(identifier)
     super unless identifier_frozen?
