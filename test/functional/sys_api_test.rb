@@ -41,8 +41,10 @@ class SysControllerTest < Test::Unit::TestCase
   def test_repository_created
     project = Project.find(3)
     assert_nil project.repository
-    assert invoke(:repository_created, project.identifier, 'http://localhost/svn')
+    assert invoke(:repository_created, project.identifier, 'Subversion', 'http://localhost/svn')
     project.reload
     assert_not_nil project.repository
+    assert project.repository.is_a?(Repository::Subversion)
+    assert_equal 'http://localhost/svn', project.repository.url
   end
 end

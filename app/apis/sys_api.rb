@@ -28,6 +28,6 @@ class SysApi < ActionWebService::API::Base
              :expects => [],
              :returns => [[AWSProjectWithRepository]]
   api_method :repository_created,
-             :expects => [:string, :string],
+             :expects => [:string, :string, :string],
              :returns => [:int]
 end

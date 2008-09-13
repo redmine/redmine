@@ -92,6 +92,7 @@ $svn_url      = false
 $test         = false
 $command      = "svnadmin create"
 $force        = false
+$repository_vendor = 'Subversion'
 
 def log(text,level=0, exit=false)
   return if $quiet or level > $verbose
@@ -240,7 +241,7 @@ projects.each do |project|
     end
 
     if $svn_url
-      ret = soap.RepositoryCreated project.identifier, "#{$svn_url}#{project.identifier}"
+      ret = soap.RepositoryCreated project.identifier, $repository_vendor, "#{$svn_url}#{project.identifier}"
       if ret > 0
         log("\trepository #{repos_path} registered in Redmine with url #{$svn_url}#{project.identifier}");
       else

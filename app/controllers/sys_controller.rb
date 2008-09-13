@@ -28,13 +28,12 @@ class SysController < ActionController::Base
   end
 
   # Registers a repository for the given project identifier
-  # (Subversion specific)
-  def repository_created(identifier, url)
+  def repository_created(identifier, vendor, url)
     project = Project.find_by_identifier(identifier)
     # Do not create the repository if the project has already one
     return 0 unless project && project.repository.nil?
     logger.debug "Repository for #{project.name} was created"
-    repository = Repository.factory('Subversion', :project => project, :url => url)
+    repository = Repository.factory(vendor, :project => project, :url => url)
     repository.save
     repository.id || 0
   end
