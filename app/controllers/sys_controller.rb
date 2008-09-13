@@ -24,7 +24,7 @@ class SysController < ActionController::Base
   
   # Returns the projects list, with their repositories
   def projects_with_repository_enabled
-    Project.repository_enabled(:all, :include => :repository, :order => 'identifier')
+    Project.has_module(:repository).find(:all, :include => :repository, :order => 'identifier')
   end
 
   # Registers a repository for the given project identifier
