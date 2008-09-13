@@ -1,4 +1,4 @@
-class AddRepositoryWriteAccess < ActiveRecord::Migration
+class AddCommitAccessPermission < ActiveRecord::Migration
 
   def self.up
 	Role.find(:all).select { |r| not r.builtin? }.each do |r|
