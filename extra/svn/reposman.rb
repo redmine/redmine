@@ -37,6 +37,12 @@
 #    -u file:///var/svn/                       # if the repository is local
 #    if this option isn't set, reposman won't register the repository
 #
+# --scm
+#    SCM vendor used to register the repository in Redmine (default: Subversion)
+#    Can be one of the other supported SCM: Bazaar, Cvs, Darcs, Filesystem, Git, Mercurial (case sensitive).
+#    This option should be used when using --command to create another kind
+#    of repository.
+#    
 # -c, --command=COMMAND
 #    the default is to create an subversion repository. You can use this command
 #    to create another kind of repository
@@ -73,6 +79,7 @@ opts = GetoptLong.new(
                       ['--redmine-host', '-r', GetoptLong::REQUIRED_ARGUMENT],
                       ['--owner',        '-o', GetoptLong::REQUIRED_ARGUMENT],
                       ['--url',          '-u', GetoptLong::REQUIRED_ARGUMENT],
+                      ['--scm',                GetoptLong::REQUIRED_ARGUMENT],
                       ['--command' ,     '-c', GetoptLong::REQUIRED_ARGUMENT],
                       ['--test',         '-t', GetoptLong::NO_ARGUMENT],
                       ['--force',        '-f', GetoptLong::NO_ARGUMENT],
@@ -92,7 +99,7 @@ $svn_url      = false
 $test         = false
 $command      = "svnadmin create"
 $force        = false
-$repository_vendor = 'Subversion'
+$scm          = 'Subversion'
 
 def log(text,level=0, exit=false)
   return if $quiet or level > $verbose
@@ -107,6 +114,7 @@ begin
     when '--redmine-host';   $redmine_host = arg.dup
     when '--owner';          $svn_owner    = arg.dup; $use_groupid = false;
     when '--url';            $svn_url      = arg.dup
+    when '--scm';            $scm          = arg.dup
     when '--command';        $command =      arg.dup
     when '--verbose';        $verbose += 1
     when '--test';           $test = true
@@ -241,7 +249,7 @@ projects.each do |project|
     end
 
     if $svn_url
-      ret = soap.RepositoryCreated project.identifier, $repository_vendor, "#{$svn_url}#{project.identifier}"
+      ret = soap.RepositoryCreated project.identifier, $scm, "#{$svn_url}#{project.identifier}"
       if ret > 0
         log("\trepository #{repos_path} registered in Redmine with url #{$svn_url}#{project.identifier}");
       else
