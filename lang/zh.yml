@@ -641,3 +641,5 @@ default_activity_development: 开发
 enumeration_issue_priorities: 问题优先级
 enumeration_doc_categories: 文档类别
 enumeration_activities: 活动（时间跟踪）
+setting_repositories_cache_directory: Cache directory for repositories
+field_cache: Local cache

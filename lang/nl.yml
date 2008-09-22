@@ -643,3 +643,5 @@ setting_sequential_project_identifiers: Genereer sequentiele project identiteite
 notice_unable_delete_version: Onmogelijk om deze versie te verwijderen.
 label_renamed: hernoemt
 label_copied: gekopieerd
+setting_repositories_cache_directory: Cache directory for repositories
+field_cache: Local cache

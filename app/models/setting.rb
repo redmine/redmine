@@ -161,4 +161,14 @@ private
     setting = find_by_name(name)
     setting ||= new(:name => name, :value => @@available_settings[name]['default']) if @@available_settings.has_key? name
   end
+
+  protected
+
+  def validate
+    if self.name.to_s == "repositories_cache_directory" and not File.directory?(self.value.to_s)
+      logger.error("Le repertoire #{self.value.to_s} n'existe pas")
+      errors.add("Le repertoire #{self.value.to_s} n'existe pas")
+    end
+  end
+  
 end

@@ -641,3 +641,5 @@ setting_sequential_project_identifiers: Szekvenciális projekt azonosítók gene
 notice_unable_delete_version: A verziót nem lehet törölni
 label_renamed: átnevezve
 label_copied: lemásolva
+setting_repositories_cache_directory: Cache directory for repositories
+field_cache: Local cache

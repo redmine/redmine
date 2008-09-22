@@ -1,3 +1,4 @@
+
 # redMine - project management software
 # Copyright (C) 2006-2007  Jean-Philippe Lang
 #
@@ -19,14 +20,14 @@ class Repository < ActiveRecord::Base
   belongs_to :project
   has_many :changesets, :order => "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC"
   has_many :changes, :through => :changesets
-  
+
   # Raw SQL to delete changesets and changes in the database
   # has_many :changesets, :dependent => :destroy is too slow for big repositories
   before_destroy :clear_changesets
-  
+
   # Checks if the SCM is enabled when creating a repository
   validate_on_create { |r| r.errors.add(:type, :activerecord_error_invalid) unless Setting.enabled_scm.include?(r.class.name.demodulize) }
-  
+
   # Removes leading and trailing whitespace
   def url=(arg)
     write_attribute(:url, arg ? arg.to_s.strip : nil)
@@ -38,7 +39,8 @@ class Repository < ActiveRecord::Base
   end
 
   def scm
-    @scm ||= self.scm_adapter.new url, root_url, login, password
+    init_cache if cache_path.blank? and respond_to?(:init_cache)
+    @scm ||= self.scm_adapter.new(url, root_url, login, password, cache_path)
     update_attribute(:root_url, @scm.root_url) if root_url.blank?
     @scm
   end
@@ -122,9 +124,28 @@ class Repository < ActiveRecord::Base
   rescue
     nil
   end
-  
+
+  def remove_cache
+    scm.remove_cache if cache
+  end
+
+  def create_or_sync_cache
+    begin
+      scm.create_cache 
+    rescue => e
+      # clean if problem in creation
+      scm.remove_cache
+    end
+    scm.synchronize
+  end
+
   private
-  
+
+  def repositories_cache_directory
+    dir = Setting.repositories_cache_directory.gsub(/^([^#{File::SEPARATOR}].*)/, RAILS_ROOT + '/\1')
+    return dir if File.directory?(dir)
+  end
+
   def before_save
     # Strips url and root_url
     url.strip!

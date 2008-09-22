@@ -640,3 +640,5 @@ setting_commit_logs_encoding: Commit messages encoding
 notice_unable_delete_version: Unable to delete version
 label_renamed: renamed
 label_copied: copied
+setting_repositories_cache_directory: Cache directory for repositories
+field_cache: Local cache

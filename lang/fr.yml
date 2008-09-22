@@ -221,6 +221,7 @@ setting_enabled_scm: SCM activés
 setting_mail_handler_api_enabled: "Activer le WS pour la réception d'emails"
 setting_mail_handler_api_key: Clé de protection de l'API
 setting_sequential_project_identifiers: Générer des identifiants de projet séquentiels
+setting_repositories_cache_directory: Répertoire du cache pour les dépôts
 
 project_module_issue_tracking: Suivi des demandes
 project_module_time_tracking: Suivi du temps passé
@@ -641,3 +642,4 @@ enumeration_issue_priorities: Priorités des demandes
 enumeration_doc_categories: Catégories des documents
 enumeration_activities: Activités (suivi du temps)
 notice_unable_delete_version: Unable to delete version
+field_cache: Cache local

@@ -642,3 +642,5 @@ setting_sequential_project_identifiers: Generate sequential project identifiers
 notice_unable_delete_version: Unable to delete version
 label_renamed: renamed
 label_copied: copied
+setting_repositories_cache_directory: Cache directory for repositories
+field_cache: Local cache

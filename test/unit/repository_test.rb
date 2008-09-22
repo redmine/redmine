@@ -127,4 +127,26 @@ class RepositoryTest < Test::Unit::TestCase
     assert_equal ':pserver:login:password@host:/path/to/the/repository', repository.url
     assert_equal 'foo', repository.root_url
   end
+
+  def test_local_cache
+    dir = Setting.repositories_cache_directory.gsub(/^([^#{File::SEPARATOR}].*)/, RAILS_ROOT + '/\1')
+
+    project = projects(:projects_001)
+
+    repository = Repository::Git.new(:project => Project.find_by_name(project.name), :url => "git://github.com/olabini/paipr.git")
+    repository.scm
+    assert_equal(dir + project.identifier, repository.cache_path)
+
+    repository = Repository::Git.new(:project => Project.find(:first), :url => "/var/cache/git/paipr/.git")
+    repository.init_cache
+    assert repository.cache_path.blank?
+
+    repository = Repository::Subversion.new(:project => Project.find(:first), :url => "svn://github.com/olabini/paipr.git")
+    repository.init_cache
+    assert repository.cache_path.blank?
+
+    repository = Repository::Subversion.new(:project => Project.find_by_name(project.name), :url => "svn://github.com/olabini/paipr.git", :cache => true)
+    repository.init_cache
+    assert_equal(dir + project.identifier, repository.cache_path)
+  end
 end

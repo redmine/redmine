@@ -47,11 +47,17 @@ module Redmine
           end
         end
                 
-        def initialize(url, root_url=nil, login=nil, password=nil)
+        def initialize(url, root_url=nil, login=nil, password=nil, cache_path=nil)
           @url = url
           @login = login if login && !login.empty?
           @password = (password || "") if @login
-          @root_url = root_url.blank? ? retrieve_root_url : root_url
+
+          if cache_path.blank?
+            @root_url = root_url.blank? ? retrieve_root_url : root_url
+          else
+            @orig_url = @url
+            @url = @root_url = cache_path
+          end
         end
         
         def adapter_name
@@ -145,7 +151,22 @@ module Redmine
           end
         end
 
+        def remove_cache
+          remove_directory(@root_url) if not @orig_url.blank? and File.directory?(@root_url) 
+        end
+
       private
+        def remove_directory(path)
+          Dir.entries(path).each do |f|
+            next if %w[. ..].include?(f)
+            name = "#{path}/#{f}"
+            File.directory?(name) ? remove_directory(name)  : File.unlink(name)
+          end
+          Dir.rmdir path
+        rescue Errno::ENOENT => e
+          logger.error(e.to_s)
+        end
+
         def retrieve_root_url
           info = self.info
           info ? info.root_url : nil
@@ -194,7 +215,7 @@ module Redmine
           self.class.strip_credential(cmd)
         end
       end
-      
+
       class Entries < Array
         def sort_by_name
           sort {|x,y| 

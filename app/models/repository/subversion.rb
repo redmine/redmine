@@ -22,6 +22,16 @@ class Repository::Subversion < Repository
   validates_presence_of :url
   validates_format_of :url, :with => /^(http|https|svn|svn\+ssh|file):\/\/.+/i
 
+  before_destroy :remove_cache
+
+  def init_cache
+    return unless dir = repositories_cache_directory
+    # we need to use a cache only if repository isn't local and dir exists
+    if cache and url[/^(svn|https?|svn\+ssh):\/\//]
+      update_attribute(:cache_path, dir + project.identifier)
+    end
+  end
+
   def scm_adapter
     Redmine::Scm::Adapters::SubversionAdapter
   end
@@ -41,6 +51,8 @@ class Repository::Subversion < Repository
   end
   
   def fetch_changesets
+    create_or_sync_cache if cache
+
     scm_info = scm.info
     if scm_info
       # latest revision found in database

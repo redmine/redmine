@@ -642,3 +642,5 @@ field_comments: Comment
 setting_commit_logs_encoding: Commit messages encoding
 label_renamed: renamed
 label_copied: copied
+setting_repositories_cache_directory: Cache directory for repositories
+field_cache: Local cache

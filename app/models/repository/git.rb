@@ -21,6 +21,17 @@ class Repository::Git < Repository
   attr_protected :root_url
   validates_presence_of :url
 
+  before_destroy :remove_cache
+
+  def init_cache
+    return unless dir = repositories_cache_directory
+    # we need to use a cache only if repository isn't local and dir exists
+    if url[/^(rsync|https?|git|ssh):\/\//]
+      update_attribute(:cache_path, dir + project.identifier)
+      update_attribute(:cache, true)
+    end
+  end
+
   def scm_adapter
     Redmine::Scm::Adapters::GitAdapter
   end
@@ -36,6 +47,8 @@ class Repository::Git < Repository
   end
 
   def fetch_changesets
+    create_or_sync_cache if cache
+
     scm_info = scm.info
     if scm_info
       # latest revision found in database

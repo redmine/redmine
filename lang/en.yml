@@ -184,6 +184,7 @@ field_searchable: Searchable
 field_default_value: Default value
 field_comments_sorting: Display comments
 field_parent_title: Parent page
+field_cache: Local cache
 
 setting_app_title: Application title
 setting_app_subtitle: Application subtitle
@@ -221,6 +222,7 @@ setting_enabled_scm: Enabled SCM
 setting_mail_handler_api_enabled: Enable WS for incoming emails
 setting_mail_handler_api_key: API key
 setting_sequential_project_identifiers: Generate sequential project identifiers
+setting_repositories_cache_directory: Cache directory for repositories
 
 project_module_issue_tracking: Issue tracking
 project_module_time_tracking: Time tracking

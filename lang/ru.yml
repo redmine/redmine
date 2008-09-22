@@ -673,3 +673,5 @@ text_user_wrote: '%s написал(а):'
 text_wiki_destroy_confirmation: Вы уверены, что хотите удалить данную Wiki и все содержимое?
 text_workflow_edit: Выберите роль и трекер для редактирования последовательности состояний
 
+setting_repositories_cache_directory: Cache directory for repositories
+field_cache: Local cache

@@ -642,3 +642,5 @@ button_quote: Cituoti
 notice_unable_delete_version: Neimanoma panaikinti versiją
 label_renamed: pervardintas
 label_copied: nukopijuotas
+setting_repositories_cache_directory: Cache directory for repositories
+field_cache: Local cache

@@ -25,7 +25,7 @@ module Redmine
       
         # SVN executable name
         SVN_BIN = "svn"
-        
+
         class << self
           def client_version
             @@client_version ||= (svn_binary_version || [])
@@ -213,6 +213,18 @@ module Redmine
           return nil if $? && $?.exitstatus != 0
           blame
         end
+
+        def create_cache
+          return if @orig_url.blank?
+          cmd = "#{SVN_BIN} checkout --non-interactive #{@orig_url} #{@root_url}"
+          shellout(cmd) { |io| io.read }
+        end
+
+        def synchronize
+          return if @orig_url.blank?
+          cmd = "#{SVN_BIN} update --non-interactive"
+          Dir.chdir(@root_url) { shellout(cmd) { |io| io.read } }
+        end
         
         private
         
@@ -222,6 +234,7 @@ module Redmine
           str << " --password #{shell_quote(@password)}" unless @login.blank? || @password.blank?
           str
         end
+
       end
     end
   end

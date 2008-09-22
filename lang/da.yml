@@ -641,3 +641,5 @@ default_activity_development: Udvikling
 enumeration_issue_priorities: Sagsprioriteter
 enumeration_doc_categories: Dokumentkategorier
 enumeration_activities: Aktiviteter (tidsregistrering)
+setting_repositories_cache_directory: Cache directory for repositories
+field_cache: Local cache

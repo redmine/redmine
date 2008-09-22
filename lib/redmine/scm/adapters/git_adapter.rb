@@ -25,6 +25,11 @@ module Redmine
         # Git executable name
         GIT_BIN = "git"
 
+        def initialize(url, root_url=nil, login=nil, password=nil, cache_path=nil)
+          super(url, root_url, login, password, cache_path)
+          @url += "/.git/" unless cache_path.blank?
+        end
+
         # Get the revision of a particuliar file
         def get_rev (rev,path)
         
@@ -263,9 +268,20 @@ module Redmine
           return nil if $? && $?.exitstatus != 0
           cat
         end
+
+        def create_cache
+          cmd = "#{GIT_BIN} clone #{@orig_url} #{@root_url}"
+          shellout(cmd) { |io| io.read }
+        end
+
+        def synchronize
+          return unless File.directory?(@url)
+          cmd = "#{GIT_BIN} --git-dir #{@url} pull"
+          shellout(cmd)
+        end
+
       end
     end
   end
-
 end
 
