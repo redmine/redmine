@@ -26,6 +26,11 @@ module Redmine
         # SVN executable name
         SVN_BIN = "svn"
 
+        def initialize(url, root_url=nil, login=nil, password=nil, cache_path=nil)
+          super(url, root_url, login, password, cache_path)
+          @url = 'file://' + @url unless cache_path.blank?
+        end
+
         class << self
           def client_version
             @@client_version ||= (svn_binary_version || [])
@@ -216,14 +221,28 @@ module Redmine
 
         def create_cache
           return if @orig_url.blank?
-          cmd = "#{SVN_BIN} checkout --non-interactive #{@orig_url} #{@root_url}"
+          cmd = "svnadmin create #{@root_url}"
           shellout(cmd) { |io| io.read }
+
+          File.open("#{@root_url}/hooks/pre-revprop-change", "w") do |io|
+            io.puts <<'EOF'
+#!/bin/sh
+USER="$3"
+if [ "$USER" = "svnsync" ]; then exit 0; fi
+echo "Only the svnsync user can change revprops" >&2
+exit 1
+EOF
+end
+          File.chmod 0500, "#{root_url}/hooks/pre-revprop-change"
+          cmd = "svnsync init --username svnsync #{@url} #{@orig_url}"
+          shellout(cmd) { |io| io.read }
+          synchronize
         end
 
         def synchronize
           return if @orig_url.blank?
-          cmd = "#{SVN_BIN} update --non-interactive"
-          Dir.chdir(@root_url) { shellout(cmd) { |io| io.read } }
+          cmd = "svnsync sync #{@url}"
+          shellout(cmd) { |io| io.read }
         end
         
         private

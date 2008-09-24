@@ -142,8 +142,11 @@ class Repository < ActiveRecord::Base
   private
 
   def repositories_cache_directory
-    dir = Setting.repositories_cache_directory.gsub(/^([^#{File::SEPARATOR}].*)/, RAILS_ROOT + '/\1')
-    return dir if File.directory?(dir)
+    unless @cache_directory
+      @cache_directory = Setting.repositories_cache_directory.gsub(/^([^#{File::SEPARATOR}].*)/, RAILS_ROOT + '/\1/')
+      Dir.mkdir(@cache_directory, File.umask(0077)) unless File.directory?(@cache_directory)
+    end
+    @cache_directory
   end
 
   def before_save
