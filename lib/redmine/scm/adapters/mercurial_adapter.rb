@@ -199,6 +199,18 @@ module Redmine
           return nil if $? && $?.exitstatus != 0
           blame
         end
+
+        def create_cache
+          cmd = "#{HG_BIN} clone #{@orig_url} #{@root_url}"
+          shellout(cmd) { |io| io.read }
+        end
+
+        def synchronize
+          return unless File.directory?(@url)
+          cmd = "#{HG_BIN} -R #{@url} pull"
+          shellout(cmd)
+        end
+
       end
     end
   end
