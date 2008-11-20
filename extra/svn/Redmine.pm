@@ -302,6 +302,9 @@ sub is_member {
 
   my $cfg = Apache2::Module::get_config(__PACKAGE__, $r->server, $r->per_dir_config);
   my $usrprojpass;
+  unless ($project_id) {
+    print $r->location."\n";
+  }
   if ($cfg->{RedmineMemcache}) {
     $usrprojpass = $cfg->{RedmineMemcached}->get($redmine_user.":".$project_id);
     return 1 if (defined $usrprojpass and ($usrprojpass eq $pass_digest));
