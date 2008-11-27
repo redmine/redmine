@@ -238,7 +238,11 @@ sub authen_handler {
   my ($res, $redmine_pass) =  $r->get_basic_auth_pw();
   return $res unless $res == OK;
   
-  if (is_member($r->user, $redmine_pass, $r)) {
+  my $project_id  = get_project_identifier($r);
+  if (!$project_id) {
+    return FORBIDDEN;
+  }
+  if (is_member($r->user, $redmine_pass, $r, $project_id)) {
       return OK;
   } else {
       $r->note_auth_failure();
@@ -294,9 +298,9 @@ sub is_member {
   my $redmine_user = shift;
   my $redmine_pass = shift;
   my $r = shift;
+  my $project_id = shift;
 
   my $dbh         = connect_database($r);
-  my $project_id  = get_project_identifier($r);
 
   my $pass_digest = Digest::SHA1::sha1_hex($redmine_pass);
 
@@ -355,7 +359,7 @@ sub get_project_identifier {
     
     my $location = $r->location;
     my ($identifier) = $r->uri =~ m{$location/*([^/]+)};
-    $identifier ? $identifier : " ";
+    $identifier;
 }
 
 sub connect_database {
