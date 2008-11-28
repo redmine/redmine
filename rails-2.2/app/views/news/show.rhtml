@@ -1,0 +1,61 @@
+<div class="contextual">
+<%= link_to_if_authorized l(:button_edit), 
+                          {:controller => 'news', :action => 'edit', :id => @news},
+                          :class => 'icon icon-edit',
+                          :accesskey => accesskey(:edit),
+                          :onclick => 'Element.show("edit-news"); return false;' %>
+<%= link_to_if_authorized l(:button_delete), {:controller => 'news', :action => 'destroy', :id => @news}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
+</div>
+
+<h2><%=h @news.title %></h2>
+
+<div id="edit-news" style="display:none;">
+<% labelled_tabular_form_for :news, @news, :url => { :action => "edit", :id => @news },
+                                           :html => { :id => 'news-form' } do |f| %>
+<%= render :partial => 'form', :locals => { :f => f } %>
+<%= submit_tag l(:button_save) %>
+<%= link_to_remote l(:label_preview), 
+                   { :url => { :controller => 'news', :action => 'preview', :project_id => @project },
+                     :method => 'post',
+                     :update => 'preview',
+                     :with => "Form.serialize('news-form')"
+                   }, :accesskey => accesskey(:preview) %> |
+<%= link_to l(:button_cancel), "#", :onclick => 'Element.hide("edit-news")' %>
+<% end %>
+<div id="preview" class="wiki"></div>
+</div>
+
+<p><em><% unless @news.summary.blank? %><%=h @news.summary %><br /><% end %>
+<span class="author"><%= authoring @news.created_on, @news.author %></span></em></p>
+<div class="wiki">
+<%= textilizable(@news.description) %>
+</div>
+<br />
+
+<div id="comments" style="margin-bottom:16px;">
+<h3 class="icon22 icon22-comment"><%= l(:label_comment_plural) %></h3>
+<% @comments.each do |comment| %>
+    <% next if comment.new_record? %>
+    <div class="contextual">
+    <%= link_to_if_authorized image_tag('delete.png'), {:controller => 'news', :action => 'destroy_comment', :id => @news, :comment_id => comment},
+                                                       :confirm => l(:text_are_you_sure), :method => :post, :title => l(:button_delete) %>
+    </div>
+    <h4><%= authoring comment.created_on, comment.author %></h4>
+    <%= textilizable(comment.comments) %>
+<% end if @comments.any? %>
+</div>
+
+<% if authorize_for 'news', 'add_comment' %>
+<p><%= toggle_link l(:label_comment_add), "add_comment_form", :focus => "comment_comments" %></p>
+<% form_tag({:action => 'add_comment', :id => @news}, :id => "add_comment_form", :style => "display:none;") do %>
+<%= text_area 'comment', 'comments', :cols => 80, :rows => 15, :class => 'wiki-edit' %>
+<%= wikitoolbar_for 'comment_comments' %>
+<p><%= submit_tag l(:button_add) %></p>
+<% end %>
+<% end %>
+
+<% html_title @news.title -%>
+
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag 'scm' %>
+<% end %>

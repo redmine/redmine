@@ -1,0 +1,31 @@
+<h2><%=l(:label_enumerations)%></h2>
+
+<% Enumeration::OPTIONS.each do |option, params| %>
+<h3><%= l(params[:label]) %></h3>
+
+<% enumerations = Enumeration.get_values(option) %>
+<% if enumerations.any? %>
+<table class="list">
+<% enumerations.each do |enumeration| %>
+<tr class="<%= cycle('odd', 'even') %>">
+    <td><%= link_to h(enumeration), :action => 'edit', :id => enumeration %></td>
+    <td style="width:15%;"><%= image_tag('true.png') if enumeration.is_default? %></td>
+    <td style="width:15%;">
+    <%= link_to image_tag('2uparrow.png', :alt => l(:label_sort_highest)), {:action => 'move', :id => enumeration, :position => 'highest'}, :method => :post, :title => l(:label_sort_highest) %>
+    <%= link_to image_tag('1uparrow.png', :alt => l(:label_sort_higher)), {:action => 'move', :id => enumeration, :position => 'higher'}, :method => :post, :title => l(:label_sort_higher) %> -
+    <%= link_to image_tag('1downarrow.png', :alt => l(:label_sort_lower)), {:action => 'move', :id => enumeration, :position => 'lower'}, :method => :post, :title => l(:label_sort_lower) %>
+    <%= link_to image_tag('2downarrow.png', :alt => l(:label_sort_lowest)), {:action => 'move', :id => enumeration, :position => 'lowest'}, :method => :post, :title => l(:label_sort_lowest) %>
+    </td>
+    <td align="center" style="width:10%;">
+    <%= link_to l(:button_delete), { :action => 'destroy', :id => enumeration }, :method => :post, :confirm => l(:text_are_you_sure), :class => "icon icon-del" %>
+    </td>
+</tr>
+<% end %>
+</table>
+<% reset_cycle %>
+<% end %>
+
+<p><%= link_to l(:label_enumeration_new), { :action => 'new', :opt => option } %></p>
+<% end %>
+
+<% html_title(l(:label_enumerations)) -%>

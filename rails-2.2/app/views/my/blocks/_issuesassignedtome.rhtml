@@ -1,0 +1,17 @@
+<h3><%=l(:label_assigned_to_me_issues)%></h3>
+<% assigned_issues = Issue.find(:all, 
+                                :conditions => ["assigned_to_id=? AND #{IssueStatus.table_name}.is_closed=? AND #{Project.table_name}.status=#{Project::STATUS_ACTIVE}", user.id, false],
+                                :limit => 10, 
+                                :include => [ :status, :project, :tracker, :priority ], 
+                                :order => "#{Enumeration.table_name}.position DESC, #{Issue.table_name}.updated_on DESC") %>
+<%= render :partial => 'issues/list_simple', :locals => { :issues => assigned_issues } %>
+<% if assigned_issues.length > 0 %>
+<p class="small"><%= link_to l(:label_issue_view_all), :controller => 'issues', :action => 'index', :set_filter => 1, :assigned_to_id => 'me' %></p>
+<% end %>
+
+<% content_for :header_tags do %>
+<%= auto_discovery_link_tag(:atom, 
+                            {:controller => 'issues', :action => 'index', :set_filter => 1,
+                             :assigned_to_id => 'me', :format => 'atom', :key => User.current.rss_key},
+                            {:title => l(:label_assigned_to_me_issues)}) %>
+<% end %>
