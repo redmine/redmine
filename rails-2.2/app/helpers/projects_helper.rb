@@ -22,7 +22,7 @@ module ProjectsHelper
   end
   
   def format_activity_title(text)
-    h(truncate_single_line(text, 100))
+    h(truncate_single_line(text, :length => 100))
   end
   
   def format_activity_day(date)
@@ -30,7 +30,7 @@ module ProjectsHelper
   end
   
   def format_activity_description(text)
-    h(truncate(text.to_s, 250).gsub(%r{<(pre|code)>.*$}m, '...'))
+    h(truncate(text.to_s, :length => 250).gsub(%r{<(pre|code)>.*$}m, '...'))
   end
   
   def project_settings_tabs

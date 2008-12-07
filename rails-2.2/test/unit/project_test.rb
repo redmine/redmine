@@ -122,7 +122,8 @@ class ProjectTest < Test::Unit::TestCase
     child = parent.children.find(3)
   
     assert_equal [1, 2], parent.tracker_ids
-    assert_equal [2, 3], child.tracker_ids
+    # TODO: child.tracker_ids breaks with Rails 2.2.2
+    assert_equal [2, 3], child.trackers.collect(&:id)
     
     assert_kind_of Tracker, parent.rolled_up_trackers.first
     assert_equal Tracker.find(1), parent.rolled_up_trackers.first

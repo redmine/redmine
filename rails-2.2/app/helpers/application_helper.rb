@@ -372,7 +372,7 @@ module ApplicationHelper
           if project && (changeset = project.changesets.find_by_revision(oid))
             link = link_to("r#{oid}", {:only_path => only_path, :controller => 'repositories', :action => 'revision', :id => project, :rev => oid},
                                       :class => 'changeset',
-                                      :title => truncate_single_line(changeset.comments, 100))
+                                      :title => truncate_single_line(changeset.comments, :length => 100))
           end
         elsif sep == '#'
           oid = oid.to_i
@@ -381,7 +381,7 @@ module ApplicationHelper
             if issue = Issue.find_by_id(oid, :include => [:project, :status], :conditions => Project.visible_by(User.current))
               link = link_to("##{oid}", {:only_path => only_path, :controller => 'issues', :action => 'show', :id => oid},
                                         :class => (issue.closed? ? 'issue closed' : 'issue'),
-                                        :title => "#{truncate(issue.subject, 100)} (#{issue.status.name})")
+                                        :title => "#{truncate(issue.subject, :length => 100)} (#{issue.status.name})")
               link = content_tag('del', link) if issue.closed?
             end
           when 'document'
@@ -396,7 +396,7 @@ module ApplicationHelper
             end
           when 'message'
             if message = Message.find_by_id(oid, :include => [:parent, {:board => :project}], :conditions => Project.visible_by(User.current))
-              link = link_to h(truncate(message.subject, 60)), {:only_path => only_path,
+              link = link_to h(truncate(message.subject, :length => 60)), {:only_path => only_path,
                                                                 :controller => 'messages',
                                                                 :action => 'show',
                                                                 :board_id => message.board,
@@ -423,7 +423,7 @@ module ApplicationHelper
             if project && (changeset = project.changesets.find(:first, :conditions => ["scmid LIKE ?", "#{name}%"]))
               link = link_to h("#{name}"), {:only_path => only_path, :controller => 'repositories', :action => 'revision', :id => project, :rev => changeset.revision},
                                            :class => 'changeset',
-                                           :title => truncate_single_line(changeset.comments, 100)
+                                           :title => truncate_single_line(changeset.comments, :length => 100)
             end
           when 'source', 'export'
             if project && project.repository

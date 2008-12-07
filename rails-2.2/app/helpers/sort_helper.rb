@@ -106,7 +106,7 @@ module SortHelper
       icon = nil
       order = default_order
     end
-    caption = titleize(Inflector::humanize(column)) unless caption
+    caption = titleize(ActiveSupport::Inflector::humanize(column)) unless caption
     
     sort_options = { :sort_key => column, :sort_order => order }
     # don't reuse params if filters are present
@@ -139,7 +139,7 @@ module SortHelper
   #   </th>
   #
   def sort_header_tag(column, options = {})
-    caption = options.delete(:caption) || titleize(Inflector::humanize(column))
+    caption = options.delete(:caption) || titleize(ActiveSupport::Inflector::humanize(column))
     default_order = options.delete(:default_order) || 'asc'
     options[:title]= l(:label_sort_by, "\"#{caption}\"") unless options[:title]
     content_tag('th', sort_link(column, caption, default_order), options)
