@@ -258,4 +258,9 @@ class WikiControllerTest < Test::Unit::TestCase
       post :destroy_attachment, :id => 1, :page => 'Page_with_an_inline_image', :attachment_id => 3
     end
   end
+  
+  def test_history_of_non_existing_page_should_return_404
+    get :history, :id => 1, :page => 'Unknown_page'
+    assert_response 404
+  end
 end
