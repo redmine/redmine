@@ -1,0 +1,699 @@
+_gloc_rule_default: '|n| n==1 ? "" : "_plural" '
+
+actionview_datehelper_select_day_prefix:
+actionview_datehelper_select_month_names: Januar,Februar,Marts,April,Maj,Juni,Juli,August,September,Oktober,November,December
+actionview_datehelper_select_month_names_abbr: Jan,Feb,Mar,Apr,Maj,Jun,Jul,Aug,Sep,Okt,Nov,Dec
+actionview_datehelper_select_month_prefix:
+actionview_datehelper_select_year_prefix:
+actionview_datehelper_time_in_words_day: 1 dag
+actionview_datehelper_time_in_words_day_plural: %d dage
+actionview_datehelper_time_in_words_hour_about: cirka en time
+actionview_datehelper_time_in_words_hour_about_plural: cirka %d timer
+actionview_datehelper_time_in_words_hour_about_single: cirka en time
+actionview_datehelper_time_in_words_minute: 1 minut
+actionview_datehelper_time_in_words_minute_half: et halvt minut
+actionview_datehelper_time_in_words_minute_less_than: mindre end et minut
+actionview_datehelper_time_in_words_minute_plural: %d minutter
+actionview_datehelper_time_in_words_minute_single: 1 minut
+actionview_datehelper_time_in_words_second_less_than: mindre end et sekund
+actionview_datehelper_time_in_words_second_less_than_plural: mindre end %d sekunder
+actionview_instancetag_blank_option: Vælg venligst
+
+activerecord_error_inclusion: er ikke i listen
+activerecord_error_exclusion: er reserveret
+activerecord_error_invalid: er ugyldig
+activerecord_error_confirmation: passer ikke bekræftelsen
+activerecord_error_accepted: skal accepteres
+activerecord_error_empty: kan ikke være tom
+activerecord_error_blank: kan ikke være blank
+activerecord_error_too_long: er for lang
+activerecord_error_too_short: er for kort
+activerecord_error_wrong_length: har den forkerte længde
+activerecord_error_taken: er allerede valgt
+activerecord_error_not_a_number: er ikke et tal
+activerecord_error_not_a_date: er en ugyldig dato
+activerecord_error_greater_than_start_date: skal være senere end startdatoen
+activerecord_error_not_same_project: hører ikke til samme projekt
+activerecord_error_circular_dependency: Denne relation vil skabe en cirkulær afhængighed
+
+general_fmt_age: %d år
+general_fmt_age_plural: %d år
+general_fmt_date: %%m/%%d/%%Y
+general_fmt_datetime: %%m/%%d/%%Y %%I:%%M %%p
+general_fmt_datetime_short: %%b %%d, %%I:%%M %%p
+general_fmt_time: %%I:%%M %%p
+general_text_No: 'Nej'
+general_text_Yes: 'Ja'
+general_text_no: 'nej'
+general_text_yes: 'ja'
+general_lang_name: 'Dansk'
+general_csv_separator: ','
+general_csv_decimal_separator: '.'
+general_csv_encoding: ISO-8859-1
+general_pdf_encoding: ISO-8859-1
+general_day_names: Mandag,Tirsdag,Onsdag,Torsdag,Fredag,Lørdag,Søndag
+general_first_day_of_week: '1'
+
+notice_account_updated: Kontoen er opdateret.
+notice_account_invalid_creditentials: Forkert brugernavn eller kodeord
+notice_account_password_updated: Kodeordet er opdateret.
+notice_account_wrong_password: Forkert kodeord
+notice_account_register_done: Kontoen er oprettet. For at aktivere kontoen, skal du klikke på linket i den tilsendte e-mail.
+notice_account_unknown_email: Ukendt brugernavn.
+notice_can_t_change_password: Denne konto benytter en ekstern sikkerhedsgodkendelse. Det er ikke muligt at skifte kodeord.
+notice_account_lost_email_sent: En e-mail med instruktioner til at vælge et nyt kodeord er afsendt til dig.
+notice_account_activated: Din konto er aktiveret. Du kan nu logge ind.
+notice_successful_create: Oprettelse lykkedes.
+notice_successful_update: Opdatering lykkedes.
+notice_successful_delete: Sletning lykkedes.
+notice_successful_connection: Succesfuld forbindelse.
+notice_file_not_found: Siden, du forsøger at tilgå, eksisterer ikke eller er blevet fjernet.
+notice_locking_conflict: Data er opdateret af en anden bruger.
+notice_not_authorized: Du har ikke adgang til denne side.
+notice_email_sent: En e-mail er sendt til %s
+notice_email_error: En fejl opstod under afsendelse af e-mail (%s)
+notice_feeds_access_key_reseted: Din RSS-adgangsnøgle er nulstillet.
+notice_failed_to_save_issues: "Det mislykkedes at gemme %d sage(r) på %d valgt: %s."
+notice_no_issue_selected: "Ingen sag er valgt! Vælg venligst, hvilke emner du vil rette."
+notice_account_pending: "Din konto er oprettet og afventer administratorens godkendelse."
+notice_default_data_loaded: Standardkonfiguration er indlæst.
+notice_unable_delete_version: Kan ikke slette version
+
+error_can_t_load_default_data: "Standardkonfiguration kunne ikke indlæses: %s"
+error_scm_not_found: "Fil og/eller revision blev ikke fundet i det valgte filarkiv."
+error_scm_command_failed: "En fejl opstod under forbindelsen til det valgte filarkiv: %s"
+error_scm_annotate: "Filen findes ikke eller kan ikke annoteres."
+error_issue_not_found_in_project: 'Sagen blev ikke fundet eller tilhører ikke dette projekt'
+
+mail_subject_lost_password: Dit kodeord til %s
+mail_body_lost_password: 'For at ændre dit kodeord, klik på dette link:'
+mail_subject_register: %s kontoaktivering
+mail_body_register: 'For at aktivere din konto, klik på dette link:'
+mail_body_account_information_external: Du kan bruge din "%s" konto til at logge ind.
+mail_body_account_information: Din kontoinformation
+mail_subject_account_activation_request: %s kontoaktivering
+mail_body_account_activation_request: 'En ny bruger (%s) er registreret. Godkend venligst kontoen:'
+mail_subject_reminder: "%d sag(er) har snart deadline"
+mail_body_reminder: "%d sag(er) der er tildelt dig har deadline i løbet af de kommende %d dage:"
+
+gui_validation_error: 1 fejl
+gui_validation_error_plural: %d fejl
+
+field_name: Navn
+field_description: Beskrivelse
+field_summary: Oversigt
+field_is_required: Skal udfyldes
+field_firstname: Fornavn
+field_lastname: Efternavn
+field_mail: E-mail
+field_filename: Fil
+field_filesize: Størrelse
+field_downloads: Downloads
+field_author: Opretter
+field_created_on: Oprettet
+field_updated_on: Opdateret
+field_field_format: Format
+field_is_for_all: For alle projekter
+field_possible_values: Mulige værdier
+field_regexp: Regulære udtryk
+field_min_length: Minimum længde
+field_max_length: Maksimal længde
+field_value: Værdi
+field_category: Kategori
+field_title: Titel
+field_project: Projekt
+field_issue: Sag
+field_status: Status
+field_notes: Noter
+field_is_closed: Sagen er lukket
+field_is_default: Standardværdi
+field_tracker: Type
+field_subject: Emne
+field_due_date: Deadline
+field_assigned_to: Tildelt til
+field_priority: Prioritet
+field_fixed_version: Planlagt version
+field_user: Bruger
+field_role: Rolle
+field_homepage: Hjemmeside
+field_is_public: Offentlig
+field_parent: Underprojekt af
+field_is_in_chlog: Sager vist i ændringslog
+field_is_in_roadmap: Sager vist i plan
+field_login: Brugernavn
+field_mail_notification: E-mail-notifikationer
+field_admin: Administrator
+field_last_login_on: Sidst logget ind
+field_language: Sprog
+field_effective_date: Dato
+field_password: Kodeord
+field_new_password: Nyt kodeord
+field_password_confirmation: Bekræft
+field_version: Version
+field_type: Type
+field_host: Vært
+field_port: Port
+field_account: Kode
+field_base_dn: Base-DN
+field_attr_login: Attribut for brugernavn
+field_attr_firstname: Attribut for fornavn
+field_attr_lastname: Attribut for efternavn
+field_attr_mail: Attribut for e-mail
+field_onthefly: Løbende brugeroprettelse
+field_start_date: Start
+field_done_ratio: %% færdig
+field_auth_source: Godkendelsesmetode
+field_hide_mail: Skjul min e-mail
+field_comments: Kommentar
+field_url: URL
+field_start_page: Startside
+field_subproject: Underprojekt
+field_hours: Timer
+field_activity: Aktivitet
+field_spent_on: Dato
+field_identifier: Identifikator
+field_is_filter: Brugt som et filter
+field_issue_to_id: Relateret sag
+field_delay: Udsættelse
+field_assignable: Sager kan tildeles denne rolle
+field_redirect_existing_links: Videresend eksisterende links
+field_estimated_hours: Tidsestimat
+field_column_names: Kolonner
+field_time_zone: Tidszone
+field_searchable: Søgbar
+field_default_value: Standardværdi
+field_comments_sorting: Vis kommentarer
+field_parent_title: Forælderside
+
+setting_app_title: Applikationens titel
+setting_app_subtitle: Applikationes undertitel
+setting_welcome_text: Velkomsttekst
+setting_default_language: Standardsprog
+setting_login_required: Indlogning påkrævet
+setting_self_registration: Brugeroprettelse
+setting_attachment_max_size: Maks. størrelse for vedhæftede filer
+setting_issues_export_limit: Maks. antal sager i eksport
+setting_mail_from: Afsender-e-mail
+setting_bcc_recipients: Blindkopimodtager (bcc)
+setting_host_name: Værtsnavn
+setting_text_formatting: Tekstformatering
+setting_wiki_compression: Komprimer wiki-historik
+setting_feeds_limit: Antal objekter i feeds
+setting_default_projects_public: Nye projekter er som standard offentlige
+setting_autofetch_changesets: Hent automatisk commits
+setting_sys_api_enabled: Aktiver webservice til versionsstyring
+setting_commit_ref_keywords: Nøgleord for sagsreferencer
+setting_commit_fix_keywords: Nøgleord for lukning af sager
+setting_autologin: Autologin
+setting_date_format: Datoformat
+setting_time_format: Tidsformat
+setting_cross_project_issue_relations: Tillad sagsrelationer på tværs af projekter
+setting_issue_list_default_columns: Standardkolonner på sagslisten
+setting_repositories_encodings: Filarkivtegnsæt
+setting_commit_logs_encoding: Tegnsæt for commitbeskeder
+setting_emails_footer: Sidefod i e-mail
+setting_protocol: Protokol
+setting_per_page_options: Valgmuligheder for antal objekter pr. side
+setting_user_format: Brugervisningsformat
+setting_activity_days_default: Antal dage der vises under projektaktivitet
+setting_display_subprojects_issues: Vis som standard sager for underprojekter på hovedprojektet
+setting_enabled_scm: Aktiveret versionsstyring
+setting_mail_handler_api_enabled: Aktiver redigering af sager via mail
+setting_mail_handler_api_key: API-nøgle
+setting_sequential_project_identifiers: Generer fortløbende identifikatorer
+
+project_module_issue_tracking: Sagssøgning
+project_module_time_tracking: Tidsregistrering
+project_module_news: Nyheder
+project_module_documents: Dokumenter
+project_module_files: Filer
+project_module_wiki: Wiki
+project_module_repository: Versionsstyring
+project_module_boards: Opslagstavle
+
+label_user: Bruger
+label_user_plural: Brugere
+label_user_new: Ny bruger
+label_project: Projekt
+label_project_new: Nyt projekt
+label_project_plural: Projekter
+label_project_all: Alle projekter
+label_project_latest: Seneste projekter
+label_issue: Sag
+label_issue_new: Ny sag
+label_issue_plural: Sager
+label_issue_view_all: Vis alle sager
+label_issues_by: Sager fra %s
+label_issue_added: Sag oprettet
+label_issue_updated: Sag opdateret
+label_document: Dokument
+label_document_new: Nyt dokument
+label_document_plural: Dokumenter
+label_document_added: Dokument oprettet
+label_role: Rolle
+label_role_plural: Roller
+label_role_new: Ny rolle
+label_role_and_permissions: Roller og rettigheder
+label_member: Medlem
+label_member_new: Nyt medlem
+label_member_plural: Medlemmer
+label_tracker: Type
+label_tracker_plural: Typer
+label_tracker_new: Ny type
+label_workflow: Arbejdsgang
+label_issue_status: Statuskode
+label_issue_status_plural: Statuskoder
+label_issue_status_new: Ny statuskode
+label_issue_category: Sagskategori
+label_issue_category_plural: Sagskategorier
+label_issue_category_new: Ny kategori
+label_custom_field: Brugerdefineret felt
+label_custom_field_plural: Brugerdefinerede felter
+label_custom_field_new: Nyt brugerdefineret felt
+label_enumerations: Værdier
+label_enumeration_new: Ny værdi
+label_information: Information
+label_information_plural: Information
+label_please_login: Log venligst ind
+label_register: Registrer
+label_password_lost: Glemt kodeord
+label_home: Forside
+label_my_page: Min side
+label_my_account: Min konto
+label_my_projects: Mine projekter
+label_administration: Administration
+label_login: Log ind
+label_logout: Log ud
+label_help: Hjælp
+label_reported_issues: Rapporterede sager
+label_assigned_to_me_issues: Sager tildelt mig
+label_last_login: Sidste indlogning
+label_last_updates: Sidst opdateret
+label_last_updates_plural: %d sidst opdateret
+label_registered_on: Oprettet den
+label_activity: Aktivitet
+label_overall_activity: Al aktivitet
+label_new: Ny
+label_logged_as: Logget ind som
+label_environment: Miljø
+label_authentication: Godkendelse
+label_auth_source: Godkendelsesmetode
+label_auth_source_new: Ny godkendelsemetode
+label_auth_source_plural: Godkendelsesmetoder
+label_subproject_plural: Underprojekter
+label_and_its_subprojects: Projektet %s og dets underprojekter
+label_min_max_length: Min.-maks.-længde
+label_list: Liste
+label_date: Dato
+label_integer: Heltal
+label_float: Kommatal
+label_boolean: Sand/falsk
+label_string: Tekst
+label_text: Lang tekst
+label_attribute: Attribut
+label_attribute_plural: Attributter
+label_download: %d download
+label_download_plural: %d downloads
+label_no_data: Ingen data at vise
+label_change_status: Ændringsstatus
+label_history: Historik
+label_attachment: Fil
+label_attachment_new: Ny fil
+label_attachment_delete: Slet fil
+label_attachment_plural: Filer
+label_file_added: Fil oprettet
+label_report: Rapport
+label_report_plural: Rapporter
+label_news: Nyheder
+label_news_new: Ny nyhed
+label_news_plural: Nyheder
+label_news_latest: Seneste nyheder
+label_news_view_all: Vis alle nyheder
+label_news_added: Nyhed oprettet
+label_change_log: Ændringer
+label_settings: Indstillinger
+label_overview: Oversigt
+label_version: Version
+label_version_new: Ny version
+label_version_plural: Versioner
+label_confirmation: Bekræftelser
+label_export_to: Eksporter til
+label_read: Læs...
+label_public_projects: Offentlige projekter
+label_open_issues: åben
+label_open_issues_plural: åbne
+label_closed_issues: lukket
+label_closed_issues_plural: lukkede
+label_total: Total
+label_permissions: Rettigheder
+label_current_status: Nuværende status
+label_new_statuses_allowed: Tilladte nye statuskoder
+label_all: alle
+label_none: intet
+label_nobody: ingen
+label_next: Næste
+label_previous: Forrige
+label_used_by: Brugt af
+label_details: Detaljer
+label_add_note: Ny note
+label_per_page: Pr. side
+label_calendar: Kalender
+label_months_from: måneder frem
+label_gantt: Gantt
+label_internal: Intern
+label_last_changes: sidste %d ændringer
+label_change_view_all: Vis alle ændringer
+label_personalize_page: Tilret denne side
+label_comment: Kommentar
+label_comment_plural: Kommentarer
+label_comment_add: Tilføj en kommentar
+label_comment_added: Kommentar tilføjet
+label_comment_delete: Slet kommentar
+label_query: Brugerdefineret søgning
+label_query_plural: Brugerdefinerede søgning
+label_query_new: Ny søgning
+label_filter_add: Tilføj filter
+label_filter_plural: Filtre
+label_equals: er
+label_not_equals: er ikke
+label_in_less_than: er mindre end
+label_in_more_than: er større end
+label_in: indeholdt i
+label_today: i dag
+label_all_time: altid
+label_yesterday: i går
+label_this_week: denne uge
+label_last_week: sidste uge
+label_last_n_days: sidste %d dage
+label_this_month: denne måned
+label_last_month: sidste måned
+label_this_year: dette år
+label_date_range: Datointerval
+label_less_than_ago: mindre end dage siden
+label_more_than_ago: mere end dage siden
+label_ago: days siden
+label_contains: indeholder
+label_not_contains: indeholder ikke
+label_day_plural: dage
+label_repository: Versionsstyring
+label_repository_plural: Versionsstyring
+label_browse: Gennemse
+label_modification: %d ændring
+label_modification_plural: %d ændringer
+label_revision: Revision
+label_revision_plural: Revisioner
+label_associated_revisions: Tilnyttede revisioner
+label_added: oprettet
+label_modified: ændret
+label_copied: kopieret
+label_renamed: omdøbt
+label_deleted: slettet
+label_latest_revision: Seneste revision
+label_latest_revision_plural: Seneste revisioner
+label_view_revisions: Se revisioner
+label_max_size: Maximal størrelse
+label_on: 'til'
+label_sort_highest: Flyt til toppen
+label_sort_higher: Flyt op
+label_sort_lower: Flyt ned
+label_sort_lowest: Flyt til bunden
+label_roadmap: Plan
+label_roadmap_due_in: Deadline %s
+label_roadmap_overdue: %s forsinket
+label_roadmap_no_issues: Ingen sager i denne version
+label_search: Søg
+label_result_plural: Resultater
+label_all_words: Alle ord
+label_wiki: Wiki
+label_wiki_edit: Wikiændring
+label_wiki_edit_plural: Wikiændringer
+label_wiki_page: Wikiside
+label_wiki_page_plural: Wikisider
+label_index_by_title: Indhold efter titel
+label_index_by_date: Indhold efter dato
+label_current_version: Nuværende version
+label_preview: Forhåndsvisning
+label_feed_plural: Feeds
+label_changes_details: Detaljer for alle ændringer
+label_issue_tracking: Sagsstyring
+label_spent_time: Tidsforbrug
+label_f_hour: %.2f time
+label_f_hour_plural: %.2f timer
+label_time_tracking: Tidsregistrering
+label_change_plural: Ændringer
+label_statistics: Statistik
+label_commits_per_month: Commits pr. måned
+label_commits_per_author: Commits pr. bruger
+label_view_diff: Vis ændringer
+label_diff_inline: inline
+label_diff_side_by_side: side om side
+label_options: Optioner
+label_copy_workflow_from: Kopier arbejdsgang fra
+label_permissions_report: Rettighedsoversigt
+label_watched_issues: Overvågede sager
+label_related_issues: Relaterede sager
+label_applied_status: Tildelt status
+label_loading: Indlæser...
+label_relation_new: Ny relation
+label_relation_delete: Slet relation
+label_relates_to: er relateret til
+label_duplicates: dublerer
+label_duplicated_by: dubleret af
+label_blocks: blokerer
+label_blocked_by: blokeret af
+label_precedes: kommer før
+label_follows: følger
+label_end_to_start: slut til start
+label_end_to_end: slut til slut
+label_start_to_start: start til start
+label_start_to_end: start til slut
+label_stay_logged_in: Forbliv indlogget
+label_disabled: deaktiveret
+label_show_completed_versions: Vis færdige versioner
+label_me: mig
+label_board: Forum
+label_board_new: Nyt forum
+label_board_plural: Fora
+label_topic_plural: Emner
+label_message_plural: Beskeder
+label_message_last: Seneste besked
+label_message_new: Ny besked
+label_message_posted: Besked oprettet
+label_reply_plural: Besvarer
+label_send_information: Send kontoinformation til bruger
+label_year: År
+label_month: Måned
+label_week: Uge
+label_date_from: Fra
+label_date_to: Til
+label_language_based: Baseret på brugerens sprog
+label_sort_by: Sorter efter %s
+label_send_test_email: Send en testmail
+label_feeds_access_key_created_on: RSS-adgangsnøgle genereret for %s siden
+label_module_plural: Moduler
+label_added_time_by: Oprettet af %s for %s siden
+label_updated_time: Opdateret for %s siden
+label_jump_to_a_project: Skift til projekt...
+label_file_plural: Filer
+label_changeset_plural: Ændringer
+label_default_columns: Standardkolonner
+label_no_change_option: (Ingen ændringer)
+label_bulk_edit_selected_issues: Masseret de valgte sager
+label_theme: Tema
+label_default: standard
+label_search_titles_only: Søg kun i titler
+label_user_mail_option_all: "For alle hændelser på mine projekter"
+label_user_mail_option_selected: "For alle hændelser på udvalgte projekter..."
+label_user_mail_option_none: "Kun for ting jeg overvåger eller er involveret i"
+label_user_mail_no_self_notified: "Jeg ønsker ikke at blive notificeret om ændringer foretaget af mig selv"
+label_registration_activation_by_email: kontoaktivering på e-mail
+label_registration_manual_activation: manuel kontoaktivering
+label_registration_automatic_activation: automatisk kontoaktivering
+label_display_per_page: 'Pr. side: %s'
+label_age: Alder
+label_change_properties: Ændre indstillinger
+label_general: Generelt
+label_more: Mere
+label_scm: Versionsstyring
+label_plugins: Plugins
+label_ldap_authentication: LDAP-godkendelse
+label_downloads_abbr: D/L
+label_add_another_file: Opret endnu en fil
+label_optional_description: Valgfri beskrivelse
+label_preferences: Indstillinger
+label_chronological_order: I kronologisk rækkefølge
+label_reverse_chronological_order: I omvendt kronologisk rækkefølge
+label_planning: Planlægning
+label_incoming_emails: Indkommende e-mails
+label_generate_key: Generer en nøgle
+label_issue_watchers: Overvågere
+
+button_login: Log ind
+button_submit: Send
+button_save: Gem
+button_check_all: Vælg alle
+button_uncheck_all: Fravælg alle
+button_delete: Slet
+button_create: Opret
+button_test: Test
+button_edit: Ret
+button_add: Opret
+button_change: Skift
+button_apply: Anvend
+button_clear: Nulstil
+button_lock: Lås
+button_unlock: Lås op
+button_download: Download
+button_list: List
+button_view: Vis
+button_move: Flyt
+button_back: Tilbage
+button_cancel: Annuller
+button_activate: Aktiver
+button_sort: Sorter
+button_log_time: Registrer tid
+button_rollback: Rul tilbage til denne version
+button_watch: Overvåg
+button_unwatch: Stop overvågning
+button_reply: Besvar
+button_archive: Arkiver
+button_unarchive: Fjern fra arkiv
+button_reset: Nulstil
+button_rename: Omdøb
+button_change_password: Skift kodeord
+button_copy: Kopier
+button_annotate: Annotere
+button_update: Opdater
+button_configure: Konfigurer
+button_quote: Citer
+
+status_active: aktiv
+status_registered: registreret
+status_locked: låst
+
+text_select_mail_notifications: Vælg handlinger for hvilke, der skal sendes en e-mail-notifikation.
+text_regexp_info: f.eks. ^[A-ZÆØÅ0-9]+$
+text_min_max_length_info: 0 betyder ingen begrænsninger
+text_project_destroy_confirmation: Er du sikker på, at du vil slette dette projekt og alle relaterede data ?
+text_subprojects_destroy_warning: 'Dets underprojekt(er): %s vil også blive slettet.'
+text_workflow_edit: Vælg en rolle samt en type for at redigere arbejdsgangen
+text_are_you_sure: Er du sikker?
+text_journal_changed: ændret fra %s til %s
+text_journal_set_to: sat til %s
+text_journal_deleted: slettet
+text_tip_task_begin_day: opgaven begynder denne dag
+text_tip_task_end_day: opgaven slutter denne dag
+text_tip_task_begin_end_day: opgaven begynder og slutter denne dag
+text_project_identifier_info: 'Små bogstaver (a-z), numre og bindestreg er tilladt.<br />Når den er gemt, kan identifikatoren ikke rettes.'
+text_caracters_maximum: maks. %d tegn.
+text_caracters_minimum: Skal være mindst %d tegn lang.
+text_length_between: Længde skal være mellem %d og %d tegn.
+text_tracker_no_workflow: Ingen arbejdsgang defineret for denne type
+text_unallowed_characters: Ugyldige tegn
+text_comma_separated: Flere værdier tilladt (adskilt af komma).
+text_issues_ref_in_commit_messages: Referer og luk sager i commitbeskeder
+text_issue_added: Sag %s er rapporteret af %s.
+text_issue_updated: Sag %s er blevet opdateret af %s.
+text_wiki_destroy_confirmation: Er du sikker på, at du vil slette denne wiki og alt dens indhold?
+text_issue_category_destroy_question: Nogle sager (%d) er tildelt denne kategori. Hvad ønsker du at gøre?
+text_issue_category_destroy_assignments: Slet kategoritildelinger
+text_issue_category_reassign_to: Tildel sager til denne kategori
+text_user_mail_option: "For ikke-valgte projekter vil du kun modtage notifikationer omhandlende ting, du er involveret i eller overvåger (f.eks. sager du har oprettet eller er tildelt)."
+text_no_configuration_data: "Roller, typer, statuskoder og arbejdsgange er endnu ikke konfigureret.\nDet er anbefalet at indlæse standardkonfigurationen. Du vil kunne ændre denne, når den er indlæst."
+text_load_default_configuration: Indlæs standardkonfiguration
+text_status_changed_by_changeset: Anvendt i ændring %s.
+text_issues_destroy_confirmation: 'Er du sikker på, du ønsker at slette den/de valgte sag(er) ?'
+text_select_project_modules: 'Vælg moduler, der skal være aktiveret for dette projekt:'
+text_default_administrator_account_changed: Standardadministratorkonto ændret
+text_file_repository_writable: Filarkiv er skrivbart
+text_rmagick_available: RMagick tilgængelig (valgfri)
+text_destroy_time_entries_question: %.02f timer er registreret på denne sag, som du er ved at slette. Hvad vil du gøre?
+text_destroy_time_entries: Slet registrerede timer
+text_assign_time_entries_to_project: Overfør registrerede timer til projektet
+text_reassign_time_entries: 'Tilbagefør registrerede timer til denne sag igen:'
+text_user_wrote: '%s skrev:'
+text_enumeration_destroy_question: '%d objekter er tildelt denne værdi.'
+text_enumeration_category_reassign_to: 'Tildel dem denne værdi:'
+text_email_delivery_not_configured: "E-mail-afsendelse er ikke konfigureret, så notifikationer er deaktiverede.\nKonfigurer din SMTP-server i config/email.yml og genstart applikationen for at aktivere disse."
+
+default_role_manager: Leder
+default_role_developper: Udvikler
+default_role_reporter: Rapportør
+default_tracker_bug: Bug
+default_tracker_feature: Feature
+default_tracker_support: Support
+default_issue_status_new: Ny
+default_issue_status_assigned: Tildelt
+default_issue_status_resolved: Løst
+default_issue_status_feedback: Feedback
+default_issue_status_closed: Lukket
+default_issue_status_rejected: Afvist
+default_doc_category_user: Brugerdokumentation
+default_doc_category_tech: Teknisk dokumentation
+default_priority_low: Lav
+default_priority_normal: Normal
+default_priority_high: Høj
+default_priority_urgent: Haster
+default_priority_immediate: Akut
+default_activity_design: Design
+default_activity_development: Udvikling
+
+enumeration_issue_priorities: Sagsprioriteter
+enumeration_doc_categories: Dokumentkategorier
+enumeration_activities: Aktiviteter (tidsregistrering)
+setting_plain_text_mail: plain text only (no HTML)
+permission_view_files: View files
+permission_edit_issues: Edit issues
+permission_edit_own_time_entries: Edit own time logs
+permission_manage_public_queries: Manage public queries
+permission_add_issues: Add issues
+permission_log_time: Log spent time
+permission_view_changesets: View changesets
+permission_view_time_entries: View spent time
+permission_manage_versions: Manage versions
+permission_manage_wiki: Manage wiki
+permission_manage_categories: Manage issue categories
+permission_protect_wiki_pages: Protect wiki pages
+permission_comment_news: Comment news
+permission_delete_messages: Delete messages
+permission_select_project_modules: Select project modules
+permission_manage_documents: Manage documents
+permission_edit_wiki_pages: Edit wiki pages
+permission_add_issue_watchers: Add watchers
+permission_view_gantt: View gantt chart
+permission_move_issues: Move issues
+permission_manage_issue_relations: Manage issue relations
+permission_delete_wiki_pages: Delete wiki pages
+permission_manage_boards: Manage boards
+permission_delete_wiki_pages_attachments: Delete attachments
+permission_view_wiki_edits: View wiki history
+permission_add_messages: Post messages
+permission_view_messages: View messages
+permission_manage_files: Manage files
+permission_edit_issue_notes: Edit notes
+permission_manage_news: Manage news
+permission_view_calendar: View calendrier
+permission_manage_members: Manage members
+permission_edit_messages: Edit messages
+permission_delete_issues: Delete issues
+permission_view_issue_watchers: View watchers list
+permission_manage_repository: Manage repository
+permission_commit_access: Commit access
+permission_browse_repository: Browse repository
+permission_view_documents: View documents
+permission_edit_project: Edit project
+permission_add_issue_notes: Add notes
+permission_save_queries: Save queries
+permission_view_wiki_pages: View wiki
+permission_rename_wiki_pages: Rename wiki pages
+permission_edit_time_entries: Edit time logs
+permission_edit_own_issue_notes: Edit own notes
+setting_gravatar_enabled: Use Gravatar user icons
+label_example: Example
+text_repository_usernames_mapping: "Select ou update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
+permission_edit_own_messages: Edit own messages
+permission_delete_own_messages: Delete own messages
+label_user_activity: "%s's activity"
+label_updated_time_by: Updated by %s %s ago
+text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
+setting_diff_max_lines_displayed: Max number of diff lines displayed

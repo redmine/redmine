@@ -1,0 +1,18 @@
+<div class="attachments">
+<% for attachment in attachments %>
+<p><%= link_to_attachment attachment, :class => 'icon icon-attachment' -%>
+<%= h(" - #{attachment.description}") unless attachment.description.blank? %>
+  <span class="size">(<%= number_to_human_size attachment.filesize %>)</span>
+  <% if options[:deletable] %>
+    <%= link_to image_tag('delete.png'), {:controller => 'attachments', :action => 'destroy', :id => attachment},
+                                         :confirm => l(:text_are_you_sure),
+                                         :method => :post,
+                                         :class => 'delete',
+                                         :title => l(:button_delete) %>
+  <% end %>
+  <% if options[:author] %>
+    <span class="author"><%= attachment.author %>, <%= format_time(attachment.created_on) %></span>
+  <% end %>
+  </p>
+<% end %>
+</div>

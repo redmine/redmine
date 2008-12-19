@@ -1,0 +1,42 @@
+<div class="contextual">
+    <%= link_to l(:label_personalize_page), :action => 'page_layout' %>
+</div>
+
+<h2><%=l(:label_my_page)%></h2>
+
+<div id="list-top">
+	<% @blocks['top'].each do |b| 
+	   next unless MyController::BLOCKS.keys.include? b	%>
+	<div class="mypage-box">        
+		<%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
+	</div>
+	<% end if @blocks['top'] %>
+</div>
+
+<div id="list-left" class="splitcontentleft">
+	<% @blocks['left'].each do |b| 
+	   next unless MyController::BLOCKS.keys.include? b %>
+	<div class="mypage-box">        
+		<%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
+	</div>
+	<% end if @blocks['left'] %>
+</div>
+
+<div id="list-right" class="splitcontentright">
+	<% @blocks['right'].each do |b| 
+	   next unless MyController::BLOCKS.keys.include? b %>
+	<div class="mypage-box">        
+		<%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
+	</div>
+	<% end if @blocks['right'] %>
+</div>
+
+<% content_for :header_tags do %>
+    <%= javascript_include_tag 'context_menu' %>
+    <%= stylesheet_link_tag 'context_menu' %>
+<% end %>
+
+<div id="context-menu" style="display: none;"></div>
+<%= javascript_tag "new ContextMenu('#{url_for(:controller => 'issues', :action => 'context_menu')}')" %>
+
+<% html_title(l(:label_my_page)) -%>
