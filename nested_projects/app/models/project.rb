@@ -79,7 +79,7 @@ class Project < ActiveRecord::Base
   def issues_with_subprojects(include_subprojects=false)
     conditions = nil
     if include_subprojects
-      ids = [id] + child_ids
+      ids = [id] + descendants.collect(&:id)
       conditions = ["#{Project.table_name}.id IN (#{ids.join(',')}) AND #{Project.visible_by}"]
     end
     conditions ||= ["#{Project.table_name}.id = ?", id]

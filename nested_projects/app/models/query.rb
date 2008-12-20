@@ -268,10 +268,10 @@ class Query < ActiveRecord::Base
           # main project only
         else
           # all subprojects
-          ids += project.child_ids
+          ids += project.descendants.collect(&:id)
         end
       elsif Setting.display_subprojects_issues?
-        ids += project.child_ids
+        ids += project.descendants.collect(&:id)
       end
       project_clauses << "#{Project.table_name}.id IN (%s)" % ids.join(',')
     elsif project
