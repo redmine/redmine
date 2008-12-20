@@ -60,7 +60,7 @@ class ProjectTest < Test::Unit::TestCase
     assert !user.projects.include?(@ecookbook)
     # Subproject are also archived
     assert !@ecookbook.children.empty?
-    assert @ecookbook.active_children.empty?
+    assert @ecookbook.descendants.active.empty?
   end
   
   def test_unarchive

@@ -203,10 +203,6 @@ class Project < ActiveRecord::Base
     end
   end
   
-  def active_children
-    children.select {|child| child.active?}
-  end
-  
   # Returns an array of the trackers used by the project and its sub projects
   def rolled_up_trackers
     @rolled_up_trackers ||=
