@@ -33,4 +33,8 @@ module ProjectsHelper
             ]
     tabs.select {|tab| User.current.allowed_to?(tab[:action], @project)}     
   end
+  
+  def project_hierarchy_collection_for_select(projects)
+    projects.sort_by(&:lft).collect {|p| [('>' * p.level) + p.name.to_s, p.id]}
+  end
 end

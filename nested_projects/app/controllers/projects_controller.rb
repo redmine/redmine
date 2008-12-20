@@ -63,9 +63,6 @@ class ProjectsController < ApplicationController
   def add
     @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @trackers = Tracker.all
-    @root_projects = Project.find(:all,
-                                  :conditions => "parent_id IS NULL AND status = #{Project::STATUS_ACTIVE}",
-                                  :order => 'name')
     @project = Project.new(params[:project])
     if request.get?
       @project.identifier = Project.next_identifier if Setting.sequential_project_identifiers?
@@ -75,6 +72,7 @@ class ProjectsController < ApplicationController
     else
       @project.enabled_module_names = params[:enabled_modules]
       if @project.save
+        @project.set_parent!(params[:project]['parent_id']) if User.current.admin? && params[:project].has_key?('parent_id')
         flash[:notice] = l(:notice_successful_create)
         redirect_to :controller => 'admin', :action => 'projects'
 	  end		
@@ -106,9 +104,6 @@ class ProjectsController < ApplicationController
   end
 
   def settings
-    @root_projects = Project.find(:all,
-                                  :conditions => ["parent_id IS NULL AND status = #{Project::STATUS_ACTIVE} AND id <> ?", @project.id],
-                                  :order => 'name')
     @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @issue_category ||= IssueCategory.new
     @member ||= @project.members.new
@@ -122,6 +117,7 @@ class ProjectsController < ApplicationController
     if request.post?
       @project.attributes = params[:project]
       if @project.save
+        @project.set_parent!(params[:project]['parent_id']) if User.current.admin? && params[:project].has_key?('parent_id')
         flash[:notice] = l(:notice_successful_update)
         redirect_to :action => 'settings', :id => @project
       else

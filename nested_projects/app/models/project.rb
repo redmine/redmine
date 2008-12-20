@@ -66,6 +66,7 @@ class Project < ActiveRecord::Base
   before_destroy :delete_all_members
 
   named_scope :has_module, lambda { |mod| { :conditions => ["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s] } }
+  named_scope :active, { :conditions => "#{Project.table_name}.status = #{STATUS_ACTIVE}"}
   
   def identifier=(identifier)
     super unless identifier_frozen?
@@ -177,6 +178,31 @@ class Project < ActiveRecord::Base
     update_attribute :status, STATUS_ACTIVE
   end
   
+  def possible_parents
+    @possible_parents ||= (Project.active.find(:all) - self_and_descendants)
+  end
+  
+  # Sets the parent of the project
+  # Argument can be either a Project, a String, a Fixnum or nil
+  def set_parent!(p)
+    unless p.nil? || p.is_a?(Project)
+      if p.to_s.blank?
+        p = nil
+      else
+        p = Project.find_by_id(p)
+        return false unless p
+      end
+    end
+    if p == parent
+      true
+    elsif p.nil? || (p.active? && move_possible?(p))
+      move_to_child_of(p)
+      true
+    else
+      false
+    end
+  end
+  
   def active_children
     children.select {|child| child.active?}
   end
@@ -257,8 +283,8 @@ class Project < ActiveRecord::Base
 
 protected
   def validate
-    errors.add(parent_id, " must be a root project") if parent and parent.parent
-    errors.add_to_base("A project with subprojects can't be a subproject") if parent and children.size > 0
+    #errors.add(parent_id, " must be a root project") if parent and parent.parent
+    #errors.add_to_base("A project with subprojects can't be a subproject") if parent and children.size > 0
     errors.add(:identifier, :activerecord_error_invalid) if !identifier.blank? && identifier.match(/^\d*$/)
   end
   

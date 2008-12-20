@@ -95,25 +95,27 @@ class ProjectTest < Test::Unit::TestCase
     assert Board.find(:all, :conditions => ['project_id = ?', @ecookbook.id]).empty?
   end
   
-  def test_subproject_ok
+  def test_move_an_orphan_project_to_a_root_project
     sub = Project.find(2)
-    sub.parent = @ecookbook
-    assert sub.save
+    sub.set_parent! @ecookbook
     assert_equal @ecookbook.id, sub.parent.id
     @ecookbook.reload
     assert_equal 4, @ecookbook.children.size
   end
   
-  def test_subproject_invalid
+  def test_move_an_orphan_project_to_a_subproject
     sub = Project.find(2)
-    sub.parent = @ecookbook_sub1
-    assert !sub.save
+    assert sub.set_parent!(@ecookbook_sub1)
   end
   
-  def test_subproject_invalid_2
+  def test_move_a_root_project_to_a_project
     sub = @ecookbook
-    sub.parent = Project.find(2)
-    assert !sub.save
+    assert sub.set_parent!(Project.find(2))
+  end
+  
+  def test_should_not_move_a_project_to_its_children
+    sub = @ecookbook
+    assert !(sub.set_parent!(Project.find(3)))
   end
   
   def test_rolled_up_trackers
