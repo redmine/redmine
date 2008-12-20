@@ -119,7 +119,7 @@ class Project < ActiveRecord::Base
     end
     if options[:project]
       project_statement = "#{Project.table_name}.id = #{options[:project].id}"
-      project_statement << " OR #{Project.table_name}.parent_id = #{options[:project].id}" if options[:with_subprojects]
+      project_statement << " OR (#{Project.table_name}.lft > #{options[:project].lft} AND #{Project.table_name}.rgt < #{options[:project].rgt})" if options[:with_subprojects]
       base_statement = "(#{project_statement}) AND (#{base_statement})"
     end
     if user.admin?
