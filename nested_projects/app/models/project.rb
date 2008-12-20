@@ -165,6 +165,7 @@ class Project < ActiveRecord::Base
     self.status == STATUS_ACTIVE
   end
   
+  # Archives the project and its descendants recursively
   def archive
     # Archive subprojects if any
     children.each do |subproject|
@@ -173,11 +174,14 @@ class Project < ActiveRecord::Base
     update_attribute :status, STATUS_ARCHIVED
   end
   
+  # Unarchives the project
+  # All its ancestors must be active
   def unarchive
-    return false if parent && !parent.active?
+    return false if ancestors.detect {|a| !a.active?}
     update_attribute :status, STATUS_ACTIVE
   end
   
+  # Returns an array of projects the project can be moved to
   def possible_parents
     @possible_parents ||= (Project.active.find(:all) - self_and_descendants)
   end
