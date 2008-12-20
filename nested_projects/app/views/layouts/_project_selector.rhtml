@@ -1,4 +1,4 @@
-<% user_projects_by_root = User.current.projects.find(:all, :include => :parent).group_by(&:root) %>
+<% user_projects_by_root = User.current.projects.find(:all).group_by(&:root) %>
 <select onchange="if (this.value != '') { window.location = this.value; }">
 <option selected="selected"><%= l(:label_jump_to_a_project) %></option>
 <option disabled="disabled">---</option>

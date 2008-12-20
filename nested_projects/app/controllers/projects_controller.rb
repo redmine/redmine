@@ -46,8 +46,7 @@ class ProjectsController < ApplicationController
   # Lists visible projects
   def index
     projects = Project.find :all,
-                            :conditions => Project.visible_by(User.current),
-                            :include => :parent
+                            :conditions => Project.visible_by(User.current)
     respond_to do |format|
       format.html { 
         @project_tree = projects.group_by {|p| p.parent || p}
