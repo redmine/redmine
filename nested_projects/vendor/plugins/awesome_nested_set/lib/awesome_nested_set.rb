@@ -56,6 +56,7 @@ module CollectiveIdea #:nodoc:
             :parent_column => 'parent_id',
             :left_column => 'lft',
             :right_column => 'rgt',
+            :order => 'id',
             :dependent => :delete_all, # or :destroy
           }.merge(options)
           
@@ -179,14 +180,14 @@ module CollectiveIdea #:nodoc:
             # set left
             node[left_column_name] = indices[scope.call(node)] += 1
             # find
-            find(:all, :conditions => ["#{quoted_parent_column_name} = ? #{scope.call(node)}", node], :order => "#{quoted_left_column_name}, #{quoted_right_column_name}, id").each{|n| set_left_and_rights.call(n) }
+            find(:all, :conditions => ["#{quoted_parent_column_name} = ? #{scope.call(node)}", node], :order => "#{quoted_left_column_name}, #{quoted_right_column_name}, #{acts_as_nested_set_options[:order]}").each{|n| set_left_and_rights.call(n) }
             # set right
             node[right_column_name] = indices[scope.call(node)] += 1    
             node.save!    
           end
                               
           # Find root node(s)
-          root_nodes = find(:all, :conditions => "#{quoted_parent_column_name} IS NULL", :order => "#{quoted_left_column_name}, #{quoted_right_column_name}, id").each do |root_node|
+          root_nodes = find(:all, :conditions => "#{quoted_parent_column_name} IS NULL", :order => "#{quoted_left_column_name}, #{quoted_right_column_name}, #{acts_as_nested_set_options[:order]}").each do |root_node|
             # setup index for this scope
             indices[scope.call(root_node)] ||= 0
             set_left_and_rights.call(root_node)

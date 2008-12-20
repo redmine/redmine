@@ -118,6 +118,22 @@ class ProjectTest < Test::Unit::TestCase
     assert !(sub.set_parent!(Project.find(3)))
   end
   
+  def test_rebuild_should_sort_children_alphabetically
+    ProjectCustomField.delete_all
+    parent = Project.create!(:name => 'Parent', :identifier => 'parent')
+    Project.create!(:name => 'Project C', :identifier => 'project-c').move_to_child_of(parent)
+    Project.create!(:name => 'Project B', :identifier => 'project-b').move_to_child_of(parent)
+    Project.create!(:name => 'Project D', :identifier => 'project-d').move_to_child_of(parent)
+    Project.create!(:name => 'Project A', :identifier => 'project-a').move_to_child_of(parent)
+    
+    Project.update_all("lft = NULL, rgt = NULL")
+    Project.rebuild!
+    
+    parent.reload
+    assert_equal 4, parent.children.size
+    assert_equal parent.children.sort_by(&:name), parent.children
+  end
+  
   def test_rolled_up_trackers
     parent = Project.find(1)
     parent.trackers = Tracker.find([1,2])
