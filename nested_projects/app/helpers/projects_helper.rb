@@ -34,8 +34,13 @@ module ProjectsHelper
     tabs.select {|tab| User.current.allowed_to?(tab[:action], @project)}     
   end
   
-  def project_hierarchy_collection_for_select(projects)
-    projects.sort_by(&:lft).collect {|p| [('>' * p.level) + p.name.to_s, p.id]}
+  def parent_project_select_tag(project)
+    options = '<option></option>'
+    project_tree(project.possible_parents) do |p, i|
+      selected = (project.parent == p)
+      options << "<option value='#{p.id}' #{ selected ? 'selected' : nil}>#{ '&#187; ' * i }#{h(p)}</option>"
+    end
+    content_tag('select', options, :name => 'project[parent_id]')
   end
   
   # Renders a tree of projects as a nested set of unordered lists
