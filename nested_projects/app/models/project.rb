@@ -142,7 +142,7 @@ class Project < ActiveRecord::Base
   
   def project_condition(with_subprojects)
     cond = "#{Project.table_name}.id = #{id}"
-    cond = "(#{cond} OR #{Project.table_name}.parent_id = #{id})" if with_subprojects
+    cond = "(#{cond} OR (#{Project.table_name}.lft > #{lft} AND #{Project.table_name}.rgt < #{rgt}))" if with_subprojects
     cond
   end
   
@@ -229,7 +229,7 @@ class Project < ActiveRecord::Base
     @rolled_up_trackers ||=
       Tracker.find(:all, :include => :projects,
                          :select => "DISTINCT #{Tracker.table_name}.*",
-                         :conditions => ["#{Project.table_name}.id = ? OR #{Project.table_name}.parent_id = ?", id, id],
+                         :conditions => ["#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ?", lft, rgt],
                          :order => "#{Tracker.table_name}.position")
   end
   
@@ -300,8 +300,6 @@ class Project < ActiveRecord::Base
 
 protected
   def validate
-    #errors.add(parent_id, " must be a root project") if parent and parent.parent
-    #errors.add_to_base("A project with subprojects can't be a subproject") if parent and children.size > 0
     errors.add(:identifier, :activerecord_error_invalid) if !identifier.blank? && identifier.match(/^\d*$/)
   end
   
