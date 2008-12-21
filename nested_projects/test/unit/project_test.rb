@@ -118,6 +118,31 @@ class ProjectTest < Test::Unit::TestCase
     assert !(sub.set_parent!(Project.find(3)))
   end
   
+  def test_set_parent_should_add_roots_in_alphabetical_order
+    ProjectCustomField.delete_all
+    Project.delete_all
+    Project.create!(:name => 'Project C', :identifier => 'project-c').set_parent!(nil)
+    Project.create!(:name => 'Project B', :identifier => 'project-b').set_parent!(nil)
+    Project.create!(:name => 'Project D', :identifier => 'project-d').set_parent!(nil)
+    Project.create!(:name => 'Project A', :identifier => 'project-a').set_parent!(nil)
+    
+    assert_equal 4, Project.count
+    assert_equal Project.all.sort_by(&:name), Project.all.sort_by(&:lft)
+  end
+  
+  def test_set_parent_should_add_children_in_alphabetical_order
+    ProjectCustomField.delete_all
+    parent = Project.create!(:name => 'Parent', :identifier => 'parent')
+    Project.create!(:name => 'Project C', :identifier => 'project-c').set_parent!(parent)
+    Project.create!(:name => 'Project B', :identifier => 'project-b').set_parent!(parent)
+    Project.create!(:name => 'Project D', :identifier => 'project-d').set_parent!(parent)
+    Project.create!(:name => 'Project A', :identifier => 'project-a').set_parent!(parent)
+    
+    parent.reload
+    assert_equal 4, parent.children.size
+    assert_equal parent.children.sort_by(&:name), parent.children
+  end
+  
   def test_rebuild_should_sort_children_alphabetically
     ProjectCustomField.delete_all
     parent = Project.create!(:name => 'Parent', :identifier => 'parent')

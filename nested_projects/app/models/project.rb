@@ -197,12 +197,29 @@ class Project < ActiveRecord::Base
         return false unless p
       end
     end
-    if p == parent
+    if p == parent && !p.nil?
+      # Nothing to do
       true
     elsif p.nil? || (p.active? && move_possible?(p))
-      move_to_child_of(p)
+      # Insert the project so that target's children or root projects stay alphabetically sorted
+      sibs = (p.nil? ? self.class.roots : p.children)
+      to_be_inserted_before = sibs.detect {|c| c.name.to_s.downcase > name.to_s.downcase }
+      if to_be_inserted_before
+        move_to_left_of(to_be_inserted_before)
+      elsif p.nil?
+        if sibs.empty?
+          # move_to_root adds the project in first (ie. left) position
+          move_to_root
+        else
+          move_to_right_of(sibs.last) unless self == sibs.last
+        end
+      else
+        # move_to_child_of adds the project in last (ie.right) position
+        move_to_child_of(p)
+      end
       true
     else
+      # Can not move to the given target
       false
     end
   end
