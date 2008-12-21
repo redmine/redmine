@@ -251,7 +251,7 @@ class Project < ActiveRecord::Base
   
   # Returns a short description of the projects (first lines)
   def short_description(length = 255)
-    description.gsub(/^(.{#{length}}[^\n]*).*$/m, '\1').strip if description
+    description.gsub(/^(.{#{length}}[^\n\r]*).*$/m, '\1...').strip if description
   end
   
   def allows_to?(action)

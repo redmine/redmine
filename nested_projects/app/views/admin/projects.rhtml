@@ -26,11 +26,11 @@
   </tr></thead>
   <tbody>
 <% for project in @projects %>
-  <tr class="<%= cycle("odd", "even") %>">
-	<td style="padding-left: <%= project.level %>em;"><%= project.active? ? link_to(h(project.name), :controller => 'projects', :action => 'settings', :id => project) : h(project.name) %>
-	<td><%= textilizable project.short_description, :project => project %>
-	<td align="center"><%= image_tag 'true.png' if project.is_public? %>
-	<td align="center"><%= format_date(project.created_on) %>
+  <tr class="<%= cycle("odd", "even") %> <%= css_project_classes(project) %>">
+	<td class="name" style="padding-left: <%= project.level %>em;"><%= project.active? ? link_to(h(project.name), :controller => 'projects', :action => 'settings', :id => project) : h(project.name) %></td>
+	<td><%= textilizable project.short_description, :project => project %></td>
+	<td align="center"><%= image_tag 'true.png' if project.is_public? %></td>
+	<td align="center"><%= format_date(project.created_on) %></td>
   <td align="center" style="width:10%">
     <small>
     <%= link_to(l(:button_archive), { :controller => 'projects', :action => 'archive', :id => project }, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-lock') if project.active? %>
