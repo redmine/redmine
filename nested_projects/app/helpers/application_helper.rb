@@ -153,7 +153,7 @@ module ApplicationHelper
     # Retrieve them now to avoid a COUNT query
     projects = User.current.projects.all
     if projects.any?
-      s = '<select onchange="if (this.value != '') { window.location = this.value; }">' +
+      s = '<select onchange="if (this.value != \'\') { window.location = this.value; }">' +
             "<option selected='selected'>#{ l(:label_jump_to_a_project) }</option>" +
             '<option disabled="disabled">---</option>'
       ancestors = []
@@ -161,6 +161,7 @@ module ApplicationHelper
         s << content_tag('option', ('&#187; ' * level) + h(project), :value => url_for(:controller => 'projects', :action => 'show', :id => project))
       end
       s << '</select>'
+      s
     end
   end
   
