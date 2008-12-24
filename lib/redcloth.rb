@@ -433,12 +433,15 @@ class RedCloth < String
     #
     # Flexible HTML escaping
     #
-    def htmlesc( str, mode )
+    def htmlesc( str, mode=:Quotes )
+      if str
         str.gsub!( '&', '&amp;' )
         str.gsub!( '"', '&quot;' ) if mode != :NoQuotes
         str.gsub!( "'", '&#039;' ) if mode == :Quotes
         str.gsub!( '<', '&lt;')
         str.gsub!( '>', '&gt;')
+      end
+      str
     end
 
     # Search and replace for Textile glyphs (quotes, dashes, other symbols)
@@ -890,6 +893,7 @@ class RedCloth < String
     def inline_textile_image( text ) 
         text.gsub!( IMAGE_RE )  do |m|
             stln,algn,atts,url,title,href,href_a1,href_a2 = $~[1..8]
+	    htmlesc title
             atts = pba( atts )
             atts = " src=\"#{ url }\"#{ atts }"
             atts << " title=\"#{ title }\"" if title
