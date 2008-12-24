@@ -129,7 +129,12 @@ class TimelogController < ApplicationController
   
   def details
     sort_init 'spent_on', 'desc'
-    sort_update
+    sort_update 'spent_on' => 'spent_on',
+                'user' => 'user_id',
+                'activity' => 'activity_id',
+                'project' => "#{Project.table_name}.name",
+                'issue' => 'issue_id',
+                'hours' => 'hours'
     
     cond = ARCondition.new
     cond << (@issue.nil? ? @project.project_condition(Setting.display_subprojects_issues?) :

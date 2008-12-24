@@ -124,6 +124,16 @@ class IssuesControllerTest < Test::Unit::TestCase
     assert_equal 'application/pdf', @response.content_type
   end
   
+  def test_index_sort
+    get :index, :sort_key => 'tracker'
+    assert_response :success
+    
+    sort_params = @request.session['issuesindex_sort']
+    assert sort_params.is_a?(Hash)
+    assert_equal 'tracker', sort_params[:key]
+    assert_equal 'ASC', sort_params[:order]
+  end
+  
   def test_changes
     get :changes, :project_id => 1
     assert_response :success
