@@ -465,7 +465,7 @@ class RedCloth < String
             style << "vertical-align:#{ v_align( $& ) };" if text =~ A_VLGN
         end
 
-        style << "#{ $1 };" if not filter_styles and
+        style << "#{ htmlesc $1 };" if not filter_styles and
             text.sub!( /\{([^}]*)\}/, '' )
 
         lang = $1 if
@@ -786,7 +786,7 @@ class RedCloth < String
             
             atts = pba( atts )
             atts = " href=\"#{ url }#{ slash }\"#{ atts }"
-            atts << " title=\"#{ title }\"" if title
+            atts << " title=\"#{ htmlesc title }\"" if title
             atts = shelve( atts ) if atts
             
             external = (url =~ /^https?:\/\//) ? ' class="external"' : ''
