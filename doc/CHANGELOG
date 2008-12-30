@@ -4,6 +4,11 @@ Redmine - project management software
 Copyright (C) 2006-2008  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2008-12-30 v0.7.4
+
+* Fixed several XSS vulnerabilities
+* Fixed a SQL injection vulnerability
+
 
 == 2008-07-06 v0.7.3
 
