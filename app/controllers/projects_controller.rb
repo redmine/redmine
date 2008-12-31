@@ -188,10 +188,13 @@ class ProjectsController < ApplicationController
 
   def add_file
     if request.post?
-      @version = @project.versions.find_by_id(params[:version_id])
-      attachments = attach_files(@version, params[:attachments])
-      Mailer.deliver_attachments_added(attachments) if !attachments.empty? && Setting.notified_events.include?('file_added')
+      container = (params[:version_id].blank? ? @project : @project.versions.find_by_id(params[:version_id]))
+      attachments = attach_files(container, params[:attachments])
+      if !attachments.empty? && Setting.notified_events.include?('file_added')
+        Mailer.deliver_attachments_added(attachments)
+      end
       redirect_to :controller => 'projects', :action => 'list_files', :id => @project
+      return
     end
     @versions = @project.versions.sort
   end
@@ -203,7 +206,8 @@ class ProjectsController < ApplicationController
                 'size' => "#{Attachment.table_name}.filesize",
                 'downloads' => "#{Attachment.table_name}.downloads"
                 
-    @versions = @project.versions.find(:all, :include => :attachments, :order => sort_clause).sort.reverse
+    @containers = [ Project.find(@project.id, :include => :attachments, :order => sort_clause)]
+    @containers += @project.versions.find(:all, :include => :attachments, :order => sort_clause).sort.reverse
     render :layout => !request.xhr?
   end
   
