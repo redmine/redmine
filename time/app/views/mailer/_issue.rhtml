@@ -1,7 +1,0 @@
-<%=l(:label_issue)%> #<%= issue.id %> - <%= issue.subject %>
-<%=l(:field_author)%>: <%= issue.author.display_name %>
-<%=l(:field_status)%>: <%= issue.status.name %>
-
-<%= issue.description %>
-
-http://<%= Setting.host_name %>/issues/show/<%= issue.id %>
