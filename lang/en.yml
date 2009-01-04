@@ -85,6 +85,8 @@ error_scm_command_failed: "An error occurred when trying to access the repositor
 error_scm_annotate: "The entry does not exist or can not be annotated."
 error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
 
+warning_attachments_not_saved: "%d file(s) could not be saved."
+
 mail_subject_lost_password: Your %s password
 mail_body_lost_password: 'To change your password, click on the following link:'
 mail_subject_register: Your %s account activation
@@ -660,7 +662,8 @@ text_status_changed_by_changeset: Applied in changeset %s.
 text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s) ?'
 text_select_project_modules: 'Select modules to enable for this project:'
 text_default_administrator_account_changed: Default administrator account changed
-text_file_repository_writable: File repository writable
+text_file_repository_writable: Attachments directory writable
+text_plugin_assets_writable: Plugin assets directory writable
 text_rmagick_available: RMagick available (optional)
 text_destroy_time_entries_question: %.02f hours were reported on the issues you are about to delete. What do you want to do ?
 text_destroy_time_entries: Delete reported hours
