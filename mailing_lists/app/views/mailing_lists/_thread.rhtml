@@ -1,9 +1,0 @@
-<% unless messages.nil? || messages.empty? %>
-<ul>
-<% messages.each do |message| %>
-    <li><%= link_to message.subject, :controller => 'mailing_messages', :action => 'show', :id => message %> <em><%= message.from %> - <%= format_time(message.sent_on) %></em>
-    <%= render :partial => 'mailing_lists/thread', :locals => {:messages => message.children} %>
-    </li>
-<% end %>
-</ul>
-<% end %>
