@@ -6,7 +6,7 @@
 
 <h2><%=l(:label_project_plural)%></h2>
 
-<%= render_project_hierarchy(Project.find(:all, :order => 'lft'))%>
+<%= render_project_hierarchy(@projects)%>
 
 <% if User.current.logged? %>
 <p style="text-align:right;">

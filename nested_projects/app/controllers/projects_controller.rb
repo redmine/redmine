@@ -45,16 +45,14 @@ class ProjectsController < ApplicationController
   
   # Lists visible projects
   def index
-    projects = Project.find :all,
-                            :conditions => Project.visible_by(User.current)
     respond_to do |format|
       format.html { 
-        @project_tree = projects.group_by {|p| p.parent || p}
-        @project_tree.keys.each {|p| @project_tree[p] -= [p]} 
+        @projects = Project.visible.find(:all, :order => 'lft') 
       }
       format.atom {
-        render_feed(projects.sort_by(&:created_on).reverse.slice(0, Setting.feeds_limit.to_i), 
-                                  :title => "#{Setting.app_title}: #{l(:label_project_latest)}")
+        projects = Project.visible.find(:all, :order => 'created_on DESC',
+                                              :limit => Setting.feeds_limit.to_i)
+        render_feed(projects, :title => "#{Setting.app_title}: #{l(:label_project_latest)}")
       }
     end
   end
