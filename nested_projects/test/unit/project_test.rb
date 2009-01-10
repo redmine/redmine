@@ -45,12 +45,6 @@ class ProjectTest < Test::Unit::TestCase
     assert_equal "activerecord_error_blank", @ecookbook.errors.on(:name)
   end
   
-  def test_public_projects
-    public_projects = Project.find(:all, :conditions => ["is_public=?", true])
-    assert_equal 3, public_projects.length
-    assert_equal true, public_projects[0].is_public?
-  end
-  
   def test_archive
     user = @ecookbook.members.first.user
     @ecookbook.archive
@@ -157,6 +151,36 @@ class ProjectTest < Test::Unit::TestCase
     parent.reload
     assert_equal 4, parent.children.size
     assert_equal parent.children.sort_by(&:name), parent.children
+  end
+  
+  def test_parent
+    p = Project.find(6).parent
+    assert p.is_a?(Project)
+    assert_equal 5, p.id
+  end
+  
+  def test_ancestors
+    a = Project.find(6).ancestors
+    assert a.first.is_a?(Project)
+    assert_equal [1, 5], a.collect(&:id)
+  end
+  
+  def test_root
+    r = Project.find(6).root
+    assert r.is_a?(Project)
+    assert_equal 1, r.id
+  end
+  
+  def test_children
+    c = Project.find(1).children
+    assert c.first.is_a?(Project)
+    assert_equal [5, 3, 4], c.collect(&:id)
+  end
+  
+  def test_descendants
+    d = Project.find(1).descendants
+    assert d.first.is_a?(Project)
+    assert_equal [5, 6, 3, 4], d.collect(&:id)
   end
   
   def test_rolled_up_trackers
