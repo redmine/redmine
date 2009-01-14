@@ -175,7 +175,7 @@ class Query < ActiveRecord::Base
         @available_filters["fixed_version_id"] = { :type => :list_optional, :order => 7, :values => @project.versions.sort.collect{|s| [s.name, s.id.to_s] } }
       end
       unless @project.descendants.active.empty?
-        @available_filters["subproject_id"] = { :type => :list_subprojects, :order => 13, :values => @project.descendants.active.collect{|s| [s.name, s.id.to_s] } }
+        @available_filters["subproject_id"] = { :type => :list_subprojects, :order => 13, :values => @project.descendants.visible.collect{|s| [s.name, s.id.to_s] } }
       end
       add_custom_fields_filters(@project.all_issue_custom_fields)
     else
