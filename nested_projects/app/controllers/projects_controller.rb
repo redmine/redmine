@@ -80,7 +80,8 @@ class ProjectsController < ApplicationController
   # Show @project
   def show
     @members_by_role = @project.members.find(:all, :include => [:user, :role], :order => 'position').group_by {|m| m.role}
-    @subprojects = @project.children.find(:all, :conditions => Project.visible_by(User.current))
+    @subprojects = @project.children.visible
+    @ancestors = @project.ancestors.visible
     @news = @project.news.find(:all, :limit => 5, :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")
     @trackers = @project.rolled_up_trackers
     
