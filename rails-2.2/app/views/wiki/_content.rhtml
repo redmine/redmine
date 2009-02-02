@@ -1,3 +1,0 @@
-<div class="wiki">
-  <%= textilizable content, :text, :attachments => content.page.attachments %>
-</div>
