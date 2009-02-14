@@ -24,8 +24,8 @@ activerecord_error_exclusion: è riservato
 activerecord_error_invalid: non è valido
 activerecord_error_confirmation: non coincide con la conferma
 activerecord_error_accepted: deve essere accettato
-activerecord_error_empty: non puo' essere vuoto
-activerecord_error_blank: non puo' essere blank
+activerecord_error_empty: non può essere vuoto
+activerecord_error_blank: non può essere lasciato in bianco
 activerecord_error_too_long: è troppo lungo/a
 activerecord_error_too_short: è troppo corto/a
 activerecord_error_wrong_length: è della lunghezza sbagliata
@@ -108,7 +108,7 @@ field_value: Valore
 field_category: Categoria
 field_title: Titolo
 field_project: Progetto
-field_issue: Issue
+field_issue: Segnalazione
 field_status: Stato
 field_notes: Note
 field_is_closed: Chiude la segnalazione
@@ -169,7 +169,7 @@ field_default_value: Stato predefinito
 setting_app_title: Titolo applicazione
 setting_app_subtitle: Sottotitolo applicazione
 setting_welcome_text: Testo di benvenuto
-setting_default_language: Lingua di default
+setting_default_language: Lingua predefinita
 setting_login_required: Autenticazione richiesta
 setting_self_registration: Auto-registrazione abilitata
 setting_attachment_max_size: Massima dimensione allegati
@@ -177,12 +177,12 @@ setting_issues_export_limit: Limite esportazione segnalazioni
 setting_mail_from: Indirizzo sorgente e-mail
 setting_host_name: Nome host
 setting_text_formatting: Formattazione testo
-setting_wiki_compression: Compressione di storia di Wiki
+setting_wiki_compression: Comprimi cronologia wiki
 setting_feeds_limit: Limite contenuti del feed
 setting_autofetch_changesets: Acquisisci automaticamente le commit
 setting_sys_api_enabled: Abilita WS per la gestione del repository
-setting_commit_ref_keywords: Referencing keywords
-setting_commit_fix_keywords: Fixing keywords
+setting_commit_ref_keywords: Parole chiave riferimento
+setting_commit_fix_keywords: Parole chiave chiusura
 setting_autologin: Login automatico
 setting_date_format: Formato data
 setting_cross_project_issue_relations: Consenti la creazione di relazioni tra segnalazioni in progetti differenti
@@ -353,7 +353,7 @@ label_sort_lower: Giù
 label_sort_lowest: Sposta in fondo
 label_roadmap: Roadmap
 label_roadmap_due_in: Da ultimare in %s
-label_roadmap_overdue: %s late
+label_roadmap_overdue: %s di ritardo
 label_roadmap_no_issues: Nessuna segnalazione per questa versione
 label_search: Ricerca
 label_result_plural: Risultati
@@ -482,7 +482,7 @@ text_length_between: Lunghezza compresa tra %d e %d caratteri.
 text_tracker_no_workflow: Nessun workflow definito per questo tracker
 text_unallowed_characters: Caratteri non permessi
 text_comma_separated: Valori multipli permessi (separati da virgola).
-text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
+text_issues_ref_in_commit_messages: Segnalazioni di riferimento e chiusura nei messaggi di commit
 text_issue_added: "E' stata segnalata l'anomalia %s da %s."
 text_issue_updated: "L'anomalia %s e' stata aggiornata da %s."
 text_wiki_destroy_confirmation: Sicuro di voler cancellare questo wiki e tutti i suoi contenuti?
@@ -530,7 +530,7 @@ label_default: Predefinito
 label_search_titles_only: Cerca solo nei titoli
 label_nobody: nessuno
 button_change_password: Modifica password
-text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee)."
+text_user_mail_option: "Per i progetti non selezionati, riceverai solo le notifiche riguardanti le cose che osservi o nelle quali sei coinvolto (per esempio segnalazioni che hai creato o che ti sono state assegnate)."
 label_user_mail_option_selected: "Solo per gli eventi relativi ai progetti selezionati..."
 label_user_mail_option_all: "Per ogni evento relativo ad uno dei miei progetti"
 label_user_mail_option_none: "Solo per argomenti che osservo o che mi riguardano"
@@ -548,7 +548,7 @@ mail_body_account_activation_request: 'Un nuovo utente (%s) ha effettuato la reg
 label_registration_automatic_activation: attivazione account automatica
 label_registration_manual_activation: attivazione account manuale
 notice_account_pending: "Il tuo account è stato creato ed è in attesa di attivazione da parte dell'amministratore."
-field_time_zone: Time zone
+field_time_zone: Fuso orario
 text_caracters_minimum: Deve essere lungo almeno %d caratteri.
 setting_bcc_recipients: Destinatari in copia nascosta (bcc)
 button_annotate: Annota
@@ -557,10 +557,10 @@ field_searchable: Ricercabile
 label_display_per_page: 'Per pagina: %s'
 setting_per_page_options: Opzioni oggetti per pagina
 label_age: Età
-notice_default_data_loaded: Configurazione di default caricata con successo.
-text_load_default_configuration: Carica la configurazione di default
+notice_default_data_loaded: Configurazione predefinita caricata con successo.
+text_load_default_configuration: Carica la configurazione predefinita
 text_no_configuration_data: "Ruoli, tracker, stati delle segnalazioni e workflow non sono stati ancora configurati.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
-error_can_t_load_default_data: "Non è stato possibile caricare la configurazione di default : %s"
+error_can_t_load_default_data: "Non è stato possibile caricare la configurazione predefinita : %s"
 button_update: Aggiorna
 label_change_properties: Modifica le proprietà
 label_general: Generale
@@ -578,7 +578,7 @@ label_document_added: Documenti aggiunti
 label_message_posted: Messaggi aggiunti
 label_file_added: File aggiunti
 label_news_added: Notizie aggiunte
-project_module_boards: Boards
+project_module_boards: Forum
 project_module_issue_tracking: Tracking delle segnalazioni
 project_module_wiki: Wiki
 project_module_files: File
@@ -587,7 +587,7 @@ project_module_repository: Repository
 project_module_news: Notizie
 project_module_time_tracking: Time tracking
 text_file_repository_writable: Repository dei file scrivibile
-text_default_administrator_account_changed: L'account amministrativo di default è stato modificato
+text_default_administrator_account_changed: L'account amministrativo predefinito è stato modificato
 text_rmagick_available: RMagick disponibile (opzionale)
 button_configure: Configura
 label_plugins: Plugin
@@ -630,7 +630,7 @@ text_enumeration_destroy_question: '%d oggetti hanno un assegnamento su questo v
 label_incoming_emails: E-mail in arrivo
 label_generate_key: Genera una chiave
 setting_mail_handler_api_enabled: Abilita WS per le e-mail in arrivo
-setting_mail_handler_api_key: chiave API
+setting_mail_handler_api_key: Chiave API
 text_email_delivery_not_configured: "La consegna via e-mail non è configurata e le notifiche sono disabilitate.\nConfigura il tuo server SMTP in config/email.yml e riavvia l'applicazione per abilitarle."
 field_parent_title: Parent page
 label_issue_watchers: Osservatori
@@ -640,5 +640,70 @@ setting_sequential_project_identifiers: Genera progetti con identificativi in se
 notice_unable_delete_version: Impossibile cancellare la versione
 label_renamed: rinominato
 label_copied: copiato
-field_cache: Local cache
-setting_repositories_cache_directory: Cache directory for repositories
+setting_plain_text_mail: Solo testo (non HTML)
+permission_view_files: Vedi files
+permission_edit_issues: Modifica segnalazioni
+permission_edit_own_time_entries: Modifica propri time logs
+permission_manage_public_queries: Gestisci query pubbliche
+permission_add_issues: Aggiungi segnalazioni
+permission_log_time: Segna tempo impiegato
+permission_view_changesets: Vedi changesets
+permission_view_time_entries: Vedi tempi impiegati
+permission_manage_versions: Gestisci versioni
+permission_manage_wiki: Gestisci wiki
+permission_manage_categories: Gestisci categorie segnalazione
+permission_protect_wiki_pages: Proteggi pagine wiki
+permission_comment_news: Commenta notizie
+permission_delete_messages: Elimina messaggi
+permission_select_project_modules: Seleziona moduli progetto
+permission_manage_documents: Gestisci documenti
+permission_edit_wiki_pages: Modifica pagine wiki
+permission_add_issue_watchers: Aggiungi osservatori
+permission_view_gantt: Vedi diagrammi gantt
+permission_move_issues: Muovi segnalazioni
+permission_manage_issue_relations: Gestisci relazioni tra segnalazioni
+permission_delete_wiki_pages: Elimina pagine wiki
+permission_manage_boards: Gestisci forum
+permission_delete_wiki_pages_attachments: Elimina allegati
+permission_view_wiki_edits: Vedi cronologia wiki
+permission_add_messages: Aggiungi messaggi
+permission_view_messages: Vedi messaggi
+permission_manage_files: Gestisci files
+permission_edit_issue_notes: Modifica note
+permission_manage_news: Gestisci notizie
+permission_view_calendar: Vedi calendario
+permission_manage_members: Gestisci membri
+permission_edit_messages: Modifica messaggi
+permission_delete_issues: Elimina segnalazioni
+permission_view_issue_watchers: Vedi lista osservatori
+permission_manage_repository: Gestisci repository
+permission_commit_access: Permesso di commit
+permission_browse_repository: Sfoglia repository
+permission_view_documents: Vedi documenti
+permission_edit_project: Modifica progetti
+permission_add_issue_notes: Aggiungi note
+permission_save_queries: Salva query
+permission_view_wiki_pages: Vedi pagine wiki
+permission_rename_wiki_pages: Rinomina pagine wiki
+permission_edit_time_entries: Modifica time logs
+permission_edit_own_issue_notes: Modifica proprie note
+setting_gravatar_enabled: Usa icone utente Gravatar
+label_example: Esempio
+text_repository_usernames_mapping: "Seleziona per aggiornare la corrispondenza tra gli utenti Redmine e quelli presenti nel log del repository.\nGli utenti Redmine e repository con lo stesso username o email sono mappati automaticamente."
+permission_edit_own_messages: Modifica propri messaggi
+permission_delete_own_messages: Elimina propri messaggi
+label_user_activity: "attività di %s"
+label_updated_time_by: Aggiornato da %s %s fa
+text_diff_truncated: '... Le differenze sono state troncate perchè superano il limite massimo visualizzabile.'
+setting_diff_max_lines_displayed: Limite massimo di differenze (linee) mostrate
+text_plugin_assets_writable: Plugin assets directory writable
+warning_attachments_not_saved: "%d file(s) could not be saved."
+button_create_and_continue: Create and continue
+text_custom_field_possible_values_info: 'One line for each value'
+label_display: Display
+field_editable: Editable
+setting_repository_log_display_limit: Maximum number of revisions displayed on file log
+field_identity_url: OpenID URL
+setting_openid: Allow OpenID login and registration
+label_login_with_open_id_option: or login with OpenID
+field_watcher: Watcher

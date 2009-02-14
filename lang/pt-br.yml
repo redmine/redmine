@@ -1,7 +1,7 @@
 _gloc_rule_default: '|n| n==1 ? "" : "_plural" '
 
 actionview_datehelper_select_day_prefix:
-actionview_datehelper_select_month_names: Janeiro,Fevereiro,Março,Abrill,Maio,Junho,Julho,Agosto,Setembro,Outubro,Novembro,Dezembro
+actionview_datehelper_select_month_names: Janeiro,Fevereiro,Março,Abril,Maio,Junho,Julho,Agosto,Setembro,Outubro,Novembro,Dezembro
 actionview_datehelper_select_month_names_abbr: Jan,Fev,Mar,Abr,Mai,Jun,Jul,Ago,Set,Out,Nov,Dez
 actionview_datehelper_select_month_prefix:
 actionview_datehelper_select_year_prefix:
@@ -47,8 +47,8 @@ general_text_Yes: 'Sim'
 general_text_no: 'não'
 general_text_yes: 'sim'
 general_lang_name: 'Português(Brasil)'
-general_csv_separator: ','
-general_csv_decimal_separator: '.'
+general_csv_separator: ';'
+general_csv_decimal_separator: ','
 general_csv_encoding: ISO-8859-1
 general_pdf_encoding: ISO-8859-1
 general_day_names: Segunda,Terça,Quarta,Quinta,Sexta,Sábado,Domingo
@@ -638,8 +638,73 @@ default_activity_development: Desenvolvimento
 enumeration_issue_priorities: Prioridade das tarefas
 enumeration_doc_categories: Categorias de documento
 enumeration_activities: Atividades (time tracking)
-notice_unable_delete_version: Unable to delete version
-label_renamed: renamed
-label_copied: copied
-setting_repositories_cache_directory: Cache directory for repositories
-field_cache: Local cache
+notice_unable_delete_version: Não foi possível excluir a versão
+label_renamed: renomeado
+label_copied: copiado
+setting_plain_text_mail: texto plano apenas (sem HTML)
+permission_view_files: Ver Arquivos
+permission_edit_issues: Editar tickets
+permission_edit_own_time_entries: Editar o próprio tempo de trabalho
+permission_manage_public_queries: Gerenciar consultas publicas
+permission_add_issues: Adicionar Tickets
+permission_log_time: Adicionar tempo gasto
+permission_view_changesets: Ver changesets
+permission_view_time_entries: Ver tempo gasto
+permission_manage_versions: Gerenciar versões
+permission_manage_wiki: Gerenciar wiki
+permission_manage_categories: Gerenciar categorias de tickets
+permission_protect_wiki_pages: Proteger páginas wiki
+permission_comment_news: Comentar notícias
+permission_delete_messages: Excluir mensagens
+permission_select_project_modules: Selecionar módulos de projeto
+permission_manage_documents: Gerenciar documentos
+permission_edit_wiki_pages: Editar páginas wiki
+permission_add_issue_watchers: Adicionar monitores
+permission_view_gantt: Ver gráfico gantt
+permission_move_issues: Mover tickets
+permission_manage_issue_relations: Gerenciar relacionamentos de tickets
+permission_delete_wiki_pages: Excluir páginas wiki
+permission_manage_boards: Gerenciar fóruns
+permission_delete_wiki_pages_attachments: Excluir anexos
+permission_view_wiki_edits: Ver histórico do wiki
+permission_add_messages: Postar mensagens
+permission_view_messages: Ver mensagens
+permission_manage_files: Gerenciar arquivos
+permission_edit_issue_notes: Editar notas
+permission_manage_news: Gerenciar notícias
+permission_view_calendar: Ver caneldário
+permission_manage_members: Gerenciar membros
+permission_edit_messages: Editar mensagens
+permission_delete_issues: Excluir tickets
+permission_view_issue_watchers: Ver lista de monitores
+permission_manage_repository: Gerenciar repositório
+permission_commit_access: Acesso de commit
+permission_browse_repository: Pesquisar repositorio
+permission_view_documents: Ver documentos
+permission_edit_project: Editar projeto
+permission_add_issue_notes: Adicionar notas
+permission_save_queries: Salvar consultas
+permission_view_wiki_pages: Ver wiki
+permission_rename_wiki_pages: Renomear páginas wiki
+permission_edit_time_entries: Editar tempo gasto
+permission_edit_own_issue_notes: Editar próprias notas
+setting_gravatar_enabled: Usar ícones do Gravatar
+label_example: Exemplo
+text_repository_usernames_mapping: "Seleciona ou atualiza os usuários do Redmine mapeando para cada usuário encontrado no log do repositório.\nUsuários com o mesmo login ou email no Redmine e no repositório serão mapeados automaticamente."
+permission_edit_own_messages: Editar próprias mensagens
+permission_delete_own_messages: Excluir próprias mensagens
+label_user_activity: "Atividade de %s"
+label_updated_time_by: Atualizado por %s à %s
+text_diff_truncated: '... Este diff foi truncado porque excede o tamanho máximo que pode ser exibido.'
+setting_diff_max_lines_displayed: Número máximo de linhas exibidas no diff
+text_plugin_assets_writable: Diretório de plugins gravável
+warning_attachments_not_saved: "%d arquivo(s) não puderam ser salvo(s)."
+button_create_and_continue: Criar e continuar
+text_custom_field_possible_values_info: 'Uma linha para cada valor'
+label_display: Exibição
+field_editable: Editável
+setting_repository_log_display_limit: Número máximo de revisões exibidas no arquivo de log
+field_identity_url: OpenID URL
+setting_openid: Allow OpenID login and registration
+label_login_with_open_id_option: or login with OpenID
+field_watcher: Watcher

@@ -66,6 +66,8 @@ class RepositoryTest < Test::Unit::TestCase
   end
   
   def test_scan_changesets_for_issue_ids
+    Setting.default_language = 'en'
+    
     # choosing a status to apply to fix issues
     Setting.commit_fix_status_id = IssueStatus.find(:first, :conditions => ["is_closed = ?", true]).id
     Setting.commit_fix_done_ratio = "90"
@@ -127,26 +129,26 @@ class RepositoryTest < Test::Unit::TestCase
     assert_equal ':pserver:login:password@host:/path/to/the/repository', repository.url
     assert_equal 'foo', repository.root_url
   end
-
-  def test_local_cache
-    dir = Setting.repositories_cache_directory.gsub(/^([^#{File::SEPARATOR}].*)/, RAILS_ROOT + '/\1')
-
-    project = projects(:projects_001)
-
-    repository = Repository::Git.new(:project => Project.find_by_name(project.name), :url => "git://github.com/olabini/paipr.git")
-    repository.scm
-    assert_equal(dir + project.identifier, repository.cache_path)
-
-    repository = Repository::Git.new(:project => Project.find(:first), :url => "/var/cache/git/paipr/.git")
-    repository.init_cache
-    assert repository.cache_path.blank?
-
-    repository = Repository::Subversion.new(:project => Project.find(:first), :url => "svn://github.com/olabini/paipr.git")
-    repository.init_cache
-    assert repository.cache_path.blank?
-
-    repository = Repository::Subversion.new(:project => Project.find_by_name(project.name), :url => "svn://github.com/olabini/paipr.git", :cache => true)
-    repository.init_cache
-    assert_equal(dir + project.identifier, repository.cache_path)
+  
+  def test_manual_user_mapping
+    assert_no_difference "Changeset.count(:conditions => 'user_id <> 2')" do
+      c = Changeset.create!(:repository => @repository, :committer => 'foo', :committed_on => Time.now, :revision => 100, :comments => 'Committed by foo.')
+      assert_nil c.user
+      @repository.committer_ids = {'foo' => '2'}
+      assert_equal User.find(2), c.reload.user
+      # committer is now mapped
+      c = Changeset.create!(:repository => @repository, :committer => 'foo', :committed_on => Time.now, :revision => 101, :comments => 'Another commit by foo.')
+      assert_equal User.find(2), c.user
+    end
+  end
+  
+  def test_auto_user_mapping_by_username
+    c = Changeset.create!(:repository => @repository, :committer => 'jsmith', :committed_on => Time.now, :revision => 100, :comments => 'Committed by john.')
+    assert_equal User.find(2), c.user
+  end
+  
+  def test_auto_user_mapping_by_email
+    c = Changeset.create!(:repository => @repository, :committer => 'john <jsmith@somenet.foo>', :committed_on => Time.now, :revision => 100, :comments => 'Committed by john.')
+    assert_equal User.find(2), c.user
   end
 end

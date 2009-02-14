@@ -38,11 +38,37 @@ class AdminControllerTest < Test::Unit::TestCase
                   :attributes => { :class => /nodata/ }
   end
   
+  def test_projects_routing
+    assert_routing(
+      {:method => :get, :path => '/admin/projects'},
+      :controller => 'admin', :action => 'projects'
+    )
+  end
+  
   def test_index_with_no_configuration_data
     delete_configuration_data
     get :index
     assert_tag :tag => 'div',
                :attributes => { :class => /nodata/ }
+  end
+  
+  def test_projects
+    get :projects
+    assert_response :success
+    assert_template 'projects'
+    assert_not_nil assigns(:projects)
+    # active projects only
+    assert_nil assigns(:projects).detect {|u| !u.active?}
+  end
+  
+  def test_projects_with_name_filter
+    get :projects, :name => 'store', :status => ''
+    assert_response :success
+    assert_template 'projects'
+    projects = assigns(:projects)
+    assert_not_nil projects
+    assert_equal 1, projects.size
+    assert_equal 'OnlineStore', projects.first.name
   end
   
   def test_load_default_configuration_data
@@ -53,11 +79,39 @@ class AdminControllerTest < Test::Unit::TestCase
   
   def test_test_email
     get :test_email
-    assert_redirected_to 'settings/edit'
+    assert_redirected_to '/settings/edit?tab=notifications'
     mail = ActionMailer::Base.deliveries.last
     assert_kind_of TMail::Mail, mail
     user = User.find(1)
     assert_equal [user.mail], mail.bcc
+  end
+  
+  def test_no_plugins
+    Redmine::Plugin.clear
+    
+    get :plugins
+    assert_response :success
+    assert_template 'plugins'
+  end
+  
+  def test_plugins
+    # Register a few plugins
+    Redmine::Plugin.register :foo do
+      name 'Foo plugin'
+      author 'John Smith'
+      description 'This is a test plugin'
+      version '0.0.1'
+      settings :default => {'sample_setting' => 'value', 'foo'=>'bar'}, :partial => 'foo/settings'
+    end
+    Redmine::Plugin.register :bar do
+    end
+  
+    get :plugins
+    assert_response :success
+    assert_template 'plugins'
+    
+    assert_tag :td, :child => { :tag => 'span', :content => 'Foo plugin' }
+    assert_tag :td, :child => { :tag => 'span', :content => 'Bar' }
   end
 
   def test_info
@@ -65,6 +119,8 @@ class AdminControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_template 'info'
   end
+  
+  private
   
   def delete_configuration_data
     Role.delete_all('builtin = 0')

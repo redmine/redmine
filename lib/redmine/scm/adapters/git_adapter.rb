@@ -34,10 +34,10 @@ module Redmine
         def get_rev (rev,path)
         
           if rev != 'latest' && !rev.nil?
-            cmd="#{GIT_BIN} --git-dir #{target('')} show #{shell_quote rev} -- #{shell_quote path}" 
+            cmd="#{GIT_BIN} --git-dir #{target('')} show --date=iso --pretty=fuller #{shell_quote rev} -- #{shell_quote path}" 
           else
-            branch = shellout("#{GIT_BIN} --git-dir #{target('')} branch") { |io| io.grep(/\*/)[0].strip.match(/\* (.*)/)[1] }
-            cmd="#{GIT_BIN} --git-dir #{target('')} log -1 #{branch} -- #{shell_quote path}" 
+            @branch ||= shellout("#{GIT_BIN} --git-dir #{target('')} branch") { |io| io.grep(/\*/)[0].strip.match(/\* (.*)/)[1] }
+            cmd="#{GIT_BIN} --git-dir #{target('')} log --date=iso --pretty=fuller -1 #{@branch} -- #{shell_quote path}" 
           end
           rev=[]
           i=0
@@ -68,7 +68,7 @@ module Redmine
                 value = $2
                 if key == "Author"
                   changeset[:author] = value
-                elsif key == "Date"
+                elsif key == "CommitDate"
                   changeset[:date] = value
                 end
               elsif (parsing_descr == 0) && line.chomp.to_s == ""
@@ -100,7 +100,6 @@ module Redmine
           return nil if $? && $?.exitstatus != 0
           return rev
         end
-
 
         def info
           revs = revisions(url,nil,nil,{:limit => 1})
@@ -143,7 +142,7 @@ module Redmine
         
         def revisions(path, identifier_from, identifier_to, options={})
           revisions = Revisions.new
-          cmd = "#{GIT_BIN} --git-dir #{target('')} log --raw "
+          cmd = "#{GIT_BIN} --git-dir #{target('')} log --raw --date=iso --pretty=fuller"
           cmd << " --reverse" if options[:reverse]
           cmd << " -n #{options[:limit].to_i} " if (!options.nil?) && options[:limit]
           cmd << " #{shell_quote(identifier_from + '..')} " if identifier_from
@@ -182,7 +181,7 @@ module Redmine
                 value = $2
                 if key == "Author"
                   changeset[:author] = value
-                elsif key == "Date"
+                elsif key == "CommitDate"
                   changeset[:date] = value
                 end
               elsif (parsing_descr == 0) && line.chomp.to_s == ""

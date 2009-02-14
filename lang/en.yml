@@ -85,6 +85,8 @@ error_scm_command_failed: "An error occurred when trying to access the repositor
 error_scm_annotate: "The entry does not exist or can not be annotated."
 error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
 
+warning_attachments_not_saved: "%d file(s) could not be saved."
+
 mail_subject_lost_password: Your %s password
 mail_body_lost_password: 'To change your password, click on the following link:'
 mail_subject_register: Your %s account activation
@@ -92,7 +94,7 @@ mail_body_register: 'To activate your account, click on the following link:'
 mail_body_account_information_external: You can use your "%s" account to log in.
 mail_body_account_information: Your account information
 mail_subject_account_activation_request: %s account activation request
-mail_body_account_activation_request: 'A new user (%s) has registered. His account is pending your approval:'
+mail_body_account_activation_request: 'A new user (%s) has registered. The account is pending your approval:'
 mail_subject_reminder: "%d issue(s) due in the next days"
 mail_body_reminder: "%d issue(s) that are assigned to you are due in the next %d days:"
 
@@ -145,6 +147,7 @@ field_mail_notification: Email notifications
 field_admin: Administrator
 field_last_login_on: Last connection
 field_language: Language
+field_identity_url: OpenID URL
 field_effective_date: Date
 field_password: Password
 field_new_password: New password
@@ -184,7 +187,8 @@ field_searchable: Searchable
 field_default_value: Default value
 field_comments_sorting: Display comments
 field_parent_title: Parent page
-field_cache: Local cache
+field_editable: Editable
+field_watcher: Watcher
 
 setting_app_title: Application title
 setting_app_subtitle: Application subtitle
@@ -196,7 +200,8 @@ setting_attachment_max_size: Attachment max. size
 setting_issues_export_limit: Issues export limit
 setting_mail_from: Emission email address
 setting_bcc_recipients: Blind carbon copy recipients (bcc)
-setting_host_name: Host name
+setting_plain_text_mail: Plain text mail (no HTML)
+setting_host_name: Host name and path
 setting_text_formatting: Text formatting
 setting_wiki_compression: Wiki history compression
 setting_feeds_limit: Feed content limit
@@ -222,7 +227,59 @@ setting_enabled_scm: Enabled SCM
 setting_mail_handler_api_enabled: Enable WS for incoming emails
 setting_mail_handler_api_key: API key
 setting_sequential_project_identifiers: Generate sequential project identifiers
-setting_repositories_cache_directory: Cache directory for repositories
+setting_gravatar_enabled: Use Gravatar user icons
+setting_diff_max_lines_displayed: Max number of diff lines displayed
+setting_repository_log_display_limit: Maximum number of revisions displayed on file log
+setting_openid: Allow OpenID login and registration
+
+permission_edit_project: Edit project
+permission_select_project_modules: Select project modules
+permission_manage_members: Manage members
+permission_manage_versions: Manage versions
+permission_manage_categories: Manage issue categories
+permission_add_issues: Add issues
+permission_edit_issues: Edit issues
+permission_manage_issue_relations: Manage issue relations
+permission_add_issue_notes: Add notes
+permission_edit_issue_notes: Edit notes
+permission_edit_own_issue_notes: Edit own notes
+permission_move_issues: Move issues
+permission_delete_issues: Delete issues
+permission_manage_public_queries: Manage public queries
+permission_save_queries: Save queries
+permission_view_gantt: View gantt chart
+permission_view_calendar: View calender
+permission_view_issue_watchers: View watchers list
+permission_add_issue_watchers: Add watchers
+permission_log_time: Log spent time
+permission_view_time_entries: View spent time
+permission_edit_time_entries: Edit time logs
+permission_edit_own_time_entries: Edit own time logs
+permission_manage_news: Manage news
+permission_comment_news: Comment news
+permission_manage_documents: Manage documents
+permission_view_documents: View documents
+permission_manage_files: Manage files
+permission_view_files: View files
+permission_manage_wiki: Manage wiki
+permission_rename_wiki_pages: Rename wiki pages
+permission_delete_wiki_pages: Delete wiki pages
+permission_view_wiki_pages: View wiki
+permission_view_wiki_edits: View wiki history
+permission_edit_wiki_pages: Edit wiki pages
+permission_delete_wiki_pages_attachments: Delete attachments
+permission_protect_wiki_pages: Protect wiki pages
+permission_manage_repository: Manage repository
+permission_browse_repository: Browse repository
+permission_view_changesets: View changesets
+permission_commit_access: Commit access
+permission_manage_boards: Manage boards
+permission_view_messages: View messages
+permission_add_messages: Post messages
+permission_edit_messages: Edit messages
+permission_edit_own_messages: Edit own messages
+permission_delete_messages: Delete messages
+permission_delete_own_messages: Delete own messages
 
 project_module_issue_tracking: Issue tracking
 project_module_time_tracking: Time tracking
@@ -278,6 +335,7 @@ label_information: Information
 label_information_plural: Information
 label_please_login: Please log in
 label_register: Register
+label_login_with_open_id_option: or login with OpenID
 label_password_lost: Lost password
 label_home: Home
 label_my_page: My page
@@ -295,6 +353,7 @@ label_last_updates_plural: %d last updated
 label_registered_on: Registered on
 label_activity: Activity
 label_overall_activity: Overall activity
+label_user_activity: "%s's activity"
 label_new: New
 label_logged_as: Logged in as
 label_environment: Environment
@@ -494,6 +553,7 @@ label_send_test_email: Send a test email
 label_feeds_access_key_created_on: RSS access key created %s ago
 label_module_plural: Modules
 label_added_time_by: Added by %s %s ago
+label_updated_time_by: Updated by %s %s ago
 label_updated_time: Updated %s ago
 label_jump_to_a_project: Jump to a project...
 label_file_plural: Files
@@ -529,6 +589,8 @@ label_planning: Planning
 label_incoming_emails: Incoming emails
 label_generate_key: Generate a key
 label_issue_watchers: Watchers
+label_example: Example
+label_display: Display
 
 button_login: Login
 button_submit: Submit
@@ -537,6 +599,7 @@ button_check_all: Check all
 button_uncheck_all: Uncheck all
 button_delete: Delete
 button_create: Create
+button_create_and_continue: Create and continue
 button_test: Test
 button_edit: Edit
 button_add: Add
@@ -607,7 +670,8 @@ text_status_changed_by_changeset: Applied in changeset %s.
 text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s) ?'
 text_select_project_modules: 'Select modules to enable for this project:'
 text_default_administrator_account_changed: Default administrator account changed
-text_file_repository_writable: File repository writable
+text_file_repository_writable: Attachments directory writable
+text_plugin_assets_writable: Plugin assets directory writable
 text_rmagick_available: RMagick available (optional)
 text_destroy_time_entries_question: %.02f hours were reported on the issues you are about to delete. What do you want to do ?
 text_destroy_time_entries: Delete reported hours
@@ -617,6 +681,9 @@ text_user_wrote: '%s wrote:'
 text_enumeration_destroy_question: '%d objects are assigned to this value.'
 text_enumeration_category_reassign_to: 'Reassign them to this value:'
 text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
+text_repository_usernames_mapping: "Select or update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
+text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
+text_custom_field_possible_values_info: 'One line for each value'
 
 default_role_manager: Manager
 default_role_developper: Developer

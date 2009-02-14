@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2008  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -24,13 +24,17 @@ class AccountController < ApplicationController
 
   # Show user's account
   def show
-    @user = User.find_active(params[:id])
+    @user = User.active.find(params[:id])
     @custom_values = @user.custom_values
     
     # show only public projects and private projects that the logged in user is also a member of
     @memberships = @user.memberships.select do |membership|
       membership.project.is_public? || (User.current.member_of?(membership.project))
     end
+    
+    events = Redmine::Activity::Fetcher.new(User.current, :author => @user).events(nil, nil, :limit => 10)
+    @events_by_day = events.group_by(&:event_date)
+    
   rescue ActiveRecord::RecordNotFound
     render_404
   end
@@ -42,24 +46,10 @@ class AccountController < ApplicationController
       self.logged_user = nil
     else
       # Authenticate user
-      user = User.try_to_login(params[:username], params[:password])
-      if user.nil?
-        # Invalid credentials
-        flash.now[:error] = l(:notice_account_invalid_creditentials)
-      elsif user.new_record?
-        # Onthefly creation failed, display the registration form to fill/fix attributes
-        @user = user
-        session[:auth_source_registration] = {:login => user.login, :auth_source_id => user.auth_source_id }
-        render :action => 'register'
+      if Setting.openid? && using_open_id?
+        open_id_authenticate(params[:openid_url])
       else
-        # Valid user
-        self.logged_user = user
-        # generate a key and set cookie if autologin
-        if params[:autologin] && Setting.autologin?
-          token = Token.create(:user => user, :action => 'autologin')
-          cookies[:autologin] = { :value => token.value, :expires => 1.year.from_now }
-        end
-        redirect_back_or_default :controller => 'my', :action => 'page'
+        password_authentication
       end
     end
   end
@@ -132,31 +122,14 @@ class AccountController < ApplicationController
       else
         @user.login = params[:user][:login]
         @user.password, @user.password_confirmation = params[:password], params[:password_confirmation]
+
         case Setting.self_registration
         when '1'
-          # Email activation
-          token = Token.new(:user => @user, :action => "register")
-          if @user.save and token.save
-            Mailer.deliver_register(token)
-            flash[:notice] = l(:notice_account_register_done)
-            redirect_to :action => 'login'
-          end
+          register_by_email_activation(@user)
         when '3'
-          # Automatic activation
-          @user.status = User::STATUS_ACTIVE
-          if @user.save
-            self.logged_user = @user
-            flash[:notice] = l(:notice_account_activated)
-            redirect_to :controller => 'my', :action => 'account'
-          end
+          register_automatically(@user)
         else
-          # Manual activation by the administrator
-          if @user.save
-            # Sends an email to the administrators
-            Mailer.deliver_account_activation_request(@user)
-            flash[:notice] = l(:notice_account_pending)
-            redirect_to :action => 'login'
-          end
+          register_manually_by_administrator(@user)
         end
       end
     end
@@ -185,6 +158,121 @@ private
     else
       User.current = User.anonymous
       session[:user_id] = nil
+    end
+  end
+  
+  def password_authentication
+    user = User.try_to_login(params[:username], params[:password])
+    if user.nil?
+      # Invalid credentials
+      flash.now[:error] = l(:notice_account_invalid_creditentials)
+    elsif user.new_record?
+      # Onthefly creation failed, display the registration form to fill/fix attributes
+      @user = user
+      session[:auth_source_registration] = {:login => user.login, :auth_source_id => user.auth_source_id }
+      render :action => 'register'
+    else
+      # Valid user
+      successful_authentication(user)
+    end
+  end
+
+  
+  def open_id_authenticate(openid_url)
+    authenticate_with_open_id(openid_url, :required => [:nickname, :fullname, :email], :return_to => signin_url) do |result, identity_url, registration|
+      if result.successful?
+        user = User.find_or_initialize_by_identity_url(identity_url)
+        if user.new_record?
+          # Self-registration off
+          redirect_to(home_url) && return unless Setting.self_registration?
+
+          # Create on the fly
+          user.login = registration['nickname'] unless registration['nickname'].nil?
+          user.mail = registration['email'] unless registration['email'].nil?
+          user.firstname, user.lastname = registration['fullname'].split(' ') unless registration['fullname'].nil?
+          user.random_password
+          user.status = User::STATUS_REGISTERED
+
+          case Setting.self_registration
+          when '1'
+            register_by_email_activation(user) do
+              onthefly_creation_failed(user, {:login => user.login, :identity_url => identity_url })
+            end
+          when '3'
+            register_automatically(user) do
+              onthefly_creation_failed(user, {:login => user.login, :identity_url => identity_url })
+            end
+          else
+            register_manually_by_administrator(user) do
+              onthefly_creation_failed(user, {:login => user.login, :identity_url => identity_url })
+            end
+          end          
+        else
+          # Existing record
+          successful_authentication(user)
+        end
+      end
+    end
+  end
+  
+  def successful_authentication(user)
+    # Valid user
+    self.logged_user = user
+    # generate a key and set cookie if autologin
+    if params[:autologin] && Setting.autologin?
+      token = Token.create(:user => user, :action => 'autologin')
+      cookies[:autologin] = { :value => token.value, :expires => 1.year.from_now }
+    end
+    redirect_back_or_default :controller => 'my', :action => 'page'
+  end
+
+  # Onthefly creation failed, display the registration form to fill/fix attributes
+  def onthefly_creation_failed(user, auth_source_options = { })
+    @user = user
+    session[:auth_source_registration] = auth_source_options unless auth_source_options.empty?
+    render :action => 'register'
+  end
+
+  # Register a user for email activation.
+  #
+  # Pass a block for behavior when a user fails to save
+  def register_by_email_activation(user, &block)
+    token = Token.new(:user => user, :action => "register")
+    if user.save and token.save
+      Mailer.deliver_register(token)
+      flash[:notice] = l(:notice_account_register_done)
+      redirect_to :action => 'login'
+    else
+      yield if block_given?
+    end
+  end
+  
+  # Automatically register a user
+  #
+  # Pass a block for behavior when a user fails to save
+  def register_automatically(user, &block)
+    # Automatic activation
+    user.status = User::STATUS_ACTIVE
+    if user.save
+      self.logged_user = user
+      flash[:notice] = l(:notice_account_activated)
+      redirect_to :controller => 'my', :action => 'account'
+    else
+      yield if block_given?
+    end
+  end
+  
+  # Manual activation by the administrator
+  #
+  # Pass a block for behavior when a user fails to save
+  def register_manually_by_administrator(user, &block)
+    if user.save
+      # Sends an email to the administrators
+      Mailer.deliver_account_activation_request(user)
+      flash[:notice] = l(:notice_account_pending)
+      redirect_to :action => 'login'
+    else
+      yield if block_given?
     end
   end
 end

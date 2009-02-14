@@ -18,7 +18,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class MailerTest < Test::Unit::TestCase
-  fixtures :projects, :issues, :users, :members, :documents, :attachments, :news, :tokens, :journals, :journal_details, :changesets, :trackers, :issue_statuses, :enumerations
+  fixtures :projects, :issues, :users, :members, :documents, :attachments, :news, :tokens, :journals, :journal_details, :changesets, :trackers, :issue_statuses, :enumerations, :messages, :boards, :repositories
   
   def test_generated_links_in_emails
     ActionMailer::Base.deliveries.clear
@@ -31,12 +31,108 @@ class MailerTest < Test::Unit::TestCase
     mail = ActionMailer::Base.deliveries.last
     assert_kind_of TMail::Mail, mail
     # link to the main ticket
-    assert mail.body.include?('<a href="https://mydomain.foo/issues/show/1">Bug #1: Can\'t print recipes</a>')
+    assert mail.body.include?('<a href="https://mydomain.foo/issues/1">Bug #1: Can\'t print recipes</a>')
     
     # link to a referenced ticket
-    assert mail.body.include?('<a href="https://mydomain.foo/issues/show/2" class="issue" title="Add ingredients categories (Assigned)">#2</a>')
+    assert mail.body.include?('<a href="https://mydomain.foo/issues/2" class="issue" title="Add ingredients categories (Assigned)">#2</a>')
     # link to a changeset
-    assert mail.body.include?('<a href="https://mydomain.foo/repositories/revision/ecookbook/2" class="changeset" title="This commit fixes #1, #2 and references #1 &amp; #3">r2</a>')
+    assert mail.body.include?('<a href="https://mydomain.foo/projects/ecookbook/repository/revisions/2" class="changeset" title="This commit fixes #1, #2 and references #1 &amp; #3">r2</a>')
+  end
+  
+  def test_generated_links_with_prefix
+    relative_url_root = Redmine::Utils.relative_url_root
+    ActionMailer::Base.deliveries.clear
+    Setting.host_name = 'mydomain.foo/rdm'
+    Setting.protocol = 'http'
+    Redmine::Utils.relative_url_root = '/rdm'
+    
+    journal = Journal.find(2)
+    assert Mailer.deliver_issue_edit(journal)
+    
+    mail = ActionMailer::Base.deliveries.last
+    assert_kind_of TMail::Mail, mail
+    # link to the main ticket
+    assert mail.body.include?('<a href="http://mydomain.foo/rdm/issues/1">Bug #1: Can\'t print recipes</a>')
+ 
+    # link to a referenced ticket
+    assert mail.body.include?('<a href="http://mydomain.foo/rdm/issues/2" class="issue" title="Add ingredients categories (Assigned)">#2</a>')
+    # link to a changeset
+    assert mail.body.include?('<a href="http://mydomain.foo/rdm/projects/ecookbook/repository/revisions/2" class="changeset" title="This commit fixes #1, #2 and references #1 &amp; #3">r2</a>')
+  ensure
+    # restore it
+    Redmine::Utils.relative_url_root = relative_url_root
+  end
+  
+  def test_generated_links_with_prefix_and_no_relative_url_root
+    relative_url_root = Redmine::Utils.relative_url_root
+    ActionMailer::Base.deliveries.clear
+    Setting.host_name = 'mydomain.foo/rdm'
+    Setting.protocol = 'http'
+    Redmine::Utils.relative_url_root = nil
+    
+    journal = Journal.find(2)
+    assert Mailer.deliver_issue_edit(journal)
+    
+    mail = ActionMailer::Base.deliveries.last
+    assert_kind_of TMail::Mail, mail
+    # link to the main ticket
+    assert mail.body.include?('<a href="http://mydomain.foo/rdm/issues/1">Bug #1: Can\'t print recipes</a>')
+ 
+    # link to a referenced ticket
+    assert mail.body.include?('<a href="http://mydomain.foo/rdm/issues/2" class="issue" title="Add ingredients categories (Assigned)">#2</a>')
+    # link to a changeset
+    assert mail.body.include?('<a href="http://mydomain.foo/rdm/projects/ecookbook/repository/revisions/2" class="changeset" title="This commit fixes #1, #2 and references #1 &amp; #3">r2</a>')
+  ensure
+    # restore it
+    Redmine::Utils.relative_url_root = relative_url_root
+  end
+
+  def test_plain_text_mail
+    Setting.plain_text_mail = 1
+    journal = Journal.find(2)
+    Mailer.deliver_issue_edit(journal)
+    mail = ActionMailer::Base.deliveries.last
+    assert !mail.body.include?('<a href="https://mydomain.foo/issues/1">Bug #1: Can\'t print recipes</a>')
+  end
+  
+  def test_issue_add_message_id
+    ActionMailer::Base.deliveries.clear
+    issue = Issue.find(1)
+    Mailer.deliver_issue_add(issue)
+    mail = ActionMailer::Base.deliveries.last
+    assert_not_nil mail
+    assert_equal Mailer.message_id_for(issue), mail.message_id
+    assert_nil mail.references
+  end
+  
+  def test_issue_edit_message_id
+    ActionMailer::Base.deliveries.clear
+    journal = Journal.find(1)
+    Mailer.deliver_issue_edit(journal)
+    mail = ActionMailer::Base.deliveries.last
+    assert_not_nil mail
+    assert_equal Mailer.message_id_for(journal), mail.message_id
+    assert_equal Mailer.message_id_for(journal.issue), mail.references.to_s
+  end
+  
+  def test_message_posted_message_id
+    ActionMailer::Base.deliveries.clear
+    message = Message.find(1)
+    Mailer.deliver_message_posted(message, message.author.mail)
+    mail = ActionMailer::Base.deliveries.last
+    assert_not_nil mail
+    assert_equal Mailer.message_id_for(message), mail.message_id
+    assert_nil mail.references
+  end
+  
+  def test_reply_posted_message_id
+    ActionMailer::Base.deliveries.clear
+    message = Message.find(3)
+    Mailer.deliver_message_posted(message, message.author.mail)
+    mail = ActionMailer::Base.deliveries.last
+    assert_not_nil mail
+    assert_equal Mailer.message_id_for(message), mail.message_id
+    assert_equal Mailer.message_id_for(message.parent), mail.references.to_s
   end
   
   # test mailer methods for each language

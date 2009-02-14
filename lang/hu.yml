@@ -641,5 +641,70 @@ setting_sequential_project_identifiers: Szekvenciális projekt azonosítók gene
 notice_unable_delete_version: A verziót nem lehet törölni
 label_renamed: átnevezve
 label_copied: lemásolva
-setting_repositories_cache_directory: Cache directory for repositories
-field_cache: Local cache
+setting_plain_text_mail: csak szöveg (nem HTML)
+permission_view_files: Fájlok megtekintése
+permission_edit_issues: Feladatok szerkesztése
+permission_edit_own_time_entries: Saját időnapló szerkesztése
+permission_manage_public_queries: Nyilvános kérések kezelése
+permission_add_issues: Feladat felvétele
+permission_log_time: Idő rögzítése
+permission_view_changesets: Változáskötegek megtekintése
+permission_view_time_entries: Időrögzítések megtekintése
+permission_manage_versions: Verziók kezelése
+permission_manage_wiki: Wiki kezelése
+permission_manage_categories: Feladat kategóriák kezelése
+permission_protect_wiki_pages: Wiki oldalak védelme
+permission_comment_news: Hírek kommentelése
+permission_delete_messages: Üzenetek törlése
+permission_select_project_modules: Projekt modulok kezelése
+permission_manage_documents: Dokumentumok kezelése
+permission_edit_wiki_pages: Wiki oldalak szerkesztése
+permission_add_issue_watchers: Megfigyelők felvétele
+permission_view_gantt: Gannt diagramm megtekintése
+permission_move_issues: Feladatok mozgatása
+permission_manage_issue_relations: Feladat kapcsolatok kezelése
+permission_delete_wiki_pages: Wiki oldalak törlése
+permission_manage_boards: Fórumok kezelése
+permission_delete_wiki_pages_attachments: Csatolmányok törlése
+permission_view_wiki_edits: Wiki történet megtekintése
+permission_add_messages: Üzenet beküldése
+permission_view_messages: Üzenetek megtekintése
+permission_manage_files: Fájlok kezelése
+permission_edit_issue_notes: Jegyzetek szerkesztése
+permission_manage_news: Hírek kezelése
+permission_view_calendar: Naptár megtekintése
+permission_manage_members: Tagok kezelése
+permission_edit_messages: Üzenetek szerkesztése
+permission_delete_issues: Feladatok törlése
+permission_view_issue_watchers: Megfigyelők listázása
+permission_manage_repository: Tárolók kezelése
+permission_commit_access: Commit hozzáférés
+permission_browse_repository: Tároló böngészése
+permission_view_documents: Dokumetumok megtekintése
+permission_edit_project: Projekt szerkesztése
+permission_add_issue_notes: Jegyzet rögzítése
+permission_save_queries: Kérések mentése
+permission_view_wiki_pages: Wiki megtekintése
+permission_rename_wiki_pages: Wiki oldalak átnevezése
+permission_edit_time_entries: Időnaplók szerkesztése
+permission_edit_own_issue_notes: Saját jegyzetek szerkesztése
+setting_gravatar_enabled: Felhasználói fényképek engedélyezése
+label_example: Példa
+text_repository_usernames_mapping: "Állítsd be a felhasználó összerendeléseket a Redmine, és a tároló logban található felhasználók között.\nAz azonos felhasználó nevek összerendelése automatikusan megtörténik."
+permission_edit_own_messages: Saját üzenetek szerkesztése
+permission_delete_own_messages: Saját üzenetek törlése
+label_user_activity: "%s tevékenységei"
+label_updated_time_by: "Módosította %s ennyivel ezelőtt: %s"
+text_diff_truncated: '... A diff fájl vége nem jelenik meg, mert hosszab, mint a megjeleníthető sorok száma.'
+setting_diff_max_lines_displayed: A megjelenítendő sorok száma (maximum) a diff fájloknál
+text_plugin_assets_writable: Plugin eszközök könyvtár írható
+warning_attachments_not_saved: "%d fájl mentése nem sikerült."
+button_create_and_continue: Létrehozás és folytatás
+text_custom_field_possible_values_info: 'Értékenként egy sor'
+label_display: Megmutat
+field_editable: Szerkeszthető
+setting_repository_log_display_limit: Maximum hány revízió jelenjen meg a fájl logban
+field_identity_url: OpenID URL
+setting_openid: Allow OpenID login and registration
+label_login_with_open_id_option: or login with OpenID
+field_watcher: Watcher

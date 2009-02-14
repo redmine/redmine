@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2008  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -26,10 +26,11 @@ class News < ActiveRecord::Base
 
   acts_as_searchable :columns => ['title', "#{table_name}.description"], :include => :project
   acts_as_event :url => Proc.new {|o| {:controller => 'news', :action => 'show', :id => o.id}}
-  acts_as_activity_provider :find_options => {:include => [:project, :author]}
+  acts_as_activity_provider :find_options => {:include => [:project, :author]},
+                            :author_key => :author_id
   
   # returns latest news for projects visible by user
-  def self.latest(user=nil, count=5)
-    find(:all, :limit => count, :conditions => Project.visible_by(user), :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")	
+  def self.latest(user = User.current, count = 5)
+    find(:all, :limit => count, :conditions => Project.allowed_to_condition(user, :view_news), :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")	
   end
 end

@@ -35,12 +35,14 @@ class BoardsController < ApplicationController
   end
 
   def show
-    sort_init "#{Message.table_name}.updated_on", "desc"
-    sort_update	
+    sort_init 'updated_on', 'desc'
+    sort_update	'created_on' => "#{Message.table_name}.created_on",
+                'replies' => "#{Message.table_name}.replies_count",
+                'updated_on' => "#{Message.table_name}.updated_on"
       
     @topic_count = @board.topics.count
     @topic_pages = Paginator.new self, @topic_count, per_page_option, params['page']
-    @topics =  @board.topics.find :all, :order => "#{Message.table_name}.sticky DESC, #{sort_clause}",
+    @topics =  @board.topics.find :all, :order => ["#{Message.table_name}.sticky DESC", sort_clause].compact.join(', '),
                                   :include => [:author, {:last_reply => :author}],
                                   :limit  =>  @topic_pages.items_per_page,
                                   :offset =>  @topic_pages.current.offset

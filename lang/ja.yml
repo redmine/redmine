@@ -181,7 +181,7 @@ setting_text_formatting: テキストの書式
 setting_wiki_compression: Wiki履歴を圧縮する
 setting_feeds_limit: フィード内容の上限
 setting_autofetch_changesets: コミットを自動取得する
-setting_sys_api_enabled: リポジトリ管理用のWeb Serviceを有効化する
+setting_sys_api_enabled: リポジトリ管理用のWeb Serviceを有効にする
 setting_commit_ref_keywords: 参照用キーワード
 setting_commit_fix_keywords: 修正用キーワード
 setting_autologin: 自動ログイン
@@ -354,7 +354,7 @@ label_sort_lower: 下へ
 label_sort_lowest: 一番下へ
 label_roadmap: ロードマップ
 label_roadmap_due_in: 期日まで %s
-label_roadmap_overdue: %s late
+label_roadmap_overdue: %s遅れ
 label_roadmap_no_issues: このバージョンに向けてのチケットはありません
 label_search: 検索
 label_result_plural: 結果
@@ -510,7 +510,7 @@ default_priority_normal: 通常
 default_priority_high: 高め
 default_priority_urgent: 急いで
 default_priority_immediate: 今すぐ
-default_activity_design: デザイン作業
+default_activity_design: 設計作業
 default_activity_development: 開発作業
 
 enumeration_issue_priorities: チケットの優先度
@@ -552,6 +552,7 @@ notice_account_pending: アカウントは作成済みで、管理者の承認�
 field_time_zone: タイムゾーン
 text_caracters_minimum: 最低%d文字の長さが必要です
 setting_bcc_recipients: ブラインドカーボンコピーで受信(bcc)
+setting_plain_text_mail: プレインテキストのみ(HTMLなし)
 button_annotate: 注釈
 label_issues_by: %s別のチケット
 field_searchable: Searchable
@@ -619,27 +620,91 @@ label_overall_activity: 全ての活動
 setting_default_projects_public: デフォルトで新しいプロジェクトは公開にする
 error_scm_annotate: "エントリが存在しない、もしくはアノテートできません。"
 label_planning: 計画
-text_subprojects_destroy_warning: 'Its subproject(s): %s will be also deleted.'
-label_and_its_subprojects: %s and its subprojects
-mail_body_reminder: "%d issue(s) that are assigned to you are due in the next %d days:"
-mail_subject_reminder: "%d issue(s) due in the next days"
+text_subprojects_destroy_warning: 'サブプロジェクト %s も削除されます。'
+label_and_its_subprojects: %s とサブプロジェクト
+mail_body_reminder: "%d件の担当チケットの期限が%d日以内に到来します:"
+mail_subject_reminder: "%d件のチケットが期限間近です"
 text_user_wrote: '%s wrote:'
 label_duplicated_by: duplicated by
-setting_enabled_scm: Enabled SCM
-text_enumeration_category_reassign_to: 'Reassign them to this value:'
-text_enumeration_destroy_question: '%d objects are assigned to this value.'
-label_incoming_emails: Incoming emails
-label_generate_key: Generate a key
-setting_mail_handler_api_enabled: Enable WS for incoming emails
-setting_mail_handler_api_key: API key
-text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
-field_parent_title: Parent page
+setting_enabled_scm: 使用するSCM
+text_enumeration_category_reassign_to: '次の値に割り当て直す:'
+text_enumeration_destroy_question: '%d個のオブジェクトがこの値に割り当てられています。'
+label_incoming_emails: 受信メール
+label_generate_key: キーの生成
+setting_mail_handler_api_enabled: 受信メール用のWeb Serviceを有効にする
+setting_mail_handler_api_key: APIキー
+text_email_delivery_not_configured: "メールを送信するために必要な設定が行われていないため、メール通知は利用できません。\nconfig/email.ymlでSMTPサーバの設定を行い、アプリケーションを再起動してください。"
+field_parent_title: 親ページ
 label_issue_watchers: Watchers
-setting_commit_logs_encoding: Commit messages encoding
-button_quote: Quote
-setting_sequential_project_identifiers: Generate sequential project identifiers
-notice_unable_delete_version: Unable to delete version
+setting_commit_logs_encoding: コミットメッセージのエンコーディング
+button_quote: 引用
+setting_sequential_project_identifiers: プロジェクト識別子を連番で生成する
+notice_unable_delete_version: バージョンを削除できません
 label_renamed: renamed
 label_copied: copied
-setting_repositories_cache_directory: Cache directory for repositories
-field_cache: Local cache
+permission_view_files: View files
+permission_edit_issues: Edit issues
+permission_edit_own_time_entries: Edit own time logs
+permission_manage_public_queries: Manage public queries
+permission_add_issues: Add issues
+permission_log_time: Log spent time
+permission_view_changesets: View changesets
+permission_view_time_entries: View spent time
+permission_manage_versions: Manage versions
+permission_manage_wiki: Manage wiki
+permission_manage_categories: Manage issue categories
+permission_protect_wiki_pages: Protect wiki pages
+permission_comment_news: Comment news
+permission_delete_messages: Delete messages
+permission_select_project_modules: Select project modules
+permission_manage_documents: Manage documents
+permission_edit_wiki_pages: Edit wiki pages
+permission_add_issue_watchers: Add watchers
+permission_view_gantt: View gantt chart
+permission_move_issues: Move issues
+permission_manage_issue_relations: Manage issue relations
+permission_delete_wiki_pages: Delete wiki pages
+permission_manage_boards: Manage boards
+permission_delete_wiki_pages_attachments: Delete attachments
+permission_view_wiki_edits: View wiki history
+permission_add_messages: Post messages
+permission_view_messages: View messages
+permission_manage_files: Manage files
+permission_edit_issue_notes: Edit notes
+permission_manage_news: Manage news
+permission_view_calendar: View calendrier
+permission_manage_members: Manage members
+permission_edit_messages: Edit messages
+permission_delete_issues: Delete issues
+permission_view_issue_watchers: View watchers list
+permission_manage_repository: Manage repository
+permission_commit_access: Commit access
+permission_browse_repository: Browse repository
+permission_view_documents: View documents
+permission_edit_project: Edit project
+permission_add_issue_notes: Add notes
+permission_save_queries: Save queries
+permission_view_wiki_pages: View wiki
+permission_rename_wiki_pages: Rename wiki pages
+permission_edit_time_entries: Edit time logs
+permission_edit_own_issue_notes: Edit own notes
+setting_gravatar_enabled: Gravatarユーザーアイコンを使用する
+label_example: 例
+text_repository_usernames_mapping: "リポジトリのログから検出されたユーザー名をどのRedmineユーザーに関連づけるのか選択してください。\nログ上のユーザー名またはメールアドレスがRedmineのユーザーと一致する場合は自動的に関連づけられます。"
+permission_edit_own_messages: Edit own messages
+permission_delete_own_messages: Delete own messages
+label_user_activity: "%sの活動"
+label_updated_time_by: %sが%s前に更新
+text_diff_truncated: '... 差分の行数が表示可能な上限を超えました。超過分は表示しません。'
+setting_diff_max_lines_displayed: 差分の表示行数の上限
+text_plugin_assets_writable: Plugin assets directory writable
+warning_attachments_not_saved: "%d個のファイルが保存できませんでした。"
+button_create_and_continue: 連続作成
+text_custom_field_possible_values_info: '選択肢の値は1行に1個ずつ記述してください。'
+label_display: 表示
+field_editable: Editable
+setting_repository_log_display_limit: Maximum number of revisions displayed on file log
+field_identity_url: OpenID URL
+setting_openid: Allow OpenID login and registration
+label_login_with_open_id_option: or login with OpenID
+field_watcher: Watcher

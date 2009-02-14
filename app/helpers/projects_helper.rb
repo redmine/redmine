@@ -21,18 +21,6 @@ module ProjectsHelper
     link_to h(version.name), { :controller => 'versions', :action => 'show', :id => version }, options
   end
   
-  def format_activity_title(text)
-    h(truncate_single_line(text, 100))
-  end
-  
-  def format_activity_day(date)
-    date == Date.today ? l(:label_today).titleize : format_date(date)
-  end
-  
-  def format_activity_description(text)
-    h(truncate(text.to_s, 250).gsub(%r{<(pre|code)>.*$}m, '...'))
-  end
-  
   def project_settings_tabs
     tabs = [{:name => 'info', :action => :edit_project, :partial => 'projects/edit', :label => :label_information_plural},
             {:name => 'modules', :action => :select_project_modules, :partial => 'projects/settings/modules', :label => :label_module_plural},
@@ -44,5 +32,40 @@ module ProjectsHelper
             {:name => 'boards', :action => :manage_boards, :partial => 'projects/settings/boards', :label => :label_board_plural}
             ]
     tabs.select {|tab| User.current.allowed_to?(tab[:action], @project)}     
+  end
+  
+  def parent_project_select_tag(project)
+    options = '<option></option>' + project_tree_options_for_select(project.possible_parents, :selected => project.parent)
+    content_tag('select', options, :name => 'project[parent_id]')
+  end
+  
+  # Renders a tree of projects as a nested set of unordered lists
+  # The given collection may be a subset of the whole project tree
+  # (eg. some intermediate nodes are private and can not be seen)
+  def render_project_hierarchy(projects)
+    s = ''
+    if projects.any?
+      ancestors = []
+      projects.each do |project|
+        if (ancestors.empty? || project.is_descendant_of?(ancestors.last))
+          s << "<ul class='projects #{ ancestors.empty? ? 'root' : nil}'>\n"
+        else
+          ancestors.pop
+          s << "</li>"
+          while (ancestors.any? && !project.is_descendant_of?(ancestors.last)) 
+            ancestors.pop
+            s << "</ul></li>\n"
+          end
+        end
+        classes = (ancestors.empty? ? 'root' : 'child')
+        s << "<li class='#{classes}'><div class='#{classes}'>" +
+               link_to(h(project), {:controller => 'projects', :action => 'show', :id => project}, :class => "project #{User.current.member_of?(project) ? 'my-project' : nil}")
+        s << "<div class='wiki description'>#{textilizable(project.short_description, :project => project)}</div>" unless project.description.blank?
+        s << "</div>\n"
+        ancestors << project
+      end
+      s << ("</li></ul>\n" * ancestors.size)
+    end
+    s
   end
 end

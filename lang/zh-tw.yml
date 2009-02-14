@@ -85,6 +85,8 @@ error_scm_command_failed: "嘗試存取儲存庫時發生錯誤： %s"
 error_scm_annotate: "SCM 儲存庫中無此項目或此項目無法被加註。"
 error_issue_not_found_in_project: '該項目不存在或不屬於此專案'
 
+warning_attachments_not_saved: "%d 個附加檔案無法儲存。"
+
 mail_subject_lost_password: 您的 Redmine 網站密碼
 mail_body_lost_password: '欲變更您的 Redmine 網站密碼, 請點選以下鏈結:'
 mail_subject_register: 啟用您的 Redmine 帳號
@@ -184,6 +186,7 @@ field_searchable: 可用做搜尋條件
 field_default_value: 預設值
 field_comments_sorting: 註解排序
 field_parent_title: 父頁面
+field_editable: 可編輯
 
 setting_app_title: 標題
 setting_app_subtitle: 副標題
@@ -195,6 +198,7 @@ setting_attachment_max_size: 附件大小限制
 setting_issues_export_limit: 項目匯出限制
 setting_mail_from: 寄件者電子郵件
 setting_bcc_recipients: 使用密件副本 (BCC)
+setting_plain_text_mail: 純文字郵件 (不含 HTML)
 setting_host_name: 主機名稱
 setting_text_formatting: 文字格式
 setting_wiki_compression: 壓縮 Wiki 歷史文章
@@ -221,6 +225,58 @@ setting_enabled_scm: 啟用的 SCM
 setting_mail_handler_api_enabled: 啟用處理傳入電子郵件的服務
 setting_mail_handler_api_key: API 金鑰
 setting_sequential_project_identifiers: 循序產生專案識別碼
+setting_gravatar_enabled: 啟用 Gravatar 全球認證大頭像
+setting_diff_max_lines_displayed: 差異顯示行數之最大值
+setting_repository_log_display_limit: 版次顯示數目之最大值
+
+permission_edit_project: 編輯專案
+permission_select_project_modules: 選擇專案模組
+permission_manage_members: 管理成員
+permission_manage_versions: 管理版本
+permission_manage_categories: 管理項目分類
+permission_add_issues: 新增項目
+permission_edit_issues: 編輯項目
+permission_manage_issue_relations: 管理項目關聯
+permission_add_issue_notes: 新增筆記
+permission_edit_issue_notes: 編輯筆記
+permission_edit_own_issue_notes: 編輯自己的筆記
+permission_move_issues: 搬移項目
+permission_delete_issues: 刪除項目
+permission_manage_public_queries: 管理公開查詢
+permission_save_queries: 儲存查詢
+permission_view_gantt: 檢視甘特圖
+permission_view_calendar: 檢視日曆
+permission_view_issue_watchers: 檢視觀察者清單
+permission_add_issue_watchers: 增加觀察者
+permission_log_time: 紀錄耗用工時
+permission_view_time_entries: 檢視耗用工時
+permission_edit_time_entries: 編輯工時紀錄
+permission_edit_own_time_entries: 編輯自己的工時記錄
+permission_manage_news: 管理新聞
+permission_comment_news: 註解新聞
+permission_manage_documents: 管理文件
+permission_view_documents: 檢視文件
+permission_manage_files: 管理檔案
+permission_view_files: 檢視檔案
+permission_manage_wiki: 管理 wiki
+permission_rename_wiki_pages: 重新命名 wiki 頁面
+permission_delete_wiki_pages: 刪除 wiki 頁面
+permission_view_wiki_pages: 檢視 wiki
+permission_view_wiki_edits: 檢視 wiki 歷史
+permission_edit_wiki_pages: 編輯 wiki 頁面
+permission_delete_wiki_pages_attachments: 刪除附件
+permission_protect_wiki_pages: 專案 wiki 頁面
+permission_manage_repository: 管理版本庫
+permission_browse_repository: 瀏覽版本庫
+permission_view_changesets: 檢視變更集
+permission_commit_access: 存取送交之變更
+permission_manage_boards: 管理討論版
+permission_view_messages: 檢視訊息
+permission_add_messages: 新增訊息
+permission_edit_messages: 編輯訊息
+permission_edit_own_messages: 編輯自己的訊息
+permission_delete_messages: 刪除訊息
+permission_delete_own_messages: 刪除自己的訊息
 
 project_module_issue_tracking: 項目追蹤
 project_module_time_tracking: 工時追蹤
@@ -293,6 +349,7 @@ label_last_updates_plural: %d 個最近更新
 label_registered_on: 註冊於
 label_activity: 活動
 label_overall_activity: 檢視所有活動
+label_user_activity: "%s 的活動"
 label_new: 建立新的...
 label_logged_as: 目前登入
 label_environment: 環境
@@ -418,7 +475,7 @@ label_sort_higher: 往上移動
 label_sort_lower: 往下移動
 label_sort_lowest: 移動至結尾
 label_roadmap: 版本藍圖
-label_roadmap_due_in: 倒數天數 %s
+label_roadmap_due_in: 倒數天數： 
 label_roadmap_overdue: %s 逾期
 label_roadmap_no_issues: 此版本尚未包含任何項目
 label_search: 搜尋
@@ -492,6 +549,7 @@ label_send_test_email: 寄送測試郵件
 label_feeds_access_key_created_on: RSS 存取鍵建立於 %s 之前
 label_module_plural: 模組
 label_added_time_by: 是由 %s 於 %s 前加入
+label_updated_time_by: 是由 %s 於 %s 前更新
 label_updated_time: 於 %s 前更新
 label_jump_to_a_project: 選擇欲前往的專案...
 label_file_plural: 檔案清單
@@ -503,7 +561,7 @@ label_theme: 畫面主題
 label_default: 預設
 label_search_titles_only: 僅搜尋標題
 label_user_mail_option_all: "提醒與我的專案有關的所有事件"
-label_user_mail_option_selected: "只停醒我所選擇專案中的事件..."
+label_user_mail_option_selected: "只提醒我所選擇專案中的事件..."
 label_user_mail_option_none: "只提醒我觀察中或參與中的事件"
 label_user_mail_no_self_notified: "不提醒我自己所做的變更"
 label_registration_activation_by_email: 透過電子郵件啟用帳戶
@@ -527,6 +585,8 @@ label_planning: 計劃表
 label_incoming_emails: 傳入的電子郵件
 label_generate_key: 產生金鑰
 label_issue_watchers: 觀察者
+label_example: 範例
+label_display: 顯示
 
 button_login: 登入
 button_submit: 送出
@@ -535,6 +595,7 @@ button_check_all: 全選
 button_uncheck_all: 全不選
 button_delete: 刪除
 button_create: 建立
+button_create_and_continue: 繼續建立
 button_test: 測試
 button_edit: 編輯
 button_add: 新增
@@ -605,7 +666,8 @@ text_status_changed_by_changeset: 已套用至變更集 %s.
 text_issues_destroy_confirmation: '確定刪除已選擇的項目？'
 text_select_project_modules: '選擇此專案可使用之模組：'
 text_default_administrator_account_changed: 已變更預設管理員帳號內容
-text_file_repository_writable: 可寫入檔案
+text_file_repository_writable: 可寫入附加檔案目錄
+text_plugin_assets_writable: 可寫入附加元件目錄
 text_rmagick_available: 可使用 RMagick (選配)
 text_destroy_time_entries_question: 您即將刪除的項目已報工 %.02f 小時. 您的選擇是？
 text_destroy_time_entries: 刪除已報工的時數
@@ -615,6 +677,9 @@ text_user_wrote: '%s 先前提到:'
 text_enumeration_destroy_question: '目前有 %d 個物件使用此列舉值。'
 text_enumeration_category_reassign_to: '重新設定其列舉值為：'
 text_email_delivery_not_configured: "您尚未設定電子郵件傳送方式，因此提醒選項已被停用。\n請在 config/email.yml 中設定 SMTP 之後，重新啟動 Redmine，以啟用電子郵件提醒選項。"
+text_repository_usernames_mapping: "選擇或更新 Redmine 使用者與版本庫使用者之對應關係。\n版本庫中之使用者帳號或電子郵件信箱，與 Redmine 設定相同者，將自動產生對應關係。"
+text_diff_truncated: '... 這份差異已被截短以符合顯示行數之最大值'
+text_custom_field_possible_values_info: '一列輸入一個值'
 
 default_role_manager: 管理人員
 default_role_developper: 開發人員
@@ -641,5 +706,7 @@ default_activity_development: 開發
 enumeration_issue_priorities: 項目優先權
 enumeration_doc_categories: 文件分類
 enumeration_activities: 活動 (時間追蹤)
-setting_repositories_cache_directory: Cache directory for repositories
-field_cache: Local cache
+field_identity_url: OpenID URL
+setting_openid: Allow OpenID login and registration
+label_login_with_open_id_option: or login with OpenID
+field_watcher: Watcher

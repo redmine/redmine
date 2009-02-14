@@ -30,12 +30,14 @@ class Attachment < ActiveRecord::Base
 
   acts_as_activity_provider :type => 'files',
                             :permission => :view_files,
+                            :author_key => :author_id,
                             :find_options => {:select => "#{Attachment.table_name}.*", 
                                               :joins => "LEFT JOIN #{Version.table_name} ON #{Attachment.table_name}.container_type='Version' AND #{Version.table_name}.id = #{Attachment.table_name}.container_id " +
                                                         "LEFT JOIN #{Project.table_name} ON #{Version.table_name}.project_id = #{Project.table_name}.id"}
   
   acts_as_activity_provider :type => 'documents',
                             :permission => :view_documents,
+                            :author_key => :author_id,
                             :find_options => {:select => "#{Attachment.table_name}.*", 
                                               :joins => "LEFT JOIN #{Document.table_name} ON #{Attachment.table_name}.container_type='Document' AND #{Document.table_name}.id = #{Attachment.table_name}.container_id " +
                                                         "LEFT JOIN #{Project.table_name} ON #{Document.table_name}.project_id = #{Project.table_name}.id"}
@@ -70,7 +72,7 @@ class Attachment < ActiveRecord::Base
       File.open(diskfile, "wb") do |f| 
         f.write(@temp_file.read)
       end
-      self.digest = Digest::MD5.hexdigest(File.read(diskfile))
+      self.digest = self.class.digest(diskfile)
     end
     # Don't save the content type if it's longer than the authorized length
     if self.content_type && self.content_type.length > 255
@@ -94,6 +96,14 @@ class Attachment < ActiveRecord::Base
 
   def project
     container.project
+  end
+  
+  def visible?(user=User.current)
+    container.attachments_visible?(user)
+  end
+  
+  def deletable?(user=User.current)
+    container.attachments_deletable?(user)
   end
   
   def image?
@@ -130,5 +140,12 @@ private
       df << $1 if filename =~ %r{(\.[a-zA-Z0-9]+)$}
     end
     df
+  end
+  
+  # Returns the MD5 digest of the file at given path
+  def self.digest(filename)
+    File.open(filename, 'rb') do |f|
+      Digest::MD5.hexdigest(f.read)
+    end
   end
 end

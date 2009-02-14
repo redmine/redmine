@@ -85,6 +85,8 @@ error_scm_command_failed: "访问版本库时发生错误：%s"
 error_scm_annotate: "该条目不存在或无法追溯。"
 error_issue_not_found_in_project: '问题不存在或不属于此项目'
 
+warning_attachments_not_saved: "%d 个文件保存失败。"
+
 mail_subject_lost_password: 您的 %s 密码
 mail_body_lost_password: '请点击以下链接来修改您的密码：'
 mail_subject_register: %s帐号激活
@@ -184,6 +186,7 @@ field_searchable: 可用作搜索条件
 field_default_value: 默认值
 field_comments_sorting: 显示注释
 field_parent_title: 上级页面
+field_editable: 可编辑
 
 setting_app_title: 应用程序标题
 setting_app_subtitle: 应用程序子标题
@@ -195,6 +198,7 @@ setting_attachment_max_size: 附件大小限制
 setting_issues_export_limit: 问题输出条目的限制
 setting_mail_from: 邮件发件人地址
 setting_bcc_recipients: 使用密件抄送 (bcc)
+setting_plain_text_mail: 纯文本（无HTML）
 setting_host_name: 主机名称
 setting_text_formatting: 文本格式
 setting_wiki_compression: 压缩Wiki历史文档
@@ -218,9 +222,61 @@ setting_user_format: 用户显示格式
 setting_activity_days_default: 在项目活动中显示的天数
 setting_display_subprojects_issues: 在项目页面上默认显示子项目的问题
 setting_enabled_scm: 启用 SCM
-setting_mail_handler_api_enabled: 启用用于接收邮件的Web Service
+setting_mail_handler_api_enabled: 启用用于接收邮件的服务
 setting_mail_handler_api_key: API key
 setting_sequential_project_identifiers: 顺序产生项目标识
+setting_gravatar_enabled: 使用Gravatar用户头像
+setting_diff_max_lines_displayed: 查看差别页面上显示的最大行数
+setting_repository_log_display_limit: 在文件变更记录页面上显示的最大修订版本数量
+
+permission_edit_project: 编辑项目
+permission_select_project_modules: 选择项目模块
+permission_manage_members: 管理成员
+permission_manage_versions: 管理版本
+permission_manage_categories: 管理问题类别
+permission_add_issues: 新建问题
+permission_edit_issues: 更新问题
+permission_manage_issue_relations: 管理问题关联
+permission_add_issue_notes: 添加说明
+permission_edit_issue_notes: 编辑说明
+permission_edit_own_issue_notes: 编辑自己的说明
+permission_move_issues: 移动问题
+permission_delete_issues: 删除问题
+permission_manage_public_queries: 管理公开的查询
+permission_save_queries: 保存查询
+permission_view_gantt: 查看甘特图
+permission_view_calendar: 查看日历
+permission_view_issue_watchers: 查看跟踪者列表
+permission_add_issue_watchers: 添加跟踪者
+permission_log_time: 登记工时
+permission_view_time_entries: 查看耗时
+permission_edit_time_entries: 编辑耗时
+permission_edit_own_time_entries: 编辑自己的耗时
+permission_manage_news: 管理新闻
+permission_comment_news: 为新闻添加评论
+permission_manage_documents: 管理文档
+permission_view_documents: 查看文档
+permission_manage_files: 管理文件
+permission_view_files: 查看文件
+permission_manage_wiki: 管理Wiki
+permission_rename_wiki_pages: 重命名Wiki页面
+permission_delete_wiki_pages: 删除Wiki页面
+permission_view_wiki_pages: 查看Wiki
+permission_view_wiki_edits: 查看Wiki历史记录
+permission_edit_wiki_pages: 编辑Wiki页面
+permission_delete_wiki_pages_attachments: 删除附件
+permission_protect_wiki_pages: 保护Wiki页面
+permission_manage_repository: 管理版本库
+permission_browse_repository: 浏览版本库
+permission_view_changesets: 查看变更
+permission_commit_access: 访问提交信息
+permission_manage_boards: 管理讨论区
+permission_view_messages: 查看帖子
+permission_add_messages: 发表帖子
+permission_edit_messages: 编辑帖子
+permission_edit_own_messages: 编辑自己的帖子
+permission_delete_messages: 删除帖子
+permission_delete_own_messages: 删除自己的帖子
 
 project_module_issue_tracking: 问题跟踪
 project_module_time_tracking: 时间跟踪
@@ -293,6 +349,7 @@ label_last_updates_plural: %d 最后更新
 label_registered_on: 注册于
 label_activity: 活动
 label_overall_activity: 全部活动
+label_user_activity: "%s 的活动"
 label_new: 新建
 label_logged_as: 登录为
 label_environment: 环境
@@ -492,7 +549,8 @@ label_send_test_email: 发送测试邮件
 label_feeds_access_key_created_on: RSS 存取键是在 %s 之前建立的
 label_module_plural: 模块
 label_added_time_by: 由 %s 在 %s 之前添加
-label_updated_time:  更新于 %s 前
+label_updated_time:  更新于 %s 之前
+label_updated_time_by: 由 %s 更新于 %s 之前
 label_jump_to_a_project: 选择一个项目...
 label_file_plural: 文件
 label_changeset_plural: 变更
@@ -527,6 +585,8 @@ label_planning: 计划
 label_incoming_emails: 接收邮件
 label_generate_key: 生成一个key
 label_issue_watchers: 跟踪者
+label_example: 示例
+label_display: 显示
 
 button_login: 登录
 button_submit: 提交
@@ -535,6 +595,7 @@ button_check_all: 全选
 button_uncheck_all: 清除
 button_delete: 删除
 button_create: 创建
+button_create_and_continue: 创建并继续
 button_test: 测试
 button_edit: 编辑
 button_add: 新增
@@ -605,7 +666,8 @@ text_status_changed_by_changeset: 已应用到变更列表 %s.
 text_issues_destroy_confirmation: '您确定要删除选中的问题吗？'
 text_select_project_modules: '请选择此项目可以使用的模块：'
 text_default_administrator_account_changed: 默认的管理员帐号已改变
-text_file_repository_writable: 文件版本库可修改
+text_file_repository_writable: 附件路径可写
+text_plugin_assets_writable: 插件的附件路径可写
 text_rmagick_available: RMagick 可用（可选的）
 text_destroy_time_entries_question: 您要删除的问题已经上报了 %.02f 小时的工作量。您想进行那种操作？
 text_destroy_time_entries: 删除上报的工作量
@@ -615,6 +677,9 @@ text_user_wrote: '%s 写到：'
 text_enumeration_category_reassign_to: '将它们关联到新的枚举值：'
 text_enumeration_destroy_question: '%d 个对象被关联到了这个枚举值。'
 text_email_delivery_not_configured: "邮件参数尚未配置，因此邮件通知功能已被禁用。\n请在config/email.yml中配置您的SMTP服务器信息并重新启动以使其生效。"
+text_repository_usernames_mapping: "选择或更新与版本库中的用户名对应的Redmine用户。\n版本库中与Redmine中的同名用户将被自动对应。"
+text_diff_truncated: '... 差别内容超过了可显示的最大行数并已被截断'
+text_custom_field_possible_values_info: '每项数值一行'
 
 default_role_manager: 管理人员
 default_role_developper: 开发人员
@@ -641,5 +706,7 @@ default_activity_development: 开发
 enumeration_issue_priorities: 问题优先级
 enumeration_doc_categories: 文档类别
 enumeration_activities: 活动（时间跟踪）
-setting_repositories_cache_directory: Cache directory for repositories
-field_cache: Local cache
+field_identity_url: OpenID URL
+setting_openid: Allow OpenID login and registration
+label_login_with_open_id_option: or login with OpenID
+field_watcher: Watcher

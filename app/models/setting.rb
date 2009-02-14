@@ -75,9 +75,9 @@ class Setting < ActiveRecord::Base
   
   cattr_accessor :available_settings
   @@available_settings = YAML::load(File.open("#{RAILS_ROOT}/config/settings.yml"))
-  Redmine::Plugin.registered_plugins.each do |id, plugin|
+  Redmine::Plugin.all.each do |plugin|
     next unless plugin.settings
-    @@available_settings["plugin_#{id}"] = {'default' => plugin.settings[:default], 'serialized' => true}    
+    @@available_settings["plugin_#{plugin.id}"] = {'default' => plugin.settings[:default], 'serialized' => true}    
   end
   
   validates_uniqueness_of :name
@@ -138,6 +138,10 @@ class Setting < ActiveRecord::Base
   # Helper that returns an array based on per_page_options setting
   def self.per_page_options_array
     per_page_options.split(%r{[\s,]}).collect(&:to_i).select {|n| n > 0}.sort
+  end
+  
+  def self.openid?
+    Object.const_defined?(:OpenID) && self['openid'].to_s == '1'
   end
   
   # Checks if settings have changed since the values were read

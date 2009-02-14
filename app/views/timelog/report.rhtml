@@ -1,15 +1,16 @@
 <div class="contextual">
-<%= link_to_if_authorized l(:button_log_time), {:controller => 'timelog', :action => 'edit', :project_id => @project, :issue_id => @issue}, :class => 'icon icon-time' %>
+<%= link_to_if_authorized l(:button_log_time), {:controller => 'timelog', :action => 'edit', :project_id => @project, :issue_id => @issue}, :class => 'icon icon-time-add' %>
 </div>
 
 <%= render_timelog_breadcrumb %>
 
 <h2><%= l(:label_spent_time) %></h2>
 
-<% form_remote_tag(:url => {}, :update => 'content') do %>
+<% form_remote_tag(:url => {}, :html => {:method => :get}, :method => :get, :update => 'content') do %>
   <% @criterias.each do |criteria| %>
     <%= hidden_field_tag 'criterias[]', criteria, :id => nil %>
   <% end %>
+  <%# TODO: get rid of the project_id field, that should already be in the URL %>
   <%= hidden_field_tag 'project_id', params[:project_id] %>
   <%= render :partial => 'date_range' %>
 
@@ -25,6 +26,7 @@
                                                           :id => nil,
                                                           :disabled => (@criterias.length >= 3)) %>
      <%= link_to_remote l(:button_clear), {:url => {:project_id => @project, :period_type => params[:period_type], :period => params[:period], :from => @from, :to => @to, :columns => @columns},
+                                           :method => :get,
                                            :update => 'content'
                                           }, :class => 'icon icon-reload' %></p>
 <% end %>
@@ -63,10 +65,9 @@
 </tbody>
 </table>
 
-<p class="other-formats">
-<%= l(:label_export_to) %>
-<span><%= link_to 'CSV', params.merge({:format => 'csv'}), :class => 'csv' %></span>
-</p>
+<% other_formats_links do |f| %>
+	<%= f.link_to 'CSV', :url => params %>
+<% end %>
 <% end %>
 <% end %>
 

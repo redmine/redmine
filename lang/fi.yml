@@ -634,11 +634,76 @@ setting_mail_handler_api_key: API avain
 text_email_delivery_not_configured: "Sähköpostin jakelu ei ole määritelty ja sähköpostimuistutukset eivät ole käytössä.\nKonfiguroi sähköpostipalvelinasetukset (SMTP) config/email.yml tiedostosta ja uudelleenkäynnistä sovellus jotta asetukset astuvat voimaan."
 field_parent_title: Aloitussivu
 label_issue_watchers: Tapahtuman seuraajat
-button_quote: Quote
-setting_sequential_project_identifiers: Generate sequential project identifiers
-setting_commit_logs_encoding: Commit messages encoding
-notice_unable_delete_version: Unable to delete version
-label_renamed: renamed
-label_copied: copied
-setting_repositories_cache_directory: Cache directory for repositories
-field_cache: Local cache
+button_quote: Vastaa
+setting_sequential_project_identifiers: Luo peräkkäiset projektien tunnisteet
+setting_commit_logs_encoding: Tee viestien koodaus
+notice_unable_delete_version: Version poisto epäonnistui
+label_renamed: uudelleennimetty
+label_copied: kopioitu
+setting_plain_text_mail: vain muotoilematonta tekstiä (ei HTML)
+permission_view_files: Näytä tiedostot
+permission_edit_issues: Muokkaa tapahtumia
+permission_edit_own_time_entries: Muokka omia aikamerkintöjä
+permission_manage_public_queries: Hallinnoi julkisia hakuja
+permission_add_issues: Lisää tapahtumia
+permission_log_time: Lokita käytettyä aikaa
+permission_view_changesets: Näytä muutosryhmät
+permission_view_time_entries: Näytä käytetty aika
+permission_manage_versions: Hallinnoi versioita
+permission_manage_wiki: Hallinnoi wikiä
+permission_manage_categories: Hallinnoi tapahtumien luokkia
+permission_protect_wiki_pages: Suojaa wiki sivut
+permission_comment_news: Kommentoi uutisia
+permission_delete_messages: Poista viestit
+permission_select_project_modules: Valitse projektin modulit
+permission_manage_documents: Hallinnoi dokumentteja
+permission_edit_wiki_pages: Muokkaa wiki sivuja
+permission_add_issue_watchers: Lisää seuraajia
+permission_view_gantt: Näytä gantt kaavio
+permission_move_issues: Siirrä tapahtuma
+permission_manage_issue_relations: Hallinoi tapahtuman suhteita
+permission_delete_wiki_pages: Poista wiki sivuja
+permission_manage_boards: Hallinnoi keskustelupalstaa
+permission_delete_wiki_pages_attachments: Poista liitteitä
+permission_view_wiki_edits: Näytä wiki historia
+permission_add_messages: Jätä viesti
+permission_view_messages: Näytä viestejä
+permission_manage_files: Hallinnoi tiedostoja
+permission_edit_issue_notes: Muokkaa muistiinpanoja
+permission_manage_news: Hallinnoi uutisia
+permission_view_calendar: Näytä kalenteri
+permission_manage_members: Hallinnoi jäseniä
+permission_edit_messages: Muokkaa viestejä
+permission_delete_issues: Poista tapahtumia
+permission_view_issue_watchers: Näytä seuraaja lista
+permission_manage_repository: Hallinnoi tietovarastoa
+permission_commit_access: Tee pääsyoikeus
+permission_browse_repository: Selaa tietovarastoa
+permission_view_documents: Näytä dokumentit
+permission_edit_project: Muokkaa projektia
+permission_add_issue_notes: Lisää muistiinpanoja
+permission_save_queries: Tallenna hakuja
+permission_view_wiki_pages: Näytä wiki
+permission_rename_wiki_pages: Uudelleennimeä wiki sivuja
+permission_edit_time_entries: Muokkaa aika lokeja
+permission_edit_own_issue_notes: Muokkaa omia muistiinpanoja
+setting_gravatar_enabled: Käytä Gravatar käyttäjä ikoneita
+label_example: Esimerkki
+text_repository_usernames_mapping: "Valitse päivittääksesi Redmine käyttäjä jokaiseen käyttäjään joka löytyy tietovaraston lokista.\nKäyttäjät joilla on sama Redmine ja tietovaraston käyttäjänimi tai sähköpostiosoite, yhdistetään automaattisesti."
+permission_edit_own_messages: Muokkaa omia viestejä
+permission_delete_own_messages: Poista omia viestejä
+label_user_activity: "Käyttäjän %s historia"
+label_updated_time_by: Updated by %s %s ago
+text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
+setting_diff_max_lines_displayed: Max number of diff lines displayed
+text_plugin_assets_writable: Plugin assets directory writable
+warning_attachments_not_saved: "%d file(s) could not be saved."
+button_create_and_continue: Create and continue
+text_custom_field_possible_values_info: 'One line for each value'
+label_display: Display
+field_editable: Editable
+setting_repository_log_display_limit: Maximum number of revisions displayed on file log
+field_identity_url: OpenID URL
+setting_openid: Allow OpenID login and registration
+label_login_with_open_id_option: or login with OpenID
+field_watcher: Watcher

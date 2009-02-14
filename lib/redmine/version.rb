@@ -3,8 +3,14 @@ require 'rexml/document'
 module Redmine
   module VERSION #:nodoc:
     MAJOR = 0
-    MINOR = 7
-    TINY  = 'devel'
+    MINOR = 8
+    TINY  = 0
+    
+    # Branch values:
+    # * official release: nil
+    # * stable branch:    stable
+    # * trunk:            devel
+    BRANCH = 'devel'
 
     def self.revision
       revision = nil
@@ -28,8 +34,10 @@ module Redmine
     end
 
     REVISION = self.revision
-    STRING = [MAJOR, MINOR, TINY, REVISION].compact.join('.')
+    ARRAY = [MAJOR, MINOR, TINY, BRANCH, REVISION].compact
+    STRING = ARRAY.join('.')
     
+    def self.to_a; ARRAY end
     def self.to_s; STRING end    
   end
 end

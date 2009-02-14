@@ -46,6 +46,8 @@ mail_from:
   default: redmine@example.net
 bcc_recipients:
   default: 1
+plain_text_mail:
+  default: 0
 text_formatting:
   default: textile
 wiki_compression:
@@ -59,6 +61,9 @@ protocol:
 feeds_limit:
   format: int
   default: 15
+diff_max_lines_displayed:
+  format: int
+  default: 1500
 enabled_scm:
   serialized: true
   default: 
@@ -129,10 +134,16 @@ repositories_cache_directory:
 # encoding used to convert commit logs to UTF-8
 commit_logs_encoding:
   default: 'UTF-8'
+repository_log_display_limit:
+  format: int
+  default: 100
 ui_theme:
   default: ''
 emails_footer:
   default: |-
     You have received this notification because you have either subscribed to it, or are involved in it.
     To change your notification preferences, please click here: http://hostname/my/account
-  
+gravatar_enabled:  
+  default: 0
+openid:
+  default: 0

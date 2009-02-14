@@ -67,23 +67,31 @@ module SortHelper
 
   # Updates the sort state. Call this in the controller prior to calling
   # sort_clause.
-  #
-  def sort_update()
-    if params[:sort_key]
-      sort = {:key => params[:sort_key], :order => params[:sort_order]}
+  # sort_keys can be either an array or a hash of allowed keys
+  def sort_update(sort_keys)
+    sort_key = params[:sort_key]
+    sort_key = nil unless (sort_keys.is_a?(Array) ? sort_keys.include?(sort_key) : sort_keys[sort_key])
+
+    sort_order = (params[:sort_order] == 'desc' ? 'DESC' : 'ASC')
+    
+    if sort_key
+      sort = {:key => sort_key, :order => sort_order}
     elsif session[@sort_name]
       sort = session[@sort_name]   # Previous sort.
     else
       sort = @sort_default
     end
     session[@sort_name] = sort
+    
+    sort_column = (sort_keys.is_a?(Hash) ? sort_keys[sort[:key]] : sort[:key])
+    @sort_clause = (sort_column.blank? ? nil : [sort_column].flatten.collect {|s| "#{s} #{sort[:order]}"}.join(','))
   end
 
   # Returns an SQL sort clause corresponding to the current sort state.
   # Use this to sort the controller's table items collection.
   #
   def sort_clause()
-    session[@sort_name][:key] + ' ' + (session[@sort_name][:order] || 'ASC')
+    @sort_clause
   end
 
   # Returns a link which sorts by the named column.
@@ -112,8 +120,11 @@ module SortHelper
     # don't reuse params if filters are present
     url_options = params.has_key?(:set_filter) ? sort_options : params.merge(sort_options)
     
+    # Add project_id to url_options
+    url_options = url_options.merge(:project_id => params[:project_id]) if params.has_key?(:project_id)
+    
     link_to_remote(caption,
-                  {:update => "content", :url => url_options},
+                  {:update => "content", :url => url_options, :method => :get},
                   {:href => url_for(url_options)}) +
     (icon ? nbsp(2) + image_tag(icon) : '')
   end

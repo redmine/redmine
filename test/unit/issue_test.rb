@@ -33,6 +33,12 @@ class IssueTest < Test::Unit::TestCase
     assert_equal 1.5, issue.estimated_hours
   end
   
+  def test_create_minimal
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 3, :status_id => 1, :priority => Enumeration.get_values('IPRI').first, :subject => 'test_create')
+    assert issue.save
+    assert issue.description.nil?
+  end
+  
   def test_create_with_required_custom_field
     field = IssueCustomField.find_by_name('Database')
     field.update_attribute(:is_required, true)
@@ -185,9 +191,41 @@ class IssueTest < Test::Unit::TestCase
     assert_nil issue.category_id
   end
   
+  def test_copy_to_the_same_project
+    issue = Issue.find(1)
+    copy = nil
+    assert_difference 'Issue.count' do
+      copy = issue.move_to(issue.project, nil, :copy => true)
+    end
+    assert_kind_of Issue, copy
+    assert_equal issue.project, copy.project
+    assert_equal "125", copy.custom_value_for(2).value
+  end
+  
+  def test_copy_to_another_project_and_tracker
+    issue = Issue.find(1)
+    copy = nil
+    assert_difference 'Issue.count' do
+      copy = issue.move_to(Project.find(3), Tracker.find(2), :copy => true)
+    end
+    assert_kind_of Issue, copy
+    assert_equal Project.find(3), copy.project
+    assert_equal Tracker.find(2), copy.tracker
+    # Custom field #2 is not associated with target tracker
+    assert_nil copy.custom_value_for(2)
+  end
+  
   def test_issue_destroy
     Issue.find(1).destroy
     assert_nil Issue.find_by_id(1)
     assert_nil TimeEntry.find_by_issue_id(1)
+  end
+  
+  def test_overdue
+    assert Issue.new(:due_date => 1.day.ago.to_date).overdue?
+    assert !Issue.new(:due_date => Date.today).overdue?
+    assert !Issue.new(:due_date => 1.day.from_now.to_date).overdue?
+    assert !Issue.new(:due_date => nil).overdue?
+    assert !Issue.new(:due_date => 1.day.ago.to_date, :status => IssueStatus.find(:first, :conditions => {:is_closed => true})).overdue?
   end
 end

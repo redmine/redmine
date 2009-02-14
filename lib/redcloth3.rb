@@ -272,7 +272,7 @@ class RedCloth3 < String
         @shelf = []
         textile_rules = [:refs_textile, :block_textile_table, :block_textile_lists,
                          :block_textile_prefix, :inline_textile_image, :inline_textile_link,
-                         :inline_textile_code, :inline_textile_span]
+                         :inline_textile_code, :inline_textile_span, :glyphs_textile]
         markdown_rules = [:refs_markdown, :block_markdown_setext, :block_markdown_atx, :block_markdown_rule,
                           :block_markdown_bq, :block_markdown_lists, 
                           :inline_markdown_reflink, :inline_markdown_link]
@@ -341,7 +341,7 @@ class RedCloth3 < String
     A_HLGN = /(?:(?:<>|<|>|\=|[()]+)+)/
     A_VLGN = /[\-^~]/
     C_CLAS = '(?:\([^)]+\))'
-    C_LNGE = '(?:\[[^\]]+\])'
+    C_LNGE = '(?:\[[^\[\]]+\])'
     C_STYL = '(?:\{[^}]+\})'
     S_CSPN = '(?:\\\\\d+)'
     S_RSPN = '(?:/\d+)'
@@ -382,14 +382,14 @@ class RedCloth3 < String
                 (#{rcq})
                 (#{C})
                 (?::(\S+?))?
-                ([^\s\-].*?[^\s\-]|\w)
+                (\w|[^\s\-].*?[^\s\-])
                 #{rcq}
                 (?=[[:punct:]]|\s|\)|$)/x
             else
                 /(#{rcq})
                 (#{C})
                 (?::(\S+))?
-                ([^\s\-].*?[^\s\-]|\w)
+                (\w|[^\s\-].*?[^\s\-])
                 #{rcq}/xm 
             end
         [rc, ht, re, rtype]
@@ -401,22 +401,22 @@ class RedCloth3 < String
     #   [ /([^\s\[{(>#{PUNCT_Q}][#{PUNCT_Q}]*)\'/, '\1&#8217;' ], # single closing
     #   [ /\'(?=[#{PUNCT_Q}]*(s\b|[\s#{PUNCT_NOQ}]))/, '&#8217;' ], # single closing
     #   [ /\'/, '&#8216;' ], # single opening
-        [ /</, '&lt;' ], # less-than
-        [ />/, '&gt;' ], # greater-than
+    #   [ /</, '&lt;' ], # less-than
+    #   [ />/, '&gt;' ], # greater-than
     #   [ /([^\s\[{(])?"(\s|:|$)/, '\1&#8221;\2' ], # double closing
     #   [ /([^\s\[{(>#{PUNCT_Q}][#{PUNCT_Q}]*)"/, '\1&#8221;' ], # double closing
     #   [ /"(?=[#{PUNCT_Q}]*[\s#{PUNCT_NOQ}])/, '&#8221;' ], # double closing
     #   [ /"/, '&#8220;' ], # double opening
-        [ /\b( )?\.{3}/, '\1&#8230;' ], # ellipsis
-        [ /\b([A-Z][A-Z0-9]{2,})\b(?:[(]([^)]*)[)])/, '<acronym title="\2">\1</acronym>' ], # 3+ uppercase acronym
-        [ /(^|[^"][>\s])([A-Z][A-Z0-9 ]+[A-Z0-9])([^<A-Za-z0-9]|$)/, '\1<span class="caps">\2</span>\3', :no_span_caps ], # 3+ uppercase caps
-        [ /(\.\s)?\s?--\s?/, '\1&#8212;' ], # em dash
-        [ /\s->\s/, ' &rarr; ' ], # right arrow
-        [ /\s-\s/, ' &#8211; ' ], # en dash
-        [ /(\d+) ?x ?(\d+)/, '\1&#215;\2' ], # dimension sign
-        [ /\b ?[(\[]TM[\])]/i, '&#8482;' ], # trademark
-        [ /\b ?[(\[]R[\])]/i, '&#174;' ], # registered
-        [ /\b ?[(\[]C[\])]/i, '&#169;' ] # copyright
+    #   [ /\b( )?\.{3}/, '\1&#8230;' ], # ellipsis
+    #   [ /\b([A-Z][A-Z0-9]{2,})\b(?:[(]([^)]*)[)])/, '<acronym title="\2">\1</acronym>' ], # 3+ uppercase acronym
+    #   [ /(^|[^"][>\s])([A-Z][A-Z0-9 ]+[A-Z0-9])([^<A-Za-z0-9]|$)/, '\1<span class="caps">\2</span>\3', :no_span_caps ], # 3+ uppercase caps
+    #   [ /(\.\s)?\s?--\s?/, '\1&#8212;' ], # em dash
+    #   [ /\s->\s/, ' &rarr; ' ], # right arrow
+    #   [ /\s-\s/, ' &#8211; ' ], # en dash
+    #   [ /(\d+) ?x ?(\d+)/, '\1&#215;\2' ], # dimension sign
+    #   [ /\b ?[(\[]TM[\])]/i, '&#8482;' ], # trademark
+    #   [ /\b ?[(\[]R[\])]/i, '&#174;' ], # registered
+    #   [ /\b ?[(\[]C[\])]/i, '&#169;' ] # copyright
     ]
 
     H_ALGN_VALS = {
@@ -435,19 +435,25 @@ class RedCloth3 < String
     #
     # Flexible HTML escaping
     #
-    def htmlesc( str, mode )
+    def htmlesc( str, mode=:Quotes )
+      if str
         str.gsub!( '&', '&amp;' )
         str.gsub!( '"', '&quot;' ) if mode != :NoQuotes
         str.gsub!( "'", '&#039;' ) if mode == :Quotes
         str.gsub!( '<', '&lt;')
         str.gsub!( '>', '&gt;')
+      end
+      str
     end
 
     # Search and replace for Textile glyphs (quotes, dashes, other symbols)
     def pgl( text )
-        GLYPHS.each do |re, resub, tog|
-            next if tog and method( tog ).call
-            text.gsub! re, resub
+        #GLYPHS.each do |re, resub, tog|
+        #    next if tog and method( tog ).call
+        #    text.gsub! re, resub
+        #end
+        text.gsub!(/\b([A-Z][A-Z0-9]{2,})\b(?:[(]([^)]*)[)])/) do |m|
+          "<acronym title=\"#{htmlesc $2}\">#{$1}</acronym>"
         end
     end
 
@@ -464,8 +470,7 @@ class RedCloth3 < String
             style << "vertical-align:#{ v_align( $& ) };" if text =~ A_VLGN
         end
 
-        style << "#{ $1 };" if not filter_styles and
-            text.sub!( /\{([^}]*)\}/, '' )
+        style << "#{ htmlesc $1 };" if text.sub!( /\{([^}]*)\}/, '' ) && !filter_styles
 
         lang = $1 if
             text.sub!( /\[([^)]+?)\]/, '' )
@@ -684,7 +689,7 @@ class RedCloth3 < String
     alias textile_h6 textile_p
 
     def textile_fn_( tag, num, atts, cite, content )
-        atts << " id=\"fn#{ num }\""
+        atts << " id=\"fn#{ num }\" class=\"footnote\""
         content = "<sup>#{ num }</sup> #{ content }"
         atts = shelve( atts ) if atts
         "\t<p#{ atts }>#{ content }</p>"
@@ -786,7 +791,10 @@ class RedCloth3 < String
             \s?
             (?:\(([^)]+?)\)(?="))?     # $title
             ":
-            ([\w\/]\S+?)               # $url
+            (                          # $url
+            (\/|[a-zA-Z]+:\/\/|www\.)  # $proto
+            [\w\/]\S+?
+            )               
             (\/)?                      # $slash
             ([^\w\=\/;\(\)]*?)         # $post
             (?=<|\s|$)
@@ -794,7 +802,7 @@ class RedCloth3 < String
 #"
     def inline_textile_link( text ) 
         text.gsub!( LINK_RE ) do |m|
-            pre,atts,text,title,url,slash,post = $~[1..7]
+            pre,atts,text,title,url,proto,slash,post = $~[1..8]
 
             url, url_title = check_refs( url )
             title ||= url_title
@@ -807,7 +815,7 @@ class RedCloth3 < String
             end
             atts = pba( atts )
             atts = " href=\"#{ url }#{ slash }\"#{ atts }"
-            atts << " title=\"#{ title }\"" if title
+            atts << " title=\"#{ htmlesc title }\"" if title
             atts = shelve( atts ) if atts
             
             external = (url =~ /^https?:\/\//) ? ' class="external"' : ''
@@ -914,6 +922,7 @@ class RedCloth3 < String
     def inline_textile_image( text ) 
         text.gsub!( IMAGE_RE )  do |m|
             stln,algn,atts,url,title,href,href_a1,href_a2 = $~[1..8]
+            htmlesc title
             atts = pba( atts )
             atts = " src=\"#{ url }\"#{ atts }"
             atts << " title=\"#{ title }\"" if title
@@ -1045,17 +1054,21 @@ class RedCloth3 < String
                     codepre += 1
                     used_offtags[offtag] = true
                     if codepre - used_offtags.length > 0
-                        htmlesc( line, :NoQuotes ) unless used_offtags['notextile']
+                        htmlesc( line, :NoQuotes )
                         @pre_list.last << line
                         line = ""
                     else
-                        htmlesc( aftertag, :NoQuotes ) if aftertag and not used_offtags['notextile']
+                        htmlesc( aftertag, :NoQuotes ) if aftertag
                         line = "<redpre##{ @pre_list.length }>"
-                        @pre_list << "#{ $3 }#{ aftertag }"
+                        $3.match(/<#{ OFFTAGS }([^>]*)>/)
+                        tag = $1
+                        $2.to_s.match(/(class\=\S+)/i)
+                        tag << " #{$1}" if $1
+                        @pre_list << "<#{ tag }>#{ aftertag }"
                     end
                 elsif $1 and codepre > 0
                     if codepre - used_offtags.length > 0
-                        htmlesc( line, :NoQuotes ) unless used_offtags['notextile']
+                        htmlesc( line, :NoQuotes )
                         @pre_list.last << line
                         line = ""
                     end

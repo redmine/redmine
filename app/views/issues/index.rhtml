@@ -3,7 +3,7 @@
     <% html_title(l(:label_issue_plural)) %>
     
     <% form_tag({ :controller => 'queries', :action => 'new' }, :id => 'query_form') do %>
-    <%= hidden_field_tag('project_id', @project.id) if @project %>
+    <%= hidden_field_tag('project_id', @project.to_param) if @project %>
     <fieldset id="filters"><legend><%= l(:label_filter_plural) %></legend>
     <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
     <p class="buttons">
@@ -14,7 +14,8 @@
                        }, :class => 'icon icon-checked' %>
                        
     <%= link_to_remote l(:button_clear),
-                       { :url => { :set_filter => 1 }, 
+                       { :url => { :set_filter => 1, :project_id => @project },
+                         :method => :get,
                          :update => "content",
                        }, :class => 'icon icon-reload'  %>
                        
@@ -43,12 +44,12 @@
 <%= render :partial => 'issues/list', :locals => {:issues => @issues, :query => @query} %>
 <p class="pagination"><%= pagination_links_full @issue_pages, @issue_count %></p>
 
-<p class="other-formats">
-<%= l(:label_export_to) %>
-<span><%= link_to 'Atom', {:query_id => @query, :format => 'atom', :key => User.current.rss_key}, :class => 'feed' %></span>
-<span><%= link_to 'CSV', {:format => 'csv'}, :class => 'csv' %></span>
-<span><%= link_to 'PDF', {:format => 'pdf'}, :class => 'pdf' %></span>
-</p>
+<% other_formats_links do |f| %>
+	<%= f.link_to 'Atom', :url => {:query_id => (@query.new_record? ? nil : @query), :key => User.current.rss_key} %>
+	<%= f.link_to 'CSV' %>
+	<%= f.link_to 'PDF' %>
+<% end %>
+
 <% end %>
 <% end %>
 

@@ -22,8 +22,8 @@ module QueriesHelper
   end
   
   def column_header(column)
-    column.sortable ? sort_header_tag(column.sortable, :caption => column.caption,
-                                                       :default_order => column.default_order) : 
+    column.sortable ? sort_header_tag(column.name.to_s, :caption => column.caption,
+                                                        :default_order => column.default_order) : 
                       content_tag('th', column.caption)
   end
   
@@ -44,6 +44,8 @@ module QueriesHelper
           link_to(h(value), :controller => 'issues', :action => 'show', :id => issue)
         when :done_ratio
           progress_bar(value, :width => '80px')
+        when :fixed_version
+          link_to(h(value), { :controller => 'versions', :action => 'show', :id => issue.fixed_version_id })
         else
           h(value)
         end

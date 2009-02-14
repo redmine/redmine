@@ -26,13 +26,13 @@ class Issue < ActiveRecord::Base
   belongs_to :category, :class_name => 'IssueCategory', :foreign_key => 'category_id'
 
   has_many :journals, :as => :journalized, :dependent => :destroy
-  has_many :attachments, :as => :container, :dependent => :destroy
   has_many :time_entries, :dependent => :delete_all
   has_and_belongs_to_many :changesets, :order => "#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC"
   
   has_many :relations_from, :class_name => 'IssueRelation', :foreign_key => 'issue_from_id', :dependent => :delete_all
   has_many :relations_to, :class_name => 'IssueRelation', :foreign_key => 'issue_to_id', :dependent => :delete_all
   
+  acts_as_attachable :after_remove => :attachment_removed
   acts_as_customizable
   acts_as_watchable
   acts_as_searchable :columns => ['subject', "#{table_name}.description", "#{Journal.table_name}.notes"],
@@ -40,15 +40,25 @@ class Issue < ActiveRecord::Base
                      # sort by id so that limited eager loading doesn't break with postgresql
                      :order_column => "#{table_name}.id"
   acts_as_event :title => Proc.new {|o| "#{o.tracker.name} ##{o.id}: #{o.subject}"},
-                :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.id}}                
+                :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.id}},
+                :type => Proc.new {|o| 'issue' + (o.closed? ? ' closed' : '') }
   
-  acts_as_activity_provider :find_options => {:include => [:project, :author, :tracker]}
+  acts_as_activity_provider :find_options => {:include => [:project, :author, :tracker]},
+                            :author_key => :author_id
   
-  validates_presence_of :subject, :description, :priority, :project, :tracker, :author, :status
+  validates_presence_of :subject, :priority, :project, :tracker, :author, :status
   validates_length_of :subject, :maximum => 255
   validates_inclusion_of :done_ratio, :in => 0..100
   validates_numericality_of :estimated_hours, :allow_nil => true
 
+  named_scope :visible, lambda {|*args| { :include => :project,
+                                          :conditions => Project.allowed_to_condition(args.first || User.current, :view_issues) } }
+  
+  # Returns true if usr or current user is allowed to view the issue
+  def visible?(usr=nil)
+    (usr || User.current).allowed_to?(:view_issues, self.project)
+  end
+  
   def after_initialize
     if new_record?
       # set default values for new records only
@@ -69,34 +79,43 @@ class Issue < ActiveRecord::Base
     self
   end
   
-  # Move an issue to a new project and tracker
-  def move_to(new_project, new_tracker = nil)
+  # Moves/copies an issue to a new project and tracker
+  # Returns the moved/copied issue on success, false on failure
+  def move_to(new_project, new_tracker = nil, options = {})
+    options ||= {}
+    issue = options[:copy] ? self.clone : self
     transaction do
-      if new_project && project_id != new_project.id
+      if new_project && issue.project_id != new_project.id
         # delete issue relations
         unless Setting.cross_project_issue_relations?
-          self.relations_from.clear
-          self.relations_to.clear
+          issue.relations_from.clear
+          issue.relations_to.clear
         end
         # issue is moved to another project
         # reassign to the category with same name if any
-        new_category = category.nil? ? nil : new_project.issue_categories.find_by_name(category.name)
-        self.category = new_category
-        self.fixed_version = nil
-        self.project = new_project
+        new_category = issue.category.nil? ? nil : new_project.issue_categories.find_by_name(issue.category.name)
+        issue.category = new_category
+        issue.fixed_version = nil
+        issue.project = new_project
       end
       if new_tracker
-        self.tracker = new_tracker
+        issue.tracker = new_tracker
       end
-      if save
-        # Manually update project_id on related time entries
-        TimeEntry.update_all("project_id = #{new_project.id}", {:issue_id => id})
+      if options[:copy]
+        issue.custom_field_values = self.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
+        issue.status = self.status
+      end
+      if issue.save
+        unless options[:copy]
+          # Manually update project_id on related time entries
+          TimeEntry.update_all("project_id = #{new_project.id}", {:issue_id => id})
+        end
       else
-        rollback_db_transaction
+        Issue.connection.rollback_db_transaction
         return false
       end
     end
-    return true
+    return issue
   end
   
   def priority_id=(pid)
@@ -194,6 +213,11 @@ class Issue < ActiveRecord::Base
     self.status.is_closed?
   end
   
+  # Returns true if the issue is overdue
+  def overdue?
+    !due_date.nil? && (due_date < Date.today) && !status.is_closed?
+  end
+  
   # Users the issue can be assigned to
   def assignable_users
     project.assignable_users
@@ -251,13 +275,18 @@ class Issue < ActiveRecord::Base
     @soonest_start ||= relations_to.collect{|relation| relation.successor_soonest_start}.compact.min
   end
   
-  def self.visible_by(usr)
-    with_scope(:find => { :conditions => Project.visible_by(usr) }) do
-      yield
-    end
-  end
-  
   def to_s
     "#{tracker} ##{id}: #{subject}"
+  end
+  
+  private
+  
+  # Callback on attachment deletion
+  def attachment_removed(obj)
+    journal = init_journal(User.current)
+    journal.details << JournalDetail.new(:property => 'attachment',
+                                         :prop_key => obj.id,
+                                         :old_value => obj.filename)
+    journal.save
   end
 end

@@ -1,4 +1,4 @@
-# redMine - project management software
+# Redmine - project management software
 # Copyright (C) 2006-2008  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
@@ -23,6 +23,7 @@ Read an email from standard input.
 
 Issue attributes control options:
   project=PROJECT          identifier of the target project
+  status=STATUS            name of the target status
   tracker=TRACKER          name of the target tracker
   category=CATEGORY        name of the target category
   priority=PRIORITY        name of the target priority
@@ -44,7 +45,7 @@ END_DESC
 
     task :read => :environment do
       options = { :issue => {} }
-      %w(project tracker category priority).each { |a| options[:issue][a.to_sym] = ENV[a] if ENV[a] }
+      %w(project status tracker category priority).each { |a| options[:issue][a.to_sym] = ENV[a] if ENV[a] }
       options[:allow_override] = ENV['allow_override'] if ENV['allow_override']
       
       MailHandler.receive(STDIN.read, options)
@@ -63,12 +64,18 @@ Available IMAP options:
 
 Issue attributes control options:
   project=PROJECT          identifier of the target project
+  status=STATUS            name of the target status
   tracker=TRACKER          name of the target tracker
   category=CATEGORY        name of the target category
   priority=PRIORITY        name of the target priority
   allow_override=ATTRS     allow email content to override attributes
                            specified by previous options
                            ATTRS is a comma separated list of attributes
+                           
+Processed emails control options:
+  move_on_success=MAILBOX  move emails that were successfully received
+                           to MAILBOX instead of deleting them
+  move_on_failure=MAILBOX  move emails that were ignored to MAILBOX
   
 Examples:
   # No project specified. Emails MUST contain the 'Project' keyword:
@@ -93,10 +100,12 @@ END_DESC
                       :ssl => ENV['ssl'],
                       :username => ENV['username'],
                       :password => ENV['password'],
-                      :folder => ENV['folder']}
+                      :folder => ENV['folder'],
+                      :move_on_success => ENV['move_on_success'],
+                      :move_on_failure => ENV['move_on_failure']}
                       
       options = { :issue => {} }
-      %w(project tracker category priority).each { |a| options[:issue][a.to_sym] = ENV[a] if ENV[a] }
+      %w(project status tracker category priority).each { |a| options[:issue][a.to_sym] = ENV[a] if ENV[a] }
       options[:allow_override] = ENV['allow_override'] if ENV['allow_override']
 
       Redmine::IMAP.check(imap_options, options)

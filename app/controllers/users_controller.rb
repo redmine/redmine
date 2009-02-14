@@ -30,18 +30,22 @@ class UsersController < ApplicationController
 
   def list
     sort_init 'login', 'asc'
-    sort_update
+    sort_update %w(login firstname lastname mail admin created_on last_login_on)
     
     @status = params[:status] ? params[:status].to_i : 1
-    conditions = "status <> 0"
-    conditions = ["status=?", @status] unless @status == 0
+    c = ARCondition.new(@status == 0 ? "status <> 0" : ["status = ?", @status])
+
+    unless params[:name].blank?
+      name = "%#{params[:name].strip.downcase}%"
+      c << ["LOWER(login) LIKE ? OR LOWER(firstname) LIKE ? OR LOWER(lastname) LIKE ?", name, name, name]
+    end
     
-    @user_count = User.count(:conditions => conditions)
+    @user_count = User.count(:conditions => c.conditions)
     @user_pages = Paginator.new self, @user_count,
 								per_page_option,
 								params['page']								
     @users =  User.find :all,:order => sort_clause,
-                        :conditions => conditions,
+                        :conditions => c.conditions,
 						:limit  =>  @user_pages.items_per_page,
 						:offset =>  @user_pages.current.offset
 
@@ -79,7 +83,7 @@ class UsersController < ApplicationController
     end
     @auth_sources = AuthSource.find(:all)
     @roles = Role.find_all_givable
-    @projects = Project.find(:all, :order => 'name', :conditions => "status=#{Project::STATUS_ACTIVE}") - @user.projects
+    @projects = Project.active.find(:all, :order => 'lft')
     @membership ||= Member.new
     @memberships = @user.memberships
   end

@@ -77,12 +77,15 @@ notice_failed_to_save_issues: "%d demande(s) sur les %d sélectionnées n'ont pa
 notice_no_issue_selected: "Aucune demande sélectionnée ! Cochez les demandes que vous voulez mettre à jour."
 notice_account_pending: "Votre compte a été créé et attend l'approbation de l'administrateur."
 notice_default_data_loaded: Paramétrage par défaut chargé avec succès.
+notice_unable_delete_version: Impossible de supprimer cette version.
 
 error_can_t_load_default_data: "Une erreur s'est produite lors du chargement du paramétrage: %s"
 error_scm_not_found: "L'entrée et/ou la révision demandée n'existe pas dans le dépôt."
 error_scm_command_failed: "Une erreur s'est produite lors de l'accès au dépôt: %s"
 error_scm_annotate: "L'entrée n'existe pas ou ne peut pas être annotée."
 error_issue_not_found_in_project: "La demande n'existe pas ou n'appartient pas à ce projet"
+
+warning_attachments_not_saved: "%d fichier(s) n'ont pas pu être sauvegardés."
 
 mail_subject_lost_password: Votre mot de passe %s
 mail_body_lost_password: 'Pour changer votre mot de passe, cliquez sur le lien suivant:'
@@ -169,7 +172,6 @@ field_start_page: Page de démarrage
 field_subproject: Sous-projet
 field_hours: Heures
 field_activity: Activité
-label_overall_activity: Activité globale
 field_spent_on: Date
 field_identifier: Identifiant
 field_is_filter: Utilisé comme filtre
@@ -184,6 +186,9 @@ field_searchable: Utilisé pour les recherches
 field_default_value: Valeur par défaut
 field_comments_sorting: Afficher les commentaires
 field_parent_title: Page parent
+field_editable: Modifiable
+field_identity_url: URL OpenID
+field_watcher: Observateur
 
 setting_app_title: Titre de l'application
 setting_app_subtitle: Sous-titre de l'application
@@ -195,7 +200,8 @@ setting_attachment_max_size: Taille max des fichiers
 setting_issues_export_limit: Limite export demandes
 setting_mail_from: Adresse d'émission
 setting_bcc_recipients: Destinataires en copie cachée (cci)
-setting_host_name: Nom d'hôte
+setting_plain_text_mail: Mail texte brut (non HTML)
+setting_host_name: Nom d'hôte et chemin
 setting_text_formatting: Formatage du texte
 setting_wiki_compression: Compression historique wiki
 setting_feeds_limit: Limite du contenu des flux RSS
@@ -221,7 +227,59 @@ setting_enabled_scm: SCM activés
 setting_mail_handler_api_enabled: "Activer le WS pour la réception d'emails"
 setting_mail_handler_api_key: Clé de protection de l'API
 setting_sequential_project_identifiers: Générer des identifiants de projet séquentiels
-setting_repositories_cache_directory: Répertoire du cache pour les dépôts
+setting_gravatar_enabled: Afficher les Gravatar des utilisateurs
+setting_diff_max_lines_displayed: Nombre maximum de lignes de diff affichées
+setting_repository_log_display_limit: "Nombre maximum de revisions affichées sur l'historique d'un fichier"
+setting_openid: "Autoriser l'authentification et l'enregistrement OpenID"
+
+permission_edit_project: Modifier le projet
+permission_select_project_modules: Choisir les modules
+permission_manage_members: Gérer les members
+permission_manage_versions: Gérer les versions
+permission_manage_categories: Gérer les catégories de demandes
+permission_add_issues: Créer des demandes
+permission_edit_issues: Modifier les demandes
+permission_manage_issue_relations: Gérer les relations
+permission_add_issue_notes: Ajouter des notes
+permission_edit_issue_notes: Modifier les notes
+permission_edit_own_issue_notes: Modifier ses propres notes
+permission_move_issues: Déplacer les demandes
+permission_delete_issues: Supprimer les demandes
+permission_manage_public_queries: Gérer les requêtes publiques
+permission_save_queries: Sauvegarder les requêtes
+permission_view_gantt: Voir le gantt
+permission_view_calendar: Voir le calendrier
+permission_view_issue_watchers: Voir la liste des observateurs
+permission_add_issue_watchers: Ajouter des observateurs
+permission_log_time: Saisir le temps passé
+permission_view_time_entries: Voir le temps passé
+permission_edit_time_entries: Modifier les temps passés
+permission_edit_own_time_entries: Modifier son propre temps passé
+permission_manage_news: Gérer les annonces
+permission_comment_news: Commenter les annonces
+permission_manage_documents: Gérer les documents
+permission_view_documents: Voir les documents
+permission_manage_files: Gérer les fichiers
+permission_view_files: Voir les fichiers
+permission_manage_wiki: Gérer le wiki
+permission_rename_wiki_pages: Renommer les pages
+permission_delete_wiki_pages: Supprimer les pages
+permission_view_wiki_pages: Voir le wiki
+permission_view_wiki_edits: "Voir l'historique des modifications"
+permission_edit_wiki_pages: Modifier les pages
+permission_delete_wiki_pages_attachments: Supprimer les fichiers joints
+permission_protect_wiki_pages: Protéger les pages
+permission_manage_repository: Gérer le dépôt de sources
+permission_browse_repository: Parcourir les sources
+permission_view_changesets: Voir les révisions
+permission_commit_access: Droit de commit
+permission_manage_boards: Gérer les forums
+permission_view_messages: Voir les messages
+permission_add_messages: Poster un message
+permission_edit_messages: Modifier les messages
+permission_edit_own_messages: Modifier ses propres messages
+permission_delete_messages: Supprimer les messages
+permission_delete_own_messages: Supprimer ses propres messages
 
 project_module_issue_tracking: Suivi des demandes
 project_module_time_tracking: Suivi du temps passé
@@ -293,6 +351,8 @@ label_last_updates: Dernière mise à jour
 label_last_updates_plural: %d dernières mises à jour
 label_registered_on: Inscrit le
 label_activity: Activité
+label_overall_activity: Activité globale
+label_user_activity: "Activité de %s"
 label_new: Nouveau
 label_logged_as: Connecté en tant que
 label_environment: Environnement
@@ -492,6 +552,7 @@ label_send_test_email: Envoyer un email de test
 label_feeds_access_key_created_on: Clé d'accès RSS créée il y a %s
 label_module_plural: Modules
 label_added_time_by: Ajouté par %s il y a %s
+label_updated_time_by: Mis à jour par %s il y a %s
 label_updated_time: Mis à jour il y a %s
 label_jump_to_a_project: Aller à un projet...
 label_file_plural: Fichiers
@@ -526,7 +587,10 @@ label_reverse_chronological_order: Dans l'ordre chronologique inverse
 label_planning: Planning
 label_incoming_emails: Emails entrants
 label_generate_key: Générer une clé
-label_issue_watchers: Utilisateurs surveillant cette demande
+label_issue_watchers: Observateurs
+label_example: Exemple
+label_display: Affichage
+label_login_with_open_id_option: Authentification OpenID
 
 button_login: Connexion
 button_submit: Soumettre
@@ -535,6 +599,7 @@ button_check_all: Tout cocher
 button_uncheck_all: Tout décocher
 button_delete: Supprimer
 button_create: Créer
+button_create_and_continue: Créer et continuer
 button_test: Tester
 button_edit: Modifier
 button_add: Ajouter
@@ -606,6 +671,7 @@ text_issues_destroy_confirmation: 'Etes-vous sûr de vouloir supprimer le(s) dem
 text_select_project_modules: 'Selectionner les modules à activer pour ce project:'
 text_default_administrator_account_changed: Compte administrateur par défaut changé
 text_file_repository_writable: Répertoire de stockage des fichiers accessible en écriture
+text_plugin_assets_writable: Répertoire public des plugins accessible en écriture
 text_rmagick_available: Bibliothèque RMagick présente (optionnelle)
 text_destroy_time_entries_question: %.02f heures ont été enregistrées sur les demandes à supprimer. Que voulez-vous faire ?
 text_destroy_time_entries: Supprimer les heures
@@ -615,6 +681,9 @@ text_user_wrote: '%s a écrit:'
 text_enumeration_destroy_question: 'Cette valeur est affectée à %d objets.'
 text_enumeration_category_reassign_to: 'Réaffecter les objets à cette valeur:'
 text_email_delivery_not_configured: "L'envoi de mail n'est pas configuré, les notifications sont désactivées.\nConfigurez votre serveur SMTP dans config/email.yml et redémarrez l'application pour les activer."
+text_repository_usernames_mapping: "Vous pouvez sélectionner ou modifier l'utilisateur Redmine associé à chaque nom d'utilisateur figurant dans l'historique du dépôt.\nLes utilisateurs avec le même identifiant ou la même adresse mail seront automatiquement associés."
+text_diff_truncated: '... Ce différentiel a été tronqué car il excède la taille maximale pouvant être affichée.'
+text_custom_field_possible_values_info: 'Une ligne par valeur'
 
 default_role_manager: Manager
 default_role_developper: Développeur
@@ -641,5 +710,3 @@ default_activity_development: Développement
 enumeration_issue_priorities: Priorités des demandes
 enumeration_doc_categories: Catégories des documents
 enumeration_activities: Activités (suivi du temps)
-notice_unable_delete_version: Unable to delete version
-field_cache: Cache local

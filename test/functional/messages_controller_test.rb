@@ -31,6 +31,13 @@ class MessagesControllerTest < Test::Unit::TestCase
     User.current = nil
   end
   
+  def test_show_routing
+    assert_routing(
+      {:method => :get, :path => '/boards/22/topics/2'},
+      :controller => 'messages', :action => 'show', :id => '2', :board_id => '22'
+    )
+  end
+  
   def test_show
     get :show, :board_id => 1, :id => 1
     assert_response :success
@@ -54,6 +61,17 @@ class MessagesControllerTest < Test::Unit::TestCase
     assert_response 404
   end
   
+  def test_new_routing
+    assert_routing(
+      {:method => :get, :path => '/boards/lala/topics/new'},
+      :controller => 'messages', :action => 'new', :board_id => 'lala'
+    )
+    assert_recognizes(#TODO: POST to collection, need to adjust form accordingly
+      {:controller => 'messages', :action => 'new', :board_id => 'lala'},
+      {:method => :post, :path => '/boards/lala/topics/new'}
+    )
+  end
+  
   def test_get_new
     @request.session[:user_id] = 2
     get :new, :board_id => 1
@@ -64,7 +82,7 @@ class MessagesControllerTest < Test::Unit::TestCase
   def test_post_new
     @request.session[:user_id] = 2
     ActionMailer::Base.deliveries.clear
-    Setting.notified_events << 'message_posted'
+    Setting.notified_events = ['message_posted']
     
     post :new, :board_id => 1,
                :message => { :subject => 'Test created message',
@@ -78,12 +96,23 @@ class MessagesControllerTest < Test::Unit::TestCase
 
     mail = ActionMailer::Base.deliveries.last
     assert_kind_of TMail::Mail, mail
-    assert_equal "[#{message.board.project.name} - #{message.board.name}] Test created message", mail.subject
+    assert_equal "[#{message.board.project.name} - #{message.board.name} - msg#{message.root.id}] Test created message", mail.subject
     assert mail.body.include?('Message body')
     # author
     assert mail.bcc.include?('jsmith@somenet.foo')
     # project member
     assert mail.bcc.include?('dlopper@somenet.foo')
+  end
+  
+  def test_edit_routing
+    assert_routing(
+      {:method => :get, :path => '/boards/lala/topics/22/edit'},
+      :controller => 'messages', :action => 'edit', :board_id => 'lala', :id => '22'
+    )
+    assert_recognizes( #TODO: use PUT to topic_path, modify form accordingly
+      {:controller => 'messages', :action => 'edit', :board_id => 'lala', :id => '22'},
+      {:method => :post, :path => '/boards/lala/topics/22/edit'}
+    )
   end
   
   def test_get_edit
@@ -104,11 +133,25 @@ class MessagesControllerTest < Test::Unit::TestCase
     assert_equal 'New body', message.content
   end
   
+  def test_reply_routing
+    assert_recognizes(
+      {:controller => 'messages', :action => 'reply', :board_id => '22', :id => '555'},
+      {:method => :post, :path => '/boards/22/topics/555/replies'}
+    )
+  end
+  
   def test_reply
     @request.session[:user_id] = 2
     post :reply, :board_id => 1, :id => 1, :reply => { :content => 'This is a test reply', :subject => 'Test reply' }
     assert_redirected_to 'messages/show'
     assert Message.find_by_subject('Test reply')
+  end
+  
+  def test_destroy_routing
+    assert_recognizes(#TODO: use DELETE to topic_path, adjust form accordingly
+      {:controller => 'messages', :action => 'destroy', :board_id => '22', :id => '555'},
+      {:method => :post, :path => '/boards/22/topics/555/destroy'}
+    )
   end
   
   def test_destroy_topic

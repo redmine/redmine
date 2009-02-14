@@ -26,23 +26,22 @@ class AdminController < ApplicationController
   end
 	
   def projects
-    sort_init 'name', 'asc'
-    sort_update
+    @status = params[:status] ? params[:status].to_i : 1
+    c = ARCondition.new(@status == 0 ? "status <> 0" : ["status = ?", @status])
     
-    @status = params[:status] ? params[:status].to_i : 0
-    conditions = nil
-    conditions = ["status=?", @status] unless @status == 0
+    unless params[:name].blank?
+      name = "%#{params[:name].strip.downcase}%"
+      c << ["LOWER(identifier) LIKE ? OR LOWER(name) LIKE ?", name, name]
+    end
     
-    @project_count = Project.count(:conditions => conditions)
-    @project_pages = Paginator.new self, @project_count,
-								per_page_option,
-								params['page']								
-    @projects = Project.find :all, :order => sort_clause,
-                        :conditions => conditions,
-						:limit  =>  @project_pages.items_per_page,
-						:offset =>  @project_pages.current.offset
+    @projects = Project.find :all, :order => 'lft',
+                                   :conditions => c.conditions
 
     render :action => "projects", :layout => false if request.xhr?
+  end
+  
+  def plugins
+    @plugins = Redmine::Plugin.all
   end
   
   # Loads the default configuration
@@ -78,8 +77,8 @@ class AdminController < ApplicationController
     @flags = {
       :default_admin_changed => User.find(:first, :conditions => ["login=? and hashed_password=?", 'admin', User.hash_password('admin')]).nil?,
       :file_repository_writable => File.writable?(Attachment.storage_path),
+      :plugin_assets_writable => File.writable?(Engines.public_directory),
       :rmagick_available => Object.const_defined?(:Magick)
     }
-    @plugins = Redmine::Plugin.registered_plugins
   end  
 end

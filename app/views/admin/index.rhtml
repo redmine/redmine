@@ -19,7 +19,7 @@
 <p class="icon22 icon22-tracker">
 <%= link_to l(:label_tracker_plural), :controller => 'trackers' %> |
 <%= link_to l(:label_issue_status_plural), :controller => 'issue_statuses' %> |
-<%= link_to l(:label_workflow), :controller => 'roles', :action => 'workflow' %>
+<%= link_to l(:label_workflow), :controller => 'workflows', :action => 'edit' %>
 </p>
 
 <p class="icon22 icon22-workflow">
@@ -32,6 +32,16 @@
 
 <p class="icon22 icon22-settings">
 <%= link_to l(:label_settings), :controller => 'settings' %>
+</p>
+
+<% menu_items_for(:admin_menu) do |item, caption, url, selected| -%>
+  <%= content_tag 'p', 
+    link_to(h(caption), item.url, item.html_options),
+    :class => ["icon22", "icon22-#{item.name}"].join(' ') %>
+<% end -%>
+
+<p class="icon22 icon22-plugin">
+<%= link_to l(:label_plugins), :controller => 'admin', :action => 'plugins' %>
 </p>
 
 <p class="icon22 icon22-info">

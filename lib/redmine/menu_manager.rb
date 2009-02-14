@@ -52,8 +52,19 @@ module Redmine
       
       # Returns the menu item name according to the current action
       def current_menu_item
-        menu_items[controller_name.to_sym][:actions][action_name.to_sym] ||
-          menu_items[controller_name.to_sym][:default]
+        @current_menu_item ||= menu_items[controller_name.to_sym][:actions][action_name.to_sym] ||
+                                 menu_items[controller_name.to_sym][:default]
+      end
+      
+      # Redirects user to the menu item of the given project
+      # Returns false if user is not authorized
+      def redirect_to_project_menu_item(project, name)
+        item = Redmine::MenuManager.items(:project_menu).detect {|i| i.name.to_s == name.to_s}
+        if item && User.current.allowed_to?(item.url, project) && (item.condition.nil? || item.condition.call(project))
+          redirect_to({item.param => project}.merge(item.url))
+          return true
+        end
+        false
       end
     end
     
@@ -70,6 +81,15 @@ module Redmine
       
       def render_menu(menu, project=nil)
         links = []
+        menu_items_for(menu, project) do |item, caption, url, selected|
+          links << content_tag('li', 
+            link_to(h(caption), url, item.html_options(:selected => selected)))
+        end
+        links.empty? ? nil : content_tag('ul', links.join("\n"))
+      end
+
+      def menu_items_for(menu, project=nil)
+        items = []
         Redmine::MenuManager.allowed_items(menu, User.current, project).each do |item|
           unless item.condition && !item.condition.call(project)
             url = case item.url
@@ -82,11 +102,14 @@ module Redmine
             end
             caption = item.caption(project)
             caption = l(caption) if caption.is_a?(Symbol)
-            links << content_tag('li', 
-              link_to(h(caption), url, (current_menu_item == item.name ? item.html_options.merge(:class => 'selected') : item.html_options)))
+            if block_given?
+              yield item, caption, url, (current_menu_item == item.name)
+            else
+              items << [item, caption, url, (current_menu_item == item.name)]
+            end
           end
         end
-        links.empty? ? nil : content_tag('ul', links.join("\n"))
+        return block_given? ? nil : items
       end
     end
     
@@ -94,7 +117,11 @@ module Redmine
       def map(menu_name)
         @items ||= {}
         mapper = Mapper.new(menu_name.to_sym, @items)
-        yield mapper
+        if block_given?
+          yield mapper
+        else
+          mapper
+        end
       end
       
       def items(menu_name)
@@ -152,7 +179,7 @@ module Redmine
     
     class MenuItem
       include GLoc
-      attr_reader :name, :url, :param, :condition, :html_options
+      attr_reader :name, :url, :param, :condition
       
       def initialize(name, url, options)
         raise "Invalid option :if for menu item '#{name}'" if options[:if] && !options[:if].respond_to?(:call)
@@ -163,6 +190,8 @@ module Redmine
         @param = options[:param] || :id
         @caption = options[:caption]
         @html_options = options[:html] || {}
+        # Adds a unique class to each menu item based on its name
+        @html_options[:class] = [@html_options[:class], @name.to_s.dasherize].compact.join(' ')
       end
       
       def caption(project=nil)
@@ -173,6 +202,16 @@ module Redmine
         else
           # check if localized string exists on first render (after GLoc strings are loaded)
           @caption_key ||= (@caption || (l_has_string?("label_#{@name}".to_sym) ? "label_#{@name}".to_sym : @name.to_s.humanize))
+        end
+      end
+      
+      def html_options(options={})
+        if options[:selected]
+          o = @html_options.dup
+          o[:class] += ' selected'
+          o
+        else
+          @html_options
         end
       end
     end    

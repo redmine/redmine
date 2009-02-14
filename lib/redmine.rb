@@ -6,6 +6,7 @@ require 'redmine/core_ext'
 require 'redmine/themes'
 require 'redmine/hook'
 require 'redmine/plugin'
+require 'redmine/wiki_formatting'
 
 begin
   require_library_or_gem 'RMagick' unless Object.const_defined?(:Magick)
@@ -34,7 +35,7 @@ Redmine::AccessControl.map do |map|
                                   :queries => :index,
                                   :reports => :issue_report}, :public => true                    
     map.permission :add_issues, {:issues => :new}
-    map.permission :edit_issues, {:issues => [:edit, :reply, :bulk_edit, :destroy_attachment]}
+    map.permission :edit_issues, {:issues => [:edit, :reply, :bulk_edit]}
     map.permission :manage_issue_relations, {:issue_relations => [:new, :destroy]}
     map.permission :add_issue_notes, {:issues => [:edit, :reply]}
     map.permission :edit_issue_notes, {:journals => :edit}, :require => :loggedin
@@ -66,12 +67,12 @@ Redmine::AccessControl.map do |map|
   end
 
   map.project_module :documents do |map|
-    map.permission :manage_documents, {:documents => [:new, :edit, :destroy, :add_attachment, :destroy_attachment]}, :require => :loggedin
+    map.permission :manage_documents, {:documents => [:new, :edit, :destroy, :add_attachment]}, :require => :loggedin
     map.permission :view_documents, :documents => [:index, :show, :download]
   end
   
   map.project_module :files do |map|
-    map.permission :manage_files, {:projects => :add_file, :versions => :destroy_file}, :require => :loggedin
+    map.permission :manage_files, {:projects => :add_file}, :require => :loggedin
     map.permission :view_files, :projects => :list_files, :versions => :download
   end
     
@@ -81,12 +82,13 @@ Redmine::AccessControl.map do |map|
     map.permission :delete_wiki_pages, {:wiki => :destroy}, :require => :member
     map.permission :view_wiki_pages, :wiki => [:index, :special]
     map.permission :view_wiki_edits, :wiki => [:history, :diff, :annotate]
-    map.permission :edit_wiki_pages, :wiki => [:edit, :preview, :add_attachment, :destroy_attachment]
+    map.permission :edit_wiki_pages, :wiki => [:edit, :preview, :add_attachment]
+    map.permission :delete_wiki_pages_attachments, {}
     map.permission :protect_wiki_pages, {:wiki => :protect}, :require => :member
   end
     
   map.project_module :repository do |map|
-    map.permission :manage_repository, {:repositories => [:edit, :destroy]}, :require => :member
+    map.permission :manage_repository, {:repositories => [:edit, :committers, :destroy]}, :require => :member
     map.permission :browse_repository, :repositories => [:show, :browse, :entry, :annotate, :changes, :diff, :stats, :graph]
     map.permission :view_changesets, :repositories => [:show, :revisions, :revision]
     map.permission :commit_access, {}
@@ -97,26 +99,32 @@ Redmine::AccessControl.map do |map|
     map.permission :view_messages, {:boards => [:index, :show], :messages => [:show]}, :public => true
     map.permission :add_messages, {:messages => [:new, :reply, :quote]}
     map.permission :edit_messages, {:messages => :edit}, :require => :member
+    map.permission :edit_own_messages, {:messages => :edit}, :require => :loggedin
     map.permission :delete_messages, {:messages => :destroy}, :require => :member
+    map.permission :delete_own_messages, {:messages => :destroy}, :require => :loggedin
   end
 end
 
 Redmine::MenuManager.map :top_menu do |menu|
-  menu.push :home, :home_path, :html => { :class => 'home' }
-  menu.push :my_page, { :controller => 'my', :action => 'page' }, :html => { :class => 'mypage' }, :if => Proc.new { User.current.logged? }
-  menu.push :projects, { :controller => 'projects', :action => 'index' }, :caption => :label_project_plural, :html => { :class => 'projects' }
-  menu.push :administration, { :controller => 'admin', :action => 'index' }, :html => { :class => 'admin' }, :if => Proc.new { User.current.admin? }, :last => true
-  menu.push :help, Redmine::Info.help_url, :html => { :class => 'help' }, :last => true
+  menu.push :home, :home_path
+  menu.push :my_page, { :controller => 'my', :action => 'page' }, :if => Proc.new { User.current.logged? }
+  menu.push :projects, { :controller => 'projects', :action => 'index' }, :caption => :label_project_plural
+  menu.push :administration, { :controller => 'admin', :action => 'index' }, :if => Proc.new { User.current.admin? }, :last => true
+  menu.push :help, Redmine::Info.help_url, :last => true
 end
 
 Redmine::MenuManager.map :account_menu do |menu|
-  menu.push :login, :signin_path, :html => { :class => 'login' }, :if => Proc.new { !User.current.logged? }
-  menu.push :register, { :controller => 'account', :action => 'register' }, :html => { :class => 'register' }, :if => Proc.new { !User.current.logged? && Setting.self_registration? }
-  menu.push :my_account, { :controller => 'my', :action => 'account' }, :html => { :class => 'myaccount' }, :if => Proc.new { User.current.logged? }
-  menu.push :logout, :signout_path, :html => { :class => 'logout' }, :if => Proc.new { User.current.logged? }
+  menu.push :login, :signin_path, :if => Proc.new { !User.current.logged? }
+  menu.push :register, { :controller => 'account', :action => 'register' }, :if => Proc.new { !User.current.logged? && Setting.self_registration? }
+  menu.push :my_account, { :controller => 'my', :action => 'account' }, :if => Proc.new { User.current.logged? }
+  menu.push :logout, :signout_path, :if => Proc.new { User.current.logged? }
 end
 
 Redmine::MenuManager.map :application_menu do |menu|
+  # Empty
+end
+
+Redmine::MenuManager.map :admin_menu do |menu|
   # Empty
 end
 
@@ -148,4 +156,8 @@ Redmine::Activity.map do |activity|
   activity.register :files, :class_name => 'Attachment'
   activity.register :wiki_edits, :class_name => 'WikiContent::Version', :default => false
   activity.register :messages, :default => false
+end
+
+Redmine::WikiFormatting.map do |format|
+  format.register :textile, Redmine::WikiFormatting::Textile::Formatter, Redmine::WikiFormatting::Textile::Helper
 end

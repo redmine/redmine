@@ -46,7 +46,7 @@ class ApplicationController < ActionController::Base
   def find_current_user
     if session[:user_id]
       # existing session
-      (User.find_active(session[:user_id]) rescue nil)
+      (User.active.find(session[:user_id]) rescue nil)
     elsif cookies[:autologin] && Setting.autologin?
       # auto-login feature
       User.find_by_autologin_key(cookies[:autologin])
@@ -82,7 +82,7 @@ class ApplicationController < ActionController::Base
   
   def require_login
     if !User.current.logged?
-      redirect_to :controller => "account", :action => "login", :back_url => (request.relative_url_root + request.request_uri)
+      redirect_to :controller => "account", :action => "login", :back_url => url_for(params)
       return false
     end
     true
@@ -126,10 +126,14 @@ class ApplicationController < ActionController::Base
   def redirect_back_or_default(default)
     back_url = CGI.unescape(params[:back_url].to_s)
     if !back_url.blank?
-      uri = URI.parse(back_url)
-      # do not redirect user to another host
-      if uri.relative? || (uri.host == request.host)
-        redirect_to(back_url) and return
+      begin
+        uri = URI.parse(back_url)
+        # do not redirect user to another host or to the login or register page
+        if (uri.relative? || (uri.host == request.host)) && !uri.path.match(%r{/(login|account/register)})
+          redirect_to(back_url) and return
+        end
+      rescue URI::InvalidURIError
+        # redirect to default
       end
     end
     redirect_to default
@@ -171,6 +175,7 @@ class ApplicationController < ActionController::Base
   # TODO: move to model
   def attach_files(obj, attachments)
     attached = []
+    unsaved = []
     if attachments && attachments.is_a?(Hash)
       attachments.each_value do |attachment|
         file = attachment['file']
@@ -179,7 +184,10 @@ class ApplicationController < ActionController::Base
                               :file => file,
                               :description => attachment['description'].to_s.strip,
                               :author => User.current)
-        attached << a unless a.new_record?
+        a.new_record? ? (unsaved << a) : (attached << a)
+      end
+      if unsaved.any?
+        flash[:warning] = l(:warning_attachments_not_saved, unsaved.size)
       end
     end
     attached
