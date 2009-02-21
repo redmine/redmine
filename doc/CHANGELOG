@@ -9,6 +9,9 @@ http://www.redmine.org/
 
 * Send an email to the user when an administrator activates a registered user
 * Strip keywords from received email body
+* Footer updated to 2009
+* Fixed: exporting an issue with attachments to PDF raises an error
+* Fixed: "too few arguments" error may occur on activerecord error translation
 
 
 == 2009-02-15 v0.8.1
