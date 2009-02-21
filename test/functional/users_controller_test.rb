@@ -64,6 +64,22 @@ class UsersControllerTest < Test::Unit::TestCase
     assert_equal 2, Member.find(1).role_id
   end
   
+  def test_edit_with_activation_should_send_a_notification
+    u = User.new(:firstname => 'Foo', :lastname => 'Bar', :mail => 'foo.bar@somenet.foo', :language => 'fr')
+    u.login = 'foo'
+    u.status = User::STATUS_REGISTERED
+    u.save!
+    ActionMailer::Base.deliveries.clear
+    Setting.bcc_recipients = '1'
+    
+    post :edit, :id => u.id, :user => {:status => User::STATUS_ACTIVE}
+    assert u.reload.active?
+    mail = ActionMailer::Base.deliveries.last
+    assert_not_nil mail
+    assert_equal ['foo.bar@somenet.foo'], mail.bcc
+    assert mail.body.include?(ll('fr', :notice_account_activated))
+  end
+  
   def test_destroy_membership
     post :destroy_membership, :id => 2, :membership_id => 1
     assert_redirected_to 'users/edit/2'

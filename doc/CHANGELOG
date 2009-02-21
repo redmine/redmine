@@ -5,6 +5,12 @@ Copyright (C) 2006-2009  Jean-Philippe Lang
 http://www.redmine.org/
 
 
+== 2009-xx-xx v0.8.2
+
+* Send an email to the user when an administrator activates a registered user
+* Strip keywords from received email body
+
+
 == 2009-02-15 v0.8.1
 
 * Select watchers on new issue form
