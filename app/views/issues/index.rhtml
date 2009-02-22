@@ -42,6 +42,7 @@
 <% else %>
 <%= render :partial => 'issues/list', :locals => {:issues => @issues, :query => @query} %>
 <p class="pagination"><%= pagination_links_full @issue_pages, @issue_count %></p>
+<% end %>
 
 <p class="other-formats">
 <%= l(:label_export_to) %>
@@ -49,7 +50,6 @@
 <span><%= link_to 'CSV', {:format => 'csv'}, :class => 'csv' %></span>
 <span><%= link_to 'PDF', {:format => 'pdf'}, :class => 'pdf' %></span>
 </p>
-<% end %>
 <% end %>
 
 <% content_for :sidebar do %>
