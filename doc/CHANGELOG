@@ -18,6 +18,8 @@ http://www.redmine.org/
 * Fixed: "too few arguments" error may occur on activerecord error translation
 * Fixed: "Default columns Displayed on the Issues list" setting is not easy to read
 * Fixed: visited links to closed tickets are not striked through with IE6
+* Fixed: MailHandler#plain_text_body returns nil if there was nothing to strip
+* Fixed: MailHandler raises an error when processing an email without From header
 
 
 == 2009-02-15 v0.8.1
