@@ -19,8 +19,10 @@ require File.dirname(__FILE__) + '/../../../test_helper'
 
 class Redmine::Hook::ManagerTest < Test::Unit::TestCase
 
+  fixtures :issues
+  
   # Some hooks that are manually registered in these tests
-  class TestHook < Redmine::Hook::Listener; end
+  class TestHook < Redmine::Hook::ViewListener; end
   
   class TestHook1 < TestHook
     def view_layouts_base_html_head(context)
@@ -39,10 +41,27 @@ class Redmine::Hook::ManagerTest < Test::Unit::TestCase
       "Context keys: #{context.keys.collect(&:to_s).sort.join(', ')}."
     end
   end
+  
+  class TestLinkToHook < TestHook
+    def view_layouts_base_html_head(context)
+      link_to('Issues', :controller => 'issues')
+    end
+  end
+
+  class TestHookHelperController < ActionController::Base
+    include Redmine::Hook::Helper
+  end
+  
+  class TestHookHelperView < ActionView::Base
+    include Redmine::Hook::Helper
+  end
+  
   Redmine::Hook.clear_listeners
   
   def setup
     @hook_module = Redmine::Hook
+    @hook_helper = TestHookHelperController.new
+    @view_hook_helper = TestHookHelperView.new(RAILS_ROOT + '/app/views')
   end
   
   def teardown
@@ -67,17 +86,81 @@ class Redmine::Hook::ManagerTest < Test::Unit::TestCase
   
   def test_call_hook
     @hook_module.add_listener(TestHook1)
-    assert_equal 'Test hook 1 listener.', @hook_module.call_hook(:view_layouts_base_html_head)
+    assert_equal ['Test hook 1 listener.'], @hook_helper.call_hook(:view_layouts_base_html_head)
   end
   
   def test_call_hook_with_context
     @hook_module.add_listener(TestHook3)
-    assert_equal 'Context keys: bar, foo.', @hook_module.call_hook(:view_layouts_base_html_head, :foo => 1, :bar => 'a')
+    assert_equal ['Context keys: bar, controller, foo, project, request.'],
+                 @hook_helper.call_hook(:view_layouts_base_html_head, :foo => 1, :bar => 'a')
   end
   
   def test_call_hook_with_multiple_listeners
     @hook_module.add_listener(TestHook1)
     @hook_module.add_listener(TestHook2)
-    assert_equal 'Test hook 1 listener.Test hook 2 listener.', @hook_module.call_hook(:view_layouts_base_html_head)
+    assert_equal ['Test hook 1 listener.', 'Test hook 2 listener.'], @hook_helper.call_hook(:view_layouts_base_html_head)
   end
+  
+  # Context: Redmine::Hook::Helper.call_hook default_url
+  def test_call_hook_default_url_options
+    @hook_module.add_listener(TestLinkToHook)
+
+    assert_equal ['<a href="/issues">Issues</a>'], @hook_helper.call_hook(:view_layouts_base_html_head)
+  end
+
+  # Context: Redmine::Hook::Helper.call_hook
+  def test_call_hook_with_project_added_to_context
+    @hook_module.add_listener(TestHook3)
+    assert_match /project/i, @hook_helper.call_hook(:view_layouts_base_html_head)[0]
+  end
+  
+  def test_call_hook_from_controller_with_controller_added_to_context
+    @hook_module.add_listener(TestHook3)
+    assert_match /controller/i, @hook_helper.call_hook(:view_layouts_base_html_head)[0]
+  end
+    
+  def test_call_hook_from_controller_with_request_added_to_context
+    @hook_module.add_listener(TestHook3)
+    assert_match /request/i, @hook_helper.call_hook(:view_layouts_base_html_head)[0]
+  end
+    
+  def test_call_hook_from_view_with_project_added_to_context
+    @hook_module.add_listener(TestHook3)
+    assert_match /project/i, @view_hook_helper.call_hook(:view_layouts_base_html_head)
+  end
+    
+  def test_call_hook_from_view_with_controller_added_to_context
+    @hook_module.add_listener(TestHook3)
+    assert_match /controller/i, @view_hook_helper.call_hook(:view_layouts_base_html_head)
+  end
+    
+  def test_call_hook_from_view_with_request_added_to_context
+    @hook_module.add_listener(TestHook3)
+    assert_match /request/i, @view_hook_helper.call_hook(:view_layouts_base_html_head)
+  end
+
+  def test_call_hook_from_view_should_join_responses_with_a_space
+    @hook_module.add_listener(TestHook1)
+    @hook_module.add_listener(TestHook2)
+    assert_equal 'Test hook 1 listener. Test hook 2 listener.',
+                 @view_hook_helper.call_hook(:view_layouts_base_html_head)
+  end
+
+  def test_call_hook_should_not_change_the_default_url_for_email_notifications
+    issue = Issue.find(1)
+ 
+    ActionMailer::Base.deliveries.clear
+    Mailer.deliver_issue_add(issue)
+    mail = ActionMailer::Base.deliveries.last
+ 
+    @hook_module.add_listener(TestLinkToHook)
+    @hook_helper.call_hook(:view_layouts_base_html_head)
+ 
+    ActionMailer::Base.deliveries.clear
+    Mailer.deliver_issue_add(issue)
+    mail2 = ActionMailer::Base.deliveries.last
+ 
+    assert_equal mail.body, mail2.body
+   end
 end
+

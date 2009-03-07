@@ -14,6 +14,7 @@ http://www.redmine.org/
 * One click filter action in activity view
 * Clickable/linkable line #'s while browsing the repo or viewing a file
 * Links to versions on files list
+* Added request and controller objects to the hooks by default
 * Fixed: exporting an issue with attachments to PDF raises an error
 * Fixed: "too few arguments" error may occur on activerecord error translation
 * Fixed: "Default columns Displayed on the Issues list" setting is not easy to read
