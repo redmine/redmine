@@ -11,9 +11,13 @@ http://www.redmine.org/
 * Strip keywords from received email body
 * Footer updated to 2009
 * Show RSS-link even when no issues is found
+* One click filter action in activity view
+* Clickable/linkable line #'s while browsing the repo or viewing a file
+* Links to versions on files list
 * Fixed: exporting an issue with attachments to PDF raises an error
 * Fixed: "too few arguments" error may occur on activerecord error translation
 * Fixed: "Default columns Displayed on the Issues list" setting is not easy to read
+* Fixed: visited links to closed tickets are not striked through with IE6
 
 
 == 2009-02-15 v0.8.1
