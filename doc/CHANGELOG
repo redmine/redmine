@@ -5,6 +5,13 @@ Copyright (C) 2006-2009  Jean-Philippe Lang
 http://www.redmine.org/
 
 
+== 2009-xx-xx v0.8.3
+
+* Ability to set language for redmine:load_default_data task using REDMINE_LANG environment variable
+* Rescue Redmine::DefaultData::DataAlreadyLoaded in redmine:load_default_data task
+* Flush buffer when asking for language in redmine:load_default_data task
+
+
 == 2009-03-07 v0.8.2
 
 * Send an email to the user when an administrator activates a registered user
