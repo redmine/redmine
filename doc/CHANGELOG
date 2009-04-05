@@ -11,9 +11,15 @@ http://www.redmine.org/
 * Ability to set language for redmine:load_default_data task using REDMINE_LANG environment variable
 * Rescue Redmine::DefaultData::DataAlreadyLoaded in redmine:load_default_data task
 * CSS classes to highlight own and assigned issues
+* Hide "New file" link on wiki pages from printing
 * Flush buffer when asking for language in redmine:load_default_data task
+* Minimum project identifier length set to 1
 * Fixed: Time entries csv export links for all projects are malformed
 * Fixed: Files without Version aren't visible in the Activity page
+* Fixed: Commit logs are centered in the repo browser
+* Fixed: News summary field content is not searchable
+* Fixed: Journal#save has a wrong signature
+* Fixed: Email footer signature convention
 
 
 == 2009-03-07 v0.8.2
