@@ -20,6 +20,7 @@ http://www.redmine.org/
 * Fixed: News summary field content is not searchable
 * Fixed: Journal#save has a wrong signature
 * Fixed: Email footer signature convention
+* Fixed: Timelog report do not show time for non-versioned issues
 
 
 == 2009-03-07 v0.8.2
