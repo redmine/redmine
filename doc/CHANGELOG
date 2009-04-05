@@ -7,9 +7,13 @@ http://www.redmine.org/
 
 == 2009-xx-xx v0.8.3
 
+* Separate project field and subject in cross-project issue view
 * Ability to set language for redmine:load_default_data task using REDMINE_LANG environment variable
 * Rescue Redmine::DefaultData::DataAlreadyLoaded in redmine:load_default_data task
+* CSS classes to highlight own and assigned issues
 * Flush buffer when asking for language in redmine:load_default_data task
+* Fixed: Time entries csv export links for all projects are malformed
+* Fixed: Files without Version aren't visible in the Activity page
 
 
 == 2009-03-07 v0.8.2
