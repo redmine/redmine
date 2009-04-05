@@ -5,7 +5,7 @@ Copyright (C) 2006-2009  Jean-Philippe Lang
 http://www.redmine.org/
 
 
-== 2009-xx-xx v0.8.3
+== 2009-04-05 v0.8.3
 
 * Separate project field and subject in cross-project issue view
 * Ability to set language for redmine:load_default_data task using REDMINE_LANG environment variable
@@ -14,6 +14,7 @@ http://www.redmine.org/
 * Hide "New file" link on wiki pages from printing
 * Flush buffer when asking for language in redmine:load_default_data task
 * Minimum project identifier length set to 1
+* Include headers so that emails don't trigger vacation auto-responders
 * Fixed: Time entries csv export links for all projects are malformed
 * Fixed: Files without Version aren't visible in the Activity page
 * Fixed: Commit logs are centered in the repo browser
