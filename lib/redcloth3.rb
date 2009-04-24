@@ -792,7 +792,7 @@ class RedCloth3 < String
             (?:\(([^)]+?)\)(?="))?     # $title
             ":
             (                          # $url
-            (\/|[a-zA-Z]+:\/\/|www\.)  # $proto
+            (\/|[a-zA-Z]+:\/\/|www\.|mailto:)  # $proto
             [\w\/]\S+?
             )               
             (\/)?                      # $slash
@@ -907,7 +907,7 @@ class RedCloth3 < String
     end
 
     IMAGE_RE = /
-            (<p>|.|^)            # start of line?
+            (<p>|\s|^)           # start of line?
             \!                   # opening
             (\<|\=|\>)?          # optional alignment atts
             (#{C})               # optional style,class atts

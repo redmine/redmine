@@ -5,6 +5,15 @@ Copyright (C) 2006-2009  Jean-Philippe Lang
 http://www.redmine.org/
 
 
+== 2009-xx-xx v0.8.4
+
+* Allow textile mailto links
+* Fixed: memory consumption when uploading file
+* Fixed: Mercurial integration doesn't work if Redmine is installed in folder path containing space
+* Fixed: an error is raised when no tab is available on project settings
+* Fixed: insert image macro corrupts urls with excalamation marks
+
+
 == 2009-04-05 v0.8.3
 
 * Separate project field and subject in cross-project issue view
