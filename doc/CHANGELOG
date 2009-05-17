@@ -18,6 +18,7 @@ http://www.redmine.org/
 * Fixed: issues/show should accept user's rss key
 * Fixed: consistency of custom fields display on the issue detail view
 * Fixed: wiki comments length validation is missing
+* Fixed: weak autologin token generation algorithm causes duplicate tokens
 
 
 == 2009-04-05 v0.8.3

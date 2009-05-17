@@ -15,8 +15,11 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+require 'rails_generator/secret_key_generator'
+
 class Token < ActiveRecord::Base
   belongs_to :user
+  validates_uniqueness_of :value
   
   @@validity_time = 1.day
   
@@ -36,9 +39,7 @@ class Token < ActiveRecord::Base
   
 private
   def self.generate_token_value
-    chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
-    token_value = ''
-    40.times { |i| token_value << chars[rand(chars.size-1)] }
-    token_value
+    s = Rails::SecretKeyGenerator.new(object_id).generate_secret
+    s[0, 40]
   end
 end
