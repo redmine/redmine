@@ -12,6 +12,12 @@ http://www.redmine.org/
 * Fixed: Mercurial integration doesn't work if Redmine is installed in folder path containing space
 * Fixed: an error is raised when no tab is available on project settings
 * Fixed: insert image macro corrupts urls with excalamation marks
+* Fixed: error on cross-project gantt PNG export
+* Fixed: self and alternate links in atom feeds do not respect Atom specs
+* Fixed: accept any svn tunnel scheme in repository URL
+* Fixed: issues/show should accept user's rss key
+* Fixed: consistency of custom fields display on the issue detail view
+* Fixed: wiki comments length validation is missing
 
 
 == 2009-04-05 v0.8.3
