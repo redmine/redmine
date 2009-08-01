@@ -20,7 +20,7 @@
     <td align="center">
       <%= link_to l(:button_delete), {:action => 'destroy_membership', :id => @user, :membership_id => membership }, :method => :post, :class => 'icon icon-del' %>
     </td>
-      <%= call_hook(:view_users_memberships_table_row, :user => @user, :membership => membership, :roles => roles, :projects => projects )%>
+      <%= call_hook(:view_users_memberships_table_row, :user => @user, :membership => membership, :roles => @roles, :projects => @projects )%>
 	</tr>
 	</tbody>
 <% end; reset_cycle %>
