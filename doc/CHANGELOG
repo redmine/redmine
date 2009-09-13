@@ -11,8 +11,10 @@ http://www.redmine.org/
 * Do not require a non-word character after a comma in Redmine links
 * Include issue hyperlinks in reminder emails
 * Fixed: 500 Internal Server Error is raised if add an empty comment to the news
-* Fixes: Atom links for wiki pages are not correct
+* Fixed: Atom links for wiki pages are not correct
 * Fixed: Atom feeds leak email address
+* Fixed: Case sensitivity in Issue filtering
+* Fixed: When reading RSS feed, the inline-embedded images are not properly shown
 
 
 == 2009-05-17 v0.8.4

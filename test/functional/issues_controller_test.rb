@@ -255,6 +255,14 @@ class IssuesControllerTest < Test::Unit::TestCase
                                 :child => { :tag => 'legend', 
                                             :content => /Notes/ } }
   end
+  
+  def test_show_atom
+    get :show, :id => 2, :format => 'atom'
+    assert_response :success
+    assert_template 'changes'
+    # Inline image
+    assert @response.body.include?("&lt;img src=\"http://test.host/attachments/download/10\" alt=\"\" /&gt;")
+  end
 
   def test_show_export_to_pdf
     get :show, :id => 3, :format => 'pdf'
