@@ -7,6 +7,11 @@ http://www.redmine.org/
 
 == 2009-xx-xx v0.8.5
 
+* Incoming mail handler : Allow spaces between keywords and colon
+* Do not require a non-word character after a comma in Redmine links
+* Include issue hyperlinks in reminder emails
+* Fixed: 500 Internal Server Error is raised if add an empty comment to the news
+* Fixes: Atom links for wiki pages are not correct
 * Fixed: Atom feeds leak email address
 
 
