@@ -10,6 +10,8 @@ http://www.redmine.org/
 * Incoming mail handler : Allow spaces between keywords and colon
 * Do not require a non-word character after a comma in Redmine links
 * Include issue hyperlinks in reminder emails
+* Prevent nil error when retrieving svn version
+* Various plugin hooks added
 * Fixed: 500 Internal Server Error is raised if add an empty comment to the news
 * Fixed: Atom links for wiki pages are not correct
 * Fixed: Atom feeds leak email address
