@@ -4,6 +4,10 @@ Redmine - project management software
 Copyright (C) 2006-2009  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2009-xx-xx v0.8.6
+
+* Change links to closed issues to be a grey color
+* Change subversion adapter to not cache authentication and run non interactively
 
 == 2009-09-13 v0.8.5
 
