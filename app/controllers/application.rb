@@ -19,11 +19,17 @@ require 'uri'
 require 'cgi'
 
 class ApplicationController < ActionController::Base
+  class MissingSessionSecret < Exception ; end
   layout 'base'
   
   before_filter :user_setup, :check_if_login_required, :set_localization
   filter_parameter_logging :password
-  protect_from_forgery :secret => session.first[:secret]
+
+  if session.first[:secret].blank?
+    raise MissingSessionSecret, "Missing session secret. Please run 'rake config/initializers/session_store.rb' to generate one"
+  else
+    protect_from_forgery :secret => session.first[:secret]
+  end
   
   include Redmine::MenuManager::MenuController
   helper Redmine::MenuManager::MenuHelper
