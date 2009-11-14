@@ -88,7 +88,7 @@ class TimelogController < ApplicationController
       sql << " WHERE"
       sql << " (%s) AND" % @project.project_condition(Setting.display_subprojects_issues?) if @project
       sql << " (%s) AND" % Project.allowed_to_condition(User.current, :view_time_entries)
-      sql << " (spent_on BETWEEN '%s' AND '%s')" % [ActiveRecord::Base.connection.quoted_date(@from.to_time), ActiveRecord::Base.connection.quoted_date(@to.to_time)]
+      sql << " (spent_on BETWEEN '%s' AND '%s')" % [ActiveRecord::Base.connection.quoted_date(@from), ActiveRecord::Base.connection.quoted_date(@to)]
       sql << " GROUP BY #{sql_group_by}, tyear, tmonth, tweek, spent_on"
       
       @hours = ActiveRecord::Base.connection.select_all(sql)
