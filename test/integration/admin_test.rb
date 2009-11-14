@@ -63,4 +63,10 @@ class AdminTest < ActionController::IntegrationTest
     assert_response :success
     assert_template "admin/projects"
   end  
+
+  def test_add_a_user_as_an_anonymous_user_should_fail
+    post '/users/add', :user => { :login => 'psmith', :firstname => 'Paul'}, :password => "psmith09", :password_confirmation => "psmith09"
+    assert_response :redirect
+    assert_redirected_to "/login?back_url=http%3A%2F%2Fwww.example.com%2Fusers%2Fadd"
+  end
 end
