@@ -23,6 +23,7 @@ class ApplicationController < ActionController::Base
   
   before_filter :user_setup, :check_if_login_required, :set_localization
   filter_parameter_logging :password
+  protect_from_forgery :secret => session.first[:secret]
   
   include Redmine::MenuManager::MenuController
   helper Redmine::MenuManager::MenuHelper
