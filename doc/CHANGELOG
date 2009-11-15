@@ -4,7 +4,7 @@ Redmine - project management software
 Copyright (C) 2006-2009  Jean-Philippe Lang
 http://www.redmine.org/
 
-== TDB v0.8.7
+== 2009-11-15 v0.8.7
 
 * Fixed: Hide paragraph terminator at the end of headings on html export
 * Fixed: pre tags containing "<pre*"
@@ -12,6 +12,7 @@ http://www.redmine.org/
 * Fixed: Password field not styled correctly on alternative stylesheet
 * Fixed: Error when sumbitting a POST request that requires a login
 * Fixed: CSRF vulnerabilities
+
 
 == 2009-11-04 v0.8.6
 
