@@ -188,12 +188,12 @@ class AccountController < ApplicationController
   
 private
   def logged_user=(user)
+    reset_session
     if user && user.is_a?(User)
       User.current = user
       session[:user_id] = user.id
     else
       User.current = User.anonymous
-      session[:user_id] = nil
     end
   end
 end
