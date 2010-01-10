@@ -69,7 +69,8 @@ function setPredecessorFieldsVisibility() {
 function promptToRemote(text, param, url) {
     value = prompt(text + ':');
     if (value) {
-        new Ajax.Request(url + '?' + param + '=' + encodeURIComponent(value), {asynchronous:true, evalScripts:true});
+    		var sep = (url.indexOf('?') < 0 ? '?' : '&' )
+        new Ajax.Request(url + sep + param + '=' + encodeURIComponent(value), {asynchronous:true, evalScripts:true});
         return false;
     }
 }
