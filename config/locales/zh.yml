@@ -904,3 +904,9 @@ zh:
   enumeration_doc_categories: 文档类别
   enumeration_activities: 活动（时间跟踪）
   enumeration_system_activity: 系统活动
+  label_board_sticky: Sticky
+  label_board_locked: Locked
+  permission_export_wiki_pages: Export wiki pages
+  setting_cache_formatted_text: Cache formatted text
+  permission_manage_project_activities: Manage project activities
+ 

@@ -352,6 +352,7 @@ fr:
   setting_rest_api_enabled: Activer l'API REST
   setting_gravatar_default: Image Gravatar par défaut
   setting_start_of_week: Jour de début des calendriers
+  setting_cache_formatted_text: Mettre en cache le texte formaté
   
   permission_add_project: Créer un projet
   permission_add_subprojects: Créer des sous-projets
@@ -405,6 +406,8 @@ fr:
   permission_edit_own_messages: Modifier ses propres messages
   permission_delete_messages: Supprimer les messages
   permission_delete_own_messages: Supprimer ses propres messages
+  permission_export_wiki_pages: Exporter les pages
+  permission_manage_project_activities: Gérer les activités
   
   project_module_issue_tracking: Suivi des demandes
   project_module_time_tracking: Suivi du temps passé
@@ -903,3 +906,5 @@ fr:
   text_journal_deleted: "{{label}} {{old}} supprimé"
   text_journal_added: "{{label}} {{value}} ajouté"
   enumeration_system_activity: Activité système
+  label_board_sticky: Sticky
+  label_board_locked: Verrouillé
