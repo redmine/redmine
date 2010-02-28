@@ -33,21 +33,22 @@ module Redmine
         end
 
         def branches
-          branches = []
+          return @branches if @branches
+          @branches = []
           cmd = "#{GIT_BIN} --git-dir #{target('')} branch"
           shellout(cmd) do |io|
             io.each_line do |line|
-              branches << line.match('\s*\*?\s*(.*)$')[1]
+              @branches << line.match('\s*\*?\s*(.*)$')[1]
             end
           end
-          branches.sort!
+          @branches.sort!
         end
 
         def tags
-          tags = []
+          return @tags if @tags
           cmd = "#{GIT_BIN} --git-dir #{target('')} tag"
           shellout(cmd) do |io|
-            io.readlines.sort!.map{|t| t.strip}
+            @tags = io.readlines.sort!.map{|t| t.strip}
           end
         end
 
@@ -110,20 +111,16 @@ module Redmine
           end
         end
 
-        def num_revisions
-          cmd = "#{GIT_BIN} --git-dir #{target('')} log --all --pretty=format:'' | wc -l"
-          shellout(cmd) {|io| io.gets.chomp.to_i + 1}
-        end
-
         def revisions(path, identifier_from, identifier_to, options={})
           revisions = Revisions.new
 
-          cmd = "#{GIT_BIN} --git-dir #{target('')} log --find-copies-harder --raw --date=iso --pretty=fuller"
+          cmd = "#{GIT_BIN} --git-dir #{target('')} log --raw --date=iso --pretty=fuller"
           cmd << " --reverse" if options[:reverse]
           cmd << " --all" if options[:all]
           cmd << " -n #{options[:limit]} " if options[:limit]
           cmd << " #{shell_quote(identifier_from + '..')} " if identifier_from
           cmd << " #{shell_quote identifier_to} " if identifier_to
+          cmd << " --since=#{shell_quote(options[:since].strftime("%Y-%m-%d %H:%M:%S"))}" if options[:since]
           cmd << " -- #{path}" if path && !path.empty?
 
           shellout(cmd) do |io|
