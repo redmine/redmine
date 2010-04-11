@@ -227,16 +227,26 @@ module Redmine
         
         def annotate(path, identifier=nil)
           identifier = 'HEAD' if identifier.blank?
-          cmd = "#{GIT_BIN} --git-dir #{target('')} blame -l #{shell_quote identifier} -- #{shell_quote path}"
+          cmd = "#{GIT_BIN} --git-dir #{target('')} blame -p #{shell_quote identifier} -- #{shell_quote path}"
           blame = Annotate.new
           content = nil
           shellout(cmd) { |io| io.binmode; content = io.read }
           return nil if $? && $?.exitstatus != 0
           # git annotates binary files
           return nil if content.is_binary_data?
+          identifier = ''
+          # git shows commit author on the first occurrence only
+          authors_by_commit = {}
           content.split("\n").each do |line|
-            next unless line =~ /([0-9a-f]{39,40})\s\((\w*)[^\)]*\)(.*)/
-            blame.add_line($3.rstrip, Revision.new(:identifier => $1, :author => $2.strip))
+            if line =~ /^([0-9a-f]{39,40})\s.*/
+              identifier = $1
+            elsif line =~ /^author (.+)/
+              authors_by_commit[identifier] = $1.strip
+            elsif line =~ /^\t(.*)/
+              blame.add_line($1, Revision.new(:identifier => identifier, :author => authors_by_commit[identifier]))
+              identifier = ''
+              author = ''
+            end
           end
           blame
         end
