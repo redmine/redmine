@@ -21,6 +21,12 @@ class MailerTest < ActiveSupport::TestCase
   include Redmine::I18n
   include ActionController::Assertions::SelectorAssertions
   fixtures :projects, :enabled_modules, :issues, :users, :members, :member_roles, :roles, :documents, :attachments, :news, :tokens, :journals, :journal_details, :changesets, :trackers, :issue_statuses, :enumerations, :messages, :boards, :repositories
+
+  def setup
+    ActionMailer::Base.deliveries.clear
+    Setting.host_name = 'mydomain.foo'
+    Setting.protocol = 'http'
+  end
   
   def test_generated_links_in_emails
     ActionMailer::Base.deliveries.clear
@@ -282,6 +288,14 @@ class MailerTest < ActiveSupport::TestCase
     end
   end
   
+  def test_test
+    user = User.find(1)
+    valid_languages.each do |lang|
+      user.update_attribute :language, lang.to_s
+      assert Mailer.deliver_test(user)
+    end
+  end
+  
   def test_reminders
     ActionMailer::Base.deliveries.clear
     Mailer.reminders(:days => 42)
@@ -309,5 +323,14 @@ class MailerTest < ActiveSupport::TestCase
     assert mail.body.include?('Votre compte')
     
     assert_equal :it, current_language
+  end
+  
+  def test_with_deliveries_off
+    Mailer.with_deliveries false do
+      Mailer.deliver_test(User.find(1))
+    end
+    assert ActionMailer::Base.deliveries.empty?
+    # should restore perform_deliveries
+    assert ActionMailer::Base.perform_deliveries
   end
 end
