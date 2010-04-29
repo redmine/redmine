@@ -80,7 +80,7 @@ class Issue < ActiveRecord::Base
   end
   
   def copy_from(arg)
-    issue = arg.is_a?(Issue) ? arg : Issue.find(arg)
+    issue = arg.is_a?(Issue) ? arg : Issue.visible.find(arg)
     self.attributes = issue.attributes.dup.except("id", "created_on", "updated_on")
     self.custom_values = issue.custom_values.collect {|v| v.clone}
     self.status = issue.status
