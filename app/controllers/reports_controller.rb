@@ -61,7 +61,7 @@ class ReportsController < ApplicationController
       render :template => "reports/issue_report_details"  
     when "subproject"
       @field = "project_id"
-      @rows = @project.descendants.active
+      @rows = @project.descendants.visible
       @data = issues_by_subproject
       @report_title = l(:field_subproject)
       render :template => "reports/issue_report_details"  
@@ -72,7 +72,7 @@ class ReportsController < ApplicationController
       @categories = @project.issue_categories
       @assignees = @project.members.collect { |m| m.user }.sort
       @authors = @project.members.collect { |m| m.user }.sort
-      @subprojects = @project.descendants.active
+      @subprojects = @project.descendants.visible
       issues_by_tracker
       issues_by_version
       issues_by_priority
