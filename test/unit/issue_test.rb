@@ -599,4 +599,20 @@ class IssueTest < ActiveSupport::TestCase
       end
     end
   end
+  
+  context ".allowed_target_projects_on_move" do
+    should "return all active projects for admin users" do
+      User.current = User.find(1)
+      assert_equal Project.active.count, Issue.allowed_target_projects_on_move.size
+    end
+    
+    should "return allowed projects for non admin users" do
+      User.current = User.find(2)
+      Role.non_member.remove_permission! :move_issues
+      assert_equal 3, Issue.allowed_target_projects_on_move.size
+      
+      Role.non_member.add_permission! :move_issues
+      assert_equal Project.active.count, Issue.allowed_target_projects_on_move.size
+    end
+  end
 end
