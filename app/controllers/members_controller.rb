@@ -38,6 +38,7 @@ class MembersController < ApplicationController
       format.js { 
         render(:update) {|page| 
           page.replace_html "tab-content-members", :partial => 'projects/settings/members'
+          page << 'hideOnLoad()'
           members.each {|member| page.visual_effect(:highlight, "member-#{member.id}") }
         }
       }
@@ -51,6 +52,7 @@ class MembersController < ApplicationController
         format.js { 
           render(:update) {|page| 
             page.replace_html "tab-content-members", :partial => 'projects/settings/members'
+            page << 'hideOnLoad()'
             page.visual_effect(:highlight, "member-#{@member.id}")
           }
         }
@@ -64,7 +66,11 @@ class MembersController < ApplicationController
     end
     respond_to do |format|
       format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project }
-      format.js { render(:update) {|page| page.replace_html "tab-content-members", :partial => 'projects/settings/members'} }
+      format.js { render(:update) {|page|
+          page.replace_html "tab-content-members", :partial => 'projects/settings/members'
+          page << 'hideOnLoad()'
+        }
+      }
     end
   end
   
