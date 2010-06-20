@@ -649,6 +649,12 @@ class IssuesControllerTest < ActionController::TestCase
                                         :value => 'Value for field 2'}
   end
   
+  test "POST new with no issue params" do
+    @request.session[:user_id] = 2
+    post :new, :project_id => 1
+    assert_response :success
+  end
+
   def test_copy_routing
     assert_routing(
       {:method => :get, :path => '/projects/world_domination/issues/567/copy'},
