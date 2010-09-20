@@ -230,6 +230,7 @@ ru:
   button_delete: Удалить
   button_download: Загрузить
   button_edit: Редактировать
+  button_edit_associated_wikipage: "Редактировать связанную wiki-страницу: {{page_title}}"
   button_list: Список
   button_lock: Заблокировать
   button_login: Вход
