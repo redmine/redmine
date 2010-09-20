@@ -205,7 +205,7 @@ ActionController::Routing::Routes.draw do |map|
       project_views.connect 'projects/:id/settings/:tab', :action => 'settings'
     end
 
-    projects.with_options :action => 'activity', :conditions => {:method => :get} do |activity|
+    projects.with_options :controller => 'activities', :action => 'index', :conditions => {:method => :get} do |activity|
       activity.connect 'projects/:id/activity'
       activity.connect 'projects/:id/activity.:format'
       activity.connect 'activity', :id => nil
