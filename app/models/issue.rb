@@ -357,6 +357,11 @@ class Issue < ActiveRecord::Base
   def overdue?
     !due_date.nil? && (due_date < Date.today) && !status.is_closed?
   end
+
+  # Does this issue have children?
+  def children?
+    !leaf?
+  end
   
   # Users the issue can be assigned to
   def assignable_users

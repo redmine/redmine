@@ -962,10 +962,15 @@ ko:
   field_principal: Principal
   label_my_page_block: My page block
   notice_failed_to_save_members: "Failed to save member(s): {{errors}}."
-  text_zoom_out: Zoom out
-  text_zoom_in: Zoom in
-  notice_unable_delete_time_entry: Unable to delete time log entry.
-  label_overall_spent_time: Overall spent time
-  field_time_entries: Log time
-  project_module_gantt: Gantt
-  project_module_calendar: Calendar
+  text_zoom_out: 더 작게
+  text_zoom_in: 더 크게
+  notice_unable_delete_time_entry: 시간 기록 항목을 삭제할 수 없습니다.
+  label_overall_spent_time: 총 소요시간
+  field_time_entries: 기록된 시간
+  project_module_gantt: Gantt 챠트
+  project_module_calendar: 달력
+  field_member_of_group: Member of Group
+  field_assigned_to_role: Member of Role
+  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  text_are_you_sure_with_children: Delete issue and all child issues?
+
