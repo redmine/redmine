@@ -412,7 +412,15 @@ class Project < ActiveRecord::Base
   def short_description(length = 255)
     description.gsub(/^(.{#{length}}[^\n\r]*).*$/m, '\1...').strip if description
   end
-  
+
+  def css_classes
+    s = 'project'
+    s << ' root' if root?
+    s << ' child' if child?
+    s << (leaf? ? ' leaf' : ' parent')
+    s
+  end
+
   # Return true if this project is allowed to do the specified action.
   # action can be:
   # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
