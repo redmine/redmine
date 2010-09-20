@@ -422,6 +422,8 @@ fr:
   project_module_wiki: Wiki
   project_module_repository: Dépôt de sources
   project_module_boards: Forums de discussion
+  project_module_gantt: Gantt
+  project_module_calendar: Calendar
   
   label_user: Utilisateur
   label_user_plural: Utilisateurs
@@ -929,4 +931,3 @@ fr:
   notice_unable_delete_time_entry: Impossible de supprimer le temps passé.
   label_overall_spent_time: Temps passé global
   field_time_entries: Log time
-
