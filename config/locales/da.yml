@@ -250,7 +250,6 @@ da:
   field_attr_lastname: Efternavn attribut
   field_attr_mail: Email attribut
   field_onthefly: løbende brugeroprettelse
-  field_start_date: Start
   field_done_ratio: % Færdig
   field_auth_source: Sikkerhedsmetode
   field_hide_mail: Skjul min email
@@ -935,3 +934,4 @@ da:
   text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
 
+  field_start_date: Start date

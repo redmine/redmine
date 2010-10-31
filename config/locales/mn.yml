@@ -252,7 +252,6 @@ mn:
   field_attr_lastname: Овог аттрибут
   field_attr_mail: Имэйл аттрибут
   field_onthefly: Хүссэн үедээ хэрэглэгч үүсгэх
-  field_start_date: Эхлэл
   field_done_ratio: %% Гүйцэтгэсэн
   field_auth_source: Нэвтрэх арга
   field_hide_mail: Миний имэйл хаягийг нуу
@@ -919,3 +918,4 @@ mn:
   button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
   text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
+  field_start_date: Start date

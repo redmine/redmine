@@ -261,7 +261,6 @@ mk:
   field_attr_lastname: Lastname attribute
   field_attr_mail: Email attribute
   field_onthefly: Моментално (On-the-fly) креирање на корисници
-  field_start_date: Почеток
   field_done_ratio: % Завршено
   field_auth_source: Режим на автентикација
   field_hide_mail: Криј ја мојата адреса на е-пошта
@@ -918,3 +917,4 @@ mk:
   button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
   text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
+  field_start_date: Start date

@@ -265,7 +265,6 @@ he:
   field_attr_lastname: תכונת שם משפחה
   field_attr_mail: תכונת דוא"ל
   field_onthefly: יצירת משתמשים זריזה
-  field_start_date: תאריך התחלה
   field_done_ratio: % גמור
   field_auth_source: מקור הזדהות
   field_hide_mail: החבא את כתובת הדוא"ל שלי
@@ -935,3 +934,4 @@ he:
   button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
   text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
+  field_start_date: Start date

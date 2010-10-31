@@ -272,7 +272,6 @@ zh:
   field_attr_lastname: 姓氏属性
   field_attr_mail: 邮件属性
   field_onthefly: 即时用户生成
-  field_start_date: 开始
   field_done_ratio: 完成度
   field_auth_source: 认证模式
   field_hide_mail: 隐藏我的邮件地址
@@ -936,3 +935,4 @@ zh:
   button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
   text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
+  field_start_date: Start date

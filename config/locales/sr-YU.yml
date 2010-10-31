@@ -261,7 +261,6 @@ sr-YU:
   field_attr_lastname: Atribut prezimena
   field_attr_mail: Atribut e-adrese
   field_onthefly: Kreiranje korisnika u toku rada
-  field_start_date: Početak
   field_done_ratio: % urađeno
   field_auth_source: Režim potvrde identiteta
   field_hide_mail: Sakrij moju e-adresu
@@ -918,3 +917,4 @@ sr-YU:
   button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
   text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
+  field_start_date: Start date

@@ -299,7 +299,6 @@ ko:
   field_attr_lastname: 성 속성
   field_attr_mail: 메일 속성
   field_onthefly: 동적 사용자 생성
-  field_start_date: 시작시간
   field_done_ratio: 진척도
   field_auth_source: 인증 공급자
   field_hide_mail: 메일 주소 숨기기
@@ -974,3 +973,4 @@ ko:
   button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
   text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
+  field_start_date: Start date

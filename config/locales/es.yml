@@ -313,7 +313,6 @@ es:
   field_role: Perfil
   field_searchable: Incluir en las búsquedas
   field_spent_on: Fecha
-  field_start_date: Fecha de inicio
   field_start_page: Página principal
   field_status: Estado
   field_subject: Tema
@@ -959,3 +958,4 @@ es:
   text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
 
+  field_start_date: Start date

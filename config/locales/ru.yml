@@ -363,7 +363,6 @@ ru:
   field_role: Роль
   field_searchable: Доступно для поиска
   field_spent_on: Дата
-  field_start_date: Начата
   field_start_page: Стартовая страница
   field_status: Статус
   field_subject: Тема
@@ -1039,3 +1038,4 @@ ru:
 
   field_member_of_group: Member of Group
   field_assigned_to_role: Member of Role
+  field_start_date: Start date

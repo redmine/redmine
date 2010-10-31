@@ -308,7 +308,6 @@ sv:
   field_attr_lastname: Efternamnsattribut
   field_attr_mail: Mailattribut
   field_onthefly: Skapa användare on-the-fly
-  field_start_date: Start
   field_done_ratio: % Klart
   field_auth_source: Autentiseringsläge
   field_hide_mail: Dölj min mailadress
@@ -970,3 +969,4 @@ sv:
   button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
   text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
+  field_start_date: Start date

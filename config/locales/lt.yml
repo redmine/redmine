@@ -310,7 +310,6 @@ lt:
   field_attr_lastname: Pavardės priskiria
   field_attr_mail: Elektroninio pašto požymis
   field_onthefly: Automatinis vartotojų registravimas
-  field_start_date: Pradėti
   field_done_ratio: % atlikta
   field_auth_source: Autentiškumo nustatymo būdas
   field_hide_mail: Paslėpkite mano elektroninio pašto adresą
@@ -982,3 +981,4 @@ lt:
   button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
   text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
+  field_start_date: Start date

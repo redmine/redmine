@@ -260,7 +260,6 @@ tr:
   field_attr_lastname: Soyad Niteliği
   field_attr_mail: E-Posta Niteliği
   field_onthefly: Anında kullanıcı oluşturma
-  field_start_date: Başlangıç
   field_done_ratio: % tamamlandı
   field_auth_source: Kimlik Denetim Modu
   field_hide_mail: E-posta adresimi gizle
@@ -941,3 +940,4 @@ tr:
   button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
   text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
+  field_start_date: Start date

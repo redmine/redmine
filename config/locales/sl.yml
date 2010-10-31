@@ -236,7 +236,6 @@ sl:
   field_attr_lastname: Oznaka za priimek
   field_attr_mail: Oznaka za e-naslov
   field_onthefly: Sprotna izdelava uporabnikov
-  field_start_date: Začetek
   field_done_ratio: % Narejeno
   field_auth_source: Način overovljanja
   field_hide_mail: Skrij moj e-naslov
@@ -914,3 +913,4 @@ sl:
   button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
   text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
+  field_start_date: Start date
