@@ -831,7 +831,7 @@ de:
   button_copy: Kopieren
   button_copy_and_follow: Kopieren und Ticket anzeigen
   button_annotate: Annotieren
-  button_update: Aktualisieren
+  button_update: Bearbeiten
   button_configure: Konfigurieren
   button_quote: Zitieren
   button_duplicate: Duplizieren
@@ -936,4 +936,9 @@ de:
   field_assigned_to_role: Member of Role
   text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
+  setting_default_notification_option: Default notification option
+  notice_not_authorized_archived_project: The project you're trying to access has been archived.
+  label_user_mail_option_none: "Only for things I watch or I'm involved in"
+  field_member_of_group: Assignee's group
+  field_assigned_to_role: Assignee's role
 
