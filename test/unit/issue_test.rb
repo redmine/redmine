@@ -510,9 +510,19 @@ class IssueTest < ActiveSupport::TestCase
     assert !Issue.new(:due_date => nil).overdue?
     assert !Issue.new(:due_date => 1.day.ago.to_date, :status => IssueStatus.find(:first, :conditions => {:is_closed => true})).overdue?
   end
-  
-  def test_assignable_users
-    assert_kind_of User, Issue.find(1).assignable_users.first
+
+  context "#assignable_users" do
+    should "be Users" do
+      assert_kind_of User, Issue.find(1).assignable_users.first
+    end
+
+    should "include the issue author" do
+      project = Project.find(1)
+      non_project_member = User.generate!
+      issue = Issue.generate_for_project!(project, :author => non_project_member)
+
+      assert issue.assignable_users.include?(non_project_member)
+    end
   end
   
   def test_create_should_send_email_notification
