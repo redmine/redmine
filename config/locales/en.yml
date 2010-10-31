@@ -820,6 +820,7 @@ en:
   button_quote: Quote
   button_duplicate: Duplicate
   button_show: Show
+  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
   
   status_active: active
   status_registered: registered
