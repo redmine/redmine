@@ -922,4 +922,6 @@ en-GB:
   button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
   text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
-
+  notice_not_authorized_archived_project: The project you're trying to access has been archived.
+  label_principal_search: "Search for user or group:"
+  label_user_search: "Search for user:"

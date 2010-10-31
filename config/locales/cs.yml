@@ -918,3 +918,5 @@ cs:
   text_are_you_sure_with_children: Smazat úkol včetně všech podúkolů?
   field_text: Textové pole
   field_start_date: Start date
+  label_principal_search: "Search for user or group:"
+  label_user_search: "Search for user:"
