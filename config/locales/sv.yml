@@ -195,6 +195,7 @@ sv:
   notice_file_not_found: Sidan du försökte komma åt existerar inte eller är borttagen.
   notice_locking_conflict: Data har uppdaterats av en annan användare.
   notice_not_authorized: Du saknar behörighet att komma åt den här sidan.
+  notice_not_authorized_archived_project: Projektet du försöker komma åt har arkiverats.
   notice_email_sent: "Ett mail skickades till {{value}}"
   notice_email_error: "Ett fel inträffade när mail skickades ({{value}})"
   notice_feeds_access_key_reseted: Din RSS-nyckel återställdes.
@@ -339,6 +340,9 @@ sv:
   field_group_by: Gruppera resultat efter
   field_sharing: Delning
   field_parent_issue: Förälderaktivitet
+  field_member_of_group: Tilldelad användares grupp
+  field_assigned_to_role: Tilldelad användares roll
+  field_text: Textfält
   
   setting_app_title: Applikationsrubrik
   setting_app_subtitle: Applikationsunderrubrik
@@ -393,6 +397,7 @@ sv:
   setting_start_of_week: Första dagen i veckan
   setting_rest_api_enabled: Aktivera REST webbtjänst
   setting_cache_formatted_text: Cacha formaterad text
+  setting_default_notification_option: Standard notifieringsalternativ
   
   permission_add_project: Skapa projekt
   permission_add_subprojects: Skapa underprojekt
@@ -830,6 +835,7 @@ sv:
   button_create_and_continue: Skapa och fortsätt
   button_test: Testa
   button_edit: Ändra
+  button_edit_associated_wikipage: "Ändra associerad Wikisida: {{page_title}}"
   button_add: Lägg till
   button_change: Ändra
   button_apply: Verkställ
@@ -881,6 +887,7 @@ sv:
   text_subprojects_destroy_warning: "Alla underprojekt: {{value}} kommer också tas bort."
   text_workflow_edit: Välj en roll och en ärendetyp för att ändra arbetsflöde
   text_are_you_sure: Är du säker ?
+  text_are_you_sure_with_children: Ta bort ärende och alla underärenden?
   text_journal_changed: "{{label}} ändrad från {{old}} till {{new}}"
   text_journal_set_to: "{{label}} satt till {{value}}"
   text_journal_deleted: "{{label}} borttagen ({{old}})"
