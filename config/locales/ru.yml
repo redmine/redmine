@@ -1035,7 +1035,8 @@ ru:
   text_zoom_in: Приблизить
   notice_unable_delete_time_entry: Невозможно удалить запись журнала.
   label_overall_spent_time: Всего затрачено времени
+  label_user_mail_option_none: Нет событий
+  field_member_of_group: Группа назначенного
+  field_assigned_to_role: Роль назначенного
+  notice_not_authorized_archived_project: Запрашиваемый проект был архивирован.
 
-  field_member_of_group: Member of Group
-  field_assigned_to_role: Member of Role
-  field_start_date: Start date
