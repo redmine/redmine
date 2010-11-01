@@ -126,7 +126,7 @@ class VersionsControllerTest < ActionController::TestCase
   
   def test_post_update_with_validation_failure
     @request.session[:user_id] = 2
-    put :update, :id => 2, 
+    post :update, :id => 2, 
                  :version => { :name => '', 
                                :effective_date => Date.today.strftime("%Y-%m-%d")}
     assert_response :success
