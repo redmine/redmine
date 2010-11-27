@@ -15,9 +15,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require "#{File.dirname(__FILE__)}/../test_helper"
+require "#{File.dirname(__FILE__)}/../../test_helper"
 
-class ProjectsApiTest < ActionController::IntegrationTest
+class ApiTest::ProjectsTest < ActionController::IntegrationTest
   fixtures :projects, :versions, :users, :roles, :members, :member_roles, :issues, :journals, :journal_details,
            :trackers, :projects_trackers, :issue_statuses, :enabled_modules, :enumerations, :boards, :messages,
            :attachments, :custom_fields, :custom_values, :time_entries
@@ -43,15 +43,12 @@ class ProjectsApiTest < ActionController::IntegrationTest
     assert_difference 'Project.count' do
       post '/projects.xml', {:project => attributes}, :authorization => credentials('admin')
     end
-    
+    assert_response :created
+    assert_equal 'application/xml', @response.content_type
     project = Project.first(:order => 'id DESC')
     attributes.each do |attribute, value|
       assert_equal value, project.send(attribute)
     end
-
-    assert_response :created
-    assert_equal 'application/xml', @response.content_type
-    assert_tag 'project', :child => {:tag => 'id', :content => project.id.to_s}
   end
   
   def test_create_failure
