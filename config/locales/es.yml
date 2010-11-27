@@ -635,7 +635,6 @@ es:
   label_user_activity: "Actividad de {{value}}"
   label_user_mail_no_self_notified: "No quiero ser avisado de cambios hechos por mí"
   label_user_mail_option_all: "Para cualquier evento en todos mis proyectos"
-  label_user_mail_option_none: "Sólo para elementos monitorizados o relacionados conmigo"
   label_user_mail_option_selected: "Para cualquier evento de los proyectos seleccionados..."
   label_user_new: Nuevo usuario
   label_user_plural: Usuarios
@@ -854,12 +853,12 @@ es:
   text_wiki_page_destroy_children: Eliminar páginas hijas y todos sus descendientes
   setting_password_min_length: Longitud mínima de la contraseña
   field_group_by: Agrupar resultados por
-  mail_subject_wiki_content_updated: "La página wiki '{{page}}' ha sido actualizada"
+  mail_subject_wiki_content_updated: "La página wiki '{{id}}' ha sido actualizada"
   label_wiki_content_added: Página wiki añadida
-  mail_subject_wiki_content_added: "Se ha añadido la página wiki '{{page}}'."
-  mail_body_wiki_content_added: "{{author}} ha añadido la página wiki '{{page}}'."
+  mail_subject_wiki_content_added: "Se ha añadido la página wiki '{{id}}'."
+  mail_body_wiki_content_added: "{{author}} ha añadido la página wiki '{{id}}'."
   label_wiki_content_updated: Página wiki actualizada
-  mail_body_wiki_content_updated: La página wiki '{{page}}' ha sido actualizada por {{author}}.
+  mail_body_wiki_content_updated: La página wiki '{{id}}' ha sido actualizada por {{author}}.
   permission_add_project: Crear proyecto
   setting_new_project_user_role_id: Permiso asignado a un usuario no-administrador para crear proyectos
   label_view_all_revisions: Ver todas las revisiones
@@ -951,13 +950,20 @@ es:
   label_overall_spent_time: Tiempo total dedicado
   field_time_entries: Log time
   project_module_gantt: Gantt
-  project_module_calendar: Calendar
-  field_member_of_group: Member of Group
-  field_assigned_to_role: Member of Role
-  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
-  text_are_you_sure_with_children: Delete issue and all child issues?
-  field_text: Text field
-
-  field_start_date: Start date
-  label_principal_search: "Search for user or group:"
-  label_user_search: "Search for user:"
+  project_module_calendar: Calendario
+  button_edit_associated_wikipage: "Editar paginas Wiki asociadas: {{page_title}}"
+  text_are_you_sure_with_children: ¿Borrar peticiones y todas sus peticiones hijas?
+  field_text: Campo de texto
+  label_user_mail_option_only_owner: Solo para objetos que soy propietario
+  setting_default_notification_option: Opcion de notificacion por defecto
+  label_user_mail_option_only_my_events: Solo para objetos que soy seguidor o estoy involucrado
+  label_user_mail_option_only_assigned: Solo para objetos que estoy asignado
+  label_user_mail_option_none: Sin eventos
+  field_member_of_group: Asignado al grupo
+  field_assigned_to_role: Asignado al perfil
+  notice_not_authorized_archived_project: El proyecto al que intenta acceder ha sido archivado.
+  field_start_date: Fecha de inicio
+  label_principal_search: "Buscar por usuario o grupo:"
+  label_user_search: "Buscar por usuario:"
+  field_visible: Visible
+  setting_emails_header: Encabezado de Correos
