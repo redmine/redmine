@@ -31,23 +31,37 @@ class ApiTest::ProjectsTest < ActionController::IntegrationTest
     assert_response :success
     assert_equal 'application/xml', @response.content_type
   end
-    
+  
+  context "GET /projects/2.xml" do
+    # TODO: A private project is needed because should_allow_api_authentication
+    # actually tests that authentication is *required*, not just allowed
+    should_allow_api_authentication(:get, "/projects/2.xml")
+  end
+  
   def test_show
     get '/projects/1.xml'
     assert_response :success
     assert_equal 'application/xml', @response.content_type
   end
-    
-  def test_create
-    attributes = {:name => 'API test', :identifier => 'api-test'}
-    assert_difference 'Project.count' do
-      post '/projects.xml', {:project => attributes}, :authorization => credentials('admin')
-    end
-    assert_response :created
-    assert_equal 'application/xml', @response.content_type
-    project = Project.first(:order => 'id DESC')
-    attributes.each do |attribute, value|
-      assert_equal value, project.send(attribute)
+  
+  context "POST /projects.xml" do
+    should_allow_api_authentication(:post,
+                                    '/projects.xml',
+                                    {:project => {:name => 'API test', :identifier => 'api-test'}},
+                                    {:success_code => :created})
+
+    should "create a project with the attributes" do
+      assert_difference('Project.count') do
+        post '/projects.xml', {:project => {:name => 'API test', :identifier => 'api-test'}}, :authorization => credentials('admin')
+      end
+  
+      project = Project.first(:order => 'id DESC')
+      assert_equal 'API test', project.name
+      assert_equal 'api-test', project.identifier
+  
+      assert_response :created
+      assert_equal 'application/xml', @response.content_type
+      assert_tag 'project', :child => {:tag => 'id', :content => project.id.to_s}
     end
   end
   
@@ -61,16 +75,20 @@ class ApiTest::ProjectsTest < ActionController::IntegrationTest
     assert_tag :errors, :child => {:tag => 'error', :content => "Identifier can't be blank"}
   end
     
-  def test_update
-    attributes = {:name => 'API update'}
-    assert_no_difference 'Project.count' do
-      put '/projects/1.xml', {:project => attributes}, :authorization => credentials('jsmith')
-    end
-    assert_response :ok
-    assert_equal 'application/xml', @response.content_type
-    project = Project.find(1)
-    attributes.each do |attribute, value|
-      assert_equal value, project.send(attribute)
+  context "PUT /projects/2.xml" do
+    should_allow_api_authentication(:put,
+                                    '/projects/2.xml',
+                                    {:project => {:name => 'API test'}},
+                                    {:success_code => :ok})
+    
+    should "update the project" do
+      assert_no_difference 'Project.count' do
+        put '/projects/2.xml', {:project => {:name => 'API update'}}, :authorization => credentials('jsmith')
+      end
+      assert_response :ok
+      assert_equal 'application/xml', @response.content_type
+      project = Project.find(2)
+      assert_equal 'API update', project.name
     end
   end
   
@@ -83,14 +101,20 @@ class ApiTest::ProjectsTest < ActionController::IntegrationTest
     assert_equal 'application/xml', @response.content_type
     assert_tag :errors, :child => {:tag => 'error', :content => "Name can't be blank"}
   end
-    
-  def test_destroy
-    assert_difference 'Project.count', -1 do
-      delete '/projects/2.xml', {}, :authorization => credentials('admin')
+  
+  context "DELETE /projects/2.xml" do
+    should_allow_api_authentication(:delete,
+                                    '/projects/2.xml',
+                                    {},
+                                    {:success_code => :ok})
+
+    should "delete the project" do
+      assert_difference('Project.count',-1) do
+        delete '/projects/2.xml', {}, :authorization => credentials('admin')
+      end
+      assert_response :ok
+      assert_nil Project.find_by_id(2)
     end
-    assert_response :ok
-    assert_equal 'application/xml', @response.content_type
-    assert_nil Project.find_by_id(2)
   end
   
   def credentials(user, password=nil)
