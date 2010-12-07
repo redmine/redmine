@@ -808,12 +808,12 @@ bg:
   text_wiki_page_destroy_children: Изтриване на страниците деца и всички техни descendants
   setting_password_min_length: Минимална дължина на парола
   field_group_by: Групиране на резултатите по
-  mail_subject_wiki_content_updated: "Wiki страницата '{{id}}' не беше обновена"
+  mail_subject_wiki_content_updated: "Wiki страницата '{{page}}' не беше обновена"
   label_wiki_content_added: Wiki страница беше добавена
-  mail_subject_wiki_content_added: "Wiki страницата '{{id}}' беше добавена"
-  mail_body_wiki_content_added: Wiki страницата '{{id}}' беше добавена от {{author}}.
+  mail_subject_wiki_content_added: "Wiki страницата '{{page}}' беше добавена"
+  mail_body_wiki_content_added: Wiki страницата '{{page}}' беше добавена от {{author}}.
   label_wiki_content_updated: Wiki страница беше обновена
-  mail_body_wiki_content_updated: Wiki страницата '{{id}}' беше обновена от {{author}}.
+  mail_body_wiki_content_updated: Wiki страницата '{{page}}' беше обновена от {{author}}.
   permission_add_project: Създаване на проект
   setting_new_project_user_role_id: Роля, давана на потребител, създаващ проекти, който не е администратор
   label_view_all_revisions: Разглеждане на всички ревизии
