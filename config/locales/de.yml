@@ -940,7 +940,6 @@ de:
   field_text: Text field
   setting_default_notification_option: Default notification option
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
-  label_user_mail_option_none: "Only for things I watch or I'm involved in"
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"

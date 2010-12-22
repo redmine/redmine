@@ -703,9 +703,6 @@ ru:
   label_user_mail_option_all: "О всех событиях во всех моих проектах"
   label_user_mail_option_none: "Только о тех событиях, которые я отслеживаю или в которых я участвую"
   label_user_mail_option_selected: "О всех событиях только в выбранном проекте..."
-  label_user_mail_option_only_owner: Только для объектов, для которых я являюсь владельцем
-  label_user_mail_option_only_my_events: Только для объектов, которые я отслеживаю или в которых участвую
-  label_user_mail_option_only_assigned: Только для объектов, которые назначены мне
   label_user_new: Новый пользователь
   label_user_plural: Пользователи
   label_version: Версия
@@ -1036,7 +1033,6 @@ ru:
   text_zoom_in: Приблизить
   notice_unable_delete_time_entry: Невозможно удалить запись журнала.
   label_overall_spent_time: Всего затрачено времени
-  label_user_mail_option_none: Нет событий
   field_member_of_group: Группа назначенного
   field_assigned_to_role: Роль назначенного
   notice_not_authorized_archived_project: Запрашиваемый проект был архивирован.

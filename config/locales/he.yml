@@ -732,9 +732,6 @@ he:
   label_user_mail_option_all: "לכל אירוע בכל הפרויקטים שלי"
   label_user_mail_option_selected: "לכל אירוע בפרויקטים שבחרתי בלבד..."
   label_user_mail_option_none: "רק לנושאים שאני צופה או קשור אליהם"
-  label_user_mail_option_only_my_events: עבור דברים שאני צופה או מעורב בהם בלבד
-  label_user_mail_option_only_assigned: עבור דברים שאני אחראי עליהם בלבד
-  label_user_mail_option_only_owner: עבור דברים שאני הבעלים שלהם בלבד
   label_user_mail_no_self_notified: "אני לא רוצה שיודיעו לי על שינויים שאני מבצע"
   label_registration_activation_by_email: הפעל חשבון באמצעות דוא"ל
   label_registration_manual_activation: הפעלת חשבון ידנית
@@ -928,7 +925,6 @@ he:
   enumeration_doc_categories: קטגוריות מסמכים
   enumeration_activities: פעילויות (מעקב אחר זמנים)
   enumeration_system_activity: פעילות מערכת
-  label_user_mail_option_none: No events
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   label_principal_search: "Search for user or group:"

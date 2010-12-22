@@ -907,16 +907,13 @@ bg:
   notice_not_authorized_archived_project: Проектът, който се опитвате да видите е архивиран.
   text_tip_issue_end_day: задача, завършваща този ден
   field_text: Текстово поле
-  label_user_mail_option_only_owner: Само за неща, на които аз съм собственик
   field_member_of_group: Член на група
   project_module_gantt: Мрежов график
   text_are_you_sure_with_children: Изтриване на задачата и нейните подзадачи?
   text_tip_issue_begin_end_day: задача, започваща и завършваща този ден
   setting_default_notification_option: Подразбиращ се начин за известяване
   project_module_calendar: Календар
-  label_user_mail_option_only_my_events: Само за неща, в които съм включен/а
   text_tip_issue_begin_day: задача, започваща този ден
-  label_user_mail_option_only_assigned: Само за неща, назначени на мен
   button_edit_associated_wikipage: "Редактиране на асоциираната Wiki страница: {{page_title}}"
   field_assigned_to_role: Assignee's role
   label_principal_search: "Търсене на потребител или група:"

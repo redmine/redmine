@@ -637,6 +637,7 @@ es:
   label_user_mail_no_self_notified: "No quiero ser avisado de cambios hechos por mí"
   label_user_mail_option_all: "Para cualquier evento en todos mis proyectos"
   label_user_mail_option_selected: "Para cualquier evento de los proyectos seleccionados..."
+  label_user_mail_option_none: "Sólo para elementos monitorizados o relacionados conmigo"
   label_user_new: Nuevo usuario
   label_user_plural: Usuarios
   label_version: Versión
@@ -955,11 +956,7 @@ es:
   button_edit_associated_wikipage: "Editar paginas Wiki asociadas: {{page_title}}"
   text_are_you_sure_with_children: ¿Borrar peticiones y todas sus peticiones hijas?
   field_text: Campo de texto
-  label_user_mail_option_only_owner: Solo para objetos que soy propietario
   setting_default_notification_option: Opcion de notificacion por defecto
-  label_user_mail_option_only_my_events: Solo para objetos que soy seguidor o estoy involucrado
-  label_user_mail_option_only_assigned: Solo para objetos que estoy asignado
-  label_user_mail_option_none: Sin eventos
   field_member_of_group: Asignado al grupo
   field_assigned_to_role: Asignado al perfil
   notice_not_authorized_archived_project: El proyecto al que intenta acceder ha sido archivado.
