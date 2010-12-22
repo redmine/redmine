@@ -250,6 +250,7 @@ da:
   field_attr_lastname: Efternavn attribut
   field_attr_mail: Email attribut
   field_onthefly: løbende brugeroprettelse
+  field_start_date: Start date
   field_done_ratio: % Færdig
   field_auth_source: Sikkerhedsmetode
   field_hide_mail: Skjul min email
@@ -933,7 +934,5 @@ da:
   button_edit_associated_wikipage: "Redigér tilknyttet Wiki side: {{page_title}}"
   text_are_you_sure_with_children: Slet sag og alle undersager?
   field_text: Tekstfelt
-
-  field_start_date: Start date
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"

@@ -247,6 +247,7 @@ el:
   field_attr_lastname:  Ιδιότητα επωνύμου
   field_attr_mail: Ιδιότητα email
   field_onthefly: Άμεση δημιουργία χρήστη
+  field_start_date: Εκκίνηση
   field_done_ratio: % επιτεύχθη
   field_auth_source: Τρόπος πιστοποίησης
   field_hide_mail: Απόκρυψη διεύθυνσης email
@@ -917,7 +918,5 @@ el:
   button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
   text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
-
-  field_start_date: Start date
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"

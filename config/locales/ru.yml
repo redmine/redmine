@@ -363,6 +363,7 @@ ru:
   field_role: Роль
   field_searchable: Доступно для поиска
   field_spent_on: Дата
+  field_start_date: Начата
   field_start_page: Стартовая страница
   field_status: Статус
   field_subject: Тема
@@ -1042,4 +1043,3 @@ ru:
 
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"
-  field_start_date: Start Date

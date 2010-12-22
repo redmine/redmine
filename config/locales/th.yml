@@ -233,6 +233,7 @@ th:
   field_attr_lastname: นามสกุล attribute
   field_attr_mail: อีเมล์ attribute
   field_onthefly: สร้างผู้ใช้ทันที
+  field_start_date: เริ่ม
   field_done_ratio: % สำเร็จ
   field_auth_source: วิธีการยืนยันตัวตน
   field_hide_mail: ซ่อนอีเมล์ของฉัน
@@ -914,6 +915,5 @@ th:
   button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
   text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
-  field_start_date: Start date
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"

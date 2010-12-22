@@ -251,6 +251,7 @@ id:
   field_attr_lastname: Atribut nama belakang
   field_attr_mail: Atribut email
   field_onthefly: Pembuatan pengguna seketika
+  field_start_date: Mulai
   field_done_ratio: % Selesai
   field_auth_source: Mode otentikasi
   field_hide_mail: Sembunyikan email saya
@@ -925,6 +926,5 @@ id:
   button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
   text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
-  field_start_date: Start date
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"

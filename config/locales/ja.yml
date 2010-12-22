@@ -952,6 +952,5 @@ ja:
   enumeration_doc_categories: 文書カテゴリ
   enumeration_activities: 作業分類 (時間トラッキング)
   enumeration_system_activity: システム作業分類
-  field_start_date: Start date
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"

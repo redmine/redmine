@@ -256,6 +256,7 @@ nl:
   field_role: Rol
   field_searchable: Doorzoekbaar
   field_spent_on: Datum
+  field_start_date: Startdatum
   field_start_page: Startpagina
   field_status: Status
   field_subject: Onderwerp
@@ -899,6 +900,5 @@ nl:
   button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
   text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
-  field_start_date: Start date
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"

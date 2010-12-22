@@ -249,6 +249,7 @@ pt:
   field_attr_lastname: Atributo último nome
   field_attr_mail: Atributo e-mail
   field_onthefly: Criação de utilizadores na hora
+  field_start_date: Início
   field_done_ratio: % Completo
   field_auth_source: Modo de autenticação
   field_hide_mail: Esconder endereço de e-mail
@@ -925,6 +926,5 @@ pt:
   button_edit_associated_wikipage: "Editar página Wiki associada: {{page_title}}"
   text_are_you_sure_with_children: Apagar tarefa e todas as sub-tarefas?
   field_text: Text field
-  field_start_date: Start date
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"

@@ -231,6 +231,7 @@
   field_attr_lastname: Etternavnsattributt
   field_attr_mail: E-post-attributt
   field_onthefly: On-the-fly brukeropprettelse
+  field_start_date: Start
   field_done_ratio: % Ferdig
   field_auth_source: Autentifikasjonsmodus
   field_hide_mail: Skjul min e-post-adresse
@@ -908,6 +909,5 @@
   button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
   text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
-  field_start_date: Start date
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"

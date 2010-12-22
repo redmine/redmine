@@ -257,6 +257,7 @@ eu:
   field_attr_lastname: Abizenak atributua
   field_attr_mail: Eposta atributua
   field_onthefly: Zuzeneko erabiltzaile sorrera
+  field_start_date: Hasiera
   field_done_ratio: Egindako %
   field_auth_source: Autentikazio modua
   field_hide_mail: Nire eposta helbidea ezkutatu
@@ -921,6 +922,5 @@ eu:
   button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
   text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
-  field_start_date: Start date
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"

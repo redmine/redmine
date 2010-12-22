@@ -277,6 +277,7 @@ pl:
   field_role: Rola
   field_searchable: Przeszukiwalne
   field_spent_on: Data
+  field_start_date: Start
   field_start_page: Strona startowa
   field_status: Status
   field_subject: Temat
@@ -938,6 +939,5 @@ pl:
   button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
   text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
-  field_start_date: Start date
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"

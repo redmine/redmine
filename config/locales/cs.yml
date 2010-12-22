@@ -237,6 +237,7 @@ cs:
   field_attr_lastname: Příjemní (atribut)
   field_attr_mail: Email (atribut)
   field_onthefly: Automatické vytváření uživatelů
+  field_start_date: Začátek
   field_done_ratio: % Hotovo
   field_auth_source: Autentifikační mód
   field_hide_mail: Nezobrazovat můj email
@@ -917,6 +918,5 @@ cs:
   button_edit_associated_wikipage: "Upravit přiřazenou Wiki stránku: {{page_title}}"
   text_are_you_sure_with_children: Smazat úkol včetně všech podúkolů?
   field_text: Textové pole
-  field_start_date: Start date
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"
