@@ -32,9 +32,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-  # TODO: convert to PUT only
-  verify :method => [:post, :put], :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
-
   helper :sort
   include SortHelper
   helper :custom_fields
@@ -71,13 +68,13 @@ class ProjectsController < ApplicationController
     @project = Project.new(params[:project])
   end
 
+  verify :method => :post, :only => :create, :render => {:nothing => true, :status => :method_not_allowed }
   def create
     @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @trackers = Tracker.all
     @project = Project.new
     @project.safe_attributes = params[:project]
 
-    @project.enabled_module_names = params[:enabled_modules] if params[:enabled_modules]
     if validate_parent_id && @project.save
       @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
       # Add current user as a project member if he is not admin
@@ -184,6 +181,8 @@ class ProjectsController < ApplicationController
   def edit
   end
 
+  # TODO: convert to PUT only
+  verify :method => [:post, :put], :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
   def update
     @project.safe_attributes = params[:project]
     if validate_parent_id && @project.save
@@ -205,9 +204,10 @@ class ProjectsController < ApplicationController
       end
     end
   end
-  
+
+  verify :method => :post, :only => :modules, :render => {:nothing => true, :status => :method_not_allowed }
   def modules
-    @project.enabled_module_names = params[:enabled_modules]
+    @project.enabled_module_names = params[:enabled_module_names]
     flash[:notice] = l(:notice_successful_update)
     redirect_to :action => 'settings', :id => @project, :tab => 'modules'
   end
