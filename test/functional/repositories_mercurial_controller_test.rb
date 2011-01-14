@@ -32,9 +32,10 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     User.current = nil
-    Repository::Mercurial.create(:project => Project.find(3), :url => REPOSITORY_PATH)
+    @repository = Repository::Mercurial.create(:project => Project.find(3), :url => REPOSITORY_PATH)
+    assert @repository
   end
-  
+
   if File.directory?(REPOSITORY_PATH)
     def test_show
       get :show, :id => 3
@@ -163,6 +164,16 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
                  :content => '23',
                  :attributes => { :class => 'line-num' },
                  :sibling => { :tag => 'td', :content => /watcher =/ }
+    end
+
+    def test_empty_revision
+      @repository.fetch_changesets
+      @repository.reload
+      ['', ' ', nil].each do |r|
+        get :revision, :id => 3, :rev => r
+        assert_response 404
+        assert_error_tag :content => /was not found/
+      end
     end
   else
     puts "Mercurial test repository NOT FOUND. Skipping functional tests !!!"
