@@ -264,6 +264,30 @@ class UsersControllerTest < ActionController::TestCase
     assert u.check_password?('newpass')
   end
   
+  def test_destroy
+    assert_difference 'User.count', -1 do
+      delete :destroy, :id => 2
+    end
+    assert_redirected_to '/users'
+    assert_nil User.find_by_id(2)
+  end
+
+  def test_destroy_should_not_accept_get_requests
+    assert_no_difference 'User.count' do
+      get :destroy, :id => 2
+    end
+    assert_response 405
+  end
+
+  def test_destroy_should_be_denied_for_non_admin_users
+    @request.session[:user_id] = 3
+    
+    assert_no_difference 'User.count' do
+      get :destroy, :id => 2
+    end
+    assert_response 403
+  end
+  
   def test_edit_membership
     post :edit_membership, :id => 2, :membership_id => 1,
                            :membership => { :role_ids => [2]}

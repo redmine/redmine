@@ -302,6 +302,9 @@ class RoutingTest < ActionController::IntegrationTest
 
     should_route :put, "/users/444", :controller => 'users', :action => 'update', :id => '444'
     should_route :put, "/users/444.xml", :controller => 'users', :action => 'update', :id => '444', :format => 'xml'
+
+    should_route :delete, "/users/44", :controller => 'users', :action => 'destroy', :id => '44'
+    should_route :delete, "/users/44.xml", :controller => 'users', :action => 'destroy', :id => '44', :format => 'xml'
   end
 
   # TODO: should they all be scoped under /projects/:project_id ?

@@ -19,8 +19,8 @@ class UsersController < ApplicationController
   layout 'admin'
   
   before_filter :require_admin, :except => :show
-  before_filter :find_user, :only => [:show, :edit, :update, :edit_membership, :destroy_membership]
-  accept_key_auth :index, :show, :create, :update
+  before_filter :find_user, :only => [:show, :edit, :update, :destroy, :edit_membership, :destroy_membership]
+  accept_key_auth :index, :show, :create, :update, :destroy
 
   helper :sort
   include SortHelper
@@ -175,6 +175,15 @@ class UsersController < ApplicationController
     end
   rescue ::ActionController::RedirectBackError
     redirect_to :controller => 'users', :action => 'edit', :id => @user
+  end
+
+  verify :method => :delete, :only => :destroy, :render => {:nothing => true, :status => :method_not_allowed }
+  def destroy
+    @user.destroy
+    respond_to do |format|
+      format.html { redirect_to(users_url) }
+      format.api  { head :ok }
+    end
   end
 
   def edit_membership
