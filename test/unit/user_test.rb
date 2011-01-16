@@ -109,10 +109,214 @@ class UserTest < ActiveSupport::TestCase
     assert_equal "john", @admin.login
   end
   
-  def test_destroy
-    User.find(2).destroy
+  def test_destroy_should_delete_members_and_roles
+    members = Member.find_all_by_user_id(2)
+    ms = members.size
+    rs = members.collect(&:roles).flatten.size
+    
+    assert_difference 'Member.count', - ms do
+      assert_difference 'MemberRole.count', - rs do
+        User.find(2).destroy
+      end
+    end
+    
     assert_nil User.find_by_id(2)
     assert Member.find_all_by_user_id(2).empty?
+  end
+  
+  def test_destroy_should_update_attachments
+    attachment = Attachment.create!(:container => Project.find(1),
+      :file => uploaded_test_file("testfile.txt", "text/plain"),
+      :author_id => 2)
+    
+    User.find(2).destroy
+    assert_nil User.find_by_id(2)
+    assert_equal User.anonymous, attachment.reload.author
+  end
+  
+  def test_destroy_should_update_comments
+    comment = Comment.create!(
+      :commented => News.create!(:project_id => 1, :author_id => 1, :title => 'foo', :description => 'foo'),
+      :author => User.find(2),
+      :comments => 'foo'
+    )
+    
+    User.find(2).destroy
+    assert_nil User.find_by_id(2)
+    assert_equal User.anonymous, comment.reload.author
+  end
+  
+  def test_destroy_should_update_issues
+    issue = Issue.create!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'foo')
+    
+    User.find(2).destroy
+    assert_nil User.find_by_id(2)
+    assert_equal User.anonymous, issue.reload.author
+  end
+  
+  def test_destroy_should_unassign_issues
+    issue = Issue.create!(:project_id => 1, :author_id => 1, :tracker_id => 1, :subject => 'foo', :assigned_to_id => 2)
+    
+    User.find(2).destroy
+    assert_nil User.find_by_id(2)
+    assert_nil issue.reload.assigned_to
+  end
+  
+  def test_destroy_should_update_journals
+    issue = Issue.create!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'foo')
+    issue.init_journal(User.find(2), "update")
+    issue.save!
+    
+    User.find(2).destroy
+    assert_nil User.find_by_id(2)
+    assert_equal User.anonymous, issue.journals.first.reload.user
+  end
+  
+  def test_destroy_should_update_journal_details_old_value
+    issue = Issue.create!(:project_id => 1, :author_id => 1, :tracker_id => 1, :subject => 'foo', :assigned_to_id => 2)
+    issue.init_journal(User.find(1), "update")
+    issue.assigned_to_id = nil
+    assert_difference 'JournalDetail.count' do
+      issue.save!
+    end
+    journal_detail = JournalDetail.first(:order => 'id DESC')
+    assert_equal '2', journal_detail.old_value
+    
+    User.find(2).destroy
+    assert_nil User.find_by_id(2)
+    assert_equal User.anonymous.id.to_s, journal_detail.reload.old_value
+  end
+  
+  def test_destroy_should_update_journal_details_value
+    issue = Issue.create!(:project_id => 1, :author_id => 1, :tracker_id => 1, :subject => 'foo')
+    issue.init_journal(User.find(1), "update")
+    issue.assigned_to_id = 2
+    assert_difference 'JournalDetail.count' do
+      issue.save!
+    end
+    journal_detail = JournalDetail.first(:order => 'id DESC')
+    assert_equal '2', journal_detail.value
+    
+    User.find(2).destroy
+    assert_nil User.find_by_id(2)
+    assert_equal User.anonymous.id.to_s, journal_detail.reload.value
+  end
+  
+  def test_destroy_should_update_messages
+    board = Board.create!(:project_id => 1, :name => 'Board', :description => 'Board')
+    message = Message.create!(:board_id => board.id, :author_id => 2, :subject => 'foo', :content => 'foo')
+    
+    User.find(2).destroy
+    assert_nil User.find_by_id(2)
+    assert_equal User.anonymous, message.reload.author
+  end
+  
+  def test_destroy_should_update_news
+    news = News.create!(:project_id => 1, :author_id => 2, :title => 'foo', :description => 'foo')
+    
+    User.find(2).destroy
+    assert_nil User.find_by_id(2)
+    assert_equal User.anonymous, news.reload.author
+  end
+  
+  def test_destroy_should_delete_private_queries
+    query = Query.new(:name => 'foo', :is_public => false)
+    query.project_id = 1
+    query.user_id = 2
+    query.save!
+    
+    User.find(2).destroy
+    assert_nil User.find_by_id(2)
+    assert_nil Query.find_by_id(query.id)
+  end
+  
+  def test_destroy_should_update_public_queries
+    query = Query.new(:name => 'foo', :is_public => true)
+    query.project_id = 1
+    query.user_id = 2
+    query.save!
+    
+    User.find(2).destroy
+    assert_nil User.find_by_id(2)
+    assert_equal User.anonymous, query.reload.user
+  end
+  
+  def test_destroy_should_update_time_entries
+    entry = TimeEntry.new(:hours => '2', :spent_on => Date.today, :activity => TimeEntryActivity.create!(:name => 'foo'))
+    entry.project_id = 1
+    entry.user_id = 2
+    entry.save!
+    
+    User.find(2).destroy
+    assert_nil User.find_by_id(2)
+    assert_equal User.anonymous, entry.reload.user
+  end
+  
+  def test_destroy_should_delete_tokens
+    token = Token.create!(:user_id => 2, :value => 'foo')
+    
+    User.find(2).destroy
+    assert_nil User.find_by_id(2)
+    assert_nil Token.find_by_id(token.id)
+  end
+  
+  def test_destroy_should_delete_watchers
+    issue = Issue.create!(:project_id => 1, :author_id => 1, :tracker_id => 1, :subject => 'foo')
+    watcher = Watcher.create!(:user_id => 2, :watchable => issue)
+    
+    User.find(2).destroy
+    assert_nil User.find_by_id(2)
+    assert_nil Watcher.find_by_id(watcher.id)
+  end
+  
+  def test_destroy_should_update_wiki_contents
+    wiki_content = WikiContent.create!(
+      :text => 'foo',
+      :author_id => 2,
+      :page => WikiPage.create!(:title => 'Foo', :wiki => Wiki.create!(:project_id => 1, :start_page => 'Start'))
+    )
+    wiki_content.text = 'bar'
+    assert_difference 'WikiContent::Version.count' do
+      wiki_content.save!
+    end
+    
+    User.find(2).destroy
+    assert_nil User.find_by_id(2)
+    assert_equal User.anonymous, wiki_content.reload.author
+    wiki_content.versions.each do |version|
+      assert_equal User.anonymous, version.reload.author
+    end
+  end
+  
+  def test_destroy_should_nullify_issue_categories
+    category = IssueCategory.create!(:project_id => 1, :assigned_to_id => 2, :name => 'foo')
+    
+    User.find(2).destroy
+    assert_nil User.find_by_id(2)
+    assert_nil category.reload.assigned_to_id
+  end
+  
+  def test_destroy_should_nullify_changesets
+    changeset = Changeset.create!(
+      :repository => Repository::Subversion.create!(
+        :project_id => 1,
+        :url => 'file:///var/svn'
+      ),
+      :revision => '12',
+      :committed_on => Time.now,
+      :committer => 'jsmith'
+      )
+    assert_equal 2, changeset.user_id
+    
+    User.find(2).destroy
+    assert_nil User.find_by_id(2)
+    assert_nil changeset.reload.user_id
+  end
+  
+  def test_anonymous_user_should_not_be_destroyable
+    assert_no_difference 'User.count' do
+      assert_equal false, User.anonymous.destroy
+    end
   end
   
   def test_validate_login_presence

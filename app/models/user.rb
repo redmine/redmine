@@ -48,8 +48,8 @@ class User < Principal
   has_many :issue_categories, :foreign_key => 'assigned_to_id', :dependent => :nullify
   has_many :changesets, :dependent => :nullify
   has_one :preference, :dependent => :destroy, :class_name => 'UserPreference'
-  has_one :rss_token, :dependent => :destroy, :class_name => 'Token', :conditions => "action='feeds'"
-  has_one :api_token, :dependent => :destroy, :class_name => 'Token', :conditions => "action='api'"
+  has_one :rss_token, :class_name => 'Token', :conditions => "action='feeds'"
+  has_one :api_token, :class_name => 'Token', :conditions => "action='api'"
   belongs_to :auth_source
   
   # Active non-anonymous users scope
@@ -74,6 +74,8 @@ class User < Principal
   validates_confirmation_of :password, :allow_nil => true
   validates_inclusion_of :mail_notification, :in => MAIL_NOTIFICATION_OPTIONS.collect(&:first), :allow_blank => true
 
+  before_destroy :remove_references_before_destroy
+  
   def before_create
     self.mail_notification = Setting.default_notification_option if self.mail_notification.blank?
     true
@@ -473,6 +475,31 @@ class User < Principal
   end
   
   private
+  
+  # Removes references that are not handled by associations
+  # Things that are not deleted are reassociated with the anonymous user
+  def remove_references_before_destroy
+    return if self.id.nil?
+    
+    substitute = User.anonymous
+    Attachment.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
+    Comment.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
+    Issue.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
+    Issue.update_all 'assigned_to_id = NULL', ['assigned_to_id = ?', id]
+    Journal.update_all ['user_id = ?', substitute.id], ['user_id = ?', id]
+    JournalDetail.update_all ['old_value = ?', substitute.id.to_s], ["property = 'attr' AND prop_key = 'assigned_to_id' AND old_value = ?", id.to_s]
+    JournalDetail.update_all ['value = ?', substitute.id.to_s], ["property = 'attr' AND prop_key = 'assigned_to_id' AND value = ?", id.to_s]
+    Message.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
+    News.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
+    # Remove private queries and keep public ones
+    Query.delete_all ['user_id = ? AND is_public = ?', id, false]
+    Query.update_all ['user_id = ?', substitute.id], ['user_id = ?', id]
+    TimeEntry.update_all ['user_id = ?', substitute.id], ['user_id = ?', id]
+    Token.delete_all ['user_id = ?', id]
+    Watcher.delete_all ['user_id = ?', id]
+    WikiContent.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
+    WikiContent::Version.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
+  end
     
   # Return password digest
   def self.hash_password(clear_password)
@@ -498,4 +525,9 @@ class AnonymousUser < User
   def mail; nil end
   def time_zone; nil end
   def rss_key; nil end
+  
+  # Anonymous user can not be destroyed
+  def destroy
+    false
+  end
 end
