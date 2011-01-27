@@ -166,7 +166,7 @@ fr:
   notice_successful_create: Création effectuée avec succès.
   notice_successful_update: Mise à jour effectuée avec succès.
   notice_successful_delete: Suppression effectuée avec succès.
-  notice_successful_connection: Connection réussie.
+  notice_successful_connection: Connexion réussie.
   notice_file_not_found: "La page à laquelle vous souhaitez accéder n'existe pas ou a été supprimée."
   notice_locking_conflict: Les données ont été mises à jour par un autre utilisateur. Mise à jour impossible.
   notice_not_authorized: "Vous n'êtes pas autorisés à accéder à cette page."
@@ -449,6 +449,9 @@ fr:
   label_issue_view_all: Voir toutes les demandes
   label_issue_added: Demande ajoutée
   label_issue_updated: Demande mise à jour
+  label_issue_note_added: Note ajoutée
+  label_issue_status_updated: Statut changé
+  label_issue_priority_updated: Priorité changée
   label_issues_by: "Demandes par %{value}"
   label_document: Document
   label_document_new: Nouveau document
@@ -486,7 +489,7 @@ fr:
   label_my_page: Ma page
   label_my_account: Mon compte
   label_my_projects: Mes projets
-  label_my_page_block: Ma page bloque
+  label_my_page_block: Blocs disponibles
   label_administration: Administration
   label_login: Connexion
   label_logout: Déconnexion
