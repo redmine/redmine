@@ -111,7 +111,7 @@ default:
   # Absolute path (e.g. /usr/local/bin/hg) or command name (e.g. hg.exe, bzr.exe)
   # On Windows, *.cmd, *.bat (e.g. hg.cmd, bzr.bat) does not work.
   scm_subversion_command: svn                                       # (default: svn)
-  scm_mercurial_command:  "\"C:\Program Files\TortoiseHg\hg.exe\""  # (default: hg)
+  scm_mercurial_command:  C:\Program Files\TortoiseHg\hg.exe        # (default: hg)
   scm_git_command:        /usr/local/bin/git                        # (default: git)
   scm_cvs_command:        cvs                                       # (default: cvs)
   scm_bazaar_command:     bzr.exe                                   # (default: bzr)
