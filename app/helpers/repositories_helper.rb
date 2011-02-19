@@ -180,7 +180,9 @@ module RepositoriesHelper
   end
 
   def git_field_tags(form, repository)
-      content_tag('p', form.text_field(:url, :label => 'Path to .git directory', :size => 60, :required => true, :disabled => (repository && !repository.root_url.blank?)))
+      content_tag('p', form.text_field(:url, :label => 'Path to repository',
+                       :size => 60, :required => true,
+                       :disabled => (repository && !repository.root_url.blank?)))
   end
 
   def cvs_field_tags(form, repository)
