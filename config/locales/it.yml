@@ -939,3 +939,4 @@ it:
   setting_gantt_items_limit: Massimo numero di oggetti da visualizzare sul diagramma di gantt
   field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
   text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
+  label_my_queries: My custom queries
