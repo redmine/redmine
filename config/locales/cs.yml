@@ -943,3 +943,4 @@ cs:
   field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
   text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
   label_my_queries: My custom queries
+  text_journal_changed_no_detail: "%{label} updated"
