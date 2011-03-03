@@ -25,13 +25,13 @@ module RepositoriesHelper
       revision.to_s
     end
   end
-  
+
   def truncate_at_line_break(text, length = 255)
     if text
       text.gsub(%r{^(.{#{length}}[^\n]*)\n.+$}m, '\\1...')
     end
   end
-  
+
   def render_properties(properties)
     unless properties.nil? || properties.empty?
       content = ''
@@ -41,7 +41,7 @@ module RepositoriesHelper
       content_tag('ul', content, :class => 'properties')
     end
   end
-  
+
   def render_changeset_changes
     changes = @changeset.changes.find(:all, :limit => 1000, :order => 'path').collect do |change|
       case change.action
@@ -75,10 +75,10 @@ module RepositoriesHelper
     
     render_changes_tree(tree[:s])
   end
-  
+
   def render_changes_tree(tree)
     return '' if tree.nil?
-    
+
     output = ''
     output << '<ul>'
     tree.keys.sort.each do |file|
@@ -115,14 +115,14 @@ module RepositoriesHelper
     output << '</ul>'
     output
   end
-  
+
   def to_utf8(str)
     return str if str.blank?
     if str.respond_to?(:force_encoding)
       str.force_encoding('UTF-8')
     else
       # TODO:
-      # Japanese Shift_JIS(CP932) is not compatible with ASCII.      
+      # Japanese Shift_JIS(CP932) is not compatible with ASCII.
       # UTF-7 and Japanese ISO-2022-JP are 7bits clean.
       return str if /\A[\r\n\t\x20-\x7e]*\Z/n.match(str) # for us-ascii
     end
@@ -192,10 +192,11 @@ module RepositoriesHelper
                        :disabled => (repository && !repository.root_url.blank?)) +
                        '<br />(file:///, http://, https://, svn://, svn+[tunnelscheme]://)') +
       content_tag('p', form.text_field(:login, :size => 30)) +
-      content_tag('p', form.password_field(:password, :size => 30, :name => 'ignore',
-                                           :value => ((repository.new_record? || repository.password.blank?) ? '' : ('x'*15)),
-                                           :onfocus => "this.value=''; this.name='repository[password]';",
-                                           :onchange => "this.name='repository[password]';"))
+      content_tag('p', form.password_field(
+                            :password, :size => 30, :name => 'ignore',
+                            :value => ((repository.new_record? || repository.password.blank?) ? '' : ('x'*15)),
+                            :onfocus => "this.value=''; this.name='repository[password]';",
+                            :onchange => "this.name='repository[password]';"))
   end
 
   def darcs_field_tags(form, repository)
