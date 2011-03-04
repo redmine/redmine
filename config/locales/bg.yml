@@ -940,3 +940,4 @@ bg:
   enumeration_system_activity: Системна активност
 
   text_journal_changed_no_detail: "%{label} updated"
+  label_news_comment_added: Comment added to a news
