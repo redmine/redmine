@@ -208,10 +208,14 @@ module RepositoriesHelper
   end
 
   def mercurial_field_tags(form, repository)
-      content_tag('p', form.text_field(:url, :label => 'Root directory',
+    content_tag('p', form.text_field(:url, :label => 'Root directory',
                        :size => 60, :required => true,
                        :disabled => (repository && !repository.root_url.blank?)) +
-                       '<br />local repository (e.g. /hgrepo, c:\hgrepo)' )
+                       '<br />local repository (e.g. /hgrepo, c:\hgrepo)' ) +
+    content_tag('p', form.select(
+                        :path_encoding, [nil] + Setting::ENCODINGS,
+                        :label => 'Path encoding') +
+                        '<br />Default: UTF-8')
   end
 
   def git_field_tags(form, repository)
