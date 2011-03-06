@@ -345,6 +345,7 @@ sv:
   field_assigned_to_role: "Tilldelad användares roll"
   field_text: Textfält
   field_visible: Synlig
+  field_warn_on_leaving_unsaved: Varna om jag lämnar en sida med osparad text
   
   setting_app_title: Applikationsrubrik
   setting_app_subtitle: Applikationsunderrubrik
@@ -636,6 +637,7 @@ sv:
   label_query: Användardefinerad fråga
   label_query_plural: Användardefinerade frågor
   label_query_new: Ny fråga
+  label_my_queries: Mina egna frågor
   label_filter_add: Lägg till filter
   label_filter_plural: Filter
   label_equals: är
@@ -900,6 +902,7 @@ sv:
   text_are_you_sure: Är du säker ?
   text_are_you_sure_with_children: Ta bort ärende och alla underärenden?
   text_journal_changed: "%{label} ändrad från %{old} till %{new}"
+  text_journal_changed_no_detail: "%{label} uppdaterad"
   text_journal_set_to: "%{label} satt till %{value}"
   text_journal_deleted: "%{label} borttagen (%{old})"
   text_journal_added: "%{label} %{value} tillagd"
@@ -950,6 +953,7 @@ sv:
   text_own_membership_delete_confirmation: "Några av, eller alla, dina behörigheter kommer att tas bort och du kanske inte längre kommer kunna göra ändringar i det här projektet.\nVill du verkligen fortsätta?"
   text_zoom_out: Zooma ut
   text_zoom_in: Zooma in
+  text_warn_on_leaving_unsaved: Nuvarande sida innehåller osparad text som kommer försvinna om du lämnar sidan.
   
   default_role_manager: Projektledare
   default_role_developer: Utvecklare
@@ -977,8 +981,4 @@ sv:
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
   enumeration_system_activity: Systemaktivitet
-  field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
-  text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
-  label_my_queries: My custom queries
-  text_journal_changed_no_detail: "%{label} updated"
   label_news_comment_added: Comment added to a news

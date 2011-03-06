@@ -537,6 +537,7 @@ bg:
   label_news_latest: Последни новини
   label_news_view_all: Виж всички
   label_news_added: Добавена новина
+  label_news_comment_added: Добавен коментар към новина
   label_settings: Настройки
   label_overview: Общ изглед
   label_version: Версия
@@ -860,6 +861,7 @@ bg:
   text_are_you_sure: Сигурни ли сте?
   text_are_you_sure_with_children: Изтриване на задачата и нейните подзадачи?
   text_journal_changed: "%{label} променен от %{old} на %{new}"
+  text_journal_changed_no_detail: "%{label} променен"
   text_journal_set_to: "%{label} установен на %{value}"
   text_journal_deleted: "%{label} изтрит (%{old})"
   text_journal_added: "Добавено %{label} %{value}"
@@ -939,5 +941,3 @@ bg:
   enumeration_activities: Дейности (time tracking)
   enumeration_system_activity: Системна активност
 
-  text_journal_changed_no_detail: "%{label} updated"
-  label_news_comment_added: Comment added to a news
