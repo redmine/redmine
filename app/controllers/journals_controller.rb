@@ -23,6 +23,7 @@ class JournalsController < ApplicationController
   accept_key_auth :index
 
   helper :issues
+  helper :custom_fields
   helper :queries
   include QueriesHelper
   helper :sort

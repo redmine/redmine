@@ -20,3 +20,10 @@ journal_details_003:
   value: "6"
   prop_key: fixed_version_id
   journal_id: 4
+journal_details_005:
+  old_value: Old value
+  property: cf
+  id: 5
+  value: New value
+  prop_key: 2
+  journal_id: 3
