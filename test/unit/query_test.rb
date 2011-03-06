@@ -484,7 +484,6 @@ class QueryTest < ActiveSupport::TestCase
         # Users not in a group
         assert_query_statement_includes @query, "#{Issue.table_name}.assigned_to_id IS NULL OR #{Issue.table_name}.assigned_to_id NOT IN ('#{@user_in_group.id}','#{@second_user_in_group.id}','#{@user_in_group2.id}')"
         assert_find_issues_with_query_is_successful @query
-
       end
 
       should "search assigned to any group member (all)" do
@@ -494,7 +493,22 @@ class QueryTest < ActiveSupport::TestCase
         # Only users in a group
         assert_query_statement_includes @query, "#{Issue.table_name}.assigned_to_id IN ('#{@user_in_group.id}','#{@second_user_in_group.id}','#{@user_in_group2.id}')"
         assert_find_issues_with_query_is_successful @query
-
+      end
+      
+      should "return an empty set with = empty group" do
+        @empty_group = Group.generate!
+        @query = Query.new(:name => '_')
+        @query.add_filter('member_of_group', '=', [@empty_group.id.to_s])
+        
+        assert_equal [], find_issues_with_query(@query)
+      end
+      
+      should "return issues with ! empty group" do
+        @empty_group = Group.generate!
+        @query = Query.new(:name => '_')
+        @query.add_filter('member_of_group', '!', [@empty_group.id.to_s])
+        
+        assert_find_issues_with_query_is_successful @query
       end
     end
 
@@ -538,6 +552,22 @@ class QueryTest < ActiveSupport::TestCase
         @query.add_filter('assigned_to_role', '*', [''])
 
         assert_query_statement_includes @query, "#{Issue.table_name}.assigned_to_id IN ('#{@manager.id}','#{@developer.id}','#{@boss.id}')"
+        assert_find_issues_with_query_is_successful @query
+      end
+      
+      should "return an empty set with empty role" do
+        @empty_role = Role.generate!
+        @query = Query.new(:name => '_')
+        @query.add_filter('assigned_to_role', '=', [@empty_role.id.to_s])
+        
+        assert_equal [], find_issues_with_query(@query)
+      end
+      
+      should "return issues with ! empty role" do
+        @empty_role = Role.generate!
+        @query = Query.new(:name => '_')
+        @query.add_filter('member_of_group', '!', [@empty_role.id.to_s])
+        
         assert_find_issues_with_query_is_successful @query
       end
     end
