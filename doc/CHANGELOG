@@ -4,7 +4,7 @@ Redmine - project management software
 Copyright (C) 2006-2011  Jean-Philippe Lang
 http://www.redmine.org/
 
-== 2011-03-06 v1.1.2
+== 2011-03-07 v1.1.2
 
 * Defect #3132: Bulk editing menu non-functional in Opera browser
 * Defect #6090: Most binary files become corrupted when downloading from CVS repository browser when Redmine is running on a Windows server
@@ -20,7 +20,7 @@ http://www.redmine.org/
 * Defect #7763: Email notification are sent to watchers even if 'No events' setting is chosen
 * Feature #7608: Add "retro" gravatars
 * Patch #7598: Extensible MailHandler
-
+* Patch #7795: Internal server error at journals#index with custom fields
 
 == 2011-01-30 v1.1.1
 
