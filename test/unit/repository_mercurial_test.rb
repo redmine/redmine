@@ -87,7 +87,8 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
 
       # with_limit
       changesets = @repository.latest_changesets('', nil, 2)
-      assert_equal @repository.latest_changesets('', nil)[0, 2], changesets
+      # assert_equal @repository.latest_changesets('', nil)[0, 2], changesets
+      assert_equal %w|16 15|, changesets.collect(&:revision)
 
       # with_filepath
       changesets = @repository.latest_changesets('/sql_escape/percent%dir/percent%file1.txt', nil)

@@ -58,7 +58,7 @@ class Repository::Mercurial < Repository
   # Returns the latest changesets for +path+; sorted by revision number
   def latest_changesets(path, rev, limit=10)
     if path.blank?
-      changesets.find(:all, :include => :user, :limit => limit)
+      changesets.find(:all, :include => :user, :limit => limit, :order => "id DESC")
     else
       changes.find(:all, :include => {:changeset => :user},
                          :conditions => ["path = ?", path.with_leading_slash],
