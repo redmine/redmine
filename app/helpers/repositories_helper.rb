@@ -213,14 +213,14 @@ module RepositoriesHelper
                        :size => 60, :required => true,
                        :disabled => (repository && !repository.new_record?))) +
       content_tag('p', form.select(:log_encoding, [nil] + Setting::ENCODINGS,
-                                 :label => 'Commit messages encoding', :required => true))
+                                   :label => 'Commit messages encoding', :required => true))
   end
 
   def mercurial_field_tags(form, repository)
     content_tag('p', form.text_field(:url, :label => 'Root directory',
                        :size => 60, :required => true,
                        :disabled => (repository && !repository.root_url.blank?)) +
-                       '<br />local repository (e.g. /hgrepo, c:\hgrepo)' ) +
+                       '<br />Local repository (e.g. /hgrepo, c:\hgrepo)' ) +
     content_tag('p', form.select(
                         :path_encoding, [nil] + Setting::ENCODINGS,
                         :label => 'Path encoding') +
@@ -231,7 +231,7 @@ module RepositoriesHelper
     content_tag('p', form.text_field(:url, :label => 'Path to repository',
                        :size => 60, :required => true,
                        :disabled => (repository && !repository.root_url.blank?)) +
-                       '<br />a bare and local repository (e.g. /gitrepo, c:\gitrepo)') +
+                       '<br />Bare and local repository (e.g. /gitrepo, c:\gitrepo)') +
     content_tag('p', form.select(
                         :path_encoding, [nil] + Setting::ENCODINGS,
                         :label => 'Path encoding') +
@@ -246,7 +246,7 @@ module RepositoriesHelper
                        :size => 30, :required => true,
                        :disabled => !repository.new_record?)) +
       content_tag('p', form.select(:log_encoding, [nil] + Setting::ENCODINGS,
-                                 :label => 'Commit messages encoding', :required => true))
+                                   :label => 'Commit messages encoding', :required => true))
   end
 
   def bazaar_field_tags(form, repository)
@@ -254,7 +254,7 @@ module RepositoriesHelper
                        :size => 60, :required => true,
                        :disabled => (repository && !repository.new_record?))) +
       content_tag('p', form.select(:log_encoding, [nil] + Setting::ENCODINGS,
-                                 :label => 'Commit messages encoding', :required => true))
+                                   :label => 'Commit messages encoding', :required => true))
   end
 
   def filesystem_field_tags(form, repository)
