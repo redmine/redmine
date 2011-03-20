@@ -1,6 +1,9 @@
 <%= error_messages_for 'user' %>
 
+<div id="user_form">
 <!--[form:user]-->
+<div class="splitcontentleft">
+<h3><%=l(:label_information_plural)%></h3>
 <div class="box tabular">
 <p><%= f.text_field :login, :required => true, :size => 25  %></p>
 <p><%= f.text_field :firstname, :required => true %></p>
@@ -19,8 +22,8 @@
 <%= call_hook(:view_users_form, :user => @user, :form => f) %>
 </div>
 
-<div class="box tabular">
 <h3><%=l(:label_authentication)%></h3>
+<div class="box tabular">
 <% unless @auth_sources.empty? %>
 <p><%= f.select :auth_source_id, ([[l(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] }), {}, :onchange => "if (this.value=='') {Element.show('password_fields');} else {Element.hide('password_fields');}" %></p>
 <% end %>
@@ -30,14 +33,19 @@
 <p><%= f.password_field :password_confirmation, :required => true, :size => 25  %></p>
 </div>
 </div>
+</div>
 
-<div class="box">
+<div class="splitcontentright">
 <h3><%=l(:field_mail_notification)%></h3>
+<div class="box">
 <%= render :partial => 'users/mail_notifications' %>
 </div>
 
-<div class="box tabular">
 <h3><%=l(:label_preferences)%></h3>
+<div class="box tabular">
 <%= render :partial => 'users/preferences' %>
 </div>
+</div>
+</div>
+<div style="clear:left;"></div>
 <!--[eoform:user]-->
