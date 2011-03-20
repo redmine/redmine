@@ -982,3 +982,5 @@ sv:
   enumeration_activities: Aktiviteter (tidsuppföljning)
   enumeration_system_activity: Systemaktivitet
   label_news_comment_added: Comment added to a news
+  button_expand_all: Expand all
+  button_collapse_all: Collapse all

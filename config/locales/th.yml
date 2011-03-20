@@ -938,3 +938,5 @@ th:
   label_my_queries: My custom queries
   text_journal_changed_no_detail: "%{label} updated"
   label_news_comment_added: Comment added to a news
+  button_expand_all: Expand all
+  button_collapse_all: Collapse all
