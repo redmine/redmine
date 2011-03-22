@@ -33,11 +33,11 @@ class RepositoryTest < ActiveSupport::TestCase
            :member_roles,
            :roles,
            :enumerations
-  
+
   def setup
     @repository = Project.find(1).repository
   end
-  
+
   def test_create
     repository = Repository::Subversion.new(:project => Project.find(3))
     assert !repository.save
@@ -49,7 +49,7 @@ class RepositoryTest < ActiveSupport::TestCase
     project = Project.find(3)
     assert_equal repository, project.repository
   end
-  
+
   def test_destroy
     changesets = Changeset.count(:all, :conditions => "repository_id = 10")
     changes = Change.count(:all, :conditions => "repository_id = 10", :include => :changeset)
@@ -59,7 +59,7 @@ class RepositoryTest < ActiveSupport::TestCase
       end
     end
   end
-  
+
   def test_should_not_create_with_disabled_scm
     # disable Subversion
     with_settings :enabled_scm => ['Darcs', 'Git'] do
@@ -68,7 +68,7 @@ class RepositoryTest < ActiveSupport::TestCase
       assert_equal I18n.translate('activerecord.errors.messages.invalid'), repository.errors.on(:type)
     end
   end
-  
+
   def test_scan_changesets_for_issue_ids
     Setting.default_language = 'en'
     Setting.notified_events = ['issue_added','issue_updated']
@@ -110,7 +110,7 @@ class RepositoryTest < ActiveSupport::TestCase
     # ignoring commits referencing an issue of another project
     assert_equal [], Issue.find(4).changesets
   end
-  
+
   def test_for_changeset_comments_strip
     repository = Repository::Mercurial.create( :project => Project.find( 4 ), :url => '/foo/bar/baz' )
     comment = <<-COMMENT
@@ -140,23 +140,47 @@ class RepositoryTest < ActiveSupport::TestCase
 
   def test_manual_user_mapping
     assert_no_difference "Changeset.count(:conditions => 'user_id <> 2')" do
-      c = Changeset.create!(:repository => @repository, :committer => 'foo', :committed_on => Time.now, :revision => 100, :comments => 'Committed by foo.')
+      c = Changeset.create!(
+              :repository => @repository,
+              :committer => 'foo',
+              :committed_on => Time.now,
+              :revision => 100,
+              :comments => 'Committed by foo.'
+            )
       assert_nil c.user
       @repository.committer_ids = {'foo' => '2'}
       assert_equal User.find(2), c.reload.user
       # committer is now mapped
-      c = Changeset.create!(:repository => @repository, :committer => 'foo', :committed_on => Time.now, :revision => 101, :comments => 'Another commit by foo.')
+      c = Changeset.create!(
+              :repository => @repository,
+              :committer => 'foo',
+              :committed_on => Time.now,
+              :revision => 101,
+              :comments => 'Another commit by foo.'
+            )
       assert_equal User.find(2), c.user
     end
   end
-  
+
   def test_auto_user_mapping_by_username
-    c = Changeset.create!(:repository => @repository, :committer => 'jsmith', :committed_on => Time.now, :revision => 100, :comments => 'Committed by john.')
+    c = Changeset.create!(
+          :repository => @repository,
+          :committer => 'jsmith',
+          :committed_on => Time.now,
+          :revision => 100,
+          :comments => 'Committed by john.'
+        )
     assert_equal User.find(2), c.user
   end
-  
+
   def test_auto_user_mapping_by_email
-    c = Changeset.create!(:repository => @repository, :committer => 'john <jsmith@somenet.foo>', :committed_on => Time.now, :revision => 100, :comments => 'Committed by john.')
+    c = Changeset.create!(
+          :repository => @repository,
+          :committer => 'john <jsmith@somenet.foo>',
+          :committed_on => Time.now,
+          :revision => 100,
+          :comments => 'Committed by john.'
+        )
     assert_equal User.find(2), c.user
   end
 end
