@@ -50,7 +50,7 @@ ContextMenu.prototype = {
             tr.removeClassName('context-menu-selection');
           }
         } else {
-          if (e.ctrlKey) {
+          if (e.ctrlKey || e.metaKey) {
             this.toggleSelection(tr);
           } else if (e.shiftKey) {
             if (this.lastSelected != null) {
