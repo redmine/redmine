@@ -946,3 +946,5 @@ en-GB:
   enumeration_doc_categories: Document categories
   enumeration_activities: Activities (time tracking)
   enumeration_system_activity: System Activity
+  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
+  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author

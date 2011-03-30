@@ -796,6 +796,8 @@ en:
   label_project_copy_notifications: Send email notifications during the project copy
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"
+  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
+  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
   
   button_login: Login
   button_submit: Submit
