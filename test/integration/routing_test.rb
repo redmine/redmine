@@ -94,7 +94,9 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :get, "/projects/project-name/issues/calendar", :controller => 'calendars', :action => 'show', :project_id => 'project-name'
 
     should_route :get, "/issues/gantt", :controller => 'gantts', :action => 'show'
+    should_route :get, "/issues/gantt.pdf", :controller => 'gantts', :action => 'show', :format => 'pdf'
     should_route :get, "/projects/project-name/issues/gantt", :controller => 'gantts', :action => 'show', :project_id => 'project-name'
+    should_route :get, "/projects/project-name/issues/gantt.pdf", :controller => 'gantts', :action => 'show', :project_id => 'project-name', :format => 'pdf'
 
     should_route :get, "/issues/auto_complete", :controller => 'auto_completes', :action => 'issues'
 

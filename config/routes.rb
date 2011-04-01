@@ -82,7 +82,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.with_options :controller => 'gantts', :action => 'show' do |gantts_routes|
     gantts_routes.connect '/projects/:project_id/issues/gantt'
-    gantts_routes.connect '/issues/gantt'
+    gantts_routes.connect '/projects/:project_id/issues/gantt.:format'
+    gantts_routes.connect '/issues/gantt.:format'
   end
   
   map.with_options :controller => 'calendars', :action => 'show' do |calendars_routes|
