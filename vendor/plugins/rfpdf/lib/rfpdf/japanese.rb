@@ -103,7 +103,7 @@ module PDF_Japanese
   		o=s[i]
   		if(o<128)
   			#ASCII
-  			l+=cw[o.chr]
+  			l+=cw[o.chr] if cw[o.chr]
   			i+=1
   		elsif(o>=161 and o<=223)
   			#Half-width katakana
@@ -179,7 +179,7 @@ module PDF_Japanese
   		end
   		if(o<128)
   			#ASCII
-  			l+=cw[c.chr]
+  			l+=cw[c.chr] || 0
   			n=1
   			if(o==32)
   				sep=i
@@ -270,7 +270,7 @@ module PDF_Japanese
   		end
   		if(o<128)
   			#ASCII
-  			l+=cw[c.chr]
+  			l+=cw[c.chr] || 0
   			n=1
   			if(o==32)
   				sep=i
