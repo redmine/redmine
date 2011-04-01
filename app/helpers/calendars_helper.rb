@@ -32,9 +32,7 @@ module CalendarsHelper
   end
 
   def link_to_month(link_name, year, month, options={})
-    project_id = options[:project].present? ? options[:project].to_param : nil
-
-    link_target = calendar_path(:year => year, :month => month, :project_id => project_id)
+    link_target = url_for(params.merge(:year => year, :month => month))
 
     link_to_remote(link_name,
                    {:update => "content", :url => link_target, :method => :put},

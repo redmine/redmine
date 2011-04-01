@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -22,8 +22,8 @@ module GanttHelper
     when :in
       if gantt.zoom < 4
         link_to_remote(l(:text_zoom_in),
-                       {:url => gantt.params.merge(:zoom => (gantt.zoom+1)), :method => :get, :update => 'content'},
-                       {:href => url_for(gantt.params.merge(:zoom => (gantt.zoom+1))),
+                       {:url => params.merge(gantt.params.merge(:zoom => (gantt.zoom+1))), :method => :get, :update => 'content'},
+                       {:href => url_for(params.merge(gantt.params.merge(:zoom => (gantt.zoom+1)))),
                         :class => 'icon icon-zoom-in'})
       else
         content_tag('span', l(:text_zoom_in), :class => 'icon icon-zoom-in')
@@ -32,8 +32,8 @@ module GanttHelper
     when :out
       if gantt.zoom > 1
         link_to_remote(l(:text_zoom_out),
-                       {:url => gantt.params.merge(:zoom => (gantt.zoom-1)), :method => :get, :update => 'content'},
-                       {:href => url_for(gantt.params.merge(:zoom => (gantt.zoom-1))),
+                       {:url => params.merge(gantt.params.merge(:zoom => (gantt.zoom-1))), :method => :get, :update => 'content'},
+                       {:href => url_for(params.merge(gantt.params.merge(:zoom => (gantt.zoom-1)))),
                         :class => 'icon icon-zoom-out'})
       else
         content_tag('span', l(:text_zoom_out), :class => 'icon icon-zoom-out')

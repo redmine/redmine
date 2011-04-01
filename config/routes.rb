@@ -80,10 +80,15 @@ ActionController::Routing::Routes.draw do |map|
   map.quoted_issue '/issues/:id/quoted', :controller => 'journals', :action => 'new', :id => /\d+/, :conditions => { :method => :post }
   map.connect '/issues/:id/destroy', :controller => 'issues', :action => 'destroy', :conditions => { :method => :post } # legacy
 
-  map.resource :gantt, :path_prefix => '/issues', :controller => 'gantts', :only => [:show, :update]
-  map.resource :gantt, :path_prefix => '/projects/:project_id/issues', :controller => 'gantts', :only => [:show, :update]
-  map.resource :calendar, :path_prefix => '/issues', :controller => 'calendars', :only => [:show, :update]
-  map.resource :calendar, :path_prefix => '/projects/:project_id/issues', :controller => 'calendars', :only => [:show, :update]
+  map.with_options :controller => 'gantts', :action => 'show' do |gantts_routes|
+    gantts_routes.connect '/projects/:project_id/issues/gantt'
+    gantts_routes.connect '/issues/gantt'
+  end
+  
+  map.with_options :controller => 'calendars', :action => 'show' do |calendars_routes|
+    calendars_routes.connect '/projects/:project_id/issues/calendar'
+    calendars_routes.connect '/issues/calendar'
+  end
 
   map.with_options :controller => 'reports', :conditions => {:method => :get} do |reports|
     reports.connect 'projects/:id/issues/report', :action => 'issue_report'
@@ -215,6 +220,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :groups
   
   #left old routes at the bottom for backwards compat
+  map.connect 'projects/:project_id/queries/:action', :controller => 'queries'
   map.connect 'projects/:project_id/issues/:action', :controller => 'issues'
   map.connect 'projects/:project_id/documents/:action', :controller => 'documents'
   map.connect 'projects/:project_id/boards/:action/:id', :controller => 'boards'
