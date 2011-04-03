@@ -32,12 +32,6 @@ module CalendarsHelper
   end
 
   def link_to_month(link_name, year, month, options={})
-    link_target = url_for(params.merge(:year => year, :month => month))
-
-    link_to_remote(link_name,
-                   {:update => "content", :url => link_target, :method => :get},
-                   {:href => link_target})
-
+    link_to_content_update(link_name, params.merge(:year => year, :month => month))
   end
-  
 end
