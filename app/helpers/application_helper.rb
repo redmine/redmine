@@ -932,9 +932,6 @@ module ApplicationHelper
   end
   
   def link_to_content_update(text, url_params = {}, html_options = {})
-    link_to_remote(text,
-      {:url => url_params, :method => :get, :update => 'content', :complete => 'window.scrollTo(0,0)'},
-      {:href => url_for(:params => url_params)}.merge(html_options)
-    )
+    link_to(text, url_params, html_options)
   end
 end
