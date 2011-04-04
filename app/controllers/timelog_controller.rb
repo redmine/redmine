@@ -18,8 +18,8 @@
 class TimelogController < ApplicationController
   menu_item :issues
   before_filter :find_project, :only => [:new, :create]
-  before_filter :find_time_entry, :only => [:show, :edit, :update, :destroy]
-  before_filter :find_time_entries, :only => [:bulk_edit, :bulk_update]
+  before_filter :find_time_entry, :only => [:show, :edit, :update]
+  before_filter :find_time_entries, :only => [:bulk_edit, :bulk_update, :destroy]
   before_filter :authorize, :except => [:index]
   before_filter :find_optional_project, :only => [:index]
   accept_key_auth :index, :show, :create, :update, :destroy
@@ -180,30 +180,34 @@ class TimelogController < ApplicationController
       end
     end
     set_flash_from_bulk_time_entry_save(@time_entries, unsaved_time_entry_ids)
-    redirect_back_or_default({:controller => 'timelog', :action => 'index', :project_id => @project})
+    redirect_back_or_default({:controller => 'timelog', :action => 'index', :project_id => @projects.first})
   end
 
   verify :method => :delete, :only => :destroy, :render => {:nothing => true, :status => :method_not_allowed }
   def destroy
-    if @time_entry.destroy && @time_entry.destroyed?
-      respond_to do |format|
-        format.html {
-          flash[:notice] = l(:notice_successful_delete)
-          redirect_to :back
-        }
-        format.api  { head :ok }
-      end
-    else
-      respond_to do |format|
-        format.html {
-          flash[:error] = l(:notice_unable_delete_time_entry)
-          redirect_to :back
-        }
-        format.api  { render_validation_errors(@time_entry) }
+    @time_entries.each do |t| 
+      begin
+        unless t.destroy && t.destroyed?
+          respond_to do |format|
+            format.html {
+              flash[:error] = l(:notice_unable_delete_time_entry)
+              redirect_to :back
+            }
+            format.api  { render_validation_errors(t) }
+          end
+        end
+      rescue ::ActionController::RedirectBackError
+        redirect_to :action => 'index', :project_id => @projects.first
       end
     end
-  rescue ::ActionController::RedirectBackError
-    redirect_to :action => 'index', :project_id => @time_entry.project
+
+    respond_to do |format|
+      format.html {
+        flash[:notice] = l(:notice_successful_delete)
+        redirect_back_or_default(:action => 'index', :project_id => @projects.first)
+      }
+      format.api  { head :ok }
+    end
   end
 
 private
