@@ -964,3 +964,4 @@ fr:
   field_assigned_to_role: Rôle de l'assigné
   setting_emails_header: En-tête des emails
   label_bulk_edit_selected_time_entries: Bulk edit selected time entries
+  text_time_entries_destroy_confirmation: Are you sure you want to delete the selected time entr(y/ies)?
