@@ -144,8 +144,6 @@ module Redmine
 
         def fix_text_encoding(txt)
           @ic ||= Iconv.new(l(:general_pdf_encoding), 'UTF-8')
-          # these quotation marks are not correctly rendered in the pdf
-          txt = txt.gsub(/[â€œâ€�]/, '"') if txt
           txt = begin
             # 0x5c char handling
             txtar = txt.split('\\')
