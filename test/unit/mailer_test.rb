@@ -440,9 +440,6 @@ class MailerTest < ActiveSupport::TestCase
           end
         end
       end
-      
     end
-    
   end
-  
 end
