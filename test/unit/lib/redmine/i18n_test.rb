@@ -146,4 +146,15 @@ class Redmine::I18nTest < ActiveSupport::TestCase
     ::I18n.locale = 'fr'
     assert_equal "Pas de traduction", l(:untranslated)
   end
+
+  def test_utf8
+    set_language_if_valid 'ja'
+    str_ja_yes  = "\xe3\x81\xaf\xe3\x81\x84"
+    i18n_ja_yes = l(:general_text_Yes)
+    if str_ja_yes.respond_to?(:force_encoding)
+      str_ja_yes.force_encoding('UTF-8')
+      assert_equal "UTF-8", i18n_ja_yes.encoding.to_s
+    end
+    assert_equal str_ja_yes, i18n_ja_yes
+  end
 end
