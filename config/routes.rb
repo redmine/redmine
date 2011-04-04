@@ -23,6 +23,13 @@ ActionController::Routing::Routes.draw do |map|
     time_report.connect 'time_entries/report.:format'
   end
 
+  map.bulk_edit_time_entry 'time_entries/bulk_edit',
+                   :controller => 'timelog', :action => 'bulk_edit', :conditions => { :method => :get }
+  map.bulk_update_time_entry 'time_entries/bulk_edit',
+                   :controller => 'timelog', :action => 'bulk_update', :conditions => { :method => :post }
+  map.time_entries_context_menu '/time_entries/context_menu',
+                   :controller => 'context_menus', :action => 'time_entries'
+  # TODO: wasteful since this is also nested under issues, projects, and projects/issues
   map.resources :time_entries, :controller => 'timelog'
   
   map.connect 'projects/:id/wiki', :controller => 'wikis', :action => 'edit', :conditions => {:method => :post}

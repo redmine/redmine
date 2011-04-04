@@ -431,6 +431,12 @@ class Project < ActiveRecord::Base
   def all_issue_custom_fields
     @all_issue_custom_fields ||= (IssueCustomField.for_all + issue_custom_fields).uniq.sort
   end
+
+  # Returns an array of all custom fields enabled for project time entries
+  # (explictly associated custom fields and custom fields enabled for all projects)
+  def all_time_entry_custom_fields
+    @all_time_entry_custom_fields ||= (TimeEntryCustomField.for_all + time_entry_custom_fields).uniq.sort
+  end
   
   def project
     self

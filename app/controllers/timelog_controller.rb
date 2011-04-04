@@ -19,6 +19,7 @@ class TimelogController < ApplicationController
   menu_item :issues
   before_filter :find_project, :only => [:new, :create]
   before_filter :find_time_entry, :only => [:show, :edit, :update, :destroy]
+  before_filter :find_time_entries, :only => [:bulk_edit, :bulk_update]
   before_filter :authorize, :except => [:index]
   before_filter :find_optional_project, :only => [:index]
   accept_key_auth :index, :show, :create, :update, :destroy
@@ -160,6 +161,28 @@ class TimelogController < ApplicationController
     end    
   end
 
+  def bulk_edit
+    @available_activities = TimeEntryActivity.shared.active
+    @custom_fields = TimeEntry.first.available_custom_fields
+  end
+
+  def bulk_update
+    attributes = parse_params_for_bulk_time_entry_attributes(params)
+
+    unsaved_time_entry_ids = []
+    @time_entries.each do |time_entry|
+      time_entry.reload
+      time_entry.attributes = attributes
+      call_hook(:controller_time_entries_bulk_edit_before_save, { :params => params, :time_entry => time_entry })
+      unless time_entry.save
+        # Keep unsaved time_entry ids to display them in flash error
+        unsaved_time_entry_ids << time_entry.id
+      end
+    end
+    set_flash_from_bulk_time_entry_save(@time_entries, unsaved_time_entry_ids)
+    redirect_back_or_default({:controller => 'timelog', :action => 'index', :project_id => @project})
+  end
+
   verify :method => :delete, :only => :destroy, :render => {:nothing => true, :status => :method_not_allowed }
   def destroy
     if @time_entry.destroy && @time_entry.destroyed?
@@ -193,6 +216,26 @@ private
     @project = @time_entry.project
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def find_time_entries
+    @time_entries = TimeEntry.find_all_by_id(params[:id] || params[:ids])
+    raise ActiveRecord::RecordNotFound if @time_entries.empty?
+    @projects = @time_entries.collect(&:project).compact.uniq
+    @project = @projects.first if @projects.size == 1
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+
+  def set_flash_from_bulk_time_entry_save(time_entries, unsaved_time_entry_ids)
+    if unsaved_time_entry_ids.empty?
+      flash[:notice] = l(:notice_successful_update) unless time_entries.empty?
+    else
+      flash[:error] = l(:notice_failed_to_save_time_entries,
+                        :count => unsaved_time_entry_ids.size,
+                        :total => time_entries.size,
+                        :ids => '#' + unsaved_time_entry_ids.join(', #'))
+    end
   end
 
   def find_project
@@ -265,4 +308,10 @@ private
     @to   ||= (TimeEntry.latest_date_for_project(@project) || Date.today)
   end
 
+  def parse_params_for_bulk_time_entry_attributes(params)
+    attributes = (params[:time_entry] || {}).reject {|k,v| v.blank?}
+    attributes.keys.each {|k| attributes[k] = '' if attributes[k] == 'none'}
+    attributes[:custom_field_values].reject! {|k,v| v.blank?} if attributes[:custom_field_values]
+    attributes
+  end
 end
