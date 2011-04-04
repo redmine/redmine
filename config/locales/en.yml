@@ -735,6 +735,7 @@ en:
   label_default_columns: Default columns
   label_no_change_option: (No change)
   label_bulk_edit_selected_issues: Bulk edit selected issues
+  label_bulk_edit_selected_time_entries: Bulk edit selected time entries
   label_theme: Theme
   label_default: Default
   label_search_titles_only: Search titles only
