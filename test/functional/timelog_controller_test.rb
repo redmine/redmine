@@ -131,6 +131,77 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal 2, entry.issue_id
     assert_equal 2, entry.user_id
   end
+
+  def test_get_bulk_edit
+    @request.session[:user_id] = 2
+    get :bulk_edit, :ids => [1, 2]
+    assert_response :success
+    assert_template 'bulk_edit'
+    
+    # System wide custom field
+    assert_tag :select, :attributes => {:name => 'time_entry[custom_field_values][10]'}
+  end
+
+  def test_get_bulk_edit_on_different_projects
+    @request.session[:user_id] = 2
+    get :bulk_edit, :ids => [1, 2, 6]
+    assert_response :success
+    assert_template 'bulk_edit'
+  end
+
+  def test_bulk_update
+    @request.session[:user_id] = 2
+    # update time entry activity
+    post :bulk_update, :ids => [1, 2], :time_entry => { :activity_id => 9}
+                                     
+    assert_response 302
+    # check that the issues were updated
+    assert_equal [9, 9], TimeEntry.find_all_by_id([1, 2]).collect {|i| i.activity_id}
+  end
+
+  def test_bulk_update_on_different_projects
+    @request.session[:user_id] = 2
+    # update time entry activity
+    post :bulk_update, :ids => [1, 2, 4], :time_entry => { :activity_id => 9 }
+    
+    assert_response 302
+    # check that the issues were updated
+    assert_equal [9, 9, 9], TimeEntry.find_all_by_id([1, 2, 4]).collect {|i| i.activity_id}
+  end
+
+  def test_bulk_update_on_different_projects_without_rights
+    @request.session[:user_id] = 3
+    user = User.find(3)
+    action = { :controller => "timelog", :action => "bulk_update" }
+    assert user.allowed_to?(action, TimeEntry.find(1).project)
+    assert ! user.allowed_to?(action, TimeEntry.find(5).project)
+    post :bulk_update, :ids => [1, 5], :time_entry => { :activity_id => 9 }
+    assert_response 403
+  end
+
+  def test_bulk_update_custom_field
+    @request.session[:user_id] = 2
+    post :bulk_update, :ids => [1, 2], :time_entry => { :custom_field_values => {'10' => '0'} }
+                                     
+    assert_response 302
+    assert_equal ["0", "0"], TimeEntry.find_all_by_id([1, 2]).collect {|i| i.custom_value_for(10).value}
+  end
+
+  def test_post_bulk_update_should_redirect_back_using_the_back_url_parameter
+    @request.session[:user_id] = 2
+    post :bulk_update, :ids => [1,2], :back_url => '/time_entries'
+
+    assert_response :redirect
+    assert_redirected_to '/time_entries'
+  end
+
+  def test_post_bulk_update_should_not_redirect_back_using_the_back_url_parameter_off_the_host
+    @request.session[:user_id] = 2
+    post :bulk_update, :ids => [1,2], :back_url => 'http://google.com'
+
+    assert_response :redirect
+    assert_redirected_to :controller => 'timelog', :action => 'index', :project_id => Project.find(1).identifier
+  end
   
   def test_destroy
     @request.session[:user_id] = 2
@@ -250,8 +321,8 @@ class TimelogControllerTest < ActionController::TestCase
     get :index, :format => 'csv'
     assert_response :success
     assert_equal 'text/csv', @response.content_type
-    assert @response.body.include?("Date,User,Activity,Project,Issue,Tracker,Subject,Hours,Comment\n")
-    assert @response.body.include?("\n04/21/2007,redMine Admin,Design,eCookbook,3,Bug,Error 281 when updating a recipe,1.0,\"\"\n")
+    assert @response.body.include?("Date,User,Activity,Project,Issue,Tracker,Subject,Hours,Comment,Overtime\n")
+    assert @response.body.include?("\n04/21/2007,redMine Admin,Design,eCookbook,3,Bug,Error 281 when updating a recipe,1.0,\"\",\"\"\n")
   end
   
   def test_index_csv_export
@@ -259,7 +330,7 @@ class TimelogControllerTest < ActionController::TestCase
     get :index, :project_id => 1, :format => 'csv'
     assert_response :success
     assert_equal 'text/csv', @response.content_type
-    assert @response.body.include?("Date,User,Activity,Project,Issue,Tracker,Subject,Hours,Comment\n")
-    assert @response.body.include?("\n04/21/2007,redMine Admin,Design,eCookbook,3,Bug,Error 281 when updating a recipe,1.0,\"\"\n")
+    assert @response.body.include?("Date,User,Activity,Project,Issue,Tracker,Subject,Hours,Comment,Overtime\n")
+    assert @response.body.include?("\n04/21/2007,redMine Admin,Design,eCookbook,3,Bug,Error 281 when updating a recipe,1.0,\"\",\"\"\n")
   end
 end

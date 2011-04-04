@@ -55,4 +55,18 @@ time_entries_004:
   hours: 7.65
   user_id: 1
   tyear: 2007
+time_entries_005: 
+  created_on: 2011-03-22 12:20:48 +02:00
+  tweek: 12
+  tmonth: 3
+  project_id: 5
+  comments: Time spent on a subproject
+  updated_on: 2011-03-22 12:20:48 +02:00
+  activity_id: 10
+  spent_on: 2011-03-22
+  issue_id: 
+  id: 5
+  hours: 7.65
+  user_id: 1
+  tyear: 2011
   

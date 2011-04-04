@@ -129,3 +129,17 @@ custom_fields_009:
   field_format: date
   default_value: ""
   editable: true
+custom_fields_010: 
+  name: Overtime
+  min_length: 0
+  regexp: ""
+  is_for_all: false
+  is_filter: false
+  type: TimeEntryCustomField
+  max_length: 0
+  possible_values: ""
+  id: 10
+  is_required: false
+  field_format: bool
+  default_value: 0
+  editable: true
