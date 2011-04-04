@@ -220,7 +220,8 @@ module Redmine
         pdf.SetFillColor(255, 255, 255)
         previous_group = false
         issues.each do |issue|
-          if query.grouped? && (group = query.group_by_column.value(issue)) != previous_group
+          if query.grouped? &&
+               (group = query.group_by_column.value(issue)) != previous_group
             pdf.SetFontStyle('B',9)
             pdf.RDMCell(277, row_height, 
               (group.blank? ? 'None' : group.to_s) + " (#{query.issue_count_by_group[group]})",
@@ -271,7 +272,8 @@ module Redmine
         pdf.AddPage
         
         pdf.SetFontStyle('B',11)    
-        pdf.RDMCell(190,10, "#{issue.project} - #{issue.tracker} # #{issue.id}: #{issue.subject}")
+        pdf.RDMCell(190,10,
+           "#{issue.project} - #{issue.tracker} # #{issue.id}: #{issue.subject}")
         pdf.Ln
         
         y0 = pdf.GetY
@@ -338,13 +340,15 @@ module Redmine
         pdf.Line(pdf.GetX, pdf.GetY, 170, pdf.GetY)
         pdf.Ln
         
-        if issue.changesets.any? && User.current.allowed_to?(:view_changesets, issue.project)
+        if issue.changesets.any? &&
+             User.current.allowed_to?(:view_changesets, issue.project)
           pdf.SetFontStyle('B',9)
           pdf.RDMCell(190,5, l(:label_associated_revisions), "B")
           pdf.Ln
           for changeset in issue.changesets
             pdf.SetFontStyle('B',8)
-            pdf.RDMCell(190,5, format_time(changeset.committed_on) + " - " + changeset.author.to_s)
+            pdf.RDMCell(190,5,
+              format_time(changeset.committed_on) + " - " + changeset.author.to_s)
             pdf.Ln
             unless changeset.comments.blank?
               pdf.SetFontStyle('',8)
@@ -357,9 +361,12 @@ module Redmine
         pdf.SetFontStyle('B',9)
         pdf.RDMCell(190,5, l(:label_history), "B")
         pdf.Ln  
-        for journal in issue.journals.find(:all, :include => [:user, :details], :order => "#{Journal.table_name}.created_on ASC")
+        for journal in issue.journals.find(
+                          :all, :include => [:user, :details],
+                          :order => "#{Journal.table_name}.created_on ASC")
           pdf.SetFontStyle('B',8)
-          pdf.RDMCell(190,5, format_time(journal.created_on) + " - " + journal.user.name)
+          pdf.RDMCell(190,5,
+             format_time(journal.created_on) + " - " + journal.user.name)
           pdf.Ln
           pdf.SetFontStyle('I',8)
           for detail in journal.details
@@ -372,7 +379,7 @@ module Redmine
           end   
           pdf.Ln
         end
-        
+
         if issue.attachments.any?
           pdf.SetFontStyle('B',9)
           pdf.RDMCell(190,5, l(:label_attachment_plural), "B")
@@ -388,7 +395,6 @@ module Redmine
         end
         pdf.Output
       end
-
     end
   end
 end
