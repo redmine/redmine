@@ -213,19 +213,13 @@ class TimelogControllerTest < ActionController::TestCase
   
   def test_destroy_should_fail
     # simulate that this fails (e.g. due to a plugin), see #5700
-    TimeEntry.class_eval do
-      before_destroy :stop_callback_chain
-      def stop_callback_chain ; return false ; end
-    end
+    TimeEntry.any_instance.expects(:destroy).returns(false)
 
     @request.session[:user_id] = 2
     delete :destroy, :id => 1
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
     assert_equal I18n.t(:notice_unable_delete_time_entry), flash[:error]
     assert_not_nil TimeEntry.find_by_id(1)
-
-    # remove the simulation
-    TimeEntry.before_destroy.reject! {|callback| callback.method == :stop_callback_chain }
   end
   
   def test_index_all_projects
