@@ -57,7 +57,7 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'common/feed.atom.rxml'
     assert_select 'feed>title', :text => 'Redmine: Latest projects'
-    assert_select 'feed>entry', :count => Project.count(:conditions => Project.visible_by(User.current))
+    assert_select 'feed>entry', :count => Project.count(:conditions => Project.visible_condition(User.current))
   end
   
   context "#index" do

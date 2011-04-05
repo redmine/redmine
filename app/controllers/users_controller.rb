@@ -69,7 +69,7 @@ class UsersController < ApplicationController
   
   def show
     # show projects based on current user visibility
-    @memberships = @user.memberships.all(:conditions => Project.visible_by(User.current))
+    @memberships = @user.memberships.all(:conditions => Project.visible_condition(User.current))
     
     events = Redmine::Activity::Fetcher.new(User.current, :author => @user).events(nil, nil, :limit => 10)
     @events_by_day = events.group_by(&:event_date)
