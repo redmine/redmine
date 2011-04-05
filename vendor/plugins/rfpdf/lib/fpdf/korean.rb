@@ -99,7 +99,7 @@ UHC_widths={' ' => 333, '!' => 416, '"' => 416, '#' => 833, '$' => 625, '%' => 9
   	nb=s.length
   	i=0
   	while(i<nb)
-  		c=s[i]
+  		c = s[i].is_a?(String) ? s[i].ord : s[i]
   		if(c<128)
   			l+=cw[c.chr] if cw[c.chr]
   			i+=1
@@ -151,7 +151,7 @@ UHC_widths={' ' => 333, '!' => 416, '"' => 416, '#' => 833, '$' => 625, '%' => 9
   	nl=1
   	while(i<nb)
   		#Get next character
-  		c=s[i]
+  		c = s[i].is_a?(String) ? s[i].ord : s[i]
   		#Check if ASCII or MB
   		ascii=(c<128)
   		if(c.chr=="\n")
@@ -227,7 +227,7 @@ UHC_widths={' ' => 333, '!' => 416, '"' => 416, '#' => 833, '$' => 625, '%' => 9
   	nl=1
   	while(i<nb)
   		#Get next character
-  		c=s[i]
+  		c = s[i].is_a?(String) ? s[i].ord : s[i]
   		#Check if ASCII or MB
   		ascii=(c<128)
   		if(c.chr=="\n")

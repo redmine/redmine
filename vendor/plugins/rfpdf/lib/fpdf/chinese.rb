@@ -130,7 +130,7 @@ module PDF_Chinese
   	nb=s.length
   	i=0
   	while(i<nb)
-  		c=s[i]
+  		c = s[i].is_a?(String) ? s[i].ord : s[i]
   		if(c<128)
   			l+=cw[c.chr] if cw[c.chr]
   			i+=1
@@ -182,7 +182,7 @@ module PDF_Chinese
   	nl=1
   	while(i<nb)
   		#Get next character
-  		c=s[i]
+  		c = s[i].is_a?(String) ? s[i].ord : s[i]
   		#Check if ASCII or MB
   		ascii=(c<128)
   		if(c.chr=="\n")
@@ -258,7 +258,7 @@ module PDF_Chinese
   	nl=1
   	while(i<nb)
   		#Get next character
-  		c=s[i]
+  		c = s[i].is_a?(String) ? s[i].ord : s[i]
   		#Check if ASCII or MB
   		ascii=(c<128)
   		if(c.chr=="\n")

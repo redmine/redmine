@@ -100,7 +100,7 @@ module PDF_Japanese
   	nb=s.length
   	i=0
   	while(i<nb)
-  		o=s[i]
+  		o = s[i].is_a?(String) ? s[i].ord : s[i]
   		if(o<128)
   			#ASCII
   			l+=cw[o.chr] if cw[o.chr]
@@ -158,7 +158,7 @@ module PDF_Japanese
   	nl=1
   	while(i<nb)
   		#Get next character
-  		c=s[i]
+  		c = s[i].is_a?(String) ? s[i].ord : s[i]
   		o=c #o=ord(c)
   		if(o==10)
   			#Explicit line break
@@ -246,7 +246,7 @@ module PDF_Japanese
   	nl=1
   	while(i<nb)
   		#Get next character
-  		c=s[i]
+  		c = s[i].is_a?(String) ? s[i].ord : s[i]
   		o=c
   		if(o==10)
   			#Explicit line break
