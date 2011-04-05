@@ -462,6 +462,8 @@ fr:
   label_role_plural: Rôles
   label_role_new: Nouveau rôle
   label_role_and_permissions: Rôles et permissions
+  label_role_anonymous: Anonyme
+  label_role_non_member: Non membre
   label_member: Membre
   label_member_new: Nouveau membre
   label_member_plural: Membres

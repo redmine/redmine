@@ -944,3 +944,5 @@ th:
   label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
   label_bulk_edit_selected_time_entries: Bulk edit selected time entries
   text_time_entries_destroy_confirmation: Are you sure you want to delete the selected time entr(y/ies)?
+  label_role_anonymous: Anonymous
+  label_role_non_member: Non member

@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2008  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -48,6 +48,13 @@ class RoleTest < ActiveSupport::TestCase
     role.reload
     assert ! role.permissions.include?(perm[0])
     assert_equal size - 2, role.permissions.size
+  end
+  
+  def test_name
+    I18n.locale = 'fr'
+    assert_equal 'Manager', Role.find(1).name
+    assert_equal 'Anonyme', Role.anonymous.name
+    assert_equal 'Non membre', Role.non_member.name
   end
 
   context "#anonymous" do

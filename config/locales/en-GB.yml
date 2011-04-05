@@ -463,6 +463,8 @@ en-GB:
   label_role_plural: Roles
   label_role_new: New role
   label_role_and_permissions: Roles and permissions
+  label_role_anonymous: Anonymous
+  label_role_non_member: Non member
   label_member: Member
   label_member_new: New member
   label_member_plural: Members

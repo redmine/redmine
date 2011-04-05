@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -82,6 +82,14 @@ class Role < ActiveRecord::Base
   
   def to_s
     name
+  end
+  
+  def name
+    case builtin
+    when 1; l(:label_role_non_member, :default => read_attribute(:name))
+    when 2; l(:label_role_anonymous,  :default => read_attribute(:name))
+    else; read_attribute(:name)
+    end
   end
   
   # Return true if the role is a builtin role
