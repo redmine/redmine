@@ -41,7 +41,7 @@ class TimeEntry < ActiveRecord::Base
   
   named_scope :visible, lambda {|*args| { 
     :include => :project,
-    :conditions => Project.allowed_to_condition(args.first || User.current, :view_time_entries) 
+    :conditions => Project.allowed_to_condition(args.shift || User.current, :view_time_entries, *args)
   }}
 
   def after_initialize

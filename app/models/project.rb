@@ -84,7 +84,7 @@ class Project < ActiveRecord::Base
   named_scope :has_module, lambda { |mod| { :conditions => ["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s] } }
   named_scope :active, { :conditions => "#{Project.table_name}.status = #{STATUS_ACTIVE}"}
   named_scope :all_public, { :conditions => { :is_public => true } }
-  named_scope :visible, lambda { { :conditions => Project.visible_by(User.current) } }
+  named_scope :visible, lambda {|*args| {:conditions => Project.visible_condition(args.shift || User.current, *args) }}
   
   def initialize(attributes = nil)
     super
@@ -115,25 +115,30 @@ class Project < ActiveRecord::Base
   # returns latest created projects
   # non public projects will be returned only if user is a member of those
   def self.latest(user=nil, count=5)
-    find(:all, :limit => count, :conditions => visible_by(user), :order => "created_on DESC")	
+    visible(user).find(:all, :limit => count, :order => "created_on DESC")	
   end	
 
-  # Returns a SQL :conditions string used to find all active projects for the specified user.
-  #
-  # Examples:
-  #     Projects.visible_by(admin)        => "projects.status = 1"
-  #     Projects.visible_by(normal_user)  => "projects.status = 1 AND projects.is_public = 1"
   def self.visible_by(user=nil)
-    user ||= User.current
-    if user && user.admin?
-      return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
-    elsif user && user.memberships.any?
-      return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND (#{Project.table_name}.is_public = #{connection.quoted_true} or #{Project.table_name}.id IN (#{user.memberships.collect{|m| m.project_id}.join(',')}))"
-    else
-      return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND #{Project.table_name}.is_public = #{connection.quoted_true}"
-    end
+    ActiveSupport::Deprecation.warn "Project.visible_by is deprecated and will be removed in Redmine 1.3.0. Use Project.visible_condition instead."
+    visible_condition(user || User.current)
   end
   
+  # Returns a SQL conditions string used to find all projects visible by the specified user.
+  #
+  # Examples:
+  #   Project.visible_condition(admin)        => "projects.status = 1"
+  #   Project.visible_condition(normal_user)  => "((projects.status = 1) AND (projects.is_public = 1 OR projects.id IN (1,3,4)))"
+  #   Project.visible_condition(anonymous)    => "((projects.status = 1) AND (projects.is_public = 1))"
+  def self.visible_condition(user, options={})
+    allowed_to_condition(user, :view_project, options)
+  end
+  
+  # Returns a SQL conditions string used to find all projects for which +user+ has the given +permission+
+  #
+  # Valid options:
+  # * :project => limit the condition to project
+  # * :with_subprojects => limit the condition to project and its subprojects
+  # * :member => limit the condition to the user projects
   def self.allowed_to_condition(user, permission, options={})
     base_statement = "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
     if perm = Redmine::AccessControl.permission(permission)

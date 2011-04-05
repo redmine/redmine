@@ -40,7 +40,7 @@ class Journal < ActiveRecord::Base
   
   named_scope :visible, lambda {|*args| {
     :include => {:issue => :project},
-    :conditions => Issue.visible_condition(args.first || User.current)
+    :conditions => Issue.visible_condition(args.shift || User.current, *args)
   }}
   
   def save(*args)

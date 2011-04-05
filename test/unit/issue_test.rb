@@ -106,6 +106,22 @@ class IssueTest < ActiveSupport::TestCase
     assert issues.detect {|issue| !issue.project.is_public?}
   end
   
+  def test_visible_scope_with_project
+    project = Project.find(1)
+    issues = Issue.visible(User.find(2), :project => project).all
+    projects = issues.collect(&:project).uniq
+    assert_equal 1, projects.size
+    assert_equal project, projects.first
+  end
+  
+  def test_visible_scope_with_project_and_subprojects
+    project = Project.find(1)
+    issues = Issue.visible(User.find(2), :project => project, :with_subprojects => true).all
+    projects = issues.collect(&:project).uniq
+    assert projects.size > 1
+    assert_equal [], projects.select {|p| !p.is_or_is_descendant_of?(project)}
+  end
+  
   def test_errors_full_messages_should_include_custom_fields_errors
     field = IssueCustomField.find_by_name('Database')
     

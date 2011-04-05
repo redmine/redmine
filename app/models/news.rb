@@ -34,7 +34,7 @@ class News < ActiveRecord::Base
   
   named_scope :visible, lambda {|*args| { 
     :include => :project,
-    :conditions => Project.allowed_to_condition(args.first || User.current, :view_news) 
+    :conditions => Project.allowed_to_condition(args.shift || User.current, :view_news, *args) 
   }}
   
   def visible?(user=User.current)

@@ -60,7 +60,7 @@ class Issue < ActiveRecord::Base
   validates_numericality_of :estimated_hours, :allow_nil => true
 
   named_scope :visible, lambda {|*args| { :include => :project,
-                                          :conditions => Issue.visible_condition(args.first || User.current) } }
+                                          :conditions => Issue.visible_condition(args.shift || User.current, *args) } }
   
   named_scope :open, :conditions => ["#{IssueStatus.table_name}.is_closed = ?", false], :include => :status
 
