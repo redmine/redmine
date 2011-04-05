@@ -202,7 +202,7 @@ module Redmine
         end
         
         # title
-        pdf.SetFontStyle('B',11)    
+        pdf.SetFontStyle('B',11)
         pdf.RDMCell(190,10, title)
         pdf.Ln
         
@@ -271,7 +271,7 @@ module Redmine
         pdf.footer_date = format_date(Date.today)
         pdf.AddPage
         
-        pdf.SetFontStyle('B',11)    
+        pdf.SetFontStyle('B',11)
         pdf.RDMCell(190,10,
            "#{issue.project} - #{issue.tracker} # #{issue.id}: #{issue.subject}")
         pdf.Ln
@@ -285,7 +285,7 @@ module Redmine
         pdf.SetFontStyle('B',9)
         pdf.RDMCell(35,5, l(:field_priority) + ":","LT")
         pdf.SetFontStyle('',9)
-        pdf.RDMCell(60,5, issue.priority.to_s,"RT")        
+        pdf.RDMCell(60,5, issue.priority.to_s,"RT")
         pdf.Ln
         
         pdf.SetFontStyle('B',9)
