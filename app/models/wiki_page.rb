@@ -32,6 +32,7 @@ class WikiPage < ActiveRecord::Base
 
   acts_as_searchable :columns => ['title', 'text'],
                      :include => [{:wiki => :project}, :content],
+                     :permission => :view_wiki_pages,
                      :project_key => "#{Wiki.table_name}.project_id"
 
   attr_accessor :redirect_existing_links
