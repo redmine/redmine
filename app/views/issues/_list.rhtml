@@ -28,7 +28,7 @@
 	<tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
 	  <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", issue.id, false, :id => nil) %></td>
 		<td class="id"><%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %></td>
-        <% query.columns.each do |column| %><%= content_tag 'td', column_content(column, issue), :class => column.name %><% end %>
+        <% query.columns.each do |column| %><%= content_tag 'td', column_content(column, issue), :class => column.css_classes %><% end %>
 	</tr>
 	<% end -%>
 	</tbody>

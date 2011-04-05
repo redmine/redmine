@@ -261,6 +261,21 @@ class IssuesControllerTest < ActionController::TestCase
     assert_kind_of Array, session[:query][:column_names]
     assert_equal columns, session[:query][:column_names].map(&:to_s)
   end
+  
+  def test_index_with_custom_field_column
+    columns = %w(tracker subject cf_2)
+    get :index, :set_filter => 1, :c => columns
+    assert_response :success
+    
+    # query should use specified columns
+    query = assigns(:query)
+    assert_kind_of Query, query
+    assert_equal columns, query.column_names.map(&:to_s)
+    
+    assert_tag :td,
+      :attributes => {:class => 'cf_2 string'},
+      :ancestor => {:tag => 'table', :attributes => {:class => /issues/}}
+  end
 
   def test_show_by_anonymous
     get :show, :id => 1
