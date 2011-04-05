@@ -195,9 +195,11 @@ class TimelogController < ApplicationController
             }
             format.api  { render_validation_errors(t) }
           end
+          return
         end
       rescue ::ActionController::RedirectBackError
         redirect_to :action => 'index', :project_id => @projects.first
+        return
       end
     end
 
