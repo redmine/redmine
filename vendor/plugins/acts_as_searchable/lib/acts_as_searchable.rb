@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -45,9 +45,6 @@ module Redmine
           searchable_options[:date_column] ||= "#{table_name}.created_on"
           searchable_options[:order_column] ||= searchable_options[:date_column]
           
-          # Permission needed to search this model
-          searchable_options[:permission] = "view_#{self.name.underscore.pluralize}".to_sym unless searchable_options.has_key?(:permission)
-          
           # Should we search custom fields on this model ?
           searchable_options[:search_custom_fields] = !reflect_on_association(:custom_values).nil?
           
@@ -65,6 +62,8 @@ module Redmine
           # projects argument can be either nil (will search all projects), a project or an array of projects
           # Returns the results and the results count
           def search(tokens, projects=nil, options={})
+            # TODO: make user an argument
+            user = User.current
             tokens = [] << tokens unless tokens.is_a?(Array)
             projects = [] << projects unless projects.nil? || projects.is_a?(Array)
             
@@ -99,18 +98,27 @@ module Redmine
             
             find_options[:conditions] = [sql, * (tokens.collect {|w| "%#{w.downcase}%"} * token_clauses.size).sort]
             
+            scope = self
             project_conditions = []
-            project_conditions << (searchable_options[:permission].nil? ? Project.visible_by(User.current) :
-                                                 Project.allowed_to_condition(User.current, searchable_options[:permission]))
+            if searchable_options.has_key?(:permission)
+              project_conditions << Project.allowed_to_condition(user, searchable_options[:permission] || :view_project)
+            elsif respond_to?(:visible)
+              scope = scope.visible(user)
+            else
+              ActiveSupport::Deprecation.warn "acts_as_searchable with implicit :permission option is deprecated. Add a visible scope to the #{self.name} model or use explicit :permission option."
+              project_conditions << Project.allowed_to_condition(user, "view_#{self.name.underscore.pluralize}".to_sym)
+            end
+            # TODO: use visible scope options instead
             project_conditions << "#{searchable_options[:project_key]} IN (#{projects.collect(&:id).join(',')})" unless projects.nil?
+            project_conditions = project_conditions.empty? ? nil : project_conditions.join(' AND ')
             
             results = []
             results_count = 0
             
-            with_scope(:find => {:conditions => project_conditions.join(' AND ')}) do
+            with_scope(:find => {:conditions => project_conditions}) do
               with_scope(:find => find_options) do
-                results_count = count(:all)
-                results = find(:all, limit_options)
+                results_count = scope.count(:all)
+                results = scope.find(:all, limit_options)
               end
             end
             [results, results_count]
