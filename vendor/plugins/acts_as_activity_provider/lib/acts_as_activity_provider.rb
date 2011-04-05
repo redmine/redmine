@@ -36,7 +36,6 @@ module Redmine
           # We store these options in activity_provider_options hash
           event_type = options.delete(:type) || self.name.underscore.pluralize
           
-          options[:permission] = "view_#{self.name.underscore.pluralize}".to_sym unless options.has_key?(:permission)
           options[:timestamp] ||= "#{table_name}.created_on"
           options[:find_options] ||= {}
           options[:author_key] = "#{table_name}.#{options[:author_key]}" if options[:author_key].is_a?(Symbol)
@@ -60,20 +59,31 @@ module Redmine
             if from && to
               cond.add(["#{provider_options[:timestamp]} BETWEEN ? AND ?", from, to])
             end
+            
             if options[:author]
               return [] if provider_options[:author_key].nil?
               cond.add(["#{provider_options[:author_key]} = ?", options[:author].id])
             end
-            cond.add(Project.allowed_to_condition(user, provider_options[:permission], options)) if provider_options[:permission]
-            scope_options[:conditions] = cond.conditions
+            
             if options[:limit]
               # id and creation time should be in same order in most cases
               scope_options[:order] = "#{table_name}.id DESC"
               scope_options[:limit] = options[:limit]
             end
             
+            scope = self
+            if provider_options.has_key?(:permission)
+              cond.add(Project.allowed_to_condition(user, provider_options[:permission] || :view_project, options))
+            elsif respond_to?(:visible)
+              scope = scope.visible(user, options)
+            else
+              ActiveSupport::Deprecation.warn "acts_as_activity_provider with implicit :permission option is deprecated. Add a visible scope to the #{self.name} model or use explicit :permission option."
+              cond.add(Project.allowed_to_condition(user, "view_#{self.name.underscore.pluralize}".to_sym, options))
+            end
+            scope_options[:conditions] = cond.conditions
+            
             with_scope(:find => scope_options) do
-              find(:all, provider_options[:find_options].dup)
+              scope.find(:all, provider_options[:find_options].dup)
             end
           end
         end
