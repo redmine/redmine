@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2008  Jean-Philippe Lang
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -43,7 +43,7 @@ class WatchersControllerTest < ActionController::TestCase
     assert_difference('Watcher.count') do
       xhr :post, :watch, :object_type => 'issue', :object_id => '1'
       assert_response :success
-      assert_select_rjs :replace_html, 'watcher'
+      assert @response.body.include?('$$(".issue-1-watcher")')
     end
     assert Issue.find(1).watched_by?(User.find(3))
   end
@@ -56,34 +56,13 @@ class WatchersControllerTest < ActionController::TestCase
       assert_response 403
     end
   end
-
-  def test_watch_with_multiple_replacements
-    @request.session[:user_id] = 3
-    assert_difference('Watcher.count') do
-      xhr :post, :watch, :object_type => 'issue', :object_id => '1', :replace => ['watch_item_1','watch_item_2']
-      assert_response :success
-      assert_select_rjs :replace_html, 'watch_item_1'
-      assert_select_rjs :replace_html, 'watch_item_2'
-    end
-  end
   
   def test_unwatch
     @request.session[:user_id] = 3
     assert_difference('Watcher.count', -1) do
       xhr :post, :unwatch, :object_type => 'issue', :object_id => '2'
       assert_response :success
-      assert_select_rjs :replace_html, 'watcher'
-    end
-    assert !Issue.find(1).watched_by?(User.find(3))
-  end
-
-  def test_unwatch_with_multiple_replacements
-    @request.session[:user_id] = 3
-    assert_difference('Watcher.count', -1) do
-      xhr :post, :unwatch, :object_type => 'issue', :object_id => '2', :replace => ['watch_item_1', 'watch_item_2']
-      assert_response :success
-      assert_select_rjs :replace_html, 'watch_item_1'
-      assert_select_rjs :replace_html, 'watch_item_2'
+      assert @response.body.include?('$$(".issue-2-watcher")')
     end
     assert !Issue.find(1).watched_by?(User.find(3))
   end

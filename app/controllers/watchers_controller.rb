@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -76,21 +76,13 @@ private
   
   def set_watcher(user, watching)
     @watched.set_watcher(user, watching)
-    if params[:replace].present?
-      if params[:replace].is_a? Array
-        replace_ids = params[:replace]
-      else
-        replace_ids = [params[:replace]]
-      end
-    else
-      replace_ids = ['watcher']
-    end
     respond_to do |format|
       format.html { redirect_to :back }
       format.js do
         render(:update) do |page|
-          replace_ids.each do |replace_id|
-            page.replace_html replace_id, watcher_link(@watched, user, :replace => replace_ids)
+          c = watcher_css(@watched)
+          page.select(".#{c}").each do |item|
+            page.replace_html item, watcher_link(@watched, user)
           end
         end
       end

@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,33 +16,28 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module WatchersHelper
-
-  # Valid options
-  # * :id - the element id
-  # * :replace - a string or array of element ids that will be
-  #   replaced
-  def watcher_tag(object, user, options={:replace => 'watcher'})
-    id = options[:id]
-    id ||= options[:replace] if options[:replace].is_a? String
-    content_tag("span", watcher_link(object, user, options), :id => id)
+  
+  def watcher_tag(object, user, options={})
+    content_tag("span", watcher_link(object, user), :class => watcher_css(object))
   end
   
-  # Valid options
-  # * :replace - a string or array of element ids that will be
-  #   replaced
-  def watcher_link(object, user, options={:replace => 'watcher'})
+  def watcher_link(object, user)
     return '' unless user && user.logged? && object.respond_to?('watched_by?')
     watched = object.watched_by?(user)
     url = {:controller => 'watchers',
            :action => (watched ? 'unwatch' : 'watch'),
            :object_type => object.class.to_s.underscore,
-           :object_id => object.id,
-           :replace => options[:replace]}
+           :object_id => object.id}
     link_to_remote((watched ? l(:button_unwatch) : l(:button_watch)),
                    {:url => url},
                    :href => url_for(url),
                    :class => (watched ? 'icon icon-fav' : 'icon icon-fav-off'))
   
+  end
+  
+  # Returns the css class used to identify watch links for a given +object+
+  def watcher_css(object)
+    "#{object.class.to_s.underscore}-#{object.id}-watcher"
   end
   
   # Returns a comma separated list of users watching the given object
