@@ -80,6 +80,13 @@ class PdfTest < ActiveSupport::TestCase
                    pdf.fix_text_encoding(utf8_txt_2)
       assert_equal "??\x91\xd4?",
                    pdf.fix_text_encoding(utf8_txt_3)
+    else
+      assert_equal "???\x91\xd4",
+                   pdf.fix_text_encoding(utf8_txt_1)
+      assert_equal "???\x91\xd4???",
+                   pdf.fix_text_encoding(utf8_txt_2)
+      assert_equal "??????\x91\xd4???",
+                   pdf.fix_text_encoding(utf8_txt_3)
     end
   end
 end
