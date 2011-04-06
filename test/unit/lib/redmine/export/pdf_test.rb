@@ -20,6 +20,13 @@ require File.expand_path('../../../../../test_helper', __FILE__)
 class PdfTest < ActiveSupport::TestCase
   include Redmine::I18n
 
+  def test_fix_text_encoding_nil
+    set_language_if_valid 'ja'
+    pdf = Redmine::Export::PDF::IFPDF.new('ja')
+    assert pdf
+    assert_equal '', pdf.fix_text_encoding(nil)
+  end
+
   def test_fix_text_encoding_backslash_ascii
     set_language_if_valid 'ja'
     pdf = Redmine::Export::PDF::IFPDF.new('ja')

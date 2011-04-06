@@ -143,6 +143,7 @@ module Redmine
         end
 
         def fix_text_encoding(txt)
+          txt ||= ''
           if txt.respond_to?(:force_encoding)
             txt.force_encoding('UTF-8')
             txt = txt.encode(l(:general_pdf_encoding), :invalid => :replace,
@@ -154,7 +155,7 @@ module Redmine
               @ic.iconv(txt)
             rescue
               txt
-            end || ''
+            end
           end
           # 0x5c char handling
           txt.gsub(/\\/, "\\\\\\\\")
