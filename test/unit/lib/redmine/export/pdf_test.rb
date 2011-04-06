@@ -31,4 +31,17 @@ class PdfTest < ActiveSupport::TestCase
     assert_equal '\\\\abcd\\\\abcd\\\\',
                  pdf.fix_text_encoding('\\abcd\\abcd\\')
   end
+
+  def test_fix_text_encoding_double_backslash_ascii
+    set_language_if_valid 'ja'
+    pdf = Redmine::Export::PDF::IFPDF.new('ja')
+    assert pdf
+    assert_equal '\\\\\\\\abcd', pdf.fix_text_encoding('\\\\abcd')
+    assert_equal 'abcd\\\\\\\\', pdf.fix_text_encoding('abcd\\\\')
+    assert_equal 'ab\\\\\\\\cd', pdf.fix_text_encoding('ab\\\\cd')
+    assert_equal 'ab\\\\\\\\cd\\\\de', pdf.fix_text_encoding('ab\\\\cd\\de')
+    assert_equal '\\\\\\\\abcd\\\\\\\\', pdf.fix_text_encoding('\\\\abcd\\\\')
+    assert_equal '\\\\\\\\abcd\\\\\\\\abcd\\\\\\\\',
+                 pdf.fix_text_encoding('\\\\abcd\\\\abcd\\\\')
+  end
 end
