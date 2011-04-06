@@ -145,14 +145,12 @@ module Redmine
         def fix_text_encoding(txt)
           @ic ||= Iconv.new(l(:general_pdf_encoding), 'UTF-8')
           txt = begin
-            # 0x5c char handling
-            txtar = txt.split('\\')
-            txtar << '' if txt[-1] == ?\\
-            txtar.collect {|x| @ic.iconv(x)}.join('\\').gsub(/\\/, "\\\\\\\\")
+            @ic.iconv(txt)
           rescue
             txt
           end || ''
-          return txt
+          # 0x5c char handling
+          txt.gsub(/\\/, "\\\\\\\\")
         end
 
         def RDMCell(w,h=0,txt='',border=0,ln=0,align='',fill=0,link='')
