@@ -44,4 +44,19 @@ class PdfTest < ActiveSupport::TestCase
     assert_equal '\\\\\\\\abcd\\\\\\\\abcd\\\\\\\\',
                  pdf.fix_text_encoding('\\\\abcd\\\\abcd\\\\')
   end
+
+  def test_fix_text_encoding_backslash_ja_cp932
+    pdf = Redmine::Export::PDF::IFPDF.new('ja')
+    assert pdf
+    assert_equal "\x83\\\\\x98A",
+                  pdf.fix_text_encoding("\xe3\x82\xbd\xe9\x80\xa3")
+    assert_equal "\x83\\\\\x98A\x91\xe3\x95\\\\",
+                  pdf.fix_text_encoding("\xe3\x82\xbd\xe9\x80\xa3\xe4\xbb\xa3\xe8\xa1\xa8")
+    assert_equal "\x91\xe3\x95\\\\\\\\",
+                  pdf.fix_text_encoding("\xe4\xbb\xa3\xe8\xa1\xa8\\")
+    assert_equal "\x91\xe3\x95\\\\\\\\\\\\",
+                  pdf.fix_text_encoding("\xe4\xbb\xa3\xe8\xa1\xa8\\\\")
+    assert_equal "\x91\xe3\x95\\\\a\\\\",
+                  pdf.fix_text_encoding("\xe4\xbb\xa3\xe8\xa1\xa8a\\")
+  end
 end
