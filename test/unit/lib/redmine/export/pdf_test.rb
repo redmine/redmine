@@ -66,4 +66,20 @@ class PdfTest < ActiveSupport::TestCase
     assert_equal "\x91\xe3\x95\\\\a\\\\",
                   pdf.fix_text_encoding("\xe4\xbb\xa3\xe8\xa1\xa8a\\")
   end
+
+  def test_fix_text_encoding_cannot_convert_ja_cp932
+    pdf = Redmine::Export::PDF::IFPDF.new('ja')
+    assert pdf
+    utf8_txt_1  = "\xe7\x8b\x80\xe6\x85\x8b"
+    utf8_txt_2  = "\xe7\x8b\x80\xe6\x85\x8b\xe7\x8b\x80"
+    utf8_txt_3  = "\xe7\x8b\x80\xe7\x8b\x80\xe6\x85\x8b\xe7\x8b\x80"
+    if utf8_txt_1.respond_to?(:force_encoding)
+      assert_equal "?\x91\xd4",
+                   pdf.fix_text_encoding(utf8_txt_1)
+      assert_equal "?\x91\xd4?",
+                   pdf.fix_text_encoding(utf8_txt_2)
+      assert_equal "??\x91\xd4?",
+                   pdf.fix_text_encoding(utf8_txt_3)
+    end
+  end
 end
