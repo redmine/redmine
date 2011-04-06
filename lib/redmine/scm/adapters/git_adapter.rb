@@ -143,7 +143,7 @@ module Redmine
 
         def lastrev(path, rev)
           return nil if path.nil?
-          cmd_args = %w|log --no-decorate --no-color --encoding=UTF-8 --date=iso --pretty=fuller --no-merges -n 1|
+          cmd_args = %w|log --no-color --encoding=UTF-8 --date=iso --pretty=fuller --no-merges -n 1|
           cmd_args << rev if rev 
           cmd_args << "--" << path unless path.empty?
           lines = []
@@ -171,7 +171,7 @@ module Redmine
 
         def revisions(path, identifier_from, identifier_to, options={})
           revisions = Revisions.new
-          cmd_args = %w|log --no-decorate --no-color --encoding=UTF-8 --raw --date=iso --pretty=fuller|
+          cmd_args = %w|log --no-color --encoding=UTF-8 --raw --date=iso --pretty=fuller|
           cmd_args << "--reverse" if options[:reverse]
           cmd_args << "--all" if options[:all]
           cmd_args << "-n" << "#{options[:limit].to_i}" if options[:limit]
@@ -342,6 +342,7 @@ module Redmine
           full_args = [GIT_BIN, '--git-dir', repo_path]
           if self.class.client_version_above?([1, 7, 2])
             full_args << '-c' << 'core.quotepath=false'
+            full_args << '-c' << 'log.decorate=no'
           end
           full_args += args
           ret = shellout(full_args.map { |e| shell_quote e.to_s }.join(' '), &block)
