@@ -86,7 +86,7 @@ module Redmine
 
         def lastrev(path,rev)
           return nil if path.nil?
-          cmd = "#{GIT_BIN} --git-dir #{target('')} log --no-decorate --no-color --date=iso --pretty=fuller --no-merges -n 1 "
+          cmd = "#{GIT_BIN} --git-dir #{target('')} log --no-color --date=iso --pretty=fuller --no-merges -n 1 "
           cmd << " #{shell_quote rev} " if rev 
           cmd <<  "-- #{shell_quote path} " unless path.empty?
           lines = []
@@ -114,7 +114,7 @@ module Redmine
         def revisions(path, identifier_from, identifier_to, options={})
           revisions = Revisions.new
 
-          cmd = "#{GIT_BIN} --git-dir #{target('')} log --no-decorate --no-color --raw --date=iso --pretty=fuller "
+          cmd = "#{GIT_BIN} --git-dir #{target('')} log --no-color --raw --date=iso --pretty=fuller "
           cmd << " --reverse " if options[:reverse]
           cmd << " --all " if options[:all]
           cmd << " -n #{options[:limit].to_i} " if options[:limit]
