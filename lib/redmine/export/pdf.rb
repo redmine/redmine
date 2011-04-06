@@ -151,11 +151,17 @@ module Redmine
             txt.force_encoding('ASCII-8BIT')
           else
             @ic ||= Iconv.new(l(:general_pdf_encoding), 'UTF-8')
-            txt = begin
-              @ic.iconv(txt)
+            txtar = ""
+            begin
+              txtar += @ic.iconv(txt)
+            rescue Iconv::IllegalSequence
+              txtar += $!.success
+              txt = '?' + $!.failed[1,$!.failed.length]
+              retry
             rescue
-              txt
+              txtar += $!.success
             end
+            txt = txtar
           end
           # 0x5c char handling
           txt.gsub(/\\/, "\\\\\\\\")
