@@ -683,6 +683,7 @@ class Project < ActiveRecord::Base
   end
   
   # Copies issues from +project+
+  # Note: issues assigned to a closed version won't be copied due to validation rules
   def copy_issues(project)
     # Stores the source issue id as a key and the copied issues as the
     # value.  Used to map the two togeather for issue relations.
