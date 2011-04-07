@@ -68,7 +68,7 @@ class CustomField < ActiveRecord::Base
   
   def possible_values(obj=nil)
     case field_format
-    when 'user'
+    when 'user', 'version'
       possible_values_options(obj).collect(&:last)
     else
       read_attribute :possible_values
