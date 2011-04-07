@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2008  Jean-Philippe Lang
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -1122,6 +1122,38 @@ class IssuesControllerTest < ActionController::TestCase
     assert !field.is_for_all?
     assert !field.project_ids.include?(Issue.find(6).project_id)
     assert_no_tag :input, :attributes => {:name => 'issue[custom_field_values][9]'}
+  end
+  
+  def test_get_bulk_edit_with_user_custom_field
+    field = IssueCustomField.create!(:name => 'Tester', :field_format => 'user', :is_for_all => true)
+    
+    @request.session[:user_id] = 2
+    get :bulk_edit, :ids => [1, 2]
+    assert_response :success
+    assert_template 'bulk_edit'
+    
+    assert_tag :select,
+      :attributes => {:name => "issue[custom_field_values][#{field.id}]"},
+      :children => {
+        :only => {:tag => 'option'},
+        :count => Project.find(1).users.count + 1
+      }
+  end
+  
+  def test_get_bulk_edit_with_version_custom_field
+    field = IssueCustomField.create!(:name => 'Affected version', :field_format => 'version', :is_for_all => true)
+    
+    @request.session[:user_id] = 2
+    get :bulk_edit, :ids => [1, 2]
+    assert_response :success
+    assert_template 'bulk_edit'
+    
+    assert_tag :select,
+      :attributes => {:name => "issue[custom_field_values][#{field.id}]"},
+      :children => {
+        :only => {:tag => 'option'},
+        :count => Project.find(1).versions.count + 1
+      }
   end
 
   def test_bulk_update

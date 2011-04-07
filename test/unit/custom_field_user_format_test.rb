@@ -53,6 +53,13 @@ class CustomFieldUserFormatTest < ActiveSupport::TestCase
     assert_equal project.users.sort.map {|u| [u.name, u.id.to_s]}, possible_values_options
   end
   
+  def test_possible_values_options_with_array
+    projects = Project.find([1, 2])
+    possible_values_options = @field.possible_values_options(projects)
+    assert possible_values_options.any?
+    assert_equal (projects.first.users & projects.last.users).sort.map {|u| [u.name, u.id.to_s]}, possible_values_options
+  end
+  
   def test_cast_blank_value
     assert_equal nil, @field.cast_value(nil)
     assert_equal nil, @field.cast_value("")

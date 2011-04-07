@@ -58,6 +58,8 @@ class CustomField < ActiveRecord::Base
         when 'version'
           obj.project.versions.sort.collect {|u| [u.to_s, u.id.to_s]}
         end
+      elsif obj.is_a?(Array)
+        obj.collect {|o| possible_values_options(o)}.inject {|memo, v| memo & v}
       else
         []
       end
