@@ -451,6 +451,9 @@ en:
   label_issues_by: "Issues by %{value}"
   label_issue_added: Issue added
   label_issue_updated: Issue updated
+  label_issue_note_added: Note added
+  label_issue_status_updated: Status updated
+  label_issue_priority_updated: Priority updated
   label_document: Document
   label_document_new: New document
   label_document_plural: Documents
