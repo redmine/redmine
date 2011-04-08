@@ -647,14 +647,16 @@ class Issue < ActiveRecord::Base
   def self.by_subproject(project)
     ActiveRecord::Base.connection.select_all("select    s.id as status_id, 
                                                 s.is_closed as closed, 
-                                                i.project_id as project_id,
-                                                count(i.id) as total 
+                                                #{Issue.table_name}.project_id as project_id,
+                                                count(#{Issue.table_name}.id) as total 
                                               from 
-                                                #{Issue.table_name} i, #{IssueStatus.table_name} s
+                                                #{Issue.table_name}, #{Project.table_name}, #{IssueStatus.table_name} s
                                               where 
-                                                i.status_id=s.id 
-                                                and i.project_id IN (#{project.descendants.active.collect{|p| p.id}.join(',')})
-                                              group by s.id, s.is_closed, i.project_id") if project.descendants.active.any?
+                                                #{Issue.table_name}.status_id=s.id
+                                                and #{Issue.table_name}.project_id = #{Project.table_name}.id
+                                                and #{visible_condition(User.current, :project => project, :with_subprojects => true)}
+                                                and #{Issue.table_name}.project_id <> #{project.id}
+                                              group by s.id, s.is_closed, #{Issue.table_name}.project_id") if project.descendants.active.any?
   end
   # End ReportsController extraction
   
@@ -864,20 +866,19 @@ class Issue < ActiveRecord::Base
     select_field = options.delete(:field)
     joins = options.delete(:joins)
 
-    where = "i.#{select_field}=j.id"
+    where = "#{Issue.table_name}.#{select_field}=j.id"
     
     ActiveRecord::Base.connection.select_all("select    s.id as status_id, 
                                                 s.is_closed as closed, 
                                                 j.id as #{select_field},
-                                                count(i.id) as total 
+                                                count(#{Issue.table_name}.id) as total 
                                               from 
-                                                  #{Issue.table_name} i, #{IssueStatus.table_name} s, #{joins} j
+                                                  #{Issue.table_name}, #{Project.table_name}, #{IssueStatus.table_name} s, #{joins} j
                                               where 
-                                                i.status_id=s.id 
+                                                #{Issue.table_name}.status_id=s.id 
                                                 and #{where}
-                                                and i.project_id=#{project.id}
+                                                and #{Issue.table_name}.project_id=#{Project.table_name}.id
+                                                and #{visible_condition(User.current, :project => project)}
                                               group by s.id, s.is_closed, j.id")
   end
-  
-
 end
