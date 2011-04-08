@@ -8,7 +8,8 @@ begin
     TEMPLATE_NAME = Redmine::Scm::Adapters::MercurialAdapter::TEMPLATE_NAME
     TEMPLATE_EXTENSION = Redmine::Scm::Adapters::MercurialAdapter::TEMPLATE_EXTENSION
 
-    REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/mercurial_repository'
+    REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') +
+                         '/tmp/test/mercurial_repository'
 
     CHAR_1_HEX = "\xc3\x9c"
 
