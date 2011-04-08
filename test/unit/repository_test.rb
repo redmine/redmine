@@ -183,4 +183,10 @@ class RepositoryTest < ActiveSupport::TestCase
         )
     assert_equal User.find(2), c.user
   end
+
+  def test_filesystem_avaialbe
+    klass = Repository::Filesystem
+    assert klass.scm_adapter_class
+    assert_equal true, klass.scm_available
+  end
 end
