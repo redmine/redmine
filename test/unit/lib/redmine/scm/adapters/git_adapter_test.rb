@@ -22,6 +22,13 @@ begin
 
     if File.directory?(REPOSITORY_PATH)
       def setup
+        adapter_class = Redmine::Scm::Adapters::GitAdapter
+        assert adapter_class
+        assert adapter_class.client_command
+        assert_equal true, adapter_class.client_available
+        assert_equal true, adapter_class.client_version_above?([1])
+        assert_equal true, adapter_class.client_version_above?([1, 0])
+
         @adapter = Redmine::Scm::Adapters::GitAdapter.new(
                       REPOSITORY_PATH,
                       nil,
