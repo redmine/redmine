@@ -47,7 +47,7 @@ module Redmine
           end
 
           def client_available
-            !client_version.empty?
+            client_version_above?([0, 9, 5])
           end
 
           def hgversion
