@@ -393,20 +393,20 @@ module Redmine
         def isBranchRevision
           !@branchid.nil?
         end
-        
+
         def prevRev
-          unless @revision==0
-            return buildRevision(@revision-1)
+          unless @revision == 0
+            return buildRevision( @revision - 1 )
           end
-          return buildRevision(@revision)    
+          return buildRevision( @revision )
         end
-        
+
         def is_in_branch_with_symbol(branch_symbol)
-          bpieces=branch_symbol.split(".")
-          branch_start="#{bpieces[0..-3].join(".")}.#{bpieces[-1]}"
-          return (branchVersion==branch_start)
+          bpieces = branch_symbol.split(".")
+          branch_start = "#{bpieces[0..-3].join(".")}.#{bpieces[-1]}"
+          return ( branchVersion == branch_start )
         end
-    
+
         private
         def buildRevision(rev)
           if rev== 0
@@ -421,16 +421,16 @@ module Redmine
             @base+"."+@branchid+"."+rev.to_s
           end
         end
-        
+
         # Interpretiert die cvs revisionsnummern wie z.b. 1.14 oder 1.3.0.15
         def parseRevision()
-          pieces=@complete_rev.split(".")
-          @revision=pieces.last.to_i
-          baseSize=1
-          baseSize+=(pieces.size/2)
-          @base=pieces[0..-baseSize].join(".")
+          pieces = @complete_rev.split(".")
+          @revision = pieces.last.to_i
+          baseSize = 1
+          baseSize += (pieces.size / 2)
+          @base = pieces[0..-baseSize].join(".")
           if baseSize > 2
-            @branchid=pieces[-2]
+            @branchid = pieces[-2]
           end     
         end
       end
