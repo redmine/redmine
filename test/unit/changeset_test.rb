@@ -232,7 +232,9 @@ class ChangesetTest < ActiveSupport::TestCase
 
   def test_comments_should_be_converted_to_utf8
       proj = Project.find(3)
-      str = File.read("#{RAILS_ROOT}/test/fixtures/encoding/iso-8859-1.txt")
+      # str = File.read("#{RAILS_ROOT}/test/fixtures/encoding/iso-8859-1.txt")
+      str = "Texte encod\xe9 en ISO-8859-1."
+      str.force_encoding("ASCII-8BIT") if str.respond_to?(:force_encoding)
       r = Repository::Bazaar.create!(
             :project => proj, :url => '/tmp/test/bazaar',
             :log_encoding => 'ISO-8859-1' )
@@ -243,12 +245,16 @@ class ChangesetTest < ActiveSupport::TestCase
                         :scmid => '12345',
                         :comments => str)
       assert( c.save )
-      assert_equal "Texte encodé en ISO-8859-1.", c.comments
+      str_utf8 = "Texte encod\xc3\xa9 en ISO-8859-1."
+      str_utf8.force_encoding("UTF-8") if str_utf8.respond_to?(:force_encoding)
+      assert_equal str_utf8, c.comments
   end
 
   def test_invalid_utf8_sequences_in_comments_should_be_stripped
       proj = Project.find(3)
-      str = File.read("#{RAILS_ROOT}/test/fixtures/encoding/iso-8859-1.txt")
+      # str = File.read("#{RAILS_ROOT}/test/fixtures/encoding/iso-8859-1.txt")
+      str = "Texte encod\xe9 en ISO-8859-1."
+      str.force_encoding("ASCII-8BIT") if str.respond_to?(:force_encoding)
       r = Repository::Bazaar.create!(
             :project => proj, :url => '/tmp/test/bazaar',
             :log_encoding => 'UTF-8' )
