@@ -147,23 +147,29 @@ class Changeset < ActiveRecord::Base
       "r#{revision}"
     end
   end
-  
+
   # Returns the previous changeset
   def previous
-    @previous ||= Changeset.find(:first, :conditions => ['id < ? AND repository_id = ?', self.id, self.repository_id], :order => 'id DESC')
+    @previous ||= Changeset.find(:first,
+                    :conditions => ['id < ? AND repository_id = ?',
+                                    self.id, self.repository_id],
+                    :order => 'id DESC')
   end
 
   # Returns the next changeset
   def next
-    @next ||= Changeset.find(:first, :conditions => ['id > ? AND repository_id = ?', self.id, self.repository_id], :order => 'id ASC')
+    @next ||= Changeset.find(:first,
+                    :conditions => ['id > ? AND repository_id = ?',
+                                    self.id, self.repository_id],
+                    :order => 'id ASC')
   end
-  
+
   # Creates a new Change from it's common parameters
   def create_change(change)
-    Change.create(:changeset => self,
-                  :action => change[:action],
-                  :path => change[:path],
-                  :from_path => change[:from_path],
+    Change.create(:changeset     => self,
+                  :action        => change[:action],
+                  :path          => change[:path],
+                  :from_path     => change[:from_path],
                   :from_revision => change[:from_revision])
   end
 
