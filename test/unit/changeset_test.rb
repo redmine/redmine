@@ -20,14 +20,16 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class ChangesetTest < ActiveSupport::TestCase
-  fixtures :projects, :repositories, :issues, :issue_statuses, :changesets, :changes, :issue_categories, :enumerations, :custom_fields, :custom_values, :users, :members, :member_roles, :trackers
+  fixtures :projects, :repositories, :issues, :issue_statuses,
+           :changesets, :changes, :issue_categories, :enumerations, :custom_fields, :custom_values, :users, :members, :member_roles, :trackers
 
   def setup
   end
   
   def test_ref_keywords_any
     ActionMailer::Base.deliveries.clear
-    Setting.commit_fix_status_id = IssueStatus.find(:first, :conditions => ["is_closed = ?", true]).id
+    Setting.commit_fix_status_id = IssueStatus.find(
+                                   :first, :conditions => ["is_closed = ?", true]).id
     Setting.commit_fix_done_ratio = '90'
     Setting.commit_ref_keywords = '*'
     Setting.commit_fix_keywords = 'fixes , closes'
@@ -101,15 +103,18 @@ class ChangesetTest < ActiveSupport::TestCase
       assert_equal 1, time.issue_id
       assert_equal 1, time.project_id
       assert_equal 2, time.user_id
-      assert_equal expected_hours, time.hours, "@#{syntax} should be logged as #{expected_hours} hours but was #{time.hours}"
+      assert_equal expected_hours, time.hours,
+          "@#{syntax} should be logged as #{expected_hours} hours but was #{time.hours}"
       assert_equal Date.yesterday, time.spent_on
       assert time.activity.is_default?
-      assert time.comments.include?('r520'), "r520 was expected in time_entry comments: #{time.comments}"
+      assert time.comments.include?('r520'),
+            "r520 was expected in time_entry comments: #{time.comments}"
     end
   end
   
   def test_ref_keywords_closing_with_timelog
-    Setting.commit_fix_status_id = IssueStatus.find(:first, :conditions => ["is_closed = ?", true]).id
+    Setting.commit_fix_status_id = IssueStatus.find(
+                                    :first, :conditions => ["is_closed = ?", true]).id
     Setting.commit_ref_keywords = '*'
     Setting.commit_fix_keywords = 'fixes , closes'
     Setting.commit_logtime_enabled = '1'
