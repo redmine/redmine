@@ -74,21 +74,22 @@ class Changeset < ActiveRecord::Base
   def project
     repository.project
   end
-  
+
   def author
     user || committer.to_s.split('<').first
   end
-  
+
   def before_create
     self.committer = self.class.to_utf8(self.committer, repository.repo_log_encoding)
-    self.comments  = self.class.normalize_comments(self.comments, repository.repo_log_encoding)
+    self.comments  = self.class.normalize_comments(
+                       self.comments, repository.repo_log_encoding)
     self.user = repository.find_committer_user(self.committer)
   end
 
   def after_create
     scan_comment_for_issue_ids
   end
-  
+
   TIMELOG_RE = /
     (
     ((\d+)(h|hours?))((\d+)(m|min)?)?
@@ -174,7 +175,9 @@ class Changeset < ActiveRecord::Base
     return nil if id.blank?
     issue = Issue.find_by_id(id.to_i, :include => :project)
     if issue
-      unless issue.project && (project == issue.project || project.is_ancestor_of?(issue.project) || project.is_descendant_of?(issue.project))
+      unless issue.project &&
+                (project == issue.project || project.is_ancestor_of?(issue.project) ||
+                 project.is_descendant_of?(issue.project))
         issue = nil
       end
     end
@@ -205,14 +208,15 @@ class Changeset < ActiveRecord::Base
     end
     issue
   end
-  
+
   def log_time(issue, hours)
     time_entry = TimeEntry.new(
       :user => user,
       :hours => hours,
       :issue => issue,
       :spent_on => commit_date,
-      :comments => l(:text_time_logged_by_changeset, :value => text_tag, :locale => Setting.default_language)
+      :comments => l(:text_time_logged_by_changeset, :value => text_tag,
+                     :locale => Setting.default_language)
       )
     time_entry.activity = log_time_activity unless log_time_activity.nil?
     
@@ -221,13 +225,13 @@ class Changeset < ActiveRecord::Base
     end
     time_entry
   end
-  
+
   def log_time_activity
     if Setting.commit_logtime_activity_id.to_i > 0
       TimeEntryActivity.find_by_id(Setting.commit_logtime_activity_id.to_i)
     end
   end
-  
+
   def split_comments
     comments =~ /\A(.+?)\r?\n(.*)$/m
     @short_comments = $1 || comments
