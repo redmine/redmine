@@ -77,12 +77,11 @@ class Repository::Cvs < Repository
       changeset_to=changesets.find_by_revision(rev_to)
     end
     changeset_from.changes.each() do |change_from|
-      
-      revision_from=nil
-      revision_to=nil      
-      
-      revision_from=change_from.revision if path.nil? || (change_from.path.starts_with? scm.with_leading_slash(path))
-      
+      revision_from = nil
+      revision_to   = nil      
+      if path.nil? || (change_from.path.starts_with? scm.with_leading_slash(path))
+        revision_from=change_from.revision
+      end
       if revision_from
         if changeset_to
           changeset_to.changes.each() do |change_to|
@@ -98,10 +97,11 @@ class Repository::Cvs < Repository
     end
     return diff
   end
-  
+
   def fetch_changesets
     # some nifty bits to introduce a commit-id with cvs
-    # natively cvs doesn't provide any kind of changesets, there is only a revision per file.
+    # natively cvs doesn't provide any kind of changesets,
+    # there is only a revision per file.
     # we now take a guess using the author, the commitlog and the commit-date.
     
     # last one is the next step to take. the commit-date is not equal for all 
@@ -150,27 +150,30 @@ class Repository::Cvs < Repository
             action="D" #dead-state is similar to Delete
           end
         
-          Change.create(:changeset => cs,
-          :action => action,
-          :path => scm.with_leading_slash(revision.paths[0][:path]),
-          :revision => revision.paths[0][:revision],
-          :branch => revision.paths[0][:branch]
-          )
+          Change.create(
+             :changeset => cs,
+             :action    => action,
+             :path      => scm.with_leading_slash(revision.paths[0][:path]),
+             :revision  => revision.paths[0][:revision],
+             :branch    => revision.paths[0][:branch]
+              )
         end
       end
-      
+ 
       # Renumber new changesets in chronological order
       changesets.find(
-              :all, :order => 'committed_on ASC, id ASC', :conditions => "revision LIKE 'tmp%'"
+              :all,
+              :order => 'committed_on ASC, id ASC',
+              :conditions => "revision LIKE 'tmp%'"
            ).each do |changeset|
         changeset.update_attribute :revision, next_revision_number
       end
     end # transaction
     @current_revision_number = nil
   end
-  
+
   private
-  
+
   # Returns the next revision number to assign to a CVS changeset
   def next_revision_number
     # Need to retrieve existing revision numbers to sort them as integers
