@@ -61,18 +61,18 @@ module Redmine
         end
 
         # Guidelines for the input:
-        #  url -> the project-path, relative to the cvsroot (eg. module name)
+        #  url      -> the project-path, relative to the cvsroot (eg. module name)
         #  root_url -> the good old, sometimes damned, CVSROOT
-        #  login -> unnecessary
+        #  login    -> unnecessary
         #  password -> unnecessary too
         def initialize(url, root_url=nil, login=nil, password=nil,
                        path_encoding=nil)
-          @url = url
-          @login = login if login && !login.empty?
+          @url      = url
+          @login    = login if login && !login.empty?
           @password = (password || "") if @login
           # TODO: better Exception here (IllegalArgumentException)
           raise CommandFailed if root_url.blank?
-          @root_url = root_url
+          @root_url  = root_url
         end
 
         def root_url
@@ -135,10 +135,10 @@ module Redmine
               else
                 entries << Entry.new(
                  {
-                  :name => fields[1],
-                  :path => "#{path}/#{fields[1]}",
-                  :kind => 'dir',
-                  :size => nil,
+                  :name    => fields[1],
+                  :path    => "#{path}/#{fields[1]}",
+                  :kind    => 'dir',
+                  :size    => nil,
                   :lastrev => nil
                  })
               end
@@ -156,9 +156,10 @@ module Redmine
         # in the repository. both identifier have to be dates or nil.
         # these method returns nothing but yield every result in block
         def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={}, &block)
-          logger.debug "<cvs> revisions path:'#{path}',identifier_from #{identifier_from}, identifier_to #{identifier_to}"
+          logger.debug "<cvs> revisions path:" +
+              "'#{path}',identifier_from #{identifier_from}, identifier_to #{identifier_to}"
 
-          path_with_project="#{url}#{with_leading_slash(path)}"
+          path_with_project = "#{url}#{with_leading_slash(path)}"
           cmd_args = %w|rlog|
           cmd_args << "-d" << ">#{time_to_cvstime_rlog(identifier_from)}" if identifier_from 
           cmd_args << path_with_project
@@ -187,10 +188,10 @@ module Redmine
                 elsif /^head: (.+)$/ =~ line
                   entry_headRev = $1 #unless entry.nil?
                 elsif /^symbolic names:/ =~ line
-                  state="symbolic" #unless entry.nil?
+                  state = "symbolic" #unless entry.nil?
                 elsif /^#{STARTLOG}/ =~ line
-                  commit_log=String.new
-                  state="revision"
+                  commit_log = String.new
+                  state      = "revision"
                 end  
                 next
               elsif state=="symbolic"
@@ -211,36 +212,30 @@ module Redmine
               elsif state=="revision"
                 if /^#{ENDLOG}/ =~ line || /^#{STARTLOG}/ =~ line
                   if revision
-
                     revHelper=CvsRevisionHelper.new(revision)
                     revBranch="HEAD"
-                    
-                    branch_map.each() do |branch_name,branch_point|
+                    branch_map.each() do |branch_name, branch_point|
                       if revHelper.is_in_branch_with_symbol(branch_point)
                         revBranch=branch_name
                       end
                     end
-                    
                     logger.debug("********** YIELD Revision #{revision}::#{revBranch}")
-                    
                     yield Revision.new({
-                      :time => date,
-                      :author => author,
-                      :message=>commit_log.chomp,
+                      :time    => date,
+                      :author  => author,
+                      :message => commit_log.chomp,
                       :paths => [{
                         :revision => revision,
-                        :branch=> revBranch,
-                        :path=>entry_path,
-                        :name=>entry_name,
-                        :kind=>'file',
-                        :action=>file_state
+                        :branch   => revBranch,
+                        :path     => entry_path,
+                        :name     => entry_name,
+                        :kind     => 'file',
+                        :action   => file_state
                       }]
                     })
                   end
-
-                  commit_log=String.new
-                  revision=nil
-                  
+                  commit_log = String.new
+                  revision   = nil
                   if /^#{ENDLOG}/ =~ line
                     state="entry_start"
                   end
@@ -255,8 +250,10 @@ module Redmine
                   date      = Time.parse($1)
                   author    = /author: ([^;]+)/.match(line)[1]
                   file_state     = /state: ([^;]+)/.match(line)[1]
-                  #TODO: linechanges only available in CVS.... maybe a feature our SVN implementation. i'm sure, they are
-                  #    useful for stats or something else
+                  # TODO: 
+                  #    linechanges only available in CVS....
+                  #    maybe a feature our SVN implementation.
+                  #    I'm sure, they are useful for stats or something else
                   #                linechanges =/lines: \+(\d+) -(\d+)/.match(line)
                   #                unless linechanges.nil?
                   #                  version.line_plus  = linechanges[1]
@@ -405,16 +402,16 @@ module Redmine
 
         private
         def buildRevision(rev)
-          if rev== 0
+          if rev == 0
             if @branchid.nil?
-              @base+".0"
+              @base + ".0"
             else
               @base
             end
           elsif @branchid.nil? 
-            @base+"."+rev.to_s
+            @base + "." + rev.to_s
           else
-            @base+"."+@branchid+"."+rev.to_s
+            @base + "." + @branchid + "." + rev.to_s
           end
         end
 
