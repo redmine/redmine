@@ -70,7 +70,7 @@ module Redmine
           @url = url
           @login = login if login && !login.empty?
           @password = (password || "") if @login
-          #TODO: better Exception here (IllegalArgumentException)
+          # TODO: better Exception here (IllegalArgumentException)
           raise CommandFailed if root_url.blank?
           @root_url = root_url
         end
@@ -127,9 +127,9 @@ module Redmine
                   :lastrev => Revision.new(
                       {
                         :revision => fields[-4],
-                        :name => fields[-4],
-                        :time => time,
-                        :author => ''
+                        :name     => fields[-4],
+                        :time     => time,
+                        :author   => ''
                       })
                   })
               else
@@ -163,25 +163,21 @@ module Redmine
           cmd_args << "-d" << ">#{time_to_cvstime_rlog(identifier_from)}" if identifier_from 
           cmd_args << path_with_project
           scm_cmd(*cmd_args) do |io|
-            state="entry_start"
-            
-            commit_log=String.new
-            revision=nil
-            date=nil
-            author=nil
-            entry_path=nil
-            entry_name=nil
-            file_state=nil
-            branch_map=nil
-            
+            state      = "entry_start"
+            commit_log = String.new
+            revision   = nil
+            date       = nil
+            author     = nil
+            entry_path = nil
+            entry_name = nil
+            file_state = nil
+            branch_map = nil
             io.each_line() do |line|
-              
-              if state!="revision" && /^#{ENDLOG}/ =~ line
-                commit_log=String.new
-                revision=nil
-                state="entry_start"
+              if state != "revision" && /^#{ENDLOG}/ =~ line
+                commit_log = String.new
+                revision   = nil
+                state      = "entry_start"
               end
-              
               if state=="entry_start"
                 branch_map=Hash.new
                 if /^RCS file: #{Regexp.escape(root_url_path)}\/#{Regexp.escape(path_with_project)}(.+),v$/ =~ line
@@ -350,11 +346,11 @@ module Redmine
           t1 = time.clone.localtime
           return t1.strftime("%Y-%m-%d %H:%M:%S")
         end
-          
+
         def normalize_cvs_path(path)
           normalize_path(path.gsub(/Attic\//,''))
         end
-          
+
         def normalize_path(path)
           path.sub(/^(\/)*(.*)/,'\2').sub(/(.*)(,v)+/,'\1')
         end   
