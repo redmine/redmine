@@ -88,23 +88,23 @@ module Redmine
         def initialize(lang)
           super()
           set_language_if_valid lang
-          case current_language.to_s.downcase
-          when 'ko'
+          case l(:general_pdf_encoding).upcase
+          when 'CP949'
             extend(PDF_Korean)
             AddUHCFont()
             @font_for_content = 'UHC'
             @font_for_footer  = 'UHC'
-          when 'ja'
+          when 'CP932'
             extend(PDF_Japanese)
             AddSJISFont()
             @font_for_content = 'SJIS'
             @font_for_footer = 'SJIS'
-          when 'zh'
+          when 'GB18030'
             extend(PDF_Chinese)
             AddGBFont()
             @font_for_content = 'GB'
             @font_for_footer = 'GB'
-          when 'zh-tw'
+          when 'BIG5'
             extend(PDF_Chinese)
             AddBig5Font()
             @font_for_content = 'Big5'
