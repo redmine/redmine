@@ -507,11 +507,7 @@ module Redmine
       end if Object.const_defined?(:Magick)
 
       def to_pdf
-        if ( current_language.to_s.downcase == 'ko'    ||
-             current_language.to_s.downcase == 'ja'    ||
-             current_language.to_s.downcase == 'zh'    ||
-             current_language.to_s.downcase == 'zh-tw' ||
-             current_language.to_s.downcase == 'th'    )
+        if l(:general_pdf_encoding).upcase != 'UTF-8'
           pdf = ::Redmine::Export::PDF::IFPDF.new(current_language)
         else
           pdf = ::Redmine::Export::PDF::ITCPDF.new(current_language)

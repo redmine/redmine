@@ -189,11 +189,7 @@ module Redmine
 
       # Returns a PDF string of a list of issues
       def issues_to_pdf(issues, project, query)
-        if ( current_language.to_s.downcase == 'ko'    ||
-             current_language.to_s.downcase == 'ja'    ||
-             current_language.to_s.downcase == 'zh'    ||
-             current_language.to_s.downcase == 'zh-tw' ||
-             current_language.to_s.downcase == 'th'    )
+        if l(:general_pdf_encoding).upcase != 'UTF-8'
           pdf = IFPDF.new(current_language)
         else
           pdf = ITCPDF.new(current_language)
@@ -269,11 +265,7 @@ module Redmine
 
       # Returns a PDF string of a single issue
       def issue_to_pdf(issue)
-        if ( current_language.to_s.downcase == 'ko'    ||
-             current_language.to_s.downcase == 'ja'    ||
-             current_language.to_s.downcase == 'zh'    ||
-             current_language.to_s.downcase == 'zh-tw' ||
-             current_language.to_s.downcase == 'th'    )
+        if l(:general_pdf_encoding).upcase != 'UTF-8'
           pdf = IFPDF.new(current_language)
         else
           pdf = ITCPDF.new(current_language)
