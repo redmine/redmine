@@ -145,7 +145,7 @@ module Redmine
         def cat(path, identifier=nil)
           return nil
         end
-        
+
         def with_leading_slash(path)
           path ||= ''
           (path[0,1]!="/") ? "/#{path}" : path
@@ -175,7 +175,7 @@ module Redmine
           info = self.info
           info ? info.root_url : nil
         end
-        
+
         def target(path)
           path ||= ''
           base = path.match(/^\//) ? root_url : url
@@ -223,7 +223,7 @@ module Redmine
           q = (Redmine::Platform.mswin? ? '"' : "'")
           cmd.to_s.gsub(/(\-\-(password|username))\s+(#{q}[^#{q}]+#{q}|[^#{q}]\S+)/, '\\1 xxxx')
         end
-        
+
         def strip_credential(cmd)
           self.class.strip_credential(cmd)
         end
