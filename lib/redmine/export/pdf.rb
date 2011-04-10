@@ -84,7 +84,7 @@ module Redmine
       class IFPDF < FPDF
         include Redmine::I18n
         attr_accessor :footer_date
-        
+
         def initialize(lang)
           super()
           set_language_if_valid lang
@@ -98,17 +98,17 @@ module Redmine
             extend(PDF_Japanese)
             AddSJISFont()
             @font_for_content = 'SJIS'
-            @font_for_footer = 'SJIS'
+            @font_for_footer  = 'SJIS'
           when 'GB18030'
             extend(PDF_Chinese)
             AddGBFont()
             @font_for_content = 'GB'
-            @font_for_footer = 'GB'
+            @font_for_footer  = 'GB'
           when 'BIG5'
             extend(PDF_Chinese)
             AddBig5Font()
             @font_for_content = 'Big5'
-            @font_for_footer = 'Big5'
+            @font_for_footer  = 'Big5'
           else
             @font_for_content = 'Arial'
             @font_for_footer  = 'Helvetica'
@@ -116,11 +116,11 @@ module Redmine
           SetCreator(Redmine::Info.app_name)
           SetFont(@font_for_content)
         end
-        
+
         def SetFontStyle(style, size)
           SetFont(@font_for_content, style, size)
         end
-        
+
         def SetTitle(txt)
           txt = begin
             utf16txt = Iconv.conv('UTF-16BE', 'UTF-8', txt)
