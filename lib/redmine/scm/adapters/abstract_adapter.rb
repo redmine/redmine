@@ -305,14 +305,14 @@ module Redmine
 
         def initialize(attributes={})
           self.identifier = attributes[:identifier]
-          self.scmid = attributes[:scmid]
-          self.name = attributes[:name] || self.identifier
-          self.author = attributes[:author]
-          self.time = attributes[:time]
-          self.message = attributes[:message] || ""
-          self.paths = attributes[:paths]
-          self.revision = attributes[:revision]
-          self.branch = attributes[:branch]
+          self.scmid      = attributes[:scmid]
+          self.name       = attributes[:name] || self.identifier
+          self.author     = attributes[:author]
+          self.time       = attributes[:time]
+          self.message    = attributes[:message] || ""
+          self.paths      = attributes[:paths]
+          self.revision   = attributes[:revision]
+          self.branch     = attributes[:branch]
         end
 
         # Returns the readable identifier.
