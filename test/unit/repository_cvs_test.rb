@@ -127,6 +127,9 @@ class RepositoryCvsTest < ActiveSupport::TestCase
       # sources/welcome_controller.rb is removed at revision 5.
       assert @repository.cat('sources/welcome_controller.rb', '4')
       assert @repository.cat('sources/welcome_controller.rb', '5').blank?
+
+      # invalid revision
+      assert @repository.cat('README', '123').blank?
     end
   else
     puts "CVS test repository NOT FOUND. Skipping unit tests !!!"
