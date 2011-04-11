@@ -275,15 +275,19 @@ module Redmine
           logger.debug "<cvs> diff path:'#{path}'" +
               ",identifier_from #{identifier_from}, identifier_to #{identifier_to}"
           path_with_project="#{url}#{with_leading_slash(path)}"
-          cmd = "#{self.class.sq_bin} -d #{shell_quote root_url} rdiff -u -r#{identifier_to} -r#{identifier_from} #{shell_quote path_with_project}"
+          cmd_args = %w|rdiff -u|
+          cmd_args << "-r#{identifier_to}"
+          cmd_args << "-r#{identifier_from}"
+          cmd_args << path_with_project
           diff = []
-          shellout(cmd) do |io|
+          scm_cmd(*cmd_args) do |io|
             io.each_line do |line|
               diff << line
             end
           end
-          return nil if $? && $?.exitstatus != 0
           diff
+        rescue ScmCommandAborted
+          nil
         end
 
         def cat(path, identifier=nil)
