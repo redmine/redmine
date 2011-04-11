@@ -19,7 +19,7 @@
 <td class="status"><%= relation.other_issue(@issue).status.name %></td>
 <td class="start_date"><%= format_date(relation.other_issue(@issue).start_date) %></td>
 <td class="due_date"><%= format_date(relation.other_issue(@issue).due_date) %></td>
-<td class="buttons"><%= link_to_remote(image_tag('delete.png'), { :url => {:controller => 'issue_relations', :action => 'destroy', :issue_id => @issue, :id => relation},                                              
+<td class="buttons"><%= link_to_remote(image_tag('link_break.png'), { :url => {:controller => 'issue_relations', :action => 'destroy', :issue_id => @issue, :id => relation},                                              
                                                   :method => :post
                                                 }, :title => l(:label_relation_delete)) if authorize_for('issue_relations', 'destroy') %></td>
 </tr>
