@@ -158,7 +158,6 @@ module Redmine
         def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={}, &block)
           logger.debug "<cvs> revisions path:" +
               "'#{path}',identifier_from #{identifier_from}, identifier_to #{identifier_to}"
-
           path_with_project = "#{url}#{with_leading_slash(path)}"
           cmd_args = %w|rlog|
           cmd_args << "-d" << ">#{time_to_cvstime_rlog(identifier_from)}" if identifier_from 
@@ -212,8 +211,8 @@ module Redmine
               elsif state=="revision"
                 if /^#{ENDLOG}/ =~ line || /^#{STARTLOG}/ =~ line
                   if revision
-                    revHelper=CvsRevisionHelper.new(revision)
-                    revBranch="HEAD"
+                    revHelper = CvsRevisionHelper.new(revision)
+                    revBranch = "HEAD"
                     branch_map.each() do |branch_name, branch_point|
                       if revHelper.is_in_branch_with_symbol(branch_point)
                         revBranch=branch_name
@@ -237,19 +236,19 @@ module Redmine
                   commit_log = String.new
                   revision   = nil
                   if /^#{ENDLOG}/ =~ line
-                    state="entry_start"
+                    state = "entry_start"
                   end
                   next
                 end
 
                 if /^branches: (.+)$/ =~ line
-                  #TODO: version.branch = $1
+                  # TODO: version.branch = $1
                 elsif /^revision (\d+(?:\.\d+)+).*$/ =~ line
                   revision = $1   
                 elsif /^date:\s+(\d+.\d+.\d+\s+\d+:\d+:\d+)/ =~ line
-                  date      = Time.parse($1)
-                  author    = /author: ([^;]+)/.match(line)[1]
-                  file_state     = /state: ([^;]+)/.match(line)[1]
+                  date       = Time.parse($1)
+                  author     = /author: ([^;]+)/.match(line)[1]
+                  file_state = /state: ([^;]+)/.match(line)[1]
                   # TODO: 
                   #    linechanges only available in CVS....
                   #    maybe a feature our SVN implementation.
@@ -273,7 +272,8 @@ module Redmine
         end
 
         def diff(path, identifier_from, identifier_to=nil)
-          logger.debug "<cvs> diff path:'#{path}',identifier_from #{identifier_from}, identifier_to #{identifier_to}"
+          logger.debug "<cvs> diff path:'#{path}'" +
+              ",identifier_from #{identifier_from}, identifier_to #{identifier_to}"
           path_with_project="#{url}#{with_leading_slash(path)}"
           cmd = "#{self.class.sq_bin} -d #{shell_quote root_url} rdiff -u -r#{identifier_to} -r#{identifier_from} #{shell_quote path_with_project}"
           diff = []
