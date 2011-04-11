@@ -294,16 +294,17 @@ module Redmine
           identifier = (identifier) ? identifier : "HEAD"
           logger.debug "<cvs> cat path:'#{path}',identifier #{identifier}"
           path_with_project="#{url}#{with_leading_slash(path)}"
-          cmd = "#{self.class.sq_bin} -d #{shell_quote root_url} co"
-          cmd << " -D \"#{time_to_cvstime(identifier)}\"" if identifier
-          cmd << " -p #{shell_quote path_with_project}"
+          cmd_args = %w|co|
+          cmd_args << "-D" << "#{time_to_cvstime(identifier)}" if identifier
+          cmd_args << "-p" << path_with_project
           cat = nil
-          shellout(cmd) do |io|
+          scm_cmd(*cmd_args) do |io|
             io.binmode
             cat = io.read
           end
-          return nil if $? && $?.exitstatus != 0
           cat
+        rescue ScmCommandAborted
+          nil
         end
 
         def annotate(path, identifier=nil)
