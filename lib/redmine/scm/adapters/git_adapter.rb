@@ -304,7 +304,10 @@ module Redmine
             elsif line =~ /^\t(.*)/
               blame.add_line($1, Revision.new(
                                     :identifier => identifier,
-                                    :author => authors_by_commit[identifier]))
+                                    :revision   => identifier,
+                                    :scmid      => identifier,
+                                    :author     => authors_by_commit[identifier]
+                                    ))
               identifier = ''
               author = ''
             end
