@@ -363,6 +363,13 @@ module Redmine
           path.sub(/^(\/)*(.*)/,'\2').sub(/(.*)(,v)+/,'\1')
         end   
 
+        class Revision < Redmine::Scm::Adapters::Revision
+          # Returns the readable identifier
+          def format_identifier
+            revision.to_s
+          end
+        end
+
         def scm_cmd(*args, &block)
           full_args = [CVS_BIN, '-d', root_url]
           full_args += args
