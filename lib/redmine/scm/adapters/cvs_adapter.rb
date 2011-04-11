@@ -308,12 +308,14 @@ module Redmine
         end
 
         def annotate(path, identifier=nil)
-          identifier = (identifier) ? identifier.to_i : "HEAD"
+          identifier = (identifier) ? identifier : "HEAD"
           logger.debug "<cvs> annotate path:'#{path}',identifier #{identifier}"
           path_with_project="#{url}#{with_leading_slash(path)}"
-          cmd = "#{self.class.sq_bin} -d #{shell_quote root_url} rannotate -r#{identifier} #{shell_quote path_with_project}"
+          cmd_args = %w|rannotate|
+          cmd_args << "-D" << "#{time_to_cvstime(identifier)}" if identifier
+          cmd_args << path_with_project
           blame = Annotate.new
-          shellout(cmd) do |io|
+          scm_cmd(*cmd_args) do |io|
             io.each_line do |line|
               next unless line =~ %r{^([\d\.]+)\s+\(([^\)]+)\s+[^\)]+\):\s(.*)$}
               blame.add_line(
@@ -325,8 +327,9 @@ module Redmine
                     ))
             end
           end
-          return nil if $? && $?.exitstatus != 0
           blame
+        rescue ScmCommandAborted
+          Annotate.new
         end
 
         private
