@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -39,19 +39,42 @@ class WikiTest < ActiveSupport::TestCase
     assert_equal "Another start page", @wiki.start_page
   end
   
-  def test_find_page
+  def test_find_page_should_not_be_case_sensitive
     wiki = Wiki.find(1)
     page = WikiPage.find(2)
     
     assert_equal page, wiki.find_page('Another_page')
     assert_equal page, wiki.find_page('Another page')
     assert_equal page, wiki.find_page('ANOTHER page')
-    
+  end
+  
+  def test_find_page_with_cyrillic_characters
+    wiki = Wiki.find(1)
     page = WikiPage.find(10)
     assert_equal page, wiki.find_page('Этика_менеджмента')
-    
+  end
+  
+  def test_find_page_with_backslashes
+    wiki = Wiki.find(1)
     page = WikiPage.generate!(:wiki => wiki, :title => '2009\\02\\09')
     assert_equal page, wiki.find_page('2009\\02\\09')
+  end
+  
+  def test_find_page_without_redirect
+    wiki = Wiki.find(1)
+    page = wiki.find_page('Another_page')
+    assert_not_nil page
+    assert_equal 'Another_page', page.title
+    assert_equal false, wiki.page_found_with_redirect?
+  end
+  
+  def test_find_page_with_redirect
+    wiki = Wiki.find(1)
+    WikiRedirect.create!(:wiki => wiki, :title => 'Old_title', :redirects_to => 'Another_page')
+    page = wiki.find_page('Old_title')
+    assert_not_nil page
+    assert_equal 'Another_page', page.title
+    assert_equal true, wiki.page_found_with_redirect?
   end
   
   def test_titleize

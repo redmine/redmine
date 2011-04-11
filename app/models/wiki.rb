@@ -44,17 +44,26 @@ class Wiki < ActiveRecord::Base
   
   # find the page with the given title
   def find_page(title, options = {})
+    @page_found_with_redirect = false
     title = start_page if title.blank?
     title = Wiki.titleize(title)
     page = pages.first(:conditions => ["LOWER(title) = LOWER(?)", title])
     if !page && !(options[:with_redirect] == false)
       # search for a redirect
       redirect = redirects.first(:conditions => ["LOWER(title) = LOWER(?)", title])
-      page = find_page(redirect.redirects_to, :with_redirect => false) if redirect
+      if redirect
+        page = find_page(redirect.redirects_to, :with_redirect => false)
+        @page_found_with_redirect = true
+      end
     end
     page
   end
   
+  # Returns true if the last page was found with a redirect
+  def page_found_with_redirect?
+    @page_found_with_redirect
+  end
+
   # Finds a page by title
   # The given string can be of one of the forms: "title" or "project:title"
   # Examples:

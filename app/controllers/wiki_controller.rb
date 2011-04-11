@@ -249,12 +249,21 @@ private
   # Finds the requested page or a new page if it doesn't exist
   def find_existing_or_new_page
     @page = @wiki.find_or_new_page(params[:id])
+    if @wiki.page_found_with_redirect?
+      redirect_to params.update(:id => @page.title)
+    end
   end
   
   # Finds the requested page and returns a 404 error if it doesn't exist
   def find_existing_page
     @page = @wiki.find_page(params[:id])
-    render_404 if @page.nil?
+    if @page.nil?
+      render_404
+      return
+    end
+    if @wiki.page_found_with_redirect?
+      redirect_to params.update(:id => @page.title)
+    end
   end
   
   # Returns true if the current user is allowed to edit the page, otherwise false

@@ -55,6 +55,13 @@ class WikiControllerTest < ActionController::TestCase
                                                :alt => 'This is a logo' }
   end
   
+  def test_show_redirected_page
+    WikiRedirect.create!(:wiki_id => 1, :title => 'Old_title', :redirects_to => 'Another_page')
+    
+    get :show, :project_id => 'ecookbook', :id => 'Old_title'
+    assert_redirected_to '/projects/ecookbook/wiki/Another_page'
+  end
+  
   def test_show_with_sidebar
     page = Project.find(1).wiki.pages.new(:title => 'Sidebar')
     page.content = WikiContent.new(:text => 'Side bar content for test_show_with_sidebar')
