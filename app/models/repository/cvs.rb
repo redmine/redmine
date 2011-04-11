@@ -70,17 +70,17 @@ class Repository::Cvs < Repository
   end
   
   def diff(path, rev, rev_to)
-    #convert rev to revision. CVS can't handle changesets here
+    # convert rev to revision. CVS can't handle changesets here
     diff=[]
-    changeset_from=changesets.find_by_revision(rev)
+    changeset_from = changesets.find_by_revision(rev)
     if rev_to.to_i > 0 
-      changeset_to=changesets.find_by_revision(rev_to)
+      changeset_to = changesets.find_by_revision(rev_to)
     end
     changeset_from.changes.each() do |change_from|
       revision_from = nil
       revision_to   = nil      
       if path.nil? || (change_from.path.starts_with? scm.with_leading_slash(path))
-        revision_from=change_from.revision
+        revision_from = change_from.revision
       end
       if revision_from
         if changeset_to
