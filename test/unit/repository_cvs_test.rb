@@ -101,6 +101,22 @@ class RepositoryCvsTest < ActiveSupport::TestCase
       assert_equal entries[2].lastrev.revision, '3'
       assert_equal entries[2].lastrev.author, 'LANG'
     end
+
+    def test_cat
+      @repository.fetch_changesets
+      @repository.reload
+      buf = @repository.cat('README')
+      assert buf
+      lines = buf.split("\n")
+      assert_equal 2, lines.length
+      assert_equal 'with one change', lines[1]
+      buf = @repository.cat('README', 1)
+      assert buf
+      lines = buf.split("\n")
+      assert_equal 1, lines.length
+      assert_equal 'CVS test repository', lines[0]
+      assert_nil @repository.scm.cat('missing.rb')
+    end
   else
     puts "CVS test repository NOT FOUND. Skipping unit tests !!!"
     def test_fake; assert true end
