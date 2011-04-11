@@ -117,7 +117,7 @@ class RepositoryCvsTest < ActiveSupport::TestCase
       lines = buf.split("\n")
       assert_equal 2, lines.length
       assert_equal 'with one change', lines[1]
-      buf = @repository.cat('README', 1)
+      buf = @repository.cat('README', '1')
       assert buf
       lines = buf.split("\n")
       assert_equal 1, lines.length
