@@ -308,6 +308,7 @@ fr:
   field_parent_issue: Tâche parente
   field_visible: Visible
   field_warn_on_leaving_unsaved: "M'avertir lorsque je quitte une page contenant du texte non sauvegardé"
+  field_issues_visibility: Visibilité des demandes
   
   setting_app_title: Titre de l'application
   setting_app_subtitle: Sous-titre de l'application
@@ -791,6 +792,8 @@ fr:
   label_user_search: "Rechercher un utilisateur :"
   label_additional_workflow_transitions_for_author: Autorisations supplémentaires lorsque l'utilisateur a créé la demande
   label_additional_workflow_transitions_for_assignee: Autorisations supplémentaires lorsque la demande est assignée à l'utilisateur
+  label_issues_visibility_all: Toutes les demandes
+  label_issues_visibility_own: Demandes créées par ou assignées à l'utilisateur
   
   button_login: Connexion
   button_submit: Soumettre

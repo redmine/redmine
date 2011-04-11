@@ -174,6 +174,13 @@ class Project < ActiveRecord::Base
       if statement_by_role.empty?
         "1=0"
       else
+        if block_given?
+          statement_by_role.each do |role, statement|
+            if s = yield(role, user)
+              statement_by_role[role] = "(#{statement} AND (#{s}))"
+            end
+          end
+        end
         "((#{base_statement}) AND (#{statement_by_role.values.join(' OR ')}))"
       end
     end

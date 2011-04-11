@@ -394,10 +394,10 @@ class User < Principal
   # * a permission Symbol (eg. :edit_project)
   # Context can be:
   # * a project : returns true if user is allowed to do the specified action on this project
-  # * a group of projects : returns true if user is allowed on every project
+  # * an array of projects : returns true if user is allowed on every project
   # * nil with options[:global] set : check if user has at least one role allowed for this action, 
   #   or falls back to Non Member / Anonymous permissions depending if the user is logged
-  def allowed_to?(action, context, options={})
+  def allowed_to?(action, context, options={}, &block)
     if context && context.is_a?(Project)
       # No action allowed on archived projects
       return false unless context.active?
@@ -408,12 +408,15 @@ class User < Principal
       
       roles = roles_for_project(context)
       return false unless roles
-      roles.detect {|role| (context.is_public? || role.member?) && role.allowed_to?(action)}
-      
+      roles.detect {|role|
+        (context.is_public? || role.member?) &&
+        role.allowed_to?(action) &&
+        (block_given? ? yield(role, self) : true)
+      }
     elsif context && context.is_a?(Array)
       # Authorize if user is authorized on every element of the array
       context.map do |project|
-        allowed_to?(action,project,options)
+        allowed_to?(action, project, options, &block)
       end.inject do |memo,allowed|
         memo && allowed
       end
@@ -423,7 +426,11 @@ class User < Principal
       
       # authorize if user has at least one role that has this permission
       roles = memberships.collect {|m| m.roles}.flatten.uniq
-      roles.detect {|r| r.allowed_to?(action)} || (self.logged? ? Role.non_member.allowed_to?(action) : Role.anonymous.allowed_to?(action))
+      roles << (self.logged? ? Role.non_member : Role.anonymous)
+      roles.detect {|role|
+        role.allowed_to?(action) &&
+        (block_given? ? yield(role, self) : true)
+      }
     else
       false
     end
@@ -431,8 +438,8 @@ class User < Principal
 
   # Is the user allowed to do the specified action on any project?
   # See allowed_to? for the actions and valid options.
-  def allowed_to_globally?(action, options)
-    allowed_to?(action, nil, options.reverse_merge(:global => true))
+  def allowed_to_globally?(action, options, &block)
+    allowed_to?(action, nil, options.reverse_merge(:global => true), &block)
   end
 
   safe_attributes 'login',

@@ -304,6 +304,7 @@ en:
   field_text: Text field
   field_visible: Visible
   field_warn_on_leaving_unsaved: "Warn me when leaving a page with unsaved text"
+  field_issues_visibility: Issues visibility
   
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle
@@ -804,6 +805,8 @@ en:
   label_user_search: "Search for user:"
   label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
   label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
+  label_issues_visibility_all: All issues
+  label_issues_visibility_own: Issues created by or assigned to the user
   
   button_login: Login
   button_submit: Submit

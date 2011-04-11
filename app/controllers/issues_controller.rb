@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2008  Jean-Philippe Lang
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -251,7 +251,13 @@ class IssuesController < ApplicationController
 
 private
   def find_issue
+    # Issue.visible.find(...) can not be used to redirect user to the login form
+    # if the issue actually exists but requires authentication
     @issue = Issue.find(params[:id], :include => [:project, :tracker, :status, :author, :priority, :category])
+    unless @issue.visible?
+      deny_access
+      return
+    end
     @project = @issue.project
   rescue ActiveRecord::RecordNotFound
     render_404

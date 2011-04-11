@@ -88,12 +88,30 @@ class Issue < ActiveRecord::Base
   
   # Returns a SQL conditions string used to find all issues visible by the specified user
   def self.visible_condition(user, options={})
-    Project.allowed_to_condition(user, :view_issues, options)
+    Project.allowed_to_condition(user, :view_issues, options) do |role, user|
+      case role.issues_visibility
+      when 'default'
+        nil
+      when 'own'
+        "(#{table_name}.author_id = #{user.id} OR #{table_name}.assigned_to_id = #{user.id})"
+      else
+        '1=0'
+      end
+    end
   end
 
   # Returns true if usr or current user is allowed to view the issue
   def visible?(usr=nil)
-    (usr || User.current).allowed_to?(:view_issues, self.project)
+    (usr || User.current).allowed_to?(:view_issues, self.project) do |role, user|
+      case role.issues_visibility
+      when 'default'
+        true
+      when 'own'
+        self.author == user || self.assigned_to == user
+      else
+        false
+      end
+    end
   end
   
   def after_initialize

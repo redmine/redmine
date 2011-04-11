@@ -19,6 +19,11 @@ class Role < ActiveRecord::Base
   # Built-in roles
   BUILTIN_NON_MEMBER = 1
   BUILTIN_ANONYMOUS  = 2
+  
+  ISSUES_VISIBILITY_OPTIONS = [
+    ['default', :label_issues_visibility_all],
+    ['own', :label_issues_visibility_own]
+  ]
 
   named_scope :givable, { :conditions => "builtin = 0", :order => 'position' }
   named_scope :builtin, lambda { |*args|
@@ -43,7 +48,10 @@ class Role < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name
   validates_length_of :name, :maximum => 30
-
+  validates_inclusion_of :issues_visibility,
+    :in => ISSUES_VISIBILITY_OPTIONS.collect(&:first),
+    :if => lambda {|role| role.respond_to?(:issues_visibility)}
+  
   def permissions
     read_attribute(:permissions) || []
   end
