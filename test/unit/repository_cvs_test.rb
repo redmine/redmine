@@ -122,7 +122,7 @@ class RepositoryCvsTest < ActiveSupport::TestCase
       lines = buf.split("\n")
       assert_equal 1, lines.length
       assert_equal 'CVS test repository', lines[0]
-      assert_nil @repository.scm.cat('missing.rb')
+      assert_nil @repository.cat('missing.rb')
     end
   else
     puts "CVS test repository NOT FOUND. Skipping unit tests !!!"
