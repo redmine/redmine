@@ -141,6 +141,13 @@ class RepositoryCvsTest < ActiveSupport::TestCase
       assert_equal '1.2', ann.revisions[1].revision
       assert_equal 'LANG', ann.revisions[1].author
       assert_equal 'with one change', ann.lines[1]
+
+      ann = @repository.annotate('README', '1')
+      assert ann
+      assert_equal 1, ann.revisions.length
+      assert_equal '1.1', ann.revisions[0].revision
+      assert_equal 'LANG', ann.revisions[0].author
+      assert_equal 'CVS test repository', ann.lines[0]
    end
 
   else
