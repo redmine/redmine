@@ -159,7 +159,7 @@ module Redmine
           logger.debug "<cvs> revisions path:" +
               "'#{path}',identifier_from #{identifier_from}, identifier_to #{identifier_to}"
           path_with_project = "#{url}#{with_leading_slash(path)}"
-          cmd_args = %w|rlog|
+          cmd_args = %w|-q rlog|
           cmd_args << "-d" << ">#{time_to_cvstime_rlog(identifier_from)}" if identifier_from 
           cmd_args << path_with_project
           scm_cmd(*cmd_args) do |io|
