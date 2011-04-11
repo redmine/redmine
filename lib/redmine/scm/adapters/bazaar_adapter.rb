@@ -209,7 +209,13 @@ module Redmine
             identifier = nil
             io.each_line do |line|
               next unless line =~ %r{^(\d+) ([^|]+)\| (.*)$}
-              blame.add_line($3.rstrip, Revision.new(:identifier => $1.to_i, :author => $2.strip))
+              rev = $1.to_i
+              blame.add_line($3.rstrip,
+                 Revision.new(
+                  :identifier => rev,
+                  :revision   => rev,
+                  :author     => $2.strip
+                  ))
             end
           end
           return nil if $? && $?.exitstatus != 0
