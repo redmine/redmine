@@ -131,6 +131,18 @@ class RepositoryCvsTest < ActiveSupport::TestCase
       # invalid revision
       assert @repository.cat('README', '123').blank?
     end
+
+    def test_annotate
+      @repository.fetch_changesets
+      @repository.reload
+      ann = @repository.annotate('README')
+      assert ann
+      assert_equal 2, ann.revisions.length
+      assert_equal '1.2', ann.revisions[1].revision
+      assert_equal 'LANG', ann.revisions[1].author
+      assert_equal 'with one change', ann.lines[1]
+   end
+
   else
     puts "CVS test repository NOT FOUND. Skipping unit tests !!!"
     def test_fake; assert true end
