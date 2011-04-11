@@ -65,7 +65,11 @@ class Repository::Cvs < Repository
   end
   
   def cat(path, identifier=nil)
-    rev = identifier.nil? ? nil : changesets.find_by_revision(identifier)
+    rev = nil
+    if ! identifier.nil?
+      rev = changesets.find_by_revision(identifier)
+      return nil if rev.nil?
+    end
     scm.cat(path, rev.nil? ? nil : rev.committed_on)
   end
   
