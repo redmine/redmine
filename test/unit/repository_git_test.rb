@@ -33,27 +33,27 @@ class RepositoryGitTest < ActiveSupport::TestCase
   # WINDOWS_PASS = Redmine::Platform.mswin?
   WINDOWS_PASS = false
 
-  def setup
-    klass = Repository::Git
-    assert_equal "Git", klass.scm_name
-    assert klass.scm_adapter_class
-    assert_not_equal "", klass.scm_command
-    assert_equal true, klass.scm_available
-
-    @project = Project.find(3)
-    @repository = Repository::Git.create(
-                      :project       => @project,
-                      :url           => REPOSITORY_PATH,
-                      :path_encoding => 'ISO-8859-1'
-                      )
-    assert @repository
-    @char_1        = CHAR_1_HEX.dup
-    if @char_1.respond_to?(:force_encoding)
-      @char_1.force_encoding('UTF-8')
-    end
-  end
-
   if File.directory?(REPOSITORY_PATH)
+    def setup
+      klass = Repository::Git
+      assert_equal "Git", klass.scm_name
+      assert klass.scm_adapter_class
+      assert_not_equal "", klass.scm_command
+      assert_equal true, klass.scm_available
+  
+      @project = Project.find(3)
+      @repository = Repository::Git.create(
+                        :project       => @project,
+                        :url           => REPOSITORY_PATH,
+                        :path_encoding => 'ISO-8859-1'
+                        )
+      assert @repository
+      @char_1        = CHAR_1_HEX.dup
+      if @char_1.respond_to?(:force_encoding)
+        @char_1.force_encoding('UTF-8')
+      end
+    end
+    
     def test_fetch_changesets_from_scratch
       @repository.fetch_changesets
       @repository.reload
