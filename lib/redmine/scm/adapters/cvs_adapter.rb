@@ -294,7 +294,7 @@ module Redmine
           identifier = (identifier) ? identifier : "HEAD"
           logger.debug "<cvs> cat path:'#{path}',identifier #{identifier}"
           path_with_project="#{url}#{with_leading_slash(path)}"
-          cmd_args = %w|co|
+          cmd_args = %w|-q co|
           cmd_args << "-D" << "#{time_to_cvstime(identifier)}" if identifier
           cmd_args << "-p" << path_with_project
           cat = nil
