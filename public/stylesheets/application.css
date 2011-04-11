@@ -349,7 +349,8 @@ table#time-report .hours-dec { font-size: 0.9em; }
 
 form .attributes { margin-bottom: 8px; }
 form .attributes p { padding-top: 1px; padding-bottom: 2px; }
-form .attributes select { min-width: 50%; }
+form .attributes select { width: 60%; }
+select#issue_done_ratio { width: 95px; }
 
 ul.projects { margin: 0; padding-left: 1em; }
 ul.projects.root { margin: 0;  padding: 0; }
