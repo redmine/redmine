@@ -89,7 +89,9 @@ class RepositoryHelperTest < HelperTestCase
 
   def test_to_utf8_invalid_utf8_sequences_should_be_stripped
     with_settings :repositories_encodings => '' do
-      s1 = File.read("#{RAILS_ROOT}/test/fixtures/encoding/iso-8859-1.txt")
+      # s1 = File.read("#{RAILS_ROOT}/test/fixtures/encoding/iso-8859-1.txt")
+      s1 = "Texte encod\xe9 en ISO-8859-1."
+      s1.force_encoding("ASCII-8BIT") if s1.respond_to?(:force_encoding)
       str = to_utf8(s1)
       if str.respond_to?(:force_encoding)
         assert_equal "Texte encod? en ISO-8859-1.", str
