@@ -316,7 +316,13 @@ module Redmine
           shellout(cmd) do |io|
             io.each_line do |line|
               next unless line =~ %r{^([\d\.]+)\s+\(([^\)]+)\s+[^\)]+\):\s(.*)$}
-              blame.add_line($3.rstrip, Revision.new(:revision => $1, :author => $2.strip))
+              blame.add_line(
+                  $3.rstrip,
+                  Revision.new(
+                    :revision   => $1,
+                    :identifier => nil,
+                    :author     => $2.strip
+                    ))
             end
           end
           return nil if $? && $?.exitstatus != 0
