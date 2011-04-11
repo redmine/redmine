@@ -63,7 +63,7 @@ class Repository::Cvs < Repository
     end
     entries
   end
-  
+
   def cat(path, identifier=nil)
     rev = nil
     if ! identifier.nil?
@@ -72,7 +72,16 @@ class Repository::Cvs < Repository
     end
     scm.cat(path, rev.nil? ? nil : rev.committed_on)
   end
-  
+
+  def annotate(path, identifier=nil)
+    rev = nil
+    if ! identifier.nil?
+      rev = changesets.find_by_revision(identifier)
+      return nil if rev.nil?
+    end
+    scm.annotate(path, rev.nil? ? nil : rev.committed_on)
+  end
+
   def diff(path, rev, rev_to)
     # convert rev to revision. CVS can't handle changesets here
     diff=[]
