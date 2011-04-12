@@ -94,12 +94,10 @@ class RepositoryHelperTest < HelperTestCase
       s1.force_encoding("ASCII-8BIT") if s1.respond_to?(:force_encoding)
       str = to_utf8(s1)
       if str.respond_to?(:force_encoding)
-        assert_equal "Texte encod? en ISO-8859-1.", str
         assert str.valid_encoding?
         assert_equal "UTF-8", str.encoding.to_s
-      else
-        assert_equal "Texte encod en ISO-8859-1.", str
       end
+      assert_equal "Texte encod? en ISO-8859-1.", str
     end
   end
 end
