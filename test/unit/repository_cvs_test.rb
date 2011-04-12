@@ -122,12 +122,14 @@ class RepositoryCvsTest < ActiveSupport::TestCase
       assert buf
       lines = buf.split("\n")
       assert_equal 2, lines.length
-      assert_equal 'with one change', lines[1]
+      buf = lines[1].gsub(/\r$/, "")
+      assert_equal 'with one change', buf
       buf = @repository.cat('README', '1')
       assert buf
       lines = buf.split("\n")
       assert_equal 1, lines.length
-      assert_equal 'CVS test repository', lines[0]
+      buf = lines[0].gsub(/\r$/, "")
+      assert_equal 'CVS test repository', buf
       assert_nil @repository.cat('missing.rb')
 
       # sources/welcome_controller.rb is removed at revision 5.
