@@ -42,7 +42,11 @@ class Repository::Darcs < Repository
   end
 
   def entries(path=nil, identifier=nil)
-    patch = identifier.nil? ? nil : changesets.find_by_revision(identifier)
+    patch = nil
+    if ! identifier.nil?
+      patch = changesets.find_by_revision(identifier)
+      return nil if patch.nil?
+    end
     entries = scm.entries(path, patch.nil? ? nil : patch.scmid)
     if entries
       entries.each do |entry|
