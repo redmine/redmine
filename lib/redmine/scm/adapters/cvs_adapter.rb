@@ -91,11 +91,10 @@ module Redmine
         # this method is used by the repository-browser (aka LIST)
         def entries(path=nil, identifier=nil)
           logger.debug "<cvs> entries '#{path}' with identifier '#{identifier}'"
-          path_with_project="#{url}#{with_leading_slash(path)}"
           entries = Entries.new
           cmd_args = %w|-q rls -e|
           cmd_args << "-D" << time_to_cvstime_rlog(identifier) if identifier
-          cmd_args << path_with_project
+          cmd_args << path_with_proj(path)
           scm_cmd(*cmd_args) do |io|
             io.each_line() do |line|
               fields = line.chop.split('/',-1)
@@ -152,10 +151,9 @@ module Redmine
         def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={}, &block)
           logger.debug "<cvs> revisions path:" +
               "'#{path}',identifier_from #{identifier_from}, identifier_to #{identifier_to}"
-          path_with_project = "#{url}#{with_leading_slash(path)}"
           cmd_args = %w|-q rlog|
           cmd_args << "-d" << ">#{time_to_cvstime_rlog(identifier_from)}" if identifier_from
-          cmd_args << path_with_project
+          cmd_args << path_with_proj(path)
           scm_cmd(*cmd_args) do |io|
             state      = "entry_start"
             commit_log = String.new
@@ -174,7 +172,7 @@ module Redmine
               end
               if state=="entry_start"
                 branch_map=Hash.new
-                if /^RCS file: #{Regexp.escape(root_url_path)}\/#{Regexp.escape(path_with_project)}(.+),v$/ =~ line
+                if /^RCS file: #{Regexp.escape(root_url_path)}\/#{Regexp.escape(path_with_proj(path))}(.+),v$/ =~ line
                   entry_path = normalize_cvs_path($1)
                   entry_name = normalize_path(File.basename($1))
                   logger.debug("Path #{entry_path} <=> Name #{entry_name}")
@@ -268,11 +266,10 @@ module Redmine
         def diff(path, identifier_from, identifier_to=nil)
           logger.debug "<cvs> diff path:'#{path}'" +
               ",identifier_from #{identifier_from}, identifier_to #{identifier_to}"
-          path_with_project="#{url}#{with_leading_slash(path)}"
           cmd_args = %w|rdiff -u|
           cmd_args << "-r#{identifier_to}"
           cmd_args << "-r#{identifier_from}"
-          cmd_args << path_with_project
+          cmd_args << path_with_proj(path)
           diff = []
           scm_cmd(*cmd_args) do |io|
             io.each_line do |line|
@@ -287,10 +284,9 @@ module Redmine
         def cat(path, identifier=nil)
           identifier = (identifier) ? identifier : "HEAD"
           logger.debug "<cvs> cat path:'#{path}',identifier #{identifier}"
-          path_with_project="#{url}#{with_leading_slash(path)}"
           cmd_args = %w|-q co|
-          cmd_args << "-D" << "#{time_to_cvstime(identifier)}" if identifier
-          cmd_args << "-p" << path_with_project
+          cmd_args << "-D" << time_to_cvstime(identifier) if identifier
+          cmd_args << "-p" << path_with_proj(path)
           cat = nil
           scm_cmd(*cmd_args) do |io|
             io.binmode
@@ -304,10 +300,9 @@ module Redmine
         def annotate(path, identifier=nil)
           identifier = (identifier) ? identifier : "HEAD"
           logger.debug "<cvs> annotate path:'#{path}',identifier #{identifier}"
-          path_with_project="#{url}#{with_leading_slash(path)}"
           cmd_args = %w|rannotate|
-          cmd_args << "-D" << "#{time_to_cvstime(identifier)}" if identifier
-          cmd_args << path_with_project
+          cmd_args << "-D" << time_to_cvstime(identifier) if identifier
+          cmd_args << path_with_proj(path)
           blame = Annotate.new
           scm_cmd(*cmd_args) do |io|
             io.each_line do |line|
@@ -359,6 +354,11 @@ module Redmine
         def normalize_path(path)
           path.sub(/^(\/)*(.*)/,'\2').sub(/(.*)(,v)+/,'\1')
         end
+
+        def path_with_proj(path)
+          "#{url}#{with_leading_slash(path)}"
+        end
+        private :path_with_proj
 
         class Revision < Redmine::Scm::Adapters::Revision
           # Returns the readable identifier
