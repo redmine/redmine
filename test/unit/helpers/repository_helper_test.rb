@@ -100,4 +100,17 @@ class RepositoryHelperTest < HelperTestCase
       assert_equal "Texte encod? en ISO-8859-1.", str
     end
   end
+
+  def test_to_utf8_invalid_utf8_sequences_should_be_stripped_ja_jis
+    with_settings :repositories_encodings => 'ISO-2022-JP' do
+      s1 = "test\xb5\xfetest\xb5\xfe"
+      s1.force_encoding("ASCII-8BIT") if s1.respond_to?(:force_encoding)
+      str = to_utf8(s1)
+      if str.respond_to?(:force_encoding)
+        assert str.valid_encoding?
+        assert_equal "UTF-8", str.encoding.to_s
+      end
+      assert_equal "test??test??", str
+    end
+  end
 end
