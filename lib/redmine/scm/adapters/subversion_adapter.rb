@@ -251,9 +251,9 @@ module Redmine
           return nil if $? && $?.exitstatus != 0
           blame
         end
-        
+
         private
-        
+
         def credentials_string
           str = ''
           str << " --username #{shell_quote(@login)}" unless @login.blank?
@@ -261,9 +261,10 @@ module Redmine
           str << " --no-auth-cache --non-interactive"
           str
         end
-        
+
         # Helper that iterates over the child elements of a xml node
-        # MiniXml returns a hash when a single child is found or an array of hashes for multiple children
+        # MiniXml returns a hash when a single child is found
+        # or an array of hashes for multiple children
         def each_xml_element(node, name)
           if node && node[name]
             if node[name].is_a?(Hash)
