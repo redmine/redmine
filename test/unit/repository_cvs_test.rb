@@ -102,11 +102,17 @@ class RepositoryCvsTest < ActiveSupport::TestCase
       assert_equal entries[2].lastrev.author, 'LANG'
     end
 
-    def test_entries_invalid
+    def test_entries_invalid_path
       @repository.fetch_changesets
       @repository.reload
       assert_nil @repository.entries('missing')
       assert_nil @repository.entries('missing', '3')
+    end
+
+    def test_entries_invalid_revision
+      @repository.fetch_changesets
+      @repository.reload
+      assert_nil @repository.entries('', '123')
     end
 
     def test_cat
