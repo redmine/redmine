@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2008  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -216,6 +216,14 @@ class QueryTest < ActiveSupport::TestCase
     assert !result.empty?
     assert_equal((Issue.visible - Issue.watched_by(User.current)).sort_by(&:id).size, result.sort_by(&:id).size)
     User.current = nil
+  end
+  
+  def test_statement_should_be_nil_with_no_filters
+    q = Query.new(:name => '_')
+    q.filters = {}
+    
+    assert q.valid?
+    assert_nil q.statement
   end
   
   def test_default_columns

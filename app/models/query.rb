@@ -424,8 +424,7 @@ class Query < ActiveRecord::Base
     elsif project
       project_clauses << "#{Project.table_name}.id = %d" % project.id
     end
-    project_clauses <<  Issue.visible_condition(User.current)
-    project_clauses.join(' AND ')
+    project_clauses.any? ? project_clauses.join(' AND ') : nil
   end
 
   def statement
@@ -506,7 +505,10 @@ class Query < ActiveRecord::Base
       
     end if filters and valid?
     
-    (filters_clauses << project_statement).join(' AND ')
+    filters_clauses << project_statement
+    filters_clauses.reject!(&:blank?)
+    
+    filters_clauses.any? ? filters_clauses.join(' AND ') : nil
   end
   
   # Returns the issue count
@@ -522,7 +524,7 @@ class Query < ActiveRecord::Base
     if grouped?
       begin
         # Rails will raise an (unexpected) RecordNotFound if there's only a nil group value
-        r = Issue.count(:group => group_by_statement, :include => [:status, :project], :conditions => statement)
+        r = Issue.visible.count(:group => group_by_statement, :include => [:status, :project], :conditions => statement)
       rescue ActiveRecord::RecordNotFound
         r = {nil => issue_count}
       end
@@ -542,7 +544,7 @@ class Query < ActiveRecord::Base
     order_option = [group_by_sort_order, options[:order]].reject {|s| s.blank?}.join(',')
     order_option = nil if order_option.blank?
     
-    Issue.find :all, :include => ([:status, :project] + (options[:include] || [])).uniq,
+    Issue.visible.find :all, :include => ([:status, :project] + (options[:include] || [])).uniq,
                      :conditions => Query.merge_conditions(statement, options[:conditions]),
                      :order => order_option,
                      :limit  => options[:limit],
@@ -554,7 +556,7 @@ class Query < ActiveRecord::Base
   # Returns the journals
   # Valid options are :order, :offset, :limit
   def journals(options={})
-    Journal.find :all, :include => [:details, :user, {:issue => [:project, :author, :tracker, :status]}],
+    Journal.visible.find :all, :include => [:details, :user, {:issue => [:project, :author, :tracker, :status]}],
                        :conditions => statement,
                        :order => options[:order],
                        :limit => options[:limit],
@@ -566,7 +568,7 @@ class Query < ActiveRecord::Base
   # Returns the versions
   # Valid options are :conditions
   def versions(options={})
-    Version.find :all, :include => :project,
+    Version.visible.find :all, :include => :project,
                        :conditions => Query.merge_conditions(project_statement, options[:conditions])
   rescue ::ActiveRecord::StatementInvalid => e
     raise StatementInvalid.new(e.message)
