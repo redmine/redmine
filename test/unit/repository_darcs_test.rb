@@ -52,6 +52,12 @@ class RepositoryDarcsTest < ActiveSupport::TestCase
       assert_equal 6, @repository.changesets.count
     end
 
+    def test_entries_invalid_revision
+      @repository.fetch_changesets
+      @repository.reload
+      assert_nil @repository.entries('', '123')
+    end
+
     def test_deleted_files_should_not_be_listed
       @repository.fetch_changesets
       @repository.reload
