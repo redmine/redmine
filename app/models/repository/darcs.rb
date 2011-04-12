@@ -40,30 +40,32 @@ class Repository::Darcs < Repository
     patch = identifier.nil? ? nil : changesets.find_by_revision(identifier)
     scm.entry(path, patch.nil? ? nil : patch.scmid)
   end
-  
+
   def entries(path=nil, identifier=nil)
     patch = identifier.nil? ? nil : changesets.find_by_revision(identifier)
     entries = scm.entries(path, patch.nil? ? nil : patch.scmid)
     if entries
       entries.each do |entry|
         # Search the DB for the entry's last change
-        changeset = changesets.find_by_scmid(entry.lastrev.scmid) if entry.lastrev && !entry.lastrev.scmid.blank?
+        if entry.lastrev && !entry.lastrev.scmid.blank?
+          changeset = changesets.find_by_scmid(entry.lastrev.scmid)
+        end
         if changeset
           entry.lastrev.identifier = changeset.revision
-          entry.lastrev.name = changeset.revision
-          entry.lastrev.time = changeset.committed_on
-          entry.lastrev.author = changeset.committer
+          entry.lastrev.name       = changeset.revision
+          entry.lastrev.time       = changeset.committed_on
+          entry.lastrev.author     = changeset.committer
         end
       end
     end
     entries
   end
-  
+
   def cat(path, identifier=nil)
     patch = identifier.nil? ? nil : changesets.find_by_revision(identifier.to_s)
     scm.cat(path, patch.nil? ? nil : patch.scmid)
   end
-  
+
   def diff(path, rev, rev_to)
     patch_from = changesets.find_by_revision(rev)
     return nil if patch_from.nil?
@@ -73,7 +75,7 @@ class Repository::Darcs < Repository
     end
     patch_from ? scm.diff(path, patch_from.scmid, patch_to ? patch_to.scmid : nil) : nil
   end
-  
+
   def fetch_changesets
     scm_info = scm.info
     if scm_info
