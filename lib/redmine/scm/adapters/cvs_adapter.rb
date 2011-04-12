@@ -77,14 +77,6 @@ module Redmine
           @password = (password || "") if @login
         end
 
-        def root_url
-          @root_url
-        end
-
-        def url
-          @url
-        end
-
         def info
           logger.debug "<cvs> info"
           Info.new({:root_url => @root_url, :lastrev => nil})
