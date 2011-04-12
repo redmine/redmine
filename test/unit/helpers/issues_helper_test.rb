@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2010  Jean-Philippe Lang
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -42,6 +42,10 @@ class IssuesHelperTest < HelperTestCase
 
   def request
     @request ||= ActionController::TestRequest.new
+  end
+  
+  def test_issue_heading
+    assert_equal "Bug #1", issue_heading(Issue.find(1))
   end
 
   context "IssuesHelper#show_detail" do

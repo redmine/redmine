@@ -54,6 +54,10 @@ module IssuesHelper
       "<strong>#{@cached_label_assigned_to}</strong>: #{issue.assigned_to}<br />" +
       "<strong>#{@cached_label_priority}</strong>: #{issue.priority.name}"
   end
+  
+  def issue_heading(issue)
+    h("#{issue.tracker} ##{issue.id}")
+  end
     
   def render_issue_subject_with_tree(issue)
     s = ''
