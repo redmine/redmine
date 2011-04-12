@@ -5,12 +5,12 @@
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -68,11 +68,13 @@ module Redmine
         def initialize(url, root_url=nil, login=nil, password=nil,
                        path_encoding=nil)
           @url      = url
-          @login    = login if login && !login.empty?
-          @password = (password || "") if @login
           # TODO: better Exception here (IllegalArgumentException)
           raise CommandFailed if root_url.blank?
           @root_url  = root_url
+
+          # These are unused.
+          @login    = login if login && !login.empty?
+          @password = (password || "") if @login
         end
 
         def root_url
@@ -160,7 +162,7 @@ module Redmine
               "'#{path}',identifier_from #{identifier_from}, identifier_to #{identifier_to}"
           path_with_project = "#{url}#{with_leading_slash(path)}"
           cmd_args = %w|-q rlog|
-          cmd_args << "-d" << ">#{time_to_cvstime_rlog(identifier_from)}" if identifier_from 
+          cmd_args << "-d" << ">#{time_to_cvstime_rlog(identifier_from)}" if identifier_from
           cmd_args << path_with_project
           scm_cmd(*cmd_args) do |io|
             state      = "entry_start"
@@ -191,15 +193,15 @@ module Redmine
                 elsif /^#{STARTLOG}/ =~ line
                   commit_log = String.new
                   state      = "revision"
-                end  
+                end
                 next
               elsif state=="symbolic"
-                if /^(.*):\s(.*)/ =~ (line.strip) 
+                if /^(.*):\s(.*)/ =~ (line.strip)
                   branch_map[$1]=$2
                 else
                   state="tags"
                   next
-                end          
+                end
               elsif state=="tags"
                 if /^#{STARTLOG}/ =~ line
                   commit_log = ""
@@ -244,12 +246,12 @@ module Redmine
                 if /^branches: (.+)$/ =~ line
                   # TODO: version.branch = $1
                 elsif /^revision (\d+(?:\.\d+)+).*$/ =~ line
-                  revision = $1   
+                  revision = $1
                 elsif /^date:\s+(\d+.\d+.\d+\s+\d+:\d+:\d+)/ =~ line
                   date       = Time.parse($1)
                   author     = /author: ([^;]+)/.match(line)[1]
                   file_state = /state: ([^;]+)/.match(line)[1]
-                  # TODO: 
+                  # TODO:
                   #    linechanges only available in CVS....
                   #    maybe a feature our SVN implementation.
                   #    I'm sure, they are useful for stats or something else
@@ -345,7 +347,7 @@ module Redmine
         def time_to_cvstime(time)
           return nil if time.nil?
           return Time.now if time == 'HEAD'
-          
+
           unless time.kind_of? Time
             time = Time.parse(time)
           end
@@ -364,7 +366,7 @@ module Redmine
 
         def normalize_path(path)
           path.sub(/^(\/)*(.*)/,'\2').sub(/(.*)(,v)+/,'\1')
-        end   
+        end
 
         class Revision < Redmine::Scm::Adapters::Revision
           # Returns the readable identifier
@@ -383,27 +385,27 @@ module Redmine
           ret
         end
         private :scm_cmd
-      end  
+      end
 
       class CvsRevisionHelper
         attr_accessor :complete_rev, :revision, :base, :branchid
-        
+
         def initialize(complete_rev)
           @complete_rev = complete_rev
           parseRevision()
         end
-    
+
         def branchPoint
           return @base
         end
-      
+
         def branchVersion
           if isBranchRevision
             return @base+"."+@branchid
           end
           return @base
         end
-      
+
         def isBranchRevision
           !@branchid.nil?
         end
@@ -429,7 +431,7 @@ module Redmine
             else
               @base
             end
-          elsif @branchid.nil? 
+          elsif @branchid.nil?
             @base + "." + rev.to_s
           else
             @base + "." + @branchid + "." + rev.to_s
@@ -445,7 +447,7 @@ module Redmine
           @base = pieces[0..-baseSize].join(".")
           if baseSize > 2
             @branchid = pieces[-2]
-          end     
+          end
         end
       end
     end
