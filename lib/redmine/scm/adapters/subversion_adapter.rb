@@ -239,7 +239,7 @@ module Redmine
           shellout(cmd) do |io|
             io.each_line do |line|
               next unless line =~ %r{^\s*(\d+)\s*(\S+)\s(.*)$}
-              rev = $1.to_i
+              rev = $1
               blame.add_line($3.rstrip,
                    Revision.new(
                       :identifier => rev,
