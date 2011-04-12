@@ -73,7 +73,7 @@
 </div>
 <% end %>
 
-<% if authorize_for('issue_relations', 'new') || @issue.relations.present? %>
+<% if @relations.present? || User.current.allowed_to?(:manage_issue_relations, @project) %>
 <hr />
 <div id="relations">
 <%= render :partial => 'relations' %>
