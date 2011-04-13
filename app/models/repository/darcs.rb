@@ -84,20 +84,19 @@ class Repository::Darcs < Repository
     scm_info = scm.info
     if scm_info
       db_last_id = latest_changeset ? latest_changeset.scmid : nil
-      next_rev = latest_changeset ? latest_changeset.revision.to_i + 1 : 1      
+      next_rev   = latest_changeset ? latest_changeset.revision.to_i + 1 : 1      
       # latest revision in the repository
       scm_revision = scm_info.lastrev.scmid      
       unless changesets.find_by_scmid(scm_revision)
         revisions = scm.revisions('', db_last_id, nil, :with_path => true)
         transaction do
           revisions.reverse_each do |revision|
-            changeset = Changeset.create(:repository => self,
-                                         :revision => next_rev,
-                                         :scmid => revision.scmid,
-                                         :committer => revision.author, 
+            changeset = Changeset.create(:repository   => self,
+                                         :revision     => next_rev,
+                                         :scmid        => revision.scmid,
+                                         :committer    => revision.author, 
                                          :committed_on => revision.time,
-                                         :comments => revision.message)
-                                         
+                                         :comments     => revision.message)
             revision.paths.each do |change|
               changeset.create_change(change)
             end
