@@ -170,8 +170,8 @@ module Redmine
                 revision   = nil
                 state      = "entry_start"
               end
-              if state=="entry_start"
-                branch_map=Hash.new
+              if state == "entry_start"
+                branch_map = Hash.new
                 if /^RCS file: #{Regexp.escape(root_url_path)}\/#{Regexp.escape(path_with_proj(path))}(.+),v$/ =~ line
                   entry_path = normalize_cvs_path($1)
                   entry_name = normalize_path(File.basename($1))
@@ -185,29 +185,29 @@ module Redmine
                   state      = "revision"
                 end
                 next
-              elsif state=="symbolic"
+              elsif state == "symbolic"
                 if /^(.*):\s(.*)/ =~ (line.strip)
-                  branch_map[$1]=$2
+                  branch_map[$1] = $2
                 else
-                  state="tags"
+                  state = "tags"
                   next
                 end
-              elsif state=="tags"
+              elsif state == "tags"
                 if /^#{STARTLOG}/ =~ line
                   commit_log = ""
-                  state="revision"
+                  state = "revision"
                 elsif /^#{ENDLOG}/ =~ line
-                  state="head"
+                  state = "head"
                 end
                 next
-              elsif state=="revision"
+              elsif state == "revision"
                 if /^#{ENDLOG}/ =~ line || /^#{STARTLOG}/ =~ line
                   if revision
                     revHelper = CvsRevisionHelper.new(revision)
                     revBranch = "HEAD"
                     branch_map.each() do |branch_name, branch_point|
                       if revHelper.is_in_branch_with_symbol(branch_point)
-                        revBranch=branch_name
+                        revBranch = branch_name
                       end
                     end
                     logger.debug("********** YIELD Revision #{revision}::#{revBranch}")
@@ -222,8 +222,8 @@ module Redmine
                         :name     => entry_name,
                         :kind     => 'file',
                         :action   => file_state
-                      }]
-                    })
+                           }]
+                         })
                   end
                   commit_log = String.new
                   revision   = nil
