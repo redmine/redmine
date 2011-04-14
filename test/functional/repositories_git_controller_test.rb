@@ -137,8 +137,8 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       assert_template 'entry'
       # Line 19
       assert_tag :tag => 'th',
-                 :content => /11/,
-                 :attributes => { :class => /line-num/ },
+                 :content => '11',
+                 :attributes => { :class => 'line-num' },
                  :sibling => { :tag => 'td', :content => /WITHOUT ANY WARRANTY/ }
     end
 
@@ -193,8 +193,14 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       assert_response :success
       assert_template 'annotate'
       # Line 23, changeset 2f9c0091
-      assert_tag :tag => 'th', :content => /24/,
-                 :sibling => { :tag => 'td', :child => { :tag => 'a', :content => /2f9c0091/ } },
+      assert_tag :tag => 'th', :content => '24',
+                 :sibling => {
+                    :tag => 'td',
+                    :child => {
+                       :tag => 'a',
+                       :content => /2f9c0091c754a91af7a9c478e36556b4bde8dcf7/
+                       }
+                    },
                  :sibling => { :tag => 'td', :content => /jsmith/ },
                  :sibling => { :tag => 'td', :content => /watcher =/ }
     end
