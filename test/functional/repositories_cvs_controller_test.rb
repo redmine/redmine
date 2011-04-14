@@ -96,8 +96,9 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
       get :entry, :id => PRJ_ID, :path => ['sources', 'watchers_controller.rb']
       assert_response :success
       assert_template 'entry'
-      assert_no_tag :tag => 'td', :attributes => { :class => /line-code/},
-                                  :content => /before_filter/
+      assert_no_tag :tag => 'td',
+                    :attributes => { :class => /line-code/},
+                    :content => /before_filter/
     end
 
     def test_entry_at_given_revision
@@ -108,16 +109,18 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
       assert_response :success
       assert_template 'entry'
       # this line was removed in r3
-      assert_tag :tag => 'td', :attributes => { :class => /line-code/},
-                               :content => /before_filter/
+      assert_tag :tag => 'td',
+                 :attributes => { :class => /line-code/},
+                 :content => /before_filter/
     end
 
     def test_entry_not_found
       @repository.fetch_changesets
       @repository.reload
       get :entry, :id => PRJ_ID, :path => ['sources', 'zzz.c']
-      assert_tag :tag => 'p', :attributes => { :id => /errorExplanation/ },
-                                :content => /The entry or revision was not found in the repository/
+      assert_tag :tag => 'p',
+                 :attributes => { :id => /errorExplanation/ },
+                 :content => /The entry or revision was not found in the repository/
     end
 
     def test_entry_download
@@ -174,23 +177,33 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
       assert_response :success
       assert_template 'annotate'
       # 1.1 line
-      assert_tag :tag => 'th', :attributes => { :class => 'line-num' },
-                               :content => '18',
-                               :sibling => { :tag => 'td', :attributes => { :class => 'revision' },
-                                             :content => /1.1/,
-                                             :sibling => { :tag => 'td', :attributes => { :class => 'author' },
-                                                           :content => /LANG/
-                                           }
-                               }
+      assert_tag :tag => 'th',
+                 :attributes => { :class => 'line-num' },
+                 :content => '18',
+                 :sibling => {
+                   :tag => 'td',
+                   :attributes => { :class => 'revision' },
+                   :content => /1.1/,
+                   :sibling => {
+                      :tag => 'td',
+                      :attributes => { :class => 'author' },
+                      :content => /LANG/
+                        }
+                   }
       # 1.2 line
-      assert_tag :tag => 'th', :attributes => { :class => 'line-num' },
-                               :content => '32',
-                               :sibling => { :tag => 'td', :attributes => { :class => 'revision' },
-                                             :content => /1.2/,
-                                             :sibling => { :tag => 'td', :attributes => { :class => 'author' },
-                                                           :content => /LANG/
-                                           }
-                               }
+      assert_tag :tag => 'th',
+                 :attributes => { :class => 'line-num' },
+                 :content => '32',
+                 :sibling => {
+                     :tag => 'td',
+                     :attributes => { :class => 'revision' },
+                     :content => /1.2/,
+                     :sibling => {
+                        :tag => 'td',
+                        :attributes => { :class => 'author' },
+                        :content => /LANG/
+                        }
+                   }
     end
   else
     puts "CVS test repository NOT FOUND. Skipping functional tests !!!"
