@@ -223,6 +223,7 @@ module ApplicationHelper
   
   # Renders the project quick-jump box
   def render_project_jump_box
+    return unless User.current.logged?
     projects = User.current.memberships.collect(&:project).compact.uniq
     if projects.any?
       s = '<select onchange="if (this.value != \'\') { window.location = this.value; }">' +
