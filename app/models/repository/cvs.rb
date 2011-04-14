@@ -137,11 +137,12 @@ class Repository::Cvs < Repository
 	                         revision.paths[0][:revision]
 	                           )
           cmt = Changeset.normalize_comments(revision.message, repo_log_encoding)
+          author_utf8 = Changeset.to_utf8(revision.author, repo_log_encoding)
           cs  = changesets.find(
             :first,
             :conditions => {
                 :committed_on => tmp_time - time_delta .. tmp_time + time_delta,
-                :committer    => revision.author,
+                :committer    => author_utf8,
                 :comments     => cmt
                 }
              )

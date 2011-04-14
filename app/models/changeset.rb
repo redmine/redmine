@@ -252,8 +252,6 @@ class Changeset < ActiveRecord::Base
     Changeset.to_utf8(str.to_s.strip, encoding)
   end
 
-  private
-
   def self.to_utf8(str, encoding)
     return str if str.nil?
     str.force_encoding("ASCII-8BIT") if str.respond_to?(:force_encoding)
