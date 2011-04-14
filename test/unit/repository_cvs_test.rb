@@ -24,7 +24,8 @@ class RepositoryCvsTest < ActiveSupport::TestCase
   REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/cvs_repository'
   REPOSITORY_PATH.gsub!(/\//, "\\") if Redmine::Platform.mswin?
   # CVS module
-  MODULE_NAME = 'test'
+  MODULE_NAME    = 'test'
+  CHANGESETS_NUM = 7
 
   def setup
     @project = Project.find(3)
@@ -41,8 +42,8 @@ class RepositoryCvsTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       @repository.reload
 
-      assert_equal 5, @repository.changesets.count
-      assert_equal 14, @repository.changes.count
+      assert_equal CHANGESETS_NUM, @repository.changesets.count
+      assert_equal 16, @repository.changes.count
       assert_not_nil @repository.changesets.find_by_comments('Two files changed')
 
       r2 = @repository.changesets.find_by_revision('2')
@@ -69,10 +70,10 @@ class RepositoryCvsTest < ActiveSupport::TestCase
 
       @repository.fetch_changesets
       @repository.reload
-      assert_equal 5, @repository.changesets.count
+      assert_equal CHANGESETS_NUM, @repository.changesets.count
 
-      assert_equal %w|5 4 3 2 1|, @repository.changesets.collect(&:revision)
-      rev5_commit = @repository.changesets.find(:first, :order => 'committed_on DESC')
+      assert_equal %w|7 6 5 4 3 2 1|, @repository.changesets.collect(&:revision)
+      rev5_commit = @repository.changesets.find_by_revision('5')
       assert_equal 'HEAD-20071213-163001', rev5_commit.scmid
        # 2007-12-14 01:30:01 +0900
       rev5_committed_on = Time.gm(2007, 12, 13, 16, 30, 1)
@@ -83,7 +84,7 @@ class RepositoryCvsTest < ActiveSupport::TestCase
       assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
       @repository.reload
-      assert_equal 5, @repository.changesets.count
+      assert_equal CHANGESETS_NUM, @repository.changesets.count
 
       entries = @repository.entries('sources')
       assert entries.detect {|e| e.name == 'watchers_controller.rb'}
@@ -121,7 +122,7 @@ class RepositoryCvsTest < ActiveSupport::TestCase
       buf = @repository.cat('README')
       assert buf
       lines = buf.split("\n")
-      assert_equal 2, lines.length
+      assert_equal 3, lines.length
       buf = lines[1].gsub(/\r$/, "")
       assert_equal 'with one change', buf
       buf = @repository.cat('README', '1')
@@ -145,7 +146,7 @@ class RepositoryCvsTest < ActiveSupport::TestCase
       @repository.reload
       ann = @repository.annotate('README')
       assert ann
-      assert_equal 2, ann.revisions.length
+      assert_equal 3, ann.revisions.length
       assert_equal '1.2', ann.revisions[1].revision
       assert_equal 'LANG', ann.revisions[1].author
       assert_equal 'with one change', ann.lines[1]

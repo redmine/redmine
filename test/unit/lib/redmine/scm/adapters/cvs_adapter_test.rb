@@ -27,7 +27,7 @@ begin
         @adapter.revisions('', nil, nil, :with_paths => true) do |revision|
           cnt += 1
         end
-        assert_equal 14, cnt
+        assert_equal 16, cnt
       end
 
       def test_revisions_from_rev3
@@ -36,7 +36,7 @@ begin
         @adapter.revisions('', rev3_committed_on, nil, :with_paths => true) do |revision|
           cnt += 1
         end
-        assert_equal 2, cnt
+        assert_equal 4, cnt
       end
 
       def test_entries_rev3
