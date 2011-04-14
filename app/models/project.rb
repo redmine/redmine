@@ -157,19 +157,18 @@ class Project < ActiveRecord::Base
       base_statement
     else
       statement_by_role = {}
-      if user.logged?
-        if Role.non_member.allowed_to?(permission) && !options[:member]
-          statement_by_role[Role.non_member] = "#{Project.table_name}.is_public = #{connection.quoted_true}"
+      unless options[:member]
+        role = user.logged? ? Role.non_member : Role.anonymous
+        if role.allowed_to?(permission)
+          statement_by_role[role] = "#{Project.table_name}.is_public = #{connection.quoted_true}"
         end
+      end
+      if user.logged?
         user.projects_by_role.each do |role, projects|
           if role.allowed_to?(permission)
             statement_by_role[role] = "#{Project.table_name}.id IN (#{projects.collect(&:id).join(',')})"
           end
         end
-      else
-        if Role.anonymous.allowed_to?(permission) && !options[:member]
-          statement_by_role[Role.anonymous] = "#{Project.table_name}.is_public = #{connection.quoted_true}"
-        end 
       end
       if statement_by_role.empty?
         "1=0"
