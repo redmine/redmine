@@ -239,6 +239,7 @@ module Redmine
                   revision = $1
                 elsif /^date:\s+(\d+.\d+.\d+\s+\d+:\d+:\d+)/ =~ line
                   date       = Time.parse($1)
+                  # TODO: This regexp fails in some non UTF-8 chars on Ruby 1.8.
                   author     = /author: ([^;]+)/.match(line)[1]
                   file_state = /state: ([^;]+)/.match(line)[1]
                   # TODO:
