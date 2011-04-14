@@ -239,9 +239,10 @@ module Redmine
                   revision = $1
                 elsif /^date:\s+(\d+.\d+.\d+\s+\d+:\d+:\d+)/ =~ line
                   date       = Time.parse($1)
-                  # TODO: This regexp fails in some non UTF-8 chars on Ruby 1.8.
-                  author     = /author: ([^;]+)/.match(line)[1]
-                  file_state = /state: ([^;]+)/.match(line)[1]
+                  line_utf8    = scm_iconv('UTF-8', options[:log_encoding], line)
+                  author_utf8  = /author: ([^;]+)/.match(line_utf8)[1]
+                  author       = scm_iconv(options[:log_encoding], 'UTF-8', author_utf8)
+                  file_state   = /state: ([^;]+)/.match(line)[1]
                   # TODO:
                   #    linechanges only available in CVS....
                   #    maybe a feature our SVN implementation.

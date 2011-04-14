@@ -24,7 +24,7 @@ begin
 
       def test_revisions_all
         cnt = 0
-        @adapter.revisions('', nil, nil, :with_paths => true) do |revision|
+        @adapter.revisions('', nil, nil, :log_encoding => 'UTF-8') do |revision|
           cnt += 1
         end
         assert_equal 16, cnt
@@ -33,7 +33,7 @@ begin
       def test_revisions_from_rev3
         rev3_committed_on = Time.gm(2007, 12, 13, 16, 27, 22)
         cnt = 0
-        @adapter.revisions('', rev3_committed_on, nil, :with_paths => true) do |revision|
+        @adapter.revisions('', rev3_committed_on, nil, :log_encoding => 'UTF-8') do |revision|
           cnt += 1
         end
         assert_equal 4, cnt
