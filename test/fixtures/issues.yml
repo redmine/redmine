@@ -244,3 +244,21 @@ issues_013:
   root_id: 13
   lft: 1
   rgt: 2
+issues_014:
+  id: 14
+  created_on: <%= 15.days.ago.to_date.to_s(:db) %>
+  project_id: 3
+  updated_on: <%= 15.days.ago.to_date.to_s(:db) %>
+  priority_id: 5
+  subject: Private issue on public project
+  fixed_version_id: 
+  category_id: 
+  description: This is a private issue
+  tracker_id: 1
+  assigned_to_id: 
+  author_id: 2
+  status_id: 1
+  is_private: true
+  root_id: 14
+  lft: 1
+  rgt: 2

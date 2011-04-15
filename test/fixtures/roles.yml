@@ -3,7 +3,7 @@ roles_001:
   name: Manager
   id: 1
   builtin: 0
-  issues_visibility: default
+  issues_visibility: all
   permissions: |
     --- 
     - :add_project

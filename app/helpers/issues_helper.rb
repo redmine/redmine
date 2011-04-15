@@ -61,18 +61,23 @@ module IssuesHelper
     
   def render_issue_subject_with_tree(issue)
     s = ''
-    ancestors = issue.root? ? [] : issue.ancestors.all
+    ancestors = issue.root? ? [] : issue.ancestors.visible.all
     ancestors.each do |ancestor|
       s << '<div>' + content_tag('p', link_to_issue(ancestor))
     end
-    s << '<div>' + content_tag('h3', h(issue.subject))
+    s << '<div>'
+    subject = h(issue.subject)
+    if issue.is_private?
+      subject = content_tag('span', l(:field_is_private), :class => 'private') + ' ' + subject
+    end
+    s << content_tag('h3', subject)
     s << '</div>' * (ancestors.size + 1)
     s
   end
   
   def render_descendants_tree(issue)
     s = '<form><table class="list issues">'
-    issue_list(issue.descendants.sort_by(&:lft)) do |child, level|
+    issue_list(issue.descendants.visible.sort_by(&:lft)) do |child, level|
       s << content_tag('tr',
              content_tag('td', check_box_tag("ids[]", child.id, false, :id => nil), :class => 'checkbox') +
              content_tag('td', link_to_issue(child, :truncate => 60), :class => 'subject') +
@@ -159,6 +164,10 @@ module IssuesHelper
         label = l(:field_parent_issue)
         value = "##{detail.value}" unless detail.value.blank?
         old_value = "##{detail.old_value}" unless detail.old_value.blank?
+        
+      when detail.prop_key == 'is_private'
+        value = l(detail.value == "0" ? :general_text_No : :general_text_Yes) unless detail.value.blank?
+        old_value = l(detail.old_value == "0" ? :general_text_No : :general_text_Yes) unless detail.old_value.blank?
       end
     when 'cf'
       custom_field = CustomField.find_by_id(detail.prop_key)

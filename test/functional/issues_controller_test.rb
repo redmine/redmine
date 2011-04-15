@@ -91,6 +91,13 @@ class IssuesControllerTest < ActionController::TestCase
     assert_no_tag :tag => 'a', :content => /Can't print recipes/
     assert_tag :tag => 'a', :content => /Subproject issue/
   end
+
+  def test_index_should_list_visible_issues_only
+    get :index, :per_page => 100
+    assert_response :success
+    assert_not_nil assigns(:issues)
+    assert_nil assigns(:issues).detect {|issue| !issue.visible?}
+  end
   
   def test_index_with_project
     Setting.display_subprojects_issues = 0
@@ -317,8 +324,21 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :redirect
   end
   
+  def test_show_should_deny_anonymous_access_to_private_issue
+    Issue.update_all(["is_private = ?", true], "id = 1")
+    get :show, :id => 1
+    assert_response :redirect
+  end
+  
   def test_show_should_deny_non_member_access_without_permission
     Role.non_member.remove_permission!(:view_issues)
+    @request.session[:user_id] = 9
+    get :show, :id => 1
+    assert_response 403
+  end
+  
+  def test_show_should_deny_non_member_access_to_private_issue
+    Issue.update_all(["is_private = ?", true], "id = 1")
     @request.session[:user_id] = 9
     get :show, :id => 1
     assert_response 403
@@ -329,6 +349,35 @@ class IssuesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     get :show, :id => 1
     assert_response 403
+  end
+  
+  def test_show_should_deny_member_access_to_private_issue_without_permission
+    Issue.update_all(["is_private = ?", true], "id = 1")
+    @request.session[:user_id] = 3
+    get :show, :id => 1
+    assert_response 403
+  end
+  
+  def test_show_should_allow_author_access_to_private_issue
+    Issue.update_all(["is_private = ?, author_id = 3", true], "id = 1")
+    @request.session[:user_id] = 3
+    get :show, :id => 1
+    assert_response :success
+  end
+  
+  def test_show_should_allow_assignee_access_to_private_issue
+    Issue.update_all(["is_private = ?, assigned_to_id = 3", true], "id = 1")
+    @request.session[:user_id] = 3
+    get :show, :id => 1
+    assert_response :success
+  end
+  
+  def test_show_should_allow_member_access_to_private_issue_with_permission
+    Issue.update_all(["is_private = ?", true], "id = 1")
+    User.find(3).roles_for_project(Project.find(1)).first.update_attribute :issues_visibility, 'all'
+    @request.session[:user_id] = 3
+    get :show, :id => 1
+    assert_response :success
   end
   
   def test_show_should_not_disclose_relations_to_invisible_issues

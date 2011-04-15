@@ -90,8 +90,10 @@ class Issue < ActiveRecord::Base
   def self.visible_condition(user, options={})
     Project.allowed_to_condition(user, :view_issues, options) do |role, user|
       case role.issues_visibility
-      when 'default'
+      when 'all'
         nil
+      when 'default'
+        "(#{table_name}.is_private = #{connection.quoted_false} OR #{table_name}.author_id = #{user.id} OR #{table_name}.assigned_to_id = #{user.id})"
       when 'own'
         "(#{table_name}.author_id = #{user.id} OR #{table_name}.assigned_to_id = #{user.id})"
       else
@@ -104,8 +106,10 @@ class Issue < ActiveRecord::Base
   def visible?(usr=nil)
     (usr || User.current).allowed_to?(:view_issues, self.project) do |role, user|
       case role.issues_visibility
-      when 'default'
+      when 'all'
         true
+      when 'default'
+        !self.is_private? || self.author == user || self.assigned_to == user
       when 'own'
         self.author == user || self.assigned_to == user
       else
@@ -257,6 +261,12 @@ class Issue < ActiveRecord::Base
     'done_ratio',
     :if => lambda {|issue, user| issue.new_statuses_allowed_to(user).any? }
 
+  safe_attributes 'is_private',
+    :if => lambda {|issue, user|
+      user.allowed_to?(:set_issues_private, issue.project) ||
+        (issue.author == user && user.allowed_to?(:set_own_issues_private, issue.project))
+    }
+  
   # Safely sets attributes
   # Should be called from controllers instead of #attributes=
   # attr_accessible is too rough because we still want things like
@@ -552,6 +562,7 @@ class Issue < ActiveRecord::Base
     s << ' overdue' if overdue?
     s << ' child' if child?
     s << ' parent' unless leaf?
+    s << ' private' if is_private?
     s << ' created-by-me' if User.current.logged? && author_id == User.current.id
     s << ' assigned-to-me' if User.current.logged? && assigned_to_id == User.current.id
     s

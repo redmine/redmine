@@ -309,6 +309,7 @@ fr:
   field_visible: Visible
   field_warn_on_leaving_unsaved: "M'avertir lorsque je quitte une page contenant du texte non sauvegardé"
   field_issues_visibility: Visibilité des demandes
+  field_is_private: Privée
   
   setting_app_title: Titre de l'application
   setting_app_subtitle: Sous-titre de l'application
@@ -378,6 +379,8 @@ fr:
   permission_add_issues: Créer des demandes
   permission_edit_issues: Modifier les demandes
   permission_manage_issue_relations: Gérer les relations
+  permission_set_issues_private: Rendre les demandes publiques ou privées
+  permission_set_own_issues_private: Rendre ses propres demandes publiques ou privées
   permission_add_issue_notes: Ajouter des notes
   permission_edit_issue_notes: Modifier les notes
   permission_edit_own_issue_notes: Modifier ses propres notes
@@ -793,6 +796,7 @@ fr:
   label_additional_workflow_transitions_for_author: Autorisations supplémentaires lorsque l'utilisateur a créé la demande
   label_additional_workflow_transitions_for_assignee: Autorisations supplémentaires lorsque la demande est assignée à l'utilisateur
   label_issues_visibility_all: Toutes les demandes
+  label_issues_visibility_public: Toutes les demandes non privées
   label_issues_visibility_own: Demandes créées par ou assignées à l'utilisateur
   
   button_login: Connexion

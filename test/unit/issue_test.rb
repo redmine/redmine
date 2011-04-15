@@ -74,6 +74,7 @@ class IssueTest < ActiveSupport::TestCase
     issues = Issue.visible(User.anonymous).all
     assert issues.any?
     assert_nil issues.detect {|issue| !issue.project.is_public?}
+    assert_nil issues.detect {|issue| issue.is_private?}
     assert_visibility_match User.anonymous, issues
   end
   
@@ -102,6 +103,7 @@ class IssueTest < ActiveSupport::TestCase
     issues = Issue.visible(user).all
     assert issues.any?
     assert_nil issues.detect {|issue| !issue.project.is_public?}
+    assert_nil issues.detect {|issue| issue.is_private?}
     assert_visibility_match user, issues
   end
   
@@ -130,10 +132,11 @@ class IssueTest < ActiveSupport::TestCase
     user = User.find(9)
     # User should see issues of projects for which he has view_issues permissions only
     Role.non_member.remove_permission!(:view_issues)
-    Member.create!(:principal => user, :project_id => 2, :role_ids => [1])
+    Member.create!(:principal => user, :project_id => 3, :role_ids => [2])
     issues = Issue.visible(user).all
     assert issues.any?
-    assert_nil issues.detect {|issue| issue.project_id != 2}
+    assert_nil issues.detect {|issue| issue.project_id != 3}
+    assert_nil issues.detect {|issue| issue.is_private?}
     assert_visibility_match user, issues
   end
   
@@ -145,6 +148,8 @@ class IssueTest < ActiveSupport::TestCase
     assert issues.any?
     # Admin should see issues on private projects that he does not belong to
     assert issues.detect {|issue| !issue.project.is_public?}
+    # Admin should see private issues of other users
+    assert issues.detect {|issue| issue.is_private? && issue.author != user}
     assert_visibility_match user, issues
   end
   

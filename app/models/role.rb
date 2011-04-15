@@ -21,7 +21,8 @@ class Role < ActiveRecord::Base
   BUILTIN_ANONYMOUS  = 2
   
   ISSUES_VISIBILITY_OPTIONS = [
-    ['default', :label_issues_visibility_all],
+    ['all', :label_issues_visibility_all],
+    ['default', :label_issues_visibility_public],
     ['own', :label_issues_visibility_own]
   ]
 

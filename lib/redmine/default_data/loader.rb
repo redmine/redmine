@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -41,6 +41,7 @@ module Redmine
           Role.transaction do
             # Roles
             manager = Role.create! :name => l(:default_role_manager), 
+                                   :issues_visibility => 'all',
                                    :position => 1
             manager.permissions = manager.setable_permissions.collect {|p| p.name}
             manager.save!

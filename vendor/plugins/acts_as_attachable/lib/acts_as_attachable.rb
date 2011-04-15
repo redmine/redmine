@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2008  Jean-Philippe Lang
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -44,11 +44,13 @@ module Redmine
         end
         
         def attachments_visible?(user=User.current)
-          user.allowed_to?(self.class.attachable_options[:view_permission], self.project)
+          (respond_to?(:visible?) ? visible?(user) : true) &&
+            user.allowed_to?(self.class.attachable_options[:view_permission], self.project)
         end
         
         def attachments_deletable?(user=User.current)
-          user.allowed_to?(self.class.attachable_options[:delete_permission], self.project)
+          (respond_to?(:visible?) ? visible?(user) : true) &&
+            user.allowed_to?(self.class.attachable_options[:delete_permission], self.project)
         end
 
         def initialize_unsaved_attachments

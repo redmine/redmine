@@ -86,6 +86,18 @@ class AttachmentsControllerTest < ActionController::TestCase
     assert_equal 'application/octet-stream', @response.content_type
   end
   
+  def test_show_file_from_private_issue_without_permission
+    get :show, :id => 15
+    assert_redirected_to '/login?back_url=http%3A%2F%2Ftest.host%2Fattachments%2F15'
+  end
+  
+  def test_show_file_from_private_issue_with_permission
+    @request.session[:user_id] = 2
+    get :show, :id => 15
+    assert_response :success
+    assert_tag 'h2', :content => /private.diff/
+  end
+  
   def test_download_text_file
     get :download, :id => 4
     assert_response :success
