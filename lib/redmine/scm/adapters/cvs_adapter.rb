@@ -373,7 +373,11 @@ module Redmine
         def scm_cmd(*args, &block)
           full_args = [CVS_BIN, '-d', root_url]
           full_args += args
-          ret = shellout(full_args.map { |e| shell_quote e.to_s }.join(' '), &block)
+          full_args_locale = []
+          full_args.map do |e|
+            full_args_locale << scm_iconv(@path_encoding, 'UTF-8', e)
+          end
+          ret = shellout(full_args_locale.map { |e| shell_quote e.to_s }.join(' '), &block)
           if $? && $?.exitstatus != 0
             raise ScmCommandAborted, "cvs exited with non-zero status: #{$?.exitstatus}"
           end
