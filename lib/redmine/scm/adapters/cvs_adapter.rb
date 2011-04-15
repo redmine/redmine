@@ -150,11 +150,13 @@ module Redmine
         # in the repository. both identifier have to be dates or nil.
         # these method returns nothing but yield every result in block
         def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={}, &block)
+          path_with_project_utf8   = path_with_proj(path)
+          path_with_project_locale = scm_iconv(@path_encoding, 'UTF-8', path_with_project_utf8)
           logger.debug "<cvs> revisions path:" +
               "'#{path}',identifier_from #{identifier_from}, identifier_to #{identifier_to}"
           cmd_args = %w|-q rlog|
           cmd_args << "-d" << ">#{time_to_cvstime_rlog(identifier_from)}" if identifier_from
-          cmd_args << path_with_proj(path)
+          cmd_args << path_with_project_utf8
           scm_cmd(*cmd_args) do |io|
             state      = "entry_start"
             commit_log = String.new
@@ -173,7 +175,7 @@ module Redmine
               end
               if state == "entry_start"
                 branch_map = Hash.new
-                if /^RCS file: #{Regexp.escape(root_url_path)}\/#{Regexp.escape(path_with_proj(path))}(.+),v$/ =~ line
+                if /^RCS file: #{Regexp.escape(root_url_path)}\/#{Regexp.escape(path_with_project_locale)}(.+),v$/ =~ line
                   entry_path = normalize_cvs_path($1)
                   entry_name = normalize_path(File.basename($1))
                   logger.debug("Path #{entry_path} <=> Name #{entry_name}")
@@ -219,8 +221,8 @@ module Redmine
                       :paths => [{
                         :revision => revision,
                         :branch   => revBranch,
-                        :path     => entry_path,
-                        :name     => entry_name,
+                        :path     => scm_iconv('UTF-8', @path_encoding, entry_path),
+                        :name     => scm_iconv('UTF-8', @path_encoding, entry_name),
                         :kind     => 'file',
                         :action   => file_state
                            }]
