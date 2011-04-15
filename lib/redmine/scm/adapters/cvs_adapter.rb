@@ -92,6 +92,8 @@ module Redmine
         # this method is used by the repository-browser (aka LIST)
         def entries(path=nil, identifier=nil)
           logger.debug "<cvs> entries '#{path}' with identifier '#{identifier}'"
+          path_locale = scm_iconv(@path_encoding, 'UTF-8', path)
+          path_locale.force_encoding("ASCII-8BIT") if path_locale.respond_to?(:force_encoding)
           entries = Entries.new
           cmd_args = %w|-q rls -e|
           cmd_args << "-D" << time_to_cvstime_rlog(identifier) if identifier
@@ -113,15 +115,15 @@ module Redmine
                 end
                 entries << Entry.new(
                  {
-                  :name => fields[-5],
+                  :name => scm_iconv('UTF-8', @path_encoding, fields[-5]),
                   #:path => fields[-4].include?(path)?fields[-4]:(path + "/"+ fields[-4]),
-                  :path => "#{path}/#{fields[-5]}",
+                  :path => scm_iconv('UTF-8', @path_encoding, "#{path_locale}/#{fields[-5]}"),
                   :kind => 'file',
                   :size => nil,
                   :lastrev => Revision.new(
                       {
                         :revision => fields[-4],
-                        :name     => fields[-4],
+                        :name     => scm_iconv('UTF-8', @path_encoding, fields[-4]),
                         :time     => time,
                         :author   => ''
                       })
@@ -129,8 +131,8 @@ module Redmine
               else
                 entries << Entry.new(
                  {
-                  :name    => fields[1],
-                  :path    => "#{path}/#{fields[1]}",
+                  :name    => scm_iconv('UTF-8', @path_encoding, fields[1]),
+                  :path    => scm_iconv('UTF-8', @path_encoding, "#{path_locale}/#{fields[1]}"),
                   :kind    => 'dir',
                   :size    => nil,
                   :lastrev => nil
