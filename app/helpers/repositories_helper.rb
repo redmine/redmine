@@ -260,7 +260,11 @@ module RepositoriesHelper
                      :size => 30, :required => true,
                      :disabled => !repository.new_record?)) +
     content_tag('p', form.select(:log_encoding, [nil] + Setting::ENCODINGS,
-                                 :label => 'Commit messages encoding', :required => true))
+                                 :label => 'Commit messages encoding', :required => true)) +
+    content_tag('p', form.select(
+                     :path_encoding, [nil] + Setting::ENCODINGS,
+                     :label => 'Path encoding') +
+                     '<br />Default: UTF-8')
   end
 
   def bazaar_field_tags(form, repository)
