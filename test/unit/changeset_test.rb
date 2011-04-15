@@ -326,13 +326,15 @@ class ChangesetTest < ActiveSupport::TestCase
             :project => proj, :url => '/tmp/test/bazaar',
             :log_encoding => 'ISO-8859-1' )
       assert r
-      c = Changeset.new(:repository => r,
+      c = Changeset.new(:repository   => r,
                         :committed_on => Time.now,
-                        :revision => '123',
-                        :scmid => '12345',
-                        :comments => nil)
+                        :revision     => '123',
+                        :scmid        => '12345',
+                        :comments     => nil,
+                        :committer    => nil)
       assert( c.save )
       assert_equal "", c.comments
+      assert_equal nil, c.committer
       if c.comments.respond_to?(:force_encoding)
         assert_equal "UTF-8", c.comments.encoding.to_s
       end
