@@ -254,8 +254,10 @@ class ChangesetTest < ActiveSupport::TestCase
   def test_invalid_utf8_sequences_in_comments_should_be_replaced_latin1
       proj = Project.find(3)
       # str = File.read("#{RAILS_ROOT}/test/fixtures/encoding/iso-8859-1.txt")
-      str = "Texte encod\xe9 en ISO-8859-1."
-      str.force_encoding("ASCII-8BIT") if str.respond_to?(:force_encoding)
+      str1 = "Texte encod\xe9 en ISO-8859-1."
+      str2 = "\xe9a\xe9b\xe9c\xe9d\xe9e"
+      str1.force_encoding("UTF-8") if str1.respond_to?(:force_encoding)
+      str2.force_encoding("ASCII-8BIT") if str2.respond_to?(:force_encoding)
       r = Repository::Bazaar.create!(
             :project => proj,
             :url => '/tmp/test/bazaar',
@@ -265,9 +267,11 @@ class ChangesetTest < ActiveSupport::TestCase
                         :committed_on => Time.now,
                         :revision     => '123',
                         :scmid        => '12345',
-                        :comments     => str)
+                        :comments     => str1,
+                        :committer    => str2)
       assert( c.save )
       assert_equal "Texte encod? en ISO-8859-1.", c.comments
+      assert_equal "?a?b?c?d?e", c.committer
   end
 
   def test_invalid_utf8_sequences_in_comments_should_be_replaced_ja_jis
