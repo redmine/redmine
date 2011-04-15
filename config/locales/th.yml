@@ -952,3 +952,7 @@ th:
   label_issues_visibility_own: Issues created by or assigned to the user
   field_issues_visibility: Issues visibility
   label_issues_visibility_all: All issues
+  permission_set_own_issues_private: Set own issues public or private
+  field_is_private: Private
+  permission_set_issues_private: Set issues public or private
+  label_issues_visibility_public: All non private issues
