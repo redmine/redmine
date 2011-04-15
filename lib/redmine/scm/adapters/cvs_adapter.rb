@@ -335,12 +335,12 @@ module Redmine
         # convert a date/time into the CVS-format
         def time_to_cvstime(time)
           return nil if time.nil?
-          return Time.now if time == 'HEAD'
+          time = Time.now if time == 'HEAD'
 
           unless time.kind_of? Time
             time = Time.parse(time)
           end
-          return time.strftime("%Y-%m-%d %H:%M:%S")
+          return time_to_cvstime_rlog(time)
         end
 
         def time_to_cvstime_rlog(time)
