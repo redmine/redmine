@@ -483,7 +483,8 @@ class ProjectsControllerTest < ActionController::TestCase
     source = Project.find(1)
     assert_equal source.versions.count, project.versions.count, "All versions were not copied"
     # issues assigned to a closed version won't be copied
-    assert_equal source.issues.select {|i| i.fixed_version.nil? || i.fixed_version.open?}.count, project.issues.count, "All issues were not copied"
+    assert_equal source.issues.select {|i| i.fixed_version.nil? || i.fixed_version.open?}.size,
+                 project.issues.count, "All issues were not copied"
     assert_equal 0, project.members.count
   end
 
