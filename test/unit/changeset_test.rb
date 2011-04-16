@@ -26,7 +26,7 @@ class ChangesetTest < ActiveSupport::TestCase
 
   def setup
   end
-  
+
   def test_ref_keywords_any
     ActionMailer::Base.deliveries.clear
     Setting.commit_fix_status_id = IssueStatus.find(
@@ -35,9 +35,9 @@ class ChangesetTest < ActiveSupport::TestCase
     Setting.commit_ref_keywords = '*'
     Setting.commit_fix_keywords = 'fixes , closes'
     
-    c = Changeset.new(:repository => Project.find(1).repository,
+    c = Changeset.new(:repository   => Project.find(1).repository,
                       :committed_on => Time.now,
-                      :comments => 'New commit (#2). Fixes #1')
+                      :comments     => 'New commit (#2). Fixes #1')
     c.scan_comment_for_issue_ids
     
     assert_equal [1, 2], c.issue_ids.sort
@@ -46,14 +46,14 @@ class ChangesetTest < ActiveSupport::TestCase
     assert_equal 90, fixed.done_ratio
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
-  
+
   def test_ref_keywords
     Setting.commit_ref_keywords = 'refs'
     Setting.commit_fix_keywords = ''
-    
-    c = Changeset.new(:repository => Project.find(1).repository,
+
+    c = Changeset.new(:repository   => Project.find(1).repository,
                       :committed_on => Time.now,
-                      :comments => 'Ignores #2. Refs #1')
+                      :comments     => 'Ignores #2. Refs #1')
     c.scan_comment_for_issue_ids
     
     assert_equal [1], c.issue_ids.sort
@@ -63,9 +63,9 @@ class ChangesetTest < ActiveSupport::TestCase
     Setting.commit_ref_keywords = '*'
     Setting.commit_fix_keywords = ''
     
-    c = Changeset.new(:repository => Project.find(1).repository,
+    c = Changeset.new(:repository   => Project.find(1).repository,
                       :committed_on => Time.now,
-                      :comments => 'Ignores #2. Refs #1')
+                      :comments     => 'Ignores #2. Refs #1')
     c.scan_comment_for_issue_ids
     
     assert_equal [1, 2], c.issue_ids.sort
@@ -90,16 +90,16 @@ class ChangesetTest < ActiveSupport::TestCase
       '3,25' => 3.25,
       '3,25h' => 3.25,
     }.each do |syntax, expected_hours|
-      c = Changeset.new(:repository => Project.find(1).repository,
+      c = Changeset.new(:repository   => Project.find(1).repository,
                         :committed_on => 24.hours.ago,
-                        :comments => "Worked on this issue #1 @#{syntax}",
-                        :revision => '520',
-                        :user => User.find(2))
+                        :comments     => "Worked on this issue #1 @#{syntax}",
+                        :revision     => '520',
+                        :user         => User.find(2))
       assert_difference 'TimeEntry.count' do
         c.scan_comment_for_issue_ids
       end
       assert_equal [1], c.issue_ids.sort
-      
+
       time = TimeEntry.first(:order => 'id desc')
       assert_equal 1, time.issue_id
       assert_equal 1, time.project_id
@@ -112,7 +112,7 @@ class ChangesetTest < ActiveSupport::TestCase
             "r520 was expected in time_entry comments: #{time.comments}"
     end
   end
-  
+
   def test_ref_keywords_closing_with_timelog
     Setting.commit_fix_status_id = IssueStatus.find(
                                     :first, :conditions => ["is_closed = ?", true]).id
@@ -120,14 +120,14 @@ class ChangesetTest < ActiveSupport::TestCase
     Setting.commit_fix_keywords = 'fixes , closes'
     Setting.commit_logtime_enabled = '1'
     
-    c = Changeset.new(:repository => Project.find(1).repository,
+    c = Changeset.new(:repository   => Project.find(1).repository,
                       :committed_on => Time.now,
-                      :comments => 'This is a comment. Fixes #1 @4.5, #2 @1',
-                      :user => User.find(2))
+                      :comments     => 'This is a comment. Fixes #1 @4.5, #2 @1',
+                      :user         => User.find(2))
     assert_difference 'TimeEntry.count', 2 do
       c.scan_comment_for_issue_ids
     end
-    
+
     assert_equal [1, 2], c.issue_ids.sort
     assert Issue.find(1).closed?
     assert Issue.find(2).closed?
@@ -135,13 +135,13 @@ class ChangesetTest < ActiveSupport::TestCase
     times = TimeEntry.all(:order => 'id desc', :limit => 2)
     assert_equal [1, 2], times.collect(&:issue_id).sort
   end
-  
+
   def test_ref_keywords_any_line_start
     Setting.commit_ref_keywords = '*'
 
-    c = Changeset.new(:repository => Project.find(1).repository,
+    c = Changeset.new(:repository   => Project.find(1).repository,
                       :committed_on => Time.now,
-                      :comments => '#1 is the reason of this commit')
+                      :comments     => '#1 is the reason of this commit')
     c.scan_comment_for_issue_ids
 
     assert_equal [1], c.issue_ids.sort
@@ -150,9 +150,9 @@ class ChangesetTest < ActiveSupport::TestCase
   def test_ref_keywords_allow_brackets_around_a_issue_number
     Setting.commit_ref_keywords = '*'
 
-    c = Changeset.new(:repository => Project.find(1).repository,
+    c = Changeset.new(:repository   => Project.find(1).repository,
                       :committed_on => Time.now,
-                      :comments => '[#1] Worked on this issue')
+                      :comments     => '[#1] Worked on this issue')
     c.scan_comment_for_issue_ids
 
     assert_equal [1], c.issue_ids.sort
@@ -161,20 +161,20 @@ class ChangesetTest < ActiveSupport::TestCase
   def test_ref_keywords_allow_brackets_around_multiple_issue_numbers
     Setting.commit_ref_keywords = '*'
 
-    c = Changeset.new(:repository => Project.find(1).repository,
+    c = Changeset.new(:repository   => Project.find(1).repository,
                       :committed_on => Time.now,
-                      :comments => '[#1 #2, #3] Worked on these')
+                      :comments     => '[#1 #2, #3] Worked on these')
     c.scan_comment_for_issue_ids
 
     assert_equal [1,2,3], c.issue_ids.sort
   end
-  
+
   def test_commit_referencing_a_subproject_issue
-    c = Changeset.new(:repository => Project.find(1).repository,
+    c = Changeset.new(:repository   => Project.find(1).repository,
                       :committed_on => Time.now,
-                      :comments => 'refs #5, a subproject issue')
+                      :comments     => 'refs #5, a subproject issue')
     c.scan_comment_for_issue_ids
-    
+
     assert_equal [5], c.issue_ids.sort
     assert c.issues.first.project != c.project
   end
@@ -185,9 +185,9 @@ class ChangesetTest < ActiveSupport::TestCase
           :project => Project.find(3),
           :url     => 'svn://localhost/test')
 
-    c = Changeset.new(:repository => r,
+    c = Changeset.new(:repository   => r,
                       :committed_on => Time.now,
-                      :comments => 'refs #2, an issue of a parent project')
+                      :comments     => 'refs #2, an issue of a parent project')
     c.scan_comment_for_issue_ids
 
     assert_equal [2], c.issue_ids.sort
@@ -232,133 +232,137 @@ class ChangesetTest < ActiveSupport::TestCase
   end
 
   def test_comments_should_be_converted_to_utf8
-      proj = Project.find(3)
-      # str = File.read("#{RAILS_ROOT}/test/fixtures/encoding/iso-8859-1.txt")
-      str = "Texte encod\xe9 en ISO-8859-1."
-      str.force_encoding("ASCII-8BIT") if str.respond_to?(:force_encoding)
-      r = Repository::Bazaar.create!(
-            :project => proj, :url => '/tmp/test/bazaar',
+    proj = Project.find(3)
+    # str = File.read("#{RAILS_ROOT}/test/fixtures/encoding/iso-8859-1.txt")
+    str = "Texte encod\xe9 en ISO-8859-1."
+    str.force_encoding("ASCII-8BIT") if str.respond_to?(:force_encoding)
+    r = Repository::Bazaar.create!(
+            :project      => proj,
+            :url          => '/tmp/test/bazaar',
             :log_encoding => 'ISO-8859-1' )
-      assert r
-      c = Changeset.new(:repository => r,
-                        :committed_on => Time.now,
-                        :revision => '123',
-                        :scmid => '12345',
-                        :comments => str)
-      assert( c.save )
-      str_utf8 = "Texte encod\xc3\xa9 en ISO-8859-1."
-      str_utf8.force_encoding("UTF-8") if str_utf8.respond_to?(:force_encoding)
-      assert_equal str_utf8, c.comments
+    assert r
+    c = Changeset.new(:repository   => r,
+                      :committed_on => Time.now,
+                      :revision     => '123',
+                      :scmid        => '12345',
+                      :comments     => str)
+    assert( c.save )
+    str_utf8 = "Texte encod\xc3\xa9 en ISO-8859-1."
+    str_utf8.force_encoding("UTF-8") if str_utf8.respond_to?(:force_encoding)
+    assert_equal str_utf8, c.comments
   end
 
   def test_invalid_utf8_sequences_in_comments_should_be_replaced_latin1
-      proj = Project.find(3)
-      # str = File.read("#{RAILS_ROOT}/test/fixtures/encoding/iso-8859-1.txt")
-      str1 = "Texte encod\xe9 en ISO-8859-1."
-      str2 = "\xe9a\xe9b\xe9c\xe9d\xe9e"
-      str1.force_encoding("UTF-8") if str1.respond_to?(:force_encoding)
-      str2.force_encoding("ASCII-8BIT") if str2.respond_to?(:force_encoding)
-      r = Repository::Bazaar.create!(
-            :project => proj,
-            :url => '/tmp/test/bazaar',
+    proj = Project.find(3)
+    # str = File.read("#{RAILS_ROOT}/test/fixtures/encoding/iso-8859-1.txt")
+    str1 = "Texte encod\xe9 en ISO-8859-1."
+    str2 = "\xe9a\xe9b\xe9c\xe9d\xe9e"
+    str1.force_encoding("UTF-8") if str1.respond_to?(:force_encoding)
+    str2.force_encoding("ASCII-8BIT") if str2.respond_to?(:force_encoding)
+    r = Repository::Bazaar.create!(
+            :project      => proj,
+            :url          => '/tmp/test/bazaar',
             :log_encoding => 'UTF-8' )
-      assert r
-      c = Changeset.new(:repository   => r,
-                        :committed_on => Time.now,
-                        :revision     => '123',
-                        :scmid        => '12345',
-                        :comments     => str1,
-                        :committer    => str2)
-      assert( c.save )
-      assert_equal "Texte encod? en ISO-8859-1.", c.comments
-      assert_equal "?a?b?c?d?e", c.committer
+    assert r
+    c = Changeset.new(:repository   => r,
+                      :committed_on => Time.now,
+                      :revision     => '123',
+                      :scmid        => '12345',
+                      :comments     => str1,
+                      :committer    => str2)
+    assert( c.save )
+    assert_equal "Texte encod? en ISO-8859-1.", c.comments
+    assert_equal "?a?b?c?d?e", c.committer
   end
 
   def test_invalid_utf8_sequences_in_comments_should_be_replaced_ja_jis
-      proj = Project.find(3)
-      str = "test\xb5\xfetest\xb5\xfe"
-      if str.respond_to?(:force_encoding)
-        str.force_encoding('ASCII-8BIT')
-      end
-      r = Repository::Bazaar.create!(
-            :project => proj,
-            :url     => '/tmp/test/bazaar',
+    proj = Project.find(3)
+    str = "test\xb5\xfetest\xb5\xfe"
+    if str.respond_to?(:force_encoding)
+      str.force_encoding('ASCII-8BIT')
+    end
+    r = Repository::Bazaar.create!(
+            :project      => proj,
+            :url          => '/tmp/test/bazaar',
             :log_encoding => 'ISO-2022-JP' )
-      assert r
-      c = Changeset.new(:repository   => r,
-                        :committed_on => Time.now,
-                        :revision     => '123',
-                        :scmid        => '12345',
-                        :comments     => str)
-      assert( c.save )
-      assert_equal "test??test??", c.comments
+    assert r
+    c = Changeset.new(:repository   => r,
+                      :committed_on => Time.now,
+                      :revision     => '123',
+                      :scmid        => '12345',
+                      :comments     => str)
+    assert( c.save )
+    assert_equal "test??test??", c.comments
   end
 
   def test_comments_should_be_converted_all_latin1_to_utf8
-      s1 = "\xC2\x80"
-      s2 = "\xc3\x82\xc2\x80"
-      s4 = s2.dup
-      if s1.respond_to?(:force_encoding)
-        s3 = s1.dup
-        s1.force_encoding('ASCII-8BIT')
-        s2.force_encoding('ASCII-8BIT')
-        s3.force_encoding('ISO-8859-1')
-        s4.force_encoding('UTF-8')
-        assert_equal s3.encode('UTF-8'), s4
-      end
-      proj = Project.find(3)
-      r = Repository::Bazaar.create!(
-            :project => proj, :url => '/tmp/test/bazaar',
+    s1 = "\xC2\x80"
+    s2 = "\xc3\x82\xc2\x80"
+    s4 = s2.dup
+    if s1.respond_to?(:force_encoding)
+      s3 = s1.dup
+      s1.force_encoding('ASCII-8BIT')
+      s2.force_encoding('ASCII-8BIT')
+      s3.force_encoding('ISO-8859-1')
+      s4.force_encoding('UTF-8')
+      assert_equal s3.encode('UTF-8'), s4
+    end
+    proj = Project.find(3)
+    r = Repository::Bazaar.create!(
+            :project      => proj,
+            :url          => '/tmp/test/bazaar',
             :log_encoding => 'ISO-8859-1' )
-      assert r
-      c = Changeset.new(:repository => r,
-                        :committed_on => Time.now,
-                        :revision => '123',
-                        :scmid => '12345',
-                        :comments => s1)
-      assert( c.save )
-      assert_equal s4, c.comments
+    assert r
+    c = Changeset.new(:repository   => r,
+                      :committed_on => Time.now,
+                      :revision     => '123',
+                      :scmid        => '12345',
+                      :comments     => s1)
+    assert( c.save )
+    assert_equal s4, c.comments
   end
 
   def test_comments_nil
-      proj = Project.find(3)
-      r = Repository::Bazaar.create!(
-            :project => proj, :url => '/tmp/test/bazaar',
+    proj = Project.find(3)
+    r = Repository::Bazaar.create!(
+            :project      => proj,
+            :url          => '/tmp/test/bazaar',
             :log_encoding => 'ISO-8859-1' )
-      assert r
-      c = Changeset.new(:repository   => r,
-                        :committed_on => Time.now,
-                        :revision     => '123',
-                        :scmid        => '12345',
-                        :comments     => nil,
-                        :committer    => nil)
-      assert( c.save )
-      assert_equal "", c.comments
-      assert_equal nil, c.committer
-      if c.comments.respond_to?(:force_encoding)
-        assert_equal "UTF-8", c.comments.encoding.to_s
-      end
+    assert r
+    c = Changeset.new(:repository   => r,
+                      :committed_on => Time.now,
+                      :revision     => '123',
+                      :scmid        => '12345',
+                      :comments     => nil,
+                      :committer    => nil)
+    assert( c.save )
+    assert_equal "", c.comments
+    assert_equal nil, c.committer
+    if c.comments.respond_to?(:force_encoding)
+      assert_equal "UTF-8", c.comments.encoding.to_s
+    end
   end
 
   def test_comments_empty
-      proj = Project.find(3)
-      r = Repository::Bazaar.create!(
-            :project => proj, :url => '/tmp/test/bazaar',
+    proj = Project.find(3)
+    r = Repository::Bazaar.create!(
+            :project      => proj,
+            :url          => '/tmp/test/bazaar',
             :log_encoding => 'ISO-8859-1' )
-      assert r
-      c = Changeset.new(:repository   => r,
-                        :committed_on => Time.now,
-                        :revision     => '123',
-                        :scmid        => '12345',
-                        :comments     => "",
-                        :committer    => "")
-      assert( c.save )
-      assert_equal "", c.comments
-      assert_equal "", c.committer
-      if c.comments.respond_to?(:force_encoding)
-        assert_equal "UTF-8", c.comments.encoding.to_s
-        assert_equal "UTF-8", c.committer.encoding.to_s
-      end
+    assert r
+    c = Changeset.new(:repository   => r,
+                      :committed_on => Time.now,
+                      :revision     => '123',
+                      :scmid        => '12345',
+                      :comments     => "",
+                      :committer    => "")
+    assert( c.save )
+    assert_equal "", c.comments
+    assert_equal "", c.committer
+    if c.comments.respond_to?(:force_encoding)
+      assert_equal "UTF-8", c.comments.encoding.to_s
+      assert_equal "UTF-8", c.committer.encoding.to_s
+    end
   end
 
   def test_identifier
