@@ -964,18 +964,18 @@ ja:
   enumeration_doc_categories: 文書カテゴリ
   enumeration_activities: 作業分類 (時間トラッキング)
   enumeration_system_activity: システム作業分類
-  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
-  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
-  label_bulk_edit_selected_time_entries: Bulk edit selected time entries
-  text_time_entries_destroy_confirmation: Are you sure you want to delete the selected time entr(y/ies)?
+  label_additional_workflow_transitions_for_assignee: チケット担当者に設定するワークフロー
+  label_additional_workflow_transitions_for_author: チケット作成者に設定するワークフロー
+  label_bulk_edit_selected_time_entries: 作業時間の一括編集
+  text_time_entries_destroy_confirmation: 選択された作業時間を本当に削除しますか？
   label_role_anonymous: Anonymous
   label_role_non_member: Non member
-  label_issue_note_added: Note added
-  label_issue_status_updated: Status updated
-  label_issue_priority_updated: Priority updated
-  label_issues_visibility_own: Issues created by or assigned to the user
-  field_issues_visibility: Issues visibility
-  label_issues_visibility_all: All issues
+  label_issue_note_added: 注記が追加されました
+  label_issue_status_updated: ステータスが更新されました
+  label_issue_priority_updated: 優先度が変更されました
+  label_issues_visibility_own: 作成もしくは割り当てられているチケットのみ
+  field_issues_visibility: チケットの閲覧範囲
+  label_issues_visibility_all: 全て
   permission_set_own_issues_private: Set own issues public or private
   field_is_private: Private
   permission_set_issues_private: Set issues public or private
