@@ -878,6 +878,8 @@
   label_project_copy_notifications: 在複製專案的過程中，傳送通知郵件
   label_principal_search: "搜尋用戶或群組："
   label_user_search: "搜尋用戶："
+  label_additional_workflow_transitions_for_author: 用戶為作者時額外允許的流程轉換
+  label_additional_workflow_transitions_for_assignee: 用戶為被指定者時額外允許的流程轉換
 
   button_login: 登入
   button_submit: 送出
