@@ -193,7 +193,6 @@ module Redmine
             rescue
             end
           end
-
           as_ary(log['logentry']).each do |le|
             cpalist = as_ary(le['paths']['path-copied']).map do |e|
               [e['__content__'], e['copyfrom-path']].map do |s|
@@ -201,20 +200,19 @@ module Redmine
               end
             end
             cpmap = Hash[*cpalist.flatten]
-
             paths = as_ary(le['paths']['path']).map do |e|
               p = scm_iconv('UTF-8', @path_encoding, CGI.unescape(e['__content__']) )
-              {:action => e['action'], :path => with_leading_slash(p),
-               :from_path => (cpmap.member?(p) ? with_leading_slash(cpmap[p]) : nil),
+              {:action        => e['action'],
+               :path          => with_leading_slash(p),
+               :from_path     => (cpmap.member?(p) ? with_leading_slash(cpmap[p]) : nil),
                :from_revision => (cpmap.member?(p) ? le['revision'] : nil)}
             end.sort { |a, b| a[:path] <=> b[:path] }
-
             yield Revision.new(:revision => le['revision'],
-                               :scmid => le['node'],
-                               :author => (le['author']['__content__'] rescue ''),
-                               :time => Time.parse(le['date']['__content__']),
-                               :message => le['msg']['__content__'],
-                               :paths => paths)
+                               :scmid    => le['node'],
+                               :author   => (le['author']['__content__'] rescue ''),
+                               :time     => Time.parse(le['date']['__content__']),
+                               :message  => le['msg']['__content__'],
+                               :paths    => paths)
           end
           self
         end
