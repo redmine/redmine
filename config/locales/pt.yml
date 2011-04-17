@@ -1,5 +1,6 @@
 # Portuguese localization for Ruby on Rails
 # by Ricardo Otero <oterosantos@gmail.com>
+# by Alberto Ferreira <toraxic@gmail.com>
 pt:
   support:
     array:
@@ -228,7 +229,7 @@ pt:
   field_homepage: Página
   field_is_public: Público
   field_parent: Sub-projecto de
-  field_is_in_roadmap: Tarefas mostradas no roadmap
+  field_is_in_roadmap: Tarefas mostradas no mapa de planificação
   field_login: Nome de utilizador
   field_mail_notification: Notificações por e-mail
   field_admin: Administrador
@@ -248,7 +249,7 @@ pt:
   field_attr_firstname: Atributo nome próprio
   field_attr_lastname: Atributo último nome
   field_attr_mail: Atributo e-mail
-  field_onthefly: Criação de utilizadores na hora
+  field_onthefly: Criação imediata de utilizadores
   field_start_date: Início
   field_done_ratio: % Completo
   field_auth_source: Modo de autenticação
@@ -264,7 +265,7 @@ pt:
   field_is_filter: Usado como filtro
   field_issue_to: Tarefa relacionada
   field_delay: Atraso
-  field_assignable: As tarefas podem ser associados a esta função
+  field_assignable: As tarefas podem ser associadas a esta função
   field_redirect_existing_links: Redireccionar ligações existentes
   field_estimated_hours: Tempo estimado
   field_column_names: Colunas
@@ -522,7 +523,7 @@ pt:
   label_sort_higher: Mover para cima
   label_sort_lower: Mover para baixo
   label_sort_lowest: Mover para o fim
-  label_roadmap: Roadmap
+  label_roadmap: Planificação
   label_roadmap_due_in: "Termina em %{value}"
   label_roadmap_overdue: "Atrasado %{value}"
   label_roadmap_no_issues: Sem tarefas para esta versão
@@ -922,24 +923,24 @@ pt:
   project_module_calendar: Calendário
   button_edit_associated_wikipage: "Editar página Wiki associada: %{page_title}"
   text_are_you_sure_with_children: Apagar tarefa e todas as sub-tarefas?
-  field_text: Text field
-  label_user_mail_option_only_owner: Only for things I am the owner of
-  setting_default_notification_option: Default notification option
-  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
-  label_user_mail_option_only_assigned: Only for things I am assigned to
-  label_user_mail_option_none: No events
-  field_member_of_group: Assignee's group
-  field_assigned_to_role: Assignee's role
-  notice_not_authorized_archived_project: The project you're trying to access has been archived.
-  label_principal_search: "Search for user or group:"
-  label_user_search: "Search for user:"
-  field_visible: Visible
-  setting_emails_header: Emails header
-  setting_commit_logtime_activity_id: Activity for logged time
-  text_time_logged_by_changeset: Applied in changeset %{value}.
-  setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
+  field_text: Campo de texto
+  label_user_mail_option_only_owner: Apenas para tarefas das quais sou proprietário
+  setting_default_notification_option: Opção predefinida de notificação
+  label_user_mail_option_only_my_events: Apenas para tarefas que observo ou em que estou envolvido
+  label_user_mail_option_only_assigned: Apenas para tarefas que me foram atribuídas
+  label_user_mail_option_none: Sem eventos
+  field_member_of_group: Grupo do detentor de atribuição
+  field_assigned_to_role: Papel do detentor de atribuição
+  notice_not_authorized_archived_project: O projecto a que tentou aceder foi arquivado.
+  label_principal_search: "Procurar utilizador ou grupo:"
+  label_user_search: "Procurar utilizador:"
+  field_visible: Visível
+  setting_emails_header: Cabeçalho dos e-mails
+  setting_commit_logtime_activity_id: Actividade para tempo registado
+  text_time_logged_by_changeset: Aplicado no conjunto de alterações %{valor}.
+  setting_commit_logtime_enabled: Activar registo de tempo
+  notice_gantt_chart_truncated: O gráfico foi truncado porque excede o número máximo de itens visível (%{máx.})
+  setting_gantt_items_limit: Número máximo de itens exibidos no gráfico Gantt
   field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
   text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
   label_my_queries: My custom queries
