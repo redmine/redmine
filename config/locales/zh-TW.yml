@@ -1031,8 +1031,6 @@
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
 
-  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
-  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
   label_issue_note_added: Note added
   label_issue_status_updated: Status updated
   label_issue_priority_updated: Priority updated
