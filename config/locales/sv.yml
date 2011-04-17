@@ -579,6 +579,7 @@ sv:
   label_news_latest: Senaste nyheterna
   label_news_view_all: Visa alla nyheter
   label_news_added: Nyhet tillagd
+  label_news_comment_added: Kommentar tillagd till en nyhet
   label_settings: Inställningar
   label_overview: Översikt
   label_version: Version
@@ -837,12 +838,16 @@ sv:
   label_project_copy_notifications: Skicka mailnotifieringar när projektet kopieras
   label_principal_search: "Sök efter användare eller grupp:"
   label_user_search: "Sök efter användare:"
+  label_additional_workflow_transitions_for_author: Ytterligare övergångar tillåtna när användaren är den som skapat ärendet
+  label_additional_workflow_transitions_for_assignee: Ytterligare övergångar tillåtna när användaren är den som tilldelats ärendet
   
   button_login: Logga in
   button_submit: Skicka
   button_save: Spara
   button_check_all: Markera alla
   button_uncheck_all: Avmarkera alla
+  button_collapse_all: Kollapsa alla
+  button_expand_all: Expandera alla
   button_delete: Ta bort
   button_create: Skapa
   button_create_and_continue: Skapa och fortsätt
@@ -981,11 +986,6 @@ sv:
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
   enumeration_system_activity: Systemaktivitet
-  label_news_comment_added: Comment added to a news
-  button_expand_all: Expand all
-  button_collapse_all: Collapse all
-  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
-  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
   label_bulk_edit_selected_time_entries: Bulk edit selected time entries
   text_time_entries_destroy_confirmation: Are you sure you want to delete the selected time entr(y/ies)?
   label_role_anonymous: Anonymous
