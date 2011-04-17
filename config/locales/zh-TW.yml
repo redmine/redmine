@@ -541,6 +541,8 @@
   label_role_plural: 角色
   label_role_new: 建立新角色
   label_role_and_permissions: 角色與權限
+  label_role_anonymous: 匿名者
+  label_role_non_member: 非會員
   label_member: 成員
   label_member_new: 建立新成員
   label_member_plural: 成員
@@ -816,7 +818,8 @@
   label_changeset_plural: 變更集清單
   label_default_columns: 預設欄位清單
   label_no_change_option: (維持不變)
-  label_bulk_edit_selected_issues: 編輯選定的項目
+  label_bulk_edit_selected_issues: 大量編輯選取的項目
+  label_bulk_edit_selected_time_entries: 大量編輯選取的工時項目
   label_theme: 畫面主題
   label_default: 預設
   label_search_titles_only: 僅搜尋標題
@@ -975,6 +978,7 @@
   text_status_changed_by_changeset: "已套用至變更集 %{value}."
   text_time_logged_by_changeset: "紀錄於變更集 %{value}."
   text_issues_destroy_confirmation: '確定刪除已選擇的項目？'
+  text_time_entries_destroy_confirmation: 您確定要刪除所選擇的工時紀錄？
   text_select_project_modules: '選擇此專案可使用之模組：'
   text_default_administrator_account_changed: 已變更預設管理員帳號內容
   text_file_repository_writable: 可寫入附加檔案目錄
@@ -1029,10 +1033,6 @@
 
   label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
   label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
-  label_bulk_edit_selected_time_entries: Bulk edit selected time entries
-  text_time_entries_destroy_confirmation: Are you sure you want to delete the selected time entr(y/ies)?
-  label_role_anonymous: Anonymous
-  label_role_non_member: Non member
   label_issue_note_added: Note added
   label_issue_status_updated: Status updated
   label_issue_priority_updated: Priority updated
