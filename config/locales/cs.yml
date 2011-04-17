@@ -840,7 +840,7 @@ cs:
   button_update: Aktualizovat
   button_configure: Konfigurovat
   button_quote: Citovat
-  button_duplicate: Duplikát
+  button_duplicate: Duplikovat
   button_show: Zobrazit
   
   status_active: aktivní
