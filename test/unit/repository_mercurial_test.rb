@@ -176,6 +176,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       assert_equal 'A', c1[0].action
       assert_equal '/sql_escape/percent%dir/percentfile1.txt',  c1[0].path
       assert_equal '/sql_escape/percent%dir/percent%file1.txt', c1[0].from_path
+      assert_equal '3a330eb32958', c1[0].from_revision
 
       assert_equal 'A', c1[1].action
       assert_equal '/sql_escape/underscore_dir/understrike-file.txt', c1[1].path
@@ -188,6 +189,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       assert_equal 'A', c2[0].action
       assert_equal '/README (1)[2]&,%.-3_4', c2[0].path
       assert_equal '/README', c2[0].from_path
+      assert_equal '933ca60293d7', c2[0].from_revision
 
       cs3 = @repository.changesets.find_by_revision('19')
       c3  = cs3.changes
@@ -195,6 +197,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       assert_equal 'A', c3[0].action
       assert_equal "/latin-1-dir/test-#{@char_1}-1.txt",  c3[0].path
       assert_equal "/latin-1-dir/test-#{@char_1}.txt",    c3[0].from_path
+      assert_equal '5d9891a1b425', c3[0].from_revision
     end
 
     def test_find_changeset_by_name
