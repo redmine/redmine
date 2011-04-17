@@ -304,7 +304,8 @@ bg:
   field_text: Текстово поле
   field_visible: Видим
   field_warn_on_leaving_unsaved: Предупреди ме, когато напускам страница с незаписано съдържание
-  
+  field_issues_visibility: Видимост на задачите
+
   setting_app_title: Заглавие
   setting_app_subtitle: Описание
   setting_welcome_text: Допълнителен текст
@@ -376,7 +377,7 @@ bg:
   permission_add_issues: Добавяне на задачи
   permission_edit_issues: Редактиране на задачи
   permission_manage_issue_relations: Управление на връзките между задачите
-  permission_add_issue_notes: Добаване на бележки
+  permission_add_issue_notes: Добавяне на бележки
   permission_edit_issue_notes: Редактиране на бележки
   permission_edit_own_issue_notes: Редактиране на собствени бележки
   permission_move_issues: Преместване на задачи
@@ -451,6 +452,9 @@ bg:
   label_issues_by: "Задачи по %{value}"
   label_issue_added: Добавена задача
   label_issue_updated: Обновена задача
+  label_issue_note_added: Добавена бележка
+  label_issue_status_updated: Обновено състояние
+  label_issue_priority_updated: Обновен приоритет
   label_document: Документ
   label_document_new: Нов документ
   label_document_plural: Документи
@@ -459,6 +463,8 @@ bg:
   label_role_plural: Роли
   label_role_new: Нова роля
   label_role_and_permissions: Роли и права
+  label_role_anonymous: Анонимен
+  label_role_non_member: Не член
   label_member: Член
   label_member_new: Нов член
   label_member_plural: Членове
@@ -734,7 +740,8 @@ bg:
   label_changeset_plural: Ревизии
   label_default_columns: По подразбиране
   label_no_change_option: (Без промяна)
-  label_bulk_edit_selected_issues: Редактиране на задачи
+  label_bulk_edit_selected_issues: Групово редактиране на задачи
+  label_bulk_edit_selected_time_entries: Групово редактиране на записи за използвано време
   label_theme: Тема
   label_default: По подразбиране
   label_search_titles_only: Само в заглавията
@@ -798,6 +805,8 @@ bg:
   label_user_search: "Търсене на потребител:"
   label_additional_workflow_transitions_for_author: Позволени са допълнителни преходи, когато потребителят е авторът
   label_additional_workflow_transitions_for_assignee:  Позволени са допълнителни преходи, когато потребителят е назначеният към задачата
+  label_issues_visibility_all: Всички задачи
+  label_issues_visibility_own: Задачи, създадени от или назначени на потребителя
 
   button_login: Вход
   button_submit: Прикачване
@@ -893,6 +902,7 @@ bg:
   text_status_changed_by_changeset: "Приложено с ревизия %{value}."
   text_time_logged_by_changeset: Приложено в ревизия %{value}.
   text_issues_destroy_confirmation: 'Сигурни ли сте, че искате да изтриете избраните задачи?'
+  text_time_entries_destroy_confirmation: Сигурен ли сте, че изтриете избраните записи за изразходвано време?
   text_select_project_modules: 'Изберете активните модули за този проект:'
   text_default_administrator_account_changed: Сменен фабричния администраторски профил
   text_file_repository_writable: Възможност за писане в хранилището с файлове
@@ -945,17 +955,8 @@ bg:
   enumeration_activities: Дейности (time tracking)
   enumeration_system_activity: Системна активност
 
-  label_bulk_edit_selected_time_entries: Bulk edit selected time entries
-  text_time_entries_destroy_confirmation: Are you sure you want to delete the selected time entr(y/ies)?
-  label_role_anonymous: Anonymous
-  label_role_non_member: Non member
-  label_issue_note_added: Note added
-  label_issue_status_updated: Status updated
-  label_issue_priority_updated: Priority updated
-  label_issues_visibility_own: Issues created by or assigned to the user
-  field_issues_visibility: Issues visibility
-  label_issues_visibility_all: All issues
   permission_set_own_issues_private: Set own issues public or private
   field_is_private: Private
   permission_set_issues_private: Set issues public or private
   label_issues_visibility_public: All non private issues
+
