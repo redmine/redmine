@@ -353,7 +353,7 @@
   field_done_ratio: 完成百分比
   field_auth_source: 認證模式
   field_hide_mail: 隱藏我的電子郵件
-  field_comments: 註解
+  field_comments: 回應
   field_url: 網址
   field_start_page: 首頁
   field_subproject: 子專案
@@ -372,7 +372,7 @@
   field_time_zone: 時區
   field_searchable: 可用做搜尋條件
   field_default_value: 預設值
-  field_comments_sorting: 註解排序
+  field_comments_sorting: 回應排序
   field_parent_title: 父頁面
   field_editable: 可編輯
   field_watcher: 觀察者
@@ -475,7 +475,7 @@
   permission_edit_time_entries: 編輯工時紀錄
   permission_edit_own_time_entries: 編輯自己的工時記錄
   permission_manage_news: 管理新聞
-  permission_comment_news: 註解新聞
+  permission_comment_news: 回應新聞
   permission_manage_documents: 管理文件
   permission_view_documents: 檢視文件
   permission_manage_files: 管理檔案
@@ -619,6 +619,7 @@
   label_news_latest: 最近新聞
   label_news_view_all: 檢視全部的新聞
   label_news_added: 新聞已新增
+  label_news_comment_added: 回應已加入新聞
   label_settings: 設定
   label_overview: 概觀
   label_version: 版本
@@ -665,15 +666,15 @@
   label_last_changes: "最近 %{count} 個變更"
   label_change_view_all: 檢視全部的變更
   label_personalize_page: 自訂版面
-  label_comment: 註解
-  label_comment_plural: 註解
+  label_comment: 回應
+  label_comment_plural: 回應
   label_x_comments:
-    zero: 無註解
-    one: 1 個註解
-    other: "%{count} 個註解"
-  label_comment_add: 加入新註解
-  label_comment_added: 新註解已加入
-  label_comment_delete: 刪除註解
+    zero: 無回應
+    one: 1 個回應
+    other: "%{count} 個回應"
+  label_comment_add: 加入新回應
+  label_comment_added: 新回應已加入
+  label_comment_delete: 刪除回應
   label_query: 自訂查詢
   label_query_plural: 自訂查詢
   label_query_new: 建立新查詢
@@ -1022,7 +1023,6 @@
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
 
-  label_news_comment_added: Comment added to a news
   button_expand_all: Expand all
   button_collapse_all: Collapse all
   label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
