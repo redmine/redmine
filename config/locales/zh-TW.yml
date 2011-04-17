@@ -386,6 +386,7 @@
   field_text: 內容文字
   field_visible: 可被看見
   field_warn_on_leaving_unsaved: "提醒我將要離開的頁面中尚有未儲存的資料"
+  field_issues_visibility: 項目可見度
   
   setting_app_title: 標題
   setting_app_subtitle: 副標題
@@ -533,6 +534,9 @@
   label_issues_by: "項目按 %{value} 分組顯示"
   label_issue_added: 項目已新增
   label_issue_updated: 項目已更新
+  label_issue_note_added: 筆記已新增
+  label_issue_status_updated: 狀態已更新
+  label_issue_priority_updated: 優先權已更新
   label_document: 文件
   label_document_new: 建立新文件
   label_document_plural: 文件
@@ -883,7 +887,9 @@
   label_user_search: "搜尋用戶："
   label_additional_workflow_transitions_for_author: 用戶為作者時額外允許的流程轉換
   label_additional_workflow_transitions_for_assignee: 用戶為被指定者時額外允許的流程轉換
-
+  label_issues_visibility_all: 所有項目
+  label_issues_visibility_own: 使用者所建立的或被指派的項目
+  
   button_login: 登入
   button_submit: 送出
   button_save: 儲存
@@ -1031,12 +1037,6 @@
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
 
-  label_issue_note_added: Note added
-  label_issue_status_updated: Status updated
-  label_issue_priority_updated: Priority updated
-  label_issues_visibility_own: Issues created by or assigned to the user
-  field_issues_visibility: Issues visibility
-  label_issues_visibility_all: All issues
   permission_set_own_issues_private: Set own issues public or private
   field_is_private: Private
   permission_set_issues_private: Set issues public or private
