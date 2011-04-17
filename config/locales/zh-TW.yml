@@ -387,6 +387,7 @@
   field_visible: 可被看見
   field_warn_on_leaving_unsaved: "提醒我將要離開的頁面中尚有未儲存的資料"
   field_issues_visibility: 項目可見度
+  field_is_private: 私人
   
   setting_app_title: 標題
   setting_app_subtitle: 副標題
@@ -459,6 +460,8 @@
   permission_add_issues: 新增項目
   permission_edit_issues: 編輯項目
   permission_manage_issue_relations: 管理項目關聯
+  permission_set_issues_private: 設定項目為公開或私人
+  permission_set_own_issues_private: 設定自己的項目為公開或私人
   permission_add_issue_notes: 新增筆記
   permission_edit_issue_notes: 編輯筆記
   permission_edit_own_issue_notes: 編輯自己的筆記
@@ -888,6 +891,7 @@
   label_additional_workflow_transitions_for_author: 用戶為作者時額外允許的流程轉換
   label_additional_workflow_transitions_for_assignee: 用戶為被指定者時額外允許的流程轉換
   label_issues_visibility_all: 所有項目
+  label_issues_visibility_public: 所有非私人項目
   label_issues_visibility_own: 使用者所建立的或被指派的項目
   
   button_login: 登入
@@ -1036,9 +1040,5 @@
   enumeration_doc_categories: 文件分類
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
-
-  permission_set_own_issues_private: Set own issues public or private
-  field_is_private: Private
-  permission_set_issues_private: Set issues public or private
-  label_issues_visibility_public: All non private issues
   text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
+
