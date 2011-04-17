@@ -937,7 +937,7 @@ pt:
   field_visible: Visível
   setting_emails_header: Cabeçalho dos e-mails
   setting_commit_logtime_activity_id: Actividade para tempo registado
-  text_time_logged_by_changeset: Aplicado no conjunto de alterações %{valor}.
+  text_time_logged_by_changeset: Aplicado no conjunto de alterações %{value}.
   setting_commit_logtime_enabled: Activar registo de tempo
   notice_gantt_chart_truncated: O gráfico foi truncado porque excede o número máximo de itens visível (%{máx.})
   setting_gantt_items_limit: Número máximo de itens exibidos no gráfico Gantt
