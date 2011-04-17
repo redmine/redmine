@@ -982,3 +982,4 @@ ja:
   field_is_private: プライベート
   permission_set_issues_private: チケットをプライベートに設定
   label_issues_visibility_public: プライベートチケット以外
+  text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).

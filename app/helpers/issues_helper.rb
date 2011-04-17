@@ -109,6 +109,24 @@ module IssuesHelper
     s
   end
   
+  def issues_destroy_confirmation_message(issues)
+    issues = [issues] unless issues.is_a?(Array)
+    message = l(:text_issues_destroy_confirmation)
+    descendant_count = issues.inject(0) {|memo, i| memo += (i.right - i.left - 1)/2}
+    if descendant_count > 0
+      issues.each do |issue|
+        next if issue.root?
+        issues.each do |other_issue|
+          descendant_count -= 1 if issue.is_descendant_of?(other_issue)
+        end
+      end
+      if descendant_count > 0
+        message << "\n" + l(:text_issues_destroy_descendants_confirmation, :count => descendant_count)
+      end
+    end
+    message
+  end
+  
   def sidebar_queries
     unless @sidebar_queries
       # User can see public queries and his own queries

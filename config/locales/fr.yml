@@ -883,7 +883,8 @@ fr:
   text_load_default_configuration: Charger le paramétrage par défaut
   text_status_changed_by_changeset: "Appliqué par commit %{value}."
   text_time_logged_by_changeset: "Appliqué par commit %{value}"
-  text_issues_destroy_confirmation: 'Êtes-vous sûr de vouloir supprimer le(s) demandes(s) selectionnée(s) ?'
+  text_issues_destroy_confirmation: 'Êtes-vous sûr de vouloir supprimer la ou les demandes(s) selectionnée(s) ?'
+  text_issues_destroy_descendants_confirmation: "Cela entrainera également la suppression de %{count} sous-tâche(s)."
   text_select_project_modules: 'Sélectionner les modules à activer pour ce projet :'
   text_default_administrator_account_changed: Compte administrateur par défaut changé
   text_file_repository_writable: Répertoire de stockage des fichiers accessible en écriture

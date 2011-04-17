@@ -906,6 +906,7 @@ en:
   text_status_changed_by_changeset: "Applied in changeset %{value}."
   text_time_logged_by_changeset: "Applied in changeset %{value}."
   text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s)?'
+  text_issues_destroy_descendants_confirmation: "This will also delete %{count} subtask(s)."
   text_time_entries_destroy_confirmation: 'Are you sure you want to delete the selected time entr(y/ies)?'
   text_select_project_modules: 'Select modules to enable for this project:'
   text_default_administrator_account_changed: Default administrator account changed
