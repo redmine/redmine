@@ -36,6 +36,10 @@ class Repository::Darcs < Repository
     'Darcs'
   end
 
+  def supports_directory_revisions?
+    true
+  end
+
   def entry(path=nil, identifier=nil)
     patch = identifier.nil? ? nil : changesets.find_by_revision(identifier)
     scm.entry(path, patch.nil? ? nil : patch.scmid)
