@@ -796,12 +796,16 @@ bg:
   label_project_copy_notifications: Изпращане на Send e-mail известия по време на копирането на проекта
   label_principal_search: "Търсене на потребител или група:"
   label_user_search: "Търсене на потребител:"
+  label_additional_workflow_transitions_for_author: Позволени са допълнителни преходи, когато потребителят е авторът
+  label_additional_workflow_transitions_for_assignee:  Позволени са допълнителни преходи, когато потребителят е назначеният към задачата
 
   button_login: Вход
   button_submit: Прикачване
   button_save: Запис
   button_check_all: Избор на всички
   button_uncheck_all: Изчистване на всички
+  button_collapse_all: Скриване всички
+  button_expand_all: Разгъване всички
   button_delete: Изтриване
   button_create: Създаване
   button_create_and_continue: Създаване и продължаване
@@ -941,10 +945,6 @@ bg:
   enumeration_activities: Дейности (time tracking)
   enumeration_system_activity: Системна активност
 
-  button_expand_all: Expand all
-  button_collapse_all: Collapse all
-  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
-  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
   label_bulk_edit_selected_time_entries: Bulk edit selected time entries
   text_time_entries_destroy_confirmation: Are you sure you want to delete the selected time entr(y/ies)?
   label_role_anonymous: Anonymous
