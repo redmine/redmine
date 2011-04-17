@@ -325,7 +325,7 @@ ja:
   field_assigned_to_role: 担当者のロール
   field_text: テキスト
   field_visible: 表示
-  field_warn_on_leaving_unsaved: セーブされていないページから移動するときに警告する
+  field_warn_on_leaving_unsaved: データを保存せずにページから移動するときに警告
   
   setting_app_title: アプリケーションのタイトル
   setting_app_subtitle: アプリケーションのサブタイトル
@@ -470,7 +470,7 @@ ja:
   label_issue: チケット
   label_issue_new: 新しいチケット
   label_issue_plural: チケット
-  label_issue_view_all: 全てのチケットを見る
+  label_issue_view_all: すべてのチケットを見る
   label_issues_by: "%{value} 別のチケット"
   label_issue_added: チケットが追加されました
   label_issue_updated: チケットが更新されました
@@ -520,7 +520,7 @@ ja:
   label_last_login: 最近の接続
   label_registered_on: 登録日
   label_activity: 活動
-  label_overall_activity: 全ての活動
+  label_overall_activity: すべての活動
   label_user_activity: "%{value} の活動"
   label_new: 新しく作成
   label_logged_as: ログイン中：
@@ -558,7 +558,7 @@ ja:
   label_news_new: ニュースを追加
   label_news_plural: ニュース
   label_news_latest: 最新ニュース
-  label_news_view_all: 全てのニュースを見る
+  label_news_view_all: すべてのニュースを見る
   label_news_added: ニュースが追加されました
   label_news_comment_added: ニュースにコメントが追加されました
   label_settings: 設定
@@ -591,7 +591,7 @@ ja:
   label_permissions: 権限
   label_current_status: 現在のステータス
   label_new_statuses_allowed: ステータスの移行先
-  label_all: 全て
+  label_all: すべて
   label_none: なし
   label_nobody: 無記名
   label_next: 次
@@ -605,7 +605,7 @@ ja:
   label_gantt: ガントチャート
   label_internal: 内部
   label_last_changes: "最新の変更 %{count}件"
-  label_change_view_all: 全ての変更を見る
+  label_change_view_all: すべての変更を見る
   label_personalize_page: このページをパーソナライズする
   label_comment: コメント
   label_comment_plural: コメント
@@ -664,7 +664,7 @@ ja:
   label_latest_revision: 最新リビジョン
   label_latest_revision_plural: 最新リビジョン
   label_view_revisions: リビジョンを見る
-  label_view_all_revisions: 全てのリビジョンを見る
+  label_view_all_revisions: すべてのリビジョンを見る
   label_max_size: 最大サイズ
   label_sort_highest: 一番上へ
   label_sort_higher: 上へ
@@ -690,7 +690,7 @@ ja:
   label_changes_details: 全変更の詳細
   label_issue_tracking: チケットトラッキング
   label_spent_time: 作業時間の記録
-  label_overall_spent_time: 全ての作業時間の記録
+  label_overall_spent_time: すべての作業時間の記録
   label_f_hour: "%{value}時間"
   label_f_hour_plural: "%{value}時間"
   label_time_tracking: 時間トラッキング
@@ -761,8 +761,8 @@ ja:
   label_theme: テーマ
   label_default: 既定
   label_search_titles_only: タイトルのみ
-  label_user_mail_option_all: "参加しているプロジェクトの全ての通知"
-  label_user_mail_option_selected: "選択したプロジェクトの全ての通知..."
+  label_user_mail_option_all: "参加しているプロジェクトのすべての通知"
+  label_user_mail_option_selected: "選択したプロジェクトのすべての通知..."
   label_user_mail_option_none: "通知しない"
   label_user_mail_option_only_my_events: "ウォッチまたは関係している事柄のみ"
   label_user_mail_option_only_assigned: "自分が担当している事柄のみ"
@@ -822,8 +822,8 @@ ja:
   button_login: ログイン
   button_submit: 変更
   button_save: 保存
-  button_check_all: 全てにチェックをつける
-  button_uncheck_all: 全てのチェックを外す
+  button_check_all: すべてにチェックをつける
+  button_uncheck_all: すべてのチェックを外す
   button_expand_all: 展開
   button_collapse_all: 折りたたみ
   button_delete: 削除
@@ -883,7 +883,7 @@ ja:
   text_subprojects_destroy_warning: "サブプロジェクト %{value} も削除されます。"
   text_workflow_edit: ワークフローを編集するロールとトラッカーを選んでください
   text_are_you_sure: よろしいですか？
-  text_are_you_sure_with_children: チケットとその子チケット全てを削除しますか?
+  text_are_you_sure_with_children: チケットとその子チケットすべてを削除しますか?
   text_journal_changed: "%{label} を %{old} から %{new} に変更"
   text_journal_changed_no_detail: "%{label} を更新"
   text_journal_set_to: "%{label} を %{value} にセット"
@@ -903,7 +903,7 @@ ja:
   text_issues_ref_in_commit_messages: コミットメッセージ内でチケットの参照/修正
   text_issue_added: "チケット %{id} が %{author} によって報告されました。"
   text_issue_updated: "チケット %{id} が %{author} によって更新されました。"
-  text_wiki_destroy_confirmation: 本当にこのwikiとその内容の全てを削除しますか？
+  text_wiki_destroy_confirmation: 本当にこのwikiとその内容のすべてを削除しますか？
   text_issue_category_destroy_question: "%{count}件のチケットがこのカテゴリに割り当てられています。"
   text_issue_category_destroy_assignments: カテゴリの割り当てを削除する
   text_issue_category_reassign_to: チケットをこのカテゴリに再割り当てする
@@ -936,7 +936,7 @@ ja:
   text_own_membership_delete_confirmation: "いくつかまたはすべての権限をあなた自身から剥奪しようとしているため、このプロジェクトを編集できなくなるかもしれません。\n本当に続けてもよろしいですか？"
   text_zoom_in: 拡大
   text_zoom_out: 縮小
-  text_warn_on_leaving_unsaved: このページから移動すると、セーブされていないデータが失われます。
+  text_warn_on_leaving_unsaved: このページから移動すると、保存されていないデータが失われます。
   
   default_role_manager: 管理者
   default_role_developer: 開発者
@@ -964,19 +964,21 @@ ja:
   enumeration_doc_categories: 文書カテゴリ
   enumeration_activities: 作業分類 (時間トラッキング)
   enumeration_system_activity: システム作業分類
-  label_additional_workflow_transitions_for_assignee: チケット担当者に設定するワークフロー
-  label_additional_workflow_transitions_for_author: チケット作成者に設定するワークフロー
+  label_additional_workflow_transitions_for_assignee: チケット担当者に追加で許可する遷移
+  label_additional_workflow_transitions_for_author: チケット作成者に追加で許可する遷移
   label_bulk_edit_selected_time_entries: 作業時間の一括編集
-  text_time_entries_destroy_confirmation: 選択された作業時間を本当に削除しますか？
+  text_time_entries_destroy_confirmation: 本当に選択した作業時間を削除してもよろしいですか?
+
   label_role_anonymous: Anonymous
   label_role_non_member: Non member
+
   label_issue_note_added: 注記が追加されました
   label_issue_status_updated: ステータスが更新されました
-  label_issue_priority_updated: 優先度が変更されました
-  label_issues_visibility_own: 作成もしくは割り当てられているチケットのみ
-  field_issues_visibility: チケットの閲覧範囲
-  label_issues_visibility_all: 全て
-  permission_set_own_issues_private: Set own issues public or private
-  field_is_private: Private
-  permission_set_issues_private: Set issues public or private
-  label_issues_visibility_public: All non private issues
+  label_issue_priority_updated: 優先度が更新されました
+  label_issues_visibility_own: 作成者か担当者であるチケット
+  field_issues_visibility: 表示できるチケット
+  label_issues_visibility_all: すべてのチケット
+  permission_set_own_issues_private: 自分のチケットをプライベートに設定
+  field_is_private: プライベート
+  permission_set_issues_private: チケットをプライベートに設定
+  label_issues_visibility_public: プライベートチケット以外
