@@ -205,7 +205,7 @@ module Redmine
               {:action        => e['action'],
                :path          => with_leading_slash(p),
                :from_path     => (cpmap.member?(p) ? with_leading_slash(cpmap[p]) : nil),
-               :from_revision => (cpmap.member?(p) ? le['revision'] : nil)}
+               :from_revision => (cpmap.member?(p) ? le['node'] : nil)}
             end.sort { |a, b| a[:path] <=> b[:path] }
             yield Revision.new(:revision => le['revision'],
                                :scmid    => le['node'],
