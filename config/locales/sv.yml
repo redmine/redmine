@@ -130,7 +130,7 @@ sv:
         greater_than_start_date: "måste vara senare än startdatumet"
         not_same_project: "tillhör inte samma projekt"
         circular_dependency: "Denna relation skulle skapa ett cirkulärt beroende"
-        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
+        cant_link_an_issue_with_a_descendant: "Ett ärende kan inte länkas till ett av dess underärenden"
 
   direction: ltr
   date:
@@ -346,6 +346,8 @@ sv:
   field_text: Textfält
   field_visible: Synlig
   field_warn_on_leaving_unsaved: Varna om jag lämnar en sida med osparad text
+  field_issues_visibility: Ärendesynlighet
+  field_is_private: Privat
   
   setting_app_title: Applikationsrubrik
   setting_app_subtitle: Applikationsunderrubrik
@@ -418,6 +420,8 @@ sv:
   permission_edit_issues: Ändra ärenden
   permission_view_issues: Visa ärenden
   permission_manage_issue_relations: Hantera ärenderelationer
+  permission_set_issues_private: Sätta ärenden publika eller privata
+  permission_set_own_issues_private: Sätta egna ärenden publika eller privata
   permission_add_issue_notes: Lägga till ärendenotering
   permission_edit_issue_notes: Ändra ärendenoteringar
   permission_edit_own_issue_notes: Ändra egna ärendenoteringar
@@ -493,6 +497,9 @@ sv:
   label_issues_by: "Ärenden %{value}"
   label_issue_added: Ärende tillagt
   label_issue_updated: Ärende uppdaterat
+  label_issue_note_added: Anteckning tillagd
+  label_issue_status_updated: Status uppdaterad
+  label_issue_priority_updated: Prioritet uppdaterad
   label_document: Dokument
   label_document_new: Nytt dokument
   label_document_plural: Dokument
@@ -501,6 +508,8 @@ sv:
   label_role_plural: Roller
   label_role_new: Ny roll
   label_role_and_permissions: Roller och behörigheter
+  label_role_anonymous: Anonym
+  label_role_non_member: Icke-medlem
   label_member: Medlem
   label_member_new: Ny medlem
   label_member_plural: Medlemmar
@@ -777,6 +786,7 @@ sv:
   label_default_columns: Standardkolumner
   label_no_change_option: (Ingen ändring)
   label_bulk_edit_selected_issues: Gemensam ändring av markerade ärenden
+  label_bulk_edit_selected_time_entries: Gruppredigera valda tidloggningar
   label_theme: Tema
   label_default: Standard
   label_search_titles_only: Sök endast i titlar
@@ -840,6 +850,9 @@ sv:
   label_user_search: "Sök efter användare:"
   label_additional_workflow_transitions_for_author: Ytterligare övergångar tillåtna när användaren är den som skapat ärendet
   label_additional_workflow_transitions_for_assignee: Ytterligare övergångar tillåtna när användaren är den som tilldelats ärendet
+  label_issues_visibility_all: Alla ärenden
+  label_issues_visibility_public: Alla icke-privata ärenden
+  label_issues_visibility_own: Ärenden skapade av eller tilldelade till användaren
   
   button_login: Logga in
   button_submit: Skicka
@@ -935,6 +948,8 @@ sv:
   text_status_changed_by_changeset: "Tilldelad i changeset %{value}."
   text_time_logged_by_changeset: "Tilldelad i changeset %{value}."
   text_issues_destroy_confirmation: 'Är du säker på att du vill radera markerade ärende(n) ?'
+  text_issues_destroy_descendants_confirmation: Detta kommer även ta bort %{count} underaktivitet(er).
+  text_time_entries_destroy_confirmation: Är du säker på att du vill ta bort valda tidloggningar?
   text_select_project_modules: 'Välj vilka moduler som ska vara aktiva för projektet:'
   text_default_administrator_account_changed: Standardadministratörens konto ändrat
   text_file_repository_writable: Arkivet för bifogade filer är skrivbart
@@ -986,18 +1001,3 @@ sv:
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
   enumeration_system_activity: Systemaktivitet
-  label_bulk_edit_selected_time_entries: Bulk edit selected time entries
-  text_time_entries_destroy_confirmation: Are you sure you want to delete the selected time entr(y/ies)?
-  label_role_anonymous: Anonymous
-  label_role_non_member: Non member
-  label_issue_note_added: Note added
-  label_issue_status_updated: Status updated
-  label_issue_priority_updated: Priority updated
-  label_issues_visibility_own: Issues created by or assigned to the user
-  field_issues_visibility: Issues visibility
-  label_issues_visibility_all: All issues
-  permission_set_own_issues_private: Set own issues public or private
-  field_is_private: Private
-  permission_set_issues_private: Set issues public or private
-  label_issues_visibility_public: All non private issues
-  text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
