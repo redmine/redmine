@@ -305,6 +305,7 @@ bg:
   field_visible: Видим
   field_warn_on_leaving_unsaved: Предупреди ме, когато напускам страница с незаписано съдържание
   field_issues_visibility: Видимост на задачите
+  field_is_private: Лична
 
   setting_app_title: Заглавие
   setting_app_subtitle: Описание
@@ -377,6 +378,8 @@ bg:
   permission_add_issues: Добавяне на задачи
   permission_edit_issues: Редактиране на задачи
   permission_manage_issue_relations: Управление на връзките между задачите
+  permission_set_own_issues_private: Установяване на собствените задачи публични или лични
+  permission_set_issues_private: Установяване на задачите публични или лични
   permission_add_issue_notes: Добавяне на бележки
   permission_edit_issue_notes: Редактиране на бележки
   permission_edit_own_issue_notes: Редактиране на собствени бележки
@@ -806,6 +809,7 @@ bg:
   label_additional_workflow_transitions_for_author: Позволени са допълнителни преходи, когато потребителят е авторът
   label_additional_workflow_transitions_for_assignee:  Позволени са допълнителни преходи, когато потребителят е назначеният към задачата
   label_issues_visibility_all: Всички задачи
+  label_issues_visibility_public: Всички не-лични задачи
   label_issues_visibility_own: Задачи, създадени от или назначени на потребителя
 
   button_login: Вход
@@ -902,6 +906,7 @@ bg:
   text_status_changed_by_changeset: "Приложено с ревизия %{value}."
   text_time_logged_by_changeset: Приложено в ревизия %{value}.
   text_issues_destroy_confirmation: 'Сигурни ли сте, че искате да изтриете избраните задачи?'
+  text_issues_destroy_descendants_confirmation: Тази операция ще премахне и %{count} подзадача(и).
   text_time_entries_destroy_confirmation: Сигурен ли сте, че изтриете избраните записи за изразходвано време?
   text_select_project_modules: 'Изберете активните модули за този проект:'
   text_default_administrator_account_changed: Сменен фабричния администраторски профил
@@ -954,10 +959,3 @@ bg:
   enumeration_doc_categories: Категории документи
   enumeration_activities: Дейности (time tracking)
   enumeration_system_activity: Системна активност
-
-  permission_set_own_issues_private: Set own issues public or private
-  field_is_private: Private
-  permission_set_issues_private: Set issues public or private
-  label_issues_visibility_public: All non private issues
-
-  text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
