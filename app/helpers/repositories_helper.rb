@@ -49,7 +49,8 @@ module RepositoriesHelper
       when 'A'
         # Detects moved/copied files
         if !change.from_path.blank?
-          change.action = @changeset.changes.detect {|c| c.action == 'D' && c.path == change.from_path} ? 'R' : 'C'
+          change.action =
+             @changeset.changes.detect {|c| c.action == 'D' && c.path == change.from_path} ? 'R' : 'C'
         end
         change
       when 'D'
@@ -57,7 +58,7 @@ module RepositoriesHelper
       else
         change
       end
-   end.compact
+    end.compact
     
     tree = { }
     changes.each do |change|
@@ -73,13 +74,11 @@ module RepositoriesHelper
       end
       p[:c] = change
     end
-    
     render_changes_tree(tree[:s])
   end
 
   def render_changes_tree(tree)
     return '' if tree.nil?
-
     output = ''
     output << '<ul>'
     tree.keys.sort.each do |file|
