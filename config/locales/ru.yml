@@ -1047,32 +1047,32 @@ ru:
   field_visible: Видимый
   setting_emails_header: Заголовок письма
 
-  setting_commit_logtime_activity_id: Activity for logged time
-  text_time_logged_by_changeset: Applied in changeset %{value}.
-  setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
-  field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
-  text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
-  label_my_queries: My custom queries
-  text_journal_changed_no_detail: "%{label} updated"
-  label_news_comment_added: Comment added to a news
-  button_expand_all: Expand all
-  button_collapse_all: Collapse all
-  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
-  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
-  label_bulk_edit_selected_time_entries: Bulk edit selected time entries
-  text_time_entries_destroy_confirmation: Are you sure you want to delete the selected time entr(y/ies)?
-  label_role_anonymous: Anonymous
-  label_role_non_member: Non member
-  label_issue_note_added: Note added
-  label_issue_status_updated: Status updated
-  label_issue_priority_updated: Priority updated
-  label_issues_visibility_own: Issues created by or assigned to the user
-  field_issues_visibility: Issues visibility
-  label_issues_visibility_all: All issues
-  permission_set_own_issues_private: Set own issues public or private
-  field_is_private: Private
-  permission_set_issues_private: Set issues public or private
-  label_issues_visibility_public: All non private issues
-  text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
+  setting_commit_logtime_activity_id: Активность для учета времени
+  text_time_logged_by_changeset: Учтено в редакции %{value}.
+  setting_commit_logtime_enabled: Включить учет времени
+  notice_gantt_chart_truncated: Диаграмма будет усечена, поскольку превышено максимальное кол-во элементов, которые могут отображаться (%{max})
+  setting_gantt_items_limit: Максимальное кол-во элементов отображаемых на диаграмме Ганта
+  field_warn_on_leaving_unsaved: Предупреждать при закратии страницы с несохраненным текстом
+  text_warn_on_leaving_unsaved: Текущая страница содержит несохраненный текст, который будет потерян, если вы покинете эту страницу.
+  label_my_queries: Мои сохраненные запросы
+  text_journal_changed_no_detail: "%{label} обновлено"
+  label_news_comment_added: Добавлен комментарий к новости
+  button_expand_all: Развернуть все
+  button_collapse_all: Свернуть все
+  label_additional_workflow_transitions_for_assignee: Дополнительные переходы, когда пользователь является исполнителем
+  label_additional_workflow_transitions_for_author: Дополнительные переходы, когда пользователь является автором
+  label_bulk_edit_selected_time_entries: Массовое изменение выбранных записей затраченного времени времени 
+  text_time_entries_destroy_confirmation: Вы уверены что хотите удалить выбраные записи затраченного времени?
+  label_role_anonymous: Аноним
+  label_role_non_member: Не участник
+  label_issue_note_added: Примечание добавлено
+  label_issue_status_updated: Статус обновлен
+  label_issue_priority_updated: Приоритет обновлен
+  label_issues_visibility_own: Задачи созданные или назначенные пользователю
+  field_issues_visibility: Видимость задач
+  label_issues_visibility_all: Все задачи
+  permission_set_own_issues_private: Устанавливать видимость (общая/частная) для собственных задач
+  field_is_private: Частная
+  permission_set_issues_private: Устанавливать видимость (общая/частная) для задач
+  label_issues_visibility_public: Только общие задачи
+  text_issues_destroy_descendants_confirmation: Так же будут удалено %{count} задачи.
