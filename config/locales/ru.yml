@@ -608,7 +608,7 @@ ru:
   label_optional_description: Описание (опционально)
   label_options: Опции
   label_overall_activity: Сводная активность
-  label_overview: Просмотр
+  label_overview: Обзор
   label_password_lost: Восстановление пароля
   label_permissions_report: Отчет о правах доступа
   label_permissions: Права доступа
