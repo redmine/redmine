@@ -20,9 +20,13 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class ChangesetTest < ActiveSupport::TestCase
-  fixtures :projects, :repositories, :issues, :issue_statuses,
-           :changesets, :changes, :issue_categories, :enumerations,
-           :custom_fields, :custom_values, :users, :members, :member_roles, :trackers
+  fixtures :projects, :repositories,
+           :issues, :issue_statuses, :issue_categories,
+           :changesets, :changes, 
+           :enumerations,
+           :custom_fields, :custom_values,
+           :users, :members, :member_roles, :trackers,
+           :enabled_modules, :roles
 
   def setup
   end
