@@ -961,3 +961,4 @@ sk:
   field_scm_path_encoding: Path encoding
   text_scm_path_encoding_note: "Default: UTF-8"
   field_path_to_repository: Path to repository
+  field_root_directory: Root directory
