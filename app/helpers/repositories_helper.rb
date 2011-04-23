@@ -198,7 +198,8 @@ module RepositoriesHelper
   end
 
   def darcs_field_tags(form, repository)
-    content_tag('p', form.text_field(:url, :label => 'Path to repository',
+    content_tag('p', form.text_field(
+                     :url, :label => l("field_path_to_repository"),
                      :size => 60, :required => true,
                      :disabled => (repository && !repository.new_record?))) +
     content_tag('p', form.select(
@@ -208,7 +209,7 @@ module RepositoriesHelper
 
   def mercurial_field_tags(form, repository)
     content_tag('p', form.text_field(
-                       :url, :label => 'Path to repository',
+                       :url, :label => l("field_path_to_repository"),
                        :size => 60, :required => true,
                        :disabled => (repository && !repository.root_url.blank?)
                          ) +
@@ -221,10 +222,12 @@ module RepositoriesHelper
   end
 
   def git_field_tags(form, repository)
-    content_tag('p', form.text_field(:url, :label => 'Path to repository',
+    content_tag('p', form.text_field(
+                       :url, :label => l("field_path_to_repository"),
                        :size => 60, :required => true,
-                       :disabled => (repository && !repository.root_url.blank?)) +
-                       '<br />Bare and local repository (e.g. /gitrepo, c:\gitrepo)') +
+                       :disabled => (repository && !repository.root_url.blank?)
+                         ) +
+                      '<br />Bare and local repository (e.g. /gitrepo, c:\gitrepo)') +
     content_tag('p', form.select(
                         :path_encoding, [nil] + Setting::ENCODINGS,
                         :label => l("field_scm_path_encoding")
@@ -250,7 +253,8 @@ module RepositoriesHelper
   end
 
   def bazaar_field_tags(form, repository)
-    content_tag('p', form.text_field(:url, :label => 'Path to repository',
+    content_tag('p', form.text_field(
+                     :url, :label => l("field_path_to_repository"),
                      :size => 60, :required => true,
                      :disabled => (repository && !repository.new_record?))) +
     content_tag('p', form.select(

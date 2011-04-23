@@ -21,11 +21,12 @@ class Repository::Git < Repository
   attr_protected :root_url
   validates_presence_of :url
 
-  ATTRIBUTE_KEY_NAMES = {
-      "url"          => "Path to repository",
-    }
   def self.human_attribute_name(attribute_key_name)
-    ATTRIBUTE_KEY_NAMES[attribute_key_name] || super
+    attr_name = attribute_key_name
+    if attr_name == "url"
+      attr_name = "path_to_repository"
+    end
+    super(attr_name)
   end
 
   def self.scm_adapter_class
