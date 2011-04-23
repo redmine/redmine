@@ -883,7 +883,7 @@ ja:
   version_status_closed: 終了
 
   field_active: 有効
-  
+
   text_select_mail_notifications: どのメール通知を送信するか、アクションを選択してください。
   text_regexp_info: 例) ^[A-Z0-9]+$
   text_min_max_length_info: 0だと無制限になります
@@ -946,6 +946,7 @@ ja:
   text_zoom_out: 縮小
   text_warn_on_leaving_unsaved: このページから移動すると、保存されていないデータが失われます。
   text_scm_path_encoding_note: "デフォルト: UTF-8"
+  text_git_repository_note: "Bare、かつ、ローカルリポジトリ (例: /gitrepo, c:\gitrepo)"
 
   default_role_manager: 管理者
   default_role_developer: 開発者
