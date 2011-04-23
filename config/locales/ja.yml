@@ -331,6 +331,7 @@ ja:
   field_warn_on_leaving_unsaved: データを保存せずにページから移動するときに警告
   field_commit_logs_encoding: コミットメッセージのエンコーディング
   field_scm_path_encoding: パスのエンコーディング
+  field_path_to_repository: リポジトリのパス
 
   setting_app_title: アプリケーションのタイトル
   setting_app_subtitle: アプリケーションのサブタイトル
