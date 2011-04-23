@@ -309,7 +309,8 @@ en:
   field_warn_on_leaving_unsaved: "Warn me when leaving a page with unsaved text"
   field_issues_visibility: Issues visibility
   field_is_private: Private
-  
+  field_commit_logs_encoding: Commit messages encoding
+
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle
   setting_welcome_text: Welcome text
@@ -956,9 +957,8 @@ en:
   default_priority_immediate: Immediate
   default_activity_design: Design
   default_activity_development: Development
-  
+
   enumeration_issue_priorities: Issue priorities
   enumeration_doc_categories: Document categories
   enumeration_activities: Activities (time tracking)
   enumeration_system_activity: System Activity
-  field_commit_logs_encoding: Commit messages encoding

@@ -313,7 +313,8 @@ fr:
   field_warn_on_leaving_unsaved: "M'avertir lorsque je quitte une page contenant du texte non sauvegardé"
   field_issues_visibility: Visibilité des demandes
   field_is_private: Privée
-  
+  field_commit_logs_encoding: Encodage des messages de commit
+
   setting_app_title: Titre de l'application
   setting_app_subtitle: Sous-titre de l'application
   setting_welcome_text: Texte d'accueil
@@ -977,4 +978,3 @@ fr:
   setting_emails_header: En-tête des emails
   label_bulk_edit_selected_time_entries: Bulk edit selected time entries
   text_time_entries_destroy_confirmation: Are you sure you want to delete the selected time entr(y/ies)?
-  field_commit_logs_encoding: Encodage des messages de commit
