@@ -213,7 +213,7 @@ module RepositoriesHelper
                        '<br />Local repository (e.g. /hgrepo, c:\hgrepo)' ) +
     content_tag('p', form.select(
                         :path_encoding, [nil] + Setting::ENCODINGS,
-                        :label => 'Path encoding') +
+                        :label => l("field_scm_path_encoding")) +
                         '<br />Default: UTF-8')
   end
 
@@ -224,7 +224,7 @@ module RepositoriesHelper
                        '<br />Bare and local repository (e.g. /gitrepo, c:\gitrepo)') +
     content_tag('p', form.select(
                         :path_encoding, [nil] + Setting::ENCODINGS,
-                        :label => 'Path encoding') +
+                        :label => l("field_scm_path_encoding")) +
                         '<br />Default: UTF-8')
   end
 
@@ -240,7 +240,7 @@ module RepositoriesHelper
                      :label => l("field_commit_logs_encoding"), :required => true)) +
     content_tag('p', form.select(
                      :path_encoding, [nil] + Setting::ENCODINGS,
-                     :label => 'Path encoding') +
+                     :label => l("field_scm_path_encoding")) +
                      '<br />Default: UTF-8')
   end
 
@@ -258,8 +258,8 @@ module RepositoriesHelper
                      :size => 60, :required => true,
                      :disabled => (repository && !repository.root_url.blank?))) +
     content_tag('p', form.select(
-                        :path_encoding, [nil] + Setting::ENCODINGS,
-                        :label => 'Path encoding') +
-                        '<br />Default: UTF-8')
+                     :path_encoding, [nil] + Setting::ENCODINGS,
+                     :label => l("field_scm_path_encoding")) +
+                     '<br />Default: UTF-8')
   end
 end
