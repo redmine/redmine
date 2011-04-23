@@ -213,7 +213,7 @@ module RepositoriesHelper
                        :size => 60, :required => true,
                        :disabled => (repository && !repository.root_url.blank?)
                          ) +
-                     '<br />Local repository (e.g. /hgrepo, c:\hgrepo)' ) +
+                     '<br />' + l("text_mercurial_repository_note")) +
     content_tag('p', form.select(
                         :path_encoding, [nil] + Setting::ENCODINGS,
                         :label => l("field_scm_path_encoding")
