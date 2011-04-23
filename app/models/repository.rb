@@ -30,6 +30,14 @@ class Repository < ActiveRecord::Base
   # Checks if the SCM is enabled when creating a repository
   validate_on_create { |r| r.errors.add(:type, :invalid) unless Setting.enabled_scm.include?(r.class.name.demodulize) }
 
+  def self.human_attribute_name(attribute_key_name)
+    attr_name = attribute_key_name
+    if attr_name == "log_encoding"
+      attr_name = "commit_logs_encoding"
+    end
+    super(attr_name)
+  end
+
   # Removes leading and trailing whitespace
   def url=(arg)
     write_attribute(:url, arg ? arg.to_s.strip : nil)

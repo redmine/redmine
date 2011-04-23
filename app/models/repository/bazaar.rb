@@ -23,7 +23,6 @@ class Repository::Bazaar < Repository
 
   ATTRIBUTE_KEY_NAMES = {
       "url"          => "Root directory",
-      "log_encoding" => "Commit messages encoding",
     }
   def self.human_attribute_name(attribute_key_name)
     ATTRIBUTE_KEY_NAMES[attribute_key_name] || super

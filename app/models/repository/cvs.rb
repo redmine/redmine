@@ -24,7 +24,6 @@ class Repository::Cvs < Repository
   ATTRIBUTE_KEY_NAMES = {
       "root_url"     => "CVSROOT",
       "url"          => "Module",
-      "log_encoding" => "Commit messages encoding",
     }
   def self.human_attribute_name(attribute_key_name)
     ATTRIBUTE_KEY_NAMES[attribute_key_name] || super

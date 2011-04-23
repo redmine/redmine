@@ -201,8 +201,9 @@ module RepositoriesHelper
     content_tag('p', form.text_field(:url, :label => 'Root directory',
                      :size => 60, :required => true,
                      :disabled => (repository && !repository.new_record?))) +
-    content_tag('p', form.select(:log_encoding, [nil] + Setting::ENCODINGS,
-                                 :label => 'Commit messages encoding', :required => true))
+    content_tag('p', form.select(
+                     :log_encoding, [nil] + Setting::ENCODINGS,
+                     :label => l("field_commit_logs_encoding"), :required => true))
   end
 
   def mercurial_field_tags(form, repository)
@@ -234,8 +235,9 @@ module RepositoriesHelper
     content_tag('p', form.text_field(:url, :label => 'Module',
                      :size => 30, :required => true,
                      :disabled => !repository.new_record?)) +
-    content_tag('p', form.select(:log_encoding, [nil] + Setting::ENCODINGS,
-                                 :label => 'Commit messages encoding', :required => true)) +
+    content_tag('p', form.select(
+                     :log_encoding, [nil] + Setting::ENCODINGS,
+                     :label => l("field_commit_logs_encoding"), :required => true)) +
     content_tag('p', form.select(
                      :path_encoding, [nil] + Setting::ENCODINGS,
                      :label => 'Path encoding') +
@@ -246,8 +248,9 @@ module RepositoriesHelper
     content_tag('p', form.text_field(:url, :label => 'Root directory',
                      :size => 60, :required => true,
                      :disabled => (repository && !repository.new_record?))) +
-    content_tag('p', form.select(:log_encoding, [nil] + Setting::ENCODINGS,
-                                 :label => 'Commit messages encoding', :required => true))
+    content_tag('p', form.select(
+                     :log_encoding, [nil] + Setting::ENCODINGS,
+                     :label => l("field_commit_logs_encoding"), :required => true))
   end
 
   def filesystem_field_tags(form, repository)
