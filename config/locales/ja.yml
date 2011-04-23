@@ -332,6 +332,7 @@ ja:
   field_commit_logs_encoding: コミットメッセージのエンコーディング
   field_scm_path_encoding: パスのエンコーディング
   field_path_to_repository: リポジトリのパス
+  field_root_directory: ルートディレクトリ
 
   setting_app_title: アプリケーションのタイトル
   setting_app_subtitle: アプリケーションのサブタイトル
