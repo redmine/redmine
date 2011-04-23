@@ -213,8 +213,9 @@ module RepositoriesHelper
                        '<br />Local repository (e.g. /hgrepo, c:\hgrepo)' ) +
     content_tag('p', form.select(
                         :path_encoding, [nil] + Setting::ENCODINGS,
-                        :label => l("field_scm_path_encoding")) +
-                        '<br />Default: UTF-8')
+                        :label => l("field_scm_path_encoding")
+                        ) +
+                     '<br />' + l("text_scm_path_encoding_note"))
   end
 
   def git_field_tags(form, repository)
@@ -224,8 +225,9 @@ module RepositoriesHelper
                        '<br />Bare and local repository (e.g. /gitrepo, c:\gitrepo)') +
     content_tag('p', form.select(
                         :path_encoding, [nil] + Setting::ENCODINGS,
-                        :label => l("field_scm_path_encoding")) +
-                        '<br />Default: UTF-8')
+                        :label => l("field_scm_path_encoding")
+                        ) +
+                     '<br />' + l("text_scm_path_encoding_note"))
   end
 
   def cvs_field_tags(form, repository)
@@ -239,9 +241,10 @@ module RepositoriesHelper
                      :log_encoding, [nil] + Setting::ENCODINGS,
                      :label => l("field_commit_logs_encoding"), :required => true)) +
     content_tag('p', form.select(
-                     :path_encoding, [nil] + Setting::ENCODINGS,
-                     :label => l("field_scm_path_encoding")) +
-                     '<br />Default: UTF-8')
+                        :path_encoding, [nil] + Setting::ENCODINGS,
+                        :label => l("field_scm_path_encoding")
+                        ) +
+                     '<br />' + l("text_scm_path_encoding_note"))
   end
 
   def bazaar_field_tags(form, repository)
@@ -258,8 +261,9 @@ module RepositoriesHelper
                      :size => 60, :required => true,
                      :disabled => (repository && !repository.root_url.blank?))) +
     content_tag('p', form.select(
-                     :path_encoding, [nil] + Setting::ENCODINGS,
-                     :label => l("field_scm_path_encoding")) +
-                     '<br />Default: UTF-8')
+                        :path_encoding, [nil] + Setting::ENCODINGS,
+                        :label => l("field_scm_path_encoding")
+                        ) +
+                     '<br />' + l("text_scm_path_encoding_note"))
   end
 end

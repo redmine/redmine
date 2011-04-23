@@ -936,7 +936,8 @@ en:
   text_zoom_in: Zoom in
   text_zoom_out: Zoom out
   text_warn_on_leaving_unsaved: "The current page contains unsaved text that will be lost if you leave this page."
-  
+  text_scm_path_encoding_note: "Default: UTF-8"
+
   default_role_manager: Manager
   default_role_developer: Developer
   default_role_reporter: Reporter
