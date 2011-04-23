@@ -966,3 +966,4 @@ it:
   field_commit_logs_encoding: Codifica dei messaggi di commit
   field_scm_path_encoding: Path encoding
   text_scm_path_encoding_note: "Default: UTF-8"
+  field_path_to_repository: Path to repository
