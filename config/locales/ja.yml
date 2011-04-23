@@ -333,6 +333,8 @@ ja:
   field_scm_path_encoding: パスのエンコーディング
   field_path_to_repository: リポジトリのパス
   field_root_directory: ルートディレクトリ
+  field_cvsroot: CVSROOT
+  field_cvs_module: モジュール
 
   setting_app_title: アプリケーションのタイトル
   setting_app_subtitle: アプリケーションのサブタイトル
