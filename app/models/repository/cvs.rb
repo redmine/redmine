@@ -22,8 +22,8 @@ class Repository::Cvs < Repository
   validates_presence_of :url, :root_url, :log_encoding
 
   ATTRIBUTE_KEY_NAMES = {
-      "url"          => "CVSROOT",
-      "root_url"     => "Module",
+      "root_url"     => "CVSROOT",
+      "url"          => "Module",
       "log_encoding" => "Commit messages encoding",
     }
   def self.human_attribute_name(attribute_key_name)
