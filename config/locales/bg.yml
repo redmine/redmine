@@ -962,3 +962,4 @@ bg:
   enumeration_activities: Дейности (time tracking)
   enumeration_system_activity: Системна активност
   field_commit_logs_encoding: Кодова таблица на съобщенията при поверяване
+  field_scm_path_encoding: Path encoding

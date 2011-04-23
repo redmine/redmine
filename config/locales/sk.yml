@@ -958,3 +958,4 @@ sk:
   label_issues_visibility_public: All non private issues
   text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
   field_commit_logs_encoding: Kódovanie prenášaných správ
+  field_scm_path_encoding: Path encoding

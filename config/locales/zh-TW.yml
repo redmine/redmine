@@ -1044,3 +1044,4 @@
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
   field_commit_logs_encoding: 送交訊息編碼
+  field_scm_path_encoding: Path encoding

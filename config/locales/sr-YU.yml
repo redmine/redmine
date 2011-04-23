@@ -963,3 +963,4 @@ sr-YU:
   label_issues_visibility_public: All non private issues
   text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
   field_commit_logs_encoding: Kodiranje izvršnih poruka
+  field_scm_path_encoding: Path encoding

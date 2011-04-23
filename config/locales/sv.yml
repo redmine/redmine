@@ -1004,3 +1004,4 @@ sv:
   enumeration_activities: Aktiviteter (tidsuppföljning)
   enumeration_system_activity: Systemaktivitet
   field_commit_logs_encoding: Teckenuppsättning för commit-meddelanden
+  field_scm_path_encoding: Path encoding

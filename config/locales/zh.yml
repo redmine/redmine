@@ -966,3 +966,4 @@ zh:
   text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
 
   field_commit_logs_encoding: 提交注释的编码
+  field_scm_path_encoding: Path encoding

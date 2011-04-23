@@ -1076,3 +1076,4 @@ ru:
   label_issues_visibility_public: Только общие задачи
   text_issues_destroy_descendants_confirmation: Так же будут удалено %{count} задачи.
   field_commit_logs_encoding: Кодировка комментариев в хранилище
+  field_scm_path_encoding: Path encoding
