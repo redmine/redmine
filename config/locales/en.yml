@@ -941,6 +941,7 @@ en:
   text_zoom_out: Zoom out
   text_warn_on_leaving_unsaved: "The current page contains unsaved text that will be lost if you leave this page."
   text_scm_path_encoding_note: "Default: UTF-8"
+  text_git_repository_note: "Bare and local repository (e.g. /gitrepo, c:\gitrepo)"
 
   default_role_manager: Manager
   default_role_developer: Developer
