@@ -337,7 +337,6 @@ cs:
   setting_cross_project_issue_relations: Povolit vazby úkolů napříč projekty
   setting_issue_list_default_columns: Výchozí sloupce zobrazené v seznamu úkolů
   setting_repositories_encodings: Kódování 
-  setting_commit_logs_encoding: Kódování zpráv při commitu
   setting_emails_header: Hlavička emailů
   setting_emails_footer: Patička emailů
   setting_protocol: Protokol
@@ -967,3 +966,4 @@ cs:
   permission_set_issues_private: Set issues public or private
   label_issues_visibility_public: All non private issues
   text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
+  field_commit_logs_encoding: Kódování zpráv při commitu

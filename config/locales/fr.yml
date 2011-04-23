@@ -340,7 +340,6 @@ fr:
   setting_cross_project_issue_relations: Autoriser les relations entre demandes de différents projets
   setting_issue_list_default_columns: Colonnes affichées par défaut sur la liste des demandes
   setting_repositories_encodings: Encodages des dépôts
-  setting_commit_logs_encoding: Encodage des messages de commit
   setting_emails_footer: Pied-de-page des emails
   setting_protocol: Protocole
   setting_per_page_options: Options d'objets affichés par page
@@ -978,3 +977,4 @@ fr:
   setting_emails_header: En-tête des emails
   label_bulk_edit_selected_time_entries: Bulk edit selected time entries
   text_time_entries_destroy_confirmation: Are you sure you want to delete the selected time entr(y/ies)?
+  field_commit_logs_encoding: Encodage des messages de commit

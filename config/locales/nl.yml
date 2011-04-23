@@ -702,7 +702,6 @@ nl:
   setting_autologin: Automatisch inloggen
   setting_bcc_recipients: Blind carbon copy ontvangers (bcc)
   setting_commit_fix_keywords: Gefixeerde trefwoorden
-  setting_commit_logs_encoding: Encodering van commit berichten
   setting_commit_ref_keywords: Refererende trefwoorden
   setting_cross_project_issue_relations: Sta crossproject issuerelaties toe
   setting_date_format: Datumformaat
@@ -945,3 +944,4 @@ nl:
   permission_set_issues_private: Set issues public or private
   label_issues_visibility_public: All non private issues
   text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
+  field_commit_logs_encoding: Encodering van commit berichten

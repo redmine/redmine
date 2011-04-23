@@ -316,7 +316,6 @@ mn:
   setting_cross_project_issue_relations: Төсөл хооронд асуудал хамааруулахыг зөвшөөрөх
   setting_issue_list_default_columns: Асуудлуудыг харуулах стандарт баганууд
   setting_repositories_encodings: Репозиторийн энкодинг
-  setting_commit_logs_encoding: Коммит хийх үед харуулах текстүүдийн энкодинг
   setting_emails_footer: Имэйлүүдийн хөл хэсэг
   setting_protocol: Протокол
   setting_per_page_options: Нэг хуудсанд байх обьектуудын тохиргоо
@@ -964,3 +963,4 @@ mn:
   permission_set_issues_private: Set issues public or private
   label_issues_visibility_public: All non private issues
   text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
+  field_commit_logs_encoding: Коммит хийх үед харуулах текстүүдийн энкодинг

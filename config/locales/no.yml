@@ -722,7 +722,6 @@
   text_email_delivery_not_configured: "Levering av e-post er ikke satt opp, og varsler er skrudd av.\nStill inn din SMTP-tjener i config/configuration.yml og start programmet på nytt for å skru det på."
   field_parent_title: Foreldreside
   label_issue_watchers: Overvåkere
-  setting_commit_logs_encoding: Tegnkoding for innsendingsmeldinger
   button_quote: Sitat
   setting_sequential_project_identifiers: Generer sekvensielle prosjekt-IDer
   notice_unable_delete_version: Kan ikke slette versjonen
@@ -950,3 +949,4 @@
   permission_set_issues_private: Set issues public or private
   label_issues_visibility_public: All non private issues
   text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
+  field_commit_logs_encoding: Tegnkoding for innsendingsmeldinger

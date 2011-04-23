@@ -758,7 +758,6 @@ fi:
   label_issue_watchers: Tapahtuman seuraajat
   button_quote: Vastaa
   setting_sequential_project_identifiers: Luo peräkkäiset projektien tunnisteet
-  setting_commit_logs_encoding: Tee viestien koodaus
   notice_unable_delete_version: Version poisto epäonnistui
   label_renamed: uudelleennimetty
   label_copied: kopioitu
@@ -984,3 +983,4 @@ fi:
   permission_set_issues_private: Set issues public or private
   label_issues_visibility_public: All non private issues
   text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
+  field_commit_logs_encoding: Tee viestien koodaus

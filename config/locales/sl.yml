@@ -294,7 +294,6 @@ sl:
   setting_cross_project_issue_relations: Dovoli povezave zahtevkov med različnimi projekti
   setting_issue_list_default_columns: Privzeti stolpci prikazani na seznamu zahtevkov
   setting_repositories_encodings: Kodiranje shrambe
-  setting_commit_logs_encoding: Kodiranje sporočil ob predaji
   setting_emails_footer: Noga e-sporočil
   setting_protocol: Protokol
   setting_per_page_options: Število elementov na stran
@@ -959,3 +958,4 @@ sl:
   permission_set_issues_private: Set issues public or private
   label_issues_visibility_public: All non private issues
   text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
+  field_commit_logs_encoding: Kodiranje sporočil ob predaji

@@ -315,7 +315,6 @@ id:
   setting_cross_project_issue_relations: Perbolehkan kaitan masalah proyek berbeda
   setting_issue_list_default_columns: Kolom default ditampilkan di daftar masalah
   setting_repositories_encodings: Repositories encodings
-  setting_commit_logs_encoding: Commit messages encoding
   setting_emails_footer: Footer untuk email
   setting_protocol: Protokol
   setting_per_page_options: Pilihan obyek per halaman
@@ -971,3 +970,4 @@ id:
   permission_set_issues_private: Set issues public or private
   label_issues_visibility_public: All non private issues
   text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
+  field_commit_logs_encoding: Commit messages encoding

@@ -731,7 +731,6 @@ uk:
   text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/configuration.yml and restart the application to enable them."
   field_parent_title: Parent page
   label_issue_watchers: Watchers
-  setting_commit_logs_encoding: Commit messages encoding
   button_quote: Quote
   setting_sequential_project_identifiers: Generate sequential project identifiers
   notice_unable_delete_version: Unable to delete version
@@ -959,3 +958,4 @@ uk:
   permission_set_issues_private: Set issues public or private
   label_issues_visibility_public: All non private issues
   text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
+  field_commit_logs_encoding: Commit messages encoding

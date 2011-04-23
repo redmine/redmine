@@ -335,7 +335,6 @@ zh:
   setting_cross_project_issue_relations: 允许不同项目之间的问题关联
   setting_issue_list_default_columns: 问题列表中显示的默认列
   setting_repositories_encodings: 版本库编码
-  setting_commit_logs_encoding: 提交注释的编码
   setting_emails_header: 邮件头
   setting_emails_footer: 邮件签名
   setting_protocol: 协议
@@ -966,3 +965,4 @@ zh:
   label_issues_visibility_public: All non private issues
   text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
 
+  field_commit_logs_encoding: 提交注释的编码

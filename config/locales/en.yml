@@ -336,7 +336,6 @@ en:
   setting_cross_project_issue_relations: Allow cross-project issue relations
   setting_issue_list_default_columns: Default columns displayed on the issue list
   setting_repositories_encodings: Repositories encodings
-  setting_commit_logs_encoding: Commit messages encoding
   setting_emails_header: Emails header
   setting_emails_footer: Emails footer
   setting_protocol: Protocol
@@ -962,3 +961,4 @@ en:
   enumeration_doc_categories: Document categories
   enumeration_activities: Activities (time tracking)
   enumeration_system_activity: System Activity
+  field_commit_logs_encoding: Commit messages encoding

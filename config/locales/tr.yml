@@ -755,7 +755,6 @@ tr:
   label_and_its_subprojects: "%{value} and its subprojects"
   mail_subject_reminder: "%{count} issue(s) due in the next %{days} days"
   setting_mail_handler_api_key: API key
-  setting_commit_logs_encoding: Commit messages encoding
   general_csv_decimal_separator: '.'
   notice_unable_delete_version: Unable to delete version
   label_renamed: renamed
@@ -982,3 +981,4 @@ tr:
   permission_set_issues_private: Set issues public or private
   label_issues_visibility_public: All non private issues
   text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
+  field_commit_logs_encoding: Commit messages encoding

@@ -310,7 +310,6 @@ el:
   setting_cross_project_issue_relations: Επιτρέψτε συσχετισμό θεμάτων σε διασταύρωση-έργων
   setting_issue_list_default_columns: Προκαθορισμένες εμφανιζόμενες στήλες στη λίστα θεμάτων
   setting_repositories_encodings: Κωδικοποίηση χαρακτήρων αποθετηρίου
-  setting_commit_logs_encoding: Κωδικοποίηση μηνυμάτων commit
   setting_emails_footer: Υποσέλιδο στα email
   setting_protocol: Πρωτόκολο
   setting_per_page_options: Αντικείμενα ανά σελίδα επιλογών
@@ -963,3 +962,4 @@ el:
   permission_set_issues_private: Set issues public or private
   label_issues_visibility_public: All non private issues
   text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
+  field_commit_logs_encoding: Κωδικοποίηση μηνυμάτων commit

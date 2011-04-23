@@ -317,7 +317,6 @@ pt-BR:
   setting_cross_project_issue_relations: Permitir relacionar tarefas entre projetos
   setting_issue_list_default_columns: Colunas padrão visíveis na lista de tarefas
   setting_repositories_encodings: Codificação dos repositórios
-  setting_commit_logs_encoding: Codificação das mensagens de commit
   setting_emails_footer: Rodapé do e-mail
   setting_protocol: Protocolo
   setting_per_page_options: Número de itens exibidos por página
@@ -983,3 +982,4 @@ pt-BR:
   permission_set_issues_private: Set issues public or private
   label_issues_visibility_public: All non private issues
   text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
+  field_commit_logs_encoding: Codificação das mensagens de commit

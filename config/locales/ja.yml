@@ -357,7 +357,6 @@ ja:
   setting_cross_project_issue_relations: 異なるプロジェクトのチケット間で関係の設定を許可
   setting_issue_list_default_columns: チケットの一覧で表示する項目
   setting_repositories_encodings: リポジトリのエンコーディング
-  setting_commit_logs_encoding: コミットメッセージのエンコーディング
   setting_emails_header: メールのヘッダ
   setting_emails_footer: メールのフッタ
   setting_protocol: プロトコル
@@ -986,3 +985,4 @@ ja:
   permission_set_issues_private: チケットをプライベートに設定
   label_issues_visibility_public: プライベートチケット以外
   text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
+  field_commit_logs_encoding: コミットメッセージのエンコーディング

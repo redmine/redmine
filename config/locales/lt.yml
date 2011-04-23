@@ -371,7 +371,6 @@ lt:
   setting_cross_project_issue_relations: Leisti tarprojektinius darbų ryšius
   setting_issue_list_default_columns: Numatytosios skiltys darbų sąraše
   setting_repositories_encodings: Saugyklos koduotė
-  setting_commit_logs_encoding: Commit pranešimų koduotė
   setting_emails_footer: elektroninio pašto puslapinė poraštė
   setting_protocol: Protokolas
   setting_per_page_options: Įrašų puslapyje nustatimas
@@ -1023,3 +1022,4 @@ lt:
   permission_set_issues_private: Set issues public or private
   label_issues_visibility_public: All non private issues
   text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
+  field_commit_logs_encoding: Commit pranešimų koduotė

@@ -812,7 +812,6 @@ da:
   permission_edit_project: Redigér projekt
   permission_save_queries: Gem forespørgsler
   label_copied: kopieret
-  setting_commit_logs_encoding: Kodning af Commit beskeder
   text_repository_usernames_mapping: "Vælg eller opdatér de Redmine brugere der svarer til de enkelte brugere fundet i repository loggen.\nBrugere med samme brugernavn eller email adresse i både Redmine og det valgte repository bliver automatisk koblet sammen."
   permission_edit_time_entries: Redigér tidsregistreringer
   general_csv_decimal_separator: ','
@@ -979,3 +978,4 @@ da:
   permission_set_issues_private: Set issues public or private
   label_issues_visibility_public: All non private issues
   text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
+  field_commit_logs_encoding: Kodning af Commit beskeder

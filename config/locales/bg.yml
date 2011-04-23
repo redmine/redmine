@@ -336,7 +336,6 @@ bg:
   setting_cross_project_issue_relations: Релации на задачи между проекти
   setting_issue_list_default_columns: Показвани колони по подразбиране
   setting_repositories_encodings: Кодови таблици
-  setting_commit_logs_encoding: Кодова таблица на съобщенията при поверяване
   setting_emails_header: Emails header
   setting_emails_footer: Подтекст за e-mail
   setting_protocol: Протокол
@@ -962,3 +961,4 @@ bg:
   enumeration_doc_categories: Категории документи
   enumeration_activities: Дейности (time tracking)
   enumeration_system_activity: Системна активност
+  field_commit_logs_encoding: Кодова таблица на съобщенията при поверяване

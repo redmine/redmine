@@ -865,7 +865,6 @@ ru:
   setting_bcc_recipients: Использовать скрытые списки (BCC)
   setting_cache_formatted_text: Кешировать форматированный текст
   setting_commit_fix_keywords: Назначение ключевых слов
-  setting_commit_logs_encoding: Кодировка комментариев в хранилище
   setting_commit_ref_keywords: Ключевые слова для поиска
   setting_cross_project_issue_relations: Разрешить пересечение задач по проектам
   setting_date_format: Формат даты
@@ -1076,3 +1075,4 @@ ru:
   permission_set_issues_private: Устанавливать видимость (общая/частная) для задач
   label_issues_visibility_public: Только общие задачи
   text_issues_destroy_descendants_confirmation: Так же будут удалено %{count} задачи.
+  field_commit_logs_encoding: Кодировка комментариев в хранилище

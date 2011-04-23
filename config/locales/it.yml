@@ -736,7 +736,6 @@ it:
   text_email_delivery_not_configured: "La consegna via email non è configurata e le notifiche sono disabilitate.\nConfigura il tuo server SMTP in config/configuration.yml e riavvia l'applicazione per abilitarle."
   field_parent_title: Pagina principale
   label_issue_watchers: Osservatori
-  setting_commit_logs_encoding: Codifica dei messaggi di commit
   button_quote: Quota
   setting_sequential_project_identifiers: Genera progetti con identificativi in sequenza
   notice_unable_delete_version: Impossibile eliminare la versione
@@ -964,3 +963,4 @@ it:
   permission_set_issues_private: Set issues public or private
   label_issues_visibility_public: All non private issues
   text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
+  field_commit_logs_encoding: Codifica dei messaggi di commit

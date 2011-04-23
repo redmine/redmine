@@ -729,7 +729,6 @@ sk:
   text_email_delivery_not_configured: "Doručenie emailov nieje nastavené, notifikácie sú vypnuté.\nNastavte váš SMTP server v config/configuration.yml a reštartnite aplikáciu pre aktiváciu funkcie."
   field_parent_title: Nadradená stránka
   label_issue_watchers: Pozorovatelia
-  setting_commit_logs_encoding: Kódovanie prenášaných správ
   button_quote: Citácia
   setting_sequential_project_identifiers: Generovať sekvenčné identifikátory projektov
   notice_unable_delete_version: Verzia nemôže byť zmazaná
@@ -958,3 +957,4 @@ sk:
   permission_set_issues_private: Set issues public or private
   label_issues_visibility_public: All non private issues
   text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
+  field_commit_logs_encoding: Kódovanie prenášaných správ

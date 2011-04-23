@@ -333,7 +333,6 @@ fa:
   setting_cross_project_issue_relations: توانایی وابستگی میان پروژه‌ای پیامدها
   setting_issue_list_default_columns: ستون‌های پیش‌گزیده نمایش داده شده در فهرست پیامدها
   setting_repositories_encodings: کدگذاری انباره‌ها
-  setting_commit_logs_encoding: کدگذاری پیام‌های انباره
   setting_emails_header: سرنویس ایمیل‌ها
   setting_emails_footer: پانویس ایمیل‌ها
   setting_protocol: پیوندنامه
@@ -966,3 +965,4 @@ fa:
   permission_set_issues_private: Set issues public or private
   label_issues_visibility_public: All non private issues
   text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
+  field_commit_logs_encoding: کدگذاری پیام‌های انباره

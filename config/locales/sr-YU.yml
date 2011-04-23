@@ -326,7 +326,6 @@ sr-YU:
   setting_cross_project_issue_relations: Dozvoli povezivanje problema iz unakrsnih projekata
   setting_issue_list_default_columns: Podrazumevane kolone prikazane na spisku problema
   setting_repositories_encodings: Kodiranje spremišta
-  setting_commit_logs_encoding: Kodiranje izvršnih poruka
   setting_emails_footer: Podnožje stranice e-poruke
   setting_protocol: Protokol
   setting_per_page_options: Opcije prikaza objekata po stranici
@@ -963,3 +962,4 @@ sr-YU:
   permission_set_issues_private: Set issues public or private
   label_issues_visibility_public: All non private issues
   text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
+  field_commit_logs_encoding: Kodiranje izvršnih poruka

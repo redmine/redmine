@@ -316,7 +316,6 @@ hr:
   setting_cross_project_issue_relations: Dozvoli povezivanje predmeta izmedu različitih projekata
   setting_issue_list_default_columns: Stupci prikazani na listi predmeta
   setting_repositories_encodings: Kodna stranica
-  setting_commit_logs_encoding: Commit messages encoding
   setting_emails_footer: Zaglavlje e-pošte
   setting_protocol: Protokol
   setting_per_page_options: Objekata po stranici opcija
@@ -970,3 +969,4 @@ hr:
   permission_set_issues_private: Set issues public or private
   label_issues_visibility_public: All non private issues
   text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
+  field_commit_logs_encoding: Commit messages encoding

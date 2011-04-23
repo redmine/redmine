@@ -418,7 +418,6 @@
   setting_cross_project_issue_relations: 允許關聯至其它專案的項目
   setting_issue_list_default_columns: 預設顯示於項目清單的欄位
   setting_repositories_encodings: 版本庫編碼
-  setting_commit_logs_encoding: 送交訊息編碼
   setting_emails_header: 電子郵件前頭說明
   setting_emails_footer: 電子郵件附帶說明
   setting_protocol: 協定
@@ -1044,3 +1043,4 @@
   enumeration_doc_categories: 文件分類
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
+  field_commit_logs_encoding: 送交訊息編碼

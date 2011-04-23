@@ -754,7 +754,6 @@
   text_email_delivery_not_configured: "Az E-mail küldés nincs konfigurálva, és az értesítések ki vannak kapcsolva.\nÁllítsd be az SMTP szervert a config/configuration.yml fájlban és indítsd újra az alkalmazást, hogy érvénybe lépjen."
   field_parent_title: Szülő oldal
   label_issue_watchers: Megfigyelők
-  setting_commit_logs_encoding: Commit üzenetek kódlapja
   button_quote: Hozzászólás / Idézet
   setting_sequential_project_identifiers: Szekvenciális projekt azonosítók generálása
   notice_unable_delete_version: A verziót nem lehet törölni
@@ -982,3 +981,4 @@
   permission_set_issues_private: Set issues public or private
   label_issues_visibility_public: All non private issues
   text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
+  field_commit_logs_encoding: Commit üzenetek kódlapja

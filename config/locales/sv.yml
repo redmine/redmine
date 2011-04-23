@@ -378,7 +378,6 @@ sv:
   setting_cross_project_issue_relations: Tillåt ärenderelationer mellan projekt
   setting_issue_list_default_columns: Standardkolumner i ärendelistan
   setting_repositories_encodings: Teckenuppsättningar för versionsarkiv
-  setting_commit_logs_encoding: Teckenuppsättning för commit-meddelanden
   setting_emails_header: Mail-header
   setting_emails_footer: Signatur
   setting_protocol: Protokoll
@@ -1004,3 +1003,4 @@ sv:
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
   enumeration_system_activity: Systemaktivitet
+  field_commit_logs_encoding: Teckenuppsättning för commit-meddelanden

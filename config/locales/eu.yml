@@ -321,7 +321,6 @@ eu:
   setting_cross_project_issue_relations: Zereginak proiektuen artean erlazionatzea baimendu
   setting_issue_list_default_columns: Zereginen zerrendan defektuz ikusten diren zutabeak
   setting_repositories_encodings: Biltegien kodeketak
-  setting_commit_logs_encoding: Commit-en egunkarien kodetzea
   setting_emails_footer: Eposten oina
   setting_protocol: Protokoloa
   setting_per_page_options: Orriko objektuen aukerak
@@ -967,3 +966,4 @@ eu:
   permission_set_issues_private: Set issues public or private
   label_issues_visibility_public: All non private issues
   text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
+  field_commit_logs_encoding: Commit-en egunkarien kodetzea

@@ -315,7 +315,6 @@ bs:
   setting_cross_project_issue_relations: Omogući relacije između aktivnosti na različitim projektima
   setting_issue_list_default_columns: Podrazumjevane koleone za prikaz na listi aktivnosti
   setting_repositories_encodings: Enkodiranje repozitorija
-  setting_commit_logs_encoding: 'Enkodiranje "commit" poruka'
   setting_emails_footer: Potpis na email-ovima
   setting_protocol: Protokol
   setting_per_page_options: Broj objekata po stranici
@@ -977,3 +976,4 @@ bs:
   permission_set_issues_private: Set issues public or private
   label_issues_visibility_public: All non private issues
   text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
+  field_commit_logs_encoding: 'Enkodiranje "commit" poruka'
