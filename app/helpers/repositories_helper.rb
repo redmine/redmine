@@ -263,7 +263,8 @@ module RepositoriesHelper
   end
 
   def filesystem_field_tags(form, repository)
-    content_tag('p', form.text_field(:url, :label => 'Root directory',
+    content_tag('p', form.text_field(
+                     :url, :label => l("field_root_directory"),
                      :size => 60, :required => true,
                      :disabled => (repository && !repository.root_url.blank?))) +
     content_tag('p', form.select(
