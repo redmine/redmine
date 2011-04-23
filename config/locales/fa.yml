@@ -972,3 +972,4 @@ fa:
   field_root_directory: Root directory
   field_cvs_module: Module
   field_cvsroot: CVSROOT
+  text_git_repository_note: Bare and local repository (e.g. /gitrepo, c:\gitrepo)
