@@ -313,6 +313,8 @@ en:
   field_scm_path_encoding: Path encoding
   field_path_to_repository: Path to repository
   field_root_directory: Root directory
+  field_cvsroot: CVSROOT
+  field_cvs_module: Module
 
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle

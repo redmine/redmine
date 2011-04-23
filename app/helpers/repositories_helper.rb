@@ -236,10 +236,14 @@ module RepositoriesHelper
   end
 
   def cvs_field_tags(form, repository)
-    content_tag('p', form.text_field(:root_url,
-                     :label => 'CVSROOT', :size => 60, :required => true,
+    content_tag('p', form.text_field(
+                     :root_url,
+                     :label => l("field_cvsroot"),
+                     :size => 60, :required => true,
                      :disabled => !repository.new_record?)) +
-    content_tag('p', form.text_field(:url, :label => 'Module',
+    content_tag('p', form.text_field(
+                     :url,
+                     :label => l("field_cvs_module"),
                      :size => 30, :required => true,
                      :disabled => !repository.new_record?)) +
     content_tag('p', form.select(
