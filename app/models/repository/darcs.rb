@@ -21,7 +21,7 @@ class Repository::Darcs < Repository
   validates_presence_of :url, :log_encoding
 
   ATTRIBUTE_KEY_NAMES = {
-      "url"          => "Root directory",
+      "url"          => "Path to repository",
     }
   def self.human_attribute_name(attribute_key_name)
     ATTRIBUTE_KEY_NAMES[attribute_key_name] || super

@@ -198,7 +198,7 @@ module RepositoriesHelper
   end
 
   def darcs_field_tags(form, repository)
-    content_tag('p', form.text_field(:url, :label => 'Root directory',
+    content_tag('p', form.text_field(:url, :label => 'Path to repository',
                      :size => 60, :required => true,
                      :disabled => (repository && !repository.new_record?))) +
     content_tag('p', form.select(
