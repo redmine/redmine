@@ -1077,3 +1077,4 @@ ru:
   text_issues_destroy_descendants_confirmation: Так же будут удалено %{count} задачи.
   field_commit_logs_encoding: Кодировка комментариев в хранилище
   field_scm_path_encoding: Path encoding
+  text_scm_path_encoding_note: "Default: UTF-8"

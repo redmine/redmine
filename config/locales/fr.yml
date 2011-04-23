@@ -979,3 +979,4 @@ fr:
   label_bulk_edit_selected_time_entries: Bulk edit selected time entries
   text_time_entries_destroy_confirmation: Are you sure you want to delete the selected time entr(y/ies)?
   field_scm_path_encoding: Path encoding
+  text_scm_path_encoding_note: "Default: UTF-8"

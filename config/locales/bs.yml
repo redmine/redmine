@@ -978,3 +978,4 @@ bs:
   text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
   field_commit_logs_encoding: 'Enkodiranje "commit" poruka'
   field_scm_path_encoding: Path encoding
+  text_scm_path_encoding_note: "Default: UTF-8"

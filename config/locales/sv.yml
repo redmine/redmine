@@ -1005,3 +1005,4 @@ sv:
   enumeration_system_activity: Systemaktivitet
   field_commit_logs_encoding: Teckenuppsättning för commit-meddelanden
   field_scm_path_encoding: Path encoding
+  text_scm_path_encoding_note: "Default: UTF-8"

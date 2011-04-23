@@ -967,3 +967,4 @@ zh:
 
   field_commit_logs_encoding: 提交注释的编码
   field_scm_path_encoding: Path encoding
+  text_scm_path_encoding_note: "Default: UTF-8"
