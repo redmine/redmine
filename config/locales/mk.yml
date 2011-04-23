@@ -967,3 +967,5 @@ mk:
   text_scm_path_encoding_note: "Default: UTF-8"
   field_path_to_repository: Path to repository
   field_root_directory: Root directory
+  field_cvs_module: Module
+  field_cvsroot: CVSROOT
