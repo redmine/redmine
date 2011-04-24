@@ -82,8 +82,8 @@ module Redmine
           path ||= ''
           entries = Entries.new
           cmd = "#{self.class.sq_bin} ls -v --show-ids"
-          identifier = -1 unless identifier && identifier.to_i > 0 
-          cmd << " -r#{identifier.to_i}" 
+          identifier = -1 unless identifier && identifier.to_i > 0
+          cmd << " -r#{identifier.to_i}"
           cmd << " #{target(path)}"
           shellout(cmd) do |io|
             prefix = "#{url}/#{path}".gsub('\\', '/')
@@ -120,7 +120,6 @@ module Redmine
                 parsing = nil
               else
                 next unless revision
-                
                 if line =~ /^revno: (\d+)($|\s\[merge\]$)/
                   revision.identifier = $1.to_i
                 elsif line =~ /^committer: (.+)$/
@@ -168,7 +167,7 @@ module Redmine
         def diff(path, identifier_from, identifier_to=nil)
           path ||= ''
           if identifier_to
-            identifier_to = identifier_to.to_i 
+            identifier_to = identifier_to.to_i
           else
             identifier_to = identifier_from.to_i - 1
           end
