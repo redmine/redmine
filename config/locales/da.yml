@@ -137,7 +137,7 @@ da:
         greater_than_start_date: "skal være senere end startdatoen"
         not_same_project: "hører ikke til samme projekt"
         circular_dependency: "Denne relation vil skabe et afhængighedsforhold"
-        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
+        cant_link_an_issue_with_a_descendant: "En sag kan ikke relateres til en af dens underopgaver"
 
       template:
         header:
@@ -186,7 +186,7 @@ da:
   error_scm_command_failed: "En fejl opstod under forbindelsen til det valgte repository: %{value}"
   
   mail_subject_lost_password: "Dit %{value} kodeord"
-  mail_body_lost_password: 'For at ændre dit kodeord, klik på dette link:'
+  mail_body_lost_password: 'Klik på dette link for at ændre dit kodeord:'
   mail_subject_register: "%{value} kontoaktivering"
   mail_body_register: 'Klik på dette link for at aktivere din konto:'
   mail_body_account_information_external: "Du kan bruge din %{value} konto til at logge ind."
@@ -230,7 +230,7 @@ da:
   field_due_date: Deadline
   field_assigned_to: Tildelt til
   field_priority: Prioritet
-  field_fixed_version: Target version
+  field_fixed_version: Udgave
   field_user: Bruger
   field_role: Rolle
   field_homepage: Hjemmeside
@@ -257,8 +257,8 @@ da:
   field_attr_lastname: Efternavn attribut
   field_attr_mail: Email attribut
   field_onthefly: løbende brugeroprettelse
-  field_start_date: Start date
-  field_done_ratio: "% Færdig"
+  field_start_date: Start dato
+  field_done_ratio: "% færdig"
   field_auth_source: Sikkerhedsmetode
   field_hide_mail: Skjul min email
   field_comments: Kommentar
@@ -352,7 +352,7 @@ da:
   label_tracker_new: Ny type
   label_workflow: Arbejdsgang
   label_issue_status: Sagsstatus
-  label_issue_status_plural: Sagsstatuser
+  label_issue_status_plural: Sagsstatusser
   label_issue_status_new: Ny status
   label_issue_category: Sagskategori
   label_issue_category_plural: Sagskategorier
@@ -376,8 +376,8 @@ da:
   label_logout: Log ud
   label_help: Hjælp
   label_reported_issues: Rapporterede sager
-  label_assigned_to_me_issues: Sager tildelt mig
-  label_last_login: Sidste login tidspunkt
+  label_assigned_to_me_issues: Sager tildelt til mig
+  label_last_login: Sidste logintidspunkt
   label_registered_on: Registreret den
   label_activity: Aktivitet
   label_new: Ny
@@ -492,7 +492,7 @@ da:
   label_date_range: Dato interval
   label_less_than_ago: mindre end dage siden
   label_more_than_ago: mere end dage siden
-  label_ago: days siden
+  label_ago: dage siden
   label_contains: indeholder
   label_not_contains: ikke indeholder
   label_day_plural: dage
@@ -503,7 +503,7 @@ da:
   label_modification_plural: "%{count} ændringer"
   label_revision: Revision
   label_revision_plural: Revisioner
-  label_associated_revisions: Tilnyttede revisioner
+  label_associated_revisions: Tilknyttede revisioner
   label_added: tilføjet
   label_modified: ændret
   label_deleted: slettet
@@ -533,7 +533,7 @@ da:
   label_preview: Forhåndsvisning
   label_feed_plural: Feeds
   label_changes_details: Detaljer for alle ændringer
-  label_issue_tracking: Sags søgning
+  label_issue_tracking: Sagssøgning
   label_spent_time: Anvendt tid
   label_f_hour: "%{value} time"
   label_f_hour_plural: "%{value} timer"
@@ -550,7 +550,7 @@ da:
   label_permissions_report: Godkendelsesrapport
   label_watched_issues: Overvågede sager
   label_related_issues: Relaterede sager
-  label_applied_status: Anvendte statuser
+  label_applied_status: Anvendte statusser
   label_loading: Indlæser...
   label_relation_new: Ny relation
   label_relation_delete: Slet relation
@@ -593,7 +593,7 @@ da:
   label_jump_to_a_project: Skift til projekt...
   label_file_plural: Filer
   label_changeset_plural: Ændringer
-  label_default_columns: Standard kolonner
+  label_default_columns: Standardkolonner
   label_no_change_option: (Ingen ændringer)
   label_bulk_edit_selected_issues: Masse-ret de valgte sager
   label_theme: Tema
@@ -681,20 +681,20 @@ da:
   text_issue_category_destroy_assignments: Slet tildelinger af kategori
   text_issue_category_reassign_to: Tildel sager til denne kategori
   text_user_mail_option: "For ikke-valgte projekter vil du kun modtage beskeder omhandlende ting du er involveret i eller overvåger (f.eks. sager du har indberettet eller ejer)."
-  text_no_configuration_data: "Roller, typer, sagsstatuser og arbejdsgange er endnu ikke konfigureret.\nDet er anbefalet at indlæse standardopsætningen. Du vil kunne ændre denne når den er indlæst."
+  text_no_configuration_data: "Roller, typer, sagsstatusser og arbejdsgange er endnu ikke konfigureret.\nDet er anbefalet at indlæse standardopsætningen. Du vil kunne ændre denne når den er indlæst."
   text_load_default_configuration: Indlæs standardopsætningen
   text_status_changed_by_changeset: "Anvendt i ændring %{value}."
   text_issues_destroy_confirmation: 'Er du sikker på du ønsker at slette den/de valgte sag(er)?'
   text_select_project_modules: 'Vælg moduler er skal være aktiveret for dette projekt:'
-  text_default_administrator_account_changed: Standard administratorkonto ændret
+  text_default_administrator_account_changed: Standardadministratorkonto ændret
   text_file_repository_writable: Filarkiv er skrivbar
   text_rmagick_available: RMagick tilgængelig (valgfri)
   
   default_role_manager: Leder
   default_role_developer: Udvikler
   default_role_reporter: Rapportør
-  default_tracker_bug: Bug
-  default_tracker_feature: Feature
+  default_tracker_bug: Fejl
+  default_tracker_feature: Funktion
   default_tracker_support: Support
   default_issue_status_new: Ny
   default_issue_status_in_progress: Igangværende
@@ -723,12 +723,12 @@ da:
   error_issue_not_found_in_project: 'Sagen blev ikke fundet eller tilhører ikke dette projekt'
   text_assign_time_entries_to_project: Tildel raporterede timer til projektet
   setting_display_subprojects_issues: Vis sager for underprojekter på hovedprojektet som standard
-  label_optional_description: Optionel beskrivelse
+  label_optional_description: Valgfri beskrivelse
   text_destroy_time_entries: Slet registrerede timer
   field_comments_sorting: Vis kommentar
   text_reassign_time_entries: 'Tildel registrerede timer til denne sag igen'
   label_reverse_chronological_order: I omvendt kronologisk rækkefølge
-  label_preferences: Preferences
+  label_preferences: Præferencer
   label_overall_activity: Overordnet aktivitet
   setting_default_projects_public: Nye projekter er offentlige som standard
   error_scm_annotate: "Filen findes ikke, eller kunne ikke annoteres."
@@ -762,7 +762,7 @@ da:
   permission_add_issue_watchers: Tilføj overvågere
   warning_attachments_not_saved: "der var %{count} fil(er), som ikke kunne gemmes."
   permission_comment_news: Kommentér nyheder
-  text_enumeration_category_reassign_to: 'FLyt dem til denne værdi:'
+  text_enumeration_category_reassign_to: 'Flyt dem til denne værdi:'
   permission_select_project_modules: Vælg projektmoduler
   permission_view_gantt: Se Gantt diagram
   permission_delete_messages: Slet beskeder
@@ -789,9 +789,9 @@ da:
   label_and_its_subprojects: "%{value} og dets underprojekter"
   permission_view_calendar: Se kalender
   button_create_and_continue: Opret og fortsæt
-  setting_gravatar_enabled: Anvend Gravatar bruger ikoner
+  setting_gravatar_enabled: Anvend Gravatar brugerikoner
   label_updated_time_by: "Opdateret af %{author} for %{age} siden"
-  text_diff_truncated: '... Listen over forskelle er bleve afkortet da den overstiger den maksimale størrelse der kan vises.'
+  text_diff_truncated: '... Listen over forskelle er blevet afkortet da den overstiger den maksimale størrelse der kan vises.'
   text_user_wrote: "%{value} skrev:"
   setting_mail_handler_api_enabled: Aktiver webservice for indkomne emails
   permission_delete_issues: Slet sager
@@ -849,7 +849,7 @@ da:
   label_tag: Tag
   label_branch: Branch
   error_no_tracker_in_project: Der er ingen sagshåndtering for dette projekt. Kontrollér venligst projektindstillingerne.
-  error_no_default_issue_status: Der er ikek defineret en standardstatus. Kontrollér venligst indstillingernen (Gå til "Administration -> Sagsstatuser").
+  error_no_default_issue_status: Der er ikke defineret en standardstatus. Kontrollér venligst indstillingerne (gå til "Administration -> Sagsstatusser").
   text_journal_changed: "%{label} ændret fra %{old} til %{new}"
   text_journal_set_to: "%{label} sat til %{value}"
   text_journal_deleted: "%{label} slettet (%{old})"
@@ -864,34 +864,34 @@ da:
   version_status_closed: lukket
   version_status_locked: låst
   version_status_open: åben
-  error_can_not_reopen_issue_on_closed_version: En sag tildelt en lukket version, kan ikke genåbnes
+  error_can_not_reopen_issue_on_closed_version: En sag tildelt en lukket version kan ikke genåbnes
   label_user_anonymous: Anonym
   button_move_and_follow: Flyt og overvåg
   setting_default_projects_modules: Standard moduler, aktiveret for nye projekter
   setting_gravatar_default: Standard Gravatar billede
   field_sharing: Delning
-  label_version_sharing_hierarchy: Med projekt hierarki
+  label_version_sharing_hierarchy: Med projekthierarki
   label_version_sharing_system: Med alle projekter
-  label_version_sharing_descendants: Med under projekter
-  label_version_sharing_tree: Med projekt træ
+  label_version_sharing_descendants: Med underprojekter
+  label_version_sharing_tree: Med projekttræ
   label_version_sharing_none: Ikke delt
   error_can_not_archive_project: Dette projekt kan ikke arkiveres
   button_duplicate: Duplikér
   button_copy_and_follow: Kopiér og overvåg
   label_copy_source: Kilde
   setting_issue_done_ratio: Beregn sagsløsning ratio
-  setting_issue_done_ratio_issue_status: Benyt sags status
+  setting_issue_done_ratio_issue_status: Benyt sagsstatus
   error_issue_done_ratios_not_updated: Sagsløsnings ratio, ikke opdateret.
-  error_workflow_copy_target: Vælg venligst mål tracker og rolle(r)
-  setting_issue_done_ratio_issue_field: Benyt sags felt
+  error_workflow_copy_target: Vælg venligst måltracker og rolle(r)
+  setting_issue_done_ratio_issue_field: Benyt sagsfelt
   label_copy_same_as_target: Samme som mål
   label_copy_target: Mål
-  notice_issue_done_ratios_updated: Sagsløsnings ratio opdateret.
-  error_workflow_copy_source: Vælg venligst en kilde tracker eller rolle
-  label_update_issue_done_ratios: Opdater sagsløsnings ratio
+  notice_issue_done_ratios_updated: Sagsløsningsratio opdateret.
+  error_workflow_copy_source: Vælg venligst en kildetracker eller rolle
+  label_update_issue_done_ratios: Opdater sagsløsningsratio
   setting_start_of_week: Start kalendre på
   permission_view_issues: Vis sager
-  label_display_used_statuses_only: Vis kun statuser der er benyttet af denne tracker
+  label_display_used_statuses_only: Vis kun statusser der er benyttet af denne tracker
   label_revision_id: Revision %{value}
   label_api_access_key: API nøgle
   label_api_access_key_created_on: API nøgle genereret %{value} siden
@@ -913,12 +913,12 @@ da:
   label_board_locked: Låst
   permission_export_wiki_pages: Eksporter wiki sider
   setting_cache_formatted_text: Cache formatteret tekst
-  permission_manage_project_activities: Administrer projekt aktiviteter
-  error_unable_delete_issue_status: Det var ikke muligt at slette sags status
+  permission_manage_project_activities: Administrer projektaktiviteter
+  error_unable_delete_issue_status: Det var ikke muligt at slette sagsstatus
   label_profile: Profil
-  permission_manage_subtasks: Administrer under opgaver
-  field_parent_issue: Hoved opgave
-  label_subtask_plural: Under opgaver
+  permission_manage_subtasks: Administrer underopgaver
+  field_parent_issue: Hovedopgave
+  label_subtask_plural: Underopgaver
   label_project_copy_notifications: Send email notifikationer, mens projektet kopieres
   error_can_not_delete_custom_field: Kan ikke slette brugerdefineret felt
   error_unable_to_connect: Kan ikke forbinde (%{value})
@@ -928,7 +928,7 @@ da:
   label_my_page_block: blok
   notice_failed_to_save_members: "Fejl under lagring af medlem(mer): %{errors}."
   text_zoom_out: Zoom ud
-  text_zoom_in: Zoom in
+  text_zoom_in: Zoom ind
   notice_unable_delete_time_entry: Kan ikke slette tidsregistrering.
   label_overall_spent_time: Overordnet forbrug af tid
   field_time_entries: Log tid
@@ -937,23 +937,24 @@ da:
   button_edit_associated_wikipage: "Redigér tilknyttet Wiki side: %{page_title}"
   text_are_you_sure_with_children: Slet sag og alle undersager?
   field_text: Tekstfelt
-  label_user_mail_option_only_owner: Only for things I am the owner of
-  setting_default_notification_option: Default notification option
-  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
-  label_user_mail_option_only_assigned: Only for things I am assigned to
-  label_user_mail_option_none: No events
-  field_member_of_group: Medlem af Gruppe
-  field_assigned_to_role: Medlem af Rolle
-  notice_not_authorized_archived_project: The project you're trying to access has been archived.
-  label_principal_search: "Search for user or group:"
-  label_user_search: "Search for user:"
-  field_visible: Visible
+  label_user_mail_option_only_owner: Kun for ting jeg er ejer af
+  setting_default_notification_option: Standardpåmindelsesmulighed
+  label_user_mail_option_only_my_events: Kun for ting jeg overvåger eller er involveret i
+  label_user_mail_option_only_assigned: Kun for ting jeg er tildelt
+  label_user_mail_option_none: Ingen hændelser
+  field_member_of_group: Medlem af gruppe
+  field_assigned_to_role: Medlem af rolle
+  notice_not_authorized_archived_project: Projektet du prøver at tilgå, er blevet arkiveret.
+  label_principal_search: "Søg efter bruger eller gruppe:"
+  label_user_search: "Søg efter bruger:"
+  field_visible: Synlig
   setting_emails_header: Emails header
-  setting_commit_logtime_activity_id: Activity for logged time
-  text_time_logged_by_changeset: Applied in changeset %{value}.
-  setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
+  setting_commit_logtime_activity_id: Aktivitet for registreret tid
+  text_time_logged_by_changeset: Anvendt i changeset %{value}.
+  setting_commit_logtime_enabled: Aktiver tidsregistrering
+  notice_gantt_chart_truncated: Kortet er blevet afkortet, fordi det overstiger det maksimale antal elementer, der kan vises (%{max})
+  setting_gantt_items_limit: Maksimalt antal af elementer der kan vises på gantt kortet
+
   field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
   text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
   label_my_queries: My custom queries
