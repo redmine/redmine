@@ -144,7 +144,7 @@ module Redmine
         def lastrev(path, rev)
           return nil if path.nil?
           cmd_args = %w|log --no-color --encoding=UTF-8 --date=iso --pretty=fuller --no-merges -n 1|
-          cmd_args << rev if rev 
+          cmd_args << rev if rev
           cmd_args << "--" << path unless path.empty?
           lines = []
           scm_cmd(*cmd_args) { |io| lines = io.readlines }
@@ -155,11 +155,11 @@ module Redmine
 
               Revision.new({
                 :identifier => id,
-                :scmid => id,
-                :author => author, 
-                :time => time,
-                :message => nil, 
-                :paths => nil 
+                :scmid      => id,
+                :author     => author,
+                :time       => time,
+                :message    => nil,
+                :paths      => nil
                 })
           rescue NoMethodError => e
               logger.error("The revision '#{path}' has a wrong format")
@@ -195,11 +195,11 @@ module Redmine
                   parsing_descr = 0
                   revision = Revision.new({
                     :identifier => changeset[:commit],
-                    :scmid => changeset[:commit],
-                    :author => changeset[:author],
-                    :time => Time.parse(changeset[:date]),
-                    :message => changeset[:description],
-                    :paths => files
+                    :scmid      => changeset[:commit],
+                    :author     => changeset[:author],
+                    :time       => Time.parse(changeset[:date]),
+                    :message    => changeset[:description],
+                    :paths      => files
                   })
                   if block_given?
                     yield revision
@@ -245,11 +245,11 @@ module Redmine
             if changeset[:commit]
               revision = Revision.new({
                 :identifier => changeset[:commit],
-                :scmid => changeset[:commit],
-                :author => changeset[:author],
-                :time => Time.parse(changeset[:date]),
-                :message => changeset[:description],
-                :paths => files
+                :scmid      => changeset[:commit],
+                :author     => changeset[:author],
+                :time       => Time.parse(changeset[:date]),
+                :message    => changeset[:description],
+                :paths      => files
               })
 
               if block_given?
