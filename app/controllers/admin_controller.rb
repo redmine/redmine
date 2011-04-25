@@ -17,9 +17,7 @@
 
 class AdminController < ApplicationController
   layout 'admin'
-  
   before_filter :require_admin
-
   helper :sort
   include SortHelper	
 
@@ -30,22 +28,20 @@ class AdminController < ApplicationController
   def projects
     @status = params[:status] ? params[:status].to_i : 1
     c = ARCondition.new(@status == 0 ? "status <> 0" : ["status = ?", @status])
-    
     unless params[:name].blank?
       name = "%#{params[:name].strip.downcase}%"
       c << ["LOWER(identifier) LIKE ? OR LOWER(name) LIKE ?", name, name]
     end
-    
     @projects = Project.find :all, :order => 'lft',
                                    :conditions => c.conditions
 
     render :action => "projects", :layout => false if request.xhr?
   end
-  
+
   def plugins
     @plugins = Redmine::Plugin.all
   end
-  
+
   # Loads the default configuration
   # (roles, trackers, statuses, workflow, enumerations)
   def default_configuration
@@ -59,7 +55,7 @@ class AdminController < ApplicationController
     end
     redirect_to :action => 'index'
   end
-  
+
   def test_email
     raise_delivery_errors = ActionMailer::Base.raise_delivery_errors
     # Force ActionMailer to raise delivery errors so we can catch it
@@ -73,14 +69,16 @@ class AdminController < ApplicationController
     ActionMailer::Base.raise_delivery_errors = raise_delivery_errors
     redirect_to :controller => 'settings', :action => 'edit', :tab => 'notifications'
   end
-  
+
   def info
     @db_adapter_name = ActiveRecord::Base.connection.adapter_name
     @checklist = [
-      [:text_default_administrator_account_changed, User.find(:first, :conditions => ["login=? and hashed_password=?", 'admin', User.hash_password('admin')]).nil?],
+      [:text_default_administrator_account_changed,
+          User.find(:first,
+                    :conditions => ["login=? and hashed_password=?", 'admin', User.hash_password('admin')]).nil?],
       [:text_file_repository_writable, File.writable?(Attachment.storage_path)],
-      [:text_plugin_assets_writable, File.writable?(Engines.public_directory)],
-      [:text_rmagick_available, Object.const_defined?(:Magick)]
+      [:text_plugin_assets_writable,   File.writable?(Engines.public_directory)],
+      [:text_rmagick_available,        Object.const_defined?(:Magick)]
     ]
-  end  
+  end
 end
