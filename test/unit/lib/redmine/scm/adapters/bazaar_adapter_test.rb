@@ -7,7 +7,7 @@ begin
     REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/bazaar_repository'
     REPOSITORY_PATH.gsub!(/\/+/, '/')
 
-    if File.directory?(REPOSITORY_PATH)  
+    if File.directory?(REPOSITORY_PATH)
       def setup
         @adapter = Redmine::Scm::Adapters::BazaarAdapter.new(REPOSITORY_PATH)
       end
@@ -25,7 +25,7 @@ begin
         cat = @adapter.cat('directory/document.txt')
         assert cat =~ /Write the contents of a file as of a given revision to standard output/
       end
-    
+
       def test_annotate
         annotate = @adapter.annotate('doc-mkdir.txt')
         assert_equal 17, annotate.lines.size
@@ -45,10 +45,8 @@ begin
       def test_fake; assert true end
     end
   end
-
 rescue LoadError
   class BazaarMochaFake < ActiveSupport::TestCase
     def test_fake; assert(false, "Requires mocha to run those tests")  end
   end
 end
-
