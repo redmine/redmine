@@ -391,6 +391,12 @@
   field_warn_on_leaving_unsaved: "提醒我將要離開的頁面中尚有未儲存的資料"
   field_issues_visibility: 項目可見度
   field_is_private: 私人
+  field_commit_logs_encoding: 送交訊息編碼
+  field_scm_path_encoding: 路徑編碼
+  field_path_to_repository: 儲存庫路徑
+  field_root_directory: 根資料夾
+  field_cvsroot: CVSROOT
+  field_cvs_module: 模組
   
   setting_app_title: 標題
   setting_app_subtitle: 副標題
@@ -1016,6 +1022,9 @@
   text_zoom_in: 放大
   text_zoom_out: 縮小
   text_warn_on_leaving_unsaved: "若您離開這個頁面，此頁面所包含的未儲存資料將會遺失。"
+  text_scm_path_encoding_note: "預設: UTF-8"
+  text_git_repository_note: "純(Bare)儲存庫與本機儲存庫 (e.g. /gitrepo, c:\gitrepo)"
+  text_mercurial_repository_note: "本機儲存庫 (e.g. /hgrepo, c:\hgrepo)"
   
   default_role_manager: 管理人員
   default_role_developer: 開發人員
@@ -1043,12 +1052,3 @@
   enumeration_doc_categories: 文件分類
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
-  field_commit_logs_encoding: 送交訊息編碼
-  field_scm_path_encoding: Path encoding
-  text_scm_path_encoding_note: "Default: UTF-8"
-  field_path_to_repository: Path to repository
-  field_root_directory: Root directory
-  field_cvs_module: Module
-  field_cvsroot: CVSROOT
-  text_git_repository_note: Bare and local repository (e.g. /gitrepo, c:\gitrepo)
-  text_mercurial_repository_note: Local repository (e.g. /hgrepo, c:\hgrepo)
