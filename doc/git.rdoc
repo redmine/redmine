@@ -1,17 +1,13 @@
 = Contributing to Redmine with git and github
 
-(This is a beta document. If you can improve it, fork it and send a patch/pull request.)
+(This is a beta document.)
 
-The official repository is at http://github.com/edavis10/redmine
+The mirror repository is at http://github.com/edavis10/redmine
 
-Official branches:
+Branches:
 
-* master - is automatically mirrored to svn trunk. DO NOT COMMIT OR MERGE INTO THIS BRANCH
+* master - is automatically mirrored to svn trunk.
 * [0.6, 0.7, 0.8, 0.9, 1.0,...]-stable - is automatically mirrored to svn release branches. DO NOT COMMIT OR MERGE INTO THIS BRANCH
-* integration-to-svn-trunk - this branch is a git-only branch that will track master (trunk). Any code in here will be eventually merged into master but it may be rebased as any time (git-svn needs to rebase to commit to svn)
-* integration-to-svn-stable-1.0 - this branch is a git-only branch that will track the 1.0-stable branch in svn.  Any code in here will be eventually merged into master and 1.0-stable but it may be rebased as any time (git-svn needs to rebase to commit to svn)
-
-I (edavis10) might have some other branches on the repository for work in progress.
 
 == Branch naming standards
 
