@@ -309,6 +309,12 @@ bg:
   field_warn_on_leaving_unsaved: Предупреди ме, когато напускам страница с незаписано съдържание
   field_issues_visibility: Видимост на задачите
   field_is_private: Лична
+  field_commit_logs_encoding: Кодова таблица на съобщенията при поверяване
+  field_scm_path_encoding: Кодова таблица на пътищата (path)
+  field_path_to_repository: Път до хранилището
+  field_root_directory: Коренна директория (папка)
+  field_cvsroot: CVSROOT
+  field_cvs_module: Модул
 
   setting_app_title: Заглавие
   setting_app_subtitle: Описание
@@ -934,6 +940,9 @@ bg:
   text_zoom_in: Увеличаване
   text_zoom_out: Намаляване
   text_warn_on_leaving_unsaved: Страницата съдържа незаписано съдържание, което може да бъде загубено, ако я напуснете.
+  text_scm_path_encoding_note: "По подразбиране: UTF-8"
+  text_git_repository_note: Празно и локално хранилище (e.g. /gitrepo, c:\gitrepo)
+  text_mercurial_repository_note: Локално хранилище (например /hgrepo, c:\hgrepo)
 
   default_role_manager: Мениджър
   default_role_developer: Разработчик
@@ -961,12 +970,3 @@ bg:
   enumeration_doc_categories: Категории документи
   enumeration_activities: Дейности (time tracking)
   enumeration_system_activity: Системна активност
-  field_commit_logs_encoding: Кодова таблица на съобщенията при поверяване
-  field_scm_path_encoding: Path encoding
-  text_scm_path_encoding_note: "Default: UTF-8"
-  field_path_to_repository: Path to repository
-  field_root_directory: Root directory
-  field_cvs_module: Module
-  field_cvsroot: CVSROOT
-  text_git_repository_note: Bare and local repository (e.g. /gitrepo, c:\gitrepo)
-  text_mercurial_repository_note: Local repository (e.g. /hgrepo, c:\hgrepo)
