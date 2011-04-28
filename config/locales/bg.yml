@@ -941,7 +941,7 @@ bg:
   text_zoom_out: Намаляване
   text_warn_on_leaving_unsaved: Страницата съдържа незаписано съдържание, което може да бъде загубено, ако я напуснете.
   text_scm_path_encoding_note: "По подразбиране: UTF-8"
-  text_git_repository_note: Празно и локално хранилище (e.g. /gitrepo, c:\gitrepo)
+  text_git_repository_note: Празно и локално хранилище (например /gitrepo, c:\gitrepo)
   text_mercurial_repository_note: Локално хранилище (например /hgrepo, c:\hgrepo)
 
   default_role_manager: Мениджър
