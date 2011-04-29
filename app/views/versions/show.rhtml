@@ -6,6 +6,10 @@
 
 <h2><%= h(@version.name) %></h2>
 
+<div id="roadmap">
+<%= render :partial => 'versions/overview', :locals => {:version => @version} %>
+<%= render(:partial => "wiki/content", :locals => {:content => @version.wiki_page.content}) if @version.wiki_page %>
+
 <div id="version-summary">
 <% if @version.estimated_hours > 0 || User.current.allowed_to?(:view_time_entries, @project) %>
 <fieldset><legend><%= l(:label_time_tracking) %></legend>
@@ -28,10 +32,6 @@
 <%= render_issue_status_by(@version, params[:status_by]) if @version.fixed_issues.count > 0 %>
 </div>
 </div>
-
-<div id="roadmap">
-<%= render :partial => 'versions/overview', :locals => {:version => @version} %>
-<%= render(:partial => "wiki/content", :locals => {:content => @version.wiki_page.content}) if @version.wiki_page %>
 
 <% if @issues.present? %>
 <fieldset class="related-issues"><legend><%= l(:label_related_issues) %></legend>
