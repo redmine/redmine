@@ -117,7 +117,6 @@ class ProjectsController < ApplicationController
       Mailer.with_deliveries(params[:notifications] == '1') do
         @project = Project.new
         @project.safe_attributes = params[:project]
-        @project.enabled_module_names = params[:enabled_modules]
         if validate_parent_id && @project.copy(@source_project, :only => params[:only])
           @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
           flash[:notice] = l(:notice_successful_create)
