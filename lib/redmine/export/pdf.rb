@@ -163,6 +163,7 @@ module Redmine
             end
             txt = txtar
           end
+          txt
         end
 
         def RDMCell(w,h=0,txt='',border=0,ln=0,align='',fill=0,link='')
