@@ -191,6 +191,29 @@ class QueryTest < ActiveSupport::TestCase
     result.each {|issue| assert issue.subject.downcase.include?('unable') }
   end
   
+  def test_range_for_this_week_with_week_starting_on_monday
+    I18n.locale = :fr
+    assert_equal '1', I18n.t(:general_first_day_of_week)
+    
+    Date.stubs(:today).returns(Date.parse('2011-04-29'))
+    
+    query = Query.new(:project => Project.find(1), :name => '_')
+    query.add_filter('due_date', 'w', [''])
+    assert query.statement.include?("issues.due_date > '2011-04-24 23:59:59' AND issues.due_date <= '2011-05-01 23:59:59")
+    I18n.locale = :en
+  end
+  
+  def test_range_for_this_week_with_week_starting_on_sunday
+    I18n.locale = :en
+    assert_equal '7', I18n.t(:general_first_day_of_week)
+    
+    Date.stubs(:today).returns(Date.parse('2011-04-29'))
+    
+    query = Query.new(:project => Project.find(1), :name => '_')
+    query.add_filter('due_date', 'w', [''])
+    assert query.statement.include?("issues.due_date > '2011-04-23 23:59:59' AND issues.due_date <= '2011-04-30 23:59:59")
+  end
+  
   def test_operator_does_not_contains
     query = Query.new(:project => Project.find(1), :name => '_')
     query.add_filter('subject', '!~', ['uNable'])
