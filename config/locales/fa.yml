@@ -24,12 +24,12 @@ fa:
 
   time:
     formats:
-      default: "%Y/%m/%d %p %I:%M"
-      time: "%p %I:%M"
+      default: "%Y/%m/%d - %H:%M"
+      time: "%H:%M"
       short: "%d %b %H:%M"
-      long: "%B %d, %Y %H:%M"
-    am: "ق.ظ"
-    pm: "ب.ظ"
+      long: "%d %B %Y ساعت %H:%M"
+    am: "صبح"
+    pm: "عصر"
       
   datetime:
     distance_in_words:
@@ -210,7 +210,7 @@ fa:
   gui_validation_error_plural: "%{count} ایراد"
   
   field_name: نام
-  field_description: توضیح
+  field_description: یادداشت
   field_summary: خلاصه
   field_is_required: الزامی
   field_firstname: نام کوچک
@@ -234,7 +234,7 @@ fa:
   field_project: پروژه
   field_issue: پیامد
   field_status: وضعیت
-  field_notes: یادداشت‌ها
+  field_notes: یادداشت
   field_is_closed: پیامد بسته شده
   field_is_default: مقدار پیش‌گزیده
   field_tracker: پیگرد
@@ -249,7 +249,7 @@ fa:
   field_homepage: برگه خانه
   field_is_public: همگانی
   field_parent: پروژه پدر
-  field_is_in_roadmap: این پیامدها در نقشه راه نشان داده شوند
+  field_is_in_roadmap: این پیامدها در چشم‌انداز نشان داده شوند
   field_login: ورود
   field_mail_notification: آگاه سازی‌های ایمیلی
   field_admin: سرپرست
@@ -279,7 +279,7 @@ fa:
   field_start_page: برگه آغاز
   field_subproject: زیر پروژه
   field_hours: ساعت‌
-  field_activity: فعالیت
+  field_activity: گزارش
   field_spent_on: در تاریخ
   field_identifier: شناسه
   field_is_filter: پالایش پذیر
@@ -338,7 +338,7 @@ fa:
   setting_protocol: پیوندنامه
   setting_per_page_options: گزینه‌های اندازه داده‌های هر برگ
   setting_user_format: قالب نمایشی کاربران
-  setting_activity_days_default: روزهای نمایش داده شده در فعالیت پروژه
+  setting_activity_days_default: روزهای نمایش داده شده در گزارش پروژه
   setting_display_subprojects_issues: پیش‌گزیده نمایش پیامدهای زیرپروژه در پروژه پدر
   setting_enabled_scm: فعالسازی SCM
   setting_mail_handler_body_delimiters: "بریدن ایمیل‌ها پس از یکی از این ردیف‌ها"
@@ -362,7 +362,7 @@ fa:
   setting_cache_formatted_text: نهان سازی نوشته‌های قالب بندی شده
   setting_default_notification_option: آگاه سازی پیش‌گزیده
   setting_commit_logtime_enabled: فعالسازی زمان گذاشته شده
-  setting_commit_logtime_activity_id: فعالیت زمان گذاشته شده
+  setting_commit_logtime_activity_id: کار زمان گذاشته شده
   setting_gantt_items_limit: بیشترین شمار بخش‌های نمایش داده شده در نمودار گانت
   
   permission_add_project: ساخت پروژه
@@ -370,15 +370,15 @@ fa:
   permission_edit_project: ویرایش پروژه
   permission_select_project_modules: گزینش پیمانه‌های پروژه
   permission_manage_members: سرپرستی اعضا
-  permission_manage_project_activities: سرپرستی فعالیت‌های پروژه
+  permission_manage_project_activities: سرپرستی کارهای پروژه
   permission_manage_versions: سرپرستی نگارش‌ها
   permission_manage_categories: سرپرستی دسته‌های پیامد
   permission_view_issues: دیدن پیامدها
   permission_add_issues: افزودن پیامدها
   permission_edit_issues: ویرایش پیامدها
   permission_manage_issue_relations: سرپرستی وابستگی پیامدها
-  permission_add_issue_notes: افزودن یادداشت‌ها
-  permission_edit_issue_notes: ویرایش یادداشت‌ها
+  permission_add_issue_notes: افزودن یادداشت
+  permission_edit_issue_notes: ویرایش یادداشت
   permission_edit_own_issue_notes: ویرایش یادداشت خود
   permission_move_issues: جابجایی پیامدها
   permission_delete_issues: پاک کردن پیامدها
@@ -449,7 +449,7 @@ fa:
   label_issue_new: پیامد تازه
   label_issue_plural: پیامد
   label_issue_view_all: دیدن همه پیامدها
-  label_issues_by: "پیامدهای دست%{value}"
+  label_issues_by: "دسته‌بندی پیامدها با %{value}"
   label_issue_added: پیامد افزوده شد
   label_issue_updated: پیامد بروز شد
   label_document: نوشتار
@@ -497,9 +497,9 @@ fa:
   label_assigned_to_me_issues: پیامدهای واگذار شده به من
   label_last_login: آخرین ورود
   label_registered_on: نام نویسی شده در
-  label_activity: فعالیت
-  label_overall_activity: فعالیت روی هم رفته
-  label_user_activity: "فعالیت %{value}"
+  label_activity: گزارش
+  label_overall_activity: گزارش روی هم رفته
+  label_user_activity: "گزارش %{value}"
   label_new: تازه
   label_logged_as: "نام کاربری:"
   label_environment: محیط
@@ -539,7 +539,7 @@ fa:
   label_news_view_all: دیدن همه رویدادها
   label_news_added: رویداد افزوده شد
   label_settings: پیکربندی
-  label_overview: دورنما
+  label_overview: در یک نگاه
   label_version: نگارش
   label_version_new: نگارش تازه
   label_version_plural: نگارش
@@ -646,7 +646,7 @@ fa:
   label_sort_higher: بردن به بالا
   label_sort_lower: بردن به پایین
   label_sort_lowest: بردن به پایان
-  label_roadmap: نقشه راه
+  label_roadmap: چشم‌انداز
   label_roadmap_due_in: "سررسید در %{value}"
   label_roadmap_overdue: "%{value} دیرکرد"
   label_roadmap_no_issues: هیچ پیامدی برای این نگارش نیست
@@ -756,7 +756,7 @@ fa:
   label_plugins: افزونه‌ها
   label_ldap_authentication: شناساییLDAP
   label_downloads_abbr: دریافت
-  label_optional_description: توضیح اختیاری
+  label_optional_description: یادداشت دلخواه
   label_add_another_file: افزودن پرونده دیگر
   label_preferences: پسندها
   label_chronological_order: به ترتیب تاریخ
@@ -935,28 +935,28 @@ fa:
   
   enumeration_issue_priorities: برتری‌های پیامد
   enumeration_doc_categories: دسته‌های نوشتار
-  enumeration_activities: فعالیت‌ها (پیگیری زمان)
-  enumeration_system_activity: فعالیت سامانه
+  enumeration_activities: کارها (پیگیری زمان)
+  enumeration_system_activity: کار سامانه
 
-  text_tip_issue_begin_day: issue beginning this day
-  field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
-  text_tip_issue_begin_end_day: issue beginning and ending this day
-  text_tip_issue_end_day: issue ending this day
-  text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
-  label_my_queries: My custom queries
-  text_journal_changed_no_detail: "%{label} updated"
-  label_news_comment_added: Comment added to a news
-  button_expand_all: Expand all
-  button_collapse_all: Collapse all
-  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
-  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
-  label_bulk_edit_selected_time_entries: Bulk edit selected time entries
-  text_time_entries_destroy_confirmation: Are you sure you want to delete the selected time entr(y/ies)?
-  label_role_anonymous: Anonymous
-  label_role_non_member: Non member
-  label_issue_note_added: Note added
-  label_issue_status_updated: Status updated
-  label_issue_priority_updated: Priority updated
+  text_tip_issue_begin_day: پیامد در این روز آغاز می‌شود
+  field_warn_on_leaving_unsaved: هنگام ترک برگه‌ای که نوشته‌های آن نگهداری نشده، به من هشدار بده
+  text_tip_issue_begin_end_day: پیامد در این روز آغاز می‌شود و پایان می‌پذیرد
+  text_tip_issue_end_day: پیامد در این روز پایان می‌پذیرد
+  text_warn_on_leaving_unsaved: این برگه دارای نوشته‌های نگهداری نشده است که اگر آن را ترک کنید، از میان می‌روند.
+  label_my_queries: جستارهای سفارشی من
+  text_journal_changed_no_detail: "%{label} بروز شد"
+  label_news_comment_added: دیدگاه به یک رویداد افزوده شد
+  button_expand_all: باز کردن همه
+  button_collapse_all: بستن همه
+  label_additional_workflow_transitions_for_assignee: زمانی که به کاربر واگذار شده، گذارهای بیشتر پذیرفته می‌شود
+  label_additional_workflow_transitions_for_author: زمانی که کاربر نویسنده است، گذارهای بیشتر پذیرفته می‌شود
+  label_bulk_edit_selected_time_entries: ویرایش دسته‌ای زمان‌های گزارش شده گزینش شده
+  text_time_entries_destroy_confirmation: آیا می‌خواهید زمان‌های گزارش شده گزینش شده پاک شوند؟
+  label_role_anonymous: ناشناس
+  label_role_non_member: غیر عضو
+  label_issue_note_added: یادداشت افزوده شد
+  label_issue_status_updated: وضعیت بروز شد
+  label_issue_priority_updated: برتری بروز شد
   label_issues_visibility_own: Issues created by or assigned to the user
   field_issues_visibility: Issues visibility
   label_issues_visibility_all: All issues
