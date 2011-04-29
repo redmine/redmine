@@ -4,6 +4,32 @@ Redmine - project management software
 Copyright (C) 2006-2011  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2011-04-29 v1.1.3
+
+* Defect #5773: Email reminders are sent to locked users
+* Defect #6590: Wrong file list link in email notification on new file upload
+* Defect #7589: Wiki page with backslash in title can not be found
+* Defect #7785: Mailhandler keywords are not removed when updating issues
+* Defect #7794: Internal server error on formatting an issue as a PDF in Japanese
+* Defect #7838: Gantt- Issues does not show up in green when start and end date are the same
+* Defect #7846: Headers (h1, etc.) containing backslash followed by a digit are not displayed correctly
+* Defect #7875: CSV export separators in polish locale (pl.yml)
+* Defect #7890: Internal server error when referencing an issue without project in commit message
+* Defect #7904: Subprojects not properly deleted when deleting a parent project
+* Defect #7939: Simultaneous Wiki Updates Cause Internal Error
+* Defect #7951: Atom links broken on wiki index
+* Defect #7954: IE 9 can not select issues, does not display context menu
+* Defect #7985: Trying to do a bulk edit results in "Internal Error"
+* Defect #8003: Error raised by reposman.rb under Windows server 2003
+* Defect #8012: Wrong selection of modules when adding new project after validation error
+* Defect #8038: Associated Revisions OL/LI items are not styled properly in issue view
+* Defect #8067: CSV exporting in Italian locale
+* Defect #8235: bulk edit issues and copy issues error in es, gl and ca locales
+* Defect #8244: selected modules are not activated when copying a project
+* Patch #7278: Update Simplified Chinese translation to 1.1
+* Patch #7390: Fixes in Czech localization
+* Patch #7963: Reminder email: Link for show all issues does not sort
+
 == 2011-03-07 v1.1.2
 
 * Defect #3132: Bulk editing menu non-functional in Opera browser
