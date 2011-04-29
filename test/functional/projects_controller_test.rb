@@ -448,7 +448,7 @@ class ProjectsControllerTest < ActionController::TestCase
     end
   end
 
-  def test_copy_with_project
+  def test_get_copy
     @request.session[:user_id] = 1 # admin
     get :copy, :id => 1
     assert_response :success
@@ -456,13 +456,41 @@ class ProjectsControllerTest < ActionController::TestCase
     assert assigns(:project)
     assert_equal Project.find(1).description, assigns(:project).description
     assert_nil assigns(:project).id
+    
+    assert_tag :tag => 'input',
+      :attributes => {:name => 'project[enabled_module_names][]', :value => 'issue_tracking'}
   end
 
-  def test_copy_without_project
+  def test_get_copy_without_project
     @request.session[:user_id] = 1 # admin
     get :copy
     assert_response :redirect
     assert_redirected_to :controller => 'admin', :action => 'projects'
+  end
+  
+  def test_post_copy_should_copy_requested_items
+    @request.session[:user_id] = 1 # admin
+    CustomField.delete_all
+    
+    assert_difference 'Project.count' do
+      post :copy, :id => 1,
+        :project => {
+          :name => 'Copy',
+          :identifier => 'unique-copy',
+          :tracker_ids => ['1', '2', '3', ''],
+          :enabled_module_names => %w(issue_tracking time_tracking)
+        },
+        :only => %w(issues versions)
+    end
+    project = Project.find('unique-copy')
+    source = Project.find(1)
+    assert_equal %w(issue_tracking time_tracking), project.enabled_module_names.sort
+    
+    assert_equal source.versions.count, project.versions.count, "All versions were not copied"
+    # issues assigned to a closed version won't be copied
+    assert_equal source.issues.select {|i| i.fixed_version.nil? || i.fixed_version.open?}.size,
+                 project.issues.count, "All issues were not copied"
+    assert_equal 0, project.members.count
   end
 
   context "POST :copy" do
