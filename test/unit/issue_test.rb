@@ -545,6 +545,13 @@ class IssueTest < ActiveSupport::TestCase
 
         assert_equal date, @copy.due_date
       end
+      
+      should "set current user as author" do
+        User.current = User.find(9)
+        @copy = @issue.move_to_project(Project.find(3), Tracker.find(2), {:copy => true, :attributes => {}})
+
+        assert_equal User.current, @copy.author
+      end
     end
   end
   
