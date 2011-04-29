@@ -34,12 +34,15 @@ class PdfTest < ActiveSupport::TestCase
     utf8_txt_2  = "\xe7\x8b\x80\xe6\x85\x8b\xe7\x8b\x80"
     utf8_txt_3  = "\xe7\x8b\x80\xe7\x8b\x80\xe6\x85\x8b\xe7\x8b\x80"
     if utf8_txt_1.respond_to?(:force_encoding)
-      assert_equal "?\x91\xd4",
-                   pdf.fix_text_encoding(utf8_txt_1)
-      assert_equal "?\x91\xd4?",
-                   pdf.fix_text_encoding(utf8_txt_2)
-      assert_equal "??\x91\xd4?",
-                   pdf.fix_text_encoding(utf8_txt_3)
+      txt_1 = pdf.fix_text_encoding(utf8_txt_1)
+      txt_2 = pdf.fix_text_encoding(utf8_txt_2)
+      txt_3 = pdf.fix_text_encoding(utf8_txt_3)
+      assert_equal "?\x91\xd4", txt_1
+      assert_equal "?\x91\xd4?", txt_2
+      assert_equal "??\x91\xd4?", txt_3
+      assert_equal "ASCII-8BIT", txt_1.encoding.to_s
+      assert_equal "ASCII-8BIT", txt_2.encoding.to_s
+      assert_equal "ASCII-8BIT", txt_3.encoding.to_s
     else
       assert_equal "???\x91\xd4",
                    pdf.fix_text_encoding(utf8_txt_1)
