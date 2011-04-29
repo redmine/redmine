@@ -163,8 +163,6 @@ module Redmine
             end
             txt = txtar
           end
-          # 0x5c char handling
-          txt.gsub(/\\/, "\\\\\\\\")
         end
 
         def RDMCell(w,h=0,txt='',border=0,ln=0,align='',fill=0,link='')

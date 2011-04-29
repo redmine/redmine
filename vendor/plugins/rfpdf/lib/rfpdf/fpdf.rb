@@ -642,10 +642,7 @@ class FPDF
 
     def Text(x, y, txt)
         # Output a string
-        txt.gsub!(')', '\\)')
-        txt.gsub!('(', '\\(')
-        txt.gsub!('\\', '\\\\')
-        s=sprintf('BT %.2f %.2f Td (%s) Tj ET',x*@k,(@h-y)*@k,txt);
+        s=sprintf('BT %.2f %.2f Td (%s) Tj ET',x*@k,(@h-y)*@k, escape(txt));
         s=s+' '+dounderline(x,y,txt) if @underline and txt!=''
         s='q '+@TextColor+' '+s+' Q' if @ColorFlag
         out(s)
@@ -719,14 +716,11 @@ class FPDF
             else
                 dx=@cMargin
             end
-            txt = txt.gsub(')', '\\)')
-            txt.gsub!('(', '\\(')
-            txt.gsub!('\\', '\\\\')
             if @ColorFlag
                 s=s+'q '+@TextColor+' '
             end
             s=s+sprintf('BT %.2f %.2f Td (%s) Tj ET',
-                (@x+dx)*@k,(@h-(@y+0.5*h+0.3*@FontSize))*@k,txt)
+                (@x+dx)*@k,(@h-(@y+0.5*h+0.3*@FontSize))*@k,escape(txt))
             s=s+' '+dounderline(@x+dx,@y+0.5*h+0.3*@FontSize,txt) if @underline
             s=s+' Q' if @ColorFlag
             if link and link != ''
@@ -1538,7 +1532,7 @@ class FPDF
 
     def escape(s)
         # Add \ before \, ( and )
-        s.gsub('\\','\\\\').gsub('(','\\(').gsub(')','\\)')
+        s.gsub('\\','\\\\\\').gsub('(','\\(').gsub(')','\\)')
     end
 
     def putstream(s)

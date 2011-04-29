@@ -27,46 +27,6 @@ class PdfTest < ActiveSupport::TestCase
     assert_equal '', pdf.fix_text_encoding(nil)
   end
 
-  def test_fix_text_encoding_backslash_ascii
-    set_language_if_valid 'ja'
-    pdf = Redmine::Export::PDF::IFPDF.new('ja')
-    assert pdf
-    assert_equal '\\\\abcd', pdf.fix_text_encoding('\\abcd')
-    assert_equal 'abcd\\\\', pdf.fix_text_encoding('abcd\\')
-    assert_equal 'ab\\\\cd', pdf.fix_text_encoding('ab\\cd')
-    assert_equal '\\\\abcd\\\\', pdf.fix_text_encoding('\\abcd\\')
-    assert_equal '\\\\abcd\\\\abcd\\\\',
-                 pdf.fix_text_encoding('\\abcd\\abcd\\')
-  end
-
-  def test_fix_text_encoding_double_backslash_ascii
-    set_language_if_valid 'ja'
-    pdf = Redmine::Export::PDF::IFPDF.new('ja')
-    assert pdf
-    assert_equal '\\\\\\\\abcd', pdf.fix_text_encoding('\\\\abcd')
-    assert_equal 'abcd\\\\\\\\', pdf.fix_text_encoding('abcd\\\\')
-    assert_equal 'ab\\\\\\\\cd', pdf.fix_text_encoding('ab\\\\cd')
-    assert_equal 'ab\\\\\\\\cd\\\\de', pdf.fix_text_encoding('ab\\\\cd\\de')
-    assert_equal '\\\\\\\\abcd\\\\\\\\', pdf.fix_text_encoding('\\\\abcd\\\\')
-    assert_equal '\\\\\\\\abcd\\\\\\\\abcd\\\\\\\\',
-                 pdf.fix_text_encoding('\\\\abcd\\\\abcd\\\\')
-  end
-
-  def test_fix_text_encoding_backslash_ja_cp932
-    pdf = Redmine::Export::PDF::IFPDF.new('ja')
-    assert pdf
-    assert_equal "\x83\\\\\x98A",
-                  pdf.fix_text_encoding("\xe3\x82\xbd\xe9\x80\xa3")
-    assert_equal "\x83\\\\\x98A\x91\xe3\x95\\\\",
-                  pdf.fix_text_encoding("\xe3\x82\xbd\xe9\x80\xa3\xe4\xbb\xa3\xe8\xa1\xa8")
-    assert_equal "\x91\xe3\x95\\\\\\\\",
-                  pdf.fix_text_encoding("\xe4\xbb\xa3\xe8\xa1\xa8\\")
-    assert_equal "\x91\xe3\x95\\\\\\\\\\\\",
-                  pdf.fix_text_encoding("\xe4\xbb\xa3\xe8\xa1\xa8\\\\")
-    assert_equal "\x91\xe3\x95\\\\a\\\\",
-                  pdf.fix_text_encoding("\xe4\xbb\xa3\xe8\xa1\xa8a\\")
-  end
-
   def test_fix_text_encoding_cannot_convert_ja_cp932
     pdf = Redmine::Export::PDF::IFPDF.new('ja')
     assert pdf
