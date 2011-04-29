@@ -1076,11 +1076,11 @@ ru:
   label_issues_visibility_public: Только общие задачи
   text_issues_destroy_descendants_confirmation: Так же будут удалено %{count} задачи.
   field_commit_logs_encoding: Кодировка комментариев в хранилище
-  field_scm_path_encoding: Path encoding
-  text_scm_path_encoding_note: "Default: UTF-8"
-  field_path_to_repository: Path to repository
-  field_root_directory: Root directory
-  field_cvs_module: Module
+  field_scm_path_encoding: Кодировка пути
+  text_scm_path_encoding_note: "По умолчанию: UTF-8"
+  field_path_to_repository: Путь к репозиторию
+  field_root_directory: Root директорию
+  field_cvs_module: Модуль
   field_cvsroot: CVSROOT
   text_git_repository_note: Bare and local repository (e.g. /gitrepo, c:\gitrepo)
-  text_mercurial_repository_note: Local repository (e.g. /hgrepo, c:\hgrepo)
+  text_mercurial_repository_note: Локальный репозиторий (например, /hgrepo, c:\hgrepo)
