@@ -78,4 +78,12 @@ class Journal < ActiveRecord::Base
     s << ' has-details' unless details.blank?
     s
   end
+  
+  def notify?
+    @notify != false
+  end
+  
+  def notify=(arg)
+    @notify = arg
+  end
 end

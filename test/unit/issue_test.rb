@@ -522,6 +522,11 @@ class IssueTest < ActiveSupport::TestCase
         @issue = Issue.find(1)
         @copy = nil
       end
+      
+      should "not create a journal" do
+        @copy = @issue.move_to_project(Project.find(3), Tracker.find(2), {:copy => true, :attributes => {:assigned_to_id => 3}})
+        assert_equal 0, @copy.reload.journals.size
+      end
 
       should "allow assigned_to changes" do
         @copy = @issue.move_to_project(Project.find(3), Tracker.find(2), {:copy => true, :attributes => {:assigned_to_id => 3}})
@@ -551,6 +556,19 @@ class IssueTest < ActiveSupport::TestCase
         @copy = @issue.move_to_project(Project.find(3), Tracker.find(2), {:copy => true, :attributes => {}})
 
         assert_equal User.current, @copy.author
+      end
+      
+      should "keep journal notes" do
+        date = Date.today
+        notes = "Notes added when copying"
+        User.current = User.find(9)
+        @issue.init_journal(User.current, notes)
+        @copy = @issue.move_to_project(Project.find(3), Tracker.find(2), {:copy => true, :attributes => {:start_date => date}})
+
+        assert_equal 1, @copy.journals.size
+        journal = @copy.journals.first
+        assert_equal 0, journal.details.size
+        assert_equal notes, journal.notes
       end
     end
   end

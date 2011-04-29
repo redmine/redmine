@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,10 +17,12 @@
 
 class JournalObserver < ActiveRecord::Observer
   def after_create(journal)
-    if Setting.notified_events.include?('issue_updated') ||
-        (Setting.notified_events.include?('issue_note_added') && journal.notes.present?) ||
-        (Setting.notified_events.include?('issue_status_updated') && journal.new_status.present?) ||
-        (Setting.notified_events.include?('issue_priority_updated') && journal.new_value_for('priority_id').present?)
+    if journal.notify? &&
+        (Setting.notified_events.include?('issue_updated') ||
+          (Setting.notified_events.include?('issue_note_added') && journal.notes.present?) ||
+          (Setting.notified_events.include?('issue_status_updated') && journal.new_status.present?) ||
+          (Setting.notified_events.include?('issue_priority_updated') && journal.new_value_for('priority_id').present?)
+        )
       Mailer.deliver_issue_edit(journal)
     end
   end

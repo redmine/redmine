@@ -188,7 +188,13 @@ class Issue < ActiveRecord::Base
       issue.attributes = options[:attributes]
     end
     if issue.save
-      unless options[:copy]
+      if options[:copy]
+        if current_journal && current_journal.notes.present?
+          issue.init_journal(current_journal.user, current_journal.notes)
+          issue.current_journal.notify = false
+          issue.save
+        end
+      else
         # Manually update project_id on related time entries
         TimeEntry.update_all("project_id = #{new_project.id}", {:issue_id => id})
         

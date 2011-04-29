@@ -112,6 +112,19 @@ class IssueMovesControllerTest < ActionController::TestCase
         assert_equal '2009-12-31', issue.due_date.to_s, "Due date is incorrect"
       end
     end
+
+    should "allow adding a note when copying" do
+      @request.session[:user_id] = 2
+      assert_difference 'Issue.count', 1 do
+        post :create, :ids => [1], :copy_options => {:copy => '1'}, :notes => 'Copying one issue', :new_tracker_id => '', :assigned_to_id => 4, :status_id => 3, :start_date => '2009-12-01', :due_date => '2009-12-31'
+      end
+      
+      issue = Issue.first(:order => 'id DESC')
+      assert_equal 1, issue.journals.size
+      journal = issue.journals.first
+      assert_equal 0, journal.details.size
+      assert_equal 'Copying one issue', journal.notes
+    end
   end
   
   def test_copy_to_another_project_should_follow_when_needed
