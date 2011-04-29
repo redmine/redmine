@@ -199,7 +199,7 @@ class QueryTest < ActiveSupport::TestCase
     
     query = Query.new(:project => Project.find(1), :name => '_')
     query.add_filter('due_date', 'w', [''])
-    assert query.statement.include?("issues.due_date > '2011-04-24 23:59:59' AND issues.due_date <= '2011-05-01 23:59:59")
+    assert query.statement.match(/issues\.due_date > '2011-04-24 23:59:59(\.9+)?' AND issues\.due_date <= '2011-05-01 23:59:59(\.9+)?/), "range not found in #{query.statement}"
     I18n.locale = :en
   end
   
@@ -211,7 +211,7 @@ class QueryTest < ActiveSupport::TestCase
     
     query = Query.new(:project => Project.find(1), :name => '_')
     query.add_filter('due_date', 'w', [''])
-    assert query.statement.include?("issues.due_date > '2011-04-23 23:59:59' AND issues.due_date <= '2011-04-30 23:59:59")
+    assert query.statement.match(/issues\.due_date > '2011-04-23 23:59:59(\.9+)?' AND issues\.due_date <= '2011-04-30 23:59:59(\.9+)?/), "range not found in #{query.statement}"
   end
   
   def test_operator_does_not_contains
