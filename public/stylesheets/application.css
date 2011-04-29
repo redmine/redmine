@@ -336,6 +336,7 @@ div#roadmap .related-issues td.checkbox { display: none; }
 div#roadmap .wiki h1:first-child { display: none; }
 div#roadmap .wiki h1 { font-size: 120%; }
 div#roadmap .wiki h2 { font-size: 110%; }
+body.controller-versions.action-show div#roadmap .related-issues {width:auto;}
 
 div#version-summary { float:right; width:380px; margin-left: 16px; margin-bottom: 16px; background-color: #fff; }
 div#version-summary fieldset { margin-bottom: 1em; }

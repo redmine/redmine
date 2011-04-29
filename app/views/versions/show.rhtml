@@ -34,13 +34,18 @@
 </div>
 
 <% if @issues.present? %>
-<fieldset class="related-issues"><legend><%= l(:label_related_issues) %></legend>
-<ul>
-<% @issues.each do |issue| -%>
-    <li><%= link_to_issue(issue) %></li>
-<% end -%>
-</ul>
-</fieldset>
+<% form_tag({}) do -%>
+  <table class="list related-issues">
+  <caption><%= l(:label_related_issues) %></caption>
+  <%- @issues.each do |issue| -%>
+    <tr class="hascontextmenu">
+      <td class="checkbox"><%= check_box_tag 'ids[]', issue.id %></td>
+      <td><%= link_to_issue(issue, :project => (@project != issue.project)) %></td>
+    </tr>
+  <% end %>
+  </table>
+<% end %>
+<%= context_menu issues_context_menu_path %>
 <% end %>
 </div>
 
