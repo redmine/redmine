@@ -61,4 +61,6 @@ div#issue-changesets div.wiki { direction: ltr; padding-left: 2em }
 .journal-link { float: left; }
 div.wiki pre { direction: ltr; }
 
-ul.projects ul.projects { border-right: 3px solid #e0e0e0; }
+ul.projects { padding-right: 1em; padding-left: 0; }
+ul.projects ul.projects { border-right: 3px solid #e0e0e0; border-left: 0; }
+.my-project { padding-right: 18px; padding-left: 0; background-position: top right; }
