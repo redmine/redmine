@@ -89,3 +89,6 @@ tr.issue.idnt-6 td.subject { padding-right: 8em; }
 tr.issue.idnt-7 td.subject { padding-right: 9.5em; }
 tr.issue.idnt-8 td.subject { padding-right: 11em; }
 tr.issue.idnt-9 td.subject { padding-right: 12.5em; }
+
+div.wiki ul.toc { margin-right: 0; margin-left: 12px; }
+div.wiki ul.toc li li { margin-right: 1.5em; margin-left: 0; }
