@@ -220,7 +220,7 @@ module PDF_Chinese
   			sep=-1
   			j=i
   			l=0
-#  			nl+=1
+  			nl+=1
   			if(border and nl==2)
   				b=b2
   			end
