@@ -45,7 +45,7 @@ class RepositoryTest < ActiveSupport::TestCase
     repository.url = "svn://localhost"
     assert repository.save
     repository.reload
-    
+
     project = Project.find(3)
     assert_equal repository, project.repository
   end
@@ -72,7 +72,7 @@ class RepositoryTest < ActiveSupport::TestCase
   def test_scan_changesets_for_issue_ids
     Setting.default_language = 'en'
     Setting.notified_events = ['issue_added','issue_updated']
-    
+
     # choosing a status to apply to fix issues
     Setting.commit_fix_status_id = IssueStatus.find(:first, :conditions => ["is_closed = ?", true]).id
     Setting.commit_fix_done_ratio = "90"
@@ -80,33 +80,33 @@ class RepositoryTest < ActiveSupport::TestCase
     Setting.commit_fix_keywords = 'fixes , closes'
     Setting.default_language = 'en'
     ActionMailer::Base.deliveries.clear
-    
+
     # make sure issue 1 is not already closed
     fixed_issue = Issue.find(1)
     assert !fixed_issue.status.is_closed?
     old_status = fixed_issue.status
-        
+
     Repository.scan_changesets_for_issue_ids
     assert_equal [101, 102], Issue.find(3).changeset_ids
-    
+
     # fixed issues
     fixed_issue.reload
     assert fixed_issue.status.is_closed?
     assert_equal 90, fixed_issue.done_ratio
     assert_equal [101], fixed_issue.changeset_ids
-    
+
     # issue change
     journal = fixed_issue.journals.find(:first, :order => 'created_on desc')
     assert_equal User.find_by_login('dlopper'), journal.user
     assert_equal 'Applied in changeset r2.', journal.notes
-    
+
     # 2 email notifications
     assert_equal 2, ActionMailer::Base.deliveries.size
     mail = ActionMailer::Base.deliveries.first
     assert_kind_of TMail::Mail, mail
     assert mail.subject.starts_with?("[#{fixed_issue.project.name} - #{fixed_issue.tracker.name} ##{fixed_issue.id}]")
     assert mail.body.include?("Status changed from #{old_status} to #{fixed_issue.status}")
-    
+
     # ignoring commits referencing an issue of another project
     assert_equal [], Issue.find(4).changesets
   end
