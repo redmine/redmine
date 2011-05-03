@@ -163,18 +163,18 @@ module RepositoriesHelper
         scm_options << ["Repository::#{scm}".constantize.scm_name, scm]
       end
     end
-    select_tag('repository_scm', 
+    select_tag('repository_scm',
                options_for_select(scm_options, repository.class.name.demodulize),
                :disabled => (repository && !repository.new_record?),
                :onchange => remote_function(
                   :url => {
                       :controller => 'repositories',
-                      :action => 'edit',
-                      :id => @project
-                        },
+                      :action     => 'edit',
+                      :id         => @project
+                   },
                :method => :get,
-               :with => "Form.serialize(this.form)")
-               )
+               :with   => "Form.serialize(this.form)")
+             )
   end
 
   def with_leading_slash(path)
