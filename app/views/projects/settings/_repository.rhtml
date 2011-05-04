@@ -6,8 +6,14 @@
 <%= error_messages_for 'repository' %>
 
 <div class="box tabular">
-<p><%= label_tag('repository_scm', l(:label_scm)) %><%= scm_select_tag(@repository) %></p>
-<%= repository_field_tags(f, @repository) if @repository %>
+<p>
+<%= label_tag('repository_scm', l(:label_scm)) %><%= scm_select_tag(@repository) %>
+</p>
+<% button_disabled = true %>
+<% if @repository %>
+<%   button_disabled = false %>
+<%=    repository_field_tags(f, @repository)%>
+<% end %>
 </div>
 
 <div class="contextual">
@@ -27,5 +33,5 @@
 </div>
 
 <%= submit_tag((@repository.nil? || @repository.new_record?) ? l(:button_create) : l(:button_save),
-               :disabled => @repository.nil?) %>
+               :disabled => button_disabled) %>
 <% end %>
