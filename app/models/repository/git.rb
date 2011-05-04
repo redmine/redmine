@@ -70,6 +70,21 @@ class Repository::Git < Repository
     changesets.find(:first, :conditions => ['scmid LIKE ?', "#{name}%"])
   end
 
+  # In Git and Mercurial, revisions are not in date order.
+  # Mercurial fixed issues.
+  #    * Redmine Takes Too Long On Large Mercurial Repository
+  #      http://www.redmine.org/issues/3449
+  #    * Sorting for changesets might go wrong on Mercurial repos 
+  #      http://www.redmine.org/issues/3567
+  # Database revision column is text, so Redmine can not sort by revision.
+  # Mercurial has revision number, and revision number guarantees revision order.
+  # Mercurial adapter uses "hg log -r 0:tip --limit 10"
+  # to get limited revisions from old to new.
+  # And Mercurial model stored revisions ordered by database id in database.
+  # So, Mercurial can use correct order revisions.
+  #
+  # But, Git 1.7.3.4 does not support --reverse with -n or --skip.
+  #
   # With SCM's that have a sequential commit numbering, redmine is able to be
   # clever and only fetch changesets going forward from the most recent one
   # it knows about.
