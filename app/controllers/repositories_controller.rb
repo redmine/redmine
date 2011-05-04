@@ -36,7 +36,7 @@ class RepositoriesController < ApplicationController
 
   def edit
     @repository = @project.repository
-    if !@repository
+    if !@repository && !params[:repository_scm].blank?
       @repository = Repository.factory(params[:repository_scm])
       @repository.project = @project if @repository
     end
