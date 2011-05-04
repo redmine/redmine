@@ -90,12 +90,12 @@ module Redmine
         def url
           @url
         end
-      
+
         # get info about the svn repository
         def info
           return nil
         end
-        
+
         # Returns the entry identified by path and revision identifier
         # or nil if entry doesn't exist in the repository
         def entry(path=nil, identifier=nil)
@@ -250,12 +250,12 @@ module Redmine
             end
           }
         end
-        
+
         def revisions
           revisions ||= Revisions.new(collect{|entry| entry.lastrev}.compact)
         end
       end
-      
+
       class Info
         attr_accessor :root_url, :lastrev
         def initialize(attributes={})
@@ -263,7 +263,7 @@ module Redmine
           self.lastrev = attributes[:lastrev]
         end
       end
-      
+
       class Entry
         attr_accessor :name, :path, :kind, :size, :lastrev
         def initialize(attributes={})
@@ -273,15 +273,15 @@ module Redmine
           self.size = attributes[:size].to_i if attributes[:size]
           self.lastrev = attributes[:lastrev]
         end
-        
+
         def is_file?
           'file' == self.kind
         end
-        
+
         def is_dir?
           'dir' == self.kind
         end
-        
+
         def is_text?
           Redmine::MimeType.is_type?('text', name)
         end
