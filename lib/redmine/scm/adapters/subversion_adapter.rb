@@ -70,7 +70,7 @@ module Redmine
             end
             begin
               doc = ActiveSupport::XmlMini.parse(output)
-              #root_url = doc.elements["info/entry/repository/root"].text          
+              # root_url = doc.elements["info/entry/repository/root"].text
               info = Info.new({:root_url => doc['info']['entry']['repository']['root']['__content__'],
                                :lastrev => Revision.new({
                                  :identifier => doc['info']['entry']['commit']['revision'],
