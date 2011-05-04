@@ -121,7 +121,8 @@ module Redmine
         end
 
         def entries(path=nil, identifier=nil, options={})
-          entries_git(path, identifier, options)
+          entries_git(path, identifier,
+                      {:report_last_commit => @flag_report_last_commit})
         end
 
         def entries_git(path=nil, identifier=nil, options={})
@@ -149,7 +150,8 @@ module Redmine
                  :path => full_p,
                  :kind => (type == "tree") ? 'dir' : 'file',
                  :size => (type == "tree") ? nil : size,
-                 :lastrev => @flag_report_last_commit ? lastrev(full_path, identifier) : Revision.new
+                 :lastrev => options[:report_last_commit] ?
+                                 lastrev(full_path, identifier) : Revision.new
                 }) unless entries.detect{|entry| entry.name == name}
               end
             end
