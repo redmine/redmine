@@ -351,7 +351,7 @@ cs:
   setting_sequential_project_identifiers: Generovat sekvenční identifikátory projektů
   setting_gravatar_enabled: Použít uživatelské ikony Gravatar
   setting_gravatar_default: Výchozí Gravatar
-  setting_diff_max_lines_displayed: Maximální počet zobrazenách řádků rozdílů
+  setting_diff_max_lines_displayed: Maximální počet zobrazených řádků rozdílů
   setting_file_max_size_displayed: Maximální velikost textových souborů zobrazených přímo na stránce
   setting_repository_log_display_limit: Maximální počet revizí zobrazených v logu souboru
   setting_openid: Umožnit přihlašování a registrace s OpenID
