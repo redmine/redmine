@@ -1084,3 +1084,5 @@ ru:
   field_cvsroot: CVSROOT
   text_git_repository_note: Bare and local repository (e.g. /gitrepo, c:\gitrepo)
   text_mercurial_repository_note: Локальный репозиторий (например, /hgrepo, c:\hgrepo)
+  text_scm_command: Command
+  text_scm_version: Version

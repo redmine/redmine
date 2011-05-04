@@ -983,3 +983,5 @@ gl:
   field_cvsroot: CVSROOT
   text_git_repository_note: Bare and local repository (e.g. /gitrepo, c:\gitrepo)
   text_mercurial_repository_note: Local repository (e.g. /hgrepo, c:\hgrepo)
+  text_scm_command: Command
+  text_scm_version: Version

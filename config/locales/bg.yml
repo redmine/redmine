@@ -970,3 +970,5 @@ bg:
   enumeration_doc_categories: Категории документи
   enumeration_activities: Дейности (time tracking)
   enumeration_system_activity: Системна активност
+  text_scm_command: Command
+  text_scm_version: Version
