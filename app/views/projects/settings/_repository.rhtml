@@ -12,13 +12,20 @@
 
 <div class="contextual">
 <% if @repository && !@repository.new_record? %>
-<%= link_to(l(:label_user_plural), {:controller => 'repositories', :action => 'committers', :id => @project}, :class => 'icon icon-user') %>
+<%= link_to(l(:label_user_plural),
+                {
+                :controller => 'repositories',
+                :action     => 'committers',
+                :id         => @project
+                },
+             :class => 'icon icon-user') %>
 <%= link_to(l(:button_delete), {:controller => 'repositories', :action => 'destroy', :id => @project},
             :confirm => l(:text_are_you_sure),
-            :method => :post,
-            :class => 'icon icon-del') %>
+            :method  => :post,
+            :class   => 'icon icon-del') %>
 <% end %>
 </div>
 
-<%= submit_tag((@repository.nil? || @repository.new_record?) ? l(:button_create) : l(:button_save), :disabled => @repository.nil?) %>
+<%= submit_tag((@repository.nil? || @repository.new_record?) ? l(:button_create) : l(:button_save),
+               :disabled => @repository.nil?) %>
 <% end %>
