@@ -115,7 +115,7 @@ module Redmine
             Entry.new(:path => '', :kind => 'dir')
           else
             # Search for the entry in the parent directory
-            es = entries(search_path, identifier)
+            es = entries_git(search_path, identifier)
             es ? es.detect {|e| e.name == search_name} : nil
           end
         end
