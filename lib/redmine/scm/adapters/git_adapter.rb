@@ -107,6 +107,10 @@ module Redmine
         end
 
         def entries(path=nil, identifier=nil, options={})
+          entries_git(path, identifier, options)
+        end
+
+        def entries_git(path=nil, identifier=nil, options={})
           path ||= ''
           p = scm_iconv(@path_encoding, 'UTF-8', path)
           entries = Entries.new
@@ -140,6 +144,7 @@ module Redmine
         rescue ScmCommandAborted
           nil
         end
+        private :entries_git
 
         def lastrev(path, rev)
           return nil if path.nil?
