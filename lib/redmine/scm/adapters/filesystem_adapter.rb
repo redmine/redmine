@@ -54,7 +54,7 @@ module Redmine
           return nil
         end
 
-        def entries(path="", identifier=nil)
+        def entries(path="", identifier=nil, options={})
           entries = Entries.new
           trgt_utf8 = target(path)
           trgt = scm_iconv(@path_encoding, 'UTF-8', trgt_utf8)

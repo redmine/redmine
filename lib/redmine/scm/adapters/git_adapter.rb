@@ -106,7 +106,7 @@ module Redmine
           bras.include?('master') ? 'master' : bras.first
         end
 
-        def entries(path=nil, identifier=nil)
+        def entries(path=nil, identifier=nil, options={})
           path ||= ''
           p = scm_iconv(@path_encoding, 'UTF-8', path)
           entries = Entries.new

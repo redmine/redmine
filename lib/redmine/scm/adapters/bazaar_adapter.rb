@@ -78,7 +78,7 @@ module Redmine
 
         # Returns an Entries collection
         # or nil if the given path doesn't exist in the repository
-        def entries(path=nil, identifier=nil)
+        def entries(path=nil, identifier=nil, options={})
           path ||= ''
           entries = Entries.new
           cmd = "#{self.class.sq_bin} ls -v --show-ids"

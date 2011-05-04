@@ -76,7 +76,7 @@ module Redmine
 
         # Returns an Entries collection
         # or nil if the given path doesn't exist in the repository
-        def entries(path=nil, identifier=nil)
+        def entries(path=nil, identifier=nil, options={})
           path_prefix = (path.blank? ? '' : "#{path}/")
           if path.blank?
             path = ( self.class.client_version_above?([2, 2, 0]) ? @url : '.' )
