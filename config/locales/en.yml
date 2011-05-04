@@ -943,6 +943,8 @@ en:
   text_scm_path_encoding_note: "Default: UTF-8"
   text_git_repository_note: "Bare and local repository (e.g. /gitrepo, c:\gitrepo)"
   text_mercurial_repository_note: "Local repository (e.g. /hgrepo, c:\hgrepo)"
+  text_scm_command: Command
+  text_scm_version: Version
 
   default_role_manager: Manager
   default_role_developer: Developer
