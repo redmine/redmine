@@ -98,26 +98,31 @@ class Repository::Git < Repository
     unless revisions.nil?
       revisions.each do |rev|
         transaction do
-          changeset = Changeset.new(
-              :repository => self,
-              :revision   => rev.identifier,
-              :scmid      => rev.scmid,
-              :committer  => rev.author, 
-              :committed_on => rev.time,
-              :comments   => rev.message)
-            
-          if changeset.save
-            rev.paths.each do |file|
-              Change.create(
-                  :changeset => changeset,
-                  :action    => file[:action],
-                  :path      => file[:path])
-            end
-          end
+        save_revision(rev)
         end
       end
     end
   end
+
+  def save_revision(rev)
+    changeset = Changeset.new(
+              :repository   => self,
+              :revision     => rev.identifier,
+              :scmid        => rev.scmid,
+              :committer    => rev.author, 
+              :committed_on => rev.time,
+              :comments     => rev.message
+              )
+    if changeset.save
+      rev.paths.each do |file|
+        Change.create(
+                  :changeset => changeset,
+                  :action    => file[:action],
+                  :path      => file[:path])
+      end
+    end
+  end
+  private :save_revision
 
   def latest_changesets(path,rev,limit=10)
     revisions = scm.revisions(path, nil, rev, :limit => limit, :all => false)
