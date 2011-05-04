@@ -106,6 +106,20 @@ module Redmine
           bras.include?('master') ? 'master' : bras.first
         end
 
+        def entry(path=nil, identifier=nil)
+          parts = path.to_s.split(%r{[\/\\]}).select {|n| !n.blank?}
+          search_path = parts[0..-2].join('/')
+          search_name = parts[-1]
+          if search_path.blank? && search_name.blank?
+            # Root entry
+            Entry.new(:path => '', :kind => 'dir')
+          else
+            # Search for the entry in the parent directory
+            es = entries(search_path, identifier)
+            es ? es.detect {|e| e.name == search_name} : nil
+          end
+        end
+
         def entries(path=nil, identifier=nil, options={})
           entries_git(path, identifier, options)
         end
