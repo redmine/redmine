@@ -40,7 +40,9 @@ module Redmine
           end
 
           def client_available
-            !client_version.empty?
+            # --xml options are introduced in 1.3.
+            # http://subversion.apache.org/docs/release-notes/1.3.html
+            client_version_above?([1, 3])
           end
 
           def svn_binary_version
