@@ -72,10 +72,14 @@ class Repository::Git < Repository
 
   # With SCM's that have a sequential commit numbering, redmine is able to be
   # clever and only fetch changesets going forward from the most recent one
-  # it knows about.  However, with git, you never know if people have merged
+  # it knows about.
+  # However, with git, you never know if people have merged
   # commits into the middle of the repository history, so we should parse
-  # the entire log. Since it's way too slow for large repositories, we only
-  # parse 1 week before the last known commit.
+  # the entire log.
+  #
+  # Since it's way too slow for large repositories,
+  # we only parse 1 week before the last known commit.
+  #
   # The repository can still be fully reloaded by calling #clear_changesets
   # before fetching changesets (eg. for offline resync)
   def fetch_changesets
