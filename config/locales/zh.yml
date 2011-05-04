@@ -744,7 +744,7 @@ zh:
   label_user_mail_option_none: "不收取任何通知"
   label_user_mail_option_only_my_events: "只收取我跟踪或参与的项目的通知"
   label_user_mail_option_only_assigned: "只收取分配给我的"
-  label_user_mail_option_only_owner: "只收取我是创建者的"
+  label_user_mail_option_only_owner: 只收取由我创建的
   label_user_mail_no_self_notified: "不要发送对我自己提交的修改的通知"
   label_registration_activation_by_email: 通过邮件认证激活帐号
   label_registration_manual_activation: 手动激活帐号
