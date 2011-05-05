@@ -117,7 +117,7 @@ class Repository::Git < Repository
     unless revisions.nil?
       revisions.each do |rev|
         transaction do
-        save_revision(rev)
+          save_revision(rev)
         end
       end
     end
