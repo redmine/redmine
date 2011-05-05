@@ -70,6 +70,10 @@ class Repository::Git < Repository
     changesets.find(:first, :conditions => ['scmid LIKE ?', "#{name}%"])
   end
 
+  def entries(path=nil, identifier=nil)
+    scm.entries(path, identifier)
+  end
+
   # In Git and Mercurial, revisions are not in date order.
   # Mercurial fixed issues.
   #    * Redmine Takes Too Long On Large Mercurial Repository
