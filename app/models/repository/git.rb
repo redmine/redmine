@@ -37,6 +37,10 @@ class Repository::Git < Repository
     'Git'
   end
 
+  def report_last_commit
+    true
+  end
+
   def supports_directory_revisions?
     true
   end
