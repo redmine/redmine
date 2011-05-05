@@ -228,11 +228,19 @@ module Redmine
         # headers
         pdf.SetFontStyle('B',8)
         pdf.SetFillColor(230, 230, 230)
-        pdf.RDMCell(col_id_width, row_height, "#", 1, 0, 'C', 1)
-        query.columns.each_with_index do |column, i|
-          pdf.RDMCell(col_width[i], row_height, column.caption, 1, 0, 'L', 1)
-        end
-        pdf.Ln
+
+        # render it background to find the max height used
+        base_x = pdf.GetX
+        base_y = pdf.GetY
+        max_height = issues_to_pdf_write_cells(pdf, query.columns, col_width, row_height, true)
+        pdf.Rect(base_x, base_y, table_width, max_height, 'FD');
+        pdf.SetXY(base_x, base_y);
+
+        # write the cells on page
+        pdf.RDMCell(col_id_width, row_height, "#", "T", 0, 'C', 1)
+        issues_to_pdf_write_cells(pdf, query.columns, col_width, row_height, true)
+        issues_to_pdf_draw_borders(pdf, base_x, base_y, base_y + max_height, col_id_width, col_width)
+        pdf.SetY(base_y + max_height);
         
         # rows
         pdf.SetFontStyle('',8)
@@ -296,12 +304,16 @@ module Redmine
       end
       
       # Renders MultiCells and returns the maximum height used
-      def issues_to_pdf_write_cells(pdf, col_values, col_widths, row_height)
+      def issues_to_pdf_write_cells(pdf, col_values, col_widths, row_height, head=false)
         base_y = pdf.GetY
         max_height = row_height
         col_values.each_with_index do |column, i|
           col_x = pdf.GetX
-          pdf.RDMMultiCell(col_widths[i], row_height, col_values[i], "T", 'L', 1)
+          if head == true
+            pdf.RDMMultiCell(col_widths[i], row_height, column.caption, "T", 'L', 1)
+          else
+            pdf.RDMMultiCell(col_widths[i], row_height, column, "T", 'L', 1)
+          end
           max_height = (pdf.GetY - base_y) if (pdf.GetY - base_y) > max_height
           pdf.SetXY(col_x + col_widths[i], base_y);
         end
