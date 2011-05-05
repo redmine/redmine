@@ -134,7 +134,8 @@ class Repository < ActiveRecord::Base
   # Finds and returns a revision with a number or the beginning of a hash
   def find_changeset_by_name(name)
     return nil if name.blank?
-    changesets.find(:first, :conditions => (name.match(/^\d*$/) ? ["revision = ?", name.to_s] : ["revision LIKE ?", name + '%']))
+    changesets.find(:first, :conditions => (name.match(/^\d*$/) ?
+          ["revision = ?", name.to_s] : ["revision LIKE ?", name + '%']))
   end
 
   def latest_changeset
@@ -155,16 +156,17 @@ class Repository < ActiveRecord::Base
                          :limit => limit).collect(&:changeset)
     end
   end
-    
+
   def scan_changesets_for_issue_ids
     self.changesets.each(&:scan_comment_for_issue_ids)
   end
 
   # Returns an array of committers usernames and associated user_id
   def committers
-    @committers ||= Changeset.connection.select_rows("SELECT DISTINCT committer, user_id FROM #{Changeset.table_name} WHERE repository_id = #{id}")
+    @committers ||= Changeset.connection.select_rows(
+         "SELECT DISTINCT committer, user_id FROM #{Changeset.table_name} WHERE repository_id = #{id}")
   end
-  
+
   # Maps committers username to a user ids
   def committer_ids=(h)
     if h.is_a?(Hash)
@@ -172,17 +174,19 @@ class Repository < ActiveRecord::Base
         new_user_id = h[committer]
         if new_user_id && (new_user_id.to_i != user_id.to_i)
           new_user_id = (new_user_id.to_i > 0 ? new_user_id.to_i : nil)
-          Changeset.update_all("user_id = #{ new_user_id.nil? ? 'NULL' : new_user_id }", ["repository_id = ? AND committer = ?", id, committer])
+          Changeset.update_all(
+               "user_id = #{ new_user_id.nil? ? 'NULL' : new_user_id }",
+               ["repository_id = ? AND committer = ?", id, committer])
         end
       end
-      @committers = nil
+      @committers            = nil
       @found_committer_users = nil
       true
     else
       false
     end
   end
-  
+
   # Returns the Redmine User corresponding to the given +committer+
   # It will return nil if the committer is not yet mapped and if no User
   # with the same username or email was found
@@ -190,7 +194,7 @@ class Repository < ActiveRecord::Base
     unless committer.blank?
       @found_committer_users ||= {}
       return @found_committer_users[committer] if @found_committer_users.has_key?(committer)
-      
+
       user = nil
       c = changesets.find(:first, :conditions => {:committer => committer}, :include => :user)
       if c && c.user
@@ -288,7 +292,7 @@ class Repository < ActiveRecord::Base
     root_url.strip!
     true
   end
-  
+
   def clear_changesets
     cs, ch, ci = Changeset.table_name, Change.table_name, "#{table_name_prefix}changesets_issues#{table_name_suffix}"
     connection.delete("DELETE FROM #{ch} WHERE #{ch}.changeset_id IN (SELECT #{cs}.id FROM #{cs} WHERE #{cs}.repository_id = #{id})")
