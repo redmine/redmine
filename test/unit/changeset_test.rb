@@ -260,7 +260,7 @@ class ChangesetTest < ActiveSupport::TestCase
     proj = Project.find(3)
     # str = File.read("#{RAILS_ROOT}/test/fixtures/encoding/iso-8859-1.txt")
     str1 = "Texte encod\xe9 en ISO-8859-1."
-    str2 = "\xe9a\xe9b\xe9c\xe9d\xe9e"
+    str2 = "\xe9a\xe9b\xe9c\xe9d\xe9e test"
     str1.force_encoding("UTF-8") if str1.respond_to?(:force_encoding)
     str2.force_encoding("ASCII-8BIT") if str2.respond_to?(:force_encoding)
     r = Repository::Bazaar.create!(
@@ -276,7 +276,7 @@ class ChangesetTest < ActiveSupport::TestCase
                       :committer    => str2)
     assert( c.save )
     assert_equal "Texte encod? en ISO-8859-1.", c.comments
-    assert_equal "?a?b?c?d?e", c.committer
+    assert_equal "?a?b?c?d?e test", c.committer
   end
 
   def test_invalid_utf8_sequences_in_comments_should_be_replaced_ja_jis
@@ -329,7 +329,7 @@ class ChangesetTest < ActiveSupport::TestCase
   def test_invalid_utf8_sequences_in_paths_should_be_replaced
       proj = Project.find(3)
       str1 = "Texte encod\xe9 en ISO-8859-1"
-      str2 = "\xe9a\xe9b\xe9c\xe9d\xe9e"
+      str2 = "\xe9a\xe9b\xe9c\xe9d\xe9e test"
       str1.force_encoding("UTF-8") if str1.respond_to?(:force_encoding)
       str2.force_encoding("ASCII-8BIT") if str2.respond_to?(:force_encoding)
       r = Repository::Bazaar.create!(
@@ -352,7 +352,7 @@ class ChangesetTest < ActiveSupport::TestCase
                   :from_revision => "345")
       assert( ch.save )
       assert_equal "Texte encod? en ISO-8859-1", ch.path
-      assert_equal "?a?b?c?d?e", ch.from_path
+      assert_equal "?a?b?c?d?e test", ch.from_path
   end
 
   def test_comments_nil
