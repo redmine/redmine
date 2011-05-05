@@ -19,39 +19,40 @@ require File.expand_path('../../test_helper', __FILE__)
 
 class RepositoryMercurialTest < ActiveSupport::TestCase
   fixtures :projects
-  
+
   # No '..' in the repository path
   REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/mercurial_repository'
 
   CHAR_1_HEX = "\xc3\x9c"
 
-  def setup
-    klass = Repository::Mercurial
-    assert_equal "Mercurial", klass.scm_name
-    assert klass.scm_adapter_class
-    assert_not_equal "", klass.scm_command
-    assert_equal true, klass.scm_available
+  if File.directory?(REPOSITORY_PATH)
 
-    @project = Project.find(3)
-    @repository = Repository::Mercurial.create(
+    def setup
+      klass = Repository::Mercurial
+      assert_equal "Mercurial", klass.scm_name
+      assert klass.scm_adapter_class
+      assert_not_equal "", klass.scm_command
+      assert_equal true, klass.scm_available
+
+      @project = Project.find(3)
+      @repository = Repository::Mercurial.create(
                       :project => @project,
                       :url     => REPOSITORY_PATH,
                       :path_encoding => 'ISO-8859-1'
                       )
-    assert @repository
-    @char_1        = CHAR_1_HEX.dup
-    @tag_char_1    = "tag-#{CHAR_1_HEX}-00"
-    @branch_char_0 = "branch-#{CHAR_1_HEX}-00"
-    @branch_char_1 = "branch-#{CHAR_1_HEX}-01"
-    if @char_1.respond_to?(:force_encoding)
-      @char_1.force_encoding('UTF-8')
-      @tag_char_1.force_encoding('UTF-8')
-      @branch_char_0.force_encoding('UTF-8')
-      @branch_char_1.force_encoding('UTF-8')
+      assert @repository
+      @char_1        = CHAR_1_HEX.dup
+      @tag_char_1    = "tag-#{CHAR_1_HEX}-00"
+      @branch_char_0 = "branch-#{CHAR_1_HEX}-00"
+      @branch_char_1 = "branch-#{CHAR_1_HEX}-01"
+      if @char_1.respond_to?(:force_encoding)
+        @char_1.force_encoding('UTF-8')
+        @tag_char_1.force_encoding('UTF-8')
+        @branch_char_0.force_encoding('UTF-8')
+        @branch_char_1.force_encoding('UTF-8')
+      end
     end
-  end
 
-  if File.directory?(REPOSITORY_PATH)  
     def test_fetch_changesets_from_scratch
       @repository.fetch_changesets
       @repository.reload
@@ -67,7 +68,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       @repository.changesets.find(:all).each {|c| c.destroy if c.revision.to_i > 2}
       @repository.reload
       assert_equal 3, @repository.changesets.count
-      
+
       @repository.fetch_changesets
       assert_equal 29, @repository.changesets.count
     end
