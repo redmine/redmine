@@ -38,12 +38,12 @@ class ChangesetTest < ActiveSupport::TestCase
     Setting.commit_fix_done_ratio = '90'
     Setting.commit_ref_keywords = '*'
     Setting.commit_fix_keywords = 'fixes , closes'
-    
+
     c = Changeset.new(:repository   => Project.find(1).repository,
                       :committed_on => Time.now,
                       :comments     => 'New commit (#2). Fixes #1')
     c.scan_comment_for_issue_ids
-    
+
     assert_equal [1, 2], c.issue_ids.sort
     fixed = Issue.find(1)
     assert fixed.closed?
@@ -62,7 +62,7 @@ class ChangesetTest < ActiveSupport::TestCase
     
     assert_equal [1], c.issue_ids.sort
   end
-  
+
   def test_ref_keywords_any_only
     Setting.commit_ref_keywords = '*'
     Setting.commit_fix_keywords = ''
@@ -71,10 +71,10 @@ class ChangesetTest < ActiveSupport::TestCase
                       :committed_on => Time.now,
                       :comments     => 'Ignores #2. Refs #1')
     c.scan_comment_for_issue_ids
-    
+
     assert_equal [1, 2], c.issue_ids.sort
   end
-  
+
   def test_ref_keywords_any_with_timelog
     Setting.commit_ref_keywords = '*'
     Setting.commit_logtime_enabled = '1'
