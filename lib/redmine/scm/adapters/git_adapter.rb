@@ -22,8 +22,6 @@ module Redmine
     module Adapters
       class GitAdapter < AbstractAdapter
 
-        SCM_GIT_REPORT_LAST_COMMIT = true
-
         # Git executable name
         GIT_BIN = Redmine::Configuration['scm_git_command'] || "git"
 
@@ -65,7 +63,6 @@ module Redmine
         def initialize(url, root_url=nil, login=nil, password=nil, path_encoding=nil)
           super
           @path_encoding = path_encoding.blank? ? 'UTF-8' : path_encoding
-          @flag_report_last_commit = SCM_GIT_REPORT_LAST_COMMIT
         end
 
         def info
@@ -115,17 +112,13 @@ module Redmine
             Entry.new(:path => '', :kind => 'dir')
           else
             # Search for the entry in the parent directory
-            es = entries_git(search_path, identifier)
+            es = entries(search_path, identifier,
+                         options = {:report_last_commit => false})
             es ? es.detect {|e| e.name == search_name} : nil
           end
         end
 
         def entries(path=nil, identifier=nil, options={})
-          entries_git(path, identifier,
-                      {:report_last_commit => @flag_report_last_commit})
-        end
-
-        def entries_git(path=nil, identifier=nil, options={})
           path ||= ''
           p = scm_iconv(@path_encoding, 'UTF-8', path)
           entries = Entries.new
@@ -160,7 +153,6 @@ module Redmine
         rescue ScmCommandAborted
           nil
         end
-        private :entries_git
 
         def lastrev(path, rev)
           return nil if path.nil?
