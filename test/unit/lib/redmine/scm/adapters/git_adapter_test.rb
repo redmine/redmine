@@ -167,7 +167,8 @@ begin
       end
 
       def test_entries_tag
-        entries1 = @adapter.entries(nil, 'tag01.annotated')
+        entries1 = @adapter.entries(nil, 'tag01.annotated',
+                                    options = {:report_last_commit => true})
         assert entries1
         assert_equal 3, entries1.size
         assert_equal 'sources', entries1[1].name
@@ -183,7 +184,8 @@ begin
       end
 
       def test_entries_branch
-        entries1 = @adapter.entries(nil, 'test_branch')
+        entries1 = @adapter.entries(nil, 'test_branch',
+                                    options = {:report_last_commit => true})
         assert entries1
         assert_equal 4, entries1.size
         assert_equal 'sources', entries1[1].name
