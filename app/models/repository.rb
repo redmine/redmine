@@ -1,31 +1,31 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Repository < ActiveRecord::Base
   include Redmine::Ciphering
-  
+
   belongs_to :project
   has_many :changesets, :order => "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC"
   has_many :changes, :through => :changesets
-  
+
   # Raw SQL to delete changesets and changes in the database
   # has_many :changesets, :dependent => :destroy is too slow for big repositories
   before_destroy :clear_changesets
-  
+
   validates_length_of :password, :maximum => 255, :allow_nil => true
   # Checks if the SCM is enabled when creating a repository
   validate_on_create { |r| r.errors.add(:type, :invalid) unless Setting.enabled_scm.include?(r.class.name.demodulize) }
@@ -47,11 +47,11 @@ class Repository < ActiveRecord::Base
   def root_url=(arg)
     write_attribute(:root_url, arg ? arg.to_s.strip : nil)
   end
-  
+
   def password
     read_ciphered_attribute(:password)
   end
-  
+
   def password=(arg)
     write_ciphered_attribute(:password, arg)
   end
@@ -82,15 +82,15 @@ class Repository < ActiveRecord::Base
   def supports_all_revisions?
     true
   end
-  
+
   def supports_directory_revisions?
     false
   end
-  
+
   def entry(path=nil, identifier=nil)
     scm.entry(path, identifier)
   end
-  
+
   def entries(path=nil, identifier=nil)
     scm.entries(path, identifier)
   end
@@ -146,14 +146,19 @@ class Repository < ActiveRecord::Base
   # Default behaviour is to search in cached changesets
   def latest_changesets(path, rev, limit=10)
     if path.blank?
-      changesets.find(:all, :include => :user,
-                            :order => "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC",
-                            :limit => limit)
+      changesets.find(
+         :all,
+         :include => :user,
+         :order => "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC",
+         :limit => limit)
     else
-      changes.find(:all, :include => {:changeset => :user}, 
-                         :conditions => ["path = ?", path.with_leading_slash],
-                         :order => "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC",
-                         :limit => limit).collect(&:changeset)
+      changes.find(
+         :all,
+         :include => {:changeset => :user},
+         :conditions => ["path = ?", path.with_leading_slash],
+         :order => "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC",
+         :limit => limit
+       ).collect(&:changeset)
     end
   end
 
@@ -238,7 +243,7 @@ class Repository < ActiveRecord::Base
   def self.scm_name
     'Abstract'
   end
-  
+
   def self.available_scm
     subclasses.collect {|klass| [klass.scm_name, klass.name]}
   end
@@ -277,7 +282,7 @@ class Repository < ActiveRecord::Base
   def self.scm_available
     ret = false
     begin
-      ret = self.scm_adapter_class.client_available if self.scm_adapter_class 
+      ret = self.scm_adapter_class.client_available if self.scm_adapter_class
     rescue Redmine::Scm::Adapters::CommandFailed => e
       logger.error "scm: error during get scm available: #{e.message}"
     end
