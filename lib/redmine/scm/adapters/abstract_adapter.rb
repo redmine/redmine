@@ -1,16 +1,16 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -111,7 +111,7 @@ module Redmine
             es ? es.detect {|e| e.name == search_name} : nil
           end
         end
-        
+
         # Returns an Entries collection
         # or nil if the given path doesn't exist in the repository
         def entries(path=nil, identifier=nil, options={})
@@ -122,26 +122,26 @@ module Redmine
           return nil
         end
 
-        def tags 
+        def tags
           return nil
         end
 
         def default_branch
           return nil
         end
-        
+
         def properties(path, identifier=nil)
           return nil
         end
-    
+
         def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={})
           return nil
         end
-        
+
         def diff(path, identifier_from, identifier_to=nil)
           return nil
         end
-        
+
         def cat(path, identifier=nil)
           return nil
         end
@@ -242,7 +242,7 @@ module Redmine
 
       class Entries < Array
         def sort_by_name
-          sort {|x,y| 
+          sort {|x,y|
             if x.kind == y.kind
               x.name.to_s <=> y.name.to_s
             else
@@ -286,7 +286,7 @@ module Redmine
           Redmine::MimeType.is_type?('text', name)
         end
       end
-      
+
       class Revisions < Array
         def latest
           sort {|x,y|
@@ -296,9 +296,9 @@ module Redmine
               0
             end
           }.last
-        end 
+        end
       end
-      
+
       class Revision
         attr_accessor :scmid, :name, :author, :time, :message,
                       :paths, :revision, :branch, :identifier
@@ -323,21 +323,21 @@ module Redmine
 
       class Annotate
         attr_reader :lines, :revisions
-        
+
         def initialize
           @lines = []
           @revisions = []
         end
-        
+
         def add_line(line, revision)
           @lines << line
           @revisions << revision
         end
-        
+
         def content
           content = lines.join("\n")
         end
-        
+
         def empty?
           lines.empty?
         end
