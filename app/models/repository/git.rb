@@ -37,7 +37,7 @@ class Repository::Git < Repository
     'Git'
   end
 
-  def report_last_commit
+  def extra_report_last_commit
     true
   end
 
@@ -77,7 +77,7 @@ class Repository::Git < Repository
   def entries(path=nil, identifier=nil)
     scm.entries(path,
                 identifier,
-                options = {:report_last_commit => report_last_commit})
+                options = {:report_last_commit => extra_report_last_commit})
   end
 
   # In Git and Mercurial, revisions are not in date order.
