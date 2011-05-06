@@ -214,11 +214,7 @@ module Redmine
                     :message    => changeset[:description],
                     :paths      => files
                   })
-                  if block_given?
-                    yield revision
-                  else
-                    revisions << revision
-                  end
+                  revisions << revision
                   changeset = {}
                   files = []
                 end
@@ -263,13 +259,8 @@ module Redmine
                 :time       => Time.parse(changeset[:date]),
                 :message    => changeset[:description],
                 :paths      => files
-              })
-
-              if block_given?
-                yield revision
-              else
-                revisions << revision
-              end
+                 })
+              revisions << revision
             end
           end
           revisions
