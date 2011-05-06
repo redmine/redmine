@@ -183,7 +183,7 @@ module Redmine
         end
 
         def revisions(path, identifier_from, identifier_to, options={})
-          revisions = Revisions.new
+          revs = Revisions.new
           cmd_args = %w|log --no-color --encoding=UTF-8 --raw --date=iso --pretty=fuller|
           cmd_args << "--reverse" if options[:reverse]
           cmd_args << "--all" if options[:all]
@@ -214,7 +214,7 @@ module Redmine
                     :message    => changeset[:description],
                     :paths      => files
                   })
-                  revisions << revision
+                  revs << revision
                   changeset = {}
                   files = []
                 end
@@ -260,12 +260,12 @@ module Redmine
                 :message    => changeset[:description],
                 :paths      => files
                  })
-              revisions << revision
+              revs << revision
             end
           end
-          revisions
+          revs
         rescue ScmCommandAborted
-          revisions
+          revs
         end
 
         def diff(path, identifier_from, identifier_to=nil)
