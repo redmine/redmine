@@ -1827,7 +1827,7 @@ class TCPDF
 				ns += 1;
 			end
 
-			l = GetStringWidth(s[from_j, to_index-from_j]);
+			l = GetStringWidth(s[from_j, to_index - from_j + 1]);
 
 			if (l > wmax)
 				#Automatic line break
@@ -1946,7 +1946,7 @@ class TCPDF
 			if (c == " "[0])
 				sep= i;
 			end
-			l = GetStringWidth(s[j, i-j]);
+			l = GetStringWidth(s[j, i - j + 1]);
 			if (l > wmax)
 				#Automatic line break (word wrapping)
 				if (sep == -1)
