@@ -161,8 +161,8 @@ begin
             assert_equal 1, @adapter.annotate(p2, r1).lines.length
             ['64f1f3e89ad1cb57976ff0ad99a107012ba3481d', '64f1f3e89ad1cb5797'].each do |r2|
               assert @adapter.diff(p2, r1, r2)
-            end      
-          end      
+            end
+          end
         end
       end
 
@@ -243,4 +243,3 @@ rescue LoadError
     def test_fake; assert(false, "Requires mocha to run those tests")  end
   end
 end
-
