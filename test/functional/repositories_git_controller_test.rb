@@ -201,7 +201,15 @@ class RepositoriesGitControllerTest < ActionController::TestCase
                        :content => /2f9c0091c754a91af7a9c478e36556b4bde8dcf7/
                        }
                     },
-                 :sibling => { :tag => 'td', :content => /jsmith/ },
+                 :sibling => { :tag => 'td', :content => /jsmith/ }
+      assert_tag :tag => 'th', :content => '24',
+                 :sibling => {
+                    :tag => 'td',
+                    :child => {
+                       :tag => 'a',
+                       :content => /2f9c0091c754a91af7a9c478e36556b4bde8dcf7/
+                       }
+                    },
                  :sibling => { :tag => 'td', :content => /watcher =/ }
     end
 
