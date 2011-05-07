@@ -29,6 +29,9 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
   PRJ_ID = 3
 
   def setup
+    @ruby19_non_utf8_pass =
+     (RUBY_VERSION >= '1.9' && Encoding.default_external.to_s != 'UTF-8')
+
     @controller = RepositoriesController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
@@ -80,6 +83,18 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
                    :content => '2',
                    :attributes => { :class => 'line-num' },
                    :sibling => { :tag => 'td', :content => /japanese/ }
+        if @ruby19_non_utf8_pass
+          puts "TODO: show repository file contents test fails in Ruby 1.9 " +
+               "and Encoding.default_external is not UTF-8. " +
+               "Current value is '#{Encoding.default_external.to_s}'"
+        else
+          str_japanese = "\xe6\x97\xa5\xe6\x9c\xac\xe8\xaa\x9e"
+          str_japanese.force_encoding('UTF-8') if str_japanese.respond_to?(:force_encoding)
+          assert_tag :tag => 'th',
+                     :content => '3',
+                     :attributes => { :class => 'line-num' },
+                     :sibling => { :tag => 'td', :content => /#{str_japanese}/ }
+        end
       end
     end
 
