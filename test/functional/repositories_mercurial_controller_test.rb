@@ -217,6 +217,22 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       end
     end
 
+    def test_entry_show_latin_1_contents
+      with_settings :repositories_encodings => 'UTF-8,ISO-8859-1' do
+        [27, '27', '7bbf4c738e71'].each do |r1|
+          get :entry, :id => PRJ_ID,
+              :path => ['latin-1-dir', "test-#{@char_1}.txt"], :rev => r1
+          assert_response :success
+          assert_template 'entry'
+          assert_tag :tag => 'th',
+                 :content => '1',
+                 :attributes => { :class => 'line-num' },
+                 :sibling => { :tag => 'td',
+                               :content => /test-#{@char_1}.txt/ }
+        end
+      end
+    end
+
     def test_entry_download
       get :entry, :id => PRJ_ID,
           :path => ['sources', 'watchers_controller.rb'], :format => 'raw'
