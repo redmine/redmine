@@ -398,13 +398,13 @@ module Redmine
         show_days = @zoom > 2
 
         subject_width = 400
-        header_heigth = 18
+        header_height = 18
         # width of one day in pixels
         zoom = @zoom*2
         g_width = (@date_to - @date_from + 1)*zoom
         g_height = 20 * number_of_rows + 30
-        headers_heigth = (show_weeks ? 2*header_heigth : header_heigth)
-        height = g_height + headers_heigth
+        headers_height = (show_weeks ? 2*header_height : header_height)
+        height = g_height + headers_height
 
         imgl = Magick::ImageList.new
         imgl.new_image(subject_width+g_width+1, height)
@@ -412,7 +412,7 @@ module Redmine
 
         # Subjects
         gc.stroke('transparent')
-        subjects(:image => gc, :top => (headers_heigth + 20), :indent => 4, :format => :image)
+        subjects(:image => gc, :top => (headers_height + 20), :indent => 4, :format => :image)
 
         # Months headers
         month_f = @date_from
@@ -434,7 +434,7 @@ module Redmine
         # Weeks headers
         if show_weeks
         	left = subject_width
-        	height = header_heigth
+        	height = header_height
         	if @date_from.cwday == 1
         	    # date_from is monday
                 week_f = date_from
@@ -445,7 +445,7 @@ module Redmine
                 gc.fill('white')
                 gc.stroke('grey')
                 gc.stroke_width(1)
-                gc.rectangle(left, header_heigth, left + width, 2*header_heigth + g_height-1)
+                gc.rectangle(left, header_height, left + width, 2*header_height + g_height-1)
         		left = left + width
         	end
         	while week_f <= date_to
@@ -453,11 +453,11 @@ module Redmine
                 gc.fill('white')
                 gc.stroke('grey')
                 gc.stroke_width(1)
-                gc.rectangle(left.round, header_heigth, left.round + width, 2*header_heigth + g_height-1)
+                gc.rectangle(left.round, header_height, left.round + width, 2*header_height + g_height-1)
                 gc.fill('black')
                 gc.stroke('transparent')
                 gc.stroke_width(1)
-                gc.text(left.round + 2, header_heigth + 14, week_f.cweek.to_s)
+                gc.text(left.round + 2, header_height + 14, week_f.cweek.to_s)
         		left = left + width
         		week_f = week_f+7
         	end
@@ -466,14 +466,14 @@ module Redmine
         # Days details (week-end in grey)
         if show_days
         	left = subject_width
-        	height = g_height + header_heigth - 1
+        	height = g_height + header_height - 1
         	wday = @date_from.cwday
         	(date_to - @date_from + 1).to_i.times do
               width =  zoom
               gc.fill(wday == 6 || wday == 7 ? '#eee' : 'white')
               gc.stroke('#ddd')
               gc.stroke_width(1)
-              gc.rectangle(left, 2*header_heigth, left + width, 2*header_heigth + g_height-1)
+              gc.rectangle(left, 2*header_height, left + width, 2*header_height + g_height-1)
               left = left + width
               wday = wday + 1
               wday = 1 if wday > 7
@@ -484,12 +484,12 @@ module Redmine
         gc.fill('transparent')
         gc.stroke('grey')
         gc.stroke_width(1)
-        gc.rectangle(0, 0, subject_width+g_width, headers_heigth)
+        gc.rectangle(0, 0, subject_width+g_width, headers_height)
         gc.stroke('black')
-        gc.rectangle(0, 0, subject_width+g_width, g_height+ headers_heigth-1)
+        gc.rectangle(0, 0, subject_width+g_width, g_height+ headers_height-1)
 
         # content
-        top = headers_heigth + 20
+        top = headers_height + 20
 
         gc.stroke('transparent')
         lines(:image => gc, :top => top, :zoom => zoom, :subject_width => subject_width, :format => :image)
@@ -498,7 +498,7 @@ module Redmine
         if Date.today >= @date_from and Date.today <= date_to
           gc.stroke('red')
           x = (Date.today-@date_from+1)*zoom + subject_width
-          gc.line(x, headers_heigth, x, headers_heigth + g_height-1)
+          gc.line(x, headers_height, x, headers_height + g_height-1)
         end
 
         gc.draw(imgl)
@@ -523,32 +523,32 @@ module Redmine
         pdf.SetFontStyle('B',9)
 
         subject_width = PDF::LeftPaneWidth
-        header_heigth = 5
+        header_height = 5
 
-        headers_heigth = header_heigth
+        headers_height = header_height
         show_weeks = false
         show_days = false
 
         if self.months < 7
           show_weeks = true
-          headers_heigth = 2*header_heigth
+          headers_height = 2*header_height
           if self.months < 3
             show_days = true
-            headers_heigth = 3*header_heigth
+            headers_height = 3*header_height
           end
         end
 
         g_width = PDF.right_pane_width
         zoom = (g_width) / (self.date_to - self.date_from + 1)
         g_height = 120
-        t_height = g_height + headers_heigth
+        t_height = g_height + headers_height
 
         y_start = pdf.GetY
 
         # Months headers
         month_f = self.date_from
         left = subject_width
-        height = header_heigth
+        height = header_height
         self.months.times do
           width = ((month_f >> 1) - month_f) * zoom
           pdf.SetY(y_start)
@@ -561,7 +561,7 @@ module Redmine
         # Weeks headers
         if show_weeks
           left = subject_width
-          height = header_heigth
+          height = header_height
           if self.date_from.cwday == 1
             # self.date_from is monday
             week_f = self.date_from
@@ -569,14 +569,14 @@ module Redmine
             # find next monday after self.date_from
             week_f = self.date_from + (7 - self.date_from.cwday + 1)
             width = (7 - self.date_from.cwday + 1) * zoom-1
-            pdf.SetY(y_start + header_heigth)
+            pdf.SetY(y_start + header_height)
             pdf.SetX(left)
             pdf.RDMCell(width + 1, height, "", "LTR")
             left = left + width+1
           end
           while week_f <= self.date_to
             width = (week_f + 6 <= self.date_to) ? 7 * zoom : (self.date_to - week_f + 1) * zoom
-            pdf.SetY(y_start + header_heigth)
+            pdf.SetY(y_start + header_height)
             pdf.SetX(left)
             pdf.RDMCell(width, height, (width >= 5 ? week_f.cweek.to_s : ""), "LTR", 0, "C")
             left = left + width
@@ -587,12 +587,12 @@ module Redmine
         # Days headers
         if show_days
           left = subject_width
-          height = header_heigth
+          height = header_height
           wday = self.date_from.cwday
           pdf.SetFontStyle('B',7)
           (self.date_to - self.date_from + 1).to_i.times do
             width = zoom
-            pdf.SetY(y_start + 2 * header_heigth)
+            pdf.SetY(y_start + 2 * header_height)
             pdf.SetX(left)
             pdf.RDMCell(width, height, day_name(wday).first, "LTR", 0, "C")
             left = left + width
@@ -603,10 +603,10 @@ module Redmine
 
         pdf.SetY(y_start)
         pdf.SetX(15)
-        pdf.RDMCell(subject_width+g_width-15, headers_heigth, "", 1)
+        pdf.RDMCell(subject_width+g_width-15, headers_height, "", 1)
 
         # Tasks
-        top = headers_heigth + y_start
+        top = headers_height + y_start
         options = {
           :top => top,
           :zoom => zoom,
