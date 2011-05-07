@@ -199,12 +199,12 @@ module RepositoriesHelper
 
   def darcs_field_tags(form, repository)
     content_tag('p', form.text_field(
-                     :url, :label => l("field_path_to_repository"),
+                     :url, :label => l(:field_path_to_repository),
                      :size => 60, :required => true,
                      :disabled => (repository && !repository.new_record?))) +
     content_tag('p', form.select(
                      :log_encoding, [nil] + Setting::ENCODINGS,
-                     :label => l("field_commit_logs_encoding"), :required => true))
+                     :label => l(:field_commit_logs_encoding), :required => true))
   end
 
   def mercurial_field_tags(form, repository)
