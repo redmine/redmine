@@ -1,16 +1,16 @@
-# redMine - project management software
-# Copyright (C) 2006-2008  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -58,7 +58,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
   if ruby19_non_utf8_pass
     puts "TODO: Mercurial functional test fails in Ruby 1.9 " +
          "and Encoding.default_external is not UTF-8. " +
-         "Current value is '#{Encoding.default_external.to_s}'" 
+         "Current value is '#{Encoding.default_external.to_s}'"
     def test_fake; assert true end
   elsif File.directory?(REPOSITORY_PATH)
     def test_show_root
@@ -187,7 +187,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       assert_template 'changes'
       assert_tag :tag => 'h2', :content => 'edit.png'
     end
-    
+
     def test_entry_show
       get :entry, :id => PRJ_ID, :path => ['sources', 'watchers_controller.rb']
       assert_response :success
@@ -211,7 +211,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
                                :content => /Mercurial is a distributed version control system/ }
       end
     end
-    
+
     def test_entry_download
       get :entry, :id => PRJ_ID, :path => ['sources', 'watchers_controller.rb'], :format => 'raw'
       assert_response :success
@@ -245,7 +245,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
           # Line 22 removed
           assert_tag :tag => 'th',
                      :content => '22',
-                     :sibling => { :tag => 'td', 
+                     :sibling => { :tag => 'td',
                                    :attributes => { :class => /diff_out/ },
                                    :content => /def remove/ }
           assert_tag :tag => 'h2', :content => /4:def6d2f1254a/
@@ -277,7 +277,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
         assert_template 'diff'
         assert_tag :tag => 'th',
                    :content => '2',
-                   :sibling => { :tag => 'td', 
+                   :sibling => { :tag => 'td',
                                :attributes => { :class => /diff_in/ },
                                :content => /It is written in Python/ }
       end
@@ -345,7 +345,6 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
                           :tag     => 'td'    ,
                           :content => 'jsmith' ,
                           :attributes => { :class   => 'author' },
-                          
                         }
         assert_tag :tag => 'th',
                  :content => '1',
