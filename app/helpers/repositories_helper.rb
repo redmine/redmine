@@ -223,16 +223,16 @@ module RepositoriesHelper
 
   def git_field_tags(form, repository)
     content_tag('p', form.text_field(
-                       :url, :label => l("field_path_to_repository"),
+                       :url, :label => l(:field_path_to_repository),
                        :size => 60, :required => true,
                        :disabled => (repository && !repository.root_url.blank?)
                          ) +
-                      '<br />' + l("text_git_repository_note")) +
+                      '<br />' + l(:text_git_repository_note)) +
     content_tag('p', form.select(
                         :path_encoding, [nil] + Setting::ENCODINGS,
-                        :label => l("field_scm_path_encoding")
+                        :label => l(:field_scm_path_encoding)
                         ) +
-                     '<br />' + l("text_scm_path_encoding_note"))
+                     '<br />' + l(:text_scm_path_encoding_note))
   end
 
   def cvs_field_tags(form, repository)
