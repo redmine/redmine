@@ -25,11 +25,13 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
   fixtures :projects, :users, :roles, :members, :member_roles, :repositories, :enabled_modules
 
   # No '..' in the repository path
-  REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/mercurial_repository'
+  REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') +
+                       '/tmp/test/mercurial_repository'
   CHAR_1_HEX = "\xc3\x9c"
-  PRJ_ID = 3
+  PRJ_ID     = 3
 
-  ruby19_non_utf8_pass = (RUBY_VERSION >= '1.9' && Encoding.default_external.to_s != 'UTF-8')
+  ruby19_non_utf8_pass =
+     (RUBY_VERSION >= '1.9' && Encoding.default_external.to_s != 'UTF-8')
 
   def setup
     @controller = RepositoriesController.new
@@ -110,12 +112,14 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @repository.reload
       [13, '13', '3a330eb32958'].each do |r1|
-        get :show, :id => PRJ_ID, :path => ['sql_escape', 'percent%dir'], :rev => r1
+        get :show, :id => PRJ_ID, :path => ['sql_escape', 'percent%dir'],
+            :rev => r1
         assert_response :success
         assert_template 'show'
 
         assert_not_nil assigns(:entries)
-        assert_equal ['percent%file1.txt', 'percentfile1.txt'], assigns(:entries).collect(&:name)
+        assert_equal ['percent%file1.txt', 'percentfile1.txt'],
+                     assigns(:entries).collect(&:name)
         changesets = assigns(:changesets)
         assert_not_nil changesets
         assigns(:changesets).size > 0
@@ -214,7 +218,8 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
     end
 
     def test_entry_download
-      get :entry, :id => PRJ_ID, :path => ['sources', 'watchers_controller.rb'], :format => 'raw'
+      get :entry, :id => PRJ_ID,
+          :path => ['sources', 'watchers_controller.rb'], :format => 'raw'
       assert_response :success
       # File content
       assert @response.body.include?('WITHOUT ANY WARRANTY')
@@ -317,7 +322,8 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @repository.reload
       [2, '400bb8672109', '400', 400].each do |r1|
-        get :annotate, :id => PRJ_ID, :rev => r1, :path => ['sources', 'watchers_controller.rb']
+        get :annotate, :id => PRJ_ID, :rev => r1,
+            :path => ['sources', 'watchers_controller.rb']
         assert_response :success
         assert_template 'annotate'
         assert_tag :tag => 'h2', :content => /@ 2:400bb8672109/
