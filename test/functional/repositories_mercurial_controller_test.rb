@@ -359,8 +359,8 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
 
     def test_annotate_latin_1_path
       [21, '21', 'adf805632193'].each do |r1|
-      get :annotate, :id => PRJ_ID,
-          :path => ['latin-1-dir', "test-#{@char_1}-2.txt"], :rev => r1
+        get :annotate, :id => PRJ_ID,
+            :path => ['latin-1-dir', "test-#{@char_1}-2.txt"], :rev => r1
         assert_response :success
         assert_template 'annotate'
         assert_tag :tag => 'th',
