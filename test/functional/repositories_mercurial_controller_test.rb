@@ -123,7 +123,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       end
     end
 
-    def test_show_directory_latin_1
+    def test_show_directory_latin_1_path
       @repository.fetch_changesets
       @repository.reload
       [21, '21', 'adf805632193'].each do |r1|
@@ -199,9 +199,10 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
                  :sibling => { :tag => 'td', :content => /WITHOUT ANY WARRANTY/ }
     end
 
-    def test_entry_show_latin_1
+    def test_entry_show_latin_1_path
       [21, '21', 'adf805632193'].each do |r1|
-        get :entry, :id => PRJ_ID, :path => ['latin-1-dir', "test-#{@char_1}-2.txt"], :rev => r1
+        get :entry, :id => PRJ_ID,
+            :path => ['latin-1-dir', "test-#{@char_1}-2.txt"], :rev => r1
         assert_response :success
         assert_template 'entry'
         assert_tag :tag => 'th',
@@ -270,16 +271,16 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       end
     end
 
-    def test_diff_latin_1
+    def test_diff_latin_1_path
       [21, 'adf805632193'].each do |r1|
         get :diff, :id => PRJ_ID, :rev => r1
         assert_response :success
         assert_template 'diff'
         assert_tag :tag => 'th',
                    :content => '2',
-                   :sibling => { :tag => 'td',
-                               :attributes => { :class => /diff_in/ },
-                               :content => /It is written in Python/ }
+                   :sibling => {:tag => 'td',
+                                :attributes => { :class => /diff_in/ },
+                                :content => /It is written in Python/ }
       end
     end
 
@@ -323,9 +324,10 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       end
     end
 
-    def test_annotate_latin_1
+    def test_annotate_latin_1_path
       [21, '21', 'adf805632193'].each do |r1|
-      get :annotate, :id => PRJ_ID, :path => ['latin-1-dir', "test-#{@char_1}-2.txt"], :rev => r1
+      get :annotate, :id => PRJ_ID,
+          :path => ['latin-1-dir', "test-#{@char_1}-2.txt"], :rev => r1
         assert_response :success
         assert_template 'annotate'
         assert_tag :tag => 'th',
