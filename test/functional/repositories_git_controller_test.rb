@@ -217,6 +217,34 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       assert_tag :tag => 'h2', :content => /2f9c0091:61b685fb/
     end
 
+    def test_diff_latin_1
+      if @ruby19_non_utf8_pass
+        puts_ruby19_non_utf8_pass()
+      else
+        with_settings :repositories_encodings => 'UTF-8,ISO-8859-1' do
+          ['57ca437c', '57ca437c0acbbcb749821fdf3726a1367056d364'].each do |r1|
+            get :diff, :id => PRJ_ID, :rev => r1
+            assert_response :success
+            assert_template 'diff'
+            assert_tag :tag => 'thead',
+                       :descendant => {
+                         :tag => 'th',
+                         :attributes => { :class => 'filename' } ,
+                         :content => /latin-1-dir\/test-#{@char_1}.txt/ ,
+                        },
+                       :sibling => {
+                         :tag => 'tbody',
+                         :descendant => {
+                            :tag => 'td',
+                            :attributes => { :class => /diff_in/ },
+                            :content => /test-#{@char_1}.txt/
+                         }
+                       }
+          end
+        end
+      end
+    end
+
     def test_annotate
       get :annotate, :id => PRJ_ID, :path => ['sources', 'watchers_controller.rb']
       assert_response :success
