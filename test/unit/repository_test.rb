@@ -52,7 +52,8 @@ class RepositoryTest < ActiveSupport::TestCase
 
   def test_destroy
     changesets = Changeset.count(:all, :conditions => "repository_id = 10")
-    changes = Change.count(:all, :conditions => "repository_id = 10", :include => :changeset)
+    changes = Change.count(:all, :conditions => "repository_id = 10",
+                           :include => :changeset)
     assert_difference 'Changeset.count', -changesets do
       assert_difference 'Change.count', -changes do
         Repository.find(10).destroy
@@ -63,9 +64,11 @@ class RepositoryTest < ActiveSupport::TestCase
   def test_should_not_create_with_disabled_scm
     # disable Subversion
     with_settings :enabled_scm => ['Darcs', 'Git'] do
-      repository = Repository::Subversion.new(:project => Project.find(3), :url => "svn://localhost")
+      repository = Repository::Subversion.new(
+                      :project => Project.find(3), :url => "svn://localhost")
       assert !repository.save
-      assert_equal I18n.translate('activerecord.errors.messages.invalid'), repository.errors.on(:type)
+      assert_equal I18n.translate('activerecord.errors.messages.invalid'),
+                                  repository.errors.on(:type)
     end
   end
 
@@ -74,7 +77,9 @@ class RepositoryTest < ActiveSupport::TestCase
     Setting.notified_events = ['issue_added','issue_updated']
 
     # choosing a status to apply to fix issues
-    Setting.commit_fix_status_id = IssueStatus.find(:first, :conditions => ["is_closed = ?", true]).id
+    Setting.commit_fix_status_id = IssueStatus.find(
+                                     :first,
+                                     :conditions => ["is_closed = ?", true]).id
     Setting.commit_fix_done_ratio = "90"
     Setting.commit_ref_keywords = 'refs , references, IssueID'
     Setting.commit_fix_keywords = 'fixes , closes'
@@ -104,26 +109,33 @@ class RepositoryTest < ActiveSupport::TestCase
     assert_equal 2, ActionMailer::Base.deliveries.size
     mail = ActionMailer::Base.deliveries.first
     assert_kind_of TMail::Mail, mail
-    assert mail.subject.starts_with?("[#{fixed_issue.project.name} - #{fixed_issue.tracker.name} ##{fixed_issue.id}]")
-    assert mail.body.include?("Status changed from #{old_status} to #{fixed_issue.status}")
+    assert mail.subject.starts_with?(
+        "[#{fixed_issue.project.name} - #{fixed_issue.tracker.name} ##{fixed_issue.id}]")
+    assert mail.body.include?(
+        "Status changed from #{old_status} to #{fixed_issue.status}")
 
     # ignoring commits referencing an issue of another project
     assert_equal [], Issue.find(4).changesets
   end
 
   def test_for_changeset_comments_strip
-    repository = Repository::Mercurial.create( :project => Project.find( 4 ), :url => '/foo/bar/baz' )
+    repository = Repository::Mercurial.create(
+                    :project => Project.find( 4 ),
+                    :url => '/foo/bar/baz' )
     comment = <<-COMMENT
     This is a loooooooooooooooooooooooooooong comment                                                   
                                                                                                        
                                                                                             
     COMMENT
     changeset = Changeset.new(
-      :comments => comment, :commit_date => Time.now, :revision => 0, :scmid => 'f39b7922fb3c',
-      :committer => 'foo <foo@example.com>', :committed_on => Time.now, :repository => repository )
+      :comments => comment, :commit_date => Time.now,
+      :revision => 0, :scmid => 'f39b7922fb3c',
+      :committer => 'foo <foo@example.com>',
+      :committed_on => Time.now, :repository => repository )
     assert( changeset.save )
     assert_not_equal( comment, changeset.comments )
-    assert_equal( 'This is a loooooooooooooooooooooooooooong comment', changeset.comments )
+    assert_equal( 'This is a loooooooooooooooooooooooooooong comment',
+                  changeset.comments )
   end
 
   def test_for_urls_strip
@@ -134,7 +146,8 @@ class RepositoryTest < ActiveSupport::TestCase
         :log_encoding => 'UTF-8')
     assert repository.save
     repository.reload
-    assert_equal ':pserver:login:password@host:/path/to/the/repository', repository.url
+    assert_equal ':pserver:login:password@host:/path/to/the/repository',
+                  repository.url
     assert_equal 'foo', repository.root_url
   end
 
