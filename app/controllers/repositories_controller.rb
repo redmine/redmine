@@ -45,9 +45,10 @@ class RepositoriesController < ApplicationController
       @repository.save
     end
     render(:update) do |page|
-      page.replace_html "tab-content-repository", :partial => 'projects/settings/repository'
+      page.replace_html "tab-content-repository",
+                        :partial => 'projects/settings/repository'
       if @repository && !@project.repository
-        @project.reload #needed to reload association
+        @project.reload # needed to reload association
         page.replace_html "main-menu", render_main_menu(@project)
       end
     end
