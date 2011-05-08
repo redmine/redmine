@@ -28,8 +28,12 @@ class RepositoriesGitControllerTest < ActionController::TestCase
   REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/git_repository'
   REPOSITORY_PATH.gsub!(/\//, "\\") if Redmine::Platform.mswin?
   PRJ_ID     = 3
+  CHAR_1_HEX = "\xc3\x9c"
 
   def setup
+    @ruby19_non_utf8_pass =
+      (RUBY_VERSION >= '1.9' && Encoding.default_external.to_s != 'UTF-8')
+
     @controller = RepositoriesController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
@@ -40,6 +44,10 @@ class RepositoriesGitControllerTest < ActionController::TestCase
                       :path_encoding => 'ISO-8859-1'
                       )
     assert @repository
+    @char_1        = CHAR_1_HEX.dup
+    if @char_1.respond_to?(:force_encoding)
+      @char_1.force_encoding('UTF-8')
+    end
   end
 
   if File.directory?(REPOSITORY_PATH)
@@ -142,6 +150,26 @@ class RepositoriesGitControllerTest < ActionController::TestCase
                  :content => '11',
                  :attributes => { :class => 'line-num' },
                  :sibling => { :tag => 'td', :content => /WITHOUT ANY WARRANTY/ }
+    end
+
+    def test_entry_show_latin_1
+      if @ruby19_non_utf8_pass
+        puts_ruby19_non_utf8_pass()
+      else
+        with_settings :repositories_encodings => 'UTF-8,ISO-8859-1' do
+          ['57ca437c', '57ca437c0acbbcb749821fdf3726a1367056d364'].each do |r1|
+            get :entry, :id => PRJ_ID,
+                :path => ['latin-1-dir', "test-#{@char_1}.txt"], :rev => r1
+            assert_response :success
+            assert_template 'entry'
+            assert_tag :tag => 'th',
+                   :content => '1',
+                   :attributes => { :class => 'line-num' },
+                   :sibling => { :tag => 'td',
+                                 :content => /test-#{@char_1}.txt/ }
+          end
+        end
+      end
     end
 
     def test_entry_download
@@ -249,6 +277,14 @@ class RepositoriesGitControllerTest < ActionController::TestCase
         assert_response 404
         assert_error_tag :content => /was not found/
       end
+    end
+
+    private
+
+    def puts_ruby19_non_utf8_pass
+      puts "TODO: This test fails in Ruby 1.9 " +
+           "and Encoding.default_external is not UTF-8. " +
+           "Current value is '#{Encoding.default_external.to_s}'"
     end
   else
     puts "Git test repository NOT FOUND. Skipping functional tests !!!"
