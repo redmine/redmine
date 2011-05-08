@@ -5,12 +5,12 @@
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -95,11 +95,11 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       get :changes, :id => PRJ_ID, :path => ['subversion_test', 'folder', 'helloworld.rb' ]
       assert_response :success
       assert_template 'changes'
-      
+
       changesets = assigns(:changesets)
       assert_not_nil changesets
       assert_equal %w(6 3 2), changesets.collect(&:revision)
-      
+
       # svn properties displayed with svn >= 1.5 only
       if Redmine::Scm::Adapters::SubversionAdapter.client_version_above?([1, 5, 0])
         assert_not_nil assigns(:properties)
@@ -191,12 +191,12 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       assert_tag :tag => 'ul',
                  :child => { :tag => 'li',
                              # link to the entry at rev 2
-                             :child => { :tag => 'a', 
+                             :child => { :tag => 'a',
                                          :attributes => {:href => '/projects/ecookbook/repository/revisions/2/entry/test/some/path/in/the/repo'},
                                          :content => 'repo',
                                          # link to partial diff
-                                         :sibling =>  { :tag => 'a', 
-                                                        :attributes => { :href => '/projects/ecookbook/repository/revisions/2/diff/test/some/path/in/the/repo' } 
+                                         :sibling =>  { :tag => 'a',
+                                                        :attributes => { :href => '/projects/ecookbook/repository/revisions/2/diff/test/some/path/in/the/repo' }
                                                        }
                                         }
                             }
@@ -238,12 +238,12 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       assert_tag :tag => 'ul',
                  :child => { :tag => 'li',
                              # link to the entry at rev 2
-                             :child => { :tag => 'a', 
+                             :child => { :tag => 'a',
                                          :attributes => {:href => '/projects/ecookbook/repository/revisions/2/entry/path/in/the/repo'},
                                          :content => 'repo',
                                          # link to partial diff
-                                         :sibling =>  { :tag => 'a', 
-                                                        :attributes => { :href => '/projects/ecookbook/repository/revisions/2/diff/path/in/the/repo' } 
+                                         :sibling =>  { :tag => 'a',
+                                                        :attributes => { :href => '/projects/ecookbook/repository/revisions/2/diff/path/in/the/repo' }
                                                        }
                                         }
                             }
