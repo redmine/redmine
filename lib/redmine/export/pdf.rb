@@ -34,13 +34,40 @@ module Redmine
         attr_accessor :footer_date
 
         def initialize(lang)
-          super()
           if RUBY_VERSION < '1.9'
             @ic = Iconv.new(l(:general_pdf_encoding), 'UTF-8')
           end
+          pdf_encoding = l(:general_pdf_encoding).upcase
+          super('P', 'mm', 'A4', (pdf_encoding == 'UTF-8'), pdf_encoding )
           set_language_if_valid lang
-          @font_for_content = 'FreeSans'
-          @font_for_footer  = 'FreeSans'
+          case pdf_encoding
+          when 'UTF-8'
+            @font_for_content = 'FreeSans'
+            @font_for_footer  = 'FreeSans'
+          when 'CP949'
+            extend(PDF_Korean)
+            AddUHCFont()
+            @font_for_content = 'UHC'
+            @font_for_footer  = 'UHC'
+          when 'CP932'
+            extend(PDF_Japanese)
+            AddSJISFont()
+            @font_for_content = 'SJIS'
+            @font_for_footer  = 'SJIS'
+          when 'GB18030'
+            extend(PDF_Chinese)
+            AddGBFont()
+            @font_for_content = 'GB'
+            @font_for_footer  = 'GB'
+          when 'BIG5'
+            extend(PDF_Chinese)
+            AddBig5Font()
+            @font_for_content = 'Big5'
+            @font_for_footer  = 'Big5'
+          else
+            @font_for_content = 'Arial'
+            @font_for_footer  = 'Helvetica'
+          end
           SetCreator(Redmine::Info.app_name)
           SetFont(@font_for_content)
         end
