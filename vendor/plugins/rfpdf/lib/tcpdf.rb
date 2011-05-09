@@ -669,10 +669,11 @@ class TCPDF
 	# @since 1.4
 	# @see PageNo(), Footer()
 	#
-	def alias_nb_pages(alias_nb ='{nb}')
+	def AliasNbPages(alias_nb ='{nb}')
 		#Define an alias for total number of pages
 		@alias_nb_pages = escapetext(alias_nb)
 	end
+	alias_method :alias_nb_pages, :AliasNbPages
 
 	#
 	# This method is automatically called in case of fatal error; it simply outputs the message and halts the execution. An inherited class may override it to customize the error handling but should always halt the script, or the resulting document would probably be invalid.
@@ -1154,10 +1155,10 @@ class TCPDF
 			end
 		else
 		  s.each_byte do |c|
-				if cw[c]
-					w += cw[c];
-				elsif cw[?c]
-					w += cw[?c]
+				if cw[c.chr]
+					w += cw[c.chr];
+				elsif cw[?c.chr]
+					w += cw[?c.chr]
 				end
 			end
 		end
@@ -1433,9 +1434,7 @@ class TCPDF
 		end
 
 		# try to add font (if not already added)
-		if (@is_unicode)
-			AddFont(family, style);
-		end
+		AddFont(family, style);
 		
 		#Test if font is already selected
 		if ((@font_family == family) and (@font_style == style) and (@font_size_pt == size))
@@ -2293,7 +2292,7 @@ class TCPDF
 	def putpages()
 		nb = @page;
 		if (@alias_nb_pages)
-			nbstr = UTF8ToUTF16BE(nb, false);
+			nbstr = UTF8ToUTF16BE(nb.to_s, false);
 			#Replace number of pages
 			1.upto(nb) do |n|
 				@pages[n].gsub!(@alias_nb_pages, nbstr)
