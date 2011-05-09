@@ -116,7 +116,7 @@ module PDF_Chinese
   end
 
   def GetStringWidth(s)
-  	if(@CurrentFont['type']=='Type0')
+  	if(@current_font['type']=='Type0')
   		return GetMBStringWidth(s)
   	else
   		return super(s)
@@ -126,7 +126,7 @@ module PDF_Chinese
   def GetMBStringWidth(s)
   	#Multi-byte version of GetStringWidth()
   	l=0
-  	cw=@CurrentFont['cw']
+  	cw=@current_font['cw']
   	nb=s.length
   	i=0
   	while(i<nb)
@@ -139,11 +139,11 @@ module PDF_Chinese
   			i+=2
   		end
   	end
-  	return l*@FontSize/1000
+  	return l*@font_size/1000
   end
 
   def MultiCell(w,h,txt,border=0,align='L',fill=0)
-  	if(@CurrentFont['type']=='Type0')
+  	if(@current_font['type']=='Type0')
   		MBMultiCell(w,h,txt,border,align,fill)
   	else
   		super(w,h,txt,border,align,fill)
@@ -152,11 +152,11 @@ module PDF_Chinese
 
   def MBMultiCell(w,h,txt,border=0,align='L',fill=0)
   	#Multi-byte version of MultiCell()
-  	cw=@CurrentFont['cw']
+  	cw=@current_font['cw']
   	if(w==0)
-  		w=@w-@rMargin-@x
+  		w=@w-@r_margin-@x
 		end
-  	wmax=(w-2*@cMargin)*1000/@FontSize
+  	wmax=(w-2*@c_margin)*1000/@font_size
   	s=txt.gsub("\r",'')
   	nb=s.length
   	if(nb>0 and s[nb-1]=="\n")
@@ -233,11 +233,11 @@ module PDF_Chinese
   		b+='B'
 		end
   	Cell(w,h,s[j,i-j],b,2,align,fill)
-  	@x=@lMargin
+  	@x=@l_margin
   end
 
   def Write(h,txt,link='')
-  	if(@CurrentFont['type']=='Type0')
+  	if(@current_font['type']=='Type0')
   		MBWrite(h,txt,link)
   	else
   		super(h,txt,link)
@@ -246,9 +246,9 @@ module PDF_Chinese
 
   def MBWrite(h,txt,link)
   	#Multi-byte version of Write()
-  	cw=@CurrentFont['cw']
-  	w=@w-@rMargin-@x
-  	wmax=(w-2*@cMargin)*1000/@FontSize
+  	cw=@current_font['cw']
+  	w=@w-@r_margin-@x
+  	wmax=(w-2*@c_margin)*1000/@font_size
   	s=txt.gsub("\r",'')
   	nb=s.length
   	sep=-1
@@ -269,9 +269,9 @@ module PDF_Chinese
   			j=i
   			l=0
   			if(nl==1)
-  				@x=@lMargin
-  				w=@w-@rMargin-@x
-  				wmax=(w-2*@cMargin)*1000/@FontSize
+  				@x=@l_margin
+  				w=@w-@r_margin-@x
+  				wmax=(w-2*@c_margin)*1000/@font_size
   			end
   			nl+=1
   			next
@@ -283,12 +283,12 @@ module PDF_Chinese
   		if(l>wmax)
   			#Automatic line break
   			if(sep==-1 or i==j)
-  				if(@x>@lMargin)
+  				if(@x>@l_margin)
   					#Move to next line
-  					@x=@lMargin
+  					@x=@l_margin
   					@y+=h
-  					w=@w-@rMargin-@x
-  					wmax=(w-2*@cMargin)*1000/@FontSize
+  					w=@w-@r_margin-@x
+  					wmax=(w-2*@c_margin)*1000/@font_size
   					i+=1
   					nl+=1
   					next
@@ -305,9 +305,9 @@ module PDF_Chinese
   			j=i
   			l=0
   			if(nl==1)
-  				@x=@lMargin
-  				w=@w-@rMargin-@x
-  				wmax=(w-2*@cMargin)*1000/@FontSize
+  				@x=@l_margin
+  				w=@w-@r_margin-@x
+  				wmax=(w-2*@c_margin)*1000/@font_size
   			end
   			nl+=1
   		else
@@ -316,7 +316,7 @@ module PDF_Chinese
   	end
   	#Last chunk
   	if(i!=j)
-  		Cell(l/1000*@FontSize,h,s[j,i-j],0,0,'',0,link)
+  		Cell(l/1000*@font_size,h,s[j,i-j],0,0,'',0,link)
 		end
   end
 
@@ -332,10 +332,10 @@ private
   	end
   	# mqr=get_magic_quotes_runtime()
   	# set_magic_quotes_runtime(0)
-    @FontFiles.each_pair do |file, info|
+    @font_files.each_pair do |file, info|
   		#Font file embedding
   		newobj()
-  		@FontFiles[file]['n']=@n
+  		@font_files[file]['n']=@n
   		if(defined('FPDF_FONTPATH'))
   			file=FPDF_FONTPATH+file
 			end
@@ -411,7 +411,7 @@ private
   				end
   				file=font['file']
   				if(file)
-  					s+=' /FontFile'+(font['type']=='Type1' ? '' : '2')+' '+@FontFiles[file]['n']+' 0 R'
+  					s+=' /FontFile'+(font['type']=='Type1' ? '' : '2')+' '+@font_files[file]['n']+' 0 R'
   				end
   				out(s+'>>')
   				out('endobj')

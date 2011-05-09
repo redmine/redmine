@@ -210,11 +210,7 @@ module Redmine
 
       # Returns a PDF string of a list of issues
       def issues_to_pdf(issues, project, query)
-        if l(:general_pdf_encoding).upcase != 'UTF-8'
-          pdf = IFPDF.new(current_language)
-        else
-          pdf = ITCPDF.new(current_language)
-        end
+        pdf = ITCPDF.new(current_language)
         title = query.new_record? ? l(:label_issue_plural) : query.name
         title = "#{project} - #{title}" if project
         pdf.SetTitle(title)
@@ -358,11 +354,7 @@ module Redmine
 
       # Returns a PDF string of a single issue
       def issue_to_pdf(issue)
-        if l(:general_pdf_encoding).upcase != 'UTF-8'
-          pdf = IFPDF.new(current_language)
-        else
-          pdf = ITCPDF.new(current_language)
-        end
+        pdf = ITCPDF.new(current_language)
         pdf.SetTitle("#{issue.project} - ##{issue.tracker} #{issue.id}")
         pdf.alias_nb_pages
         pdf.footer_date = format_date(Date.today)

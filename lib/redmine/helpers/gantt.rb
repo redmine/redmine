@@ -507,11 +507,7 @@ module Redmine
       end if Object.const_defined?(:Magick)
 
       def to_pdf
-        if l(:general_pdf_encoding).upcase != 'UTF-8'
-          pdf = ::Redmine::Export::PDF::IFPDF.new(current_language)
-        else
-          pdf = ::Redmine::Export::PDF::ITCPDF.new(current_language)
-        end
+        pdf = ::Redmine::Export::PDF::ITCPDF.new(current_language)
         pdf.SetTitle("#{l(:label_gantt)} #{project}")
         pdf.alias_nb_pages
         pdf.footer_date = format_date(Date.today)
