@@ -38,7 +38,7 @@ module Redmine
             @ic = Iconv.new(l(:general_pdf_encoding), 'UTF-8')
           end
           pdf_encoding = l(:general_pdf_encoding).upcase
-          super('P', 'mm', 'A4', (pdf_encoding == 'UTF-8'), pdf_encoding )
+          super('P', 'mm', 'A4', (pdf_encoding == 'UTF-8'), pdf_encoding)
           set_language_if_valid lang
           case pdf_encoding
           when 'UTF-8'
@@ -326,7 +326,8 @@ module Redmine
       end
 
       # Renders MultiCells and returns the maximum height used
-      def issues_to_pdf_write_cells(pdf, col_values, col_widths, row_height, head=false)
+      def issues_to_pdf_write_cells(pdf, col_values, col_widths,
+                                    row_height, head=false)
         base_y = pdf.GetY
         max_height = row_height
         col_values.each_with_index do |column, i|
@@ -343,7 +344,8 @@ module Redmine
       end
 
       # Draw lines to close the row (MultiCell border drawing in not uniform)
-      def issues_to_pdf_draw_borders(pdf, top_x, top_y, lower_y, id_width, col_widths)
+      def issues_to_pdf_draw_borders(pdf, top_x, top_y, lower_y,
+                                     id_width, col_widths)
         col_x = top_x + id_width
         pdf.Line(col_x, top_y, col_x, lower_y)    # id right border
         col_widths.each do |width|
@@ -366,7 +368,8 @@ module Redmine
         pdf.footer_date = format_date(Date.today)
         pdf.AddPage
         pdf.SetFontStyle('B',11)
-        pdf.RDMMultiCell(190,5, "#{issue.project} - #{issue.tracker} # #{issue.id}: #{issue.subject}")
+        pdf.RDMMultiCell(190,5,
+             "#{issue.project} - #{issue.tracker} # #{issue.id}: #{issue.subject}")
         pdf.Ln
 
         y0 = pdf.GetY
