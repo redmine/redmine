@@ -22,6 +22,7 @@ class PdfTest < ActiveSupport::TestCase
 
   def test_fix_text_encoding_nil
     set_language_if_valid 'ja'
+    assert_equal 'CP932', l(:general_pdf_encoding)
     pdf = Redmine::Export::PDF::IFPDF.new('ja')
     assert pdf
     assert_equal '', pdf.fix_text_encoding(nil)
@@ -29,6 +30,7 @@ class PdfTest < ActiveSupport::TestCase
 
   def test_fix_text_encoding_cannot_convert_ja_cp932
     set_language_if_valid 'ja'
+    assert_equal 'CP932', l(:general_pdf_encoding)
     pdf = Redmine::Export::PDF::IFPDF.new('ja')
     assert pdf
     utf8_txt_1  = "\xe7\x8b\x80\xe6\x85\x8b"
