@@ -455,8 +455,12 @@ module Redmine
           txt ||= ''
           if txt.respond_to?(:force_encoding)
             txt.force_encoding('UTF-8')
-            txt = txt.encode(l(:general_pdf_encoding), :invalid => :replace,
-                              :undef => :replace, :replace => '?')
+            if l(:general_pdf_encoding).upcase != 'UTF-8'
+              txt = txt.encode(l(:general_pdf_encoding), :invalid => :replace,
+                               :undef => :replace, :replace => '?')
+            else
+              txt = Redmine::CodesetUtil.replace_invalid_utf8(txt)
+            end
             txt.force_encoding('ASCII-8BIT')
           else
             ic ||= Iconv.new(l(:general_pdf_encoding), 'UTF-8')

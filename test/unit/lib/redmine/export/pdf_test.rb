@@ -58,4 +58,44 @@ class PdfTest < ActiveSupport::TestCase
                    Redmine::Export::PDF::RDMPdfEncoding::rdm_pdf_iconv(ic, utf8_txt_3)
     end
   end
+
+  def test_rdm_pdf_iconv_invalid_utf8_should_be_replaced_en
+    set_language_if_valid 'en'
+    assert_equal 'UTF-8', l(:general_pdf_encoding)
+    str1 = "Texte encod\xe9 en ISO-8859-1"
+    str2 = "\xe9a\xe9b\xe9c\xe9d\xe9e test"
+    str1.force_encoding("UTF-8") if str1.respond_to?(:force_encoding)
+    str2.force_encoding("ASCII-8BIT") if str2.respond_to?(:force_encoding)
+    if RUBY_VERSION < '1.9'
+      ic = Iconv.new(l(:general_pdf_encoding), 'UTF-8')
+    end
+    txt_1 = Redmine::Export::PDF::RDMPdfEncoding::rdm_pdf_iconv(ic, str1)
+    txt_2 = Redmine::Export::PDF::RDMPdfEncoding::rdm_pdf_iconv(ic, str2)
+    if txt_1.respond_to?(:force_encoding)
+      assert_equal "ASCII-8BIT", txt_1.encoding.to_s
+      assert_equal "ASCII-8BIT", txt_2.encoding.to_s
+    end
+    assert_equal "Texte encod? en ISO-8859-1", txt_1
+    assert_equal "?a?b?c?d?e test", txt_2
+  end
+
+  def test_rdm_pdf_iconv_invalid_utf8_should_be_replaced_ja
+    set_language_if_valid 'ja'
+    assert_equal 'CP932', l(:general_pdf_encoding)
+    str1 = "Texte encod\xe9 en ISO-8859-1"
+    str2 = "\xe9a\xe9b\xe9c\xe9d\xe9e test"
+    str1.force_encoding("UTF-8") if str1.respond_to?(:force_encoding)
+    str2.force_encoding("ASCII-8BIT") if str2.respond_to?(:force_encoding)
+    if RUBY_VERSION < '1.9'
+      ic = Iconv.new(l(:general_pdf_encoding), 'UTF-8')
+    end
+    txt_1 = Redmine::Export::PDF::RDMPdfEncoding::rdm_pdf_iconv(ic, str1)
+    txt_2 = Redmine::Export::PDF::RDMPdfEncoding::rdm_pdf_iconv(ic, str2)
+    if txt_1.respond_to?(:force_encoding)
+      assert_equal "ASCII-8BIT", txt_1.encoding.to_s
+      assert_equal "ASCII-8BIT", txt_2.encoding.to_s
+    end
+    assert_equal "Texte encod? en ISO-8859-1", txt_1
+    assert_equal "?a?b?c?d?e test", txt_2
+  end
 end
