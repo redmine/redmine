@@ -35,6 +35,9 @@ module Redmine
 
         def initialize(lang)
           super()
+          if RUBY_VERSION < '1.9'
+            @ic = Iconv.new(l(:general_pdf_encoding), 'UTF-8')
+          end
           set_language_if_valid lang
           @font_for_content = 'FreeSans'
           @font_for_footer  = 'FreeSans'
@@ -67,8 +70,17 @@ module Redmine
           end
         end
 
-        alias RDMCell Cell
-        alias RDMMultiCell MultiCell
+        def fix_text_encoding(txt)
+          RDMPdfEncoding::rdm_pdf_iconv(@ic, txt)
+        end
+
+        def RDMCell(w,h=0,txt='',border=0,ln=0,align='',fill=0,link='')
+          Cell(w,h,fix_text_encoding(txt),border,ln,align,fill,link)
+        end
+
+        def RDMMultiCell(w,h=0,txt='',border=0,align='',fill=0)
+          MultiCell(w,h,fix_text_encoding(txt),border,align,fill)
+        end
 
         def Footer
           SetFont(@font_for_footer, 'I', 8)
