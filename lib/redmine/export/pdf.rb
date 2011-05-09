@@ -87,6 +87,9 @@ module Redmine
 
         def initialize(lang)
           super()
+          if RUBY_VERSION < '1.9'
+            @ic = Iconv.new(l(:general_pdf_encoding), 'UTF-8')
+          end
           set_language_if_valid lang
           case l(:general_pdf_encoding).upcase
           when 'CP949'
@@ -143,27 +146,7 @@ module Redmine
         end
 
         def fix_text_encoding(txt)
-          txt ||= ''
-          if txt.respond_to?(:force_encoding)
-            txt.force_encoding('UTF-8')
-            txt = txt.encode(l(:general_pdf_encoding), :invalid => :replace,
-                              :undef => :replace, :replace => '?')
-            txt.force_encoding('ASCII-8BIT')
-          else
-            @ic ||= Iconv.new(l(:general_pdf_encoding), 'UTF-8')
-            txtar = ""
-            begin
-              txtar += @ic.iconv(txt)
-            rescue Iconv::IllegalSequence
-              txtar += $!.success
-              txt = '?' + $!.failed[1,$!.failed.length]
-              retry
-            rescue
-              txtar += $!.success
-            end
-            txt = txtar
-          end
-          txt
+          RDMPdfEncoding::rdm_pdf_iconv(@ic, txt)
         end
 
         def RDMCell(w,h=0,txt='',border=0,ln=0,align='',fill=0,link='')
@@ -464,6 +447,33 @@ module Redmine
           end
         end
         pdf.Output
+      end
+
+      class RDMPdfEncoding
+        include Redmine::I18n
+        def self.rdm_pdf_iconv(ic, txt)
+          txt ||= ''
+          if txt.respond_to?(:force_encoding)
+            txt.force_encoding('UTF-8')
+            txt = txt.encode(l(:general_pdf_encoding), :invalid => :replace,
+                              :undef => :replace, :replace => '?')
+            txt.force_encoding('ASCII-8BIT')
+          else
+            ic ||= Iconv.new(l(:general_pdf_encoding), 'UTF-8')
+            txtar = ""
+            begin
+              txtar += ic.iconv(txt)
+            rescue Iconv::IllegalSequence
+              txtar += $!.success
+              txt = '?' + $!.failed[1,$!.failed.length]
+              retry
+            rescue
+              txtar += $!.success
+            end
+            txt = txtar
+          end
+          txt
+        end
       end
     end
   end
