@@ -254,9 +254,9 @@
   notice_gantt_chart_truncated: "由於項目數量超過可顯示數量的最大值 (%{max})，故此甘特圖尾部已被截斷"
 
   error_can_t_load_default_data: "無法載入預設組態： %{value}"
-  error_scm_not_found: "在 SCM 儲存庫中找不到這個項目或版次。"
-  error_scm_command_failed: "嘗試存取 SCM 儲存庫時發生錯誤： %{value}"
-  error_scm_annotate: "SCM 儲存庫中無此項目或此項目無法被加註。"
+  error_scm_not_found: "在儲存機制中找不到這個項目或修訂版。"
+  error_scm_command_failed: "嘗試存取儲存機制時發生錯誤： %{value}"
+  error_scm_annotate: "項目不存在或項目無法被加上附註。"
   error_issue_not_found_in_project: '該項目不存在或不屬於此專案'
   error_no_tracker_in_project: '此專案尚未指定追蹤標籤。請檢查專案的設定資訊。'
   error_no_default_issue_status: '尚未定義項目狀態的預設值。請您前往「網站管理」->「項目狀態清單」頁面，檢查相關組態設定。'
@@ -393,7 +393,7 @@
   field_is_private: 私人
   field_commit_logs_encoding: 送交訊息編碼
   field_scm_path_encoding: 路徑編碼
-  field_path_to_repository: 儲存庫路徑
+  field_path_to_repository: 儲存機制路徑
   field_root_directory: 根資料夾
   field_cvsroot: CVSROOT
   field_cvs_module: 模組
@@ -415,7 +415,7 @@
   setting_feeds_limit: RSS 新聞限制
   setting_autofetch_changesets: 自動取得送交版次
   setting_default_projects_public: 新建立之專案預設為「公開」
-  setting_sys_api_enabled: 啟用管理版本庫之網頁服務 (Web Service)
+  setting_sys_api_enabled: 啟用管理儲存機制的網頁服務 (Web Service)
   setting_commit_ref_keywords: 送交用於參照項目之關鍵字
   setting_commit_fix_keywords: 送交用於修正項目之關鍵字
   setting_autologin: 自動登入
@@ -440,7 +440,7 @@
   setting_gravatar_default: 預設全球認證大頭像圖片
   setting_diff_max_lines_displayed: 差異顯示行數之最大值
   setting_file_max_size_displayed: 檔案內容顯示大小之最大值
-  setting_repository_log_display_limit: 版次顯示數目之最大值
+  setting_repository_log_display_limit: 修訂版顯示數目之最大值
   setting_openid: 允許使用 OpenID 登入與註冊
   setting_password_min_length: 密碼最小長度
   setting_new_project_user_role_id: 管理者以外之用戶建立新專案時，將被指派的角色
@@ -500,8 +500,8 @@
   permission_edit_wiki_pages: 編輯 wiki 頁面
   permission_delete_wiki_pages_attachments: 刪除附件
   permission_protect_wiki_pages: 專案 wiki 頁面
-  permission_manage_repository: 管理版本庫
-  permission_browse_repository: 瀏覽版本庫
+  permission_manage_repository: 管理儲存機制
+  permission_browse_repository: 瀏覽儲存機制
   permission_view_changesets: 檢視變更集
   permission_commit_access: 存取送交之變更
   permission_manage_boards: 管理討論版
@@ -721,26 +721,26 @@
   label_contains: 包含
   label_not_contains: 不包含
   label_day_plural: 天
-  label_repository: 版本控管
-  label_repository_plural: 版本控管
+  label_repository: 儲存機制
+  label_repository_plural: 儲存機制清單
   label_browse: 瀏覽
   label_modification: "%{count} 變更"
   label_modification_plural: "%{count} 變更"
   label_branch: 分支
   label_tag: 標籤 
-  label_revision: 版次
-  label_revision_plural: 版次清單
-  label_revision_id: "版次 %{value}"
-  label_associated_revisions: 相關版次
+  label_revision: 修訂版
+  label_revision_plural: 修訂版清單
+  label_revision_id: "修訂版 %{value}"
+  label_associated_revisions: 關聯的修訂版
   label_added: 已新增
   label_modified: 已修改
   label_copied: 已複製
   label_renamed: 已重新命名
   label_deleted: 已刪除
-  label_latest_revision: 最新版次
-  label_latest_revision_plural: 最近版次清單
-  label_view_revisions: 檢視版次清單
-  label_view_all_revisions: 檢視全部的版次清單
+  label_latest_revision: 最新的修訂版
+  label_latest_revision_plural: 最新的修訂版清單
+  label_view_revisions: 檢視修訂版清單
+  label_view_all_revisions: 檢視所有的的修訂版清單
   label_max_size: 最大長度
   label_sort_highest: 移動至開頭
   label_sort_higher: 往上移動
@@ -1011,7 +1011,7 @@
   text_enumeration_destroy_question: "目前有 %{count} 個物件使用此列舉值。"
   text_enumeration_category_reassign_to: '重新設定其列舉值為：'
   text_email_delivery_not_configured: "您尚未設定電子郵件傳送方式，因此提醒選項已被停用。\n請在 config/configuration.yml 中設定 SMTP 之後，重新啟動 Redmine，以啟用電子郵件提醒選項。"
-  text_repository_usernames_mapping: "選擇或更新 Redmine 使用者與版本庫使用者之對應關係。\n版本庫中之使用者帳號或電子郵件信箱，與 Redmine 設定相同者，將自動產生對應關係。"
+  text_repository_usernames_mapping: "選擇或更新 Redmine 使用者與儲存機制紀錄使用者之對應關係。\n儲存機制中之使用者帳號或電子郵件信箱，與 Redmine 設定相同者，將自動產生對應關係。"
   text_diff_truncated: '... 這份差異已被截短以符合顯示行數之最大值'
   text_custom_field_possible_values_info: '一列輸入一個值'
   text_wiki_page_destroy_question: "此頁面包含 %{descendants} 個子頁面及延伸頁面。 請選擇您想要的動作?"
@@ -1023,8 +1023,10 @@
   text_zoom_out: 縮小
   text_warn_on_leaving_unsaved: "若您離開這個頁面，此頁面所包含的未儲存資料將會遺失。"
   text_scm_path_encoding_note: "預設: UTF-8"
-  text_git_repository_note: "純(Bare)儲存庫與本機儲存庫 (e.g. /gitrepo, c:\gitrepo)"
-  text_mercurial_repository_note: "本機儲存庫 (e.g. /hgrepo, c:\hgrepo)"
+  text_git_repository_note: "純(Bare)儲存機制與本機儲存機制 (e.g. /gitrepo, c:\gitrepo)"
+  text_mercurial_repository_note: "本機儲存機制 (e.g. /hgrepo, c:\hgrepo)"
+  text_scm_command: 命令
+  text_scm_version: 版本
   
   default_role_manager: 管理人員
   default_role_developer: 開發人員
@@ -1052,5 +1054,3 @@
   enumeration_doc_categories: 文件分類
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
-  text_scm_command: Command
-  text_scm_version: Version
