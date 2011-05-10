@@ -1026,8 +1026,8 @@
   text_git_repository_note: "純(Bare)儲存機制與本機儲存機制 (e.g. /gitrepo, c:\gitrepo)"
   text_mercurial_repository_note: "本機儲存機制 (e.g. /hgrepo, c:\hgrepo)"
   text_scm_command: 命令
-  text_scm_version: 版本
-  
+  text_scm_command_version: 版本
+
   default_role_manager: 管理人員
   default_role_developer: 開發人員
   default_role_reporter: 報告人員

@@ -971,4 +971,4 @@ bg:
   enumeration_activities: Дейности (time tracking)
   enumeration_system_activity: Системна активност
   text_scm_command: Command
-  text_scm_version: Version
+  text_scm_command_version: Version

@@ -12,7 +12,7 @@
 <br />
 <%= image_tag((@repository.class.scm_available ? 'true.png' : 'exclamation.png'))%>
 <%=  l(:text_scm_command) -%>: <%= @repository.class.scm_command -%>,
-<%=  l(:text_scm_version) -%>: <%= @repository.class.scm_version_string %>
+<%=  l(:text_scm_command_version) -%>: <%= @repository.class.scm_version_string %>
 <% end %>
 </p>
 <% button_disabled = true %>

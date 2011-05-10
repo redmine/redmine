@@ -949,7 +949,7 @@ ja:
   text_git_repository_note: "Bare、かつ、ローカルリポジトリ (例: /gitrepo, c:\gitrepo)"
   text_mercurial_repository_note: "ローカルリポジトリ (例: /hgrepo, c:\hgrepo)"
   text_scm_command: コマンド
-  text_scm_version: バージョン
+  text_scm_command_version: バージョン
 
   default_role_manager: 管理者
   default_role_developer: 開発者
