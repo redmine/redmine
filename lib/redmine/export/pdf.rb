@@ -34,12 +34,12 @@ module Redmine
         attr_accessor :footer_date
 
         def initialize(lang)
-          if RUBY_VERSION < '1.9'
-            @ic = Iconv.new(l(:general_pdf_encoding), 'UTF-8')
-          end
-          pdf_encoding = l(:general_pdf_encoding).upcase
-          super('P', 'mm', 'A4', (pdf_encoding == 'UTF-8'), pdf_encoding)
           set_language_if_valid lang
+          pdf_encoding = l(:general_pdf_encoding).upcase
+          if RUBY_VERSION < '1.9'
+            @ic = Iconv.new(pdf_encoding, 'UTF-8')
+          end
+          super('P', 'mm', 'A4', (pdf_encoding == 'UTF-8'), pdf_encoding)
           case pdf_encoding
           when 'UTF-8'
             @font_for_content = 'FreeSans'
