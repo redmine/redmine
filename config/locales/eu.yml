@@ -684,7 +684,7 @@ eu:
   label_message_plural: Mezuak
   label_message_last: Azken mezua
   label_message_new: Mezu berria
-  label_message_posted: Mesua gehituta
+  label_message_posted: Mezua gehituta
   label_reply_plural: Erantzunak
   label_send_information: Erabiltzaileai kontuaren informazioa bidali
   label_year: Urtea
@@ -942,38 +942,38 @@ eu:
   setting_commit_logtime_enabled: "Erregistrutako denbora gaitu"
   notice_gantt_chart_truncated: Grafikoa moztu da bistara daitekeen elementuen kopuru maximoa gainditu delako (%{max})
   setting_gantt_items_limit: "Gantt grafikoan bistara daitekeen elementu kopuru maximoa"
-  field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
-  text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
-  label_my_queries: My custom queries
-  text_journal_changed_no_detail: "%{label} updated"
-  label_news_comment_added: Comment added to a news
-  button_expand_all: Expand all
-  button_collapse_all: Collapse all
-  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
-  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
-  label_bulk_edit_selected_time_entries: Bulk edit selected time entries
-  text_time_entries_destroy_confirmation: Are you sure you want to delete the selected time entr(y/ies)?
-  label_role_anonymous: Anonymous
-  label_role_non_member: Non member
-  label_issue_note_added: Note added
-  label_issue_status_updated: Status updated
-  label_issue_priority_updated: Priority updated
-  label_issues_visibility_own: Issues created by or assigned to the user
-  field_issues_visibility: Issues visibility
-  label_issues_visibility_all: All issues
-  permission_set_own_issues_private: Set own issues public or private
-  field_is_private: Private
-  permission_set_issues_private: Set issues public or private
-  label_issues_visibility_public: All non private issues
-  text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
+  field_warn_on_leaving_unsaved: Gorde gabeko testua duen orri batetik ateratzen naizenean ohartarazi
+  text_warn_on_leaving_unsaved: Uneko orritik joaten bazara gorde gabeko testua galduko da.
+  label_my_queries: Nire galdera pertsonalizatuak
+  text_journal_changed_no_detail: "%{label} eguneratuta"
+  label_news_comment_added: Berri batera iruzkina gehituta
+  button_expand_all: Guztia zabaldu
+  button_collapse_all: Guztia tolestu
+  label_additional_workflow_transitions_for_assignee: Erabiltzaileak esleitua duenean baimendutako transtsizio gehigarriak
+  label_additional_workflow_transitions_for_author: Erabiltzailea egilea denean baimendutako transtsizio gehigarriak
+  label_bulk_edit_selected_time_entries: Hautatutako denbora egunkariak batera editatu
+  text_time_entries_destroy_confirmation: Ziur zaude hautatutako denbora egunkariak ezabatu nahi dituzula?
+  label_role_anonymous: Ezezaguna
+  label_role_non_member: Ez kidea
+  label_issue_note_added: Oharra gehituta
+  label_issue_status_updated: Egoera eguneratuta
+  label_issue_priority_updated: Lehentasuna eguneratuta
+  label_issues_visibility_own: Erabiltzaileak sortu edo esleituta dituen zereginak
+  field_issues_visibility: Zeregin ikusgarritasuna
+  label_issues_visibility_all: Zeregin guztiak
+  permission_set_own_issues_private: Nork bere zereginak publiko edo pribatu jarri
+  field_is_private: Pribatu
+  permission_set_issues_private: Zereginak publiko edo pribatu jarri
+  label_issues_visibility_public: Pribatu ez diren zeregin guztiak
+  text_issues_destroy_descendants_confirmation: Honek %{count} azpiataza ezabatuko ditu baita ere.
   field_commit_logs_encoding: Commit-en egunkarien kodetzea
-  field_scm_path_encoding: Path encoding
-  text_scm_path_encoding_note: "Default: UTF-8"
-  field_path_to_repository: Path to repository
-  field_root_directory: Root directory
-  field_cvs_module: Module
+  field_scm_path_encoding: Bidearen kodeketa
+  text_scm_path_encoding_note: "Lehentsita: UTF-8"
+  field_path_to_repository: Biltegirako bidea
+  field_root_directory: Erro direktorioa
+  field_cvs_module: Modulua
   field_cvsroot: CVSROOT
   text_git_repository_note: Bare and local repository (e.g. /gitrepo, c:\gitrepo)
-  text_mercurial_repository_note: Local repository (e.g. /hgrepo, c:\hgrepo)
-  text_scm_command: Command
-  text_scm_command_version: Version
+  text_mercurial_repository_note: Biltegi locala (adib. /hgrepo, c:\hgrepo)
+  text_scm_command: Komandoa
+  text_scm_command_version: Bertsioa
