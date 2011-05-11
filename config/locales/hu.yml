@@ -933,30 +933,30 @@
   text_zoom_out: Kicsinyít
   text_zoom_in: Nagyít
   notice_unable_delete_time_entry: Az időrögzítés nem törölhető
-  label_overall_spent_time: Összes rászánt idő
-  field_time_entries: Log time
+  label_overall_spent_time: Összes ráfordított idő
+  field_time_entries: Idő rögzítés
   project_module_gantt: Gantt
-  project_module_calendar: Calendar
-  button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
-  text_are_you_sure_with_children: Delete issue and all child issues?
-  field_text: Text field
-  label_user_mail_option_only_owner: Only for things I am the owner of
-  setting_default_notification_option: Default notification option
-  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
-  label_user_mail_option_only_assigned: Only for things I am assigned to
-  label_user_mail_option_none: No events
-  field_member_of_group: Assignee's group
-  field_assigned_to_role: Assignee's role
-  notice_not_authorized_archived_project: The project you're trying to access has been archived.
-  label_principal_search: "Search for user or group:"
-  label_user_search: "Search for user:"
-  field_visible: Visible
-  setting_emails_header: Emails header
-  setting_commit_logtime_activity_id: Activity for logged time
-  text_time_logged_by_changeset: Applied in changeset %{value}.
-  setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
+  project_module_calendar: Naptár
+  button_edit_associated_wikipage: "Hozzárendelt Wiki oldal szerkesztése: %{page_title}"
+  text_are_you_sure_with_children: A feladat törlése az összes alfeladattal együtt?
+  field_text: Szöveg mező
+  label_user_mail_option_only_owner: Csak arról, aminek én vagyok a tulajdonosa
+  setting_default_notification_option: Alapértelmezett értesítési beállítások
+  label_user_mail_option_only_my_events: Csak az általam megfigyelt dolgokról vagy amiben részt veszek
+  label_user_mail_option_only_assigned: Csak a hozzámrendelt dolgokról
+  label_user_mail_option_none: Semilyen eseményről
+  field_member_of_group: Hozzárendelt csoport
+  field_assigned_to_role: Hozzárendelt szerepkör
+  notice_not_authorized_archived_project: A projekt, amihez hozzá szeretnél férni archiválva lett.
+  label_principal_search: "Felhasználó vagy csoport keresése:"
+  label_user_search: "Felhasználó keresése:"
+  field_visible: Látható
+  setting_emails_header: Emailek fejléce
+  setting_commit_logtime_activity_id: A rögzített időhöz tartozó tevékenység
+  text_time_logged_by_changeset: Alkalmazva a %{value} changeset-ben.
+  setting_commit_logtime_enabled: Időrögzítés engedélyezése
+  notice_gantt_chart_truncated: A diagram le lett vágva, mert elérte a maximálisan megjeleníthető elemek számát (%{max})
+  setting_gantt_items_limit: A gantt diagrammon megjeleníthető maximális elemek száma
   field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
   text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
   label_my_queries: My custom queries
