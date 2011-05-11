@@ -957,38 +957,38 @@
   setting_commit_logtime_enabled: Időrögzítés engedélyezése
   notice_gantt_chart_truncated: A diagram le lett vágva, mert elérte a maximálisan megjeleníthető elemek számát (%{max})
   setting_gantt_items_limit: A gantt diagrammon megjeleníthető maximális elemek száma
-  field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
-  text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
-  label_my_queries: My custom queries
-  text_journal_changed_no_detail: "%{label} updated"
-  label_news_comment_added: Comment added to a news
-  button_expand_all: Expand all
-  button_collapse_all: Collapse all
-  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
-  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
-  label_bulk_edit_selected_time_entries: Bulk edit selected time entries
-  text_time_entries_destroy_confirmation: Are you sure you want to delete the selected time entr(y/ies)?
+  field_warn_on_leaving_unsaved: Figyelmeztessen, nem mentett módosításokat tartalmazó oldal elhagyásakor
+  text_warn_on_leaving_unsaved: A jelenlegi oldal nem mentett módosításokat tartalmaz, ami elvész, ha elhagyja az oldalt.
+  label_my_queries: Egyéni lekérdezéseim
+  text_journal_changed_no_detail: "%{label} módosítva"
+  label_news_comment_added: Megjegyzés hozzáadva a hírhez
+  button_expand_all: Mindet kibont
+  button_collapse_all: Mindet összecsuk
+  label_additional_workflow_transitions_for_assignee: További átmenetek engedélyezettek, ha a felhasználó a hozzárendelt
+  label_additional_workflow_transitions_for_author: További átmenetek engedélyezettek, ha a felhasználó a szerző
+  label_bulk_edit_selected_time_entries: A kiválasztott idő bejegyzések csoportos szerkesztése
+  text_time_entries_destroy_confirmation: Biztos benne, hogy törölni szeretné a kiválasztott idő bejegyzés(eke)t?
   label_role_anonymous: Anonymous
-  label_role_non_member: Non member
-  label_issue_note_added: Note added
-  label_issue_status_updated: Status updated
-  label_issue_priority_updated: Priority updated
-  label_issues_visibility_own: Issues created by or assigned to the user
-  field_issues_visibility: Issues visibility
-  label_issues_visibility_all: All issues
-  permission_set_own_issues_private: Set own issues public or private
-  field_is_private: Private
-  permission_set_issues_private: Set issues public or private
-  label_issues_visibility_public: All non private issues
-  text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
+  label_role_non_member: Nem tag
+  label_issue_note_added: Jegyzet hozzáadva
+  label_issue_status_updated: Állapot módosítva
+  label_issue_priority_updated: Prioritás módosítva
+  label_issues_visibility_own: A felhasználó által létrehozott vagy hozzárendelt feladatok
+  field_issues_visibility: Feladatok láthatósága
+  label_issues_visibility_all: Minden feladat
+  permission_set_own_issues_private: Saját feladatok beállítása nyilvánosra vagy privátra
+  field_is_private: Privát
+  permission_set_issues_private: Feladatok beállítása nyilvánosra vagy privátra
+  label_issues_visibility_public: Minden nem privát feladat
+  text_issues_destroy_descendants_confirmation: Ezzel törölni fog %{count} alfeladatot is.
   field_commit_logs_encoding: Commit üzenetek kódlapja
-  field_scm_path_encoding: Path encoding
-  text_scm_path_encoding_note: "Default: UTF-8"
-  field_path_to_repository: Path to repository
-  field_root_directory: Root directory
-  field_cvs_module: Module
+  field_scm_path_encoding: Elérési útvonal kódlapja
+  text_scm_path_encoding_note: "Alapértelmezett: UTF-8"
+  field_path_to_repository: A repository elérési útja
+  field_root_directory: Gyökér könyvtár
+  field_cvs_module: Modul
   field_cvsroot: CVSROOT
   text_git_repository_note: Bare and local repository (e.g. /gitrepo, c:\gitrepo)
-  text_mercurial_repository_note: Local repository (e.g. /hgrepo, c:\hgrepo)
-  text_scm_command: Command
-  text_scm_command_version: Version
+  text_mercurial_repository_note: Helyi repository (e.g. /hgrepo, c:\hgrepo)
+  text_scm_command: Parancs
+  text_scm_command_version: Verzió
