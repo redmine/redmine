@@ -1074,15 +1074,15 @@ ru:
   field_is_private: Частная
   permission_set_issues_private: Устанавливать видимость (общая/частная) для задач
   label_issues_visibility_public: Только общие задачи
-  text_issues_destroy_descendants_confirmation: Так же будут удалено %{count} задачи.
+  text_issues_destroy_descendants_confirmation: Так же будет удалено %{count} задачи.
   field_commit_logs_encoding: Кодировка комментариев в хранилище
   field_scm_path_encoding: Кодировка пути
   text_scm_path_encoding_note: "По умолчанию: UTF-8"
   field_path_to_repository: Путь к репозиторию
-  field_root_directory: Root директорию
+  field_root_directory: Корневую директорию
   field_cvs_module: Модуль
   field_cvsroot: CVSROOT
-  text_git_repository_note: Bare and local repository (e.g. /gitrepo, c:\gitrepo)
+  text_git_repository_note: Локальный и bare репозиторий (например, /gitrepo, c:\gitrepo)
   text_mercurial_repository_note: Локальный репозиторий (например, /hgrepo, c:\hgrepo)
   text_scm_command: Command
   text_scm_command_version: Version
