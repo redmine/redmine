@@ -92,7 +92,7 @@ begin
         assert_equal '1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127', revs2[5].identifier
       end
 
-      def test_revisions_master
+      def test_revisions_master_all
         revs1  = @adapter.revisions('', nil, "master",{})
         assert_equal 15, revs1.length
         assert_equal '83ca5fd546063a3c7dc2e568ba3355661a9e2b2c', revs1[ 0].identifier
