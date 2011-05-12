@@ -1,16 +1,16 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -42,12 +42,12 @@ class Repository::Subversion < Repository
     revisions = scm.revisions(path, rev, nil, :limit => limit)
     revisions ? changesets.find_all_by_revision(revisions.collect(&:identifier), :order => "committed_on DESC", :include => :user) : []
   end
-  
+
   # Returns a path relative to the url of the repository
   def relative_path(path)
     path.gsub(Regexp.new("^\/?#{Regexp.escape(relative_url)}"), '')
   end
-  
+
   def fetch_changesets
     scm_info = scm.info
     if scm_info
@@ -64,12 +64,12 @@ class Repository::Subversion < Repository
           revisions = scm.revisions('', identifier_to, identifier_from, :with_paths => true)
           revisions.reverse_each do |revision|
             transaction do
-              changeset = Changeset.create(:repository => self,
-                                           :revision => revision.identifier, 
-                                           :committer => revision.author, 
+              changeset = Changeset.create(:repository   => self,
+                                           :revision     => revision.identifier,
+                                           :committer    => revision.author,
                                            :committed_on => revision.time,
-                                           :comments => revision.message)
-              
+                                           :comments     => revision.message)
+
               revision.paths.each do |change|
                 changeset.create_change(change)
               end unless changeset.new_record?
@@ -80,9 +80,9 @@ class Repository::Subversion < Repository
       end
     end
   end
-  
+
   private
-  
+
   # Returns the relative url of the repository
   # Eg: root_url = file:///var/svn/foo
   #     url      = file:///var/svn/foo/bar
