@@ -1,16 +1,17 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 # Copyright (C) 2007  Patrick Aljord patcito@ŋmail.com
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -84,7 +85,7 @@ class Repository::Git < Repository
   # Mercurial fixed issues.
   #    * Redmine Takes Too Long On Large Mercurial Repository
   #      http://www.redmine.org/issues/3449
-  #    * Sorting for changesets might go wrong on Mercurial repos 
+  #    * Sorting for changesets might go wrong on Mercurial repos
   #      http://www.redmine.org/issues/3567
   # Database revision column is text, so Redmine can not sort by revision.
   # Mercurial has revision number, and revision number guarantees revision order.
@@ -138,7 +139,7 @@ class Repository::Git < Repository
               :repository   => self,
               :revision     => rev.identifier,
               :scmid        => rev.scmid,
-              :committer    => rev.author, 
+              :committer    => rev.author,
               :committed_on => rev.time,
               :comments     => rev.message
               )
@@ -158,9 +159,9 @@ class Repository::Git < Repository
     return [] if revisions.nil? || revisions.empty?
 
     changesets.find(
-      :all, 
+      :all,
       :conditions => [
-        "scmid IN (?)", 
+        "scmid IN (?)",
         revisions.map!{|c| c.scmid}
       ],
       :order => 'committed_on DESC'
