@@ -163,6 +163,15 @@ begin
         assert_equal '1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127', revs2[-1].identifier
       end
 
+      def test_revisions_invalid_rev
+        revs1 = nil
+        revs1 = @adapter.revisions('',
+                                    '1234abcd',
+                                    "master",
+                                    {:reverse => true})
+        assert_equal [], revs1
+      end
+
       def test_getting_revisions_with_spaces_in_filename
         assert_equal 1, @adapter.revisions("filemane with spaces.txt",
                                            nil, nil, :all => true).length
