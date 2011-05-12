@@ -943,6 +943,8 @@ bg:
   text_scm_path_encoding_note: "По подразбиране: UTF-8"
   text_git_repository_note: Празно и локално хранилище (например /gitrepo, c:\gitrepo)
   text_mercurial_repository_note: Локално хранилище (например /hgrepo, c:\hgrepo)
+  text_scm_command: SCM команда
+  text_scm_command_version: Версия
 
   default_role_manager: Мениджър
   default_role_developer: Разработчик
@@ -970,5 +972,3 @@ bg:
   enumeration_doc_categories: Категории документи
   enumeration_activities: Дейности (time tracking)
   enumeration_system_activity: Системна активност
-  text_scm_command: Command
-  text_scm_command_version: Version
