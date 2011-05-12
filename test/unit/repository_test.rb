@@ -202,4 +202,37 @@ class RepositoryTest < ActiveSupport::TestCase
     assert klass.scm_adapter_class
     assert_equal true, klass.scm_available
   end
+
+  def test_merge_extra_info
+    repo = Repository::Subversion.new(:project => Project.find(3))
+    assert !repo.save
+    repo.url = "svn://localhost"
+    assert repo.save
+    repo.reload
+    project = Project.find(3)
+    assert_equal repo, project.repository
+    assert_nil repo.extra_info
+    h1 = {"test_1" => {"test_11" => "test_value_11"}}
+    repo.merge_extra_info(h1)
+    assert_equal h1, repo.extra_info
+    h2 = {"test_2" => {
+                   "test_21" => "test_value_21",
+                   "test_22" => "test_value_22",
+                  }}
+    repo.merge_extra_info(h2)
+    assert_equal (h = {"test_11" => "test_value_11"}),
+                 repo.extra_info["test_1"]
+    assert_equal "test_value_21",
+                 repo.extra_info["test_2"]["test_21"]
+    h3 = {"test_2" => {
+                   "test_23" => "test_value_23",
+                   "test_24" => "test_value_24",
+                  }}
+    repo.merge_extra_info(h3)
+    assert_equal (h = {"test_11" => "test_value_11"}),
+                 repo.extra_info["test_1"]
+    assert_nil repo.extra_info["test_2"]["test_21"]
+    assert_equal "test_value_23",
+                 repo.extra_info["test_2"]["test_23"]
+  end
 end
