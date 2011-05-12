@@ -105,6 +105,21 @@ begin
         assert_equal '7234cb2750b63f47bff735edc50a1c0a433c2518', revs2[ 0].identifier
       end
 
+      def test_revisions_master_merged_rev
+        revs1  = @adapter.revisions('',
+                                    "713f4944648826f558cf548222f813dabe7cbb04",
+                                    "master",
+                                    {:reverse => true})
+        assert_equal 8, revs1.length
+        assert_equal 'fba357b886984ee71185ad2065e65fc0417d9b92', revs1[ 0].identifier
+        assert_equal '7e61ac704deecde634b51e59daa8110435dcb3da', revs1[ 1].identifier
+        # 4a07fe31b is not a child of 713f49446
+        assert_equal '4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8', revs1[ 2].identifier
+        # Merged revision
+        assert_equal '32ae898b720c2f7eec2723d5bdd558b4cb2d3ddf', revs1[ 3].identifier
+        assert_equal '83ca5fd546063a3c7dc2e568ba3355661a9e2b2c', revs1[-1].identifier
+      end
+
       def test_revisions_branch_latin_1_path_encoding_all
         revs1  = @adapter.revisions('', nil, "latin-1-path-encoding",{})
         assert_equal 8, revs1.length
