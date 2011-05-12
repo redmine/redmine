@@ -1,16 +1,16 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -88,9 +88,9 @@ class Repository::Darcs < Repository
     scm_info = scm.info
     if scm_info
       db_last_id = latest_changeset ? latest_changeset.scmid : nil
-      next_rev   = latest_changeset ? latest_changeset.revision.to_i + 1 : 1      
+      next_rev   = latest_changeset ? latest_changeset.revision.to_i + 1 : 1
       # latest revision in the repository
-      scm_revision = scm_info.lastrev.scmid      
+      scm_revision = scm_info.lastrev.scmid
       unless changesets.find_by_scmid(scm_revision)
         revisions = scm.revisions('', db_last_id, nil, :with_path => true)
         transaction do
@@ -98,7 +98,7 @@ class Repository::Darcs < Repository
             changeset = Changeset.create(:repository   => self,
                                          :revision     => next_rev,
                                          :scmid        => revision.scmid,
-                                         :committer    => revision.author, 
+                                         :committer    => revision.author,
                                          :committed_on => revision.time,
                                          :comments     => revision.message)
             revision.paths.each do |change|
