@@ -22,6 +22,8 @@ class Repository < ActiveRecord::Base
   has_many :changesets, :order => "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC"
   has_many :changes, :through => :changesets
 
+  serialize :extra_info
+
   # Raw SQL to delete changesets and changes in the database
   # has_many :changesets, :dependent => :destroy is too slow for big repositories
   before_destroy :clear_changesets
