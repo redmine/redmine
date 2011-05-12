@@ -73,6 +73,13 @@ class Repository < ActiveRecord::Base
     self.class.scm_name
   end
 
+  def merge_extra_info(arg)
+    h = extra_info || {}
+    return h if arg.nil?
+    h.merge!(arg)
+    write_attribute(:extra_info, h)
+  end
+
   def supports_cat?
     scm.supports_cat?
   end
