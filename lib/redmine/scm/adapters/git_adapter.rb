@@ -264,7 +264,8 @@ module Redmine
             end
           end
           revs
-        rescue ScmCommandAborted
+        rescue ScmCommandAborted => e
+          logger.error("git log #{from_to.to_s} error: #{e.message}")
           revs
         end
 
