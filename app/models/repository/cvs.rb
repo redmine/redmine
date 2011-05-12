@@ -1,16 +1,16 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -91,23 +91,23 @@ class Repository::Cvs < Repository
     # convert rev to revision. CVS can't handle changesets here
     diff=[]
     changeset_from = changesets.find_by_revision(rev)
-    if rev_to.to_i > 0 
+    if rev_to.to_i > 0
       changeset_to = changesets.find_by_revision(rev_to)
     end
     changeset_from.changes.each() do |change_from|
       revision_from = nil
-      revision_to   = nil      
+      revision_to   = nil
       if path.nil? || (change_from.path.starts_with? scm.with_leading_slash(path))
         revision_from = change_from.revision
       end
       if revision_from
         if changeset_to
           changeset_to.changes.each() do |change_to|
-            revision_to=change_to.revision if change_to.path==change_from.path 
+            revision_to = change_to.revision if change_to.path == change_from.path
           end
         end
         unless revision_to
-          revision_to=scm.get_previous_revision(revision_from)
+          revision_to = scm.get_previous_revision(revision_from)
         end
         file_diff = scm.diff(change_from.path, revision_from, revision_to)
         diff = diff + file_diff unless file_diff.nil?
@@ -121,8 +121,8 @@ class Repository::Cvs < Repository
     # natively cvs doesn't provide any kind of changesets,
     # there is only a revision per file.
     # we now take a guess using the author, the commitlog and the commit-date.
-    
-    # last one is the next step to take. the commit-date is not equal for all 
+
+    # last one is the next step to take. the commit-date is not equal for all
     # commits in one changeset. cvs update the commit-date when the *,v file was touched. so
     # we use a small delta here, to merge all changes belonging to _one_ changeset
     time_delta  = 10.seconds
@@ -131,7 +131,7 @@ class Repository::Cvs < Repository
       tmp_rev_num = 1
       scm.revisions('', fetch_since, nil, :log_encoding => repo_log_encoding) do |revision|
         # only add the change to the database, if it doen't exists. the cvs log
-        # is not exclusive at all. 
+        # is not exclusive at all.
         tmp_time = revision.time.clone
         unless changes.find_by_path_and_revision(
 	                         scm.with_leading_slash(revision.paths[0][:path]),
@@ -147,7 +147,7 @@ class Repository::Cvs < Repository
                 :comments     => cmt
                 }
              )
-          # create a new changeset.... 
+          # create a new changeset....
           unless cs
             # we use a temporaray revision number here (just for inserting)
             # later on, we calculate a continous positive number
@@ -157,7 +157,7 @@ class Repository::Cvs < Repository
             cs = Changeset.create(:repository   => self,
                                   :revision     => "tmp#{tmp_rev_num}",
                                   :scmid        => scmid,
-                                  :committer    => revision.author, 
+                                  :committer    => revision.author,
                                   :committed_on => tmp_time,
                                   :comments     => revision.message)
             tmp_rev_num += 1
@@ -179,7 +179,7 @@ class Repository::Cvs < Repository
               )
         end
       end
- 
+
       # Renumber new changesets in chronological order
       changesets.find(
               :all,
