@@ -118,6 +118,24 @@ begin
         assert_equal '7234cb2750b63f47bff735edc50a1c0a433c2518', revs2[ 0].identifier
       end
 
+      def test_revisions_branch_latin_1_path_encoding_with_rev
+        revs1  = @adapter.revisions('',
+                                    '7234cb2750b63f47bff735edc50a1c0a433c2518',
+                                    "latin-1-path-encoding",
+                                    {:reverse => true})
+        assert_equal 7, revs1.length
+        assert_equal '899a15dba03a3b350b89c3f537e4bbe02a03cdc9', revs1[ 0].identifier
+        assert_equal '1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127', revs1[-1].identifier
+
+        revs2  = @adapter.revisions('',
+                                    '57ca437c0acbbcb749821fdf3726a1367056d364',
+                                    "latin-1-path-encoding",
+                                    {:reverse => true})
+        assert_equal 3, revs2.length
+        assert_equal '4fc55c43bf3d3dc2efb66145365ddc17639ce81e', revs2[ 0].identifier
+        assert_equal '1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127', revs2[-1].identifier
+      end
+
       def test_getting_revisions_with_spaces_in_filename
         assert_equal 1, @adapter.revisions("filemane with spaces.txt",
                                            nil, nil, :all => true).length
