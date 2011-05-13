@@ -52,6 +52,7 @@ class RepositoriesController < ApplicationController
         end
       end
       @repository.attributes = p
+      @repository.merge_extra_info(p_extra)
       @repository.save
     end
     render(:update) do |page|
