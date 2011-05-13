@@ -120,6 +120,46 @@ class RepositoryGitTest < ActiveSupport::TestCase
       assert_equal 21, @repository.changesets.count
     end
 
+    def test_fetch_changesets_invalid_rev
+      @repository.fetch_changesets
+      @repository.reload
+      assert_equal 21, @repository.changesets.count
+      assert_equal 33, @repository.changes.count
+      extra_info_db = @repository.extra_info["branches"]
+      assert_equal 4, extra_info_db.size
+      assert_equal "1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127",
+                    extra_info_db["latin-1-path-encoding"]["last_scmid"]
+      assert_equal "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c",
+                    extra_info_db["master"]["last_scmid"]
+
+      del_revs = [
+          "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c",
+          "ed5bb786bbda2dee66a2d50faf51429dbc043a7b",
+          "4f26664364207fa8b1af9f8722647ab2d4ac5d43",
+          "deff712f05a90d96edbd70facc47d944be5897e3",
+          "32ae898b720c2f7eec2723d5bdd558b4cb2d3ddf",
+          "7e61ac704deecde634b51e59daa8110435dcb3da",
+         ]
+      @repository.changesets.each do |rev|
+        rev.destroy if del_revs.detect {|r| r == rev.scmid.to_s }
+      end
+      @repository.reload
+      cs1 = @repository.changesets
+      assert_equal 15, cs1.count
+      h = @repository.extra_info.dup
+      h["branches"]["master"]["last_scmid"] =
+            "abcd1234efgh"
+      @repository.merge_extra_info(h)
+      @repository.save
+      @repository.reload
+      extra_info_db_1 = @repository.extra_info["branches"]
+      assert_equal "abcd1234efgh",
+                    extra_info_db_1["master"]["last_scmid"]
+
+      @repository.fetch_changesets
+      assert_equal 15, @repository.changesets.count
+    end
+
     def test_latest_changesets
       @repository.fetch_changesets
       @repository.reload
