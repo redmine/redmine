@@ -39,7 +39,10 @@ class Repository::Git < Repository
   end
 
   def extra_report_last_commit
-    true
+    return false if extra_info.nil?
+    v = extra_info["extra_report_last_commit"]
+    return false if v.nil?
+    v.to_s != '0'
   end
 
   def supports_directory_revisions?
