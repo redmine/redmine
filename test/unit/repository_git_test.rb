@@ -55,6 +55,8 @@ class RepositoryGitTest < ActiveSupport::TestCase
     end
 
     def test_fetch_changesets_from_scratch
+      assert_nil @repository.extra_info
+
       @repository.fetch_changesets
       @repository.reload
 
@@ -74,30 +76,45 @@ class RepositoryGitTest < ActiveSupport::TestCase
       change = commit.changes.sort_by(&:path).first
       assert_equal "README", change.path
       assert_equal "A", change.action
+
+      assert_equal 4, @repository.extra_info["branches"].size
     end
 
     def test_fetch_changesets_incremental
       @repository.fetch_changesets
+      @repository.reload
+      assert_equal 21, @repository.changesets.count
+      assert_equal 33, @repository.changes.count
+      extra_info_db = @repository.extra_info["branches"]
+      assert_equal 4, extra_info_db.size
+      assert_equal "1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127",
+                    extra_info_db["latin-1-path-encoding"]["last_scmid"]
+      assert_equal "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c",
+                    extra_info_db["master"]["last_scmid"]
 
-      # Remove the latest changesets
-      @repository.changesets.find(
-                               :all,
-                               :order => 'committed_on DESC',
-                               :limit => 8).each(&:destroy)
+      del_revs = [
+          "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c",
+          "ed5bb786bbda2dee66a2d50faf51429dbc043a7b",
+          "4f26664364207fa8b1af9f8722647ab2d4ac5d43",
+          "deff712f05a90d96edbd70facc47d944be5897e3",
+          "32ae898b720c2f7eec2723d5bdd558b4cb2d3ddf",
+          "7e61ac704deecde634b51e59daa8110435dcb3da",
+         ]
+      @repository.changesets.each do |rev|
+        rev.destroy if del_revs.detect {|r| r == rev.scmid.to_s }
+      end
       @repository.reload
       cs1 = @repository.changesets
-      assert_equal 13, cs1.count
-
-      rev_a_commit = @repository.changesets.find(
-                                     :first,
-                                     :order => 'committed_on DESC')
-      assert_equal '4f26664364207fa8b1af9f8722647ab2d4ac5d43', rev_a_commit.revision
-      # Mon Jul 5 22:34:26 2010 +0200
-      rev_a_committed_on = Time.gm(2010, 7, 5, 20, 34, 26)
-      assert_equal '4f26664364207fa8b1af9f8722647ab2d4ac5d43', rev_a_commit.scmid
-      assert_equal rev_a_committed_on, rev_a_commit.committed_on
-      latest_rev = @repository.latest_changeset
-      assert_equal rev_a_committed_on, latest_rev.committed_on
+      assert_equal 15, cs1.count
+      h = @repository.extra_info.dup
+      h["branches"]["master"]["last_scmid"] =
+            "4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8"
+      @repository.merge_extra_info(h)
+      @repository.save
+      @repository.reload
+      extra_info_db_1 = @repository.extra_info["branches"]
+      assert_equal "4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8",
+                    extra_info_db_1["master"]["last_scmid"]
 
       @repository.fetch_changesets
       assert_equal 21, @repository.changesets.count
@@ -318,7 +335,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
     def test_next_nil
       @repository.fetch_changesets
       @repository.reload
-      %w|1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127 1ca7f5ed|.each do |r1|
+      %w|67e7792ce20ccae2e4bb73eed09bb397819c8834 67e7792ce20cca|.each do |r1|
         changeset = @repository.find_changeset_by_name(r1)
         assert_nil changeset.next
       end
