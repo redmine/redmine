@@ -145,10 +145,12 @@ tr.issue.idnt-9 td.subject {padding-left: 12.5em;}
 tr.entry { border: 1px solid #f8f8f8; }
 tr.entry td { white-space: nowrap; }
 tr.entry td.filename { width: 30%; }
+tr.entry td.filename_no_report { width: 70%; }
 tr.entry td.size { text-align: right; font-size: 90%; }
 tr.entry td.revision, tr.entry td.author { text-align: center; }
 tr.entry td.age { text-align: right; }
 tr.entry.file td.filename a { margin-left: 16px; }
+tr.entry.file td.filename_no_report a { margin-left: 16px; }
 
 tr span.expander {background-image: url(../images/bullet_toggle_plus.png); padding-left: 8px; margin-left: 0; cursor: pointer;}
 tr.open span.expander {background-image: url(../images/bullet_toggle_minus.png);}

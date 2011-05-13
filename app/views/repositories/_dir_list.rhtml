@@ -3,10 +3,12 @@
 <tr id="root">
 <th><%= l(:field_name) %></th>
 <th><%= l(:field_filesize) %></th>
-<th><%= l(:label_revision) %></th>
-<th><%= l(:label_age) %></th>
-<th><%= l(:field_author) %></th>
-<th><%= l(:field_comments) %></th>
+<% if @repository.report_last_commit %>
+<th><%= l(:label_revision)  %></th>
+<th><%= l(:label_age)       %></th>
+<th><%= l(:field_author)    %></th>
+<th><%= l(:field_comments)  %></th>
+<% end %>
 </tr>
 </thead>
 <tbody>

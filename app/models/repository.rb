@@ -80,6 +80,10 @@ class Repository < ActiveRecord::Base
     write_attribute(:extra_info, h)
   end
 
+  def report_last_commit
+    true
+  end
+
   def supports_cat?
     scm.supports_cat?
   end

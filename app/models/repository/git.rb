@@ -38,6 +38,10 @@ class Repository::Git < Repository
     'Git'
   end
 
+  def report_last_commit
+    extra_report_last_commit
+  end
+
   def extra_report_last_commit
     return false if extra_info.nil?
     v = extra_info["extra_report_last_commit"]
