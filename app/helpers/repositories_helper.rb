@@ -232,7 +232,11 @@ module RepositoriesHelper
                         :path_encoding, [nil] + Setting::ENCODINGS,
                         :label => l(:field_scm_path_encoding)
                         ) +
-                     '<br />' + l(:text_scm_path_encoding_note))
+                     '<br />' + l(:text_scm_path_encoding_note)) +
+    content_tag('p', form.check_box(
+                        :extra_report_last_commit,
+                        :label    => 'Report last commit for files and directories'
+                         ))
   end
 
   def cvs_field_tags(form, repository)
