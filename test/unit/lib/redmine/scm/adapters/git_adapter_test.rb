@@ -112,10 +112,13 @@ begin
       end
 
       def test_revisions_master_merged_rev
-        revs1  = @adapter.revisions('',
-                                    "713f4944648826f558cf548222f813dabe7cbb04",
-                                    "master",
-                                    {:reverse => true})
+        revs1 = []
+        @adapter.revisions('',
+                           "713f4944648826f558cf548222f813dabe7cbb04",
+                           "master",
+                           {:reverse => true}) do |rev|
+          revs1 << rev
+        end
         assert_equal 8, revs1.length
         assert_equal 'fba357b886984ee71185ad2065e65fc0417d9b92', revs1[ 0].identifier
         assert_equal '7e61ac704deecde634b51e59daa8110435dcb3da', revs1[ 1].identifier
@@ -125,10 +128,13 @@ begin
         assert_equal '32ae898b720c2f7eec2723d5bdd558b4cb2d3ddf', revs1[ 3].identifier
         assert_equal '83ca5fd546063a3c7dc2e568ba3355661a9e2b2c', revs1[-1].identifier
 
-        revs2  = @adapter.revisions('',
-                                    "fba357b886984ee71185ad2065e65fc0417d9b92",
-                                    "master",
-                                    {:reverse => true})
+        revs2 = []
+        @adapter.revisions('',
+                           "fba357b886984ee71185ad2065e65fc0417d9b92",
+                           "master",
+                           {:reverse => true}) do |rev|
+          revs2 << rev
+        end
         assert_equal 7, revs2.length
         assert_equal '7e61ac704deecde634b51e59daa8110435dcb3da', revs2[ 0].identifier
         # 4a07fe31b is not a child of fba357b8869
