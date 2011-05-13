@@ -93,13 +93,19 @@ begin
       end
 
       def test_revisions_master_all
-        revs1  = @adapter.revisions('', nil, "master",{})
+        revs1 = []
+        @adapter.revisions('', nil, "master",{}) do |rev|
+          revs1 << rev
+        end
         assert_equal 15, revs1.length
         assert_equal '83ca5fd546063a3c7dc2e568ba3355661a9e2b2c', revs1[ 0].identifier
         assert_equal '7234cb2750b63f47bff735edc50a1c0a433c2518', revs1[-1].identifier
 
-        revs2  = @adapter.revisions('', nil, "master",
-                                    {:reverse => true})
+        revs2 = []
+        @adapter.revisions('', nil, "master",
+                                    {:reverse => true}) do |rev|
+          revs2 << rev
+        end
         assert_equal 15, revs2.length
         assert_equal '83ca5fd546063a3c7dc2e568ba3355661a9e2b2c', revs2[-1].identifier
         assert_equal '7234cb2750b63f47bff735edc50a1c0a433c2518', revs2[ 0].identifier
