@@ -1,9 +1,9 @@
 require File.expand_path('../../../../../../test_helper', __FILE__)
 begin
   require 'mocha'
-  
+
   class DarcsAdapterTest < ActiveSupport::TestCase
-    
+
     REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/darcs_repository'
 
     if File.directory?(REPOSITORY_PATH)
