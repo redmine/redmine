@@ -41,7 +41,17 @@ class RepositoriesController < ApplicationController
       @repository.project = @project if @repository
     end
     if request.post? && @repository
-      @repository.attributes = params[:repository]
+      p1 = params[:repository]
+      p       = {}
+      p_extra = {}
+      p1.each do |k, v|
+        if k =~ /^extra_/
+          p_extra[k] = v
+        else
+          p[k] = v
+        end
+      end
+      @repository.attributes = p
       @repository.save
     end
     render(:update) do |page|
