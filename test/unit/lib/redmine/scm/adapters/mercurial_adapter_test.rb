@@ -247,7 +247,7 @@ begin
       end
 
       def test_tagmap
-        tm = { 
+        tm = {
           @tag_char_1         => 'adf805632193',
           'tag_test.00'       => '6987191f453a',
           'tag-init-revision' => '0885933ad4f6',
