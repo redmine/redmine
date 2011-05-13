@@ -826,7 +826,8 @@ ja:
   label_project_copy_notifications: コピーしたチケットのメール通知を送信する
   label_principal_search: "ユーザまたはグループの検索:"
   label_user_search: "ユーザの検索:"
-  
+  label_git_report_last_commit: ファイルとディレクトリの最新コミットを表示する
+
   button_login: ログイン
   button_submit: 変更
   button_save: 保存
