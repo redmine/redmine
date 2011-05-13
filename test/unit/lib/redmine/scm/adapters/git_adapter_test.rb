@@ -188,11 +188,13 @@ begin
       end
 
       def test_revisions_invalid_rev
-        revs1 = nil
-        revs1 = @adapter.revisions('',
+        revs1 = []
+        @adapter.revisions('',
                                     '1234abcd',
                                     "master",
-                                    {:reverse => true})
+                                    {:reverse => true}) do |rev|
+          revs1 << rev
+        end
         assert_equal [], revs1
       end
 
