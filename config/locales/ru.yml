@@ -1086,3 +1086,4 @@ ru:
   text_mercurial_repository_note: Локальный репозиторий (например, /hgrepo, c:\hgrepo)
   text_scm_command: Command
   text_scm_command_version: Version
+  label_git_report_last_commit: Report last commit for files and directories

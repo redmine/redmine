@@ -977,3 +977,4 @@ eu:
   text_mercurial_repository_note: Biltegi locala (adib. /hgrepo, c:\hgrepo)
   text_scm_command: Komandoa
   text_scm_command_version: Bertsioa
+  label_git_report_last_commit: Report last commit for files and directories
