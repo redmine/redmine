@@ -214,7 +214,11 @@ module Redmine
                     :message    => changeset[:description],
                     :paths      => files
                   })
-                  revs << revision
+                  if block_given?
+                    yield revision
+                  else
+                    revs << revision
+                  end
                   changeset = {}
                   files = []
                 end
@@ -260,7 +264,11 @@ module Redmine
                 :message    => changeset[:description],
                 :paths      => files
                  })
-              revs << revision
+              if block_given?
+                yield revision
+              else
+                revs << revision
+              end
             end
           end
           revs
