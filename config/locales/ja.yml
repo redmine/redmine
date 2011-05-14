@@ -108,13 +108,12 @@ ja:
           gb: "GB"
           tb: "TB"
 
-        
 # Used in array.to_sentence.
   support:
     array:
       sentence_connector: "及び"
       skip_last_comma: true
-      
+
   activerecord:
     errors:
       template:
@@ -150,7 +149,7 @@ ja:
         cant_link_an_issue_with_a_descendant: "指定したチケットとは親子関係になっているため関連づけられません"
 
   actionview_instancetag_blank_option: 選んでください
-  
+
   general_text_No: 'いいえ'
   general_text_Yes: 'はい'
   general_text_no: 'いいえ'
@@ -161,7 +160,7 @@ ja:
   general_csv_encoding: CP932
   general_pdf_encoding: CP932
   general_first_day_of_week: '7'
-  
+
   notice_account_updated: アカウントが更新されました。
   notice_account_invalid_creditentials: ユーザ名もしくはパスワードが無効
   notice_account_password_updated: パスワードが更新されました。
@@ -192,7 +191,7 @@ ja:
   notice_unable_delete_time_entry: 作業時間を削除できません
   notice_issue_done_ratios_updated: チケットの進捗が更新されました。
   notice_gantt_chart_truncated: ガントチャートは、最大表示項目数(%{max})を超えたたため切り捨てられました。
-  
+
   error_can_t_load_default_data: "デフォルト設定がロードできませんでした: %{value}"
   error_scm_not_found: リポジトリに、エントリ/リビジョンが存在しません。
   error_scm_command_failed: "リポジトリへアクセスしようとしてエラーになりました: %{value}"
@@ -210,9 +209,9 @@ ja:
   error_workflow_copy_source: 'コピー元となるトラッカーまたはロールを選択してください'
   error_workflow_copy_target: 'コピー先となるトラッカーとロールを選択してください'
   error_can_not_delete_tracker: 'このトラッカーは使用されています。削除できません。'
-  
+
   warning_attachments_not_saved: "%{count}個の添付ファイルが保存できませんでした。"
-  
+
   mail_subject_lost_password: "%{value} パスワード再発行"
   mail_body_lost_password: 'パスワードを変更するには、以下のリンクをクリックしてください:'
   mail_subject_register: "%{value} アカウント登録の確認"
@@ -227,7 +226,7 @@ ja:
   mail_body_wiki_content_added: "%{author} によってWikiページ %{id} が追加されました。"
   mail_subject_wiki_content_updated: "Wikiページ %{id} が更新されました"
   mail_body_wiki_content_updated: "%{author} によってWikiページ %{id} が更新されました。"
-  
+
   gui_validation_error: 1件のエラー
   gui_validation_error_plural: "%{count}件のエラー"
 
@@ -888,11 +887,11 @@ ja:
   text_select_mail_notifications: どのメール通知を送信するか、アクションを選択してください。
   text_regexp_info: 例) ^[A-Z0-9]+$
   text_min_max_length_info: 0だと無制限になります
-  text_project_destroy_confirmation: 本当にこのプロジェクトと関連データを削除してもよろしいですか？
+  text_project_destroy_confirmation: 本当にこのプロジェクトと関連データを削除しますか？
   text_subprojects_destroy_warning: "サブプロジェクト %{value} も削除されます。"
   text_workflow_edit: ワークフローを編集するロールとトラッカーを選んでください
   text_are_you_sure: よろしいですか？
-  text_are_you_sure_with_children: チケットとその子チケットすべてを削除しますか?
+  text_are_you_sure_with_children: チケットとその子チケットすべてを削除しますか？
   text_journal_changed: "%{label} を %{old} から %{new} に変更"
   text_journal_changed_no_detail: "%{label} を更新"
   text_journal_set_to: "%{label} を %{value} にセット"
@@ -942,7 +941,7 @@ ja:
   text_wiki_page_nullify_children: "子ページをメインページ配下に移動する"
   text_wiki_page_destroy_children: "配下の子孫ページも削除する"
   text_wiki_page_reassign_children: "子ページを次の親ページの配下に移動する"
-  text_own_membership_delete_confirmation: "いくつかまたはすべての権限をあなた自身から剥奪しようとしているため、このプロジェクトを編集できなくなるかもしれません。\n本当に続けてもよろしいですか？"
+  text_own_membership_delete_confirmation: "一部またはすべての権限を自分自身から剥奪しようとしているため、このプロジェクトを編集できなくなる可能性があります。\n本当に続けますか？"
   text_zoom_in: 拡大
   text_zoom_out: 縮小
   text_warn_on_leaving_unsaved: このページから移動すると、保存されていないデータが失われます。
@@ -981,7 +980,7 @@ ja:
   label_additional_workflow_transitions_for_assignee: チケット担当者に追加で許可する遷移
   label_additional_workflow_transitions_for_author: チケット作成者に追加で許可する遷移
   label_bulk_edit_selected_time_entries: 作業時間の一括編集
-  text_time_entries_destroy_confirmation: 本当に選択した作業時間を削除してもよろしいですか?
+  text_time_entries_destroy_confirmation: 本当に選択した作業時間を削除しますか？
 
   label_role_anonymous: Anonymous
   label_role_non_member: Non member
@@ -996,4 +995,4 @@ ja:
   field_is_private: プライベート
   permission_set_issues_private: チケットをプライベートに設定
   label_issues_visibility_public: プライベートチケット以外
-  text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
+  text_issues_destroy_descendants_confirmation: %{count}個の子チケットも削除されます。
