@@ -819,6 +819,7 @@ bg:
   label_issues_visibility_all: Всички задачи
   label_issues_visibility_public: Всички не-лични задачи
   label_issues_visibility_own: Задачи, създадени от или назначени на потребителя
+  label_git_report_last_commit: Извеждане на последното поверяване за файлове и папки
 
   button_login: Вход
   button_submit: Прикачване
@@ -972,4 +973,3 @@ bg:
   enumeration_doc_categories: Категории документи
   enumeration_activities: Дейности (time tracking)
   enumeration_system_activity: Системна активност
-  label_git_report_last_commit: Report last commit for files and directories
