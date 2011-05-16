@@ -1,16 +1,16 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# RedMine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -23,28 +23,28 @@ class WikiContent < ActiveRecord::Base
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
   validates_presence_of :text
   validates_length_of :comments, :maximum => 255, :allow_nil => true
-  
+
   acts_as_versioned
-  
+
   def visible?(user=User.current)
     page.visible?(user)
   end
-    
+
   def project
     page.project
   end
-  
+
   def attachments
     page.nil? ? [] : page.attachments
   end
-  
+
   # Returns the mail adresses of users that should be notified
   def recipients
     notified = project.notified_users
     notified.reject! {|user| !visible?(user)}
     notified.collect(&:mail)
   end
-  
+
   class Version
     belongs_to :page, :class_name => '::WikiPage', :foreign_key => 'page_id'
     belongs_to :author, :class_name => '::User', :foreign_key => 'author_id'
@@ -84,7 +84,7 @@ class WikiContent < ActiveRecord::Base
       end
       plain
     end
-    
+
     def text
       @text ||= case compression
       when 'gzip'
@@ -92,16 +92,16 @@ class WikiContent < ActiveRecord::Base
       else
         # uncompressed data
         data
-      end      
+      end
     end
-    
+
     def project
       page.project
     end
-    
+
     # Returns the previous version or nil
     def previous
-      @previous ||= WikiContent::Version.find(:first, 
+      @previous ||= WikiContent::Version.find(:first,
                                               :order => 'version DESC',
                                               :include => :author,
                                               :conditions => ["wiki_content_id = ? AND version < ?", wiki_content_id, version])
