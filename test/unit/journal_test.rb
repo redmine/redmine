@@ -5,12 +5,12 @@
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -34,9 +34,9 @@ class JournalTest < ActiveSupport::TestCase
     status = @journal.new_status
     assert_not_nil status
     assert_kind_of IssueStatus, status
-    assert_equal 2, status.id 
+    assert_equal 2, status.id
   end
-  
+
   def test_create_should_send_email_notification
     ActionMailer::Base.deliveries.clear
     issue = Issue.find(:first)
@@ -46,7 +46,7 @@ class JournalTest < ActiveSupport::TestCase
     assert journal.save
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
-  
+
   def test_visible_scope_for_anonymous
     # Anonymous user should see issues of public projects only
     journals = Journal.visible(User.anonymous).all
@@ -57,7 +57,7 @@ class JournalTest < ActiveSupport::TestCase
     journals = Journal.visible(User.anonymous).all
     assert journals.empty?
   end
-  
+
   def test_visible_scope_for_user
     user = User.find(9)
     assert user.projects.empty?
@@ -77,7 +77,7 @@ class JournalTest < ActiveSupport::TestCase
     assert journals.any?
     assert_nil journals.detect {|journal| journal.issue.project_id != 1}
   end
-  
+
   def test_visible_scope_for_admin
     user = User.find(1)
     user.members.each(&:destroy)
