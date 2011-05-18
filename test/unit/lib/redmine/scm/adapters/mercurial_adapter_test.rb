@@ -4,8 +4,8 @@ begin
 
   class MercurialAdapterTest < ActiveSupport::TestCase
 
-    HELPERS_DIR = Redmine::Scm::Adapters::MercurialAdapter::HELPERS_DIR
-    TEMPLATE_NAME = Redmine::Scm::Adapters::MercurialAdapter::TEMPLATE_NAME
+    HELPERS_DIR        = Redmine::Scm::Adapters::MercurialAdapter::HELPERS_DIR
+    TEMPLATE_NAME      = Redmine::Scm::Adapters::MercurialAdapter::TEMPLATE_NAME
     TEMPLATE_EXTENSION = Redmine::Scm::Adapters::MercurialAdapter::TEMPLATE_EXTENSION
 
     REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') +
@@ -349,10 +349,8 @@ begin
       def test_fake; assert true end
     end
   end
-
 rescue LoadError
   class MercurialMochaFake < ActiveSupport::TestCase
     def test_fake; assert(false, "Requires mocha to run those tests")  end
   end
 end
-
