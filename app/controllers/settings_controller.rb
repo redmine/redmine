@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,7 +17,7 @@
 
 class SettingsController < ApplicationController
   layout 'admin'
-  
+
   before_filter :require_admin
 
   def index
@@ -43,7 +43,7 @@ class SettingsController < ApplicationController
 
       @guessed_host_and_path = request.host_with_port.dup
       @guessed_host_and_path << ('/'+ Redmine::Utils.relative_url_root.gsub(%r{^\/}, '')) unless Redmine::Utils.relative_url_root.blank?
-    
+
       Redmine::Themes.rescan
     end
   end
