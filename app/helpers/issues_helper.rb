@@ -5,12 +5,12 @@
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -54,11 +54,11 @@ module IssuesHelper
       "<strong>#{@cached_label_assigned_to}</strong>: #{issue.assigned_to}<br />" +
       "<strong>#{@cached_label_priority}</strong>: #{issue.priority.name}"
   end
-  
+
   def issue_heading(issue)
     h("#{issue.tracker} ##{issue.id}")
   end
-    
+
   def render_issue_subject_with_tree(issue)
     s = ''
     ancestors = issue.root? ? [] : issue.ancestors.visible.all
@@ -74,7 +74,7 @@ module IssuesHelper
     s << '</div>' * (ancestors.size + 1)
     s
   end
-  
+
   def render_descendants_tree(issue)
     s = '<form><table class="list issues">'
     issue_list(issue.descendants.visible.sort_by(&:lft)) do |child, level|
@@ -89,7 +89,7 @@ module IssuesHelper
     s << '</form></table>'
     s
   end
-  
+
   def render_custom_fields_rows(issue)
     return if issue.custom_field_values.empty?
     ordered_values = []
@@ -108,7 +108,7 @@ module IssuesHelper
     s << "</tr>\n"
     s
   end
-  
+
   def issues_destroy_confirmation_message(issues)
     issues = [issues] unless issues.is_a?(Array)
     message = l(:text_issues_destroy_confirmation)
@@ -126,14 +126,14 @@ module IssuesHelper
     end
     message
   end
-  
+
   def sidebar_queries
     unless @sidebar_queries
       # User can see public queries and his own queries
       visible = ARCondition.new(["is_public = ? OR user_id = ?", true, (User.current.logged? ? User.current.id : 0)])
       # Project specific queries and global queries
       visible << (@project.nil? ? ["project_id IS NULL"] : ["project_id IS NULL OR project_id = ?", @project.id])
-      @sidebar_queries = Query.find(:all, 
+      @sidebar_queries = Query.find(:all,
                                     :select => 'id, name, is_public',
                                     :order => "name ASC",
                                     :conditions => visible.conditions)
@@ -144,13 +144,13 @@ module IssuesHelper
   def query_links(title, queries)
     # links to #index on issues/show
     url_params = controller_name == 'issues' ? {:controller => 'issues', :action => 'index', :project_id => @project} : params
-  
+
     content_tag('h3', title) +
       queries.collect {|query|
           link_to(h(query.name), url_params.merge(:query_id => query))
         }.join('<br />')
   end
-  
+
   def render_sidebar_queries
     out = ''
     queries = sidebar_queries.select {|q| !q.is_public?}
@@ -182,7 +182,7 @@ module IssuesHelper
         label = l(:field_parent_issue)
         value = "##{detail.value}" unless detail.value.blank?
         old_value = "##{detail.old_value}" unless detail.old_value.blank?
-        
+
       when detail.prop_key == 'is_private'
         value = l(detail.value == "0" ? :general_text_No : :general_text_Yes) unless detail.value.blank?
         old_value = l(detail.old_value == "0" ? :general_text_No : :general_text_Yes) unless detail.old_value.blank?
@@ -202,7 +202,7 @@ module IssuesHelper
     label ||= detail.prop_key
     value ||= detail.value
     old_value ||= detail.old_value
-    
+
     unless no_html
       label = content_tag('strong', label)
       old_value = content_tag("i", h(old_value)) if detail.old_value
@@ -214,11 +214,11 @@ module IssuesHelper
         value = content_tag("i", h(value)) if value
       end
     end
-    
+
     if detail.property == 'attr' && detail.prop_key == 'description'
       s = l(:text_journal_changed_no_detail, :label => label)
       unless no_html
-        diff_link = link_to 'diff', 
+        diff_link = link_to 'diff',
           {:controller => 'journals', :action => 'diff', :id => detail.journal_id, :detail_id => detail.id},
           :title => l(:label_view_diff)
         s << " (#{ diff_link })"
@@ -248,7 +248,7 @@ module IssuesHelper
       return record.name if record
     end
   end
-  
+
   # Renders issue children recursively
   def render_api_issue_children(issue, api)
     return if issue.leaf?
@@ -262,14 +262,14 @@ module IssuesHelper
       end
     end
   end
-  
+
   def issues_to_csv(issues, project = nil)
-    ic = Iconv.new(l(:general_csv_encoding), 'UTF-8')    
+    ic = Iconv.new(l(:general_csv_encoding), 'UTF-8')
     decimal_separator = l(:general_csv_decimal_separator)
     export = FCSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
       # csv header fields
       headers = [ "#",
-                  l(:field_status), 
+                  l(:field_status),
                   l(:field_project),
                   l(:field_tracker),
                   l(:field_priority),
@@ -296,9 +296,9 @@ module IssuesHelper
       # csv lines
       issues.each do |issue|
         fields = [issue.id,
-                  issue.status.name, 
+                  issue.status.name,
                   issue.project.name,
-                  issue.tracker.name, 
+                  issue.tracker.name,
                   issue.priority.name,
                   issue.subject,
                   issue.assigned_to,
@@ -310,7 +310,7 @@ module IssuesHelper
                   issue.done_ratio,
                   issue.estimated_hours.to_s.gsub('.', decimal_separator),
                   issue.parent_id,
-                  format_time(issue.created_on),  
+                  format_time(issue.created_on),
                   format_time(issue.updated_on)
                   ]
         custom_fields.each {|f| fields << show_value(issue.custom_value_for(f)) }
