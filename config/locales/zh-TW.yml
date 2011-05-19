@@ -391,7 +391,7 @@
   field_warn_on_leaving_unsaved: "提醒我將要離開的頁面中尚有未儲存的資料"
   field_issues_visibility: 項目可見度
   field_is_private: 私人
-  field_commit_logs_encoding: 送交訊息編碼
+  field_commit_logs_encoding: 認可訊息編碼
   field_scm_path_encoding: 路徑編碼
   field_path_to_repository: 儲存機制路徑
   field_root_directory: 根資料夾
@@ -413,11 +413,11 @@
   setting_text_formatting: 文字格式
   setting_wiki_compression: 壓縮 Wiki 歷史文章
   setting_feeds_limit: RSS 新聞限制
-  setting_autofetch_changesets: 自動取得送交版次
+  setting_autofetch_changesets: 自動擷取認可
   setting_default_projects_public: 新建立之專案預設為「公開」
   setting_sys_api_enabled: 啟用管理儲存機制的網頁服務 (Web Service)
-  setting_commit_ref_keywords: 送交用於參照項目之關鍵字
-  setting_commit_fix_keywords: 送交用於修正項目之關鍵字
+  setting_commit_ref_keywords: 認可用於參照項目之關鍵字
+  setting_commit_fix_keywords: 認可用於修正項目之關鍵字
   setting_autologin: 自動登入
   setting_date_format: 日期格式
   setting_time_format: 時間格式
@@ -452,7 +452,7 @@
   setting_rest_api_enabled: 啟用 REST 網路服務技術（Web Service）
   setting_cache_formatted_text: 快取已格式化文字
   setting_default_notification_option: 預設通知選項
-  setting_commit_logtime_enabled: 啟用送交中的時間記錄
+  setting_commit_logtime_enabled: 啟用認可中的時間記錄
   setting_commit_logtime_activity_id: 時間記錄對應的活動
   setting_gantt_items_limit: 甘特圖中項目顯示數量的最大值
   
@@ -503,7 +503,7 @@
   permission_manage_repository: 管理儲存機制
   permission_browse_repository: 瀏覽儲存機制
   permission_view_changesets: 檢視變更集
-  permission_commit_access: 存取送交之變更
+  permission_commit_access: 存取認可
   permission_manage_boards: 管理討論版
   permission_view_messages: 檢視訊息
   permission_add_messages: 新增訊息
@@ -772,8 +772,8 @@
   label_time_tracking: 工時追蹤
   label_change_plural: 變更
   label_statistics: 統計資訊
-  label_commits_per_month: 依月份統計送交次數
-  label_commits_per_author: 依作者統計送交次數
+  label_commits_per_month: 依月份統計認可
+  label_commits_per_author: 依作者統計認可
   label_view_diff: 檢視差異
   label_diff_inline: 直列
   label_diff_side_by_side: 並排
@@ -901,7 +901,8 @@
   label_issues_visibility_all: 所有項目
   label_issues_visibility_public: 所有非私人項目
   label_issues_visibility_own: 使用者所建立的或被指派的項目
-  
+  label_git_report_last_commit: 報告最後認可的文件和目錄
+
   button_login: 登入
   button_submit: 送出
   button_save: 儲存
@@ -983,7 +984,7 @@
   text_unallowed_characters: 不允許的字元
   text_comma_separated: 可輸入多個值（須以逗號分隔）。
   text_line_separated: 可輸入多個值（須以換行符號分隔，即每列只能輸入一個值）。
-  text_issues_ref_in_commit_messages: 送交訊息中參照(或修正)項目之關鍵字
+  text_issues_ref_in_commit_messages: 認可訊息中參照(或修正)項目之關鍵字
   text_issue_added: "項目 %{id} 已被 %{author} 通報。"
   text_issue_updated: "項目 %{id} 已被 %{author} 更新。"
   text_wiki_destroy_confirmation: 您確定要刪除這個 wiki 和其中的所有內容？
@@ -1054,4 +1055,3 @@
   enumeration_doc_categories: 文件分類
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
-  label_git_report_last_commit: Report last commit for files and directories
