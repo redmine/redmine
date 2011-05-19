@@ -89,18 +89,19 @@ class Repository::Git < Repository
   end
 
   # In Git and Mercurial, revisions are not in date order.
-  # Mercurial fixed issues.
+  # Redmine Mercurial fixed issues.
   #    * Redmine Takes Too Long On Large Mercurial Repository
   #      http://www.redmine.org/issues/3449
   #    * Sorting for changesets might go wrong on Mercurial repos
   #      http://www.redmine.org/issues/3567
+  #
   # Database revision column is text, so Redmine can not sort by revision.
   # Mercurial has revision number, and revision number guarantees revision order.
-  # Mercurial adapter uses "hg log -r 0:tip --limit 10"
-  # to get limited revisions from old to new.
-  # And Mercurial model stored revisions ordered by database id in database.
-  # So, Mercurial can use correct order revisions.
+  # Redmine Mercurial model stored revisions ordered by database id to database.
+  # So, Redmine Mercurial model can use correct ordering revisions.
   #
+  # Redmine Mercurial adapter uses "hg log -r 0:tip --limit 10"
+  # to get limited revisions from old to new.
   # But, Git 1.7.3.4 does not support --reverse with -n or --skip.
   #
   # The repository can still be fully reloaded by calling #clear_changesets
