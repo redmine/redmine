@@ -108,7 +108,8 @@ class Repository::Git < Repository
   def fetch_changesets
     scm_brs = branches
     return if scm_brs.nil? || scm_brs.empty?
-    h = extra_info || {}
+    h1 = extra_info || {}
+    h  = h1.dup
     h["branches"]       ||= {}
     h["db_consistent"]  ||= {}
     if changesets.count == 0
