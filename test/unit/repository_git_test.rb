@@ -160,6 +160,13 @@ class RepositoryGitTest < ActiveSupport::TestCase
       assert_equal 15, @repository.changesets.count
     end
 
+    def test_db_consistent_ordering_init
+      assert_nil @repository.extra_info
+      @repository.fetch_changesets
+      @repository.reload
+      assert_equal 1, @repository.extra_info["db_consistent"]["ordering"]
+    end
+
     def test_latest_changesets
       @repository.fetch_changesets
       @repository.reload
