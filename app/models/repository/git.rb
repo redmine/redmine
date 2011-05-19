@@ -109,7 +109,17 @@ class Repository::Git < Repository
     scm_brs = branches
     return if scm_brs.nil? || scm_brs.empty?
     h = extra_info || {}
-    h["branches"]  ||= {}
+    h["branches"]       ||= {}
+    h["db_consistent"]  ||= {}
+    if changesets.count == 0
+      h["db_consistent"]["ordering"] = 1
+      merge_extra_info(h)
+      self.save
+    elsif ! h["db_consistent"].has_key?("ordering")
+      h["db_consistent"]["ordering"] = 0
+      merge_extra_info(h)
+      self.save
+    end
     scm_brs.each do |br|
       from_scmid = nil
       from_scmid = h["branches"][br]["last_scmid"] if h["branches"][br]
