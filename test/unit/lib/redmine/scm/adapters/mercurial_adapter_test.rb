@@ -332,6 +332,21 @@ begin
         end
       end
 
+      def test_path_encoding_default_utf8
+        adpt1 = Redmine::Scm::Adapters::MercurialAdapter.new(
+                                  REPOSITORY_PATH
+                                )
+        assert_equal "UTF-8", adpt1.path_encoding
+        adpt2 = Redmine::Scm::Adapters::MercurialAdapter.new(
+                                  REPOSITORY_PATH,
+                                  nil,
+                                  nil,
+                                  nil,
+                                  ""
+                                )
+        assert_equal "UTF-8", adpt2.path_encoding
+      end
+
       private
 
       def test_hgversion_for(hgversion, version)
