@@ -91,6 +91,10 @@ module Redmine
           @url
         end
 
+        def path_encoding
+          nil
+        end
+
         # get info about the svn repository
         def info
           return nil
