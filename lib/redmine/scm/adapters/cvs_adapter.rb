@@ -78,6 +78,10 @@ module Redmine
           @password = (password || "") if @login
         end
 
+        def path_encoding
+          @path_encoding
+        end
+
         def info
           logger.debug "<cvs> info"
           Info.new({:root_url => @root_url, :lastrev => nil})
