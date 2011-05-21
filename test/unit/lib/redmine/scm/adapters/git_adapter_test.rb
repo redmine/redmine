@@ -334,6 +334,21 @@ begin
         end
       end
 
+      def test_path_encoding_default_utf8
+        adpt1 = Redmine::Scm::Adapters::GitAdapter.new(
+                                  REPOSITORY_PATH
+                                )
+        assert_equal "UTF-8", adpt1.path_encoding
+        adpt2 = Redmine::Scm::Adapters::GitAdapter.new(
+                                  REPOSITORY_PATH,
+                                  nil,
+                                  nil,
+                                  nil,
+                                  ""
+                                )
+        assert_equal "UTF-8", adpt2.path_encoding
+      end
+
       private
 
       def test_scm_version_for(scm_command_version, version)
