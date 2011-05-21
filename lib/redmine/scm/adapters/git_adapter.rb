@@ -65,6 +65,10 @@ module Redmine
           @path_encoding = path_encoding.blank? ? 'UTF-8' : path_encoding
         end
 
+        def path_encoding
+          @path_encoding
+        end
+
         def info
           begin
             Info.new(:root_url => url, :lastrev => lastrev('',nil))
