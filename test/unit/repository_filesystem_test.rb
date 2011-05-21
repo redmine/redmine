@@ -26,15 +26,17 @@ class RepositoryFilesystemTest < ActiveSupport::TestCase
   def setup
     @project = Project.find(3)
     Setting.enabled_scm << 'Filesystem' unless Setting.enabled_scm.include?('Filesystem')
-    assert @repository = Repository::Filesystem.create(
-                            :project => @project, :url => REPOSITORY_PATH)
+    @repository = Repository::Filesystem.create(
+                               :project => @project,
+                               :url     => REPOSITORY_PATH
+                                 )
+    assert @repository
   end
 
   if File.directory?(REPOSITORY_PATH)
     def test_fetch_changesets
       @repository.fetch_changesets
       @repository.reload
-
       assert_equal 0, @repository.changesets.count
       assert_equal 0, @repository.changes.count
     end
@@ -47,7 +49,6 @@ class RepositoryFilesystemTest < ActiveSupport::TestCase
     def test_cat
       assert_equal "TEST CAT\n", @repository.scm.cat("test")
     end
-
   else
     puts "Filesystem test repository NOT FOUND. Skipping unit tests !!! See doc/RUNNING_TESTS."
     def test_fake; assert true end
