@@ -38,6 +38,10 @@ module Redmine
           @path_encoding = path_encoding.blank? ? 'UTF-8' : path_encoding
         end
 
+        def path_encoding
+          @path_encoding
+        end
+
         def format_path_ends(path, leading=true, trailling=true)
           path = leading ? with_leading_slash(path) :
             without_leading_slash(path)
