@@ -86,6 +86,10 @@ module Redmine
           @path_encoding = path_encoding.blank? ? 'UTF-8' : path_encoding
         end
 
+        def path_encoding
+          @path_encoding
+        end
+
         def info
           tip = summary['repository']['tip']
           Info.new(:root_url => CGI.unescape(summary['repository']['root']),
