@@ -30,16 +30,15 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
 
   def setup
     @ruby19_non_utf8_pass =
-     (RUBY_VERSION >= '1.9' && Encoding.default_external.to_s != 'UTF-8')
-
+        (RUBY_VERSION >= '1.9' && Encoding.default_external.to_s != 'UTF-8')
     @controller = RepositoriesController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     User.current = nil
     Setting.enabled_scm << 'Filesystem' unless Setting.enabled_scm.include?('Filesystem')
     @repository = Repository::Filesystem.create(
-                      :project => Project.find(PRJ_ID),
-                      :url     => REPOSITORY_PATH,
+                      :project       => Project.find(PRJ_ID),
+                      :url           => REPOSITORY_PATH,
                       :path_encoding => ''
                       )
     assert @repository
