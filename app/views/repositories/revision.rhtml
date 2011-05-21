@@ -13,7 +13,11 @@
   <% end -%>
   &#187;&nbsp;
 
-  <% form_tag({:controller => 'repositories', :action => 'revision', :id => @project, :rev => nil}, :method => :get) do %>
+  <% form_tag({:controller => 'repositories',
+               :action     => 'revision',
+               :id         => @project,
+               :rev        => nil},
+               :method     => :get) do %>
     <%= text_field_tag 'rev', @rev, :size => 8 %>
     <%= submit_tag 'OK', :name => nil %>
   <% end %>
@@ -38,14 +42,18 @@
 <% if User.current.allowed_to?(:browse_repository, @project) %>
 <h3><%= l(:label_attachment_plural) %></h3>
 <ul id="changes-legend">
-<li class="change change-A"><%= l(:label_added) %></li>
+<li class="change change-A"><%= l(:label_added)    %></li>
 <li class="change change-M"><%= l(:label_modified) %></li>
-<li class="change change-C"><%= l(:label_copied) %></li>
-<li class="change change-R"><%= l(:label_renamed) %></li>
-<li class="change change-D"><%= l(:label_deleted) %></li>
+<li class="change change-C"><%= l(:label_copied)   %></li>
+<li class="change change-R"><%= l(:label_renamed)  %></li>
+<li class="change change-D"><%= l(:label_deleted)  %></li>
 </ul>
 
-<p><%= link_to(l(:label_view_diff), :action => 'diff', :id => @project, :path => "", :rev => @changeset.identifier) if @changeset.changes.any? %></p>
+<p><%= link_to(l(:label_view_diff),
+               :action => 'diff',
+               :id     => @project,
+               :path   => "",
+               :rev    => @changeset.identifier) if @changeset.changes.any? %></p>
 
 <div class="changeset-changes">
 <%= render_changeset_changes %>
