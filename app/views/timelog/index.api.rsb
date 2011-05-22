@@ -1,4 +1,4 @@
-api.array :time_entries do
+api.array :time_entries, api_meta(:total_count => @entry_count, :offset => @offset, :limit => @limit) do
   @entries.each do |time_entry|
     api.time_entry do
       api.id time_entry.id

@@ -32,6 +32,16 @@ class ApiTest::TimeEntriesTest < ActionController::IntegrationTest
       assert_tag :tag => 'time_entries',
         :child => {:tag => 'time_entry', :child => {:tag => 'id', :content => '2'}}
     end
+    
+    context "with limit" do
+      should "return limited results" do
+        get '/time_entries.xml?limit=2', {}, :authorization => credentials('jsmith')
+        assert_response :success
+        assert_equal 'application/xml', @response.content_type
+        assert_tag :tag => 'time_entries',
+          :children => {:count => 2}
+      end
+    end
   end
   
   context "GET /time_entries/2.xml" do

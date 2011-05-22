@@ -67,13 +67,13 @@ class TimelogController < ApplicationController
       }
       format.api  {
         @entry_count = TimeEntry.visible.count(:include => [:project, :issue], :conditions => cond.conditions)
-        @entry_pages = Paginator.new self, @entry_count, per_page_option, params['page']
+        @offset, @limit = api_offset_and_limit
         @entries = TimeEntry.visible.find(:all, 
                                   :include => [:project, :activity, :user, {:issue => :tracker}],
                                   :conditions => cond.conditions,
                                   :order => sort_clause,
-                                  :limit  =>  @entry_pages.items_per_page,
-                                  :offset =>  @entry_pages.current.offset)
+                                  :limit  => @limit,
+                                  :offset => @offset)
       }
       format.atom {
         entries = TimeEntry.visible.find(:all,
