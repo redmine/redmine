@@ -26,13 +26,14 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
 
   # No '..' in the repository path
   REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/bazaar_repository'
+  PRJ_ID = 3
 
   def setup
     @controller = RepositoriesController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     User.current = nil
-    @project = Project.find(3)
+    @project = Project.find(PRJ_ID)
     @repository = Repository::Bazaar.create(
                     :project => @project, :url => REPOSITORY_PATH,
                     :log_encoding => 'UTF-8')
@@ -41,7 +42,7 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
 
   if File.directory?(REPOSITORY_PATH)
     def test_show
-      get :show, :id => 3
+      get :show, :id => PRJ_ID
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
@@ -49,7 +50,7 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
     end
 
     def test_browse_root
-      get :show, :id => 3
+      get :show, :id => PRJ_ID
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
@@ -59,7 +60,7 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
     end
 
     def test_browse_directory
-      get :show, :id => 3, :path => ['directory']
+      get :show, :id => PRJ_ID, :path => ['directory']
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
@@ -71,7 +72,7 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
     end
     
     def test_browse_at_given_revision
-      get :show, :id => 3, :path => [], :rev => 3
+      get :show, :id => PRJ_ID, :path => [], :rev => 3
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
@@ -79,14 +80,14 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
     end
     
     def test_changes
-      get :changes, :id => 3, :path => ['doc-mkdir.txt']
+      get :changes, :id => PRJ_ID, :path => ['doc-mkdir.txt']
       assert_response :success
       assert_template 'changes'
       assert_tag :tag => 'h2', :content => 'doc-mkdir.txt'
     end
     
     def test_entry_show
-      get :entry, :id => 3, :path => ['directory', 'doc-ls.txt']
+      get :entry, :id => PRJ_ID, :path => ['directory', 'doc-ls.txt']
       assert_response :success
       assert_template 'entry'
       # Line 19
@@ -97,14 +98,14 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
     end
     
     def test_entry_download
-      get :entry, :id => 3, :path => ['directory', 'doc-ls.txt'], :format => 'raw'
+      get :entry, :id => PRJ_ID, :path => ['directory', 'doc-ls.txt'], :format => 'raw'
       assert_response :success
       # File content
       assert @response.body.include?('Show help message')
     end
   
     def test_directory_entry
-      get :entry, :id => 3, :path => ['directory']
+      get :entry, :id => PRJ_ID, :path => ['directory']
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entry)
@@ -113,7 +114,7 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
 
     def test_diff
       # Full diff of changeset 3
-      get :diff, :id => 3, :rev => 3
+      get :diff, :id => PRJ_ID, :rev => 3
       assert_response :success
       assert_template 'diff'
       # Line 11 removed
@@ -125,7 +126,7 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
     end
     
     def test_annotate
-      get :annotate, :id => 3, :path => ['doc-mkdir.txt']
+      get :annotate, :id => PRJ_ID, :path => ['doc-mkdir.txt']
       assert_response :success
       assert_template 'annotate'
       # Line 2, revision 3
