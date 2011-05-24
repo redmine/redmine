@@ -22,7 +22,8 @@ require 'repositories_controller'
 class RepositoriesController; def rescue_action(e) raise e end; end
 
 class RepositoriesBazaarControllerTest < ActionController::TestCase
-  fixtures :projects, :users, :roles, :members, :member_roles, :repositories, :enabled_modules
+  fixtures :projects, :users, :roles, :members, :member_roles,
+           :repositories, :enabled_modules
 
   # No '..' in the repository path
   REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/bazaar_repository'
@@ -35,7 +36,8 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
     User.current = nil
     @project = Project.find(PRJ_ID)
     @repository = Repository::Bazaar.create(
-                    :project => @project, :url => REPOSITORY_PATH,
+                    :project      => @project,
+                    :url          => REPOSITORY_PATH,
                     :log_encoding => 'UTF-8')
     assert @repository
   end
@@ -76,7 +78,8 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
-      assert_equal ['directory', 'doc-deleted.txt', 'doc-ls.txt', 'doc-mkdir.txt'], assigns(:entries).collect(&:name)
+      assert_equal ['directory', 'doc-deleted.txt', 'doc-ls.txt', 'doc-mkdir.txt'],
+                   assigns(:entries).collect(&:name)
     end
     
     def test_changes
