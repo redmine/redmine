@@ -184,10 +184,14 @@ module Redmine
           info ? info.root_url : nil
         end
 
-        def target(path)
+        def target(path, sq=true)
           path ||= ''
           base = path.match(/^\//) ? root_url : url
-          shell_quote("#{base}/#{path}".gsub(/[?<>\*]/, ''))
+          str = "#{base}/#{path}".gsub(/[?<>\*]/, '')
+          if sq
+            str = shell_quote(str)
+          end
+          str
         end
 
         def logger
