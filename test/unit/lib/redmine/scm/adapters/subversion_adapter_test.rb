@@ -46,6 +46,13 @@ begin
         assert_not_nil @adapter.info
       end
 
+      def test_info_nil
+        adpt = Redmine::Scm::Adapters::SubversionAdapter.new(
+                  "file:///invalid/invalid/"
+                  )
+        assert_nil adpt.info
+      end
+
       private
 
       def test_scm_version_for(scm_version, version)
