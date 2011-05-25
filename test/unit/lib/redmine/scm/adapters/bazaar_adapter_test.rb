@@ -67,6 +67,11 @@ begin
         assert_nil adpt.info
       end
 
+      def test_info
+        info = @adapter.info
+        assert_equal 4, info.lastrev.identifier.to_i
+      end
+
       private
 
       def test_scm_version_for(scm_command_version, version)
