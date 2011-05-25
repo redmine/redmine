@@ -229,7 +229,7 @@ module Redmine
           else
             bcp = path
           end
-          bcp.gsub!(/[\/\\]$/, "")
+          bcp.gsub!(%r{[\/\\]$}, "")
           if bcp
             bcp = File.join(bcp, ".bzr", "branch", "branch.conf")
           end
