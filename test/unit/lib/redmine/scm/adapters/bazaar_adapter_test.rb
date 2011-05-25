@@ -34,6 +34,24 @@ begin
         assert_equal 'mkdir', annotate.lines[0]
       end
 
+      def test_branch_conf_path
+        p = "c:\\test\\test\\"
+        bcp = Redmine::Scm::Adapters::BazaarAdapter.branch_conf_path(p)
+        assert_equal File.join("c:\\test\\test", ".bzr", "branch", "branch.conf"), bcp
+        p = "c:\\test\\test\\.bzr"
+        bcp = Redmine::Scm::Adapters::BazaarAdapter.branch_conf_path(p)
+        assert_equal File.join("c:\\test\\test", ".bzr", "branch", "branch.conf"), bcp
+        p = "c:\\test\\test\\.bzr\\"
+        bcp = Redmine::Scm::Adapters::BazaarAdapter.branch_conf_path(p)
+        assert_equal File.join("c:\\test\\test", ".bzr", "branch", "branch.conf"), bcp
+        p = "c:\\test\\test"
+        bcp = Redmine::Scm::Adapters::BazaarAdapter.branch_conf_path(p)
+        assert_equal File.join("c:\\test\\test", ".bzr", "branch", "branch.conf"), bcp
+        p = "\\\\server\\test\\test\\"
+        bcp = Redmine::Scm::Adapters::BazaarAdapter.branch_conf_path(p)
+        assert_equal File.join("\\\\server\\test\\test", ".bzr", "branch", "branch.conf"), bcp
+      end
+
       private
 
       def test_scm_version_for(scm_command_version, version)
