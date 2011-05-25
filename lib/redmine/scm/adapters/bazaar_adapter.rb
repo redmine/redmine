@@ -240,7 +240,7 @@ module Redmine
           return @aro if ! @aro.nil?
           @aro = false
           bcp = self.class.branch_conf_path(url)
-          if File.exist?(bcp)
+          if bcp && File.exist?(bcp)
             begin
               f = File::open(bcp, "r")
               cnt = 0
