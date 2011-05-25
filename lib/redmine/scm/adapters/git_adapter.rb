@@ -25,9 +25,6 @@ module Redmine
         # Git executable name
         GIT_BIN = Redmine::Configuration['scm_git_command'] || "git"
 
-        # raised if scm command exited with error, e.g. unknown revision.
-        class ScmCommandAborted < CommandFailed; end
-
         class << self
           def client_command
             @@bin    ||= GIT_BIN

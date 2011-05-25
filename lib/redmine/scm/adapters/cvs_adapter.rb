@@ -25,9 +25,6 @@ module Redmine
         # CVS executable name
         CVS_BIN = Redmine::Configuration['scm_cvs_command'] || "cvs"
 
-        # raised if scm command exited with error, e.g. unknown revision.
-        class ScmCommandAborted < CommandFailed; end
-
         class << self
           def client_command
             @@bin    ||= CVS_BIN

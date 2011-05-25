@@ -24,6 +24,10 @@ module Redmine
       end
 
       class AbstractAdapter #:nodoc:
+
+        # raised if scm command exited with error, e.g. unknown revision.
+        class ScmCommandAborted < CommandFailed; end
+
         class << self
           def client_command
             ""
