@@ -56,6 +56,10 @@ begin
         assert_equal false, @adapter.append_revisions_only
       end
 
+      def test_info_not_nil
+        assert_not_nil @adapter.info
+      end
+
       private
 
       def test_scm_version_for(scm_command_version, version)
