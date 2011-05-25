@@ -42,19 +42,21 @@ begin
         end
       end
 
+      def test_info_not_nil
+        assert_not_nil @adapter.info
+      end
+
       private
 
       def test_scm_version_for(scm_version, version)
         @adapter.class.expects(:scm_version_from_command_line).returns(scm_version)
         assert_equal version, @adapter.class.svn_binary_version
       end
-
     else
       puts "Subversion test repository NOT FOUND. Skipping unit tests !!!"
       def test_fake; assert true end
     end
   end
-
 rescue LoadError
   class SubversionMochaFake < ActiveSupport::TestCase
     def test_fake; assert(false, "Requires mocha to run those tests")  end
