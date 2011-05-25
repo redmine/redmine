@@ -60,6 +60,13 @@ begin
         assert_not_nil @adapter.info
       end
 
+      def test_info_nil
+        adpt = Redmine::Scm::Adapters::BazaarAdapter.new(
+                  "/invalid/invalid/"
+                  )
+        assert_nil adpt.info
+      end
+
       private
 
       def test_scm_version_for(scm_command_version, version)
