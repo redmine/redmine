@@ -52,6 +52,10 @@ begin
         assert_equal File.join("\\\\server\\test\\test", ".bzr", "branch", "branch.conf"), bcp
       end
 
+      def test_append_revisions_only
+        assert_equal false, @adapter.append_revisions_only
+      end
+
       private
 
       def test_scm_version_for(scm_command_version, version)
