@@ -220,6 +220,20 @@ module Redmine
           return nil if $? && $?.exitstatus != 0
           blame
         end
+
+        def self.branch_conf_path(path)
+          bcp = nil
+          m = path.match(%r{^(.*[/\\])\.bzr.*$})
+          if m
+            bcp = m[1]
+          else
+            bcp = path
+          end
+          bcp.gsub!(/[\/\\]$/, "")
+          if bcp
+            bcp = File.join(bcp, ".bzr", "branch", "branch.conf")
+          end
+        end
       end
     end
   end
