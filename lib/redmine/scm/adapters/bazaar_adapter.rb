@@ -233,6 +233,7 @@ module Redmine
           if bcp
             bcp = File.join(bcp, ".bzr", "branch", "branch.conf")
           end
+          bcp
         end
 
         def append_revisions_only
