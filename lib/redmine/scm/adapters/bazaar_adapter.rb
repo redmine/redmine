@@ -278,6 +278,11 @@ module Redmine
           ret
         end
         private :scm_cmd
+
+        def bzr_target(path)
+          target(path, false)
+        end
+        private :bzr_target
       end
     end
   end
