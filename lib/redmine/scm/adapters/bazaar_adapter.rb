@@ -59,9 +59,10 @@ module Redmine
 
         # Get info about the repository
         def info
-          cmd = "#{self.class.sq_bin} revno #{target('')}"
+          cmd_args = %w|revno|
+          cmd_args << bzr_target('')
           info = nil
-          shellout(cmd) do |io|
+          scm_cmd(*cmd_args) do |io|
             if io.read =~ %r{^(\d+)\r?$}
               info = Info.new({:root_url => url,
                                :lastrev => Revision.new({
@@ -70,9 +71,8 @@ module Redmine
                              })
             end
           end
-          return nil if $? && $?.exitstatus != 0
           info
-        rescue CommandFailed
+        rescue ScmCommandAborted
           return nil
         end
 
