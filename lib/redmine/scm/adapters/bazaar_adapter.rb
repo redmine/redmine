@@ -234,6 +234,38 @@ module Redmine
             bcp = File.join(bcp, ".bzr", "branch", "branch.conf")
           end
         end
+
+        def append_revisions_only
+          return @aro if ! @aro.nil?
+          @aro = false
+          bcp = self.class.branch_conf_path(url)
+          if File.exist?(bcp)
+            begin
+              f = File::open(bcp, "r")
+              cnt = 0
+              f.each_line do |line|
+                l = line.chomp.to_s
+                if l =~ /^\s*append_revisions_only\s*=\s*(\w+)\s*$/
+                  str_aro = $1
+                  if str_aro.upcase == "TRUE"
+                    @aro = true
+                    cnt += 1
+                  elsif str_aro.upcase == "FALSE"
+                    @aro = false
+                    cnt += 1
+                  end
+                  if cnt > 1
+                    @aro = false
+                    break
+                  end
+                end
+              end
+            ensure
+              f.close
+            end
+          end
+          @aro
+        end
       end
     end
   end
