@@ -34,6 +34,10 @@ begin
         assert_nil @adapter.cat('doc-mkdir.txt', '12345678')
       end
 
+      def test_diff_path_invalid
+        assert_equal [], @adapter.diff('invalid', 1)
+      end
+
       def test_annotate
         annotate = @adapter.annotate('doc-mkdir.txt')
         assert_equal 17, annotate.lines.size
