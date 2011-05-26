@@ -199,12 +199,12 @@ module Redmine
         end
 
         def annotate(path, identifier=nil)
-          cmd = "#{self.class.sq_bin} annotate --all"
-          cmd << " -r#{identifier.to_i}" if identifier && identifier.to_i > 0
-          cmd << " #{target(path)}"
           blame = Annotate.new
-          shellout(cmd) do |io|
-            author = nil
+          cmd_args = %w|annotate --all|
+          cmd_args << "-r#{identifier.to_i}" if identifier && identifier.to_i > 0
+          cmd_args << bzr_target(path)
+          scm_cmd(*cmd_args) do |io|
+            author     = nil
             identifier = nil
             io.each_line do |line|
               next unless line =~ %r{^(\d+) ([^|]+)\| (.*)$}
@@ -217,8 +217,9 @@ module Redmine
                   ))
             end
           end
-          return nil if $? && $?.exitstatus != 0
           blame
+        rescue ScmCommandAborted
+          return nil
         end
 
         def self.branch_conf_path(path)
