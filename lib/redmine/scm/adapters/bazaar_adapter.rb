@@ -200,7 +200,7 @@ module Redmine
 
         def annotate(path, identifier=nil)
           blame = Annotate.new
-          cmd_args = %w|annotate --all|
+          cmd_args = %w|annotate -q --all|
           cmd_args << "-r#{identifier.to_i}" if identifier && identifier.to_i > 0
           cmd_args << bzr_target(path)
           scm_cmd(*cmd_args) do |io|
