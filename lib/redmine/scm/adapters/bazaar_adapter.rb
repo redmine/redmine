@@ -174,14 +174,15 @@ module Redmine
           if identifier_from
             identifier_from = identifier_from.to_i
           end
-          cmd = "#{self.class.sq_bin} diff -r#{identifier_to}..#{identifier_from} #{target(path)}"
           diff = []
-          shellout(cmd) do |io|
+          cmd_args = %w|diff|
+          cmd_args << "-r#{identifier_to}..#{identifier_from}"
+          cmd_args << bzr_target(path)
+          scm_cmd_no_raise(*cmd_args) do |io|
             io.each_line do |line|
               diff << line
             end
           end
-          #return nil if $? && $?.exitstatus != 0
           diff
         end
 
