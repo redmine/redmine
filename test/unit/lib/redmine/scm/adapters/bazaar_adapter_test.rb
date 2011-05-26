@@ -109,6 +109,11 @@ begin
         assert_nil @adapter.revisions('invalid')
       end
 
+      def test_revisions_revision_invalid
+        assert_nil @adapter.revisions(nil, 12345678)
+        assert_nil @adapter.revisions(nil, 12345678, 87654321)
+      end
+
       private
 
       def test_scm_version_for(scm_command_version, version)
