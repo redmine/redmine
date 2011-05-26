@@ -249,7 +249,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       get :annotate, :id => PRJ_ID, :path => ['sources', 'watchers_controller.rb']
       assert_response :success
       assert_template 'annotate'
-      # Line 23, changeset 2f9c0091
+      # Line 24, changeset 2f9c0091
       assert_tag :tag => 'th', :content => '24',
                  :sibling => {
                     :tag => 'td',
