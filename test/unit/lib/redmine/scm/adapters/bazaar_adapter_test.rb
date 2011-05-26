@@ -97,6 +97,10 @@ begin
         assert_equal 4, info.lastrev.identifier.to_i
       end
 
+      def test_entries_path_invalid
+        assert_equal [], @adapter.entries('invalid')
+      end
+
       private
 
       def test_scm_version_for(scm_command_version, version)
