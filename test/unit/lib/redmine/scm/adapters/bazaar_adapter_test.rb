@@ -30,6 +30,10 @@ begin
         assert_nil @adapter.cat('invalid')
       end
 
+      def test_cat_revision_invalid
+        assert_nil @adapter.cat('doc-mkdir.txt', '12345678')
+      end
+
       def test_annotate
         annotate = @adapter.annotate('doc-mkdir.txt')
         assert_equal 17, annotate.lines.size
