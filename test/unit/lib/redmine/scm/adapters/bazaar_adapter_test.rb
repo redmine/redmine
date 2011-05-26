@@ -34,6 +34,10 @@ begin
         assert_equal 'mkdir', annotate.lines[0]
       end
 
+      def test_annotate_path_invalid
+        assert_nil @adapter.annotate('invalid')
+      end
+
       def test_branch_conf_path
         p = "c:\\test\\test\\"
         bcp = Redmine::Scm::Adapters::BazaarAdapter.branch_conf_path(p)
