@@ -101,6 +101,10 @@ begin
         assert_equal [], @adapter.entries('invalid')
       end
 
+      def test_entries_revision_invalid
+        assert_nil @adapter.entries(nil, 12345678)
+      end
+
       private
 
       def test_scm_version_for(scm_command_version, version)
