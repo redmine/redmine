@@ -186,16 +186,17 @@ module Redmine
         end
 
         def cat(path, identifier=nil)
-          cmd = "#{self.class.sq_bin} cat"
-          cmd << " -r#{identifier.to_i}" if identifier && identifier.to_i > 0
-          cmd << " #{target(path)}"
           cat = nil
-          shellout(cmd) do |io|
+          cmd_args = %w|cat|
+          cmd_args << "-r#{identifier.to_i}" if identifier && identifier.to_i > 0
+          cmd_args << bzr_target(path)
+          scm_cmd(*cmd_args) do |io|
             io.binmode
             cat = io.read
           end
-          return nil if $? && $?.exitstatus != 0
           cat
+        rescue ScmCommandAborted
+          return nil
         end
 
         def annotate(path, identifier=nil)
