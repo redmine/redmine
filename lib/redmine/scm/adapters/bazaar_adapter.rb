@@ -281,6 +281,14 @@ module Redmine
         end
         private :scm_cmd
 
+        def scm_cmd_no_raise(*args, &block)
+          full_args = [BZR_BIN]
+          full_args += args
+          ret = shellout(full_args.map { |e| shell_quote e.to_s }.join(' '), &block)
+          ret
+        end
+        private :scm_cmd_no_raise
+
         def bzr_target(path)
           target(path, false)
         end
