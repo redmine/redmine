@@ -19,12 +19,15 @@ require 'redmine/scm/adapters/mercurial_adapter'
 
 class Repository::Mercurial < Repository
   # sort changesets by revision number
-  has_many :changesets, :order => "#{Changeset.table_name}.id DESC", :foreign_key => 'repository_id'
+  has_many :changesets,
+           :order       => "#{Changeset.table_name}.id DESC",
+           :foreign_key => 'repository_id'
 
-  attr_protected :root_url
+  attr_protected        :root_url
   validates_presence_of :url
 
-  FETCH_AT_ONCE = 100  # number of changesets to fetch at once
+  # number of changesets to fetch at once
+  FETCH_AT_ONCE = 100
 
   def self.human_attribute_name(attribute_key_name)
     attr_name = attribute_key_name
@@ -84,9 +87,11 @@ class Repository::Mercurial < Repository
   # Sqlite3 and PostgreSQL pass.
   # Is this MySQL bug?
   def latest_changesets(path, rev, limit=10)
-    changesets.find(:all, :include => :user,
+    changesets.find(:all,
+                    :include    => :user,
                     :conditions => latest_changesets_cond(path, rev, limit),
-                    :limit => limit, :order => "#{Changeset.table_name}.id DESC")
+                    :limit      => limit,
+                    :order      => "#{Changeset.table_name}.id DESC")
   end
 
   def latest_changesets_cond(path, rev, limit)
@@ -108,7 +113,6 @@ class Repository::Mercurial < Repository
       cond << "#{Changeset.table_name}.id <= ?"
       args << last.id
     end
-
     unless path.blank?
       cond << "EXISTS (SELECT * FROM #{Change.table_name}
                  WHERE #{Change.table_name}.changeset_id = #{Changeset.table_name}.id
@@ -117,26 +121,25 @@ class Repository::Mercurial < Repository
       args << path.with_leading_slash
       args << "#{path.with_leading_slash.gsub(%r{[%_\\]}) { |s| "\\#{s}" }}/%" << '\\'
     end
-
     [cond.join(' AND '), *args] unless cond.empty?
   end
   private :latest_changesets_cond
 
   def fetch_changesets
     scm_rev = scm.info.lastrev.revision.to_i
-    db_rev = latest_changeset ? latest_changeset.revision.to_i : -1
+    db_rev  = latest_changeset ? latest_changeset.revision.to_i : -1
     return unless db_rev < scm_rev  # already up-to-date
 
     logger.debug "Fetching changesets for repository #{url}" if logger
     (db_rev + 1).step(scm_rev, FETCH_AT_ONCE) do |i|
       transaction do
         scm.each_revision('', i, [i + FETCH_AT_ONCE - 1, scm_rev].min) do |re|
-          cs = Changeset.create(:repository => self,
-                                :revision => re.revision,
-                                :scmid => re.scmid,
-                                :committer => re.author,
+          cs = Changeset.create(:repository   => self,
+                                :revision     => re.revision,
+                                :scmid        => re.scmid,
+                                :committer    => re.author,
                                 :committed_on => re.time,
-                                :comments => re.message)
+                                :comments     => re.message)
           re.paths.each { |e| cs.create_change(e) }
         end
       end
