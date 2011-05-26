@@ -26,6 +26,10 @@ begin
         assert cat =~ /Write the contents of a file as of a given revision to standard output/
       end
 
+      def test_cat_path_invalid
+        assert_nil @adapter.cat('invalid')
+      end
+
       def test_annotate
         annotate = @adapter.annotate('doc-mkdir.txt')
         assert_equal 17, annotate.lines.size
