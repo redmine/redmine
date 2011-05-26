@@ -38,6 +38,11 @@ begin
         assert_equal [], @adapter.diff('invalid', 1)
       end
 
+      def test_diff_revision_invalid
+        assert_equal [], @adapter.diff(nil, 12345678)
+        assert_equal [], @adapter.diff(nil, 12345678, 87654321)
+      end
+
       def test_annotate
         annotate = @adapter.annotate('doc-mkdir.txt')
         assert_equal 17, annotate.lines.size
