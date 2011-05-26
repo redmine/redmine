@@ -112,10 +112,12 @@ module Redmine
           identifier_from = (identifier_from and identifier_from.to_i > 0) ? identifier_from.to_i : 'last:1'
           identifier_to = (identifier_to and identifier_to.to_i > 0) ? identifier_to.to_i : 1
           revisions = Revisions.new
-          cmd = "#{self.class.sq_bin} log -v --show-ids -r#{identifier_to}..#{identifier_from} #{target(path)}"
-          shellout(cmd) do |io|
+          cmd_args = %w|log -v --show-ids|
+          cmd_args << "-r#{identifier_to}..#{identifier_from}"
+          cmd_args << bzr_target(path)
+          scm_cmd(*cmd_args) do |io|
             revision = nil
-            parsing = nil
+            parsing  = nil
             io.each_line do |line|
               if line =~ /^----/
                 revisions << revision if revision
@@ -163,8 +165,9 @@ module Redmine
             end
             revisions << revision if revision
           end
-          return nil if $? && $?.exitstatus != 0
           revisions
+        rescue ScmCommandAborted
+          return nil
         end
 
         def diff(path, identifier_from, identifier_to=nil)
