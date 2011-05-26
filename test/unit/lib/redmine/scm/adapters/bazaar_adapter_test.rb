@@ -38,6 +38,10 @@ begin
         assert_nil @adapter.annotate('invalid')
       end
 
+      def test_annotate_revision_invalid
+        assert_nil @adapter.annotate('doc-mkdir.txt', '12345678')
+      end
+
       def test_branch_conf_path
         p = "c:\\test\\test\\"
         bcp = Redmine::Scm::Adapters::BazaarAdapter.branch_conf_path(p)
