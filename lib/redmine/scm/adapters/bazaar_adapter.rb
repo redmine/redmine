@@ -81,11 +81,11 @@ module Redmine
         def entries(path=nil, identifier=nil, options={})
           path ||= ''
           entries = Entries.new
-          cmd = "#{self.class.sq_bin} ls -v --show-ids"
           identifier = -1 unless identifier && identifier.to_i > 0
-          cmd << " -r#{identifier.to_i}"
-          cmd << " #{target(path)}"
-          shellout(cmd) do |io|
+          cmd_args = %w|ls -v --show-ids|
+          cmd_args << "-r#{identifier.to_i}"
+          cmd_args << bzr_target(path)
+          scm_cmd(*cmd_args) do |io|
             prefix = "#{url}/#{path}".gsub('\\', '/')
             logger.debug "PREFIX: #{prefix}"
             re = %r{^V\s+(#{Regexp.escape(prefix)})?(\/?)([^\/]+)(\/?)\s+(\S+)\r?$}
@@ -99,9 +99,12 @@ module Redmine
                                   })
             end
           end
-          return nil if $? && $?.exitstatus != 0
-          logger.debug("Found #{entries.size} entries in the repository for #{target(path)}") if logger && logger.debug?
+          if logger && logger.debug?
+            logger.debug("Found #{entries.size} entries in the repository for #{target(path)}")
+          end
           entries.sort_by_name
+        rescue ScmCommandAborted
+          return nil
         end
 
         def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={})
