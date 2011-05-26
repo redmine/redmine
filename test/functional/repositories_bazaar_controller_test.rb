@@ -132,10 +132,23 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
       get :annotate, :id => PRJ_ID, :path => ['doc-mkdir.txt']
       assert_response :success
       assert_template 'annotate'
-      # Line 2, revision 3
-      assert_tag :tag => 'th', :content => /2/,
-                 :sibling => { :tag => 'td', :child => { :tag => 'a', :content => /3/ } },
-                 :sibling => { :tag => 'td', :content => /jsmith/ },
+      assert_tag :tag => 'th', :content => '2',
+                 :sibling => {
+                    :tag => 'td',
+                    :child => {
+                       :tag => 'a',
+                       :content => /3/
+                       }
+                    },
+                 :sibling => { :tag => 'td', :content => /jsmith/ }
+      assert_tag :tag => 'th', :content => '2',
+                 :sibling => {
+                    :tag => 'td',
+                    :child => {
+                       :tag => 'a',
+                       :content => /3/
+                       }
+                    },
                  :sibling => { :tag => 'td', :content => /Main purpose/ }
     end
   else
