@@ -84,6 +84,13 @@ begin
         assert_equal true, @adapter.append_revisions_only
       end
 
+      def test_append_revisions_only_shared_repo
+        adpt = Redmine::Scm::Adapters::BazaarAdapter.new(
+                                REPOSITORY_PATH
+                                )
+        assert_equal false, adpt.append_revisions_only
+      end
+
       def test_info_not_nil
         assert_not_nil @adapter.info
       end
