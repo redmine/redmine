@@ -84,6 +84,13 @@ begin
         assert_equal true, @adapter.append_revisions_only
       end
 
+      def test_append_revisions_only_false
+        adpt = Redmine::Scm::Adapters::BazaarAdapter.new(
+                                File.join(REPOSITORY_PATH, "empty-branch")
+                                )
+        assert_equal false, adpt.append_revisions_only
+      end
+
       def test_append_revisions_only_shared_repo
         adpt = Redmine::Scm::Adapters::BazaarAdapter.new(
                                 REPOSITORY_PATH
