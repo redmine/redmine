@@ -26,7 +26,8 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
            :repositories, :enabled_modules
 
   # No '..' in the repository path
-  REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/bazaar_repository'
+  REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + 
+                         '/tmp/test/bazaar_repository/trunk'
   PRJ_ID = 3
 
   def setup

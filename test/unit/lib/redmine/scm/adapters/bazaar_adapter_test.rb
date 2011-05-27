@@ -4,7 +4,8 @@ begin
 
   class BazaarAdapterTest < ActiveSupport::TestCase
 
-    REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/bazaar_repository'
+    REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + 
+                        '/tmp/test/bazaar_repository/trunk'
     REPOSITORY_PATH.gsub!(/\/+/, '/')
 
     if File.directory?(REPOSITORY_PATH)
@@ -78,7 +79,7 @@ begin
       end
 
       def test_append_revisions_only
-        assert_equal false, @adapter.append_revisions_only
+        assert_equal true, @adapter.append_revisions_only
       end
 
       def test_info_not_nil
