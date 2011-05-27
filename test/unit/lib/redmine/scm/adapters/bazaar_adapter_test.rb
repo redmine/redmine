@@ -80,7 +80,7 @@ begin
         assert_equal File.join("\\\\server\\test\\test", ".bzr", "branch", "branch.conf"), bcp
       end
 
-      def test_append_revisions_only
+      def test_append_revisions_only_true
         assert_equal true, @adapter.append_revisions_only
       end
 
