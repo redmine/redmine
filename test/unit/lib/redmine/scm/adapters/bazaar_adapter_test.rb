@@ -100,6 +100,13 @@ begin
         assert_equal 4, info.lastrev.identifier.to_i
       end
 
+      def test_info_emtpy
+        adpt = Redmine::Scm::Adapters::BazaarAdapter.new(
+                                File.join(REPOSITORY_PATH, "empty-branch")
+                                )
+        assert_equal 0, adpt.info.lastrev.identifier.to_i
+      end
+
       def test_entries_path_invalid
         assert_equal [], @adapter.entries('invalid')
       end
