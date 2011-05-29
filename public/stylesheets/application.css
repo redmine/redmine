@@ -434,6 +434,9 @@ input#time_entry_comments { width: 90%;}
 .tabular.settings label{ margin-left: -300px; width: 295px; }
 .tabular.settings textarea { width: 99%; }
 
+.tabular.settings.enabled_scm td.scm_name{ font-weight: bold; }
+.tabular.settings.enabled_scm p.scm_config{ padding-left: 8px; }
+
 fieldset.settings label { display: block; }
 fieldset#notified_events .parent { padding-left: 20px; }
 
