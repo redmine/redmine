@@ -947,6 +947,7 @@ en:
   text_scm_command: Command
   text_scm_command_version: Version
   text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.
+  text_scm_command_not_available: Scm command is not available. Please check settings on the administration panel.
 
   default_role_manager: Manager
   default_role_developer: Developer
