@@ -8,12 +8,9 @@
 <div class="box tabular">
 <p>
 <%= label_tag('repository_scm', l(:label_scm)) %><%= scm_select_tag(@repository) %>
-<% if @repository %>
-<br />
-<%= image_tag((@repository.class.scm_available ? 'true.png' : 'exclamation.png'))%>
-<%=  l(:text_scm_command) -%>: <%= @repository.class.scm_command %>
-|
-<%=  l(:text_scm_command_version) -%>: <%= @repository.class.scm_version_string %>
+<% if @repository && ! @repository.class.scm_available %>
+	<br />
+	<em><%= content_tag 'span', l(:text_scm_command_not_available), :class => 'error' %></em>
 <% end %>
 </p>
 <% button_disabled = true %>

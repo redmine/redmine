@@ -434,6 +434,10 @@ input#time_entry_comments { width: 90%;}
 .tabular.settings label{ margin-left: -300px; width: 295px; }
 .tabular.settings textarea { width: 99%; }
 
+.tabular.settings.enabled_scm table {width:100%}
+.tabular.settings.enabled_scm td.scm_name{ font-weight: bold; }
+.tabular.settings.enabled_scm p.scm_config{ padding-left: 8px; font-style:italic;}
+
 fieldset.settings label { display: block; }
 fieldset#notified_events .parent { padding-left: 20px; }
 
@@ -504,6 +508,8 @@ div.flash.warning {
 	border-color: #FDBF3B;
 	color: #A6750C;
 }
+
+span.error {padding-left:20px; background:url(../images/exclamation.png) no-repeat 0 50%;}
 
 #errorExplanation ul { font-size: 0.9em;}
 #errorExplanation h2, #errorExplanation p { display: none; }

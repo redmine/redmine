@@ -392,7 +392,7 @@ ja:
   setting_commit_logtime_enabled: コミット時に作業時間を記録する
   setting_commit_logtime_activity_id: 作業時間の作業分類
   setting_gantt_items_limit: ガントチャート最大表示項目数
-  
+
   permission_add_project: プロジェクトの追加
   permission_add_subprojects: サブプロジェクトの追加
   permission_edit_project: プロジェクトの編集
@@ -448,7 +448,7 @@ ja:
   permission_delete_messages: メッセージの削除
   permission_delete_own_messages: 自身が記入したメッセージの削除
   permission_manage_subtasks: 子チケットの管理
-  
+
   project_module_issue_tracking: チケットトラッキング
   project_module_time_tracking: 時間トラッキング
   project_module_news: ニュース
@@ -459,7 +459,7 @@ ja:
   project_module_boards: フォーラム
   project_module_gantt: ガントチャート
   project_module_calendar: カレンダー
-  
+
   label_user: ユーザ
   label_user_plural: ユーザ
   label_user_new: 新しいユーザ
@@ -950,6 +950,8 @@ ja:
   text_mercurial_repository_note: "ローカルリポジトリ (例: /hgrepo, c:\hgrepo)"
   text_scm_command: コマンド
   text_scm_command_version: バージョン
+  text_scm_config: バージョン管理システムのコマンドをconfig/configuration.ymlで設定できます。設定後、Redmineを再起動してください。
+  text_scm_command_not_available: バージョン管理システムのコマンドが利用できません。管理画面にて設定を確認してください。
 
   default_role_manager: 管理者
   default_role_developer: 開発者

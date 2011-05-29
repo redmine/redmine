@@ -867,17 +867,17 @@ en:
   button_quote: Quote
   button_duplicate: Duplicate
   button_show: Show
-  
+
   status_active: active
   status_registered: registered
   status_locked: locked
-  
+
   version_status_open: open
   version_status_locked: locked
   version_status_closed: closed
 
   field_active: Active
-  
+
   text_select_mail_notifications: Select actions for which email notifications should be sent.
   text_regexp_info: eg. ^[A-Z0-9]+$
   text_min_max_length_info: 0 means no restriction
@@ -946,6 +946,8 @@ en:
   text_mercurial_repository_note: "Local repository (e.g. /hgrepo, c:\hgrepo)"
   text_scm_command: Command
   text_scm_command_version: Version
+  text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.
+  text_scm_command_not_available: Scm command is not available. Please check settings on the administration panel.
 
   default_role_manager: Manager
   default_role_developer: Developer
