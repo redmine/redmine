@@ -973,3 +973,4 @@ bg:
   enumeration_doc_categories: Категории документи
   enumeration_activities: Дейности (time tracking)
   enumeration_system_activity: Системна активност
+  text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.

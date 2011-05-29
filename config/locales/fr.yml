@@ -989,3 +989,4 @@ fr:
   text_scm_command: Commande
   text_scm_command_version: Version
   label_git_report_last_commit: Afficher le dernier commit des fichiers et répertoires
+  text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.
