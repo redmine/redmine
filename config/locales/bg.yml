@@ -946,6 +946,8 @@ bg:
   text_mercurial_repository_note: Локално хранилище (например /hgrepo, c:\hgrepo)
   text_scm_command: SCM команда
   text_scm_command_version: Версия
+  text_scm_config: Можете да конфигурирате SCM командите в config/configuration.yml. За да активирате промените, рестартирайте Redmine.
+  text_scm_command_not_available: SCM командата не е налична или достъпна. Проверете конфигурацията в административния панел.
 
   default_role_manager: Мениджър
   default_role_developer: Разработчик
@@ -973,5 +975,3 @@ bg:
   enumeration_doc_categories: Категории документи
   enumeration_activities: Дейности (time tracking)
   enumeration_system_activity: Системна активност
-  text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.
-  text_scm_command_not_available: Scm command is not available. Please check settings on the administration panel.
