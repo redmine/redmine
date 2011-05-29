@@ -976,16 +976,16 @@ fr:
   field_member_of_group: Groupe de l'assigné
   field_assigned_to_role: Rôle de l'assigné
   setting_emails_header: En-tête des emails
-  label_bulk_edit_selected_time_entries: Bulk edit selected time entries
-  text_time_entries_destroy_confirmation: Are you sure you want to delete the selected time entr(y/ies)?
-  field_scm_path_encoding: Path encoding
-  text_scm_path_encoding_note: "Default: UTF-8"
-  field_path_to_repository: Path to repository
-  field_root_directory: Root directory
+  label_bulk_edit_selected_time_entries: Modifier les temps passés sélectionnées
+  text_time_entries_destroy_confirmation: "Etes-vous sûr de vouloir supprimer les temps passés sélectionnés ?"
+  field_scm_path_encoding: Encodage des chemins
+  text_scm_path_encoding_note: "Défaut : UTF-8"
+  field_path_to_repository: Chemin du dépôt
+  field_root_directory: Répertoire racine
   field_cvs_module: Module
   field_cvsroot: CVSROOT
-  text_git_repository_note: Bare and local repository (e.g. /gitrepo, c:\gitrepo)
-  text_mercurial_repository_note: Local repository (e.g. /hgrepo, c:\hgrepo)
-  text_scm_command: Command
+  text_git_repository_note: "Dépôt nu (bare) et local (exemples : /gitrepo, c:\gitrepo)"
+  text_mercurial_repository_note: "Dépôt local (exemples : /hgrepo, c:\hgrepo)"
+  text_scm_command: Commande
   text_scm_command_version: Version
-  label_git_report_last_commit: Report last commit for files and directories
+  label_git_report_last_commit: Afficher le dernier commit des fichiers et répertoires
