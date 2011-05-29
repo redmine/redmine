@@ -950,6 +950,7 @@ ja:
   text_mercurial_repository_note: "ローカルリポジトリ (例: /hgrepo, c:\hgrepo)"
   text_scm_command: コマンド
   text_scm_command_version: バージョン
+  text_scm_config: バージョン管理システムのコマンドをconfig/configuration.ymlで設定できます。設定後、Redmineを再起動してください。
 
   default_role_manager: 管理者
   default_role_developer: 開発者
