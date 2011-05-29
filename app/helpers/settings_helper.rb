@@ -33,7 +33,9 @@ module SettingsHelper
       choices = [[blank_text.is_a?(Symbol) ? l(blank_text) : blank_text, '']] + choices
     end
     setting_label(setting, options) +
-      select_tag("settings[#{setting}]", options_for_select(choices, Setting.send(setting).to_s), options)
+      select_tag("settings[#{setting}]",
+                 options_for_select(choices, Setting.send(setting).to_s),
+                 options)
   end
 
   def setting_multiselect(setting, choices, options={})
@@ -44,10 +46,15 @@ module SettingsHelper
       hidden_field_tag("settings[#{setting}][]", '') +
       choices.collect do |choice|
         text, value = (choice.is_a?(Array) ? choice : [choice, choice])
-        content_tag('label',
-          check_box_tag("settings[#{setting}][]", value, Setting.send(setting).include?(value)) + text.to_s,
+        content_tag(
+          'label',
+          check_box_tag(
+             "settings[#{setting}][]",
+             value,
+             Setting.send(setting).include?(value)
+           ) + text.to_s,
           :class => 'block'
-        )
+         )
       end.join
   end
 
@@ -64,7 +71,7 @@ module SettingsHelper
   def setting_check_box(setting, options={})
     setting_label(setting, options) +
       hidden_field_tag("settings[#{setting}]", 0) +
-      check_box_tag("settings[#{setting}]", 1, Setting.send("#{setting}?"), options)
+        check_box_tag("settings[#{setting}]", 1, Setting.send("#{setting}?"), options)
   end
 
   def setting_label(setting, options={})
