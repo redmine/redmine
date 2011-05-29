@@ -1056,3 +1056,4 @@
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
   text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.
+  text_scm_command_not_available: Scm command is not available. Please check settings on the administration panel.
