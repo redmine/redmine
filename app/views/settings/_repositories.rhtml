@@ -5,8 +5,6 @@
 <table>
   <tr>
     <th></th>
-    <th></th>
-    <th></th>
     <th><%= l(:text_scm_command)         %></th>
     <th><%= l(:text_scm_command_version) %></th>
   </tr>
@@ -15,15 +13,13 @@
     <% text, value = (choice.is_a?(Array) ? choice : [choice, choice]) %>
     <% setting = :enabled_scm %>
     <tr>
-      <td>
+      <td class="scm_name">
         <%= 
           check_box_tag(
               "settings[#{setting}][]",
                value,
                Setting.send(setting).include?(value))
          %>
-      </td>
-      <td class="scm_name">
         <%= text.to_s %>
       </td>
       <td>
@@ -33,8 +29,6 @@
               :style => "vertical-align:bottom;"
            )
            %>
-       </td>
-       <td>
           <%= scm_class.scm_command %>
        </td>
        <td>
