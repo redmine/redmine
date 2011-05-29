@@ -27,3 +27,10 @@ journals_004:
   journalized_type: Issue
   user_id: 1
   journalized_id: 6
+journals_005: 
+  id: 5
+  created_on: <%= 1.days.ago.to_date.to_s(:db) %>
+  notes: "A comment on a private issue."
+  user_id: 2
+  journalized_type: Issue
+  journalized_id: 14

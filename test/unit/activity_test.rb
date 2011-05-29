@@ -52,6 +52,9 @@ class ActivityTest < ActiveSupport::TestCase
     assert events.include?(Message.find(5))
     # Issue of a private project
     assert !events.include?(Issue.find(4))
+    # Private issue and comment
+    assert !events.include?(Issue.find(14))
+    assert !events.include?(Journal.find(5))
   end
 
   def test_global_activity_logged_user

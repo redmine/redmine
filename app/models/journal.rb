@@ -32,7 +32,6 @@ class Journal < ActiveRecord::Base
                 :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.issue.id, :anchor => "change-#{o.id}"}}
 
   acts_as_activity_provider :type => 'issues',
-                            :permission => :view_issues,
                             :author_key => :user_id,
                             :find_options => {:include => [{:issue => :project}, :details, :user],
                                               :conditions => "#{Journal.table_name}.journalized_type = 'Issue' AND" +
