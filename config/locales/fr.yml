@@ -962,7 +962,7 @@ fr:
   text_zoom_in: Zoom avant
   notice_unable_delete_time_entry: Impossible de supprimer le temps passé.
   label_overall_spent_time: Temps passé global
-  field_time_entries: Log time
+  field_time_entries: Temps passé
   project_module_gantt: Gantt
   project_module_calendar: Calendrier
   button_edit_associated_wikipage: "Modifier la page wiki associée: %{page_title}"
@@ -989,5 +989,5 @@ fr:
   text_scm_command: Commande
   text_scm_command_version: Version
   label_git_report_last_commit: Afficher le dernier commit des fichiers et répertoires
-  text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.
-  text_scm_command_not_available: Scm command is not available. Please check settings on the administration panel.
+  text_scm_config: Vous pouvez configurer les commandes des SCM dans config/configuration.yml. Redémarrer l'application après modification.
+  text_scm_command_not_available: Ce SCM n'est pas disponible. Vérifier les paramètres dans la section administration.
