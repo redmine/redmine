@@ -252,11 +252,13 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
     def test_revision_diff
       @repository.fetch_changesets
       @repository.reload
-      get :diff, :id => PRJ_ID, :rev => 3
-      assert_response :success
-      assert_template 'diff'
-
-      assert_tag :tag => 'h2', :content => /3/
+      ['inline', 'sbs'].each do |dt|
+        get :diff, :id => PRJ_ID, :rev => 3, :type => dt
+        assert_response :success
+        assert_template 'diff'
+        assert_tag :tag => 'h2',
+                   :content => / 3/
+      end
     end
 
     def test_directory_diff
