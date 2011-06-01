@@ -132,18 +132,20 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
                     :tag => 'td',
                     :child => {
                        :tag => 'a',
-                       :content => /3/
+                       :content => '3'
                        }
-                    },
+                    }
+      assert_tag :tag => 'th', :content => '2',
                  :sibling => { :tag => 'td', :content => /jsmith/ }
       assert_tag :tag => 'th', :content => '2',
                  :sibling => {
                     :tag => 'td',
                     :child => {
                        :tag => 'a',
-                       :content => /3/
+                       :content => '3'
                        }
-                    },
+                    }
+      assert_tag :tag => 'th', :content => '2',
                  :sibling => { :tag => 'td', :content => /Main purpose/ }
     end
   else
