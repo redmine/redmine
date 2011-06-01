@@ -232,23 +232,25 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       else
         with_settings :repositories_encodings => 'UTF-8,ISO-8859-1' do
           ['57ca437c', '57ca437c0acbbcb749821fdf3726a1367056d364'].each do |r1|
-            get :diff, :id => PRJ_ID, :rev => r1
-            assert_response :success
-            assert_template 'diff'
-            assert_tag :tag => 'thead',
-                       :descendant => {
-                         :tag => 'th',
-                         :attributes => { :class => 'filename' } ,
-                         :content => /latin-1-dir\/test-#{@char_1}.txt/ ,
-                        },
-                       :sibling => {
-                         :tag => 'tbody',
+            ['inline', 'sbs'].each do |dt|
+              get :diff, :id => PRJ_ID, :rev => r1, :type => dt
+              assert_response :success
+              assert_template 'diff'
+              assert_tag :tag => 'thead',
                          :descendant => {
-                            :tag => 'td',
-                            :attributes => { :class => /diff_in/ },
-                            :content => /test-#{@char_1}.txt/
+                           :tag => 'th',
+                           :attributes => { :class => 'filename' } ,
+                           :content => /latin-1-dir\/test-#{@char_1}.txt/ ,
+                          },
+                         :sibling => {
+                           :tag => 'tbody',
+                           :descendant => {
+                              :tag => 'td',
+                              :attributes => { :class => /diff_in/ },
+                              :content => /test-#{@char_1}.txt/
+                           }
                          }
-                       }
+            end
           end
         end
       end
