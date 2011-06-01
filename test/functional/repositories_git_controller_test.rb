@@ -268,7 +268,8 @@ class RepositoriesGitControllerTest < ActionController::TestCase
                        :tag => 'a',
                        :content => /2f9c0091c754a91af7a9c478e36556b4bde8dcf7/
                        }
-                    },
+                    }
+      assert_tag :tag => 'th', :content => '24',
                  :sibling => { :tag => 'td', :content => /jsmith/ }
       assert_tag :tag => 'th', :content => '24',
                  :sibling => {
@@ -277,7 +278,8 @@ class RepositoriesGitControllerTest < ActionController::TestCase
                        :tag => 'a',
                        :content => /2f9c0091c754a91af7a9c478e36556b4bde8dcf7/
                        }
-                    },
+                    }
+      assert_tag :tag => 'th', :content => '24',
                  :sibling => { :tag => 'td', :content => /watcher =/ }
     end
 
