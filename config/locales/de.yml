@@ -1,5 +1,6 @@
 # German translations for Ruby on Rails
 # by Clemens Kofler (clemens@railway.at)
+# additions for Redmine 1.2 by Jens Martsch (jmartsch@gmail.com)
 
 de:
   direction: ltr
@@ -949,47 +950,48 @@ de:
   field_member_of_group: Zuständigkeitsgruppe
   field_assigned_to_role: Zuständigkeitsrolle
   field_visible: Sichtbar
-  setting_emails_header: Emailkopf
+  setting_emails_header: E-Mail Betreffzeile
   setting_commit_logtime_activity_id: Aktivität für die Zeiterfassung
   text_time_logged_by_changeset: Angewendet in Changeset %{value}.
   setting_commit_logtime_enabled: Aktiviere Zeitlogging
   notice_gantt_chart_truncated: Die Grafik ist unvollständig, da das Maximum der anzeigbaren Aufgaben überschritten wurde (%{max})
   setting_gantt_items_limit: Maximale Anzahl von Aufgaben die im Gantt-Chart angezeigt werden.
-  field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
-  text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
-  label_my_queries: My custom queries
-  text_journal_changed_no_detail: "%{label} updated"
-  label_news_comment_added: Comment added to a news
-  button_expand_all: Expand all
-  button_collapse_all: Collapse all
+  field_warn_on_leaving_unsaved: vor dem Verlassen einer Seite mit ungesichertem Text im Editor warnen
+  text_warn_on_leaving_unsaved: Die aktuellen Änderungen gehen verloren, wenn Sie diese Seite verlassen.
+  label_my_queries: Meine eigenen Abfragen
+  text_journal_changed_no_detail: "%{label} aktualisiert"
+  label_news_comment_added: Kommentar zu einer News hinzugefügt
+  button_expand_all: Alle ausklappen
+  button_collapse_all: Alle einklappen
   label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
   label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
-  label_bulk_edit_selected_time_entries: Bulk edit selected time entries
-  text_time_entries_destroy_confirmation: Are you sure you want to delete the selected time entr(y/ies)?
+  label_bulk_edit_selected_time_entries: Ausgewählte Zeitaufwände bearbeiten
+  text_time_entries_destroy_confirmation: Sind Sie sicher, dass Sie die ausgewählten Zeitaufwände löschen möchten?
   label_role_anonymous: Anonymous
-  label_role_non_member: Non member
-  label_issue_note_added: Note added
-  label_issue_status_updated: Status updated
-  label_issue_priority_updated: Priority updated
-  label_issues_visibility_own: Issues created by or assigned to the user
-  field_issues_visibility: Issues visibility
-  label_issues_visibility_all: All issues
-  permission_set_own_issues_private: Set own issues public or private
-  field_is_private: Private
-  permission_set_issues_private: Set issues public or private
-  label_issues_visibility_public: All non private issues
-  text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
+  label_role_non_member: Nichtmitglied
+  label_issue_note_added: Notiz hinzugefügt
+  label_issue_status_updated: Status aktualisiert
+  label_issue_priority_updated: Priorität aktualisiert
+  label_issues_visibility_own: Tickets die folgender User erstellt hat oder die ihm zugewiesen sind
+  field_issues_visibility: Ticket Sichtbarkeit
+  label_issues_visibility_all: Alle Tickets
+  permission_set_own_issues_private: Eigene Tickets privat oder öffentlich markieren
+  field_is_private: Privat
+  permission_set_issues_private: Tickets privat oder öffentlich markieren
+  label_issues_visibility_public: Alle nicht privaten Tickets
+  text_issues_destroy_descendants_confirmation: Dies wird auch %{count} Unteraufgabe/n löschen.
   field_commit_logs_encoding: Kodierung der Commit-Log-Meldungen
-  field_scm_path_encoding: Path encoding
-  text_scm_path_encoding_note: "Default: UTF-8"
-  field_path_to_repository: Path to repository
-  field_root_directory: Root directory
-  field_cvs_module: Module
+  field_scm_path_encoding: Pfad Kodierung
+  text_scm_path_encoding_note: "Standard: UTF-8"
+  field_path_to_repository: Pfad zum repository
+  field_root_directory: Wurzelverzeichnis
+  field_cvs_module: Modul
   field_cvsroot: CVSROOT
-  text_git_repository_note: Bare and local repository (e.g. /gitrepo, c:\gitrepo)
-  text_mercurial_repository_note: Local repository (e.g. /hgrepo, c:\hgrepo)
-  text_scm_command: Command
+  text_git_repository_note: Bare und lokales repository (e.g. /gitrepo, c:\gitrepo)
+  text_mercurial_repository_note: Lokales repository (e.g. /hgrepo, c:\hgrepo)
+  text_scm_command: Kommando
   text_scm_command_version: Version
-  label_git_report_last_commit: Report last commit for files and directories
-  text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.
-  text_scm_command_not_available: Scm command is not available. Please check settings on the administration panel.
+  label_git_report_last_commit: Bericht des letzten Commits für Dateien und Verzeichnisse
+  text_scm_config: Sie können Ihre scm Kommandos in config/configuration.yml ändern. Bitte starten Sie die Anwendung nach dem ändern neu.
+  text_scm_command_not_available: Scm Kommando ist nicht verfügbar. Bitte prüfen Sie die Einstellungen im Administrationspanel.
+
