@@ -110,15 +110,17 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
 
     def test_diff
       # Full diff of changeset 3
-      get :diff, :id => PRJ_ID, :rev => 3
-      assert_response :success
-      assert_template 'diff'
-      # Line 11 removed
-      assert_tag :tag => 'th',
-                 :content => /11/,
-                 :sibling => { :tag => 'td',
-                               :attributes => { :class => /diff_out/ },
-                               :content => /Display more information/ }
+      ['inline', 'sbs'].each do |dt|
+        get :diff, :id => PRJ_ID, :rev => 3, :type => dt
+        assert_response :success
+        assert_template 'diff'
+        # Line 11 removed
+        assert_tag :tag => 'th',
+                   :content => '11',
+                   :sibling => { :tag => 'td',
+                                 :attributes => { :class => /diff_out/ },
+                                 :content => /Display more information/ }
+      end
     end
 
     def test_annotate
