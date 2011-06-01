@@ -143,13 +143,15 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
     def test_diff
       @repository.fetch_changesets
       @repository.reload
-      get :diff, :id => PRJ_ID, :rev => 3, :type => 'inline'
-      assert_response :success
-      assert_template 'diff'
-      assert_tag :tag => 'td', :attributes => { :class => 'line-code diff_out' },
-                               :content => /before_filter :require_login/
-      assert_tag :tag => 'td', :attributes => { :class => 'line-code diff_in' },
-                               :content => /with one change/
+      ['inline', 'sbs'].each do |dt|
+        get :diff, :id => PRJ_ID, :rev => 3, :type => dt
+        assert_response :success
+        assert_template 'diff'
+        assert_tag :tag => 'td', :attributes => { :class => 'line-code diff_out' },
+                                 :content => /before_filter :require_login/
+        assert_tag :tag => 'td', :attributes => { :class => 'line-code diff_in' },
+                                 :content => /with one change/
+      end
     end
 
     def test_diff_new_files
