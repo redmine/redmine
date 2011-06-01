@@ -266,7 +266,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
                     :tag => 'td',
                     :child => {
                        :tag => 'a',
-                       :content => /2f9c0091c754a91af7a9c478e36556b4bde8dcf7/
+                       :content => /2f9c0091/
                        }
                     }
       assert_tag :tag => 'th', :content => '24',
@@ -276,7 +276,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
                     :tag => 'td',
                     :child => {
                        :tag => 'a',
-                       :content => /2f9c0091c754a91af7a9c478e36556b4bde8dcf7/
+                       :content => /2f9c0091/
                        }
                     }
       assert_tag :tag => 'th', :content => '24',
