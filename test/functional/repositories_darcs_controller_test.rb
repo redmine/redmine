@@ -91,15 +91,17 @@ class RepositoriesDarcsControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @repository.reload
       # Full diff of changeset 5
-      get :diff, :id => PRJ_ID, :rev => 5
-      assert_response :success
-      assert_template 'diff'
-      # Line 22 removed
-      assert_tag :tag => 'th',
-                 :content => /22/,
-                 :sibling => { :tag => 'td',
-                               :attributes => { :class => /diff_out/ },
-                               :content => /def remove/ }
+      ['inline', 'sbs'].each do |dt|
+        get :diff, :id => PRJ_ID, :rev => 5, :type => dt
+        assert_response :success
+        assert_template 'diff'
+        # Line 22 removed
+        assert_tag :tag => 'th',
+                   :content => '22',
+                   :sibling => { :tag => 'td',
+                                 :attributes => { :class => /diff_out/ },
+                                 :content => /def remove/ }
+      end
     end
   else
     puts "Darcs test repository NOT FOUND. Skipping functional tests !!!"
