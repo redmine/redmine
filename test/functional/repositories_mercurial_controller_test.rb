@@ -260,17 +260,19 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       @repository.reload
       [4, '4', 'def6d2f1254a'].each do |r1|
         # Full diff of changeset 4
-        get :diff, :id => PRJ_ID, :rev => r1
-        assert_response :success
-        assert_template 'diff'
-        if @diff_c_support
-          # Line 22 removed
-          assert_tag :tag => 'th',
-                     :content => '22',
-                     :sibling => { :tag => 'td',
-                                   :attributes => { :class => /diff_out/ },
-                                   :content => /def remove/ }
-          assert_tag :tag => 'h2', :content => /4:def6d2f1254a/
+        ['inline', 'sbs'].each do |dt|
+          get :diff, :id => PRJ_ID, :rev => r1, :type => dt
+          assert_response :success
+          assert_template 'diff'
+          if @diff_c_support
+            # Line 22 removed
+            assert_tag :tag => 'th',
+                       :content => '22',
+                       :sibling => { :tag => 'td',
+                                     :attributes => { :class => /diff_out/ },
+                                     :content => /def remove/ }
+            assert_tag :tag => 'h2', :content => /4:def6d2f1254a/
+          end
         end
       end
     end
