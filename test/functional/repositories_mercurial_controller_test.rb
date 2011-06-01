@@ -302,23 +302,25 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
     def test_diff_latin_1_path
       with_settings :repositories_encodings => 'UTF-8,ISO-8859-1' do
         [21, 'adf805632193'].each do |r1|
-          get :diff, :id => PRJ_ID, :rev => r1
-          assert_response :success
-          assert_template 'diff'
-          assert_tag :tag => 'thead',
-                     :descendant => {
-                       :tag => 'th',
-                       :attributes => { :class => 'filename' } ,
-                       :content => /latin-1-dir\/test-#{@char_1}-2.txt/ ,
-                      },
-                     :sibling => {
-                       :tag => 'tbody',
+          ['inline', 'sbs'].each do |dt|
+            get :diff, :id => PRJ_ID, :rev => r1, :type => dt
+            assert_response :success
+            assert_template 'diff'
+            assert_tag :tag => 'thead',
                        :descendant => {
-                          :tag => 'td',
-                          :attributes => { :class => /diff_in/ },
-                          :content => /It is written in Python/
+                         :tag => 'th',
+                         :attributes => { :class => 'filename' } ,
+                         :content => /latin-1-dir\/test-#{@char_1}-2.txt/ ,
+                        },
+                       :sibling => {
+                         :tag => 'tbody',
+                         :descendant => {
+                            :tag => 'td',
+                            :attributes => { :class => /diff_in/ },
+                            :content => /It is written in Python/
+                         }
                        }
-                     }
+          end
         end
       end
     end
