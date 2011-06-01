@@ -192,16 +192,21 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @repository.reload
       # Full diff of changeset 2f9c0091
-      get :diff, :id => PRJ_ID, :rev => '2f9c0091c754a91af7a9c478e36556b4bde8dcf7'
-      assert_response :success
-      assert_template 'diff'
-      # Line 22 removed
-      assert_tag :tag => 'th',
-                 :content => /22/,
-                 :sibling => { :tag => 'td',
-                               :attributes => { :class => /diff_out/ },
-                               :content => /def remove/ }
-      assert_tag :tag => 'h2', :content => /2f9c0091/
+      ['inline', 'sbs'].each do |dt|
+        get :diff,
+            :id   => PRJ_ID,
+            :rev  => '2f9c0091c754a91af7a9c478e36556b4bde8dcf7',
+            :type => dt
+        assert_response :success
+        assert_template 'diff'
+        # Line 22 removed
+        assert_tag :tag => 'th',
+                   :content => /22/,
+                   :sibling => { :tag => 'td',
+                                 :attributes => { :class => /diff_out/ },
+                                 :content => /def remove/ }
+        assert_tag :tag => 'h2', :content => /2f9c0091/
+      end
     end
 
     def test_diff_two_revs
