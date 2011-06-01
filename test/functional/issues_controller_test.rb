@@ -606,6 +606,36 @@ class IssuesControllerTest < ActionController::TestCase
     assert_not_nil issue
     assert_nil issue.parent
   end
+  
+  def test_post_create_private
+    @request.session[:user_id] = 2
+
+    assert_difference 'Issue.count' do
+      post :create, :project_id => 1,
+                 :issue => {:tracker_id => 1,
+                            :subject => 'This is a private issue',
+                            :is_private => '1'}
+    end
+    issue = Issue.first(:order => 'id DESC')
+    assert issue.is_private?
+  end
+  
+  def test_post_create_private_with_set_own_issues_private_permission
+    role = Role.find(1)
+    role.remove_permission! :set_issues_private
+    role.add_permission! :set_own_issues_private
+    
+    @request.session[:user_id] = 2
+
+    assert_difference 'Issue.count' do
+      post :create, :project_id => 1,
+                 :issue => {:tracker_id => 1,
+                            :subject => 'This is a private issue',
+                            :is_private => '1'}
+    end
+    issue = Issue.first(:order => 'id DESC')
+    assert issue.is_private?
+  end
 
   def test_post_create_should_send_a_notification
     ActionMailer::Base.deliveries.clear

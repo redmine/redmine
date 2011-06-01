@@ -301,6 +301,7 @@ private
     end
 
     @issue.project = @project
+    @issue.author = User.current
     # Tracker must be set before custom field values
     @issue.tracker ||= @project.trackers.find((params[:issue] && params[:issue][:tracker_id]) || params[:tracker_id] || :first)
     if @issue.tracker.nil?
@@ -314,7 +315,6 @@ private
         @issue.watcher_user_ids = params[:issue]['watcher_user_ids']
       end
     end
-    @issue.author = User.current
     @priorities = IssuePriority.all
     @allowed_statuses = @issue.new_statuses_allowed_to(User.current, true)
   end
