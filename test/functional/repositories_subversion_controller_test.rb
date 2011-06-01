@@ -264,16 +264,18 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
     def test_directory_diff
       @repository.fetch_changesets
       @repository.reload
-      get :diff, :id => PRJ_ID, :rev => 6, :rev_to => 2, :path => ['subversion_test', 'folder']
-      assert_response :success
-      assert_template 'diff'
+      ['inline', 'sbs'].each do |dt|
+        get :diff, :id => PRJ_ID, :rev => 6, :rev_to => 2,
+            :path => ['subversion_test', 'folder'], :type => dt
+        assert_response :success
+        assert_template 'diff'
 
-      diff = assigns(:diff)
-      assert_not_nil diff
-      # 2 files modified
-      assert_equal 2, Redmine::UnifiedDiff.new(diff).size
-
-      assert_tag :tag => 'h2', :content => /2:6/
+        diff = assigns(:diff)
+        assert_not_nil diff
+        # 2 files modified
+        assert_equal 2, Redmine::UnifiedDiff.new(diff).size
+        assert_tag :tag => 'h2', :content => /2:6/
+      end
     end
 
     def test_annotate
