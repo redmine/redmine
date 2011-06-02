@@ -842,12 +842,12 @@ tr:
   text_wiki_page_destroy_children: Alt sayfaları ve onların alt sayfalarını tamamen sil
   setting_password_min_length: Minimum parola uzunluğu
   field_group_by: Sonuçları grupla
-  mail_subject_wiki_content_updated: "'%{page}' wiki sayfası güncellendi"
+  mail_subject_wiki_content_updated: "'%{id}' wiki sayfası güncellendi"
   label_wiki_content_added: Wiki sayfası eklendi
-  mail_subject_wiki_content_added: "'%{page}' wiki sayfası eklendi"
-  mail_body_wiki_content_added: "'%{page}' wiki sayfası, %{author} tarafından eklendi."
+  mail_subject_wiki_content_added: "'%{id}' wiki sayfası eklendi"
+  mail_body_wiki_content_added: "'%{id}' wiki sayfası, %{author} tarafından eklendi."
   label_wiki_content_updated: Wiki sayfası güncellendi
-  mail_body_wiki_content_updated: "'%{page}' wiki sayfası, %{author} tarafından güncellendi."
+  mail_body_wiki_content_updated: "'%{id}' wiki sayfası, %{author} tarafından güncellendi."
   permission_add_project: Proje oluştur
   setting_new_project_user_role_id: Yönetici olmayan ancak proje yaratabilen kullanıcıya verilen rol
   label_view_all_revisions: Tüm değişiklikleri gör
