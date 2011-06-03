@@ -278,7 +278,7 @@ class Repository < ActiveRecord::Base
     ret = ""
     begin
       ret = self.scm_adapter_class.client_command if self.scm_adapter_class
-    rescue Redmine::Scm::Adapters::CommandFailed => e
+    rescue Exception => e
       logger.error "scm: error during get command: #{e.message}"
     end
     ret
@@ -288,7 +288,7 @@ class Repository < ActiveRecord::Base
     ret = ""
     begin
       ret = self.scm_adapter_class.client_version_string if self.scm_adapter_class
-    rescue Redmine::Scm::Adapters::CommandFailed => e
+    rescue Exception => e
       logger.error "scm: error during get version string: #{e.message}"
     end
     ret
@@ -298,7 +298,7 @@ class Repository < ActiveRecord::Base
     ret = false
     begin
       ret = self.scm_adapter_class.client_available if self.scm_adapter_class
-    rescue Redmine::Scm::Adapters::CommandFailed => e
+    rescue Exception => e
       logger.error "scm: error during get scm available: #{e.message}"
     end
     ret
