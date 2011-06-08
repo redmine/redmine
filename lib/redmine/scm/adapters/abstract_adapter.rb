@@ -228,8 +228,9 @@ module Redmine
             msg = strip_credential(e.message)
             # The command failed, log it and re-raise
             logmsg = "SCM command failed, "
-            logmsg += "make sure that your SCM binary (eg. svn) is "
-            logmsg += "in PATH (#{ENV['PATH']}): "
+            logmsg += "make sure that your SCM command (e.g. svn) is "
+            logmsg += "in PATH (#{ENV['PATH']})\n"
+            logmsg += "You can configure your scm commands in config/configuration.yml.\n"
             logmsg += "#{strip_credential(cmd)}\n"
             logmsg += "with: #{msg}"
             logger.error(logmsg)
