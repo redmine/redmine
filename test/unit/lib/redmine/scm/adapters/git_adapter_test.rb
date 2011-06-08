@@ -20,6 +20,14 @@ begin
     # WINDOWS_PASS = Redmine::Platform.mswin?
     WINDOWS_PASS = false
 
+    ## Git, Mercurial and CVS path encodings are binary.
+    ## Subversion supports URL encoding for path.
+    ## Redmine Mercurial adapter and extension use URL encoding.
+    ## Git accepts only binary path in command line parameter.
+    ## So, there is no way to use binary command line parameter in JRuby.
+    JRUBY_SKIP     = (RUBY_PLATFORM == 'java')
+    JRUBY_SKIP_STR = "TODO: This test fails in JRuby"
+
     if File.directory?(REPOSITORY_PATH)
       def setup
         adapter_class = Redmine::Scm::Adapters::GitAdapter
@@ -262,6 +270,8 @@ begin
       def test_latin_1_path
         if WINDOWS_PASS
           #
+        elsif JRUBY_SKIP
+          puts JRUBY_SKIP_STR
         else
           p2 = "latin-1-dir/test-#{@char_1}-2.txt"
           ['4fc55c43bf3d3dc2efb66145365ddc17639ce81e', '4fc55c43bf3'].each do |r1|
@@ -322,6 +332,8 @@ begin
       def test_entries_latin_1_dir
         if WINDOWS_PASS
           #
+        elsif JRUBY_SKIP
+          puts JRUBY_SKIP_STR
         else
           entries1 = @adapter.entries("latin-1-dir/test-#{@char_1}-subdir",
                                       '1ca7f5ed')
