@@ -30,6 +30,14 @@ class RepositoriesGitControllerTest < ActionController::TestCase
   PRJ_ID     = 3
   CHAR_1_HEX = "\xc3\x9c"
 
+  ## Git, Mercurial and CVS path encodings are binary.
+  ## Subversion supports URL encoding for path.
+  ## Redmine Mercurial adapter and extension use URL encoding.
+  ## Git accepts only binary path in command line parameter.
+  ## So, there is no way to use binary command line parameter in JRuby.
+  JRUBY_SKIP     = (RUBY_PLATFORM == 'java')
+  JRUBY_SKIP_STR = "TODO: This test fails in JRuby"
+
   def setup
     @ruby19_non_utf8_pass =
       (RUBY_VERSION >= '1.9' && Encoding.default_external.to_s != 'UTF-8')
@@ -155,6 +163,8 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     def test_entry_show_latin_1
       if @ruby19_non_utf8_pass
         puts_ruby19_non_utf8_pass()
+      elsif JRUBY_SKIP
+        puts JRUBY_SKIP_STR
       else
         with_settings :repositories_encodings => 'UTF-8,ISO-8859-1' do
           ['57ca437c', '57ca437c0acbbcb749821fdf3726a1367056d364'].each do |r1|
@@ -303,6 +313,8 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     def test_annotate_latin_1
       if @ruby19_non_utf8_pass
         puts_ruby19_non_utf8_pass()
+      elsif JRUBY_SKIP
+        puts JRUBY_SKIP_STR
       else
         with_settings :repositories_encodings => 'UTF-8,ISO-8859-1' do
           ['57ca437c', '57ca437c0acbbcb749821fdf3726a1367056d364'].each do |r1|
