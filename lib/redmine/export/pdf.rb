@@ -49,7 +49,7 @@ module Redmine
             AddUHCFont()
             @font_for_content = 'UHC'
             @font_for_footer  = 'UHC'
-          when 'CP932'
+          when 'CP932', 'SJIS', 'Shift_JIS'
             extend(PDF_Japanese)
             AddSJISFont()
             @font_for_content = 'SJIS'
