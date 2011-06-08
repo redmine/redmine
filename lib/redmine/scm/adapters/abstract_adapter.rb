@@ -207,7 +207,9 @@ module Redmine
         end
 
         def self.shellout(cmd, &block)
-          logger.debug "Shelling out: #{strip_credential(cmd)}" if logger && logger.debug?
+          if logger && logger.debug?
+            logger.debug "Shelling out: #{strip_credential(cmd)}"
+          end
           if Rails.env == 'development'
             # Capture stderr when running in dev environment
             cmd = "#{cmd} 2>>#{RAILS_ROOT}/log/scm.stderr.log"
@@ -225,7 +227,12 @@ module Redmine
           rescue Errno::ENOENT => e
             msg = strip_credential(e.message)
             # The command failed, log it and re-raise
-            logger.error("SCM command failed, make sure that your SCM binary (eg. svn) is in PATH (#{ENV['PATH']}): #{strip_credential(cmd)}\n  with: #{msg}")
+            logmsg = "SCM command failed, "
+            logmsg += "make sure that your SCM binary (eg. svn) is "
+            logmsg += "in PATH (#{ENV['PATH']}): "
+            logmsg += "#{strip_credential(cmd)}\n"
+            logmsg += "with: #{msg}"
+            logger.error(logmsg)
             raise CommandFailed.new(msg)
           end
         end
