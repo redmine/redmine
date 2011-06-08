@@ -158,6 +158,14 @@ ja:
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
   general_csv_encoding: CP932
+  ## Redmine 1.2.0 現在、この値によって、pdfの出力のフォントを切り替えています。
+  ## CRuby では CP932 にしてください。
+  ## JRuby 1.6.2 (ruby-1.8.7-p330) では、CP932 ですと
+  ## Iconv::InvalidEncoding例外が発生します。
+  ## JRuby では、SJIS か Shift_JIS にしてください。
+  ## ご存知の通り、CP932 と SJIS は別物ですが、
+  ## そこまでの検証はしていません。
+  # general_pdf_encoding: SJIS
   general_pdf_encoding: CP932
   general_first_day_of_week: '7'
 
