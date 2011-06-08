@@ -24,8 +24,12 @@ class PdfTest < ActiveSupport::TestCase
   def test_fix_text_encoding_nil
     set_language_if_valid 'ja'
     assert_equal 'CP932', l(:general_pdf_encoding)
-    if RUBY_VERSION < '1.9'
-      ic = Iconv.new(l(:general_pdf_encoding), 'UTF-8')
+    if RUBY_VERSION < '1.9' 
+      if RUBY_PLATFORM == 'java'
+        ic = Iconv.new("SJIS", 'UTF-8')
+      else
+        ic = Iconv.new(l(:general_pdf_encoding), 'UTF-8')
+      end
     end
     assert_equal '', Redmine::Export::PDF::RDMPdfEncoding::rdm_pdf_iconv(ic, nil)
   end
