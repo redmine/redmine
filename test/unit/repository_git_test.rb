@@ -33,6 +33,14 @@ class RepositoryGitTest < ActiveSupport::TestCase
   # WINDOWS_PASS = Redmine::Platform.mswin?
   WINDOWS_PASS = false
 
+  ## Git, Mercurial and CVS path encodings are binary.
+  ## Subversion supports URL encoding for path.
+  ## Redmine Mercurial adapter and extension use URL encoding.
+  ## Git accepts only binary path in command line parameter.
+  ## So, there is no way to use binary command line parameter in JRuby.
+  JRUBY_SKIP     = (RUBY_PLATFORM == 'java')
+  JRUBY_SKIP_STR = "TODO: This test fails in JRuby"
+
   if File.directory?(REPOSITORY_PATH)
     def setup
       klass = Repository::Git
@@ -308,24 +316,30 @@ class RepositoryGitTest < ActiveSupport::TestCase
               '61b685fbe55ab05b5ac68402d5720c1a6ac973d1',
           ], changesets.collect(&:revision)
 
-      # latin-1 encoding path
-      changesets = @repository.latest_changesets(
-                    "latin-1-dir/test-#{@char_1}-2.txt", '64f1f3e89')
-      assert_equal [
+      if JRUBY_SKIP
+        puts JRUBY_SKIP_STR
+      else
+        # latin-1 encoding path
+        changesets = @repository.latest_changesets(
+                      "latin-1-dir/test-#{@char_1}-2.txt", '64f1f3e89')
+        assert_equal [
               '64f1f3e89ad1cb57976ff0ad99a107012ba3481d',
               '4fc55c43bf3d3dc2efb66145365ddc17639ce81e',
           ], changesets.collect(&:revision)
 
-      changesets = @repository.latest_changesets(
+        changesets = @repository.latest_changesets(
                     "latin-1-dir/test-#{@char_1}-2.txt", '64f1f3e89', 1)
-      assert_equal [
+        assert_equal [
               '64f1f3e89ad1cb57976ff0ad99a107012ba3481d',
           ], changesets.collect(&:revision)
+      end
     end
 
     def test_latest_changesets_latin_1_dir
       if WINDOWS_PASS
         #
+      elsif JRUBY_SKIP
+        puts JRUBY_SKIP_STR
       else
         @repository.fetch_changesets
         @repository.reload
