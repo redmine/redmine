@@ -11,6 +11,13 @@ module Redmine
           str = str.encode("US-ASCII", :invalid => :replace,
                 :undef => :replace, :replace => '?').encode("UTF-8")
         end
+      elsif RUBY_PLATFORM == 'java'
+        begin
+          ic = Iconv.new('UTF-8', 'UTF-8')
+          str = ic.iconv(str)
+        rescue
+          str = str.gsub(%r{[^\r\n\t\x20-\x7e]}, '?')
+        end
       else
         ic = Iconv.new('UTF-8', 'UTF-8')
         txtar = ""
