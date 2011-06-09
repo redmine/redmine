@@ -38,7 +38,11 @@ class PdfTest < ActiveSupport::TestCase
     set_language_if_valid 'ja'
     assert_equal 'CP932', l(:general_pdf_encoding)
     if RUBY_VERSION < '1.9'
-      ic = Iconv.new(l(:general_pdf_encoding), 'UTF-8')
+      if RUBY_PLATFORM == 'java'
+        ic = Iconv.new("SJIS", 'UTF-8')
+      else
+        ic = Iconv.new(l(:general_pdf_encoding), 'UTF-8')
+      end
     end
     utf8_txt_1  = "\xe7\x8b\x80\xe6\x85\x8b"
     utf8_txt_2  = "\xe7\x8b\x80\xe6\x85\x8b\xe7\x8b\x80"
