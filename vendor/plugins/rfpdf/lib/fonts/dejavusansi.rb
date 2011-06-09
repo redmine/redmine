@@ -1,4 +1,4 @@
-TCPDFFontDescriptor.define('DejaVuSansi') do |font|
+TCPDFFontDescriptor.define('dejavusansi') do |font|
   font[:type]='TrueTypeUnicode';
   font[:name]='DejaVuSans-Oblique';
   font[:desc]={'Ascent'=>928,'Descent'=>-236,'CapHeight'=>928,'Flags'=>96,'FontBBox'=>'[-1016 -385 1659 1068]','ItalicAngle'=>-11,'StemV'=>70,'MissingWidth'=>600};
