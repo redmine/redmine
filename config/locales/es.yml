@@ -970,46 +970,46 @@ es:
   field_visible: Visible
   setting_emails_header: Encabezado de Correos
 
-  setting_commit_logtime_activity_id: Activity for logged time
-  text_time_logged_by_changeset: Applied in changeset %{value}.
-  setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
-  field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
-  text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
-  label_my_queries: My custom queries
-  text_journal_changed_no_detail: "%{label} updated"
-  label_news_comment_added: Comment added to a news
-  button_expand_all: Expand all
-  button_collapse_all: Collapse all
-  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
-  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
-  label_bulk_edit_selected_time_entries: Bulk edit selected time entries
-  text_time_entries_destroy_confirmation: Are you sure you want to delete the selected time entr(y/ies)?
-  label_role_anonymous: Anonymous
-  label_role_non_member: Non member
-  label_issue_note_added: Note added
-  label_issue_status_updated: Status updated
-  label_issue_priority_updated: Priority updated
-  label_issues_visibility_own: Issues created by or assigned to the user
-  field_issues_visibility: Issues visibility
-  label_issues_visibility_all: All issues
-  permission_set_own_issues_private: Set own issues public or private
-  field_is_private: Private
-  permission_set_issues_private: Set issues public or private
-  label_issues_visibility_public: All non private issues
-  text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
+  setting_commit_logtime_activity_id: Actividad de los tiempos registrados
+  text_time_logged_by_changeset: Aplicado en los cambios %{value}.
+  setting_commit_logtime_enabled: Habilitar registro de horas
+  notice_gantt_chart_truncated: Se recortó el diagrama porque excede el número máximo de elementos que pueden ser mostrados (%{max})
+  setting_gantt_items_limit: Número máximo de elementos mostrados en el diagrama de Gantt
+  field_warn_on_leaving_unsaved: Avisarme cuando vaya a abandonar una página con texto no guardado
+  text_warn_on_leaving_unsaved: Esta página contiene texto no guardado y si la abandona sus cambios se perderán
+  label_my_queries: Mis consultas personalizadas
+  text_journal_changed_no_detail: "Se actualizó %{label}"
+  label_news_comment_added: Comentario añadido a noticia
+  button_expand_all: Expandir todo
+  button_collapse_all: Contraer todo
+  label_additional_workflow_transitions_for_assignee: Transiciones adicionales permitidas cuando la petición está asignada al usuario
+  label_additional_workflow_transitions_for_author: Transiciones adicionales permitidas cuando el usuario es autor de la petición
+  label_bulk_edit_selected_time_entries: Editar en bloque las horas seleccionadas
+  text_time_entries_destroy_confirmation: ¿Está seguro de querer eliminar (la hora seleccionada/las horas seleccionadas)?
+  label_role_anonymous: Anónimo
+  label_role_non_member: No miembro
+  label_issue_note_added: Nota añadida
+  label_issue_status_updated: Estado actualizado
+  label_issue_priority_updated: Prioridad actualizada
+  label_issues_visibility_own: Peticiones creadas por el usuario o asignadas a él
+  field_issues_visibility: Visibilidad de las peticiones
+  label_issues_visibility_all: Todas las peticiones
+  permission_set_own_issues_private: Poner las peticiones propias como públicas o privadas
+  field_is_private: Privada
+  permission_set_issues_private: Poner peticiones como públicas o privadas
+  label_issues_visibility_public: Todas las peticiones no privadas
+  text_issues_destroy_descendants_confirmation: Se procederá a borrar también %{count} subtarea(s).
   field_commit_logs_encoding: Codificación de los mensajes de commit
-  field_scm_path_encoding: Path encoding
-  text_scm_path_encoding_note: "Default: UTF-8"
-  field_path_to_repository: Path to repository
-  field_root_directory: Root directory
-  field_cvs_module: Module
+  field_scm_path_encoding: Codificación de las rutas
+  text_scm_path_encoding_note: "Por defecto: UTF-8"
+  field_path_to_repository: Ruta al repositorio
+  field_root_directory: Directorio raíz
+  field_cvs_module: Módulo
   field_cvsroot: CVSROOT
-  text_git_repository_note: Bare and local repository (e.g. /gitrepo, c:\gitrepo)
-  text_mercurial_repository_note: Local repository (e.g. /hgrepo, c:\hgrepo)
-  text_scm_command: Command
-  text_scm_command_version: Version
-  label_git_report_last_commit: Report last commit for files and directories
-  text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.
-  text_scm_command_not_available: Scm command is not available. Please check settings on the administration panel.
+  text_git_repository_note: Repositorio local (bare repository) (e.g. /gitrepo, c:\gitrepo)
+  text_mercurial_repository_note: Repositorio local (e.g. /hgrepo, c:\hgrepo)
+  text_scm_command: Orden
+  text_scm_command_version: Versión
+  label_git_report_last_commit: Informar del último commit para ficheros y directorios
+  text_scm_config: Puede configurar las órdenes de cada scm en configuration/configuration.yml. Por favor, reinicie la aplicación después de editarlo
+  text_scm_command_not_available: La orden para el Scm no está disponible. Por favor, compruebe la configuración en el panel de administración.
