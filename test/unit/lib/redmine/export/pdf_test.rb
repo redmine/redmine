@@ -57,6 +57,13 @@ class PdfTest < ActiveSupport::TestCase
       assert_equal "ASCII-8BIT", txt_1.encoding.to_s
       assert_equal "ASCII-8BIT", txt_2.encoding.to_s
       assert_equal "ASCII-8BIT", txt_3.encoding.to_s
+    elsif RUBY_PLATFORM == 'java'
+      assert_equal "??",
+                   Redmine::Export::PDF::RDMPdfEncoding::rdm_pdf_iconv(ic, utf8_txt_1)
+      assert_equal "???",
+                   Redmine::Export::PDF::RDMPdfEncoding::rdm_pdf_iconv(ic, utf8_txt_2)
+      assert_equal "????",
+                   Redmine::Export::PDF::RDMPdfEncoding::rdm_pdf_iconv(ic, utf8_txt_3)
     else
       assert_equal "???\x91\xd4",
                    Redmine::Export::PDF::RDMPdfEncoding::rdm_pdf_iconv(ic, utf8_txt_1)

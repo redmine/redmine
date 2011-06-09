@@ -408,6 +408,13 @@ module Redmine
               txt = Redmine::CodesetUtil.replace_invalid_utf8(txt)
             end
             txt.force_encoding('ASCII-8BIT')
+          elsif RUBY_PLATFORM == 'java'
+            begin
+              ic ||= Iconv.new(l(:general_pdf_encoding), 'UTF-8')
+              txt = ic.iconv(txt)
+            rescue
+              txt = txt.gsub(%r{[^\r\n\t\x20-\x7e]}, '?')
+            end
           else
             ic ||= Iconv.new(l(:general_pdf_encoding), 'UTF-8')
             txtar = ""
