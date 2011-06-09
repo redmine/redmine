@@ -272,6 +272,13 @@ class Changeset < ActiveRecord::Base
                 :undef => :replace, :replace => '?').encode("UTF-8")
         end
       end
+    elsif RUBY_PLATFORM == 'java'
+      begin
+        ic = Iconv.new('UTF-8', enc)
+        str = ic.iconv(str)
+      rescue
+        str = str.gsub(%r{[^\r\n\t\x20-\x7e]}, '?')
+      end
     else
       ic = Iconv.new('UTF-8', enc)
       txtar = ""
