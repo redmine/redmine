@@ -22,10 +22,10 @@ require 'repositories_controller'
 class RepositoriesController; def rescue_action(e) raise e end; end
 
 class RepositoriesDarcsControllerTest < ActionController::TestCase
-  fixtures :projects, :users, :roles, :members, :member_roles, :repositories, :enabled_modules
+  fixtures :projects, :users, :roles, :members, :member_roles,
+           :repositories, :enabled_modules
 
-  # No '..' in the repository path
-  REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/darcs_repository'
+  REPOSITORY_PATH = Rails.root.join('tmp/test/darcs_repository').to_s
   PRJ_ID = 3
 
   def setup
