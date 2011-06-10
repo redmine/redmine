@@ -22,10 +22,10 @@ require 'repositories_controller'
 class RepositoriesController; def rescue_action(e) raise e end; end
 
 class RepositoriesGitControllerTest < ActionController::TestCase
-  fixtures :projects, :users, :roles, :members, :member_roles, :repositories, :enabled_modules
+  fixtures :projects, :users, :roles, :members, :member_roles,
+           :repositories, :enabled_modules
 
-  # No '..' in the repository path
-  REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/git_repository'
+  REPOSITORY_PATH = Rails.root.join('tmp/test/git_repository').to_s
   REPOSITORY_PATH.gsub!(/\//, "\\") if Redmine::Platform.mswin?
   PRJ_ID     = 3
   CHAR_1_HEX = "\xc3\x9c"
