@@ -20,13 +20,10 @@ require File.expand_path('../../test_helper', __FILE__)
 class RepositoryMercurialTest < ActiveSupport::TestCase
   fixtures :projects
 
-  # No '..' in the repository path
-  REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/mercurial_repository'
-
+  REPOSITORY_PATH = Rails.root.join('tmp/test/mercurial_repository').to_s
   CHAR_1_HEX = "\xc3\x9c"
 
   if File.directory?(REPOSITORY_PATH)
-
     def setup
       klass = Repository::Mercurial
       assert_equal "Mercurial", klass.scm_name
@@ -34,7 +31,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       assert_not_equal "", klass.scm_command
       assert_equal true, klass.scm_available
 
-      @project = Project.find(3)
+      @project    = Project.find(3)
       @repository = Repository::Mercurial.create(
                       :project => @project,
                       :url     => REPOSITORY_PATH,
