@@ -2,8 +2,7 @@
 require File.expand_path('../../../../../../test_helper', __FILE__)
 
 class FilesystemAdapterTest < ActiveSupport::TestCase
-
-  REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/filesystem_repository'
+  REPOSITORY_PATH = Rails.root.join('tmp/test/filesystem_repository').to_s
 
   if File.directory?(REPOSITORY_PATH)
     def setup
