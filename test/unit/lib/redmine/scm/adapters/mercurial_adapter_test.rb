@@ -3,14 +3,11 @@ begin
   require 'mocha'
 
   class MercurialAdapterTest < ActiveSupport::TestCase
-
     HELPERS_DIR        = Redmine::Scm::Adapters::MercurialAdapter::HELPERS_DIR
     TEMPLATE_NAME      = Redmine::Scm::Adapters::MercurialAdapter::TEMPLATE_NAME
     TEMPLATE_EXTENSION = Redmine::Scm::Adapters::MercurialAdapter::TEMPLATE_EXTENSION
 
-    REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') +
-                         '/tmp/test/mercurial_repository'
-
+    REPOSITORY_PATH = Rails.root.join('tmp/test/mercurial_repository').to_s
     CHAR_1_HEX = "\xc3\x9c"
 
     if File.directory?(REPOSITORY_PATH)
