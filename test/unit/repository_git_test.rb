@@ -20,8 +20,7 @@ require File.expand_path('../../test_helper', __FILE__)
 class RepositoryGitTest < ActiveSupport::TestCase
   fixtures :projects, :repositories, :enabled_modules, :users, :roles
 
-  # No '..' in the repository path
-  REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/git_repository'
+  REPOSITORY_PATH = Rails.root.join('tmp/test/git_repository').to_s
   REPOSITORY_PATH.gsub!(/\//, "\\") if Redmine::Platform.mswin?
 
   FELIX_HEX  = "Felix Sch\xC3\xA4fer"
