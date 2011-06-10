@@ -25,9 +25,7 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
   fixtures :projects, :users, :roles, :members, :member_roles,
            :repositories, :enabled_modules
 
-  # No '..' in the repository path
-  REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + 
-                         '/tmp/test/bazaar_repository/trunk'
+  REPOSITORY_PATH = Rails.root.join('tmp/test/bazaar_repository/trunk').to_s
   PRJ_ID = 3
 
   def setup
