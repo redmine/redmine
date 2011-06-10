@@ -354,6 +354,17 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
                  :sibling => { :tag => 'td', :content => /watcher =/ }
     end
 
+    def test_annotate_not_in_tip
+      @repository.fetch_changesets
+      @repository.reload
+      assert @repository.changesets.size > 0
+
+      get :annotate, :id => PRJ_ID,
+          :path => ['sources', 'welcome_controller.rb']
+      assert_response 404
+      assert_error_tag :content => /was not found/
+    end
+
     def test_annotate_at_given_revision
       @repository.fetch_changesets
       @repository.reload
