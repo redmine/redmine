@@ -3,8 +3,7 @@ begin
   require 'mocha'
 
   class DarcsAdapterTest < ActiveSupport::TestCase
-
-    REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/darcs_repository'
+    REPOSITORY_PATH = Rails.root.join('tmp/test/darcs_repository').to_s
 
     if File.directory?(REPOSITORY_PATH)
       def setup
