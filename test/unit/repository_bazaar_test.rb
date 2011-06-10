@@ -20,9 +20,7 @@ require File.expand_path('../../test_helper', __FILE__)
 class RepositoryBazaarTest < ActiveSupport::TestCase
   fixtures :projects
 
-  # No '..' in the repository path
-  REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + 
-                         '/tmp/test/bazaar_repository/trunk'
+  REPOSITORY_PATH = Rails.root.join('tmp/test/bazaar_repository/trunk').to_s
   REPOSITORY_PATH.gsub!(/\/+/, '/')
 
   def setup
