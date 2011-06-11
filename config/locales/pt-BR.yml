@@ -988,7 +988,7 @@ pt-BR:
 
   field_scm_path_encoding: Codificação do caminho
   text_scm_path_encoding_note: "Padrão: UTF-8"
-  field_path_to_repository: Path to repository
+  field_path_to_repository: Caminho para o repositório
   field_root_directory: Diretório raiz
   field_cvs_module: Módulo
   field_cvsroot: CVSROOT
