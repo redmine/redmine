@@ -966,11 +966,11 @@ pt-BR:
   label_my_queries: Minhas consultas personalizadas
   text_journal_changed_no_detail: "%{label} atualizado(a)"
   label_news_comment_added: Notícia recebeu um comentário
+  button_expand_all: Expandir tudo
+  button_collapse_all: Recolher tudo
+  label_additional_workflow_transitions_for_assignee: Transições adicionais permitidas quando o usuário é o alocado para a tarefa
+  label_additional_workflow_transitions_for_author: Transições adicionais permitidas quando o usuário é o autor
 
-  button_expand_all: Expand all
-  button_collapse_all: Collapse all
-  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
-  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
   label_bulk_edit_selected_time_entries: Bulk edit selected time entries
   text_time_entries_destroy_confirmation: Are you sure you want to delete the selected time entr(y/ies)?
   label_role_anonymous: Anonymous
@@ -986,14 +986,14 @@ pt-BR:
 
   field_commit_logs_encoding: Codificação das mensagens de commit
 
-  field_scm_path_encoding: Path encoding
-  text_scm_path_encoding_note: "Default: UTF-8"
+  field_scm_path_encoding: Codificação do caminho
+  text_scm_path_encoding_note: "Padrão: UTF-8"
   field_path_to_repository: Path to repository
   field_root_directory: Diretório raiz
   field_cvs_module: Módulo
   field_cvsroot: CVSROOT
   text_git_repository_note: Bare and local repository (e.g. /gitrepo, c:\gitrepo)
-  text_mercurial_repository_note: Local repository (e.g. /hgrepo, c:\hgrepo)
+  text_mercurial_repository_note: "repositório local (ex.: /hgrepo, c:\hgrepo)"
   text_scm_command: Command
   text_scm_command_version: Version
   label_git_report_last_commit: Report last commit for files and directories
