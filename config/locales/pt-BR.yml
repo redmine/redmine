@@ -966,6 +966,7 @@ pt-BR:
   label_my_queries: Minhas consultas personalizadas
   text_journal_changed_no_detail: "%{label} atualizado(a)"
   label_news_comment_added: Notícia recebeu um comentário
+
   button_expand_all: Expand all
   button_collapse_all: Collapse all
   label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
@@ -982,12 +983,14 @@ pt-BR:
   permission_set_issues_private: Set issues public or private
   label_issues_visibility_public: All non private issues
   text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
+
   field_commit_logs_encoding: Codificação das mensagens de commit
+
   field_scm_path_encoding: Path encoding
   text_scm_path_encoding_note: "Default: UTF-8"
   field_path_to_repository: Path to repository
-  field_root_directory: Root directory
-  field_cvs_module: Module
+  field_root_directory: Diretório raiz
+  field_cvs_module: Módulo
   field_cvsroot: CVSROOT
   text_git_repository_note: Bare and local repository (e.g. /gitrepo, c:\gitrepo)
   text_mercurial_repository_note: Local repository (e.g. /hgrepo, c:\hgrepo)
