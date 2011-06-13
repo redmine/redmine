@@ -208,7 +208,7 @@ class RepositoriesController < ApplicationController
         User.current.preference.save
       end
       @cache_key = "repositories/diff/#{@repository.id}/" + 
-                      Digest::MD5.hexdigest("#{@path}-#{@rev}-#{@rev_to}-#{@diff_type}")
+                      Digest::MD5.hexdigest("#{@path}-#{@rev}-#{@rev_to}-#{@diff_type}-#{current_language}")
       unless read_fragment(@cache_key)
         @diff = @repository.diff(@path, @rev, @rev_to)
         show_error_not_found unless @diff
