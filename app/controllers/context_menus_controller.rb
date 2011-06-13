@@ -35,7 +35,7 @@ class ContextMenusController < ApplicationController
       @trackers = @projects.map(&:trackers).inject{|memo,t| memo & t}
     end
     
-    @priorities = IssuePriority.all.reverse
+    @priorities = IssuePriority.active.reverse
     @statuses = IssueStatus.find(:all, :order => 'position')
     @back = back_url
     

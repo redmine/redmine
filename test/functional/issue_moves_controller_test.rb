@@ -7,6 +7,25 @@ class IssueMovesControllerTest < ActionController::TestCase
     User.current = nil
   end
 
+  def test_get_issue_moves_new
+    @request.session[:user_id] = 2
+    get :new, :id => 1
+
+    assert_tag :tag => 'option', :content => 'eCookbook',
+                                 :attributes => { :value => '1', :selected => 'selected' }
+    %w(new_tracker_id status_id priority_id assigned_to_id).each do |field|
+      assert_tag :tag => 'option', :content => '(No change)', :attributes => { :value => '' },
+                                   :parent => {:tag => 'select', :attributes => {:id => field}}
+      assert_no_tag :tag => 'option', :attributes => {:selected => 'selected'},
+                                      :parent => {:tag => 'select', :attributes => {:id => field}}
+    end
+
+    # Be sure we don't include inactive enumerations
+    assert ! IssuePriority.find(15).active?
+    assert_no_tag :option, :attributes => {:value => '15'},
+                           :parent => {:tag => 'select', :attributes => {:id => 'priority_id'} }
+  end
+
   def test_create_one_issue_to_another_project
     @request.session[:user_id] = 2
     post :create, :id => 1, :new_project_id => 2, :tracker_id => '', :assigned_to_id => '', :status_id => '', :start_date => '', :due_date => ''

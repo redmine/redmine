@@ -21,7 +21,7 @@
 <% end %>
 <p>
 	<label><%= l(:field_priority) %></label> 
-	<%= select_tag('issue[priority_id]', "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(IssuePriority.all, :id, :name)) %>
+	<%= select_tag('issue[priority_id]', "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(IssuePriority.active, :id, :name)) %>
 </p>
 <p>
 	<label><%= l(:field_assigned_to) %></label> 

@@ -81,3 +81,9 @@ enumerations_014:
   type: TimeEntryActivity
   position: 4
   active: false
+enumerations_015:
+  name: Inactive Priority
+  id: 15
+  type: IssuePriority
+  position: 6
+  active: false

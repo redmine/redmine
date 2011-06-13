@@ -17,6 +17,7 @@ class ContextMenusControllerTest < ActionController::TestCase
     assert_tag :tag => 'a', :content => 'Immediate',
                             :attributes => { :href => '/issues/bulk_edit?ids%5B%5D=1&amp;issue%5Bpriority_id%5D=8',
                                              :class => '' }
+    assert_no_tag :tag => 'a', :content => 'Inactive Priority'
     # Versions
     assert_tag :tag => 'a', :content => '2.0',
                             :attributes => { :href => '/issues/bulk_edit?ids%5B%5D=1&amp;issue%5Bfixed_version_id%5D=3',

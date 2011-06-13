@@ -115,7 +115,7 @@ class IssuesController < ApplicationController
     @relations = @issue.relations.select {|r| r.other_issue(@issue) && r.other_issue(@issue).visible? }
     @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
     @edit_allowed = User.current.allowed_to?(:edit_issues, @project)
-    @priorities = IssuePriority.all
+    @priorities = IssuePriority.active
     @time_entry = TimeEntry.new(:issue => @issue, :project => @issue.project)
     respond_to do |format|
       format.html { render :template => 'issues/show.rhtml' }
@@ -279,7 +279,7 @@ private
   # TODO: Refactor, not everything in here is needed by #edit
   def update_issue_from_params
     @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
-    @priorities = IssuePriority.all
+    @priorities = IssuePriority.active
     @edit_allowed = User.current.allowed_to?(:edit_issues, @project)
     @time_entry = TimeEntry.new(:issue => @issue, :project => @issue.project)
     @time_entry.attributes = params[:time_entry]
@@ -315,7 +315,7 @@ private
         @issue.watcher_user_ids = params[:issue]['watcher_user_ids']
       end
     end
-    @priorities = IssuePriority.all
+    @priorities = IssuePriority.active
     @allowed_statuses = @issue.new_statuses_allowed_to(User.current, true)
   end
 

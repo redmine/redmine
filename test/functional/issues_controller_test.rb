@@ -318,6 +318,16 @@ class IssuesControllerTest < ActionController::TestCase
                                             :content => /Notes/ } }
   end
 
+  def test_update_form_should_not_display_inactive_enumerations
+    @request.session[:user_id] = 2
+    get :show, :id => 1
+    assert_response :success
+
+    assert ! IssuePriority.find(15).active?
+    assert_no_tag :option, :attributes => {:value => '15'},
+                           :parent => {:tag => 'select', :attributes => {:id => 'issue_priority_id'} }
+  end
+
   def test_show_should_deny_anonymous_access_without_permission
     Role.anonymous.remove_permission!(:view_issues)
     get :show, :id => 1
@@ -419,6 +429,11 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_tag :tag => 'input', :attributes => { :name => 'issue[custom_field_values][2]',
                                                  :value => 'Default string' }
+
+    # Be sure we don't display inactive IssuePriorities
+    assert ! IssuePriority.find(15).active?
+    assert_no_tag :option, :attributes => {:value => '15'},
+                           :parent => {:tag => 'select', :attributes => {:id => 'issue_priority_id'} }
   end
 
   def test_get_new_without_tracker_id
@@ -833,6 +848,11 @@ class IssuesControllerTest < ActionController::TestCase
     assert_template 'edit'
     assert_not_nil assigns(:issue)
     assert_equal Issue.find(1), assigns(:issue)
+
+    # Be sure we don't display inactive IssuePriorities
+    assert ! IssuePriority.find(15).active?
+    assert_no_tag :option, :attributes => {:value => '15'},
+                           :parent => {:tag => 'select', :attributes => {:id => 'issue_priority_id'} }
   end
 
   def test_get_edit_with_params
@@ -1185,6 +1205,11 @@ class IssuesControllerTest < ActionController::TestCase
     # System wide custom field
     assert CustomField.find(1).is_for_all?
     assert_tag :select, :attributes => {:name => 'issue[custom_field_values][1]'}
+
+    # Be sure we don't display inactive IssuePriorities
+    assert ! IssuePriority.find(15).active?
+    assert_no_tag :option, :attributes => {:value => '15'},
+                           :parent => {:tag => 'select', :attributes => {:id => 'issue_priority_id'} }
   end
 
   def test_get_bulk_edit_on_different_projects
