@@ -45,6 +45,10 @@ class DocumentsControllerTest < ActionController::TestCase
     assert_tag :select, :attributes => {:name => 'document[category_id]'},
                         :child => {:tag => 'option', :attributes => {:selected => 'selected'},
                                                      :content => 'Technical documentation'}
+
+    assert ! DocumentCategory.find(16).active?
+    assert_no_tag :option, :attributes => {:value => '16'},
+                           :parent => {:tag => 'select', :attributes => {:id => 'document_category_id'} }
   end
 
   def test_index_with_long_description

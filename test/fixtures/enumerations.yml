@@ -87,3 +87,8 @@ enumerations_015:
   type: IssuePriority
   position: 6
   active: false
+enumerations_016:
+  name: Inactive Document Category
+  id: 16
+  type: DocumentCategory
+  active: false
