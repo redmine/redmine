@@ -78,9 +78,8 @@ class ActiveSupport::TestCase
 
   # Use a temporary directory for attachment related tests
   def set_tmp_attachments_directory
-    Dir.mkdir "#{RAILS_ROOT}/tmp/test" unless File.directory?("#{RAILS_ROOT}/tmp/test")
-    Dir.mkdir "#{RAILS_ROOT}/tmp/test/attachments" unless File.directory?("#{RAILS_ROOT}/tmp/test/attachments")
-    Attachment.storage_path = "#{RAILS_ROOT}/tmp/test/attachments"
+    Rails.root.join('tmp/test/attachments').mkdir_p
+    Attachment.storage_path = "#{Rails.root}/tmp/test/attachments"
   end
   
   def with_settings(options, &block)
