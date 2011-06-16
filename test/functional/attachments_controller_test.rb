@@ -32,7 +32,7 @@ class AttachmentsControllerTest < ActionController::TestCase
     @controller = AttachmentsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
-    Attachment.storage_path = "#{RAILS_ROOT}/test/fixtures/files"
+    Attachment.storage_path = "#{Rails.root}/test/fixtures/files"
     User.current = nil
   end
 
