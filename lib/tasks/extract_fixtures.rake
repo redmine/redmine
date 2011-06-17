@@ -7,7 +7,7 @@ task :extract_fixtures => :environment do
   ActiveRecord::Base.establish_connection
   (ActiveRecord::Base.connection.tables - skip_tables).each do |table_name|
     i = "000"
-    File.open("#{RAILS_ROOT}/#{table_name}.yml", 'w' ) do |file|
+    File.open("#{Rails.root}/#{table_name}.yml", 'w' ) do |file|
       data = ActiveRecord::Base.connection.select_all(sql % table_name)
       file.write data.inject({}) { |hash, record|
         # cast extracted values
@@ -20,3 +20,4 @@ task :extract_fixtures => :environment do
     end
   end
 end
+
