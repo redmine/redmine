@@ -212,7 +212,7 @@ module Redmine
           end
           if Rails.env == 'development'
             # Capture stderr when running in dev environment
-            cmd = "#{cmd} 2>>#{RAILS_ROOT}/log/scm.stderr.log"
+            cmd = "#{cmd} 2>>#{Rails.root}/log/scm.stderr.log"
           end
           begin
             if RUBY_VERSION < '1.9'
