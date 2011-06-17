@@ -1,16 +1,16 @@
-# redMine - project management software
-# Copyright (C) 2006-2008  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -20,7 +20,7 @@ require File.expand_path('../../../../test_helper', __FILE__)
 class Redmine::Hook::ManagerTest < ActiveSupport::TestCase
 
   fixtures :issues
-  
+
   # Some hooks that are manually registered in these tests
   class TestHook < Redmine::Hook::ViewListener; end
   
@@ -35,13 +35,13 @@ class Redmine::Hook::ManagerTest < ActiveSupport::TestCase
       'Test hook 2 listener.'
     end
   end
-  
+
   class TestHook3 < TestHook
     def view_layouts_base_html_head(context)
       "Context keys: #{context.keys.collect(&:to_s).sort.join(', ')}."
     end
   end
-  
+
   class TestLinkToHook < TestHook
     def view_layouts_base_html_head(context)
       link_to('Issues', :controller => 'issues')
@@ -166,7 +166,7 @@ class Redmine::Hook::ManagerTest < ActiveSupport::TestCase
   end
 
   def view_hook_helper
-    @view_hook_helper ||= TestHookHelperView.new(RAILS_ROOT + '/app/views')
+    @view_hook_helper ||= TestHookHelperView.new(Rails.root + '/app/views')
   end
 end
 
