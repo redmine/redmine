@@ -56,11 +56,11 @@ module Redmine
     def month_name(month)
       ::I18n.t('date.month_names')[month]
     end
-    
+
     def valid_languages
-      @@valid_languages ||= Dir.glob(File.join(RAILS_ROOT, 'config', 'locales', '*.yml')).collect {|f| File.basename(f).split('.').first}.collect(&:to_sym)
+      @@valid_languages ||= Dir.glob(File.join(Rails.root, 'config', 'locales', '*.yml')).collect {|f| File.basename(f).split('.').first}.collect(&:to_sym)
     end
-    
+
     def find_language(lang)
       @@languages_lookup = valid_languages.inject({}) {|k, v| k[v.to_s.downcase] = v; k }
       @@languages_lookup[lang.to_s.downcase]
