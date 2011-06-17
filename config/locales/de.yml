@@ -963,8 +963,8 @@ de:
   label_news_comment_added: Kommentar zu einer News hinzugefügt
   button_expand_all: Alle ausklappen
   button_collapse_all: Alle einklappen
-  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
-  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
+  label_additional_workflow_transitions_for_assignee: Zusätzliche Berechtigungen wenn der Benutzer der Zugewiesene ist
+  label_additional_workflow_transitions_for_author: Zusätzliche Berechtigungen wenn der Benutzer der Autor ist
   label_bulk_edit_selected_time_entries: Ausgewählte Zeitaufwände bearbeiten
   text_time_entries_destroy_confirmation: Sind Sie sicher, dass Sie die ausgewählten Zeitaufwände löschen möchten?
   label_role_anonymous: Anonymous
@@ -978,7 +978,7 @@ de:
   permission_set_own_issues_private: Eigene Tickets privat oder öffentlich markieren
   field_is_private: Privat
   permission_set_issues_private: Tickets privat oder öffentlich markieren
-  label_issues_visibility_public: Alle nicht privaten Tickets
+  label_issues_visibility_public: Alle öffentlichen Tickets
   text_issues_destroy_descendants_confirmation: Dies wird auch %{count} Unteraufgabe/n löschen.
   field_commit_logs_encoding: Kodierung der Commit-Log-Meldungen
   field_scm_path_encoding: Pfad Kodierung
@@ -992,6 +992,6 @@ de:
   text_scm_command: Kommando
   text_scm_command_version: Version
   label_git_report_last_commit: Bericht des letzten Commits für Dateien und Verzeichnisse
-  text_scm_config: Sie können Ihre scm Kommandos in config/configuration.yml ändern. Bitte starten Sie die Anwendung nach dem ändern neu.
+  text_scm_config: Die SCM-Kommandos können in der in config/configuration.yml konfiguriert werden. Redmine muss anschließend neu gestartet werden.
   text_scm_command_not_available: Scm Kommando ist nicht verfügbar. Bitte prüfen Sie die Einstellungen im Administrationspanel.
 
