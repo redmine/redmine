@@ -267,6 +267,12 @@ class IssuesControllerTest < ActionController::TestCase
     assert_kind_of Hash, session[:query]
     assert_kind_of Array, session[:query][:column_names]
     assert_equal columns, session[:query][:column_names].map(&:to_s)
+
+    # ensure only these columns are kept in the selected columns list
+    assert_tag :tag => 'select', :attributes => { :id => 'selected_columns' },
+                                 :children => { :count => 3 }
+    assert_no_tag :tag => 'option', :attributes => { :value => 'project' },
+                                    :parent => { :tag => 'select', :attributes => { :id => "selected_columns" } }
   end
 
   def test_index_with_custom_field_column
