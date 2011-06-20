@@ -511,7 +511,7 @@ ru:
   label_filter_add: Добавить фильтр
   label_filter_plural: Фильтры
   label_float: С плавающей точкой
-  label_follows: следующая
+  label_follows: предыдущая
   label_gantt: Диаграмма Ганта
   label_general: Общее
   label_generate_key: Сгенерировать ключ
@@ -617,7 +617,7 @@ ru:
   label_planning: Планирование
   label_please_login: Пожалуйста, войдите.
   label_plugins: Модули
-  label_precedes: предыдущая
+  label_precedes: следующая
   label_preferences: Предпочтения
   label_preview: Предварительный просмотр
   label_previous: Предыдущий
