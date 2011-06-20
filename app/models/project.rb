@@ -544,7 +544,27 @@ class Project < ActiveRecord::Base
   def enabled_module_names
     enabled_modules.collect(&:name)
   end
-  
+
+  # Enable a specific module
+  #
+  # Examples:
+  #   project.enable_module!(:issue_tracking)
+  #   project.enable_module!("issue_tracking")
+  def enable_module!(name)
+    enabled_modules << EnabledModule.new(:name => name.to_s) unless module_enabled?(name)
+  end
+
+  # Disable a module if it exists
+  #
+  # Examples:
+  #   project.disable_module!(:issue_tracking)
+  #   project.disable_module!("issue_tracking")
+  #   project.disable_module!(project.enabled_modules.first)
+  def disable_module!(target)
+    target = enabled_modules.detect{|mod| target.to_s == mod.name} unless enabled_modules.include?(target)
+    target.destroy unless target.blank?
+  end
+
   safe_attributes 'name',
     'description',
     'homepage',

@@ -14,7 +14,7 @@ module Redmine
 
     def self.revision
       revision = nil
-      entries_path = "#{RAILS_ROOT}/.svn/entries"
+      entries_path = "#{Rails.root}/.svn/entries"
       if File.readable?(entries_path)
         begin
           f = File.open(entries_path, 'r')

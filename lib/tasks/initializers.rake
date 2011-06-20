@@ -1,7 +1,7 @@
 desc 'Generates a configuration file for cookie store sessions.'
 
 file 'config/initializers/session_store.rb' do
-  path = File.join(RAILS_ROOT, 'config', 'initializers', 'session_store.rb')
+  path = File.join(Rails.root, 'config', 'initializers', 'session_store.rb')
   secret = ActiveSupport::SecureRandom.hex(40)
   File.open(path, 'w') do |f|
     f.write <<"EOF"
