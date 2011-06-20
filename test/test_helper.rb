@@ -106,24 +106,24 @@ class ActiveSupport::TestCase
     # LDAP is not listening
     return nil
   end
-  
+
   # Returns the path to the test +vendor+ repository
   def self.repository_path(vendor)
-    File.join(RAILS_ROOT.gsub(%r{config\/\.\.}, ''), "/tmp/test/#{vendor.downcase}_repository")
+    Rails.root.join("tmp/test/#{vendor.downcase}_repository").to_s
   end
-  
+
   # Returns the url of the subversion test repository
   def self.subversion_repository_url
     path = repository_path('subversion')
     path = '/' + path unless path.starts_with?('/')
     "file://#{path}"
   end
-  
+
   # Returns true if the +vendor+ test repository is configured
   def self.repository_configured?(vendor)
     File.directory?(repository_path(vendor))
   end
-  
+
   def assert_error_tag(options={})
     assert_tag({:attributes => { :id => 'errorExplanation' }}.merge(options))
   end
