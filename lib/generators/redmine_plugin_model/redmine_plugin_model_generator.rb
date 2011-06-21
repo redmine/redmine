@@ -14,7 +14,7 @@ class RedminePluginModelGenerator < ModelGenerator
   end
   
   def destination_root
-    File.join(Rails.root, plugin_path)
+    File.join(RAILS_ROOT, plugin_path)
   end
   
   def manifest
