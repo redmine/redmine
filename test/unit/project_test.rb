@@ -597,6 +597,54 @@ class ProjectTest < ActiveSupport::TestCase
     end
   end
 
+  context "enabled_modules" do
+    setup do
+      @project = Project.find(1)
+    end
+
+    should "define module by names and preserve ids" do
+      # Remove one module
+      modules = @project.enabled_modules.slice(0..-2)
+      assert modules.any?
+      assert_difference 'EnabledModule.count', -1 do
+        @project.enabled_module_names = modules.collect(&:name)
+      end
+      @project.reload
+      # Ids should be preserved
+      assert_equal @project.enabled_module_ids.sort, modules.collect(&:id).sort
+    end
+
+    should "enable a module" do
+      @project.enabled_module_names = []
+      @project.reload
+      assert_equal [], @project.enabled_module_names
+      #with string
+      @project.enable_module!("issue_tracking")
+      assert_equal ["issue_tracking"], @project.enabled_module_names
+      #with symbol
+      @project.enable_module!(:gantt)
+      assert_equal ["issue_tracking", "gantt"], @project.enabled_module_names
+      #don't add a module twice
+      @project.enable_module!("issue_tracking")
+      assert_equal ["issue_tracking", "gantt"], @project.enabled_module_names
+    end
+
+    should "disable a module" do
+      #with string
+      assert @project.enabled_module_names.include?("issue_tracking")
+      @project.disable_module!("issue_tracking")
+      assert ! @project.reload.enabled_module_names.include?("issue_tracking")
+      #with symbol
+      assert @project.enabled_module_names.include?("gantt")
+      @project.disable_module!(:gantt)
+      assert ! @project.reload.enabled_module_names.include?("gantt")
+      #with EnabledModule object
+      first_module = @project.enabled_modules.first
+      @project.disable_module!(first_module)
+      assert ! @project.reload.enabled_module_names.include?(first_module.name)
+    end
+  end
+
   def test_enabled_module_names_should_not_recreate_enabled_modules
     project = Project.find(1)
     # Remove one module
