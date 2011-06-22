@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../../../../test_helper', __FILE__)
 
-class Redmine::Views::Builders::JsonTest < HelperTestCase
+class Redmine::Views::Builders::JsonTest < ActiveSupport::TestCase
   
   def test_hash
     assert_json_output({'person' => {'name' => 'Ryan', 'age' => 32}}) do |b|
