@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../../../test_helper', __FILE__)
 
-class Redmine::WikiFormatting::TextileFormatterTest < HelperTestCase
+class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
 
   def setup
     @formatter = Redmine::WikiFormatting::Textile::Formatter
