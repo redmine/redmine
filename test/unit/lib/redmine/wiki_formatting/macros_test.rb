@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../../../test_helper', __FILE__)
 
-class Redmine::WikiFormatting::MacrosTest < HelperTestCase
+class Redmine::WikiFormatting::MacrosTest < ActionView::TestCase
   include ApplicationHelper
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::SanitizeHelper
