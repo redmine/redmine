@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../../../../test_helper', __FILE__)
 
-class Redmine::Views::Builders::XmlTest < HelperTestCase
+class Redmine::Views::Builders::XmlTest < ActiveSupport::TestCase
   
   def test_hash
     assert_xml_output('<person><name>Ryan</name><age>32</age></person>') do |b|
