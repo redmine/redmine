@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class IssuesHelperTest < ActionView::TestCase
+class IssuesHelperTest < HelperTestCase
   include ApplicationHelper
   include IssuesHelper
 
