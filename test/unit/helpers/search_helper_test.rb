@@ -19,7 +19,7 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class SearchHelperTest < HelperTestCase
+class SearchHelperTest < ActionView::TestCase
   include SearchHelper
   
   def test_highlight_single_token
