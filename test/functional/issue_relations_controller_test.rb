@@ -74,6 +74,8 @@ class IssueRelationsControllerTest < ActionController::TestCase
                  :relation => {:issue_to_id => '4', :relation_type => 'relates', :delay => ''}
     end
   end
+
+  should "prevent relation creation when there's a circular dependency"
   
   def test_destroy
     assert_difference 'IssueRelation.count', -1 do
