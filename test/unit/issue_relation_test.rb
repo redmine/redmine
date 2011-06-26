@@ -44,6 +44,9 @@ class IssueRelationTest < ActiveSupport::TestCase
     assert_equal from, relation.issue_to
   end
   
+  # TODO : document why it shouldn't be reversed if validation fails : having
+  # relations reversed before the validation would allow simpler code for the
+  # validation
   def test_follows_relation_should_not_be_reversed_if_validation_fails
     from = Issue.find(1)
     to = Issue.find(2)
@@ -79,6 +82,15 @@ class IssueRelationTest < ActiveSupport::TestCase
     assert IssueRelation.create!(:issue_from => Issue.find(1), :issue_to => Issue.find(2), :relation_type => IssueRelation::TYPE_PRECEDES)
     assert IssueRelation.create!(:issue_from => Issue.find(2), :issue_to => Issue.find(3), :relation_type => IssueRelation::TYPE_PRECEDES)
     r = IssueRelation.new(:issue_from => Issue.find(3), :issue_to => Issue.find(1), :relation_type => IssueRelation::TYPE_PRECEDES)
+    assert !r.save
+    assert_not_nil r.errors.on(:base)
+  end
+
+  def test_validates_circular_dependency_on_reverse_relations
+    IssueRelation.delete_all
+    assert IssueRelation.create!(:issue_from => Issue.find(1), :issue_to => Issue.find(3), :relation_type => IssueRelation::TYPE_BLOCKS)
+    assert IssueRelation.create!(:issue_from => Issue.find(1), :issue_to => Issue.find(2), :relation_type => IssueRelation::TYPE_BLOCKED)
+    r = IssueRelation.new(:issue_from => Issue.find(2), :issue_to => Issue.find(1), :relation_type => IssueRelation::TYPE_BLOCKED)
     assert !r.save
     assert_not_nil r.errors.on(:base)
   end
