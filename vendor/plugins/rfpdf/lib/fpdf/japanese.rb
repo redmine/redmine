@@ -118,15 +118,20 @@ module PDF_Japanese
   	return l*@font_size/1000
   end
 
-  def MultiCell(w,h,txt,border=0,align='L',fill=0)
+  def MultiCell(w,h,txt,border=0,align='L',fill=0,ln=1)
   	if(@current_font['type']=='Type0')
-  		SJISMultiCell(w,h,txt,border,align,fill)
+  		SJISMultiCell(w,h,txt,border,align,fill,ln)
   	else
-  		super(w,h,txt,border,align,fill)
+  		super(w,h,txt,border,align,fill,ln)
   	end  
   end
 
-  def SJISMultiCell(w,h,txt,border=0,align='L',fill=0)
+  def SJISMultiCell(w,h,txt,border=0,align='L',fill=0,ln=1)
+
+  	# save current position
+  	prevx = @x;
+  	prevy = @y;
+
   	#Output text with automatic or explicit line breaks
   	cw=@current_font['cw']
   	if(w==0)
@@ -221,18 +226,30 @@ module PDF_Japanese
   		b+='B'
   	end  
   	Cell(w,h,s[j,i-j],b,2,align,fill)
-  	@x=@l_margin
+
+  	# move cursor to specified position
+  	if (ln == 1)
+  		# go to the beginning of the next line
+  		@x=@l_margin
+  	elsif (ln == 0)
+  		# go to the top-right of the cell
+  		@y = prevy;
+  		@x = prevx + w;
+  	elsif (ln == 2)
+  		# go to the bottom-left of the cell
+  		@x = prevx;
+  	end
   end
 
-  def Write(h,txt,link='')
+  def Write(h,txt,link='',fill=0)
   	if(@current_font['type']=='Type0')
- 		SJISWrite(h,txt,link)
+ 		SJISWrite(h,txt,link,fill)
  	else
- 		super(h,txt,link)
+ 		super(h,txt,link,fill)
   	end  
   end
 
-  def SJISWrite(h,txt,link)
+  def SJISWrite(h,txt,link,fill=0)
   	#SJIS version of Write()
   	cw=@current_font['cw']
   	w=@w-@r_margin-@x
@@ -250,7 +267,7 @@ module PDF_Japanese
   		o=c
   		if(o==10)
   			#Explicit line break
-  			Cell(w,h,s[j,i-j],0,2,'',0,link)
+  			Cell(w,h,s[j,i-j],0,2,'',fill,link)
   			i+=1
   			sep=-1
   			j=i
@@ -298,9 +315,9 @@ module PDF_Japanese
   				if(i==j)
   					i+=n
         	end  
-  				Cell(w,h,s[j,i-j],0,2,'',0,link)
+  				Cell(w,h,s[j,i-j],0,2,'',fill,link)
   			else
-  				Cell(w,h,s[j,sep-j],0,2,'',0,link)
+  				Cell(w,h,s[j,sep-j],0,2,'',fill,link)
   				i=(s[sep].chr==' ') ? sep+1 : sep
   			end
   			sep=-1
@@ -321,7 +338,7 @@ module PDF_Japanese
   	end
   	#Last chunk
   	if(i!=j)
-  		Cell(l/1000*@font_size,h,s[j,i-j],0,0,'',0,link)
+  		Cell(l*@font_size/1000.0,h,s[j,i-j],0,0,'',fill,link)
   	end  
   end
   
