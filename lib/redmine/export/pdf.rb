@@ -111,8 +111,8 @@ module Redmine
           Cell(w,h,fix_text_encoding(txt),border,ln,align,fill,link)
         end
 
-        def RDMMultiCell(w,h=0,txt='',border=0,align='',fill=0)
-          MultiCell(w,h,fix_text_encoding(txt),border,align,fill)
+        def RDMMultiCell(w, h=0, txt='', border=0, align='', fill=0, ln=1)
+          MultiCell(w, h, fix_text_encoding(txt), border, align, fill, ln)
         end
 
         def Footer
