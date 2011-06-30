@@ -142,15 +142,20 @@ module PDF_Chinese
   	return l*@font_size/1000
   end
 
-  def MultiCell(w,h,txt,border=0,align='L',fill=0)
+  def MultiCell(w,h,txt,border=0,align='L',fill=0,ln=1)
   	if(@current_font['type']=='Type0')
-  		MBMultiCell(w,h,txt,border,align,fill)
+  		MBMultiCell(w,h,txt,border,align,fill,ln)
   	else
-  		super(w,h,txt,border,align,fill)
+  		super(w,h,txt,border,align,fill,ln)
 		end
   end
 
-  def MBMultiCell(w,h,txt,border=0,align='L',fill=0)
+  def MBMultiCell(w,h,txt,border=0,align='L',fill=0,ln=1)
+
+  	# save current position
+  	prevx = @x;
+  	prevy = @y;
+
   	#Multi-byte version of MultiCell()
   	cw=@current_font['cw']
   	if(w==0)
@@ -233,18 +238,30 @@ module PDF_Chinese
   		b+='B'
 		end
   	Cell(w,h,s[j,i-j],b,2,align,fill)
-  	@x=@l_margin
-  end
 
-  def Write(h,txt,link='')
-  	if(@current_font['type']=='Type0')
-  		MBWrite(h,txt,link)
-  	else
-  		super(h,txt,link)
+  	# move cursor to specified position
+  	if (ln == 1)
+  		# go to the beginning of the next line
+  		@x=@l_margin
+  	elsif (ln == 0)
+  		# go to the top-right of the cell
+  		@y = prevy;
+  		@x = prevx + w;
+  	elsif (ln == 2)
+  		# go to the bottom-left of the cell
+  		@x = prevx;
 		end
   end
 
-  def MBWrite(h,txt,link)
+  def Write(h,txt,link='',fill=0)
+  	if(@current_font['type']=='Type0')
+  		MBWrite(h,txt,link,fill)
+  	else
+  		super(h,txt,link,fill)
+		end
+  end
+
+  def MBWrite(h,txt,link,fill=0)
   	#Multi-byte version of Write()
   	cw=@current_font['cw']
   	w=@w-@r_margin-@x
@@ -263,7 +280,7 @@ module PDF_Chinese
   		ascii=(c<128)
   		if(c.chr=="\n")
   			#Explicit line break
-  			Cell(w,h,s[j,i-j],0,2,'',0,link)
+  			Cell(w,h,s[j,i-j],0,2,'',fill,link)
   			i+=1
   			sep=-1
   			j=i
@@ -296,9 +313,9 @@ module PDF_Chinese
   				if(i==j)
   					i+=ascii ? 1 : 2
 					end
-  				Cell(w,h,s[j,i-j],0,2,'',0,link)
+  				Cell(w,h,s[j,i-j],0,2,'',fill,link)
   			else
-  				Cell(w,h,s[j,sep-j],0,2,'',0,link)
+  				Cell(w,h,s[j,sep-j],0,2,'',fill,link)
   				i=(s[sep].chr==' ') ? sep+1 : sep
   			end
   			sep=-1
@@ -316,7 +333,7 @@ module PDF_Chinese
   	end
   	#Last chunk
   	if(i!=j)
-  		Cell(l/1000*@font_size,h,s[j,i-j],0,0,'',0,link)
+  		Cell(l*@font_size/1000.0,h,s[j,i-j],0,0,'',fill,link)
 		end
   end
 
