@@ -75,6 +75,10 @@ class Repository::Git < Repository
     scm.tags
   end
 
+  def default_branch
+    scm.default_branch
+  end
+
   def find_changeset_by_name(name)
     return nil if name.nil? || name.empty?
     e = changesets.find(:first, :conditions => ['revision = ?', name.to_s])

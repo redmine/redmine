@@ -119,7 +119,7 @@ class Repository < ActiveRecord::Base
   end
 
   def default_branch
-    scm.default_branch
+    nil
   end
 
   def properties(path, identifier=nil)
