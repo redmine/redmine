@@ -98,6 +98,8 @@ class TCPDF
 	attr_accessor :color_flag
 	
 	attr_accessor :default_table_columns
+
+	attr_accessor :max_table_columns
 	
 	attr_accessor :default_font
 
@@ -141,11 +143,11 @@ class TCPDF
 	
 	attr_accessor :links
 	
-	attr_accessor :listordered
+	attr_accessor :list_ordered
 	
-	attr_accessor :listcount
+	attr_accessor :list_count
 	
-	attr_accessor :lispacer
+	attr_accessor :li_spacer
 	
 	attr_accessor :n
 	
@@ -226,6 +228,12 @@ class TCPDF
 		@diffs ||= []
 		@color_flag ||= false
   	@default_table_columns ||= 4
+  	@table_columns ||= 0
+  	@max_table_columns ||= []
+  	@tr_id ||= 0
+  	@max_td_page ||= []
+  	@max_td_y ||= []
+  	@t_columns ||= 0
   	@default_font ||= "FreeSans" if unicode
   	@default_font ||= "Helvetica"
 		@draw_color ||= '0 G'
@@ -248,9 +256,15 @@ class TCPDF
 		@is_unicode = unicode
 		@lasth ||= 0
 		@links ||= []
-  	@listordered ||= false
-  	@listcount ||= 0
-  	@lispacer ||= ""
+  	@list_ordered ||= []
+  	@list_count ||= []
+  	@li_spacer ||= ""
+  	@li_count ||= 0
+  	@spacer ||= ""
+  	@quote_count ||= 0
+  	@prevquote_count ||= 0
+  	@quote_top ||= []
+  	@quote_page ||= []
 		@n ||= 2
 		@offsets ||= []
 		@orientation_changes ||= []
@@ -272,6 +286,7 @@ class TCPDF
   	@tempfontsize ||= 10
 		@text_color ||= '0 g'
 		@underline ||= false
+		@deleted ||= false
 		@ws ||= 0
 		
 		#Standard Unicode fonts
@@ -737,7 +752,7 @@ class TCPDF
 			Open();
 		end
 		family=@font_family;
-		style=@font_style + (@underline ? 'U' : '');
+		style=@font_style + (@underline ? 'U' : '') + (@deleted ? 'D' : '');
 		size=@font_size_pt;
 		lw=@line_width;
 		dc=@draw_color;
@@ -1312,6 +1327,7 @@ class TCPDF
 
 		style=style.upcase
 		style=style.gsub('U','');
+		style=style.gsub('D','');
 		if (style == 'IB')
 			style = 'BI';
 		end
@@ -1394,7 +1410,7 @@ class TCPDF
 	# #Removes bold
 	# :pdf->SetFont('');
 	# #Times bold, italic and underlined 14
-	# :pdf->SetFont('Times','BIU');
+	# :pdf->SetFont('Times','BIUD');
 	# </pre><br />
 	# If the file corresponding to the requested font is not found, the error "Could not include font metric file" is generated.
 	# @param string :family Family font. It can be either a name defined by AddFont() or one of the standard families (case insensitive):<ul><li>Courier (fixed-width)</li><li>Helvetica or Arial (synonymous; sans serif)</li><li>Times (serif)</li><li>Symbol (symbolic)</li><li>ZapfDingbats (symbolic)</li></ul>It is also possible to pass an empty string. In that case, the current family is retained.
@@ -1425,6 +1441,12 @@ class TCPDF
 			style= style.gsub('U','');
 		else
 			@underline=false;
+		end
+		if (style.include?('D'))
+			@deleted=true;
+			style= style.gsub('D','');
+		else
+			@deleted=false;
 		end
 		if (style=='IB')
 			style='BI';
@@ -1573,7 +1595,7 @@ class TCPDF
 		#Output a string
 		s=sprintf('BT %.2f %.2f Td (%s) Tj ET', x * @k, (@h-y) * @k, escapetext(txt));
 		if (@underline and (txt!=''))
-			s += ' ' + dounderline(x, y, txt);
+			s += ' ' + dolinetxt(x, y, txt);
 		end
 		if (@color_flag)
 			s='q ' + @text_color + ' ' + s + ' Q';
@@ -1661,19 +1683,25 @@ class TCPDF
 		k=@k;
 		if ((@y + h) > @page_break_trigger and !@in_footer and AcceptPageBreak())
 			#Automatic page break
-			x = @x;
-			ws = @ws;
-			if (ws > 0)
-				@ws = 0;
-				out('0 Tw');
-			end
-			AddPage(@cur_orientation);
-			@x = x;
-			if (ws > 0)
-				@ws = ws;
-				out(sprintf('%.3f Tw', ws * k));
+			if @pages[@page+1].nil?
+				x = @x;
+				ws = @ws;
+				if (ws > 0)
+					@ws = 0;
+					out('0 Tw');
+				end
+				AddPage(@cur_orientation);
+				@x = x;
+				if (ws > 0)
+					@ws = ws;
+					out(sprintf('%.3f Tw', ws * k));
+				end
+			else
+				@page += 1;
+				@y=@t_margin;
 			end
 		end
+
 		if (w == 0)
 			w = @w - @r_margin - @x;
 		end
@@ -1717,7 +1745,10 @@ class TCPDF
 			txt2 = escapetext(txt);
 			s<<sprintf('BT %.2f %.2f Td (%s) Tj ET', (@x + dx) * k, (@h - (@y + 0.5 * h + 0.3 * @font_size)) * k, txt2);
 			if (@underline)
-				s<<' ' + dounderline(@x + dx, @y + 0.5 * h + 0.3 * @font_size, txt);
+				s<<' ' + dolinetxt(@x + dx, @y + 0.5 * h + 0.3 * @font_size, txt);
+			end
+			if (@deleted)
+				s<<' ' + dolinetxt(@x + dx, @y + 0.3 * h + 0.2 * @font_size, txt);
 			end
 			if (@color_flag)
 				s<<' Q';
@@ -1760,6 +1791,7 @@ class TCPDF
 		# save current position
 		prevx = @x;
 		prevy = @y;
+		prevpage = @page;
 		 
 		#Output text with automatic or explicit line breaks
 
@@ -1876,6 +1908,7 @@ class TCPDF
 			@x = @l_margin;
 		elsif (ln == 0)
 			# go to the top-right of the cell
+			@page = prevpage;
 			@y = prevy;
 			@x = prevx + w;
 		elsif (ln == 2)
@@ -2075,6 +2108,29 @@ class TCPDF
 		else
 			@y += h;
 		end
+
+		k=@k;
+		if (@y > @page_break_trigger and !@in_footer and AcceptPageBreak())
+			#Automatic page break
+			if @pages[@page+1].nil?
+				x = @x;
+				ws = @ws;
+				if (ws > 0)
+					@ws = 0;
+					out('0 Tw');
+				end
+				AddPage(@cur_orientation);
+				@x = x;
+				if (ws > 0)
+					@ws = ws;
+					out(sprintf('%.3f Tw', ws * k));
+				end
+			else
+				@page += 1;
+				@y=@t_margin;
+			end
+		end
+
 	end
   alias_method :ln, :Ln
 
@@ -2473,6 +2529,7 @@ class TCPDF
 
   def putType0(font)
   	#Type0
+		newobj();
 		out('<</Type /Font')
   	out('/Subtype /Type0')
   	out('/BaseFont /'+font['name']+'-'+font['cMap'])
@@ -2525,7 +2582,7 @@ class TCPDF
 			out('/Width ' + info['w'].to_s);
 			out('/Height ' + info['h'].to_s);
 			if (info['cs']=='Indexed')
-				out('/ColorSpace [/Indexed /DeviceRGB ' + (info['pal'].length/3-1) + ' ' + (@n+1) + ' 0 R]');
+				out('/ColorSpace [/Indexed /DeviceRGB ' + (info['pal'].length/3-1).to_s + ' ' + (@n+1).to_s + ' 0 R]');
 			else
 				out('/ColorSpace /' + info['cs']);
 				if (info['cs']=='DeviceCMYK')
@@ -2553,7 +2610,7 @@ class TCPDF
 			#Palette
 			if (info['cs']=='Indexed')
 				newobj();
-				pal=(@compress) ? gzcompress(info['pal']) : :info['pal'];
+				pal=(@compress) ? gzcompress(info['pal']) : info['pal'];
 				out('<<' + filter + '/Length ' + pal.length.to_s + '>>');
 				putstream(pal);
 				out('endobj');
@@ -2766,10 +2823,10 @@ class TCPDF
 	end
 
 	#
-	# Underline text
+	# Underline and Deleted text
 	# @access protected
 	#
-	def dounderline(x, y, txt)
+	def dolinetxt(x, y, txt)
 		up = @current_font['up'];
 		ut = @current_font['ut'];
 		w = GetStringWidth(txt) + @ws * txt.count(' ');
@@ -3350,7 +3407,7 @@ class TCPDF
 	
 	#
 	# Allows to preserve some HTML formatting.<br />
-	# Supports: h1, h2, h3, h4, h5, h6, b, u, i, a, img, p, br, strong, em, font, blockquote, li, ul, ol, hr, td, th, tr, table, sup, sub, small
+	# Supports: h1, h2, h3, h4, h5, h6, b, u, i, a, img, p, br, strong, em, ins, del, font, blockquote, li, ul, ol, hr, td, th, tr, table, sup, sub, small
 	# @param string :html text to display
 	# @param boolean :ln if true add a new line after text (default = true)
 	# @param int :fill Indicates if the background must be painted (1) or transparent (0). Default value: 0.
@@ -3364,9 +3421,35 @@ class TCPDF
 		end
 		
     @href = nil
-    @style = {}
-    html.gsub!(/[\t\r\n\f]/, "")#\0\x0B
+    @style = "";
+    @t_cells =  [[]];
+    @table_id = 0;
+
+    # pre calculate
     html.split(/(<[^>]+>)/).each do |element|
+      if "<" == element[0,1]
+        #Tag
+        if (element[1, 1] == '/')
+					closedHTMLTagCalc(element[2..-2].downcase);
+        else
+					#Extract attributes
+					# get tag name
+					tag = element.scan(/([a-zA-Z0-9]*)/).flatten.delete_if {|x| x.length == 0}
+					tag = tag[0].downcase;
+					
+					# get attributes
+					attr_array = element.scan(/([^=\s]*)=["\']?([^"\']*)["\']?/)
+          attrs = {}
+          attr_array.each do |name, value|
+    			  attrs[name.downcase] = value;
+    		  end
+					openHTMLTagCalc(tag, attrs);
+				end
+			end
+		end
+		@table_id = 0;
+				
+    html.split(/(<[A-Za-z!?\/][^>]*?>)/).each do |element|
       if "<" == element[0,1]
         #Tag
         if (element[1, 1] == '/')
@@ -3389,14 +3472,32 @@ class TCPDF
       else
         #Text
 				if (@href)
+					element.gsub!(/[\t\r\n\f]/, "");
 					addHtmlLink(@href, element, fill);
 				elsif (@tdbegin)
-					if ((element.strip.length > 0) and (element != "&nbsp;"))
-						Cell(@tdwidth, @tdheight, unhtmlentities(element.strip), @tableborder, 0, @tdalign, @tdfill);
-					elsif (element == "&nbsp;")
-						Cell(@tdwidth, @tdheight, '', @tableborder, 0, @tdalign, @tdfill);
+					element.gsub!(/[\t\r\n\f]/, "");
+					element.gsub!(/&nbsp;/, " ");
+					base_page = @page;
+					base_x = @x;
+					base_y = @y;
+
+					MultiCell(@tdwidth, @tdheight, unhtmlentities(element.strip), @tableborder, @tdalign, @tdfill, 1);
+					tr_end = @t_cells[@table_id][@tr_id][@td_id]['j1'] + 1;
+					if @max_td_page[tr_end].nil?  or (@max_td_page[tr_end] < @page)
+						@max_td_page[tr_end] = @page
+						@max_td_y[tr_end] = @y
+					elsif (@max_td_page[tr_end] == @page)
+						@max_td_y[tr_end] = @y if @max_td_y[tr_end].nil? or (@max_td_y[tr_end] < @y) 
 					end
-				elsif ((element.strip.length > 0) and (element != "&nbsp;"))
+
+					@page = base_page;
+					@x = base_x + @tdwidth;
+					@y = base_y;
+				elsif (element.strip.length > 0)
+					if @pre_state != true
+						element.gsub!(/[\t\r\n\f]/, "");
+						element.gsub!(/&nbsp;/, " ");
+					end
 					Write(@lasth, unhtmlentities(element), '', fill);
 				end
       end
@@ -3422,7 +3523,7 @@ class TCPDF
 	# @param int :fill Indicates if the cell background must be painted (1) or transparent (0). Default value: 0.
 	# @see Cell()
 	#
-	def writeHTMLCell(w, h, x, y, html='', border=0, ln=0, fill=0)
+	def writeHTMLCell(w, h, x, y, html='', border=0, ln=1, fill=0)
 		
 		if (@lasth == 0)
 			#set row height
@@ -3446,6 +3547,24 @@ class TCPDF
 			w = @fw - x - @r_margin;
 		end
 		
+		b=0;
+		if (border)
+			if (border==1)
+				border='LTRB';
+				b='LRT';
+				b2='LR';
+			elsif border.is_a?(String)
+				b2='';
+				if (border.include?('L'))
+					b2<<'L';
+				end
+				if (border.include?('R'))
+					b2<<'R';
+				end
+				b=(border.include?('T')) ? b2 + 'T' : b2;
+			end
+		end
+		
 		# store original margin values
 		l_margin = @l_margin;
 		r_margin = @r_margin;
@@ -3461,35 +3580,186 @@ class TCPDF
 		
 		currentY =  GetY();
 		
+		@auto_page_break = false;
 		# check if a new page has been created
 		if (@page > pagenum)
 			# design a cell around the text on first page
 			currentpage = @page;
 			@page = pagenum;
 			SetY(GetPageHeight() - restspace - GetBreakMargin());
-			h = restspace - 1;
-			Cell(w, h, "", border, ln, 'L', 0);
+			Cell(w, restspace - 1, "", b, 0, 'L', 0);
+			b = b2;
+			@page += 1;
+			while @page < currentpage
+				SetY(@t_margin); # put cursor at the beginning of text
+				Cell(w, @page_break_trigger - @t_margin, "", b, 0, 'L', 0);
+				@page += 1;
+			end
+			if (border.is_a?(String) and border.include?('B'))
+				b<<'B';
+			end
 			# design a cell around the text on last page
-			@page = currentpage;
-			h = currentY - @t_margin;
 			SetY(@t_margin); # put cursor at the beginning of text
-			Cell(w, h, "", border, ln, 'L', 0);
+			Cell(w, currentY - @t_margin, "", b, 0, 'L', 0);
 		else
-			h = [h, (currentY - y)].max;
 			SetY(y); # put cursor at the beginning of text
 			# design a cell around the text
-			Cell(w, h, "", border, ln, 'L', 0);
+			Cell(w, [h, (currentY - y)].max, "", border, 0, 'L', 0);
 		end
+		@auto_page_break = true;
 		
 		# restore original margin values
 		SetLeftMargin(l_margin);
 		SetRightMargin(r_margin);
 		
-		if (ln)
-			Ln(0);
+		@lasth = h
+
+		# move cursor to specified position
+		if (ln == 0)
+			# go to the top-right of the cell
+			@x = x + w;
+			@y = y;
+		elsif (ln == 1)
+			# go to the beginning of the next line
+			@x = @l_margin;
+			@y = currentY;
+		elsif (ln == 2)
+			# go to the bottom-left of the cell (below)
+			@x = x;
+			@y = currentY;
 		end
 	end
   alias_method :write_html_cell, :writeHTMLCell
+
+	#
+	# Check html table tag position.
+	#
+	# @param array :table potision array
+	# @param int :current tr tag id number
+	# @param int :current td tag id number
+	# @access private
+	# @return int : next td_id position.
+	#               value 0 mean that can use position.
+	#
+	def checkTableBlockingCellPosition(table, tr_id, td_id )
+		0.upto(tr_id) do |j|
+			0.upto(@t_cells[table][j].size - 1) do |i|
+				if @t_cells[table][j][i]['i0'] <= td_id and td_id <= @t_cells[table][j][i]['i1']
+					if @t_cells[table][j][i]['j0'] <= tr_id and tr_id <= @t_cells[table][j][i]['j1']
+						return @t_cells[table][j][i]['i1'] - td_id + 1;
+					end
+				end
+			end
+		end
+		return 0;
+	end
+
+	#
+	# Calculate opening tags.
+	#
+	# html table cell array : @t_cells
+	#
+	#  i0: table cell start position
+	#  i1: table cell end position
+	#  j0: table row start position
+	#  j1: table row end position
+	#
+	#  +------+
+	#  |i0,j0 |
+	#  | i1,j1|
+	#  +------+
+	#
+	#  example html:
+	#  <table>
+	#    <tr><td></td><td></td><td></td></tr>
+	#    <tr><td colspan=2></td><td></td></tr>
+	#    <tr><td rowspan=2></td><td></td><td></td></tr>
+	#    <tr><td></td><td></td></tr>
+	#  </table>
+	#
+	#   i: 0    1    2
+	#  j+----+----+----+
+	#  :|0,0 |1,0 |2,0 |
+	#  0| 0,0| 1,0| 2,0|
+	#   +----+----+----+
+	#   |0,1      |2,1 |
+	#  1|      1,1| 2,1|
+	#   +----+----+----+
+	#   |0,2 |1,2 |2,2 |
+	#  2|    | 1,2| 2,2|
+	#   +    +----+----+
+	#   |    |1,3 |2,3 |
+	#  3| 0,3| 1,3| 2,3|
+	#   +----+----+----+
+	#
+	#  html table cell array :
+	#  [[[i0=>0,j0=>0,i1=>0,j1=>0],[i0=>1,j0=>0,i1=>1,j1=>0],[i0=>2,j0=>0,i1=>2,j1=>0]],
+	#   [[i0=>0,j0=>1,i1=>1,j1=>1],[i0=>2,j0=>1,i1=>2,j1=>1]],
+	#   [[i0=>0,j0=>2,i1=>0,j1=>3],[i0=>1,j0=>2,i1=>1,j1=>2],[i0=>2,j0=>2,i1=>2,j1=>2]]
+	#   [[i0=>1,j0=>3,i1=>1,j1=>3],[i0=>2,j0=>3,i1=>2,j1=>3]]]
+	#
+	# @param string :tag tag name (in upcase)
+	# @param string :attr tag attribute (in upcase)
+	# @access private
+	#
+	def openHTMLTagCalc(tag, attrs)
+		#Opening tag
+		case (tag)
+			when 'table'
+				@max_table_columns[@table_id] = 0;
+				@t_columns = 0;
+				@tr_id = -1;
+			when 'tr'
+				if @max_table_columns[@table_id] < @t_columns
+					@max_table_columns[@table_id] = @t_columns;
+				end
+				@t_columns = 0;
+				@tr_id +=  1;
+				@td_id =  -1;
+				@t_cells[@table_id].push []
+			when 'td', 'th'
+				@td_id +=  1;
+				if attrs['colspan'].nil? or attrs['colspan'] == ''
+					colspan = 1;
+				else
+					colspan = attrs['colspan'].to_i;
+				end
+				if attrs['rowspan'].nil? or attrs['rowspan'] == ''
+					rowspan = 1;
+				else
+					rowspan = attrs['rowspan'].to_i;
+				end
+
+				i = 0;
+				while true
+					next_i_distance = checkTableBlockingCellPosition(@table_id, @tr_id, @td_id + i);
+					if next_i_distance == 0
+						@t_cells[@table_id][@tr_id].push "i0"=>@td_id + i, "j0"=>@tr_id, "i1"=>(@td_id + i + colspan - 1), "j1"=>@tr_id + rowspan - 1
+						break;
+					end
+					i += next_i_distance;
+				end
+
+				@t_columns += colspan;
+		end
+	end
+
+	#
+	# Calculate closing tags.
+	# @param string :tag tag name (in upcase)
+	# @access private
+	#
+	def closedHTMLTagCalc(tag)
+		#Closing tag
+		case (tag)
+			when 'table'
+				if @max_table_columns[@table_id] < @t_columns
+					@max_table_columns[@table_id] = @t_columns;
+				end
+				@table_id += 1;
+				@t_cells.push []
+		end
+	end
 
 	#
 	# Process opening tags.
@@ -3501,20 +3771,56 @@ class TCPDF
 	def openHTMLTagHandler(tag, attrs, fill=0)
 		#Opening tag
 		case (tag)
+			when 'pre'
+				@pre_state = true;
+				@l_margin += 5;	
+				@r_margin += 5;	
+				@x += 5;	
+
 			when 'table'
+				if @default_table_columns < @max_table_columns[@table_id]
+					@table_columns = @max_table_columns[@table_id];
+				else
+					@table_columns = @default_table_columns;
+				end
+				@l_margin += 5;	
+				@r_margin += 5;	
+				@x += 5;	
+
 				if attrs['border'].nil? or attrs['border'] == ''
 					@tableborder = 0;
 				else
 					@tableborder = attrs['border'];
 				end
+				@tr_id        = -1;
+				@max_td_page[0] = @page;
+				@max_td_y[0]    = @y;
+
 			when 'tr', 'td', 'th'
-        # SetStyle('b', true) if tag == 'th'
-				
+				if tag == 'th'
+					SetStyle('b', true);
+					@tdalign = "C";
+				end
 				if ((!attrs['width'].nil?) and (attrs['width'] != ''))
 					@tdwidth = (attrs['width'].to_i/4);
 				else
-					@tdwidth = ((@w - @l_margin - @r_margin) / @default_table_columns);
+					@tdwidth = ((@w - @l_margin - @r_margin) / @table_columns);
 				end
+
+				if tag == 'tr'
+					@tr_id +=  1;
+					@td_id  = -1;
+				else
+					@td_id +=  1;
+					@x =  @l_margin + @tdwidth * @t_cells[@table_id][@tr_id][@td_id]['i0'];
+				end
+
+				if attrs['colspan'].nil? or attrs['border'] == ''
+					@colspan = 1;
+				else
+					@colspan = attrs['colspan'].to_i;
+				end
+				@tdwidth *= @colspan;
 				if ((!attrs['height'].nil?) and (attrs['height'] != ''))
 					@tdheight=(attrs['height'].to_i / @k);
 				else
@@ -3538,17 +3844,14 @@ class TCPDF
 				@tdbegin=true;
 				
 			when 'hr'
-				Ln();
+				margin = 1;
 				if ((!attrs['width'].nil?) and (attrs['width'] != ''))
 					hrWidth = attrs['width'];
 				else
-					hrWidth = @w - @l_margin - @r_margin;
+					hrWidth = @w - @l_margin - @r_margin - margin;
 				end
-				x = GetX();
-				y = GetY();
 				SetLineWidth(0.2);
-				Line(x, y, x + hrWidth, y);
-				SetLineWidth(0.2);
+				Line(@x + margin, @y, @x + hrWidth, @y);
 				Ln();
 				
 			when 'strong'
@@ -3556,6 +3859,12 @@ class TCPDF
 				
 			when 'em'
 				SetStyle('i', true);
+				
+			when 'ins'
+				SetStyle('u', true);
+				
+			when 'del'
+				SetStyle('d', true);
 				
 			when 'b', 'i', 'u'
 				SetStyle(tag, true);
@@ -3565,6 +3874,8 @@ class TCPDF
 				
 			when 'img'
 				if (!attrs['src'].nil?)
+				Write(@lasth, '!' + attrs['src'] + '!', '', fill);
+=begin Comment out. Because not implement image output yet.
 					# replace relative path with real server path
 					attrs['src'] = attrs['src'].gsub(@@k_path_url_cache, @@k_path_cache);
 					if (attrs['width'].nil?)
@@ -3577,37 +3888,70 @@ class TCPDF
 					Image(attrs['src'], GetX(),GetY(), pixelsToMillimeters(attrs['width']), pixelsToMillimeters(attrs['height']));
 					#SetX(@img_rb_x);
 					SetY(@img_rb_y);
-					
+=end
 				end
 				
-			when 'ul'
-				@listordered = false;
-				@listcount = 0;
-				
-			when 'ol'
-				@listordered = true;
-				@listcount = 0;
+			when 'ul', 'ol'
+				if @li_count == 0
+					Ln() if @prevquote_count == @quote_count; # insert Ln for keeping quote lines
+					@prevquote_count = @quote_count;
+				end
+				if @li_state == true
+					Ln();
+			  	@li_state = false;
+				end
+				if tag == 'ul'
+					@list_ordered[@li_count] = false;
+				else
+					@list_ordered[@li_count] = true;
+				end
+				@list_count[@li_count] = 0;
+				@li_count += 1
 				
 			when 'li'
-				Ln();
-				if (@listordered)
-				  @listcount += 1
-					@lispacer = "    " + (@listcount).to_s + ". ";
+				Ln() if @li_state == true
+				if (@list_ordered[@li_count - 1])
+					@list_count[@li_count - 1] += 1;
+					@li_spacer = "    " * @li_count + (@list_count[@li_count - 1]).to_s + ". ";
 				else
 					#unordered list simbol
-					@lispacer = "    -  ";
+					@li_spacer = "    " * @li_count + "-  ";
 				end
-				Write(@lasth, @lispacer, '', fill);
+				Write(@lasth, @spacer + @li_spacer, '', fill);
+				@li_state = true;
 
-			when 'blockquote', 'br'
+			when 'blockquote'
+				if (@quote_count == 0)
+					SetStyle('i', true);
+					@l_margin += 5;	
+				else
+					@l_margin += 5 / 2;	
+				end
+				@x = @l_margin;	
+				@quote_top[@quote_count]  = @y;
+				@quote_page[@quote_count] = @page;
+				@quote_count += 1
+			when 'br'
 				Ln();
-				if (@lispacer.length > 0)
-					@x += GetStringWidth(@lispacer);
+
+				if (@li_spacer.length > 0)
+					@x += GetStringWidth(@li_spacer);
 				end
 				
 			when 'p'
 				Ln();
-				Ln();
+				0.upto(@quote_count - 1) do |i|
+			  	if @quote_page[i] == @page;
+			  		if @quote_top[i] == @y - @lasth; # fix start line
+			  			@quote_top[i] = @y;
+						end
+					else
+			  		if @quote_page[i] == @page - 1;
+			  			@quote_page[i] = @page; # fix start line
+			  			@quote_top[i] = @t_margin;
+						end
+					end
+				end
 				
 			when 'sup'
 				currentfont_size = @font_size;
@@ -3648,6 +3992,7 @@ class TCPDF
 				@lasth = @font_size * @@k_cell_height_ratio;
 				
 			when 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
+				Ln();
 				headsize = (4 - tag[1,1].to_f) * 2
 				@tempfontsize = @font_size_pt;
 				SetFontSize(@font_size_pt + headsize);
@@ -3665,19 +4010,63 @@ class TCPDF
 	def closedHTMLTagHandler(tag)
 		#Closing tag
 		case (tag)
+			when 'pre'
+				@pre_state = false;
+				@l_margin -= 5;
+				@r_margin -= 5;
+				@x = @l_margin;
+				Ln();
+
 			when 'td','th'
 				@tdbegin = false;
 				@tdwidth = 0;
 				@tdheight = 0;
 				@tdalign = "L";
+				SetStyle('b', false);
 				@tdfill = 0;
 				SetFillColor(@prevfill_color[0], @prevfill_color[1], @prevfill_color[2]);
 				
 			when 'tr'
-				Ln();
+				@y = @max_td_y[@tr_id + 1];
+				@x = @l_margin;
+				@page = @max_td_page[@tr_id + 1];
 				
 			when 'table'
+				# Write Table Line
+				width = (@w - @l_margin - @r_margin) / @table_columns;
+				0.upto(@t_cells[@table_id].size - 1) do |j|
+					0.upto(@t_cells[@table_id][j].size - 1) do |i|
+						@page = @max_td_page[j]
+						i0=@t_cells[@table_id][j][i]['i0'];
+						j0=@t_cells[@table_id][j][i]['j0'];
+						i1=@t_cells[@table_id][j][i]['i1'];
+						j1=@t_cells[@table_id][j][i]['j1'];
+
+						Line(@l_margin + width * i0,     @max_td_y[j0],   @l_margin + width * (i1+1), @max_td_y[j0])   # top
+						if ( @page == @max_td_page[j1 + 1])
+							Line(@l_margin + width * i0,     @max_td_y[j0],   @l_margin + width * i0,     @max_td_y[j1+1]) # left
+							Line(@l_margin + width * (i1+1), @max_td_y[j0],   @l_margin + width * (i1+1), @max_td_y[j1+1]) # right
+						else
+							Line(@l_margin + width * i0,     @max_td_y[j0],   @l_margin + width * i0,     @page_break_trigger) # left
+							Line(@l_margin + width * (i1+1), @max_td_y[j0],   @l_margin + width * (i1+1), @page_break_trigger) # right
+							@page += 1;
+							while @page < @max_td_page[j1 + 1]
+								Line(@l_margin + width * i0,     @t_margin,   @l_margin + width * i0,     @page_break_trigger) # left
+								Line(@l_margin + width * (i1+1), @t_margin,   @l_margin + width * (i1+1), @page_break_trigger) # right
+								@page += 1;
+							end
+							Line(@l_margin + width * i0,     @t_margin,   @l_margin + width * i0,     @max_td_y[j1+1]) # left
+							Line(@l_margin + width * (i1+1), @t_margin,   @l_margin + width * (i1+1), @max_td_y[j1+1]) # right
+						end
+						Line(@l_margin + width * i0,     @max_td_y[j1+1], @l_margin + width * (i1+1), @max_td_y[j1+1]) # bottom
+					end
+				end
+
+				@l_margin -= 5;
+				@r_margin -= 5;
 				@tableborder=0;
+				Ln();
+				@table_id += 1;
 				
 			when 'strong'
 				SetStyle('b', false);
@@ -3685,11 +4074,20 @@ class TCPDF
 			when 'em'
 				SetStyle('i', false);
 				
+			when 'ins'
+				SetStyle('u', false);
+				
+			when 'del'
+				SetStyle('d', false);
+				
 			when 'b', 'i', 'u'
 				SetStyle(tag, false);
 				
 			when 'a'
 				@href = nil;
+				
+			when 'p'
+				Ln();
 				
 			when 'sup'
 				currentfont_size = @font_size;
@@ -3725,14 +4123,47 @@ class TCPDF
 				#@text_color = @prevtext_color;
 				@lasth = @font_size * @@k_cell_height_ratio;
 				
-			when 'ul'
-				Ln();
-				
-			when 'ol'
-				Ln();
+			when 'blockquote'
+			  @quote_count -= 1
+				if (@quote_page[@quote_count] == @page)
+					Line(@l_margin - 1, @quote_top[@quote_count], @l_margin - 1, @y)  # quoto line
+				else
+					cur_page = @page;
+					cur_y = @y;
+					@page = @quote_page[@quote_count];
+					if (@quote_top[@quote_count] < @page_break_trigger)
+						Line(@l_margin - 1, @quote_top[@quote_count], @l_margin - 1, @page_break_trigger)  # quoto line
+					end
+					@page += 1;
+					while @page < cur_page
+						Line(@l_margin - 1, @t_margin, @l_margin - 1, @page_break_trigger)  # quoto line
+						@page += 1;
+					end
+					@y = cur_y;
+					Line(@l_margin - 1, @t_margin, @l_margin - 1, @y)  # quoto line
+				end
+				if (@quote_count <= 0)
+					SetStyle('i', false);
+					@l_margin -= 5;
+				else
+					@l_margin -= 5 / 2;
+				end
+				@x = @l_margin;
+				Ln() if @quote_count == 0
+
+			when 'ul', 'ol'
+			  @li_count -= 1
+				if @li_state == true
+					Ln();
+			  	@li_state = false;
+				end
 				
 			when 'li'
-				@lispacer = "";
+				@li_spacer = "";
+				if @li_state == true
+					Ln();
+			  	@li_state = false;
+				end
 				
 			when 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
 				SetFontSize(@tempfontsize);
@@ -3740,7 +4171,17 @@ class TCPDF
 				SetStyle('b', false);
 				Ln();
 				@lasth = @font_size * @@k_cell_height_ratio;
-								
+				
+				if tag == 'h1' or tag == 'h2' or tag == 'h3' or tag == 'h4'
+					margin = 1;
+					hrWidth = @w - @l_margin - @r_margin - margin;
+					if tag == 'h1' or tag == 'h2'
+						SetLineWidth(0.2);
+					else
+						SetLineWidth(0.1);
+					end
+					Line(@x + margin, @y, @x + hrWidth, @y);
+				end
 		end
 	end
 	
@@ -3752,11 +4193,16 @@ class TCPDF
 	#
 	def SetStyle(tag, enable)
 		#Modify style and select corresponding font
-		style='';
-		['b', 'i', 'u'].each do |s|
-				style << s if tag.downcase == s and enable
+		['b', 'i', 'u', 'd'].each do |s|
+			if tag.downcase == s
+				if enable
+					@style << s if ! @style.include?(s)
+				else
+					@style = @style.gsub(s,'')
+				end
+			end
 		end
-		SetFont('', style);
+		SetFont('', @style);
 	end
 	
 	#
