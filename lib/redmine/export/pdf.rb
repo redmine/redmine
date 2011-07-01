@@ -107,8 +107,8 @@ module Redmine
           RDMPdfEncoding::rdm_pdf_iconv(@ic, txt)
         end
 
-        def RDMCell(w,h=0,txt='',border=0,ln=0,align='',fill=0,link='')
-          Cell(w,h,fix_text_encoding(txt),border,ln,align,fill,link)
+        def RDMCell(w ,h=0, txt='', border=0, ln=0, align='', fill=0, link='')
+          Cell(w, h, fix_text_encoding(txt), border, ln, align, fill, link)
         end
 
         def RDMMultiCell(w, h=0, txt='', border=0, align='', fill=0, ln=1)
