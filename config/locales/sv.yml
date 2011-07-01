@@ -351,6 +351,12 @@ sv:
   field_warn_on_leaving_unsaved: Varna om jag lämnar en sida med osparad text
   field_issues_visibility: Ärendesynlighet
   field_is_private: Privat
+  field_commit_logs_encoding: Teckenuppsättning för commit-meddelanden
+  field_scm_path_encoding: Sökvägskodning
+  field_path_to_repository: Sökväg till versionsarkiv
+  field_root_directory: Rotmapp
+  field_cvsroot: CVSROOT
+  field_cvs_module: Modul
   
   setting_app_title: Applikationsrubrik
   setting_app_subtitle: Applikationsunderrubrik
@@ -855,6 +861,7 @@ sv:
   label_issues_visibility_all: Alla ärenden
   label_issues_visibility_public: Alla icke-privata ärenden
   label_issues_visibility_own: Ärenden skapade av eller tilldelade till användaren
+  label_git_report_last_commit: Rapportera senaste commit av filer och mappar
   
   button_login: Logga in
   button_submit: Skicka
@@ -976,6 +983,13 @@ sv:
   text_zoom_out: Zooma ut
   text_zoom_in: Zooma in
   text_warn_on_leaving_unsaved: Nuvarande sida innehåller osparad text som kommer försvinna om du lämnar sidan.
+  text_scm_path_encoding_note: "Standard: UTF-8"
+  text_git_repository_note: Naket och lokalt versionsarkiv (t.ex. /gitrepo, c:\gitrepo)
+  text_mercurial_repository_note: Lokalt versionsarkiv (t.ex. /hgrepo, c:\hgrepo)
+  text_scm_command: Kommando
+  text_scm_command_version: Version
+  text_scm_config: Du kan konfigurera dina scm-kommando i config/configuration.yml. Vänligen starta om applikationen när ändringar gjorts.
+  text_scm_command_not_available: Scm-kommando är inte tillgängligt. Vänligen kontrollera inställningarna i administratörspanelen.
   
   default_role_manager: Projektledare
   default_role_developer: Utvecklare
@@ -1003,17 +1017,3 @@ sv:
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
   enumeration_system_activity: Systemaktivitet
-  field_commit_logs_encoding: Teckenuppsättning för commit-meddelanden
-  field_scm_path_encoding: Path encoding
-  text_scm_path_encoding_note: "Default: UTF-8"
-  field_path_to_repository: Path to repository
-  field_root_directory: Root directory
-  field_cvs_module: Module
-  field_cvsroot: CVSROOT
-  text_git_repository_note: Bare and local repository (e.g. /gitrepo, c:\gitrepo)
-  text_mercurial_repository_note: Local repository (e.g. /hgrepo, c:\hgrepo)
-  text_scm_command: Command
-  text_scm_command_version: Version
-  label_git_report_last_commit: Report last commit for files and directories
-  text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.
-  text_scm_command_not_available: Scm command is not available. Please check settings on the administration panel.
