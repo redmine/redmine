@@ -384,7 +384,9 @@ module Redmine
           if journal.notes?
             pdf.Ln unless journal.details.empty?
             pdf.SetFontStyle('',8)
-            pdf.RDMMultiCell(190,5, journal.notes.to_s)
+            pdf.RDMwriteHTMLCell(190,5,0,0,
+                  Redmine::WikiFormatting.to_html(
+                    Setting.text_formatting, journal.notes.to_s), "")
           end
           pdf.Ln
         end
