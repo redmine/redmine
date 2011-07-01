@@ -115,6 +115,10 @@ module Redmine
           MultiCell(w, h, fix_text_encoding(txt), border, align, fill, ln)
         end
 
+        def RDMwriteHTMLCell(w, h, x, y, html='', border=0, ln=1, fill=0)
+          writeHTMLCell(w, h, x, y, fix_text_encoding(html), border, ln, fill)
+        end
+
         def Footer
           SetFont(@font_for_footer, 'I', 8)
           SetY(-15)
