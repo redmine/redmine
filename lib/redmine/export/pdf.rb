@@ -344,7 +344,9 @@ module Redmine
         pdf.SetFontStyle('B',9)
         pdf.RDMCell(35+155, 5, l(:field_description), "LRT", 1)
         pdf.SetFontStyle('',9)
-        pdf.RDMMultiCell(35+155, 5, issue.description.to_s, "LRB")
+        pdf.RDMwriteHTMLCell(35+155, 5, 0, 0,
+            Redmine::WikiFormatting.to_html(
+              Setting.text_formatting, issue.description.to_s),"LRB")
         pdf.Ln
 
         if issue.changesets.any? &&
