@@ -282,8 +282,6 @@ module Redmine
              "#{issue.project} - #{issue.tracker} # #{issue.id}: #{issue.subject}")
         pdf.Ln
 
-        y0 = pdf.GetY
-
         pdf.SetFontStyle('B',9)
         pdf.RDMCell(35,5, l(:field_status) + ":","LT")
         pdf.SetFontStyle('',9)
@@ -331,18 +329,18 @@ module Redmine
           pdf.RDMMultiCell(155,5, (show_value custom_value),"R")
         end
 
+        y0 = pdf.GetY
+
         pdf.SetFontStyle('B',9)
         pdf.RDMCell(35,5, l(:field_subject) + ":","LT")
         pdf.SetFontStyle('',9)
         pdf.RDMMultiCell(155,5, issue.subject,"RT")
+        pdf.Line(pdf.GetX, y0, pdf.GetX, pdf.GetY)
 
         pdf.SetFontStyle('B',9)
-        pdf.RDMCell(35,5, l(:field_description) + ":","LT")
+        pdf.RDMCell(35+155, 5, l(:field_description), "LRT", 1)
         pdf.SetFontStyle('',9)
-        pdf.RDMMultiCell(155,5, issue.description.to_s,"RT")
-
-        pdf.Line(pdf.GetX, y0, pdf.GetX, pdf.GetY)
-        pdf.Line(pdf.GetX, pdf.GetY, pdf.GetX + 190, pdf.GetY)
+        pdf.RDMMultiCell(35+155, 5, issue.description.to_s, "LRB")
         pdf.Ln
 
         if issue.changesets.any? &&
