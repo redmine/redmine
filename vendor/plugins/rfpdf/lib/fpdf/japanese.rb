@@ -118,7 +118,7 @@ module PDF_Japanese
   	return l*@font_size/1000
   end
 
-  def MultiCell(w,h,txt,border=0,align='L',fill=0)
+  def MultiCell(w,h,txt,border=0,align='L',fill=0,ln=1)
   	if(@current_font['type']=='Type0')
   		SJISMultiCell(w,h,txt,border,align,fill)
   	else

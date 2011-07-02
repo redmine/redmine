@@ -111,7 +111,7 @@ UHC_widths={' ' => 333, '!' => 416, '"' => 416, '#' => 833, '$' => 625, '%' => 9
   	return l*@font_size/1000
   end
 
-  def MultiCell(w,h,txt,border=0,align='L',fill=0)
+  def MultiCell(w,h,txt,border=0,align='L',fill=0,ln=1)
   	if(@current_font['type']=='Type0')
   		MBMultiCell(w,h,txt,border,align,fill)
   	else
