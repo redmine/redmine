@@ -356,8 +356,9 @@ module Redmine
           pdf.Ln
           for changeset in issue.changesets
             pdf.SetFontStyle('B',8)
-            pdf.RDMCell(190,5,
-              format_time(changeset.committed_on) + " - " + changeset.author.to_s)
+            csstr  = "#{l(:label_revision)} #{changeset.format_identifier} - "
+            csstr += format_time(changeset.committed_on) + " - " + changeset.author.to_s
+            pdf.RDMCell(190, 5, csstr)
             pdf.Ln
             unless changeset.comments.blank?
               pdf.SetFontStyle('',8)
