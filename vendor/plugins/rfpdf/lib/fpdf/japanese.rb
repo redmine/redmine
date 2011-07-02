@@ -224,7 +224,7 @@ module PDF_Japanese
   	@x=@l_margin
   end
 
-  def Write(h,txt,link='')
+  def Write(h,txt,link='',fill=0)
   	if(@current_font['type']=='Type0')
  		SJISWrite(h,txt,link)
  	else

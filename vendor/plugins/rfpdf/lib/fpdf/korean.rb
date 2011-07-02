@@ -205,7 +205,7 @@ UHC_widths={' ' => 333, '!' => 416, '"' => 416, '#' => 833, '$' => 625, '%' => 9
   	@x=@l_margin
   end
 
-  def Write(h,txt,link='')
+  def Write(h,txt,link='',fill=0)
   	if(@current_font['type']=='Type0')
   		MBWrite(h,txt,link)
   	else
