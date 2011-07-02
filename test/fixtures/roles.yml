@@ -22,6 +22,7 @@ roles_001:
     - :delete_issues
     - :view_issue_watchers
     - :add_issue_watchers
+    - :set_issues_private
     - :delete_issue_watchers
     - :manage_public_queries
     - :save_queries
