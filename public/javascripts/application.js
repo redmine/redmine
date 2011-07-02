@@ -309,6 +309,7 @@ var WarnLeavingUnsaved = Class.create({
 	},
 	
 	unload: function(){
+		this.observedElements.each(function(el) {el.blur();})
 		if(this.changedForms)
       return this.message;
 	},
