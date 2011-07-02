@@ -19,9 +19,5 @@
 <p><%= setting_check_box :rest_api_enabled %></p>
 </div>
 
-<div style="float:right;">
-    <%= link_to l(:label_ldap_authentication), {:controller => 'ldap_auth_sources', :action => 'index'}, :class => 'icon icon-server-authentication' %>
-</div>
-
 <%= submit_tag l(:button_save) %>
 <% end %>
