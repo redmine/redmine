@@ -362,7 +362,9 @@ module Redmine
             pdf.Ln
             unless changeset.comments.blank?
               pdf.SetFontStyle('',8)
-              pdf.RDMMultiCell(190,5, changeset.comments.to_s)
+              pdf.RDMwriteHTMLCell(190,5,0,0,
+                   Redmine::WikiFormatting.to_html(
+                     Setting.text_formatting, changeset.comments.to_s), "")
             end
             pdf.Ln
           end
