@@ -227,6 +227,13 @@ class Issue < ActiveRecord::Base
     @custom_field_values = nil
     result
   end
+  
+  def description=(arg)
+    if arg.is_a?(String)
+      arg = arg.gsub(/(\r\n|\n|\r)/, "\r\n")
+    end
+    write_attribute(:description, arg)
+  end
 
   # Overrides attributes= so that tracker_id gets assigned first
   def attributes_with_tracker_first=(new_attributes, *args)

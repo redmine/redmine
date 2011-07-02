@@ -738,7 +738,7 @@ class IssueTest < ActiveSupport::TestCase
     IssueCustomField.delete_all
     Issue.update_all("description = NULL", "id=1")
     
-    i = Issue.first
+    i = Issue.find(1)
     i.init_journal(User.find(2))
     i.subject = "blank description"
     i.description = "\r\n"
@@ -748,6 +748,11 @@ class IssueTest < ActiveSupport::TestCase
         i.save!
       end
     end
+  end
+  
+  def test_description_eol_should_be_normalized
+    i = Issue.new(:description => "CR \r LF \n CRLF \r\n")
+    assert_equal "CR \r\n LF \r\n CRLF \r\n", i.description
   end
 
   def test_saving_twice_should_not_duplicate_journal_details
