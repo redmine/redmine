@@ -870,10 +870,13 @@ class Issue < ActiveRecord::Base
     if @current_journal
       # attributes changes
       (Issue.column_names - %w(id root_id lft rgt lock_version created_on updated_on)).each {|c|
+        before = @issue_before_change.send(c)
+        after = send(c)
+        next if before == after || (before.blank? && after.blank?)
         @current_journal.details << JournalDetail.new(:property => 'attr',
                                                       :prop_key => c,
                                                       :old_value => @issue_before_change.send(c),
-                                                      :value => send(c)) unless send(c)==@issue_before_change.send(c)
+                                                      :value => send(c))
       }
       # custom fields changes
       custom_values.each {|c|
