@@ -18,9 +18,6 @@
 require File.expand_path('../../test_helper', __FILE__)
 require 'application_controller'
 
-# Re-raise errors caught by the controller.
-class ApplicationController; def rescue_action(e) raise e end; end
-
 class ApplicationControllerTest < ActionController::TestCase
   include Redmine::I18n
   
