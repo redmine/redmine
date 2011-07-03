@@ -18,9 +18,6 @@
 require File.expand_path('../../test_helper', __FILE__)
 require 'issues_controller'
 
-# Re-raise errors caught by the controller.
-class IssuesController; def rescue_action(e) raise e end; end
-
 class IssuesControllerTransactionTest < ActionController::TestCase
   fixtures :projects,
            :users,

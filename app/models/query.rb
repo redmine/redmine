@@ -165,6 +165,11 @@ class Query < ActiveRecord::Base
           ["o", "c", "!*", "*", "t", "w"].include? operator_for(field)
     end if filters
   end
+  
+  # Returns true if the query is visible to +user+ or the current user.
+  def visible?(user=User.current)
+    self.is_public? || self.user_id == user.id
+  end
 
   def editable_by?(user)
     return false unless user
