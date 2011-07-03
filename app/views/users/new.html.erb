@@ -2,7 +2,9 @@
 
 <% labelled_tabular_form_for :user, @user, :url => { :action => "create" }, :html => { :class => nil } do |f| %>
 	<%= render :partial => 'form', :locals => { :f => f } %>
+	<% if email_delivery_enabled? %>
 	<p><label><%= check_box_tag 'send_information', 1, true %> <%= l(:label_send_information) %></label></p>
+	<% end %>
 	<p>
 		<%= submit_tag l(:button_create) %>
 		<%= submit_tag l(:button_create_and_continue), :name => 'continue' %>
