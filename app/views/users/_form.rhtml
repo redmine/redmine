@@ -3,48 +3,48 @@
 <div id="user_form">
 <!--[form:user]-->
 <div class="splitcontentleft">
-<h3><%=l(:label_information_plural)%></h3>
-<div class="box tabular">
-<p><%= f.text_field :login, :required => true, :size => 25  %></p>
-<p><%= f.text_field :firstname, :required => true %></p>
-<p><%= f.text_field :lastname, :required => true %></p>
-<p><%= f.text_field :mail, :required => true %></p>
-<p><%= f.select :language, lang_options_for_select %></p>
-<% if Setting.openid? %>
-<p><%= f.text_field :identity_url  %></p>
-<% end %>
+<fieldset class="box tabular">
+	<legend><%=l(:label_information_plural)%></legend>
+	<p><%= f.text_field :login, :required => true, :size => 25  %></p>
+	<p><%= f.text_field :firstname, :required => true %></p>
+	<p><%= f.text_field :lastname, :required => true %></p>
+	<p><%= f.text_field :mail, :required => true %></p>
+	<p><%= f.select :language, lang_options_for_select %></p>
+	<% if Setting.openid? %>
+	<p><%= f.text_field :identity_url  %></p>
+	<% end %>
+	
+	<% @user.custom_field_values.each do |value| %>
+		<p><%= custom_field_tag_with_label :user, value %></p>
+	<% end %>
+	
+	<p><%= f.check_box :admin, :disabled => (@user == User.current) %></p>
+	<%= call_hook(:view_users_form, :user => @user, :form => f) %>
+</fieldset>
 
-<% @user.custom_field_values.each do |value| %>
-	<p><%= custom_field_tag_with_label :user, value %></p>
-<% end %>
-
-<p><%= f.check_box :admin, :disabled => (@user == User.current) %></p>
-<%= call_hook(:view_users_form, :user => @user, :form => f) %>
-</div>
-
-<h3><%=l(:label_authentication)%></h3>
-<div class="box tabular">
-<% unless @auth_sources.empty? %>
-<p><%= f.select :auth_source_id, ([[l(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] }), {}, :onchange => "if (this.value=='') {Element.show('password_fields');} else {Element.hide('password_fields');}" %></p>
-<% end %>
-<div id="password_fields" style="<%= 'display:none;' if @user.auth_source %>">
-<p><%= f.password_field :password, :required => true, :size => 25  %><br />
-<em><%= l(:text_caracters_minimum, :count => Setting.password_min_length) %></em></p>
-<p><%= f.password_field :password_confirmation, :required => true, :size => 25  %></p>
-</div>
-</div>
+<fieldset class="box tabular">
+	<legend><%=l(:label_authentication)%></legend>
+	<% unless @auth_sources.empty? %>
+	<p><%= f.select :auth_source_id, ([[l(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] }), {}, :onchange => "if (this.value=='') {Element.show('password_fields');} else {Element.hide('password_fields');}" %></p>
+	<% end %>
+	<div id="password_fields" style="<%= 'display:none;' if @user.auth_source %>">
+	<p><%= f.password_field :password, :required => true, :size => 25  %><br />
+	<em><%= l(:text_caracters_minimum, :count => Setting.password_min_length) %></em></p>
+	<p><%= f.password_field :password_confirmation, :required => true, :size => 25  %></p>
+	</div>
+</fieldset>
 </div>
 
 <div class="splitcontentright">
-<h3><%=l(:field_mail_notification)%></h3>
-<div class="box">
-<%= render :partial => 'users/mail_notifications' %>
-</div>
+<fieldset class="box">
+	<legend><%=l(:field_mail_notification)%></legend>
+	<%= render :partial => 'users/mail_notifications' %>
+</fieldset>
 
-<h3><%=l(:label_preferences)%></h3>
-<div class="box tabular">
-<%= render :partial => 'users/preferences' %>
-</div>
+<fieldset class="box tabular">
+	<legend><%=l(:label_preferences)%></legend>
+	<%= render :partial => 'users/preferences' %>
+</fieldset>
 </div>
 </div>
 <div style="clear:left;"></div>
