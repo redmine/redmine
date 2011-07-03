@@ -18,9 +18,6 @@
 require File.expand_path('../../test_helper', __FILE__)
 require 'issues_controller'
 
-# Re-raise errors caught by the controller.
-class IssuesController; def rescue_action(e) raise e end; end
-
 class IssuesControllerTest < ActionController::TestCase
   fixtures :projects,
            :users,
@@ -192,6 +189,30 @@ class IssuesControllerTest < ActionController::TestCase
     assert_template 'index.rhtml'
     assert_not_nil assigns(:issues)
     assert_not_nil assigns(:issue_count_by_group)
+  end
+  
+  def test_private_query_should_not_be_available_to_other_users
+    q = Query.create!(:name => "private", :user => User.find(2), :is_public => false, :project => nil)
+    @request.session[:user_id] = 3
+    
+    get :index, :query_id => q.id
+    assert_response 403
+  end
+  
+  def test_private_query_should_be_available_to_its_user
+    q = Query.create!(:name => "private", :user => User.find(2), :is_public => false, :project => nil)
+    @request.session[:user_id] = 2
+    
+    get :index, :query_id => q.id
+    assert_response :success
+  end
+  
+  def test_public_query_should_be_available_to_other_users
+    q = Query.create!(:name => "private", :user => User.find(2), :is_public => true, :project => nil)
+    @request.session[:user_id] = 3
+    
+    get :index, :query_id => q.id
+    assert_response :success
   end
 
   def test_index_sort_by_field_not_included_in_columns

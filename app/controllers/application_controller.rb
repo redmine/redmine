@@ -18,6 +18,8 @@
 require 'uri'
 require 'cgi'
 
+class Unauthorized < Exception; end
+
 class ApplicationController < ActionController::Base
   include Redmine::I18n
 
@@ -41,6 +43,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   rescue_from ActionController::InvalidAuthenticityToken, :with => :invalid_authenticity_token
+  rescue_from ::Unauthorized, :with => :deny_access
 
   include Redmine::Search::Controller
   include Redmine::MenuManager::MenuController
