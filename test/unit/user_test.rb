@@ -41,6 +41,13 @@ class UserTest < ActiveSupport::TestCase
     u.mail = " foo@bar.com  "
     assert_equal "foo@bar.com", u.mail
   end
+  
+  def test_mail_validation
+    u = User.new
+    u.mail = ''
+    assert !u.valid?
+    assert_equal I18n.translate('activerecord.errors.messages.blank'), u.errors.on(:mail)
+  end
 
   def test_create
     user = User.new(:firstname => "new", :lastname => "user", :mail => "newuser@somenet.foo")
