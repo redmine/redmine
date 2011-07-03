@@ -48,6 +48,8 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     if @char_1.respond_to?(:force_encoding)
       @char_1.force_encoding('UTF-8')
     end
+
+    Setting.default_language = 'en'
   end
 
   if File.directory?(REPOSITORY_PATH)
@@ -204,6 +206,27 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       assert_tag :tag => 'h2', :content => /2f9c0091/
     end
 
+    def test_diff_truncated
+      @repository.fetch_changesets
+      @repository.reload
+      Setting.diff_max_lines_displayed = 5
+
+      # Truncated diff of changeset 2f9c0091
+      with_cache do
+        get :diff, :id   => PRJ_ID, :type => 'inline',
+            :rev  => '2f9c0091c754a91af7a9c478e36556b4bde8dcf7'
+        assert_response :success
+        assert @response.body.include?("... This diff was truncated")
+
+        Setting.default_language = 'fr'
+        get :diff, :id   => PRJ_ID, :type => 'inline',
+            :rev  => '2f9c0091c754a91af7a9c478e36556b4bde8dcf7'
+        assert_response :success
+        assert ! @response.body.include?("... This diff was truncated")
+        assert @response.body.include?("... Ce diff")
+      end
+    end
+
     def test_diff_two_revs
       @repository.fetch_changesets
       @repository.reload
@@ -335,5 +358,13 @@ class RepositoriesGitControllerTest < ActionController::TestCase
   else
     puts "Git test repository NOT FOUND. Skipping functional tests !!!"
     def test_fake; assert true end
+  end
+
+  private
+  def with_cache(&block)
+    before = ActionController::Base.perform_caching
+    ActionController::Base.perform_caching = true
+    block.call
+    ActionController::Base.perform_caching = before
   end
 end
