@@ -50,9 +50,6 @@ class IssueRelationTest < ActiveSupport::TestCase
     assert_equal from, relation.issue_to
   end
   
-  # TODO : document why it shouldn't be reversed if validation fails : having
-  # relations reversed before the validation would allow simpler code for the
-  # validation
   def test_follows_relation_should_not_be_reversed_if_validation_fails
     from = Issue.find(1)
     to = Issue.find(2)

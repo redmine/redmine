@@ -115,6 +115,8 @@ class IssueRelation < ActiveRecord::Base
   private
   
   # Reverses the relation if needed so that it gets stored in the proper way
+  # Should not be reversed before validation so that it can be displayed back
+  # as entered on new relation form
   def reverse_if_needed
     if TYPES.has_key?(relation_type) && TYPES[relation_type][:reverse]
       issue_tmp = issue_to
