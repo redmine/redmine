@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2010  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -326,16 +326,33 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :delete, "/users/44.xml", :controller => 'users', :action => 'destroy', :id => '44', :format => 'xml'
   end
 
-  # TODO: should they all be scoped under /projects/:project_id ?
   context "versions" do
+    # /projects/foo/versions is /projects/foo/roadmap
+    should_route :get, "/projects/foo/versions.xml", :controller => 'versions', :action => 'index', :project_id => 'foo', :format => 'xml'
+    should_route :get, "/projects/foo/versions.json", :controller => 'versions', :action => 'index', :project_id => 'foo', :format => 'json'
+    
     should_route :get, "/projects/foo/versions/new", :controller => 'versions', :action => 'new', :project_id => 'foo'
-    should_route :get, "/versions/show/1", :controller => 'versions', :action => 'show', :id => '1'
-    should_route :get, "/versions/edit/1", :controller => 'versions', :action => 'edit', :id => '1'
-
+    
     should_route :post, "/projects/foo/versions", :controller => 'versions', :action => 'create', :project_id => 'foo'
-    should_route :post, "/versions/update/1", :controller => 'versions', :action => 'update', :id => '1'
-
-    should_route :delete, "/versions/destroy/1", :controller => 'versions', :action => 'destroy', :id => '1'
+    should_route :post, "/projects/foo/versions.xml", :controller => 'versions', :action => 'create', :project_id => 'foo', :format => 'xml'
+    should_route :post, "/projects/foo/versions.json", :controller => 'versions', :action => 'create', :project_id => 'foo', :format => 'json'
+    
+    should_route :get, "/projects/foo/versions/1", :controller => 'versions', :action => 'show', :project_id => 'foo', :id => '1'
+    should_route :get, "/projects/foo/versions/1.xml", :controller => 'versions', :action => 'show', :project_id => 'foo', :id => '1', :format => 'xml'
+    should_route :get, "/projects/foo/versions/1.json", :controller => 'versions', :action => 'show', :project_id => 'foo', :id => '1', :format => 'json'
+    
+    should_route :get, "/projects/foo/versions/1/edit", :controller => 'versions', :action => 'edit', :project_id => 'foo', :id => '1'
+    
+    should_route :put, "/projects/foo/versions/1", :controller => 'versions', :action => 'update', :project_id => 'foo', :id => '1'
+    should_route :put, "/projects/foo/versions/1.xml", :controller => 'versions', :action => 'update', :project_id => 'foo', :id => '1', :format => 'xml'
+    should_route :put, "/projects/foo/versions/1.json", :controller => 'versions', :action => 'update', :project_id => 'foo', :id => '1', :format => 'json'
+    
+    should_route :delete, "/projects/foo/versions/1", :controller => 'versions', :action => 'destroy', :project_id => 'foo', :id => '1'
+    should_route :delete, "/projects/foo/versions/1.xml", :controller => 'versions', :action => 'destroy', :project_id => 'foo', :id => '1', :format => 'xml'
+    should_route :delete, "/projects/foo/versions/1.json", :controller => 'versions', :action => 'destroy', :project_id => 'foo', :id => '1', :format => 'json'
+    
+    should_route :put, "/projects/foo/versions/close_completed", :controller => 'versions', :action => 'close_completed', :project_id => 'foo'
+    should_route :post, "/projects/foo/versions/1/status_by", :controller => 'versions', :action => 'status_by', :project_id => 'foo', :id => '1'
   end
 
   context "wiki (singular, project's pages)" do

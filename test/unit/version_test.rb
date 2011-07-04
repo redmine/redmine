@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2008  Jean-Philippe Lang
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -27,6 +27,7 @@ class VersionTest < ActiveSupport::TestCase
     v = Version.new(:project => Project.find(1), :name => '1.1', :effective_date => '2011-03-25')
     assert v.save
     assert_equal 'open', v.status
+    assert_equal 'none', v.sharing
   end
   
   def test_invalid_effective_date_validation

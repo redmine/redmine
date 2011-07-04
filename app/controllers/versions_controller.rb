@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -23,37 +23,51 @@ class VersionsController < ApplicationController
   before_filter :find_project, :only => [:index, :new, :create, :close_completed]
   before_filter :authorize
 
+  accept_key_auth :index, :create, :update, :destroy
+  
   helper :custom_fields
   helper :projects
 
   def index
-    @trackers = @project.trackers.find(:all, :order => 'position')
-    retrieve_selected_tracker_ids(@trackers, @trackers.select {|t| t.is_in_roadmap?})
-    @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_issues? : (params[:with_subprojects] == '1')
-    project_ids = @with_subprojects ? @project.self_and_descendants.collect(&:id) : [@project.id]
-    
-    @versions = @project.shared_versions || []
-    @versions += @project.rolled_up_versions.visible if @with_subprojects
-    @versions = @versions.uniq.sort
-    @versions.reject! {|version| version.closed? || version.completed? } unless params[:completed]
-    
-    @issues_by_version = {}
-    unless @selected_tracker_ids.empty?
-      @versions.each do |version|
-        issues = version.fixed_issues.visible.find(:all,
-                                                   :include => [:project, :status, :tracker, :priority],
-                                                   :conditions => {:tracker_id => @selected_tracker_ids, :project_id => project_ids},
-                                                   :order => "#{Project.table_name}.lft, #{Tracker.table_name}.position, #{Issue.table_name}.id")
-        @issues_by_version[version] = issues
-      end
+    respond_to do |format|
+      format.html {
+        @trackers = @project.trackers.find(:all, :order => 'position')
+        retrieve_selected_tracker_ids(@trackers, @trackers.select {|t| t.is_in_roadmap?})
+        @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_issues? : (params[:with_subprojects] == '1')
+        project_ids = @with_subprojects ? @project.self_and_descendants.collect(&:id) : [@project.id]
+        
+        @versions = @project.shared_versions || []
+        @versions += @project.rolled_up_versions.visible if @with_subprojects
+        @versions = @versions.uniq.sort
+        @versions.reject! {|version| version.closed? || version.completed? } unless params[:completed]
+        
+        @issues_by_version = {}
+        unless @selected_tracker_ids.empty?
+          @versions.each do |version|
+            issues = version.fixed_issues.visible.find(:all,
+                                                       :include => [:project, :status, :tracker, :priority],
+                                                       :conditions => {:tracker_id => @selected_tracker_ids, :project_id => project_ids},
+                                                       :order => "#{Project.table_name}.lft, #{Tracker.table_name}.position, #{Issue.table_name}.id")
+            @issues_by_version[version] = issues
+          end
+        end
+        @versions.reject! {|version| !project_ids.include?(version.project_id) && @issues_by_version[version].blank?}
+      }
+      format.api {
+        @versions = @project.shared_versions.all
+      }
     end
-    @versions.reject! {|version| !project_ids.include?(version.project_id) && @issues_by_version[version].blank?}
   end
   
   def show
-    @issues = @version.fixed_issues.visible.find(:all,
-      :include => [:status, :tracker, :priority],
-      :order => "#{Tracker.table_name}.position, #{Issue.table_name}.id")
+    respond_to do |format|
+      format.html {
+        @issues = @version.fixed_issues.visible.find(:all,
+          :include => [:status, :tracker, :priority],
+          :order => "#{Tracker.table_name}.position, #{Issue.table_name}.id")
+      }
+      format.api
+    end
   end
   
   def new
@@ -87,6 +101,9 @@ class VersionsController < ApplicationController
               content_tag('select', '<option></option>' + version_options_for_select(@project.shared_versions.open, @version), :id => 'issue_fixed_version_id', :name => 'issue[fixed_version_id]')
             }
           end
+          format.api do
+            render :action => 'show', :status => :created, :location => project_version_url(@project, @version)
+          end
         end
       else
         respond_to do |format|
@@ -94,6 +111,7 @@ class VersionsController < ApplicationController
           format.js do
             render(:update) {|page| page.alert(@version.errors.full_messages.join('\n')) }
           end
+          format.api  { render_validation_errors(@version) }
         end
       end
     end
@@ -107,11 +125,17 @@ class VersionsController < ApplicationController
       attributes = params[:version].dup
       attributes.delete('sharing') unless @version.allowed_sharings.include?(attributes['sharing'])
       if @version.update_attributes(attributes)
-        flash[:notice] = l(:notice_successful_update)
-        redirect_back_or_default :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
+        respond_to do |format|
+          format.html {
+            flash[:notice] = l(:notice_successful_update)
+            redirect_back_or_default :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
+          }
+          format.api  { head :ok }
+        end
       else
         respond_to do |format|
           format.html { render :action => 'edit' }
+          format.api  { render_validation_errors(@version) }
         end
       end
     end
@@ -124,13 +148,22 @@ class VersionsController < ApplicationController
     redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
   end
 
+  verify :method => :delete, :only => :destroy, :render => {:nothing => true, :status => :method_not_allowed }
   def destroy
     if @version.fixed_issues.empty?
       @version.destroy
-      redirect_back_or_default :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
+      respond_to do |format|
+        format.html { redirect_back_or_default :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project }
+        format.api  { head :ok }
+      end
     else
-      flash[:error] = l(:notice_unable_delete_version)
-      redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
+      respond_to do |format|
+        format.html {
+          flash[:error] = l(:notice_unable_delete_version)
+          redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
+        }
+        format.api  { head :unprocessable_entity }
+      end
     end
   end
   
