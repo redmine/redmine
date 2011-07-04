@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -42,6 +42,14 @@ class IssueRelation < ActiveRecord::Base
   validates_uniqueness_of :issue_to_id, :scope => :issue_from_id
   
   attr_protected :issue_from_id, :issue_to_id
+  
+  def after_initialize
+    if new_record?
+      if relation_type.blank?
+        self.relation_type = IssueRelation::TYPE_RELATES
+      end
+    end
+  end
   
   def validate
     if issue_from && issue_to
