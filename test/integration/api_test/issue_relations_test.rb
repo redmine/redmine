@@ -25,6 +25,25 @@ class ApiTest::IssueRelationsTest < ActionController::IntegrationTest
   end
 
   context "/issues/:issue_id/relations" do
+    context "GET" do
+      should "return issue relations" do
+        get '/issues/9/relations.xml', {}, :authorization => credentials('jsmith')
+        
+        assert_response :success
+        assert_equal 'application/xml', @response.content_type
+        
+        assert_tag :tag => 'relations',
+          :attributes => { :type => 'array' },
+          :child => {
+            :tag => 'relation',
+            :child => {
+              :tag => 'id',
+              :content => '1'
+            }
+          }
+      end
+    end
+    
     context "POST" do
       should "create a relation" do
         assert_difference('IssueRelation.count') do

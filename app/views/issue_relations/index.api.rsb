@@ -1,0 +1,11 @@
+api.array :relations do
+  @relations.each do |relation|
+    api.relation do 
+      api.id relation.id
+      api.issue_id relation.issue_from_id
+      api.issue_to_id relation.issue_to_id
+      api.relation_type relation.relation_type
+      api.delay relation.delay
+    end
+  end
+end

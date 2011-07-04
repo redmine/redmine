@@ -17,7 +17,16 @@
 
 class IssueRelationsController < ApplicationController
   before_filter :find_issue, :find_project_from_association, :authorize
-  accept_key_auth :show, :create, :destroy
+  accept_key_auth :index, :show, :create, :destroy
+  
+  def index
+    @relations = @issue.relations
+    
+    respond_to do |format|
+      format.html { render :nothing => true }
+      format.api
+    end
+  end
   
   def show
     @relation = @issue.find_relation(params[:id])

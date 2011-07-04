@@ -118,6 +118,10 @@ class RoutingTest < ActionController::IntegrationTest
   end
 
   context "issue relations" do
+    should_route :get, "/issues/1/relations", :controller => 'issue_relations', :action => 'index', :issue_id => '1'
+    should_route :get, "/issues/1/relations.xml", :controller => 'issue_relations', :action => 'index', :issue_id => '1', :format => 'xml'
+    should_route :get, "/issues/1/relations.json", :controller => 'issue_relations', :action => 'index', :issue_id => '1', :format => 'json'
+    
     should_route :post, "/issues/1/relations", :controller => 'issue_relations', :action => 'create', :issue_id => '1'
     should_route :post, "/issues/1/relations.xml", :controller => 'issue_relations', :action => 'create', :issue_id => '1', :format => 'xml'
     should_route :post, "/issues/1/relations.json", :controller => 'issue_relations', :action => 'create', :issue_id => '1', :format => 'json'
