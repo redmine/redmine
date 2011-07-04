@@ -1,0 +1,7 @@
+api.relation do
+  api.id @relation.id
+  api.issue_id @relation.issue_from_id
+  api.issue_to_id @relation.issue_to_id
+  api.relation_type @relation.relation_type_for(@issue)
+  api.delay @relation.delay
+end

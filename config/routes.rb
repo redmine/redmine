@@ -110,15 +110,11 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resources :issues, :member => { :edit => :post }, :collection => {} do |issues|
     issues.resources :time_entries, :controller => 'timelog'
+    issues.resources :relations, :controller => 'issue_relations', :only => [:show, :create, :destroy]
   end
   
   map.resources :issues, :path_prefix => '/projects/:project_id', :collection => { :create => :post } do |issues|
     issues.resources :time_entries, :controller => 'timelog'
-  end
-
-  map.with_options  :controller => 'issue_relations', :conditions => {:method => :post} do |relations|
-    relations.connect 'issues/:issue_id/relations/:id', :action => 'new'
-    relations.connect 'issues/:issue_id/relations/:id/destroy', :action => 'destroy'
   end
 
   map.connect 'projects/:id/members/new', :controller => 'members', :action => 'new'
@@ -235,7 +231,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'projects/:project_id/boards/:action/:id', :controller => 'boards'
   map.connect 'boards/:board_id/topics/:action/:id', :controller => 'messages'
   map.connect 'wiki/:id/:page/:action', :page => nil, :controller => 'wiki'
-  map.connect 'issues/:issue_id/relations/:action/:id', :controller => 'issue_relations'
   map.connect 'projects/:project_id/news/:action', :controller => 'news'  
   map.connect 'projects/:project_id/timelog/:action/:id', :controller => 'timelog', :project_id => /.+/
   map.with_options :controller => 'repositories' do |omap|

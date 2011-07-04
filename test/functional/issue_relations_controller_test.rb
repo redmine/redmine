@@ -1,3 +1,20 @@
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
 require File.expand_path('../../test_helper', __FILE__)
 require 'issue_relations_controller'
 
@@ -25,18 +42,18 @@ class IssueRelationsControllerTest < ActionController::TestCase
     User.current = nil
   end
   
-  def test_new
+  def test_create
     assert_difference 'IssueRelation.count' do
       @request.session[:user_id] = 3
-      post :new, :issue_id => 1, 
+      post :create, :issue_id => 1, 
                  :relation => {:issue_to_id => '2', :relation_type => 'relates', :delay => ''}
     end
   end
   
-  def test_new_xhr
+  def test_create_xhr
     assert_difference 'IssueRelation.count' do
       @request.session[:user_id] = 3
-      xhr :post, :new,
+      xhr :post, :create,
         :issue_id => 3, 
         :relation => {:issue_to_id => '1', :relation_type => 'relates', :delay => ''}
       assert_select_rjs 'relations' do
@@ -46,19 +63,19 @@ class IssueRelationsControllerTest < ActionController::TestCase
     end
   end
   
-  def test_new_should_accept_id_with_hash
+  def test_create_should_accept_id_with_hash
     assert_difference 'IssueRelation.count' do
       @request.session[:user_id] = 3
-      post :new, :issue_id => 1, 
+      post :create, :issue_id => 1, 
                  :relation => {:issue_to_id => '#2', :relation_type => 'relates', :delay => ''}
     end
   end
   
-  def test_new_should_not_break_with_non_numerical_id
+  def test_create_should_not_break_with_non_numerical_id
     assert_no_difference 'IssueRelation.count' do
       assert_nothing_raised do
         @request.session[:user_id] = 3
-        post :new, :issue_id => 1, 
+        post :create, :issue_id => 1, 
                    :relation => {:issue_to_id => 'foo', :relation_type => 'relates', :delay => ''}
       end
     end
@@ -70,7 +87,7 @@ class IssueRelationsControllerTest < ActionController::TestCase
     
     assert_no_difference 'IssueRelation.count' do
       @request.session[:user_id] = 3
-      post :new, :issue_id => 1, 
+      post :create, :issue_id => 1, 
                  :relation => {:issue_to_id => '4', :relation_type => 'relates', :delay => ''}
     end
   end
@@ -80,7 +97,7 @@ class IssueRelationsControllerTest < ActionController::TestCase
   def test_destroy
     assert_difference 'IssueRelation.count', -1 do
       @request.session[:user_id] = 3
-      post :destroy, :id => '2', :issue_id => '3'
+      delete :destroy, :id => '2', :issue_id => '3'
     end
   end
   
@@ -92,7 +109,7 @@ class IssueRelationsControllerTest < ActionController::TestCase
     
     assert_difference 'IssueRelation.count', -1 do
       @request.session[:user_id] = 3
-      xhr :post, :destroy, :id => '2', :issue_id => '3'
+      xhr :delete, :destroy, :id => '2', :issue_id => '3'
       assert_select_rjs 'relations' do
         assert_select 'table', 1
         assert_select 'tr', 1 # relation left
