@@ -3,7 +3,9 @@
 <%= link_to(l(:label_history), {:action => 'history', :id => @page.title}, :class => 'icon icon-history') %>
 </div>
 
-<h2><%= @page.pretty_title %></h2>
+<%= wiki_page_breadcrumb(@page) %>
+
+<h2><%=h @page.pretty_title %></h2>
 
 <p>
 <%= l(:label_version) %> <%= link_to @annotate.content.version, :action => 'show', :id => @page.title, :version => @annotate.content.version %>

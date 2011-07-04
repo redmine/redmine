@@ -32,4 +32,10 @@ module WikiHelper
     end
     s
   end
+  
+  def wiki_page_breadcrumb(page)
+    breadcrumb(page.ancestors.reverse.collect {|parent|
+      link_to(h(parent.pretty_title), {:controller => 'wiki', :action => 'show', :id => parent.title, :project_id => parent.project})
+    })
+  end
 end

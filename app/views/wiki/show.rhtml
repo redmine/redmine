@@ -11,7 +11,7 @@
 <%= link_to_if_authorized(l(:label_history), {:action => 'history', :id => @page.title}, :class => 'icon icon-history') %>
 </div>
 
-<%= breadcrumb(@page.ancestors.reverse.collect {|parent| link_to h(parent.pretty_title), {:id => parent.title, :project_id => parent.project}}) %>
+<%= wiki_page_breadcrumb(@page) %>
 
 <% if @content.version != @page.content.version %>
     <p>    
