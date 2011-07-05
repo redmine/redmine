@@ -337,22 +337,22 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :post, "/projects/foo/versions.xml", :controller => 'versions', :action => 'create', :project_id => 'foo', :format => 'xml'
     should_route :post, "/projects/foo/versions.json", :controller => 'versions', :action => 'create', :project_id => 'foo', :format => 'json'
     
-    should_route :get, "/projects/foo/versions/1", :controller => 'versions', :action => 'show', :project_id => 'foo', :id => '1'
-    should_route :get, "/projects/foo/versions/1.xml", :controller => 'versions', :action => 'show', :project_id => 'foo', :id => '1', :format => 'xml'
-    should_route :get, "/projects/foo/versions/1.json", :controller => 'versions', :action => 'show', :project_id => 'foo', :id => '1', :format => 'json'
+    should_route :get, "/versions/1", :controller => 'versions', :action => 'show', :id => '1'
+    should_route :get, "/versions/1.xml", :controller => 'versions', :action => 'show', :id => '1', :format => 'xml'
+    should_route :get, "/versions/1.json", :controller => 'versions', :action => 'show', :id => '1', :format => 'json'
     
-    should_route :get, "/projects/foo/versions/1/edit", :controller => 'versions', :action => 'edit', :project_id => 'foo', :id => '1'
+    should_route :get, "/versions/1/edit", :controller => 'versions', :action => 'edit', :id => '1'
     
-    should_route :put, "/projects/foo/versions/1", :controller => 'versions', :action => 'update', :project_id => 'foo', :id => '1'
-    should_route :put, "/projects/foo/versions/1.xml", :controller => 'versions', :action => 'update', :project_id => 'foo', :id => '1', :format => 'xml'
-    should_route :put, "/projects/foo/versions/1.json", :controller => 'versions', :action => 'update', :project_id => 'foo', :id => '1', :format => 'json'
+    should_route :put, "/versions/1", :controller => 'versions', :action => 'update', :id => '1'
+    should_route :put, "/versions/1.xml", :controller => 'versions', :action => 'update', :id => '1', :format => 'xml'
+    should_route :put, "/versions/1.json", :controller => 'versions', :action => 'update', :id => '1', :format => 'json'
     
-    should_route :delete, "/projects/foo/versions/1", :controller => 'versions', :action => 'destroy', :project_id => 'foo', :id => '1'
-    should_route :delete, "/projects/foo/versions/1.xml", :controller => 'versions', :action => 'destroy', :project_id => 'foo', :id => '1', :format => 'xml'
-    should_route :delete, "/projects/foo/versions/1.json", :controller => 'versions', :action => 'destroy', :project_id => 'foo', :id => '1', :format => 'json'
+    should_route :delete, "/versions/1", :controller => 'versions', :action => 'destroy', :id => '1'
+    should_route :delete, "/versions/1.xml", :controller => 'versions', :action => 'destroy', :id => '1', :format => 'xml'
+    should_route :delete, "/versions/1.json", :controller => 'versions', :action => 'destroy', :id => '1', :format => 'json'
     
     should_route :put, "/projects/foo/versions/close_completed", :controller => 'versions', :action => 'close_completed', :project_id => 'foo'
-    should_route :post, "/projects/foo/versions/1/status_by", :controller => 'versions', :action => 'status_by', :project_id => 'foo', :id => '1'
+    should_route :post, "/versions/1/status_by", :controller => 'versions', :action => 'status_by', :id => '1'
   end
 
   context "wiki (singular, project's pages)" do

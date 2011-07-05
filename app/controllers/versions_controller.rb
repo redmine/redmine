@@ -102,7 +102,7 @@ class VersionsController < ApplicationController
             }
           end
           format.api do
-            render :action => 'show', :status => :created, :location => project_version_url(@project, @version)
+            render :action => 'show', :status => :created, :location => version_url(@version)
           end
         end
       else

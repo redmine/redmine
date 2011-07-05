@@ -152,7 +152,7 @@ ActionController::Routing::Routes.draw do |map|
   } do |project|
     project.resource :project_enumerations, :as => 'enumerations', :only => [:update, :destroy]
     project.resources :files, :only => [:index, :new, :create]
-    project.resources :versions, :collection => {:close_completed => :put}, :member => {:status_by => :post}
+    project.resources :versions, :shallow => true, :collection => {:close_completed => :put}, :member => {:status_by => :post}
     project.resources :news, :shallow => true
     project.resources :time_entries, :controller => 'timelog', :path_prefix => 'projects/:project_id'
 

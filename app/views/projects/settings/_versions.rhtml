@@ -20,8 +20,8 @@
     <td><%= link_to_if_authorized(h(version.wiki_page_title), {:controller => 'wiki', :action => 'show', :project_id => version.project, :id => Wiki.titleize(version.wiki_page_title)}) || h(version.wiki_page_title) unless version.wiki_page_title.blank? || version.project.wiki.nil? %></td>
     <td class="buttons">
     	<% if version.project == @project && User.current.allowed_to?(:manage_versions, @project) %>
-    		<%= link_to l(:button_edit), edit_project_version_path(@project, version), :class => 'icon icon-edit' %>
-    		<%= link_to l(:button_delete), project_version_path(@project, version), :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del' %>
+    		<%= link_to l(:button_edit), edit_version_path(version), :class => 'icon icon-edit' %>
+    		<%= link_to l(:button_delete), version_path(version), :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del' %>
     	<% end %>
    	</td>
     </tr>

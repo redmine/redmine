@@ -74,10 +74,10 @@ class ApiTest::VersionsTest < ActionController::IntegrationTest
     end
   end
   
-  context "/projects/:project_id/versions/:id" do
+  context "/versions/:id" do
     context "GET" do
       should "return the version" do
-        get '/projects/1/versions/2.xml'
+        get '/versions/2.xml'
         
         assert_response :success
         assert_equal 'application/xml', @response.content_type
@@ -95,7 +95,7 @@ class ApiTest::VersionsTest < ActionController::IntegrationTest
     
     context "PUT" do
       should "update the version" do
-        put '/projects/1/versions/2.xml', {:version => {:name => 'API update'}}, :authorization => credentials('jsmith')
+        put '/versions/2.xml', {:version => {:name => 'API update'}}, :authorization => credentials('jsmith')
         
         assert_response :ok
         assert_equal 'API update', Version.find(2).name
@@ -105,7 +105,7 @@ class ApiTest::VersionsTest < ActionController::IntegrationTest
     context "DELETE" do
       should "destroy the version" do
         assert_difference 'Version.count', -1 do
-          delete '/projects/1/versions/3.xml', {}, :authorization => credentials('jsmith')
+          delete '/versions/3.xml', {}, :authorization => credentials('jsmith')
         end
         
         assert_response :ok
