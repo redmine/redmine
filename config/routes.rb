@@ -110,7 +110,7 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resources :issues, :member => { :edit => :post }, :collection => {} do |issues|
     issues.resources :time_entries, :controller => 'timelog'
-    issues.resources :relations, :controller => 'issue_relations', :only => [:index, :show, :create, :destroy]
+    issues.resources :relations, :shallow => true, :controller => 'issue_relations', :only => [:index, :show, :create, :destroy]
   end
   
   map.resources :issues, :path_prefix => '/projects/:project_id', :collection => { :create => :post } do |issues|

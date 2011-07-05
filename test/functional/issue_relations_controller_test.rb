@@ -97,7 +97,7 @@ class IssueRelationsControllerTest < ActionController::TestCase
   def test_destroy
     assert_difference 'IssueRelation.count', -1 do
       @request.session[:user_id] = 3
-      delete :destroy, :id => '2', :issue_id => '3'
+      delete :destroy, :id => '2'
     end
   end
   
@@ -109,11 +109,8 @@ class IssueRelationsControllerTest < ActionController::TestCase
     
     assert_difference 'IssueRelation.count', -1 do
       @request.session[:user_id] = 3
-      xhr :delete, :destroy, :id => '2', :issue_id => '3'
-      assert_select_rjs 'relations' do
-        assert_select 'table', 1
-        assert_select 'tr', 1 # relation left
-      end
+      xhr :delete, :destroy, :id => '2'
+      assert_select_rjs  :remove, 'relation-2'
     end
   end
 end

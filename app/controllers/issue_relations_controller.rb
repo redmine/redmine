@@ -16,7 +16,9 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class IssueRelationsController < ApplicationController
-  before_filter :find_issue, :find_project_from_association, :authorize
+  before_filter :find_issue, :find_project_from_association, :authorize, :only => [:index, :create]
+  before_filter :find_relation, :except => [:index, :create]
+  
   accept_key_auth :index, :show, :create, :destroy
   
   def index
@@ -29,7 +31,7 @@ class IssueRelationsController < ApplicationController
   end
   
   def show
-    @relation = @issue.find_relation(params[:id])
+    raise Unauthorized unless @relation.visible?
 
     respond_to do |format|
       format.html { render :nothing => true }
@@ -62,7 +64,7 @@ class IssueRelationsController < ApplicationController
       end
       format.api { 
         if saved
-          render :action => 'show', :status => :created, :location => issue_relation_url(@issue, @relation)
+          render :action => 'show', :status => :created, :location => relation_url(@relation)
         else
           render_validation_errors(@relation)
         end
@@ -72,16 +74,13 @@ class IssueRelationsController < ApplicationController
   
   verify :method => :delete, :only => :destroy, :render => {:nothing => true, :status => :method_not_allowed }
   def destroy
-    relation = @issue.find_relation(params[:id])
-    relation.destroy
+    raise Unauthorized unless @relation.deletable?
+    @relation.destroy
     
     respond_to do |format|
       format.html { redirect_to :controller => 'issues', :action => 'show', :id => @issue }
-      format.js {
-        @relations = @issue.reload.relations.select {|r| r.other_issue(@issue) && r.other_issue(@issue).visible? }
-        render(:update) {|page| page.replace_html "relations", :partial => 'issues/relations'}
-      }
-      format.api { head :ok }
+      format.js   { render(:update) {|page| page.remove "relation-#{@relation.id}"} }
+      format.api  { head :ok }
     end
   rescue ActiveRecord::RecordNotFound
     render_404
@@ -90,6 +89,12 @@ class IssueRelationsController < ApplicationController
 private
   def find_issue
     @issue = @object = Issue.find(params[:issue_id])
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+  
+  def find_relation
+    @relation = IssueRelation.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     render_404
   end

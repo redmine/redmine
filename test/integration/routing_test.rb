@@ -126,13 +126,13 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :post, "/issues/1/relations.xml", :controller => 'issue_relations', :action => 'create', :issue_id => '1', :format => 'xml'
     should_route :post, "/issues/1/relations.json", :controller => 'issue_relations', :action => 'create', :issue_id => '1', :format => 'json'
     
-    should_route :get, "/issues/1/relations/23", :controller => 'issue_relations', :action => 'show', :issue_id => '1', :id => '23'
-    should_route :get, "/issues/1/relations/23.xml", :controller => 'issue_relations', :action => 'show', :issue_id => '1', :id => '23', :format => 'xml'
-    should_route :get, "/issues/1/relations/23.json", :controller => 'issue_relations', :action => 'show', :issue_id => '1', :id => '23', :format => 'json'
+    should_route :get, "/relations/23", :controller => 'issue_relations', :action => 'show', :id => '23'
+    should_route :get, "/relations/23.xml", :controller => 'issue_relations', :action => 'show', :id => '23', :format => 'xml'
+    should_route :get, "/relations/23.json", :controller => 'issue_relations', :action => 'show', :id => '23', :format => 'json'
     
-    should_route :delete, "/issues/1/relations/23", :controller => 'issue_relations', :action => 'destroy', :issue_id => '1', :id => '23'
-    should_route :delete, "/issues/1/relations/23.xml", :controller => 'issue_relations', :action => 'destroy', :issue_id => '1', :id => '23', :format => 'xml'
-    should_route :delete, "/issues/1/relations/23.json", :controller => 'issue_relations', :action => 'destroy', :issue_id => '1', :id => '23', :format => 'json'
+    should_route :delete, "/relations/23", :controller => 'issue_relations', :action => 'destroy', :id => '23'
+    should_route :delete, "/relations/23.xml", :controller => 'issue_relations', :action => 'destroy', :id => '23', :format => 'xml'
+    should_route :delete, "/relations/23.json", :controller => 'issue_relations', :action => 'destroy', :id => '23', :format => 'json'
   end
   
   context "issue reports" do

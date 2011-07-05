@@ -73,10 +73,10 @@ class ApiTest::IssueRelationsTest < ActionController::IntegrationTest
     end
   end
   
-  context "/issues/:issue_id/relations/:id" do
+  context "/relations/:id" do
     context "GET" do
       should "return the relation" do
-        get '/issues/3/relations/2.xml', {}, :authorization => credentials('jsmith')
+        get '/relations/2.xml', {}, :authorization => credentials('jsmith')
         
         assert_response :success
         assert_equal 'application/xml', @response.content_type
@@ -87,7 +87,7 @@ class ApiTest::IssueRelationsTest < ActionController::IntegrationTest
     context "DELETE" do
       should "delete the relation" do
         assert_difference('IssueRelation.count', -1) do
-          delete '/issues/3/relations/2.xml', {}, :authorization => credentials('jsmith')
+          delete '/relations/2.xml', {}, :authorization => credentials('jsmith')
         end
         
         assert_response :ok

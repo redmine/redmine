@@ -43,6 +43,16 @@ class IssueRelation < ActiveRecord::Base
   
   attr_protected :issue_from_id, :issue_to_id
   
+  def visible?(user=User.current)
+    (issue_from.nil? || issue_from.visible?(user)) && (issue_to.nil? || issue_to.visible?(user))
+  end
+  
+  def deletable?(user=User.current)
+    visible?(user) &&
+      ((issue_from.nil? || user.allowed_to?(:manage_issue_relations, issue_from.project)) ||
+        (issue_to.nil? || user.allowed_to?(:manage_issue_relations, issue_to.project)))
+  end
+  
   def after_initialize
     if new_record?
       if relation_type.blank?
