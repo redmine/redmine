@@ -239,7 +239,7 @@ RAW
       'invalid:document:"Test document"'      => 'invalid:document:"Test document"',
       # versions
       'version:"1.0"'                         => 'version:"1.0"',
-      'ecookbook:version:"1.0"'               => '<a href="/versions/show/2" class="version">1.0</a>',
+      'ecookbook:version:"1.0"'               => '<a href="/versions/2" class="version">1.0</a>',
       'invalid:version:"1.0"'                 => 'invalid:version:"1.0"',
       # changeset
       'r2'                                    => 'r2',
