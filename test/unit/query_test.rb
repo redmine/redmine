@@ -417,6 +417,16 @@ class QueryTest < ActiveSupport::TestCase
     assert !q.editable_by?(manager)
     assert !q.editable_by?(developer)
   end
+  
+  def test_visible_scope
+    query_ids = Query.visible(User.anonymous).map(&:id)
+    
+    assert query_ids.include?(1), 'public query on public project was not visible'
+    assert query_ids.include?(4), 'public query for all projects was not visible'
+    assert !query_ids.include?(2), 'private query on public project was visible'
+    assert !query_ids.include?(3), 'private query for all projects was visible'
+    assert !query_ids.include?(7), 'public query on private project was visible'
+  end
 
   context "#available_filters" do
     setup do

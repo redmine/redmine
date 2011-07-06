@@ -1,0 +1,10 @@
+api.array :queries, api_meta(:total_count => @query_count, :offset => @offset, :limit => @limit) do
+  @queries.each do |query|
+    api.query do
+      api.id          query.id
+      api.name        query.name
+      api.is_public   query.is_public
+      api.project_id  query.project_id
+    end
+  end
+end

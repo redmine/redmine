@@ -77,6 +77,7 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   map.resources :issue_moves, :only => [:new, :create], :path_prefix => '/issues', :as => 'move'
+  map.resources :queries, :only => [:index]
 
   # Misc issue routes. TODO: move into resources
   map.auto_complete_issues '/issues/auto_complete', :controller => 'auto_completes', :action => 'issues'
