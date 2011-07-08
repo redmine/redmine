@@ -361,6 +361,10 @@ begin
         assert_equal "UTF-8", adpt2.path_encoding
       end
 
+      def test_cat_path_invalid
+        assert_nil @adapter.cat('invalid')
+      end
+
       private
 
       def test_scm_version_for(scm_command_version, version)
