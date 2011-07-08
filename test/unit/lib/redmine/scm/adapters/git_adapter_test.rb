@@ -384,6 +384,11 @@ begin
         assert_nil @adapter.annotate('invalid')
       end
 
+      def test_annotate_revision_invalid
+        assert     @adapter.annotate('README')
+        assert_nil @adapter.annotate('README', 'abcd1234efgh')
+      end
+
       private
 
       def test_scm_version_for(scm_command_version, version)
