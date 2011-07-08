@@ -380,6 +380,10 @@ begin
         assert_nil @adapter.diff(nil, 'abcd1234efgh', '713f4944648826f5')
       end
 
+      def test_annotate_path_invalid
+        assert_nil @adapter.annotate('invalid')
+      end
+
       private
 
       def test_scm_version_for(scm_command_version, version)
