@@ -374,6 +374,12 @@ begin
         assert_equal [], @adapter.diff('invalid', '713f4944648826f5')
       end
 
+      def test_diff_revision_invalid
+        assert_nil @adapter.diff(nil, 'abcd1234efgh')
+        assert_nil @adapter.diff(nil, '713f4944648826f5', 'abcd1234efgh')
+        assert_nil @adapter.diff(nil, 'abcd1234efgh', '713f4944648826f5')
+      end
+
       private
 
       def test_scm_version_for(scm_command_version, version)
