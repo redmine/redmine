@@ -370,6 +370,10 @@ begin
         assert_nil @adapter.cat('README', 'abcd1234efgh')
       end
 
+      def test_diff_path_invalid
+        assert_equal [], @adapter.diff('invalid', '713f4944648826f5')
+      end
+
       private
 
       def test_scm_version_for(scm_command_version, version)
