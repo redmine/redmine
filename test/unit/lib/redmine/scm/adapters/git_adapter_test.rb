@@ -365,6 +365,11 @@ begin
         assert_nil @adapter.cat('invalid')
       end
 
+      def test_cat_revision_invalid
+        assert     @adapter.cat('README')
+        assert_nil @adapter.cat('README', 'abcd1234efgh')
+      end
+
       private
 
       def test_scm_version_for(scm_command_version, version)
