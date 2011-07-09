@@ -29,7 +29,7 @@ class SearchControllerTest < ActionController::TestCase
   end
 
   def test_search_all_projects
-    get :index, :q => 'recipe subproject commit', :submit => 'Search'
+    get :index, :q => 'recipe subproject commit', :all_words => ''
     assert_response :success
     assert_template 'index'
 
@@ -50,6 +50,8 @@ class SearchControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'index'
 
+    assert_equal true, assigns(:all_words)
+    assert_equal false, assigns(:titles_only)
     assert assigns(:results).include?(Issue.find(8))
     assert assigns(:results).include?(Issue.find(5))
     assert_tag :dt, :attributes => { :class => /issue closed/ },
@@ -57,7 +59,7 @@ class SearchControllerTest < ActionController::TestCase
   end
 
   def test_search_project_and_subprojects
-    get :index, :id => 1, :q => 'recipe subproject', :scope => 'subprojects', :submit => 'Search'
+    get :index, :id => 1, :q => 'recipe subproject', :scope => 'subprojects', :all_words => ''
     assert_response :success
     assert_template 'index'
     assert assigns(:results).include?(Issue.find(1))
@@ -88,7 +90,8 @@ class SearchControllerTest < ActionController::TestCase
 
   def test_search_all_words
     # 'all words' is on by default
-    get :index, :id => 1, :q => 'recipe updating saving'
+    get :index, :id => 1, :q => 'recipe updating saving', :all_words => '1'
+    assert_equal true, assigns(:all_words)
     results = assigns(:results)
     assert_not_nil results
     assert_equal 1, results.size
@@ -96,7 +99,8 @@ class SearchControllerTest < ActionController::TestCase
   end
 
   def test_search_one_of_the_words
-    get :index, :id => 1, :q => 'recipe updating saving', :submit => 'Search'
+    get :index, :id => 1, :q => 'recipe updating saving', :all_words => ''
+    assert_equal false, assigns(:all_words)
     results = assigns(:results)
     assert_not_nil results
     assert_equal 3, results.size
@@ -104,17 +108,28 @@ class SearchControllerTest < ActionController::TestCase
   end
 
   def test_search_titles_only_without_result
-    get :index, :id => 1, :q => 'recipe updating saving', :all_words => '1', :titles_only => '1', :submit => 'Search'
+    get :index, :id => 1, :q => 'recipe updating saving', :titles_only => '1'
     results = assigns(:results)
     assert_not_nil results
     assert_equal 0, results.size
   end
 
   def test_search_titles_only
-    get :index, :id => 1, :q => 'recipe', :titles_only => '1', :submit => 'Search'
+    get :index, :id => 1, :q => 'recipe', :titles_only => '1'
+    assert_equal true, assigns(:titles_only)
     results = assigns(:results)
     assert_not_nil results
     assert_equal 2, results.size
+  end
+
+  def test_search_content
+    Issue.update_all("description = 'This is a searchkeywordinthecontent'", "id=1")
+    
+    get :index, :id => 1, :q => 'searchkeywordinthecontent', :titles_only => ''
+    assert_equal false, assigns(:titles_only)
+    results = assigns(:results)
+    assert_not_nil results
+    assert_equal 1, results.size
   end
 
   def test_search_with_invalid_project_id

@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -57,7 +57,7 @@ module SearchHelper
       c = results_by_type[t]
       next if c == 0
       text = "#{type_label(t)} (#{c})"
-      links << link_to(text, :q => params[:q], :titles_only => params[:title_only], :all_words => params[:all_words], :scope => params[:scope], t => 1)
+      links << link_to(text, :q => params[:q], :titles_only => params[:titles_only], :all_words => params[:all_words], :scope => params[:scope], t => 1)
     end
     ('<ul>' + links.map {|link| content_tag('li', link)}.join(' ') + '</ul>') unless links.empty?
   end
