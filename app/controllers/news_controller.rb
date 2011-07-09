@@ -23,7 +23,8 @@ class NewsController < ApplicationController
   before_filter :find_project, :only => [:new, :create]
   before_filter :authorize, :except => [:index]
   before_filter :find_optional_project, :only => :index
-  accept_key_auth :index
+  accept_rss_auth :index
+  accept_api_auth :index
   
   helper :watchers
   

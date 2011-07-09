@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2010  Jean-Philippe Lang
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -22,7 +22,8 @@ class TimelogController < ApplicationController
   before_filter :find_time_entries, :only => [:bulk_edit, :bulk_update, :destroy]
   before_filter :authorize, :except => [:index]
   before_filter :find_optional_project, :only => [:index]
-  accept_key_auth :index, :show, :create, :update, :destroy
+  accept_rss_auth :index
+  accept_api_auth :index, :show, :create, :update, :destroy
   
   helper :sort
   include SortHelper

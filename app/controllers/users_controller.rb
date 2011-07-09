@@ -20,7 +20,7 @@ class UsersController < ApplicationController
   
   before_filter :require_admin, :except => :show
   before_filter :find_user, :only => [:show, :edit, :update, :destroy, :edit_membership, :destroy_membership]
-  accept_key_auth :index, :show, :create, :update, :destroy
+  accept_api_auth :index, :show, :create, :update, :destroy
 
   helper :sort
   include SortHelper

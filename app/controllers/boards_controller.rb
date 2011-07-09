@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,7 +18,7 @@
 class BoardsController < ApplicationController
   default_search_scope :messages
   before_filter :find_project, :find_board_if_available, :authorize
-  accept_key_auth :index, :show
+  accept_rss_auth :index, :show
 
   helper :messages
   include MessagesHelper
