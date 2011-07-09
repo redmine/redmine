@@ -19,7 +19,7 @@ class IssueRelationsController < ApplicationController
   before_filter :find_issue, :find_project_from_association, :authorize, :only => [:index, :create]
   before_filter :find_relation, :except => [:index, :create]
   
-  accept_key_auth :index, :show, :create, :destroy
+  accept_api_auth :index, :show, :create, :destroy
   
   def index
     @relations = @issue.relations

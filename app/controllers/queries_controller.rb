@@ -20,7 +20,7 @@ class QueriesController < ApplicationController
   before_filter :find_query, :except => [:new, :index]
   before_filter :find_optional_project, :only => :new
   
-  accept_key_auth :index
+  accept_api_auth :index
   
   def index
     case params[:format]

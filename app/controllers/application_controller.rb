@@ -71,11 +71,11 @@ class ApplicationController < ActionController::Base
       user = User.try_to_autologin(cookies[:autologin])
       session[:user_id] = user.id if user
       user
-    elsif params[:format] == 'atom' && request.get? && params[:key] && accept_key_auth_actions.include?(params[:action])
+    elsif params[:format] == 'atom' && params[:key] && request.get? && accept_rss_auth?
       # RSS key authentication does not start a session
       User.find_by_rss_key(params[:key])
-    elsif Setting.rest_api_enabled? && api_request?
-      if (key = api_key_from_request) && accept_key_auth_actions.include?(params[:action])
+    elsif Setting.rest_api_enabled? && accept_api_auth?
+      if (key = api_key_from_request)
         # Use API key
         User.find_by_api_key(key)
       else
@@ -332,14 +332,41 @@ class ApplicationController < ActionController::Base
     @title = options[:title] || Setting.app_title
     render :template => "common/feed.atom.rxml", :layout => false, :content_type => 'application/atom+xml'
   end
-
+  
+  # TODO: remove in Redmine 1.4
   def self.accept_key_auth(*actions)
-    actions = actions.flatten.map(&:to_s)
-    write_inheritable_attribute('accept_key_auth_actions', actions)
+    ActiveSupport::Deprecaction.warn "ApplicationController.accept_key_auth is deprecated and will be removed in Redmine 1.4. Use accept_rss_auth (or accept_api_auth) instead."
+    accept_rss_auth(*actions)
   end
 
+  # TODO: remove in Redmine 1.4
   def accept_key_auth_actions
-    self.class.read_inheritable_attribute('accept_key_auth_actions') || []
+    ActiveSupport::Deprecaction.warn "ApplicationController.accept_key_auth_actions is deprecated and will be removed in Redmine 1.4. Use accept_rss_auth (or accept_api_auth) instead."
+    self.class.accept_rss_auth
+  end
+  
+  def self.accept_rss_auth(*actions)
+    if actions.any?
+      write_inheritable_attribute('accept_rss_auth_actions', actions)
+    else
+      read_inheritable_attribute('accept_rss_auth_actions') || []
+    end
+  end
+  
+  def accept_rss_auth?(action=action_name)
+    self.class.accept_rss_auth.include?(action.to_sym)
+  end
+  
+  def self.accept_api_auth(*actions)
+    if actions.any?
+      write_inheritable_attribute('accept_api_auth_actions', actions)
+    else
+      read_inheritable_attribute('accept_api_auth_actions') || []
+    end
+  end
+  
+  def accept_api_auth?(action=action_name)
+    self.class.accept_api_auth.include?(action.to_sym)
   end
 
   # Returns the number of objects that should be displayed

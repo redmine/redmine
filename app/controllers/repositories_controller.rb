@@ -30,7 +30,7 @@ class RepositoriesController < ApplicationController
   before_filter :find_repository, :except => :edit
   before_filter :find_project, :only => :edit
   before_filter :authorize
-  accept_key_auth :revisions
+  accept_rss_auth :revisions
 
   rescue_from Redmine::Scm::Adapters::CommandFailed, :with => :show_error_command_failed
 
