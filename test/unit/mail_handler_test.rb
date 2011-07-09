@@ -63,7 +63,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal '2010-01-01', issue.start_date.to_s
     assert_equal '2010-12-31', issue.due_date.to_s
     assert_equal User.find_by_login('jsmith'), issue.assigned_to
-    assert_equal Version.find_by_name('alpha'), issue.fixed_version
+    assert_equal Version.find_by_name('Alpha'), issue.fixed_version
     assert_equal 2.5, issue.estimated_hours
     assert_equal 30, issue.done_ratio
     assert_equal [issue.id, 1, 2], [issue.root_id, issue.lft, issue.rgt]

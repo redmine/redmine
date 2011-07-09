@@ -265,12 +265,12 @@ class MailHandler < ActionMailer::Base
     assigned_to = nil if assigned_to && !issue.assignable_users.include?(assigned_to)
 
     attrs = {
-      'tracker_id' => (k = get_keyword(:tracker)) && issue.project.trackers.find_by_name(k).try(:id),
-      'status_id' =>  (k = get_keyword(:status)) && IssueStatus.find_by_name(k).try(:id),
-      'priority_id' => (k = get_keyword(:priority)) && IssuePriority.find_by_name(k).try(:id),
-      'category_id' => (k = get_keyword(:category)) && issue.project.issue_categories.find_by_name(k).try(:id),
+      'tracker_id' => (k = get_keyword(:tracker)) && issue.project.trackers.named(k).first.try(:id),
+      'status_id' =>  (k = get_keyword(:status)) && IssueStatus.named(k).first.try(:id),
+      'priority_id' => (k = get_keyword(:priority)) && IssuePriority.named(k).first.try(:id),
+      'category_id' => (k = get_keyword(:category)) && issue.project.issue_categories.named(k).first.try(:id),
       'assigned_to_id' => assigned_to.try(:id),
-      'fixed_version_id' => (k = get_keyword(:fixed_version, :override => true)) && issue.project.shared_versions.find_by_name(k).try(:id),
+      'fixed_version_id' => (k = get_keyword(:fixed_version, :override => true)) && issue.project.shared_versions.named(k).first.try(:id),
       'start_date' => get_keyword(:start_date, :override => true, :format => '\d{4}-\d{2}-\d{2}'),
       'due_date' => get_keyword(:due_date, :override => true, :format => '\d{4}-\d{2}-\d{2}'),
       'estimated_hours' => get_keyword(:estimated_hours, :override => true),
