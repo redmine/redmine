@@ -118,6 +118,11 @@ class Project < ActiveRecord::Base
     visible(user).find(:all, :limit => count, :order => "created_on DESC")	
   end	
 
+  # Returns true if the project is visible to +user+ or to the current user.
+  def visible?(user=User.current)
+    user.allowed_to?(:view_project, self)
+  end
+  
   def self.visible_by(user=nil)
     ActiveSupport::Deprecation.warn "Project.visible_by is deprecated and will be removed in Redmine 1.3.0. Use Project.visible_condition instead."
     visible_condition(user || User.current)
