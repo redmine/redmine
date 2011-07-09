@@ -250,14 +250,24 @@ class WikiControllerTest < ActionController::TestCase
     get :annotate, :project_id => 1, :id =>  'CookBook_documentation', :version => 2
     assert_response :success
     assert_template 'annotate'
+    
     # Line 1
-    assert_tag :tag => 'tr', :child => { :tag => 'th', :attributes => {:class => 'line-num'}, :content => '1' },
-                             :child => { :tag => 'td', :attributes => {:class => 'author'}, :content => /John Smith/ },
-                             :child => { :tag => 'td', :content => /h1\. CookBook documentation/ }
-    # Line 2
-    assert_tag :tag => 'tr', :child => { :tag => 'th', :attributes => {:class => 'line-num'}, :content => '2' },
-                             :child => { :tag => 'td', :attributes => {:class => 'author'}, :content => /redMine Admin/ },
-                             :child => { :tag => 'td', :content => /Some updated \[\[documentation\]\] here/ }
+    assert_tag :tag => 'tr', :child => {
+      :tag => 'th', :attributes => {:class => 'line-num'}, :content => '1', :sibling => {
+        :tag => 'td', :attributes => {:class => 'author'}, :content => /John Smith/, :sibling => {
+          :tag => 'td', :content => /h1\. CookBook documentation/
+        }
+      }
+    }
+    
+    # Line 5
+    assert_tag :tag => 'tr', :child => {
+      :tag => 'th', :attributes => {:class => 'line-num'}, :content => '5', :sibling => {
+        :tag => 'td', :attributes => {:class => 'author'}, :content => /redMine Admin/, :sibling => {
+          :tag => 'td', :content => /Some updated \[\[documentation\]\] here/
+        }
+      }
+    }
   end
 
   def test_get_rename
