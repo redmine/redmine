@@ -139,11 +139,11 @@ class IssuesController < ApplicationController
     call_hook(:controller_issues_new_before_save, { :params => params, :issue => @issue })
     if @issue.save
       attachments = Attachment.attach_files(@issue, params[:attachments])
-      render_attachment_warning_if_needed(@issue)
-      flash[:notice] = l(:notice_successful_create)
       call_hook(:controller_issues_new_after_save, { :params => params, :issue => @issue})
       respond_to do |format|
         format.html {
+          render_attachment_warning_if_needed(@issue)
+          flash[:notice] = l(:notice_issue_successful_create, :id => "<a href='#{issue_path(@issue)}'>##{@issue.id}</a>")
           redirect_to(params[:continue] ?  { :action => 'new', :project_id => @project, :issue => {:tracker_id => @issue.tracker, :parent_issue_id => @issue.parent_issue_id}.reject {|k,v| v.nil?} } :
                       { :action => 'show', :id => @issue })
         }

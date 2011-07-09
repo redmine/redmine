@@ -1006,3 +1006,4 @@ ja:
   permission_set_issues_private: チケットをプライベートに設定
   label_issues_visibility_public: プライベートチケット以外
   text_issues_destroy_descendants_confirmation: %{count}個の子チケットも削除されます。
+  notice_issue_successful_create: Issue %{id} created.

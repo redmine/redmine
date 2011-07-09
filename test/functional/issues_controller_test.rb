@@ -558,13 +558,16 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_post_create_and_continue
     @request.session[:user_id] = 2
-    post :create, :project_id => 1,
-               :issue => {:tracker_id => 3,
-                          :subject => 'This is first issue',
-                          :priority_id => 5},
-               :continue => ''
-    assert_redirected_to :controller => 'issues', :action => 'new', :project_id => 'ecookbook',
-                         :issue => {:tracker_id => 3}
+    assert_difference 'Issue.count' do
+      post :create, :project_id => 1,
+        :issue => {:tracker_id => 3, :subject => 'This is first issue', :priority_id => 5},
+        :continue => ''
+    end
+    
+    issue = Issue.first(:order => 'id DESC')
+    assert_redirected_to :controller => 'issues', :action => 'new', :project_id => 'ecookbook', :issue => {:tracker_id => 3}
+    assert_not_nil flash[:notice], "flash was not set"
+    assert flash[:notice].include?("<a href='/issues/#{issue.id}'>##{issue.id}</a>"), "issue link not found in flash: #{flash[:notice]}"
   end
 
   def test_post_create_without_custom_fields_param

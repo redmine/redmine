@@ -995,3 +995,4 @@ de:
   text_scm_config: Die SCM-Kommandos können in der in config/configuration.yml konfiguriert werden. Redmine muss anschließend neu gestartet werden.
   text_scm_command_not_available: Scm Kommando ist nicht verfügbar. Bitte prüfen Sie die Einstellungen im Administrationspanel.
 
+  notice_issue_successful_create: Issue %{id} created.

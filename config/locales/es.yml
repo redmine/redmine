@@ -1013,3 +1013,4 @@ es:
   label_git_report_last_commit: Informar del último commit para ficheros y directorios
   text_scm_config: Puede configurar las órdenes de cada scm en configuration/configuration.yml. Por favor, reinicie la aplicación después de editarlo
   text_scm_command_not_available: La orden para el Scm no está disponible. Por favor, compruebe la configuración en el panel de administración.
+  notice_issue_successful_create: Issue %{id} created.

@@ -171,6 +171,7 @@ en:
   notice_unable_delete_time_entry: Unable to delete time log entry.
   notice_issue_done_ratios_updated: Issue done ratios updated.
   notice_gantt_chart_truncated: "The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})"
+  notice_issue_successful_create: "Issue %{id} created."
   
   error_can_t_load_default_data: "Default configuration could not be loaded: %{value}"
   error_scm_not_found: "The entry or revision was not found in the repository."

@@ -975,3 +975,4 @@ bg:
   enumeration_doc_categories: Категории документи
   enumeration_activities: Дейности (time tracking)
   enumeration_system_activity: Системна активност
+  notice_issue_successful_create: Issue %{id} created.
