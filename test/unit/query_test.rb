@@ -107,6 +107,29 @@ class QueryTest < ActiveSupport::TestCase
     assert query.statement.include?("#{Issue.table_name}.done_ratio >= 40")
     find_issues_with_query(query)
   end
+  
+  def test_operator_greater_than_on_custom_field
+    f = IssueCustomField.create!(:name => 'filter', :field_format => 'int', :is_filter => true, :is_for_all => true)
+    query = Query.new(:project => Project.find(1), :name => '_')
+    query.add_filter("cf_#{f.id}", '>=', ['40'])
+    assert query.statement.include?("CAST(custom_values.value AS decimal(60,3)) >= 40")
+    find_issues_with_query(query)
+  end
+  
+  def test_operator_lesser_than
+    query = Query.new(:project => Project.find(1), :name => '_')
+    query.add_filter('done_ratio', '<=', ['30'])
+    assert query.statement.include?("#{Issue.table_name}.done_ratio <= 30")
+    find_issues_with_query(query)
+  end
+  
+  def test_operator_lesser_than_on_custom_field
+    f = IssueCustomField.create!(:name => 'filter', :field_format => 'int', :is_filter => true, :is_for_all => true)
+    query = Query.new(:project => Project.find(1), :name => '_')
+    query.add_filter("cf_#{f.id}", '<=', ['30'])
+    assert query.statement.include?("CAST(custom_values.value AS decimal(60,3)) <= 30")
+    find_issues_with_query(query)
+  end
 
   def test_operator_in_more_than
     Issue.find(7).update_attribute(:due_date, (Date.today + 15))
