@@ -4,6 +4,7 @@ api.project do
   api.identifier  @project.identifier
   api.description @project.description
   api.homepage    @project.homepage
+  api.parent(:id => @project.parent_id, :name => @project.parent.name) unless @project.parent.nil?
   
   render_api_custom_values @project.visible_custom_field_values, api
   
