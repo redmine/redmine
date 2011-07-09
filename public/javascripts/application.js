@@ -86,14 +86,24 @@ function hideFieldset(el) {
 var fileFieldCount = 1;
 
 function addFileField() {
-  if (fileFieldCount >= 10) return false
-  fileFieldCount++;
   var fields = $('attachments_fields');
+  if (fields.childElements().length >= 10) return false;
+  fileFieldCount++;
   var s = document.createElement("span");
   s.update(fields.down('span').innerHTML);
   s.down('input.file').name = "attachments[" + fileFieldCount + "][file]";
   s.down('input.description').name = "attachments[" + fileFieldCount + "][description]";
   fields.appendChild(s);
+}
+
+function removeFileField(el) {
+  var fields = $('attachments_fields');
+	var s = Element.up(el, 'span');
+	if (fields.childElements().length > 1) {
+		s.remove();
+	} else {
+		s.update(s.innerHTML);
+	}
 }
 
 function showTab(name) {
