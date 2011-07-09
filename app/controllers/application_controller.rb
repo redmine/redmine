@@ -335,13 +335,13 @@ class ApplicationController < ActionController::Base
   
   # TODO: remove in Redmine 1.4
   def self.accept_key_auth(*actions)
-    ActiveSupport::Deprecaction.warn "ApplicationController.accept_key_auth is deprecated and will be removed in Redmine 1.4. Use accept_rss_auth (or accept_api_auth) instead."
+    ActiveSupport::Deprecation.warn "ApplicationController.accept_key_auth is deprecated and will be removed in Redmine 1.4. Use accept_rss_auth (or accept_api_auth) instead."
     accept_rss_auth(*actions)
   end
 
   # TODO: remove in Redmine 1.4
   def accept_key_auth_actions
-    ActiveSupport::Deprecaction.warn "ApplicationController.accept_key_auth_actions is deprecated and will be removed in Redmine 1.4. Use accept_rss_auth (or accept_api_auth) instead."
+    ActiveSupport::Deprecation.warn "ApplicationController.accept_key_auth_actions is deprecated and will be removed in Redmine 1.4. Use accept_rss_auth (or accept_api_auth) instead."
     self.class.accept_rss_auth
   end
   
