@@ -144,6 +144,5 @@ class Repository::Mercurial < Repository
         end
       end
     end
-    self
   end
 end
