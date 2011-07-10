@@ -125,6 +125,27 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
       @project.reload
       assert_nil @project.repository
     end
+
+    def test_destroy_invalid_repository
+      @request.session[:user_id] = 1 # admin
+
+      get :destroy, :id => PRJ_ID
+      assert_response 302
+      @project.reload
+      assert_nil @project.repository
+
+      @repository = Repository::Filesystem.create(
+                      :project       => Project.find(PRJ_ID),
+                      :url           => "/invalid",
+                      :path_encoding => ''
+                      )
+      assert @repository
+
+      get :destroy, :id => PRJ_ID
+      assert_response 302
+      @project.reload
+      assert_nil @project.repository
+    end
   else
     puts "Filesystem test repository NOT FOUND. Skipping functional tests !!!"
     def test_fake; assert true end
