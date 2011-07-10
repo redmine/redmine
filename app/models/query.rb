@@ -123,6 +123,7 @@ class Query < ActiveRecord::Base
                                  :date_past => [ "=", ">=", "<=", "><", ">t-", "<t-", "t-", "t", "w" ],
                                  :string => [ "=", "~", "!", "!~" ],
                                  :text => [  "~", "!~" ],
+                                 # TODO: should be :numeric
                                  :integer => [ "=", ">=", "<=", "><", "!*", "*" ] }
 
   cattr_reader :operators_by_filter_type
@@ -633,9 +634,9 @@ class Query < ActiveRecord::Base
         sql = date_clause(db_table, db_field, (Date.parse(value.first) rescue nil), nil)
       else
         if is_custom_filter
-          sql = "CAST(#{db_table}.#{db_field} AS decimal(60,3)) >= #{value.first.to_i}"
+          sql = "CAST(#{db_table}.#{db_field} AS decimal(60,3)) >= #{value.first.to_f}"
         else
-          sql = "#{db_table}.#{db_field} >= #{value.first.to_i}"
+          sql = "#{db_table}.#{db_field} >= #{value.first.to_f}"
         end
       end
     when "<="
@@ -643,9 +644,9 @@ class Query < ActiveRecord::Base
         sql = date_clause(db_table, db_field, nil, (Date.parse(value.first) rescue nil))
       else
         if is_custom_filter
-          sql = "CAST(#{db_table}.#{db_field} AS decimal(60,3)) <= #{value.first.to_i}"
+          sql = "CAST(#{db_table}.#{db_field} AS decimal(60,3)) <= #{value.first.to_f}"
         else
-          sql = "#{db_table}.#{db_field} <= #{value.first.to_i}"
+          sql = "#{db_table}.#{db_field} <= #{value.first.to_f}"
         end
       end
     when "><"
@@ -653,9 +654,9 @@ class Query < ActiveRecord::Base
         sql = date_clause(db_table, db_field, (Date.parse(value[0]) rescue nil), (Date.parse(value[1]) rescue nil))
       else
         if is_custom_filter
-          sql = "CAST(#{db_table}.#{db_field} AS decimal(60,3)) BETWEEN #{value[0].to_i} AND #{value[1].to_i}"
+          sql = "CAST(#{db_table}.#{db_field} AS decimal(60,3)) BETWEEN #{value[0].to_f} AND #{value[1].to_f}"
         else
-          sql = "#{db_table}.#{db_field} BETWEEN #{value[0].to_i} AND #{value[1].to_i}"
+          sql = "#{db_table}.#{db_field} BETWEEN #{value[0].to_f} AND #{value[1].to_f}"
         end
       end
     when "o"

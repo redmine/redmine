@@ -101,10 +101,27 @@ class QueryTest < ActiveSupport::TestCase
     find_issues_with_query(query)
   end
   
+  def test_operator_is_on_float
+    Issue.update_all("estimated_hours = 171.2", "id=2")
+    
+    query = Query.new(:name => '_')
+    query.add_filter('estimated_hours', '=', ['171.20'])
+    issues = find_issues_with_query(query)
+    assert_equal 1, issues.size
+    assert_equal 2, issues.first.id
+  end
+  
   def test_operator_greater_than
     query = Query.new(:project => Project.find(1), :name => '_')
     query.add_filter('done_ratio', '>=', ['40'])
-    assert query.statement.include?("#{Issue.table_name}.done_ratio >= 40")
+    assert query.statement.include?("#{Issue.table_name}.done_ratio >= 40.0")
+    find_issues_with_query(query)
+  end
+  
+  def test_operator_greater_than_a_float
+    query = Query.new(:project => Project.find(1), :name => '_')
+    query.add_filter('estimated_hours', '>=', ['40.5'])
+    assert query.statement.include?("#{Issue.table_name}.estimated_hours >= 40.5")
     find_issues_with_query(query)
   end
   
@@ -112,14 +129,14 @@ class QueryTest < ActiveSupport::TestCase
     f = IssueCustomField.create!(:name => 'filter', :field_format => 'int', :is_filter => true, :is_for_all => true)
     query = Query.new(:project => Project.find(1), :name => '_')
     query.add_filter("cf_#{f.id}", '>=', ['40'])
-    assert query.statement.include?("CAST(custom_values.value AS decimal(60,3)) >= 40")
+    assert query.statement.include?("CAST(custom_values.value AS decimal(60,3)) >= 40.0")
     find_issues_with_query(query)
   end
   
   def test_operator_lesser_than
     query = Query.new(:project => Project.find(1), :name => '_')
     query.add_filter('done_ratio', '<=', ['30'])
-    assert query.statement.include?("#{Issue.table_name}.done_ratio <= 30")
+    assert query.statement.include?("#{Issue.table_name}.done_ratio <= 30.0")
     find_issues_with_query(query)
   end
   
@@ -127,14 +144,14 @@ class QueryTest < ActiveSupport::TestCase
     f = IssueCustomField.create!(:name => 'filter', :field_format => 'int', :is_filter => true, :is_for_all => true)
     query = Query.new(:project => Project.find(1), :name => '_')
     query.add_filter("cf_#{f.id}", '<=', ['30'])
-    assert query.statement.include?("CAST(custom_values.value AS decimal(60,3)) <= 30")
+    assert query.statement.include?("CAST(custom_values.value AS decimal(60,3)) <= 30.0")
     find_issues_with_query(query)
   end
   
   def test_operator_between
     query = Query.new(:project => Project.find(1), :name => '_')
     query.add_filter('done_ratio', '><', ['30', '40'])
-    assert_include "#{Issue.table_name}.done_ratio BETWEEN 30 AND 40", query.statement
+    assert_include "#{Issue.table_name}.done_ratio BETWEEN 30.0 AND 40.0", query.statement
     find_issues_with_query(query)
   end
   
@@ -142,7 +159,7 @@ class QueryTest < ActiveSupport::TestCase
     f = IssueCustomField.create!(:name => 'filter', :field_format => 'int', :is_filter => true, :is_for_all => true)
     query = Query.new(:project => Project.find(1), :name => '_')
     query.add_filter("cf_#{f.id}", '><', ['30', '40'])
-    assert_include "CAST(custom_values.value AS decimal(60,3)) BETWEEN 30 AND 40", query.statement
+    assert_include "CAST(custom_values.value AS decimal(60,3)) BETWEEN 30.0 AND 40.0", query.statement
     find_issues_with_query(query)
   end
 
