@@ -79,7 +79,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       assert assigns(:entries).detect {|e| e.name == 'filemane with spaces.txt' && e.kind == 'file'}
       assert assigns(:entries).detect {|e| e.name == ' filename with a leading space.txt ' && e.kind == 'file'}
       assert_not_nil assigns(:changesets)
-      assigns(:changesets).size > 0
+      assert assigns(:changesets).size > 0
     end
 
     def test_browse_branch
@@ -95,7 +95,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       assert assigns(:entries).detect {|e| e.name == 'README' && e.kind == 'file'}
       assert assigns(:entries).detect {|e| e.name == 'test.txt' && e.kind == 'file'}
       assert_not_nil assigns(:changesets)
-      assigns(:changesets).size > 0
+      assert assigns(:changesets).size > 0
     end
 
     def test_browse_tag
@@ -109,9 +109,9 @@ class RepositoriesGitControllerTest < ActionController::TestCase
         assert_response :success
         assert_template 'show'
         assert_not_nil assigns(:entries)
-        assigns(:entries).size > 0
+        assert assigns(:entries).size > 0
         assert_not_nil assigns(:changesets)
-        assigns(:changesets).size > 0
+        assert assigns(:changesets).size > 0
       end
     end
 
@@ -128,7 +128,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       assert_equal 'file', entry.kind
       assert_equal 'images/edit.png', entry.path
       assert_not_nil assigns(:changesets)
-      assigns(:changesets).size > 0
+      assert assigns(:changesets).size > 0
     end
 
     def test_browse_at_given_revision
@@ -141,7 +141,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       assert_not_nil assigns(:entries)
       assert_equal ['delete.png'], assigns(:entries).collect(&:name)
       assert_not_nil assigns(:changesets)
-      assigns(:changesets).size > 0
+      assert assigns(:changesets).size > 0
     end
 
     def test_changes
