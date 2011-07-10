@@ -209,6 +209,18 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
                         }
                    }
     end
+
+    def test_destroy_valid_repository
+      @request.session[:user_id] = 1 # admin
+      @repository.fetch_changesets
+      @repository.reload
+      assert @repository.changesets.count > 0
+
+      get :destroy, :id => PRJ_ID
+      assert_response 302
+      @project.reload
+      assert_nil @project.repository
+    end
   else
     puts "CVS test repository NOT FOUND. Skipping functional tests !!!"
     def test_fake; assert true end
