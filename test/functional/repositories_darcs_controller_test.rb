@@ -117,6 +117,33 @@ class RepositoriesDarcsControllerTest < ActionController::TestCase
       @project.reload
       assert_nil @project.repository
     end
+
+    def test_destroy_invalid_repository
+      @request.session[:user_id] = 1 # admin
+      @repository.fetch_changesets
+      @repository.reload
+      assert @repository.changesets.count > 0
+
+      get :destroy, :id => PRJ_ID
+      assert_response 302
+      @project.reload
+      assert_nil @project.repository
+
+      @repository = Repository::Darcs.create(
+                        :project      => @project,
+                        :url          => "/invalid",
+                        :log_encoding => 'UTF-8'
+                        )
+      assert @repository
+      @repository.fetch_changesets
+      @repository.reload
+      assert_equal 0, @repository.changesets.count
+
+      get :destroy, :id => PRJ_ID
+      assert_response 302
+      @project.reload
+      assert_nil @project.repository
+    end
   else
     puts "Darcs test repository NOT FOUND. Skipping functional tests !!!"
     def test_fake; assert true end
