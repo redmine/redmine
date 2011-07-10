@@ -106,7 +106,6 @@ class QueryTest < ActiveSupport::TestCase
     query.add_filter('estimated_hours', '=', ['a'])
     
     assert query.has_filter?('estimated_hours')
-    assert query.values_for('estimated_hours').empty?
     assert !query.valid?
   end
   

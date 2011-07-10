@@ -170,6 +170,10 @@ class Query < ActiveRecord::Base
 
   def validate
     filters.each_key do |field|
+      if type_for(field) == :integer && values_for(field)
+        errors.add label_for(field), :invalid if values_for(field).detect {|v| v.present? && !v.match(/^\d+(\.\d+)?$/) }
+      end
+      
       errors.add label_for(field), :blank unless
           # filter requires one or more values
           (values_for(field) and !values_for(field).first.blank?) or
@@ -278,11 +282,7 @@ class Query < ActiveRecord::Base
       #  allowed_values = values & ([""] + (filter_options[:values] || []).collect {|val| val[1]})
       #  filters[field] = {:operator => operator, :values => allowed_values } if (allowed_values.first and !allowed_values.first.empty?) or ["o", "c", "!*", "*", "t"].include? operator
       #end
-      values ||= ['']
-      if filter_options[:type] == :integer
-        values = values.select {|v| v.blank? || v.match(/^\d+(\.\d+)?$/) }
-      end
-      filters[field] = {:operator => operator, :values => values }
+      filters[field] = {:operator => operator, :values => (values || [''])}
     end
   end
 
