@@ -976,3 +976,4 @@ bg:
   enumeration_activities: Дейности (time tracking)
   enumeration_system_activity: Системна активност
   notice_issue_successful_create: Issue %{id} created.
+  label_between: between

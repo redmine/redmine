@@ -1058,3 +1058,4 @@
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
   notice_issue_successful_create: Issue %{id} created.
+  label_between: between

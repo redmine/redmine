@@ -998,3 +998,4 @@ pt-BR:
   text_scm_config: Você pode configurar seus comandos de versionamento em config/configurations.yml. Por favor reinicie a aplicação após alterá-lo.
   text_scm_command_not_available: Comando de versionamento não disponível. Por favor verifique as configurações no painel de administração.
   notice_issue_successful_create: Issue %{id} created.
+  label_between: between

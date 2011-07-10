@@ -996,3 +996,4 @@ tr:
   text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.
   text_scm_command_not_available: Scm command is not available. Please check settings on the administration panel.
   notice_issue_successful_create: Issue %{id} created.
+  label_between: between

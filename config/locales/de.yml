@@ -996,3 +996,4 @@ de:
   text_scm_command_not_available: Scm Kommando ist nicht verfügbar. Bitte prüfen Sie die Einstellungen im Administrationspanel.
 
   notice_issue_successful_create: Issue %{id} created.
+  label_between: between

@@ -127,6 +127,10 @@ class ActiveSupport::TestCase
   def assert_error_tag(options={})
     assert_tag({:attributes => { :id => 'errorExplanation' }}.merge(options))
   end
+  
+  def assert_include(expected, s)
+    assert s.include?(expected), "\"#{expected}\" not found in \"#{s}\""
+  end
 
   # Shoulda macros
   def self.should_render_404

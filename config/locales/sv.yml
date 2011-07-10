@@ -1018,3 +1018,4 @@ sv:
   enumeration_activities: Aktiviteter (tidsuppföljning)
   enumeration_system_activity: Systemaktivitet
   notice_issue_successful_create: Issue %{id} created.
+  label_between: between

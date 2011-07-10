@@ -101,6 +101,7 @@ class Query < ActiveRecord::Base
                   "*"   => :label_all,
                   ">="  => :label_greater_or_equal,
                   "<="  => :label_less_or_equal,
+                  "><"  => :label_between,
                   "<t+" => :label_in_less_than,
                   ">t+" => :label_in_more_than,
                   "t+"  => :label_in,
@@ -122,7 +123,7 @@ class Query < ActiveRecord::Base
                                  :date_past => [ ">t-", "<t-", "t-", "t", "w" ],
                                  :string => [ "=", "~", "!", "!~" ],
                                  :text => [  "~", "!~" ],
-                                 :integer => [ "=", ">=", "<=", "!*", "*" ] }
+                                 :integer => [ "=", ">=", "<=", "><", "!*", "*" ] }
 
   cattr_reader :operators_by_filter_type
 
@@ -305,6 +306,10 @@ class Query < ActiveRecord::Base
 
   def values_for(field)
     has_filter?(field) ? filters[field][:values] : nil
+  end
+  
+  def value_for(field, index=0)
+    (values_for(field) || [])[index]
   end
 
   def label_for(field)
@@ -627,6 +632,12 @@ class Query < ActiveRecord::Base
       else
         sql = "#{db_table}.#{db_field} <= #{value.first.to_i}"
       end
+    when "><"
+      if is_custom_filter
+        sql = "CAST(#{db_table}.#{db_field} AS decimal(60,3)) BETWEEN #{value[0].to_i} AND #{value[1].to_i}"
+      else
+        sql = "#{db_table}.#{db_field} BETWEEN #{value[0].to_i} AND #{value[1].to_i}"
+      end
     when "o"
       sql = "#{IssueStatus.table_name}.is_closed=#{connection.quoted_false}" if field == "status_id"
     when "c"
@@ -654,6 +665,8 @@ class Query < ActiveRecord::Base
       sql = "LOWER(#{db_table}.#{db_field}) LIKE '%#{connection.quote_string(value.first.to_s.downcase)}%'"
     when "!~"
       sql = "LOWER(#{db_table}.#{db_field}) NOT LIKE '%#{connection.quote_string(value.first.to_s.downcase)}%'"
+    else
+      raise "Unknown query operator #{operator}"
     end
 
     return sql
