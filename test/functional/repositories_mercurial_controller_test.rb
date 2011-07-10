@@ -74,7 +74,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       assert assigns(:entries).detect {|e| e.name == 'sources' && e.kind == 'dir'}
       assert assigns(:entries).detect {|e| e.name == 'README'  && e.kind == 'file'}
       assert_not_nil assigns(:changesets)
-      assigns(:changesets).size > 0
+      assert assigns(:changesets).size > 0
     end
 
     def test_show_directory
@@ -90,7 +90,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       assert_equal 'file', entry.kind
       assert_equal 'images/edit.png', entry.path
       assert_not_nil assigns(:changesets)
-      assigns(:changesets).size > 0
+      assert assigns(:changesets).size > 0
     end
 
     def test_show_at_given_revision
@@ -103,7 +103,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
         assert_not_nil assigns(:entries)
         assert_equal ['delete.png'], assigns(:entries).collect(&:name)
         assert_not_nil assigns(:changesets)
-        assigns(:changesets).size > 0
+        assert assigns(:changesets).size > 0
       end
     end
 
@@ -121,7 +121,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
                      assigns(:entries).collect(&:name)
         changesets = assigns(:changesets)
         assert_not_nil changesets
-        assigns(:changesets).size > 0
+        assert assigns(:changesets).size > 0
         assert_equal %w(13 11 10 9), changesets.collect(&:revision)
       end
     end
@@ -162,7 +162,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
         assert_not_nil assigns(:entries)
         assert assigns(:entries).size > 0
         assert_not_nil assigns(:changesets)
-        assigns(:changesets).size > 0
+        assert assigns(:changesets).size > 0
       end
     end
 
@@ -180,7 +180,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
         assert_not_nil assigns(:entries)
         assert assigns(:entries).size > 0
         assert_not_nil assigns(:changesets)
-        assigns(:changesets).size > 0
+        assert assigns(:changesets).size > 0
       end
     end
 
