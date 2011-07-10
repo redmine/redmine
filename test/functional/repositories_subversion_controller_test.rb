@@ -303,7 +303,6 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
 
       get :destroy, :id => PRJ_ID
       assert_response 302
-
       @project.reload
       assert_nil @project.repository
     end
@@ -316,12 +315,12 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
 
       get :destroy, :id => PRJ_ID
       assert_response 302
-
       @project.reload
       assert_nil @project.repository
 
-      @repository = Repository::Subversion.create(:project => @project,
-                 :url => "file:///invalid")
+      @repository = Repository::Subversion.create(
+                       :project => @project,
+                       :url     => "file:///invalid")
       assert @repository
       @repository.fetch_changesets
       @repository.reload
@@ -329,11 +328,9 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
 
       get :destroy, :id => PRJ_ID
       assert_response 302
-
       @project.reload
       assert_nil @project.repository
     end
-
   else
     puts "Subversion test repository NOT FOUND. Skipping functional tests !!!"
     def test_fake; assert true end
