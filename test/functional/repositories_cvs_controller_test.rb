@@ -63,7 +63,7 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
       assert_equal 'file', entry.kind
 
       assert_not_nil assigns(:changesets)
-      assigns(:changesets).size > 0
+      assert assigns(:changesets).size > 0
     end
 
     def test_browse_directory
