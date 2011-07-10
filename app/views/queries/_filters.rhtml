@@ -1,35 +1,51 @@
 <script type="text/javascript">
 //<![CDATA[
 function add_filter() {
-    select = $('add_filter_select');
-    field = select.value
-    Element.show('tr_' +  field);
-    check_box = $('cb_' + field);
-    check_box.checked = true;
-    toggle_filter(field);
-    select.selectedIndex = 0;
-    
-    for (i=0; i<select.options.length; i++) {
-        if (select.options[i].value == field) {
-            select.options[i].disabled = true;
-        }    
-    }
+  select = $('add_filter_select');
+  field = select.value
+  Element.show('tr_' +  field);
+  check_box = $('cb_' + field);
+  check_box.checked = true;
+  toggle_filter(field);
+  select.selectedIndex = 0;
+
+  for (i=0; i<select.options.length; i++) {
+    if (select.options[i].value == field) {
+      select.options[i].disabled = true;
+    }    
+  }
 }
 
 function toggle_filter(field) {
-    check_box = $('cb_' + field);
-    
-    if (check_box.checked) {
-        Element.show("operators_" + field);
-				Form.Element.enable("operators_" + field);
-				$$(".values_" + field).each(function(el){ Form.Element.enable(el)});
-        toggle_operator(field);
-    } else {
-        Element.hide("operators_" + field);
-        Element.hide("div_values_" + field);
-        Form.Element.disable("operators_" + field);
-        $$(".values_" + field).each(function(el){ Form.Element.disable(el)});
+  check_box = $('cb_' + field);
+  if (check_box.checked) {
+    Element.show("operators_" + field);
+    Form.Element.enable("operators_" + field);
+    toggle_operator(field);
+  } else {
+    Element.hide("operators_" + field);
+    Form.Element.disable("operators_" + field);
+    enableValues(field, []);
   }
+}
+
+function enableValues(field, indexes) {
+	var f = $$(".values_" + field);
+	for(var i=0;i<f.length;i++) {
+		if (indexes.include(i)) {
+			Form.Element.enable(f[i]);
+			f[i].up('span').show();
+		} else {
+			f[i].value = '';
+      Form.Element.disable(f[i]);
+      f[i].up('span').hide();
+		}
+	}
+	if (indexes.length > 0) {
+		Element.show("div_values_" + field);
+	} else {
+		Element.hide("div_values_" + field);
+	}
 }
 
 function toggle_operator(field) {
@@ -41,30 +57,32 @@ function toggle_operator(field) {
     case "w":
     case "o":
     case "c":
-      Element.hide("div_values_" + field);
-      var v = $$(".values_" + field);
-      if (v.length > 1) {v[1].hide(); Form.Element.disable(v[1])}
+      enableValues(field, []);
       break;
     case "><":
-      Element.show("div_values_" + field);
-      var v = $$(".values_" + field);
-      if (v.length > 1) {v[1].show(); Form.Element.enable(v[1])}
+      enableValues(field, [0,1]);
+      break;
+    case "<t+":
+    case ">t+":
+    case "t+":
+    case ">t-":
+    case "<t-":
+    case "t-":
+      enableValues(field, [2]);
       break;
     default:
-      Element.show("div_values_" + field);
-			var v = $$(".values_" + field);
-			if (v.length > 1) {v[1].hide(); Form.Element.disable(v[1])}
+      enableValues(field, [0]);
       break;
   }
 }
 
-function toggle_multi_select(field) {
-    select = $('values_' + field);
-    if (select.multiple == true) {
-        select.multiple = false;
-    } else {
-        select.multiple = true;
-    }
+function toggle_multi_select(el) {
+  var select = $(el);
+  if (select.multiple == true) {
+    select.multiple = false;
+  } else {
+    select.multiple = true;
+  }
 }
 
 function submit_query_form(id) {
@@ -102,15 +120,19 @@ Event.observe(document,"dom:loaded", apply_filters_observer);
     <div id="div_values_<%= field %>" style="display:none;">
     <% case options[:type]
     when :list, :list_optional, :list_status, :list_subprojects %>
-        <%= select_tag "v[#{field}][]", options_for_select(options[:values], query.values_for(field)), :class => "values_#{field}", :multiple => (query.values_for(field) && query.values_for(field).length > 1) %>
-        <%= link_to_function image_tag('bullet_toggle_plus.png'), "toggle_multi_select('#{field}');", :style => "vertical-align: bottom;" %>
+        <span class="span_values_<%= field %>">
+        	<%= select_tag "v[#{field}][]", options_for_select(options[:values], query.values_for(field)), :class => "values_#{field}", :id => "values_#{field}_1", :multiple => (query.values_for(field) && query.values_for(field).length > 1) %>
+          <%= link_to_function image_tag('bullet_toggle_plus.png'), "toggle_multi_select('values_#{field}_1');", :style => "vertical-align: bottom;" %>
+        </span>
     <% when :date, :date_past %>
-        <%= text_field_tag "v[#{field}][]", query.value_for(field), :class => "values_#{field}", :size => 3 %> <%= l(:label_day_plural) %>
+        <span class="span_values_<%= field %>"><%= text_field_tag "v[#{field}][]", query.value_for(field), :size => 10, :class => "values_#{field}", :id => "values_#{field}_1" %> <%= calendar_for "values_#{field}_1" %></span>
+        <span class="span_values_<%= field %>"><%= text_field_tag "v[#{field}][]", query.value_for(field, 1), :size => 10, :class => "values_#{field}", :id => "values_#{field}_2" %> <%= calendar_for "values_#{field}_2" %></span>
+        <span class="span_values_<%= field %>"><%= text_field_tag "v[#{field}][]", query.value_for(field), :size => 3, :class => "values_#{field}" %> <%= l(:label_day_plural) %></span>
     <% when :string, :text %>
-        <%= text_field_tag "v[#{field}][]", query.value_for(field), :class => "values_#{field}", :size => 30 %>
+        <span class="span_values_<%= field %>"><%= text_field_tag "v[#{field}][]", query.value_for(field), :class => "values_#{field}", :id => "values_#{field}", :size => 30 %></span>
     <% when :integer %>
-        <%= text_field_tag "v[#{field}][]", query.value_for(field), :class => "values_#{field}", :size => 3 %>
-        <%= text_field_tag "v[#{field}][]", query.value_for(field, 1), :class => "values_#{field}", :size => 3 %>
+        <span class="span_values_<%= field %>"><%= text_field_tag "v[#{field}][]", query.value_for(field), :class => "values_#{field}", :id => "values_#{field}_1", :size => 3 %></span>
+        <span class="span_values_<%= field %>"><%= text_field_tag "v[#{field}][]", query.value_for(field, 1), :class => "values_#{field}", :id => "values_#{field}_2", :size => 3 %></span>
     <% end %>
     </div>
     <script type="text/javascript">toggle_filter('<%= field %>');</script>
