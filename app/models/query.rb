@@ -278,7 +278,11 @@ class Query < ActiveRecord::Base
       #  allowed_values = values & ([""] + (filter_options[:values] || []).collect {|val| val[1]})
       #  filters[field] = {:operator => operator, :values => allowed_values } if (allowed_values.first and !allowed_values.first.empty?) or ["o", "c", "!*", "*", "t"].include? operator
       #end
-      filters[field] = {:operator => operator, :values => (values || ['']) }
+      values ||= ['']
+      if filter_options[:type] == :integer
+        values = values.select {|v| v.blank? || v.match(/^\d+(\.\d+)?$/) }
+      end
+      filters[field] = {:operator => operator, :values => values }
     end
   end
 

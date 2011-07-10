@@ -101,6 +101,15 @@ class QueryTest < ActiveSupport::TestCase
     find_issues_with_query(query)
   end
   
+  def test_numeric_filter_should_not_accept_non_numeric_values
+    query = Query.new(:name => '_')
+    query.add_filter('estimated_hours', '=', ['a'])
+    
+    assert query.has_filter?('estimated_hours')
+    assert query.values_for('estimated_hours').empty?
+    assert !query.valid?
+  end
+  
   def test_operator_is_on_float
     Issue.update_all("estimated_hours = 171.2", "id=2")
     
