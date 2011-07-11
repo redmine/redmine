@@ -252,6 +252,7 @@
   notice_unable_delete_time_entry: 無法刪除工時記錄項目。
   notice_issue_done_ratios_updated: 問題完成百分比已更新。
   notice_gantt_chart_truncated: "由於項目數量超過可顯示數量的最大值 (%{max})，故此甘特圖尾部已被截斷"
+  notice_issue_successful_create: "問題 %{id} 已建立。"
 
   error_can_t_load_default_data: "無法載入預設組態： %{value}"
   error_scm_not_found: "在儲存機制中找不到這個項目或修訂版。"
@@ -703,6 +704,7 @@
   label_in_more_than: 在大於
   label_greater_or_equal: "大於等於 (>=)"
   label_less_or_equal: "小於等於 (<=)"
+  label_between: 區間
   label_in: 在
   label_today: 今天
   label_all_time: 全部
@@ -1056,5 +1058,3 @@
   enumeration_doc_categories: 文件分類
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
-  notice_issue_successful_create: Issue %{id} created.
-  label_between: between
