@@ -131,8 +131,8 @@ Event.observe(document,"dom:loaded", apply_filters_observer);
     <% when :string, :text %>
         <span class="span_values_<%= field %>"><%= text_field_tag "v[#{field}][]", query.value_for(field), :class => "values_#{field}", :id => "values_#{field}", :size => 30 %></span>
     <% when :integer, :float %>
-        <span class="span_values_<%= field %>"><%= text_field_tag "v[#{field}][]", query.value_for(field), :class => "values_#{field}", :id => "values_#{field}_1", :size => 3 %></span>
-        <span class="span_values_<%= field %>"><%= text_field_tag "v[#{field}][]", query.value_for(field, 1), :class => "values_#{field}", :id => "values_#{field}_2", :size => 3 %></span>
+        <span class="span_values_<%= field %>"><%= text_field_tag "v[#{field}][]", query.value_for(field), :class => "values_#{field}", :id => "values_#{field}_1", :size => 6 %></span>
+        <span class="span_values_<%= field %>"><%= text_field_tag "v[#{field}][]", query.value_for(field, 1), :class => "values_#{field}", :id => "values_#{field}_2", :size => 6 %></span>
     <% end %>
     </div>
     <script type="text/javascript">toggle_filter('<%= field %>');</script>
