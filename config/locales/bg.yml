@@ -157,7 +157,7 @@ bg:
   notice_file_not_found: Несъществуваща или преместена страница.
   notice_locking_conflict: Друг потребител променя тези данни в момента.
   notice_not_authorized: Нямате право на достъп до тази страница.
-  notice_not_authorized_archived_project: Проектът, който се опитвате да видите е архивиран.
+  notice_not_authorized_archived_project: Проектът, който се опитвате да видите е архивиран. Ако смятате, че това не е правилно, обърнете се към администратора за разархивиране.
   notice_email_sent: "Изпратен e-mail на %{value}"
   notice_email_error: "Грешка при изпращане на e-mail (%{value})"
   notice_feeds_access_key_reseted: Вашия ключ за RSS достъп беше променен.
@@ -171,6 +171,7 @@ bg:
   notice_unable_delete_time_entry: Невъзможност за изтриване на запис на time log.
   notice_issue_done_ratios_updated: Обновен процент на завършените задачи.
   notice_gantt_chart_truncated: Мрежовият график е съкратен, понеже броят на обектите, които могат да бъдат показани е твърде голям (%{max})
+  notice_issue_successful_create: Задача %{id} е създадена.
   
   error_can_t_load_default_data: "Грешка при зареждане на примерната информация: %{value}"
   error_scm_not_found: Несъществуващ обект в хранилището.
@@ -622,6 +623,7 @@ bg:
   label_in_more_than: след повече от
   label_greater_or_equal: ">="
   label_less_or_equal: <=
+  label_between: между
   label_in: в следващите
   label_today: днес
   label_all_time: всички
@@ -975,5 +977,3 @@ bg:
   enumeration_doc_categories: Категории документи
   enumeration_activities: Дейности (time tracking)
   enumeration_system_activity: Системна активност
-  notice_issue_successful_create: Issue %{id} created.
-  label_between: between
