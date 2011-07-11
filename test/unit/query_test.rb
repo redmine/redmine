@@ -170,6 +170,22 @@ class QueryTest < ActiveSupport::TestCase
     assert_include "CAST(custom_values.value AS decimal(60,3)) BETWEEN 30.0 AND 40.0", query.statement
     find_issues_with_query(query)
   end
+  
+  def test_date_filter_should_not_accept_non_date_values
+    query = Query.new(:name => '_')
+    query.add_filter('created_on', '=', ['a'])
+    
+    assert query.has_filter?('created_on')
+    assert !query.valid?
+  end
+  
+  def test_relative_date_filter_should_not_accept_non_integer_values
+    query = Query.new(:name => '_')
+    query.add_filter('created_on', '>t-', ['a'])
+    
+    assert query.has_filter?('created_on')
+    assert !query.valid?
+  end
 
   def test_operator_date_equals
     query = Query.new(:name => '_')

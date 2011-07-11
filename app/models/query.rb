@@ -176,6 +176,13 @@ class Query < ActiveRecord::Base
           errors.add(label_for(field), :invalid) if values_for(field).detect {|v| v.present? && !v.match(/^\d+$/) }
         when :float 
           errors.add(label_for(field), :invalid) if values_for(field).detect {|v| v.present? && !v.match(/^\d+(\.\d*)?$/) }
+        when :date, :date_past
+          case operator_for(field)
+          when "=", ">=", "<=", "><"
+            errors.add(label_for(field), :invalid) if values_for(field).detect {|v| v.present? && !v.match(/^\d{4}-\d{2}-\d{2}$/) }
+          when ">t-", "<t-", "t-"
+            errors.add(label_for(field), :invalid) if values_for(field).detect {|v| v.present? && !v.match(/^\d+$/) }
+          end
         end
       end
       
