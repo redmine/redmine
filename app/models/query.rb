@@ -123,8 +123,8 @@ class Query < ActiveRecord::Base
                                  :date_past => [ "=", ">=", "<=", "><", ">t-", "<t-", "t-", "t", "w" ],
                                  :string => [ "=", "~", "!", "!~" ],
                                  :text => [  "~", "!~" ],
-                                 # TODO: should be :numeric
-                                 :integer => [ "=", ">=", "<=", "><", "!*", "*" ] }
+                                 :integer => [ "=", ">=", "<=", "><", "!*", "*" ],
+                                 :float => [ "=", ">=", "<=", "><", "!*", "*" ] }
 
   cattr_reader :operators_by_filter_type
 
@@ -170,8 +170,13 @@ class Query < ActiveRecord::Base
 
   def validate
     filters.each_key do |field|
-      if type_for(field) == :integer && values_for(field)
-        errors.add label_for(field), :invalid if values_for(field).detect {|v| v.present? && !v.match(/^\d+(\.\d+)?$/) }
+      if values_for(field)
+        case type_for(field)
+        when :integer 
+          errors.add(label_for(field), :invalid) if values_for(field).detect {|v| v.present? && !v.match(/^\d+$/) }
+        when :float 
+          errors.add(label_for(field), :invalid) if values_for(field).detect {|v| v.present? && !v.match(/^\d+(\.\d*)?$/) }
+        end
       end
       
       errors.add label_for(field), :blank unless
@@ -208,7 +213,7 @@ class Query < ActiveRecord::Base
                            "updated_on" => { :type => :date_past, :order => 10 },
                            "start_date" => { :type => :date, :order => 11 },
                            "due_date" => { :type => :date, :order => 12 },
-                           "estimated_hours" => { :type => :integer, :order => 13 },
+                           "estimated_hours" => { :type => :float, :order => 13 },
                            "done_ratio" =>  { :type => :integer, :order => 14 }}
 
     user_values = []
@@ -610,15 +615,20 @@ class Query < ActiveRecord::Base
     sql = ''
     case operator
     when "="
-      if [:date, :date_past].include?(type_for(field))
-        sql = date_clause(db_table, db_field, (Date.parse(value.first) rescue nil), (Date.parse(value.first) rescue nil))
-      else
-        if value.any?
-          sql = "#{db_table}.#{db_field} IN (" + value.collect{|val| "'#{connection.quote_string(val)}'"}.join(",") + ")"
+      if value.any?
+        case type_for(field)
+        when :date, :date_past
+          sql = date_clause(db_table, db_field, (Date.parse(value.first) rescue nil), (Date.parse(value.first) rescue nil))
+        when :integer
+          sql = "#{db_table}.#{db_field} = #{value.first.to_i}"
+        when :float
+          sql = "#{db_table}.#{db_field} BETWEEN #{value.first.to_f - 1e-5} AND #{value.first.to_f + 1e-5}"
         else
-          # IN an empty set
-          sql = "1=0"
+          sql = "#{db_table}.#{db_field} IN (" + value.collect{|val| "'#{connection.quote_string(val)}'"}.join(",") + ")"
         end
+      else
+        # IN an empty set
+        sql = "1=0"
       end
     when "!"
       if value.any?
@@ -710,8 +720,10 @@ class Query < ActiveRecord::Base
         options = { :type => :date, :order => 20 }
       when "bool"
         options = { :type => :list, :values => [[l(:general_text_yes), "1"], [l(:general_text_no), "0"]], :order => 20 }
-      when "int", "float"
+      when "int"
         options = { :type => :integer, :order => 20 }
+      when "float",
+        options = { :type => :float, :order => 20 }
       when "user", "version"
         next unless project
         options = { :type => :list_optional, :values => field.possible_values_options(project), :order => 20}
