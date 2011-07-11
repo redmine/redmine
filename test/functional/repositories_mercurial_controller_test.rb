@@ -38,8 +38,9 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     User.current = nil
+    @project    = Project.find(PRJ_ID)
     @repository = Repository::Mercurial.create(
-                      :project => Project.find(PRJ_ID),
+                      :project => @project,
                       :url     => REPOSITORY_PATH,
                       :path_encoding => 'ISO-8859-1'
                       )
