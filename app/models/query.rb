@@ -722,7 +722,7 @@ class Query < ActiveRecord::Base
         options = { :type => :list, :values => [[l(:general_text_yes), "1"], [l(:general_text_no), "0"]], :order => 20 }
       when "int"
         options = { :type => :integer, :order => 20 }
-      when "float",
+      when "float"
         options = { :type => :float, :order => 20 }
       when "user", "version"
         next unless project
