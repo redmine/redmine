@@ -126,6 +126,7 @@ class Repository::Mercurial < Repository
   private :latest_changesets_cond
 
   def fetch_changesets
+    return if scm.info.nil?
     scm_rev = scm.info.lastrev.revision.to_i
     db_rev  = latest_changeset ? latest_changeset.revision.to_i : -1
     return unless db_rev < scm_rev  # already up-to-date
