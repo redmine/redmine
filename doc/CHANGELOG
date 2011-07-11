@@ -4,6 +4,32 @@ Redmine - project management software
 Copyright (C) 2006-2011  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2011-07-11 v1.2.1
+
+* Defect #5089: i18N error on truncated revision diff view
+* Defect #7501: Search options get lost after clicking on a specific result type
+* Defect #8229: "project.xml" response does not include the parent ID
+* Defect #8449: Wiki annotated page does not display author of version 1
+* Defect #8467: Missing german translation - Warn me when leaving a page with unsaved text
+* Defect #8468: No warning when leaving page with unsaved text that has not lost focus
+* Defect #8472: Private checkbox ignored on issue creation with "Set own issues public or private" permission
+* Defect #8510: JRuby: Can't open administrator panel if scm command is not available
+* Defect #8512: Syntax highlighter on Welcome page
+* Defect #8554: Translation missing error on custom field validation
+* Defect #8565: JRuby: Japanese PDF export error
+* Defect #8566: Exported PDF UTF-8 Vietnamese not correct
+* Defect #8569: JRuby: PDF export error with TypeError
+* Defect #8576: Missing german translation - different things
+* Defect #8616: Circular relations
+* Defect #8646: Russian translation "label_follows" and "label_follows" are wrong
+* Defect #8712: False 'Description updated' journal details messages
+* Defect #8729: Not-public queries are not private
+* Defect #8737: Broken line of long issue description on issue PDF.
+* Defect #8738: Missing revision number/id of associated revisions on issue PDF
+* Defect #8739: Workflow copy does not copy advanced workflow settings
+* Defect #8759: Setting issue attributes from mail should be case-insensitive
+* Defect #8777: Mercurial: Not able to Resetting Redmine project respository
+
 == 2011-05-30 v1.2.0
 
 * Defect #61: Broken character encoding in pdf export
