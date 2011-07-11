@@ -180,7 +180,7 @@
         greater_than_start_date: "必須在開始日期之後"
         not_same_project: "不屬於同一個專案"
         circular_dependency: "這個關聯會導致環狀相依"
-        cant_link_an_issue_with_a_descendant: "項目無法被連結至自己的子任務"
+        cant_link_an_issue_with_a_descendant: "問題無法被連結至自己的子任務"
 
       # You can define own errors for models or model attributes.
       # The values :model, :attribute and :value are always available for interpolation.
@@ -243,32 +243,32 @@
   notice_email_error: "寄送郵件的過程中發生錯誤 (%{value})"
   notice_feeds_access_key_reseted: 您的 RSS 存取金鑰已被重新設定。
   notice_api_access_key_reseted: 您的 API 存取金鑰已被重新設定。
-  notice_failed_to_save_issues: " %{count} 個項目儲存失敗（總共選取 %{total} 個項目）： %{ids} 。"
+  notice_failed_to_save_issues: " %{count} 個問題儲存失敗（總共選取 %{total} 個問題）： %{ids} 。"
   notice_failed_to_save_members: "成員儲存失敗: %{errors}."
-  notice_no_issue_selected: "未選擇任何項目！請勾選您想要編輯的項目。"
+  notice_no_issue_selected: "未選擇任何問題！請勾選您想要編輯的問題。"
   notice_account_pending: "您的帳號已經建立，正在等待管理員的審核。"
   notice_default_data_loaded: 預設組態已載入成功。
   notice_unable_delete_version: 無法刪除版本。
   notice_unable_delete_time_entry: 無法刪除工時記錄項目。
-  notice_issue_done_ratios_updated: 項目完成百分比已更新。
+  notice_issue_done_ratios_updated: 問題完成百分比已更新。
   notice_gantt_chart_truncated: "由於項目數量超過可顯示數量的最大值 (%{max})，故此甘特圖尾部已被截斷"
 
   error_can_t_load_default_data: "無法載入預設組態： %{value}"
   error_scm_not_found: "在儲存機制中找不到這個項目或修訂版。"
   error_scm_command_failed: "嘗試存取儲存機制時發生錯誤： %{value}"
   error_scm_annotate: "項目不存在或項目無法被加上附註。"
-  error_issue_not_found_in_project: '該項目不存在或不屬於此專案'
+  error_issue_not_found_in_project: '該問題不存在或不屬於此專案'
   error_no_tracker_in_project: '此專案尚未指定追蹤標籤。請檢查專案的設定資訊。'
-  error_no_default_issue_status: '尚未定義項目狀態的預設值。請您前往「網站管理」->「項目狀態清單」頁面，檢查相關組態設定。'
+  error_no_default_issue_status: '尚未定義問題狀態的預設值。請您前往「網站管理」->「問題狀態清單」頁面，檢查相關組態設定。'
   error_can_not_delete_custom_field: 無法刪除自訂欄位
-  error_can_not_delete_tracker: "此追蹤標籤已包含項目，無法被刪除。"
+  error_can_not_delete_tracker: "此追蹤標籤已包含問題，無法被刪除。"
   error_can_not_remove_role: "此角色已被使用，無法將其刪除。"
-  error_can_not_reopen_issue_on_closed_version: '指派給「已結束」版本的項目，無法再將其狀態變更為「進行中」'
+  error_can_not_reopen_issue_on_closed_version: '指派給「已結束」版本的問題，無法再將其狀態變更為「進行中」'
   error_can_not_archive_project: 此專案無法被歸檔
-  error_issue_done_ratios_not_updated: "項目完成百分比未更新。"
-  error_workflow_copy_source: '請選擇一個來源項目追蹤標籤或角色'
-  error_workflow_copy_target: '請選擇一個（或多個）目的項目追蹤標籤或角色'
-  error_unable_delete_issue_status: '無法刪除項目狀態'
+  error_issue_done_ratios_not_updated: "問題完成百分比未更新。"
+  error_workflow_copy_source: '請選擇一個來源問題追蹤標籤或角色'
+  error_workflow_copy_target: '請選擇一個（或多個）目的問題追蹤標籤或角色'
+  error_unable_delete_issue_status: '無法刪除問題狀態'
   error_unable_to_connect: "無法連線至（%{value}）"
   warning_attachments_not_saved: "%{count} 個附加檔案無法被儲存。"
   
@@ -280,8 +280,8 @@
   mail_body_account_information: 您的 Redmine 帳號資訊
   mail_subject_account_activation_request: Redmine 帳號啟用需求通知
   mail_body_account_activation_request: "有位新用戶 (%{value}) 已經完成註冊，正等候您的審核："
-  mail_subject_reminder: "您有 %{count} 個項目即將到期 (%{days})"
-  mail_body_reminder: "%{count} 個指派給您的項目，將於 %{days} 天之內到期："
+  mail_subject_reminder: "您有 %{count} 個問題即將到期 (%{days})"
+  mail_body_reminder: "%{count} 個指派給您的問題，將於 %{days} 天之內到期："
   mail_subject_wiki_content_added: "'%{id}' wiki 頁面已被新增"
   mail_body_wiki_content_added: "此 '%{id}' wiki 頁面已被 %{author} 新增。"
   mail_subject_wiki_content_updated: "'%{id}' wiki 頁面已被更新"
@@ -313,10 +313,10 @@
   field_category: 分類
   field_title: 標題
   field_project: 專案
-  field_issue: 項目
+  field_issue: 問題
   field_status: 狀態
   field_notes: 筆記
-  field_is_closed: 項目結束
+  field_is_closed: 問題已結束
   field_is_default: 預設值
   field_tracker: 追蹤標籤
   field_subject: 主旨
@@ -330,7 +330,7 @@
   field_homepage: 網站首頁
   field_is_public: 公開
   field_parent: 父專案
-  field_is_in_roadmap: 項目顯示於版本藍圖中
+  field_is_in_roadmap: 問題顯示於版本藍圖中
   field_login: 帳戶名稱
   field_mail_notification: 電子郵件提醒選項
   field_admin: 管理者
@@ -364,9 +364,9 @@
   field_spent_on: 日期
   field_identifier: 代碼
   field_is_filter: 用來作為過濾器
-  field_issue_to: 相關項目
+  field_issue_to: 相關問題
   field_delay: 逾期
-  field_assignable: 項目可被分派至此角色
+  field_assignable: 問題可被分派至此角色
   field_redirect_existing_links: 重新導向現有連結
   field_estimated_hours: 預估工時
   field_column_names: 欄位
@@ -388,7 +388,7 @@
   field_text: 內容文字
   field_visible: 可被看見
   field_warn_on_leaving_unsaved: "提醒我將要離開的頁面中尚有未儲存的資料"
-  field_issues_visibility: 項目可見度
+  field_issues_visibility: 問題可見度
   field_is_private: 私人
   field_commit_logs_encoding: 認可訊息編碼
   field_scm_path_encoding: 路徑編碼
@@ -404,7 +404,7 @@
   setting_login_required: 需要驗證
   setting_self_registration: 註冊選項
   setting_attachment_max_size: 附件大小限制
-  setting_issues_export_limit: 項目匯出限制
+  setting_issues_export_limit: 問題匯出限制
   setting_mail_from: 寄件者電子郵件
   setting_bcc_recipients: 使用密件副本 (BCC)
   setting_plain_text_mail: 純文字郵件 (不含 HTML)
@@ -415,13 +415,13 @@
   setting_autofetch_changesets: 自動擷取認可
   setting_default_projects_public: 新建立之專案預設為「公開」
   setting_sys_api_enabled: 啟用管理儲存機制的網頁服務 (Web Service)
-  setting_commit_ref_keywords: 認可用於參照項目之關鍵字
-  setting_commit_fix_keywords: 認可用於修正項目之關鍵字
+  setting_commit_ref_keywords: 認可用於參照之關鍵字
+  setting_commit_fix_keywords: 認可用於修正之關鍵字
   setting_autologin: 自動登入
   setting_date_format: 日期格式
   setting_time_format: 時間格式
-  setting_cross_project_issue_relations: 允許關聯至其它專案的項目
-  setting_issue_list_default_columns: 預設顯示於項目清單的欄位
+  setting_cross_project_issue_relations: 允許關聯至其它專案的問題
+  setting_issue_list_default_columns: 預設顯示於問題清單的欄位
   setting_repositories_encodings: 版本庫編碼
   setting_emails_header: 電子郵件前頭說明
   setting_emails_footer: 電子郵件附帶說明
@@ -429,7 +429,7 @@
   setting_per_page_options: 每頁顯示個數選項
   setting_user_format: 使用者顯示格式
   setting_activity_days_default: 專案活動顯示天數
-  setting_display_subprojects_issues: 預設於父專案中顯示子專案的項目
+  setting_display_subprojects_issues: 預設於父專案中顯示子專案的問題
   setting_enabled_scm: 啟用的 SCM
   setting_mail_handler_body_delimiters: "截去郵件中包含下列值之後的內容"
   setting_mail_handler_api_enabled: 啟用處理傳入電子郵件的服務
@@ -444,9 +444,9 @@
   setting_password_min_length: 密碼最小長度
   setting_new_project_user_role_id: 管理者以外之用戶建立新專案時，將被指派的角色
   setting_default_projects_modules: 新專案預設啟用的模組
-  setting_issue_done_ratio: 計算項目完成百分比之方式
-  setting_issue_done_ratio_issue_field: 依據項目完成百分比欄位
-  setting_issue_done_ratio_issue_status: 依據項目狀態
+  setting_issue_done_ratio: 計算問題完成百分比之方式
+  setting_issue_done_ratio_issue_field: 依據問題完成百分比欄位
+  setting_issue_done_ratio_issue_status: 依據問題狀態
   setting_start_of_week: 週的第一天
   setting_rest_api_enabled: 啟用 REST 網路服務技術（Web Service）
   setting_cache_formatted_text: 快取已格式化文字
@@ -462,25 +462,25 @@
   permission_manage_members: 管理成員
   permission_manage_project_activities: 管理專案活動
   permission_manage_versions: 管理版本
-  permission_manage_categories: 管理項目分類
-  permission_view_issues: 檢視項目
-  permission_add_issues: 新增項目
-  permission_edit_issues: 編輯項目
-  permission_manage_issue_relations: 管理項目關聯
-  permission_set_issues_private: 設定項目為公開或私人
-  permission_set_own_issues_private: 設定自己的項目為公開或私人
+  permission_manage_categories: 管理問題分類
+  permission_view_issues: 檢視問題
+  permission_add_issues: 新增問題
+  permission_edit_issues: 編輯問題
+  permission_manage_issue_relations: 管理問題關聯
+  permission_set_issues_private: 設定問題為公開或私人
+  permission_set_own_issues_private: 設定自己的問題為公開或私人
   permission_add_issue_notes: 新增筆記
   permission_edit_issue_notes: 編輯筆記
   permission_edit_own_issue_notes: 編輯自己的筆記
-  permission_move_issues: 搬移項目
-  permission_delete_issues: 刪除項目
+  permission_move_issues: 搬移問題
+  permission_delete_issues: 刪除問題
   permission_manage_public_queries: 管理公開查詢
   permission_save_queries: 儲存查詢
   permission_view_gantt: 檢視甘特圖
   permission_view_calendar: 檢視日曆
-  permission_view_issue_watchers: 檢視觀察者清單
-  permission_add_issue_watchers: 新增觀察者
-  permission_delete_issue_watchers: 刪除觀察者
+  permission_view_issue_watchers: 檢視監看者清單
+  permission_add_issue_watchers: 新增監看者
+  permission_delete_issue_watchers: 刪除監看者
   permission_log_time: 紀錄耗用工時
   permission_view_time_entries: 檢視耗用工時
   permission_edit_time_entries: 編輯工時紀錄
@@ -513,7 +513,7 @@
   permission_export_wiki_pages: 匯出 wiki 頁面
   permission_manage_subtasks: 管理子任務
   
-  project_module_issue_tracking: 項目追蹤
+  project_module_issue_tracking: 問題追蹤
   project_module_time_tracking: 工時追蹤
   project_module_news: 新聞
   project_module_documents: 文件
@@ -537,13 +537,13 @@
     other: "%{count} 個專案"
   label_project_all: 全部的專案
   label_project_latest: 最近的專案
-  label_issue: 項目
-  label_issue_new: 建立新項目
-  label_issue_plural: 項目清單
-  label_issue_view_all: 檢視所有項目
-  label_issues_by: "項目按 %{value} 分組顯示"
-  label_issue_added: 項目已新增
-  label_issue_updated: 項目已更新
+  label_issue: 問題
+  label_issue_new: 建立新問題
+  label_issue_plural: 問題清單
+  label_issue_view_all: 檢視所有問題
+  label_issues_by: "問題按 %{value} 分組顯示"
+  label_issue_added: 問題已新增
+  label_issue_updated: 問題已更新
   label_issue_note_added: 筆記已新增
   label_issue_status_updated: 狀態已更新
   label_issue_priority_updated: 優先權已更新
@@ -564,11 +564,11 @@
   label_tracker_plural: 追蹤標籤清單
   label_tracker_new: 建立新的追蹤標籤
   label_workflow: 流程
-  label_issue_status: 項目狀態
-  label_issue_status_plural: 項目狀態清單
+  label_issue_status: 問題狀態
+  label_issue_status_plural: 問題狀態清單
   label_issue_status_new: 建立新狀態
-  label_issue_category: 項目分類
-  label_issue_category_plural: 項目分類清單
+  label_issue_category: 問題分類
+  label_issue_category_plural: 問題分類清單
   label_issue_category_new: 建立新分類
   label_custom_field: 自訂欄位
   label_custom_field_plural: 自訂欄位清單
@@ -590,8 +590,8 @@
   label_login: 登入
   label_logout: 登出
   label_help: 說明
-  label_reported_issues: 我通報的項目
-  label_assigned_to_me_issues: 分派給我的項目
+  label_reported_issues: 我通報的問題
+  label_assigned_to_me_issues: 分派給我的問題
   label_last_login: 最近一次連線
   label_registered_on: 註冊於
   label_activity: 活動
@@ -748,7 +748,7 @@
   label_roadmap: 版本藍圖
   label_roadmap_due_in: "剩餘 %{value}"
   label_roadmap_overdue: "逾期 %{value}"
-  label_roadmap_no_issues: 此版本尚未包含任何項目
+  label_roadmap_no_issues: 此版本尚未包含任何問題
   label_search: 搜尋
   label_result_plural: 結果
   label_all_words: 包含全部的字詞
@@ -763,7 +763,7 @@
   label_preview: 預覽
   label_feed_plural: Feeds
   label_changes_details: 所有變更的明細
-  label_issue_tracking: 項目追蹤
+  label_issue_tracking: 問題追蹤
   label_spent_time: 耗用工時
   label_overall_spent_time: 整體耗用工時
   label_f_hour: "%{value} 小時"
@@ -779,15 +779,15 @@
   label_options: 選項清單
   label_copy_workflow_from: 從以下追蹤標籤複製工作流程
   label_permissions_report: 權限報表
-  label_watched_issues: 觀察中的項目清單
-  label_related_issues: 相關的項目清單
+  label_watched_issues: 監看中的問題清單
+  label_related_issues: 相關的問題清單
   label_applied_status: 已套用狀態
   label_loading: 載入中...
   label_relation_new: 建立新關聯
   label_relation_delete: 刪除關聯
   label_relates_to: 關聯至
   label_duplicates: 已重複
-  label_duplicated_by: 與後面所列項目重複
+  label_duplicated_by: 與後面所列問題重複
   label_blocks: 阻擋
   label_blocked_by: 被阻擋
   label_precedes: 優先於
@@ -832,7 +832,7 @@
   label_changeset_plural: 變更集清單
   label_default_columns: 預設欄位清單
   label_no_change_option: (維持不變)
-  label_bulk_edit_selected_issues: 大量編輯選取的項目
+  label_bulk_edit_selected_issues: 大量編輯選取的問題
   label_bulk_edit_selected_time_entries: 大量編輯選取的工時項目
   label_theme: 畫面主題
   label_default: 預設
@@ -864,7 +864,7 @@
   label_planning: 計劃表
   label_incoming_emails: 傳入的電子郵件
   label_generate_key: 產生金鑰
-  label_issue_watchers: 觀察者
+  label_issue_watchers: 監看者
   label_example: 範例
   label_display: 顯示
   label_sort: 排序
@@ -882,7 +882,7 @@
   label_version_sharing_hierarchy: 與專案階層架構共用
   label_version_sharing_tree: 與專案樹共用
   label_version_sharing_system: 與全部的專案共用
-  label_update_issue_done_ratios: 更新項目完成百分比
+  label_update_issue_done_ratios: 更新問題完成百分比
   label_copy_source: 來源
   label_copy_target: 目的地
   label_copy_same_as_target: 與目的地相同
@@ -897,9 +897,9 @@
   label_user_search: "搜尋用戶："
   label_additional_workflow_transitions_for_author: 用戶為作者時額外允許的流程轉換
   label_additional_workflow_transitions_for_assignee: 用戶為被指定者時額外允許的流程轉換
-  label_issues_visibility_all: 所有項目
-  label_issues_visibility_public: 所有非私人項目
-  label_issues_visibility_own: 使用者所建立的或被指派的項目
+  label_issues_visibility_all: 所有問題
+  label_issues_visibility_public: 所有非私人問題
+  label_issues_visibility_own: 使用者所建立的或被指派的問題
   label_git_report_last_commit: 報告最後認可的文件和目錄
 
   button_login: 登入
@@ -966,15 +966,15 @@
   text_subprojects_destroy_warning: "下列子專案： %{value} 將一併被刪除。"
   text_workflow_edit: 選擇角色與追蹤標籤以設定其工作流程
   text_are_you_sure: 確定執行？
-  text_are_you_sure_with_children: "確定刪除此工作項目及其子項目？"
+  text_are_you_sure_with_children: "確定刪除此問題及其子問題？"
   text_journal_changed: "%{label} 從 %{old} 變更為 %{new}"
   text_journal_changed_no_detail: "%{label} 已更新"
   text_journal_set_to: "%{label} 設定為 %{value}"
   text_journal_deleted: "%{label} 已刪除 (%{old})"
   text_journal_added: "%{label} %{value} 已新增"
-  text_tip_issue_begin_day: 今天起始的工作
-  text_tip_issue_end_day: 今天截止的的工作
-  text_tip_issue_begin_end_day: 今天起始與截止的工作
+  text_tip_issue_begin_day: 今天起始的問題
+  text_tip_issue_end_day: 今天截止的的問題
+  text_tip_issue_begin_end_day: 今天起始與截止的問題
   text_project_identifier_info: '只允許小寫英文字母（a-z）、阿拉伯數字與連字符號（-）。<br />儲存後，代碼不可再被更改。'
   text_caracters_maximum: "最多 %{count} 個字元."
   text_caracters_minimum: "長度必須大於 %{count} 個字元."
@@ -983,19 +983,19 @@
   text_unallowed_characters: 不允許的字元
   text_comma_separated: 可輸入多個值（須以逗號分隔）。
   text_line_separated: 可輸入多個值（須以換行符號分隔，即每列只能輸入一個值）。
-  text_issues_ref_in_commit_messages: 認可訊息中參照(或修正)項目之關鍵字
-  text_issue_added: "項目 %{id} 已被 %{author} 通報。"
-  text_issue_updated: "項目 %{id} 已被 %{author} 更新。"
+  text_issues_ref_in_commit_messages: 認可訊息中參照(或修正)問題之關鍵字
+  text_issue_added: "問題 %{id} 已被 %{author} 通報。"
+  text_issue_updated: "問題 %{id} 已被 %{author} 更新。"
   text_wiki_destroy_confirmation: 您確定要刪除這個 wiki 和其中的所有內容？
-  text_issue_category_destroy_question: "有 (%{count}) 個項目被指派到此分類. 請選擇您想要的動作？"
-  text_issue_category_destroy_assignments: 移除這些項目的分類
-  text_issue_category_reassign_to: 重新指派這些項目至其它分類
-  text_user_mail_option: "對於那些未被選擇的專案，將只會接收到您正在觀察中，或是參與中的項目通知。（「參與中的項目」包含您建立的或是指派給您的項目）"
-  text_no_configuration_data: "角色、追蹤標籤、項目狀態與流程尚未被設定完成。\n強烈建議您先載入預設的組態。將預設組態載入之後，您可再變更其中之值。"
+  text_issue_category_destroy_question: "有 (%{count}) 個問題被指派到此分類. 請選擇您想要的動作？"
+  text_issue_category_destroy_assignments: 移除這些問題的分類
+  text_issue_category_reassign_to: 重新指派這些問題至其它分類
+  text_user_mail_option: "對於那些未被選擇的專案，將只會接收到您正在觀察中，或是參與中的問題通知。（「參與中的問題」包含您建立的或是指派給您的問題）"
+  text_no_configuration_data: "角色、追蹤標籤、問題狀態與流程尚未被設定完成。\n強烈建議您先載入預設的組態。將預設組態載入之後，您可再變更其中之值。"
   text_load_default_configuration: 載入預設組態
   text_status_changed_by_changeset: "已套用至變更集 %{value}."
   text_time_logged_by_changeset: "紀錄於變更集 %{value}."
-  text_issues_destroy_confirmation: '確定刪除已選擇的項目？'
+  text_issues_destroy_confirmation: '確定刪除已選擇的問題？'
   text_issues_destroy_descendants_confirmation: "這麼做將會一併刪除 %{count} 子任務。"
   text_time_entries_destroy_confirmation: 您確定要刪除所選擇的工時紀錄？
   text_select_project_modules: '選擇此專案可使用之模組：'
@@ -1003,10 +1003,10 @@
   text_file_repository_writable: 可寫入附加檔案目錄
   text_plugin_assets_writable: 可寫入附加元件目錄
   text_rmagick_available: 可使用 RMagick (選配)
-  text_destroy_time_entries_question: 您即將刪除的項目已報工 %{hours} 小時. 您的選擇是？
+  text_destroy_time_entries_question: 您即將刪除的問題已報工 %{hours} 小時. 您的選擇是？
   text_destroy_time_entries: 刪除已報工的時數
   text_assign_time_entries_to_project: 指定已報工的時數至專案中
-  text_reassign_time_entries: '重新指定已報工的時數至此項目：'
+  text_reassign_time_entries: '重新指定已報工的時數至此問題：'
   text_user_wrote: "%{value} 先前提到:"
   text_enumeration_destroy_question: "目前有 %{count} 個物件使用此列舉值。"
   text_enumeration_category_reassign_to: '重新設定其列舉值為：'
@@ -1052,7 +1052,7 @@
   default_activity_design: 設計
   default_activity_development: 開發
   
-  enumeration_issue_priorities: 項目優先權
+  enumeration_issue_priorities: 問題優先權
   enumeration_doc_categories: 文件分類
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
