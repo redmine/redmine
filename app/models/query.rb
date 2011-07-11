@@ -179,7 +179,7 @@ class Query < ActiveRecord::Base
         when :date, :date_past
           case operator_for(field)
           when "=", ">=", "<=", "><"
-            errors.add(label_for(field), :invalid) if values_for(field).detect {|v| v.present? && !v.match(/^\d{4}-\d{2}-\d{2}$/) }
+            errors.add(label_for(field), :invalid) if values_for(field).detect {|v| v.present? && (!v.match(/^\d{4}-\d{2}-\d{2}$/) || (Date.parse(v) rescue nil).nil?) }
           when ">t-", "<t-", "t-"
             errors.add(label_for(field), :invalid) if values_for(field).detect {|v| v.present? && !v.match(/^\d+$/) }
           end

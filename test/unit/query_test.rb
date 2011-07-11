@@ -179,6 +179,14 @@ class QueryTest < ActiveSupport::TestCase
     assert !query.valid?
   end
   
+  def test_date_filter_should_not_accept_invalid_date_values
+    query = Query.new(:name => '_')
+    query.add_filter('created_on', '=', ['2011-01-34'])
+    
+    assert query.has_filter?('created_on')
+    assert !query.valid?
+  end
+  
   def test_relative_date_filter_should_not_accept_non_integer_values
     query = Query.new(:name => '_')
     query.add_filter('created_on', '>t-', ['a'])
