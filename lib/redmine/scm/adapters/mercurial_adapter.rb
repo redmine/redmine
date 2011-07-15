@@ -39,7 +39,7 @@ module Redmine
           end
 
           def sq_bin
-            @@sq_bin ||= shell_quote(HG_BIN)
+            @@sq_bin ||= shell_quote_command
           end
 
           def client_version
