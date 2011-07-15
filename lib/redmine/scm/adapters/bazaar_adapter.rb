@@ -278,9 +278,12 @@ module Redmine
         end
 
         def scm_cmd(*args, &block)
-          full_args = [BZR_BIN]
+          full_args = []
           full_args += args
-          ret = shellout(full_args.map { |e| shell_quote e.to_s }.join(' '), &block)
+          ret = shellout(
+                   self.class.sq_bin + ' ' + full_args.map { |e| shell_quote e.to_s }.join(' '),
+                   &block
+                   )
           if $? && $?.exitstatus != 0
             raise ScmCommandAborted, "bzr exited with non-zero status: #{$?.exitstatus}"
           end
