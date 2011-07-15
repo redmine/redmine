@@ -29,6 +29,14 @@ module Redmine
             ""
           end
 
+          def shell_quote_command
+            if Redmine::Platform.mswin? && RUBY_PLATFORM == 'java'
+              client_command
+            else
+              shell_quote(client_command)
+            end
+          end
+
           # Returns the version of the scm client
           # Eg: [1, 5, 0] or [] if unknown
           def client_version
