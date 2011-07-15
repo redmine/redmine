@@ -356,13 +356,16 @@ module Redmine
 
         def scm_cmd(*args, &block)
           repo_path = root_url || url
-          full_args = [GIT_BIN, '--git-dir', repo_path]
+          full_args = ['--git-dir', repo_path]
           if self.class.client_version_above?([1, 7, 2])
             full_args << '-c' << 'core.quotepath=false'
             full_args << '-c' << 'log.decorate=no'
           end
           full_args += args
-          ret = shellout(full_args.map { |e| shell_quote e.to_s }.join(' '), &block)
+          ret = shellout(
+                   self.class.sq_bin + ' ' + full_args.map { |e| shell_quote e.to_s }.join(' '),
+                   &block
+                   )
           if $? && $?.exitstatus != 0
             raise ScmCommandAborted, "git exited with non-zero status: #{$?.exitstatus}"
           end
