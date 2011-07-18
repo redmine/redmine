@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2010  Jean-Philippe Lang
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -40,7 +40,8 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
     :time_entries,
     :journals,
     :journal_details,
-    :queries
+    :queries,
+    :attachments
 
   def setup
     Setting.rest_api_enabled = '1'
@@ -197,6 +198,31 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
           assert_nothing_raised do
             Hash.from_xml(response.body).to_xml
           end
+        end
+      end
+    end
+    
+    context "with attachments" do
+      context ".xml" do
+        should "display attachments" do
+          get '/issues/3.xml?include=attachments'
+          
+          assert_tag :tag => 'issue',
+            :child => {
+              :tag => 'attachments',
+              :children => {:count => 5},
+              :child => {
+                :tag => 'attachment',
+                :child => {
+                  :tag => 'filename',
+                  :content => 'source.rb',
+                  :sibling => {
+                    :tag => 'content_url',
+                    :content => 'http://www.example.com/attachments/download/4/source.rb'
+                  }
+                }
+              }
+            }
         end
       end
     end

@@ -25,6 +25,12 @@ api.issue do
   
   render_api_issue_children(@issue, api) if include_in_api_response?('children')
   
+  api.array :attachments do
+    @issue.attachments.each do |attachment|
+      render_api_attachment(attachment, api)
+    end
+  end if include_in_api_response?('attachments')
+  
   api.array :relations do
     @relations.each do |relation|
       api.relation(:id => relation.id, :issue_id => relation.issue_from_id, :issue_to_id => relation.issue_to_id, :relation_type => relation.relation_type, :delay => relation.delay)

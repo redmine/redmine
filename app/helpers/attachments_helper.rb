@@ -43,4 +43,17 @@ module AttachmentsHelper
       str
     end
   end
+  
+  def render_api_attachment(attachment, api)
+    api.attachment do
+      api.id attachment.id
+      api.filename attachment.filename
+      api.filesize attachment.filesize
+      api.content_type attachment.content_type
+      api.description attachment.description
+      api.content_url url_for(:controller => 'attachments', :action => 'download', :id => attachment, :filename => attachment.filename, :only_path => false)
+      api.author(:id => attachment.author.id, :name => attachment.author.name) if attachment.author
+      api.created_on attachment.created_on
+    end
+  end
 end

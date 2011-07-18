@@ -25,6 +25,8 @@ class RoutingTest < ActionController::IntegrationTest
 
   context "attachments" do
     should_route :get, "/attachments/1", :controller => 'attachments', :action => 'show', :id => '1'
+    should_route :get, "/attachments/1.xml", :controller => 'attachments', :action => 'show', :id => '1', :format => 'xml'
+    should_route :get, "/attachments/1.json", :controller => 'attachments', :action => 'show', :id => '1', :format => 'json'
     should_route :get, "/attachments/1/filename.ext", :controller => 'attachments', :action => 'show', :id => '1', :filename => 'filename.ext'
     should_route :get, "/attachments/download/1", :controller => 'attachments', :action => 'download', :id => '1'
     should_route :get, "/attachments/download/1/filename.ext", :controller => 'attachments', :action => 'download', :id => '1', :filename => 'filename.ext'

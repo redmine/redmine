@@ -220,6 +220,7 @@ ActionController::Routing::Routes.draw do |map|
   end
   
   map.connect 'attachments/:id', :controller => 'attachments', :action => 'show', :id => /\d+/
+  map.connect 'attachments/:id.:format', :controller => 'attachments', :action => 'show', :id => /\d+/
   map.connect 'attachments/:id/:filename', :controller => 'attachments', :action => 'show', :id => /\d+/, :filename => /.*/
   map.connect 'attachments/download/:id/:filename', :controller => 'attachments', :action => 'download', :id => /\d+/, :filename => /.*/
    

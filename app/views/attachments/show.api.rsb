@@ -1,0 +1,1 @@
+render_api_attachment(@attachment, api)
