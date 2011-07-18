@@ -108,8 +108,6 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
   end
 
   context "/index.xml with filter" do
-    should_allow_api_authentication(:get, "/projects/private-child/issues.xml?status_id=5")
-
     should "show only issues with the status_id" do
       get '/issues.xml?status_id=5'
       assert_tag :tag => 'issues',
@@ -119,8 +117,6 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
   end
 
   context "/index.json with filter" do
-    should_allow_api_authentication(:get, "/projects/private-child/issues.json?status_id=5")
-
     should "show only issues with the status_id" do
       get '/issues.json?status_id=5'
 
@@ -304,11 +300,6 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
   end
   
   context "POST /issues.xml with failure" do
-    should_allow_api_authentication(:post,
-                                    '/issues.xml',
-                                    {:issue => {:project_id => 1}},
-                                    {:success_code => :unprocessable_entity})
-
     should "have an errors tag" do
       assert_no_difference('Issue.count') do
         post '/issues.xml', {:issue => {:project_id => 1}}, :authorization => credentials('jsmith')
@@ -339,11 +330,6 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
   end
   
   context "POST /issues.json with failure" do
-    should_allow_api_authentication(:post,
-                                    '/issues.json',
-                                    {:issue => {:project_id => 1}},
-                                    {:success_code => :unprocessable_entity})
-
     should "have an errors element" do
       assert_no_difference('Issue.count') do
         post '/issues.json', {:issue => {:project_id => 1}}, :authorization => credentials('jsmith')
@@ -417,11 +403,6 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
       @headers = { :authorization => credentials('jsmith') }
     end
 
-    should_allow_api_authentication(:put,
-                                    '/issues/6.xml',
-                                    {:issue => {:subject => ''}}, # Missing subject should fail
-                                    {:success_code => :unprocessable_entity})
-
     should "not create a new issue" do
       assert_no_difference('Issue.count') do
         put '/issues/6.xml', @parameters, @headers
@@ -485,11 +466,6 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
       @parameters = {:issue => {:subject => ''}}
       @headers = { :authorization => credentials('jsmith') }
     end
-
-    should_allow_api_authentication(:put,
-                                    '/issues/6.json',
-                                    {:issue => {:subject => ''}}, # Missing subject should fail
-                                    {:success_code => :unprocessable_entity})
 
     should "not create a new issue" do
       assert_no_difference('Issue.count') do
