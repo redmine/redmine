@@ -83,11 +83,11 @@ class IssueStatusTest < ActiveSupport::TestCase
     assert_equal [2], status.new_statuses_allowed_to([role], tracker, false, false).map(&:id)
     assert_equal [2], status.find_new_statuses_allowed_to([role], tracker, false, false).map(&:id)
     
-    assert_equal [2, 3], status.new_statuses_allowed_to([role], tracker, true, false).map(&:id)
-    assert_equal [2, 3], status.find_new_statuses_allowed_to([role], tracker, true, false).map(&:id)
+    assert_equal [2, 3, 5], status.new_statuses_allowed_to([role], tracker, true, false).map(&:id)
+    assert_equal [2, 3, 5], status.find_new_statuses_allowed_to([role], tracker, true, false).map(&:id)
     
-    assert_equal [2, 4], status.new_statuses_allowed_to([role], tracker, false, true).map(&:id)
-    assert_equal [2, 4], status.find_new_statuses_allowed_to([role], tracker, false, true).map(&:id)
+    assert_equal [2, 4, 5], status.new_statuses_allowed_to([role], tracker, false, true).map(&:id)
+    assert_equal [2, 4, 5], status.find_new_statuses_allowed_to([role], tracker, false, true).map(&:id)
     
     assert_equal [2, 3, 4, 5], status.new_statuses_allowed_to([role], tracker, true, true).map(&:id)
     assert_equal [2, 3, 4, 5], status.find_new_statuses_allowed_to([role], tracker, true, true).map(&:id)
