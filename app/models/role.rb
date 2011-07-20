@@ -139,31 +139,17 @@ class Role < ActiveRecord::Base
   # Return the builtin 'non member' role.  If the role doesn't exist,
   # it will be created on the fly.
   def self.non_member
-    non_member_role = find(:first, :conditions => {:builtin => BUILTIN_NON_MEMBER})
-    if non_member_role.nil?
-      non_member_role = create(:name => 'Non member', :position => 0) do |role|
-        role.builtin = BUILTIN_NON_MEMBER
-      end
-      raise 'Unable to create the non-member role.' if non_member_role.new_record?
-    end
-    non_member_role
+    find_or_create_system_role(BUILTIN_NON_MEMBER, 'Non member')
   end
 
   # Return the builtin 'anonymous' role.  If the role doesn't exist,
   # it will be created on the fly.
   def self.anonymous
-    anonymous_role = find(:first, :conditions => {:builtin => BUILTIN_ANONYMOUS})
-    if anonymous_role.nil?
-      anonymous_role = create(:name => 'Anonymous', :position => 0) do |role|
-        role.builtin = BUILTIN_ANONYMOUS
-      end
-      raise 'Unable to create the anonymous role.' if anonymous_role.new_record?
-    end
-    anonymous_role
+    find_or_create_system_role(BUILTIN_ANONYMOUS, 'Anonymous')
   end
-
   
 private
+  
   def allowed_permissions
     @allowed_permissions ||= permissions + Redmine::AccessControl.public_permissions.collect {|p| p.name}
   end
@@ -175,5 +161,16 @@ private
   def check_deletable
     raise "Can't delete role" if members.any?
     raise "Can't delete builtin role" if builtin?
+  end
+  
+  def self.find_or_create_system_role(builtin, name)
+    role = first(:conditions => {:builtin => builtin})
+    if role.nil?
+      role = create(:name => name, :position => 0) do |r|
+        r.builtin = builtin
+      end
+      raise "Unable to create the #{name} role." if role.new_record?
+    end
+    role
   end
 end
