@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -22,6 +22,15 @@ class CustomFieldTest < ActiveSupport::TestCase
   
   def test_create
     field = UserCustomField.new(:name => 'Money money money', :field_format => 'float')
+    assert field.save
+  end
+  
+  def test_regexp_validation
+    field = IssueCustomField.new(:name => 'regexp', :field_format => 'text', :regexp => '[a-z0-9')
+    assert !field.save
+    assert_equal I18n.t('activerecord.errors.messages.invalid'), field.errors.on(:regexp)
+    
+    field.regexp = '[a-z0-9]'
     assert field.save
   end
   
