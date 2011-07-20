@@ -482,68 +482,16 @@ class Query < ActiveRecord::Base
         v.push(User.current.logged? ? User.current.id.to_s : "0") if v.delete("me")
       end
 
-      sql = ''
       if field =~ /^cf_(\d+)$/
         # custom field
-        db_table = CustomValue.table_name
-        db_field = 'value'
-        is_custom_filter = true
-        sql << "#{Issue.table_name}.id IN (SELECT #{Issue.table_name}.id FROM #{Issue.table_name} LEFT OUTER JOIN #{db_table} ON #{db_table}.customized_type='Issue' AND #{db_table}.customized_id=#{Issue.table_name}.id AND #{db_table}.custom_field_id=#{$1} WHERE "
-        sql << sql_for_field(field, operator, v, db_table, db_field, true) + ')'
-      elsif field == 'watcher_id'
-        db_table = Watcher.table_name
-        db_field = 'user_id'
-        sql << "#{Issue.table_name}.id #{ operator == '=' ? 'IN' : 'NOT IN' } (SELECT #{db_table}.watchable_id FROM #{db_table} WHERE #{db_table}.watchable_type='Issue' AND "
-        sql << sql_for_field(field, '=', v, db_table, db_field) + ')'
-      elsif field == "member_of_group" # named field
-        if operator == '*' # Any group
-          groups = Group.all
-          operator = '=' # Override the operator since we want to find by assigned_to
-        elsif operator == "!*"
-          groups = Group.all
-          operator = '!' # Override the operator since we want to find by assigned_to
-        else
-          groups = Group.find_all_by_id(v)
-        end
-        groups ||= []
-
-        members_of_groups = groups.inject([]) {|user_ids, group|
-          if group && group.user_ids.present?
-            user_ids << group.user_ids
-          end
-          user_ids.flatten.uniq.compact
-        }.sort.collect(&:to_s)
-
-        sql << '(' + sql_for_field("assigned_to_id", operator, members_of_groups, Issue.table_name, "assigned_to_id", false) + ')'
-
-      elsif field == "assigned_to_role" # named field
-        if operator == "*" # Any Role
-          roles = Role.givable
-          operator = '=' # Override the operator since we want to find by assigned_to
-        elsif operator == "!*" # No role
-          roles = Role.givable
-          operator = '!' # Override the operator since we want to find by assigned_to
-        else
-          roles = Role.givable.find_all_by_id(v)
-        end
-        roles ||= []
-
-        members_of_roles = roles.inject([]) {|user_ids, role|
-          if role && role.members
-            user_ids << role.members.collect(&:user_id)
-          end
-          user_ids.flatten.uniq.compact
-        }.sort.collect(&:to_s)
-
-        sql << '(' + sql_for_field("assigned_to_id", operator, members_of_roles, Issue.table_name, "assigned_to_id", false) + ')'
+        filters_clauses << sql_for_custom_field(field, operator, v, $1)
+      elsif respond_to?("sql_for_#{field}_field")
+        # specific statement
+        filters_clauses << send("sql_for_#{field}_field", field, operator, v)
       else
         # regular field
-        db_table = Issue.table_name
-        db_field = field
-        sql << '(' + sql_for_field(field, operator, v, db_table, db_field) + ')'
+        filters_clauses << '(' + sql_for_field(field, operator, v, Issue.table_name, field) + ')'
       end
-      filters_clauses << sql
-
     end if filters and valid?
 
     filters_clauses << project_statement
@@ -614,9 +562,66 @@ class Query < ActiveRecord::Base
   rescue ::ActiveRecord::StatementInvalid => e
     raise StatementInvalid.new(e.message)
   end
+  
+  def sql_for_watcher_id_field(field, operator, value)
+    db_table = Watcher.table_name
+    "#{Issue.table_name}.id #{ operator == '=' ? 'IN' : 'NOT IN' } (SELECT #{db_table}.watchable_id FROM #{db_table} WHERE #{db_table}.watchable_type='Issue' AND " +
+      sql_for_field(field, '=', value, db_table, 'user_id') + ')'
+  end
+  
+  def sql_for_member_of_group_field(field, operator, value)
+    if operator == '*' # Any group
+      groups = Group.all
+      operator = '=' # Override the operator since we want to find by assigned_to
+    elsif operator == "!*"
+      groups = Group.all
+      operator = '!' # Override the operator since we want to find by assigned_to
+    else
+      groups = Group.find_all_by_id(value)
+    end
+    groups ||= []
+
+    members_of_groups = groups.inject([]) {|user_ids, group|
+      if group && group.user_ids.present?
+        user_ids << group.user_ids
+      end
+      user_ids.flatten.uniq.compact
+    }.sort.collect(&:to_s)
+
+    '(' + sql_for_field("assigned_to_id", operator, members_of_groups, Issue.table_name, "assigned_to_id", false) + ')'
+  end
+  
+  def sql_for_assigned_to_role_field(field, operator, value)
+    if operator == "*" # Any Role
+      roles = Role.givable
+      operator = '=' # Override the operator since we want to find by assigned_to
+    elsif operator == "!*" # No role
+      roles = Role.givable
+      operator = '!' # Override the operator since we want to find by assigned_to
+    else
+      roles = Role.givable.find_all_by_id(value)
+    end
+    roles ||= []
+
+    members_of_roles = roles.inject([]) {|user_ids, role|
+      if role && role.members
+        user_ids << role.members.collect(&:user_id)
+      end
+      user_ids.flatten.uniq.compact
+    }.sort.collect(&:to_s)
+
+    '(' + sql_for_field("assigned_to_id", operator, members_of_roles, Issue.table_name, "assigned_to_id", false) + ')'
+  end
 
   private
-
+  
+  def sql_for_custom_field(field, operator, value, custom_field_id)
+    db_table = CustomValue.table_name
+    db_field = 'value'
+    "#{Issue.table_name}.id IN (SELECT #{Issue.table_name}.id FROM #{Issue.table_name} LEFT OUTER JOIN #{db_table} ON #{db_table}.customized_type='Issue' AND #{db_table}.customized_id=#{Issue.table_name}.id AND #{db_table}.custom_field_id=#{custom_field_id} WHERE " +
+      sql_for_field(field, operator, value, db_table, db_field, true) + ')'
+  end
+  
   # Helper method to generate the WHERE sql for a +field+, +operator+ and a +value+
   def sql_for_field(field, operator, value, db_table, db_field, is_custom_filter=false)
     sql = ''
