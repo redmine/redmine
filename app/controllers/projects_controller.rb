@@ -87,7 +87,10 @@ class ProjectsController < ApplicationController
       respond_to do |format|
         format.html { 
           flash[:notice] = l(:notice_successful_create)
-          redirect_to :controller => 'projects', :action => 'settings', :id => @project
+          redirect_to(params[:continue] ?
+            {:controller => 'projects', :action => 'new', :project => {:parent_id => @project.parent_id}.reject {|k,v| v.nil?}} :
+            {:controller => 'projects', :action => 'settings', :id => @project}
+          )
         }
         format.api  { render :action => 'show', :status => :created, :location => url_for(:controller => 'projects', :action => 'show', :id => @project.id) }
       end
