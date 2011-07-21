@@ -57,6 +57,13 @@ class GroupsControllerTest < ActionController::TestCase
     assert_redirected_to '/groups'
   end
   
+  def test_create_and_continue
+    assert_difference 'Group.count' do
+      post :create, :group => {:lastname => 'New group'}, :continue => 'Create and continue'
+    end
+    assert_redirected_to '/groups/new'
+  end
+  
   def test_edit
     get :edit, :id => 10
     assert_response :success

@@ -2,5 +2,8 @@
 
 <% form_for(@group, :builder => TabularFormBuilder, :lang => current_language) do |f| %>
 <%= render :partial => 'form', :locals => { :f => f } %>
-<p><%= f.submit l(:button_create) %></p>
+<p>
+	<%= f.submit l(:button_create) %>
+  <%= f.submit l(:button_create_and_continue), :name => 'continue' %>
+</p>
 <% end %>

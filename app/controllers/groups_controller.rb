@@ -67,8 +67,10 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       if @group.save
-        flash[:notice] = l(:notice_successful_create)
-        format.html { redirect_to(groups_path) }
+        format.html {
+          flash[:notice] = l(:notice_successful_create)
+          redirect_to(params[:continue] ? new_group_path : groups_path)
+        }
         format.xml  { render :xml => @group, :status => :created, :location => @group }
       else
         format.html { render :action => "new" }
