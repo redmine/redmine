@@ -291,6 +291,20 @@ module ApplicationHelper
     end
     s
   end
+  
+  # Returns a string for users/groups option tags
+  def principals_options_for_select(collection, selected=nil)
+    s = ''
+    groups = ''
+    collection.sort.each do |element|
+      selected_attribute = ' selected="selected"' if option_value_selected?(element, selected)
+      (element.is_a?(Group) ? groups : s) << %(<option value="#{element.id}"#{selected_attribute}>#{h element.name}</option>)
+    end
+    unless groups.empty?
+      s << %(<optgroup label="#{h(l(:label_group_plural))}">#{groups}</optgroup>)
+    end
+    s
+  end
 
   # Truncates and returns the string as a single line
   def truncate_single_line(string, *args)

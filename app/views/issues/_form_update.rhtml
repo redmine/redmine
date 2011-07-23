@@ -1,7 +1,7 @@
 <div class="attributes">
 <div class="splitcontentleft">
 <p><%= f.select :status_id, (@allowed_statuses.collect {|p| [p.name, p.id]}), :required => true %></p>
-<p><%= f.select :assigned_to_id, (@issue.assignable_users.collect {|m| [m.name, m.id]}), :include_blank => true %></p>
+<p><%= f.select :assigned_to_id, principals_options_for_select(@issue.assignable_users, @issue.assigned_to), :include_blank => true %></p>
 </div>
 <div class="splitcontentright">
 <% if Issue.use_field_for_done_ratio? %>

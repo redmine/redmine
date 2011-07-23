@@ -2,5 +2,5 @@
 
 <div class="box">
 <p><%= f.text_field :name, :size => 30, :required => true %></p>
-<p><%= f.select :assigned_to_id, @project.assignable_users.sort.collect{|u| [u.name, u.id]}, :include_blank => true %></p>
+<p><%= f.select :assigned_to_id, principals_options_for_select(@project.assignable_users, @category.assigned_to), :include_blank => true %></p>
 </div>
