@@ -451,6 +451,7 @@ class Issue < ActiveRecord::Base
   def assignable_users
     users = project.assignable_users
     users << author if author
+    users << assigned_to if assigned_to
     users.uniq.sort
   end
 
