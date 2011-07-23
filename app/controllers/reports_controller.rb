@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -24,8 +24,8 @@ class ReportsController < ApplicationController
     @versions = @project.shared_versions.sort
     @priorities = IssuePriority.all
     @categories = @project.issue_categories
-    @assignees = @project.members.collect { |m| m.user }.sort
-    @authors = @project.members.collect { |m| m.user }.sort
+    @assignees = (Setting.issue_group_assignment? ? @project.principals : @project.users).sort
+    @authors = @project.users.sort
     @subprojects = @project.descendants.visible
 
     @issues_by_tracker = Issue.by_tracker(@project)
@@ -63,12 +63,12 @@ class ReportsController < ApplicationController
       @report_title = l(:field_category)
     when "assigned_to"
       @field = "assigned_to_id"
-      @rows = @project.members.collect { |m| m.user }.sort
+      @rows = (Setting.issue_group_assignment? ? @project.principals : @project.users).sort
       @data = Issue.by_assigned_to(@project)
       @report_title = l(:field_assigned_to)
     when "author"
       @field = "author_id"
-      @rows = @project.members.collect { |m| m.user }.sort
+      @rows = @project.users.sort
       @data = Issue.by_author(@project)
       @report_title = l(:field_author)
     when "subproject"

@@ -1019,3 +1019,4 @@ sv:
   enumeration_system_activity: Systemaktivitet
   notice_issue_successful_create: Issue %{id} created.
   label_between: between
+  setting_issue_group_assignment: Allow issue assignment to groups

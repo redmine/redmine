@@ -17,7 +17,7 @@
 
 class IssueCategory < ActiveRecord::Base
   belongs_to :project
-  belongs_to :assigned_to, :class_name => 'User', :foreign_key => 'assigned_to_id'
+  belongs_to :assigned_to, :class_name => 'Principal', :foreign_key => 'assigned_to_id'
   has_many :issues, :foreign_key => 'category_id', :dependent => :nullify
   
   validates_presence_of :name

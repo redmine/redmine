@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -22,6 +22,19 @@ class IssueCategoryTest < ActiveSupport::TestCase
 
   def setup
     @category = IssueCategory.find(1)
+  end
+  
+  def test_create
+    assert IssueCategory.new(:project_id => 2, :name => 'New category').save
+    category = IssueCategory.first(:order => 'id DESC')
+    assert_equal 'New category', category.name
+  end
+  
+  def test_create_with_group_assignment
+    assert IssueCategory.new(:project_id => 2, :name => 'Group assignment', :assigned_to_id => 11).save
+    category = IssueCategory.first(:order => 'id DESC')
+    assert_kind_of Group, category.assigned_to
+    assert_equal Group.find(11), category.assigned_to
   end
   
   def test_destroy

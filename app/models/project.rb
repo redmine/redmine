@@ -426,9 +426,10 @@ class Project < ActiveRecord::Base
     Member.delete_all(['project_id = ?', id])
   end
   
-  # Users issues can be assigned to
+  # Users/groups issues can be assigned to
   def assignable_users
-    members.select {|m| m.roles.detect {|role| role.assignable?}}.collect {|m| m.user}.sort
+    assignable = Setting.issue_group_assignment? ? member_principals : members
+    assignable.select {|m| m.roles.detect {|role| role.assignable?}}.collect {|m| m.principal}.sort
   end
   
   # Returns the mail adresses of users that should be always notified on project events

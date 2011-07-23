@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2009  Jean-Philippe Lang
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -73,5 +73,15 @@ class GroupTest < ActiveSupport::TestCase
     assert User.find(8).member_of?(Project.find(5))
     User.find(8).groups.clear
     assert !User.find(8).member_of?(Project.find(5))
+  end
+  
+  def test_destroy_should_unassign_issues
+    group = Group.first
+    Issue.update_all(["assigned_to_id = ?", group.id], 'id = 1')
+    
+    assert group.destroy
+    assert group.destroyed?
+    
+    assert_equal nil, Issue.find(1).assigned_to_id
   end
 end

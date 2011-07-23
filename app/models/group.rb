@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2009  Jean-Philippe Lang
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -24,10 +24,14 @@ class Group < Principal
   validates_presence_of :lastname
   validates_uniqueness_of :lastname, :case_sensitive => false
   validates_length_of :lastname, :maximum => 30
-    
+  
+  before_destroy :remove_references_before_destroy
+  
   def to_s
     lastname.to_s
   end
+  
+  alias :name :to_s
   
   def user_added(user)
     members.each do |member|
@@ -45,5 +49,14 @@ class Group < Principal
       MemberRole.find(:all, :include => :member,
                             :conditions => ["#{Member.table_name}.user_id = ? AND #{MemberRole.table_name}.inherited_from IN (?)", user.id, member.member_role_ids]).each(&:destroy)
     end
+  end
+  
+  private
+  
+  # Removes references that are not handled by associations
+  def remove_references_before_destroy
+    return if self.id.nil?
+    
+    Issue.update_all 'assigned_to_id = NULL', ['assigned_to_id = ?', id]
   end
 end

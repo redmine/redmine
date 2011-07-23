@@ -371,6 +371,7 @@ fr:
   setting_commit_logtime_enabled: Permettre la saisie de temps
   setting_commit_logtime_activity_id: Activité pour le temps saisi
   setting_gantt_items_limit: Nombre maximum d'éléments affichés sur le gantt
+  setting_issue_group_assignment: Permettre l'assignement des demandes aux groupes
   
   permission_add_project: Créer un projet
   permission_add_subprojects: Créer des sous-projets
