@@ -101,6 +101,16 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
           }
       end
     end
+    
+    context "with invalid query params" do
+      should "return errors" do
+        get '/issues.xml', {:f => ['start_date'], :op => {:start_date => '='}}
+        
+        assert_response :unprocessable_entity
+        assert_equal 'application/xml', @response.content_type
+        assert_tag 'errors', :child => {:tag => 'error', :content => "Start date can't be blank"}
+      end
+    end
   end
 
   context "/index.json" do
