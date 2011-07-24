@@ -510,7 +510,7 @@ class Query < ActiveRecord::Base
 
   # Returns the issue count
   def issue_count
-    Issue.count(:include => [:status, :project], :conditions => statement)
+    Issue.visible.count(:include => [:status, :project], :conditions => statement)
   rescue ::ActiveRecord::StatementInvalid => e
     raise StatementInvalid.new(e.message)
   end

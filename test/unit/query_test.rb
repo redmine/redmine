@@ -471,7 +471,21 @@ class QueryTest < ActiveSupport::TestCase
       q.issues(:conditions => "foo = 1")
     end
   end
-  
+
+  def test_issue_count
+    q = Query.new(:name => '_')
+    issue_count = q.issue_count
+    assert_equal q.issues.size, issue_count
+  end
+
+  def test_issue_count_with_archived_issues
+    p = Project.generate!( :status => Project::STATUS_ARCHIVED )
+    i = Issue.generate!( :project => p, :tracker => p.trackers.first )
+    assert !i.visible?
+
+    test_issue_count
+  end
+
   def test_issue_count_by_association_group
     q = Query.new(:name => '_', :group_by => 'assigned_to')
     count_by_group = q.issue_count_by_group
