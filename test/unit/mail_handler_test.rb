@@ -307,7 +307,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
 
-  def test_add_issue_note
+  def test_update_issue
     journal = submit_email('ticket_reply.eml')
     assert journal.is_a?(Journal)
     assert_equal User.find_by_login('jsmith'), journal.user
@@ -316,7 +316,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 'Feature request', journal.issue.tracker.name
   end
 
-  def test_add_issue_note_with_attribute_changes
+  def test_update_issue_with_attribute_changes
     # This email contains: 'Status: Resolved'
     journal = submit_email('ticket_reply_with_status.eml')
     assert journal.is_a?(Journal)
@@ -334,15 +334,36 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert !journal.notes.match(/^Status:/i)
     assert !journal.notes.match(/^Start Date:/i)
   end
+  
+  def test_update_issue_with_attachment
+    assert_difference 'Journal.count' do
+      assert_difference 'JournalDetail.count' do
+        assert_difference 'Attachment.count' do
+          assert_no_difference 'Issue.count' do
+            journal = submit_email('ticket_with_attachment.eml') do |raw|
+              raw.gsub! /^Subject: .*$/, 'Subject: Re: [Cookbook - Feature #2] (New) Add ingredients categories'
+            end
+          end
+        end
+      end
+    end
+    journal = Journal.first(:order => 'id DESC')
+    assert_equal Issue.find(2), journal.journalized
+    assert_equal 1, journal.details.size
+    
+    detail = journal.details.first
+    assert_equal 'attachment', detail.property
+    assert_equal 'Paella.jpg', detail.value
+  end
 
-  def test_add_issue_note_should_send_email_notification
+  def test_update_issue_should_send_email_notification
     ActionMailer::Base.deliveries.clear
     journal = submit_email('ticket_reply.eml')
     assert journal.is_a?(Journal)
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
 
-  def test_add_issue_note_should_not_set_defaults
+  def test_update_issue_should_not_set_defaults
     journal = submit_email('ticket_reply.eml', :issue => {:tracker => 'Support request', :priority => 'High'})
     assert journal.is_a?(Journal)
     assert_match /This is reply/, journal.notes

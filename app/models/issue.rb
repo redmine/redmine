@@ -35,7 +35,7 @@ class Issue < ActiveRecord::Base
   has_many :relations_to, :class_name => 'IssueRelation', :foreign_key => 'issue_to_id', :dependent => :delete_all
 
   acts_as_nested_set :scope => 'root_id', :dependent => :destroy
-  acts_as_attachable :after_remove => :attachment_removed
+  acts_as_attachable :after_add => :attachment_added, :after_remove => :attachment_removed
   acts_as_customizable
   acts_as_watchable
   acts_as_searchable :columns => ['subject', "#{table_name}.description", "#{Journal.table_name}.notes"],
@@ -612,8 +612,6 @@ class Issue < ActiveRecord::Base
 
       if valid?
         attachments = Attachment.attach_files(self, params[:attachments])
-
-        attachments[:files].each {|a| @current_journal.details << JournalDetail.new(:property => 'attachment', :prop_key => a.id, :value => a.filename)}
         # TODO: Rename hook
         Redmine::Hook.call_hook(:controller_issues_edit_before_save, { :params => params, :issue => self, :time_entry => @time_entry, :journal => @current_journal})
         begin
@@ -840,6 +838,13 @@ class Issue < ActiveRecord::Base
         issue.fixed_version = nil
         issue.save
       end
+    end
+  end
+  
+  # Callback on attachment deletion
+  def attachment_added(obj)
+    if @current_journal && !obj.new_record?
+      @current_journal.details << JournalDetail.new(:property => 'attachment', :prop_key => obj.id, :value => obj.filename)
     end
   end
 
