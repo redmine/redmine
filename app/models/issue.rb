@@ -508,7 +508,17 @@ class Issue < ActiveRecord::Base
   end
 
   def relations
-    (relations_from + relations_to).sort
+    @relations ||= (relations_from + relations_to).sort
+  end
+  
+  # Preloads relations for a collection of issues
+  def self.load_relations(issues)
+    if issues.any?
+      relations = IssueRelation.all(:conditions => ["issue_from_id IN (:ids) OR issue_to_id IN (:ids)", {:ids => issues.map(&:id)}])
+      issues.each do |issue|
+        issue.instance_variable_set "@relations", relations.select {|r| r.issue_from_id == issue.id || r.issue_to_id == issue.id}
+      end
+    end
   end
   
   # Finds an issue relation given its id.

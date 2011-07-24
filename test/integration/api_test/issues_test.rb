@@ -47,7 +47,7 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
     Setting.rest_api_enabled = '1'
   end
 
-  context "/index.xml" do
+  context "/issues" do
     # Use a private project to make sure auth is really working and not just
     # only showing public issues.
     should_allow_api_authentication(:get, "/projects/private-child/issues.xml")
@@ -99,6 +99,25 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
             :limit => nil,
             :offset => nil
           }
+      end
+    end
+    
+    context "with relations" do
+      should "display relations" do
+        get '/issues.xml?include=relations'
+        
+        assert_response :success
+        assert_equal 'application/xml', @response.content_type
+        assert_tag 'relations',
+          :parent => {:tag => 'issue', :child => {:tag => 'id', :content => '3'}},
+          :children => {:count => 1},
+          :child => {
+            :tag => 'relation',
+            :attributes => {:id => '2', :issue_id => '2', :issue_to_id => '3', :relation_type => 'relates'}
+          }
+        assert_tag 'relations',
+          :parent => {:tag => 'issue', :child => {:tag => 'id', :content => '1'}},
+          :children => {:count => 0}
       end
     end
     
