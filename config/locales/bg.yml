@@ -374,6 +374,7 @@ bg:
   setting_commit_logtime_enabled: Разрешаване на отчитането на работното време
   setting_commit_logtime_activity_id: Дейност при отчитане на работното време
   setting_gantt_items_limit: Максимален брой обекти, които да се показват в мрежов график
+  setting_issue_group_assignment: Разрешено назначаването на задачи на групи
   
   permission_add_project: Създаване на проект
   permission_add_subprojects: Създаване на подпроекти
@@ -977,4 +978,4 @@ bg:
   enumeration_doc_categories: Категории документи
   enumeration_activities: Дейности (time tracking)
   enumeration_system_activity: Системна активност
-  setting_issue_group_assignment: Allow issue assignment to groups
+
