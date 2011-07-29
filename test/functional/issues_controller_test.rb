@@ -755,6 +755,31 @@ class IssuesControllerTest < ActionController::TestCase
     end
   end
 
+  def test_post_create_with_attachment
+    set_tmp_attachments_directory
+    @request.session[:user_id] = 2
+    
+    assert_difference 'Issue.count' do
+      assert_difference 'Attachment.count' do
+        post :create, :project_id => 1, 
+          :issue => { :tracker_id => '1', :subject => 'With attachment' },
+          :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain'), 'description' => 'test file'}}
+      end
+    end
+    
+    issue = Issue.first(:order => 'id DESC')
+    attachment = Attachment.first(:order => 'id DESC')
+    
+    assert_equal issue, attachment.container
+    assert_equal 2, attachment.author_id
+    assert_equal 'testfile.txt', attachment.filename
+    assert_equal 'text/plain', attachment.content_type
+    assert_equal 'test file', attachment.description
+    assert_equal 59, attachment.filesize
+    assert File.exists?(attachment.diskfile)
+    assert_equal 59, File.size(attachment.diskfile)
+  end
+
   context "without workflow privilege" do
     setup do
       Workflow.delete_all(["role_id = ?", Role.anonymous.id])
@@ -1092,16 +1117,28 @@ class IssuesControllerTest < ActionController::TestCase
     Journal.delete_all
 
     # anonymous user
-    put :update,
-         :id => 1,
-         :notes => '',
-         :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
+    assert_difference 'Attachment.count' do
+      put :update, :id => 1,
+        :notes => '',
+        :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain'), 'description' => 'test file'}}
+    end
+    
     assert_redirected_to :action => 'show', :id => '1'
     j = Issue.find(1).journals.find(:first, :order => 'id DESC')
     assert j.notes.blank?
     assert_equal 1, j.details.size
     assert_equal 'testfile.txt', j.details.first.value
     assert_equal User.anonymous, j.user
+    
+    attachment = Attachment.first(:order => 'id DESC')
+    assert_equal Issue.find(1), attachment.container
+    assert_equal User.anonymous, attachment.author
+    assert_equal 'testfile.txt', attachment.filename
+    assert_equal 'text/plain', attachment.content_type
+    assert_equal 'test file', attachment.description
+    assert_equal 59, attachment.filesize
+    assert File.exists?(attachment.diskfile)
+    assert_equal 59, File.size(attachment.diskfile)
 
     mail = ActionMailer::Base.deliveries.last
     assert mail.body.include?('testfile.txt')
