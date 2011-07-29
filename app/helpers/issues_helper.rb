@@ -206,7 +206,7 @@ module IssuesHelper
     unless no_html
       label = content_tag('strong', label)
       old_value = content_tag("i", h(old_value)) if detail.old_value
-      old_value = content_tag("strike", old_value) if detail.old_value and (!detail.value or detail.value.empty?)
+      old_value = content_tag("strike", old_value) if detail.old_value and detail.value.blank?
       if detail.property == 'attachment' && !value.blank? && a = Attachment.find_by_id(detail.prop_key)
         # Link to the attachment if it has not been removed
         value = link_to_attachment(a)
