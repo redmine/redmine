@@ -455,6 +455,7 @@
   setting_commit_logtime_enabled: 啟用認可中的時間記錄
   setting_commit_logtime_activity_id: 時間記錄對應的活動
   setting_gantt_items_limit: 甘特圖中項目顯示數量的最大值
+  setting_issue_group_assignment: 允許問題被指派至群組
   
   permission_add_project: 建立專案
   permission_add_subprojects: 建立子專案
