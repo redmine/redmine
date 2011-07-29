@@ -74,7 +74,7 @@ class Attachment < ActiveRecord::Base
   # and computes its MD5 hash
   def before_save
     if @temp_file && (@temp_file.size > 0)
-      logger.debug("saving '#{self.diskfile}'")
+      logger.info("Saving attachment '#{self.diskfile}' (#{@temp_file.size} bytes)")
       md5 = Digest::MD5.new
       File.open(diskfile, "wb") do |f|
         buffer = ""
@@ -85,6 +85,7 @@ class Attachment < ActiveRecord::Base
       end
       self.digest = md5.hexdigest
     end
+    @temp_file = nil
     # Don't save the content type if it's longer than the authorized length
     if self.content_type && self.content_type.length > 255
       self.content_type = nil

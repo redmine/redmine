@@ -36,6 +36,7 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal 0, a.downloads
     assert_equal '1478adae0d4eb06d35897518540e25d6', a.digest
     assert File.exist?(a.diskfile)
+    assert_equal 59, File.size(a.diskfile)
   end
 
   def test_create_should_auto_assign_content_type
@@ -64,7 +65,27 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal 'cbb5b0f30978ba03731d61f9f6d10011', Attachment.disk_filename("test_accentué.ça")[13..-1]
   end
 
-  context "Attachmnet#attach_files" do
+  context "Attachmnet.attach_files" do
+    should "attach the file" do
+      issue = Issue.first
+      assert_difference 'Attachment.count' do
+        Attachment.attach_files(issue,
+          '1' => {
+            'file' => uploaded_test_file('testfile.txt', 'text/plain'),
+            'description' => 'test'
+          })
+      end
+      
+      attachment = Attachment.first(:order => 'id DESC')
+      assert_equal issue, attachment.container
+      assert_equal 'testfile.txt', attachment.filename
+      assert_equal 59, attachment.filesize
+      assert_equal 'test', attachment.description
+      assert_equal 'text/plain', attachment.content_type
+      assert File.exists?(attachment.diskfile)
+      assert_equal 59, File.size(attachment.diskfile)
+    end
+    
     should "add unsaved files to the object as unsaved attachments" do
       # Max size of 0 to force Attachment creation failures
       with_settings(:attachment_max_size => 0) do
