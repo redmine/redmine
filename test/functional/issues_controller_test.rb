@@ -354,6 +354,18 @@ class IssuesControllerTest < ActionController::TestCase
     assert_no_tag :option, :attributes => {:value => '15'},
                            :parent => {:tag => 'select', :attributes => {:id => 'issue_priority_id'} }
   end
+  
+  def test_update_form_should_allow_attachment_upload
+    @request.session[:user_id] = 2
+    get :show, :id => 1
+    
+    assert_tag :tag => 'form',
+      :attributes => {:id => 'issue-form', :method => 'post', :enctype => 'multipart/form-data'},
+      :descendant => {
+        :tag => 'input',
+        :attributes => {:type => 'file', :name => 'attachments[1][file]'}
+      }
+  end
 
   def test_show_should_deny_anonymous_access_without_permission
     Role.anonymous.remove_permission!(:view_issues)
@@ -461,6 +473,18 @@ class IssuesControllerTest < ActionController::TestCase
     assert ! IssuePriority.find(15).active?
     assert_no_tag :option, :attributes => {:value => '15'},
                            :parent => {:tag => 'select', :attributes => {:id => 'issue_priority_id'} }
+  end
+  
+  def test_get_new_form_should_allow_attachment_upload
+    @request.session[:user_id] = 2
+    get :new, :project_id => 1, :tracker_id => 1
+    
+    assert_tag :tag => 'form',
+      :attributes => {:id => 'issue-form', :method => 'post', :enctype => 'multipart/form-data'},
+      :descendant => {
+        :tag => 'input',
+        :attributes => {:type => 'file', :name => 'attachments[1][file]'}
+      }
   end
 
   def test_get_new_without_tracker_id
