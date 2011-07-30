@@ -14,7 +14,7 @@
 		<a href="#" class="submenu" onclick="return false;"><%= l(:field_status) %></a>
 		<ul>
 		<% @statuses.each do |s| -%>
-		    <li><%= context_menu_link s.name, {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), :issue => {:status_id => s}, :back_url => @back}, :method => :post,
+		    <li><%= context_menu_link h(s.name), {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), :issue => {:status_id => s}, :back_url => @back}, :method => :post,
 		                              :selected => (@issue && s == @issue.status), :disabled => !(@can[:update] && @allowed_statuses.include?(s)) %></li>
 		<% end -%>
 		</ul>
@@ -26,7 +26,7 @@
 		<a href="#" class="submenu"><%= l(:field_tracker) %></a>
 		<ul>
 		<% @trackers.each do |t| -%>
-		    <li><%= context_menu_link t.name, {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), :issue => {'tracker_id' => t}, :back_url => @back}, :method => :post,
+		    <li><%= context_menu_link h(t.name), {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), :issue => {'tracker_id' => t}, :back_url => @back}, :method => :post,
 		                              :selected => (@issue && t == @issue.tracker), :disabled => !@can[:edit] %></li>
 		<% end -%>
 		</ul>
@@ -37,7 +37,7 @@
 		<a href="#" class="submenu"><%= l(:field_priority) %></a>
 		<ul>
 		<% @priorities.each do |p| -%>
-		    <li><%= context_menu_link p.name, {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), :issue => {'priority_id' => p}, :back_url => @back}, :method => :post,
+		    <li><%= context_menu_link h(p.name), {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), :issue => {'priority_id' => p}, :back_url => @back}, :method => :post,
 		                              :selected => (@issue && p == @issue.priority), :disabled => (!@can[:edit] || @issues.detect {|i| !i.leaf?}) %></li>
 		<% end -%>
 		</ul>
@@ -62,7 +62,7 @@
 		<a href="#" class="submenu"><%= l(:field_assigned_to) %></a>
 		<ul>
 		<% @assignables.each do |u| -%>
-		    <li><%= context_menu_link u.name, {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), :issue => {'assigned_to_id' => u}, :back_url => @back}, :method => :post,
+		    <li><%= context_menu_link h(u.name), {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), :issue => {'assigned_to_id' => u}, :back_url => @back}, :method => :post,
 		                              :selected => (@issue && u == @issue.assigned_to), :disabled => !@can[:update] %></li>
 		<% end -%>
 		    <li><%= context_menu_link l(:label_nobody), {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), :issue => {'assigned_to_id' => 'none'}, :back_url => @back}, :method => :post,
@@ -75,7 +75,7 @@
 		<a href="#" class="submenu"><%= l(:field_category) %></a>
 		<ul>
 		<% @project.issue_categories.each do |u| -%>
-		    <li><%= context_menu_link u.name, {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), :issue => {'category_id' => u}, :back_url => @back}, :method => :post,
+		    <li><%= context_menu_link h(u.name), {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), :issue => {'category_id' => u}, :back_url => @back}, :method => :post,
 		                              :selected => (@issue && u == @issue.category), :disabled => !@can[:update] %></li>
 		<% end -%>
 		    <li><%= context_menu_link l(:label_none), {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), :issue => {'category_id' => 'none'}, :back_url => @back}, :method => :post,

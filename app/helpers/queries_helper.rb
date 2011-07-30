@@ -24,7 +24,7 @@ module QueriesHelper
   def column_header(column)
     column.sortable ? sort_header_tag(column.name.to_s, :caption => column.caption,
                                                         :default_order => column.default_order) : 
-                      content_tag('th', column.caption)
+                      content_tag('th', h(column.caption))
   end
   
   def column_content(column, issue)

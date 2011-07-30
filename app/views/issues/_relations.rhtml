@@ -16,7 +16,7 @@
     <%= h(relation.other_issue(@issue).project) + ' - ' if Setting.cross_project_issue_relations? %>
     <%= link_to_issue(relation.other_issue(@issue), :truncate => 60) %>
 </td>
-<td class="status"><%= relation.other_issue(@issue).status.name %></td>
+<td class="status"><%=h relation.other_issue(@issue).status.name %></td>
 <td class="start_date"><%= format_date(relation.other_issue(@issue).start_date) %></td>
 <td class="due_date"><%= format_date(relation.other_issue(@issue).due_date) %></td>
 <td class="buttons"><%= link_to_remote(image_tag('link_break.png'), { :url => {:controller => 'issue_relations', :action => 'destroy', :id => relation},                                              
