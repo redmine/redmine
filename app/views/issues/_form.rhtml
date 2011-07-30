@@ -3,7 +3,7 @@
 <div id="issue_descr_fields" <%= 'style="display:none"' unless @issue.new_record? || @issue.errors.any? %>>
 <% if @issue.safe_attribute_names.include?('is_private') %>
 <p style="float:right; margin-right:1em;">
-  <label class="inline" for="issue_is_private"><%= f.check_box :is_private, :no_label => true %> <%= l(:field_is_private) %></label>
+  <label class="inline" for="issue_is_private" id="issue_is_private_label"><%= f.check_box :is_private, :no_label => true %> <%= l(:field_is_private) %></label>
 </p>
 <% end %>
 <p><%= f.select :tracker_id, @project.trackers.collect {|t| [t.name, t.id]}, :required => true %></p>
