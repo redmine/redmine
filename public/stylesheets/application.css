@@ -294,6 +294,10 @@ fieldset#date-range p { margin: 2px 0 2px 0; }
 fieldset#filters table { border-collapse: collapse; }
 fieldset#filters table td { padding: 0; vertical-align: middle; }
 fieldset#filters tr.filter { height: 2em; }
+fieldset#filters td.field { width:200px; }
+fieldset#filters td.operator { width:170px; }
+fieldset#filters td.values { white-space:nowrap; }
+fieldset#filters td.values img { vertical-align: bottom; }
 fieldset#filters td.add-filter { text-align: right; vertical-align: top; }
 .buttons { font-size: 0.9em; margin-bottom: 1.4em; margin-top: 1em; }
 

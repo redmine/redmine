@@ -109,20 +109,20 @@ Event.observe(document,"dom:loaded", apply_filters_observer);
     <% field = filter[0]
        options = filter[1] %>
     <tr <%= 'style="display:none;"' unless query.has_filter?(field) %> id="tr_<%= field %>" class="filter">
-    <td style="width:200px;">
+    <td class="field">
         <%= check_box_tag 'f[]', field, query.has_filter?(field), :onclick => "toggle_filter('#{field}');", :id => "cb_#{field}" %>
         <label for="cb_<%= field %>"><%= filter[1][:name] || l(("field_"+field.to_s.gsub(/\_id$/, "")).to_sym) %></label>
     </td>
-    <td style="width:170px;">
-        <%= select_tag "op[#{field}]", options_for_select(operators_for_select(options[:type]), query.operator_for(field)), :id => "operators_#{field}", :onchange => "toggle_operator('#{field}');", :style => "vertical-align: top;" %>
+    <td class="operator">
+        <%= select_tag "op[#{field}]", options_for_select(operators_for_select(options[:type]), query.operator_for(field)), :id => "operators_#{field}", :onchange => "toggle_operator('#{field}');" %>
     </td>
-    <td>    
+    <td class="values">    
     <div id="div_values_<%= field %>" style="display:none;">
     <% case options[:type]
     when :list, :list_optional, :list_status, :list_subprojects %>
         <span class="span_values_<%= field %>">
         	<%= select_tag "v[#{field}][]", options_for_select(options[:values], query.values_for(field)), :class => "values_#{field}", :id => "values_#{field}_1", :multiple => (query.values_for(field) && query.values_for(field).length > 1) %>
-          <%= link_to_function image_tag('bullet_toggle_plus.png'), "toggle_multi_select('values_#{field}_1');", :style => "vertical-align: bottom;" %>
+          <%= link_to_function image_tag('bullet_toggle_plus.png'), "toggle_multi_select('values_#{field}_1');" %>
         </span>
     <% when :date, :date_past %>
         <span class="span_values_<%= field %>"><%= text_field_tag "v[#{field}][]", query.value_for(field), :size => 10, :class => "values_#{field}", :id => "values_#{field}_1" %> <%= calendar_for "values_#{field}_1" %></span>
