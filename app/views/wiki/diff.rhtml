@@ -4,7 +4,7 @@
 
 <%= wiki_page_breadcrumb(@page) %>
 
-<h2><%=h @page.pretty_title %></h2>
+<h2><%=h h(@page.pretty_title) %></h2>
 
 <p>
 <%= l(:label_version) %> <%= link_to @diff.content_from.version, :action => 'show', :id => @page.title, :project_id => @page.project, :version => @diff.content_from.version %>
