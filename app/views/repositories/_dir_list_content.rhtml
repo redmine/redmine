@@ -23,7 +23,7 @@
 <% if @repository.report_last_commit %>
 <td class="revision"><%= link_to_revision(changeset, @project) if changeset %></td>
 <td class="age"><%= distance_of_time_in_words(entry.lastrev.time, Time.now) if entry.lastrev && entry.lastrev.time %></td>
-<td class="author"><%= changeset.nil? ? h(Redmine::CodesetUtil.replace_invalid_utf8(entry.lastrev.author.to_s.split('<').first)) : changeset.author if entry.lastrev %></td>
+<td class="author"><%= changeset.nil? ? h(Redmine::CodesetUtil.replace_invalid_utf8(entry.lastrev.author.to_s.split('<').first)) : h(changeset.author) if entry.lastrev %></td>
 <td class="comments"><%=h truncate(changeset.comments, :length => 50) unless changeset.nil? %></td>
 <% end %>
 </tr>
