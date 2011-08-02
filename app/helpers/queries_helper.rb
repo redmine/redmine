@@ -45,7 +45,7 @@ module QueriesHelper
       if column.name == :done_ratio
         progress_bar(value, :width => '80px')
       else
-        value.to_s
+        h(value.to_s)
       end
     when 'User'
       link_to_user value
