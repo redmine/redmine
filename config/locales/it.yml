@@ -977,6 +977,6 @@ it:
   label_git_report_last_commit: Riporta l'ultimo commit per files e directories
   text_scm_config: Puoi configurare i comandi scm nel file config/configuration.yml. E' necessario riavviare l'applicazione dopo averlo modificato.
   text_scm_command_not_available: Il comando scm non è disponibile. Controllare le impostazioni nel pannello di amministrazione.
-  notice_issue_successful_create: Issue %{id} created.
-  label_between: between
-  setting_issue_group_assignment: Allow issue assignment to groups
+  notice_issue_successful_create: Segnalazione %{id} creata.
+  label_between: tra
+  setting_issue_group_assignment: Permetti di assegnare una segnalazione a gruppi
