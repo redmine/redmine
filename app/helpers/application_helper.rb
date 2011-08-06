@@ -353,7 +353,10 @@ module ApplicationHelper
 
     html = ''
     if paginator.current.previous
-      html << link_to_content_update('&#171; ' + l(:label_previous), url_param.merge(page_param => paginator.current.previous)) + ' '
+      # \xc2\xab(utf-8) = &#171;
+      html << link_to_content_update(
+                   "\xc2\xab " + l(:label_previous),
+                   url_param.merge(page_param => paginator.current.previous)) + ' '
     end
 
     html << (pagination_links_each(paginator, options) do |n|
@@ -361,7 +364,10 @@ module ApplicationHelper
     end || '')
 
     if paginator.current.next
-      html << ' ' + link_to_content_update((l(:label_next) + ' &#187;'), url_param.merge(page_param => paginator.current.next))
+      # \xc2\xbb(utf-8) = &#187;
+      html << ' ' + link_to_content_update(
+                      (l(:label_next) + " \xc2\xbb"),
+                      url_param.merge(page_param => paginator.current.next))
     end
 
     unless count.nil?
