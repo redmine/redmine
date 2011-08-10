@@ -212,6 +212,7 @@ sv:
   notice_unable_delete_time_entry: Tidloggning kunde inte tas bort.
   notice_issue_done_ratios_updated: "% klart uppdaterade."
   notice_gantt_chart_truncated: "Schemat förminskades eftersom det överskrider det maximala antalet aktiviteter som får visas (%{max})"
+  notice_issue_successful_create: Ärende %{id} skapades.
   
   error_can_t_load_default_data: "Standardkonfiguration gick inte att läsa in: %{value}"
   error_scm_not_found: "Inlägg och/eller revision finns inte i detta versionsarkiv."
@@ -415,6 +416,7 @@ sv:
   setting_commit_logtime_enabled: Aktivera tidloggning
   setting_commit_logtime_activity_id: Aktivitet för loggad tid
   setting_gantt_items_limit: Maximalt antal aktiviteter som visas i gantt-schemat
+  setting_issue_group_assignment: Tillåt att ärenden tilldelas till grupper
   
   permission_add_project: Skapa projekt
   permission_add_subprojects: Skapa underprojekt
@@ -664,6 +666,7 @@ sv:
   label_in_more_than: om mer än
   label_greater_or_equal: '>='
   label_less_or_equal: '<='
+  label_between: mellan
   label_in: om
   label_today: idag
   label_all_time: närsom
@@ -1017,6 +1020,3 @@ sv:
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
   enumeration_system_activity: Systemaktivitet
-  notice_issue_successful_create: Issue %{id} created.
-  label_between: between
-  setting_issue_group_assignment: Allow issue assignment to groups
