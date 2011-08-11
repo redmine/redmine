@@ -881,11 +881,11 @@ ja:
   button_quote: 引用
   button_duplicate: 複製
   button_show: 表示
-  
+
   status_active: 有効
   status_registered: 登録
   status_locked: ロック
-  
+
   version_status_open: 進行中
   version_status_locked: ロック中
   version_status_closed: 終了
@@ -982,7 +982,7 @@ ja:
   default_priority_immediate: 今すぐ
   default_activity_design: 設計作業
   default_activity_development: 開発作業
-  
+
   enumeration_issue_priorities: チケットの優先度
   enumeration_doc_categories: 文書カテゴリ
   enumeration_activities: 作業分類 (時間トラッキング)
