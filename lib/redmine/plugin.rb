@@ -72,12 +72,12 @@ module Redmine #:nodoc:
       ::I18n.load_path += Dir.glob(File.join(Rails.root, 'vendor', 'plugins', id.to_s, 'config', 'locales', '*.yml'))
       registered_plugins[id] = p
     end
-    
-    # Returns an array off all registered plugins
+
+    # Returns an array of all registered plugins
     def self.all
       registered_plugins.values.sort
     end
-    
+
     # Finds a plugin by its id
     # Returns a PluginNotFound exception if the plugin doesn't exist
     def self.find(id)
