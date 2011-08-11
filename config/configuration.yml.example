@@ -89,7 +89,7 @@ default:
       authentication: :login
       user_name: "redmine@example.net"
       password: "redmine"
-  
+
   # Absolute path to the directory where attachments are stored.
   # The default is the 'files' directory in your Redmine instance.
   # Your Redmine instance needs to have write permission on this
@@ -98,7 +98,7 @@ default:
   # attachments_storage_path: /var/redmine/files
   # attachments_storage_path: D:/redmine/files
   attachments_storage_path:
-  
+
   # Configuration of the autologin cookie.
   # autologin_cookie_name: the name of the cookie (default: autologin)
   # autologin_cookie_path: the cookie path (default: /)
@@ -106,7 +106,7 @@ default:
   autologin_cookie_name:
   autologin_cookie_path:
   autologin_cookie_secure:
-  
+
   # Configuration of SCM executable command.
   # Absolute path (e.g. /usr/local/bin/hg) or command name (e.g. hg.exe, bzr.exe)
   # On Windows, *.cmd, *.bat (e.g. hg.cmd, bzr.bat) does not work.
@@ -123,7 +123,7 @@ default:
   scm_cvs_command:
   scm_bazaar_command:
   scm_darcs_command:
-  
+
   # Key used to encrypt sensitive data in the database (SCM and LDAP passwords).
   # If you don't want to enable data encryption, just leave it blank.
   # WARNING: losing/changing this key will make encrypted data unreadable.
@@ -136,8 +136,8 @@ default:
   # * decrypt data using 'rake db:decrypt RAILS_ENV=production' first
   # * change the cipher key here in your configuration file
   # * encrypt data using 'rake db:encrypt RAILS_ENV=production'
-  database_cipher_key: 
-  
+  database_cipher_key:
+
 # specific configuration options for production environment
 # that overrides the default ones
 production:
