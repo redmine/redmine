@@ -1089,7 +1089,7 @@ ru:
   label_git_report_last_commit: Указывать последнее изменения для файлов и директорий
   text_scm_config: Вы можете настроить команды SCM в файле config/configuration.yml. Пожалуйста, перезапустите приложение после редактирования этого файла.
   text_scm_command_not_available: Команда системы контроля версий недоступна. Пожалуйста, проверьте настройки в административной панели.
-  notice_issue_successful_create: Issue %{id} created.
-  label_between: between
-  setting_issue_group_assignment: Allow issue assignment to groups
+  notice_issue_successful_create: Задача %{id} создана.
+  label_between: между
+  setting_issue_group_assignment: Разрешить назначение задач группам пользователей
   label_diff: diff
