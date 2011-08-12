@@ -980,3 +980,4 @@ it:
   notice_issue_successful_create: Segnalazione %{id} creata.
   label_between: tra
   setting_issue_group_assignment: Permetti di assegnare una segnalazione a gruppi
+  label_diff: diff

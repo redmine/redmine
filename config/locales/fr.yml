@@ -994,3 +994,4 @@ fr:
   label_git_report_last_commit: Afficher le dernier commit des fichiers et répertoires
   text_scm_config: Vous pouvez configurer les commandes des SCM dans config/configuration.yml. Redémarrer l'application après modification.
   text_scm_command_not_available: Ce SCM n'est pas disponible. Vérifier les paramètres dans la section administration.
+  label_diff: diff
