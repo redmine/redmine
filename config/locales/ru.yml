@@ -919,7 +919,7 @@ ru:
   text_enumeration_category_reassign_to: 'Назначить им следующее значение:'
   text_enumeration_destroy_question: "%{count} объект(а,ов) связаны с этим значением."
   text_file_repository_writable: Хранилище с доступом на запись
-  text_issue_added: "По задаче %{id} был создан отчет (%{author})."
+  text_issue_added: "Создана новая задача %{id} (%{author})."
   text_issue_category_destroy_assignments: Удалить назначения категории
   text_issue_category_destroy_question: "Несколько задач (%{count}) назначено в данную категорию. Что Вы хотите предпринять?"
   text_issue_category_reassign_to: Переназначить задачи для данной категории
