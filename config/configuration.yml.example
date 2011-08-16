@@ -108,8 +108,15 @@ default:
   autologin_cookie_secure:
 
   # Configuration of SCM executable command.
+  #
   # Absolute path (e.g. /usr/local/bin/hg) or command name (e.g. hg.exe, bzr.exe)
-  # On Windows, *.cmd, *.bat (e.g. hg.cmd, bzr.bat) does not work.
+  # On Windows + CRuby, *.cmd, *.bat (e.g. hg.cmd, bzr.bat) does not work.
+  #
+  # On Windows + JRuby 1.6.2, path which contains spaces does not work.
+  # For example, "C:\Program Files\TortoiseHg\hg.exe".
+  # If you want to this feature, you need to install to the path which does not contains spaces.
+  # For example, "C:\TortoiseHg\hg.exe".
+  #
   # Examples:
   # scm_subversion_command: svn                                       # (default: svn)
   # scm_mercurial_command:  C:\Program Files\TortoiseHg\hg.exe        # (default: hg)
@@ -117,6 +124,7 @@ default:
   # scm_cvs_command:        cvs                                       # (default: cvs)
   # scm_bazaar_command:     bzr.exe                                   # (default: bzr)
   # scm_darcs_command:      darcs-1.0.9-i386-linux                    # (default: darcs)
+  #
   scm_subversion_command:
   scm_mercurial_command:
   scm_git_command:
