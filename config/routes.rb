@@ -1,16 +1,16 @@
 ActionController::Routing::Routes.draw do |map|
   # Add your own custom routes here.
   # The priority is based upon order of creation: first created -> highest priority.
-  
+
   # Here's a sample route:
   # map.connect 'products/:id', :controller => 'catalog', :action => 'view'
   # Keep in mind you can assign values other than :controller and :action
 
   map.home '', :controller => 'welcome'
-  
+
   map.signin 'login', :controller => 'account', :action => 'login'
   map.signout 'logout', :controller => 'account', :action => 'logout'
-  
+
   map.connect 'roles/workflow/:id/:role_id/:tracker_id', :controller => 'roles', :action => 'workflow'
   map.connect 'help/:ctrl/:page', :controller => 'help'
 
@@ -31,11 +31,11 @@ ActionController::Routing::Routes.draw do |map|
                    :controller => 'context_menus', :action => 'time_entries'
   # TODO: wasteful since this is also nested under issues, projects, and projects/issues
   map.resources :time_entries, :controller => 'timelog'
-  
+
   map.connect 'projects/:id/wiki', :controller => 'wikis', :action => 'edit', :conditions => {:method => :post}
   map.connect 'projects/:id/wiki/destroy', :controller => 'wikis', :action => 'destroy', :conditions => {:method => :get}
   map.connect 'projects/:id/wiki/destroy', :controller => 'wikis', :action => 'destroy', :conditions => {:method => :post}
-  
+
   map.with_options :controller => 'messages' do |messages_routes|
     messages_routes.with_options :conditions => {:method => :get} do |messages_views|
       messages_views.connect 'boards/:board_id/topics/new', :action => 'new'
@@ -48,7 +48,7 @@ ActionController::Routing::Routes.draw do |map|
       messages_actions.connect 'boards/:board_id/topics/:id/:action', :action => /edit|destroy/
     end
   end
-  
+
   map.with_options :controller => 'boards' do |board_routes|
     board_routes.with_options :conditions => {:method => :get} do |board_views|
       board_views.connect 'projects/:project_id/boards', :action => 'index'
@@ -62,7 +62,7 @@ ActionController::Routing::Routes.draw do |map|
       board_actions.connect 'projects/:project_id/boards/:id/:action', :action => /edit|destroy/
     end
   end
-  
+
   map.with_options :controller => 'documents' do |document_routes|
     document_routes.with_options :conditions => {:method => :get} do |document_views|
       document_views.connect 'projects/:project_id/documents', :action => 'index'
@@ -94,7 +94,7 @@ ActionController::Routing::Routes.draw do |map|
     gantts_routes.connect '/projects/:project_id/issues/gantt.:format'
     gantts_routes.connect '/issues/gantt.:format'
   end
-  
+
   map.with_options :controller => 'calendars', :action => 'show' do |calendars_routes|
     calendars_routes.connect '/projects/:project_id/issues/calendar'
     calendars_routes.connect '/issues/calendar'
@@ -108,12 +108,12 @@ ActionController::Routing::Routes.draw do |map|
   # Following two routes conflict with the resources because #index allows POST
   map.connect '/issues', :controller => 'issues', :action => 'index', :conditions => { :method => :post }
   map.connect '/issues/create', :controller => 'issues', :action => 'index', :conditions => { :method => :post }
-  
+
   map.resources :issues, :member => { :edit => :post }, :collection => {} do |issues|
     issues.resources :time_entries, :controller => 'timelog'
     issues.resources :relations, :shallow => true, :controller => 'issue_relations', :only => [:index, :show, :create, :destroy]
   end
-  
+
   map.resources :issues, :path_prefix => '/projects/:project_id', :collection => { :create => :post } do |issues|
     issues.resources :time_entries, :controller => 'timelog'
   end
@@ -122,7 +122,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.with_options :controller => 'users' do |users|
     users.connect 'users/:id/edit/:tab', :action => 'edit', :tab => nil, :conditions => {:method => :get}
-    
+
     users.with_options :conditions => {:method => :post} do |user_actions|
       user_actions.connect 'users/:id/memberships', :action => 'edit_membership'
       user_actions.connect 'users/:id/memberships/:membership_id', :action => 'edit_membership'
@@ -185,7 +185,7 @@ ActionController::Routing::Routes.draw do |map|
       project_views.connect 'projects/:project_id/issues/:copy_from/copy', :controller => 'issues', :action => 'new'
     end
   end
-  
+
   map.with_options :controller => 'activities', :action => 'index', :conditions => {:method => :get} do |activity|
     activity.connect 'projects/:id/activity'
     activity.connect 'projects/:id/activity.:format'
@@ -193,11 +193,10 @@ ActionController::Routing::Routes.draw do |map|
     activity.connect 'activity.:format', :id => nil
   end
 
-    
   map.with_options :controller => 'issue_categories' do |categories|
     categories.connect 'projects/:project_id/issue_categories/new', :action => 'new'
   end
-  
+
   map.with_options :controller => 'repositories' do |repositories|
     repositories.with_options :conditions => {:method => :get} do |repository_views|
       repository_views.connect 'projects/:id/repository', :action => 'show'
@@ -215,17 +214,17 @@ ActionController::Routing::Routes.draw do |map|
       repository_views.connect 'projects/:id/repository/entry/*path', :action => 'entry'
       repository_views.connect 'projects/:id/repository/:action/*path'
     end
-    
+
     repositories.connect 'projects/:id/repository/:action', :conditions => {:method => :post}
   end
-  
+
   map.connect 'attachments/:id', :controller => 'attachments', :action => 'show', :id => /\d+/
   map.connect 'attachments/:id.:format', :controller => 'attachments', :action => 'show', :id => /\d+/
   map.connect 'attachments/:id/:filename', :controller => 'attachments', :action => 'show', :id => /\d+/, :filename => /.*/
   map.connect 'attachments/download/:id/:filename', :controller => 'attachments', :action => 'download', :id => /\d+/, :filename => /.*/
-   
+
   map.resources :groups
-  
+
   #left old routes at the bottom for backwards compat
   map.connect 'projects/:project_id/queries/:action', :controller => 'queries'
   map.connect 'projects/:project_id/issues/:action', :controller => 'issues'
@@ -233,7 +232,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'projects/:project_id/boards/:action/:id', :controller => 'boards'
   map.connect 'boards/:board_id/topics/:action/:id', :controller => 'messages'
   map.connect 'wiki/:id/:page/:action', :page => nil, :controller => 'wiki'
-  map.connect 'projects/:project_id/news/:action', :controller => 'news'  
+  map.connect 'projects/:project_id/news/:action', :controller => 'news'
   map.connect 'projects/:project_id/timelog/:action/:id', :controller => 'timelog', :project_id => /.+/
   map.with_options :controller => 'repositories' do |omap|
     omap.repositories_show 'repositories/browse/:id/*path', :action => 'browse'
@@ -243,12 +242,12 @@ ActionController::Routing::Routes.draw do |map|
     omap.repositories_entry 'repositories/annotate/:id/*path', :action => 'annotate'
     omap.connect 'repositories/revision/:id/:rev', :action => 'revision'
   end
-  
+
   map.with_options :controller => 'sys' do |sys|
     sys.connect 'sys/projects.:format', :action => 'projects', :conditions => {:method => :get}
     sys.connect 'sys/projects/:id/repository.:format', :action => 'create_project_repository', :conditions => {:method => :post}
   end
- 
+
   # Install the default route as the lowest priority.
   map.connect ':controller/:action/:id'
   map.connect 'robots.txt', :controller => 'welcome', :action => 'robots'
