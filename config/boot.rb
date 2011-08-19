@@ -1,6 +1,11 @@
 # Don't change this file!
 # Configure your app in config/environment.rb and config/environments/*.rb
 
+if RUBY_VERSION >= '1.9'
+  require 'yaml'
+  YAML::ENGINE.yamler = 'syck'
+end
+
 RAILS_ROOT = "#{File.dirname(__FILE__)}/.." unless defined?(RAILS_ROOT)
 
 module Rails
