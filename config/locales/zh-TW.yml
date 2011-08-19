@@ -777,6 +777,7 @@
   label_commits_per_month: 依月份統計認可
   label_commits_per_author: 依作者統計認可
   label_view_diff: 檢視差異
+  label_diff: 差異
   label_diff_inline: 直列
   label_diff_side_by_side: 並排
   label_options: 選項清單
@@ -1059,4 +1060,3 @@
   enumeration_doc_categories: 文件分類
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
-  label_diff: diff
