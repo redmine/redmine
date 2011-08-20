@@ -87,7 +87,7 @@ module IssuesHelper
              :class => "issue issue-#{child.id} hascontextmenu #{level > 0 ? "idnt idnt-#{level}" : nil}")
     end
     s << '</form></table>'
-    s
+    s.html_safe
   end
 
   def render_custom_fields_rows(issue)
