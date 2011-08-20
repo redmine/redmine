@@ -157,7 +157,7 @@ class Query < ActiveRecord::Base
       :include => :project
     }
   }
-  
+
   def initialize(attributes = nil)
     super attributes
     self.filters ||= { 'status_id' => {:operator => "o", :values => [""]} }
@@ -172,9 +172,9 @@ class Query < ActiveRecord::Base
     filters.each_key do |field|
       if values_for(field)
         case type_for(field)
-        when :integer 
+        when :integer
           errors.add(label_for(field), :invalid) if values_for(field).detect {|v| v.present? && !v.match(/^\d+$/) }
-        when :float 
+        when :float
           errors.add(label_for(field), :invalid) if values_for(field).detect {|v| v.present? && !v.match(/^\d+(\.\d*)?$/) }
         when :date, :date_past
           case operator_for(field)
@@ -185,7 +185,7 @@ class Query < ActiveRecord::Base
           end
         end
       end
-      
+
       errors.add label_for(field), :blank unless
           # filter requires one or more values
           (values_for(field) and !values_for(field).first.blank?) or
@@ -193,7 +193,7 @@ class Query < ActiveRecord::Base
           ["o", "c", "!*", "*", "t", "w"].include? operator_for(field)
     end if filters
   end
-  
+
   # Returns true if the query is visible to +user+ or the current user.
   def visible?(user=User.current)
     (project.nil? || user.allowed_to?(:view_issues, project)) && (self.is_public? || self.user_id == user.id)
@@ -242,12 +242,12 @@ class Query < ActiveRecord::Base
       end
     end
     users = principals.select {|p| p.is_a?(User)}
-    
+
     assigned_to_values = []
     assigned_to_values << ["<< #{l(:label_me)} >>", "me"] if User.current.logged?
     assigned_to_values += (Setting.issue_group_assignment? ? principals : users).collect{|s| [s.name, s.id.to_s] }
     @available_filters["assigned_to_id"] = { :type => :list_optional, :order => 4, :values => assigned_to_values } unless assigned_to_values.empty?
-    
+
     author_values = []
     author_values << ["<< #{l(:label_me)} >>", "me"] if User.current.logged?
     author_values += users.collect{|s| [s.name, s.id.to_s] }
@@ -324,7 +324,7 @@ class Query < ActiveRecord::Base
   def has_filter?(field)
     filters and filters[field]
   end
-  
+
   def type_for(field)
     available_filters[field][:type] if available_filters.has_key?(field)
   end
@@ -336,7 +336,7 @@ class Query < ActiveRecord::Base
   def values_for(field)
     has_filter?(field) ? filters[field][:values] : nil
   end
-  
+
   def value_for(field, index=0)
     (values_for(field) || [])[index]
   end
@@ -349,7 +349,7 @@ class Query < ActiveRecord::Base
   def available_columns
     return @available_columns if @available_columns
     @available_columns = Query.available_columns
-    @available_columns += (project ? 
+    @available_columns += (project ?
                             project.all_issue_custom_fields :
                             IssueCustomField.find(:all)
                            ).collect {|cf| QueryCustomFieldColumn.new(cf) }
@@ -577,13 +577,13 @@ class Query < ActiveRecord::Base
   rescue ::ActiveRecord::StatementInvalid => e
     raise StatementInvalid.new(e.message)
   end
-  
+
   def sql_for_watcher_id_field(field, operator, value)
     db_table = Watcher.table_name
     "#{Issue.table_name}.id #{ operator == '=' ? 'IN' : 'NOT IN' } (SELECT #{db_table}.watchable_id FROM #{db_table} WHERE #{db_table}.watchable_type='Issue' AND " +
       sql_for_field(field, '=', value, db_table, 'user_id') + ')'
   end
-  
+
   def sql_for_member_of_group_field(field, operator, value)
     if operator == '*' # Any group
       groups = Group.all
@@ -605,7 +605,7 @@ class Query < ActiveRecord::Base
 
     '(' + sql_for_field("assigned_to_id", operator, members_of_groups, Issue.table_name, "assigned_to_id", false) + ')'
   end
-  
+
   def sql_for_assigned_to_role_field(field, operator, value)
     if operator == "*" # Any Role
       roles = Role.givable
@@ -629,14 +629,14 @@ class Query < ActiveRecord::Base
   end
 
   private
-  
+
   def sql_for_custom_field(field, operator, value, custom_field_id)
     db_table = CustomValue.table_name
     db_field = 'value'
     "#{Issue.table_name}.id IN (SELECT #{Issue.table_name}.id FROM #{Issue.table_name} LEFT OUTER JOIN #{db_table} ON #{db_table}.customized_type='Issue' AND #{db_table}.customized_id=#{Issue.table_name}.id AND #{db_table}.custom_field_id=#{custom_field_id} WHERE " +
       sql_for_field(field, operator, value, db_table, db_field, true) + ')'
   end
-  
+
   # Helper method to generate the WHERE sql for a +field+, +operator+ and a +value+
   def sql_for_field(field, operator, value, db_table, db_field, is_custom_filter=false)
     sql = ''
@@ -760,7 +760,7 @@ class Query < ActiveRecord::Base
       @available_filters["cf_#{field.id}"] = options.merge({ :name => field.name })
     end
   end
-  
+
   # Returns a SQL clause for a date or datetime field.
   def date_clause(table, field, from, to)
     s = []
@@ -772,7 +772,7 @@ class Query < ActiveRecord::Base
     end
     s.join(' AND ')
   end
-  
+
   # Returns a SQL clause for a date or datetime field using relative dates.
   def relative_date_clause(table, field, days_from, days_to)
     date_clause(table, field, (days_from ? Date.today + days_from : nil), (days_to ? Date.today + days_to : nil))
