@@ -281,7 +281,7 @@ module ApplicationHelper
       end
       s << ("</li></ul>\n" * ancestors.size)
     end
-    s
+    s.html_safe
   end
 
   def principals_check_box_tags(name, principals)
