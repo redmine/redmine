@@ -233,7 +233,7 @@ module ApplicationHelper
         { :value => url_for(:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item) }
       end
       s << '</select>'
-      s
+      s.html_safe
     end
   end
 
