@@ -291,7 +291,7 @@ module ApplicationHelper
     end
     s
   end
-  
+
   # Returns a string for users/groups option tags
   def principals_options_for_select(collection, selected=nil)
     s = ''
@@ -891,7 +891,7 @@ module ApplicationHelper
   def has_content?(name)
     (@has_content && @has_content[name]) || false
   end
-  
+
   def email_delivery_enabled?
     !!ActionMailer::Base.perform_deliveries
   end
