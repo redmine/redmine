@@ -377,7 +377,7 @@ module ApplicationHelper
       end
     end
 
-    html
+    html.html_safe
   end
 
   def per_page_links(selected=nil)
