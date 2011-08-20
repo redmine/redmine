@@ -289,7 +289,7 @@ module ApplicationHelper
     principals.sort.each do |principal|
       s << "<label>#{ check_box_tag name, principal.id, false } #{h principal}</label>\n"
     end
-    s
+    s.html_safe
   end
 
   # Returns a string for users/groups option tags
