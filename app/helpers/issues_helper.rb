@@ -72,7 +72,7 @@ module IssuesHelper
     end
     s << content_tag('h3', subject)
     s << '</div>' * (ancestors.size + 1)
-    s
+    s.html_safe
   end
 
   def render_descendants_tree(issue)
