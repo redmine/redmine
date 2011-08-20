@@ -518,7 +518,7 @@ module ApplicationHelper
     while tag = tags.pop
       parsed << "</#{tag}>"
     end
-    parsed
+    parsed.html_safe
   end
 
   def parse_inline_attachments(text, project, obj, attr, only_path, options)
