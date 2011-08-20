@@ -209,7 +209,7 @@ module ApplicationHelper
     flash.each do |k,v|
       s << content_tag('div', v, :class => "flash #{k}")
     end
-    s
+    s.html_safe
   end
 
   # Renders tabs and their content
