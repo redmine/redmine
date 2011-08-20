@@ -923,7 +923,7 @@ module ApplicationHelper
   end
 
   def favicon
-    "<link rel='shortcut icon' href='#{image_path('/favicon.ico')}' />"
+    "<link rel='shortcut icon' href='#{image_path('/favicon.ico')}' />".html_safe
   end
 
   def robot_exclusion_tag
