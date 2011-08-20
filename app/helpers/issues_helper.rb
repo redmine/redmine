@@ -106,7 +106,7 @@ module IssuesHelper
       n += 1
     end
     s << "</tr>\n"
-    s
+    s.html_safe
   end
 
   def issues_destroy_confirmation_message(issues)
