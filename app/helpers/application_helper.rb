@@ -582,10 +582,10 @@ module ApplicationHelper
           link_to(h(title || page), url, :class => ('wiki-page' + (wiki_page ? '' : ' new')))
         else
           # project or wiki doesn't exist
-          all
+          all.html_safe
         end
       else
-        all
+        all.html_safe
       end
     end
   end
