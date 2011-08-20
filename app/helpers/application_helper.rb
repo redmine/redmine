@@ -535,9 +535,9 @@ module ApplicationHelper
           if !desc.blank? && alttext.blank?
             alt = " title=\"#{desc}\" alt=\"#{desc}\""
           end
-          "src=\"#{image_url}\"#{alt}"
+          "src=\"#{image_url}\"#{alt}".html_safe
         else
-          m
+          m.html_safe
         end
       end
     end
