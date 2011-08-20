@@ -709,7 +709,7 @@ module ApplicationHelper
           end
         end
       end
-      leading + (link || "#{project_prefix}#{prefix}#{sep}#{identifier}")
+      (leading + (link || "#{project_prefix}#{prefix}#{sep}#{identifier}")).html_safe
     end
   end
 
