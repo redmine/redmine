@@ -5,12 +5,12 @@
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -24,14 +24,14 @@ class TimelogController < ApplicationController
   before_filter :find_optional_project, :only => [:index]
   accept_rss_auth :index
   accept_api_auth :index, :show, :create, :update, :destroy
-  
+
   helper :sort
   include SortHelper
   helper :issues
   include TimelogHelper
   helper :custom_fields
   include CustomFieldsHelper
-  
+
   def index
     sort_init 'spent_on', 'desc'
     sort_update 'spent_on' => 'spent_on',
@@ -40,14 +40,14 @@ class TimelogController < ApplicationController
                 'project' => "#{Project.table_name}.name",
                 'issue' => 'issue_id',
                 'hours' => 'hours'
-    
+
     cond = ARCondition.new
     if @issue
       cond << "#{Issue.table_name}.root_id = #{@issue.root_id} AND #{Issue.table_name}.lft >= #{@issue.lft} AND #{Issue.table_name}.rgt <= #{@issue.rgt}"
     elsif @project
       cond << @project.project_condition(Setting.display_subprojects_issues?)
     end
-    
+
     retrieve_date_range
     cond << ['spent_on BETWEEN ? AND ?', @from, @to]
 
@@ -56,7 +56,7 @@ class TimelogController < ApplicationController
         # Paginate results
         @entry_count = TimeEntry.visible.count(:include => [:project, :issue], :conditions => cond.conditions)
         @entry_pages = Paginator.new self, @entry_count, per_page_option, params['page']
-        @entries = TimeEntry.visible.find(:all, 
+        @entries = TimeEntry.visible.find(:all,
                                   :include => [:project, :activity, :user, {:issue => :tracker}],
                                   :conditions => cond.conditions,
                                   :order => sort_clause,
@@ -69,7 +69,7 @@ class TimelogController < ApplicationController
       format.api  {
         @entry_count = TimeEntry.visible.count(:include => [:project, :issue], :conditions => cond.conditions)
         @offset, @limit = api_offset_and_limit
-        @entries = TimeEntry.visible.find(:all, 
+        @entries = TimeEntry.visible.find(:all,
                                   :include => [:project, :activity, :user, {:issue => :tracker}],
                                   :conditions => cond.conditions,
                                   :order => sort_clause,
@@ -86,7 +86,7 @@ class TimelogController < ApplicationController
       }
       format.csv {
         # Export all entries
-        @entries = TimeEntry.visible.find(:all, 
+        @entries = TimeEntry.visible.find(:all,
                                   :include => [:project, :activity, :user, {:issue => [:tracker, :assigned_to, :priority]}],
                                   :conditions => cond.conditions,
                                   :order => sort_clause)
@@ -94,7 +94,7 @@ class TimelogController < ApplicationController
       }
     end
   end
-  
+
   def show
     respond_to do |format|
       # TODO: Implement html response
@@ -106,7 +106,7 @@ class TimelogController < ApplicationController
   def new
     @time_entry ||= TimeEntry.new(:project => @project, :issue => @issue, :user => User.current, :spent_on => User.current.today)
     @time_entry.attributes = params[:time_entry]
-    
+
     call_hook(:controller_timelog_edit_before_save, { :params => params, :time_entry => @time_entry })
     render :action => 'edit'
   end
@@ -115,9 +115,9 @@ class TimelogController < ApplicationController
   def create
     @time_entry ||= TimeEntry.new(:project => @project, :issue => @issue, :user => User.current, :spent_on => User.current.today)
     @time_entry.attributes = params[:time_entry]
-    
+
     call_hook(:controller_timelog_edit_before_save, { :params => params, :time_entry => @time_entry })
-    
+
     if @time_entry.save
       respond_to do |format|
         format.html {
@@ -131,21 +131,21 @@ class TimelogController < ApplicationController
         format.html { render :action => 'edit' }
         format.api  { render_validation_errors(@time_entry) }
       end
-    end    
+    end
   end
-  
+
   def edit
     @time_entry.attributes = params[:time_entry]
-    
+
     call_hook(:controller_timelog_edit_before_save, { :params => params, :time_entry => @time_entry })
   end
 
   verify :method => :put, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
   def update
     @time_entry.attributes = params[:time_entry]
-    
+
     call_hook(:controller_timelog_edit_before_save, { :params => params, :time_entry => @time_entry })
-    
+
     if @time_entry.save
       respond_to do |format|
         format.html {
@@ -159,7 +159,7 @@ class TimelogController < ApplicationController
         format.html { render :action => 'edit' }
         format.api  { render_validation_errors(@time_entry) }
       end
-    end    
+    end
   end
 
   def bulk_edit
@@ -186,7 +186,7 @@ class TimelogController < ApplicationController
 
   verify :method => :delete, :only => :destroy, :render => {:nothing => true, :status => :method_not_allowed }
   def destroy
-    @time_entries.each do |t| 
+    @time_entries.each do |t|
       begin
         unless t.destroy && t.destroyed?
           respond_to do |format|
@@ -258,7 +258,7 @@ private
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-  
+
   def find_optional_project
     if !params[:issue_id].blank?
       @issue = Issue.find(params[:issue_id])
@@ -268,7 +268,7 @@ private
     end
     deny_access unless User.current.allowed_to?(:view_time_entries, @project, :global => true)
   end
-  
+
   # Retrieves the date range based on predefined ranges or specific from/to param dates
   def retrieve_date_range
     @free_period = false
@@ -309,7 +309,7 @@ private
     else
       # default
     end
-    
+
     @from, @to = @to, @from if @from && @to && @from > @to
     @from ||= (TimeEntry.earilest_date_for_project(@project) || Date.today)
     @to   ||= (TimeEntry.latest_date_for_project(@project) || Date.today)
