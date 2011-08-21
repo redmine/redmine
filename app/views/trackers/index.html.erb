@@ -19,9 +19,9 @@
   <td align="center" style="width:15%;"><%= reorder_links('tracker', {:action => 'edit', :id => tracker}) %></td>
   <td class="buttons">
     <%= link_to(l(:button_delete), { :action => 'destroy', :id => tracker },
-    															 :method => :post,
-    															 :confirm => l(:text_are_you_sure),
-    															 :class => 'icon icon-del') %>
+                                   :method => :post,
+                                   :confirm => l(:text_are_you_sure),
+                                   :class => 'icon icon-del') %>
   </td>
   </tr>
 <% end %>
