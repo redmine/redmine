@@ -396,7 +396,7 @@ module ApplicationHelper
 
   def breadcrumb(*args)
     elements = args.flatten
-    elements.any? ? content_tag('p', args.join(' &#187; ') + ' &#187; ', :class => 'breadcrumb') : nil
+    elements.any? ? content_tag('p', (args.join(" \xc2\xbb ") + " \xc2\xbb ").html_safe, :class => 'breadcrumb') : nil
   end
 
   def other_formats_links(&block)
