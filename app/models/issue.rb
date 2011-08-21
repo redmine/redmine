@@ -229,7 +229,7 @@ class Issue < ActiveRecord::Base
     @custom_field_values = nil
     result
   end
-  
+
   def description=(arg)
     if arg.is_a?(String)
       arg = arg.gsub(/(\r\n|\n|\r)/, "\r\n")
@@ -510,7 +510,7 @@ class Issue < ActiveRecord::Base
   def relations
     @relations ||= (relations_from + relations_to).sort
   end
-  
+
   # Preloads relations for a collection of issues
   def self.load_relations(issues)
     if issues.any?
@@ -520,7 +520,7 @@ class Issue < ActiveRecord::Base
       end
     end
   end
-  
+
   # Finds an issue relation given its id.
   def find_relation(relation_id)
     IssueRelation.find(relation_id, :conditions => ["issue_to_id = ? OR issue_from_id = ?", id, id])
@@ -850,7 +850,7 @@ class Issue < ActiveRecord::Base
       end
     end
   end
-  
+
   # Callback on attachment deletion
   def attachment_added(obj)
     if @current_journal && !obj.new_record?
