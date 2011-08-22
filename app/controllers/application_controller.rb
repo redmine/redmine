@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
 
   layout 'base'
   exempt_from_layout 'builder', 'rsb'
-  
+
   protect_from_forgery
   def handle_unverified_request
     super
@@ -336,7 +336,7 @@ class ApplicationController < ActionController::Base
     @title = options[:title] || Setting.app_title
     render :template => "common/feed.atom.rxml", :layout => false, :content_type => 'application/atom+xml'
   end
-  
+
   # TODO: remove in Redmine 1.4
   def self.accept_key_auth(*actions)
     ActiveSupport::Deprecation.warn "ApplicationController.accept_key_auth is deprecated and will be removed in Redmine 1.4. Use accept_rss_auth (or accept_api_auth) instead."
@@ -348,7 +348,7 @@ class ApplicationController < ActionController::Base
     ActiveSupport::Deprecation.warn "ApplicationController.accept_key_auth_actions is deprecated and will be removed in Redmine 1.4. Use accept_rss_auth (or accept_api_auth) instead."
     self.class.accept_rss_auth
   end
-  
+
   def self.accept_rss_auth(*actions)
     if actions.any?
       write_inheritable_attribute('accept_rss_auth_actions', actions)
@@ -356,11 +356,11 @@ class ApplicationController < ActionController::Base
       read_inheritable_attribute('accept_rss_auth_actions') || []
     end
   end
-  
+
   def accept_rss_auth?(action=action_name)
     self.class.accept_rss_auth.include?(action.to_sym)
   end
-  
+
   def self.accept_api_auth(*actions)
     if actions.any?
       write_inheritable_attribute('accept_api_auth_actions', actions)
@@ -368,7 +368,7 @@ class ApplicationController < ActionController::Base
       read_inheritable_attribute('accept_api_auth_actions') || []
     end
   end
-  
+
   def accept_api_auth?(action=action_name)
     self.class.accept_api_auth.include?(action.to_sym)
   end
