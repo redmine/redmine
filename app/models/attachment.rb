@@ -151,7 +151,7 @@ class Attachment < ActiveRecord::Base
                               :description => attachment['description'].to_s.strip,
                               :author => User.current)
         obj.attachments << a
-        
+
         if a.new_record?
           obj.unsaved_attachments ||= []
           obj.unsaved_attachments << a
