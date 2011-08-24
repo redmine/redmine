@@ -7,7 +7,7 @@ production:
   username: root
   password:
   encoding: utf8
- 
+
 development:
   adapter: mysql
   database: redmine_development
