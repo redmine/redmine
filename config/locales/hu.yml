@@ -34,40 +34,40 @@
     distance_in_words:
       half_a_minute: 'fél perc'
       less_than_x_seconds:
-#        zero: 'kevesebb, mint 1 másodperc'
-        one: 'kevesebb, mint 1 másodperc'
-        other: 'kevesebb, mint %{count} másodperc'
+#        zero: 'kevesebb, mint 1 másodperce'
+        one: 'kevesebb, mint 1 másodperce'
+        other: 'kevesebb, mint %{count} másodperce'
       x_seconds:
-        one: '1 másodperc'
-        other: '%{count} másodperc'
+        one: '1 másodperce'
+        other: '%{count} másodperce'
       less_than_x_minutes:
-#        zero: 'kevesebb, mint 1 perc'
-        one: 'kevesebb, mint 1 perc'
-        other: 'kevesebb, mint %{count} perc'
+#        zero: 'kevesebb, mint 1 perce'
+        one: 'kevesebb, mint 1 perce'
+        other: 'kevesebb, mint %{count} perce'
       x_minutes:
-        one: '1 perc'
-        other: '%{count} perc'
+        one: '1 perce'
+        other: '%{count} perce'
       about_x_hours:
-        one: 'majdnem 1 óra'
-        other: 'majdnem %{count} óra'
+        one: 'csaknem 1 órája'
+        other: 'csaknem %{count} órája'
       x_days:
-        one: '1 nap'
-        other: '%{count} nap'
+        one: '1 napja'
+        other: '%{count} napja'
       about_x_months:
-        one: 'majdnem 1 hónap'
-        other: 'majdnem %{count} hónap'
+        one: 'csaknem 1 hónapja'
+        other: 'csaknem %{count} hónapja'
       x_months:
-        one: '1 hónap'
-        other: '%{count} hónap'
+        one: '1 hónapja'
+        other: '%{count} hónapja'
       about_x_years:
-        one: 'majdnem 1 év'
-        other: 'majdnem %{count} év'
+        one: 'csaknem 1 éve'
+        other: 'csaknem %{count} éve'
       over_x_years:
-        one: 'több, mint 1 év'
-        other: 'több, mint %{count} év'
+        one: 'több, mint 1 éve'
+        other: 'több, mint %{count} éve'
       almost_x_years:
-        one:   "közel 1 év"
-        other: "közel %{count} év"
+        one:   "csaknem 1 éve"
+        other: "csaknem %{count} éve"
     prompts:
       year:   "Év"
       month:  "Hónap"
@@ -264,7 +264,7 @@
   field_attr_mail: E-mail
   field_onthefly: On-the-fly felhasználó létrehozás
   field_start_date: Kezdés dátuma
-  field_done_ratio: Elkészült (%)
+  field_done_ratio: Készültség (%)
   field_auth_source: Azonosítási mód
   field_hide_mail: Rejtse el az e-mail címem
   field_comments: Megjegyzés
@@ -280,7 +280,7 @@
   field_delay: Késés
   field_assignable: Feladat rendelhető ehhez a szerepkörhöz
   field_redirect_existing_links: Létező linkek átirányítása
-  field_estimated_hours: Becsült idő
+  field_estimated_hours: Becsült időigény
   field_column_names: Oszlopok
   field_time_zone: Időzóna
   field_searchable: Kereshető
@@ -326,7 +326,7 @@
   project_module_documents: Dokumentumok
   project_module_files: Fájlok
   project_module_wiki: Wiki
-  project_module_repository: Tároló
+  project_module_repository: Forráskód
   project_module_boards: Fórumok
   
   label_user: Felhasználó
@@ -391,7 +391,7 @@
   label_assigned_to_me_issues: A nekem kiosztott feladatok
   label_last_login: Utolsó bejelentkezés
   label_registered_on: Regisztrált
-  label_activity: Tevékenységek
+  label_activity: Történések
   label_overall_activity: Teljes aktivitás
   label_new: Új
   label_logged_as: Bejelentkezve, mint
@@ -510,8 +510,8 @@
   label_contains: tartalmazza
   label_not_contains: nem tartalmazza
   label_day_plural: nap
-  label_repository: Tároló
-  label_repository_plural: Tárolók
+  label_repository: Forráskód
+  label_repository_plural: Forráskódok
   label_browse: Tallóz
   label_modification: "%{count} változás"
   label_modification_plural: "%{count} változás"
@@ -600,10 +600,10 @@
   label_language_based: A felhasználó nyelve alapján
   label_sort_by: "%{value} szerint rendezve"
   label_send_test_email: Teszt e-mail küldése
-  label_feeds_access_key_created_on: "RSS hozzáférési kulcs létrehozva ennyivel ezelőtt: %{value}"
+  label_feeds_access_key_created_on: "RSS hozzáférési kulcs létrehozva %{value}"
   label_module_plural: Modulok
-  label_added_time_by: "%{author} adta hozzá ennyivel ezelőtt: %{age}"
-  label_updated_time: "Utolsó módosítás ennyivel ezelőtt: %{value}"
+  label_added_time_by: "%{author} adta hozzá %{age}"
+  label_updated_time: "Utolsó módosítás %{value}"
   label_jump_to_a_project: Ugrás projekthez...
   label_file_plural: Fájlok
   label_changeset_plural: Changesets
@@ -695,11 +695,11 @@
   text_unallowed_characters: Tiltott karakterek
   text_comma_separated: Több érték megengedett (vesszővel elválasztva)
   text_issues_ref_in_commit_messages: Hivatkozás feladatokra, feladatok javítása a commit üzenetekben
-  text_issue_added: "A feladatot %{id} bejelentette: %{author}."
-  text_issue_updated: "A feladatot %{id} módosította: %{author}."
+  text_issue_added: "%{author} új feladatot hozott létre %{id} sorszámmal."
+  text_issue_updated: "%{author} módosította a %{id} sorszámú feladatot."
   text_wiki_destroy_confirmation: Biztosan törölni szeretné ezt a wiki-t minden tartalmával együtt ?
-  text_issue_category_destroy_question: "Néhány feladat (%{count}) hozzá van rendelve ehhez a kategóriához. Mit szeretne tenni ?"
-  text_issue_category_destroy_assignments: Kategória hozzárendelés megszűntetése
+  text_issue_category_destroy_question: "Néhány feladat (%{count}) hozzá van rendelve ehhez a kategóriához. Mit szeretne tenni?"
+  text_issue_category_destroy_assignments: Kategória hozzárendelés megszüntetése
   text_issue_category_reassign_to: Feladatok újra hozzárendelése másik kategóriához
   text_user_mail_option: "A nem kiválasztott projektekről csak akkor kap értesítést, ha figyelést kér rá, vagy részt vesz benne (pl. Ön a létrehozó, vagy a hozzárendelő)"
   text_no_configuration_data: "Szerepkörök, feladat típusok, feladat státuszok, és workflow adatok még nincsenek konfigurálva.\nErősen ajánlott, az alapértelmezett konfiguráció betöltése, és utána módosíthatja azt."
@@ -709,8 +709,8 @@
   text_select_project_modules: 'Válassza ki az engedélyezett modulokat ehhez a projekthez:'
   text_default_administrator_account_changed: Alapértelmezett adminisztrátor fiók megváltoztatva
   text_file_repository_writable: Fájl tároló írható
-  text_rmagick_available: RMagick elérhető (opcionális)
-  text_destroy_time_entries_question: "%{hours} órányi munka van rögzítve a feladatokon, amiket törölni szeretne. Mit szeretne tenni ?"
+  text_rmagick_available: RMagick elérhető (nem kötelező)
+  text_destroy_time_entries_question: "%{hours} órányi munka van rögzítve a feladatokon, amiket törölni szeretne. Mit szeretne tenni?"
   text_destroy_time_entries: A rögzített órák törlése
   text_assign_time_entries_to_project: A rögzített órák hozzárendelése a projekthez
   text_reassign_time_entries: 'A rögzített órák újra hozzárendelése másik feladathoz:'
@@ -720,7 +720,7 @@
   default_role_reporter: Bejelentő
   default_tracker_bug: Hiba
   default_tracker_feature: Fejlesztés
-  default_tracker_support: Support
+  default_tracker_support: Támogatás
   default_issue_status_new: Új
   default_issue_status_in_progress: Folyamatban
   default_issue_status_resolved: Megoldva
@@ -741,7 +741,7 @@
   enumeration_doc_categories: Dokumentum kategóriák
   enumeration_activities: Tevékenységek (idő rögzítés)
   mail_body_reminder: "%{count} neked kiosztott feladat határidős az elkövetkező %{days} napban:"
-  mail_subject_reminder: "%{count} feladat határidős az elkövetkező %{days} napokban"
+  mail_subject_reminder: "%{count} feladat határidős az elkövetkező %{days} napban"
   text_user_wrote: "%{value} írta:"
   label_duplicated_by: duplikálta
   setting_enabled_scm: Forráskódkezelő (SCM) engedélyezése
@@ -812,14 +812,14 @@
   permission_edit_own_messages: Saját üzenetek szerkesztése
   permission_delete_own_messages: Saját üzenetek törlése
   label_user_activity: "%{value} tevékenységei"
-  label_updated_time_by: "Módosította %{author} ennyivel ezelőtt: %{age}"
+  label_updated_time_by: "Módosította %{author} %{age}"
   text_diff_truncated: '... A diff fájl vége nem jelenik meg, mert hosszab, mint a megjeleníthető sorok száma.'
   setting_diff_max_lines_displayed: A megjelenítendő sorok száma (maximum) a diff fájloknál
   text_plugin_assets_writable: Plugin eszközök könyvtár írható
   warning_attachments_not_saved: "%{count} fájl mentése nem sikerült."
   button_create_and_continue: Létrehozás és folytatás
   text_custom_field_possible_values_info: 'Értékenként egy sor'
-  label_display: Megjelenés
+  label_display: Megmutat
   field_editable: Szerkeszthető
   setting_repository_log_display_limit: Maximum hány revíziót mutasson meg a log megjelenítésekor
   setting_file_max_size_displayed: Maximum mekkora szövegfájlokat jelenítsen meg soronkénti összehasonlításnál
@@ -835,40 +835,40 @@
   label_greater_or_equal: ">="
   label_less_or_equal: "<="
   text_wiki_page_destroy_question: Ennek az oldalnak %{descendants} gyermek-, és leszármazott oldala van. Mit szeretne tenni?
-  text_wiki_page_reassign_children: Az aloldalak hozzárendelése ehhez a szülő oldalhoz
-  text_wiki_page_nullify_children: Az aloldalak megtartása, mint főoldalak
+  text_wiki_page_reassign_children: Aloldalak hozzárendelése ehhez a szülő oldalhoz
+  text_wiki_page_nullify_children: Aloldalak átalakítása főoldallá
   text_wiki_page_destroy_children: Minden aloldal és leszármazottjának törlése
   setting_password_min_length: Minimum jelszó hosszúság
   field_group_by: Szerint csoportosítva
   mail_subject_wiki_content_updated: "'%{id}' wiki oldal frissítve"
   label_wiki_content_added: Wiki oldal hozzáadva
   mail_subject_wiki_content_added: "Új wiki oldal: '%{id}'"
-  mail_body_wiki_content_added: A '%{id}' wiki oldalt %{author} hozta létre.
+  mail_body_wiki_content_added: %{author} létrehozta a '%{id}' wiki oldalt.
   label_wiki_content_updated: Wiki oldal frissítve
-  mail_body_wiki_content_updated: A '%{id}' wiki oldalt %{author} frissítette.
+  mail_body_wiki_content_updated: %{author} frissítette a '%{id}' wiki oldalt.
   permission_add_project: Projekt létrehozása
   setting_new_project_user_role_id: Projekt létrehozási jog nem adminisztrátor felhasználóknak
-  label_view_all_revisions: Minden revízió megtekintése
+  label_view_all_revisions: Összes verzió
   label_tag: Tag
   label_branch: Branch
   error_no_tracker_in_project: Nincs feladat típus hozzárendelve ehhez a projekthez. Kérem ellenőrizze a projekt beállításait.
   error_no_default_issue_status: Nincs alapértelmezett feladat státusz beállítva. Kérem ellenőrizze a beállításokat (Itt találja "Adminisztráció -> Feladat státuszok").
-  text_journal_changed: "%{label} változott erről: %{old} erre: %{new}"
+  text_journal_changed: "%{label} megváltozott, %{old} helyett %{new} lett"
   text_journal_set_to: "%{label} új értéke: %{value}"
-  text_journal_deleted: "%{label} törölve (%{old})"
+  text_journal_deleted: "%{label} törölve lett (%{old})"
   label_group_plural: Csoportok
   label_group: Csoport
   label_group_new: Új csoport
-  label_time_entry_plural: Rögzített idő
+  label_time_entry_plural: Időráfordítás
   text_journal_added: "%{label} %{value} hozzáadva"
   field_active: Aktív
-  enumeration_system_activity: Rendszer Tevékenység
+  enumeration_system_activity: Rendszertevékenység
   permission_delete_issue_watchers: Megfigyelők törlése
   version_status_closed: lezárt
   version_status_locked: zárolt
   version_status_open: nyitott
   error_can_not_reopen_issue_on_closed_version: Lezárt verzióhoz rendelt feladatot nem lehet újranyitni
-  label_user_anonymous: Anonymous
+  label_user_anonymous: Névtelen
   button_move_and_follow: Mozgatás és követés
   setting_default_projects_modules: Alapértelmezett modulok az új projektekhez
   setting_gravatar_default: Alapértelmezett Gravatar kép
