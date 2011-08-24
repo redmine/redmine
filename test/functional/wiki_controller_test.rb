@@ -250,7 +250,7 @@ class WikiControllerTest < ActionController::TestCase
     get :annotate, :project_id => 1, :id =>  'CookBook_documentation', :version => 2
     assert_response :success
     assert_template 'annotate'
-    
+
     # Line 1
     assert_tag :tag => 'tr', :child => {
       :tag => 'th', :attributes => {:class => 'line-num'}, :content => '1', :sibling => {
@@ -259,7 +259,7 @@ class WikiControllerTest < ActionController::TestCase
         }
       }
     }
-    
+
     # Line 5
     assert_tag :tag => 'tr', :child => {
       :tag => 'th', :attributes => {:class => 'line-num'}, :content => '5', :sibling => {
