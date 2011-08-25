@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -30,7 +30,7 @@ class TimelogControllerTest < ActionController::TestCase
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
   end
-  
+
   def test_get_new
     @request.session[:user_id] = 3
     get :new, :project_id => 1
@@ -40,14 +40,13 @@ class TimelogControllerTest < ActionController::TestCase
     assert_tag :tag => 'option', :attributes => { :selected => 'selected' },
                                  :content => 'Development'
   end
-  
+
   def test_get_new_should_only_show_active_time_entry_activities
     @request.session[:user_id] = 3
     get :new, :project_id => 1
     assert_response :success
     assert_template 'edit'
     assert_no_tag :tag => 'option', :content => 'Inactive Activity'
-                                    
   end
 
   def test_get_edit_existing_time
@@ -58,7 +57,7 @@ class TimelogControllerTest < ActionController::TestCase
     # Default activity selected
     assert_tag :tag => 'form', :attributes => { :action => '/projects/ecookbook/time_entries/2' }
   end
-  
+
   def test_get_edit_with_an_existing_time_entry_with_inactive_activity
     te = TimeEntry.find(1)
     te.activity = TimeEntryActivity.find_by_name("Inactive Activity")
@@ -71,7 +70,7 @@ class TimelogControllerTest < ActionController::TestCase
     # Blank option since nothing is pre-selected
     assert_tag :tag => 'option', :content => '--- Please select ---'
   end
-  
+
   def test_post_create
     # TODO: should POST to issues’ time log instead of project. change form
     # and routing
@@ -84,7 +83,7 @@ class TimelogControllerTest < ActionController::TestCase
                                 :issue_id => '1',
                                 :hours => '7.3'}
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
-    
+
     i = Issue.find(1)
     t = TimeEntry.find_by_comments('Some work on TimelogControllerTest')
     assert_not_nil t
@@ -107,26 +106,26 @@ class TimelogControllerTest < ActionController::TestCase
                                 :spent_on => '2008-03-14',
                                 :hours => '7.3'}
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
-    
+
     t = TimeEntry.find_by_comments('Some work on TimelogControllerTest')
     assert_not_nil t
     assert_equal 11, t.activity_id
     assert_equal 7.3, t.hours
     assert_equal 3, t.user_id
   end
-  
+
   def test_update
     entry = TimeEntry.find(1)
     assert_equal 1, entry.issue_id
     assert_equal 2, entry.user_id
-    
+
     @request.session[:user_id] = 1
     put :update, :id => 1,
                 :time_entry => {:issue_id => '2',
                                 :hours => '8'}
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
     entry.reload
-    
+
     assert_equal 8, entry.hours
     assert_equal 2, entry.issue_id
     assert_equal 2, entry.user_id
@@ -137,7 +136,7 @@ class TimelogControllerTest < ActionController::TestCase
     get :bulk_edit, :ids => [1, 2]
     assert_response :success
     assert_template 'bulk_edit'
-    
+
     # System wide custom field
     assert_tag :select, :attributes => {:name => 'time_entry[custom_field_values][10]'}
   end
@@ -153,7 +152,7 @@ class TimelogControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     # update time entry activity
     post :bulk_update, :ids => [1, 2], :time_entry => { :activity_id => 9}
-                                     
+
     assert_response 302
     # check that the issues were updated
     assert_equal [9, 9], TimeEntry.find_all_by_id([1, 2]).collect {|i| i.activity_id}
@@ -163,7 +162,7 @@ class TimelogControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     # update time entry activity
     post :bulk_update, :ids => [1, 2, 4], :time_entry => { :activity_id => 9 }
-    
+
     assert_response 302
     # check that the issues were updated
     assert_equal [9, 9, 9], TimeEntry.find_all_by_id([1, 2, 4]).collect {|i| i.activity_id}
@@ -182,7 +181,7 @@ class TimelogControllerTest < ActionController::TestCase
   def test_bulk_update_custom_field
     @request.session[:user_id] = 2
     post :bulk_update, :ids => [1, 2], :time_entry => { :custom_field_values => {'10' => '0'} }
-                                     
+
     assert_response 302
     assert_equal ["0", "0"], TimeEntry.find_all_by_id([1, 2]).collect {|i| i.custom_value_for(10).value}
   end
@@ -202,7 +201,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_response :redirect
     assert_redirected_to :controller => 'timelog', :action => 'index', :project_id => Project.find(1).identifier
   end
-  
+
   def test_destroy
     @request.session[:user_id] = 2
     delete :destroy, :id => 1
@@ -210,7 +209,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal I18n.t(:notice_successful_delete), flash[:notice]
     assert_nil TimeEntry.find_by_id(1)
   end
-  
+
   def test_destroy_should_fail
     # simulate that this fails (e.g. due to a plugin), see #5700
     TimeEntry.any_instance.expects(:destroy).returns(false)
@@ -221,7 +220,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal I18n.t(:notice_unable_delete_time_entry), flash[:error]
     assert_not_nil TimeEntry.find_by_id(1)
   end
-  
+
   def test_index_all_projects
     get :index
     assert_response :success
@@ -231,7 +230,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_tag :form,
       :attributes => {:action => "/time_entries", :id => 'query_form'}
   end
-  
+
   def test_index_at_project_level
     get :index, :project_id => 'ecookbook'
     assert_response :success
@@ -248,7 +247,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_tag :form,
       :attributes => {:action => "/projects/ecookbook/time_entries", :id => 'query_form'}
   end
-  
+
   def test_index_at_project_level_with_date_range
     get :index, :project_id => 'ecookbook', :from => '2007-03-20', :to => '2007-04-30'
     assert_response :success
@@ -284,7 +283,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_tag :form,
       :attributes => {:action => "/projects/ecookbook/time_entries", :id => 'query_form'}
   end
-  
+
   def test_index_at_issue_level
     get :index, :issue_id => 1
     assert_response :success
@@ -301,7 +300,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_tag :form,
       :attributes => {:action => "/projects/ecookbook/issues/1/time_entries", :id => 'query_form'}
   end
-  
+
   def test_index_atom_feed
     get :index, :project_id => 1, :format => 'atom'
     assert_response :success
@@ -309,7 +308,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_not_nil assigns(:items)
     assert assigns(:items).first.is_a?(TimeEntry)
   end
-  
+
   def test_index_all_projects_csv_export
     Setting.date_format = '%m/%d/%Y'
     get :index, :format => 'csv'
@@ -318,7 +317,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert @response.body.include?("Date,User,Activity,Project,Issue,Tracker,Subject,Hours,Comment,Overtime\n")
     assert @response.body.include?("\n04/21/2007,redMine Admin,Design,eCookbook,3,Bug,Error 281 when updating a recipe,1.0,\"\",\"\"\n")
   end
-  
+
   def test_index_csv_export
     Setting.date_format = '%m/%d/%Y'
     get :index, :project_id => 1, :format => 'csv'
