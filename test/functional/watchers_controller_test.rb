@@ -5,12 +5,12 @@
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -24,20 +24,20 @@ class WatchersController; def rescue_action(e) raise e end; end
 class WatchersControllerTest < ActionController::TestCase
   fixtures :projects, :users, :roles, :members, :member_roles, :enabled_modules,
            :issues, :trackers, :projects_trackers, :issue_statuses, :enumerations, :watchers
-  
+
   def setup
     @controller = WatchersController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     User.current = nil
   end
-  
+
   def test_get_watch_should_be_invalid
     @request.session[:user_id] = 3
     get :watch, :object_type => 'issue', :object_id => '1'
     assert_response 405
   end
-  
+
   def test_watch
     @request.session[:user_id] = 3
     assert_difference('Watcher.count') do
@@ -47,7 +47,7 @@ class WatchersControllerTest < ActionController::TestCase
     end
     assert Issue.find(1).watched_by?(User.find(3))
   end
-  
+
   def test_watch_should_be_denied_without_permission
     Role.find(2).remove_permission! :view_issues
     @request.session[:user_id] = 3
@@ -56,7 +56,7 @@ class WatchersControllerTest < ActionController::TestCase
       assert_response 403
     end
   end
-  
+
   def test_unwatch
     @request.session[:user_id] = 3
     assert_difference('Watcher.count', -1) do
@@ -76,7 +76,7 @@ class WatchersControllerTest < ActionController::TestCase
     end
     assert Issue.find(2).watched_by?(User.find(4))
   end
-  
+
   def test_remove_watcher
     @request.session[:user_id] = 2
     assert_difference('Watcher.count', -1) do
