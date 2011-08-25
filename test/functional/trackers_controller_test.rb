@@ -1,16 +1,16 @@
 # Redmine - project management software
-# Copyright (C) 2006-2009  Jean-Philippe Lang
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -23,7 +23,7 @@ class TrackersController; def rescue_action(e) raise e end; end
 
 class TrackersControllerTest < ActionController::TestCase
   fixtures :trackers, :projects, :projects_trackers, :users, :issues, :custom_fields
-  
+
   def setup
     @controller = TrackersController.new
     @request    = ActionController::TestRequest.new
@@ -31,13 +31,13 @@ class TrackersControllerTest < ActionController::TestCase
     User.current = nil
     @request.session[:user_id] = 1 # admin
   end
-  
+
   def test_index
     get :index
     assert_response :success
     assert_template 'index'
   end
-  
+
   def test_get_new
     get :new
     assert_response :success
@@ -60,22 +60,22 @@ class TrackersControllerTest < ActionController::TestCase
     assert_equal 0, tracker.projects.count
     assert_equal Tracker.find(1).workflows.count, tracker.workflows.count
   end
-  
+
   def test_get_edit
     Tracker.find(1).project_ids = [1, 3]
-    
+
     get :edit, :id => 1
     assert_response :success
     assert_template 'edit'
-    
+
     assert_tag :input, :attributes => { :name => 'tracker[project_ids][]',
                                         :value => '1',
                                         :checked => 'checked' }
-    
+
     assert_tag :input, :attributes => { :name => 'tracker[project_ids][]',
                                         :value => '2',
                                         :checked => nil }
-                                        
+
     assert_tag :input, :attributes => { :name => 'tracker[project_ids][]',
                                         :value => '',
                                         :type => 'hidden'}
@@ -94,13 +94,13 @@ class TrackersControllerTest < ActionController::TestCase
     assert_redirected_to :action => 'index'
     assert Tracker.find(1).project_ids.empty?
   end
-  
+
   def test_move_lower
    tracker = Tracker.find_by_position(1)
    post :edit, :id => 1, :tracker => { :move_to => 'lower' }
    assert_equal 2, tracker.reload.position
   end
-  
+
   def test_destroy
     tracker = Tracker.create!(:name => 'Destroyable')
     assert_difference 'Tracker.count', -1 do
@@ -109,7 +109,7 @@ class TrackersControllerTest < ActionController::TestCase
     assert_redirected_to :action => 'index'
     assert_nil flash[:error]
   end
-  
+
   def test_destroy_tracker_in_use
     assert_no_difference 'Tracker.count' do
       post :destroy, :id => 1
