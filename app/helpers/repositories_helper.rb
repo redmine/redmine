@@ -228,7 +228,7 @@ module RepositoriesHelper
                        :disabled => (repository && !repository.root_url.blank?)
                          ) +
                       '<br />' + 
-                      'Repository is bare and local (e.g. /gitrepo, c:\gitrepo)') +
+                      l(:text_git_repository_note)) +
     content_tag('p', form.select(
                         :path_encoding, [nil] + Setting::ENCODINGS,
                         :label => l(:field_scm_path_encoding)
