@@ -1092,3 +1092,4 @@ ru:
   label_between: между
   setting_issue_group_assignment: Разрешить назначение задач группам пользователей
   label_diff: diff
+  text_git_repository_note: Repository is bare and local (e.g. /gitrepo, c:\gitrepo)

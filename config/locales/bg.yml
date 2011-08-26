@@ -979,3 +979,4 @@ bg:
   enumeration_system_activity: Системна активност
 
   label_diff: diff
+  text_git_repository_note: Repository is bare and local (e.g. /gitrepo, c:\gitrepo)
