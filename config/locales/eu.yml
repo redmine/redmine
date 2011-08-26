@@ -973,7 +973,6 @@ eu:
   field_root_directory: Erro direktorioa
   field_cvs_module: Modulua
   field_cvsroot: CVSROOT
-  text_git_repository_note: Bare and local repository (e.g. /gitrepo, c:\gitrepo)
   text_mercurial_repository_note: Biltegi locala (adib. /hgrepo, c:\hgrepo)
   text_scm_command: Komandoa
   text_scm_command_version: Bertsioa

@@ -970,7 +970,6 @@ it:
   field_root_directory: Directory radice
   field_cvs_module: Modulo
   field_cvsroot: CVSROOT
-  text_git_repository_note: Repository centrale e locale (es. /gitrepo, c:\gitrepo)
   text_mercurial_repository_note: Repository locale (es. /hgrepo, c:\hgrepo)
   text_scm_command: Comando
   text_scm_command_version: Versione

@@ -988,7 +988,6 @@
   field_root_directory: Gyökér könyvtár
   field_cvs_module: Modul
   field_cvsroot: CVSROOT
-  text_git_repository_note: Bare and local repository (e.g. /gitrepo, c:\gitrepo)
   text_mercurial_repository_note: Helyi repository (e.g. /hgrepo, c:\hgrepo)
   text_scm_command: Parancs
   text_scm_command_version: Verzió

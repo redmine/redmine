@@ -987,7 +987,6 @@ fr:
   field_root_directory: Répertoire racine
   field_cvs_module: Module
   field_cvsroot: CVSROOT
-  text_git_repository_note: "Dépôt nu (bare) et local (exemples : /gitrepo, c:\gitrepo)"
   text_mercurial_repository_note: "Dépôt local (exemples : /hgrepo, c:\hgrepo)"
   text_scm_command: Commande
   text_scm_command_version: Version

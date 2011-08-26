@@ -987,7 +987,6 @@ de:
   field_root_directory: Wurzelverzeichnis
   field_cvs_module: Modul
   field_cvsroot: CVSROOT
-  text_git_repository_note: Bare und lokales repository (e.g. /gitrepo, c:\gitrepo)
   text_mercurial_repository_note: Lokales repository (e.g. /hgrepo, c:\hgrepo)
   text_scm_command: Kommando
   text_scm_command_version: Version

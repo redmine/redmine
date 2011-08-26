@@ -987,7 +987,6 @@ sv:
   text_zoom_in: Zooma in
   text_warn_on_leaving_unsaved: Nuvarande sida innehåller osparad text som kommer försvinna om du lämnar sidan.
   text_scm_path_encoding_note: "Standard: UTF-8"
-  text_git_repository_note: Naket och lokalt versionsarkiv (t.ex. /gitrepo, c:\gitrepo)
   text_mercurial_repository_note: Lokalt versionsarkiv (t.ex. /hgrepo, c:\hgrepo)
   text_scm_command: Kommando
   text_scm_command_version: Version

@@ -1082,7 +1082,6 @@ ru:
   field_root_directory: Корневая директория
   field_cvs_module: Модуль
   field_cvsroot: CVSROOT
-  text_git_repository_note: Локальное (bare) хранилище (например, /gitrepo, c:\gitrepo)
   text_mercurial_repository_note: Локальное хранилище (например, /hgrepo, c:\hgrepo)
   text_scm_command: Команда
   text_scm_command_version: Версия

@@ -1006,7 +1006,6 @@ es:
   field_root_directory: Directorio raíz
   field_cvs_module: Módulo
   field_cvsroot: CVSROOT
-  text_git_repository_note: Repositorio local (bare repository) (e.g. /gitrepo, c:\gitrepo)
   text_mercurial_repository_note: Repositorio local (e.g. /hgrepo, c:\hgrepo)
   text_scm_command: Orden
   text_scm_command_version: Versión

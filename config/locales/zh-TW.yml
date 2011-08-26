@@ -1027,7 +1027,6 @@
   text_zoom_out: 縮小
   text_warn_on_leaving_unsaved: "若您離開這個頁面，此頁面所包含的未儲存資料將會遺失。"
   text_scm_path_encoding_note: "預設: UTF-8"
-  text_git_repository_note: "純(Bare)儲存機制與本機儲存機制 (e.g. /gitrepo, c:\gitrepo)"
   text_mercurial_repository_note: "本機儲存機制 (e.g. /hgrepo, c:\hgrepo)"
   text_scm_command: 命令
   text_scm_command_version: 版本

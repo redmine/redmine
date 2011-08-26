@@ -988,7 +988,6 @@ tr:
   field_root_directory: Ana dizin
   field_cvs_module: Modül
   field_cvsroot: CVSROOT
-  text_git_repository_note: Bare and local repository (e.g. /gitrepo, c:\gitrepo)
   text_mercurial_repository_note: Local repository (e.g. /hgrepo, c:\hgrepo)
   text_scm_command: Komut
   text_scm_command_version: Sürüm
