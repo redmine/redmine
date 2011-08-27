@@ -990,7 +990,7 @@ pt-BR:
   field_root_directory: Diretório raiz
   field_cvs_module: Módulo
   field_cvsroot: CVSROOT
-  text_mercurial_repository_note: "Repositório local (ex.: /hgrepo, c:\hgrepo)"
+  text_mercurial_repository_note: "Repositório local (ex.: /hgrepo, c:\\hgrepo)"
   text_scm_command: Comando
   text_scm_command_version: Versão
   label_git_report_last_commit: Relatar última alteração para arquivos e diretórios
