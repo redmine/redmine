@@ -12,7 +12,7 @@ class ApiTest::HttpBasicLoginWithApiTokenTest < ActionController::IntegrationTes
     Setting.rest_api_enabled = '0'
     Setting.login_required = '0'
   end
-  
+
   # Using the NewsController because it's a simple API.
   context "get /news" do
 
