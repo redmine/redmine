@@ -69,11 +69,11 @@ bg:
         other: "почти %{count} години"
 
   number:
-    # Default format for numbers
     format:
       separator: "."
       delimiter: ""
       precision: 3
+
     human:
       format:
         precision: 1
@@ -88,7 +88,6 @@ bg:
           mb: "MB"
           gb: "GB"
           tb: "TB"
-
 
 # Used in array.to_sentence.
   support:
@@ -695,6 +694,7 @@ bg:
   label_statistics: Статистики
   label_commits_per_month: Ревизии по месеци
   label_commits_per_author: Ревизии по автор
+  label_diff: diff  
   label_view_diff: Виж разликите
   label_diff_inline: хоризонтално
   label_diff_side_by_side: вертикално
@@ -945,7 +945,8 @@ bg:
   text_zoom_out: Намаляване
   text_warn_on_leaving_unsaved: Страницата съдържа незаписано съдържание, което може да бъде загубено, ако я напуснете.
   text_scm_path_encoding_note: "По подразбиране: UTF-8"
-  text_mercurial_repository_note: Локално хранилище (например /hgrepo, c:\hgrepo)
+  text_git_repository_note: Празно и локално хранилище (например /gitrepo, c:\\gitrepo)
+  text_mercurial_repository_note: Локално хранилище (например /hgrepo, c:\\hgrepo)
   text_scm_command: SCM команда
   text_scm_command_version: Версия
   text_scm_config: Можете да конфигурирате SCM командите в config/configuration.yml. За да активирате промените, рестартирайте Redmine.
@@ -977,6 +978,3 @@ bg:
   enumeration_doc_categories: Категории документи
   enumeration_activities: Дейности (time tracking)
   enumeration_system_activity: Системна активност
-
-  label_diff: diff
-  text_git_repository_note: Repository is bare and local (e.g. /gitrepo, c:\gitrepo)
