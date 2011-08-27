@@ -123,7 +123,7 @@ END_DESC
   # in case of installing by rvm,
   # Ruby 1.9 default yaml library is psych.
 
-  task :check_parsing_by_psynch do
+  task :check_parsing_by_psych do
     begin
       require 'psych'
       parser = Psych::Parser.new
