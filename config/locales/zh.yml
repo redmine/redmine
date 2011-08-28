@@ -1,4 +1,4 @@
-# Chinese (China) translations for Ruby on Rails 
+# Chinese (China) translations for Ruby on Rails
 # by tsechingho (http://github.com/tsechingho)
 zh:
   # Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
@@ -11,7 +11,7 @@ zh:
       default: "%Y-%m-%d"
       short: "%b%d日"
       long: "%Y年%b%d日"
-      
+
     day_names: [星期天, 星期一, 星期二, 星期三, 星期四, 星期五, 星期六]
     abbr_day_names: [日, 一, 二, 三, 四, 五, 六]
 
@@ -73,7 +73,7 @@ zh:
   number:
     # Default format for numbers
     format:
-      separator: "." 
+      separator: "."
       delimiter: ""
       precision: 3
     human:
@@ -91,13 +91,12 @@ zh:
           gb: "GB"
           tb: "TB"
 
-        
 # Used in array.to_sentence.
   support:
     array:
       sentence_connector: "和"
       skip_last_comma: false
-      
+
   activerecord:
     errors:
       template:
@@ -131,7 +130,7 @@ zh:
         cant_link_an_issue_with_a_descendant: "问题不能关联到它的子任务"
 
   actionview_instancetag_blank_option: 请选择
-  
+
   general_text_No: '否'
   general_text_Yes: '是'
   general_text_no: '否'
@@ -142,7 +141,7 @@ zh:
   general_csv_encoding: gb18030
   general_pdf_encoding: gb18030
   general_first_day_of_week: '7'
-  
+
   notice_account_updated: 帐号更新成功
   notice_account_invalid_creditentials: 无效的用户名或密码
   notice_account_password_updated: 密码更新成功
@@ -173,7 +172,7 @@ zh:
   notice_unable_delete_time_entry: 无法删除工时
   notice_issue_done_ratios_updated: 问题完成度已更新。
   notice_gantt_chart_truncated: "The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})"
-  
+
   error_can_t_load_default_data: "无法载入默认设置：%{value}"
   error_scm_not_found: "版本库中不存在该条目和（或）其修订版本。"
   error_scm_command_failed: "访问版本库时发生错误：%{value}"
@@ -192,7 +191,7 @@ zh:
   error_unable_delete_issue_status: '无法删除问题状态'
   error_unable_to_connect: "无法连接 (%{value})"
   warning_attachments_not_saved: "%{count} 个文件保存失败"
-  
+
   mail_subject_lost_password: "您的 %{value} 密码"
   mail_body_lost_password: '请点击以下链接来修改您的密码：'
   mail_subject_register: "%{value}帐号激活"
@@ -207,10 +206,10 @@ zh:
   mail_body_wiki_content_added: "'%{id}' wiki页面已由 %{author} 添加。"
   mail_subject_wiki_content_updated: "'%{id}' wiki页面已更新。"
   mail_body_wiki_content_updated: "'%{id}' wiki页面已由 %{author} 更新。"
-  
+
   gui_validation_error: 1 个错误
   gui_validation_error_plural: "%{count} 个错误"
-  
+
   field_name: 名称
   field_description: 描述
   field_summary: 摘要
@@ -308,7 +307,7 @@ zh:
   field_assigned_to_role: 角色的成员
   field_text: 文本字段
   field_visible: 可见的
-  
+
   setting_app_title: 应用程序标题
   setting_app_subtitle: 应用程序子标题
   setting_welcome_text: 欢迎文字
@@ -366,7 +365,7 @@ zh:
   setting_commit_logtime_enabled: 激活时间日志
   setting_commit_logtime_activity_id: 记录的活动
   setting_gantt_items_limit: 在甘特图上显示的最大记录数
-  
+
   permission_add_project: 新建项目
   permission_add_subprojects: 新建子项目
   permission_edit_project: 编辑项目
@@ -422,7 +421,7 @@ zh:
   permission_delete_own_messages: 删除自己的帖子
   permission_export_wiki_pages: 导出 wiki 页面
   permission_manage_subtasks: 管理子任务
-  
+
   project_module_issue_tracking: 问题跟踪
   project_module_time_tracking: 时间跟踪
   project_module_news: 新闻
@@ -433,7 +432,7 @@ zh:
   project_module_boards: 讨论区
   project_module_calendar: 日历
   project_module_gantt: 甘特图
-  
+
   label_user: 用户
   label_user_plural: 用户
   label_user_new: 新建用户
@@ -797,7 +796,7 @@ zh:
   label_project_copy_notifications: 复制项目时发送邮件通知
   label_principal_search: "搜索用户或组："
   label_user_search: "搜索用户："
-  
+
   button_login: 登录
   button_submit: 提交
   button_save: 保存
@@ -846,13 +845,13 @@ zh:
   status_active: 活动的
   status_registered: 已注册
   status_locked: 已锁定
-  
+
   version_status_open: 打开
   version_status_locked: 锁定
   version_status_closed: 关闭
 
   field_active: 活动
-  
+
   text_select_mail_notifications: 选择需要发送邮件通知的动作
   text_regexp_info: 例如：^[A-Z0-9]+$
   text_min_max_length_info: 0 表示没有限制
@@ -912,7 +911,7 @@ zh:
   text_own_membership_delete_confirmation: 你正在删除你现有的某些或全部权限，如果这样做了你可能将会再也无法编辑该项目了。你确定要继续吗？
   text_zoom_in: Zoom in
   text_zoom_out: Zoom out
-  
+
   default_role_manager: 管理人员
   default_role_developer: 开发人员
   default_role_reporter: 报告人员
@@ -934,7 +933,7 @@ zh:
   default_priority_immediate: 立刻
   default_activity_design: 设计
   default_activity_development: 开发
-  
+
   enumeration_issue_priorities: 问题优先级
   enumeration_doc_categories: 文档类别
   enumeration_activities: 活动（时间跟踪）
