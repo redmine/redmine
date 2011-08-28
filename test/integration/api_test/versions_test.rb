@@ -5,12 +5,12 @@
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -28,7 +28,7 @@ class ApiTest::VersionsTest < ActionController::IntegrationTest
     context "GET" do
       should "return project versions" do
         get '/projects/1/versions.xml'
-        
+
         assert_response :success
         assert_equal 'application/xml', @response.content_type
         assert_tag :tag => 'versions',
@@ -46,21 +46,21 @@ class ApiTest::VersionsTest < ActionController::IntegrationTest
           }
       end
     end
-    
+
     context "POST" do
       should "create the version" do
         assert_difference 'Version.count' do
           post '/projects/1/versions.xml', {:version => {:name => 'API test'}}, :authorization => credentials('jsmith')
         end
-        
+
         version = Version.first(:order => 'id DESC')
         assert_equal 'API test', version.name
-        
+
         assert_response :created
         assert_equal 'application/xml', @response.content_type
         assert_tag 'version', :child => {:tag => 'id', :content => version.id.to_s}
       end
-      
+
       context "with failure" do
         should "return the errors" do
           assert_no_difference('Version.count') do
@@ -73,15 +73,15 @@ class ApiTest::VersionsTest < ActionController::IntegrationTest
       end
     end
   end
-  
+
   context "/versions/:id" do
     context "GET" do
       should "return the version" do
         get '/versions/2.xml'
-        
+
         assert_response :success
         assert_equal 'application/xml', @response.content_type
-        assert_tag 'version', 
+        assert_tag 'version',
           :child => {
             :tag => 'id',
             :content => '2',
@@ -92,28 +92,28 @@ class ApiTest::VersionsTest < ActionController::IntegrationTest
           }
       end
     end
-    
+
     context "PUT" do
       should "update the version" do
         put '/versions/2.xml', {:version => {:name => 'API update'}}, :authorization => credentials('jsmith')
-        
+
         assert_response :ok
         assert_equal 'API update', Version.find(2).name
       end
     end
-    
+
     context "DELETE" do
       should "destroy the version" do
         assert_difference 'Version.count', -1 do
           delete '/versions/3.xml', {}, :authorization => credentials('jsmith')
         end
-        
+
         assert_response :ok
         assert_nil Version.find_by_id(3)
       end
     end
   end
-  
+
   def credentials(user, password=nil)
     ActionController::HttpAuthentication::Basic.encode_credentials(user, password || user)
   end
