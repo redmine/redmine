@@ -955,8 +955,8 @@ ja:
   text_zoom_out: 縮小
   text_warn_on_leaving_unsaved: このページから移動すると、保存されていないデータが失われます。
   text_scm_path_encoding_note: "デフォルト: UTF-8"
-  text_mercurial_repository_note: "ローカルリポジトリ (例: /hgrepo, c:\hgrepo)"
-  text_git_repository_note: "Bare、かつ、ローカルリポジトリ (例: /gitrepo, c:\gitrepo)"
+  text_mercurial_repository_note: "ローカルリポジトリ (例: /hgrepo, c:\\hgrepo)"
+  text_git_repository_note: "Bare、かつ、ローカルリポジトリ (例: /gitrepo, c:\\gitrepo)"
   text_scm_command: コマンド
   text_scm_command_version: バージョン
   text_scm_config: バージョン管理システムのコマンドをconfig/configuration.ymlで設定できます。設定後、Redmineを再起動してください。
@@ -1006,7 +1006,7 @@ ja:
   field_is_private: プライベート
   permission_set_issues_private: チケットをプライベートに設定
   label_issues_visibility_public: プライベートチケット以外
-  text_issues_destroy_descendants_confirmation: %{count}個の子チケットも削除されます。
+  text_issues_destroy_descendants_confirmation: "%{count}個の子チケットも削除されます。"
   notice_issue_successful_create: チケット %{id} が作成されました。
   label_between: 次の範囲内
   setting_issue_group_assignment: グループへのチケット割り当てを許可
