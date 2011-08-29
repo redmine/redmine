@@ -171,7 +171,8 @@ class ChangesetTest < ActiveSupport::TestCase
   def test_commit_referencing_a_subproject_issue
     c = Changeset.new(:repository   => Project.find(1).repository,
                       :committed_on => Time.now,
-                      :comments     => 'refs #5, a subproject issue')
+                      :comments     => 'refs #5, a subproject issue',
+                      :revision     => '12345')
     c.scan_comment_for_issue_ids
 
     assert_equal [5], c.issue_ids.sort
