@@ -35,6 +35,15 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     assert_equal 'givenName', a.reload.attr_firstname
   end
 
+  def test_replace_port_zero_to_389
+    a = AuthSourceLdap.new(
+           :name => 'My LDAP', :host => 'ldap.example.net', :port => 0,
+           :base_dn => 'dc=example,dc=net', :attr_login => 'sAMAccountName',
+           :attr_firstname => 'givenName ')
+    assert a.save
+    assert_equal 389, a.port
+  end
+
   if ldap_configured?
     context '#authenticate' do
       setup do
