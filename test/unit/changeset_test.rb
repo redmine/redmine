@@ -43,8 +43,7 @@ class ChangesetTest < ActiveSupport::TestCase
                       :committed_on => Time.now,
                       :comments     => 'New commit (#2). Fixes #1',
                       :revision     => '12345')
-    c.scan_comment_for_issue_ids
-
+    assert c.save
     assert_equal [1, 2], c.issue_ids.sort
     fixed = Issue.find(1)
     assert fixed.closed?
