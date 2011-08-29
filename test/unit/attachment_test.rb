@@ -75,7 +75,7 @@ class AttachmentTest < ActiveSupport::TestCase
             'description' => 'test'
           })
       end
-      
+
       attachment = Attachment.first(:order => 'id DESC')
       assert_equal issue, attachment.container
       assert_equal 'testfile.txt', attachment.filename
@@ -85,7 +85,7 @@ class AttachmentTest < ActiveSupport::TestCase
       assert File.exists?(attachment.diskfile)
       assert_equal 59, File.size(attachment.diskfile)
     end
-    
+
     should "add unsaved files to the object as unsaved attachments" do
       # Max size of 0 to force Attachment creation failures
       with_settings(:attachment_max_size => 0) do
