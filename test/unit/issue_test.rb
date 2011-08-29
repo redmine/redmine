@@ -64,7 +64,7 @@ class IssueTest < ActiveSupport::TestCase
     issue.reload
     assert_equal 'PostgreSQL', issue.custom_value_for(field).value
   end
-  
+
   def test_create_with_group_assignment
     with_settings :issue_group_assignment => '1' do
       assert Issue.new(:project_id => 2, :tracker_id => 1, :author_id => 1, :subject => 'Group assignment', :assigned_to_id => 11).save
@@ -588,12 +588,12 @@ class IssueTest < ActiveSupport::TestCase
     # author is not a member of project anymore
     assert !copy.recipients.include?(copy.author.mail)
   end
-  
+
   def test_recipients_should_include_the_assigned_group_members
     group_member = User.generate_with_protected!
     group = Group.generate!
     group.users << group_member
-    
+
     issue = Issue.find(12)
     issue.assigned_to = group
     assert issue.recipients.include?(group_member.mail)
@@ -710,22 +710,22 @@ class IssueTest < ActiveSupport::TestCase
         assert_equal 1, assignable_user_ids.select {|i| i == user_id}.length, "User #{user_id} appears more or less than once"
       end
     end
-    
+
     context "with issue_group_assignment" do
       should "include groups" do
         issue = Issue.new(:project => Project.find(2))
-        
+
         with_settings :issue_group_assignment => '1' do
           assert_equal %w(Group User), issue.assignable_users.map {|a| a.class.name}.uniq.sort
           assert issue.assignable_users.include?(Group.find(11))
         end
       end
     end
-    
+
     context "without issue_group_assignment" do
       should "not include groups" do
         issue = Issue.new(:project => Project.find(2))
-        
+
         with_settings :issue_group_assignment => '0' do
           assert_equal %w(User), issue.assignable_users.map {|a| a.class.name}.uniq.sort
           assert !issue.assignable_users.include?(Group.find(11))
@@ -783,23 +783,23 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal old_description, detail.old_value
     assert_equal new_description, detail.value
   end
-  
+
   def test_blank_descriptions_should_not_be_journalized
     IssueCustomField.delete_all
     Issue.update_all("description = NULL", "id=1")
-    
+
     i = Issue.find(1)
     i.init_journal(User.find(2))
     i.subject = "blank description"
     i.description = "\r\n"
-    
+
     assert_difference 'Journal.count', 1 do
       assert_difference 'JournalDetail.count', 1 do
         i.save!
       end
     end
   end
-  
+
   def test_description_eol_should_be_normalized
     i = Issue.new(:description => "CR \r LF \n CRLF \r\n")
     assert_equal "CR \r\n LF \r\n CRLF \r\n", i.description
