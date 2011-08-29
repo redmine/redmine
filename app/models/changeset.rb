@@ -45,6 +45,7 @@ class Changeset < ActiveRecord::Base
                                           :conditions => Project.allowed_to_condition(args.shift || User.current, :view_changesets, *args) } }
 
   after_create :scan_for_issues
+  before_create :before_create_cs
 
   def revision=(r)
     write_attribute :revision, (r.nil? ? nil : r.to_s)
@@ -81,7 +82,7 @@ class Changeset < ActiveRecord::Base
     user || committer.to_s.split('<').first
   end
 
-  def before_create
+  def before_create_cs
     self.committer = self.class.to_utf8(self.committer, repository.repo_log_encoding)
     self.comments  = self.class.normalize_comments(
                        self.comments, repository.repo_log_encoding)
