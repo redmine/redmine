@@ -144,8 +144,7 @@ class ChangesetTest < ActiveSupport::TestCase
                       :committed_on => Time.now,
                       :comments     => '#1 is the reason of this commit',
                       :revision     => '12345')
-    c.scan_comment_for_issue_ids
-
+    assert c.save
     assert_equal [1], c.issue_ids.sort
   end
 
