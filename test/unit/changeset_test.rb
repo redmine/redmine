@@ -41,7 +41,8 @@ class ChangesetTest < ActiveSupport::TestCase
 
     c = Changeset.new(:repository   => Project.find(1).repository,
                       :committed_on => Time.now,
-                      :comments     => 'New commit (#2). Fixes #1')
+                      :comments     => 'New commit (#2). Fixes #1',
+                      :revision     => '12345')
     c.scan_comment_for_issue_ids
 
     assert_equal [1, 2], c.issue_ids.sort
