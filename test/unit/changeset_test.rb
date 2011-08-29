@@ -187,8 +187,7 @@ class ChangesetTest < ActiveSupport::TestCase
                       :committed_on => Time.now,
                       :comments     => 'refs #2, an issue of a parent project',
                       :revision     => '12345')
-    c.scan_comment_for_issue_ids
-
+    assert c.save
     assert_equal [2], c.issue_ids.sort
     assert c.issues.first.project != c.project
   end
