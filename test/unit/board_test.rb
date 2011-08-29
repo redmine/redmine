@@ -6,7 +6,7 @@ class BoardTest < ActiveSupport::TestCase
   def setup
     @project = Project.find(1)
   end
-  
+
   def test_create
     board = Board.new(:project => @project, :name => 'Test board', :description => 'Test board description')
     assert board.save
@@ -20,7 +20,7 @@ class BoardTest < ActiveSupport::TestCase
     # last position
     assert_equal @project.boards.size, board.position
   end
-  
+
   def test_destroy
     board = Board.find(1)
     assert_difference 'Message.count', -6 do
