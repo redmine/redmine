@@ -183,10 +183,10 @@ class ChangesetTest < ActiveSupport::TestCase
     r = Repository::Subversion.create!(
           :project => Project.find(3),
           :url     => 'svn://localhost/test')
-
     c = Changeset.new(:repository   => r,
                       :committed_on => Time.now,
-                      :comments     => 'refs #2, an issue of a parent project')
+                      :comments     => 'refs #2, an issue of a parent project',
+                      :revision     => '12345')
     c.scan_comment_for_issue_ids
 
     assert_equal [2], c.issue_ids.sort
