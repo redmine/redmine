@@ -164,8 +164,7 @@ class ChangesetTest < ActiveSupport::TestCase
                       :committed_on => Time.now,
                       :comments     => '[#1 #2, #3] Worked on these',
                       :revision     => '12345')
-    c.scan_comment_for_issue_ids
-
+    assert c.save
     assert_equal [1,2,3], c.issue_ids.sort
   end
 
