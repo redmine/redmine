@@ -160,10 +160,10 @@ class ChangesetTest < ActiveSupport::TestCase
 
   def test_ref_keywords_allow_brackets_around_multiple_issue_numbers
     Setting.commit_ref_keywords = '*'
-
     c = Changeset.new(:repository   => Project.find(1).repository,
                       :committed_on => Time.now,
-                      :comments     => '[#1 #2, #3] Worked on these')
+                      :comments     => '[#1 #2, #3] Worked on these',
+                      :revision     => '12345')
     c.scan_comment_for_issue_ids
 
     assert_equal [1,2,3], c.issue_ids.sort
