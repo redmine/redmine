@@ -1,16 +1,16 @@
 # Redmine - project management software
-# Copyright (C) 2006-2009  Jean-Philippe Lang
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -64,9 +64,9 @@ class Redmine::MenuManager::MapperTest < ActiveSupport::TestCase
       assert_not_nil root.children[position]
       assert_equal name, root.children[position].name
     end
-  
+
   end
-  
+
   def test_push_before
     menu_mapper = Redmine::MenuManager::Mapper.new(:test_menu, {})
     menu_mapper.push :test_first, { :controller => 'projects', :action => 'show'}, {}
@@ -81,7 +81,7 @@ class Redmine::MenuManager::MapperTest < ActiveSupport::TestCase
       assert_not_nil root.children[position]
       assert_equal name, root.children[position].name
     end
-  
+
   end
 
   def test_push_after
@@ -92,14 +92,13 @@ class Redmine::MenuManager::MapperTest < ActiveSupport::TestCase
     menu_mapper.push :test_fifth, { :controller => 'projects', :action => 'show'}, {}
     menu_mapper.push :test_fourth, { :controller => 'projects', :action => 'show'}, {:after => :test_third}
 
-    
     root = menu_mapper.find(:root)
     assert_equal 5, root.children.size
     {0 => :test_first, 1 => :test_second, 2 => :test_third, 3 => :test_fourth, 4 => :test_fifth}.each do |position, name|
       assert_not_nil root.children[position]
       assert_equal name, root.children[position].name
     end
-  
+
   end
 
   def test_push_last
@@ -116,9 +115,9 @@ class Redmine::MenuManager::MapperTest < ActiveSupport::TestCase
       assert_not_nil root.children[position]
       assert_equal name, root.children[position].name
     end
-  
+
   end
-  
+
   def test_exists_for_child_node
     menu_mapper = Redmine::MenuManager::Mapper.new(:test_menu, {})
     menu_mapper.push :test_overview, { :controller => 'projects', :action => 'show'}, {}
