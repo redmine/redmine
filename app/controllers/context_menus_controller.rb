@@ -1,10 +1,10 @@
 class ContextMenusController < ApplicationController
   helper :watchers
   helper :issues
-  
+
   def issues
     @issues = Issue.visible.all(:conditions => {:id => params[:ids]}, :include => :project)
-    
+
     if (@issues.size == 1)
       @issue = @issues.first
       @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
@@ -37,11 +37,11 @@ class ContextMenusController < ApplicationController
       @assignables = @projects.map(&:assignable_users).inject{|memo,a| memo & a}
       @trackers = @projects.map(&:trackers).inject{|memo,t| memo & t}
     end
-    
+
     @priorities = IssuePriority.active.reverse
     @statuses = IssueStatus.find(:all, :order => 'position')
     @back = back_url
-    
+
     render :layout => false
   end
 
@@ -57,5 +57,5 @@ class ContextMenusController < ApplicationController
             }
     @back = back_url
     render :layout => false
-  end  
+  end
 end
