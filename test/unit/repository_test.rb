@@ -138,7 +138,7 @@ class RepositoryTest < ActiveSupport::TestCase
                   changeset.comments )
   end
 
-  def test_for_urls_strip
+  def test_for_urls_strip_cvs
     repository = Repository::Cvs.create(
         :project => Project.find(4),
         :url => ' :pserver:login:password@host:/path/to/the/repository',
