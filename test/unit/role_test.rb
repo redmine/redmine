@@ -5,12 +5,12 @@
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -23,7 +23,7 @@ class RoleTest < ActiveSupport::TestCase
   def test_copy_workflows
     source = Role.find(1)
     assert_equal 90, source.workflows.size
-    
+
     target = Role.new(:name => 'Target')
     assert target.save
     target.workflows.copy(source)
@@ -49,7 +49,7 @@ class RoleTest < ActiveSupport::TestCase
     assert ! role.permissions.include?(perm[0])
     assert_equal size - 2, role.permissions.size
   end
-  
+
   def test_name
     I18n.locale = 'fr'
     assert_equal 'Manager', Role.find(1).name
