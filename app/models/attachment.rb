@@ -46,6 +46,8 @@ class Attachment < ActiveRecord::Base
   cattr_accessor :storage_path
   @@storage_path = Redmine::Configuration['attachments_storage_path'] || "#{Rails.root}/files"
 
+  before_save :files_to_final_location
+
   def validate_max_file_size
     if self.filesize > Setting.attachment_max_size.to_i.kilobytes
       errors.add(:base, :too_long, :count => Setting.attachment_max_size.to_i.kilobytes)
@@ -73,7 +75,7 @@ class Attachment < ActiveRecord::Base
 
   # Copies the temporary file to its final location
   # and computes its MD5 hash
-  def before_save
+  def files_to_final_location
     if @temp_file && (@temp_file.size > 0)
       logger.info("Saving attachment '#{self.diskfile}' (#{@temp_file.size} bytes)")
       md5 = Digest::MD5.new
