@@ -160,6 +160,15 @@ class RepositoryTest < ActiveSupport::TestCase
     assert_equal 'file:///dummy', repository.url
   end
 
+  def test_for_urls_strip_git
+    repository = Repository::Git.create(
+        :project => Project.find(4),
+        :url => ' c:\dummy   ')
+    assert repository.save
+    repository.reload
+    assert_equal 'c:\dummy', repository.url
+  end
+
   def test_manual_user_mapping
     assert_no_difference "Changeset.count(:conditions => 'user_id <> 2')" do
       c = Changeset.create!(
