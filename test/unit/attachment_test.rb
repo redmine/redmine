@@ -39,6 +39,23 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal 59, File.size(a.diskfile)
   end
 
+  def test_destroy
+    a = Attachment.new(:container => Issue.find(1),
+                       :file => uploaded_test_file("testfile.txt", "text/plain"),
+                       :author => User.find(1))
+    assert a.save
+    assert_equal 'testfile.txt', a.filename
+    assert_equal 59, a.filesize
+    assert_equal 'text/plain', a.content_type
+    assert_equal 0, a.downloads
+    assert_equal '1478adae0d4eb06d35897518540e25d6', a.digest
+    diskfile = a.diskfile
+    assert File.exist?(diskfile)
+    assert_equal 59, File.size(a.diskfile)
+    assert a.destroy
+    assert !File.exist?(diskfile)
+  end
+
   def test_create_should_auto_assign_content_type
     a = Attachment.new(:container => Issue.find(1),
                        :file => uploaded_test_file("testfile.txt", ""),
