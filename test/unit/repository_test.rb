@@ -151,6 +151,15 @@ class RepositoryTest < ActiveSupport::TestCase
     assert_equal 'foo', repository.root_url
   end
 
+  def test_for_urls_strip_subversion
+    repository = Repository::Subversion.create(
+        :project => Project.find(4),
+        :url => ' file:///dummy   ')
+    assert repository.save
+    repository.reload
+    assert_equal 'file:///dummy', repository.url
+  end
+
   def test_manual_user_mapping
     assert_no_difference "Changeset.count(:conditions => 'user_id <> 2')" do
       c = Changeset.create!(
