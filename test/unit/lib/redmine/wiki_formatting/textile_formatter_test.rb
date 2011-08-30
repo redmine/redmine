@@ -1,16 +1,16 @@
 # Redmine - project management software
-# Copyright (C) 2006-2010  Jean-Philippe Lang
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -22,7 +22,7 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
   def setup
     @formatter = Redmine::WikiFormatting::Textile::Formatter
   end
-  
+
   MODIFIERS = {
     "*" => 'strong', # bold
     "_" => 'em',     # italic
@@ -31,7 +31,7 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
     "^" => 'sup',    # superscript
     "~" => 'sub'     # subscript
   }
-  
+
   def test_modifiers
     assert_html_output(
       '*bold*'                => '<strong>bold</strong>',
@@ -46,7 +46,7 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
       '*(foo)two words*'      => '<strong class="foo">two words</strong>'
     )
   end
-  
+
   def test_modifiers_combination
     MODIFIERS.each do |m1, tag1|
       MODIFIERS.each do |m2, tag2|
@@ -57,7 +57,7 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
       end
     end
   end
-  
+
   def test_inline_code
     assert_html_output(
       'this is @some code@'      => 'this is <code>some code</code>',
@@ -76,14 +76,14 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
       'h1. 2009\02\09'      => '<h1>2009\02\09</h1>'
     }, false)
   end
-  
+
   def test_double_dashes_should_not_strikethrough
     assert_html_output(
       'double -- dashes -- test'  => 'double -- dashes -- test',
       'double -- *dashes* -- test'  => 'double -- <strong>dashes</strong> -- test'
     )
   end
-  
+
   def test_acronyms
     assert_html_output(
       'this is an acronym: GPL(General Public License)' => 'this is an acronym: <acronym title="General Public License">GPL</acronym>',
@@ -91,7 +91,7 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
       'GPL(This is a double-quoted "title")' => '<acronym title="This is a double-quoted &quot;title&quot;">GPL</acronym>'
     )
   end
-  
+
   def test_blockquote
     # orig raw text
     raw = <<-RAW
@@ -108,7 +108,7 @@ John said:
 
 He's right.
 RAW
-    
+
     # expected html
     expected = <<-EXPECTED
 <p>John said:</p>
@@ -128,10 +128,10 @@ Nullam commodo metus accumsan nulla. Curabitur lobortis dui id dolor.
 </blockquote>
 <p>He's right.</p>
 EXPECTED
-    
+
     assert_equal expected.gsub(%r{\s+}, ''), to_html(raw).gsub(%r{\s+}, '')
   end
-  
+
   def test_table
     raw = <<-RAW
 This is a table with empty cells:
@@ -153,7 +153,7 @@ EXPECTED
 
     assert_equal expected.gsub(%r{\s+}, ''), to_html(raw).gsub(%r{\s+}, '')
   end
-  
+
   def test_table_with_line_breaks
     raw = <<-RAW
 This is a table with line breaks:
@@ -192,19 +192,19 @@ EXPECTED
 
     assert_equal expected.gsub(%r{\s+}, ''), to_html(raw).gsub(%r{\s+}, '')
   end
-  
+
   def test_textile_should_not_mangle_brackets
     assert_equal '<p>[msg1][msg2]</p>', to_html('[msg1][msg2]')
   end
-  
+
   private
-  
+
   def assert_html_output(to_test, expect_paragraph = true)
     to_test.each do |text, expected|
       assert_equal(( expect_paragraph ? "<p>#{expected}</p>" : expected ), @formatter.new(text).to_html, "Formatting the following text failed:\n===\n#{text}\n===\n")
     end
   end
-  
+
   def to_html(text)
     @formatter.new(text).to_html
   end
