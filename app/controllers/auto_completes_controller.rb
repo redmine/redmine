@@ -1,6 +1,6 @@
 class AutoCompletesController < ApplicationController
   before_filter :find_project
-  
+
   def issues
     @issues = []
     q = params[:q].to_s
