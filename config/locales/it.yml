@@ -206,7 +206,7 @@ it:
   field_is_default: Stato predefinito
   field_tracker: Tracker
   field_subject: Oggetto
-  field_due_date: Data ultima
+  field_due_date: Scadenza
   field_assigned_to: Assegnato a
   field_priority: Priorità
   field_fixed_version: Versione prevista
