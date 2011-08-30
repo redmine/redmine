@@ -47,6 +47,7 @@ class Attachment < ActiveRecord::Base
   @@storage_path = Redmine::Configuration['attachments_storage_path'] || "#{Rails.root}/files"
 
   before_save :files_to_final_location
+  after_destroy :delete_from_disk
 
   def validate_max_file_size
     if self.filesize > Setting.attachment_max_size.to_i.kilobytes
@@ -96,7 +97,7 @@ class Attachment < ActiveRecord::Base
   end
 
   # Deletes file on the disk
-  def after_destroy
+  def delete_from_disk
     File.delete(diskfile) if !filename.blank? && File.exist?(diskfile)
   end
 
