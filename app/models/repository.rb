@@ -312,13 +312,6 @@ class Repository < ActiveRecord::Base
 
   private
 
-  def before_save
-    # Strips url and root_url
-    url.strip!
-    root_url.strip!
-    true
-  end
-
   def clear_changesets
     cs, ch, ci = Changeset.table_name, Change.table_name, "#{table_name_prefix}changesets_issues#{table_name_suffix}"
     connection.delete("DELETE FROM #{ch} WHERE #{ch}.changeset_id IN (SELECT #{cs}.id FROM #{cs} WHERE #{cs}.repository_id = #{id})")
