@@ -25,11 +25,11 @@ class WorkflowTest < ActiveSupport::TestCase
     Workflow.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 1, :new_status_id => 2)
     Workflow.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 1, :new_status_id => 3, :assignee => true)
     Workflow.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 1, :new_status_id => 4, :author => true)
-    
+
     assert_difference 'Workflow.count', 3 do
       Workflow.copy(Tracker.find(2), Role.find(1), Tracker.find(3), Role.find(2))
     end
-    
+
     assert Workflow.first(:conditions => {:role_id => 2, :tracker_id => 3, :old_status_id => 1, :new_status_id => 2, :author => false, :assignee => false})
     assert Workflow.first(:conditions => {:role_id => 2, :tracker_id => 3, :old_status_id => 1, :new_status_id => 3, :author => false, :assignee => true})
     assert Workflow.first(:conditions => {:role_id => 2, :tracker_id => 3, :old_status_id => 1, :new_status_id => 4, :author => true, :assignee => false})
