@@ -352,7 +352,7 @@ class MailHandler < ActionMailer::Base
     end
     body.strip
   end
-  
+
   def find_assignee_from_keyword(keyword, issue)
     keyword = keyword.to_s.downcase
     assignable = issue.assignable_users
