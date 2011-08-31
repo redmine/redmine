@@ -25,6 +25,8 @@ class CustomField < ActiveRecord::Base
   validates_length_of :name, :maximum => 30
   validates_inclusion_of :field_format, :in => Redmine::CustomFieldFormat.available_formats
 
+  validate :validate_values
+
   def initialize(attributes = nil)
     super
     self.possible_values ||= []
@@ -36,7 +38,7 @@ class CustomField < ActiveRecord::Base
     true
   end
 
-  def validate
+  def validate_values
     if self.field_format == "list"
       errors.add(:possible_values, :blank) if self.possible_values.nil? || self.possible_values.empty?
       errors.add(:possible_values, :invalid) unless self.possible_values.is_a? Array
