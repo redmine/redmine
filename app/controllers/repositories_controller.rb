@@ -207,7 +207,7 @@ class RepositoriesController < ApplicationController
         User.current.pref[:diff_type] = @diff_type
         User.current.preference.save
       end
-      @cache_key = "repositories/diff/#{@repository.id}/" + 
+      @cache_key = "repositories/diff/#{@repository.id}/" +
                       Digest::MD5.hexdigest("#{@path}-#{@rev}-#{@rev_to}-#{@diff_type}-#{current_language}")
       unless read_fragment(@cache_key)
         @diff = @repository.diff(@path, @rev, @rev_to)
