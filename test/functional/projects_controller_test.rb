@@ -186,7 +186,7 @@ class ProjectsControllerTest < ActionController::TestCase
         assert_kind_of Project, project
         assert_equal Project.find(1), project.parent
       end
-      
+
       should "continue" do
         assert_difference 'Project.count' do
           post :create, :project => {:name => "blog", :identifier => "blog"}, :continue => 'Create and continue'
