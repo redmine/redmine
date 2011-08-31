@@ -5,12 +5,12 @@
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -22,7 +22,7 @@ class JournalsController < ApplicationController
   before_filter :authorize, :only => [:new, :edit, :diff]
   accept_rss_auth :index
   menu_item :issues
-  
+
   helper :issues
   helper :custom_fields
   helper :queries
@@ -34,9 +34,9 @@ class JournalsController < ApplicationController
     retrieve_query
     sort_init 'id', 'desc'
     sort_update(@query.sortable_columns)
-    
+
     if @query.valid?
-      @journals = @query.journals(:order => "#{Journal.table_name}.created_on DESC", 
+      @journals = @query.journals(:order => "#{Journal.table_name}.created_on DESC",
                                   :limit => 25)
     end
     @title = (@project ? @project.name : Setting.app_title) + ": " + (@query.new_record? ? l(:label_changes_details) : @query.name)
@@ -44,7 +44,7 @@ class JournalsController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-  
+
   def diff
     @issue = @journal.issue
     if params[:detail_id].present?
@@ -55,7 +55,7 @@ class JournalsController < ApplicationController
     (render_404; return false) unless @issue && @detail
     @diff = Redmine::Helpers::Diff.new(@detail.value, @detail.old_value)
   end
-  
+
   def new
     journal = Journal.find(params[:journal_id]) if params[:journal_id]
     if journal
@@ -69,7 +69,7 @@ class JournalsController < ApplicationController
     text = text.to_s.strip.gsub(%r{<pre>((.|\s)*?)</pre>}m, '[...]')
     content = "#{ll(Setting.default_language, :text_user_wrote, user)}\n> "
     content << text.gsub(/(\r?\n|\r\n?)/, "\n> ") + "\n\n"
-      
+
     render(:update) { |page|
       page.<< "$('notes').value = \"#{escape_javascript content}\";"
       page.show 'update'
@@ -78,7 +78,7 @@ class JournalsController < ApplicationController
       page << "$('notes').scrollTop = $('notes').scrollHeight - $('notes').clientHeight;"
     }
   end
-  
+
   def edit
     (render_403; return false) unless @journal.editable_by?(User.current)
     if request.post?
@@ -93,15 +93,15 @@ class JournalsController < ApplicationController
       respond_to do |format|
         format.html {
           # TODO: implement non-JS journal update
-          render :nothing => true 
+          render :nothing => true
         }
         format.js
       end
     end
   end
-  
+
   private
-  
+
   def find_journal
     @journal = Journal.find(params[:id])
     @project = @journal.journalized.project
