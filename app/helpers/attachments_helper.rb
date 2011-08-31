@@ -43,7 +43,7 @@ module AttachmentsHelper
       str
     end
   end
-  
+
   def render_api_attachment(attachment, api)
     api.attachment do
       api.id attachment.id
