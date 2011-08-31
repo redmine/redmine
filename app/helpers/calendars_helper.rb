@@ -5,7 +5,7 @@ module CalendarsHelper
                                 else
                                   [year, month - 1]
                                 end
-    
+
     name = if target_month == 12
              "#{month_name(target_month)} #{target_year}"
            else
