@@ -12,7 +12,7 @@ class CommentsController < ApplicationController
     if @news.comments << @comment
       flash[:notice] = l(:label_comment_added)
     end
-    
+
     redirect_to :controller => 'news', :action => 'show', :id => @news
   end
 
@@ -32,5 +32,5 @@ class CommentsController < ApplicationController
     @comment = nil
     @news
   end
-  
+
 end
