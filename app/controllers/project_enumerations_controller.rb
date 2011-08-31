@@ -1,7 +1,7 @@
 class ProjectEnumerationsController < ApplicationController
   before_filter :find_project_by_project_id
   before_filter :authorize
-  
+
   def update
     if request.put? && params[:enumerations]
       Project.transaction do
@@ -11,7 +11,7 @@ class ProjectEnumerationsController < ApplicationController
       end
       flash[:notice] = l(:notice_successful_update)
     end
-    
+
     redirect_to :controller => 'projects', :action => 'settings', :tab => 'activities', :id => @project
   end
 
