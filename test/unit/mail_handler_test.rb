@@ -109,7 +109,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 'Urgent', issue.priority.to_s
     assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
   end
-  
+
   def test_add_issue_with_group_assignment
     with_settings :issue_group_assignment => '1' do
       issue = submit_email('ticket_on_given_project.eml') do |email|
@@ -290,12 +290,12 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_kind_of Issue, issue
     assert_equal tracker, issue.tracker
   end
-  
+
   def test_add_issue_from_apple_mail
     issue = submit_email('apple_mail_with_attachment.eml', :issue => {:project => 'ecookbook'})
     assert_kind_of Issue, issue
     assert_equal 1, issue.attachments.size
-    
+
     attachment = issue.attachments.first
     assert_equal 'paella.jpg', attachment.filename
     assert_equal 10790, attachment.filesize
@@ -344,7 +344,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert !journal.notes.match(/^Status:/i)
     assert !journal.notes.match(/^Start Date:/i)
   end
-  
+
   def test_update_issue_with_attachment
     assert_difference 'Journal.count' do
       assert_difference 'JournalDetail.count' do
@@ -360,7 +360,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     journal = Journal.first(:order => 'id DESC')
     assert_equal Issue.find(2), journal.journalized
     assert_equal 1, journal.details.size
-    
+
     detail = journal.details.first
     assert_equal 'attachment', detail.property
     assert_equal 'Paella.jpg', detail.value
