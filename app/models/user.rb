@@ -74,6 +74,7 @@ class User < Principal
   validates_inclusion_of :mail_notification, :in => MAIL_NOTIFICATION_OPTIONS.collect(&:first), :allow_blank => true
 
   before_create :set_mail_notification
+  before_save   :update_hashed_password
   before_destroy :remove_references_before_destroy
 
   named_scope :in_group, lambda {|group|
@@ -90,7 +91,7 @@ class User < Principal
     true
   end
 
-  def before_save
+  def update_hashed_password
     # update hashed_password if password was set
     if self.password && self.auth_source_id.blank?
       salt_password(password)
