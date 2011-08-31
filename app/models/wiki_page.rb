@@ -42,6 +42,8 @@ class WikiPage < ActiveRecord::Base
   validates_uniqueness_of :title, :scope => :wiki_id, :case_sensitive => false
   validates_associated :content
 
+  validate :validate_parent_title
+
   # eager load information about last updates, without loading text
   named_scope :with_updated_on, {
     :select => "#{WikiPage.table_name}.*, #{WikiContent.table_name}.updated_on",
@@ -161,7 +163,7 @@ class WikiPage < ActiveRecord::Base
 
   protected
 
-  def validate
+  def validate_parent_title
     errors.add(:parent_title, :invalid) if !@parent_title.blank? && parent.nil?
     errors.add(:parent_title, :circular_dependency) if parent && (parent == self || parent.ancestors.include?(self))
     errors.add(:parent_title, :not_same_project) if parent && (parent.wiki_id != wiki_id)
