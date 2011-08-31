@@ -961,7 +961,7 @@ pt-BR:
   setting_commit_logtime_enabled: Habilitar registro de horas
   notice_gantt_chart_truncated: O gráfico foi cortado por exceder o tamanho máximo de linhas que podem ser exibidas (%{max})
   setting_gantt_items_limit: Número máximo de itens exibidos no gráfico gatt
-  field_warn_on_leaving_unsaved: Alertar-me ao sarir de uma página sem salvar o texto
+  field_warn_on_leaving_unsaved: Alertar-me ao sair de uma página sem salvar o texto
   text_warn_on_leaving_unsaved: A página atual contem texto que não foi salvo e será perdido se você sair desta página.
   label_my_queries: Minhas consultas personalizadas
   text_journal_changed_no_detail: "%{label} atualizado(a)"
