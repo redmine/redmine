@@ -190,27 +190,27 @@ class IssuesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:issues)
     assert_not_nil assigns(:issue_count_by_group)
   end
-  
+
   def test_private_query_should_not_be_available_to_other_users
     q = Query.create!(:name => "private", :user => User.find(2), :is_public => false, :project => nil)
     @request.session[:user_id] = 3
-    
+
     get :index, :query_id => q.id
     assert_response 403
   end
-  
+
   def test_private_query_should_be_available_to_its_user
     q = Query.create!(:name => "private", :user => User.find(2), :is_public => false, :project => nil)
     @request.session[:user_id] = 2
-    
+
     get :index, :query_id => q.id
     assert_response :success
   end
-  
+
   def test_public_query_should_be_available_to_other_users
     q = Query.create!(:name => "private", :user => User.find(2), :is_public => true, :project => nil)
     @request.session[:user_id] = 3
-    
+
     get :index, :query_id => q.id
     assert_response :success
   end
@@ -354,11 +354,11 @@ class IssuesControllerTest < ActionController::TestCase
     assert_no_tag :option, :attributes => {:value => '15'},
                            :parent => {:tag => 'select', :attributes => {:id => 'issue_priority_id'} }
   end
-  
+
   def test_update_form_should_allow_attachment_upload
     @request.session[:user_id] = 2
     get :show, :id => 1
-    
+
     assert_tag :tag => 'form',
       :attributes => {:id => 'issue-form', :method => 'post', :enctype => 'multipart/form-data'},
       :descendant => {
@@ -474,11 +474,11 @@ class IssuesControllerTest < ActionController::TestCase
     assert_no_tag :option, :attributes => {:value => '15'},
                            :parent => {:tag => 'select', :attributes => {:id => 'issue_priority_id'} }
   end
-  
+
   def test_get_new_form_should_allow_attachment_upload
     @request.session[:user_id] = 2
     get :new, :project_id => 1, :tracker_id => 1
-    
+
     assert_tag :tag => 'form',
       :attributes => {:id => 'issue-form', :method => 'post', :enctype => 'multipart/form-data'},
       :descendant => {
@@ -559,7 +559,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_not_nil v
     assert_equal 'Value for field 2', v.value
   end
-  
+
   def test_post_new_with_group_assignment
     group = Group.find(11)
     project = Project.find(1)
@@ -568,7 +568,7 @@ class IssuesControllerTest < ActionController::TestCase
     with_settings :issue_group_assignment => '1' do
       @request.session[:user_id] = 2
       assert_difference 'Issue.count' do
-        post :create, :project_id => project.id, 
+        post :create, :project_id => project.id,
                       :issue => {:tracker_id => 3,
                                  :status_id => 1,
                                  :subject => 'This is the test_new_with_group_assignment issue',
@@ -576,7 +576,7 @@ class IssuesControllerTest < ActionController::TestCase
       end
     end
     assert_redirected_to :controller => 'issues', :action => 'show', :id => Issue.last.id
-    
+
     issue = Issue.find_by_subject('This is the test_new_with_group_assignment issue')
     assert_not_nil issue
     assert_equal group, issue.assigned_to
@@ -609,7 +609,7 @@ class IssuesControllerTest < ActionController::TestCase
         :issue => {:tracker_id => 3, :subject => 'This is first issue', :priority_id => 5},
         :continue => ''
     end
-    
+
     issue = Issue.first(:order => 'id DESC')
     assert_redirected_to :controller => 'issues', :action => 'new', :project_id => 'ecookbook', :issue => {:tracker_id => 3}
     assert_not_nil flash[:notice], "flash was not set"
@@ -697,7 +697,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_not_nil issue
     assert_nil issue.parent
   end
-  
+
   def test_post_create_private
     @request.session[:user_id] = 2
 
@@ -710,12 +710,12 @@ class IssuesControllerTest < ActionController::TestCase
     issue = Issue.first(:order => 'id DESC')
     assert issue.is_private?
   end
-  
+
   def test_post_create_private_with_set_own_issues_private_permission
     role = Role.find(1)
     role.remove_permission! :set_issues_private
     role.add_permission! :set_own_issues_private
-    
+
     @request.session[:user_id] = 2
 
     assert_difference 'Issue.count' do
@@ -782,18 +782,18 @@ class IssuesControllerTest < ActionController::TestCase
   def test_post_create_with_attachment
     set_tmp_attachments_directory
     @request.session[:user_id] = 2
-    
+
     assert_difference 'Issue.count' do
       assert_difference 'Attachment.count' do
-        post :create, :project_id => 1, 
+        post :create, :project_id => 1,
           :issue => { :tracker_id => '1', :subject => 'With attachment' },
           :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain'), 'description' => 'test file'}}
       end
     end
-    
+
     issue = Issue.first(:order => 'id DESC')
     attachment = Attachment.first(:order => 'id DESC')
-    
+
     assert_equal issue, attachment.container
     assert_equal 2, attachment.author_id
     assert_equal 'testfile.txt', attachment.filename
@@ -1146,14 +1146,14 @@ class IssuesControllerTest < ActionController::TestCase
         :notes => '',
         :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain'), 'description' => 'test file'}}
     end
-    
+
     assert_redirected_to :action => 'show', :id => '1'
     j = Issue.find(1).journals.find(:first, :order => 'id DESC')
     assert j.notes.blank?
     assert_equal 1, j.details.size
     assert_equal 'testfile.txt', j.details.first.value
     assert_equal User.anonymous, j.user
-    
+
     attachment = Attachment.first(:order => 'id DESC')
     assert_equal Issue.find(1), attachment.container
     assert_equal User.anonymous, attachment.author
@@ -1396,7 +1396,7 @@ class IssuesControllerTest < ActionController::TestCase
     group = Group.find(11)
     project = Project.find(1)
     project.members << Member.new(:principal => group, :roles => [Role.first])
-    
+
     @request.session[:user_id] = 2
     # update issues assignee
     post :bulk_update, :ids => [1, 2], :notes => 'Bulk editing',
