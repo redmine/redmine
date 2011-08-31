@@ -5,12 +5,12 @@
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -18,21 +18,21 @@
 class Group < Principal
   has_and_belongs_to_many :users, :after_add => :user_added,
                                   :after_remove => :user_removed
-  
+
   acts_as_customizable
-  
+
   validates_presence_of :lastname
   validates_uniqueness_of :lastname, :case_sensitive => false
   validates_length_of :lastname, :maximum => 30
-  
+
   before_destroy :remove_references_before_destroy
-  
+
   def to_s
     lastname.to_s
   end
-  
+
   alias :name :to_s
-  
+
   def user_added(user)
     members.each do |member|
       next if member.project.nil?
@@ -43,20 +43,20 @@ class Group < Principal
       user_member.save!
     end
   end
-  
+
   def user_removed(user)
     members.each do |member|
       MemberRole.find(:all, :include => :member,
                             :conditions => ["#{Member.table_name}.user_id = ? AND #{MemberRole.table_name}.inherited_from IN (?)", user.id, member.member_role_ids]).each(&:destroy)
     end
   end
-  
+
   private
-  
+
   # Removes references that are not handled by associations
   def remove_references_before_destroy
     return if self.id.nil?
-    
+
     Issue.update_all 'assigned_to_id = NULL', ['assigned_to_id = ?', id]
   end
 end
