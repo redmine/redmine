@@ -5,12 +5,12 @@
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -19,7 +19,7 @@ module Redmine
   # Class used to parse unified diffs
   class UnifiedDiff < Array
     attr_reader :diff_type
-    
+
     def initialize(diff, options={})
       options.assert_valid_keys(:type, :max_lines)
       diff = diff.split("\n") if diff.is_a?(String)
@@ -55,7 +55,7 @@ module Redmine
   end
 
   # Class that represents a file diff
-  class DiffTable < Array  
+  class DiffTable < Array
     attr_reader :file_name
 
     # Initialize with a Diff file and the type of Diff View
@@ -86,12 +86,12 @@ module Redmine
           @line_num_l = $2.to_i
           @line_num_r = $5.to_i
         else
-          parse_line(line, @type)          
+          parse_line(line, @type)
         end
       end
       return true
     end
-    
+
     def each_line
       prev_line_left, prev_line_right = nil, nil
       each do |line|
@@ -116,7 +116,7 @@ module Redmine
     def escapeHTML(line)
         CGI.escapeHTML(line)
     end
-      
+
     def diff_for_added_line
       if @type == 'sbs' && @removed > 0 && @added < @removed
         self[-(@removed - @added)]
@@ -164,7 +164,7 @@ module Redmine
         end
       end
     end
-    
+
     def write_offsets
       if @added > 0 && @added == @removed
         @added.times do |i|
@@ -177,7 +177,7 @@ module Redmine
       @added = 0
       @removed = 0
     end
-    
+
     def offsets(line_left, line_right)
       if line_left.present? && line_right.present? && line_left != line_right
         max = [line_left.size, line_right.size].min
@@ -197,7 +197,7 @@ module Redmine
   end
 
   # A line of diff
-  class Diff  
+  class Diff
     attr_accessor :nb_line_left
     attr_accessor :line_left
     attr_accessor :nb_line_right
@@ -205,7 +205,7 @@ module Redmine
     attr_accessor :type_diff_right
     attr_accessor :type_diff_left
     attr_accessor :offsets
-    
+
     def initialize()
       self.nb_line_left = ''
       self.nb_line_right = ''
@@ -214,15 +214,15 @@ module Redmine
       self.type_diff_right = ''
       self.type_diff_left = ''
     end
-    
+
     def type_diff
       type_diff_right == 'diff_in' ? type_diff_right : type_diff_left
     end
-    
+
     def line
       type_diff_right == 'diff_in' ? line_right : line_left
     end
-    
+
     def html_line_left
       if offsets
         line_left.dup.insert(offsets.first, '<span>').insert(offsets.last, '</span>')
@@ -230,7 +230,7 @@ module Redmine
         line_left
       end
     end
-    
+
     def html_line_right
       if offsets
         line_right.dup.insert(offsets.first, '<span>').insert(offsets.last, '</span>')
@@ -238,7 +238,7 @@ module Redmine
         line_right
       end
     end
-    
+
     def html_line
       if offsets
         line.dup.insert(offsets.first, '<span>').insert(offsets.last, '</span>')
