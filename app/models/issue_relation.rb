@@ -41,6 +41,8 @@ class IssueRelation < ActiveRecord::Base
   validates_numericality_of :delay, :allow_nil => true
   validates_uniqueness_of :issue_to_id, :scope => :issue_from_id
 
+  validate :validate_issue_relation
+
   attr_protected :issue_from_id, :issue_to_id
 
   def visible?(user=User.current)
@@ -61,7 +63,7 @@ class IssueRelation < ActiveRecord::Base
     end
   end
 
-  def validate
+  def validate_issue_relation
     if issue_from && issue_to
       errors.add :issue_to_id, :invalid if issue_from_id == issue_to_id
       errors.add :issue_to_id, :not_same_project unless issue_from.project_id == issue_to.project_id || Setting.cross_project_issue_relations?
