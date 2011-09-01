@@ -311,6 +311,12 @@ class IssuesControllerTest < ActionController::TestCase
       :ancestor => {:tag => 'table', :attributes => {:class => /issues/}}
   end
 
+  def test_index_send_html_if_query_is_invalid
+    get :index, :f => ['start_date'], :op => {:start_date => '='}
+    assert_equal 'text/html', @response.content_type
+    assert_template 'index'
+  end
+
   def test_show_by_anonymous
     get :show, :id => 1
     assert_response :success
