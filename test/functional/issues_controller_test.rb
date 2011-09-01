@@ -317,6 +317,12 @@ class IssuesControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
+  def test_index_send_nothing_if_query_is_invalid
+    get :index, :f => ['start_date'], :op => {:start_date => '='}, :format => 'csv'
+    assert_equal 'text/csv', @response.content_type
+    assert @response.body.blank?
+  end
+
   def test_show_by_anonymous
     get :show, :id => 1
     assert_response :success
