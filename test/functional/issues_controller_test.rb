@@ -111,7 +111,7 @@ class IssuesControllerTest < ActionController::TestCase
     Setting.display_subprojects_issues = 1
     get :index, :project_id => 1
     assert_response :success
-    assert_template 'index.rhtml'
+    assert_template 'index'
     assert_not_nil assigns(:issues)
     assert_tag :tag => 'a', :content => /Can't print recipes/
     assert_tag :tag => 'a', :content => /Subproject issue/
