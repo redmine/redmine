@@ -136,7 +136,7 @@ class IssuesControllerTest < ActionController::TestCase
       :op => {'tracker_id' => '='},
       :v => {'tracker_id' => ['1']}
     assert_response :success
-    assert_template 'index.rhtml'
+    assert_template 'index'
     assert_not_nil assigns(:issues)
 
     query = assigns(:query)
