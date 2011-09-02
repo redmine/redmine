@@ -55,7 +55,7 @@ class IssuesControllerTest < ActionController::TestCase
 
     get :index
     assert_response :success
-    assert_template 'index.rhtml'
+    assert_template 'index'
     assert_not_nil assigns(:issues)
     assert_nil assigns(:project)
     assert_tag :tag => 'a', :content => /Can't print recipes/
