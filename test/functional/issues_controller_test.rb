@@ -132,7 +132,7 @@ class IssuesControllerTest < ActionController::TestCase
   def test_index_with_project_and_default_filter
     get :index, :project_id => 1, :set_filter => 1
     assert_response :success
-    assert_template 'index.rhtml'
+    assert_template 'index'
     assert_not_nil assigns(:issues)
 
     query = assigns(:query)
