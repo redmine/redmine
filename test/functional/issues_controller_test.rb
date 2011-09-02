@@ -170,7 +170,7 @@ class IssuesControllerTest < ActionController::TestCase
   def test_index_with_query
     get :index, :project_id => 1, :query_id => 5
     assert_response :success
-    assert_template 'index.rhtml'
+    assert_template 'index'
     assert_not_nil assigns(:issues)
     assert_nil assigns(:issue_count_by_group)
   end
