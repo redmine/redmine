@@ -64,8 +64,9 @@ class RepositoryGitTest < ActiveSupport::TestCase
     def test_fetch_changesets_from_scratch
       assert_nil @repository.extra_info
 
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
 
       assert_equal 21, @repository.changesets.count
       assert_equal 33, @repository.changes.count
