@@ -70,7 +70,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       @project.reload
 
-      assert_equal 21, @repository.changesets.count
+      assert_equal NUM_REV, @repository.changesets.count
       assert_equal 33, @repository.changes.count
 
       commit = @repository.changesets.find(:first, :order => 'committed_on ASC')
