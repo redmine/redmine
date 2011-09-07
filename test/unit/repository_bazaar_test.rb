@@ -34,10 +34,11 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
 
   if File.directory?(REPOSITORY_PATH)
     def test_fetch_changesets_from_scratch
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
 
-      assert_equal 4, @repository.changesets.count
+      assert_equal NUM_REV, @repository.changesets.count
       assert_equal 9, @repository.changes.count
       assert_equal 'Initial import', @repository.changesets.find_by_revision('1').comments
     end
