@@ -175,8 +175,9 @@ class RepositoryGitTest < ActiveSupport::TestCase
 
     def test_db_consistent_ordering_init
       assert_nil @repository.extra_info
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
       assert_equal 1, @repository.extra_info["db_consistent"]["ordering"]
     end
 
