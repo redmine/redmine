@@ -22,6 +22,7 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
 
   REPOSITORY_PATH = Rails.root.join('tmp/test/bazaar_repository/trunk').to_s
   REPOSITORY_PATH.gsub!(/\/+/, '/')
+  NUM_REV = 4
 
   def setup
     @project = Project.find(3)
