@@ -133,10 +133,10 @@ class RepositoryGitTest < ActiveSupport::TestCase
     end
 
     def test_fetch_changesets_invalid_rev
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
-      assert_equal 21, @repository.changesets.count
-      assert_equal 33, @repository.changes.count
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
       extra_info_db = @repository.extra_info["branches"]
       assert_equal 4, extra_info_db.size
       assert_equal "1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127",
@@ -155,7 +155,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       @repository.changesets.each do |rev|
         rev.destroy if del_revs.detect {|r| r == rev.scmid.to_s }
       end
-      @repository.reload
+      @project.reload
       cs1 = @repository.changesets
       assert_equal 15, cs1.count
       h = @repository.extra_info.dup
@@ -163,12 +163,13 @@ class RepositoryGitTest < ActiveSupport::TestCase
             "abcd1234efgh"
       @repository.merge_extra_info(h)
       @repository.save
-      @repository.reload
+      @project.reload
       extra_info_db_1 = @repository.extra_info["branches"]
       assert_equal "abcd1234efgh",
                     extra_info_db_1["master"]["last_scmid"]
 
       @repository.fetch_changesets
+      @project.reload
       assert_equal 15, @repository.changesets.count
     end
 
