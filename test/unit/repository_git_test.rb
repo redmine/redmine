@@ -183,16 +183,17 @@ class RepositoryGitTest < ActiveSupport::TestCase
 
     def test_db_consistent_ordering_before_1_2
       assert_nil @repository.extra_info
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
-      assert_equal 21, @repository.changesets.count
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
       assert_not_nil @repository.extra_info
       @repository.write_attribute(:extra_info, nil)
       @repository.save
       assert_nil @repository.extra_info
-      assert_equal 21, @repository.changesets.count
+      assert_equal NUM_REV, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
       assert_equal 0, @repository.extra_info["db_consistent"]["ordering"]
 
       del_revs = [
@@ -215,13 +216,13 @@ class RepositoryGitTest < ActiveSupport::TestCase
             "4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8"
       @repository.merge_extra_info(h)
       @repository.save
-      @repository.reload
+      @project.reload
       extra_info_db_1 = @repository.extra_info["branches"]
       assert_equal "4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8",
                     extra_info_db_1["master"]["last_scmid"]
 
       @repository.fetch_changesets
-      assert_equal 21, @repository.changesets.count
+      assert_equal NUM_REV, @repository.changesets.count
       assert_equal 0, @repository.extra_info["db_consistent"]["ordering"]
     end
 
