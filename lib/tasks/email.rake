@@ -100,14 +100,14 @@ Processed emails control options:
 Examples:
   # No project specified. Emails MUST contain the 'Project' keyword:
 
-  rake redmine:email:receive_iamp RAILS_ENV="production" \\
+  rake redmine:email:receive_imap RAILS_ENV="production" \\
     host=imap.foo.bar username=redmine@example.net password=xxx
 
 
   # Fixed project and default tracker specified, but emails can override
   # both tracker and priority attributes:
 
-  rake redmine:email:receive_iamp RAILS_ENV="production" \\
+  rake redmine:email:receive_imap RAILS_ENV="production" \\
     host=imap.foo.bar username=redmine@example.net password=xxx ssl=1 \\
     project=foo \\
     tracker=bug \\
