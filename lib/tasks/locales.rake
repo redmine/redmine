@@ -131,7 +131,7 @@ END_DESC
       files = Dir.glob(File.join(dir,'*.yml'))
       files.each do |filename|
         next if File.directory? filename
-        puts "parsing #{filename}..." 
+        puts "parsing #{filename}..."
         begin
           parser.parse File.open(filename)
         rescue Exception => e1
