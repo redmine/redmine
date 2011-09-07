@@ -91,9 +91,10 @@ class RepositoryGitTest < ActiveSupport::TestCase
     end
 
     def test_fetch_changesets_incremental
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
-      assert_equal 21, @repository.changesets.count
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
       assert_equal 33, @repository.changes.count
       extra_info_db = @repository.extra_info["branches"]
       assert_equal 4, extra_info_db.size
@@ -113,7 +114,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       @repository.changesets.each do |rev|
         rev.destroy if del_revs.detect {|r| r == rev.scmid.to_s }
       end
-      @repository.reload
+      @project.reload
       cs1 = @repository.changesets
       assert_equal 15, cs1.count
       h = @repository.extra_info.dup
@@ -121,13 +122,14 @@ class RepositoryGitTest < ActiveSupport::TestCase
             "4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8"
       @repository.merge_extra_info(h)
       @repository.save
-      @repository.reload
+      @project.reload
       extra_info_db_1 = @repository.extra_info["branches"]
       assert_equal "4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8",
                     extra_info_db_1["master"]["last_scmid"]
 
       @repository.fetch_changesets
-      assert_equal 21, @repository.changesets.count
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
     end
 
     def test_fetch_changesets_invalid_rev
