@@ -1027,6 +1027,7 @@
   text_zoom_out: 縮小
   text_warn_on_leaving_unsaved: "若您離開這個頁面，此頁面所包含的未儲存資料將會遺失。"
   text_scm_path_encoding_note: "預設: UTF-8"
+  text_git_repository_note: 儲存機制是本機的空(bare)目錄 (即： /gitrepo, c:\gitrepo)
   text_mercurial_repository_note: 本機儲存機制 (即： /hgrepo, c:\hgrepo)
   text_scm_command: 命令
   text_scm_command_version: 版本
@@ -1059,4 +1060,3 @@
   enumeration_doc_categories: 文件分類
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
-  text_git_repository_note: Repository is bare and local (e.g. /gitrepo, c:\gitrepo)
