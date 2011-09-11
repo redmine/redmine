@@ -21,6 +21,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
   fixtures :projects
 
   REPOSITORY_PATH = Rails.root.join('tmp/test/mercurial_repository').to_s
+  NUM_REV = 29
   CHAR_1_HEX = "\xc3\x9c"
 
   if File.directory?(REPOSITORY_PATH)
