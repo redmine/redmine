@@ -52,9 +52,10 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
     end
 
     def test_fetch_changesets_from_scratch
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
-      assert_equal 29, @repository.changesets.count
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
       assert_equal 37, @repository.changes.count
       assert_equal "Initial import.\nThe repository contains 3 files.",
                    @repository.changesets.find_by_revision('0').comments
