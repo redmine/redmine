@@ -79,8 +79,10 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
     def test_isodatesec
       # Template keyword 'isodatesec' supported in Mercurial 1.0 and higher
       if @repository.scm.class.client_version_above?([1, 0])
+        assert_equal 0, @repository.changesets.count
         @repository.fetch_changesets
-        @repository.reload
+        @project.reload
+        assert_equal NUM_REV, @repository.changesets.count
         rev0_committed_on = Time.gm(2007, 12, 14, 9, 22, 52)
         assert_equal @repository.changesets.find_by_revision('0').committed_on, rev0_committed_on
       end
