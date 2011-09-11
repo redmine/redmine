@@ -207,7 +207,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       @repository.changesets.each do |rev|
         rev.destroy if del_revs.detect {|r| r == rev.scmid.to_s }
       end
-      @repository.reload
+      @project.reload
       cs1 = @repository.changesets
       assert_equal 15, cs1.count
       assert_equal 0, @repository.extra_info["db_consistent"]["ordering"]
