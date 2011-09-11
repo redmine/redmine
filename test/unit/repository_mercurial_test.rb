@@ -234,8 +234,10 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
     end
 
     def test_format_identifier
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
       c = @repository.changesets.find_by_revision('2')
       assert_equal '2:400bb8672109', c.format_identifier
     end
