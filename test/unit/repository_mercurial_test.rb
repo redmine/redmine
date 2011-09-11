@@ -62,13 +62,17 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
     end
 
     def test_fetch_changesets_incremental
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
       # Remove changesets with revision > 2
       @repository.changesets.find(:all).each {|c| c.destroy if c.revision.to_i > 2}
-      @repository.reload
+      @project.reload
       assert_equal 3, @repository.changesets.count
 
       @repository.fetch_changesets
+      @project.reload
       assert_equal 29, @repository.changesets.count
     end
 
