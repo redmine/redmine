@@ -20,6 +20,8 @@ require File.expand_path('../../test_helper', __FILE__)
 class RepositorySubversionTest < ActiveSupport::TestCase
   fixtures :projects, :repositories, :enabled_modules, :users, :roles
 
+  NUM_REV = 11
+
   def setup
     @project = Project.find(3)
     @repository = Repository::Subversion.create(:project => @project,
