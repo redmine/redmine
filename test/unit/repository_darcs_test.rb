@@ -21,6 +21,7 @@ class RepositoryDarcsTest < ActiveSupport::TestCase
   fixtures :projects
 
   REPOSITORY_PATH = Rails.root.join('tmp/test/darcs_repository').to_s
+  NUM_REV = 6
 
   def setup
     @project = Project.find(3)
