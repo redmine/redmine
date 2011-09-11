@@ -292,8 +292,10 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
     end
 
     def test_next_nil
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
       %w|28 3ae45e2d177d 3ae45|.each do |r1|
         changeset = @repository.find_changeset_by_name(r1)
         assert_nil changeset.next
