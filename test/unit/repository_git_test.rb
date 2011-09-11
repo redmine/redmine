@@ -384,8 +384,10 @@ class RepositoryGitTest < ActiveSupport::TestCase
     end
 
     def test_identifier
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
       c = @repository.changesets.find_by_revision(
                           '7234cb2750b63f47bff735edc50a1c0a433c2518')
       assert_equal c.scmid, c.identifier
