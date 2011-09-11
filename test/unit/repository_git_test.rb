@@ -441,8 +441,10 @@ class RepositoryGitTest < ActiveSupport::TestCase
     end
 
     def test_previous_nil
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
       %w|7234cb2750b63f47bff735edc50a1c0a433c2518 7234cb2|.each do |r1|
         changeset = @repository.find_changeset_by_name(r1)
         assert_nil changeset.previous
