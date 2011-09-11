@@ -35,10 +35,11 @@ class RepositoryDarcsTest < ActiveSupport::TestCase
 
   if File.directory?(REPOSITORY_PATH)
     def test_fetch_changesets_from_scratch
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
 
-      assert_equal 6, @repository.changesets.count
+      assert_equal NUM_REV, @repository.changesets.count
       assert_equal 13, @repository.changes.count
       assert_equal "Initial commit.", @repository.changesets.find_by_revision('1').comments
     end
