@@ -29,6 +29,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
   REPOSITORY_PATH.gsub!(/\//, "\\") if Redmine::Platform.mswin?
   PRJ_ID     = 3
   CHAR_1_HEX = "\xc3\x9c"
+  NUM_REV = 21
 
   ## Git, Mercurial and CVS path encodings are binary.
   ## Subversion supports URL encoding for path.
