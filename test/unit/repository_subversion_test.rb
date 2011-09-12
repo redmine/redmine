@@ -94,8 +94,9 @@ class RepositorySubversionTest < ActiveSupport::TestCase
                           :project => @project,
                           :url => "file:///#{self.class.repository_path('subversion')}/subversion_test/[folder_with_brackets]")
 
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
 
       assert_equal 1, @repository.changesets.count, 'Expected to see 1 revision'
       assert_equal 2, @repository.changes.count, 'Expected to see 2 changes, dir add and file add'
