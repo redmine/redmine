@@ -271,8 +271,10 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
     end
 
     def test_diff
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
       [4, '4', 'def6d2f1254a'].each do |r1|
         # Full diff of changeset 4
         ['inline', 'sbs'].each do |dt|
