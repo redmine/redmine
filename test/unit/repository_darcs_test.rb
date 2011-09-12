@@ -61,8 +61,10 @@ class RepositoryDarcsTest < ActiveSupport::TestCase
     end
 
     def test_entries_invalid_revision
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
       assert_nil @repository.entries('', '123')
     end
 
