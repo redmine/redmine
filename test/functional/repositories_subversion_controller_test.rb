@@ -145,7 +145,8 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
         get :entry, :id => PRJ_ID, :path => ['subversion_test', 'helloworld.c']
         assert_response :success
         assert_template ''
-        assert_equal 'attachment; filename="helloworld.c"', @response.headers['Content-Disposition']
+        assert_equal 'attachment; filename="helloworld.c"',
+                     @response.headers['Content-Disposition']
       end
     end
 
