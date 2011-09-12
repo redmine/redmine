@@ -212,8 +212,6 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
 
     # TODO: this test needs fixtures.
     def test_revision
-      @repository.fetch_changesets
-      @repository.reload
       get :revision, :id => 1, :rev => 2
       assert_response :success
       assert_template 'revision'
