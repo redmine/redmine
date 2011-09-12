@@ -149,8 +149,10 @@ class RepositoryCvsTest < ActiveSupport::TestCase
     end
 
     def test_annotate
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
+      assert_equal CHANGESETS_NUM, @repository.changesets.count
       ann = @repository.annotate('README')
       assert ann
       assert_equal 3, ann.revisions.length
