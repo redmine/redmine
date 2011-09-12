@@ -122,8 +122,10 @@ class RepositoryCvsTest < ActiveSupport::TestCase
     end
 
     def test_cat
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
+      assert_equal CHANGESETS_NUM, @repository.changesets.count
       buf = @repository.cat('README')
       assert buf
       lines = buf.split("\n")
