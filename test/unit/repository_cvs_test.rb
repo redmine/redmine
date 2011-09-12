@@ -82,7 +82,7 @@ class RepositoryCvsTest < ActiveSupport::TestCase
     def test_deleted_files_should_not_be_listed
       assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
       assert_equal CHANGESETS_NUM, @repository.changesets.count
 
       entries = @repository.entries('sources')
