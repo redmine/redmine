@@ -91,8 +91,10 @@ class RepositoryCvsTest < ActiveSupport::TestCase
     end
 
     def test_entries_rev3
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
+      assert_equal CHANGESETS_NUM, @repository.changesets.count
       entries = @repository.entries('', '3')
       assert_equal 3, entries.size
       assert_equal entries[2].name, "README"
