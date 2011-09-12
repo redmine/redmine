@@ -77,8 +77,10 @@ class RepositorySubversionTest < ActiveSupport::TestCase
     end
 
     def test_directory_listing_with_square_brackets_in_path
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
 
       entries = @repository.entries('subversion_test/[folder_with_brackets]')
       assert_not_nil entries, 'Expect to find entries in folder_with_brackets'
