@@ -100,8 +100,10 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
     end
 
     def test_show_at_given_revision
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
       [0, '0', '0885933ad4f6'].each do |r1|
         get :show, :id => PRJ_ID, :path => ['images'], :rev => r1
         assert_response :success
