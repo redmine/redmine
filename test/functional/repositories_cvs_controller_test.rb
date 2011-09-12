@@ -30,6 +30,7 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
   # CVS module
   MODULE_NAME = 'test'
   PRJ_ID = 3
+  NUM_REV = 7
 
   def setup
     @controller = RepositoriesController.new
