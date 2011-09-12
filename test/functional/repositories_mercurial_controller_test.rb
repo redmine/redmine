@@ -295,8 +295,10 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
     end
 
     def test_diff_two_revs
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
       [2, '400bb8672109', '400', 400].each do |r1|
         [4, 'def6d2f1254a'].each do |r2|
           ['inline', 'sbs'].each do |dt|
