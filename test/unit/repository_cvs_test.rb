@@ -105,8 +105,10 @@ class RepositoryCvsTest < ActiveSupport::TestCase
     end
 
     def test_entries_invalid_path
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
+      assert_equal CHANGESETS_NUM, @repository.changesets.count
       assert_nil @repository.entries('missing')
       assert_nil @repository.entries('missing', '3')
     end
