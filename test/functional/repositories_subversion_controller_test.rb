@@ -150,8 +150,10 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
     end
 
     def test_entry_should_send_if_too_big
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
       # no files in the test repo is larger than 1KB...
       with_settings :file_max_size_displayed => 0 do
         get :entry, :id => PRJ_ID, :path => ['subversion_test', 'helloworld.c']
