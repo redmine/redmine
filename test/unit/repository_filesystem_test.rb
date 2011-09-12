@@ -34,8 +34,10 @@ class RepositoryFilesystemTest < ActiveSupport::TestCase
 
   if File.directory?(REPOSITORY_PATH)
     def test_fetch_changesets
+      assert_equal 0, @repository.changesets.count
+      assert_equal 0, @repository.changes.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
       assert_equal 0, @repository.changesets.count
       assert_equal 0, @repository.changes.count
     end
