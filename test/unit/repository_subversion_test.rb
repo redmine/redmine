@@ -41,14 +41,19 @@ class RepositorySubversionTest < ActiveSupport::TestCase
     end
 
     def test_fetch_changesets_incremental
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
+
       # Remove changesets with revision > 5
       @repository.changesets.find(:all).each {|c| c.destroy if c.revision.to_i > 5}
-      @repository.reload
+      @project.reload
       assert_equal 5, @repository.changesets.count
 
       @repository.fetch_changesets
-      assert_equal 11, @repository.changesets.count
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
     end
 
     def test_latest_changesets
