@@ -129,7 +129,8 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
     def test_entry_download
       @repository.fetch_changesets
       @repository.reload
-      get :entry, :id => PRJ_ID, :path => ['sources', 'watchers_controller.rb'], :format => 'raw'
+      get :entry, :id => PRJ_ID, :path => ['sources', 'watchers_controller.rb'],
+          :format => 'raw'
       assert_response :success
     end
 
