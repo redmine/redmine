@@ -80,7 +80,10 @@ class RepositoryDarcsTest < ActiveSupport::TestCase
 
     def test_cat
       if @repository.scm.supports_cat?
+        assert_equal 0, @repository.changesets.count
         @repository.fetch_changesets
+        @project.reload
+        assert_equal NUM_REV, @repository.changesets.count
         cat = @repository.cat("sources/welcome_controller.rb", 2)
         assert_not_nil cat
         assert cat.include?('class WelcomeController < ApplicationController')
