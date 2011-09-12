@@ -27,6 +27,7 @@ class RepositoriesDarcsControllerTest < ActionController::TestCase
 
   REPOSITORY_PATH = Rails.root.join('tmp/test/darcs_repository').to_s
   PRJ_ID = 3
+  NUM_REV = 6
 
   def setup
     @controller = RepositoriesController.new
