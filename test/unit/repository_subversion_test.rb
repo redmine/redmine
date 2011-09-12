@@ -57,7 +57,10 @@ class RepositorySubversionTest < ActiveSupport::TestCase
     end
 
     def test_latest_changesets
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
 
       # with limit
       changesets = @repository.latest_changesets('', nil, 2)
