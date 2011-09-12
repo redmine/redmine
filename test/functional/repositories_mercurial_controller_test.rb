@@ -374,9 +374,10 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
     end
 
     def test_annotate_not_in_tip
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
-      assert @repository.changesets.size > 0
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
 
       get :annotate, :id => PRJ_ID,
           :path => ['sources', 'welcome_controller.rb']
