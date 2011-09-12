@@ -137,8 +137,10 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
     end
 
     def test_show_directory_latin_1_path
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
       [21, '21', 'adf805632193'].each do |r1|
         get :show, :id => PRJ_ID, :path => ['latin-1-dir'], :rev => r1
         assert_response :success
