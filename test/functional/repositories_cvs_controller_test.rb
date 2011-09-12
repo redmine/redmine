@@ -49,8 +49,10 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
 
   if File.directory?(REPOSITORY_PATH)
     def test_browse_root
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
       get :show, :id => PRJ_ID
       assert_response :success
       assert_template 'show'
