@@ -198,8 +198,10 @@ class RepositorySubversionTest < ActiveSupport::TestCase
     end
 
     def test_next
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
       changeset = @repository.find_changeset_by_name('2')
       assert_equal @repository.find_changeset_by_name('3'), changeset.next
     end
