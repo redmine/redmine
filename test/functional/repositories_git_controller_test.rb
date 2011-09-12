@@ -237,8 +237,10 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     end
 
     def test_diff_truncated
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
       Setting.diff_max_lines_displayed = 5
 
       # Truncated diff of changeset 2f9c0091
