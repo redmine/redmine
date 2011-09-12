@@ -386,8 +386,10 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
     end
 
     def test_annotate_at_given_revision
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
       [2, '400bb8672109', '400', 400].each do |r1|
         get :annotate, :id => PRJ_ID, :rev => r1,
             :path => ['sources', 'watchers_controller.rb']
