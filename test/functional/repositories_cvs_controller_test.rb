@@ -98,8 +98,10 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
     end
 
     def test_entry
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
       get :entry, :id => PRJ_ID, :path => ['sources', 'watchers_controller.rb']
       assert_response :success
       assert_template 'entry'
