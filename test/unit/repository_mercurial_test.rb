@@ -89,8 +89,10 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
     end
 
     def test_changeset_order_by_revision
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
 
       c0 = @repository.latest_changeset
       c1 = @repository.changesets.find_by_revision('0')
