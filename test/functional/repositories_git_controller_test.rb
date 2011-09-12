@@ -106,8 +106,10 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     end
 
     def test_browse_tag
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
        [
         "tag00.lightweight",
         "tag01.annotated",
