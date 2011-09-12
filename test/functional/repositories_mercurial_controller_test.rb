@@ -116,8 +116,10 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
     end
 
     def test_show_directory_sql_escape_percent
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
       [13, '13', '3a330eb32958'].each do |r1|
         get :show, :id => PRJ_ID, :path => ['sql_escape', 'percent%dir'],
             :rev => r1
