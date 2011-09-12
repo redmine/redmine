@@ -336,8 +336,10 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     end
 
     def test_annotate_at_given_revision
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
       get :annotate, :id => PRJ_ID, :rev => 'deff7',
           :path => ['sources', 'watchers_controller.rb']
       assert_response :success
