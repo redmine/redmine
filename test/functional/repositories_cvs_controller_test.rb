@@ -126,8 +126,10 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
     end
 
     def test_entry_not_found
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
       get :entry, :id => PRJ_ID, :path => ['sources', 'zzz.c']
       assert_tag :tag => 'p',
                  :attributes => { :id => /errorExplanation/ },
