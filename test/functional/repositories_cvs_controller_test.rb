@@ -159,8 +159,10 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
     end
 
     def test_diff
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
       ['inline', 'sbs'].each do |dt|
         get :diff, :id => PRJ_ID, :rev => 3, :type => dt
         assert_response :success
