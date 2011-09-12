@@ -162,8 +162,9 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
 
     def test_destroy_invalid_repository
       @request.session[:user_id] = 1 # admin
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
       assert @repository.changesets.count > 0
 
       get :destroy, :id => PRJ_ID
