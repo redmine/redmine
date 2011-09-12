@@ -99,8 +99,10 @@ class RepositoriesDarcsControllerTest < ActionController::TestCase
     end
 
     def test_diff
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
       # Full diff of changeset 5
       ['inline', 'sbs'].each do |dt|
         get :diff, :id => PRJ_ID, :rev => 5, :type => dt
