@@ -69,8 +69,10 @@ class RepositoryDarcsTest < ActiveSupport::TestCase
     end
 
     def test_deleted_files_should_not_be_listed
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
       entries = @repository.entries('sources')
       assert entries.detect {|e| e.name == 'watchers_controller.rb'}
       assert_nil entries.detect {|e| e.name == 'welcome_controller.rb'}
