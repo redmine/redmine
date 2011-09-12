@@ -27,6 +27,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
            :issue_categories, :enumerations, :custom_fields, :custom_values, :trackers
 
   PRJ_ID = 3
+  NUM_REV = 11
 
   def setup
     @controller = RepositoriesController.new
