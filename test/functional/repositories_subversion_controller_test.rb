@@ -212,8 +212,10 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
     end
 
     def test_invalid_revision
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @repository.reload
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
       get :revision, :id => PRJ_ID, :rev => 'something_weird'
       assert_response 404
       assert_error_tag :content => /was not found/
