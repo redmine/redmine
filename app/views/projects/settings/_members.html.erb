@@ -34,7 +34,7 @@
   </td>
   <td class="buttons">
       <%= link_to_function l(:button_edit), "$('member-#{member.id}-roles').hide(); $('member-#{member.id}-roles-form').show(); return false;", :class => 'icon icon-edit' %>
-      <%= link_to_remote(l(:button_delete), { :url => {:controller => 'members', :action => 'destroy', :id => member},                                              
+      <%= link_to_remote(l(:button_delete), { :url => {:controller => 'members', :action => 'destroy', :id => member},
                                               :method => :post,
                                               :confirm => (!User.current.admin? && member.include?(User.current) ? l(:text_own_membership_delete_confirmation) : nil)
                                             }, :title => l(:button_delete),
@@ -59,7 +59,7 @@
 									   :loading => '$(\'member-add-submit\').disable();',
 									   :complete => 'if($(\'member-add-submit\')) $(\'member-add-submit\').enable();') do |f| %>
     <fieldset><legend><%=l(:label_member_new)%></legend>
-    
+
 		<p><%= label_tag "principal_search", l(:label_principal_search) %><%= text_field_tag 'principal_search', nil %></p>
 		<%= observe_field(:principal_search,
                  :frequency => 0.5,
