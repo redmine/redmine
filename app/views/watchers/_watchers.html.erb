@@ -9,18 +9,18 @@
 <h3><%= l(:label_issue_watchers) %> (<%= watched.watcher_users.size %>)</h3>
 
 <% unless @watcher.nil? %>
-	<% remote_form_for(:watcher, @watcher,
-                	   :url => {:controller => 'watchers',
-              	              :action => 'new',
-            	                :object_type => watched.class.name.underscore,
-         	                    :object_id => watched},
-       	             :method => :post,
-      	             :html => {:id => 'new-watcher-form'}) do |f| %>
-		<p><%= f.select :user_id, (watched.addable_watcher_users.collect {|m| [m.name, m.id]}), :prompt => "--- #{l(:actionview_instancetag_blank_option)} ---" %>
+  <% remote_form_for(:watcher, @watcher,
+                     :url => {:controller => 'watchers',
+                              :action => 'new',
+                              :object_type => watched.class.name.underscore,
+                              :object_id => watched},
+                      :method => :post,
+                     :html => {:id => 'new-watcher-form'}) do |f| %>
+    <p><%= f.select :user_id, (watched.addable_watcher_users.collect {|m| [m.name, m.id]}), :prompt => "--- #{l(:actionview_instancetag_blank_option)} ---" %>
 
-		<%= submit_tag l(:button_add) %>
-		<%= toggle_link l(:button_cancel), 'new-watcher-form'%></p>
-	<% end %>
+    <%= submit_tag l(:button_add) %>
+    <%= toggle_link l(:button_cancel), 'new-watcher-form'%></p>
+  <% end %>
 <% end %>
 
 <%= watchers_list(watched) %>
