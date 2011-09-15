@@ -48,14 +48,14 @@
 <% if @issue.description? || @issue.attachments.any? -%>
 <hr />
 <% if @issue.description? %>
-	<div class="contextual">
-	<%= link_to_remote_if_authorized(l(:button_quote), { :url => {:controller => 'journals', :action => 'new', :id => @issue} }, :class => 'icon icon-comment') %>
-	</div>
+  <div class="contextual">
+  <%= link_to_remote_if_authorized(l(:button_quote), { :url => {:controller => 'journals', :action => 'new', :id => @issue} }, :class => 'icon icon-comment') %>
+  </div>
 
-	<p><strong><%=l(:field_description)%></strong></p>
-	<div class="wiki">
-	<%= textilizable @issue, :description, :attachments => @issue.attachments %>
-	</div>
+  <p><strong><%=l(:field_description)%></strong></p>
+  <div class="wiki">
+  <%= textilizable @issue, :description, :attachments => @issue.attachments %>
+  </div>
 <% end %>
 <%= link_to_attachments @issue %>
 <% end -%>
@@ -109,8 +109,8 @@
 <% end %>
 
 <% other_formats_links do |f| %>
-	<%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
-	<%= f.link_to 'PDF' %>
+  <%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
+  <%= f.link_to 'PDF' %>
 <% end %>
 
 <% html_title h("#{@issue.tracker.name} ##{@issue.id}: #{@issue.subject}") %>
