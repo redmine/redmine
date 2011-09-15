@@ -1,4 +1,4 @@
-<% form_tag({}) do -%>	
+<% form_tag({}) do -%>
 <%= hidden_field_tag 'back_url', url_for(params) %>
 <div class="autoscroll">
 <table class="list issues">
@@ -6,32 +6,32 @@
         <th class="checkbox hide-when-print"><%= link_to image_tag('toggle_check.png'), {}, :onclick => 'toggleIssuesSelection(Element.up(this, "form")); return false;',
                                                            :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
         </th>
-		<%= sort_header_tag('id', :caption => '#', :default_order => 'desc') %>
+    <%= sort_header_tag('id', :caption => '#', :default_order => 'desc') %>
         <% query.columns.each do |column| %>
           <%= column_header(column) %>
         <% end %>
-	</tr></thead>
-	<% previous_group = false %>
-	<tbody>
-	<% issue_list(issues) do |issue, level| -%>
+  </tr></thead>
+  <% previous_group = false %>
+  <tbody>
+  <% issue_list(issues) do |issue, level| -%>
   <% if @query.grouped? && (group = @query.group_by_column.value(issue)) != previous_group %>
     <% reset_cycle %>
     <tr class="group open">
-    	<td colspan="<%= query.columns.size + 2 %>">
-    		<span class="expander" onclick="toggleRowGroup(this); return false;">&nbsp;</span>
-      	<%= group.blank? ? 'None' : column_content(@query.group_by_column, issue) %> <span class="count">(<%= @issue_count_by_group[group] %>)</span>
+      <td colspan="<%= query.columns.size + 2 %>">
+        <span class="expander" onclick="toggleRowGroup(this); return false;">&nbsp;</span>
+        <%= group.blank? ? 'None' : column_content(@query.group_by_column, issue) %> <span class="count">(<%= @issue_count_by_group[group] %>)</span>
         <%= link_to_function("#{l(:button_collapse_all)}/#{l(:button_expand_all)}", "toggleAllRowGroups(this)", :class => 'toggle-all') %>
-    	</td>
-		</tr>
-		<% previous_group = group %>
+      </td>
+    </tr>
+    <% previous_group = group %>
   <% end %>
-	<tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
-	  <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", issue.id, false, :id => nil) %></td>
-		<td class="id"><%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %></td>
+  <tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
+    <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", issue.id, false, :id => nil) %></td>
+    <td class="id"><%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %></td>
         <% query.columns.each do |column| %><%= content_tag 'td', column_content(column, issue), :class => column.css_classes %><% end %>
-	</tr>
-	<% end -%>
-	</tbody>
+  </tr>
+  <% end -%>
+  </tbody>
 </table>
 </div>
 <% end -%>
