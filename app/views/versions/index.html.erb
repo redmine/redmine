@@ -1,5 +1,5 @@
 <div class="contextual">
-	<%= link_to l(:label_version_new), {:controller => 'versions', :action => 'new'}, :class => 'icon icon-add' if User.current.allowed_to?(:manage_versions, @project) %>
+  <%= link_to l(:label_version_new), {:controller => 'versions', :action => 'new'}, :class => 'icon icon-add' if User.current.allowed_to?(:manage_versions, @project) %>
 </div>
 
 <h2><%=l(:label_roadmap)%></h2>
@@ -14,7 +14,7 @@
     <%= render(:partial => "wiki/content", :locals => {:content => version.wiki_page.content}) if version.wiki_page %>
 
     <% if (issues = @issues_by_version[version]) && issues.size > 0 %>
-    <% form_tag({}) do -%>	
+    <% form_tag({}) do -%>
     <table class="list related-issues">
     <caption><%= l(:label_related_issues) %></caption>
     <% issues.each do |issue| -%>
@@ -41,7 +41,7 @@
 <br />
 <label for="completed"><%= check_box_tag "completed", 1, params[:completed] %> <%= l(:label_show_completed_versions) %></label>
 <% if @project.descendants.active.any? %>
-	<%= hidden_field_tag 'with_subprojects', 0 %>
+  <%= hidden_field_tag 'with_subprojects', 0 %>
   <br /><label><%= check_box_tag 'with_subprojects', 1, @with_subprojects %> <%=l(:label_subproject_plural)%></label>
 <% end %>
 <p><%= submit_tag l(:button_apply), :class => 'button-small', :name => nil %></p>
