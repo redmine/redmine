@@ -18,7 +18,7 @@
 <%= wikitoolbar_for 'project_description' %>
 
 <% @project.custom_field_values.each do |value| %>
-	<p><%= custom_field_tag_with_label :project, value %></p>
+  <p><%= custom_field_tag_with_label :project, value %></p>
 <% end %>
 <%= call_hook(:view_projects_form, :project => @project, :form => f) %>
 </div>
@@ -53,9 +53,9 @@
 <fieldset class="box" id="project_issue_custom_fields"><legend><%=l(:label_custom_field_plural)%></legend>
 <% @issue_custom_fields.each do |custom_field| %>
     <label class="floating">
-	<%= check_box_tag 'project[issue_custom_field_ids][]', custom_field.id, (@project.all_issue_custom_fields.include? custom_field), (custom_field.is_for_all? ? {:disabled => "disabled"} : {}) %>
-	<%=h custom_field.name %>
-	</label>
+  <%= check_box_tag 'project[issue_custom_field_ids][]', custom_field.id, (@project.all_issue_custom_fields.include? custom_field), (custom_field.is_for_all? ? {:disabled => "disabled"} : {}) %>
+  <%=h custom_field.name %>
+  </label>
 <% end %>
 <%= hidden_field_tag 'project[issue_custom_field_ids][]', '' %>
 </fieldset>
