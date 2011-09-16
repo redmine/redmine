@@ -12,19 +12,19 @@
                           :html => { :id => 'my_account_form' } do |f| %>
 <div class="splitcontentleft">
 <fieldset class="box tabular">
-	<legend><%=l(:label_information_plural)%></legend>
-	<p><%= f.text_field :firstname, :required => true %></p>
-	<p><%= f.text_field :lastname, :required => true %></p>
-	<p><%= f.text_field :mail, :required => true %></p>
-	<p><%= f.select :language, lang_options_for_select %></p>
-	<% if Setting.openid? %>
-	<p><%= f.text_field :identity_url  %></p>
-	<% end %>
-	
-	<% @user.custom_field_values.select(&:editable?).each do |value| %>
-		<p><%= custom_field_tag_with_label :user, value %></p>
-	<% end %>
-	<%= call_hook(:view_my_account, :user => @user, :form => f) %>
+  <legend><%=l(:label_information_plural)%></legend>
+  <p><%= f.text_field :firstname, :required => true %></p>
+  <p><%= f.text_field :lastname, :required => true %></p>
+  <p><%= f.text_field :mail, :required => true %></p>
+  <p><%= f.select :language, lang_options_for_select %></p>
+  <% if Setting.openid? %>
+  <p><%= f.text_field :identity_url  %></p>
+  <% end %>
+
+  <% @user.custom_field_values.select(&:editable?).each do |value| %>
+    <p><%= custom_field_tag_with_label :user, value %></p>
+  <% end %>
+  <%= call_hook(:view_my_account, :user => @user, :form => f) %>
 </fieldset>
 
 <%= submit_tag l(:button_save) %>
@@ -32,13 +32,13 @@
 
 <div class="splitcontentright">
 <fieldset class="box">
-	<legend><%=l(:field_mail_notification)%></legend>
-	<%= render :partial => 'users/mail_notifications' %>
+  <legend><%=l(:field_mail_notification)%></legend>
+  <%= render :partial => 'users/mail_notifications' %>
 </fieldset>
 
 <fieldset class="box tabular">
-	<legend><%=l(:label_preferences)%></legend>
-	<%= render :partial => 'users/preferences' %>
+  <legend><%=l(:label_preferences)%></legend>
+  <%= render :partial => 'users/preferences' %>
 </fieldset>
 
 </div>
