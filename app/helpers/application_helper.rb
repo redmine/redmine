@@ -849,7 +849,7 @@ module ApplicationHelper
       options[:class] << ' disabled'
       url = '#'
     end
-    link_to name, url, options
+    link_to h(name), url, options
   end
 
   def calendar_for(field_id)
