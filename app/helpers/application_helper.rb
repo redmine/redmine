@@ -633,7 +633,7 @@ module ApplicationHelper
         if prefix.nil? && sep == 'r'
           # project.changesets.visible raises an SQL error because of a double join on repositories
           if project && project.repository && (changeset = Changeset.visible.find_by_repository_id_and_revision(project.repository.id, identifier))
-            link = link_to("#{project_prefix}r#{identifier}", {:only_path => only_path, :controller => 'repositories', :action => 'revision', :id => project, :rev => changeset.revision},
+            link = link_to(h("#{project_prefix}r#{identifier}"), {:only_path => only_path, :controller => 'repositories', :action => 'revision', :id => project, :rev => changeset.revision},
                                       :class => 'changeset',
                                       :title => truncate_single_line(changeset.comments, :length => 100))
           end
@@ -683,7 +683,7 @@ module ApplicationHelper
             if project && project.repository && (changeset = Changeset.visible.find(:first, :conditions => ["repository_id = ? AND scmid LIKE ?", project.repository.id, "#{name}%"]))
               link = link_to h("#{project_prefix}#{name}"), {:only_path => only_path, :controller => 'repositories', :action => 'revision', :id => project, :rev => changeset.identifier},
                                            :class => 'changeset',
-                                           :title => truncate_single_line(changeset.comments, :length => 100)
+                                           :title => truncate_single_line(h(changeset.comments), :length => 100)
             end
           when 'source', 'export'
             if project && project.repository && User.current.allowed_to?(:browse_repository, project)
