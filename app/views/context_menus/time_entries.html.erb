@@ -26,7 +26,7 @@
   <%= call_hook(:view_time_entries_context_menu_end, {:time_entries => @time_entries, :can => @can, :back => @back }) %>
 
   <li>
-    <%= context_menu_link l(:button_delete), 
+    <%= context_menu_link l(:button_delete),
       {:controller => 'timelog', :action => 'destroy', :ids => @time_entries.collect(&:id), :back_url => @back},
       :method => :delete, :confirm => l(:text_time_entries_destroy_confirmation), :class => 'icon-del', :disabled => !@can[:delete] %>
   </li>
