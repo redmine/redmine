@@ -4,9 +4,9 @@
 <thead>
 <tr>
 <th class="checkbox hide-when-print">
-  <%= link_to image_tag('toggle_check.png'), 
-    {}, 
-    :onclick => 'toggleIssuesSelection(Element.up(this, "form")); return false;', 
+  <%= link_to image_tag('toggle_check.png'),
+    {},
+    :onclick => 'toggleIssuesSelection(Element.up(this, "form")); return false;',
     :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
 </th>
 <%= sort_header_tag('spent_on', :caption => l(:label_date), :default_order => 'desc') %>
