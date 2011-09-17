@@ -21,10 +21,10 @@
 <% perms_by_module.keys.sort.each do |mod| %>
     <% unless mod.blank? %>
         <tr class="group open">
-        	<td colspan="<%= @roles.size + 1 %>">
-        		<span class="expander" onclick="toggleRowGroup(this);">&nbsp;</span>
-        		<%= l_or_humanize(mod, :prefix => 'project_module_') %>
-        	</td>
+          <td colspan="<%= @roles.size + 1 %>">
+            <span class="expander" onclick="toggleRowGroup(this);">&nbsp;</span>
+            <%= l_or_humanize(mod, :prefix => 'project_module_') %>
+          </td>
         </tr>
     <% end %>
     <% perms_by_module[mod].each do |permission| %>
