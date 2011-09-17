@@ -7,7 +7,7 @@
 <dl>
 <% @events_by_day[day].sort {|x,y| y.event_datetime <=> x.event_datetime }.each do |e| -%>
   <dt class="<%= e.event_type %>  <%= User.current.logged? && e.respond_to?(:event_author) && User.current == e.event_author ? 'me' : nil %>">
-	<%= avatar(e.event_author, :size => "24") if e.respond_to?(:event_author) %>
+  <%= avatar(e.event_author, :size => "24") if e.respond_to?(:event_author) %>
   <span class="time"><%= format_time(e.event_datetime, false) %></span>
   <%= content_tag('span', h(e.project), :class => 'project') if @project.nil? || @project != e.project %>
   <%= link_to format_activity_title(e.event_title), e.event_url %></dt>
@@ -32,7 +32,7 @@
 </div>
 &nbsp;
 <% other_formats_links do |f| %>
-	<%= f.link_to 'Atom', :url => params.merge(:from => nil, :key => User.current.rss_key) %>
+  <%= f.link_to 'Atom', :url => params.merge(:from => nil, :key => User.current.rss_key) %>
 <% end %>
 
 <% content_for :header_tags do %>
@@ -48,7 +48,7 @@
 <br />
 <% end %></p>
 <% if @project && @project.descendants.active.any? %>
-	  <%= hidden_field_tag 'with_subprojects', 0 %>
+    <%= hidden_field_tag 'with_subprojects', 0 %>
     <p><label><%= check_box_tag 'with_subprojects', 1, @with_subprojects %> <%=l(:label_subproject_plural)%></label></p>
 <% end %>
 <%= hidden_field_tag('user_id', params[:user_id]) unless params[:user_id].blank? %>
