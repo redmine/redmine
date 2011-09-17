@@ -1,12 +1,12 @@
 <h2><%= link_to l(:label_user_plural), :controller => 'users', :action => 'index' %> &#187; <%=l(:label_user_new)%></h2>
 
 <% labelled_tabular_form_for :user, @user, :url => { :action => "create" }, :html => { :class => nil } do |f| %>
-	<%= render :partial => 'form', :locals => { :f => f } %>
-	<% if email_delivery_enabled? %>
-	<p><label><%= check_box_tag 'send_information', 1, true %> <%= l(:label_send_information) %></label></p>
-	<% end %>
-	<p>
-		<%= submit_tag l(:button_create) %>
-		<%= submit_tag l(:button_create_and_continue), :name => 'continue' %>
-	</p>
+  <%= render :partial => 'form', :locals => { :f => f } %>
+  <% if email_delivery_enabled? %>
+  <p><label><%= check_box_tag 'send_information', 1, true %> <%= l(:label_send_information) %></label></p>
+  <% end %>
+  <p>
+    <%= submit_tag l(:button_create) %>
+    <%= submit_tag l(:button_create_and_continue), :name => 'continue' %>
+  </p>
 <% end %>
