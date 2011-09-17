@@ -1,25 +1,25 @@
 <div class="splitcontentleft">
 <% if @group.users.any? %>
-	<table class="list users">
-		<thead><tr>
-		  <th><%= l(:label_user) %></th>
-		  <th style="width:15%"></th>
-		</tr></thead>
-		<tbody>
-		<% @group.users.sort.each do |user| %>
-			<tr id="user-<%= user.id %>" class="<%= cycle 'odd', 'even' %>">
-				<td class="user"><%= link_to_user user %></td>
-			  <td class="buttons">
-			      <%= link_to_remote l(:button_delete), { :url => { :controller => 'groups', :action => 'remove_user', :id => @group, :user_id => user },
-			      																				:method => :post },
-			      																		  :class => 'icon icon-del' %>
-			  </td>
-			</tr>
-		<% end %>
-		</tbody>
-	</table>
+  <table class="list users">
+    <thead><tr>
+      <th><%= l(:label_user) %></th>
+      <th style="width:15%"></th>
+    </tr></thead>
+    <tbody>
+    <% @group.users.sort.each do |user| %>
+      <tr id="user-<%= user.id %>" class="<%= cycle 'odd', 'even' %>">
+        <td class="user"><%= link_to_user user %></td>
+        <td class="buttons">
+            <%= link_to_remote l(:button_delete), { :url => { :controller => 'groups', :action => 'remove_user', :id => @group, :user_id => user },
+                                                    :method => :post },
+                                                  :class => 'icon icon-del' %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
 <% else %>
-	<p class="nodata"><%= l(:label_no_data) %></p>
+  <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
 </div>
 
@@ -29,20 +29,20 @@
   <% remote_form_for(:group, @group, :url => {:controller => 'groups', :action => 'add_users', :id => @group}, :method => :post) do |f| %>
     <fieldset><legend><%=l(:label_user_new)%></legend>
 
-		<p><%= label_tag "user_search", l(:label_user_search) %><%= text_field_tag 'user_search', nil %></p>
-		<%= observe_field(:user_search,
+    <p><%= label_tag "user_search", l(:label_user_search) %><%= text_field_tag 'user_search', nil %></p>
+    <%= observe_field(:user_search,
                  :frequency => 0.5,
                  :update => :users,
                  :url => { :controller => 'groups', :action => 'autocomplete_for_user', :id => @group },
                  :with => 'q')
                   %>
-		
-		<div id="users">
-			<%= principals_check_box_tags 'user_ids[]', users %>
-		</div>
-   	
+    
+    <div id="users">
+      <%= principals_check_box_tags 'user_ids[]', users %>
+    </div>
+     
     <p><%= submit_tag l(:button_add) %></p>
-		</fieldset>
+    </fieldset>
   <% end %>
 <% end %>
 
