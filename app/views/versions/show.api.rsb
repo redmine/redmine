@@ -2,7 +2,7 @@ api.version do
   api.id @version.id
   api.project(:id => @version.project_id, :name => @version.project.name) unless @version.project.nil?
 
-  api.name     		@version.name
+  api.name        @version.name
   api.description @version.description
   api.status      @version.status
   api.due_date    @version.effective_date
