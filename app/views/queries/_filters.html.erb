@@ -12,7 +12,7 @@ function add_filter() {
   for (i=0; i<select.options.length; i++) {
     if (select.options[i].value == field) {
       select.options[i].disabled = true;
-    }    
+    }
   }
 }
 
@@ -116,7 +116,7 @@ Event.observe(document,"dom:loaded", apply_filters_observer);
     <td class="operator">
         <%= select_tag "op[#{field}]", options_for_select(operators_for_select(options[:type]), query.operator_for(field)), :id => "operators_#{field}", :onchange => "toggle_operator('#{field}');" %>
     </td>
-    <td class="values">    
+    <td class="values">
     <div id="div_values_<%= field %>" style="display:none;">
     <% case options[:type]
     when :list, :list_optional, :list_status, :list_subprojects %>
