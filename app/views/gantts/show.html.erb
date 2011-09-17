@@ -5,7 +5,7 @@
 <%= hidden_field_tag 'set_filter', '1' %>
 <fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
   <legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
-	<div style="<%= @query.new_record? ? "" : "display: none;" %>">
+  <div style="<%= @query.new_record? ? "" : "display: none;" %>">
     <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
   </div>
 </fieldset>
@@ -60,7 +60,7 @@ t_height = g_height + headers_height
 %>
 
 <% if @gantt.truncated %>
-	<p class="warning"><%= l(:notice_gantt_chart_truncated, :max => @gantt.max_rows) %></p>
+  <p class="warning"><%= l(:notice_gantt_chart_truncated, :max => @gantt.max_rows) %></p>
 <% end %>
 
 <table width="100%" style="border:0; border-collapse: collapse;">
@@ -89,14 +89,14 @@ month_f = @gantt.date_from
 left = 0
 height = (show_weeks ? header_heigth : header_heigth + g_height)
 @gantt.months.times do
-	width = ((month_f >> 1) - month_f) * zoom - 1
-	%>
-	<div style="left:<%= left %>px;width:<%= width %>px;height:<%= height %>px;" class="gantt_hdr">
-	<%= link_to h("#{month_f.year}-#{month_f.month}"), @gantt.params.merge(:year => month_f.year, :month => month_f.month), :title => "#{month_name(month_f.month)} #{month_f.year}"%>
-	</div>
-	<%
-	left = left + width + 1
-	month_f = month_f >> 1
+  width = ((month_f >> 1) - month_f) * zoom - 1
+  %>
+  <div style="left:<%= left %>px;width:<%= width %>px;height:<%= height %>px;" class="gantt_hdr">
+  <%= link_to h("#{month_f.year}-#{month_f.month}"), @gantt.params.merge(:year => month_f.year, :month => month_f.month), :title => "#{month_name(month_f.month)} #{month_f.year}"%>
+  </div>
+  <%
+  left = left + width + 1
+  month_f = month_f >> 1
 end %>
 
 <%
@@ -104,31 +104,31 @@ end %>
 # Weeks headers
 #
 if show_weeks
-	left = 0
-	height = (show_days ? header_heigth-1 : header_heigth-1 + g_height)
-	if @gantt.date_from.cwday == 1
-	    # @date_from is monday
+  left = 0
+  height = (show_days ? header_heigth-1 : header_heigth-1 + g_height)
+  if @gantt.date_from.cwday == 1
+      # @date_from is monday
         week_f = @gantt.date_from
-	else
-	    # find next monday after @date_from
-		week_f = @gantt.date_from + (7 - @gantt.date_from.cwday + 1)
-		width = (7 - @gantt.date_from.cwday + 1) * zoom-1
-		%>
-		<div style="left:<%= left %>px;top:19px;width:<%= width %>px;height:<%= height %>px;" class="gantt_hdr">&nbsp;</div>
-		<%
-		left = left + width+1
-	end %>
-	<%
-	while week_f <= @gantt.date_to
-		width = (week_f + 6 <= @gantt.date_to) ? 7 * zoom -1 : (@gantt.date_to - week_f + 1) * zoom-1
-		%>
-		<div style="left:<%= left %>px;top:19px;width:<%= width %>px;height:<%= height %>px;" class="gantt_hdr">
-		<small><%= week_f.cweek if width >= 16 %></small>
-		</div>
-		<%
-		left = left + width+1
-		week_f = week_f+7
-	end
+  else
+      # find next monday after @date_from
+    week_f = @gantt.date_from + (7 - @gantt.date_from.cwday + 1)
+    width = (7 - @gantt.date_from.cwday + 1) * zoom-1
+    %>
+    <div style="left:<%= left %>px;top:19px;width:<%= width %>px;height:<%= height %>px;" class="gantt_hdr">&nbsp;</div>
+    <%
+    left = left + width+1
+  end %>
+  <%
+  while week_f <= @gantt.date_to
+    width = (week_f + 6 <= @gantt.date_to) ? 7 * zoom -1 : (@gantt.date_to - week_f + 1) * zoom-1
+    %>
+    <div style="left:<%= left %>px;top:19px;width:<%= width %>px;height:<%= height %>px;" class="gantt_hdr">
+    <small><%= week_f.cweek if width >= 16 %></small>
+    </div>
+    <%
+    left = left + width+1
+    week_f = week_f+7
+  end
 end %>
 
 <%
@@ -136,20 +136,20 @@ end %>
 # Days headers
 #
 if show_days
-	left = 0
-	height = g_height + header_heigth - 1
-	wday = @gantt.date_from.cwday
-	(@gantt.date_to - @gantt.date_from + 1).to_i.times do
-	width =  zoom - 1
-	%>
-	<div style="left:<%= left %>px;top:37px;width:<%= width %>px;height:<%= height %>px;font-size:0.7em;<%= "background:#f1f1f1;" if wday > 5 %>" class="gantt_hdr">
-	<%= day_name(wday).first %>
-	</div>
-	<%
-	left = left + width+1
-	wday = wday + 1
-	wday = 1 if wday > 7
-	end
+  left = 0
+  height = g_height + header_heigth - 1
+  wday = @gantt.date_from.cwday
+  (@gantt.date_to - @gantt.date_from + 1).to_i.times do
+  width =  zoom - 1
+  %>
+  <div style="left:<%= left %>px;top:37px;width:<%= width %>px;height:<%= height %>px;font-size:0.7em;<%= "background:#f1f1f1;" if wday > 5 %>" class="gantt_hdr">
+  <%= day_name(wday).first %>
+  </div>
+  <%
+  left = left + width+1
+  wday = wday + 1
+  wday = 1 if wday > 7
+  end
 end %>
 
 <%= @gantt.lines %>
@@ -175,8 +175,8 @@ if Date.today >= @gantt.date_from and Date.today <= @gantt.date_to %>
 </table>
 
 <% other_formats_links do |f| %>
-	<%= f.link_to 'PDF', :url => params.merge(@gantt.params) %>
-	<%= f.link_to('PNG', :url => params.merge(@gantt.params)) if @gantt.respond_to?('to_image') %>
+  <%= f.link_to 'PDF', :url => params.merge(@gantt.params) %>
+  <%= f.link_to('PNG', :url => params.merge(@gantt.params)) if @gantt.respond_to?('to_image') %>
 <% end %>
 <% end # query.valid? %>
 
