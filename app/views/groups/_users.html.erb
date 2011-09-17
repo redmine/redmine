@@ -36,11 +36,11 @@
                  :url => { :controller => 'groups', :action => 'autocomplete_for_user', :id => @group },
                  :with => 'q')
                   %>
-    
+
     <div id="users">
       <%= principals_check_box_tags 'user_ids[]', users %>
     </div>
-     
+
     <p><%= submit_tag l(:button_add) %></p>
     </fieldset>
   <% end %>
