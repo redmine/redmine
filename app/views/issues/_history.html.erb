@@ -5,7 +5,7 @@
     <%= avatar(journal.user, :size => "24") %>
     <%= content_tag('a', '', :name => "note-#{journal.indice}")%>
 		<%= authoring journal.created_on, journal.user, :label => :label_updated_time_by %></h4>
-    
+
     <% if journal.details.any? %>
     <ul class="details">
       <% for detail in journal.details %>
