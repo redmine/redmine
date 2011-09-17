@@ -9,19 +9,19 @@
 
   <%= call_hook(:view_time_entries_context_menu_start, {:time_entries => @time_entries, :can => @can, :back => @back }) %>
 
-	<% if @activities.present? -%>
-	<li class="folder">			
-		<a href="#" class="submenu"><%= l(:field_activity) %></a>
-		<ul>
-		<% @activities.each do |u| -%>
-		    <li><%= context_menu_link h(u.name), {:controller => 'timelog', :action => 'bulk_edit', :ids => @time_entries.collect(&:id), :time_entry => {'activity_id' => u}, :back_url => @back}, :method => :post,
-		                              :selected => (@time_entry && u == @time_entry.activity), :disabled => !@can[:update] %></li>
-		<% end -%>
-		    <li><%= context_menu_link l(:label_none), {:controller => 'timelog', :action => 'bulk_edit', :ids => @time_entries.collect(&:id), :time_entry => {'activity_id' => 'none'}, :back_url => @back}, :method => :post,
-		                              :selected => (@time_entry && @time_entry.activity.nil?), :disabled => !@can[:update] %></li>
-		</ul>
-	</li>
-	<% end %>
+  <% if @activities.present? -%>
+  <li class="folder">      
+    <a href="#" class="submenu"><%= l(:field_activity) %></a>
+    <ul>
+    <% @activities.each do |u| -%>
+        <li><%= context_menu_link h(u.name), {:controller => 'timelog', :action => 'bulk_edit', :ids => @time_entries.collect(&:id), :time_entry => {'activity_id' => u}, :back_url => @back}, :method => :post,
+                                  :selected => (@time_entry && u == @time_entry.activity), :disabled => !@can[:update] %></li>
+    <% end -%>
+        <li><%= context_menu_link l(:label_none), {:controller => 'timelog', :action => 'bulk_edit', :ids => @time_entries.collect(&:id), :time_entry => {'activity_id' => 'none'}, :back_url => @back}, :method => :post,
+                                  :selected => (@time_entry && @time_entry.activity.nil?), :disabled => !@can[:update] %></li>
+    </ul>
+  </li>
+  <% end %>
 
   <%= call_hook(:view_time_entries_context_menu_end, {:time_entries => @time_entries, :can => @can, :back => @back }) %>
 
