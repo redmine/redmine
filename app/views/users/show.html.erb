@@ -6,25 +6,25 @@
 
 <div class="splitcontentleft">
 <ul>
-	<% unless @user.pref.hide_mail %>
-		<li><%=l(:field_mail)%>: <%= mail_to(h(@user.mail), nil, :encode => 'javascript') %></li>
-	<% end %>
-	<% @user.visible_custom_field_values.each do |custom_value| %>
-	<% if !custom_value.value.blank? %>
+  <% unless @user.pref.hide_mail %>
+    <li><%=l(:field_mail)%>: <%= mail_to(h(@user.mail), nil, :encode => 'javascript') %></li>
+  <% end %>
+  <% @user.visible_custom_field_values.each do |custom_value| %>
+  <% if !custom_value.value.blank? %>
     <li><%=h custom_value.custom_field.name%>: <%=h show_value(custom_value) %></li>
-	<% end %>
-	<% end %>
+  <% end %>
+  <% end %>
     <li><%=l(:label_registered_on)%>: <%= format_date(@user.created_on) %></li>
-	<% unless @user.last_login_on.nil? %>
-		<li><%=l(:field_last_login_on)%>: <%= format_date(@user.last_login_on) %></li>
-	<% end %>
+  <% unless @user.last_login_on.nil? %>
+    <li><%=l(:field_last_login_on)%>: <%= format_date(@user.last_login_on) %></li>
+  <% end %>
 </ul>
 
 <% unless @memberships.empty? %>
 <h3><%=l(:label_project_plural)%></h3>
 <ul>
 <% for membership in @memberships %>
-	<li><%= link_to_project(membership.project) %>
+  <li><%= link_to_project(membership.project) %>
     (<%=h membership.roles.sort.collect(&:to_s).join(', ') %>, <%= format_date(membership.created_on) %>)</li>
 <% end %>
 </ul>
@@ -57,11 +57,11 @@
 </div>
 
 <% other_formats_links do |f| %>
-	<%= f.link_to 'Atom', :url => {:controller => 'activities', :action => 'index', :id => nil, :user_id => @user, :key => User.current.rss_key} %>
+  <%= f.link_to 'Atom', :url => {:controller => 'activities', :action => 'index', :id => nil, :user_id => @user, :key => User.current.rss_key} %>
 <% end %>
 
 <% content_for :header_tags do %>
-		<%= auto_discovery_link_tag(:atom, :controller => 'activities', :action => 'index', :user_id => @user, :format => :atom, :key => User.current.rss_key) %>
+  <%= auto_discovery_link_tag(:atom, :controller => 'activities', :action => 'index', :user_id => @user, :format => :atom, :key => User.current.rss_key) %>
 <% end %>
 <% end %>
 <%= call_hook :view_account_right_bottom, :user => @user %>
