@@ -6,11 +6,11 @@
 
 <table class="list">
   <thead><tr>
-	  <th><%=l(:field_name)%></th>
-	  <th><%=l(:field_type)%></th>
-	  <th><%=l(:field_host)%></th>
-	  <th><%=l(:label_user_plural)%></th>
-	  <th></th>
+    <th><%=l(:field_name)%></th>
+    <th><%=l(:field_type)%></th>
+    <th><%=l(:field_host)%></th>
+    <th><%=l(:label_user_plural)%></th>
+    <th></th>
   </tr></thead>
   <tbody>
 <% for source in @auth_sources %>
@@ -20,9 +20,9 @@
     <td align="center"><%= h source.host %></td>
     <td align="center"><%= h source.users.count %></td>
     <td class="buttons">
-    	<%= link_to l(:button_test), :action => 'test_connection', :id => source %>
-    	<%= link_to l(:button_delete), { :action => 'destroy', :id => source },
-    																										:method => :post,
+      <%= link_to l(:button_test), :action => 'test_connection', :id => source %>
+      <%= link_to l(:button_delete), { :action => 'destroy', :id => source },
+                                                        :method => :post,
                                                         :confirm => l(:text_are_you_sure),
                                                         :class => 'icon icon-del',
                                                         :disabled => source.users.any? %>
