@@ -1,24 +1,24 @@
 <table style="border-collapse: collapse; border:0;">
-	<tr>
-		<td style="padding-left:0"><%= select_tag 'available_columns',
-		          options_for_select((query.available_columns - query.columns).collect {|column| [column.caption, column.name]}),
-		          :multiple => true, :size => 10, :style => "width:150px" %>
-		</td>
-		<td align="center" valign="middle">
-			<input type="button" value="&#8594;"
-			 onclick="moveOptions(this.form.available_columns, this.form.selected_columns);" /><br />
-			<input type="button" value="&#8592;"
-			 onclick="moveOptions(this.form.selected_columns, this.form.available_columns);" />
-		</td>
-		<td><%= select_tag 'c[]',
-		          options_for_select(query.columns.collect {|column| [column.caption, column.name]}),
-		          :id => 'selected_columns', :multiple => true, :size => 10, :style => "width:150px" %>
-		</td>
-		<td align="center" valign="middle">
-			<input type="button" value="&#8593;" onclick="moveOptionUp(this.form.selected_columns);" /><br />
-			<input type="button" value="&#8595;" onclick="moveOptionDown(this.form.selected_columns);" />
-		</td>
-	</tr>
+  <tr>
+    <td style="padding-left:0"><%= select_tag 'available_columns',
+              options_for_select((query.available_columns - query.columns).collect {|column| [column.caption, column.name]}),
+              :multiple => true, :size => 10, :style => "width:150px" %>
+    </td>
+    <td align="center" valign="middle">
+      <input type="button" value="&#8594;"
+       onclick="moveOptions(this.form.available_columns, this.form.selected_columns);" /><br />
+      <input type="button" value="&#8592;"
+       onclick="moveOptions(this.form.selected_columns, this.form.available_columns);" />
+    </td>
+    <td><%= select_tag 'c[]',
+              options_for_select(query.columns.collect {|column| [column.caption, column.name]}),
+              :id => 'selected_columns', :multiple => true, :size => 10, :style => "width:150px" %>
+    </td>
+    <td align="center" valign="middle">
+      <input type="button" value="&#8593;" onclick="moveOptionUp(this.form.selected_columns);" /><br />
+      <input type="button" value="&#8595;" onclick="moveOptionDown(this.form.selected_columns);" />
+    </td>
+  </tr>
 </table>
 
 <% content_for :header_tags do %>
