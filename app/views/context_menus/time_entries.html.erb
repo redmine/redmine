@@ -10,7 +10,7 @@
   <%= call_hook(:view_time_entries_context_menu_start, {:time_entries => @time_entries, :can => @can, :back => @back }) %>
 
   <% if @activities.present? -%>
-  <li class="folder">      
+  <li class="folder">
     <a href="#" class="submenu"><%= l(:field_activity) %></a>
     <ul>
     <% @activities.each do |u| -%>
