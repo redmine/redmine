@@ -30,22 +30,22 @@ function toggle_filter(field) {
 }
 
 function enableValues(field, indexes) {
-	var f = $$(".values_" + field);
-	for(var i=0;i<f.length;i++) {
-		if (indexes.include(i)) {
-			Form.Element.enable(f[i]);
-			f[i].up('span').show();
-		} else {
-			f[i].value = '';
+  var f = $$(".values_" + field);
+  for(var i=0;i<f.length;i++) {
+    if (indexes.include(i)) {
+      Form.Element.enable(f[i]);
+      f[i].up('span').show();
+    } else {
+      f[i].value = '';
       Form.Element.disable(f[i]);
       f[i].up('span').hide();
-		}
-	}
-	if (indexes.length > 0) {
-		Element.show("div_values_" + field);
-	} else {
-		Element.hide("div_values_" + field);
-	}
+    }
+  }
+  if (indexes.length > 0) {
+    Element.show("div_values_" + field);
+  } else {
+    Element.hide("div_values_" + field);
+  }
 }
 
 function toggle_operator(field) {
@@ -121,7 +121,7 @@ Event.observe(document,"dom:loaded", apply_filters_observer);
     <% case options[:type]
     when :list, :list_optional, :list_status, :list_subprojects %>
         <span class="span_values_<%= field %>">
-        	<%= select_tag "v[#{field}][]", options_for_select(options[:values], query.values_for(field)), :class => "values_#{field}", :id => "values_#{field}_1", :multiple => (query.values_for(field) && query.values_for(field).length > 1) %>
+          <%= select_tag "v[#{field}][]", options_for_select(options[:values], query.values_for(field)), :class => "values_#{field}", :id => "values_#{field}_1", :multiple => (query.values_for(field) && query.values_for(field).length > 1) %>
           <%= link_to_function image_tag('bullet_toggle_plus.png'), "toggle_multi_select('values_#{field}_1');" %>
         </span>
     <% when :date, :date_past %>
@@ -144,8 +144,8 @@ Event.observe(document,"dom:loaded", apply_filters_observer);
 <td class="add-filter">
 <%= label_tag('add_filter_select', l(:label_filter_add)) %>
 <%= select_tag 'add_filter_select', options_for_select([["",""]] + query.available_filters.sort{|a,b| a[1][:order]<=>b[1][:order]}.collect{|field| [ field[1][:name] || l(("field_"+field[0].to_s.gsub(/_id$/, "")).to_sym), field[0]] unless query.has_filter?(field[0])}.compact),
-																		:onchange => "add_filter();",
-																		:name => nil %>
+                                    :onchange => "add_filter();",
+                                    :name => nil %>
 </td>
 </tr>
 </table>
