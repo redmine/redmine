@@ -7,7 +7,7 @@
 <% if @versions.any? %>
 <p><label for="version_id"><%=l(:field_version)%></label>
 <%= select_tag "version_id", content_tag('option', '') +
-														 options_from_collection_for_select(@versions, "id", "name") %></p>
+                             options_from_collection_for_select(@versions, "id", "name") %></p>
 <% end %>
 
 <p><label><%=l(:label_attachment_plural)%></label><%= render :partial => 'attachments/form' %></p>
