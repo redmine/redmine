@@ -2,7 +2,7 @@
 
 <ul>
 <% @issues.each do |issue| -%>
-	<li><%= link_to_issue issue %></li>
+  <li><%= link_to_issue issue %></li>
 <% end -%>
 </ul>
 
@@ -66,14 +66,14 @@
 </div>
 
 <% if @copy %>
-	<%= hidden_field_tag("copy_options[copy]", "1") %>
-	<%= submit_tag l(:button_copy) %>
-	<%= submit_tag l(:button_copy_and_follow), :name => 'follow' %>
+  <%= hidden_field_tag("copy_options[copy]", "1") %>
+  <%= submit_tag l(:button_copy) %>
+  <%= submit_tag l(:button_copy_and_follow), :name => 'follow' %>
 <% else %>
-	<%= submit_tag l(:button_move) %>
-	<%= submit_tag l(:button_move_and_follow), :name => 'follow' %>
+  <%= submit_tag l(:button_move) %>
+  <%= submit_tag l(:button_move_and_follow), :name => 'follow' %>
 <% end %>
 <% end %>
 <% content_for :header_tags do %>
-	<%= robot_exclusion_tag %>
+  <%= robot_exclusion_tag %>
 <% end %>
