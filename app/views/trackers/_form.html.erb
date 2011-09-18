@@ -8,13 +8,13 @@
 
 <% if IssueCustomField.all.any? %>
 <p>
-	<label><%= l(:label_custom_field_plural) %></label>
-	<% IssueCustomField.all.each do |field| %>
-		<label class="block">
-			<%= check_box_tag 'tracker[custom_field_ids][]',field.id, @tracker.custom_fields.include?(field) %>
-			<%=h field.name %>
-		</label>
-	<% end %>
+  <label><%= l(:label_custom_field_plural) %></label>
+  <% IssueCustomField.all.each do |field| %>
+    <label class="block">
+      <%= check_box_tag 'tracker[custom_field_ids][]',field.id, @tracker.custom_fields.include?(field) %>
+      <%=h field.name %>
+    </label>
+  <% end %>
 </p>
 <%= hidden_field_tag 'tracker[custom_field_ids][]', '' %>
 <% end %>
