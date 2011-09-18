@@ -13,7 +13,7 @@
   <label class="block"><%= check_box_tag 'only[]', 'wiki', true %> <%= l(:label_wiki_page_plural) %> (<%= @source_project.wiki.nil? ? 0 : @source_project.wiki.pages.count %>)</label>
   <%= hidden_field_tag 'only[]', '' %>
   <br />
-	<label class="block"><%= check_box_tag 'notifications', 1, params[:notifications] %> <%= l(:label_project_copy_notifications) %></label>
+  <label class="block"><%= check_box_tag 'notifications', 1, params[:notifications] %> <%= l(:label_project_copy_notifications) %></label>
 </fieldset>
 
 <%= submit_tag l(:button_copy) %>
