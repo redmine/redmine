@@ -8,7 +8,7 @@
   <thead><tr>
     <th><%=l(:label_role)%></th>
     <th><%=l(:button_sort)%></th>
-	<th></th>
+  <th></th>
   </tr></thead>
   <tbody>
 <% for role in @roles %>
@@ -21,9 +21,9 @@
   </td>
   <td class="buttons">
     <%= link_to(l(:button_delete), { :action => 'destroy', :id => role },
-    															:method => :post,
-    															:confirm => l(:text_are_you_sure),
-    															:class => 'icon icon-del') unless role.builtin? %>
+                                  :method => :post,
+                                  :confirm => l(:text_are_you_sure),
+                                  :class => 'icon icon-del') unless role.builtin? %>
   </td>
   </tr>
 <% end %>
