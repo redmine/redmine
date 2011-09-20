@@ -22,7 +22,8 @@ class QueryTest < ActiveSupport::TestCase
            :member_roles, :roles, :trackers, :issue_statuses,
            :issue_categories, :enumerations, :issues,
            :watchers, :custom_fields, :custom_values, :versions,
-           :queries
+           :queries,
+           :projects_trackers
 
   def test_custom_fields_for_all_projects_should_be_available_in_global_queries
     query = Query.new(:project => nil, :name => '_')
