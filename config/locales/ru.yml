@@ -1070,7 +1070,7 @@ ru:
   label_issues_visibility_own: Задачи созданные или назначенные пользователю
   field_issues_visibility: Видимость задач
   label_issues_visibility_all: Все задачи
-  permission_set_own_issues_private: Устаовление видимости (общая/частная) для собственных задач
+  permission_set_own_issues_private: Установление видимости (общая/частная) для собственных задач
   field_is_private: Частная
   permission_set_issues_private: Установление видимости (общая/частная) для задач
   label_issues_visibility_public: Только общие задачи
