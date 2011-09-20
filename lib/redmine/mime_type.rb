@@ -1,16 +1,16 @@
 # Redmine - project management software
-# Copyright (C) 2006-2009  Jean-Philippe Lang
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -62,36 +62,36 @@ module Redmine
       'application/zip' => 'zip',
       'application/x-gzip' => 'gz',
     }.freeze
-    
+
     EXTENSIONS = MIME_TYPES.inject({}) do |map, (type, exts)|
       exts.split(',').each {|ext| map[ext.strip] = type}
       map
     end
-    
+
     # returns mime type for name or nil if unknown
     def self.of(name)
       return nil unless name
       m = name.to_s.match(/(^|\.)([^\.]+)$/)
       EXTENSIONS[m[2].downcase] if m
     end
-    
+
     # Returns the css class associated to
     # the mime type of name
     def self.css_class_of(name)
       mime = of(name)
       mime && mime.gsub('/', '-')
     end
-    
+
     def self.main_mimetype_of(name)
       mimetype = of(name)
       mimetype.split('/').first if mimetype
     end
-    
+
     # return true if mime-type for name is type/*
     # otherwise false
     def self.is_type?(type, name)
       main_mimetype = main_mimetype_of(name)
       type.to_s == main_mimetype
-    end  
+    end
   end
 end
