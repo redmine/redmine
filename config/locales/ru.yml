@@ -1051,7 +1051,7 @@ ru:
   setting_commit_logtime_enabled: Включить учет времени
   notice_gantt_chart_truncated: Диаграмма будет усечена, поскольку превышено максимальное кол-во элементов, которые могут отображаться (%{max})
   setting_gantt_items_limit: Максимальное кол-во элементов отображаемых на диаграмме Ганта
-  field_warn_on_leaving_unsaved: Предупреждать при закратии страницы с несохраненным текстом
+  field_warn_on_leaving_unsaved: Предупреждать при закрытии страницы с несохраненным текстом
   text_warn_on_leaving_unsaved: Текущая страница содержит несохраненный текст, который будет потерян, если вы покинете эту страницу.
   label_my_queries: Мои сохраненные запросы
   text_journal_changed_no_detail: "%{label} обновлено"
@@ -1060,8 +1060,8 @@ ru:
   button_collapse_all: Свернуть все
   label_additional_workflow_transitions_for_assignee: Дополнительные переходы, когда пользователь является исполнителем
   label_additional_workflow_transitions_for_author: Дополнительные переходы, когда пользователь является автором
-  label_bulk_edit_selected_time_entries: Массовое изменение выбранных записей затраченного времени времени 
-  text_time_entries_destroy_confirmation: Вы уверены что хотите удалить выбраные записи затраченного времени?
+  label_bulk_edit_selected_time_entries: Массовое изменение выбранных записей затраченного времени
+  text_time_entries_destroy_confirmation: Вы уверены что хотите удалить выбранные записи затраченного времени?
   label_role_anonymous: Аноним
   label_role_non_member: Не участник
   label_issue_note_added: Примечание добавлено
