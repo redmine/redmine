@@ -370,6 +370,16 @@ class UserTest < ActiveSupport::TestCase
     assert_equal "admin", user.login
   end
 
+  def test_validate_password_length
+    with_settings :password_min_length => '100' do
+      user = User.new(:firstname => "new100", :lastname => "user100", :mail => "newuser100@somenet.foo")
+      user.login = "newuser100"
+      user.password, user.password_confirmation = "password100", "password100"
+      assert !user.save
+      assert_equal 1, user.errors.count
+    end
+  end
+
   def test_name_format
     assert_equal 'Smith, John', @jsmith.name(:lastname_coma_firstname)
     Setting.user_format = :firstname_lastname
