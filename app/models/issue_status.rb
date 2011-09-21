@@ -21,6 +21,7 @@ class IssueStatus < ActiveRecord::Base
   acts_as_list
 
   before_destroy :delete_workflows
+  after_save     :update_default
 
   validates_presence_of :name
   validates_uniqueness_of :name
@@ -29,7 +30,7 @@ class IssueStatus < ActiveRecord::Base
 
   named_scope :named, lambda {|arg| { :conditions => ["LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip]}}
 
-  def after_save
+  def update_default
     IssueStatus.update_all("is_default=#{connection.quoted_false}", ['id <> ?', id]) if self.is_default?
   end
 
