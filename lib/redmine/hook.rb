@@ -115,17 +115,17 @@ module Redmine
       end
     end
 
-    # Helper module included in ApplicationHelper and ActionControllerso that
+    # Helper module included in ApplicationHelper and ActionController so that
     # hooks can be called in views like this:
     #
     #   <%= call_hook(:some_hook) %>
-    #   <%= call_hook(:another_hook, :foo => 'bar' %>
+    #   <%= call_hook(:another_hook, :foo => 'bar') %>
     #
     # Or in controllers like:
     #   call_hook(:some_hook)
-    #   call_hook(:another_hook, :foo => 'bar'
+    #   call_hook(:another_hook, :foo => 'bar')
     #
-    # Hooks added to views will be concatenated into a string.  Hooks added to
+    # Hooks added to views will be concatenated into a string. Hooks added to
     # controllers will return an array of results.
     #
     # Several objects are automatically added to the call context:
