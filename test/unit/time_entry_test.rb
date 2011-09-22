@@ -110,6 +110,22 @@ class TimeEntryTest < ActiveSupport::TestCase
     assert_equal 1, te.errors.count
   end
 
+  def test_set_project_if_nil
+    anon     = User.anonymous
+    project  = Project.find(1)
+    issue    = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => anon.id, :status_id => 1,
+                         :priority => IssuePriority.all.first, :subject => 'test_create',
+                         :description => 'IssueTest#test_create', :estimated_hours => '1:30')
+    assert issue.save
+    activity = TimeEntryActivity.find_by_name('Design')
+    te = TimeEntry.create(:spent_on => '2010-01-01',
+                          :hours    => 10,
+                          :issue    => issue,
+                          :user     => anon,
+                          :activity => activity)
+    assert_equal project.id, te.project.id
+  end
+
   context "#earilest_date_for_project" do
     setup do
       User.current = nil
