@@ -470,6 +470,17 @@ class UserTest < ActiveSupport::TestCase
     assert_kind_of AnonymousUser, anon
   end
 
+  def test_ensure_single_anonymous_user
+    AnonymousUser.delete_all
+    anon1 = User.anonymous
+    assert !anon1.new_record?
+    assert_kind_of AnonymousUser, anon1
+    anon1 = AnonymousUser.create(
+                :lastname => 'Anonymous', :firstname => '',
+                :mail => '', :login => '', :status => 0)
+    assert_equal 1, anon1.errors.count
+  end
+
   should_have_one :rss_token
 
   def test_rss_key
