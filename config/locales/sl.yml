@@ -8,13 +8,13 @@ sl:
       default: "%Y-%m-%d"
       short: "%b %d"
       long: "%B %d, %Y"
-
-    day_names: [Nedelja, Ponedeljek, Torek, Sreda, Četrtek, Petek, Sobota]
-    abbr_day_names: [Ned, Pon, To, Sr, Čet, Pet, Sob]
+      
+    day_names: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
+    abbr_day_names: [Sun, Mon, Tue, Wed, Thu, Fri, Sat]
 
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: [~, Januar, Februar, Marec, April, Maj, Junij, Julij, Avgust, September, November, December]
-    abbr_month_names: [~, Jan, Feb, Mar, Apr, Maj, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
+    month_names: [~, January, February, March, April, May, June, July, August, September, October, November, December]
+    abbr_month_names: [~, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
     # Used in date_select and datime_select.
     order:
       - :year
@@ -32,40 +32,40 @@ sl:
 
   datetime:
     distance_in_words:
-      half_a_minute: "pol minute"
+      half_a_minute: "half a minute"
       less_than_x_seconds:
-        one:   "manj kot 1. sekundo"
-        other: "manj kot %{count} sekund"
+        one:   "less than 1 second"
+        other: "less than %{count} seconds"
       x_seconds:
-        one:   "1. sekunda"
-        other: "%{count} sekund"
+        one:   "1 second"
+        other: "%{count} seconds"
       less_than_x_minutes:
-        one:   "manj kot minuto"
-        other: "manj kot %{count} minut"
+        one:   "less than a minute"
+        other: "less than %{count} minutes"
       x_minutes:
-        one:   "1 minuta"
-        other: "%{count} minut"
+        one:   "1 minute"
+        other: "%{count} minutes"
       about_x_hours:
-        one:   "okrog 1. ure"
-        other: "okrog %{count} ur"
+        one:   "about 1 hour"
+        other: "about %{count} hours"
       x_days:
-        one:   "1 dan"
-        other: "%{count} dni"
+        one:   "1 day"
+        other: "%{count} days"
       about_x_months:
-        one:   "okrog 1. mesec"
-        other: "okrog %{count} mesecev"
+        one:   "about 1 month"
+        other: "about %{count} months"
       x_months:
-        one:   "1 mesec"
-        other: "%{count} mesecev"
+        one:   "1 month"
+        other: "%{count} months"
       about_x_years:
-        one:   "okrog 1. leto"
-        other: "okrog %{count} let"
+        one:   "about 1 year"
+        other: "about %{count} years"
       over_x_years:
-        one:   "več kot 1. leto"
-        other: "več kot %{count} let"
+        one:   "over 1 year"
+        other: "over %{count} years"
       almost_x_years:
-        one:   "skoraj 1. leto"
-        other: "skoraj %{count} let"
+        one:   "almost 1 year"
+        other: "almost %{count} years"
 
   number:
     format:
@@ -90,15 +90,15 @@ sl:
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "in"
+      sentence_connector: "and"
       skip_last_comma: false
 
   activerecord:
     errors:
       template:
         header:
-          one:    "1. napaka je preprečila temu %{model} da bi se shranil"
-          other:  "%{count} napak je preprečilo temu %{model} da bi se shranil"
+          one:    "1 error prohibited this %{model} from being saved"
+          other:  "%{count} errors prohibited this %{model} from being saved"
       messages:
         inclusion: "ni vključen na seznamu"
         exclusion: "je rezerviran"
@@ -113,17 +113,17 @@ sl:
         taken: "je že zaseden"
         not_a_number: "ni število"
         not_a_date: "ni veljaven datum"
-        greater_than: "mora biti večji kot %{count}"
-        greater_than_or_equal_to: "mora biti večji ali enak kot %{count}"
-        equal_to: "mora biti enak kot %{count}"
-        less_than: "mora biti manjši kot %{count}"
-        less_than_or_equal_to: "mora biti manjši ali enak kot %{count}"
-        odd: "mora biti sodo"
-        even: "mora biti liho"
-        greater_than_start_date: "mora biti kasnejši kot začetni datum"
+        greater_than: "must be greater than %{count}"
+        greater_than_or_equal_to: "must be greater than or equal to %{count}"
+        equal_to: "must be equal to %{count}"
+        less_than: "must be less than %{count}"
+        less_than_or_equal_to: "must be less than or equal to %{count}"
+        odd: "must be odd"
+        even: "must be even"
+        greater_than_start_date: "mora biti kasnejši kot začeten datum"
         not_same_project: "ne pripada istemu projektu"
         circular_dependency: "Ta odnos bi povzročil krožno odvisnost"
-        cant_link_an_issue_with_a_descendant: "Zahtevek ne more biti povezan s svojo podnalogo"
+        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   actionview_instancetag_blank_option: Prosimo izberite
 
@@ -372,9 +372,9 @@ sl:
   label_project_new: Nov projekt
   label_project_plural: Projekti
   label_x_projects:
-    zero:  ni projektov
-    one:   1 projekt
-    other: "%{count} projektov"
+    zero:  no projects
+    one:   1 project
+    other: "%{count} projects"
   label_project_all: Vsi projekti
   label_project_latest: Zadnji projekti
   label_issue: Zahtevek
@@ -476,22 +476,22 @@ sl:
   label_export_to: 'Na razpolago tudi v:'
   label_read: Preberi...
   label_public_projects: Javni projekti
-  label_open_issues: odprt zahtevek
-  label_open_issues_plural: odprti zahtevki
-  label_closed_issues: zaprt zahtevek
-  label_closed_issues_plural: zaprti zahtevki
+  label_open_issues: odpri zahtevek
+  label_open_issues_plural: odpri zahtevke
+  label_closed_issues: zapri zahtevek
+  label_closed_issues_plural: zapri zahtevke
   label_x_open_issues_abbr_on_total:
-    zero:  0 odprtih / %{total}
-    one:   1 odprt / %{total}
-    other: "%{count} odprtih / %{total}"
+    zero:  0 open / %{total}
+    one:   1 open / %{total}
+    other: "%{count} open / %{total}"
   label_x_open_issues_abbr:
-    zero:  0 odprtih
-    one:   1 odprt
-    other: "%{count} odprtih"
+    zero:  0 open
+    one:   1 open
+    other: "%{count} open"
   label_x_closed_issues_abbr:
-    zero:  0 zaprtih
-    one:   1 zaprt
-    other: "%{count} zaprtih"
+    zero:  0 closed
+    one:   1 closed
+    other: "%{count} closed"
   label_total: Skupaj
   label_permissions: Dovoljenja
   label_current_status: Trenutno stanje
@@ -507,7 +507,7 @@ sl:
   label_per_page: Na stran
   label_calendar: Koledar
   label_months_from: mesecev od
-  label_gantt: Gantogram
+  label_gantt: Gantt
   label_internal: Notranji
   label_last_changes: "zadnjih %{count} sprememb"
   label_change_view_all: Poglej vse spremembe
@@ -515,9 +515,9 @@ sl:
   label_comment: Komentar
   label_comment_plural: Komentarji
   label_x_comments:
-    zero: ni komentarjev
-    one: 1 komentar
-    other: "%{count} komentarjev"
+    zero: no comments
+    one: 1 comment
+    other: "%{count} comments"
   label_comment_add: Dodaj komentar
   label_comment_added: Komentar dodan
   label_comment_delete: Izbriši komentarje
@@ -774,7 +774,7 @@ sl:
   default_tracker_feature: Funkcija
   default_tracker_support: Podpora
   default_issue_status_new: Nov
-  default_issue_status_in_progress: V teku
+  default_issue_status_in_progress: In Progress
   default_issue_status_resolved: Rešen
   default_issue_status_feedback: Povratna informacija
   default_issue_status_closed: Zaključen
@@ -792,185 +792,185 @@ sl:
   enumeration_issue_priorities: Prioritete zahtevkov
   enumeration_doc_categories: Kategorije dokumentov
   enumeration_activities: Aktivnosti (sledenje časa)
-  warning_attachments_not_saved: "%{count} datotek(e) ni bilo mogoče shraniti."
-  field_editable: Uredljivo
-  text_plugin_assets_writable: Zapisljiva mapa za vtičnike
-  label_display: Prikaz
-  button_create_and_continue: Ustvari in nadaljuj
-  text_custom_field_possible_values_info: 'Ena vrstica za vsako vrednost'
-  setting_repository_log_display_limit: Največje število prikazanih revizij v log datoteki
-  setting_file_max_size_displayed: Največja velikost besedilnih datotek v vključenem prikazu
-  field_watcher: Opazovalec
-  setting_openid: Dovoli OpenID prijavo in registracijo
+  warning_attachments_not_saved: "%{count} file(s) could not be saved."
+  field_editable: Editable
+  text_plugin_assets_writable: Plugin assets directory writable
+  label_display: Display
+  button_create_and_continue: Create and continue
+  text_custom_field_possible_values_info: 'One line for each value'
+  setting_repository_log_display_limit: Maximum number of revisions displayed on file log
+  setting_file_max_size_displayed: Max size of text files displayed inline
+  field_watcher: Watcher
+  setting_openid: Allow OpenID login and registration
   field_identity_url: OpenID URL
-  label_login_with_open_id_option: ali se prijavi z OpenID
-  field_content: Vsebina
-  label_descending: Padajoče
-  label_sort: Razvrsti
-  label_ascending: Naraščajoče
-  label_date_from_to: Od %{start} do %{end}
+  label_login_with_open_id_option: or login with OpenID
+  field_content: Content
+  label_descending: Descending
+  label_sort: Sort
+  label_ascending: Ascending
+  label_date_from_to: From %{start} to %{end}
   label_greater_or_equal: ">="
   label_less_or_equal: <=
-  text_wiki_page_destroy_question: Ta stran ima %{descendants} podstran(i) in naslednik(ov). Kaj želite storiti?
-  text_wiki_page_reassign_children: Znova dodeli podstrani tej glavni strani
-  text_wiki_page_nullify_children: Obdrži podstrani kot glavne strani
-  text_wiki_page_destroy_children: Izbriši podstrani in vse njihove naslednike
-  setting_password_min_length: Minimalna dolžina gesla
-  field_group_by: Združi rezultate po
-  mail_subject_wiki_content_updated: "'%{id}' wiki stran je bila posodobljena"
-  label_wiki_content_added: Wiki stran dodana
-  mail_subject_wiki_content_added: "'%{id}' wiki stran je bila dodana"
-  mail_body_wiki_content_added: %{author} je dodal '%{id}' wiki stran
-  label_wiki_content_updated: Wiki stran posodobljena
-  mail_body_wiki_content_updated: %{author} je posodobil '%{id}' wiki stran.
-  permission_add_project: Ustvari projekt
-  setting_new_project_user_role_id: Vloga, dodeljena neadministratorskemu uporabniku, ki je ustvaril projekt
-  label_view_all_revisions: Poglej vse revizije
-  label_tag: Oznaka
-  label_branch: Veja
-  error_no_tracker_in_project: Noben sledilnik ni povezan s tem projektom. Prosimo preverite nastavitve projekta.
-  error_no_default_issue_status: Privzeti zahtevek ni definiran. Prosimo preverite svoje nastavitve (Pojdite na "Administracija -> Stanje zahtevkov").
-  text_journal_changed: "%{label} se je spremenilo iz %{old} v %{new}"
-  text_journal_set_to: "%{label} nastavljeno na %{value}"
-  text_journal_deleted: "%{label} izbrisan (%{old})"
-  label_group_plural: Skupine
-  label_group: Skupina
-  label_group_new: Nova skupina
-  label_time_entry_plural: Porabljen čas
-  text_journal_added: "%{label} %{value} dodan"
-  field_active: Aktiven
-  enumeration_system_activity: Sistemska aktivnost
-  permission_delete_issue_watchers: Izbriši opazovalce
-  version_status_closed: zaprt
-  version_status_locked: zaklenjen
-  version_status_open: odprt
-  error_can_not_reopen_issue_on_closed_version: Zahtevek dodeljen zaprti verziji ne more biti ponovno odprt
-  label_user_anonymous: Anonimni
-  button_move_and_follow: Premakni in sledi
-  setting_default_projects_modules: Privzeti moduli za nove projekte
-  setting_gravatar_default: Privzeta Gravatar slika
-  field_sharing: Deljenje
-  label_version_sharing_hierarchy: S projektno hierarhijo
-  label_version_sharing_system: Z vsemi projekti
-  label_version_sharing_descendants: S podprojekti
-  label_version_sharing_tree: Z drevesom projekta
-  label_version_sharing_none: Ni deljeno
-  error_can_not_archive_project: Ta projekt ne more biti arhiviran
-  button_duplicate: Podvoji
-  button_copy_and_follow: Kopiraj in sledi
-  label_copy_source: Vir
-  setting_issue_done_ratio: Izračunaj razmerje opravljenega zahtevka z
-  setting_issue_done_ratio_issue_status: Uporabi stanje zahtevka
-  error_issue_done_ratios_not_updated: Razmerje opravljenega zahtevka ni bilo posodobljeno.
-  error_workflow_copy_target: Prosimo izberite ciljni(e) sledilnik(e) in vlogo(e)
-  setting_issue_done_ratio_issue_field: Uporabi polje zahtevka
-  label_copy_same_as_target: Enako kot cilj
-  label_copy_target: Cilj
-  notice_issue_done_ratios_updated: Razmerje opravljenega zahtevka posodobljeno.
-  error_workflow_copy_source: Prosimo izberite vir zahtevka ali vlogo
-  label_update_issue_done_ratios: Posodobi razmerje opravljenega zahtevka
-  setting_start_of_week: Začni koledarje z
-  permission_view_issues: Poglej zahtevke
-  label_display_used_statuses_only: Prikaži samo stanja ki uporabljajo ta sledilnik
-  label_revision_id: Revizija %{value}
-  label_api_access_key: API dostopni ključ
-  label_api_access_key_created_on: API dostopni ključ ustvarjen pred %{value}
-  label_feeds_access_key: RSS dostopni ključ
-  notice_api_access_key_reseted: Vaš API dostopni ključ je bil ponastavljen.
-  setting_rest_api_enabled: Omogoči REST spletni servis
-  label_missing_api_access_key: Manjkajoč API dostopni ključ
-  label_missing_feeds_access_key: Manjkajoč RSS dostopni ključ
-  button_show: Prikaži
-  text_line_separated: Dovoljenih več vrednosti (ena vrstica za vsako vrednost).
-  setting_mail_handler_body_delimiters: Odreži e-pošto po eni od teh vrstic
-  permission_add_subprojects: Ustvari podprojekte
-  label_subproject_new: Nov podprojekt
+  text_wiki_page_destroy_question: This page has %{descendants} child page(s) and descendant(s). What do you want to do?
+  text_wiki_page_reassign_children: Reassign child pages to this parent page
+  text_wiki_page_nullify_children: Keep child pages as root pages
+  text_wiki_page_destroy_children: Delete child pages and all their descendants
+  setting_password_min_length: Minimum password length
+  field_group_by: Group results by
+  mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
+  label_wiki_content_added: Wiki page added
+  mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
+  mail_body_wiki_content_added: The '%{id}' wiki page has been added by %{author}.
+  label_wiki_content_updated: Wiki page updated
+  mail_body_wiki_content_updated: The '%{id}' wiki page has been updated by %{author}.
+  permission_add_project: Create project
+  setting_new_project_user_role_id: Role given to a non-admin user who creates a project
+  label_view_all_revisions: View all revisions
+  label_tag: Tag
+  label_branch: Branch
+  error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
+  error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
+  text_journal_changed: "%{label} changed from %{old} to %{new}"
+  text_journal_set_to: "%{label} set to %{value}"
+  text_journal_deleted: "%{label} deleted (%{old})"
+  label_group_plural: Groups
+  label_group: Group
+  label_group_new: New group
+  label_time_entry_plural: Spent time
+  text_journal_added: "%{label} %{value} added"
+  field_active: Active
+  enumeration_system_activity: System Activity
+  permission_delete_issue_watchers: Delete watchers
+  version_status_closed: closed
+  version_status_locked: locked
+  version_status_open: open
+  error_can_not_reopen_issue_on_closed_version: An issue assigned to a closed version can not be reopened
+  label_user_anonymous: Anonymous
+  button_move_and_follow: Move and follow
+  setting_default_projects_modules: Default enabled modules for new projects
+  setting_gravatar_default: Default Gravatar image
+  field_sharing: Sharing
+  label_version_sharing_hierarchy: With project hierarchy
+  label_version_sharing_system: With all projects
+  label_version_sharing_descendants: With subprojects
+  label_version_sharing_tree: With project tree
+  label_version_sharing_none: Not shared
+  error_can_not_archive_project: This project can not be archived
+  button_duplicate: Duplicate
+  button_copy_and_follow: Copy and follow
+  label_copy_source: Source
+  setting_issue_done_ratio: Calculate the issue done ratio with
+  setting_issue_done_ratio_issue_status: Use the issue status
+  error_issue_done_ratios_not_updated: Issue done ratios not updated.
+  error_workflow_copy_target: Please select target tracker(s) and role(s)
+  setting_issue_done_ratio_issue_field: Use the issue field
+  label_copy_same_as_target: Same as target
+  label_copy_target: Target
+  notice_issue_done_ratios_updated: Issue done ratios updated.
+  error_workflow_copy_source: Please select a source tracker or role
+  label_update_issue_done_ratios: Update issue done ratios
+  setting_start_of_week: Start calendars on
+  permission_view_issues: View Issues
+  label_display_used_statuses_only: Only display statuses that are used by this tracker
+  label_revision_id: Revision %{value}
+  label_api_access_key: API access key
+  label_api_access_key_created_on: API access key created %{value} ago
+  label_feeds_access_key: RSS access key
+  notice_api_access_key_reseted: Your API access key was reset.
+  setting_rest_api_enabled: Enable REST web service
+  label_missing_api_access_key: Missing an API access key
+  label_missing_feeds_access_key: Missing a RSS access key
+  button_show: Show
+  text_line_separated: Multiple values allowed (one line for each value).
+  setting_mail_handler_body_delimiters: Truncate emails after one of these lines
+  permission_add_subprojects: Create subprojects
+  label_subproject_new: New subproject
   text_own_membership_delete_confirmation: |-
-    Odstranili boste nekatere ali vse od dovoljenj zaradi česar morda ne boste mogli več urejati tega projekta.
-    Ali ste prepričani, da želite nadaljevati?
-  label_close_versions: Zapri dokončane verzije
-  label_board_sticky: Lepljivo
-  label_board_locked: Zaklenjeno
-  permission_export_wiki_pages: Izvozi wiki strani
-  setting_cache_formatted_text: Predpomni oblikovano besedilo
-  permission_manage_project_activities: Uredi aktivnosti projekta
-  error_unable_delete_issue_status: Stanja zahtevka ni bilo možno spremeniti
-  label_profile: Profil
-  permission_manage_subtasks: Uredi podnaloge
-  field_parent_issue: Nadrejena naloga
-  label_subtask_plural: Podnaloge
-  label_project_copy_notifications: Med kopiranjem projekta pošlji e-poštno sporočilo
-  error_can_not_delete_custom_field: Polja po meri ni mogoče izbrisati
-  error_unable_to_connect: Povezava ni mogoča (%{value})
-  error_can_not_remove_role: Ta vloga je v uporabi in je ni mogoče izbrisati.
-  error_can_not_delete_tracker: Ta sledilnik vsebuje zahtevke in se ga ne more izbrisati.
-  field_principal: Upravnik varnosti
-  label_my_page_block: Moj gradnik strani
-  notice_failed_to_save_members: "Shranjevanje uporabnika(ov) ni uspelo: %{errors}."
-  text_zoom_out: Približaj
-  text_zoom_in: Oddalji
-  notice_unable_delete_time_entry: Brisanje dnevnika porabljenaga časa ni mogoče.
-  label_overall_spent_time: Skupni porabljeni čas
-  field_time_entries: Beleži porabljeni čas
-  project_module_gantt: Gantogram
-  project_module_calendar: Koledear
-  button_edit_associated_wikipage: "Uredi povezano Wiki stran: %{page_title}"
-  text_are_you_sure_with_children: Izbriši zahtevek in vse podazahtevke?
-  field_text: Besedilno polje
-  label_user_mail_option_only_owner: Samo za stvari katerih lastnik sem
-  setting_default_notification_option: Privzeta možnost obveščanja
-  label_user_mail_option_only_my_events: Samo za stvari, ki jih opazujem ali sem v njih vpleten
-  label_user_mail_option_only_assigned: Samo za stvari, ki smo mi dodeljene
-  label_user_mail_option_none: Noben dogodek
-  field_member_of_group: Pooblaščenčeva skupina
-  field_assigned_to_role: Pooblaščenčeva vloga
-  notice_not_authorized_archived_project: Projekt, do katerega poskušate dostopati, je bil arhiviran.
-  label_principal_search: "Poišči uporabnika ali skupino:"
-  label_user_search: "Poišči uporabnikia:"
-  field_visible: Viden
-  setting_emails_header: Glava e-pošte
-  setting_commit_logtime_activity_id: Aktivnost zabeleženega časa
-  text_time_logged_by_changeset: Uporabljeno v spremembi %{value}.
-  setting_commit_logtime_enabled: Omogoči beleženje časa
-  notice_gantt_chart_truncated: Graf je bil odrezan, ker je prekoračil največje dovoljeno število elementov, ki se jih lahko prikaže (%{max})
-  setting_gantt_items_limit: Največje število elementov prikazano na gantogramu
-  field_warn_on_leaving_unsaved: Opozori me, kadar zapuščam stran z neshranjenim besedilom
-  text_warn_on_leaving_unsaved: Trenutna stran vsebuje neshranjeno besedilo ki bo izgubljeno, če zapustite to stran.
-  label_my_queries: Moje poizvedbe po meri
-  text_journal_changed_no_detail: "%{label} posodobljen"
-  label_news_comment_added: Komentar dodan novici
-  button_expand_all: Razširi vse
-  button_collapse_all: Skrči vse
-  label_additional_workflow_transitions_for_assignee: Dovoljeni dodatni prehodi kadar je uporabnik pooblaščenec
-  label_additional_workflow_transitions_for_author: Dovoljeni dodatni prehodi kadar je uporabnik avtor
-  label_bulk_edit_selected_time_entries: Skupinsko urejanje izbranih časovnih zapisov
-  text_time_entries_destroy_confirmation: Ali ste prepričani, da želite izbristai izbran(e) časovn(i/e) zapis(e)?
-  label_role_anonymous: Anonimni
-  label_role_non_member: Nečlan
-  label_issue_note_added: Dodan zaznamek
-  label_issue_status_updated: Status posodobljen
-  label_issue_priority_updated: Prioriteta posodobljena
-  label_issues_visibility_own: Zahtevek ustvarjen s strani uporabnika ali dodeljen uporabniku
-  field_issues_visibility: Vidljivost zahtevkov
-  label_issues_visibility_all: Vsi zahtevki
-  permission_set_own_issues_private: Nastavi lastne zahtevke kot javne ali zasebne
-  field_is_private: Zaseben
-  permission_set_issues_private: Nastavi zahtevke kot javne ali zasebne
-  label_issues_visibility_public: Vsi nezasebni zahtevki
-  text_issues_destroy_descendants_confirmation: To bo izbrisalo tudi  %{count} podnalog(o).
+    You are about to remove some or all of your permissions and may no longer be able to edit this project after that.
+    Are you sure you want to continue?
+  label_close_versions: Close completed versions
+  label_board_sticky: Sticky
+  label_board_locked: Locked
+  permission_export_wiki_pages: Export wiki pages
+  setting_cache_formatted_text: Cache formatted text
+  permission_manage_project_activities: Manage project activities
+  error_unable_delete_issue_status: Unable to delete issue status
+  label_profile: Profile
+  permission_manage_subtasks: Manage subtasks
+  field_parent_issue: Parent task
+  label_subtask_plural: Subtasks
+  label_project_copy_notifications: Send email notifications during the project copy
+  error_can_not_delete_custom_field: Unable to delete custom field
+  error_unable_to_connect: Unable to connect (%{value})
+  error_can_not_remove_role: This role is in use and can not be deleted.
+  error_can_not_delete_tracker: This tracker contains issues and can't be deleted.
+  field_principal: Principal
+  label_my_page_block: My page block
+  notice_failed_to_save_members: "Failed to save member(s): %{errors}."
+  text_zoom_out: Zoom out
+  text_zoom_in: Zoom in
+  notice_unable_delete_time_entry: Unable to delete time log entry.
+  label_overall_spent_time: Overall spent time
+  field_time_entries: Log time
+  project_module_gantt: Gantt
+  project_module_calendar: Calendar
+  button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
+  text_are_you_sure_with_children: Delete issue and all child issues?
+  field_text: Text field
+  label_user_mail_option_only_owner: Only for things I am the owner of
+  setting_default_notification_option: Default notification option
+  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
+  label_user_mail_option_only_assigned: Only for things I am assigned to
+  label_user_mail_option_none: No events
+  field_member_of_group: Assignee's group
+  field_assigned_to_role: Assignee's role
+  notice_not_authorized_archived_project: The project you're trying to access has been archived.
+  label_principal_search: "Search for user or group:"
+  label_user_search: "Search for user:"
+  field_visible: Visible
+  setting_emails_header: Emails header
+  setting_commit_logtime_activity_id: Activity for logged time
+  text_time_logged_by_changeset: Applied in changeset %{value}.
+  setting_commit_logtime_enabled: Enable time logging
+  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
+  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
+  field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
+  text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
+  label_my_queries: My custom queries
+  text_journal_changed_no_detail: "%{label} updated"
+  label_news_comment_added: Comment added to a news
+  button_expand_all: Expand all
+  button_collapse_all: Collapse all
+  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
+  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
+  label_bulk_edit_selected_time_entries: Bulk edit selected time entries
+  text_time_entries_destroy_confirmation: Are you sure you want to delete the selected time entr(y/ies)?
+  label_role_anonymous: Anonymous
+  label_role_non_member: Non member
+  label_issue_note_added: Note added
+  label_issue_status_updated: Status updated
+  label_issue_priority_updated: Priority updated
+  label_issues_visibility_own: Issues created by or assigned to the user
+  field_issues_visibility: Issues visibility
+  label_issues_visibility_all: All issues
+  permission_set_own_issues_private: Set own issues public or private
+  field_is_private: Private
+  permission_set_issues_private: Set issues public or private
+  label_issues_visibility_public: All non private issues
+  text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
   field_commit_logs_encoding: Kodiranje sporočil ob predaji
-  field_scm_path_encoding: Pot do kodiranja
-  text_scm_path_encoding_note: "Privzeto: UTF-8"
-  field_path_to_repository: Pot do shrambe
-  field_root_directory: Korenska mapa
-  field_cvs_module: Modul
+  field_scm_path_encoding: Path encoding
+  text_scm_path_encoding_note: "Default: UTF-8"
+  field_path_to_repository: Path to repository
+  field_root_directory: Root directory
+  field_cvs_module: Module
   field_cvsroot: CVSROOT
-  text_mercurial_repository_note: Lokalna shramba (npr. /hgrepo, c:\hgrepo)
-  text_scm_command: Ukaz
-  text_scm_command_version: Verzija
-  label_git_report_last_commit: Sporoči zadnje uveljavljanje datotek in map
-  text_scm_config: Svoje SCM ukaze lahko nastavite v datoteki config/configuration.yml. Po urejanju prosimo ponovno zaženite aplikacijo.
-  text_scm_command_not_available: SCM ukaz ni na voljo. Prosimo preverite nastavitve v upravljalskem podoknu.
+  text_mercurial_repository_note: Local repository (e.g. /hgrepo, c:\hgrepo)
+  text_scm_command: Command
+  text_scm_command_version: Version
+  label_git_report_last_commit: Report last commit for files and directories
+  text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.
+  text_scm_command_not_available: Scm command is not available. Please check settings on the administration panel.
 
   text_git_repository_note: Shramba je prazna in lokalna (npr. /gitrepo, c:\gitrepo)
 
