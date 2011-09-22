@@ -38,6 +38,7 @@ class TimeEntry < ActiveRecord::Base
   validates_presence_of :user_id, :activity_id, :project_id, :hours, :spent_on
   validates_numericality_of :hours, :allow_nil => true, :message => :invalid
   validates_length_of :comments, :maximum => 255, :allow_nil => true
+  before_validation :set_project_if_nil
   validate :validate_time_entry
 
   named_scope :visible, lambda {|*args| {
@@ -54,7 +55,7 @@ class TimeEntry < ActiveRecord::Base
     end
   end
 
-  def before_validation
+  def set_project_if_nil
     self.project = issue.project if issue && project.nil?
   end
 
