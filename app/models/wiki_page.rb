@@ -44,6 +44,7 @@ class WikiPage < ActiveRecord::Base
 
   validate :validate_parent_title
   before_destroy :remove_redirects
+  before_save    :handle_redirects
 
   # eager load information about last updates, without loading text
   named_scope :with_updated_on, {
@@ -70,7 +71,7 @@ class WikiPage < ActiveRecord::Base
     write_attribute(:title, value)
   end
 
-  def before_save
+  def handle_redirects
     self.title = Wiki.titleize(title)
     # Manage redirects if the title has changed
     if !@previous_title.blank? && (@previous_title != title) && !new_record?
