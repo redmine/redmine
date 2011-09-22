@@ -475,10 +475,10 @@ class UserTest < ActiveSupport::TestCase
     anon1 = User.anonymous
     assert !anon1.new_record?
     assert_kind_of AnonymousUser, anon1
-    anon1 = AnonymousUser.create(
+    anon2 = AnonymousUser.create(
                 :lastname => 'Anonymous', :firstname => '',
                 :mail => '', :login => '', :status => 0)
-    assert_equal 1, anon1.errors.count
+    assert_equal 1, anon2.errors.count
   end
 
   should_have_one :rss_token
