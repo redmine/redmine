@@ -18,7 +18,15 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class UserTest < ActiveSupport::TestCase
-  fixtures :users, :members, :projects, :roles, :member_roles, :auth_sources
+  fixtures :users, :members, :projects, :roles, :member_roles, :auth_sources,
+            :trackers, :issue_statuses,
+            :projects_trackers,
+            :watchers,
+            :issue_categories, :enumerations, :issues,
+            :journals, :journal_details,
+            :groups_users,
+            :enabled_modules,
+            :workflows
 
   def setup
     @admin = User.find(1)
