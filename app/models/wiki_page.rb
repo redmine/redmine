@@ -43,6 +43,7 @@ class WikiPage < ActiveRecord::Base
   validates_associated :content
 
   validate :validate_parent_title
+  before_destroy :remove_redirects
 
   # eager load information about last updates, without loading text
   named_scope :with_updated_on, {
@@ -86,7 +87,7 @@ class WikiPage < ActiveRecord::Base
     end
   end
 
-  def before_destroy
+  def remove_redirects
     # Remove redirects to this page
     wiki.redirects.find_all_by_redirects_to(title).each(&:destroy)
   end
