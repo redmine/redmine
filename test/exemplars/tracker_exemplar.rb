@@ -1,9 +1,4 @@
 class Tracker < ActiveRecord::Base
-  generator_for :name, :method => :next_name
+  generator_for :name, :start => 'Tracker 0'
 
-  def self.next_name
-    @last_name ||= 'Tracker 0'
-    @last_name.succ!
-    @last_name
-  end
 end
