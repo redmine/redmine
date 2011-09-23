@@ -114,7 +114,7 @@
         greater_than_start_date: "må være større enn startdato"
         not_same_project: "hører ikke til samme prosjekt"
         circular_dependency: "Denne relasjonen ville lagd en sirkulær avhengighet"
-        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
+        cant_link_an_issue_with_a_descendant: "En sak kan ikke kobles mot en av sine undersaker"
 
   
   actionview_instancetag_blank_option: Vennligst velg
@@ -212,7 +212,7 @@
   field_role: Rolle
   field_homepage: Hjemmeside
   field_is_public: Offentlig
-  field_parent: Underprosjekt til
+  field_parent: Underprosjekt av
   field_is_in_roadmap: Vises i veikart
   field_login: Brukernavn
   field_mail_notification: E-post-varsling
@@ -236,8 +236,8 @@
   field_onthefly: On-the-fly brukeropprettelse
   field_start_date: Start
   field_done_ratio: "% Ferdig"
-  field_auth_source: Autentifikasjonsmodus
-  field_hide_mail: Skjul min e-post-adresse
+  field_auth_source: Autentiseringskilde
+  field_hide_mail: Skjul min epost-adresse
   field_comments: Kommentarer
   field_url: URL
   field_start_page: Startside
@@ -247,7 +247,7 @@
   field_spent_on: Dato
   field_identifier: Identifikasjon
   field_is_filter: Brukes som filter
-  field_issue_to: Relatert saker
+  field_issue_to: Relaterte saker
   field_delay: Forsinkelse
   field_assignable: Saker kan tildeles denne rollen
   field_redirect_existing_links: Viderekoble eksisterende lenker
@@ -266,24 +266,24 @@
   setting_self_registration: Selvregistrering
   setting_attachment_max_size: Maks. størrelse vedlegg
   setting_issues_export_limit: Eksportgrense for saker
-  setting_mail_from: Avsenders e-post
+  setting_mail_from: Avsenders epost
   setting_bcc_recipients: Blindkopi (bcc) til mottakere
   setting_host_name: Vertsnavn
   setting_text_formatting: Tekstformattering
   setting_wiki_compression: Komprimering av Wiki-historikk
   setting_feeds_limit: Innholdsgrense for Feed
   setting_default_projects_public: Nye prosjekter er offentlige som standard
-  setting_autofetch_changesets: Autohenting av innsendinger
+  setting_autofetch_changesets: Autohenting av endringssett
   setting_sys_api_enabled: Aktiver webservice for depot-administrasjon
   setting_commit_ref_keywords: Nøkkelord for referanse
   setting_commit_fix_keywords: Nøkkelord for retting
   setting_autologin: Autoinnlogging
   setting_date_format: Datoformat
   setting_time_format: Tidsformat
-  setting_cross_project_issue_relations: Tillat saksrelasjoner mellom prosjekter
+  setting_cross_project_issue_relations: Tillat saksrelasjoner på kryss av prosjekter
   setting_issue_list_default_columns: Standardkolonner vist i sakslisten
   setting_repositories_encodings: Depot-tegnsett
-  setting_emails_footer: E-post-signatur
+  setting_emails_footer: Epost-signatur
   setting_protocol: Protokoll
   setting_per_page_options: Alternativer, objekter pr. side
   setting_user_format: Visningsformat, brukere
@@ -291,8 +291,8 @@
   setting_display_subprojects_issues: Vis saker fra underprosjekter på hovedprosjekt som standard
   setting_enabled_scm: Aktiviserte SCM
   
-  project_module_issue_tracking: Sakssporing
-  project_module_time_tracking: Tidssporing
+  project_module_issue_tracking: Sakshåndtering
+  project_module_time_tracking: Tidsregistrering
   project_module_news: Nyheter
   project_module_documents: Dokumenter
   project_module_files: Filer
@@ -326,7 +326,7 @@
   label_role: Rolle
   label_role_plural: Roller
   label_role_new: Ny rolle
-  label_role_and_permissions: Roller og tillatelser
+  label_role_and_permissions: Roller og rettigheter
   label_member: Medlem
   label_member_new: Nytt medlem
   label_member_plural: Medlemmer
@@ -343,7 +343,7 @@
   label_custom_field: Eget felt
   label_custom_field_plural: Egne felt
   label_custom_field_new: Nytt eget felt
-  label_enumerations: Kodelister
+  label_enumerations: Listeverdier
   label_enumeration_new: Ny verdi
   label_information: Informasjon
   label_information_plural: Informasjon
@@ -367,10 +367,10 @@
   label_new: Ny
   label_logged_as: Innlogget som
   label_environment: Miljø
-  label_authentication: Autentifikasjon
-  label_auth_source: Autentifikasjonsmodus
-  label_auth_source_new: Ny autentifikasjonmodus
-  label_auth_source_plural: Autentifikasjonsmoduser
+  label_authentication: Autentisering
+  label_auth_source: Autentiseringskilde
+  label_auth_source_new: Ny autentiseringskilde
+  label_auth_source_plural: Autentiseringskilder
   label_subproject_plural: Underprosjekter
   label_and_its_subprojects: "%{value} og dets underprosjekter"
   label_min_max_length: Min.-maks. lengde
@@ -423,13 +423,13 @@
     one:   1 åpen
     other: "%{count} åpne"
   label_x_closed_issues_abbr:
-    zero:  0 lukka
-    one:   1 lukka
-    other: "%{count} lukka"
+    zero:  0 lukket
+    one:   1 lukket
+    other: "%{count} lukket"
   label_total: Totalt
-  label_permissions: Godkjenninger
+  label_permissions: Rettigheter
   label_current_status: Nåværende status
-  label_new_statuses_allowed: Tillatte nye statuser
+  label_new_statuses_allowed: Tillate nye statuser
   label_all: alle
   label_none: ingen
   label_nobody: ingen
@@ -437,7 +437,7 @@
   label_previous: Forrige
   label_used_by: Brukt av
   label_details: Detaljer
-  label_add_note: Legg til notis
+  label_add_note: Legg til notat
   label_per_page: Pr. side
   label_calendar: Kalender
   label_months_from: måneder fra
@@ -449,7 +449,7 @@
   label_comment: Kommentar
   label_comment_plural: Kommentarer
   label_x_comments:
-    zero: no kommentarer
+    zero: ingen kommentarer
     one: 1 kommentar
     other: "%{count} kommentarer"
   label_comment_add: Legg til kommentar
@@ -518,11 +518,11 @@
   label_preview: Forhåndsvis
   label_feed_plural: Feeder
   label_changes_details: Detaljer om alle endringer
-  label_issue_tracking: Sakssporing
+  label_issue_tracking: Sakshåndtering
   label_spent_time: Brukt tid
   label_f_hour: "%{value} time"
   label_f_hour_plural: "%{value} timer"
-  label_time_tracking: Tidssporing
+  label_time_tracking: Tidsregistrering
   label_change_plural: Endringer
   label_statistics: Statistikk
   label_commits_per_month: Innsendinger pr. måned
@@ -532,7 +532,7 @@
   label_diff_side_by_side: side ved side
   label_options: Alternativer
   label_copy_workflow_from: Kopier arbeidsflyt fra
-  label_permissions_report: Godkjenningsrapport
+  label_permissions_report: Rettighetsrapport
   label_watched_issues: Overvåkede saker
   label_related_issues: Relaterte saker
   label_applied_status: Gitt status
@@ -571,7 +571,7 @@
   label_date_to: Til
   label_language_based: Basert på brukerens språk
   label_sort_by: "Sorter etter %{value}"
-  label_send_test_email: Send en e-post-test
+  label_send_test_email: Send en epost-test
   label_feeds_access_key_created_on: "RSS tilgangsnøkkel opprettet for %{value} siden"
   label_module_plural: Moduler
   label_added_time_by: "Lagt til av %{author} for %{age} siden"
@@ -598,7 +598,7 @@
   label_more: Mer
   label_scm: SCM
   label_plugins: Tillegg
-  label_ldap_authentication: LDAP-autentifikasjon
+  label_ldap_authentication: LDAP-autentisering
   label_downloads_abbr: Nedl.
   label_optional_description: Valgfri beskrivelse
   label_add_another_file: Legg til en fil til
@@ -650,7 +650,7 @@
   status_locked: låst
   
   text_select_mail_notifications: Velg hendelser som skal varsles med e-post.
-  text_regexp_info: eg. ^[A-Z0-9]+$
+  text_regexp_info: f.eks. ^[A-Z0-9]+$
   text_min_max_length_info: 0 betyr ingen begrensning
   text_project_destroy_confirmation: Er du sikker på at du vil slette dette prosjekter og alle relatert data ?
   text_subprojects_destroy_warning: "Underprojekt(ene): %{value} vil også bli slettet."
@@ -667,8 +667,8 @@
   text_unallowed_characters: Ugyldige tegn
   text_comma_separated: Flere verdier tillat (kommaseparert).
   text_issues_ref_in_commit_messages: Referering og retting av saker i innsendingsmelding
-  text_issue_added: "Issue %{id} has been reported by %{author}."
-  text_issue_updated: "Issue %{id} has been updated by %{author}."
+  text_issue_added: "Sak %{id} er innrapportert av %{author}."
+  text_issue_updated: "Sak %{id} er oppdatert av %{author}."
   text_wiki_destroy_confirmation: Er du sikker på at du vil slette denne wikien og alt innholdet ?
   text_issue_category_destroy_question: "Noen saker (%{count}) er lagt til i denne kategorien. Hva vil du gjøre ?"
   text_issue_category_destroy_assignments: Fjern bruk av kategorier
@@ -695,12 +695,12 @@
   default_tracker_feature: Funksjon
   default_tracker_support: Support
   default_issue_status_new: Ny
-  default_issue_status_in_progress: In Progress
+  default_issue_status_in_progress: Pågår
   default_issue_status_resolved: Avklart
   default_issue_status_feedback: Tilbakemelding
   default_issue_status_closed: Lukket
   default_issue_status_rejected: Avvist
-  default_doc_category_user: Bruker-dokumentasjon
+  default_doc_category_user: Brukerdokumentasjon
   default_doc_category_tech: Teknisk dokumentasjon
   default_priority_low: Lav
   default_priority_normal: Normal
@@ -711,16 +711,16 @@
   default_activity_development: Utvikling
   
   enumeration_issue_priorities: Sakssprioriteringer
-  enumeration_doc_categories: Dokument-kategorier
-  enumeration_activities: Aktiviteter (tidssporing)
+  enumeration_doc_categories: Dokumentkategorier
+  enumeration_activities: Aktiviteter (tidsregistrering)
   text_enumeration_category_reassign_to: 'Endre dem til denne verdien:'
   text_enumeration_destroy_question: "%{count} objekter er endret til denne verdien."
   label_incoming_emails: Innkommende e-post
   label_generate_key: Generer en nøkkel
-  setting_mail_handler_api_enabled: Skru på WS for innkommende e-post
+  setting_mail_handler_api_enabled: Skru på WS for innkommende epost
   setting_mail_handler_api_key: API-nøkkel
-  text_email_delivery_not_configured: "Levering av e-post er ikke satt opp, og varsler er skrudd av.\nStill inn din SMTP-tjener i config/configuration.yml og start programmet på nytt for å skru det på."
-  field_parent_title: Foreldreside
+  text_email_delivery_not_configured: "Levering av epost er ikke satt opp, og varsler er skrudd av.\nStill inn din SMTP-tjener i config/configuration.yml og start programmet på nytt for å skru det på."
+  field_parent_title: Overordnet side
   label_issue_watchers: Overvåkere
   button_quote: Sitat
   setting_sequential_project_identifiers: Generer sekvensielle prosjekt-IDer
@@ -731,39 +731,39 @@
   permission_view_files: Vise filer
   permission_edit_issues: Redigere saker
   permission_edit_own_time_entries: Redigere egne timelister
-  permission_manage_public_queries: Behandle delte søk
+  permission_manage_public_queries: Administrere delte søk
   permission_add_issues: Legge inn saker
   permission_log_time: Loggføre timer
   permission_view_changesets: Vise endringssett
   permission_view_time_entries: Vise brukte timer
-  permission_manage_versions: Behandle versjoner
-  permission_manage_wiki: Behandle wiki
-  permission_manage_categories: Behandle kategorier for saker
+  permission_manage_versions: Administrere versjoner
+  permission_manage_wiki: Administrere wiki
+  permission_manage_categories: Administrere kategorier for saker
   permission_protect_wiki_pages: Beskytte wiki-sider
   permission_comment_news: Kommentere nyheter
   permission_delete_messages: Slette meldinger
-  permission_select_project_modules: Velge prosjekt-moduler
-  permission_manage_documents: Behandle dokumenter
+  permission_select_project_modules: Velge prosjektmoduler
+  permission_manage_documents: Administrere dokumenter
   permission_edit_wiki_pages: Redigere wiki-sider
   permission_add_issue_watchers: Legge til overvåkere
   permission_view_gantt: Vise gantt-diagram
   permission_move_issues: Flytte saker
-  permission_manage_issue_relations: Behandle saksrelasjoner
+  permission_manage_issue_relations: Administrere saksrelasjoner
   permission_delete_wiki_pages: Slette wiki-sider
-  permission_manage_boards: Behandle forum
+  permission_manage_boards: Administrere forum
   permission_delete_wiki_pages_attachments: Slette vedlegg
   permission_view_wiki_edits: Vise wiki-historie
   permission_add_messages: Sende meldinger
   permission_view_messages: Vise meldinger
-  permission_manage_files: Behandle filer
+  permission_manage_files: Administrere filer
   permission_edit_issue_notes: Redigere notater
-  permission_manage_news: Behandle nyheter
+  permission_manage_news: Administrere nyheter
   permission_view_calendar: Vise kalender
-  permission_manage_members: Behandle medlemmer
+  permission_manage_members: Administrere medlemmer
   permission_edit_messages: Redigere meldinger
   permission_delete_issues: Slette saker
   permission_view_issue_watchers: Vise liste over overvåkere
-  permission_manage_repository: Behandle depot
+  permission_manage_repository: Administrere depot
   permission_commit_access: Tilgang til innsending
   permission_browse_repository: Bla gjennom depot
   permission_view_documents: Vise dokumenter
@@ -777,193 +777,196 @@
   setting_gravatar_enabled: Bruk Gravatar-brukerikoner
   label_example: Eksempel
   text_repository_usernames_mapping: "Select ou update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
-  permission_edit_own_messages: Edit own messages
-  permission_delete_own_messages: Delete own messages
-  label_user_activity: "%{value}'s activity"
-  label_updated_time_by: "Updated by %{author} %{age} ago"
+  permission_edit_own_messages: Rediger egne meldinger
+  permission_delete_own_messages: Slett egne meldinger
+  label_user_activity: "%{value}s aktivitet"
+  label_updated_time_by: "Oppdatert av %{author} for %{age} siden"
   text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
   setting_diff_max_lines_displayed: Max number of diff lines displayed
   text_plugin_assets_writable: Plugin assets directory writable
-  warning_attachments_not_saved: "%{count} file(s) could not be saved."
-  button_create_and_continue: Create and continue
-  text_custom_field_possible_values_info: 'One line for each value'
-  label_display: Display
-  field_editable: Editable
-  setting_repository_log_display_limit: Maximum number of revisions displayed on file log
+  warning_attachments_not_saved: "%{count} fil(er) kunne ikke lagres."
+  button_create_and_continue: Opprett og fortsett
+  text_custom_field_possible_values_info: 'En linje for hver verdi'
+  label_display: Visning
+  field_editable: Redigerbar
+  setting_repository_log_display_limit: Maks antall revisjoner vist i fil-loggen
   setting_file_max_size_displayed: Max size of text files displayed inline
-  field_watcher: Watcher
-  setting_openid: Allow OpenID login and registration
+  field_watcher: Overvåker
+  setting_openid: Tillat OpenID innlogging og registrering
   field_identity_url: OpenID URL
-  label_login_with_open_id_option: or login with OpenID
-  field_content: Content
-  label_descending: Descending
-  label_sort: Sort
-  label_ascending: Ascending
-  label_date_from_to: From %{start} to %{end}
+  label_login_with_open_id_option: eller logg inn med OpenID
+  field_content: Innhold
+  label_descending: Synkende
+  label_sort: Sorter
+  label_ascending: Stigende
+  label_date_from_to: Fra %{start} til %{end}
   label_greater_or_equal: ">="
   label_less_or_equal: <=
-  text_wiki_page_destroy_question: This page has %{descendants} child page(s) and descendant(s). What do you want to do?
-  text_wiki_page_reassign_children: Reassign child pages to this parent page
-  text_wiki_page_nullify_children: Keep child pages as root pages
-  text_wiki_page_destroy_children: Delete child pages and all their descendants
-  setting_password_min_length: Minimum password length
-  field_group_by: Group results by
-  mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
-  label_wiki_content_added: Wiki page added
-  mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
-  mail_body_wiki_content_added: The '%{id}' wiki page has been added by %{author}.
-  label_wiki_content_updated: Wiki page updated
-  mail_body_wiki_content_updated: The '%{id}' wiki page has been updated by %{author}.
-  permission_add_project: Create project
-  setting_new_project_user_role_id: Role given to a non-admin user who creates a project
-  label_view_all_revisions: View all revisions
+  text_wiki_page_destroy_question: Denne siden har %{descendants} underside(r). Hva ønsker du å gjøre?
+  text_wiki_page_reassign_children: Tilknytt undersider til denne overordnede siden
+  text_wiki_page_nullify_children: Behold undersider som rotsider
+  text_wiki_page_destroy_children: Slett undersider og alle deres underliggende sider
+  setting_password_min_length: Minimum passordlengde
+  field_group_by: Grupper resultater etter
+  mail_subject_wiki_content_updated: "Wiki-side '%{id}' er oppdatert"
+  label_wiki_content_added: Wiki-side opprettet
+  mail_subject_wiki_content_added: "Wiki-side '%{id}' er opprettet"
+  mail_body_wiki_content_added: Wiki-siden '%{id}' ble opprettet av %{author}.
+  label_wiki_content_updated: Wiki-side oppdatert
+  mail_body_wiki_content_updated: Wiki-siden '%{id}' ble oppdatert av %{author}.
+  permission_add_project: Opprett prosjekt
+  setting_new_project_user_role_id: Rolle gitt en ikke-administratorbruker som oppretter et prosjekt
+  label_view_all_revisions: Se alle revisjoner
   label_tag: Tag
-  label_branch: Branch
-  error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
-  error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
-  text_journal_changed: "%{label} changed from %{old} to %{new}"
-  text_journal_set_to: "%{label} set to %{value}"
-  text_journal_deleted: "%{label} deleted (%{old})"
-  label_group_plural: Groups
-  label_group: Group
-  label_group_new: New group
-  label_time_entry_plural: Spent time
-  text_journal_added: "%{label} %{value} added"
-  field_active: Active
-  enumeration_system_activity: System Activity
-  permission_delete_issue_watchers: Delete watchers
-  version_status_closed: closed
-  version_status_locked: locked
-  version_status_open: open
-  error_can_not_reopen_issue_on_closed_version: An issue assigned to a closed version can not be reopened
-  label_user_anonymous: Anonymous
-  button_move_and_follow: Move and follow
-  setting_default_projects_modules: Default enabled modules for new projects
-  setting_gravatar_default: Default Gravatar image
-  field_sharing: Sharing
-  label_version_sharing_hierarchy: With project hierarchy
-  label_version_sharing_system: With all projects
-  label_version_sharing_descendants: With subprojects
-  label_version_sharing_tree: With project tree
-  label_version_sharing_none: Not shared
-  error_can_not_archive_project: This project can not be archived
-  button_duplicate: Duplicate
-  button_copy_and_follow: Copy and follow
-  label_copy_source: Source
-  setting_issue_done_ratio: Calculate the issue done ratio with
-  setting_issue_done_ratio_issue_status: Use the issue status
-  error_issue_done_ratios_not_updated: Issue done ratios not updated.
-  error_workflow_copy_target: Please select target tracker(s) and role(s)
-  setting_issue_done_ratio_issue_field: Use the issue field
-  label_copy_same_as_target: Same as target
-  label_copy_target: Target
-  notice_issue_done_ratios_updated: Issue done ratios updated.
-  error_workflow_copy_source: Please select a source tracker or role
-  label_update_issue_done_ratios: Update issue done ratios
-  setting_start_of_week: Start calendars on
-  permission_view_issues: View Issues
-  label_display_used_statuses_only: Only display statuses that are used by this tracker
+  label_branch: Gren
+  error_no_tracker_in_project: Ingen sakstyper er tilknyttet dette prosjektet. Vennligst kontroller prosjektets innstillinger.
+  error_no_default_issue_status: Ingen standard saksstatus er angitt. Vennligst kontroller konfigurasjonen (Gå til "Administrasjon -> Saksstatuser").
+  text_journal_changed: "%{label} endret fra %{old} til %{new}"
+  text_journal_set_to: "%{label} satt til %{value}"
+  text_journal_deleted: "%{label} slettet (%{old})"
+  label_group_plural: Grupper
+  label_group: Gruppe
+  label_group_new: Ny gruppe
+  label_time_entry_plural: Brukt tid
+  text_journal_added: "%{label} %{value} lagt til"
+  field_active: Aktiv
+  enumeration_system_activity: Systemaktivitet
+  permission_delete_issue_watchers: Slett overvåkere
+  version_status_closed: stengt
+  version_status_locked: låst
+  version_status_open: åpen
+  error_can_not_reopen_issue_on_closed_version: En sak tilknyttet en stengt versjon kan ikke gjenåpnes.
+  label_user_anonymous: Anonym
+  button_move_and_follow: Flytt og følg etter
+  setting_default_projects_modules: Standard aktiverte moduler for nye prosjekter
+  setting_gravatar_default: Standard Gravatar-bilde
+  field_sharing: Deling
+  label_version_sharing_hierarchy: Med prosjekt-hierarki
+  label_version_sharing_system: Med alle prosjekter
+  label_version_sharing_descendants: Med underprosjekter
+  label_version_sharing_tree: Med prosjekt-tre
+  label_version_sharing_none: Ikke delt
+  error_can_not_archive_project: Dette prosjektet kan ikke arkiveres
+  button_duplicate: Duplikat
+  button_copy_and_follow: Kopier og følg etter
+  label_copy_source: Kilde
+  setting_issue_done_ratio: Kalkuler ferdigstillingsprosent ut i fra
+  setting_issue_done_ratio_issue_status: Bruk saksstatuser
+  error_issue_done_ratios_not_updated: Ferdigstillingsprosent oppdateres ikke.
+  error_workflow_copy_target: Vennligst velg sakstype(r) og rolle(r)
+  setting_issue_done_ratio_issue_field: Bruk felt fra saker
+  label_copy_same_as_target: Samme som mål
+  label_copy_target: Mål
+  notice_issue_done_ratios_updated: Ferdigstillingsprosent oppdatert.
+  error_workflow_copy_source: Vennligst velg en kilde-sakstype eller rolle.
+  label_update_issue_done_ratios: Oppdatert ferdigstillingsprosent
+  setting_start_of_week: Start kalender på
+  permission_view_issues: Se på saker
+  label_display_used_statuses_only: Vis kun statuser som brukes av denne sakstypen
   label_revision_id: Revision %{value}
-  label_api_access_key: API access key
-  label_api_access_key_created_on: API access key created %{value} ago
-  label_feeds_access_key: RSS access key
-  notice_api_access_key_reseted: Your API access key was reset.
-  setting_rest_api_enabled: Enable REST web service
-  label_missing_api_access_key: Missing an API access key
-  label_missing_feeds_access_key: Missing a RSS access key
-  button_show: Show
-  text_line_separated: Multiple values allowed (one line for each value).
-  setting_mail_handler_body_delimiters: Truncate emails after one of these lines
-  permission_add_subprojects: Create subprojects
-  label_subproject_new: New subproject
+  label_api_access_key: API tilgangsnøkkel
+  label_api_access_key_created_on: API tilgangsnøkkel opprettet for %{value} siden
+  label_feeds_access_key: RSS tilgangsnøkkel
+  notice_api_access_key_reseted: Din API tilgangsnøkkel ble resatt.
+  setting_rest_api_enabled: Aktiver REST webservice
+  label_missing_api_access_key: Mangler en API tilgangsnøkkel
+  label_missing_feeds_access_key: Mangler en RSS tilgangsnøkkel
+  button_show: Vis
+  text_line_separated: Flere verdier er tillatt (en linje per verdi).
+  setting_mail_handler_body_delimiters: Avkort epost etter en av disse linjene
+  permission_add_subprojects: Opprett underprosjekt
+  label_subproject_new: Nytt underprosjekt
   text_own_membership_delete_confirmation: |-
-    You are about to remove some or all of your permissions and may no longer be able to edit this project after that.
-    Are you sure you want to continue?
-  label_close_versions: Close completed versions
-  label_board_sticky: Sticky
-  label_board_locked: Locked
-  permission_export_wiki_pages: Export wiki pages
-  setting_cache_formatted_text: Cache formatted text
-  permission_manage_project_activities: Manage project activities
-  error_unable_delete_issue_status: Unable to delete issue status
-  label_profile: Profile
-  permission_manage_subtasks: Manage subtasks
-  field_parent_issue: Parent task
-  label_subtask_plural: Subtasks
-  label_project_copy_notifications: Send email notifications during the project copy
-  error_can_not_delete_custom_field: Unable to delete custom field
-  error_unable_to_connect: Unable to connect (%{value})
-  error_can_not_remove_role: This role is in use and can not be deleted.
-  error_can_not_delete_tracker: This tracker contains issues and can't be deleted.
+    Du er i ferd med å fjerne noen eller alle rettigheter og vil kanskje ikke være i stand til å redigere dette prosjektet etterpå.
+    Er du sikker på at du vil fortsette?
+  label_close_versions: Steng fullførte versjoner
+  label_board_sticky: Fast
+  label_board_locked: Låst
+  permission_export_wiki_pages: Eksporter wiki-sider
+  setting_cache_formatted_text: Mellomlagre formattert tekst
+  permission_manage_project_activities: Administrere prosjektaktiviteter
+  error_unable_delete_issue_status: Kan ikke slette saksstatus
+  label_profile: Profil
+  permission_manage_subtasks: Administrere undersaker
+  field_parent_issue: Overordnet sak
+  label_subtask_plural: Undersaker
+  label_project_copy_notifications: Send epost-varslinger under prosjektkopiering
+  error_can_not_delete_custom_field: Kan ikke slette eget felt
+  error_unable_to_connect: Kunne ikke koble til (%{value})
+  error_can_not_remove_role: Denne rollen er i bruk og kan ikke slettes.
+  error_can_not_delete_tracker: Denne sakstypen inneholder saker og kan ikke slettes.
   field_principal: Principal
-  label_my_page_block: My page block
-  notice_failed_to_save_members: "Failed to save member(s): %{errors}."
-  text_zoom_out: Zoom out
-  text_zoom_in: Zoom in
-  notice_unable_delete_time_entry: Unable to delete time log entry.
-  label_overall_spent_time: Overall spent time
-  field_time_entries: Log time
+  label_my_page_block: Min side felt
+  notice_failed_to_save_members: "Feil ved lagring av medlem(mer): %{errors}."
+  text_zoom_out: Zoom ut
+  text_zoom_in: Zoom inn
+  notice_unable_delete_time_entry: Kan ikke slette oppføring fra timeliste.
+  label_overall_spent_time: All tidsbruk
+  field_time_entries: Loggfør tid
   project_module_gantt: Gantt
-  project_module_calendar: Calendar
-  button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
-  text_are_you_sure_with_children: Delete issue and all child issues?
-  field_text: Text field
-  label_user_mail_option_only_owner: Only for things I am the owner of
-  setting_default_notification_option: Default notification option
-  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
-  label_user_mail_option_only_assigned: Only for things I am assigned to
-  label_user_mail_option_none: No events
-  field_member_of_group: Assignee's group
-  field_assigned_to_role: Assignee's role
-  notice_not_authorized_archived_project: The project you're trying to access has been archived.
-  label_principal_search: "Search for user or group:"
-  label_user_search: "Search for user:"
-  field_visible: Visible
-  setting_emails_header: Emails header
-  setting_commit_logtime_activity_id: Activity for logged time
-  text_time_logged_by_changeset: Applied in changeset %{value}.
-  setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
-  field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
-  text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
-  label_my_queries: My custom queries
-  text_journal_changed_no_detail: "%{label} updated"
-  label_news_comment_added: Comment added to a news
-  button_expand_all: Expand all
-  button_collapse_all: Collapse all
-  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
-  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
-  label_bulk_edit_selected_time_entries: Bulk edit selected time entries
-  text_time_entries_destroy_confirmation: Are you sure you want to delete the selected time entr(y/ies)?
-  label_role_anonymous: Anonymous
-  label_role_non_member: Non member
-  label_issue_note_added: Note added
-  label_issue_status_updated: Status updated
-  label_issue_priority_updated: Priority updated
-  label_issues_visibility_own: Issues created by or assigned to the user
-  field_issues_visibility: Issues visibility
-  label_issues_visibility_all: All issues
-  permission_set_own_issues_private: Set own issues public or private
-  field_is_private: Private
-  permission_set_issues_private: Set issues public or private
-  label_issues_visibility_public: All non private issues
-  text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
+  project_module_calendar: Kalender
+  button_edit_associated_wikipage: "Rediger tilhørende Wiki-side: %{page_title}"
+  text_are_you_sure_with_children: Slett sak og alle undersaker?
+  field_text: Tekstfelt
+  label_user_mail_option_only_owner: Kun for ting jeg eier
+  setting_default_notification_option: Standardvalg for varslinger
+  label_user_mail_option_only_my_events: Kun for ting jeg overvåker eller er involvert i
+  label_user_mail_option_only_assigned: Kun for ting jeg er tildelt
+  label_user_mail_option_none: Ingen hendelser
+  field_member_of_group: Den tildeltes gruppe
+  field_assigned_to_role: Den tildeltes rolle
+  notice_not_authorized_archived_project: Prosjektet du forsøker å åpne er blitt arkivert.
+  label_principal_search: "Søk etter bruker eller gruppe:"
+  label_user_search: "Søk etter bruker:"
+  field_visible: Synlig
+  setting_emails_header: Eposthode
+  setting_commit_logtime_activity_id: Aktivitet for logget tid.
+  text_time_logged_by_changeset: Lagt til i endringssett %{value}.
+  setting_commit_logtime_enabled: Muliggjør loggføring av tid
+  notice_gantt_chart_truncated: Diagrammet ble avkortet fordi det overstiger det maksimale antall elementer som kan vises (%{max})
+  setting_gantt_items_limit: Maksimalt antall elementer vist på gantt-diagrammet
+  field_warn_on_leaving_unsaved: Vis meg en advarsel når jeg forlater en side med ikke lagret tekst
+  text_warn_on_leaving_unsaved: Den gjeldende siden inneholder tekst som ikke er lagret, som vil bli tapt hvis du forlater denne siden.
+  label_my_queries: Mine egne spørringer
+  text_journal_changed_no_detail: "%{label} oppdatert"
+  label_news_comment_added: Kommentar lagt til en nyhet
+  button_expand_all: Utvid alle
+  button_collapse_all: Kollaps alle
+  label_additional_workflow_transitions_for_assignee: Ytterligere overganger tillatt når brukeren er sakens tildelte
+  label_additional_workflow_transitions_for_author: Ytterligere overganger tillatt når brukeren er den som har opprettet saken
+  label_bulk_edit_selected_time_entries: Masserediger valgte timeliste-oppføringer
+  text_time_entries_destroy_confirmation: Er du sikker på du vil slette de(n) valgte timeliste-oppføringen(e)?
+  label_role_anonymous: Anonym
+  label_role_non_member: Ikke medlem
+  label_issue_note_added: Notat lagt til
+  label_issue_status_updated: Status oppdatert
+  label_issue_priority_updated: Prioritet oppdatert
+  label_issues_visibility_own: Saker opprettet av eller tildelt brukeren
+  field_issues_visibility: Synlighet på saker
+  label_issues_visibility_all: Alle saker
+  permission_set_own_issues_private: Gjør egne saker offentlige eller private
+  field_is_private: Privat
+  permission_set_issues_private: Gjør saker offentlige eller private
+  label_issues_visibility_public: Alle ikke-private saker
+  text_issues_destroy_descendants_confirmation: Dette vil også slette %{count} undersak(er).
   field_commit_logs_encoding: Tegnkoding for innsendingsmeldinger
-  field_scm_path_encoding: Path encoding
-  text_scm_path_encoding_note: "Default: UTF-8"
-  field_path_to_repository: Path to repository
-  field_root_directory: Root directory
-  field_cvs_module: Module
+  field_scm_path_encoding: Koding av sti
+  text_scm_path_encoding_note: "Standard: UTF-8"
+  field_path_to_repository: Sti til depot
+  field_root_directory: Rotkatalog
+  field_cvs_module: Modul
   field_cvsroot: CVSROOT
-  text_mercurial_repository_note: Local repository (e.g. /hgrepo, c:\hgrepo)
-  text_scm_command: Command
-  text_scm_command_version: Version
-  label_git_report_last_commit: Report last commit for files and directories
-  text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.
-  text_scm_command_not_available: Scm command is not available. Please check settings on the administration panel.
+  text_mercurial_repository_note: Lokalt depot (f.eks. /hgrepo, c:\hgrepo)
+  text_scm_command: Kommando
+  text_scm_command_version: Versjon
+  label_git_report_last_commit: Rapporter siste innsending for filer og kataloger
+  text_scm_config: Du kan konfigurere scm kommandoer i config/configuration.yml. Vennligst restart applikasjonen etter å ha redigert filen.
+  text_scm_command_not_available: Scm kommando er ikke tilgjengelig. Vennligst kontroller innstillingene i administrasjonspanelet.
+
+  text_git_repository_note: Depot er bart og lokalt (f.eks. /gitrepo, c:\gitrepo)
+
   notice_issue_successful_create: Issue %{id} created.
   label_between: between
   setting_issue_group_assignment: Allow issue assignment to groups
   label_diff: diff
-  text_git_repository_note: Repository is bare and local (e.g. /gitrepo, c:\gitrepo)
+
