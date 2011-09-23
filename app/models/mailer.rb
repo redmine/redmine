@@ -198,7 +198,9 @@ class Mailer < ActionMailer::Base
     cc(wiki_content.page.wiki.watcher_recipients - recipients)
     subject "[#{wiki_content.project.name}] #{l(:mail_subject_wiki_content_added, :id => wiki_content.page.pretty_title)}"
     body :wiki_content => wiki_content,
-         :wiki_content_url => url_for(:controller => 'wiki', :action => 'show', :project_id => wiki_content.project, :id => wiki_content.page.title)
+         :wiki_content_url => url_for(:controller => 'wiki', :action => 'show',
+                                      :project_id => wiki_content.project,
+                                      :id => wiki_content.page.title)
     render_multipart('wiki_content_added', body)
   end
 
