@@ -21,7 +21,15 @@ class ProjectsHelperTest < ActionView::TestCase
   include ApplicationHelper
   include ProjectsHelper
 
-  fixtures :all
+  fixtures :projects, :trackers, :issue_statuses, :issues,
+           :enumerations, :users, :issue_categories,
+           :versions,
+           :projects_trackers,
+           :member_roles,
+           :members,
+           :groups_users,
+           :enabled_modules,
+           :workflows
 
   def setup
     super
