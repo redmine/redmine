@@ -36,7 +36,9 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_create_minimal
-    issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 3, :status_id => 1, :priority => IssuePriority.all.first, :subject => 'test_create')
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 3,
+                      :status_id => 1, :priority => IssuePriority.all.first,
+                      :subject => 'test_create')
     assert issue.save
     assert issue.description.nil?
   end
