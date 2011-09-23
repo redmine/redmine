@@ -74,7 +74,9 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_create_with_group_assignment
     with_settings :issue_group_assignment => '1' do
-      assert Issue.new(:project_id => 2, :tracker_id => 1, :author_id => 1, :subject => 'Group assignment', :assigned_to_id => 11).save
+      assert Issue.new(:project_id => 2, :tracker_id => 1, :author_id => 1,
+                       :subject => 'Group assignment',
+                       :assigned_to_id => 11).save
       issue = Issue.first(:order => 'id DESC')
       assert_kind_of Group, issue.assigned_to
       assert_equal Group.find(11), issue.assigned_to
