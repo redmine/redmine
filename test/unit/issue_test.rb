@@ -374,7 +374,9 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_should_not_close_duplicated_issue
     # Create 3 issues
-    issue1 = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 1, :status_id => 1, :priority => IssuePriority.all.first, :subject => 'Duplicates test', :description => 'Duplicates test')
+    issue1 = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 1,
+                       :status_id => 1, :priority => IssuePriority.all.first,
+                       :subject => 'Duplicates test', :description => 'Duplicates test')
     assert issue1.save
     issue2 = issue1.clone
     assert issue2.save
