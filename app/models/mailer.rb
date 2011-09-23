@@ -217,8 +217,12 @@ class Mailer < ActionMailer::Base
     cc(wiki_content.page.wiki.watcher_recipients + wiki_content.page.watcher_recipients - recipients)
     subject "[#{wiki_content.project.name}] #{l(:mail_subject_wiki_content_updated, :id => wiki_content.page.pretty_title)}"
     body :wiki_content => wiki_content,
-         :wiki_content_url => url_for(:controller => 'wiki', :action => 'show', :project_id => wiki_content.project, :id => wiki_content.page.title),
-         :wiki_diff_url => url_for(:controller => 'wiki', :action => 'diff', :project_id => wiki_content.project, :id => wiki_content.page.title, :version => wiki_content.version)
+         :wiki_content_url => url_for(:controller => 'wiki', :action => 'show',
+                                      :project_id => wiki_content.project,
+                                      :id => wiki_content.page.title),
+         :wiki_diff_url => url_for(:controller => 'wiki', :action => 'diff',
+                                   :project_id => wiki_content.project, :id => wiki_content.page.title,
+                                   :version => wiki_content.version)
     render_multipart('wiki_content_updated', body)
   end
 
