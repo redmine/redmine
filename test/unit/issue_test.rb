@@ -29,7 +29,10 @@ class IssueTest < ActiveSupport::TestCase
            :time_entries
 
   def test_create
-    issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 3, :status_id => 1, :priority => IssuePriority.all.first, :subject => 'test_create', :description => 'IssueTest#test_create', :estimated_hours => '1:30')
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 3,
+                      :status_id => 1, :priority => IssuePriority.all.first,
+                      :subject => 'test_create',
+                      :description => 'IssueTest#test_create', :estimated_hours => '1:30')
     assert issue.save
     issue.reload
     assert_equal 1.5, issue.estimated_hours
