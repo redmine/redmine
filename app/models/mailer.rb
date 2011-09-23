@@ -251,7 +251,9 @@ class Mailer < ActionMailer::Base
     recipients User.active.find(:all, :conditions => {:admin => true}).collect { |u| u.mail }.compact
     subject l(:mail_subject_account_activation_request, Setting.app_title)
     body :user => user,
-         :url => url_for(:controller => 'users', :action => 'index', :status => User::STATUS_REGISTERED, :sort_key => 'created_on', :sort_order => 'desc')
+         :url => url_for(:controller => 'users', :action => 'index',
+                         :status => User::STATUS_REGISTERED,
+                         :sort_key => 'created_on', :sort_order => 'desc')
     render_multipart('account_activation_request', body)
   end
 
