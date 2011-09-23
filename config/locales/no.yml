@@ -965,8 +965,8 @@
 
   text_git_repository_note: Depot er bart og lokalt (f.eks. /gitrepo, c:\gitrepo)
 
-  notice_issue_successful_create: Issue %{id} created.
-  label_between: between
-  setting_issue_group_assignment: Allow issue assignment to groups
+  notice_issue_successful_create: Sak %{id} opprettet.
+  label_between: mellom
+  setting_issue_group_assignment: Tillat tildeling av saker til grupper
   label_diff: diff
 
