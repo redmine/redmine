@@ -185,7 +185,9 @@ class IssueTest < ActiveSupport::TestCase
   def test_errors_full_messages_should_include_custom_fields_errors
     field = IssueCustomField.find_by_name('Database')
 
-    issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 1, :status_id => 1, :subject => 'test_create', :description => 'IssueTest#test_create_with_required_custom_field')
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 1,
+                      :status_id => 1, :subject => 'test_create',
+                      :description => 'IssueTest#test_create_with_required_custom_field')
     assert issue.available_custom_fields.include?(field)
     # Invalid value
     issue.custom_field_values = { field.id => 'SQLServer' }
