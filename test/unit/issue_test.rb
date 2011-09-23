@@ -282,7 +282,10 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_category_based_assignment
-    issue = Issue.create(:project_id => 1, :tracker_id => 1, :author_id => 3, :status_id => 1, :priority => IssuePriority.all.first, :subject => 'Assignment test', :description => 'Assignment test', :category_id => 1)
+    issue = Issue.create(:project_id => 1, :tracker_id => 1, :author_id => 3,
+                         :status_id => 1, :priority => IssuePriority.all.first,
+                         :subject => 'Assignment test',
+                         :description => 'Assignment test', :category_id => 1)
     assert_equal IssueCategory.find(1).assigned_to, issue.assigned_to
   end
 
