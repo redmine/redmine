@@ -85,7 +85,9 @@ class Mailer < ActionMailer::Base
     subject l(:mail_subject_reminder, :count => issues.size, :days => days)
     body :issues => issues,
          :days => days,
-         :issues_url => url_for(:controller => 'issues', :action => 'index', :set_filter => 1, :assigned_to_id => user.id, :sort => 'due_date:asc')
+         :issues_url => url_for(:controller => 'issues', :action => 'index',
+                                :set_filter => 1, :assigned_to_id => user.id,
+                                :sort => 'due_date:asc')
     render_multipart('reminder', body)
   end
 
