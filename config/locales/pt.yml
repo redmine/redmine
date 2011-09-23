@@ -223,7 +223,7 @@ pt:
   field_is_default: Valor por omissão
   field_tracker: Tipo
   field_subject: Assunto
-  field_due_date: Data final
+  field_due_date: Data fim
   field_assigned_to: Atribuído a
   field_priority: Prioridade
   field_fixed_version: Versão
@@ -253,7 +253,7 @@ pt:
   field_attr_lastname: Atributo último nome
   field_attr_mail: Atributo e-mail
   field_onthefly: Criação imediata de utilizadores
-  field_start_date: Início
+  field_start_date: Data início
   field_done_ratio: "% Completo"
   field_auth_source: Modo de autenticação
   field_hide_mail: Esconder endereço de e-mail
