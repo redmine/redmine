@@ -229,7 +229,9 @@ class MailerTest < ActiveSupport::TestCase
     assert_equal Mailer.message_id_for(message.parent), mail.references.first.to_s
     assert_select_email do
       # link to the reply
-      assert_select "a[href=?]", "http://mydomain.foo/boards/#{message.board.id}/topics/#{message.root.id}?r=#{message.id}#message-#{message.id}", :text => message.subject
+      assert_select "a[href=?]",
+                    "http://mydomain.foo/boards/#{message.board.id}/topics/#{message.root.id}?r=#{message.id}#message-#{message.id}",
+                    :text => message.subject
     end
   end
 
