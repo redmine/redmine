@@ -18,7 +18,18 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class ProjectTest < ActiveSupport::TestCase
-  fixtures :all
+  fixtures :projects, :trackers, :issue_statuses, :issues,
+           :enumerations, :users, :issue_categories,
+           :projects_trackers,
+           :roles,
+           :member_roles,
+           :members,
+           :enabled_modules,
+           :workflows,
+           :versions,
+           :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions,
+           :groups_users,
+           :boards
 
   def setup
     @ecookbook = Project.find(1)
