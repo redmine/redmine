@@ -1,7 +1,14 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class CalendarsControllerTest < ActionController::TestCase
-  fixtures :all
+  fixtures :projects,
+           :trackers,
+           :projects_trackers,
+           :roles,
+           :member_roles,
+           :members,
+           :auth_sources,
+           :enabled_modules
 
   def test_calendar
     get :show, :project_id => 1
