@@ -18,7 +18,14 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class AdminTest < ActionController::IntegrationTest
-  fixtures :all
+  fixtures :projects, :trackers, :issue_statuses, :issues,
+           :enumerations, :users, :issue_categories,
+           :projects_trackers,
+           :roles,
+           :member_roles,
+           :members,
+           :enabled_modules,
+           :workflows
 
   def test_add_user
     log_user("admin", "admin")
