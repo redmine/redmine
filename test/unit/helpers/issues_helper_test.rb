@@ -22,7 +22,14 @@ class IssuesHelperTest < HelperTestCase
   include IssuesHelper
 
   include ActionController::Assertions::SelectorAssertions
-  fixtures :all
+  fixtures :projects, :trackers, :issue_statuses, :issues,
+           :enumerations, :users, :issue_categories,
+           :projects_trackers,
+           :roles,
+           :member_roles,
+           :members,
+           :enabled_modules,
+           :workflows
 
   # Used by assert_select
   def html_document
