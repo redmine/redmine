@@ -1,7 +1,20 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class ContextMenusControllerTest < ActionController::TestCase
-  fixtures :all
+  fixtures :projects,
+           :trackers,
+           :projects_trackers,
+           :roles,
+           :member_roles,
+           :members,
+           :auth_sources,
+           :enabled_modules,
+           :workflows,
+           :journals, :journal_details,
+           :versions,
+           :issues, :issue_statuses, :issue_categories,
+           :users,
+           :enumerations
 
   def test_context_menu_one_issue
     @request.session[:user_id] = 2
