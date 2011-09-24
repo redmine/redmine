@@ -1,7 +1,17 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class AutoCompletesControllerTest < ActionController::TestCase
-  fixtures :all
+  fixtures :projects, :issues, :issue_statuses,
+           :enumerations, :users, :issue_categories,
+           :trackers,
+           :projects_trackers,
+           :roles,
+           :member_roles,
+           :members,
+           :auth_sources,
+           :enabled_modules,
+           :workflows,
+           :journals, :journal_details
 
   def test_issues_should_not_be_case_sensitive
     get :issues, :project_id => 'ecookbook', :q => 'ReCiPe'
