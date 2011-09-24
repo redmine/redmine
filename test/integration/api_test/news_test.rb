@@ -18,7 +18,15 @@
 require File.expand_path('../../../test_helper', __FILE__)
 require 'pp'
 class ApiTest::NewsTest < ActionController::IntegrationTest
-  fixtures :all
+  fixtures :projects, :trackers, :issue_statuses, :issues,
+           :enumerations, :users, :issue_categories,
+           :projects_trackers,
+           :roles,
+           :member_roles,
+           :members,
+           :enabled_modules,
+           :workflows,
+           :news
 
   def setup
     Setting.rest_api_enabled = '1'
