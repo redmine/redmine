@@ -461,7 +461,7 @@ class Mailer < ActionMailer::Base
   end
 
   def mylogger
-    RAILS_DEFAULT_LOGGER
+    Rails.logger
   end
 end
 
