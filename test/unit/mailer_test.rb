@@ -77,11 +77,19 @@ class MailerTest < ActiveSupport::TestCase
 
     assert_select_email do
       # link to the main ticket
-      assert_select "a[href=?]", "http://mydomain.foo/rdm/issues/1", :text => "Bug #1: Can't print recipes"
+      assert_select "a[href=?]",
+                    "http://mydomain.foo/rdm/issues/1",
+                    :text => "Bug #1: Can't print recipes"
       # link to a referenced ticket
-      assert_select "a[href=?][title=?]", "http://mydomain.foo/rdm/issues/2", "Add ingredients categories (Assigned)", :text => "#2"
+      assert_select "a[href=?][title=?]",
+                    "http://mydomain.foo/rdm/issues/2",
+                    "Add ingredients categories (Assigned)",
+                    :text => "#2"
       # link to a changeset
-      assert_select "a[href=?][title=?]", "http://mydomain.foo/rdm/projects/ecookbook/repository/revisions/2", "This commit fixes #1, #2 and references #1 &amp; #3", :text => "r2"
+      assert_select "a[href=?][title=?]",
+                    "http://mydomain.foo/rdm/projects/ecookbook/repository/revisions/2",
+                    "This commit fixes #1, #2 and references #1 &amp; #3",
+                    :text => "r2"
     end
   ensure
     # restore it
