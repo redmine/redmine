@@ -1,7 +1,18 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class ActivitiesControllerTest < ActionController::TestCase
-  fixtures :all
+  fixtures :projects, :trackers, :issue_statuses, :issues,
+           :enumerations, :users, :issue_categories,
+           :projects_trackers,
+           :roles,
+           :member_roles,
+           :members,
+           :groups_users,
+           :enabled_modules,
+           :workflows,
+           :auth_sources,
+           :journals, :journal_details
+
 
   def test_project_index
     get :index, :id => 1, :with_subprojects => 0
