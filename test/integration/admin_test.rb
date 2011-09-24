@@ -53,7 +53,9 @@ class AdminTest < ActionController::IntegrationTest
   end
 
   test "Add a user as an anonymous user should fail" do
-    post '/users/create', :user => { :login => 'psmith', :firstname => 'Paul'}, :password => "psmith09", :password_confirmation => "psmith09"
+    post '/users/create',
+         :user => { :login => 'psmith', :firstname => 'Paul'},
+         :password => "psmith09", :password_confirmation => "psmith09"
     assert_response :redirect
     assert_redirected_to "/login?back_url=http%3A%2F%2Fwww.example.com%2Fusers"
   end
