@@ -9,8 +9,7 @@ class IssueMovesControllerTest < ActionController::TestCase
            :members,
            :enabled_modules,
            :workflows,
-           :journals, :journal_details,
-           :issues, :issue_statuses, :issue_categories
+           :journals, :journal_details
 
   def setup
     User.current = nil
