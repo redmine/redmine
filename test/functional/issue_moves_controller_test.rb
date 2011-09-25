@@ -150,7 +150,10 @@ class IssueMovesControllerTest < ActionController::TestCase
     should "allow adding a note when copying" do
       @request.session[:user_id] = 2
       assert_difference 'Issue.count', 1 do
-        post :create, :ids => [1], :copy_options => {:copy => '1'}, :notes => 'Copying one issue', :new_tracker_id => '', :assigned_to_id => 4, :status_id => 3, :start_date => '2009-12-01', :due_date => '2009-12-31'
+        post :create, :ids => [1], :copy_options => {:copy => '1'},
+             :notes => 'Copying one issue', :new_tracker_id => '',
+             :assigned_to_id => 4, :status_id => 3,
+             :start_date => '2009-12-01', :due_date => '2009-12-31'
       end
 
       issue = Issue.first(:order => 'id DESC')
