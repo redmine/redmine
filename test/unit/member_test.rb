@@ -29,7 +29,6 @@ class MemberTest < ActiveSupport::TestCase
            :groups_users,
            :watchers,
            :journals, :journal_details,
-           :issues, :issue_statuses, :issue_categories,
            :messages,
            :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions,
            :boards
