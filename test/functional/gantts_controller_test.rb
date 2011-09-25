@@ -1,7 +1,15 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class GanttsControllerTest < ActionController::TestCase
-  fixtures :all
+  fixtures :projects, :trackers, :issue_statuses, :issues,
+           :enumerations, :users, :issue_categories,
+           :projects_trackers,
+           :roles,
+           :member_roles,
+           :members,
+           :enabled_modules,
+           :workflows,
+           :versions
 
   context "#gantt" do
     should "work" do
