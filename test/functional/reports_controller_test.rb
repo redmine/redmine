@@ -23,7 +23,15 @@ class ReportsController; def rescue_action(e) raise e end; end
 
 
 class ReportsControllerTest < ActionController::TestCase
-  fixtures :all
+  fixtures :projects, :trackers, :issue_statuses, :issues,
+           :enumerations, :users, :issue_categories,
+           :projects_trackers,
+           :roles,
+           :member_roles,
+           :members,
+           :enabled_modules,
+           :workflows,
+           :versions
 
   def setup
     @controller = ReportsController.new
