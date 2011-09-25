@@ -10,7 +10,6 @@ class FilesControllerTest < ActionController::TestCase
            :enabled_modules,
            :workflows,
            :journals, :journal_details,
-           :issues, :issue_statuses, :issue_categories,
            :attachments,
            :versions
 
