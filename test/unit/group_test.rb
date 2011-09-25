@@ -18,7 +18,15 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class GroupTest < ActiveSupport::TestCase
-  fixtures :all
+  fixtures :projects, :trackers, :issue_statuses, :issues,
+           :enumerations, :users, :issue_categories,
+           :projects_trackers,
+           :roles,
+           :member_roles,
+           :members,
+           :enabled_modules,
+           :workflows,
+           :groups_users
 
   def test_create
     g = Group.new(:lastname => 'New group')
