@@ -18,7 +18,16 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class PreviewsControllerTest < ActionController::TestCase
-  fixtures :all
+  fixtures :projects, :trackers, :issue_statuses, :issues,
+           :enumerations, :users, :issue_categories,
+           :projects_trackers,
+           :roles,
+           :member_roles,
+           :members,
+           :enabled_modules,
+           :workflows,
+           :journals, :journal_details,
+           :issues, :issue_statuses, :issue_categories
 
   def test_preview_new_issue
     @request.session[:user_id] = 2
