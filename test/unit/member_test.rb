@@ -18,7 +18,21 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class MemberTest < ActiveSupport::TestCase
-  fixtures :all
+  fixtures :projects, :trackers, :issue_statuses, :issues,
+           :enumerations, :users, :issue_categories,
+           :projects_trackers,
+           :roles,
+           :member_roles,
+           :members,
+           :enabled_modules,
+           :workflows,
+           :groups_users,
+           :watchers,
+           :journals, :journal_details,
+           :issues, :issue_statuses, :issue_categories,
+           :messages,
+           :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions,
+           :boards
 
   def setup
     @jsmith = Member.find(1)
