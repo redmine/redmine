@@ -26,8 +26,7 @@ class PreviewsControllerTest < ActionController::TestCase
            :members,
            :enabled_modules,
            :workflows,
-           :journals, :journal_details,
-           :issues, :issue_statuses, :issue_categories
+           :journals, :journal_details
 
   def test_preview_new_issue
     @request.session[:user_id] = 2
