@@ -108,7 +108,10 @@ class IssueMovesControllerTest < ActionController::TestCase
       issue_before_move = Issue.find(1)
       assert_difference 'Issue.count', 1 do
         assert_no_difference 'Project.find(1).issues.count' do
-          post :create, :ids => [1], :new_project_id => 2, :copy_options => {:copy => '1'}, :new_tracker_id => '', :assigned_to_id => '', :status_id => '', :start_date => '', :due_date => ''
+          post :create, :ids => [1], :new_project_id => 2,
+               :copy_options => {:copy => '1'}, :new_tracker_id => '',
+               :assigned_to_id => '', :status_id => '',
+               :start_date => '', :due_date => ''
         end
       end
       issue_after_move = Issue.first(:order => 'id desc', :conditions => {:project_id => 2})
