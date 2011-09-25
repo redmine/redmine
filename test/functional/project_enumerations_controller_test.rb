@@ -1,7 +1,17 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class ProjectEnumerationsControllerTest < ActionController::TestCase
-  fixtures :all
+  fixtures :projects, :trackers, :issue_statuses, :issues,
+           :enumerations, :users, :issue_categories,
+           :projects_trackers,
+           :roles,
+           :member_roles,
+           :members,
+           :enabled_modules,
+           :workflows,
+           :custom_fields, :custom_fields_projects,
+           :custom_fields_trackers, :custom_values,
+           :time_entries
 
   def setup
     @request.session[:user_id] = nil
