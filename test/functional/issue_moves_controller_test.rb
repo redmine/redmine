@@ -122,13 +122,17 @@ class IssueMovesControllerTest < ActionController::TestCase
 
     should "allow changing the issue's attributes" do
       # Fixes random test failure with Mysql
-      # where Issue.all(:limit => 2, :order => 'id desc', :conditions => {:project_id => 2}) doesn't return the expected results
+      # where Issue.all(:limit => 2, :order => 'id desc', :conditions => {:project_id => 2})
+      # doesn't return the expected results
       Issue.delete_all("project_id=2")
 
       @request.session[:user_id] = 2
       assert_difference 'Issue.count', 2 do
         assert_no_difference 'Project.find(1).issues.count' do
-          post :create, :ids => [1, 2], :new_project_id => 2, :copy_options => {:copy => '1'}, :new_tracker_id => '', :assigned_to_id => 4, :status_id => 3, :start_date => '2009-12-01', :due_date => '2009-12-31'
+          post :create, :ids => [1, 2], :new_project_id => 2,
+               :copy_options => {:copy => '1'}, :new_tracker_id => '',
+               :assigned_to_id => 4, :status_id => 3,
+               :start_date => '2009-12-01', :due_date => '2009-12-31'
         end
       end
 
