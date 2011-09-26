@@ -378,14 +378,17 @@ class Query < ActiveRecord::Base
   end
 
   def columns
-    if has_default_columns?
-      available_columns.select do |c|
-        # Adds the project column by default for cross-project lists
-        Setting.issue_list_default_columns.include?(c.name.to_s) || (c.name == :project && project.nil?)
-      end
-    else
-      # preserve the column_names order
-      column_names.collect {|name| available_columns.find {|col| col.name == name}}.compact
+    # preserve the column_names order
+    (has_default_columns? ? default_columns_names : column_names).collect do |name|
+       available_columns.find { |col| col.name == name }
+    end.compact
+  end
+
+  def default_columns_names
+    @default_columns_names ||= begin
+      default_columns = Setting.issue_list_default_columns.map(&:to_sym)
+
+      project.present? ? default_columns : [:project] | default_columns
     end
   end
 
@@ -394,7 +397,7 @@ class Query < ActiveRecord::Base
       names = names.select {|n| n.is_a?(Symbol) || !n.blank? }
       names = names.collect {|n| n.is_a?(Symbol) ? n : n.to_sym }
       # Set column_names to nil if default columns
-      if names.map(&:to_s) == Setting.issue_list_default_columns
+      if names == default_columns_names
         names = nil
       end
     end
