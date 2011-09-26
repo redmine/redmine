@@ -285,6 +285,27 @@ class IssuesControllerTest < ActionController::TestCase
                                     :parent => { :tag => 'select', :attributes => { :id => "selected_columns" } }
   end
 
+  def test_index_without_project_should_implicitly_add_project_column_to_default_columns
+    Setting.issue_list_default_columns = ['tracker', 'subject', 'assigned_to']
+    get :index, :set_filter => 1
+
+    # query should use specified columns
+    query = assigns(:query)
+    assert_kind_of Query, query
+    assert_equal [:project, :tracker, :subject, :assigned_to], query.columns.map(&:name)
+  end
+
+  def test_index_without_project_and_explicit_default_columns_should_not_add_project_column
+    Setting.issue_list_default_columns = ['tracker', 'subject', 'assigned_to']
+    columns = ['tracker', 'subject', 'assigned_to']
+    get :index, :set_filter => 1, :c => columns
+
+    # query should use specified columns
+    query = assigns(:query)
+    assert_kind_of Query, query
+    assert_equal columns.map(&:to_sym), query.columns.map(&:name)
+  end
+
   def test_index_with_custom_field_column
     columns = %w(tracker subject cf_2)
     get :index, :set_filter => 1, :c => columns
