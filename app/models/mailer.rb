@@ -422,12 +422,12 @@ class Mailer < ActionMailer::Base
       content_type "text/plain"
       body render(:file => "#{method_name}.text.plain.rhtml",
                   :body => body,
-                  :layout => 'mailer.text.plain.erb')
+                  :layout => 'mailer.text.erb')
     else
       content_type "multipart/alternative"
       part :content_type => "text/plain",
            :body => render(:file => "#{method_name}.text.plain.rhtml",
-                           :body => body, :layout => 'mailer.text.plain.erb')
+                           :body => body, :layout => 'mailer.text.erb')
       part :content_type => "text/html",
            :body => render_message("#{method_name}.text.html.rhtml", body)
     end
