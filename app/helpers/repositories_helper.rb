@@ -37,9 +37,9 @@ module RepositoriesHelper
     unless properties.nil? || properties.empty?
       content = ''
       properties.keys.sort.each do |property|
-        content << content_tag('li', "<b>#{h property}</b>: <span>#{h properties[property]}</span>")
+        content << content_tag('li', "<b>#{h property}</b>: <span>#{h properties[property]}</span>".html_safe)
       end
-      content_tag('ul', content, :class => 'properties')
+      content_tag('ul', content.html_safe, :class => 'properties')
     end
   end
 
