@@ -227,13 +227,13 @@ module RepositoriesHelper
                        :size => 60, :required => true,
                        :disabled => (repository && !repository.root_url.blank?)
                          ) +
-                      '<br />' + 
+                      '<br />'.html_safe +
                       l(:text_git_repository_note)) +
     content_tag('p', form.select(
                         :path_encoding, [nil] + Setting::ENCODINGS,
                         :label => l(:field_scm_path_encoding)
                         ) +
-                     '<br />' + l(:text_scm_path_encoding_note)) +
+                     '<br />'.html_safe + l(:text_scm_path_encoding_note)) +
     content_tag('p', form.check_box(
                         :extra_report_last_commit,
                         :label => l(:label_git_report_last_commit)
