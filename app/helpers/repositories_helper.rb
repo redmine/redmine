@@ -280,6 +280,6 @@ module RepositoriesHelper
                         :path_encoding, [nil] + Setting::ENCODINGS,
                         :label => l(:field_scm_path_encoding)
                         ) +
-                     '<br />' + l(:text_scm_path_encoding_note))
+                     '<br />'.html_safe + l(:text_scm_path_encoding_note))
   end
 end
