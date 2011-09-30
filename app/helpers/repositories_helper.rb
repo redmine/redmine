@@ -103,17 +103,17 @@ module RepositoriesHelper
                              :path => path_param,
                              :rev => @changeset.identifier) unless c.action == 'D'
         text << " - #{h(c.revision)}" unless c.revision.blank?
-        text << ' (' + link_to(l(:label_diff), :controller => 'repositories',
+        text << ' ('.html_safe + link_to(l(:label_diff), :controller => 'repositories',
                                        :action => 'diff',
                                        :id => @project,
                                        :path => path_param,
-                                       :rev => @changeset.identifier) + ') ' if c.action == 'M'
-        text << ' ' + content_tag('span', h(c.from_path), :class => 'copied-from') unless c.from_path.blank?
+                                       :rev => @changeset.identifier) + ') '.html_safe if c.action == 'M'
+        text << ' '.html_safe + content_tag('span', h(c.from_path), :class => 'copied-from') unless c.from_path.blank?
         output << "<li class='#{style}'>#{text}</li>"
       end
     end
     output << '</ul>'
-    output
+    output.html_safe
   end
 
   def to_utf8(str)
