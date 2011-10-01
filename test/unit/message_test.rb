@@ -29,7 +29,9 @@ class MessageTest < ActiveSupport::TestCase
     topics_count = @board.topics_count
     messages_count = @board.messages_count
 
-    message = Message.new(:board => @board, :subject => 'Test message', :content => 'Test message content', :author => @user)
+    message = Message.new(:board => @board, :subject => 'Test message',
+                          :content => 'Test message content',
+                          :author => @user)
     assert message.save
     @board.reload
     # topics count incremented
@@ -48,7 +50,9 @@ class MessageTest < ActiveSupport::TestCase
     replies_count = @message.replies_count
 
     reply_author = User.find(2)
-    reply = Message.new(:board => @board, :subject => 'Test reply', :content => 'Test reply content', :parent => @message, :author => reply_author)
+    reply = Message.new(:board => @board, :subject => 'Test reply',
+                        :content => 'Test reply content',
+                        :parent => @message, :author => reply_author)
     assert reply.save
     @board.reload
     # same topics count
