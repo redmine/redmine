@@ -68,6 +68,24 @@ class MessageTest < ActiveSupport::TestCase
     assert @message.watched_by?(reply_author)
   end
 
+  def test_cannot_reply_to_locked_topic
+    topics_count = @board.topics_count
+    messages_count = @board.messages_count
+    @message = Message.find(1)
+    replies_count = @message.replies_count
+    assert_equal false, @message.locked
+    @message.locked = true
+    assert @message.save
+    assert_equal true, @message.locked
+
+    reply_author = User.find(2)
+    reply = Message.new(:board => @board, :subject => 'Test reply',
+                        :content => 'Test reply content',
+                        :parent => @message, :author => reply_author)
+    reply.save
+    assert_equal 1, reply.errors.count
+  end
+
   def test_moving_message_should_update_counters
     @message = Message.find(1)
     assert_no_difference 'Message.count' do
