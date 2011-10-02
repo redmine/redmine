@@ -576,7 +576,7 @@ module ApplicationHelper
             "##{anchor}"
           else
             case options[:wiki_links]
-            when :local; "#{title}.html"
+            when :local; "#{page.present? ? Wiki.titleize(page) : ''}.html" + (anchor.present? ? "##{anchor}" : '')
             when :anchor; "##{title}"   # used for single-file wiki export
             else
               wiki_page_id = page.present? ? Wiki.titleize(page) : nil

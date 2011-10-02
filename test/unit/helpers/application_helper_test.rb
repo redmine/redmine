@@ -375,6 +375,26 @@ RAW
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
   end
 
+  def test_wiki_links_within_local_file_generation_context
+
+    to_test = {
+      # link to a page
+      '[[CookBook documentation]]' => '<a href="CookBook_documentation.html" class="wiki-page">CookBook documentation</a>',
+      '[[CookBook documentation|documentation]]' => '<a href="CookBook_documentation.html" class="wiki-page">documentation</a>',
+      '[[CookBook documentation#One-section]]' => '<a href="CookBook_documentation.html#One-section" class="wiki-page">CookBook documentation</a>',
+      '[[CookBook documentation#One-section|documentation]]' => '<a href="CookBook_documentation.html#One-section" class="wiki-page">documentation</a>',
+      # page that doesn't exist
+      '[[Unknown page]]' => '<a href="Unknown_page.html" class="wiki-page new">Unknown page</a>',
+      '[[Unknown page|404]]' => '<a href="Unknown_page.html" class="wiki-page new">404</a>',
+      '[[Unknown page#anchor]]' => '<a href="Unknown_page.html#anchor" class="wiki-page new">Unknown page</a>',
+      '[[Unknown page#anchor|404]]' => '<a href="Unknown_page.html#anchor" class="wiki-page new">404</a>',
+    }
+
+    @project = Project.find(1)
+
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text, :wiki_links => :local) }
+  end
+
   def test_html_tags
     to_test = {
       "<div>content</div>" => "<p>&lt;div&gt;content&lt;/div&gt;</p>",
