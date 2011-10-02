@@ -577,7 +577,7 @@ module ApplicationHelper
           else
             case options[:wiki_links]
             when :local; "#{page.present? ? Wiki.titleize(page) : ''}.html" + (anchor.present? ? "##{anchor}" : '')
-            when :anchor; "##{title}"   # used for single-file wiki export
+            when :anchor; "##{page.present? ? Wiki.titleize(page) : title}" + (anchor.present? ? "_#{anchor}" : '') # used for single-file wiki export
             else
               wiki_page_id = page.present? ? Wiki.titleize(page) : nil
               url_for(:only_path => only_path, :controller => 'wiki', :action => 'show', :project_id => link_project, :id => wiki_page_id, :anchor => anchor)
@@ -728,6 +728,8 @@ module ApplicationHelper
       level, attrs, content = $1.to_i, $2, $3
       item = strip_tags(content).strip
       anchor = item.gsub(%r{[^\w\s\-]}, '').gsub(%r{\s+(\-+\s*)?}, '-')
+      # used for single-file wiki export
+      anchor = "#{obj.page.title}_#{anchor}" if options[:wiki_links] == :anchor && (obj.is_a?(WikiContent) || obj.is_a?(WikiContent::Version))
       @parsed_headings << [level, anchor, item]
       "<a name=\"#{anchor}\"></a>\n<h#{level} #{attrs}>#{content}<a href=\"##{anchor}\" class=\"wiki-anchor\">&para;</a></h#{level}>"
     end

@@ -580,6 +580,35 @@ EXPECTED
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(WikiContent.generate!( :text => text, :page => page ), :text) }
   end
 
+  def test_wiki_links_anchor_option_should_prepend_page_title_to_href
+
+    to_test = {
+      # link to a page
+      '[[CookBook documentation]]' => '<a href="#CookBook_documentation" class="wiki-page">CookBook documentation</a>',
+      '[[CookBook documentation|documentation]]' => '<a href="#CookBook_documentation" class="wiki-page">documentation</a>',
+      '[[CookBook documentation#One-section]]' => '<a href="#CookBook_documentation_One-section" class="wiki-page">CookBook documentation</a>',
+      '[[CookBook documentation#One-section|documentation]]' => '<a href="#CookBook_documentation_One-section" class="wiki-page">documentation</a>',
+      # page that doesn't exist
+      '[[Unknown page]]' => '<a href="#Unknown_page" class="wiki-page new">Unknown page</a>',
+      '[[Unknown page|404]]' => '<a href="#Unknown_page" class="wiki-page new">404</a>',
+      '[[Unknown page#anchor]]' => '<a href="#Unknown_page_anchor" class="wiki-page new">Unknown page</a>',
+      '[[Unknown page#anchor|404]]' => '<a href="#Unknown_page_anchor" class="wiki-page new">404</a>',
+    }
+
+    @project = Project.find(1)
+
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text, :wiki_links => :anchor) }
+  end
+
+  def test_headings_in_wiki_single_page_export_should_be_prepended_with_page_title
+    page = WikiPage.generate!( :title => 'Page Title' )
+    content = WikiContent.generate!( :text => 'h1. Some heading', :page => page )
+
+    expected = %|<a name="Page_Title_Some-heading"></a>\n<h1 >Some heading<a href="#Page_Title_Some-heading" class="wiki-anchor">&para;</a></h1>|
+
+    assert_equal expected, textilizable(content, :text, :wiki_links => :anchor )
+  end
+
   def test_table_of_content
     raw = <<-RAW
 {{toc}}
