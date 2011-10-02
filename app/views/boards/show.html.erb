@@ -65,7 +65,7 @@
   <%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
 <% end %>
 
-<% html_title h(@board.name) %>
+<% html_title @board.name %>
 
 <% content_for :header_tags do %>
     <%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.rss_key}, :title => "#{@project}: #{@board}") %>

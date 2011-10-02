@@ -10,7 +10,7 @@
 &nbsp;
 <%= render :partial => 'common/diff', :locals => {:diff => @diff, :diff_type => @diff_type} %>
 
-<% html_title h(@attachment.filename) %>
+<% html_title @attachment.filename %>
 
 <% content_for :header_tags do -%>
     <%= stylesheet_link_tag "scm" -%>
