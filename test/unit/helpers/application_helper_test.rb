@@ -553,6 +553,16 @@ EXPECTED
     assert_equal expected, textilizable(raw)
   end
 
+  def test_headings_with_special_chars
+    # This test makes sure that the generated anchor names match the expected
+    # ones even if the heading text contains unconventional characters
+    raw = 'h1. Some heading related to version 0.5'
+    anchor = sanitize_anchor_name("Some-heading-related-to-version-0.5")
+    expected = %|<a name="#{anchor}"></a>\n<h1 >Some heading related to version 0.5<a href="##{anchor}" class="wiki-anchor">&para;</a></h1>|
+
+    assert_equal expected, textilizable(raw)
+  end
+
   def test_wiki_links_within_wiki_page_context
 
     page = WikiPage.find_by_title('Another_page' )
