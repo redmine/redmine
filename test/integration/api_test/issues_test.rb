@@ -130,6 +130,34 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
         assert_tag 'errors', :child => {:tag => 'error', :content => "Start date can't be blank"}
       end
     end
+
+    context "with custom field filter" do
+      should "show only issues with the custom field value" do
+        get '/issues.xml', { :set_filter => 1, :f => ['cf_1'], :op => {:cf_1 => '='}, :v => {:cf_1 => ['MySQL']}}
+
+        expected_ids = Issue.visible.all(
+            :include => :custom_values,
+            :conditions => {:custom_values => {:custom_field_id => 1, :value => 'MySQL'}}).map(&:id)
+
+        assert_select 'issues > issue > id', :count => expected_ids.count do |ids|
+           ids.each { |id| assert expected_ids.delete(id.children.first.content.to_i) }
+        end
+      end
+    end
+
+    context "with custom field filter (shorthand method)" do
+      should "show only issues with the custom field value" do
+        get '/issues.xml', { :cf_1 => 'MySQL' }
+
+        expected_ids = Issue.visible.all(
+            :include => :custom_values,
+            :conditions => {:custom_values => {:custom_field_id => 1, :value => 'MySQL'}}).map(&:id)
+
+        assert_select 'issues > issue > id', :count => expected_ids.count do |ids|
+          ids.each { |id| assert expected_ids.delete(id.children.first.content.to_i) }
+        end
+      end
+    end
   end
 
   context "/index.json" do
@@ -139,9 +167,12 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
   context "/index.xml with filter" do
     should "show only issues with the status_id" do
       get '/issues.xml?status_id=5'
-      assert_tag :tag => 'issues',
-                 :children => { :count => Issue.visible.count(:conditions => {:status_id => 5}),
-                                :only => { :tag => 'issue' } }
+
+      expected_ids = Issue.visible.all(:conditions => {:status_id => 5}).map(&:id)
+
+      assert_select 'issues > issue > id', :count => expected_ids.count do |ids|
+         ids.each { |id| assert expected_ids.delete(id.children.first.content.to_i) }
+      end
     end
   end
 
