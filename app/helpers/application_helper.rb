@@ -421,7 +421,7 @@ module ApplicationHelper
         b += ancestors.collect {|p| link_to_project(p, {:jump => current_menu_item}, :class => 'ancestor') }
       end
       b << h(@project)
-      b.join(' &#187; ')
+      b.join(" \xc2\xbb ")
     end
   end
 
