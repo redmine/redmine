@@ -200,7 +200,7 @@ module ApplicationHelper
       end
       content << "</ul>\n"
     end
-    content
+    content.html_safe
   end
 
   # Renders flash messages
