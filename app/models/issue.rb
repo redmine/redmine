@@ -634,7 +634,7 @@ class Issue < ActiveRecord::Base
           end
         rescue ActiveRecord::StaleObjectError
           attachments[:files].each(&:destroy)
-          errors.add_to_base l(:notice_locking_conflict)
+          errors.add :base, l(:notice_locking_conflict)
           raise ActiveRecord::Rollback
         end
       end
