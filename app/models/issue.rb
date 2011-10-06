@@ -355,7 +355,7 @@ class Issue < ActiveRecord::Base
       if !assignable_versions.include?(fixed_version)
         errors.add :fixed_version_id, :inclusion
       elsif reopened? && fixed_version.closed?
-        errors.add_to_base I18n.t(:error_can_not_reopen_issue_on_closed_version)
+        errors.add :base, I18n.t(:error_can_not_reopen_issue_on_closed_version)
       end
     end
 
