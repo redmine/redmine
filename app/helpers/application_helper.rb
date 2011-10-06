@@ -415,7 +415,7 @@ module ApplicationHelper
         root = ancestors.shift
         b << link_to_project(root, {:jump => current_menu_item}, :class => 'root')
         if ancestors.size > 2
-          b << '&#8230;'
+          b << "\xe2\x80\xa6"
           ancestors = ancestors[-2, 2]
         end
         b += ancestors.collect {|p| link_to_project(p, {:jump => current_menu_item}, :class => 'ancestor') }
