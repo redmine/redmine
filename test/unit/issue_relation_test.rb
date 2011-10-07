@@ -76,7 +76,9 @@ class IssueRelationTest < ActiveSupport::TestCase
   end
 
   def test_set_issue_to_dates_without_issue_to
-    r = IssueRelation.new(:issue_from => Issue.new(:start_date => Date.today), :relation_type => IssueRelation::TYPE_PRECEDES, :delay => 1)
+    r = IssueRelation.new(:issue_from => Issue.new(:start_date => Date.today),
+                          :relation_type => IssueRelation::TYPE_PRECEDES,
+                          :delay => 1)
     assert_nil r.set_issue_to_dates
   end
 
