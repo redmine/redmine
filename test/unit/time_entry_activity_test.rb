@@ -72,7 +72,7 @@ class TimeEntryActivityTest < ActiveSupport::TestCase
     # Blanking custom field, save should fail
     e.custom_field_values = {field.id => ""}
     assert !e.save
-    assert e.errors.on(:custom_values)
+    assert e.errors[:custom_values]
 
     # Update custom field to valid value, save should succeed
     e.custom_field_values = {field.id => "0"}
