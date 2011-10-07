@@ -273,7 +273,7 @@ class ProjectsControllerTest < ActionController::TestCase
         assert_response :success
         project = assigns(:project)
         assert_kind_of Project, project
-        assert_not_nil project.errors.on(:parent_id)
+        assert_not_nil project.errors[:parent_id]
       end
 
       should "fail with unauthorized parent_id" do
