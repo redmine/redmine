@@ -95,6 +95,6 @@ class IssueRelationTest < ActiveSupport::TestCase
     assert IssueRelation.create!(:issue_from => Issue.find(1), :issue_to => Issue.find(2), :relation_type => IssueRelation::TYPE_BLOCKED)
     r = IssueRelation.new(:issue_from => Issue.find(2), :issue_to => Issue.find(1), :relation_type => IssueRelation::TYPE_BLOCKED)
     assert !r.save
-    assert_not_nil r.errors.on(:base)
+    assert_not_nil r.errors[:base]
   end
 end
