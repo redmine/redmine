@@ -53,7 +53,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     issue = create_issue!
     child = Issue.new(:project_id => 2, :tracker_id => 1, :author_id => 1, :subject => 'child', :parent_issue_id => issue.id)
     assert !child.save
-    assert_not_nil child.errors.on(:parent_issue_id)
+    assert_not_nil child.errors[:parent_issue_id]
   end
 
   def test_move_a_root_to_child
