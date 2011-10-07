@@ -54,7 +54,7 @@ class Message < ActiveRecord::Base
 
   def cannot_reply_to_locked_topic
     # Can not reply to a locked topic
-    errors.add_to_base 'Topic is locked' if root.locked? && self != root
+    errors.add :base, 'Topic is locked' if root.locked? && self != root
   end
 
   def update_parent_last_reply
