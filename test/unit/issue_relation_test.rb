@@ -43,7 +43,8 @@ class IssueRelationTest < ActiveSupport::TestCase
     from = Issue.find(1)
     to = Issue.find(2)
 
-    relation = IssueRelation.new :issue_from => from, :issue_to => to, :relation_type => IssueRelation::TYPE_FOLLOWS
+    relation = IssueRelation.new :issue_from => from, :issue_to => to,
+                                 :relation_type => IssueRelation::TYPE_FOLLOWS
     assert relation.save
     relation.reload
     assert_equal IssueRelation::TYPE_PRECEDES, relation.relation_type
