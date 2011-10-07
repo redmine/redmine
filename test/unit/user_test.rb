@@ -355,7 +355,9 @@ class UserTest < ActiveSupport::TestCase
     end
 
     should "select the exact matching user first" do
-      case_sensitive_user = User.generate_with_protected!(:login => 'changed', :password => 'admin', :password_confirmation => 'admin')
+      case_sensitive_user = User.generate_with_protected!(
+                                   :login => 'changed', :password => 'admin',
+                                   :password_confirmation => 'admin')
       # bypass validations to make it appear like existing data
       case_sensitive_user.update_attribute(:login, 'ADMIN')
 
