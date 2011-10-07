@@ -289,7 +289,7 @@ class IssueTest < ActiveSupport::TestCase
     issue.tracker_id = 2
     issue.subject = 'New subject'
     assert !issue.save
-    assert_not_nil issue.errors.on(:tracker_id)
+    assert_not_nil issue.errors[:tracker_id]
   end
 
   def test_category_based_assignment
