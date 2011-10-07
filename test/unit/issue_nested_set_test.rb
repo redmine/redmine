@@ -51,7 +51,8 @@ class IssueNestedSetTest < ActiveSupport::TestCase
 
   def test_creating_a_child_in_different_project_should_not_validate
     issue = create_issue!
-    child = Issue.new(:project_id => 2, :tracker_id => 1, :author_id => 1, :subject => 'child', :parent_issue_id => issue.id)
+    child = Issue.new(:project_id => 2, :tracker_id => 1, :author_id => 1,
+                      :subject => 'child', :parent_issue_id => issue.id)
     assert !child.save
     assert_not_nil child.errors[:parent_issue_id]
   end
