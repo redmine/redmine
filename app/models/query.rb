@@ -769,10 +769,13 @@ class Query < ActiveRecord::Base
   def date_clause(table, field, from, to)
     s = []
     if from
-      s << ("#{table}.#{field} > '%s'" % [connection.quoted_date((from - 1).to_time.end_of_day)])
+      from_yesterday = from - 1
+      from_yesterday_utc = Time.gm(from_yesterday.year, from_yesterday.month, from_yesterday.day)
+      s << ("#{table}.#{field} > '%s'" % [connection.quoted_date(from_yesterday_utc.end_of_day)])
     end
     if to
-      s << ("#{table}.#{field} <= '%s'" % [connection.quoted_date(to.to_time.end_of_day)])
+      to_utc = Time.gm(to.year, to.month, to.day)
+      s << ("#{table}.#{field} <= '%s'" % [connection.quoted_date(to_utc.end_of_day)])
     end
     s.join(' AND ')
   end
