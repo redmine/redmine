@@ -179,7 +179,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     child.reload
     child.parent_issue_id = grandchild.id
     assert !child.save
-    assert_not_nil child.errors.on(:parent_issue_id)
+    assert_not_nil child.errors[:parent_issue_id]
   end
 
   def test_moving_an_issue_should_keep_valid_relations_only
