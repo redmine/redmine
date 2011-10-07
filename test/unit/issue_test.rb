@@ -98,7 +98,9 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_visible_scope_for_anonymous_with_own_issues_visibility
     Role.anonymous.update_attribute :issues_visibility, 'own'
-    Issue.create!(:project_id => 1, :tracker_id => 1, :author_id => User.anonymous.id, :subject => 'Issue by anonymous')
+    Issue.create!(:project_id => 1, :tracker_id => 1,
+                  :author_id => User.anonymous.id,
+                  :subject => 'Issue by anonymous')
 
     issues = Issue.visible(User.anonymous).all
     assert issues.any?
