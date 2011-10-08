@@ -91,105 +91,97 @@ div.action_A { background: #bfb }
 
 /************* CodeRay styles *************/
 .syntaxhl div {display: inline;}
-.syntaxhl .no { padding: 2px 4px 2px 4px; background-color: #eee; margin:0 }
+.syntaxhl .line-numbers { padding: 2px 4px 2px 4px; background-color: #eee; margin:0px 5px 0px 0px; }
 .syntaxhl .code pre { overflow: auto }
 .syntaxhl .debug { color:white ! important; background:blue ! important; }
 
-.syntaxhl .af { color:#00C }
-.syntaxhl .an { color:#007 }
-.syntaxhl .at { color:#f08 }
-.syntaxhl .av { color:#700 }
-.syntaxhl .aw { color:#C00 }
-.syntaxhl .bi { color:#509; font-weight:bold }
-.syntaxhl .c  { color:#888; }
+.syntaxhl .attribute-name { color:#007 }
+.syntaxhl .annotation { color:#f08 }
+.syntaxhl .attribute-value { color:#700 }
+.syntaxhl .bin { color:#509; font-weight:bold }
+.syntaxhl .comment { color:#888; }
 
-.syntaxhl .ch { color:#04D }
-.syntaxhl .ch .k { color:#04D }
-.syntaxhl .ch .dl { color:#039 }
+.syntaxhl .char { color:#04D }
+.syntaxhl .char .content { color:#04D }
+.syntaxhl .char .delimiter { color:#039 }
 
-.syntaxhl .cl { color:#B06; font-weight:bold }
-.syntaxhl .cm { color:#A08; font-weight:bold }
-.syntaxhl .co { color:#036; font-weight:bold }
-.syntaxhl .cr { color:#0A0 }
-.syntaxhl .cv { color:#369 }
-.syntaxhl .de { color:#B0B; }
-.syntaxhl .df { color:#099; font-weight:bold }
-.syntaxhl .di { color:#088; font-weight:bold }
-.syntaxhl .dl { color:black }
-.syntaxhl .do { color:#970 }
-.syntaxhl .dt { color:#34b }
-.syntaxhl .ds { color:#D42; font-weight:bold }
-.syntaxhl .e  { color:#666; font-weight:bold }
-.syntaxhl .en { color:#800; font-weight:bold }
-.syntaxhl .er { color:#F00; background-color:#FAA }
-.syntaxhl .ex { color:#C00; font-weight:bold }
-.syntaxhl .fl { color:#60E; font-weight:bold }
-.syntaxhl .fu { color:#06B; font-weight:bold }
-.syntaxhl .gv { color:#d70; font-weight:bold }
-.syntaxhl .hx { color:#058; font-weight:bold }
-.syntaxhl .i  { color:#00D; font-weight:bold }
-.syntaxhl .ic { color:#B44; font-weight:bold }
+.syntaxhl .class { color:#B06; font-weight:bold }
+.syntaxhl .complex { color:#A08; font-weight:bold }
+.syntaxhl .constant { color:#036; font-weight:bold }
+.syntaxhl .color { color:#0A0 }
+.syntaxhl .class-variable { color:#369 }
+.syntaxhl .decorator { color:#B0B; }
+.syntaxhl .definition { color:#099; font-weight:bold }
+.syntaxhl .directive { color:#088; font-weight:bold }
+.syntaxhl .delimiter { color:black }
+.syntaxhl .doc { color:#970 }
+.syntaxhl .doctype { color:#34b }
+.syntaxhl .doc-string { color:#D42; font-weight:bold }
+.syntaxhl .escape  { color:#666; font-weight:bold }
+.syntaxhl .entity { color:#800; font-weight:bold }
+.syntaxhl .error { color:#F00; background-color:#FAA }
+.syntaxhl .exception { color:#C00; font-weight:bold }
+.syntaxhl .float { color:#60E; font-weight:bold }
+.syntaxhl .function { color:#06B; font-weight:bold }
+.syntaxhl .global-variable { color:#d70; font-weight:bold }
+.syntaxhl .hex { color:#058; font-weight:bold }
+.syntaxhl .integer  { color:#00D; font-weight:bold }
+.syntaxhl .include { color:#B44; font-weight:bold }
 
-.syntaxhl .il { background: #ddd; color: black }
-.syntaxhl .il .il { background: #ccc }
-.syntaxhl .il .il .il { background: #bbb }
-.syntaxhl .il .idl { background: #ddd; font-weight: bold; color: #666 }
-.syntaxhl .idl { background-color: #bbb; font-weight: bold; color: #666; }
+.syntaxhl .inline { background: #ddd; color: black }
+.syntaxhl .inline .inline { background: #ccc }
+.syntaxhl .inline .inline .inline { background: #bbb }
+.syntaxhl .inline .inline-delimiter { background: #ddd; font-weight: bold; color: #666 }
+.syntaxhl .inline-delimiter { background-color: #bbb; font-weight: bold; color: #666; }
 
-.syntaxhl .im { color:#f00; }
-.syntaxhl .in { color:#B2B; font-weight:bold }
-.syntaxhl .iv { color:#33B }
-.syntaxhl .la { color:#970; font-weight:bold }
-.syntaxhl .lv { color:#963 }
-.syntaxhl .oc { color:#40E; font-weight:bold }
-.syntaxhl .of { color:#000; font-weight:bold }
-.syntaxhl .op { }
-.syntaxhl .pc { color:#038; font-weight:bold }
-.syntaxhl .pd { color:#369; font-weight:bold }
-.syntaxhl .pp { color:#579; }
-.syntaxhl .ps { color:#00C; font-weight:bold }
-.syntaxhl .pt { color:#074; font-weight:bold }
-.syntaxhl .r, .kw  { color:#080; font-weight:bold }
+.syntaxhl .important { color:#f00; }
+.syntaxhl .instance-variable { color:#33B }
+.syntaxhl .label { color:#970; font-weight:bold }
+.syntaxhl .local-variable { color:#963 }
+.syntaxhl .octal { color:#40E; font-weight:bold }
+.syntaxhl .predefined-constant { color:#038; font-weight:bold }
+.syntaxhl .predefined { color:#369; font-weight:bold }
+.syntaxhl .preprocessor { color:#579; }
+.syntaxhl .pseudo-class { color:#00C; font-weight:bold }
+.syntaxhl .predefined-type { color:#074; font-weight:bold }
+.syntaxhl .reserved, .keyword  { color:#080; font-weight:bold }
 
-.syntaxhl .ke { color: #808; }
-.syntaxhl .ke .dl { color: #606; }
-.syntaxhl .ke .ch { color: #80f; }
-.syntaxhl .vl { color: #088; }
+.syntaxhl .key { color: #808; }
+.syntaxhl .key .delimiter { color: #606; }
+.syntaxhl .key .char { color: #80f; }
+.syntaxhl .value { color: #088; }
 
-.syntaxhl .rx { background-color:#fff0ff }
-.syntaxhl .rx .k { color:#808 }
-.syntaxhl .rx .dl { color:#404 }
-.syntaxhl .rx .mod { color:#C2C }
-.syntaxhl .rx .fu  { color:#404; font-weight: bold }
+.syntaxhl .regexp { background-color:#fff0ff }
+.syntaxhl .regexp .content { color:#808 }
+.syntaxhl .regexp .delimiter { color:#404 }
+.syntaxhl .regexp .modifier { color:#C2C }
+.syntaxhl .regexp .function  { color:#404; font-weight: bold }
 
-.syntaxhl .s { background-color:#fff0f0; color: #D20; }
-.syntaxhl .s .s { background-color:#ffe0e0 }
-.syntaxhl .s .s  .s { background-color:#ffd0d0 }
-.syntaxhl .s .k { }
-.syntaxhl .s .ch { color: #b0b; }
-.syntaxhl .s .dl { color: #710; }
+.syntaxhl .string { background-color:#fff0f0; color: #D20; }
+.syntaxhl .string .string { background-color:#ffe0e0 }
+.syntaxhl .string .string .string { background-color:#ffd0d0 }
+.syntaxhl .string .content { }
+.syntaxhl .string .char { color: #b0b; }
+.syntaxhl .string .delimiter { color: #710; }
 
-.syntaxhl .sh { background-color:#f0fff0; color:#2B2 }
-.syntaxhl .sh .k { }
-.syntaxhl .sh .dl { color:#161 }
+.syntaxhl .shell { background-color:#f0fff0; color:#2B2 }
+.syntaxhl .shell .content { }
+.syntaxhl .shell .delimiter { color:#161 }
 
-.syntaxhl .sy { color:#A60 }
-.syntaxhl .sy .k { color:#A60 }
-.syntaxhl .sy .dl { color:#630 }
+.syntaxhl .symbol { color:#A60 }
+.syntaxhl .symbol .content { color:#A60 }
+.syntaxhl .symbol .delimiter { color:#630 }
 
-.syntaxhl .ta { color:#070 }
-.syntaxhl .tf { color:#070; font-weight:bold }
-.syntaxhl .ts { color:#D70; font-weight:bold }
-.syntaxhl .ty { color:#339; font-weight:bold }
-.syntaxhl .v  { color:#036 }
-.syntaxhl .xt { color:#444 }
+.syntaxhl .tag { color:#070 }
+.syntaxhl .type { color:#339; font-weight:bold }
+.syntaxhl .variable  { color:#036 }
 
-.syntaxhl .ins { background: #cfc; }
-.syntaxhl .del { background: #fcc; }
-.syntaxhl .chg { color: #aaf; background: #007; }
+.syntaxhl .insert { background: #cfc; }
+.syntaxhl .delete { background: #fcc; }
+.syntaxhl .change { color: #aaf; background: #007; }
 .syntaxhl .head { color: #f8f; background: #505 }
 
-.syntaxhl .ins .ins { color: #080; font-weight:bold }
-.syntaxhl .del .del { color: #800; font-weight:bold }
-.syntaxhl .chg .chg { color: #66f; }
+.syntaxhl .insert .insert { color: #080; font-weight:bold }
+.syntaxhl .delete .delete { color: #800; font-weight:bold }
+.syntaxhl .change .change { color: #66f; }
 .syntaxhl .head .head { color: #f4f; }

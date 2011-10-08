@@ -55,7 +55,7 @@ Rails::Initializer.run do |config|
   config.action_mailer.perform_deliveries = false
 
   config.gem 'rubytree', :lib => 'tree'
-  config.gem 'coderay', :version => '~>0.9.7'
+  config.gem 'coderay', :version => '~>1.0.0'
 
   # Load any local configuration that is kept out of source control
   # (e.g. gems, patches).
