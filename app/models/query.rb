@@ -308,9 +308,12 @@ class Query < ActiveRecord::Base
   end
 
   def add_short_filter(field, expression)
-    return unless expression
-    parms = expression.scan(/^(o|c|!\*|!|\*)?(.*)$/).first
-    add_filter field, (parms[0] || "="), [parms[1] || ""]
+    return unless expression && available_filters.has_key?(field)
+    field_type = available_filters[field][:type]
+    @@operators_by_filter_type[field_type].sort.reverse.detect do |operator|
+      next unless expression =~ /^#{Regexp.escape(operator)}(.*)$/
+      add_filter field, operator, $1.present? ? $1.split('|') : ['']
+    end || add_filter(field, '=', expression.split('|'))
   end
 
   # Add multiple filters using +add_filter+
