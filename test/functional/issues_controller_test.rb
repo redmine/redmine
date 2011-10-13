@@ -160,11 +160,6 @@ class IssuesControllerTest < ActionController::TestCase
         'o' => { :op => '=', :values => ['o'] },
         '~This is part of a subject' => { :op => '~', :values => ['This is part of a subject'] },
         '!~This is part of a subject' => { :op => '!~', :values => ['This is part of a subject'] }},
-      'tracker_id' => {
-        '3' => { :op => '=', :values => ['3'] },
-        '=3' => { :op => '=', :values => ['3'] },
-        '*' => { :op => '=', :values => ['*'] },
-        '!*' => { :op => '!', :values => ['*'] }},
       'start_date' => {
         '2011-10-12' => { :op => '=', :values => ['2011-10-12'] },
         '=2011-10-12' => { :op => '=', :values => ['2011-10-12'] },
@@ -202,7 +197,7 @@ class IssuesControllerTest < ActionController::TestCase
 
     to_test.each do |field, expression_and_expected|
       expression_and_expected.each do |filter_expression, expected|
-
+puts field + ' / ' + filter_expression + ' => ' + expected.inspect
         get :index, :set_filter => 1, field => filter_expression
 
         assert_response :success
