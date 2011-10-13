@@ -197,7 +197,7 @@ class IssuesControllerTest < ActionController::TestCase
 
     to_test.each do |field, expression_and_expected|
       expression_and_expected.each do |filter_expression, expected|
-puts field + ' / ' + filter_expression + ' => ' + expected.inspect
+
         get :index, :set_filter => 1, field => filter_expression
 
         assert_response :success
