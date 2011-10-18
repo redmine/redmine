@@ -162,9 +162,7 @@ class IssuesControllerTest < ActionController::TestCase
         '!~This is part of a subject' => { :op => '!~', :values => ['This is part of a subject'] }},
       'tracker_id' => {
         '3' => { :op => '=', :values => ['3'] },
-        '=3' => { :op => '=', :values => ['3'] },
-        '*' => { :op => '=', :values => ['*'] },
-        '!*' => { :op => '!', :values => ['*'] }},
+        '=3' => { :op => '=', :values => ['3'] }},
       'start_date' => {
         '2011-10-12' => { :op => '=', :values => ['2011-10-12'] },
         '=2011-10-12' => { :op => '=', :values => ['2011-10-12'] },

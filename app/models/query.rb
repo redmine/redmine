@@ -333,10 +333,6 @@ class Query < ActiveRecord::Base
     available_filters[field][:type] if available_filters.has_key?(field)
   end
 
-  def allowed_values_for(field)
-    available_filters[field][:values] if available_filters.has_key?(field)
-  end
-
   def operator_for(field)
     has_filter?(field) ? filters[field][:operator] : nil
   end
@@ -653,7 +649,6 @@ class Query < ActiveRecord::Base
     sql = ''
     case operator
     when "="
-      value &= allowed_values_for(field).collect {|val| val[1]} if value.present? && allowed_values_for(field).present?
       if value.any?
         case type_for(field)
         when :date, :date_past
@@ -670,7 +665,6 @@ class Query < ActiveRecord::Base
         sql = "1=0"
       end
     when "!"
-      value &= allowed_values_for(field).collect {|val| val[1]} if value.present? && allowed_values_for(field).present?
       if value.any?
         sql = "(#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field} NOT IN (" + value.collect{|val| "'#{connection.quote_string(val)}'"}.join(",") + "))"
       else
