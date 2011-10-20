@@ -480,39 +480,39 @@ input#principal_search, input#user_search {width:100%}
 #errorExplanation, div.flash, .nodata, .warning {
     padding: 4px 4px 4px 30px;
     margin-bottom: 12px;
-	font-size: 1.1em;
-	border: 2px solid;
+    font-size: 1.1em;
+    border: 2px solid;
 }
 
 div.flash {margin-top: 8px;}
 
 div.flash.error, #errorExplanation {
-	background: url(../images/exclamation.png) 8px 50% no-repeat;
-	background-color: #ffe3e3;
-	border-color: #dd0000;
-	color: #880000;
+    background: url(../images/exclamation.png) 8px 50% no-repeat;
+    background-color: #ffe3e3;
+    border-color: #dd0000;
+    color: #880000;
 }
 
 div.flash.notice {
     background: url(../images/true.png) 8px 5px no-repeat;
-	background-color: #dfffdf;
-	border-color: #9fcf9f;
-	color: #005f00;
+    background-color: #dfffdf;
+    border-color: #9fcf9f;
+    color: #005f00;
 }
 
 div.flash.warning {
   background: url(../images/warning.png) 8px 5px no-repeat;
-	background-color: #FFEBC1;
-	border-color: #FDBF3B;
-	color: #A6750C;
+    background-color: #FFEBC1;
+    border-color: #FDBF3B;
+    color: #A6750C;
   text-align: left;
 }
 
 .nodata, .warning {
     text-align: center;
-	background-color: #FFEBC1;
-	border-color: #FDBF3B;
-	color: #A6750C;
+    background-color: #FFEBC1;
+    border-color: #FDBF3B;
+    color: #A6750C;
 }
 
 span.error {padding-left:20px; background:url(../images/exclamation.png) no-repeat 0 50%;}
@@ -639,25 +639,25 @@ background-color: #fff;
 div.tabs-buttons { position:absolute; right: 0; width: 48px; height: 24px; background: white; bottom: 0; border-bottom: 1px solid #bbbbbb; }
 
 button.tab-left, button.tab-right {
-	font-size: 0.9em;
-	cursor: pointer;
-	height:24px;
-	border: 1px solid #ccc;
-	border-bottom: 1px solid #bbbbbb;
-	position:absolute;
-	padding:4px;
-	width: 20px;
-	bottom: -1px;
+    font-size: 0.9em;
+    cursor: pointer;
+    height:24px;
+    border: 1px solid #ccc;
+    border-bottom: 1px solid #bbbbbb;
+    position:absolute;
+    padding:4px;
+    width: 20px;
+    bottom: -1px;
 }
 
 button.tab-left {
-	right: 20px;
-	background: #eeeeee url(../images/bullet_arrow_left.png) no-repeat 50% 50%;
+    right: 20px;
+    background: #eeeeee url(../images/bullet_arrow_left.png) no-repeat 50% 50%;
 }
 
 button.tab-right {
-	right: 0;
-	background: #eeeeee url(../images/bullet_arrow_right.png) no-repeat 50% 50%;
+    right: 0;
+    background: #eeeeee url(../images/bullet_arrow_right.png) no-repeat 50% 50%;
 }
 
 /***** Auto-complete *****/
@@ -917,45 +917,45 @@ padding-bottom: 3px;
 .icon-file.application-x-gzip { background-image: url(../images/files/zip.png); }
 
 img.gravatar { 
-	padding: 2px;
+    padding: 2px;
   border: solid 1px #d5d5d5;
   background: #fff;
 }
 
 div.issue img.gravatar {
-	float: right;
-	margin: 0 0 0 1em;
-	padding: 5px;
+    float: right;
+    margin: 0 0 0 1em;
+    padding: 5px;
 }
 
 div.issue table img.gravatar {
-	height: 14px;
-	width: 14px;
-	padding: 2px;
-	float: left;
-	margin: 0 0.5em 0 0;
+    height: 14px;
+    width: 14px;
+    padding: 2px;
+    float: left;
+    margin: 0 0.5em 0 0;
 }
 
 h2 img.gravatar {
-	padding: 3px;
-	margin: -2px 4px -4px 0;
-	vertical-align: top;
+    padding: 3px;
+    margin: -2px 4px -4px 0;
+    vertical-align: top;
 }
 
 h4 img.gravatar {
-	padding: 3px;
-	margin: -6px 0 -4px 0;
-	vertical-align: top;
+    padding: 3px;
+    margin: -6px 0 -4px 0;
+    vertical-align: top;
 }
 
 td.username img.gravatar {
-	margin: 0 0.5em 0 0;
-	vertical-align: top;
+    margin: 0 0.5em 0 0;
+    vertical-align: top;
 }
 
 #activity dt img.gravatar {
-	float: left;
-	margin: 0 1em 1em 0;
+    float: left;
+    margin: 0 1em 1em 0;
 }
 
 /* Used on 12px Gravatar img tags without the icon background */
@@ -966,11 +966,11 @@ td.username img.gravatar {
 
 #activity dt,
 .journal {
-	clear: left;
+    clear: left;
 }
 
 .journal-link {
-	float: right;
+    float: right;
 }
 
 h2 img { vertical-align:middle; }
@@ -982,9 +982,9 @@ h2 img { vertical-align:middle; }
   #top-menu, #header, #main-menu, #sidebar, #footer, .contextual, .other-formats { display:none; }
   #main { background: #fff; }
   #content { width: 99%; margin: 0; padding: 0; border: 0; background: #fff; overflow: visible !important;}
-	#wiki_add_attachment { display:none; }
+    #wiki_add_attachment { display:none; }
   .hide-when-print { display: none; }
-	.autoscroll {overflow-x: visible;}
-	table.list {margin-top:0.5em;}
-	table.list th, table.list td {border: 1px solid #aaa;}
+    .autoscroll {overflow-x: visible;}
+    table.list {margin-top:0.5em;}
+    table.list th, table.list td {border: 1px solid #aaa;}
 }
