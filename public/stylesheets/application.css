@@ -155,6 +155,7 @@ tr.entry.file td.filename_no_report a { margin-left: 16px; }
 tr span.expander {background-image: url(../images/bullet_toggle_plus.png); padding-left: 8px; margin-left: 0; cursor: pointer;}
 tr.open span.expander {background-image: url(../images/bullet_toggle_minus.png);}
 
+tr.changeset ul, ol { margin-top: 0px; margin-bottom: 0px; }
 tr.changeset td.author { text-align: center; width: 15%; }
 tr.changeset td.committed_on { text-align: center; width: 15%; }
 
