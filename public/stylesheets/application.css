@@ -156,8 +156,8 @@ tr span.expander {background-image: url(../images/bullet_toggle_plus.png); paddi
 tr.open span.expander {background-image: url(../images/bullet_toggle_minus.png);}
 
 tr.changeset ul, ol { margin-top: 0px; margin-bottom: 0px; }
-tr.changeset td.author { text-align: center; width: 15%; }
-tr.changeset td.committed_on { text-align: center; width: 15%; }
+tr.changeset td.author { text-align: center; width: 15%; white-space:nowrap;}
+tr.changeset td.committed_on { text-align: center; width: 15%; white-space:nowrap;}
 
 table.files tr.file td { text-align: center; }
 table.files tr.file td.filename { text-align: left; padding-left: 24px; }
