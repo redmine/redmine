@@ -46,7 +46,7 @@ Output example of rhmanifest::
     </rhmanifest>
 """
 import re, time, cgi, urllib
-from mercurial import cmdutil, commands, node, error
+from mercurial import cmdutil, commands, node, error, hg
 
 _x = cgi.escape
 _u = lambda s: cgi.escape(urllib.quote(s))
@@ -146,7 +146,10 @@ def rhlog(ui, repo, *pats, **opts):
     bra      = urllib.unquote_plus(opts.pop('rhbranch', None))
     from_rev = from_rev.replace('"', '\\"')
     to_rev   = to_rev.replace('"', '\\"')
-    opts['rev'] = ['"%s":"%s"' % (from_rev, to_rev)]
+    if hg.util.version() >= '1.6':
+      opts['rev'] = ['"%s":"%s"' % (from_rev, to_rev)]
+    else:
+      opts['rev'] = ['%s:%s' % (from_rev, to_rev)]
     opts['branch'] = [bra]
     return commands.log(ui, repo, *map(urllib.unquote_plus, pats), **opts)
 
