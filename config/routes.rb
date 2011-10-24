@@ -77,7 +77,7 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   map.resources :issue_moves, :only => [:new, :create], :path_prefix => '/issues', :as => 'move'
-  map.resources :queries, :only => [:index]
+  map.resources :queries, :except => [:show]
 
   # Misc issue routes. TODO: move into resources
   map.auto_complete_issues '/issues/auto_complete', :controller => 'auto_completes', :action => 'issues'
@@ -156,6 +156,7 @@ ActionController::Routing::Routes.draw do |map|
     project.resources :versions, :shallow => true, :collection => {:close_completed => :put}, :member => {:status_by => :post}
     project.resources :news, :shallow => true
     project.resources :time_entries, :controller => 'timelog', :path_prefix => 'projects/:project_id'
+    project.resources :queries, :except => [:show]
 
     project.wiki_start_page 'wiki', :controller => 'wiki', :action => 'show', :conditions => {:method => :get}
     project.wiki_index 'wiki/index', :controller => 'wiki', :action => 'index', :conditions => {:method => :get}
@@ -226,7 +227,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :groups
 
   #left old routes at the bottom for backwards compat
-  map.connect 'projects/:project_id/queries/:action', :controller => 'queries'
   map.connect 'projects/:project_id/issues/:action', :controller => 'issues'
   map.connect 'projects/:project_id/documents/:action', :controller => 'documents'
   map.connect 'projects/:project_id/boards/:action/:id', :controller => 'boards'

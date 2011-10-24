@@ -17,10 +17,12 @@
 
 class QueriesController < ApplicationController
   menu_item :issues
-  before_filter :find_query, :except => [:new, :index]
-  before_filter :find_optional_project, :only => :new
+  before_filter :find_query, :except => [:new, :create, :index]
+  before_filter :find_optional_project, :only => [:new, :create]
 
   accept_api_auth :index
+
+  include QueriesHelper
 
   def index
     case params[:format]
@@ -41,44 +43,52 @@ class QueriesController < ApplicationController
   end
 
   def new
-    @query = Query.new(params[:query])
-    @query.project = params[:query_is_for_all] ? nil : @project
+    @query = Query.new
     @query.user = User.current
+    @query.project = @project
     @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
+    build_query_from_params
+  end
 
-    @query.add_filters(params[:fields] || params[:f], params[:operators] || params[:op], params[:values] || params[:v]) if params[:fields] || params[:f]
-    @query.group_by ||= params[:group_by]
-    @query.column_names = params[:c] if params[:c]
+  verify :method => :post, :only => :create, :render => {:nothing => true, :status => :method_not_allowed }
+  def create
+    @query = Query.new(params[:query])
+    @query.user = User.current
+    @query.project = params[:query_is_for_all] ? nil : @project
+    @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
+    build_query_from_params
     @query.column_names = nil if params[:default_columns]
 
-    if request.post? && params[:confirm] && @query.save
+    if @query.save
       flash[:notice] = l(:notice_successful_create)
       redirect_to :controller => 'issues', :action => 'index', :project_id => @project, :query_id => @query
-      return
+    else
+      render :action => 'new', :layout => !request.xhr?
     end
-    render :layout => false if request.xhr?
   end
 
   def edit
-    if request.post?
-      @query.filters = {}
-      @query.add_filters(params[:fields] || params[:f], params[:operators] || params[:op], params[:values] || params[:v]) if params[:fields] || params[:f]
-      @query.attributes = params[:query]
-      @query.project = nil if params[:query_is_for_all]
-      @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
-      @query.group_by ||= params[:group_by]
-      @query.column_names = params[:c] if params[:c]
-      @query.column_names = nil if params[:default_columns]
+  end
 
-      if @query.save
-        flash[:notice] = l(:notice_successful_update)
-        redirect_to :controller => 'issues', :action => 'index', :project_id => @project, :query_id => @query
-      end
+  verify :method => :put, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
+  def update
+    @query.attributes = params[:query]
+    @query.project = nil if params[:query_is_for_all]
+    @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
+    build_query_from_params
+    @query.column_names = nil if params[:default_columns]
+
+    if @query.save
+      flash[:notice] = l(:notice_successful_update)
+      redirect_to :controller => 'issues', :action => 'index', :project_id => @project, :query_id => @query
+    else
+      render :action => 'edit'
     end
   end
 
+  verify :method => :delete, :only => :destroy, :render => {:nothing => true, :status => :method_not_allowed }
   def destroy
-    @query.destroy if request.post?
+    @query.destroy
     redirect_to :controller => 'issues', :action => 'index', :project_id => @project, :set_filter => 1
   end
 

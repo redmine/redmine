@@ -218,8 +218,17 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :get, "/queries/new", :controller => 'queries', :action => 'new'
     should_route :get, "/projects/redmine/queries/new", :controller => 'queries', :action => 'new', :project_id => 'redmine'
 
-    should_route :post, "/queries/new", :controller => 'queries', :action => 'new'
-    should_route :post, "/projects/redmine/queries/new", :controller => 'queries', :action => 'new', :project_id => 'redmine'
+    should_route :post, "/queries", :controller => 'queries', :action => 'create'
+    should_route :post, "/projects/redmine/queries", :controller => 'queries', :action => 'create', :project_id => 'redmine'
+
+    should_route :get, "/queries/1/edit", :controller => 'queries', :action => 'edit', :id => '1'
+    should_route :get, "/projects/redmine/queries/1/edit", :controller => 'queries', :action => 'edit', :id => '1', :project_id => 'redmine'
+
+    should_route :put, "/queries/1", :controller => 'queries', :action => 'update', :id => '1'
+    should_route :put, "/projects/redmine/queries/1", :controller => 'queries', :action => 'update', :id => '1', :project_id => 'redmine'
+
+    should_route :delete, "/queries/1", :controller => 'queries', :action => 'destroy', :id => '1'
+    should_route :delete, "/projects/redmine/queries/1", :controller => 'queries', :action => 'destroy', :id => '1', :project_id => 'redmine'
   end
 
   context "repositories" do

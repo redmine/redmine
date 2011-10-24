@@ -60,9 +60,8 @@ class QueriesControllerTest < ActionController::TestCase
 
   def test_new_project_public_query
     @request.session[:user_id] = 2
-    post :new,
+    post :create,
          :project_id => 'ecookbook',
-         :confirm => '1',
          :default_columns => '1',
          :f => ["status_id", "assigned_to_id"],
          :op => {"assigned_to_id" => "=", "status_id" => "o"},
@@ -78,9 +77,8 @@ class QueriesControllerTest < ActionController::TestCase
 
   def test_new_project_private_query
     @request.session[:user_id] = 3
-    post :new,
+    post :create,
          :project_id => 'ecookbook',
-         :confirm => '1',
          :default_columns => '1',
          :fields => ["status_id", "assigned_to_id"],
          :operators => {"assigned_to_id" => "=", "status_id" => "o"},
@@ -96,8 +94,7 @@ class QueriesControllerTest < ActionController::TestCase
 
   def test_new_global_private_query_with_custom_columns
     @request.session[:user_id] = 3
-    post :new,
-         :confirm => '1',
+    post :create,
          :fields => ["status_id", "assigned_to_id"],
          :operators => {"assigned_to_id" => "=", "status_id" => "o"},
          :values => { "assigned_to_id" => ["me"], "status_id" => ["1"]},
@@ -112,10 +109,24 @@ class QueriesControllerTest < ActionController::TestCase
     assert q.valid?
   end
 
+  def test_new_global_query_with_custom_filters
+    @request.session[:user_id] = 3
+    post :create,
+         :fields => ["assigned_to_id"],
+         :operators => {"assigned_to_id" => "="},
+         :values => { "assigned_to_id" => ["me"]},
+         :query => {"name" => "test_new_global_query"}
+
+    q = Query.find_by_name('test_new_global_query')
+    assert_redirected_to :controller => 'issues', :action => 'index', :project_id => nil, :query_id => q
+    assert !q.has_filter?(:status_id)
+    assert_equal ['assigned_to_id'], q.filters.keys
+    assert q.valid?
+  end
+
   def test_new_with_sort
     @request.session[:user_id] = 1
-    post :new,
-         :confirm => '1',
+    post :create,
          :default_columns => '1',
          :operators => {"status_id" => "o"},
          :values => {"status_id" => ["1"]},
@@ -144,9 +155,8 @@ class QueriesControllerTest < ActionController::TestCase
 
   def test_edit_global_public_query
     @request.session[:user_id] = 1
-    post :edit,
+    put :update,
          :id => 4,
-         :confirm => '1',
          :default_columns => '1',
          :fields => ["status_id", "assigned_to_id"],
          :operators => {"assigned_to_id" => "=", "status_id" => "o"},
@@ -175,9 +185,8 @@ class QueriesControllerTest < ActionController::TestCase
 
   def test_edit_global_private_query
     @request.session[:user_id] = 3
-    post :edit,
+    put :update,
          :id => 3,
-         :confirm => '1',
          :default_columns => '1',
          :fields => ["status_id", "assigned_to_id"],
          :operators => {"assigned_to_id" => "=", "status_id" => "o"},
@@ -234,7 +243,7 @@ class QueriesControllerTest < ActionController::TestCase
 
   def test_destroy
     @request.session[:user_id] = 2
-    post :destroy, :id => 1
+    delete :destroy, :id => 1
     assert_redirected_to :controller => 'issues', :action => 'index', :project_id => 'ecookbook', :set_filter => 1, :query_id => nil
     assert_nil Query.find_by_id(1)
   end
