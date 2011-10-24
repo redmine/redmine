@@ -158,8 +158,10 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       assert_equal %w|4 3|, changesets.collect(&:revision)
 
       # named branch
-      changesets = @repository.latest_changesets('', @branch_char_1)
-      assert_equal %w|27 26|, changesets.collect(&:revision)
+      if @repository.scm.class.client_version_above?([1, 6])
+        changesets = @repository.latest_changesets('', @branch_char_1)
+        assert_equal %w|27 26|, changesets.collect(&:revision)
+      end
 
       changesets = @repository.latest_changesets("latin-1-dir/test-#{@char_1}-subdir", @branch_char_1)
       assert_equal %w|27|, changesets.collect(&:revision)
