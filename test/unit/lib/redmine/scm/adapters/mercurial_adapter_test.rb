@@ -314,17 +314,21 @@ begin
           assert_equal 1, nib1.size
           case bra
             when 'branch (1)[2]&,%.-3_4'
-              assert_equal 3, nib0.size
-              assert_equal nib0[0], 'afc61e85bde7'
-              nib2 = @adapter.nodes_in_branch(bra, :limit => 2)
-              assert_equal 2, nib2.size
-              assert_equal nib2[1], '933ca60293d7'
+              if @adapter.class.client_version_above?([1, 6])
+                assert_equal 3, nib0.size
+                assert_equal nib0[0], 'afc61e85bde7'
+                nib2 = @adapter.nodes_in_branch(bra, :limit => 2)
+                assert_equal 2, nib2.size
+                assert_equal nib2[1], '933ca60293d7'
+              end
             when @branch_char_1
-              assert_equal 2, nib0.size
-              assert_equal nib0[1], '08ff3227303e'
-              nib2 = @adapter.nodes_in_branch(bra, :limit => 1)
-              assert_equal 1, nib2.size
-              assert_equal nib2[0], '7bbf4c738e71'
+              if @adapter.class.client_version_above?([1, 6])
+                assert_equal 2, nib0.size
+                assert_equal nib0[1], '08ff3227303e'
+                nib2 = @adapter.nodes_in_branch(bra, :limit => 1)
+                assert_equal 1, nib2.size
+                assert_equal nib2[0], '7bbf4c738e71'
+              end
           end
         end
       end
