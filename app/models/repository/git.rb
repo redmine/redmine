@@ -165,6 +165,7 @@ class Repository::Git < Repository
                   :path      => file[:path])
       end
     end
+    changeset
   end
   private :save_revision
 
