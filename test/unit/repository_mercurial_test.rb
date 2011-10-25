@@ -73,7 +73,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
 
       @repository.fetch_changesets
       @project.reload
-      assert_equal 29, @repository.changesets.count
+      assert_equal NUM_REV, @repository.changesets.count
     end
 
     def test_isodatesec
