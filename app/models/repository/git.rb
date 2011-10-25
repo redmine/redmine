@@ -129,7 +129,8 @@ class Repository::Git < Repository
       merge_extra_info(h)
       self.save
     end
-    scm_brs.each do |br|
+    scm_brs.each do |br1|
+      br = br1.to_s
       from_scmid = nil
       from_scmid = h["branches"][br]["last_scmid"] if h["branches"][br]
       h["branches"][br] ||= {}
