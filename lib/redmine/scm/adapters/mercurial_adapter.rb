@@ -47,7 +47,7 @@ module Redmine
           end
 
           def client_available
-            client_version_above?([0, 9, 5])
+            client_version_above?([1, 2])
           end
 
           def hgversion
@@ -72,12 +72,7 @@ module Redmine
           end
 
           def template_path_for(version)
-            if ((version <=> [0,9,5]) > 0) || version.empty?
-              ver = "1.0"
-            else
-              ver = "0.9.5"
-            end
-            "#{HELPERS_DIR}/#{TEMPLATE_NAME}-#{ver}.#{TEMPLATE_EXTENSION}"
+            "#{HELPERS_DIR}/#{TEMPLATE_NAME}-1.0.#{TEMPLATE_EXTENSION}"
           end
         end
 

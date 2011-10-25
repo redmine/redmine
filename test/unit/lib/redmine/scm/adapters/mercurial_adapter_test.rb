@@ -56,12 +56,14 @@ begin
       end
 
       def test_template_path
-        to_test = { [0,9,5]  => "0.9.5",
-                    [1,0]    => "1.0",
+        to_test = {
+                    [1,2]    => "1.0",
                     []       => "1.0",
-                    [1,0,1]  => "1.0",
+                    [1,2,1]  => "1.0",
                     [1,7]    => "1.0",
-                    [1,7,1]  => "1.0" }
+                    [1,7,1]  => "1.0",
+                    [2,0]    => "1.0",
+                   }
         to_test.each do |v, template|
           test_template_path_for(v, template)
         end
