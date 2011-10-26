@@ -1,7 +1,7 @@
 <div class="contextual">
 <% if !@query.new_record? && @query.editable_by?(User.current) %>
-  <%= link_to l(:button_edit), @query.project_id ? edit_project_query_path(:project_id => @query.project, :id => @query) : edit_query_path(@query), :class => 'icon icon-edit' %>
-  <%= link_to l(:button_delete), @query.project_id ? project_query_path(:project_id => @query.project, :id => @query) : query_path(@query), :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del' %>
+  <%= link_to l(:button_edit), edit_query_path(@query), :class => 'icon icon-edit' %>
+  <%= link_to l(:button_delete), query_path(@query), :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del' %>
 <% end %>
 </div>
 
@@ -38,7 +38,7 @@
     <%= link_to_function l(:button_apply), 'submit_query_form("query_form")', :class => 'icon icon-checked' %>
     <%= link_to l(:button_clear), { :set_filter => 1, :project_id => @project }, :class => 'icon icon-reload'  %>
     <% if @query.new_record? && User.current.allowed_to?(:save_queries, @project, :global => true) %>
-        <%= link_to_function l(:button_save), "$('query_form').action='#{ @project ? new_project_query_path(@project) : new_query_path }'; submit_query_form('query_form')", :class => 'icon icon-save' %>
+        <%= link_to_function l(:button_save), "$('query_form').action='#{ @project ? new_project_query_path : new_query_path }'; submit_query_form('query_form')", :class => 'icon icon-save' %>
     <% end %>
     </p>
 <% end %>
