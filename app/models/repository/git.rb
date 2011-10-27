@@ -100,7 +100,7 @@ class Repository::Git < Repository
   # However, Git does not have a sequential commit numbering.
   #
   # In order to fetch only new adding revisions,
-  # Redmine need to parse revisions per branch.
+  # Redmine needs to parse revisions per branch.
   # Branch "last_scmid" is for this requirement.
   #
   # In Git and Mercurial, revisions are not in date order.
