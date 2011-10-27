@@ -95,6 +95,17 @@ class Repository::Git < Repository
                 options = {:report_last_commit => extra_report_last_commit})
   end
 
+  # With SCMs that have a sequential commit numbering,
+  # such as Subversion and Mercurial,
+  # Redmine is able to be clever and only fetch changesets
+  # going forward from the most recent one it knows about.
+  # 
+  # However, Git does not have a sequential commit numbering.
+  #
+  # In order to fetch only new adding revisions,
+  # Redmine need to parse revisions per branch.
+  # Branch "last_scmid" is for this requirement.
+  #
   # In Git and Mercurial, revisions are not in date order.
   # Redmine Mercurial fixed issues.
   #    * Redmine Takes Too Long On Large Mercurial Repository
