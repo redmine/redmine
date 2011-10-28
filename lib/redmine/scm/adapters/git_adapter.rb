@@ -77,10 +77,14 @@ module Redmine
         def branches
           return @branches if @branches
           @branches = []
-          cmd_args = %w|branch --no-color|
+          cmd_args = %w|branch --no-color --verbose --no-abbrev|
           scm_cmd(*cmd_args) do |io|
             io.each_line do |line|
-              @branches << line.match('\s*\*?\s*(.*)$')[1]
+              branch_rev = line.match('\s*\*?\s*(.*?)\s*([0-9a-f]{40}).*$')
+              bran = Branch.new(branch_rev[1])
+              bran.revision =  branch_rev[2]
+              bran.scmid    =  branch_rev[2]
+              @branches << bran
             end
           end
           @branches.sort!
