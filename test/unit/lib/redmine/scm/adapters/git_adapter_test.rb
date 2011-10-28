@@ -211,6 +211,32 @@ begin
                                            nil, nil, :all => true).length
       end
 
+      def test_parents
+        revs1 = []
+        @adapter.revisions('',
+                           nil,
+                           "master",
+                           {:reverse => true}) do |rev|
+          revs1 << rev
+        end
+        assert_equal 15, revs1.length
+        assert_equal "7234cb2750b63f47bff735edc50a1c0a433c2518",
+                     revs1[0].identifier
+        assert_equal nil, revs1[0].parents
+        assert_equal "899a15dba03a3b350b89c3f537e4bbe02a03cdc9",
+                     revs1[1].identifier
+        assert_equal 1, revs1[1].parents.length
+        assert_equal "7234cb2750b63f47bff735edc50a1c0a433c2518",
+                     revs1[1].parents[0]
+        assert_equal "32ae898b720c2f7eec2723d5bdd558b4cb2d3ddf",
+                     revs1[10].identifier
+        assert_equal 2, revs1[10].parents.length
+        assert_equal "4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8",
+                     revs1[10].parents[0]
+        assert_equal "7e61ac704deecde634b51e59daa8110435dcb3da",
+                     revs1[10].parents[1]
+      end
+
       def test_getting_revisions_with_leading_and_trailing_spaces_in_filename
         assert_equal " filename with a leading space.txt ",
            @adapter.revisions(" filename with a leading space.txt ",
