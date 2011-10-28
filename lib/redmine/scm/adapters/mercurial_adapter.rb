@@ -109,7 +109,14 @@ module Redmine
         end
 
         def branches
-          as_ary(summary['repository']['branch']).map { |e| e['name'] }
+          brs = []
+          as_ary(summary['repository']['branch']).each do |e|
+            br = Branch.new(e['name'])
+            br.revision =  e['revision']
+            br.scmid    =  e['node']
+            brs << br
+          end
+          brs
         end
 
         # Returns map of {'branch' => 'nodeid', ...}
