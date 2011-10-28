@@ -185,7 +185,7 @@ module Redmine
 
         def revisions(path, identifier_from, identifier_to, options={})
           revs = Revisions.new
-          cmd_args = %w|log --no-color --encoding=UTF-8 --raw --date=iso --pretty=fuller|
+          cmd_args = %w|log --no-color --encoding=UTF-8 --raw --date=iso --pretty=fuller --parents|
           cmd_args << "--reverse" if options[:reverse]
           cmd_args << "--all" if options[:all]
           cmd_args << "-n" << "#{options[:limit].to_i}" if options[:limit]
@@ -202,9 +202,10 @@ module Redmine
             parsing_descr = 0  #0: not parsing desc or files, 1: parsing desc, 2: parsing files
 
             io.each_line do |line|
-              if line =~ /^commit ([0-9a-f]{40})$/
+              if line =~ /^commit ([0-9a-f]{40})(( [0-9a-f]{40})*)$/
                 key = "commit"
                 value = $1
+                parents_str = $2
                 if (parsing_descr == 1 || parsing_descr == 2)
                   parsing_descr = 0
                   revision = Revision.new({
@@ -213,7 +214,8 @@ module Redmine
                     :author     => changeset[:author],
                     :time       => Time.parse(changeset[:date]),
                     :message    => changeset[:description],
-                    :paths      => files
+                    :paths      => files,
+                    :parents    => changeset[:parents]
                   })
                   if block_given?
                     yield revision
@@ -224,6 +226,9 @@ module Redmine
                   files = []
                 end
                 changeset[:commit] = $1
+                unless parents_str.nil? or parents_str == ""
+                  changeset[:parents] = parents_str.strip.split(' ')
+                end
               elsif (parsing_descr == 0) && line =~ /^(\w+):\s*(.*)$/
                 key = $1
                 value = $2
@@ -263,7 +268,8 @@ module Redmine
                 :author     => changeset[:author],
                 :time       => Time.parse(changeset[:date]),
                 :message    => changeset[:description],
-                :paths      => files
+                :paths      => files,
+                :parents    => changeset[:parents]
                  })
               if block_given?
                 yield revision
