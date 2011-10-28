@@ -91,6 +91,21 @@ begin
         assert_equal '400bb8672109', revisions[0].scmid
       end
 
+      def test_parents
+        revs1 = @adapter.revisions(nil, 0, 0)
+        assert_equal 1, revs1.size
+        assert_equal [], revs1[0].parents
+        revs2 = @adapter.revisions(nil, 1, 1)
+        assert_equal 1, revs2.size
+        assert_equal 1, revs2[0].parents.size
+        assert_equal "0885933ad4f6", revs2[0].parents[0]
+        revs3 = @adapter.revisions(nil, 30, 30)
+        assert_equal 1, revs3.size
+        assert_equal 2, revs3[0].parents.size
+        assert_equal "a94b0528f24f", revs3[0].parents[0]
+        assert_equal "3a330eb32958", revs3[0].parents[1]
+      end
+
       def test_diff
         if @adapter.class.client_version_above?([1, 2])
           assert_nil @adapter.diff(nil, '100000')
