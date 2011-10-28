@@ -61,12 +61,23 @@ begin
       end
 
       def test_branches
-        assert_equal  [
-              'latin-1-path-encoding',
-              'master',
-              'test-latin-1',
-              'test_branch',
-            ], @adapter.branches
+        brs = []
+        @adapter.branches.each do |b|
+          brs << b
+        end
+        assert_equal 4, brs.length
+        assert_equal 'latin-1-path-encoding', brs[0].to_s 
+        assert_equal '1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127', brs[0].revision
+        assert_equal brs[0].scmid, brs[0].revision
+        assert_equal 'master', brs[1].to_s
+        assert_equal '83ca5fd546063a3c7dc2e568ba3355661a9e2b2c', brs[1].revision
+        assert_equal brs[1].scmid, brs[1].revision
+        assert_equal 'test-latin-1', brs[2].to_s
+        assert_equal '67e7792ce20ccae2e4bb73eed09bb397819c8834', brs[2].revision
+        assert_equal brs[2].scmid, brs[2].revision
+        assert_equal 'test_branch', brs[3].to_s
+        assert_equal 'fba357b886984ee71185ad2065e65fc0417d9b92', brs[3].revision
+        assert_equal brs[3].scmid, brs[3].revision
       end
 
       def test_tags
