@@ -333,7 +333,8 @@ module Redmine
 
       class Revision
         attr_accessor :scmid, :name, :author, :time, :message,
-                      :paths, :revision, :branch, :identifier
+                      :paths, :revision, :branch, :identifier,
+                      :parents
 
         def initialize(attributes={})
           self.identifier = attributes[:identifier]
@@ -345,6 +346,7 @@ module Redmine
           self.paths      = attributes[:paths]
           self.revision   = attributes[:revision]
           self.branch     = attributes[:branch]
+          self.parents    = attributes[:parents]
         end
 
         # Returns the readable identifier.
