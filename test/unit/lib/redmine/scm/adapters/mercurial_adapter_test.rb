@@ -270,15 +270,32 @@ begin
       end
 
       def test_branches
-        assert_equal [
-            'default',
-            'test-branch-01',
-            @branch_char_1,
-            'branch (1)[2]&,%.-3_4',
-            @branch_char_0,
-            'test_branch.latin-1',
-            'test-branch-00',
-          ], @adapter.branches
+        brs = []
+        @adapter.branches.each do |b|
+          brs << b
+        end
+        assert_equal 7, brs.length
+        assert_equal 'default', brs[0].to_s
+        assert_equal '31', brs[0].revision
+        assert_equal '31eeee7395c8', brs[0].scmid
+        assert_equal 'test-branch-01', brs[1].to_s
+        assert_equal '30', brs[1].revision
+        assert_equal 'ad4dc4f80284', brs[1].scmid
+        assert_equal @branch_char_1, brs[2].to_s
+        assert_equal '27', brs[2].revision
+        assert_equal '7bbf4c738e71', brs[2].scmid
+        assert_equal 'branch (1)[2]&,%.-3_4', brs[3].to_s
+        assert_equal '25', brs[3].revision
+        assert_equal 'afc61e85bde7', brs[3].scmid
+        assert_equal @branch_char_0, brs[4].to_s
+        assert_equal '23', brs[4].revision
+        assert_equal 'c8d3e4887474', brs[4].scmid
+        assert_equal 'test_branch.latin-1', brs[5].to_s
+        assert_equal '22', brs[5].revision
+        assert_equal 'c2ffe7da686a', brs[5].scmid
+        assert_equal 'test-branch-00', brs[6].to_s
+        assert_equal '13', brs[6].revision
+        assert_equal '3a330eb32958', brs[6].scmid
       end
 
       def test_branchmap
