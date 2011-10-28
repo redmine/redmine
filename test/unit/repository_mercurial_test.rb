@@ -21,7 +21,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
   fixtures :projects
 
   REPOSITORY_PATH = Rails.root.join('tmp/test/mercurial_repository').to_s
-  NUM_REV = 29
+  NUM_REV = 32
   CHAR_1_HEX = "\xc3\x9c"
 
   if File.directory?(REPOSITORY_PATH)
@@ -56,7 +56,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      assert_equal 37, @repository.changes.count
+      assert_equal 46, @repository.changes.count
       assert_equal "Initial import.\nThe repository contains 3 files.",
                    @repository.changesets.find_by_revision('0').comments
     end
@@ -109,19 +109,19 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
 
       # with_limit
       changesets = @repository.latest_changesets('', nil, 2)
-      assert_equal %w|28 27|, changesets.collect(&:revision)
+      assert_equal %w|31 30|, changesets.collect(&:revision)
 
       # with_filepath
       changesets = @repository.latest_changesets(
                       '/sql_escape/percent%dir/percent%file1.txt', nil)
-      assert_equal %w|11 10 9|, changesets.collect(&:revision)
+      assert_equal %w|30 11 10 9|, changesets.collect(&:revision)
 
       changesets = @repository.latest_changesets(
                       '/sql_escape/underscore_dir/understrike_file.txt', nil)
-      assert_equal %w|12 9|, changesets.collect(&:revision)
+      assert_equal %w|30 12 9|, changesets.collect(&:revision)
 
       changesets = @repository.latest_changesets('README', nil)
-      assert_equal %w|28 17 8 6 1 0|, changesets.collect(&:revision)
+      assert_equal %w|31 30 28 17 8 6 1 0|, changesets.collect(&:revision)
 
       changesets = @repository.latest_changesets('README','8')
       assert_equal %w|8 6 1 0|, changesets.collect(&:revision)
@@ -135,7 +135,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
 
       path = 'sql_escape/percent%dir'
       changesets = @repository.latest_changesets(path, nil)
-      assert_equal %w|13 11 10 9|, changesets.collect(&:revision)
+      assert_equal %w|30 13 11 10 9|, changesets.collect(&:revision)
 
       changesets = @repository.latest_changesets(path, '11')
       assert_equal %w|11 10 9|, changesets.collect(&:revision)
@@ -145,7 +145,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
 
       path = 'sql_escape/underscore_dir'
       changesets = @repository.latest_changesets(path, nil)
-      assert_equal %w|13 12 9|, changesets.collect(&:revision)
+      assert_equal %w|30 13 12 9|, changesets.collect(&:revision)
 
       changesets = @repository.latest_changesets(path, '12')
       assert_equal %w|12 9|, changesets.collect(&:revision)
@@ -312,7 +312,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      %w|28 3ae45e2d177d 3ae45|.each do |r1|
+      %w|31 31eeee7395c8 31eee|.each do |r1|
         changeset = @repository.find_changeset_by_name(r1)
         assert_nil changeset.next
       end
