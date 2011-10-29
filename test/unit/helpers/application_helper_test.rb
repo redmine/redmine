@@ -350,6 +350,9 @@ RAW
     to_test = {
       '[[CookBook documentation]]' => '<a href="/projects/ecookbook/wiki/CookBook_documentation" class="wiki-page">CookBook documentation</a>',
       '[[Another page|Page]]' => '<a href="/projects/ecookbook/wiki/Another_page" class="wiki-page">Page</a>',
+      # title content should be formatted
+      '[[Another page|With _styled_ *title*]]' => '<a href="/projects/ecookbook/wiki/Another_page" class="wiki-page">With <em>styled</em> <strong>title</strong></a>',
+      '[[Another page|With title containing <strong>HTML entities &amp; markups</strong>]]' => '<a href="/projects/ecookbook/wiki/Another_page" class="wiki-page">With title containing &lt;strong&gt;HTML entities &amp; markups&lt;/strong&gt;</a>',
       # link with anchor
       '[[CookBook documentation#One-section]]' => '<a href="/projects/ecookbook/wiki/CookBook_documentation#One-section" class="wiki-page">CookBook documentation</a>',
       '[[Another page#anchor|Page]]' => '<a href="/projects/ecookbook/wiki/Another_page#anchor" class="wiki-page">Page</a>',
@@ -371,6 +374,7 @@ RAW
       '[[unknowproject:Start]]' => '[[unknowproject:Start]]',
       '[[unknowproject:Start|Page title]]' => '[[unknowproject:Start|Page title]]',
     }
+
     @project = Project.find(1)
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
   end
