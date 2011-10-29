@@ -1000,6 +1000,11 @@ de:
   label_diff: diff
   text_git_repository_note: Repository is bare and local (e.g. /gitrepo, c:\gitrepo)
 
+  description_filter: Filter
   description_search: Suchfeld
   description_project_scope: Suchbereich
+  description_query_sort_criteria_attribute: Sortierattribut
+  description_query_sort_criteria_direction: Sortierrichtung
+  description_available_columns: Verfügbare Spalten
+  description_selected_columns: Ausgewählte Spalten
 
