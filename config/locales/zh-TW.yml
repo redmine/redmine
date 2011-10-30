@@ -1061,7 +1061,6 @@
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
   description_query_sort_criteria_direction: Sort direction
-  description_selected_columns: Selected Spalten
   description_project_scope: Search scope
   description_filter: Filter
   description_user_mail_notification: Mail notification settings
@@ -1077,3 +1076,4 @@
   description_date_to: Enter end date
   description_query_sort_criteria_attribute: Sort attribute
   description_wiki_subpages_reassign: Choose new parent page
+  description_selected_columns: Selected Columns
