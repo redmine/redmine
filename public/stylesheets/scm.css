@@ -1,4 +1,9 @@
 
+table.revision-info td {
+    margin:  0px;
+    padding: 0px;
+}
+
 div.changeset-changes ul { margin: 0; padding: 0; }
 div.changeset-changes ul > ul { margin-left: 18px; padding: 0; }
 

@@ -25,8 +25,38 @@
 
 <h2><%= l(:label_revision) %> <%= format_revision(@changeset) %></h2>
 
-<p><% if @changeset.scmid %>ID: <%= h(@changeset.scmid) %><br /><% end %>
-<span class="author"><%= authoring(@changeset.committed_on, @changeset.author) %></span></p>
+<table class="revision-info">
+  <% if @changeset.scmid %>
+    <tr>
+      <td>ID</td><td><%= h(@changeset.scmid) %></td>
+    </tr>
+  <% end %>
+  <% unless @changeset.parents.blank? %>
+    <tr>
+      <td><%= l(:label_parent_revision) %></td>
+      <td>
+        <%= @changeset.parents.collect{
+              |p| link_to_revision(p, @project, :text => format_revision(p))
+            }.join(", ") %><br />
+      </td>
+    </tr>
+  <% end %>
+  <% unless @changeset.children.blank? %>
+    <tr>
+      <td><%= l(:label_child_revision) %></td>
+      <td>
+       <%= @changeset.children.collect{
+              |p| link_to_revision(p, @project, :text => format_revision(p))
+             }.join(", ") %><br />
+      </td>
+    </tr>
+  <% end %>
+</table>
+<p>
+<span class="author">
+<%= authoring(@changeset.committed_on, @changeset.author) %>
+</span>
+</p>
 
 <%= textilizable @changeset.comments %>
 
