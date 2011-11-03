@@ -173,6 +173,25 @@ class RepositoryGitTest < ActiveSupport::TestCase
       assert_equal 15, @repository.changesets.count
     end
 
+    def test_parents
+      assert_equal 0, @repository.changesets.count
+      @repository.fetch_changesets
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
+      r1 = @repository.find_changeset_by_name("7234cb2750b63")
+      assert_equal [], r1.parents
+      r2 = @repository.find_changeset_by_name("899a15dba03a3")
+      assert_equal 1, r2.parents.length
+      assert_equal "7234cb2750b63f47bff735edc50a1c0a433c2518",
+                   r2.parents[0].identifier
+      r3 = @repository.find_changeset_by_name("32ae898b720c2")
+      assert_equal 2, r3.parents.length
+      assert_equal "4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8",
+                   r3.parents[0].identifier
+      assert_equal "7e61ac704deecde634b51e59daa8110435dcb3da",
+                   r3.parents[1].identifier
+    end
+
     def test_db_consistent_ordering_init
       assert_nil @repository.extra_info
       assert_equal 0, @repository.changesets.count
