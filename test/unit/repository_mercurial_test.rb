@@ -273,10 +273,9 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
                    r2.parents[0].identifier
       r3 = @repository.changesets.find_by_revision('30')
       assert_equal 2, r3.parents.length
-      assert_equal "a94b0528f24f",
-                   r3.parents[0].identifier
-      assert_equal "3a330eb32958",
-                   r3.parents[1].identifier
+      r4 = [r3.parents[0].identifier, r3.parents[1].identifier].sort
+      assert_equal "3a330eb32958", r4[0]
+      assert_equal "a94b0528f24f", r4[1]
     end
 
     def test_activities
