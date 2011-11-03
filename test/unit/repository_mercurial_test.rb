@@ -260,6 +260,25 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       end
     end
 
+    def test_parents
+      assert_equal 0, @repository.changesets.count
+      @repository.fetch_changesets
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
+      r1 = @repository.changesets.find_by_revision('0')
+      assert_equal [], r1.parents
+      r2 = @repository.changesets.find_by_revision('1')
+      assert_equal 1, r2.parents.length
+      assert_equal "0885933ad4f6",
+                   r2.parents[0].identifier
+      r3 = @repository.changesets.find_by_revision('30')
+      assert_equal 2, r3.parents.length
+      assert_equal "a94b0528f24f",
+                   r3.parents[0].identifier
+      assert_equal "3a330eb32958",
+                   r3.parents[1].identifier
+    end
+
     def test_activities
       c = Changeset.new(:repository   => @repository,
                         :committed_on => Time.now,
