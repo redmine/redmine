@@ -186,10 +186,9 @@ class RepositoryGitTest < ActiveSupport::TestCase
                    r2.parents[0].identifier
       r3 = @repository.find_changeset_by_name("32ae898b720c2")
       assert_equal 2, r3.parents.length
-      assert_equal "4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8",
-                   r3.parents[0].identifier
-      assert_equal "7e61ac704deecde634b51e59daa8110435dcb3da",
-                   r3.parents[1].identifier
+      r4 = [r3.parents[0].identifier, r3.parents[1].identifier].sort
+      assert_equal "4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8", r4[0]
+      assert_equal "7e61ac704deecde634b51e59daa8110435dcb3da", r4[1]
     end
 
     def test_db_consistent_ordering_init
