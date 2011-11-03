@@ -53,6 +53,10 @@ class Repository::Git < Repository
     true
   end
 
+  def supports_revision_graph?
+    true
+  end
+
   def repo_log_encoding
     'UTF-8'
   end
