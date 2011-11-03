@@ -149,7 +149,12 @@ class Repository::Git < Repository
         db_rev = find_changeset_by_name(rev.revision)
         transaction do
           if db_rev.nil?
-            save_revision(rev)
+            db_saved_rev = save_revision(rev)
+            parents = {}
+            parents[db_saved_rev] = rev.parents unless rev.parents.nil?
+            parents.each do |ch, chparents|
+              ch.parents = chparents.collect{|rp| find_changeset_by_name(rp)}.compact
+            end
           end
           h["branches"][br]["last_scmid"] = rev.scmid
           merge_extra_info(h)
