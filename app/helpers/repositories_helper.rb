@@ -283,4 +283,60 @@ module RepositoriesHelper
                         ) +
                      '<br />'.html_safe + l(:text_scm_path_encoding_note))
   end
+
+  def index_commits(commits, heads, href_proc = nil)
+    return nil if commits.nil? or commits.first.parents.nil?
+    map  = {}
+    commit_hashes = []
+    refs_map = {}
+    href_proc ||= Proc.new {|x|x}
+    heads.each{|r| refs_map[r.scmid] ||= []; refs_map[r.scmid] << r}
+    commits.reverse.each_with_index do |c, i|
+      h = {}
+      h[:parents] = c.parents.collect do |p|
+        [p.scmid, 0, 0]
+      end
+      h[:rdmid] = i
+      h[:space] = 0
+      h[:refs]  = refs_map[c.scmid].join(" ") if refs_map.include? c.scmid
+      h[:scmid] = c.scmid
+      h[:href]  = href_proc.call(c.scmid)
+      commit_hashes << h
+      map[c.scmid] = h
+    end
+    heads.sort! do |a,b|
+      a.to_s <=> b.to_s
+    end
+    j = 0
+    heads.each do |h|
+      if map.include? h.scmid then
+        j = mark_chain(j += 1, map[h.scmid], map)
+      end
+    end
+    # when no head matched anything use first commit
+    if j == 0 then
+       mark_chain(j += 1, map.values.first, map)
+    end
+    map
+  end
+
+  def mark_chain(mark, commit, map)
+    stack = [[mark, commit]]
+    markmax = mark
+    until stack.empty?
+      current = stack.pop
+      m, commit = current
+      commit[:space] = m  if commit[:space] == 0
+      m1 = m - 1
+      commit[:parents].each_with_index do |p, i|
+        psha = p[0]
+        if map.include? psha  and  map[psha][:space] == 0 then
+          stack << [m1 += 1, map[psha]] if i == 0
+          stack = [[m1 += 1, map[psha]]] + stack if i > 0
+        end
+      end
+      markmax = m1 if markmax < m1
+    end
+    markmax
+  end
 end

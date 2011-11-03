@@ -1,0 +1,13 @@
+<%= javascript_include_tag "raphael.js" %>
+<script type="text/javascript" charset="utf-8">
+  var chunk = {commits:<%= commits.values.to_json %>}
+</script>
+<%= javascript_include_tag "revision_graph.js" %>
+
+<script type="text/javascript">
+  window.onload = function(){
+    branchGraph(document.getElementById("holder"));
+  }
+</script>
+
+<div id="holder" class="graph"></div>
