@@ -1018,3 +1018,5 @@ de:
   description_date_from: Startdatum eintragen
   description_date_to: Enddatum eintragen
 
+  label_parent_revision: Parent
+  label_child_revision: Child
