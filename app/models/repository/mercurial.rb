@@ -142,6 +142,11 @@ class Repository::Mercurial < Repository
                                 :committed_on => re.time,
                                 :comments     => re.message)
           re.paths.each { |e| cs.create_change(e) }
+          parents = {}
+          parents[cs] = re.parents unless re.parents.nil?
+          parents.each do |ch, chparents|
+            ch.parents = chparents.collect{|rp| find_changeset_by_name(rp)}.compact
+          end
         end
       end
     end
