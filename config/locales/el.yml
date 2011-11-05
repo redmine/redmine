@@ -999,3 +999,4 @@ el:
   description_selected_columns: Selected Columns
   label_parent_revision: Parent
   label_child_revision: Child
+  error_scm_annotate_big_text_file: The entry cannot be annotated, as it exceeds the maximum text file size.
