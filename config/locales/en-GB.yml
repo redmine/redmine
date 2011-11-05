@@ -180,6 +180,7 @@ en-GB:
   error_scm_not_found: "The entry or revision was not found in the repository."
   error_scm_command_failed: "An error occurred when trying to access the repository: %{value}"
   error_scm_annotate: "The entry does not exist or cannot be annotated."
+  error_scm_annotate_big_text_file: "The entry cannot be annotated, as it exceeds the maximum text file size."
   error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
   error_no_tracker_in_project: 'No tracker is associated to this project. Please check the Project settings.'
   error_no_default_issue_status: 'No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").'

@@ -172,7 +172,16 @@ class RepositoriesController < ApplicationController
     (show_error_not_found; return) unless @entry
 
     @annotate = @repository.scm.annotate(@path, @rev)
-    (render_error l(:error_scm_annotate); return) if @annotate.nil? || @annotate.empty?
+    if @annotate.nil? || @annotate.empty?
+      (render_error l(:error_scm_annotate); return)
+    end
+    ann_buf_size = 0
+    @annotate.lines.each do |buf|
+      ann_buf_size += buf.size
+    end
+    if ann_buf_size > Setting.file_max_size_displayed.to_i.kilobyte
+      (render_error l(:error_scm_annotate_big_text_file); return)
+    end
     @changeset = @repository.find_changeset_by_name(@rev)
   end
 

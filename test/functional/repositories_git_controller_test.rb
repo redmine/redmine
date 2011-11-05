@@ -354,6 +354,19 @@ class RepositoriesGitControllerTest < ActionController::TestCase
                               :content => /cannot be annotated/
     end
 
+    def test_annotate_error_when_too_big
+      with_settings :file_max_size_displayed => 1 do
+        get :annotate, :id => PRJ_ID, :path => ['sources', 'watchers_controller.rb'], :rev => 'deff712f'
+        assert_response 500
+        assert_tag :tag => 'p', :attributes => { :id => /errorExplanation/ },
+                                :content => /exceeds the maximum text file size/
+
+        get :annotate, :id => PRJ_ID, :path => ['README'], :rev => '7234cb2'
+        assert_response :success
+        assert_template 'annotate'
+      end
+    end
+
     def test_annotate_latin_1
       if @ruby19_non_utf8_pass
         puts_ruby19_non_utf8_pass()

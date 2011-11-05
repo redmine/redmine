@@ -245,6 +245,7 @@ es:
   error_can_t_load_default_data: "No se ha podido cargar la configuración por defecto: %{value}"
   error_issue_not_found_in_project: 'La petición no se encuentra o no está asociada a este proyecto'
   error_scm_annotate: "No existe la entrada o no ha podido ser anotada"
+  error_scm_annotate_big_text_file: "La entrada no puede anotarse, al superar el tamaño máximo para ficheros de texto."
   error_scm_command_failed: "Se produjo un error al acceder al repositorio: %{value}"
   error_scm_not_found: "La entrada y/o la revisión no existe en el repositorio."
   field_account: Cuenta
