@@ -569,6 +569,30 @@ class IssuesControllerTest < ActionController::TestCase
                            :parent => {:tag => 'select', :attributes => {:id => 'issue_priority_id'} }
   end
 
+  def test_get_new_without_default_start_date_is_creation_date
+    Setting.default_issue_start_date_to_creation_date = 0
+
+    @request.session[:user_id] = 2
+    get :new, :project_id => 1, :tracker_id => 1
+    assert_response :success
+    assert_template 'new'
+
+    assert_tag :tag => 'input', :attributes => { :name => 'issue[start_date]',
+                                                 :value => nil }
+  end
+
+  def test_get_new_with_default_start_date_is_creation_date
+    Setting.default_issue_start_date_to_creation_date = 1
+
+    @request.session[:user_id] = 2
+    get :new, :project_id => 1, :tracker_id => 1
+    assert_response :success
+    assert_template 'new'
+
+    assert_tag :tag => 'input', :attributes => { :name => 'issue[start_date]',
+                                                 :value => Date.today.to_s }
+  end
+
   def test_get_new_form_should_allow_attachment_upload
     @request.session[:user_id] = 2
     get :new, :project_id => 1, :tracker_id => 1
@@ -676,7 +700,9 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal group, issue.assigned_to
   end
 
-  def test_post_create_without_start_date
+  def test_post_create_without_start_date_and_default_start_date_is_not_creation_date
+    Setting.default_issue_start_date_to_creation_date = 0
+
     @request.session[:user_id] = 2
     assert_difference 'Issue.count' do
       post :create, :project_id => 1,
@@ -685,7 +711,6 @@ class IssuesControllerTest < ActionController::TestCase
                             :subject => 'This is the test_new issue',
                             :description => 'This is the description',
                             :priority_id => 5,
-                            :start_date => '',
                             :estimated_hours => '',
                             :custom_field_values => {'2' => 'Value for field 2'}}
     end
@@ -694,6 +719,27 @@ class IssuesControllerTest < ActionController::TestCase
     issue = Issue.find_by_subject('This is the test_new issue')
     assert_not_nil issue
     assert_nil issue.start_date
+  end
+
+  def test_post_create_without_start_date_and_default_start_date_is_creation_date
+    Setting.default_issue_start_date_to_creation_date = 1
+
+    @request.session[:user_id] = 2
+    assert_difference 'Issue.count' do
+      post :create, :project_id => 1,
+                 :issue => {:tracker_id => 3,
+                            :status_id => 2,
+                            :subject => 'This is the test_new issue',
+                            :description => 'This is the description',
+                            :priority_id => 5,
+                            :estimated_hours => '',
+                            :custom_field_values => {'2' => 'Value for field 2'}}
+    end
+    assert_redirected_to :controller => 'issues', :action => 'show', :id => Issue.last.id
+
+    issue = Issue.find_by_subject('This is the test_new issue')
+    assert_not_nil issue
+    assert_equal Date.today, issue.start_date
   end
 
   def test_post_create_and_continue

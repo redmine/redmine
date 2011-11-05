@@ -1030,3 +1030,4 @@ ja:
   description_wiki_subpages_reassign: Choose new parent page
   description_selected_columns: Selected Columns
   error_scm_annotate_big_text_file: The entry cannot be annotated, as it exceeds the maximum text file size.
+  setting_default_issue_start_date_to_creation_date: Set new issue's start date with today's date value

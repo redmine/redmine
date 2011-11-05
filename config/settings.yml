@@ -123,6 +123,8 @@ cross_project_issue_relations:
   default: 0
 issue_group_assignment:
   default: 0
+default_issue_start_date_to_creation_date:
+  default: 1
 notified_events:
   serialized: true
   default: 

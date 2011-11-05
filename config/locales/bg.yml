@@ -998,3 +998,4 @@ bg:
   description_date_range_interval: Изберете диапазон чрез задаване на начална и крайна дати
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
+  setting_default_issue_start_date_to_creation_date: Set new issue's start date with today's date value
