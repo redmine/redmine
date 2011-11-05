@@ -176,6 +176,7 @@ bg:
   error_scm_not_found: Несъществуващ обект в хранилището.
   error_scm_command_failed: "Грешка при опит за комуникация с хранилище: %{value}"
   error_scm_annotate: "Обектът не съществува или не може да бъде анотиран."
+  error_scm_annotate_big_text_file: "Файлът не може да бъде анотиран, понеже надхвърля максималния размер за текстови файлове."
   error_issue_not_found_in_project: 'Задачата не е намерена или не принадлежи на този проект'
   error_no_tracker_in_project: Няма асоциирани тракери с този проект. Проверете настройките на проекта.
   error_no_default_issue_status: Няма установено подразбиращо се състояние за задачите. Моля проверете вашата конфигурация (Вижте "Администрация -> Състояния на задачи").
@@ -997,4 +998,3 @@ bg:
   description_date_range_interval: Изберете диапазон чрез задаване на начална и крайна дати
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
-  error_scm_annotate_big_text_file: The entry cannot be annotated, as it exceeds the maximum text file size.
