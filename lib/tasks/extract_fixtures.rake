@@ -20,4 +20,3 @@ task :extract_fixtures => :environment do
     end
   end
 end
-
