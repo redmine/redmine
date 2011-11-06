@@ -494,6 +494,16 @@ class WikiControllerTest < ActionController::TestCase
     assert_no_tag :tag => 'a', :attributes => { :href => '/projects/1/wiki/CookBook_documentation/edit' }
   end
 
+  def test_show_pdf
+    @request.session[:user_id] = 2
+    get :show, :project_id => 1, :format => 'pdf'
+    assert_response :success
+    assert_not_nil assigns(:page)
+    assert_equal 'application/pdf', @response.content_type
+    assert_equal 'attachment; filename="CookBook_documentation.pdf"',
+                  @response.headers['Content-Disposition']
+  end
+
   def test_show_html
     @request.session[:user_id] = 2
     get :show, :project_id => 1, :format => 'html'
