@@ -40,6 +40,7 @@ class WikiController < ApplicationController
   helper :attachments
   include AttachmentsHelper
   helper :watchers
+  include Redmine::Export::PDF
 
   # List of pages, sorted alphabetically and by parent (hierarchy)
   def index
@@ -71,7 +72,10 @@ class WikiController < ApplicationController
     end
     @content = @page.content_for_version(params[:version])
     if User.current.allowed_to?(:export_wiki_pages, @project)
-      if params[:format] == 'html'
+      if params[:format] == 'pdf'
+        send_data(wiki_to_pdf(@page, @project), :type => 'application/pdf', :filename => "#{@page.title}.pdf")
+        return
+      elsif params[:format] == 'html'
         export = render_to_string :action => 'export', :layout => false
         send_data(export, :type => 'text/html', :filename => "#{@page.title}.html")
         return

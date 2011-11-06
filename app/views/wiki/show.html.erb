@@ -53,6 +53,7 @@
 <% end %>
 
 <% other_formats_links do |f| %>
+  <%= f.link_to 'PDF', :url => {:id => @page.title, :version => @content.version} %>
   <%= f.link_to 'HTML', :url => {:id => @page.title, :version => @content.version} %>
   <%= f.link_to 'TXT', :url => {:id => @page.title, :version => @content.version} %>
 <% end if User.current.allowed_to?(:export_wiki_pages, @project) %>
