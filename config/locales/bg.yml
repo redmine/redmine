@@ -375,6 +375,7 @@ bg:
   setting_commit_logtime_activity_id: Дейност при отчитане на работното време
   setting_gantt_items_limit: Максимален брой обекти, които да се показват в мрежов график
   setting_issue_group_assignment: Разрешено назначаването на задачи на групи
+  setting_default_issue_start_date_to_creation_date: Начална дата на новите задачи по подразбиране да бъде днешната дата
   
   permission_add_project: Създаване на проект
   permission_add_subprojects: Създаване на подпроекти
@@ -998,4 +999,3 @@ bg:
   description_date_range_interval: Изберете диапазон чрез задаване на начална и крайна дати
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
-  setting_default_issue_start_date_to_creation_date: Set new issue's start date with today's date value
