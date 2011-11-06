@@ -410,6 +410,40 @@ module Redmine
         pdf.Output
       end
 
+      # Returns a PDF string of a single wiki page
+      def wiki_to_pdf(page, project)
+        pdf = ITCPDF.new(current_language)
+        pdf.SetTitle("#{project} - #{page.title}")
+        pdf.alias_nb_pages
+        pdf.footer_date = format_date(Date.today)
+        pdf.AddPage
+        pdf.SetFontStyle('B',11)
+        pdf.RDMMultiCell(190,5,
+             "#{project} - #{page.title} - # #{page.content.version}")
+        pdf.Ln
+        # Set resize image scale
+        pdf.SetImageScale(1.6)
+        pdf.SetFontStyle('',9)
+        pdf.RDMwriteHTMLCell(190,5,0,0,
+              Redmine::WikiFormatting.to_html(
+                Setting.text_formatting, page.content.text.to_s), "TLRB")
+        if page.attachments.any?
+          pdf.Ln
+          pdf.SetFontStyle('B',9)
+          pdf.RDMCell(190,5, l(:label_attachment_plural), "B")
+          pdf.Ln
+          for attachment in page.attachments
+            pdf.SetFontStyle('',8)
+            pdf.RDMCell(80,5, attachment.filename)
+            pdf.RDMCell(20,5, number_to_human_size(attachment.filesize),0,0,"R")
+            pdf.RDMCell(25,5, format_date(attachment.created_on),0,0,"R")
+            pdf.RDMCell(65,5, attachment.author.name,0,0,"R")
+            pdf.Ln
+          end
+        end
+        pdf.Output
+      end
+
       class RDMPdfEncoding
         include Redmine::I18n
         def self.rdm_pdf_iconv(ic, txt)
