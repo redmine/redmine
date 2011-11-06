@@ -494,6 +494,26 @@ class WikiControllerTest < ActionController::TestCase
     assert_no_tag :tag => 'a', :attributes => { :href => '/projects/1/wiki/CookBook_documentation/edit' }
   end
 
+  def test_show_html
+    @request.session[:user_id] = 2
+    get :show, :project_id => 1, :format => 'html'
+    assert_response :success
+    assert_not_nil assigns(:page)
+    assert_equal 'text/html', @response.content_type
+    assert_equal 'attachment; filename="CookBook_documentation.html"',
+                  @response.headers['Content-Disposition']
+  end
+
+  def test_show_txt
+    @request.session[:user_id] = 2
+    get :show, :project_id => 1, :format => 'txt'
+    assert_response :success
+    assert_not_nil assigns(:page)
+    assert_equal 'text/plain', @response.content_type
+    assert_equal 'attachment; filename="CookBook_documentation.txt"',
+                  @response.headers['Content-Disposition']
+  end
+
   def test_edit_unprotected_page
     # Non members can edit unprotected wiki pages
     @request.session[:user_id] = 4
