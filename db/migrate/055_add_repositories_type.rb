@@ -1,6 +1,6 @@
 class AddRepositoriesType < ActiveRecord::Migration
   def self.up
-    add_column :repositories, :type, :string    
+    add_column :repositories, :type, :string
     # Set class name for existing SVN repositories
     Repository.update_all "type = 'Subversion'"
   end
