@@ -9,7 +9,7 @@ class CreateWikiContents < ActiveRecord::Migration
       t.column :version, :integer, :null => false
     end
     add_index :wiki_contents, :page_id, :name => :wiki_contents_page_id
-    
+
     create_table :wiki_content_versions do |t|
       t.column :wiki_content_id, :integer, :null => false
       t.column :page_id, :integer, :null => false
