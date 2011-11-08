@@ -258,6 +258,7 @@
   error_scm_not_found: "在儲存機制中找不到這個項目或修訂版。"
   error_scm_command_failed: "嘗試存取儲存機制時發生錯誤： %{value}"
   error_scm_annotate: "項目不存在或項目無法被加上附註。"
+  error_scm_annotate_big_text_file: 此項目無法被標註，因為它已經超過最大的文字檔大小。
   error_issue_not_found_in_project: '該問題不存在或不屬於此專案'
   error_no_tracker_in_project: '此專案尚未指定追蹤標籤。請檢查專案的設定資訊。'
   error_no_default_issue_status: '尚未定義問題狀態的預設值。請您前往「網站管理」->「問題狀態清單」頁面，檢查相關組態設定。'
@@ -456,6 +457,7 @@
   setting_commit_logtime_activity_id: 時間記錄對應的活動
   setting_gantt_items_limit: 甘特圖中項目顯示數量的最大值
   setting_issue_group_assignment: 允許問題被指派至群組
+  setting_default_issue_start_date_to_creation_date: 設定新問題的起始日期為今天的日期
 
   permission_add_project: 建立專案
   permission_add_subprojects: 建立子專案
@@ -905,6 +907,8 @@
   label_issues_visibility_public: 所有非私人問題
   label_issues_visibility_own: 使用者所建立的或被指派的問題
   label_git_report_last_commit: 報告最後認可的文件和目錄
+  label_parent_revision: 父項
+  label_child_revision: 子項
 
   button_login: 登入
   button_submit: 送出
@@ -1060,24 +1064,20 @@
   enumeration_doc_categories: 文件分類
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
-  description_query_sort_criteria_direction: Sort direction
-  description_project_scope: Search scope
-  description_filter: Filter
-  description_user_mail_notification: Mail notification settings
-  description_date_from: Enter start date
-  description_message_content: Message content
-  description_available_columns: Available Columns
-  description_date_range_interval: Choose range by selecting start and end date
-  description_issue_category_reassign: Choose issue category
-  description_search: Searchfield
-  description_notes: Notes
-  description_date_range_list: Choose range from list
-  description_choose_project: Projects
-  description_date_to: Enter end date
-  description_query_sort_criteria_attribute: Sort attribute
-  description_wiki_subpages_reassign: Choose new parent page
-  description_selected_columns: Selected Columns
-  label_parent_revision: Parent
-  label_child_revision: Child
-  error_scm_annotate_big_text_file: The entry cannot be annotated, as it exceeds the maximum text file size.
-  setting_default_issue_start_date_to_creation_date: Set new issue's start date with today's date value
+  description_filter: 篩選條件
+  description_search: 搜尋欄位
+  description_choose_project: 專案清單
+  description_project_scope: 搜尋範圍
+  description_notes: 筆記
+  description_message_content: 訊息內容
+  description_query_sort_criteria_attribute: 排序屬性
+  description_query_sort_criteria_direction: 排列順序
+  description_user_mail_notification: 郵件通知設定
+  description_available_columns: 可用欄位
+  description_selected_columns: 已選取的欄位
+  description_issue_category_reassign: 選擇問題分類
+  description_wiki_subpages_reassign: 選擇新的父頁面
+  description_date_range_list: 從清單中選取範圍
+  description_date_range_interval: 選擇起始與結束日期以設定範圍區間
+  description_date_from: 輸入起始日期
+  description_date_to: 輸入結束日期
