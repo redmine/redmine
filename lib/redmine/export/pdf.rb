@@ -28,6 +28,7 @@ module Redmine
     module PDF
       include ActionView::Helpers::TextHelper
       include ActionView::Helpers::NumberHelper
+      include IssuesHelper
 
       class ITCPDF < TCPDF
         include Redmine::I18n
@@ -186,7 +187,7 @@ module Redmine
         pdf.SetFontStyle('',8)
         pdf.SetFillColor(255, 255, 255)
         previous_group = false
-        issues.each do |issue|
+        issue_list(issues) do |issue, level|
           if query.grouped? &&
                (group = query.group_by_column.value(issue)) != previous_group
             pdf.SetFontStyle('B',9)
@@ -203,6 +204,9 @@ module Redmine
               show_value(cv)
             else
               value = issue.send(column.name)
+              if column.name == :subject
+                value = "  " * level + value
+              end
               if value.is_a?(Date)
                 format_date(value)
               elsif value.is_a?(Time)
