@@ -58,8 +58,7 @@ class IssueStatus < ActiveRecord::Base
       transitions = workflows.select do |w|
         role_ids.include?(w.role_id) &&
         w.tracker_id == tracker.id && 
-        (author || !w.author) &&
-        (assignee || !w.assignee)
+        ((!w.author && !w.assignee) || (author && w.author) || (assignee && w.assignee))
       end
       transitions.collect{|w| w.new_status}.compact.sort
     else
@@ -70,14 +69,17 @@ class IssueStatus < ActiveRecord::Base
   # Same thing as above but uses a database query
   # More efficient than the previous method if called just once
   def find_new_statuses_allowed_to(roles, tracker, author=false, assignee=false)
-    if roles && tracker
-      conditions = {:role_id => roles.collect(&:id), :tracker_id => tracker.id}
-      conditions[:author] = false unless author
-      conditions[:assignee] = false unless assignee
+    if roles.present? && tracker
+      conditions = "(author = :false AND assignee = :false)"
+      conditions << " OR author = :true" if author
+      conditions << " OR assignee = :true" if assignee
       
       workflows.find(:all,
-                     :include => :new_status,
-                     :conditions => conditions).collect{|w| w.new_status}.compact.sort
+        :include => :new_status,
+        :conditions => ["role_id IN (:role_ids) AND tracker_id = :tracker_id AND (#{conditions})", 
+          {:role_ids => roles.collect(&:id), :tracker_id => tracker.id, :true => true, :false => false}
+          ]
+        ).collect{|w| w.new_status}.compact.sort
     else
       []
     end

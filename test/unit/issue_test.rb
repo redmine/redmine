@@ -293,10 +293,10 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal [1, 2], issue.new_statuses_allowed_to(user).map(&:id)
 
     issue = Issue.generate!(:tracker => tracker, :status => status, :project_id => 1, :author => user)
-    assert_equal [1, 2, 3], issue.new_statuses_allowed_to(user).map(&:id)
+    assert_equal [1, 2, 3, 5], issue.new_statuses_allowed_to(user).map(&:id)
 
     issue = Issue.generate!(:tracker => tracker, :status => status, :project_id => 1, :assigned_to => user)
-    assert_equal [1, 2, 4], issue.new_statuses_allowed_to(user).map(&:id)
+    assert_equal [1, 2, 4, 5], issue.new_statuses_allowed_to(user).map(&:id)
 
     issue = Issue.generate!(:tracker => tracker, :status => status, :project_id => 1, :author => user, :assigned_to => user)
     assert_equal [1, 2, 3, 4, 5], issue.new_statuses_allowed_to(user).map(&:id)
