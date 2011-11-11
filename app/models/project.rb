@@ -810,6 +810,7 @@ class Project < ActiveRecord::Base
       new_query.attributes = query.attributes.dup.except("id", "project_id", "sort_criteria")
       new_query.sort_criteria = query.sort_criteria if query.sort_criteria
       new_query.project = self
+      new_query.user_id = query.user_id
       self.queries << new_query
     end
   end
