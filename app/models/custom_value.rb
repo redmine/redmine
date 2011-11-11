@@ -64,7 +64,7 @@ protected
       when 'float'
         begin; Kernel.Float(value); rescue; errors.add(:value, :invalid) end
       when 'date'
-        errors.add(:value, :not_a_date) unless value =~ /^\d{4}-\d{2}-\d{2}$/
+        errors.add(:value, :not_a_date) unless value =~ /^\d{4}-\d{2}-\d{2}$/ && begin; value.to_date; rescue; false end
       when 'list'
         errors.add(:value, :inclusion) unless custom_field.possible_values.include?(value)
       end
