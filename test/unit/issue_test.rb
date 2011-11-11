@@ -160,6 +160,29 @@ class IssueTest < ActiveSupport::TestCase
     assert_visibility_match user, issues
   end
 
+  def test_visible_scope_for_member_with_groups_should_return_assigned_issues
+    user = User.find(8)
+    assert user.groups.any?
+    Member.create!(:principal => user.groups.first, :project_id => 1, :role_ids => [2])
+    Role.non_member.remove_permission!(:view_issues)
+    
+    issue = Issue.create(:project_id => 1, :tracker_id => 1, :author_id => 3,
+      :status_id => 1, :priority => IssuePriority.all.first,
+      :subject => 'Assignment test',
+      :assigned_to => user.groups.first,
+      :is_private => true)
+    
+    Role.find(2).update_attribute :issues_visibility, 'default'
+    issues = Issue.visible(User.find(8)).all
+    assert issues.any?
+    assert issues.include?(issue)
+    
+    Role.find(2).update_attribute :issues_visibility, 'own'
+    issues = Issue.visible(User.find(8)).all
+    assert issues.any?
+    assert issues.include?(issue)
+  end
+
   def test_visible_scope_for_admin
     user = User.find(1)
     user.members.each(&:destroy)
