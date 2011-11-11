@@ -278,6 +278,16 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_kind_of Issue, issue
     assert_equal tracker, issue.tracker
   end
+  
+  def test_add_issue_from_apple_mail
+    issue = submit_email('apple_mail_with_attachment.eml', :issue => {:project => 'ecookbook'})
+    assert_kind_of Issue, issue
+    assert_equal 1, issue.attachments.size
+    
+    attachment = issue.attachments.first
+    assert_equal 'paella.jpg', attachment.filename
+    assert_equal 10790, attachment.filesize
+  end
 
   def test_should_ignore_emails_from_emission_address
     Role.anonymous.add_permission!(:add_issues)
