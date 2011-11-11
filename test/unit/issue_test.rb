@@ -674,6 +674,15 @@ class IssueTest < ActiveSupport::TestCase
       assert issue.assignable_users.include?(non_project_member)
     end
 
+    should "include the current assignee" do
+      project = Project.find(1)
+      user = User.generate!
+      issue = Issue.generate_for_project!(project, :assigned_to => user)
+      user.lock!
+
+      assert Issue.find(issue.id).assignable_users.include?(user)
+    end
+
     should "not show the issue author twice" do
       assignable_user_ids = Issue.find(1).assignable_users.collect(&:id)
       assert_equal 2, assignable_user_ids.length
