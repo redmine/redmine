@@ -1509,7 +1509,7 @@ class IssuesControllerTest < ActionController::TestCase
       :attributes => {:name => "issue[custom_field_values][#{field.id}]"},
       :children => {
         :only => {:tag => 'option'},
-        :count => Project.find(1).versions.count + 1
+        :count => Project.find(1).shared_versions.count + 1
       }
   end
 
