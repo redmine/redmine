@@ -53,6 +53,20 @@ class Redmine::CipheringTest < ActiveSupport::TestCase
       assert_equal 'clear', r.password
     end
   end
+  
+  def test_ciphered_password_with_no_cipher_key_configured_should_be_returned_ciphered
+    Redmine::Configuration.with 'database_cipher_key' => 'secret' do
+      r = Repository::Subversion.generate!(:password => 'clear')
+    end
+
+    Redmine::Configuration.with 'database_cipher_key' => '' do
+      r = Repository.first(:order => 'id DESC')
+      # password can not be deciphered
+      assert_nothing_raised do
+        assert r.password.match(/\Aaes-256-cbc:.+\Z/)
+      end
+    end
+  end
 
   def test_encrypt_all
     Repository.delete_all
