@@ -72,6 +72,10 @@ class TCPDF
   include Core::RFPDF
   include RFPDF::Math
   
+  def logger
+    Rails.logger
+  end
+
   cattr_accessor :k_cell_height_ratio
   @@k_cell_height_ratio = 1.25
 
