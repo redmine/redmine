@@ -285,8 +285,18 @@ module Redmine
         pdf.footer_date = format_date(Date.today)
         pdf.AddPage
         pdf.SetFontStyle('B',11)
-        pdf.RDMMultiCell(190,5,
-             "#{issue.project} - #{issue.tracker} # #{issue.id}: #{issue.subject}")
+        buf = "#{issue.project} - #{issue.tracker} # #{issue.id}"
+        pdf.RDMMultiCell(190, 5, buf)
+        pdf.Ln
+        pdf.SetFontStyle('',8)
+        base_x = pdf.GetX
+        i = 1
+        issue.ancestors.each do |ancestor|
+          pdf.SetX(base_x + i)
+          buf = "#{ancestor.tracker} # #{ancestor.id} (#{ancestor.status.to_s}): #{ancestor.subject}"
+          pdf.RDMMultiCell(190 - i, 5, buf)
+          i += 1 if i < 35
+        end
         pdf.Ln
 
         pdf.SetFontStyle('B',9)
