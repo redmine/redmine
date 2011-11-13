@@ -971,11 +971,12 @@ zh:
   field_root_directory: 根目录
   field_cvs_module: CVS Module
   field_cvsroot: CVSROOT
-  text_git_repository_note: Bare and local repository (e.g. /gitrepo, c:\gitrepo)
   text_mercurial_repository_note: 本地库 (e.g. /hgrepo, c:\hgrepo)
   text_scm_command: 命令
   text_scm_command_version: 版本
   label_git_report_last_commit: 报告最后一次文件/目录提交
   text_scm_config: 您可以在config/configuration.yml中配置您的SCM命令。 请在编辑后，重启Redmine应用。
   text_scm_command_not_available: Scm命令不可用。 请检查管理面板的配置。
+
+  text_git_repository_note: 库中无内容。(e.g. /gitrepo, c:\gitrepo)
 
