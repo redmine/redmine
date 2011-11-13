@@ -909,8 +909,8 @@ zh:
   text_wiki_page_destroy_children: 删除子页面及其所有下级页面
   text_wiki_page_reassign_children: 将子页面的上级页面设置为
   text_own_membership_delete_confirmation: 你正在删除你现有的某些或全部权限，如果这样做了你可能将会再也无法编辑该项目了。你确定要继续吗？
-  text_zoom_in: Zoom in
-  text_zoom_out: Zoom out
+  text_zoom_in: 放大
+  text_zoom_out: 缩小
 
   default_role_manager: 管理人员
   default_role_developer: 开发人员
@@ -939,42 +939,43 @@ zh:
   enumeration_activities: 活动（时间跟踪）
   enumeration_system_activity: 系统活动
 
-  field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
-  text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
-  label_my_queries: My custom queries
-  text_journal_changed_no_detail: "%{label} updated"
-  label_news_comment_added: Comment added to a news
-  button_expand_all: Expand all
-  button_collapse_all: Collapse all
-  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
-  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
-  label_bulk_edit_selected_time_entries: Bulk edit selected time entries
-  text_time_entries_destroy_confirmation: Are you sure you want to delete the selected time entr(y/ies)?
+  field_warn_on_leaving_unsaved: 当离开未保存内容的页面时，提示我
+  text_warn_on_leaving_unsaved: 若离开当前页面，则该页面内未保存的内容将丢失。
+  label_my_queries: 我的自定义查询
+  text_journal_changed_no_detail: "%{label} 已更新。"
+  label_news_comment_added: 添加到新闻的评论
+  button_expand_all: 展开所有
+  button_collapse_all: 合拢所有
+  label_additional_workflow_transitions_for_assignee: 当用户是问题的分配对象时所允许的问题状态转换
+  label_additional_workflow_transitions_for_author: 当用户是问题作者时所允许的问题状态转换
+  label_bulk_edit_selected_time_entries: 批量修改选定的时间条目
+  text_time_entries_destroy_confirmation: 是否确定要删除选定的时间条目？
   label_role_anonymous: Anonymous
   label_role_non_member: Non member
-  label_issue_note_added: Note added
-  label_issue_status_updated: Status updated
-  label_issue_priority_updated: Priority updated
-  label_issues_visibility_own: Issues created by or assigned to the user
-  field_issues_visibility: Issues visibility
-  label_issues_visibility_all: All issues
-  permission_set_own_issues_private: Set own issues public or private
-  field_is_private: Private
-  permission_set_issues_private: Set issues public or private
-  label_issues_visibility_public: All non private issues
-  text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
+  label_issue_note_added: 问题备注已添加
+  label_issue_status_updated: 问题状态更新
+  label_issue_priority_updated: 问题优先级更新
+  label_issues_visibility_own: 创建或分配给用户的问题
+  field_issues_visibility: 问题可见
+  label_issues_visibility_all: 全部问题
+  permission_set_own_issues_private: 设置自己的问题为公开或私有
+  field_is_private: 私有
+  permission_set_issues_private: 设置问题为公开或私有
+  label_issues_visibility_public: 全部非私有问题
+  text_issues_destroy_descendants_confirmation: 此操作同时会删除 %{count} 个子任务。
 
   field_commit_logs_encoding: 提交注释的编码
-  field_scm_path_encoding: Path encoding
-  text_scm_path_encoding_note: "Default: UTF-8"
-  field_path_to_repository: Path to repository
-  field_root_directory: Root directory
-  field_cvs_module: Module
+  field_scm_path_encoding: 路径编码
+  text_scm_path_encoding_note: "默认: UTF-8"
+  field_path_to_repository: 库路径
+  field_root_directory: 根目录
+  field_cvs_module: CVS Module
   field_cvsroot: CVSROOT
   text_git_repository_note: Bare and local repository (e.g. /gitrepo, c:\gitrepo)
-  text_mercurial_repository_note: Local repository (e.g. /hgrepo, c:\hgrepo)
-  text_scm_command: Command
-  text_scm_command_version: Version
-  label_git_report_last_commit: Report last commit for files and directories
-  text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.
-  text_scm_command_not_available: Scm command is not available. Please check settings on the administration panel.
+  text_mercurial_repository_note: 本地库 (e.g. /hgrepo, c:\hgrepo)
+  text_scm_command: 命令
+  text_scm_command_version: 版本
+  label_git_report_last_commit: 报告最后一次文件/目录提交
+  text_scm_config: 您可以在config/configuration.yml中配置您的SCM命令。 请在编辑后，重启Redmine应用。
+  text_scm_command_not_available: Scm命令不可用。 请检查管理面板的配置。
+
