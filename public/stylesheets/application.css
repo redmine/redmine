@@ -396,7 +396,7 @@ p.pagination {margin-top:8px;}
 .tabular p{
 margin: 0;
 padding: 5px 0 8px 0;
-padding-left: 180px; /*width of left column containing the label elements*/
+padding-left: 180px; /* width of left column containing the label elements */
 height: 1%;
 clear:left;
 }
@@ -407,9 +407,10 @@ html>body .tabular p {overflow:hidden;}
 font-weight: bold;
 float: left;
 text-align: right;
-margin-left: -180px; /*width of left column*/
-width: 175px; /*width of labels. Should be smaller than left column to create some right 
-margin*/
+/* width of left column */
+margin-left: -180px;
+/* width of labels. Should be smaller than left column to create some right margin */
+width: 175px;
 }
 
 .tabular label.floating{
@@ -929,8 +930,8 @@ padding-bottom: 3px;
 
 img.gravatar {
     padding: 2px;
-  border: solid 1px #d5d5d5;
-  background: #fff;
+    border: solid 1px #d5d5d5;
+    background: #fff;
 }
 
 div.issue img.gravatar {
