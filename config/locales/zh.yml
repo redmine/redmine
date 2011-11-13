@@ -978,29 +978,28 @@ zh:
   text_scm_config: 您可以在config/configuration.yml中配置您的SCM命令。 请在编辑后，重启Redmine应用。
   text_scm_command_not_available: Scm命令不可用。 请检查管理面板的配置。
   text_git_repository_note: 库中无内容。(e.g. /gitrepo, c:\gitrepo)
-
-  notice_issue_successful_create: Issue %{id} created.
-  label_between: between
-  setting_issue_group_assignment: Allow issue assignment to groups
+  notice_issue_successful_create: 问题 %{id} 已创建。
+  label_between: 介于
+  setting_issue_group_assignment: 允许问题被分配给组
   label_diff: diff
-  description_query_sort_criteria_direction: Sort direction
-  description_project_scope: Search scope
-  description_filter: Filter
-  description_user_mail_notification: Mail notification settings
-  description_date_from: Enter start date
-  description_message_content: Message content
-  description_available_columns: Available Columns
-  description_date_range_interval: Choose range by selecting start and end date
-  description_issue_category_reassign: Choose issue category
-  description_search: Searchfield
-  description_notes: Notes
-  description_date_range_list: Choose range from list
-  description_choose_project: Projects
-  description_date_to: Enter end date
-  description_query_sort_criteria_attribute: Sort attribute
-  description_wiki_subpages_reassign: Choose new parent page
-  description_selected_columns: Selected Columns
-  label_parent_revision: Parent
-  label_child_revision: Child
-  error_scm_annotate_big_text_file: The entry cannot be annotated, as it exceeds the maximum text file size.
-  setting_default_issue_start_date_to_creation_date: Use current date as start date for new issues
+  description_query_sort_criteria_direction: 排序方式
+  description_project_scope: 搜索范围
+  description_filter: 过滤器
+  description_user_mail_notification: 邮件通知设置
+  description_date_from: 输入开始日期
+  description_message_content: 信息内容
+  description_available_columns: 备选列
+  description_date_range_interval: 按开始日期和结束日期选择范围
+  description_issue_category_reassign: 选择问题类别
+  description_search: 搜索字段
+  description_notes: 批注
+  description_date_range_list: 从列表中选择范围
+  description_choose_project: 项目
+  description_date_to: 输入结束日期
+  description_query_sort_criteria_attribute: 排序方式
+  description_wiki_subpages_reassign: 选择父页面
+  description_selected_columns: 已选列
+  label_parent_revision: 父修订
+  label_child_revision: 子修订
+  error_scm_annotate_big_text_file: 输入文本内容超长，无法输入。
+  setting_default_issue_start_date_to_creation_date: 使用当前日期作为新问题的开始日期
