@@ -42,4 +42,17 @@ class SettingTest < ActiveSupport::TestCase
     assert_equal ['issue_added', 'issue_updated', 'news_added'], Setting.notified_events
     assert_equal ['issue_added', 'issue_updated', 'news_added'], Setting.find_by_name('notified_events').value
   end
+  
+  def test_setting_should_be_reloaded_after_clear_cache
+    Setting.app_title = "My title"
+    assert_equal "My title", Setting.app_title
+    
+    s = Setting.find_by_name("app_title")
+    s.value = 'New title'
+    s.save!
+    assert_equal "My title", Setting.app_title
+    
+    Setting.clear_cache
+    assert_equal "New title", Setting.app_title
+  end
 end

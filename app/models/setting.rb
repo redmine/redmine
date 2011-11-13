@@ -151,10 +151,15 @@ class Setting < ActiveRecord::Base
   def self.check_cache
     settings_updated_on = Setting.maximum(:updated_on)
     if settings_updated_on && @cached_cleared_on <= settings_updated_on
-      @cached_settings.clear
-      @cached_cleared_on = Time.now
-      logger.info "Settings cache cleared." if logger
+      clear_cache
     end
+  end
+  
+  # Clears the settings cache
+  def self.clear_cache
+    @cached_settings.clear
+    @cached_cleared_on = Time.now
+    logger.info "Settings cache cleared." if logger
   end
 
 private
