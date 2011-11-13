@@ -378,7 +378,7 @@ class Mailer < ActionMailer::Base
     headers 'X-Mailer' => 'Redmine',
             'X-Redmine-Host' => Setting.host_name,
             'X-Redmine-Site' => Setting.app_title,
-            'Precedence' => 'bulk',
+            'X-Auto-Response-Suppress' => 'OOF',
             'Auto-Submitted' => 'auto-generated'
   end
 

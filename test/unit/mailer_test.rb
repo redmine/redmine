@@ -134,7 +134,7 @@ class MailerTest < ActiveSupport::TestCase
     Mailer.deliver_issue_add(issue)
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
-    assert_equal 'bulk', mail.header_string('Precedence')
+    assert_equal 'OOF', mail.header_string('X-Auto-Response-Suppress')
     assert_equal 'auto-generated', mail.header_string('Auto-Submitted')
   end
 
