@@ -273,7 +273,7 @@ zh:
   field_attr_mail: 邮件属性
   field_onthefly: 即时用户生成
   field_start_date: 开始日期
-  field_done_ratio: % 完成
+  field_done_ratio: "% 完成"
   field_auth_source: 认证模式
   field_hide_mail: 隐藏我的邮件地址
   field_comments: 注释
