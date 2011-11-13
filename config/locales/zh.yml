@@ -240,7 +240,7 @@ zh:
   field_is_default: 默认值
   field_tracker: 跟踪
   field_subject: 主题
-  field_due_date: 完成日期
+  field_due_date: 计划完成日期
   field_assigned_to: 指派给
   field_priority: 优先级
   field_fixed_version: 目标版本
@@ -401,7 +401,7 @@ zh:
   permission_manage_files: 管理文件
   permission_view_files: 查看文件
   permission_manage_wiki: 管理Wiki
-  permission_rename_wiki_pages: 重命名Wiki页面
+  permission_rename_wiki_pages: 重定向/重命名Wiki页面
   permission_delete_wiki_pages: 删除Wiki页面
   permission_view_wiki_pages: 查看Wiki
   permission_view_wiki_edits: 查看Wiki历史记录
@@ -831,7 +831,7 @@ zh:
   button_archive: 存档
   button_unarchive: 取消存档
   button_reset: 重置
-  button_rename: 重命名
+  button_rename: 重命名/重定向
   button_change_password: 修改密码
   button_copy: 复制
   button_copy_and_follow: 复制并转到新问题
