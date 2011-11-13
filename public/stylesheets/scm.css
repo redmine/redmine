@@ -7,9 +7,9 @@ table.revision-info td {
 div.changeset-changes ul { margin: 0; padding: 0; }
 div.changeset-changes ul > ul { margin-left: 18px; padding: 0; }
 
-li.change { 
+li.change {
     list-style-type:none;
-    background-image: url(../images/bullet_black.png); 
+    background-image: url(../images/bullet_black.png);
     background-position: 1px 1px;
     background-repeat: no-repeat;
     padding-top: 1px;
@@ -76,7 +76,7 @@ table.annotate td.revision {
     padding-left: 1em;
     background: inherit;
 }
-    
+
 table.annotate td.author {
     text-align: center;
     border-right: 1px solid #d7d7d7;
