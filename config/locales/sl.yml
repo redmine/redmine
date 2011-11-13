@@ -821,9 +821,9 @@ sl:
   mail_subject_wiki_content_updated: "'%{id}' wiki stran je bila posodobljena"
   label_wiki_content_added: Wiki stran dodana
   mail_subject_wiki_content_added: "'%{id}' wiki stran je bila dodana"
-  mail_body_wiki_content_added: %{author} je dodal '%{id}' wiki stran
+  mail_body_wiki_content_added: "%{author} je dodal '%{id}' wiki stran"
   label_wiki_content_updated: Wiki stran posodobljena
-  mail_body_wiki_content_updated: %{author} je posodobil '%{id}' wiki stran.
+  mail_body_wiki_content_updated: "%{author} je posodobil '%{id}' wiki stran."
   permission_add_project: Ustvari projekt
   setting_new_project_user_role_id: Vloga, dodeljena neadministratorskemu uporabniku, ki je ustvaril projekt
   label_view_all_revisions: Poglej vse revizije
