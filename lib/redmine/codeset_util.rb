@@ -34,5 +34,49 @@ module Redmine
       end
       str
     end
+
+    def self.to_utf8(str, encoding)
+      return str if str.nil?
+      str.force_encoding("ASCII-8BIT") if str.respond_to?(:force_encoding)
+      if str.empty?
+        str.force_encoding("UTF-8") if str.respond_to?(:force_encoding)
+        return str
+      end
+      enc = encoding.blank? ? "UTF-8" : encoding
+      if str.respond_to?(:force_encoding)
+        if enc.upcase != "UTF-8"
+          str.force_encoding(enc)
+          str = str.encode("UTF-8", :invalid => :replace,
+                :undef => :replace, :replace => '?')
+        else
+          str.force_encoding("UTF-8")
+          if ! str.valid_encoding?
+            str = str.encode("US-ASCII", :invalid => :replace,
+                  :undef => :replace, :replace => '?').encode("UTF-8")
+          end
+        end
+      elsif RUBY_PLATFORM == 'java'
+        begin
+          ic = Iconv.new('UTF-8', enc)
+          str = ic.iconv(str)
+        rescue
+          str = str.gsub(%r{[^\r\n\t\x20-\x7e]}, '?')
+        end
+      else
+        ic = Iconv.new('UTF-8', enc)
+        txtar = ""
+        begin
+          txtar += ic.iconv(str)
+        rescue Iconv::IllegalSequence
+          txtar += $!.success
+          str = '?' + $!.failed[1,$!.failed.length]
+          retry
+        rescue
+          txtar += $!.success
+        end
+        str = txtar
+      end
+      str
+    end
   end
 end
