@@ -204,8 +204,6 @@ sub access_handler {
 
   my $method = $r->method;
   return OK unless defined $read_only_methods{$method};
-    
-  return OK if is_authentication_forced($r);
 
   my $project_id = get_project_identifier($r);
 
@@ -220,12 +218,6 @@ sub authen_handler {
   
   my ($res, $redmine_pass) =  $r->get_basic_auth_pw();
   return $res unless $res == OK;
-  
-  my $project_id = get_project_identifier($r);
-  my $method = $r->method;
-  if (defined $read_only_methods{$method} && is_public_project($project_id, $r) && non_member_role_allows_browse_repository($r)) {
-      return OK;
-  }
   
   if (is_member($r->user, $redmine_pass, $r)) {
       return OK;
@@ -263,6 +255,10 @@ sub is_authentication_forced {
 sub is_public_project {
     my $project_id = shift;
     my $r = shift;
+    
+    if (is_authentication_forced($r)) {
+      return 0;
+    }
 
     my $dbh = connect_database($r);
     my $sth = $dbh->prepare(
@@ -284,16 +280,15 @@ sub is_public_project {
     $ret;
 }
 
-sub system_role_allows_browse_repository {
+sub anonymous_role_allows_browse_repository {
   my $r = shift;
-  my $system_role = shift;
   
   my $dbh = connect_database($r);
   my $sth = $dbh->prepare(
-      "SELECT permissions FROM roles WHERE builtin = ?;"
+      "SELECT permissions FROM roles WHERE builtin = 2;"
   );
   
-  $sth->execute($system_role);
+  $sth->execute();
   my $ret = 0;
   if (my @row = $sth->fetchrow_array) {
     if ($row[0] =~ /:browse_repository/) {
@@ -305,18 +300,6 @@ sub system_role_allows_browse_repository {
   $dbh->disconnect();
   undef $dbh;
   
-  $ret;
-}
-
-sub non_member_role_allows_browse_repository {
-  my $r = shift;
-  my $ret = system_role_allows_browse_repository($r, 1);
-  $ret;
-}
-
-sub anonymous_role_allows_browse_repository {
-  my $r = shift;
-  my $ret = system_role_allows_browse_repository($r, 2);
   $ret;
 }
 
