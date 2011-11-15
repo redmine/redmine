@@ -162,9 +162,10 @@ module CollectiveIdea #:nodoc:
         end
                 
         # Rebuilds the left & rights if unset or invalid.  Also very useful for converting from acts_as_tree.
-        def rebuild!
+        def rebuild!(force=false)
           # Don't rebuild a valid tree.
-          return true if valid?
+          # valid? doesn't strictly validate the tree
+          return true if !force && valid?
           
           scope = lambda{|node|}
           if acts_as_nested_set_options[:scope]
