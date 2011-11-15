@@ -6,6 +6,10 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
            :issues, :time_entries, :users, :trackers, :enumerations,
            :issue_statuses, :custom_fields, :custom_values
 
+  def setup
+    Setting.default_language = "en"
+  end
+
   def test_report_at_project_level
     get :report, :project_id => 'ecookbook'
     assert_response :success
@@ -142,5 +146,46 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
                  lines.first
     # Total row
     assert_equal 'Total,"","","","",154.25,8.65,"","",162.90', lines.last
+  end
+
+  def test_csv_big_5
+    Setting.default_language = "zh-TW"
+    str_utf8  = "\xe4\xb8\x80\xe6\x9c\x88"
+    str_big5  = "\xa4@\xa4\xeb"
+    if str_utf8.respond_to?(:force_encoding)
+      str_utf8.force_encoding('UTF-8')
+      str_big5.force_encoding('Big5')
+    end
+    user = User.find_by_id(3)
+    user.firstname = str_utf8
+    user.lastname  = "test-lastname"
+    assert user.save
+    comments = "test_csv_big_5"
+    te1 = TimeEntry.create(:spent_on => '2011-11-11',
+                           :hours    => 7.3,
+                           :project  => Project.find(1),
+                           :user     => user,
+                           :activity => TimeEntryActivity.find_by_name('Design'),
+                           :comments => comments)
+
+    te2 = TimeEntry.find_by_comments(comments)
+    assert_not_nil te2
+    assert_equal 7.3, te2.hours
+    assert_equal 3, te2.user_id
+
+    get :report, :project_id => 1, :columns => 'day',
+        :from => "2011-11-11", :to => "2011-11-11",
+        :criterias => ["member"], :format => "csv"
+    assert_response :success
+    assert_equal 'text/csv', @response.content_type
+    lines = @response.body.chomp.split("\n")    
+    # Headers
+    s1 = "\xa6\xa8\xad\xfb,2011-11-11,\xc1`\xadp"
+    if s1.respond_to?(:force_encoding)
+      s1.force_encoding('Big5')
+    end
+    assert_equal s1, lines.first
+    # Total row
+    assert_equal "#{str_big5} #{user.lastname},7.30,7.30", lines[1]
   end
 end
