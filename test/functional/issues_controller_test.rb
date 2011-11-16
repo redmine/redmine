@@ -296,6 +296,34 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 'text/csv', @response.content_type
   end
 
+  def test_index_csv_big_5
+    with_settings :default_language => "zh-TW" do
+      str_utf8  = "\xe4\xb8\x80\xe6\x9c\x88"
+      str_big5  = "\xa4@\xa4\xeb"
+      if str_utf8.respond_to?(:force_encoding)
+        str_utf8.force_encoding('UTF-8')
+        str_big5.force_encoding('Big5')
+      end
+      issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 3,
+                        :status_id => 1, :priority => IssuePriority.all.first,
+                        :subject => str_utf8)
+      assert issue.save
+
+      get :index, :project_id => 1, 
+                  :f => ['subject'], 
+                  :op => '=', :values => [str_utf8],
+                  :format => 'csv'
+      assert_equal 'text/csv', @response.content_type
+      lines = @response.body.chomp.split("\n")    
+      s1 = "\xaa\xac\xbaA"
+      if str_utf8.respond_to?(:force_encoding)
+        s1.force_encoding('Big5')
+      end
+      assert lines[0].include?(s1)
+      assert lines[1].include?(str_big5)
+    end
+  end
+
   def test_index_pdf
     get :index, :format => 'pdf'
     assert_response :success
