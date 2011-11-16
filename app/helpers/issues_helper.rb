@@ -264,7 +264,6 @@ module IssuesHelper
   end
 
   def issues_to_csv(issues, project = nil)
-    ic = Iconv.new(l(:general_csv_encoding), 'UTF-8')
     decimal_separator = l(:general_csv_decimal_separator)
     export = FCSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
       # csv header fields
@@ -292,7 +291,9 @@ module IssuesHelper
       custom_fields.each {|f| headers << f.name}
       # Description in the last column
       headers << l(:field_description)
-      csv << headers.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }
+      csv << headers.collect {|c| Redmine::CodesetUtil.from_utf8(
+                                    c.to_s,
+                                    l(:general_csv_encoding) ) }
       # csv lines
       issues.each do |issue|
         fields = [issue.id,
@@ -315,7 +316,9 @@ module IssuesHelper
                   ]
         custom_fields.each {|f| fields << show_value(issue.custom_value_for(f)) }
         fields << issue.description
-        csv << fields.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }
+        csv << fields.collect {|c| Redmine::CodesetUtil.from_utf8(
+                                    c.to_s,
+                                    l(:general_csv_encoding) ) }
       end
     end
     export

@@ -324,6 +324,41 @@ class IssuesControllerTest < ActionController::TestCase
     end
   end
 
+  def test_index_csv_cannot_convert_should_be_replaced_big_5
+    with_settings :default_language => "zh-TW" do
+      str_utf8  = "\xe4\xbb\xa5\xe5\x86\x85"
+      if str_utf8.respond_to?(:force_encoding)
+        str_utf8.force_encoding('UTF-8')
+      end
+      issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 3,
+                        :status_id => 1, :priority => IssuePriority.all.first,
+                        :subject => str_utf8)
+      assert issue.save
+
+      get :index, :project_id => 1, 
+                  :f => ['subject'], 
+                  :op => '=', :values => [str_utf8],
+                  :format => 'csv'
+      assert_equal 'text/csv', @response.content_type
+      lines = @response.body.chomp.split("\n")    
+      s1 = "\xaa\xac\xbaA"
+      if str_utf8.respond_to?(:force_encoding)
+        s1.force_encoding('Big5')
+      end
+      assert lines[0].include?(s1)
+      s2 = lines[1].split(",")[5]
+      if s1.respond_to?(:force_encoding)
+        s3 = "\xa5H?"
+        s3.force_encoding('Big5')
+        assert_equal s3, s2
+      elsif RUBY_PLATFORM == 'java'
+        assert_equal "??", s2
+      else
+        assert_equal "\xa5H???", s2
+      end
+    end
+  end
+
   def test_index_pdf
     get :index, :format => 'pdf'
     assert_response :success
