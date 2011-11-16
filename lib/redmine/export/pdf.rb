@@ -154,7 +154,8 @@ module Redmine
         col_width = []
         unless query.columns.empty?
           col_width = query.columns.collect do |c|
-            (c.name == :subject || (c.is_a?(QueryCustomFieldColumn) && ['string', 'text'].include?(c.custom_field.field_format)))? 4.0 : 1.0
+            (c.name == :subject || (c.is_a?(QueryCustomFieldColumn) &&
+              ['string', 'text'].include?(c.custom_field.field_format))) ? 4.0 : 1.0
           end
           ratio = (table_width - col_id_width) / col_width.inject(0) {|s,w| s += w}
           col_width = col_width.collect {|w| w * ratio}
