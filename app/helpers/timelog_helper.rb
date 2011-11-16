@@ -84,7 +84,6 @@ module TimelogHelper
   end
 
   def entries_to_csv(entries)
-    ic = Iconv.new(l(:general_csv_encoding), 'UTF-8')
     decimal_separator = l(:general_csv_decimal_separator)
     custom_fields = TimeEntryCustomField.find(:all)
     export = FCSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
@@ -102,7 +101,9 @@ module TimelogHelper
       # Export custom fields
       headers += custom_fields.collect(&:name)
 
-      csv << headers.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }
+      csv << headers.collect {|c| Redmine::CodesetUtil.from_utf8(
+                                     c.to_s,
+                                     l(:general_csv_encoding) )  }
       # csv lines
       entries.each do |entry|
         fields = [format_date(entry.spent_on),
@@ -117,7 +118,9 @@ module TimelogHelper
                   ]
         fields += custom_fields.collect {|f| show_value(entry.custom_value_for(f)) }
 
-        csv << fields.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }
+        csv << fields.collect {|c| Redmine::CodesetUtil.from_utf8(
+                                     c.to_s,
+                                     l(:general_csv_encoding) )  }
       end
     end
     export
