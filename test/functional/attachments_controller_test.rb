@@ -23,9 +23,9 @@ require 'attachments_controller'
 # Re-raise errors caught by the controller.
 class AttachmentsController; def rescue_action(e) raise e end; end
 
-
 class AttachmentsControllerTest < ActionController::TestCase
-  fixtures :users, :projects, :roles, :members, :member_roles, :enabled_modules, :issues, :trackers, :attachments,
+  fixtures :users, :projects, :roles, :members, :member_roles,
+           :enabled_modules, :issues, :trackers, :attachments,
            :versions, :wiki_pages, :wikis, :documents
 
   def setup
