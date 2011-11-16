@@ -36,9 +36,6 @@ module Redmine
         def initialize(lang)
           set_language_if_valid lang
           pdf_encoding = l(:general_pdf_encoding).upcase
-          if RUBY_VERSION < '1.9'
-            @ic = Iconv.new(pdf_encoding, 'UTF-8')
-          end
           super('P', 'mm', 'A4', (pdf_encoding == 'UTF-8'), pdf_encoding)
           case current_language.to_s.downcase
           when 'vi'
@@ -104,7 +101,7 @@ module Redmine
         end
 
         def fix_text_encoding(txt)
-          RDMPdfEncoding::rdm_pdf_iconv(@ic, txt)
+          RDMPdfEncoding::rdm_from_utf8(txt, l(:general_pdf_encoding))
         end
 
         def RDMCell(w ,h=0, txt='', border=0, ln=0, align='', fill=0, link='')
@@ -505,37 +502,11 @@ module Redmine
 
       class RDMPdfEncoding
         include Redmine::I18n
-        def self.rdm_pdf_iconv(ic, txt)
+        def self.rdm_from_utf8(txt, encoding)
           txt ||= ''
+          txt = Redmine::CodesetUtil.from_utf8(txt, encoding)
           if txt.respond_to?(:force_encoding)
-            txt.force_encoding('UTF-8')
-            if l(:general_pdf_encoding).upcase != 'UTF-8'
-              txt = txt.encode(l(:general_pdf_encoding), :invalid => :replace,
-                               :undef => :replace, :replace => '?')
-            else
-              txt = Redmine::CodesetUtil.replace_invalid_utf8(txt)
-            end
             txt.force_encoding('ASCII-8BIT')
-          elsif RUBY_PLATFORM == 'java'
-            begin
-              ic ||= Iconv.new(l(:general_pdf_encoding), 'UTF-8')
-              txt = ic.iconv(txt)
-            rescue
-              txt = txt.gsub(%r{[^\r\n\t\x20-\x7e]}, '?')
-            end
-          else
-            ic ||= Iconv.new(l(:general_pdf_encoding), 'UTF-8')
-            txtar = ""
-            begin
-              txtar += ic.iconv(txt)
-            rescue Iconv::IllegalSequence
-              txtar += $!.success
-              txt = '?' + $!.failed[1,$!.failed.length]
-              retry
-            rescue
-              txtar += $!.success
-            end
-            txt = txtar
           end
           txt
         end
