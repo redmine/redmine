@@ -71,6 +71,26 @@ class AttachmentsControllerTest < ActionController::TestCase
     assert_equal 'text/html', @response.content_type
   end
 
+  def test_show_text_file_utf_8
+    a = Attachment.new(:container => Issue.find(1),
+                       :file => uploaded_test_file("japanese-utf-8.txt", "text/plain"),
+                       :author => User.find(1))
+    assert a.save
+    assert_equal 'japanese-utf-8.txt', a.filename
+
+    str_japanese = "\xe6\x97\xa5\xe6\x9c\xac\xe8\xaa\x9e"
+    str_japanese.force_encoding('UTF-8') if str_japanese.respond_to?(:force_encoding)
+
+    get :show, :id => a.id
+    assert_response :success
+    assert_template 'file'
+    assert_equal 'text/html', @response.content_type
+    assert_tag :tag => 'th',
+               :content => '1',
+               :attributes => { :class => 'line-num' },
+               :sibling => { :tag => 'td', :content => /#{str_japanese}/ }
+  end
+
   def test_show_text_file_should_send_if_too_big
     Setting.file_max_size_displayed = 512
     Attachment.find(4).update_attribute :filesize, 754.kilobyte
