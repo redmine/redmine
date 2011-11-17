@@ -117,35 +117,8 @@ module RepositoriesHelper
   end
 
   def to_utf8(str)
-    return str if str.nil?
-    str = to_utf8_internal(str)
-    if str.respond_to?(:force_encoding)
-      str.force_encoding('UTF-8')
-    end
-    str
+    Redmine::CodesetUtil.to_utf8_by_setting(str)
   end
-
-  def to_utf8_internal(str)
-    return str if str.nil?
-    if str.respond_to?(:force_encoding)
-      str.force_encoding('ASCII-8BIT')
-    end
-    return str if str.empty?
-    return str if /\A[\r\n\t\x20-\x7e]*\Z/n.match(str) # for us-ascii
-    if str.respond_to?(:force_encoding)
-      str.force_encoding('UTF-8')
-    end
-    @encodings ||= Setting.repositories_encodings.split(',').collect(&:strip)
-    @encodings.each do |encoding|
-      begin
-        return Iconv.conv('UTF-8', encoding, str)
-      rescue Iconv::Failure
-        # do nothing here and try the next encoding
-      end
-    end
-    str = Redmine::CodesetUtil.replace_invalid_utf8(str)
-  end
-  private :to_utf8_internal
 
   def repository_field_tags(form, repository)
     method = repository.class.name.demodulize.underscore + "_field_tags"

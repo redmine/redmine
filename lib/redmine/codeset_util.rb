@@ -79,6 +79,40 @@ module Redmine
       str
     end
 
+    def self.to_utf8_by_setting(str)
+      return str if str.nil?
+      str = self.to_utf8_by_setting_internal(str)
+      if str.respond_to?(:force_encoding)
+        str.force_encoding('UTF-8')
+      end
+      str
+    end
+
+    def self.to_utf8_by_setting_internal(str)
+      return str if str.nil?
+      if str.respond_to?(:force_encoding)
+        str.force_encoding('ASCII-8BIT')
+      end
+      return str if str.empty?
+      return str if /\A[\r\n\t\x20-\x7e]*\Z/n.match(str) # for us-ascii
+      if str.respond_to?(:force_encoding)
+        str.force_encoding('UTF-8')
+      end
+      encodings = Setting.repositories_encodings.split(',').collect(&:strip)
+      encodings.each do |encoding|
+        begin
+          return Iconv.conv('UTF-8', encoding, str)
+        rescue Iconv::Failure
+          # do nothing here and try the next encoding
+        end
+      end
+      str = self.replace_invalid_utf8(str)
+      if str.respond_to?(:force_encoding)
+        str.force_encoding('UTF-8')
+      end
+      str
+    end
+
     def self.from_utf8(str, encoding)
       str ||= ''
       if str.respond_to?(:force_encoding)
