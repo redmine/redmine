@@ -91,6 +91,23 @@ class AttachmentsControllerTest < ActionController::TestCase
                :sibling => { :tag => 'td', :content => /#{str_japanese}/ }
   end
 
+  def test_show_text_file_should_strip_non_utf8_content
+    a = Attachment.new(:container => Issue.find(1),
+                       :file => uploaded_test_file("iso8859-1.txt", "text/plain"),
+                       :author => User.find(1))
+    assert a.save
+    assert_equal 'iso8859-1.txt', a.filename
+
+    get :show, :id => a.id
+    assert_response :success
+    assert_template 'file'
+    assert_equal 'text/html', @response.content_type
+    assert_tag :tag => 'th',
+               :content => '7',
+               :attributes => { :class => 'line-num' },
+               :sibling => { :tag => 'td', :content => /Demande cre avec succs/ }
+  end
+
   def test_show_text_file_should_send_if_too_big
     Setting.file_max_size_displayed = 512
     Attachment.find(4).update_attribute :filesize, 754.kilobyte
