@@ -149,15 +149,16 @@ sub RedmineDSN {
   $self->{RedmineDSN} = $arg;
   my $query = "SELECT 
                  hashed_password, salt, auth_source_id, permissions
-              FROM members, projects, users, roles, member_roles
+              FROM projects, users, roles
               WHERE 
-                projects.id=members.project_id
-                AND member_roles.member_id=members.id
-                AND users.id=members.user_id 
-                AND roles.id=member_roles.role_id
+                users.login=? 
+                AND projects.identifier=?
                 AND users.status=1 
-                AND login=? 
-                AND identifier=? ";
+                AND (
+                  roles.id IN (SELECT member_roles.role_id FROM members, member_roles WHERE members.user_id = users.id AND members.project_id = projects.id AND members.id = member_roles.member_id)
+                  OR
+                  (roles.builtin=1 AND cast(projects.is_public as CHAR) IN ('t', '1'))
+                ) ";
   $self->{RedmineQuery} = trim($query);
 }
 
