@@ -69,3 +69,10 @@ wiki_pages_010:
   wiki_id: 1
   protected: false
   parent_id: 
+wiki_pages_011: 
+  created_on: 2007-03-08 00:18:07 +01:00
+  title: Page_with_sections
+  id: 11
+  wiki_id: 1
+  protected: false
+  parent_id: 

@@ -1,3 +1,4 @@
-<div class="wiki">
-  <%= textilizable content, :text, :attachments => content.page.attachments %>
+<div class="wiki wiki-page">
+  <%= textilizable content, :text, :attachments => content.page.attachments,
+        :edit_section_links => (content.is_a?(WikiContent) && @editable && User.current.allowed_to?(:edit_wiki_pages, @page.project) && {:controller => 'wiki', :action => 'edit', :project_id => @page.project, :id => @page.title}) %>
 </div>

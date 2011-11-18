@@ -874,6 +874,7 @@ en:
   button_quote: Quote
   button_duplicate: Duplicate
   button_show: Show
+  button_edit_section: Edit this section
 
   status_active: active
   status_registered: registered

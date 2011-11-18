@@ -850,6 +850,7 @@ fr:
   button_quote: Citer
   button_duplicate: Dupliquer
   button_show: Afficher
+  button_edit_section: Modifier cette section
 
   status_active: actif
   status_registered: enregistré

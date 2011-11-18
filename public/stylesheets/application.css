@@ -358,6 +358,9 @@ table#time-report tbody tr.last-level { font-style: normal; color: #555; }
 table#time-report tbody tr.total { font-style: normal; font-weight: bold; color: #555; background-color:#EEEEEE; }
 table#time-report .hours-dec { font-size: 0.9em; }
 
+div.wiki-page .contextual a {opacity: 0.4}
+div.wiki-page .contextual a:hover {opacity: 1}
+
 form .attributes { margin-bottom: 8px; }
 form .attributes p { padding-top: 1px; padding-bottom: 2px; }
 form .attributes select { width: 60%; }

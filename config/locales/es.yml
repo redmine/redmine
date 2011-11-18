@@ -1038,3 +1038,4 @@ es:
   label_parent_revision: Parent
   label_child_revision: Child
   setting_default_issue_start_date_to_creation_date: Use current date as start date for new issues
+  button_edit_section: Edit this section

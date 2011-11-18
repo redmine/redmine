@@ -486,11 +486,11 @@ module ApplicationHelper
     project = options[:project] || @project || (obj && obj.respond_to?(:project) ? obj.project : nil)
     only_path = options.delete(:only_path) == false ? false : true
 
-    text = Redmine::WikiFormatting.to_html(Setting.text_formatting, text, :object => obj, :attribute => attr) { |macro, args| exec_macro(macro, obj, args) }
+    text = Redmine::WikiFormatting.to_html(Setting.text_formatting, text, :object => obj, :attribute => attr)
 
     @parsed_headings = []
     text = parse_non_pre_blocks(text) do |text|
-      [:parse_inline_attachments, :parse_wiki_links, :parse_redmine_links, :parse_headings].each do |method_name|
+      [:parse_sections, :parse_inline_attachments, :parse_wiki_links, :parse_redmine_links, :parse_macros, :parse_headings].each do |method_name|
         send method_name, text, project, obj, attr, only_path, options
       end
     end
@@ -728,7 +728,23 @@ module ApplicationHelper
     end
   end
 
-  HEADING_RE = /<h(1|2|3|4)( [^>]+)?>(.+?)<\/h(1|2|3|4)>/i unless const_defined?(:HEADING_RE)
+  HEADING_RE = /(<h(1|2|3|4)( [^>]+)?>(.+?)<\/h(1|2|3|4)>)/i unless const_defined?(:HEADING_RE)
+
+  def parse_sections(text, project, obj, attr, only_path, options)
+    return unless options[:edit_section_links]
+    section = 0
+    text.gsub!(HEADING_RE) do
+      section += 1
+      if section > 1
+        content_tag('div',
+          link_to(image_tag('edit.png'), options[:edit_section_links].merge(:section => section)),
+          :class => 'contextual',
+          :title => l(:button_edit_section)) + $1
+      else
+        $1
+      end
+    end
+  end
 
   # Headings and TOC
   # Adds ids and links to headings unless options[:headings] is set to false
@@ -736,13 +752,40 @@ module ApplicationHelper
     return if options[:headings] == false
 
     text.gsub!(HEADING_RE) do
-      level, attrs, content = $1.to_i, $2, $3
+      level, attrs, content = $2.to_i, $3, $4
       item = strip_tags(content).strip
       anchor = sanitize_anchor_name(item)
       # used for single-file wiki export
       anchor = "#{obj.page.title}_#{anchor}" if options[:wiki_links] == :anchor && (obj.is_a?(WikiContent) || obj.is_a?(WikiContent::Version))
       @parsed_headings << [level, anchor, item]
       "<a name=\"#{anchor}\"></a>\n<h#{level} #{attrs}>#{content}<a href=\"##{anchor}\" class=\"wiki-anchor\">&para;</a></h#{level}>"
+    end
+  end
+
+  MACROS_RE = /
+                (!)?                        # escaping
+                (
+                \{\{                        # opening tag
+                ([\w]+)                     # macro name
+                (\(([^\}]*)\))?             # optional arguments
+                \}\}                        # closing tag
+                )
+              /x unless const_defined?(:MACROS_RE)
+
+  # Macros substitution
+  def parse_macros(text, project, obj, attr, only_path, options)
+    text.gsub!(MACROS_RE) do
+      esc, all, macro = $1, $2, $3.downcase
+      args = ($5 || '').split(',').each(&:strip)
+      if esc.nil?
+        begin
+          exec_macro(macro, obj, args)
+        rescue => e
+          "<div class=\"flash error\">Error executing the <strong>#{macro}</strong> macro (#{e})</div>"
+        end || all
+      else
+        all
+      end
     end
   end
 

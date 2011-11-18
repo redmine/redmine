@@ -118,6 +118,44 @@ class WikiControllerTest < ActionController::TestCase
     assert_equal 'testfile.txt', page.attachments.first.filename
   end
 
+  def test_edit_page
+    @request.session[:user_id] = 2
+    get :edit, :project_id => 'ecookbook', :id => 'Another_page'
+
+    assert_response :success
+    assert_template 'edit'
+
+    assert_tag 'textarea',
+      :attributes => { :name => 'content[text]' },
+      :content => WikiPage.find_by_title('Another_page').content.text
+  end
+
+  def test_edit_section
+    @request.session[:user_id] = 2
+    get :edit, :project_id => 'ecookbook', :id => 'Page_with_sections', :section => 2
+
+    assert_response :success
+    assert_template 'edit'
+    
+    page = WikiPage.find_by_title('Page_with_sections')
+    section, hash = Redmine::WikiFormatting::Textile::Formatter.new(page.content.text).get_section(2)
+
+    assert_tag 'textarea',
+      :attributes => { :name => 'content[text]' },
+      :content => section
+    assert_tag 'input',
+      :attributes => { :name => 'section', :type => 'hidden', :value => '2' }
+    assert_tag 'input',
+      :attributes => { :name => 'section_hash', :type => 'hidden', :value => hash }
+  end
+
+  def test_edit_invalid_section_should_respond_with_404
+    @request.session[:user_id] = 2
+    get :edit, :project_id => 'ecookbook', :id => 'Page_with_sections', :section => 10
+
+    assert_response 404
+  end
+
   def test_update_page
     @request.session[:user_id] = 2
     assert_no_difference 'WikiPage.count' do
@@ -198,6 +236,83 @@ class WikiControllerTest < ActionController::TestCase
     c.reload
     assert_equal 'Previous text', c.text
     assert_equal 2, c.version
+  end
+
+  def test_update_section
+    @request.session[:user_id] = 2
+    page = WikiPage.find_by_title('Page_with_sections')
+    section, hash = Redmine::WikiFormatting::Textile::Formatter.new(page.content.text).get_section(2)
+    text = page.content.text
+
+    assert_no_difference 'WikiPage.count' do
+      assert_no_difference 'WikiContent.count' do
+        assert_difference 'WikiContent::Version.count' do
+          put :update, :project_id => 1, :id => 'Page_with_sections',
+            :content => {
+              :text => "New section content",
+              :version => 3
+            },
+            :section => 2,
+            :section_hash => hash
+        end
+      end
+    end
+    assert_redirected_to '/projects/ecookbook/wiki/Page_with_sections'
+    assert_equal Redmine::WikiFormatting::Textile::Formatter.new(text).update_section(2, "New section content"), page.reload.content.text
+  end
+
+  def test_update_section_should_allow_stale_page_update
+    @request.session[:user_id] = 2
+    page = WikiPage.find_by_title('Page_with_sections')
+    section, hash = Redmine::WikiFormatting::Textile::Formatter.new(page.content.text).get_section(2)
+    text = page.content.text
+
+    assert_no_difference 'WikiPage.count' do
+      assert_no_difference 'WikiContent.count' do
+        assert_difference 'WikiContent::Version.count' do
+          put :update, :project_id => 1, :id => 'Page_with_sections',
+            :content => {
+              :text => "New section content",
+              :version => 2 # Current version is 3
+            },
+            :section => 2,
+            :section_hash => hash
+        end
+      end
+    end
+    assert_redirected_to '/projects/ecookbook/wiki/Page_with_sections'
+    page.reload
+    assert_equal Redmine::WikiFormatting::Textile::Formatter.new(text).update_section(2, "New section content"), page.content.text
+    assert_equal 4, page.content.version
+  end
+
+  def test_update_section_should_not_allow_stale_section_update
+    @request.session[:user_id] = 2
+
+    assert_no_difference 'WikiPage.count' do
+      assert_no_difference 'WikiContent.count' do
+        assert_no_difference 'WikiContent::Version.count' do
+          put :update, :project_id => 1, :id => 'Page_with_sections',
+            :content => {
+              :comments => 'My comments',
+              :text => "Text should not be lost",
+              :version => 3
+            },
+            :section => 2,
+            :section_hash => Digest::MD5.hexdigest("wrong hash")
+        end
+      end
+    end
+    assert_response :success
+    assert_template 'edit'
+    assert_tag :div,
+      :attributes => { :class => /error/ },
+      :content => /Data has been updated by another user/
+    assert_tag 'textarea',
+      :attributes => { :name => 'content[text]' },
+      :content => /Text should not be lost/
+    assert_tag 'input',
+      :attributes => { :name => 'content[comments]', :value => 'My comments' }
   end
 
   def test_preview

@@ -1003,3 +1003,4 @@ zh:
   label_child_revision: 子修订
   error_scm_annotate_big_text_file: 输入文本内容超长，无法输入。
   setting_default_issue_start_date_to_creation_date: 使用当前日期作为新问题的开始日期
+  button_edit_section: Edit this section
