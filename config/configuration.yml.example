@@ -5,6 +5,7 @@
 # Environment specific configuration options override the default ones.
 #
 # Note that this file needs to be a valid YAML file.
+# DO NOT USE TABS! Use 2 spaces instead of tabs for identation.
 #
 # == Outgoing email settings (email_delivery setting)
 #
