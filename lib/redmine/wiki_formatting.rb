@@ -62,6 +62,11 @@ module Redmine
         text
       end
 
+      # Returns true if the text formatter supports single section edit
+      def supports_section_edit?
+        (formatter.instance_methods & ['update_section', :update_section]).any?
+      end
+
       # Returns a cache key for the given text +format+, +object+ and +attribute+ or nil if no caching should be done
       def cache_key_for(format, object, attribute)
         if object && attribute && !object.new_record? && object.respond_to?(:updated_on) && !format.blank?
