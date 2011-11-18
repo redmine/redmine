@@ -85,6 +85,7 @@ class WikiController < ApplicationController
       end
     end
     @editable = editable?
+    @sections_editable = @editable && User.current.allowed_to?(:edit_wiki_pages, @page.project) && params[:version].nil?
     render :action => 'show'
   end
 
