@@ -79,6 +79,20 @@ class WikiControllerTest < ActionController::TestCase
     get :show, :project_id => 1, :id => 'Unexistent page'
     assert_response 404
   end
+  
+  def test_show_should_display_section_edit_links
+    @request.session[:user_id] = 2
+    get :show, :project_id => 1, :id => 'Page with sections'
+    assert_no_tag 'a', :attributes => {
+      :href => '/projects/ecookbook/wiki/Page_with_sections/edit?section=1'
+    }
+    assert_tag 'a', :attributes => {
+      :href => '/projects/ecookbook/wiki/Page_with_sections/edit?section=2'
+    }
+    assert_tag 'a', :attributes => {
+      :href => '/projects/ecookbook/wiki/Page_with_sections/edit?section=3'
+    }
+  end
 
   def test_show_unexistent_page_with_edit_right
     @request.session[:user_id] = 2

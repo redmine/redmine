@@ -489,6 +489,7 @@ module ApplicationHelper
     text = Redmine::WikiFormatting.to_html(Setting.text_formatting, text, :object => obj, :attribute => attr)
 
     @parsed_headings = []
+    @current_section = 0 if options[:edit_section_links]
     text = parse_non_pre_blocks(text) do |text|
       [:parse_sections, :parse_inline_attachments, :parse_wiki_links, :parse_redmine_links, :parse_macros, :parse_headings].each do |method_name|
         send method_name, text, project, obj, attr, only_path, options
@@ -732,12 +733,11 @@ module ApplicationHelper
 
   def parse_sections(text, project, obj, attr, only_path, options)
     return unless options[:edit_section_links]
-    section = 0
     text.gsub!(HEADING_RE) do
-      section += 1
-      if section > 1
+      @current_section += 1
+      if @current_section > 1
         content_tag('div',
-          link_to(image_tag('edit.png'), options[:edit_section_links].merge(:section => section)),
+          link_to(image_tag('edit.png'), options[:edit_section_links].merge(:section => @current_section)),
           :class => 'contextual',
           :title => l(:button_edit_section)) + $1
       else
