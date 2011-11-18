@@ -6,7 +6,7 @@
 <h2><%= @page.pretty_title %></h2>
 
 <p>
-<%= l(:label_version) %> <%= link_to @annotate.content.version, :action => 'show', :id => @page.title, :version => @annotate.content.version %>
+<%= l(:label_version) %> <%= link_to @annotate.content.version, :action => 'show', :project_id => @project, :id => @page.title, :version => @annotate.content.version %>
 <em>(<%= @annotate.content.author ? @annotate.content.author.name : "anonyme" %>, <%= format_time(@annotate.content.updated_on) %>)</em>
 </p>
 
