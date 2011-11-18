@@ -20,7 +20,7 @@ class RolesController < ApplicationController
 
   before_filter :require_admin
 
-  verify :method => :post, :only => [ :destroy, :move ],
+  verify :method => :post, :only => [ :destroy ],
          :redirect_to => { :action => :index }
 
   def index
