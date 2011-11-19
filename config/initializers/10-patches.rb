@@ -65,15 +65,22 @@ end
 
 ActionView::Base.field_error_proc = Proc.new{ |html_tag, instance| "#{html_tag}" }
 
-# Adds :async_smtp and :async_sendmail delivery methods
-# to perform email deliveries asynchronously
 module AsynchronousMailer
+  # Adds :async_smtp and :async_sendmail delivery methods
+  # to perform email deliveries asynchronously
   %w(smtp sendmail).each do |type|
     define_method("perform_delivery_async_#{type}") do |mail|
       Thread.start do
         send "perform_delivery_#{type}", mail
       end
     end
+  end
+
+  # Adds a delivery method that writes emails in tmp/emails for testing purpose
+  def perform_delivery_tmp_file(mail)
+    dest_dir = File.join(Rails.root, 'tmp', 'emails')
+    Dir.mkdir(dest_dir) unless File.directory?(dest_dir)
+    File.open(File.join(dest_dir, mail.message_id.gsub(/[<>]/, '') + '.eml'), 'wb') {|f| f.write(mail.encoded) }
   end
 end
 
