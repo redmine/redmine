@@ -72,6 +72,7 @@ class AttachmentsControllerTest < ActionController::TestCase
   end
 
   def test_show_text_file_utf_8
+    set_tmp_attachments_directory
     a = Attachment.new(:container => Issue.find(1),
                        :file => uploaded_test_file("japanese-utf-8.txt", "text/plain"),
                        :author => User.find(1))
@@ -92,6 +93,7 @@ class AttachmentsControllerTest < ActionController::TestCase
   end
 
   def test_show_text_file_should_strip_non_utf8_content
+    set_tmp_attachments_directory
     a = Attachment.new(:container => Issue.find(1),
                        :file => uploaded_test_file("iso8859-1.txt", "text/plain"),
                        :author => User.find(1))
