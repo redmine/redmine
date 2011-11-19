@@ -24,6 +24,7 @@ class ApiTest::ProjectsTest < ActionController::IntegrationTest
 
   def setup
     Setting.rest_api_enabled = '1'
+    set_tmp_attachments_directory
   end
 
   context "GET /projects" do
