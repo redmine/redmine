@@ -30,7 +30,7 @@ http://www.redmine.org/
 
 6. Migrate your database
 
-   If you are upgrading to Rails 2.3.11 as part of this migration, you
+   If you are upgrading to Rails 2.3.14 as part of this migration, you
    need to upgrade the plugin migrations before running the plugin migrations
    using:
      rake db:migrate:upgrade_plugin_migrations RAILS_ENV="production"
@@ -56,7 +56,7 @@ http://www.redmine.org/
 
 == Notes
 
-* Rails 2.3.11 is required for versions 1.2.x.
+* Rails 2.3.14 is required for versions 1.3.x.
 
 == References
 
