@@ -480,6 +480,8 @@ class IssuesControllerTest < ActionController::TestCase
                :descendant => { :tag => 'fieldset',
                                 :child => { :tag => 'legend',
                                             :content => /Notes/ } }
+    assert_tag :tag => 'title',
+      :content => "Bug #1: Can't print recipes - eCookbook - Redmine"
   end
 
   def test_show_by_manager
