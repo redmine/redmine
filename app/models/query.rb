@@ -617,25 +617,22 @@ class Query < ActiveRecord::Base
   end
 
   def sql_for_assigned_to_role_field(field, operator, value)
-    if operator == "*" # Any Role
-      roles = Role.givable
-      operator = '=' # Override the operator since we want to find by assigned_to
-    elsif operator == "!*" # No role
-      roles = Role.givable
-      operator = '!' # Override the operator since we want to find by assigned_to
-    else
-      roles = Role.givable.find_all_by_id(value)
+    case operator
+    when "*", "!*" # Member / Not member
+      sw = operator == "!*" ? 'NOT' : ''
+      nl = operator == "!*" ? "#{Issue.table_name}.assigned_to_id IS NULL OR" : ''
+      "(#{nl} #{Issue.table_name}.assigned_to_id #{sw} IN (SELECT DISTINCT #{Member.table_name}.user_id FROM #{Member.table_name}" +
+        " WHERE #{Member.table_name}.project_id = #{Issue.table_name}.project_id))"
+    when "=", "!"
+      role_cond = value.any? ? 
+        "#{MemberRole.table_name}.role_id IN (" + value.collect{|val| "'#{connection.quote_string(val)}'"}.join(",") + ")" :
+        "1=0"
+      
+      sw = operator == "!" ? 'NOT' : ''
+      nl = operator == "!" ? "#{Issue.table_name}.assigned_to_id IS NULL OR" : ''
+      "(#{nl} #{Issue.table_name}.assigned_to_id #{sw} IN (SELECT DISTINCT #{Member.table_name}.user_id FROM #{Member.table_name}, #{MemberRole.table_name}" +
+        " WHERE #{Member.table_name}.project_id = #{Issue.table_name}.project_id AND #{Member.table_name}.id = #{MemberRole.table_name}.member_id AND #{role_cond}))"
     end
-    roles ||= []
-
-    members_of_roles = roles.inject([]) {|user_ids, role|
-      if role && role.members
-        user_ids << role.members.collect(&:user_id)
-      end
-      user_ids.flatten.uniq.compact
-    }.sort.collect(&:to_s)
-
-    '(' + sql_for_field("assigned_to_id", operator, members_of_roles, Issue.table_name, "assigned_to_id", false) + ')'
   end
 
   private

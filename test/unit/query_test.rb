@@ -62,6 +62,13 @@ class QueryTest < ActiveSupport::TestCase
   def assert_query_statement_includes(query, condition)
     assert query.statement.include?(condition), "Query statement condition not found in: #{query.statement}"
   end
+  
+  def assert_query_result(expected, query)
+    assert_nothing_raised do
+      assert_equal expected.map(&:id).sort, query.issues.map(&:id).sort
+      assert_equal expected.size, query.issue_count
+    end
+  end
 
   def test_query_should_allow_shared_versions_for_a_project_query
     subproject_version = Version.find(4)
@@ -723,61 +730,77 @@ class QueryTest < ActiveSupport::TestCase
 
     context "with 'assigned_to_role' filter" do
       setup do
-        # No fixtures
-        MemberRole.delete_all
-        Member.delete_all
-        Role.delete_all
-
-        @manager_role = Role.generate!(:name => 'Manager')
-        @developer_role = Role.generate!(:name => 'Developer')
+        @manager_role = Role.find_by_name('Manager')
+        @developer_role = Role.find_by_name('Developer')
 
         @project = Project.generate!
         @manager = User.generate!
         @developer = User.generate!
         @boss = User.generate!
+        @guest = User.generate!
         User.add_to_project(@manager, @project, @manager_role)
         User.add_to_project(@developer, @project, @developer_role)
         User.add_to_project(@boss, @project, [@manager_role, @developer_role])
+        
+        @issue1 = Issue.generate_for_project!(@project, :assigned_to_id => @manager.id)
+        @issue2 = Issue.generate_for_project!(@project, :assigned_to_id => @developer.id)
+        @issue3 = Issue.generate_for_project!(@project, :assigned_to_id => @boss.id)
+        @issue4 = Issue.generate_for_project!(@project, :assigned_to_id => @guest.id)
+        @issue5 = Issue.generate_for_project!(@project)
       end
 
       should "search assigned to for users with the Role" do
-        @query = Query.new(:name => '_')
+        @query = Query.new(:name => '_', :project => @project)
         @query.add_filter('assigned_to_role', '=', [@manager_role.id.to_s])
 
-        assert_query_statement_includes @query, "#{Issue.table_name}.assigned_to_id IN ('#{@manager.id}','#{@boss.id}')"
-        assert_find_issues_with_query_is_successful @query
+        assert_query_result [@issue1, @issue3], @query
       end
 
-      should "search assigned to for users not assigned to any Role (none)" do
-        @query = Query.new(:name => '_')
-        @query.add_filter('assigned_to_role', '!*', [''])
+      should "search assigned to for users with the Role on the issue project" do
+        other_project = Project.generate!
+        User.add_to_project(@developer, other_project, @manager_role)
+        
+        @query = Query.new(:name => '_', :project => @project)
+        @query.add_filter('assigned_to_role', '=', [@manager_role.id.to_s])
 
-        assert_query_statement_includes @query, "#{Issue.table_name}.assigned_to_id IS NULL OR #{Issue.table_name}.assigned_to_id NOT IN ('#{@manager.id}','#{@developer.id}','#{@boss.id}')"
-        assert_find_issues_with_query_is_successful @query
-      end
-
-      should "search assigned to for users assigned to any Role (all)" do
-        @query = Query.new(:name => '_')
-        @query.add_filter('assigned_to_role', '*', [''])
-
-        assert_query_statement_includes @query, "#{Issue.table_name}.assigned_to_id IN ('#{@manager.id}','#{@developer.id}','#{@boss.id}')"
-        assert_find_issues_with_query_is_successful @query
+        assert_query_result [@issue1, @issue3], @query
       end
 
       should "return an empty set with empty role" do
         @empty_role = Role.generate!
-        @query = Query.new(:name => '_')
+        @query = Query.new(:name => '_', :project => @project)
         @query.add_filter('assigned_to_role', '=', [@empty_role.id.to_s])
 
-        assert_equal [], find_issues_with_query(@query)
+        assert_query_result [], @query
+      end
+
+      should "search assigned to for users without the Role" do
+        @query = Query.new(:name => '_', :project => @project)
+        @query.add_filter('assigned_to_role', '!', [@manager_role.id.to_s])
+
+        assert_query_result [@issue2, @issue4, @issue5], @query
+      end
+
+      should "search assigned to for users not assigned to any Role (none)" do
+        @query = Query.new(:name => '_', :project => @project)
+        @query.add_filter('assigned_to_role', '!*', [''])
+
+        assert_query_result [@issue4, @issue5], @query
+      end
+
+      should "search assigned to for users assigned to any Role (all)" do
+        @query = Query.new(:name => '_', :project => @project)
+        @query.add_filter('assigned_to_role', '*', [''])
+
+        assert_query_result [@issue1, @issue2, @issue3], @query
       end
 
       should "return issues with ! empty role" do
         @empty_role = Role.generate!
-        @query = Query.new(:name => '_')
-        @query.add_filter('member_of_group', '!', [@empty_role.id.to_s])
+        @query = Query.new(:name => '_', :project => @project)
+        @query.add_filter('assigned_to_role', '!', [@empty_role.id.to_s])
 
-        assert_find_issues_with_query_is_successful @query
+        assert_query_result [@issue1, @issue2, @issue3, @issue4, @issue5], @query
       end
     end
   end
