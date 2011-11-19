@@ -97,6 +97,14 @@ class QueryTest < ActiveSupport::TestCase
     assert issues.all? {|i| !i.estimated_hours}
   end
 
+  def test_operator_none_for_date
+    query = Query.new(:project => Project.find(1), :name => '_')
+    query.add_filter('start_date', '!*', [''])
+    issues = find_issues_with_query(query)
+    assert !issues.empty?
+    assert issues.all? {|i| i.start_date.nil?}
+  end
+
   def test_operator_all
     query = Query.new(:project => Project.find(1), :name => '_')
     query.add_filter('fixed_version_id', '*', [''])
@@ -104,6 +112,14 @@ class QueryTest < ActiveSupport::TestCase
     assert query.statement.include?("#{Issue.table_name}.fixed_version_id IS NOT NULL")
     assert query.statement.include?("#{CustomValue.table_name}.value IS NOT NULL AND #{CustomValue.table_name}.value <> ''")
     find_issues_with_query(query)
+  end
+
+  def test_operator_all_for_date
+    query = Query.new(:project => Project.find(1), :name => '_')
+    query.add_filter('start_date', '*', [''])
+    issues = find_issues_with_query(query)
+    assert !issues.empty?
+    assert issues.all? {|i| i.start_date.present?}
   end
 
   def test_numeric_filter_should_not_accept_non_numeric_values
