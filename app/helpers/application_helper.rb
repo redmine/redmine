@@ -639,7 +639,7 @@ module ApplicationHelper
   #     identifier:version:1.0.0
   #     identifier:source:some/file
   def parse_redmine_links(text, project, obj, attr, only_path, options)
-    text.gsub!(%r{([\s\(,\-\[\>]|^)(!)?(([a-z0-9\-]+):)?(attachment|document|version|commit|source|export|message|project)?((#|r)(\d+)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]]\W)|,|\s|\]|<|$)}) do |m|
+    text.gsub!(%r{([\s\(,\-\[\>]|^)(!)?(([a-z0-9\-]+):)?(attachment|document|version|forum|news|commit|source|export|message|project)?((#|r)(\d+)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]]\W)|,|\s|\]|<|$)}) do |m|
       leading, esc, project_prefix, project_identifier, prefix, sep, identifier = $1, $2, $3, $4, $5, $7 || $9, $8 || $10
       link = nil
       if project_identifier
@@ -676,6 +676,16 @@ module ApplicationHelper
             if message = Message.visible.find_by_id(oid, :include => :parent)
               link = link_to_message(message, {:only_path => only_path}, :class => 'message')
             end
+          when 'forum'
+            if board = Board.visible.find_by_id(oid)
+              link = link_to h(board.name), {:only_path => only_path, :controller => 'boards', :action => 'show', :id => board, :project_id => board.project},
+                                             :class => 'board'
+            end
+          when 'news'
+            if news = News.visible.find_by_id(oid)
+              link = link_to h(news.title), {:only_path => only_path, :controller => 'news', :action => 'show', :id => news},
+                                            :class => 'news'
+            end
           when 'project'
             if p = Project.visible.find_by_id(oid)
               link = link_to_project(p, {:only_path => only_path}, :class => 'project')
@@ -694,6 +704,16 @@ module ApplicationHelper
             if project && version = project.versions.visible.find_by_name(name)
               link = link_to h(version.name), {:only_path => only_path, :controller => 'versions', :action => 'show', :id => version},
                                               :class => 'version'
+            end
+          when 'forum'
+            if project && board = project.boards.visible.find_by_name(name)
+              link = link_to h(board.name), {:only_path => only_path, :controller => 'boards', :action => 'show', :id => board, :project_id => board.project},
+                                             :class => 'board'
+            end
+          when 'news'
+            if project && news = project.news.visible.find_by_title(name)
+              link = link_to h(news.title), {:only_path => only_path, :controller => 'news', :action => 'show', :id => news},
+                                            :class => 'news'
             end
           when 'commit'
             if project && project.repository && (changeset = Changeset.visible.find(:first, :conditions => ["repository_id = ? AND scmid LIKE ?", project.repository.id, "#{name}%"]))

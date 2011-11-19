@@ -23,7 +23,7 @@ class ApplicationHelperTest < ActionView::TestCase
                       :repositories, :changesets,
                       :trackers, :issue_statuses, :issues, :versions, :documents,
                       :wikis, :wiki_pages, :wiki_contents,
-                      :boards, :messages,
+                      :boards, :messages, :news,
                       :attachments,
                       :enumerations
 
@@ -163,7 +163,11 @@ RAW
     version_link = link_to('1.0', {:controller => 'versions', :action => 'show', :id => 2},
                                   :class => 'version')
 
+    board_url = {:controller => 'boards', :action => 'show', :id => 2, :project_id => 'ecookbook'}
+
     message_url = {:controller => 'messages', :action => 'show', :board_id => 1, :id => 4}
+    
+    news_url = {:controller => 'news', :action => 'show', :id => 1}
 
     project_url = {:controller => 'projects', :action => 'show', :id => 'subproject1'}
 
@@ -198,9 +202,15 @@ RAW
       'source:/some/file.ext#L110'  => link_to('source:/some/file.ext#L110', source_url_with_ext.merge(:anchor => 'L110'), :class => 'source'),
       'source:/some/file@52#L110'   => link_to('source:/some/file@52#L110', source_url.merge(:rev => 52, :anchor => 'L110'), :class => 'source'),
       'export:/some/file'           => link_to('export:/some/file', source_url.merge(:format => 'raw'), :class => 'source download'),
+      # forum
+      'forum#2'                     => link_to('Discussion', board_url, :class => 'board'),
+      'forum:Discussion'            => link_to('Discussion', board_url, :class => 'board'),
       # message
       'message#4'                   => link_to('Post 2', message_url, :class => 'message'),
       'message#5'                   => link_to('RE: post 2', message_url.merge(:anchor => 'message-5', :r => 5), :class => 'message'),
+      # news
+      'news#1'                      => link_to('eCookbook first release !', news_url, :class => 'news'),
+      'news:"eCookbook first release !"'        => link_to('eCookbook first release !', news_url, :class => 'news'),
       # project
       'project#3'                   => link_to('eCookbook Subproject 1', project_url, :class => 'project'),
       'project:subproject1'         => link_to('eCookbook Subproject 1', project_url, :class => 'project'),
