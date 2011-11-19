@@ -397,6 +397,16 @@ class IssuesControllerTest < ActionController::TestCase
     assert !issues.empty?
     assert_equal issues.sort {|a,b| a.tracker == b.tracker ? b.id <=> a.id : a.tracker <=> b.tracker }.collect(&:id), issues.collect(&:id)
   end
+  
+  def test_index_sort_by_author
+    get :index, :sort => 'author'
+    assert_response :success
+  end
+  
+  def test_index_group_by_author
+    get :index, :group_by => 'author', :sort => 'priority'
+    assert_response :success
+  end
 
   def test_index_with_columns
     columns = ['tracker', 'subject', 'assigned_to']

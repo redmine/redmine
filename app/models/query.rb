@@ -136,7 +136,7 @@ class Query < ActiveRecord::Base
     QueryColumn.new(:status, :sortable => "#{IssueStatus.table_name}.position", :groupable => true),
     QueryColumn.new(:priority, :sortable => "#{IssuePriority.table_name}.position", :default_order => 'desc', :groupable => true),
     QueryColumn.new(:subject, :sortable => "#{Issue.table_name}.subject"),
-    QueryColumn.new(:author),
+    QueryColumn.new(:author, :sortable => ["authors.lastname", "authors.firstname", "authors.id"], :groupable => true),
     QueryColumn.new(:assigned_to, :sortable => ["#{User.table_name}.lastname", "#{User.table_name}.firstname", "#{User.table_name}.id"], :groupable => true),
     QueryColumn.new(:updated_on, :sortable => "#{Issue.table_name}.updated_on", :default_order => 'desc'),
     QueryColumn.new(:category, :sortable => "#{IssueCategory.table_name}.name", :groupable => true),
@@ -554,10 +554,13 @@ class Query < ActiveRecord::Base
   def issues(options={})
     order_option = [group_by_sort_order, options[:order]].reject {|s| s.blank?}.join(',')
     order_option = nil if order_option.blank?
+    
+    joins = (order_option && order_option.include?('authors')) ? "LEFT OUTER JOIN users authors ON authors.id = #{Issue.table_name}.author_id" : nil
 
     Issue.visible.find :all, :include => ([:status, :project] + (options[:include] || [])).uniq,
                      :conditions => Query.merge_conditions(statement, options[:conditions]),
                      :order => order_option,
+                     :joins => joins,
                      :limit  => options[:limit],
                      :offset => options[:offset]
   rescue ::ActiveRecord::StatementInvalid => e
