@@ -362,48 +362,53 @@ module Redmine
             Redmine::WikiFormatting.to_html(
               Setting.text_formatting, issue.description.to_s),"LRB")
 
-        # for CJK
-        truncate_length = ( l(:general_pdf_encoding).upcase == "UTF-8" ? 90 : 65 )
-
-        pdf.SetFontStyle('B',9)
-        pdf.RDMCell(35+155,5, l(:label_subtask_plural) + ":", "LTR")
-        pdf.Ln
-        issue_list(issue.descendants.sort_by(&:lft)) do |child, level|
-          buf = truncate("#{child.tracker} # #{child.id}: #{child.subject}",
-                         :length => truncate_length)
-          level = 10 if level >= 10
-          pdf.SetFontStyle('',8)
-          pdf.RDMCell(35+135,5, (level >=1 ? "  " * level : "") + buf, "L")
-          pdf.SetFontStyle('B',8)
-          pdf.RDMCell(20,5, child.status.to_s, "R")
+        unless issue.leaf?
+          # for CJK
+          truncate_length = ( l(:general_pdf_encoding).upcase == "UTF-8" ? 90 : 65 )
+  
+          pdf.SetFontStyle('B',9)
+          pdf.RDMCell(35+155,5, l(:label_subtask_plural) + ":", "LTR")
           pdf.Ln
+          issue_list(issue.descendants.sort_by(&:lft)) do |child, level|
+            buf = truncate("#{child.tracker} # #{child.id}: #{child.subject}",
+                           :length => truncate_length)
+            level = 10 if level >= 10
+            pdf.SetFontStyle('',8)
+            pdf.RDMCell(35+135,5, (level >=1 ? "  " * level : "") + buf, "L")
+            pdf.SetFontStyle('B',8)
+            pdf.RDMCell(20,5, child.status.to_s, "R")
+            pdf.Ln
+          end
         end
-        pdf.SetFontStyle('B',9)
-        pdf.RDMCell(35+155,5, l(:label_related_issues) + ":", "LTR")
-        pdf.Ln
 
-        # for CJK
-        truncate_length = ( l(:general_pdf_encoding).upcase == "UTF-8" ? 80 : 60 )
-
-        issue.relations.select { |r| r.other_issue(issue).visible? }.each do |relation|
-          buf = ""
-          buf += "#{l(relation.label_for(issue))} "
-          if relation.delay && relation.delay != 0
-            buf += "(#{l('datetime.distance_in_words.x_days', :count => relation.delay)}) "
-          end
-          if Setting.cross_project_issue_relations?
-            buf += "#{relation.other_issue(issue).project} - "
-          end
-          buf += "#{relation.other_issue(issue).tracker}" +
-                 " # #{relation.other_issue(issue).id}: #{relation.other_issue(issue).subject}"
-          buf = truncate(buf, :length => truncate_length)
-          pdf.SetFontStyle('', 8)
-          pdf.RDMCell(35+155-50,5, buf, "L")
-          pdf.SetFontStyle('B',8)
-          pdf.RDMCell(10,5, relation.other_issue(issue).status.to_s, "")
-          pdf.RDMCell(20,5, format_date(relation.other_issue(issue).start_date), "")
-          pdf.RDMCell(20,5, format_date(relation.other_issue(issue).due_date), "R")
+        relations = issue.relations.select { |r| r.other_issue(issue).visible? }
+        unless relations.empty?
+          # for CJK
+          truncate_length = ( l(:general_pdf_encoding).upcase == "UTF-8" ? 80 : 60 )
+  
+          pdf.SetFontStyle('B',9)
+          pdf.RDMCell(35+155,5, l(:label_related_issues) + ":", "LTR")
           pdf.Ln
+          relations.each do |relation|
+            buf = ""
+            buf += "#{l(relation.label_for(issue))} "
+            if relation.delay && relation.delay != 0
+              buf += "(#{l('datetime.distance_in_words.x_days', :count => relation.delay)}) "
+            end
+            if Setting.cross_project_issue_relations?
+              buf += "#{relation.other_issue(issue).project} - "
+            end
+            buf += "#{relation.other_issue(issue).tracker}" +
+                   " # #{relation.other_issue(issue).id}: #{relation.other_issue(issue).subject}"
+            buf = truncate(buf, :length => truncate_length)
+            pdf.SetFontStyle('', 8)
+            pdf.RDMCell(35+155-50,5, buf, "L")
+            pdf.SetFontStyle('B',8)
+            pdf.RDMCell(10,5, relation.other_issue(issue).status.to_s, "")
+            pdf.RDMCell(20,5, format_date(relation.other_issue(issue).start_date), "")
+            pdf.RDMCell(20,5, format_date(relation.other_issue(issue).due_date), "R")
+            pdf.Ln
+          end
         end
         pdf.RDMCell(190,5, "", "T")
         pdf.Ln
