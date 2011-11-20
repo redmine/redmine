@@ -37,31 +37,35 @@ class AttachmentsControllerTest < ActionController::TestCase
   end
 
   def test_show_diff
-    get :show, :id => 14 # 060719210727_changeset_utf8.diff
-    assert_response :success
-    assert_template 'diff'
-    assert_equal 'text/html', @response.content_type
-
-    assert_tag 'th',
-      :attributes => {:class => /filename/},
-      :content => /issues_controller.rb\t\(révision 1484\)/
-    assert_tag 'td',
-      :attributes => {:class => /line-code/},
-      :content => /Demande créée avec succès/
+    ['inline', 'sbs'].each do |dt|
+    # 060719210727_changeset_utf8.diff
+      get :show, :id => 14, :type => dt
+      assert_response :success
+      assert_template 'diff'
+      assert_equal 'text/html', @response.content_type
+      assert_tag 'th',
+        :attributes => {:class => /filename/},
+        :content => /issues_controller.rb\t\(révision 1484\)/
+      assert_tag 'td',
+        :attributes => {:class => /line-code/},
+        :content => /Demande créée avec succès/
+    end
   end
 
   def test_show_diff_should_strip_non_utf8_content
-    get :show, :id => 5 # 060719210727_changeset_iso8859-1.diff
-    assert_response :success
-    assert_template 'diff'
-    assert_equal 'text/html', @response.content_type
-
-    assert_tag 'th',
-      :attributes => {:class => /filename/},
-      :content => /issues_controller.rb\t\(rvision 1484\)/
-    assert_tag 'td',
-      :attributes => {:class => /line-code/},
-      :content => /Demande cre avec succs/
+    ['inline', 'sbs'].each do |dt|
+      # 060719210727_changeset_iso8859-1.diff
+      get :show, :id => 5, :type => dt
+      assert_response :success
+      assert_template 'diff'
+      assert_equal 'text/html', @response.content_type
+      assert_tag 'th',
+        :attributes => {:class => /filename/},
+        :content => /issues_controller.rb\t\(rvision 1484\)/
+      assert_tag 'td',
+        :attributes => {:class => /line-code/},
+        :content => /Demande cre avec succs/
+    end
   end
 
   def test_show_text_file
