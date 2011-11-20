@@ -5,7 +5,8 @@
       <br />
       <%= select_tag 'available_columns',
               options_for_select((query.available_columns - query.columns).collect {|column| [column.caption, column.name]}),
-              :multiple => true, :size => 10, :style => "width:150px" %>
+              :multiple => true, :size => 10, :style => "width:150px",
+              :ondblclick => "moveOptions(this.form.available_columns, this.form.selected_columns);" %>
     </td>
     <td align="center" valign="middle">
       <input type="button" value="&#8594;"
@@ -18,7 +19,8 @@
       <br />
       <%= select_tag 'c[]',
               options_for_select(query.columns.collect {|column| [column.caption, column.name]}),
-              :id => 'selected_columns', :multiple => true, :size => 10, :style => "width:150px" %>
+              :id => 'selected_columns', :multiple => true, :size => 10, :style => "width:150px",
+              :ondblclick => "moveOptions(this.form.selected_columns, this.form.available_columns);" %>
     </td>
     <td align="center" valign="middle">
       <input type="button" value="&#8593;" onclick="moveOptionUp(this.form.selected_columns);" /><br />
