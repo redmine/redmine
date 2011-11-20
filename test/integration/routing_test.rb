@@ -114,9 +114,29 @@ class RoutingTest < ActionController::IntegrationTest
   end
 
   context "issue categories" do
-    should_route :get, "/projects/test/issue_categories/new", :controller => 'issue_categories', :action => 'new', :project_id => 'test'
+    should_route :get, "/projects/foo/issue_categories", :controller => 'issue_categories', :action => 'index', :project_id => 'foo'
+    should_route :get, "/projects/foo/issue_categories.xml", :controller => 'issue_categories', :action => 'index', :project_id => 'foo', :format => 'xml'
+    should_route :get, "/projects/foo/issue_categories.json", :controller => 'issue_categories', :action => 'index', :project_id => 'foo', :format => 'json'
 
-    should_route :post, "/projects/test/issue_categories/new", :controller => 'issue_categories', :action => 'new', :project_id => 'test'
+    should_route :get, "/projects/foo/issue_categories/new", :controller => 'issue_categories', :action => 'new', :project_id => 'foo'
+
+    should_route :post, "/projects/foo/issue_categories", :controller => 'issue_categories', :action => 'create', :project_id => 'foo'
+    should_route :post, "/projects/foo/issue_categories.xml", :controller => 'issue_categories', :action => 'create', :project_id => 'foo', :format => 'xml'
+    should_route :post, "/projects/foo/issue_categories.json", :controller => 'issue_categories', :action => 'create', :project_id => 'foo', :format => 'json'
+
+    should_route :get, "/issue_categories/1", :controller => 'issue_categories', :action => 'show', :id => '1'
+    should_route :get, "/issue_categories/1.xml", :controller => 'issue_categories', :action => 'show', :id => '1', :format => 'xml'
+    should_route :get, "/issue_categories/1.json", :controller => 'issue_categories', :action => 'show', :id => '1', :format => 'json'
+
+    should_route :get, "/issue_categories/1/edit", :controller => 'issue_categories', :action => 'edit', :id => '1'
+
+    should_route :put, "/issue_categories/1", :controller => 'issue_categories', :action => 'update', :id => '1'
+    should_route :put, "/issue_categories/1.xml", :controller => 'issue_categories', :action => 'update', :id => '1', :format => 'xml'
+    should_route :put, "/issue_categories/1.json", :controller => 'issue_categories', :action => 'update', :id => '1', :format => 'json'
+
+    should_route :delete, "/issue_categories/1", :controller => 'issue_categories', :action => 'destroy', :id => '1'
+    should_route :delete, "/issue_categories/1.xml", :controller => 'issue_categories', :action => 'destroy', :id => '1', :format => 'xml'
+    should_route :delete, "/issue_categories/1.json", :controller => 'issue_categories', :action => 'destroy', :id => '1', :format => 'json'
   end
 
   context "issue relations" do

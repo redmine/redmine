@@ -42,7 +42,7 @@ class IssueCategoriesControllerTest < ActionController::TestCase
   def test_create
     @request.session[:user_id] = 2 # manager
     assert_difference 'IssueCategory.count' do
-      post :create, :project_id => '1', :category => {:name => 'New category'}
+      post :create, :project_id => '1', :issue_category => {:name => 'New category'}
     end
     assert_redirected_to '/projects/ecookbook/settings/categories'
     category = IssueCategory.find_by_name('New category')
@@ -52,7 +52,7 @@ class IssueCategoriesControllerTest < ActionController::TestCase
 
   def test_create_failure
     @request.session[:user_id] = 2
-    post :create, :project_id => '1', :category => {:name => ''}
+    post :create, :project_id => '1', :issue_category => {:name => ''}
     assert_response :success
     assert_template 'new'
   end
@@ -66,20 +66,20 @@ class IssueCategoriesControllerTest < ActionController::TestCase
 
   def test_update
     assert_no_difference 'IssueCategory.count' do
-      put :update, :id => 2, :category => { :name => 'Testing' }
+      put :update, :id => 2, :issue_category => { :name => 'Testing' }
     end
     assert_redirected_to '/projects/ecookbook/settings/categories'
     assert_equal 'Testing', IssueCategory.find(2).name
   end
 
   def test_update_failure
-    put :update, :id => 2, :category => { :name => '' }
+    put :update, :id => 2, :issue_category => { :name => '' }
     assert_response :success
     assert_template 'edit'
   end
 
   def test_update_not_found
-    put :update, :id => 97, :category => { :name => 'Testing' }
+    put :update, :id => 97, :issue_category => { :name => 'Testing' }
     assert_response 404
   end
 
