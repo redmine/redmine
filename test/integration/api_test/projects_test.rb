@@ -20,7 +20,7 @@ require File.expand_path('../../../test_helper', __FILE__)
 class ApiTest::ProjectsTest < ActionController::IntegrationTest
   fixtures :projects, :versions, :users, :roles, :members, :member_roles, :issues, :journals, :journal_details,
            :trackers, :projects_trackers, :issue_statuses, :enabled_modules, :enumerations, :boards, :messages,
-           :attachments, :custom_fields, :custom_values, :time_entries
+           :attachments, :custom_fields, :custom_values, :time_entries, :issue_categories
 
   def setup
     Setting.rest_api_enabled = '1'
@@ -69,6 +69,9 @@ class ApiTest::ProjectsTest < ActionController::IntegrationTest
           :child => {:tag => 'id', :content => '1'}
         assert_tag :tag => 'custom_field',
           :attributes => {:name => 'Development status'}, :content => 'Stable'
+
+        assert_no_tag 'trackers'
+        assert_no_tag 'issue_categories'
       end
 
       context "with hidden custom fields" do
@@ -84,6 +87,38 @@ class ApiTest::ProjectsTest < ActionController::IntegrationTest
           assert_no_tag 'custom_field',
             :attributes => {:name => 'Development status'}
         end
+      end
+
+      should "return categories with include=issue_categories" do
+        get '/projects/1.xml?include=issue_categories'
+        assert_response :success
+        assert_equal 'application/xml', @response.content_type
+
+        assert_tag 'issue_categories',
+          :attributes => {:type => 'array'},
+          :child => {
+            :tag => 'issue_category',
+            :attributes => {
+              :id => '2',
+              :name => 'Recipes'
+            }
+          }
+      end
+
+      should "return trackers with include=trackers" do
+        get '/projects/1.xml?include=trackers'
+        assert_response :success
+        assert_equal 'application/xml', @response.content_type
+
+        assert_tag 'trackers',
+          :attributes => {:type => 'array'},
+          :child => {
+            :tag => 'tracker',
+            :attributes => {
+              :id => '2',
+              :name => 'Feature request'
+            }
+          }
       end
     end
 
