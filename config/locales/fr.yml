@@ -998,25 +998,25 @@ fr:
   text_scm_command_not_available: Ce SCM n'est pas disponible. Vérifier les paramètres dans la section administration.
   label_diff: diff
   text_git_repository_note: Repository is bare and local (e.g. /gitrepo, c:\gitrepo)
-  description_query_sort_criteria_direction: Sort direction
-  description_project_scope: Search scope
-  description_filter: Filter
-  description_user_mail_notification: Mail notification settings
-  description_date_from: Enter start date
-  description_message_content: Message content
+  description_query_sort_criteria_direction: Ordre de tri
+  description_project_scope: Périmètre de recherche
+  description_filter: Filtre
+  description_user_mail_notification: Option de notification
+  description_date_from: Date de début
+  description_message_content: Contenu du message
   description_available_columns: Colonnes disponibles
   description_all_columns: Toutes les colonnes
-  description_date_range_interval: Choose range by selecting start and end date
-  description_issue_category_reassign: Choose issue category
-  description_search: Searchfield
+  description_date_range_interval: Choisir une période
+  description_issue_category_reassign: Choisir une catégorie
+  description_search: Champ de recherche
   description_notes: Notes
-  description_date_range_list: Choose range from list
-  description_choose_project: Projects
-  description_date_to: Enter end date
-  description_query_sort_criteria_attribute: Sort attribute
-  description_wiki_subpages_reassign: Choose new parent page
+  description_date_range_list: Choisir une période prédéfinie
+  description_choose_project: Projets
+  description_date_to: Date de fin
+  description_query_sort_criteria_attribute: Critère de tri
+  description_wiki_subpages_reassign: Choisir une nouvelle page parent
   description_selected_columns: Colonnes sélectionnées
   label_parent_revision: Parent
-  label_child_revision: Child
-  error_scm_annotate_big_text_file: The entry cannot be annotated, as it exceeds the maximum text file size.
-  setting_repositories_encodings: Attachments and repositories encodings
+  label_child_revision: Enfant
+  error_scm_annotate_big_text_file: Cette entrée ne peut pas être annotée car elle excède la taille maximale.
+  setting_repositories_encodings: Encodages des fichiers et des dépôts
