@@ -52,19 +52,21 @@ class AttachmentsControllerTest < ActionController::TestCase
     end
   end
 
-  def test_show_diff_should_strip_non_utf8_content
-    ['inline', 'sbs'].each do |dt|
-      # 060719210727_changeset_iso8859-1.diff
-      get :show, :id => 5, :type => dt
-      assert_response :success
-      assert_template 'diff'
-      assert_equal 'text/html', @response.content_type
-      assert_tag 'th',
-        :attributes => {:class => /filename/},
-        :content => /issues_controller.rb\t\(rvision 1484\)/
-      assert_tag 'td',
-        :attributes => {:class => /line-code/},
-        :content => /Demande cre avec succs/
+  def test_show_diff_replcace_cannot_convert_content
+    with_settings :repositories_encodings => 'UTF-8' do
+      ['inline', 'sbs'].each do |dt|
+        # 060719210727_changeset_iso8859-1.diff
+        get :show, :id => 5
+        assert_response :success
+        assert_template 'diff'
+        assert_equal 'text/html', @response.content_type
+        assert_tag 'th',
+          :attributes => {:class => "filename"},
+          :content => /issues_controller.rb\t\(r\?vision 1484\)/
+        assert_tag 'td',
+          :attributes => {:class => /line-code/},
+          :content => /Demande cr\?\?e avec succ\?s/
+      end
     end
   end
 
@@ -96,22 +98,24 @@ class AttachmentsControllerTest < ActionController::TestCase
                :sibling => { :tag => 'td', :content => /#{str_japanese}/ }
   end
 
-  def test_show_text_file_should_strip_non_utf8_content
+  def test_show_text_file_replcace_cannot_convert_content
     set_tmp_attachments_directory
-    a = Attachment.new(:container => Issue.find(1),
-                       :file => uploaded_test_file("iso8859-1.txt", "text/plain"),
-                       :author => User.find(1))
-    assert a.save
-    assert_equal 'iso8859-1.txt', a.filename
+    with_settings :repositories_encodings => 'UTF-8' do
+      a = Attachment.new(:container => Issue.find(1),
+                         :file => uploaded_test_file("iso8859-1.txt", "text/plain"),
+                         :author => User.find(1))
+      assert a.save
+      assert_equal 'iso8859-1.txt', a.filename
 
-    get :show, :id => a.id
-    assert_response :success
-    assert_template 'file'
-    assert_equal 'text/html', @response.content_type
-    assert_tag :tag => 'th',
-               :content => '7',
-               :attributes => { :class => 'line-num' },
-               :sibling => { :tag => 'td', :content => /Demande cre avec succs/ }
+      get :show, :id => a.id
+      assert_response :success
+      assert_template 'file'
+      assert_equal 'text/html', @response.content_type
+      assert_tag :tag => 'th',
+                 :content => '7',
+                 :attributes => { :class => 'line-num' },
+                 :sibling => { :tag => 'td', :content => /Demande cr\?\?e avec succ\?s/ }
+      end
   end
 
   def test_show_text_file_should_send_if_too_big

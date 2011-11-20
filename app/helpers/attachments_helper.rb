@@ -29,19 +29,7 @@ module AttachmentsHelper
   end
 
   def to_utf8(str)
-    if str.respond_to?(:force_encoding)
-      str.force_encoding('UTF-8')
-      return str if str.valid_encoding?
-    else
-      return str if /\A[\r\n\t\x20-\x7e]*\Z/n.match(str) # for us-ascii
-    end
-
-    begin
-      Iconv.conv('UTF-8//IGNORE', 'UTF-8', str + '  ')[0..-3]
-    rescue Iconv::InvalidEncoding
-      # "UTF-8//IGNORE" is not supported on some OS
-      str
-    end
+    Redmine::CodesetUtil.to_utf8_by_setting(str)
   end
 
   def render_api_attachment(attachment, api)
