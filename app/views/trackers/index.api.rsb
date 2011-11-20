@@ -1,0 +1,8 @@
+api.array :trackers do
+  @trackers.each do |tracker|
+    api.tracker do
+      api.id tracker.id
+      api.name tracker.name
+    end
+  end
+end

@@ -314,6 +314,19 @@ class ApplicationController < ActionController::Base
       format.json { head @status }
     end
   end
+  
+  # Filter for actions that provide an API response
+  # but have no HTML representation for non admin users
+  def require_admin_or_api_request
+    return true if api_request?
+    if User.current.admin?
+      true
+    elsif User.current.logged?
+      render_error(:status => 406)
+    else
+      deny_access
+    end
+  end
 
   # Picks which layout to use based on the request
   #

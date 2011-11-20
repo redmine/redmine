@@ -227,6 +227,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :groups
 
   #left old routes at the bottom for backwards compat
+  map.connect 'trackers.:format', :controller => 'trackers', :action => 'index'
   map.connect 'projects/:project_id/issues/:action', :controller => 'issues'
   map.connect 'projects/:project_id/documents/:action', :controller => 'documents'
   map.connect 'projects/:project_id/boards/:action/:id', :controller => 'boards'

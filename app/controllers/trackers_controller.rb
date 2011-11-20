@@ -18,13 +18,22 @@
 class TrackersController < ApplicationController
   layout 'admin'
 
-  before_filter :require_admin
+  before_filter :require_admin, :except => :index
+  before_filter :require_admin_or_api_request, :only => :index
+  accept_api_auth :index
 
   verify :method => :post, :only => :destroy, :redirect_to => { :action => :index }
 
   def index
-    @tracker_pages, @trackers = paginate :trackers, :per_page => 10, :order => 'position'
-    render :action => "index", :layout => false if request.xhr?
+    respond_to do |format|
+      format.html {
+        @tracker_pages, @trackers = paginate :trackers, :per_page => 10, :order => 'position'
+        render :action => "index", :layout => false if request.xhr?
+      }
+      format.api {
+        @trackers = Tracker.all
+      }
+    end
   end
 
   def new
