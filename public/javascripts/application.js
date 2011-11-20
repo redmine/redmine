@@ -186,6 +186,39 @@ function promptToRemote(text, param, url) {
     }
 }
 
+function showModal(id, width) {
+  el = $(id);
+	if (el == undefined || el.visible()) {return;}
+  var h = $$('body')[0].getHeight();
+  var d = document.createElement("div");
+  d.id = 'modalbg';
+  $('main').appendChild(d);
+  $('modalbg').setStyle({ width: '100%', height: h + 'px' });
+  $('modalbg').show();
+
+  var pageWidth = document.viewport.getWidth();
+	el.setStyle({'width': width});
+	el.setStyle({'left': (((pageWidth - el.getWidth())/2  *100) / pageWidth) + '%'});
+  el.addClassName('modal');
+	el.show();
+
+  var submit = el.down("input[type=submit]");
+	if (submit) {
+  	submit.focus();
+  }
+}
+
+function hideModal(el) {
+  var modal = Element.up(el, 'div.modal');
+	if (modal) {
+		modal.hide();
+	}
+	var bg = $('modalbg');
+	if (bg) {
+  	bg.remove();
+  }
+}
+
 function collapseScmEntry(id) {
     var els = document.getElementsByClassName(id, 'browser');
 	for (var i = 0; i < els.length; i++) {

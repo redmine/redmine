@@ -263,62 +263,39 @@ module IssuesHelper
     end
   end
 
-  def issues_to_csv(issues, project = nil)
+  def issues_to_csv(issues, project, query, options={})
+    ic = Iconv.new(l(:general_csv_encoding), 'UTF-8')
     decimal_separator = l(:general_csv_decimal_separator)
+    encoding = l(:general_csv_encoding)
+    columns = (options[:columns] == 'all' ? query.available_columns : query.columns)
+
     export = FCSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
       # csv header fields
-      headers = [ "#",
-                  l(:field_status),
-                  l(:field_project),
-                  l(:field_tracker),
-                  l(:field_priority),
-                  l(:field_subject),
-                  l(:field_assigned_to),
-                  l(:field_category),
-                  l(:field_fixed_version),
-                  l(:field_author),
-                  l(:field_start_date),
-                  l(:field_due_date),
-                  l(:field_done_ratio),
-                  l(:field_estimated_hours),
-                  l(:field_parent_issue),
-                  l(:field_created_on),
-                  l(:field_updated_on)
-                  ]
-      # Export project custom fields if project is given
-      # otherwise export custom fields marked as "For all projects"
-      custom_fields = project.nil? ? IssueCustomField.for_all : project.all_issue_custom_fields
-      custom_fields.each {|f| headers << f.name}
-      # Description in the last column
-      headers << l(:field_description)
-      csv << headers.collect {|c| Redmine::CodesetUtil.from_utf8(
-                                    c.to_s,
-                                    l(:general_csv_encoding) ) }
+      csv << [ "#" ] + columns.collect {|c| Redmine::CodesetUtil.from_utf8(c.caption.to_s, encoding) } +
+        (options[:description] ? [Redmine::CodesetUtil.from_utf8(l(:field_description), encoding)] : [])
+
       # csv lines
       issues.each do |issue|
-        fields = [issue.id,
-                  issue.status.name,
-                  issue.project.name,
-                  issue.tracker.name,
-                  issue.priority.name,
-                  issue.subject,
-                  issue.assigned_to,
-                  issue.category,
-                  issue.fixed_version,
-                  issue.author.name,
-                  format_date(issue.start_date),
-                  format_date(issue.due_date),
-                  issue.done_ratio,
-                  issue.estimated_hours.to_s.gsub('.', decimal_separator),
-                  issue.parent_id,
-                  format_time(issue.created_on),
-                  format_time(issue.updated_on)
-                  ]
-        custom_fields.each {|f| fields << show_value(issue.custom_value_for(f)) }
-        fields << issue.description
-        csv << fields.collect {|c| Redmine::CodesetUtil.from_utf8(
-                                    c.to_s,
-                                    l(:general_csv_encoding) ) }
+        col_values = columns.collect do |column|
+          s = if column.is_a?(QueryCustomFieldColumn)
+            cv = issue.custom_values.detect {|v| v.custom_field_id == column.custom_field.id}
+            show_value(cv)
+          else
+            value = issue.send(column.name)
+            if value.is_a?(Date)
+              format_date(value)
+            elsif value.is_a?(Time)
+              format_time(value)
+            elsif value.is_a?(Float)
+              value.to_s.gsub('.', decimal_separator)
+            else
+              value
+            end
+          end
+          s.to_s
+        end
+        csv << [ issue.id.to_s ] + col_values.collect {|c| Redmine::CodesetUtil.from_utf8(c.to_s, encoding) } +
+          (options[:description] ? [Redmine::CodesetUtil.from_utf8(issue.description, encoding)] : [])
       end
     end
     export

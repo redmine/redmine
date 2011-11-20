@@ -827,6 +827,7 @@ en:
   label_git_report_last_commit: Report last commit for files and directories
   label_parent_revision: Parent
   label_child_revision: Child
+  label_export_options: %{export_format} export options
 
   button_login: Login
   button_submit: Submit
@@ -875,6 +876,7 @@ en:
   button_duplicate: Duplicate
   button_show: Show
   button_edit_section: Edit this section
+  button_export: Export
 
   status_active: active
   status_registered: registered
@@ -994,6 +996,7 @@ en:
   description_user_mail_notification: Mail notification settings
   description_available_columns: Available Columns
   description_selected_columns: Selected Columns
+  description_all_columns: All Columns
   description_issue_category_reassign: Choose issue category
   description_wiki_subpages_reassign: Choose new parent page
   description_date_range_list: Choose range from list

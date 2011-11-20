@@ -803,6 +803,7 @@ fr:
   label_issues_visibility_all: Toutes les demandes
   label_issues_visibility_public: Toutes les demandes non privées
   label_issues_visibility_own: Demandes créées par ou assignées à l'utilisateur
+  label_export_options: Options d'exportation %{export_format}
 
   button_login: Connexion
   button_submit: Soumettre
@@ -850,6 +851,7 @@ fr:
   button_duplicate: Dupliquer
   button_show: Afficher
   button_edit_section: Modifier cette section
+  button_export: Exporter
 
   status_active: actif
   status_registered: enregistré
@@ -1002,7 +1004,8 @@ fr:
   description_user_mail_notification: Mail notification settings
   description_date_from: Enter start date
   description_message_content: Message content
-  description_available_columns: Available Columns
+  description_available_columns: Colonnes disponibles
+  description_all_columns: Toutes les colonnes
   description_date_range_interval: Choose range by selecting start and end date
   description_issue_category_reassign: Choose issue category
   description_search: Searchfield
@@ -1012,7 +1015,7 @@ fr:
   description_date_to: Enter end date
   description_query_sort_criteria_attribute: Sort attribute
   description_wiki_subpages_reassign: Choose new parent page
-  description_selected_columns: Selected Columns
+  description_selected_columns: Colonnes sélectionnées
   label_parent_revision: Parent
   label_child_revision: Child
   error_scm_annotate_big_text_file: The entry cannot be annotated, as it exceeds the maximum text file size.

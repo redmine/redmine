@@ -281,19 +281,41 @@ class IssuesControllerTest < ActionController::TestCase
     get :index, :sort => 'tracker'
   end
 
-  def test_index_csv_with_project
-    Setting.default_language = 'en'
-
+  def test_index_csv
     get :index, :format => 'csv'
     assert_response :success
     assert_not_nil assigns(:issues)
     assert_equal 'text/csv', @response.content_type
     assert @response.body.starts_with?("#,")
+    lines = @response.body.chomp.split("\n")
+    assert_equal assigns(:query).columns.size + 1, lines[0].split(',').size
+  end
 
+  def test_index_csv_with_project
     get :index, :project_id => 1, :format => 'csv'
     assert_response :success
     assert_not_nil assigns(:issues)
     assert_equal 'text/csv', @response.content_type
+  end
+
+  def test_index_csv_with_description
+    get :index, :format => 'csv', :description => '1'
+    assert_response :success
+    assert_not_nil assigns(:issues)
+    assert_equal 'text/csv', @response.content_type
+    assert @response.body.starts_with?("#,")
+    lines = @response.body.chomp.split("\n")
+    assert_equal assigns(:query).columns.size + 2, lines[0].split(',').size
+  end
+
+  def test_index_csv_with_all_columns
+    get :index, :format => 'csv', :columns => 'all'
+    assert_response :success
+    assert_not_nil assigns(:issues)
+    assert_equal 'text/csv', @response.content_type
+    assert @response.body.starts_with?("#,")
+    lines = @response.body.chomp.split("\n")
+    assert_equal assigns(:query).available_columns.size + 1, lines[0].split(',').size
   end
 
   def test_index_csv_big_5
@@ -314,7 +336,7 @@ class IssuesControllerTest < ActionController::TestCase
                   :op => '=', :values => [str_utf8],
                   :format => 'csv'
       assert_equal 'text/csv', @response.content_type
-      lines = @response.body.chomp.split("\n")    
+      lines = @response.body.chomp.split("\n")
       s1 = "\xaa\xac\xbaA"
       if str_utf8.respond_to?(:force_encoding)
         s1.force_encoding('Big5')
@@ -338,17 +360,19 @@ class IssuesControllerTest < ActionController::TestCase
       get :index, :project_id => 1, 
                   :f => ['subject'], 
                   :op => '=', :values => [str_utf8],
-                  :format => 'csv'
+                  :c => ['status', 'subject'],
+                  :format => 'csv',
+                  :set_filter => 1
       assert_equal 'text/csv', @response.content_type
-      lines = @response.body.chomp.split("\n")    
-      s1 = "\xaa\xac\xbaA"
+      lines = @response.body.chomp.split("\n")
+      s1 = "\xaa\xac\xbaA" # status
       if str_utf8.respond_to?(:force_encoding)
         s1.force_encoding('Big5')
       end
       assert lines[0].include?(s1)
-      s2 = lines[1].split(",")[5]
+      s2 = lines[1].split(",")[2]
       if s1.respond_to?(:force_encoding)
-        s3 = "\xa5H?"
+        s3 = "\xa5H?" # subject
         s3.force_encoding('Big5')
         assert_equal s3, s2
       elsif RUBY_PLATFORM == 'java'
