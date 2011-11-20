@@ -18,14 +18,23 @@
 class IssueStatusesController < ApplicationController
   layout 'admin'
 
-  before_filter :require_admin
+  before_filter :require_admin, :except => :index
+  before_filter :require_admin_or_api_request, :only => :index
+  accept_api_auth :index
 
   verify :method => :post, :only => [ :destroy, :create, :update, :move, :update_issue_done_ratio ],
          :redirect_to => { :action => :index }
 
   def index
-    @issue_status_pages, @issue_statuses = paginate :issue_statuses, :per_page => 25, :order => "position"
-    render :action => "index", :layout => false if request.xhr?
+    respond_to do |format|
+      format.html {
+        @issue_status_pages, @issue_statuses = paginate :issue_statuses, :per_page => 25, :order => "position"
+        render :action => "index", :layout => false if request.xhr?
+      }
+      format.api {
+        @issue_statuses = IssueStatus.all(:order => 'position')
+      }
+    end
   end
 
   def new
