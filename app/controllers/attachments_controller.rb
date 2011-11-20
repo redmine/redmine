@@ -27,6 +27,8 @@ class AttachmentsController < ApplicationController
       format.html {
         if @attachment.is_diff?
           @diff = File.new(@attachment.diskfile, "rb").read
+          @diff_type = params[:type] || User.current.pref[:diff_type] || 'inline'
+          @diff_type = 'inline' unless %w(inline sbs).include?(@diff_type)
           render :action => 'diff'
         elsif @attachment.is_text? && @attachment.filesize <= Setting.file_max_size_displayed.to_i.kilobyte
           @content = File.new(@attachment.diskfile, "rb").read
