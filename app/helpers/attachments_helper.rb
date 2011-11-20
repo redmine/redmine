@@ -28,10 +28,6 @@ module AttachmentsHelper
     end
   end
 
-  def to_utf8(str)
-    Redmine::CodesetUtil.to_utf8_by_setting(str)
-  end
-
   def render_api_attachment(attachment, api)
     api.attachment do
       api.id attachment.id

@@ -116,10 +116,6 @@ module RepositoriesHelper
     output.html_safe
   end
 
-  def to_utf8(str)
-    Redmine::CodesetUtil.to_utf8_by_setting(str)
-  end
-
   def repository_field_tags(form, repository)
     method = repository.class.name.demodulize.underscore + "_field_tags"
     if repository.is_a?(Repository) &&
