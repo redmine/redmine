@@ -264,7 +264,6 @@ module IssuesHelper
   end
 
   def issues_to_csv(issues, project, query, options={})
-    ic = Iconv.new(l(:general_csv_encoding), 'UTF-8')
     decimal_separator = l(:general_csv_decimal_separator)
     encoding = l(:general_csv_encoding)
     columns = (options[:columns] == 'all' ? query.available_columns : query.columns)
