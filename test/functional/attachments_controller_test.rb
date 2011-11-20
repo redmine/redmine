@@ -38,7 +38,7 @@ class AttachmentsControllerTest < ActionController::TestCase
 
   def test_show_diff
     ['inline', 'sbs'].each do |dt|
-    # 060719210727_changeset_utf8.diff
+      # 060719210727_changeset_utf8.diff
       get :show, :id => 14, :type => dt
       assert_response :success
       assert_template 'diff'
