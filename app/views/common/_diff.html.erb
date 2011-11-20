@@ -1,4 +1,6 @@
-<% diff = Redmine::UnifiedDiff.new(diff, :type => diff_type, :max_lines => Setting.diff_max_lines_displayed.to_i) -%>
+<% diff = Redmine::UnifiedDiff.new(
+            diff, :type => diff_type,
+            :max_lines => Setting.diff_max_lines_displayed.to_i) -%>
 
 <% diff.each do |table_file| -%>
 <div class="autoscroll">
