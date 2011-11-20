@@ -32,17 +32,17 @@ class IssueCategoriesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
   end
 
-  def test_get_new
+  def test_new
     @request.session[:user_id] = 2 # manager
     get :new, :project_id => '1'
     assert_response :success
     assert_template 'new'
   end
 
-  def test_post_new
+  def test_create
     @request.session[:user_id] = 2 # manager
     assert_difference 'IssueCategory.count' do
-      post :new, :project_id => '1', :category => {:name => 'New category'}
+      post :create, :project_id => '1', :category => {:name => 'New category'}
     end
     assert_redirected_to '/projects/ecookbook/settings/categories'
     category = IssueCategory.find_by_name('New category')
@@ -50,27 +50,47 @@ class IssueCategoriesControllerTest < ActionController::TestCase
     assert_equal 1, category.project_id
   end
 
-  def test_post_edit
+  def test_create_failure
+    @request.session[:user_id] = 2
+    post :create, :project_id => '1', :category => {:name => ''}
+    assert_response :success
+    assert_template 'new'
+  end
+
+  def test_edit
+    @request.session[:user_id] = 2
+    get :edit, :id => 2
+    assert_response :success
+    assert_template 'edit'
+  end
+
+  def test_update
     assert_no_difference 'IssueCategory.count' do
-      post :edit, :id => 2, :category => { :name => 'Testing' }
+      put :update, :id => 2, :category => { :name => 'Testing' }
     end
     assert_redirected_to '/projects/ecookbook/settings/categories'
     assert_equal 'Testing', IssueCategory.find(2).name
   end
 
-  def test_edit_not_found
-    post :edit, :id => 97, :category => { :name => 'Testing' }
+  def test_update_failure
+    put :update, :id => 2, :category => { :name => '' }
+    assert_response :success
+    assert_template 'edit'
+  end
+
+  def test_update_not_found
+    put :update, :id => 97, :category => { :name => 'Testing' }
     assert_response 404
   end
 
   def test_destroy_category_not_in_use
-    post :destroy, :id => 2
+    delete :destroy, :id => 2
     assert_redirected_to '/projects/ecookbook/settings/categories'
     assert_nil IssueCategory.find_by_id(2)
   end
 
   def test_destroy_category_in_use
-    post :destroy, :id => 1
+    delete :destroy, :id => 1
     assert_response :success
     assert_template 'destroy'
     assert_not_nil IssueCategory.find_by_id(1)
@@ -78,7 +98,7 @@ class IssueCategoriesControllerTest < ActionController::TestCase
 
   def test_destroy_category_in_use_with_reassignment
     issue = Issue.find(:first, :conditions => {:category_id => 1})
-    post :destroy, :id => 1, :todo => 'reassign', :reassign_to_id => 2
+    delete :destroy, :id => 1, :todo => 'reassign', :reassign_to_id => 2
     assert_redirected_to '/projects/ecookbook/settings/categories'
     assert_nil IssueCategory.find_by_id(1)
     # check that the issue was reassign
@@ -87,7 +107,7 @@ class IssueCategoriesControllerTest < ActionController::TestCase
 
   def test_destroy_category_in_use_without_reassignment
     issue = Issue.find(:first, :conditions => {:category_id => 1})
-    post :destroy, :id => 1, :todo => 'nullify'
+    delete :destroy, :id => 1, :todo => 'nullify'
     assert_redirected_to '/projects/ecookbook/settings/categories'
     assert_nil IssueCategory.find_by_id(1)
     # check that the issue category was nullified

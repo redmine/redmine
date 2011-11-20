@@ -12,8 +12,10 @@
     <td><%=h(category.name) %></td>
     <td><%=h(category.assigned_to.name) if category.assigned_to %></td>
     <td class="buttons">
-      <%= link_to_if_authorized l(:button_edit), { :controller => 'issue_categories', :action => 'edit', :id => category }, :class => 'icon icon-edit' %>
-      <%= link_to_if_authorized l(:button_delete), {:controller => 'issue_categories', :action => 'destroy', :id => category}, :method => :post, :class => 'icon icon-del' %>
+    	<% if User.current.allowed_to?(:manage_categories, @project) %>
+        <%= link_to l(:button_edit), edit_issue_category_path(category), :class => 'icon icon-edit' %>
+        <%= link_to l(:button_delete), issue_category_path(category), :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del' %>
+		  <% end %>
     </td>
   </tr>
   <% end %>
@@ -24,4 +26,4 @@
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
 
-<p><%= link_to_if_authorized l(:label_issue_category_new), :controller => 'issue_categories', :action => 'new', :project_id => @project %></p>
+<p><%= link_to l(:label_issue_category_new), new_project_issue_category_path(@project) if User.current.allowed_to?(:manage_categories, @project) %></p>
