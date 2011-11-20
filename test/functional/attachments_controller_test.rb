@@ -70,6 +70,23 @@ class AttachmentsControllerTest < ActionController::TestCase
     end
   end
 
+  def test_show_diff_latin_1
+    with_settings :repositories_encodings => 'UTF-8,ISO-8859-1' do
+      # 060719210727_changeset_iso8859-1.diff
+      get :show, :id => 5
+      assert_response :success
+      assert_template 'diff'
+      assert_equal 'text/html', @response.content_type
+
+      assert_tag 'th',
+        :attributes => {:class => "filename"},
+        :content => /issues_controller.rb\t\(révision 1484\)/
+      assert_tag 'td',
+        :attributes => {:class => /line-code/},
+        :content => /Demande créée avec succès/
+    end
+  end
+
   def test_show_text_file
     get :show, :id => 4
     assert_response :success
