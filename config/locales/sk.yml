@@ -822,7 +822,6 @@ sk:
   permission_add_project: Vytvorenie projektu
   label_wiki_content_updated: Wiki stránka aktualizovaná
   mail_body_wiki_content_updated: Wiki stránka '%{id}' bola aktualizovaná užívateľom %{author}.
-  setting_repositories_encodings: Kódovanie repozitára
   setting_new_project_user_role_id: Rola dána non-admin užívateľovi, ktorý vytvorí projekt
   label_view_all_revisions: Zobraziť všetkz revízie
   label_tag: Tag
@@ -997,3 +996,4 @@ sk:
   error_scm_annotate_big_text_file: The entry cannot be annotated, as it exceeds the maximum text file size.
   setting_default_issue_start_date_to_creation_date: Use current date as start date for new issues
   button_edit_section: Edit this section
+  setting_repositories_encodings: Attachments and repositories encodings

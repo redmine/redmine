@@ -279,7 +279,6 @@ uk:
   setting_time_format: Формат часу
   setting_cross_project_issue_relations: Дозволити міжпроектні відносини між питаннями
   setting_issue_list_default_columns: Колонки, що відображаються за умовчанням в списку питань
-  setting_repositories_encodings: Кодування репозиторія
   setting_emails_footer: Підпис до електронної пошти
   setting_protocol: Протокол
   
@@ -998,3 +997,4 @@ uk:
   error_scm_annotate_big_text_file: The entry cannot be annotated, as it exceeds the maximum text file size.
   setting_default_issue_start_date_to_creation_date: Use current date as start date for new issues
   button_edit_section: Edit this section
+  setting_repositories_encodings: Attachments and repositories encodings

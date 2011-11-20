@@ -723,7 +723,6 @@ nl:
   setting_per_page_options: Aantal objecten per pagina (opties)
   setting_plain_text_mail: platte tekst (geen HTML)
   setting_protocol: Protocol
-  setting_repositories_encodings: Repositories coderingen
   setting_self_registration: Zelfregistratie toegestaan
   setting_sequential_project_identifiers: Genereer sequentiële projectidentiteiten
   setting_sys_api_enabled: Gebruik WS voor repository beheer
@@ -984,3 +983,4 @@ nl:
   error_scm_annotate_big_text_file: The entry cannot be annotated, as it exceeds the maximum text file size.
   setting_default_issue_start_date_to_creation_date: Use current date as start date for new issues
   button_edit_section: Edit this section
+  setting_repositories_encodings: Attachments and repositories encodings

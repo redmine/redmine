@@ -316,7 +316,6 @@ pt-BR:
   setting_time_format: Formato de hora
   setting_cross_project_issue_relations: Permitir relacionar tarefas entre projetos
   setting_issue_list_default_columns: Colunas padrão visíveis na lista de tarefas
-  setting_repositories_encodings: Codificação dos repositórios
   setting_emails_footer: Rodapé do e-mail
   setting_protocol: Protocolo
   setting_per_page_options: Número de itens exibidos por página
@@ -1023,3 +1022,4 @@ pt-BR:
   error_scm_annotate_big_text_file: The entry cannot be annotated, as it exceeds the maximum text file size.
   setting_default_issue_start_date_to_creation_date: Use current date as start date for new issues
   button_edit_section: Edit this section
+  setting_repositories_encodings: Attachments and repositories encodings

@@ -341,7 +341,6 @@ fr:
   setting_time_format: Format d'heure
   setting_cross_project_issue_relations: Autoriser les relations entre demandes de différents projets
   setting_issue_list_default_columns: Colonnes affichées par défaut sur la liste des demandes
-  setting_repositories_encodings: Encodages des dépôts
   setting_emails_footer: Pied-de-page des emails
   setting_protocol: Protocole
   setting_per_page_options: Options d'objets affichés par page
@@ -1017,3 +1016,4 @@ fr:
   label_parent_revision: Parent
   label_child_revision: Child
   error_scm_annotate_big_text_file: The entry cannot be annotated, as it exceeds the maximum text file size.
+  setting_repositories_encodings: Attachments and repositories encodings

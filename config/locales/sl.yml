@@ -294,7 +294,6 @@ sl:
   setting_time_format: Oblika časa
   setting_cross_project_issue_relations: Dovoli povezave zahtevkov med različnimi projekti
   setting_issue_list_default_columns: Privzeti stolpci prikazani na seznamu zahtevkov
-  setting_repositories_encodings: Kodiranje shrambe
   setting_emails_footer: Noga e-sporočil
   setting_protocol: Protokol
   setting_per_page_options: Število elementov na stran
@@ -1002,3 +1001,4 @@ sl:
   error_scm_annotate_big_text_file: The entry cannot be annotated, as it exceeds the maximum text file size.
   setting_default_issue_start_date_to_creation_date: Use current date as start date for new issues
   button_edit_section: Edit this section
+  setting_repositories_encodings: Attachments and repositories encodings

@@ -777,7 +777,6 @@ es:
   setting_per_page_options: Objetos por página
   setting_plain_text_mail: sólo texto plano (no HTML)
   setting_protocol: Protocolo
-  setting_repositories_encodings: Codificaciones del repositorio
   setting_self_registration: Registro permitido
   setting_sequential_project_identifiers: Generar identificadores de proyecto
   setting_sys_api_enabled: Habilitar SW para la gestión del repositorio
@@ -1039,3 +1038,4 @@ es:
   label_child_revision: Child
   setting_default_issue_start_date_to_creation_date: Use current date as start date for new issues
   button_edit_section: Edit this section
+  setting_repositories_encodings: Attachments and repositories encodings

@@ -342,7 +342,6 @@ bg:
   setting_time_format: Формат на часа
   setting_cross_project_issue_relations: Релации на задачи между проекти
   setting_issue_list_default_columns: Показвани колони по подразбиране
-  setting_repositories_encodings: Кодови таблици
   setting_emails_header: Emails header
   setting_emails_footer: Подтекст за e-mail
   setting_protocol: Протокол
@@ -1000,3 +999,4 @@ bg:
   description_date_range_interval: Изберете диапазон чрез задаване на начална и крайна дати
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
+  setting_repositories_encodings: Attachments and repositories encodings

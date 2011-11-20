@@ -753,7 +753,6 @@ gl:
   setting_per_page_options: Obxectos por páxina
   setting_plain_text_mail: só texto plano (non HTML)
   setting_protocol: Protocolo
-  setting_repositories_encodings: Codificacións do repositorio
   setting_self_registration: Rexistro permitido
   setting_sequential_project_identifiers: Xerar identificadores de proxecto
   setting_sys_api_enabled: Habilitar SW para a xestión do repositorio
@@ -1014,3 +1013,4 @@ gl:
   error_scm_annotate_big_text_file: The entry cannot be annotated, as it exceeds the maximum text file size.
   setting_default_issue_start_date_to_creation_date: Use current date as start date for new issues
   button_edit_section: Edit this section
+  setting_repositories_encodings: Attachments and repositories encodings

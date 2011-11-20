@@ -344,7 +344,6 @@ de:
   setting_time_format: Zeitformat
   setting_cross_project_issue_relations: Ticket-Beziehungen zwischen Projekten erlauben
   setting_issue_list_default_columns: Default-Spalten in der Ticket-Auflistung
-  setting_repositories_encodings: Kodierungen der Projektarchive
   setting_emails_footer: E-Mail-Fußzeile
   setting_protocol: Protokoll
   setting_per_page_options: Objekte pro Seite
@@ -1023,3 +1022,4 @@ de:
   error_scm_annotate_big_text_file: The entry cannot be annotated, as it exceeds the maximum text file size.
   setting_default_issue_start_date_to_creation_date: Use current date as start date for new issues
   button_edit_section: Edit this section
+  setting_repositories_encodings: Attachments and repositories encodings

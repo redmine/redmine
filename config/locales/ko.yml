@@ -357,7 +357,6 @@ ko:
   setting_time_format: 시간 형식
   setting_cross_project_issue_relations: 다른 프로젝트의 일감과 연결하는 것을 허용
   setting_issue_list_default_columns: 일감 목록에 표시할 항목 
-  setting_repositories_encodings:  저장소 인코딩
   setting_emails_footer: 메일 꼬리
   setting_protocol: 프로토콜
   setting_per_page_options: 목록에서, 한 페이지에 표시할 행
@@ -1054,3 +1053,4 @@ ko:
   error_scm_annotate_big_text_file: The entry cannot be annotated, as it exceeds the maximum text file size.
   setting_default_issue_start_date_to_creation_date: Use current date as start date for new issues
   button_edit_section: Edit this section
+  setting_repositories_encodings: Attachments and repositories encodings

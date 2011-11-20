@@ -282,7 +282,6 @@
   setting_time_format: Tidsformat
   setting_cross_project_issue_relations: Tillat saksrelasjoner på kryss av prosjekter
   setting_issue_list_default_columns: Standardkolonner vist i sakslisten
-  setting_repositories_encodings: Depot-tegnsett
   setting_emails_footer: Epost-signatur
   setting_protocol: Protokoll
   setting_per_page_options: Alternativer, objekter pr. side
@@ -992,3 +991,4 @@
   error_scm_annotate_big_text_file: The entry cannot be annotated, as it exceeds the maximum text file size.
   setting_default_issue_start_date_to_creation_date: Use current date as start date for new issues
   button_edit_section: Edit this section
+  setting_repositories_encodings: Attachments and repositories encodings

@@ -329,7 +329,6 @@ ca:
   setting_time_format: Format de hora
   setting_cross_project_issue_relations: "Permet les relacions d'assumptes entre projectes"
   setting_issue_list_default_columns: "Columnes mostrades per defecte en la llista d'assumptes"
-  setting_repositories_encodings: Codificacions del dipòsit
   setting_emails_footer: Peu dels correus electrònics
   setting_protocol: Protocol
   setting_per_page_options: Opcions dels objectes per pàgina
@@ -1005,3 +1004,4 @@ ca:
   error_scm_annotate_big_text_file: The entry cannot be annotated, as it exceeds the maximum text file size.
   setting_default_issue_start_date_to_creation_date: Use current date as start date for new issues
   button_edit_section: Edit this section
+  setting_repositories_encodings: Attachments and repositories encodings

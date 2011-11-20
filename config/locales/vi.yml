@@ -346,7 +346,6 @@ vi:
   setting_time_format: Định dạng giờ
   setting_cross_project_issue_relations: Cho phép quan hệ chéo giữa các dự án
   setting_issue_list_default_columns: Default columns displayed on the issue list
-  setting_repositories_encodings: Repositories encodings
   setting_emails_footer: Chữ ký cuối thư
   setting_protocol: Giao thức
   setting_per_page_options: Objects per page options
@@ -1053,3 +1052,4 @@ vi:
   error_scm_annotate_big_text_file: The entry cannot be annotated, as it exceeds the maximum text file size.
   setting_default_issue_start_date_to_creation_date: Use current date as start date for new issues
   button_edit_section: Edit this section
+  setting_repositories_encodings: Attachments and repositories encodings
