@@ -342,6 +342,7 @@ bg:
   setting_time_format: Формат на часа
   setting_cross_project_issue_relations: Релации на задачи между проекти
   setting_issue_list_default_columns: Показвани колони по подразбиране
+  setting_repositories_encodings: Attachments and repositories encodings
   setting_emails_header: Emails header
   setting_emails_footer: Подтекст за e-mail
   setting_protocol: Протокол
@@ -826,6 +827,7 @@ bg:
   label_git_report_last_commit: Извеждане на последното поверяване за файлове и папки
   label_parent_revision: Ревизия родител
   label_child_revision: Ревизия наследник
+  label_export_options: "%{export_format} опции за експорт"
 
   button_login: Вход
   button_submit: Прикачване
@@ -874,7 +876,8 @@ bg:
   button_duplicate: Дублиране
   button_show: Показване
   button_edit_section: Редактиране на тази секция
-  
+  button_export: Експорт
+ 
   status_active: активен
   status_registered: регистриран
   status_locked: заключен
@@ -995,11 +998,8 @@ bg:
   description_selected_columns: Избрани колони
   description_issue_category_reassign: Изберете категория
   description_wiki_subpages_reassign: Изберете нова родителска страница
+  description_all_columns: Всички колони
   description_date_range_list: Изберете диапазон от списъка
   description_date_range_interval: Изберете диапазон чрез задаване на начална и крайна дати
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
-  setting_repositories_encodings: Attachments and repositories encodings
-  description_all_columns: All Columns
-  button_export: Export
-  label_export_options: "%{export_format} export options"
