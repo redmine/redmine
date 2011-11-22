@@ -4,7 +4,7 @@
 <%= link_to(l(:button_delete), @user, :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del') if User.current != @user %>
 </div>
 
-<h2><%= link_to l(:label_user_plural), :controller => 'users', :action => 'index' %> &#187; <%=h @user.login %></h2>
+<h2><%= link_to l(:label_user_plural), users_path %> &#187; <%=h @user.login %></h2>
 
 <%= render_tabs user_settings_tabs %>
 
