@@ -391,19 +391,19 @@ module ApplicationHelper
     links.size > 1 ? l(:label_display_per_page, links.join(', ')) : nil
   end
 
-  def reorder_links(name, url)
+  def reorder_links(name, url, method = :post)
     link_to(image_tag('2uparrow.png', :alt => l(:label_sort_highest)),
             url.merge({"#{name}[move_to]" => 'highest'}),
-            :method => :post, :title => l(:label_sort_highest)) +
+            :method => method, :title => l(:label_sort_highest)) +
     link_to(image_tag('1uparrow.png',   :alt => l(:label_sort_higher)),
             url.merge({"#{name}[move_to]" => 'higher'}),
-           :method => :post, :title => l(:label_sort_higher)) +
+           :method => method, :title => l(:label_sort_higher)) +
     link_to(image_tag('1downarrow.png', :alt => l(:label_sort_lower)),
             url.merge({"#{name}[move_to]" => 'lower'}),
-            :method => :post, :title => l(:label_sort_lower)) +
+            :method => method, :title => l(:label_sort_lower)) +
     link_to(image_tag('2downarrow.png', :alt => l(:label_sort_lowest)),
             url.merge({"#{name}[move_to]" => 'lowest'}),
-           :method => :post, :title => l(:label_sort_lowest))
+           :method => method, :title => l(:label_sort_lowest))
   end
 
   def breadcrumb(*args)

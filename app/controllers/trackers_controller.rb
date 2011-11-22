@@ -22,8 +22,6 @@ class TrackersController < ApplicationController
   before_filter :require_admin_or_api_request, :only => :index
   accept_api_auth :index
 
-  verify :method => :post, :only => :destroy, :redirect_to => { :action => :index }
-
   def index
     respond_to do |format|
       format.html {
@@ -37,6 +35,12 @@ class TrackersController < ApplicationController
   end
 
   def new
+    @tracker ||= Tracker.new(params[:tracker])
+    @trackers = Tracker.find :all, :order => 'position'
+    @projects = Project.find(:all)
+  end
+
+  def create
     @tracker = Tracker.new(params[:tracker])
     if request.post? and @tracker.save
       # workflow copy
@@ -47,20 +51,27 @@ class TrackersController < ApplicationController
       redirect_to :action => 'index'
       return
     end
-    @trackers = Tracker.find :all, :order => 'position'
-    @projects = Project.find(:all)
+    new
+    render :action => 'new'
   end
 
   def edit
+    @tracker ||= Tracker.find(params[:id])
+    @projects = Project.find(:all)
+  end
+  
+  def update
     @tracker = Tracker.find(params[:id])
-    if request.post? and @tracker.update_attributes(params[:tracker])
+    if request.put? and @tracker.update_attributes(params[:tracker])
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'index'
       return
     end
-    @projects = Project.find(:all)
+    edit
+    render :action => 'edit'
   end
 
+  verify :method => :delete, :only => :destroy, :redirect_to => { :action => :index }
   def destroy
     @tracker = Tracker.find(params[:id])
     unless @tracker.issues.empty?

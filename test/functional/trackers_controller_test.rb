@@ -50,30 +50,43 @@ class TrackersControllerTest < ActionController::TestCase
     assert_response 406
   end
 
-  def test_get_new
+  def test_new
     get :new
     assert_response :success
     assert_template 'new'
   end
 
-  def test_post_new
-    post :new, :tracker => { :name => 'New tracker', :project_ids => ['1', '', ''], :custom_field_ids => ['1', '6', ''] }
+  def test_create
+    assert_difference 'Tracker.count' do
+      post :create, :tracker => { :name => 'New tracker', :project_ids => ['1', '', ''], :custom_field_ids => ['1', '6', ''] }
+    end
     assert_redirected_to :action => 'index'
-    tracker = Tracker.find_by_name('New tracker')
+    tracker = Tracker.first(:order => 'id DESC')
+    assert_equal 'New tracker', tracker.name
     assert_equal [1], tracker.project_ids.sort
     assert_equal [1, 6], tracker.custom_field_ids
     assert_equal 0, tracker.workflows.count
   end
 
-  def test_post_new_with_workflow_copy
-    post :new, :tracker => { :name => 'New tracker' }, :copy_workflow_from => 1
+  def test_create_new_with_workflow_copy
+    assert_difference 'Tracker.count' do
+      post :create, :tracker => { :name => 'New tracker' }, :copy_workflow_from => 1
+    end
     assert_redirected_to :action => 'index'
     tracker = Tracker.find_by_name('New tracker')
     assert_equal 0, tracker.projects.count
     assert_equal Tracker.find(1).workflows.count, tracker.workflows.count
   end
 
-  def test_get_edit
+  def test_create_new_failure
+    assert_no_difference 'Tracker.count' do
+      post :create, :tracker => { :name => '', :project_ids => ['1', '', ''], :custom_field_ids => ['1', '6', ''] }
+    end
+    assert_response :success
+    assert_template 'new'
+  end
+
+  def test_edit
     Tracker.find(1).project_ids = [1, 3]
 
     get :edit, :id => 1
@@ -93,15 +106,15 @@ class TrackersControllerTest < ActionController::TestCase
                                         :type => 'hidden'}
   end
 
-  def test_post_edit
-    post :edit, :id => 1, :tracker => { :name => 'Renamed',
+  def test_update
+    put :update, :id => 1, :tracker => { :name => 'Renamed',
                                         :project_ids => ['1', '2', ''] }
     assert_redirected_to :action => 'index'
     assert_equal [1, 2], Tracker.find(1).project_ids.sort
   end
 
-  def test_post_edit_without_projects
-    post :edit, :id => 1, :tracker => { :name => 'Renamed',
+  def test_update_without_projects
+    put :update, :id => 1, :tracker => { :name => 'Renamed',
                                         :project_ids => [''] }
     assert_redirected_to :action => 'index'
     assert Tracker.find(1).project_ids.empty?
@@ -109,14 +122,14 @@ class TrackersControllerTest < ActionController::TestCase
 
   def test_move_lower
    tracker = Tracker.find_by_position(1)
-   post :edit, :id => 1, :tracker => { :move_to => 'lower' }
+   put :update, :id => 1, :tracker => { :move_to => 'lower' }
    assert_equal 2, tracker.reload.position
   end
 
   def test_destroy
     tracker = Tracker.create!(:name => 'Destroyable')
     assert_difference 'Tracker.count', -1 do
-      post :destroy, :id => tracker.id
+      delete :destroy, :id => tracker.id
     end
     assert_redirected_to :action => 'index'
     assert_nil flash[:error]
@@ -124,7 +137,7 @@ class TrackersControllerTest < ActionController::TestCase
 
   def test_destroy_tracker_in_use
     assert_no_difference 'Tracker.count' do
-      post :destroy, :id => 1
+      delete :destroy, :id => 1
     end
     assert_redirected_to :action => 'index'
     assert_not_nil flash[:error]
