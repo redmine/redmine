@@ -22,9 +22,6 @@ class IssueStatusesController < ApplicationController
   before_filter :require_admin_or_api_request, :only => :index
   accept_api_auth :index
 
-  verify :method => :post, :only => [ :destroy, :create, :update, :move, :update_issue_done_ratio ],
-         :redirect_to => { :action => :index }
-
   def index
     respond_to do |format|
       format.html {
@@ -43,7 +40,7 @@ class IssueStatusesController < ApplicationController
 
   def create
     @issue_status = IssueStatus.new(params[:issue_status])
-    if @issue_status.save
+    if request.post? && @issue_status.save
       flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'index'
     else
@@ -57,7 +54,7 @@ class IssueStatusesController < ApplicationController
 
   def update
     @issue_status = IssueStatus.find(params[:id])
-    if @issue_status.update_attributes(params[:issue_status])
+    if request.put? && @issue_status.update_attributes(params[:issue_status])
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'index'
     else
@@ -65,6 +62,7 @@ class IssueStatusesController < ApplicationController
     end
   end
 
+  verify :method => :delete, :only => :destroy, :redirect_to => { :action => :index }
   def destroy
     IssueStatus.find(params[:id]).destroy
     redirect_to :action => 'index'
@@ -74,7 +72,7 @@ class IssueStatusesController < ApplicationController
   end  	
 
   def update_issue_done_ratio
-    if IssueStatus.update_issue_done_ratios
+    if request.post? && IssueStatus.update_issue_done_ratios
       flash[:notice] = l(:notice_issue_done_ratios_updated)
     else
       flash[:error] =  l(:error_issue_done_ratios_not_updated)
