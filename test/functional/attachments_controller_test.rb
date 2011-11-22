@@ -56,7 +56,7 @@ class AttachmentsControllerTest < ActionController::TestCase
     with_settings :repositories_encodings => 'UTF-8' do
       ['inline', 'sbs'].each do |dt|
         # 060719210727_changeset_iso8859-1.diff
-        get :show, :id => 5
+        get :show, :id => 5, :type => dt
         assert_response :success
         assert_template 'diff'
         assert_equal 'text/html', @response.content_type
@@ -74,7 +74,7 @@ class AttachmentsControllerTest < ActionController::TestCase
     with_settings :repositories_encodings => 'UTF-8,ISO-8859-1' do
       ['inline', 'sbs'].each do |dt|
         # 060719210727_changeset_iso8859-1.diff
-        get :show, :id => 5
+        get :show, :id => 5, :type => dt
         assert_response :success
         assert_template 'diff'
         assert_equal 'text/html', @response.content_type
