@@ -867,7 +867,7 @@ module ApplicationHelper
     options = args.last
     options[:html] ||= {}
     options[:html][:class] = 'tabular' unless options[:html].has_key?(:class)
-    options.merge!({:builder => TabularFormBuilder, :lang => current_language})
+    options.merge!({:builder => TabularFormBuilder})
     form_for(*args, &proc)
   end
 
