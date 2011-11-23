@@ -557,8 +557,8 @@ class Query < ActiveRecord::Base
     
     joins = (order_option && order_option.include?('authors')) ? "LEFT OUTER JOIN users authors ON authors.id = #{Issue.table_name}.author_id" : nil
 
-    Issue.visible.find :all, :include => ([:status, :project] + (options[:include] || [])).uniq,
-                     :conditions => Query.merge_conditions(statement, options[:conditions]),
+    Issue.visible.scoped(:conditions => options[:conditions]).find :all, :include => ([:status, :project] + (options[:include] || [])).uniq,
+                     :conditions => statement,
                      :order => order_option,
                      :joins => joins,
                      :limit  => options[:limit],
@@ -582,8 +582,7 @@ class Query < ActiveRecord::Base
   # Returns the versions
   # Valid options are :conditions
   def versions(options={})
-    Version.visible.find :all, :include => :project,
-                       :conditions => Query.merge_conditions(project_statement, options[:conditions])
+    Version.visible.scoped(:conditions => options[:conditions]).find :all, :include => :project, :conditions => project_statement
   rescue ::ActiveRecord::StatementInvalid => e
     raise StatementInvalid.new(e.message)
   end
