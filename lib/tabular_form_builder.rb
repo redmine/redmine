@@ -20,11 +20,6 @@ require 'action_view/helpers/form_helper'
 class TabularFormBuilder < ActionView::Helpers::FormBuilder
   include Redmine::I18n
 
-  def initialize(object_name, object, template, options, proc)
-    set_language_if_valid options.delete(:lang)
-    super
-  end
-
   (field_helpers - %w(radio_button hidden_field fields_for) + %w(date_select)).each do |selector|
     src = <<-END_SRC
     def #{selector}(field, options = {})
