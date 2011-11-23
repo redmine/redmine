@@ -23,6 +23,7 @@ class AttachmentTest < ActiveSupport::TestCase
   fixtures :issues, :users
 
   def setup
+    set_tmp_attachments_directory
   end
 
   def test_create
