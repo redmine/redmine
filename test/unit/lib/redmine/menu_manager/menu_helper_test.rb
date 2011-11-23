@@ -31,7 +31,7 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
     super
     @response = ActionController::TestResponse.new
     # Stub the current menu item in the controller
-    def @controller.current_menu_item
+    def current_menu_item
       :index
     end
   end
