@@ -509,7 +509,6 @@ module Redmine
       end
 
       class RDMPdfEncoding
-        include Redmine::I18n
         def self.rdm_from_utf8(txt, encoding)
           txt ||= ''
           txt = Redmine::CodesetUtil.from_utf8(txt, encoding)
