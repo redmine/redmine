@@ -1020,7 +1020,7 @@ pt-BR:
   label_parent_revision: Parent
   label_child_revision: Child
   error_scm_annotate_big_text_file: The entry cannot be annotated, as it exceeds the maximum text file size.
-  setting_default_issue_start_date_to_creation_date: Use current date as start date for new issues
+  setting_default_issue_start_date_to_creation_date: Usar data corrente como data inicial para novas tarefas
   button_edit_section: Edit this section
   setting_repositories_encodings: Attachments and repositories encodings
   description_all_columns: All Columns
