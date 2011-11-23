@@ -352,7 +352,7 @@ class Query < ActiveRecord::Base
 
   def available_columns
     return @available_columns if @available_columns
-    @available_columns = Query.available_columns
+    @available_columns = ::Query.available_columns
     @available_columns += (project ?
                             project.all_issue_custom_fields :
                             IssueCustomField.find(:all)
