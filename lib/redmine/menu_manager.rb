@@ -26,6 +26,7 @@ module TreeNodePatch
       alias :old_initilize :initialize
       def initialize(name, content = nil)
         old_initilize(name, content)
+      	@childrenHash ||= {}
         @last_items_count = 0
         extend(InstanceMethods)
       end
