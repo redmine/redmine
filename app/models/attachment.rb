@@ -123,7 +123,7 @@ class Attachment < ActiveRecord::Base
   end
 
   def image?
-    self.filename =~ /\.(jpe?g|gif|png)$/i
+    self.filename =~ /\.(bmp|gif|jpg|jpe|jpeg|png)$/i
   end
 
   def is_text?

@@ -129,6 +129,59 @@ RAW
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text, :attachments => attachments) }
   end
 
+  def test_attached_images_filename_extension
+    set_tmp_attachments_directory
+    a1 = Attachment.new(
+            :container => Issue.find(1),
+            :file => mock_file_with_options({:original_filename => "testtest.JPG"}),
+            :author => User.find(1))
+    assert a1.save
+    assert_equal "testtest.JPG", a1.filename
+    assert_equal "image/jpeg", a1.content_type
+    assert a1.image?
+
+    a2 = Attachment.new(
+            :container => Issue.find(1),
+            :file => mock_file_with_options({:original_filename => "testtest.jpeg"}),
+            :author => User.find(1))
+    assert a2.save
+    assert_equal "testtest.jpeg", a2.filename
+    assert_equal "image/jpeg", a2.content_type
+    assert a2.image?
+
+    a3 = Attachment.new(
+            :container => Issue.find(1),
+            :file => mock_file_with_options({:original_filename => "testtest.JPE"}),
+            :author => User.find(1))
+    assert a3.save
+    assert_equal "testtest.JPE", a3.filename
+    assert_equal "image/jpeg", a3.content_type
+    assert a3.image?
+
+    a4 = Attachment.new(
+            :container => Issue.find(1),
+            :file => mock_file_with_options({:original_filename => "Testtest.BMP"}),
+            :author => User.find(1))
+    assert a4.save
+    assert_equal "Testtest.BMP", a4.filename
+    assert_equal "image/x-ms-bmp", a4.content_type
+    assert a4.image?
+
+    to_test = {
+      'Inline image: !testtest.jpg!' =>
+        'Inline image: <img src="/attachments/download/' + a1.id.to_s + '" alt="" />',
+      'Inline image: !testtest.jpeg!' =>
+        'Inline image: <img src="/attachments/download/' + a2.id.to_s + '" alt="" />',
+      'Inline image: !testtest.jpe!' =>
+        'Inline image: <img src="/attachments/download/' + a3.id.to_s + '" alt="" />',
+      'Inline image: !testtest.bmp!' =>
+        'Inline image: <img src="/attachments/download/' + a4.id.to_s + '" alt="" />',
+    }
+
+    attachments = [a1, a2, a3, a4]
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text, :attachments => attachments) }
+  end
+
   def test_textile_external_links
     to_test = {
       'This is a "link":http://foo.bar' => 'This is a <a href="http://foo.bar" class="external">link</a>',

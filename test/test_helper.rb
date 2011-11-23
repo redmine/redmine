@@ -77,6 +77,17 @@ class ActiveSupport::TestCase
     self.class.mock_file
   end
 
+  def mock_file_with_options(options={})
+    file = ''
+    file.stubs(:size).returns(32)
+    original_filename = options[:original_filename] || nil
+    file.stubs(:original_filename).returns(original_filename)
+    content_type = options[:content_type] || nil
+    file.stubs(:content_type).returns(content_type)
+    file.stubs(:read).returns(false)
+    file
+  end
+
   # Use a temporary directory for attachment related tests
   def set_tmp_attachments_directory
     Dir.mkdir "#{Rails.root}/tmp/test" unless File.directory?("#{Rails.root}/tmp/test")
