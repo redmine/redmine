@@ -159,7 +159,7 @@ module Redmine
     module MenuHelper
       # Returns the current menu item name
       def current_menu_item
-        @controller.current_menu_item
+        controller.current_menu_item
       end
 
       # Renders the application main menu
