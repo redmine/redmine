@@ -112,8 +112,11 @@ module Redmine
           MultiCell(w, h, fix_text_encoding(txt), border, align, fill, ln)
         end
 
-        def RDMwriteHTMLCell(w, h, x, y, html='', border=0, ln=1, fill=0)
-          writeHTMLCell(w, h, x, y, fix_text_encoding(html), border, ln, fill)
+        def RDMwriteHTMLCell(w, h, x, y, txt='', attachments=[], border=0, ln=1, fill=0)
+          writeHTMLCell(w, h, x, y,
+            fix_text_encoding(
+              Redmine::WikiFormatting.to_html(Setting.text_formatting, txt)),
+            border, ln, fill)
         end
 
         def Footer
@@ -359,8 +362,7 @@ module Redmine
         # Set resize image scale
         pdf.SetImageScale(1.6)
         pdf.RDMwriteHTMLCell(35+155, 5, 0, 0,
-            Redmine::WikiFormatting.to_html(
-              Setting.text_formatting, issue.description.to_s),"LRB")
+              issue.description.to_s, issue.attachments, "LRB")
 
         unless issue.leaf?
           # for CJK
@@ -427,8 +429,7 @@ module Redmine
             unless changeset.comments.blank?
               pdf.SetFontStyle('',8)
               pdf.RDMwriteHTMLCell(190,5,0,0,
-                   Redmine::WikiFormatting.to_html(
-                     Setting.text_formatting, changeset.comments.to_s), "")
+                    changeset.comments.to_s, issue.attachments, "")
             end
             pdf.Ln
           end
@@ -452,8 +453,7 @@ module Redmine
             pdf.Ln unless journal.details.empty?
             pdf.SetFontStyle('',8)
             pdf.RDMwriteHTMLCell(190,5,0,0,
-                  Redmine::WikiFormatting.to_html(
-                    Setting.text_formatting, journal.notes.to_s), "")
+                  journal.notes.to_s, issue.attachments, "")
           end
           pdf.Ln
         end
@@ -489,8 +489,7 @@ module Redmine
         pdf.SetImageScale(1.6)
         pdf.SetFontStyle('',9)
         pdf.RDMwriteHTMLCell(190,5,0,0,
-              Redmine::WikiFormatting.to_html(
-                Setting.text_formatting, page.content.text.to_s), "TLRB")
+              page.content.text.to_s, page.attachments, "TLRB")
         if page.attachments.any?
           pdf.Ln
           pdf.SetFontStyle('B',9)
