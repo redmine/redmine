@@ -167,6 +167,12 @@ class Attachment < ActiveRecord::Base
     {:files => attached, :unsaved => obj.unsaved_attachments}
   end
 
+  def self.latest_attach(attachments, filename)
+    attachments.sort_by(&:created_on).reverse.detect { 
+      |att| att.filename.downcase == filename.downcase
+     }
+  end
+
 private
   def sanitize_filename(value)
     # get only the filename, not the whole path

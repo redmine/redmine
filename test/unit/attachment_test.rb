@@ -121,4 +121,24 @@ class AttachmentTest < ActiveSupport::TestCase
       end
     end
   end
+
+  def test_latest_attach
+    Attachment.storage_path = "#{Rails.root}/test/fixtures/files"
+    a1 = Attachment.find(16)
+    assert_equal "testfile.png", a1.filename
+    assert a1.readable?
+    assert (! a1.visible?(User.anonymous))
+    assert a1.visible?(User.find(2))
+    a2 = Attachment.find(17)
+    assert_equal "testfile.PNG", a2.filename
+    assert a2.readable?
+    assert (! a2.visible?(User.anonymous))
+    assert a2.visible?(User.find(2))
+    assert a1.created_on < a2.created_on
+
+    la1 = Attachment.latest_attach([a1, a2], "testfile.png")
+    assert_equal 17, la1.id
+    la2 = Attachment.latest_attach([a1, a2], "Testfile.PNG")
+    assert_equal 17, la2.id
+  end
 end
