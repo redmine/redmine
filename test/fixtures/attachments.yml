@@ -208,3 +208,29 @@ attachments_017:
   filename: testfile.PNG
   filesize: 3582
   author_id: 2
+attachments_018:
+  content_type: image/png
+  downloads: 0
+  created_on: 2011-01-23 16:14:50 +09:00
+  disk_filename: 101123161450_testfile_1.png
+  container_id: 14
+  digest: 8e0294de2441577c529f170b6fb8f638
+  id: 18
+  container_type: Issue
+  description: ""
+  filename: testテスト.png
+  filesize: 2654
+  author_id: 2
+attachments_019:
+  content_type: image/png
+  downloads: 0
+  created_on: 2011-02-23 16:14:50 +09:00
+  disk_filename: 101223161450_testfile_2.png
+  container_id: 14
+  digest: 6bc2963e8d7ea0d3e68d12d1fba3d6ca
+  id: 19
+  container_type: Issue
+  description: ""
+  filename: Testテスト.PNG
+  filesize: 3582
+  author_id: 2

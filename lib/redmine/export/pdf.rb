@@ -517,6 +517,19 @@ module Redmine
           end
           txt
         end
+
+        def self.attach(attachments, filename, encoding)
+          filename_utf8 = Redmine::CodesetUtil.to_utf8(filename, encoding)
+          atta = nil
+          if filename_utf8 =~ /^[^\/"]+\.(gif|jpg|jpe|jpeg|png)$/i
+            atta = Attachment.latest_attach(attachments, filename_utf8)
+          end
+          if atta && atta.readable? && atta.visible?
+            return atta
+          else
+            return nil
+          end
+        end
       end
     end
   end
