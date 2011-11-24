@@ -116,10 +116,21 @@ module Redmine
         end
 
         def RDMwriteHTMLCell(w, h, x, y, txt='', attachments=[], border=0, ln=1, fill=0)
+          @attachments = attachments
           writeHTMLCell(w, h, x, y,
             fix_text_encoding(
               Redmine::WikiFormatting.to_html(Setting.text_formatting, txt)),
             border, ln, fill)
+        end
+
+        def getImageFilename(attrname)
+          # attrname: general_pdf_encoding string file/uri name
+          atta = RDMPdfEncoding.attach(@attachments, attrname, l(:general_pdf_encoding))
+          if atta
+            return atta.diskfile
+          else
+            return nil
+          end
         end
 
         def Footer
