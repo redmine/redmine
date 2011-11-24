@@ -596,7 +596,7 @@ module ApplicationHelper
               url_for(:only_path => only_path, :controller => 'wiki', :action => 'show', :project_id => link_project, :id => wiki_page_id, :anchor => anchor)
             end
           end
-          link_to(title || h(page), url, :class => ('wiki-page' + (wiki_page ? '' : ' new')))
+          link_to(title.present? ? title.html_safe : h(page), url, :class => ('wiki-page' + (wiki_page ? '' : ' new')))
         else
           # project or wiki doesn't exist
           all.html_safe
