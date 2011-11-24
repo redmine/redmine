@@ -18,14 +18,12 @@
 require File.expand_path('../../../test_helper', __FILE__)
 
 class ApplicationHelperTest < ActionView::TestCase
-
   fixtures :projects, :roles, :enabled_modules, :users,
-                      :repositories, :changesets,
-                      :trackers, :issue_statuses, :issues, :versions, :documents,
-                      :wikis, :wiki_pages, :wiki_contents,
-                      :boards, :messages, :news,
-                      :attachments,
-                      :enumerations
+           :repositories, :changesets,
+           :trackers, :issue_statuses, :issues, :versions, :documents,
+           :wikis, :wiki_pages, :wiki_contents,
+           :boards, :messages, :news,
+           :attachments, :enumerations
 
   def setup
     super
