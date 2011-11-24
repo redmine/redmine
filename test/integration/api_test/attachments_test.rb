@@ -37,7 +37,6 @@ class ApiTest::AttachmentsTest < ActionController::IntegrationTest
     context "GET" do
       should "return the attachment" do
         get '/attachments/7.xml', {}, :authorization => credentials('jsmith')
-
         assert_response :success
         assert_equal 'application/xml', @response.content_type
         assert_tag :tag => 'attachment',
@@ -57,8 +56,8 @@ class ApiTest::AttachmentsTest < ActionController::IntegrationTest
 
       should "deny access without credentials" do
         get '/attachments/7.xml'
-
         assert_response 401
+        set_tmp_attachments_directory
       end
     end
   end
@@ -66,16 +65,17 @@ class ApiTest::AttachmentsTest < ActionController::IntegrationTest
   context "/attachments/download/:id/:filename" do
     context "GET" do
       should "return the attachment content" do
-        get '/attachments/download/7/archive.zip', {}, :authorization => credentials('jsmith')
-
+        get '/attachments/download/7/archive.zip',
+            {}, :authorization => credentials('jsmith')
         assert_response :success
         assert_equal 'application/octet-stream', @response.content_type
+        set_tmp_attachments_directory
       end
 
       should "deny access without credentials" do
         get '/attachments/download/7/archive.zip'
-
         assert_response 302
+        set_tmp_attachments_directory
       end
     end
   end

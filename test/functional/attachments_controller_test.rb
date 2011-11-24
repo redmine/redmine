@@ -50,6 +50,7 @@ class AttachmentsControllerTest < ActionController::TestCase
         :attributes => {:class => /line-code/},
         :content => /Demande créée avec succès/
     end
+    set_tmp_attachments_directory
   end
 
   def test_show_diff_replcace_cannot_convert_content
@@ -68,6 +69,7 @@ class AttachmentsControllerTest < ActionController::TestCase
           :content => /Demande cr\?\?e avec succ\?s/
       end
     end
+    set_tmp_attachments_directory
   end
 
   def test_show_diff_latin_1
@@ -86,6 +88,7 @@ class AttachmentsControllerTest < ActionController::TestCase
           :content => /Demande créée avec succès/
       end
     end
+    set_tmp_attachments_directory
   end
 
   def test_show_text_file
@@ -93,6 +96,7 @@ class AttachmentsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'file'
     assert_equal 'text/html', @response.content_type
+    set_tmp_attachments_directory
   end
 
   def test_show_text_file_utf_8
@@ -133,7 +137,7 @@ class AttachmentsControllerTest < ActionController::TestCase
                  :content => '7',
                  :attributes => { :class => 'line-num' },
                  :sibling => { :tag => 'td', :content => /Demande cr\?\?e avec succ\?s/ }
-      end
+    end
   end
 
   def test_show_text_file_latin_1
@@ -163,17 +167,20 @@ class AttachmentsControllerTest < ActionController::TestCase
     get :show, :id => 4
     assert_response :success
     assert_equal 'application/x-ruby', @response.content_type
+    set_tmp_attachments_directory
   end
 
   def test_show_other
     get :show, :id => 6
     assert_response :success
     assert_equal 'application/octet-stream', @response.content_type
+    set_tmp_attachments_directory
   end
 
   def test_show_file_from_private_issue_without_permission
     get :show, :id => 15
     assert_redirected_to '/login?back_url=http%3A%2F%2Ftest.host%2Fattachments%2F15'
+    set_tmp_attachments_directory
   end
 
   def test_show_file_from_private_issue_with_permission
@@ -181,12 +188,14 @@ class AttachmentsControllerTest < ActionController::TestCase
     get :show, :id => 15
     assert_response :success
     assert_tag 'h2', :content => /private.diff/
+    set_tmp_attachments_directory
   end
 
   def test_download_text_file
     get :download, :id => 4
     assert_response :success
     assert_equal 'application/x-ruby', @response.content_type
+    set_tmp_attachments_directory
   end
 
   def test_download_should_assign_content_type_if_blank
@@ -195,16 +204,19 @@ class AttachmentsControllerTest < ActionController::TestCase
     get :download, :id => 4
     assert_response :success
     assert_equal 'text/x-ruby', @response.content_type
+    set_tmp_attachments_directory
   end
 
   def test_download_missing_file
     get :download, :id => 2
     assert_response 404
+    set_tmp_attachments_directory
   end
 
   def test_anonymous_on_private_private
     get :download, :id => 7
     assert_redirected_to '/login?back_url=http%3A%2F%2Ftest.host%2Fattachments%2Fdownload%2F7'
+    set_tmp_attachments_directory
   end
 
   def test_destroy_issue_attachment
@@ -221,6 +233,7 @@ class AttachmentsControllerTest < ActionController::TestCase
     assert_equal 'attachment', j.details.first.property
     assert_equal '1', j.details.first.prop_key
     assert_equal 'error281.txt', j.details.first.old_value
+    set_tmp_attachments_directory
   end
 
   def test_destroy_wiki_page_attachment
@@ -229,6 +242,7 @@ class AttachmentsControllerTest < ActionController::TestCase
       post :destroy, :id => 3
       assert_response 302
     end
+    set_tmp_attachments_directory
   end
 
   def test_destroy_project_attachment
@@ -237,6 +251,7 @@ class AttachmentsControllerTest < ActionController::TestCase
       post :destroy, :id => 8
       assert_response 302
     end
+    set_tmp_attachments_directory
   end
 
   def test_destroy_version_attachment
@@ -245,11 +260,13 @@ class AttachmentsControllerTest < ActionController::TestCase
       post :destroy, :id => 9
       assert_response 302
     end
+    set_tmp_attachments_directory
   end
 
   def test_destroy_without_permission
     post :destroy, :id => 3
     assert_redirected_to '/login?back_url=http%3A%2F%2Ftest.host%2Fattachments%2Fdestroy%2F3'
     assert Attachment.find_by_id(3)
+    set_tmp_attachments_directory
   end
 end

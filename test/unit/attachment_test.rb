@@ -141,5 +141,7 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal 17, la1.id
     la2 = Attachment.latest_attach([a1, a2], "Testfile.PNG")
     assert_equal 17, la2.id
+
+    set_tmp_attachments_directory
   end
 end

@@ -203,6 +203,7 @@ RAW
     }
     attachments = [a1, a2]
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text, :attachments => attachments) }
+    set_tmp_attachments_directory
   end
 
   def test_textile_external_links
