@@ -21,6 +21,7 @@ require 'iconv'
 require 'fpdf/chinese'
 require 'fpdf/japanese'
 require 'fpdf/korean'
+require 'core/rmagick'
 
 module Redmine
   module Export
@@ -34,6 +35,8 @@ module Redmine
         attr_accessor :footer_date
 
         def initialize(lang)
+          @@k_path_cache = Rails.root.join('tmp', 'pdf')
+          FileUtils.mkdir_p @@k_path_cache unless File::exist?(@@k_path_cache)
           set_language_if_valid lang
           pdf_encoding = l(:general_pdf_encoding).upcase
           super('P', 'mm', 'A4', (pdf_encoding == 'UTF-8'), pdf_encoding)
