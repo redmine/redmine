@@ -20,7 +20,8 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class AttachmentTest < ActiveSupport::TestCase
-  fixtures :issues, :users
+  fixtures :users, :projects, :roles, :members, :member_roles,
+           :enabled_modules, :issues, :trackers, :attachments
 
   def setup
     set_tmp_attachments_directory
