@@ -177,11 +177,9 @@ private
   def sanitize_filename(value)
     # get only the filename, not the whole path
     just_filename = value.gsub(/^.*(\\|\/)/, '')
-    # NOTE: File.basename doesn't work right with Windows paths on Unix
-    # INCORRECT: just_filename = File.basename(value.gsub('\\\\', '/'))
 
-    # Finally, replace all non alphanumeric, hyphens or periods with underscore
-    @filename = just_filename.gsub(/[^\w\.\-]/,'_')
+    # Finally, replace invalid characters with underscore
+    @filename = just_filename.gsub(/[\/\?\%\*\:\|\"\'<>]+/, '_')
   end
 
   # Returns an ASCII or hashed filename
