@@ -106,6 +106,18 @@ function removeFileField(el) {
 	}
 }
 
+function checkFileSize(el, maxSize, message) {
+  var files = el.files;
+  if (files) {
+    for (var i=0; i<files.length; i++) {
+      if (files[i].size > maxSize) {
+        alert(message);
+        el.value = "";
+      }
+    }
+  }
+}
+
 function showTab(name) {
     var f = $$('div#content .tab-content');
 	for(var i=0; i<f.length; i++){
