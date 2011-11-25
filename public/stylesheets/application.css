@@ -367,8 +367,6 @@ table#time-report .hours-dec { font-size: 0.9em; }
 div.wiki-page .contextual a {opacity: 0.4}
 div.wiki-page .contextual a:hover {opacity: 1}
 
-form .attributes { margin-bottom: 8px; }
-form .attributes p { padding-top: 1px; padding-bottom: 2px; }
 form .attributes select { width: 60%; }
 input#issue_subject { width: 99%; }
 select#issue_done_ratio { width: 95px; }
@@ -404,7 +402,7 @@ p.pagination {margin-top:8px;}
 /***** Tabular forms ******/
 .tabular p{
 margin: 0;
-padding: 5px 0 8px 0;
+padding: 3px 0 3px 0;
 padding-left: 180px; /* width of left column containing the label elements */
 height: 1%;
 clear:left;
