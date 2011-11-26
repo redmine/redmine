@@ -443,6 +443,8 @@ margin-left: 5px !important;
 width: auto;
 }
 
+form em {font-style:normal;font-size:90%;color:#888;}
+
 label.no-css {
   font-weight: inherit;
   float:none;
@@ -458,9 +460,8 @@ input#time_entry_comments { width: 90%;}
 .tabular.settings label{ margin-left: -300px; width: 295px; }
 .tabular.settings textarea { width: 99%; }
 
-.tabular.settings.enabled_scm table {width:100%}
-.tabular.settings.enabled_scm td.scm_name{ font-weight: bold; }
-.tabular.settings.enabled_scm p.scm_config{ padding-left: 8px; font-style:italic;}
+.settings.enabled_scm table {width:100%}
+.settings.enabled_scm td.scm_name{ font-weight: bold; }
 
 fieldset.settings label { display: block; }
 fieldset#notified_events .parent { padding-left: 20px; }
