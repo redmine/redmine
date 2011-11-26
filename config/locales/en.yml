@@ -334,7 +334,7 @@ en:
   setting_wiki_compression: Wiki history compression
   setting_feeds_limit: Maximum number of items in Atom feeds
   setting_default_projects_public: New projects are public by default
-  setting_autofetch_changesets: Autofetch commits
+  setting_autofetch_changesets: Fetch commits automatically
   setting_sys_api_enabled: Enable WS for repository management
   setting_commit_ref_keywords: Referencing keywords
   setting_commit_fix_keywords: Fixing keywords
