@@ -68,7 +68,7 @@
   <p>
     <label><%= check_box_tag 'description', '1' %> <%= l(:field_description) %></label>
   </p>
-  <p style="text-align:right; margin-bottom:0">
+  <p class="buttons">
     <%= submit_tag l(:button_export), :name => nil, :onclick => "hideModal(this);" %>
     <%= submit_tag l(:button_cancel), :name => nil, :onclick => "hideModal(this);", :type => 'button' %>
   </p>
