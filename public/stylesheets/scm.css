@@ -51,9 +51,7 @@ table.filecontent th.line-num a {
 }
 table.filecontent td.line-code pre {
     margin: 0px;
-    white-space: pre-wrap; /* CSS2.1 compliant */
-    white-space: -moz-pre-wrap; /* Mozilla-based browsers */
-    white-space: -o-pre-wrap; /* Opera 7+ */
+    white-space: pre-wrap;
 }
 
 /* 12 different colors for the annonate view */
