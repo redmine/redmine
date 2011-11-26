@@ -276,11 +276,6 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  def test_index_sort_by_field_not_included_in_columns
-    Setting.issue_list_default_columns = %w(subject author)
-    get :index, :sort => 'tracker'
-  end
-
   def test_index_csv
     get :index, :format => 'csv'
     assert_response :success
@@ -421,10 +416,43 @@ class IssuesControllerTest < ActionController::TestCase
     assert !issues.empty?
     assert_equal issues.sort {|a,b| a.tracker == b.tracker ? b.id <=> a.id : a.tracker <=> b.tracker }.collect(&:id), issues.collect(&:id)
   end
+
+  def test_index_sort_by_field_not_included_in_columns
+    Setting.issue_list_default_columns = %w(subject author)
+    get :index, :sort => 'tracker'
+  end
+  
+  def test_index_sort_by_assigned_to
+    get :index, :sort => 'assigned_to'
+    assert_response :success
+    assignees = assigns(:issues).collect(&:assigned_to).compact
+    assert_equal assignees.sort, assignees
+  end
+  
+  def test_index_sort_by_assigned_to_desc
+    get :index, :sort => 'assigned_to:desc'
+    assert_response :success
+    assignees = assigns(:issues).collect(&:assigned_to).compact
+    assert_equal assignees.sort.reverse, assignees
+  end
+  
+  def test_index_group_by_assigned_to
+    get :index, :group_by => 'assigned_to', :sort => 'priority'
+    assert_response :success
+  end
   
   def test_index_sort_by_author
     get :index, :sort => 'author'
     assert_response :success
+    authors = assigns(:issues).collect(&:author)
+    assert_equal authors.sort, authors
+  end
+  
+  def test_index_sort_by_author_desc
+    get :index, :sort => 'author:desc'
+    assert_response :success
+    authors = assigns(:issues).collect(&:author)
+    assert_equal authors.sort.reverse, authors
   end
   
   def test_index_group_by_author

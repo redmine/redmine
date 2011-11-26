@@ -98,11 +98,11 @@ class ActiveSupport::TestCase
   end
 
   def with_settings(options, &block)
-    saved_settings = options.keys.inject({}) {|h, k| h[k] = Setting[k].dup; h}
+    saved_settings = options.keys.inject({}) {|h, k| h[k] = Setting[k].is_a?(Symbol) ? Setting[k] : Setting[k].dup; h}
     options.each {|k, v| Setting[k] = v}
     yield
   ensure
-    saved_settings.each {|k, v| Setting[k] = v}
+    saved_settings.each {|k, v| Setting[k] = v} if saved_settings
   end
 
   def change_user_password(login, new_password)

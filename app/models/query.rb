@@ -36,7 +36,11 @@ class QueryColumn
 
   # Returns true if the column is sortable, otherwise false
   def sortable?
-    !sortable.nil?
+    !@sortable.nil?
+  end
+  
+  def sortable
+    @sortable.is_a?(Proc) ? @sortable.call : @sortable
   end
 
   def value(issue)
@@ -136,8 +140,8 @@ class Query < ActiveRecord::Base
     QueryColumn.new(:status, :sortable => "#{IssueStatus.table_name}.position", :groupable => true),
     QueryColumn.new(:priority, :sortable => "#{IssuePriority.table_name}.position", :default_order => 'desc', :groupable => true),
     QueryColumn.new(:subject, :sortable => "#{Issue.table_name}.subject"),
-    QueryColumn.new(:author, :sortable => ["authors.lastname", "authors.firstname", "authors.id"], :groupable => true),
-    QueryColumn.new(:assigned_to, :sortable => ["#{User.table_name}.lastname", "#{User.table_name}.firstname", "#{User.table_name}.id"], :groupable => true),
+    QueryColumn.new(:author, :sortable => lambda {User.fields_for_order_statement("authors")}, :groupable => true),
+    QueryColumn.new(:assigned_to, :sortable => lambda {User.fields_for_order_statement}, :groupable => true),
     QueryColumn.new(:updated_on, :sortable => "#{Issue.table_name}.updated_on", :default_order => 'desc'),
     QueryColumn.new(:category, :sortable => "#{IssueCategory.table_name}.name", :groupable => true),
     QueryColumn.new(:fixed_version, :sortable => ["#{Version.table_name}.effective_date", "#{Version.table_name}.name"], :default_order => 'desc', :groupable => true),

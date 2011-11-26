@@ -397,6 +397,30 @@ class UserTest < ActiveSupport::TestCase
     Setting.user_format = :username
     assert_equal 'jsmith', @jsmith.reload.name
   end
+  
+  def test_fields_for_order_statement_should_return_fields_according_user_format_setting
+    with_settings :user_format => 'lastname_coma_firstname' do
+      assert_equal ['users.lastname', 'users.firstname', 'users.id'], User.fields_for_order_statement
+    end
+  end
+  
+  def test_fields_for_order_statement_width_table_name_should_prepend_table_name
+    with_settings :user_format => 'lastname_firstname' do
+      assert_equal ['authors.lastname', 'authors.firstname', 'authors.id'], User.fields_for_order_statement('authors')
+    end
+  end
+  
+  def test_fields_for_order_statement_with_blank_format_should_return_default
+    with_settings :user_format => '' do
+      assert_equal ['users.firstname', 'users.lastname', 'users.id'], User.fields_for_order_statement
+    end
+  end
+  
+  def test_fields_for_order_statement_with_invalid_format_should_return_default
+    with_settings :user_format => 'foo' do
+      assert_equal ['users.firstname', 'users.lastname', 'users.id'], User.fields_for_order_statement
+    end
+  end
 
   def test_lock
     user = User.try_to_login("jsmith", "jsmith")

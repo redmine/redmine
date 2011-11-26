@@ -26,12 +26,13 @@ class User < Principal
   STATUS_REGISTERED = 2
   STATUS_LOCKED     = 3
 
+  # Different ways of displaying/sorting users
   USER_FORMATS = {
-    :firstname_lastname => '#{firstname} #{lastname}',
-    :firstname => '#{firstname}',
-    :lastname_firstname => '#{lastname} #{firstname}',
-    :lastname_coma_firstname => '#{lastname}, #{firstname}',
-    :username => '#{login}'
+    :firstname_lastname => {:string => '#{firstname} #{lastname}', :order => %w(firstname lastname id)},
+    :firstname => {:string => '#{firstname}', :order => %w(firstname id)},
+    :lastname_firstname => {:string => '#{lastname} #{firstname}', :order => %w(lastname firstname id)},
+    :lastname_coma_firstname => {:string => '#{lastname}, #{firstname}', :order => %w(lastname firstname id)},
+    :username => {:string => '#{login}', :order => %w(login id)},
   }
 
   MAIL_NOTIFICATION_OPTIONS = [
@@ -168,13 +169,29 @@ class User < Principal
       end
     end
   end
-	
+
+  def self.name_formatter(formatter = nil)
+    USER_FORMATS[formatter || Setting.user_format] || USER_FORMATS[:firstname_lastname]
+  end
+
+  # Returns an array of fields names than can be used to make an order statement for users
+  # according to how user names are displayed
+  # Examples:
+  #
+  #   User.fields_for_order_statement              => ['users.login', 'users.id']
+  #   User.fields_for_order_statement('authors')   => ['authors.login', 'authors.id']
+  def self.fields_for_order_statement(table=nil)
+    table ||= table_name
+    name_formatter[:order].map {|field| "#{table}.#{field}"}
+  end
+
   # Return user's full name for display
   def name(formatter = nil)
+    f = self.class.name_formatter(formatter)
     if formatter
-      eval('"' + (USER_FORMATS[formatter] || USER_FORMATS[:firstname_lastname]) + '"')
+      eval('"' + f[:string] + '"')
     else
-      @name ||= eval('"' + (USER_FORMATS[Setting.user_format] || USER_FORMATS[:firstname_lastname]) + '"')
+      @name ||= eval('"' + f[:string] + '"')
     end
   end
 
