@@ -323,7 +323,7 @@ fr:
   setting_default_language: Langue par défaut
   setting_login_required: Authentification obligatoire
   setting_self_registration: Inscription des nouveaux utilisateurs
-  setting_attachment_max_size: Taille max des fichiers
+  setting_attachment_max_size: Taille maximale des fichiers
   setting_issues_export_limit: Limite export demandes
   setting_mail_from: Adresse d'émission
   setting_bcc_recipients: Destinataires en copie cachée (cci)
@@ -331,13 +331,13 @@ fr:
   setting_host_name: Nom d'hôte et chemin
   setting_text_formatting: Formatage du texte
   setting_wiki_compression: Compression historique wiki
-  setting_feeds_limit: Limite du contenu des flux RSS
+  setting_feeds_limit: Nombre maximal d'éléments dans les flux Atom
   setting_default_projects_public: Définir les nouveaux projets comme publics par défaut
-  setting_autofetch_changesets: Récupération auto. des commits
+  setting_autofetch_changesets: Récupération automatique des commits
   setting_sys_api_enabled: Activer les WS pour la gestion des dépôts
   setting_commit_ref_keywords: Mots-clés de référencement
   setting_commit_fix_keywords: Mots-clés de résolution
-  setting_autologin: Autologin
+  setting_autologin: Durée maximale de connexion automatique
   setting_date_format: Format de date
   setting_time_format: Format d'heure
   setting_cross_project_issue_relations: Autoriser les relations entre demandes de différents projets
