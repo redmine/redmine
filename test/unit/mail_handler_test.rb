@@ -485,6 +485,46 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal issue.subject, 'New ticket on a given project with a very long subject line which exceeds 255 chars and should not be ignored but chopped off. And if the subject line is still not long enough, we just add more text. And more text. Wow, this is really annoying. Especially, if you have nothing to say...'[0,255]
   end
 
+  def test_new_user_from_attributes_should_return_valid_user
+    to_test = {
+      # [address, name] => [login, firstname, lastname]
+      ['jsmith@example.net', nil] => ['jsmith@example.net', 'jsmith', '-'],
+      ['jsmith@example.net', 'John'] => ['jsmith@example.net', 'John', '-'],
+      ['jsmith@example.net', 'John Smith'] => ['jsmith@example.net', 'John', 'Smith'],
+      ['jsmith@example.net', 'John Paul Smith'] => ['jsmith@example.net', 'John', 'Paul Smith'],
+      ['jsmith@example.net', 'AVeryLongFirstnameThatExceedsTheMaximumLength Smith'] => ['jsmith@example.net', 'AVeryLongFirstnameThatExceedsT', 'Smith'],
+      ['jsmith@example.net', 'John AVeryLongLastnameThatExceedsTheMaximumLength'] => ['jsmith@example.net', 'John', 'AVeryLongLastnameThatExceedsTh'],
+      ['alongemailaddressthatexceedsloginlength@example.net', 'John Smith'] => ['alongemailaddressthatexceedslo', 'John', 'Smith']
+    }
+
+    to_test.each do |attrs, expected|
+      user = MailHandler.new_user_from_attributes(attrs.first, attrs.last)
+
+      assert user.valid?
+      assert_equal attrs.first, user.mail
+      assert_equal expected[0], user.login
+      assert_equal expected[1], user.firstname
+      assert_equal expected[2], user.lastname
+    end
+  end
+
+  def test_new_user_from_attributes_should_respect_minimum_password_length
+    with_settings :password_min_length => 15 do
+      user = MailHandler.new_user_from_attributes('jsmith@example.net')
+      assert user.valid?
+      assert user.password.length >= 15
+    end
+  end
+ 
+  def test_new_user_from_attributes_should_use_default_login_if_invalid
+    MailHandler.new_user_from_attributes('alongemailaddressthatexceedsloginlength-1@example.net').save!
+
+    # another long address that would result in duplicate login
+    user = MailHandler.new_user_from_attributes('alongemailaddressthatexceedsloginlength-2@example.net')
+    assert user.valid?
+    assert user.login =~ /^user[a-f0-9]+$/
+  end
+
   private
 
   def submit_email(filename, options={})
