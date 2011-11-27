@@ -190,6 +190,7 @@ bg:
   error_workflow_copy_target: Моля изберете тракер(и) и роля (роли).
   error_unable_delete_issue_status: Невъзможност за изтриване на състояние на задача
   error_unable_to_connect: Невъзможност за свързване с (%{value})
+  error_attachment_too_big: Този файл не може да бъде качен, понеже надхвърля максималната възможна големина (%{max_size})
   warning_attachments_not_saved: "%{count} файла не бяха записани."
 
   mail_subject_lost_password: "Вашата парола (%{value})"
@@ -330,10 +331,10 @@ bg:
   setting_plain_text_mail: само чист текст (без HTML)
   setting_host_name: Хост
   setting_text_formatting: Форматиране на текста
-  setting_wiki_compression: Wiki компресиране на историята
-  setting_feeds_limit: Максимален брой за емисии
+  setting_wiki_compression: Компресиране на Wiki историята
+  setting_feeds_limit: Максимален брой записи в ATOM емисии
   setting_default_projects_public: Новите проекти са публични по подразбиране
-  setting_autofetch_changesets: Автоматично обработване на ревизиите
+  setting_autofetch_changesets: Автоматично извличане на ревизиите
   setting_sys_api_enabled: Разрешаване на WS за управление
   setting_commit_ref_keywords: Отбелязващи ключови думи
   setting_commit_fix_keywords: Приключващи ключови думи
@@ -349,7 +350,7 @@ bg:
   setting_per_page_options: Опции за страниране
   setting_user_format: Потребителски формат
   setting_activity_days_default: Брой дни показвани на таб Дейност
-  setting_display_subprojects_issues: Показване на подпроектите в проектите по подразбиране
+  setting_display_subprojects_issues: Задачите от подпроектите по подразбиране се показват в главните проекти
   setting_enabled_scm: Разрешена SCM
   setting_mail_handler_body_delimiters: Отрязване на e-mail-ите след един от тези редове
   setting_mail_handler_api_enabled: Разрешаване на WS за входящи e-mail-и
@@ -357,7 +358,7 @@ bg:
   setting_sequential_project_identifiers: Генериране на последователни проектни идентификатори
   setting_gravatar_enabled: Използване на портребителски икони от Gravatar
   setting_gravatar_default: Подразбиращо се изображение от Gravatar
-  setting_diff_max_lines_displayed: Максимален брой показани diff редове
+  setting_diff_max_lines_displayed: Максимален брой показвани diff редове
   setting_file_max_size_displayed: Максимален размер на текстовите файлове, показвани inline
   setting_repository_log_display_limit: Максимален брой на показванете ревизии в лог файла
   setting_openid: Рарешаване на OpenID вход и регистрация
@@ -1003,4 +1004,3 @@ bg:
   description_date_range_interval: Изберете диапазон чрез задаване на начална и крайна дати
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
-  error_attachment_too_big: This file cannot be uploaded because it exceeds the maximum allowed file size (%{max_size})
