@@ -33,8 +33,8 @@
     <td class="downloads"><%= file.downloads %></td>
     <td class="digest"><%= file.digest %></td>
     <td align="center">
-    <%= link_to(image_tag('delete.png'), {:controller => 'attachments', :action => 'destroy', :id => file},
-                                         :confirm => l(:text_are_you_sure), :method => :post) if delete_allowed %>
+    <%= link_to(image_tag('delete.png'), attachment_path(file),
+                                         :confirm => l(:text_are_you_sure), :method => :delete) if delete_allowed %>
     </td>
   </tr>
   <% end
