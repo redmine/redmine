@@ -19,7 +19,8 @@
 #                             -r redmine.example.net
 #                             -r http://redmine.example.net
 #                             -r https://example.net/redmine
-#   -k, --key=KEY             use KEY as the Redmine API key
+#   -k, --key=KEY             use KEY as the Redmine API key (you can use the
+#                             --key-file option as an alternative)
 #
 # == Options
 #
@@ -50,6 +51,9 @@
 #                             and subversion.
 #   -f, --force               force repository creation even if the project
 #                             repository is already declared in Redmine
+#       --key-file=PATH       path to a file that contains the Redmine API key
+#                             (use this option instead of --key if you don't 
+#                             the key to appear in the command line)
 #   -t, --test                only show what should be done
 #   -h, --help                show help and exit
 #   -v, --verbose             verbose
@@ -73,6 +77,7 @@ opts = GetoptLong.new(
                       ['--svn-dir',      '-s', GetoptLong::REQUIRED_ARGUMENT],
                       ['--redmine-host', '-r', GetoptLong::REQUIRED_ARGUMENT],
                       ['--key',          '-k', GetoptLong::REQUIRED_ARGUMENT],
+                      ['--key-file',           GetoptLong::REQUIRED_ARGUMENT],
                       ['--owner',        '-o', GetoptLong::REQUIRED_ARGUMENT],
                       ['--group',        '-g', GetoptLong::REQUIRED_ARGUMENT],
                       ['--url',          '-u', GetoptLong::REQUIRED_ARGUMENT],
@@ -134,6 +139,13 @@ begin
     when '--svn-dir';        $repos_base   = arg.dup
     when '--redmine-host';   $redmine_host = arg.dup
     when '--key';            $api_key      = arg.dup
+    when '--key-file'
+      begin
+        $api_key = File.read(arg).strip
+      rescue Exception => e
+        $stderr.puts "Unable to read the key from #{arg}: #{e.message}"
+        exit 1
+      end
     when '--owner';          $svn_owner    = arg.dup; $use_groupid = false;
     when '--group';          $svn_group    = arg.dup; $use_groupid = false;
     when '--url';            $svn_url      = arg.dup
