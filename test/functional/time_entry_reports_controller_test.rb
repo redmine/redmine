@@ -6,6 +6,8 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
            :issues, :time_entries, :users, :trackers, :enumerations,
            :issue_statuses, :custom_fields, :custom_values
 
+  include Redmine::I18n
+
   def setup
     Setting.default_language = "en"
   end
@@ -190,6 +192,15 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
     # Total row
     assert_equal "#{str_big5} #{user.lastname},7.30,7.30", lines[1]
     assert_equal "#{s2},7.30,7.30", lines[2]
+
+    str_tw = "Traditional Chinese (\xe7\xb9\x81\xe9\xab\x94\xe4\xb8\xad\xe6\x96\x87)"
+    if str_tw.respond_to?(:force_encoding)
+      str_tw.force_encoding('UTF-8')
+    end
+    assert_equal str_tw, l(:general_lang_name)
+    assert_equal 'Big5', l(:general_csv_encoding)
+    assert_equal ',', l(:general_csv_separator)
+    assert_equal '.', l(:general_csv_decimal_separator)
   end
 
   def test_csv_cannot_convert_should_be_replaced_big_5
