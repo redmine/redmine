@@ -90,7 +90,7 @@ class GroupsControllerTest < ActionController::TestCase
 
   def test_remove_user
     assert_difference 'Group.find(10).users.count', -1 do
-      post :remove_user, :id => 10, :user_id => '8'
+      delete :remove_user, :id => 10, :user_id => '8'
     end
   end
 

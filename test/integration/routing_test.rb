@@ -55,6 +55,11 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :post, "/documents/567/edit", :controller => 'documents', :action => 'edit', :id => '567'
     should_route :post, "/documents/567/destroy", :controller => 'documents', :action => 'destroy', :id => '567'
   end
+  
+  context "groups" do
+    should_route :post,   "/groups/567/users", :controller => 'groups', :action => 'add_users', :id => '567'
+    should_route :delete, "/groups/567/users/12", :controller => 'groups', :action => 'remove_user', :id => '567', :user_id => '12'
+  end
 
   context "issues" do
     # REST actions

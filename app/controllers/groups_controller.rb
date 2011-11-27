@@ -125,7 +125,7 @@ class GroupsController < ApplicationController
 
   def remove_user
     @group = Group.find(params[:id])
-    @group.users.delete(User.find(params[:user_id])) if request.post?
+    @group.users.delete(User.find(params[:user_id])) if request.delete?
     respond_to do |format|
       format.html { redirect_to :controller => 'groups', :action => 'edit', :id => @group, :tab => 'users' }
       format.js { render(:update) {|page| page.replace_html "tab-content-users", :partial => 'groups/users'} }
