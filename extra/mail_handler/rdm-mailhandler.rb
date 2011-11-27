@@ -22,6 +22,7 @@
 #                                  create: create a user account
 #       --no-permission-check      disable permission checking when receiving
 #                                  the email
+#       --no-check-certificate     do not check server certificate
 #   -h, --help                     show this help
 #   -v, --verbose                  show extra information
 #   -V, --version                  show version information and exit
@@ -57,13 +58,16 @@ require 'rdoc/usage'
 
 module Net
   class HTTPS < HTTP
-    def self.post_form(url, params, headers)
+    def self.post_form(url, params, headers, options={})
       request = Post.new(url.path)
       request.form_data = params
       request.basic_auth url.user, url.password if url.user
       request.initialize_http_header(headers)
       http = new(url.host, url.port)
       http.use_ssl = (url.scheme == 'https')
+      if options[:no_check_certificate]
+        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      end
       http.start {|h| h.request(request) }
     end
   end
@@ -72,7 +76,7 @@ end
 class RedmineMailHandler
   VERSION = '0.1'
   
-  attr_accessor :verbose, :issue_attributes, :allow_override, :unknown_user, :no_permission_check, :url, :key
+  attr_accessor :verbose, :issue_attributes, :allow_override, :unknown_user, :no_permission_check, :url, :key, :no_check_certificate
 
   def initialize
     self.issue_attributes = {}
@@ -90,7 +94,8 @@ class RedmineMailHandler
       [ '--priority',             GetoptLong::REQUIRED_ARGUMENT],
       [ '--allow-override', '-o', GetoptLong::REQUIRED_ARGUMENT],
       [ '--unknown-user',         GetoptLong::REQUIRED_ARGUMENT],
-      [ '--no-permission-check',  GetoptLong::NO_ARGUMENT]
+      [ '--no-permission-check',  GetoptLong::NO_ARGUMENT],
+      [ '--no-check-certificate', GetoptLong::NO_ARGUMENT]
     )
 
     opts.each do |opt, arg|
@@ -113,6 +118,8 @@ class RedmineMailHandler
         self.unknown_user = arg.dup
       when '--no-permission-check'
         self.no_permission_check = '1'
+      when '--no-check-certificate'
+        self.no_check_certificate = true
       end
     end
     
@@ -131,7 +138,7 @@ class RedmineMailHandler
     issue_attributes.each { |attr, value| data["issue[#{attr}]"] = value }
              
     debug "Posting to #{uri}..."
-    response = Net::HTTPS.post_form(URI.parse(uri), data, headers)
+    response = Net::HTTPS.post_form(URI.parse(uri), data, headers, :no_check_certificate => no_check_certificate)
     debug "Response received: #{response.code}"
     
     case response.code.to_i
