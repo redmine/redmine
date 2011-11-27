@@ -28,6 +28,8 @@ class TimelogControllerTest < ActionController::TestCase
            :trackers, :enumerations, :issue_statuses,
            :custom_fields, :custom_values
 
+  include Redmine::I18n
+
   def setup
     @controller = TimelogController.new
     @request    = ActionController::TestRequest.new
@@ -435,6 +437,74 @@ class TimelogControllerTest < ActionController::TestCase
       assert_equal "??", s2
     else
       assert_equal "\xa5H???", s2
+    end
+  end
+
+  def test_csv_tw
+    with_settings :default_language => "zh-TW" do
+      str1  = "test_csv_tw"
+      user = User.find_by_id(3)
+      te1 = TimeEntry.create(:spent_on => '2011-11-10',
+                             :hours    => 999.9,
+                             :project  => Project.find(1),
+                             :user     => user,
+                             :activity => TimeEntryActivity.find_by_name('Design'),
+                             :comments => str1)
+      te2 = TimeEntry.find_by_comments(str1)
+      assert_not_nil te2
+      assert_equal 999.9, te2.hours
+      assert_equal 3, te2.user_id
+
+      get :index, :project_id => 1, :format => 'csv',
+          :from => '2011-11-10', :to => '2011-11-10'
+      assert_response :success
+      assert_equal 'text/csv', @response.content_type
+
+      ar = @response.body.chomp.split("\n")
+      s2 = ar[1].split(",")[7]
+      assert_equal '999.9', s2
+
+      str_tw = "Traditional Chinese (\xe7\xb9\x81\xe9\xab\x94\xe4\xb8\xad\xe6\x96\x87)"
+      if str_tw.respond_to?(:force_encoding)
+        str_tw.force_encoding('UTF-8')
+      end
+      assert_equal str_tw, l(:general_lang_name)
+      assert_equal ',', l(:general_csv_separator)
+      assert_equal '.', l(:general_csv_decimal_separator)
+    end
+  end
+
+  def test_csv_fr
+    with_settings :default_language => "fr" do
+      str1  = "test_csv_fr"
+      user = User.find_by_id(3)
+      te1 = TimeEntry.create(:spent_on => '2011-11-10',
+                             :hours    => 999.9,
+                             :project  => Project.find(1),
+                             :user     => user,
+                             :activity => TimeEntryActivity.find_by_name('Design'),
+                             :comments => str1)
+      te2 = TimeEntry.find_by_comments(str1)
+      assert_not_nil te2
+      assert_equal 999.9, te2.hours
+      assert_equal 3, te2.user_id
+
+      get :index, :project_id => 1, :format => 'csv',
+          :from => '2011-11-10', :to => '2011-11-10'
+      assert_response :success
+      assert_equal 'text/csv', @response.content_type
+
+      ar = @response.body.chomp.split("\n")
+      s2 = ar[1].split(";")[7]
+      assert_equal '999,9', s2
+
+      str_fr = "Fran\xc3\xa7ais"
+      if str_fr.respond_to?(:force_encoding)
+        str_fr.force_encoding('UTF-8')
+      end
+      assert_equal str_fr, l(:general_lang_name)
+      assert_equal ';', l(:general_csv_separator)
+      assert_equal ',', l(:general_csv_decimal_separator)
     end
   end
 end
