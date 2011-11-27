@@ -153,7 +153,8 @@ module TimelogHelper
       # Content
       report_criteria_to_csv(csv, criterias, periods, hours)
       # Total row
-      row = [ l(:label_total) ] + [''] * (criterias.size - 1)
+      str_total = Redmine::CodesetUtil.from_utf8(l(:label_total), l(:general_csv_encoding))
+      row = [ str_total ] + [''] * (criterias.size - 1)
       total = 0
       periods.each do |period|
         sum = sum_hours(select_hours(hours, @columns, period.to_s))

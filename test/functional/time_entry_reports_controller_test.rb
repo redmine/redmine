@@ -181,12 +181,15 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
     lines = @response.body.chomp.split("\n")    
     # Headers
     s1 = "\xa6\xa8\xad\xfb,2011-11-11,\xc1`\xadp"
+    s2 = "\xc1`\xadp"
     if s1.respond_to?(:force_encoding)
       s1.force_encoding('Big5')
+      s2.force_encoding('Big5')
     end
     assert_equal s1, lines.first
     # Total row
     assert_equal "#{str_big5} #{user.lastname},7.30,7.30", lines[1]
+    assert_equal "#{s2},7.30,7.30", lines[2]
   end
 
   def test_csv_cannot_convert_should_be_replaced_big_5
