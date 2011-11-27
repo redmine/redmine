@@ -22,6 +22,10 @@
 #                                  create: create a user account
 #       --no-permission-check      disable permission checking when receiving
 #                                  the email
+#       --key-file=PATH            path to a file that contains the Redmine
+#                                  API key (use this option instead of --key
+#                                  if you don't the key to appear in the
+#                                  command line)
 #       --no-check-certificate     do not check server certificate
 #   -h, --help                     show this help
 #   -v, --verbose                  show extra information
@@ -87,6 +91,7 @@ class RedmineMailHandler
       [ '--verbose',        '-v', GetoptLong::NO_ARGUMENT ],
       [ '--url',            '-u', GetoptLong::REQUIRED_ARGUMENT ],
       [ '--key',            '-k', GetoptLong::REQUIRED_ARGUMENT],
+      [ '--key-file',             GetoptLong::REQUIRED_ARGUMENT],
       [ '--project',        '-p', GetoptLong::REQUIRED_ARGUMENT ],
       [ '--status',         '-s', GetoptLong::REQUIRED_ARGUMENT ],
       [ '--tracker',        '-t', GetoptLong::REQUIRED_ARGUMENT],
@@ -104,6 +109,13 @@ class RedmineMailHandler
         self.url = arg.dup
       when '--key'
         self.key = arg.dup
+      when '--key-file'
+        begin
+          self.key = File.read(arg).strip
+        rescue Exception => e
+          $stderr.puts "Unable to read the key from #{arg}: #{e.message}"
+          exit 1
+        end
       when '--help'
         usage
       when '--verbose'
