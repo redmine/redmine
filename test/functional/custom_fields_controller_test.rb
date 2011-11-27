@@ -22,13 +22,19 @@ require 'custom_fields_controller'
 class CustomFieldsController; def rescue_action(e) raise e end; end
 
 class CustomFieldsControllerTest < ActionController::TestCase
-  fixtures :custom_fields, :trackers, :users
+  fixtures :custom_fields, :custom_values, :trackers, :users
 
   def setup
     @controller = CustomFieldsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     @request.session[:user_id] = 1
+  end
+
+  def test_index
+    get :index
+    assert_response :success
+    assert_template 'index'
   end
 
   def test_get_new_issue_custom_field
@@ -77,5 +83,35 @@ class CustomFieldsControllerTest < ActionController::TestCase
     assert_not_nil field
     assert_equal ["0.1", "0.2"], field.possible_values
     assert_equal 1, field.trackers.size
+  end
+
+  def test_get_edit
+    get :edit, :id => 1
+    assert_response :success
+    assert_template 'edit'
+    assert_tag 'input', :attributes => {:name => 'custom_field[name]', :value => 'Database'}
+  end
+
+  def test_post_edit
+    post :edit, :id => 1, :custom_field => {:name => 'New name'}
+    assert_redirected_to '/custom_fields?tab=IssueCustomField'
+
+    field = CustomField.find(1)
+    assert_equal 'New name', field.name
+  end
+
+  def test_destroy
+    custom_values_count = CustomValue.count(:conditions => {:custom_field_id => 1})
+    assert custom_values_count > 0
+
+    assert_difference 'CustomField.count', -1 do
+      assert_difference 'CustomValue.count', - custom_values_count do
+        post :destroy, :id => 1
+      end
+    end
+
+    assert_redirected_to '/custom_fields?tab=IssueCustomField'
+    assert_nil CustomField.find_by_id(1)
+    assert_nil CustomValue.find_by_custom_field_id(1)
   end
 end
