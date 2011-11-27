@@ -207,12 +207,14 @@ Project.site = "#{$redmine_host}/sys";
 begin
   # Get all active projects that have the Repository module enabled
   projects = Project.find(:all, :params => {:key => $api_key})
+rescue ActiveResource::ForbiddenAccess
+  log("Request was denied by your Redmine server. Make sure that 'WS for repository management' is enabled in application settings and that you provided the correct API key.")
 rescue => e
   log("Unable to connect to #{Project.site}: #{e}", :exit => true)
 end
 
 if projects.nil?
-  log('no project found, perhaps you forgot to "Enable WS for repository management"', :exit => true)
+  log('No project found, perhaps you forgot to "Enable WS for repository management"', :exit => true)
 end
 
 log("retrieved #{projects.size} projects", :level => 1)
