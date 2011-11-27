@@ -43,6 +43,8 @@ class IssuesControllerTest < ActionController::TestCase
            :journal_details,
            :queries
 
+  include Redmine::I18n
+
   def setup
     @controller = IssuesController.new
     @request    = ActionController::TestRequest.new
@@ -379,20 +381,38 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_index_pdf
-    get :index, :format => 'pdf'
-    assert_response :success
-    assert_not_nil assigns(:issues)
-    assert_equal 'application/pdf', @response.content_type
+    ["en", "zh", "zh-TW", "ja", "ko"].each do |lang|
+      with_settings :default_language => lang do
 
-    get :index, :project_id => 1, :format => 'pdf'
-    assert_response :success
-    assert_not_nil assigns(:issues)
-    assert_equal 'application/pdf', @response.content_type
+        get :index
+        assert_response :success
+        assert_template 'index'
 
-    get :index, :project_id => 1, :query_id => 6, :format => 'pdf'
-    assert_response :success
-    assert_not_nil assigns(:issues)
-    assert_equal 'application/pdf', @response.content_type
+        if lang == "ja"
+          if RUBY_PLATFORM != 'java'
+            assert_equal "CP932", l(:general_pdf_encoding)
+          end
+          if RUBY_PLATFORM == 'java' && l(:general_pdf_encoding) == "CP932"
+            next
+          end
+        end
+
+        get :index, :format => 'pdf'
+        assert_response :success
+        assert_not_nil assigns(:issues)
+        assert_equal 'application/pdf', @response.content_type
+
+        get :index, :project_id => 1, :format => 'pdf'
+        assert_response :success
+        assert_not_nil assigns(:issues)
+        assert_equal 'application/pdf', @response.content_type
+
+        get :index, :project_id => 1, :query_id => 6, :format => 'pdf'
+        assert_response :success
+        assert_not_nil assigns(:issues)
+        assert_equal 'application/pdf', @response.content_type
+      end
+    end
   end
 
   def test_index_pdf_with_query_grouped_by_list_custom_field
