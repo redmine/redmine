@@ -380,6 +380,64 @@ class IssuesControllerTest < ActionController::TestCase
     end
   end
 
+  def test_index_csv_tw
+    with_settings :default_language => "zh-TW" do
+      str1  = "test_index_csv_tw"
+      issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 3,
+                        :status_id => 1, :priority => IssuePriority.all.first,
+                        :subject => str1, :estimated_hours => '1234.5')
+      assert issue.save
+      assert_equal 1234.5, issue.estimated_hours
+
+      get :index, :project_id => 1, 
+                  :f => ['subject'], 
+                  :op => '=', :values => [str1],
+                  :c => ['estimated_hours', 'subject'],
+                  :format => 'csv',
+                  :set_filter => 1
+      assert_equal 'text/csv', @response.content_type
+      lines = @response.body.chomp.split("\n")
+      assert_equal "#{issue.id},1234.5,#{str1}", lines[1]
+
+      str_tw = "Traditional Chinese (\xe7\xb9\x81\xe9\xab\x94\xe4\xb8\xad\xe6\x96\x87)"
+      if str_tw.respond_to?(:force_encoding)
+        str_tw.force_encoding('UTF-8')
+      end
+      assert_equal str_tw, l(:general_lang_name)
+      assert_equal ',', l(:general_csv_separator)
+      assert_equal '.', l(:general_csv_decimal_separator)
+    end
+  end
+
+  def test_index_csv_fr
+    with_settings :default_language => "fr" do
+      str1  = "test_index_csv_fr"
+      issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 3,
+                        :status_id => 1, :priority => IssuePriority.all.first,
+                        :subject => str1, :estimated_hours => '1234.5')
+      assert issue.save
+      assert_equal 1234.5, issue.estimated_hours
+
+      get :index, :project_id => 1, 
+                  :f => ['subject'], 
+                  :op => '=', :values => [str1],
+                  :c => ['estimated_hours', 'subject'],
+                  :format => 'csv',
+                  :set_filter => 1
+      assert_equal 'text/csv', @response.content_type
+      lines = @response.body.chomp.split("\n")
+      assert_equal "#{issue.id};1234,5;#{str1}", lines[1]
+
+      str_fr = "Fran\xc3\xa7ais"
+      if str_fr.respond_to?(:force_encoding)
+        str_fr.force_encoding('UTF-8')
+      end
+      assert_equal str_fr, l(:general_lang_name)
+      assert_equal ';', l(:general_csv_separator)
+      assert_equal ',', l(:general_csv_decimal_separator)
+    end
+  end
+
   def test_index_pdf
     ["en", "zh", "zh-TW", "ja", "ko"].each do |lang|
       with_settings :default_language => lang do
