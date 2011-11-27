@@ -5,7 +5,7 @@ namespace :test do
   task :coverage do
     rm_f "coverage"
     rm_f "coverage.data"
-    rcov = "rcov --rails --aggregate coverage.data --text-summary -Ilib --html"
+    rcov = "rcov --rails --aggregate coverage.data --text-summary -Ilib --html --exclude gems/"
     files = Dir.glob("test/**/*_test.rb").join(" ")
     system("#{rcov} #{files}")
     system("open coverage/index.html") if PLATFORM['darwin']
