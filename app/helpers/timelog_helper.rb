@@ -142,6 +142,7 @@ module TimelogHelper
   end
 
   def report_to_csv(criterias, periods, hours)
+    decimal_separator = l(:general_csv_decimal_separator)
     export = FCSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
       # Column headers
       headers = criterias.collect {|criteria| l(@available_criterias[criteria][:label]) }
@@ -159,15 +160,16 @@ module TimelogHelper
       periods.each do |period|
         sum = sum_hours(select_hours(hours, @columns, period.to_s))
         total += sum
-        row << (sum > 0 ? "%.2f" % sum : '')
+        row << (sum > 0 ? ("%.2f" % sum).gsub('.',decimal_separator) : '')
       end
-      row << "%.2f" %total
+      row << ("%.2f" % total).gsub('.',decimal_separator)
       csv << row
     end
     export
   end
 
   def report_criteria_to_csv(csv, criterias, periods, hours, level=0)
+    decimal_separator = l(:general_csv_decimal_separator)
     hours.collect {|h| h[criterias[level]].to_s}.uniq.each do |value|
       hours_for_value = select_hours(hours, criterias[level], value)
       next if hours_for_value.empty?
@@ -180,11 +182,10 @@ module TimelogHelper
       periods.each do |period|
         sum = sum_hours(select_hours(hours_for_value, @columns, period.to_s))
         total += sum
-        row << (sum > 0 ? "%.2f" % sum : '')
+        row << (sum > 0 ? ("%.2f" % sum).gsub('.',decimal_separator) : '')
       end
-      row << "%.2f" %total
+      row << ("%.2f" % total).gsub('.',decimal_separator)
       csv << row
-
       if criterias.length > level + 1
         report_criteria_to_csv(csv, criterias, periods, hours_for_value, level + 1)
       end
