@@ -182,6 +182,7 @@ end
 
 class Project < ActiveResource::Base
   self.headers["User-agent"] = "Redmine repository manager/#{Version}"
+  self.format = :xml
 end
 
 log("querying Redmine for projects...", :level => 1);
