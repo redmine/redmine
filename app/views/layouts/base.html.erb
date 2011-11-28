@@ -28,7 +28,10 @@
     <div id="account">
         <%= render_menu :account_menu -%>
     </div>
-    <%= content_tag('div', "#{l(:label_logged_as)} #{link_to_user(User.current, :format => :username)}", :id => 'loggedas') if User.current.logged? %>
+    <%= content_tag(
+           'div',
+           "#{l(:label_logged_as)} #{link_to_user(User.current, :format => :username)}".html_safe,
+           :id => 'loggedas') if User.current.logged? %>
     <%= render_menu :top_menu if User.current.logged? || !Setting.login_required? -%>
 </div>
 
