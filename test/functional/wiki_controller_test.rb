@@ -94,6 +94,24 @@ class WikiControllerTest < ActionController::TestCase
     }
   end
 
+  def test_show_current_version_should_display_section_edit_links
+    @request.session[:user_id] = 2
+    get :show, :project_id => 1, :id => 'Page with sections', :version => 3
+
+    assert_tag 'a', :attributes => {
+      :href => '/projects/ecookbook/wiki/Page_with_sections/edit?section=2'
+    }
+  end
+
+  def test_show_old_version_should_not_display_section_edit_links
+    @request.session[:user_id] = 2
+    get :show, :project_id => 1, :id => 'Page with sections', :version => 2
+
+    assert_no_tag 'a', :attributes => {
+      :href => '/projects/ecookbook/wiki/Page_with_sections/edit?section=2'
+    }
+  end
+
   def test_show_unexistent_page_with_edit_right
     @request.session[:user_id] = 2
     get :show, :project_id => 1, :id => 'Unexistent page'
