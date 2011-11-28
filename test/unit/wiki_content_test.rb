@@ -85,4 +85,11 @@ class WikiContentTest < ActiveSupport::TestCase
     page.reload
     assert_equal 500.kilobyte, page.content.text.size
   end
+  
+  def test_current_version
+    content = WikiContent.find(11)
+    assert_equal true, content.current_version?
+    assert_equal true, content.versions.first(:order => 'version DESC').current_version?
+    assert_equal false, content.versions.first(:order => 'version ASC').current_version?
+  end
 end

@@ -45,6 +45,11 @@ class WikiContent < ActiveRecord::Base
     notified.collect(&:mail)
   end
 
+  # Return true if the content is the current page content
+  def current_version?
+    true
+  end
+
   class Version
     belongs_to :page, :class_name => '::WikiPage', :foreign_key => 'page_id'
     belongs_to :author, :class_name => '::User', :foreign_key => 'author_id'
@@ -99,6 +104,11 @@ class WikiContent < ActiveRecord::Base
 
     def project
       page.project
+    end
+
+    # Return true if the content is the current page content
+    def current_version?
+      page.content.version == self.version
     end
 
     # Returns the previous version or nil

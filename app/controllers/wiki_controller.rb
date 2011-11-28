@@ -86,7 +86,7 @@ class WikiController < ApplicationController
     end
     @editable = editable?
     @sections_editable = @editable && User.current.allowed_to?(:edit_wiki_pages, @page.project) &&
-      @content.version == @page.content.version &&
+      @content.current_version? &&
       Redmine::WikiFormatting.supports_section_edit?
 
     render :action => 'show'
