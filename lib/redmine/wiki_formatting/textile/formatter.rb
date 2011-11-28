@@ -97,7 +97,7 @@ module Redmine
             end
           end
           sections = [before.strip, s.strip, after.strip]
-          sections.each {|section| smooth_offtags section}
+          sections.each {|section| smooth_offtags_without_code_highlighting section}
           sections
         end
 
@@ -109,6 +109,7 @@ module Redmine
           text.gsub!( /(.)\n(?!\n|\Z| *([#*=]+(\s|$)|[{|]))/, "\\1<br />" ) if hard_breaks
         end
 
+        alias :smooth_offtags_without_code_highlighting :smooth_offtags
         # Patch to add code highlighting support to RedCloth
         def smooth_offtags( text )
           unless @pre_list.empty?

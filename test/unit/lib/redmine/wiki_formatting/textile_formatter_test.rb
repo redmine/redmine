@@ -279,6 +279,11 @@ Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.",
   # 1
 "h2. Heading 2
 
+<pre><code class=\"ruby\">
+  def foo
+  end
+</code></pre>
+
 Morbi facilisis accumsan orci non pharetra.
 
 <pre>
