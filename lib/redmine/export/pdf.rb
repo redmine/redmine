@@ -418,9 +418,9 @@ module Redmine
                    " # #{relation.other_issue(issue).id}: #{relation.other_issue(issue).subject}"
             buf = truncate(buf, :length => truncate_length)
             pdf.SetFontStyle('', 8)
-            pdf.RDMCell(35+155-50,5, buf, "L")
+            pdf.RDMCell(35+155-60, 5, buf, "L")
             pdf.SetFontStyle('B',8)
-            pdf.RDMCell(10,5, relation.other_issue(issue).status.to_s, "")
+            pdf.RDMCell(20,5, relation.other_issue(issue).status.to_s, "")
             pdf.RDMCell(20,5, format_date(relation.other_issue(issue).start_date), "")
             pdf.RDMCell(20,5, format_date(relation.other_issue(issue).due_date), "R")
             pdf.Ln
