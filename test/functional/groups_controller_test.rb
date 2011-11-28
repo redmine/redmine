@@ -55,6 +55,9 @@ class GroupsControllerTest < ActionController::TestCase
       post :create, :group => {:lastname => 'New group'}
     end
     assert_redirected_to '/groups'
+    group = Group.first(:order => 'id DESC')
+    assert_equal 'New group', group.name
+    assert_equal [], group.users
   end
 
   def test_create_and_continue
@@ -62,6 +65,16 @@ class GroupsControllerTest < ActionController::TestCase
       post :create, :group => {:lastname => 'New group'}, :continue => 'Create and continue'
     end
     assert_redirected_to '/groups/new'
+    group = Group.first(:order => 'id DESC')
+    assert_equal 'New group', group.name
+  end
+
+  def test_create_with_failure
+    assert_no_difference 'Group.count' do
+      post :create, :group => {:lastname => ''}
+    end
+    assert_response :success
+    assert_template 'new'
   end
 
   def test_edit
@@ -71,8 +84,17 @@ class GroupsControllerTest < ActionController::TestCase
   end
 
   def test_update
-    post :update, :id => 10
+    new_name = 'New name'
+    put :update, :id => 10, :group => {:lastname => new_name}
     assert_redirected_to '/groups'
+    group = Group.find(10)
+    assert_equal new_name, group.name
+  end
+
+  def test_update_with_failure
+    put :update, :id => 10, :group => {:lastname => ''}
+    assert_response :success
+    assert_template 'edit'
   end
 
   def test_destroy
