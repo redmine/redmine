@@ -284,6 +284,11 @@ Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.",
   end
 </code></pre>
 
+<pre><code><pre><code class=\"ruby\">
+  Place your code here.
+</code></pre>
+</code></pre>
+
 Morbi facilisis accumsan orci non pharetra.
 
 <pre>
