@@ -286,6 +286,8 @@ Pre Content:
 
 h2. Inside pre
 
+<tag> inside pre block
+
 Morbi facilisis accumsan orci non pharetra.
 </pre>",
   # 2
@@ -298,6 +300,14 @@ Nulla nunc nisi, egestas in ornare vel, posuere ac libero."]
 
     assert_section_with_hash STR_WITH_PRE[1..2].join("\n\n"), text, 2
     assert_section_with_hash STR_WITH_PRE[2], text, 3
+  end
+
+  def test_update_section_should_not_escape_pre_content_outside_section
+    text = STR_WITH_PRE.join("\n\n")
+    replacement = "New text"
+    
+    assert_equal [STR_WITH_PRE[0..1], "New text"].flatten.join("\n\n"),
+      @formatter.new(text).update_section(3, replacement)
   end
 
   private

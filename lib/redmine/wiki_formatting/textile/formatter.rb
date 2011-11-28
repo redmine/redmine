@@ -57,7 +57,7 @@ module Redmine
         def extract_sections(index)
           @pre_list = []
           text = self.dup
-          rip_offtags text
+          rip_offtags text, false
           before = ''
           s = ''
           after = ''
