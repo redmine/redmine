@@ -272,6 +272,7 @@
   error_workflow_copy_target: '請選擇一個（或多個）目的問題追蹤標籤或角色'
   error_unable_delete_issue_status: '無法刪除問題狀態'
   error_unable_to_connect: "無法連線至（%{value}）"
+  error_attachment_too_big: "這個檔案無法被上傳，因為它已經超過最大的檔案大小 (%{max_size})"
   warning_attachments_not_saved: "%{count} 個附加檔案無法被儲存。"
 
   mail_subject_lost_password: 您的 Redmine 網站密碼
@@ -424,6 +425,7 @@
   setting_time_format: 時間格式
   setting_cross_project_issue_relations: 允許關聯至其它專案的問題
   setting_issue_list_default_columns: 預設顯示於問題清單的欄位
+  setting_repositories_encodings: 附加檔案與儲存機制的編碼
   setting_emails_header: 電子郵件前頭說明
   setting_emails_footer: 電子郵件附帶說明
   setting_protocol: 協定
@@ -908,6 +910,7 @@
   label_git_report_last_commit: 報告最後認可的文件和目錄
   label_parent_revision: 父項
   label_child_revision: 子項
+  label_export_options: %{export_format} 匯出選項
 
   button_login: 登入
   button_submit: 送出
@@ -955,6 +958,8 @@
   button_quote: 引用
   button_duplicate: 重製
   button_show: 顯示
+  button_edit_section: 編輯此區塊
+  button_export: 匯出
 
   status_active: 活動中
   status_registered: 註冊完成
@@ -1074,15 +1079,10 @@
   description_user_mail_notification: 郵件通知設定
   description_available_columns: 可用欄位
   description_selected_columns: 已選取的欄位
+  description_all_columns: 所有欄位
   description_issue_category_reassign: 選擇問題分類
   description_wiki_subpages_reassign: 選擇新的父頁面
   description_date_range_list: 從清單中選取範圍
   description_date_range_interval: 選擇起始與結束日期以設定範圍區間
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
-  button_edit_section: Edit this section
-  setting_repositories_encodings: Attachments and repositories encodings
-  description_all_columns: All Columns
-  button_export: Export
-  label_export_options: "%{export_format} export options"
-  error_attachment_too_big: This file cannot be uploaded because it exceeds the maximum allowed file size (%{max_size})
