@@ -123,11 +123,6 @@ class Project < ActiveRecord::Base
     user.allowed_to?(:view_project, self)
   end
 
-  def self.visible_by(user=nil)
-    ActiveSupport::Deprecation.warn "Project.visible_by is deprecated and will be removed in Redmine 1.3.0. Use Project.visible_condition instead."
-    visible_condition(user || User.current)
-  end
-
   # Returns a SQL conditions string used to find all projects visible by the specified user.
   #
   # Examples:
