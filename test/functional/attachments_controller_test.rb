@@ -198,6 +198,12 @@ class AttachmentsControllerTest < ActionController::TestCase
     set_tmp_attachments_directory
   end
 
+  def test_download_version_file_with_issue_tracking_disabled
+    Project.find(1).disable_module! :issue_tracking
+    get :download, :id => 9
+    assert_response :success
+  end
+
   def test_download_should_assign_content_type_if_blank
     Attachment.find(4).update_attribute(:content_type, '')
 
