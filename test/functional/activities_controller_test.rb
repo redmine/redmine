@@ -32,6 +32,11 @@ class ActivitiesControllerTest < ActionController::TestCase
                }
   end
 
+  def test_project_index_with_invalid_project_id_should_respond_404
+    get :index, :id => 299
+    assert_response 404
+  end
+
   def test_previous_project_index
     get :index, :id => 1, :from => 3.days.ago.to_date
     assert_response :success
@@ -86,6 +91,11 @@ class ActivitiesControllerTest < ActionController::TestCase
                }
   end
 
+  def test_user_index_with_invalid_user_id_should_respond_404
+    get :index, :user_id => 299
+    assert_response 404
+  end
+
   def test_index_atom_feed
     get :index, :format => 'atom'
     assert_response :success
@@ -93,5 +103,12 @@ class ActivitiesControllerTest < ActionController::TestCase
     assert_tag :tag => 'entry', :child => {
       :tag => 'link',
       :attributes => {:href => 'http://test.host/issues/11'}}
+  end
+
+  def test_index_atom_feed_with_one_item_type
+    get :index, :format => 'atom', :show_issues => '1'
+    assert_response :success
+    assert_template 'common/feed.atom'
+    assert_tag :tag => 'title', :content => /Issues/
   end
 end
