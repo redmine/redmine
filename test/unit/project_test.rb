@@ -888,6 +888,7 @@ class ProjectTest < ActiveSupport::TestCase
         assert query
         assert_equal @project, query.project
       end
+      assert_equal @source_project.queries.map(&:user_id).sort, @project.queries.map(&:user_id).sort
     end
 
     should "copy versions" do
