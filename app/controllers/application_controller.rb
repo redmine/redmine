@@ -252,7 +252,7 @@ class ApplicationController < ActionController::Base
       if @project.is_public? || User.current.member_of?(@project) || User.current.admin?
         true
       else
-        User.current.logged? ? render_403 : require_login
+        deny_access
       end
     else
       @project = nil
