@@ -206,8 +206,6 @@ class ApplicationController < ActionController::Base
     render_404 unless @object.present?
 
     @project = @object.project
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
   def find_model_object
