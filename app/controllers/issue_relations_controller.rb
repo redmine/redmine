@@ -37,8 +37,6 @@ class IssueRelationsController < ApplicationController
       format.html { render :nothing => true }
       format.api
     end
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
   verify :method => :post, :only => :create, :render => {:nothing => true, :status => :method_not_allowed }
@@ -82,8 +80,6 @@ class IssueRelationsController < ApplicationController
       format.js   { render(:update) {|page| page.remove "relation-#{@relation.id}"} }
       format.api  { head :ok }
     end
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
 private
