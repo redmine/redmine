@@ -596,6 +596,31 @@ class IssuesControllerTest < ActionController::TestCase
       :ancestor => {:tag => 'table', :attributes => {:class => /issues/}}
   end
 
+  def test_index_with_date_column
+    Issue.find(1).update_attribute :start_date, '1987-08-24'
+
+    with_settings :date_format => '%d/%m/%Y' do
+      get :index, :set_filter => 1, :c => %w(start_date)
+      assert_tag 'td', :attributes => {:class => /start_date/}, :content => '24/08/1987'
+    end
+  end
+
+  def test_index_with_done_ratio
+    Issue.find(1).update_attribute :done_ratio, 40
+
+    get :index, :set_filter => 1, :c => %w(done_ratio)
+    assert_tag 'td', :attributes => {:class => /done_ratio/},
+      :child => {:tag => 'table', :attributes => {:class => 'progress'},
+        :descendant => {:tag => 'td', :attributes => {:class => 'closed', :style => 'width: 40%;'}}
+      }
+  end
+
+  def test_index_with_fixed_version
+    get :index, :set_filter => 1, :c => %w(fixed_version)
+    assert_tag 'td', :attributes => {:class => /fixed_version/},
+      :child => {:tag => 'a', :content => '1.0', :attributes => {:href => '/versions/2'}}
+  end
+
   def test_index_send_html_if_query_is_invalid
     get :index, :f => ['start_date'], :op => {:start_date => '='}
     assert_equal 'text/html', @response.content_type
