@@ -32,6 +32,7 @@
 </div>
 
 <% unless @hours.empty? %>
+<div class="autoscroll">
 <table class="list" id="time-report">
 <thead>
 <tr>
@@ -59,6 +60,7 @@
   </tr>
 </tbody>
 </table>
+</div>
 
 <% other_formats_links do |f| %>
 	<%= f.link_to 'CSV', :url => params %>

@@ -1,5 +1,6 @@
 <% form_tag({}) do -%>	
 <%= hidden_field_tag 'back_url', url_for(params) %>
+<div class="autoscroll">
 <table class="list time-entries">
 <thead>
 <tr>
@@ -48,6 +49,7 @@
 <% end -%>
 </tbody>
 </table>
+</div>
 <% end -%>
 
 <%= context_menu time_entries_context_menu_path %>
