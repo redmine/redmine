@@ -23,7 +23,7 @@ module Redmine
 
     class << self
       def encrypt_text(text)
-        if cipher_key.blank?
+        if cipher_key.blank? || text.blank?
           text
         else
           c = OpenSSL::Cipher::Cipher.new("aes-256-cbc")

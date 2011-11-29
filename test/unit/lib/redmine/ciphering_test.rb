@@ -43,6 +43,14 @@ class Redmine::CipheringTest < ActiveSupport::TestCase
     end
   end
 
+  def test_blank_password_should_be_clear
+    Redmine::Configuration.with 'database_cipher_key' => 'secret' do
+      r = Repository::Subversion.generate!(:password => '')
+      assert_equal '', r.password
+      assert_equal '', r.read_attribute(:password)
+    end
+  end
+
   def test_unciphered_password_should_be_readable
     Redmine::Configuration.with 'database_cipher_key' => nil do
       r = Repository::Subversion.generate!(:password => 'clear')
