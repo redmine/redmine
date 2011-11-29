@@ -220,6 +220,7 @@ class AttachmentsControllerTest < ActionController::TestCase
   end
 
   def test_destroy_issue_attachment
+    set_tmp_attachments_directory
     issue = Issue.find(3)
     @request.session[:user_id] = 2
 
@@ -233,42 +234,41 @@ class AttachmentsControllerTest < ActionController::TestCase
     assert_equal 'attachment', j.details.first.property
     assert_equal '1', j.details.first.prop_key
     assert_equal 'error281.txt', j.details.first.old_value
-    set_tmp_attachments_directory
   end
 
   def test_destroy_wiki_page_attachment
+    set_tmp_attachments_directory
     @request.session[:user_id] = 2
     assert_difference 'Attachment.count', -1 do
       delete :destroy, :id => 3
       assert_response 302
     end
-    set_tmp_attachments_directory
   end
 
   def test_destroy_project_attachment
+    set_tmp_attachments_directory
     @request.session[:user_id] = 2
     assert_difference 'Attachment.count', -1 do
       delete :destroy, :id => 8
       assert_response 302
     end
-    set_tmp_attachments_directory
   end
 
   def test_destroy_version_attachment
+    set_tmp_attachments_directory
     @request.session[:user_id] = 2
     assert_difference 'Attachment.count', -1 do
       delete :destroy, :id => 9
       assert_response 302
     end
-    set_tmp_attachments_directory
   end
 
   def test_destroy_without_permission
+    set_tmp_attachments_directory
     assert_no_difference 'Attachment.count' do
       delete :destroy, :id => 3
     end
     assert_response 302
     assert Attachment.find_by_id(3)
-    set_tmp_attachments_directory
   end
 end
