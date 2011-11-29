@@ -16,18 +16,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../test_helper', __FILE__)
-require 'enumerations_controller'
-
-# Re-raise errors caught by the controller.
-class EnumerationsController; def rescue_action(e) raise e end; end
 
 class EnumerationsControllerTest < ActionController::TestCase
   fixtures :enumerations, :issues, :users
 
   def setup
-    @controller = EnumerationsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     @request.session[:user_id] = 1 # admin
   end
 
@@ -35,6 +28,53 @@ class EnumerationsControllerTest < ActionController::TestCase
     get :index
     assert_response :success
     assert_template 'index'
+  end
+
+  def test_new
+    get :new, :type => 'IssuePriority'
+    assert_response :success
+    assert_template 'new'
+    assert_kind_of IssuePriority, assigns(:enumeration)
+  end
+
+  def test_create
+    assert_difference 'IssuePriority.count' do
+      post :create, :enumeration => {:type => 'IssuePriority', :name => 'Lowest'}
+    end
+    assert_redirected_to '/enumerations?type=IssuePriority'
+    e = IssuePriority.first(:order => 'id DESC')
+    assert_equal 'Lowest', e.name
+  end
+
+  def test_create_with_failure
+    assert_no_difference 'IssuePriority.count' do
+      post :create, :enumeration => {:type => 'IssuePriority', :name => ''}
+    end
+    assert_response :success
+    assert_template 'new'
+  end
+
+  def test_edit
+    get :edit, :id => 6
+    assert_response :success
+    assert_template 'edit'
+  end
+
+  def test_update
+    assert_no_difference 'IssuePriority.count' do
+      post :update, :id => 6, :enumeration => {:type => 'IssuePriority', :name => 'New name'}
+    end
+    assert_redirected_to '/enumerations?type=IssuePriority'
+    e = IssuePriority.find(6)
+    assert_equal 'New name', e.name
+  end
+
+  def test_update_with_failure
+    assert_no_difference 'IssuePriority.count' do
+      post :update, :id => 6, :enumeration => {:type => 'IssuePriority', :name => ''}
+    end
+    assert_response :success
+    assert_template 'edit'
   end
 
   def test_destroy_enumeration_not_in_use
