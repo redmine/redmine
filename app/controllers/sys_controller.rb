@@ -20,7 +20,8 @@ class SysController < ActionController::Base
   
   def projects
     p = Project.active.has_module(:repository).find(:all, :include => :repository, :order => 'identifier')
-    render :xml => p.to_xml(:include => :repository)
+    # extra_info attribute from repository breaks activeresource client
+    render :xml => p.to_xml(:only => [:id, :identifier, :name, :is_public, :status], :include => {:repository => {:only => [:id, :url]}})
   end
   
   def create_project_repository
@@ -31,7 +32,7 @@ class SysController < ActionController::Base
       logger.info "Repository for #{project.name} was reported to be created by #{request.remote_ip}."
       project.repository = Repository.factory(params[:vendor], params[:repository])
       if project.repository && project.repository.save
-        render :xml => project.repository, :status => 201
+        render :xml => project.repository.to_xml(:only => [:id, :url]), :status => 201
       else
         render :nothing => true, :status => 422
       end
