@@ -16,19 +16,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../test_helper', __FILE__)
-require 'groups_controller'
-
-# Re-raise errors caught by the controller.
-class GroupsController; def rescue_action(e) raise e end; end
 
 class GroupsControllerTest < ActionController::TestCase
   fixtures :projects, :users, :members, :member_roles, :groups_users
 
   def setup
-    @controller = GroupsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-    User.current = nil
     @request.session[:user_id] = 1
   end
 
@@ -81,6 +73,8 @@ class GroupsControllerTest < ActionController::TestCase
     get :edit, :id => 10
     assert_response :success
     assert_template 'edit'
+    assert_tag 'div', :attributes => {:id => 'tab-content-users'}
+    assert_tag 'div', :attributes => {:id => 'tab-content-memberships'}
   end
 
   def test_update
@@ -110,16 +104,44 @@ class GroupsControllerTest < ActionController::TestCase
     end
   end
 
+  def test_xhr_add_users
+    assert_difference 'Group.find(10).users.count', 2 do
+      xhr :post, :add_users, :id => 10, :user_ids => ['2', '3']
+    end
+    assert_select_rjs :replace_html, 'tab-content-users'
+  end
+
   def test_remove_user
     assert_difference 'Group.find(10).users.count', -1 do
       delete :remove_user, :id => 10, :user_id => '8'
     end
   end
 
+  def test_xhr_remove_user
+    assert_difference 'Group.find(10).users.count', -1 do
+      xhr :delete, :remove_user, :id => 10, :user_id => '8'
+    end
+    assert_select_rjs :replace_html, 'tab-content-users'
+  end
+
   def test_new_membership
     assert_difference 'Group.find(10).members.count' do
       post :edit_membership, :id => 10, :membership => { :project_id => 2, :role_ids => ['1', '2']}
     end
+  end
+
+  def test_xhr_new_membership
+    assert_difference 'Group.find(10).members.count' do
+      xhr :post, :edit_membership, :id => 10, :membership => { :project_id => 2, :role_ids => ['1', '2']}
+    end
+    assert_select_rjs :replace_html, 'tab-content-memberships'
+  end
+
+  def test_xhr_new_membership_with_failure
+    assert_no_difference 'Group.find(10).members.count' do
+      xhr :post, :edit_membership, :id => 10, :membership => { :project_id => 999, :role_ids => ['1', '2']}
+    end
+    assert @response.body.match(/alert/i), "Alert message not sent"
   end
 
   def test_edit_membership
@@ -132,6 +154,13 @@ class GroupsControllerTest < ActionController::TestCase
     assert_difference 'Group.find(10).members.count', -1 do
       post :destroy_membership, :id => 10, :membership_id => 6
     end
+  end
+
+  def test_xhr_destroy_membership
+    assert_difference 'Group.find(10).members.count', -1 do
+      xhr :post, :destroy_membership, :id => 10, :membership_id => 6
+    end
+    assert_select_rjs :replace_html, 'tab-content-memberships'
   end
 
   def test_autocomplete_for_user
