@@ -64,6 +64,8 @@ class CustomValueTest < ActiveSupport::TestCase
     assert v.valid?
     v.value = 'abc'
     assert !v.valid?
+    v.value = '1975-07-33'
+    assert !v.valid?
     v.value = '1975-07-14'
     assert v.valid?
   end
