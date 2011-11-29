@@ -104,6 +104,12 @@ class AttachmentsControllerTest < ActionController::TestCase
     assert_equal 'application/x-ruby', @response.content_type
   end
 
+  def test_download_version_file_with_issue_tracking_disabled
+    Project.find(1).disable_module! :issue_tracking
+    get :download, :id => 9
+    assert_response :success
+  end
+
   def test_download_should_assign_content_type_if_blank
     Attachment.find(4).update_attribute(:content_type, '')
 
@@ -123,6 +129,7 @@ class AttachmentsControllerTest < ActionController::TestCase
   end
 
   def test_destroy_issue_attachment
+    set_tmp_attachments_directory
     issue = Issue.find(3)
     @request.session[:user_id] = 2
 
@@ -139,6 +146,7 @@ class AttachmentsControllerTest < ActionController::TestCase
   end
 
   def test_destroy_wiki_page_attachment
+    set_tmp_attachments_directory
     @request.session[:user_id] = 2
     assert_difference 'Attachment.count', -1 do
       post :destroy, :id => 3
@@ -147,6 +155,7 @@ class AttachmentsControllerTest < ActionController::TestCase
   end
 
   def test_destroy_project_attachment
+    set_tmp_attachments_directory
     @request.session[:user_id] = 2
     assert_difference 'Attachment.count', -1 do
       post :destroy, :id => 8
@@ -155,6 +164,7 @@ class AttachmentsControllerTest < ActionController::TestCase
   end
 
   def test_destroy_version_attachment
+    set_tmp_attachments_directory
     @request.session[:user_id] = 2
     assert_difference 'Attachment.count', -1 do
       post :destroy, :id => 9
@@ -163,8 +173,11 @@ class AttachmentsControllerTest < ActionController::TestCase
   end
 
   def test_destroy_without_permission
-    post :destroy, :id => 3
-    assert_redirected_to '/login?back_url=http%3A%2F%2Ftest.host%2Fattachments%2Fdestroy%2F3'
+    set_tmp_attachments_directory
+    assert_no_difference 'Attachment.count' do
+      delete :destroy, :id => 3
+    end
+    assert_response 302
     assert Attachment.find_by_id(3)
   end
 end

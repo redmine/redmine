@@ -43,6 +43,11 @@ class Version < ActiveRecord::Base
     user.allowed_to?(:view_issues, self.project)
   end
   
+  # Version files have same visibility as project files
+  def attachments_visible?(*args)
+    project.present? && project.attachments_visible?(*args)
+  end
+
   def start_date
     @start_date ||= fixed_issues.minimum('start_date')
   end
