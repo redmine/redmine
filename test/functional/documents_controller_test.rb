@@ -86,13 +86,20 @@ LOREM
     assert_template 'show'
   end
 
-  def test_new_with_one_attachment
+  def test_new
+    @request.session[:user_id] = 2
+    get :new, :project_id => 1
+    assert_response :success
+    assert_template 'new'
+  end
+
+  def test_create_with_one_attachment
     ActionMailer::Base.deliveries.clear
     Setting.notified_events << 'document_added'
     @request.session[:user_id] = 2
     set_tmp_attachments_directory
 
-    post :new, :project_id => 'ecookbook',
+    post :create, :project_id => 'ecookbook',
                :document => { :title => 'DocumentsControllerTest#test_post_new',
                               :description => 'This is a new document',
                               :category_id => 2},
@@ -117,7 +124,7 @@ LOREM
 
   def test_update
     @request.session[:user_id] = 2
-    post :edit, :id => 1, :document => {:title => 'test_update'}
+    put :update, :id => 1, :document => {:title => 'test_update'}
     assert_redirected_to '/documents/1'
     document = Document.find(1)
     assert_equal 'test_update', document.title
@@ -126,7 +133,7 @@ LOREM
   def test_destroy
     @request.session[:user_id] = 2
     assert_difference 'Document.count', -1 do
-      post :destroy, :id => 1
+      delete :destroy, :id => 1
     end
     assert_redirected_to '/projects/ecookbook/documents'
     assert_nil Document.find_by_id(1)

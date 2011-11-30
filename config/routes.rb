@@ -63,19 +63,6 @@ ActionController::Routing::Routes.draw do |map|
     end
   end
 
-  map.with_options :controller => 'documents' do |document_routes|
-    document_routes.with_options :conditions => {:method => :get} do |document_views|
-      document_views.connect 'projects/:project_id/documents', :action => 'index'
-      document_views.connect 'projects/:project_id/documents/new', :action => 'new'
-      document_views.connect 'documents/:id', :action => 'show'
-      document_views.connect 'documents/:id/edit', :action => 'edit'
-    end
-    document_routes.with_options :conditions => {:method => :post} do |document_actions|
-      document_actions.connect 'projects/:project_id/documents', :action => 'new'
-      document_actions.connect 'documents/:id/:action', :action => /destroy|edit/
-    end
-  end
-
   map.resources :issue_moves, :only => [:new, :create], :path_prefix => '/issues', :as => 'move'
   map.resources :queries, :except => [:show]
 
@@ -158,6 +145,7 @@ ActionController::Routing::Routes.draw do |map|
     project.resources :time_entries, :controller => 'timelog', :path_prefix => 'projects/:project_id'
     project.resources :queries, :only => [:new, :create]
     project.resources :issue_categories, :shallow => true
+    project.resources :documents, :shallow => true, :member => {:add_attachment => :post}
 
     project.wiki_start_page 'wiki', :controller => 'wiki', :action => 'show', :conditions => {:method => :get}
     project.wiki_index 'wiki/index', :controller => 'wiki', :action => 'index', :conditions => {:method => :get}
@@ -230,7 +218,6 @@ ActionController::Routing::Routes.draw do |map|
 
   #left old routes at the bottom for backwards compat
   map.connect 'projects/:project_id/issues/:action', :controller => 'issues'
-  map.connect 'projects/:project_id/documents/:action', :controller => 'documents'
   map.connect 'projects/:project_id/boards/:action/:id', :controller => 'boards'
   map.connect 'boards/:board_id/topics/:action/:id', :controller => 'messages'
   map.connect 'wiki/:id/:page/:action', :page => nil, :controller => 'wiki'

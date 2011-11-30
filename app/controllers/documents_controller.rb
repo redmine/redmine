@@ -18,9 +18,9 @@
 class DocumentsController < ApplicationController
   default_search_scope :documents
   model_object Document
-  before_filter :find_project_by_project_id, :only => [:index, :new]
-  before_filter :find_model_object, :except => [:index, :new]
-  before_filter :find_project_from_association, :except => [:index, :new]
+  before_filter :find_project_by_project_id, :only => [:index, :new, :create]
+  before_filter :find_model_object, :except => [:index, :new, :create]
+  before_filter :find_project_from_association, :except => [:index, :new, :create]
   before_filter :authorize
 
   helper :attachments
@@ -48,24 +48,34 @@ class DocumentsController < ApplicationController
 
   def new
     @document = @project.documents.build(params[:document])
+  end
+
+  def create
+    @document = @project.documents.build(params[:document])
     if request.post? and @document.save	
       attachments = Attachment.attach_files(@document, params[:attachments])
       render_attachment_warning_if_needed(@document)
       flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'index', :project_id => @project
+    else
+      render :action => 'new'
     end
   end
 
   def edit
-    @categories = DocumentCategory.active #TODO: use it in the views
-    if request.post? and @document.update_attributes(params[:document])
+  end
+
+  def update
+    if request.put? and @document.update_attributes(params[:document])
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'show', :id => @document
+    else
+      render :action => 'edit'
     end
   end
 
   def destroy
-    @document.destroy
+    @document.destroy if request.delete?
     redirect_to :controller => 'documents', :action => 'index', :project_id => @project
   end
 
