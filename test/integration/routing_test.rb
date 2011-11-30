@@ -54,6 +54,8 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :post, "/projects/567/documents", :controller => 'documents', :action => 'create', :project_id => '567'
     should_route :put, "/documents/22", :controller => 'documents', :action => 'update', :id => '22'
     should_route :delete, "/documents/22", :controller => 'documents', :action => 'destroy', :id => '22'
+
+    should_route :post, "/documents/22/add_attachment", :controller => 'documents', :action => 'add_attachment', :id => '22'
   end
   
   context "groups" do
