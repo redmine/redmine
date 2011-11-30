@@ -3532,11 +3532,11 @@ class TCPDF
 					@page = base_page;
 					@x = base_x + @tdwidth;
 					@y = base_y;
+				elsif (@pre_state == true and element.length > 0)
+					Write(@lasth, unhtmlentities(element), '', fill);
 				elsif (element.strip.length > 0)
-					if @pre_state != true
-						element.gsub!(/[\t\r\n\f]/, "");
-						element.gsub!(/&nbsp;/, " ");
-					end
+					element.gsub!(/[\t\r\n\f]/, "");
+					element.gsub!(/&nbsp;/, " ");
 					Write(@lasth, unhtmlentities(element), '', fill);
 				end
       end
