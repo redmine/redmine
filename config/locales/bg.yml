@@ -370,7 +370,7 @@ bg:
   setting_issue_done_ratio_issue_status: Използване на състоянието на задачите
   setting_start_of_week: Първи ден на седмицата
   setting_rest_api_enabled: Разрешаване на REST web сървис
-  setting_cache_formatted_text: Cache formatted text
+  setting_cache_formatted_text: Кещиране на форматираните текстове
   setting_default_notification_option: Подразбиращ се начин за известяване
   setting_commit_logtime_enabled: Разрешаване на отчитането на работното време
   setting_commit_logtime_activity_id: Дейност при отчитане на работното време
