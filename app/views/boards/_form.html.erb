@@ -1,8 +1,6 @@
-<%= error_messages_for 'board' %>
+<%= f.error_messages %>
 
-<!--[form:board]-->
-<div class="box">
+<div class="box tabular">
 <p><%= f.text_field :name, :required => true %></p>
 <p><%= f.text_field :description, :required => true, :size => 80 %></p>
 </div>
-<!--[eoform:board]-->

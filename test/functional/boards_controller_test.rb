@@ -16,18 +16,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../test_helper', __FILE__)
-require 'boards_controller'
-
-# Re-raise errors caught by the controller.
-class BoardsController; def rescue_action(e) raise e end; end
 
 class BoardsControllerTest < ActionController::TestCase
   fixtures :projects, :users, :members, :member_roles, :roles, :boards, :messages, :enabled_modules
 
   def setup
-    @controller = BoardsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
   end
 
@@ -53,14 +46,6 @@ class BoardsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:topics)
   end
 
-  def test_post_new
-    @request.session[:user_id] = 2
-    assert_difference 'Board.count' do
-      post :new, :project_id => 1, :board => { :name => 'Testing', :description => 'Testing board creation'}
-    end
-    assert_redirected_to '/projects/ecookbook/settings/boards'
-  end
-
   def test_show
     get :show, :project_id => 1, :id => 1
     assert_response :success
@@ -79,19 +64,65 @@ class BoardsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:messages)
   end
 
-  def test_post_edit
+  def test_show_not_found
+    get :index, :project_id => 1, :id => 97
+    assert_response 404
+  end
+
+  def test_new
+    @request.session[:user_id] = 2
+    get :new, :project_id => 1
+    assert_response :success
+    assert_template 'new'
+  end
+
+  def test_create
+    @request.session[:user_id] = 2
+    assert_difference 'Board.count' do
+      post :create, :project_id => 1, :board => { :name => 'Testing', :description => 'Testing board creation'}
+    end
+    assert_redirected_to '/projects/ecookbook/settings/boards'
+    board = Board.first(:order => 'id DESC')
+    assert_equal 'Testing', board.name
+    assert_equal 'Testing board creation', board.description
+  end
+
+  def test_create_with_failure
     @request.session[:user_id] = 2
     assert_no_difference 'Board.count' do
-      post :edit, :project_id => 1, :id => 2, :board => { :name => 'Testing', :description => 'Testing board update'}
+      post :create, :project_id => 1, :board => { :name => '', :description => 'Testing board creation'}
+    end
+    assert_response :success
+    assert_template 'new'
+  end
+
+  def test_edit
+    @request.session[:user_id] = 2
+    get :edit, :project_id => 1, :id => 2
+    assert_response :success
+    assert_template 'edit'
+  end
+
+  def test_update
+    @request.session[:user_id] = 2
+    assert_no_difference 'Board.count' do
+      put :update, :project_id => 1, :id => 2, :board => { :name => 'Testing', :description => 'Testing board update'}
     end
     assert_redirected_to '/projects/ecookbook/settings/boards'
     assert_equal 'Testing', Board.find(2).name
   end
 
-  def test_post_destroy
+  def test_update_with_failure
+    @request.session[:user_id] = 2
+    put :update, :project_id => 1, :id => 2, :board => { :name => '', :description => 'Testing board update'}
+    assert_response :success
+    assert_template 'edit'
+  end
+
+  def test_destroy
     @request.session[:user_id] = 2
     assert_difference 'Board.count', -1 do
-      post :destroy, :project_id => 1, :id => 2
+      delete :destroy, :project_id => 1, :id => 2
     end
     assert_redirected_to '/projects/ecookbook/settings/boards'
     assert_nil Board.find_by_id(2)

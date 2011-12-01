@@ -14,12 +14,14 @@
     <td><%=h board.description %></td>
     <td align="center">
     <% if authorize_for("boards", "edit") %>
-      <%= reorder_links('board', {:controller => 'boards', :action => 'edit', :project_id => @project, :id => board}) %>
+      <%= reorder_links('board', {:controller => 'boards', :action => 'update', :project_id => @project, :id => board}, :put) %>
     <% end %>
     </td>
     <td class="buttons">
-      <%= link_to_if_authorized l(:button_edit), {:controller => 'boards', :action => 'edit', :project_id => @project, :id => board}, :class => 'icon icon-edit' %>
-      <%= link_to_if_authorized l(:button_delete), {:controller => 'boards', :action => 'destroy', :project_id => @project, :id => board}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
+    <% if User.current.allowed_to?(:manage_boards, @project) %>
+      <%= link_to l(:button_edit), edit_project_board_path(@project, board), :class => 'icon icon-edit' %>
+      <%= link_to l(:button_delete), project_board_path(@project, board), :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del' %>
+		<% end %>
     </td>
   </tr>
 <% end %>
@@ -29,4 +31,6 @@
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
 
-<p><%= link_to_if_authorized l(:label_board_new), {:controller => 'boards', :action => 'new', :project_id => @project}, :class => 'icon icon-add' %></p>
+<% if User.current.allowed_to?(:manage_boards, @project) %>
+<p><%= link_to l(:label_board_new), new_project_board_path(@project), :class => 'icon icon-add' %></p>
+<% end %>

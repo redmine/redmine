@@ -1,4 +1,4 @@
-<%= breadcrumb link_to(l(:label_board_plural), {:controller => 'boards', :action => 'index', :project_id => @project}) %>
+<%= breadcrumb link_to(l(:label_board_plural), project_boards_path(@project)) %>
 
 <div class="contextual">
 <%= link_to_if_authorized l(:label_message_new),
