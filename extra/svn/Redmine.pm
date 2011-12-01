@@ -49,7 +49,7 @@ Authen::Simple::LDAP (and IO::Socket::SSL if LDAPS is used):
 
      PerlAccessHandler Apache::Authn::Redmine::access_handler
      PerlAuthenHandler Apache::Authn::Redmine::authen_handler
-  
+
      ## for mysql
      RedmineDSN "DBI:mysql:database=databasename;host=my.db.server"
      ## for postgres
@@ -144,7 +144,7 @@ my @directives = (
   },
 );
 
-sub RedmineDSN { 
+sub RedmineDSN {
   my ($self, $parms, $arg) = @_;
   $self->{RedmineDSN} = $arg;
   my $query = "SELECT 
@@ -164,12 +164,12 @@ sub RedmineDSN {
 
 sub RedmineDbUser { set_val('RedmineDbUser', @_); }
 sub RedmineDbPass { set_val('RedmineDbPass', @_); }
-sub RedmineDbWhereClause { 
+sub RedmineDbWhereClause {
   my ($self, $parms, $arg) = @_;
   $self->{RedmineQuery} = trim($self->{RedmineQuery}.($arg ? $arg : "")." ");
 }
 
-sub RedmineCacheCredsMax { 
+sub RedmineCacheCredsMax {
   my ($self, $parms, $arg) = @_;
   if ($arg) {
     $self->{RedmineCachePool} = APR::Pool->new;
@@ -216,10 +216,10 @@ sub access_handler {
 
 sub authen_handler {
   my $r = shift;
-  
+
   my ($res, $redmine_pass) =  $r->get_basic_auth_pw();
   return $res unless $res == OK;
-  
+
   if (is_member($r->user, $redmine_pass, $r)) {
       return OK;
   } else {
@@ -246,7 +246,7 @@ sub is_authentication_forced {
   }
   $sth->finish();
   undef $sth;
-  
+
   $dbh->disconnect();
   undef $dbh;
 
@@ -256,7 +256,7 @@ sub is_authentication_forced {
 sub is_public_project {
     my $project_id = shift;
     my $r = shift;
-    
+
     if (is_authentication_forced($r)) {
       return 0;
     }
@@ -283,12 +283,12 @@ sub is_public_project {
 
 sub anonymous_role_allows_browse_repository {
   my $r = shift;
-  
+
   my $dbh = connect_database($r);
   my $sth = $dbh->prepare(
       "SELECT permissions FROM roles WHERE builtin = 2;"
   );
-  
+
   $sth->execute();
   my $ret = 0;
   if (my @row = $sth->fetchrow_array) {
@@ -300,7 +300,7 @@ sub anonymous_role_allows_browse_repository {
   undef $sth;
   $dbh->disconnect();
   undef $dbh;
-  
+
   $ret;
 }
 
@@ -328,7 +328,7 @@ sub is_member {
   my $project_id  = get_project_identifier($r);
 
   my $pass_digest = Digest::SHA1::sha1_hex($redmine_pass);
-  
+
   my $access_mode = defined $read_only_methods{$r->method} ? "R" : "W";
 
   my $cfg = Apache2::Module::get_config(__PACKAGE__, $r->server, $r->per_dir_config);
@@ -397,7 +397,7 @@ sub is_member {
 
 sub get_project_identifier {
     my $r = shift;
-    
+
     my $location = $r->location;
     my ($identifier) = $r->uri =~ m{$location/*([^/]+)};
     $identifier;
@@ -405,7 +405,7 @@ sub get_project_identifier {
 
 sub connect_database {
     my $r = shift;
-    
+
     my $cfg = Apache2::Module::get_config(__PACKAGE__, $r->server, $r->per_dir_config);
     return DBI->connect($cfg->{RedmineDSN}, $cfg->{RedmineDbUser}, $cfg->{RedmineDbPass});
 }
