@@ -349,8 +349,8 @@ ja:
   setting_default_language: 既定の言語
   setting_login_required: 認証が必要
   setting_self_registration: ユーザは自分で登録できる
-  setting_attachment_max_size: 添付ファイルの最大サイズ
-  setting_issues_export_limit: 出力するチケット数の上限
+  setting_attachment_max_size: 添付ファイルサイズの上限
+  setting_issues_export_limit: エクスポートするチケット数の上限
   setting_mail_from: 送信元メールアドレス
   setting_bcc_recipients: ブラインドカーボンコピーで受信(bcc)
   setting_plain_text_mail: プレインテキストのみ(HTMLなし)
@@ -376,7 +376,7 @@ ja:
   setting_per_page_options: ページ毎の表示件数
   setting_user_format: ユーザ名の表示書式
   setting_activity_days_default: プロジェクトの活動ページに表示される日数
-  setting_display_subprojects_issues: デフォルトでサブプロジェクトのチケットをメインプロジェクトに表示する
+  setting_display_subprojects_issues: サブプロジェクトのチケットをメインプロジェクトに表示する
   setting_enabled_scm: 使用するバージョン管理システム
   setting_mail_handler_body_delimiters: "メール本文から一致する行以降を切り取る"
   setting_mail_handler_api_enabled: 受信メール用のWebサービスを有効にする
@@ -385,7 +385,7 @@ ja:
   setting_gravatar_enabled: Gravatarのアイコンを使用する
   setting_gravatar_default: デフォルトのGravatarアイコン
   setting_diff_max_lines_displayed: 差分の表示行数の上限
-  setting_file_max_size_displayed: テキストファイルのインライン表示行数の上限
+  setting_file_max_size_displayed: 画面表示するテキストファイルサイズの上限
   setting_repository_log_display_limit: ファイルのリビジョン表示数の上限
   setting_openid: OpenIDによるログインと登録
   setting_password_min_length: パスワードの最低必要文字数
@@ -439,7 +439,7 @@ ja:
   permission_rename_wiki_pages: Wikiページ名の変更
   permission_delete_wiki_pages: Wikiページの削除
   permission_view_wiki_pages: Wikiの閲覧
-  permission_export_wiki_pages: Wikiページを他の形式に出力
+  permission_export_wiki_pages: Wikiページを他の形式にエクスポート
   permission_view_wiki_edits: Wiki履歴の閲覧
   permission_edit_wiki_pages: Wikiページの編集
   permission_delete_wiki_pages_attachments: 添付ファイルの削除
@@ -583,7 +583,7 @@ ja:
   label_version_plural: バージョン
   label_confirmation: 確認
   label_close_versions: 完了したバージョンを終了にする
-  label_export_to: '他の形式に出力:'
+  label_export_to: '他の形式にエクスポート:'
   label_read: 読む...
   label_public_projects: 公開プロジェクト
   label_open_issues: 未完了
@@ -680,7 +680,7 @@ ja:
   label_latest_revision_plural: 最新リビジョン
   label_view_revisions: リビジョンを見る
   label_view_all_revisions: すべてのリビジョンを見る
-  label_max_size: 最大サイズ
+  label_max_size: サイズの上限
   label_sort_highest: 一番上へ
   label_sort_higher: 上へ
   label_sort_lower: 下へ
@@ -878,7 +878,7 @@ ja:
   button_change_password: パスワード変更
   button_copy: コピー
   button_copy_and_follow: コピー後表示
-  button_annotate: 注釈
+  button_annotate: アノテート
   button_update: 更新
   button_configure: 設定
   button_quote: 引用
@@ -1012,27 +1012,27 @@ ja:
   notice_issue_successful_create: チケット %{id} が作成されました。
   label_between: 次の範囲内
   setting_issue_group_assignment: グループへのチケット割り当てを許可
-  description_query_sort_criteria_direction: Sort direction
-  description_project_scope: Search scope
+  description_query_sort_criteria_direction: 順序
+  description_project_scope: 検索範囲
   description_filter: Filter
-  description_user_mail_notification: Mail notification settings
-  description_date_from: Enter start date
-  description_message_content: Message content
-  description_available_columns: Available Columns
-  description_date_range_interval: Choose range by selecting start and end date
-  description_issue_category_reassign: Choose issue category
-  description_search: Searchfield
-  description_notes: Notes
-  description_date_range_list: Choose range from list
-  description_choose_project: Projects
-  description_date_to: Enter end date
-  description_query_sort_criteria_attribute: Sort attribute
-  description_wiki_subpages_reassign: Choose new parent page
-  description_selected_columns: Selected Columns
-  error_scm_annotate_big_text_file: The entry cannot be annotated, as it exceeds the maximum text file size.
-  setting_default_issue_start_date_to_creation_date: Use current date as start date for new issues
-  button_edit_section: Edit this section
-  description_all_columns: All Columns
-  button_export: Export
-  label_export_options: "%{export_format} export options"
-  error_attachment_too_big: This file cannot be uploaded because it exceeds the maximum allowed file size (%{max_size})
+  description_user_mail_notification: メール通知の設定
+  description_date_from: 開始日
+  description_message_content: 内容
+  description_available_columns: 利用できる項目
+  description_date_range_interval: 日付で指定
+  description_issue_category_reassign: 新しいカテゴリを選択してください
+  description_search: 検索キーワード
+  description_notes: 注記
+  description_date_range_list: 一覧から選択
+  description_choose_project: プロジェクト
+  description_date_to: 終了日
+  description_query_sort_criteria_attribute: 項目
+  description_wiki_subpages_reassign: 新しい親ページを選択してください
+  description_selected_columns: 選択された項目
+  error_scm_annotate_big_text_file: テキストファイルサイズの上限を超えているためアノテートできません。
+  setting_default_issue_start_date_to_creation_date: 現在の日付を新しいチケットの開始日とする
+  button_edit_section: このセクションを編集
+  description_all_columns: すべての項目
+  button_export: エクスポート
+  label_export_options: "%{export_format} エクスポート設定"
+  error_attachment_too_big: このファイルはアップロードできません。添付ファイルサイズの上限(%{max_size})を超えています。
