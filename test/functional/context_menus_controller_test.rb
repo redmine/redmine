@@ -14,7 +14,8 @@ class ContextMenusControllerTest < ActionController::TestCase
            :versions,
            :issues, :issue_statuses, :issue_categories,
            :users,
-           :enumerations
+           :enumerations,
+           :time_entries
 
   def test_context_menu_one_issue
     @request.session[:user_id] = 2
