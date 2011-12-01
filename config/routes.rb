@@ -29,7 +29,7 @@ ActionController::Routing::Routes.draw do |map|
                    :controller => 'timelog', :action => 'bulk_update', :conditions => { :method => :post }
   map.time_entries_context_menu '/time_entries/context_menu',
                    :controller => 'context_menus', :action => 'time_entries'
-  # TODO: wasteful since this is also nested under issues, projects, and projects/issues
+
   map.resources :time_entries, :controller => 'timelog'
 
   map.connect 'projects/:id/wiki', :controller => 'wikis', :action => 'edit', :conditions => {:method => :post}
@@ -92,13 +92,9 @@ ActionController::Routing::Routes.draw do |map|
     reports.connect 'projects/:id/issues/report/:detail', :action => 'issue_report_details'
   end
 
-  map.resources :issues, :member => { :edit => :post }, :collection => {} do |issues|
+  map.resources :issues do |issues|
     issues.resources :time_entries, :controller => 'timelog'
     issues.resources :relations, :shallow => true, :controller => 'issue_relations', :only => [:index, :show, :create, :destroy]
-  end
-
-  map.resources :issues, :path_prefix => '/projects/:project_id', :collection => { :create => :post } do |issues|
-    issues.resources :time_entries, :controller => 'timelog'
   end
 
   map.connect 'projects/:id/members/new', :controller => 'members', :action => 'new'
@@ -135,6 +131,9 @@ ActionController::Routing::Routes.draw do |map|
     :unarchive => :post
   } do |project|
     project.resource :project_enumerations, :as => 'enumerations', :only => [:update, :destroy]
+    project.resources :issues, :only => [:index, :new, :create] do |issues|
+      issues.resources :time_entries, :controller => 'timelog'
+    end
     project.resources :files, :only => [:index, :new, :create]
     project.resources :versions, :shallow => true, :collection => {:close_completed => :put}, :member => {:status_by => :post}
     project.resources :news, :shallow => true
@@ -213,7 +212,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :issue_statuses, :except => :show, :collection => {:update_issue_done_ratio => :post}
 
   #left old routes at the bottom for backwards compat
-  map.connect 'projects/:project_id/issues/:action', :controller => 'issues'
   map.connect 'projects/:project_id/boards/:action/:id', :controller => 'boards'
   map.connect 'boards/:board_id/topics/:action/:id', :controller => 'messages'
   map.connect 'wiki/:id/:page/:action', :page => nil, :controller => 'wiki'
