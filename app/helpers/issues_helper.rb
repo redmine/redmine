@@ -223,20 +223,20 @@ module IssuesHelper
           :title => l(:label_view_diff)
         s << " (#{ diff_link })"
       end
-      s
+      s.html_safe
     elsif !detail.value.blank?
       case detail.property
       when 'attr', 'cf'
         if !detail.old_value.blank?
-          l(:text_journal_changed, :label => label, :old => old_value, :new => value)
+          l(:text_journal_changed, :label => label, :old => old_value, :new => value).html_safe
         else
-          l(:text_journal_set_to, :label => label, :value => value)
+          l(:text_journal_set_to, :label => label, :value => value).html_safe
         end
       when 'attachment'
-        l(:text_journal_added, :label => label, :value => value)
+        l(:text_journal_added, :label => label, :value => value).html_safe
       end
     else
-      l(:text_journal_deleted, :label => label, :old => old_value)
+      l(:text_journal_deleted, :label => label, :old => old_value).html_safe
     end
   end
 
