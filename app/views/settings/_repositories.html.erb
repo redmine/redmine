@@ -12,17 +12,19 @@
     <% scm_class = "Repository::#{choice}".constantize %>
     <% text, value = (choice.is_a?(Array) ? choice : [choice, choice]) %>
     <% setting = :enabled_scm %>
+		<% enabled = Setting.send(setting).include?(value) %>
     <tr>
       <td class="scm_name">
         <%=
           check_box_tag(
               "settings[#{setting}][]",
                value,
-               Setting.send(setting).include?(value))
+               enabled)
          %>
         <%= text.to_s %>
       </td>
       <td>
+         <% if enabled %>
          <%=
            image_tag(
               (scm_class.scm_available ? 'true.png' : 'exclamation.png'),
@@ -30,9 +32,10 @@
            )
            %>
           <%= scm_class.scm_command %>
+					<% end %>
        </td>
        <td>
-          <%= scm_class.scm_version_string %>
+          <%= scm_class.scm_version_string if enabled %>
        </td>
      </tr>
   <% end %>
