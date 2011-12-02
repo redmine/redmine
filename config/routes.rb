@@ -189,7 +189,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'boards/:board_id/topics/:action/:id', :controller => 'messages'
   map.connect 'wiki/:id/:page/:action', :page => nil, :controller => 'wiki'
   map.connect 'projects/:project_id/news/:action', :controller => 'news'
-  map.connect 'projects/:project_id/timelog/:action/:id', :controller => 'timelog', :project_id => /.+/
   map.with_options :controller => 'repositories' do |omap|
     omap.repositories_show 'repositories/browse/:id/*path', :action => 'browse'
     omap.repositories_changes 'repositories/changes/:id/*path', :action => 'changes'
