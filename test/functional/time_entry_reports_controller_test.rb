@@ -2,6 +2,8 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class TimeEntryReportsControllerTest < ActionController::TestCase
+  tests TimelogController
+
   fixtures :projects, :enabled_modules, :roles, :members, :member_roles,
            :issues, :time_entries, :users, :trackers, :enumerations,
            :issue_statuses, :custom_fields, :custom_values

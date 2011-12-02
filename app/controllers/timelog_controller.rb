@@ -20,8 +20,8 @@ class TimelogController < ApplicationController
   before_filter :find_project, :only => [:new, :create]
   before_filter :find_time_entry, :only => [:show, :edit, :update]
   before_filter :find_time_entries, :only => [:bulk_edit, :bulk_update, :destroy]
-  before_filter :authorize, :except => [:index]
-  before_filter :find_optional_project, :only => [:index]
+  before_filter :authorize, :except => [:index, :report]
+  before_filter :find_optional_project, :only => [:index, :report]
   accept_rss_auth :index
   accept_api_auth :index, :show, :create, :update, :destroy
 
@@ -92,6 +92,16 @@ class TimelogController < ApplicationController
                                   :order => sort_clause)
         send_data(entries_to_csv(@entries), :type => 'text/csv; header=present', :filename => 'timelog.csv')
       }
+    end
+  end
+
+  def report
+    retrieve_date_range
+    @report = Redmine::Helpers::TimeReport.new(@project, @issue, params[:criteria], params[:columns], @from, @to)
+
+    respond_to do |format|
+      format.html { render :layout => !request.xhr? }
+      format.csv  { send_data(report_to_csv(@report), :type => 'text/csv; header=present', :filename => 'timelog.csv') }
     end
   end
 
