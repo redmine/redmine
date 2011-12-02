@@ -1,13 +1,13 @@
-<% @hours.collect {|h| h[criterias[level]].to_s}.uniq.each do |value| %>
+<% @report.hours.collect {|h| h[criterias[level]].to_s}.uniq.each do |value| %>
 <% hours_for_value = select_hours(hours, criterias[level], value) -%>
 <% next if hours_for_value.empty? -%>
 <tr class="<%= cycle('odd', 'even') %> <%= 'last-level' unless criterias.length > level+1 %>">
 <%= '<td></td>' * level %>
-<td><%= h(format_criteria_value(criterias[level], value)) %></td>
+<td><%= h(format_criteria_value(@report.available_criteria[criterias[level]], value)) %></td>
 <%= '<td></td>' * (criterias.length - level - 1) -%>
   <% total = 0 -%>
-  <% @periods.each do |period| -%>
-    <% sum = sum_hours(select_hours(hours_for_value, @columns, period.to_s)); total += sum -%>
+  <% @report.periods.each do |period| -%>
+    <% sum = sum_hours(select_hours(hours_for_value, @report.columns, period.to_s)); total += sum -%>
     <td class="hours"><%= html_hours("%.2f" % sum) if sum > 0 %></td>
   <% end -%>
   <td class="hours"><%= html_hours("%.2f" % total) if total > 0 %></td>
