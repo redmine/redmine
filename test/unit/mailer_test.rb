@@ -48,7 +48,7 @@ class MailerTest < ActiveSupport::TestCase
     assert_select_email do
       # link to the main ticket
       assert_select "a[href=?]",
-                    "https://mydomain.foo/issues/1",
+                    "https://mydomain.foo/issues/1#change-2",
                     :text => "Bug #1: Can't print recipes"
       # link to a referenced ticket
       assert_select "a[href=?][title=?]",
@@ -78,7 +78,7 @@ class MailerTest < ActiveSupport::TestCase
     assert_select_email do
       # link to the main ticket
       assert_select "a[href=?]",
-                    "http://mydomain.foo/rdm/issues/1",
+                    "http://mydomain.foo/rdm/issues/1#change-2",
                     :text => "Bug #1: Can't print recipes"
       # link to a referenced ticket
       assert_select "a[href=?][title=?]",
@@ -111,7 +111,7 @@ class MailerTest < ActiveSupport::TestCase
     assert_select_email do
       # link to the main ticket
       assert_select "a[href=?]",
-                    "http://mydomain.foo/rdm/issues/1",
+                    "http://mydomain.foo/rdm/issues/1#change-2",
                     :text => "Bug #1: Can't print recipes"
       # link to a referenced ticket
       assert_select "a[href=?][title=?]",
@@ -213,6 +213,11 @@ class MailerTest < ActiveSupport::TestCase
     assert_not_nil mail
     assert_equal Mailer.message_id_for(journal), mail.message_id
     assert_equal Mailer.message_id_for(journal.issue), mail.references.first.to_s
+    assert_select_email do
+      # link to the update
+      assert_select "a[href=?]",
+                    "http://mydomain.foo/issues/#{journal.journalized_id}#change-#{journal.id}"
+    end
   end
 
   def test_message_posted_message_id
