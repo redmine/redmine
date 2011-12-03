@@ -71,16 +71,10 @@ class VersionsController < ApplicationController
   end
 
   def new
-    @version = @project.versions.build
-    if params[:version]
-      attributes = params[:version].dup
-      attributes.delete('sharing') unless attributes.nil? || @version.allowed_sharings.include?(attributes['sharing'])
-      @version.attributes = attributes
-    end
+    @version = @project.versions.build(params[:version])
   end
 
   def create
-    # TODO: refactor with code above in #new
     @version = @project.versions.build
     if params[:version]
       attributes = params[:version].dup

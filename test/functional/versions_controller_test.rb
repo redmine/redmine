@@ -55,6 +55,14 @@ class VersionsControllerTest < ActionController::TestCase
     assert assigns(:versions).include?(Version.find(1))
   end
 
+  def test_index_with_tracker_ids
+    get :index, :project_id => 1, :tracker_ids => [1, 3]
+    assert_response :success
+    assert_template 'index'
+    assert_not_nil assigns(:issues_by_version)
+    assert_nil assigns(:issues_by_version).values.flatten.detect {|issue| issue.tracker_id == 2}
+  end
+
   def test_index_showing_subprojects_versions
     @subproject_version = Version.generate!(:project => Project.find(3))
     get :index, :project_id => 1, :with_subprojects => 1
@@ -73,6 +81,13 @@ class VersionsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:version)
 
     assert_tag :tag => 'h2', :content => /1.0/
+  end
+
+  def test_new
+    @request.session[:user_id] = 2
+    get :new, :project_id => '1'
+    assert_response :success
+    assert_template 'new'
   end
 
   def test_create
@@ -135,9 +150,21 @@ class VersionsControllerTest < ActionController::TestCase
 
   def test_destroy
     @request.session[:user_id] = 2
-    delete :destroy, :id => 3
+    assert_difference 'Version.count', -1 do
+      delete :destroy, :id => 3
+    end
     assert_redirected_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => 'ecookbook'
     assert_nil Version.find_by_id(3)
+  end
+
+  def test_destroy_version_in_use_should_fail
+    @request.session[:user_id] = 2
+    assert_no_difference 'Version.count' do
+      delete :destroy, :id => 2
+    end
+    assert_redirected_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => 'ecookbook'
+    assert flash[:error].match(/Unable to delete version/)
+    assert Version.find_by_id(2)
   end
 
   def test_issue_status_by
