@@ -109,9 +109,11 @@ module ApplicationHelper
   def link_to_revision(revision, project, options={})
     text = options.delete(:text) || format_revision(revision)
     rev = revision.respond_to?(:identifier) ? revision.identifier : revision
-
-    link_to(h(text), {:controller => 'repositories', :action => 'revision', :id => project, :rev => rev},
-            :title => l(:label_revision_id, format_revision(revision)))
+    link_to(
+        h(text),
+        {:controller => 'repositories', :action => 'revision', :id => project, :rev => rev},
+        :title => l(:label_revision_id, format_revision(revision))
+      )
   end
 
   # Generates a link to a message
