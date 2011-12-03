@@ -114,4 +114,8 @@ class Redmine::WikiFormatting::MacrosTest < ActionView::TestCase
     @project = Project.find(2)
     assert_equal expected, textilizable("{{child_pages(ecookbook:Another_page, parent=1)}}", :object => WikiPage.find(1).content)
   end
+
+  def test_macro_child_pages_without_wiki_page_should_fail
+    assert_match /can be called from wiki pages only/, textilizable("{{child_pages}}")
+  end
 end
