@@ -56,4 +56,33 @@ class SettingsControllerTest < ActionController::TestCase
     assert_equal %w(issue_added issue_updated news_added), Setting.notified_events
     assert_equal 'Test footer', Setting.emails_footer
   end
+
+  def test_get_plugin_settings
+    Setting.stubs(:plugin_foo).returns({'sample_setting' => 'Plugin setting value'})
+    ActionController::Base.view_paths.unshift(File.join(Rails.root, "test/fixtures/plugins"))
+    Redmine::Plugin.register :foo do
+      settings :partial => "foo_plugin/foo_plugin_settings"
+    end
+
+    get :plugin, :id => 'foo'
+    assert_response :success
+    assert_template 'plugin'
+    assert_tag 'form', :attributes => {:action => '/settings/plugin/foo'},
+      :descendant => {:tag => 'input', :attributes => {:name => 'settings[sample_setting]', :value => 'Plugin setting value'}}
+
+    Redmine::Plugin.clear
+  end
+
+  def test_get_invalid_plugin_settings
+    get :plugin, :id => 'none'
+    assert_response 404
+  end
+
+  def test_post_plugin_settings
+    Setting.expects(:plugin_foo=).with({'sample_setting' => 'Value'}).returns(true)
+    Redmine::Plugin.register(:foo) {}
+
+    post :plugin, :id => 'foo', :settings => {'sample_setting' => 'Value'}
+    assert_redirected_to '/settings/plugin/foo'
+  end
 end
