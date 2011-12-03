@@ -24,6 +24,7 @@ class Member < ActiveRecord::Base
 
   validates_presence_of :principal, :project
   validates_uniqueness_of :user_id, :scope => :project_id
+  validate :validate_role
 
   after_destroy :unwatch_from_permission_change
 
@@ -81,7 +82,7 @@ class Member < ActiveRecord::Base
 
   protected
 
-  def validate
+  def validate_role
     errors.add_on_empty :role if member_roles.empty? && roles.empty?
   end
 
