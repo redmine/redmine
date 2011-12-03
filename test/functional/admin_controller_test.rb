@@ -81,6 +81,13 @@ class AdminControllerTest < ActionController::TestCase
     assert_equal [user.mail], mail.bcc
   end
 
+  def test_test_email_failure_should_display_the_error
+    Mailer.stubs(:deliver_test).raises(Exception, 'Some error message')
+    get :test_email
+    assert_redirected_to '/settings/edit?tab=notifications'
+    assert_match /Some error message/, flash[:error]
+  end
+
   def test_no_plugins
     Redmine::Plugin.clear
 
