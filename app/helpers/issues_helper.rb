@@ -86,7 +86,7 @@ module IssuesHelper
              content_tag('td', progress_bar(child.done_ratio, :width => '80px')),
              :class => "issue issue-#{child.id} hascontextmenu #{level > 0 ? "idnt idnt-#{level}" : nil}")
     end
-    s << '</form></table>'
+    s << '</table></form>'
     s.html_safe
   end
 
