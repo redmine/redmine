@@ -16,12 +16,10 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../test_helper', __FILE__)
-require 'repositories_controller'
-
-# Re-raise errors caught by the controller.
-class RepositoriesController; def rescue_action(e) raise e end; end
 
 class RepositoriesCvsControllerTest < ActionController::TestCase
+  tests RepositoriesController
+
   fixtures :projects, :users, :roles, :members, :member_roles,
            :repositories, :enabled_modules
 
@@ -33,9 +31,6 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
   NUM_REV = 7
 
   def setup
-    @controller = RepositoriesController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     Setting.default_language = 'en'
     User.current = nil
 
@@ -48,6 +43,17 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
   end
 
   if File.directory?(REPOSITORY_PATH)
+    def test_get_edit
+      @request.session[:user_id] = 1
+      @project.repository.destroy
+      xhr :get, :edit, :id => 'subproject1', :repository_scm => 'Cvs'
+      assert_response :success
+      assert_equal 'text/javascript', @response.content_type
+      assert_kind_of Repository::Cvs, assigns(:repository)
+      assert assigns(:repository).new_record?
+      assert_select_rjs :replace_html, 'tab-content-repository'
+    end
+
     def test_browse_root
       assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
