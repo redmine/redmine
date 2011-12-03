@@ -77,13 +77,16 @@ class MemberTest < ActiveSupport::TestCase
   end
 
   def test_destroy
+    category1 = IssueCategory.find(1)
+    assert_equal @jsmith.user.id, category1.assigned_to_id
     assert_difference 'Member.count', -1 do
       assert_difference 'MemberRole.count', -1 do
         @jsmith.destroy
       end
     end
-
     assert_raise(ActiveRecord::RecordNotFound) { Member.find(@jsmith.id) }
+    category1.reload
+    assert_nil category1.assigned_to_id
   end
 
   context "removing permissions" do
