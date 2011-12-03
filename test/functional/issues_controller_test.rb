@@ -774,7 +774,7 @@ class IssuesControllerTest < ActionController::TestCase
     get :show, :id => 1
     assert_response :success
     assert_tag 'div', :attributes => {:id => 'issue_tree'},
-      :descendant => {:tag => 'td', :content => /Child Issue/, :class => /subject/}
+      :descendant => {:tag => 'td', :content => /Child Issue/, :attributes => {:class => /subject/}}
   end
 
   def test_show_atom
