@@ -176,7 +176,8 @@ module ApplicationHelper
   end
 
   def format_activity_description(text)
-    h(truncate(text.to_s, :length => 120).gsub(%r{[\r\n]*<(pre|code)>.*$}m, '...')).gsub(/[\r\n]+/, "<br />")
+    h(truncate(text.to_s, :length => 120).gsub(%r{[\r\n]*<(pre|code)>.*$}m, '...')
+       ).gsub(/[\r\n]+/, "<br />").html_safe
   end
 
   def format_version_name(version)
