@@ -126,6 +126,13 @@ class WikiControllerTest < ActionController::TestCase
     assert_template 'edit'
   end
 
+  def test_show_should_not_show_history_without_permission
+    Role.anonymous.remove_permission! :view_wiki_edits
+    get :show, :project_id => 1, :id => 'Page with sections', :version => 2
+
+    assert_response 302
+  end
+
   def test_create_page
     @request.session[:user_id] = 2
     put :update, :project_id => 1,
