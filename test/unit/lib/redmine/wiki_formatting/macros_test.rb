@@ -47,6 +47,11 @@ class Redmine::WikiFormatting::MacrosTest < ActionView::TestCase
     assert_equal '<p>{{hello_world}}</p>', textilizable(text)
   end
 
+  def test_macro_macro_list
+    text = "{{macro_list}}"
+    assert_match %r{<code>hello_world</code>}, textilizable(text)
+  end
+
   def test_macro_include
     @project = Project.find(1)
     # include a page of the current project wiki
