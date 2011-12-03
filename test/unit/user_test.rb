@@ -392,10 +392,12 @@ class UserTest < ActiveSupport::TestCase
 
   def test_name_format
     assert_equal 'Smith, John', @jsmith.name(:lastname_coma_firstname)
-    Setting.user_format = :firstname_lastname
-    assert_equal 'John Smith', @jsmith.reload.name
-    Setting.user_format = :username
-    assert_equal 'jsmith', @jsmith.reload.name
+    with_settings :user_format => :firstname_lastname do
+      assert_equal 'John Smith', @jsmith.reload.name
+    end
+    with_settings :user_format => :username do
+      assert_equal 'jsmith', @jsmith.reload.name
+    end
   end
   
   def test_fields_for_order_statement_should_return_fields_according_user_format_setting
