@@ -325,6 +325,18 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       end
     end
 
+    def test_revision_diff_raw_format
+      assert_equal 0, @repository.changesets.count
+      @repository.fetch_changesets
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
+
+      get :diff, :id => PRJ_ID, :rev => 3, :format => 'diff'
+      assert_response :success
+      assert_equal 'text/x-patch', @response.content_type
+      assert_equal 'Index: subversion_test/textfile.txt', @response.body.split(/\r?\n/).first
+    end
+
     def test_directory_diff
       assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
