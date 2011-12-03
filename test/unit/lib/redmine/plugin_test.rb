@@ -53,6 +53,36 @@ class Redmine::PluginTest < ActiveSupport::TestCase
     assert_equal '0.0.1', plugin.version
   end
 
+  def test_installed
+    @klass.register(:foo) {}
+
+    assert_equal true, @klass.installed?(:foo)
+    assert_equal false, @klass.installed?(:bar)
+  end
+
+  def test_menu
+    assert_difference 'Redmine::MenuManager.items(:project_menu).size' do
+      @klass.register :foo do
+        menu :project_menu, :foo_menu_item, '/foo', :caption => 'Foo'
+      end
+    end
+    menu_item = Redmine::MenuManager.items(:project_menu).detect {|i| i.name == :foo_menu_item}
+    assert_not_nil menu_item
+    assert_equal 'Foo', menu_item.caption
+    assert_equal '/foo', menu_item.url
+  end
+
+  def test_delete_menu_item
+    Redmine::MenuManager.map(:project_menu).push(:foo_menu_item, '/foo', :caption => 'Foo')
+
+    assert_difference 'Redmine::MenuManager.items(:project_menu).size', -1 do
+      @klass.register :foo do
+        delete_menu_item :project_menu, :foo_menu_item
+      end
+    end
+    assert_nil Redmine::MenuManager.items(:project_menu).detect {|i| i.name == :foo_menu_item}
+  end
+
   def test_requires_redmine
     test = self
     version = Redmine::VERSION.to_a.slice(0,3).join('.')
