@@ -43,6 +43,42 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
   end
 
   if repository_configured?('subversion')
+    def test_get_edit
+      @request.session[:user_id] = 1
+      @project.repository.destroy
+      xhr :get, :edit, :id => 'subproject1', :repository_scm => 'Subversion'
+      assert_response :success
+      assert_equal 'text/javascript', @response.content_type
+      assert_kind_of Repository::Subversion, assigns(:repository)
+      assert assigns(:repository).new_record?
+      assert_select_rjs :replace_html, 'tab-content-repository'
+    end
+
+    def test_post_edit
+      @request.session[:user_id] = 1
+      @project.repository.destroy
+      assert_difference 'Repository.count' do
+        xhr :post, :edit, :id => 'subproject1', :repository_scm => 'Subversion', :repository => {:url => 'file:///svn/path'}
+      end
+      assert_response :success
+      assert_equal 'text/javascript', @response.content_type
+      assert_kind_of Repository::Subversion, assigns(:repository)
+      assert !assigns(:repository).new_record?
+      assert_select_rjs :replace_html, 'tab-content-repository'
+    end
+
+    def test_post_edit_existing_repository
+      @request.session[:user_id] = 1
+      assert_no_difference 'Repository.count' do
+        xhr :post, :edit, :id => 'subproject1', :repository_scm => 'Subversion', :repository => {:password => 'newpassword'}
+      end
+      assert_response :success
+      assert_equal 'text/javascript', @response.content_type
+      assert_kind_of Repository::Subversion, assigns(:repository)
+      assert_select_rjs :replace_html, 'tab-content-repository'
+      assert_equal 'newpassword', Project.find('subproject1').repository.password
+    end
+
     def test_show
       assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
