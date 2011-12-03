@@ -37,7 +37,7 @@
       <td>
         <%= @changeset.parents.collect{
               |p| link_to_revision(p, @project, :text => format_revision(p))
-            }.join(", ") %>
+            }.join(", ").html_safe %>
       </td>
     </tr>
   <% end %>
@@ -47,7 +47,7 @@
       <td>
        <%= @changeset.children.collect{
               |p| link_to_revision(p, @project, :text => format_revision(p))
-             }.join(", ") %>
+             }.join(", ").html_safe %>
       </td>
     </tr>
   <% end %>
