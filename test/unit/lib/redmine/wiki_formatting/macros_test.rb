@@ -39,6 +39,17 @@ class Redmine::WikiFormatting::MacrosTest < ActionView::TestCase
   def teardown
   end
 
+  def test_macro_registration
+    Redmine::WikiFormatting::Macros.register do
+      macro :foo do
+        "Foo macro output"
+      end
+    end
+
+    text = "{{foo}}"
+    assert_equal '<p>Foo macro output</p>', textilizable(text)
+  end
+
   def test_macro_hello_world
     text = "{{hello_world}}"
     assert textilizable(text).match(/Hello world!/)
