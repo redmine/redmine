@@ -777,6 +777,17 @@ class IssuesControllerTest < ActionController::TestCase
       :descendant => {:tag => 'td', :content => /Child Issue/, :attributes => {:class => /subject/}}
   end
 
+  def test_show_should_list_parents
+    issue = Issue.generate!(:project_id => 1, :author_id => 1, :tracker_id => 1, :parent_issue_id => 1, :subject => 'Child Issue')
+
+    get :show, :id => issue.id
+    assert_response :success
+    assert_tag 'div', :attributes => {:class => 'subject'},
+      :descendant => {:tag => 'h3', :content => 'Child Issue'}
+    assert_tag 'div', :attributes => {:class => 'subject'},
+      :descendant => {:tag => 'a', :attributes => {:href => '/issues/1'}}
+  end
+
   def test_show_atom
     get :show, :id => 2, :format => 'atom'
     assert_response :success
