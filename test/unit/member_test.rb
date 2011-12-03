@@ -67,8 +67,12 @@ class MemberTest < ActiveSupport::TestCase
     # same use can't have more than one membership for a project
     assert !member.save
 
-    member = Member.new(:project_id => 1, :user_id => 2, :role_ids => [])
     # must have one role at least
+    user = User.new(:firstname => "new1", :lastname => "user1", :mail => "test_validate@somenet.foo")
+    user.login = "test_validate"
+    user.password, user.password_confirmation = "password", "password"
+    assert user.save
+    member = Member.new(:project_id => 1, :user_id => user.id, :role_ids => [])
     assert !member.save
   end
 
