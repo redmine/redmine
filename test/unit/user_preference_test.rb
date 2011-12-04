@@ -40,4 +40,18 @@ class UserPreferenceTest < ActiveSupport::TestCase
     user.reload
     assert_equal 'value', user.pref['preftest']
   end
+
+  def test_others_hash
+    user = User.new(:firstname => "new", :lastname => "user", :mail => "newuser@somenet.foo")
+    user.login = "newuser"
+    user.password, user.password_confirmation = "password", "password"
+    assert user.save
+    assert_nil user.preference
+    up = UserPreference.new(:user => user)
+    assert_kind_of Hash, up.others
+    up.others = nil
+    assert_nil up.others
+    assert up.save
+    assert_kind_of Hash, up.others
+  end
 end
