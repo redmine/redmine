@@ -270,8 +270,8 @@ class TimelogControllerTest < ActionController::TestCase
     assert_not_nil assigns(:total_hours)
     assert_equal "162.90", "%.2f" % assigns(:total_hours)
     # display all time by default
-    assert_equal '2007-03-12'.to_date, assigns(:from)
-    assert_equal '2007-04-22'.to_date, assigns(:to)
+    assert_nil assigns(:from)
+    assert_nil assigns(:to)
     assert_tag :form,
       :attributes => {:action => "/projects/ecookbook/time_entries", :id => 'query_form'}
   end
@@ -320,9 +320,9 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal 2, assigns(:entries).size
     assert_not_nil assigns(:total_hours)
     assert_equal 154.25, assigns(:total_hours)
-    # display all time based on what's been logged
-    assert_equal '2007-03-12'.to_date, assigns(:from)
-    assert_equal '2007-04-22'.to_date, assigns(:to)
+    # display all time
+    assert_nil assigns(:from)
+    assert_nil assigns(:to)
     # TODO: remove /projects/:project_id/issues/:issue_id/time_entries routes
     # to use /issues/:issue_id/time_entries
     assert_tag :form,

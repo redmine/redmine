@@ -53,10 +53,18 @@ class TimeEntry < ActiveRecord::Base
     :include => :project,
     :conditions => project.project_condition(include_subprojects)
   }}
-  named_scope :spent_between, lambda {|from, to| {
-    :conditions => ["#{TimeEntry.table_name}.spent_on BETWEEN ? AND ?", from, to]
-  }}
-  
+  named_scope :spent_between, lambda {|from, to|
+    if from && to
+     {:conditions => ["#{TimeEntry.table_name}.spent_on BETWEEN ? AND ?", from, to]}
+    elsif from
+     {:conditions => ["#{TimeEntry.table_name}.spent_on >= ?", from]}
+    elsif to
+     {:conditions => ["#{TimeEntry.table_name}.spent_on <= ?", to]}
+    else
+     {}
+    end
+  }
+
   def after_initialize
     if new_record? && self.activity.nil?
       if default_activity = TimeEntryActivity.default
@@ -95,21 +103,5 @@ class TimeEntry < ActiveRecord::Base
   # Returns true if the time entry can be edited by usr, otherwise false
   def editable_by?(usr)
     (usr == user && usr.allowed_to?(:edit_own_time_entries, project)) || usr.allowed_to?(:edit_time_entries, project)
-  end
-
-  def self.earilest_date_for_project(project=nil)
-    finder_conditions = ARCondition.new(Project.allowed_to_condition(User.current, :view_time_entries))
-    if project
-      finder_conditions << ["project_id IN (?)", project.hierarchy.collect(&:id)]
-    end
-    TimeEntry.minimum(:spent_on, :include => :project, :conditions => finder_conditions.conditions)
-  end
-
-  def self.latest_date_for_project(project=nil)
-    finder_conditions = ARCondition.new(Project.allowed_to_condition(User.current, :view_time_entries))
-    if project
-      finder_conditions << ["project_id IN (?)", project.hierarchy.collect(&:id)]
-    end
-    TimeEntry.maximum(:spent_on, :include => :project, :conditions => finder_conditions.conditions)
   end
 end

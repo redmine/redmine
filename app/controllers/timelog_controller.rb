@@ -320,8 +320,6 @@ private
     end
 
     @from, @to = @to, @from if @from && @to && @from > @to
-    @from ||= (TimeEntry.earilest_date_for_project(@project) || Date.today)
-    @to   ||= (TimeEntry.latest_date_for_project(@project) || Date.today)
   end
 
   def parse_params_for_bulk_time_entry_attributes(params)
