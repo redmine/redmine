@@ -21,12 +21,14 @@ class UserPreference < ActiveRecord::Base
 
   attr_protected :others
 
+  before_save :set_others_hash
+  
   def initialize(attributes = nil)
     super
     self.others ||= {}
   end
 
-  def before_save
+  def set_others_hash
     self.others ||= {}
   end
 
