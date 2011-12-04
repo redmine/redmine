@@ -423,6 +423,13 @@ class QueryTest < ActiveSupport::TestCase
     assert q.has_column?(c)
   end
 
+  def test_query_should_preload_spent_hours
+    q = Query.new(:name => '_', :column_names => [:subject, :spent_hours])
+    assert q.has_column?(:spent_hours)
+    issues = q.issues
+    assert_not_nil issues.first.instance_variable_get("@spent_hours")
+  end
+
   def test_groupable_columns_should_include_custom_fields
     q = Query.new
     assert q.groupable_columns.detect {|c| c.is_a? QueryCustomFieldColumn}

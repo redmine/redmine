@@ -537,6 +537,13 @@ class IssuesControllerTest < ActionController::TestCase
     get :index, :group_by => 'author', :sort => 'priority'
     assert_response :success
   end
+  
+  def test_index_group_by_spent_hours
+    get :index, :group_by => 'author', :sort => 'spent_hours:desc'
+    assert_response :success
+    hours = assigns(:issues).collect(&:spent_hours)
+    assert_equal hours.sort.reverse, hours
+  end
 
   def test_index_with_columns
     columns = ['tracker', 'subject', 'assigned_to']
@@ -613,6 +620,22 @@ class IssuesControllerTest < ActionController::TestCase
       :child => {:tag => 'table', :attributes => {:class => 'progress'},
         :descendant => {:tag => 'td', :attributes => {:class => 'closed', :style => 'width: 40%;'}}
       }
+  end
+
+  def test_index_with_spent_hours_column
+    get :index, :set_filter => 1, :c => %w(subject spent_hours)
+
+    assert_tag 'tr', :attributes => {:id => 'issue-3'},
+      :child => {
+        :tag => 'td', :attributes => {:class => /spent_hours/}, :content => '1.00'
+      }
+  end
+
+  def test_index_should_not_show_spent_hours_column_without_permission
+    Role.anonymous.remove_permission! :view_time_entries
+    get :index, :set_filter => 1, :c => %w(subject spent_hours)
+
+    assert_no_tag 'td', :attributes => {:class => /spent_hours/}
   end
 
   def test_index_with_fixed_version

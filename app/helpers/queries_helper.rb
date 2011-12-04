@@ -44,6 +44,8 @@ module QueriesHelper
     when 'Fixnum', 'Float'
       if column.name == :done_ratio
         progress_bar(value, :width => '80px')
+      elsif  column.name == :spent_hours
+        sprintf "%.2f", value
       else
         h(value.to_s)
       end
