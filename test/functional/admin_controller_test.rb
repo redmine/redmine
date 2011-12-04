@@ -54,6 +54,15 @@ class AdminControllerTest < ActionController::TestCase
     assert_nil assigns(:projects).detect {|u| !u.active?}
   end
 
+  def test_projects_with_status_filter
+    get :projects, :status => 1
+    assert_response :success
+    assert_template 'projects'
+    assert_not_nil assigns(:projects)
+    # active projects only
+    assert_nil assigns(:projects).detect {|u| !u.active?}
+  end
+
   def test_projects_with_name_filter
     get :projects, :name => 'store', :status => ''
     assert_response :success
