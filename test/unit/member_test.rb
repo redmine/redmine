@@ -76,6 +76,15 @@ class MemberTest < ActiveSupport::TestCase
     assert !member.save
   end
 
+  def test_validate_member_role
+    user = User.new(:firstname => "new1", :lastname => "user1", :mail => "test_validate@somenet.foo")
+    user.login = "test_validate_member_role"
+    user.password, user.password_confirmation = "password", "password"
+    assert user.save
+    member = Member.new(:project_id => 1, :user_id => user.id, :role_ids => [5])
+    assert !member.save
+  end
+
   def test_destroy
     category1 = IssueCategory.find(1)
     assert_equal @jsmith.user.id, category1.assigned_to_id
