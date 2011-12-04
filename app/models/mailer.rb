@@ -343,16 +343,15 @@ class Mailer < ActionMailer::Base
     tracker = options[:tracker] ? Tracker.find(options[:tracker]) : nil
     user_ids = options[:users]
 
-    s = ARCondition.new ["#{IssueStatus.table_name}.is_closed = ? AND #{Issue.table_name}.due_date <= ?", false, days.day.from_now.to_date]
-    s << "#{Issue.table_name}.assigned_to_id IS NOT NULL"
-    s << ["#{Issue.table_name}.assigned_to_id IN (?)", user_ids] if user_ids.present?
-    s << "#{Project.table_name}.status = #{Project::STATUS_ACTIVE}"
-    s << "#{Issue.table_name}.project_id = #{project.id}" if project
-    s << "#{Issue.table_name}.tracker_id = #{tracker.id}" if tracker
+    scope = Issue.scoped(:conditions => ["#{Issue.table_name}.assigned_to_id IS NOT NULL" +
+      " AND #{Project.table_name}.status = #{Project::STATUS_ACTIVE}" +
+      " AND #{Issue.table_name}.due_date <= ?", days.day.from_now.to_date]
+    )
+    scope = scope.scoped(:conditions => {:assigned_to_id => user_ids}) if user_ids.present?
+    scope = scope.scoped(:conditions => {:project_id => project.id}) if project
+    scope = scope.scoped(:conditions => {:tracker_id => tracker.id}) if tracker
 
-    issues_by_assignee = Issue.find(:all, :include => [:status, :assigned_to, :project, :tracker],
-                                          :conditions => s.conditions
-                                    ).group_by(&:assigned_to)
+    issues_by_assignee = scope.all(:include => [:status, :assigned_to, :project, :tracker]).group_by(&:assigned_to)
     issues_by_assignee.each do |assignee, issues|
       deliver_reminder(assignee, issues, days) if assignee && assignee.active?
     end
