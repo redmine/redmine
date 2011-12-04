@@ -77,4 +77,14 @@ class IssuesControllerTransactionTest < ActionController::TestCase
     assert_tag :tag => 'div', :attributes => { :id => 'errorExplanation' },
                               :content => /Data has been updated by another user/
   end
+
+  def test_index_should_rescue_invalid_sql_query
+    Query.any_instance.stubs(:statement).returns("INVALID STATEMENT")
+
+    get :index
+    assert_response 500
+    assert_tag 'p', :content => /An error occurred/
+    assert_nil session[:query]
+    assert_nil session[:issues_index_sort]
+  end
 end

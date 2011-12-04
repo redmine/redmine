@@ -656,16 +656,6 @@ class IssuesControllerTest < ActionController::TestCase
     assert @response.body.blank?
   end
 
-  def test_index_should_rescue_invalid_sql_query
-    Query.any_instance.stubs(:statement).returns("INVALID STATEMENT")
-
-    get :index
-    assert_response 500
-    assert_tag 'p', :content => /An error occurred/
-    assert_nil session[:query]
-    assert_nil session[:issues_index_sort]
-  end
-
   def test_show_by_anonymous
     get :show, :id => 1
     assert_response :success
