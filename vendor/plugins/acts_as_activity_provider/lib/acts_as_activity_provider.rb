@@ -54,37 +54,32 @@ module Redmine
             provider_options = activity_provider_options[event_type]
             raise "#{self.name} can not provide #{event_type} events." if provider_options.nil?
             
-            scope_options = {}
-            cond = ARCondition.new
+            scope = self
+
             if from && to
-              cond.add(["#{provider_options[:timestamp]} BETWEEN ? AND ?", from, to])
+              scope = scope.scoped(:conditions => ["#{provider_options[:timestamp]} BETWEEN ? AND ?", from, to])
             end
             
             if options[:author]
               return [] if provider_options[:author_key].nil?
-              cond.add(["#{provider_options[:author_key]} = ?", options[:author].id])
+              scope = scope.scoped(:conditions => ["#{provider_options[:author_key]} = ?", options[:author].id])
             end
             
             if options[:limit]
               # id and creation time should be in same order in most cases
-              scope_options[:order] = "#{table_name}.id DESC"
-              scope_options[:limit] = options[:limit]
+              scope = scope.scoped(:order => "#{table_name}.id DESC", :limit => options[:limit])
             end
             
-            scope = self
             if provider_options.has_key?(:permission)
-              cond.add(Project.allowed_to_condition(user, provider_options[:permission] || :view_project, options))
+              scope = scope.scoped(:conditions => Project.allowed_to_condition(user, provider_options[:permission] || :view_project, options))
             elsif respond_to?(:visible)
               scope = scope.visible(user, options)
             else
               ActiveSupport::Deprecation.warn "acts_as_activity_provider with implicit :permission option is deprecated. Add a visible scope to the #{self.name} model or use explicit :permission option."
-              cond.add(Project.allowed_to_condition(user, "view_#{self.name.underscore.pluralize}".to_sym, options))
+              scope = scope.scoped(:conditions => Project.allowed_to_condition(user, "view_#{self.name.underscore.pluralize}".to_sym, options))
             end
-            scope_options[:conditions] = cond.conditions
             
-            with_scope(:find => scope_options) do
-              scope.find(:all, provider_options[:find_options].dup)
-            end
+            scope.all(provider_options[:find_options].dup)
           end
         end
       end
