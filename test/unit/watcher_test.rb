@@ -29,6 +29,13 @@ class WatcherTest < ActiveSupport::TestCase
     @issue = Issue.find(1)
   end
 
+  def test_validate
+    user = User.find(5)
+    assert !user.active?
+    watcher = Watcher.new(:user_id => user.id)
+    assert !watcher.save
+  end
+
   def test_watch
     assert @issue.add_watcher(@user)
     @issue.reload
