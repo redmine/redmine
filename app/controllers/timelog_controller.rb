@@ -41,55 +41,54 @@ class TimelogController < ApplicationController
                 'issue' => 'issue_id',
                 'hours' => 'hours'
 
-    cond = ARCondition.new
-    if @issue
-      cond << "#{Issue.table_name}.root_id = #{@issue.root_id} AND #{Issue.table_name}.lft >= #{@issue.lft} AND #{Issue.table_name}.rgt <= #{@issue.rgt}"
-    elsif @project
-      cond << @project.project_condition(Setting.display_subprojects_issues?)
-    end
-
     retrieve_date_range
-    cond << ['spent_on BETWEEN ? AND ?', @from, @to]
+
+    scope = TimeEntry.visible.spent_between(@from, @to)
+    if @issue
+      scope = scope.on_issue(@issue)
+    elsif @project
+      scope = scope.on_project(@project, Setting.display_subprojects_issues?)
+    end
 
     respond_to do |format|
       format.html {
         # Paginate results
-        @entry_count = TimeEntry.visible.count(:include => [:project, :issue], :conditions => cond.conditions)
+        @entry_count = scope.count
         @entry_pages = Paginator.new self, @entry_count, per_page_option, params['page']
-        @entries = TimeEntry.visible.find(:all,
-                                  :include => [:project, :activity, :user, {:issue => :tracker}],
-                                  :conditions => cond.conditions,
-                                  :order => sort_clause,
-                                  :limit  =>  @entry_pages.items_per_page,
-                                  :offset =>  @entry_pages.current.offset)
-        @total_hours = TimeEntry.visible.sum(:hours, :include => [:project, :issue], :conditions => cond.conditions).to_f
+        @entries = scope.all(
+          :include => [:project, :activity, :user, {:issue => :tracker}],
+          :order => sort_clause,
+          :limit  =>  @entry_pages.items_per_page,
+          :offset =>  @entry_pages.current.offset
+        )
+        @total_hours = scope.sum(:hours).to_f
 
         render :layout => !request.xhr?
       }
       format.api  {
-        @entry_count = TimeEntry.visible.count(:include => [:project, :issue], :conditions => cond.conditions)
+        @entry_count = scope.count
         @offset, @limit = api_offset_and_limit
-        @entries = TimeEntry.visible.find(:all,
-                                  :include => [:project, :activity, :user, {:issue => :tracker}],
-                                  :conditions => cond.conditions,
-                                  :order => sort_clause,
-                                  :limit  => @limit,
-                                  :offset => @offset)
+        @entries = scope.all(
+          :include => [:project, :activity, :user, {:issue => :tracker}],
+          :order => sort_clause,
+          :limit  => @limit,
+          :offset => @offset
+        )
       }
       format.atom {
-        entries = TimeEntry.visible.find(:all,
-                                 :include => [:project, :activity, :user, {:issue => :tracker}],
-                                 :conditions => cond.conditions,
-                                 :order => "#{TimeEntry.table_name}.created_on DESC",
-                                 :limit => Setting.feeds_limit.to_i)
+        entries = scope.all(
+          :include => [:project, :activity, :user, {:issue => :tracker}],
+          :order => "#{TimeEntry.table_name}.created_on DESC",
+          :limit => Setting.feeds_limit.to_i
+        )
         render_feed(entries, :title => l(:label_spent_time))
       }
       format.csv {
         # Export all entries
-        @entries = TimeEntry.visible.find(:all,
-                                  :include => [:project, :activity, :user, {:issue => [:tracker, :assigned_to, :priority]}],
-                                  :conditions => cond.conditions,
-                                  :order => sort_clause)
+        @entries = scope.all(
+          :include => [:project, :activity, :user, {:issue => [:tracker, :assigned_to, :priority]}],
+          :order => sort_clause
+        )
         send_data(entries_to_csv(@entries), :type => 'text/csv; header=present', :filename => 'timelog.csv')
       }
     end
