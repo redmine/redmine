@@ -49,6 +49,14 @@ class UsersControllerTest < ActionController::TestCase
     assert_nil assigns(:users).detect {|u| !u.active?}
   end
 
+  def test_index_with_status_filter
+    get :index, :status => 3
+    assert_response :success
+    assert_template 'index'
+    assert_not_nil assigns(:users)
+    assert_equal [3], assigns(:users).map(&:status).uniq
+  end
+
   def test_index_with_name_filter
     get :index, :name => 'john'
     assert_response :success
