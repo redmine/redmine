@@ -538,8 +538,8 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
   end
   
-  def test_index_group_by_spent_hours
-    get :index, :group_by => 'author', :sort => 'spent_hours:desc'
+  def test_index_sort_by_spent_hours
+    get :index, :sort => 'spent_hours:desc'
     assert_response :success
     hours = assigns(:issues).collect(&:spent_hours)
     assert_equal hours.sort.reverse, hours
