@@ -44,31 +44,22 @@ module Redmine
 
       def run
         unless @criteria.empty?
-          sql_select = @criteria.collect{|criteria| @available_criteria[criteria][:sql] + " AS " + criteria}.join(', ')
-          sql_group_by = @criteria.collect{|criteria| @available_criteria[criteria][:sql]}.join(', ')
-          sql_condition = ''
-
+          scope = TimeEntry.visible.spent_between(@from, @to)
           if @issue
-            sql_condition = "#{Issue.table_name}.root_id = #{@issue.root_id} AND #{Issue.table_name}.lft >= #{@issue.lft} AND #{Issue.table_name}.rgt <= #{@issue.rgt}"
-          else
-            sql_condition = Project.allowed_to_condition(User.current, :view_time_entries, :project => @project, :with_subprojects => Setting.display_subprojects_issues?)
+            scope = scope.on_issue(@issue)
+          elsif @project
+            scope = scope.on_project(@project, Setting.display_subprojects_issues?)
           end
-
-          sql = "SELECT #{sql_select}, tyear, tmonth, tweek, spent_on, SUM(hours) AS hours"
-          sql << " FROM #{TimeEntry.table_name}"
-          sql << time_report_joins
-          sql << " WHERE (%s)" % sql_condition
-          if @from && @to
-            sql << " AND (spent_on BETWEEN '%s' AND '%s')" % [ActiveRecord::Base.connection.quoted_date(@from), ActiveRecord::Base.connection.quoted_date(@to)]
-          elsif @from
-            sql << " AND (spent_on BETWEEN >= '%s')" % ActiveRecord::Base.connection.quoted_date(@from)
-          elsif @to
-            sql << " AND (spent_on BETWEEN <= '%s')" % ActiveRecord::Base.connection.quoted_date(@to)
+          time_columns = %w(tyear tmonth tweek spent_on)
+          @hours = []
+          scope.sum(:hours, :include => :issue, :group => @criteria.collect{|criteria| @available_criteria[criteria][:sql]} + time_columns).each do |hash, hours|
+            h = {'hours' => hours}
+            (@criteria + time_columns).each_with_index do |name, i|
+              h[name] = hash[i]
+            end
+            @hours << h
           end
-          sql << " GROUP BY #{sql_group_by}, tyear, tmonth, tweek, spent_on"
-
-          @hours = ActiveRecord::Base.connection.select_all(sql)
-
+          
           @hours.each do |row|
             case @columns
             when 'year'
@@ -164,13 +155,6 @@ module Redmine
         end
 
         @available_criteria
-      end
-
-      def time_report_joins
-        sql = ''
-        sql << " LEFT JOIN #{Issue.table_name} ON #{TimeEntry.table_name}.issue_id = #{Issue.table_name}.id"
-        sql << " LEFT JOIN #{Project.table_name} ON #{TimeEntry.table_name}.project_id = #{Project.table_name}.id"
-        sql
       end
     end
   end
