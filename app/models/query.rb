@@ -674,9 +674,17 @@ class Query < ActiveRecord::Base
         when :date, :date_past
           sql = date_clause(db_table, db_field, (Date.parse(value.first) rescue nil), (Date.parse(value.first) rescue nil))
         when :integer
-          sql = "#{db_table}.#{db_field} = #{value.first.to_i}"
+          if is_custom_filter
+            sql = "(#{db_table}.#{db_field} <> '' AND CAST(#{db_table}.#{db_field} AS decimal(60,3)) = #{value.first.to_i})"
+          else
+            sql = "#{db_table}.#{db_field} = #{value.first.to_i}"
+          end
         when :float
-          sql = "#{db_table}.#{db_field} BETWEEN #{value.first.to_f - 1e-5} AND #{value.first.to_f + 1e-5}"
+          if is_custom_filter
+            sql = "(#{db_table}.#{db_field} <> '' AND CAST(#{db_table}.#{db_field} AS decimal(60,3)) BETWEEN #{value.first.to_f - 1e-5} AND #{value.first.to_f + 1e-5})"
+          else
+            sql = "#{db_table}.#{db_field} BETWEEN #{value.first.to_f - 1e-5} AND #{value.first.to_f + 1e-5}"
+          end
         else
           sql = "#{db_table}.#{db_field} IN (" + value.collect{|val| "'#{connection.quote_string(val)}'"}.join(",") + ")"
         end
@@ -702,7 +710,7 @@ class Query < ActiveRecord::Base
         sql = date_clause(db_table, db_field, (Date.parse(value.first) rescue nil), nil)
       else
         if is_custom_filter
-          sql = "CAST(#{db_table}.#{db_field} AS decimal(60,3)) >= #{value.first.to_f}"
+          sql = "(#{db_table}.#{db_field} <> '' AND CAST(#{db_table}.#{db_field} AS decimal(60,3)) >= #{value.first.to_f})"
         else
           sql = "#{db_table}.#{db_field} >= #{value.first.to_f}"
         end
@@ -712,7 +720,7 @@ class Query < ActiveRecord::Base
         sql = date_clause(db_table, db_field, nil, (Date.parse(value.first) rescue nil))
       else
         if is_custom_filter
-          sql = "CAST(#{db_table}.#{db_field} AS decimal(60,3)) <= #{value.first.to_f}"
+          sql = "(#{db_table}.#{db_field} <> '' AND CAST(#{db_table}.#{db_field} AS decimal(60,3)) <= #{value.first.to_f})"
         else
           sql = "#{db_table}.#{db_field} <= #{value.first.to_f}"
         end
@@ -722,7 +730,7 @@ class Query < ActiveRecord::Base
         sql = date_clause(db_table, db_field, (Date.parse(value[0]) rescue nil), (Date.parse(value[1]) rescue nil))
       else
         if is_custom_filter
-          sql = "CAST(#{db_table}.#{db_field} AS decimal(60,3)) BETWEEN #{value[0].to_f} AND #{value[1].to_f}"
+          sql = "(#{db_table}.#{db_field} <> '' AND CAST(#{db_table}.#{db_field} AS decimal(60,3)) BETWEEN #{value[0].to_f} AND #{value[1].to_f})"
         else
           sql = "#{db_table}.#{db_field} BETWEEN #{value[0].to_f} AND #{value[1].to_f}"
         end
