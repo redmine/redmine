@@ -13,7 +13,7 @@
 <p><%= f.select :category_id, (@project.issue_categories.collect {|c| [c.name, c.id]}), :include_blank => true %>
 <%= prompt_to_remote(image_tag('add.png', :style => 'vertical-align: middle;'),
                      l(:label_issue_category_new),
-                     'category[name]',
+                     'issue_category[name]',
                      {:controller => 'issue_categories', :action => 'create', :project_id => @project},
                      :title => l(:label_issue_category_new),
                      :tabindex => 199) if authorize_for('issue_categories', 'new') %></p>
