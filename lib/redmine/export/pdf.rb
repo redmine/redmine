@@ -452,12 +452,15 @@ module Redmine
         pdf.SetFontStyle('B',9)
         pdf.RDMCell(190,5, l(:label_history), "B")
         pdf.Ln
+        indice = 0
         for journal in issue.journals.find(
                           :all, :include => [:user, :details],
                           :order => "#{Journal.table_name}.created_on ASC")
+          indice = indice + 1
           pdf.SetFontStyle('B',8)
           pdf.RDMCell(190,5,
-             format_time(journal.created_on) + " - " + journal.user.name)
+             format_time(journal.created_on) + " - " +
+               journal.user.name + " #" + indice.to_s )
           pdf.Ln
           pdf.SetFontStyle('I',8)
           for detail in journal.details
