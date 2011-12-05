@@ -48,20 +48,23 @@ module Redmine
           sql_group_by = @criteria.collect{|criteria| @available_criteria[criteria][:sql]}.join(', ')
           sql_condition = ''
 
-          if @project.nil?
-            sql_condition = Project.allowed_to_condition(User.current, :view_time_entries)
-          elsif @issue.nil?
-            sql_condition = @project.project_condition(Setting.display_subprojects_issues?)
-          else
+          if @issue
             sql_condition = "#{Issue.table_name}.root_id = #{@issue.root_id} AND #{Issue.table_name}.lft >= #{@issue.lft} AND #{Issue.table_name}.rgt <= #{@issue.rgt}"
+          else
+            sql_condition = Project.allowed_to_condition(User.current, :view_time_entries, :project => @project, :with_subprojects => Setting.display_subprojects_issues?)
           end
 
           sql = "SELECT #{sql_select}, tyear, tmonth, tweek, spent_on, SUM(hours) AS hours"
           sql << " FROM #{TimeEntry.table_name}"
           sql << time_report_joins
-          sql << " WHERE"
-          sql << " (%s) AND" % sql_condition
-          sql << " (spent_on BETWEEN '%s' AND '%s')" % [ActiveRecord::Base.connection.quoted_date(@from), ActiveRecord::Base.connection.quoted_date(@to)]
+          sql << " WHERE (%s)" % sql_condition
+          if @from && @to
+            sql << " AND (spent_on BETWEEN '%s' AND '%s')" % [ActiveRecord::Base.connection.quoted_date(@from), ActiveRecord::Base.connection.quoted_date(@to)]
+          elsif @from
+            sql << " AND (spent_on BETWEEN >= '%s')" % ActiveRecord::Base.connection.quoted_date(@from)
+          elsif @to
+            sql << " AND (spent_on BETWEEN <= '%s')" % ActiveRecord::Base.connection.quoted_date(@to)
+          end
           sql << " GROUP BY #{sql_group_by}, tyear, tmonth, tweek, spent_on"
 
           @hours = ActiveRecord::Base.connection.select_all(sql)
@@ -78,7 +81,17 @@ module Redmine
               row['day'] = "#{row['spent_on']}"
             end
           end
+          
+          if @from.nil?
+            min = @hours.collect {|row| row['spent_on']}.min
+            @from = min ? min.to_date : Date.today
+          end
 
+          if @to.nil?
+            max = @hours.collect {|row| row['spent_on']}.max
+            @to = max ? max.to_date : Date.today
+          end
+          
           @total_hours = @hours.inject(0) {|s,k| s = s + k['hours'].to_f}
 
           @periods = []
