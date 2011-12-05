@@ -360,9 +360,9 @@ div#version-summary fieldset { margin-bottom: 1em; }
 div#version-summary .total-hours { text-align: right; }
 
 table#time-report td.hours, table#time-report th.period, table#time-report th.total { text-align: right; padding-right: 0.5em; }
-table#time-report tbody tr { font-style: italic; color: #777; }
-table#time-report tbody tr.last-level { font-style: normal; color: #555; }
-table#time-report tbody tr.total { font-style: normal; font-weight: bold; color: #555; background-color:#EEEEEE; }
+table#time-report tbody tr.subtotal { font-style: italic; color:#777;}
+table#time-report tbody tr.subtotal td.hours { color:#b0b0b0; }
+table#time-report tbody tr.total { font-weight: bold; background-color:#EEEEEE; border-top:1px solid #e4e4e4;}
 table#time-report .hours-dec { font-size: 0.9em; }
 
 div.wiki-page .contextual a {opacity: 0.4}

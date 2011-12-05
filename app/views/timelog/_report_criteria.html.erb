@@ -1,7 +1,7 @@
 <% @report.hours.collect {|h| h[criterias[level]].to_s}.uniq.each do |value| %>
 <% hours_for_value = select_hours(hours, criterias[level], value) -%>
 <% next if hours_for_value.empty? -%>
-<tr class="<%= cycle('odd', 'even') %> <%= 'last-level' unless criterias.length > level+1 %>">
+<tr class="<%= cycle('odd', 'even') %> <%= criterias.length > level+1 ? 'subtotal' : 'last-level' %>">
 <%= '<td></td>' * level %>
 <td><%= h(format_criteria_value(@report.available_criteria[criterias[level]], value)) %></td>
 <%= '<td></td>' * (criterias.length - level - 1) -%>
