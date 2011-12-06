@@ -2,11 +2,7 @@
     <%= error_messages_for 'issue', 'time_entry' %>
     <div class="box">
     <% if @edit_allowed || !@allowed_statuses.empty? %>
-        <fieldset class="tabular"><legend><%= l(:label_change_properties) %>
-        <% if !@issue.new_record? && !@issue.errors.any? && @edit_allowed %>
-        <small>(<%= link_to l(:label_more), {}, :onclick => 'Effect.toggle("issue_descr_fields", "appear", {duration:0.3}); return false;' %>)</small>
-        <% end %>
-        </legend>
+        <fieldset class="tabular"><legend><%= l(:label_change_properties) %></legend>
         <%= render :partial => (@edit_allowed ? 'form' : 'form_update'), :locals => {:f => f} %>
         </fieldset>
     <% end %>

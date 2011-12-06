@@ -1,6 +1,5 @@
 <%= call_hook(:view_issues_form_details_top, { :issue => @issue, :form => f }) %>
 
-<div id="issue_descr_fields" <%= 'style="display:none"' unless @issue.new_record? || @issue.errors.any? %>>
 <% if @issue.safe_attribute_names.include?('is_private') %>
 <p style="float:right; margin-right:1em;">
   <label class="inline" for="issue_is_private" id="issue_is_private_label"><%= f.check_box :is_private, :no_label => true %> <%= l(:field_is_private) %></label>
@@ -12,12 +11,19 @@
                                      :with => "Form.serialize('issue-form')" %>
 
 <p><%= f.text_field :subject, :size => 80, :required => true %></p>
-<p><%= f.text_area :description,
+<p>
+	<label><%= l(:field_description) %></label>
+	<%= link_to_function image_tag('edit.png'), 
+    'Element.hide(this); Effect.toggle("issue_description_and_toolbar", "appear", {duration:0.3})' unless @issue.new_record? %>
+	<% content_tag 'span', :id => "issue_description_and_toolbar", :style => (@issue.new_record? ? nil : 'display:none') do %>
+	  <%= f.text_area :description,
                    :cols => 60,
                    :rows => (@issue.description.blank? ? 10 : [[10, @issue.description.length / 50].max, 100].min),
                    :accesskey => accesskey(:edit),
-                   :class => 'wiki-edit' %></p>
-</div>
+                   :class => 'wiki-edit',
+                   :no_label => true %>
+  <% end %>
+</p>
 
 <div id="attributes" class="attributes">
   <%= render :partial => 'issues/attributes' %>
