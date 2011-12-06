@@ -1,9 +1,9 @@
 <h2><%=l(:label_issue_new)%></h2>
 
-<% labelled_tabular_form_for :issue, @issue, :url => {:controller => 'issues', :action => 'create', :project_id => @project},
-                             :html => {:multipart => true, :id => 'issue-form', :class => 'tabular new-issue-form'} do |f| %>
+<% labelled_form_for @issue, :url => project_issues_path(@project),
+                             :html => {:id => 'issue-form', :multipart => true} do |f| %>
     <%= error_messages_for 'issue' %>
-    <div class="box">
+    <div class="box tabular">
     <%= render :partial => 'issues/form', :locals => {:f => f} %>
     </div>
     <%= submit_tag l(:button_create) %>
