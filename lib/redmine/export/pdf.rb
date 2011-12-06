@@ -459,8 +459,9 @@ module Redmine
           indice = indice + 1
           pdf.SetFontStyle('B',8)
           pdf.RDMCell(190,5,
-             format_time(journal.created_on) + " - " +
-               journal.user.name + " #" + indice.to_s )
+             "#" + indice.to_s +
+             " - " + format_time(journal.created_on) +
+             " - " + journal.user.name)
           pdf.Ln
           pdf.SetFontStyle('I',8)
           for detail in journal.details
