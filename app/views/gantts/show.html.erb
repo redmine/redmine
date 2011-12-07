@@ -39,21 +39,21 @@ headers_height = header_heigth
 show_weeks = false
 show_days = false
 
-if @gantt.zoom >1
+if @gantt.zoom > 1
     show_weeks = true
-    headers_height = 2*header_heigth
+    headers_height = 2 * header_heigth
     if @gantt.zoom > 2
         show_days = true
-        headers_height = 3*header_heigth
+        headers_height = 3 * header_heigth
     end
 end
 
 # Width of the entire chart
-g_width = (@gantt.date_to - @gantt.date_from + 1)*zoom
+g_width = (@gantt.date_to - @gantt.date_from + 1) * zoom
 
 @gantt.render(:top => headers_height + 8, :zoom => zoom, :g_width => g_width, :subject_width => subject_width)
 
-g_height = [(20 * (@gantt.number_of_rows + 6))+150, 206].max
+g_height = [(20 * (@gantt.number_of_rows + 6)) + 150, 206].max
 t_height = g_height + headers_height
 
 
@@ -80,7 +80,7 @@ t_height = g_height + headers_height
 <td>
 
 <div style="position:relative;height:<%= t_height + 24 %>px;overflow:auto;">
-<div style="width:<%= g_width-1 %>px;height:<%= headers_height %>px;background: #eee;" class="gantt_hdr">&nbsp;</div>
+<div style="width:<%= g_width - 1 %>px;height:<%= headers_height %>px;background: #eee;" class="gantt_hdr">&nbsp;</div>
 <%
 #
 # Months headers
@@ -105,29 +105,29 @@ end %>
 #
 if show_weeks
   left = 0
-  height = (show_days ? header_heigth-1 : header_heigth-1 + g_height)
+  height = (show_days ? header_heigth - 1 : header_heigth - 1 + g_height)
   if @gantt.date_from.cwday == 1
       # @date_from is monday
         week_f = @gantt.date_from
   else
       # find next monday after @date_from
     week_f = @gantt.date_from + (7 - @gantt.date_from.cwday + 1)
-    width = (7 - @gantt.date_from.cwday + 1) * zoom-1
+    width = (7 - @gantt.date_from.cwday + 1) * zoom - 1
     %>
     <div style="left:<%= left %>px;top:19px;width:<%= width %>px;height:<%= height %>px;" class="gantt_hdr">&nbsp;</div>
     <%
-    left = left + width+1
+    left = left + width + 1
   end %>
   <%
   while week_f <= @gantt.date_to
-    width = (week_f + 6 <= @gantt.date_to) ? 7 * zoom -1 : (@gantt.date_to - week_f + 1) * zoom-1
+    width = (week_f + 6 <= @gantt.date_to) ? 7 * zoom - 1 : (@gantt.date_to - week_f + 1) * zoom - 1
     %>
     <div style="left:<%= left %>px;top:19px;width:<%= width %>px;height:<%= height %>px;" class="gantt_hdr">
     <small><%= week_f.cweek if width >= 16 %></small>
     </div>
     <%
-    left = left + width+1
-    week_f = week_f+7
+    left = left + width + 1
+    week_f = week_f + 7
   end
 end %>
 
@@ -146,7 +146,7 @@ if show_days
   <%= day_name(wday).first %>
   </div>
   <%
-  left = left + width+1
+  left = left + width + 1
   wday = wday + 1
   wday = 1 if wday > 7
   end
@@ -159,7 +159,7 @@ end %>
 # Today red line (excluded from cache)
 #
 if Date.today >= @gantt.date_from and Date.today <= @gantt.date_to %>
-    <div style="position: absolute;height:<%= g_height %>px;top:<%= headers_height + 1 %>px;left:<%= ((Date.today-@gantt.date_from+1)*zoom).floor()-1 %>px;width:10px;border-left: 1px dashed red;">&nbsp;</div>
+    <div style="position: absolute;height:<%= g_height %>px;top:<%= headers_height + 1 %>px;left:<%= ((Date.today - @gantt.date_from + 1) * zoom).floor() - 1 %>px;width:10px;border-left: 1px dashed red;">&nbsp;</div>
 <% end %>
 
 </div>
