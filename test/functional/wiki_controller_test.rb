@@ -43,6 +43,13 @@ class WikiControllerTest < ActionController::TestCase
                            :child => { :tag => 'a', :attributes => { :href => '/projects/ecookbook/wiki/Page_with_an_inline_image' },
                                                     :content => 'Page with an inline image' } }
   end
+  
+  def test_export_link
+    Role.anonymous.add_permission! :export_wiki_pages
+    get :show, :project_id => 'ecookbook'
+    assert_response :success
+    assert_tag 'a', :attributes => {:href => '/projects/ecookbook/wiki/CookBook_documentation.txt'}
+  end
 
   def test_show_page_with_name
     get :show, :project_id => 1, :id => 'Another_page'
