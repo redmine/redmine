@@ -18,7 +18,7 @@ Calendar._DN = new Array
  "Cetvrtak",
  "Petak",
  "Subota",
- "Nedjelja"); 
+ "Nedjelja");
 
 // Please note that the following array of short day names (and the same goes
 // for short month names, _SMN) isn't absolutely necessary.  We give it here
@@ -100,7 +100,7 @@ Calendar._TT["ABOUT_TIME"] = "\n\n" +
 
 Calendar._TT["PREV_YEAR"] = "Prethodna godina (hold for menu)";
 Calendar._TT["PREV_MONTH"] = "Prethodni mjesec (hold for menu)";
-Calendar._TT["GO_TODAY"] = "Na današnji dan";   
+Calendar._TT["GO_TODAY"] = "Na današnji dan";
 Calendar._TT["NEXT_MONTH"] = "Naredni mjesec (hold for menu)";
 Calendar._TT["NEXT_YEAR"] = "Naredna godina (hold for menu)";
 Calendar._TT["SEL_DATE"] = "Odaberite datum";
