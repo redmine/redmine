@@ -79,7 +79,13 @@ module Redmine
       private
 
       def load_from_yaml(filename, env)
-        yaml = YAML::load_file(filename)
+        yaml = nil
+        begin
+          yaml = YAML::load_file(filename)
+        rescue ArgumentError
+          $stderr.puts "Your Redmine configuration file located at #{filename} is not a valid YAML file and could not be loaded."
+          exit 1
+        end
         conf = {}
         if yaml.is_a?(Hash)
           if yaml['default']
@@ -89,7 +95,7 @@ module Redmine
             conf.merge!(yaml[env])
           end
         else
-          $stderr.puts "#{filename} is not a valid Redmine configuration file"
+          $stderr.puts "Your Redmine configuration file located at #{filename} is not a valid Redmine configuration file."
           exit 1
         end
         conf
