@@ -39,6 +39,10 @@ module Redmine
       
       def decrypt_text(text)
         if text && match = text.match(/\Aaes-256-cbc:(.+)\Z/)
+          if cipher_key.blank?
+            logger.error "Attempt to decrypt a ciphered text with no cipher key configured in config/configuration.yml" if logger
+            return text
+          end
           text = match[1]
           c = OpenSSL::Cipher::Cipher.new("aes-256-cbc")
           e, iv = text.split("--").map {|s| Base64.decode64(s)}
@@ -55,6 +59,10 @@ module Redmine
       def cipher_key
         key = Redmine::Configuration['database_cipher_key'].to_s
         key.blank? ? nil : Digest::SHA256.hexdigest(key)
+      end
+      
+      def logger
+        RAILS_DEFAULT_LOGGER
       end
     end
   
