@@ -222,6 +222,20 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     assert_equal [issue1.id, 1, 4], [issue1.root_id, issue1.lft, issue1.rgt]
     assert_equal [issue1.id, 2, 3], [issue4.root_id, issue4.lft, issue4.rgt]
   end
+  
+  def test_destroy_child_should_update_parent
+    issue = create_issue!
+    child1 = create_issue!(:parent_issue_id => issue.id)
+    child2 = create_issue!(:parent_issue_id => issue.id)
+    
+    issue.reload
+    assert_equal [issue.id, 1, 6], [issue.root_id, issue.lft, issue.rgt]
+    
+    child2.reload.destroy
+    
+    issue.reload
+    assert_equal [issue.id, 1, 4], [issue.root_id, issue.lft, issue.rgt]
+  end
 
   def test_destroy_parent_issue_updated_during_children_destroy
     parent = create_issue!
