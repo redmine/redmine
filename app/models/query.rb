@@ -363,7 +363,8 @@ class Query < ActiveRecord::Base
                            ).collect {|cf| QueryCustomFieldColumn.new(cf) }
 
     if User.current.allowed_to?(:view_time_entries, project, :global => true)
-      index = @available_columns.index {|column| column.name == :estimated_hours}
+      index = nil
+      @available_columns.each_with_index {|column, i| index = i if column.name == :estimated_hours}
       index = (index ? index + 1 : -1)
       # insert the column after estimated_hours or at the end
       @available_columns.insert index, QueryColumn.new(:spent_hours,
