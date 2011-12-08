@@ -238,17 +238,21 @@ class Issue < ActiveRecord::Base
     write_attribute(:description, arg)
   end
 
-  # Overrides attributes= so that tracker_id gets assigned first
-  def attributes_with_tracker_first=(new_attributes, *args)
+  # Overrides attributes= so that project and tracker get assigned first
+  def attributes_with_project_and_tracker_first=(new_attributes, *args)
     return if new_attributes.nil?
-    new_tracker_id = new_attributes['tracker_id'] || new_attributes[:tracker_id]
-    if new_tracker_id
-      self.tracker_id = new_tracker_id
+    attrs = new_attributes.dup
+    attrs.stringify_keys!
+
+    %w(project project_id tracker tracker_id).each do |attr|
+      if attrs.has_key?(attr)
+        send "#{attr}=", attrs.delete(attr)
+      end
     end
-    send :attributes_without_tracker_first=, new_attributes, *args
+    send :attributes_without_project_and_tracker_first=, attrs, *args
   end
   # Do not redefine alias chain on reload (see #4838)
-  alias_method_chain(:attributes=, :tracker_first) unless method_defined?(:attributes_without_tracker_first=)
+  alias_method_chain(:attributes=, :project_and_tracker_first) unless method_defined?(:attributes_without_project_and_tracker_first=)
 
   def estimated_hours=(h)
     write_attribute :estimated_hours, (h.is_a?(String) ? h.to_hours : h)
