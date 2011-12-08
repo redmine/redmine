@@ -29,6 +29,12 @@ class Member < ActiveRecord::Base
   before_destroy :set_issue_category_nil
   after_destroy :unwatch_from_permission_change
 
+  def role
+  end
+
+  def role=
+  end
+
   def name
     self.user.name
   end
