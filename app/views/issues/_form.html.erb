@@ -12,11 +12,11 @@
 
 <p><%= f.text_field :subject, :size => 80, :required => true %></p>
 <p>
-	<label><%= l(:field_description) %></label>
-	<%= link_to_function image_tag('edit.png'), 
+  <label><%= l(:field_description) %></label>
+  <%= link_to_function image_tag('edit.png'), 
     'Element.hide(this); Effect.toggle("issue_description_and_toolbar", "appear", {duration:0.3})' unless @issue.new_record? %>
-	<% content_tag 'span', :id => "issue_description_and_toolbar", :style => (@issue.new_record? ? nil : 'display:none') do %>
-	  <%= f.text_area :description,
+  <% content_tag 'span', :id => "issue_description_and_toolbar", :style => (@issue.new_record? ? nil : 'display:none') do %>
+    <%= f.text_area :description,
                    :cols => 60,
                    :rows => (@issue.description.blank? ? 10 : [[10, @issue.description.length / 50].max, 100].min),
                    :accesskey => accesskey(:edit),
