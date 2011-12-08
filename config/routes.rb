@@ -40,7 +40,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :queries, :except => [:show]
 
   # Misc issue routes. TODO: move into resources
-  map.auto_complete_issues '/issues/auto_complete', :controller => 'auto_completes', :action => 'issues'
+  map.auto_complete_issues '/issues/auto_complete', :controller => 'auto_completes', :action => 'issues', :conditions => { :method => :get }
   map.preview_issue '/issues/preview/:id', :controller => 'previews', :action => 'issue' # TODO: would look nicer as /issues/:id/preview
   map.issues_context_menu '/issues/context_menu', :controller => 'context_menus', :action => 'issues'
   map.issue_changes '/issues/changes', :controller => 'journals', :action => 'index'
