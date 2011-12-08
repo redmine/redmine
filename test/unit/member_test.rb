@@ -33,6 +33,8 @@ class MemberTest < ActiveSupport::TestCase
            :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions,
            :boards
 
+  include Redmine::I18n
+
   def setup
     @jsmith = Member.find(1)
   end
@@ -72,8 +74,14 @@ class MemberTest < ActiveSupport::TestCase
     user.login = "test_validate"
     user.password, user.password_confirmation = "password", "password"
     assert user.save
+
+    set_language_if_valid 'fr'
     member = Member.new(:project_id => 1, :user_id => user.id, :role_ids => [])
     assert !member.save
+    assert_equal I18n.translate('activerecord.errors.messages.empty'), member.errors[:role].to_s
+    str = "R\xc3\xb4le doit \xc3\xaatre renseign\xc3\xa9(e)"
+    str.force_encoding('UTF-8') if str.respond_to?(:force_encoding)
+    assert_equal str, member.errors.full_messages.to_s
   end
 
   def test_validate_member_role
