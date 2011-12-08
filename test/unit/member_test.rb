@@ -74,6 +74,7 @@ class MemberTest < ActiveSupport::TestCase
     assert user.save
     member = Member.new(:project_id => 1, :user_id => user.id, :role_ids => [])
     assert !member.save
+    assert_equal I18n.translate('activerecord.errors.messages.empty'), member.errors[:roles].to_s
   end
 
   def test_validate_member_role

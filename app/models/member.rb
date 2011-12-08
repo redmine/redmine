@@ -84,7 +84,7 @@ class Member < ActiveRecord::Base
   protected
 
   def validate_role
-    errors.add_on_empty :role if member_roles.empty? && roles.empty?
+    errors.add_on_empty :roles if member_roles.empty? && roles.empty?
   end
 
   private
