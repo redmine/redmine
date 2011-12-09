@@ -6,9 +6,7 @@
 <h2><%=l(:label_my_account)%></h2>
 <%= error_messages_for 'user' %>
 
-<% form_for :user, @user, :url => { :action => "account" },
-                          :builder => TabularFormBuilder,
-                          :lang => current_language,
+<% labelled_form_for :user, @user, :url => { :action => "account" },
                           :html => { :id => 'my_account_form' } do |f| %>
 <div class="splitcontentleft">
 <fieldset class="box tabular">
