@@ -1,9 +1,9 @@
 <h2><%=l(:label_project_new)%></h2>
 
-<% labelled_tabular_form_for @project, :url => { :action => "copy" } do |f| %>
+<% labelled_form_for @project, :url => { :action => "copy" } do |f| %>
 <%= render :partial => 'form', :locals => { :f => f } %>
 
-<fieldset class="box"><legend><%= l(:button_copy) %></legend>
+<fieldset class="box tabular"><legend><%= l(:button_copy) %></legend>
   <label class="block"><%= check_box_tag 'only[]', 'members', true %> <%= l(:label_member_plural) %> (<%= @source_project.members.count %>)</label>
   <label class="block"><%= check_box_tag 'only[]', 'versions', true %> <%= l(:label_version_plural) %> (<%= @source_project.versions.count %>)</label>
   <label class="block"><%= check_box_tag 'only[]', 'issue_categories', true %> <%= l(:label_issue_category_plural) %> (<%= @source_project.issue_categories.count %>)</label>

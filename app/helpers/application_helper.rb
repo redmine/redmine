@@ -866,6 +866,7 @@ module ApplicationHelper
   end
 
   def labelled_tabular_form_for(*args, &proc)
+    ActiveSupport::Deprecation.warn "ApplicationHelper#labelled_tabular_form_for is deprecated and will be removed in Redmine 1.5. Use #labelled_form_for instead."
     args << {} unless args.last.is_a?(Hash)
     options = args.last
     options[:html] ||= {}

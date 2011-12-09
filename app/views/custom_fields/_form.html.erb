@@ -60,7 +60,7 @@ function toggle_custom_field_format() {
 //]]>
 </script>
 
-<div class="box">
+<div class="box tabular">
 <p><%= f.text_field :name, :required => true %></p>
 <p><%= f.select :field_format, custom_field_formats_for_select(@custom_field), {}, :onchange => "toggle_custom_field_format();",
                                                                     :disabled => !@custom_field.new_record? %></p>
@@ -76,7 +76,7 @@ function toggle_custom_field_format() {
 <%= call_hook(:view_custom_fields_form_upper_box, :custom_field => @custom_field, :form => f) %>
 </div>
 
-<div class="box">
+<div class="box tabular">
 <% case @custom_field.class.name
 when "IssueCustomField" %>
 

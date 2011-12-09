@@ -4,8 +4,8 @@
 
 <%= error_messages_for 'page' %>
 
-<% labelled_tabular_form_for :wiki_page, @page, :url => { :action => 'rename' } do |f| %>
-<div class="box">
+<% labelled_form_for :wiki_page, @page, :url => { :action => 'rename' } do |f| %>
+<div class="box tabular">
 <p><%= f.text_field :title, :required => true, :size => 100  %></p>
 <p><%= f.check_box :redirect_existing_links %></p>
 <p><%= f.select :parent_id, "<option value=''></option>" + wiki_page_options_for_select(@wiki.pages.all(:include => :parent) - @page.self_and_descendants, @page.parent), :label => :field_parent_title %></p>

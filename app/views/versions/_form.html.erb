@@ -1,7 +1,7 @@
 <%= back_url_hidden_field_tag %>
 <%= error_messages_for 'version' %>
 
-<div class="box">
+<div class="box tabular">
 <p><%= f.text_field :name, :size => 60, :required => true %></p>
 <p><%= f.text_field :description, :size => 60 %></p>
 <p><%= f.select :status, Version::VERSION_STATUSES.collect {|s| [l("version_status_#{s}"), s]} %></p>
