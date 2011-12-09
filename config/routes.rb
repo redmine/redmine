@@ -185,6 +185,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :trackers, :except => :show
   map.resources :issue_statuses, :except => :show, :collection => {:update_issue_done_ratio => :post}
   map.resources :custom_fields, :except => :show
+  map.resources :roles, :except => :show, :collection => {:permissions => [:get, :post]}
 
   #left old routes at the bottom for backwards compat
   map.connect 'boards/:board_id/topics/:action/:id', :controller => 'messages'

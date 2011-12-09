@@ -16,23 +16,16 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../test_helper', __FILE__)
-require 'roles_controller'
-
-# Re-raise errors caught by the controller.
-class RolesController; def rescue_action(e) raise e end; end
 
 class RolesControllerTest < ActionController::TestCase
   fixtures :roles, :users, :members, :member_roles, :workflows, :trackers
 
   def setup
-    @controller = RolesController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
     @request.session[:user_id] = 1 # admin
   end
 
-  def test_get_index
+  def test_index
     get :index
     assert_response :success
     assert_template 'index'
@@ -40,18 +33,18 @@ class RolesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:roles)
     assert_equal Role.find(:all, :order => 'builtin, position'), assigns(:roles)
 
-    assert_tag :tag => 'a', :attributes => { :href => '/roles/edit/1' },
+    assert_tag :tag => 'a', :attributes => { :href => '/roles/1/edit' },
                             :content => 'Manager'
   end
 
-  def test_get_new
+  def test_new
     get :new
     assert_response :success
     assert_template 'new'
   end
 
-  def test_post_new_with_validaton_failure
-    post :new, :role => {:name => '',
+  def test_create_with_validaton_failure
+    post :create, :role => {:name => '',
                          :permissions => ['add_issues', 'edit_issues', 'log_time', ''],
                          :assignable => '0'}
 
@@ -60,8 +53,8 @@ class RolesControllerTest < ActionController::TestCase
     assert_tag :tag => 'div', :attributes => { :id => 'errorExplanation' }
   end
 
-  def test_post_new_without_workflow_copy
-    post :new, :role => {:name => 'RoleWithoutWorkflowCopy',
+  def test_create_without_workflow_copy
+    post :create, :role => {:name => 'RoleWithoutWorkflowCopy',
                          :permissions => ['add_issues', 'edit_issues', 'log_time', ''],
                          :assignable => '0'}
 
@@ -72,8 +65,8 @@ class RolesControllerTest < ActionController::TestCase
     assert !role.assignable?
   end
 
-  def test_post_new_with_workflow_copy
-    post :new, :role => {:name => 'RoleWithWorkflowCopy',
+  def test_create_with_workflow_copy
+    post :create, :role => {:name => 'RoleWithWorkflowCopy',
                          :permissions => ['add_issues', 'edit_issues', 'log_time', ''],
                          :assignable => '0'},
                :copy_workflow_from => '1'
@@ -84,15 +77,15 @@ class RolesControllerTest < ActionController::TestCase
     assert_equal Role.find(1).workflows.size, role.workflows.size
   end
 
-  def test_get_edit
+  def test_edit
     get :edit, :id => 1
     assert_response :success
     assert_template 'edit'
     assert_equal Role.find(1), assigns(:role)
   end
 
-  def test_post_edit
-    post :edit, :id => 1,
+  def test_update
+    put :update, :id => 1,
                 :role => {:name => 'Manager',
                           :permissions => ['edit_project', ''],
                           :assignable => '0'}
@@ -102,26 +95,31 @@ class RolesControllerTest < ActionController::TestCase
     assert_equal [:edit_project], role.permissions
   end
 
-  def test_destroy
-    r = Role.new(:name => 'ToBeDestroyed', :permissions => [:view_wiki_pages])
-    assert r.save
+  def test_update_with_failure
+    put :update, :id => 1, :role => {:name => ''}
+    assert_response :success
+    assert_template 'edit'
+  end
 
-    post :destroy, :id => r
+  def test_destroy
+    r = Role.create!(:name => 'ToBeDestroyed', :permissions => [:view_wiki_pages])
+
+    delete :destroy, :id => r
     assert_redirected_to '/roles'
     assert_nil Role.find_by_id(r.id)
   end
 
   def test_destroy_role_in_use
-    post :destroy, :id => 1
+    delete :destroy, :id => 1
     assert_redirected_to '/roles'
-    assert flash[:error] == 'This role is in use and cannot be deleted.'
+    assert_equal 'This role is in use and cannot be deleted.', flash[:error] 
     assert_not_nil Role.find_by_id(1)
   end
 
-  def test_get_report
-    get :report
+  def test_get_permissions
+    get :permissions
     assert_response :success
-    assert_template 'report'
+    assert_template 'permissions'
 
     assert_not_nil assigns(:roles)
     assert_equal Role.find(:all, :order => 'builtin, position'), assigns(:roles)
@@ -137,8 +135,8 @@ class RolesControllerTest < ActionController::TestCase
                                                  :checked => nil }
   end
 
-  def test_post_report
-    post :report, :permissions => { '0' => '', '1' => ['edit_issues'], '3' => ['add_issues', 'delete_issues']}
+  def test_post_permissions
+    post :permissions, :permissions => { '0' => '', '1' => ['edit_issues'], '3' => ['add_issues', 'delete_issues']}
     assert_redirected_to '/roles'
 
     assert_equal [:edit_issues], Role.find(1).permissions
@@ -147,33 +145,33 @@ class RolesControllerTest < ActionController::TestCase
   end
 
   def test_clear_all_permissions
-    post :report, :permissions => { '0' => '' }
+    post :permissions, :permissions => { '0' => '' }
     assert_redirected_to '/roles'
     assert Role.find(1).permissions.empty?
   end
 
   def test_move_highest
-    post :edit, :id => 3, :role => {:move_to => 'highest'}
+    put :update, :id => 3, :role => {:move_to => 'highest'}
     assert_redirected_to '/roles'
     assert_equal 1, Role.find(3).position
   end
 
   def test_move_higher
     position = Role.find(3).position
-    post :edit, :id => 3, :role => {:move_to => 'higher'}
+    put :update, :id => 3, :role => {:move_to => 'higher'}
     assert_redirected_to '/roles'
     assert_equal position - 1, Role.find(3).position
   end
 
   def test_move_lower
     position = Role.find(2).position
-    post :edit, :id => 2, :role => {:move_to => 'lower'}
+    put :update, :id => 2, :role => {:move_to => 'lower'}
     assert_redirected_to '/roles'
     assert_equal position + 1, Role.find(2).position
   end
 
   def test_move_lowest
-    post :edit, :id => 2, :role => {:move_to => 'lowest'}
+    put :update, :id => 2, :role => {:move_to => 'lowest'}
     assert_redirected_to '/roles'
     assert_equal Role.count, Role.find(2).position
   end

@@ -14,7 +14,7 @@
 
 <h3><%= l(:label_permissions) %></h3>
 <div class="box tabular" id="permissions">
-<% perms_by_module = @permissions.group_by {|p| p.project_module.to_s} %>
+<% perms_by_module = @role.setable_permissions.group_by {|p| p.project_module.to_s} %>
 <% perms_by_module.keys.sort.each do |mod| %>
     <fieldset><legend><%= mod.blank? ? l(:label_project) : l_or_humanize(mod, :prefix => 'project_module_') %></legend>
     <% perms_by_module[mod].each do |permission| %>

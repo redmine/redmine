@@ -19,9 +19,8 @@ class RolesController < ApplicationController
   layout 'admin'
 
   before_filter :require_admin
+  before_filter :find_role, :only => [:edit, :update, :destroy]
 
-  verify :method => :post, :only => [ :destroy ],
-         :redirect_to => { :action => :index }
 
   def index
     @role_pages, @roles = paginate :roles, :per_page => 25, :order => 'builtin, position'
@@ -31,6 +30,11 @@ class RolesController < ApplicationController
   def new
     # Prefills the form with 'Non member' role permissions
     @role = Role.new(params[:role] || {:permissions => Role.non_member.permissions})
+    @roles = Role.all
+  end
+
+  def create
+    @role = Role.new(params[:role])
     if request.post? && @role.save
       # workflow copy
       if !params[:copy_workflow_from].blank? && (copy_from = Role.find_by_id(params[:copy_workflow_from]))
@@ -39,23 +43,25 @@ class RolesController < ApplicationController
       flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'index'
     else
-      @permissions = @role.setable_permissions
-      @roles = Role.find :all, :order => 'builtin, position'
+      @roles = Role.all
+      render :action => 'new'
     end
   end
 
   def edit
-    @role = Role.find(params[:id])
-    if request.post? and @role.update_attributes(params[:role])
+  end
+
+  def update
+    if request.put? and @role.update_attributes(params[:role])
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'index'
     else
-      @permissions = @role.setable_permissions
+      render :action => 'edit'
     end
   end
 
+  verify :method => :delete, :only => :destroy, :redirect_to => { :action => :index }
   def destroy
-    @role = Role.find(params[:id])
     @role.destroy
     redirect_to :action => 'index'
   rescue
@@ -63,7 +69,7 @@ class RolesController < ApplicationController
     redirect_to :action => 'index'
   end
 
-  def report
+  def permissions
     @roles = Role.find(:all, :order => 'builtin, position')
     @permissions = Redmine::AccessControl.permissions.select { |p| !p.public? }
     if request.post?
@@ -74,5 +80,13 @@ class RolesController < ApplicationController
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'index'
     end
+  end
+
+  private
+
+  def find_role
+    @role = Role.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 end
