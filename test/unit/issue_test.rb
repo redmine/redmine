@@ -56,15 +56,18 @@ class IssueTest < ActiveSupport::TestCase
     assert issue.available_custom_fields.include?(field)
     # No value for the custom field
     assert !issue.save
-    assert_equal I18n.translate('activerecord.errors.messages.invalid'), issue.errors.on(:custom_values)
+    assert_equal I18n.translate('activerecord.errors.messages.invalid'),
+                 issue.errors[:custom_values].to_s
     # Blank value
     issue.custom_field_values = { field.id => '' }
     assert !issue.save
-    assert_equal I18n.translate('activerecord.errors.messages.invalid'), issue.errors.on(:custom_values)
+    assert_equal I18n.translate('activerecord.errors.messages.invalid'),
+                 issue.errors[:custom_values].to_s
     # Invalid value
     issue.custom_field_values = { field.id => 'SQLServer' }
     assert !issue.save
-    assert_equal I18n.translate('activerecord.errors.messages.invalid'), issue.errors.on(:custom_values)
+    assert_equal I18n.translate('activerecord.errors.messages.invalid'),
+                 issue.errors[:custom_values].to_s
     # Valid value
     issue.custom_field_values = { field.id => 'PostgreSQL' }
     assert issue.save
