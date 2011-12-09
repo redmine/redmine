@@ -17,7 +17,7 @@
 
 require 'action_view/helpers/form_helper'
 
-class TabularFormBuilder < ActionView::Helpers::FormBuilder
+class Redmine::Views::LabelledFormBuilder < ActionView::Helpers::FormBuilder
   include Redmine::I18n
 
   (field_helpers.map(&:to_s) - %w(radio_button hidden_field fields_for) +
