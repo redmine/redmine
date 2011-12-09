@@ -68,7 +68,7 @@ class RepositoryTest < ActiveSupport::TestCase
                       :project => Project.find(3), :url => "svn://localhost")
       assert !repository.save
       assert_equal I18n.translate('activerecord.errors.messages.invalid'),
-                                  repository.errors.on(:type)
+                                  repository.errors[:type].to_s
     end
   end
 
