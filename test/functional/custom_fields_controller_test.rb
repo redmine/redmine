@@ -37,10 +37,11 @@ class CustomFieldsControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
-  def test_get_new_issue_custom_field
+  def test_new_issue_custom_field
     get :new, :type => 'IssueCustomField'
     assert_response :success
     assert_template 'new'
+    assert_tag :input, :attributes => {:name => 'custom_field[name]'}
     assert_tag :select,
       :attributes => {:name => 'custom_field[field_format]'},
       :child => {
@@ -55,16 +56,17 @@ class CustomFieldsControllerTest < ActionController::TestCase
         :attributes => {:value => 'version'},
         :content => 'Version'
       }
+    assert_tag :input, :attributes => {:name => 'type', :value => 'IssueCustomField'}
   end
 
-  def test_get_new_with_invalid_custom_field_class_should_redirect_to_list
+  def test_new_with_invalid_custom_field_class_should_render_404
     get :new, :type => 'UnknownCustomField'
-    assert_redirected_to '/custom_fields'
+    assert_response 404
   end
 
-  def test_post_new_list_custom_field
+  def test_create_list_custom_field
     assert_difference 'CustomField.count' do
-      post :new, :type => "IssueCustomField",
+      post :create, :type => "IssueCustomField",
                  :custom_field => {:name => "test_post_new_list",
                                    :default_value => "",
                                    :min_length => "0",
@@ -85,19 +87,38 @@ class CustomFieldsControllerTest < ActionController::TestCase
     assert_equal 1, field.trackers.size
   end
 
-  def test_get_edit
+  def test_create_with_failure
+    assert_no_difference 'CustomField.count' do
+      post :create, :type => "IssueCustomField", :custom_field => {:name => ''}
+    end
+    assert_response :success
+    assert_template 'new'
+  end
+
+  def test_edit
     get :edit, :id => 1
     assert_response :success
     assert_template 'edit'
     assert_tag 'input', :attributes => {:name => 'custom_field[name]', :value => 'Database'}
   end
 
-  def test_post_edit
-    post :edit, :id => 1, :custom_field => {:name => 'New name'}
+  def test_edit_invalid_custom_field_should_render_404
+    get :edit, :id => 99
+    assert_response 404
+  end
+
+  def test_update
+    put :update, :id => 1, :custom_field => {:name => 'New name'}
     assert_redirected_to '/custom_fields?tab=IssueCustomField'
 
     field = CustomField.find(1)
     assert_equal 'New name', field.name
+  end
+
+  def test_update_with_failure
+    put :update, :id => 1, :custom_field => {:name => ''}
+    assert_response :success
+    assert_template 'edit'
   end
 
   def test_destroy
@@ -106,7 +127,7 @@ class CustomFieldsControllerTest < ActionController::TestCase
 
     assert_difference 'CustomField.count', -1 do
       assert_difference 'CustomValue.count', - custom_values_count do
-        post :destroy, :id => 1
+        delete :destroy, :id => 1
       end
     end
 

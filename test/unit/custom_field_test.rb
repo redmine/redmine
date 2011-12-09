@@ -56,4 +56,23 @@ class CustomFieldTest < ActiveSupport::TestCase
     field = CustomField.find(1)
     assert field.destroy
   end
+
+  def test_new_subclass_instance_should_return_an_instance
+    f = CustomField.new_subclass_instance('IssueCustomField')
+    assert_kind_of IssueCustomField, f
+  end
+
+  def test_new_subclass_instance_should_set_attributes
+    f = CustomField.new_subclass_instance('IssueCustomField', :name => 'Test')
+    assert_kind_of IssueCustomField, f
+    assert_equal 'Test', f.name
+  end
+
+  def test_new_subclass_instance_with_invalid_class_name_should_return_nil
+    assert_nil CustomField.new_subclass_instance('WrongClassName')
+  end
+
+  def test_new_subclass_instance_with_non_subclass_name_should_return_nil
+    assert_nil CustomField.new_subclass_instance('Project')
+  end
 end

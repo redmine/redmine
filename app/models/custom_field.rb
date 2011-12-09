@@ -155,6 +155,22 @@ class CustomField < ActiveRecord::Base
     find(:all, :conditions => ["is_for_all=?", true], :order => 'position')
   end
 
+  # Returns an instance of the given subclass name
+  def self.new_subclass_instance(class_name, *args)
+    klass = nil
+    begin
+      klass = class_name.to_s.classify.constantize
+    rescue
+      # invalid class name
+    end
+    unless subclasses.include? klass
+      klass = nil
+    end
+    if klass
+      klass.new(*args)
+    end
+  end
+
   def type_name
     nil
   end
