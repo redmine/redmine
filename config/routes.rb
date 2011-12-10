@@ -52,7 +52,8 @@ ActionController::Routing::Routes.draw do |map|
   map.issues_context_menu '/issues/context_menu', :controller => 'context_menus', :action => 'issues'
   map.issue_changes '/issues/changes', :controller => 'journals', :action => 'index'
   map.quoted_issue '/issues/:id/quoted', :controller => 'journals', :action => 'new', :id => /\d+/, :conditions => { :method => :post }
-  map.connect '/journals/diff', :controller => 'journals', :action => 'diff'
+
+  map.connect '/journals/diff/:id', :controller => 'journals', :action => 'diff', :id => /\d+/, :conditions => { :method => :get }
   map.connect '/journals/edit/:id', :controller => 'journals', :action => 'edit', :id => /\d+/, :conditions => { :method => [:get, :post] }
 
   map.with_options :controller => 'gantts', :action => 'show' do |gantts_routes|
