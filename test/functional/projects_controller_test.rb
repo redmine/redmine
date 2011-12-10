@@ -410,17 +410,17 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_response :method_not_allowed
   end
 
-  def test_get_destroy
+  def test_destroy_without_confirmation
     @request.session[:user_id] = 1 # admin
-    get :destroy, :id => 1
+    delete :destroy, :id => 1
     assert_response :success
     assert_template 'destroy'
     assert_not_nil Project.find_by_id(1)
   end
 
-  def test_post_destroy
+  def test_destroy
     @request.session[:user_id] = 1 # admin
-    post :destroy, :id => 1, :confirm => 1
+    delete :destroy, :id => 1, :confirm => 1
     assert_redirected_to '/admin/projects'
     assert_nil Project.find_by_id(1)
   end

@@ -228,18 +228,15 @@ class ProjectsController < ApplicationController
     redirect_to(url_for(:controller => 'admin', :action => 'projects', :status => params[:status]))
   end
 
+  verify :method => :delete, :only => :destroy, :render => {:nothing => true, :status => :method_not_allowed }
   # Delete @project
   def destroy
     @project_to_destroy = @project
-    if request.get?
-      # display confirmation view
-    else
-      if api_request? || params[:confirm]
-        @project_to_destroy.destroy
-        respond_to do |format|
-          format.html { redirect_to :controller => 'admin', :action => 'projects' }
-          format.api  { head :ok }
-        end
+    if api_request? || params[:confirm]
+      @project_to_destroy.destroy
+      respond_to do |format|
+        format.html { redirect_to :controller => 'admin', :action => 'projects' }
+        format.api  { head :ok }
       end
     end
     # hide project in layout

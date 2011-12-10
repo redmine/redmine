@@ -125,9 +125,6 @@ ActionController::Routing::Routes.draw do |map|
 
   end
 
-  # Destroy uses a get request to prompt the user before the actual DELETE request
-  map.project_destroy_confirm 'projects/:id/destroy', :controller => 'projects', :action => 'destroy', :conditions => {:method => :get}
-
   # TODO: port to be part of the resources route(s)
   map.with_options :controller => 'projects' do |project_mapper|
     project_mapper.with_options :conditions => {:method => :get} do |project_views|
