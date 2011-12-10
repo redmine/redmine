@@ -216,11 +216,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :custom_fields, :except => :show
   map.resources :roles, :except => :show, :collection => {:permissions => [:get, :post]}
 
-  map.connect 'custom_fields', :controller => 'custom_fields', :action => 'index', :conditions => {:method => :get}
-  map.connect 'custom_fields/new', :controller => 'custom_fields', :action => 'new', :conditions => {:method => [:get, :post]}
-  map.connect 'custom_fields/edit/:id', :controller => 'custom_fields', :action => 'edit', :id => /\d+/, :conditions => {:method => [:get, :post]}
-  map.connect 'custom_fields/destroy/:id', :controller => 'custom_fields', :action => 'destroy', :id => /\d+/, :conditions => {:method => :post}
-
   map.connect 'search', :controller => 'search', :action => 'index', :conditions => {:method => :get}
 
   map.connect 'mail_handler', :controller => 'mail_handler', :action => 'index', :conditions => {:method => :post}
