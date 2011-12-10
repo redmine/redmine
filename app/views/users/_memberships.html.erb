@@ -19,7 +19,7 @@
   </td>
   <td class="roles">
     <span id="member-<%= membership.id %>-roles"><%=h membership.roles.sort.collect(&:to_s).join(', ') %></span>
-    <% remote_form_for(:membership, :url => { :action => 'edit_membership', :id => @user, :membership_id => membership },
+    <% remote_form_for(:membership, :url => user_membership_path(@user, membership), :method => :put,
                                     :html => { :id => "member-#{membership.id}-roles-form", :style => 'display:none;'}) do %>
         <p><% roles.each do |role| %>
         <label><%= check_box_tag 'membership[role_ids][]', role.id, membership.roles.include?(role),
@@ -32,8 +32,7 @@
   </td>
   <td class="buttons">
       <%= link_to_function l(:button_edit), "$('member-#{membership.id}-roles').hide(); $('member-#{membership.id}-roles-form').show(); return false;", :class => 'icon icon-edit' %>
-      <%= link_to_remote(l(:button_delete), { :url => { :controller => 'users', :action => 'destroy_membership', :id => @user, :membership_id => membership },
-                                              :method => :post },
+      <%= link_to_remote(l(:button_delete), { :url => user_membership_path(@user, membership), :method => :delete },
                                               :class => 'icon icon-del') if membership.deletable? %>
   </td>
       <%= call_hook(:view_users_memberships_table_row, :user => @user, :membership => membership, :roles => roles, :projects => projects )%>
@@ -49,7 +48,7 @@
 <div class="splitcontentright">
 <% if projects.any? %>
 <fieldset><legend><%=l(:label_project_new)%></legend>
-<% remote_form_for(:membership, :url => { :action => 'edit_membership', :id => @user }) do %>
+<% remote_form_for(:membership, :url => user_memberships_path(@user)) do %>
 <%= select_tag 'membership[project_id]', options_for_membership_project_select(@user, projects) %>
 <p><%= l(:label_role_plural) %>:
 <% roles.each do |role| %>

@@ -186,9 +186,10 @@ class UsersController < ApplicationController
     end
   end
 
+  verify :method => [:post, :put], :only => :edit_membership, :render => {:nothing => true, :status => :method_not_allowed }
   def edit_membership
     @membership = Member.edit_membership(params[:membership_id], params[:membership], @user)
-    @membership.save if request.post?
+    @membership.save
     respond_to do |format|
       if @membership.valid?
         format.html { redirect_to :controller => 'users', :action => 'edit', :id => @user, :tab => 'memberships' }
@@ -208,9 +209,10 @@ class UsersController < ApplicationController
     end
   end
 
+  verify :method => :delete, :only => :destroy_membership, :render => {:nothing => true, :status => :method_not_allowed }
   def destroy_membership
     @membership = Member.find(params[:membership_id])
-    if request.post? && @membership.deletable?
+    if @membership.deletable?
       @membership.destroy
     end
     respond_to do |format|
