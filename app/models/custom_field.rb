@@ -16,6 +16,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class CustomField < ActiveRecord::Base
+  include Redmine::SubclassFactory
+
   has_many :custom_values, :dependent => :delete_all
   acts_as_list :scope => 'type = \'#{self.class}\''
   serialize :possible_values
@@ -153,22 +155,6 @@ class CustomField < ActiveRecord::Base
   # to move in project_custom_field
   def self.for_all
     find(:all, :conditions => ["is_for_all=?", true], :order => 'position')
-  end
-
-  # Returns an instance of the given subclass name
-  def self.new_subclass_instance(class_name, *args)
-    klass = nil
-    begin
-      klass = class_name.to_s.classify.constantize
-    rescue
-      # invalid class name
-    end
-    unless subclasses.include? klass
-      klass = nil
-    end
-    if klass
-      klass.new(*args)
-    end
   end
 
   def type_name
