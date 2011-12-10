@@ -268,9 +268,6 @@ ActionController::Routing::Routes.draw do |map|
     sys.connect 'sys/fetch_changesets', :action => 'fetch_changesets', :conditions => {:method => :get}
   end
 
-  #left old routes at the bottom for backwards compat
-  # map.connect 'boards/:board_id/topics/:action/:id', :controller => 'messages'
-
   map.connect 'robots.txt', :controller => 'welcome', :action => 'robots', :conditions => {:method => :get}
 
   # Used for OpenID
