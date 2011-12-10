@@ -76,7 +76,7 @@ class IssueRelationsController < ApplicationController
     @relation.destroy
 
     respond_to do |format|
-      format.html { redirect_to :controller => 'issues', :action => 'show', :id => @issue }
+      format.html { redirect_to issue_path } # TODO : does this really work since @issue is always nil? What is it useful to?
       format.js   { render(:update) {|page| page.remove "relation-#{@relation.id}"} }
       format.api  { head :ok }
     end

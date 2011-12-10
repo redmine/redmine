@@ -468,13 +468,6 @@ class ProjectsControllerTest < ActionController::TestCase
       :attributes => {:name => 'project[enabled_module_names][]', :value => 'issue_tracking'}
   end
 
-  def test_get_copy_without_project
-    @request.session[:user_id] = 1 # admin
-    get :copy
-    assert_response :redirect
-    assert_redirected_to :controller => 'admin', :action => 'projects'
-  end
-
   def test_post_copy_should_copy_requested_items
     @request.session[:user_id] = 1 # admin
     CustomField.delete_all

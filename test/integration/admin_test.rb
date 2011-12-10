@@ -32,7 +32,7 @@ class AdminTest < ActionController::IntegrationTest
     get "/users/new"
     assert_response :success
     assert_template "users/new"
-    post "/users/create",
+    post "/users",
          :user => { :login => "psmith", :firstname => "Paul",
                     :lastname => "Smith", :mail => "psmith@somenet.foo",
                     :language => "en", :password => "psmith09",
@@ -53,7 +53,7 @@ class AdminTest < ActionController::IntegrationTest
   end
 
   test "Add a user as an anonymous user should fail" do
-    post '/users/create',
+    post '/users',
          :user => { :login => 'psmith', :firstname => 'Paul'},
          :password => "psmith09", :password_confirmation => "psmith09"
     assert_response :redirect
