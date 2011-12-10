@@ -189,14 +189,12 @@ ActionController::Routing::Routes.draw do |map|
       repository_views.connect 'projects/:id/repository/annotate/*path', :action => 'annotate'
       repository_views.connect 'projects/:id/repository/diff/*path', :action => 'diff'
       repository_views.connect 'projects/:id/repository/graph', :action => 'graph'
-      # repository_views.connect 'projects/:id/repository/:action/*path'
     end
 
     repositories.connect 'projects/:id/repository/revision', :action => 'revision', :conditions => {:method => [:get, :post]}
     repositories.connect 'projects/:id/repository/committers', :action => 'committers', :conditions => {:method => [:get, :post]}
     repositories.connect 'projects/:id/repository/edit', :action => 'edit', :conditions => {:method => :post}
     repositories.connect 'projects/:id/repository/destroy', :action => 'destroy', :conditions => {:method => :post}
-    # repositories.connect 'projects/:id/repository/:action', :conditions => {:method => :post}
   end
 
   map.resources :attachments, :only => [:show, :destroy]
