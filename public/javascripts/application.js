@@ -293,6 +293,7 @@ function observeParentIssueField(url) {
                          { minChars: 3,
                            frequency: 0.5,
                            paramName: 'q',
+                           method: 'get',
                            updateElement: function(value) {
                              document.getElementById('issue_parent_issue_id').value = value.id;
                            }});
@@ -305,6 +306,7 @@ function observeRelatedIssueField(url) {
                          { minChars: 3,
                            frequency: 0.5,
                            paramName: 'q',
+                           method: 'get',
                            updateElement: function(value) {
                              document.getElementById('relation_issue_to_id').value = value.id;
                            },
