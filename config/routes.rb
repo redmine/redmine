@@ -178,14 +178,6 @@ ActionController::Routing::Routes.draw do |map|
   #left old routes at the bottom for backwards compat
   map.connect 'boards/:board_id/topics/:action/:id', :controller => 'messages'
   map.connect 'wiki/:id/:page/:action', :page => nil, :controller => 'wiki'
-  map.with_options :controller => 'repositories' do |omap|
-    omap.repositories_show 'repositories/browse/:id/*path', :action => 'browse'
-    omap.repositories_changes 'repositories/changes/:id/*path', :action => 'changes'
-    omap.repositories_diff 'repositories/diff/:id/*path', :action => 'diff'
-    omap.repositories_entry 'repositories/entry/:id/*path', :action => 'entry'
-    omap.repositories_entry 'repositories/annotate/:id/*path', :action => 'annotate'
-    omap.connect 'repositories/revision/:id/:rev', :action => 'revision'
-  end
 
   map.with_options :controller => 'sys' do |sys|
     sys.connect 'sys/projects.:format', :action => 'projects', :conditions => {:method => :get}
