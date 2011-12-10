@@ -1,6 +1,6 @@
 <h2><%= l(:label_bulk_edit_selected_time_entries) %></h2>
 
-<ul><%= @time_entries.collect {|i| content_tag('li', link_to(h("#{i.spent_on.strftime("%Y-%m-%d")} -- #{i.project}:  #{l(:label_f_hour_plural, :value => i.hours)}"), { :action => 'edit', :id => i }))} %></ul>
+<ul><%= @time_entries.collect {|i| content_tag('li', link_to(h("#{i.spent_on.strftime("%Y-%m-%d")} - #{i.project}:  #{l(:label_f_hour_plural, :value => i.hours)}"), { :action => 'edit', :id => i }))} %></ul>
 
 <% form_tag(:action => 'bulk_update') do %>
 <%= @time_entries.collect {|i| hidden_field_tag('ids[]', i.id)}.join %>
