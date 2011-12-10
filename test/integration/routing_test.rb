@@ -94,8 +94,6 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :get, "/issues/64/edit", :controller => 'issues', :action => 'edit', :id => '64'
     should_route :put, "/issues/1.xml", :controller => 'issues', :action => 'update', :id => '1', :format => 'xml'
 
-    # TODO: Should use DELETE
-    should_route :post, "/issues/64/destroy", :controller => 'issues', :action => 'destroy', :id => '64'
     should_route :delete, "/issues/1.xml", :controller => 'issues', :action => 'destroy', :id => '1', :format => 'xml'
 
     # Extra actions
