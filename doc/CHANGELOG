@@ -4,6 +4,107 @@ Redmine - project management software
 Copyright (C) 2006-2011  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2011-12-10 v1.3.0
+
+* Defect #2109: Context menu is being submitted twice per right click
+* Defect #7717: MailHandler user creation for unknown_user impossible due to diverging length-limits of login and email fields
+* Defect #7917: Creating users via email fails if user real name containes special chars
+* Defect #7966: MailHandler does not include JournalDetail for attached files
+* Defect #8368: Bad decimal separator in time entry CSV
+* Defect #8371: MySQL error when filtering a custom field using the REST api
+* Defect #8549: Export CSV has character encoding error
+* Defect #8573: Do not show inactive Enumerations where not needed
+* Defect #8611: rake/rdoctask is deprecated
+* Defect #8751: Email notification: bug, when number of recipients more then 8
+* Defect #8894: Private issues - make it more obvious in the UI?
+* Defect #8994: Hardcoded French string "anonyme"
+* Defect #9043: Hardcoded string "diff" in Wiki#show and Repositories_Helper
+* Defect #9051: wrong "text_issue_added" in russian translation.
+* Defect #9108: Custom query not saving status filter
+* Defect #9252: Regression: application title escaped 2 times
+* Defect #9264: Bad Portuguese translation
+* Defect #9470: News list is missing Avatars
+* Defect #9471: Inline markup broken in Wiki link labels
+* Defect #9489: Label all input field and control tags
+* Defect #9534: Precedence: bulk email header is non standard and discouraged
+* Defect #9540: Issue filter by assigned_to_role is not project specific
+* Defect #9619: Time zone ignored when logging time while editing ticket
+* Defect #9638: Inconsistent image filename extensions
+* Defect #9669: Issue list doesn't sort assignees/authors regarding user display format
+* Defect #9672: Message-quoting in forums module broken
+* Defect #9719: Filtering by numeric custom field types broken after update to master
+* Defect #9724: Can't remote add new categories
+* Defect #9738: Setting of cross-project custom query is not remembered inside project
+* Defect #9748: Error about configuration.yml validness should mention file path
+* Feature #69: Textilized description in PDF
+* Feature #401: Add pdf export for WIKI page
+* Feature #1567: Make author column sortable and groupable
+* Feature #2222: Single section edit.
+* Feature #2269: Default issue start date should become configurable.
+* Feature #2371: character encoding for attachment file
+* Feature #2964: Ability to assign issues to groups
+* Feature #3033: Bug Reporting: Using "Create and continue" should show bug id of saved bug
+* Feature #3261: support attachment images in PDF export
+* Feature #4264: Update CodeRay to 1.0 final
+* Feature #4324: Redmine renames my files, it shouldn't.
+* Feature #4729: Add Date-Based Filters for Issues List
+* Feature #4742: CSV export: option to export selected or all columns
+* Feature #4976: Allow rdm-mailhandler to read the API key from a file
+* Feature #5501: Git: Mercurial: Adding visual merge/branch history to repository view
+* Feature #5634: Export issue to PDF does not include Subtasks and Related Issues
+* Feature #5670: Cancel option for file upload
+* Feature #5737: Custom Queries available through the REST Api
+* Feature #6180: Searchable custom fields do not provide adequate operators
+* Feature #6954: Filter from date to date
+* Feature #7180: List of statuses in REST API
+* Feature #7181: List of trackers in REST API
+* Feature #7366: REST API for Issue Relations
+* Feature #7403: REST API for Versions
+* Feature #7671: REST API for reading attachments
+* Feature #7832: Ability to assign issue categories to groups
+* Feature #8420: Consider removing #7013 workaround
+* Feature #9196: Improve logging in MailHandler when user creation fails
+* Feature #9496: Adds an option in mailhandler to disable server certificate verification
+* Feature #9553: CRUD operations for "Issue categories" in REST API
+* Feature #9593: HTML title should be reordered
+* Feature #9600: Wiki links for news and forums
+* Feature #9607: Filter for issues without start date (or any another field based on date type)
+* Feature #9609: Upgrade to Rails 2.3.14
+* Feature #9612: "side by side" and "inline" patch view for attachments
+* Feature #9667: Check attachment size before upload
+* Feature #9690: Link in notification pointing to the actual update
+* Feature #9720: Add note number for single issue's PDF
+* Patch #8617: Indent subject of subtask ticket in exported issues PDF
+* Patch #8778: Traditional Chinese 'issue' translation change
+* Patch #9053: Fix up Russian translation
+* Patch #9129: Improve wording of Git repository note at project setting
+* Patch #9148: Better handling of field_due_date italian translation
+* Patch #9273: Fix typos in russian localization
+* Patch #9484: Limit SCM annotate to text files under the maximum file size for viewing
+* Patch #9659: Indexing rows in auth_sources/index view
+* Patch #9692: Fix Textilized description in PDF for CodeRay
+
+== 2011-12-10 v1.2.3
+
+* Defect #8707: Reposman: wrong constant name
+* Defect #8809: Table in timelog report overflows
+* Defect #9055: Version files in Files module cannot be downloaded if issue tracking is disabled
+* Defect #9137: db:encrypt fails to handle repositories with blank password
+* Defect #9394: Custom date field only validating on regex and not a valid date
+* Defect #9405: Any user with :log_time permission can edit time entries via context menu
+* Defect #9448: The attached images are not shown in documents
+* Defect #9520: Copied private query not visible after project copy
+* Defect #9552: Error when reading ciphered text from the database without cipher key configured
+* Defect #9566: Redmine.pm considers all projects private when login_required is enabled
+* Defect #9567: Redmine.pm potential security issue with cache credential enabled and subversion
+* Defect #9577: Deleting a subtasks doesn't update parent's rgt & lft values
+* Defect #9597: Broken version links in wiki annotate history
+* Defect #9682: Wiki HTML Export only useful when Access history is accessible
+* Defect #9737: Custom values deleted before issue submit
+* Defect #9741: calendar-hr.js (Croatian) is not UTF-8
+* Patch #9558: Simplified Chinese translation for 1.2.2 updated
+* Patch #9695: Bulgarian translation (r7942)
+
 == 2011-11-11 v1.2.2
 
 * Defect #3276: Incorrect handling of anchors in Wiki to HTML export
