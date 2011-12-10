@@ -12,8 +12,6 @@ ActionController::Routing::Routes.draw do |map|
   map.signout 'logout', :controller => 'account', :action => 'logout', :conditions => {:method => :get}
   map.connect 'account/register', :controller => 'account', :action => 'register', :conditions => {:method => [:get, :post]}
   map.connect 'account/lost_password', :controller => 'account', :action => 'lost_password', :conditions => {:method => [:get, :post]}
-  map.connect 'account/login', :controller => 'account', :action => 'login', :conditions => {:method => [:get, :post]}
-  map.connect 'account/logout', :controller => 'account', :action => 'logout', :conditions => {:method => :get}
   map.connect 'account/activate', :controller => 'account', :action => 'activate', :conditions => {:method => :get}
 
   map.connect 'roles/workflow/:id/:role_id/:tracker_id', :controller => 'roles', :action => 'workflow'
