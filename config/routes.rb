@@ -273,8 +273,6 @@ ActionController::Routing::Routes.draw do |map|
   #left old routes at the bottom for backwards compat
   # map.connect 'boards/:board_id/topics/:action/:id', :controller => 'messages'
 
-  # Install the default route as the lowest priority.
-  # map.connect ':controller/:action/:id'
   map.connect 'robots.txt', :controller => 'welcome', :action => 'robots', :conditions => {:method => :get}
 
   # Used for OpenID
