@@ -102,15 +102,6 @@ begin
         assert_equal '1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127', revs1[20].identifier
       end
 
-      def test_revisions_reverse_with_time
-        since2 = Time.gm(2010, 9, 30, 0, 0, 0)
-        revs2  = @adapter.revisions('', nil, nil,
-                                    {:all => true, :since => since2, :reverse => true})
-        assert_equal 6, revs2.length
-        assert_equal '67e7792ce20ccae2e4bb73eed09bb397819c8834', revs2[0].identifier
-        assert_equal '1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127', revs2[5].identifier
-      end
-
       def test_revisions_master_all
         revs1 = []
         @adapter.revisions('', nil, "master",{}) do |rev|
