@@ -204,8 +204,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :groups, :member => {:autocomplete_for_user => :get}
   map.group_users 'groups/:id/users', :controller => 'groups', :action => 'add_users', :id => /\d+/, :conditions => {:method => :post}
   map.group_user  'groups/:id/users/:user_id', :controller => 'groups', :action => 'remove_user', :id => /\d+/, :conditions => {:method => :delete}
-  map.connect 'groups/add_users/:id', :controller => 'groups', :action => 'add_users', :id => /\d+/, :conditions => {:method => :post}
-  map.connect 'groups/remove_user/:id', :controller => 'groups', :action => 'remove_user', :id => /\d+/, :conditions => {:method => :post}
   map.connect 'groups/destroy_membership/:id', :controller => 'groups', :action => 'destroy_membership', :id => /\d+/, :conditions => {:method => :post}
   map.connect 'groups/edit_membership/:id', :controller => 'groups', :action => 'edit_membership', :id => /\d+/, :conditions => {:method => :post}
 
