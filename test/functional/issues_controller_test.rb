@@ -254,6 +254,28 @@ class IssuesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:issue_count_by_group)
   end
 
+  def test_index_with_query_id_and_project_id_should_set_session_query
+    get :index, :project_id => 1, :query_id => 4
+    assert_response :success
+    assert_kind_of Hash, session[:query]
+    assert_equal 4, session[:query][:id]
+    assert_equal 1, session[:query][:project_id]
+  end
+
+  def test_index_with_cross_project_query_in_session_should_show_project_issues
+    q = Query.create!(:name => "test", :user_id => 2, :is_public => false, :project => nil)
+    @request.session[:query] = {:id => q.id, :project_id => 1}
+
+    with_settings :display_subprojects_issues => '0' do
+      get :index, :project_id => 1
+    end
+    assert_response :success
+    assert_not_nil assigns(:query)
+    assert_equal q.id, assigns(:query).id
+    assert_equal 1, assigns(:query).project_id
+    assert_equal [1], assigns(:issues).map(&:project_id).uniq
+  end
+
   def test_private_query_should_not_be_available_to_other_users
     q = Query.create!(:name => "private", :user => User.find(2), :is_public => false, :project => nil)
     @request.session[:user_id] = 3
