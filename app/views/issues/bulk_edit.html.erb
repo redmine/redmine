@@ -48,7 +48,7 @@
 <% end %>
 
 <% @custom_fields.each do |custom_field| %>
-  <p><label><%= h(custom_field.name) %> <%= custom_field_tag_for_bulk_edit('issue', custom_field, @projects) %></label></p>
+  <p><label><%= h(custom_field.name) %></label> <%= custom_field_tag_for_bulk_edit('issue', custom_field, @projects) %></p>
 <% end %>
 
 <%= call_hook(:view_issues_bulk_edit_details_bottom, { :issues => @issues }) %>
