@@ -54,10 +54,6 @@ class IssuesController < ApplicationController
   helper :gantt
   include Redmine::Export::PDF
 
-  verify :method => [:post, :delete],
-         :only => :destroy,
-         :render => { :nothing => true, :status => :method_not_allowed }
-
   verify :method => :post, :only => :create, :render => {:nothing => true, :status => :method_not_allowed }
   verify :method => :post, :only => :bulk_update, :render => {:nothing => true, :status => :method_not_allowed }
   verify :method => :put, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
@@ -225,6 +221,7 @@ class IssuesController < ApplicationController
     redirect_back_or_default({:controller => 'issues', :action => 'index', :project_id => @project})
   end
 
+  verify :method => :delete, :only => :destroy, :render => { :nothing => true, :status => :method_not_allowed }
   def destroy
     @hours = TimeEntry.sum(:hours, :conditions => ['issue_id IN (?)', @issues]).to_f
     if @hours > 0

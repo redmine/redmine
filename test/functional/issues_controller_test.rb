@@ -1997,14 +1997,14 @@ class IssuesControllerTest < ActionController::TestCase
   def test_destroy_issue_with_no_time_entries
     assert_nil TimeEntry.find_by_issue_id(2)
     @request.session[:user_id] = 2
-    post :destroy, :id => 2
+    delete :destroy, :id => 2
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
     assert_nil Issue.find_by_id(2)
   end
 
   def test_destroy_issues_with_time_entries
     @request.session[:user_id] = 2
-    post :destroy, :ids => [1, 3]
+    delete :destroy, :ids => [1, 3]
     assert_response :success
     assert_template 'destroy'
     assert_not_nil assigns(:hours)
@@ -2013,7 +2013,7 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_destroy_issues_and_destroy_time_entries
     @request.session[:user_id] = 2
-    post :destroy, :ids => [1, 3], :todo => 'destroy'
+    delete :destroy, :ids => [1, 3], :todo => 'destroy'
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
     assert !(Issue.find_by_id(1) || Issue.find_by_id(3))
     assert_nil TimeEntry.find_by_id([1, 2])
@@ -2021,7 +2021,7 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_destroy_issues_and_assign_time_entries_to_project
     @request.session[:user_id] = 2
-    post :destroy, :ids => [1, 3], :todo => 'nullify'
+    delete :destroy, :ids => [1, 3], :todo => 'nullify'
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
     assert !(Issue.find_by_id(1) || Issue.find_by_id(3))
     assert_nil TimeEntry.find(1).issue_id
@@ -2030,7 +2030,7 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_destroy_issues_and_reassign_time_entries_to_another_issue
     @request.session[:user_id] = 2
-    post :destroy, :ids => [1, 3], :todo => 'reassign', :reassign_to_id => 2
+    delete :destroy, :ids => [1, 3], :todo => 'reassign', :reassign_to_id => 2
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
     assert !(Issue.find_by_id(1) || Issue.find_by_id(3))
     assert_equal 2, TimeEntry.find(1).issue_id
@@ -2039,7 +2039,7 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_destroy_issues_from_different_projects
     @request.session[:user_id] = 2
-    post :destroy, :ids => [1, 2, 6], :todo => 'destroy'
+    delete :destroy, :ids => [1, 2, 6], :todo => 'destroy'
     assert_redirected_to :controller => 'issues', :action => 'index'
     assert !(Issue.find_by_id(1) || Issue.find_by_id(2) || Issue.find_by_id(6))
   end
@@ -2051,7 +2051,7 @@ class IssuesControllerTest < ActionController::TestCase
 
     @request.session[:user_id] = 2
     assert_difference 'Issue.count', -2 do
-      post :destroy, :ids => [parent.id, child.id], :todo => 'destroy'
+      delete :destroy, :ids => [parent.id, child.id], :todo => 'destroy'
     end
     assert_response 302
   end
