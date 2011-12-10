@@ -983,7 +983,7 @@ fr:
   field_member_of_group: Groupe de l'assigné
   field_assigned_to_role: Rôle de l'assigné
   setting_emails_header: En-tête des emails
-  label_bulk_edit_selected_time_entries: Modifier les temps passés sélectionnées
+  label_bulk_edit_selected_time_entries: Modifier les temps passés sélectionnés
   text_time_entries_destroy_confirmation: "Etes-vous sûr de vouloir supprimer les temps passés sélectionnés ?"
   field_scm_path_encoding: Encodage des chemins
   text_scm_path_encoding_note: "Défaut : UTF-8"
