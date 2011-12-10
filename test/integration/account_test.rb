@@ -151,7 +151,7 @@ class AccountTest < ActionController::IntegrationTest
     Setting.self_registration = '0'
     AuthSource.expects(:authenticate).returns({:login => 'foo', :firstname => 'Foo', :lastname => 'Smith', :mail => 'foo@bar.com', :auth_source_id => 66})
 
-    post 'account/login', :username => 'foo', :password => 'bar'
+    post '/login', :username => 'foo', :password => 'bar'
     assert_redirected_to '/my/page'
 
     user = User.find_by_login('foo')
@@ -165,7 +165,7 @@ class AccountTest < ActionController::IntegrationTest
     Setting.self_registration = '0'
     AuthSource.expects(:authenticate).returns({:login => 'foo', :lastname => 'Smith', :auth_source_id => 66})
 
-    post 'account/login', :username => 'foo', :password => 'bar'
+    post '/login', :username => 'foo', :password => 'bar'
     assert_response :success
     assert_template 'account/register'
     assert_tag :input, :attributes => { :name => 'user[firstname]', :value => '' }
