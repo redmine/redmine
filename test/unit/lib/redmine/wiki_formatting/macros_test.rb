@@ -41,7 +41,7 @@ class Redmine::WikiFormatting::MacrosTest < ActionView::TestCase
 
   def test_macro_registration
     Redmine::WikiFormatting::Macros.register do
-      macro :foo do
+      macro :foo do |obj, args|
         "Foo macro output"
       end
     end
