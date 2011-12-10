@@ -765,7 +765,7 @@ RAW
                '</ul>'
 
     @project = Project.find(1)
-    assert textilizable(raw).gsub("\n", "").include?(expected), textilizable(raw)
+    assert textilizable(raw).gsub("\n", "").include?(expected)
   end
 
   def test_table_of_content_should_contain_included_page_headings
