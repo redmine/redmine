@@ -115,6 +115,18 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal 3, t.user_id
   end
   
+  def test_create_without_log_time_permission_should_be_denied
+    @request.session[:user_id] = 2
+    Role.find_by_name('Manager').remove_permission! :log_time
+    post :create, :project_id => 1,
+                :time_entry => {:activity_id => '11',
+                                :issue_id => '',
+                                :spent_on => '2008-03-14',
+                                :hours => '7.3'}
+
+    assert_response 403
+  end
+
   def test_update
     entry = TimeEntry.find(1)
     assert_equal 1, entry.issue_id
@@ -161,6 +173,9 @@ class TimelogControllerTest < ActionController::TestCase
 
   def test_bulk_update_on_different_projects
     @request.session[:user_id] = 2
+    # makes user a manager on the other project
+    Member.create!(:user_id => 2, :project_id => 3, :role_ids => [1])
+    
     # update time entry activity
     post :bulk_update, :ids => [1, 2, 4], :time_entry => { :activity_id => 9 }
     
@@ -203,6 +218,14 @@ class TimelogControllerTest < ActionController::TestCase
     assert_redirected_to :controller => 'timelog', :action => 'index', :project_id => Project.find(1).identifier
   end
   
+  def test_post_bulk_update_without_edit_permission_should_be_denied
+    @request.session[:user_id] = 2
+    Role.find_by_name('Manager').remove_permission! :edit_time_entries
+    post :bulk_update, :ids => [1,2]
+
+    assert_response 403
+  end
+
   def test_destroy
     @request.session[:user_id] = 2
     delete :destroy, :id => 1

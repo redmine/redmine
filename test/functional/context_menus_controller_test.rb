@@ -115,4 +115,23 @@ class ContextMenusControllerTest < ActionController::TestCase
     assert_template 'context_menu'
     assert_equal [1], assigns(:issues).collect(&:id)
   end
+  
+  def test_time_entries_context_menu
+    @request.session[:user_id] = 2
+    get :time_entries, :ids => [1, 2]
+    assert_response :success
+    assert_template 'time_entries'
+    assert_tag 'a', :content => 'Edit'
+    assert_no_tag 'a', :content => 'Edit', :attributes => {:class => /disabled/}
+  end
+  
+  def test_time_entries_context_menu_without_edit_permission
+    @request.session[:user_id] = 2
+    Role.find_by_name('Manager').remove_permission! :edit_time_entries
+    
+    get :time_entries, :ids => [1, 2]
+    assert_response :success
+    assert_template 'time_entries'
+    assert_tag 'a', :content => 'Edit', :attributes => {:class => /disabled/}
+  end
 end
