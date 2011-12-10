@@ -5,8 +5,6 @@
 <% form_tag(:action => 'bulk_update') do %>
 <%= @time_entries.collect {|i| hidden_field_tag('ids[]', i.id)}.join %>
 <div class="box tabular">
-  <fieldset class="attributes">
-  <legend><%= l(:label_change_properties) %></legend>
   <div>
     <p>
       <label><%= l(:field_issue) %></label>
@@ -41,8 +39,6 @@
 
     <%= call_hook(:view_time_entries_bulk_edit_details_bottom, { :time_entries => @time_entries }) %>
   </div>
-
-  </fieldset>
 </div>
 
 <p><%= submit_tag l(:button_submit) %></p>
