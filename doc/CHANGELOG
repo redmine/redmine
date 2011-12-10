@@ -4,6 +4,27 @@ Redmine - project management software
 Copyright (C) 2006-2011  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2011-12-10 v1.2.3
+
+* Defect #8707: Reposman: wrong constant name
+* Defect #8809: Table in timelog report overflows
+* Defect #9055: Version files in Files module cannot be downloaded if issue tracking is disabled
+* Defect #9137: db:encrypt fails to handle repositories with blank password
+* Defect #9394: Custom date field only validating on regex and not a valid date
+* Defect #9405: Any user with :log_time permission can edit time entries via context menu
+* Defect #9448: The attached images are not shown in documents
+* Defect #9520: Copied private query not visible after project copy
+* Defect #9552: Error when reading ciphered text from the database without cipher key configured
+* Defect #9566: Redmine.pm considers all projects private when login_required is enabled
+* Defect #9567: Redmine.pm potential security issue with cache credential enabled and subversion
+* Defect #9577: Deleting a subtasks doesn't update parent's rgt & lft values
+* Defect #9597: Broken version links in wiki annotate history
+* Defect #9682: Wiki HTML Export only useful when Access history is accessible
+* Defect #9737: Custom values deleted before issue submit
+* Defect #9741: calendar-hr.js (Croatian) is not UTF-8
+* Patch #9558: Simplified Chinese translation for 1.2.2 updated
+* Patch #9695: Bulgarian translation (r7942)
+
 == 2011-11-11 v1.2.2
 
 * Defect #3276: Incorrect handling of anchors in Wiki to HTML export
