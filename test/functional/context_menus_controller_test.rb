@@ -53,7 +53,7 @@ class ContextMenusControllerTest < ActionController::TestCase
                             :attributes => { :href => '/issues/move/new?ids%5B%5D=1',
                                              :class => 'icon-move' }
     assert_tag :tag => 'a', :content => 'Delete',
-                            :attributes => { :href => '/issues/destroy?ids%5B%5D=1',
+                            :attributes => { :href => '/issues?ids%5B%5D=1',
                                              :class => 'icon-del' }
   end
 
@@ -94,7 +94,7 @@ class ContextMenusControllerTest < ActionController::TestCase
                             :attributes => { :href => "/issues/move/new?#{ids}",
                                              :class => 'icon-move' }
     assert_tag :tag => 'a', :content => 'Delete',
-                            :attributes => { :href => "/issues/destroy?#{ids}",
+                            :attributes => { :href => "/issues?#{ids}",
                                              :class => 'icon-del' }
   end
 
@@ -120,7 +120,7 @@ class ContextMenusControllerTest < ActionController::TestCase
                             :attributes => { :href => "/issues/bulk_edit?#{ids}&amp;issue%5Bassigned_to_id%5D=2",
                                              :class => '' }
     assert_tag :tag => 'a', :content => 'Delete',
-                            :attributes => { :href => "/issues/destroy?#{ids}",
+                            :attributes => { :href => "/issues?#{ids}",
                                              :class => 'icon-del' }
   end
 
