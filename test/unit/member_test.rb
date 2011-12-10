@@ -81,7 +81,7 @@ class MemberTest < ActiveSupport::TestCase
     assert_equal I18n.translate('activerecord.errors.messages.empty'), member.errors[:role].to_s
     str = "R\xc3\xb4le doit \xc3\xaatre renseign\xc3\xa9(e)"
     str.force_encoding('UTF-8') if str.respond_to?(:force_encoding)
-    assert_equal str, member.errors.full_messages.to_s
+    assert_equal str, [member.errors.full_messages].flatten.join
   end
 
   def test_validate_member_role
