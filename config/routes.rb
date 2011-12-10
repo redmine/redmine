@@ -44,8 +44,6 @@ ActionController::Routing::Routes.draw do |map|
   map.preview_issue '/issues/preview/:id', :controller => 'previews', :action => 'issue' # TODO: would look nicer as /issues/:id/preview
   map.issues_context_menu '/issues/context_menu', :controller => 'context_menus', :action => 'issues'
   map.issue_changes '/issues/changes', :controller => 'journals', :action => 'index'
-  map.bulk_edit_issue 'issues/bulk_edit', :controller => 'issues', :action => 'bulk_edit', :conditions => { :method => :get }
-  map.bulk_update_issue 'issues/bulk_edit', :controller => 'issues', :action => 'bulk_update', :conditions => { :method => :post }
   map.quoted_issue '/issues/:id/quoted', :controller => 'journals', :action => 'new', :id => /\d+/, :conditions => { :method => :post }
   map.connect '/issues/:id/destroy', :controller => 'issues', :action => 'destroy', :conditions => { :method => :post } # legacy
 
@@ -65,7 +63,7 @@ ActionController::Routing::Routes.draw do |map|
     reports.connect 'projects/:id/issues/report/:detail', :action => 'issue_report_details'
   end
 
-  map.resources :issues do |issues|
+  map.resources :issues, :collection => {:bulk_edit => :get, :bulk_update => :post} do |issues|
     issues.resources :time_entries, :controller => 'timelog', :collection => {:report => :get}
     issues.resources :relations, :shallow => true, :controller => 'issue_relations', :only => [:index, :show, :create, :destroy]
   end

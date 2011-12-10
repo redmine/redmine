@@ -124,7 +124,7 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :get, "/issues/changes", :controller => 'journals', :action => 'index'
 
     should_route :get, "/issues/bulk_edit", :controller => 'issues', :action => 'bulk_edit'
-    should_route :post, "/issues/bulk_edit", :controller => 'issues', :action => 'bulk_update'
+    should_route :post, "/issues/bulk_update", :controller => 'issues', :action => 'bulk_update'
   end
 
   context "issue categories" do
