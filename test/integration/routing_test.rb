@@ -66,6 +66,15 @@ class RoutingTest < ActionController::IntegrationTest
 
     should_route :post, "/documents/22/add_attachment", :controller => 'documents', :action => 'add_attachment', :id => '22'
   end
+
+  context "roles" do
+    should_route :get, "/enumerations", :controller => 'enumerations', :action => 'index'
+    should_route :get, "/enumerations/new", :controller => 'enumerations', :action => 'new'
+    should_route :post, "/enumerations", :controller => 'enumerations', :action => 'create'
+    should_route :get, "/enumerations/2/edit", :controller => 'enumerations', :action => 'edit', :id => 2
+    should_route :put, "/enumerations/2", :controller => 'enumerations', :action => 'update', :id => 2
+    should_route :delete, "/enumerations/2", :controller => 'enumerations', :action => 'destroy', :id => 2
+  end
   
   context "groups" do
     should_route :post,   "/groups/567/users", :controller => 'groups', :action => 'add_users', :id => '567'

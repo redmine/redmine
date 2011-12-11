@@ -35,6 +35,8 @@ class EnumerationsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'new'
     assert_kind_of IssuePriority, assigns(:enumeration)
+    assert_tag 'input', :attributes => {:name => 'enumeration[type]', :value => 'IssuePriority'}
+    assert_tag 'input', :attributes => {:name => 'enumeration[name]'}
   end
 
   def test_create
@@ -58,11 +60,12 @@ class EnumerationsControllerTest < ActionController::TestCase
     get :edit, :id => 6
     assert_response :success
     assert_template 'edit'
+    assert_tag 'input', :attributes => {:name => 'enumeration[name]', :value => 'High'}
   end
 
   def test_update
     assert_no_difference 'IssuePriority.count' do
-      post :update, :id => 6, :enumeration => {:type => 'IssuePriority', :name => 'New name'}
+      put :update, :id => 6, :enumeration => {:type => 'IssuePriority', :name => 'New name'}
     end
     assert_redirected_to '/enumerations?type=IssuePriority'
     e = IssuePriority.find(6)
@@ -71,20 +74,24 @@ class EnumerationsControllerTest < ActionController::TestCase
 
   def test_update_with_failure
     assert_no_difference 'IssuePriority.count' do
-      post :update, :id => 6, :enumeration => {:type => 'IssuePriority', :name => ''}
+      put :update, :id => 6, :enumeration => {:type => 'IssuePriority', :name => ''}
     end
     assert_response :success
     assert_template 'edit'
   end
 
   def test_destroy_enumeration_not_in_use
-    post :destroy, :id => 7
+    assert_difference 'IssuePriority.count', -1 do
+      delete :destroy, :id => 7
+    end
     assert_redirected_to :controller => 'enumerations', :action => 'index'
     assert_nil Enumeration.find_by_id(7)
   end
 
   def test_destroy_enumeration_in_use
-    post :destroy, :id => 4
+    assert_no_difference 'IssuePriority.count' do
+      delete :destroy, :id => 4
+    end
     assert_response :success
     assert_template 'destroy'
     assert_not_nil Enumeration.find_by_id(4)
@@ -92,7 +99,9 @@ class EnumerationsControllerTest < ActionController::TestCase
 
   def test_destroy_enumeration_in_use_with_reassignment
     issue = Issue.find(:first, :conditions => {:priority_id => 4})
-    post :destroy, :id => 4, :reassign_to_id => 6
+    assert_difference 'IssuePriority.count', -1 do
+      delete :destroy, :id => 4, :reassign_to_id => 6
+    end
     assert_redirected_to :controller => 'enumerations', :action => 'index'
     assert_nil Enumeration.find_by_id(4)
     # check that the issue was reassign

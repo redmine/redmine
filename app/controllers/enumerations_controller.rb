@@ -19,28 +19,19 @@ class EnumerationsController < ApplicationController
   layout 'admin'
 
   before_filter :require_admin
+  before_filter :build_new_enumeration, :only => [:new, :create]
+  before_filter :find_enumeration, :only => [:edit, :update, :destroy]
 
   helper :custom_fields
-  include CustomFieldsHelper
 
   def index
   end
 
-  verify :method => :post, :only => [ :destroy, :create, :update ],
-         :redirect_to => { :action => :index }
-
   def new
-    begin
-      @enumeration = params[:type].constantize.new
-    rescue NameError
-      @enumeration = Enumeration.new
-    end
   end
 
   def create
-    @enumeration = Enumeration.new(params[:enumeration])
-    @enumeration.type = params[:enumeration][:type]
-    if @enumeration.save
+    if request.post? && @enumeration.save
       flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'index', :type => @enumeration.type
     else
@@ -49,13 +40,10 @@ class EnumerationsController < ApplicationController
   end
 
   def edit
-    @enumeration = Enumeration.find(params[:id])
   end
 
   def update
-    @enumeration = Enumeration.find(params[:id])
-    @enumeration.type = params[:enumeration][:type] if params[:enumeration][:type]
-    if @enumeration.update_attributes(params[:enumeration])
+    if request.put? && @enumeration.update_attributes(params[:enumeration])
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'index', :type => @enumeration.type
     else
@@ -63,8 +51,8 @@ class EnumerationsController < ApplicationController
     end
   end
 
+  verify :method => :delete, :only => :destroy, :render => { :nothing => true, :status => :method_not_allowed }
   def destroy
-    @enumeration = Enumeration.find(params[:id])
     if !@enumeration.in_use?
       # No associated objects
       @enumeration.destroy
@@ -77,9 +65,22 @@ class EnumerationsController < ApplicationController
         return
       end
     end
-    @enumerations = @enumeration.class.find(:all) - [@enumeration]
-  #rescue
-  #  flash[:error] = 'Unable to delete enumeration'
-  #  redirect_to :action => 'index'
+    @enumerations = @enumeration.class.all - [@enumeration]
+  end
+
+  private
+
+  def build_new_enumeration
+    class_name = params[:enumeration] && params[:enumeration][:type] || params[:type]
+    @enumeration = Enumeration.new_subclass_instance(class_name, params[:enumeration])
+    if @enumeration.nil?
+      render_404
+    end
+  end
+
+  def find_enumeration
+    @enumeration = Enumeration.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 end

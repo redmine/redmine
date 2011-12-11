@@ -15,13 +15,13 @@
 </tr></thead>
 <% enumerations.each do |enumeration| %>
 <tr class="<%= cycle('odd', 'even') %>">
-    <td><%= link_to h(enumeration), :action => 'edit', :id => enumeration %></td>
+    <td><%= link_to h(enumeration), edit_enumeration_path(enumeration) %></td>
     <td class="center" style="width:15%;"><%= checked_image enumeration.is_default? %></td>
     <td class="center" style="width:15%;"><%= checked_image enumeration.active? %></td>
-    <td style="width:15%;"><%= reorder_links('enumeration', {:action => 'update', :id => enumeration}) %></td>
+    <td style="width:15%;"><%= reorder_links('enumeration', {:action => 'update', :id => enumeration}, :put) %></td>
     <td class="buttons">
-    <%= link_to l(:button_delete), { :action => 'destroy', :id => enumeration },
-                                   :method => :post,
+    <%= link_to l(:button_delete), enumeration_path(enumeration),
+                                   :method => :delete,
                                    :confirm => l(:text_are_you_sure),
                                    :class => 'icon icon-del' %>
     </td>
@@ -31,7 +31,7 @@
 <% reset_cycle %>
 <% end %>
 
-<p><%= link_to l(:label_enumeration_new), { :action => 'new', :type => klass.name } %></p>
+<p><%= link_to l(:label_enumeration_new), new_enumeration_path(:type => klass.name) %></p>
 <% end %>
 
 <% html_title(l(:label_enumerations)) -%>

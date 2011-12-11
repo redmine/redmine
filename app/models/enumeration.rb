@@ -16,6 +16,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Enumeration < ActiveRecord::Base
+  include Redmine::SubclassFactory
+
   default_scope :order => "#{Enumeration.table_name}.position ASC"
 
   belongs_to :project
@@ -26,6 +28,8 @@ class Enumeration < ActiveRecord::Base
 
   before_destroy :check_integrity
   before_save    :check_default
+
+  attr_protected :type
 
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => [:type, :project_id]

@@ -212,6 +212,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :issue_statuses, :except => :show, :collection => {:update_issue_done_ratio => :post}
   map.resources :custom_fields, :except => :show
   map.resources :roles, :except => :show, :collection => {:permissions => [:get, :post]}
+  map.resources :enumerations, :except => :show
 
   map.connect 'search', :controller => 'search', :action => 'index', :conditions => {:method => :get}
 
@@ -244,12 +245,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'workflows', :controller => 'workflows', :action => 'index', :conditions => {:method => :get}
   map.connect 'workflows/edit', :controller => 'workflows', :action => 'edit', :conditions => {:method => [:get, :post]}
   map.connect 'workflows/copy', :controller => 'workflows', :action => 'copy', :conditions => {:method => [:get, :post]}
-  map.connect 'enumerations', :controller => 'enumerations', :action => 'index', :conditions => {:method => :get}
-  map.connect 'enumerations/new', :controller => 'enumerations', :action => 'new', :conditions => {:method => :get}
-  map.connect 'enumerations/create', :controller => 'enumerations', :action => 'create', :conditions => {:method => :post}
-  map.connect 'enumerations/edit/:id', :controller => 'enumerations', :action => 'edit', :id => /\d+/, :conditions => {:method => :get}
-  map.connect 'enumerations/update/:id', :controller => 'enumerations', :action => 'update', :id => /\d+/, :conditions => {:method => :post}
-  map.connect 'enumerations/destroy/:id', :controller => 'enumerations', :action => 'destroy', :id => /\d+/, :conditions => {:method => :post}
   map.connect 'settings', :controller => 'settings', :action => 'index', :conditions => {:method => :get}
   map.connect 'settings/edit', :controller => 'settings', :action => 'edit', :conditions => {:method => [:get, :post]}
   map.connect 'settings/plugin/:id', :controller => 'settings', :action => 'plugin', :conditions => {:method => [:get, :post]}
