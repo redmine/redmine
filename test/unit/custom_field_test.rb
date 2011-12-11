@@ -25,6 +25,16 @@ class CustomFieldTest < ActiveSupport::TestCase
     assert field.save
   end
 
+  def test_before_validation
+    field = CustomField.new(:name => 'test_before_validation', :field_format => 'int')
+    field.searchable = true
+    assert field.save
+    assert_equal false, field.searchable
+    field.searchable = true
+    assert field.save
+    assert_equal false, field.searchable
+  end
+
   def test_regexp_validation
     field = IssueCustomField.new(:name => 'regexp', :field_format => 'text', :regexp => '[a-z0-9')
     assert !field.save
