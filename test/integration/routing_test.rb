@@ -97,6 +97,8 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :get, "/issues/64.xml", :controller => 'issues', :action => 'show', :id => '64', :format => 'xml'
 
     should_route :get, "/projects/23/issues/new", :controller => 'issues', :action => 'new', :project_id => '23'
+    # issue form update
+    should_route :post, "/projects/23/issues/new", :controller => 'issues', :action => 'new', :project_id => '23'
     should_route :post, "/projects/23/issues", :controller => 'issues', :action => 'create', :project_id => '23'
     should_route :post, "/issues.xml", :controller => 'issues', :action => 'create', :format => 'xml'
 

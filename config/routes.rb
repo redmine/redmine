@@ -127,6 +127,9 @@ ActionController::Routing::Routes.draw do |map|
     project.resources :issues, :only => [:index, :new, :create] do |issues|
       issues.resources :time_entries, :controller => 'timelog', :collection => {:report => :get}
     end
+    # issue form update
+    project.issue_form 'issues/new', :controller => 'issues', :action => 'new', :conditions => {:method => :post}
+
     project.resources :files, :only => [:index, :new, :create]
     project.resources :versions, :shallow => true, :collection => {:close_completed => :put}, :member => {:status_by => :post}
     project.resources :news, :shallow => true
