@@ -29,7 +29,7 @@ class ProjectsController < ApplicationController
 
   after_filter :only => [:create, :edit, :update, :archive, :unarchive, :destroy] do |controller|
     if controller.request.post?
-      controller.send :expire_action, :controller => 'welcome', :action => 'robots.txt'
+      controller.send :expire_action, :controller => 'welcome', :action => 'robots'
     end
   end
 
