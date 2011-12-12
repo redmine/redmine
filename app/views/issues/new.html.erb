@@ -1,5 +1,7 @@
 <h2><%=l(:label_issue_new)%></h2>
 
+<%= call_hook(:view_issues_new_top, {:issue => @issue}) %>
+
 <% labelled_form_for @issue, :url => project_issues_path(@project),
                              :html => {:id => 'issue-form', :multipart => true} do |f| %>
     <%= error_messages_for 'issue' %>
