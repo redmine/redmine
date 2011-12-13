@@ -190,6 +190,7 @@ ActionController::Routing::Routes.draw do |map|
       repository_views.connect 'projects/:id/repository/changes/*path', :action => 'changes'
       repository_views.connect 'projects/:id/repository/annotate/*path', :action => 'annotate'
       repository_views.connect 'projects/:id/repository/diff/*path', :action => 'diff'
+      repository_views.connect 'projects/:id/repository/show/*path', :action => 'show'
       repository_views.connect 'projects/:id/repository/graph', :action => 'graph'
     end
 
