@@ -260,7 +260,6 @@ class Issue < ActiveRecord::Base
 
   safe_attributes 'tracker_id',
     'status_id',
-    'parent_issue_id',
     'category_id',
     'assigned_to_id',
     'priority_id',
@@ -291,6 +290,10 @@ class Issue < ActiveRecord::Base
         (issue.author == user && user.allowed_to?(:set_own_issues_private, issue.project))
     }
 
+  safe_attributes 'parent_issue_id',
+    :if => lambda {|issue, user| (issue.new_record? || user.allowed_to?(:edit_issues, issue.project)) &&
+      user.allowed_to?(:manage_subtasks, issue.project)}
+
   # Safely sets attributes
   # Should be called from controllers instead of #attributes=
   # attr_accessible is too rough because we still want things like
@@ -318,12 +321,8 @@ class Issue < ActiveRecord::Base
       attrs.reject! {|k,v| %w(priority_id done_ratio start_date due_date estimated_hours).include?(k)}
     end
 
-    if attrs.has_key?('parent_issue_id')
-      if !user.allowed_to?(:manage_subtasks, project)
-        attrs.delete('parent_issue_id')
-      elsif !attrs['parent_issue_id'].blank?
-        attrs.delete('parent_issue_id') unless Issue.visible(user).exists?(attrs['parent_issue_id'].to_i)
-      end
+    if attrs['parent_issue_id'].present?
+      attrs.delete('parent_issue_id') unless Issue.visible(user).exists?(attrs['parent_issue_id'].to_i)
     end
 
     # mass-assignment security bypass
