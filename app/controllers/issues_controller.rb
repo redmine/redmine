@@ -312,12 +312,8 @@ private
       return false
     end
     @issue.start_date ||= Date.today if Setting.default_issue_start_date_to_creation_date?
-    if params[:issue].is_a?(Hash)
-      @issue.safe_attributes = params[:issue]
-      if User.current.allowed_to?(:add_issue_watchers, @project) && @issue.new_record?
-        @issue.watcher_user_ids = params[:issue]['watcher_user_ids']
-      end
-    end
+    @issue.safe_attributes = params[:issue]
+
     @priorities = IssuePriority.active
     @allowed_statuses = @issue.new_statuses_allowed_to(User.current, true)
   end

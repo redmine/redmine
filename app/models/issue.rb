@@ -282,6 +282,9 @@ class Issue < ActiveRecord::Base
     'done_ratio',
     :if => lambda {|issue, user| issue.new_statuses_allowed_to(user).any? }
 
+  safe_attributes 'watcher_user_ids',
+    :if => lambda {|issue, user| issue.new_record? && user.allowed_to?(:add_issue_watchers, issue.project)} 
+
   safe_attributes 'is_private',
     :if => lambda {|issue, user|
       user.allowed_to?(:set_issues_private, issue.project) ||
@@ -323,7 +326,8 @@ class Issue < ActiveRecord::Base
       end
     end
 
-    self.attributes = attrs
+    # mass-assignment security bypass
+    self.send :attributes=, attrs, false
   end
 
   def done_ratio
