@@ -1,6 +1,6 @@
 <%= call_hook(:view_issues_form_details_top, { :issue => @issue, :form => f }) %>
 
-<% if @issue.safe_attribute_names.include?('is_private') %>
+<% if @issue.safe_attribute? 'is_private' %>
 <p style="float:right; margin-right:1em;">
   <label class="inline" for="issue_is_private" id="issue_is_private_label"><%= f.check_box :is_private, :no_label => true %> <%= l(:field_is_private) %></label>
 </p>

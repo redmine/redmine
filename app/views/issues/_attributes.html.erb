@@ -31,7 +31,7 @@
 </div>
 
 <div class="splitcontentright">
-<% if User.current.allowed_to?(:manage_subtasks, @project) %>
+<% if @issue.safe_attribute? 'parent_issue_id' %>
 <p id="parent_issue"><%= f.text_field :parent_issue_id, :size => 10 %></p>
 <div id="parent_issue_candidates" class="autocomplete"></div>
 <%= javascript_tag "observeParentIssueField('#{auto_complete_issues_path(:id => @issue, :project_id => @project) }')" %>

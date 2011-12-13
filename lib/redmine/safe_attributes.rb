@@ -44,14 +44,22 @@ module Redmine
     # Example:
     #   book.safe_attributes # => ['title', 'pages']
     #   book.safe_attributes(book.author) # => ['title', 'pages', 'isbn']
-    def safe_attribute_names(user=User.current)
+    def safe_attribute_names(user=nil)
+      return @safe_attribute_names if @safe_attribute_names && user.nil?
       names = []
       self.class.safe_attributes.collect do |attrs, options|
-        if options[:if].nil? || options[:if].call(self, user)
+        if options[:if].nil? || options[:if].call(self, user || User.current)
           names += attrs.collect(&:to_s)
         end
       end
-      names.uniq
+      names.uniq!
+      @safe_attribute_names = names if user.nil?
+      names
+    end
+
+    # Returns true if attr can be set by user or the current user
+    def safe_attribute?(attr, user=nil)
+      safe_attribute_names(user).include?(attr.to_s)
     end
 
     # Returns a hash with unsafe attributes removed

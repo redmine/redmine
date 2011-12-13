@@ -42,16 +42,30 @@ class Redmine::SafeAttributesTest < ActiveSupport::TestCase
 
   def test_safe_attribute_names
     p = Person.new
-    assert_equal ['firstname', 'lastname'], p.safe_attribute_names(User.anonymous)
-    assert_equal ['firstname', 'lastname', 'login'], p.safe_attribute_names(User.find(1))
+    user = User.anonymous
+    assert_equal ['firstname', 'lastname'], p.safe_attribute_names(user)
+    assert p.safe_attribute?('firstname', user)
+    assert !p.safe_attribute?('login', user)
+
+    p = Person.new
+    user = User.find(1)
+    assert_equal ['firstname', 'lastname', 'login'], p.safe_attribute_names(user)
+    assert p.safe_attribute?('firstname', user)
+    assert p.safe_attribute?('login', user)
   end
 
   def test_safe_attribute_names_without_user
     p = Person.new
     User.current = nil
     assert_equal ['firstname', 'lastname'], p.safe_attribute_names
+    assert p.safe_attribute?('firstname')
+    assert !p.safe_attribute?('login')
+
+    p = Person.new
     User.current = User.find(1)
     assert_equal ['firstname', 'lastname', 'login'], p.safe_attribute_names
+    assert p.safe_attribute?('firstname')
+    assert p.safe_attribute?('login')
   end
 
   def test_set_safe_attributes
