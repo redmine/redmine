@@ -14,10 +14,10 @@
     <a href="#" class="submenu"><%= l(:field_activity) %></a>
     <ul>
     <% @activities.each do |u| -%>
-        <li><%= context_menu_link h(u.name), {:controller => 'timelog', :action => 'bulk_edit', :ids => @time_entries.collect(&:id), :time_entry => {'activity_id' => u}, :back_url => @back}, :method => :post,
+        <li><%= context_menu_link h(u.name), {:controller => 'timelog', :action => 'bulk_update', :ids => @time_entries.collect(&:id), :time_entry => {'activity_id' => u}, :back_url => @back}, :method => :post,
                                   :selected => (@time_entry && u == @time_entry.activity), :disabled => !@can[:edit] %></li>
     <% end -%>
-        <li><%= context_menu_link l(:label_none), {:controller => 'timelog', :action => 'bulk_edit', :ids => @time_entries.collect(&:id), :time_entry => {'activity_id' => 'none'}, :back_url => @back}, :method => :post,
+        <li><%= context_menu_link l(:label_none), {:controller => 'timelog', :action => 'bulk_update', :ids => @time_entries.collect(&:id), :time_entry => {'activity_id' => 'none'}, :back_url => @back}, :method => :post,
                                   :selected => (@time_entry && @time_entry.activity.nil?), :disabled => !@can[:edit] %></li>
     </ul>
   </li>
