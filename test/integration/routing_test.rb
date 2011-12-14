@@ -29,13 +29,33 @@ class RoutingTest < ActionController::IntegrationTest
         )
   end
 
-  context "attachments" do
-    should_route :get, "/attachments/1", :controller => 'attachments', :action => 'show', :id => '1'
-    should_route :get, "/attachments/1.xml", :controller => 'attachments', :action => 'show', :id => '1', :format => 'xml'
-    should_route :get, "/attachments/1.json", :controller => 'attachments', :action => 'show', :id => '1', :format => 'json'
-    should_route :get, "/attachments/1/filename.ext", :controller => 'attachments', :action => 'show', :id => '1', :filename => 'filename.ext'
-    should_route :get, "/attachments/download/1", :controller => 'attachments', :action => 'download', :id => '1'
-    should_route :get, "/attachments/download/1/filename.ext", :controller => 'attachments', :action => 'download', :id => '1', :filename => 'filename.ext'
+  def test_attachments
+    assert_routing(
+           { :method => 'get', :path => "/attachments/1" },
+           { :controller => 'attachments', :action => 'show', :id => '1' }
+         )
+    assert_routing(
+           { :method => 'get', :path => "/attachments/1.xml" },
+           { :controller => 'attachments', :action => 'show', :id => '1', :format => 'xml' }
+         )
+    assert_routing(
+           { :method => 'get', :path => "/attachments/1.json" },
+           { :controller => 'attachments', :action => 'show', :id => '1', :format => 'json' }
+         )
+    assert_routing(
+           { :method => 'get', :path => "/attachments/1/filename.ext" },
+           { :controller => 'attachments', :action => 'show', :id => '1',
+             :filename => 'filename.ext' }
+         )
+    assert_routing(
+           { :method => 'get', :path => "/attachments/download/1" },
+           { :controller => 'attachments', :action => 'download', :id => '1' }
+         )
+    assert_routing(
+           { :method => 'get', :path => "/attachments/download/1/filename.ext" },
+           { :controller => 'attachments', :action => 'download', :id => '1',
+             :filename => 'filename.ext' }
+         )
   end
 
   context "boards" do
