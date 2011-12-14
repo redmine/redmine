@@ -26,22 +26,22 @@ class ContextMenusControllerTest < ActionController::TestCase
                             :attributes => { :href => '/issues/1/edit',
                                              :class => 'icon-edit' }
     assert_tag :tag => 'a', :content => 'Closed',
-                            :attributes => { :href => '/issues/bulk_edit?ids%5B%5D=1&amp;issue%5Bstatus_id%5D=5',
+                            :attributes => { :href => '/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bstatus_id%5D=5',
                                              :class => '' }
     assert_tag :tag => 'a', :content => 'Immediate',
-                            :attributes => { :href => '/issues/bulk_edit?ids%5B%5D=1&amp;issue%5Bpriority_id%5D=8',
+                            :attributes => { :href => '/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bpriority_id%5D=8',
                                              :class => '' }
     assert_no_tag :tag => 'a', :content => 'Inactive Priority'
     # Versions
     assert_tag :tag => 'a', :content => '2.0',
-                            :attributes => { :href => '/issues/bulk_edit?ids%5B%5D=1&amp;issue%5Bfixed_version_id%5D=3',
+                            :attributes => { :href => '/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bfixed_version_id%5D=3',
                                              :class => '' }
     assert_tag :tag => 'a', :content => 'eCookbook Subproject 1 - 2.0',
-                            :attributes => { :href => '/issues/bulk_edit?ids%5B%5D=1&amp;issue%5Bfixed_version_id%5D=4',
+                            :attributes => { :href => '/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bfixed_version_id%5D=4',
                                              :class => '' }
 
     assert_tag :tag => 'a', :content => 'Dave Lopper',
-                            :attributes => { :href => '/issues/bulk_edit?ids%5B%5D=1&amp;issue%5Bassigned_to_id%5D=3',
+                            :attributes => { :href => '/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bassigned_to_id%5D=3',
                                              :class => '' }
     assert_tag :tag => 'a', :content => 'Duplicate',
                             :attributes => { :href => '/projects/ecookbook/issues/1/copy',
@@ -79,13 +79,13 @@ class ContextMenusControllerTest < ActionController::TestCase
                             :attributes => { :href => "/issues/bulk_edit?#{ids}",
                                              :class => 'icon-edit' }
     assert_tag :tag => 'a', :content => 'Closed',
-                            :attributes => { :href => "/issues/bulk_edit?#{ids}&amp;issue%5Bstatus_id%5D=5",
+                            :attributes => { :href => "/issues/bulk_update?#{ids}&amp;issue%5Bstatus_id%5D=5",
                                              :class => '' }
     assert_tag :tag => 'a', :content => 'Immediate',
-                            :attributes => { :href => "/issues/bulk_edit?#{ids}&amp;issue%5Bpriority_id%5D=8",
+                            :attributes => { :href => "/issues/bulk_update?#{ids}&amp;issue%5Bpriority_id%5D=8",
                                              :class => '' }
     assert_tag :tag => 'a', :content => 'Dave Lopper',
-                            :attributes => { :href => "/issues/bulk_edit?#{ids}&amp;issue%5Bassigned_to_id%5D=3",
+                            :attributes => { :href => "/issues/bulk_update?#{ids}&amp;issue%5Bassigned_to_id%5D=3",
                                              :class => '' }
     assert_tag :tag => 'a', :content => 'Copy',
                             :attributes => { :href => "/issues/move/new?copy_options%5Bcopy%5D=t&amp;#{ids}",
@@ -111,13 +111,13 @@ class ContextMenusControllerTest < ActionController::TestCase
                             :attributes => { :href => "/issues/bulk_edit?#{ids}",
                                              :class => 'icon-edit' }
     assert_tag :tag => 'a', :content => 'Closed',
-                            :attributes => { :href => "/issues/bulk_edit?#{ids}&amp;issue%5Bstatus_id%5D=5",
+                            :attributes => { :href => "/issues/bulk_update?#{ids}&amp;issue%5Bstatus_id%5D=5",
                                              :class => '' }
     assert_tag :tag => 'a', :content => 'Immediate',
-                            :attributes => { :href => "/issues/bulk_edit?#{ids}&amp;issue%5Bpriority_id%5D=8",
+                            :attributes => { :href => "/issues/bulk_update?#{ids}&amp;issue%5Bpriority_id%5D=8",
                                              :class => '' }
     assert_tag :tag => 'a', :content => 'John Smith',
-                            :attributes => { :href => "/issues/bulk_edit?#{ids}&amp;issue%5Bassigned_to_id%5D=2",
+                            :attributes => { :href => "/issues/bulk_update?#{ids}&amp;issue%5Bassigned_to_id%5D=2",
                                              :class => '' }
     assert_tag :tag => 'a', :content => 'Delete',
                             :attributes => { :href => "/issues?#{ids}",
