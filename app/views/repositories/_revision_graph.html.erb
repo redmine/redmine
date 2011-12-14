@@ -5,9 +5,9 @@
 <%= javascript_include_tag "revision_graph.js" %>
 
 <script type="text/javascript">
-  window.onload = function(){
+  Event.observe(window,"load", function(){
     branchGraph(document.getElementById("holder"));
-  }
+  })
 </script>
 
 <div id="holder" class="graph"></div>
