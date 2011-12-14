@@ -375,9 +375,3 @@ class Date
     (date.year - self.year)*52 + (date.cweek - self.cweek)
   end
 end
-
-class String
-  def with_leading_slash
-    starts_with?('/') ? self : "/#{self}"
-  end
-end
