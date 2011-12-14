@@ -481,7 +481,10 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :post, "/projects/ladida/wiki/destroy", :controller => 'wikis', :action => 'destroy', :id => 'ladida'
   end
 
-  context "administration panel" do
-    should_route :get, "/admin/projects", :controller => 'admin', :action => 'projects'
+  def test_administration_panel
+    assert_routing(
+        { :method => 'get', :path => "/admin/projects" },
+        { :controller => 'admin', :action => 'projects' }
+      )
   end
 end
