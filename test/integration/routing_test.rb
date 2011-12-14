@@ -443,8 +443,11 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :post, "/versions/1/status_by", :controller => 'versions', :action => 'status_by', :id => '1'
   end
 
-  context "welcome" do
-    should_route :get, "/robots.txt", :controller => 'welcome', :action => 'robots'
+  def test_welcome
+    assert_routing(
+        { :method => 'get', :path => "/robots.txt" },
+        { :controller => 'welcome', :action => 'robots' }
+      )
   end
 
   context "wiki (singular, project's pages)" do
