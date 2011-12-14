@@ -152,7 +152,13 @@ class Issue < ActiveRecord::Base
 
   def move_to_project_without_transaction(new_project, new_tracker = nil, options = {})
     options ||= {}
-    issue = options[:copy] ? self.class.new.copy_from(self) : self
+
+    if options[:copy]
+      issue = self.class.new.copy_from(self)
+    else
+      issue = self
+      issue.init_journal(User.current, options[:notes]) 
+    end
 
     if new_project && issue.project_id != new_project.id
       # delete issue relations
@@ -190,14 +196,12 @@ class Issue < ActiveRecord::Base
     if options[:attributes]
       issue.attributes = options[:attributes]
     end
+    if options[:copy] && options[:notes].present?
+      issue.init_journal(User.current, options[:notes])
+      issue.current_journal.notify = false
+    end
     if issue.save
-      if options[:copy]
-        if current_journal && current_journal.notes.present?
-          issue.init_journal(current_journal.user, current_journal.notes)
-          issue.current_journal.notify = false
-          issue.save
-        end
-      else
+      unless options[:copy]
         # Manually update project_id on related time entries
         TimeEntry.update_all("project_id = #{new_project.id}", {:issue_id => id})
 

@@ -634,12 +634,10 @@ class IssueTest < ActiveSupport::TestCase
         assert_equal User.current, @copy.author
       end
 
-      should "keep journal notes" do
+      should "create a journal with notes" do
         date = Date.today
         notes = "Notes added when copying"
-        User.current = User.find(9)
-        @issue.init_journal(User.current, notes)
-        @copy = @issue.move_to_project(Project.find(3), Tracker.find(2), {:copy => true, :attributes => {:start_date => date}})
+        @copy = @issue.move_to_project(Project.find(3), Tracker.find(2), {:copy => true, :notes => notes, :attributes => {:start_date => date}})
 
         assert_equal 1, @copy.journals.size
         journal = @copy.journals.first
