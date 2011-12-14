@@ -30,7 +30,7 @@ class RolesController < ApplicationController
   def new
     # Prefills the form with 'Non member' role permissions
     @role = Role.new(params[:role] || {:permissions => Role.non_member.permissions})
-    @roles = Role.all
+    @roles = Role.sorted.all
   end
 
   def create
@@ -43,7 +43,7 @@ class RolesController < ApplicationController
       flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'index'
     else
-      @roles = Role.all
+      @roles = Role.sorted.all
       render :action => 'new'
     end
   end
@@ -70,7 +70,7 @@ class RolesController < ApplicationController
   end
 
   def permissions
-    @roles = Role.find(:all, :order => 'builtin, position')
+    @roles = Role.sorted.all
     @permissions = Redmine::AccessControl.permissions.select { |p| !p.public? }
     if request.post?
       @roles.each do |role|
