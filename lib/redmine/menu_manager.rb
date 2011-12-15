@@ -230,8 +230,6 @@ module Redmine
         @menu_items = items[menu]
       end
 
-      @@last_items_count = Hash.new {|h,k| h[k] = 0}
-
       # Adds an item at the end of the menu. Available options:
       # * param: the parameter name that is used for the project id (default is :id)
       # * if: a Proc that is called before rendering the item, the item is displayed only if it returns true
