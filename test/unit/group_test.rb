@@ -42,6 +42,15 @@ class GroupTest < ActiveSupport::TestCase
     assert_include "Name can't be blank", g.errors.full_messages
   end
 
+  def test_blank_name_error_message_fr
+    set_language_if_valid 'fr'
+    str = "Nom doit \xc3\xaatre renseign\xc3\xa9(e)"
+    str.force_encoding('UTF-8') if str.respond_to?(:force_encoding)
+    g = Group.new
+    assert !g.save
+    assert_include str, g.errors.full_messages
+  end
+
   def test_roles_given_to_new_user
     group = Group.find(11)
     user = User.find(9)
