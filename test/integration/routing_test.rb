@@ -517,11 +517,19 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :delete, "/projects/22/wiki/ladida", :controller => 'wiki', :action => 'destroy', :project_id => '22', :id => 'ladida'
   end
 
-  context "wikis (plural, admin setup)" do
-    should_route :get, "/projects/ladida/wiki/destroy", :controller => 'wikis', :action => 'destroy', :id => 'ladida'
-
-    should_route :post, "/projects/ladida/wiki", :controller => 'wikis', :action => 'edit', :id => 'ladida'
-    should_route :post, "/projects/ladida/wiki/destroy", :controller => 'wikis', :action => 'destroy', :id => 'ladida'
+  def test_wikis_plural_admin_setup
+    assert_routing(
+        { :method => 'get', :path => "/projects/ladida/wiki/destroy" },
+        { :controller => 'wikis', :action => 'destroy', :id => 'ladida' }
+      )
+    assert_routing(
+        { :method => 'post', :path => "/projects/ladida/wiki" },
+        { :controller => 'wikis', :action => 'edit', :id => 'ladida' }
+      )
+    assert_routing(
+        { :method => 'post', :path => "/projects/ladida/wiki/destroy" },
+        { :controller => 'wikis', :action => 'destroy', :id => 'ladida' }
+      )
   end
 
   def test_administration_panel
