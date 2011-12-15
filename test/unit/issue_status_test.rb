@@ -93,39 +93,22 @@ class IssueStatusTest < ActiveSupport::TestCase
     assert_equal [2, 3, 4, 5], status.find_new_statuses_allowed_to([role], tracker, true, true).map(&:id)
   end
 
-  context "#update_done_ratios" do
-    setup do
-      @issue = Issue.find(1)
-      @issue_status = IssueStatus.find(1)
-      @issue_status.update_attribute(:default_done_ratio, 50)
+  def test_update_done_ratios_with_issue_done_ratio_set_to_issue_field_should_change_nothing
+    IssueStatus.find(1).update_attribute(:default_done_ratio, 50)
+
+    with_settings :issue_done_ratio => 'issue_field' do
+      IssueStatus.update_issue_done_ratios
+      assert_equal 0, Issue.count(:conditions => {:done_ratio => 50})
     end
+  end
 
-    context "with Setting.issue_done_ratio using the issue_field" do
-      setup do
-        Setting.issue_done_ratio = 'issue_field'
-      end
+  def test_update_done_ratios_with_issue_done_ratio_set_to_issue_status_should_update_issues
+    IssueStatus.find(1).update_attribute(:default_done_ratio, 50)
 
-      should "change nothing" do
-        IssueStatus.update_issue_done_ratios
-
-        assert_equal 0, Issue.count(:conditions => {:done_ratio => 50})
-      end
-    end
-
-    context "with Setting.issue_done_ratio using the issue_status" do
-      setup do
-        Setting.issue_done_ratio = 'issue_status'
-      end
-
-      should "update all of the issue's done_ratios to match their Issue Status" do
-        IssueStatus.update_issue_done_ratios
-
-        issues = Issue.find([1,3,4,5,6,7,9,10])
-        issues.each do |issue|
-          assert_equal @issue_status, issue.status
-          assert_equal 50, issue.read_attribute(:done_ratio)
-        end
-      end
+    with_settings :issue_done_ratio => 'issue_status' do
+      IssueStatus.update_issue_done_ratios
+      issues = Issue.all(:conditions => {:status_id => 1})
+      assert_equal [50], issues.map {|issue| issue.read_attribute(:done_ratio)}.uniq
     end
   end
 end
