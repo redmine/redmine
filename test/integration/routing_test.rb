@@ -249,9 +249,16 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :delete, "/relations/23.json", :controller => 'issue_relations', :action => 'destroy', :id => '23', :format => 'json'
   end
 
-  context "issue reports" do
-    should_route :get, "/projects/567/issues/report", :controller => 'reports', :action => 'issue_report', :id => '567'
-    should_route :get, "/projects/567/issues/report/assigned_to", :controller => 'reports', :action => 'issue_report_details', :id => '567', :detail => 'assigned_to'
+  def test_issue_reports
+    assert_routing(
+        { :method => 'get', :path => "/projects/567/issues/report" },
+        { :controller => 'reports', :action => 'issue_report', :id => '567' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/projects/567/issues/report/assigned_to" },
+        { :controller => 'reports', :action => 'issue_report_details',
+          :id => '567', :detail => 'assigned_to' }
+      )
   end
 
   def test_members
