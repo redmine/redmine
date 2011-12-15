@@ -150,22 +150,68 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :delete, "/groups/567/users/12", :controller => 'groups', :action => 'remove_user', :id => '567', :user_id => '12'
   end
 
-  context "issues" do
-    # REST actions
-    should_route :get, "/issues", :controller => 'issues', :action => 'index'
-    should_route :get, "/issues.pdf", :controller => 'issues', :action => 'index', :format => 'pdf'
-    should_route :get, "/issues.atom", :controller => 'issues', :action => 'index', :format => 'atom'
-    should_route :get, "/issues.xml", :controller => 'issues', :action => 'index', :format => 'xml'
-    should_route :get, "/projects/23/issues", :controller => 'issues', :action => 'index', :project_id => '23'
-    should_route :get, "/projects/23/issues.pdf", :controller => 'issues', :action => 'index', :project_id => '23', :format => 'pdf'
-    should_route :get, "/projects/23/issues.atom", :controller => 'issues', :action => 'index', :project_id => '23', :format => 'atom'
-    should_route :get, "/projects/23/issues.xml", :controller => 'issues', :action => 'index', :project_id => '23', :format => 'xml'
-    should_route :get, "/issues/64", :controller => 'issues', :action => 'show', :id => '64'
-    should_route :get, "/issues/64.pdf", :controller => 'issues', :action => 'show', :id => '64', :format => 'pdf'
-    should_route :get, "/issues/64.atom", :controller => 'issues', :action => 'show', :id => '64', :format => 'atom'
-    should_route :get, "/issues/64.xml", :controller => 'issues', :action => 'show', :id => '64', :format => 'xml'
+  def test_issues_rest_actions
+    assert_routing(
+        { :method => 'get', :path => "/issues" },
+        { :controller => 'issues', :action => 'index' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/issues.pdf" },
+        { :controller => 'issues', :action => 'index', :format => 'pdf' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/issues.atom" },
+        { :controller => 'issues', :action => 'index', :format => 'atom' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/issues.xml" },
+        { :controller => 'issues', :action => 'index', :format => 'xml' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/projects/23/issues" },
+        { :controller => 'issues', :action => 'index', :project_id => '23' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/projects/23/issues.pdf" },
+        { :controller => 'issues', :action => 'index', :project_id => '23',
+          :format => 'pdf' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/projects/23/issues.atom" },
+        { :controller => 'issues', :action => 'index', :project_id => '23',
+          :format => 'atom' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/projects/23/issues.xml" },
+        { :controller => 'issues', :action => 'index', :project_id => '23',
+          :format => 'xml' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/issues/64" },
+        { :controller => 'issues', :action => 'show', :id => '64' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/issues/64.pdf" },
+        { :controller => 'issues', :action => 'show', :id => '64',
+          :format => 'pdf' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/issues/64.atom" },
+        { :controller => 'issues', :action => 'show', :id => '64',
+          :format => 'atom' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/issues/64.xml" },
+        { :controller => 'issues', :action => 'show', :id => '64',
+          :format => 'xml' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/projects/23/issues/new" },
+        { :controller => 'issues', :action => 'new', :project_id => '23' }
+      )
+  end
 
-    should_route :get, "/projects/23/issues/new", :controller => 'issues', :action => 'new', :project_id => '23'
+  context "issues" do
     # issue form update
     should_route :post, "/projects/23/issues/new", :controller => 'issues', :action => 'new', :project_id => '23'
     should_route :post, "/projects/23/issues", :controller => 'issues', :action => 'create', :project_id => '23'
