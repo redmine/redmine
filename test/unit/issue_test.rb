@@ -962,6 +962,10 @@ class IssueTest < ActiveSupport::TestCase
       @issue_status2.update_attribute(:default_done_ratio, 0)
     end
 
+    teardown do
+      Setting.issue_done_ratio = 'issue_field'
+    end
+
     context "with Setting.issue_done_ratio using the issue_field" do
       setup do
         Setting.issue_done_ratio = 'issue_field'
