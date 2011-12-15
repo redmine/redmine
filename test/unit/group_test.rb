@@ -28,14 +28,15 @@ class GroupTest < ActiveSupport::TestCase
            :workflows,
            :groups_users
 
+  include Redmine::I18n
+
   def test_create
     g = Group.new(:lastname => 'New group')
     assert g.save
   end
 
   def test_blank_name_error_message
-    I18n.locale = :en
-
+    set_language_if_valid 'en'
     g = Group.new
     assert !g.save
     assert_include "Name can't be blank", g.errors.full_messages
