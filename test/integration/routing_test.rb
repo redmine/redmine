@@ -96,13 +96,31 @@ class RoutingTest < ActionController::IntegrationTest
       )
   end
 
-  context "custom_fields" do
-    should_route :get, "/custom_fields", :controller => 'custom_fields', :action => 'index'
-    should_route :get, "/custom_fields/new", :controller => 'custom_fields', :action => 'new'
-    should_route :post, "/custom_fields", :controller => 'custom_fields', :action => 'create'
-    should_route :get, "/custom_fields/2/edit", :controller => 'custom_fields', :action => 'edit', :id => 2
-    should_route :put, "/custom_fields/2", :controller => 'custom_fields', :action => 'update', :id => 2
-    should_route :delete, "/custom_fields/2", :controller => 'custom_fields', :action => 'destroy', :id => 2
+  def test_custom_fields
+    assert_routing(
+        { :method => 'get', :path => "/custom_fields" },
+        { :controller => 'custom_fields', :action => 'index' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/custom_fields/new" },
+        { :controller => 'custom_fields', :action => 'new' }
+      )
+    assert_routing(
+        { :method => 'post', :path => "/custom_fields" },
+        { :controller => 'custom_fields', :action => 'create' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/custom_fields/2/edit" },
+        { :controller => 'custom_fields', :action => 'edit', :id => '2' }
+      )
+    assert_routing(
+        { :method => 'put', :path => "/custom_fields/2" },
+        { :controller => 'custom_fields', :action => 'update', :id => '2' }
+      )
+    assert_routing(
+        { :method => 'delete', :path => "/custom_fields/2" },
+        { :controller => 'custom_fields', :action => 'destroy', :id => '2' }
+      )
   end
 
   context "documents" do
