@@ -33,6 +33,12 @@ class GroupTest < ActiveSupport::TestCase
     assert g.save
   end
 
+  def test_blank_name_error_message
+    g = Group.new
+    assert !g.save
+    assert_include "Name can't be blank", g.errors.full_messages
+  end
+
   def test_roles_given_to_new_user
     group = Group.find(11)
     user = User.find(9)

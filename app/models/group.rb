@@ -51,6 +51,10 @@ class Group < Principal
     end
   end
 
+  def self.human_attribute_name(attribute_key_name, *args)
+    attribute_key_name == 'lastname' ? l(:field_name) : super
+  end
+
   private
 
   # Removes references that are not handled by associations
