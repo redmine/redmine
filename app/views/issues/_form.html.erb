@@ -5,12 +5,19 @@
   <label class="inline" for="issue_is_private" id="issue_is_private_label"><%= f.check_box :is_private, :no_label => true %> <%= l(:field_is_private) %></label>
 </p>
 <% end %>
+
+<% if @issue.safe_attribute? 'tracker_id' %>
 <p><%= f.select :tracker_id, @project.trackers.collect {|t| [t.name, t.id]}, :required => true %></p>
 <%= observe_field :issue_tracker_id, :url => project_issue_form_path(@project, :id => @issue),
                                      :update => :attributes,
                                      :with => "Form.serialize('issue-form')" %>
+<% end %>
 
+<% if @issue.safe_attribute? 'subject' %>
 <p><%= f.text_field :subject, :size => 80, :required => true %></p>
+<% end %>
+
+<% if @issue.safe_attribute? 'description' %>
 <p>
   <label><%= l(:field_description) %></label>
   <%= link_to_function image_tag('edit.png'), 
@@ -24,11 +31,11 @@
                    :no_label => true %>
   <% end %>
 </p>
+<%= wikitoolbar_for 'issue_description' %>
+<% end %>
 
 <div id="attributes" class="attributes">
   <%= render :partial => 'issues/attributes' %>
 </div>
 
 <%= call_hook(:view_issues_form_details_bottom, { :issue => @issue, :form => f }) %>
-
-<%= wikitoolbar_for 'issue_description' %>

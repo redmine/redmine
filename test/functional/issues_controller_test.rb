@@ -714,6 +714,93 @@ class IssuesControllerTest < ActionController::TestCase
                                             :content => /Notes/ } }
   end
 
+  def test_show_should_display_update_form
+    @request.session[:user_id] = 2
+    get :show, :id => 1
+    assert_response :success
+
+    assert_tag 'form', :attributes => {:id => 'issue-form'}
+    assert_tag 'input', :attributes => {:name => 'issue[is_private]'}
+    assert_tag 'select', :attributes => {:name => 'issue[tracker_id]'}
+    assert_tag 'input', :attributes => {:name => 'issue[subject]'}
+    assert_tag 'textarea', :attributes => {:name => 'issue[description]'}
+    assert_tag 'select', :attributes => {:name => 'issue[status_id]'}
+    assert_tag 'select', :attributes => {:name => 'issue[priority_id]'}
+    assert_tag 'select', :attributes => {:name => 'issue[assigned_to_id]'}
+    assert_tag 'select', :attributes => {:name => 'issue[category_id]'}
+    assert_tag 'select', :attributes => {:name => 'issue[fixed_version_id]'}
+    assert_tag 'input', :attributes => {:name => 'issue[parent_issue_id]'}
+    assert_tag 'input', :attributes => {:name => 'issue[start_date]'}
+    assert_tag 'input', :attributes => {:name => 'issue[due_date]'}
+    assert_tag 'select', :attributes => {:name => 'issue[done_ratio]'}
+    assert_tag 'input', :attributes => { :name => 'issue[custom_field_values][2]' }
+    assert_no_tag 'input', :attributes => {:name => 'issue[watcher_user_ids][]'}
+    assert_tag 'textarea', :attributes => {:name => 'notes'}
+  end
+
+  def test_show_should_display_update_form_with_minimal_permissions
+    Role.find(1).update_attribute :permissions, [:view_issues, :add_issue_notes]
+    Workflow.delete_all :role_id => 1
+
+    @request.session[:user_id] = 2
+    get :show, :id => 1
+    assert_response :success
+
+    assert_tag 'form', :attributes => {:id => 'issue-form'}
+    assert_no_tag 'input', :attributes => {:name => 'issue[is_private]'}
+    assert_no_tag 'select', :attributes => {:name => 'issue[tracker_id]'}
+    assert_no_tag 'input', :attributes => {:name => 'issue[subject]'}
+    assert_no_tag 'textarea', :attributes => {:name => 'issue[description]'}
+    assert_no_tag 'select', :attributes => {:name => 'issue[status_id]'}
+    assert_no_tag 'select', :attributes => {:name => 'issue[priority_id]'}
+    assert_no_tag 'select', :attributes => {:name => 'issue[assigned_to_id]'}
+    assert_no_tag 'select', :attributes => {:name => 'issue[category_id]'}
+    assert_no_tag 'select', :attributes => {:name => 'issue[fixed_version_id]'}
+    assert_no_tag 'input', :attributes => {:name => 'issue[parent_issue_id]'}
+    assert_no_tag 'input', :attributes => {:name => 'issue[start_date]'}
+    assert_no_tag 'input', :attributes => {:name => 'issue[due_date]'}
+    assert_no_tag 'select', :attributes => {:name => 'issue[done_ratio]'}
+    assert_no_tag 'input', :attributes => { :name => 'issue[custom_field_values][2]' }
+    assert_no_tag 'input', :attributes => {:name => 'issue[watcher_user_ids][]'}
+    assert_tag 'textarea', :attributes => {:name => 'notes'}
+  end
+
+  def test_show_should_display_update_form_with_workflow_permissions
+    Role.find(1).update_attribute :permissions, [:view_issues, :add_issue_notes]
+
+    @request.session[:user_id] = 2
+    get :show, :id => 1
+    assert_response :success
+
+    assert_tag 'form', :attributes => {:id => 'issue-form'}
+    assert_no_tag 'input', :attributes => {:name => 'issue[is_private]'}
+    assert_no_tag 'select', :attributes => {:name => 'issue[tracker_id]'}
+    assert_no_tag 'input', :attributes => {:name => 'issue[subject]'}
+    assert_no_tag 'textarea', :attributes => {:name => 'issue[description]'}
+    assert_tag 'select', :attributes => {:name => 'issue[status_id]'}
+    assert_no_tag 'select', :attributes => {:name => 'issue[priority_id]'}
+    assert_tag 'select', :attributes => {:name => 'issue[assigned_to_id]'}
+    assert_no_tag 'select', :attributes => {:name => 'issue[category_id]'}
+    assert_tag 'select', :attributes => {:name => 'issue[fixed_version_id]'}
+    assert_no_tag 'input', :attributes => {:name => 'issue[parent_issue_id]'}
+    assert_no_tag 'input', :attributes => {:name => 'issue[start_date]'}
+    assert_no_tag 'input', :attributes => {:name => 'issue[due_date]'}
+    assert_tag 'select', :attributes => {:name => 'issue[done_ratio]'}
+    assert_no_tag 'input', :attributes => { :name => 'issue[custom_field_values][2]' }
+    assert_no_tag 'input', :attributes => {:name => 'issue[watcher_user_ids][]'}
+    assert_tag 'textarea', :attributes => {:name => 'notes'}
+  end
+
+  def test_show_should_not_display_update_form_without_permissions
+    Role.find(1).update_attribute :permissions, [:view_issues]
+
+    @request.session[:user_id] = 2
+    get :show, :id => 1
+    assert_response :success
+
+    assert_no_tag 'form', :attributes => {:id => 'issue-form'}
+  end
+
   def test_update_form_should_not_display_inactive_enumerations
     @request.session[:user_id] = 2
     get :show, :id => 1
@@ -855,13 +942,52 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'new'
 
-    assert_tag :tag => 'input', :attributes => { :name => 'issue[custom_field_values][2]',
-                                                 :value => 'Default string' }
+    assert_tag 'input', :attributes => {:name => 'issue[is_private]'}
+    assert_tag 'select', :attributes => {:name => 'issue[tracker_id]'}
+    assert_tag 'input', :attributes => {:name => 'issue[subject]'}
+    assert_tag 'textarea', :attributes => {:name => 'issue[description]'}
+    assert_tag 'select', :attributes => {:name => 'issue[status_id]'}
+    assert_tag 'select', :attributes => {:name => 'issue[priority_id]'}
+    assert_tag 'select', :attributes => {:name => 'issue[assigned_to_id]'}
+    assert_tag 'select', :attributes => {:name => 'issue[category_id]'}
+    assert_tag 'select', :attributes => {:name => 'issue[fixed_version_id]'}
+    assert_tag 'input', :attributes => {:name => 'issue[parent_issue_id]'}
+    assert_tag 'input', :attributes => {:name => 'issue[start_date]'}
+    assert_tag 'input', :attributes => {:name => 'issue[due_date]'}
+    assert_tag 'select', :attributes => {:name => 'issue[done_ratio]'}
+    assert_tag 'input', :attributes => { :name => 'issue[custom_field_values][2]', :value => 'Default string' }
+    assert_tag 'input', :attributes => {:name => 'issue[watcher_user_ids][]'}
 
     # Be sure we don't display inactive IssuePriorities
     assert ! IssuePriority.find(15).active?
     assert_no_tag :option, :attributes => {:value => '15'},
                            :parent => {:tag => 'select', :attributes => {:id => 'issue_priority_id'} }
+  end
+
+  def test_get_new_with_minimal_permissions
+    Role.find(1).update_attribute :permissions, [:add_issues]
+    Workflow.delete_all :role_id => 1
+
+    @request.session[:user_id] = 2
+    get :new, :project_id => 1, :tracker_id => 1
+    assert_response :success
+    assert_template 'new'
+
+    assert_no_tag 'input', :attributes => {:name => 'issue[is_private]'}
+    assert_tag 'select', :attributes => {:name => 'issue[tracker_id]'}
+    assert_tag 'input', :attributes => {:name => 'issue[subject]'}
+    assert_tag 'textarea', :attributes => {:name => 'issue[description]'}
+    assert_tag 'select', :attributes => {:name => 'issue[status_id]'}
+    assert_tag 'select', :attributes => {:name => 'issue[priority_id]'}
+    assert_tag 'select', :attributes => {:name => 'issue[assigned_to_id]'}
+    assert_tag 'select', :attributes => {:name => 'issue[category_id]'}
+    assert_tag 'select', :attributes => {:name => 'issue[fixed_version_id]'}
+    assert_no_tag 'input', :attributes => {:name => 'issue[parent_issue_id]'}
+    assert_tag 'input', :attributes => {:name => 'issue[start_date]'}
+    assert_tag 'input', :attributes => {:name => 'issue[due_date]'}
+    assert_tag 'select', :attributes => {:name => 'issue[done_ratio]'}
+    assert_tag 'input', :attributes => { :name => 'issue[custom_field_values][2]', :value => 'Default string' }
+    assert_no_tag 'input', :attributes => {:name => 'issue[watcher_user_ids][]'}
   end
 
   def test_get_new_without_default_start_date_is_creation_date

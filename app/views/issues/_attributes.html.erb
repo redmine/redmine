@@ -1,15 +1,21 @@
 <% labelled_fields_for :issue, @issue do |f| %>
 
 <div class="splitcontentleft">
-<% if @issue.new_record? || @allowed_statuses.any? %>
+<% if @issue.safe_attribute? 'status_id'  %>
 <p><%= f.select :status_id, (@allowed_statuses.collect {|p| [p.name, p.id]}), :required => true %></p>
 <% else %>
 <p><label><%= l(:field_status) %></label> <%= h(@issue.status.name) %></p>
 <% end %>
 
+<% if @issue.safe_attribute? 'priority_id' %>
 <p><%= f.select :priority_id, (@priorities.collect {|p| [p.name, p.id]}), {:required => true}, :disabled => !@issue.leaf? %></p>
+<% end %>
+
+<% if @issue.safe_attribute? 'assigned_to_id' %>
 <p><%= f.select :assigned_to_id, principals_options_for_select(@issue.assignable_users, @issue.assigned_to), :include_blank => true %></p>
-<% unless @project.issue_categories.empty? %>
+<% end %>
+
+<% if @issue.safe_attribute?('category_id') && @project.issue_categories.any? %>
 <p><%= f.select :category_id, (@project.issue_categories.collect {|c| [c.name, c.id]}), :include_blank => true %>
 <%= prompt_to_remote(image_tag('add.png', :style => 'vertical-align: middle;'),
                      l(:label_issue_category_new),
@@ -18,7 +24,8 @@
                      :title => l(:label_issue_category_new),
                      :tabindex => 199) if authorize_for('issue_categories', 'new') %></p>
 <% end %>
-<% unless @issue.assignable_versions.empty? %>
+
+<% if @issue.safe_attribute?('fixed_version_id') && @issue.assignable_versions.any? %>
 <p><%= f.select :fixed_version_id, version_options_for_select(@issue.assignable_versions, @issue.fixed_version), :include_blank => true %>
 <%= prompt_to_remote(image_tag('add.png', :style => 'vertical-align: middle;'),
                      l(:label_version_new),
@@ -36,15 +43,27 @@
 <div id="parent_issue_candidates" class="autocomplete"></div>
 <%= javascript_tag "observeParentIssueField('#{auto_complete_issues_path(:id => @issue, :project_id => @project) }')" %>
 <% end %>
+
+<% if @issue.safe_attribute? 'start_date' %>
 <p><%= f.text_field :start_date, :size => 10, :disabled => !@issue.leaf? %><%= calendar_for('issue_start_date') if @issue.leaf? %></p>
+<% end %>
+
+<% if @issue.safe_attribute? 'due_date' %>
 <p><%= f.text_field :due_date, :size => 10, :disabled => !@issue.leaf? %><%= calendar_for('issue_due_date') if @issue.leaf? %></p>
+<% end %>
+
+<% if @issue.safe_attribute? 'estimated_hours' %>
 <p><%= f.text_field :estimated_hours, :size => 3, :disabled => !@issue.leaf? %> <%= l(:field_hours) %></p>
-<% if @issue.leaf? && Issue.use_field_for_done_ratio? %>
+<% end %>
+
+<% if @issue.safe_attribute?('done_ratio') && @issue.leaf? && Issue.use_field_for_done_ratio? %>
 <p><%= f.select :done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }) %></p>
 <% end %>
 </div>
 
 <div style="clear:both;"> </div>
+<% if @issue.safe_attribute? 'custom_field_values' %>
 <%= render :partial => 'issues/form_custom_fields' %>
+<% end %>
 
 <% end %>

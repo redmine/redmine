@@ -283,6 +283,7 @@ class Issue < ActiveRecord::Base
     'assigned_to_id',
     'fixed_version_id',
     'done_ratio',
+    'lock_version',
     :if => lambda {|issue, user| issue.new_statuses_allowed_to(user).any? }
 
   safe_attributes 'watcher_user_ids',

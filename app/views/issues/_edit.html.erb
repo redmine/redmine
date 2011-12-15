@@ -3,7 +3,7 @@
     <div class="box">
     <% if @edit_allowed || !@allowed_statuses.empty? %>
         <fieldset class="tabular"><legend><%= l(:label_change_properties) %></legend>
-        <%= render :partial => (@edit_allowed ? 'form' : 'form_update'), :locals => {:f => f} %>
+        <%= render :partial => 'form', :locals => {:f => f} %>
         </fieldset>
     <% end %>
     <% if User.current.allowed_to?(:log_time, @project) %>
