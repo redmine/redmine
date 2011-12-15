@@ -158,13 +158,31 @@ class RoutingTest < ActionController::IntegrationTest
       )
   end
 
-  context "roles" do
-    should_route :get, "/enumerations", :controller => 'enumerations', :action => 'index'
-    should_route :get, "/enumerations/new", :controller => 'enumerations', :action => 'new'
-    should_route :post, "/enumerations", :controller => 'enumerations', :action => 'create'
-    should_route :get, "/enumerations/2/edit", :controller => 'enumerations', :action => 'edit', :id => 2
-    should_route :put, "/enumerations/2", :controller => 'enumerations', :action => 'update', :id => 2
-    should_route :delete, "/enumerations/2", :controller => 'enumerations', :action => 'destroy', :id => 2
+  def test_roles
+    assert_routing(
+        { :method => 'get', :path => "/enumerations" },
+        { :controller => 'enumerations', :action => 'index' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/enumerations/new" },
+        { :controller => 'enumerations', :action => 'new' }
+      )
+    assert_routing(
+        { :method => 'post', :path => "/enumerations" },
+        { :controller => 'enumerations', :action => 'create' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/enumerations/2/edit" },
+        { :controller => 'enumerations', :action => 'edit', :id => '2' }
+      )
+    assert_routing(
+        { :method => 'put', :path => "/enumerations/2" },
+        { :controller => 'enumerations', :action => 'update', :id => '2' }
+      )
+    assert_routing(
+        { :method => 'delete', :path => "/enumerations/2" },
+        { :controller => 'enumerations', :action => 'destroy', :id => '2' }
+      )
   end
 
   def test_groups
