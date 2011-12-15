@@ -232,7 +232,6 @@ module Redmine
               io.close_write
               block.call(io) if block_given?
             end
-            logger.debug "Return code: #{$?.exitstatus}" if !$?.success? && logger && logger.debug?
           ## If scm command does not exist,
           ## Linux JRuby 1.6.2 (ruby-1.8.7-p330) raises java.io.IOException
           ## in production environment.
