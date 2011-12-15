@@ -123,17 +123,39 @@ class RoutingTest < ActionController::IntegrationTest
       )
   end
 
-  context "documents" do
-    should_route :get, "/projects/567/documents", :controller => 'documents', :action => 'index', :project_id => '567'
-    should_route :get, "/projects/567/documents/new", :controller => 'documents', :action => 'new', :project_id => '567'
-    should_route :get, "/documents/22", :controller => 'documents', :action => 'show', :id => '22'
-    should_route :get, "/documents/22/edit", :controller => 'documents', :action => 'edit', :id => '22'
-
-    should_route :post, "/projects/567/documents", :controller => 'documents', :action => 'create', :project_id => '567'
-    should_route :put, "/documents/22", :controller => 'documents', :action => 'update', :id => '22'
-    should_route :delete, "/documents/22", :controller => 'documents', :action => 'destroy', :id => '22'
-
-    should_route :post, "/documents/22/add_attachment", :controller => 'documents', :action => 'add_attachment', :id => '22'
+  def test_documents
+    assert_routing(
+        { :method => 'get', :path => "/projects/567/documents" },
+        { :controller => 'documents', :action => 'index', :project_id => '567' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/projects/567/documents/new" },
+        { :controller => 'documents', :action => 'new', :project_id => '567' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/documents/22" },
+        { :controller => 'documents', :action => 'show', :id => '22' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/documents/22/edit" },
+        { :controller => 'documents', :action => 'edit', :id => '22' }
+      )
+    assert_routing(
+        { :method => 'post', :path => "/projects/567/documents" },
+        { :controller => 'documents', :action => 'create', :project_id => '567' }
+      )
+    assert_routing(
+        { :method => 'put', :path => "/documents/22" },
+        { :controller => 'documents', :action => 'update', :id => '22' }
+      )
+    assert_routing(
+        { :method => 'delete', :path => "/documents/22" },
+        { :controller => 'documents', :action => 'destroy', :id => '22' }
+      )
+    assert_routing(
+        { :method => 'post', :path => "/documents/22/add_attachment" },
+        { :controller => 'documents', :action => 'add_attachment', :id => '22' }
+      )
   end
 
   context "roles" do
