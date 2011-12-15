@@ -51,8 +51,12 @@ class Group < Principal
     end
   end
 
-  def self.human_attribute_name(attribute_key_name, *args)
-    attribute_key_name == 'lastname' ? l(:field_name) : super
+  def self.human_attribute_name(attribute_key_name)
+    attr_name = attribute_key_name
+    if attr_name == 'lastname'
+      attr_name = "name"
+    end
+    super(attr_name)
   end
 
   private
