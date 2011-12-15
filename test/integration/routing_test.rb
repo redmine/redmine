@@ -240,17 +240,36 @@ class RoutingTest < ActionController::IntegrationTest
       )
   end
 
+  def test_issues_form_update
+    assert_routing(
+        { :method => 'post', :path => "/projects/23/issues/new" },
+        { :controller => 'issues', :action => 'new', :project_id => '23' }
+      )
+    assert_routing(
+        { :method => 'post', :path => "/projects/23/issues" },
+        { :controller => 'issues', :action => 'create', :project_id => '23' }
+      )
+    assert_routing(
+        { :method => 'post', :path => "/issues.xml" },
+        { :controller => 'issues', :action => 'create', :format => 'xml' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/issues/64/edit" },
+        { :controller => 'issues', :action => 'edit', :id => '64' }
+      )
+    assert_routing(
+        { :method => 'put', :path => "/issues/1.xml" },
+        { :controller => 'issues', :action => 'update', :id => '1',
+          :format => 'xml' }
+      )
+    assert_routing(
+        { :method => 'delete', :path => "/issues/1.xml" },
+        { :controller => 'issues', :action => 'destroy', :id => '1',
+          :format => 'xml' }
+      )
+  end
+
   context "issues" do
-    # issue form update
-    should_route :post, "/projects/23/issues/new", :controller => 'issues', :action => 'new', :project_id => '23'
-    should_route :post, "/projects/23/issues", :controller => 'issues', :action => 'create', :project_id => '23'
-    should_route :post, "/issues.xml", :controller => 'issues', :action => 'create', :format => 'xml'
-
-    should_route :get, "/issues/64/edit", :controller => 'issues', :action => 'edit', :id => '64'
-    should_route :put, "/issues/1.xml", :controller => 'issues', :action => 'update', :id => '1', :format => 'xml'
-
-    should_route :delete, "/issues/1.xml", :controller => 'issues', :action => 'destroy', :id => '1', :format => 'xml'
-
     # Extra actions
     should_route :get, "/projects/23/issues/64/copy", :controller => 'issues', :action => 'new', :project_id => '23', :copy_from => '64'
 
