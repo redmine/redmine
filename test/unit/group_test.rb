@@ -34,6 +34,8 @@ class GroupTest < ActiveSupport::TestCase
   end
 
   def test_blank_name_error_message
+    I18n.locale = :en
+
     g = Group.new
     assert !g.save
     assert_include "Name can't be blank", g.errors.full_messages
