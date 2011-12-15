@@ -166,10 +166,17 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :put, "/enumerations/2", :controller => 'enumerations', :action => 'update', :id => 2
     should_route :delete, "/enumerations/2", :controller => 'enumerations', :action => 'destroy', :id => 2
   end
-  
-  context "groups" do
-    should_route :post,   "/groups/567/users", :controller => 'groups', :action => 'add_users', :id => '567'
-    should_route :delete, "/groups/567/users/12", :controller => 'groups', :action => 'remove_user', :id => '567', :user_id => '12'
+
+  def test_groups
+    assert_routing(
+        { :method => 'post', :path => "/groups/567/users" },
+        { :controller => 'groups', :action => 'add_users', :id => '567' }
+      )
+    assert_routing(
+        { :method => 'delete', :path => "/groups/567/users/12" },
+        { :controller => 'groups', :action => 'remove_user', :id => '567',
+          :user_id => '12' }
+      )
   end
 
   def test_issues_rest_actions
