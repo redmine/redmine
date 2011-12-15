@@ -316,7 +316,6 @@ module Redmine
 
       def initialize(name, content = nil)
         @name = name
-        @childrenHash ||= {}
         @children = []
         @last_items_count = 0
       end
@@ -341,50 +340,34 @@ module Redmine
 
       # Adds a child at first position
       def prepend(child)
-        raise "Child already added" if @childrenHash.has_key?(child.name)
-  
-        @childrenHash[child.name]  = child
-        @children = [child] + @children
-        child.parent = self
-        return child
+        add_at(child, 0)
       end
 
       # Adds a child at given position
       def add_at(child, position)
-        raise "Child already added" if @childrenHash.has_key?(child.name)
-  
-        @childrenHash[child.name]  = child
+        raise "Child already added" if find {|node| node.name == child.name}
+
         @children = @children.insert(position, child)
         child.parent = self
-        return child
+        child
       end
 
       # Adds a child as last child
       def add_last(child)
-        raise "Child already added" if @childrenHash.has_key?(child.name)
-  
-        @childrenHash[child.name]  = child
-        @children <<  child
+        add_at(child, -1)
         @last_items_count += 1
-        child.parent = self
-        return child
+        child
       end
 
       # Adds a child
       def add(child)
-        raise "Child already added" if @childrenHash.has_key?(child.name)
-  
-        @childrenHash[child.name]  = child
         position = @children.size - @last_items_count
-        @children.insert(position, child)
-        child.parent = self
-        return child
+        add_at(child, position)
       end
       alias :<< :add
 
       # Removes a child
       def remove!(child)
-        @childrenHash.delete(child.name)
         @children.delete(child)
         @last_items_count -= +1 if child && child.last
         child.parent = nil
