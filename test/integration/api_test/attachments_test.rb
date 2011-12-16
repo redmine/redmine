@@ -30,7 +30,11 @@ class ApiTest::AttachmentsTest < ActionController::IntegrationTest
 
   def setup
     Setting.rest_api_enabled = '1'
-    Attachment.storage_path = "#{Rails.root}/test/fixtures/files"
+    set_fixtures_attachments_directory
+  end
+
+  def teardown
+    set_tmp_attachments_directory
   end
 
   context "/attachments/:id" do

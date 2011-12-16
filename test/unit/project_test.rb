@@ -34,6 +34,7 @@ class ProjectTest < ActiveSupport::TestCase
   def setup
     @ecookbook = Project.find(1)
     @ecookbook_sub1 = Project.find(3)
+    set_tmp_attachments_directory
     User.current = nil
   end
 

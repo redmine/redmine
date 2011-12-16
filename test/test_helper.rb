@@ -97,6 +97,10 @@ class ActiveSupport::TestCase
     Attachment.storage_path = "#{Rails.root}/tmp/test/attachments"
   end
 
+  def set_fixtures_attachments_directory
+    Attachment.storage_path = "#{Rails.root}/test/fixtures/files"
+  end
+
   def with_settings(options, &block)
     saved_settings = options.keys.inject({}) {|h, k| h[k] = Setting[k].is_a?(Symbol) ? Setting[k] : Setting[k].dup; h}
     options.each {|k, v| Setting[k] = v}

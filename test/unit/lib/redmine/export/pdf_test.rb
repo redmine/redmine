@@ -91,7 +91,7 @@ class PdfTest < ActiveSupport::TestCase
   end
 
   def test_attach
-    Attachment.storage_path = "#{Rails.root}/test/fixtures/files"
+    set_fixtures_attachments_directory
 
     str2 = "\x83e\x83X\x83g"
     str2.force_encoding("ASCII-8BIT") if str2.respond_to?(:force_encoding)

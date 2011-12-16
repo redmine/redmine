@@ -182,7 +182,7 @@ RAW
   end
 
   def test_attached_images_should_read_later
-    Attachment.storage_path = "#{Rails.root}/test/fixtures/files"
+    set_fixtures_attachments_directory
     a1 = Attachment.find(16)
     assert_equal "testfile.png", a1.filename
     assert a1.readable?

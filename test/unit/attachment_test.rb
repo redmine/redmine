@@ -145,7 +145,7 @@ class AttachmentTest < ActiveSupport::TestCase
   end
 
   def test_latest_attach
-    Attachment.storage_path = "#{Rails.root}/test/fixtures/files"
+    set_fixtures_attachments_directory
     a1 = Attachment.find(16)
     assert_equal "testfile.png", a1.filename
     assert a1.readable?
