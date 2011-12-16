@@ -593,15 +593,39 @@ class RoutingTest < ActionController::IntegrationTest
       )
   end
 
-  context "roles" do
-    should_route :get, "/roles", :controller => 'roles', :action => 'index'
-    should_route :get, "/roles/new", :controller => 'roles', :action => 'new'
-    should_route :post, "/roles", :controller => 'roles', :action => 'create'
-    should_route :get, "/roles/2/edit", :controller => 'roles', :action => 'edit', :id => 2
-    should_route :put, "/roles/2", :controller => 'roles', :action => 'update', :id => 2
-    should_route :delete, "/roles/2", :controller => 'roles', :action => 'destroy', :id => 2
-    should_route :get, "/roles/permissions", :controller => 'roles', :action => 'permissions'
-    should_route :post, "/roles/permissions", :controller => 'roles', :action => 'permissions'
+  def test_roles
+    assert_routing(
+        { :method => 'get', :path => "/roles" },
+        { :controller => 'roles', :action => 'index' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/roles/new" },
+        { :controller => 'roles', :action => 'new' }
+      )
+    assert_routing(
+        { :method => 'post', :path => "/roles" },
+        { :controller => 'roles', :action => 'create' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/roles/2/edit" },
+        { :controller => 'roles', :action => 'edit', :id => '2' }
+      )
+    assert_routing(
+        { :method => 'put', :path => "/roles/2" },
+        { :controller => 'roles', :action => 'update', :id => '2' }
+      )
+    assert_routing(
+        { :method => 'delete', :path => "/roles/2" },
+        { :controller => 'roles', :action => 'destroy', :id => '2' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/roles/permissions" },
+        { :controller => 'roles', :action => 'permissions' }
+      )
+    assert_routing(
+        { :method => 'post', :path => "/roles/permissions" },
+        { :controller => 'roles', :action => 'permissions' }
+      )
   end
 
   def test_timelogs_global
