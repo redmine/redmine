@@ -555,18 +555,45 @@ class RoutingTest < ActionController::IntegrationTest
       )
   end
 
-  context "timelogs (scoped under project)" do
-    should_route :get, "/projects/567/time_entries", :controller => 'timelog', :action => 'index', :project_id => '567'
-    should_route :get, "/projects/567/time_entries.csv", :controller => 'timelog', :action => 'index', :project_id => '567', :format => 'csv'
-    should_route :get, "/projects/567/time_entries.atom", :controller => 'timelog', :action => 'index', :project_id => '567', :format => 'atom'
-    should_route :get, "/projects/567/time_entries/new", :controller => 'timelog', :action => 'new', :project_id => '567'
-    should_route :get, "/projects/567/time_entries/22/edit", :controller => 'timelog', :action => 'edit', :id => '22', :project_id => '567'
-
-    should_route :post, "/projects/567/time_entries", :controller => 'timelog', :action => 'create', :project_id => '567'
-
-    should_route :put, "/projects/567/time_entries/22", :controller => 'timelog', :action => 'update', :id => '22', :project_id => '567'
-
-    should_route :delete, "/projects/567/time_entries/55", :controller => 'timelog', :action => 'destroy', :id => '55', :project_id => '567'
+  def test_timelogs_scoped_under_project
+    assert_routing(
+        { :method => 'get', :path => "/projects/567/time_entries" },
+        { :controller => 'timelog', :action => 'index', :project_id => '567' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/projects/567/time_entries.csv" },
+        { :controller => 'timelog', :action => 'index', :project_id => '567',
+          :format => 'csv' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/projects/567/time_entries.atom" },
+        { :controller => 'timelog', :action => 'index', :project_id => '567',
+          :format => 'atom' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/projects/567/time_entries/new" },
+        { :controller => 'timelog', :action => 'new', :project_id => '567' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/projects/567/time_entries/22/edit" },
+        { :controller => 'timelog', :action => 'edit',
+          :id => '22', :project_id => '567' }
+      )
+    assert_routing(
+        { :method => 'post', :path => "/projects/567/time_entries" },
+        { :controller => 'timelog', :action => 'create',
+          :project_id => '567' }
+      )
+    assert_routing(
+        { :method => 'put', :path => "/projects/567/time_entries/22" },
+        { :controller => 'timelog', :action => 'update',
+          :id => '22', :project_id => '567' }
+      )
+    assert_routing(
+        { :method => 'delete', :path => "/projects/567/time_entries/55" },
+        { :controller => 'timelog', :action => 'destroy',
+          :id => '55', :project_id => '567' }
+      )
   end
 
   context "timelogs (scoped under issues)" do
