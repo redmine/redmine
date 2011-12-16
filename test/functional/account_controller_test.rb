@@ -161,33 +161,26 @@ class AccountControllerTest < ActionController::TestCase
     assert_nil @request.session[:user_id]
   end
 
-  context "GET #register" do
-    context "with self registration on" do
-      setup do
-        Setting.self_registration = '3'
-        get :register
-      end
-
-      should_respond_with :success
-      should_render_template :register
-      should_assign_to :user
+  def test_get_register_with_registration_on
+    with_settings :self_registration => '3' do
+      get :register
+      assert_response :success
+      assert_template 'register'
+      assert_not_nil assigns(:user)
     end
+  end
 
-    context "with self registration off" do
-      setup do
-        Setting.self_registration = '0'
-        get :register
-      end
-
-      should_redirect_to('/') { home_url }
+  def test_get_register_with_registration_off_should_redirect
+    with_settings :self_registration => '0' do
+      get :register
+      assert_redirected_to '/'
     end
   end
 
   # See integration/account_test.rb for the full test
-  context "POST #register" do
-    context "with self registration on automatic" do
-      setup do
-        Setting.self_registration = '3'
+  def test_post_register_with_registration_on
+    with_settings :self_registration => '3' do
+      assert_difference 'User.count' do
         post :register, :user => {
           :login => 'register',
           :password => 'test',
@@ -196,28 +189,27 @@ class AccountControllerTest < ActionController::TestCase
           :lastname => 'Doe',
           :mail => 'register@example.com'
         }
+        assert_redirected_to '/my/account'
       end
-
-      should_respond_with :redirect
-      should_assign_to :user
-      should_redirect_to('my page') { {:controller => 'my', :action => 'account'} }
-
-      should_create_a_new_user { User.last(:conditions => {:login => 'register'}) }
-
-      should 'set the user status to active' do
-        user = User.last(:conditions => {:login => 'register'})
-        assert user
-        assert_equal User::STATUS_ACTIVE, user.status
-      end
+      user = User.first(:order => 'id DESC')
+      assert_equal 'register', user.login
+      assert user.active?
     end
-
-    context "with self registration off" do
-      setup do
-        Setting.self_registration = '0'
-        post :register
+  end
+  
+  def test_post_register_with_registration_off_should_redirect
+    with_settings :self_registration => '0' do
+      assert_no_difference 'User.count' do
+        post :register, :user => {
+          :login => 'register',
+          :password => 'test',
+          :password_confirmation => 'test',
+          :firstname => 'John',
+          :lastname => 'Doe',
+          :mail => 'register@example.com'
+        }
+        assert_redirected_to '/'
       end
-
-      should_redirect_to('/') { home_url }
     end
   end
 end

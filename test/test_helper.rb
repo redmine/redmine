@@ -207,15 +207,6 @@ class ActiveSupport::TestCase
     end
   end
 
-  def self.should_create_a_new_user(&block)
-    should "create a new user" do
-      user = instance_eval &block
-      assert user
-      assert_kind_of User, user
-      assert !user.new_record?
-    end
-  end
-
   # Test that a request allows the three types of API authentication
   #
   # * HTTP Basic with username and password
