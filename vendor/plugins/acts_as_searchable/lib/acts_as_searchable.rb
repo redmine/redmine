@@ -62,6 +62,11 @@ module Redmine
           # projects argument can be either nil (will search all projects), a project or an array of projects
           # Returns the results and the results count
           def search(tokens, projects=nil, options={})
+            if projects.is_a?(Array) && projects.empty?
+              # no results
+              return [[], 0]
+            end
+
             # TODO: make user an argument
             user = User.current
             tokens = [] << tokens unless tokens.is_a?(Array)

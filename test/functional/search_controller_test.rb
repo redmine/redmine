@@ -58,6 +58,30 @@ class SearchControllerTest < ActionController::TestCase
                     :child => { :tag => 'a',  :content => /Closed/ }
   end
 
+  def test_search_all_projects_with_scope_param
+    get :index, :q => 'issue', :scope => 'all'
+    assert_response :success
+    assert_template 'index'
+    assert assigns(:results).present?
+  end
+
+  def test_search_my_projects
+    @request.session[:user_id] = 2
+    get :index, :id => 1, :q => 'recipe subproject', :scope => 'my_projects', :all_words => ''
+    assert_response :success
+    assert_template 'index'
+    assert assigns(:results).include?(Issue.find(1))
+    assert !assigns(:results).include?(Issue.find(5))
+  end
+
+  def test_search_my_projects_without_memberships
+    # anonymous user has no memberships
+    get :index, :id => 1, :q => 'recipe subproject', :scope => 'my_projects', :all_words => ''
+    assert_response :success
+    assert_template 'index'
+    assert assigns(:results).empty?
+  end
+
   def test_search_project_and_subprojects
     get :index, :id => 1, :q => 'recipe subproject', :scope => 'subprojects', :all_words => ''
     assert_response :success
@@ -130,6 +154,22 @@ class SearchControllerTest < ActionController::TestCase
     results = assigns(:results)
     assert_not_nil results
     assert_equal 1, results.size
+  end
+
+  def test_search_with_offset
+    get :index, :q => 'coo', :offset => '20080806073000'
+    assert_response :success
+    results = assigns(:results)
+    assert results.any?
+    assert results.map(&:event_datetime).max < '20080806T073000'.to_time
+  end
+
+  def test_search_previous_with_offset
+    get :index, :q => 'coo', :offset => '20080806073000', :previous => '1'
+    assert_response :success
+    results = assigns(:results)
+    assert results.any?
+    assert results.map(&:event_datetime).min >= '20080806T073000'.to_time
   end
 
   def test_search_with_invalid_project_id
