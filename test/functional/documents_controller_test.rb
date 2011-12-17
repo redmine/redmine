@@ -115,6 +115,15 @@ LOREM
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
 
+  def test_create_with_failure
+    @request.session[:user_id] = 2
+    assert_no_difference 'Document.count' do
+      post :create, :project_id => 'ecookbook', :document => { :title => ''}
+    end
+    assert_response :success
+    assert_template 'new'
+  end
+
   def test_edit
     @request.session[:user_id] = 2
     get :edit, :id => 1
@@ -128,6 +137,13 @@ LOREM
     assert_redirected_to '/documents/1'
     document = Document.find(1)
     assert_equal 'test_update', document.title
+  end
+
+  def test_update_with_failure
+    @request.session[:user_id] = 2
+    put :update, :id => 1, :document => {:title => ''}
+    assert_response :success
+    assert_template 'edit'
   end
 
   def test_destroy
