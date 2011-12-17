@@ -392,22 +392,65 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :delete, "/issue_categories/1.json", :controller => 'issue_categories', :action => 'destroy', :id => '1', :format => 'json'
   end
 
-  context "issue relations" do
-    should_route :get, "/issues/1/relations", :controller => 'issue_relations', :action => 'index', :issue_id => '1'
-    should_route :get, "/issues/1/relations.xml", :controller => 'issue_relations', :action => 'index', :issue_id => '1', :format => 'xml'
-    should_route :get, "/issues/1/relations.json", :controller => 'issue_relations', :action => 'index', :issue_id => '1', :format => 'json'
-
-    should_route :post, "/issues/1/relations", :controller => 'issue_relations', :action => 'create', :issue_id => '1'
-    should_route :post, "/issues/1/relations.xml", :controller => 'issue_relations', :action => 'create', :issue_id => '1', :format => 'xml'
-    should_route :post, "/issues/1/relations.json", :controller => 'issue_relations', :action => 'create', :issue_id => '1', :format => 'json'
-
-    should_route :get, "/relations/23", :controller => 'issue_relations', :action => 'show', :id => '23'
-    should_route :get, "/relations/23.xml", :controller => 'issue_relations', :action => 'show', :id => '23', :format => 'xml'
-    should_route :get, "/relations/23.json", :controller => 'issue_relations', :action => 'show', :id => '23', :format => 'json'
-
-    should_route :delete, "/relations/23", :controller => 'issue_relations', :action => 'destroy', :id => '23'
-    should_route :delete, "/relations/23.xml", :controller => 'issue_relations', :action => 'destroy', :id => '23', :format => 'xml'
-    should_route :delete, "/relations/23.json", :controller => 'issue_relations', :action => 'destroy', :id => '23', :format => 'json'
+  def test_issue_relations
+    assert_routing(
+        { :method => 'get', :path => "/issues/1/relations" },
+        { :controller => 'issue_relations', :action => 'index',
+          :issue_id => '1' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/issues/1/relations.xml" },
+        { :controller => 'issue_relations', :action => 'index',
+          :issue_id => '1', :format => 'xml' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/issues/1/relations.json" },
+        { :controller => 'issue_relations', :action => 'index',
+          :issue_id => '1', :format => 'json' }
+      )
+    assert_routing(
+        { :method => 'post', :path => "/issues/1/relations" },
+        { :controller => 'issue_relations', :action => 'create',
+          :issue_id => '1' }
+      )
+    assert_routing(
+        { :method => 'post', :path => "/issues/1/relations.xml" },
+        { :controller => 'issue_relations', :action => 'create',
+          :issue_id => '1', :format => 'xml' }
+      )
+    assert_routing(
+        { :method => 'post', :path => "/issues/1/relations.json" },
+        { :controller => 'issue_relations', :action => 'create',
+          :issue_id => '1', :format => 'json' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/relations/23" },
+        { :controller => 'issue_relations', :action => 'show', :id => '23' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/relations/23.xml" },
+        { :controller => 'issue_relations', :action => 'show', :id => '23',
+          :format => 'xml' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/relations/23.json" },
+        { :controller => 'issue_relations', :action => 'show', :id => '23',
+          :format => 'json' }
+      )
+    assert_routing(
+        { :method => 'delete', :path => "/relations/23" },
+        { :controller => 'issue_relations', :action => 'destroy', :id => '23' }
+      )
+    assert_routing(
+        { :method => 'delete', :path => "/relations/23.xml" },
+        { :controller => 'issue_relations', :action => 'destroy', :id => '23',
+          :format => 'xml' }
+      )
+    assert_routing(
+        { :method => 'delete', :path => "/relations/23.json" },
+        { :controller => 'issue_relations', :action => 'destroy', :id => '23',
+          :format => 'json' }
+      )
   end
 
   def test_issue_reports
