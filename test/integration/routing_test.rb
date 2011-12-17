@@ -508,28 +508,83 @@ class RoutingTest < ActionController::IntegrationTest
       )
   end
 
-  context "news" do
-    should_route :get, "/news", :controller => 'news', :action => 'index'
-    should_route :get, "/news.atom", :controller => 'news', :action => 'index', :format => 'atom'
-    should_route :get, "/news.xml", :controller => 'news', :action => 'index', :format => 'xml'
-    should_route :get, "/news.json", :controller => 'news', :action => 'index', :format => 'json'
-    should_route :get, "/projects/567/news", :controller => 'news', :action => 'index', :project_id => '567'
-    should_route :get, "/projects/567/news.atom", :controller => 'news', :action => 'index', :format => 'atom', :project_id => '567'
-    should_route :get, "/projects/567/news.xml", :controller => 'news', :action => 'index', :format => 'xml', :project_id => '567'
-    should_route :get, "/projects/567/news.json", :controller => 'news', :action => 'index', :format => 'json', :project_id => '567'
-    should_route :get, "/news/2", :controller => 'news', :action => 'show', :id => '2'
-    should_route :get, "/projects/567/news/new", :controller => 'news', :action => 'new', :project_id => '567'
-    should_route :get, "/news/234", :controller => 'news', :action => 'show', :id => '234'
-    should_route :get, "/news/567/edit", :controller => 'news', :action => 'edit', :id => '567'
-    should_route :get, "/news/preview", :controller => 'previews', :action => 'news'
-
-    should_route :post, "/projects/567/news", :controller => 'news', :action => 'create', :project_id => '567'
-    should_route :post, "/news/567/comments", :controller => 'comments', :action => 'create', :id => '567'
-
-    should_route :put, "/news/567", :controller => 'news', :action => 'update', :id => '567'
-
-    should_route :delete, "/news/567", :controller => 'news', :action => 'destroy', :id => '567'
-    should_route :delete, "/news/567/comments/15", :controller => 'comments', :action => 'destroy', :id => '567', :comment_id => '15'
+  def test_news
+    assert_routing(
+        { :method => 'get', :path => "/news" },
+        { :controller => 'news', :action => 'index' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/news.atom" },
+        { :controller => 'news', :action => 'index', :format => 'atom' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/news.xml" },
+        { :controller => 'news', :action => 'index', :format => 'xml' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/news.json" },
+        { :controller => 'news', :action => 'index', :format => 'json' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/projects/567/news" },
+        { :controller => 'news', :action => 'index', :project_id => '567' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/projects/567/news.atom" },
+        { :controller => 'news', :action => 'index', :format => 'atom',
+          :project_id => '567' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/projects/567/news.xml" },
+        { :controller => 'news', :action => 'index', :format => 'xml',
+          :project_id => '567' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/projects/567/news.json" },
+        { :controller => 'news', :action => 'index', :format => 'json',
+          :project_id => '567' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/news/2" },
+        { :controller => 'news', :action => 'show', :id => '2' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/projects/567/news/new" },
+        { :controller => 'news', :action => 'new', :project_id => '567' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/news/234" },
+        { :controller => 'news', :action => 'show', :id => '234' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/news/567/edit" },
+        { :controller => 'news', :action => 'edit', :id => '567' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/news/preview" },
+        { :controller => 'previews', :action => 'news' }
+      )
+    assert_routing(
+        { :method => 'post', :path => "/projects/567/news" },
+        { :controller => 'news', :action => 'create', :project_id => '567' }
+      )
+    assert_routing(
+        { :method => 'post', :path => "/news/567/comments" },
+        { :controller => 'comments', :action => 'create', :id => '567' }
+      )
+    assert_routing(
+        { :method => 'put', :path => "/news/567" },
+        { :controller => 'news', :action => 'update', :id => '567' }
+      )
+    assert_routing(
+        { :method => 'delete', :path => "/news/567" },
+        { :controller => 'news', :action => 'destroy', :id => '567' }
+      )
+    assert_routing(
+        { :method => 'delete', :path => "/news/567/comments/15" },
+        { :controller => 'comments', :action => 'destroy', :id => '567',
+          :comment_id => '15' }
+      )
   end
 
   def test_projects
