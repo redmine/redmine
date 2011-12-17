@@ -16,22 +16,15 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../test_helper', __FILE__)
-require 'queries_controller'
-
-# Re-raise errors caught by the controller.
-class QueriesController; def rescue_action(e) raise e end; end
 
 class QueriesControllerTest < ActionController::TestCase
   fixtures :projects, :users, :members, :member_roles, :roles, :trackers, :issue_statuses, :issue_categories, :enumerations, :issues, :custom_fields, :custom_values, :queries
 
   def setup
-    @controller = QueriesController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
   end
 
-  def test_get_new_project_query
+  def test_new_project_query
     @request.session[:user_id] = 2
     get :new, :project_id => 1
     assert_response :success
@@ -45,7 +38,7 @@ class QueriesControllerTest < ActionController::TestCase
                                                  :disabled => nil }
   end
 
-  def test_get_new_global_query
+  def test_new_global_query
     @request.session[:user_id] = 2
     get :new
     assert_response :success
@@ -58,7 +51,13 @@ class QueriesControllerTest < ActionController::TestCase
                                                  :disabled => nil }
   end
 
-  def test_new_project_public_query
+  def test_new_on_invalid_project
+    @request.session[:user_id] = 2
+    get :new, :project_id => 'invalid'
+    assert_response 404
+  end
+
+  def test_create_project_public_query
     @request.session[:user_id] = 2
     post :create,
          :project_id => 'ecookbook',
@@ -75,7 +74,7 @@ class QueriesControllerTest < ActionController::TestCase
     assert q.valid?
   end
 
-  def test_new_project_private_query
+  def test_create_project_private_query
     @request.session[:user_id] = 3
     post :create,
          :project_id => 'ecookbook',
@@ -92,7 +91,7 @@ class QueriesControllerTest < ActionController::TestCase
     assert q.valid?
   end
 
-  def test_new_global_private_query_with_custom_columns
+  def test_create_global_private_query_with_custom_columns
     @request.session[:user_id] = 3
     post :create,
          :fields => ["status_id", "assigned_to_id"],
@@ -109,7 +108,7 @@ class QueriesControllerTest < ActionController::TestCase
     assert q.valid?
   end
 
-  def test_new_global_query_with_custom_filters
+  def test_create_global_query_with_custom_filters
     @request.session[:user_id] = 3
     post :create,
          :fields => ["assigned_to_id"],
@@ -124,7 +123,7 @@ class QueriesControllerTest < ActionController::TestCase
     assert q.valid?
   end
 
-  def test_new_with_sort
+  def test_create_with_sort
     @request.session[:user_id] = 1
     post :create,
          :default_columns => '1',
@@ -139,7 +138,16 @@ class QueriesControllerTest < ActionController::TestCase
     assert_equal [['due_date', 'desc'], ['tracker', 'asc']], query.sort_criteria
   end
 
-  def test_get_edit_global_public_query
+  def test_create_with_failure
+    @request.session[:user_id] = 2
+    assert_no_difference 'Query.count' do
+      post :create, :project_id => 'ecookbook', :query => {:name => ''}
+    end
+    assert_response :success
+    assert_template 'new'
+  end
+
+  def test_edit_global_public_query
     @request.session[:user_id] = 1
     get :edit, :id => 4
     assert_response :success
@@ -153,24 +161,7 @@ class QueriesControllerTest < ActionController::TestCase
                                                  :disabled => 'disabled' }
   end
 
-  def test_edit_global_public_query
-    @request.session[:user_id] = 1
-    put :update,
-         :id => 4,
-         :default_columns => '1',
-         :fields => ["status_id", "assigned_to_id"],
-         :operators => {"assigned_to_id" => "=", "status_id" => "o"},
-         :values => { "assigned_to_id" => ["1"], "status_id" => ["1"]},
-         :query => {"name" => "test_edit_global_public_query", "is_public" => "1"}
-
-    assert_redirected_to :controller => 'issues', :action => 'index', :query_id => 4
-    q = Query.find_by_name('test_edit_global_public_query')
-    assert q.is_public?
-    assert q.has_default_columns?
-    assert q.valid?
-  end
-
-  def test_get_edit_global_private_query
+  def test_edit_global_private_query
     @request.session[:user_id] = 3
     get :edit, :id => 3
     assert_response :success
@@ -183,7 +174,54 @@ class QueriesControllerTest < ActionController::TestCase
                                                  :disabled => 'disabled' }
   end
 
-  def test_edit_global_private_query
+  def test_edit_project_private_query
+    @request.session[:user_id] = 3
+    get :edit, :id => 2
+    assert_response :success
+    assert_template 'edit'
+    assert_no_tag :tag => 'input', :attributes => { :type => 'checkbox',
+                                                    :name => 'query[is_public]' }
+    assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
+                                                 :name => 'query_is_for_all',
+                                                 :checked => nil,
+                                                 :disabled => nil }
+  end
+
+  def test_edit_project_public_query
+    @request.session[:user_id] = 2
+    get :edit, :id => 1
+    assert_response :success
+    assert_template 'edit'
+    assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
+                                                 :name => 'query[is_public]',
+                                                 :checked => 'checked'
+                                                  }
+    assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
+                                                 :name => 'query_is_for_all',
+                                                 :checked => nil,
+                                                 :disabled => 'disabled' }
+  end
+
+  def test_edit_sort_criteria
+    @request.session[:user_id] = 1
+    get :edit, :id => 5
+    assert_response :success
+    assert_template 'edit'
+    assert_tag :tag => 'select', :attributes => { :name => 'query[sort_criteria][0][]' },
+                                 :child => { :tag => 'option', :attributes => { :value => 'priority',
+                                                                                :selected => 'selected' } }
+    assert_tag :tag => 'select', :attributes => { :name => 'query[sort_criteria][0][]' },
+                                 :child => { :tag => 'option', :attributes => { :value => 'desc',
+                                                                                :selected => 'selected' } }
+  end
+
+  def test_edit_invalid_query
+    @request.session[:user_id] = 2
+    get :edit, :id => 99
+    assert_response 404
+  end
+
+  def test_udpate_global_private_query
     @request.session[:user_id] = 3
     put :update,
          :id => 3,
@@ -200,45 +238,28 @@ class QueriesControllerTest < ActionController::TestCase
     assert q.valid?
   end
 
-  def test_get_edit_project_private_query
-    @request.session[:user_id] = 3
-    get :edit, :id => 2
-    assert_response :success
-    assert_template 'edit'
-    assert_no_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                    :name => 'query[is_public]' }
-    assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                 :name => 'query_is_for_all',
-                                                 :checked => nil,
-                                                 :disabled => nil }
-  end
-
-  def test_get_edit_project_public_query
-    @request.session[:user_id] = 2
-    get :edit, :id => 1
-    assert_response :success
-    assert_template 'edit'
-    assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                 :name => 'query[is_public]',
-                                                 :checked => 'checked'
-                                                  }
-    assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                 :name => 'query_is_for_all',
-                                                 :checked => nil,
-                                                 :disabled => 'disabled' }
-  end
-
-  def test_get_edit_sort_criteria
+  def test_update_global_public_query
     @request.session[:user_id] = 1
-    get :edit, :id => 5
+    put :update,
+         :id => 4,
+         :default_columns => '1',
+         :fields => ["status_id", "assigned_to_id"],
+         :operators => {"assigned_to_id" => "=", "status_id" => "o"},
+         :values => { "assigned_to_id" => ["1"], "status_id" => ["1"]},
+         :query => {"name" => "test_edit_global_public_query", "is_public" => "1"}
+
+    assert_redirected_to :controller => 'issues', :action => 'index', :query_id => 4
+    q = Query.find_by_name('test_edit_global_public_query')
+    assert q.is_public?
+    assert q.has_default_columns?
+    assert q.valid?
+  end
+
+  def test_update_with_failure
+    @request.session[:user_id] = 1
+    put :update, :id => 4, :query => {:name => ''}
     assert_response :success
     assert_template 'edit'
-    assert_tag :tag => 'select', :attributes => { :name => 'query[sort_criteria][0][]' },
-                                 :child => { :tag => 'option', :attributes => { :value => 'priority',
-                                                                                :selected => 'selected' } }
-    assert_tag :tag => 'select', :attributes => { :name => 'query[sort_criteria][0][]' },
-                                 :child => { :tag => 'option', :attributes => { :value => 'desc',
-                                                                                :selected => 'selected' } }
   end
 
   def test_destroy
