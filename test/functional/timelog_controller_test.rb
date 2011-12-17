@@ -175,6 +175,14 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal [9, 9], TimeEntry.find_all_by_id([1, 2]).collect {|i| i.activity_id}
   end
 
+  def test_bulk_update_with_failure
+    @request.session[:user_id] = 2
+    post :bulk_update, :ids => [1, 2], :time_entry => { :hours => 'A'}
+
+    assert_response 302
+    assert_match /Failed to save 2 time entrie/, flash[:error]
+  end
+
   def test_bulk_update_on_different_projects
     @request.session[:user_id] = 2
     # makes user a manager on the other project
@@ -310,6 +318,76 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal "4.25", "%.2f" % assigns(:total_hours)
     assert_tag :form,
       :attributes => {:action => "/projects/ecookbook/time_entries", :id => 'query_form'}
+  end
+
+  def test_index_today
+    Date.stubs(:today).returns('2011-12-15'.to_date)
+    get :index, :period => 'today'
+    assert_equal '2011-12-15'.to_date, assigns(:from)
+    assert_equal '2011-12-15'.to_date, assigns(:to)
+  end
+
+  def test_index_yesterday
+    Date.stubs(:today).returns('2011-12-15'.to_date)
+    get :index, :period => 'yesterday'
+    assert_equal '2011-12-14'.to_date, assigns(:from)
+    assert_equal '2011-12-14'.to_date, assigns(:to)
+  end
+
+  def test_index_current_week
+    Date.stubs(:today).returns('2011-12-15'.to_date)
+    get :index, :period => 'current_week'
+    assert_equal '2011-12-12'.to_date, assigns(:from)
+    assert_equal '2011-12-18'.to_date, assigns(:to)
+  end
+
+  def test_index_last_week
+    Date.stubs(:today).returns('2011-12-15'.to_date)
+    get :index, :period => 'current_week'
+    assert_equal '2011-12-05'.to_date, assigns(:from)
+    assert_equal '2011-12-11'.to_date, assigns(:to)
+  end
+
+  def test_index_last_week
+    Date.stubs(:today).returns('2011-12-15'.to_date)
+    get :index, :period => 'last_week'
+    assert_equal '2011-12-05'.to_date, assigns(:from)
+    assert_equal '2011-12-11'.to_date, assigns(:to)
+  end
+
+  def test_index_7_days
+    Date.stubs(:today).returns('2011-12-15'.to_date)
+    get :index, :period => '7_days'
+    assert_equal '2011-12-08'.to_date, assigns(:from)
+    assert_equal '2011-12-15'.to_date, assigns(:to)
+  end
+
+  def test_index_current_month
+    Date.stubs(:today).returns('2011-12-15'.to_date)
+    get :index, :period => 'current_month'
+    assert_equal '2011-12-01'.to_date, assigns(:from)
+    assert_equal '2011-12-31'.to_date, assigns(:to)
+  end
+
+  def test_index_last_month
+    Date.stubs(:today).returns('2011-12-15'.to_date)
+    get :index, :period => 'last_month'
+    assert_equal '2011-11-01'.to_date, assigns(:from)
+    assert_equal '2011-11-30'.to_date, assigns(:to)
+  end
+
+  def test_index_30_days
+    Date.stubs(:today).returns('2011-12-15'.to_date)
+    get :index, :period => '30_days'
+    assert_equal '2011-11-15'.to_date, assigns(:from)
+    assert_equal '2011-12-15'.to_date, assigns(:to)
+  end
+
+  def test_index_current_year
+    Date.stubs(:today).returns('2011-12-15'.to_date)
+    get :index, :period => 'current_year'
+    assert_equal '2011-01-01'.to_date, assigns(:from)
+    assert_equal '2011-12-31'.to_date, assigns(:to)
   end
 
   def test_index_at_issue_level
