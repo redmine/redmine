@@ -750,6 +750,8 @@ div.wiki a.new {
     color: #b73535;
 }
 
+div.wiki ul, div.wiki ol {margin-bottom:1em;}
+
 div.wiki pre {
     margin: 1em 1em 1em 1.6em;
     padding: 2px 2px 2px 0;
