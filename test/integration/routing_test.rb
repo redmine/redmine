@@ -287,34 +287,83 @@ class RoutingTest < ActionController::IntegrationTest
       )
   end
 
-  context "issues" do
-    # Extra actions
-    should_route :get, "/projects/23/issues/64/copy", :controller => 'issues', :action => 'new', :project_id => '23', :copy_from => '64'
-
-    should_route :get, "/issues/move/new", :controller => 'issue_moves', :action => 'new'
-    should_route :post, "/issues/move", :controller => 'issue_moves', :action => 'create'
-
-    should_route :post, "/issues/1/quoted", :controller => 'journals', :action => 'new', :id => '1'
-
-    should_route :get, "/issues/calendar", :controller => 'calendars', :action => 'show'
-    should_route :get, "/projects/project-name/issues/calendar", :controller => 'calendars', :action => 'show', :project_id => 'project-name'
-
-    should_route :get, "/issues/gantt", :controller => 'gantts', :action => 'show'
-    should_route :get, "/issues/gantt.pdf", :controller => 'gantts', :action => 'show', :format => 'pdf'
-    should_route :get, "/projects/project-name/issues/gantt", :controller => 'gantts', :action => 'show', :project_id => 'project-name'
-    should_route :get, "/projects/project-name/issues/gantt.pdf", :controller => 'gantts', :action => 'show', :project_id => 'project-name', :format => 'pdf'
-
-    should_route :get, "/issues/auto_complete", :controller => 'auto_completes', :action => 'issues'
-
-    should_route :get, "/issues/preview/123", :controller => 'previews', :action => 'issue', :id => '123'
-    should_route :post, "/issues/preview/123", :controller => 'previews', :action => 'issue', :id => '123'
-    should_route :get, "/issues/context_menu", :controller => 'context_menus', :action => 'issues'
-    should_route :post, "/issues/context_menu", :controller => 'context_menus', :action => 'issues'
-
-    should_route :get, "/issues/changes", :controller => 'journals', :action => 'index'
-
-    should_route :get, "/issues/bulk_edit", :controller => 'issues', :action => 'bulk_edit'
-    should_route :post, "/issues/bulk_update", :controller => 'issues', :action => 'bulk_update'
+  def test_issues_extra_actions
+    assert_routing(
+        { :method => 'get', :path => "/projects/23/issues/64/copy" },
+        { :controller => 'issues', :action => 'new', :project_id => '23',
+          :copy_from => '64' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/issues/move/new" },
+        { :controller => 'issue_moves', :action => 'new' }
+      )
+    assert_routing(
+        { :method => 'post', :path => "/issues/move" },
+        { :controller => 'issue_moves', :action => 'create' }
+      )
+    assert_routing(
+        { :method => 'post', :path => "/issues/1/quoted" },
+        { :controller => 'journals', :action => 'new', :id => '1' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/issues/calendar" },
+        { :controller => 'calendars', :action => 'show' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/projects/project-name/issues/calendar" },
+        { :controller => 'calendars', :action => 'show',
+          :project_id => 'project-name' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/issues/gantt" },
+        { :controller => 'gantts', :action => 'show' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/issues/gantt.pdf" },
+        { :controller => 'gantts', :action => 'show', :format => 'pdf' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/projects/project-name/issues/gantt" },
+        { :controller => 'gantts', :action => 'show',
+          :project_id => 'project-name' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/projects/project-name/issues/gantt.pdf" },
+        { :controller => 'gantts', :action => 'show',
+          :project_id => 'project-name', :format => 'pdf' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/issues/auto_complete" },
+        { :controller => 'auto_completes', :action => 'issues' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/issues/preview/123" },
+        { :controller => 'previews', :action => 'issue', :id => '123' }
+      )
+    assert_routing(
+        { :method => 'post', :path => "/issues/preview/123" },
+        { :controller => 'previews', :action => 'issue', :id => '123' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/issues/context_menu" },
+        { :controller => 'context_menus', :action => 'issues' }
+      )
+    assert_routing(
+        { :method => 'post', :path => "/issues/context_menu" },
+        { :controller => 'context_menus', :action => 'issues' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/issues/changes" },
+        { :controller => 'journals', :action => 'index' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/issues/bulk_edit" },
+        { :controller => 'issues', :action => 'bulk_edit' }
+      )
+    assert_routing(
+        { :method => 'post', :path => "/issues/bulk_update" },
+        { :controller => 'issues', :action => 'bulk_update' }
+      )
   end
 
   context "issue categories" do
