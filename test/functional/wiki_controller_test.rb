@@ -273,6 +273,26 @@ class WikiControllerTest < ActionController::TestCase
     assert_tag :tag => 'input', :attributes => {:id => 'content_version', :value => '1'}
   end
 
+  def test_update_page_with_attachments_only_should_not_create_content_version
+    @request.session[:user_id] = 2
+    assert_no_difference 'WikiPage.count' do
+      assert_no_difference 'WikiContent.count' do
+        assert_no_difference 'WikiContent::Version.count' do
+          assert_difference 'Attachment.count' do
+            put :update, :project_id => 1,
+              :id => 'Another_page',
+              :content => {
+                :comments => '',
+                :text => Wiki.find(1).find_page('Another_page').content.text,
+                :version => 1
+              },
+              :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain'), 'description' => 'test file'}}
+          end
+        end
+      end
+    end
+  end
+
   def test_update_stale_page_should_not_raise_an_error
     @request.session[:user_id] = 2
     c = Wiki.find(1).find_page('Another_page').content
@@ -735,5 +755,15 @@ class WikiControllerTest < ActionController::TestCase
   def test_history_of_non_existing_page_should_return_404
     get :history, :project_id => 1, :id => 'Unknown_page'
     assert_response 404
+  end
+
+  def test_add_attachment
+    @request.session[:user_id] = 2
+    assert_difference 'Attachment.count' do
+      post :add_attachment, :project_id => 1, :id => 'CookBook_documentation',
+        :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain'), 'description' => 'test file'}}
+    end
+    attachment = Attachment.first(:order => 'id DESC')
+    assert_equal Wiki.find(1).find_page('CookBook_documentation'), attachment.container
   end
 end
