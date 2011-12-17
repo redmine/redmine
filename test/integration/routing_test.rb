@@ -638,21 +638,43 @@ class RoutingTest < ActionController::IntegrationTest
       )
   end
 
-  context "queries" do
-    should_route :get, "/queries.xml", :controller => 'queries', :action => 'index', :format => 'xml'
-    should_route :get, "/queries.json", :controller => 'queries', :action => 'index', :format => 'json'
-
-    should_route :get, "/queries/new", :controller => 'queries', :action => 'new'
-    should_route :get, "/projects/redmine/queries/new", :controller => 'queries', :action => 'new', :project_id => 'redmine'
-
-    should_route :post, "/queries", :controller => 'queries', :action => 'create'
-    should_route :post, "/projects/redmine/queries", :controller => 'queries', :action => 'create', :project_id => 'redmine'
-
-    should_route :get, "/queries/1/edit", :controller => 'queries', :action => 'edit', :id => '1'
-
-    should_route :put, "/queries/1", :controller => 'queries', :action => 'update', :id => '1'
-
-    should_route :delete, "/queries/1", :controller => 'queries', :action => 'destroy', :id => '1'
+  def test_queries
+    assert_routing(
+        { :method => 'get', :path => "/queries.xml" },
+        { :controller => 'queries', :action => 'index', :format => 'xml' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/queries.json" },
+        { :controller => 'queries', :action => 'index', :format => 'json' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/queries/new" },
+        { :controller => 'queries', :action => 'new' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/projects/redmine/queries/new" },
+        { :controller => 'queries', :action => 'new', :project_id => 'redmine' }
+      )
+    assert_routing(
+        { :method => 'post', :path => "/queries" },
+        { :controller => 'queries', :action => 'create' }
+      )
+    assert_routing(
+        { :method => 'post', :path => "/projects/redmine/queries" },
+        { :controller => 'queries', :action => 'create', :project_id => 'redmine' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/queries/1/edit" },
+        { :controller => 'queries', :action => 'edit', :id => '1' }
+      )
+    assert_routing(
+        { :method => 'put', :path => "/queries/1" },
+        { :controller => 'queries', :action => 'update', :id => '1' }
+      )
+    assert_routing(
+        { :method => 'delete', :path => "/queries/1" },
+        { :controller => 'queries', :action => 'destroy', :id => '1' }
+      )
   end
 
   def test_repositories
