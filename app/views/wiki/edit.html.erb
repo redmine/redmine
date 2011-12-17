@@ -10,9 +10,12 @@
 <% end %>
 <%= error_messages_for 'content' %>
 
-<p><%= text_area_tag 'content[text]', @text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit) %></p>
-<p><label><%= l(:field_comments) %></label><br /><%= f.text_field :comments, :size => 120 %></p>
-<p><label><%=l(:label_attachment_plural)%></label><br /><%= render :partial => 'attachments/form' %></p>
+<div class="box tabular">
+<%= text_area_tag 'content[text]', @text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit) %>
+
+<p><label><%= l(:field_comments) %></label><%= f.text_field :comments, :size => 120 %></p>
+<p><label><%=l(:label_attachment_plural)%></label><%= render :partial => 'attachments/form' %></p>
+</div>
 
 <p><%= submit_tag l(:button_save) %>
    <%= link_to_remote l(:label_preview),
