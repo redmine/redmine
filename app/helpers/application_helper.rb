@@ -504,7 +504,7 @@ module ApplicationHelper
       replace_toc(text, @parsed_headings)
     end
 
-    text
+    text.html_safe
   end
 
   def parse_non_pre_blocks(text)
