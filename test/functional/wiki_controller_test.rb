@@ -81,11 +81,6 @@ class WikiControllerTest < ActionController::TestCase
     assert_tag :tag => 'div', :attributes => {:id => 'sidebar'},
                               :content => /Side bar content for test_show_with_sidebar/
   end
-
-  def test_show_unexistent_page_without_edit_right
-    get :show, :project_id => 1, :id => 'Unexistent page'
-    assert_response 404
-  end
   
   def test_show_should_display_section_edit_links
     @request.session[:user_id] = 2
@@ -119,11 +114,25 @@ class WikiControllerTest < ActionController::TestCase
     }
   end
 
+  def test_show_unexistent_page_without_edit_right
+    get :show, :project_id => 1, :id => 'Unexistent page'
+    assert_response 404
+  end
+
   def test_show_unexistent_page_with_edit_right
     @request.session[:user_id] = 2
     get :show, :project_id => 1, :id => 'Unexistent page'
     assert_response :success
     assert_template 'edit'
+    assert_no_tag 'input', :attributes => {:name => 'page[parent_id]'}
+  end
+
+  def test_show_unexistent_page_with_parent
+    @request.session[:user_id] = 2
+    get :show, :project_id => 1, :id => 'Unexistent page', :parent => 'Another_page'
+    assert_response :success
+    assert_template 'edit'
+    assert_tag 'input', :attributes => {:name => 'page[parent_id]', :value => '2'}
   end
 
   def test_show_should_not_show_history_without_permission
@@ -135,15 +144,20 @@ class WikiControllerTest < ActionController::TestCase
 
   def test_create_page
     @request.session[:user_id] = 2
-    put :update, :project_id => 1,
-                :id => 'New page',
-                :content => {:comments => 'Created the page',
-                             :text => "h1. New page\n\nThis is a new page",
-                             :version => 0}
+    assert_difference 'WikiPage.count' do
+      assert_difference 'WikiContent.count' do
+        put :update, :project_id => 1,
+                    :id => 'New page',
+                    :content => {:comments => 'Created the page',
+                                 :text => "h1. New page\n\nThis is a new page",
+                                 :version => 0}
+      end
+    end
     assert_redirected_to :action => 'show', :project_id => 'ecookbook', :id => 'New_page'
     page = Project.find(1).wiki.find_page('New page')
     assert !page.new_record?
     assert_not_nil page.content
+    assert_nil page.parent
     assert_equal 'Created the page', page.content.comments
   end
 
@@ -162,6 +176,17 @@ class WikiControllerTest < ActionController::TestCase
     page = Project.find(1).wiki.find_page('New page')
     assert_equal 1, page.attachments.count
     assert_equal 'testfile.txt', page.attachments.first.filename
+  end
+
+  def test_create_page_with_parent
+    @request.session[:user_id] = 2
+    assert_difference 'WikiPage.count' do
+      put :update, :project_id => 1, :id => 'New page',
+        :content => {:text => "h1. New page\n\nThis is a new page", :version => 0},
+        :page => {:parent_id => 2}
+    end
+    page = Project.find(1).wiki.find_page('New page')
+    assert_equal WikiPage.find(2), page.parent
   end
 
   def test_edit_page

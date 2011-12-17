@@ -95,7 +95,12 @@ class WikiController < ApplicationController
   # edit an existing page or a new one
   def edit
     return render_403 unless editable?
-    @page.content = WikiContent.new(:page => @page) if @page.new_record?
+    if @page.new_record?
+      @page.content = WikiContent.new(:page => @page)
+      if params[:parent].present?
+        @page.parent = @page.wiki.find_page(params[:parent].to_s)
+      end
+    end
 
     @content = @page.content_for_version(params[:version])
     @content.text = initial_page_content(@page) if @content.text.blank?
@@ -143,6 +148,9 @@ class WikiController < ApplicationController
       @content.text = @text
     end
     @content.author = User.current
+    if @page.new_record? && params[:page]
+      @page.parent_id = params[:page][:parent_id]
+    end
     # if page is new @page.save will also save content, but not if page isn't a new record
     if (@page.new_record? ? @page.save : @content.save)
       attachments = Attachment.attach_files(@page, params[:attachments])

@@ -502,10 +502,10 @@ RAW
       '[[Another page#anchor]]' => '<a href="#anchor" class="wiki-page">Another page</a>',
       '[[Another page#anchor|Page]]' => '<a href="#anchor" class="wiki-page">Page</a>',
       # page that doesn't exist
-      '[[Unknown page]]' => '<a href="/projects/ecookbook/wiki/Unknown_page" class="wiki-page new">Unknown page</a>',
-      '[[Unknown page|404]]' => '<a href="/projects/ecookbook/wiki/Unknown_page" class="wiki-page new">404</a>',
-      '[[Unknown page#anchor]]' => '<a href="/projects/ecookbook/wiki/Unknown_page#anchor" class="wiki-page new">Unknown page</a>',
-      '[[Unknown page#anchor|404]]' => '<a href="/projects/ecookbook/wiki/Unknown_page#anchor" class="wiki-page new">404</a>',
+      '[[Unknown page]]' => '<a href="/projects/ecookbook/wiki/Unknown_page?parent=Another_page" class="wiki-page new">Unknown page</a>',
+      '[[Unknown page|404]]' => '<a href="/projects/ecookbook/wiki/Unknown_page?parent=Another_page" class="wiki-page new">404</a>',
+      '[[Unknown page#anchor]]' => '<a href="/projects/ecookbook/wiki/Unknown_page?parent=Another_page#anchor" class="wiki-page new">Unknown page</a>',
+      '[[Unknown page#anchor|404]]' => '<a href="/projects/ecookbook/wiki/Unknown_page?parent=Another_page#anchor" class="wiki-page new">404</a>',
     }
 
     @project = Project.find(1)
