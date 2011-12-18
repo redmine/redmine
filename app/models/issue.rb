@@ -73,12 +73,6 @@ class Issue < ActiveRecord::Base
   named_scope :on_active_project, :include => [:status, :project, :tracker],
                                   :conditions => ["#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"]
 
-  named_scope :without_version, lambda {
-    {
-      :conditions => { :fixed_version_id => nil}
-    }
-  }
-
   before_create :default_assign
   before_save :close_duplicates, :update_done_ratio_from_issue_status
   after_save :reschedule_following_issues, :update_nested_set_attributes, :update_parent_attributes, :create_journal
