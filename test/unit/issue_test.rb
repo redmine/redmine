@@ -432,13 +432,9 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_should_not_close_duplicated_issue
-    # Create 3 issues
-    issue1 = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 1,
-                       :status_id => 1, :priority => IssuePriority.all.first,
-                       :subject => 'Duplicates test', :description => 'Duplicates test')
-    assert issue1.save
-    issue2 = issue1.clone
-    assert issue2.save
+    project = Project.find(1)
+    issue1 = Issue.generate_for_project!(project)
+    issue2 = Issue.generate_for_project!(project)
 
     # 2 is a dupe of 1
     IssueRelation.create(:issue_from => issue2, :issue_to => issue1, :relation_type => IssueRelation::TYPE_DUPLICATES)
