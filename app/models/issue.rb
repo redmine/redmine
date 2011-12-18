@@ -869,12 +869,12 @@ class Issue < ActiveRecord::Base
   def self.update_versions(conditions=nil)
     # Only need to update issues with a fixed_version from
     # a different project and that is not systemwide shared
-    Issue.all(:conditions => merge_conditions("#{Issue.table_name}.fixed_version_id IS NOT NULL" +
-                                                " AND #{Issue.table_name}.project_id <> #{Version.table_name}.project_id" +
-                                                " AND #{Version.table_name}.sharing <> 'system'",
-                                                conditions),
-              :include => [:project, :fixed_version]
-              ).each do |issue|
+    Issue.scoped(:conditions => conditions).all(
+      :conditions => "#{Issue.table_name}.fixed_version_id IS NOT NULL" +
+        " AND #{Issue.table_name}.project_id <> #{Version.table_name}.project_id" +
+        " AND #{Version.table_name}.sharing <> 'system'",
+      :include => [:project, :fixed_version]
+    ).each do |issue|
       next if issue.project.nil? || issue.fixed_version.nil?
       unless issue.project.shared_versions.include?(issue.fixed_version)
         issue.init_journal(User.current)
