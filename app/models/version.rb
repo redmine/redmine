@@ -124,12 +124,12 @@ class Version < ActiveRecord::Base
 
   # Returns the total amount of open issues for this version.
   def open_issues_count
-    @open_issues_count ||= Issue.count(:all, :conditions => ["fixed_version_id = ? AND is_closed = ?", self.id, false], :include => :status)
+    @open_issues_count ||= Issue.open.count(:all, :conditions => ["fixed_version_id = ?", self.id])
   end
 
   # Returns the total amount of closed issues for this version.
   def closed_issues_count
-    @closed_issues_count ||= Issue.count(:all, :conditions => ["fixed_version_id = ? AND is_closed = ?", self.id, true], :include => :status)
+    @closed_issues_count ||= Issue.open(false).count(:all, :conditions => ["fixed_version_id = ?", self.id])
   end
 
   def wiki_page

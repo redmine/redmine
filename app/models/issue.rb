@@ -63,7 +63,10 @@ class Issue < ActiveRecord::Base
   named_scope :visible, lambda {|*args| { :include => :project,
                                           :conditions => Issue.visible_condition(args.shift || User.current, *args) } }
 
-  named_scope :open, :conditions => ["#{IssueStatus.table_name}.is_closed = ?", false], :include => :status
+  named_scope :open, lambda {|*args|
+    is_closed = args.size > 0 ? !args.first : false
+    {:conditions => ["#{IssueStatus.table_name}.is_closed = ?", is_closed], :include => :status}
+  }
 
   named_scope :recently_updated, :order => "#{Issue.table_name}.updated_on DESC"
   named_scope :with_limit, lambda { |limit| { :limit => limit} }
