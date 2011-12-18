@@ -79,12 +79,6 @@ class Issue < ActiveRecord::Base
     }
   }
 
-  named_scope :with_query, lambda {|query|
-    {
-      :conditions => Query.merge_conditions(query.statement)
-    }
-  }
-
   before_create :default_assign
   before_save :close_duplicates, :update_done_ratio_from_issue_status
   after_save :reschedule_following_issues, :update_nested_set_attributes, :update_parent_attributes, :create_journal
