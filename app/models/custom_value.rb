@@ -21,7 +21,8 @@ class CustomValue < ActiveRecord::Base
 
   validate :validate_custom_value
 
-  def after_initialize
+  def initialize(attributes=nil, *args)
+    super
     if new_record? && custom_field && (customized_type.blank? || (customized && customized.new_record?))
       self.value ||= custom_field.default_value
     end

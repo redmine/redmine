@@ -36,7 +36,8 @@ class Document < ActiveRecord::Base
     !user.nil? && user.allowed_to?(:view_documents, project)
   end
 
-  def after_initialize
+  def initialize(attributes=nil, *args)
+    super
     if new_record?
       self.category ||= DocumentCategory.default
     end

@@ -27,7 +27,8 @@ class AuthSourceLdap < AuthSource
 
   before_validation :strip_ldap_attributes
 
-  def after_initialize
+  def initialize(attributes=nil, *args)
+    super
     self.port = 389 if self.port == 0
   end
 

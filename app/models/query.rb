@@ -166,10 +166,6 @@ class Query < ActiveRecord::Base
   def initialize(attributes=nil, *args)
     super attributes
     self.filters ||= { 'status_id' => {:operator => "o", :values => [""]} }
-  end
-
-  def after_initialize
-    # Store the fact that project is nil (used in #editable_by?)
     @is_for_all = project.nil?
   end
 

@@ -57,7 +57,8 @@ class IssueRelation < ActiveRecord::Base
         (issue_to.nil? || user.allowed_to?(:manage_issue_relations, issue_to.project)))
   end
 
-  def after_initialize
+  def initialize(attributes=nil, *args)
+    super
     if new_record?
       if relation_type.blank?
         self.relation_type = IssueRelation::TYPE_RELATES

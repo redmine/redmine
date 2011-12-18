@@ -65,7 +65,8 @@ class TimeEntry < ActiveRecord::Base
     end
   }
 
-  def after_initialize
+  def initialize(attributes=nil, *args)
+    super
     if new_record? && self.activity.nil?
       if default_activity = TimeEntryActivity.default
         self.activity_id = default_activity.id
