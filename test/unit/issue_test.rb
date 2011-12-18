@@ -408,21 +408,17 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_should_close_duplicates
     # Create 3 issues
-    issue1 = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 1,
-                       :status_id => 1, :priority => IssuePriority.all.first,
-                       :subject => 'Duplicates test', :description => 'Duplicates test')
-    assert issue1.save
-    issue2 = issue1.clone
-    assert issue2.save
-    issue3 = issue1.clone
-    assert issue3.save
+    project = Project.find(1)
+    issue1 = Issue.generate_for_project!(project)
+    issue2 = Issue.generate_for_project!(project)
+    issue3 = Issue.generate_for_project!(project)
 
     # 2 is a dupe of 1
-    IssueRelation.create(:issue_from => issue2, :issue_to => issue1, :relation_type => IssueRelation::TYPE_DUPLICATES)
+    IssueRelation.create!(:issue_from => issue2, :issue_to => issue1, :relation_type => IssueRelation::TYPE_DUPLICATES)
     # And 3 is a dupe of 2
-    IssueRelation.create(:issue_from => issue3, :issue_to => issue2, :relation_type => IssueRelation::TYPE_DUPLICATES)
+    IssueRelation.create!(:issue_from => issue3, :issue_to => issue2, :relation_type => IssueRelation::TYPE_DUPLICATES)
     # And 3 is a dupe of 1 (circular duplicates)
-    IssueRelation.create(:issue_from => issue3, :issue_to => issue1, :relation_type => IssueRelation::TYPE_DUPLICATES)
+    IssueRelation.create!(:issue_from => issue3, :issue_to => issue1, :relation_type => IssueRelation::TYPE_DUPLICATES)
 
     assert issue1.reload.duplicates.include?(issue2)
 
