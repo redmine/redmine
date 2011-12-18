@@ -23,7 +23,7 @@ class UserPreference < ActiveRecord::Base
 
   before_save :set_others_hash
   
-  def initialize(attributes = nil)
+  def initialize(attributes=nil, *args)
     super
     self.others ||= {}
   end

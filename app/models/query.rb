@@ -163,7 +163,7 @@ class Query < ActiveRecord::Base
     }
   }
 
-  def initialize(attributes = nil)
+  def initialize(attributes=nil, *args)
     super attributes
     self.filters ||= { 'status_id' => {:operator => "o", :values => [""]} }
   end

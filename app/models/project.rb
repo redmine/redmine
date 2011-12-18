@@ -95,7 +95,7 @@ class Project < ActiveRecord::Base
     end
   }
 
-  def initialize(attributes = nil)
+  def initialize(attributes=nil, *args)
     super
 
     initialized = (attributes || {}).stringify_keys
