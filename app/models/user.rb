@@ -259,7 +259,7 @@ class User < Principal
 
   # Does the backend storage allow this user to change their password?
   def change_password_allowed?
-    return true if auth_source_id.blank?
+    return true if auth_source.nil?
     return auth_source.allow_password_changes?
   end
 
@@ -621,8 +621,9 @@ class User < Principal
 end
 
 class AnonymousUser < User
-
-  def validate_on_create
+  validate :validate_anonymous_uniqueness, :on => :create
+  
+  def validate_anonymous_uniqueness
     # There should be only one AnonymousUser in the database
     errors.add :base, 'An anonymous user already exists.' if AnonymousUser.find(:first)
   end
