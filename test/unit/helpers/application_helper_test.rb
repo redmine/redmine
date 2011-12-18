@@ -787,10 +787,10 @@ RAW
   end
 
   def test_default_formatter
-    Setting.text_formatting = 'unknown'
-    text = 'a *link*: http://www.example.net/'
-    assert_equal '<p>a *link*: <a href="http://www.example.net/">http://www.example.net/</a></p>', textilizable(text)
-    Setting.text_formatting = 'textile'
+    with_settings :text_formatting => 'unknown' do
+      text = 'a *link*: http://www.example.net/'
+      assert_equal '<p>a *link*: <a href="http://www.example.net/">http://www.example.net/</a></p>', textilizable(text)
+    end
   end
 
   def test_due_date_distance_in_words
