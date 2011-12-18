@@ -702,8 +702,8 @@ EXPECTED
   end
 
   def test_headings_in_wiki_single_page_export_should_be_prepended_with_page_title
-    page = WikiPage.generate!( :title => 'Page Title' )
-    content = WikiContent.generate!( :text => 'h1. Some heading', :page => page )
+    page = WikiPage.new( :title => 'Page Title', :wiki_id => 1 )
+    content = WikiContent.new( :text => 'h1. Some heading', :page => page )
 
     expected = %|<a name="Page_Title_Some-heading"></a>\n<h1 >Some heading<a href="#Page_Title_Some-heading" class="wiki-anchor">&para;</a></h1>|
 
