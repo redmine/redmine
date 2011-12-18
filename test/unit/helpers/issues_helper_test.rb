@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class IssuesHelperTest < HelperTestCase
+class IssuesHelperTest < ActionView::TestCase
   include ApplicationHelper
   include IssuesHelper
 
@@ -31,24 +31,10 @@ class IssuesHelperTest < HelperTestCase
            :enabled_modules,
            :workflows
 
-  # Used by assert_select
-  def html_document
-    HTML::Document.new(@response.body)
-  end
-
   def setup
     super
     set_language_if_valid('en')
     User.current = nil
-    @response = ActionController::TestResponse.new
-  end
-
-  def controller
-    @controller ||= IssuesController.new
-  end
-
-  def request
-    @request ||= ActionController::TestRequest.new
   end
 
   def test_issue_heading
@@ -95,29 +81,27 @@ class IssuesHelperTest < HelperTestCase
     context "with html" do
       should 'show a changing attribute with HTML highlights' do
         @detail = JournalDetail.generate!(:property => 'attr', :old_value => '40', :value => '100', :prop_key => 'done_ratio')
-        @response.body = show_detail(@detail, false)
+        html = show_detail(@detail, false)
 
-        assert_select 'strong', :text => '% Done'
-        assert_select 'i', :text => '40'
-        assert_select 'i', :text => '100'
+        assert_include '<strong>% Done</strong>', html
+        assert_include '<i>40</i>', html
+        assert_include '<i>100</i>', html
       end
 
       should 'show a new attribute with HTML highlights' do
         @detail = JournalDetail.generate!(:property => 'attr', :old_value => nil, :value => '100', :prop_key => 'done_ratio')
-        @response.body = show_detail(@detail, false)
+        html = show_detail(@detail, false)
 
-        assert_select 'strong', :text => '% Done'
-        assert_select 'i', :text => '100'
+        assert_include '<strong>% Done</strong>', html
+        assert_include '<i>100</i>', html
       end
 
       should 'show a deleted attribute with HTML highlights' do
         @detail = JournalDetail.generate!(:property => 'attr', :old_value => '50', :value => nil, :prop_key => 'done_ratio')
-        @response.body = show_detail(@detail, false)
+        html = show_detail(@detail, false)
 
-        assert_select 'strong', :text => '% Done'
-        assert_select 'strike' do
-          assert_select 'i', :text => '50'
-        end
+        assert_include '<strong>% Done</strong>', html
+        assert_include '<strike><i>50</i></strike>', html
       end
     end
 
@@ -183,7 +167,5 @@ class IssuesHelperTest < HelperTestCase
 
     should "test custom fields"
     should "test attachments"
-
   end
-
 end
