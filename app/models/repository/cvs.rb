@@ -21,14 +21,14 @@ require 'digest/sha1'
 class Repository::Cvs < Repository
   validates_presence_of :url, :root_url, :log_encoding
 
-  def self.human_attribute_name(attribute_key_name)
+  def self.human_attribute_name(attribute_key_name, *args)
     attr_name = attribute_key_name
     if attr_name == "root_url"
       attr_name = "cvsroot"
     elsif attr_name == "url"
       attr_name = "cvs_module"
     end
-    super(attr_name)
+    super(attr_name, *args)
   end
 
   def self.scm_adapter_class

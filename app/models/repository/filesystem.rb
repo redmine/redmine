@@ -24,12 +24,12 @@ class Repository::Filesystem < Repository
   attr_protected :root_url
   validates_presence_of :url
 
-  def self.human_attribute_name(attribute_key_name)
+  def self.human_attribute_name(attribute_key_name, *args)
     attr_name = attribute_key_name
     if attr_name == "url"
       attr_name = "root_directory"
     end
-    super(attr_name)
+    super(attr_name, *args)
   end
 
   def self.scm_adapter_class

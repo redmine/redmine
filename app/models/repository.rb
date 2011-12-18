@@ -40,12 +40,12 @@ class Repository < ActiveRecord::Base
     end
   end
 
-  def self.human_attribute_name(attribute_key_name)
+  def self.human_attribute_name(attribute_key_name, *args)
     attr_name = attribute_key_name
     if attr_name == "log_encoding"
       attr_name = "commit_logs_encoding"
     end
-    super(attr_name)
+    super(attr_name, *args)
   end
 
   # Removes leading and trailing whitespace
