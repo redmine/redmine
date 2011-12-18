@@ -510,7 +510,7 @@ RAW
 
     @project = Project.find(1)
 
-    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(WikiContent.generate!( :text => text, :page => page ), :text) }
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(WikiContent.new( :text => text, :page => page ), :text) }
   end
 
   def test_wiki_links_anchor_option_should_prepend_page_title_to_href
