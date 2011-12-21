@@ -59,8 +59,8 @@ module WatchersHelper
                                   :style => "vertical-align: middle",
                                   :class => "delete")
       end
-      "<li>#{ s }</li>"
+      content_tag :li, s.html_safe
     end
-    lis.empty? ? "" : "<ul>#{ lis.join("\n") }</ul>"
+    (lis.empty? ? "" : "<ul>#{ lis.join("\n") }</ul>").html_safe
   end
 end
