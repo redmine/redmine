@@ -2,12 +2,13 @@
 
 <ul>
 <%= @time_entries.collect {|i| content_tag('li', 
-    link_to(h("#{i.spent_on.strftime("%Y-%m-%d")} - #{i.project}:  #{l(:label_f_hour_plural, :value => i.hours)}"), { :action => 'edit', :id => i })
-  )}.join("\n") %>
+        link_to(h("#{i.spent_on.strftime("%Y-%m-%d")} - #{i.project}:  #{l(:label_f_hour_plural, :value => i.hours)}"),
+                { :action => 'edit', :id => i })
+     )}.join("\n").html_safe %>
 </ul>
 
 <% form_tag(:action => 'bulk_update') do %>
-<%= @time_entries.collect {|i| hidden_field_tag('ids[]', i.id)}.join %>
+<%= @time_entries.collect {|i| hidden_field_tag('ids[]', i.id)}.join.html_safe %>
 <div class="box tabular">
   <div>
     <p>
