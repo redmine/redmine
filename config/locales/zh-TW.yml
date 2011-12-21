@@ -910,7 +910,7 @@
   label_git_report_last_commit: 報告最後認可的文件和目錄
   label_parent_revision: 父項
   label_child_revision: 子項
-  label_export_options: %{export_format} 匯出選項
+  label_export_options: "%{export_format} 匯出選項"
 
   button_login: 登入
   button_submit: 送出
