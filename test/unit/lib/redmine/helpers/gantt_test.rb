@@ -21,6 +21,7 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
   include ApplicationHelper
   include ProjectsHelper
   include IssuesHelper
+  include ERB::Util
 
   def setup
     setup_with_controller
