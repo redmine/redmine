@@ -106,8 +106,8 @@ ActionController::Routing::Routes.draw do |map|
   # For nice "roadmap" in the url for the index action
   map.connect 'projects/:project_id/roadmap', :controller => 'versions', :action => 'index'
 
-  map.all_news 'news', :controller => 'news', :action => 'index'
-  map.formatted_all_news 'news.:format', :controller => 'news', :action => 'index'
+  map.connect 'news', :controller => 'news', :action => 'index'
+  map.connect 'news.:format', :controller => 'news', :action => 'index'
   map.preview_news '/news/preview', :controller => 'previews', :action => 'news'
   map.connect 'news/:id/comments', :controller => 'comments', :action => 'create', :conditions => {:method => :post}
   map.connect 'news/:id/comments/:comment_id', :controller => 'comments', :action => 'destroy', :conditions => {:method => :delete}
