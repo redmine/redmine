@@ -39,7 +39,8 @@ ActionController::Routing::Routes.draw do |map|
       messages_actions.connect 'boards/:board_id/topics/new', :action => 'new'
       messages_actions.connect 'boards/:board_id/topics/preview', :action => 'preview'
       messages_actions.connect 'boards/:board_id/topics/:id/replies', :action => 'reply'
-      messages_actions.connect 'boards/:board_id/topics/:id/:action', :action => /edit|destroy/
+      messages_actions.connect 'boards/:board_id/topics/:id/edit', :action => 'edit'
+      messages_actions.connect 'boards/:board_id/topics/:id/destroy', :action => 'destroy'
     end
   end
 
