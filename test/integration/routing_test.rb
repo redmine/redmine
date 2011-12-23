@@ -425,42 +425,6 @@ class RoutingTest < ActionController::IntegrationTest
       )
   end
 
-  def test_messages
-    assert_routing(
-        { :method => 'get', :path => "/boards/22/topics/2" },
-        { :controller => 'messages', :action => 'show', :id => '2',
-          :board_id => '22' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/boards/lala/topics/new" },
-        { :controller => 'messages', :action => 'new', :board_id => 'lala' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/boards/lala/topics/22/edit" },
-        { :controller => 'messages', :action => 'edit', :id => '22',
-          :board_id => 'lala' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/boards/lala/topics/new" },
-        { :controller => 'messages', :action => 'new', :board_id => 'lala' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/boards/lala/topics/22/edit" },
-        { :controller => 'messages', :action => 'edit', :id => '22',
-          :board_id => 'lala' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/boards/22/topics/555/replies" },
-        { :controller => 'messages', :action => 'reply', :id => '555',
-          :board_id => '22' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/boards/22/topics/555/destroy" },
-        { :controller => 'messages', :action => 'destroy', :id => '555',
-          :board_id => '22' }
-      )
-  end
-
   def test_news
     assert_routing(
         { :method => 'get', :path => "/news" },
