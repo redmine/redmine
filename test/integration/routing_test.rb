@@ -18,18 +18,6 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class RoutingTest < ActionController::IntegrationTest
-  def test_groups
-    assert_routing(
-        { :method => 'post', :path => "/groups/567/users" },
-        { :controller => 'groups', :action => 'add_users', :id => '567' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/groups/567/users/12" },
-        { :controller => 'groups', :action => 'remove_user', :id => '567',
-          :user_id => '12' }
-      )
-  end
-
   def test_issues_rest_actions
     assert_routing(
         { :method => 'get', :path => "/issues" },
