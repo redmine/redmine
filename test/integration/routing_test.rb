@@ -18,44 +18,6 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class RoutingTest < ActionController::IntegrationTest
-  def test_boards
-    assert_routing(
-        { :method => 'get', :path => "/projects/world_domination/boards" },
-        { :controller => 'boards', :action => 'index', :project_id => 'world_domination' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/world_domination/boards/new" },
-        { :controller => 'boards', :action => 'new', :project_id => 'world_domination' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/world_domination/boards/44" },
-        { :controller => 'boards', :action => 'show', :project_id => 'world_domination',
-          :id => '44' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/world_domination/boards/44.atom" },
-        { :controller => 'boards', :action => 'show', :project_id => 'world_domination',
-          :id => '44', :format => 'atom' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/world_domination/boards/44/edit" },
-        { :controller => 'boards', :action => 'edit', :project_id => 'world_domination',
-          :id => '44' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/projects/world_domination/boards" },
-        { :controller => 'boards', :action => 'create', :project_id => 'world_domination' }
-      )
-    assert_routing(
-        { :method => 'put', :path => "/projects/world_domination/boards/44" },
-        { :controller => 'boards', :action => 'update', :project_id => 'world_domination', :id => '44' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/projects/world_domination/boards/44" },
-        { :controller => 'boards', :action => 'destroy', :project_id => 'world_domination', :id => '44' }
-      )
-  end
-
   def test_custom_fields
     assert_routing(
         { :method => 'get', :path => "/custom_fields" },
