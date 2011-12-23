@@ -18,17 +18,6 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class RoutingTest < ActionController::IntegrationTest
-  def test_activities
-    assert_routing(
-           { :method => 'get', :path => "/activity" },
-           { :controller => 'activities', :action => 'index', :id => nil }
-        )
-    assert_routing(
-           { :method => 'get', :path => "/activity.atom" },
-           { :controller => 'activities', :action => 'index', :id => nil, :format => 'atom' }
-        )
-  end
-
   def test_attachments
     assert_routing(
            { :method => 'get', :path => "/attachments/1" },
