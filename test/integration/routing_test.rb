@@ -18,33 +18,6 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class RoutingTest < ActionController::IntegrationTest
-  def test_custom_fields
-    assert_routing(
-        { :method => 'get', :path => "/custom_fields" },
-        { :controller => 'custom_fields', :action => 'index' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/custom_fields/new" },
-        { :controller => 'custom_fields', :action => 'new' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/custom_fields" },
-        { :controller => 'custom_fields', :action => 'create' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/custom_fields/2/edit" },
-        { :controller => 'custom_fields', :action => 'edit', :id => '2' }
-      )
-    assert_routing(
-        { :method => 'put', :path => "/custom_fields/2" },
-        { :controller => 'custom_fields', :action => 'update', :id => '2' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/custom_fields/2" },
-        { :controller => 'custom_fields', :action => 'destroy', :id => '2' }
-      )
-  end
-
   def test_documents
     assert_routing(
         { :method => 'get', :path => "/projects/567/documents" },
