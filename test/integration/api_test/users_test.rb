@@ -71,13 +71,22 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
   context "POST /users" do
     context "with valid parameters" do
       setup do
-        @parameters = {:user => {:login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname', :mail => 'foo@example.net', :password => 'secret', :mail_notification => 'only_assigned'}}
+        @parameters = {
+          :user => {
+             :login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname',
+             :mail => 'foo@example.net', :password => 'secret',
+             :mail_notification => 'only_assigned'
+          }
+        }
       end
 
       context ".xml" do
         should_allow_api_authentication(:post,
           '/users.xml',
-          {:user => {:login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname', :mail => 'foo@example.net', :password => 'secret'}},
+           {:user => {
+              :login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname',
+              :mail => 'foo@example.net', :password => 'secret'
+            }},
           {:success_code => :created})
 
         should "create a user with the attributes" do
@@ -103,7 +112,10 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
       context ".json" do
         should_allow_api_authentication(:post,
           '/users.json',
-          {:user => {:login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname', :mail => 'foo@example.net'}},
+          {:user => {
+             :login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname',
+             :mail => 'foo@example.net'
+          }},
           {:success_code => :created})
 
         should "create a user with the attributes" do
@@ -141,7 +153,10 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
 
           assert_response :unprocessable_entity
           assert_equal 'application/xml', @response.content_type
-          assert_tag 'errors', :child => {:tag => 'error', :content => "First name can't be blank"}
+          assert_tag 'errors', :child => {
+                                 :tag => 'error',
+                                 :content => "First name can't be blank"
+                               }
         end
       end
 
@@ -165,13 +180,21 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
   context "PUT /users/2" do
     context "with valid parameters" do
       setup do
-        @parameters = {:user => {:login => 'jsmith', :firstname => 'John', :lastname => 'Renamed', :mail => 'jsmith@somenet.foo'}}
+        @parameters = {
+          :user => {
+            :login => 'jsmith', :firstname => 'John', :lastname => 'Renamed',
+            :mail => 'jsmith@somenet.foo'
+          }
+        }
       end
 
       context ".xml" do
         should_allow_api_authentication(:put,
           '/users/2.xml',
-          {:user => {:login => 'jsmith', :firstname => 'John', :lastname => 'Renamed', :mail => 'jsmith@somenet.foo'}},
+          {:user => {
+              :login => 'jsmith', :firstname => 'John', :lastname => 'Renamed',
+              :mail => 'jsmith@somenet.foo'
+          }},
           {:success_code => :ok})
 
         should "update user with the attributes" do
@@ -193,7 +216,10 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
       context ".json" do
         should_allow_api_authentication(:put,
           '/users/2.json',
-          {:user => {:login => 'jsmith', :firstname => 'John', :lastname => 'Renamed', :mail => 'jsmith@somenet.foo'}},
+          {:user => {
+              :login => 'jsmith', :firstname => 'John', :lastname => 'Renamed',
+              :mail => 'jsmith@somenet.foo'
+          }},
           {:success_code => :ok})
 
         should "update user with the attributes" do
@@ -215,7 +241,12 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
 
     context "with invalid parameters" do
       setup do
-        @parameters = {:user => {:login => 'jsmith', :firstname => '', :lastname => 'Lastname', :mail => 'foo'}}
+        @parameters = {
+          :user => {
+            :login => 'jsmith', :firstname => '', :lastname => 'Lastname',
+            :mail => 'foo'
+          }
+        }
       end
 
       context ".xml" do
@@ -226,7 +257,10 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
 
           assert_response :unprocessable_entity
           assert_equal 'application/xml', @response.content_type
-          assert_tag 'errors', :child => {:tag => 'error', :content => "First name can't be blank"}
+          assert_tag 'errors', :child => {
+                                 :tag => 'error',
+                                 :content => "First name can't be blank"
+                                }
         end
       end
 
