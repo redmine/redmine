@@ -18,33 +18,6 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class RoutingTest < ActionController::IntegrationTest
-  def test_enumerations
-    assert_routing(
-        { :method => 'get', :path => "/enumerations" },
-        { :controller => 'enumerations', :action => 'index' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/enumerations/new" },
-        { :controller => 'enumerations', :action => 'new' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/enumerations" },
-        { :controller => 'enumerations', :action => 'create' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/enumerations/2/edit" },
-        { :controller => 'enumerations', :action => 'edit', :id => '2' }
-      )
-    assert_routing(
-        { :method => 'put', :path => "/enumerations/2" },
-        { :controller => 'enumerations', :action => 'update', :id => '2' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/enumerations/2" },
-        { :controller => 'enumerations', :action => 'destroy', :id => '2' }
-      )
-  end
-
   def test_groups
     assert_routing(
         { :method => 'post', :path => "/groups/567/users" },
