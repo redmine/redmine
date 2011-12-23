@@ -1351,11 +1351,4 @@ class RoutingTest < ActionController::IntegrationTest
         { :controller => 'wikis', :action => 'destroy', :id => 'ladida' }
       )
   end
-
-  def test_administration_panel
-    assert_routing(
-        { :method => 'get', :path => "/admin/projects" },
-        { :controller => 'admin', :action => 'projects' }
-      )
-  end
 end
