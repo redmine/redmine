@@ -16,8 +16,6 @@ ActionController::Routing::Routes.draw do |map|
 
   map.connect 'roles/workflow/:id/:role_id/:tracker_id', :controller => 'roles', :action => 'workflow'
 
-  map.connect 'help/:ctrl/:page', :controller => 'help', :conditions => {:method => :get}
-
   map.connect '/time_entries/destroy',
                    :controller => 'timelog', :action => 'destroy', :conditions => { :method => :delete }
   map.time_entries_context_menu '/time_entries/context_menu',
