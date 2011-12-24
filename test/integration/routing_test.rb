@@ -368,14 +368,6 @@ class RoutingTest < ActionController::IntegrationTest
           :tab => 'members' }
       )
     assert_routing(
-        { :method => 'get', :path => "/projects/33/files" },
-        { :controller => 'files', :action => 'index', :project_id => '33' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/33/files/new" },
-        { :controller => 'files', :action => 'new', :project_id => '33' }
-      )
-    assert_routing(
         { :method => 'get', :path => "/projects/33/roadmap" },
         { :controller => 'versions', :action => 'index', :project_id => '33' }
       )
@@ -395,10 +387,6 @@ class RoutingTest < ActionController::IntegrationTest
     assert_routing(
         { :method => 'post', :path => "/projects.xml" },
         { :controller => 'projects', :action => 'create', :format => 'xml' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/projects/33/files" },
-        { :controller => 'files', :action => 'create', :project_id => '33' }
       )
     assert_routing(
         { :method => 'post', :path => "/projects/64/archive" },
