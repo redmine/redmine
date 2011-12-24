@@ -228,13 +228,6 @@ class RoutingTest < ActionController::IntegrationTest
       )
   end
 
-  def test_members
-    assert_routing(
-        { :method => 'post', :path => "/projects/5234/members/new" },
-        { :controller => 'members', :action => 'new', :id => '5234' }
-      )
-  end
-
   def test_news
     assert_routing(
         { :method => 'get', :path => "/news" },
