@@ -115,10 +115,6 @@ class RoutingTest < ActionController::IntegrationTest
           :copy_from => '64' }
       )
     assert_routing(
-        { :method => 'post', :path => "/issues/1/quoted" },
-        { :controller => 'journals', :action => 'new', :id => '1' }
-      )
-    assert_routing(
         { :method => 'get', :path => "/issues/calendar" },
         { :controller => 'calendars', :action => 'show' }
       )
@@ -164,10 +160,6 @@ class RoutingTest < ActionController::IntegrationTest
     assert_routing(
         { :method => 'post', :path => "/issues/context_menu" },
         { :controller => 'context_menus', :action => 'issues' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/issues/changes" },
-        { :controller => 'journals', :action => 'index' }
       )
     assert_routing(
         { :method => 'get', :path => "/issues/bulk_edit" },
