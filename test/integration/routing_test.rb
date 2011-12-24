@@ -246,18 +246,6 @@ class RoutingTest < ActionController::IntegrationTest
       )
   end
 
-  def test_issue_reports
-    assert_routing(
-        { :method => 'get', :path => "/projects/567/issues/report" },
-        { :controller => 'reports', :action => 'issue_report', :id => '567' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/567/issues/report/assigned_to" },
-        { :controller => 'reports', :action => 'issue_report_details',
-          :id => '567', :detail => 'assigned_to' }
-      )
-  end
-
   def test_members
     assert_routing(
         { :method => 'post', :path => "/projects/5234/members/new" },
