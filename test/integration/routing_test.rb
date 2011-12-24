@@ -339,10 +339,6 @@ class RoutingTest < ActionController::IntegrationTest
           :tab => 'members' }
       )
     assert_routing(
-        { :method => 'get', :path => "/projects/33/roadmap" },
-        { :controller => 'versions', :action => 'index', :project_id => '33' }
-      )
-    assert_routing(
         { :method => 'post', :path => "/projects" },
         { :controller => 'projects', :action => 'create' }
       )

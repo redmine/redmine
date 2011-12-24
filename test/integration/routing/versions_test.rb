@@ -21,6 +21,10 @@ class RoutingVersionsTest < ActionController::IntegrationTest
   def test_versions
     # /projects/foo/versions is /projects/foo/roadmap
     assert_routing(
+        { :method => 'get', :path => "/projects/33/roadmap" },
+        { :controller => 'versions', :action => 'index', :project_id => '33' }
+      )
+    assert_routing(
         { :method => 'get', :path => "/projects/foo/versions.xml" },
         { :controller => 'versions', :action => 'index',
           :project_id => 'foo', :format => 'xml' }
