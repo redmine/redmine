@@ -427,13 +427,6 @@ class RoutingTest < ActionController::IntegrationTest
       )
   end
 
-  def test_welcome
-    assert_routing(
-        { :method => 'get', :path => "/robots.txt" },
-        { :controller => 'welcome', :action => 'robots' }
-      )
-  end
-
   def test_wiki_singular_projects_pages
     assert_routing(
         { :method => 'get', :path => "/projects/567/wiki" },
