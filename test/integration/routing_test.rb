@@ -115,24 +115,6 @@ class RoutingTest < ActionController::IntegrationTest
           :copy_from => '64' }
       )
     assert_routing(
-        { :method => 'get', :path => "/issues/gantt" },
-        { :controller => 'gantts', :action => 'show' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/issues/gantt.pdf" },
-        { :controller => 'gantts', :action => 'show', :format => 'pdf' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/project-name/issues/gantt" },
-        { :controller => 'gantts', :action => 'show',
-          :project_id => 'project-name' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/project-name/issues/gantt.pdf" },
-        { :controller => 'gantts', :action => 'show',
-          :project_id => 'project-name', :format => 'pdf' }
-      )
-    assert_routing(
         { :method => 'get', :path => "/issues/auto_complete" },
         { :controller => 'auto_completes', :action => 'issues' }
       )
