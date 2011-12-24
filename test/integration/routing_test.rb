@@ -115,10 +115,6 @@ class RoutingTest < ActionController::IntegrationTest
           :copy_from => '64' }
       )
     assert_routing(
-        { :method => 'get', :path => "/issues/auto_complete" },
-        { :controller => 'auto_completes', :action => 'issues' }
-      )
-    assert_routing(
         { :method => 'get', :path => "/issues/preview/123" },
         { :controller => 'previews', :action => 'issue', :id => '123' }
       )
