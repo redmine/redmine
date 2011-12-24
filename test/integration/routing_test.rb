@@ -115,14 +115,6 @@ class RoutingTest < ActionController::IntegrationTest
           :copy_from => '64' }
       )
     assert_routing(
-        { :method => 'get', :path => "/issues/preview/123" },
-        { :controller => 'previews', :action => 'issue', :id => '123' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/issues/preview/123" },
-        { :controller => 'previews', :action => 'issue', :id => '123' }
-      )
-    assert_routing(
         { :method => 'get', :path => "/issues/context_menu" },
         { :controller => 'context_menus', :action => 'issues' }
       )
