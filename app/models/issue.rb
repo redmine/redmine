@@ -936,12 +936,13 @@ class Issue < ActiveRecord::Base
       }
       # custom fields changes
       custom_values.each {|c|
-        next if (@custom_values_before_change[c.custom_field_id]==c.value ||
-                  (@custom_values_before_change[c.custom_field_id].blank? && c.value.blank?))
+        before = @custom_values_before_change[c.custom_field_id]
+        after = c.value
+        next if before == after || (before.blank? && after.blank?)
         @current_journal.details << JournalDetail.new(:property => 'cf',
                                                       :prop_key => c.custom_field_id,
-                                                      :old_value => @custom_values_before_change[c.custom_field_id],
-                                                      :value => c.value)
+                                                      :old_value => before,
+                                                      :value => after)
       }
       @current_journal.save
       # reset current journal
