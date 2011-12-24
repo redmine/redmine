@@ -115,10 +115,6 @@ class RoutingTest < ActionController::IntegrationTest
           :copy_from => '64' }
       )
     assert_routing(
-        { :method => 'get', :path => "/issues/calendar" },
-        { :controller => 'calendars', :action => 'show' }
-      )
-    assert_routing(
         { :method => 'get', :path => "/projects/project-name/issues/calendar" },
         { :controller => 'calendars', :action => 'show',
           :project_id => 'project-name' }
