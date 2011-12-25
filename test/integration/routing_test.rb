@@ -18,45 +18,6 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class RoutingTest < ActionController::IntegrationTest
-  def test_queries
-    assert_routing(
-        { :method => 'get', :path => "/queries.xml" },
-        { :controller => 'queries', :action => 'index', :format => 'xml' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/queries.json" },
-        { :controller => 'queries', :action => 'index', :format => 'json' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/queries/new" },
-        { :controller => 'queries', :action => 'new' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/redmine/queries/new" },
-        { :controller => 'queries', :action => 'new', :project_id => 'redmine' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/queries" },
-        { :controller => 'queries', :action => 'create' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/projects/redmine/queries" },
-        { :controller => 'queries', :action => 'create', :project_id => 'redmine' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/queries/1/edit" },
-        { :controller => 'queries', :action => 'edit', :id => '1' }
-      )
-    assert_routing(
-        { :method => 'put', :path => "/queries/1" },
-        { :controller => 'queries', :action => 'update', :id => '1' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/queries/1" },
-        { :controller => 'queries', :action => 'destroy', :id => '1' }
-      )
-  end
-
   def test_wiki_singular_projects_pages
     assert_routing(
         { :method => 'get', :path => "/projects/567/wiki" },
