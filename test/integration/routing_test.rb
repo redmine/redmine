@@ -75,21 +75,12 @@ class RoutingTest < ActionController::IntegrationTest
         { :controller => 'news', :action => 'create', :project_id => '567' }
       )
     assert_routing(
-        { :method => 'post', :path => "/news/567/comments" },
-        { :controller => 'comments', :action => 'create', :id => '567' }
-      )
-    assert_routing(
         { :method => 'put', :path => "/news/567" },
         { :controller => 'news', :action => 'update', :id => '567' }
       )
     assert_routing(
         { :method => 'delete', :path => "/news/567" },
         { :controller => 'news', :action => 'destroy', :id => '567' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/news/567/comments/15" },
-        { :controller => 'comments', :action => 'destroy', :id => '567',
-          :comment_id => '15' }
       )
   end
 
