@@ -19,14 +19,12 @@ require File.expand_path('../../../test_helper', __FILE__)
 
 class RoutingMyTest < ActionController::IntegrationTest
   def test_my
-    assert_routing(
-        { :method => 'get', :path => "/my/account" },
-        { :controller => 'my', :action => 'account' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/my/account" },
-        { :controller => 'my', :action => 'account' }
-      )
+    ["get", "post"].each do |method|
+      assert_routing(
+          { :method => method, :path => "/my/account" },
+          { :controller => 'my', :action => 'account' }
+        )
+    end
     assert_routing(
         { :method => 'get', :path => "/my/page" },
         { :controller => 'my', :action => 'page' }
@@ -43,14 +41,12 @@ class RoutingMyTest < ActionController::IntegrationTest
         { :method => 'post', :path => "/my/reset_api_key" },
         { :controller => 'my', :action => 'reset_api_key' }
       )
-    assert_routing(
-        { :method => 'get', :path => "/my/password" },
-        { :controller => 'my', :action => 'password' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/my/password" },
-        { :controller => 'my', :action => 'password' }
-      )
+    ["get", "post"].each do |method|
+      assert_routing(
+          { :method => method, :path => "/my/password" },
+          { :controller => 'my', :action => 'password' }
+        )
+    end
     assert_routing(
         { :method => 'get', :path => "/my/page_layout" },
         { :controller => 'my', :action => 'page_layout' }
