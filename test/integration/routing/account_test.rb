@@ -19,34 +19,28 @@ require File.expand_path('../../../test_helper', __FILE__)
 
 class RoutingAccountTest < ActionController::IntegrationTest
   def test_account
-    assert_routing(
-        { :method => 'get', :path => "/login" },
-        { :controller => 'account', :action => 'login' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/login" },
-        { :controller => 'account', :action => 'login' }
-      )
+    ["get", "post"].each do |method|
+      assert_routing(
+          { :method => method, :path => "/login" },
+          { :controller => 'account', :action => 'login' }
+        )
+    end
     assert_routing(
         { :method => 'get', :path => "/logout" },
         { :controller => 'account', :action => 'logout' }
       )
-    assert_routing(
-        { :method => 'get', :path => "/account/register" },
-        { :controller => 'account', :action => 'register' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/account/register" },
-        { :controller => 'account', :action => 'register' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/account/lost_password" },
-        { :controller => 'account', :action => 'lost_password' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/account/lost_password" },
-        { :controller => 'account', :action => 'lost_password' }
-      )
+    ["get", "post"].each do |method|
+      assert_routing(
+          { :method => method, :path => "/account/register" },
+          { :controller => 'account', :action => 'register' }
+        )
+    end
+    ["get", "post"].each do |method|
+      assert_routing(
+          { :method => method, :path => "/account/lost_password" },
+          { :controller => 'account', :action => 'lost_password' }
+        )
+    end
     assert_routing(
         { :method => 'get', :path => "/account/activate" },
         { :controller => 'account', :action => 'activate' }
