@@ -15,9 +15,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingTest < ActionController::IntegrationTest
+class RoutingWikisTest < ActionController::IntegrationTest
   def test_wikis_plural_admin_setup
     assert_routing(
         { :method => 'get', :path => "/projects/ladida/wiki/destroy" },
