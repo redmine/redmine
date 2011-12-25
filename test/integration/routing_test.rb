@@ -261,10 +261,6 @@ class RoutingTest < ActionController::IntegrationTest
         { :controller => 'news', :action => 'edit', :id => '567' }
       )
     assert_routing(
-        { :method => 'get', :path => "/news/preview" },
-        { :controller => 'previews', :action => 'news' }
-      )
-    assert_routing(
         { :method => 'post', :path => "/projects/567/news" },
         { :controller => 'news', :action => 'create', :project_id => '567' }
       )
