@@ -70,11 +70,6 @@ class RoutingTest < ActionController::IntegrationTest
         { :controller => 'projects', :action => 'unarchive', :id => '64' }
       )
     assert_routing(
-        { :method => 'put', :path => "/projects/64/enumerations" },
-        { :controller => 'project_enumerations', :action => 'update',
-          :project_id => '64' }
-      )
-    assert_routing(
         { :method => 'put', :path => "/projects/4223" },
         { :controller => 'projects', :action => 'update', :id => '4223' }
       )
@@ -91,11 +86,6 @@ class RoutingTest < ActionController::IntegrationTest
         { :method => 'delete', :path => "/projects/1.xml" },
         { :controller => 'projects', :action => 'destroy', :id => '1',
           :format => 'xml' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/projects/64/enumerations" },
-        { :controller => 'project_enumerations', :action => 'destroy',
-          :project_id => '64' }
       )
   end
 
