@@ -19,14 +19,12 @@ require File.expand_path('../../../test_helper', __FILE__)
 
 class RoutingPreviewsTest < ActionController::IntegrationTest
   def test_previews
-    assert_routing(
-        { :method => 'get', :path => "/issues/preview/123" },
-        { :controller => 'previews', :action => 'issue', :id => '123' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/issues/preview/123" },
-        { :controller => 'previews', :action => 'issue', :id => '123' }
-      )
+    ["get", "post"].each do |method|
+      assert_routing(
+          { :method => method, :path => "/issues/preview/123" },
+          { :controller => 'previews', :action => 'issue', :id => '123' }
+        )
+    end
     assert_routing(
         { :method => 'get', :path => "/news/preview" },
         { :controller => 'previews', :action => 'news' }
