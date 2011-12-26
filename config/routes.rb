@@ -108,10 +108,14 @@ ActionController::Routing::Routes.draw do |map|
   # Bulk deletion
   map.connect '/issues', :controller => 'issues', :action => 'destroy', :conditions => {:method => :delete}
 
-  map.connect 'projects/:id/members/new', :controller => 'members', :action => 'new', :conditions => { :method => :post }
-  map.connect 'members/edit/:id', :controller => 'members', :action => 'edit', :id => /\d+/, :conditions => { :method => :post }
-  map.connect 'members/destroy/:id', :controller => 'members', :action => 'destroy', :id => /\d+/, :conditions => { :method => :post }
-  map.connect 'members/autocomplete_for_member/:id', :controller => 'members', :action => 'autocomplete_for_member', :conditions => { :method => :post }
+  map.connect 'projects/:id/members/new', :controller => 'members',
+              :action => 'new', :conditions => { :method => :post }
+  map.connect 'members/edit/:id', :controller => 'members',
+              :action => 'edit', :id => /\d+/, :conditions => { :method => :post }
+  map.connect 'members/destroy/:id', :controller => 'members',
+              :action => 'destroy', :id => /\d+/, :conditions => { :method => :post }
+  map.connect 'members/autocomplete_for_member/:id', :controller => 'members',
+              :action => 'autocomplete_for_member', :conditions => { :method => :post }
 
   map.resources :users
   map.with_options :controller => 'users' do |users|
