@@ -280,7 +280,7 @@ class ProjectTest < ActiveSupport::TestCase
 
     parent.reload
     assert_equal 4, parent.children.size
-    assert_equal parent.children.sort_by(&:name), parent.children
+    assert_equal parent.children.all.sort_by(&:name), parent.children.all
   end
 
   def test_rebuild_should_sort_children_alphabetically
@@ -296,7 +296,7 @@ class ProjectTest < ActiveSupport::TestCase
 
     parent.reload
     assert_equal 4, parent.children.size
-    assert_equal parent.children.sort_by(&:name), parent.children
+    assert_equal parent.children.all.sort_by(&:name), parent.children.all
   end
 
 
