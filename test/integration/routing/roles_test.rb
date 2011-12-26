@@ -43,13 +43,11 @@ class RoutingRolesTest < ActionController::IntegrationTest
         { :method => 'delete', :path => "/roles/2" },
         { :controller => 'roles', :action => 'destroy', :id => '2' }
       )
-    assert_routing(
-        { :method => 'get', :path => "/roles/permissions" },
-        { :controller => 'roles', :action => 'permissions' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/roles/permissions" },
-        { :controller => 'roles', :action => 'permissions' }
-      )
+    ["get", "post"].each do |method|
+      assert_routing(
+          { :method => method, :path => "/roles/permissions" },
+          { :controller => 'roles', :action => 'permissions' }
+        )
+    end
   end
 end
