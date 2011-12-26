@@ -55,10 +55,13 @@ ActionController::Routing::Routes.draw do |map|
   map.preview_issue '/issues/preview/:id', :controller => 'previews', :action => 'issue' # TODO: would look nicer as /issues/:id/preview
   map.issues_context_menu '/issues/context_menu', :controller => 'context_menus', :action => 'issues'
   map.issue_changes '/issues/changes', :controller => 'journals', :action => 'index'
-  map.quoted_issue '/issues/:id/quoted', :controller => 'journals', :action => 'new', :id => /\d+/, :conditions => { :method => :post }
+  map.quoted_issue '/issues/:id/quoted', :controller => 'journals', :action => 'new',
+                   :id => /\d+/, :conditions => { :method => :post }
 
-  map.connect '/journals/diff/:id', :controller => 'journals', :action => 'diff', :id => /\d+/, :conditions => { :method => :get }
-  map.connect '/journals/edit/:id', :controller => 'journals', :action => 'edit', :id => /\d+/, :conditions => { :method => [:get, :post] }
+  map.connect '/journals/diff/:id', :controller => 'journals', :action => 'diff',
+              :id => /\d+/, :conditions => { :method => :get }
+  map.connect '/journals/edit/:id', :controller => 'journals', :action => 'edit',
+              :id => /\d+/, :conditions => { :method => [:get, :post] }
 
   map.with_options :controller => 'gantts', :action => 'show' do |gantts_routes|
     gantts_routes.connect '/projects/:project_id/issues/gantt'
