@@ -126,7 +126,11 @@ class ProjectTest < ActiveSupport::TestCase
       p = Project.new
       p.identifier = identifier
       p.valid?
-      assert_equal valid, p.errors['identifier'].nil?
+      if valid
+        assert p.errors['identifier'].blank?, "identifier #{identifier} was not valid"
+      else
+        assert p.errors['identifier'].present?, "identifier #{identifier} was valid"
+      end
     end
   end
 
