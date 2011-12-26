@@ -19,13 +19,11 @@ require File.expand_path('../../../test_helper', __FILE__)
 
 class RoutingContextMenusTest < ActionController::IntegrationTest
   def test_context_menus
-    assert_routing(
-        { :method => 'get', :path => "/issues/context_menu" },
-        { :controller => 'context_menus', :action => 'issues' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/issues/context_menu" },
-        { :controller => 'context_menus', :action => 'issues' }
-      )
+    ["get", "post"].each do |method|
+      assert_routing(
+          { :method => method, :path => "/issues/context_menu" },
+          { :controller => 'context_menus', :action => 'issues' }
+        )
+    end
   end
 end
