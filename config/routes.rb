@@ -130,8 +130,10 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'news', :controller => 'news', :action => 'index'
   map.connect 'news.:format', :controller => 'news', :action => 'index'
   map.preview_news '/news/preview', :controller => 'previews', :action => 'news'
-  map.connect 'news/:id/comments', :controller => 'comments', :action => 'create', :conditions => {:method => :post}
-  map.connect 'news/:id/comments/:comment_id', :controller => 'comments', :action => 'destroy', :conditions => {:method => :delete}
+  map.connect 'news/:id/comments', :controller => 'comments',
+              :action => 'create', :conditions => {:method => :post}
+  map.connect 'news/:id/comments/:comment_id', :controller => 'comments',
+              :action => 'destroy', :conditions => {:method => :delete}
 
   map.connect 'watchers/new', :controller=> 'watchers', :action => 'new', :conditions => {:method => [:get, :post]}
   map.connect 'watchers/destroy', :controller=> 'watchers', :action => 'destroy', :conditions => {:method => :post}
