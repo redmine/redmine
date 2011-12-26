@@ -112,7 +112,7 @@ module Redmine
           html << render_single_menu_node(node, caption, url, selected)
 
           # Standard children
-          standard_children_list = "".tap do |child_html|
+          standard_children_list = "".html_safe.tap do |child_html|
             node.children.each do |child|
               child_html << render_menu_node(child, project)
             end
@@ -126,14 +126,14 @@ module Redmine
 
           html << '</li>'
         end
-        return html.join("\n")
+        return html.join("\n").html_safe
       end
 
       # Returns a list of unattached children menu items
       def render_unattached_children_menu(node, project)
         return nil unless node.child_menus
 
-        "".tap do |child_html|
+        "".html_safe.tap do |child_html|
           unattached_children = node.child_menus.call(project)
           # Tree nodes support #each so we need to do object detection
           if unattached_children.is_a? Array
