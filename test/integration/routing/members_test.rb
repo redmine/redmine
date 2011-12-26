@@ -23,5 +23,17 @@ class RoutingMembersTest < ActionController::IntegrationTest
         { :method => 'post', :path => "/projects/5234/members/new" },
         { :controller => 'members', :action => 'new', :id => '5234' }
       )
+    assert_routing(
+        { :method => 'post', :path => "/members/edit/5234" },
+        { :controller => 'members', :action => 'edit', :id => '5234' }
+      )
+    assert_routing(
+        { :method => 'post', :path => "/members/destroy/5234" },
+        { :controller => 'members', :action => 'destroy', :id => '5234' }
+      )
+    assert_routing(
+        { :method => 'post', :path => "/members/autocomplete_for_member/5234" },
+        { :controller => 'members', :action => 'autocomplete_for_member', :id => '5234' }
+      )
   end
 end
