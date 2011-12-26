@@ -119,9 +119,15 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :users
   map.with_options :controller => 'users' do |users|
-    users.user_memberships 'users/:id/memberships', :action => 'edit_membership', :conditions => {:method => :post}
-    users.user_membership 'users/:id/memberships/:membership_id', :action => 'edit_membership', :conditions => {:method => :put}
-    users.connect 'users/:id/memberships/:membership_id', :action => 'destroy_membership', :conditions => {:method => :delete}
+    users.user_memberships 'users/:id/memberships',
+                           :action => 'edit_membership',
+                           :conditions => {:method => :post}
+    users.user_membership 'users/:id/memberships/:membership_id',
+                          :action => 'edit_membership',
+                          :conditions => {:method => :put}
+    users.connect 'users/:id/memberships/:membership_id',
+                  :action => 'destroy_membership',
+                  :conditions => {:method => :delete}
   end
 
   # For nice "roadmap" in the url for the index action
