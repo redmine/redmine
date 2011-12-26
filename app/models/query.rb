@@ -174,25 +174,30 @@ class Query < ActiveRecord::Base
       if values_for(field)
         case type_for(field)
         when :integer
-          errors.add(label_for(field), :invalid) if values_for(field).detect {|v| v.present? && !v.match(/^\d+$/) }
+          add_filter_error(field, :invalid) if values_for(field).detect {|v| v.present? && !v.match(/^\d+$/) }
         when :float
-          errors.add(label_for(field), :invalid) if values_for(field).detect {|v| v.present? && !v.match(/^\d+(\.\d*)?$/) }
+          add_filter_error(field, :invalid) if values_for(field).detect {|v| v.present? && !v.match(/^\d+(\.\d*)?$/) }
         when :date, :date_past
           case operator_for(field)
           when "=", ">=", "<=", "><"
-            errors.add(label_for(field), :invalid) if values_for(field).detect {|v| v.present? && (!v.match(/^\d{4}-\d{2}-\d{2}$/) || (Date.parse(v) rescue nil).nil?) }
+            add_filter_error(field, :invalid) if values_for(field).detect {|v| v.present? && (!v.match(/^\d{4}-\d{2}-\d{2}$/) || (Date.parse(v) rescue nil).nil?) }
           when ">t-", "<t-", "t-"
-            errors.add(label_for(field), :invalid) if values_for(field).detect {|v| v.present? && !v.match(/^\d+$/) }
+            add_filter_error(field, :invalid) if values_for(field).detect {|v| v.present? && !v.match(/^\d+$/) }
           end
         end
       end
 
-      errors.add label_for(field), :blank unless
+      add_filter_error(field, :blank) unless
           # filter requires one or more values
           (values_for(field) and !values_for(field).first.blank?) or
           # filter doesn't require any value
           ["o", "c", "!*", "*", "t", "w"].include? operator_for(field)
     end if filters
+  end
+
+  def add_filter_error(field, message)
+    m = label_for(field) + " " + l(message, :scope => 'activerecord.errors.messages')
+    errors.add(:base, m)
   end
 
   # Returns true if the query is visible to +user+ or the current user.
@@ -347,7 +352,7 @@ class Query < ActiveRecord::Base
 
   def label_for(field)
     label = available_filters[field][:name] if available_filters.has_key?(field)
-    label ||= field.gsub(/\_id$/, "")
+    label ||= l("field_#{field.to_s.gsub(/_id$/, '')}", :default => field)
   end
 
   def available_columns
