@@ -28,5 +28,13 @@ class RoutingGroupsTest < ActionController::IntegrationTest
         { :controller => 'groups', :action => 'remove_user', :id => '567',
           :user_id => '12' }
       )
+    assert_routing(
+        { :method => 'post', :path => "/groups/destroy_membership/567" },
+        { :controller => 'groups', :action => 'destroy_membership', :id => '567' }
+      )
+    assert_routing(
+        { :method => 'post', :path => "/groups/edit_membership/567" },
+        { :controller => 'groups', :action => 'edit_membership', :id => '567' }
+      )
   end
 end
