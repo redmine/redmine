@@ -20,8 +20,28 @@ require File.expand_path('../../../test_helper', __FILE__)
 class RoutingAdminTest < ActionController::IntegrationTest
   def test_administration_panel
     assert_routing(
+        { :method => 'get', :path => "/admin" },
+        { :controller => 'admin', :action => 'index' }
+      )
+    assert_routing(
         { :method => 'get', :path => "/admin/projects" },
         { :controller => 'admin', :action => 'projects' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/admin/plugins" },
+        { :controller => 'admin', :action => 'plugins' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/admin/info" },
+        { :controller => 'admin', :action => 'info' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/admin/test_email" },
+        { :controller => 'admin', :action => 'test_email' }
+      )
+    assert_routing(
+        { :method => 'post', :path => "/admin/default_configuration" },
+        { :controller => 'admin', :action => 'default_configuration' }
       )
   end
 end
