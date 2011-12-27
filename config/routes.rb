@@ -268,7 +268,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.connect 'search', :controller => 'search', :action => 'index', :conditions => {:method => :get}
 
-  map.connect 'mail_handler', :controller => 'mail_handler', :action => 'index', :conditions => {:method => :post}
+  map.connect 'mail_handler', :controller => 'mail_handler',
+              :action => 'index', :conditions => {:method => :post}
 
   map.connect 'admin', :controller => 'admin', :action => 'index', :conditions => {:method => :get}
   map.connect 'admin/projects', :controller => 'admin', :action => 'projects', :conditions => {:method => :get}
