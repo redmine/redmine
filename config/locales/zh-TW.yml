@@ -243,7 +243,8 @@
   notice_email_error: "寄送郵件的過程中發生錯誤 (%{value})"
   notice_feeds_access_key_reseted: 您的 RSS 存取金鑰已被重新設定。
   notice_api_access_key_reseted: 您的 API 存取金鑰已被重新設定。
-  notice_failed_to_save_issues: " %{count} 個問題儲存失敗（總共選取 %{total} 個問題）： %{ids} 。"
+  notice_failed_to_save_issues: "無法儲存 %{count} 問題到下列所選取的 %{total} 個項目中： %{ids}。"
+  notice_failed_to_save_time_entries: "無法儲存 %{count} 個工時到下列所選取的 %{total} 個項目中： %{ids}。"
   notice_failed_to_save_members: "成員儲存失敗: %{errors}."
   notice_no_issue_selected: "未選擇任何問題！請勾選您想要編輯的問題。"
   notice_account_pending: "您的帳號已經建立，正在等待管理員的審核。"
@@ -1086,4 +1087,3 @@
   description_date_range_interval: 選擇起始與結束日期以設定範圍區間
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
-  notice_failed_to_save_time_entries: "Failed to save %{count} time entrie(s) on %{total} selected: %{ids}."
