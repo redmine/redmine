@@ -332,9 +332,12 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'workflows/copy', :controller => 'workflows',
               :action => 'copy', :conditions => {:method => [:get, :post]}
 
-  map.connect 'settings', :controller => 'settings', :action => 'index', :conditions => {:method => :get}
-  map.connect 'settings/edit', :controller => 'settings', :action => 'edit', :conditions => {:method => [:get, :post]}
-  map.connect 'settings/plugin/:id', :controller => 'settings', :action => 'plugin', :conditions => {:method => [:get, :post]}
+  map.connect 'settings', :controller => 'settings',
+              :action => 'index', :conditions => {:method => :get}
+  map.connect 'settings/edit', :controller => 'settings',
+              :action => 'edit', :conditions => {:method => [:get, :post]}
+  map.connect 'settings/plugin/:id', :controller => 'settings',
+              :action => 'plugin', :conditions => {:method => [:get, :post]}
 
   map.with_options :controller => 'sys' do |sys|
     sys.connect 'sys/projects.:format',
