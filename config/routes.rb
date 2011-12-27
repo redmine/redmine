@@ -141,10 +141,14 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'news/:id/comments/:comment_id', :controller => 'comments',
               :action => 'destroy', :conditions => {:method => :delete}
 
-  map.connect 'watchers/new', :controller=> 'watchers', :action => 'new', :conditions => {:method => [:get, :post]}
-  map.connect 'watchers/destroy', :controller=> 'watchers', :action => 'destroy', :conditions => {:method => :post}
-  map.connect 'watchers/watch', :controller=> 'watchers', :action => 'watch', :conditions => {:method => :post}
-  map.connect 'watchers/unwatch', :controller=> 'watchers', :action => 'unwatch', :conditions => {:method => :post}
+  map.connect 'watchers/new', :controller=> 'watchers', :action => 'new',
+              :conditions => {:method => [:get, :post]}
+  map.connect 'watchers/destroy', :controller=> 'watchers', :action => 'destroy',
+              :conditions => {:method => :post}
+  map.connect 'watchers/watch', :controller=> 'watchers', :action => 'watch',
+              :conditions => {:method => :post}
+  map.connect 'watchers/unwatch', :controller=> 'watchers', :action => 'unwatch',
+              :conditions => {:method => :post}
 
   map.resources :projects, :member => {
     :copy => [:get, :post],
