@@ -310,13 +310,21 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'auth_sources/update/:id', :controller => 'auth_sources',
               :action => 'update', :id => /\d+/, :conditions => {:method => :post}
 
-  map.connect 'ldap_auth_sources', :controller => 'ldap_auth_sources', :action => 'index', :conditions => {:method => :get}
-  map.connect 'ldap_auth_sources/new', :controller => 'ldap_auth_sources', :action => 'new', :conditions => {:method => :get}
-  map.connect 'ldap_auth_sources/create', :controller => 'ldap_auth_sources', :action => 'create', :conditions => {:method => :post}
-  map.connect 'ldap_auth_sources/destroy/:id', :controller => 'ldap_auth_sources', :action => 'destroy', :id => /\d+/, :conditions => {:method => :post}
-  map.connect 'ldap_auth_sources/test_connection/:id', :controller => 'ldap_auth_sources', :action => 'test_connection', :conditions => {:method => :get}
-  map.connect 'ldap_auth_sources/edit/:id', :controller => 'ldap_auth_sources', :action => 'edit', :id => /\d+/, :conditions => {:method => :get}
-  map.connect 'ldap_auth_sources/update/:id', :controller => 'ldap_auth_sources', :action => 'update', :id => /\d+/, :conditions => {:method => :post}
+  map.connect 'ldap_auth_sources', :controller => 'ldap_auth_sources',
+              :action => 'index', :conditions => {:method => :get}
+  map.connect 'ldap_auth_sources/new', :controller => 'ldap_auth_sources',
+              :action => 'new', :conditions => {:method => :get}
+  map.connect 'ldap_auth_sources/create', :controller => 'ldap_auth_sources',
+              :action => 'create', :conditions => {:method => :post}
+  map.connect 'ldap_auth_sources/destroy/:id', :controller => 'ldap_auth_sources',
+              :action => 'destroy', :id => /\d+/, :conditions => {:method => :post}
+  map.connect 'ldap_auth_sources/test_connection/:id', :controller => 'ldap_auth_sources',
+              :action => 'test_connection', :conditions => {:method => :get}
+  map.connect 'ldap_auth_sources/edit/:id', :controller => 'ldap_auth_sources',
+              :action => 'edit', :id => /\d+/, :conditions => {:method => :get}
+  map.connect 'ldap_auth_sources/update/:id', :controller => 'ldap_auth_sources',
+              :action => 'update', :id => /\d+/, :conditions => {:method => :post}
+
   map.connect 'workflows', :controller => 'workflows', :action => 'index', :conditions => {:method => :get}
   map.connect 'workflows/edit', :controller => 'workflows', :action => 'edit', :conditions => {:method => [:get, :post]}
   map.connect 'workflows/copy', :controller => 'workflows', :action => 'copy', :conditions => {:method => [:get, :post]}
