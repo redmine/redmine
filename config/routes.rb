@@ -211,13 +211,17 @@ ActionController::Routing::Routes.draw do |map|
       repository_views.connect 'projects/:id/repository', :action => 'show'
       repository_views.connect 'projects/:id/repository/edit', :action => 'edit'
       repository_views.connect 'projects/:id/repository/statistics', :action => 'stats'
+
       repository_views.connect 'projects/:id/repository/revisions', :action => 'revisions'
       repository_views.connect 'projects/:id/repository/revisions.:format', :action => 'revisions'
       repository_views.connect 'projects/:id/repository/revisions/:rev', :action => 'revision'
       repository_views.connect 'projects/:id/repository/revisions/:rev/diff', :action => 'diff'
       repository_views.connect 'projects/:id/repository/revisions/:rev/diff.:format', :action => 'diff'
-      repository_views.connect 'projects/:id/repository/revisions/:rev/raw/*path', :action => 'entry', :format => 'raw', :requirements => { :rev => /[a-z0-9\.\-_]+/ }
-      repository_views.connect 'projects/:id/repository/revisions/:rev/:action/*path', :requirements => { :rev => /[a-z0-9\.\-_]+/ }
+      repository_views.connect 'projects/:id/repository/revisions/:rev/raw/*path', :action => 'entry',
+                               :format => 'raw', :requirements => { :rev => /[a-z0-9\.\-_]+/ }
+      repository_views.connect 'projects/:id/repository/revisions/:rev/:action/*path',
+                               :requirements => { :rev => /[a-z0-9\.\-_]+/ }
+
       repository_views.connect 'projects/:id/repository/raw/*path', :action => 'entry', :format => 'raw'
       repository_views.connect 'projects/:id/repository/browse/*path', :action => 'browse'
       repository_views.connect 'projects/:id/repository/entry/*path', :action => 'entry'
@@ -228,10 +232,15 @@ ActionController::Routing::Routes.draw do |map|
       repository_views.connect 'projects/:id/repository/graph', :action => 'graph'
     end
 
-    repositories.connect 'projects/:id/repository/revision', :action => 'revision', :conditions => {:method => [:get, :post]}
-    repositories.connect 'projects/:id/repository/committers', :action => 'committers', :conditions => {:method => [:get, :post]}
-    repositories.connect 'projects/:id/repository/edit', :action => 'edit', :conditions => {:method => :post}
-    repositories.connect 'projects/:id/repository/destroy', :action => 'destroy', :conditions => {:method => :post}
+    repositories.connect 'projects/:id/repository/revision', :action => 'revision',
+                         :conditions => {:method => [:get, :post]}
+
+    repositories.connect 'projects/:id/repository/committers', :action => 'committers',
+                         :conditions => {:method => [:get, :post]}
+    repositories.connect 'projects/:id/repository/edit', :action => 'edit',
+                         :conditions => {:method => :post}
+    repositories.connect 'projects/:id/repository/destroy', :action => 'destroy',
+                         :conditions => {:method => :post}
   end
 
   map.resources :attachments, :only => [:show, :destroy]
