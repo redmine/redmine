@@ -190,7 +190,7 @@ ja:
   notice_email_error: "メール送信中にエラーが発生しました (%{value})"
   notice_feeds_access_key_reseted: RSSアクセスキーを初期化しました。
   notice_api_access_key_reseted: APIアクセスキーを初期化しました。
-  notice_failed_to_save_issues: "%{total}件のうち%{count}件のチケットが保存できませんでした: %{ids}."
+  notice_failed_to_save_issues: "全%{total}件中%{count}件のチケットが保存できませんでした: %{ids}."
   notice_failed_to_save_members: "メンバーの保存に失敗しました: %{errors}."
   notice_no_issue_selected: "チケットが選択されていません! 更新対象のチケットを選択してください。"
   notice_account_pending: アカウントは作成済みで、管理者の承認待ちです。
@@ -1036,4 +1036,4 @@ ja:
   button_export: エクスポート
   label_export_options: "%{export_format} エクスポート設定"
   error_attachment_too_big: このファイルはアップロードできません。添付ファイルサイズの上限(%{max_size})を超えています。
-  notice_failed_to_save_time_entries: "Failed to save %{count} time entrie(s) on %{total} selected: %{ids}."
+  notice_failed_to_save_time_entries: "全%{total}件中%{count}件の作業時間が保存できませんでした: %{ids}."
