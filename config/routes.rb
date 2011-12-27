@@ -271,12 +271,18 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'mail_handler', :controller => 'mail_handler',
               :action => 'index', :conditions => {:method => :post}
 
-  map.connect 'admin', :controller => 'admin', :action => 'index', :conditions => {:method => :get}
-  map.connect 'admin/projects', :controller => 'admin', :action => 'projects', :conditions => {:method => :get}
-  map.connect 'admin/plugins', :controller => 'admin', :action => 'plugins', :conditions => {:method => :get}
-  map.connect 'admin/info', :controller => 'admin', :action => 'info', :conditions => {:method => :get}
-  map.connect 'admin/test_email', :controller => 'admin', :action => 'test_email', :conditions => {:method => :get}
-  map.connect 'admin/default_configuration', :controller => 'admin', :action => 'default_configuration', :conditions => {:method => :post}
+  map.connect 'admin', :controller => 'admin', :action => 'index',
+              :conditions => {:method => :get}
+  map.connect 'admin/projects', :controller => 'admin', :action => 'projects',
+              :conditions => {:method => :get}
+  map.connect 'admin/plugins', :controller => 'admin', :action => 'plugins',
+              :conditions => {:method => :get}
+  map.connect 'admin/info', :controller => 'admin', :action => 'info',
+              :conditions => {:method => :get}
+  map.connect 'admin/test_email', :controller => 'admin', :action => 'test_email',
+              :conditions => {:method => :get}
+  map.connect 'admin/default_configuration', :controller => 'admin',
+              :action => 'default_configuration', :conditions => {:method => :post}
 
   # Used by AuthSourcesControllerTest
   # TODO : refactor *AuthSourcesController to remove these routes
