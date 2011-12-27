@@ -29,6 +29,9 @@ class RoutingRepositoriesTest < ActionController::IntegrationTest
           :path => "/projects/redmine/repository/edit" },
         { :controller => 'repositories', :action => 'edit', :id => 'redmine' }
       )
+  end
+
+  def test_repositories_revisions
     assert_routing(
         { :method => 'get',
           :path => "/projects/redmine/repository/revisions" },
@@ -60,15 +63,30 @@ class RoutingRepositoriesTest < ActionController::IntegrationTest
       )
     assert_routing(
         { :method => 'get',
-          :path => "/projects/redmine/repository/diff/path/to/file.c" },
-        { :controller => 'repositories', :action => 'diff', :id => 'redmine',
-          :path => %w[path to file.c] }
-      )
-    assert_routing(
-        { :method => 'get',
           :path => "/projects/redmine/repository/revisions/2/diff/path/to/file.c" },
         { :controller => 'repositories', :action => 'diff', :id => 'redmine',
           :path => %w[path to file.c], :rev => '2' }
+      )
+    assert_routing(
+        { :method => 'get',
+          :path => "/projects/redmine/repository/revisions/2/entry/path/to/file.c" },
+        { :controller => 'repositories', :action => 'entry', :id => 'redmine',
+          :path => %w[path to file.c], :rev => '2' }
+      )
+    assert_routing(
+        { :method => 'get',
+          :path => "/projects/redmine/repository/revisions/2/raw/path/to/file.c" },
+        { :controller => 'repositories', :action => 'entry', :id => 'redmine',
+          :path => %w[path to file.c], :rev => '2', :format => 'raw' }
+      )
+  end
+
+  def test_repositories_etc
+    assert_routing(
+        { :method => 'get',
+          :path => "/projects/redmine/repository/diff/path/to/file.c" },
+        { :controller => 'repositories', :action => 'diff', :id => 'redmine',
+          :path => %w[path to file.c] }
       )
     assert_routing(
         { :method => 'get',
@@ -84,21 +102,9 @@ class RoutingRepositoriesTest < ActionController::IntegrationTest
       )
     assert_routing(
         { :method => 'get',
-          :path => "/projects/redmine/repository/revisions/2/entry/path/to/file.c" },
-        { :controller => 'repositories', :action => 'entry', :id => 'redmine',
-          :path => %w[path to file.c], :rev => '2' }
-      )
-    assert_routing(
-        { :method => 'get',
           :path => "/projects/redmine/repository/raw/path/to/file.c" },
         { :controller => 'repositories', :action => 'entry', :id => 'redmine',
           :path => %w[path to file.c], :format => 'raw' }
-      )
-    assert_routing(
-        { :method => 'get',
-          :path => "/projects/redmine/repository/revisions/2/raw/path/to/file.c" },
-        { :controller => 'repositories', :action => 'entry', :id => 'redmine',
-          :path => %w[path to file.c], :rev => '2', :format => 'raw' }
       )
     assert_routing(
         { :method => 'get',
