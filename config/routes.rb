@@ -302,9 +302,15 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'settings/plugin/:id', :controller => 'settings', :action => 'plugin', :conditions => {:method => [:get, :post]}
 
   map.with_options :controller => 'sys' do |sys|
-    sys.connect 'sys/projects.:format', :action => 'projects', :conditions => {:method => :get}
-    sys.connect 'sys/projects/:id/repository.:format', :action => 'create_project_repository', :conditions => {:method => :post}
-    sys.connect 'sys/fetch_changesets', :action => 'fetch_changesets', :conditions => {:method => :get}
+    sys.connect 'sys/projects.:format',
+                :action => 'projects',
+                :conditions => {:method => :get}
+    sys.connect 'sys/projects/:id/repository.:format',
+                :action => 'create_project_repository',
+                :conditions => {:method => :post}
+    sys.connect 'sys/fetch_changesets',
+                :action => 'fetch_changesets',
+                :conditions => {:method => :get}
   end
 
   map.connect 'robots.txt', :controller => 'welcome', :action => 'robots', :conditions => {:method => :get}
