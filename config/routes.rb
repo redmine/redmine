@@ -325,9 +325,13 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'ldap_auth_sources/update/:id', :controller => 'ldap_auth_sources',
               :action => 'update', :id => /\d+/, :conditions => {:method => :post}
 
-  map.connect 'workflows', :controller => 'workflows', :action => 'index', :conditions => {:method => :get}
-  map.connect 'workflows/edit', :controller => 'workflows', :action => 'edit', :conditions => {:method => [:get, :post]}
-  map.connect 'workflows/copy', :controller => 'workflows', :action => 'copy', :conditions => {:method => [:get, :post]}
+  map.connect 'workflows', :controller => 'workflows',
+              :action => 'index', :conditions => {:method => :get}
+  map.connect 'workflows/edit', :controller => 'workflows',
+              :action => 'edit', :conditions => {:method => [:get, :post]}
+  map.connect 'workflows/copy', :controller => 'workflows',
+              :action => 'copy', :conditions => {:method => [:get, :post]}
+
   map.connect 'settings', :controller => 'settings', :action => 'index', :conditions => {:method => :get}
   map.connect 'settings/edit', :controller => 'settings', :action => 'edit', :conditions => {:method => [:get, :post]}
   map.connect 'settings/plugin/:id', :controller => 'settings', :action => 'plugin', :conditions => {:method => [:get, :post]}
