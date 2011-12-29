@@ -32,16 +32,8 @@ class RoutingQueriesTest < ActionController::IntegrationTest
         { :controller => 'queries', :action => 'new' }
       )
     assert_routing(
-        { :method => 'get', :path => "/projects/redmine/queries/new" },
-        { :controller => 'queries', :action => 'new', :project_id => 'redmine' }
-      )
-    assert_routing(
         { :method => 'post', :path => "/queries" },
         { :controller => 'queries', :action => 'create' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/projects/redmine/queries" },
-        { :controller => 'queries', :action => 'create', :project_id => 'redmine' }
       )
     assert_routing(
         { :method => 'get', :path => "/queries/1/edit" },
@@ -54,6 +46,17 @@ class RoutingQueriesTest < ActionController::IntegrationTest
     assert_routing(
         { :method => 'delete', :path => "/queries/1" },
         { :controller => 'queries', :action => 'destroy', :id => '1' }
+      )
+  end
+
+  def test_queries_scoped_under_project
+    assert_routing(
+        { :method => 'get', :path => "/projects/redmine/queries/new" },
+        { :controller => 'queries', :action => 'new', :project_id => 'redmine' }
+      )
+    assert_routing(
+        { :method => 'post', :path => "/projects/redmine/queries" },
+        { :controller => 'queries', :action => 'create', :project_id => 'redmine' }
       )
   end
 end
