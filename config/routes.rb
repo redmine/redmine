@@ -19,8 +19,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'account/activate', :controller => 'account', :action => 'activate',
               :conditions => {:method => :get}
 
-  map.connect 'roles/workflow/:id/:role_id/:tracker_id', :controller => 'roles', :action => 'workflow'
-
   map.connect '/time_entries/destroy',
               :controller => 'timelog', :action => 'destroy',
               :conditions => { :method => :delete }
