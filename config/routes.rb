@@ -351,7 +351,8 @@ ActionController::Routing::Routes.draw do |map|
                 :conditions => {:method => :get}
   end
 
-  map.connect 'robots.txt', :controller => 'welcome', :action => 'robots', :conditions => {:method => :get}
+  map.connect 'robots.txt', :controller => 'welcome',
+              :action => 'robots', :conditions => {:method => :get}
 
   # Used for OpenID
   map.root :controller => 'account', :action => 'login'
