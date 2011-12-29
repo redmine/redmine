@@ -192,11 +192,11 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   # TODO: port to be part of the resources route(s)
-  map.with_options :controller => 'projects' do |project_mapper|
-    project_mapper.with_options :conditions => {:method => :get} do |project_views|
-      project_views.connect 'projects/:id/settings/:tab', :controller => 'projects', :action => 'settings'
-      project_views.connect 'projects/:project_id/issues/:copy_from/copy', :controller => 'issues', :action => 'new'
-    end
+  map.with_options :conditions => {:method => :get} do |project_views|
+    project_views.connect 'projects/:id/settings/:tab',
+                          :controller => 'projects', :action => 'settings'
+    project_views.connect 'projects/:project_id/issues/:copy_from/copy',
+                          :controller => 'issues', :action => 'new'
   end
 
   map.with_options :controller => 'activities', :action => 'index',
