@@ -22,11 +22,13 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'roles/workflow/:id/:role_id/:tracker_id', :controller => 'roles', :action => 'workflow'
 
   map.connect '/time_entries/destroy',
-                   :controller => 'timelog', :action => 'destroy', :conditions => { :method => :delete }
+              :controller => 'timelog', :action => 'destroy',
+              :conditions => { :method => :delete }
   map.time_entries_context_menu '/time_entries/context_menu',
                    :controller => 'context_menus', :action => 'time_entries'
 
-  map.resources :time_entries, :controller => 'timelog', :collection => {:report => :get, :bulk_edit => :get, :bulk_update => :post}
+  map.resources :time_entries, :controller => 'timelog',
+                :collection => {:report => :get, :bulk_edit => :get, :bulk_update => :post}
 
   map.connect 'projects/:id/wiki', :controller => 'wikis',
               :action => 'edit', :conditions => {:method => :post}
