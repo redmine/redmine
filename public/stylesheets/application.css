@@ -677,13 +677,13 @@ button.tab-left, button.tab-right {
 button.tab-left {
     right: 20px;
     background: #eeeeee url(../images/bullet_arrow_left.png) no-repeat 50% 50%;
-	border-top-left-radius:3px;
+    border-top-left-radius:3px;
 }
 
 button.tab-right {
     right: 0;
     background: #eeeeee url(../images/bullet_arrow_right.png) no-repeat 50% 50%;
-	border-top-right-radius:3px;
+    border-top-right-radius:3px;
 }
 
 /***** Auto-complete *****/
