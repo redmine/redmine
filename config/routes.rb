@@ -199,7 +199,8 @@ ActionController::Routing::Routes.draw do |map|
     end
   end
 
-  map.with_options :controller => 'activities', :action => 'index', :conditions => {:method => :get} do |activity|
+  map.with_options :controller => 'activities', :action => 'index',
+                   :conditions => {:method => :get} do |activity|
     activity.connect 'projects/:id/activity'
     activity.connect 'projects/:id/activity.:format'
     activity.connect 'activity', :id => nil
