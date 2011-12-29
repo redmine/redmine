@@ -28,8 +28,10 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :time_entries, :controller => 'timelog', :collection => {:report => :get, :bulk_edit => :get, :bulk_update => :post}
 
-  map.connect 'projects/:id/wiki', :controller => 'wikis', :action => 'edit', :conditions => {:method => :post}
-  map.connect 'projects/:id/wiki/destroy', :controller => 'wikis', :action => 'destroy', :conditions => {:method => [:get, :post]}
+  map.connect 'projects/:id/wiki', :controller => 'wikis',
+              :action => 'edit', :conditions => {:method => :post}
+  map.connect 'projects/:id/wiki/destroy', :controller => 'wikis',
+              :action => 'destroy', :conditions => {:method => [:get, :post]}
 
   map.with_options :controller => 'messages' do |messages_routes|
     messages_routes.with_options :conditions => {:method => :get} do |messages_views|
