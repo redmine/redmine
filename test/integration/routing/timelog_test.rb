@@ -200,4 +200,22 @@ class RoutingTimelogsTest < ActionController::IntegrationTest
           :format => 'csv' }
       )
   end
+
+  def test_timelogs_bulk_edit
+    assert_routing(
+        { :method => 'delete',
+          :path => "/time_entries/destroy" },
+        { :controller => 'timelog', :action => 'destroy' }
+      )
+    assert_routing(
+        { :method => 'post',
+          :path => "/time_entries/bulk_update" },
+        { :controller => 'timelog', :action => 'bulk_update' }
+      )
+    assert_routing(
+        { :method => 'get',
+          :path => "/time_entries/bulk_edit" },
+        { :controller => 'timelog', :action => 'bulk_edit' }
+      )
+  end
 end
