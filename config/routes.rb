@@ -118,7 +118,8 @@ ActionController::Routing::Routes.draw do |map|
                      :only => [:index, :show, :create, :destroy]
   end
   # Bulk deletion
-  map.connect '/issues', :controller => 'issues', :action => 'destroy', :conditions => {:method => :delete}
+  map.connect '/issues', :controller => 'issues', :action => 'destroy',
+              :conditions => {:method => :delete}
 
   map.connect 'projects/:id/members/new', :controller => 'members',
               :action => 'new', :conditions => { :method => :post }
