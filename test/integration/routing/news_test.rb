@@ -36,6 +36,29 @@ class RoutingNewsTest < ActionController::IntegrationTest
         { :controller => 'news', :action => 'index', :format => 'json' }
       )
     assert_routing(
+        { :method => 'get', :path => "/news/2" },
+        { :controller => 'news', :action => 'show', :id => '2' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/news/234" },
+        { :controller => 'news', :action => 'show', :id => '234' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/news/567/edit" },
+        { :controller => 'news', :action => 'edit', :id => '567' }
+      )
+    assert_routing(
+        { :method => 'put', :path => "/news/567" },
+        { :controller => 'news', :action => 'update', :id => '567' }
+      )
+    assert_routing(
+        { :method => 'delete', :path => "/news/567" },
+        { :controller => 'news', :action => 'destroy', :id => '567' }
+      )
+  end
+
+  def test_news_scoped_under_project
+    assert_routing(
         { :method => 'get', :path => "/projects/567/news" },
         { :controller => 'news', :action => 'index', :project_id => '567' }
       )
@@ -55,32 +78,12 @@ class RoutingNewsTest < ActionController::IntegrationTest
           :project_id => '567' }
       )
     assert_routing(
-        { :method => 'get', :path => "/news/2" },
-        { :controller => 'news', :action => 'show', :id => '2' }
-      )
-    assert_routing(
         { :method => 'get', :path => "/projects/567/news/new" },
         { :controller => 'news', :action => 'new', :project_id => '567' }
       )
     assert_routing(
-        { :method => 'get', :path => "/news/234" },
-        { :controller => 'news', :action => 'show', :id => '234' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/news/567/edit" },
-        { :controller => 'news', :action => 'edit', :id => '567' }
-      )
-    assert_routing(
         { :method => 'post', :path => "/projects/567/news" },
         { :controller => 'news', :action => 'create', :project_id => '567' }
-      )
-    assert_routing(
-        { :method => 'put', :path => "/news/567" },
-        { :controller => 'news', :action => 'update', :id => '567' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/news/567" },
-        { :controller => 'news', :action => 'destroy', :id => '567' }
       )
   end
 end
