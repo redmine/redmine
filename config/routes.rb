@@ -170,7 +170,8 @@ ActionController::Routing::Routes.draw do |map|
     :archive => :post,
     :unarchive => :post
   } do |project|
-    project.resource :project_enumerations, :as => 'enumerations', :only => [:update, :destroy]
+    project.resource :project_enumerations, :as => 'enumerations',
+                     :only => [:update, :destroy]
     project.resources :issues, :only => [:index, :new, :create] do |issues|
       issues.resources :time_entries, :controller => 'timelog', :collection => {:report => :get}
     end
