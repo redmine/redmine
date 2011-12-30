@@ -118,18 +118,18 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'members/autocomplete_for_member/:id', :controller => 'members',
               :action => 'autocomplete_for_member', :conditions => { :method => :post }
 
-  map.resources :users
   map.with_options :controller => 'users' do |users|
-    users.user_memberships 'users/:id/memberships',
-                           :action => 'edit_membership',
-                           :conditions => {:method => :post}
     users.user_membership 'users/:id/memberships/:membership_id',
                           :action => 'edit_membership',
                           :conditions => {:method => :put}
     users.connect 'users/:id/memberships/:membership_id',
                   :action => 'destroy_membership',
                   :conditions => {:method => :delete}
+    users.user_memberships 'users/:id/memberships',
+                           :action => 'edit_membership',
+                           :conditions => {:method => :post}
   end
+  map.resources :users
 
   # For nice "roadmap" in the url for the index action
   map.connect 'projects/:project_id/roadmap', :controller => 'versions', :action => 'index'
