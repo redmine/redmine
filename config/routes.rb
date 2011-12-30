@@ -51,7 +51,6 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :issue_moves, :only => [:new, :create],
                 :path_prefix => '/issues', :as => 'move'
-  map.resources :queries, :except => [:show]
 
   # Misc issue routes. TODO: move into resources
   map.auto_complete_issues '/issues/auto_complete', :controller => 'auto_completes',
@@ -201,9 +200,9 @@ ActionController::Routing::Routes.draw do |map|
       :export => :get,
       :date_index => :get
     }
-
   end
 
+  map.resources :queries, :except => [:show]
   map.resources :issues,
                 :collection => {:bulk_edit => :get, :bulk_update => :post} do |issues|
     issues.resources :time_entries, :controller => 'timelog',
