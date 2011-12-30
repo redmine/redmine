@@ -180,7 +180,9 @@ ActionController::Routing::Routes.draw do |map|
                        :action => 'new', :conditions => {:method => :post}
 
     project.resources :files, :only => [:index, :new, :create]
-    project.resources :versions, :shallow => true, :collection => {:close_completed => :put}, :member => {:status_by => :post}
+    project.resources :versions, :shallow => true,
+                      :collection => {:close_completed => :put},
+                      :member => {:status_by => :post}
     project.resources :news, :shallow => true
     project.resources :time_entries, :controller => 'timelog', :path_prefix => 'projects/:project_id', :collection => {:report => :get}
     project.resources :queries, :only => [:new, :create]
