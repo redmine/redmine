@@ -49,7 +49,8 @@ ActionController::Routing::Routes.draw do |map|
     end
   end
 
-  map.resources :issue_moves, :only => [:new, :create], :path_prefix => '/issues', :as => 'move'
+  map.resources :issue_moves, :only => [:new, :create],
+                :path_prefix => '/issues', :as => 'move'
   map.resources :queries, :except => [:show]
 
   # Misc issue routes. TODO: move into resources
