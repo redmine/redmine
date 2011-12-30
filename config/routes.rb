@@ -58,7 +58,9 @@ ActionController::Routing::Routes.draw do |map|
   # TODO: would look nicer as /issues/:id/preview
   map.preview_issue '/issues/preview/:id', :controller => 'previews',
                     :action => 'issue'
-  map.issues_context_menu '/issues/context_menu', :controller => 'context_menus', :action => 'issues'
+  map.issues_context_menu '/issues/context_menu',
+                          :controller => 'context_menus', :action => 'issues'
+
   map.issue_changes '/issues/changes', :controller => 'journals', :action => 'index'
   map.quoted_issue '/issues/:id/quoted', :controller => 'journals', :action => 'new',
                    :id => /\d+/, :conditions => { :method => :post }
