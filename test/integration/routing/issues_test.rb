@@ -36,25 +36,6 @@ class RoutingIssuesTest < ActionController::IntegrationTest
         { :controller => 'issues', :action => 'index', :format => 'xml' }
       )
     assert_routing(
-        { :method => 'get', :path => "/projects/23/issues" },
-        { :controller => 'issues', :action => 'index', :project_id => '23' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/23/issues.pdf" },
-        { :controller => 'issues', :action => 'index', :project_id => '23',
-          :format => 'pdf' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/23/issues.atom" },
-        { :controller => 'issues', :action => 'index', :project_id => '23',
-          :format => 'atom' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/23/issues.xml" },
-        { :controller => 'issues', :action => 'index', :project_id => '23',
-          :format => 'xml' }
-      )
-    assert_routing(
         { :method => 'get', :path => "/issues/64" },
         { :controller => 'issues', :action => 'show', :id => '64' }
       )
@@ -71,6 +52,28 @@ class RoutingIssuesTest < ActionController::IntegrationTest
     assert_routing(
         { :method => 'get', :path => "/issues/64.xml" },
         { :controller => 'issues', :action => 'show', :id => '64',
+          :format => 'xml' }
+      )
+  end
+
+  def test_issues_rest_actions_scoped_under_project
+    assert_routing(
+        { :method => 'get', :path => "/projects/23/issues" },
+        { :controller => 'issues', :action => 'index', :project_id => '23' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/projects/23/issues.pdf" },
+        { :controller => 'issues', :action => 'index', :project_id => '23',
+          :format => 'pdf' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/projects/23/issues.atom" },
+        { :controller => 'issues', :action => 'index', :project_id => '23',
+          :format => 'atom' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/projects/23/issues.xml" },
+        { :controller => 'issues', :action => 'index', :project_id => '23',
           :format => 'xml' }
       )
     assert_routing(
