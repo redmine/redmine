@@ -18,11 +18,16 @@
 require File.expand_path('../../../test_helper', __FILE__)
 
 class RoutingVersionsTest < ActionController::IntegrationTest
-  def test_versions
+  def test_versions_scoped_under_project
     # /projects/foo/versions is /projects/foo/roadmap
     assert_routing(
         { :method => 'get', :path => "/projects/33/roadmap" },
         { :controller => 'versions', :action => 'index', :project_id => '33' }
+      )
+    assert_routing(
+        { :method => 'put', :path => "/projects/foo/versions/close_completed" },
+        { :controller => 'versions', :action => 'close_completed',
+          :project_id => 'foo' }
       )
     assert_routing(
         { :method => 'get', :path => "/projects/foo/versions.xml" },
@@ -54,6 +59,9 @@ class RoutingVersionsTest < ActionController::IntegrationTest
         { :controller => 'versions', :action => 'create',
           :project_id => 'foo', :format => 'json' }
       )
+  end
+
+  def test_versions
     assert_routing(
         { :method => 'get', :path => "/versions/1" },
         { :controller => 'versions', :action => 'show', :id => '1' }
@@ -99,11 +107,6 @@ class RoutingVersionsTest < ActionController::IntegrationTest
         { :method => 'delete', :path => "/versions/1.json" },
         { :controller => 'versions', :action => 'destroy', :id => '1',
           :format => 'json' }
-      )
-    assert_routing(
-        { :method => 'put', :path => "/projects/foo/versions/close_completed" },
-        { :controller => 'versions', :action => 'close_completed',
-          :project_id => 'foo' }
       )
     assert_routing(
         { :method => 'post', :path => "/versions/1/status_by" },
