@@ -109,9 +109,13 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'my/order_blocks', :controller => 'my', :action => 'order_blocks',
               :conditions => {:method => :post}
 
-  map.resources :issues, :collection => {:bulk_edit => :get, :bulk_update => :post} do |issues|
-    issues.resources :time_entries, :controller => 'timelog', :collection => {:report => :get}
-    issues.resources :relations, :shallow => true, :controller => 'issue_relations', :only => [:index, :show, :create, :destroy]
+  map.resources :issues,
+                :collection => {:bulk_edit => :get, :bulk_update => :post} do |issues|
+    issues.resources :time_entries, :controller => 'timelog',
+                     :collection => {:report => :get}
+    issues.resources :relations, :shallow => true,
+                     :controller => 'issue_relations',
+                     :only => [:index, :show, :create, :destroy]
   end
   # Bulk deletion
   map.connect '/issues', :controller => 'issues', :action => 'destroy', :conditions => {:method => :delete}
