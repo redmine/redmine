@@ -261,7 +261,6 @@ ActionController::Routing::Routes.draw do |map|
                          :conditions => {:method => :post}
   end
 
-  map.resources :attachments, :only => [:show, :destroy]
   # additional routes for having the file name at the end of url
   map.connect 'attachments/:id/:filename', :controller => 'attachments',
               :action => 'show', :id => /\d+/, :filename => /.*/,
@@ -272,6 +271,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'attachments/download/:id', :controller => 'attachments',
               :action => 'download', :id => /\d+/,
               :conditions => {:method => :get}
+  map.resources :attachments, :only => [:show, :destroy]
 
   map.resources :groups, :member => {:autocomplete_for_user => :get}
   map.group_users 'groups/:id/users', :controller => 'groups',
