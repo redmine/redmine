@@ -109,18 +109,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'my/order_blocks', :controller => 'my', :action => 'order_blocks',
               :conditions => {:method => :post}
 
-  map.resources :issues,
-                :collection => {:bulk_edit => :get, :bulk_update => :post} do |issues|
-    issues.resources :time_entries, :controller => 'timelog',
-                     :collection => {:report => :get}
-    issues.resources :relations, :shallow => true,
-                     :controller => 'issue_relations',
-                     :only => [:index, :show, :create, :destroy]
-  end
-  # Bulk deletion
-  map.connect '/issues', :controller => 'issues', :action => 'destroy',
-              :conditions => {:method => :delete}
-
   map.connect 'projects/:id/members/new', :controller => 'members',
               :action => 'new', :conditions => { :method => :post }
   map.connect 'members/edit/:id', :controller => 'members',
@@ -162,6 +150,14 @@ ActionController::Routing::Routes.draw do |map|
               :conditions => {:method => :post}
   map.connect 'watchers/unwatch', :controller=> 'watchers', :action => 'unwatch',
               :conditions => {:method => :post}
+
+  # TODO: port to be part of the resources route(s)
+  map.with_options :conditions => {:method => :get} do |project_views|
+    project_views.connect 'projects/:id/settings/:tab',
+                          :controller => 'projects', :action => 'settings'
+    project_views.connect 'projects/:project_id/issues/:copy_from/copy',
+                          :controller => 'issues', :action => 'new'
+  end
 
   map.resources :projects, :member => {
     :copy => [:get, :post],
@@ -208,13 +204,17 @@ ActionController::Routing::Routes.draw do |map|
 
   end
 
-  # TODO: port to be part of the resources route(s)
-  map.with_options :conditions => {:method => :get} do |project_views|
-    project_views.connect 'projects/:id/settings/:tab',
-                          :controller => 'projects', :action => 'settings'
-    project_views.connect 'projects/:project_id/issues/:copy_from/copy',
-                          :controller => 'issues', :action => 'new'
+  map.resources :issues,
+                :collection => {:bulk_edit => :get, :bulk_update => :post} do |issues|
+    issues.resources :time_entries, :controller => 'timelog',
+                     :collection => {:report => :get}
+    issues.resources :relations, :shallow => true,
+                     :controller => 'issue_relations',
+                     :only => [:index, :show, :create, :destroy]
   end
+  # Bulk deletion
+  map.connect '/issues', :controller => 'issues', :action => 'destroy',
+              :conditions => {:method => :delete}
 
   map.with_options :controller => 'activities', :action => 'index',
                    :conditions => {:method => :get} do |activity|
