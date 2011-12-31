@@ -18,12 +18,15 @@
 require File.expand_path('../../../test_helper', __FILE__)
 
 class RoutingVersionsTest < ActionController::IntegrationTest
-  def test_versions_scoped_under_project
+  def test_roadmap
     # /projects/foo/versions is /projects/foo/roadmap
     assert_routing(
         { :method => 'get', :path => "/projects/33/roadmap" },
         { :controller => 'versions', :action => 'index', :project_id => '33' }
       )
+  end
+
+  def test_versions_scoped_under_project
     assert_routing(
         { :method => 'put', :path => "/projects/foo/versions/close_completed" },
         { :controller => 'versions', :action => 'close_completed',
