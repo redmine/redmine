@@ -19,15 +19,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'account/activate', :controller => 'account', :action => 'activate',
               :conditions => {:method => :get}
 
-  map.connect '/time_entries/destroy',
-              :controller => 'timelog', :action => 'destroy',
-              :conditions => { :method => :delete }
-  map.time_entries_context_menu '/time_entries/context_menu',
-                   :controller => 'context_menus', :action => 'time_entries'
-
-  map.resources :time_entries, :controller => 'timelog',
-                :collection => {:report => :get, :bulk_edit => :get, :bulk_update => :post}
-
   map.connect 'projects/:id/wiki', :controller => 'wikis',
               :action => 'edit', :conditions => {:method => :post}
   map.connect 'projects/:id/wiki/destroy', :controller => 'wikis',
@@ -214,6 +205,15 @@ ActionController::Routing::Routes.draw do |map|
   # Bulk deletion
   map.connect '/issues', :controller => 'issues', :action => 'destroy',
               :conditions => {:method => :delete}
+
+  map.connect '/time_entries/destroy',
+              :controller => 'timelog', :action => 'destroy',
+              :conditions => { :method => :delete }
+  map.time_entries_context_menu '/time_entries/context_menu',
+                   :controller => 'context_menus', :action => 'time_entries'
+
+  map.resources :time_entries, :controller => 'timelog',
+                :collection => {:report => :get, :bulk_edit => :get, :bulk_update => :post}
 
   map.with_options :controller => 'activities', :action => 'index',
                    :conditions => {:method => :get} do |activity|
