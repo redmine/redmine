@@ -18,7 +18,7 @@
 require File.expand_path('../../../test_helper', __FILE__)
 
 class RoutingWikiTest < ActionController::IntegrationTest
-  def test_wiki_singular_projects_pages
+  def test_wiki_matching
     assert_routing(
         { :method => 'get', :path => "/projects/567/wiki" },
         { :controller => 'wiki', :action => 'show', :project_id => '567' }
@@ -27,7 +27,45 @@ class RoutingWikiTest < ActionController::IntegrationTest
         { :method => 'get', :path => "/projects/567/wiki/lalala" },
         { :controller => 'wiki', :action => 'show', :project_id => '567',
           :id => 'lalala' }
+        )
+    assert_routing(
+         { :method => 'get', :path => "/projects/1/wiki/CookBook_documentation/diff" },
+         { :controller => 'wiki', :action => 'diff', :project_id => '1',
+           :id => 'CookBook_documentation' }
+       )
+    assert_routing(
+         { :method => 'get', :path => "/projects/1/wiki/CookBook_documentation/diff/2" },
+         { :controller => 'wiki', :action => 'diff', :project_id => '1',
+           :id => 'CookBook_documentation', :version => '2' }
+       )
+    assert_routing(
+         { :method => 'get', :path => "/projects/1/wiki/CookBook_documentation/diff/2/vs/1" },
+         { :controller => 'wiki', :action => 'diff', :project_id => '1',
+           :id => 'CookBook_documentation', :version => '2', :version_from => '1' }
+       )
+    assert_routing(
+         { :method => 'get', :path => "/projects/1/wiki/CookBook_documentation/annotate/2" },
+         { :controller => 'wiki', :action => 'annotate', :project_id => '1',
+           :id => 'CookBook_documentation', :version => '2' }
+       )
+  end
+
+  def test_wiki_misc
+    assert_routing(
+        { :method => 'get', :path => "/projects/567/wiki/date_index" },
+        { :controller => 'wiki', :action => 'date_index', :project_id => '567' }
       )
+    assert_routing(
+        { :method => 'get', :path => "/projects/567/wiki/export" },
+        { :controller => 'wiki', :action => 'export', :project_id => '567' }
+      )
+    assert_routing(
+         { :method => 'get', :path => "/projects/567/wiki/index" },
+         { :controller => 'wiki', :action => 'index', :project_id => '567' }
+       )
+  end
+
+  def test_wiki_resources
     assert_routing(
         { :method => 'get', :path => "/projects/567/wiki/my_page/edit" },
         { :controller => 'wiki', :action => 'edit', :project_id => '567',
@@ -39,41 +77,9 @@ class RoutingWikiTest < ActionController::IntegrationTest
           :id => 'CookBook_documentation' }
       )
     assert_routing(
-        { :method => 'get', :path => "/projects/1/wiki/CookBook_documentation/diff" },
-        { :controller => 'wiki', :action => 'diff', :project_id => '1',
-          :id => 'CookBook_documentation' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/1/wiki/CookBook_documentation/diff/2" },
-        { :controller => 'wiki', :action => 'diff', :project_id => '1',
-          :id => 'CookBook_documentation', :version => '2' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/1/wiki/CookBook_documentation/diff/2/vs/1" },
-        { :controller => 'wiki', :action => 'diff', :project_id => '1',
-          :id => 'CookBook_documentation', :version => '2', :version_from => '1' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/1/wiki/CookBook_documentation/annotate/2" },
-        { :controller => 'wiki', :action => 'annotate', :project_id => '1',
-          :id => 'CookBook_documentation', :version => '2' }
-      )
-    assert_routing(
         { :method => 'get', :path => "/projects/22/wiki/ladida/rename" },
         { :controller => 'wiki', :action => 'rename', :project_id => '22',
           :id => 'ladida' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/567/wiki/index" },
-        { :controller => 'wiki', :action => 'index', :project_id => '567' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/567/wiki/date_index" },
-        { :controller => 'wiki', :action => 'date_index', :project_id => '567' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/567/wiki/export" },
-        { :controller => 'wiki', :action => 'export', :project_id => '567' }
       )
     assert_routing(
         { :method => 'post', :path => "/projects/567/wiki/CookBook_documentation/preview" },
