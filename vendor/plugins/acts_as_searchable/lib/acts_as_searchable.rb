@@ -119,13 +119,11 @@ module Redmine
             
             results = []
             results_count = 0
-            
-            with_scope(:find => {:conditions => project_conditions}) do
-              with_scope(:find => find_options) do
-                results_count = scope.count(:all)
-                results = scope.find(:all, limit_options)
-              end
-            end
+
+            scope = scope.scoped({:conditions => project_conditions}).scoped(find_options)
+            results_count = scope.count(:all)
+            results = scope.find(:all, limit_options)
+
             [results, results_count]
           end
         end
