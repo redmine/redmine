@@ -63,6 +63,8 @@ module SearchHelper
       links << link_to(h(text), :q => params[:q], :titles_only => params[:titles_only],
                        :all_words => params[:all_words], :scope => params[:scope], t => 1)
     end
-    ('<ul>' + links.map {|link| content_tag('li', link)}.join(' ') + '</ul>') unless links.empty?
+    ('<ul>'.html_safe +
+        links.map {|link| content_tag('li', link)}.join(' ').html_safe + 
+        '</ul>'.html_safe) unless links.empty?
   end
 end
