@@ -37,7 +37,7 @@ module SearchHelper
         result << content_tag('span', h(words), :class => "highlight token-#{t}")
       end
     end
-    result
+    result.html_safe
   end
 
   def type_label(t)
