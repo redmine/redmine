@@ -618,47 +618,34 @@ class WikiControllerTest < ActionController::TestCase
     assert_tag 'a', :attributes => { :href => '/projects/ecookbook/activity.atom?show_wiki_edits=1'}
   end
 
-  context "GET :export" do
-    context "with an authorized user to export the wiki" do
-      setup do
-        @request.session[:user_id] = 2
-        get :export, :project_id => 'ecookbook'
-      end
+  def test_export
+    @request.session[:user_id] = 2
+    get :export, :project_id => 'ecookbook'
 
-      should_respond_with :success
-      should_assign_to :pages
-      should_respond_with_content_type "text/html"
-      should "export all of the wiki pages to a single html file" do
-        assert_select "a[name=?]", "CookBook_documentation"
-        assert_select "a[name=?]", "Another_page"
-        assert_select "a[name=?]", "Page_with_an_inline_image"
-      end
+    assert_response :success
+    assert_not_nil assigns(:pages)
+    assert_equal "text/html", @response.content_type
 
-    end
-
-    context "with an unauthorized user" do
-      setup do
-        get :export, :project_id => 'ecookbook'
-
-        should_respond_with :redirect
-        should_redirect_to('wiki index') { {:action => 'show', :project_id => @project, :id => nil} }
-      end
-    end
+    assert_select "a[name=?]", "CookBook_documentation"
+    assert_select "a[name=?]", "Another_page"
+    assert_select "a[name=?]", "Page_with_an_inline_image"
   end
 
-  context "GET :date_index" do
-    setup do
-      get :date_index, :project_id => 'ecookbook'
-    end
+  def test_export_without_permission
+    get :export, :project_id => 'ecookbook'
 
-    should_respond_with :success
-    should_assign_to :pages
-    should_assign_to :pages_by_date
-    should_render_template 'wiki/date_index'
+    assert_response 302
+  end
 
-    should "include atom link" do
-      assert_tag 'a', :attributes => { :href => '/projects/ecookbook/activity.atom?show_wiki_edits=1'}
-    end
+  def test_date_index
+    get :date_index, :project_id => 'ecookbook'
+
+    assert_response :success
+    assert_template 'date_index'
+    assert_not_nil assigns(:pages)
+    assert_not_nil assigns(:pages_by_date)
+
+    assert_tag 'a', :attributes => { :href => '/projects/ecookbook/activity.atom?show_wiki_edits=1'}
   end
 
   def test_not_found
