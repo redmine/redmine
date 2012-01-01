@@ -44,7 +44,7 @@ class CommentTest < ActiveSupport::TestCase
   def test_validate
     comment = Comment.new(:commented => @news)
     assert !comment.save
-    assert_equal 2, comment.errors.length
+    assert_equal 2, comment.errors.count
   end
 
   def test_destroy
