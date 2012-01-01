@@ -30,7 +30,7 @@ module JournalsHelper
                                              { :controller => 'journals', :action => 'edit', :id => journal },
                                                 :title => l(:button_edit)) if editable
     end
-    content << content_tag('div', links.join(' '), :class => 'contextual') unless links.empty?
+    content << content_tag('div', links.join(' ').html_safe, :class => 'contextual') unless links.empty?
     content << textilizable(journal, :notes)
     css_classes = "wiki"
     css_classes << " editable" if editable
