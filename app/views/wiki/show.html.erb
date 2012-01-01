@@ -19,9 +19,9 @@
                 :action => 'show', :id => @page.title, :project_id => @page.project,
                 :version => (@content.version - 1)) + " - " if @content.version > 1 %>
     <%= "#{l(:label_version)} #{@content.version}/#{@page.content.version}" %>
-    <%= '(' + link_to(l(:label_diff), :controller => 'wiki', :action => 'diff',
+    <%= '('.html_safe + link_to(l(:label_diff), :controller => 'wiki', :action => 'diff',
                       :id => @page.title, :project_id => @page.project,
-                      :version => @content.version) + ')' if @content.version > 1 %> - 
+                      :version => @content.version) + ')'.html_safe if @content.version > 1 %> - 
     <%= link_to((l(:label_next) + " \xc2\xbb"), :action => 'show',
                 :id => @page.title, :project_id => @page.project,
                 :version => (@content.version + 1)) + " - " if @content.version < @page.content.version %>
