@@ -1,94 +1,90 @@
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
 require File.expand_path('../../test_helper', __FILE__)
 
 class AuthSourcesControllerTest < ActionController::TestCase
+  fixtures :users
 
   def setup
     @request.session[:user_id] = 1
   end
 
-  context "get :index" do
-    setup do
-      get :index
-    end
+  def test_index
+    get :index
 
-    should_assign_to :auth_sources
-    should_assign_to :auth_source_pages
-    should_respond_with :success
-    should_render_template :index
+    assert_response :success
+    assert_template 'index'
+    assert_not_nil assigns(:auth_sources)
   end
 
-  context "get :new" do
-    setup do
-      get :new
-    end
+  def test_new
+    get :new
 
-    should_assign_to :auth_source
-    should_respond_with :success
-    should_render_template :new
-
-    should "initilize a new AuthSource" do
-      assert_equal AuthSource, assigns(:auth_source).class
-      assert assigns(:auth_source).new_record?
-    end
+    assert_response :success
+    assert_template 'new'
+    assert_kind_of AuthSource, assigns(:auth_source)
+    assert assigns(:auth_source).new_record?
   end
 
-  context "post :create" do
-    setup do
+  def test_create
+    assert_difference 'AuthSource.count' do
       post :create, :auth_source => {:name => 'Test'}
     end
 
-    should_respond_with :redirect
-    should_redirect_to("index") {{:action => 'index'}}
-    should_set_the_flash_to /success/i
+    assert_redirected_to '/auth_sources'
+    auth_source = AuthSource.first(:order => 'id DESC')
+    assert_equal 'Test', auth_source.name
   end
 
-  context "get :edit" do
-    setup do
-      @auth_source = AuthSource.generate!(:name => 'TestEdit')
-      get :edit, :id => @auth_source.id
-    end
+  def test_edit
+    auth_source = AuthSource.generate!(:name => 'TestEdit')
+    get :edit, :id => auth_source.id
 
-    should_assign_to(:auth_source) {@auth_source}
-    should_respond_with :success
-    should_render_template :edit
+    assert_response :success
+    assert_template 'edit'
+    assert_equal auth_source, assigns(:auth_source)
   end
 
-  context "post :update" do
-    setup do
-      @auth_source = AuthSource.generate!(:name => 'TestEdit')
-      post :update, :id => @auth_source.id, :auth_source => {:name => 'TestUpdate'}
-    end
+  def test_update
+    auth_source = AuthSource.generate!(:name => 'TestEdit')
+    post :update, :id => auth_source.id, :auth_source => {:name => 'TestUpdate'}
 
-    should_respond_with :redirect
-    should_redirect_to("index") {{:action => 'index'}}
-    should_set_the_flash_to /update/i
+    assert_redirected_to '/auth_sources'
+    assert_equal 'TestUpdate', auth_source.reload.name
   end
 
-  context "post :destroy" do
-    setup do
-      @auth_source = AuthSource.generate!(:name => 'TestEdit')
+  def test_destroy_without_users
+    auth_source = AuthSource.generate!(:name => 'TestEdit')
+    assert_difference 'AuthSource.count', -1 do
+      post :destroy, :id => auth_source.id
     end
 
-    context "without users" do
-      setup do
-        post :destroy, :id => @auth_source.id
-      end
+    assert_redirected_to '/auth_sources'
+  end
 
-      should_respond_with :redirect
-      should_redirect_to("index") {{:action => 'index'}}
-      should_set_the_flash_to /deletion/i
+  def test_destroy_with_users
+    auth_source = AuthSource.generate!(:name => 'TestEdit')
+    User.generate!(:auth_source => auth_source)
+    assert_no_difference 'AuthSource.count' do
+      post :destroy, :id => auth_source.id
     end
 
-    context "with users" do
-      setup do
-        User.generate!(:auth_source => @auth_source)
-        post :destroy, :id => @auth_source.id
-      end
-
-      should_respond_with :redirect
-      should "not destroy the AuthSource" do
-        assert AuthSource.find(@auth_source.id)
-      end
-    end
+    assert_redirected_to '/auth_sources'
+    assert AuthSource.find(auth_source.id)
   end
 end
