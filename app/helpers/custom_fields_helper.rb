@@ -51,7 +51,7 @@ module CustomFieldsHelper
       blank_option = custom_field.is_required? ?
                        (custom_field.default_value.blank? ? "<option value=\"\">--- #{l(:actionview_instancetag_blank_option)} ---</option>" : '') :
                        '<option></option>'
-      select_tag(field_name, blank_option + options_for_select(custom_field.possible_values_options(custom_value.customized), custom_value.value), :id => field_id)
+      select_tag(field_name, blank_option.html_safe + options_for_select(custom_field.possible_values_options(custom_value.customized), custom_value.value), :id => field_id)
     else
       text_field_tag(field_name, custom_value.value, :id => field_id)
     end
