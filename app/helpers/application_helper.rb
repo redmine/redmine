@@ -85,8 +85,8 @@ module ApplicationHelper
     s = link_to "#{h(issue.tracker)} ##{issue.id}", {:controller => "issues", :action => "show", :id => issue},
                                                  :class => issue.css_classes,
                                                  :title => title
-    s << ": #{h subject}" if subject
-    s = "#{h issue.project} - " + s if options[:project]
+    s << h(": #{subject}") if subject
+    s = h("#{issue.project} - ") + s if options[:project]
     s
   end
 
