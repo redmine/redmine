@@ -62,6 +62,10 @@ class ActiveSupport::TestCase
       ActiveSupport::TestCase.fixture_path + "/files/#{name}", mime, true)
   end
 
+  def credentials(user, password=nil)
+    ActionController::HttpAuthentication::Basic.encode_credentials(user, password || user)
+  end
+
   # Mock out a file
   def self.mock_file
     file = 'a_file.png'
