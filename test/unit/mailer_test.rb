@@ -486,15 +486,12 @@ class MailerTest < ActiveSupport::TestCase
     assert !mail.encoded.strip.split("\r\n").detect(&:blank?), "#{mail.encoded} malformed"
   end
 
-  context "layout" do
-    should "include the emails_header" do
-      with_settings(:emails_header => "*Header content*") do
-        assert Mailer.deliver_test(User.find(1))
-
-        assert_select_email do
-          assert_select ".header" do
-            assert_select "strong", :text => "Header content"
-          end
+  def test_layout_should_include_the_emails_header
+    with_settings :emails_header => "*Header content*" do
+      assert Mailer.deliver_test(User.find(1))
+      assert_select_email do
+        assert_select ".header" do
+          assert_select "strong", :text => "Header content"
         end
       end
     end
