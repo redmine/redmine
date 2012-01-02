@@ -152,7 +152,7 @@ class ApiTest::ProjectsTest < ActionController::IntegrationTest
 
         should "create a project with the attributes" do
           assert_difference('Project.count') do
-            post '/projects.xml', @parameters, :authorization => credentials('admin')
+            post '/projects.xml', @parameters, credentials('admin')
           end
 
           project = Project.first(:order => 'id DESC')
@@ -170,7 +170,7 @@ class ApiTest::ProjectsTest < ActionController::IntegrationTest
           @parameters[:project].merge!({:enabled_module_names => ['issue_tracking', 'news', 'time_tracking']})
 
           assert_difference('Project.count') do
-            post '/projects.xml', @parameters, :authorization => credentials('admin')
+            post '/projects.xml', @parameters, credentials('admin')
           end
 
           project = Project.first(:order => 'id DESC')
@@ -181,7 +181,7 @@ class ApiTest::ProjectsTest < ActionController::IntegrationTest
           @parameters[:project].merge!({:tracker_ids => [1, 3]})
 
           assert_difference('Project.count') do
-            post '/projects.xml', @parameters, :authorization => credentials('admin')
+            post '/projects.xml', @parameters, credentials('admin')
           end
 
           project = Project.first(:order => 'id DESC')
@@ -198,7 +198,7 @@ class ApiTest::ProjectsTest < ActionController::IntegrationTest
       context ".xml" do
         should "return errors" do
           assert_no_difference('Project.count') do
-            post '/projects.xml', @parameters, :authorization => credentials('admin')
+            post '/projects.xml', @parameters, credentials('admin')
           end
 
           assert_response :unprocessable_entity
@@ -223,7 +223,7 @@ class ApiTest::ProjectsTest < ActionController::IntegrationTest
 
         should "update the project" do
           assert_no_difference 'Project.count' do
-            put '/projects/2.xml', @parameters, :authorization => credentials('jsmith')
+            put '/projects/2.xml', @parameters, credentials('jsmith')
           end
           assert_response :ok
           assert_equal 'application/xml', @response.content_type
@@ -235,7 +235,7 @@ class ApiTest::ProjectsTest < ActionController::IntegrationTest
           @parameters[:project].merge!({:enabled_module_names => ['issue_tracking', 'news', 'time_tracking']})
 
           assert_no_difference 'Project.count' do
-            put '/projects/2.xml', @parameters, :authorization => credentials('admin')
+            put '/projects/2.xml', @parameters, credentials('admin')
           end
           assert_response :ok
           project = Project.find(2)
@@ -246,7 +246,7 @@ class ApiTest::ProjectsTest < ActionController::IntegrationTest
           @parameters[:project].merge!({:tracker_ids => [1, 3]})
 
           assert_no_difference 'Project.count' do
-            put '/projects/2.xml', @parameters, :authorization => credentials('admin')
+            put '/projects/2.xml', @parameters, credentials('admin')
           end
           assert_response :ok
           project = Project.find(2)
@@ -263,7 +263,7 @@ class ApiTest::ProjectsTest < ActionController::IntegrationTest
       context ".xml" do
         should "return errors" do
           assert_no_difference('Project.count') do
-            put '/projects/2.xml', @parameters, :authorization => credentials('admin')
+            put '/projects/2.xml', @parameters, credentials('admin')
           end
 
           assert_response :unprocessable_entity
@@ -283,7 +283,7 @@ class ApiTest::ProjectsTest < ActionController::IntegrationTest
 
       should "delete the project" do
         assert_difference('Project.count',-1) do
-          delete '/projects/2.xml', {}, :authorization => credentials('admin')
+          delete '/projects/2.xml', {}, credentials('admin')
         end
         assert_response :ok
         assert_nil Project.find_by_id(2)

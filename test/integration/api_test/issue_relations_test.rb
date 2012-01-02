@@ -35,7 +35,7 @@ class ApiTest::IssueRelationsTest < ActionController::IntegrationTest
   context "/issues/:issue_id/relations" do
     context "GET" do
       should "return issue relations" do
-        get '/issues/9/relations.xml', {}, :authorization => credentials('jsmith')
+        get '/issues/9/relations.xml', {}, credentials('jsmith')
 
         assert_response :success
         assert_equal 'application/xml', @response.content_type
@@ -55,7 +55,7 @@ class ApiTest::IssueRelationsTest < ActionController::IntegrationTest
     context "POST" do
       should "create a relation" do
         assert_difference('IssueRelation.count') do
-          post '/issues/2/relations.xml', {:relation => {:issue_to_id => 7, :relation_type => 'relates'}}, :authorization => credentials('jsmith')
+          post '/issues/2/relations.xml', {:relation => {:issue_to_id => 7, :relation_type => 'relates'}}, credentials('jsmith')
         end
 
         relation = IssueRelation.first(:order => 'id DESC')
@@ -71,7 +71,7 @@ class ApiTest::IssueRelationsTest < ActionController::IntegrationTest
       context "with failure" do
         should "return the errors" do
           assert_no_difference('IssueRelation.count') do
-            post '/issues/2/relations.xml', {:relation => {:issue_to_id => 7, :relation_type => 'foo'}}, :authorization => credentials('jsmith')
+            post '/issues/2/relations.xml', {:relation => {:issue_to_id => 7, :relation_type => 'foo'}}, credentials('jsmith')
           end
 
           assert_response :unprocessable_entity
@@ -84,7 +84,7 @@ class ApiTest::IssueRelationsTest < ActionController::IntegrationTest
   context "/relations/:id" do
     context "GET" do
       should "return the relation" do
-        get '/relations/2.xml', {}, :authorization => credentials('jsmith')
+        get '/relations/2.xml', {}, credentials('jsmith')
 
         assert_response :success
         assert_equal 'application/xml', @response.content_type
@@ -95,7 +95,7 @@ class ApiTest::IssueRelationsTest < ActionController::IntegrationTest
     context "DELETE" do
       should "delete the relation" do
         assert_difference('IssueRelation.count', -1) do
-          delete '/relations/2.xml', {}, :authorization => credentials('jsmith')
+          delete '/relations/2.xml', {}, credentials('jsmith')
         end
 
         assert_response :ok

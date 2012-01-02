@@ -58,7 +58,7 @@ class ApiTest::VersionsTest < ActionController::IntegrationTest
     context "POST" do
       should "create the version" do
         assert_difference 'Version.count' do
-          post '/projects/1/versions.xml', {:version => {:name => 'API test'}}, :authorization => credentials('jsmith')
+          post '/projects/1/versions.xml', {:version => {:name => 'API test'}}, credentials('jsmith')
         end
 
         version = Version.first(:order => 'id DESC')
@@ -72,7 +72,7 @@ class ApiTest::VersionsTest < ActionController::IntegrationTest
       context "with failure" do
         should "return the errors" do
           assert_no_difference('Version.count') do
-            post '/projects/1/versions.xml', {:version => {:name => ''}}, :authorization => credentials('jsmith')
+            post '/projects/1/versions.xml', {:version => {:name => ''}}, credentials('jsmith')
           end
 
           assert_response :unprocessable_entity
@@ -103,7 +103,7 @@ class ApiTest::VersionsTest < ActionController::IntegrationTest
 
     context "PUT" do
       should "update the version" do
-        put '/versions/2.xml', {:version => {:name => 'API update'}}, :authorization => credentials('jsmith')
+        put '/versions/2.xml', {:version => {:name => 'API update'}}, credentials('jsmith')
 
         assert_response :ok
         assert_equal 'API update', Version.find(2).name
@@ -113,7 +113,7 @@ class ApiTest::VersionsTest < ActionController::IntegrationTest
     context "DELETE" do
       should "destroy the version" do
         assert_difference 'Version.count', -1 do
-          delete '/versions/3.xml', {}, :authorization => credentials('jsmith')
+          delete '/versions/3.xml', {}, credentials('jsmith')
         end
 
         assert_response :ok

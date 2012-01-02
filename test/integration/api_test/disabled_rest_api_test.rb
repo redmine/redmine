@@ -41,7 +41,7 @@ class ApiTest::DisabledRestApiTest < ActionController::IntegrationTest
       context "with a valid HTTP authentication" do
         setup do
           @user = User.generate_with_protected!(:password => 'my_password', :password_confirmation => 'my_password')
-          get "/news.xml", nil, :authorization => credentials(@user.login, 'my_password')
+          get "/news.xml", nil, credentials(@user.login, 'my_password')
         end
 
         should_respond_with :unauthorized
@@ -55,7 +55,7 @@ class ApiTest::DisabledRestApiTest < ActionController::IntegrationTest
         setup do
           @user = User.generate_with_protected!
           @token = Token.generate!(:user => @user, :action => 'api')
-          get "/news.xml", nil, :authorization => credentials(@token.value, 'X')
+          get "/news.xml", nil, credentials(@token.value, 'X')
         end
 
         should_respond_with :unauthorized
@@ -84,7 +84,7 @@ class ApiTest::DisabledRestApiTest < ActionController::IntegrationTest
       context "with a valid HTTP authentication" do
         setup do
           @user = User.generate_with_protected!(:password => 'my_password', :password_confirmation => 'my_password')
-          get "/news.json", nil, :authorization => credentials(@user.login, 'my_password')
+          get "/news.json", nil, credentials(@user.login, 'my_password')
         end
 
         should_respond_with :unauthorized
@@ -98,7 +98,7 @@ class ApiTest::DisabledRestApiTest < ActionController::IntegrationTest
         setup do
           @user = User.generate_with_protected!
           @token = Token.generate!(:user => @user, :action => 'api')
-          get "/news.json", nil, :authorization => credentials(@token.value, 'DoesNotMatter')
+          get "/news.json", nil, credentials(@token.value, 'DoesNotMatter')
         end
 
         should_respond_with :unauthorized

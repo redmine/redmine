@@ -30,7 +30,7 @@ class ApiTest::IssueCategoriesTest < ActionController::IntegrationTest
 
   context "GET /projects/:project_id/issue_categories.xml" do
     should "return issue categories" do
-      get '/projects/1/issue_categories.xml', {}, :authorization => credentials('jsmith')
+      get '/projects/1/issue_categories.xml', {}, credentials('jsmith')
       assert_response :success
       assert_equal 'application/xml', @response.content_type
       assert_tag :tag => 'issue_categories',
@@ -40,7 +40,7 @@ class ApiTest::IssueCategoriesTest < ActionController::IntegrationTest
 
   context "GET /issue_categories/2.xml" do
     should "return requested issue category" do
-      get '/issue_categories/2.xml', {}, :authorization => credentials('jsmith')
+      get '/issue_categories/2.xml', {}, credentials('jsmith')
       assert_response :success
       assert_equal 'application/xml', @response.content_type
       assert_tag :tag => 'issue_category',
@@ -51,7 +51,7 @@ class ApiTest::IssueCategoriesTest < ActionController::IntegrationTest
   context "POST /projects/:project_id/issue_categories.xml" do
     should "return create issue category" do
       assert_difference 'IssueCategory.count' do
-        post '/projects/1/issue_categories.xml', {:issue_category => {:name => 'API'}}, :authorization => credentials('jsmith')
+        post '/projects/1/issue_categories.xml', {:issue_category => {:name => 'API'}}, credentials('jsmith')
       end
       assert_response :created
       assert_equal 'application/xml', @response.content_type
@@ -64,7 +64,7 @@ class ApiTest::IssueCategoriesTest < ActionController::IntegrationTest
     context "with invalid parameters" do
       should "return errors" do
         assert_no_difference 'IssueCategory.count' do
-          post '/projects/1/issue_categories.xml', {:issue_category => {:name => ''}}, :authorization => credentials('jsmith')
+          post '/projects/1/issue_categories.xml', {:issue_category => {:name => ''}}, credentials('jsmith')
         end
         assert_response :unprocessable_entity
         assert_equal 'application/xml', @response.content_type
@@ -78,7 +78,7 @@ class ApiTest::IssueCategoriesTest < ActionController::IntegrationTest
     context "with valid parameters" do
       should "update issue category" do
         assert_no_difference 'IssueCategory.count' do
-          put '/issue_categories/2.xml', {:issue_category => {:name => 'API Update'}}, :authorization => credentials('jsmith')
+          put '/issue_categories/2.xml', {:issue_category => {:name => 'API Update'}}, credentials('jsmith')
         end
         assert_response :ok
         assert_equal 'API Update', IssueCategory.find(2).name
@@ -88,7 +88,7 @@ class ApiTest::IssueCategoriesTest < ActionController::IntegrationTest
     context "with invalid parameters" do
       should "return errors" do
         assert_no_difference 'IssueCategory.count' do
-          put '/issue_categories/2.xml', {:issue_category => {:name => ''}}, :authorization => credentials('jsmith')
+          put '/issue_categories/2.xml', {:issue_category => {:name => ''}}, credentials('jsmith')
         end
         assert_response :unprocessable_entity
         assert_equal 'application/xml', @response.content_type
@@ -101,7 +101,7 @@ class ApiTest::IssueCategoriesTest < ActionController::IntegrationTest
   context "DELETE /issue_categories/1.xml" do
     should "destroy issue categories" do
       assert_difference 'IssueCategory.count', -1 do
-        delete '/issue_categories/1.xml', {}, :authorization => credentials('jsmith')
+        delete '/issue_categories/1.xml', {}, credentials('jsmith')
       end
       assert_response :ok
       assert_nil IssueCategory.find_by_id(1)
@@ -113,7 +113,7 @@ class ApiTest::IssueCategoriesTest < ActionController::IntegrationTest
 
       assert_difference 'IssueCategory.count', -1 do
         assert_difference 'Issue.count(:conditions => {:category_id => 2})', 3 do
-          delete '/issue_categories/1.xml', {:reassign_to_id => 2}, :authorization => credentials('jsmith')
+          delete '/issue_categories/1.xml', {:reassign_to_id => 2}, credentials('jsmith')
         end
       end
       assert_response :ok

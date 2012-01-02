@@ -63,7 +63,7 @@ class ActiveSupport::TestCase
   end
 
   def credentials(user, password=nil)
-    ActionController::HttpAuthentication::Basic.encode_credentials(user, password || user)
+    {:authorization => ActionController::HttpAuthentication::Basic.encode_credentials(user, password || user)}
   end
 
   # Mock out a file
@@ -244,7 +244,7 @@ class ActiveSupport::TestCase
       context "with a valid HTTP authentication" do
         setup do
           @user = User.generate_with_protected!(:password => 'my_password', :password_confirmation => 'my_password', :admin => true) # Admin so they can access the project
-          send(http_method, url, parameters, {:authorization => credentials(@user.login, 'my_password')})
+          send(http_method, url, parameters, credentials(@user.login, 'my_password'))
         end
 
         should_respond_with success_code
@@ -257,7 +257,7 @@ class ActiveSupport::TestCase
       context "with an invalid HTTP authentication" do
         setup do
           @user = User.generate_with_protected!
-          send(http_method, url, parameters, {:authorization => credentials(@user.login, 'wrong_password')})
+          send(http_method, url, parameters, credentials(@user.login, 'wrong_password'))
         end
 
         should_respond_with failure_code
@@ -269,7 +269,7 @@ class ActiveSupport::TestCase
 
       context "without credentials" do
         setup do
-          send(http_method, url, parameters, {:authorization => ''})
+          send(http_method, url, parameters)
         end
 
         should_respond_with failure_code
@@ -299,7 +299,7 @@ class ActiveSupport::TestCase
         setup do
           @user = User.generate_with_protected!(:admin => true)
           @token = Token.generate!(:user => @user, :action => 'api')
-          send(http_method, url, parameters, {:authorization => credentials(@token.value, 'X')})
+          send(http_method, url, parameters, credentials(@token.value, 'X'))
         end
 
         should_respond_with success_code
@@ -314,7 +314,7 @@ class ActiveSupport::TestCase
         setup do
           @user = User.generate_with_protected!
           @token = Token.generate!(:user => @user, :action => 'feeds')
-          send(http_method, url, parameters, {:authorization => credentials(@token.value, 'X')})
+          send(http_method, url, parameters, credentials(@token.value, 'X'))
         end
 
         should_respond_with failure_code
