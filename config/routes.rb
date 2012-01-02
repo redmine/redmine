@@ -225,28 +225,45 @@ ActionController::Routing::Routes.draw do |map|
 
   map.with_options :controller => 'repositories' do |repositories|
     repositories.with_options :conditions => {:method => :get} do |repository_views|
-      repository_views.connect 'projects/:id/repository', :action => 'show'
-      repository_views.connect 'projects/:id/repository/edit', :action => 'edit'
-      repository_views.connect 'projects/:id/repository/statistics', :action => 'stats'
+      repository_views.connect 'projects/:id/repository',
+                               :action => 'show'
+      repository_views.connect 'projects/:id/repository/edit',
+                               :action => 'edit'
+      repository_views.connect 'projects/:id/repository/statistics',
+                               :action => 'stats'
 
-      repository_views.connect 'projects/:id/repository/revisions', :action => 'revisions'
-      repository_views.connect 'projects/:id/repository/revisions.:format', :action => 'revisions'
-      repository_views.connect 'projects/:id/repository/revisions/:rev', :action => 'revision'
-      repository_views.connect 'projects/:id/repository/revisions/:rev/diff', :action => 'diff'
-      repository_views.connect 'projects/:id/repository/revisions/:rev/diff.:format', :action => 'diff'
-      repository_views.connect 'projects/:id/repository/revisions/:rev/raw/*path', :action => 'entry',
+      repository_views.connect 'projects/:id/repository/revisions',
+                               :action => 'revisions'
+      repository_views.connect 'projects/:id/repository/revisions.:format',
+                               :action => 'revisions'
+      repository_views.connect 'projects/:id/repository/revisions/:rev',
+                               :action => 'revision'
+      repository_views.connect 'projects/:id/repository/revisions/:rev/diff',
+                               :action => 'diff'
+      repository_views.connect 'projects/:id/repository/revisions/:rev/diff.:format',
+                               :action => 'diff'
+      repository_views.connect 'projects/:id/repository/revisions/:rev/raw/*path',
+                               :action => 'entry',
                                :format => 'raw', :requirements => { :rev => /[a-z0-9\.\-_]+/ }
       repository_views.connect 'projects/:id/repository/revisions/:rev/:action/*path',
                                :requirements => { :rev => /[a-z0-9\.\-_]+/ }
 
-      repository_views.connect 'projects/:id/repository/raw/*path', :action => 'entry', :format => 'raw'
-      repository_views.connect 'projects/:id/repository/browse/*path', :action => 'browse'
-      repository_views.connect 'projects/:id/repository/entry/*path', :action => 'entry'
-      repository_views.connect 'projects/:id/repository/changes/*path', :action => 'changes'
-      repository_views.connect 'projects/:id/repository/annotate/*path', :action => 'annotate'
-      repository_views.connect 'projects/:id/repository/diff/*path', :action => 'diff'
-      repository_views.connect 'projects/:id/repository/show/*path', :action => 'show'
-      repository_views.connect 'projects/:id/repository/graph', :action => 'graph'
+      repository_views.connect 'projects/:id/repository/raw/*path',
+                               :action => 'entry', :format => 'raw'
+      repository_views.connect 'projects/:id/repository/browse/*path',
+                               :action => 'browse'
+      repository_views.connect 'projects/:id/repository/entry/*path',
+                               :action => 'entry'
+      repository_views.connect 'projects/:id/repository/changes/*path',
+                               :action => 'changes'
+      repository_views.connect 'projects/:id/repository/annotate/*path',
+                               :action => 'annotate'
+      repository_views.connect 'projects/:id/repository/diff/*path',
+                               :action => 'diff'
+      repository_views.connect 'projects/:id/repository/show/*path',
+                               :action => 'show'
+      repository_views.connect 'projects/:id/repository/graph',
+                               :action => 'graph'
     end
 
     repositories.connect 'projects/:id/repository/revision', :action => 'revision',
