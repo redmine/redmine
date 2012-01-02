@@ -1,43 +1,30 @@
 <h2><%=l(:label_register)%> <%=link_to l(:label_login_with_open_id_option), signin_url if Setting.openid? %></h2>
 
-<% form_tag({:action => 'register'}, :class => "tabular") do %>
+<% labelled_form_for @user, :url => {:action => 'register'} do |f| %>
 <%= error_messages_for 'user' %>
 
-<div class="box">
-<!--[form:user]-->
+<div class="box tabular">
 <% if @user.auth_source_id.nil? %>
-<p><label for="user_login"><%=l(:field_login)%> <span class="required">*</span></label>
-<%= text_field 'user', 'login', :size => 25 %></p>
+  <p><%= f.text_field :login, :size => 25, :required => true %></p>
 
-<p><label for="password"><%=l(:field_password)%> <span class="required">*</span></label>
-<%= password_field_tag 'password', nil, :size => 25  %><br />
-<em><%= l(:text_caracters_minimum, :count => Setting.password_min_length) %></em></p>
+  <p><%= f.password_field :password, :size => 25, :required => true %><br />
+  <em><%= l(:text_caracters_minimum, :count => Setting.password_min_length) %></em></p>
 
-<p><label for="password_confirmation"><%=l(:field_password_confirmation)%> <span class="required">*</span></label>
-<%= password_field_tag 'password_confirmation', nil, :size => 25  %></p>
+  <p><%= f.password_field :password_confirmation, :size => 25, :required => true %></p>
 <% end %>
 
-<p><label for="user_firstname"><%=l(:field_firstname)%> <span class="required">*</span></label>
-<%= text_field 'user', 'firstname'  %></p>
-
-<p><label for="user_lastname"><%=l(:field_lastname)%> <span class="required">*</span></label>
-<%= text_field 'user', 'lastname'  %></p>
-
-<p><label for="user_mail"><%=l(:field_mail)%> <span class="required">*</span></label>
-<%= text_field 'user', 'mail'  %></p>
-
-<p><label for="user_language"><%=l(:field_language)%></label>
-<%= select("user", "language", lang_options_for_select) %></p>
+<p><%= f.text_field :firstname, :required => true %></p>
+<p><%= f.text_field :lastname, :required => true %></p>
+<p><%= f.text_field :mail, :required => true %></p>
+<p><%= f.select :language, lang_options_for_select %></p>
 
 <% if Setting.openid? %>
-<p><label for="user_identity_url"><%=l(:field_identity_url)%></label>
-<%= text_field 'user', 'identity_url'  %></p>
+  <p><%= f.text_field :identity_url  %></p>
 <% end %>
 
 <% @user.custom_field_values.select {|v| v.editable? || v.required?}.each do |value| %>
   <p><%= custom_field_tag_with_label :user, value %></p>
 <% end %>
-<!--[eoform:user]-->
 </div>
 
 <%= submit_tag l(:button_submit) %>
