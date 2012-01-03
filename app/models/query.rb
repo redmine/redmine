@@ -590,6 +590,23 @@ class Query < ActiveRecord::Base
     raise StatementInvalid.new(e.message)
   end
 
+  # Returns the issues ids
+  def issue_ids(options={})
+    order_option = [group_by_sort_order, options[:order]].reject {|s| s.blank?}.join(',')
+    order_option = nil if order_option.blank?
+    
+    joins = (order_option && order_option.include?('authors')) ? "LEFT OUTER JOIN users authors ON authors.id = #{Issue.table_name}.author_id" : nil
+
+    Issue.visible.scoped(:conditions => options[:conditions]).find_ids :include => ([:status, :project] + (options[:include] || [])).uniq,
+                     :conditions => statement,
+                     :order => order_option,
+                     :joins => joins,
+                     :limit  => options[:limit],
+                     :offset => options[:offset]
+  rescue ::ActiveRecord::StatementInvalid => e
+    raise StatementInvalid.new(e.message)
+  end
+
   # Returns the journals
   # Valid options are :order, :offset, :limit
   def journals(options={})
@@ -738,9 +755,9 @@ class Query < ActiveRecord::Base
         end
       end
     when "o"
-      sql = "#{IssueStatus.table_name}.is_closed=#{connection.quoted_false}" if field == "status_id"
+      sql = "#{Issue.table_name}.status_id IN (SELECT id FROM #{IssueStatus.table_name} WHERE is_closed=#{connection.quoted_false})" if field == "status_id"
     when "c"
-      sql = "#{IssueStatus.table_name}.is_closed=#{connection.quoted_true}" if field == "status_id"
+      sql = "#{Issue.table_name}.status_id IN (SELECT id FROM #{IssueStatus.table_name} WHERE is_closed=#{connection.quoted_true})" if field == "status_id"
     when ">t-"
       sql = relative_date_clause(db_table, db_field, - value.first.to_i, 0)
     when "<t-"
