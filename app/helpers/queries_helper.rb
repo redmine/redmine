@@ -92,6 +92,18 @@ module QueriesHelper
     end
   end
 
+  def retrieve_query_from_session
+    if session[:query]
+      @query = Query.new(:name => "_", :filters => session[:query][:filters], :group_by => session[:query][:group_by], :column_names => session[:query][:column_names])
+      if session[:query].has_key?(:project_id)
+        @query.project_id = session[:query][:project_id]
+      else
+        @query.project = @project
+      end
+      @query
+    end
+  end
+
   def build_query_from_params
     if params[:fields] || params[:f]
       @query.filters = {}

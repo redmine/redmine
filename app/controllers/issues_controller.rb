@@ -120,7 +120,10 @@ class IssuesController < ApplicationController
     @priorities = IssuePriority.active
     @time_entry = TimeEntry.new(:issue => @issue, :project => @issue.project)
     respond_to do |format|
-      format.html { render :template => 'issues/show' }
+      format.html {
+        retrieve_previous_and_next_issue_ids
+        render :template => 'issues/show'
+      }
       format.api
       format.atom { render :template => 'journals/index', :layout => false, :content_type => 'application/atom+xml' }
       format.pdf  { send_data(issue_to_pdf(@issue), :type => 'application/pdf', :filename => "#{@project.identifier}-#{@issue.id}.pdf") }
@@ -275,6 +278,20 @@ private
     @project = Project.find(project_id)
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def retrieve_previous_and_next_issue_ids
+    retrieve_query_from_session
+    if @query
+      sort_init(@query.sort_criteria.empty? ? [['id', 'desc']] : @query.sort_criteria)
+      sort_update(@query.sortable_columns, 'issues_index_sort')
+      limit = 500
+      issue_ids = @query.issue_ids(:order => sort_clause, :limit => (limit + 1))
+      if (idx = issue_ids.index(@issue.id.to_s)) && idx < limit
+        @prev_issue_id = issue_ids[idx - 1].to_i if idx > 0
+        @next_issue_id = issue_ids[idx + 1].to_i if idx < (issue_ids.size - 1)
+      end
+    end
   end
 
   # Used by #edit and #update to set some common instance variables

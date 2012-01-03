@@ -612,6 +612,13 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal %w(Fixnum), count_by_group.values.collect {|k| k.class.name}.uniq
   end
 
+  def test_issue_ids
+    q = Query.new(:name => '_')
+    order = "issues.subject, issues.id"
+    issues = q.issues(:order => order)
+    assert_equal issues.map(&:id).map(&:to_s), q.issue_ids(:order => order)
+  end
+
   def test_label_for
     q = Query.new
     assert_equal 'Assignee', q.label_for('assigned_to_id')

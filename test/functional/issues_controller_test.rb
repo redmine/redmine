@@ -920,6 +920,77 @@ class IssuesControllerTest < ActionController::TestCase
       :descendant => {:tag => 'a', :attributes => {:href => '/issues/1'}}
   end
 
+  def test_show_should_not_display_prev_next_links_without_query_in_session
+    get :show, :id => 1
+    assert_response :success
+    assert_nil assigns(:prev_issue_id)
+    assert_nil assigns(:next_issue_id)
+  end
+
+  def test_show_should_display_prev_next_links_with_query_in_session
+    @request.session[:query] = {:filters => {'status_id' => {:values => [''], :operator => 'o'}}, :project_id => nil}
+    @request.session['issues_index_sort'] = 'id'
+
+    with_settings :display_subprojects_issues => '0' do
+      get :show, :id => 3
+    end
+
+    assert_response :success
+    # Previous and next issues for all projects
+    assert_equal 2, assigns(:prev_issue_id)
+    assert_equal 5, assigns(:next_issue_id)
+
+    assert_tag 'a', :attributes => {:href => '/issues/2'}, :content => /Previous/
+    assert_tag 'a', :attributes => {:href => '/issues/5'}, :content => /Next/
+  end
+
+  def test_show_should_display_prev_next_links_with_project_query_in_session
+    @request.session[:query] = {:filters => {'status_id' => {:values => [''], :operator => 'o'}}, :project_id => 1}
+    @request.session['issues_index_sort'] = 'id'
+
+    with_settings :display_subprojects_issues => '0' do
+      get :show, :id => 3
+    end
+
+    assert_response :success
+    # Previous and next issues inside project
+    assert_equal 2, assigns(:prev_issue_id)
+    assert_equal 7, assigns(:next_issue_id)
+
+    assert_tag 'a', :attributes => {:href => '/issues/2'}, :content => /Previous/
+    assert_tag 'a', :attributes => {:href => '/issues/7'}, :content => /Next/
+  end
+
+  def test_show_should_not_display_prev_link_for_first_issue
+    @request.session[:query] = {:filters => {'status_id' => {:values => [''], :operator => 'o'}}, :project_id => 1}
+    @request.session['issues_index_sort'] = 'id'
+
+    with_settings :display_subprojects_issues => '0' do
+      get :show, :id => 1
+    end
+
+    assert_response :success
+    assert_nil assigns(:prev_issue_id)
+    assert_equal 2, assigns(:next_issue_id)
+
+    assert_no_tag 'a', :content => /Previous/
+    assert_tag 'a', :attributes => {:href => '/issues/2'}, :content => /Next/
+  end
+
+  def test_show_should_not_display_prev_next_links_for_issue_not_in_query_results
+    @request.session[:query] = {:filters => {'status_id' => {:values => [''], :operator => 'c'}}, :project_id => 1}
+    @request.session['issues_index_sort'] = 'id'
+
+    get :show, :id => 1
+
+    assert_response :success
+    assert_nil assigns(:prev_issue_id)
+    assert_nil assigns(:next_issue_id)
+
+    assert_no_tag 'a', :content => /Previous/
+    assert_no_tag 'a', :content => /Next/
+  end
+
   def test_show_atom
     get :show, :id => 2, :format => 'atom'
     assert_response :success

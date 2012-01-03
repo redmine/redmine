@@ -160,7 +160,8 @@ module SortHelper
   # sort_clause.
   # - criteria can be either an array or a hash of allowed keys
   #
-  def sort_update(criteria)
+  def sort_update(criteria, sort_name=nil)
+    sort_name ||= self.sort_name
     @sort_criteria = SortCriteria.new
     @sort_criteria.available_criteria = criteria
     @sort_criteria.from_param(params[:sort] || session[sort_name])
