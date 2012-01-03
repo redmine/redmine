@@ -287,9 +287,9 @@ private
       sort_update(@query.sortable_columns, 'issues_index_sort')
       limit = 500
       issue_ids = @query.issue_ids(:order => sort_clause, :limit => (limit + 1))
-      if (idx = issue_ids.index(@issue.id.to_s)) && idx < limit
-        @prev_issue_id = issue_ids[idx - 1].to_i if idx > 0
-        @next_issue_id = issue_ids[idx + 1].to_i if idx < (issue_ids.size - 1)
+      if (idx = issue_ids.index(@issue.id)) && idx < limit
+        @prev_issue_id = issue_ids[idx - 1] if idx > 0
+        @next_issue_id = issue_ids[idx + 1] if idx < (issue_ids.size - 1)
       end
     end
   end

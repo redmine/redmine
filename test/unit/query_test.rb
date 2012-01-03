@@ -616,7 +616,7 @@ class QueryTest < ActiveSupport::TestCase
     q = Query.new(:name => '_')
     order = "issues.subject, issues.id"
     issues = q.issues(:order => order)
-    assert_equal issues.map(&:id).map(&:to_s), q.issue_ids(:order => order)
+    assert_equal issues.map(&:id), q.issue_ids(:order => order)
   end
 
   def test_label_for

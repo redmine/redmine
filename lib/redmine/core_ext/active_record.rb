@@ -27,7 +27,7 @@ module ActiveRecord
       def find_ids_with_associations(options = {})
         catch :invalid_query do
           join_dependency = ActiveRecord::Associations::ClassMethods::JoinDependency.new(self, merge_includes(scope(:find, :include), options[:include]), options[:joins])
-          return connection.select_values(construct_ids_finder_sql_with_included_associations(options, join_dependency))
+          return connection.select_values(construct_ids_finder_sql_with_included_associations(options, join_dependency)).map(&:to_i)
         end
         []
       end
