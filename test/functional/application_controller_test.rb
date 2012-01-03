@@ -27,16 +27,6 @@ class ApplicationControllerTest < ActionController::TestCase
     @response   = ActionController::TestResponse.new
   end
 
-  # check that all language files are valid
-  def test_localization
-    lang_files_count = Dir["#{Rails.root}/config/locales/*.yml"].size
-    assert_equal lang_files_count, valid_languages.size
-    valid_languages.each do |lang|
-      assert set_language_if_valid(lang)
-    end
-    set_language_if_valid('en')
-  end
-
   def test_call_hook_mixed_in
     assert @controller.respond_to?(:call_hook)
   end
