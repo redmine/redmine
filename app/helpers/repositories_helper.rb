@@ -94,8 +94,9 @@ module RepositoriesHelper
                              :id => @project,
                              :path => path_param,
                              :rev => @changeset.identifier)
-        output << "<li class='#{style}'>#{text}</li>"
+        output << "<li class='#{style}'>#{text}"
         output << render_changes_tree(s)
+        output << "</li>"
       elsif c = tree[file][:c]
         style << " change-#{c.action}"
         path_param = to_path_param(@repository.relative_path(c.path))
