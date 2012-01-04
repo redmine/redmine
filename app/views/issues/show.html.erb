@@ -5,8 +5,12 @@
 <div class="<%= @issue.css_classes %> details">
   <% if @prev_issue_id || @next_issue_id %>
     <div class="next-prev-links contextual">
-      <%= link_to_if @prev_issue_id, '&#171; Previous', issue_path(@prev_issue_id), :title => "##{@prev_issue_id}" %> |
-      <%= link_to_if @next_issue_id, 'Next &#187;', issue_path(@next_issue_id), :title => "##{@next_issue_id}" %>
+      <%= link_to_if @prev_issue_id,
+                     "&#171; #{l(:label_previous)}", issue_path(@prev_issue_id),
+                     :title => "##{@prev_issue_id}" %> |
+      <%= link_to_if @next_issue_id,
+                     "#{l(:label_next)} &#187;", issue_path(@next_issue_id),
+                     :title => "##{@next_issue_id}" %>
     </div>
   <% end %>
 
