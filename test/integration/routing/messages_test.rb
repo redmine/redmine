@@ -34,7 +34,7 @@ class RoutingMessagesTest < ActionController::IntegrationTest
           :board_id => 'lala' }
       )
     assert_routing(
-        { :method => 'get', :path => "/boards/lala/topics/quote/22" },
+        { :method => 'post', :path => "/boards/lala/topics/quote/22" },
         { :controller => 'messages', :action => 'quote', :id => '22',
           :board_id => 'lala' }
       )

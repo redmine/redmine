@@ -28,12 +28,12 @@ ActionController::Routing::Routes.draw do |map|
     messages_routes.with_options :conditions => {:method => :get} do |messages_views|
       messages_views.connect 'boards/:board_id/topics/new', :action => 'new'
       messages_views.connect 'boards/:board_id/topics/:id', :action => 'show'
-      messages_views.connect 'boards/:board_id/topics/quote/:id', :action => 'quote'
       messages_views.connect 'boards/:board_id/topics/:id/edit', :action => 'edit'
     end
     messages_routes.with_options :conditions => {:method => :post} do |messages_actions|
       messages_actions.connect 'boards/:board_id/topics/new', :action => 'new'
       messages_actions.connect 'boards/:board_id/topics/preview', :action => 'preview'
+      messages_actions.connect 'boards/:board_id/topics/quote/:id', :action => 'quote'
       messages_actions.connect 'boards/:board_id/topics/:id/replies', :action => 'reply'
       messages_actions.connect 'boards/:board_id/topics/:id/edit', :action => 'edit'
       messages_actions.connect 'boards/:board_id/topics/:id/destroy', :action => 'destroy'
