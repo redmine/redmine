@@ -18,6 +18,12 @@
 require File.expand_path('../../../test_helper', __FILE__)
 
 class RoutingRepositoriesTest < ActionController::IntegrationTest
+  def setup
+    @path_hash  = repository_path_hash(%w[path to file.c])
+    assert_equal "path/to/file.c", @path_hash[:path]
+    assert_equal %w[path to file.c], @path_hash[:param]
+  end
+
   def test_repositories
     assert_routing(
         { :method => 'get',
@@ -70,60 +76,69 @@ class RoutingRepositoriesTest < ActionController::IntegrationTest
       )
     assert_routing(
         { :method => 'get',
-          :path => "/projects/redmine/repository/revisions/2/diff/path/to/file.c" },
+          :path => "/projects/redmine/repository/revisions/2/diff/#{@path_hash[:path]}" },
         { :controller => 'repositories', :action => 'diff', :id => 'redmine',
-          :path => %w[path to file.c], :rev => '2' }
+          :path => @path_hash[:param], :rev => '2' }
       )
     assert_routing(
         { :method => 'get',
-          :path => "/projects/redmine/repository/revisions/2/entry/path/to/file.c" },
+          :path => "/projects/redmine/repository/revisions/2/entry/#{@path_hash[:path]}" },
         { :controller => 'repositories', :action => 'entry', :id => 'redmine',
-          :path => %w[path to file.c], :rev => '2' }
+          :path => @path_hash[:param], :rev => '2' }
       )
     assert_routing(
         { :method => 'get',
-          :path => "/projects/redmine/repository/revisions/2/raw/path/to/file.c" },
+          :path => "/projects/redmine/repository/revisions/2/raw/#{@path_hash[:path]}" },
         { :controller => 'repositories', :action => 'entry', :id => 'redmine',
-          :path => %w[path to file.c], :rev => '2', :format => 'raw' }
+          :path => @path_hash[:param], :rev => '2', :format => 'raw' }
       )
   end
 
   def test_repositories_non_revisions_path
     assert_routing(
         { :method => 'get',
-          :path => "/projects/redmine/repository/diff/path/to/file.c" },
+          :path => "/projects/redmine/repository/diff/#{@path_hash[:path]}" },
         { :controller => 'repositories', :action => 'diff', :id => 'redmine',
-          :path => %w[path to file.c] }
+          :path => @path_hash[:param] }
       )
     assert_routing(
         { :method => 'get',
-          :path => "/projects/redmine/repository/browse/path/to/file.c" },
+          :path => "/projects/redmine/repository/browse/#{@path_hash[:path]}" },
         { :controller => 'repositories', :action => 'browse', :id => 'redmine',
-          :path => %w[path to file.c] }
+          :path => @path_hash[:param] }
       )
     assert_routing(
         { :method => 'get',
-          :path => "/projects/redmine/repository/entry/path/to/file.c" },
+          :path => "/projects/redmine/repository/entry/#{@path_hash[:path]}" },
         { :controller => 'repositories', :action => 'entry', :id => 'redmine',
-          :path => %w[path to file.c] }
+          :path => @path_hash[:param] }
       )
     assert_routing(
         { :method => 'get',
-          :path => "/projects/redmine/repository/raw/path/to/file.c" },
+          :path => "/projects/redmine/repository/raw/#{@path_hash[:path]}" },
         { :controller => 'repositories', :action => 'entry', :id => 'redmine',
-          :path => %w[path to file.c], :format => 'raw' }
+          :path => @path_hash[:param], :format => 'raw' }
       )
     assert_routing(
         { :method => 'get',
-          :path => "/projects/redmine/repository/annotate/path/to/file.c" },
+          :path => "/projects/redmine/repository/annotate/#{@path_hash[:path]}" },
         { :controller => 'repositories', :action => 'annotate', :id => 'redmine',
-          :path => %w[path to file.c] }
+          :path => @path_hash[:param] }
       )
     assert_routing(
         { :method => 'get',
-          :path => "/projects/redmine/repository/changes/path/to/file.c" },
+          :path => "/projects/redmine/repository/changes/#{@path_hash[:path]}" },
         { :controller => 'repositories', :action => 'changes', :id => 'redmine',
-          :path => %w[path to file.c] }
+          :path => @path_hash[:param] }
       )
+  end
+
+private
+
+  def repository_path_hash(arr)
+    hs = {}
+    hs[:path]  = arr.join("/")
+    hs[:param] = arr
+    hs
   end
 end
