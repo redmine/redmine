@@ -954,8 +954,8 @@ img.gravatar {
 }
 
 div.issue img.gravatar {
-    float: right;
-    margin: 0 0 0 1em;
+    float: left;
+    margin: 0 6px 0 0;
     padding: 5px;
 }
 
