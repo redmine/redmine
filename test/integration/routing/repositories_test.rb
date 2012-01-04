@@ -24,11 +24,18 @@ class RoutingRepositoriesTest < ActionController::IntegrationTest
           :path => "/projects/redmine/repository" },
         { :controller => 'repositories', :action => 'show', :id => 'redmine' }
       )
+    ["get", "post"].each do |method|
+      assert_routing(
+          { :method => method,
+            :path => "/projects/redmine/repository/edit" },
+          { :controller => 'repositories', :action => 'edit', :id => 'redmine' }
+        )
+    end
     assert_routing(
         { :method => 'get',
-          :path => "/projects/redmine/repository/edit" },
-        { :controller => 'repositories', :action => 'edit', :id => 'redmine' }
-      )
+          :path => "/projects/redmine/repository/statistics" },
+        { :controller => 'repositories', :action => 'stats', :id => 'redmine' }
+     )
   end
 
   def test_repositories_revisions
@@ -81,7 +88,7 @@ class RoutingRepositoriesTest < ActionController::IntegrationTest
       )
   end
 
-  def test_repositories_etc
+  def test_repositories_non_revisions_path
     assert_routing(
         { :method => 'get',
           :path => "/projects/redmine/repository/diff/path/to/file.c" },
@@ -117,16 +124,6 @@ class RoutingRepositoriesTest < ActionController::IntegrationTest
           :path => "/projects/redmine/repository/changes/path/to/file.c" },
         { :controller => 'repositories', :action => 'changes', :id => 'redmine',
           :path => %w[path to file.c] }
-      )
-    assert_routing(
-        { :method => 'get',
-          :path => "/projects/redmine/repository/statistics" },
-        { :controller => 'repositories', :action => 'stats', :id => 'redmine' }
-      )
-    assert_routing(
-        { :method => 'post',
-          :path => "/projects/redmine/repository/edit" },
-        { :controller => 'repositories', :action => 'edit', :id => 'redmine' }
       )
   end
 end
