@@ -25,13 +25,14 @@
 
 <h2><%= l(:label_revision) %> <%= format_revision(@changeset) %></h2>
 
+<% if @changeset.scmid.present? || @changeset.parents.present? || @changeset.children.present? %>
 <table class="revision-info">
-  <% if @changeset.scmid %>
+  <% if @changeset.scmid.present? %>
     <tr>
       <td>ID</td><td><%= h(@changeset.scmid) %></td>
     </tr>
   <% end %>
-  <% unless @changeset.parents.blank? %>
+  <% if @changeset.parents.present? %>
     <tr>
       <td><%= l(:label_parent_revision) %></td>
       <td>
@@ -41,7 +42,7 @@
       </td>
     </tr>
   <% end %>
-  <% unless @changeset.children.blank? %>
+  <% if @changeset.children.present? %>
     <tr>
       <td><%= l(:label_child_revision) %></td>
       <td>
@@ -52,6 +53,8 @@
     </tr>
   <% end %>
 </table>
+<% end %>
+
 <p>
 <span class="author">
 <%= authoring(@changeset.committed_on, @changeset.author) %>
