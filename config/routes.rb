@@ -227,8 +227,6 @@ ActionController::Routing::Routes.draw do |map|
     repositories.with_options :conditions => {:method => :get} do |repository_views|
       repository_views.connect 'projects/:id/repository',
                                :action => 'show'
-      repository_views.connect 'projects/:id/repository/edit',
-                               :action => 'edit'
       repository_views.connect 'projects/:id/repository/statistics',
                                :action => 'stats'
 
@@ -276,7 +274,7 @@ ActionController::Routing::Routes.draw do |map|
                          :conditions => {:method => [:get, :post]}
     repositories.connect 'projects/:id/repository/edit',
                          :action => 'edit',
-                         :conditions => {:method => :post}
+                         :conditions => {:method => [:get, :post]}
     repositories.connect 'projects/:id/repository/destroy',
                          :action => 'destroy',
                          :conditions => {:method => :post}
