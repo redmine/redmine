@@ -183,10 +183,29 @@ class RoutingTimelogsTest < ActionController::IntegrationTest
         { :controller => 'timelog', :action => 'destroy', :id => '55',
           :issue_id => '234', :project_id => 'ecookbook' }
       )
+  end
+
+  def test_timelogs_report
     assert_routing(
         { :method => 'get',
           :path => "/time_entries/report" },
         { :controller => 'timelog', :action => 'report' }
+      )
+    assert_routing(
+        { :method => 'get',
+          :path => "/time_entries/report.csv" },
+        { :controller => 'timelog', :action => 'report', :format => 'csv' }
+      )
+    assert_routing(
+        { :method => 'get',
+          :path => "/issues/234/time_entries/report" },
+        { :controller => 'timelog', :action => 'report', :issue_id => '234' }
+      )
+    assert_routing(
+        { :method => 'get',
+          :path => "/issues/234/time_entries/report.csv" },
+        { :controller => 'timelog', :action => 'report', :issue_id => '234',
+          :format => 'csv' }
       )
     assert_routing(
         { :method => 'get',
