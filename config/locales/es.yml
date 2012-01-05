@@ -1043,6 +1043,4 @@ es:
   button_export: Exportar
   label_export_options: "%{export_format} opciones de exportación"
   error_attachment_too_big: Este fichero no se puede adjuntar porque excede el tamaño máximo de fichero (%{max_size})
-
-  notice_failed_to_save_time_entries: "Failed to save %{count} time entrie(s) on %{total} selected: %{ids}."
-
+  notice_failed_to_save_time_entries: "Error al guarda %{count} entradas de tiempo de las %{total} seleccionadas: %{ids}."
