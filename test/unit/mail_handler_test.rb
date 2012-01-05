@@ -284,7 +284,9 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_issue_with_japanese_keywords
-    tracker = Tracker.create!(:name => '開発')
+    ja_dev = "\xe9\x96\x8b\xe7\x99\xba"
+    ja_dev.force_encoding('UTF-8') if ja_dev.respond_to?(:force_encoding)
+    tracker = Tracker.create!(:name => ja_dev)
     Project.find(1).trackers << tracker
     issue = submit_email('japanese_keywords_iso_2022_jp.eml', :issue => {:project => 'ecookbook'}, :allow_override => 'tracker')
     assert_kind_of Issue, issue
