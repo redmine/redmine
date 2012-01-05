@@ -346,9 +346,9 @@ class MailHandler < ActionMailer::Base
     user.language = Setting.default_language
 
     unless user.valid?
-      user.login = "user#{ActiveSupport::SecureRandom.hex(6)}" if user.errors.on(:login)
-      user.firstname = "-" if user.errors.on(:firstname)
-      user.lastname = "-" if user.errors.on(:lastname)
+      user.login = "user#{ActiveSupport::SecureRandom.hex(6)}" unless user.errors[:login].blank?
+      user.firstname = "-" unless user.errors[:firstname].blank?
+      user.lastname  = "-" unless user.errors[:lastname].blank?
     end
 
     user
