@@ -1012,35 +1012,37 @@ es:
   label_git_report_last_commit: Informar del último commit para ficheros y directorios
   text_scm_config: Puede configurar las órdenes de cada scm en configuration/configuration.yml. Por favor, reinicie la aplicación después de editarlo
   text_scm_command_not_available: La orden para el Scm no está disponible. Por favor, compruebe la configuración en el panel de administración.
-  notice_issue_successful_create: Issue %{id} created.
-  label_between: between
-  setting_issue_group_assignment: Allow issue assignment to groups
-  label_diff: diff
-  text_git_repository_note: Repository is bare and local (e.g. /gitrepo, c:\gitrepo)
-  description_query_sort_criteria_direction: Sort direction
-  description_project_scope: Search scope
-  description_filter: Filter
-  description_user_mail_notification: Mail notification settings
-  description_date_from: Enter start date
-  description_message_content: Message content
-  description_available_columns: Available Columns
-  description_date_range_interval: Choose range by selecting start and end date
-  description_issue_category_reassign: Choose issue category
-  description_search: Searchfield
-  description_notes: Notes
-  description_date_range_list: Choose range from list
-  description_choose_project: Projects
-  description_date_to: Enter end date
-  description_query_sort_criteria_attribute: Sort attribute
-  description_wiki_subpages_reassign: Choose new parent page
-  description_selected_columns: Selected Columns
-  label_parent_revision: Parent
-  label_child_revision: Child
+  notice_issue_successful_create: Petición %{id} creada.
+  label_between: entre
+  setting_issue_group_assignment: Permitir asignar peticiones a grupos
+  label_diff: diferencias
+  text_git_repository_note: El repositorio es básico y local (p.e. /gitrepo, c:\gitrepo)
+  description_query_sort_criteria_direction: Dirección de ordenación
+  description_project_scope: Ámbito de búsqueda
+  description_filter: Filtro
+  description_user_mail_notification: Configuración de notificaciones por correo
+  description_date_from: Introduzca la fecha de inicio
+  description_message_content: Contenido del mensaje
+  description_available_columns: Columnas disponibles
+  description_date_range_interval: Elija el rango seleccionando la fecha de inicio y fin
+  description_issue_category_reassign: Elija la categoría de la petición
+  description_search: Campo de búsqueda
+  description_notes: Notas
+  description_date_range_list: Elija el rango en la lista
+  description_choose_project: Proyectos
+  description_date_to: Introduzca la fecha fin
+  description_query_sort_criteria_attribute: Atributo de ordenación
+  description_wiki_subpages_reassign: Elija la nueva página padre
+  description_selected_columns: Columnas seleccionadas
+  label_parent_revision: Padre
+  label_child_revision: Hijo
   setting_default_issue_start_date_to_creation_date: Use current date as start date for new issues
   button_edit_section: Edit this section
   setting_repositories_encodings: Attachments and repositories encodings
-  description_all_columns: All Columns
-  button_export: Export
-  label_export_options: "%{export_format} export options"
-  error_attachment_too_big: This file cannot be uploaded because it exceeds the maximum allowed file size (%{max_size})
+  description_all_columns: Todas las columnas
+  button_export: Exportar
+  label_export_options: "%{export_format} opciones de exportación"
+  error_attachment_too_big: Este fichero no se puede adjuntar porque excede el tamaño máximo de fichero (%{max_size})
+
   notice_failed_to_save_time_entries: "Failed to save %{count} time entrie(s) on %{total} selected: %{ids}."
+
