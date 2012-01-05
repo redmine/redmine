@@ -517,7 +517,7 @@ class MailHandlerTest < ActiveSupport::TestCase
       assert user.password.length >= 15
     end
   end
- 
+
   def test_new_user_from_attributes_should_use_default_login_if_invalid
     MailHandler.new_user_from_attributes('alongemailaddressthatexceedsloginlength-1@example.net').save!
 
