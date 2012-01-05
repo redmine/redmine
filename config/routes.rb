@@ -162,7 +162,8 @@ ActionController::Routing::Routes.draw do |map|
     project.issue_form 'issues/new', :controller => 'issues',
                        :action => 'new', :conditions => {:method => :post}
     project.resources :issues, :only => [:index, :new, :create] do |issues|
-      issues.resources :time_entries, :controller => 'timelog', :collection => {:report => :get}
+      issues.resources :time_entries, :controller => 'timelog',
+                       :collection => {:report => :get}
     end
 
     project.resources :files, :only => [:index, :new, :create]
@@ -170,7 +171,9 @@ ActionController::Routing::Routes.draw do |map|
                       :collection => {:close_completed => :put},
                       :member => {:status_by => :post}
     project.resources :news, :shallow => true
-    project.resources :time_entries, :controller => 'timelog', :path_prefix => 'projects/:project_id', :collection => {:report => :get}
+    project.resources :time_entries, :controller => 'timelog',
+                      :path_prefix => 'projects/:project_id',
+                      :collection => {:report => :get}
     project.resources :queries, :only => [:new, :create]
     project.resources :issue_categories, :shallow => true
     project.resources :documents, :shallow => true, :member => {:add_attachment => :post}
