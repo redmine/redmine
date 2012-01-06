@@ -372,8 +372,6 @@ class MailHandler < ActionMailer::Base
     end
   end
 
-  private
-
   # Removes the email body of text after the truncation configurations.
   def cleanup_body(body)
     delimiters = Setting.mail_handler_body_delimiters.to_s.split(/[\r\n]+/).reject(&:blank?).map {|s| Regexp.escape(s)}
