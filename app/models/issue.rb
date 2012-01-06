@@ -138,15 +138,7 @@ class Issue < ActiveRecord::Base
 
   # Moves/copies an issue to a new project and tracker
   # Returns the moved/copied issue on success, false on failure
-  def move_to_project(*args)
-    ret = Issue.transaction do
-      move_to_project_without_transaction(*args) || raise(ActiveRecord::Rollback)
-    end || false
-  end
-
-  def move_to_project_without_transaction(new_project, new_tracker = nil, options = {})
-    options ||= {}
-
+  def move_to_project(new_project, new_tracker=nil, options={})
     if options[:copy]
       issue = self.class.new.copy_from(self)
     else
@@ -164,10 +156,7 @@ class Issue < ActiveRecord::Base
       issue.attributes = options[:attributes]
     end
 
-    unless issue.save
-      return false
-    end
-    issue
+    issue.save ? issue : false
   end
 
   def status_id=(sid)
