@@ -61,7 +61,7 @@ class MailHandler < ActionMailer::Base
       when 'accept'
         @user = User.anonymous
       when 'create'
-        @user = create_user_from_email(email)
+        @user = create_user_from_email
         if @user
           logger.info "MailHandler: [#{@user.login}] account created" if logger && logger.info
           Mailer.deliver_account_information(@user, @user.password)
@@ -356,7 +356,7 @@ class MailHandler < ActionMailer::Base
 
   # Creates a User for the +email+ sender
   # Returns the user or nil if it could not be created
-  def create_user_from_email(email)
+  def create_user_from_email
     addr = email.from_addrs.to_a.first
     if addr && !addr.spec.blank?
       user = self.class.new_user_from_attributes(addr.spec, addr.name)
