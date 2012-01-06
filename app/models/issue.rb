@@ -151,8 +151,9 @@ class Issue < ActiveRecord::Base
       issue = self.class.new.copy_from(self)
     else
       issue = self
-      issue.init_journal(User.current, options[:notes]) 
     end
+
+    issue.init_journal(User.current, options[:notes])
 
     issue.project = new_project
     if new_tracker
@@ -162,10 +163,7 @@ class Issue < ActiveRecord::Base
     if options[:attributes]
       issue.attributes = options[:attributes]
     end
-    if options[:copy] && options[:notes].present?
-      issue.init_journal(User.current, options[:notes])
-      issue.current_journal.notify = false
-    end
+
     unless issue.save
       return false
     end
@@ -385,9 +383,13 @@ class Issue < ActiveRecord::Base
 
   def init_journal(user, notes = "")
     @current_journal ||= Journal.new(:journalized => self, :user => user, :notes => notes)
-    @attributes_before_change = attributes.dup
-    @custom_values_before_change = {}
-    self.custom_values.each {|c| @custom_values_before_change.store c.custom_field_id, c.value }
+    if new_record?
+      @current_journal.notify = false
+    else
+      @attributes_before_change = attributes.dup
+      @custom_values_before_change = {}
+      self.custom_values.each {|c| @custom_values_before_change.store c.custom_field_id, c.value }
+    end
     # Make sure updated_on is updated when adding a note.
     updated_on_will_change!
     @current_journal
@@ -932,25 +934,29 @@ class Issue < ActiveRecord::Base
   def create_journal
     if @current_journal
       # attributes changes
-      (Issue.column_names - %w(id root_id lft rgt lock_version created_on updated_on)).each {|c|
-        before = @attributes_before_change[c]
-        after = send(c)
-        next if before == after || (before.blank? && after.blank?)
-        @current_journal.details << JournalDetail.new(:property => 'attr',
-                                                      :prop_key => c,
-                                                      :old_value => before,
-                                                      :value => after)
-      }
-      # custom fields changes
-      custom_values.each {|c|
-        before = @custom_values_before_change[c.custom_field_id]
-        after = c.value
-        next if before == after || (before.blank? && after.blank?)
-        @current_journal.details << JournalDetail.new(:property => 'cf',
-                                                      :prop_key => c.custom_field_id,
-                                                      :old_value => before,
-                                                      :value => after)
-      }
+      if @attributes_before_change
+        (Issue.column_names - %w(id root_id lft rgt lock_version created_on updated_on)).each {|c|
+          before = @attributes_before_change[c]
+          after = send(c)
+          next if before == after || (before.blank? && after.blank?)
+          @current_journal.details << JournalDetail.new(:property => 'attr',
+                                                        :prop_key => c,
+                                                        :old_value => before,
+                                                        :value => after)
+        }
+      end
+      if @custom_values_before_change
+        # custom fields changes
+        custom_values.each {|c|
+          before = @custom_values_before_change[c.custom_field_id]
+          after = c.value
+          next if before == after || (before.blank? && after.blank?)
+          @current_journal.details << JournalDetail.new(:property => 'cf',
+                                                        :prop_key => c.custom_field_id,
+                                                        :old_value => before,
+                                                        :value => after)
+        }
+      end
       @current_journal.save
       # reset current journal
       init_journal @current_journal.user, @current_journal.notes
