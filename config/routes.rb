@@ -160,7 +160,7 @@ ActionController::Routing::Routes.draw do |map|
                      :only => [:update, :destroy]
     # issue form update
     project.issue_form 'issues/new', :controller => 'issues',
-                       :action => 'new', :conditions => {:method => :post}
+                       :action => 'new', :conditions => {:method => [:post, :put]}
     project.resources :issues, :only => [:index, :new, :create] do |issues|
       issues.resources :time_entries, :controller => 'timelog',
                        :collection => {:report => :get}
