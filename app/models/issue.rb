@@ -132,6 +132,7 @@ class Issue < ActiveRecord::Base
     self.attributes = issue.attributes.dup.except("id", "root_id", "parent_id", "lft", "rgt", "created_on", "updated_on")
     self.custom_field_values = issue.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
     self.status = issue.status
+    self.author = User.current
     self
   end
 
@@ -153,21 +154,9 @@ class Issue < ActiveRecord::Base
       issue.init_journal(User.current, options[:notes]) 
     end
 
-    if new_project && issue.project_id != new_project.id
-      issue.project = new_project
-    end
+    issue.project = new_project
     if new_tracker
       issue.tracker = new_tracker
-      issue.reset_custom_values!
-    end
-    if options[:copy]
-      issue.author = User.current
-      issue.custom_field_values = self.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
-      issue.status = if options[:attributes] && options[:attributes][:status_id]
-                       IssueStatus.find_by_id(options[:attributes][:status_id])
-                     else
-                       self.status
-                     end
     end
     # Allow bulk setting of attributes on the issue
     if options[:attributes]
