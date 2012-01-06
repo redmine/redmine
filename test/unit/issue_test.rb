@@ -406,6 +406,27 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal orig.status, issue.status
   end
 
+  def test_should_not_call_after_project_change_on_creation
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :status_id => 1, :subject => 'Test', :author_id => 1)
+    issue.expects(:after_project_change).never
+    issue.save!
+  end
+
+  def test_should_not_call_after_project_change_on_update
+    issue = Issue.find(1)
+    issue.project = Project.find(1)
+    issue.subject = 'No project change'
+    issue.expects(:after_project_change).never
+    issue.save!
+  end
+
+  def test_should_call_after_project_change_on_project_change
+    issue = Issue.find(1)
+    issue.project = Project.find(2)
+    issue.expects(:after_project_change).once
+    issue.save!
+  end
+
   def test_should_close_duplicates
     # Create 3 issues
     project = Project.find(1)

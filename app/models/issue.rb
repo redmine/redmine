@@ -75,6 +75,7 @@ class Issue < ActiveRecord::Base
 
   before_create :default_assign
   before_save :close_duplicates, :update_done_ratio_from_issue_status
+  after_save {|issue| issue.send :after_project_change if !issue.id_changed? && issue.project_id_changed?} 
   after_save :reschedule_following_issues, :update_nested_set_attributes, :update_parent_attributes, :create_journal
   after_destroy :update_parent_attributes
 
@@ -153,23 +154,7 @@ class Issue < ActiveRecord::Base
     end
 
     if new_project && issue.project_id != new_project.id
-      # delete issue relations
-      unless Setting.cross_project_issue_relations?
-        issue.relations_from.clear
-        issue.relations_to.clear
-      end
-      # issue is moved to another project
-      # reassign to the category with same name if any
-      new_category = issue.category.nil? ? nil : new_project.issue_categories.find_by_name(issue.category.name)
-      issue.category = new_category
-      # Keep the fixed_version if it's still valid in the new_project
-      unless new_project.shared_versions.include?(issue.fixed_version)
-        issue.fixed_version = nil
-      end
       issue.project = new_project
-      if issue.parent && issue.parent.project_id != issue.project_id
-        issue.parent_issue_id = nil
-      end
     end
     if new_tracker
       issue.tracker = new_tracker
@@ -192,19 +177,7 @@ class Issue < ActiveRecord::Base
       issue.init_journal(User.current, options[:notes])
       issue.current_journal.notify = false
     end
-    if issue.save
-      unless options[:copy]
-        # Manually update project_id on related time entries
-        TimeEntry.update_all("project_id = #{new_project.id}", {:issue_id => id})
-
-        issue.children.each do |child|
-          unless child.move_to_project_without_transaction(new_project)
-            # Move failed and transaction was rollback'd
-            return false
-          end
-        end
-      end
-    else
+    unless issue.save
       return false
     end
     issue
@@ -225,6 +198,32 @@ class Issue < ActiveRecord::Base
     result = write_attribute(:tracker_id, tid)
     @custom_field_values = nil
     result
+  end
+
+  def project_id=(project_id)
+    if project_id.to_s != self.project_id.to_s
+      self.project = (project_id.present? ? Project.find_by_id(project_id) : nil)
+    end
+  end
+
+  def project=(project)
+    project_was = self.project
+    write_attribute(:project_id, project ? project.id : nil)
+    association_instance_set('project', project)
+    if project_was && project && project_was != project
+      # Reassign to the category with same name if any
+      if category
+        self.category = project.issue_categories.find_by_name(category.name)
+      end
+      # Keep the fixed_version if it's still valid in the new_project
+      if fixed_version && fixed_version.project != project && !project.shared_versions.include?(fixed_version)
+        self.fixed_version = nil
+      end
+      if parent && parent.project_id != project_id
+        self.parent_issue_id = nil
+      end
+      @custom_field_values = nil
+    end
   end
 
   def description=(arg)
@@ -762,6 +761,25 @@ class Issue < ActiveRecord::Base
   end
 
   private
+
+  def after_project_change
+    # Update project_id on related time entries
+    TimeEntry.update_all(["project_id = ?", project_id], {:issue_id => id})
+
+    # Delete issue relations
+    unless Setting.cross_project_issue_relations?
+      relations_from.clear
+      relations_to.clear
+    end
+
+    # Move subtasks
+    children.each do |child|
+      child.project = project
+      unless child.save
+        raise ActiveRecord::Rollback
+      end
+    end
+  end
 
   def update_nested_set_attributes
     if root_id.nil?
