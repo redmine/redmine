@@ -2319,6 +2319,87 @@ class IssuesControllerTest < ActionController::TestCase
     assert_redirected_to :controller => 'issues', :action => 'index', :project_id => Project.find(1).identifier
   end
 
+  def test_bulk_copy_to_another_project
+    @request.session[:user_id] = 2
+    assert_difference 'Issue.count', 2 do
+      assert_no_difference 'Project.find(1).issues.count' do
+        post :bulk_update, :ids => [1, 2], :issue => {:project_id => '2'}, :copy => '1'
+      end
+    end
+    assert_redirected_to '/projects/ecookbook/issues'
+  end
+
+  def test_bulk_copy_should_allow_not_changing_the issue_attributes
+    @request.session[:user_id] = 2
+    issue_before_move = Issue.find(1)
+    assert_difference 'Issue.count', 1 do
+      assert_no_difference 'Project.find(1).issues.count' do
+        post :bulk_update, :ids => [1], :copy => '1', 
+             :issue => {
+               :project_id => '2', :tracker_id => '', :assigned_to_id => '',
+               :status_id => '', :start_date => '', :due_date => ''
+             }
+      end
+    end
+    issue_after_move = Issue.first(:order => 'id desc', :conditions => {:project_id => 2})
+    assert_equal issue_before_move.tracker_id, issue_after_move.tracker_id
+    assert_equal issue_before_move.status_id, issue_after_move.status_id
+    assert_equal issue_before_move.assigned_to_id, issue_after_move.assigned_to_id
+  end
+
+ def test_bulk_copy_should_allow_changing_the_issue_attributes
+    # Fixes random test failure with Mysql
+    # where Issue.all(:limit => 2, :order => 'id desc', :conditions => {:project_id => 2})
+    # doesn't return the expected results
+    Issue.delete_all("project_id=2")
+
+    @request.session[:user_id] = 2
+    assert_difference 'Issue.count', 2 do
+      assert_no_difference 'Project.find(1).issues.count' do
+        post :bulk_update, :ids => [1, 2], :copy => '1', 
+             :issue => {
+               :project_id => '2', :tracker_id => '', :assigned_to_id => '4',
+               :status_id => '3', :start_date => '2009-12-01', :due_date => '2009-12-31'
+             }
+      end
+    end
+
+    copied_issues = Issue.all(:limit => 2, :order => 'id desc', :conditions => {:project_id => 2})
+    assert_equal 2, copied_issues.size
+    copied_issues.each do |issue|
+      assert_equal 2, issue.project_id, "Project is incorrect"
+      assert_equal 4, issue.assigned_to_id, "Assigned to is incorrect"
+      assert_equal 3, issue.status_id, "Status is incorrect"
+      assert_equal '2009-12-01', issue.start_date.to_s, "Start date is incorrect"
+      assert_equal '2009-12-31', issue.due_date.to_s, "Due date is incorrect"
+    end
+  end
+
+  def test_bulk_copy_should_allow_adding_a_note
+    @request.session[:user_id] = 2
+    assert_difference 'Issue.count', 1 do
+      post :bulk_update, :ids => [1], :copy => '1',
+           :notes => 'Copying one issue',
+           :issue => {
+             :project_id => '', :tracker_id => '', :assigned_to_id => '4',
+             :status_id => '3', :start_date => '2009-12-01', :due_date => '2009-12-31'
+           }
+    end
+
+    issue = Issue.first(:order => 'id DESC')
+    assert_equal 1, issue.journals.size
+    journal = issue.journals.first
+    assert_equal 0, journal.details.size
+    assert_equal 'Copying one issue', journal.notes
+  end
+
+  def test_bulk_copy_to_another_project_should_follow_when_needed
+    @request.session[:user_id] = 2
+    post :bulk_update, :ids => [1], :copy => '1', :issue => {:project_id => 2}, :follow => '1'
+    issue = Issue.first(:order => 'id DESC')
+    assert_redirected_to :controller => 'issues', :action => 'show', :id => issue
+  end
+
   def test_destroy_issue_with_no_time_entries
     assert_nil TimeEntry.find_by_issue_id(2)
     @request.session[:user_id] = 2

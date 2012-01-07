@@ -206,9 +206,11 @@ class IssuesController < ApplicationController
     end
   end
 
-  # Bulk edit a set of issues
+  # Bulk edit/copy a set of issues
   def bulk_edit
     @issues.sort!
+    @copy = params[:copy].present?
+    @notes = params[:notes]
 
     if User.current.allowed_to?(:move_issues, @projects)
       @allowed_projects = Issue.allowed_target_projects_on_move
@@ -226,18 +228,21 @@ class IssuesController < ApplicationController
     @assignables = target_projects.map(&:assignable_users).inject{|memo,a| memo & a}
     @trackers = target_projects.map(&:trackers).inject{|memo,t| memo & t}
 
-    @notes = params[:notes]
     render :layout => false if request.xhr?
   end
 
   def bulk_update
     @issues.sort!
+    @copy = params[:copy].present?
     attributes = parse_params_for_bulk_issue_attributes(params)
 
     unsaved_issue_ids = []
     moved_issues = []
     @issues.each do |issue|
       issue.reload
+      if @copy
+        issue = Issue.new.copy_from(issue)
+      end
       journal = issue.init_journal(User.current, params[:notes])
       issue.safe_attributes = attributes
       call_hook(:controller_issues_bulk_edit_before_save, { :params => params, :issue => issue })

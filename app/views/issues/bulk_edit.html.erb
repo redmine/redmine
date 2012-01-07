@@ -1,4 +1,4 @@
-<h2><%= l(:label_bulk_edit_selected_issues) %></h2>
+<h2><%= @copy ? l(:button_copy) : l(:label_bulk_edit_selected_issues) %></h2>
 
 <ul><%= @issues.collect {|i|
             content_tag('li',
@@ -102,7 +102,11 @@
 </div>
 
 <p>
-	<% if @target_project %>
+	<% if @copy %>
+	  <%= hidden_field_tag 'copy', '1' %>
+	  <%= submit_tag l(:button_copy) %>
+	  <%= submit_tag l(:button_copy_and_follow), :name => 'follow' %>
+	<% elsif @target_project %>
 	  <%= submit_tag l(:button_move) %>
 	  <%= submit_tag l(:button_move_and_follow), :name => 'follow' %>
 	<% else %>

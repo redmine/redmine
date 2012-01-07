@@ -47,7 +47,7 @@ class ContextMenusControllerTest < ActionController::TestCase
                             :attributes => { :href => '/projects/ecookbook/issues/1/copy',
                                              :class => 'icon-duplicate' }
     assert_tag :tag => 'a', :content => 'Copy',
-                            :attributes => { :href => '/issues/move/new?copy_options%5Bcopy%5D=t&amp;ids%5B%5D=1',
+                            :attributes => { :href => '/issues/bulk_edit?copy=1&amp;ids%5B%5D=1',
                                              :class => 'icon-copy' }
     assert_no_tag :tag => 'a', :content => 'Move'
     assert_tag :tag => 'a', :content => 'Delete',
@@ -86,7 +86,7 @@ class ContextMenusControllerTest < ActionController::TestCase
                             :attributes => { :href => "/issues/bulk_update?#{ids}&amp;issue%5Bassigned_to_id%5D=3",
                                              :class => '' }
     assert_tag :tag => 'a', :content => 'Copy',
-                            :attributes => { :href => "/issues/move/new?copy_options%5Bcopy%5D=t&amp;#{ids}",
+                            :attributes => { :href => "/issues/bulk_edit?copy=1&amp;#{ids}",
                                              :class => 'icon-copy' }
     assert_no_tag :tag => 'a', :content => 'Move'
     assert_tag :tag => 'a', :content => 'Delete',
