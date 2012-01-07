@@ -18,6 +18,72 @@
 require File.expand_path('../../../test_helper', __FILE__)
 
 class RoutingGroupsTest < ActionController::IntegrationTest
+  def test_groups_resources
+    assert_routing(
+        { :method => 'get', :path => "/groups" },
+        { :controller => 'groups', :action => 'index' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/groups.xml" },
+        { :controller => 'groups', :action => 'index', :format => 'xml' }
+      )
+    assert_routing(
+        { :method => 'post', :path => "/groups" },
+        { :controller => 'groups', :action => 'create' }
+      )
+    assert_routing(
+        { :method => 'post', :path => "/groups.xml" },
+        { :controller => 'groups', :action => 'create', :format => 'xml' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/groups/new" },
+        { :controller => 'groups', :action => 'new' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/groups/new.xml" },
+        { :controller => 'groups', :action => 'new', :format => 'xml' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/groups/1/edit" },
+        { :controller => 'groups', :action => 'edit', :id => '1' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/groups/1/autocomplete_for_user" },
+        { :controller => 'groups', :action => 'autocomplete_for_user',
+          :id => '1' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/groups/1" },
+        { :controller => 'groups', :action => 'show',
+          :id => '1' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/groups/1.xml" },
+        { :controller => 'groups', :action => 'show',
+          :format => 'xml', :id => '1' }
+      )
+    assert_routing(
+        { :method => 'put', :path => "/groups/1" },
+        { :controller => 'groups', :action => 'update',
+          :id => '1' }
+      )
+    assert_routing(
+        { :method => 'put', :path => "/groups/1.xml" },
+        { :controller => 'groups', :action => 'update',
+          :format => 'xml', :id => '1' }
+      )
+    assert_routing(
+        { :method => 'delete', :path => "/groups/1" },
+        { :controller => 'groups', :action => 'destroy',
+          :id => '1' }
+      )
+    assert_routing(
+        { :method => 'delete', :path => "/groups/1.xml" },
+        { :controller => 'groups', :action => 'destroy',
+          :format => 'xml', :id => '1' }
+      )
+  end
+
   def test_groups
     assert_routing(
         { :method => 'post', :path => "/groups/567/users" },
