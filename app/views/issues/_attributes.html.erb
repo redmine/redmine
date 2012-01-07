@@ -15,14 +15,14 @@
 <p><%= f.select :assigned_to_id, principals_options_for_select(@issue.assignable_users, @issue.assigned_to), :include_blank => true %></p>
 <% end %>
 
-<% if @issue.safe_attribute?('category_id') && @project.issue_categories.any? %>
-<p><%= f.select :category_id, (@project.issue_categories.collect {|c| [c.name, c.id]}), :include_blank => true %>
+<% if @issue.safe_attribute?('category_id') && @issue.project.issue_categories.any? %>
+<p><%= f.select :category_id, (@issue.project.issue_categories.collect {|c| [c.name, c.id]}), :include_blank => true %>
 <%= prompt_to_remote(image_tag('add.png', :style => 'vertical-align: middle;'),
                      l(:label_issue_category_new),
                      'issue_category[name]',
-                     {:controller => 'issue_categories', :action => 'create', :project_id => @project},
+                     {:controller => 'issue_categories', :action => 'create', :project_id => @issue.project},
                      :title => l(:label_issue_category_new),
-                     :tabindex => 199) if authorize_for('issue_categories', 'new') %></p>
+                     :tabindex => 199) if User.current.allowed_to?(:manage_categories, @issue.project) %></p>
 <% end %>
 
 <% if @issue.safe_attribute?('fixed_version_id') && @issue.assignable_versions.any? %>
@@ -30,9 +30,9 @@
 <%= prompt_to_remote(image_tag('add.png', :style => 'vertical-align: middle;'),
                      l(:label_version_new),
                      'version[name]',
-                     {:controller => 'versions', :action => 'create', :project_id => @project},
+                     {:controller => 'versions', :action => 'create', :project_id => @issue.project},
                      :title => l(:label_version_new),
-                     :tabindex => 200) if authorize_for('versions', 'new') %>
+                     :tabindex => 200) if User.current.allowed_to?(:manage_versions, @issue.project) %>
 </p>
 <% end %>
 </div>
@@ -41,7 +41,7 @@
 <% if @issue.safe_attribute? 'parent_issue_id' %>
 <p id="parent_issue"><%= f.text_field :parent_issue_id, :size => 10 %></p>
 <div id="parent_issue_candidates" class="autocomplete"></div>
-<%= javascript_tag "observeParentIssueField('#{auto_complete_issues_path(:id => @issue, :project_id => @project) }')" %>
+<%= javascript_tag "observeParentIssueField('#{auto_complete_issues_path(:id => @issue, :project_id => @issue.project) }')" %>
 <% end %>
 
 <% if @issue.safe_attribute? 'start_date' %>

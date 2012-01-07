@@ -152,7 +152,6 @@ roles_004:
     - :edit_issues
     - :manage_issue_relations
     - :add_issue_notes
-    - :move_issues
     - :save_queries
     - :view_gantt
     - :view_calendar

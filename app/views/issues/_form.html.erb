@@ -1,3 +1,4 @@
+<% labelled_fields_for :issue, @issue do |f| %>
 <%= call_hook(:view_issues_form_details_top, { :issue => @issue, :form => f }) %>
 
 <% if @issue.safe_attribute? 'is_private' %>
@@ -6,10 +7,15 @@
 </p>
 <% end %>
 
+<% if !@issue.new_record? && @issue.safe_attribute?('project_id') %>
+<p><%= f.select :project_id, Issue.allowed_target_projects_on_move.collect {|t| [t.name, t.id]}, :required => true %></p>
+<%= observe_field :issue_project_id, :url => project_issue_form_path(@project, :id => @issue, :project_change => '1'),
+                                     :with => "Form.serialize('issue-form')" %>
+<% end %>
+
 <% if @issue.safe_attribute? 'tracker_id' %>
-<p><%= f.select :tracker_id, @project.trackers.collect {|t| [t.name, t.id]}, :required => true %></p>
+<p><%= f.select :tracker_id, @issue.project.trackers.collect {|t| [t.name, t.id]}, :required => true %></p>
 <%= observe_field :issue_tracker_id, :url => project_issue_form_path(@project, :id => @issue),
-                                     :update => :attributes,
                                      :with => "Form.serialize('issue-form')" %>
 <% end %>
 
@@ -39,3 +45,4 @@
 </div>
 
 <%= call_hook(:view_issues_form_details_bottom, { :issue => @issue, :form => f }) %>
+<% end %>

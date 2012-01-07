@@ -721,6 +721,7 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_tag 'form', :attributes => {:id => 'issue-form'}
     assert_tag 'input', :attributes => {:name => 'issue[is_private]'}
+    assert_tag 'select', :attributes => {:name => 'issue[project_id]'}
     assert_tag 'select', :attributes => {:name => 'issue[tracker_id]'}
     assert_tag 'input', :attributes => {:name => 'issue[subject]'}
     assert_tag 'textarea', :attributes => {:name => 'issue[description]'}
@@ -748,6 +749,7 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_tag 'form', :attributes => {:id => 'issue-form'}
     assert_no_tag 'input', :attributes => {:name => 'issue[is_private]'}
+    assert_no_tag 'select', :attributes => {:name => 'issue[project_id]'}
     assert_no_tag 'select', :attributes => {:name => 'issue[tracker_id]'}
     assert_no_tag 'input', :attributes => {:name => 'issue[subject]'}
     assert_no_tag 'textarea', :attributes => {:name => 'issue[description]'}
@@ -774,6 +776,7 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_tag 'form', :attributes => {:id => 'issue-form'}
     assert_no_tag 'input', :attributes => {:name => 'issue[is_private]'}
+    assert_no_tag 'select', :attributes => {:name => 'issue[project_id]'}
     assert_no_tag 'select', :attributes => {:name => 'issue[tracker_id]'}
     assert_no_tag 'input', :attributes => {:name => 'issue[subject]'}
     assert_no_tag 'textarea', :attributes => {:name => 'issue[description]'}
@@ -1014,6 +1017,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_template 'new'
 
     assert_tag 'input', :attributes => {:name => 'issue[is_private]'}
+    assert_no_tag 'select', :attributes => {:name => 'issue[project_id]'}
     assert_tag 'select', :attributes => {:name => 'issue[tracker_id]'}
     assert_tag 'input', :attributes => {:name => 'issue[subject]'}
     assert_tag 'textarea', :attributes => {:name => 'issue[description]'}
@@ -1045,6 +1049,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_template 'new'
 
     assert_no_tag 'input', :attributes => {:name => 'issue[is_private]'}
+    assert_no_tag 'select', :attributes => {:name => 'issue[project_id]'}
     assert_tag 'select', :attributes => {:name => 'issue[tracker_id]'}
     assert_tag 'input', :attributes => {:name => 'issue[subject]'}
     assert_tag 'textarea', :attributes => {:name => 'issue[description]'}
@@ -1636,7 +1641,7 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_update_edit_form
     @request.session[:user_id] = 2
-    xhr :post, :new, :project_id => 1,
+    xhr :put, :new, :project_id => 1,
                              :id => 1,
                              :issue => {:tracker_id => 2,
                                         :subject => 'This is the test_new issue',
@@ -1649,6 +1654,27 @@ class IssuesControllerTest < ActionController::TestCase
     assert_kind_of Issue, issue
     assert_equal 1, issue.id
     assert_equal 1, issue.project_id
+    assert_equal 2, issue.tracker_id
+    assert_equal 'This is the test_new issue', issue.subject
+  end
+
+  def test_update_edit_form_with_project_change
+    @request.session[:user_id] = 2
+    xhr :put, :new, :project_id => 1,
+                             :id => 1,
+                             :project_change => '1',
+                             :issue => {:project_id => 2,
+                                        :tracker_id => 2,
+                                        :subject => 'This is the test_new issue',
+                                        :description => 'This is the description',
+                                        :priority_id => 5}
+    assert_response :success
+    assert_template 'form'
+
+    issue = assigns(:issue)
+    assert_kind_of Issue, issue
+    assert_equal 1, issue.id
+    assert_equal 2, issue.project_id
     assert_equal 2, issue.tracker_id
     assert_equal 'This is the test_new issue', issue.subject
   end
@@ -1694,6 +1720,57 @@ class IssuesControllerTest < ActionController::TestCase
     assert_kind_of TMail::Mail, mail
     assert mail.subject.starts_with?("[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}]")
     assert mail.body.include?("Subject changed from #{old_subject} to #{new_subject}")
+  end
+
+  def test_put_update_with_project_change
+    @request.session[:user_id] = 2
+    ActionMailer::Base.deliveries.clear
+
+    assert_difference('Journal.count') do
+      assert_difference('JournalDetail.count', 3) do
+        put :update, :id => 1, :issue => {:project_id => '2',
+                                         :tracker_id => '1', # no change
+                                         :priority_id => '6',
+                                         :category_id => '3'
+                                        }
+      end
+    end
+    assert_redirected_to :action => 'show', :id => '1'
+    issue = Issue.find(1)
+    assert_equal 2, issue.project_id
+    assert_equal 1, issue.tracker_id
+    assert_equal 6, issue.priority_id
+    assert_equal 3, issue.category_id
+
+    mail = ActionMailer::Base.deliveries.last
+    assert_not_nil mail
+    assert mail.subject.starts_with?("[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}]")
+    assert mail.body.include?("Project changed from eCookbook to OnlineStore")
+  end
+
+  def test_put_update_with_tracker_change
+    @request.session[:user_id] = 2
+    ActionMailer::Base.deliveries.clear
+
+    assert_difference('Journal.count') do
+      assert_difference('JournalDetail.count', 2) do
+        put :update, :id => 1, :issue => {:project_id => '1',
+                                         :tracker_id => '2',
+                                         :priority_id => '6'
+                                        }
+      end
+    end
+    assert_redirected_to :action => 'show', :id => '1'
+    issue = Issue.find(1)
+    assert_equal 1, issue.project_id
+    assert_equal 2, issue.tracker_id
+    assert_equal 6, issue.priority_id
+    assert_equal 1, issue.category_id
+
+    mail = ActionMailer::Base.deliveries.last
+    assert_not_nil mail
+    assert mail.subject.starts_with?("[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}]")
+    assert mail.body.include?("Tracker changed from Bug to Feature request")
   end
 
   def test_put_update_with_custom_field_change

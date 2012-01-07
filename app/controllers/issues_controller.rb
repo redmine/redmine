@@ -135,7 +135,17 @@ class IssuesController < ApplicationController
   def new
     respond_to do |format|
       format.html { render :action => 'new', :layout => !request.xhr? }
-      format.js { render :partial => 'attributes' }
+      format.js {
+        render(:update) { |page|
+          if params[:project_change]
+            page.replace_html 'all_attributes', :partial => 'form'
+          else
+            page.replace_html 'attributes', :partial => 'attributes'
+          end
+          m = User.current.allowed_to?(:log_time, @issue.project) ? 'show' : 'hide'
+          page << "if ($('log_time')) {Element.#{m}('log_time');}"
+        }
+      }
     end
   end
 
@@ -274,7 +284,7 @@ private
   end
 
   def find_project
-    project_id = (params[:issue] && params[:issue][:project_id]) || params[:project_id]
+    project_id = params[:project_id] || (params[:issue] && params[:issue][:project_id])
     @project = Project.find(project_id)
   rescue ActiveRecord::RecordNotFound
     render_404

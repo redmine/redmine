@@ -147,7 +147,9 @@ class Issue < ActiveRecord::Base
 
     issue.init_journal(User.current, options[:notes])
 
-    issue.project = new_project
+    # Preserve previous behaviour
+    # #move_to_project doesn't change tracker automatically
+    issue.send :project=, new_project, true
     if new_tracker
       issue.tracker = new_tracker
     end
@@ -169,6 +171,16 @@ class Issue < ActiveRecord::Base
     write_attribute(:priority_id, pid)
   end
 
+  def category_id=(cid)
+    self.category = nil
+    write_attribute(:category_id, cid)
+  end
+
+  def fixed_version_id=(vid)
+    self.fixed_version = nil
+    write_attribute(:fixed_version_id, vid)
+  end
+
   def tracker_id=(tid)
     self.tracker = nil
     result = write_attribute(:tracker_id, tid)
@@ -182,11 +194,14 @@ class Issue < ActiveRecord::Base
     end
   end
 
-  def project=(project)
+  def project=(project, keep_tracker=false)
     project_was = self.project
     write_attribute(:project_id, project ? project.id : nil)
     association_instance_set('project', project)
     if project_was && project && project_was != project
+      unless keep_tracker || project.trackers.include?(tracker)
+        self.tracker = project.trackers.first
+      end
       # Reassign to the category with same name if any
       if category
         self.category = project.issue_categories.find_by_name(category.name)
@@ -228,6 +243,12 @@ class Issue < ActiveRecord::Base
   def estimated_hours=(h)
     write_attribute :estimated_hours, (h.is_a?(String) ? h.to_hours : h)
   end
+
+  safe_attributes 'project_id',
+    :if => lambda {|issue, user|
+      projects = Issue.allowed_target_projects_on_move(user)
+      projects.include?(issue.project) && projects.size > 1
+    }
 
   safe_attributes 'tracker_id',
     'status_id',
@@ -278,7 +299,11 @@ class Issue < ActiveRecord::Base
     attrs = delete_unsafe_attributes(attrs, user)
     return if attrs.empty?
 
-    # Tracker must be set before since new_statuses_allowed_to depends on it.
+    # Project and Tracker must be set before since new_statuses_allowed_to depends on it.
+    if p = attrs.delete('project_id')
+      self.project_id = p
+    end
+    
     if t = attrs.delete('tracker_id')
       self.tracker_id = t
     end
@@ -725,16 +750,16 @@ class Issue < ActiveRecord::Base
   # End ReportsController extraction
 
   # Returns an array of projects that current user can move issues to
-  def self.allowed_target_projects_on_move
+  def self.allowed_target_projects_on_move(user=User.current)
     projects = []
-    if User.current.admin?
+    if user.admin?
       # admin is allowed to move issues to any active (visible) project
-      projects = Project.visible.all
-    elsif User.current.logged?
+      projects = Project.visible(user).all
+    elsif user.logged?
       if Role.non_member.allowed_to?(:move_issues)
-        projects = Project.visible.all
+        projects = Project.visible(user).all
       else
-        User.current.memberships.each {|m| projects << m.project if m.roles.detect {|r| r.allowed_to?(:move_issues)}}
+        user.memberships.each {|m| projects << m.project if m.roles.detect {|r| r.allowed_to?(:move_issues)}}
       end
     end
     projects
@@ -754,7 +779,8 @@ class Issue < ActiveRecord::Base
 
     # Move subtasks
     children.each do |child|
-      child.project = project
+      # Change project and keep project
+      child.send :project=, project, true
       unless child.save
         raise ActiveRecord::Rollback
       end

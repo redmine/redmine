@@ -455,6 +455,22 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
     end
   end
 
+  context "PUT /issues/3.xml with project change" do
+    setup do
+      @parameters = {:issue => {:project_id => 2, :subject => 'Project changed'}}
+    end
+
+    should "update project" do
+      assert_no_difference('Issue.count') do
+        put '/issues/3.xml', @parameters, credentials('jsmith')
+      end
+
+      issue = Issue.find(3)
+      assert_equal 2, issue.project_id
+      assert_equal 'Project changed', issue.subject
+    end
+  end
+
   context "PUT /issues/6.xml with failed update" do
     setup do
       @parameters = {:issue => {:subject => ''}}
