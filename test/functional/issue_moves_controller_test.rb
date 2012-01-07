@@ -34,64 +34,6 @@ class IssueMovesControllerTest < ActionController::TestCase
                            :parent => {:tag => 'select', :attributes => {:id => 'priority_id'} }
   end
 
-  def test_create_one_issue_to_another_project
-    @request.session[:user_id] = 2
-    post :create, :id => 1, :new_project_id => 2, :tracker_id => '', :assigned_to_id => '', :status_id => '', :start_date => '', :due_date => ''
-    assert_redirected_to :controller => 'issues', :action => 'index', :project_id => 'ecookbook'
-    assert_equal 2, Issue.find(1).project_id
-  end
-
-  def test_create_one_issue_to_another_project_should_follow_when_needed
-    @request.session[:user_id] = 2
-    post :create, :id => 1, :new_project_id => 2, :follow => '1'
-    assert_redirected_to '/issues/1'
-  end
-
-  def test_bulk_create_to_another_project
-    @request.session[:user_id] = 2
-    post :create, :ids => [1, 2], :new_project_id => 2
-    assert_redirected_to :controller => 'issues', :action => 'index', :project_id => 'ecookbook'
-    # Issues moved to project 2
-    assert_equal 2, Issue.find(1).project_id
-    assert_equal 2, Issue.find(2).project_id
-    # No tracker change
-    assert_equal 1, Issue.find(1).tracker_id
-    assert_equal 2, Issue.find(2).tracker_id
-  end
-
-  def test_bulk_create_to_another_tracker
-    @request.session[:user_id] = 2
-    post :create, :ids => [1, 2], :new_tracker_id => 2
-    assert_redirected_to :controller => 'issues', :action => 'index', :project_id => 'ecookbook'
-    assert_equal 2, Issue.find(1).tracker_id
-    assert_equal 2, Issue.find(2).tracker_id
-  end
-
-  context "#create via bulk move" do
-    setup do
-      @request.session[:user_id] = 2
-    end
-
-    should "allow changing the issue priority" do
-      post :create, :ids => [1, 2], :priority_id => 6
-
-      assert_redirected_to :controller => 'issues', :action => 'index', :project_id => 'ecookbook'
-      assert_equal 6, Issue.find(1).priority_id
-      assert_equal 6, Issue.find(2).priority_id
-
-    end
-
-    should "allow adding a note when moving" do
-      post :create, :ids => [1, 2], :notes => 'Moving two issues'
-
-      assert_redirected_to :controller => 'issues', :action => 'index', :project_id => 'ecookbook'
-      assert_equal 'Moving two issues', Issue.find(1).journals.sort_by(&:id).last.notes
-      assert_equal 'Moving two issues', Issue.find(2).journals.sort_by(&:id).last.notes
-
-    end
-
-  end
-
   def test_bulk_copy_to_another_project
     @request.session[:user_id] = 2
     assert_difference 'Issue.count', 2 do
