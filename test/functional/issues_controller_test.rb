@@ -2329,7 +2329,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_redirected_to '/projects/ecookbook/issues'
   end
 
-  def test_bulk_copy_should_allow_not_changing_the issue_attributes
+  def test_bulk_copy_should_allow_not_changing_the_issue_attributes
     @request.session[:user_id] = 2
     issue_before_move = Issue.find(1)
     assert_difference 'Issue.count', 1 do
