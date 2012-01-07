@@ -522,7 +522,8 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_move_to_another_project_with_same_category
     issue = Issue.find(1)
-    assert issue.move_to_project(Project.find(2))
+    issue.project = Project.find(2)
+    assert issue.save
     issue.reload
     assert_equal 2, issue.project_id
     # Category changes
@@ -533,7 +534,8 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_move_to_another_project_without_same_category
     issue = Issue.find(2)
-    assert issue.move_to_project(Project.find(2))
+    issue.project = Project.find(2)
+    assert issue.save
     issue.reload
     assert_equal 2, issue.project_id
     # Category cleared
@@ -543,7 +545,8 @@ class IssueTest < ActiveSupport::TestCase
   def test_move_to_another_project_should_clear_fixed_version_when_not_shared
     issue = Issue.find(1)
     issue.update_attribute(:fixed_version_id, 1)
-    assert issue.move_to_project(Project.find(2))
+    issue.project = Project.find(2)
+    assert issue.save
     issue.reload
     assert_equal 2, issue.project_id
     # Cleared fixed_version
@@ -553,7 +556,8 @@ class IssueTest < ActiveSupport::TestCase
   def test_move_to_another_project_should_keep_fixed_version_when_shared_with_the_target_project
     issue = Issue.find(1)
     issue.update_attribute(:fixed_version_id, 4)
-    assert issue.move_to_project(Project.find(5))
+    issue.project = Project.find(5)
+    assert issue.save
     issue.reload
     assert_equal 5, issue.project_id
     # Keep fixed_version
@@ -563,7 +567,8 @@ class IssueTest < ActiveSupport::TestCase
   def test_move_to_another_project_should_clear_fixed_version_when_not_shared_with_the_target_project
     issue = Issue.find(1)
     issue.update_attribute(:fixed_version_id, 1)
-    assert issue.move_to_project(Project.find(5))
+    issue.project = Project.find(5)
+    assert issue.save
     issue.reload
     assert_equal 5, issue.project_id
     # Cleared fixed_version
@@ -573,7 +578,8 @@ class IssueTest < ActiveSupport::TestCase
   def test_move_to_another_project_should_keep_fixed_version_when_shared_systemwide
     issue = Issue.find(1)
     issue.update_attribute(:fixed_version_id, 7)
-    assert issue.move_to_project(Project.find(2))
+    issue.project = Project.find(2)
+    assert issue.save
     issue.reload
     assert_equal 2, issue.project_id
     # Keep fixed_version
@@ -585,16 +591,18 @@ class IssueTest < ActiveSupport::TestCase
     target = Project.find(2)
     target.tracker_ids = [3]
     target.save
-    assert_equal false, issue.move_to_project(target)
+    issue.project = target
+    assert issue.save
     issue.reload
-    assert_equal 1, issue.project_id
+    assert_equal 2, issue.project_id
+    assert_equal 3, issue.tracker_id
   end
 
   def test_copy_to_the_same_project
     issue = Issue.find(1)
-    copy = nil
+    copy = issue.copy
     assert_difference 'Issue.count' do
-      copy = issue.move_to_project(issue.project, nil, :copy => true)
+      copy.save!
     end
     assert_kind_of Issue, copy
     assert_equal issue.project, copy.project
@@ -603,9 +611,9 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_copy_to_another_project_and_tracker
     issue = Issue.find(1)
-    copy = nil
+    copy = issue.copy(:project_id => 3, :tracker_id => 2)
     assert_difference 'Issue.count' do
-      copy = issue.move_to_project(Project.find(3), Tracker.find(2), :copy => true)
+      copy.save!
     end
     copy.reload
     assert_kind_of Issue, copy
@@ -615,66 +623,64 @@ class IssueTest < ActiveSupport::TestCase
     assert_nil copy.custom_value_for(2)
   end
 
-  context "#move_to_project" do
-    context "as a copy" do
-      setup do
-        @issue = Issue.find(1)
-        @copy = nil
-      end
+  context "#copy" do
+    setup do
+      @issue = Issue.find(1)
+    end
 
-      should "not create a journal" do
-        @copy = @issue.move_to_project(Project.find(3), Tracker.find(2), {:copy => true, :attributes => {:assigned_to_id => 3}})
-        assert_equal 0, @copy.reload.journals.size
-      end
+    should "not create a journal" do
+      copy = @issue.copy(:project_id => 3, :tracker_id => 2, :assigned_to_id => 3)
+      copy.save!
+      assert_equal 0, copy.reload.journals.size
+    end
 
-      should "allow assigned_to changes" do
-        @copy = @issue.move_to_project(Project.find(3), Tracker.find(2), {:copy => true, :attributes => {:assigned_to_id => 3}})
-        assert_equal 3, @copy.assigned_to_id
-      end
+    should "allow assigned_to changes" do
+      copy = @issue.copy(:project_id => 3, :tracker_id => 2, :assigned_to_id => 3)
+      assert_equal 3, copy.assigned_to_id
+    end
 
-      should "allow status changes" do
-        @copy = @issue.move_to_project(Project.find(3), Tracker.find(2), {:copy => true, :attributes => {:status_id => 2}})
-        assert_equal 2, @copy.status_id
-      end
+    should "allow status changes" do
+      copy = @issue.copy(:project_id => 3, :tracker_id => 2, :status_id => 2)
+      assert_equal 2, copy.status_id
+    end
 
-      should "allow start date changes" do
-        date = Date.today
-        @copy = @issue.move_to_project(Project.find(3), Tracker.find(2), {:copy => true, :attributes => {:start_date => date}})
-        assert_equal date, @copy.start_date
-      end
+    should "allow start date changes" do
+      date = Date.today
+      copy = @issue.copy(:project_id => 3, :tracker_id => 2, :start_date => date)
+      assert_equal date, copy.start_date
+    end
 
-      should "allow due date changes" do
-        date = Date.today
-        @copy = @issue.move_to_project(Project.find(3), Tracker.find(2), {:copy => true, :attributes => {:due_date => date}})
+    should "allow due date changes" do
+      date = Date.today
+      copy = @issue.copy(:project_id => 3, :tracker_id => 2, :due_date => date)
+      assert_equal date, copy.due_date
+    end
 
-        assert_equal date, @copy.due_date
-      end
+    should "set current user as author" do
+      User.current = User.find(9)
+      copy = @issue.copy(:project_id => 3, :tracker_id => 2)
+      assert_equal User.current, copy.author
+    end
 
-      should "set current user as author" do
-        User.current = User.find(9)
-        @copy = @issue.move_to_project(Project.find(3), Tracker.find(2), {:copy => true, :attributes => {}})
+    should "create a journal with notes" do
+      date = Date.today
+      notes = "Notes added when copying"
+      copy = @issue.copy(:project_id => 3, :tracker_id => 2, :start_date => date)
+      copy.init_journal(User.current, notes)
+      copy.save!
 
-        assert_equal User.current, @copy.author
-      end
-
-      should "create a journal with notes" do
-        date = Date.today
-        notes = "Notes added when copying"
-        @copy = @issue.move_to_project(Project.find(3), Tracker.find(2), {:copy => true, :notes => notes, :attributes => {:start_date => date}})
-
-        assert_equal 1, @copy.journals.size
-        journal = @copy.journals.first
-        assert_equal 0, journal.details.size
-        assert_equal notes, journal.notes
-      end
+      assert_equal 1, copy.journals.size
+      journal = copy.journals.first
+      assert_equal 0, journal.details.size
+      assert_equal notes, journal.notes
     end
   end
 
   def test_recipients_should_not_include_users_that_cannot_view_the_issue
     issue = Issue.find(12)
     assert issue.recipients.include?(issue.author.mail)
-    # move the issue to a private project
-    copy  = issue.move_to_project(Project.find(5), Tracker.find(2), :copy => true)
+    # copy the issue to a private project
+    copy  = issue.copy(:project_id => 5, :tracker_id => 2)
     # author is not a member of project anymore
     assert !copy.recipients.include?(copy.author.mail)
   end

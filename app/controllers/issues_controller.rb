@@ -241,7 +241,7 @@ class IssuesController < ApplicationController
     @issues.each do |issue|
       issue.reload
       if @copy
-        issue = Issue.new.copy_from(issue)
+        issue = issue.copy
       end
       journal = issue.init_journal(User.current, params[:notes])
       issue.safe_attributes = attributes

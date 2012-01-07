@@ -136,11 +136,20 @@ class Issue < ActiveRecord::Base
     self
   end
 
+  # Returns an unsaved copy of the issue
+  def copy(attributes=nil)
+    copy = self.class.new.copy_from(self)
+    copy.attributes = attributes if attributes
+    copy
+  end
+
   # Moves/copies an issue to a new project and tracker
   # Returns the moved/copied issue on success, false on failure
   def move_to_project(new_project, new_tracker=nil, options={})
+    ActiveSupport::Deprecation.warn "Issue#move_to_project is deprecated, use #project= instead."
+
     if options[:copy]
-      issue = self.class.new.copy_from(self)
+      issue = self.copy
     else
       issue = self
     end

@@ -139,7 +139,9 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     child =   create_issue!(:parent_issue_id => parent1.id)
     grandchild = create_issue!(:parent_issue_id => child.id)
 
-    assert child.reload.move_to_project(Project.find(2))
+    child.reload
+    child.project = Project.find(2)
+    assert child.save
     child.reload
     grandchild.reload
     parent1.reload
@@ -159,7 +161,9 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     assert_equal [1, parent1.id, 1, 6], [parent1.project_id, parent1.root_id, parent1.lft, parent1.rgt]
 
     # child can not be moved to Project 2 because its child is on a disabled tracker
-    assert_equal false, Issue.find(child.id).move_to_project(Project.find(2))
+    child = Issue.find(child.id)
+    child.project = Project.find(2)
+    assert !child.save
     child.reload
     grandchild.reload
     parent1.reload
