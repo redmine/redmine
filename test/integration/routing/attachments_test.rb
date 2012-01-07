@@ -45,5 +45,9 @@ class RoutingAttachmentsTest < ActionController::IntegrationTest
            { :controller => 'attachments', :action => 'download', :id => '1',
              :filename => 'filename.ext' }
          )
+    assert_routing(
+           { :method => 'delete', :path => "/attachments/1" },
+           { :controller => 'attachments', :action => 'destroy', :id => '1' }
+         )
   end
 end
