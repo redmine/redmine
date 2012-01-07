@@ -198,7 +198,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :queries, :except => [:show]
   map.resources :issues,
-                :collection => {:bulk_edit => :get, :bulk_update => :post} do |issues|
+                :collection => {:bulk_edit => [:get, :post], :bulk_update => :post} do |issues|
     issues.resources :time_entries, :controller => 'timelog',
                      :collection => {:report => :get}
     issues.resources :relations, :shallow => true,

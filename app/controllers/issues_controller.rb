@@ -209,10 +209,25 @@ class IssuesController < ApplicationController
   # Bulk edit a set of issues
   def bulk_edit
     @issues.sort!
-    @available_statuses = @projects.map{|p|Workflow.available_statuses(p)}.inject{|memo,w|memo & w}
-    @custom_fields = @projects.map{|p|p.all_issue_custom_fields}.inject{|memo,c|memo & c}
-    @assignables = @projects.map(&:assignable_users).inject{|memo,a| memo & a}
-    @trackers = @projects.map(&:trackers).inject{|memo,t| memo & t}
+
+    if User.current.allowed_to?(:move_issues, @projects)
+      @allowed_projects = Issue.allowed_target_projects_on_move
+      if params[:issue]
+        @target_project = @allowed_projects.detect {|p| p.id.to_s == params[:issue][:project_id]}
+        if @target_project
+          target_projects = [@target_project]
+        end
+      end
+    end
+    target_projects ||= @projects
+
+    @available_statuses = target_projects.map{|p|Workflow.available_statuses(p)}.inject{|memo,w|memo & w}
+    @custom_fields = target_projects.map{|p|p.all_issue_custom_fields}.inject{|memo,c|memo & c}
+    @assignables = target_projects.map(&:assignable_users).inject{|memo,a| memo & a}
+    @trackers = target_projects.map(&:trackers).inject{|memo,t| memo & t}
+
+    @notes = params[:notes]
+    render :layout => false if request.xhr?
   end
 
   def bulk_update
@@ -220,18 +235,30 @@ class IssuesController < ApplicationController
     attributes = parse_params_for_bulk_issue_attributes(params)
 
     unsaved_issue_ids = []
+    moved_issues = []
     @issues.each do |issue|
       issue.reload
       journal = issue.init_journal(User.current, params[:notes])
       issue.safe_attributes = attributes
       call_hook(:controller_issues_bulk_edit_before_save, { :params => params, :issue => issue })
-      unless issue.save
+      if issue.save
+        moved_issues << issue
+      else
         # Keep unsaved issue ids to display them in flash error
         unsaved_issue_ids << issue.id
       end
     end
     set_flash_from_bulk_issue_save(@issues, unsaved_issue_ids)
-    redirect_back_or_default({:controller => 'issues', :action => 'index', :project_id => @project})
+
+    if params[:follow]
+      if @issues.size == 1 && moved_issues.size == 1
+        redirect_to :controller => 'issues', :action => 'show', :id => moved_issues.first
+      elsif moved_issues.map(&:project).uniq.size == 1
+        redirect_to :controller => 'issues', :action => 'index', :project_id => moved_issues.map(&:project).first
+      end
+    else
+      redirect_back_or_default({:controller => 'issues', :action => 'index', :project_id => @project})
+    end
   end
 
   verify :method => :delete, :only => :destroy, :render => { :nothing => true, :status => :method_not_allowed }

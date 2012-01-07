@@ -2033,6 +2033,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'bulk_edit'
 
+    assert_tag :select, :attributes => {:name => 'issue[project_id]'}
     assert_tag :input, :attributes => {:name => 'issue[parent_issue_id]'}
 
     # Project specific custom field, date type
@@ -2185,6 +2186,38 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 2, ActionMailer::Base.deliveries.size
   end
 
+  def test_bulk_update_project
+    @request.session[:user_id] = 2
+    post :bulk_update, :ids => [1, 2], :issue => {:project_id => '2'}
+    assert_redirected_to :controller => 'issues', :action => 'index', :project_id => 'ecookbook'
+    # Issues moved to project 2
+    assert_equal 2, Issue.find(1).project_id
+    assert_equal 2, Issue.find(2).project_id
+    # No tracker change
+    assert_equal 1, Issue.find(1).tracker_id
+    assert_equal 2, Issue.find(2).tracker_id
+  end
+
+  def test_bulk_update_project_on_single_issue_should_follow_when_needed
+    @request.session[:user_id] = 2
+    post :bulk_update, :id => 1, :issue => {:project_id => '2'}, :follow => '1'
+    assert_redirected_to '/issues/1'
+  end
+
+  def test_bulk_update_project_on_multiple_issues_should_follow_when_needed
+    @request.session[:user_id] = 2
+    post :bulk_update, :id => [1, 2], :issue => {:project_id => '2'}, :follow => '1'
+    assert_redirected_to '/projects/onlinestore/issues'
+  end
+
+  def test_bulk_update_tracker
+    @request.session[:user_id] = 2
+    post :bulk_update, :ids => [1, 2], :issue => {:tracker_id => '2'}
+    assert_redirected_to :controller => 'issues', :action => 'index', :project_id => 'ecookbook'
+    assert_equal 2, Issue.find(1).tracker_id
+    assert_equal 2, Issue.find(2).tracker_id
+  end
+
   def test_bulk_update_status
     @request.session[:user_id] = 2
     # update issues priority
@@ -2196,6 +2229,24 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response 302
     issue = Issue.find(1)
     assert issue.closed?
+  end
+
+  def test_bulk_update_priority
+    @request.session[:user_id] = 2
+    post :bulk_update, :ids => [1, 2], :issue => {:priority_id => 6}
+
+    assert_redirected_to :controller => 'issues', :action => 'index', :project_id => 'ecookbook'
+    assert_equal 6, Issue.find(1).priority_id
+    assert_equal 6, Issue.find(2).priority_id
+  end
+
+  def test_bulk_update_with_notes
+    @request.session[:user_id] = 2
+    post :bulk_update, :ids => [1, 2], :notes => 'Moving two issues'
+
+    assert_redirected_to :controller => 'issues', :action => 'index', :project_id => 'ecookbook'
+    assert_equal 'Moving two issues', Issue.find(1).journals.sort_by(&:id).last.notes
+    assert_equal 'Moving two issues', Issue.find(2).journals.sort_by(&:id).last.notes
   end
 
   def test_bulk_update_parent_id

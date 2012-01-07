@@ -123,6 +123,11 @@ class RoutingIssuesTest < ActionController::IntegrationTest
         { :method => 'get', :path => "/issues/bulk_edit" },
         { :controller => 'issues', :action => 'bulk_edit' }
       )
+    # For updating the bulk edit form
+    assert_routing(
+        { :method => 'post', :path => "/issues/bulk_edit" },
+        { :controller => 'issues', :action => 'bulk_edit' }
+      )
     assert_routing(
         { :method => 'post', :path => "/issues/bulk_update" },
         { :controller => 'issues', :action => 'bulk_update' }

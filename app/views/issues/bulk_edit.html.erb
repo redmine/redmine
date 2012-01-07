@@ -7,13 +7,22 @@
                             ) + h(": #{i.subject}"))
          }.join("\n").html_safe %></ul>
 
-<% form_tag(:action => 'bulk_update') do %>
+<% form_tag({:action => 'bulk_update'}, :id => 'bulk_edit_form') do %>
 <%= @issues.collect {|i| hidden_field_tag('ids[]', i.id)}.join("\n").html_safe %>
 <div class="box tabular">
 <fieldset class="attributes">
 <legend><%= l(:label_change_properties) %></legend>
 
 <div class="splitcontentleft">
+<% if @allowed_projects.present? %>
+<p>
+  <label for="issue_project_id"><%= l(:field_project) %></label>
+  <%= select_tag('issue[project_id]', "<option value=\"\">#{l(:label_no_change_option)}</option>" + project_tree_options_for_select(@allowed_projects, :selected => @target_project)) %>
+</p>
+<%= observe_field :issue_project_id, :url => {:action => 'bulk_edit'},
+                                     :update => 'content',
+                                     :with => "Form.serialize('bulk_edit_form')" %>
+<% end %>
 <p>
   <label for="issue_tracker_id"><%= l(:field_tracker) %></label>
   <%= select_tag('issue[tracker_id]', "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(@trackers, :id, :name)) %>
@@ -92,5 +101,13 @@
 </fieldset>
 </div>
 
-<p><%= submit_tag l(:button_submit) %></p>
+<p>
+	<% if @target_project %>
+	  <%= submit_tag l(:button_move) %>
+	  <%= submit_tag l(:button_move_and_follow), :name => 'follow' %>
+	<% else %>
+	  <%= submit_tag l(:button_submit) %>
+	<% end %>
+</p>
+
 <% end %>
