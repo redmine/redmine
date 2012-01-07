@@ -44,6 +44,11 @@ table.filecontent th.line-num {
     width: 2%;
     padding-right: 3px;
     color: #999;
+	user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	-ms-user-select: none;
+	-webkit-user-select: none;
 }
 table.filecontent th.line-num a {
     text-decoration: none;
@@ -94,7 +99,14 @@ div.action_A { background: #bfb }
 
 /************* CodeRay styles *************/
 .syntaxhl div {display: inline;}
-.syntaxhl .line-numbers { padding: 2px 4px 2px 4px; background-color: #eee; margin:0px 5px 0px 0px; }
+.syntaxhl .line-numbers {
+	padding: 2px 4px 2px 4px; background-color: #eee; margin:0px 5px 0px 0px;
+	user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	-ms-user-select: none;
+	-webkit-user-select: none;
+}
 .syntaxhl .code pre { overflow: auto }
 .syntaxhl .debug { color:white ! important; background:blue ! important; }
 
