@@ -246,8 +246,10 @@ class Issue < ActiveRecord::Base
 
   safe_attributes 'project_id',
     :if => lambda {|issue, user|
-      projects = Issue.allowed_target_projects_on_move(user)
-      projects.include?(issue.project) && projects.size > 1
+      if user.allowed_to?(:move_issues, issue.project)
+        projects = Issue.allowed_target_projects_on_move(user)
+        projects.include?(issue.project) && projects.size > 1
+      end
     }
 
   safe_attributes 'tracker_id',
