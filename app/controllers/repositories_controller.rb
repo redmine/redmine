@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2011  Jean-Philippe Lang
+# Copyright (C) 2006-2012  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -366,12 +366,3 @@ class RepositoriesController < ApplicationController
   end
 end
 
-class Date
-  def months_ago(date = Date.today)
-    (date.year - self.year)*12 + (date.month - self.month)
-  end
-
-  def weeks_ago(date = Date.today)
-    (date.year - self.year)*52 + (date.cweek - self.cweek)
-  end
-end
