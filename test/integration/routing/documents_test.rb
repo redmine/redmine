@@ -18,7 +18,7 @@
 require File.expand_path('../../../test_helper', __FILE__)
 
 class RoutingDocumentsTest < ActionController::IntegrationTest
-  def test_documents
+  def test_documents_scoped_under_project
     assert_routing(
         { :method => 'get', :path => "/projects/567/documents" },
         { :controller => 'documents', :action => 'index', :project_id => '567' }
@@ -28,16 +28,19 @@ class RoutingDocumentsTest < ActionController::IntegrationTest
         { :controller => 'documents', :action => 'new', :project_id => '567' }
       )
     assert_routing(
+        { :method => 'post', :path => "/projects/567/documents" },
+        { :controller => 'documents', :action => 'create', :project_id => '567' }
+      )
+  end
+
+  def test_documents
+    assert_routing(
         { :method => 'get', :path => "/documents/22" },
         { :controller => 'documents', :action => 'show', :id => '22' }
       )
     assert_routing(
         { :method => 'get', :path => "/documents/22/edit" },
         { :controller => 'documents', :action => 'edit', :id => '22' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/projects/567/documents" },
-        { :controller => 'documents', :action => 'create', :project_id => '567' }
       )
     assert_routing(
         { :method => 'put', :path => "/documents/22" },
