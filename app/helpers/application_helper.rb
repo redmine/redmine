@@ -328,6 +328,10 @@ module ApplicationHelper
     end
   end
 
+  def anchor(text)
+    text.to_s.gsub(' ', '_')
+  end
+
   def html_hours(text)
     text.gsub(%r{(\d+)\.(\d+)}, '<span class="hours hours-int">\1</span><span class="hours hours-dec">.\2</span>').html_safe
   end
