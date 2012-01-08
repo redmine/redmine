@@ -1630,6 +1630,18 @@ class IssuesControllerTest < ActionController::TestCase
     assert_tag 'input', :attributes => {:name => 'copy_from', :value => '1'}
   end
 
+  def test_create_as_copy_on_project_without_permission_should_ignore_target_project
+    @request.session[:user_id] = 2
+    assert !User.find(2).member_of?(Project.find(4))
+
+    assert_difference 'Issue.count' do
+      post :create, :project_id => 1, :copy_from => 1,
+        :issue => {:project_id => '4', :tracker_id => '3', :status_id => '1', :subject => 'Copy'}
+    end
+    issue = Issue.first(:order => 'id DESC')
+    assert_equal 1, issue.project_id
+  end
+
   def test_get_edit
     @request.session[:user_id] = 2
     get :edit, :id => 1

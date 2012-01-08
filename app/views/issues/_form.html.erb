@@ -8,7 +8,7 @@
 <% end %>
 
 <% if @issue.safe_attribute? 'project_id' %>
-<p><%= f.select :project_id, project_tree_options_for_select(Issue.allowed_target_projects_on_move, :selected => @issue.project), :required => true %></p>
+<p><%= f.select :project_id, project_tree_options_for_select(@issue.allowed_target_projects, :selected => @issue.project), :required => true %></p>
 <%= observe_field :issue_project_id, :url => project_issue_form_path(@project, :id => @issue, :project_change => '1'),
                                      :with => "Form.serialize('issue-form')" %>
 <% end %>

@@ -311,7 +311,6 @@ class Issue < ActiveRecord::Base
   # Should be called from controllers instead of #attributes=
   # attr_accessible is too rough because we still want things like
   # Issue.new(:project => foo) to work
-  # TODO: move workflow/permission checks from controllers to here
   def safe_attributes=(attrs, user=User.current)
     return unless attrs.is_a?(Hash)
 
@@ -321,9 +320,11 @@ class Issue < ActiveRecord::Base
 
     # Project and Tracker must be set before since new_statuses_allowed_to depends on it.
     if p = attrs.delete('project_id')
-      self.project_id = p
+      if allowed_target_projects(user).collect(&:id).include?(p.to_i)
+        self.project_id = p
+      end
     end
-    
+
     if t = attrs.delete('tracker_id')
       self.tracker_id = t
     end
@@ -769,7 +770,16 @@ class Issue < ActiveRecord::Base
   end
   # End ReportsController extraction
 
-  # Returns an array of projects that current user can move issues to
+  # Returns an array of projects that user can assign the issue to
+  def allowed_target_projects(user=User.current)
+    if new_record?
+      Project.all(:conditions => Project.allowed_to_condition(user, :add_issues))
+    else
+      self.class.allowed_target_projects_on_move(user)
+    end
+  end
+
+  # Returns an array of projects that user can move issues to
   def self.allowed_target_projects_on_move(user=User.current)
     projects = []
     if user.admin?
