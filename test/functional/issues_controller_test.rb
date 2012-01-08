@@ -947,6 +947,20 @@ class IssuesControllerTest < ActionController::TestCase
     assert_tag 'a', :attributes => {:href => '/issues/5'}, :content => /Next/
   end
 
+  def test_show_should_display_prev_next_links_with_query_and_sort_on_association
+    @request.session[:query] = {:filters => {'status_id' => {:values => [''], :operator => 'o'}}, :project_id => nil}
+    
+    %w(project tracker status priority author assigned_to category fixed_version).each do |assoc_sort|
+      @request.session['issues_index_sort'] = assoc_sort
+
+      get :show, :id => 3
+      assert_response :success, "Wrong response status for #{assoc_sort} sort"
+
+      assert_tag 'a', :content => /Previous/
+      assert_tag 'a', :content => /Next/
+    end
+  end
+
   def test_show_should_display_prev_next_links_with_project_query_in_session
     @request.session[:query] = {:filters => {'status_id' => {:values => [''], :operator => 'o'}}, :project_id => 1}
     @request.session['issues_index_sort'] = 'id'

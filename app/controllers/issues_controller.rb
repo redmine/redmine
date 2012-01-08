@@ -328,7 +328,7 @@ private
       sort_init(@query.sort_criteria.empty? ? [['id', 'desc']] : @query.sort_criteria)
       sort_update(@query.sortable_columns, 'issues_index_sort')
       limit = 500
-      issue_ids = @query.issue_ids(:order => sort_clause, :limit => (limit + 1))
+      issue_ids = @query.issue_ids(:order => sort_clause, :limit => (limit + 1), :include => [:assigned_to, :tracker, :priority, :category, :fixed_version])
       if (idx = issue_ids.index(@issue.id)) && idx < limit
         @prev_issue_id = issue_ids[idx - 1] if idx > 0
         @next_issue_id = issue_ids[idx + 1] if idx < (issue_ids.size - 1)
