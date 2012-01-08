@@ -18,7 +18,7 @@
 require File.expand_path('../../../test_helper', __FILE__)
 
 class RoutingNewsTest < ActionController::IntegrationTest
-  def test_news
+  def test_news_index
     assert_routing(
         { :method => 'get', :path => "/news" },
         { :controller => 'news', :action => 'index' }
@@ -35,6 +35,9 @@ class RoutingNewsTest < ActionController::IntegrationTest
         { :method => 'get', :path => "/news.json" },
         { :controller => 'news', :action => 'index', :format => 'json' }
       )
+  end
+
+  def test_news
     assert_routing(
         { :method => 'get', :path => "/news/2" },
         { :controller => 'news', :action => 'show', :id => '2' }
