@@ -158,7 +158,7 @@ class IssuesController < ApplicationController
         format.html {
           render_attachment_warning_if_needed(@issue)
           flash[:notice] = l(:notice_issue_successful_create, :id => "<a href='#{issue_path(@issue)}'>##{@issue.id}</a>")
-          redirect_to(params[:continue] ?  { :action => 'new', :project_id => @project, :issue => {:tracker_id => @issue.tracker, :parent_issue_id => @issue.parent_issue_id}.reject {|k,v| v.nil?} } :
+          redirect_to(params[:continue] ?  { :action => 'new', :project_id => @issue.project, :issue => {:tracker_id => @issue.tracker, :parent_issue_id => @issue.parent_issue_id}.reject {|k,v| v.nil?} } :
                       { :action => 'show', :id => @issue })
         }
         format.api  { render :action => 'show', :status => :created, :location => issue_url(@issue) }

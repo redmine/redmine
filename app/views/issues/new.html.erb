@@ -5,8 +5,11 @@
 <% labelled_form_for @issue, :url => project_issues_path(@project),
                              :html => {:id => 'issue-form', :multipart => true} do |f| %>
   <%= error_messages_for 'issue' %>
+	<%= hidden_field_tag 'copy_from', params[:copy_from] if params[:copy_from] %>
   <div class="box tabular">
+  	<div id="all_attributes">
     <%= render :partial => 'issues/form', :locals => {:f => f} %>
+    </div>
 
     <p id="attachments_form"><%= label_tag('attachments[1][file]', l(:label_attachment_plural))%><%= render :partial => 'attachments/form' %></p>
 

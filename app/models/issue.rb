@@ -127,12 +127,14 @@ class Issue < ActiveRecord::Base
     (project && tracker) ? (project.all_issue_custom_fields & tracker.custom_fields.all) : []
   end
 
+  # Copies attributes from another issue, arg can be an id or an Issue
   def copy_from(arg)
     issue = arg.is_a?(Issue) ? arg : Issue.visible.find(arg)
     self.attributes = issue.attributes.dup.except("id", "root_id", "parent_id", "lft", "rgt", "created_on", "updated_on")
     self.custom_field_values = issue.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
     self.status = issue.status
     self.author = User.current
+    @copied_from = issue
     self
   end
 
@@ -141,6 +143,11 @@ class Issue < ActiveRecord::Base
     copy = self.class.new.copy_from(self)
     copy.attributes = attributes if attributes
     copy
+  end
+
+  # Returns true if the issue is a copy
+  def copy?
+    @copied_from.present?
   end
 
   # Moves/copies an issue to a new project and tracker
@@ -255,7 +262,9 @@ class Issue < ActiveRecord::Base
 
   safe_attributes 'project_id',
     :if => lambda {|issue, user|
-      if user.allowed_to?(:move_issues, issue.project)
+      if issue.new_record?
+        issue.copy?
+      elsif user.allowed_to?(:move_issues, issue.project)
         projects = Issue.allowed_target_projects_on_move(user)
         projects.include?(issue.project) && projects.size > 1
       end

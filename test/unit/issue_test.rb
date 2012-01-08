@@ -388,6 +388,7 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_copy
     issue = Issue.new.copy_from(1)
+    assert issue.copy?
     assert issue.save
     issue.reload
     orig = Issue.find(1)

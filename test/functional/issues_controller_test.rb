@@ -1571,13 +1571,63 @@ class IssuesControllerTest < ActionController::TestCase
     end
   end
 
-  def test_copy_issue
+  def test_new_as_copy
     @request.session[:user_id] = 2
     get :new, :project_id => 1, :copy_from => 1
+
+    assert_response :success
     assert_template 'new'
+
     assert_not_nil assigns(:issue)
     orig = Issue.find(1)
+    assert_equal 1, assigns(:issue).project_id
     assert_equal orig.subject, assigns(:issue).subject
+    assert assigns(:issue).copy?
+
+    assert_tag 'form', :attributes => {:id => 'issue-form', :action => '/projects/ecookbook/issues'}
+    assert_tag 'select', :attributes => {:name => 'issue[project_id]'}
+    assert_tag 'select', :attributes => {:name => 'issue[project_id]'},
+      :child => {:tag => 'option', :attributes => {:value => '1', :selected => 'selected'}, :content => 'eCookbook'}
+    assert_tag 'select', :attributes => {:name => 'issue[project_id]'},
+      :child => {:tag => 'option', :attributes => {:value => '2', :selected => nil}, :content => 'OnlineStore'}
+    assert_tag 'input', :attributes => {:name => 'copy_from', :value => '1'}
+  end
+
+  def test_create_as_copy_on_different_project
+    @request.session[:user_id] = 2
+    assert_difference 'Issue.count' do
+      post :create, :project_id => 1, :copy_from => 1,
+        :issue => {:project_id => '2', :tracker_id => '3', :status_id => '1', :subject => 'Copy'}
+
+      assert_not_nil assigns(:issue)
+      assert assigns(:issue).copy?
+    end
+    issue = Issue.first(:order => 'id DESC')
+    assert_redirected_to "/issues/#{issue.id}"
+
+    assert_equal 2, issue.project_id
+    assert_equal 3, issue.tracker_id
+    assert_equal 'Copy', issue.subject
+  end
+
+  def test_create_as_copy_with_failure
+    @request.session[:user_id] = 2
+    post :create, :project_id => 1, :copy_from => 1,
+      :issue => {:project_id => '2', :tracker_id => '3', :status_id => '1', :subject => ''}
+
+    assert_response :success
+    assert_template 'new'
+
+    assert_not_nil assigns(:issue)
+    assert assigns(:issue).copy?
+
+    assert_tag 'form', :attributes => {:id => 'issue-form', :action => '/projects/ecookbook/issues'}
+    assert_tag 'select', :attributes => {:name => 'issue[project_id]'}
+    assert_tag 'select', :attributes => {:name => 'issue[project_id]'},
+      :child => {:tag => 'option', :attributes => {:value => '1', :selected => nil}, :content => 'eCookbook'}
+    assert_tag 'select', :attributes => {:name => 'issue[project_id]'},
+      :child => {:tag => 'option', :attributes => {:value => '2', :selected => 'selected'}, :content => 'OnlineStore'}
+    assert_tag 'input', :attributes => {:name => 'copy_from', :value => '1'}
   end
 
   def test_get_edit
