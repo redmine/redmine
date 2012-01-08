@@ -119,6 +119,7 @@ class Issue < ActiveRecord::Base
       # set default values for new records only
       self.status ||= IssueStatus.default
       self.priority ||= IssuePriority.default
+      self.watcher_user_ids = []
     end
   end
 
