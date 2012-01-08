@@ -20,6 +20,10 @@ require File.expand_path('../../../test_helper', __FILE__)
 class RoutingWelcomeTest < ActionController::IntegrationTest
   def test_welcome
     assert_routing(
+        { :method => 'get', :path => "/" },
+        { :controller => 'welcome', :action => 'index' }
+      )
+    assert_routing(
         { :method => 'get', :path => "/robots.txt" },
         { :controller => 'welcome', :action => 'robots' }
       )
