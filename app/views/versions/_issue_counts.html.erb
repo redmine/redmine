@@ -1,4 +1,4 @@
-<form id="status_by_form">
+<% form_tag({}, :id => "status_by_form") do -%>
 <fieldset>
 <legend>
 <%= l(:label_issues_by,
@@ -32,4 +32,4 @@
     </table>
 <% end %>
 </fieldset>
-</form>
+<% end %>
