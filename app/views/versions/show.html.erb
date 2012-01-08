@@ -18,7 +18,7 @@
 <table>
 <tr>
     <td width="130px" align="right"><%= l(:field_estimated_hours) %></td>
-    <td width="240px" class="total-hours"width="130px" align="right"><%= html_hours(l_hours(@version.estimated_hours)) %></td>
+    <td width="240px" class="total-hours" align="right"><%= html_hours(l_hours(@version.estimated_hours)) %></td>
 </tr>
 <% if User.current.allowed_to?(:view_time_entries, @project) %>
 <tr>
@@ -41,7 +41,7 @@
   <caption><%= l(:label_related_issues) %></caption>
   <%- @issues.each do |issue| -%>
     <tr class="hascontextmenu">
-      <td class="checkbox"><%= check_box_tag 'ids[]', issue.id %></td>
+      <td class="checkbox"><%= check_box_tag 'ids[]', issue.id, false, :id => nil %></td>
       <td><%= link_to_issue(issue, :project => (@project != issue.project)) %></td>
     </tr>
   <% end %>
