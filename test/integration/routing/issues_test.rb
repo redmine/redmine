@@ -119,15 +119,13 @@ class RoutingIssuesTest < ActionController::IntegrationTest
         { :controller => 'issues', :action => 'new', :project_id => '23',
           :copy_from => '64' }
       )
-    assert_routing(
-        { :method => 'get', :path => "/issues/bulk_edit" },
-        { :controller => 'issues', :action => 'bulk_edit' }
-      )
     # For updating the bulk edit form
-    assert_routing(
-        { :method => 'post', :path => "/issues/bulk_edit" },
-        { :controller => 'issues', :action => 'bulk_edit' }
-      )
+    ["get", "post"].each do |method|
+      assert_routing(
+          { :method => method, :path => "/issues/bulk_edit" },
+          { :controller => 'issues', :action => 'bulk_edit' }
+        )
+    end
     assert_routing(
         { :method => 'post', :path => "/issues/bulk_update" },
         { :controller => 'issues', :action => 'bulk_update' }
