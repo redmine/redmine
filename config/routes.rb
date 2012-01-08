@@ -121,8 +121,6 @@ ActionController::Routing::Routes.draw do |map|
   # For nice "roadmap" in the url for the index action
   map.connect 'projects/:project_id/roadmap', :controller => 'versions', :action => 'index'
 
-  map.connect 'news', :controller => 'news', :action => 'index'
-  map.connect 'news.:format', :controller => 'news', :action => 'index'
   map.preview_news '/news/preview', :controller => 'previews', :action => 'news'
   map.connect 'news/:id/comments', :controller => 'comments',
               :action => 'create', :conditions => {:method => :post}
@@ -192,6 +190,9 @@ ActionController::Routing::Routes.draw do |map|
       :date_index => :get
     }
   end
+
+  map.connect 'news', :controller => 'news', :action => 'index'
+  map.connect 'news.:format', :controller => 'news', :action => 'index'
 
   map.resources :queries, :except => [:show]
   map.resources :issues,
