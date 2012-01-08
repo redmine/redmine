@@ -11,7 +11,7 @@
     <% for issue in issues %>
     <tr id="issue-<%= h(issue.id) %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %>">
       <td class="id">
-        <%= check_box_tag("ids[]", issue.id, false, :style => 'display:none;') %>
+        <%= check_box_tag("ids[]", issue.id, false, :style => 'display:none;', :id => nil) %>
         <%= link_to(h(issue.id), :controller => 'issues', :action => 'show', :id => issue) %>
       </td>
       <td class="project"><%= link_to_project(issue.project) %></td>
