@@ -18,7 +18,7 @@
 require File.expand_path('../../../test_helper', __FILE__)
 
 class RoutingIssueCategoriesTest < ActionController::IntegrationTest
-  def test_issue_categories
+  def test_issue_categories_scoped_under_project
     assert_routing(
         { :method => 'get', :path => "/projects/foo/issue_categories" },
         { :controller => 'issue_categories', :action => 'index',
@@ -54,6 +54,9 @@ class RoutingIssueCategoriesTest < ActionController::IntegrationTest
         { :controller => 'issue_categories', :action => 'create',
           :project_id => 'foo', :format => 'json' }
       )
+  end
+
+  def test_issue_categories
     assert_routing(
         { :method => 'get', :path => "/issue_categories/1" },
         { :controller => 'issue_categories', :action => 'show', :id => '1' }
