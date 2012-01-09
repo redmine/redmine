@@ -151,7 +151,7 @@ ActionController::Routing::Routes.draw do |map|
     :archive => :post,
     :unarchive => :post
   } do |project|
-    project.resource :project_enumerations, :as => 'enumerations',
+    project.resource :enumerations, :controller => 'project_enumerations',
                      :only => [:update, :destroy]
     # issue form update
     project.issue_form 'issues/new', :controller => 'issues',
