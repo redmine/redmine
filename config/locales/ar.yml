@@ -1000,3 +1000,9 @@ ar:
   description_date_range_interval: اختر المدة عن طريق اختيار تاريخ البداية والنهاية
   description_date_from: ادخل تاريخ البداية
   description_date_to: ادخل تاريخ الانتهاء
+  text_rmagick_available: RMagick available (optional)
+  text_wiki_page_destroy_question: This page has %{descendants} child page(s) and descendant(s). What do you want to do?
+  text_project_identifier_info: Only lower case letters (a-z), numbers and dashes are allowed.<br />Once saved, the identifier cannot be changed.
+  text_repository_usernames_mapping: |-
+    Select or update the Redmine user mapped to each username found in the repository log.
+    Users with the same Redmine and repository username or email are automatically mapped.
