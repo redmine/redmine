@@ -77,16 +77,16 @@ Calendar._SMN = new Array
 
 // tooltips
 Calendar._TT = {};
-Calendar._TT["معلومات"] = "حول التقويم";
+Calendar._TT["INFO"] = "حول التقويم";
 
-Calendar._TT["حول"] =
+Calendar._TT["ABOUT"] =
 "اختيار الوقت والتاريخ\n" +
 "\n\n" +
 "اختيار التاريخ:\n" +
 "- استخدم هذه الازرار \xab, \xbb لاختيار السنة\n" +
 "- استخدم هذه الازرار " + String.fromCharCode(0x2039) + ", " + String.fromCharCode(0x203a) + " لاختيار الشهر\n" +
 "- استمر في النقر فوق الازرار للتظليل السريع.";
-Calendar._TT["حول_الوقت"] = "\n\n" +
+Calendar._TT["ABOUT_TIME"] = "\n\n" +
 "اختيار الوقت:\n" +
 "- انقر على اي جزء من اجزاء الوقت لزيادته\n" +
 "-  لانقاصهShiftاو انقر مع الضغط على مفتاح  \n" +
