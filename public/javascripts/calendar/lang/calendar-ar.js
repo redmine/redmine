@@ -92,31 +92,31 @@ Calendar._TT["حول_الوقت"] = "\n\n" +
 "-  لانقاصهShiftاو انقر مع الضغط على مفتاح  \n" +
 "- او انقر واسحب للتظليل السريع.";
 
-Calendar._TT["السنة_السابقة"] = "السنة السابقة";
-Calendar._TT["الشهر_السابق"] = "الشهر السابق";
-Calendar._TT["اذهب_اليوم"] = "اذهب لليوم";
-Calendar._TT["الشهر_القادم"] = "الشهر القادم";
-Calendar._TT["السنة_القادمة"] = "السنة القادمة";
-Calendar._TT["اختر_التاريخ"] = "اختر التاريخ";
-Calendar._TT["اسحب_تظليل"] = "اسحب للتتحرك";
-Calendar._TT["جزء_يوم"] = "اليوم";
+Calendar._TT["PREV_YEAR"] = "السنة السابقة";
+Calendar._TT["PREV_MONTH"] = "الشهر السابق";
+Calendar._TT["GO_TODAY"] = "اذهب لليوم";
+Calendar._TT["NEXT_MONTH"] = "الشهر القادم";
+Calendar._TT["NEXT_YEAR"] = "السنة القادمة";
+Calendar._TT["SEL_DATE"] = "اختر التاريخ";
+Calendar._TT["DRAG_TO_MOVE"] = "اسحب للتتحرك";
+Calendar._TT["PART_TODAY"] = "اليوم";
 
 // the following is to inform that "%s" is to be the first day of week
 // %s will be replaced with the day name.
-Calendar._TT["اول_يوم"] = " اولا%sاعرض ";
+Calendar._TT["DAY_FIRST"] = " اولا%sاعرض ";
 
 // This may be locale-dependent.  It specifies the week-end days, as an array
 // of comma-separated numbers.  The numbers are from 0 to 6: 0 means Sunday, 1
 // means Monday, etc.
-Calendar._TT["نهاية الاسبوع"] = "5,6";
+Calendar._TT["WEEKEND"] = "5,6";
 
-Calendar._TT["مغلق"] = "مغلق";
-Calendar._TT["اليوم"] = "اليوم";
-Calendar._TT["جزء_اليوم"] = "انقر او اسحب لتغير القيمة";
+Calendar._TT["CLOSE"] = "مغلق";
+Calendar._TT["TODAY"] = "اليوم";
+Calendar._TT["TIME_PART"] = "انقر او اسحب لتغير القيمة";
 
 // date formats
-Calendar._TT["تنسيق تاريخ"] = "%Y-%m-%d";
-Calendar._TT["تنسيق وقت"] = "%a, %b %e";
+Calendar._TT["DEF_DATE_FORMAT"] = "%Y-%m-%d";
+Calendar._TT["TT_DATE_FORMAT"] = "%a, %b %e";
 
-Calendar._TT["رقم الاسبوع"] = "رقم الاسبوع";
-Calendar._TT["الوقت"] = "الوقت:";
+Calendar._TT["WK"] = "رقم الاسبوع";
+Calendar._TT["TIME"] = "الوقت:";
