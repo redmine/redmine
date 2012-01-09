@@ -209,7 +209,9 @@ function showModal(id, width) {
   $('modalbg').show();
 
   var pageWidth = document.viewport.getWidth();
-	el.setStyle({'width': width});
+	if (width) {
+  	el.setStyle({'width': width});
+  }
 	el.setStyle({'left': (((pageWidth - el.getWidth())/2  *100) / pageWidth) + '%'});
   el.addClassName('modal');
 	el.show();
