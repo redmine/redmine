@@ -143,8 +143,6 @@ class TimelogController < ApplicationController
 
   def edit
     @time_entry.attributes = params[:time_entry]
-
-    call_hook(:controller_timelog_edit_before_save, { :params => params, :time_entry => @time_entry })
   end
 
   verify :method => :put, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
