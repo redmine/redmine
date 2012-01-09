@@ -5,7 +5,8 @@
                             :action => 'new',
                             :object_type => watched.class.name.underscore,
                             :object_id => watched},
-                   :method => 'get' %>
+                   :method => 'get',
+                   :before => "if ($('ajax-modal').hasClassName('new-watcher')) {showModal('ajax-modal'); return false;}" %>
 </div>
 <% end %>
 

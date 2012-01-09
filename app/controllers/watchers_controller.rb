@@ -42,6 +42,7 @@ class WatchersController < ApplicationController
         render :update do |page|
           page.replace_html 'ajax-modal', :partial => 'watchers/new', :locals => {:watched => @watched}
           page << "showModal('ajax-modal', '400px');"
+          page << "$('ajax-modal').addClassName('new-watcher');"
         end
       end
     end
