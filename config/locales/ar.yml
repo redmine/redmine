@@ -143,24 +143,24 @@ ar:
   notice_account_invalid_creditentials: اسم المستخدم او كلمة المرور غير صحيحة
   notice_account_password_updated: لقد تم تجديد كلمة المرور بنجاح.
   notice_account_wrong_password: كلمة المرور غير صحيحة
-  notice_account_register_done: لقد تم انشاء حسابك بنجاح، الرجاء تأكيد الطلب من البريد الالكتروني 
+  notice_account_register_done: لقد تم انشاء حسابك بنجاح، الرجاء تأكيد الطلب من البريد الالكتروني
   notice_account_unknown_email: مستخدم غير معروف.
-  notice_can_t_change_password: هذا الحساب يستخدم جهاز خارجي غير مصرح به لا يمكن تغير كلمة المرور 
+  notice_can_t_change_password: هذا الحساب يستخدم جهاز خارجي غير مصرح به لا يمكن تغير كلمة المرور
   notice_account_lost_email_sent: لقد تم ارسال رسالة على بريدك بالتعليمات اللازمة لتغير كلمة المرور
   notice_account_activated: لقد تم تفعيل حسابك، يمكنك الدخول الان
   notice_successful_create: لقد تم الانشاء بنجاح
   notice_successful_update: لقد تم التحديث بنجاح
   notice_successful_delete: لقد تم الحذف بنجاح
   notice_successful_connection: لقد تم الربط بنجاح
-  notice_file_not_found: الصفحة التي تحاول الدخول اليها غير موجوده او تم حذفها 
+  notice_file_not_found: الصفحة التي تحاول الدخول اليها غير موجوده او تم حذفها
   notice_locking_conflict: تم تحديث البيانات عن طريق مستخدم آخر.
   notice_not_authorized: غير مصرح لك الدخول الى هذه المنطقة.
-  notice_not_authorized_archived_project: المشروع الذي تحاول الدخول اليه تم ارشفته 
+  notice_not_authorized_archived_project: المشروع الذي تحاول الدخول اليه تم ارشفته
   notice_email_sent: "%{value}تم ارسال رسالة الى "
   notice_email_error: " (%{value})لقد حدث خطأ ما اثناء ارسال الرسالة الى "
   notice_feeds_access_key_reseted: كلمة الدخول  RSSلقد تم تعديل .
   notice_api_access_key_reseted:  كلمة الدخولAPIلقد تم تعديل .
-  notice_failed_to_save_issues: "فشل في حفظ الملف"  
+  notice_failed_to_save_issues: "فشل في حفظ الملف"
   notice_failed_to_save_members: "فشل في حفظ الاعضاء: %{errors}."
   notice_no_issue_selected: "لم يتم تحديد شيء، الرجاء تحديد المسألة التي تريد"
   notice_account_pending: "لقد تم انشاء حسابك، الرجاء الانتظار حتى تتم الموافقة"
@@ -217,7 +217,7 @@ ar:
   field_is_required: مطلوب
   field_firstname: الاسم الاول
   field_lastname: الاسم الاخير
-  field_mail: البريد الالكتروني 
+  field_mail: البريد الالكتروني
   field_filename: اسم الملف
   field_filesize: حجم الملف
   field_downloads: التنزيل
@@ -229,7 +229,7 @@ ar:
   field_possible_values: قيم محتملة
   field_regexp: التعبير العادي
   field_min_length: الحد الادنى للطول
-  field_max_length: الحد الاعلى للطول 
+  field_max_length: الحد الاعلى للطول
   field_value: القيمة
   field_category: الفئة
   field_title: العنوان
@@ -253,7 +253,7 @@ ar:
   field_parent: مشروع فرعي من
   field_is_in_roadmap: القضايا المعروضة في خارطة الطريق
   field_login: تسجيل الدخول
-  field_mail_notification: ملاحظات على البريد الالكتروني 
+  field_mail_notification: ملاحظات على البريد الالكتروني
   field_admin: المدير
   field_last_login_on: اخر اتصال
   field_language: لغة
@@ -266,7 +266,7 @@ ar:
   field_host: المضيف
   field_port: المنفذ
   field_account: الحساب
-  field_base_dn: DN قاعدة  
+  field_base_dn: DN قاعدة
   field_attr_login: سمة الدخول
   field_attr_firstname: سمة الاسم الاول
   field_attr_lastname: سمة الاسم الاخير
@@ -300,7 +300,7 @@ ar:
   field_editable: يمكن اعادة تحريره
   field_watcher: مراقب
   field_identity_url: افتح الرابط الخاص بالهوية الشخصية
-  field_content: المحتويات 
+  field_content: المحتويات
   field_group_by: مجموعة النتائج عن طريق
   field_sharing: مشاركة
   field_parent_issue: مهمة الوالدين
@@ -315,7 +315,7 @@ ar:
   field_scm_path_encoding: ترميز المسار
   field_path_to_repository: مسار المستودع
   field_root_directory: دليل الجذر
-  field_cvsroot: CVSجذر 
+  field_cvsroot: CVSجذر
   field_cvs_module: وحدة
 
   setting_app_title: عنوان التطبيق
@@ -351,14 +351,14 @@ ar:
   setting_user_format: تنسيق عرض المستخدم
   setting_activity_days_default: الايام المعروضة على نشاط المشروع
   setting_display_subprojects_issues: عرض القضايا الفرعية للمشارع الرئيسية بشكل افتراضي
-  setting_enabled_scm: SCM تمكين 
+  setting_enabled_scm: SCM تمكين
   setting_mail_handler_body_delimiters: "اقتطاع رسائل البريد الإلكتروني بعد هذه الخطوط"
   setting_mail_handler_api_enabled: للرسائل الواردةWS تمكين
   setting_mail_handler_api_key: API مفتاح
   setting_sequential_project_identifiers: انشاء معرفات المشروع المتسلسلة
   setting_gravatar_enabled: كأيقونة مستخدمGravatar استخدام
   setting_gravatar_default: الافتراضيةGravatar صورة
-  setting_diff_max_lines_displayed: الحد الاقصى لعدد الخطوط 
+  setting_diff_max_lines_displayed: الحد الاقصى لعدد الخطوط
   setting_file_max_size_displayed: الحد الأقصى لحجم النص المعروض على الملفات المرفقة
   setting_repository_log_display_limit: الحد الاقصى لعدد التنقيحات المعروضة على ملف السجل
   setting_openid: السماح بدخول اسم المستخدم المفتوح والتسجيل
@@ -384,7 +384,7 @@ ar:
   permission_select_project_modules: تحديد شكل المشروع
   permission_manage_members: إدارة الاعضاء
   permission_manage_project_activities: ادارة اصدارات المشروع
-  permission_manage_versions: ادارة الاصدارات 
+  permission_manage_versions: ادارة الاصدارات
   permission_manage_categories: ادارة انواع القضايا
   permission_view_issues: عرض القضايا
   permission_add_issues: اضافة القضايا
@@ -437,7 +437,7 @@ ar:
   permission_manage_subtasks: ادارة المهام الفرعية
 
   project_module_issue_tracking: تعقب القضايا
-  project_module_time_tracking: التعقب الزمني 
+  project_module_time_tracking: التعقب الزمني
   project_module_news: الاخبار
   project_module_documents: المستندات
   project_module_files: الملفات
@@ -507,7 +507,7 @@ ar:
   label_home: الصفحة الرئيسية
   label_my_page: الصفحة الخاصة بي
   label_my_account: حسابي
-  label_my_projects: مشاريعي الخاصة 
+  label_my_projects: مشاريعي الخاصة
   label_my_page_block: حجب صفحتي الخاصة
   label_administration: الإدارة
   label_login: تسجيل الدخول
@@ -652,7 +652,7 @@ ar:
   label_branch: فرع
   label_tag: ربط
   label_revision: مراجعة
-  label_revision_plural: تنقيحات  
+  label_revision_plural: تنقيحات
   label_revision_id: " %{value}مراجعة"
   label_associated_revisions: التنقيحات المرتبطة
   label_added: إضافة
@@ -742,7 +742,7 @@ ar:
   label_week: أسبوع
   label_date_from: من
   label_date_to: إلى
-  label_language_based: استناداً إلى لغة المستخدم 
+  label_language_based: استناداً إلى لغة المستخدم
   label_sort_by: " %{value}الترتيب حسب "
   label_send_test_email: ارسل رسالة الكترونية كاختبار
   label_feeds_access_key: RSS مفتاح دخول
@@ -803,7 +803,7 @@ ar:
   label_group_new: مجموعة جديدة
   label_time_entry_plural: أمضى بعض الوقت
   label_version_sharing_none: لم يشارك
-  label_version_sharing_descendants: يشارك 
+  label_version_sharing_descendants: يشارك
   label_version_sharing_hierarchy: مع التسلسل الهرمي للمشروع
   label_version_sharing_tree: مع شجرة المشروع
   label_version_sharing_system: مع جميع المشاريع
@@ -823,13 +823,13 @@ ar:
   label_additional_workflow_transitions_for_author: الانتقالات الإضافية المسموح بها عند المستخدم صاحب البلاغ
   label_additional_workflow_transitions_for_assignee: الانتقالات الإضافية المسموح بها عند المستخدم المحال إليه
   label_issues_visibility_all: جميع القضايا
-  label_issues_visibility_public: جميع القضايا الخاصة 
+  label_issues_visibility_public: جميع القضايا الخاصة
   label_issues_visibility_own: القضايا التي أنشأها المستخدم
   label_git_report_last_commit: اعتماد التقرير الأخير للملفات والدلائل
   label_parent_revision: الوالدين
   label_child_revision: الطفل
   label_export_options: "%{export_format} خيارات التصدير"
-    
+
   button_login: دخول
   button_submit: تثبيت
   button_save: حفظ
@@ -878,17 +878,17 @@ ar:
   button_show: يظهر
   button_edit_section: يعدل هذا الجزء
   button_export: يستورد
-  
+
   status_active: نشيط
   status_registered: مسجل
   status_locked: مقفل
-  
+
   version_status_open: مفتوح
   version_status_locked: مقفل
   version_status_closed: مغلق
-  
+
   field_active: فعال
-  
+
   text_select_mail_notifications: حدد الامور التي يجب ابلاغك بها عن طريق البريد الالكتروني
   text_regexp_info: مثال. ^[A-Z0-9]+$
   text_min_max_length_info: الحد الاقصى والادني لطول المعلومات
@@ -928,7 +928,7 @@ ar:
   text_issues_destroy_descendants_confirmation: "سوف يؤدي هذا الى حذف  %{count} المهام الفرعية ايضا."
   text_time_entries_destroy_confirmation: "هل انت متأكد من رغبتك في حذف الادخالات الزمنية المحددة؟"
   text_select_project_modules: قم بتحديد الوضع المناسب لهذا المشروع:'
-  text_default_administrator_account_changed: تم تعديل الاعدادات الافتراضية لحساب المدير 
+  text_default_administrator_account_changed: تم تعديل الاعدادات الافتراضية لحساب المدير
   text_file_repository_writable: المرفقات قابلة للكتابة
   text_plugin_assets_writable: الدليل المساعد قابل للكتابة
   text_destroy_time_entries_question: " ساعة على القضية التي تود حذفها، ماذا تريد ان تفعل؟ %{hours} تم تثبيت"
@@ -949,13 +949,13 @@ ar:
   text_zoom_out: تكبير
   text_warn_on_leaving_unsaved: "الصفحة تحتوي على نص غير مخزن، سوف يفقد النص اذا تم الخروج من الصفحة."
   text_scm_path_encoding_note: "الافتراضي: UTF-8"
-  text_git_repository_note: مستودع فارغ ومحلي 
+  text_git_repository_note: مستودع فارغ ومحلي
   text_mercurial_repository_note: مستودع محلي
   text_scm_command: امر
   text_scm_command_version: اصدار
   text_scm_config: الرجاء اعادة تشغيل التطبيق
   text_scm_command_not_available: الامر غير متوفر، الرجاء التحقق من لوحة التحكم
-  
+
   default_role_manager: مدير
   default_role_developer: مطور
   default_role_reporter: مراسل
@@ -977,7 +977,7 @@ ar:
   default_priority_immediate: مباشرة
   default_activity_design: تصميم
   default_activity_development: تطوير
-  
+
   enumeration_issue_priorities: الاولويات
   enumeration_doc_categories: تصنيف المستندات
   enumeration_activities: الانشطة
