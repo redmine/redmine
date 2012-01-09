@@ -1,0 +1,1002 @@
+ar:
+  # Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
+  direction: rtl
+  date:
+    formats:
+      # Use the strftime parameters for formats.
+      # When no format has been given, it uses default.
+      # You can provide other formats here if you like!
+      default: "%m/%d/%Y"
+      short: "%b %d"
+      long: "%B %d, %Y"
+
+    day_names: [الاحد, الاثنين, الثلاثاء, الاربعاء, الخميس, الجمعة, السبت]
+    abbr_day_names: [أح, اث, ث, ار, خ, ج, س]
+
+    # Don't forget the nil at the beginning; there's no such thing as a 0th month
+    month_names: [~,كانون الثاني, شباط, آذار, نيسان, أيار, حزيران, تموز, آب, أيلول, تشرين الأول, تشرين الثاني, كانون الأول]
+    abbr_month_names: [~,كانون الثاني, شباط, آذار, نيسان, أيار, حزيران, تموز, آب, أيلول, تشرين الأول, تشرين الثاني, كانون الأول]
+    # Used in date_select and datime_select.
+    order:
+      - :السنة
+      - :الشهر
+      - :اليوم
+
+  time:
+    formats:
+      default: "%m/%d/%Y %I:%M %p"
+      time: "%I:%M %p"
+      short: "%d %b %H:%M"
+      long: "%B %d, %Y %H:%M"
+    am: "صباحا"
+    pm: "مساءا"
+
+  datetime:
+    distance_in_words:
+      half_a_minute: "نصف دقيقة"
+      less_than_x_seconds:
+        one:   "أقل من ثانية"
+        other: "ثواني %{count}أقل من "
+      x_seconds:
+        one:   "ثانية"
+        other: "%{count}ثواني "
+      less_than_x_minutes:
+        one:   "أقل من دقيقة"
+        other: "دقائق%{count}أقل من "
+      x_minutes:
+        one:   "دقيقة"
+        other: "%{count} دقائق"
+      about_x_hours:
+        one:   "حوالي ساعة"
+        other: "ساعات %{count}حوالي "
+      x_days:
+        one:   "يوم"
+        other: "%{count} أيام"
+      about_x_months:
+        one:   "حوالي شهر"
+        other: "أشهر  %{count} حوالي"
+      x_months:
+        one:   "شهر"
+        other: "%{count} أشهر"
+      about_x_years:
+        one:   "حوالي سنة"
+        other: "سنوات  %{count}حوالي "
+      over_x_years:
+        one:   "اكثر من سنة"
+        other: "سنوات  %{count}أكثر من "
+      almost_x_years:
+        one:   "تقريبا سنة"
+        other: "سنوات %{count} نقريبا"
+  number:
+    format:
+      separator: "."
+      delimiter: ""
+      precision: 3
+
+    human:
+      format:
+        delimiter: ""
+        precision: 1
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: "Byte"
+            other: "Bytes"
+          kb: "kB"
+          mb: "MB"
+          gb: "GB"
+          tb: "TB"
+
+# Used in array.to_sentence.
+  support:
+    array:
+      sentence_connector: "و"
+      skip_last_comma: خطأ
+
+  activerecord:
+    errors:
+      template:
+        header:
+          one:    " %{model} خطأ يمنع تخزين"
+          other:  " %{model} يمنع تخزين%{count}خطأ رقم  "
+      messages:
+        inclusion: "غير مدرجة على القائمة"
+        exclusion: "محجوز"
+        invalid: "غير صالح"
+        confirmation: "غير متطابق"
+        accepted: "مقبولة"
+        empty: "لا يمكن ان تكون فارغة"
+        blank: "لا يمكن ان تكون فارغة"
+        too_long: " %{count}طويلة جدا، الحد الاقصى هو )"
+        too_short: " %{count}قصيرة جدا، الحد الادنى هو)"
+        wrong_length: " %{count}خطأ في الطول، يجب ان يكون )"
+        taken: "لقد اتخذت سابقا"
+        not_a_number: "ليس رقما"
+        not_a_date: "ليس تاريخا صالحا"
+        greater_than: "%{count}يجب ان تكون اكثر من "
+        greater_than_or_equal_to: "%{count}يجب ان تكون اكثر من او تساوي"
+        equal_to: "%{count}يجب ان تساوي"
+        less_than: " %{count}يجب ان تكون اقل من"
+        less_than_or_equal_to: " %{count}يجب ان تكون اقل من او تساوي"
+        odd: "must be odd"
+        even: "must be even"
+        greater_than_start_date: "يجب ان تكون اكثر من تاريخ البداية"
+        not_same_project: "لا ينتمي الى نفس المشروع"
+        circular_dependency: "هذه العلاقة سوف تخلق علاقة تبعية دائرية"
+        cant_link_an_issue_with_a_descendant: "لا يمكن ان تكون المشكلة مرتبطة بواحدة من المهام الفرعية"
+
+  actionview_instancetag_blank_option: الرجاء التحديد
+
+  general_text_No: 'لا'
+  general_text_Yes: 'نعم'
+  general_text_no: 'لا'
+  general_text_yes: 'نعم'
+  general_lang_name: 'عربي'
+  general_csv_separator: ','
+  general_csv_decimal_separator: '.'
+  general_csv_encoding: ISO-8859-1
+  general_pdf_encoding: UTF-8
+  general_first_day_of_week: '7'
+
+  notice_account_updated: لقد تم تجديد الحساب بنجاح.
+  notice_account_invalid_creditentials: اسم المستخدم او كلمة المرور غير صحيحة
+  notice_account_password_updated: لقد تم تجديد كلمة المرور بنجاح.
+  notice_account_wrong_password: كلمة المرور غير صحيحة
+  notice_account_register_done: لقد تم انشاء حسابك بنجاح، الرجاء تأكيد الطلب من البريد الالكتروني 
+  notice_account_unknown_email: مستخدم غير معروف.
+  notice_can_t_change_password: هذا الحساب يستخدم جهاز خارجي غير مصرح به لا يمكن تغير كلمة المرور 
+  notice_account_lost_email_sent: لقد تم ارسال رسالة على بريدك بالتعليمات اللازمة لتغير كلمة المرور
+  notice_account_activated: لقد تم تفعيل حسابك، يمكنك الدخول الان
+  notice_successful_create: لقد تم الانشاء بنجاح
+  notice_successful_update: لقد تم التحديث بنجاح
+  notice_successful_delete: لقد تم الحذف بنجاح
+  notice_successful_connection: لقد تم الربط بنجاح
+  notice_file_not_found: الصفحة التي تحاول الدخول اليها غير موجوده او تم حذفها 
+  notice_locking_conflict: تم تحديث البيانات عن طريق مستخدم آخر.
+  notice_not_authorized: غير مصرح لك الدخول الى هذه المنطقة.
+  notice_not_authorized_archived_project: المشروع الذي تحاول الدخول اليه تم ارشفته 
+  notice_email_sent: "%{value}تم ارسال رسالة الى "
+  notice_email_error: " (%{value})لقد حدث خطأ ما اثناء ارسال الرسالة الى "
+  notice_feeds_access_key_reseted: كلمة الدخول  RSSلقد تم تعديل .
+  notice_api_access_key_reseted:  كلمة الدخولAPIلقد تم تعديل .
+  notice_failed_to_save_issues: "فشل في حفظ الملف"  
+  notice_failed_to_save_members: "فشل في حفظ الاعضاء: %{errors}."
+  notice_no_issue_selected: "لم يتم تحديد شيء، الرجاء تحديد المسألة التي تريد"
+  notice_account_pending: "لقد تم انشاء حسابك، الرجاء الانتظار حتى تتم الموافقة"
+  notice_default_data_loaded: تم تحميل التكوين الافتراضي بنجاح
+  notice_unable_delete_version: غير قادر على مسح النسخة.
+  notice_unable_delete_time_entry: غير قادر على مسح وقت الدخول.
+  notice_issue_done_ratios_updated: لقد تم تحديث النسب.
+  notice_gantt_chart_truncated: " (%{max})لقد تم اقتطاع الرسم البياني لانه تجاوز الاحد الاقصى لعدد العناصر المسموح عرضها "
+  notice_issue_successful_create: "%{id}لقد تم انشاء "
+
+
+  error_can_t_load_default_data: "لم يتم تحميل التكوين الافتراضي كاملا %{value}"
+  error_scm_not_found: "لم يتم العثور على ادخال في المستودع"
+  error_scm_command_failed: "حدث خطأ عند محاولة الوصول الى المستودع: %{value}"
+  error_scm_annotate: "الادخال غير موجود."
+  error_scm_annotate_big_text_file: "لا يمكن حفظ الادخال لانه تجاوز الحد الاقصى لحجم الملف."
+  error_issue_not_found_in_project: 'لم يتم العثور على المخرج او انه ينتمي الى مشروع اخر'
+  error_no_tracker_in_project: 'لا يوجد متتبع لهذا المشروع، الرجاء التحقق من إعدادات المشروع. '
+  error_no_default_issue_status: 'لم يتم التعرف على اي وضع افتراضي، الرجاء التحقق من التكوين الخاص بك (اذهب الى إدارة-إصدار الحالات)'
+  error_can_not_delete_custom_field: غير قادر على حذف الحقل المظلل
+  error_can_not_delete_tracker: "هذا المتتبع يحتوي على مسائل نشطة ولا يمكن حذفه"
+  error_can_not_remove_role: "هذا الدور قيد الاستخدام، لا يمكن حذفه"
+  error_can_not_reopen_issue_on_closed_version: 'لا يمكن إعادة فتح قضية معينه لاصدار مقفل'
+  error_can_not_archive_project: لا يمكن ارشفة هذا المشروع
+  error_issue_done_ratios_not_updated: "لم يتم تحديث النسب"
+  error_workflow_copy_source: 'الرجاء اختيار المتتبع او الادوار'
+  error_workflow_copy_target: 'الرجاء اختيار هدف المتتبع او هدف الادوار'
+  error_unable_delete_issue_status: 'غير قادر على حذف حالة القضية'
+  error_unable_to_connect: "تعذر الاتصال(%{value})"
+  error_attachment_too_big: " (%{max_size})لا يمكن تحميل هذا الملف، لقد تجاوز الحد الاقصى المسموح به "
+  warning_attachments_not_saved: "%{count}تعذر حفظ الملف"
+
+  mail_subject_lost_password: " %{value}كلمة المرور الخاصة بك "
+  mail_body_lost_password: 'لتغير كلمة المرور، انقر على الروابط التالية:'
+  mail_subject_register: " %{value}تفعيل حسابك "
+  mail_body_register: 'لتفعيل حسابك، انقر على الروابط التالية:'
+  mail_body_account_information_external: " %{value}اصبح بامكانك استخدام حسابك للدخول"
+  mail_body_account_information: معلومات حسابك
+  mail_subject_account_activation_request: "%{value}طلب تفعيل الحساب "
+  mail_body_account_activation_request: " (%{value})تم تسجيل حساب جديد، بانتظار الموافقة:"
+  mail_subject_reminder: "%{count}تم تأجيل المهام التالية  "
+  mail_body_reminder: "%{count}يجب ان تقوم بتسليم المهام التالية :"
+  mail_subject_wiki_content_added: "'%{id}' تم اضافة صفحة ويكي"
+  mail_body_wiki_content_added: "The '%{id}' تم اضافة صفحة ويكي من قبل %{author}."
+  mail_subject_wiki_content_updated: "'%{id}' تم تحديث صفحة ويكي"
+  mail_body_wiki_content_updated: "The '%{id}'تم تحديث صفحة ويكي من قبل %{author}."
+
+  gui_validation_error: خطأ
+  gui_validation_error_plural: "%{count}أخطاء"
+
+  field_name: الاسم
+  field_description: الوصف
+  field_summary: الملخص
+  field_is_required: مطلوب
+  field_firstname: الاسم الاول
+  field_lastname: الاسم الاخير
+  field_mail: البريد الالكتروني 
+  field_filename: اسم الملف
+  field_filesize: حجم الملف
+  field_downloads: التنزيل
+  field_author: المؤلف
+  field_created_on: تم الانشاء في
+  field_updated_on: تم التحديث
+  field_field_format: تنسيق الحقل
+  field_is_for_all: لكل المشروعات
+  field_possible_values: قيم محتملة
+  field_regexp: التعبير العادي
+  field_min_length: الحد الادنى للطول
+  field_max_length: الحد الاعلى للطول 
+  field_value: القيمة
+  field_category: الفئة
+  field_title: العنوان
+  field_project: المشروع
+  field_issue: القضية
+  field_status: الحالة
+  field_notes: ملاحظات
+  field_is_closed: القضية مغلقة
+  field_is_default: القيمة الافتراضية
+  field_tracker: المتتبع
+  field_subject: الموضوع
+  field_due_date: تاريخ الاستحقاق
+  field_assigned_to: المحال اليه
+  field_priority: الأولوية
+  field_fixed_version: الاصدار المستهدف
+  field_user: المستخدم
+  field_principal: الرئيسي
+  field_role: دور
+  field_homepage: الصفحة الرئيسية
+  field_is_public: عام
+  field_parent: مشروع فرعي من
+  field_is_in_roadmap: القضايا المعروضة في خارطة الطريق
+  field_login: تسجيل الدخول
+  field_mail_notification: ملاحظات على البريد الالكتروني 
+  field_admin: المدير
+  field_last_login_on: اخر اتصال
+  field_language: لغة
+  field_effective_date: تاريخ
+  field_password: كلمة المرور
+  field_new_password: كلمة المرور الجديدة
+  field_password_confirmation: تأكيد
+  field_version: إصدار
+  field_type: نوع
+  field_host: المضيف
+  field_port: المنفذ
+  field_account: الحساب
+  field_base_dn: DN قاعدة  
+  field_attr_login: سمة الدخول
+  field_attr_firstname: سمة الاسم الاول
+  field_attr_lastname: سمة الاسم الاخير
+  field_attr_mail: سمة البريد الالكتروني
+  field_onthefly: إنشاء حساب مستخدم على تحرك
+  field_start_date: تاريخ البدية
+  field_done_ratio: "% تم"
+  field_auth_source: وضع المصادقة
+  field_hide_mail: إخفاء بريدي الإلكتروني
+  field_comments: تعليق
+  field_url: رابط
+  field_start_page: صفحة البداية
+  field_subproject: المشروع الفرعي
+  field_hours: ساعات
+  field_activity: النشاط
+  field_spent_on: تاريخ
+  field_identifier: المعرف
+  field_is_filter: استخدم كتصفية
+  field_issue_to: القضايا المتصلة
+  field_delay: تأخير
+  field_assignable: يمكن ان تستند القضايا الى هذا الدور
+  field_redirect_existing_links: إعادة توجيه الروابط الموجودة
+  field_estimated_hours: الوقت المتوقع
+  field_column_names: أعمدة
+  field_time_entries: وقت الدخول
+  field_time_zone: المنطقة الزمنية
+  field_searchable: يمكن البحث فيه
+  field_default_value: القيمة الافتراضية
+  field_comments_sorting: اعرض التعليقات
+  field_parent_title: صفحة الوالدين
+  field_editable: يمكن اعادة تحريره
+  field_watcher: مراقب
+  field_identity_url: افتح الرابط الخاص بالهوية الشخصية
+  field_content: المحتويات 
+  field_group_by: مجموعة النتائج عن طريق
+  field_sharing: مشاركة
+  field_parent_issue: مهمة الوالدين
+  field_member_of_group: "مجموعة المحال"
+  field_assigned_to_role: "دور المحال"
+  field_text: حقل نصي
+  field_visible: غير مرئي
+  field_warn_on_leaving_unsaved: "الرجاء التحذير عند مغادرة صفحة والنص غير محفوظ"
+  field_issues_visibility: القضايا المرئية
+  field_is_private: خاص
+  field_commit_logs_encoding: رسائل الترميز
+  field_scm_path_encoding: ترميز المسار
+  field_path_to_repository: مسار المستودع
+  field_root_directory: دليل الجذر
+  field_cvsroot: CVSجذر 
+  field_cvs_module: وحدة
+
+  setting_app_title: عنوان التطبيق
+  setting_app_subtitle: العنوان الفرعي للتطبيق
+  setting_welcome_text: نص الترحيب
+  setting_default_language: اللغة الافتراضية
+  setting_login_required: مطلوب المصادقة
+  setting_self_registration: التسجيل الذاتي
+  setting_attachment_max_size: الحد الاقصى للملفات المرفقة
+  setting_issues_export_limit: الحد الاقصى لقضايا التصدير
+  setting_mail_from: انبعاثات عنوان بريدك
+  setting_bcc_recipients: مستلمين النسخ المخفية (bcc)
+  setting_plain_text_mail: نص عادي (no HTML)
+  setting_host_name: اسم ومسار المستخدم
+  setting_text_formatting: تنسيق النص
+  setting_wiki_compression: ضغط تاريخ الويكي
+  setting_feeds_limit: Atom feeds الحد الاقصى لعدد البنود في
+  setting_default_projects_public: المشاريع الجديده متاحة للجميع افتراضيا
+  setting_autofetch_changesets: الإحضار التلقائي
+  setting_sys_api_enabled: من ادارة المستودع WS تمكين
+  setting_commit_ref_keywords: مرجعية الكلمات المفتاحية
+  setting_commit_fix_keywords: تصحيح الكلمات المفتاحية
+  setting_autologin: الدخول التلقائي
+  setting_date_format: تنسيق التاريخ
+  setting_time_format: تنسيق الوقت
+  setting_cross_project_issue_relations: السماح بادارج القضايا في هذا المشروع
+  setting_issue_list_default_columns: الاعمدة الافتراضية المعروضة في قائمة القضية
+  setting_repositories_encodings: ترميز المرفقات والمستودعات
+  setting_emails_header: رأس رسائل البريد الإلكتروني
+  setting_emails_footer: ذيل رسائل البريد الإلكتروني
+  setting_protocol: بروتوكول
+  setting_per_page_options: الكائنات لكل خيارات الصفحة
+  setting_user_format: تنسيق عرض المستخدم
+  setting_activity_days_default: الايام المعروضة على نشاط المشروع
+  setting_display_subprojects_issues: عرض القضايا الفرعية للمشارع الرئيسية بشكل افتراضي
+  setting_enabled_scm: SCM تمكين 
+  setting_mail_handler_body_delimiters: "اقتطاع رسائل البريد الإلكتروني بعد هذه الخطوط"
+  setting_mail_handler_api_enabled: للرسائل الواردةWS تمكين
+  setting_mail_handler_api_key: API مفتاح
+  setting_sequential_project_identifiers: انشاء معرفات المشروع المتسلسلة
+  setting_gravatar_enabled: كأيقونة مستخدمGravatar استخدام
+  setting_gravatar_default: الافتراضيةGravatar صورة
+  setting_diff_max_lines_displayed: الحد الاقصى لعدد الخطوط 
+  setting_file_max_size_displayed: الحد الأقصى لحجم النص المعروض على الملفات المرفقة
+  setting_repository_log_display_limit: الحد الاقصى لعدد التنقيحات المعروضة على ملف السجل
+  setting_openid: السماح بدخول اسم المستخدم المفتوح والتسجيل
+  setting_password_min_length: الحد الادني لطول كلمة المرور
+  setting_new_project_user_role_id: الدور المسند الى المستخدم غير المسؤول الذي يقوم بإنشاء المشروع
+  setting_default_projects_modules: تمكين الوحدات النمطية للمشاريع الجديدة بشكل افتراضي
+  setting_issue_done_ratio: حساب نسبة القضية المنتهية
+  setting_issue_done_ratio_issue_field: استخدم حقل القضية
+  setting_issue_done_ratio_issue_status: استخدم وضع القضية
+  setting_start_of_week: بدأ التقويم
+  setting_rest_api_enabled: تمكين باقي خدمات الويب
+  setting_cache_formatted_text: النص المسبق تنسيقه في ذاكرة التخزين المؤقت
+  setting_default_notification_option: خيار الاعلام الافتراضي
+  setting_commit_logtime_enabled: تميكن وقت الدخول
+  setting_commit_logtime_activity_id: النشاط في وقت الدخول
+  setting_gantt_items_limit: الحد الاقصى لعدد العناصر المعروضة على المخطط
+  setting_issue_group_assignment: السماح للإحالة الى المجموعات
+  setting_default_issue_start_date_to_creation_date: استخدام التاريخ الحالي كتاريخ بدأ للقضايا الجديدة
+
+  permission_add_project: إنشاء مشروع
+  permission_add_subprojects: إنشاء مشاريع فرعية
+  permission_edit_project: تعديل مشروع
+  permission_select_project_modules: تحديد شكل المشروع
+  permission_manage_members: إدارة الاعضاء
+  permission_manage_project_activities: ادارة اصدارات المشروع
+  permission_manage_versions: ادارة الاصدارات 
+  permission_manage_categories: ادارة انواع القضايا
+  permission_view_issues: عرض القضايا
+  permission_add_issues: اضافة القضايا
+  permission_edit_issues: تعديل القضايا
+  permission_manage_issue_relations: ادارة علاقات القضايا
+  permission_set_issues_private: تعين قضايا عامة او خاصة
+  permission_set_own_issues_private: تعين القضايا الخاصة بك كقضايا عامة او خاصة
+  permission_add_issue_notes: اضافة ملاحظات
+  permission_edit_issue_notes: تعديل ملاحظات
+  permission_edit_own_issue_notes: تعديل ملاحظاتك
+  permission_move_issues: تحريك القضايا
+  permission_delete_issues: حذف القضايا
+  permission_manage_public_queries: ادارة الاستعلامات العامة
+  permission_save_queries: حفظ الاستعلامات
+  permission_view_gantt: عرض طريقة"جانت"
+  permission_view_calendar: عرض التقويم
+  permission_view_issue_watchers: عرض قائمة المراقبين
+  permission_add_issue_watchers: اضافة مراقبين
+  permission_delete_issue_watchers: حذف مراقبين
+  permission_log_time: الوقت المستغرق بالدخول
+  permission_view_time_entries: عرض الوقت المستغرق
+  permission_edit_time_entries: تعديل الدخولات الزمنية
+  permission_edit_own_time_entries: تعديل الدخولات الشخصية
+  permission_manage_news: ادارة الاخبار
+  permission_comment_news: اخبار التعليقات
+  permission_manage_documents: ادارة المستندات
+  permission_view_documents: عرض المستندات
+  permission_manage_files: ادارة الملفات
+  permission_view_files: عرض الملفات
+  permission_manage_wiki: ادارة ويكي
+  permission_rename_wiki_pages: اعادة تسمية صفحات ويكي
+  permission_delete_wiki_pages: حذق صفحات ويكي
+  permission_view_wiki_pages: عرض ويكي
+  permission_view_wiki_edits: عرض تاريخ ويكي
+  permission_edit_wiki_pages: تعديل صفحات ويكي
+  permission_delete_wiki_pages_attachments: حذف المرفقات
+  permission_protect_wiki_pages: حماية صفحات ويكي
+  permission_manage_repository: ادارة المستودعات
+  permission_browse_repository: استعراض المستودعات
+  permission_view_changesets: عرض طاقم التغيير
+  permission_commit_access: الوصول
+  permission_manage_boards: ادارة المنتديات
+  permission_view_messages: عرض الرسائل
+  permission_add_messages: نشر الرسائل
+  permission_edit_messages: تحرير الرسائل
+  permission_edit_own_messages: تحرير الرسائل الخاصة
+  permission_delete_messages: حذف الرسائل
+  permission_delete_own_messages: حذف الرسائل الخاصة
+  permission_export_wiki_pages: تصدير صفحات ويكي
+  permission_manage_subtasks: ادارة المهام الفرعية
+
+  project_module_issue_tracking: تعقب القضايا
+  project_module_time_tracking: التعقب الزمني 
+  project_module_news: الاخبار
+  project_module_documents: المستندات
+  project_module_files: الملفات
+  project_module_wiki: ويكي
+  project_module_repository: المستودع
+  project_module_boards: المنتديات
+  project_module_calendar: التقويم
+  project_module_gantt: جانت
+
+  label_user: المستخدم
+  label_user_plural: المستخدمين
+  label_user_new: مستخدم جديد
+  label_user_anonymous: مجهول الهوية
+  label_project: مشروع
+  label_project_new: مشروع جديد
+  label_project_plural: مشاريع
+  label_x_projects:
+    zero: لا يوجد مشاريع
+    one: مشروع واحد
+    other: "%{count} مشاريع"
+  label_project_all: كل المشاريع
+  label_project_latest: احدث المشاريع
+  label_issue: قضية
+  label_issue_new: قضية جديدة
+  label_issue_plural: قضايا
+  label_issue_view_all: عرض كل القضايا
+  label_issues_by: " %{value}القضية لصحابها"
+  label_issue_added: تم اضافة القضية
+  label_issue_updated: تم تحديث القضية
+  label_issue_note_added: تم اضافة الملاحظة
+  label_issue_status_updated: تم تحديث الحالة
+  label_issue_priority_updated: تم تحديث الاولويات
+  label_document: مستند
+  label_document_new: مستند جديد
+  label_document_plural: مستندات
+  label_document_added: تم اضافة مستند
+  label_role: دور
+  label_role_plural: ادوار
+  label_role_new: دور جديد
+  label_role_and_permissions: الادوار والاذن
+  label_role_anonymous: مجهول الهوية
+  label_role_non_member: ليس عضو
+  label_member: عضو
+  label_member_new: عضو جديد
+  label_member_plural: اعضاء
+  label_tracker: المتتبع
+  label_tracker_plural: المتتبعين
+  label_tracker_new: متتبع جديد
+  label_workflow: سير العمل
+  label_issue_status: وضع القضية
+  label_issue_status_plural: اوضاع القضية
+  label_issue_status_new: وضع جديد
+  label_issue_category: نوع القضية
+  label_issue_category_plural: انواع القضايا
+  label_issue_category_new: نوع جديد
+  label_custom_field: تخصيص حقل
+  label_custom_field_plural: تخصيص حقول
+  label_custom_field_new: حقل مخصص جديد
+  label_enumerations: التعدادات
+  label_enumeration_new: قيمة جديدة
+  label_information: معلومة
+  label_information_plural: معلومات
+  label_please_login: برجى تسجيل الدخول
+  label_register: تسجيل
+  label_login_with_open_id_option: او الدخول بهوية مفتوحة
+  label_password_lost: فقدت كلمة السر
+  label_home: الصفحة الرئيسية
+  label_my_page: الصفحة الخاصة بي
+  label_my_account: حسابي
+  label_my_projects: مشاريعي الخاصة 
+  label_my_page_block: حجب صفحتي الخاصة
+  label_administration: الإدارة
+  label_login: تسجيل الدخول
+  label_logout: تسجيل الخروج
+  label_help: مساعدة
+  label_reported_issues: أبلغ القضايا
+  label_assigned_to_me_issues: المسائل المعنية إلى
+  label_last_login: آخر اتصال
+  label_registered_on: مسجل على
+  label_activity: النشاط
+  label_overall_activity: النشاط العام
+  label_user_activity: "قيمة النشاط"
+  label_new: جديدة
+  label_logged_as: تم تسجيل دخولك
+  label_environment: البيئة
+  label_authentication: المصادقة
+  label_auth_source: وضع المصادقة
+  label_auth_source_new: وضع مصادقة جديدة
+  label_auth_source_plural: أوضاع المصادقة
+  label_subproject_plural: مشاريع فرعية
+  label_subproject_new: مشروع فرعي جديد
+  label_and_its_subprojects: "قيمةالمشاريع الفرعية الخاصة بك"
+  label_min_max_length: الحد الاقصى والادنى للطول
+  label_list: قائمة
+  label_date: تاريخ
+  label_integer: عدد صحيح
+  label_float: تعويم
+  label_boolean: منطقية
+  label_string: النص
+  label_text: نص طويل
+  label_attribute: سمة
+  label_attribute_plural: السمات
+  label_download: "تحميل"
+  label_download_plural: "تحميل"
+  label_no_data: لا توجد بيانات للعرض
+  label_change_status: تغيير الوضع
+  label_history: التاريخ
+  label_attachment: الملف
+  label_attachment_new: ملف جديد
+  label_attachment_delete: حذف الملف
+  label_attachment_plural: الملفات
+  label_file_added: الملف المضاف
+  label_report: تقرير
+  label_report_plural: التقارير
+  label_news: الأخبار
+  label_news_new: إضافة الأخبار
+  label_news_plural: الأخبار
+  label_news_latest: آخر الأخبار
+  label_news_view_all: عرض كل الأخبار
+  label_news_added: الأخبار المضافة
+  label_news_comment_added: إضافة التعليقات على أخبار
+  label_settings: إعدادات
+  label_overview: لمحة عامة
+  label_version: الإصدار
+  label_version_new: الإصدار الجديد
+  label_version_plural: الإصدارات
+  label_close_versions: أكملت إغلاق الإصدارات
+  label_confirmation: تأكيد
+  label_export_to: 'متوفرة أيضا في:'
+  label_read: القراءة...
+  label_public_projects: المشاريع العامة
+  label_open_issues: فتح قضية
+  label_open_issues_plural:  فتح قضايا
+  label_closed_issues: قضية مغلقة
+  label_closed_issues_plural: قضايا مغلقة
+  label_x_open_issues_abbr_on_total:
+    zero: 0 مفتوح / %{total}
+    one: 1 مفتوح / %{total}
+    other: "%{count} مفتوح / %{total}"
+  label_x_open_issues_abbr:
+    zero: 0 مفتوح
+    one: 1 مقتوح
+    other: "%{count} مفتوح"
+  label_x_closed_issues_abbr:
+    zero: 0 مغلق
+    one: 1 مغلق
+    other: "%{count} مغلق"
+  label_total: الإجمالي
+  label_permissions: أذونات
+  label_current_status: الوضع الحالي
+  label_new_statuses_allowed: يسمح بادراج حالات جديدة
+  label_all: جميع
+  label_none: لا شيء
+  label_nobody: لا أحد
+  label_next: القادم
+  label_previous: السابق
+  label_used_by: التي يستخدمها
+  label_details: التفاصيل
+  label_add_note: إضافة ملاحظة
+  label_per_page: كل صفحة
+  label_calendar: التقويم
+  label_months_from: بعد أشهر من
+  label_gantt: جانت
+  label_internal: الداخلية
+  label_last_changes: "آخر التغييرات %{count}"
+  label_change_view_all: عرض كافة التغييرات
+  label_personalize_page: تخصيص هذه الصفحة
+  label_comment: تعليق
+  label_comment_plural: تعليقات
+  label_x_comments:
+    zero: لا يوجد تعليقات
+    one: تعليق واحد
+    other: "%{count} تعليقات"
+  label_comment_add: إضافة تعليق
+  label_comment_added: تم إضافة التعليق
+  label_comment_delete: حذف التعليقات
+  label_query: استعلام مخصص
+  label_query_plural: استعلامات مخصصة
+  label_query_new: استعلام جديد
+  label_my_queries: استعلاماتي المخصصة
+  label_filter_add: إضافة عامل تصفية
+  label_filter_plural: عوامل التصفية
+  label_equals: يساوي
+  label_not_equals: لا يساوي
+  label_in_less_than: في أقل من
+  label_in_more_than: في أكثر من
+  label_greater_or_equal: '>='
+  label_less_or_equal: '< ='
+  label_between: بين
+  label_in: في
+  label_today: اليوم
+  label_all_time: كل الوقت
+  label_yesterday: بالأمس
+  label_this_week: هذا الأسبوع
+  label_last_week: الأسبوع الماضي
+  label_last_n_days: "ايام %{count} اخر"
+  label_this_month: هذا الشهر
+  label_last_month: الشهر الماضي
+  label_this_year: هذا العام
+  label_date_range: نطاق التاريخ
+  label_less_than_ago: أقل من قبل أيام
+  label_more_than_ago: أكثر من قبل أيام
+  label_ago: منذ أيام
+  label_contains: يحتوي على
+  label_not_contains: لا يحتوي على
+  label_day_plural: أيام
+  label_repository: المستودع
+  label_repository_plural: المستودعات
+  label_browse: تصفح
+  label_modification: "%{count} تغير"
+  label_modification_plural: "%{count}تغيرات "
+  label_branch: فرع
+  label_tag: ربط
+  label_revision: مراجعة
+  label_revision_plural: تنقيحات  
+  label_revision_id: " %{value}مراجعة"
+  label_associated_revisions: التنقيحات المرتبطة
+  label_added: إضافة
+  label_modified: تعديل
+  label_copied: نسخ
+  label_renamed: إعادة تسمية
+  label_deleted: حذف
+  label_latest_revision: آخر تنقيح
+  label_latest_revision_plural: أحدث المراجعات
+  label_view_revisions: عرض التنقيحات
+  label_view_all_revisions: عرض كافة المراجعات
+  label_max_size: الحد الأقصى للحجم
+  label_sort_highest: التحرك إلى أعلى
+  label_sort_higher: تحريك لأعلى
+  label_sort_lower: تحريك لأسفل
+  label_sort_lowest: الانتقال إلى أسفل
+  label_roadmap: خارطة الطريق
+  label_roadmap_due_in: " %{value}تستحق في "
+  label_roadmap_overdue: "%{value}تأخير"
+  label_roadmap_no_issues: لا يوجد قضايا لهذا الإصدار
+  label_search: البحث
+  label_result_plural: النتائج
+  label_all_words: كل الكلمات
+  label_wiki: ويكي
+  label_wiki_edit: تحرير ويكي
+  label_wiki_edit_plural: عمليات تحرير ويكي
+  label_wiki_page: صفحة ويكي
+  label_wiki_page_plural: ويكي صفحات
+  label_index_by_title: الفهرس حسب العنوان
+  label_index_by_date: الفهرس حسب التاريخ
+  label_current_version: الإصدار الحالي
+  label_preview: معاينة
+  label_feed_plural: موجز ويب
+  label_changes_details: تفاصيل جميع التغييرات
+  label_issue_tracking: تعقب القضايا
+  label_spent_time: أمضى بعض الوقت
+  label_overall_spent_time: الوقت الذي تم انفاقه كاملا
+  label_f_hour: "%{value} ساعة"
+  label_f_hour_plural: "%{value} ساعات"
+  label_time_tracking: تعقب الوقت
+  label_change_plural: التغييرات
+  label_statistics: إحصاءات
+  label_commits_per_month: يثبت في الشهر
+  label_commits_per_author: يثبت لكل مؤلف
+  label_diff: الاختلافات
+  label_view_diff: عرض الاختلافات
+  label_diff_inline: مضمنة
+  label_diff_side_by_side: جنبا إلى جنب
+  label_options: خيارات
+  label_copy_workflow_from: نسخ سير العمل من
+  label_permissions_report: تقرير أذونات
+  label_watched_issues: شاهد القضايا
+  label_related_issues: القضايا ذات الصلة
+  label_applied_status: تطبيق مركز
+  label_loading: تحميل...
+  label_relation_new: علاقة جديدة
+  label_relation_delete: حذف العلاقة
+  label_relates_to: ذات الصلة إلى
+  label_duplicates: التكرارات
+  label_duplicated_by: ازدواج
+  label_blocks: حظر
+  label_blocked_by: حظر بواسطة
+  label_precedes: يسبق
+  label_follows: يتبع
+  label_end_to_start: نهاية لبدء
+  label_end_to_end: نهاية إلى نهاية
+  label_start_to_start: بدء إلى بدء
+  label_start_to_end: بداية لنهاية
+  label_stay_logged_in: تسجيل الدخول في
+  label_disabled: تعطيل
+  label_show_completed_versions: أكملت إظهار إصدارات
+  label_me: لي
+  label_board: المنتدى
+  label_board_new: منتدى جديد
+  label_board_plural: المنتديات
+  label_board_locked: تأمين
+  label_board_sticky: لزجة
+  label_topic_plural: المواضيع
+  label_message_plural: رسائل
+  label_message_last: آخر رسالة
+  label_message_new: رسالة جديدة
+  label_message_posted: تم اضافة الرسالة
+  label_reply_plural: الردود
+  label_send_information: إرسال معلومات الحساب للمستخدم
+  label_year: سنة
+  label_month: شهر
+  label_week: أسبوع
+  label_date_from: من
+  label_date_to: إلى
+  label_language_based: استناداً إلى لغة المستخدم 
+  label_sort_by: " %{value}الترتيب حسب "
+  label_send_test_email: ارسل رسالة الكترونية كاختبار
+  label_feeds_access_key: RSS مفتاح دخول
+  label_missing_feeds_access_key: مفقودRSS مفتاح دخول
+  label_feeds_access_key_created_on: "RSS تم انشاء مفتاح %{value} منذ"
+  label_module_plural: الوحدات النمطية
+  label_added_time_by: " تم اضافته من قبل%{author} %{age} منذ"
+  label_updated_time_by: " تم تحديثه من قبل%{author} %{age} منذ"
+  label_updated_time: "تم التحديث  %{value} منذ"
+  label_jump_to_a_project: الانتقال إلى مشروع...
+  label_file_plural: الملفات
+  label_changeset_plural: اعدادات التغير
+  label_default_columns: الاعمدة الافتراضية
+  label_no_change_option: (أي تغيير)
+  label_bulk_edit_selected_issues: تحرير القضايا المظللة
+  label_bulk_edit_selected_time_entries: تعديل كل الإدخالات في كل الاوقات
+  label_theme: الموضوع
+  label_default: الافتراضي
+  label_search_titles_only: البحث في العناوين فقط
+  label_user_mail_option_all: "جميع الخيارات"
+  label_user_mail_option_selected: "الخيارات المظللة فقط"
+  label_user_mail_option_none: "لم يتم تحديد اي خيارات"
+  label_user_mail_option_only_my_events: "السماح لي فقط بمشاهدة الاحداث الخاصة"
+  label_user_mail_option_only_assigned: "فقط الخيارات التي تم تعيينها"
+  label_user_mail_option_only_owner: "فقط للخيارات التي املكها"
+  label_user_mail_no_self_notified: "لا تريد اعلامك بالتغيرات التي تجريها بنفسك"
+  label_registration_activation_by_email: حساب التنشيط عبر البريد الإلكتروني
+  label_registration_manual_activation: تنشيط الحساب اليدوي
+  label_registration_automatic_activation: تنشيط الحساب التلقائي
+  label_display_per_page: "لكل صفحة: %{value}"
+  label_age: العمر
+  label_change_properties: تغيير الخصائص
+  label_general: عامة
+  label_more: أكثر
+  label_scm: scm
+  label_plugins: الإضافات
+  label_ldap_authentication: مصادقة LDAP
+  label_downloads_abbr: D/L
+  label_optional_description: وصف اختياري
+  label_add_another_file: إضافة ملف آخر
+  label_preferences: تفضيلات
+  label_chronological_order: في ترتيب زمني
+  label_reverse_chronological_order: في ترتيب زمني عكسي
+  label_planning: التخطيط
+  label_incoming_emails: رسائل البريد الإلكتروني الوارد
+  label_generate_key: إنشاء مفتاح
+  label_issue_watchers: المراقبون
+  label_example: مثال
+  label_display: العرض
+  label_sort: فرز
+  label_ascending: تصاعدي
+  label_descending: تنازلي
+  label_date_from_to: من %{start} الى %{end}
+  label_wiki_content_added: إضافة صفحة ويكي
+  label_wiki_content_updated: تحديث صفحة ويكي
+  label_group: مجموعة
+  label_group_plural: المجموعات
+  label_group_new: مجموعة جديدة
+  label_time_entry_plural: أمضى بعض الوقت
+  label_version_sharing_none: لم يشارك
+  label_version_sharing_descendants: يشارك 
+  label_version_sharing_hierarchy: مع التسلسل الهرمي للمشروع
+  label_version_sharing_tree: مع شجرة المشروع
+  label_version_sharing_system: مع جميع المشاريع
+  label_update_issue_done_ratios: تحديث قضيةالنسب
+  label_copy_source: مصدر
+  label_copy_target: الهدف
+  label_copy_same_as_target: نفس الهدف
+  label_display_used_statuses_only: عرض الحالات المستخدمة من قبل هذا "تعقب" فقط
+  label_api_access_key: مفتاح الوصول إلى API
+  label_missing_api_access_key: API لم يتم الحصول على مفتاح الوصول
+  label_api_access_key_created_on: " API  إنشاء مفتاح الوصول إلى"
+  label_profile: الملف الشخصي
+  label_subtask_plural: المهام الفرعية
+  label_project_copy_notifications: إرسال إشعار الى البريد الإلكتروني عند نسخ المشروع
+  label_principal_search: "البحث عن مستخدم أو مجموعة:"
+  label_user_search: "البحث عن المستخدم:"
+  label_additional_workflow_transitions_for_author: الانتقالات الإضافية المسموح بها عند المستخدم صاحب البلاغ
+  label_additional_workflow_transitions_for_assignee: الانتقالات الإضافية المسموح بها عند المستخدم المحال إليه
+  label_issues_visibility_all: جميع القضايا
+  label_issues_visibility_public: جميع القضايا الخاصة 
+  label_issues_visibility_own: القضايا التي أنشأها المستخدم
+  label_git_report_last_commit: اعتماد التقرير الأخير للملفات والدلائل
+  label_parent_revision: الوالدين
+  label_child_revision: الطفل
+  label_export_options: "%{export_format} خيارات التصدير"
+    
+  button_login: دخول
+  button_submit: تثبيت
+  button_save: حفظ
+  button_check_all: نحديد الكل
+  button_uncheck_all: عدم تحديد الكل
+  button_collapse_all:  تقليص الكل
+  button_expand_all: عرض الكل
+  button_delete: حذف
+  button_create: انشاء
+  button_create_and_continue: انشاء واستمرار
+  button_test: اختبار
+  button_edit: تعديل
+  button_edit_associated_wikipage: "تغير صفحة ويكي: %{page_title}"
+  button_add: اضافة
+  button_change: تغير
+  button_apply: تطبيق
+  button_clear: واضح
+  button_lock: قفل
+  button_unlock: الغاء القفل
+  button_download: تنزيل
+  button_list: قائمة
+  button_view: عرض
+  button_move: تحرك
+  button_move_and_follow: تحرك واتبع
+  button_back: رجوع
+  button_cancel: إلغاء
+  button_activate: تنشيط
+  button_sort: ترتيب
+  button_log_time: وقت الدخول
+  button_rollback: الرجوع الى هذا الاصدار
+  button_watch: يشاهد
+  button_unwatch: إلغاء المشاهدة
+  button_reply: رد
+  button_archive: الارشيف
+  button_unarchive: إلغاء الارشفة
+  button_reset: إعادة
+  button_rename: إعادة التسمية
+  button_change_password: تغير كلمة المرور
+  button_copy: نسخ
+  button_copy_and_follow: نسخ واتباع
+  button_annotate: تعليق
+  button_update: تحديث
+  button_configure: تكوين
+  button_quote: يقتبس
+  button_duplicate: يضاعف
+  button_show: يظهر
+  button_edit_section: يعدل هذا الجزء
+  button_export: يستورد
+  
+  status_active: نشيط
+  status_registered: مسجل
+  status_locked: مقفل
+  
+  version_status_open: مفتوح
+  version_status_locked: مقفل
+  version_status_closed: مغلق
+  
+  field_active: فعال
+  
+  text_select_mail_notifications: حدد الامور التي يجب ابلاغك بها عن طريق البريد الالكتروني
+  text_regexp_info: مثال. ^[A-Z0-9]+$
+  text_min_max_length_info: الحد الاقصى والادني لطول المعلومات
+  text_project_destroy_confirmation: هل أنت متأكد من أنك تريد حذف هذا المشروع والبيانات ذات الصلة؟
+  text_subprojects_destroy_warning: "subproject(s): سيتم حذف أيضا."
+  text_workflow_edit: حدد دوراً وتعقب لتحرير سير العمل
+  text_are_you_sure: هل أنت متأكد؟
+  text_are_you_sure_with_children: "حذف الموضوع وجميع المسائل المتعلقة بالطفل؟"
+  text_journal_changed: "%{label} تغير %{old} الى %{new}"
+  text_journal_changed_no_detail: "%{label} تم التحديث"
+  text_journal_set_to: "%{label} تغير الى %{value}"
+  text_journal_deleted: "%{label} تم الحذف (%{old})"
+  text_journal_added: "%{label} %{value} تم الاضافة"
+  text_tip_issue_begin_day: قضية بدأت اليوم
+  text_tip_issue_end_day: قضية انتهت اليوم
+  text_tip_issue_begin_end_day: قضية بدأت وانتهت اليوم
+  text_caracters_maximum: "%{count} الحد الاقصى."
+  text_caracters_minimum: "الحد الادنى  %{count}"
+  text_length_between: "الطول %{min} بين %{max} رمز"
+  text_tracker_no_workflow: لم يتم تحديد سير العمل لهذا المتتبع
+  text_unallowed_characters: رموز غير مسموحة
+  text_comma_separated: مسموح رموز متنوعة يفصلها فاصلة .
+  text_line_separated: مسموح رموز متنوعة يفصلها سطور
+  text_issues_ref_in_commit_messages: الرجوع واصلاح القضايا في رسائل المشتكين
+  text_issue_added: "القضية %{id} تم ابلاغها عن طريق %{author}."
+  text_issue_updated: "القضية %{id} تم تحديثها عن طريق %{author}."
+  text_wiki_destroy_confirmation: هل انت متأكد من رغبتك في حذف هذا الويكي ومحتوياته؟
+  text_issue_category_destroy_question: "بعض القضايا  (%{count}) مرتبطة بهذه الفئة، ماذا تريد ان تفعل بها؟"
+  text_issue_category_destroy_assignments: حذف الفئة
+  text_issue_category_reassign_to: اعادة تثبيت البنود في الفئة
+  text_user_mail_option: "بالنسبة للمشاريع غير المحددة، سوف يتم ابلاغك عن المشاريع التي تشاهدها او تشارك بها فقط!"
+  text_no_configuration_data: "الادوار والمتتبع وحالات القضية ومخطط سير العمل لم يتم تحديد وضعها الافتراضي بعد. "
+  text_load_default_configuration: احمل الاعدادات الافتراضية
+  text_status_changed_by_changeset: " طبق التغيرات المعينة على %{value}."
+  text_time_logged_by_changeset: "تم تطبيق التغيرات المعينة على  %{value}."
+  text_issues_destroy_confirmation: هل انت متأكد من حذف البنود المظللة؟'
+  text_issues_destroy_descendants_confirmation: "سوف يؤدي هذا الى حذف  %{count} المهام الفرعية ايضا."
+  text_time_entries_destroy_confirmation: "هل انت متأكد من رغبتك في حذف الادخالات الزمنية المحددة؟"
+  text_select_project_modules: قم بتحديد الوضع المناسب لهذا المشروع:'
+  text_default_administrator_account_changed: تم تعديل الاعدادات الافتراضية لحساب المدير 
+  text_file_repository_writable: المرفقات قابلة للكتابة
+  text_plugin_assets_writable: الدليل المساعد قابل للكتابة
+  text_destroy_time_entries_question: " ساعة على القضية التي تود حذفها، ماذا تريد ان تفعل؟ %{hours} تم تثبيت"
+  text_destroy_time_entries: قم بحذف الساعات المسجلة
+  text_assign_time_entries_to_project: ثبت الساعات المسجلة على التقرير
+  text_reassign_time_entries: 'اعادة تثبيت الساعات المسجلة لهذه القضية:'
+  text_user_wrote: "%{value} كتب:"
+  text_enumeration_destroy_question: "%{count} الكائنات المعنية لهذه القيمة"
+  text_enumeration_category_reassign_to: اعادة تثبيت الكائنات التالية لهذه القيمة:'
+  text_email_delivery_not_configured: "لم يتم تسليم البريد الالكتروني"
+  text_diff_truncated: '... لقد تم اقتطلع هذا الجزء لانه تجاوز الحد الاقصى المسموح بعرضه'
+  text_custom_field_possible_values_info: 'سطر لكل قيمة'
+  text_wiki_page_nullify_children: "الاحتفاظ بصفحات الطفل كصفحات جذر"
+  text_wiki_page_destroy_children: "حذف صفحات الطفل وجميع أولادهم"
+  text_wiki_page_reassign_children: "إعادة تعيين صفحات تابعة لهذه الصفحة الأصلية"
+  text_own_membership_delete_confirmation: "انت على وشك إزالة بعض أو كافة الأذونات الخاصة بك، لن تكون قادراً على تحرير هذا المشروع بعد ذلك. هل أنت متأكد من أنك تريد المتابعة؟"
+  text_zoom_in: تصغير
+  text_zoom_out: تكبير
+  text_warn_on_leaving_unsaved: "الصفحة تحتوي على نص غير مخزن، سوف يفقد النص اذا تم الخروج من الصفحة."
+  text_scm_path_encoding_note: "الافتراضي: UTF-8"
+  text_git_repository_note: مستودع فارغ ومحلي 
+  text_mercurial_repository_note: مستودع محلي
+  text_scm_command: امر
+  text_scm_command_version: اصدار
+  text_scm_config: الرجاء اعادة تشغيل التطبيق
+  text_scm_command_not_available: الامر غير متوفر، الرجاء التحقق من لوحة التحكم
+  
+  default_role_manager: مدير
+  default_role_developer: مطور
+  default_role_reporter: مراسل
+  default_tracker_bug: الشوائب
+  default_tracker_feature: خاصية
+  default_tracker_support: دعم
+  default_issue_status_new: جديد
+  default_issue_status_in_progress: جاري التحميل
+  default_issue_status_resolved: الحل
+  default_issue_status_feedback: التغذية الراجعة
+  default_issue_status_closed: مغلق
+  default_issue_status_rejected: مرفوض
+  default_doc_category_user: مستندات المستخدم
+  default_doc_category_tech: المستندات التقنية
+  default_priority_low: قليل
+  default_priority_normal: عادي
+  default_priority_high: عالي
+  default_priority_urgent: طارئ
+  default_priority_immediate: مباشرة
+  default_activity_design: تصميم
+  default_activity_development: تطوير
+  
+  enumeration_issue_priorities: الاولويات
+  enumeration_doc_categories: تصنيف المستندات
+  enumeration_activities: الانشطة
+  enumeration_system_activity: نشاط النظام
+  description_filter: فلترة
+  description_search: حقل البحث
+  description_choose_project: مشاريع
+  description_project_scope: مجال البحث
+  description_notes: ملاحظات
+  description_message_content: محتويات الرسالة
+  description_query_sort_criteria_attribute: نوع الترتيب
+  description_query_sort_criteria_direction: اتجاه الترتيب
+  description_user_mail_notification: إعدادات البريد الالكتروني
+  description_available_columns: الاعمدة المتوفرة
+  description_selected_columns: الاعمدة المحددة
+  description_all_columns: كل الاعمدة
+  description_issue_category_reassign: اختر التصنيف
+  description_wiki_subpages_reassign: اختر صفحة جديدة
+  description_date_range_list: اختر المجال من القائمة
+  description_date_range_interval: اختر المدة عن طريق اختيار تاريخ البداية والنهاية
+  description_date_from: ادخل تاريخ البداية
+  description_date_to: ادخل تاريخ الانتهاء

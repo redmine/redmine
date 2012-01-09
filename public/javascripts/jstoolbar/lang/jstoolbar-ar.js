@@ -1,0 +1,16 @@
+jsToolBar.strings = {}; 
+jsToolBar.strings ['قوي'] = 'قوي';
+jsToolBar.strings ['مائل'] = 'مائل';
+jsToolBar.strings ['تسطير'] = 'تسطير';
+jsToolBar.strings ['محذوف'] = 'محذوف';
+jsToolBar.strings ['رمز'] = 'رمز ضمني';
+jsToolBar.strings ['عنوان 1'] = 'عنوان 1';
+jsToolBar.strings ['عنوان 2'] = 'عنوان 2';
+jsToolBar.strings ['عنوان 3'] = 'عنوان 3';
+jsToolBar.strings ['قائمة غير مرتبة'] = 'قائمة غير مرتبة';
+jsToolBar.strings ['قائمة مرتبة'] = 'قائمة مرتبة';
+jsToolBar.strings ['اقتباس'] = 'اقتباس';
+jsToolBar.strings ['نهاية الاقتباس'] = 'إزالة الاقتباس';
+jsToolBar.strings ['نص مسبق التنسيق'] = 'نص مسبق التنسيق';
+jsToolBar.strings ['رابط ويكي'] = 'رابط الى صفحة ويكي';
+jsToolBar.strings ['صورة'] = 'صورة';
