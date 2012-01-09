@@ -128,13 +128,17 @@ ActionController::Routing::Routes.draw do |map|
               :action => 'destroy', :conditions => {:method => :delete}
 
   map.connect 'watchers/new', :controller=> 'watchers', :action => 'new',
-              :conditions => {:method => [:get, :post]}
+              :conditions => {:method => :get}
+  map.connect 'watchers', :controller=> 'watchers', :action => 'create',
+              :conditions => {:method => :post}
   map.connect 'watchers/destroy', :controller=> 'watchers', :action => 'destroy',
               :conditions => {:method => :post}
   map.connect 'watchers/watch', :controller=> 'watchers', :action => 'watch',
               :conditions => {:method => :post}
   map.connect 'watchers/unwatch', :controller=> 'watchers', :action => 'unwatch',
               :conditions => {:method => :post}
+  map.connect 'watchers/autocomplete_for_user', :controller=> 'watchers', :action => 'autocomplete_for_user',
+              :conditions => {:method => :get}
 
   # TODO: port to be part of the resources route(s)
   map.with_options :conditions => {:method => :get} do |project_views|

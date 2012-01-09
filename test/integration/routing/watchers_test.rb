@@ -19,15 +19,21 @@ require File.expand_path('../../../test_helper', __FILE__)
 
 class RoutingWatchersTest < ActionController::IntegrationTest
   def test_watchers
-    ["get", "post"].each do |method|
-      assert_routing(
-          { :method => method, :path => "/watchers/new" },
-          { :controller => 'watchers', :action => 'new' }
-        )
-    end
+    assert_routing(
+        { :method => 'get', :path => "/watchers/new" },
+        { :controller => 'watchers', :action => 'new' }
+      )
+    assert_routing(
+        { :method => 'post', :path => "/watchers" },
+        { :controller => 'watchers', :action => 'create' }
+      )
     assert_routing(
         { :method => 'post', :path => "/watchers/destroy" },
         { :controller => 'watchers', :action => 'destroy' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/watchers/autocomplete_for_user" },
+        { :controller => 'watchers', :action => 'autocomplete_for_user' }
       )
     assert_routing(
         { :method => 'post', :path => "/watchers/watch" },

@@ -37,13 +37,28 @@ class WatchersController < ApplicationController
   end
 
   def new
-    @watcher = Watcher.new(params[:watcher])
-    @watcher.watchable = @watched
-    @watcher.save if request.post?
+    respond_to do |format|
+      format.js do
+        render :update do |page|
+          page.replace_html 'ajax-modal', :partial => 'watchers/new', :locals => {:watched => @watched}
+          page << "showModal('ajax-modal', '400px');"
+        end
+      end
+    end
+  end
+
+  def create
+    if params[:watcher].is_a?(Hash) && request.post?
+      user_ids = params[:watcher][:user_ids] || [params[:watcher][:user_id]]
+      user_ids.each do |user_id|
+        Watcher.create(:watchable => @watched, :user_id => user_id)
+      end
+    end
     respond_to do |format|
       format.html { redirect_to :back }
       format.js do
         render :update do |page|
+          page.replace_html 'ajax-modal', :partial => 'watchers/new', :locals => {:watched => @watched}
           page.replace_html 'watchers', :partial => 'watchers/watchers', :locals => {:watched => @watched}
         end
       end
@@ -62,6 +77,11 @@ class WatchersController < ApplicationController
         end
       end
     end
+  end
+
+  def autocomplete_for_user
+    @users = User.active.like(params[:q]).find(:all, :limit => 100) - @watched.watcher_users
+    render :layout => false
   end
 
 private

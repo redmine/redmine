@@ -1,0 +1,30 @@
+<h3 class="title"><%= l(:permission_add_issue_watchers) %></h3>
+
+<% form_remote_tag :url => {:controller => 'watchers',
+                            :action => 'create',
+                            :object_type => watched.class.name.underscore,
+                            :object_id => watched},
+                     :method => :post,
+                     :html => {:id => 'new-watcher-form'} do %>
+
+  <p><%= label_tag 'user_search', l(:label_user_search) %><%= text_field_tag 'user_search', nil %></p>
+  <%= observe_field(:user_search,
+               :frequency => 0.5,
+               :update => :users_for_watcher,
+               :method => :get,
+               :url => {
+                 :controller => 'watchers',
+                 :action => 'autocomplete_for_user',
+                 :object_type => watched.class.name.underscore,
+                 :object_id => watched},
+               :with => 'q') %>
+
+  <div id="users_for_watcher">
+    <%= principals_check_box_tags 'watcher[user_ids][]', watched.addable_watcher_users %>
+  </div>
+
+  <p class="buttons">
+    <%= submit_tag l(:button_add), :name => nil, :onclick => "hideModal(this);" %>
+    <%= submit_tag l(:button_cancel), :name => nil, :onclick => "hideModal(this);", :type => 'button' %>
+  </p>
+<% end %>
