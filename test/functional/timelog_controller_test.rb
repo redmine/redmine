@@ -40,7 +40,7 @@ class TimelogControllerTest < ActionController::TestCase
     @request.session[:user_id] = 3
     get :new, :project_id => 1
     assert_response :success
-    assert_template 'edit'
+    assert_template 'new'
     # Default activity selected
     assert_tag :tag => 'option', :attributes => { :selected => 'selected' },
                                  :content => 'Development'
@@ -50,7 +50,7 @@ class TimelogControllerTest < ActionController::TestCase
     @request.session[:user_id] = 3
     get :new, :project_id => 1
     assert_response :success
-    assert_template 'edit'
+    assert_template 'new'
     assert_no_tag :tag => 'option', :content => 'Inactive Activity'
   end
 
