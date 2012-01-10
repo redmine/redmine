@@ -2491,6 +2491,8 @@ class IssuesControllerTest < ActionController::TestCase
     assert_template 'destroy'
     assert_not_nil assigns(:hours)
     assert Issue.find_by_id(1) && Issue.find_by_id(3)
+    assert_tag 'form',
+      :descendant => {:tag => 'input', :attributes => {:name => '_method', :value => 'delete'}}
   end
 
   def test_destroy_issues_and_destroy_time_entries
