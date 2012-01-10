@@ -1005,3 +1005,7 @@ bg:
   description_date_range_interval: Изберете диапазон чрез задаване на начална и крайна дати
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
+  label_x_issues:
+    zero:  0 Задача
+    one:   1 Задача
+    other: "%{count} Задачи"

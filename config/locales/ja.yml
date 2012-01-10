@@ -1037,3 +1037,7 @@ ja:
   label_export_options: "%{export_format} エクスポート設定"
   error_attachment_too_big: このファイルはアップロードできません。添付ファイルサイズの上限(%{max_size})を超えています。
   notice_failed_to_save_time_entries: "全%{total}件中%{count}件の作業時間が保存できませんでした: %{ids}."
+  label_x_issues:
+    zero:  0 チケット
+    one:   1 チケット
+    other: "%{count} チケット"

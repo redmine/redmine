@@ -586,6 +586,10 @@ en:
     zero:  0 closed
     one:   1 closed
     other: "%{count} closed"
+  label_x_issues:
+    zero:  0 issues
+    one:   1 issue
+    other: "%{count} issues"
   label_total: Total
   label_permissions: Permissions
   label_current_status: Current status

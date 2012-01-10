@@ -568,17 +568,21 @@ fr:
   label_closed_issues: fermé
   label_closed_issues_plural: fermés
   label_x_open_issues_abbr_on_total:
-    zero:  0 ouvert sur %{total}
-    one:   1 ouvert sur %{total}
-    other: "%{count} ouverts sur %{total}"
+    zero:  0 ouverte sur %{total}
+    one:   1 ouverte sur %{total}
+    other: "%{count} ouvertes sur %{total}"
   label_x_open_issues_abbr:
-    zero:  0 ouvert
-    one:   1 ouvert
-    other: "%{count} ouverts"
+    zero:  0 ouverte
+    one:   1 ouverte
+    other: "%{count} ouvertes"
   label_x_closed_issues_abbr:
-    zero:  0 fermé
-    one:   1 fermé
-    other: "%{count} fermés"
+    zero:  0 fermée
+    one:   1 fermée
+    other: "%{count} fermées"
+  label_x_issues:
+    zero:  0 demande
+    one:   1 demande
+    other: "%{count} demandes"
   label_total: Total
   label_permissions: Permissions
   label_current_status: Statut actuel

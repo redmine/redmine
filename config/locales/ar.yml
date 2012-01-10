@@ -1007,3 +1007,7 @@ ar:
     Select or update the Redmine user mapped to each username found in the repository log.
     Users with the same Redmine and repository username or email are automatically mapped.
   notice_failed_to_save_time_entries: "Failed to save %{count} time entrie(s) on %{total} selected: %{ids}."
+  label_x_issues:
+    zero:  0 قضية
+    one:   1 قضية
+    other: "%{count} قضايا"

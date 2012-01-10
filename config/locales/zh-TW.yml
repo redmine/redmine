@@ -1087,3 +1087,7 @@
   description_date_range_interval: 選擇起始與結束日期以設定範圍區間
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
+  label_x_issues:
+    zero:  0 問題
+    one:   1 問題
+    other: "%{count} 問題清單"
