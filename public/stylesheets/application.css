@@ -356,11 +356,12 @@ div#roadmap .related-issues td.checkbox { display: none; }
 div#roadmap .wiki h1:first-child { display: none; }
 div#roadmap .wiki h1 { font-size: 120%; }
 div#roadmap .wiki h2 { font-size: 110%; }
-body.controller-versions.action-show div#roadmap .related-issues {width:auto;}
+body.controller-versions.action-show div#roadmap .related-issues {width:70%;}
 
-div#version-summary { float:right; width:380px; margin-left: 16px; margin-bottom: 16px; background-color: #fff; }
+div#version-summary { float:right; width:28%; margin-left: 16px; margin-bottom: 16px; background-color: #fff; }
 div#version-summary fieldset { margin-bottom: 1em; }
-div#version-summary .total-hours { text-align: right; }
+div#version-summary fieldset.time-tracking table { width:100%; }
+div#version-summary th, div#version-summary td.total-hours { text-align: right; }
 
 table#time-report td.hours, table#time-report th.period, table#time-report th.total { text-align: right; padding-right: 0.5em; }
 table#time-report tbody tr.subtotal { font-style: italic; color:#777;}
