@@ -82,8 +82,8 @@ bg:
         format: "%n %u"
         units:
           byte:
-            one: Byte
-            other: Bytes
+            one: байт
+            other: байта
           kb: "KB"
           mb: "MB"
           gb: "GB"
@@ -586,6 +586,10 @@ bg:
     zero:  0 затворени
     one:   1 затворена
     other: "%{count} затворени"
+  label_x_issues:
+    zero:  0 задачи
+    one:   1 задача
+    other: "%{count} задачи"
   label_total: Общо
   label_permissions: Права
   label_current_status: Текущо състояние
@@ -609,9 +613,9 @@ bg:
   label_comment: Коментар
   label_comment_plural: Коментари
   label_x_comments:
-    zero: 0 коментари
+    zero: 0 коментара
     one: 1 коментар
-    other: "%{count} коментари"
+    other: "%{count} коментара"
   label_comment_add: Добавяне на коментар
   label_comment_added: Добавен коментар
   label_comment_delete: Изтриване на коментари
@@ -1005,7 +1009,3 @@ bg:
   description_date_range_interval: Изберете диапазон чрез задаване на начална и крайна дати
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
-  label_x_issues:
-    zero:  0 Задача
-    one:   1 Задача
-    other: "%{count} Задачи"
