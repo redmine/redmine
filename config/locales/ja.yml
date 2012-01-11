@@ -421,9 +421,9 @@ ja:
   permission_save_queries: クエリの保存
   permission_view_gantt: ガントチャートの閲覧
   permission_view_calendar: カレンダーの閲覧
-  permission_view_issue_watchers: ウォッチ一覧の閲覧
-  permission_add_issue_watchers: ウォッチの追加
-  permission_delete_issue_watchers: ウォッチの削除
+  permission_view_issue_watchers: ウォッチャー一覧の閲覧
+  permission_add_issue_watchers: ウォッチャーの追加
+  permission_delete_issue_watchers: ウォッチャーの削除
   permission_log_time: 変更履歴の記入
   permission_view_time_entries: 変更履歴の閲覧
   permission_edit_time_entries: 変更履歴の編集
