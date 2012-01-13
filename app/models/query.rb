@@ -688,6 +688,12 @@ class Query < ActiveRecord::Base
   def sql_for_custom_field(field, operator, value, custom_field_id)
     db_table = CustomValue.table_name
     db_field = 'value'
+    filter = @available_filters[field]
+    if filter && filter[:format] == 'user'
+      if value.delete('me')
+        value.push User.current.id.to_s
+      end
+    end
     "#{Issue.table_name}.id IN (SELECT #{Issue.table_name}.id FROM #{Issue.table_name} LEFT OUTER JOIN #{db_table} ON #{db_table}.customized_type='Issue' AND #{db_table}.customized_id=#{Issue.table_name}.id AND #{db_table}.custom_field_id=#{custom_field_id} WHERE " +
       sql_for_field(field, operator, value, db_table, db_field, true) + ')'
   end
@@ -816,11 +822,15 @@ class Query < ActiveRecord::Base
         options = { :type => :float, :order => 20 }
       when "user", "version"
         next unless project
-        options = { :type => :list_optional, :values => field.possible_values_options(project), :order => 20}
+        values = field.possible_values_options(project)
+        if User.current.logged? && field.field_format == 'user'
+          values.unshift ["<< #{l(:label_me)} >>", "me"]
+        end
+        options = { :type => :list_optional, :values => values, :order => 20}
       else
         options = { :type => :string, :order => 20 }
       end
-      @available_filters["cf_#{field.id}"] = options.merge({ :name => field.name })
+      @available_filters["cf_#{field.id}"] = options.merge({ :name => field.name, :format => field.field_format })
     end
   end
 

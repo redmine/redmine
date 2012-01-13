@@ -413,6 +413,23 @@ class QueryTest < ActiveSupport::TestCase
     assert !result.include?(i3)
   end
 
+  def test_user_custom_field_filtered_on_me
+    User.current = User.find(2)
+    cf = IssueCustomField.create!(:field_format => 'user', :is_for_all => true, :is_filter => true, :name => 'User custom field', :tracker_ids => [1])
+    issue1 = Issue.create!(:project_id => 1, :tracker_id => 1, :custom_field_values => {cf.id.to_s => '2'}, :subject => 'Test', :author_id => 1)
+    issue2 = Issue.generate!(:project_id => 1, :tracker_id => 1, :custom_field_values => {cf.id.to_s => '3'})
+
+    query = Query.new(:name => '_', :project => Project.find(1))
+    filter = query.available_filters["cf_#{cf.id}"]
+    assert_not_nil filter
+    assert_include 'me', filter[:values].map{|v| v[1]}
+
+    query.filters = { "cf_#{cf.id}" => {:operator => '=', :values => ['me']}}
+    result = query.issues
+    assert_equal 1, result.size
+    assert issue1, result.first
+  end
+
   def test_filter_my_projects
     User.current = User.find(2)
     query = Query.new(:name => '_')
