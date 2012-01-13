@@ -439,7 +439,6 @@ class QueryTest < ActiveSupport::TestCase
 
     query.filters = { 'project_id' => {:operator => '=', :values => ['mine']}}
     result = query.issues
-    assert_include "issues.project_id IN ('1','2','5')", query.statement
     assert_nil result.detect {|issue| !User.current.member_of?(issue.project)}
   end
 
