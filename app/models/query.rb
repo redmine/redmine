@@ -240,6 +240,9 @@ class Query < ActiveRecord::Base
 
         # project filter
         project_values = []
+        if User.current.logged? && User.current.memberships.any?
+          project_values << ["<< #{l(:label_my_projects).downcase} >>", "mine"]
+        end
         Project.project_tree(all_projects) do |p, level|
           prefix = (level > 0 ? ('--' * level + ' ') : '')
           project_values << ["#{prefix}#{p.name}", p.id.to_s]
@@ -519,6 +522,12 @@ class Query < ActiveRecord::Base
           else
             v.push("0")
           end
+        end
+      end
+
+      if field == 'project_id'
+        if v.delete('mine')
+          v += User.current.memberships.map(&:project_id).map(&:to_s)
         end
       end
 

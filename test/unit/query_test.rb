@@ -413,6 +413,19 @@ class QueryTest < ActiveSupport::TestCase
     assert !result.include?(i3)
   end
 
+  def test_filter_my_projects
+    User.current = User.find(2)
+    query = Query.new(:name => '_')
+    filter = query.available_filters['project_id']
+    assert_not_nil filter
+    assert_include 'mine', filter[:values].map{|v| v[1]}
+
+    query.filters = { 'project_id' => {:operator => '=', :values => ['mine']}}
+    result = query.issues
+    assert_include "issues.project_id IN ('1','2','5')", query.statement
+    assert_nil result.detect {|issue| !User.current.member_of?(issue.project)}
+  end
+
   def test_filter_watched_issues
     User.current = User.find(1)
     query = Query.new(:name => '_', :filters => { 'watcher_id' => {:operator => '=', :values => ['me']}})
