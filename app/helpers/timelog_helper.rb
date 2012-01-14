@@ -130,7 +130,7 @@ module TimelogHelper
 
   def format_criteria_value(criteria_options, value)
     if value.blank?
-      l(:label_none)
+      "[#{l(:label_none)}]"
     elsif k = criteria_options[:klass]
       obj = k.find_by_id(value.to_i)
       if obj.is_a?(Issue)
