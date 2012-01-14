@@ -210,7 +210,7 @@ module IssuesHelper
       old_value = content_tag("strike", old_value) if detail.old_value and detail.value.blank?
       if detail.property == 'attachment' && !value.blank? && a = Attachment.find_by_id(detail.prop_key)
         # Link to the attachment if it has not been removed
-        value = link_to_attachment(a)
+        value = link_to_attachment(a, :download => true)
       else
         value = content_tag("i", h(value)) if value
       end
