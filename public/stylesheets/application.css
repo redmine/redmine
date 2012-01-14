@@ -940,9 +940,13 @@ padding-bottom: 3px;
 .icon-file.text-plain { background-image: url(../images/files/text.png); }
 .icon-file.text-x-c { background-image: url(../images/files/c.png); }
 .icon-file.text-x-csharp { background-image: url(../images/files/csharp.png); }
+.icon-file.text-x-java { background-image: url(../images/files/java.png); }
+.icon-file.text-x-javascript { background-image: url(../images/files/js.png); }
 .icon-file.text-x-php { background-image: url(../images/files/php.png); }
 .icon-file.text-x-ruby { background-image: url(../images/files/ruby.png); }
 .icon-file.text-xml { background-image: url(../images/files/xml.png); }
+.icon-file.text-css { background-image: url(../images/files/css.png); }
+.icon-file.text-html { background-image: url(../images/files/html.png); }
 .icon-file.image-gif { background-image: url(../images/files/image.png); }
 .icon-file.image-jpeg { background-image: url(../images/files/image.png); }
 .icon-file.image-png { background-image: url(../images/files/image.png); }
