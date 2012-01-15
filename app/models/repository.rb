@@ -112,10 +112,10 @@ class Repository < ActiveRecord::Base
   end
 
   def name
-    if is_default?
-      l(:field_repository_is_default)
-    elsif identifier.present?
+    if identifier.present?
       identifier
+    elsif is_default?
+      l(:field_repository_is_default)
     else
       scm_name
     end
