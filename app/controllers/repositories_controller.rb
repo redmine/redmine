@@ -36,7 +36,7 @@ class RepositoriesController < ApplicationController
   rescue_from Redmine::Scm::Adapters::CommandFailed, :with => :show_error_command_failed
 
   def new
-    scm = params[:repository_scm] || Redmine::Scm::Base.all.first
+    scm = params[:repository_scm] || (Redmine::Scm::Base.all & Setting.enabled_scm).first
     @repository = Repository.factory(scm)
     @repository.is_default = @project.repository.nil?
     @repository.project = @project

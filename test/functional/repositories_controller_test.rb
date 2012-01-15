@@ -43,6 +43,22 @@ class RepositoriesControllerTest < ActionController::TestCase
     assert_tag 'input', :attributes => {:name => 'repository[url]'}
   end
 
+  def test_new_should_propose_enabled_scm_only
+    @request.session[:user_id] = 1
+    with_settings :enabled_scm => ['Mercurial', 'Git'] do
+      get :new, :project_id => 'subproject1'
+    end
+    assert_response :success
+    assert_template 'new'
+    assert_kind_of Repository::Mercurial, assigns(:repository)
+    assert_tag 'select', :attributes => {:name => 'repository_scm'},
+      :children => {:count => 3}
+    assert_tag 'select', :attributes => {:name => 'repository_scm'},
+      :child => {:tag => 'option', :attributes => {:value => 'Mercurial', :selected => 'selected'}}
+    assert_tag 'select', :attributes => {:name => 'repository_scm'},
+      :child => {:tag => 'option', :attributes => {:value => 'Git', :selected => nil}}
+  end
+
   def test_create
     @request.session[:user_id] = 1
     assert_difference 'Repository.count' do
