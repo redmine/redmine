@@ -34,7 +34,7 @@ class Changeset < ActiveRecord::Base
   acts_as_event :title => Proc.new {|o| "#{l(:label_revision)} #{o.format_identifier}" + (o.short_comments.blank? ? '' : (': ' + o.short_comments))},
                 :description => :long_comments,
                 :datetime => :committed_on,
-                :url => Proc.new {|o| {:controller => 'repositories', :action => 'revision', :id => o.repository.project, :rev => o.identifier}}
+                :url => Proc.new {|o| {:controller => 'repositories', :action => 'revision', :id => o.repository.project, :repository_id => o.repository.identifier_param, :rev => o.identifier}}
 
   acts_as_searchable :columns => 'comments',
                      :include => {:repository => :project},
