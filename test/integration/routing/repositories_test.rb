@@ -70,6 +70,29 @@ class RoutingRepositoriesTest < ActionController::IntegrationTest
           :path => "/projects/redmine/repository/statistics" },
         { :controller => 'repositories', :action => 'stats', :id => 'redmine' }
      )
+    assert_routing(
+        { :method => 'get',
+          :path => "/projects/redmine/repository/graph" },
+        { :controller => 'repositories', :action => 'graph', :id => 'redmine' }
+     )
+  end
+
+  def test_repositories_with_repository_id
+    assert_routing(
+        { :method => 'get',
+          :path => "/projects/redmine/repository/foo" },
+        { :controller => 'repositories', :action => 'show', :id => 'redmine', :repository_id => 'foo' }
+      )
+    assert_routing(
+        { :method => 'get',
+          :path => "/projects/redmine/repository/foo/statistics" },
+        { :controller => 'repositories', :action => 'stats', :id => 'redmine', :repository_id => 'foo' }
+     )
+    assert_routing(
+        { :method => 'get',
+          :path => "/projects/redmine/repository/foo/graph" },
+        { :controller => 'repositories', :action => 'graph', :id => 'redmine', :repository_id => 'foo' }
+     )
   end
 
   def test_repositories_revisions
@@ -153,6 +176,87 @@ class RoutingRepositoriesTest < ActionController::IntegrationTest
       )
   end
 
+  def test_repositories_revisions_with_repository_id
+    empty_path_param = []
+    assert_routing(
+        { :method => 'get',
+          :path => "/projects/redmine/repository/foo/revisions" },
+        { :controller => 'repositories', :action => 'revisions', :id => 'redmine', :repository_id => 'foo' }
+      )
+    assert_routing(
+        { :method => 'get',
+          :path => "/projects/redmine/repository/foo/revisions.atom" },
+        { :controller => 'repositories', :action => 'revisions', :id => 'redmine', :repository_id => 'foo',
+          :format => 'atom' }
+      )
+    assert_routing(
+        { :method => 'get',
+          :path => "/projects/redmine/repository/foo/revisions/2457" },
+        { :controller => 'repositories', :action => 'revision', :id => 'redmine', :repository_id => 'foo',
+          :rev => '2457' }
+      )
+    assert_routing(
+        { :method => 'get',
+          :path => "/projects/redmine/repository/foo/revisions/2457/show" },
+        { :controller => 'repositories', :action => 'show', :id => 'redmine', :repository_id => 'foo',
+          :path => empty_path_param, :rev => '2457' }
+      )
+    assert_routing(
+        { :method => 'get',
+          :path => "/projects/redmine/repository/foo/revisions/2457/show/#{@path_hash[:path]}" },
+        { :controller => 'repositories', :action => 'show', :id => 'redmine', :repository_id => 'foo',
+          :path => @path_hash[:param] , :rev => '2457'}
+      )
+    assert_routing(
+        { :method => 'get',
+          :path => "/projects/redmine/repository/foo/revisions/2457/changes" },
+        { :controller => 'repositories', :action => 'changes', :id => 'redmine', :repository_id => 'foo',
+          :path => empty_path_param, :rev => '2457' }
+      )
+    assert_routing(
+        { :method => 'get',
+          :path => "/projects/redmine/repository/foo/revisions/2457/changes/#{@path_hash[:path]}" },
+        { :controller => 'repositories', :action => 'changes', :id => 'redmine', :repository_id => 'foo',
+          :path => @path_hash[:param] , :rev => '2457'}
+      )
+    assert_routing(
+        { :method => 'get',
+          :path => "/projects/redmine/repository/foo/revisions/2457/diff" },
+        { :controller => 'repositories', :action => 'diff', :id => 'redmine', :repository_id => 'foo',
+          :rev => '2457' }
+      )
+    assert_routing(
+        { :method => 'get',
+          :path => "/projects/redmine/repository/foo/revisions/2457/diff.diff" },
+        { :controller => 'repositories', :action => 'diff', :id => 'redmine', :repository_id => 'foo',
+          :rev => '2457', :format => 'diff' }
+      )
+    assert_routing(
+        { :method => 'get',
+          :path => "/projects/redmine/repository/foo/revisions/2/diff/#{@path_hash[:path]}" },
+        { :controller => 'repositories', :action => 'diff', :id => 'redmine', :repository_id => 'foo',
+          :path => @path_hash[:param], :rev => '2' }
+      )
+    assert_routing(
+        { :method => 'get',
+          :path => "/projects/redmine/repository/foo/revisions/2/entry/#{@path_hash[:path]}" },
+        { :controller => 'repositories', :action => 'entry', :id => 'redmine', :repository_id => 'foo',
+          :path => @path_hash[:param], :rev => '2' }
+      )
+    assert_routing(
+        { :method => 'get',
+          :path => "/projects/redmine/repository/foo/revisions/2/raw/#{@path_hash[:path]}" },
+        { :controller => 'repositories', :action => 'entry', :id => 'redmine', :repository_id => 'foo',
+          :path => @path_hash[:param], :rev => '2', :format => 'raw' }
+      )
+    assert_routing(
+        { :method => 'get',
+          :path => "/projects/redmine/repository/foo/revisions/2/annotate/#{@path_hash[:path]}" },
+        { :controller => 'repositories', :action => 'annotate', :id => 'redmine', :repository_id => 'foo',
+          :path => @path_hash[:param], :rev => '2' }
+      )
+  end
+
   def test_repositories_non_revisions_path
     assert_routing(
         { :method => 'get',
@@ -192,7 +296,46 @@ class RoutingRepositoriesTest < ActionController::IntegrationTest
       )
   end
 
-private
+  def test_repositories_non_revisions_path_with_repository_id
+    assert_routing(
+        { :method => 'get',
+          :path => "/projects/redmine/repository/foo/diff/#{@path_hash[:path]}" },
+        { :controller => 'repositories', :action => 'diff', :id => 'redmine', :repository_id => 'foo',
+          :path => @path_hash[:param] }
+      )
+    assert_routing(
+        { :method => 'get',
+          :path => "/projects/redmine/repository/foo/browse/#{@path_hash[:path]}" },
+        { :controller => 'repositories', :action => 'browse', :id => 'redmine', :repository_id => 'foo',
+          :path => @path_hash[:param] }
+      )
+    assert_routing(
+        { :method => 'get',
+          :path => "/projects/redmine/repository/foo/entry/#{@path_hash[:path]}" },
+        { :controller => 'repositories', :action => 'entry', :id => 'redmine', :repository_id => 'foo',
+          :path => @path_hash[:param] }
+      )
+    assert_routing(
+        { :method => 'get',
+          :path => "/projects/redmine/repository/foo/raw/#{@path_hash[:path]}" },
+        { :controller => 'repositories', :action => 'entry', :id => 'redmine', :repository_id => 'foo',
+          :path => @path_hash[:param], :format => 'raw' }
+      )
+    assert_routing(
+        { :method => 'get',
+          :path => "/projects/redmine/repository/foo/annotate/#{@path_hash[:path]}" },
+        { :controller => 'repositories', :action => 'annotate', :id => 'redmine', :repository_id => 'foo',
+          :path => @path_hash[:param] }
+      )
+    assert_routing(
+        { :method => 'get',
+          :path => "/projects/redmine/repository/foo/changes/#{@path_hash[:path]}" },
+        { :controller => 'repositories', :action => 'changes', :id => 'redmine', :repository_id => 'foo',
+          :path => @path_hash[:param] }
+      )
+  end
+
+  private
 
   def repository_path_hash(arr)
     hs = {}

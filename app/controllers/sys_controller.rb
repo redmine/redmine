@@ -19,7 +19,7 @@ class SysController < ActionController::Base
   before_filter :check_enabled
 
   def projects
-    p = Project.active.has_module(:repository).find(:all, :include => :repository, :order => 'identifier')
+    p = Project.active.has_module(:repository).find(:all, :include => :repository, :order => "#{Project.table_name}.identifier")
     # extra_info attribute from repository breaks activeresource client
     render :xml => p.to_xml(:only => [:id, :identifier, :name, :is_public, :status], :include => {:repository => {:only => [:id, :url]}})
   end
@@ -44,11 +44,11 @@ class SysController < ActionController::Base
     if params[:id]
       projects << Project.active.has_module(:repository).find(params[:id])
     else
-      projects = Project.active.has_module(:repository).find(:all, :include => :repository)
+      projects = Project.active.has_module(:repository).all
     end
     projects.each do |project|
-      if project.repository
-        project.repository.fetch_changesets
+      project.repositories.each do |repository|
+        repository.fetch_changesets
       end
     end
     render :nothing => true, :status => 200

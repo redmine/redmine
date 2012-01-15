@@ -43,19 +43,12 @@ class RepositoriesControllerTest < ActionController::TestCase
     assert_tag 'input', :attributes => {:name => 'repository[url]'}
   end
 
-  # TODO: remove it when multiple SCM support is added
-  def test_new_with_existing_repository
-    @request.session[:user_id] = 1
-    get :new, :project_id => 'ecookbook'
-    assert_response 302
-  end
-
   def test_create
     @request.session[:user_id] = 1
     assert_difference 'Repository.count' do
       post :create, :project_id => 'subproject1',
            :repository_scm => 'Subversion',
-           :repository => {:url => 'file:///test'}
+           :repository => {:url => 'file:///test', :is_default => '1', :identifier => ''}
     end
     assert_response 302
     repository = Repository.first(:order => 'id DESC')
@@ -113,7 +106,23 @@ class RepositoriesControllerTest < ActionController::TestCase
     get :revisions, :id => 1
     assert_response :success
     assert_template 'revisions'
+    assert_equal Repository.find(10), assigns(:repository)
     assert_not_nil assigns(:changesets)
+  end
+
+  def test_revisions_for_other_repository
+    repository = Repository::Subversion.create!(:project_id => 1, :identifier => 'foo', :url => 'file:///foo')
+
+    get :revisions, :id => 1, :repository_id => 'foo'
+    assert_response :success
+    assert_template 'revisions'
+    assert_equal repository, assigns(:repository)
+    assert_not_nil assigns(:changesets)
+  end
+
+  def test_revisions_for_invalid_repository
+    get :revisions, :id => 1, :repository_id => 'foo'
+    assert_response 404
   end
 
   def test_revision

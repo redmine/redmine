@@ -11,6 +11,7 @@
                   :url => {
                        :action => 'show',
                        :id     => @project,
+											 :repository_id => @repository.identifier_param,
                        :path   => to_path_param(ent_path),
                        :rev    => @rev,
                        :depth  => (depth + 1),
@@ -24,13 +25,13 @@
                 ) %>">&nbsp</span>
 <% end %>
 <%=  link_to h(ent_name),
-          {:action => (entry.is_dir? ? 'show' : 'changes'), :id => @project, :path => to_path_param(ent_path), :rev => @rev},
+          {:action => (entry.is_dir? ? 'show' : 'changes'), :id => @project, :repository_id => @repository.identifier_param, :path => to_path_param(ent_path), :rev => @rev},
           :class => (entry.is_dir? ? 'icon icon-folder' : "icon icon-file #{Redmine::MimeType.css_class_of(ent_name)}")%>
 </td>
 <td class="size"><%= (entry.size ? number_to_human_size(entry.size) : "?") unless entry.is_dir? %></td>
 <% changeset = @project.repository.find_changeset_by_name(entry.lastrev.identifier) if entry.lastrev && entry.lastrev.identifier %>
 <% if @repository.report_last_commit %>
-<td class="revision"><%= link_to_revision(changeset, @project) if changeset %></td>
+<td class="revision"><%= link_to_revision(changeset, @repository) if changeset %></td>
 <td class="age"><%= distance_of_time_in_words(entry.lastrev.time, Time.now) if entry.lastrev && entry.lastrev.time %></td>
 <td class="author"><%= changeset.nil? ? h(Redmine::CodesetUtil.replace_invalid_utf8(entry.lastrev.author.to_s.split('<').first)) : h(changeset.author) if entry.lastrev %></td>
 <td class="comments"><%=h truncate(changeset.comments, :length => 50) unless changeset.nil? %></td>

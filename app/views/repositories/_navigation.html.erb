@@ -3,11 +3,12 @@
 <% end %>
 
 <%= link_to l(:label_statistics),
-            {:action => 'stats', :id => @project},
+            {:action => 'stats', :id => @project, :repository_id => @repository.identifier_param},
             :class => 'icon icon-stats' %>
 
 <% form_tag({:action => controller.action_name,
              :id => @project,
+             :repository_id => @repository.identifier_param,
              :path => to_path_param(@path),
              :rev => ''},
             {:method => :get, :id => 'revision_selector'}) do -%>

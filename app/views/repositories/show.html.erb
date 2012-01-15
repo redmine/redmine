@@ -25,7 +25,7 @@
      sep = ''
  %>
 <%   if @repository.supports_all_revisions? && @path.blank? %>
-<%= link_to l(:label_view_all_revisions), :action => 'revisions', :id => @project %>
+<%= link_to l(:label_view_all_revisions), :action => 'revisions', :id => @project, :repository_id => @repository.identifier_param %>
 <%   sep = '|' %>
 <%   end %>
 <%
@@ -38,6 +38,7 @@
                    :action => 'changes',
                    :path   => to_path_param(@path),
                    :id     => @project,
+                   :repository_id => @repository.identifier_param,
                    :rev    => @rev
                    %>
 <%   end %>
@@ -52,9 +53,20 @@
 <%     end %>
 
 <%     other_formats_links do |f| %>
-  <%= f.link_to 'Atom', :url => {:action => 'revisions', :id => @project, :key => User.current.rss_key} %>
+  <%= f.link_to 'Atom', :url => {:action => 'revisions', :id => @project, :repository_id => @repository.identifier_param, :key => User.current.rss_key} %>
 <%     end %>
 <%   end %>
+<% end %>
+
+<% if @repositories.size > 1 %>
+	<% content_for :sidebar do %>
+	  <h3><%= l(:label_repository_plural) %></h3>
+	  <%= @repositories.sort.collect {|repo|
+	        link_to h(repo.name), 
+                  {:controller => 'repositories', :action => 'show', :id => @project, :repository_id => repo.identifier_param, :rev => nil, :path => nil},
+                  :class => 'repository' + (repo == @repository ? ' selected' : '')
+	      }.join('<br />').html_safe %></p>
+	<% end %>
 <% end %>
 
 <% content_for :header_tags do %>

@@ -316,9 +316,8 @@ class UserTest < ActiveSupport::TestCase
 
   def test_destroy_should_nullify_changesets
     changeset = Changeset.create!(
-      :repository => Repository::Subversion.create!(
-        :project_id => 1,
-        :url => 'file:///var/svn'
+      :repository => Repository::Subversion.generate!(
+        :project_id => 1
       ),
       :revision => '12',
       :committed_on => Time.now,

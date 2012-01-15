@@ -9,6 +9,9 @@
 <% end %>
 </p>
 
+<p><%= f.text_field :identifier %></p>
+<p><%= f.check_box :is_default, :label => :field_repository_is_default %></p>
+
 <% button_disabled = true %>
 <% if @repository %>
 <%   button_disabled = ! @repository.class.scm_available %>

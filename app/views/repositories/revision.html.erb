@@ -1,13 +1,13 @@
 <div class="contextual">
   &#171;
   <% unless @changeset.previous.nil? -%>
-    <%= link_to_revision(@changeset.previous, @project, :text => l(:label_previous)) %>
+    <%= link_to_revision(@changeset.previous, @repository, :text => l(:label_previous)) %>
   <% else -%>
     <%= l(:label_previous) %>
   <% end -%>
 |
   <% unless @changeset.next.nil? -%>
-    <%= link_to_revision(@changeset.next, @project, :text => l(:label_next)) %>
+    <%= link_to_revision(@changeset.next, @repository, :text => l(:label_next)) %>
   <% else -%>
     <%= l(:label_next) %>
   <% end -%>
@@ -16,6 +16,7 @@
   <% form_tag({:controller => 'repositories',
                :action     => 'revision',
                :id         => @project,
+               :repository_id => @repository.identifier_param,
                :rev        => nil},
                :method     => :get) do %>
     <%= text_field_tag 'rev', @rev, :size => 8 %>
@@ -37,7 +38,7 @@
       <td><%= l(:label_parent_revision) %></td>
       <td>
         <%= @changeset.parents.collect{
-              |p| link_to_revision(p, @project, :text => format_revision(p))
+              |p| link_to_revision(p, @repository, :text => format_revision(p))
             }.join(", ").html_safe %>
       </td>
     </tr>
@@ -47,7 +48,7 @@
       <td><%= l(:label_child_revision) %></td>
       <td>
        <%= @changeset.children.collect{
-              |p| link_to_revision(p, @project, :text => format_revision(p))
+              |p| link_to_revision(p, @repository, :text => format_revision(p))
              }.join(", ").html_safe %>
       </td>
     </tr>
@@ -85,6 +86,7 @@
 <p><%= link_to(l(:label_view_diff),
                :action => 'diff',
                :id     => @project,
+               :repository_id => @repository.identifier_param,
                :path   => "",
                :rev    => @changeset.identifier) if @changeset.changes.any? %></p>
 

@@ -50,6 +50,19 @@ class RepositoryTest < ActiveSupport::TestCase
     assert_equal repository, project.repository
   end
 
+  def test_first_repository_should_be_set_as_default
+    repository1 = Repository::Subversion.new(:project => Project.find(3), :identifier => 'svn1', :url => 'file:///svn1')
+    assert repository1.save
+    assert repository1.is_default?
+
+    repository2 = Repository::Subversion.new(:project => Project.find(3), :identifier => 'svn2', :url => 'file:///svn2')
+    assert repository2.save
+    assert !repository2.is_default?
+
+    assert_equal repository1, Project.find(3).repository
+    assert_equal [repository1, repository2], Project.find(3).repositories.sort
+  end
+
   def test_destroy
     changesets = Changeset.count(:all, :conditions => "repository_id = 10")
     changes = Change.count(:all, :conditions => "repository_id = 10",

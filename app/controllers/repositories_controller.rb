@@ -28,7 +28,6 @@ class RepositoriesController < ApplicationController
   default_search_scope :changesets
 
   before_filter :find_project_by_project_id, :only => [:new, :create]
-  before_filter :check_repository_uniqueness, :only => [:new, :create]
   before_filter :find_repository, :only => [:edit, :update, :destroy, :committers]
   before_filter :find_project_repository, :except => [:new, :create, :edit, :update, :destroy, :committers]
   before_filter :authorize
@@ -39,6 +38,7 @@ class RepositoriesController < ApplicationController
   def new
     scm = params[:repository_scm] || Redmine::Scm::Base.all.first
     @repository = Repository.factory(scm)
+    @repository.is_default = @project.repository.nil?
     @repository.project = @project
     render :layout => !request.xhr?
   end
@@ -97,6 +97,7 @@ class RepositoriesController < ApplicationController
       (show_error_not_found; return) unless @entries
       @changesets = @repository.latest_changesets(@path, @rev)
       @properties = @repository.properties(@path, @rev)
+      @repositories = @project.repositories
       render :action => 'show'
     end
   end
@@ -255,18 +256,15 @@ class RepositoriesController < ApplicationController
     render_404
   end
 
-  # TODO: remove it when multiple SCM support is added
-  def check_repository_uniqueness
-    if @project.repository
-      redirect_to settings_project_path(@project, :tab => 'repositories')
-    end
-  end
-
   REV_PARAM_RE = %r{\A[a-f0-9]*\Z}i
 
   def find_project_repository
     @project = Project.find(params[:id])
-    @repository = @project.repository
+    if params[:repository_id].present?
+      @repository = @project.repositories.find_by_identifier_param(params[:repository_id])
+    else
+      @repository = @project.repository
+    end
     (render_404; return false) unless @repository
     @path = params[:path].join('/') unless params[:path].nil?
     @path ||= ''
