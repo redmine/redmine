@@ -38,40 +38,14 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
   end
 
   if repository_configured?('subversion')
-    def test_get_edit
+    def test_new
       @request.session[:user_id] = 1
       @project.repository.destroy
-      xhr :get, :edit, :id => 'subproject1', :repository_scm => 'Subversion'
+      get :new, :project_id => 'subproject1', :repository_scm => 'Subversion'
       assert_response :success
-      assert_equal 'text/javascript', @response.content_type
+      assert_template 'new'
       assert_kind_of Repository::Subversion, assigns(:repository)
       assert assigns(:repository).new_record?
-      assert_select_rjs :replace_html, 'tab-content-repository'
-    end
-
-    def test_post_edit
-      @request.session[:user_id] = 1
-      @project.repository.destroy
-      assert_difference 'Repository.count' do
-        xhr :post, :edit, :id => 'subproject1', :repository_scm => 'Subversion', :repository => {:url => 'file:///svn/path'}
-      end
-      assert_response :success
-      assert_equal 'text/javascript', @response.content_type
-      assert_kind_of Repository::Subversion, assigns(:repository)
-      assert !assigns(:repository).new_record?
-      assert_select_rjs :replace_html, 'tab-content-repository'
-    end
-
-    def test_post_edit_existing_repository
-      @request.session[:user_id] = 1
-      assert_no_difference 'Repository.count' do
-        xhr :post, :edit, :id => 'subproject1', :repository_scm => 'Subversion', :repository => {:password => 'newpassword'}
-      end
-      assert_response :success
-      assert_equal 'text/javascript', @response.content_type
-      assert_kind_of Repository::Subversion, assigns(:repository)
-      assert_select_rjs :replace_html, 'tab-content-repository'
-      assert_equal 'newpassword', Project.find('subproject1').repository.password
     end
 
     def test_show
@@ -381,10 +355,11 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       @request.session[:user_id] = 1 # admin
       assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @project.reload
       assert_equal NUM_REV, @repository.changesets.count
 
-      get :destroy, :id => PRJ_ID
+      assert_difference 'Repository.count', -1 do
+        delete :destroy, :id => @repository.id
+      end
       assert_response 302
       @project.reload
       assert_nil @project.repository
@@ -392,25 +367,16 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
 
     def test_destroy_invalid_repository
       @request.session[:user_id] = 1 # admin
-      assert_equal 0, @repository.changesets.count
-      @repository.fetch_changesets
-      @project.reload
-      assert_equal NUM_REV, @repository.changesets.count
-
-      get :destroy, :id => PRJ_ID
-      assert_response 302
-      @project.reload
-      assert_nil @project.repository
-
-      @repository = Repository::Subversion.create(
+      @project.repository.destroy
+      @repository = Repository::Subversion.create!(
                        :project => @project,
                        :url     => "file:///invalid")
-      assert @repository
       @repository.fetch_changesets
-      @project.reload
       assert_equal 0, @repository.changesets.count
 
-      get :destroy, :id => PRJ_ID
+      assert_difference 'Repository.count', -1 do
+        delete :destroy, :id => @repository.id
+      end
       assert_response 302
       @project.reload
       assert_nil @project.repository

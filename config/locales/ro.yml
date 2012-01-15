@@ -1003,3 +1003,4 @@ ro:
     zero:  0 tichet
     one:   1 tichet
     other: "%{count} tichete"
+  label_repository_new: New repository

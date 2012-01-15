@@ -1011,3 +1011,4 @@ sr-YU:
     zero:  0 problem
     one:   1 problem
     other: "%{count} problemi"
+  label_repository_new: New repository

@@ -1014,3 +1014,4 @@ eu:
     zero:  0 zeregina
     one:   1 zeregina
     other: "%{count} zereginak"
+  label_repository_new: New repository

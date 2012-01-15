@@ -1,0 +1,36 @@
+<% if @project.repository %>
+<table class="list">
+  <thead>
+  	<tr>
+      <th><%= l(:label_scm) %></th>
+      <th><%= l(:label_repository) %></th>
+      <th></th>
+    </tr>
+	</thead>
+  <tbody>
+  <% repository = @project.repository %>
+	  <tr class="<%= cycle 'odd', 'even' %>">
+	  	<td><%=h repository.scm_name %></td>
+			<td><%=h repository.url %></td>
+			<td class="buttons">
+			<% if User.current.allowed_to?(:manage_repository, @project) %>
+				<%= link_to(l(:label_user_plural), committers_repository_path(repository),
+             :class => 'icon icon-user') %>
+        <%= link_to(l(:button_edit), edit_repository_path(repository),
+             :class => 'icon icon-edit') %>
+        <%= link_to(l(:button_delete), repository_path(repository),
+            :confirm => l(:text_are_you_sure),
+            :method  => :delete,
+            :class   => 'icon icon-del') %>
+			<% end %>
+			</td>
+	  </tr>
+  </tbody>
+</table>
+<% else %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
+
+<% if @project.repository.nil? && User.current.allowed_to?(:manage_repository, @project) %>
+  <p><%= link_to l(:label_repository_new), new_project_repository_path(@project), :class => 'icon icon-add' %></p>
+<% end %>

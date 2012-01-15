@@ -1011,3 +1011,4 @@ mn:
     zero:  0 Асуудал
     one:   1 Асуудал
     other: "%{count} Асуудлууд"
+  label_repository_new: New repository

@@ -48,6 +48,26 @@ class Repository < ActiveRecord::Base
     super(attr_name, *args)
   end
 
+  alias :attributes_without_extra_info= :attributes=
+  def attributes=(new_attributes, guard_protected_attributes = true)
+    return if new_attributes.nil?
+    attributes = new_attributes.dup
+    attributes.stringify_keys!
+
+    p       = {}
+    p_extra = {}
+    attributes.each do |k, v|
+      if k =~ /^extra_/
+        p_extra[k] = v
+      else
+        p[k] = v
+      end
+    end
+
+    send :attributes_without_extra_info=, p, guard_protected_attributes
+    merge_extra_info(p_extra)
+  end
+
   # Removes leading and trailing whitespace
   def url=(arg)
     write_attribute(:url, arg ? arg.to_s.strip : nil)

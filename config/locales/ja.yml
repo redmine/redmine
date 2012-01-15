@@ -1041,3 +1041,4 @@ ja:
     zero:  0 チケット
     one:   1 チケット
     other: "%{count} チケット"
+  label_repository_new: New repository

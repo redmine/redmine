@@ -1032,3 +1032,4 @@ fi:
     zero:  0 tapahtuma
     one:   1 tapahtuma
     other: "%{count} tapahtumat"
+  label_repository_new: New repository

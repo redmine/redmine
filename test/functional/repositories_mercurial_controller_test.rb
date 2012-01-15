@@ -60,15 +60,14 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
     def test_fake; assert true end
   elsif File.directory?(REPOSITORY_PATH)
 
-    def test_get_edit
+    def test_get_new
       @request.session[:user_id] = 1
       @project.repository.destroy
-      xhr :get, :edit, :id => 'subproject1', :repository_scm => 'Mercurial'
+      get :new, :project_id => 'subproject1', :repository_scm => 'Mercurial'
       assert_response :success
-      assert_equal 'text/javascript', @response.content_type
+      assert_template 'new'
       assert_kind_of Repository::Mercurial, assigns(:repository)
       assert assigns(:repository).new_record?
-      assert_select_rjs :replace_html, 'tab-content-repository'
     end
 
     def test_show_root
@@ -469,10 +468,11 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       @request.session[:user_id] = 1 # admin
       assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
-      @project.reload
       assert_equal NUM_REV, @repository.changesets.count
 
-      get :destroy, :id => PRJ_ID
+      assert_difference 'Repository.count', -1 do
+        delete :destroy, :id => @repository.id
+      end
       assert_response 302
       @project.reload
       assert_nil @project.repository
@@ -480,27 +480,18 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
 
     def test_destroy_invalid_repository
       @request.session[:user_id] = 1 # admin
-      assert_equal 0, @repository.changesets.count
-      @repository.fetch_changesets
-      @project.reload
-      assert_equal NUM_REV, @repository.changesets.count
-
-      get :destroy, :id => PRJ_ID
-      assert_response 302
-      @project.reload
-      assert_nil @project.repository
-
-      @repository = Repository::Mercurial.create(
+      @project.repository.destroy
+      @repository = Repository::Mercurial.create!(
                       :project => Project.find(PRJ_ID),
                       :url     => "/invalid",
                       :path_encoding => 'ISO-8859-1'
                       )
-      assert @repository
       @repository.fetch_changesets
-      @project.reload
       assert_equal 0, @repository.changesets.count
 
-      get :destroy, :id => PRJ_ID
+      assert_difference 'Repository.count', -1 do
+        delete :destroy, :id => @repository.id
+      end
       assert_response 302
       @project.reload
       assert_nil @project.repository

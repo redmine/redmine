@@ -1017,3 +1017,4 @@ id:
     zero:  0 masalah
     one:   1 masalah
     other: "%{count} masalah"
+  label_repository_new: New repository

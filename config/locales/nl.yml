@@ -993,3 +993,4 @@ nl:
     zero:  0 issue
     one:   1 issue
     other: "%{count} issues"
+  label_repository_new: New repository

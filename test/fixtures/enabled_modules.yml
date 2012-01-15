@@ -99,3 +99,7 @@ enabled_modules_025:
   name: news 
   project_id: 2
   id: 25
+enabled_modules_026: 
+  name: repository
+  project_id: 2
+  id: 26

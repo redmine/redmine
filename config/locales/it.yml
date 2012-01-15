@@ -1012,3 +1012,4 @@ it:
     zero:  0 segnalazione
     one:   1 segnalazione
     other: "%{count} segnalazioni"
+  label_repository_new: New repository

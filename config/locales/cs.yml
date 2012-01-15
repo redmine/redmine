@@ -1014,3 +1014,4 @@ cs:
     zero:  0 Úkol
     one:   1 Úkol
     other: "%{count} Úkoly"
+  label_repository_new: New repository

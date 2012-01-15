@@ -1052,3 +1052,4 @@ sv:
     zero:  0 Ärende
     one:   1 Ärende
     other: "%{count} Ärenden"
+  label_repository_new: New repository

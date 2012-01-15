@@ -1124,3 +1124,4 @@ ru:
     zero:  0 Задача
     one:   1 Задача
     other: "%{count} Задачи"
+  label_repository_new: New repository

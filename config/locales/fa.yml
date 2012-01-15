@@ -1013,3 +1013,4 @@ fa:
     zero:  0 پیامد
     one:   1 پیامد
     other: "%{count} پیامد"
+  label_repository_new: New repository

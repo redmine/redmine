@@ -1062,3 +1062,4 @@ vi:
     zero:  0 vấn đề
     one:   1 vấn đề
     other: "%{count} vấn đề"
+  label_repository_new: New repository

@@ -1012,3 +1012,4 @@ sr:
     zero:  0 Проблем
     one:   1 Проблем
     other: "%{count} Проблеми"
+  label_repository_new: New repository

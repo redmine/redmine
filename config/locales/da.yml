@@ -1028,3 +1028,4 @@ da:
     zero:  0 sag
     one:   1 sag
     other: "%{count} sager"
+  label_repository_new: New repository

@@ -41,15 +41,14 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
   end
 
   if File.directory?(REPOSITORY_PATH)
-    def test_get_edit
+    def test_get_new
       @request.session[:user_id] = 1
       @project.repository.destroy
-      xhr :get, :edit, :id => 'subproject1', :repository_scm => 'Filesystem'
+      get :new, :project_id => 'subproject1', :repository_scm => 'Filesystem'
       assert_response :success
-      assert_equal 'text/javascript', @response.content_type
+      assert_template 'new'
       assert_kind_of Repository::Filesystem, assigns(:repository)
       assert assigns(:repository).new_record?
-      assert_select_rjs :replace_html, 'tab-content-repository'
     end
 
     def test_browse_root
@@ -126,7 +125,9 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
     def test_destroy_valid_repository
       @request.session[:user_id] = 1 # admin
 
-      get :destroy, :id => PRJ_ID
+      assert_difference 'Repository.count', -1 do
+        delete :destroy, :id => @repository.id
+      end
       assert_response 302
       @project.reload
       assert_nil @project.repository
@@ -134,20 +135,16 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
 
     def test_destroy_invalid_repository
       @request.session[:user_id] = 1 # admin
-
-      get :destroy, :id => PRJ_ID
-      assert_response 302
-      @project.reload
-      assert_nil @project.repository
-
-      @repository = Repository::Filesystem.create(
-                      :project       => Project.find(PRJ_ID),
+      @project.repository.destroy
+      @repository = Repository::Filesystem.create!(
+                      :project       => @project,
                       :url           => "/invalid",
                       :path_encoding => ''
                       )
-      assert @repository
 
-      get :destroy, :id => PRJ_ID
+      assert_difference 'Repository.count', -1 do
+        delete :destroy, :id => @repository.id
+      end
       assert_response 302
       @project.reload
       assert_nil @project.repository

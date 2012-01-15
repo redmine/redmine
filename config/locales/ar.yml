@@ -1011,3 +1011,4 @@ ar:
     zero:  0 قضية
     one:   1 قضية
     other: "%{count} قضايا"
+  label_repository_new: New repository

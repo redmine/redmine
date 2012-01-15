@@ -1071,3 +1071,4 @@ lt:
     zero:  0 darbas
     one:   1 darbas
     other: "%{count} darbai"
+  label_repository_new: New repository

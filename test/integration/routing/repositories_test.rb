@@ -24,19 +24,47 @@ class RoutingRepositoriesTest < ActionController::IntegrationTest
     assert_equal %w[path to file.c], @path_hash[:param]
   end
 
+  def test_repositories_resources
+    assert_routing(
+        { :method => 'get',
+          :path => "/projects/redmine/repositories/new" },
+        { :controller => 'repositories', :action => 'new', :project_id => 'redmine' }
+      )
+    assert_routing(
+        { :method => 'post',
+          :path => "/projects/redmine/repositories" },
+        { :controller => 'repositories', :action => 'create', :project_id => 'redmine' }
+      )
+    assert_routing(
+        { :method => 'get',
+          :path => "/repositories/1/edit" },
+        { :controller => 'repositories', :action => 'edit', :id => '1' }
+      )
+    assert_routing(
+        { :method => 'put',
+          :path => "/repositories/1" },
+        { :controller => 'repositories', :action => 'update', :id => '1' }
+      )
+    assert_routing(
+        { :method => 'delete',
+          :path => "/repositories/1" },
+        { :controller => 'repositories', :action => 'destroy', :id => '1' }
+      )
+    ["get", "post"].each do |method|
+      assert_routing(
+          { :method => method,
+            :path => "/repositories/1/committers" },
+          { :controller => 'repositories', :action => 'committers', :id => '1' }
+        )
+    end
+  end
+
   def test_repositories
     assert_routing(
         { :method => 'get',
           :path => "/projects/redmine/repository" },
         { :controller => 'repositories', :action => 'show', :id => 'redmine' }
       )
-    ["get", "post"].each do |method|
-      assert_routing(
-          { :method => method,
-            :path => "/projects/redmine/repository/edit" },
-          { :controller => 'repositories', :action => 'edit', :id => 'redmine' }
-        )
-    end
     assert_routing(
         { :method => 'get',
           :path => "/projects/redmine/repository/statistics" },

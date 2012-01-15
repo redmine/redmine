@@ -1028,3 +1028,4 @@ pl:
     zero:  0 zagadnienie
     one:   1 zagadnienie
     other: "%{count} zagadnienia"
+  label_repository_new: New repository

@@ -640,6 +640,7 @@ fr:
   label_not_contains: ne contient pas
   label_day_plural: jours
   label_repository: Dépôt
+  label_repository_new: Nouveau dépôt
   label_repository_plural: Dépôts
   label_browse: Parcourir
   label_modification: "%{count} modification"

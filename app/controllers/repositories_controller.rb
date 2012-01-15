@@ -24,44 +24,45 @@ class InvalidRevisionParam < Exception; end
 
 class RepositoriesController < ApplicationController
   menu_item :repository
-  menu_item :settings, :only => :edit
+  menu_item :settings, :only => [:new, :create, :edit, :update, :destroy, :committers]
   default_search_scope :changesets
 
-  before_filter :find_repository, :except => :edit
-  before_filter :find_project, :only => :edit
+  before_filter :find_project_by_project_id, :only => [:new, :create]
+  before_filter :check_repository_uniqueness, :only => [:new, :create]
+  before_filter :find_repository, :only => [:edit, :update, :destroy, :committers]
+  before_filter :find_project_repository, :except => [:new, :create, :edit, :update, :destroy, :committers]
   before_filter :authorize
   accept_rss_auth :revisions
 
   rescue_from Redmine::Scm::Adapters::CommandFailed, :with => :show_error_command_failed
 
+  def new
+    scm = params[:repository_scm] || Redmine::Scm::Base.all.first
+    @repository = Repository.factory(scm)
+    @repository.project = @project
+    render :layout => !request.xhr?
+  end
+
+  def create
+    @repository = Repository.factory(params[:repository_scm], params[:repository])
+    @repository.project = @project
+    if request.post? && @repository.save
+      redirect_to settings_project_path(@project, :tab => 'repositories')
+    else
+      render :action => 'new'
+    end
+  end
+
   def edit
-    @repository = @project.repository
-    if !@repository && !params[:repository_scm].blank?
-      @repository = Repository.factory(params[:repository_scm])
-      @repository.project = @project if @repository
-    end
-    if request.post? && @repository
-      p1 = params[:repository]
-      p       = {}
-      p_extra = {}
-      p1.each do |k, v|
-        if k =~ /^extra_/
-          p_extra[k] = v
-        else
-          p[k] = v
-        end
-      end
-      @repository.attributes = p
-      @repository.merge_extra_info(p_extra)
-      @repository.save
-    end
-    render(:update) do |page|
-      page.replace_html "tab-content-repository",
-                        :partial => 'projects/settings/repository'
-      if @repository && !@project.repository
-        @project.reload # needed to reload association
-        page.replace_html "main-menu", render_main_menu(@project)
-      end
+  end
+
+  def update
+    @repository.attributes = params[:repository]
+    @repository.project = @project
+    if request.put? && @repository.save
+      redirect_to settings_project_path(@project, :tab => 'repositories')
+    else
+      render :action => 'edit'
     end
   end
 
@@ -76,16 +77,13 @@ class RepositoriesController < ApplicationController
       # Build a hash with repository usernames as keys and corresponding user ids as values
       @repository.committer_ids = params[:committers].values.inject({}) {|h, c| h[c.first] = c.last; h}
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'committers', :id => @project
+      redirect_to settings_project_path(@project, :tab => 'repositories')
     end
   end
 
   def destroy
-    @repository.destroy
-    redirect_to :controller => 'projects',
-                :action     => 'settings',
-                :id         => @project,
-                :tab        => 'repository'
+    @repository.destroy if request.delete?
+    redirect_to settings_project_path(@project, :tab => 'repositories')
   end
 
   def show
@@ -250,9 +248,23 @@ class RepositoriesController < ApplicationController
 
   private
 
+  def find_repository
+    @repository = Repository.find(params[:id])
+    @project = @repository.project
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+
+  # TODO: remove it when multiple SCM support is added
+  def check_repository_uniqueness
+    if @project.repository
+      redirect_to settings_project_path(@project, :tab => 'repositories')
+    end
+  end
+
   REV_PARAM_RE = %r{\A[a-f0-9]*\Z}i
 
-  def find_repository
+  def find_project_repository
     @project = Project.find(params[:id])
     @repository = @project.repository
     (render_404; return false) unless @repository

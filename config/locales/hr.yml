@@ -1017,3 +1017,4 @@ hr:
     zero:  0 predmet
     one:   1 predmet
     other: "%{count} predmeti"
+  label_repository_new: New repository

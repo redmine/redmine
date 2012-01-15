@@ -1006,3 +1006,4 @@ sk:
     zero:  0 Úloha
     one:   1 Úloha
     other: "%{count} Úlohy"
+  label_repository_new: New repository

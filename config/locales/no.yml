@@ -1001,3 +1001,4 @@
     zero:  0 sak
     one:   1 sak
     other: "%{count} saker"
+  label_repository_new: New repository

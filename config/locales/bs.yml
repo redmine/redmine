@@ -1025,3 +1025,4 @@ bs:
     zero:  0 aktivnost
     one:   1 aktivnost
     other: "%{count} aktivnosti"
+  label_repository_new: New repository

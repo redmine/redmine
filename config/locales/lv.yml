@@ -1005,3 +1005,4 @@ lv:
     zero:  0 uzdevums
     one:   1 uzdevums
     other: "%{count} uzdevumi"
+  label_repository_new: New repository

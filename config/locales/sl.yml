@@ -1011,3 +1011,4 @@ sl:
     zero:  0 zahtevek
     one:   1 zahtevek
     other: "%{count} zahtevki"
+  label_repository_new: New repository

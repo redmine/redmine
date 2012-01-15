@@ -1013,3 +1013,4 @@ zh:
     zero:  0 问题
     one:   1 问题
     other: "%{count} 问题"
+  label_repository_new: New repository

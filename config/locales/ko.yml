@@ -1063,3 +1063,4 @@ ko:
     zero:  0 일감
     one:   1 일감
     other: "%{count} 일감"
+  label_repository_new: New repository

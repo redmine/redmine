@@ -1091,3 +1091,4 @@
     zero:  0 問題
     one:   1 問題
     other: "%{count} 問題清單"
+  label_repository_new: New repository

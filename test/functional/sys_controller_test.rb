@@ -84,13 +84,13 @@ class SysControllerTest < ActionController::TestCase
   end
 
   def test_fetch_changesets
-    Repository::Subversion.any_instance.expects(:fetch_changesets).returns(true)
+    Repository::Subversion.any_instance.expects(:fetch_changesets).twice.returns(true)
     get :fetch_changesets
     assert_response :success
   end
 
   def test_fetch_changesets_one_project
-    Repository::Subversion.any_instance.expects(:fetch_changesets).returns(true)
+    Repository::Subversion.any_instance.expects(:fetch_changesets).once.returns(true)
     get :fetch_changesets, :id => 'ecookbook'
     assert_response :success
   end

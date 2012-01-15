@@ -1008,3 +1008,4 @@ th:
     zero:  0 ปัญหา
     one:   1 ปัญหา
     other: "%{count} ปัญหา"
+  label_repository_new: New repository

@@ -1016,3 +1016,4 @@ pt:
     zero:  0 tarefa
     one:   1 tarefa
     other: "%{count} tarefas"
+  label_repository_new: New repository

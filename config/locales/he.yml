@@ -1016,3 +1016,4 @@ he:
     zero:  0 נושא
     one:   1 נושא
     other: "%{count} נושאים"
+  label_repository_new: New repository

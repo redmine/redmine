@@ -1030,3 +1030,4 @@
     zero:  0 feladat
     one:   1 feladat
     other: "%{count} feladatok"
+  label_repository_new: New repository

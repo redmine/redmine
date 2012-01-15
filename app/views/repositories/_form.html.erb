@@ -1,0 +1,22 @@
+<%= error_messages_for 'repository' %>
+
+<div class="box tabular">
+<p>
+<%= label_tag('repository_scm', l(:label_scm)) %><%= scm_select_tag(@repository) %>
+<% if @repository && ! @repository.class.scm_available %>
+  <br />
+  <em><%= content_tag 'span', l(:text_scm_command_not_available), :class => 'error' %></em>
+<% end %>
+</p>
+
+<% button_disabled = true %>
+<% if @repository %>
+<%   button_disabled = ! @repository.class.scm_available %>
+<%=    repository_field_tags(f, @repository)%>
+<% end %>
+</div>
+
+<p>
+  <%= submit_tag(@repository.new_record? ? l(:button_create) : l(:button_save), :disabled => button_disabled) %>
+	<%= link_to l(:button_cancel), settings_project_path(@project, :tab => 'repositories') %>
+</p>

@@ -1013,3 +1013,4 @@ ca:
     zero:  0 assumpte
     one:   1 assumpte
     other: "%{count} assumptes"
+  label_repository_new: New repository

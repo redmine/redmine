@@ -176,6 +176,8 @@ ActionController::Routing::Routes.draw do |map|
     project.resources :issue_categories, :shallow => true
     project.resources :documents, :shallow => true, :member => {:add_attachment => :post}
     project.resources :boards
+    project.resources :repositories, :shallow => true, :except => [:index, :show],
+                      :member => {:committers => [:get, :post]}
 
     project.wiki_start_page 'wiki', :controller => 'wiki', :action => 'show', :conditions => {:method => :get}
     project.wiki_index 'wiki/index', :controller => 'wiki', :action => 'index', :conditions => {:method => :get}
@@ -272,16 +274,6 @@ ActionController::Routing::Routes.draw do |map|
     repositories.connect 'projects/:id/repository/revision',
                          :action => 'revision',
                          :conditions => {:method => [:get, :post]}
-
-    repositories.connect 'projects/:id/repository/committers',
-                         :action => 'committers',
-                         :conditions => {:method => [:get, :post]}
-    repositories.connect 'projects/:id/repository/edit',
-                         :action => 'edit',
-                         :conditions => {:method => [:get, :post]}
-    repositories.connect 'projects/:id/repository/destroy',
-                         :action => 'destroy',
-                         :conditions => {:method => :post}
   end
 
   # additional routes for having the file name at the end of url

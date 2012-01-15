@@ -1011,3 +1011,4 @@ el:
     zero:  0 Θέμα
     one:   1 Θέμα
     other: "%{count} Θέματα"
+  label_repository_new: New repository
