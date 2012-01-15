@@ -1,4 +1,5 @@
-<%= link_to 'root', :action => 'show', :id => @project, :repository_id => @repository.identifier_param, :path => '', :rev => @rev %>
+<%= link_to(@repository.identifier.present? ? h(@repository.identifier) : 'root', 
+      :action => 'show', :id => @project, :repository_id => @repository.identifier_param, :path => '', :rev => @rev) %>
 <%
 dirs = path.split('/')
 if 'file' == kind
