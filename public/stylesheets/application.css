@@ -109,7 +109,7 @@ a img{ border: 0; }
 
 a.issue.closed, a.issue.closed:link, a.issue.closed:visited { color: #999; text-decoration: line-through; }
 
-#sidebar a.selected {line-height:1.7em; padding:1px 3px 2px 2px; margin-left:-2px; background-color:#ADB2CF; color:#fff; border-radius:2px; -moz-border-radius:2px;}
+#sidebar a.selected {line-height:1.7em; padding:1px 3px 2px 2px; margin-left:-2px; background-color:#9DB9D5; color:#fff; border-radius:2px; -moz-border-radius:2px;}
 #sidebar a.selected:hover {text-decoration:none;}
 
 /***** Tables *****/
