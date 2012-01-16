@@ -800,7 +800,7 @@ fr:
   label_missing_api_access_key: Clé d'accès API manquante
   label_missing_feeds_access_key: Clé d'accès RSS manquante
   label_close_versions: Fermer les versions terminées
-  label_revision_id: Revision %{value}
+  label_revision_id: Révision %{value}
   label_profile: Profil
   label_subtask_plural: Sous-tâches
   label_project_copy_notifications: Envoyer les notifications durant la copie du projet
