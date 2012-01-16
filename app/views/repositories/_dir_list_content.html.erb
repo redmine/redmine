@@ -29,7 +29,7 @@
           :class => (entry.is_dir? ? 'icon icon-folder' : "icon icon-file #{Redmine::MimeType.css_class_of(ent_name)}")%>
 </td>
 <td class="size"><%= (entry.size ? number_to_human_size(entry.size) : "?") unless entry.is_dir? %></td>
-<% changeset = @project.repository.find_changeset_by_name(entry.lastrev.identifier) if entry.lastrev && entry.lastrev.identifier %>
+<% changeset = @repository.find_changeset_by_name(entry.lastrev.identifier) if entry.lastrev && entry.lastrev.identifier %>
 <% if @repository.report_last_commit %>
 <td class="revision"><%= link_to_revision(changeset, @repository) if changeset %></td>
 <td class="age"><%= distance_of_time_in_words(entry.lastrev.time, Time.now) if entry.lastrev && entry.lastrev.time %></td>
