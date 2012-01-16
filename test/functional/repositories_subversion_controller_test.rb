@@ -59,22 +59,13 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       assert_not_nil assigns(:entries)
       assert_not_nil assigns(:changesets)
 
+      entry = assigns(:entries).detect {|e| e.name == 'subversion_test'}
+      assert_not_nil entry
+      assert_equal 'dir', entry.kind
+
       assert_tag 'input', :attributes => {:name => 'rev'}
       assert_tag 'a', :content => 'Statistics'
       assert_tag 'a', :content => 'Atom'
-    end
-
-    def test_browse_root
-      assert_equal 0, @repository.changesets.count
-      @repository.fetch_changesets
-      @project.reload
-      assert_equal NUM_REV, @repository.changesets.count
-      get :show, :id => PRJ_ID
-      assert_response :success
-      assert_template 'show'
-      assert_not_nil assigns(:entries)
-      entry = assigns(:entries).detect {|e| e.name == 'subversion_test'}
-      assert_equal 'dir', entry.kind
     end
 
     def test_browse_directory
