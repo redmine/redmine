@@ -928,6 +928,8 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_nil assigns(:prev_issue_id)
     assert_nil assigns(:next_issue_id)
+
+    assert_no_tag 'div', :attributes => {:class => /next-prev-links/}
   end
 
   def test_show_should_display_prev_next_links_with_query_in_session
@@ -943,8 +945,12 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 2, assigns(:prev_issue_id)
     assert_equal 5, assigns(:next_issue_id)
 
+    assert_tag 'div', :attributes => {:class => /next-prev-links/}
     assert_tag 'a', :attributes => {:href => '/issues/2'}, :content => /Previous/
     assert_tag 'a', :attributes => {:href => '/issues/5'}, :content => /Next/
+
+    count = Issue.open.visible.count
+    assert_tag 'span', :attributes => {:class => 'position'}, :content => "3/#{count}"
   end
 
   def test_show_should_display_prev_next_links_with_saved_query_in_session

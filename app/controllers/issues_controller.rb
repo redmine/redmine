@@ -330,6 +330,10 @@ private
       limit = 500
       issue_ids = @query.issue_ids(:order => sort_clause, :limit => (limit + 1), :include => [:assigned_to, :tracker, :priority, :category, :fixed_version])
       if (idx = issue_ids.index(@issue.id)) && idx < limit
+        if issue_ids.size < 500
+          @issue_position = idx + 1
+          @issue_count = issue_ids.size
+        end
         @prev_issue_id = issue_ids[idx - 1] if idx > 0
         @next_issue_id = issue_ids[idx + 1] if idx < (issue_ids.size - 1)
       end
