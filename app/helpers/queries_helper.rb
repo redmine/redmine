@@ -94,7 +94,12 @@ module QueriesHelper
 
   def retrieve_query_from_session
     if session[:query]
-      @query = Query.new(:name => "_", :filters => session[:query][:filters], :group_by => session[:query][:group_by], :column_names => session[:query][:column_names])
+      if session[:query][:id]
+        @query = Query.find_by_id(session[:query][:id])
+        return unless @query
+      else
+        @query = Query.new(:name => "_", :filters => session[:query][:filters], :group_by => session[:query][:group_by], :column_names => session[:query][:column_names])
+      end
       if session[:query].has_key?(:project_id)
         @query.project_id = session[:query][:project_id]
       else

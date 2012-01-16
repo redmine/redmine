@@ -947,6 +947,24 @@ class IssuesControllerTest < ActionController::TestCase
     assert_tag 'a', :attributes => {:href => '/issues/5'}, :content => /Next/
   end
 
+  def test_show_should_display_prev_next_links_with_saved_query_in_session
+    query = Query.create!(:name => 'test', :is_public => true,  :user_id => 1,
+      :filters => {'status_id' => {:values => ['5'], :operator => '='}},
+      :sort_criteria => [['id', 'asc']])
+    @request.session[:query] = {:id => query.id, :project_id => nil}
+
+    get :show, :id => 11
+
+    assert_response :success
+    assert_equal query, assigns(:query)
+    # Previous and next issues for all projects
+    assert_equal 8, assigns(:prev_issue_id)
+    assert_equal 12, assigns(:next_issue_id)
+
+    assert_tag 'a', :attributes => {:href => '/issues/8'}, :content => /Previous/
+    assert_tag 'a', :attributes => {:href => '/issues/12'}, :content => /Next/
+  end
+
   def test_show_should_display_prev_next_links_with_query_and_sort_on_association
     @request.session[:query] = {:filters => {'status_id' => {:values => [''], :operator => 'o'}}, :project_id => nil}
     
