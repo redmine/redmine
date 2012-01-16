@@ -61,6 +61,10 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
       assert assigns(:entries).size > 0
       assert_not_nil assigns(:changesets)
       assert assigns(:changesets).size == 0
+
+      assert_no_tag 'input', :attributes => {:name => 'rev'}
+      assert_no_tag 'a', :content => 'Statistics'
+      assert_no_tag 'a', :content => 'Atom'
     end
 
     def test_show_no_extension

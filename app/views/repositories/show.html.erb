@@ -44,7 +44,7 @@
 <%   end %>
 </p>
 
-<%   if true # @path.blank? %>
+<%   if @repository.supports_all_revisions? %>
 <%     content_for :header_tags do %>
   <%= auto_discovery_link_tag(
                    :atom, params.merge(

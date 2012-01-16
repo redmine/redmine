@@ -58,6 +58,10 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       assert_template 'show'
       assert_not_nil assigns(:entries)
       assert_not_nil assigns(:changesets)
+
+      assert_tag 'input', :attributes => {:name => 'rev'}
+      assert_tag 'a', :content => 'Statistics'
+      assert_tag 'a', :content => 'Atom'
     end
 
     def test_browse_root

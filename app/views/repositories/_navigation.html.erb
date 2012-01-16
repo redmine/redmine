@@ -4,7 +4,7 @@
 
 <%= link_to l(:label_statistics),
             {:action => 'stats', :id => @project, :repository_id => @repository.identifier_param},
-            :class => 'icon icon-stats' %>
+            :class => 'icon icon-stats' if @repository.supports_all_revisions? %>
 
 <% form_tag({:action => controller.action_name,
              :id => @project,
@@ -27,6 +27,8 @@
                    :id => 'tag' %>
   <% end -%>
 
-  | <%= l(:label_revision) %>: 
-  <%= text_field_tag 'rev', @rev, :size => 8 %>
+  <% if @repository.supports_all_revisions? %>
+    | <%= l(:label_revision) %>: 
+    <%= text_field_tag 'rev', @rev, :size => 8 %>
+	<% end %>
 <% end -%>
