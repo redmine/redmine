@@ -101,9 +101,13 @@ class Repository < ActiveRecord::Base
   end
 
   def scm
-    @scm ||= self.scm_adapter.new(url, root_url,
+    unless @scm
+      @scm = self.scm_adapter.new(url, root_url,
                                   login, password, path_encoding)
-    update_attribute(:root_url, @scm.root_url) if root_url.blank?
+      if root_url.blank? && @scm.root_url.present?
+        update_attribute(:root_url, @scm.root_url)
+      end
+    end
     @scm
   end
 
