@@ -10,7 +10,7 @@
     </tr>
 	</thead>
   <tbody>
-  <% @project.repositories.each do |repository| %>
+  <% @project.repositories.sort.each do |repository| %>
 	  <tr class="<%= cycle 'odd', 'even' %>">
 	  	<td><%=h repository.scm_name %></td>
       <td><%=h repository.identifier %></td>
