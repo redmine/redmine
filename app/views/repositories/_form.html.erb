@@ -9,8 +9,8 @@
 <% end %>
 </p>
 
-<p><%= f.text_field :identifier %></p>
 <p><%= f.check_box :is_default, :label => :field_repository_is_default %></p>
+<p><%= f.text_field :identifier %></p>
 
 <% button_disabled = true %>
 <% if @repository %>
