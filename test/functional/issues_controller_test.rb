@@ -1631,6 +1631,12 @@ class IssuesControllerTest < ActionController::TestCase
     assert_tag 'input', :attributes => {:name => 'copy_from', :value => '1'}
   end
 
+  def test_new_as_copy_with_invalid_issue_should_respond_with_404
+    @request.session[:user_id] = 2
+    get :new, :project_id => 1, :copy_from => 99999
+    assert_response 404
+  end
+
   def test_create_as_copy_on_different_project
     @request.session[:user_id] = 2
     assert_difference 'Issue.count' do

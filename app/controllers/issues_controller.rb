@@ -360,7 +360,12 @@ private
   def build_new_issue_from_params
     if params[:id].blank?
       @issue = Issue.new
-      @issue.copy_from(params[:copy_from]) if params[:copy_from]
+      begin
+        @issue.copy_from(params[:copy_from]) if params[:copy_from]
+      rescue ActiveRecord::RecordNotFound
+        render_404
+        return
+      end
       @issue.project = @project
     else
       @issue = @project.issues.visible.find(params[:id])
