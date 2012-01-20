@@ -1023,3 +1023,4 @@ gl:
     one:   1 petición
     other: "%{count} peticións"
   label_repository_new: New repository
+  field_repository_is_default: Main repository

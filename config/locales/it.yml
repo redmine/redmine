@@ -1013,3 +1013,4 @@ it:
     one:   1 segnalazione
     other: "%{count} segnalazioni"
   label_repository_new: New repository
+  field_repository_is_default: Main repository

@@ -1004,3 +1004,4 @@ ro:
     one:   1 tichet
     other: "%{count} tichete"
   label_repository_new: New repository
+  field_repository_is_default: Main repository

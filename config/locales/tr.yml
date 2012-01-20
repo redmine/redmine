@@ -1031,3 +1031,4 @@ tr:
     one:   1 İş
     other: "%{count} İşler"
   label_repository_new: New repository
+  field_repository_is_default: Main repository

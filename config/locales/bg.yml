@@ -1010,3 +1010,4 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   label_repository_new: New repository
+  field_repository_is_default: Main repository

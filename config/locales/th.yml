@@ -1009,3 +1009,4 @@ th:
     one:   1 ปัญหา
     other: "%{count} ปัญหา"
   label_repository_new: New repository
+  field_repository_is_default: Main repository

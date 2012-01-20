@@ -1072,3 +1072,4 @@ lt:
     one:   1 darbas
     other: "%{count} darbai"
   label_repository_new: New repository
+  field_repository_is_default: Main repository

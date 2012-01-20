@@ -1026,3 +1026,4 @@ bs:
     one:   1 aktivnost
     other: "%{count} aktivnosti"
   label_repository_new: New repository
+  field_repository_is_default: Main repository

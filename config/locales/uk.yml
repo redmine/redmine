@@ -1009,3 +1009,4 @@ uk:
     one:   1 Питання
     other: "%{count} Питання"
   label_repository_new: New repository
+  field_repository_is_default: Main repository

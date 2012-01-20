@@ -1002,3 +1002,4 @@
     one:   1 sak
     other: "%{count} saker"
   label_repository_new: New repository
+  field_repository_is_default: Main repository

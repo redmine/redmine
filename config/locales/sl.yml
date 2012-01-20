@@ -1012,3 +1012,4 @@ sl:
     one:   1 zahtevek
     other: "%{count} zahtevki"
   label_repository_new: New repository
+  field_repository_is_default: Main repository

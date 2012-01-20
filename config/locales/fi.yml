@@ -1033,3 +1033,4 @@ fi:
     one:   1 tapahtuma
     other: "%{count} tapahtumat"
   label_repository_new: New repository
+  field_repository_is_default: Main repository

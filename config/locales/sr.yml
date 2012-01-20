@@ -1013,3 +1013,4 @@ sr:
     one:   1 Проблем
     other: "%{count} Проблеми"
   label_repository_new: New repository
+  field_repository_is_default: Main repository

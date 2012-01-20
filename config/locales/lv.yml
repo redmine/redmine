@@ -1006,3 +1006,4 @@ lv:
     one:   1 uzdevums
     other: "%{count} uzdevumi"
   label_repository_new: New repository
+  field_repository_is_default: Main repository

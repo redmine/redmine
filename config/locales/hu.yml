@@ -1031,3 +1031,4 @@
     one:   1 feladat
     other: "%{count} feladatok"
   label_repository_new: New repository
+  field_repository_is_default: Main repository

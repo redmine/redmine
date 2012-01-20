@@ -1063,3 +1063,4 @@ vi:
     one:   1 vấn đề
     other: "%{count} vấn đề"
   label_repository_new: New repository
+  field_repository_is_default: Main repository

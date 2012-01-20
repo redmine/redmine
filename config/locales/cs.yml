@@ -1015,3 +1015,4 @@ cs:
     one:   1 Úkol
     other: "%{count} Úkoly"
   label_repository_new: New repository
+  field_repository_is_default: Main repository

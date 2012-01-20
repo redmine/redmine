@@ -1032,3 +1032,4 @@ de:
     one:   1 ticket
     other: "%{count} tickets"
   label_repository_new: New repository
+  field_repository_is_default: Main repository

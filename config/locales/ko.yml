@@ -1064,3 +1064,4 @@ ko:
     one:   1 일감
     other: "%{count} 일감"
   label_repository_new: New repository
+  field_repository_is_default: Main repository

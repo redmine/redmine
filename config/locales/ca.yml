@@ -1014,3 +1014,4 @@ ca:
     one:   1 assumpte
     other: "%{count} assumptes"
   label_repository_new: New repository
+  field_repository_is_default: Main repository

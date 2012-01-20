@@ -1012,3 +1012,4 @@ sr-YU:
     one:   1 problem
     other: "%{count} problemi"
   label_repository_new: New repository
+  field_repository_is_default: Main repository

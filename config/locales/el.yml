@@ -1012,3 +1012,4 @@ el:
     one:   1 Θέμα
     other: "%{count} Θέματα"
   label_repository_new: New repository
+  field_repository_is_default: Main repository

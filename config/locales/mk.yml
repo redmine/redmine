@@ -1012,3 +1012,4 @@ mk:
     one:   1 Задача
     other: "%{count} Задачи"
   label_repository_new: New repository
+  field_repository_is_default: Main repository

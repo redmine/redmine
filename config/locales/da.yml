@@ -1029,3 +1029,4 @@ da:
     one:   1 sag
     other: "%{count} sager"
   label_repository_new: New repository
+  field_repository_is_default: Main repository

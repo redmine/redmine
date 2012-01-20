@@ -1017,3 +1017,4 @@ he:
     one:   1 נושא
     other: "%{count} נושאים"
   label_repository_new: New repository
+  field_repository_is_default: Main repository

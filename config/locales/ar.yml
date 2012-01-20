@@ -1012,3 +1012,4 @@ ar:
     one:   1 قضية
     other: "%{count} قضايا"
   label_repository_new: New repository
+  field_repository_is_default: Main repository

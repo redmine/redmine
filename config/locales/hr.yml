@@ -1018,3 +1018,4 @@ hr:
     one:   1 predmet
     other: "%{count} predmeti"
   label_repository_new: New repository
+  field_repository_is_default: Main repository

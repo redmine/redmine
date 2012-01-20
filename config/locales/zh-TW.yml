@@ -1092,3 +1092,4 @@
     one:   1 問題
     other: "%{count} 問題清單"
   label_repository_new: New repository
+  field_repository_is_default: Main repository

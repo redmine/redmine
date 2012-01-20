@@ -1049,3 +1049,4 @@ es:
     one:   1 petición
     other: "%{count} peticiones"
   label_repository_new: New repository
+  field_repository_is_default: Main repository

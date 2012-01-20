@@ -1014,3 +1014,4 @@ fa:
     one:   1 پیامد
     other: "%{count} پیامد"
   label_repository_new: New repository
+  field_repository_is_default: Main repository

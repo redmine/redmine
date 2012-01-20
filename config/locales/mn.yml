@@ -1012,3 +1012,4 @@ mn:
     one:   1 Асуудал
     other: "%{count} Асуудлууд"
   label_repository_new: New repository
+  field_repository_is_default: Main repository
