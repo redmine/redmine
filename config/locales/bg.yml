@@ -318,6 +318,7 @@ bg:
   field_root_directory: Коренна директория (папка)
   field_cvsroot: CVSROOT
   field_cvs_module: Модул
+  field_repository_is_default: Главно хранилище
 
   setting_app_title: Заглавие
   setting_app_subtitle: Описание
@@ -650,6 +651,7 @@ bg:
   label_not_contains: не съдържа
   label_day_plural: дни
   label_repository: Хранилище
+  label_repository_new: Ново хранилище
   label_repository_plural: Хранилища
   label_browse: Разглеждане
   label_modification: "%{count} промяна"
@@ -1009,5 +1011,3 @@ bg:
   description_date_range_interval: Изберете диапазон чрез задаване на начална и крайна дати
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
-  label_repository_new: New repository
-  field_repository_is_default: Main repository
