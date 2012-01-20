@@ -52,6 +52,25 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal 59, File.size(a.diskfile)
   end
 
+  def test_size_should_be_validated_for_new_file
+    with_settings :attachment_max_size => 0 do
+      a = Attachment.new(:container => Issue.find(1),
+                         :file => uploaded_test_file("testfile.txt", "text/plain"),
+                         :author => User.find(1))
+      assert !a.save
+    end
+  end
+
+  def test_size_should_not_be_validated_when_copying
+    a = Attachment.create!(:container => Issue.find(1),
+                           :file => uploaded_test_file("testfile.txt", "text/plain"),
+                           :author => User.find(1))
+    with_settings :attachment_max_size => 0 do
+      copy = a.copy
+      assert copy.save
+    end
+  end
+
   def test_destroy
     a = Attachment.new(:container => Issue.find(1),
                        :file => uploaded_test_file("testfile.txt", "text/plain"),
@@ -67,6 +86,22 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal 59, File.size(a.diskfile)
     assert a.destroy
     assert !File.exist?(diskfile)
+  end
+
+  def test_destroy_should_not_delete_file_referenced_by_other_attachment
+    a = Attachment.create!(:container => Issue.find(1),
+                           :file => uploaded_test_file("testfile.txt", "text/plain"),
+                           :author => User.find(1))
+    diskfile = a.diskfile
+
+    copy = a.copy
+    copy.save!
+
+    assert File.exists?(diskfile)
+    a.destroy
+    assert File.exists?(diskfile)
+    copy.destroy
+    assert !File.exists?(diskfile)
   end
 
   def test_create_should_auto_assign_content_type

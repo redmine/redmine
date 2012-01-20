@@ -49,8 +49,16 @@ class Attachment < ActiveRecord::Base
   before_save :files_to_final_location
   after_destroy :delete_from_disk
 
+  # Returns an unsaved copy of the attachment
+  def copy(attributes=nil)
+    copy = self.class.new
+    copy.attributes = self.attributes.dup.except("id", "downloads")
+    copy.attributes = attributes if attributes
+    copy
+  end
+
   def validate_max_file_size
-    if self.filesize > Setting.attachment_max_size.to_i.kilobytes
+    if @temp_file && self.filesize > Setting.attachment_max_size.to_i.kilobytes
       errors.add(:base, :too_long, :count => Setting.attachment_max_size.to_i.kilobytes)
     end
   end
@@ -96,9 +104,11 @@ class Attachment < ActiveRecord::Base
     end
   end
 
-  # Deletes file on the disk
+  # Deletes the file from the file system if it's not referenced by other attachments
   def delete_from_disk
-    File.delete(diskfile) if !filename.blank? && File.exist?(diskfile)
+    if Attachment.first(:conditions => ["disk_filename = ? AND id <> ?", disk_filename, id]).nil?
+      delete_from_disk!
+    end
   end
 
   # Returns file's location on disk
@@ -173,7 +183,15 @@ class Attachment < ActiveRecord::Base
      }
   end
 
-private
+  private
+
+  # Physically deletes the file from the file system
+  def delete_from_disk!
+    if disk_filename.present? && File.exist?(diskfile)
+      File.delete(diskfile)
+    end
+  end
+
   def sanitize_filename(value)
     # get only the filename, not the whole path
     just_filename = value.gsub(/^.*(\\|\/)/, '')

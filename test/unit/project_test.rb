@@ -870,6 +870,18 @@ class ProjectTest < ActiveSupport::TestCase
       assert_not_equal source_relation_cross_project.id, copied_relation.id
     end
 
+    should "copy issue attachments" do
+      issue = Issue.generate!(:subject => "copy with attachment", :tracker_id => 1, :project_id => @source_project.id)
+      Attachment.create!(:container => issue, :file => uploaded_test_file("testfile.txt", "text/plain"), :author_id => 1)
+      @source_project.issues << issue
+      assert @project.copy(@source_project)
+
+      copied_issue = @project.issues.first(:conditions => {:subject => "copy with attachment"})
+      assert_not_nil copied_issue
+      assert_equal 1, copied_issue.attachments.count, "Attachment not copied"
+      assert_equal "testfile.txt", copied_issue.attachments.first.filename
+    end
+
     should "copy memberships" do
       assert @project.valid?
       assert @project.members.empty?

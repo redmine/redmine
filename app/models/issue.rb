@@ -135,6 +135,9 @@ class Issue < ActiveRecord::Base
     self.custom_field_values = issue.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
     self.status = issue.status
     self.author = User.current
+    self.attachments = issue.attachments.map do |attachement| 
+      attachement.copy(:container => self)
+    end
     @copied_from = issue
     self
   end

@@ -1654,6 +1654,44 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 'Copy', issue.subject
   end
 
+  def test_create_as_copy_should_copy_attachments
+    @request.session[:user_id] = 2
+    issue = Issue.find(3)
+    count = issue.attachments.count
+    assert count > 0
+
+    assert_difference 'Issue.count' do
+      assert_difference 'Attachment.count', count do
+        assert_no_difference 'Journal.count' do
+          post :create, :project_id => 1, :copy_from => 3,
+            :issue => {:project_id => '1', :tracker_id => '3', :status_id => '1', :subject => 'Copy with attachments'}
+        end
+      end
+    end
+    copy = Issue.first(:order => 'id DESC')
+    assert_equal count, copy.attachments.count
+    assert_equal issue.attachments.map(&:filename).sort, copy.attachments.map(&:filename).sort
+  end
+
+  def test_create_as_copy_with_attachments_should_add_new_files
+    @request.session[:user_id] = 2
+    issue = Issue.find(3)
+    count = issue.attachments.count
+    assert count > 0
+
+    assert_difference 'Issue.count' do
+      assert_difference 'Attachment.count', count + 1 do
+        assert_no_difference 'Journal.count' do
+          post :create, :project_id => 1, :copy_from => 3,
+            :issue => {:project_id => '1', :tracker_id => '3', :status_id => '1', :subject => 'Copy with attachments'},
+            :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain'), 'description' => 'test file'}}
+        end
+      end
+    end
+    copy = Issue.first(:order => 'id DESC')
+    assert_equal count + 1, copy.attachments.count
+  end
+
   def test_create_as_copy_with_failure
     @request.session[:user_id] = 2
     post :create, :project_id => 1, :copy_from => 1,
