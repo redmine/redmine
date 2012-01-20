@@ -163,6 +163,16 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       end
     end
 
+    def show_should_show_branch_selection_form
+      @repository.fetch_changesets
+      @project.reload
+      get :show, :id => PRJ_ID
+      assert_tag 'form', :attributes => {:id => 'revision_selector', :action => '/projects/subproject1/repository/show'}
+      assert_tag 'select', :attributes => {:name => 'branch'},
+        :child => {:tag => 'option', :attributes => {:value => 'test-branch-01'}},
+        :parent => {:tag => 'form', :attributes => {:id => 'revision_selector'}}
+    end
+
     def test_show_branch
       assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
