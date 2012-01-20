@@ -129,14 +129,16 @@ class Issue < ActiveRecord::Base
   end
 
   # Copies attributes from another issue, arg can be an id or an Issue
-  def copy_from(arg)
+  def copy_from(arg, options={})
     issue = arg.is_a?(Issue) ? arg : Issue.visible.find(arg)
     self.attributes = issue.attributes.dup.except("id", "root_id", "parent_id", "lft", "rgt", "created_on", "updated_on")
     self.custom_field_values = issue.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
     self.status = issue.status
     self.author = User.current
-    self.attachments = issue.attachments.map do |attachement| 
-      attachement.copy(:container => self)
+    unless options[:attachments] == false
+      self.attachments = issue.attachments.map do |attachement| 
+        attachement.copy(:container => self)
+      end
     end
     @copied_from = issue
     self

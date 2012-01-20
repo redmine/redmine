@@ -812,6 +812,7 @@ fr:
   label_issues_visibility_public: Toutes les demandes non privées
   label_issues_visibility_own: Demandes créées par ou assignées à l'utilisateur
   label_export_options: Options d'exportation %{export_format}
+  label_copy_attachments: Copier les fichiers
 
   button_login: Connexion
   button_submit: Soumettre

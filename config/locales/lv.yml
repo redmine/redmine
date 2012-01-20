@@ -1007,3 +1007,4 @@ lv:
     other: "%{count} uzdevumi"
   label_repository_new: New repository
   field_repository_is_default: Main repository
+  label_copy_attachments: Copy attachments

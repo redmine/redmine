@@ -11,6 +11,13 @@
     <%= render :partial => 'issues/form', :locals => {:f => f} %>
     </div>
 
+    <% if @copy_from && @copy_from.attachments.any? %>
+		<p>
+			<label for="copy_attachments"><%= l(:label_copy_attachments) %></label>
+			<%= check_box_tag 'copy_attachments', '1', @copy_attachments %>
+		</p>
+		<% end %>
+
     <p id="attachments_form"><%= label_tag('attachments[1][file]', l(:label_attachment_plural))%><%= render :partial => 'attachments/form' %></p>
 
     <% if @issue.safe_attribute? 'watcher_user_ids' -%>
