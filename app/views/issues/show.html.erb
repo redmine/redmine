@@ -10,7 +10,7 @@
                      issue_path(@prev_issue_id),
                      :title => "##{@prev_issue_id}" %> |
 	    <% if @issue_position && @issue_count %>
-			  <span class="position"><%= "#{@issue_position}/#{@issue_count}" %></span> |
+			  <span class="position"><%= l(:label_item_position, :position => @issue_position, :count => @issue_count) %></span> |
 			<% end %>
       <%= link_to_if @next_issue_id,
                      "#{l(:label_next)} \xc2\xbb",

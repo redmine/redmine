@@ -837,6 +837,7 @@ en:
   label_child_revision: Child
   label_export_options: "%{export_format} export options"
   label_copy_attachments: Copy attachments
+  label_item_position: %{position} of %{count}
 
   button_login: Login
   button_submit: Submit

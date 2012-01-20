@@ -1012,3 +1012,4 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   label_copy_attachments: Copy attachments
+  label_item_position: "%{position}/%{count}"
