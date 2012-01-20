@@ -950,7 +950,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_tag 'a', :attributes => {:href => '/issues/5'}, :content => /Next/
 
     count = Issue.open.visible.count
-    assert_tag 'span', :attributes => {:class => 'position'}, :content => "3/#{count}"
+    assert_tag 'span', :attributes => {:class => 'position'}, :content => "3 of #{count}"
   end
 
   def test_show_should_display_prev_next_links_with_saved_query_in_session
