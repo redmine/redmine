@@ -50,7 +50,7 @@ h4, .wiki h3 {font-size: 13px;padding: 2px 10px 1px 0px;margin-bottom: 5px; bord
 #main-menu li a.selected, #main-menu li a.selected:hover {background:#fff; color:#555;}
 
 #admin-menu ul {margin: 0;  padding: 0;}
-#admin-menu li {margin: 0;  padding: 0 0 12px 0; list-style-type:none;}
+#admin-menu li {margin: 0;  padding: 0 0 6px 0; list-style-type:none;}
 
 #admin-menu a { background-position: 0% 40%; background-repeat: no-repeat; padding-left: 20px; padding-top: 2px; padding-bottom: 3px;}
 #admin-menu a.projects { background-image: url(../images/projects.png); }
@@ -111,6 +111,8 @@ a.issue.closed, a.issue.closed:link, a.issue.closed:visited { color: #999; text-
 
 #sidebar a.selected {line-height:1.7em; padding:1px 3px 2px 2px; margin-left:-2px; background-color:#9DB9D5; color:#fff; border-radius:2px; -moz-border-radius:2px;}
 #sidebar a.selected:hover {text-decoration:none;}
+#admin-menu a {line-height:1.7em;}
+#admin-menu a.selected {padding-left: 20px !important; background-position: 2px 40%;}
 
 /***** Tables *****/
 table.list { border: 1px solid #e4e4e4;  border-collapse: collapse; width: 100%; margin-bottom: 4px; }
