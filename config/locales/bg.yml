@@ -76,8 +76,8 @@ bg:
 
     human:
       format:
-        precision: 1
         delimiter: ""
+        precision: 1
       storage_units:
         format: "%n %u"
         units:
