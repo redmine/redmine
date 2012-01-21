@@ -134,9 +134,9 @@ class TimelogController < ApplicationController
           flash[:notice] = l(:notice_successful_create)
           if params[:continue]
             if params[:project_id]
-              redirect_to :action => 'new', :project_id => @time_entry.project, :issue_id => @time_entry.issue
+              redirect_to :action => 'new', :project_id => @time_entry.project, :issue_id => @time_entry.issue, :back_url => params[:back_url]
             else
-              redirect_to :action => 'new'
+              redirect_to :action => 'new', :back_url => params[:back_url]
             end
           else
             redirect_back_or_default :action => 'index', :project_id => @time_entry.project
