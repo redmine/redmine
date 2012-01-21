@@ -69,6 +69,20 @@ class ApiTest::VersionsTest < ActionController::IntegrationTest
         assert_tag 'version', :child => {:tag => 'id', :content => version.id.to_s}
       end
 
+      should "create the version with due date" do
+        assert_difference 'Version.count' do
+          post '/projects/1/versions.xml', {:version => {:name => 'API test', :due_date => '2012-01-24'}}, credentials('jsmith')
+        end
+
+        version = Version.first(:order => 'id DESC')
+        assert_equal 'API test', version.name
+        assert_equal Date.parse('2012-01-24'), version.due_date
+
+        assert_response :created
+        assert_equal 'application/xml', @response.content_type
+        assert_tag 'version', :child => {:tag => 'id', :content => version.id.to_s}
+      end
+
       context "with failure" do
         should "return the errors" do
           assert_no_difference('Version.count') do
