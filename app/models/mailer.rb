@@ -341,7 +341,7 @@ class Mailer < ActionMailer::Base
     tracker = options[:tracker] ? Tracker.find(options[:tracker]) : nil
     user_ids = options[:users]
 
-    scope = Issue.scoped(:conditions => ["#{Issue.table_name}.assigned_to_id IS NOT NULL" +
+    scope = Issue.open.scoped(:conditions => ["#{Issue.table_name}.assigned_to_id IS NOT NULL" +
       " AND #{Project.table_name}.status = #{Project::STATUS_ACTIVE}" +
       " AND #{Issue.table_name}.due_date <= ?", days.day.from_now.to_date]
     )
