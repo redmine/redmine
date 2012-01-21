@@ -61,6 +61,10 @@
   <li class="folder">
     <a href="#" class="submenu"><%= l(:field_assigned_to) %></a>
     <ul>
+    <% if @assignables.include?(User.current) %>
+        <li><%= context_menu_link "<< #{l(:label_me)} >>", {:controller => 'issues', :action => 'bulk_update', :ids => @issues.collect(&:id), :issue => {'assigned_to_id' => User.current}, :back_url => @back}, :method => :post,
+                                  :disabled => !@can[:update] %></li>
+    <% end %>
     <% @assignables.each do |u| -%>
         <li><%= context_menu_link h(u.name), {:controller => 'issues', :action => 'bulk_update', :ids => @issues.collect(&:id), :issue => {'assigned_to_id' => u}, :back_url => @back}, :method => :post,
                                   :selected => (@issue && u == @issue.assigned_to), :disabled => !@can[:update] %></li>

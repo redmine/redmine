@@ -117,6 +117,17 @@ class ContextMenusControllerTest < ActionController::TestCase
                                              :class => 'icon-del' }
   end
 
+  def test_context_menu_by_assignable_user_should_include_assigned_to_me_link
+    @request.session[:user_id] = 2
+    get :issues, :ids => [1]
+    assert_response :success
+    assert_template 'context_menu'
+
+    assert_tag :tag => 'a', :content => / me /,
+                            :attributes => { :href => '/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bassigned_to_id%5D=2',
+                                             :class => '' }
+  end
+
   def test_context_menu_issue_visibility
     get :issues, :ids => [1, 4]
     assert_response :success
