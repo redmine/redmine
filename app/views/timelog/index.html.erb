@@ -1,5 +1,7 @@
 <div class="contextual">
-<%= link_to_if_authorized l(:button_log_time), {:controller => 'timelog', :action => 'new', :project_id => @project, :issue_id => @issue}, :class => 'icon icon-time-add' %>
+<%= link_to l(:button_log_time), 
+            {:controller => 'timelog', :action => 'new', :project_id => @project, :issue_id => @issue},
+            :class => 'icon icon-time-add' if User.current.allowed_to?(:log_time, @project, :global => true) %>
 </div>
 
 <%= render_timelog_breadcrumb %>

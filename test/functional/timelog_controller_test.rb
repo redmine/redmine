@@ -51,7 +51,24 @@ class TimelogControllerTest < ActionController::TestCase
     get :new, :project_id => 1
     assert_response :success
     assert_template 'new'
-    assert_no_tag :tag => 'option', :content => 'Inactive Activity'
+    assert_no_tag 'select', :attributes => {:name => 'time_entry[project_id]'}
+    assert_no_tag 'option', :content => 'Inactive Activity'
+  end
+
+  def test_new_without_project
+    @request.session[:user_id] = 3
+    get :new
+    assert_response :success
+    assert_template 'new'
+    assert_tag 'select', :attributes => {:name => 'time_entry[project_id]'}
+  end
+
+  def test_new_without_project_should_deny_without_permission
+    Role.all.each {|role| role.remove_permission! :log_time}
+    @request.session[:user_id] = 3
+
+    get :new
+    assert_response 403
   end
 
   def test_get_edit_existing_time
@@ -141,6 +158,18 @@ class TimelogControllerTest < ActionController::TestCase
     assert_redirected_to '/projects/ecookbook/issues/1/time_entries/new'
   end
 
+  def test_create_and_continue_without_project
+    @request.session[:user_id] = 2
+    post :create, :time_entry => {:project_id => '1',
+                                :activity_id => '11',
+                                :issue_id => '',
+                                :spent_on => '2008-03-14',
+                                :hours => '7.3'},
+                  :continue => '1'
+
+    assert_redirected_to '/time_entries/new'
+  end
+
   def test_create_without_log_time_permission_should_be_denied
     @request.session[:user_id] = 2
     Role.find_by_name('Manager').remove_permission! :log_time
@@ -151,6 +180,63 @@ class TimelogControllerTest < ActionController::TestCase
                                 :hours => '7.3'}
 
     assert_response 403
+  end
+
+  def test_create_with_failure
+    @request.session[:user_id] = 2
+    post :create, :project_id => 1,
+                :time_entry => {:activity_id => '',
+                                :issue_id => '',
+                                :spent_on => '2008-03-14',
+                                :hours => '7.3'}
+
+    assert_response :success
+    assert_template 'new'
+  end
+
+  def test_create_without_project
+    @request.session[:user_id] = 2
+    assert_difference 'TimeEntry.count' do
+      post :create, :time_entry => {:project_id => '1',
+                                  :activity_id => '11',
+                                  :issue_id => '',
+                                  :spent_on => '2008-03-14',
+                                  :hours => '7.3'}
+    end
+
+    assert_redirected_to '/projects/ecookbook/time_entries'
+    time_entry = TimeEntry.first(:order => 'id DESC')
+    assert_equal 1, time_entry.project_id
+  end
+
+  def test_create_without_project_should_deny_without_permission
+    @request.session[:user_id] = 2
+    Project.find(3).disable_module!(:time_tracking)
+
+    assert_no_difference 'TimeEntry.count' do
+      post :create, :time_entry => {:project_id => '3',
+                                  :activity_id => '11',
+                                  :issue_id => '',
+                                  :spent_on => '2008-03-14',
+                                  :hours => '7.3'}
+    end
+
+    assert_response 403
+  end
+
+  def test_create_without_project_with_failure
+    @request.session[:user_id] = 2
+    assert_no_difference 'TimeEntry.count' do
+      post :create, :time_entry => {:project_id => '1',
+                                  :activity_id => '11',
+                                  :issue_id => '',
+                                  :spent_on => '2008-03-14',
+                                  :hours => ''}
+    end
+
+    assert_response :success
+    assert_tag 'select', :attributes => {:name => 'time_entry[project_id]'},
+      :child => {:tag => 'option', :attributes => {:value => '1', :selected => 'selected'}}
   end
 
   def test_update
@@ -287,6 +373,14 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal "162.90", "%.2f" % assigns(:total_hours)
     assert_tag :form,
       :attributes => {:action => "/time_entries", :id => 'query_form'}
+  end
+
+  def test_index_all_projects_should_show_log_time_link
+    @request.session[:user_id] = 2
+    get :index
+    assert_response :success
+    assert_template 'index'
+    assert_tag 'a', :attributes => {:href => '/time_entries/new'}, :content => /Log time/
   end
 
   def test_index_at_project_level

@@ -17,11 +17,15 @@
 
 class TimelogController < ApplicationController
   menu_item :issues
-  before_filter :find_project, :only => [:new, :create]
+
+  before_filter :find_project, :only => [:create]
   before_filter :find_time_entry, :only => [:show, :edit, :update]
   before_filter :find_time_entries, :only => [:bulk_edit, :bulk_update, :destroy]
-  before_filter :authorize, :except => [:index, :report]
-  before_filter :find_optional_project, :only => [:index, :report]
+  before_filter :authorize, :except => [:new, :index, :report]
+
+  before_filter :find_optional_project, :only => [:new, :index, :report]
+  before_filter :authorize_global, :only => [:new, :index, :report]
+
   accept_rss_auth :index
   accept_api_auth :index, :show, :create, :update, :destroy
 
@@ -129,7 +133,11 @@ class TimelogController < ApplicationController
         format.html {
           flash[:notice] = l(:notice_successful_create)
           if params[:continue]
-            redirect_to :action => 'new', :project_id => @time_entry.project, :issue_id => @time_entry.issue
+            if params[:project_id]
+              redirect_to :action => 'new', :project_id => @time_entry.project, :issue_id => @time_entry.issue
+            else
+              redirect_to :action => 'new'
+            end
           else
             redirect_back_or_default :action => 'index', :project_id => @time_entry.project
           end
@@ -138,7 +146,7 @@ class TimelogController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html { render :action => 'edit' }
+        format.html { render :action => 'new' }
         format.api  { render_validation_errors(@time_entry) }
       end
     end
@@ -274,7 +282,6 @@ private
     elsif !params[:project_id].blank?
       @project = Project.find(params[:project_id])
     end
-    deny_access unless User.current.allowed_to?(:view_time_entries, @project, :global => true)
   end
 
   # Retrieves the date range based on predefined ranges or specific from/to param dates
