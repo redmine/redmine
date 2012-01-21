@@ -253,7 +253,7 @@ ActionController::Routing::Routes.draw do |map|
                                :requirements => { 
                                    :action => /(browse|show|entry|changes|annotate|diff)/,
                                    :rev    => /[a-z0-9\.\-_]+/
-                                     }
+                                 }
       repository_views.connect 'projects/:id/repository/raw/*path',
                                :action => 'entry', :format => 'raw'
       repository_views.connect 'projects/:id/repository/:action/*path',
@@ -280,7 +280,7 @@ ActionController::Routing::Routes.draw do |map|
                                :requirements => { 
                                    :action => /(browse|show|entry|changes|annotate|diff)/,
                                    :rev    => /[a-z0-9\.\-_]+/
-                                     }
+                                 }
       repository_views.connect 'projects/:id/repository/:repository_id/raw/*path',
                                :action => 'entry', :format => 'raw'
       repository_views.connect 'projects/:id/repository/:repository_id/:action/*path',
