@@ -479,7 +479,7 @@ fieldset#notified_events .parent { padding-left: 20px; }
 .required {color: #bb0000;}
 .summary {font-style: italic;}
 
-#attachments_fields input[type=text] {margin-left: 8px; }
+#attachments_fields input.description {margin-left: 8px; width:340px;}
 #attachments_fields span {display:block; white-space:nowrap;}
 #attachments_fields img {vertical-align: middle;}
 
