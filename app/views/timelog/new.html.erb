@@ -2,5 +2,6 @@
 
 <% labelled_form_for @time_entry, :url => project_time_entries_path(@time_entry.project) do |f| %>
   <%= render :partial => 'form', :locals => {:f => f} %>
-  <%= submit_tag l(:button_save) %>
+  <%= submit_tag l(:button_create) %>
+  <%= submit_tag l(:button_create_and_continue), :name => 'continue' %>
 <% end %>

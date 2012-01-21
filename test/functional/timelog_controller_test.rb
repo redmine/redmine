@@ -119,6 +119,28 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal 3, t.user_id
   end
 
+  def test_create_and_continue
+    @request.session[:user_id] = 2
+    post :create, :project_id => 1,
+                :time_entry => {:activity_id => '11',
+                                :issue_id => '',
+                                :spent_on => '2008-03-14',
+                                :hours => '7.3'},
+                :continue => '1'
+    assert_redirected_to '/projects/ecookbook/time_entries/new'
+  end
+
+  def test_create_and_continue_with_issue_id
+    @request.session[:user_id] = 2
+    post :create, :project_id => 1,
+                :time_entry => {:activity_id => '11',
+                                :issue_id => '1',
+                                :spent_on => '2008-03-14',
+                                :hours => '7.3'},
+                :continue => '1'
+    assert_redirected_to '/projects/ecookbook/issues/1/time_entries/new'
+  end
+
   def test_create_without_log_time_permission_should_be_denied
     @request.session[:user_id] = 2
     Role.find_by_name('Manager').remove_permission! :log_time

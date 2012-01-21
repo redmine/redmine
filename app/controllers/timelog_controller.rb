@@ -127,8 +127,12 @@ class TimelogController < ApplicationController
     if @time_entry.save
       respond_to do |format|
         format.html {
-          flash[:notice] = l(:notice_successful_update)
-          redirect_back_or_default :action => 'index', :project_id => @time_entry.project
+          flash[:notice] = l(:notice_successful_create)
+          if params[:continue]
+            redirect_to :action => 'new', :project_id => @time_entry.project, :issue_id => @time_entry.issue
+          else
+            redirect_back_or_default :action => 'index', :project_id => @time_entry.project
+          end
         }
         format.api  { render :action => 'show', :status => :created, :location => time_entry_url(@time_entry) }
       end
