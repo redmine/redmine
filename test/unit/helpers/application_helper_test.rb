@@ -854,18 +854,21 @@ RAW
   end
 
   def test_principals_options_for_select_with_users
+    User.current = nil
     users = [User.find(2), User.find(4)]
     assert_equal %(<option value="2">John Smith</option><option value="4">Robert Hill</option>),
       principals_options_for_select(users)
   end
 
   def test_principals_options_for_select_with_selected
+    User.current = nil
     users = [User.find(2), User.find(4)]
     assert_equal %(<option value="2">John Smith</option><option value="4" selected="selected">Robert Hill</option>),
       principals_options_for_select(users, User.find(4))
   end
 
   def test_principals_options_for_select_with_users_and_groups
+    User.current = nil
     users = [User.find(2), Group.find(11), User.find(4), Group.find(10)]
     assert_equal %(<option value="2">John Smith</option><option value="4">Robert Hill</option>) +
       %(<optgroup label="Groups"><option value="10">A Team</option><option value="11">B Team</option></optgroup>),
@@ -874,5 +877,11 @@ RAW
 
   def test_principals_options_for_select_with_empty_collection
     assert_equal '', principals_options_for_select([])
+  end
+
+  def test_principals_options_for_select_should_include_me_option_when_current_user_is_in_collection
+    users = [User.find(2), User.find(4)]
+    User.current = User.find(4)
+    assert_include '<option value="4"><< me >></option>', principals_options_for_select(users)
   end
 end
