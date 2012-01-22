@@ -44,13 +44,9 @@
 
         <h3><a name="3" class="wiki-page"></a>Redmine links</h3>
 
-        <p>Redmine allows hyperlinking between issues, changesets and wiki pages from anywhere wiki formatting is used.</p>
+        <p>Redmine allows hyperlinking between resources (issues, changesets, wiki pages...) from anywhere wiki formatting is used.</p>
         <ul>
             <li>Link to an issue: <strong>#124</strong> (displays <del><a href="#" class="issue" title="bulk edit doesn't change the category or fixed version properties (Closed)">#124</a></del>, link is striked-through if the issue is closed)</li>
-            <li>Link to a changeset: <strong>r758</strong> (displays <a href="#" class="changeset" title="Search engine now only searches objects the user is allowed to view.">r758</a>)</li>
-            <li>Link to a changeset with a non-numeric hash: <strong>commit:c6f4d0fd</strong> (displays <a href="#" class="changeset">c6f4d0fd</a>).</li>
-            <li>Link to a changeset of another project: <strong>sandbox:r758</strong> (displays <a href="#" class="changeset" title="Search engine now only searches objects the user is allowed to view.">sandbox:r758</a>)</li>
-            <li>Link to a changeset with a non-numeric hash: <strong>sandbox:c6f4d0fd</strong> (displays <a href="#" class="changeset">sandbox:c6f4d0fd</a>).</li>
         </ul>
 
         <p>Wiki links:</p>
@@ -101,6 +97,18 @@
         </ul>
 
         <ul>
+            <li>Changesets:
+                <ul>
+				            <li><strong>r758</strong>                       (link to a changeset)</li>
+				            <li><strong>commit:c6f4d0fd</strong>            (link to a changeset with a non-numeric hash)</li>
+				            <li><strong>svn1|r758</strong>                  (link to a changeset of a specific repository, for projects with multiple repositories)</li>
+				            <li><strong>commit:hg|c6f4d0fd</strong>         (link to a changeset with a non-numeric hash of a specific repository)</li>
+				            <li><strong>sandbox:r758</strong>               (link to a changeset of another project)</li>
+				            <li><strong>sandbox:commit:c6f4d0fd</strong>    (link to a changeset with a non-numeric hash of another project)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
              <li>Repository files:
                 <ul>
                     <li><strong>source:some/file</strong>           (link to the file located at /some/file in the project's repository)</li>
@@ -109,6 +117,7 @@
                     <li><strong>source:some/file@52#L120</strong>   (link to line 120 of the file's revision 52)</li>
                     <li><strong>source:"some file@52#L120"</strong> (use double quotes when the URL contains spaces</li>
                     <li><strong>export:some/file</strong>           (force the download of the file)</li>
+                    <li><strong>source:svn1|some/file</strong>      (link to a file of a specific repository, for projects with multiple repositories)</li>
                     <li><strong>sandbox:source:some/file</strong>   (link to the file located at /some/file in the repository of the project "sandbox")</li>
                     <li><strong>sandbox:export:some/file</strong>   (force the download of the file)</li>
                 </ul></li>

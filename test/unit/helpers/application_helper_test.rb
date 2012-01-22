@@ -267,6 +267,7 @@ RAW
       'version:1.0'                 => version_link,
       'version:"1.0"'               => version_link,
       # source
+      'source:some/file'            => link_to('source:some/file', source_url, :class => 'source'),
       'source:/some/file'           => link_to('source:/some/file', source_url, :class => 'source'),
       'source:/some/file.'          => link_to('source:/some/file', source_url, :class => 'source') + ".",
       'source:/some/file.ext.'      => link_to('source:/some/file.ext', source_url_with_ext, :class => 'source') + ".",
@@ -337,6 +338,72 @@ RAW
       'ecookbook:source:/some/file'           => source_link,
       'invalid:source:/some/file'             => 'invalid:source:/some/file',
     }
+    @project = Project.find(3)
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text), "#{text} failed" }
+  end
+
+  def test_multiple_repositories_redmine_links
+    svn = Repository::Subversion.create!(:project_id => 1, :identifier => 'svn1', :url => 'file:///foo/hg')
+    Changeset.create!(:repository => svn, :committed_on => Time.now, :revision => '123')
+    hg = Repository::Mercurial.create!(:project_id => 1, :identifier => 'hg1', :url => '/foo/hg')
+    Changeset.create!(:repository => hg, :committed_on => Time.now, :revision => '123', :scmid => 'abcd')
+
+    changeset_link = link_to('r2', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :rev => 2},
+                                    :class => 'changeset', :title => 'This commit fixes #1, #2 and references #1 & #3')
+    svn_changeset_link = link_to('svn1|r123', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :repository_id => 'svn1', :rev => 123},
+                                    :class => 'changeset', :title => '')
+    hg_changeset_link = link_to('hg1|abcd', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :repository_id => 'hg1', :rev => 'abcd'},
+                                    :class => 'changeset', :title => '')
+
+    source_link = link_to('source:some/file', {:controller => 'repositories', :action => 'entry', :id => 'ecookbook', :path => ['some', 'file']}, :class => 'source')
+    hg_source_link = link_to('source:hg1|some/file', {:controller => 'repositories', :action => 'entry', :id => 'ecookbook', :repository_id => 'hg1', :path => ['some', 'file']}, :class => 'source')
+
+    to_test = {
+      'r2'                          => changeset_link,
+      'svn1|r123'                   => svn_changeset_link,
+      'invalid|r123'                => 'invalid|r123',
+      'commit:hg1|abcd'             => hg_changeset_link,
+      'commit:invalid|abcd'         => 'commit:invalid|abcd',
+      # source
+      'source:some/file'            => source_link,
+      'source:hg1|some/file'        => hg_source_link,
+      'source:invalid|some/file'    => 'source:invalid|some/file',
+    }
+
+    @project = Project.find(1)
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text), "#{text} failed" }
+  end
+
+  def test_cross_project_multiple_repositories_redmine_links
+    svn = Repository::Subversion.create!(:project_id => 1, :identifier => 'svn1', :url => 'file:///foo/hg')
+    Changeset.create!(:repository => svn, :committed_on => Time.now, :revision => '123')
+    hg = Repository::Mercurial.create!(:project_id => 1, :identifier => 'hg1', :url => '/foo/hg')
+    Changeset.create!(:repository => hg, :committed_on => Time.now, :revision => '123', :scmid => 'abcd')
+
+    changeset_link = link_to('ecookbook:r2', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :rev => 2},
+                                    :class => 'changeset', :title => 'This commit fixes #1, #2 and references #1 & #3')
+    svn_changeset_link = link_to('ecookbook:svn1|r123', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :repository_id => 'svn1', :rev => 123},
+                                    :class => 'changeset', :title => '')
+    hg_changeset_link = link_to('ecookbook:hg1|abcd', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :repository_id => 'hg1', :rev => 'abcd'},
+                                    :class => 'changeset', :title => '')
+
+    source_link = link_to('ecookbook:source:some/file', {:controller => 'repositories', :action => 'entry', :id => 'ecookbook', :path => ['some', 'file']}, :class => 'source')
+    hg_source_link = link_to('ecookbook:source:hg1|some/file', {:controller => 'repositories', :action => 'entry', :id => 'ecookbook', :repository_id => 'hg1', :path => ['some', 'file']}, :class => 'source')
+
+    to_test = {
+      'ecookbook:r2'                           => changeset_link,
+      'ecookbook:svn1|r123'                    => svn_changeset_link,
+      'ecookbook:invalid|r123'                 => 'ecookbook:invalid|r123',
+      'ecookbook:commit:hg1|abcd'              => hg_changeset_link,
+      'ecookbook:commit:invalid|abcd'          => 'ecookbook:commit:invalid|abcd',
+      'invalid:commit:invalid|abcd'            => 'invalid:commit:invalid|abcd',
+      # source
+      'ecookbook:source:some/file'             => source_link,
+      'ecookbook:source:hg1|some/file'         => hg_source_link,
+      'ecookbook:source:invalid|some/file'     => 'ecookbook:source:invalid|some/file',
+      'invalid:source:invalid|some/file'       => 'invalid:source:invalid|some/file',
+    }
+
     @project = Project.find(3)
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text), "#{text} failed" }
   end

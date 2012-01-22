@@ -655,19 +655,27 @@ module ApplicationHelper
   #     identifier:version:1.0.0
   #     identifier:source:some/file
   def parse_redmine_links(text, project, obj, attr, only_path, options)
-    text.gsub!(%r{([\s\(,\-\[\>]|^)(!)?(([a-z0-9\-]+):)?(attachment|document|version|forum|news|commit|source|export|message|project)?((#|r)(\d+)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]]\W)|,|\s|\]|<|$)}) do |m|
-      leading, esc, project_prefix, project_identifier, prefix, sep, identifier = $1, $2, $3, $4, $5, $7 || $9, $8 || $10
+    text.gsub!(%r{([\s\(,\-\[\>]|^)(!)?(([a-z0-9\-]+):)?(attachment|document|version|forum|news|message|project|commit|source|export)?(((#)|((([a-z0-9\-]+)\|)?(r)))(\d+)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]][^A-Za-z0-9_/])|,|\s|\]|<|$)}) do |m|
+      leading, esc, project_prefix, project_identifier, prefix, repo_prefix, repo_identifier, sep, identifier = $1, $2, $3, $4, $5, $10, $11, $8 || $12 || $14, $13 || $15
       link = nil
       if project_identifier
         project = Project.visible.find_by_identifier(project_identifier)
       end
       if esc.nil?
         if prefix.nil? && sep == 'r'
-          # project.changesets.visible raises an SQL error because of a double join on repositories
-          if project && project.repository && (changeset = Changeset.visible.find_by_repository_id_and_revision(project.repository.id, identifier))
-            link = link_to(h("#{project_prefix}r#{identifier}"), {:only_path => only_path, :controller => 'repositories', :action => 'revision', :id => project, :rev => changeset.revision},
-                                      :class => 'changeset',
-                                      :title => truncate_single_line(changeset.comments, :length => 100))
+          if project
+            repository = nil
+            if repo_identifier
+              repository = project.repositories.detect {|repo| repo.identifier == repo_identifier}
+            else
+              repository = project.repository
+            end
+            # project.changesets.visible raises an SQL error because of a double join on repositories
+            if repository && (changeset = Changeset.visible.find_by_repository_id_and_revision(repository.id, identifier))
+              link = link_to(h("#{project_prefix}#{repo_prefix}r#{identifier}"), {:only_path => only_path, :controller => 'repositories', :action => 'revision', :id => project, :repository_id => repository.identifier_param, :rev => changeset.revision},
+                                        :class => 'changeset',
+                                        :title => truncate_single_line(changeset.comments, :length => 100))
+            end
           end
         elsif sep == '#'
           oid = identifier.to_i
@@ -731,22 +739,34 @@ module ApplicationHelper
               link = link_to h(news.title), {:only_path => only_path, :controller => 'news', :action => 'show', :id => news},
                                             :class => 'news'
             end
-          when 'commit'
-            if project && project.repository && (changeset = Changeset.visible.find(:first, :conditions => ["repository_id = ? AND scmid LIKE ?", project.repository.id, "#{name}%"]))
-              link = link_to h("#{project_prefix}#{name}"), {:only_path => only_path, :controller => 'repositories', :action => 'revision', :id => project, :rev => changeset.identifier},
-                                           :class => 'changeset',
-                                           :title => truncate_single_line(h(changeset.comments), :length => 100)
-            end
-          when 'source', 'export'
-            if project && project.repository && User.current.allowed_to?(:browse_repository, project)
-              name =~ %r{^[/\\]*(.*?)(@([0-9a-f]+))?(#(L\d+))?$}
-              path, rev, anchor = $1, $3, $5
-              link = link_to h("#{project_prefix}#{prefix}:#{name}"), {:controller => 'repositories', :action => 'entry', :id => project,
-                                                      :path => to_path_param(path),
-                                                      :rev => rev,
-                                                      :anchor => anchor,
-                                                      :format => (prefix == 'export' ? 'raw' : nil)},
-                                                     :class => (prefix == 'export' ? 'source download' : 'source')
+          when 'commit', 'source', 'export'
+            if project
+              repository = nil
+              if name =~ %r{^(([a-z0-9\-]+)\|)(.+)$}
+                repo_prefix, repo_identifier, name = $1, $2, $3
+                repository = project.repositories.detect {|repo| repo.identifier == repo_identifier}
+              else
+                repository = project.repository
+              end
+              if prefix == 'commit'
+                if repository && (changeset = Changeset.visible.find(:first, :conditions => ["repository_id = ? AND scmid LIKE ?", repository.id, "#{name}%"]))
+                  link = link_to h("#{project_prefix}#{repo_prefix}#{name}"), {:only_path => only_path, :controller => 'repositories', :action => 'revision', :id => project, :repository_id => repository.identifier_param, :rev => changeset.identifier},
+                                               :class => 'changeset',
+                                               :title => truncate_single_line(h(changeset.comments), :length => 100)
+                end
+              else
+                if repository && User.current.allowed_to?(:browse_repository, project)
+                  name =~ %r{^[/\\]*(.*?)(@([0-9a-f]+))?(#(L\d+))?$}
+                  path, rev, anchor = $1, $3, $5
+                  link = link_to h("#{project_prefix}#{prefix}:#{repo_prefix}#{name}"), {:controller => 'repositories', :action => 'entry', :id => project, :repository_id => repository.identifier_param,
+                                                          :path => to_path_param(path),
+                                                          :rev => rev,
+                                                          :anchor => anchor,
+                                                          :format => (prefix == 'export' ? 'raw' : nil)},
+                                                         :class => (prefix == 'export' ? 'source download' : 'source')
+                end
+              end
+              repo_prefix = nil
             end
           when 'attachment'
             attachments = options[:attachments] || (obj && obj.respond_to?(:attachments) ? obj.attachments : nil)
@@ -761,7 +781,7 @@ module ApplicationHelper
           end
         end
       end
-      (leading + (link || "#{project_prefix}#{prefix}#{sep}#{identifier}")).html_safe
+      (leading + (link || "#{project_prefix}#{prefix}#{repo_prefix}#{sep}#{identifier}")).html_safe
     end
   end
 
