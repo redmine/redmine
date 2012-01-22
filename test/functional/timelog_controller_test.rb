@@ -209,6 +209,20 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal 1, time_entry.project_id
   end
 
+  def test_create_without_project_should_fail_with_issue_not_inside_project
+    @request.session[:user_id] = 2
+    assert_no_difference 'TimeEntry.count' do
+      post :create, :time_entry => {:project_id => '1',
+                                  :activity_id => '11',
+                                  :issue_id => '5',
+                                  :spent_on => '2008-03-14',
+                                  :hours => '7.3'}
+    end
+
+    assert_response :success
+    assert assigns(:time_entry).errors[:issue_id].present?
+  end
+
   def test_create_without_project_should_deny_without_permission
     @request.session[:user_id] = 2
     Project.find(3).disable_module!(:time_tracking)
