@@ -678,6 +678,18 @@ class IssueTest < ActiveSupport::TestCase
     end
   end
 
+  def test_recipients_should_include_previous_assignee
+    user = User.find(3)
+    user.members.update_all ["mail_notification = ?", false]
+    user.update_attribute :mail_notification, 'only_assigned'
+
+    issue = Issue.find(2)
+    issue.assigned_to = nil
+    assert_include user.mail, issue.recipients
+    issue.save!
+    assert !issue.recipients.include?(user.mail)
+  end
+
   def test_recipients_should_not_include_users_that_cannot_view_the_issue
     issue = Issue.find(12)
     assert issue.recipients.include?(issue.author.mail)

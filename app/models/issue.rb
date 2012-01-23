@@ -514,19 +514,27 @@ class Issue < ActiveRecord::Base
     blocked? ? statuses.reject {|s| s.is_closed?} : statuses
   end
 
+  def assigned_to_was
+    if assigned_to_id_changed? && assigned_to_id_was.present?
+      @assigned_to_was ||= User.find_by_id(assigned_to_id_was)
+    end
+  end
+
   # Returns the mail adresses of users that should be notified
   def recipients
-    notified = project.notified_users
+    notified = []
     # Author and assignee are always notified unless they have been
     # locked or don't want to be notified
-    notified << author if author && author.active? && author.notify_about?(self)
+    notified << author if author
     if assigned_to
-      if assigned_to.is_a?(Group)
-        notified += assigned_to.users.select {|u| u.active? && u.notify_about?(self)}
-      else
-        notified << assigned_to if assigned_to.active? && assigned_to.notify_about?(self)
-      end
+      notified += (assigned_to.is_a?(Group) ? assigned_to.users : [assigned_to])
     end
+    if assigned_to_was
+      notified += (assigned_to_was.is_a?(Group) ? assigned_to_was.users : [assigned_to_was])
+    end
+    notified = notified.select {|u| u.active? && u.notify_about?(self)}
+
+    notified += project.notified_users
     notified.uniq!
     # Remove users that can not view the issue
     notified.reject! {|user| !visible?(user)}

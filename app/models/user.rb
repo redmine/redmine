@@ -509,7 +509,7 @@ class User < Principal
       true
     when 'selected'
       # user receives notifications for created/assigned issues on unselected projects
-      if object.is_a?(Issue) && (object.author == self || is_or_belongs_to?(object.assigned_to))
+      if object.is_a?(Issue) && (object.author == self || is_or_belongs_to?(object.assigned_to) || is_or_belongs_to?(object.assigned_to_was))
         true
       else
         false
@@ -517,13 +517,13 @@ class User < Principal
     when 'none'
       false
     when 'only_my_events'
-      if object.is_a?(Issue) && (object.author == self || is_or_belongs_to?(object.assigned_to))
+      if object.is_a?(Issue) && (object.author == self || is_or_belongs_to?(object.assigned_to) || is_or_belongs_to?(object.assigned_to_was))
         true
       else
         false
       end
     when 'only_assigned'
-      if object.is_a?(Issue) && is_or_belongs_to?(object.assigned_to)
+      if object.is_a?(Issue) && (is_or_belongs_to?(object.assigned_to) || is_or_belongs_to?(object.assigned_to_was))
         true
       else
         false
