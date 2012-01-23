@@ -69,6 +69,14 @@
 </div>
 
 <div class="splitcontentright">
+<% if @safe_attributes.include?('is_private') %>
+<p>
+  <label for='issue_is_private'><%= l(:field_is_private) %></label>
+  <%= select_tag('issue[is_private]', content_tag('option', l(:label_no_change_option), :value => '') +
+                                content_tag('option', l(:general_text_Yes), :value => '1') +
+                                content_tag('option', l(:general_text_No), :value => '0')) %>
+</p>
+<% end %>
 <% if @project && User.current.allowed_to?(:manage_subtasks, @project) %>
 <p>
   <label for='issue_parent_issue_id'><%= l(:field_parent_issue) %></label>

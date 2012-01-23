@@ -228,6 +228,7 @@ class IssuesController < ApplicationController
     @assignables = target_projects.map(&:assignable_users).inject{|memo,a| memo & a}
     @trackers = target_projects.map(&:trackers).inject{|memo,t| memo & t}
 
+    @safe_attributes = @issues.map(&:safe_attribute_names).inject {|memo,attrs| memo & attrs}
     render :layout => false if request.xhr?
   end
 
