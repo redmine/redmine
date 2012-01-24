@@ -16,7 +16,7 @@
                                                                             [l(:label_month), 'month'],
                                                                             [l(:label_week), 'week'],
                                                                             [l(:label_day_plural).titleize, 'day']], @report.columns),
-                                                        :onchange => "this.form.onsubmit();" %>
+                                                        :onchange => "this.form.submit();" %>
 
   <label for='criterias'><%= l(:button_add) %></label>: <%= select_tag('criteria[]', options_for_select([[]] + (@report.available_criteria.keys - @report.criteria).collect{|k| [l_or_humanize(@report.available_criteria[k][:label]), k]}),
                                                           :onchange => "this.form.submit();",
