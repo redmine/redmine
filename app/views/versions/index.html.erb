@@ -49,7 +49,7 @@
 
 <h3><%= l(:label_version_plural) %></h3>
 <% @versions.each do |version| %>
-<%= link_to format_version_name(version), :anchor => anchor(version.name) %><br />
+<%= link_to format_version_name(version), "##{anchor(version.name)}" %><br />
 <% end %>
 <% if @completed_versions.present? %>
 <p>
