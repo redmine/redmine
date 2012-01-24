@@ -838,6 +838,7 @@ en:
   label_export_options: "%{export_format} export options"
   label_copy_attachments: Copy attachments
   label_item_position: %{position} of %{count}
+  label_completed_versions: Completed versions
 
   button_login: Login
   button_submit: Submit

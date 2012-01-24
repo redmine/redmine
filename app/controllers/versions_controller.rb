@@ -39,7 +39,10 @@ class VersionsController < ApplicationController
         @versions = @project.shared_versions || []
         @versions += @project.rolled_up_versions.visible if @with_subprojects
         @versions = @versions.uniq.sort
-        @versions.reject! {|version| version.closed? || version.completed? } unless params[:completed]
+        unless params[:completed]
+          @completed_versions = @versions.select {|version| version.closed? || version.completed? }
+          @versions -= @completed_versions
+        end
 
         @issues_by_version = {}
         unless @selected_tracker_ids.empty?

@@ -114,6 +114,10 @@ a.issue.closed, a.issue.closed:link, a.issue.closed:visited { color: #999; text-
 #admin-menu a {line-height:1.7em;}
 #admin-menu a.selected {padding-left: 20px !important; background-position: 2px 40%;}
 
+a.collapsible {padding-left: 12px; background: url(../images/arrow_expanded.png) no-repeat -3px 40%;}
+a.collapsible.collapsed {background: url(../images/arrow_collapsed.png) no-repeat -5px 40%;}
+
+a#toggle-completed-versions {color:#999;}
 /***** Tables *****/
 table.list { border: 1px solid #e4e4e4;  border-collapse: collapse; width: 100%; margin-bottom: 4px; }
 table.list th {  background-color:#EEEEEE; padding: 4px; white-space:nowrap; }

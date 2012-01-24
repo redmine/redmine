@@ -1015,3 +1015,4 @@ sl:
   field_repository_is_default: Main repository
   label_copy_attachments: Copy attachments
   label_item_position: "%{position}/%{count}"
+  label_completed_versions: Completed versions
