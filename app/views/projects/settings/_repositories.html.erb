@@ -1,24 +1,24 @@
 <% if @project.repositories.any? %>
 <table class="list">
   <thead>
-  	<tr>
+    <tr>
       <th><%= l(:label_scm) %></th>
       <th><%= l(:field_identifier) %></th>
       <th><%= l(:field_repository_is_default) %></th>
       <th><%= l(:label_repository) %></th>
       <th></th>
     </tr>
-	</thead>
+  </thead>
   <tbody>
   <% @project.repositories.sort.each do |repository| %>
-	  <tr class="<%= cycle 'odd', 'even' %>">
-	  	<td><%=h repository.scm_name %></td>
+    <tr class="<%= cycle 'odd', 'even' %>">
+      <td><%=h repository.scm_name %></td>
       <td><%=h repository.identifier %></td>
       <td align="center"><%= checked_image repository.is_default? %></td>
-			<td><%=h repository.url %></td>
-			<td class="buttons">
-			<% if User.current.allowed_to?(:manage_repository, @project) %>
-				<%= link_to(l(:label_user_plural), committers_repository_path(repository),
+      <td><%=h repository.url %></td>
+      <td class="buttons">
+      <% if User.current.allowed_to?(:manage_repository, @project) %>
+        <%= link_to(l(:label_user_plural), committers_repository_path(repository),
              :class => 'icon icon-user') %>
         <%= link_to(l(:button_edit), edit_repository_path(repository),
              :class => 'icon icon-edit') %>
@@ -26,9 +26,9 @@
             :confirm => l(:text_are_you_sure),
             :method  => :delete,
             :class   => 'icon icon-del') %>
-			<% end %>
-			</td>
-	  </tr>
+      <% end %>
+      </td>
+    </tr>
   <% end %>
   </tbody>
 </table>
