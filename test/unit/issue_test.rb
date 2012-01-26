@@ -387,6 +387,15 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal [1, 2, 3, 4, 5], issue.new_statuses_allowed_to(user).map(&:id)
   end
 
+  def test_new_statuses_allowed_to_should_return_all_transitions_for_admin
+    admin = User.find(1)
+    issue = Issue.find(1)
+    assert !admin.member_of?(issue.project)
+    expected_statuses = [issue.status] + Workflow.find_all_by_old_status_id(issue.status_id).map(&:new_status).uniq.sort
+
+    assert_equal expected_statuses, issue.new_statuses_allowed_to(admin)
+  end
+
   def test_copy
     issue = Issue.new.copy_from(1)
     assert issue.copy?

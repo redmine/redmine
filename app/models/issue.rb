@@ -503,7 +503,7 @@ class Issue < ActiveRecord::Base
   # Returns an array of status that user is able to apply
   def new_statuses_allowed_to(user, include_default=false)
     statuses = status.find_new_statuses_allowed_to(
-      user.roles_for_project(project),
+      user.admin ? Role.all : user.roles_for_project(project),
       tracker,
       author == user,
       assigned_to_id_changed? ? assigned_to_id_was == user.id : assigned_to_id == user.id
