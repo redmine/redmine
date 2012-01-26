@@ -1,5 +1,9 @@
 <% show_revision_graph = ( @repository.supports_revision_graph? && path.blank? ) %>
-<% form_tag({:controller => 'repositories', :action => 'diff', :id => @project, :repository_id => @repository.identifier_param, :path => to_path_param(path)}, :method => :get) do %>
+<% form_tag(
+      {:controller => 'repositories', :action => 'diff', :id => @project,
+       :repository_id => @repository.identifier_param, :path => to_path_param(path)},
+      :method => :get
+     ) do %>
 <table class="list changesets">
 <thead><tr>
 <% if show_revision_graph %>
