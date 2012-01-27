@@ -864,7 +864,6 @@ fa:
   text_tip_task_begin_day: روز آغاز پیامد
   text_tip_task_end_day: روز پایان پیامد
   text_tip_task_begin_end_day: روز آغاز و پایان پیامد
-  text_project_identifier_info: 'تنها نویسه‌های کوچک (a-z)، شماره‌ها و خط تیره پذیرفتنی است.<br />پس از ذخیره سازی، شناسه نمی‌تواند جایگزین شود.'
   text_caracters_maximum: "بیشترین اندازه %{count} است."
   text_caracters_minimum: "کمترین اندازه %{count} است."
   text_length_between: "باید میان %{min} و %{max} نویسه باشد."
@@ -1018,3 +1017,4 @@ fa:
   label_copy_attachments: Copy attachments
   label_item_position: "%{position}/%{count}"
   label_completed_versions: Completed versions
+  text_project_identifier_info: Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.

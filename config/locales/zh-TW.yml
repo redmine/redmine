@@ -988,7 +988,6 @@
   text_tip_issue_begin_day: 今天起始的問題
   text_tip_issue_end_day: 今天截止的的問題
   text_tip_issue_begin_end_day: 今天起始與截止的問題
-  text_project_identifier_info: '只允許小寫英文字母（a-z）、阿拉伯數字與連字符號（-）。<br />儲存後，代碼不可再被更改。'
   text_caracters_maximum: "最多 %{count} 個字元."
   text_caracters_minimum: "長度必須大於 %{count} 個字元."
   text_length_between: "長度必須介於 %{min} 至 %{max} 個字元之間."
@@ -1096,3 +1095,4 @@
   label_copy_attachments: Copy attachments
   label_item_position: "%{position}/%{count}"
   label_completed_versions: Completed versions
+  text_project_identifier_info: Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.

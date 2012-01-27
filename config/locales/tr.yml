@@ -685,7 +685,6 @@ tr:
   text_tip_issue_begin_day: Bugün başlayan görevler
   text_tip_issue_end_day: Bugün sona eren görevler
   text_tip_issue_begin_end_day: Bugün başlayan ve sona eren görevler
-  text_project_identifier_info: 'Küçük harfler (a-z), sayılar ve noktalar kabul edilir.<br />Bir kere kaydedildiğinde,tanımlayıcı değiştirilemez.'
   text_caracters_maximum: "En çok %{count} karakter."
   text_caracters_minimum: "En az %{count} karakter uzunluğunda olmalı."
   text_length_between: "%{min} ve %{max} karakterleri arasındaki uzunluk."
@@ -1035,3 +1034,4 @@ tr:
   label_copy_attachments: Copy attachments
   label_item_position: "%{position}/%{count}"
   label_completed_versions: Completed versions
+  text_project_identifier_info: Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.

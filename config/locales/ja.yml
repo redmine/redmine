@@ -911,7 +911,6 @@ ja:
   text_tip_issue_begin_day: この日に開始するタスク
   text_tip_issue_end_day: この日に終了するタスク
   text_tip_issue_begin_end_day: この日のうちに開始して終了するタスク
-  text_project_identifier_info: '英小文字(a-z)と数字とダッシュ(-)が使えます。<br />一度保存すると、識別子は変更できません。'
   text_caracters_maximum: "最大%{count}文字です。"
   text_caracters_minimum: "最低%{count}文字の長さが必要です"
   text_length_between: "長さは%{min}から%{max}文字までです。"
@@ -1046,3 +1045,4 @@ ja:
   label_copy_attachments: Copy attachments
   label_item_position: "%{position}/%{count}"
   label_completed_versions: Completed versions
+  text_project_identifier_info: Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.

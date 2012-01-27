@@ -938,7 +938,6 @@ sv:
   text_tip_issue_begin_day: ärende som börjar denna dag
   text_tip_issue_end_day: ärende som slutar denna dag
   text_tip_issue_begin_end_day: ärende som börjar och slutar denna dag
-  text_project_identifier_info: 'Små bokstäver (a-z), siffror och streck tillåtna.<br />När den är sparad kan identifieraren inte ändras.'
   text_caracters_maximum: "max %{count} tecken."
   text_caracters_minimum: "Måste vara minst %{count} tecken lång."
   text_length_between: "Längd mellan %{min} och %{max} tecken."
@@ -1057,3 +1056,4 @@ sv:
   label_copy_attachments: Copy attachments
   label_item_position: "%{position}/%{count}"
   label_completed_versions: Completed versions
+  text_project_identifier_info: Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.

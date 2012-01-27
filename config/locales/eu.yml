@@ -827,7 +827,6 @@ eu:
   text_tip_issue_begin_day: gaur hasten diren zereginak
   text_tip_issue_end_day: gaur bukatzen diren zereginak
   text_tip_issue_begin_end_day: gaur hasi eta bukatzen diren zereginak
-  text_project_identifier_info: 'Letra xeheak (a-z), zenbakiak eta marrak erabil daitezke bakarrik.<br />Gorde eta gero identifikadorea ezin da aldatu.'
   text_caracters_maximum: "%{count} karaktere gehienez."
   text_caracters_minimum: "Gutxienez %{count} karaktereetako luzerakoa izan behar du."
   text_length_between: "Luzera %{min} eta %{max} karaktereen artekoa."
@@ -1019,3 +1018,4 @@ eu:
   label_copy_attachments: Copy attachments
   label_item_position: "%{position}/%{count}"
   label_completed_versions: Completed versions
+  text_project_identifier_info: Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.

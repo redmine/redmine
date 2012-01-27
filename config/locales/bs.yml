@@ -757,7 +757,6 @@ bs:
   text_tip_issue_begin_day: zadatak počinje danas
   text_tip_issue_end_day: zadatak završava danas
   text_tip_issue_begin_end_day: zadatak započinje i završava danas
-  text_project_identifier_info: 'Samo mala slova (a-z), brojevi i crtice su dozvoljeni.<br />Nakon snimanja, identifikator se ne može mijenjati.'
   text_caracters_maximum: "maksimum %{count} karaktera."
   text_caracters_minimum: "Dužina mora biti najmanje %{count} znakova."
   text_length_between: "Broj znakova između %{min} i %{max}."
@@ -1030,3 +1029,4 @@ bs:
   label_copy_attachments: Copy attachments
   label_item_position: "%{position}/%{count}"
   label_completed_versions: Completed versions
+  text_project_identifier_info: Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.
