@@ -867,6 +867,7 @@ de:
   text_tip_issue_begin_day: Aufgabe, die an diesem Tag beginnt
   text_tip_issue_end_day: Aufgabe, die an diesem Tag endet
   text_tip_issue_begin_end_day: Aufgabe, die an diesem Tag beginnt und endet
+  text_project_identifier_info: 'Kleinbuchstaben (a-z), Ziffern, Binde- und Unterstriche erlaubt.<br />Einmal gespeichert, kann die Kennung nicht mehr geändert werden.'
   text_caracters_maximum: "Max. %{count} Zeichen."
   text_caracters_minimum: "Muss mindestens %{count} Zeichen lang sein."
   text_length_between: "Länge zwischen %{min} und %{max} Zeichen."
@@ -1035,4 +1036,3 @@ de:
   label_copy_attachments: Copy attachments
   label_item_position: "%{position}/%{count}"
   label_completed_versions: Completed versions
-  text_project_identifier_info: Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.
