@@ -59,12 +59,15 @@ class RoutingRepositoriesTest < ActionController::IntegrationTest
     end
   end
 
-  def test_repositories
+  def test_repositories_show
     assert_routing(
         { :method => 'get',
           :path => "/projects/redmine/repository" },
         { :controller => 'repositories', :action => 'show', :id => 'redmine' }
       )
+  end
+
+  def test_repositories
     assert_routing(
         { :method => 'get',
           :path => "/projects/redmine/repository/statistics" },
@@ -77,12 +80,15 @@ class RoutingRepositoriesTest < ActionController::IntegrationTest
      )
   end
 
-  def test_repositories_with_repository_id
+  def test_repositories_show_with_repository_id
     assert_routing(
         { :method => 'get',
           :path => "/projects/redmine/repository/foo" },
         { :controller => 'repositories', :action => 'show', :id => 'redmine', :repository_id => 'foo' }
       )
+  end
+
+  def test_repositories_with_repository_id
     assert_routing(
         { :method => 'get',
           :path => "/projects/redmine/repository/foo/statistics" },
