@@ -7,7 +7,7 @@
 # Specifies gem version of Rails to use when vendor/rails is not present
 RAILS_GEM_VERSION = '2.3.14' unless defined? RAILS_GEM_VERSION
 
-if RUBY_VERSION >= '1.9'
+if RUBY_VERSION >= '1.9' && defined?(Rails) && Rails::VERSION::MAJOR < 3
   Encoding.default_external = 'UTF-8'
 end
 
