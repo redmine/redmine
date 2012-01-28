@@ -54,7 +54,9 @@ class ApplicationController < ActionController::Base
   end
 
   def utf8nize!(obj)
-    if obj.is_a? String
+    if obj.frozen?
+      obj
+    elsif obj.is_a? String
       obj.respond_to?(:force_encoding) ? obj.force_encoding("UTF-8") : obj
     elsif obj.is_a? Hash
       obj.each {|k, v| obj[k] = self.utf8nize!(v)}
