@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2011  Jean-Philippe Lang
+# Copyright (C) 2006-2012  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,8 +18,6 @@
 class CustomValue < ActiveRecord::Base
   belongs_to :custom_field
   belongs_to :customized, :polymorphic => true
-
-  validate :validate_custom_value
 
   def initialize(attributes=nil, *args)
     super
@@ -47,28 +45,5 @@ class CustomValue < ActiveRecord::Base
 
   def to_s
     value.to_s
-  end
-
-protected
-  def validate_custom_value
-    if value.blank?
-      errors.add(:value, :blank) if custom_field.is_required? and value.blank?
-    else
-      errors.add(:value, :invalid) unless custom_field.regexp.blank? or value =~ Regexp.new(custom_field.regexp)
-      errors.add(:value, :too_short, :count => custom_field.min_length) if custom_field.min_length > 0 and value.length < custom_field.min_length
-      errors.add(:value, :too_long, :count => custom_field.max_length) if custom_field.max_length > 0 and value.length > custom_field.max_length
-
-      # Format specific validations
-      case custom_field.field_format
-      when 'int'
-        errors.add(:value, :not_a_number) unless value =~ /^[+-]?\d+$/	
-      when 'float'
-        begin; Kernel.Float(value); rescue; errors.add(:value, :invalid) end
-      when 'date'
-        errors.add(:value, :not_a_date) unless value =~ /^\d{4}-\d{2}-\d{2}$/ && begin; value.to_date; rescue; false end
-      when 'list'
-        errors.add(:value, :inclusion) unless custom_field.possible_values.include?(value)
-      end
-    end
   end
 end

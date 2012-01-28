@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2011  Jean-Philippe Lang
+# Copyright (C) 2006-2012  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -29,6 +29,8 @@ class IssueTest < ActiveSupport::TestCase
            :custom_fields, :custom_fields_projects, :custom_fields_trackers, :custom_values,
            :time_entries
 
+  include Redmine::I18n
+
   def test_create
     issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 3,
                       :status_id => 1, :priority => IssuePriority.all.first,
@@ -48,6 +50,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_create_with_required_custom_field
+    set_language_if_valid 'en'
     field = IssueCustomField.find_by_name('Database')
     field.update_attribute(:is_required, true)
 
@@ -57,18 +60,15 @@ class IssueTest < ActiveSupport::TestCase
     assert issue.available_custom_fields.include?(field)
     # No value for the custom field
     assert !issue.save
-    assert_equal I18n.translate('activerecord.errors.messages.invalid'),
-                 issue.errors[:custom_values].to_s
+    assert_equal "Database can't be blank", issue.errors[:base].to_s
     # Blank value
     issue.custom_field_values = { field.id => '' }
     assert !issue.save
-    assert_equal I18n.translate('activerecord.errors.messages.invalid'),
-                 issue.errors[:custom_values].to_s
+    assert_equal "Database can't be blank", issue.errors[:base].to_s
     # Invalid value
     issue.custom_field_values = { field.id => 'SQLServer' }
     assert !issue.save
-    assert_equal I18n.translate('activerecord.errors.messages.invalid'),
-                 issue.errors[:custom_values].to_s
+    assert_equal "Database is not included in the list", issue.errors[:base].to_s
     # Valid value
     issue.custom_field_values = { field.id => 'PostgreSQL' }
     assert issue.save
@@ -327,8 +327,7 @@ class IssueTest < ActiveSupport::TestCase
     attributes['tracker_id'] = '1'
     issue = Issue.new(:project => Project.find(1))
     issue.attributes = attributes
-    assert_not_nil issue.custom_value_for(1)
-    assert_equal 'MySQL', issue.custom_value_for(1).value
+    assert_equal 'MySQL', issue.custom_field_value(1)
   end
 
   def test_should_update_issue_with_disabled_tracker

@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2011  Jean-Philippe Lang
+# Copyright (C) 2006-2012  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -61,8 +61,7 @@ module CustomFieldsHelper
   def custom_field_label_tag(name, custom_value)
     content_tag "label", h(custom_value.custom_field.name) +
 	(custom_value.custom_field.is_required? ? " <span class=\"required\">*</span>".html_safe : ""),
-	:for => "#{name}_custom_field_values_#{custom_value.custom_field.id}",
-	:class => (custom_value.errors.empty? ? nil : "error" )
+	:for => "#{name}_custom_field_values_#{custom_value.custom_field.id}"
   end
 
   # Return custom field tag with its label tag

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2011  Jean-Philippe Lang
+# Copyright (C) 2006-2012  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,6 +19,8 @@ require File.expand_path('../../test_helper', __FILE__)
 
 class TimeEntryActivityTest < ActiveSupport::TestCase
   fixtures :enumerations, :time_entries
+
+  include Redmine::I18n
 
   def test_should_be_an_enumeration
     assert TimeEntryActivity.ancestors.include?(Enumeration)
@@ -44,13 +46,13 @@ class TimeEntryActivityTest < ActiveSupport::TestCase
   end
 
   def test_create_without_required_custom_field_should_fail
+    set_language_if_valid 'en'
     field = TimeEntryActivityCustomField.find_by_name('Billable')
     field.update_attribute(:is_required, true)
 
     e = TimeEntryActivity.new(:name => 'Custom Data')
     assert !e.save
-    assert_equal I18n.translate('activerecord.errors.messages.invalid'),
-                 e.errors[:custom_values].to_s
+    assert_equal "Billable can't be blank", e.errors[:base].to_s
   end
 
   def test_create_with_required_custom_field_should_succeed
@@ -62,7 +64,8 @@ class TimeEntryActivityTest < ActiveSupport::TestCase
     assert e.save
   end
 
-  def test_update_issue_with_required_custom_field_change
+  def test_update_with_required_custom_field_change
+    set_language_if_valid 'en'
     field = TimeEntryActivityCustomField.find_by_name('Billable')
     field.update_attribute(:is_required, true)
 
@@ -73,7 +76,7 @@ class TimeEntryActivityTest < ActiveSupport::TestCase
     # Blanking custom field, save should fail
     e.custom_field_values = {field.id => ""}
     assert !e.save
-    assert e.errors[:custom_values]
+    assert_equal "Billable can't be blank", e.errors[:base].to_s
 
     # Update custom field to valid value, save should succeed
     e.custom_field_values = {field.id => "0"}
@@ -81,6 +84,5 @@ class TimeEntryActivityTest < ActiveSupport::TestCase
     e.reload
     assert_equal "0", e.custom_value_for(field).value
   end
-
 end
 

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2011  Jean-Philippe Lang
+# Copyright (C) 2006-2012  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -1308,17 +1308,18 @@ class IssuesControllerTest < ActionController::TestCase
     field.update_attribute(:is_required, true)
 
     @request.session[:user_id] = 2
-    post :create, :project_id => 1,
-               :issue => {:tracker_id => 1,
-                          :subject => 'This is the test_new issue',
-                          :description => 'This is the description',
-                          :priority_id => 5}
+    assert_no_difference 'Issue.count' do
+      post :create, :project_id => 1,
+                 :issue => {:tracker_id => 1,
+                            :subject => 'This is the test_new issue',
+                            :description => 'This is the description',
+                            :priority_id => 5}
+    end
     assert_response :success
     assert_template 'new'
     issue = assigns(:issue)
     assert_not_nil issue
-    assert_equal I18n.translate('activerecord.errors.messages.invalid'),
-                 issue.errors[:custom_values].to_s
+    assert_error_tag :content => /Database can't be blank/
   end
 
   def test_post_create_with_watchers

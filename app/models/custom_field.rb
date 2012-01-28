@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2011  Jean-Philippe Lang
+# Copyright (C) 2006-2012  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -27,7 +27,7 @@ class CustomField < ActiveRecord::Base
   validates_length_of :name, :maximum => 30
   validates_inclusion_of :field_format, :in => Redmine::CustomFieldFormat.available_formats
 
-  validate :validate_values
+  validate :validate_custom_field
   before_validation :set_searchable
 
   def initialize(attributes=nil, *args)
@@ -41,7 +41,7 @@ class CustomField < ActiveRecord::Base
     true
   end
 
-  def validate_values
+  def validate_custom_field
     if self.field_format == "list"
       errors.add(:possible_values, :blank) if self.possible_values.nil? || self.possible_values.empty?
       errors.add(:possible_values, :invalid) unless self.possible_values.is_a? Array
@@ -55,10 +55,9 @@ class CustomField < ActiveRecord::Base
       end
     end
 
-    # validate default value
-    v = CustomValue.new(:custom_field => self.clone, :value => default_value, :customized => nil)
-    v.custom_field.is_required = false
-    errors.add(:default_value, :invalid) unless v.valid?
+    unless valid_field_value?(default_value)
+      errors.add(:default_value, :invalid)
+    end
   end
 
   def possible_values_options(obj=nil)
@@ -160,5 +159,46 @@ class CustomField < ActiveRecord::Base
 
   def type_name
     nil
+  end
+
+  # Returns the error message for the given value
+  # or an empty array if value is a valid value for the custom field
+  def validate_field_value(value)
+    errs = []
+    if is_required? && value.blank?
+      errs << ::I18n.t('activerecord.errors.messages.blank')
+    end
+    errs += validate_field_value_format(value)
+    errs
+  end
+
+  # Returns true if value is a valid value for the custom field
+  def valid_field_value?(value)
+    validate_field_value(value).empty?
+  end
+
+  protected
+
+  # Returns the error message for the given value regarding its format
+  def validate_field_value_format(value)
+    errs = []
+    if value.present?
+      errs << ::I18n.t('activerecord.errors.messages.invalid') unless regexp.blank? or value =~ Regexp.new(regexp)
+      errs << ::I18n.t('activerecord.errors.messages.too_short', :count => min_length) if min_length > 0 and value.length < min_length
+      errs << ::I18n.t('activerecord.errors.messages.too_long', :count => max_length) if max_length > 0 and value.length > max_length
+
+      # Format specific validations
+      case field_format
+      when 'int'
+        errs << ::I18n.t('activerecord.errors.messages.not_a_number') unless value =~ /^[+-]?\d+$/
+      when 'float'
+        begin; Kernel.Float(value); rescue; errs << ::I18n.t('activerecord.errors.messages.invalid') end
+      when 'date'
+        errs << ::I18n.t('activerecord.errors.messages.not_a_date') unless value =~ /^\d{4}-\d{2}-\d{2}$/ && begin; value.to_date; rescue; false end
+      when 'list'
+        errs << ::I18n.t('activerecord.errors.messages.inclusion') unless possible_values.include?(value)
+      end
+    end
+    errs
   end
 end

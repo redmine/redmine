@@ -15,25 +15,36 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+class CustomFieldValue
+  attr_accessor :custom_field, :customized, :value
 
-class CustomValueTest < ActiveSupport::TestCase
-  fixtures :custom_fields, :custom_values, :users
-
-  def test_default_value
-    field = CustomField.find_by_default_value('Default string')
-    assert_not_nil field
-
-    v = CustomValue.new(:custom_field => field)
-    assert_equal 'Default string', v.value
-
-    v = CustomValue.new(:custom_field => field, :value => 'Not empty')
-    assert_equal 'Not empty', v.value
+  def custom_field_id
+    custom_field.id
   end
 
-  def test_sti_polymorphic_association
-    # Rails uses top level sti class for polymorphic association. See #3978.
-    assert !User.find(4).custom_values.empty?
-    assert !CustomValue.find(2).customized.nil?
+  def true?
+    self.value == '1'
+  end
+
+  def editable?
+    custom_field.editable?
+  end
+
+  def visible?
+    custom_field.visible?
+  end
+
+  def required?
+    custom_field.is_required?
+  end
+
+  def to_s
+    value.to_s
+  end
+
+  def validate_value
+    custom_field.validate_field_value(value).each do |message|
+      customized.errors.add(:base, custom_field.name + ' ' + message)
+    end
   end
 end
