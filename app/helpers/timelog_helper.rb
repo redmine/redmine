@@ -118,7 +118,7 @@ module TimelogHelper
                   entry.hours.to_s.gsub('.', decimal_separator),
                   entry.comments
                   ]
-        fields += custom_fields.collect {|f| show_value(entry.custom_value_for(f)) }
+        fields += custom_fields.collect {|f| show_value(entry.custom_field_values.detect {|v| v.custom_field_id == f.id}) }
 
         csv << fields.collect {|c| Redmine::CodesetUtil.from_utf8(
                                      c.to_s,

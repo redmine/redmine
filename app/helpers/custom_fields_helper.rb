@@ -117,7 +117,7 @@ module CustomFieldsHelper
   # Return a string used to display a custom value
   def format_value(value, field_format)
     if value.is_a?(Array)
-      value.collect {|v| format_value(v, field_format)}.join(', ')
+      value.collect {|v| format_value(v, field_format)}.compact.sort.join(', ')
     else
       Redmine::CustomFieldFormat.format_value(value, field_format)
     end

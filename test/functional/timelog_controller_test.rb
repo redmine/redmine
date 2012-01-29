@@ -563,6 +563,18 @@ class TimelogControllerTest < ActionController::TestCase
     assert @response.body.include?("\n04/21/2007,redMine Admin,Design,eCookbook,3,Bug,Error 281 when updating a recipe,1.0,\"\",\"\"\n")
   end
 
+  def test_index_csv_export_with_multi_custom_field
+    field = TimeEntryCustomField.create!(:name => 'Test', :field_format => 'list',
+      :multiple => true, :possible_values => ['value1', 'value2'])
+    entry = TimeEntry.find(1)
+    entry.custom_field_values = {field.id => ['value1', 'value2']}
+    entry.save!
+
+    get :index, :project_id => 1, :format => 'csv'
+    assert_response :success
+    assert_include '"value1, value2"', @response.body
+  end
+
   def test_csv_big_5
     user = User.find_by_id(3)
     user.language = "zh-TW"

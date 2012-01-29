@@ -5,7 +5,7 @@
 <% end %>
 
 <p><%=h version.description %></p>
-<% if version.custom_values.any? %>
+<% if version.custom_field_values.any? %>
 <ul>
   <% version.custom_field_values.each do |custom_value| %>
     <% if custom_value.value.present? %>

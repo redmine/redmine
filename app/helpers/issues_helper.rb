@@ -320,7 +320,7 @@ module IssuesHelper
       issues.each do |issue|
         col_values = columns.collect do |column|
           s = if column.is_a?(QueryCustomFieldColumn)
-            cv = issue.custom_values.detect {|v| v.custom_field_id == column.custom_field.id}
+            cv = issue.custom_field_values.detect {|v| v.custom_field_id == column.custom_field.id}
             show_value(cv)
           else
             value = issue.send(column.name)

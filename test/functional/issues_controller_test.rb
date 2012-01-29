@@ -337,6 +337,18 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal assigns(:query).available_columns.size + 1, lines[0].split(',').size
   end
 
+  def test_index_csv_with_multi_column_field
+    CustomField.find(1).update_attribute :multiple, true
+    issue = Issue.find(1)
+    issue.custom_field_values = {1 => ['MySQL', 'Oracle']}
+    issue.save!
+
+    get :index, :format => 'csv', :columns => 'all'
+    assert_response :success
+    lines = @response.body.chomp.split("\n")
+    assert lines.detect {|line| line.include?('"MySQL, Oracle"')}
+  end
+
   def test_index_csv_big_5
     with_settings :default_language => "zh-TW" do
       str_utf8  = "\xe4\xb8\x80\xe6\x9c\x88"
@@ -1086,7 +1098,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
 
     # TODO: should display links
-    assert_tag :td, :content => 'John Smith, Dave Lopper'
+    assert_tag :td, :content => 'Dave Lopper, John Smith'
   end
 
   def test_show_atom
