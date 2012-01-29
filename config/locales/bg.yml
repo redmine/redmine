@@ -1014,3 +1014,4 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   text_project_identifier_info: Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.
+  field_multiple: Multiple values

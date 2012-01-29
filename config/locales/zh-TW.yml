@@ -1096,3 +1096,4 @@
   label_item_position: "%{position}/%{count}"
   label_completed_versions: Completed versions
   text_project_identifier_info: Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.
+  field_multiple: Multiple values
