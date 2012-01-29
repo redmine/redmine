@@ -203,26 +203,26 @@ module IssuesHelper
     when 'attr'
       field = detail.prop_key.to_s.gsub(/\_id$/, "")
       label = l(("field_" + field).to_sym)
-      case
-      when ['due_date', 'start_date'].include?(detail.prop_key)
+      case detail.prop_key
+      when 'due_date', 'start_date'
         value = format_date(detail.value.to_date) if detail.value
         old_value = format_date(detail.old_value.to_date) if detail.old_value
 
-      when ['project_id', 'status_id', 'tracker_id', 'assigned_to_id',
-            'priority_id', 'category_id', 'fixed_version_id'].include?(detail.prop_key)
+      when 'project_id', 'status_id', 'tracker_id', 'assigned_to_id',
+            'priority_id', 'category_id', 'fixed_version_id'
         value = find_name_by_reflection(field, detail.value)
         old_value = find_name_by_reflection(field, detail.old_value)
 
-      when detail.prop_key == 'estimated_hours'
+      when 'estimated_hours'
         value = "%0.02f" % detail.value.to_f unless detail.value.blank?
         old_value = "%0.02f" % detail.old_value.to_f unless detail.old_value.blank?
 
-      when detail.prop_key == 'parent_id'
+      when 'parent_id'
         label = l(:field_parent_issue)
         value = "##{detail.value}" unless detail.value.blank?
         old_value = "##{detail.old_value}" unless detail.old_value.blank?
 
-      when detail.prop_key == 'is_private'
+      when 'is_private'
         value = l(detail.value == "0" ? :general_text_No : :general_text_Yes) unless detail.value.blank?
         old_value = l(detail.old_value == "0" ? :general_text_No : :general_text_Yes) unless detail.old_value.blank?
       end
@@ -265,10 +265,10 @@ module IssuesHelper
         s << " (#{ diff_link })"
       end
       s.html_safe
-    elsif !detail.value.blank?
+    elsif detail.value.present?
       case detail.property
       when 'attr', 'cf'
-        if !detail.old_value.blank?
+        if detail.old_value.present?
           l(:text_journal_changed, :label => label, :old => old_value, :new => value).html_safe
         elsif multiple
           l(:text_journal_added, :label => label, :value => value).html_safe
