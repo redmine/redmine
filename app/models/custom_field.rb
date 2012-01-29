@@ -57,7 +57,7 @@ class CustomField < ActiveRecord::Base
       end
     end
 
-    unless valid_field_value?(default_value)
+    if default_value.present? && !valid_field_value?(default_value)
       errors.add(:default_value, :invalid)
     end
   end

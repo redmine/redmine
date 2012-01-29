@@ -52,6 +52,11 @@ class CustomFieldTest < ActiveSupport::TestCase
     assert field.valid?
   end
 
+  def test_default_value_should_not_be_validated_when_blank
+    field = CustomField.new(:name => 'Test', :field_format => 'list', :possible_values => ['a', 'b'], :is_required => true, :default_value => '')
+    assert field.valid?
+  end
+
   def test_possible_values_should_accept_an_array
     field = CustomField.new
     field.possible_values = ["One value", ""]
