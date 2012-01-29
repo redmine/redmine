@@ -1,6 +1,6 @@
 <h2><%=l(:label_news)%></h2>
 
-<% labelled_form_for @news, :html => { :id => 'news-form', :method => :put } do |f| %>
+<% labelled_form_for @news, :html => { :id => 'news-form', :multipart => true, :method => :put } do |f| %>
 <%= render :partial => 'form', :locals => { :f => f } %>
 <%= submit_tag l(:button_save) %>
 <%= link_to_remote l(:label_preview),

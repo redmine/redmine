@@ -17,7 +17,7 @@
 <% if authorize_for('news', 'edit') %>
 <div id="edit-news" style="display:none;">
 <% labelled_form_for :news, @news, :url => news_path(@news),
-                                           :html => { :id => 'news-form', :method => :put } do |f| %>
+                                           :html => { :id => 'news-form', :multipart => true, :method => :put } do |f| %>
 <%= render :partial => 'form', :locals => { :f => f } %>
 <%= submit_tag l(:button_save) %>
 <%= link_to_remote l(:label_preview),
@@ -35,8 +35,9 @@
 <p><% unless @news.summary.blank? %><em><%=h @news.summary %></em><br /><% end %>
 <span class="author"><%= authoring @news.created_on, @news.author %></span></p>
 <div class="wiki">
-<%= textilizable(@news.description) %>
+<%= textilizable(@news, :description) %>
 </div>
+<%= link_to_attachments @news %>
 <br />
 
 <div id="comments" style="margin-bottom:16px;">

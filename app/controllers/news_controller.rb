@@ -27,6 +27,7 @@ class NewsController < ApplicationController
   accept_api_auth :index
 
   helper :watchers
+  helper :attachments
 
   def index
     case params[:format]
@@ -70,6 +71,8 @@ class NewsController < ApplicationController
     if request.post?
       @news.attributes = params[:news]
       if @news.save
+        attachments = Attachment.attach_files(@news, params[:attachments])
+        render_attachment_warning_if_needed(@news)
         flash[:notice] = l(:notice_successful_create)
         redirect_to :controller => 'news', :action => 'index', :project_id => @project
       else
@@ -83,6 +86,8 @@ class NewsController < ApplicationController
 
   def update
     if request.put? and @news.update_attributes(params[:news])
+      attachments = Attachment.attach_files(@news, params[:attachments])
+      render_attachment_warning_if_needed(@news)
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'show', :id => @news
     else

@@ -53,6 +53,16 @@ class NewsControllerTest < ActionController::TestCase
     assert_tag :tag => 'h2', :content => /eCookbook first release/
   end
 
+  def test_show_should_show_attachments
+    attachment = Attachment.first
+    attachment.container = News.find(1)
+    attachment.save!
+
+    get :show, :id => 1
+    assert_response :success
+    assert_tag 'a', :content => attachment.filename
+  end
+
   def test_show_not_found
     get :show, :id => 999
     assert_response 404
@@ -83,6 +93,34 @@ class NewsControllerTest < ActionController::TestCase
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
 
+  def test_post_create_with_attachment
+    set_tmp_attachments_directory
+    @request.session[:user_id] = 2
+    assert_difference 'News.count' do
+      assert_difference 'Attachment.count' do
+        post :create, :project_id => 1,
+          :news => { :title => 'Test', :description => 'This is the description' },
+          :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
+      end
+    end
+    attachment = Attachment.first(:order => 'id DESC')
+    news = News.first(:order => 'id DESC')
+    assert_equal news, attachment.container
+  end
+
+  def test_post_create_with_validation_failure
+    @request.session[:user_id] = 2
+    post :create, :project_id => 1, :news => { :title => '',
+                                            :description => 'This is the description',
+                                            :summary => '' }
+    assert_response :success
+    assert_template 'new'
+    assert_not_nil assigns(:news)
+    assert assigns(:news).new_record?
+    assert_tag :tag => 'div', :attributes => { :id => 'errorExplanation' },
+                              :content => /1 error/
+  end
+
   def test_get_edit
     @request.session[:user_id] = 2
     get :edit, :id => 1
@@ -98,17 +136,18 @@ class NewsControllerTest < ActionController::TestCase
     assert_equal 'Description changed by test_post_edit', news.description
   end
 
-  def test_post_create_with_validation_failure
+  def test_put_update_with_attachment
+    set_tmp_attachments_directory
     @request.session[:user_id] = 2
-    post :create, :project_id => 1, :news => { :title => '',
-                                            :description => 'This is the description',
-                                            :summary => '' }
-    assert_response :success
-    assert_template 'new'
-    assert_not_nil assigns(:news)
-    assert assigns(:news).new_record?
-    assert_tag :tag => 'div', :attributes => { :id => 'errorExplanation' },
-                              :content => /1 error/
+    assert_no_difference 'News.count' do
+      assert_difference 'Attachment.count' do
+        put :update, :id => 1,
+          :news => { :description => 'This is the description' },
+          :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
+      end
+    end
+    attachment = Attachment.first(:order => 'id DESC')
+    assert_equal News.find(1), attachment.container
   end
 
   def test_destroy

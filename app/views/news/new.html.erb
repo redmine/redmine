@@ -1,7 +1,7 @@
 <h2><%=l(:label_news_new)%></h2>
 
 <% labelled_form_for @news, :url => project_news_index_path(@project),
-                                           :html => { :id => 'news-form' } do |f| %>
+                                           :html => { :id => 'news-form', :multipart => true } do |f| %>
   <%= render :partial => 'news/form', :locals => { :f => f } %>
   <%= submit_tag l(:button_create) %>
   <%= link_to_remote l(:label_preview),
