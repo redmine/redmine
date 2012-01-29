@@ -301,6 +301,9 @@ class MailHandlerTest < ActiveSupport::TestCase
     attachment = issue.attachments.first
     assert_equal 'paella.jpg', attachment.filename
     assert_equal 10790, attachment.filesize
+    assert File.exist?(attachment.diskfile)
+    assert_equal 10790, File.size(attachment.diskfile)
+    assert_equal 'caaf384198bcbc9563ab5c058acd73cd', attachment.digest
   end
 
   def test_should_ignore_emails_from_emission_address
