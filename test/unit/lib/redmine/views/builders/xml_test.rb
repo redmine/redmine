@@ -46,6 +46,19 @@ class Redmine::Views::Builders::XmlTest < ActiveSupport::TestCase
     end
   end
 
+  def test_nested_arrays
+    assert_xml_output('<books type="array"><book><authors type="array"><author>B. Smith</author><author>G. Cooper</author></authors></book></books>') do |b|
+      b.array :books do |books|
+        books.book do |book|
+          book.array :authors do |authors|
+            authors.author 'B. Smith'
+            authors.author 'G. Cooper'
+          end
+        end
+      end
+    end
+  end
+
   def assert_xml_output(expected, &block)
     builder = Redmine::Views::Builders::Xml.new
     block.call(builder)

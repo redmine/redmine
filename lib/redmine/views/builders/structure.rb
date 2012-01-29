@@ -43,7 +43,11 @@ module Redmine
               end
             else
               if @struct.last.is_a?(Array)
-                @struct.last << (args.last || {}).merge(:value => args.first)
+                if args.size == 1 && !block_given?
+                  @struct.last << args.first
+                else
+                  @struct.last << (args.last || {}).merge(:value => args.first)
+                end
               else
                 @struct.last[sym] = args.first
               end

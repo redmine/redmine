@@ -73,6 +73,19 @@ class Redmine::Views::Builders::JsonTest < ActiveSupport::TestCase
     end
   end
 
+  def test_nested_arrays
+    assert_json_output({'books' => [{'authors' => ['B. Smith', 'G. Cooper']}]}) do |b|
+      b.array :books do |books|
+        books.book do |book|
+          book.array :authors do |authors|
+            authors.author 'B. Smith'
+            authors.author 'G. Cooper'
+          end
+        end
+      end
+    end
+  end
+
   def assert_json_output(expected, &block)
     builder = Redmine::Views::Builders::Json.new
     block.call(builder)
