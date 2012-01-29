@@ -19,8 +19,8 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
       end
       xml.content "type" => "html" do
         xml.text! '<ul>'
-        change.details.each do |detail|
-          xml.text! '<li>' + show_detail(detail, false) + '</li>'
+        details_to_strings(change.details, false).each do |string|
+          xml.text! '<li>' + string + '</li>'
         end
         xml.text! '</ul>'
         xml.text! textilizable(change, :notes, :only_path => false) unless change.notes.blank?

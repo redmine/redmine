@@ -464,8 +464,8 @@ module Redmine
              " - " + journal.user.name)
           pdf.Ln
           pdf.SetFontStyle('I',8)
-          for detail in journal.details
-            pdf.RDMMultiCell(190,5, "- " + show_detail(detail, true))
+          details_to_strings(journal.details, true).each do |string|
+            pdf.RDMMultiCell(190,5, "- " + string)
           end
           if journal.notes?
             pdf.Ln unless journal.details.empty?

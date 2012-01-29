@@ -429,7 +429,7 @@ class Issue < ActiveRecord::Base
     else
       @attributes_before_change = attributes.dup
       @custom_values_before_change = {}
-      self.custom_values.each {|c| @custom_values_before_change.store c.custom_field_id, c.value }
+      self.custom_field_values.each {|c| @custom_values_before_change.store c.custom_field_id, c.value }
     end
     # Make sure updated_on is updated when adding a note.
     updated_on_will_change!
@@ -1006,14 +1006,35 @@ class Issue < ActiveRecord::Base
       end
       if @custom_values_before_change
         # custom fields changes
-        custom_values.each {|c|
+        custom_field_values.each {|c|
           before = @custom_values_before_change[c.custom_field_id]
           after = c.value
           next if before == after || (before.blank? && after.blank?)
-          @current_journal.details << JournalDetail.new(:property => 'cf',
-                                                        :prop_key => c.custom_field_id,
-                                                        :old_value => before,
-                                                        :value => after)
+          
+          if before.is_a?(Array) || after.is_a?(Array)
+            before = [before] unless before.is_a?(Array)
+            after = [after] unless after.is_a?(Array)
+            
+            # values removed
+            (before - after).reject(&:blank?).each do |value|
+              @current_journal.details << JournalDetail.new(:property => 'cf',
+                                                            :prop_key => c.custom_field_id,
+                                                            :old_value => value,
+                                                            :value => nil)
+            end
+            # values added
+            (after - before).reject(&:blank?).each do |value|
+              @current_journal.details << JournalDetail.new(:property => 'cf',
+                                                            :prop_key => c.custom_field_id,
+                                                            :old_value => nil,
+                                                            :value => value)
+            end
+          else
+            @current_journal.details << JournalDetail.new(:property => 'cf',
+                                                          :prop_key => c.custom_field_id,
+                                                          :old_value => before,
+                                                          :value => after)
+          end
         }
       end
       @current_journal.save

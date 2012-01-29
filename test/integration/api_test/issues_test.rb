@@ -258,6 +258,108 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
       end
     end
 
+    context "with multi custom fields" do
+      setup do
+        field = CustomField.find(1)
+        field.update_attribute :multiple, true
+        issue = Issue.find(3)
+        issue.custom_field_values = {1 => ['MySQL', 'Oracle']}
+        issue.save!
+      end
+
+      context ".xml" do
+        should "display custom fields" do
+          get '/issues/3.xml'
+          assert_response :success
+          assert_tag :tag => 'issue',
+            :child => {
+              :tag => 'custom_fields',
+              :attributes => { :type => 'array' },
+              :child => {
+                :tag => 'custom_field',
+                :attributes => { :id => '1'},
+                :child => {
+                  :tag => 'value',
+                  :attributes => { :type => 'array' },
+                  :children => { :count => 2 }
+                }
+              }
+            }
+
+          xml = Hash.from_xml(response.body)
+          custom_fields = xml['issue']['custom_fields']
+          assert_kind_of Array, custom_fields
+          field = custom_fields.detect {|f| f['id'] == '1'}
+          assert_kind_of Hash, field
+          assert_equal ['MySQL', 'Oracle'], field['value'].sort
+        end
+      end
+
+      context ".json" do
+        should "display custom fields" do
+          get '/issues/3.json'
+          assert_response :success
+          json = ActiveSupport::JSON.decode(response.body)
+          custom_fields = json['issue']['custom_fields']
+          assert_kind_of Array, custom_fields
+          field = custom_fields.detect {|f| f['id'] == 1}
+          assert_kind_of Hash, field
+          assert_equal ['MySQL', 'Oracle'], field['value'].sort
+        end
+      end
+    end
+
+    context "with empty value for multi custom field" do
+      setup do
+        field = CustomField.find(1)
+        field.update_attribute :multiple, true
+        issue = Issue.find(3)
+        issue.custom_field_values = {1 => ['']}
+        issue.save!
+      end
+
+      context ".xml" do
+        should "display custom fields" do
+          get '/issues/3.xml'
+          assert_response :success
+          assert_tag :tag => 'issue',
+            :child => {
+              :tag => 'custom_fields',
+              :attributes => { :type => 'array' },
+              :child => {
+                :tag => 'custom_field',
+                :attributes => { :id => '1'},
+                :child => {
+                  :tag => 'value',
+                  :attributes => { :type => 'array' },
+                  :children => { :count => 0 }
+                }
+              }
+            }
+
+          xml = Hash.from_xml(response.body)
+          custom_fields = xml['issue']['custom_fields']
+          assert_kind_of Array, custom_fields
+          field = custom_fields.detect {|f| f['id'] == '1'}
+          assert_kind_of Hash, field
+          assert_equal [], field['value']
+        end
+      end
+
+      context ".json" do
+        should "display custom fields" do
+          get '/issues/3.json'
+          assert_response :success
+          json = ActiveSupport::JSON.decode(response.body)
+          custom_fields = json['issue']['custom_fields']
+          assert_kind_of Array, custom_fields
+          field = custom_fields.detect {|f| f['id'] == 1}
+          assert_kind_of Hash, field
+          assert_equal [], field['value'].sort
+        end
+      end
+    end
+
     context "with attachments" do
       context ".xml" do
         should "display attachments" do
@@ -452,6 +554,24 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
       issue = Issue.find(3)
       assert_equal '150', issue.custom_value_for(2).value
       assert_equal 'PostgreSQL', issue.custom_value_for(1).value
+    end
+  end
+
+  context "PUT /issues/3.xml with multi custom fields" do
+    setup do
+      field = CustomField.find(1)
+      field.update_attribute :multiple, true
+      @parameters = {:issue => {:custom_fields => [{'id' => '1', 'value' => ['MySQL', 'PostgreSQL'] }, {'id' => '2', 'value' => '150'}]}}
+    end
+
+    should "update custom fields" do
+      assert_no_difference('Issue.count') do
+        put '/issues/3.xml', @parameters, credentials('jsmith')
+      end
+
+      issue = Issue.find(3)
+      assert_equal '150', issue.custom_value_for(2).value
+      assert_equal ['MySQL', 'PostgreSQL'], issue.custom_field_value(1)
     end
   end
 

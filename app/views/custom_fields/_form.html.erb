@@ -9,6 +9,7 @@ function toggle_custom_field_format() {
   p_values = $("custom_field_possible_values");
   p_searchable = $("custom_field_searchable");
   p_default = $("custom_field_default_value");
+  p_multiple = $("custom_field_multiple");
 
   p_default.setAttribute('type','text');
   Element.show(p_default.parentNode);
@@ -19,6 +20,7 @@ function toggle_custom_field_format() {
       Element.hide(p_regexp.parentNode);
       if (p_searchable) Element.show(p_searchable.parentNode);
       Element.show(p_values.parentNode);
+      Element.show(p_multiple.parentNode);
       break;
     case "bool":
       p_default.setAttribute('type','checkbox');
@@ -26,12 +28,14 @@ function toggle_custom_field_format() {
       Element.hide(p_regexp.parentNode);
       if (p_searchable) Element.hide(p_searchable.parentNode);
       Element.hide(p_values.parentNode);
+      Element.hide(p_multiple.parentNode);
       break;
     case "date":
       Element.hide(p_length.parentNode);
       Element.hide(p_regexp.parentNode);
       if (p_searchable) Element.hide(p_searchable.parentNode);
       Element.hide(p_values.parentNode);
+      Element.hide(p_multiple.parentNode);
       break;
     case "float":
     case "int":
@@ -39,6 +43,7 @@ function toggle_custom_field_format() {
       Element.show(p_regexp.parentNode);
       if (p_searchable) Element.hide(p_searchable.parentNode);
       Element.hide(p_values.parentNode);
+      Element.hide(p_multiple.parentNode);
       break;
     case "user":
     case "version":
@@ -47,12 +52,14 @@ function toggle_custom_field_format() {
       if (p_searchable) Element.hide(p_searchable.parentNode);
       Element.hide(p_values.parentNode);
       Element.hide(p_default.parentNode);
+      Element.show(p_multiple.parentNode);
       break;
     default:
       Element.show(p_length.parentNode);
       Element.show(p_regexp.parentNode);
       if (p_searchable) Element.show(p_searchable.parentNode);
       Element.hide(p_values.parentNode);
+      Element.hide(p_multiple.parentNode);
       break;
   }
 }
@@ -64,6 +71,7 @@ function toggle_custom_field_format() {
 <p><%= f.text_field :name, :required => true %></p>
 <p><%= f.select :field_format, custom_field_formats_for_select(@custom_field), {}, :onchange => "toggle_custom_field_format();",
                                                                     :disabled => !@custom_field.new_record? %></p>
+<p><%= f.check_box :multiple, :disabled => !@custom_field.new_record? %></p>
 <p><label for="custom_field_min_length"><%=l(:label_min_max_length)%></label>
    <%= f.text_field :min_length, :size => 5, :no_label => true %> - 
    <%= f.text_field :max_length, :size => 5, :no_label => true %><br />(<%=l(:text_min_max_length_info)%>)</p>

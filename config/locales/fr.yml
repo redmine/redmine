@@ -318,6 +318,7 @@ fr:
   field_is_private: Privée
   field_commit_logs_encoding: Encodage des messages de commit
   field_repository_is_default: Dépôt principal
+  field_multiple: Valeurs multiples
 
   setting_app_title: Titre de l'application
   setting_app_subtitle: Sous-titre de l'application

@@ -164,4 +164,26 @@ class CustomFieldTest < ActiveSupport::TestCase
     assert f.valid_field_value?('5')
     assert !f.valid_field_value?('6abc')
   end
+
+  def test_multi_field_validation
+    f = CustomField.new(:field_format => 'list', :multiple => 'true', :possible_values => ['value1', 'value2'])
+
+    assert f.valid_field_value?(nil)
+    assert f.valid_field_value?('')
+    assert f.valid_field_value?([])
+    assert f.valid_field_value?([nil])
+    assert f.valid_field_value?([''])
+
+    assert f.valid_field_value?('value2')
+    assert !f.valid_field_value?('abc')
+
+    assert f.valid_field_value?(['value2'])
+    assert !f.valid_field_value?(['abc'])
+
+    assert f.valid_field_value?(['', 'value2'])
+    assert !f.valid_field_value?(['', 'abc'])
+
+    assert f.valid_field_value?(['value1', 'value2'])
+    assert !f.valid_field_value?(['value1', 'abc'])
+  end
 end

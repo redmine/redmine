@@ -70,6 +70,12 @@ module Redmine
             key = custom_field_value.custom_field_id.to_s
             if values.has_key?(key)
               value = values[key]
+              if value.is_a?(Array)
+                value = value.reject(&:blank?).uniq
+                if value.empty?
+                  value << ''
+                end
+              end
               custom_field_value.value = value
             end
           end
@@ -81,9 +87,17 @@ module Redmine
             x = CustomFieldValue.new
             x.custom_field = field
             x.customized = self
-            cv = custom_values.detect { |v| v.custom_field == field }
-            cv ||= custom_values.build(:customized => self, :custom_field => field, :value => nil)
-            x.value = cv.value
+            if field.multiple?
+              values = custom_values.select { |v| v.custom_field == field }
+              if values.empty?
+                values << custom_values.build(:customized => self, :custom_field => field, :value => nil)
+              end
+              x.value = values.map(&:value)
+            else
+              cv = custom_values.detect { |v| v.custom_field == field }
+              cv ||= custom_values.build(:customized => self, :custom_field => field, :value => nil)
+              x.value = cv.value
+            end
             x
           end
         end
@@ -115,10 +129,18 @@ module Redmine
         def save_custom_field_values
           target_custom_values = []
           custom_field_values.each do |custom_field_value|
-            target = custom_values.detect {|cv| cv.custom_field == custom_field_value.custom_field}
-            target ||= custom_values.build(:customized => self, :custom_field => custom_field_value.custom_field)
-            target.value = custom_field_value.value
-            target_custom_values << target
+            if custom_field_value.value.is_a?(Array)
+              custom_field_value.value.each do |v|
+                target = custom_values.detect {|cv| cv.custom_field == custom_field_value.custom_field && cv.value == v}
+                target ||= custom_values.build(:customized => self, :custom_field => custom_field_value.custom_field, :value => v)
+                target_custom_values << target
+              end
+            else
+              target = custom_values.detect {|cv| cv.custom_field == custom_field_value.custom_field}
+              target ||= custom_values.build(:customized => self, :custom_field => custom_field_value.custom_field)
+              target.value = custom_field_value.value
+              target_custom_values << target
+            end
           end
           self.custom_values = target_custom_values
           custom_values.each(&:save)

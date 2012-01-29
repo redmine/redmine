@@ -173,6 +173,44 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal 2, issues.first.id
   end
 
+  def test_operator_is_on_multi_list_custom_field
+    f = IssueCustomField.create!(:name => 'filter', :field_format => 'list', :is_filter => true, :is_for_all => true,
+      :possible_values => ['value1', 'value2', 'value3'], :multiple => true)
+    CustomValue.create!(:custom_field => f, :customized => Issue.find(1), :value => 'value1')
+    CustomValue.create!(:custom_field => f, :customized => Issue.find(1), :value => 'value2')
+    CustomValue.create!(:custom_field => f, :customized => Issue.find(3), :value => 'value1')
+
+    query = Query.new(:name => '_')
+    query.add_filter("cf_#{f.id}", '=', ['value1'])
+    issues = find_issues_with_query(query)
+    assert_equal [1, 3], issues.map(&:id).sort
+
+    query = Query.new(:name => '_')
+    query.add_filter("cf_#{f.id}", '=', ['value2'])
+    issues = find_issues_with_query(query)
+    assert_equal [1], issues.map(&:id).sort
+  end
+
+  def test_operator_is_not_on_multi_list_custom_field
+    f = IssueCustomField.create!(:name => 'filter', :field_format => 'list', :is_filter => true, :is_for_all => true,
+      :possible_values => ['value1', 'value2', 'value3'], :multiple => true)
+    CustomValue.create!(:custom_field => f, :customized => Issue.find(1), :value => 'value1')
+    CustomValue.create!(:custom_field => f, :customized => Issue.find(1), :value => 'value2')
+    CustomValue.create!(:custom_field => f, :customized => Issue.find(3), :value => 'value1')
+
+    query = Query.new(:name => '_')
+    query.add_filter("cf_#{f.id}", '!', ['value1'])
+    issues = find_issues_with_query(query)
+    assert !issues.map(&:id).include?(1)
+    assert !issues.map(&:id).include?(3)
+
+    query = Query.new(:name => '_')
+    query.add_filter("cf_#{f.id}", '!', ['value2'])
+    issues = find_issues_with_query(query)
+    assert !issues.map(&:id).include?(1)
+    assert issues.map(&:id).include?(3)
+  end
+
   def test_operator_greater_than
     query = Query.new(:project => Project.find(1), :name => '_')
     query.add_filter('done_ratio', '>=', ['40'])
@@ -492,7 +530,18 @@ class QueryTest < ActiveSupport::TestCase
 
   def test_groupable_columns_should_include_custom_fields
     q = Query.new
-    assert q.groupable_columns.detect {|c| c.is_a? QueryCustomFieldColumn}
+    column = q.groupable_columns.detect {|c| c.name == :cf_1}
+    assert_not_nil column
+    assert_kind_of QueryCustomFieldColumn, column
+  end
+
+  def test_groupable_columns_should_not_include_multi_custom_fields
+    field = CustomField.find(1)
+    field.update_attribute :multiple, true
+
+    q = Query.new
+    column = q.groupable_columns.detect {|c| c.name == :cf_1}
+    assert_nil column
   end
 
   def test_grouped_with_valid_column
@@ -525,6 +574,19 @@ class QueryTest < ActiveSupport::TestCase
       assert q.sortable_columns.has_key?('author')
       assert_equal %w(authors.lastname authors.firstname authors.id), q.sortable_columns['author']
     end
+  end
+
+  def test_sortable_columns_should_include_custom_field
+    q = Query.new
+    assert q.sortable_columns['cf_1']
+  end
+
+  def test_sortable_columns_should_not_include_multi_custom_field
+    field = CustomField.find(1)
+    field.update_attribute :multiple, true
+
+    q = Query.new
+    assert !q.sortable_columns['cf_1']
   end
 
   def test_default_sort

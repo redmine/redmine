@@ -161,7 +161,44 @@ module IssuesHelper
     out
   end
 
+  # Returns the textual representation of a journal details
+  # as an array of strings
+  def details_to_strings(details, no_html=false)
+    strings = []
+    values_by_field = {}
+    details.each do |detail|
+      if detail.property == 'cf'
+        field_id = detail.prop_key
+        field = CustomField.find_by_id(field_id)
+        if field && field.multiple?
+          values_by_field[field_id] ||= {:added => [], :deleted => []}
+          if detail.old_value
+            values_by_field[field_id][:deleted] << detail.old_value
+          end
+          if detail.value
+            values_by_field[field_id][:added] << detail.value
+          end
+          next
+        end
+      end
+      strings << show_detail(detail, no_html)
+    end
+    values_by_field.each do |field_id, changes|
+      detail = JournalDetail.new(:property => 'cf', :prop_key => field_id)
+      if changes[:added].any?
+        detail.value = changes[:added]
+        strings << show_detail(detail, no_html)
+      elsif changes[:deleted].any?
+        detail.old_value = changes[:deleted]
+        strings << show_detail(detail, no_html)
+      end
+    end
+    strings
+  end
+
+  # Returns the textual representation of a single journal detail
   def show_detail(detail, no_html=false)
+    multiple = false
     case detail.property
     when 'attr'
       field = detail.prop_key.to_s.gsub(/\_id$/, "")
@@ -192,6 +229,7 @@ module IssuesHelper
     when 'cf'
       custom_field = CustomField.find_by_id(detail.prop_key)
       if custom_field
+        multiple = custom_field.multiple?
         label = custom_field.name
         value = format_value(detail.value, custom_field.field_format) if detail.value
         old_value = format_value(detail.old_value, custom_field.field_format) if detail.old_value
@@ -232,6 +270,8 @@ module IssuesHelper
       when 'attr', 'cf'
         if !detail.old_value.blank?
           l(:text_journal_changed, :label => label, :old => old_value, :new => value).html_safe
+        elsif multiple
+          l(:text_journal_added, :label => label, :value => value).html_safe
         else
           l(:text_journal_set_to, :label => label, :value => value).html_safe
         end

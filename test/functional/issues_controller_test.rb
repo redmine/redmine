@@ -625,6 +625,36 @@ class IssuesControllerTest < ActionController::TestCase
       :ancestor => {:tag => 'table', :attributes => {:class => /issues/}}
   end
 
+  def test_index_with_multi_custom_field_column
+    field = CustomField.find(1)
+    field.update_attribute :multiple, true
+    issue = Issue.find(1)
+    issue.custom_field_values = {1 => ['MySQL', 'Oracle']}
+    issue.save!
+
+    get :index, :set_filter => 1, :c => %w(tracker subject cf_1)
+    assert_response :success
+
+    assert_tag :td,
+      :attributes => {:class => /cf_1/},
+      :content => 'MySQL, Oracle'
+  end
+
+  def test_index_with_multi_user_custom_field_column
+    field = IssueCustomField.create!(:name => 'Multi user', :field_format => 'user', :multiple => true,
+      :tracker_ids => [1], :is_for_all => true)
+    issue = Issue.find(1)
+    issue.custom_field_values = {field.id => ['2', '3']}
+    issue.save!
+
+    get :index, :set_filter => 1, :c => ['tracker', 'subject', "cf_#{field.id}"]
+    assert_response :success
+
+    assert_tag :td,
+      :attributes => {:class => /cf_#{field.id}/},
+      :child => {:tag => 'a', :content => 'John Smith'}
+  end
+
   def test_index_with_date_column
     Issue.find(1).update_attribute :start_date, '1987-08-24'
 
@@ -1032,6 +1062,33 @@ class IssuesControllerTest < ActionController::TestCase
     assert_no_tag 'a', :content => /Next/
   end
 
+  def test_show_with_multi_custom_field
+    field = CustomField.find(1)
+    field.update_attribute :multiple, true
+    issue = Issue.find(1)
+    issue.custom_field_values = {1 => ['MySQL', 'Oracle']}
+    issue.save!
+
+    get :show, :id => 1
+    assert_response :success
+
+    assert_tag :td, :content => 'MySQL, Oracle'
+  end
+
+  def test_show_with_multi_user_custom_field
+    field = IssueCustomField.create!(:name => 'Multi user', :field_format => 'user', :multiple => true,
+      :tracker_ids => [1], :is_for_all => true)
+    issue = Issue.find(1)
+    issue.custom_field_values = {field.id => ['2', '3']}
+    issue.save!
+
+    get :show, :id => 1
+    assert_response :success
+
+    # TODO: should display links
+    assert_tag :td, :content => 'John Smith, Dave Lopper'
+  end
+
   def test_show_atom
     get :show, :id => 2, :format => 'atom'
     assert_response :success
@@ -1102,6 +1159,40 @@ class IssuesControllerTest < ActionController::TestCase
     assert_tag 'select', :attributes => {:name => 'issue[done_ratio]'}
     assert_tag 'input', :attributes => { :name => 'issue[custom_field_values][2]', :value => 'Default string' }
     assert_no_tag 'input', :attributes => {:name => 'issue[watcher_user_ids][]'}
+  end
+
+  def test_get_new_with_multi_custom_field
+    field = IssueCustomField.find(1)
+    field.update_attribute :multiple, true
+
+    @request.session[:user_id] = 2
+    get :new, :project_id => 1, :tracker_id => 1
+    assert_response :success
+    assert_template 'new'
+
+    assert_tag 'select',
+      :attributes => {:name => 'issue[custom_field_values][1][]', :multiple => 'multiple'},
+      :children => {:count => 3},
+      :child => {:tag => 'option', :attributes => {:value => 'MySQL'}, :content => 'MySQL'}
+    assert_tag 'input',
+      :attributes => {:name => 'issue[custom_field_values][1][]', :value => ''}
+  end
+
+  def test_get_new_with_multi_user_custom_field
+    field = IssueCustomField.create!(:name => 'Multi user', :field_format => 'user', :multiple => true,
+      :tracker_ids => [1], :is_for_all => true)
+
+    @request.session[:user_id] = 2
+    get :new, :project_id => 1, :tracker_id => 1
+    assert_response :success
+    assert_template 'new'
+
+    assert_tag 'select',
+      :attributes => {:name => "issue[custom_field_values][#{field.id}][]", :multiple => 'multiple'},
+      :children => {:count => Project.find(1).users.count},
+      :child => {:tag => 'option', :attributes => {:value => '2'}, :content => 'John Smith'}
+    assert_tag 'input',
+      :attributes => {:name => "issue[custom_field_values][#{field.id}][]", :value => ''}
   end
 
   def test_get_new_without_default_start_date_is_creation_date
@@ -1301,6 +1392,60 @@ class IssuesControllerTest < ActionController::TestCase
                             :priority_id => 5}
     end
     assert_redirected_to :controller => 'issues', :action => 'show', :id => Issue.last.id
+  end
+
+  def test_post_create_with_multi_custom_field
+    field = IssueCustomField.find_by_name('Database')
+    field.update_attribute(:multiple, true)
+
+    @request.session[:user_id] = 2
+    assert_difference 'Issue.count' do
+      post :create, :project_id => 1,
+                 :issue => {:tracker_id => 1,
+                            :subject => 'This is the test_new issue',
+                            :description => 'This is the description',
+                            :priority_id => 5,
+                            :custom_field_values => {'1' => ['', 'MySQL', 'Oracle']}}
+    end
+    assert_response 302
+    issue = Issue.first(:order => 'id DESC')
+    assert_equal ['MySQL', 'Oracle'], issue.custom_field_value(1).sort
+  end
+
+  def test_post_create_with_empty_multi_custom_field
+    field = IssueCustomField.find_by_name('Database')
+    field.update_attribute(:multiple, true)
+
+    @request.session[:user_id] = 2
+    assert_difference 'Issue.count' do
+      post :create, :project_id => 1,
+                 :issue => {:tracker_id => 1,
+                            :subject => 'This is the test_new issue',
+                            :description => 'This is the description',
+                            :priority_id => 5,
+                            :custom_field_values => {'1' => ['']}}
+    end
+    assert_response 302
+    issue = Issue.first(:order => 'id DESC')
+    assert_equal [''], issue.custom_field_value(1).sort
+  end
+
+  def test_post_create_with_multi_user_custom_field
+    field = IssueCustomField.create!(:name => 'Multi user', :field_format => 'user', :multiple => true,
+      :tracker_ids => [1], :is_for_all => true)
+
+    @request.session[:user_id] = 2
+    assert_difference 'Issue.count' do
+      post :create, :project_id => 1,
+                 :issue => {:tracker_id => 1,
+                            :subject => 'This is the test_new issue',
+                            :description => 'This is the description',
+                            :priority_id => 5,
+                            :custom_field_values => {field.id.to_s => ['', '2', '3']}}
+    end
+    assert_response 302
+    issue = Issue.first(:order => 'id DESC')
+    assert_equal ['2', '3'], issue.custom_field_value(field).sort
   end
 
   def test_post_create_with_required_custom_field_and_without_custom_fields_param
@@ -1822,6 +1967,27 @@ class IssuesControllerTest < ActionController::TestCase
     assert_tag :input, :attributes => { :name => 'time_entry[comments]', :value => 'test_get_edit_with_params' }
   end
 
+  def test_get_edit_with_multi_custom_field
+    field = CustomField.find(1)
+    field.update_attribute :multiple, true
+    issue = Issue.find(1)
+    issue.custom_field_values = {1 => ['MySQL', 'Oracle']}
+    issue.save!
+
+    @request.session[:user_id] = 2
+    get :edit, :id => 1
+    assert_response :success
+    assert_template 'edit'
+
+    assert_tag 'select', :attributes => {:name => 'issue[custom_field_values][1][]', :multiple => 'multiple'}
+    assert_tag 'select', :attributes => {:name => 'issue[custom_field_values][1][]'},
+      :child => {:tag => 'option', :attributes => {:value => 'MySQL', :selected => 'selected'}}
+    assert_tag 'select', :attributes => {:name => 'issue[custom_field_values][1][]'},
+      :child => {:tag => 'option', :attributes => {:value => 'PostgreSQL', :selected => nil}}
+    assert_tag 'select', :attributes => {:name => 'issue[custom_field_values][1][]'},
+      :child => {:tag => 'option', :attributes => {:value => 'Oracle', :selected => 'selected'}}
+  end
+
   def test_update_edit_form
     @request.session[:user_id] = 2
     xhr :put, :new, :project_id => 1,
@@ -1977,6 +2143,27 @@ class IssuesControllerTest < ActionController::TestCase
     mail = ActionMailer::Base.deliveries.last
     assert_kind_of TMail::Mail, mail
     assert mail.body.include?("Searchable field changed from 125 to New custom value")
+  end
+
+  def test_put_update_with_multi_custom_field_change
+    field = CustomField.find(1)
+    field.update_attribute :multiple, true
+    issue = Issue.find(1)
+    issue.custom_field_values = {1 => ['MySQL', 'Oracle']}
+    issue.save!
+
+    @request.session[:user_id] = 2
+    assert_difference('Journal.count') do
+      assert_difference('JournalDetail.count', 3) do
+        put :update, :id => 1,
+          :issue => {
+            :subject => 'Custom field change',
+            :custom_field_values => { '1' => ['', 'Oracle', 'PostgreSQL'] }
+          }
+      end
+    end
+    assert_redirected_to :action => 'show', :id => '1'
+    assert_equal ['Oracle', 'PostgreSQL'], Issue.find(1).custom_field_value(1).sort
   end
 
   def test_put_update_with_status_and_assignee_change
@@ -2283,6 +2470,23 @@ class IssuesControllerTest < ActionController::TestCase
       }
   end
 
+  def test_get_bulk_edit_with_multi_custom_field
+    field = CustomField.find(1)
+    field.update_attribute :multiple, true
+
+    @request.session[:user_id] = 2
+    get :bulk_edit, :ids => [1, 2]
+    assert_response :success
+    assert_template 'bulk_edit'
+
+    assert_tag :select,
+      :attributes => {:name => "issue[custom_field_values][1][]"},
+      :children => {
+        :only => {:tag => 'option'},
+        :count => 3
+      }
+  end
+
   def test_bulk_update
     @request.session[:user_id] = 2
     # update issues priority
@@ -2461,6 +2665,24 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 1, journal.details.size
     assert_equal '125', journal.details.first.old_value
     assert_equal '777', journal.details.first.value
+  end
+
+  def test_bulk_update_multi_custom_field
+    field = CustomField.find(1)
+    field.update_attribute :multiple, true
+
+    @request.session[:user_id] = 2
+    post :bulk_update, :ids => [1, 2, 3], :notes => 'Bulk editing multi custom field',
+                                     :issue => {:priority_id => '',
+                                                :assigned_to_id => '',
+                                                :custom_field_values => {'1' => ['MySQL', 'Oracle']}}
+
+    assert_response 302
+
+    assert_equal ['MySQL', 'Oracle'], Issue.find(1).custom_field_value(1).sort
+    assert_equal ['MySQL', 'Oracle'], Issue.find(3).custom_field_value(1).sort
+    # the custom field is not associated with the issue tracker
+    assert_nil Issue.find(2).custom_field_value(1)
   end
 
   def test_bulk_update_unassign

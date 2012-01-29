@@ -38,6 +38,8 @@ class CustomField < ActiveRecord::Base
   def set_searchable
     # make sure these fields are not searchable
     self.searchable = false if %w(int float date bool).include?(field_format)
+    # make sure only these fields can have multiple values
+    self.multiple = false unless %w(list user version).include?(field_format)
     true
   end
 
@@ -123,6 +125,7 @@ class CustomField < ActiveRecord::Base
   # objects by their value of the custom field.
   # Returns false, if the custom field can not be used for sorting.
   def order_statement
+    return nil if multiple?
     case field_format
       when 'string', 'text', 'list', 'date', 'bool'
         # COALESCE is here to make sure that blank and NULL values are sorted equally
@@ -161,14 +164,24 @@ class CustomField < ActiveRecord::Base
     nil
   end
 
-  # Returns the error message for the given value
+  # Returns the error messages for the given value
   # or an empty array if value is a valid value for the custom field
   def validate_field_value(value)
     errs = []
-    if is_required? && value.blank?
-      errs << ::I18n.t('activerecord.errors.messages.blank')
+    if value.is_a?(Array)
+      if !multiple?
+        errs << ::I18n.t('activerecord.errors.messages.invalid')
+      end
+      if is_required? && value.detect(&:present?).nil?
+        errs << ::I18n.t('activerecord.errors.messages.blank')
+      end
+      value.each {|v| errs += validate_field_value_format(v)}
+    else
+      if is_required? && value.blank?
+        errs << ::I18n.t('activerecord.errors.messages.blank')
+      end
+      errs += validate_field_value_format(value)
     end
-    errs += validate_field_value_format(value)
     errs
   end
 

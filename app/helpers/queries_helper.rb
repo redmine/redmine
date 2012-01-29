@@ -31,7 +31,14 @@ module QueriesHelper
 
   def column_content(column, issue)
     value = column.value(issue)
-
+    if value.is_a?(Array)
+      value.collect {|v| column_value(column, issue, v)}.compact.sort.join(', ')
+    else
+      column_value(column, issue, value)
+    end
+  end
+  
+  def column_value(column, issue, value)
     case value.class.name
     when 'String'
       if column.name == :subject

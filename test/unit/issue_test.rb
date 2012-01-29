@@ -921,6 +921,36 @@ class IssueTest < ActiveSupport::TestCase
     end
   end
 
+  def test_journalized_multi_custom_field
+    field = IssueCustomField.create!(:name => 'filter', :field_format => 'list', :is_filter => true, :is_for_all => true,
+      :tracker_ids => [1], :possible_values => ['value1', 'value2', 'value3'], :multiple => true)
+
+    issue = Issue.create!(:project_id => 1, :tracker_id => 1, :subject => 'Test', :author_id => 1)
+
+    assert_difference 'Journal.count' do
+      assert_difference 'JournalDetail.count' do
+        issue.init_journal(User.first)
+        issue.custom_field_values = {field.id => ['value1']}
+        issue.save!
+      end
+      assert_difference 'JournalDetail.count' do
+        issue.init_journal(User.first)
+        issue.custom_field_values = {field.id => ['value1', 'value2']}
+        issue.save!
+      end
+      assert_difference 'JournalDetail.count', 2 do
+        issue.init_journal(User.first)
+        issue.custom_field_values = {field.id => ['value3', 'value2']}
+        issue.save!
+      end
+      assert_difference 'JournalDetail.count', 2 do
+        issue.init_journal(User.first)
+        issue.custom_field_values = {field.id => nil}
+        issue.save!
+      end
+    end
+  end
+
   def test_description_eol_should_be_normalized
     i = Issue.new(:description => "CR \r LF \n CRLF \r\n")
     assert_equal "CR \r\n LF \r\n CRLF \r\n", i.description

@@ -319,6 +319,7 @@ en:
   field_cvsroot: CVSROOT
   field_cvs_module: Module
   field_repository_is_default: Main repository
+  field_multiple: Multiple values
 
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle

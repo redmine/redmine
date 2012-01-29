@@ -1,8 +1,8 @@
 <%= l(:text_issue_updated, :id => "##{@issue.id}", :author => h(@journal.user)) %>
 
 <ul>
-<% for detail in @journal.details %>
-    <li><%= show_detail(detail, true) %></li>
+<% details_to_strings(@journal.details).each do |string| %>
+  <li><%= string %></li>
 <% end %>
 </ul>
 
