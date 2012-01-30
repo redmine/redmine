@@ -635,7 +635,7 @@ module Redmine
 
       def write_wiki_page(pdf, page)
         pdf.RDMwriteHTMLCell(190,5,0,0,
-              page.content.text.to_s, page.attachments, "TLRB")
+              page.content.text.to_s, page.attachments, 0)
         if page.attachments.any?
           pdf.Ln
           pdf.SetFontStyle('B',9)
