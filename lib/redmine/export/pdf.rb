@@ -573,8 +573,25 @@ module Redmine
         pdf.Output
       end
 
+      # Returns a PDF string of a set of wiki pages
+      def wiki_pages_to_pdf(pages, project)
+        pdf = ITCPDF.new(current_language)
+        pdf.SetTitle(project.name)
+        pdf.alias_nb_pages
+        pdf.footer_date = format_date(Date.today)
+        pdf.AddPage
+        pdf.SetFontStyle('B',11)
+        pdf.RDMMultiCell(190,5, project.name)
+        pdf.Ln
+        # Set resize image scale
+        pdf.SetImageScale(1.6)
+        pdf.SetFontStyle('',9)
+        write_page_hierarchy(pdf, pages.group_by(&:parent_id))
+        pdf.Output
+      end
+
       # Returns a PDF string of a single wiki page
-      def wiki_to_pdf(page, project)
+      def wiki_page_to_pdf(page, project)
         pdf = ITCPDF.new(current_language)
         pdf.SetTitle("#{project} - #{page.title}")
         pdf.alias_nb_pages
@@ -587,6 +604,26 @@ module Redmine
         # Set resize image scale
         pdf.SetImageScale(1.6)
         pdf.SetFontStyle('',9)
+        write_wiki_page(pdf, page)
+        pdf.Output
+      end
+
+      def write_page_hierarchy(pdf, pages, node=nil, level=0)
+        if pages[node]
+          pages[node].each do |page|
+            if @new_page
+              pdf.AddPage
+            else
+              @new_page = true
+            end
+            pdf.Bookmark page.title, level
+            write_wiki_page(pdf, page)
+            write_page_hierarchy(pdf, pages, page.id, level + 1) if pages[page.id]
+          end
+        end
+      end
+
+      def write_wiki_page(pdf, page)
         pdf.RDMwriteHTMLCell(190,5,0,0,
               page.content.text.to_s, page.attachments, "TLRB")
         if page.attachments.any?
@@ -603,7 +640,6 @@ module Redmine
             pdf.Ln
           end
         end
-        pdf.Output
       end
 
       class RDMPdfEncoding

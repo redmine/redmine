@@ -618,12 +618,13 @@ class WikiControllerTest < ActionController::TestCase
     assert_tag 'a', :attributes => { :href => '/projects/ecookbook/activity.atom?show_wiki_edits=1'}
   end
 
-  def test_export
+  def test_export_to_html
     @request.session[:user_id] = 2
     get :export, :project_id => 'ecookbook'
 
     assert_response :success
     assert_not_nil assigns(:pages)
+    assert assigns(:pages).any?
     assert_equal "text/html", @response.content_type
 
     assert_select "a[name=?]", "CookBook_documentation"
@@ -631,7 +632,19 @@ class WikiControllerTest < ActionController::TestCase
     assert_select "a[name=?]", "Page_with_an_inline_image"
   end
 
-  def test_export_without_permission
+  def test_export_to_pdf
+    @request.session[:user_id] = 2
+    get :export, :project_id => 'ecookbook', :format => 'pdf'
+
+    assert_response :success
+    assert_not_nil assigns(:pages)
+    assert assigns(:pages).any?
+    assert_equal 'application/pdf', @response.content_type
+    assert_equal 'attachment; filename="ecookbook.pdf"', @response.headers['Content-Disposition']
+    assert @response.body.starts_with?('%PDF')
+  end
+
+  def test_export_without_permission_should_redirect
     get :export, :project_id => 'ecookbook'
 
     assert_response 302

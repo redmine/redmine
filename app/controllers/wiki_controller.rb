@@ -73,7 +73,7 @@ class WikiController < ApplicationController
     @content = @page.content_for_version(params[:version])
     if User.current.allowed_to?(:export_wiki_pages, @project)
       if params[:format] == 'pdf'
-        send_data(wiki_to_pdf(@page, @project), :type => 'application/pdf', :filename => "#{@page.title}.pdf")
+        send_data(wiki_page_to_pdf(@page, @project), :type => 'application/pdf', :filename => "#{@page.title}.pdf")
         return
       elsif params[:format] == 'html'
         export = render_to_string :action => 'export', :layout => false
@@ -239,14 +239,22 @@ class WikiController < ApplicationController
     redirect_to :action => 'index', :project_id => @project
   end
 
-  # Export wiki to a single html file
+  # Export wiki to a single pdf or html file
   def export
-    if User.current.allowed_to?(:export_wiki_pages, @project)
-      @pages = @wiki.pages.find :all, :order => 'title'
-      export = render_to_string :action => 'export_multiple', :layout => false
-      send_data(export, :type => 'text/html', :filename => "wiki.html")
-    else
+    unless User.current.allowed_to?(:export_wiki_pages, @project)
       redirect_to :action => 'show', :project_id => @project, :id => nil
+      return
+    end
+
+    @pages = @wiki.pages.all(:order => 'title', :include => [:content, :attachments], :limit => 75)
+    respond_to do |format|
+      format.html {
+        export = render_to_string :action => 'export_multiple', :layout => false
+        send_data(export, :type => 'text/html', :filename => "wiki.html")
+      }
+      format.pdf {
+        send_data(wiki_pages_to_pdf(@pages, @project), :type => 'application/pdf', :filename => "#{@project.identifier}.pdf")
+      }
     end
   end
 

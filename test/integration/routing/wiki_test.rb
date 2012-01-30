@@ -29,6 +29,11 @@ class RoutingWikiTest < ActionController::IntegrationTest
           :id => 'lalala' }
         )
     assert_routing(
+        { :method => 'get', :path => "/projects/567/wiki/lalala.pdf" },
+        { :controller => 'wiki', :action => 'show', :project_id => '567',
+          :id => 'lalala', :format => 'pdf' }
+        )
+    assert_routing(
          { :method => 'get', :path => "/projects/1/wiki/CookBook_documentation/diff" },
          { :controller => 'wiki', :action => 'diff', :project_id => '1',
            :id => 'CookBook_documentation' }
@@ -58,6 +63,10 @@ class RoutingWikiTest < ActionController::IntegrationTest
     assert_routing(
         { :method => 'get', :path => "/projects/567/wiki/export" },
         { :controller => 'wiki', :action => 'export', :project_id => '567' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/projects/567/wiki/export.pdf" },
+        { :controller => 'wiki', :action => 'export', :project_id => '567', :format => 'pdf' }
       )
     assert_routing(
          { :method => 'get', :path => "/projects/567/wiki/index" },
