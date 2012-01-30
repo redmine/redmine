@@ -14,7 +14,7 @@
 <%= text_area_tag 'content[text]', @text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit) %>
 
 <% if @page.new_record? && @page.parent %>
-<p><label><%= check_box_tag 'page[parent_id]', @page.parent.id %> <%= l(:field_parent_title) %></label> <%=h @page.parent.pretty_title %></p>
+<p><label><%= check_box_tag 'page[parent_id]', @page.parent.id, true %> <%= l(:field_parent_title) %></label> <%=h @page.parent.pretty_title %></p>
 <% end %>
 
 <p><label><%= l(:field_comments) %></label><%= f.text_field :comments, :size => 120 %></p>
