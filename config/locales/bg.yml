@@ -319,6 +319,7 @@ bg:
   field_cvsroot: CVSROOT
   field_cvs_module: Модул
   field_repository_is_default: Главно хранилище
+  field_multiple: Избор на повече от една стойност
 
   setting_app_title: Заглавие
   setting_app_subtitle: Описание
@@ -915,6 +916,7 @@ bg:
   text_tip_issue_begin_day: задача, започваща този ден
   text_tip_issue_end_day: задача, завършваща този ден
   text_tip_issue_begin_end_day: задача, започваща и завършваща този ден
+  text_project_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
   text_caracters_maximum: "До %{count} символа."
   text_caracters_minimum: "Минимум %{count} символа."
   text_length_between: "От %{min} до %{max} символа."
@@ -1013,5 +1015,3 @@ bg:
   description_date_range_interval: Изберете диапазон чрез задаване на начална и крайна дати
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
-  text_project_identifier_info: Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.
-  field_multiple: Multiple values
