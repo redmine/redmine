@@ -241,11 +241,6 @@ class WikiController < ApplicationController
 
   # Export wiki to a single pdf or html file
   def export
-    unless User.current.allowed_to?(:export_wiki_pages, @project)
-      redirect_to :action => 'show', :project_id => @project, :id => nil
-      return
-    end
-
     @pages = @wiki.pages.all(:order => 'title', :include => [:content, :attachments], :limit => 75)
     respond_to do |format|
       format.html {

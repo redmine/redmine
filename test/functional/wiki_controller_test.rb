@@ -644,10 +644,12 @@ class WikiControllerTest < ActionController::TestCase
     assert @response.body.starts_with?('%PDF')
   end
 
-  def test_export_without_permission_should_redirect
+  def test_export_without_permission_should_be_denied
+    @request.session[:user_id] = 2
+    Role.find_by_name('Manager').remove_permission! :export_wiki_pages
     get :export, :project_id => 'ecookbook'
 
-    assert_response 302
+    assert_response 403
   end
 
   def test_date_index
