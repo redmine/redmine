@@ -3474,7 +3474,7 @@ class TCPDF
 					#Extract attributes
 					# get tag name
 					tag = element.scan(/([a-zA-Z0-9]*)/).flatten.delete_if {|x| x.length == 0}
-					tag = tag[0].downcase;
+					tag = tag[0].to_s.downcase;
 					
 					# get attributes
 					attr_array = element.scan(/([^=\s]*)=["\']?([^"\']*)["\']?/)
@@ -3497,7 +3497,7 @@ class TCPDF
 					#Extract attributes
 					# get tag name
 					tag = element.scan(/([a-zA-Z0-9]*)/).flatten.delete_if {|x| x.length == 0}
-					tag = tag[0].downcase;
+					tag = tag[0].to_s.downcase;
 					
 					# get attributes
 					attr_array = element.scan(/([^=\s]*)=["\']?([^"\']*)["\']?/)
