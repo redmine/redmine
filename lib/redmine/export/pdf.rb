@@ -98,7 +98,7 @@ module Redmine
 
         def textstring(s)
           # Format a text string
-          if s =~ /^</  # This means the string is hex-dumped.
+          if s.chars.first == '<'  # This means the string is hex-dumped.
             return s
           else
             return '('+escape(s)+')'
