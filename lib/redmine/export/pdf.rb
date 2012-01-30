@@ -76,6 +76,8 @@ module Redmine
           end
           SetCreator(Redmine::Info.app_name)
           SetFont(@font_for_content)
+          @outlines = []
+          @outlineRoot = nil
         end
 
         def SetFontStyle(style, size)
@@ -142,6 +144,84 @@ module Redmine
           SetX(-30)
           RDMCell(0, 5, PageNo().to_s + '/{nb}', 0, 0, 'C')
         end
+
+        def Bookmark(txt, level=0, y=0)
+          utf16 = Iconv.conv('UTF-16', 'UTF-8', txt)
+          if (y == -1)
+            y = GetY()
+          end
+          @outlines << {:t => utf16, :l => level, :p => PageNo(), :y => (@h - y)*@k}
+        end
+
+        def putbookmarks
+          nb=@outlines.size
+          return if (nb==0)
+          lru=[]
+          level=0
+          @outlines.each_with_index do |o, i|
+            if(o[:l]>0)
+              parent=lru[o[:l]-1]
+              #Set parent and last pointers
+              @outlines[i][:parent]=parent
+              @outlines[parent][:last]=i
+              if (o[:l]>level)
+                #Level increasing: set first pointer
+                @outlines[parent][:first]=i
+              end
+            else
+              @outlines[i][:parent]=nb
+            end
+            if (o[:l]<=level && i>0)
+              #Set prev and next pointers
+              prev=lru[o[:l]]
+              @outlines[prev][:next]=i
+              @outlines[i][:prev]=prev
+            end
+            lru[o[:l]]=i
+            level=o[:l]
+          end
+          #Outline items
+          n=self.n+1
+          @outlines.each_with_index do |o, i|
+            newobj()
+            out('<</Title '+textstring(o[:t]))
+            out("/Parent #{n+o[:parent]} 0 R")
+            if (o[:prev])
+              out("/Prev #{n+o[:prev]} 0 R")
+            end
+            if (o[:next])
+              out("/Next #{n+o[:next]} 0 R")
+            end
+            if (o[:first])
+              out("/First #{n+o[:first]} 0 R")
+            end
+            if (o[:last])
+              out("/Last #{n+o[:last]} 0 R")
+            end
+            out("/Dest [%d 0 R /XYZ 0 %.2f null]" % [1+2*o[:p], o[:y]])
+            out('/Count 0>>')
+            out('endobj')
+          end
+          #Outline root
+          newobj()
+          @outlineRoot=self.n
+          out("<</Type /Outlines /First #{n} 0 R");
+          out("/Last #{n+lru[0]} 0 R>>");
+          out('endobj');
+        end
+
+        def putresources()
+          super
+          putbookmarks()
+        end
+
+        def putcatalog()
+          super
+          if(@outlines.size > 0)
+            out("/Outlines #{@outlineRoot} 0 R");
+            out('/PageMode /UseOutlines');
+          end
+        end
       end
 
       # Returns a PDF string of a list of issues
@@ -205,9 +285,10 @@ module Redmine
           if query.grouped? &&
                (group = query.group_by_column.value(issue)) != previous_group
             pdf.SetFontStyle('B',9)
-            pdf.RDMCell(277, row_height,
-              (group.blank? ? 'None' : group.to_s) + " (#{query.issue_count_by_group[group]})",
-              1, 1, 'L')
+            group_label = group.blank? ? 'None' : group.to_s
+            group_label << " (#{query.issue_count_by_group[group]})"
+            pdf.Bookmark group_label, 0, -1
+            pdf.RDMCell(277, row_height, group_label, 1, 1, 'L')
             pdf.SetFontStyle('',8)
             previous_group = group
           end
