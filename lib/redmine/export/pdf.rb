@@ -98,7 +98,7 @@ module Redmine
 
         def textstring(s)
           # Format a text string
-          if s.chars.first == '<'  # This means the string is hex-dumped.
+          if s =~ /^</  # This means the string is hex-dumped.
             return s
           else
             return '('+escape(s)+')'
@@ -146,11 +146,21 @@ module Redmine
         end
 
         def Bookmark(txt, level=0, y=0)
-          utf16 = Iconv.conv('UTF-16', 'UTF-8', txt)
           if (y == -1)
             y = GetY()
           end
-          @outlines << {:t => utf16, :l => level, :p => PageNo(), :y => (@h - y)*@k}
+          @outlines << {:t => txt, :l => level, :p => PageNo(), :y => (@h - y)*@k}
+        end
+
+        def bookmark_title(txt)
+          txt = begin
+            utf16txt = Iconv.conv('UTF-16BE', 'UTF-8', txt)
+            hextxt = "<FEFF"  # FEFF is BOM
+            hextxt << utf16txt.unpack("C*").map {|x| sprintf("%02X",x) }.join
+            hextxt << ">"
+          rescue
+            txt
+          end || ''
         end
 
         def putbookmarks
@@ -184,7 +194,7 @@ module Redmine
           n=self.n+1
           @outlines.each_with_index do |o, i|
             newobj()
-            out('<</Title '+textstring(o[:t]))
+            out('<</Title '+bookmark_title(o[:t]))
             out("/Parent #{n+o[:parent]} 0 R")
             if (o[:prev])
               out("/Prev #{n+o[:prev]} 0 R")
