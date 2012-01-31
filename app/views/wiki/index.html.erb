@@ -20,10 +20,10 @@
                 :url => {:controller => 'activities', :action => 'index',
                          :id => @project, :show_wiki_edits => 1,
                          :key => User.current.rss_key} %>
-	<% if User.current.allowed_to?(:export_wiki_pages, @project) %>
+  <% if User.current.allowed_to?(:export_wiki_pages, @project) %>
   <%= f.link_to('PDF', :url => {:action => 'export', :format => 'pdf'}) %>
   <%= f.link_to('HTML', :url => {:action => 'export'}) %>
-	<% end %>
+  <% end %>
 <% end %>
 <% end %>
 
