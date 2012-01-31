@@ -226,7 +226,8 @@ class MailHandler < ActionMailer::Base
       @keywords[attr]
     else
       @keywords[attr] = begin
-        if (options[:override] || @@handler_options[:allow_override].include?(attr.to_s)) && (v = extract_keyword!(plain_text_body, attr, options[:format]))
+        if (options[:override] || @@handler_options[:allow_override].include?(attr.to_s)) &&
+              (v = extract_keyword!(plain_text_body, attr, options[:format]))
           v
         elsif !@@handler_options[:issue][attr].blank?
           @@handler_options[:issue][attr]
@@ -269,7 +270,8 @@ class MailHandler < ActionMailer::Base
       'priority_id' => (k = get_keyword(:priority)) && IssuePriority.named(k).first.try(:id),
       'category_id' => (k = get_keyword(:category)) && issue.project.issue_categories.named(k).first.try(:id),
       'assigned_to_id' => assigned_to.try(:id),
-      'fixed_version_id' => (k = get_keyword(:fixed_version, :override => true)) && issue.project.shared_versions.named(k).first.try(:id),
+      'fixed_version_id' => (k = get_keyword(:fixed_version, :override => true)) &&
+                                issue.project.shared_versions.named(k).first.try(:id),
       'start_date' => get_keyword(:start_date, :override => true, :format => '\d{4}-\d{2}-\d{2}'),
       'due_date' => get_keyword(:due_date, :override => true, :format => '\d{4}-\d{2}-\d{2}'),
       'estimated_hours' => get_keyword(:estimated_hours, :override => true),
