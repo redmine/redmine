@@ -9,4 +9,6 @@ api.time_entry do
   api.spent_on @time_entry.spent_on
   api.created_on @time_entry.created_on
   api.updated_on @time_entry.updated_on
+
+  render_api_custom_values @time_entry.custom_field_values, api
 end
