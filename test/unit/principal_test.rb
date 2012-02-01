@@ -27,6 +27,11 @@ class PrincipalTest < ActiveSupport::TestCase
     assert_nil result.detect {|p| p.is_a?(AnonymousUser)}
   end
 
+  def test_member_of_scope_should_return_the_union_of_all_members
+    projects = Project.find_all_by_id(1, 2)
+    assert_equal projects.map(&:principals).flatten.sort, Principal.member_of(projects).sort
+  end
+
   context "#like" do
     setup do
       Principal.generate!(:login => 'login')

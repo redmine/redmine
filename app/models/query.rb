@@ -232,11 +232,18 @@ class Query < ActiveRecord::Base
     principals = []
     if project
       principals += project.principals.sort
+      unless project.leaf?
+        subprojects = project.descendants.visible.all
+        if subprojects.any?
+          @available_filters["subproject_id"] = { :type => :list_subprojects, :order => 13, :values => subprojects.collect{|s| [s.name, s.id.to_s] } }
+          principals += Principal.member_of(subprojects)
+        end
+      end
     else
       all_projects = Project.visible.all
       if all_projects.any?
         # members of visible projects
-        principals += Principal.active.find(:all, :conditions => ["#{User.table_name}.id IN (SELECT DISTINCT user_id FROM members WHERE project_id IN (?))", all_projects.collect(&:id)]).sort
+        principals += Principal.member_of(all_projects)
 
         # project filter
         project_values = []
@@ -250,6 +257,8 @@ class Query < ActiveRecord::Base
         @available_filters["project_id"] = { :type => :list, :order => 1, :values => project_values} unless project_values.empty?
       end
     end
+    principals.uniq!
+    principals.sort!
     users = principals.select {|p| p.is_a?(User)}
 
     assigned_to_values = []
@@ -281,12 +290,6 @@ class Query < ActiveRecord::Base
       versions = project.shared_versions.all
       unless versions.empty?
         @available_filters["fixed_version_id"] = { :type => :list_optional, :order => 7, :values => versions.sort.collect{|s| ["#{s.project.name} - #{s.name}", s.id.to_s] } }
-      end
-      unless project.leaf?
-        subprojects = project.descendants.visible.all
-        unless subprojects.empty?
-          @available_filters["subproject_id"] = { :type => :list_subprojects, :order => 13, :values => subprojects.collect{|s| [s.name, s.id.to_s] } }
-        end
       end
       add_custom_fields_filters(project.all_issue_custom_fields)
     else

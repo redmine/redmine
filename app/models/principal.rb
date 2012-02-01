@@ -33,6 +33,16 @@ class Principal < ActiveRecord::Base
     }
   }
 
+  # Principals that are members of a collection of projects
+  named_scope :member_of, lambda {|projects|
+    if projects.empty?
+      {:conditions => "1=0"}
+    else
+      ids = projects.map(&:id)
+      {:conditions => ["#{Principal.table_name}.status = 1 AND #{Principal.table_name}.id IN (SELECT DISTINCT user_id FROM #{Member.table_name} WHERE project_id IN (?))", ids]}
+    end
+  }
+
   before_create :set_default_empty_values
 
   def name(formatter = nil)

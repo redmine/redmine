@@ -766,6 +766,19 @@ class QueryTest < ActiveSupport::TestCase
       assert users[:values].map{|u|u[1]}.include?("3")
     end
 
+    should "include users of subprojects" do
+      user1 = User.generate_with_protected!
+      user2 = User.generate_with_protected!
+      project = Project.find(1)
+      Member.create!(:principal => user1, :project => project.children.visible.first, :role_ids => [1])
+      @query.project = project
+
+      users = @query.available_filters["assigned_to_id"]
+      assert_not_nil users
+      assert users[:values].map{|u|u[1]}.include?(user1.id.to_s)
+      assert !users[:values].map{|u|u[1]}.include?(user2.id.to_s)
+    end
+
     should "include visible projects in cross-project view" do
       projects = @query.available_filters["project_id"]
       assert_not_nil projects
