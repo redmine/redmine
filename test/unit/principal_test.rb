@@ -19,6 +19,14 @@ require File.expand_path('../../test_helper', __FILE__)
 
 class PrincipalTest < ActiveSupport::TestCase
 
+  def test_active_scope_should_return_groups_and_active_users
+    result = Principal.active.all
+    assert_include Group.first, result
+    assert_not_nil result.detect {|p| p.is_a?(User)}
+    assert_nil result.detect {|p| p.is_a?(User) && !p.active?}
+    assert_nil result.detect {|p| p.is_a?(AnonymousUser)}
+  end
+
   context "#like" do
     setup do
       Principal.generate!(:login => 'login')

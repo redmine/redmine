@@ -24,7 +24,7 @@ class Principal < ActiveRecord::Base
   has_many :issue_categories, :foreign_key => 'assigned_to_id', :dependent => :nullify
 
   # Groups and active users
-  named_scope :active, :conditions => "#{Principal.table_name}.type='Group' OR (#{Principal.table_name}.type='User' AND #{Principal.table_name}.status = 1)"
+  named_scope :active, :conditions => "#{Principal.table_name}.status = 1"
 
   named_scope :like, lambda {|q|
     s = "%#{q.to_s.strip.downcase}%"
