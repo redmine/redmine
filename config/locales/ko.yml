@@ -2,7 +2,8 @@
 # by Kihyun Yoon(ddumbugie@gmail.com),http://plenum.textcube.com/
 # by John Hwang (jhwang@tavon.org),http://github.com/tavon
 # by Yonghwan SO(please insert your email), last update at 2009-09-11
-# last update at 2010-09-06 by Kihyun Yoon
+# by Ki Won Kim(xyz37@naver.com, http://xyz37.blog.me, https://x10.mine.nu/redmine), last update at 2012-02-01
+# last update at 2012-02-02 by Ki Won Kim
 ko:
   direction: ltr
   date:
@@ -176,7 +177,7 @@ ko:
         greater_than_start_date: "는 시작날짜보다 커야 합니다"
         not_same_project: "는 같은 프로젝트에 속해 있지 않습니다"
         circular_dependency: "이 관계는 순환 의존관계를 만들 수 있습니다"
-        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
+        cant_link_an_issue_with_a_descendant: "일감은 그것의 하위 일감과 연결할 수 없습니다."
 
   actionview_instancetag_blank_option: 선택하세요
 
@@ -287,7 +288,7 @@ ko:
   field_admin: 관리자
   field_last_login_on: 마지막 로그인
   field_language: 언어
-  field_effective_date: 일자
+  field_effective_date: 날짜
   field_password: 비밀번호
   field_new_password: 새 비밀번호
   field_password_confirmation: 비밀번호 확인
@@ -363,7 +364,7 @@ ko:
   setting_user_format: 사용자 표시 형식
   setting_activity_days_default: 프로젝트 작업내역에 표시할 기간
   setting_display_subprojects_issues: 하위 프로젝트의 일감을 함께 표시
-  setting_enabled_scm: 지원할 SCM
+  setting_enabled_scm: "지원할 SCM(Source Control Management)"
   setting_mail_handler_api_enabled: 수신 메일에 WS를 허용
   setting_mail_handler_api_key: API 키
   setting_sequential_project_identifiers: 프로젝트 식별자를 순차적으로 생성
@@ -686,10 +687,10 @@ ko:
   label_blocked_by: "다음 일감에게 막혀 있음:"
   label_precedes: "다음에 진행할 일감:"
   label_follows: "다음 일감을 우선 진행:"
-  label_end_to_start: end to start
-  label_end_to_end: end to end
-  label_start_to_start: start to start
-  label_start_to_end: start to end
+  label_end_to_start: "끝에서 시작"
+  label_end_to_end: "끝에서 끝"
+  label_start_to_start: "시작에서 시작" 
+  label_start_to_end: "시작에서 끝"
   label_stay_logged_in: 로그인 유지
   label_disabled: 비활성화
   label_show_completed_versions: 완료된 버전 보기
@@ -986,77 +987,79 @@ ko:
   setting_commit_logtime_activity_id: 기록된 시간에 적용할 작업분류
   text_time_logged_by_changeset: "변경묶음 %{value}에서 적용되었습니다."
   setting_commit_logtime_enabled: 커밋 시점에 작업 시간 기록 활성화
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
-  field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
-  text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
-  label_my_queries: My custom queries
-  text_journal_changed_no_detail: "%{label} updated"
-  label_news_comment_added: Comment added to a news
-  button_expand_all: Expand all
-  button_collapse_all: Collapse all
-  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
-  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
-  label_bulk_edit_selected_time_entries: Bulk edit selected time entries
-  text_time_entries_destroy_confirmation: Are you sure you want to delete the selected time entr(y/ies)?
+  notice_gantt_chart_truncated: "표시할 수 있는 최대 항목수(%{max})를 초과하여 차트가 잘렸습니다."
+  setting_gantt_items_limit: "Gantt 차트에 표시되는 최대 항목수"
+  field_warn_on_leaving_unsaved: "저장하지 않은 페이지를 빠져나갈 때 나에게 알림"
+  text_warn_on_leaving_unsaved: "현재 페이지는 저장되지 않은 문자가 있습니다. 이 페이지를 빠져나가면 내용을 잃을것입니다."
+  label_my_queries: "내 검색 양식"
+  text_journal_changed_no_detail: "%{label}이 변경되었습니다."
+  label_news_comment_added: "뉴스에 설명이 추가되었습니다."
+  button_expand_all: "모두 확장"
+  button_collapse_all: "모두 축소"
+  label_additional_workflow_transitions_for_assignee: "사용자가 작업자일 때 허용되는 추가 상태"
+  label_additional_workflow_transitions_for_author: "사용자가 저자일 때 허용되는 추가 상태"
+  label_bulk_edit_selected_time_entries: "선택된 소요 시간 대량 편집"
+  text_time_entries_destroy_confirmation: "선택한 소요 시간 항목을 삭제하시겠습니까?"
   label_role_anonymous: Anonymous
   label_role_non_member: Non member
-  label_issue_note_added: Note added
-  label_issue_status_updated: Status updated
-  label_issue_priority_updated: Priority updated
-  label_issues_visibility_own: Issues created by or assigned to the user
-  field_issues_visibility: Issues visibility
-  label_issues_visibility_all: All issues
-  permission_set_own_issues_private: Set own issues public or private
-  field_is_private: Private
-  permission_set_issues_private: Set issues public or private
-  label_issues_visibility_public: All non private issues
-  text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
-  field_commit_logs_encoding: 제출(commit) 기록 인코딩
-  field_scm_path_encoding: Path encoding
-  text_scm_path_encoding_note: "Default: UTF-8"
-  field_path_to_repository: Path to repository
-  field_root_directory: Root directory
-  field_cvs_module: Module
-  field_cvsroot: CVSROOT
-  text_mercurial_repository_note: Local repository (e.g. /hgrepo, c:\hgrepo)
-  text_scm_command: Command
-  text_scm_command_version: Version
-  label_git_report_last_commit: Report last commit for files and directories
-  text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.
-  text_scm_command_not_available: Scm command is not available. Please check settings on the administration panel.
-  notice_issue_successful_create: Issue %{id} created.
-  label_between: between
-  setting_issue_group_assignment: Allow issue assignment to groups
-  label_diff: diff
-  text_git_repository_note: Repository is bare and local (e.g. /gitrepo, c:\gitrepo)
-  description_query_sort_criteria_direction: Sort direction
-  description_project_scope: Search scope
-  description_filter: Filter
-  description_user_mail_notification: Mail notification settings
-  description_date_from: Enter start date
-  description_message_content: Message content
-  description_available_columns: Available Columns
-  description_date_range_interval: Choose range by selecting start and end date
-  description_issue_category_reassign: Choose issue category
-  description_search: Searchfield
-  description_notes: Notes
-  description_date_range_list: Choose range from list
-  description_choose_project: Projects
-  description_date_to: Enter end date
-  description_query_sort_criteria_attribute: Sort attribute
-  description_wiki_subpages_reassign: Choose new parent page
-  description_selected_columns: Selected Columns
-  label_parent_revision: Parent
-  label_child_revision: Child
-  error_scm_annotate_big_text_file: The entry cannot be annotated, as it exceeds the maximum text file size.
-  setting_default_issue_start_date_to_creation_date: Use current date as start date for new issues
-  button_edit_section: Edit this section
-  setting_repositories_encodings: Attachments and repositories encodings
-  description_all_columns: All Columns
-  button_export: Export
-  label_export_options: "%{export_format} export options"
-  error_attachment_too_big: This file cannot be uploaded because it exceeds the maximum allowed file size (%{max_size})
+
+  label_issue_note_added: "덧글이 추가되었습니다."
+  label_issue_status_updated: "상태가 변경되었습니다."
+  label_issue_priority_updated: "우선 순위가 변경되었습니다."
+  label_issues_visibility_own: "일감을 생성하거나 할당된 사용자"
+  field_issues_visibility: "일감 보임"
+  label_issues_visibility_all: "모든 일감"
+  permission_set_own_issues_private: "자신의 일감을 공개나 비공개로 설정"
+  field_is_private: "비공개"
+  permission_set_issues_private: "일감을 공개나 비공개로 설정"
+  label_issues_visibility_public: "모든 비공개 일감"
+  text_issues_destroy_descendants_confirmation: "%{count} 개의 하위 일감을 삭제할 것입니다."
+  field_commit_logs_encoding: "제출(commit) 기록 인코딩"
+  field_scm_path_encoding: "경로 인코딩"
+  text_scm_path_encoding_note: "기본: UTF-8"
+  field_path_to_repository: "저장소 경로"
+  field_root_directory: "루트 경로"
+  field_cvs_module: "모듈"
+  field_cvsroot: "CVS 루트"
+  text_mercurial_repository_note: "로컬 저장소 (예: /hgrepo, c:\hgrepo)"
+  text_scm_command: "명령"
+  text_scm_command_version: "버전"
+  label_git_report_last_commit: "파일이나 폴더의 마지막 제출(commit)을 보고"
+  text_scm_config: "SCM 명령을 config/configuration.yml에서 수정할 수 있습니다. 수정후에는 재시작하십시오."
+  text_scm_command_not_available: "SCM 명령을 사용할 수 없습니다. 관리 페이지의 설정을 검사하십시오."
+  notice_issue_successful_create: "%{id} 일감이 생성되었습니다."
+  label_between: "사이"
+  setting_issue_group_assignment: "그룹에 일감 할당 허용"
+  label_diff: "비교(diff)"
+  text_git_repository_note: "저장소는 노출된 로컬입니다. (예: /gitrepo, c:\gitrepo)"
+  description_query_sort_criteria_direction: "정렬 방향"
+  description_project_scope: "검색 범위"
+  description_filter: "검색 조건"
+  description_user_mail_notification: "메일 알림 설정"
+  description_date_from: "시작 날짜 입력"
+  description_message_content: "메세지 내용"
+  description_available_columns: "가능한 컬럼"
+  description_date_range_interval: 시작과 끝 날짜로 범위를 선택하십시오."
+  description_issue_category_reassign: "일감 범주를 선택하십시오."
+  description_search: "검색항목"
+  description_notes: "덧글"
+  description_date_range_list: "목록에서 범위를 선택 하십시오."
+  description_choose_project: "프로젝트"
+  description_date_to: "종료 날짜 입력"
+  description_query_sort_criteria_attribute: "정렬 속성"
+  description_wiki_subpages_reassign: "새로운 상위 페이지를 선택하십시오."
+  description_selected_columns: "선택된 컬럼"
+  label_parent_revision: "상위"
+  label_child_revision: "하위"
+  error_scm_annotate_big_text_file: "최대 텍스트 파일 크기를 초과 하면 항목은 이력화 될 수 없습니다."
+  setting_default_issue_start_date_to_creation_date: "새로운 일감의 시작 날짜로 오늘 날짜 사용"
+  button_edit_section: "이 부분 수정"
+  setting_repositories_encodings: "첨부파일이나 저장소 인코딩"
+  description_all_columns: "모든 컬럼"
+  button_export: "내보내기"
+  label_export_options: "내보내기 옵션: %{export_format}"
+  error_attachment_too_big: "이 파일은 제한된 크기(%{max_size})를 초과하였기 때문에 업로드 할 수 없습니다."
+
   notice_failed_to_save_time_entries: "Failed to save %{count} time entrie(s) on %{total} selected: %{ids}."
   label_x_issues:
     zero:  0 일감
