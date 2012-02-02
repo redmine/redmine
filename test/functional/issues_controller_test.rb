@@ -41,7 +41,9 @@ class IssuesControllerTest < ActionController::TestCase
            :time_entries,
            :journals,
            :journal_details,
-           :queries
+           :queries,
+           :repositories,
+           :changesets
 
   include Redmine::I18n
 
@@ -1072,6 +1074,18 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_no_tag 'a', :content => /Previous/
     assert_no_tag 'a', :content => /Next/
+  end
+
+  def test_show_should_display_visible_changesets_from_other_projects
+    project = Project.find(2)
+    issue = project.issues.first
+    issue.changeset_ids = [102]
+    issue.save!
+    project.disable_module! :repository
+
+    @request.session[:user_id] = 2
+    get :show, :id => issue.id
+    assert_tag 'a', :attributes => {:href => "/projects/ecookbook/repository/revisions/3"}
   end
 
   def test_show_with_multi_custom_field

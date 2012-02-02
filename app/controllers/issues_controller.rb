@@ -109,10 +109,8 @@ class IssuesController < ApplicationController
     @journals.each_with_index {|j,i| j.indice = i+1}
     @journals.reverse! if User.current.wants_comments_in_reverse_order?
 
-    if User.current.allowed_to?(:view_changesets, @project)
-      @changesets = @issue.changesets.visible.all
-      @changesets.reverse! if User.current.wants_comments_in_reverse_order?
-    end
+    @changesets = @issue.changesets.visible.all
+    @changesets.reverse! if User.current.wants_comments_in_reverse_order?
 
     @relations = @issue.relations.select {|r| r.other_issue(@issue) && r.other_issue(@issue).visible? }
     @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
