@@ -7,7 +7,7 @@
 <p><% @user.projects.each do |project| %>
     <label><%= check_box_tag 'notified_project_ids[]', project.id, @user.notified_projects_ids.include?(project.id) %> <%=h project.name %></label><br />
 <% end %></p>
-<p><em><%= l(:text_user_mail_option) %></em></p>
+<p><em class="info"><%= l(:text_user_mail_option) %></em></p>
 <% end %>
 <p><label><%= l(:label_user_mail_no_self_notified) %><%= check_box_tag 'no_self_notified', 1, @user.pref[:no_self_notified] %></label></p>
 

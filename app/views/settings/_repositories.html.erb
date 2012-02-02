@@ -41,7 +41,7 @@
      </tr>
   <% end %>
 </table>
-<p><em><%= l(:text_scm_config) %></em></p>
+<p><em class="info"><%= l(:text_scm_config) %></em></p>
 </fieldset>
 
 <div class="box tabular settings">
@@ -65,8 +65,8 @@
 
 <fieldset class="box tabular settings">
 <legend><%= l(:text_issues_ref_in_commit_messages) %></legend>
-<p><%= setting_text_field :commit_ref_keywords, :size => 30 %><br />
-<em><%= l(:text_comma_separated) %></em></p>
+<p><%= setting_text_field :commit_ref_keywords, :size => 30 %>
+<em class="info"><%= l(:text_comma_separated) %></em></p>
 
 <p><%= setting_text_field :commit_fix_keywords, :size => 30 %>
 &nbsp;<%= l(:label_applied_status) %>: <%= setting_select :commit_fix_status_id,
@@ -79,7 +79,7 @@
                                                        (0..10).to_a.collect {|r| ["#{r*10} %", "#{r*10}"] },
                                                        :blank => :label_no_change_option,
                                                        :label => false %>
-<br /><em><%= l(:text_comma_separated) %></em></p>
+<em class="info"><%= l(:text_comma_separated) %></em></p>
 
 <p><%= setting_check_box :commit_cross_project_ref %></p>
 

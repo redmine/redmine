@@ -78,7 +78,7 @@ function toggle_custom_field_format() {
 <p><%= f.text_field :regexp, :size => 50 %><br />(<%=l(:text_regexp_info)%>)</p>
 <p>
   <%= f.text_area :possible_values, :value => @custom_field.possible_values.to_a.join("\n"), :rows => 15 %>
-  <br /><em><%= l(:text_custom_field_possible_values_info) %></em>
+  <em class="info"><%= l(:text_custom_field_possible_values_info) %></em>
 </p>
 <p><%= @custom_field.field_format == 'bool' ? f.check_box(:default_value) : f.text_field(:default_value) %></p>
 <%= call_hook(:view_custom_fields_form_upper_box, :custom_field => @custom_field, :form => f) %>

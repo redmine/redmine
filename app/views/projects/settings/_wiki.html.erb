@@ -4,8 +4,8 @@
 <%= error_messages_for 'wiki' %>
 
 <div class="box tabular">
-<p><%= f.text_field :start_page, :size => 60, :required => true %><br />
-<em><%= l(:text_unallowed_characters) %>: , . / ? ; : |</em></p>
+<p><%= f.text_field :start_page, :size => 60, :required => true %>
+<em class="info"><%= l(:text_unallowed_characters) %>: , . / ? ; : |</em></p>
 </div>
 
 <div class="contextual">
