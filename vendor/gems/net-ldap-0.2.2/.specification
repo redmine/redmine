@@ -1,0 +1,200 @@
+--- !ruby/object:Gem::Specification 
+name: net-ldap
+version: !ruby/object:Gem::Version 
+  hash: 19
+  prerelease: 
+  segments: 
+  - 0
+  - 2
+  - 2
+  version: 0.2.2
+platform: ruby
+authors: 
+- Francis Cianfrocca
+- Emiel van de Laar
+- Rory O'Connell
+- Kaspar Schiess
+- Austin Ziegler
+autorequire: 
+bindir: bin
+cert_chain: []
+
+date: 2011-03-26 00:00:00 Z
+dependencies: 
+- !ruby/object:Gem::Dependency 
+  name: rubyforge
+  prerelease: false
+  requirement: &id001 !ruby/object:Gem::Requirement 
+    none: false
+    requirements: 
+    - - ">="
+      - !ruby/object:Gem::Version 
+        hash: 7
+        segments: 
+        - 2
+        - 0
+        - 4
+        version: 2.0.4
+  type: :development
+  version_requirements: *id001
+- !ruby/object:Gem::Dependency 
+  name: hoe-git
+  prerelease: false
+  requirement: &id002 !ruby/object:Gem::Requirement 
+    none: false
+    requirements: 
+    - - ~>
+      - !ruby/object:Gem::Version 
+        hash: 1
+        segments: 
+        - 1
+        version: "1"
+  type: :development
+  version_requirements: *id002
+- !ruby/object:Gem::Dependency 
+  name: hoe-gemspec
+  prerelease: false
+  requirement: &id003 !ruby/object:Gem::Requirement 
+    none: false
+    requirements: 
+    - - ~>
+      - !ruby/object:Gem::Version 
+        hash: 1
+        segments: 
+        - 1
+        version: "1"
+  type: :development
+  version_requirements: *id003
+- !ruby/object:Gem::Dependency 
+  name: metaid
+  prerelease: false
+  requirement: &id004 !ruby/object:Gem::Requirement 
+    none: false
+    requirements: 
+    - - ~>
+      - !ruby/object:Gem::Version 
+        hash: 1
+        segments: 
+        - 1
+        version: "1"
+  type: :development
+  version_requirements: *id004
+- !ruby/object:Gem::Dependency 
+  name: flexmock
+  prerelease: false
+  requirement: &id005 !ruby/object:Gem::Requirement 
+    none: false
+    requirements: 
+    - - ~>
+      - !ruby/object:Gem::Version 
+        hash: 59
+        segments: 
+        - 0
+        - 9
+        - 0
+        version: 0.9.0
+  type: :development
+  version_requirements: *id005
+- !ruby/object:Gem::Dependency 
+  name: rspec
+  prerelease: false
+  requirement: &id006 !ruby/object:Gem::Requirement 
+    none: false
+    requirements: 
+    - - ~>
+      - !ruby/object:Gem::Version 
+        hash: 3
+        segments: 
+        - 2
+        - 0
+        version: "2.0"
+  type: :development
+  version_requirements: *id006
+- !ruby/object:Gem::Dependency 
+  name: hoe
+  prerelease: false
+  requirement: &id007 !ruby/object:Gem::Requirement 
+    none: false
+    requirements: 
+    - - ">="
+      - !ruby/object:Gem::Version 
+        hash: 41
+        segments: 
+        - 2
+        - 9
+        - 1
+        version: 2.9.1
+  type: :development
+  version_requirements: *id007
+description: "Net::LDAP for Ruby (also called net-ldap) implements client access for the\n\
+  Lightweight Directory Access Protocol (LDAP), an IETF standard protocol for\n\
+  accessing distributed directory services. Net::LDAP is written completely in\n\
+  Ruby with no external dependencies. It supports most LDAP client features and a\n\
+  subset of server features as well.\n\n\
+  Net::LDAP has been tested against modern popular LDAP servers including\n\
+  OpenLDAP and Active Directory. The current release is mostly compliant with\n\
+  earlier versions of the IETF LDAP RFCs (2251\xE2\x80\x932256, 2829\xE2\x80\x932830, 3377, and 3771).\n\
+  Our roadmap for Net::LDAP 1.0 is to gain full <em>client</em> compliance with\n\
+  the most recent LDAP RFCs (4510\xE2\x80\x934519, plus portions of 4520\xE2\x80\x934532)."
+email: 
+- blackhedd@rubyforge.org
+- gemiel@gmail.com
+- rory.ocon@gmail.com
+- kaspar.schiess@absurd.li
+- austin@rubyforge.org
+executables: []
+
+extensions: []
+
+extra_rdoc_files: 
+- Manifest.txt
+- Contributors.rdoc
+- Hacking.rdoc
+- History.rdoc
+- License.rdoc
+- README.rdoc
+files: 
+- Manifest.txt
+- Contributors.rdoc
+- Hacking.rdoc
+- History.rdoc
+- License.rdoc
+- README.rdoc
+homepage: http://net-ldap.rubyforge.org/
+licenses: []
+
+post_install_message: 
+rdoc_options: 
+- --main
+- README.rdoc
+require_paths: 
+- lib
+required_ruby_version: !ruby/object:Gem::Requirement 
+  none: false
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      hash: 57
+      segments: 
+      - 1
+      - 8
+      - 7
+      version: 1.8.7
+required_rubygems_version: !ruby/object:Gem::Requirement 
+  none: false
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      hash: 3
+      segments: 
+      - 0
+      version: "0"
+requirements: []
+
+rubyforge_project: net-ldap
+rubygems_version: 1.7.2
+signing_key: 
+specification_version: 3
+summary: Net::LDAP for Ruby (also called net-ldap) implements client access for the Lightweight Directory Access Protocol (LDAP), an IETF standard protocol for accessing distributed directory services
+test_files: []
+

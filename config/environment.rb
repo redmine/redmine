@@ -55,6 +55,7 @@ Rails::Initializer.run do |config|
   config.action_mailer.perform_deliveries = false
 
   config.gem 'coderay', :version => '~>1.0.0'
+  config.gem 'net-ldap', :version => '~>0.2.2'
 
   # Load any local configuration that is kept out of source control
   # (e.g. gems, patches).
