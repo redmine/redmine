@@ -1,9 +1,4 @@
 # Korean translations for Ruby on Rails
-# by Kihyun Yoon(ddumbugie@gmail.com),http://plenum.textcube.com/
-# by John Hwang (jhwang@tavon.org),http://github.com/tavon
-# by Yonghwan SO(please insert your email), last update at 2009-09-11
-# by Ki Won Kim(xyz37@naver.com, http://xyz37.blog.me, https://x10.mine.nu/redmine), last update at 2012-02-01
-# last update at 2012-02-02 by Ki Won Kim
 ko:
   direction: ltr
   date:
