@@ -1015,3 +1015,4 @@ bg:
   description_date_range_interval: Изберете диапазон чрез задаване на начална и крайна дати
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
+  setting_commit_cross_project_ref: Allow issues of all the other projects to be referenced and fixed

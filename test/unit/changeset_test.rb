@@ -192,6 +192,36 @@ class ChangesetTest < ActiveSupport::TestCase
     assert c.issues.first.project != c.project
   end
 
+  def test_commit_referencing_a_project_with_commit_cross_project_ref_disabled
+    r = Repository::Subversion.create!(
+          :project => Project.find(3),
+          :url     => 'svn://localhost/test')
+          
+    with_settings :commit_cross_project_ref => '0' do
+      c = Changeset.new(:repository   => r,
+                        :committed_on => Time.now,
+                        :comments     => 'refs #4, an issue of a different project',
+                        :revision     => '12345')
+      assert c.save
+      assert_equal [], c.issue_ids
+    end
+  end
+
+  def test_commit_referencing_a_project_with_commit_cross_project_ref_enabled
+    r = Repository::Subversion.create!(
+          :project => Project.find(3),
+          :url     => 'svn://localhost/test')
+          
+    with_settings :commit_cross_project_ref => '1' do
+      c = Changeset.new(:repository   => r,
+                        :committed_on => Time.now,
+                        :comments     => 'refs #4, an issue of a different project',
+                        :revision     => '12345')
+      assert c.save
+      assert_equal [4], c.issue_ids
+    end
+  end
+
   def test_text_tag_revision
     c = Changeset.new(:revision => '520')
     assert_equal 'r520', c.text_tag

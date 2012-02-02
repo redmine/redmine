@@ -1019,3 +1019,4 @@ en-GB:
   label_item_position: "%{position} of %{count}"
   label_completed_versions: Completed versions
   field_multiple: Multiple values
+  setting_commit_cross_project_ref: Allow issues of all the other projects to be referenced and fixed

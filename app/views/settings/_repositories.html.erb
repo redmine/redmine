@@ -81,6 +81,8 @@
                                                        :label => false %>
 <br /><em><%= l(:text_comma_separated) %></em></p>
 
+<p><%= setting_check_box :commit_cross_project_ref %></p>
+
 <p><%= setting_check_box :commit_logtime_enabled,
                          :onclick =>
                             "if (this.checked) { Form.Element.enable('settings_commit_logtime_activity_id'); } else { Form.Element.disable('settings_commit_logtime_activity_id'); }"%></p>

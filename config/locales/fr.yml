@@ -376,6 +376,7 @@ fr:
   setting_gantt_items_limit: Nombre maximum d'éléments affichés sur le gantt
   setting_issue_group_assignment: Permettre l'assignement des demandes aux groupes
   setting_default_issue_start_date_to_creation_date: Donner à la date de début d'une nouvelle demande la valeur de la date du jour
+  setting_commit_cross_project_ref: Permettre le référencement et la résolution des demandes de tous les autres projets
 
   permission_add_project: Créer un projet
   permission_add_subprojects: Créer des sous-projets

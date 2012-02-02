@@ -380,6 +380,7 @@ en:
   setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
   setting_issue_group_assignment: Allow issue assignment to groups
   setting_default_issue_start_date_to_creation_date: Use current date as start date for new issues
+  setting_commit_cross_project_ref: Allow issues of all the other projects to be referenced and fixed
 
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects

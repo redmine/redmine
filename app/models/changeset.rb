@@ -187,11 +187,13 @@ class Changeset < ActiveRecord::Base
   private
 
   # Finds an issue that can be referenced by the commit message
-  # i.e. an issue that belong to the repository project, a subproject or a parent project
   def find_referenced_issue_by_id(id)
     return nil if id.blank?
     issue = Issue.find_by_id(id.to_i, :include => :project)
-    if issue
+    if Setting.commit_cross_project_ref?
+      # all issues can be referenced/fixed
+    elsif issue
+      # issue that belong to the repository project, a subproject or a parent project only
       unless issue.project &&
                 (project == issue.project || project.is_ancestor_of?(issue.project) ||
                  project.is_descendant_of?(issue.project))
