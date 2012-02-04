@@ -173,8 +173,6 @@ class IssuesController < ApplicationController
   def edit
     update_issue_from_params
 
-    @journal = @issue.current_journal
-
     respond_to do |format|
       format.html { }
       format.xml  { }
@@ -193,10 +191,6 @@ class IssuesController < ApplicationController
         format.api  { head :ok }
       end
     else
-      render_attachment_warning_if_needed(@issue)
-      flash[:notice] = l(:notice_successful_update) unless @issue.current_journal.new_record?
-      @journal = @issue.current_journal
-
       respond_to do |format|
         format.html { render :action => 'edit' }
         format.api  { render_validation_errors(@issue) }
