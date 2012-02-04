@@ -329,6 +329,17 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal assigns(:query).columns.size + 2, lines[0].split(',').size
   end
 
+  def test_index_csv_with_spent_time_column
+    issue = Issue.generate!(:project_id => 1, :tracker_id => 1, :subject => 'test_index_csv_with_spent_time_column')
+    TimeEntry.generate!(:project_id => issue.project_id, :issue_id => issue.id, :hours => 7.33)
+
+    get :index, :format => 'csv', :set_filter => '1', :c => %w(subject spent_hours)
+    assert_response :success
+    assert_equal 'text/csv', @response.content_type
+    lines = @response.body.chomp.split("\n")
+    assert_include "#{issue.id},#{issue.subject},7.33", lines
+  end
+
   def test_index_csv_with_all_columns
     get :index, :format => 'csv', :columns => 'all'
     assert_response :success
@@ -433,7 +444,7 @@ class IssuesControllerTest < ActionController::TestCase
                   :set_filter => 1
       assert_equal 'text/csv', @response.content_type
       lines = @response.body.chomp.split("\n")
-      assert_equal "#{issue.id},1234.5,#{str1}", lines[1]
+      assert_equal "#{issue.id},1234.50,#{str1}", lines[1]
 
       str_tw = "Traditional Chinese (\xe7\xb9\x81\xe9\xab\x94\xe4\xb8\xad\xe6\x96\x87)"
       if str_tw.respond_to?(:force_encoding)
@@ -462,7 +473,7 @@ class IssuesControllerTest < ActionController::TestCase
                   :set_filter => 1
       assert_equal 'text/csv', @response.content_type
       lines = @response.body.chomp.split("\n")
-      assert_equal "#{issue.id};1234,5;#{str1}", lines[1]
+      assert_equal "#{issue.id};1234,50;#{str1}", lines[1]
 
       str_fr = "Fran\xc3\xa7ais"
       if str_fr.respond_to?(:force_encoding)

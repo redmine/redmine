@@ -329,7 +329,7 @@ module IssuesHelper
             elsif value.is_a?(Time)
               format_time(value)
             elsif value.is_a?(Float)
-              value.to_s.gsub('.', decimal_separator)
+              ("%.2f" % value).gsub('.', decimal_separator)
             else
               value
             end
