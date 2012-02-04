@@ -571,7 +571,7 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
 
       issue = Issue.find(3)
       assert_equal '150', issue.custom_value_for(2).value
-      assert_equal ['MySQL', 'PostgreSQL'], issue.custom_field_value(1)
+      assert_equal ['MySQL', 'PostgreSQL'], issue.custom_field_value(1).sort
     end
   end
 
