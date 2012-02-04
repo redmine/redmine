@@ -256,59 +256,64 @@ module RepositoriesHelper
                      '<br />'.html_safe + l(:text_scm_path_encoding_note))
   end
 
-  def index_commits(commits, heads, href_proc = nil)
+  def index_commits(commits, heads)
     return nil if commits.nil? or commits.first.parents.nil?
-    map  = {}
-    commit_hashes = []
+
     refs_map = {}
-    href_proc ||= Proc.new {|x|x}
-    heads.each{|r| refs_map[r.scmid] ||= []; refs_map[r.scmid] << r}
-    commits.reverse.each_with_index do |c, i|
-      h = {}
-      h[:parents] = c.parents.collect do |p|
-        [p.scmid, 0, 0]
-      end
-      h[:rdmid] = i
-      h[:space] = 0
-      h[:refs]  = refs_map[c.scmid].join(" ") if refs_map.include? c.scmid
-      h[:scmid] = c.scmid
-      h[:href]  = href_proc.call(c.scmid)
-      commit_hashes << h
-      map[c.scmid] = h
+    heads.each do |head|
+      refs_map[head.scmid] ||= []
+      refs_map[head.scmid] << head
     end
-    heads.sort! do |a,b|
-      a.to_s <=> b.to_s
+
+    commits_by_scmid = {}
+    commits.reverse.each_with_index do |commit, commit_index|
+
+      commits_by_scmid[commit.scmid] = {
+        :parent_scmids => commit.parents.collect { |parent| parent.scmid },
+        :rdmid => commit_index,
+        :space => 0,
+        :refs  => refs_map.include?(commit.scmid) ? refs_map[commit.scmid].join(" ") : nil,
+        :scmid => commit.scmid,
+        :href  => block_given? ? yield(commit.scmid) : commit.scmid
+      }
     end
-    j = 0
-    heads.each do |h|
-      if map.include? h.scmid then
-        j = mark_chain(j += 1, map[h.scmid], map)
+
+    heads.sort! { |head1, head2| head1.to_s <=> head2.to_s }
+
+    mark_index = 0
+    heads.each do |head|
+      if commits_by_scmid.include? head.scmid
+        mark_index = mark_chain(mark_index += 1, commits_by_scmid[head.scmid], commits_by_scmid)
       end
     end
     # when no head matched anything use first commit
-    if j == 0 then
-       mark_chain(j += 1, map.values.first, map)
+    if mark_index == 0
+       mark_chain(mark_index += 1, commits_by_scmid.values.first, commits_by_scmid)
     end
-    map
+    commits_by_scmid
   end
 
-  def mark_chain(mark, commit, map)
-    stack = [[mark, commit]]
-    markmax = mark
+  def mark_chain(mark_index, commit, commits_by_scmid)
+
+    stack = [[mark_index, commit]]
+    mark_max_index = mark_index
+
     until stack.empty?
-      current = stack.pop
-      m, commit = current
-      commit[:space] = m  if commit[:space] == 0
-      m1 = m - 1
-      commit[:parents].each_with_index do |p, i|
-        psha = p[0]
-        if map.include? psha  and  map[psha][:space] == 0 then
-          stack << [m1 += 1, map[psha]] if i == 0
-          stack = [[m1 += 1, map[psha]]] + stack if i > 0
+      mark_index, commit = stack.pop
+      commit[:space] = mark_index if commit[:space] == 0
+
+      mark_index -=1
+      commit[:parent_scmids].each_with_index do |parent_scmid, parent_index|
+
+        parent_commit = commits_by_scmid[parent_scmid]
+
+        if parent_commit and parent_commit[:space] == 0
+
+          stack.unshift [mark_index += 1, parent_commit]
         end
       end
-      markmax = m1 if markmax < m1
+      mark_max_index = mark_index if mark_max_index < mark_index
     end
-    markmax
+    mark_max_index
   end
 end

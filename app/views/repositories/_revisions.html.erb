@@ -24,18 +24,18 @@
 <% if show_revision_graph %>
   <% if line_num == 1 %>
     <td class="revision_graph" rowspan="<%= revisions.size %>">
-      <% href_base = Proc.new {|x| url_for(:controller => 'repositories',
-                                           :action => 'revision',
-                                           :id => project,
-                                           :repository_id => @repository.identifier_param,
-                                           :rev => x) } %>
       <%= render :partial => 'revision_graph',
                  :locals => {
                     :commits => index_commits(
-                                         revisions,
-                                         @repository.branches,
-                                         href_base
-                                            )
+                                 revisions,
+                                 @repository.branches) do |scmid|
+                                     url_for(
+                                       :controller => 'repositories',
+                                       :action => 'revision',
+                                       :id => project,
+                                       :repository_id => @repository.identifier_param,
+                                       :rev => scmid)
+                                end
                     } %>
     </td>
   <% end %>
