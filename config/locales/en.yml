@@ -172,6 +172,7 @@ en:
   notice_issue_done_ratios_updated: Issue done ratios updated.
   notice_gantt_chart_truncated: "The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})"
   notice_issue_successful_create: "Issue %{id} created."
+  notice_issue_update_conflict: "The issue has been updated by an other user while you were editing it."
 
   error_can_t_load_default_data: "Default configuration could not be loaded: %{value}"
   error_scm_not_found: "The entry or revision was not found in the repository."
@@ -971,6 +972,9 @@ en:
   text_scm_command_version: Version
   text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.
   text_scm_command_not_available: Scm command is not available. Please check settings on the administration panel.
+  text_issue_conflict_resolution_overwrite: "Apply my changes anyway (previous notes will be kept but some changes may be overwritten)"
+  text_issue_conflict_resolution_add_notes: "Add my notes and discard my other changes"
+  text_issue_conflict_resolution_cancel: "Discard all my changes and redisplay %{link}"
 
   default_role_manager: Manager
   default_role_developer: Developer

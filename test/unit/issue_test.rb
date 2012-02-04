@@ -1237,6 +1237,13 @@ class IssueTest < ActiveSupport::TestCase
 
       assert !@issue.recipients.include?(@issue.assigned_to.mail)
     end
+  end
 
+  def test_last_journal_id_with_journals_should_return_the_journal_id
+    assert_equal 2, Issue.find(1).last_journal_id
+  end
+
+  def test_last_journal_id_without_journals_should_return_nil
+    assert_nil Issue.find(3).last_journal_id
   end
 end

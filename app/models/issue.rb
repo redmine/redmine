@@ -436,6 +436,15 @@ class Issue < ActiveRecord::Base
     @current_journal
   end
 
+  # Returns the id of the last journal or nil
+  def last_journal_id
+    if new_record?
+      nil
+    else
+      journals.first(:order => "#{Journal.table_name}.id DESC").try(:id)
+    end
+  end
+
   # Return true if the issue is closed, otherwise false
   def closed?
     self.status.is_closed?
@@ -692,8 +701,7 @@ class Issue < ActiveRecord::Base
           end
         rescue ActiveRecord::StaleObjectError
           attachments[:files].each(&:destroy)
-          errors.add :base, l(:notice_locking_conflict)
-          raise ActiveRecord::Rollback
+          raise ActiveRecord::StaleObjectError
         end
       end
     end

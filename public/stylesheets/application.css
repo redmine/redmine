@@ -518,7 +518,7 @@ input#principal_search, input#user_search {width:100%}
 * html div#tab-content-members fieldset div { height: 450px; }
 
 /***** Flash & error messages ****/
-#errorExplanation, div.flash, .nodata, .warning {
+#errorExplanation, div.flash, .nodata, .warning, .conflict {
     padding: 4px 4px 4px 30px;
     margin-bottom: 12px;
     font-size: 1.1em;
@@ -541,7 +541,7 @@ div.flash.notice {
     color: #005f00;
 }
 
-div.flash.warning {
+div.flash.warning, .conflict {
     background: url(../images/warning.png) 8px 5px no-repeat;
     background-color: #FFEBC1;
     border-color: #FDBF3B;
@@ -560,6 +560,8 @@ span.error {padding-left:20px; background:url(../images/exclamation.png) no-repe
 
 #errorExplanation ul { font-size: 0.9em;}
 #errorExplanation h2, #errorExplanation p { display: none; }
+
+.conflict-details {font-size:80%;}
 
 /***** Ajax indicator ******/
 #ajax-indicator {
