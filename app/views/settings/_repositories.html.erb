@@ -1,6 +1,7 @@
 <% form_tag({:action => 'edit', :tab => 'repositories'}) do %>
 
 <fieldset class="box settings enabled_scm">
+<%= hidden_field_tag 'settings[enabled_scm][]', '' %>
 <legend><%= l(:setting_enabled_scm) %></legend>
 <table>
   <tr>

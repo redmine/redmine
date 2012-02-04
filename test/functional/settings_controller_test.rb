@@ -42,6 +42,8 @@ class SettingsControllerTest < ActionController::TestCase
     get :edit
     assert_response :success
     assert_template 'edit'
+
+    assert_tag 'input', :attributes => {:name => 'settings[enabled_scm][]', :value => ''}
   end
 
   def test_post_edit_notifications
