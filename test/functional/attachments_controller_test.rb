@@ -95,6 +95,21 @@ class AttachmentsControllerTest < ActionController::TestCase
     set_tmp_attachments_directory
   end
 
+  def test_save_diff_type
+    @request.session[:user_id] = 1 # admin
+    user = User.find(1)
+    get :show, :id => 5
+    assert_response :success
+    assert_template 'diff'
+    user.reload
+    assert_equal "inline", user.pref[:diff_type]
+    get :show, :id => 5, :type => 'sbs'
+    assert_response :success
+    assert_template 'diff'
+    user.reload
+    assert_equal "sbs", user.pref[:diff_type]
+  end
+
   def test_show_text_file
     get :show, :id => 4
     assert_response :success
