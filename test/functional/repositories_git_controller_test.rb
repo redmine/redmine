@@ -313,6 +313,26 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       end
     end
 
+    def test_save_diff_type
+      @request.session[:user_id] = 1 # admin
+      user = User.find(1)
+      get :diff,
+          :id   => PRJ_ID,
+          :rev  => '2f9c0091c754a91af7a9c478e36556b4bde8dcf7'
+      assert_response :success
+      assert_template 'diff'
+      user.reload
+      assert_equal "inline", user.pref[:diff_type]
+      get :diff,
+          :id   => PRJ_ID,
+          :rev  => '2f9c0091c754a91af7a9c478e36556b4bde8dcf7',
+          :type => 'sbs'
+      assert_response :success
+      assert_template 'diff'
+      user.reload
+      assert_equal "sbs", user.pref[:diff_type]
+    end
+
     def test_annotate
       get :annotate, :id => PRJ_ID, :path => ['sources', 'watchers_controller.rb']
       assert_response :success
