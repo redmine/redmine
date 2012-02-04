@@ -56,6 +56,10 @@ class Version < ActiveRecord::Base
     effective_date
   end
 
+  def due_date=(arg)
+    self.effective_date=(arg)
+  end
+
   # Returns the total estimated time for this version
   # (sum of leaves estimated_hours)
   def estimated_hours
