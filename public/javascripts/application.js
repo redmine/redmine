@@ -187,7 +187,7 @@ function addFileField() {
   var fields = $('attachments_fields');
   if (fields.childElements().length >= 10) return false;
   fileFieldCount++;
-  var s = document.createElement("span");
+  var s = new Element('span');
   s.update(fields.down('span').innerHTML);
   s.down('input.file').name = "attachments[" + fileFieldCount + "][file]";
   s.down('input.description').name = "attachments[" + fileFieldCount + "][description]";
