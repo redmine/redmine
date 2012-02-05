@@ -167,6 +167,9 @@ class AccountControllerTest < ActionController::TestCase
       assert_response :success
       assert_template 'register'
       assert_not_nil assigns(:user)
+
+      assert_tag 'input', :attributes => {:name => 'user[password]'}
+      assert_tag 'input', :attributes => {:name => 'user[password_confirmation]'}
     end
   end
 
@@ -193,6 +196,10 @@ class AccountControllerTest < ActionController::TestCase
       end
       user = User.first(:order => 'id DESC')
       assert_equal 'register', user.login
+      assert_equal 'John', user.firstname
+      assert_equal 'Doe', user.lastname
+      assert_equal 'register@example.com', user.mail
+      assert user.check_password?('test')
       assert user.active?
     end
   end

@@ -103,8 +103,8 @@ class AccountTest < ActionController::IntegrationTest
     assert_response :success
     assert_template 'account/register'
 
-    post 'account/register', :user => {:login => "newuser", :language => "en", :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar"},
-                             :password => "newpass", :password_confirmation => "newpass"
+    post 'account/register', :user => {:login => "newuser", :language => "en", :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar",
+                             :password => "newpass", :password_confirmation => "newpass"}
     assert_redirected_to '/my/account'
     follow_redirect!
     assert_response :success
@@ -119,8 +119,8 @@ class AccountTest < ActionController::IntegrationTest
   def test_register_with_manual_activation
     Setting.self_registration = '2'
 
-    post 'account/register', :user => {:login => "newuser", :language => "en", :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar"},
-                             :password => "newpass", :password_confirmation => "newpass"
+    post 'account/register', :user => {:login => "newuser", :language => "en", :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar",
+                             :password => "newpass", :password_confirmation => "newpass"}
     assert_redirected_to '/login'
     assert !User.find_by_login('newuser').active?
   end
@@ -129,8 +129,8 @@ class AccountTest < ActionController::IntegrationTest
     Setting.self_registration = '1'
     Token.delete_all
 
-    post 'account/register', :user => {:login => "newuser", :language => "en", :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar"},
-                             :password => "newpass", :password_confirmation => "newpass"
+    post 'account/register', :user => {:login => "newuser", :language => "en", :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar",
+                             :password => "newpass", :password_confirmation => "newpass"}
     assert_redirected_to '/login'
     assert !User.find_by_login('newuser').active?
 
