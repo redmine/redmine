@@ -20,20 +20,20 @@ require File.expand_path('../../../test_helper', __FILE__)
 class RoutingMembersTest < ActionController::IntegrationTest
   def test_members
     assert_routing(
-        { :method => 'post', :path => "/projects/5234/members/new" },
-        { :controller => 'members', :action => 'new', :id => '5234' }
+        { :method => 'post', :path => "/projects/5234/memberships" },
+        { :controller => 'members', :action => 'create', :project_id => '5234' }
       )
     assert_routing(
-        { :method => 'post', :path => "/members/edit/5234" },
-        { :controller => 'members', :action => 'edit', :id => '5234' }
+        { :method => 'put', :path => "/memberships/5234" },
+        { :controller => 'members', :action => 'update', :id => '5234' }
       )
     assert_routing(
-        { :method => 'post', :path => "/members/destroy/5234" },
+        { :method => 'delete', :path => "/memberships/5234" },
         { :controller => 'members', :action => 'destroy', :id => '5234' }
       )
     assert_routing(
-        { :method => 'post', :path => "/members/autocomplete_for_member/5234" },
-        { :controller => 'members', :action => 'autocomplete_for_member', :id => '5234' }
+        { :method => 'get', :path => "/projects/5234/memberships/autocomplete" },
+        { :controller => 'members', :action => 'autocomplete', :project_id => '5234' }
       )
   end
 end
