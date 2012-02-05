@@ -1,5 +1,5 @@
 
-function branchGraph(holder, commits_hash) {
+function revisionGraph(holder, commits_hash) {
 
     var LEFT_PADDING = 3,
         TOP_PADDING = 10,

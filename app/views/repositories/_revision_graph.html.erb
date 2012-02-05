@@ -3,7 +3,7 @@
 
 <script type="text/javascript" charset="utf-8">
   Event.observe(window, 'load', function(){
-    branchGraph(
+    revisionGraph(
         document.getElementById("holder"),
         <%= commits.to_json.html_safe %>);
   });
