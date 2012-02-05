@@ -553,7 +553,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     to_test.each do |attrs, expected|
       user = MailHandler.new_user_from_attributes(attrs.first, attrs.last)
 
-      assert user.valid?, user.errors.full_messages
+      assert user.valid?, user.errors.full_messages.to_s
       assert_equal attrs.first, user.mail
       assert_equal expected[0], user.login
       assert_equal expected[1], user.firstname
