@@ -58,6 +58,16 @@ class UserTest < ActiveSupport::TestCase
                  u.errors[:mail].to_s
   end
 
+  def test_login_length_validation
+    user = User.new(:firstname => "new", :lastname => "user", :mail => "newuser@somenet.foo")
+    user.login = "x" * (User::LOGIN_LENGTH_LIMIT+1)
+    assert !user.valid?
+
+    user.login = "x" * (User::LOGIN_LENGTH_LIMIT)
+    assert user.valid?
+    assert user.save
+  end
+
   def test_create
     user = User.new(:firstname => "new", :lastname => "user", :mail => "newuser@somenet.foo")
 

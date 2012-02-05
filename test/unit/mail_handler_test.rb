@@ -547,14 +547,13 @@ class MailHandlerTest < ActiveSupport::TestCase
       ['jsmith@example.net', 'John Smith'] => ['jsmith@example.net', 'John', 'Smith'],
       ['jsmith@example.net', 'John Paul Smith'] => ['jsmith@example.net', 'John', 'Paul Smith'],
       ['jsmith@example.net', 'AVeryLongFirstnameThatExceedsTheMaximumLength Smith'] => ['jsmith@example.net', 'AVeryLongFirstnameThatExceedsT', 'Smith'],
-      ['jsmith@example.net', 'John AVeryLongLastnameThatExceedsTheMaximumLength'] => ['jsmith@example.net', 'John', 'AVeryLongLastnameThatExceedsTh'],
-      ['alongemailaddressthatexceedsloginlength@example.net', 'John Smith'] => ['alongemailaddressthatexceedslo', 'John', 'Smith']
+      ['jsmith@example.net', 'John AVeryLongLastnameThatExceedsTheMaximumLength'] => ['jsmith@example.net', 'John', 'AVeryLongLastnameThatExceedsTh']
     }
 
     to_test.each do |attrs, expected|
       user = MailHandler.new_user_from_attributes(attrs.first, attrs.last)
 
-      assert user.valid?
+      assert user.valid?, user.errors.full_messages
       assert_equal attrs.first, user.mail
       assert_equal expected[0], user.login
       assert_equal expected[1], user.firstname
@@ -571,12 +570,10 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_new_user_from_attributes_should_use_default_login_if_invalid
-    MailHandler.new_user_from_attributes('alongemailaddressthatexceedsloginlength-1@example.net').save!
-
-    # another long address that would result in duplicate login
-    user = MailHandler.new_user_from_attributes('alongemailaddressthatexceedsloginlength-2@example.net')
+    user = MailHandler.new_user_from_attributes('foo+bar@example.net')
     assert user.valid?
     assert user.login =~ /^user[a-f0-9]+$/
+    assert_equal 'foo+bar@example.net', user.mail
   end
 
   private

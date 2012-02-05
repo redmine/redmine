@@ -347,8 +347,8 @@ class MailHandler < ActionMailer::Base
     @full_sanitizer ||= HTML::FullSanitizer.new
   end
 
-  def self.assign_string_attribute_with_limit(object, attribute, value)
-    limit = object.class.columns_hash[attribute.to_s].limit || 255
+  def self.assign_string_attribute_with_limit(object, attribute, value, limit=nil)
+    limit ||= object.class.columns_hash[attribute.to_s].limit || 255
     value = value.to_s.slice(0, limit)
     object.send("#{attribute}=", value)
   end
@@ -359,7 +359,7 @@ class MailHandler < ActionMailer::Base
 
     # Truncating the email address would result in an invalid format
     user.mail = email_address
-    assign_string_attribute_with_limit(user, 'login', email_address)
+    assign_string_attribute_with_limit(user, 'login', email_address, User::LOGIN_LENGTH_LIMIT)
 
     names = fullname.blank? ? email_address.gsub(/@.*$/, '').split('.') : fullname.split
     assign_string_attribute_with_limit(user, 'firstname', names.shift)

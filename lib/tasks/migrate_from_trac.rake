@@ -231,7 +231,7 @@ namespace :redmine do
         u = User.find_by_login(username)
         if !u
           # Create a new user if not found
-          mail = username[0,limit_for(User, 'mail')]
+          mail = username[0, User::MAIL_LENGTH_LIMIT]
           if mail_attr = TracSessionAttribute.find_by_sid_and_name(username, 'email')
             mail = mail_attr.value
           end
@@ -249,7 +249,7 @@ namespace :redmine do
                        :firstname => fn[0, limit_for(User, 'firstname')],
                        :lastname => ln[0, limit_for(User, 'lastname')]
 
-          u.login = username[0,limit_for(User, 'login')].gsub(/[^a-z0-9_\-@\.]/i, '-')
+          u.login = username[0, User::LOGIN_LENGTH_LIMIT].gsub(/[^a-z0-9_\-@\.]/i, '-')
           u.password = 'trac'
           u.admin = true if TracPermission.find_by_username_and_action(username, 'admin')
           # finally, a default user is used if the new user is not valid
