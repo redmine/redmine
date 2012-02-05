@@ -12,7 +12,9 @@
 <% @changeset.issues.visible.each do |issue| %>
   <li id="<%= "related-issue-#{issue.id}" %>"><%= link_to_issue issue %>
     <%= link_to_remote(image_tag('link_break.png'), 
-      {:url => {:controller => 'repositories', :action => 'remove_related_issue', :id => @project, :repository_id => @repository.identifier_param, :rev => @changeset.identifier, :issue_id => issue},
+      {:url => {:controller => 'repositories', :action => 'remove_related_issue',
+                :id => @project, :repository_id => @repository.identifier_param,
+                :rev => @changeset.identifier, :issue_id => issue},
        :method => :delete,
       }, :title => l(:label_relation_delete)) if manage_allowed %>
 
@@ -22,7 +24,9 @@
 
 <% if manage_allowed %>
   <% remote_form_for(:issue, @issue, 
-       :url => {:controller => 'repositories', :action => 'add_related_issue', :id => @project, :repository_id => @repository.identifier_param, :rev => @changeset.identifier},
+       :url => {:controller => 'repositories', :action => 'add_related_issue',
+                :id => @project, :repository_id => @repository.identifier_param,
+                :rev => @changeset.identifier},
        :method => :post,
        :complete => "Form.Element.focus('issue_id');",
        :html => {:id => 'new-relation-form', :style => (@issue ? '' : 'display: none;')}) do |f| %>
