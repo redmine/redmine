@@ -399,6 +399,8 @@ ul.projects div.root a.project { font-family: "Trebuchet MS", Verdana, sans-seri
 #tracker_project_ids ul { margin: 0;  padding-left: 1em; }
 #tracker_project_ids li { list-style-type:none; }
 
+#related-issues li img {vertical-align:middle;}
+
 ul.properties {padding:0; font-size: 0.9em; color: #777;}
 ul.properties li {list-style-type:none;}
 ul.properties li span {font-style:italic;}

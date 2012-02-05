@@ -436,6 +436,7 @@ fr:
   permission_export_wiki_pages: Exporter les pages
   permission_manage_project_activities: Gérer les activités
   permission_manage_subtasks: Gérer les sous-tâches
+  permission_manage_related_issues: Gérer les demandes associées
 
   project_module_issue_tracking: Suivi des demandes
   project_module_time_tracking: Suivi du temps passé

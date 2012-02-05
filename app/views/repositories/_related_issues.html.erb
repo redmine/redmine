@@ -1,0 +1,34 @@
+<% manage_allowed = User.current.allowed_to?(:manage_related_issues, @repository.project) %>
+
+<div id="related-issues">
+<% if manage_allowed %>
+  <div class="contextual">
+    <%= toggle_link l(:button_add), 'new-relation-form', {:focus => 'issue_id'} %>
+  </div>
+<% end %>
+
+<h3><%= l(:label_related_issues) %></h3>
+<ul>
+<% @changeset.issues.visible.each do |issue| %>
+  <li id="<%= "related-issue-#{issue.id}" %>"><%= link_to_issue issue %>
+    <%= link_to_remote(image_tag('link_break.png'), 
+      {:url => {:controller => 'repositories', :action => 'remove_related_issue', :id => @project, :repository_id => @repository.identifier_param, :rev => @changeset.identifier, :issue_id => issue},
+       :method => :delete,
+      }, :title => l(:label_relation_delete)) if manage_allowed %>
+
+  </li>
+<% end %>
+</ul>
+
+<% if manage_allowed %>
+  <% remote_form_for(:issue, @issue, 
+       :url => {:controller => 'repositories', :action => 'add_related_issue', :id => @project, :repository_id => @repository.identifier_param, :rev => @changeset.identifier},
+       :method => :post,
+       :complete => "Form.Element.focus('issue_id');",
+       :html => {:id => 'new-relation-form', :style => (@issue ? '' : 'display: none;')}) do |f| %>
+  <%= l(:label_issue) %> #<%= text_field_tag 'issue_id', '', :size => 10 %>
+  <%= submit_tag l(:button_add) %>
+  <%= toggle_link l(:button_cancel), 'new-relation-form'%>
+  <% end %>
+<% end %>
+</div>

@@ -53,6 +53,7 @@ roles_001:
     - :browse_repository
     - :manage_repository
     - :view_changesets
+    - :manage_related_issues
     - :manage_project_activities
 
   position: 1

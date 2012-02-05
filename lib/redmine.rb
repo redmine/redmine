@@ -128,6 +128,7 @@ Redmine::AccessControl.map do |map|
     map.permission :browse_repository, :repositories => [:show, :browse, :entry, :annotate, :changes, :diff, :stats, :graph]
     map.permission :view_changesets, :repositories => [:show, :revisions, :revision]
     map.permission :commit_access, {}
+    map.permission :manage_related_issues, {:repositories => [:add_related_issue, :remove_related_issue]}
   end
 
   map.project_module :boards do |map|

@@ -160,6 +160,38 @@ class RepositoriesControllerTest < ActionController::TestCase
     }
   end
 
+  def test_add_related_issue
+    @request.session[:user_id] = 2
+    assert_difference 'Changeset.find(103).issues.size' do
+      post :add_related_issue, :id => 1, :rev => 4, :issue_id => 2
+      assert_response :success
+    end
+    assert_select_rjs :replace_html, 'related-issues'
+    assert_equal [2], Changeset.find(103).issue_ids
+  end
+
+  def test_add_related_issue_with_invalid_issue_id
+    @request.session[:user_id] = 2
+    assert_no_difference 'Changeset.find(103).issues.size' do
+      post :add_related_issue, :id => 1, :rev => 4, :issue_id => 9999
+      assert_response :success
+    end
+    assert_include 'alert("Issue is invalid")', @response.body
+  end
+
+  def test_remove_related_issue
+    Changeset.find(103).issues << Issue.find(1)
+    Changeset.find(103).issues << Issue.find(2)
+
+    @request.session[:user_id] = 2
+    assert_difference 'Changeset.find(103).issues.size', -1 do
+      delete :remove_related_issue, :id => 1, :rev => 4, :issue_id => 2
+      assert_response :success
+    end
+    assert_select_rjs :remove, 'related-issue-2'
+    assert_equal [1], Changeset.find(103).issue_ids
+  end
+
   def test_graph_commits_per_month
     get :graph, :id => 1, :graph => 'commits_per_month'
     assert_response :success

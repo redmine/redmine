@@ -73,7 +73,8 @@ module Redmine
                                                       :manage_files,
                                                       :browse_repository,
                                                       :view_changesets,
-                                                      :commit_access]
+                                                      :commit_access,
+                                                      :manage_related_issues]
 
             reporter = Role.create! :name => l(:default_role_reporter),
                                     :position => 3,

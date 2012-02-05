@@ -184,8 +184,6 @@ class Changeset < ActiveRecord::Base
                   :from_revision => change[:from_revision])
   end
 
-  private
-
   # Finds an issue that can be referenced by the commit message
   def find_referenced_issue_by_id(id)
     return nil if id.blank?
@@ -202,6 +200,8 @@ class Changeset < ActiveRecord::Base
     end
     issue
   end
+
+  private
 
   def fix_issue(issue)
     status = IssueStatus.find_by_id(Setting.commit_fix_status_id.to_i)

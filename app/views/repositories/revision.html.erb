@@ -64,13 +64,8 @@
 
 <%= textilizable @changeset.comments %>
 
-<% if @changeset.issues.visible.any? %>
-<h3><%= l(:label_related_issues) %></h3>
-<ul>
-<% @changeset.issues.visible.each do |issue| %>
-  <li><%= link_to_issue issue %></li>
-<% end %>
-</ul>
+<% if @changeset.issues.visible.any? || User.current.allowed_to?(:manage_related_issues, @repository.project) %>
+  <%= render :partial => 'related_issues' %>
 <% end %>
 
 <% if User.current.allowed_to?(:browse_repository, @project) %>

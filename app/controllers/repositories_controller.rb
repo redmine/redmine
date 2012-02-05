@@ -30,6 +30,7 @@ class RepositoriesController < ApplicationController
   before_filter :find_project_by_project_id, :only => [:new, :create]
   before_filter :find_repository, :only => [:edit, :update, :destroy, :committers]
   before_filter :find_project_repository, :except => [:new, :create, :edit, :update, :destroy, :committers]
+  before_filter :find_changeset, :only => [:revision, :add_related_issue, :remove_related_issue]
   before_filter :authorize
   accept_rss_auth :revisions
 
@@ -185,16 +186,56 @@ class RepositoriesController < ApplicationController
   end
 
   def revision
-    raise ChangesetNotFound if @rev.blank?
-    @changeset = @repository.find_changeset_by_name(@rev)
-    raise ChangesetNotFound unless @changeset
-
     respond_to do |format|
       format.html
       format.js {render :layout => false}
     end
-  rescue ChangesetNotFound
-    show_error_not_found
+  end
+
+  # Adds a related issue to a changeset
+  # POST /projects/:project_id/repository/(:repository_id/)revisions/:rev/issues
+  def add_related_issue
+    @issue = @changeset.find_referenced_issue_by_id(params[:issue_id])
+    if @issue && (!@issue.visible? || @changeset.issues.include?(@issue))
+      @issue = nil
+    end
+
+    if @issue
+      @changeset.issues << @issue
+      respond_to do |format|
+        format.js {
+          render :update do |page|
+            page.replace_html "related-issues", :partial => "related_issues"
+            page.visual_effect :highlight, "related-issue-#{@issue.id}"
+          end
+        }
+      end
+    else
+      respond_to do |format|
+        format.js {
+          render :update do |page|
+            page.alert(l(:label_issue) + ' ' + l('activerecord.errors.messages.invalid'))
+          end
+        }
+      end
+    end
+  end
+
+  # Removes a related issue from a changeset
+  # DELETE /projects/:project_id/repository/(:repository_id/)revisions/:rev/issues/:issue_id
+  def remove_related_issue
+    @issue = Issue.visible.find_by_id(params[:issue_id])
+    if @issue 
+      @changeset.issues.delete(@issue)
+    end
+
+    respond_to do |format|
+      format.js {
+        render :update do |page|
+          page.remove "related-issue-#{@issue.id}"
+        end if @issue
+      }
+    end
   end
 
   def diff
@@ -280,6 +321,13 @@ class RepositoriesController < ApplicationController
     render_404
   rescue InvalidRevisionParam
     show_error_not_found
+  end
+
+  def find_changeset
+    if @rev.present?
+      @changeset = @repository.find_changeset_by_name(@rev)
+    end
+    show_error_not_found unless @changeset
   end
 
   def show_error_not_found

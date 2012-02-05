@@ -250,6 +250,10 @@ ActionController::Routing::Routes.draw do |map|
                                :action => 'revisions'
       repository_views.connect 'projects/:id/repository/:repository_id/revisions/:rev',
                                :action => 'revision'
+      repository_views.connect 'projects/:id/repository/:repository_id/revisions/:rev/issues',
+                                :action => 'add_related_issue', :conditions => {:method => :post}
+      repository_views.connect 'projects/:id/repository/:repository_id/revisions/:rev/issues/:issue_id',
+                                :action => 'remove_related_issue', :conditions => {:method => :delete}
       repository_views.connect 'projects/:id/repository/:repository_id/revisions/:rev/diff',
                                :action => 'diff'
       repository_views.connect 'projects/:id/repository/:repository_id/revisions/:rev/diff.:format',
@@ -272,6 +276,10 @@ ActionController::Routing::Routes.draw do |map|
                                :action => 'revisions'
       repository_views.connect 'projects/:id/repository/revisions/:rev',
                                :action => 'revision'
+      repository_views.connect 'projects/:id/repository/revisions/:rev/issues',
+                                :action => 'add_related_issue', :conditions => {:method => :post}
+      repository_views.connect 'projects/:id/repository/revisions/:rev/issues/:issue_id',
+                                :action => 'remove_related_issue', :conditions => {:method => :delete}
       repository_views.connect 'projects/:id/repository/revisions/:rev/diff',
                                :action => 'diff'
       repository_views.connect 'projects/:id/repository/revisions/:rev/diff.:format',

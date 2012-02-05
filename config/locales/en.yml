@@ -440,6 +440,7 @@ en:
   permission_delete_own_messages: Delete own messages
   permission_export_wiki_pages: Export wiki pages
   permission_manage_subtasks: Manage subtasks
+  permission_manage_related_issues: Manage related issues
 
   project_module_issue_tracking: Issue tracking
   project_module_time_tracking: Time tracking
