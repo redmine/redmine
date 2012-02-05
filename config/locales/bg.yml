@@ -172,6 +172,7 @@ bg:
   notice_issue_done_ratios_updated: Обновен процент на завършените задачи.
   notice_gantt_chart_truncated: Мрежовият график е съкратен, понеже броят на обектите, които могат да бъдат показани е твърде голям (%{max})
   notice_issue_successful_create: Задача %{id} е създадена.
+  notice_issue_update_conflict: Задачата е била променена от друг потребител, докато вие сте я редактирали.
 
   error_can_t_load_default_data: "Грешка при зареждане на примерната информация: %{value}"
   error_scm_not_found: Несъществуващ обект в хранилището.
@@ -380,6 +381,7 @@ bg:
   setting_gantt_items_limit: Максимален брой обекти, които да се показват в мрежов график
   setting_issue_group_assignment: Разрешено назначаването на задачи на групи
   setting_default_issue_start_date_to_creation_date: Начална дата на новите задачи по подразбиране да бъде днешната дата
+  setting_commit_cross_project_ref: Отбелязване и приключване на задачи от всички други проекти
 
   permission_add_project: Създаване на проект
   permission_add_subprojects: Създаване на подпроекти
@@ -970,6 +972,9 @@ bg:
   text_scm_command_version: Версия
   text_scm_config: Можете да конфигурирате SCM командите в config/configuration.yml. За да активирате промените, рестартирайте Redmine.
   text_scm_command_not_available: SCM командата не е налична или достъпна. Проверете конфигурацията в административния панел.
+  text_issue_conflict_resolution_overwrite: Прилагане на моите промени (предишните коментари ще бъдат запазени, но някои други промени може да бъдат презаписани)
+  text_issue_conflict_resolution_add_notes: Добавяне на моите коментари и отхвърляне на другите мои промени
+  text_issue_conflict_resolution_cancel: Отхвърляне на всички мои промени и презареждане на %{link}
 
   default_role_manager: Мениджър
   default_role_developer: Разработчик
@@ -1015,8 +1020,3 @@ bg:
   description_date_range_interval: Изберете диапазон чрез задаване на начална и крайна дати
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
-  setting_commit_cross_project_ref: Allow issues of all the other projects to be referenced and fixed
-  text_issue_conflict_resolution_add_notes: Add my notes and discard my other changes
-  text_issue_conflict_resolution_overwrite: Apply my changes anyway (previous notes will be kept but some changes may be overwritten)
-  notice_issue_update_conflict: The issue has been updated by an other user while you were editing it.
-  text_issue_conflict_resolution_cancel: Discard all my changes and redisplay %{link}
