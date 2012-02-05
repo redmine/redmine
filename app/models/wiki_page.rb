@@ -19,6 +19,8 @@ require 'diff'
 require 'enumerator'
 
 class WikiPage < ActiveRecord::Base
+  include Redmine::SafeAttributes
+
   belongs_to :wiki
   has_one :content, :class_name => 'WikiContent', :foreign_key => 'page_id', :dependent => :destroy
   acts_as_attachable :delete_permission => :delete_wiki_pages_attachments
@@ -54,6 +56,9 @@ class WikiPage < ActiveRecord::Base
 
   # Wiki pages that are protected by default
   DEFAULT_PROTECTED_PAGES = %w(sidebar)
+
+  safe_attributes 'parent_id',
+    :if => lambda {|page, user| page.new_record? || user.allowed_to?(:rename_wiki_pages, page.project)}
 
   def initialize(attributes=nil, *args)
     super

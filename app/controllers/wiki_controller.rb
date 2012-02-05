@@ -123,6 +123,7 @@ class WikiController < ApplicationController
   def update
     return render_403 unless editable?
     @page.content = WikiContent.new(:page => @page) if @page.new_record?
+    @page.safe_attributes = params[:wiki_page]
 
     @content = @page.content_for_version(params[:version])
     @content.text = initial_page_content(@page) if @content.text.blank?
@@ -132,11 +133,12 @@ class WikiController < ApplicationController
     if !@page.new_record? && params[:content].present? && @content.text == params[:content][:text]
       attachments = Attachment.attach_files(@page, params[:attachments])
       render_attachment_warning_if_needed(@page)
-      # don't save if text wasn't changed
+      # don't save content if text wasn't changed
+      @page.save
       redirect_to :action => 'show', :project_id => @project, :id => @page.title
       return
     end
-    
+
     @content.comments = params[:content][:comments]
     @text = params[:content][:text]
     if params[:section].present? && Redmine::WikiFormatting.supports_section_edit?
@@ -148,11 +150,8 @@ class WikiController < ApplicationController
       @content.text = @text
     end
     @content.author = User.current
-    if @page.new_record? && params[:page]
-      @page.parent_id = params[:page][:parent_id]
-    end
-    # if page is new @page.save will also save content, but not if page isn't a new record
-    if (@page.new_record? ? @page.save : @content.save)
+    @page.content = @content
+    if @page.save
       attachments = Attachment.attach_files(@page, params[:attachments])
       render_attachment_warning_if_needed(@page)
       call_hook(:controller_wiki_edit_after_save, { :params => params, :page => @page})

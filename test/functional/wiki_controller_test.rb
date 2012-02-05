@@ -124,15 +124,15 @@ class WikiControllerTest < ActionController::TestCase
     get :show, :project_id => 1, :id => 'Unexistent page'
     assert_response :success
     assert_template 'edit'
-    assert_no_tag 'input', :attributes => {:name => 'page[parent_id]'}
   end
 
-  def test_show_unexistent_page_with_parent
+  def test_show_unexistent_page_with_parent_should_preselect_parent
     @request.session[:user_id] = 2
     get :show, :project_id => 1, :id => 'Unexistent page', :parent => 'Another_page'
     assert_response :success
     assert_template 'edit'
-    assert_tag 'input', :attributes => {:name => 'page[parent_id]', :value => '2'}
+    assert_tag 'select', :attributes => {:name => 'wiki_page[parent_id]'},
+      :child => {:tag => 'option', :attributes => {:value => '2', :selected => 'selected'}}
   end
 
   def test_show_should_not_show_history_without_permission
@@ -183,7 +183,7 @@ class WikiControllerTest < ActionController::TestCase
     assert_difference 'WikiPage.count' do
       put :update, :project_id => 1, :id => 'New page',
         :content => {:text => "h1. New page\n\nThis is a new page", :version => 0},
-        :page => {:parent_id => 2}
+        :wiki_page => {:parent_id => 2}
     end
     page = Project.find(1).wiki.find_page('New page')
     assert_equal WikiPage.find(2), page.parent
@@ -250,6 +250,31 @@ class WikiControllerTest < ActionController::TestCase
     assert_equal "my comments", page.content.comments
   end
 
+  def test_update_page_with_parent
+    @request.session[:user_id] = 2
+    assert_no_difference 'WikiPage.count' do
+      assert_no_difference 'WikiContent.count' do
+        assert_difference 'WikiContent::Version.count' do
+          put :update, :project_id => 1,
+            :id => 'Another_page',
+            :content => {
+              :comments => "my comments",
+              :text => "edited",
+              :version => 1
+            },
+            :wiki_page => {:parent_id => '1'}
+        end
+      end
+    end
+    assert_redirected_to '/projects/ecookbook/wiki/Another_page'
+
+    page = Wiki.find(1).pages.find_by_title('Another_page')
+    assert_equal "edited", page.content.text
+    assert_equal 2, page.content.version
+    assert_equal "my comments", page.content.comments
+    assert_equal WikiPage.find(1), page.parent
+  end
+
   def test_update_page_with_failure
     @request.session[:user_id] = 2
     assert_no_difference 'WikiPage.count' do
@@ -273,6 +298,27 @@ class WikiControllerTest < ActionController::TestCase
     assert_tag :tag => 'input', :attributes => {:id => 'content_version', :value => '1'}
   end
 
+  def test_update_page_with_parent_change_only_should_not_create_content_version
+    @request.session[:user_id] = 2
+    assert_no_difference 'WikiPage.count' do
+      assert_no_difference 'WikiContent.count' do
+        assert_no_difference 'WikiContent::Version.count' do
+          put :update, :project_id => 1,
+            :id => 'Another_page',
+            :content => {
+              :comments => '',
+              :text => Wiki.find(1).find_page('Another_page').content.text,
+              :version => 1
+            },
+            :wiki_page => {:parent_id => '1'}
+        end
+      end
+    end
+    page = Wiki.find(1).pages.find_by_title('Another_page')
+    assert_equal 1, page.content.version
+    assert_equal WikiPage.find(1), page.parent
+  end
+
   def test_update_page_with_attachments_only_should_not_create_content_version
     @request.session[:user_id] = 2
     assert_no_difference 'WikiPage.count' do
@@ -291,6 +337,8 @@ class WikiControllerTest < ActionController::TestCase
         end
       end
     end
+    page = Wiki.find(1).pages.find_by_title('Another_page')
+    assert_equal 1, page.content.version
   end
 
   def test_update_stale_page_should_not_raise_an_error
