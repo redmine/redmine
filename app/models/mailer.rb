@@ -41,6 +41,7 @@ class Mailer < ActionMailer::Base
                     'Issue-Author' => issue.author.login
     redmine_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
     message_id issue
+    @author = issue.author
     recipients issue.recipients
     cc(issue.watcher_recipients - @recipients)
     subject "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] (#{issue.status.name}) #{issue.subject}"
@@ -392,6 +393,10 @@ class Mailer < ActionMailer::Base
     if @author.pref[:no_self_notified]
       recipients.delete(@author.mail) if recipients
       cc.delete(@author.mail) if cc
+    end
+
+    if @author.logged?
+      redmine_headers 'Sender' => @author.login
     end
 
     notified_users = [recipients, cc].flatten.compact.uniq

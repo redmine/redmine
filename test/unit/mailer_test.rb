@@ -138,6 +138,14 @@ class MailerTest < ActiveSupport::TestCase
     assert_equal 'auto-generated', mail.header_string('Auto-Submitted')
   end
 
+  def test_email_headers_should_include_sender
+    issue = Issue.find(1)
+    Mailer.deliver_issue_add(issue)
+    mail = ActionMailer::Base.deliveries.last
+    assert_not_nil mail
+    assert_equal issue.author.login, mail.header_string('X-Redmine-Sender')
+  end
+
   def test_plain_text_mail
     Setting.plain_text_mail = 1
     journal = Journal.find(2)
