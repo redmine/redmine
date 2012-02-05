@@ -144,8 +144,6 @@ class AccountTest < ActionController::IntegrationTest
     log_user('newuser', 'newpass')
   end
 
-  if Object.const_defined?(:Mocha)
-
   def test_onthefly_registration
     # disable registration
     Setting.self_registration = '0'
@@ -198,9 +196,5 @@ class AccountTest < ActionController::IntegrationTest
     get '/logout'
     assert_not_equal sid, session[:session_id], "logout should reset session"
     assert_nil session[:user_id]
-  end
-
-  else
-    puts 'Mocha is missing. Skipping tests.'
   end
 end

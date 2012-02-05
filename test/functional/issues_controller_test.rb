@@ -2318,8 +2318,7 @@ class IssuesControllerTest < ActionController::TestCase
          :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
     assert_redirected_to :action => 'show', :id => '1'
     assert_equal '1 file(s) could not be saved.', flash[:warning]
-
-  end if Object.const_defined?(:Mocha)
+  end
 
   def test_put_update_with_no_change
     issue = Issue.find(1)
