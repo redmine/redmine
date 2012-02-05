@@ -1,8 +1,10 @@
 <%= wiki_page_breadcrumb(@page) %>
 
-<h2><%=h @page.pretty_title %></h2>
+<h2><%= h @page.pretty_title %></h2>
 
-<% form_for :content, @content, :url => {:action => 'update', :id => @page.title}, :html => {:method => :put, :multipart => true, :id => 'wiki_form'} do |f| %>
+<% form_for :content, @content,
+            :url => {:action => 'update', :id => @page.title},
+            :html => {:method => :put, :multipart => true, :id => 'wiki_form'} do |f| %>
 <%= f.hidden_field :version %>
 <% if @section %>
 <%= hidden_field_tag 'section', @section %>
