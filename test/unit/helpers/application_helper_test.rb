@@ -920,6 +920,14 @@ RAW
                  link_to_project(project, {:action => 'settings'}, :class => "project")
   end
 
+  def test_link_to_legacy_project_with_numerical_identifier_should_use_id
+    # numeric identifier are no longer allowed
+    Project.update_all "identifier=25", "id=1"
+
+    assert_equal '<a href="/projects/1">eCookbook</a>',
+                 link_to_project(Project.find(1))
+  end
+
   def test_principals_options_for_select_with_users
     User.current = nil
     users = [User.find(2), User.find(4)]
