@@ -154,7 +154,7 @@ class ApiTest::MembershipsTest < ActionController::IntegrationTest
         should "update membership" do
           assert_not_equal [1,2], Member.find(2).role_ids.sort
           assert_no_difference 'Member.count' do
-            put '/memberships/2.xml', {:membership => {:user_id => 3, :role_ids => [1,266]}}, credentials('jsmith')
+            put '/memberships/2.xml', {:membership => {:user_id => 3, :role_ids => [1,2]}}, credentials('jsmith')
 
             assert_response :ok
           end
