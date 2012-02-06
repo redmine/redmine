@@ -3,7 +3,9 @@ function revisionGraph(holder, commits_hash) {
 
     var LEFT_PADDING = 3,
         TOP_PADDING = 10,
-        XSTEP = YSTEP = 20;
+        XSTEP = 20;
+
+    var YSTEP = $$('tr.changeset')[0].getHeight();
 
     var commits_by_scmid = $H(commits_hash),
         commits = commits_by_scmid.values();
