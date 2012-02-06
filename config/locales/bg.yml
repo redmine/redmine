@@ -381,7 +381,7 @@ bg:
   setting_gantt_items_limit: Максимален брой обекти, които да се показват в мрежов график
   setting_issue_group_assignment: Разрешено назначаването на задачи на групи
   setting_default_issue_start_date_to_creation_date: Начална дата на новите задачи по подразбиране да бъде днешната дата
-  setting_commit_cross_project_ref: Отбелязване и приключване на задачи от всички други проекти
+  setting_commit_cross_project_ref: Отбелязване и приключване на задачи от други проекти, несвързани с конкретното хранилище
 
   permission_add_project: Създаване на проект
   permission_add_subprojects: Създаване на подпроекти
@@ -440,6 +440,7 @@ bg:
   permission_delete_own_messages: Изтриване на собствени съобщения
   permission_export_wiki_pages: Експорт на wiki страници
   permission_manage_subtasks: Управление на подзадачите
+  permission_manage_related_issues: Управление на връзките между задачи и ревизии
 
   project_module_issue_tracking: Тракинг
   project_module_time_tracking: Отделяне на време
@@ -1020,4 +1021,3 @@ bg:
   description_date_range_interval: Изберете диапазон чрез задаване на начална и крайна дати
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
-  permission_manage_related_issues: Manage related issues
