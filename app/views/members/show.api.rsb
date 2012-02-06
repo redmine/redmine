@@ -1,0 +1,14 @@
+api.membership do
+  api.id @member.id
+  api.project :id => @member.project.id, :name => @member.project.name
+  api.__send__ @member.principal.class.name.underscore, :id => @member.principal.id, :name => @member.principal.name
+  api.array :roles do
+    @member.member_roles.each do |member_role|
+      if member_role.role
+        attrs = {:id => member_role.role.id, :name => member_role.role.name}
+        attrs.merge!(:inherited => true) if member_role.inherited_from.present?
+        api.role attrs
+      end 
+    end
+  end
+end

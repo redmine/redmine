@@ -170,7 +170,7 @@ ActionController::Routing::Routes.draw do |map|
     project.resources :repositories, :shallow => true, :except => [:index, :show],
                       :member => {:committers => [:get, :post]}
     project.resources :memberships, :shallow => true, :controller => 'members',
-                      :only => [:create, :update, :destroy],
+                      :only => [:index, :show, :create, :update, :destroy],
                       :collection => {:autocomplete => :get}
 
     project.wiki_start_page 'wiki', :controller => 'wiki', :action => 'show', :conditions => {:method => :get}

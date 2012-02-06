@@ -20,16 +20,36 @@ require File.expand_path('../../../test_helper', __FILE__)
 class RoutingMembersTest < ActionController::IntegrationTest
   def test_members
     assert_routing(
+        { :method => 'get', :path => "/projects/5234/memberships.xml" },
+        { :controller => 'members', :action => 'index', :project_id => '5234', :format => 'xml' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/memberships/5234.xml" },
+        { :controller => 'members', :action => 'show', :id => '5234', :format => 'xml' }
+      )
+    assert_routing(
         { :method => 'post', :path => "/projects/5234/memberships" },
         { :controller => 'members', :action => 'create', :project_id => '5234' }
+      )
+    assert_routing(
+        { :method => 'post', :path => "/projects/5234/memberships.xml" },
+        { :controller => 'members', :action => 'create', :project_id => '5234', :format => 'xml' }
       )
     assert_routing(
         { :method => 'put', :path => "/memberships/5234" },
         { :controller => 'members', :action => 'update', :id => '5234' }
       )
     assert_routing(
+        { :method => 'put', :path => "/memberships/5234.xml" },
+        { :controller => 'members', :action => 'update', :id => '5234', :format => 'xml' }
+      )
+    assert_routing(
         { :method => 'delete', :path => "/memberships/5234" },
         { :controller => 'members', :action => 'destroy', :id => '5234' }
+      )
+    assert_routing(
+        { :method => 'delete', :path => "/memberships/5234.xml" },
+        { :controller => 'members', :action => 'destroy', :id => '5234', :format => 'xml' }
       )
     assert_routing(
         { :method => 'get', :path => "/projects/5234/memberships/autocomplete" },
