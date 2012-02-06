@@ -24,6 +24,10 @@ class RoutingRolesTest < ActionController::IntegrationTest
         { :controller => 'roles', :action => 'index' }
       )
     assert_routing(
+        { :method => 'get', :path => "/roles.xml" },
+        { :controller => 'roles', :action => 'index', :format => 'xml' }
+      )
+    assert_routing(
         { :method => 'get', :path => "/roles/new" },
         { :controller => 'roles', :action => 'new' }
       )
