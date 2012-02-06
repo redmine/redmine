@@ -26,7 +26,8 @@ for (var k = 0; k < max_space; k++) {
 }
 
 function branchGraph(holder) {
-    var xstep = 20, ystep = 20;
+    var xstep = 20;
+    var ystep = $$('tr.changeset')[0].getHeight();
     var ch, cw;
     cw = max_space * xstep + xstep;
     ch = max_rdmid * ystep + ystep;
