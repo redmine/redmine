@@ -34,8 +34,20 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
       should "return requested user" do
         get '/users/2.xml'
 
+        assert_response :success
         assert_tag :tag => 'user',
           :child => {:tag => 'id', :content => '2'}
+      end
+
+      context "with include=memberships" do
+        should "include memberships" do
+          get '/users/2.xml?include=memberships'
+  
+          assert_response :success
+          assert_tag :tag => 'memberships',
+            :parent => {:tag => 'user'},
+            :children => {:count => 1}
+        end
       end
     end
 
@@ -43,10 +55,26 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
       should "return requested user" do
         get '/users/2.json'
 
+        assert_response :success
         json = ActiveSupport::JSON.decode(response.body)
         assert_kind_of Hash, json
         assert_kind_of Hash, json['user']
         assert_equal 2, json['user']['id']
+      end
+
+      context "with include=memberships" do
+        should "include memberships" do
+          get '/users/2.json?include=memberships'
+  
+          assert_response :success
+          json = ActiveSupport::JSON.decode(response.body)
+          assert_kind_of Array, json['user']['memberships']
+          assert_equal [{
+            "id"=>1,
+            "project"=>{"name"=>"eCookbook", "id"=>1},
+            "roles"=>[{"name"=>"Manager", "id"=>1}]
+          }], json['user']['memberships']
+        end
       end
     end
   end
