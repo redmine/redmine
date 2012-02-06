@@ -1,8 +1,26 @@
 == Redmine changelog
 
 Redmine - project management software
-Copyright (C) 2006-2011  Jean-Philippe Lang
+Copyright (C) 2006-2012  Jean-Philippe Lang
 http://www.redmine.org/
+
+== 2012-02-06 v1.3.1
+
+* Defect #9775: app/views/repository/_revision_graph.html.erb sets window.onload directly..
+* Defect #9792: Ruby 1.9: [v1.3.0] Error: incompatible character encodings for it translation on Calendar page
+* Defect #9793: Bad spacing between numbered list and heading (recently broken).
+* Defect #9795: Unrelated error message when creating a group with an invalid name
+* Defect #9832: Revision graph height should depend on height of rows in revisions table
+* Defect #9937: Repository settings are not saved when all SCM are disabled
+* Defect #9961: Ukrainian "default_tracker_bug" is wrong
+* Defect #10013: Rest API - Create Version -> Internal server error 500
+* Defect #10115: Javascript error - Can't attach more than 1 file on IE 6 and 7
+* Defect #10130: Broken italic text style in edited comment preview
+* Defect #10152: Attachment diff type is not saved in user preference
+* Feature #9943: Arabic translation
+* Patch #9874: pt-BR translation updates
+* Patch #9922: Spanish translation updated
+* Patch #10137: Korean language file ko.yml updated to Redmine 1.3.0
 
 == 2011-12-10 v1.3.0
 
