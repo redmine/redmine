@@ -278,7 +278,7 @@ ru:
   default_tracker_feature: Улучшение
   default_tracker_support: Поддержка
 
-  enumeration_activities: Действия (учет времени)
+  enumeration_activities: Действия (учёт времени)
   enumeration_doc_categories: Категории документов
   enumeration_issue_priorities: Приоритеты задач
 
@@ -293,7 +293,7 @@ ru:
   error_unable_to_connect: Невозможно подключиться (%{value})
   error_unable_delete_issue_status: Невозможно удалить статус задачи
 
-  field_account: Учетная запись
+  field_account: Учётная запись
   field_activity: Деятельность
   field_admin: Администратор
   field_assignable: Задача может быть назначена этой роли
@@ -582,7 +582,7 @@ ru:
   label_month: Месяц
   label_more_than_ago: более, чем дней(я) назад
   label_more: Больше
-  label_my_account: Моя учетная запись
+  label_my_account: Моя учётная запись
   label_my_page: Моя страница
   label_my_page_block: Блок моей страницы
   label_my_projects: Мои проекты
@@ -607,10 +607,10 @@ ru:
   label_open_issues_plural5: открыто
   label_optional_description: Описание (необязательно)
   label_options: Опции
-  label_overall_activity: Сводный отчет действий
+  label_overall_activity: Сводный отчёт действий
   label_overview: Обзор
   label_password_lost: Восстановление пароля
-  label_permissions_report: Отчет по правам доступа
+  label_permissions_report: Отчёт по правам доступа
   label_permissions: Права доступа
   label_per_page: На страницу
   label_personalize_page: Персонализировать данную страницу
@@ -631,23 +631,23 @@ ru:
   label_project_plural2: проекта
   label_project_plural5: проектов
   label_public_projects: Общие проекты
-  label_query: Сохраненный запрос
+  label_query: Сохранённый запрос
   label_query_new: Новый запрос
-  label_query_plural: Сохраненные запросы
+  label_query_plural: Сохранённые запросы
   label_read: Чтение...
   label_register: Регистрация
   label_registered_on: Зарегистрирован(а)
-  label_registration_activation_by_email: активация учетных записей по email
-  label_registration_automatic_activation: автоматическая активация учетных записей
-  label_registration_manual_activation: активировать учетные записи вручную
+  label_registration_activation_by_email: активация учётных записей по email
+  label_registration_automatic_activation: автоматическая активация учётных записей
+  label_registration_manual_activation: активировать учётные записи вручную
   label_related_issues: Связанные задачи
   label_relates_to: связана с
   label_relation_delete: Удалить связь
   label_relation_new: Новое отношение
   label_renamed: переименовано
   label_reply_plural: Ответы
-  label_report: Отчет
-  label_report_plural: Отчеты
+  label_report: Отчёт
+  label_report_plural: Отчёты
   label_reported_issues: Созданные задачи
   label_repository: Хранилище
   label_repository_plural: Хранилища
@@ -666,10 +666,10 @@ ru:
   label_scm: Тип хранилища
   label_search: Поиск
   label_search_titles_only: Искать только в названиях
-  label_send_information: Отправить пользователю информацию по учетной записи
+  label_send_information: Отправить пользователю информацию по учётной записи
   label_send_test_email: Послать email для проверки
   label_settings: Настройки
-  label_show_completed_versions: Показывать завершенные версии
+  label_show_completed_versions: Показывать завершённые версии
   label_sort: Сортировать
   label_sort_by: "Сортировать по %{value}"
   label_sort_higher: Вверх
@@ -689,7 +689,7 @@ ru:
   label_this_month: этот месяц
   label_this_week: на этой неделе
   label_this_year: этот год
-  label_time_tracking: Учет времени
+  label_time_tracking: Учёт времени
   label_timelog_today: Расход времени на сегодня
   label_today: сегодня
   label_topic_plural: Темы
@@ -756,27 +756,27 @@ ru:
   label_year: Год
   label_yesterday: вчера
 
-  mail_body_account_activation_request: "Зарегистрирован новый пользователь (%{value}). Учетная запись ожидает Вашего утверждения:"
-  mail_body_account_information: Информация о Вашей учетной записи
-  mail_body_account_information_external: "Вы можете использовать Вашу %{value} учетную запись для входа."
+  mail_body_account_activation_request: "Зарегистрирован новый пользователь (%{value}). Учётная запись ожидает Вашего утверждения:"
+  mail_body_account_information: Информация о Вашей учётной записи
+  mail_body_account_information_external: "Вы можете использовать Вашу %{value} учётную запись для входа."
   mail_body_lost_password: 'Для изменения пароля пройдите по следующей ссылке:'
-  mail_body_register: 'Для активации учетной записи пройдите по следующей ссылке:'
+  mail_body_register: 'Для активации учётной записи пройдите по следующей ссылке:'
   mail_body_reminder: "%{count} назначенных на Вас задач на следующие %{days} дней:"
   mail_subject_account_activation_request: "Запрос на активацию пользователя в системе %{value}"
   mail_subject_lost_password: "Ваш %{value} пароль"
-  mail_subject_register: "Активация учетной записи %{value}"
+  mail_subject_register: "Активация учётной записи %{value}"
   mail_subject_reminder: "%{count} назначенных на Вас задач в ближайшие %{days} дней"
 
-  notice_account_activated: Ваша учетная запись активирована. Вы можете войти.
+  notice_account_activated: Ваша учётная запись активирована. Вы можете войти.
   notice_account_invalid_creditentials: Неправильное имя пользователя или пароль
   notice_account_lost_email_sent: Вам отправлено письмо с инструкциями по выбору нового пароля.
-  notice_account_password_updated: Пароль успешно обновлен.
-  notice_account_pending: "Ваша учетная запись создана и ожидает подтверждения администратора."
-  notice_account_register_done: Учетная запись успешно создана. Для активации Вашей учетной записи пройдите по ссылке, которая выслана Вам по электронной почте.
+  notice_account_password_updated: Пароль успешно обновлён.
+  notice_account_pending: "Ваша учётная запись создана и ожидает подтверждения администратора."
+  notice_account_register_done: Учётная запись успешно создана. Для активации Вашей учётной записи пройдите по ссылке, которая выслана Вам по электронной почте.
   notice_account_unknown_email: Неизвестный пользователь.
-  notice_account_updated: Учетная запись успешно обновлена.
+  notice_account_updated: Учётная запись успешно обновлена.
   notice_account_wrong_password: Неверный пароль
-  notice_can_t_change_password: Для данной учетной записи используется источник внешней аутентификации. Невозможно изменить пароль.
+  notice_can_t_change_password: Для данной учётной записи используется источник внешней аутентификации. Невозможно изменить пароль.
   notice_default_data_loaded: Была загружена конфигурация по умолчанию.
   notice_email_error: "Во время отправки письма произошла ошибка (%{value})"
   notice_email_sent: "Отправлено письмо %{value}"
@@ -804,18 +804,18 @@ ru:
   permission_delete_messages: Удаление сообщений
   permission_delete_own_messages: Удаление собственных сообщений
   permission_delete_wiki_pages: Удаление wiki-страниц
-  permission_delete_wiki_pages_attachments: Удаление прикрепленных файлов
+  permission_delete_wiki_pages_attachments: Удаление прикреплённых файлов
   permission_edit_issue_notes: Редактирование примечаний
   permission_edit_issues: Редактирование задач
   permission_edit_messages: Редактирование сообщений
   permission_edit_own_issue_notes: Редактирование собственных примечаний
   permission_edit_own_messages: Редактирование собственных сообщений
-  permission_edit_own_time_entries: Редактирование собственного учета времени
+  permission_edit_own_time_entries: Редактирование собственного учёта времени
   permission_edit_project: Редактирование проектов
-  permission_edit_time_entries: Редактирование учета времени
+  permission_edit_time_entries: Редактирование учёта времени
   permission_edit_wiki_pages: Редактирование wiki-страниц
   permission_export_wiki_pages: Экспорт wiki-страниц
-  permission_log_time: Учет затраченного времени
+  permission_log_time: Учёт затраченного времени
   permission_view_changesets: Просмотр изменений хранилища
   permission_view_time_entries: Просмотр затраченного времени
   permission_manage_project_activities: Управление типами действий для проекта
@@ -841,7 +841,7 @@ ru:
   permission_view_files: Просмотр файлов
   permission_view_gantt: Просмотр диаграммы Ганта
   permission_view_issue_watchers: Просмотр списка наблюдателей
-  permission_view_messages: Просмотр сообщение
+  permission_view_messages: Просмотр сообщений
   permission_view_wiki_edits: Просмотр истории Wiki
   permission_view_wiki_pages: Просмотр Wiki
 
@@ -851,7 +851,7 @@ ru:
   project_module_issue_tracking: Задачи
   project_module_news: Новости
   project_module_repository: Хранилище
-  project_module_time_tracking: Учет времени
+  project_module_time_tracking: Учёт времени
   project_module_wiki: Wiki
   project_module_gantt: Диаграмма Ганта
   project_module_calendar: Календарь
@@ -874,7 +874,7 @@ ru:
   setting_diff_max_lines_displayed: Максимальное число строк для diff
   setting_display_subprojects_issues: Отображение подпроектов по умолчанию
   setting_emails_footer: Подстрочные примечания письма
-  setting_enabled_scm: Разрешенные SCM
+  setting_enabled_scm: Включённые SCM
   setting_feeds_limit: Ограничение количества заголовков для RSS потока
   setting_file_max_size_displayed: Максимальный размер текстового файла для отображения
   setting_gravatar_enabled: Использовать аватар пользователя из Gravatar
@@ -903,14 +903,14 @@ ru:
   status_locked: заблокирован
   status_registered: зарегистрирован
 
-  text_are_you_sure_with_children: Удалить задачу и все ее подзадачи?
+  text_are_you_sure_with_children: Удалить задачу и все её подзадачи?
   text_are_you_sure: Вы уверены?
   text_assign_time_entries_to_project: Прикрепить зарегистрированное время к проекту
   text_caracters_maximum: "Максимум %{count} символов(а)."
   text_caracters_minimum: "Должно быть не менее %{count} символов."
   text_comma_separated: Допустимы несколько значений (через запятую).
   text_custom_field_possible_values_info: 'По одному значению в каждой строке'
-  text_default_administrator_account_changed: Учетная запись администратора по умолчанию изменена
+  text_default_administrator_account_changed: Учётная запись администратора по умолчанию изменена
   text_destroy_time_entries_question: "На эту задачу зарегистрировано %{hours} часа(ов) затраченного времени. Что Вы хотите предпринять?"
   text_destroy_time_entries: Удалить зарегистрированное время
   text_diff_truncated: '... Этот diff ограничен, так как превышает максимальный отображаемый размер.'
@@ -943,13 +943,13 @@ ru:
   text_status_changed_by_changeset: "Реализовано в %{value} редакции."
   text_subprojects_destroy_warning: "Подпроекты: %{value} также будут удалены."
   text_tip_issue_begin_day: дата начала задачи
-  text_tip_issue_begin_end_day: начало задачи и окончание ее в этот же день
+  text_tip_issue_begin_end_day: начало задачи и окончание её в этот же день
   text_tip_issue_end_day: дата завершения задачи
   text_tracker_no_workflow: Для этого трекера последовательность действий не определена
   text_unallowed_characters: Запрещенные символы
   text_user_mail_option: "Для невыбранных проектов, Вы будете получать уведомления только о том, что просматриваете или в чем участвуете (например, задачи, автором которых Вы являетесь, или которые Вам назначены)."
   text_user_wrote: "%{value} писал(а):"
-  text_wiki_destroy_confirmation: Вы уверены, что хотите удалить данную Wiki и все ее содержимое?
+  text_wiki_destroy_confirmation: Вы уверены, что хотите удалить данную Wiki и все её содержимое?
   text_workflow_edit: Выберите роль и трекер для редактирования последовательности состояний
 
   warning_attachments_not_saved: "%{count} файл(ов) невозможно сохранить."
@@ -1000,12 +1000,12 @@ ru:
   label_copy_source: Источник
   setting_issue_done_ratio:  Рассчитывать готовность задачи с помощью поля
   setting_issue_done_ratio_issue_status: Статус задачи
-  error_issue_done_ratios_not_updated: Параметр готовность задач не обновлен
+  error_issue_done_ratios_not_updated: Параметр готовность задач не обновлён
   error_workflow_copy_target: Выберите целевые трекеры и роли
   setting_issue_done_ratio_issue_field: Готовность задачи
   label_copy_same_as_target: То же, что и у цели
   label_copy_target: Цель
-  notice_issue_done_ratios_updated: Параметр &laquo;готовность&raquo; обновлен.
+  notice_issue_done_ratios_updated: Параметр &laquo;готовность&raquo; обновлён.
   error_workflow_copy_source: Выберите исходный трекер или роль
   label_update_issue_done_ratios: Обновить готовность задач
   setting_start_of_week: День начала недели
@@ -1027,7 +1027,7 @@ ru:
   text_own_membership_delete_confirmation: |-
     Вы собираетесь удалить некоторые или все права, из-за чего могут пропасть права на редактирование этого проекта.
     Продолжить?
-  label_close_versions: Закрыть завершенные версии
+  label_close_versions: Закрыть завершённые версии
   label_board_sticky: Прикреплена
   label_board_locked: Заблокирована
   field_principal: Имя
@@ -1044,14 +1044,14 @@ ru:
   field_visible: Видимое
   setting_emails_header: Заголовок письма
 
-  setting_commit_logtime_activity_id: Действие для учета времени
+  setting_commit_logtime_activity_id: Действие для учёта времени
   text_time_logged_by_changeset: Учтено в редакции %{value}.
-  setting_commit_logtime_enabled: Включить учет времени
+  setting_commit_logtime_enabled: Включить учёт времени
   notice_gantt_chart_truncated: Диаграмма будет усечена, поскольку превышено максимальное кол-во элементов, которые могут отображаться (%{max})
   setting_gantt_items_limit: Максимальное кол-во элементов отображаемых на диаграмме Ганта
-  field_warn_on_leaving_unsaved: Предупреждать при закрытии страницы с несохраненным текстом
-  text_warn_on_leaving_unsaved: Текущая страница содержит несохраненный текст, который будет потерян, если вы покинете эту страницу.
-  label_my_queries: Мои сохраненные запросы
+  field_warn_on_leaving_unsaved: Предупреждать при закрытии страницы с несохранённым текстом
+  text_warn_on_leaving_unsaved: Текущая страница содержит несохранённый текст, который будет потерян, если вы покинете эту страницу.
+  label_my_queries: Мои сохранённые запросы
   text_journal_changed_no_detail: "%{label} обновлено"
   label_news_comment_added: Добавлен комментарий к новости
   button_expand_all: Развернуть все
@@ -1063,8 +1063,8 @@ ru:
   label_role_anonymous: Аноним
   label_role_non_member: Не участник
   label_issue_note_added: Примечание добавлено
-  label_issue_status_updated: Статус обновлен
-  label_issue_priority_updated: Приоритет обновлен
+  label_issue_status_updated: Статус обновлён
+  label_issue_priority_updated: Приоритет обновлён
   label_issues_visibility_own: Задачи созданные или назначенные пользователю
   field_issues_visibility: Видимость задач
   label_issues_visibility_all: Все задачи
