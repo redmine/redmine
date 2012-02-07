@@ -250,11 +250,11 @@ class RepositoryGitTest < ActiveSupport::TestCase
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
       # with limit
-      changesets = @repository.latest_changesets('', nil, 2)
+      changesets = @repository.latest_changesets('', 'master', 2)
       assert_equal 2, changesets.size
 
       # with path
-      changesets = @repository.latest_changesets('images', nil)
+      changesets = @repository.latest_changesets('images', 'master')
       assert_equal [
               'deff712f05a90d96edbd70facc47d944be5897e3',
               '899a15dba03a3b350b89c3f537e4bbe02a03cdc9',
