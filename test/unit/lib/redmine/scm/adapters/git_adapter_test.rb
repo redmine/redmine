@@ -91,10 +91,6 @@ begin
         assert_equal 21, @adapter.revisions('',nil,nil,:all => true).length
       end
 
-      def test_getting_certain_revisions
-        assert_equal 1, @adapter.revisions('','899a15d^','899a15d').length
-      end
-
       def test_revisions_reverse
         revs1 = @adapter.revisions('',nil,nil,{:all => true, :reverse => true })
         assert_equal 21, revs1.length
