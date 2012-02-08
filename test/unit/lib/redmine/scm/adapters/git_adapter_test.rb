@@ -206,7 +206,7 @@ begin
 
       def test_getting_revisions_with_spaces_in_filename
         assert_equal 1, @adapter.revisions("filemane with spaces.txt",
-                                           nil, nil, :all => true).length
+                                           nil, "master").length
       end
 
       def test_parents
@@ -238,7 +238,7 @@ begin
       def test_getting_revisions_with_leading_and_trailing_spaces_in_filename
         assert_equal " filename with a leading space.txt ",
            @adapter.revisions(" filename with a leading space.txt ",
-                               nil, nil, :all => true)[0].paths[0][:path]
+                               nil, "master")[0].paths[0][:path]
       end
 
       def test_getting_entries_with_leading_and_trailing_spaces_in_filename
