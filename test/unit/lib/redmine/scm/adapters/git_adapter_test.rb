@@ -43,9 +43,9 @@ begin
                       nil,
                       nil,
                       'ISO-8859-1'
-                      )
+                   )
         assert @adapter
-        @char_1        = CHAR_1_HEX.dup
+        @char_1 = CHAR_1_HEX.dup
         if @char_1.respond_to?(:force_encoding)
           @char_1.force_encoding('UTF-8')
         end
@@ -109,7 +109,7 @@ begin
 
         revs2 = []
         @adapter.revisions('', nil, "master",
-                                    {:reverse => true}) do |rev|
+                           {:reverse => true}) do |rev|
           revs2 << rev
         end
         assert_equal 15, revs2.length
@@ -161,7 +161,7 @@ begin
 
         revs2 = []
         @adapter.revisions('', nil, "latin-1-path-encoding",
-                                    {:reverse => true}) do |rev|
+                           {:reverse => true}) do |rev|
           revs2 << rev
         end
         assert_equal 8, revs2.length
@@ -196,9 +196,9 @@ begin
       def test_revisions_invalid_rev
         revs1 = []
         @adapter.revisions('',
-                                    '1234abcd',
-                                    "master",
-                                    {:reverse => true}) do |rev|
+                           '1234abcd',
+                           "master",
+                           {:reverse => true}) do |rev|
           revs1 << rev
         end
         assert_equal [], revs1
