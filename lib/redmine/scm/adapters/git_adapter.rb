@@ -191,7 +191,6 @@ module Redmine
           revs = Revisions.new
           cmd_args = %w|log --no-color --encoding=UTF-8 --raw --date=iso --pretty=fuller --parents|
           cmd_args << "--reverse" if options[:reverse]
-          cmd_args << "--all" if options[:all]
           cmd_args << "-n" << "#{options[:limit].to_i}" if options[:limit]
           from_to = ""
           from_to << "#{identifier_from}.." if identifier_from

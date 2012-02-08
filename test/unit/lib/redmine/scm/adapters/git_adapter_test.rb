@@ -87,17 +87,6 @@ begin
             ], @adapter.tags
       end
 
-      def test_getting_all_revisions
-        assert_equal 21, @adapter.revisions('',nil,nil,:all => true).length
-      end
-
-      def test_revisions_reverse
-        revs1 = @adapter.revisions('',nil,nil,{:all => true, :reverse => true })
-        assert_equal 21, revs1.length
-        assert_equal '7234cb2750b63f47bff735edc50a1c0a433c2518', revs1[0].identifier
-        assert_equal '1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127', revs1[20].identifier
-      end
-
       def test_revisions_master_all
         revs1 = []
         @adapter.revisions('', nil, "master",{}) do |rev|
