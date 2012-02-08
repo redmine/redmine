@@ -144,6 +144,10 @@ class Repository::Git < Repository
       merge_extra_info(h)
       self.save
     end
+    save_revisions(h, scm_brs)
+  end
+
+  def save_revisions(h, scm_brs)
     scm_brs.each do |br1|
       br = br1.to_s
       from_scmid = nil
@@ -167,6 +171,7 @@ class Repository::Git < Repository
       end
     end
   end
+  private :save_revisions
 
   def save_revision(rev)
     changeset = Changeset.new(
