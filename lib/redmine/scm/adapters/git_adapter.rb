@@ -193,9 +193,17 @@ module Redmine
           cmd_args << "--reverse" if options[:reverse]
           cmd_args << "-n" << "#{options[:limit].to_i}" if options[:limit]
           from_to = ""
-          from_to << "#{identifier_from}.." if identifier_from
-          from_to << "#{identifier_to}" if identifier_to
-          cmd_args << from_to if !from_to.empty?
+          if identifier_from || identifier_to
+            from_to << "#{identifier_from}.." if identifier_from
+            from_to << "#{identifier_to}" if identifier_to
+            cmd_args << from_to if !from_to.empty?
+          else
+            cmd_args += options[:includes] unless options[:includes].blank?
+            unless options[:excludes].blank?
+              cmd_args << "--not"
+              cmd_args += options[:excludes]
+            end
+          end
           cmd_args << "--" << scm_iconv(@path_encoding, 'UTF-8', path) if path && !path.empty?
 
           scm_cmd *cmd_args do |io|

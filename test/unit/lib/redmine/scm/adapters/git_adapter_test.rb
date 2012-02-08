@@ -193,6 +193,62 @@ begin
         assert_equal [], revs1
       end
 
+      def test_revisions_includes_master_two_revs
+        revs1 = []
+        @adapter.revisions('', nil, nil,
+                           {:reverse => true,
+                            :includes => ['83ca5fd546063a3c7dc2e568ba3355661a9e2b2c'],
+                            :excludes => ['4f26664364207fa8b1af9f8722647ab2d4ac5d43']}) do |rev|
+          revs1 << rev
+        end
+        assert_equal 2, revs1.length
+        assert_equal 'ed5bb786bbda2dee66a2d50faf51429dbc043a7b', revs1[ 0].identifier
+        assert_equal '83ca5fd546063a3c7dc2e568ba3355661a9e2b2c', revs1[-1].identifier
+      end
+
+      def test_revisions_includes_merged_revs
+        revs1 = []
+        @adapter.revisions('', nil, nil,
+                           {:reverse => true,
+                            :includes => ['83ca5fd546063a3c7dc2e568ba3355661a9e2b2c'],
+                            :excludes => ['fba357b886984ee71185ad2065e65fc0417d9b92']}) do |rev|
+          revs1 << rev
+        end
+        assert_equal 7, revs1.length
+        assert_equal '7e61ac704deecde634b51e59daa8110435dcb3da', revs1[ 0].identifier
+        assert_equal '4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8', revs1[ 1].identifier
+        assert_equal '32ae898b720c2f7eec2723d5bdd558b4cb2d3ddf', revs1[ 2].identifier
+        assert_equal '83ca5fd546063a3c7dc2e568ba3355661a9e2b2c', revs1[-1].identifier
+      end
+
+      def test_revisions_includes_two_heads
+        revs1 = []
+        @adapter.revisions('', nil, nil,
+                           {:reverse => true,
+                            :includes => ['83ca5fd546063a3c7dc2e568ba3355661a9e2b2c',
+                                          '1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127'],
+                            :excludes => ['4f26664364207fa8b1af9f8722647ab2d4ac5d43',
+                                          '4fc55c43bf3d3dc2efb66145365ddc17639ce81e']}) do |rev|
+          revs1 << rev
+        end
+        assert_equal 4, revs1.length
+        assert_equal 'ed5bb786bbda2dee66a2d50faf51429dbc043a7b', revs1[ 0].identifier
+        assert_equal '83ca5fd546063a3c7dc2e568ba3355661a9e2b2c', revs1[ 1].identifier
+        assert_equal '64f1f3e89ad1cb57976ff0ad99a107012ba3481d', revs1[-2].identifier
+        assert_equal '1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127', revs1[-1].identifier
+      end
+
+      def test_revisions_invalid_rev_excludes
+        revs1 = []
+        @adapter.revisions('', nil, nil,
+                           {:reverse => true,
+                            :includes => ['83ca5fd546063a3c7dc2e568ba3355661a9e2b2c'],
+                            :excludes => ['0123abcd4567']}) do |rev|
+          revs1 << rev
+        end
+        assert_equal [], revs1
+      end
+
       def test_getting_revisions_with_spaces_in_filename
         assert_equal 1, @adapter.revisions("filemane with spaces.txt",
                                            nil, "master").length
