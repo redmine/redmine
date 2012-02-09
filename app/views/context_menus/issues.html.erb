@@ -11,7 +11,7 @@
 
   <% if @allowed_statuses.present? %>
   <li class="folder">
-    <a href="#" class="submenu" onclick="return false;"><%= l(:field_status) %></a>
+    <a href="#" class="submenu"><%= l(:field_status) %></a>
     <ul>
     <% @allowed_statuses.each do |s| -%>
         <li><%= context_menu_link h(s.name), {:controller => 'issues', :action => 'bulk_update', :ids => @issues.collect(&:id), :issue => {:status_id => s}, :back_url => @back}, :method => :post,

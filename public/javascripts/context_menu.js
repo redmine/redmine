@@ -35,6 +35,10 @@ ContextMenu.prototype = {
 	},
 
   Click: function(e) {
+		if (Event.element(e).tagName == 'A' && Event.element(e).hasClassName('submenu')) {
+			Event.stop(e)
+			return;
+		}
   	this.hideMenu();
   	if (Event.element(e).tagName == 'A' || Event.element(e).tagName == 'IMG') { return; }
     if (Event.isLeftClick(e) || (navigator.appVersion.match(/\bMSIE\b/))) {      
