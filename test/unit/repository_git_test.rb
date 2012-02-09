@@ -23,7 +23,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
   REPOSITORY_PATH = Rails.root.join('tmp/test/git_repository').to_s
   REPOSITORY_PATH.gsub!(/\//, "\\") if Redmine::Platform.mswin?
 
-  NUM_REV = 21
+  NUM_REV = 28
 
   FELIX_HEX  = "Felix Sch\xC3\xA4fer"
   CHAR_1_HEX = "\xc3\x9c"
@@ -71,7 +71,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       @project.reload
 
       assert_equal NUM_REV, @repository.changesets.count
-      assert_equal 33, @repository.changes.count
+      assert_equal 39, @repository.changes.count
 
       commit = @repository.changesets.find(:first, :order => 'committed_on ASC')
       assert_equal "Initial import.\nThe repository contains 3 files.", commit.comments
@@ -87,7 +87,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       assert_equal "README", change.path
       assert_equal "A", change.action
 
-      assert_equal 4, @repository.extra_info["branches"].size
+      assert_equal 5, @repository.extra_info["branches"].size
     end
 
     def test_fetch_changesets_incremental
@@ -95,9 +95,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      assert_equal 33, @repository.changes.count
       extra_info_db = @repository.extra_info["branches"]
-      assert_equal 4, extra_info_db.size
       assert_equal "1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127",
                     extra_info_db["latin-1-path-encoding"]["last_scmid"]
       assert_equal "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c",
@@ -116,7 +114,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       end
       @project.reload
       cs1 = @repository.changesets
-      assert_equal 15, cs1.count
+      assert_equal 22, cs1.count
       h = @repository.extra_info.dup
       h["branches"]["master"]["last_scmid"] =
             "4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8"
@@ -138,7 +136,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
       extra_info_db = @repository.extra_info["branches"]
-      assert_equal 4, extra_info_db.size
+      assert_equal 5, extra_info_db.size
       assert_equal "1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127",
                     extra_info_db["latin-1-path-encoding"]["last_scmid"]
       assert_equal "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c",
@@ -157,7 +155,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       end
       @project.reload
       cs1 = @repository.changesets
-      assert_equal 15, cs1.count
+      assert_equal 22, cs1.count
       h = @repository.extra_info.dup
       h["branches"]["master"]["last_scmid"] =
             "abcd1234efgh"
@@ -170,7 +168,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
 
       @repository.fetch_changesets
       @project.reload
-      assert_equal 15, @repository.changesets.count
+      assert_equal 22, @repository.changesets.count
     end
 
     def test_parents
@@ -227,7 +225,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       end
       @project.reload
       cs1 = @repository.changesets
-      assert_equal 15, cs1.count
+      assert_equal NUM_REV - 6, cs1.count
       assert_equal 0, @repository.extra_info["db_consistent"]["ordering"]
       h = @repository.extra_info.dup
       h["branches"]["master"]["last_scmid"] =
@@ -479,7 +477,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      %w|7234cb2750b63f47bff735edc50a1c0a433c2518 7234cb2|.each do |r1|
+      %w|95488a44bc25f7d1f97d775a31359539ff333a63 95488a44b|.each do |r1|
         changeset = @repository.find_changeset_by_name(r1)
         assert_nil changeset.previous
       end
