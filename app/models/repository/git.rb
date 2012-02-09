@@ -194,6 +194,13 @@ class Repository::Git < Repository
   end
   private :save_revision
 
+  def heads_from_branches_hash
+    h1 = extra_info || {}
+    h  = h1.dup
+    h["branches"] ||= {}
+    h['branches'].map{|br, hs| hs['last_scmid']}
+  end
+
   def latest_changesets(path,rev,limit=10)
     revisions = scm.revisions(path, nil, rev, :limit => limit, :all => false)
     return [] if revisions.nil? || revisions.empty?

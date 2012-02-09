@@ -244,6 +244,22 @@ class RepositoryGitTest < ActiveSupport::TestCase
       assert_equal 0, @repository.extra_info["db_consistent"]["ordering"]
     end
 
+    def test_heads_from_branches_hash
+      assert_nil @repository.extra_info
+      assert_equal 0, @repository.changesets.count
+      assert_equal [], @repository.heads_from_branches_hash
+      h = {}
+      h["branches"] = {}
+      h["branches"]["test1"] = {}
+      h["branches"]["test1"]["last_scmid"] = "1234abcd"
+      h["branches"]["test2"] = {}
+      h["branches"]["test2"]["last_scmid"] = "abcd1234"
+      @repository.merge_extra_info(h)
+      @repository.save
+      @project.reload
+      assert_equal ["1234abcd", "abcd1234"], @repository.heads_from_branches_hash.sort
+    end
+
     def test_latest_changesets
       assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
