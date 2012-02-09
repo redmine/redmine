@@ -100,6 +100,20 @@
   </li>
   <% end %>
 
+  <% @options_by_custom_field.each do |field, options| %>
+    <li class="folder">
+      <a href="#" class="submenu"><%= h(field.name) %></a>
+      <ul>
+      <% options.each do |text, value| %>
+        <li><%= bulk_update_custom_field_context_menu_link(field, text, value || text) %></li>
+      <% end %>
+      <% unless field.is_required? %>
+        <li><%= bulk_update_custom_field_context_menu_link(field, l(:label_none), '') %></li>
+      <% end %>
+      </ul>
+    </li>
+  <% end %>
+
 <% if !@issue.nil? %>
   <% if @can[:log_time] -%>
   <li><%= context_menu_link l(:button_log_time), {:controller => 'timelog', :action => 'new', :issue_id => @issue},

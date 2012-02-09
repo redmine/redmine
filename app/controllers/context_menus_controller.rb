@@ -42,6 +42,19 @@ class ContextMenusController < ApplicationController
     @statuses = IssueStatus.find(:all, :order => 'position')
     @back = back_url
 
+    @options_by_custom_field = {}
+    if @can[:edit]
+      custom_fields = @issues.map(&:available_custom_fields).inject {|memo, f| memo & f}.select do |f|
+        %w(bool list user version).include?(f.field_format) && !f.multiple?
+      end
+      custom_fields.each do |field|
+        values = field.possible_values_options(@projects)
+        if values.any?
+          @options_by_custom_field[field] = values
+        end
+      end
+    end
+
     render :layout => false
   end
 

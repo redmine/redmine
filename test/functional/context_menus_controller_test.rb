@@ -117,6 +117,102 @@ class ContextMenusControllerTest < ActionController::TestCase
                                              :class => 'icon-del' }
   end
 
+  def test_context_menu_should_include_list_custom_fields
+    field = IssueCustomField.create!(:name => 'List', :field_format => 'list',
+      :possible_values => ['Foo', 'Bar'], :is_for_all => true, :tracker_ids => [1, 2, 3])
+    @request.session[:user_id] = 2
+    get :issues, :ids => [1, 2]
+
+    assert_tag 'a',
+      :content => 'List',
+      :attributes => {:href => '#'},
+      :sibling => {:tag => 'ul', :children => {:count => 3}}
+
+    assert_tag 'a',
+      :content => 'Foo',
+      :attributes => {:href => "/issues/bulk_update?ids%5B%5D=1&amp;ids%5B%5D=2&amp;issue%5Bcustom_field_values%5D%5B#{field.id}%5D=Foo"}
+    assert_tag 'a',
+      :content => 'none',
+      :attributes => {:href => "/issues/bulk_update?ids%5B%5D=1&amp;ids%5B%5D=2&amp;issue%5Bcustom_field_values%5D%5B#{field.id}%5D="}
+  end
+
+  def test_context_menu_should_not_include_null_value_for_required_custom_fields
+    field = IssueCustomField.create!(:name => 'List', :is_required => true, :field_format => 'list',
+      :possible_values => ['Foo', 'Bar'], :is_for_all => true, :tracker_ids => [1, 2, 3])
+    @request.session[:user_id] = 2
+    get :issues, :ids => [1, 2]
+
+    assert_tag 'a',
+      :content => 'List',
+      :attributes => {:href => '#'},
+      :sibling => {:tag => 'ul', :children => {:count => 2}}
+  end
+
+  def test_context_menu_on_single_issue_should_select_current_custom_field_value
+    field = IssueCustomField.create!(:name => 'List', :field_format => 'list',
+      :possible_values => ['Foo', 'Bar'], :is_for_all => true, :tracker_ids => [1, 2, 3])
+    issue = Issue.find(1)
+    issue.custom_field_values = {field.id => 'Bar'}
+    issue.save!
+    @request.session[:user_id] = 2
+    get :issues, :ids => [1]
+
+    assert_tag 'a',
+      :content => 'List',
+      :attributes => {:href => '#'},
+      :sibling => {:tag => 'ul', :children => {:count => 3}}
+    assert_tag 'a',
+      :content => 'Bar',
+      :attributes => {:class => /icon-checked/}
+  end
+
+  def test_context_menu_should_include_bool_custom_fields
+    field = IssueCustomField.create!(:name => 'Bool', :field_format => 'bool',
+      :is_for_all => true, :tracker_ids => [1, 2, 3])
+    @request.session[:user_id] = 2
+    get :issues, :ids => [1, 2]
+
+    assert_tag 'a',
+      :content => 'Bool',
+      :attributes => {:href => '#'},
+      :sibling => {:tag => 'ul', :children => {:count => 3}}
+
+    assert_tag 'a',
+      :content => 'Yes',
+      :attributes => {:href => "/issues/bulk_update?ids%5B%5D=1&amp;ids%5B%5D=2&amp;issue%5Bcustom_field_values%5D%5B#{field.id}%5D=1"}
+  end
+
+  def test_context_menu_should_include_user_custom_fields
+    field = IssueCustomField.create!(:name => 'User', :field_format => 'user',
+      :is_for_all => true, :tracker_ids => [1, 2, 3])
+    @request.session[:user_id] = 2
+    get :issues, :ids => [1, 2]
+
+    assert_tag 'a',
+      :content => 'User',
+      :attributes => {:href => '#'},
+      :sibling => {:tag => 'ul', :children => {:count => Project.find(1).members.count + 1}}
+
+    assert_tag 'a',
+      :content => 'John Smith',
+      :attributes => {:href => "/issues/bulk_update?ids%5B%5D=1&amp;ids%5B%5D=2&amp;issue%5Bcustom_field_values%5D%5B#{field.id}%5D=2"}
+  end
+
+  def test_context_menu_should_include_version_custom_fields
+    field = IssueCustomField.create!(:name => 'Version', :field_format => 'version', :is_for_all => true, :tracker_ids => [1, 2, 3])
+    @request.session[:user_id] = 2
+    get :issues, :ids => [1, 2]
+
+    assert_tag 'a',
+      :content => 'Version',
+      :attributes => {:href => '#'},
+      :sibling => {:tag => 'ul', :children => {:count => Project.find(1).shared_versions.count + 1}}
+
+    assert_tag 'a',
+      :content => '2.0',
+      :attributes => {:href => "/issues/bulk_update?ids%5B%5D=1&amp;ids%5B%5D=2&amp;issue%5Bcustom_field_values%5D%5B#{field.id}%5D=3"}
+  end
+
   def test_context_menu_by_assignable_user_should_include_assigned_to_me_link
     @request.session[:user_id] = 2
     get :issues, :ids => [1]

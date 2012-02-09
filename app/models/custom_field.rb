@@ -77,8 +77,10 @@ class CustomField < ActiveRecord::Base
       else
         []
       end
+    when 'bool'
+      [[l(:general_text_Yes), '1'], [l(:general_text_No), '0']]
     else
-      read_attribute :possible_values
+      read_attribute(:possible_values) || []
     end
   end
 
@@ -86,6 +88,8 @@ class CustomField < ActiveRecord::Base
     case field_format
     when 'user', 'version'
       possible_values_options(obj).collect(&:last)
+    when 'bool'
+      ['1', '0']
     else
       read_attribute :possible_values
     end
