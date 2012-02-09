@@ -39,7 +39,6 @@ class ContextMenusController < ApplicationController
     end
 
     @priorities = IssuePriority.active.reverse
-    @statuses = IssueStatus.find(:all, :order => 'position')
     @back = back_url
 
     @options_by_custom_field = {}
