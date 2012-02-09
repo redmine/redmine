@@ -206,6 +206,18 @@ begin
         assert_equal '83ca5fd546063a3c7dc2e568ba3355661a9e2b2c', revs1[-1].identifier
       end
 
+      def test_revisions_includes_master_two_revs_from_origin
+        revs1 = []
+        @adapter.revisions('', nil, nil,
+                           {:reverse => true,
+                            :includes => ['899a15dba03a3b350b89c3f537e4bbe02a03cdc9'],}) do |rev|
+          revs1 << rev
+        end
+        assert_equal 2, revs1.length
+        assert_equal '7234cb2750b63f47bff735edc50a1c0a433c2518', revs1[ 0].identifier
+        assert_equal '899a15dba03a3b350b89c3f537e4bbe02a03cdc9', revs1[ 1].identifier
+      end
+
       def test_revisions_includes_merged_revs
         revs1 = []
         @adapter.revisions('', nil, nil,
