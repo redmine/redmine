@@ -218,7 +218,8 @@ begin
         revs1 = []
         @adapter.revisions('', nil, nil,
                            {:reverse => true,
-                            :includes => ['899a15dba03a3b350b89c3f537e4bbe02a03cdc9']}) do |rev|
+                            :includes => ['899a15dba03a3b350b89c3f537e4bbe02a03cdc9'],
+                            :excludes => []}) do |rev|
           revs1 << rev
         end
         assert_equal 2, revs1.length
