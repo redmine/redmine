@@ -978,22 +978,6 @@ module ApplicationHelper
     javascript_tag "new ContextMenu('#{ url_for(url) }')"
   end
 
-  def context_menu_link(name, url, options={})
-    options[:class] ||= ''
-    if options.delete(:selected)
-      options[:class] << ' icon-checked disabled'
-      options[:disabled] = true
-    end
-    if options.delete(:disabled)
-      options.delete(:method)
-      options.delete(:confirm)
-      options.delete(:onclick)
-      options[:class] << ' disabled'
-      url = '#'
-    end
-    link_to h(name), url, options
-  end
-
   def calendar_for(field_id)
     include_calendar_headers_tags
     image_tag("calendar.png", {:id => "#{field_id}_trigger",:class => "calendar-trigger"}) +
