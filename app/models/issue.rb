@@ -510,7 +510,7 @@ class Issue < ActiveRecord::Base
   end
 
   # Returns an array of status that user is able to apply
-  def new_statuses_allowed_to(user, include_default=false)
+  def new_statuses_allowed_to(user=User.current, include_default=false)
     statuses = status.find_new_statuses_allowed_to(
       user.admin ? Role.all : user.roles_for_project(project),
       tracker,
