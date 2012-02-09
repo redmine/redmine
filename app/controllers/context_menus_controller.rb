@@ -8,7 +8,7 @@ class ContextMenusController < ApplicationController
       @issue = @issues.first
     end
 
-    @allowed_statuses = @issues.map(&:new_statuses_allowed_to).inject{|memo,a| memo & a}
+    @allowed_statuses = @issues.map(&:new_statuses_allowed_to).reduce(:&)
     @projects = @issues.collect(&:project).compact.uniq
     @project = @projects.first if @projects.size == 1
 
@@ -28,8 +28,8 @@ class ContextMenusController < ApplicationController
       @trackers = @project.trackers
     else
       #when multiple projects, we only keep the intersection of each set
-      @assignables = @projects.map(&:assignable_users).inject{|memo,a| memo & a}
-      @trackers = @projects.map(&:trackers).inject{|memo,t| memo & t}
+      @assignables = @projects.map(&:assignable_users).reduce(:&)
+      @trackers = @projects.map(&:trackers).reduce(:&)
     end
 
     @priorities = IssuePriority.active.reverse
@@ -37,7 +37,7 @@ class ContextMenusController < ApplicationController
 
     @options_by_custom_field = {}
     if @can[:edit]
-      custom_fields = @issues.map(&:available_custom_fields).inject {|memo, f| memo & f}.select do |f|
+      custom_fields = @issues.map(&:available_custom_fields).reduce(:&).select do |f|
         %w(bool list user version).include?(f.field_format) && !f.multiple?
       end
       custom_fields.each do |field|

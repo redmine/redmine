@@ -229,12 +229,12 @@ class IssuesController < ApplicationController
     end
     target_projects ||= @projects
 
-    @available_statuses = target_projects.map{|p|Workflow.available_statuses(p)}.inject{|memo,w|memo & w}
-    @custom_fields = target_projects.map{|p|p.all_issue_custom_fields}.inject{|memo,c|memo & c}
-    @assignables = target_projects.map(&:assignable_users).inject{|memo,a| memo & a}
-    @trackers = target_projects.map(&:trackers).inject{|memo,t| memo & t}
+    @available_statuses = target_projects.map{|p|Workflow.available_statuses(p)}.reduce(:&)
+    @custom_fields = target_projects.map{|p|p.all_issue_custom_fields}.reduce(:&)
+    @assignables = target_projects.map(&:assignable_users).reduce(:&)
+    @trackers = target_projects.map(&:trackers).reduce(:&)
 
-    @safe_attributes = @issues.map(&:safe_attribute_names).inject {|memo,attrs| memo & attrs}
+    @safe_attributes = @issues.map(&:safe_attribute_names).reduce(:&)
     render :layout => false if request.xhr?
   end
 
