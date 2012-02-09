@@ -258,6 +258,23 @@ begin
         assert_equal '1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127', revs1[-1].identifier
       end
 
+      def test_revisions_disjointed_histories_revisions
+        revs1 = []
+        @adapter.revisions('', nil, nil,
+                           {:reverse => true,
+                            :includes => ['83ca5fd546063a3c7dc2e568ba3355661a9e2b2c',
+                                          '92397af84d22f27389c822848ecd5b463c181583'],
+                            :excludes => ['95488a44bc25f7d1f97d775a31359539ff333a63',
+                                          '4f26664364207fa8b1af9f8722647ab2d4ac5d43'] }) do |rev|
+          revs1 << rev
+        end
+        assert_equal 4, revs1.length
+        assert_equal 'ed5bb786bbda2dee66a2d50faf51429dbc043a7b', revs1[ 0].identifier
+        assert_equal '83ca5fd546063a3c7dc2e568ba3355661a9e2b2c', revs1[ 1].identifier
+        assert_equal 'bc201c95999c4f10d018b0aa03b541cd6a2ff0ee', revs1[-2].identifier
+        assert_equal '92397af84d22f27389c822848ecd5b463c181583', revs1[-1].identifier
+      end
+
       def test_revisions_invalid_rev_excludes
         revs1 = []
         @adapter.revisions('', nil, nil,
