@@ -254,6 +254,7 @@
   notice_issue_done_ratios_updated: 問題完成百分比已更新。
   notice_gantt_chart_truncated: "由於項目數量超過可顯示數量的最大值 (%{max})，故此甘特圖尾部已被截斷"
   notice_issue_successful_create: "問題 %{id} 已建立。"
+  notice_issue_update_conflict: "當您正在編輯這個問題的時候，它已經被其他人搶先一步更新過。"
 
   error_can_t_load_default_data: "無法載入預設組態： %{value}"
   error_scm_not_found: "在儲存機制中找不到這個項目或修訂版。"
@@ -400,6 +401,8 @@
   field_root_directory: 根資料夾
   field_cvsroot: CVSROOT
   field_cvs_module: 模組
+  field_repository_is_default: 主要儲存機制
+  field_multiple: 多重值
 
   setting_app_title: 標題
   setting_app_subtitle: 副標題
@@ -460,6 +463,7 @@
   setting_gantt_items_limit: 甘特圖中項目顯示數量的最大值
   setting_issue_group_assignment: 允許問題被指派至群組
   setting_default_issue_start_date_to_creation_date: 設定新問題的起始日期為今天的日期
+  setting_commit_cross_project_ref: 允許關聯並修正其他專案的問題
 
   permission_add_project: 建立專案
   permission_add_subprojects: 建立子專案
@@ -518,6 +522,7 @@
   permission_delete_own_messages: 刪除自己的訊息
   permission_export_wiki_pages: 匯出 wiki 頁面
   permission_manage_subtasks: 管理子任務
+  permission_manage_related_issues: 管理相關問題
 
   project_module_issue_tracking: 問題追蹤
   project_module_time_tracking: 工時追蹤
@@ -728,6 +733,7 @@
   label_not_contains: 不包含
   label_day_plural: 天
   label_repository: 儲存機制
+  label_repository_new: 建立新儲存機制
   label_repository_plural: 儲存機制清單
   label_browse: 瀏覽
   label_modification: "%{count} 變更"
@@ -912,6 +918,9 @@
   label_parent_revision: 父項
   label_child_revision: 子項
   label_export_options: "%{export_format} 匯出選項"
+  label_copy_attachments: 複製附件
+  label_item_position: %{position} / %{count}
+  label_completed_versions: 已完成版本
 
   button_login: 登入
   button_submit: 送出
@@ -988,6 +997,7 @@
   text_tip_issue_begin_day: 今天起始的問題
   text_tip_issue_end_day: 今天截止的的問題
   text_tip_issue_begin_end_day: 今天起始與截止的問題
+  text_project_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
   text_caracters_maximum: "最多 %{count} 個字元."
   text_caracters_minimum: "長度必須大於 %{count} 個字元."
   text_length_between: "長度必須介於 %{min} 至 %{max} 個字元之間."
@@ -1041,6 +1051,9 @@
   text_scm_command_version: 版本
   text_scm_config: 您可以在 config/configuration.yml 中設定 SCM 命令。請在編輯該檔案之後重新啟動 Redmine 應用程式。
   text_scm_command_not_available: SCM 命令無法使用。請檢查管理面板中的設定。
+  text_issue_conflict_resolution_overwrite: "直接套用我的變更 (先前的筆記將會被保留，但是某些變更可能會被複寫)"
+  text_issue_conflict_resolution_add_notes: "新增我的筆記並捨棄我其他的變更"
+  text_issue_conflict_resolution_cancel: "捨棄我全部的變更並重新顯示 %{link}"
 
   default_role_manager: 管理人員
   default_role_developer: 開發人員
@@ -1090,16 +1103,3 @@
     zero:  0 問題
     one:   1 問題
     other: "%{count} 問題清單"
-  label_repository_new: New repository
-  field_repository_is_default: Main repository
-  label_copy_attachments: Copy attachments
-  label_item_position: "%{position}/%{count}"
-  label_completed_versions: Completed versions
-  text_project_identifier_info: Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.
-  field_multiple: Multiple values
-  setting_commit_cross_project_ref: Allow issues of all the other projects to be referenced and fixed
-  text_issue_conflict_resolution_add_notes: Add my notes and discard my other changes
-  text_issue_conflict_resolution_overwrite: Apply my changes anyway (previous notes will be kept but some changes may be overwritten)
-  notice_issue_update_conflict: The issue has been updated by an other user while you were editing it.
-  text_issue_conflict_resolution_cancel: Discard all my changes and redisplay %{link}
-  permission_manage_related_issues: Manage related issues
