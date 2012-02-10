@@ -1,5 +1,5 @@
-/* redMine - project management software
-   Copyright (C) 2006-2008  Jean-Philippe Lang */
+/* Redmine - project management software
+   Copyright (C) 2006-2012  Jean-Philippe Lang */
 
 function checkAll (id, checked) {
   var els = Element.descendants(id);
@@ -426,7 +426,7 @@ function observeProjectModules() {
     setVisible('project_trackers', c);
     setVisible('project_issue_custom_fields', c);
   };
-  
+
   Event.observe(window, 'load', f);
   Event.observe('project_enabled_module_names_issue_tracking', 'change', f);
 }
@@ -441,44 +441,44 @@ var WarnLeavingUnsaved = Class.create({
   observedElements: false,
   changedForms: false,
   message: null,
-  
+
   initialize: function(message){
     this.observedForms = $$('form');
     this.observedElements =  $$('textarea');
     this.message = message;
-    
+
     this.observedElements.each(this.observeChange.bind(this));
     this.observedForms.each(this.submitAction.bind(this));
-    
+
     window.onbeforeunload = this.unload.bind(this);
   },
-  
+
   unload: function(){
     this.observedElements.each(function(el) {el.blur();})
     if(this.changedForms)
       return this.message;
   },
-  
+
   setChanged: function(){
     this.changedForms = true;
   },
-  
+
   setUnchanged: function(){
     this.changedForms = false;
   },
-  
+
   observeChange: function(element){
     element.observe('change',this.setChanged.bindAsEventListener(this));
   },
-  
+
   submitAction: function(element){
     element.observe('submit',this.setUnchanged.bindAsEventListener(this));
   }
 });
 
-/* 
+/*
  * 1 - registers a callback which copies the csrf token into the
- * X-CSRF-Token header with each ajax request.  Necessary to 
+ * X-CSRF-Token header with each ajax request.  Necessary to
  * work with rails applications which have fixed
  * CVE-2011-0447
  * 2 - shows and hides ajax indicator
