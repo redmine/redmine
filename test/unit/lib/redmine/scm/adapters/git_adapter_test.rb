@@ -191,14 +191,16 @@ begin
       end
 
       def test_revisions_invalid_rev
-        revs1 = []
-        @adapter.revisions('',
+        assert_equal [], @adapter.revisions('', '1234abcd', "master")
+        assert_raise Redmine::Scm::Adapters::CommandFailed do
+          revs1 = []
+          @adapter.revisions('',
                            '1234abcd',
                            "master",
                            {:reverse => true}) do |rev|
-          revs1 << rev
+            revs1 << rev
+          end
         end
-        assert_equal [], revs1
       end
 
       def test_revisions_includes_master_two_revs
@@ -277,14 +279,20 @@ begin
       end
 
       def test_revisions_invalid_rev_excludes
-        revs1 = []
-        @adapter.revisions('', nil, nil,
-                           {:reverse => true,
-                            :includes => ['83ca5fd546063a3c7dc2e568ba3355661a9e2b2c'],
-                            :excludes => ['0123abcd4567']}) do |rev|
-          revs1 << rev
+        assert_equal [],
+                     @adapter.revisions('', nil, nil,
+                                        {:reverse => true,
+                                         :includes => ['83ca5fd546063a3c7dc2e568ba3355661a9e2b2c'],
+                                         :excludes => ['0123abcd4567']})
+        assert_raise Redmine::Scm::Adapters::CommandFailed do
+          revs1 = []
+          @adapter.revisions('', nil, nil,
+                             {:reverse => true,
+                              :includes => ['83ca5fd546063a3c7dc2e568ba3355661a9e2b2c'],
+                              :excludes => ['0123abcd4567']}) do |rev|
+            revs1 << rev
+          end
         end
-        assert_equal [], revs1
       end
 
       def test_getting_revisions_with_spaces_in_filename

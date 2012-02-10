@@ -153,21 +153,25 @@ class Repository::Git < Repository
       from_scmid = nil
       from_scmid = h["branches"][br]["last_scmid"] if h["branches"][br]
       h["branches"][br] ||= {}
-      scm.revisions('', from_scmid, br, {:reverse => true}) do |rev|
-        db_rev = find_changeset_by_name(rev.revision)
-        transaction do
-          if db_rev.nil?
-            db_saved_rev = save_revision(rev)
-            parents = {}
-            parents[db_saved_rev] = rev.parents unless rev.parents.nil?
-            parents.each do |ch, chparents|
-              ch.parents = chparents.collect{|rp| find_changeset_by_name(rp)}.compact
+      begin
+        scm.revisions('', from_scmid, br, {:reverse => true}) do |rev|
+          db_rev = find_changeset_by_name(rev.revision)
+          transaction do
+            if db_rev.nil?
+              db_saved_rev = save_revision(rev)
+              parents = {}
+              parents[db_saved_rev] = rev.parents unless rev.parents.nil?
+              parents.each do |ch, chparents|
+                ch.parents = chparents.collect{|rp| find_changeset_by_name(rp)}.compact
+              end
             end
+            h["branches"][br]["last_scmid"] = rev.scmid
+            merge_extra_info(h)
+            self.save
           end
-          h["branches"][br]["last_scmid"] = rev.scmid
-          merge_extra_info(h)
-          self.save
         end
+      rescue Redmine::Scm::Adapters::CommandFailed => e
+        logger.error("save revisions error: #{e.message}")
       end
     end
   end

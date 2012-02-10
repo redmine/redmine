@@ -290,8 +290,13 @@ module Redmine
           end
           revs
         rescue ScmCommandAborted => e
-          logger.error("git log #{from_to.to_s} error: #{e.message}")
-          revs
+          err_msg = "git log error: #{e.message}"
+          logger.error(err_msg)
+          if block_given?
+            raise CommandFailed, err_msg
+          else
+            revs
+          end
         end
 
         def diff(path, identifier_from, identifier_to=nil)
