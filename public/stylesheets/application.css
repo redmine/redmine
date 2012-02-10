@@ -501,6 +501,7 @@ p.other-formats { text-align: right; font-size:0.9em; color: #666; }
 a.atom { background: url(../images/feed.png) no-repeat 1px 50%; padding: 2px 0px 3px 16px; }
 
 em.info {font-style:normal;font-size:90%;color:#888;display:block;}
+em.info.error {padding-left:20px; background:url(../images/exclamation.png) no-repeat 0 50%;}
 
 /* Project members tab */
 div#tab-content-members .splitcontentleft, div#tab-content-memberships .splitcontentleft, div#tab-content-users .splitcontentleft { width: 64% }
@@ -557,8 +558,6 @@ div.flash.warning, .conflict {
     border-color: #FDBF3B;
     color: #A6750C;
 }
-
-span.error {padding-left:20px; background:url(../images/exclamation.png) no-repeat 0 50%;}
 
 #errorExplanation ul { font-size: 0.9em;}
 #errorExplanation h2, #errorExplanation p { display: none; }

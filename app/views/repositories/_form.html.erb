@@ -4,7 +4,7 @@
 <p>
 <%= label_tag('repository_scm', l(:label_scm)) %><%= scm_select_tag(@repository) %>
 <% if @repository && ! @repository.class.scm_available %>
-  <em class="info"><%= content_tag 'span', l(:text_scm_command_not_available), :class => 'error' %></em>
+  <em class="info error"><%= l(:text_scm_command_not_available) %></em>
 <% end %>
 </p>
 
