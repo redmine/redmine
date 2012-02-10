@@ -7,12 +7,12 @@
 # Specifies gem version of Rails to use when vendor/rails is not present
 RAILS_GEM_VERSION = '2.3.14' unless defined? RAILS_GEM_VERSION
 
+# Bootstrap the Rails environment, frameworks, and default configuration
+require File.join(File.dirname(__FILE__), 'boot')
+
 if RUBY_VERSION >= '1.9' && defined?(Rails) && Rails::VERSION::MAJOR < 3
   Encoding.default_external = 'UTF-8'
 end
-
-# Bootstrap the Rails environment, frameworks, and default configuration
-require File.join(File.dirname(__FILE__), 'boot')
 
 # Load Engine plugin if available
 begin
