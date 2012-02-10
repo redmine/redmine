@@ -130,17 +130,14 @@ class RepositoryGitTest < ActiveSupport::TestCase
       assert_equal NUM_REV, @repository.changesets.count
     end
 
-    def test_fetch_changesets_invalid_rev
+    def test_fetch_changesets_history_editing
       assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      extra_info_db = @repository.extra_info["branches"]
-      assert_equal 5, extra_info_db.size
-      assert_equal "1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127",
-                    extra_info_db["latin-1-path-encoding"]["last_scmid"]
+      assert_equal 5, @repository.extra_info["branches"].size
       assert_equal "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c",
-                    extra_info_db["master"]["last_scmid"]
+                     @repository.extra_info["branches"]["master"]["last_scmid"]
 
       del_revs = [
           "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c",
@@ -154,21 +151,28 @@ class RepositoryGitTest < ActiveSupport::TestCase
         rev.destroy if del_revs.detect {|r| r == rev.scmid.to_s }
       end
       @project.reload
-      cs1 = @repository.changesets
-      assert_equal 22, cs1.count
+      assert_equal NUM_REV - 6, @repository.changesets.count
+
+      c = Changeset.new(:repository   => @repository,
+                        :committed_on => Time.now,
+                        :revision     => "abcd1234efgh",
+                        :scmid        => "abcd1234efgh",
+                        :comments     => 'test')
+      assert c.save
+      @project.reload
+      assert_equal NUM_REV - 5, @repository.changesets.count
+
       h = @repository.extra_info.dup
-      h["branches"]["master"]["last_scmid"] =
-            "abcd1234efgh"
+      h["branches"]["master"]["last_scmid"] = "abcd1234efgh"
       @repository.merge_extra_info(h)
       @repository.save
       @project.reload
-      extra_info_db_1 = @repository.extra_info["branches"]
       assert_equal "abcd1234efgh",
-                    extra_info_db_1["master"]["last_scmid"]
+                    @repository.extra_info["branches"]["master"]["last_scmid"]
 
       @repository.fetch_changesets
       @project.reload
-      assert_equal 22, @repository.changesets.count
+      assert_equal NUM_REV - 5, @repository.changesets.count
     end
 
     def test_parents
