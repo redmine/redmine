@@ -2,19 +2,19 @@
    Copyright (C) 2006-2008  Jean-Philippe Lang */
 
 function checkAll (id, checked) {
-	var els = Element.descendants(id);
-	for (var i = 0; i < els.length; i++) {
+  var els = Element.descendants(id);
+  for (var i = 0; i < els.length; i++) {
     if (els[i].disabled==false) {
       els[i].checked = checked;
     }
-	}
+  }
 }
 
 function toggleCheckboxesBySelector(selector) {
-	boxes = $$(selector);
-	var all_checked = true;
-	for (i = 0; i < boxes.length; i++) { if (boxes[i].checked == false) { all_checked = false; } }
-	for (i = 0; i < boxes.length; i++) { boxes[i].checked = !all_checked; }
+  boxes = $$(selector);
+  var all_checked = true;
+  for (i = 0; i < boxes.length; i++) { if (boxes[i].checked == false) { all_checked = false; } }
+  for (i = 0; i < boxes.length; i++) { boxes[i].checked = !all_checked; }
 }
 
 function setCheckboxesBySelector(checked, selector) {
@@ -25,19 +25,19 @@ function setCheckboxesBySelector(checked, selector) {
 }
 
 function showAndScrollTo(id, focus) {
-	Element.show(id);
-	if (focus!=null) { Form.Element.focus(focus); }
-	Element.scrollTo(id);
+  Element.show(id);
+  if (focus!=null) { Form.Element.focus(focus); }
+  Element.scrollTo(id);
 }
 
 function toggleRowGroup(el) {
-	var tr = Element.up(el, 'tr');
-	var n = Element.next(tr);
-	tr.toggleClassName('open');
-	while (n != undefined && !n.hasClassName('group')) {
-		Element.toggle(n);
-		n = Element.next(n);
-	}
+  var tr = Element.up(el, 'tr');
+  var n = Element.next(tr);
+  tr.toggleClassName('open');
+  while (n != undefined && !n.hasClassName('group')) {
+    Element.toggle(n);
+    n = Element.next(n);
+  }
 }
 
 function collapseAllRowGroups(el) {
@@ -63,7 +63,7 @@ function expandAllRowGroups(el) {
 }
 
 function toggleAllRowGroups(el) {
-	var tr = Element.up(el, 'tr');
+  var tr = Element.up(el, 'tr');
   if (tr.hasClassName('open')) {
     collapseAllRowGroups(el);
   } else {
@@ -72,15 +72,15 @@ function toggleAllRowGroups(el) {
 }
 
 function toggleFieldset(el) {
-	var fieldset = Element.up(el, 'fieldset');
-	fieldset.toggleClassName('collapsed');
-	Effect.toggle(fieldset.down('div'), 'slide', {duration:0.2});
+  var fieldset = Element.up(el, 'fieldset');
+  fieldset.toggleClassName('collapsed');
+  Effect.toggle(fieldset.down('div'), 'slide', {duration:0.2});
 }
 
 function hideFieldset(el) {
-	var fieldset = Element.up(el, 'fieldset');
-	fieldset.toggleClassName('collapsed');
-	fieldset.down('div').hide();
+  var fieldset = Element.up(el, 'fieldset');
+  fieldset.toggleClassName('collapsed');
+  fieldset.down('div').hide();
 }
 
 function add_filter() {
@@ -196,12 +196,12 @@ function addFileField() {
 
 function removeFileField(el) {
   var fields = $('attachments_fields');
-	var s = Element.up(el, 'span');
-	if (fields.childElements().length > 1) {
-		s.remove();
-	} else {
-		s.update(s.innerHTML);
-	}
+  var s = Element.up(el, 'span');
+  if (fields.childElements().length > 1) {
+    s.remove();
+  } else {
+    s.update(s.innerHTML);
+  }
 }
 
 function checkFileSize(el, maxSize, message) {
@@ -217,66 +217,66 @@ function checkFileSize(el, maxSize, message) {
 }
 
 function showTab(name) {
-    var f = $$('div#content .tab-content');
-	for(var i=0; i<f.length; i++){
-		Element.hide(f[i]);
-	}
-    var f = $$('div.tabs a');
-	for(var i=0; i<f.length; i++){
-		Element.removeClassName(f[i], "selected");
-	}
-	Element.show('tab-content-' + name);
-	Element.addClassName('tab-' + name, "selected");
-	return false;
+  var f = $$('div#content .tab-content');
+  for(var i=0; i<f.length; i++){
+    Element.hide(f[i]);
+  }
+  var f = $$('div.tabs a');
+  for(var i=0; i<f.length; i++){
+    Element.removeClassName(f[i], "selected");
+  }
+  Element.show('tab-content-' + name);
+  Element.addClassName('tab-' + name, "selected");
+  return false;
 }
 
 function moveTabRight(el) {
-	var lis = Element.up(el, 'div.tabs').down('ul').childElements();
-	var tabsWidth = 0;
-	var i;
-	for (i=0; i<lis.length; i++) {
-		if (lis[i].visible()) {
-			tabsWidth += lis[i].getWidth() + 6;
-		}
-	}
-	if (tabsWidth < Element.up(el, 'div.tabs').getWidth() - 60) {
-		return;
-	}
-	i=0;
-	while (i<lis.length && !lis[i].visible()) {
-		i++;
-	}
-	lis[i].hide();
+  var lis = Element.up(el, 'div.tabs').down('ul').childElements();
+  var tabsWidth = 0;
+  var i;
+  for (i=0; i<lis.length; i++) {
+    if (lis[i].visible()) {
+      tabsWidth += lis[i].getWidth() + 6;
+    }
+  }
+  if (tabsWidth < Element.up(el, 'div.tabs').getWidth() - 60) {
+    return;
+  }
+  i=0;
+  while (i<lis.length && !lis[i].visible()) {
+    i++;
+  }
+  lis[i].hide();
 }
 
 function moveTabLeft(el) {
-	var lis = Element.up(el, 'div.tabs').down('ul').childElements();
-	var i = 0;
-	while (i<lis.length && !lis[i].visible()) {
-		i++;
-	}
-	if (i>0) {
-		lis[i-1].show();
-	}
+  var lis = Element.up(el, 'div.tabs').down('ul').childElements();
+  var i = 0;
+  while (i<lis.length && !lis[i].visible()) {
+    i++;
+  }
+  if (i>0) {
+    lis[i-1].show();
+  }
 }
 
 function displayTabsButtons() {
-	var lis;
-	var tabsWidth = 0;
-	var i;
-	$$('div.tabs').each(function(el) {
-		lis = el.down('ul').childElements();
-		for (i=0; i<lis.length; i++) {
-			if (lis[i].visible()) {
-				tabsWidth += lis[i].getWidth() + 6;
-			}
-		}
-		if ((tabsWidth < el.getWidth() - 60) && (lis[0].visible())) {
-			el.down('div.tabs-buttons').hide();
-		} else {
-			el.down('div.tabs-buttons').show();
-		}
-	});
+  var lis;
+  var tabsWidth = 0;
+  var i;
+  $$('div.tabs').each(function(el) {
+    lis = el.down('ul').childElements();
+    for (i=0; i<lis.length; i++) {
+      if (lis[i].visible()) {
+        tabsWidth += lis[i].getWidth() + 6;
+      }
+    }
+    if ((tabsWidth < el.getWidth() - 60) && (lis[0].visible())) {
+      el.down('div.tabs-buttons').hide();
+    } else {
+      el.down('div.tabs-buttons').show();
+    }
+  });
 }
 
 function setPredecessorFieldsVisibility() {
@@ -298,7 +298,7 @@ function promptToRemote(text, param, url) {
 
 function showModal(id, width) {
   el = $(id);
-	if (el == undefined || el.visible()) {return;}
+  if (el == undefined || el.visible()) {return;}
   var h = $$('body')[0].getHeight();
   var d = document.createElement("div");
   d.id = 'modalbg';
@@ -307,44 +307,44 @@ function showModal(id, width) {
   $('modalbg').show();
 
   var pageWidth = document.viewport.getWidth();
-	if (width) {
-  	el.setStyle({'width': width});
+  if (width) {
+    el.setStyle({'width': width});
   }
-	el.setStyle({'left': (((pageWidth - el.getWidth())/2  *100) / pageWidth) + '%'});
+  el.setStyle({'left': (((pageWidth - el.getWidth())/2  *100) / pageWidth) + '%'});
   el.addClassName('modal');
-	el.show();
+  el.show();
 
   var submit = el.down("input[type=submit]");
-	if (submit) {
-  	submit.focus();
+  if (submit) {
+    submit.focus();
   }
 }
 
 function hideModal(el) {
   var modal = Element.up(el, 'div.modal');
-	if (modal) {
-		modal.hide();
-	}
-	var bg = $('modalbg');
-	if (bg) {
-  	bg.remove();
+  if (modal) {
+    modal.hide();
+  }
+  var bg = $('modalbg');
+  if (bg) {
+    bg.remove();
   }
 }
 
 function collapseScmEntry(id) {
-    var els = document.getElementsByClassName(id, 'browser');
-	for (var i = 0; i < els.length; i++) {
-	   if (els[i].hasClassName('open')) {
-	       collapseScmEntry(els[i].id);
-	   }
-       Element.hide(els[i]);
-    }
-    $(id).removeClassName('open');
+  var els = document.getElementsByClassName(id, 'browser');
+  for (var i = 0; i < els.length; i++) {
+     if (els[i].hasClassName('open')) {
+         collapseScmEntry(els[i].id);
+     }
+     Element.hide(els[i]);
+  }
+  $(id).removeClassName('open');
 }
 
 function expandScmEntry(id) {
     var els = document.getElementsByClassName(id, 'browser');
-	for (var i = 0; i < els.length; i++) {
+    for (var i = 0; i < els.length; i++) {
        Element.show(els[i]);
        if (els[i].hasClassName('loaded') && !els[i].hasClassName('collapsed')) {
             expandScmEntry(els[i].id);
@@ -378,12 +378,12 @@ function scmEntryLoaded(id) {
 }
 
 function randomKey(size) {
-	var chars = new Array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z');
-	var key = '';
-	for (i = 0; i < size; i++) {
-  	key += chars[Math.floor(Math.random() * chars.length)];
-	}
-	return key;
+  var chars = new Array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z');
+  var key = '';
+  for (i = 0; i < size; i++) {
+    key += chars[Math.floor(Math.random() * chars.length)];
+  }
+  return key;
 }
 
 function observeParentIssueField(url) {
@@ -437,43 +437,43 @@ function observeProjectModules() {
 */
 
 var WarnLeavingUnsaved = Class.create({
-	observedForms: false,
-	observedElements: false,
-	changedForms: false,
-	message: null,
-	
-	initialize: function(message){
-		this.observedForms = $$('form');
-		this.observedElements =  $$('textarea');
-		this.message = message;
-		
-		this.observedElements.each(this.observeChange.bind(this));
-		this.observedForms.each(this.submitAction.bind(this));
-		
-		window.onbeforeunload = this.unload.bind(this);
-	},
-	
-	unload: function(){
-		this.observedElements.each(function(el) {el.blur();})
-		if(this.changedForms)
+  observedForms: false,
+  observedElements: false,
+  changedForms: false,
+  message: null,
+  
+  initialize: function(message){
+    this.observedForms = $$('form');
+    this.observedElements =  $$('textarea');
+    this.message = message;
+    
+    this.observedElements.each(this.observeChange.bind(this));
+    this.observedForms.each(this.submitAction.bind(this));
+    
+    window.onbeforeunload = this.unload.bind(this);
+  },
+  
+  unload: function(){
+    this.observedElements.each(function(el) {el.blur();})
+    if(this.changedForms)
       return this.message;
-	},
-	
-	setChanged: function(){
+  },
+  
+  setChanged: function(){
     this.changedForms = true;
-	},
-	
-	setUnchanged: function(){
+  },
+  
+  setUnchanged: function(){
     this.changedForms = false;
-	},
-	
-	observeChange: function(element){
+  },
+  
+  observeChange: function(element){
     element.observe('change',this.setChanged.bindAsEventListener(this));
-	},
-	
-	submitAction: function(element){
+  },
+  
+  submitAction: function(element){
     element.observe('submit',this.setUnchanged.bindAsEventListener(this));
-	}
+  }
 });
 
 /* 
@@ -510,8 +510,8 @@ Ajax.Responders.register({
 
 function hideOnLoad() {
   $$('.hol').each(function(el) {
-  	el.hide();
-	});
+    el.hide();
+  });
 }
 
 Event.observe(window, 'load', hideOnLoad);
