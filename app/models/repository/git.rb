@@ -107,8 +107,7 @@ class Repository::Git < Repository
   # However, Git does not have a sequential commit numbering.
   #
   # In order to fetch only new adding revisions,
-  # Redmine needs to parse revisions per branch.
-  # Branch "last_scmid" is for this requirement.
+  # Redmine needs to save "heads".
   #
   # In Git and Mercurial, revisions are not in date order.
   # Redmine Mercurial fixed issues.
@@ -131,9 +130,17 @@ class Repository::Git < Repository
   def fetch_changesets
     scm_brs = branches
     return if scm_brs.nil? || scm_brs.empty?
+
     h1 = extra_info || {}
     h  = h1.dup
-    h["branches"]       ||= {}
+    repo_heads = scm_brs.map{ |br| br.scmid }
+    h["heads"] ||= []
+    prev_db_heads = h["heads"].dup
+    if prev_db_heads.empty?
+      prev_db_heads += heads_from_branches_hash
+    end
+    return if prev_db_heads.sort == repo_heads.sort
+
     h["db_consistent"]  ||= {}
     if changesets.count == 0
       h["db_consistent"]["ordering"] = 1
@@ -144,35 +151,39 @@ class Repository::Git < Repository
       merge_extra_info(h)
       self.save
     end
-    save_revisions(h, scm_brs)
+
+    save_revisions(prev_db_heads, repo_heads)
   end
 
-  def save_revisions(h, scm_brs)
-    scm_brs.each do |br1|
-      br = br1.to_s
-      from_scmid = nil
-      from_scmid = h["branches"][br]["last_scmid"] if h["branches"][br]
-      h["branches"][br] ||= {}
-      begin
-        scm.revisions('', from_scmid, br, {:reverse => true}) do |rev|
-          db_rev = find_changeset_by_name(rev.revision)
-          transaction do
-            if db_rev.nil?
-              db_saved_rev = save_revision(rev)
-              parents = {}
-              parents[db_saved_rev] = rev.parents unless rev.parents.nil?
-              parents.each do |ch, chparents|
-                ch.parents = chparents.collect{|rp| find_changeset_by_name(rp)}.compact
-              end
+  def save_revisions(prev_db_heads, repo_heads)
+    h = {}
+    opts = {}
+    opts[:reverse]  = true
+    opts[:excludes] = prev_db_heads
+    opts[:includes] = repo_heads
+    begin
+      scm.revisions('', nil, nil, opts) do |rev|
+        db_rev = find_changeset_by_name(rev.scmid)
+        transaction do
+          if db_rev.nil?
+            db_saved_rev = save_revision(rev)
+            parents = {}
+            parents[db_saved_rev] = rev.parents unless rev.parents.nil?
+            parents.each do |ch, chparents|
+              ch.parents = chparents.collect{|rp| find_changeset_by_name(rp)}.compact
             end
-            h["branches"][br]["last_scmid"] = rev.scmid
-            merge_extra_info(h)
-            self.save
           end
+          h["heads"] = prev_db_heads.dup
+          h["heads"] << rev.scmid
+          merge_extra_info(h)
+          self.save
         end
-      rescue Redmine::Scm::Adapters::CommandFailed => e
-        logger.error("save revisions error: #{e.message}")
       end
+      h["heads"] = repo_heads.dup
+      merge_extra_info(h)
+      self.save
+    rescue Redmine::Scm::Adapters::CommandFailed => e
+      logger.error("save revisions error: #{e.message}")
     end
   end
   private :save_revisions
