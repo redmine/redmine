@@ -1,0 +1,9 @@
+<h3 class="title"><%=l(:label_version_new)%></h3>
+
+<% labelled_remote_form_for @version, :url => project_versions_path(@project) do |f| %>
+<%= render :partial => 'versions/form', :locals => { :f => f } %>
+  <p class="buttons">
+    <%= submit_tag l(:button_create), :name => nil %>
+    <%= submit_tag l(:button_cancel), :name => nil, :onclick => "hideModal(this);", :type => 'button' %>
+  </p>
+<% end %>

@@ -75,6 +75,17 @@ class VersionsController < ApplicationController
 
   def new
     @version = @project.versions.build(params[:version])
+
+    respond_to do |format|
+      format.html
+      format.js do
+        render :update do |page|
+          page.replace_html 'ajax-modal', :partial => 'versions/new_modal'
+          page << "showModal('ajax-modal', '600px');"
+          page << "Form.Element.focus('version_name');"
+        end
+      end
+    end
   end
 
   def create
@@ -93,9 +104,11 @@ class VersionsController < ApplicationController
             redirect_back_or_default :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
           end
           format.js do
-            # IE doesn't support the replace_html rjs method for select box options
-            render(:update) {|page| page.replace "issue_fixed_version_id",
-              content_tag('select', '<option></option>' + version_options_for_select(@project.shared_versions.open, @version), :id => 'issue_fixed_version_id', :name => 'issue[fixed_version_id]')
+            render(:update) {|page|
+              page << 'hideModal();'
+              # IE doesn't support the replace_html rjs method for select box options
+              page.replace "issue_fixed_version_id",
+                content_tag('select', '<option></option>' + version_options_for_select(@project.shared_versions.open, @version), :id => 'issue_fixed_version_id', :name => 'issue[fixed_version_id]')
             }
           end
           format.api do
@@ -106,7 +119,10 @@ class VersionsController < ApplicationController
         respond_to do |format|
           format.html { render :action => 'new' }
           format.js do
-            render(:update) {|page| page.alert(@version.errors.full_messages.join('\n')) }
+            render :update do |page|
+              page.replace_html 'ajax-modal', :partial => 'versions/new_modal'
+              page << "Form.Element.focus('version_name');"
+            end
           end
           format.api  { render_validation_errors(@version) }
         end

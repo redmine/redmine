@@ -27,12 +27,10 @@
 
 <% if @issue.safe_attribute?('fixed_version_id') && @issue.assignable_versions.any? %>
 <p><%= f.select :fixed_version_id, version_options_for_select(@issue.assignable_versions, @issue.fixed_version), :include_blank => true %>
-<%= prompt_to_remote(image_tag('add.png', :style => 'vertical-align: middle;'),
-                     l(:label_version_new),
-                     'version[name]',
-                     {:controller => 'versions', :action => 'create', :project_id => @issue.project},
-                     :title => l(:label_version_new),
-                     :tabindex => 200) if User.current.allowed_to?(:manage_versions, @issue.project) %>
+<%= link_to_remote(image_tag('add.png', :style => 'vertical-align: middle;'),
+                   {:url => new_project_version_path(@issue.project), :method => 'get'},
+                   :title => l(:label_version_new),
+                   :tabindex => 200) if User.current.allowed_to?(:manage_versions, @issue.project) %>
 </p>
 <% end %>
 </div>

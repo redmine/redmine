@@ -321,7 +321,12 @@ function showModal(id, width) {
 }
 
 function hideModal(el) {
-  var modal = Element.up(el, 'div.modal');
+  var modal;
+	if (el) {
+		modal = Element.up(el, 'div.modal');
+	} else {
+		modal = $('ajax-modal');
+	}
   if (modal) {
     modal.hide();
   }
