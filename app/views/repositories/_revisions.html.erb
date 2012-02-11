@@ -1,4 +1,19 @@
 <% show_revision_graph = ( @repository.supports_revision_graph? && path.blank? ) %>
+<%= if show_revision_graph && revisions && revisions.any?
+    indexed_commits, graph_space = index_commits(revisions, @repository.branches) do |scmid|
+                             url_for(
+                               :controller => 'repositories',
+                               :action => 'revision',
+                               :id => project,
+                               :repository_id => @repository.identifier_param,
+                               :rev => scmid)
+                         end
+    render :partial => 'revision_graph',
+         :locals => {
+            :commits => indexed_commits,
+            :space => graph_space
+        }
+end %>
 <% form_tag(
       {:controller => 'repositories', :action => 'diff', :id => project,
        :repository_id => @repository.identifier_param, :path => to_path_param(path)},
@@ -15,21 +30,6 @@
 </tr></thead>
 <tbody>
 <% show_diff = revisions.size > 1 %>
-<%= if show_revision_graph && revisions && revisions.any?
-    indexed_commits, graph_space = index_commits(revisions, @repository.branches) do |scmid|
-                             url_for(
-                               :controller => 'repositories',
-                               :action => 'revision',
-                               :id => project,
-                               :repository_id => @repository.identifier_param,
-                               :rev => scmid)
-                         end
-    render :partial => 'revision_graph',
-         :locals => {
-            :commits => indexed_commits,
-            :space => graph_space
-        }
-end %>
 <% line_num = 1 %>
 <% revisions.each do |changeset| %>
 <tr class="changeset <%= cycle 'odd', 'even' %>">
