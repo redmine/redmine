@@ -271,7 +271,6 @@ module RepositoriesHelper
       commits_by_scmid[commit.scmid] = {
         :parent_scmids => commit.parents.collect { |parent| parent.scmid },
         :rdmid => commit_index,
-        :space => 0,
         :refs  => refs_map.include?(commit.scmid) ? refs_map[commit.scmid].join(" ") : nil,
         :scmid => commit.scmid,
         :href  => block_given? ? yield(commit.scmid) : commit.scmid
@@ -280,40 +279,40 @@ module RepositoriesHelper
 
     heads.sort! { |head1, head2| head1.to_s <=> head2.to_s }
 
-    mark_index = 0
+    space = nil  
     heads.each do |head|
       if commits_by_scmid.include? head.scmid
-        mark_index = mark_chain(mark_index += 1, commits_by_scmid[head.scmid], commits_by_scmid)
+        space = index_head((space || -1) + 1, head, commits_by_scmid)
       end
     end
+
     # when no head matched anything use first commit
-    if mark_index == 0
-       mark_chain(mark_index += 1, commits_by_scmid.values.first, commits_by_scmid)
-    end
-    commits_by_scmid
+    space ||= index_head(0, commits.first, commits_by_scmid)
+
+    return commits_by_scmid, space
   end
 
-  def mark_chain(mark_index, commit, commits_by_scmid)
+  def index_head(space, commit, commits_by_scmid)
 
-    stack = [[mark_index, commit]]
-    mark_max_index = mark_index
+    stack = [[space, commits_by_scmid[commit.scmid]]]
+    max_space = space
 
     until stack.empty?
-      mark_index, commit = stack.pop
-      commit[:space] = mark_index if commit[:space] == 0
+      space, commit = stack.pop
+      commit[:space] = space if commit[:space].nil?
 
-      mark_index -=1
+      space -= 1
       commit[:parent_scmids].each_with_index do |parent_scmid, parent_index|
 
         parent_commit = commits_by_scmid[parent_scmid]
 
-        if parent_commit and parent_commit[:space] == 0
+        if parent_commit and parent_commit[:space].nil?
 
-          stack.unshift [mark_index += 1, parent_commit]
+          stack.unshift [space += 1, parent_commit]
         end
       end
-      mark_max_index = mark_index if mark_max_index < mark_index
+      max_space = space if max_space < space
     end
-    mark_max_index
+    max_space
   end
 end

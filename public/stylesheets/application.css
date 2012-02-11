@@ -176,7 +176,6 @@ tr.changeset ul, ol { margin-top: 0px; margin-bottom: 0px; }
 tr.changeset td.revision_graph { width: 15%; background-color: #fffffb; }
 tr.changeset td.author { text-align: center; width: 15%; white-space:nowrap;}
 tr.changeset td.committed_on { text-align: center; width: 15%; white-space:nowrap;}
-tr.changeset td.comments_nowrap { width: 45%; white-space:nowrap;}
 
 table.files tr.file td { text-align: center; }
 table.files tr.file td.filename { text-align: left; padding-left: 24px; }

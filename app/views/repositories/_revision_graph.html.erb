@@ -4,9 +4,10 @@
 <script type="text/javascript" charset="utf-8">
   Event.observe(window, 'load', function(){
     revisionGraph(
-        document.getElementById("holder"),
-        <%= commits.to_json.html_safe %>);
+        document.getElementById('holder'),
+        <%= commits.to_json.html_safe %>,
+        <%= space %>);
   });
 </script>
 
-<div id="holder" class="graph"></div>
+<div id="holder" class="revision-graph" style="width: <%= (space + 1) * 20 %>px;"></div>

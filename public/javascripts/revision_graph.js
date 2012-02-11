@@ -1,29 +1,25 @@
 
-function revisionGraph(holder, commits_hash) {
+function revisionGraph(holder, commits_hash, graph_space) {
 
-    var LEFT_PADDING = 3,
-        TOP_PADDING = 10,
-        XSTEP = 20;
-
-    var YSTEP = $$('tr.changeset')[0].getHeight();
+    var XSTEP = 20,
+        CIRCLE_INROW_OFFSET = 10;
 
     var commits_by_scmid = $H(commits_hash),
         commits = commits_by_scmid.values();
 
-    // init max dimensions
-    var max_rdmid = max_space = 0;
-    commits.each(function(commit) {
+    var max_rdmid = commits.length - 1;
 
-        max_rdmid = Math.max(max_rdmid, commit.rdmid);
-        max_space = Math.max(max_space, commit.space);
-    });
+    var commit_table_rows = $$('table.changesets tr.changeset');
 
-    var graph_height = max_rdmid * YSTEP + YSTEP,
-        graph_width = max_space * XSTEP + XSTEP;
+    // init dimensions
+    var graph_offset = $(holder).getLayout().get('top'),
+        graph_width = (graph_space + 1) * XSTEP,
+        graph_height = commit_table_rows[max_rdmid].getLayout().get('top') + commit_table_rows[max_rdmid].getLayout().get('height') - graph_offset;
+
 
     // init colors
-    var colors = ['#000'];
-    for (var k = 0; k < max_space; k++) {
+    var colors = [];
+    for (var k = 0; k < graph_space + 1; k++) {
         colors.push(Raphael.getColor());
     }
 
@@ -37,8 +33,8 @@ function revisionGraph(holder, commits_hash) {
 
     commits.each(function(commit) {
 
-        y = TOP_PADDING + YSTEP *(max_rdmid - commit.rdmid);
-        x = LEFT_PADDING + XSTEP * commit.space;
+        y = commit_table_rows[max_rdmid - commit.rdmid].getLayout().get('top') - graph_offset + CIRCLE_INROW_OFFSET;
+        x = XSTEP / 2 + XSTEP * commit.space;
 
         graph.circle(x, y, 3).attr({fill: colors[commit.space], stroke: 'none'});
 
@@ -64,8 +60,8 @@ function revisionGraph(holder, commits_hash) {
             parent_commit = commits_by_scmid.get(parent_scmid);
 
             if (parent_commit) {
-                parent_y = TOP_PADDING + YSTEP * (max_rdmid - parent_commit.rdmid);
-                parent_x = LEFT_PADDING + XSTEP * parent_commit.space;
+                parent_y = commit_table_rows[max_rdmid - parent_commit.rdmid].getLayout().get('top') - graph_offset + CIRCLE_INROW_OFFSET;
+                parent_x = XSTEP / 2 + XSTEP * parent_commit.space;
 
                 if (parent_commit.space == commit.space) {
                     // vertical path

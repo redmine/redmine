@@ -4,6 +4,8 @@ table.revision-info td {
     padding: 0px;
 }
 
+div.revision-graph { position: absolute; overflow:hidden; }
+
 div.changeset-changes ul { margin: 0; padding: 0; }
 div.changeset-changes ul > ul { margin-left: 18px; padding: 0; }
 
