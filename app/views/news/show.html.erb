@@ -53,7 +53,7 @@
 <% end if @comments.any? %>
 </div>
 
-<% if authorize_for 'comments', 'create' %>
+<% if @news.commentable? %>
 <p><%= toggle_link l(:label_comment_add), "add_comment_form", :focus => "comment_comments" %></p>
 <% form_tag({:controller => 'comments', :action => 'create', :id => @news}, :id => "add_comment_form", :style => "display:none;") do %>
 <div class="box">

@@ -44,6 +44,15 @@ class CommentsControllerTest < ActionController::TestCase
     end
   end
 
+  def test_create_should_be_denied_if_news_is_not_commentable
+    News.any_instance.stubs(:commentable?).returns(false)
+    @request.session[:user_id] = 2
+    assert_no_difference 'Comment.count' do
+      post :create, :id => 1, :comment => { :comments => 'This is a test comment' }
+      assert_response 403
+    end
+  end
+
   def test_destroy_comment
     comments_count = News.find(1).comments.size
     @request.session[:user_id] = 2
