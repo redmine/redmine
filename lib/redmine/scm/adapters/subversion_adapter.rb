@@ -199,7 +199,7 @@ module Redmine
           revisions
         end
 
-        def diff(path, identifier_from, identifier_to=nil, type="inline")
+        def diff(path, identifier_from, identifier_to=nil)
           path ||= ''
           identifier_from = (identifier_from and identifier_from.to_i > 0) ? identifier_from.to_i : ''
 
