@@ -74,6 +74,15 @@ class RepositoryTest < ActiveSupport::TestCase
     end
   end
 
+  def test_destroy_should_delete_parents_associations
+    changeset = Changeset.find(102)
+    changeset.parents = Changeset.find_all_by_id([100, 101])
+
+    assert_difference 'Changeset.connection.select_all("select * from changeset_parents").size', -2 do
+      Repository.find(10).destroy
+    end
+  end
+
   def test_should_not_create_with_disabled_scm
     # disable Subversion
     with_settings :enabled_scm => ['Darcs', 'Git'] do
