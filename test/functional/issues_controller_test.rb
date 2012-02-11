@@ -2523,6 +2523,26 @@ class IssuesControllerTest < ActionController::TestCase
       }
   end
 
+  def test_bulk_edit_should_only_propose_statuses_allowed_for_all_issues
+    Workflow.delete_all
+    Workflow.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 1)
+    Workflow.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 3)
+    Workflow.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 4)
+    Workflow.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 2, :new_status_id => 1)
+    Workflow.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 2, :new_status_id => 3)
+    Workflow.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 2, :new_status_id => 5)
+    @request.session[:user_id] = 2
+    get :bulk_edit, :ids => [1, 2]
+
+    assert_response :success
+    statuses = assigns(:available_statuses)
+    assert_not_nil statuses
+    assert_equal [1, 3], statuses.map(&:id).sort
+
+    assert_tag 'select', :attributes => {:name => 'issue[status_id]'},
+      :children => {:count => 3} # 2 statuses + "no change" option
+  end
+
   def test_bulk_update
     @request.session[:user_id] = 2
     # update issues priority

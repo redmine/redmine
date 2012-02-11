@@ -229,7 +229,7 @@ class IssuesController < ApplicationController
     end
     target_projects ||= @projects
 
-    @available_statuses = target_projects.map{|p|Workflow.available_statuses(p)}.reduce(:&)
+    @available_statuses = @issues.map(&:new_statuses_allowed_to).reduce(:&)
     @custom_fields = target_projects.map{|p|p.all_issue_custom_fields}.reduce(:&)
     @assignables = target_projects.map(&:assignable_users).reduce(:&)
     @trackers = target_projects.map(&:trackers).reduce(:&)
