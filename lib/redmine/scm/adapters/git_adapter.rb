@@ -25,6 +25,10 @@ module Redmine
         # Git executable name
         GIT_BIN = Redmine::Configuration['scm_git_command'] || "git"
 
+        class GitBranch < Branch 
+          attr_accessor :is_default
+        end
+
         class << self
           def client_command
             @@bin    ||= GIT_BIN
@@ -80,10 +84,11 @@ module Redmine
           cmd_args = %w|branch --no-color --verbose --no-abbrev|
           scm_cmd(*cmd_args) do |io|
             io.each_line do |line|
-              branch_rev = line.match('\s*\*?\s*(.*?)\s*([0-9a-f]{40}).*$')
-              bran = Branch.new(branch_rev[1])
-              bran.revision =  branch_rev[2]
-              bran.scmid    =  branch_rev[2]
+              branch_rev = line.match('\s*(\*?)\s*(.*?)\s*([0-9a-f]{40}).*$')
+              bran = GitBranch.new(branch_rev[2])
+              bran.revision =  branch_rev[3]
+              bran.scmid    =  branch_rev[3]
+              bran.is_default = ( branch_rev[1] == '*' )
               @branches << bran
             end
           end
@@ -105,6 +110,8 @@ module Redmine
         def default_branch
           bras = self.branches
           return nil if bras.nil?
+          default_bras = bras.select{|x| x.is_default == true}
+          return default_bras.first if ! default_bras.empty?
           bras.include?('master') ? 'master' : bras.first
         end
 
