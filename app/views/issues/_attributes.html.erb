@@ -1,5 +1,6 @@
 <% labelled_fields_for :issue, @issue do |f| %>
 
+<div class="splitcontent">
 <div class="splitcontentleft">
 <% if @issue.safe_attribute? 'status_id'  %>
 <p><%= f.select :status_id, (@allowed_statuses.collect {|p| [p.name, p.id]}), :required => true %></p>
@@ -58,8 +59,8 @@
 <p><%= f.select :done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }) %></p>
 <% end %>
 </div>
+</div>
 
-<div style="clear:both;"> </div>
 <% if @issue.safe_attribute? 'custom_field_values' %>
 <%= render :partial => 'issues/form_custom_fields' %>
 <% end %>

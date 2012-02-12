@@ -280,6 +280,7 @@ div.square {
 .contextual input, .contextual select {font-size:0.9em;}
 .message .contextual { margin-top: 0; }
 
+.splitcontent {overflow:auto;}
 .splitcontentleft{float:left; width:49%;}
 .splitcontentright{float:right; width:49%;}
 form {display: inline;}
