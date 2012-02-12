@@ -24,6 +24,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
   REPOSITORY_PATH.gsub!(/\//, "\\") if Redmine::Platform.mswin?
 
   NUM_REV = 28
+  NUM_HEAD = 6
 
   FELIX_HEX  = "Felix Sch\xC3\xA4fer"
   CHAR_1_HEX = "\xc3\x9c"
@@ -87,7 +88,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       assert_equal "README", change.path
       assert_equal "A", change.action
 
-      assert_equal 5, @repository.extra_info["heads"].size
+      assert_equal NUM_HEAD, @repository.extra_info["heads"].size
     end
 
     def test_fetch_changesets_incremental
@@ -96,7 +97,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
       extra_info_heads = @repository.extra_info["heads"].dup
-      assert_equal 5, extra_info_heads.size
+      assert_equal NUM_HEAD, extra_info_heads.size
       extra_info_heads.delete_if { |x| x == "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c" }
       assert_equal 4, extra_info_heads.size
 
@@ -124,7 +125,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      assert_equal 5, @repository.extra_info["heads"].size
+      assert_equal NUM_HEAD, @repository.extra_info["heads"].size
       assert @repository.extra_info["heads"].index("83ca5fd546063a3c7dc2e568ba3355661a9e2b2c")
     end
 
@@ -134,7 +135,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
       extra_info_heads = @repository.extra_info["heads"].dup
-      assert_equal 5, extra_info_heads.size
+      assert_equal NUM_HEAD, extra_info_heads.size
       extra_info_heads.delete_if { |x| x == "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c" }
       assert_equal 4, extra_info_heads.size
 
@@ -247,7 +248,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      assert_equal 5, @repository.extra_info["heads"].size
+      assert_equal NUM_HEAD, @repository.extra_info["heads"].size
 
       assert_equal 0, @repository.extra_info["db_consistent"]["ordering"]
     end
