@@ -59,6 +59,50 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
     end
   end
 
+  def test_styles
+    # single style
+    assert_html_output({
+      'p{color:red}. text'           => '<p style="color:red;">text</p>',
+      'p{color:red;}. text'          => '<p style="color:red;">text</p>',
+      'p{color: red}. text'          => '<p style="color: red;">text</p>',
+      'p{color:#f00}. text'          => '<p style="color:#f00;">text</p>',
+      'p{color:#ff0000}. text'       => '<p style="color:#ff0000;">text</p>',
+      'p{border:10px}. text'         => '<p style="border:10px;">text</p>',
+      'p{border:10}. text'           => '<p style="border:10;">text</p>',
+      'p{border:10%}. text'          => '<p style="border:10%;">text</p>',
+      'p{border:10em}. text'         => '<p style="border:10em;">text</p>',
+      'p{border:1.5em}. text'        => '<p style="border:1.5em;">text</p>',
+      'p{border-left:1px}. text'     => '<p style="border-left:1px;">text</p>',
+      'p{border-right:1px}. text'    => '<p style="border-right:1px;">text</p>',
+      'p{border-top:1px}. text'      => '<p style="border-top:1px;">text</p>',
+      'p{border-bottom:1px}. text'   => '<p style="border-bottom:1px;">text</p>',
+      }, false)
+
+    # multiple styles
+    assert_html_output({
+      'p{color:red; border-top:1px}. text'   => '<p style="color:red;border-top:1px;">text</p>',
+      'p{color:red ; border-top:1px}. text'  => '<p style="color:red;border-top:1px;">text</p>',
+      'p{color:red;border-top:1px}. text'    => '<p style="color:red;border-top:1px;">text</p>',
+      }, false)
+
+    # styles with multiple values
+    assert_html_output({
+      'p{border:1px solid red;}. text'             => '<p style="border:1px solid red;">text</p>',
+      'p{border-top-left-radius: 10px 5px;}. text' => '<p style="border-top-left-radius: 10px 5px;">text</p>',
+      }, false)
+  end
+
+  def test_invalid_styles_should_be_filtered
+    assert_html_output({
+      'p{invalid}. text'                     => '<p>text</p>',
+      'p{invalid:red}. text'                 => '<p>text</p>',
+      'p{color:(red)}. text'                 => '<p>text</p>',
+      'p{color:red;invalid:blue}. text'      => '<p style="color:red;">text</p>',
+      'p{invalid:blue;color:red}. text'      => '<p style="color:red;">text</p>',
+      'p{color:"}. text'                     => '<p>text</p>',
+      }, false)
+  end
+
   def test_inline_code
     assert_html_output(
       'this is @some code@'      => 'this is <code>some code</code>',
