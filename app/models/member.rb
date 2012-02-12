@@ -58,7 +58,17 @@ class Member < ActiveRecord::Base
 
   def <=>(member)
     a, b = roles.sort.first, member.roles.sort.first
-    a == b ? (principal <=> member.principal) : (a <=> b)
+    if a == b
+      if principal
+        principal <=> member.principal
+      else
+        1
+      end
+    elsif a
+      a <=> b
+    else
+      1
+    end
   end
 
   def deletable?

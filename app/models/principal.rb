@@ -50,7 +50,9 @@ class Principal < ActiveRecord::Base
   end
 
   def <=>(principal)
-    if self.class.name == principal.class.name
+    if principal.nil?
+      -1
+    elsif self.class.name == principal.class.name
       self.to_s.downcase <=> principal.to_s.downcase
     else
       # groups after users
