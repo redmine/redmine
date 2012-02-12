@@ -768,6 +768,19 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal issue1.due_date + 1, issue2.reload.start_date
   end
 
+  def test_rescheduling_a_stale_issue_should_not_raise_an_error
+    stale = Issue.find(1)
+    issue = Issue.find(1)
+    issue.subject = "Updated"
+    issue.save!
+
+    date = 10.days.from_now.to_date
+    assert_nothing_raised do
+      stale.reschedule_after(date)
+    end
+    assert_equal date, stale.reload.start_date
+  end
+
   def test_overdue
     assert Issue.new(:due_date => 1.day.ago.to_date).overdue?
     assert !Issue.new(:due_date => Date.today).overdue?

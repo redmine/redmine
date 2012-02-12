@@ -638,7 +638,13 @@ class Issue < ActiveRecord::Base
     if leaf?
       if start_date.nil? || start_date < date
         self.start_date, self.due_date = date, date + duration
-        save
+        begin
+          save
+        rescue ActiveRecord::StaleObjectError
+          reload
+          self.start_date, self.due_date = date, date + duration
+          save
+        end
       end
     else
       leaves.each do |leaf|
