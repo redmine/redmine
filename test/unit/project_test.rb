@@ -598,6 +598,13 @@ class ProjectTest < ActiveSupport::TestCase
     assert !versions.collect(&:id).include?(6)
   end
 
+  def test_shared_versions_for_new_project_should_include_system_shared_versions
+    p = Project.find(5)
+    v = Version.create!(:name => 'system_sharing', :project => p, :sharing => 'system')
+
+    assert_include v, Project.new.shared_versions
+  end
+
   def test_next_identifier
     ProjectCustomField.delete_all
     Project.create!(:name => 'last', :identifier => 'p2008040')

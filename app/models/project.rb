@@ -411,16 +411,21 @@ class Project < ActiveRecord::Base
 
   # Returns a scope of the Versions used by the project
   def shared_versions
-    @shared_versions ||= begin
-      r = root? ? self : root
+    if new_record?
       Version.scoped(:include => :project,
-                     :conditions => "#{Project.table_name}.id = #{id}" +
-                                    " OR (#{Project.table_name}.status = #{Project::STATUS_ACTIVE} AND (" +
+                     :conditions => "#{Project.table_name}.status = #{Project::STATUS_ACTIVE} AND #{Version.table_name}.sharing = 'system'")
+    else
+      @shared_versions ||= begin
+        r = root? ? self : root
+        Version.scoped(:include => :project,
+                       :conditions => "#{Project.table_name}.id = #{id}" +
+                                      " OR (#{Project.table_name}.status = #{Project::STATUS_ACTIVE} AND (" +
                                           " #{Version.table_name}.sharing = 'system'" +
                                           " OR (#{Project.table_name}.lft >= #{r.lft} AND #{Project.table_name}.rgt <= #{r.rgt} AND #{Version.table_name}.sharing = 'tree')" +
                                           " OR (#{Project.table_name}.lft < #{lft} AND #{Project.table_name}.rgt > #{rgt} AND #{Version.table_name}.sharing IN ('hierarchy', 'descendants'))" +
                                           " OR (#{Project.table_name}.lft > #{lft} AND #{Project.table_name}.rgt < #{rgt} AND #{Version.table_name}.sharing = 'hierarchy')" +
                                           "))")
+      end
     end
   end
 
