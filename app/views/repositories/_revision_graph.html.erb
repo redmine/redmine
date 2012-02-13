@@ -2,11 +2,16 @@
 <%= javascript_include_tag 'revision_graph.js' %>
 
 <script type="text/javascript" charset="utf-8">
-  Event.observe(window, 'load', function(){
-    revisionGraph(
-        document.getElementById('holder'),
-        <%= commits.to_json.html_safe %>,
-        <%= space %>);
+
+  ['load', 'resize'].each(function(window_event) {
+
+    Event.observe(window, window_event, function(){
+
+        drawRevisionGraph(
+            document.getElementById('holder'),
+            <%= commits.to_json.html_safe %>,
+            <%= space %>);
+        });
   });
 </script>
 
