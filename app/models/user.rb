@@ -56,14 +56,6 @@ class User < Principal
   named_scope :active, :conditions => "#{User.table_name}.status = #{STATUS_ACTIVE}"
   named_scope :logged, :conditions => "#{User.table_name}.status <> #{STATUS_ANONYMOUS}"
   named_scope :status, lambda {|arg| arg.blank? ? {} : {:conditions => {:status => arg.to_i}} }
-  named_scope :like, lambda {|arg|
-    if arg.blank?
-      {}
-    else
-      pattern = "%#{arg.to_s.strip.downcase}%"
-      {:conditions => ["LOWER(login) LIKE :p OR LOWER(firstname) LIKE :p OR LOWER(lastname) LIKE :p OR LOWER(mail) LIKE :p", {:p => pattern}]}
-    end
-  }
 
   acts_as_customizable
 

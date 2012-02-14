@@ -45,6 +45,8 @@ class PrincipalTest < ActiveSupport::TestCase
 
       Principal.generate!(:mail => 'mail@example.com')
       Principal.generate!(:mail => 'mail2@example.com')
+
+      @palmer = Principal.generate!(:firstname => 'David', :lastname => 'Palmer')
     end
 
     should "search login" do
@@ -74,6 +76,19 @@ class PrincipalTest < ActiveSupport::TestCase
       assert_equal 2, results.count
       assert results.all? {|u| u.mail.match(/mail/) }
     end
-  end
 
+    should "search firstname and lastname" do
+      results = Principal.like('david palm')
+
+      assert_equal 1, results.count
+      assert_equal @palmer, results.first
+    end
+
+    should "search lastname and firstname" do
+      results = Principal.like('palmer davi')
+
+      assert_equal 1, results.count
+      assert_equal @palmer, results.first
+    end
+  end
 end

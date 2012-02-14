@@ -27,10 +27,20 @@ class Principal < ActiveRecord::Base
   named_scope :active, :conditions => "#{Principal.table_name}.status = 1"
 
   named_scope :like, lambda {|q|
-    s = "%#{q.to_s.strip.downcase}%"
-    {:conditions => ["LOWER(login) LIKE :s OR LOWER(firstname) LIKE :s OR LOWER(lastname) LIKE :s OR LOWER(mail) LIKE :s", {:s => s}],
-     :order => 'type, login, lastname, firstname, mail'
-    }
+    if q.blank?
+      {}
+    else
+      q = q.to_s.downcase
+      pattern = "%#{q}%"
+      sql = "LOWER(login) LIKE :p OR LOWER(firstname) LIKE :p OR LOWER(lastname) LIKE :p OR LOWER(mail) LIKE :p"
+      params = {:p => pattern}
+      if q =~ /^(.+)\s+(.+)$/
+        a, b = "#{$1}%", "#{$2}%"
+        sql << " OR (LOWER(firstname) LIKE :a AND LOWER(lastname) LIKE :b) OR (LOWER(firstname) LIKE :b AND LOWER(lastname) LIKE :a)"
+        params.merge!(:a => a, :b => b)
+      end
+      {:conditions => [sql, params]}
+    end
   }
 
   # Principals that are members of a collection of projects
