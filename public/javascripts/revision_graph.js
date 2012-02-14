@@ -21,11 +21,12 @@ function drawRevisionGraph(holder, commits_hash, graph_space) {
     var top = revisionGraph.set();
 
     // init dimensions
-    var graph_offset = $(holder).getLayout().get('top'),
-        graph_width = (graph_space + 1) * XSTEP,
-        graph_height = commit_table_rows[max_rdmid].getLayout().get('top') + commit_table_rows[max_rdmid].getLayout().get('height') - graph_offset;
+    var graph_x_offset = Element.select(commit_table_rows.first(),'td').first().getLayout().get('left') - $(holder).getLayout().get('left'),
+        graph_y_offset = $(holder).getLayout().get('top'),
+        graph_right_side = graph_x_offset + (graph_space + 1) * XSTEP,
+        graph_bottom = commit_table_rows.last().getLayout().get('top') + commit_table_rows.last().getLayout().get('height') - graph_y_offset;
 
-    revisionGraph.setSize(graph_width, graph_height);
+    revisionGraph.setSize(graph_right_side, graph_bottom);
 
     // init colors
     var colors = [];
@@ -40,8 +41,8 @@ function drawRevisionGraph(holder, commits_hash, graph_space) {
 
     commits.each(function(commit) {
 
-        y = commit_table_rows[max_rdmid - commit.rdmid].getLayout().get('top') - graph_offset + CIRCLE_INROW_OFFSET;
-        x = XSTEP / 2 + XSTEP * commit.space;
+        y = commit_table_rows[max_rdmid - commit.rdmid].getLayout().get('top') - graph_y_offset + CIRCLE_INROW_OFFSET;
+        x = graph_x_offset + XSTEP / 2 + XSTEP * commit.space;
 
         revisionGraph.circle(x, y, 3).attr({fill: colors[commit.space], stroke: 'none'});
 
@@ -67,8 +68,8 @@ function drawRevisionGraph(holder, commits_hash, graph_space) {
             parent_commit = commits_by_scmid.get(parent_scmid);
 
             if (parent_commit) {
-                parent_y = commit_table_rows[max_rdmid - parent_commit.rdmid].getLayout().get('top') - graph_offset + CIRCLE_INROW_OFFSET;
-                parent_x = XSTEP / 2 + XSTEP * parent_commit.space;
+                parent_y = commit_table_rows[max_rdmid - parent_commit.rdmid].getLayout().get('top') - graph_y_offset + CIRCLE_INROW_OFFSET;
+                parent_x = graph_x_offset + XSTEP / 2 + XSTEP * parent_commit.space;
 
                 if (parent_commit.space == commit.space) {
                     // vertical path
@@ -86,7 +87,7 @@ function drawRevisionGraph(holder, commits_hash, graph_space) {
                 // vertical path ending at the bottom of the revisionGraph
                 path = revisionGraph.path([
                     'M', x, y,
-                    'V', graph_height]);
+                    'V', graph_bottom]);
             }
             path.attr({stroke: colors[commit.space], "stroke-width": 1.5});
         });
