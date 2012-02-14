@@ -93,7 +93,7 @@ html>body #content { min-height: 600px; }
 
 #modalbg {position:absolute; top:0; left:0; width:100%; height:100%; background:#ccc; z-index:49; opacity:0.5;}
 html>body #modalbg {position:fixed;}
-div.modal { border-radius:5px; position:absolute; top:25%; background:#fff; border:2px solid #759FCF; z-index:50; padding:0px; padding:8px;}
+div.modal { border-radius:5px; position:absolute; top:25%; background:#fff; border:2px solid #759FCF; z-index:50; padding:0px; padding:8px; box-shadow: 1px 1px 8px #888; }
 div.modal h3.title {background:#759FCF; color:#fff; border:0; padding-left:8px; margin:-8px; margin-bottom: 1em; border-top-left-radius:2px;border-top-right-radius:2px;}
 div.modal p.buttons {text-align:right; margin-bottom:0;}
 html>body div.modal {position:fixed;}
