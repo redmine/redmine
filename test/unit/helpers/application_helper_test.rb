@@ -837,6 +837,33 @@ RAW
     assert textilizable(raw).gsub("\n", "").include?(expected)
   end
 
+  def test_table_of_content_should_generate_unique_anchors
+    raw = <<-RAW
+{{toc}}
+
+h1. Title
+
+h2. Subtitle
+
+h2. Subtitle
+RAW
+
+    expected =  '<ul class="toc">' +
+                  '<li><a href="#Title">Title</a>' +
+                    '<ul>' +
+                      '<li><a href="#Subtitle">Subtitle</a></li>' +
+                      '<li><a href="#Subtitle-2">Subtitle</a></li>'
+                    '</ul>'
+                  '</li>' +
+               '</ul>'
+
+    @project = Project.find(1)
+    result = textilizable(raw).gsub("\n", "")
+    assert_include expected, result
+    assert_include '<a name="Subtitle">', result
+    assert_include '<a name="Subtitle-2">', result
+  end
+
   def test_table_of_content_should_contain_included_page_headings
     raw = <<-RAW
 {{toc}}
