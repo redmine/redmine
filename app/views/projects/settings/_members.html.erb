@@ -70,6 +70,8 @@
                  :update => :principals,
                  :url => autocomplete_project_memberships_path(@project),
                  :method => :get,
+                 :before => '$("principal_search").addClassName("ajax-loading")',
+                 :complete => '$("principal_search").removeClassName("ajax-loading")',
                  :with => 'q')
                   %>
 

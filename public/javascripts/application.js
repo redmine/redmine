@@ -503,7 +503,7 @@ Ajax.Responders.register({
             request.options.requestHeaders[header] = token;
           }
 
-        if ($('ajax-indicator') && Ajax.activeRequestCount > 0) {
+        if ($('ajax-indicator') && Ajax.activeRequestCount > 0 && $$('input.ajax-loading').size() == 0) {
             Element.show('ajax-indicator');
         }
     },

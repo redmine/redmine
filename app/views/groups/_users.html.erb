@@ -38,6 +38,8 @@
                  :update => :users,
                  :url => autocomplete_for_user_group_path(@group),
                  :method => :get,
+                 :before => '$("user_search").addClassName("ajax-loading")',
+                 :complete => '$("user_search").removeClassName("ajax-loading")',
                  :with => 'q')
                   %>
 

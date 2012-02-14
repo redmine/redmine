@@ -12,6 +12,8 @@
                :frequency => 0.5,
                :update => :users_for_watcher,
                :method => :get,
+               :before => '$("user_search").addClassName("ajax-loading")',
+               :complete => '$("user_search").removeClassName("ajax-loading")',
                :url => {
                  :controller => 'watchers',
                  :action => 'autocomplete_for_user',
