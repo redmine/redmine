@@ -88,7 +88,7 @@ et:
 
   number:
     format:
-      separator: "." 
+      separator: "," 
       delimiter: ""
       precision: 3
 
@@ -112,7 +112,7 @@ et:
   support:
     array:
       sentence_connector: "ja"
-      skip_last_comma: vale
+      skip_last_comma: false
       
   activerecord:
     errors:
@@ -996,47 +996,47 @@ et:
   enumeration_doc_categories: "Dokumentide kategooriad"
   enumeration_activities: "Tegevused (aja jälgimine)"
   enumeration_system_activity: "Süsteemi tegevus"
-  text_issue_conflict_resolution_add_notes: Add my notes and discard my other changes
-  description_search: Searchfield
-  field_repository_is_default: Main repository
-  text_issue_conflict_resolution_overwrite: Apply my changes anyway (previous notes will be kept but some changes may be overwritten)
-  notice_issue_successful_create: Issue %{id} created.
-  description_user_mail_notification: Mail notification settings
-  description_date_range_list: Choose range from list
-  setting_commit_cross_project_ref: Allow issues of all the other projects to be referenced and fixed
-  error_scm_annotate_big_text_file: The entry cannot be annotated, as it exceeds the maximum text file size.
+  text_issue_conflict_resolution_add_notes: "Lisa mu märkmed ning hülga ülejäänud muudatused"
+  description_search: "Otsimisväli"
+  field_repository_is_default: "Vaikimisi repositoorium"
+  text_issue_conflict_resolution_overwrite: "Salvesta selle vaatamata mu muudatused (eelnevad märkmed jäetakse alles aga mõned muudatused kirjutatakse ilmselt üle)"
+  notice_issue_successful_create: "Kanne nr %{id} loodud."
+  description_user_mail_notification: "E-posti teavituse seaded"
+  description_date_range_list: "Vali nimekirjast vahemik"
+  setting_commit_cross_project_ref: "Luba viidata ja parandada kõikide teiste projektide kandeid"
+  error_scm_annotate_big_text_file: "Kuna kande suurus ületab maksimaalset tekstifaili suurust, ei saa kahjuks sellele kandele märkmeid lisada."
   notice_failed_to_save_time_entries: "Failed to save %{count} time entrie(s) on %{total} selected: %{ids}."
-  description_date_to: Enter end date
+  description_date_to: "Sisesta lõppkuupäev"
   label_item_position: "%{position} of %{count}"
-  description_all_columns: All Columns
+  description_all_columns: "Kõik tulbad"
   label_diff: diff
-  button_edit_section: Edit this section
-  field_multiple: Multiple values
-  permission_manage_related_issues: Manage related issues
-  description_query_sort_criteria_attribute: Sort attribute
-  description_message_content: Message content
-  description_wiki_subpages_reassign: Choose new parent page
-  label_repository_new: New repository
-  description_available_columns: Available Columns
-  description_selected_columns: Selected Columns
-  description_date_range_interval: Choose range by selecting start and end date
-  description_project_scope: Search scope
-  description_issue_category_reassign: Choose issue category
-  notice_issue_update_conflict: The issue has been updated by an other user while you were editing it.
-  button_export: Export
-  description_query_sort_criteria_direction: Sort direction
-  description_notes: Notes
-  description_filter: Filter
+  button_edit_section: "Muuda seda osa"
+  field_multiple: "Mitu väärtust"
+  permission_manage_related_issues: "Halda seotud kandeid"
+  description_query_sort_criteria_attribute: "Sorteerimise atribuut"
+  description_message_content: "Sõnumi sisu"
+  description_wiki_subpages_reassign: "Vali uus pealeht"
+  label_repository_new: "Uus repositoorium"
+  description_available_columns: "Saadavalolevad tulbad"
+  description_selected_columns: "Valitud tulbad"
+  description_date_range_interval: "Vali vahemik märkides algus-ja lõppkuupäeva"
+  description_project_scope: "Otsingu skoop"
+  description_issue_category_reassign: "Vali kande kategooria"
+  notice_issue_update_conflict: "Sellal kui sa kannet vaatasid uuendati seda teise kasutaja poolt."
+  button_export: "Ekspordi"
+  description_query_sort_criteria_direction: "Sorteerimise suund"
+  description_notes: "Märkmed"
+  description_filter: "Filter"
   label_x_issues: 
-    one: 1 issue
-    other: "%{count} issues"
-    zero: 0 issues
-  label_parent_revision: Parent
-  label_child_revision: Child
-  description_choose_project: Projects
-  label_copy_attachments: Copy attachments
-  description_date_from: Enter start date
-  text_issue_conflict_resolution_cancel: Discard all my changes and redisplay %{link}
-  label_export_options: "%{export_format} export options"
-  label_completed_versions: Completed versions
-  error_attachment_too_big: This file cannot be uploaded because it exceeds the maximum allowed file size (%{max_size})
+    one: "1 kanne"
+    other: "%{count} kannet"
+    zero: "0 kannet"
+  label_parent_revision: "Pea"
+  label_child_revision: "Alam"
+  description_choose_project: "Projektid"
+  label_copy_attachments: "Kopeeri manused"
+  description_date_from: "Vali alguskuupäev"
+  text_issue_conflict_resolution_cancel: "Hülga kõik mu muudatused ja kuva %{link} uuesti"
+  label_export_options: "%{export_format} ekspordi valikud"
+  label_completed_versions: "Lõpetatud versioonid"
+  error_attachment_too_big: "Seda faili ei saa üles laadida, kuna ületab maksimumsuurust (%{max_size})"
