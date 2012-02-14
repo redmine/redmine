@@ -27,10 +27,10 @@ et:
       default: "%m/%d/%Y"
       short: "%b %d"
       long: "%B %d, %Y"
-      
+
     day_names: [pühapäev, esmaspäev, teisipäev, kolmapäev, neljapäev, reede, laupäev]
     abbr_day_names: [P, E, T, K, N, R, L]
-      
+
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names: [~, jaanuar, veebruar, märts, aprill, mai, juuni, juuli, august, september, oktoober, november, detsember]
     abbr_month_names: [~, jaan, veebr, märts, apr, mai, juuni, juuli, aug, sept, okt, nov, dets]
@@ -48,7 +48,7 @@ et:
       long: "%B %d, %Y %H:%M"
     am: "enne lõunat"
     pm: "pärast lõunat"
-      
+
   datetime:
     distance_in_words:
       half_a_minute: "pool minutit"
@@ -88,7 +88,7 @@ et:
 
   number:
     format:
-      separator: "," 
+      separator: ","
       delimiter: ""
       precision: 3
 
@@ -107,13 +107,12 @@ et:
           gb: "GB"
           tb: "TB"
 
-        
 # Used in array.to_sentence.
   support:
     array:
       sentence_connector: "ja"
       skip_last_comma: false
-      
+
   activerecord:
     errors:
       template:
@@ -147,7 +146,7 @@ et:
         cant_link_an_issue_with_a_descendant: "Ühte kannet ei ole võimalik ühendada ühega selle alamkannetest"
 
   actionview_instancetag_blank_option: "Palun valige"
-  
+
   general_text_No: "Ei"
   general_text_Yes: "Jah"
   general_text_no: "ei"
@@ -158,7 +157,7 @@ et:
   general_csv_encoding: ISO-8859-1
   general_pdf_encoding: UTF-8
   general_first_day_of_week: "2"
-  
+
   notice_account_updated: "Kontot uuendati edukalt."
   notice_account_invalid_creditentials: "Kehtetu kasutaja või salafraas"
   notice_account_password_updated: "Salafraasi uuendati edukalt."
@@ -189,7 +188,7 @@ et:
   notice_unable_delete_time_entry: "Ei saa ajalogi sissekannet kustutada."
   notice_issue_done_ratios_updated: "Kande valmis osa suhtarvu uuendamine."
   notice_gantt_chart_truncated: "Graafikut vähendati, kuna see ületab kirjete hulga, mida on maksimaalselt võimalik kuvada (%{max})"
-  
+
   error_can_t_load_default_data: "Vaikekonfiguratsiooni laadimine ebaõnnestus: %{value}"
   error_scm_not_found: "Kirjet või revisjoni ei leitud hoidlast."
   error_scm_command_failed: "Hoidlasse sisenemisel tekkis viga: %{value}"
@@ -208,7 +207,7 @@ et:
   error_unable_delete_issue_status: "Kande olekut ei ole võimalik kustutada"
   error_unable_to_connect: "Ühenduse loomine ei ole võimalik (%{value})"
   warning_attachments_not_saved: "%{count} faili salvestamine ebaõnnestus."
-  
+
   mail_subject_lost_password: "Teie %{value} salafraas"
   mail_body_lost_password: "Salafraasi muutmiseks klõpsake järgnevat linki:"
   mail_subject_register: "Teie %{value} konto aktiveerimine"
@@ -223,10 +222,10 @@ et:
   mail_body_wiki_content_added: "The '%{id}' wiki lehekülg on lisatud %{author} poolt."
   mail_subject_wiki_content_updated: "'%{id}' wiki lehekülg on uuendatud"
   mail_body_wiki_content_updated: "The '%{id}' wiki lehekülg on uuendatud %{author} poolt."
-  
+
   gui_validation_error: "1 viga"
   gui_validation_error_plural: "%{count} viga"
-  
+
   field_name: "Nimi"
   field_description: "Kirjeldus"
   field_summary: "Kokkuvõte"
@@ -451,7 +450,7 @@ et:
   permission_delete_own_messages: "Kustuta enda sõnumeid"
   permission_export_wiki_pages: "Ekspordi wiki lehekülgi"
   permission_manage_subtasks: "Halda alamkandeid"
-  
+
   project_module_issue_tracking: "Kande jälgimine"
   project_module_time_tracking: "Aja jälgimine"
   project_module_news: "Uudised"
@@ -462,7 +461,7 @@ et:
   project_module_boards: "Foorumid"
   project_module_calendar: "Kalender"
   project_module_gantt: "Gantt"
-  
+
   label_user: "Kasutaja"
   label_user_plural: "Kasutajad"
   label_user_new: "Uus kasutaja"
@@ -1027,7 +1026,7 @@ et:
   description_query_sort_criteria_direction: "Sorteerimise suund"
   description_notes: "Märkmed"
   description_filter: "Filter"
-  label_x_issues: 
+  label_x_issues:
     one: "1 kanne"
     other: "%{count} kannet"
     zero: "0 kannet"
