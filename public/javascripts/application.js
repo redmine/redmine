@@ -314,10 +314,11 @@ function showModal(id, width) {
   el.addClassName('modal');
   el.show();
 
-  var submit = el.down("input[type=submit]");
-  if (submit) {
-    submit.focus();
-  }
+  if (el.down("input[type=text]")) {
+    el.down("input[type=text]").focus();
+  } else if (el.down("input[type=submit]")) {
+    el.down("input[type=submit]").focus();
+	} 
 }
 
 function hideModal(el) {
