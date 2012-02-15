@@ -16,6 +16,7 @@
                 :id => @project, :repository_id => @repository.identifier_param,
                 :rev => @changeset.identifier, :issue_id => issue},
        :method => :delete,
+       :confirm => l(:text_are_you_sure),
       }, :title => l(:label_relation_delete)) if manage_allowed %>
 
   </li>
