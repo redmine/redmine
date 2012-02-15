@@ -22,7 +22,8 @@
 <td class="buttons"><%= link_to_remote(
                           image_tag('link_break.png'),
                           { :url => {:controller => 'issue_relations', :action => 'destroy', :id => relation},
-                            :method => :delete },
+                            :method => :delete,
+                            :confirm => l(:text_are_you_sure) },
                           :title => l(:label_relation_delete)
                         ) if authorize_for('issue_relations', 'destroy') %></td>
 </tr>
