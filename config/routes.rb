@@ -44,8 +44,10 @@ ActionController::Routing::Routes.draw do |map|
   map.auto_complete_issues '/issues/auto_complete', :controller => 'auto_completes',
                            :action => 'issues', :conditions => { :method => :get }
   # TODO: would look nicer as /issues/:id/preview
-  map.preview_issue '/issues/preview/:id', :controller => 'previews',
-                    :action => 'issue'
+  map.preview_new_issue '/issues/preview/new/:project_id', :controller => 'previews',
+                        :action => 'issue'
+  map.preview_edit_issue '/issues/preview/edit/:id', :controller => 'previews',
+                         :action => 'issue'
   map.issues_context_menu '/issues/context_menu',
                           :controller => 'context_menus', :action => 'issues'
 

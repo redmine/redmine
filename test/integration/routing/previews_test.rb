@@ -21,8 +21,12 @@ class RoutingPreviewsTest < ActionController::IntegrationTest
   def test_previews
     ["get", "post"].each do |method|
       assert_routing(
-          { :method => method, :path => "/issues/preview/123" },
-          { :controller => 'previews', :action => 'issue', :id => '123' }
+          { :method => method, :path => "/issues/preview/new/123" },
+          { :controller => 'previews', :action => 'issue', :project_id => '123' }
+        )
+      assert_routing(
+          { :method => method, :path => "/issues/preview/edit/321" },
+          { :controller => 'previews', :action => 'issue', :id => '321' }
         )
     end
     assert_routing(
