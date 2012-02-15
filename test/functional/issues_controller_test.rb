@@ -55,20 +55,20 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_index
-    Setting.default_language = 'en'
-
-    get :index
-    assert_response :success
-    assert_template 'index'
-    assert_not_nil assigns(:issues)
-    assert_nil assigns(:project)
-    assert_tag :tag => 'a', :content => /Can't print recipes/
-    assert_tag :tag => 'a', :content => /Subproject issue/
-    # private projects hidden
-    assert_no_tag :tag => 'a', :content => /Issue of a private subproject/
-    assert_no_tag :tag => 'a', :content => /Issue on project 2/
-    # project column
-    assert_tag :tag => 'th', :content => /Project/
+    with_settings :default_language => "en" do
+      get :index
+      assert_response :success
+      assert_template 'index'
+      assert_not_nil assigns(:issues)
+      assert_nil assigns(:project)
+      assert_tag :tag => 'a', :content => /Can't print recipes/
+      assert_tag :tag => 'a', :content => /Subproject issue/
+      # private projects hidden
+      assert_no_tag :tag => 'a', :content => /Issue of a private subproject/
+      assert_no_tag :tag => 'a', :content => /Issue on project 2/
+      # project column
+      assert_tag :tag => 'th', :content => /Project/
+    end
   end
 
   def test_index_should_not_list_issues_when_module_disabled
