@@ -297,17 +297,6 @@ RAW
       'project#3'                   => link_to('eCookbook Subproject 1', project_url, :class => 'project'),
       'project:subproject1'         => link_to('eCookbook Subproject 1', project_url, :class => 'project'),
       'project:"eCookbook subProject 1"'        => link_to('eCookbook Subproject 1', project_url, :class => 'project'),
-      # escaping
-      '!#3.'                        => '#3.',
-      '!#3-14.'                     => '#3-14.',
-      '!#3#-note14.'                => '#3#-note14.',
-      '!r1'                         => 'r1',
-      '!document#1'                 => 'document#1',
-      '!document:"Test document"'   => 'document:"Test document"',
-      '!version#2'                  => 'version#2',
-      '!version:1.0'                => 'version:1.0',
-      '!version:"1.0"'              => 'version:"1.0"',
-      '!source:/some/file'          => 'source:/some/file',
       # not found
       '#0123456789'                 => '#0123456789',
       # invalid expressions
@@ -317,6 +306,23 @@ RAW
     }
     @project = Project.find(1)
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text), "#{text} failed" }
+  end
+
+  def test_escaped_redmine_links_should_not_be_parsed
+    to_test = [
+      '#3.',
+      '#3-14.',
+      '#3#-note14.',
+      'r1',
+      'document#1',
+      'document:"Test document"',
+      'version#2',
+      'version:1.0',
+      'version:"1.0"',
+      'source:/some/file'
+    ]
+    @project = Project.find(1)
+    to_test.each { |text| assert_equal "<p>#{text}</p>", textilizable("!" + text), "#{text} failed" }
   end
 
   def test_cross_project_redmine_links
