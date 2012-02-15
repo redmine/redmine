@@ -112,11 +112,6 @@ module Redmine
 
     private
 
-    # Escape the HTML for the diff
-    def escapeHTML(line)
-        CGI.escapeHTML(line)
-    end
-
     def diff_for_added_line
       if @type == 'sbs' && @removed > 0 && @added < @removed
         self[-(@removed - @added)]
@@ -130,7 +125,7 @@ module Redmine
     def parse_line(line, type="inline")
       if line[0, 1] == "+"
         diff = diff_for_added_line
-        diff.line_right = escapeHTML line[1..-1]
+        diff.line_right = line[1..-1]
         diff.nb_line_right = @line_num_r
         diff.type_diff_right = 'diff_in'
         @line_num_r += 1
@@ -138,7 +133,7 @@ module Redmine
         true
       elsif line[0, 1] == "-"
         diff = Diff.new
-        diff.line_left = escapeHTML line[1..-1]
+        diff.line_left = line[1..-1]
         diff.nb_line_left = @line_num_l
         diff.type_diff_left = 'diff_out'
         self << diff
@@ -149,9 +144,9 @@ module Redmine
         write_offsets
         if line[0, 1] =~ /\s/
           diff = Diff.new
-          diff.line_right = escapeHTML line[1..-1]
+          diff.line_right = line[1..-1]
           diff.nb_line_right = @line_num_r
-          diff.line_left = escapeHTML line[1..-1]
+          diff.line_left = line[1..-1]
           diff.nb_line_left = @line_num_l
           self << diff
           @line_num_l += 1
@@ -224,27 +219,15 @@ module Redmine
     end
 
     def html_line_left
-      if offsets
-        line_left.dup.insert(offsets.first, '<span>').insert(offsets.last, '</span>')
-      else
-        line_left
-      end
+      line_to_html(line_left, offsets)
     end
 
     def html_line_right
-      if offsets
-        line_right.dup.insert(offsets.first, '<span>').insert(offsets.last, '</span>')
-      else
-        line_right
-      end
+      line_to_html(line_right, offsets)
     end
 
     def html_line
-      if offsets
-        line.dup.insert(offsets.first, '<span>').insert(offsets.last, '</span>')
-      else
-        line
-      end
+      line_to_html(line, offsets)
     end
 
     def inspect
@@ -253,6 +236,24 @@ module Redmine
       puts self.line_left
       puts self.nb_line_right
       puts self.line_right
+    end
+
+    private
+
+    def line_to_html(line, offsets)
+      if offsets
+        s = ''
+        unless offsets.first == 0
+          s << CGI.escapeHTML(line[0..offsets.first-1])
+        end
+        s << '<span>' + CGI.escapeHTML(line[offsets.first..offsets.last]) + '</span>'
+        unless offsets.last == -1
+          s << CGI.escapeHTML(line[offsets.last+1..-1])
+        end
+        s
+      else
+        CGI.escapeHTML(line)
+      end
     end
   end
 end
