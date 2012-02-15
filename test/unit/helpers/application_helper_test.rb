@@ -227,6 +227,8 @@ RAW
   def test_redmine_links
     issue_link = link_to('#3', {:controller => 'issues', :action => 'show', :id => 3},
                                :class => 'issue status-1 priority-1 overdue', :title => 'Error 281 when updating a recipe (New)')
+    note_link = link_to('#3', {:controller => 'issues', :action => 'show', :id => 3, :anchor => 'note-14'},
+                               :class => 'issue status-1 priority-1 overdue', :title => 'Error 281 when updating a recipe (New)')
 
     changeset_link = link_to('r1', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :rev => 1},
                                    :class => 'changeset', :title => 'My very first commit')
@@ -253,6 +255,9 @@ RAW
     to_test = {
       # tickets
       '#3, [#3], (#3) and #3.'      => "#{issue_link}, [#{issue_link}], (#{issue_link}) and #{issue_link}.",
+      # ticket notes
+      '#3-14'                       => note_link,
+      '#3#note-14'                  => note_link,
       # changesets
       'r1'                          => changeset_link,
       'r1.'                         => "#{changeset_link}.",
@@ -294,6 +299,8 @@ RAW
       'project:"eCookbook subProject 1"'        => link_to('eCookbook Subproject 1', project_url, :class => 'project'),
       # escaping
       '!#3.'                        => '#3.',
+      '!#3-14.'                     => '#3-14.',
+      '!#3#-note14.'                => '#3#-note14.',
       '!r1'                         => 'r1',
       '!document#1'                 => 'document#1',
       '!document:"Test document"'   => 'document:"Test document"',
