@@ -58,7 +58,33 @@ class IssuesControllerTransactionTest < ActionController::TestCase
 
     assert_no_difference 'Journal.count' do
       assert_no_difference 'TimeEntry.count' do
-        assert_no_difference 'Attachment.count' do
+        put :update,
+              :id => issue.id,
+              :issue => {
+                :fixed_version_id => 4,
+                :lock_version => (issue.lock_version - 1)
+              },
+              :notes => 'My notes',
+              :time_entry => { :hours => '2.5', :comments => '', :activity_id => TimeEntryActivity.first.id }
+      end
+    end
+
+    assert_response :success
+    assert_template 'edit'
+    assert_tag 'div', :attributes => {:class => 'conflict'}
+    assert_tag 'input', :attributes => {:name => 'conflict_resolution', :value => 'overwrite'}
+    assert_tag 'input', :attributes => {:name => 'conflict_resolution', :value => 'add_notes'}
+    assert_tag 'input', :attributes => {:name => 'conflict_resolution', :value => 'cancel'}
+  end
+
+  def test_update_stale_issue_should_save_attachments
+    set_tmp_attachments_directory
+    issue = Issue.find(2)
+    @request.session[:user_id] = 2
+
+    assert_no_difference 'Journal.count' do
+      assert_no_difference 'TimeEntry.count' do
+        assert_difference 'Attachment.count' do
           put :update,
                 :id => issue.id,
                 :issue => {
@@ -74,10 +100,9 @@ class IssuesControllerTransactionTest < ActionController::TestCase
 
     assert_response :success
     assert_template 'edit'
-    assert_tag 'div', :attributes => {:class => 'conflict'}
-    assert_tag 'input', :attributes => {:name => 'conflict_resolution', :value => 'overwrite'}
-    assert_tag 'input', :attributes => {:name => 'conflict_resolution', :value => 'add_notes'}
-    assert_tag 'input', :attributes => {:name => 'conflict_resolution', :value => 'cancel'}
+    attachment = Attachment.first(:order => 'id DESC')
+    assert_tag 'input', :attributes => {:name => 'attachments[p0][token]', :value => attachment.token}
+    assert_tag 'span', :content => /testfile.txt/
   end
 
   def test_update_stale_issue_without_notes_should_not_show_add_notes_option

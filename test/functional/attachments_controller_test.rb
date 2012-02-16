@@ -210,6 +210,14 @@ class AttachmentsControllerTest < ActionController::TestCase
     set_tmp_attachments_directory
   end
 
+  def test_show_file_without_container_should_be_denied
+    attachment = Attachment.create!(:file => uploaded_test_file("testfile.txt", "text/plain"), :author_id => 2)
+
+    @request.session[:user_id] = 2
+    get :show, :id => attachment.id
+    assert_response 403
+  end
+
   def test_download_text_file
     get :download, :id => 4
     assert_response :success

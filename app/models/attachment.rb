@@ -21,7 +21,7 @@ class Attachment < ActiveRecord::Base
   belongs_to :container, :polymorphic => true
   belongs_to :author, :class_name => "User", :foreign_key => "author_id"
 
-  validates_presence_of :container, :filename, :author
+  validates_presence_of :filename, :author
   validates_length_of :filename, :maximum => 255
   validates_length_of :disk_filename, :maximum => 255
   validate :validate_max_file_size
@@ -48,6 +48,15 @@ class Attachment < ActiveRecord::Base
 
   before_save :files_to_final_location
   after_destroy :delete_from_disk
+
+  def container_with_blank_type_check
+    if container_type.blank?
+      nil
+    else
+      container_without_blank_type_check
+    end
+  end
+  alias_method_chain :container, :blank_type_check unless method_defined?(:container_without_blank_type_check)
 
   # Returns an unsaved copy of the attachment
   def copy(attributes=nil)
@@ -121,15 +130,15 @@ class Attachment < ActiveRecord::Base
   end
 
   def project
-    container.project
+    container.try(:project)
   end
 
   def visible?(user=User.current)
-    container.attachments_visible?(user)
+    container && container.attachments_visible?(user)
   end
 
   def deletable?(user=User.current)
-    container.attachments_deletable?(user)
+    container && container.attachments_deletable?(user)
   end
 
   def image?
@@ -149,38 +158,42 @@ class Attachment < ActiveRecord::Base
     File.readable?(diskfile)
   end
 
+  # Returns the attachment token
+  def token
+    "#{id}.#{digest}"
+  end
+
+  # Finds an attachment that matches the given token and that has no container
+  def self.find_by_token(token)
+    if token.to_s =~ /^(\d+)\.([0-9a-f]+)$/
+      attachment_id, attachment_digest = $1, $2
+      attachment = Attachment.first(:conditions => {:id => attachment_id, :digest => attachment_digest})
+      if attachment && attachment.container.nil?
+        attachment
+      end
+    end
+  end
+
   # Bulk attaches a set of files to an object
   #
   # Returns a Hash of the results:
   # :files => array of the attached files
   # :unsaved => array of the files that could not be attached
   def self.attach_files(obj, attachments)
-    attached = []
-    if attachments && attachments.is_a?(Hash)
-      attachments.each_value do |attachment|
-        file = attachment['file']
-        next unless file && file.size > 0
-        a = Attachment.create(:container => obj,
-                              :file => file,
-                              :description => attachment['description'].to_s.strip,
-                              :author => User.current)
-        obj.attachments << a
-
-        if a.new_record?
-          obj.unsaved_attachments ||= []
-          obj.unsaved_attachments << a
-        else
-          attached << a
-        end
-      end
-    end
-    {:files => attached, :unsaved => obj.unsaved_attachments}
+    result = obj.save_attachments(attachments, User.current)
+    obj.attach_saved_attachments
+    result
   end
 
   def self.latest_attach(attachments, filename)
     attachments.sort_by(&:created_on).reverse.detect { 
       |att| att.filename.downcase == filename.downcase
      }
+  end
+
+  def self.prune(age=1.day)
+    attachments = Attachment.all(:conditions => ["created_on < ? AND (container_type IS NULL OR container_type = ''", Time.now - age])
+    attachments.each(&:destroy)
   end
 
   private

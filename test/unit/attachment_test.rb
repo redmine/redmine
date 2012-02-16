@@ -38,6 +38,10 @@ class AttachmentTest < ActiveSupport::TestCase
     set_tmp_attachments_directory
   end
 
+  def test_container_for_new_attachment_should_be_nil
+    assert_nil Attachment.new.container
+  end
+
   def test_create
     a = Attachment.new(:container => Issue.find(1),
                        :file => uploaded_test_file("testfile.txt", "text/plain"),

@@ -680,8 +680,7 @@ class Issue < ActiveRecord::Base
     s
   end
 
-  # Saves an issue, time_entry, attachments, and a journal from the parameters
-  # Returns false if save fails
+  # Saves an issue and a time_entry from the parameters
   def save_issue_with_child_records(params, existing_time_entry=nil)
     Issue.transaction do
       if params[:time_entry] && (params[:time_entry][:hours].present? || params[:time_entry][:comments].present?) && User.current.allowed_to?(:log_time, project)
@@ -694,21 +693,13 @@ class Issue < ActiveRecord::Base
         self.time_entries << @time_entry
       end
 
-      if valid?
-        attachments = Attachment.attach_files(self, params[:attachments])
+      # TODO: Rename hook
+      Redmine::Hook.call_hook(:controller_issues_edit_before_save, { :params => params, :issue => self, :time_entry => @time_entry, :journal => @current_journal})
+      if save
         # TODO: Rename hook
-        Redmine::Hook.call_hook(:controller_issues_edit_before_save, { :params => params, :issue => self, :time_entry => @time_entry, :journal => @current_journal})
-        begin
-          if save
-            # TODO: Rename hook
-            Redmine::Hook.call_hook(:controller_issues_edit_after_save, { :params => params, :issue => self, :time_entry => @time_entry, :journal => @current_journal})
-          else
-            raise ActiveRecord::Rollback
-          end
-        rescue ActiveRecord::StaleObjectError
-          attachments[:files].each(&:destroy)
-          raise ActiveRecord::StaleObjectError
-        end
+        Redmine::Hook.call_hook(:controller_issues_edit_after_save, { :params => params, :issue => self, :time_entry => @time_entry, :journal => @current_journal})
+      else
+        raise ActiveRecord::Rollback
       end
     end
   end

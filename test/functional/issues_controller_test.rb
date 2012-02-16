@@ -1663,6 +1663,69 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 59, File.size(attachment.diskfile)
   end
 
+  def test_post_create_with_failure_should_save_attachments
+    set_tmp_attachments_directory
+    @request.session[:user_id] = 2
+
+    assert_no_difference 'Issue.count' do
+      assert_difference 'Attachment.count' do
+        post :create, :project_id => 1,
+          :issue => { :tracker_id => '1', :subject => '' },
+          :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain'), 'description' => 'test file'}}
+        assert_response :success
+        assert_template 'new'
+      end
+    end
+
+    attachment = Attachment.first(:order => 'id DESC')
+    assert_equal 'testfile.txt', attachment.filename
+    assert File.exists?(attachment.diskfile)
+    assert_nil attachment.container
+
+    assert_tag 'input', :attributes => {:name => 'attachments[p0][token]', :value => attachment.token}
+    assert_tag 'span', :content => /testfile.txt/
+  end
+
+  def test_post_create_with_failure_should_keep_saved_attachments
+    set_tmp_attachments_directory
+    attachment = Attachment.create!(:file => uploaded_test_file("testfile.txt", "text/plain"), :author_id => 2)
+    @request.session[:user_id] = 2
+
+    assert_no_difference 'Issue.count' do
+      assert_no_difference 'Attachment.count' do
+        post :create, :project_id => 1,
+          :issue => { :tracker_id => '1', :subject => '' },
+          :attachments => {'p0' => {'token' => attachment.token}}
+        assert_response :success
+        assert_template 'new'
+      end
+    end
+
+    assert_tag 'input', :attributes => {:name => 'attachments[p0][token]', :value => attachment.token}
+    assert_tag 'span', :content => /testfile.txt/
+  end
+
+  def test_post_create_should_attach_saved_attachments
+    set_tmp_attachments_directory
+    attachment = Attachment.create!(:file => uploaded_test_file("testfile.txt", "text/plain"), :author_id => 2)
+    @request.session[:user_id] = 2
+
+    assert_difference 'Issue.count' do
+      assert_no_difference 'Attachment.count' do
+        post :create, :project_id => 1,
+          :issue => { :tracker_id => '1', :subject => 'Saved attachments' },
+          :attachments => {'p0' => {'token' => attachment.token}}
+        assert_response 302
+      end
+    end
+
+    issue = Issue.first(:order => 'id DESC')
+    assert_equal 1, issue.attachments.count
+
+    attachment.reload
+    assert_equal issue, attachment.container
+  end
+
   context "without workflow privilege" do
     setup do
       Workflow.delete_all(["role_id = ?", Role.anonymous.id])
@@ -2299,6 +2362,72 @@ class IssuesControllerTest < ActionController::TestCase
 
     mail = ActionMailer::Base.deliveries.last
     assert mail.body.include?('testfile.txt')
+  end
+
+  def test_put_update_with_failure_should_save_attachments
+    set_tmp_attachments_directory
+    @request.session[:user_id] = 2
+
+    assert_no_difference 'Journal.count' do
+      assert_difference 'Attachment.count' do
+        put :update, :id => 1,
+          :issue => { :subject => '' },
+          :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain'), 'description' => 'test file'}}
+        assert_response :success
+        assert_template 'edit'
+      end
+    end
+
+    attachment = Attachment.first(:order => 'id DESC')
+    assert_equal 'testfile.txt', attachment.filename
+    assert File.exists?(attachment.diskfile)
+    assert_nil attachment.container
+
+    assert_tag 'input', :attributes => {:name => 'attachments[p0][token]', :value => attachment.token}
+    assert_tag 'span', :content => /testfile.txt/
+  end
+
+  def test_put_update_with_failure_should_keep_saved_attachments
+    set_tmp_attachments_directory
+    attachment = Attachment.create!(:file => uploaded_test_file("testfile.txt", "text/plain"), :author_id => 2)
+    @request.session[:user_id] = 2
+
+    assert_no_difference 'Journal.count' do
+      assert_no_difference 'Attachment.count' do
+        put :update, :id => 1,
+          :issue => { :subject => '' },
+          :attachments => {'p0' => {'token' => attachment.token}}
+        assert_response :success
+        assert_template 'edit'
+      end
+    end
+
+    assert_tag 'input', :attributes => {:name => 'attachments[p0][token]', :value => attachment.token}
+    assert_tag 'span', :content => /testfile.txt/
+  end
+
+  def test_put_update_should_attach_saved_attachments
+    set_tmp_attachments_directory
+    attachment = Attachment.create!(:file => uploaded_test_file("testfile.txt", "text/plain"), :author_id => 2)
+    @request.session[:user_id] = 2
+
+    assert_difference 'Journal.count' do
+      assert_difference 'JournalDetail.count' do
+        assert_no_difference 'Attachment.count' do
+          put :update, :id => 1,
+            :notes => 'Attachment added',
+            :attachments => {'p0' => {'token' => attachment.token}}
+          assert_redirected_to '/issues/1'
+        end
+      end
+    end
+
+    attachment.reload
+    assert_equal Issue.find(1), attachment.container
+
+    journal = Journal.first(:order => 'id DESC')
+    assert_equal 1, journal.details.size
+    assert_equal 'testfile.txt', journal.details.first.value
   end
 
   def test_put_update_with_attachment_that_fails_to_save

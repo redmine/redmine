@@ -18,7 +18,7 @@
     </p>
     <% end %>
 
-    <p id="attachments_form"><%= label_tag('attachments[1][file]', l(:label_attachment_plural))%><%= render :partial => 'attachments/form' %></p>
+    <p id="attachments_form"><%= label_tag('attachments[1][file]', l(:label_attachment_plural))%><%= render :partial => 'attachments/form', :locals => {:container => @issue} %></p>
 
     <% if @issue.safe_attribute? 'watcher_user_ids' -%>
       <p id="watchers_form"><label><%= l(:label_issue_watchers) %></label>

@@ -149,8 +149,8 @@ class IssuesController < ApplicationController
 
   def create
     call_hook(:controller_issues_new_before_save, { :params => params, :issue => @issue })
+    @issue.save_attachments(params[:attachments])
     if @issue.save
-      attachments = Attachment.attach_files(@issue, params[:attachments])
       call_hook(:controller_issues_new_after_save, { :params => params, :issue => @issue})
       respond_to do |format|
         format.html {
@@ -181,6 +181,7 @@ class IssuesController < ApplicationController
 
   def update
     return unless update_issue_from_params
+    @issue.save_attachments(params[:attachments])
     saved = false
     begin
       saved = @issue.save_issue_with_child_records(params, @time_entry)

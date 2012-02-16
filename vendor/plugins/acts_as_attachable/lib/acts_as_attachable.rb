@@ -32,8 +32,8 @@ module Redmine
           has_many :attachments, options.merge(:as => :container,
                                                :order => "#{Attachment.table_name}.created_on",
                                                :dependent => :destroy)
-          attr_accessor :unsaved_attachments
           send :include, Redmine::Acts::Attachable::InstanceMethods
+          before_save :attach_saved_attachments
         end
       end
 
@@ -50,6 +50,43 @@ module Redmine
         def attachments_deletable?(user=User.current)
           (respond_to?(:visible?) ? visible?(user) : true) &&
             user.allowed_to?(self.class.attachable_options[:delete_permission], self.project)
+        end
+
+        def saved_attachments
+          @saved_attachments ||= []
+        end
+
+        def unsaved_attachments
+          @unsaved_attachments ||= []
+        end
+
+        def save_attachments(attachments, author=User.current)
+          if attachments && attachments.is_a?(Hash)
+            attachments.each_value do |attachment|
+              a = nil
+              if file = attachment['file']
+                next unless file && file.size > 0
+                a = Attachment.create(:file => file,
+                                      :description => attachment['description'].to_s.strip,
+                                      :author => author)
+              elsif token = attachment['token']
+                a = Attachment.find_by_token(token)
+              end
+              next unless a
+              if a.new_record?
+                unsaved_attachments << a
+              else
+                saved_attachments << a
+              end
+            end
+          end
+          {:files => saved_attachments, :unsaved => unsaved_attachments}
+        end
+
+        def attach_saved_attachments
+          saved_attachments.each do |attachment|
+            self.attachments << attachment
+          end
         end
 
         module ClassMethods

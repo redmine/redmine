@@ -1,3 +1,11 @@
+<% if defined?(container) && container && container.saved_attachments %>
+  <% container.saved_attachments.each_with_index do |attachment, i| %>
+    <span class="icon icon-attachment" style="display:block; line-height:1.5em;">
+      <%= h(attachment.filename) %> (<%= number_to_human_size(attachment.filesize) %>)
+      <%= hidden_field_tag "attachments[p#{i}][token]", "#{attachment.id}.#{attachment.digest}" %>
+    </span>
+  <% end %>
+<% end %>
 <span id="attachments_fields">
   <span>
     <%= file_field_tag 'attachments[1][file]', :size => 30, :id => nil, :class => 'file',
