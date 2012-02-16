@@ -192,7 +192,7 @@ class Attachment < ActiveRecord::Base
   end
 
   def self.prune(age=1.day)
-    attachments = Attachment.all(:conditions => ["created_on < ? AND (container_type IS NULL OR container_type = ''", Time.now - age])
+    attachments = Attachment.all(:conditions => ["created_on < ? AND (container_type IS NULL OR container_type = '')", Time.now - age])
     attachments.each(&:destroy)
   end
 
