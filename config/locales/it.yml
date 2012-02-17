@@ -990,7 +990,7 @@ it:
   description_issue_category_reassign: Scegli la categoria della segnalazione
   description_search: Campo di ricerca
   description_notes: Note
-  description_date_range_list: Schegli l'intervallo dalla lista
+  description_date_range_list: Scegli l'intervallo dalla lista
   description_choose_project: Progetti
   description_date_to: Inserisci la data di fine
   description_query_sort_criteria_attribute: Attributo di ordinamento
