@@ -978,34 +978,34 @@ it:
   label_between: tra
   setting_issue_group_assignment: Permetti di assegnare una segnalazione a gruppi
   label_diff: diff
-  text_git_repository_note: Repository is bare and local (e.g. /gitrepo, c:\gitrepo)
-  description_query_sort_criteria_direction: Sort direction
+  text_git_repository_note: Il repository è bare e locale (e.g. /gitrepo, c:\gitrepo)
+  description_query_sort_criteria_direction: Ordinamento
   description_project_scope: Search scope
-  description_filter: Filter
-  description_user_mail_notification: Mail notification settings
-  description_date_from: Enter start date
-  description_message_content: Message content
-  description_available_columns: Available Columns
-  description_date_range_interval: Choose range by selecting start and end date
-  description_issue_category_reassign: Choose issue category
-  description_search: Searchfield
-  description_notes: Notes
-  description_date_range_list: Choose range from list
-  description_choose_project: Projects
-  description_date_to: Enter end date
-  description_query_sort_criteria_attribute: Sort attribute
-  description_wiki_subpages_reassign: Choose new parent page
-  description_selected_columns: Selected Columns
-  label_parent_revision: Parent
-  label_child_revision: Child
-  error_scm_annotate_big_text_file: The entry cannot be annotated, as it exceeds the maximum text file size.
-  setting_default_issue_start_date_to_creation_date: Use current date as start date for new issues
-  button_edit_section: Edit this section
-  setting_repositories_encodings: Attachments and repositories encodings
-  description_all_columns: All Columns
-  button_export: Export
-  label_export_options: "%{export_format} export options"
-  error_attachment_too_big: This file cannot be uploaded because it exceeds the maximum allowed file size (%{max_size})
+  description_filter: Filtro
+  description_user_mail_notification: Impostazioni notifica via mail
+  description_date_from: Inserisci la data d'inizio
+  description_message_content: Contenuto del messaggio
+  description_available_columns: Colonne disponibili
+  description_date_range_interval: Scegli l'intervallo selezionando la data di inizio e di fine
+  description_issue_category_reassign: Scegli la categoria della segnalazione
+  description_search: Campo di ricerca
+  description_notes: Note
+  description_date_range_list: Schegli l'intervallo dalla lista
+  description_choose_project: Progetti
+  description_date_to: Inserisci la data di fine
+  description_query_sort_criteria_attribute: Attributo di ordinamento
+  description_wiki_subpages_reassign: Scegli la nuova pagina padre
+  description_selected_columns: Colonne selezionate
+  label_parent_revision: Padre
+  label_child_revision: Figlio
+  error_scm_annotate_big_text_file: La nota non può essere salvata, supera la dimensiona massima del campo di testo.
+  setting_default_issue_start_date_to_creation_date: Usa la data corrente come data d'inizio per le nuove segnalazioni
+  button_edit_section: Modifica questa sezione
+  setting_repositories_encodings: Codifica degli allegati e dei repository
+  description_all_columns: Tutte le colonne
+  button_export: Esporta
+  label_export_options: "%{export_format} opzioni per l'export"
+  error_attachment_too_big: Questo file non può essere caricato in quanto la sua dimensione supera la massima consentita (%{max_size})
   notice_failed_to_save_time_entries: "Failed to save %{count} time entrie(s) on %{total} selected: %{ids}."
   label_x_issues:
     zero:  0 segnalazione
