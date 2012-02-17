@@ -211,9 +211,12 @@ class RepositoryGitTest < ActiveSupport::TestCase
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
       assert_not_nil @repository.extra_info
-      @repository.write_attribute(:extra_info, nil)
+      h = {}
+      h["heads"] = []
+      h["branches"] = {}
+      h["db_consistent"] = {}
+      @repository.merge_extra_info(h)
       @repository.save
-      assert_nil @repository.extra_info
       assert_equal NUM_REV, @repository.changesets.count
       @repository.fetch_changesets
       @project.reload
