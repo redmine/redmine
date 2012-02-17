@@ -99,7 +99,7 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
       'p{color:(red)}. text'                 => '<p>text</p>',
       'p{color:red;invalid:blue}. text'      => '<p style="color:red;">text</p>',
       'p{invalid:blue;color:red}. text'      => '<p style="color:red;">text</p>',
-      'p{color:"}. text'                     => '<p>text</p>',
+      'p{color:"}. text'                     => '<p>p{color:"}. text</p>',
       }, false)
   end
 
