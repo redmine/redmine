@@ -10,4 +10,4 @@ auth_sources_001:
   attr_firstname: givenName
   attr_lastname: sn
   attr_mail: mail
-  onthefly_register: true
+  onthefly_register: false

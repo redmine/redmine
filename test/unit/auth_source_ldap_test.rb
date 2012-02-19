@@ -48,6 +48,7 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     context '#authenticate' do
       setup do
         @auth = AuthSourceLdap.find(1)
+        @auth.update_attribute :onthefly_register, true
       end
 
       context 'with a valid LDAP user' do

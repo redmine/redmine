@@ -483,6 +483,7 @@ class UserTest < ActiveSupport::TestCase
       context "on the fly registration" do
         setup do
           @auth_source = AuthSourceLdap.find(1)
+          @auth.update_attribute :onthefly_register, true
         end
 
         context "with a successful authentication" do
