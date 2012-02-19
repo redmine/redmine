@@ -15,6 +15,6 @@ begin
   ENV["BUNDLE_GEMFILE"] ||= File.expand_path("../../Gemfile", __FILE__)
   Bundler.setup
 rescue Bundler::GemNotFound
-  $stderr.puts "Some gems may need to be installed or updated. Please run `bundle install`."
+  $stderr.puts "Some gems may need to be installed or updated.\nPlease run `bundle install --without development test`."
   exit 1
 end
