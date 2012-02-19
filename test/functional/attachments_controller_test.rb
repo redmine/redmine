@@ -211,6 +211,7 @@ class AttachmentsControllerTest < ActionController::TestCase
   end
 
   def test_show_file_without_container_should_be_denied
+    set_tmp_attachments_directory
     attachment = Attachment.create!(:file => uploaded_test_file("testfile.txt", "text/plain"), :author_id => 2)
 
     @request.session[:user_id] = 2
