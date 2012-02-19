@@ -7,7 +7,7 @@ gem "fastercsv", "~> 1.5.0", :platforms => [:mri_18, :mingw_18, :jruby]
 
 # Optional gem for LDAP authentication
 group :ldap do
-  gem "net-ldap", "~> 0.2.2"
+  gem "net-ldap", "~> 0.3.1"
 end
 
 # Optional gem for OpenID authentication
