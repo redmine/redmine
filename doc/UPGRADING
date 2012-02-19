@@ -1,7 +1,7 @@
 == Redmine upgrade
 
 Redmine - project management software
-Copyright (C) 2006-2011  Jean-Philippe Lang
+Copyright (C) 2006-2012  Jean-Philippe Lang
 http://www.redmine.org/
 
 
@@ -20,7 +20,14 @@ http://www.redmine.org/
 
 4. Copy the folders of the installed plugins and themes into new installation
 
-5. Generate a session store secret
+5. Install the required gems by running:
+     bundle install --without development test
+
+   If ImageMagick is not installed on your system, you should skip the installation
+   of the rmagick gem using:
+     bundle install --without development test rmagick
+
+6. Generate a session store secret
    
    Redmine stores session data in cookies by default, which requires
    a secret to be generated. Under the new application directory run:
@@ -28,7 +35,7 @@ http://www.redmine.org/
    
    DO NOT REPLACE OR EDIT ANY OTHER FILES.
 
-6. Migrate your database
+7. Migrate your database
 
    If you are upgrading to Rails 2.3.14 as part of this migration, you
    need to upgrade the plugin migrations before running the plugin migrations
@@ -43,20 +50,14 @@ http://www.redmine.org/
    migrations using:
      rake db:migrate_plugins RAILS_ENV="production"
    
-7. Clean up
-   
-   Clear the cache and the existing sessions by running:
+8. Clear the cache and the existing sessions by running:
      rake tmp:cache:clear
      rake tmp:sessions:clear
 
-8. Restart the application server (e.g. mongrel, thin, passenger)
+9. Restart the application server (e.g. mongrel, thin, passenger)
 
-9. Finally go to "Administration -> Roles & permissions" to check/set permissions
-   for new features, if any
-
-== Notes
-
-* Rails 2.3.14 is required for versions 1.3.x.
+10. Finally go to "Administration -> Roles & permissions" to check/set permissions
+    for new features, if any
 
 == References
 

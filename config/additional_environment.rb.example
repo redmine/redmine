@@ -5,9 +5,6 @@
 # Example:
 #
 #   config.log_level = :debug
-#   config.gem "example_plugin", :lib => false
-#   config.gem "timesheet_plugin", :lib => false, :version => '0.5.0'
-#   config.gem "aws-s3", :lib => "aws/s3"
 #   ...
 #
 
