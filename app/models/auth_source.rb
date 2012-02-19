@@ -15,6 +15,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+# Generic exception for when the AuthSource can not be reached
+# (eg. can not connect to the LDAP)
+class AuthSourceException < Exception; end
+
 class AuthSource < ActiveRecord::Base
   include Redmine::Ciphering
 

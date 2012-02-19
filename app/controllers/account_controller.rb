@@ -29,6 +29,9 @@ class AccountController < ApplicationController
     else
       authenticate_user
     end
+  rescue AuthSourceException => e
+    logger.error "An error occured when authenticating #{params[:username]}: #{e.message}"
+    render_error :message => e.message
   end
 
   # Log out current user and redirect to welcome page

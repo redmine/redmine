@@ -40,8 +40,8 @@ class AuthSourceLdap < AuthSource
       logger.debug "Authentication successful for '#{login}'" if logger && logger.debug?
       return attrs.except(:dn)
     end
-  rescue  Net::LDAP::LdapError => text
-    raise "LdapError: " + text
+  rescue  Net::LDAP::LdapError => e
+    raise AuthSourceException.new(e.message)
   end
 
   # test the connection to the LDAP
