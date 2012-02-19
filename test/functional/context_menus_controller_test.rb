@@ -7,7 +7,6 @@ class ContextMenusControllerTest < ActionController::TestCase
            :roles,
            :member_roles,
            :members,
-           :auth_sources,
            :enabled_modules,
            :workflows,
            :journals, :journal_details,

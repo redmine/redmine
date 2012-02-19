@@ -10,7 +10,6 @@ class ActivitiesControllerTest < ActionController::TestCase
            :groups_users,
            :enabled_modules,
            :workflows,
-           :auth_sources,
            :journals, :journal_details
 
 

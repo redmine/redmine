@@ -24,7 +24,7 @@ class UsersController; def rescue_action(e) raise e end; end
 class UsersControllerTest < ActionController::TestCase
   include Redmine::I18n
 
-  fixtures :users, :projects, :members, :member_roles, :roles, :auth_sources, :custom_fields, :custom_values, :groups_users
+  fixtures :users, :projects, :members, :member_roles, :roles, :custom_fields, :custom_values, :groups_users
 
   def setup
     @controller = UsersController.new

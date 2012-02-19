@@ -7,7 +7,6 @@ class CalendarsControllerTest < ActionController::TestCase
            :roles,
            :member_roles,
            :members,
-           :auth_sources,
            :enabled_modules
 
   def test_calendar
