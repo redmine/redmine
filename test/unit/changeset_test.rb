@@ -178,6 +178,24 @@ class ChangesetTest < ActiveSupport::TestCase
     assert c.issues.first.project != c.project
   end
 
+  def test_commit_closing_a_subproject_issue
+    with_settings :commit_fix_status_id => 5, :commit_fix_keywords => 'closes' do
+      issue = Issue.find(5)
+      assert !issue.closed?
+      assert_difference 'Journal.count' do
+        c = Changeset.new(:repository   => Project.find(1).repository,
+                          :committed_on => Time.now,
+                          :comments     => 'closes #5, a subproject issue',
+                          :revision     => '12345')
+        assert c.save
+      end
+      assert issue.reload.closed?
+      journal = Journal.first(:order => 'id DESC')
+      assert_equal issue, journal.issue
+      assert_include "Applied in changeset ecookbook:r12345.", journal.notes
+    end
+  end
+
   def test_commit_referencing_a_parent_project_issue
     # repository of child project
     r = Repository::Subversion.create!(
@@ -227,11 +245,31 @@ class ChangesetTest < ActiveSupport::TestCase
     assert_equal 'r520', c.text_tag
   end
 
+  def test_text_tag_revision_with_same_project
+    c = Changeset.new(:revision => '520', :repository => Project.find(1).repository)
+    assert_equal 'r520', c.text_tag(Project.find(1))
+  end
+
+  def test_text_tag_revision_with_different_project
+    c = Changeset.new(:revision => '520', :repository => Project.find(1).repository)
+    assert_equal 'ecookbook:r520', c.text_tag(Project.find(2))
+  end
+
   def test_text_tag_hash
     c = Changeset.new(
           :scmid    => '7234cb2750b63f47bff735edc50a1c0a433c2518',
           :revision => '7234cb2750b63f47bff735edc50a1c0a433c2518')
     assert_equal 'commit:7234cb2750b63f47bff735edc50a1c0a433c2518', c.text_tag
+  end
+
+  def test_text_tag_hash_with_same_project
+    c = Changeset.new(:revision => '7234cb27', :scmid => '7234cb27', :repository => Project.find(1).repository)
+    assert_equal 'commit:7234cb27', c.text_tag(Project.find(1))
+  end
+
+  def test_text_tag_hash_with_different_project
+    c = Changeset.new(:revision => '7234cb27', :scmid => '7234cb27', :repository => Project.find(1).repository)
+    assert_equal 'ecookbook:commit:7234cb27', c.text_tag(Project.find(2))
   end
 
   def test_text_tag_hash_all_number

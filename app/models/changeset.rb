@@ -151,12 +151,16 @@ class Changeset < ActiveRecord::Base
     @long_comments || split_comments.last
   end
 
-  def text_tag
-    if scmid?
+  def text_tag(ref_project=nil)
+    tag = if scmid?
       "commit:#{scmid}"
     else
       "r#{revision}"
     end
+    if ref_project && project && ref_project != project
+      tag = "#{project.identifier}:#{tag}" 
+    end
+    tag
   end
 
   # Returns the previous changeset
@@ -215,7 +219,7 @@ class Changeset < ActiveRecord::Base
     # don't change the status is the issue is closed
     return if issue.status && issue.status.is_closed?
 
-    journal = issue.init_journal(user || User.anonymous, ll(Setting.default_language, :text_status_changed_by_changeset, text_tag))
+    journal = issue.init_journal(user || User.anonymous, ll(Setting.default_language, :text_status_changed_by_changeset, text_tag(issue.project)))
     issue.status = status
     unless Setting.commit_fix_done_ratio.blank?
       issue.done_ratio = Setting.commit_fix_done_ratio.to_i
@@ -234,7 +238,7 @@ class Changeset < ActiveRecord::Base
       :hours => hours,
       :issue => issue,
       :spent_on => commit_date,
-      :comments => l(:text_time_logged_by_changeset, :value => text_tag,
+      :comments => l(:text_time_logged_by_changeset, :value => text_tag(issue.project),
                      :locale => Setting.default_language)
       )
     time_entry.activity = log_time_activity unless log_time_activity.nil?
