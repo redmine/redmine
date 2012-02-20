@@ -426,7 +426,11 @@ class MailerTest < ActiveSupport::TestCase
       ActionMailer::Base.deliveries.clear
       assert Mailer.deliver_register(token)
       mail = ActionMailer::Base.deliveries.last
-      assert mail.body.include?("https://redmine.foo/account/activate?token=#{token.value}")
+      assert_select_email do
+        assert_select "a[href=?]",
+                      "https://redmine.foo/account/activate?token=#{token.value}",
+                      :text => "https://redmine.foo/account/activate?token=#{token.value}"
+      end
     end
   end
 
