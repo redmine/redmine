@@ -452,14 +452,18 @@ class MailerTest < ActiveSupport::TestCase
   end
 
   def test_reminders_should_not_include_closed_issues
-    Issue.generate!(:project_id => 1, :tracker_id => 1, :status_id => 5, :subject => 'Closed issue', :assigned_to_id => 3, :due_date => 5.days.from_now)
-    ActionMailer::Base.deliveries.clear
+    with_settings :default_language => 'en' do
+      Issue.generate!(:project_id => 1, :tracker_id => 1, :status_id => 5,
+                      :subject => 'Closed issue', :assigned_to_id => 3,
+                      :due_date => 5.days.from_now)
+      ActionMailer::Base.deliveries.clear
 
-    Mailer.reminders(:days => 42)
-    assert_equal 1, ActionMailer::Base.deliveries.size
-    mail = ActionMailer::Base.deliveries.last
-    assert mail.bcc.include?('dlopper@somenet.foo')
-    assert !mail.body.include?('Closed issue')
+      Mailer.reminders(:days => 42)
+      assert_equal 1, ActionMailer::Base.deliveries.size
+      mail = ActionMailer::Base.deliveries.last
+      assert mail.bcc.include?('dlopper@somenet.foo')
+      assert !mail.body.include?('Closed issue')
+    end
   end
 
   def test_reminders_for_users
