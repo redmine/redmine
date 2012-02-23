@@ -68,7 +68,7 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
     end
 
     def test_show_no_extension
-      get :entry, :id => PRJ_ID, :path => ['test']
+      get :entry, :id => PRJ_ID, :path => repository_path_hash(['test'])[:param]
       assert_response :success
       assert_template 'entry'
       assert_tag :tag => 'th',
@@ -78,14 +78,16 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
     end
 
     def test_entry_download_no_extension
-      get :entry, :id => PRJ_ID, :path => ['test'], :format => 'raw'
+      get :entry, :id => PRJ_ID, :path => repository_path_hash(['test'])[:param],
+          :format => 'raw'
       assert_response :success
       assert_equal 'application/octet-stream', @response.content_type
     end
 
     def test_show_non_ascii_contents
       with_settings :repositories_encodings => 'UTF-8,EUC-JP' do
-        get :entry, :id => PRJ_ID, :path => ['japanese', 'euc-jp.txt']
+        get :entry, :id => PRJ_ID,
+            :path => repository_path_hash(['japanese', 'euc-jp.txt'])[:param]
         assert_response :success
         assert_template 'entry'
         assert_tag :tag => 'th',
@@ -109,7 +111,8 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
 
     def test_show_utf16
       with_settings :repositories_encodings => 'UTF-16' do
-        get :entry, :id => PRJ_ID, :path => ['japanese', 'utf-16.txt']
+        get :entry, :id => PRJ_ID,
+            :path => repository_path_hash(['japanese', 'utf-16.txt'])[:param]
         assert_response :success
         assert_tag :tag => 'th',
                    :content => '2',
@@ -120,7 +123,8 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
 
     def test_show_text_file_should_send_if_too_big
       with_settings :file_max_size_displayed => 1 do
-        get :entry, :id => PRJ_ID, :path => ['japanese', 'big-file.txt']
+        get :entry, :id => PRJ_ID,
+            :path => repository_path_hash(['japanese', 'big-file.txt'])[:param]
         assert_response :success
         assert_equal 'text/plain', @response.content_type
       end
