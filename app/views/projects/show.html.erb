@@ -11,9 +11,11 @@
     <%= textilizable @project.description %>
   </div>
   <ul>
-  <% unless @project.homepage.blank? %><li><%=l(:field_homepage)%>: <%= auto_link(h(@project.homepage)) %></li><% end %>
+  <% unless @project.homepage.blank? %>
+    <li><%=l(:field_homepage)%>: <%= auto_link(h(@project.homepage)).html_safe %></li>
+  <% end %>
   <% if @subprojects.any? %>
-   <li><%=l(:label_subproject_plural)%>:
+    <li><%=l(:label_subproject_plural)%>:
       <%= @subprojects.collect{|p| link_to(h(p), :action => 'show', :id => p)}.join(", ").html_safe %></li>
   <% end %>
   <% @project.visible_custom_field_values.each do |custom_value| %>
