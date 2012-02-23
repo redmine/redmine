@@ -73,14 +73,15 @@ class Repository::Mercurial < Repository
 
   # Finds and returns a revision with a number or the beginning of a hash
   def find_changeset_by_name(name)
-    return nil if name.nil? || name.empty?
-    if /[^\d]/ =~ name or name.to_s.size > 8
-      e = changesets.find(:first, :conditions => ['scmid = ?', name.to_s])
+    return nil if name.blank?
+    s = name.to_s
+    if /[^\d]/ =~ s or s.size > 8
+      e = changesets.find(:first, :conditions => ['scmid = ?', s])
     else
-      e = changesets.find(:first, :conditions => ['revision = ?', name.to_s])
+      e = changesets.find(:first, :conditions => ['revision = ?', s])
     end
     return e if e
-    changesets.find(:first, :conditions => ['scmid LIKE ?', "#{name}%"])  # last ditch
+    changesets.find(:first, :conditions => ['scmid LIKE ?', "#{s}%"])  # last ditch
   end
 
   # Returns the latest changesets for +path+; sorted by revision number
