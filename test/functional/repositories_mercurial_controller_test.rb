@@ -92,7 +92,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :show, :id => PRJ_ID, :path => ['images']
+      get :show, :id => PRJ_ID, :path => repository_path_hash(['images'])[:param]
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
@@ -111,7 +111,8 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
       [0, '0', '0885933ad4f6'].each do |r1|
-        get :show, :id => PRJ_ID, :path => ['images'], :rev => r1
+        get :show, :id => PRJ_ID, :path => repository_path_hash(['images'])[:param],
+            :rev => r1
         assert_response :success
         assert_template 'show'
         assert_not_nil assigns(:entries)
@@ -127,7 +128,8 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
       [13, '13', '3a330eb32958'].each do |r1|
-        get :show, :id => PRJ_ID, :path => ['sql_escape', 'percent%dir'],
+        get :show, :id => PRJ_ID,
+            :path => repository_path_hash(['sql_escape', 'percent%dir'])[:param],
             :rev => r1
         assert_response :success
         assert_template 'show'
@@ -148,7 +150,9 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
       [21, '21', 'adf805632193'].each do |r1|
-        get :show, :id => PRJ_ID, :path => ['latin-1-dir'], :rev => r1
+        get :show, :id => PRJ_ID,
+            :path => repository_path_hash(['latin-1-dir'])[:param],
+            :rev => r1
         assert_response :success
         assert_template 'show'
 
@@ -217,14 +221,16 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
     end
 
     def test_changes
-      get :changes, :id => PRJ_ID, :path => ['images', 'edit.png']
+      get :changes, :id => PRJ_ID,
+          :path => repository_path_hash(['images', 'edit.png'])[:param]
       assert_response :success
       assert_template 'changes'
       assert_tag :tag => 'h2', :content => 'edit.png'
     end
 
     def test_entry_show
-      get :entry, :id => PRJ_ID, :path => ['sources', 'watchers_controller.rb']
+      get :entry, :id => PRJ_ID,
+          :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param]
       assert_response :success
       assert_template 'entry'
       # Line 10
@@ -237,7 +243,8 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
     def test_entry_show_latin_1_path
       [21, '21', 'adf805632193'].each do |r1|
         get :entry, :id => PRJ_ID,
-            :path => ['latin-1-dir', "test-#{@char_1}-2.txt"], :rev => r1
+            :path => repository_path_hash(['latin-1-dir', "test-#{@char_1}-2.txt"])[:param],
+            :rev => r1
         assert_response :success
         assert_template 'entry'
         assert_tag :tag => 'th',
@@ -252,7 +259,8 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       with_settings :repositories_encodings => 'UTF-8,ISO-8859-1' do
         [27, '27', '7bbf4c738e71'].each do |r1|
           get :entry, :id => PRJ_ID,
-              :path => ['latin-1-dir', "test-#{@char_1}.txt"], :rev => r1
+              :path => repository_path_hash(['latin-1-dir', "test-#{@char_1}.txt"])[:param],
+              :rev => r1
           assert_response :success
           assert_template 'entry'
           assert_tag :tag => 'th',
@@ -266,20 +274,23 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
 
     def test_entry_download
       get :entry, :id => PRJ_ID,
-          :path => ['sources', 'watchers_controller.rb'], :format => 'raw'
+          :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param],
+          :format => 'raw'
       assert_response :success
       # File content
       assert @response.body.include?('WITHOUT ANY WARRANTY')
     end
 
     def test_entry_binary_force_download
-      get :entry, :id => PRJ_ID, :rev => 1, :path => ['images', 'edit.png']
+      get :entry, :id => PRJ_ID, :rev => 1,
+          :path => repository_path_hash(['images', 'edit.png'])[:param]
       assert_response :success
       assert_equal 'image/png', @response.content_type
     end
 
     def test_directory_entry
-      get :entry, :id => PRJ_ID, :path => ['sources']
+      get :entry, :id => PRJ_ID,
+          :path => repository_path_hash(['sources'])[:param]
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entry)
@@ -361,7 +372,8 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
     end
 
     def test_annotate
-      get :annotate, :id => PRJ_ID, :path => ['sources', 'watchers_controller.rb']
+      get :annotate, :id => PRJ_ID,
+          :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param]
       assert_response :success
       assert_template 'annotate'
       # Line 23, revision 4:def6d2f1254a
@@ -394,9 +406,8 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-
       get :annotate, :id => PRJ_ID,
-          :path => ['sources', 'welcome_controller.rb']
+          :path => repository_path_hash(['sources', 'welcome_controller.rb'])[:param]
       assert_response 404
       assert_error_tag :content => /was not found/
     end
@@ -408,7 +419,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       assert_equal NUM_REV, @repository.changesets.count
       [2, '400bb8672109', '400', 400].each do |r1|
         get :annotate, :id => PRJ_ID, :rev => r1,
-            :path => ['sources', 'watchers_controller.rb']
+            :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param]
         assert_response :success
         assert_template 'annotate'
         assert_tag :tag => 'h2', :content => /@ 2:400bb8672109/
@@ -418,7 +429,8 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
     def test_annotate_latin_1_path
       [21, '21', 'adf805632193'].each do |r1|
         get :annotate, :id => PRJ_ID,
-            :path => ['latin-1-dir', "test-#{@char_1}-2.txt"], :rev => r1
+            :path => repository_path_hash(['latin-1-dir', "test-#{@char_1}-2.txt"])[:param],
+            :rev => r1
         assert_response :success
         assert_template 'annotate'
         assert_tag :tag => 'th',
@@ -452,7 +464,8 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       with_settings :repositories_encodings => 'UTF-8,ISO-8859-1' do
         [27, '7bbf4c738e71'].each do |r1|
           get :annotate, :id => PRJ_ID,
-              :path => ['latin-1-dir', "test-#{@char_1}.txt"], :rev => r1
+              :path => repository_path_hash(['latin-1-dir', "test-#{@char_1}.txt"])[:param],
+              :rev => r1
           assert_tag :tag => 'th',
                      :content => '1',
                      :attributes => { :class => 'line-num' },
