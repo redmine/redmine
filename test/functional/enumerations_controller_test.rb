@@ -39,6 +39,11 @@ class EnumerationsControllerTest < ActionController::TestCase
     assert_tag 'input', :attributes => {:name => 'enumeration[name]'}
   end
 
+  def test_new_with_invalid_type_should_respond_with_404
+    get :new, :type => 'UnknownType'
+    assert_response 404
+  end
+
   def test_create
     assert_difference 'IssuePriority.count' do
       post :create, :enumeration => {:type => 'IssuePriority', :name => 'Lowest'}
@@ -61,6 +66,11 @@ class EnumerationsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
     assert_tag 'input', :attributes => {:name => 'enumeration[name]', :value => 'High'}
+  end
+
+  def test_edit_invalid_should_respond_with_404
+    get :edit, :id => 999
+    assert_response 404
   end
 
   def test_update

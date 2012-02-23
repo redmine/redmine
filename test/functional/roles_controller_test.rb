@@ -84,6 +84,11 @@ class RolesControllerTest < ActionController::TestCase
     assert_equal Role.find(1), assigns(:role)
   end
 
+  def test_edit_invalid_should_respond_with_404
+    get :edit, :id => 999
+    assert_response 404
+  end
+
   def test_update
     put :update, :id => 1,
                 :role => {:name => 'Manager',
