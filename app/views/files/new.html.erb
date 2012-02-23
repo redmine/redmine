@@ -1,8 +1,8 @@
 <h2><%=l(:label_attachment_new)%></h2>
 
 <%= error_messages_for 'attachment' %>
-<div class="box">
 <% form_tag(project_files_path(@project), :multipart => true, :class => "tabular") do %>
+<div class="box">
 
 <% if @versions.any? %>
 <p><label for="version_id"><%=l(:field_version)%></label>
