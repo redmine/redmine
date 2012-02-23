@@ -71,7 +71,6 @@ class NewsController < ApplicationController
     @news.attributes = params[:news]
     @news.save_attachments(params[:attachments])
     if @news.save
-      attachments = Attachment.attach_files(@news, params[:attachments])
       render_attachment_warning_if_needed(@news)
       flash[:notice] = l(:notice_successful_create)
       redirect_to :controller => 'news', :action => 'index', :project_id => @project
@@ -86,7 +85,6 @@ class NewsController < ApplicationController
   def update
     @news.save_attachments(params[:attachments])
     if @news.update_attributes(params[:news])
-      attachments = Attachment.attach_files(@news, params[:attachments])
       render_attachment_warning_if_needed(@news)
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'show', :id => @news
