@@ -76,19 +76,30 @@ class Attachment < ActiveRecord::Base
     unless incoming_file.nil?
       @temp_file = incoming_file
       if @temp_file.size > 0
-        self.filename = sanitize_filename(@temp_file.original_filename)
-        self.disk_filename = Attachment.disk_filename(filename)
-        self.content_type = @temp_file.content_type.to_s.chomp
-        if content_type.blank?
+        if @temp_file.respond_to?(:original_filename)
+          self.filename = @temp_file.original_filename
+        end
+        if @temp_file.respond_to?(:content_type)
+          self.content_type = @temp_file.content_type.to_s.chomp
+        end
+        if content_type.blank? && filename.present?
           self.content_type = Redmine::MimeType.of(filename)
         end
         self.filesize = @temp_file.size
       end
     end
   end
-	
+  
   def file
     nil
+  end
+
+  def filename=(arg)
+    write_attribute :filename, sanitize_filename(arg.to_s)
+    if new_record? && disk_filename.blank?
+      self.disk_filename = Attachment.disk_filename(filename)
+    end
+    filename
   end
 
   # Copies the temporary file to its final location

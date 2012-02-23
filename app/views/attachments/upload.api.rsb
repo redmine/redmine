@@ -1,0 +1,3 @@
+api.upload do
+  api.token @attachment.token
+end

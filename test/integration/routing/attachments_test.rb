@@ -49,5 +49,13 @@ class RoutingAttachmentsTest < ActionController::IntegrationTest
            { :method => 'delete', :path => "/attachments/1" },
            { :controller => 'attachments', :action => 'destroy', :id => '1' }
          )
+    assert_routing(
+           { :method => 'post', :path => '/uploads.xml' },
+           { :controller => 'attachments', :action => 'upload', :format => 'xml' }
+    )
+    assert_routing(
+           { :method => 'post', :path => '/uploads.json' },
+           { :controller => 'attachments', :action => 'upload', :format => 'json' }
+    )
   end
 end

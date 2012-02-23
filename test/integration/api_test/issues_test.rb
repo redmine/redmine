@@ -707,4 +707,72 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
       assert_nil Issue.find_by_id(6)
     end
   end
+
+  def test_create_issue_with_uploaded_file
+    set_tmp_attachments_directory
+
+    # upload the file
+    assert_difference 'Attachment.count' do
+      post '/uploads.xml', 'test_create_with_upload', {'Content-Type' => 'application/octet-stream'}.merge(credentials('jsmith'))
+      assert_response :created
+    end
+    xml = Hash.from_xml(response.body)
+    token = xml['upload']['token']
+    attachment = Attachment.first(:order => 'id DESC')
+
+    # create the issue with the upload's token
+    assert_difference 'Issue.count' do
+      post '/issues.xml',
+        {:issue => {:project_id => 1, :subject => 'Uploaded file', :uploads => [{:token => token, :filename => 'test.txt', :content_type => 'text/plain'}]}},
+        credentials('jsmith')
+      assert_response :created
+    end
+    issue = Issue.first(:order => 'id DESC')
+    assert_equal 1, issue.attachments.count
+    assert_equal attachment, issue.attachments.first
+
+    attachment.reload
+    assert_equal 'test.txt', attachment.filename
+    assert_equal 'text/plain', attachment.content_type
+    assert_equal 'test_create_with_upload'.size, attachment.filesize
+    assert_equal 2, attachment.author_id
+
+    # get the issue with its attachments
+    get "/issues/#{issue.id}.xml", :include => 'attachments'
+    assert_response :success
+    xml = Hash.from_xml(response.body)
+    attachments = xml['issue']['attachments']
+    assert_kind_of Array, attachments
+    assert_equal 1, attachments.size
+    url = attachments.first['content_url']
+    assert_not_nil url
+
+    # download the attachment
+    get url
+    assert_response :success
+  end
+
+  def test_update_issue_with_uploaded_file
+    set_tmp_attachments_directory
+
+    # upload the file
+    assert_difference 'Attachment.count' do
+      post '/uploads.xml', 'test_upload_with_upload', {'Content-Type' => 'application/octet-stream'}.merge(credentials('jsmith'))
+      assert_response :created
+    end
+    xml = Hash.from_xml(response.body)
+    token = xml['upload']['token']
+    attachment = Attachment.first(:order => 'id DESC')
+
+    # update the issue with the upload's token
+    assert_difference 'Journal.count' do
+      put '/issues/1.xml',
+        {:issue => {:notes => 'Attachment added', :uploads => [{:token => token, :filename => 'test.txt', :content_type => 'text/plain'}]}},
+        credentials('jsmith')
+      assert_response :ok
+    end
+
+    issue = Issue.find(1)
+    assert_include attachment, issue.attachments
+  end
 end

@@ -409,6 +409,8 @@ ActionController::Routing::Routes.draw do |map|
                 :conditions => {:method => :get}
   end
 
+  map.connect 'uploads.:format', :controller => 'attachments', :action => 'upload', :conditions => {:method => :post}
+
   map.connect 'robots.txt', :controller => 'welcome',
               :action => 'robots', :conditions => {:method => :get}
 

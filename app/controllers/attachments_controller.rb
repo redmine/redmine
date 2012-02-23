@@ -16,11 +16,12 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class AttachmentsController < ApplicationController
-  before_filter :find_project
-  before_filter :file_readable, :read_authorize, :except => :destroy
+  before_filter :find_project, :except => :upload
+  before_filter :file_readable, :read_authorize, :only => [:show, :download]
   before_filter :delete_authorize, :only => :destroy
+  before_filter :authorize_global, :only => :upload
 
-  accept_api_auth :show, :download
+  accept_api_auth :show, :download, :upload
 
   def show
     respond_to do |format|
@@ -56,6 +57,29 @@ class AttachmentsController < ApplicationController
                                     :type => detect_content_type(@attachment),
                                     :disposition => (@attachment.image? ? 'inline' : 'attachment')
 
+  end
+
+  def upload
+    # Make sure that API users get used to set this content type
+    # as it won't trigger Rails' automatic parsing of the request body for parameters
+    unless request.content_type == 'application/octet-stream'
+      render :nothing => true, :status => 406
+      return
+    end
+
+    @attachment = Attachment.new(:file => request.body)
+    @attachment.author = User.current
+    @attachment.filename = "test" #ActiveSupport::SecureRandom.hex(16)
+
+    if @attachment.save
+      respond_to do |format|
+        format.api { render :action => 'upload', :status => :created }
+      end
+    else
+      respond_to do |format|
+        format.api { render_validation_errors(@attachment) }
+      end
+    end
   end
 
   verify :method => :delete, :only => :destroy

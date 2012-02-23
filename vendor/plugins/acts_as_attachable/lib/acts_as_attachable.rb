@@ -61,18 +61,23 @@ module Redmine
         end
 
         def save_attachments(attachments, author=User.current)
-          if attachments && attachments.is_a?(Hash)
-            attachments.each_value do |attachment|
+          if attachments.is_a?(Hash)
+            attachments = attachments.values
+          end
+          if attachments.is_a?(Array)
+            attachments.each do |attachment|
               a = nil
               if file = attachment['file']
-                next unless file && file.size > 0
-                a = Attachment.create(:file => file,
-                                      :description => attachment['description'].to_s.strip,
-                                      :author => author)
+                next unless file.size > 0
+                a = Attachment.create(:file => file, :author => author)
               elsif token = attachment['token']
                 a = Attachment.find_by_token(token)
+                next unless a
+                a.filename = attachment['filename'] unless attachment['filename'].blank?
+                a.content_type = attachment['content_type']
               end
               next unless a
+              a.description = attachment['description'].to_s.strip
               if a.new_record?
                 unsaved_attachments << a
               else
