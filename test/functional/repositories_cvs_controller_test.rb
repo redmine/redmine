@@ -79,7 +79,7 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :show, :id => PRJ_ID, :path => ['images']
+      get :show, :id => PRJ_ID, :path => repository_path_hash(['images'])[:param]
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
@@ -95,7 +95,8 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :show, :id => PRJ_ID, :path => ['images'], :rev => 1
+      get :show, :id => PRJ_ID, :path => repository_path_hash(['images'])[:param],
+          :rev => 1
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
@@ -107,7 +108,8 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :entry, :id => PRJ_ID, :path => ['sources', 'watchers_controller.rb']
+      get :entry, :id => PRJ_ID,
+          :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param]
       assert_response :success
       assert_template 'entry'
       assert_no_tag :tag => 'td',
@@ -121,7 +123,9 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :entry, :id => PRJ_ID, :path => ['sources', 'watchers_controller.rb'], :rev => 2
+      get :entry, :id => PRJ_ID,
+          :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param],
+          :rev => 2
       assert_response :success
       assert_template 'entry'
       # this line was removed in r3
@@ -135,7 +139,8 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :entry, :id => PRJ_ID, :path => ['sources', 'zzz.c']
+      get :entry, :id => PRJ_ID,
+          :path => repository_path_hash(['sources', 'zzz.c'])[:param]
       assert_tag :tag => 'p',
                  :attributes => { :id => /errorExplanation/ },
                  :content => /The entry or revision was not found in the repository/
@@ -146,7 +151,8 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :entry, :id => PRJ_ID, :path => ['sources', 'watchers_controller.rb'],
+      get :entry, :id => PRJ_ID,
+          :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param],
           :format => 'raw'
       assert_response :success
     end
@@ -156,7 +162,8 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :entry, :id => PRJ_ID, :path => ['sources']
+      get :entry, :id => PRJ_ID,
+          :path => repository_path_hash(['sources'])[:param]
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entry)
@@ -206,7 +213,8 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :annotate, :id => PRJ_ID, :path => ['sources', 'watchers_controller.rb']
+      get :annotate, :id => PRJ_ID,
+          :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param]
       assert_response :success
       assert_template 'annotate'
       # 1.1 line
