@@ -60,11 +60,13 @@ class MessagesController < ApplicationController
       @message.locked = params[:message]['locked']
       @message.sticky = params[:message]['sticky']
     end
-    if request.post? && @message.save
-      call_hook(:controller_messages_new_after_save, { :params => params, :message => @message})
-      attachments = Attachment.attach_files(@message, params[:attachments])
-      render_attachment_warning_if_needed(@message)
-      redirect_to :action => 'show', :id => @message
+    if request.post?
+      @message.save_attachments(params[:attachments])
+      if @message.save
+        call_hook(:controller_messages_new_after_save, { :params => params, :message => @message})
+        render_attachment_warning_if_needed(@message)
+        redirect_to :action => 'show', :id => @message
+      end
     end
   end
 
