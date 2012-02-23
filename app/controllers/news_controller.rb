@@ -68,16 +68,14 @@ class NewsController < ApplicationController
 
   def create
     @news = News.new(:project => @project, :author => User.current)
-    if request.post?
-      @news.attributes = params[:news]
-      if @news.save
-        attachments = Attachment.attach_files(@news, params[:attachments])
-        render_attachment_warning_if_needed(@news)
-        flash[:notice] = l(:notice_successful_create)
-        redirect_to :controller => 'news', :action => 'index', :project_id => @project
-      else
-        render :action => 'new'
-      end
+    @news.attributes = params[:news]
+    if @news.save
+      attachments = Attachment.attach_files(@news, params[:attachments])
+      render_attachment_warning_if_needed(@news)
+      flash[:notice] = l(:notice_successful_create)
+      redirect_to :controller => 'news', :action => 'index', :project_id => @project
+    else
+      render :action => 'new'
     end
   end
 
@@ -85,7 +83,7 @@ class NewsController < ApplicationController
   end
 
   def update
-    if request.put? and @news.update_attributes(params[:news])
+    if @news.update_attributes(params[:news])
       attachments = Attachment.attach_files(@news, params[:attachments])
       render_attachment_warning_if_needed(@news)
       flash[:notice] = l(:notice_successful_update)
