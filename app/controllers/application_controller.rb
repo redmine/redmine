@@ -260,15 +260,6 @@ class ApplicationController < ActionController::Base
     render_404
   end
 
-  # Check if project is unique before bulk operations
-  def check_project_uniqueness
-    unless @project
-      # TODO: let users bulk edit/move/destroy issues from different projects
-      render_error 'Can not bulk edit/move/destroy issues from different projects'
-      return false
-    end
-  end
-
   # make sure that the user is a member of the project (or admin) if project is private
   # used as a before_filter for actions that do not require any particular permission on the project
   def check_project_privacy
