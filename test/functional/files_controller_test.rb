@@ -36,6 +36,25 @@ class FilesControllerTest < ActionController::TestCase
                    :attributes => { :href => '/attachments/download/9/version_file.zip' }
   end
 
+  def test_new
+    @request.session[:user_id] = 2
+    get :new, :project_id => 1
+    assert_response :success
+    assert_template 'new'
+
+    assert_tag 'select', :attributes => {:name => 'version_id'}
+  end
+
+  def test_new_without_versions
+    Version.delete_all
+    @request.session[:user_id] = 2
+    get :new, :project_id => 1
+    assert_response :success
+    assert_template 'new'
+
+    assert_no_tag 'select', :attributes => {:name => 'version_id'}
+  end
+
   def test_create_file
     set_tmp_attachments_directory
     @request.session[:user_id] = 2
