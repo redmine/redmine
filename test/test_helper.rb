@@ -143,6 +143,13 @@ class ActiveSupport::TestCase
     File.directory?(repository_path(vendor))
   end
 
+  def repository_path_hash(arr)
+    hs = {}
+    hs[:path]  = arr.join("/")
+    hs[:param] = arr
+    hs
+  end
+
   def assert_error_tag(options={})
     assert_tag({:attributes => { :id => 'errorExplanation' }}.merge(options))
   end

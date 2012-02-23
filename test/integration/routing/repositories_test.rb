@@ -366,13 +366,4 @@ class RoutingRepositoriesTest < ActionController::IntegrationTest
         { :controller => 'repositories', :action => 'remove_related_issue', :id => 'redmine', :repository_id => 'foo', :rev => '123', :issue_id => '25' }
       )
   end
-
-  private
-
-  def repository_path_hash(arr)
-    hs = {}
-    hs[:path]  = arr.join("/")
-    hs[:param] = arr
-    hs
-  end
 end
