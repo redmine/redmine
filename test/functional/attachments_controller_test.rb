@@ -219,6 +219,11 @@ class AttachmentsControllerTest < ActionController::TestCase
     assert_response 403
   end
 
+  def test_show_invalid_should_respond_with_404
+    get :show, :id => 999
+    assert_response 404
+  end
+
   def test_download_text_file
     get :download, :id => 4
     assert_response :success

@@ -49,6 +49,13 @@ class IssueStatusesControllerTest < ActionController::TestCase
     assert_equal 'New status', status.name
   end
 
+  def test_create_with_failure
+    post :create, :issue_status => {:name => ''}
+    assert_response :success
+    assert_template 'new'
+    assert_error_tag :content => /name can't be blank/i
+  end
+
   def test_edit
     get :edit, :id => '3'
     assert_response :success
@@ -60,6 +67,13 @@ class IssueStatusesControllerTest < ActionController::TestCase
     assert_redirected_to :action => 'index'
     status = IssueStatus.find(3)
     assert_equal 'Renamed status', status.name
+  end
+
+  def test_update_with_failure
+    put :update, :id => '3', :issue_status => {:name => ''}
+    assert_response :success
+    assert_template 'edit'
+    assert_error_tag :content => /name can't be blank/i
   end
 
   def test_destroy

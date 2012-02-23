@@ -57,6 +57,30 @@ class IssueCategoriesControllerTest < ActionController::TestCase
     assert_template 'new'
   end
 
+  def test_create_from_issue_form
+    @request.session[:user_id] = 2 # manager
+    assert_difference 'IssueCategory.count' do
+      xhr :post, :create, :project_id => '1', :issue_category => {:name => 'New category'}
+    end
+    category = IssueCategory.first(:order => 'id DESC')
+    assert_equal 'New category', category.name
+
+    assert_response :success
+    assert_select_rjs :replace, 'issue_category_id' do
+      assert_select "option[value=#{category.id}][selected=selected]"
+    end
+  end
+
+  def test_create_from_issue_form_with_failure
+    @request.session[:user_id] = 2 # manager
+    assert_no_difference 'IssueCategory.count' do
+      xhr :post, :create, :project_id => '1', :issue_category => {:name => ''}
+    end
+
+    assert_response :success
+    assert_match /alert/, @response.body
+  end
+
   def test_edit
     @request.session[:user_id] = 2
     get :edit, :id => 2
