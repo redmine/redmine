@@ -69,6 +69,7 @@ class NewsController < ApplicationController
   def create
     @news = News.new(:project => @project, :author => User.current)
     @news.attributes = params[:news]
+    @news.save_attachments(params[:attachments])
     if @news.save
       attachments = Attachment.attach_files(@news, params[:attachments])
       render_attachment_warning_if_needed(@news)
@@ -83,6 +84,7 @@ class NewsController < ApplicationController
   end
 
   def update
+    @news.save_attachments(params[:attachments])
     if @news.update_attributes(params[:news])
       attachments = Attachment.attach_files(@news, params[:attachments])
       render_attachment_warning_if_needed(@news)
