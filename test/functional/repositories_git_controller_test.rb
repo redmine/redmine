@@ -134,7 +134,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :show, :id => PRJ_ID, :path => ['images']
+      get :show, :id => PRJ_ID, :path => repository_path_hash(['images'])[:param]
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
@@ -152,7 +152,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :show, :id => PRJ_ID, :path => ['images'],
+      get :show, :id => PRJ_ID, :path => repository_path_hash(['images'])[:param],
           :rev => '7234cb2750b63f47bff735edc50a1c0a433c2518'
       assert_response :success
       assert_template 'show'
@@ -163,14 +163,16 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     end
 
     def test_changes
-      get :changes, :id => PRJ_ID, :path => ['images', 'edit.png']
+      get :changes, :id => PRJ_ID,
+          :path => repository_path_hash(['images', 'edit.png'])[:param]
       assert_response :success
       assert_template 'changes'
       assert_tag :tag => 'h2', :content => 'edit.png'
     end
 
     def test_entry_show
-      get :entry, :id => PRJ_ID, :path => ['sources', 'watchers_controller.rb']
+      get :entry, :id => PRJ_ID,
+          :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param]
       assert_response :success
       assert_template 'entry'
       # Line 19
@@ -189,7 +191,8 @@ class RepositoriesGitControllerTest < ActionController::TestCase
         with_settings :repositories_encodings => 'UTF-8,ISO-8859-1' do
           ['57ca437c', '57ca437c0acbbcb749821fdf3726a1367056d364'].each do |r1|
             get :entry, :id => PRJ_ID,
-                :path => ['latin-1-dir', "test-#{@char_1}.txt"], :rev => r1
+                :path => repository_path_hash(['latin-1-dir', "test-#{@char_1}.txt"])[:param],
+                :rev => r1
             assert_response :success
             assert_template 'entry'
             assert_tag :tag => 'th',
@@ -203,7 +206,8 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     end
 
     def test_entry_download
-      get :entry, :id => PRJ_ID, :path => ['sources', 'watchers_controller.rb'],
+      get :entry, :id => PRJ_ID,
+          :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param],
           :format => 'raw'
       assert_response :success
       # File content
@@ -211,7 +215,8 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     end
 
     def test_directory_entry
-      get :entry, :id => PRJ_ID, :path => ['sources']
+      get :entry, :id => PRJ_ID,
+          :path => repository_path_hash(['sources'])[:param]
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entry)
@@ -334,7 +339,8 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     end
 
     def test_annotate
-      get :annotate, :id => PRJ_ID, :path => ['sources', 'watchers_controller.rb']
+      get :annotate, :id => PRJ_ID,
+          :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param]
       assert_response :success
       assert_template 'annotate'
       # Line 24, changeset 2f9c0091
@@ -366,14 +372,15 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
       get :annotate, :id => PRJ_ID, :rev => 'deff7',
-          :path => ['sources', 'watchers_controller.rb']
+          :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param]
       assert_response :success
       assert_template 'annotate'
       assert_tag :tag => 'h2', :content => /@ deff712f/
     end
 
     def test_annotate_binary_file
-      get :annotate, :id => PRJ_ID, :path => ['images', 'edit.png']
+      get :annotate, :id => PRJ_ID,
+          :path => repository_path_hash(['images', 'edit.png'])[:param]
       assert_response 500
       assert_tag :tag => 'p', :attributes => { :id => /errorExplanation/ },
                               :content => /cannot be annotated/
@@ -381,12 +388,16 @@ class RepositoriesGitControllerTest < ActionController::TestCase
 
     def test_annotate_error_when_too_big
       with_settings :file_max_size_displayed => 1 do
-        get :annotate, :id => PRJ_ID, :path => ['sources', 'watchers_controller.rb'], :rev => 'deff712f'
+        get :annotate, :id => PRJ_ID,
+            :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param],
+            :rev => 'deff712f'
         assert_response 500
         assert_tag :tag => 'p', :attributes => { :id => /errorExplanation/ },
                                 :content => /exceeds the maximum text file size/
 
-        get :annotate, :id => PRJ_ID, :path => ['README'], :rev => '7234cb2'
+        get :annotate, :id => PRJ_ID,
+            :path => repository_path_hash(['README'])[:param],
+            :rev => '7234cb2'
         assert_response :success
         assert_template 'annotate'
       end
@@ -401,7 +412,8 @@ class RepositoriesGitControllerTest < ActionController::TestCase
         with_settings :repositories_encodings => 'UTF-8,ISO-8859-1' do
           ['57ca437c', '57ca437c0acbbcb749821fdf3726a1367056d364'].each do |r1|
             get :annotate, :id => PRJ_ID,
-                :path => ['latin-1-dir', "test-#{@char_1}.txt"], :rev => r1
+                :path => repository_path_hash(['latin-1-dir', "test-#{@char_1}.txt"])[:param],
+                :rev => r1
             assert_tag :tag => 'th',
                        :content => '1',
                        :attributes => { :class => 'line-num' },
