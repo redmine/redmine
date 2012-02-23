@@ -242,14 +242,7 @@ class ProjectsController < ApplicationController
     @project = nil
   end
 
-private
-  def find_optional_project
-    return true unless params[:id]
-    @project = Project.find(params[:id])
-    authorize
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
+  private
 
   # Validates parent_id param according to user's permissions
   # TODO: move it to Project model in a validation that depends on User.current
