@@ -116,5 +116,16 @@ class ApiTest::AttachmentsTest < ActionController::IntegrationTest
         assert_response 406
       end
     end
+
+    should "return errors if file is too big" do
+      set_tmp_attachments_directory
+      with_settings :attachment_max_size => 1 do
+        assert_no_difference 'Attachment.count' do
+          post '/uploads.xml', ('x' * 2048), {'Content-Type' => 'application/octet-stream'}.merge(credentials('jsmith'))
+          assert_response 422
+          assert_tag 'error', :content => /exceeds the maximum allowed file size/
+        end
+      end
+    end
   end
 end
