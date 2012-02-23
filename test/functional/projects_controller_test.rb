@@ -395,6 +395,14 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_equal 'Test changed name', project.name
   end
 
+  def test_update_with_failure
+    @request.session[:user_id] = 2 # manager
+    post :update, :id => 1, :project => {:name => ''}
+    assert_response :success
+    assert_template 'settings'
+    assert_error_tag :content => /name can't be blank/i
+  end
+
   def test_modules
     @request.session[:user_id] = 2
     Project.find(1).enabled_module_names = ['issue_tracking', 'news']
@@ -430,6 +438,14 @@ class ProjectsControllerTest < ActionController::TestCase
     post :archive, :id => 1
     assert_redirected_to '/admin/projects'
     assert !Project.find(1).active?
+  end
+
+  def test_archive_with_failure
+    @request.session[:user_id] = 1
+    Project.any_instance.stubs(:archive).returns(false)
+    post :archive, :id => 1
+    assert_redirected_to '/admin/projects'
+    assert_match /project cannot be archived/i, flash[:error]
   end
 
   def test_unarchive
