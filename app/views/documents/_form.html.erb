@@ -10,6 +10,6 @@
 
 <% if @document.new_record? %>
 <div class="box tabular">
-<p><label><%=l(:label_attachment_plural)%></label><%= render :partial => 'attachments/form' %></p>
+<p><label><%=l(:label_attachment_plural)%></label><%= render :partial => 'attachments/form', :locals => {:container => @document} %></p>
 </div>
 <% end %>

@@ -52,8 +52,8 @@ class DocumentsController < ApplicationController
 
   def create
     @document = @project.documents.build(params[:document])
-    if request.post? and @document.save	
-      attachments = Attachment.attach_files(@document, params[:attachments])
+    @document.save_attachments(params[:attachments])
+    if @document.save
       render_attachment_warning_if_needed(@document)
       flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'index', :project_id => @project
