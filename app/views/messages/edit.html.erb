@@ -12,7 +12,7 @@
   <%= submit_tag l(:button_save) %>
   <%= link_to_remote l(:label_preview),
                      { :url => { :controller => 'messages',
-                                 :action => 'preview', :board_id => @board },
+                                 :action => 'preview', :board_id => @board, :id => @message },
                        :method => 'post',
                        :update => 'preview',
                        :with => "Form.serialize('message-form')",
