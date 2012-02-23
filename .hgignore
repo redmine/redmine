@@ -23,6 +23,7 @@ tmp/cache/*
 tmp/sessions/*
 tmp/sockets/*
 tmp/test/*
+vendor/cache
 vendor/rails
 *.rbc
 
