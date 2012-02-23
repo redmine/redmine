@@ -69,7 +69,7 @@ class RepositoriesDarcsControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :show, :id => PRJ_ID, :path => ['images']
+      get :show, :id => PRJ_ID, :path => repository_path_hash(['images'])[:param]
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
@@ -85,7 +85,8 @@ class RepositoriesDarcsControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :show, :id => PRJ_ID, :path => ['images'], :rev => 1
+      get :show, :id => PRJ_ID, :path => repository_path_hash(['images'])[:param],
+          :rev => 1
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
@@ -97,7 +98,8 @@ class RepositoriesDarcsControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :changes, :id => PRJ_ID, :path => ['images', 'edit.png']
+      get :changes, :id => PRJ_ID,
+          :path => repository_path_hash(['images', 'edit.png'])[:param]
       assert_response :success
       assert_template 'changes'
       assert_tag :tag => 'h2', :content => 'edit.png'
