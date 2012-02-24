@@ -94,7 +94,7 @@ class Query < ActiveRecord::Base
 
   attr_protected :project_id, :user_id
 
-  validates_presence_of :name, :on => :save
+  validates_presence_of :name
   validates_length_of :name, :maximum => 255
   validate :validate_query_filters
 
