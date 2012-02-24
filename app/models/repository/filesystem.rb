@@ -25,7 +25,7 @@ class Repository::Filesystem < Repository
   validates_presence_of :url
 
   def self.human_attribute_name(attribute_key_name, *args)
-    attr_name = attribute_key_name
+    attr_name = attribute_key_name.to_s
     if attr_name == "url"
       attr_name = "root_directory"
     end
