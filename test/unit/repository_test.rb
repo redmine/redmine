@@ -77,11 +77,19 @@ class RepositoryTest < ActiveSupport::TestCase
   end
 
   def test_first_repository_should_be_set_as_default
-    repository1 = Repository::Subversion.new(:project => Project.find(3), :identifier => 'svn1', :url => 'file:///svn1')
+    repository1 = Repository::Subversion.new(
+                      :project => Project.find(3),
+                      :identifier => 'svn1',
+                      :url => 'file:///svn1'
+                    )
     assert repository1.save
     assert repository1.is_default?
 
-    repository2 = Repository::Subversion.new(:project => Project.find(3), :identifier => 'svn2', :url => 'file:///svn2')
+    repository2 = Repository::Subversion.new(
+                      :project => Project.find(3),
+                      :identifier => 'svn2',
+                      :url => 'file:///svn2'
+                    )
     assert repository2.save
     assert !repository2.is_default?
 
