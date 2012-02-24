@@ -108,4 +108,15 @@ class EnumerationTest < ActiveSupport::TestCase
     enumeration.parent = Enumeration.find(5)
     assert enumeration.is_override?
   end
+
+  def test_get_subclasses
+    classes = Enumeration.get_subclasses
+    assert_include IssuePriority, classes
+    assert_include DocumentCategory, classes
+    assert_include TimeEntryActivity, classes
+
+    classes.each do |klass|
+      assert_equal Enumeration, klass.superclass
+    end
+  end
 end
