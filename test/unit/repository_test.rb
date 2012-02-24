@@ -34,8 +34,34 @@ class RepositoryTest < ActiveSupport::TestCase
            :roles,
            :enumerations
 
+  include Redmine::I18n
+
   def setup
     @repository = Project.find(1).repository
+  end
+
+  def test_blank_log_encoding_error_message
+    set_language_if_valid 'en'
+    repo = Repository::Bazaar.new(
+                        :project      => Project.find(3),
+                        :url          => "/test",
+                        :log_encoding => ''
+                      )
+    assert !repo.save
+    assert_include "Commit messages encoding can't be blank",
+                   repo.errors.full_messages
+  end
+
+  def test_blank_log_encoding_error_message_fr
+    set_language_if_valid 'fr'
+    str = "Encodage des messages de commit doit \xc3\xaatre renseign\xc3\xa9(e)"
+    str.force_encoding('UTF-8') if str.respond_to?(:force_encoding)
+    repo = Repository::Bazaar.new(
+                        :project      => Project.find(3),
+                        :url          => "/test"
+                      )
+    assert !repo.save
+    assert_include str, repo.errors.full_messages
   end
 
   def test_create
