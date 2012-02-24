@@ -8,4 +8,4 @@
 </ul>
 <% end %>
 
-<p><%= l(:label_login) %>: <%= auto_link(@login_url).html_safe %></p>
+<p><%= l(:label_login) %>: <%= link_to h(@login_url), @login_url %></p>
