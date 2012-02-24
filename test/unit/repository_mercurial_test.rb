@@ -51,8 +51,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
     set_language_if_valid 'en'
     repo = Repository::Mercurial.new(
                           :project      => @project,
-                          :identifier   => 'test',
-                          :log_encoding => 'UTF-8'
+                          :identifier   => 'test'
                         )
     assert !repo.save
     assert_include "Path to repository can't be blank",
@@ -67,7 +66,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
                           :project      => @project,
                           :url          => "",
                           :identifier   => 'test',
-                          :log_encoding => 'UTF-8'
+                          :path_encoding => ''
                         )
     assert !repo.save
     assert_include str, repo.errors.full_messages
