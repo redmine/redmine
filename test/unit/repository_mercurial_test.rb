@@ -20,6 +20,8 @@ require File.expand_path('../../test_helper', __FILE__)
 class RepositoryMercurialTest < ActiveSupport::TestCase
   fixtures :projects
 
+  include Redmine::I18n
+
   REPOSITORY_PATH = Rails.root.join('tmp/test/mercurial_repository').to_s
   NUM_REV = 32
   CHAR_1_HEX = "\xc3\x9c"
@@ -42,6 +44,33 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       @branch_char_0.force_encoding('UTF-8')
       @branch_char_1.force_encoding('UTF-8')
     end
+  end
+
+
+  def test_blank_path_to_repository_error_message
+    set_language_if_valid 'en'
+    repo = Repository::Mercurial.new(
+                          :project      => @project,
+                          :identifier   => 'test',
+                          :log_encoding => 'UTF-8'
+                        )
+    assert !repo.save
+    assert_include "Path to repository can't be blank",
+                   repo.errors.full_messages
+  end
+
+  def test_blank_path_to_repository_error_message_fr
+    set_language_if_valid 'fr'
+    str = "Chemin du d\xc3\xa9p\xc3\xb4t doit \xc3\xaatre renseign\xc3\xa9(e)"
+    str.force_encoding('UTF-8') if str.respond_to?(:force_encoding)
+    repo = Repository::Mercurial.new(
+                          :project      => @project,
+                          :url          => "",
+                          :identifier   => 'test',
+                          :log_encoding => 'UTF-8'
+                        )
+    assert !repo.save
+    assert_include str, repo.errors.full_messages
   end
 
   if File.directory?(REPOSITORY_PATH)
