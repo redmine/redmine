@@ -20,6 +20,8 @@ require 'pp'
 class RepositoryCvsTest < ActiveSupport::TestCase
   fixtures :projects
 
+  include Redmine::I18n
+
   REPOSITORY_PATH = Rails.root.join('tmp/test/cvs_repository').to_s
   REPOSITORY_PATH.gsub!(/\//, "\\") if Redmine::Platform.mswin?
   # CVS module
@@ -33,6 +35,64 @@ class RepositoryCvsTest < ActiveSupport::TestCase
                                          :url      => MODULE_NAME,
                                          :log_encoding => 'UTF-8')
     assert @repository
+  end
+
+  def test_blank_module_error_message
+    set_language_if_valid 'en'
+    repo = Repository::Cvs.new(
+                          :project      => @project,
+                          :identifier   => 'test',
+                          :log_encoding => 'UTF-8',
+                          :root_url     => REPOSITORY_PATH
+                        )
+    assert !repo.save
+    assert_include "Module can't be blank",
+                   repo.errors.full_messages
+  end
+
+  def test_blank_module_error_message_fr
+    set_language_if_valid 'fr'
+    str = "Module doit \xc3\xaatre renseign\xc3\xa9(e)"
+    str.force_encoding('UTF-8') if str.respond_to?(:force_encoding)
+    repo = Repository::Cvs.new(
+                          :project       => @project,
+                          :identifier    => 'test',
+                          :log_encoding  => 'UTF-8',
+                          :path_encoding => '',
+                          :url           => '',
+                          :root_url      => REPOSITORY_PATH
+                        )
+    assert !repo.save
+    assert_include str, repo.errors.full_messages
+  end
+
+  def test_blank_cvsroot_error_message
+    set_language_if_valid 'en'
+    repo = Repository::Cvs.new(
+                          :project      => @project,
+                          :identifier   => 'test',
+                          :log_encoding => 'UTF-8',
+                          :url          => MODULE_NAME
+                        )
+    assert !repo.save
+    assert_include "CVSROOT can't be blank",
+                   repo.errors.full_messages
+  end
+
+  def test_blank_cvsroot_error_message_fr
+    set_language_if_valid 'fr'
+    str = "CVSROOT doit \xc3\xaatre renseign\xc3\xa9(e)"
+    str.force_encoding('UTF-8') if str.respond_to?(:force_encoding)
+    repo = Repository::Cvs.new(
+                          :project       => @project,
+                          :identifier    => 'test',
+                          :log_encoding  => 'UTF-8',
+                          :path_encoding => '',
+                          :url           => MODULE_NAME,
+                          :root_url      => ''
+                        )
+    assert !repo.save
+    assert_include str, repo.errors.full_messages
   end
 
   if File.directory?(REPOSITORY_PATH)
