@@ -20,6 +20,8 @@ require File.expand_path('../../test_helper', __FILE__)
 class RepositoryDarcsTest < ActiveSupport::TestCase
   fixtures :projects
 
+  include Redmine::I18n
+
   REPOSITORY_PATH = Rails.root.join('tmp/test/darcs_repository').to_s
   NUM_REV = 6
 
@@ -31,6 +33,32 @@ class RepositoryDarcsTest < ActiveSupport::TestCase
                       :log_encoding => 'UTF-8'
                       )
     assert @repository
+  end
+
+  def test_blank_path_to_repository_error_message
+    set_language_if_valid 'en'
+    repo = Repository::Darcs.new(
+                          :project      => @project,
+                          :identifier   => 'test',
+                          :log_encoding => 'UTF-8'
+                        )
+    assert !repo.save
+    assert_include "Path to repository can't be blank",
+                   repo.errors.full_messages
+  end
+
+  def test_blank_path_to_repository_error_message_fr
+    set_language_if_valid 'fr'
+    str = "Chemin du d\xc3\xa9p\xc3\xb4t doit \xc3\xaatre renseign\xc3\xa9(e)"
+    str.force_encoding('UTF-8') if str.respond_to?(:force_encoding)
+    repo = Repository::Darcs.new(
+                          :project      => @project,
+                          :url          => "",
+                          :identifier   => 'test',
+                          :log_encoding => 'UTF-8'
+                        )
+    assert !repo.save
+    assert_include str, repo.errors.full_messages
   end
 
   if File.directory?(REPOSITORY_PATH)
