@@ -272,6 +272,19 @@ class Project < ActiveRecord::Base
     end
   end
 
+  def reload(*args)
+    @shared_versions = nil
+    @rolled_up_versions = nil
+    @rolled_up_trackers = nil
+    @all_issue_custom_fields = nil
+    @all_time_entry_custom_fields = nil
+    @to_param = nil
+    @allowed_parents = nil
+    @allowed_permissions = nil
+    @actions_allowed = nil
+    super
+  end
+
   def to_param
     # id is used for projects with a numeric identifier (compatibility)
     @to_param ||= (identifier.to_s =~ %r{^\d*$} ? id.to_s : identifier)
