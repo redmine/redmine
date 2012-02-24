@@ -1035,8 +1035,8 @@ class IssuesControllerTest < ActionController::TestCase
       get :show, :id => 3
       assert_response :success, "Wrong response status for #{assoc_sort} sort"
 
-      assert_tag 'a', :content => /Previous/
-      assert_tag 'a', :content => /Next/
+      assert_tag 'div', :attributes => {:class => /next-prev-links/}, :content => /Previous/
+      assert_tag 'div', :attributes => {:class => /next-prev-links/}, :content => /Next/
     end
   end
 
