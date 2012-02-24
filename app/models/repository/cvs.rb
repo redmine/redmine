@@ -22,7 +22,7 @@ class Repository::Cvs < Repository
   validates_presence_of :url, :root_url, :log_encoding
 
   def self.human_attribute_name(attribute_key_name, *args)
-    attr_name = attribute_key_name
+    attr_name = attribute_key_name.to_s
     if attr_name == "root_url"
       attr_name = "cvsroot"
     elsif attr_name == "url"
