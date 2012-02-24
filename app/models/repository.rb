@@ -49,7 +49,7 @@ class Repository < ActiveRecord::Base
   end
 
   def self.human_attribute_name(attribute_key_name, *args)
-    attr_name = attribute_key_name
+    attr_name = attribute_key_name.to_s
     if attr_name == "log_encoding"
       attr_name = "commit_logs_encoding"
     end
