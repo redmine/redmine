@@ -89,6 +89,15 @@ class TimeEntry < ActiveRecord::Base
     write_attribute :hours, (h.is_a?(String) ? (h.to_hours || h) : h)
   end
 
+  def hours
+    h = read_attribute(:hours)
+    if h.is_a?(Float)
+      h.round(2)
+    else
+      h
+    end
+  end
+
   # tyear, tmonth, tweek assigned where setting spent_on attributes
   # these attributes make time aggregations easier
   def spent_on=(date)
