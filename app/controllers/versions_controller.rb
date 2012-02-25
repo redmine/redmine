@@ -108,7 +108,7 @@ class VersionsController < ApplicationController
               page << 'hideModal();'
               # IE doesn't support the replace_html rjs method for select box options
               page.replace "issue_fixed_version_id",
-                content_tag('select', '<option></option>' + version_options_for_select(@project.shared_versions.open, @version), :id => 'issue_fixed_version_id', :name => 'issue[fixed_version_id]')
+                content_tag('select', content_tag('option') + version_options_for_select(@project.shared_versions.open, @version), :id => 'issue_fixed_version_id', :name => 'issue[fixed_version_id]')
             }
           end
           format.api do
