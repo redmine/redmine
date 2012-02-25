@@ -163,7 +163,6 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
         get :entry, :id => PRJ_ID,
             :path => repository_path_hash(['subversion_test', 'helloworld.c'])[:param]
         assert_response :success
-        assert_template ''
         assert_equal 'attachment; filename="helloworld.c"',
                      @response.headers['Content-Disposition']
       end
@@ -204,7 +203,6 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
           :path => repository_path_hash(['subversion_test', 'helloworld.c'])[:param],
           :format => 'raw'
       assert_response :success
-      assert_template ''
       assert_equal 'attachment; filename="helloworld.c"', @response.headers['Content-Disposition']
     end
 
