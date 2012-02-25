@@ -117,8 +117,7 @@ class NewsControllerTest < ActionController::TestCase
     assert_template 'new'
     assert_not_nil assigns(:news)
     assert assigns(:news).new_record?
-    assert_tag :tag => 'div', :attributes => { :id => 'errorExplanation' },
-                              :content => /1 error/
+    assert_error_tag :content => /title can't be blank/i
   end
 
   def test_get_edit
