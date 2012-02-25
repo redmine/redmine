@@ -713,7 +713,7 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
 
     # upload the file
     assert_difference 'Attachment.count' do
-      post '/uploads.xml', 'test_create_with_upload', {'Content-Type' => 'application/octet-stream'}.merge(credentials('jsmith'))
+      post '/uploads.xml', 'test_create_with_upload', {"CONTENT_TYPE" => 'application/octet-stream'}.merge(credentials('jsmith'))
       assert_response :created
     end
     xml = Hash.from_xml(response.body)
@@ -757,7 +757,7 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
 
     # upload the file
     assert_difference 'Attachment.count' do
-      post '/uploads.xml', 'test_upload_with_upload', {'Content-Type' => 'application/octet-stream'}.merge(credentials('jsmith'))
+      post '/uploads.xml', 'test_upload_with_upload', {"CONTENT_TYPE" => 'application/octet-stream'}.merge(credentials('jsmith'))
       assert_response :created
     end
     xml = Hash.from_xml(response.body)
