@@ -89,9 +89,15 @@ class SysControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  def test_fetch_changesets_one_project
+  def test_fetch_changesets_one_project_by_identifier
     Repository::Subversion.any_instance.expects(:fetch_changesets).once.returns(true)
     get :fetch_changesets, :id => 'ecookbook'
+    assert_response :success
+  end
+
+  def test_fetch_changesets_one_project_by_id
+    Repository::Subversion.any_instance.expects(:fetch_changesets).once.returns(true)
+    get :fetch_changesets, :id => '1'
     assert_response :success
   end
 

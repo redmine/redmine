@@ -48,10 +48,18 @@ class SysController < ActionController::Base
 
   def fetch_changesets
     projects = []
+    scope = Project.active.has_module(:repository)
     if params[:id]
-      projects << Project.active.has_module(:repository).find(params[:id])
+      project = nil
+      if params[:id].to_s =~ /^\d*$/
+        project = scope.find(params[:id])
+      else
+        project = scope.find_by_identifier(params[:id])
+      end
+      raise ActiveRecord::RecordNotFound unless project
+      projects << project
     else
-      projects = Project.active.has_module(:repository).all
+      projects = scope.all
     end
     projects.each do |project|
       project.repositories.each do |repository|
