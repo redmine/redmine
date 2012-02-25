@@ -306,7 +306,7 @@ module ApplicationHelper
   def principals_options_for_select(collection, selected=nil)
     s = ''
     if collection.include?(User.current)
-      s << content_tag('option', "<< #{l(:label_me)} >>", :value => User.current.id)
+      s << content_tag('option', "<< #{l(:label_me)} >>".html_safe, :value => User.current.id)
     end
     groups = ''
     collection.sort.each do |element|
@@ -547,7 +547,7 @@ module ApplicationHelper
     while tag = tags.pop
       parsed << "</#{tag}>"
     end
-    parsed.html_safe
+    parsed
   end
 
   def parse_inline_attachments(text, project, obj, attr, only_path, options)
@@ -564,9 +564,9 @@ module ApplicationHelper
           if !desc.blank? && alttext.blank?
             alt = " title=\"#{desc}\" alt=\"#{desc}\""
           end
-          "src=\"#{image_url}\"#{alt}".html_safe
+          "src=\"#{image_url}\"#{alt}"
         else
-          m.html_safe
+          m
         end
       end
     end
@@ -618,10 +618,10 @@ module ApplicationHelper
           link_to(title.present? ? title.html_safe : h(page), url, :class => ('wiki-page' + (wiki_page ? '' : ' new')))
         else
           # project or wiki doesn't exist
-          all.html_safe
+          all
         end
       else
-        all.html_safe
+        all
       end
     end
   end
@@ -786,7 +786,7 @@ module ApplicationHelper
           end
         end
       end
-      (leading + (link || "#{project_prefix}#{prefix}#{repo_prefix}#{sep}#{identifier}#{comment_suffix}")).html_safe
+      (leading + (link || "#{project_prefix}#{prefix}#{repo_prefix}#{sep}#{identifier}#{comment_suffix}"))
     end
   end
 
@@ -795,14 +795,15 @@ module ApplicationHelper
   def parse_sections(text, project, obj, attr, only_path, options)
     return unless options[:edit_section_links]
     text.gsub!(HEADING_RE) do
+      heading = $1
       @current_section += 1
       if @current_section > 1
         content_tag('div',
           link_to(image_tag('edit.png'), options[:edit_section_links].merge(:section => @current_section)),
           :class => 'contextual',
-          :title => l(:button_edit_section)) + $1
+          :title => l(:button_edit_section)) + heading.html_safe
       else
-        $1
+        heading
       end
     end
   end
