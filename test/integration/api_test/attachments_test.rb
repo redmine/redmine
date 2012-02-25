@@ -87,7 +87,7 @@ class ApiTest::AttachmentsTest < ActionController::IntegrationTest
     should "return the token" do
       set_tmp_attachments_directory
       assert_difference 'Attachment.count' do
-        post '/uploads.xml', 'File content', {'Content-Type' => 'application/octet-stream'}.merge(credentials('jsmith'))
+        post '/uploads.xml', 'File content', {"CONTENT_TYPE" => 'application/octet-stream'}.merge(credentials('jsmith'))
         assert_response :created
         assert_equal 'application/xml', response.content_type
 
@@ -112,7 +112,7 @@ class ApiTest::AttachmentsTest < ActionController::IntegrationTest
     should "not accept other content types" do
       set_tmp_attachments_directory
       assert_no_difference 'Attachment.count' do
-        post '/uploads.xml', 'PNG DATA', {'Content-Type' => 'image/png'}.merge(credentials('jsmith'))
+        post '/uploads.xml', 'PNG DATA', {"CONTENT_TYPE" => 'image/png'}.merge(credentials('jsmith'))
         assert_response 406
       end
     end
@@ -121,7 +121,7 @@ class ApiTest::AttachmentsTest < ActionController::IntegrationTest
       set_tmp_attachments_directory
       with_settings :attachment_max_size => 1 do
         assert_no_difference 'Attachment.count' do
-          post '/uploads.xml', ('x' * 2048), {'Content-Type' => 'application/octet-stream'}.merge(credentials('jsmith'))
+          post '/uploads.xml', ('x' * 2048), {"CONTENT_TYPE" => 'application/octet-stream'}.merge(credentials('jsmith'))
           assert_response 422
           assert_tag 'error', :content => /exceeds the maximum allowed file size/
         end
