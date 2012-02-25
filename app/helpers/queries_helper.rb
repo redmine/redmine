@@ -32,7 +32,7 @@ module QueriesHelper
   def column_content(column, issue)
     value = column.value(issue)
     if value.is_a?(Array)
-      value.collect {|v| column_value(column, issue, v)}.compact.sort.join(', ')
+      value.collect {|v| column_value(column, issue, v)}.compact.sort.join(', ').html_safe
     else
       column_value(column, issue, value)
     end
