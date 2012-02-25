@@ -919,7 +919,7 @@
   label_child_revision: 子項
   label_export_options: "%{export_format} 匯出選項"
   label_copy_attachments: 複製附件
-  label_item_position: %{position} / %{count}
+  label_item_position: "%{position} / %{count}"
   label_completed_versions: 已完成版本
 
   button_login: 登入
