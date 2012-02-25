@@ -54,7 +54,7 @@ class IssueCategoriesController < ApplicationController
         format.js do
           # IE doesn't support the replace_html rjs method for select box options
           render(:update) {|page| page.replace "issue_category_id",
-            content_tag('select', '<option></option>' + options_from_collection_for_select(@project.issue_categories, 'id', 'name', @category.id), :id => 'issue_category_id', :name => 'issue[category_id]')
+            content_tag('select', content_tag('option') + options_from_collection_for_select(@project.issue_categories, 'id', 'name', @category.id), :id => 'issue_category_id', :name => 'issue[category_id]')
           }
         end
         format.api { render :action => 'show', :status => :created, :location => issue_category_path(@category) }
