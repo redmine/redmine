@@ -17,7 +17,7 @@
 <% if @allowed_projects.present? %>
 <p>
   <label for="issue_project_id"><%= l(:field_project) %></label>
-  <%= select_tag('issue[project_id]', "<option value=\"\">#{l(:label_no_change_option)}</option>" + project_tree_options_for_select(@allowed_projects, :selected => @target_project)) %>
+  <%= select_tag('issue[project_id]', content_tag('option', l(:label_no_change_option), :value => '') + project_tree_options_for_select(@allowed_projects, :selected => @target_project)) %>
 </p>
 <%= observe_field :issue_project_id, :url => {:action => 'bulk_edit'},
                                      :update => 'content',
@@ -25,17 +25,17 @@
 <% end %>
 <p>
   <label for="issue_tracker_id"><%= l(:field_tracker) %></label>
-  <%= select_tag('issue[tracker_id]', "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(@trackers, :id, :name)) %>
+  <%= select_tag('issue[tracker_id]', content_tag('option', l(:label_no_change_option), :value => '') + options_from_collection_for_select(@trackers, :id, :name)) %>
 </p>
 <% if @available_statuses.any? %>
 <p>
   <label for='issue_status_id'><%= l(:field_status) %></label>
-  <%= select_tag('issue[status_id]', "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(@available_statuses, :id, :name)) %>
+  <%= select_tag('issue[status_id]',content_tag('option', l(:label_no_change_option), :value => '') + options_from_collection_for_select(@available_statuses, :id, :name)) %>
 </p>
 <% end %>
 <p>
   <label for='issue_priority_id'><%= l(:field_priority) %></label>
-  <%= select_tag('issue[priority_id]', "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(IssuePriority.active, :id, :name)) %>
+  <%= select_tag('issue[priority_id]', content_tag('option', l(:label_no_change_option), :value => '') + options_from_collection_for_select(IssuePriority.active, :id, :name)) %>
 </p>
 <p>
   <label for='issue_assigned_to_id'><%= l(:field_assigned_to) %></label>
