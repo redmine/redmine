@@ -355,6 +355,12 @@ module ApplicationHelper
     end
   end
 
+  def syntax_highlight_lines(name, content)
+    lines = []
+    syntax_highlight(name, content).each_line { |line| lines << line }
+    lines
+  end
+
   def syntax_highlight(name, content)
     Redmine::SyntaxHighlighting.highlight_by_filename(content, name)
   end
