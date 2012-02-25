@@ -173,7 +173,7 @@ class RepositoryTest < ActiveSupport::TestCase
     # 2 email notifications
     assert_equal 2, ActionMailer::Base.deliveries.size
     mail = ActionMailer::Base.deliveries.first
-    assert_kind_of TMail::Mail, mail
+    assert_not_nil mail
     assert mail.subject.starts_with?(
         "[#{fixed_issue.project.name} - #{fixed_issue.tracker.name} ##{fixed_issue.id}]")
     assert mail.body.include?(

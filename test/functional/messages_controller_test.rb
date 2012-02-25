@@ -104,7 +104,7 @@ class MessagesControllerTest < ActionController::TestCase
     assert_equal 1, message.board_id
 
     mail = ActionMailer::Base.deliveries.last
-    assert_kind_of TMail::Mail, mail
+    assert_not_nil mail
     assert_equal "[#{message.board.project.name} - #{message.board.name} - msg#{message.root.id}] Test created message", mail.subject
     assert mail.body.include?('Message body')
     # author
