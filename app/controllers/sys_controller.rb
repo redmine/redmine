@@ -39,7 +39,7 @@ class SysController < ActionController::Base
       logger.info "Repository for #{project.name} was reported to be created by #{request.remote_ip}."
       project.repository = Repository.factory(params[:vendor], params[:repository])
       if project.repository && project.repository.save
-        render :xml => project.repository.to_xml(:only => [:id, :url]), :status => 201
+        render :xml => {project.repository.class.name.underscore.gsub('/', '-') => {:id => project.repository.id, :url => project.repository.url}}, :status => 201
       else
         render :nothing => true, :status => 422
       end
