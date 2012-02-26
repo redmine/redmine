@@ -34,7 +34,7 @@ class SearchController < ApplicationController
       when 'my_projects'
         User.current.memberships.collect(&:project)
       when 'subprojects'
-        @project ? (@project.self_and_descendants.active) : nil
+        @project ? (@project.self_and_descendants.active.all) : nil
       else
         @project
       end
