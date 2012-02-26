@@ -61,6 +61,13 @@ class AccountControllerTest < ActionController::TestCase
     assert_error_tag :content => /Something wrong/
   end
 
+  def test_login_should_reset_session
+    @controller.expects(:reset_session).once
+
+    post :login, :username => 'jsmith', :password => 'jsmith'
+    assert_response 302
+  end
+
   if Object.const_defined?(:OpenID)
 
   def test_login_with_openid_for_existing_user
@@ -169,6 +176,14 @@ class AccountControllerTest < ActionController::TestCase
     get :logout
     assert_redirected_to '/'
     assert_nil @request.session[:user_id]
+  end
+
+  def test_logout_should_reset_session
+    @controller.expects(:reset_session).once
+
+    @request.session[:user_id] = 2
+    get :logout
+    assert_response 302
   end
 
   def test_get_register_with_registration_on
