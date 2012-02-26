@@ -95,7 +95,7 @@ class MyControllerTest < ActionController::TestCase
                     :new_password_confirmation => 'hello2'
     assert_response :success
     assert_template 'password'
-    assert_tag :tag => "div", :attributes => { :class => "errorExplanation" }
+    assert_error_tag :content => /Password doesn't match confirmation/
 
     # wrong password
     post :password, :password => 'wrongpassword',

@@ -1,4 +1,4 @@
-<%= f.error_messages %>
+<%= error_messages_for @document %>
 
 <div class="box tabular">
 <p><%= f.select :category_id, DocumentCategory.active.collect {|c| [c.name, c.id]} %></p>
