@@ -181,10 +181,9 @@ class Repository::Cvs < Repository
       end
 
       # Renumber new changesets in chronological order
-      changesets.find(
-              :all,
+      Changeset.all(
               :order => 'committed_on ASC, id ASC',
-              :conditions => "revision LIKE 'tmp%'"
+              :conditions => ["repository_id = ? AND revision LIKE 'tmp%'", id]
            ).each do |changeset|
         changeset.update_attribute :revision, next_revision_number
       end
