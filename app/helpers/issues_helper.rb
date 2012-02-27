@@ -163,7 +163,8 @@ module IssuesHelper
 
   # Returns the textual representation of a journal details
   # as an array of strings
-  def details_to_strings(details, no_html=false)
+  def details_to_strings(details, no_html=false, options={})
+    options[:only_path] = (options[:only_path] == false ? false : true)
     strings = []
     values_by_field = {}
     details.each do |detail|
@@ -181,23 +182,23 @@ module IssuesHelper
           next
         end
       end
-      strings << show_detail(detail, no_html)
+      strings << show_detail(detail, no_html, options)
     end
     values_by_field.each do |field_id, changes|
       detail = JournalDetail.new(:property => 'cf', :prop_key => field_id)
       if changes[:added].any?
         detail.value = changes[:added]
-        strings << show_detail(detail, no_html)
+        strings << show_detail(detail, no_html, options)
       elsif changes[:deleted].any?
         detail.old_value = changes[:deleted]
-        strings << show_detail(detail, no_html)
+        strings << show_detail(detail, no_html, options)
       end
     end
     strings
   end
 
   # Returns the textual representation of a single journal detail
-  def show_detail(detail, no_html=false)
+  def show_detail(detail, no_html=false, options={})
     multiple = false
     case detail.property
     when 'attr'
@@ -250,7 +251,7 @@ module IssuesHelper
       old_value = content_tag("strike", old_value) if detail.old_value and detail.value.blank?
       if detail.property == 'attachment' && !value.blank? && a = Attachment.find_by_id(detail.prop_key)
         # Link to the attachment if it has not been removed
-        value = link_to_attachment(a, :download => true)
+        value = link_to_attachment(a, :download => true, :only_path => options[:only_path])
       else
         value = content_tag("i", h(value)) if value
       end
@@ -260,7 +261,7 @@ module IssuesHelper
       s = l(:text_journal_changed_no_detail, :label => label)
       unless no_html
         diff_link = link_to 'diff',
-          {:controller => 'journals', :action => 'diff', :id => detail.journal_id, :detail_id => detail.id},
+          {:controller => 'journals', :action => 'diff', :id => detail.journal_id, :detail_id => detail.id, :only_path => options[:only_path]},
           :title => l(:label_view_diff)
         s << " (#{ diff_link })"
       end

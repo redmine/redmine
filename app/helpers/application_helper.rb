@@ -99,7 +99,7 @@ module ApplicationHelper
     action = options.delete(:download) ? 'download' : 'show'
     link_to(h(text),
            {:controller => 'attachments', :action => action,
-            :id => attachment, :filename => attachment.filename },
+            :id => attachment, :filename => attachment.filename }.merge(options),
            options)
   end
 

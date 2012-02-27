@@ -30,11 +30,6 @@ class Mailer < ActionMailer::Base
     { :host => h, :protocol => Setting.protocol }
   end
 
-  def url_for(options)
-    options[:only_path] = false if options.is_a?(Hash)
-    super options
-  end
-
   # Builds a tmail object used to email recipients of the added issue.
   #
   # Example:
