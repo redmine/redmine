@@ -34,3 +34,10 @@ journal_details_005:
   value: New value
   prop_key: 2
   journal_id: 3
+journal_details_006:
+  old_value: nil
+  property: attachment
+  id: 6
+  value: 060719210727_picture.jpg
+  prop_key: 4
+  journal_id: 3

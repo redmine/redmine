@@ -6,6 +6,6 @@
 <% end %>
 </ul>
 
-<%= textilizable(@journal, :notes, :only_path => false) %>
+<%= textilizable(@journal, :notes) %>
 <hr />
 <%= render :partial => "issue.html.erb", :locals => { :issue => @issue, :issue_url => @issue_url } %>
