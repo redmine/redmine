@@ -264,7 +264,9 @@ ActionController::Routing::Routes.draw do |map|
       repository_views.connect 'projects/:id/repository/:repository_id/raw/*path',
                                :action => 'entry', :format => 'raw'
       repository_views.connect 'projects/:id/repository/:repository_id/:action/*path',
-                               :requirements => { :action => /(browse|show|entry|changes|annotate|diff)/ }
+                               :requirements => { :action => /(browse|entry|changes|annotate|diff)/ }
+      repository_views.connect 'projects/:id/repository/:repository_id/show/*path',
+                               :requirements => { :path => /.+/ }
 
       repository_views.connect 'projects/:id/repository/revisions',
                                :action => 'revisions'
