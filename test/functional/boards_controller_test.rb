@@ -55,6 +55,16 @@ class BoardsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:topics)
   end
 
+  def test_show_with_permission_should_display_the_new_message_form
+    @request.session[:user_id] = 2
+    get :show, :project_id => 1, :id => 1
+    assert_response :success
+    assert_template 'show'
+
+    assert_tag 'form', :attributes => {:id => 'message-form'}
+    assert_tag 'input', :attributes => {:name => 'message[subject]'}
+  end
+
   def test_show_atom
     get :show, :project_id => 1, :id => 1, :format => 'atom'
     assert_response :success
