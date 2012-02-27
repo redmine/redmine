@@ -148,6 +148,14 @@ class RepositoriesControllerTest < ActionController::TestCase
     assert_equal "1", assigns(:changeset).revision
   end
 
+  def test_revision_should_not_change_the_project_menu_link
+    get :revision, :id => 1, :rev => 1
+    assert_response :success
+
+    assert_tag 'a', :attributes => {:href => '/projects/ecookbook/repository', :class => /repository/},
+      :ancestor => {:attributes => {:id => 'main-menu'}}
+  end
+
   def test_revision_with_before_nil_and_afer_normal
     get :revision, {:id => 1, :rev => 1}
     assert_response :success
