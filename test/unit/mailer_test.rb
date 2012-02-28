@@ -401,7 +401,7 @@ class MailerTest < ActiveSupport::TestCase
   end
 
   def test_wiki_content_added
-    content = WikiContent.find(:first)
+    content = WikiContent.find(1)
     valid_languages.each do |lang|
       Setting.default_language = lang.to_s
       assert_difference 'ActionMailer::Base.deliveries.size' do
@@ -411,7 +411,7 @@ class MailerTest < ActiveSupport::TestCase
   end
 
   def test_wiki_content_updated
-    content = WikiContent.find(:first)
+    content = WikiContent.find(1)
     valid_languages.each do |lang|
       Setting.default_language = lang.to_s
       assert_difference 'ActionMailer::Base.deliveries.size' do
