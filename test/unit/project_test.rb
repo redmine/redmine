@@ -103,7 +103,7 @@ class ProjectTest < ActiveSupport::TestCase
       assert_equal ['issue_tracking', 'repository'], Project.new.enabled_module_names
     end
 
-    assert_equal Tracker.all, Project.new.trackers
+    assert_equal Tracker.all.sort, Project.new.trackers.sort
     assert_equal Tracker.find(1, 3).sort, Project.new(:tracker_ids => [1, 3]).trackers.sort
   end
 
