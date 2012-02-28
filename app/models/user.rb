@@ -132,8 +132,7 @@ class User < Principal
   def self.try_to_login(login, password)
     # Make sure no one can sign in with an empty password
     return nil if password.to_s.empty?
-    matches = find_all_by_login(login)
-    user = (matches.size < 2 ? matches.first : matches.detect {|u| u.login == login})
+    user = find_by_login(login)
     if user
       # user is already in local database
       return nil if !user.active?
@@ -325,13 +324,13 @@ class User < Principal
   # Find a user account by matching the exact login and then a case-insensitive
   # version.  Exact matches will be given priority.
   def self.find_by_login(login)
-    # force string comparison to be case sensitive on MySQL
-    type_cast = (ActiveRecord::Base.connection.adapter_name == 'MySQL') ? 'BINARY' : ''
-
     # First look for an exact match
-    user = first(:conditions => ["#{type_cast} login = ?", login])
-    # Fail over to case-insensitive if none was found
-    user ||= first(:conditions => ["#{type_cast} LOWER(login) = ?", login.to_s.downcase])
+    user = all(:conditions => {:login => login}).detect {|u| u.login == login}
+    unless user
+      # Fail over to case-insensitive if none was found
+      user = first(:conditions => ["LOWER(login) = ?", login.to_s.downcase])
+    end
+    user
   end
 
   def self.find_by_rss_key(key)
