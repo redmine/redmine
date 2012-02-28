@@ -132,7 +132,8 @@ class User < Principal
   def self.try_to_login(login, password)
     # Make sure no one can sign in with an empty password
     return nil if password.to_s.empty?
-    user = find_by_login(login)
+    matches = find_all_by_login(login)
+    user = (matches.size < 2 ? matches.first : matches.detect {|u| u.login == login})
     if user
       # user is already in local database
       return nil if !user.active?
