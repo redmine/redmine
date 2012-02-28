@@ -104,7 +104,7 @@ class ProjectTest < ActiveSupport::TestCase
     end
 
     assert_equal Tracker.all, Project.new.trackers
-    assert_equal Tracker.find(1, 3), Project.new(:tracker_ids => [1, 3]).trackers
+    assert_equal Tracker.find(1, 3).sort, Project.new(:tracker_ids => [1, 3]).trackers.sort
   end
 
   def test_update
