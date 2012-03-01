@@ -30,7 +30,7 @@ class NewsTest < ActiveSupport::TestCase
   def test_create_should_send_email_notification
     ActionMailer::Base.deliveries.clear
     Setting.notified_events << 'news_added'
-    news = Project.find(:first).news.new(valid_news)
+    news = Project.find(1).news.new(valid_news)
 
     assert news.save
     assert_equal 1, ActionMailer::Base.deliveries.size
