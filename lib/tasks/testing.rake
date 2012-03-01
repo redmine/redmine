@@ -36,23 +36,29 @@ namespace :test do
       desc "Creates a test subversion repository"
       task :subversion => :create_dir do
         repo_path = "tmp/test/subversion_repository"
-        system "svnadmin create #{repo_path}"
-        system "gunzip < test/fixtures/repositories/subversion_repository.dump.gz | svnadmin load #{repo_path}"
+        unless File.exists?(repo_path)
+          system "svnadmin create #{repo_path}"
+          system "gunzip < test/fixtures/repositories/subversion_repository.dump.gz | svnadmin load #{repo_path}"
+        end
       end
 
       desc "Creates a test mercurial repository"
       task :mercurial => :create_dir do
         repo_path = "tmp/test/mercurial_repository"
-        bundle_path = "test/fixtures/repositories/mercurial_repository.hg"
-        system "hg init #{repo_path}"
-        system "hg -R #{repo_path} pull #{bundle_path}"
+        unless File.exists?(repo_path)
+          bundle_path = "test/fixtures/repositories/mercurial_repository.hg"
+          system "hg init #{repo_path}"
+          system "hg -R #{repo_path} pull #{bundle_path}"
+        end
       end
 
       (supported_scms - [:subversion, :mercurial]).each do |scm|
         desc "Creates a test #{scm} repository"
         task scm => :create_dir do
-          # system "gunzip < test/fixtures/repositories/#{scm}_repository.tar.gz | tar -xv -C tmp/test"
-          system "tar -xvz -C tmp/test -f test/fixtures/repositories/#{scm}_repository.tar.gz"
+          unless File.exists?("tmp/test/#{scm}_repository")
+            # system "gunzip < test/fixtures/repositories/#{scm}_repository.tar.gz | tar -xv -C tmp/test"
+            system "tar -xvz -C tmp/test -f test/fixtures/repositories/#{scm}_repository.tar.gz"
+          end
         end
       end
 
