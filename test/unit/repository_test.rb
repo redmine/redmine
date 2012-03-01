@@ -176,7 +176,7 @@ class RepositoryTest < ActiveSupport::TestCase
     assert_not_nil mail
     assert mail.subject.starts_with?(
         "[#{fixed_issue.project.name} - #{fixed_issue.tracker.name} ##{fixed_issue.id}]")
-    assert mail.body.to_s.include?(
+    assert mail.body.include?(
         "Status changed from #{old_status} to #{fixed_issue.status}")
 
     # ignoring commits referencing an issue of another project
