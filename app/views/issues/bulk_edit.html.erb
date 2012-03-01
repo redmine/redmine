@@ -43,23 +43,18 @@
                                  content_tag('option', l(:label_nobody), :value => 'none') +
                                  principals_options_for_select(@assignables)) %>
 </p>
-<% if @project %>
 <p>
   <label for='issue_category_id'><%= l(:field_category) %></label>
   <%= select_tag('issue[category_id]', content_tag('option', l(:label_no_change_option), :value => '') +
                                 content_tag('option', l(:label_none), :value => 'none') +
-                                options_from_collection_for_select(@project.issue_categories, :id, :name)) %>
+                                options_from_collection_for_select(@categories, :id, :name)) %>
 </p>
-<% end %>
-<% #TODO: allow editing versions when multiple projects %>
-<% if @project %>
 <p>
   <label for='issue_fixed_version_id'><%= l(:field_fixed_version) %></label>
   <%= select_tag('issue[fixed_version_id]', content_tag('option', l(:label_no_change_option), :value => '') +
                                    content_tag('option', l(:label_none), :value => 'none') +
-                                   version_options_for_select(@project.shared_versions.open.sort)) %>
+                                   version_options_for_select(@versions.sort)) %>
 </p>
-<% end %>
 
 <% @custom_fields.each do |custom_field| %>
   <p><label><%= h(custom_field.name) %></label> <%= custom_field_tag_for_bulk_edit('issue', custom_field, @projects) %></p>

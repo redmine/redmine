@@ -2672,6 +2672,28 @@ class IssuesControllerTest < ActionController::TestCase
       :children => {:count => 3} # 2 statuses + "no change" option
   end
 
+  def test_bulk_edit_should_propose_target_project_open_shared_versions
+    @request.session[:user_id] = 2
+    post :bulk_edit, :ids => [1, 2, 6], :issue => {:project_id => 1}
+    assert_response :success
+    assert_template 'bulk_edit'
+    assert_equal Project.find(1).shared_versions.open.all.sort, assigns(:versions).sort
+    assert_tag 'select',
+      :attributes => {:name => 'issue[fixed_version_id]'},
+      :descendant => {:tag => 'option', :content => '2.0'}
+  end
+
+  def test_bulk_edit_should_propose_target_project_categories
+    @request.session[:user_id] = 2
+    post :bulk_edit, :ids => [1, 2, 6], :issue => {:project_id => 1}
+    assert_response :success
+    assert_template 'bulk_edit'
+    assert_equal Project.find(1).issue_categories.sort, assigns(:categories).sort
+    assert_tag 'select',
+      :attributes => {:name => 'issue[category_id]'},
+      :descendant => {:tag => 'option', :content => 'Recipes'}
+  end
+
   def test_bulk_update
     @request.session[:user_id] = 2
     # update issues priority

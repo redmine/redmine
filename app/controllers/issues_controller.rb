@@ -221,7 +221,7 @@ class IssuesController < ApplicationController
     if User.current.allowed_to?(:move_issues, @projects)
       @allowed_projects = Issue.allowed_target_projects_on_move
       if params[:issue]
-        @target_project = @allowed_projects.detect {|p| p.id.to_s == params[:issue][:project_id]}
+        @target_project = @allowed_projects.detect {|p| p.id.to_s == params[:issue][:project_id].to_s}
         if @target_project
           target_projects = [@target_project]
         end
@@ -233,6 +233,8 @@ class IssuesController < ApplicationController
     @custom_fields = target_projects.map{|p|p.all_issue_custom_fields}.reduce(:&)
     @assignables = target_projects.map(&:assignable_users).reduce(:&)
     @trackers = target_projects.map(&:trackers).reduce(:&)
+    @versions = target_projects.map {|p| p.shared_versions.open}.reduce(:&)
+    @categories = target_projects.map {|p| p.issue_categories}.reduce(:&)
 
     @safe_attributes = @issues.map(&:safe_attribute_names).reduce(:&)
     render :layout => false if request.xhr?
