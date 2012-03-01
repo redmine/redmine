@@ -576,6 +576,21 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 'foo+bar@example.net', user.mail
   end
 
+  def test_new_user_with_utf8_encoded_fullname_should_be_decoded
+    assert_difference 'User.count' do
+      issue = submit_email(
+                'fullname_of_sender_as_utf8_encoded.eml',
+                :issue => {:project => 'ecookbook'},
+                :unknown_user => 'create'
+              )
+    end
+
+    user = User.first(:order => 'id DESC')
+    assert_equal "foo@example.org", user.mail
+    assert_equal "Ää", user.firstname
+    assert_equal "Öö", user.lastname
+  end
+
   private
 
   def submit_email(filename, options={})

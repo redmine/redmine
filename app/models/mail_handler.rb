@@ -384,7 +384,7 @@ class MailHandler < ActionMailer::Base
   def create_user_from_email
     addr = email.from_addrs.to_a.first
     if addr && !addr.spec.blank?
-      user = self.class.new_user_from_attributes(addr.spec, addr.name)
+      user = self.class.new_user_from_attributes(addr.spec, TMail::Unquoter.unquote_and_convert_to(addr.name, 'utf-8'))
       if user.save
         user
       else
