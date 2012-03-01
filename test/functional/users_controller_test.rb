@@ -191,7 +191,7 @@ class UsersControllerTest < ActionController::TestCase
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
     assert_equal [user.mail], mail.bcc
-    assert mail.body.include?('secret')
+    assert mail.body.to_s.include?('secret')
   end
 
   def test_create_with_failure
@@ -252,7 +252,7 @@ class UsersControllerTest < ActionController::TestCase
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
     assert_equal ['foo.bar@somenet.foo'], mail.bcc
-    assert mail.body.include?(ll('fr', :notice_account_activated))
+    assert mail.body.to_s.include?(ll('fr', :notice_account_activated))
   end
 
   def test_update_with_password_change_should_send_a_notification
@@ -266,7 +266,7 @@ class UsersControllerTest < ActionController::TestCase
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
     assert_equal [u.mail], mail.bcc
-    assert mail.body.include?('newpass')
+    assert mail.body.to_s.include?('newpass')
   end
 
   test "put :update with a password change to an AuthSource user switching to Internal authentication" do
