@@ -18,6 +18,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class AuthSourceLdapTest < ActiveSupport::TestCase
+  include Redmine::I18n
   fixtures :auth_sources
 
   def setup
@@ -42,6 +43,18 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
            :attr_firstname => 'givenName ')
     assert a.save
     assert_equal 389, a.port
+  end
+
+  def test_filter_should_be_validated
+    set_language_if_valid 'en'
+
+    a = AuthSourceLdap.new(:name => 'My LDAP', :host => 'ldap.example.net', :port => 389, :attr_login => 'sn')
+    a.filter = "(mail=*@redmine.org"
+    assert !a.valid?
+    assert_equal "is invalid", a.errors[:filter].to_s
+
+    a.filter = "(mail=*@redmine.org)"
+    assert a.valid?
   end
 
   if ldap_configured?
@@ -83,6 +96,23 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
         end
       end
 
+      context 'without filter' do
+        should 'return any user' do
+          assert @auth.authenticate('example1','123456')
+          assert @auth.authenticate('edavis', '123456')
+        end
+      end
+
+      context 'with filter' do
+        setup do
+          @auth.filter = "(mail=*@redmine.org)"
+        end
+
+        should 'return user who matches the filter only' do
+          assert @auth.authenticate('example1','123456')
+          assert_nil @auth.authenticate('edavis', '123456')
+        end
+      end
     end
   else
     puts '(Test LDAP server not configured)'

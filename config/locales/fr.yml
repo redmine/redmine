@@ -320,6 +320,7 @@ fr:
   field_commit_logs_encoding: Encodage des messages de commit
   field_repository_is_default: Dépôt principal
   field_multiple: Valeurs multiples
+  field_ldap_filter: Filtre LDAP
 
   setting_app_title: Titre de l'application
   setting_app_subtitle: Sous-titre de l'application

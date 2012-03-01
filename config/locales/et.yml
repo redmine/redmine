@@ -1039,3 +1039,4 @@ et:
   label_export_options: "%{export_format} ekspordi valikud"
   label_completed_versions: "Lõpetatud versioonid"
   error_attachment_too_big: "Seda faili ei saa üles laadida, kuna ületab maksimumsuurust (%{max_size})"
+  field_ldap_filter: LDAP filter

@@ -1044,3 +1044,4 @@ fi:
   notice_issue_update_conflict: The issue has been updated by an other user while you were editing it.
   text_issue_conflict_resolution_cancel: Discard all my changes and redisplay %{link}
   permission_manage_related_issues: Manage related issues
+  field_ldap_filter: LDAP filter

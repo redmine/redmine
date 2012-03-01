@@ -21,9 +21,10 @@ require 'net/ldap'
 class AuthSourceLdap < AuthSource
   validates_presence_of :host, :port, :attr_login
   validates_length_of :name, :host, :maximum => 60, :allow_nil => true
-  validates_length_of :account, :account_password, :base_dn, :maximum => 255, :allow_nil => true
+  validates_length_of :account, :account_password, :base_dn, :filter, :maximum => 255, :allow_blank => true
   validates_length_of :attr_login, :attr_firstname, :attr_lastname, :attr_mail, :maximum => 30, :allow_nil => true
   validates_numericality_of :port, :only_integer => true
+  validate :validate_filter
 
   before_validation :strip_ldap_attributes
 
@@ -57,6 +58,20 @@ class AuthSourceLdap < AuthSource
   end
 
   private
+
+  def ldap_filter
+    if filter.present?
+      Net::LDAP::Filter.construct(filter)
+    end
+  rescue Net::LDAP::LdapError
+    nil
+  end
+
+  def validate_filter
+    if filter.present? && ldap_filter.nil?
+      errors.add(:filter, :invalid)
+    end
+  end
 
   def strip_ldap_attributes
     [:attr_login, :attr_firstname, :attr_lastname, :attr_mail].each do |attr|
@@ -107,8 +122,13 @@ class AuthSourceLdap < AuthSource
     object_filter = Net::LDAP::Filter.eq( "objectClass", "*" )
     attrs = {}
 
+    search_filter = object_filter & login_filter
+    if f = ldap_filter
+      search_filter = search_filter & f
+    end
+
     ldap_con.search( :base => self.base_dn,
-                     :filter => object_filter & login_filter,
+                     :filter => search_filter,
                      :attributes=> search_attributes) do |entry|
 
       if onthefly_register?
