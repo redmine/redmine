@@ -64,8 +64,8 @@ class AuthSourcesController < ApplicationController
     begin
       @auth_method.test_connection
       flash[:notice] = l(:notice_successful_connection)
-    rescue => text
-      flash[:error] = l(:error_unable_to_connect, text.message)
+    rescue Exception => e
+      flash[:error] = l(:error_unable_to_connect, e.message)
     end
     redirect_to :action => 'index'
   end
