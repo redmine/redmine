@@ -15,10 +15,10 @@
 </ul>
 <% end %>
 
-<% if version.fixed_issues.count > 0 %>
+<% if version.issues_count > 0 %>
     <%= progress_bar([version.closed_pourcent, version.completed_pourcent], :width => '40em', :legend => ('%0.0f%' % version.completed_pourcent)) %>
     <p class="progress-info">
-    	  <%= link_to(l(:label_x_issues, :count => version.fixed_issues.count), 
+    	  <%= link_to(l(:label_x_issues, :count => version.issues_count), 
               project_issues_path(version.project, :status_id => '*', :fixed_version_id => version, :set_filter => 1)) %>
 				&nbsp;
         (<%= link_to_if(version.closed_issues_count > 0, l(:label_x_closed_issues_abbr, :count => version.closed_issues_count), 
