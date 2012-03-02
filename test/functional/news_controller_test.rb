@@ -149,6 +149,14 @@ class NewsControllerTest < ActionController::TestCase
     assert_equal News.find(1), attachment.container
   end
 
+  def test_update_with_failure
+    @request.session[:user_id] = 2
+    put :update, :id => 1, :news => { :description => '' }
+    assert_response :success
+    assert_template 'edit'
+    assert_error_tag :content => /description can't be blank/i
+  end
+
   def test_destroy
     @request.session[:user_id] = 2
     delete :destroy, :id => 1
