@@ -123,17 +123,20 @@ class Version < ActiveRecord::Base
 
   # Returns assigned issues count
   def issues_count
-    @issue_count ||= fixed_issues.count
+    load_issue_counts
+    @issue_count
   end
 
   # Returns the total amount of open issues for this version.
   def open_issues_count
-    @open_issues_count ||= Issue.open.count(:all, :conditions => ["fixed_version_id = ?", self.id])
+    load_issue_counts
+    @open_issues_count
   end
 
   # Returns the total amount of closed issues for this version.
   def closed_issues_count
-    @closed_issues_count ||= Issue.open(false).count(:all, :conditions => ["fixed_version_id = ?", self.id])
+    load_issue_counts
+    @closed_issues_count
   end
 
   def wiki_page
@@ -193,6 +196,21 @@ class Version < ActiveRecord::Base
   end
 
   private
+
+  def load_issue_counts
+    unless @issue_count
+      @open_issues_count = 0
+      @closed_issues_count = 0
+      fixed_issues.count(:all, :group => :status).each do |status, count|
+        if status.is_closed?
+          @closed_issues_count += count
+        else
+          @open_issues_count += count
+        end
+      end
+      @issue_count = @open_issues_count + @closed_issues_count
+    end
+  end
 
   # Update the issue's fixed versions. Used if a version's sharing changes.
   def update_issues_from_sharing_change
