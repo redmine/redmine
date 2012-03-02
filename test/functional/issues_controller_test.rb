@@ -1196,6 +1196,18 @@ class IssuesControllerTest < ActionController::TestCase
     assert_no_tag 'input', :attributes => {:name => 'issue[watcher_user_ids][]'}
   end
 
+  def test_get_new_with_list_custom_field
+    @request.session[:user_id] = 2
+    get :new, :project_id => 1, :tracker_id => 1
+    assert_response :success
+    assert_template 'new'
+
+    assert_tag 'select',
+      :attributes => {:name => 'issue[custom_field_values][1]'},
+      :children => {:count => 4},
+      :child => {:tag => 'option', :attributes => {:value => 'MySQL'}, :content => 'MySQL'}
+  end
+
   def test_get_new_with_multi_custom_field
     field = IssueCustomField.find(1)
     field.update_attribute :multiple, true
