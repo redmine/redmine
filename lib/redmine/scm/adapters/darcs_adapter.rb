@@ -100,7 +100,8 @@ module Redmine
             end
           end
           return nil if $? && $?.exitstatus != 0
-          entries.compact.sort_by_name
+          entries.compact!
+          entries.sort_by_name
         end
 
         def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={})
