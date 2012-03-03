@@ -22,7 +22,6 @@ class CommentsController < ApplicationController
   before_filter :find_project_from_association
   before_filter :authorize
 
-  verify :method => :post, :only => :create, :render => {:nothing => true, :status => :method_not_allowed }
   def create
     raise Unauthorized unless @news.commentable?
 
@@ -35,7 +34,6 @@ class CommentsController < ApplicationController
     redirect_to :controller => 'news', :action => 'show', :id => @news
   end
 
-  verify :method => :delete, :only => :destroy, :render => {:nothing => true, :status => :method_not_allowed }
   def destroy
     @news.comments.find(params[:comment_id]).destroy
     redirect_to :controller => 'news', :action => 'show', :id => @news

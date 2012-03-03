@@ -62,7 +62,6 @@ class IssueStatusesController < ApplicationController
     end
   end
 
-  verify :method => :delete, :only => :destroy, :redirect_to => { :action => :index }
   def destroy
     IssueStatus.find(params[:id]).destroy
     redirect_to :action => 'index'

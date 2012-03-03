@@ -206,4 +206,23 @@ class IssuesTest < ActionController::IntegrationTest
         }
       }
   end
+
+  def test_update_using_invalid_http_verbs
+    subject = 'Updated by an invalid http verb'
+
+    get '/issues/update/1', {:issue => {:subject => subject}}, credentials('jsmith')
+    assert_response 404
+    assert_not_equal subject, Issue.find(1).subject
+
+    post '/issues/1', {:issue => {:subject => subject}}, credentials('jsmith')
+    assert_response 405
+    assert_not_equal subject, Issue.find(1).subject
+  end
+
+  def test_get_watch_should_be_invalid
+    assert_no_difference 'Watcher.count' do
+      get '/watchers/watch?object_type=issue&object_id=1', {}, credentials('jsmith')
+      assert_response 405
+    end
+  end
 end

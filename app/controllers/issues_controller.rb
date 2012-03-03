@@ -53,10 +53,6 @@ class IssuesController < ApplicationController
   helper :gantt
   include Redmine::Export::PDF
 
-  verify :method => :post, :only => :create, :render => {:nothing => true, :status => :method_not_allowed }
-  verify :method => :post, :only => :bulk_update, :render => {:nothing => true, :status => :method_not_allowed }
-  verify :method => :put, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
-
   def index
     retrieve_query
     sort_init(@query.sort_criteria.empty? ? [['id', 'desc']] : @query.sort_criteria)
@@ -275,7 +271,6 @@ class IssuesController < ApplicationController
     end
   end
 
-  verify :method => :delete, :only => :destroy, :render => { :nothing => true, :status => :method_not_allowed }
   def destroy
     @hours = TimeEntry.sum(:hours, :conditions => ['issue_id IN (?)', @issues]).to_f
     if @hours > 0

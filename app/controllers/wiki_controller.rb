@@ -118,7 +118,6 @@ class WikiController < ApplicationController
     end
   end
 
-  verify :method => :put, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
   # Creates a new page or updates an existing one
   def update
     return render_403 unless editable?
@@ -178,7 +177,6 @@ class WikiController < ApplicationController
     end
   end
 
-  verify :method => :post, :only => :protect, :redirect_to => { :action => :show }
   def protect
     @page.update_attribute :protected, params[:protected]
     redirect_to :action => 'show', :project_id => @project, :id => @page.title
@@ -208,7 +206,6 @@ class WikiController < ApplicationController
     render_404 unless @annotate
   end
 
-  verify :method => :delete, :only => [:destroy], :redirect_to => { :action => :show }
   # Removes a wiki page and its history
   # Children can be either set as root pages, removed or reassigned to another parent page
   def destroy

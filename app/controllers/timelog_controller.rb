@@ -121,7 +121,6 @@ class TimelogController < ApplicationController
     @time_entry.attributes = params[:time_entry]
   end
 
-  verify :method => :post, :only => :create, :render => {:nothing => true, :status => :method_not_allowed }
   def create
     @time_entry ||= TimeEntry.new(:project => @project, :issue => @issue, :user => User.current, :spent_on => User.current.today)
     @time_entry.attributes = params[:time_entry]
@@ -156,7 +155,6 @@ class TimelogController < ApplicationController
     @time_entry.attributes = params[:time_entry]
   end
 
-  verify :method => :put, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
   def update
     @time_entry.attributes = params[:time_entry]
 
@@ -200,7 +198,6 @@ class TimelogController < ApplicationController
     redirect_back_or_default({:controller => 'timelog', :action => 'index', :project_id => @projects.first})
   end
 
-  verify :method => :delete, :only => :destroy, :render => {:nothing => true, :status => :method_not_allowed }
   def destroy
     @time_entries.each do |t|
       begin

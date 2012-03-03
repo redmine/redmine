@@ -32,12 +32,6 @@ class WatchersControllerTest < ActionController::TestCase
     User.current = nil
   end
 
-  def test_get_watch_should_be_invalid
-    @request.session[:user_id] = 3
-    get :watch, :object_type => 'issue', :object_id => '1'
-    assert_response 405
-  end
-
   def test_watch
     @request.session[:user_id] = 3
     assert_difference('Watcher.count') do

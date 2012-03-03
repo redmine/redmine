@@ -160,7 +160,6 @@ class VersionsController < ApplicationController
     redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
   end
 
-  verify :method => :delete, :only => :destroy, :render => {:nothing => true, :status => :method_not_allowed }
   def destroy
     if @version.fixed_issues.empty?
       @version.destroy

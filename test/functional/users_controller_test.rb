@@ -289,13 +289,6 @@ class UsersControllerTest < ActionController::TestCase
     assert_nil User.find_by_id(2)
   end
 
-  def test_destroy_should_not_accept_get_requests
-    assert_no_difference 'User.count' do
-      get :destroy, :id => 2
-    end
-    assert_response 405
-  end
-
   def test_destroy_should_be_denied_for_non_admin_users
     @request.session[:user_id] = 3
 

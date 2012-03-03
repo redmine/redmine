@@ -42,7 +42,6 @@ class IssueCategoriesController < ApplicationController
     @category = @project.issue_categories.build(params[:issue_category])
   end
 
-  verify :method => :post, :only => :create
   def create
     @category = @project.issue_categories.build(params[:issue_category])
     if @category.save
@@ -73,7 +72,6 @@ class IssueCategoriesController < ApplicationController
   def edit
   end
 
-  verify :method => :put, :only => :update
   def update
     if @category.update_attributes(params[:issue_category])
       respond_to do |format|
@@ -91,7 +89,6 @@ class IssueCategoriesController < ApplicationController
     end
   end
 
-  verify :method => :delete, :only => :destroy
   def destroy
     @issue_count = @category.issues.size
     if @issue_count == 0 || params[:todo] || api_request? 

@@ -63,7 +63,6 @@ class BoardsController < ApplicationController
     @board = @project.boards.build(params[:board])
   end
 
-  verify :method => :post, :only => :create, :redirect_to => { :action => :index }
   def create
     @board = @project.boards.build(params[:board])
     if @board.save
@@ -77,7 +76,6 @@ class BoardsController < ApplicationController
   def edit
   end
 
-  verify :method => :put, :only => :update, :redirect_to => { :action => :index }
   def update
     if @board.update_attributes(params[:board])
       redirect_to_settings_in_projects
@@ -86,7 +84,6 @@ class BoardsController < ApplicationController
     end
   end
 
-  verify :method => :delete, :only => :destroy, :redirect_to => { :action => :index }
   def destroy
     @board.destroy
     redirect_to_settings_in_projects

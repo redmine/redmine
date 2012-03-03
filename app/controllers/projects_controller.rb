@@ -69,7 +69,6 @@ class ProjectsController < ApplicationController
     @project = Project.new(params[:project])
   end
 
-  verify :method => :post, :only => :create, :render => {:nothing => true, :status => :method_not_allowed }
   def create
     @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @trackers = Tracker.all
@@ -182,8 +181,6 @@ class ProjectsController < ApplicationController
   def edit
   end
 
-  # TODO: convert to PUT only
-  verify :method => [:post, :put], :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
   def update
     @project.safe_attributes = params[:project]
     if validate_parent_id && @project.save
@@ -206,7 +203,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-  verify :method => :post, :only => :modules, :render => {:nothing => true, :status => :method_not_allowed }
   def modules
     @project.enabled_module_names = params[:enabled_module_names]
     flash[:notice] = l(:notice_successful_update)
@@ -227,7 +223,6 @@ class ProjectsController < ApplicationController
     redirect_to(url_for(:controller => 'admin', :action => 'projects', :status => params[:status]))
   end
 
-  verify :method => :delete, :only => :destroy, :render => {:nothing => true, :status => :method_not_allowed }
   # Delete @project
   def destroy
     @project_to_destroy = @project

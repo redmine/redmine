@@ -35,9 +35,6 @@ class MyController < ApplicationController
                       'right' => ['issuesreportedbyme']
                    }.freeze
 
-  verify :xhr => true,
-         :only => [:add_block, :remove_block, :order_blocks]
-
   def index
     page
     render :action => 'page'

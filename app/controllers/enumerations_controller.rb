@@ -51,7 +51,6 @@ class EnumerationsController < ApplicationController
     end
   end
 
-  verify :method => :delete, :only => :destroy, :render => { :nothing => true, :status => :method_not_allowed }
   def destroy
     if !@enumeration.in_use?
       # No associated objects
