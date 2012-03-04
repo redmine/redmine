@@ -25,10 +25,6 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
 
   def setup
     setup_with_controller
-    # Fixtures
-    ProjectCustomField.delete_all
-    Project.destroy_all
-
     User.current = User.find(1)
   end
 
