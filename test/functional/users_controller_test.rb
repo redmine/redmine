@@ -194,6 +194,33 @@ class UsersControllerTest < ActionController::TestCase
     assert mail.body.include?('secret')
   end
 
+  def test_create_with_preferences
+    assert_difference 'User.count' do
+      post :create,
+        :user => {
+          :firstname => 'John',
+          :lastname => 'Doe',
+          :login => 'jdoe',
+          :password => 'secret',
+          :password_confirmation => 'secret',
+          :mail => 'jdoe@gmail.com',
+          :mail_notification => 'none'
+        },
+        :pref => {
+          'hide_mail' => '1',
+          'time_zone' => 'Paris',
+          'comments_sorting' => 'desc',
+          'warn_on_leaving_unsaved' => '0'
+        }
+    end
+    user = User.first(:order => 'id DESC')
+    assert_equal 'jdoe', user.login
+    assert_equal true, user.pref.hide_mail
+    assert_equal 'Paris', user.pref.time_zone
+    assert_equal 'desc', user.pref[:comments_sorting]
+    assert_equal '0', user.pref[:warn_on_leaving_unsaved]
+  end
+
   def test_create_with_failure
     assert_no_difference 'User.count' do
       post :create, :user => {}
