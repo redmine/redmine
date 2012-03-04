@@ -508,15 +508,8 @@ class ApplicationController < ActionController::Base
 
   # Renders API response on validation failure
   def render_validation_errors(object)
-    options = { :status => :unprocessable_entity, :layout => false }
-    options.merge!(case params[:format]
-      when 'xml';  { :xml =>  object.errors }
-      when 'json'; { :json => {'errors' => object.errors} } # ActiveResource client compliance
-      else
-        raise "Unknown format #{params[:format]} in #render_validation_errors"
-      end
-    )
-    render options
+    @error_messages = object.errors.full_messages
+    render :template => 'common/error_messages.api', :status => :unprocessable_entity, :layout => false
   end
 
   # Overrides #default_template so that the api template

@@ -1,0 +1,5 @@
+api.array :errors do
+  @error_messages.each do |message|
+    api.error message
+  end
+end
