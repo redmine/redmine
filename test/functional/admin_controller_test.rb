@@ -16,18 +16,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../test_helper', __FILE__)
-require 'admin_controller'
-
-# Re-raise errors caught by the controller.
-class AdminController; def rescue_action(e) raise e end; end
 
 class AdminControllerTest < ActionController::TestCase
   fixtures :projects, :users, :roles
 
   def setup
-    @controller = AdminController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
     @request.session[:user_id] = 1 # admin
   end
