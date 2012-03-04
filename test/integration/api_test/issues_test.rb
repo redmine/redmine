@@ -387,9 +387,9 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
 
     context "with subtasks" do
       setup do
-        @c1 = Issue.generate!(:status_id => 1, :subject => "child c1", :tracker_id => 1, :project_id => 1, :parent_issue_id => 1)
-        @c2 = Issue.generate!(:status_id => 1, :subject => "child c2", :tracker_id => 1, :project_id => 1, :parent_issue_id => 1)
-        @c3 = Issue.generate!(:status_id => 1, :subject => "child c3", :tracker_id => 1, :project_id => 1, :parent_issue_id => @c1.id)
+        @c1 = Issue.create!(:status_id => 1, :subject => "child c1", :tracker_id => 1, :project_id => 1, :author_id => 1, :parent_issue_id => 1)
+        @c2 = Issue.create!(:status_id => 1, :subject => "child c2", :tracker_id => 1, :project_id => 1, :author_id => 1, :parent_issue_id => 1)
+        @c3 = Issue.create!(:status_id => 1, :subject => "child c3", :tracker_id => 1, :project_id => 1, :author_id => 1, :parent_issue_id => @c1.id)
       end
 
       context ".xml" do

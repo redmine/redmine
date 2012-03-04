@@ -56,7 +56,7 @@ class WikiTest < ActiveSupport::TestCase
 
   def test_find_page_with_backslashes
     wiki = Wiki.find(1)
-    page = WikiPage.generate!(:wiki => wiki, :title => '2009\\02\\09')
+    page = WikiPage.create!(:wiki => wiki, :title => '2009\\02\\09')
     assert_equal page, wiki.find_page('2009\\02\\09')
   end
 

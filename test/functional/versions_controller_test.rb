@@ -70,7 +70,7 @@ class VersionsControllerTest < ActionController::TestCase
   end
 
   def test_index_showing_subprojects_versions
-    @subproject_version = Version.generate!(:project => Project.find(3))
+    @subproject_version = Version.create!(:project => Project.find(3), :name => "Subproject version")
     get :index, :project_id => 1, :with_subprojects => 1
     assert_response :success
     assert_template 'index'

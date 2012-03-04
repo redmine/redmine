@@ -22,7 +22,7 @@ class ApiTest::DisabledRestApiTest < ActionController::IntegrationTest
 
   def test_with_a_valid_api_token
     @user = User.generate_with_protected!
-    @token = Token.generate!(:user => @user, :action => 'api')
+    @token = Token.create!(:user => @user, :action => 'api')
 
     get "/news.xml?key=#{@token.value}"
     assert_response :unauthorized
@@ -47,7 +47,7 @@ class ApiTest::DisabledRestApiTest < ActionController::IntegrationTest
 
   def test_with_valid_token_http_authentication
     @user = User.generate_with_protected!
-    @token = Token.generate!(:user => @user, :action => 'api')
+    @token = Token.create!(:user => @user, :action => 'api')
 
     get "/news.xml", nil, credentials(@token.value, 'X')
     assert_response :unauthorized
