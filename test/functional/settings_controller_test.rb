@@ -61,7 +61,7 @@ class SettingsControllerTest < ActionController::TestCase
 
   def test_get_plugin_settings
     Setting.stubs(:plugin_foo).returns({'sample_setting' => 'Plugin setting value'})
-    ActionController::Base.view_paths.unshift(File.join(Rails.root, "test/fixtures/plugins"))
+    ActionController::Base.append_view_path(File.join(Rails.root, "test/fixtures/plugins"))
     Redmine::Plugin.register :foo do
       settings :partial => "foo_plugin/foo_plugin_settings"
     end
