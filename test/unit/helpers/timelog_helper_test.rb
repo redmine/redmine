@@ -21,6 +21,7 @@ class TimelogHelperTest < ActionView::TestCase
   include TimelogHelper
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::DateHelper
+  include ERB::Util
 
   fixtures :projects, :roles, :enabled_modules, :users,
                       :repositories, :changesets,
