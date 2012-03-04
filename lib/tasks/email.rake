@@ -176,7 +176,7 @@ END_DESC
 
       ActionMailer::Base.raise_delivery_errors = true
       begin
-        Mailer.deliver_test(User.current)
+        Mailer.deliver_test_email(User.current)
         puts l(:notice_email_sent, user.mail)
       rescue Exception => e
         abort l(:notice_email_error, e.message)

@@ -196,7 +196,7 @@ class MailerTest < ActiveSupport::TestCase
 
   def test_from_header
     with_settings :mail_from => 'redmine@example.net' do
-      Mailer.deliver_test(User.find(1))
+      Mailer.deliver_test_email(User.find(1))
     end
     mail = last_email
     assert_equal 'redmine@example.net', mail.from_addrs.first.address
@@ -204,7 +204,7 @@ class MailerTest < ActiveSupport::TestCase
 
   def test_from_header_with_phrase
     with_settings :mail_from => 'Redmine app <redmine@example.net>' do
-      Mailer.deliver_test(User.find(1))
+      Mailer.deliver_test_email(User.find(1))
     end
     mail = last_email
     assert_equal 'redmine@example.net', mail.from_addrs.first.address
@@ -461,7 +461,7 @@ class MailerTest < ActiveSupport::TestCase
     user = User.find(1)
     valid_languages.each do |lang|
       user.update_attribute :language, lang.to_s
-      assert Mailer.deliver_test(user)
+      assert Mailer.deliver_test_email(user)
     end
   end
 
@@ -522,7 +522,7 @@ class MailerTest < ActiveSupport::TestCase
 
   def test_with_deliveries_off
     Mailer.with_deliveries false do
-      Mailer.deliver_test(User.find(1))
+      Mailer.deliver_test_email(User.find(1))
     end
     assert ActionMailer::Base.deliveries.empty?
     # should restore perform_deliveries
@@ -539,7 +539,7 @@ class MailerTest < ActiveSupport::TestCase
 
   def test_layout_should_include_the_emails_header
     with_settings :emails_header => "*Header content*" do
-      assert Mailer.deliver_test(User.find(1))
+      assert Mailer.deliver_test_email(User.find(1))
       assert_select_email do
         assert_select ".header" do
           assert_select "strong", :text => "Header content"

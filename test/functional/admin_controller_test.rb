@@ -91,7 +91,7 @@ class AdminControllerTest < ActionController::TestCase
   end
 
   def test_test_email_failure_should_display_the_error
-    Mailer.stubs(:deliver_test).raises(Exception, 'Some error message')
+    Mailer.stubs(:deliver_test_email).raises(Exception, 'Some error message')
     get :test_email
     assert_redirected_to '/settings/edit?tab=notifications'
     assert_match /Some error message/, flash[:error]
