@@ -49,8 +49,8 @@ class EnumerationsControllerTest < ActionController::TestCase
       post :create, :enumeration => {:type => 'IssuePriority', :name => 'Lowest'}
     end
     assert_redirected_to '/enumerations?type=IssuePriority'
-    e = IssuePriority.first(:order => 'id DESC')
-    assert_equal 'Lowest', e.name
+    e = IssuePriority.find_by_name('Lowest')
+    assert_not_nil e
   end
 
   def test_create_with_failure
