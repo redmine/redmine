@@ -158,6 +158,26 @@ class ActiveSupport::TestCase
     assert s.include?(expected), "\"#{expected}\" not found in \"#{s}\""
   end
 
+  def assert_not_include(expected, s)
+    assert !s.include?(expected), "\"#{expected}\" found in \"#{s}\""
+  end
+
+  def assert_mail_body_match(expected, mail)
+    if expected.is_a?(String)
+      assert_include expected, mail.body
+    else
+      assert_match expected, mail.body
+    end
+  end
+
+  def assert_mail_body_no_match(expected, mail)
+    if expected.is_a?(String)
+      assert_not_include expected, mail.body
+    else
+      assert_no_match expected, mail.body
+    end
+  end
+
   # Shoulda macros
   def self.should_render_404
     should_respond_with :not_found

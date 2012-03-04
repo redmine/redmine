@@ -470,7 +470,7 @@ class MailerTest < ActiveSupport::TestCase
     assert_equal 1, ActionMailer::Base.deliveries.size
     mail = last_email
     assert mail.bcc.include?('dlopper@somenet.foo')
-    assert mail.body.include?('Bug #3: Error 281 when updating a recipe')
+    assert_mail_body_match 'Bug #3: Error 281 when updating a recipe', mail
     assert_equal '1 issue(s) due in the next 42 days', mail.subject
   end
 
@@ -486,7 +486,7 @@ class MailerTest < ActiveSupport::TestCase
       assert_equal 1, ActionMailer::Base.deliveries.size
       mail = last_email
       assert mail.bcc.include?('dlopper@somenet.foo')
-      assert !mail.body.include?('Closed issue')
+      assert_mail_body_no_match 'Closed issue', mail
     end
   end
 
@@ -497,7 +497,7 @@ class MailerTest < ActiveSupport::TestCase
     assert_equal 1, ActionMailer::Base.deliveries.size # No mail for dlopper
     mail = last_email
     assert mail.bcc.include?('dlopper@somenet.foo')
-    assert mail.body.include?('Bug #3: Error 281 when updating a recipe')
+    assert_mail_body_match 'Bug #3: Error 281 when updating a recipe', mail
   end
 
   def last_email
@@ -515,7 +515,7 @@ class MailerTest < ActiveSupport::TestCase
     user.language = 'fr'
     Mailer.deliver_account_activated(user)
     mail = last_email
-    assert mail.body.include?('Votre compte')
+    assert_mail_body_match 'Votre compte', mail
 
     assert_equal :it, current_language
   end
