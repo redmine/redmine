@@ -80,19 +80,77 @@ module Redmine
       end
     end
 
+    module LinksHelper
+      AUTO_LINK_RE = %r{
+                      (                          # leading text
+                        <\w+.*?>|                # leading HTML tag, or
+                        [^=<>!:'"/]|             # leading punctuation, or
+                        ^                        # beginning of line
+                      )
+                      (
+                        (?:https?://)|           # protocol spec, or
+                        (?:s?ftps?://)|
+                        (?:www\.)                # www.*
+                      )
+                      (
+                        (\S+?)                   # url
+                        (\/)?                    # slash
+                      )
+                      ((?:&gt;)?|[^\w\=\/;\(\)]*?)               # post
+                      (?=<|\s|$)
+                     }x unless const_defined?(:AUTO_LINK_RE)
+
+      # Destructively remplaces urls into clickable links
+      def auto_link!(text)
+        text.gsub!(AUTO_LINK_RE) do
+          all, leading, proto, url, post = $&, $1, $2, $3, $6
+          if leading =~ /<a\s/i || leading =~ /![<>=]?/
+            # don't replace URL's that are already linked
+            # and URL's prefixed with ! !> !< != (textile images)
+            all
+          else
+            # Idea below : an URL with unbalanced parethesis and
+            # ending by ')' is put into external parenthesis
+            if ( url[-1]==?) and ((url.count("(") - url.count(")")) < 0 ) )
+              url=url[0..-2] # discard closing parenth from url
+              post = ")"+post # add closing parenth to post
+            end
+            tag = content_tag('a', proto + url, :href => "#{proto=="www."?"http://www.":proto}#{url}", :class => 'external')
+            %(#{leading}#{tag}#{post})
+          end
+        end
+      end
+
+      # Destructively remplaces email addresses into clickable links
+      def auto_mailto!(text)
+        text.gsub!(/([\w\.!#\$%\-+.]+@[A-Za-z0-9\-]+(\.[A-Za-z0-9\-]+)+)/) do
+          mail = $1
+          if text.match(/<a\b[^>]*>(.*)(#{Regexp.escape(mail)})(.*)<\/a>/)
+            mail
+          else
+            content_tag('a', mail, :href => "mailto:#{mail}", :class => "email")
+          end
+        end
+      end      
+    end
+
     # Default formatter module
     module NullFormatter
       class Formatter
         include ActionView::Helpers::TagHelper
         include ActionView::Helpers::TextHelper
         include ActionView::Helpers::UrlHelper
+        include Redmine::WikiFormatting::LinksHelper
 
         def initialize(text)
           @text = text
         end
 
         def to_html(*args)
-          simple_format(auto_link(CGI::escapeHTML(@text)))
+          t = CGI::escapeHTML(@text)
+          auto_link!(t)
+          auto_mailto!(t)
+          simple_format(t)
         end
       end
 

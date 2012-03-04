@@ -36,8 +36,8 @@ and an email address foo@example.net
 DIFF
 
     expected = <<-EXPECTED
-<p>This is a sample *text* with a link: <a href="http://www.redmine.org">http://www.redmine.org</a><br />
-and an email address <a href="mailto:foo@example.net">foo@example.net</a></p>
+<p>This is a sample *text* with a link: <a class="external" href="http://www.redmine.org">http://www.redmine.org</a><br />
+and an email address <a class="email" href="mailto:foo@example.net">foo@example.net</a></p>
 EXPECTED
 
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), Redmine::WikiFormatting::NullFormatter::Formatter.new(raw).to_html.gsub(%r{[\r\n\t]}, '')
