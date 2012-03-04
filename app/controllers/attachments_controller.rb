@@ -83,6 +83,9 @@ class AttachmentsController < ApplicationController
   end
 
   def destroy
+    if @attachment.container.respond_to?(:init_journal)
+      @attachment.container.init_journal(User.current)
+    end
     # Make sure association callbacks are called
     @attachment.container.attachments.delete(@attachment)
     redirect_to :back

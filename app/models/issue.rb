@@ -953,11 +953,10 @@ class Issue < ActiveRecord::Base
 
   # Callback on attachment deletion
   def attachment_removed(obj)
-    journal = init_journal(User.current)
-    journal.details << JournalDetail.new(:property => 'attachment',
-                                         :prop_key => obj.id,
-                                         :old_value => obj.filename)
-    journal.save
+    if @current_journal && !obj.new_record?
+      @current_journal.details << JournalDetail.new(:property => 'attachment', :prop_key => obj.id, :old_value => obj.filename)
+      @current_journal.save
+    end
   end
 
   # Default assignment based on category

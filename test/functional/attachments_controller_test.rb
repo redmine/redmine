@@ -264,15 +264,18 @@ class AttachmentsControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
 
     assert_difference 'issue.attachments.count', -1 do
-      delete :destroy, :id => 1
+      assert_difference 'Journal.count' do
+        delete :destroy, :id => 1
+        assert_redirected_to '/projects/ecookbook'
+      end
     end
-    # no referrer
-    assert_redirected_to '/projects/ecookbook'
     assert_nil Attachment.find_by_id(1)
-    j = issue.journals.find(:first, :order => 'created_on DESC')
+    j = Journal.first(:order => 'id DESC')
+    assert_equal issue, j.journalized
     assert_equal 'attachment', j.details.first.property
     assert_equal '1', j.details.first.prop_key
     assert_equal 'error281.txt', j.details.first.old_value
+    assert_equal User.find(2), j.user
   end
 
   def test_destroy_wiki_page_attachment
