@@ -43,6 +43,9 @@ module Redmine #:nodoc:
   #
   # When rendered, the plugin settings value is available as the local variable +settings+
   class Plugin
+    cattr_accessor :public_directory
+    self.public_directory = File.join(Rails.root, 'public', 'plugin_assets')
+
     @registered_plugins = {}
     class << self
       attr_reader :registered_plugins
