@@ -69,7 +69,7 @@ class AttachmentsController < ApplicationController
 
     @attachment = Attachment.new(:file => request.body)
     @attachment.author = User.current
-    @attachment.filename = ActiveSupport::SecureRandom.hex(16)
+    @attachment.filename = Redmine::Utils.random_hex(16)
 
     if @attachment.save
       respond_to do |format|

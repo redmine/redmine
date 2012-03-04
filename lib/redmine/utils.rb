@@ -33,6 +33,13 @@ module Redmine
           ActionController::AbstractRequest.relative_url_root=arg
         end
       end
+
+      # Generates a n bytes random hex string
+      # Example:
+      #   random_hex(4) # => "89b8c729"
+      def random_hex(n)
+        ActiveSupport::SecureRandom.hex(n)
+      end
     end
   end
 end

@@ -367,11 +367,11 @@ class MailHandler < ActionMailer::Base
     user.lastname = '-' if user.lastname.blank?
 
     password_length = [Setting.password_min_length.to_i, 10].max
-    user.password = ActiveSupport::SecureRandom.hex(password_length / 2 + 1)
+    user.password = Redmine::Utils.random_hex(password_length / 2 + 1)
     user.language = Setting.default_language
 
     unless user.valid?
-      user.login = "user#{ActiveSupport::SecureRandom.hex(6)}" unless user.errors[:login].blank?
+      user.login = "user#{Redmine::Utils.random_hex(6)}" unless user.errors[:login].blank?
       user.firstname = "-" unless user.errors[:firstname].blank?
       user.lastname  = "-" unless user.errors[:lastname].blank?
     end
