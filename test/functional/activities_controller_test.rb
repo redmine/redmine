@@ -98,7 +98,7 @@ class ActivitiesControllerTest < ActionController::TestCase
   def test_index_atom_feed
     get :index, :format => 'atom', :with_subprojects => 0
     assert_response :success
-    assert_template 'common/feed.atom'
+    assert_template 'common/feed'
 
     assert_tag :tag => 'link', :parent =>  {:tag => 'feed', :parent => nil },
         :attributes => {:rel => 'self', :href => 'http://test.host/activity.atom?with_subprojects=0'}
@@ -122,7 +122,7 @@ class ActivitiesControllerTest < ActionController::TestCase
       :show_wiki_edits => 1
 
     assert_response :success
-    assert_template 'common/feed.atom'
+    assert_template 'common/feed'
 
     assert_tag :tag => 'link', :parent =>  {:tag => 'feed', :parent => nil },
         :attributes => {:rel => 'self', :href => 'http://test.host/activity.atom?show_changesets=1&amp;show_documents=1&amp;show_files=1&amp;show_issues=1&amp;show_messages=1&amp;show_news=1&amp;show_time_entries=1&amp;show_wiki_edits=1&amp;with_subprojects=0'}
@@ -137,7 +137,7 @@ class ActivitiesControllerTest < ActionController::TestCase
   def test_index_atom_feed_with_one_item_type
     get :index, :format => 'atom', :show_issues => '1'
     assert_response :success
-    assert_template 'common/feed.atom'
+    assert_template 'common/feed'
     assert_tag :tag => 'title', :content => /Issues/
   end
 end
