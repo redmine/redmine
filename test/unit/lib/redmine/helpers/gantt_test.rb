@@ -293,7 +293,7 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
         @project.enabled_module_names = [:issue_tracking]
         @project.versions << Version.generate!(:effective_date => Date.yesterday)
 
-        assert @project.overdue?, "Need an overdue project for this test"
+        assert @project.reload.overdue?, "Need an overdue project for this test"
         @output_buffer = @gantt.subject_for_project(@project, {:format => :html})
 
         assert_select 'div span.project-overdue'
