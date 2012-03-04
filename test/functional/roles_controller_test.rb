@@ -21,6 +21,9 @@ class RolesControllerTest < ActionController::TestCase
   fixtures :roles, :users, :members, :member_roles, :workflows, :trackers
 
   def setup
+    @controller = RolesController.new
+    @request    = ActionController::TestRequest.new
+    @response   = ActionController::TestResponse.new
     User.current = nil
     @request.session[:user_id] = 1 # admin
   end
