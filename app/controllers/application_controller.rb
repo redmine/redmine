@@ -507,8 +507,12 @@ class ApplicationController < ActionController::Base
   end
 
   # Renders API response on validation failure
-  def render_validation_errors(object)
-    @error_messages = object.errors.full_messages
+  def render_validation_errors(objects)
+    if objects.is_a?(Array)
+      @error_messages = objects.map {|object| object.errors.full_messages}.flatten
+    else
+      @error_messages = objects.errors.full_messages
+    end
     render :template => 'common/error_messages.api', :status => :unprocessable_entity, :layout => false
   end
 

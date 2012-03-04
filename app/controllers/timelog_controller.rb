@@ -199,30 +199,30 @@ class TimelogController < ApplicationController
   end
 
   def destroy
-    @time_entries.each do |t|
-      begin
+    destroyed = TimeEntry.transaction do
+      @time_entries.each do |t|
         unless t.destroy && t.destroyed?
-          respond_to do |format|
-            format.html {
-              flash[:error] = l(:notice_unable_delete_time_entry)
-              redirect_to :back
-            }
-            format.api  { render_validation_errors(t) }
-          end
-          return
+          raise ActiveRecord::Rollback
         end
-      rescue ::ActionController::RedirectBackError
-        redirect_to :action => 'index', :project_id => @projects.first
-        return
       end
     end
 
     respond_to do |format|
       format.html {
-        flash[:notice] = l(:notice_successful_delete)
+        if destroyed
+          flash[:notice] = l(:notice_successful_delete)
+        else
+          flash[:error] = l(:notice_unable_delete_time_entry)
+        end
         redirect_back_or_default(:action => 'index', :project_id => @projects.first)
       }
-      format.api  { head :ok }
+      format.api  {
+        if destroyed
+          head :ok
+        else
+          render_validation_errors(@time_entries)
+        end
+      }
     end
   end
 
