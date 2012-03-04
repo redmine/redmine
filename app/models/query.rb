@@ -609,12 +609,12 @@ class Query < ActiveRecord::Base
     
     joins = (order_option && order_option.include?('authors')) ? "LEFT OUTER JOIN users authors ON authors.id = #{Issue.table_name}.author_id" : nil
 
-    Issue.visible.scoped(:conditions => options[:conditions]).find_ids :include => ([:status, :project] + (options[:include] || [])).uniq,
+    Issue.visible.scoped(:conditions => options[:conditions]).scoped(:include => ([:status, :project] + (options[:include] || [])).uniq,
                      :conditions => statement,
                      :order => order_option,
                      :joins => joins,
                      :limit  => options[:limit],
-                     :offset => options[:offset]
+                     :offset => options[:offset]).find_ids
   rescue ::ActiveRecord::StatementInvalid => e
     raise StatementInvalid.new(e.message)
   end
