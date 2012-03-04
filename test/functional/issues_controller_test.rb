@@ -328,8 +328,8 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_index_csv_with_spent_time_column
-    issue = Issue.generate!(:project_id => 1, :tracker_id => 1, :subject => 'test_index_csv_with_spent_time_column')
-    TimeEntry.generate!(:project_id => issue.project_id, :issue_id => issue.id, :hours => 7.33)
+    issue = Issue.create!(:project_id => 1, :tracker_id => 1, :subject => 'test_index_csv_with_spent_time_column', :author_id => 2)
+    TimeEntry.create!(:project => issue.project, :issue => issue, :hours => 7.33, :user => User.find(2), :spent_on => Date.today)
 
     get :index, :format => 'csv', :set_filter => '1', :c => %w(subject spent_hours)
     assert_response :success
@@ -957,7 +957,7 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_show_should_list_subtasks
-    Issue.generate!(:project_id => 1, :author_id => 1, :tracker_id => 1, :parent_issue_id => 1, :subject => 'Child Issue')
+    Issue.create!(:project_id => 1, :author_id => 1, :tracker_id => 1, :parent_issue_id => 1, :subject => 'Child Issue')
 
     get :show, :id => 1
     assert_response :success
@@ -966,7 +966,7 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_show_should_list_parents
-    issue = Issue.generate!(:project_id => 1, :author_id => 1, :tracker_id => 1, :parent_issue_id => 1, :subject => 'Child Issue')
+    issue = Issue.create!(:project_id => 1, :author_id => 1, :tracker_id => 1, :parent_issue_id => 1, :subject => 'Child Issue')
 
     get :show, :id => issue.id
     assert_response :success
@@ -3085,8 +3085,8 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_destroy_parent_and_child_issues
-    parent = Issue.generate!(:project_id => 1, :tracker_id => 1)
-    child = Issue.generate!(:project_id => 1, :tracker_id => 1, :parent_issue_id => parent.id)
+    parent = Issue.create!(:project_id => 1, :author_id => 1, :tracker_id => 1, :subject => 'Parent Issue')
+    child = Issue.create!(:project_id => 1, :author_id => 1, :tracker_id => 1, :subject => 'Child Issue', :parent_issue_id => parent.id)
     assert child.is_descendant_of?(parent.reload)
 
     @request.session[:user_id] = 2

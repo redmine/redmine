@@ -476,9 +476,10 @@ class MailerTest < ActiveSupport::TestCase
 
   def test_reminders_should_not_include_closed_issues
     with_settings :default_language => 'en' do
-      Issue.generate!(:project_id => 1, :tracker_id => 1, :status_id => 5,
+      Issue.create!(:project_id => 1, :tracker_id => 1, :status_id => 5,
                       :subject => 'Closed issue', :assigned_to_id => 3,
-                      :due_date => 5.days.from_now)
+                      :due_date => 5.days.from_now,
+                      :author_id => 2)
       ActionMailer::Base.deliveries.clear
 
       Mailer.reminders(:days => 42)

@@ -52,7 +52,7 @@ class AuthSourcesControllerTest < ActionController::TestCase
   end
 
   def test_edit
-    auth_source = AuthSource.generate!(:name => 'TestEdit')
+    auth_source = AuthSource.create!(:name => 'TestEdit')
     get :edit, :id => auth_source.id
 
     assert_response :success
@@ -61,7 +61,7 @@ class AuthSourcesControllerTest < ActionController::TestCase
   end
 
   def test_update
-    auth_source = AuthSource.generate!(:name => 'TestEdit')
+    auth_source = AuthSource.create!(:name => 'TestEdit')
     post :update, :id => auth_source.id, :auth_source => {:name => 'TestUpdate'}
 
     assert_redirected_to '/auth_sources'
@@ -69,7 +69,7 @@ class AuthSourcesControllerTest < ActionController::TestCase
   end
 
   def test_destroy_without_users
-    auth_source = AuthSource.generate!(:name => 'TestEdit')
+    auth_source = AuthSource.create!(:name => 'TestEdit')
     assert_difference 'AuthSource.count', -1 do
       post :destroy, :id => auth_source.id
     end
@@ -78,8 +78,8 @@ class AuthSourcesControllerTest < ActionController::TestCase
   end
 
   def test_destroy_with_users
-    auth_source = AuthSource.generate!(:name => 'TestEdit')
-    User.generate!(:auth_source => auth_source)
+    auth_source = AuthSource.create!(:name => 'TestEdit')
+    User.find(2).update_attribute :auth_source, auth_source
     assert_no_difference 'AuthSource.count' do
       post :destroy, :id => auth_source.id
     end
