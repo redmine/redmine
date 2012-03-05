@@ -52,7 +52,7 @@ class TimeEntryActivityTest < ActiveSupport::TestCase
 
     e = TimeEntryActivity.new(:name => 'Custom Data')
     assert !e.save
-    assert_equal "Billable can't be blank", e.errors[:base].to_s
+    assert_equal ["Billable can't be blank"], e.errors.full_messages
   end
 
   def test_create_with_required_custom_field_should_succeed
@@ -76,7 +76,7 @@ class TimeEntryActivityTest < ActiveSupport::TestCase
     # Blanking custom field, save should fail
     e.custom_field_values = {field.id => ""}
     assert !e.save
-    assert_equal "Billable can't be blank", e.errors[:base].to_s
+    assert_equal ["Billable can't be blank"], e.errors.full_messages
 
     # Update custom field to valid value, save should succeed
     e.custom_field_values = {field.id => "0"}
