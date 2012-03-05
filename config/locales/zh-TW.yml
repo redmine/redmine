@@ -403,6 +403,7 @@
   field_cvs_module: 模組
   field_repository_is_default: 主要儲存機制
   field_multiple: 多重值
+  field_ldap_filter: LDAP 篩選器
 
   setting_app_title: 標題
   setting_app_subtitle: 副標題
@@ -673,6 +674,10 @@
     zero:  0 已結束
     one:   1 已結束
     other: "%{count} 已結束"
+  label_x_issues:
+    zero:  0 個問題
+    one:   1 個問題
+    other: "%{count} 個問題"
   label_total: 總計
   label_permissions: 權限
   label_current_status: 目前狀態
@@ -1099,8 +1104,3 @@
   description_date_range_interval: 選擇起始與結束日期以設定範圍區間
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
-  label_x_issues:
-    zero:  0 問題
-    one:   1 問題
-    other: "%{count} 問題清單"
-  field_ldap_filter: LDAP filter
