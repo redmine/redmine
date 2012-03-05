@@ -99,7 +99,7 @@ use strict;
 use warnings FATAL => 'all', NONFATAL => 'redefine';
 
 use DBI;
-use Digest::SHA1;
+use Digest::SHA;
 # optional module for LDAP authentication
 my $CanUseLDAPAuth = eval("use Authen::Simple::LDAP; 1");
 
@@ -327,7 +327,7 @@ sub is_member {
   my $dbh         = connect_database($r);
   my $project_id  = get_project_identifier($r);
 
-  my $pass_digest = Digest::SHA1::sha1_hex($redmine_pass);
+  my $pass_digest = Digest::SHA::sha1_hex($redmine_pass);
 
   my $access_mode = defined $read_only_methods{$r->method} ? "R" : "W";
 
@@ -346,7 +346,7 @@ sub is_member {
 
       unless ($auth_source_id) {
 	  			my $method = $r->method;
-          my $salted_password = Digest::SHA1::sha1_hex($salt.$pass_digest);
+          my $salted_password = Digest::SHA::sha1_hex($salt.$pass_digest);
 					if ($hashed_password eq $salted_password && (($access_mode eq "R" && $permissions =~ /:browse_repository/) || $permissions =~ /:commit_access/) ) {
               $ret = 1;
               last;
