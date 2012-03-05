@@ -82,6 +82,23 @@ class MemberTest < ActiveSupport::TestCase
     assert_raise(ActiveRecord::RecordNotFound) { Member.find(@jsmith.id) }
   end
 
+  def test_sort_without_roles
+    a = Member.new(:roles => [Role.first])
+    b = Member.new
+
+    assert_equal -1, a <=> b
+    assert_equal 1,  b <=> a
+  end
+
+  def test_sort_without_principal
+    role = Role.first
+    a = Member.new(:roles => [role], :principal => User.first)
+    b = Member.new(:roles => [role])
+
+    assert_equal -1, a <=> b
+    assert_equal 1,  b <=> a
+  end
+
   context "removing permissions" do
     setup do
       Watcher.delete_all("user_id = 9")
