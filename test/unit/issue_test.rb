@@ -60,15 +60,15 @@ class IssueTest < ActiveSupport::TestCase
     assert issue.available_custom_fields.include?(field)
     # No value for the custom field
     assert !issue.save
-    assert_equal "Database can't be blank", issue.errors[:base].to_s
+    assert_equal ["Database can't be blank"], issue.errors.full_messages
     # Blank value
     issue.custom_field_values = { field.id => '' }
     assert !issue.save
-    assert_equal "Database can't be blank", issue.errors[:base].to_s
+    assert_equal ["Database can't be blank"], issue.errors.full_messages
     # Invalid value
     issue.custom_field_values = { field.id => 'SQLServer' }
     assert !issue.save
-    assert_equal "Database is not included in the list", issue.errors[:base].to_s
+    assert_equal ["Database is not included in the list"], issue.errors.full_messages
     # Valid value
     issue.custom_field_values = { field.id => 'PostgreSQL' }
     assert issue.save
