@@ -54,8 +54,7 @@ class UserTest < ActiveSupport::TestCase
     u = User.new
     u.mail = ''
     assert !u.valid?
-    assert_equal I18n.translate('activerecord.errors.messages.blank'),
-                 u.errors[:mail].to_s
+    assert_include I18n.translate('activerecord.errors.messages.blank'), u.errors[:mail]
   end
 
   def test_login_length_validation
@@ -110,8 +109,7 @@ class UserTest < ActiveSupport::TestCase
       u.login = 'NewUser'
       u.password, u.password_confirmation = "password", "password"
       assert !u.save
-      assert_equal I18n.translate('activerecord.errors.messages.taken'),
-                   u.errors[:login].to_s
+      assert_include I18n.translate('activerecord.errors.messages.taken'), u.errors[:login]
     end
   end
 
@@ -125,8 +123,7 @@ class UserTest < ActiveSupport::TestCase
     u.login = 'newuser2'
     u.password, u.password_confirmation = "password", "password"
     assert !u.save
-    assert_equal I18n.translate('activerecord.errors.messages.taken'),
-                 u.errors[:mail].to_s
+    assert_include I18n.translate('activerecord.errors.messages.taken'), u.errors[:mail]
   end
 
   def test_update
