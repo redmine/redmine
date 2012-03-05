@@ -13,6 +13,8 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
            :custom_fields_trackers, :custom_values,
            :time_entries
 
+  self.use_transactional_fixtures = false
+
   def setup
     @request.session[:user_id] = nil
     Setting.default_language = 'en'
