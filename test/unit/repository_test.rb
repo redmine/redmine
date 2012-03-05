@@ -132,8 +132,8 @@ class RepositoryTest < ActiveSupport::TestCase
       repository = Repository::Subversion.new(
                       :project => Project.find(3), :url => "svn://localhost")
       assert !repository.save
-      assert_equal I18n.translate('activerecord.errors.messages.invalid'),
-                                  repository.errors[:type].to_s
+      assert_include I18n.translate('activerecord.errors.messages.invalid'),
+                     repository.errors[:type]
     end
   end
 
