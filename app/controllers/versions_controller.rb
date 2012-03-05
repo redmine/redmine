@@ -23,7 +23,7 @@ class VersionsController < ApplicationController
   before_filter :find_project, :only => [:index, :new, :create, :close_completed]
   before_filter :authorize
 
-  accept_api_auth :index, :create, :update, :destroy
+  accept_api_auth :index, :show, :create, :update, :destroy
 
   helper :custom_fields
   helper :projects
