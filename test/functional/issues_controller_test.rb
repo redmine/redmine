@@ -147,7 +147,6 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_index_with_short_filters
-
     to_test = {
       'status_id' => {
         'o' => { :op => 'o', :values => [''] },
@@ -181,9 +180,9 @@ class IssuesControllerTest < ActionController::TestCase
         't-2' => { :op => 't-', :values => ['2'] }},
       'created_on' => {
         '>=2011-10-12' => { :op => '>=', :values => ['2011-10-12'] },
-        '<t+2' => { :op => '=', :values => ['<t+2'] },
-        '>t+2' => { :op => '=', :values => ['>t+2'] },
-        't+2' => { :op => 't', :values => ['+2'] }},
+        '<t-2' => { :op => '<t-', :values => ['2'] },
+        '>t-2' => { :op => '>t-', :values => ['2'] },
+        't-2' => { :op => 't-', :values => ['2'] }},
       'cf_1' => {
         'c' => { :op => '=', :values => ['c'] },
         '!c' => { :op => '!', :values => ['c'] },
@@ -215,7 +214,6 @@ class IssuesControllerTest < ActionController::TestCase
         assert_equal(default_filter.merge({field => {:operator => expected[:op], :values => expected[:values]}}), query.filters)
       end
     end
-
   end
 
   def test_index_with_project_and_empty_filters
