@@ -64,7 +64,7 @@ class TrackersControllerTest < ActionController::TestCase
     tracker = Tracker.first(:order => 'id DESC')
     assert_equal 'New tracker', tracker.name
     assert_equal [1], tracker.project_ids.sort
-    assert_equal [1, 6], tracker.custom_field_ids
+    assert_equal [1, 6], tracker.custom_field_ids.sort
     assert_equal 0, tracker.workflows.count
   end
 
