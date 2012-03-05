@@ -490,6 +490,7 @@ module ApplicationHelper
     text = Redmine::WikiFormatting.to_html(Setting.text_formatting, text, :object => obj, :attribute => attr)
 
     @parsed_headings = []
+    @heading_anchors = {}
     @current_section = 0 if options[:edit_section_links]
     text = parse_non_pre_blocks(text) do |text|
       [:parse_sections, :parse_inline_attachments, :parse_wiki_links, :parse_redmine_links, :parse_macros, :parse_headings].each do |method_name|
@@ -778,6 +779,11 @@ module ApplicationHelper
       anchor = sanitize_anchor_name(item)
       # used for single-file wiki export
       anchor = "#{obj.page.title}_#{anchor}" if options[:wiki_links] == :anchor && (obj.is_a?(WikiContent) || obj.is_a?(WikiContent::Version))
+      @heading_anchors[anchor] ||= 0
+      idx = (@heading_anchors[anchor] += 1)
+      if idx > 1
+        anchor = "#{anchor}-#{idx}"
+      end
       @parsed_headings << [level, anchor, item]
       "<a name=\"#{anchor}\"></a>\n<h#{level} #{attrs}>#{content}<a href=\"##{anchor}\" class=\"wiki-anchor\">&para;</a></h#{level}>"
     end
