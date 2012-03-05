@@ -9,7 +9,7 @@ function addOption(theSel, theText, theValue)
 
 function swapOptions(theSel, index1, index2)
 {
-	var text, value;
+  var text, value;
   text = theSel.options[index1].text;
   value = theSel.options[index1].value;
   theSel.options[index1].text = theSel.options[index2].text;
@@ -57,19 +57,19 @@ function moveOptions(theSelFrom, theSelTo)
 }
 
 function moveOptionUp(theSel) {
-	var index = theSel.selectedIndex;
-	if (index > 0) {
-		swapOptions(theSel, index-1, index);
-  	theSel.selectedIndex = index-1;
-	}
+  var index = theSel.selectedIndex;
+  if (index > 0) {
+    swapOptions(theSel, index-1, index);
+    theSel.selectedIndex = index-1;
+  }
 }
 
 function moveOptionDown(theSel) {
-	var index = theSel.selectedIndex;
-	if (index < theSel.length - 1) {
-		swapOptions(theSel, index, index+1);
-  	theSel.selectedIndex = index+1;
-	}
+  var index = theSel.selectedIndex;
+  if (index < theSel.length - 1) {
+    swapOptions(theSel, index, index+1);
+    theSel.selectedIndex = index+1;
+  }
 }
 
 function selectAllOptions(id)
