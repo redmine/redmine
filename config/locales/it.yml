@@ -978,7 +978,7 @@ it:
   label_between: tra
   setting_issue_group_assignment: Permetti di assegnare una segnalazione a gruppi
   label_diff: diff
-  text_git_repository_note: Il repository è bare e locale (e.g. /gitrepo, c:\gitrepo)
+  text_git_repository_note: Il repository è spoglio e locale (e.g. /gitrepo, c:\gitrepo)
   description_query_sort_criteria_direction: Ordinamento
   description_project_scope: Search scope
   description_filter: Filtro
