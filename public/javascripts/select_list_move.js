@@ -19,7 +19,7 @@ function swapOptions(theSel, index1, index2)
 }
 
 function deleteOption(theSel, theIndex)
-{ 
+{
   var selLength = theSel.length;
   if(selLength>0)
   {
@@ -29,14 +29,14 @@ function deleteOption(theSel, theIndex)
 
 function moveOptions(theSelFrom, theSelTo)
 {
-  
+
   var selLength = theSelFrom.length;
   var selectedText = new Array();
   var selectedValues = new Array();
   var selectedCount = 0;
-  
+
   var i;
-  
+
   for(i=selLength-1; i>=0; i--)
   {
     if(theSelFrom.options[i].selected)
@@ -47,12 +47,12 @@ function moveOptions(theSelFrom, theSelTo)
       selectedCount++;
     }
   }
-  
+
   for(i=selectedCount-1; i>=0; i--)
   {
     addOption(theSelTo, selectedText[i], selectedValues[i]);
   }
-  
+
   if(NS4) history.go(0);
 }
 
