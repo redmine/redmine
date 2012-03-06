@@ -39,11 +39,13 @@ class IssueCategoriesController < ApplicationController
   end
 
   def new
-    @category = @project.issue_categories.build(params[:issue_category])
+    @category = @project.issue_categories.build
+    @category.safe_attributes = params[:issue_category]
   end
 
   def create
-    @category = @project.issue_categories.build(params[:issue_category])
+    @category = @project.issue_categories.build
+    @category.safe_attributes = params[:issue_category]
     if @category.save
       respond_to do |format|
         format.html do
@@ -73,7 +75,8 @@ class IssueCategoriesController < ApplicationController
   end
 
   def update
-    if @category.update_attributes(params[:issue_category])
+    @category.safe_attributes = params[:issue_category]
+    if @category.save
       respond_to do |format|
         format.html {
           flash[:notice] = l(:notice_successful_update)
