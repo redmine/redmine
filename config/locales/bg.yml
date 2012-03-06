@@ -321,6 +321,7 @@ bg:
   field_cvs_module: Модул
   field_repository_is_default: Главно хранилище
   field_multiple: Избор на повече от една стойност
+  field_ldap_filter: LDAP филтър
 
   setting_app_title: Заглавие
   setting_app_subtitle: Описание
@@ -1021,4 +1022,3 @@ bg:
   description_date_range_interval: Изберете диапазон чрез задаване на начална и крайна дати
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
-  field_ldap_filter: LDAP filter
