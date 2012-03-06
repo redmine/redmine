@@ -47,11 +47,13 @@ class DocumentsController < ApplicationController
   end
 
   def new
-    @document = @project.documents.build(params[:document])
+    @document = @project.documents.build
+    @document.safe_attributes = params[:document]
   end
 
   def create
-    @document = @project.documents.build(params[:document])
+    @document = @project.documents.build
+    @document.safe_attributes = params[:document]
     @document.save_attachments(params[:attachments])
     if @document.save
       render_attachment_warning_if_needed(@document)
@@ -66,7 +68,8 @@ class DocumentsController < ApplicationController
   end
 
   def update
-    if request.put? and @document.update_attributes(params[:document])
+    @document.safe_attributes = params[:document]
+    if request.put? and @document.save
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'show', :id => @document
     else
