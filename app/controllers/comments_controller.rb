@@ -25,7 +25,8 @@ class CommentsController < ApplicationController
   def create
     raise Unauthorized unless @news.commentable?
 
-    @comment = Comment.new(params[:comment])
+    @comment = Comment.new
+    @comment.safe_attributes = params[:comment]
     @comment.author = User.current
     if @news.comments << @comment
       flash[:notice] = l(:label_comment_added)
