@@ -16,6 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class News < ActiveRecord::Base
+  include Redmine::SafeAttributes
   belongs_to :project
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
   has_many :comments, :as => :commented, :dependent => :delete_all, :order => "created_on"
@@ -37,6 +38,8 @@ class News < ActiveRecord::Base
     :include => :project,
     :conditions => Project.allowed_to_condition(args.shift || User.current, :view_news, *args)
   }}
+
+  safe_attributes 'title', 'summary', 'description'
 
   def visible?(user=User.current)
     !user.nil? && user.allowed_to?(:view_news, project)

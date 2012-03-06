@@ -68,7 +68,7 @@ class NewsController < ApplicationController
 
   def create
     @news = News.new(:project => @project, :author => User.current)
-    @news.attributes = params[:news]
+    @news.safe_attributes = params[:news]
     @news.save_attachments(params[:attachments])
     if @news.save
       render_attachment_warning_if_needed(@news)
@@ -83,8 +83,9 @@ class NewsController < ApplicationController
   end
 
   def update
+    @news.safe_attributes = params[:news]
     @news.save_attachments(params[:attachments])
-    if @news.update_attributes(params[:news])
+    if @news.save
       render_attachment_warning_if_needed(@news)
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'show', :id => @news
