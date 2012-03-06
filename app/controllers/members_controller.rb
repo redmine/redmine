@@ -49,16 +49,18 @@ class MembersController < ApplicationController
 
   def create
     members = []
-    if params[:membership] && params[:membership][:user_ids]
-      attrs = params[:membership].dup
-      user_ids = attrs.delete(:user_ids)
-      user_ids.each do |user_id|
-        members << Member.new(attrs.merge(:user_id => user_id))
+    if params[:membership]
+      if params[:membership][:user_ids]
+        attrs = params[:membership].dup
+        user_ids = attrs.delete(:user_ids)
+        user_ids.each do |user_id|
+          members << Member.new(:role_ids => params[:membership][:role_ids], :user_id => user_id)
+        end
+      else
+        members << Member.new(:role_ids => params[:membership][:role_ids], :user_id => params[:membership][:user_id])
       end
-    else
-      members << Member.new(params[:membership])
+      @project.members << members
     end
-    @project.members << members
 
     respond_to do |format|
       if members.present? && members.all? {|m| m.valid? }
