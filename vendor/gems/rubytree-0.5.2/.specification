@@ -11,17 +11,8 @@ cert_chain: []
 
 date: 2007-12-20 00:00:00 -08:00
 default_executable: 
-dependencies: 
-- !ruby/object:Gem::Dependency 
-  name: hoe
-  type: :runtime
-  version_requirement: 
-  version_requirements: !ruby/object:Gem::Requirement 
-    requirements: 
-    - - ">="
-      - !ruby/object:Gem::Version 
-        version: 1.3.0
-    version: 
+dependencies: []
+
 description: "Provides a generic tree data-structure with ability to store keyed node-elements in the tree. The implementation mixes in the Enumerable module.  Website:  http://rubytree.rubyforge.org/"
 email: anupamsg@gmail.com
 executables: []
