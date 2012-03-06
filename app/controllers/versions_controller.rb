@@ -73,7 +73,8 @@ class VersionsController < ApplicationController
   end
 
   def new
-    @version = @project.versions.build(params[:version])
+    @version = @project.versions.build
+    @version.safe_attributes = params[:version]
 
     respond_to do |format|
       format.html
@@ -92,7 +93,7 @@ class VersionsController < ApplicationController
     if params[:version]
       attributes = params[:version].dup
       attributes.delete('sharing') unless attributes.nil? || @version.allowed_sharings.include?(attributes['sharing'])
-      @version.attributes = attributes
+      @version.safe_attributes = attributes
     end
 
     if request.post?
@@ -136,7 +137,8 @@ class VersionsController < ApplicationController
     if request.put? && params[:version]
       attributes = params[:version].dup
       attributes.delete('sharing') unless @version.allowed_sharings.include?(attributes['sharing'])
-      if @version.update_attributes(attributes)
+      @version.safe_attributes = attributes
+      if @version.save
         respond_to do |format|
           format.html {
             flash[:notice] = l(:notice_successful_update)
