@@ -18,6 +18,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class PrincipalTest < ActiveSupport::TestCase
+  fixtures :users, :projects, :members, :member_roles
 
   def test_active_scope_should_return_groups_and_active_users
     result = Principal.active.all
@@ -30,6 +31,12 @@ class PrincipalTest < ActiveSupport::TestCase
   def test_member_of_scope_should_return_the_union_of_all_members
     projects = Project.find_all_by_id(1, 2)
     assert_equal projects.map(&:principals).flatten.sort, Principal.member_of(projects).sort
+  end
+
+  def test_not_member_of_scope_should_return_users_that_have_no_memberships
+    projects = Project.find_all_by_id(1, 2)
+    expected = (Principal.all - projects.map(&:memberships).flatten.map(&:principal)).sort
+    assert_equal expected, Principal.not_member_of(projects).sort
   end
 
   context "#like" do

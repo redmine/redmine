@@ -135,7 +135,7 @@ class MembersController < ApplicationController
   end
 
   def autocomplete
-    @principals = Principal.active.like(params[:q]).find(:all, :limit => 100) - @project.principals
+    @principals = Principal.active.not_member_of(@project).like(params[:q]).all(:limit => 100)
     render :layout => false
   end
 

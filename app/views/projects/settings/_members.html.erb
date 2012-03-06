@@ -55,7 +55,7 @@
 <% end %>
 </div>
 
-<% principals = Principal.active.find(:all, :limit => 100, :order => 'type, login, lastname ASC') - @project.principals %>
+<% principals = Principal.active.not_member_of(@project).all(:limit => 100, :order => 'type, login, lastname ASC') %>
 
 <div class="splitcontentright">
 <% if roles.any? && principals.any? %>

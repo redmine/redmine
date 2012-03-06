@@ -45,11 +45,22 @@ class Principal < ActiveRecord::Base
 
   # Principals that are members of a collection of projects
   named_scope :member_of, lambda {|projects|
+    projects = [projects] unless projects.is_a?(Array)
     if projects.empty?
       {:conditions => "1=0"}
     else
       ids = projects.map(&:id)
       {:conditions => ["#{Principal.table_name}.status = 1 AND #{Principal.table_name}.id IN (SELECT DISTINCT user_id FROM #{Member.table_name} WHERE project_id IN (?))", ids]}
+    end
+  }
+  # Principals that are not members of projects
+  named_scope :not_member_of, lambda {|projects|
+    projects = [projects] unless projects.is_a?(Array)
+    if projects.empty?
+      {:conditions => "1=0"}
+    else
+      ids = projects.map(&:id)
+      {:conditions => ["#{Principal.table_name}.id NOT IN (SELECT DISTINCT user_id FROM #{Member.table_name} WHERE project_id IN (?))", ids]}
     end
   }
 
