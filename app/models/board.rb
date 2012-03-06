@@ -16,6 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Board < ActiveRecord::Base
+  include Redmine::SafeAttributes
   belongs_to :project
   has_many :topics, :class_name => 'Message', :conditions => "#{Message.table_name}.parent_id IS NULL", :order => "#{Message.table_name}.created_on DESC"
   has_many :messages, :dependent => :destroy, :order => "#{Message.table_name}.created_on DESC"
@@ -29,6 +30,8 @@ class Board < ActiveRecord::Base
 
   named_scope :visible, lambda {|*args| { :include => :project,
                                           :conditions => Project.allowed_to_condition(args.shift || User.current, :view_messages, *args) } }
+
+  safe_attributes 'name', 'description', 'move_to'
 
   def visible?(user=User.current)
     !user.nil? && user.allowed_to?(:view_messages, project)
