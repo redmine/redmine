@@ -47,7 +47,8 @@ class DocumentsController < ApplicationController
   end
 
   def new
-    @document = @project.documents.build(params[:document])
+    @document = @project.documents.build
+    @document.safe_attributes = params[:document]
     if request.post? and @document.save	
       attachments = Attachment.attach_files(@document, params[:attachments])
       render_attachment_warning_if_needed(@document)
@@ -58,7 +59,8 @@ class DocumentsController < ApplicationController
 
   def edit
     @categories = DocumentCategory.active #TODO: use it in the views
-    if request.post? and @document.update_attributes(params[:document])
+    @document.safe_attributes = params[:document]
+    if request.post? and @document.save
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'show', :id => @document
     end
