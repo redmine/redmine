@@ -65,7 +65,8 @@ class BoardsController < ApplicationController
   verify :method => :post, :only => [ :destroy ], :redirect_to => { :action => :index }
 
   def new
-    @board = Board.new(params[:board])
+    @board = Board.new
+    @board.safe_attributes = params[:board]
     @board.project = @project
     if request.post? && @board.save
       flash[:notice] = l(:notice_successful_create)
@@ -74,7 +75,8 @@ class BoardsController < ApplicationController
   end
 
   def edit
-    if request.post? && @board.update_attributes(params[:board])
+    @board.safe_attributes = params[:board]
+    if request.post? && @board.save
       redirect_to_settings_in_projects
     end
   end

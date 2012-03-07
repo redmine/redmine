@@ -88,6 +88,14 @@ class BoardsControllerTest < ActionController::TestCase
     assert_equal 'Testing', Board.find(2).name
   end
 
+  def test_update_position
+    @request.session[:user_id] = 2
+    post :edit, :project_id => 1, :id => 2, :board => { :move_to => 'highest'}
+    assert_redirected_to '/projects/ecookbook/settings/boards'
+    board = Board.find(2)
+    assert_equal 1, board.position
+  end
+
   def test_post_destroy
     @request.session[:user_id] = 2
     assert_difference 'Board.count', -1 do
