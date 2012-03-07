@@ -116,7 +116,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       assert_equal "README", change.path
       assert_equal "A", change.action
 
-      assert_equal NUM_HEAD, @repository.extra_info["heads"].size
+      assert_equal NUM_HEAD, @repository.extra_info["branches"].size
     end
 
     def test_fetch_changesets_incremental
@@ -124,11 +124,11 @@ class RepositoryGitTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      extra_info_heads = @repository.extra_info["heads"].dup
-      assert_equal NUM_HEAD, extra_info_heads.size
-      extra_info_heads.delete_if { |x| x == "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c" }
-      assert_equal 4, extra_info_heads.size
-
+      extra_info_db = @repository.extra_info["branches"]
+      assert_equal "1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127",
+                    extra_info_db["latin-1-path-encoding"]["last_scmid"]
+      assert_equal "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c",
+                    extra_info_db["master"]["last_scmid"]
       del_revs = [
           "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c",
           "ed5bb786bbda2dee66a2d50faf51429dbc043a7b",
@@ -142,19 +142,20 @@ class RepositoryGitTest < ActiveSupport::TestCase
       end
       @project.reload
       cs1 = @repository.changesets
-      assert_equal NUM_REV - 6, cs1.count
-      extra_info_heads << "4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8"
-      h = {}
-      h["heads"] = extra_info_heads
+      assert_equal 22, cs1.count
+      h = @repository.extra_info.dup
+      h["branches"]["master"]["last_scmid"] =
+            "4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8"
       @repository.merge_extra_info(h)
       @repository.save
       @project.reload
-      assert @repository.extra_info["heads"].index("4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8")
+      extra_info_db_1 = @repository.extra_info["branches"]
+      assert_equal "4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8",
+                    extra_info_db_1["master"]["last_scmid"]
+
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      assert_equal NUM_HEAD, @repository.extra_info["heads"].size
-      assert @repository.extra_info["heads"].index("83ca5fd546063a3c7dc2e568ba3355661a9e2b2c")
     end
 
     def test_fetch_changesets_history_editing
@@ -162,11 +163,9 @@ class RepositoryGitTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      extra_info_heads = @repository.extra_info["heads"].dup
-      assert_equal NUM_HEAD, extra_info_heads.size
-      extra_info_heads.delete_if { |x| x == "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c" }
-      assert_equal 4, extra_info_heads.size
-
+      assert_equal NUM_HEAD, @repository.extra_info["branches"].size
+      assert_equal "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c",
+                     @repository.extra_info["branches"]["master"]["last_scmid"]
       del_revs = [
           "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c",
           "ed5bb786bbda2dee66a2d50faf51429dbc043a7b",
@@ -190,21 +189,17 @@ class RepositoryGitTest < ActiveSupport::TestCase
       @project.reload
       assert_equal NUM_REV - 5, @repository.changesets.count
 
-      extra_info_heads << "abcd1234efgh"
-      h = {}
-      h["heads"] = extra_info_heads
+      h = @repository.extra_info.dup
+      h["branches"]["master"]["last_scmid"] = "abcd1234efgh"
       @repository.merge_extra_info(h)
       @repository.save
       @project.reload
-      h1 = @repository.extra_info["heads"].dup
-      assert h1.index("abcd1234efgh")
-      assert_equal 5, h1.size
+      assert_equal "abcd1234efgh",
+                    @repository.extra_info["branches"]["master"]["last_scmid"]
 
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV - 5, @repository.changesets.count
-      h2 = @repository.extra_info["heads"].dup
-      assert_equal h1, h2
     end
 
     def test_parents
@@ -251,8 +246,6 @@ class RepositoryGitTest < ActiveSupport::TestCase
       @project.reload
       assert_equal 0, @repository.extra_info["db_consistent"]["ordering"]
 
-      extra_info_heads = @repository.extra_info["heads"].dup
-      extra_info_heads.delete_if { |x| x == "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c" }
       del_revs = [
           "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c",
           "ed5bb786bbda2dee66a2d50faf51429dbc043a7b",
@@ -268,19 +261,18 @@ class RepositoryGitTest < ActiveSupport::TestCase
       cs1 = @repository.changesets
       assert_equal NUM_REV - 6, cs1.count
       assert_equal 0, @repository.extra_info["db_consistent"]["ordering"]
-
-      extra_info_heads << "4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8"
-      h = {}
-      h["heads"] = extra_info_heads
+      h = @repository.extra_info.dup
+      h["branches"]["master"]["last_scmid"] =
+            "4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8"
       @repository.merge_extra_info(h)
       @repository.save
       @project.reload
-      assert @repository.extra_info["heads"].index("4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8")
-      @repository.fetch_changesets
-      @project.reload
-      assert_equal NUM_REV, @repository.changesets.count
-      assert_equal NUM_HEAD, @repository.extra_info["heads"].size
+      extra_info_db_1 = @repository.extra_info["branches"]
+      assert_equal "4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8",
+                    extra_info_db_1["master"]["last_scmid"]
 
+      @repository.fetch_changesets
+      assert_equal NUM_REV, @repository.changesets.count
       assert_equal 0, @repository.extra_info["db_consistent"]["ordering"]
     end
 
@@ -519,7 +511,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      %w|7234cb2750b63f47bff735edc50a1c0a433c2518 7234cb275|.each do |r1|
+      %w|95488a44bc25f7d1f97d775a31359539ff333a63 95488a44b|.each do |r1|
         changeset = @repository.find_changeset_by_name(r1)
         assert_nil changeset.previous
       end
@@ -543,7 +535,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      %w|2a682156a3b6e77a8bf9cd4590e8db757f3c6c78 2a682156a3b6e77a|.each do |r1|
+      %w|67e7792ce20ccae2e4bb73eed09bb397819c8834 67e7792ce20cca|.each do |r1|
         changeset = @repository.find_changeset_by_name(r1)
         assert_nil changeset.next
       end
