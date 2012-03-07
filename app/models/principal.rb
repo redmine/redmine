@@ -32,6 +32,16 @@ class Principal < ActiveRecord::Base
      :order => 'type, login, lastname, firstname, mail'
     }
   }
+  # Principals that are not members of projects
+  named_scope :not_member_of, lambda {|projects|
+    projects = [projects] unless projects.is_a?(Array)
+    if projects.empty?
+      {:conditions => "1=0"}
+    else
+      ids = projects.map(&:id)
+      {:conditions => ["#{Principal.table_name}.id NOT IN (SELECT DISTINCT user_id FROM #{Member.table_name} WHERE project_id IN (?))", ids]}
+    end
+  }
 
   before_create :set_default_empty_values
 
