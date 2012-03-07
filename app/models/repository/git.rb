@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2011  Jean-Philippe Lang
+# Copyright (C) 2006-2012  Jean-Philippe Lang
 # Copyright (C) 2007  Patrick Aljord patcito@ŋmail.com
 #
 # This program is free software; you can redistribute it and/or
@@ -103,7 +103,7 @@ class Repository::Git < Repository
   # such as Subversion and Mercurial,
   # Redmine is able to be clever and only fetch changesets
   # going forward from the most recent one it knows about.
-  # 
+  #
   # However, Git does not have a sequential commit numbering.
   #
   # In order to fetch only new adding revisions,
