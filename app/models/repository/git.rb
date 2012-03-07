@@ -162,12 +162,10 @@ class Repository::Git < Repository
     opts[:excludes] = prev_db_heads
     opts[:includes] = repo_heads
     begin
-      cnt = 0
       scm.revisions('', nil, nil, opts) do |rev|
-        cnt += 1
         db_rev = find_changeset_by_name(rev.scmid)
-        if db_rev.nil?
-          transaction do
+        transaction do
+          if db_rev.nil?
             db_saved_rev = save_revision(rev)
             parents = {}
             parents[db_saved_rev] = rev.parents unless rev.parents.nil?
@@ -175,9 +173,6 @@ class Repository::Git < Repository
               ch.parents = chparents.collect{|rp| find_changeset_by_name(rp)}.compact
             end
           end
-        end
-        if cnt > 100
-          cnt = 0
           h["heads"] = prev_db_heads.dup
           h["heads"] << rev.scmid
           merge_extra_info(h)
