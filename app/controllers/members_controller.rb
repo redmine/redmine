@@ -28,10 +28,10 @@ class MembersController < ApplicationController
       attrs = params[:member].dup
       if (user_ids = attrs.delete(:user_ids))
         user_ids.each do |user_id|
-          members << Member.new(attrs.merge(:user_id => user_id))
+          members << Member.new(:role_ids => params[:member][:role_ids], :user_id => user_id)
         end
       else
-        members << Member.new(attrs)
+        members << Member.new(:role_ids => params[:member][:role_ids], :user_id => params[:member][:user_id])
       end
       @project.members << members
     end
@@ -64,7 +64,10 @@ class MembersController < ApplicationController
   end
 
   def edit
-    if request.post? and @member.update_attributes(params[:member])
+    if params[:member]
+      @member.role_ids = params[:member][:role_ids]
+    end
+    if request.post? and @member.save
   	 respond_to do |format|
         format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project }
         format.js {
