@@ -262,6 +262,11 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 1, session[:query][:project_id]
   end
 
+  def test_index_with_invalid_query_id_should_respond_404
+    get :index, :project_id => 1, :query_id => 999
+    assert_response 404
+  end
+
   def test_index_with_cross_project_query_in_session_should_show_project_issues
     q = Query.create!(:name => "test", :user_id => 2, :is_public => false, :project => nil)
     @request.session[:query] = {:id => q.id, :project_id => 1}
