@@ -16,6 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Version < ActiveRecord::Base
+  include Redmine::SafeAttributes
   after_update :update_issues_from_sharing_change
   belongs_to :project
   has_many :fixed_issues, :class_name => 'Issue', :foreign_key => 'fixed_version_id', :dependent => :nullify
@@ -37,6 +38,15 @@ class Version < ActiveRecord::Base
   named_scope :open, :conditions => {:status => 'open'}
   named_scope :visible, lambda {|*args| { :include => :project,
                                           :conditions => Project.allowed_to_condition(args.first || User.current, :view_issues) } }
+
+  safe_attributes 'name', 
+    'description',
+    'effective_date',
+    'due_date',
+    'wiki_page_title',
+    'status',
+    'sharing',
+    'custom_field_values'
 
   # Returns true if +user+ or current user is allowed to view the version
   def visible?(user=User.current)
