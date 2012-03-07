@@ -148,42 +148,74 @@ class Repository::Git < Repository
   end
 
   def save_revisions(h, scm_brs)
+    # Remember what revisions we already processed (in any branches)
+    all_revisions = []
     scm_brs.each do |br1|
       br = br1.to_s
+      last_revision = nil
       from_scmid = nil
       from_scmid = h["branches"][br]["last_scmid"] if h["branches"][br]
       h["branches"][br] ||= {}
-      begin
-        cnt = 0
-        last_rev_scmid = nil
-        scm.revisions('', from_scmid, br, {:reverse => true}) do |rev|
-          cnt += 1
-          db_rev = find_changeset_by_name(rev.revision)
-          if db_rev.nil?
-            transaction do
-              db_saved_rev = save_revision(rev)
-              parents = {}
-              parents[db_saved_rev] = rev.parents unless rev.parents.nil?
-              parents.each do |ch, chparents|
-                ch.parents = chparents.collect{|rp| find_changeset_by_name(rp)}.compact
-              end
-            end
+
+      revisions = scm.revisions('', from_scmid, br, {:reverse => true})
+      next if revisions.blank?
+
+      # Remember the last commit id here, before we start removing revisions from the array.
+      # We'll do that for optimization, but it also means, that we may lose even all revisions.
+      last_revision  = revisions.last
+
+      # remove revisions that we have already processed (possibly in other branches)
+      revisions.reject!{|r| all_revisions.include?(r.scmid)}
+      # add revisions that we are to parse now to 'all processed revisions'
+      # (this equals to a union, because we executed diff above)
+      all_revisions += revisions.map{|r| r.scmid}
+
+      # Make the search for existing revisions in the database in a more sufficient manner
+      # This is replacing the one-after-one queries.
+      # Find all revisions, that are in the database, and then remove them from the revision array.
+      # Then later we won't need any conditions for db existence.
+      # Query for several revisions at once, and remove them from the revisions array, if they are there.
+      # Do this in chunks, to avoid eventual memory problems (in case of tens of thousands of commits).
+      # If there are no revisions (because the original code's algoritm filtered them),
+      # then this part will be stepped over.
+      # We make queries, just if there is any revision.
+      limit = 100
+      offset = 0
+      revisions_copy = revisions.clone # revisions will change
+      while offset < revisions_copy.size
+        recent_changesets_slice = changesets.find(
+                                     :all,
+                                     :conditions => [
+                                        'scmid IN (?)',
+                                        revisions_copy.slice(offset, limit).map{|x| x.scmid}
+                                      ]
+                                    )
+        # Subtract revisions that redmine already knows about
+        recent_revisions = recent_changesets_slice.map{|c| c.scmid}
+        revisions.reject!{|r| recent_revisions.include?(r.scmid)}
+        offset += limit
+      end
+
+      revisions.each do |rev|
+        transaction do
+          # There is no search in the db for this revision, because above we ensured,
+          # that it's not in the db.
+          db_saved_rev = save_revision(rev)
+          parents = {}
+          parents[db_saved_rev] = rev.parents unless rev.parents.nil?
+          parents.each do |ch, chparents|
+            ch.parents = chparents.collect{|rp| find_changeset_by_name(rp)}.compact
           end
-          last_rev_scmid = rev.scmid
-          if cnt > 100
-            cnt = 0
-            h["branches"][br]["last_scmid"] = last_rev_scmid
-            merge_extra_info(h)
-            self.save
-          end
+          # saving the last scmid was moved from here, because we won't come in here,
+          # if the revision was already added for another branch
         end
-        unless last_rev_scmid.nil?
-          h["branches"][br]["last_scmid"] = last_rev_scmid
-          merge_extra_info(h)
-          self.save
-        end
-      rescue Redmine::Scm::Adapters::CommandFailed => e
-        logger.error("save revisions error: #{e.message}")
+      end
+
+      # save the data about the last revision for this branch
+      unless last_revision.nil?
+        h["branches"][br]["last_scmid"] = last_revision.scmid
+        merge_extra_info(h)
+        self.save
       end
     end
   end
