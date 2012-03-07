@@ -20,7 +20,7 @@ class IssueCategoriesController < ApplicationController
   model_object IssueCategory
   before_filter :find_model_object, :except => [:index, :new, :create]
   before_filter :find_project_from_association, :except => [:index, :new, :create]
-  before_filter :find_project, :only => [:index, :new, :create]
+  before_filter :find_project_by_project_id, :only => [:index, :new, :create]
   before_filter :authorize
   accept_api_auth :index, :show, :create, :update, :destroy
   
@@ -115,11 +115,5 @@ private
   def find_model_object
     super
     @category = @object
-  end
-
-  def find_project
-    @project = Project.find(params[:project_id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 end
