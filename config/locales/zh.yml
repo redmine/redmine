@@ -64,8 +64,8 @@ zh:
         one: "大约一年"
         other: "大约 %{count} 年"
       over_x_years:
-        one: "一年以上"
-        other: "%{count} 年以上"
+        one: "超过一年"
+        other: "超过 %{count} 年"
       almost_x_years:
         one:   "将近 1 年"
         other: "将近 %{count} 年"
