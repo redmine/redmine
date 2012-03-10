@@ -41,17 +41,6 @@ class Workflow < ActiveRecord::Base
     result
   end
 
-  # Find potential statuses the user could be allowed to switch issues to
-  def self.available_statuses(project, user=User.current)
-    Workflow.find(:all,
-                  :include => :new_status,
-                  :conditions => {:role_id => user.roles_for_project(project).collect(&:id)}).
-      collect(&:new_status).
-      compact.
-      uniq.
-      sort
-  end
-
   # Copies workflows from source to targets
   def self.copy(source_tracker, source_role, target_trackers, target_roles)
     unless source_tracker.is_a?(Tracker) || source_role.is_a?(Role)
