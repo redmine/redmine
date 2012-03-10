@@ -74,6 +74,15 @@ class AdminControllerTest < ActionController::TestCase
     assert IssueStatus.find_by_name('Nouveau')
   end
 
+  def test_load_default_configuration_data_should_rescue_error
+    delete_configuration_data
+    Redmine::DefaultData::Loader.stubs(:load).raises(Exception.new("Something went wrong"))
+    post :default_configuration, :lang => 'fr'
+    assert_response :redirect
+    assert_not_nil flash[:error]
+    assert_match /Something went wrong/, flash[:error]
+  end
+
   def test_test_email
     get :test_email
     assert_redirected_to '/settings/edit?tab=notifications'
