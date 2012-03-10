@@ -1283,6 +1283,25 @@ class IssuesControllerTest < ActionController::TestCase
       }
   end
 
+  def test_get_new_should_prefill_the_form_from_params
+    @request.session[:user_id] = 2
+    get :new, :project_id => 1,
+      :issue => {:tracker_id => 3, :description => 'Prefilled', :custom_field_values => {'2' => 'Custom field value'}}
+
+    issue = assigns(:issue)
+    assert_equal 3, issue.tracker_id
+    assert_equal 'Prefilled', issue.description
+    assert_equal 'Custom field value', issue.custom_field_value(2)
+
+    assert_tag 'select',
+      :attributes => {:name => 'issue[tracker_id]'},
+      :child => {:tag => 'option', :attributes => {:value => '3', :selected => 'selected'}}
+    assert_tag 'textarea',
+      :attributes => {:name => 'issue[description]'}, :content => 'Prefilled'
+    assert_tag 'input',
+      :attributes => {:name => 'issue[custom_field_values][2]', :value => 'Custom field value'}
+  end
+
   def test_get_new_without_tracker_id
     @request.session[:user_id] = 2
     get :new, :project_id => 1
