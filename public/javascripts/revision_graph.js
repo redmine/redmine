@@ -37,7 +37,7 @@ function drawRevisionGraph(holder, commits_hash, graph_space) {
 
     var parent_commit;
     var x, y, parent_x, parent_y;
-    var path, longrefs, shortrefs, label, labelBBox;
+    var path, title;
 
     commits.each(function(commit) {
 
