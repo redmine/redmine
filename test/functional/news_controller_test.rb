@@ -46,6 +46,11 @@ class NewsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:newss)
   end
 
+  def test_index_with_invalid_project_should_respond_with_404
+    get :index, :project_id => 999
+    assert_response 404
+  end
+
   def test_show
     get :show, :id => 1
     assert_response :success
