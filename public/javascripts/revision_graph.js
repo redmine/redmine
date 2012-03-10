@@ -44,24 +44,11 @@ function drawRevisionGraph(holder, commits_hash, graph_space) {
         y = commit_table_rows[max_rdmid - commit.rdmid].getLayout().get('top') - graph_y_offset + CIRCLE_INROW_OFFSET;
         x = graph_x_offset + XSTEP / 2 + XSTEP * commit.space;
 
-        revisionGraph.circle(x, y, 3).attr({fill: colors[commit.space], stroke: 'none'});
-
-        // title
-        if (commit.refs != null && commit.refs != '') {
-            longrefs  = commit.refs;
-            shortrefs = longrefs.length > 15 ? longrefs.substr(0, 13) + '...' : longrefs;
-
-            label = revisionGraph.text(x + 5, y + 5, shortrefs)
-                .attr({
-                    font: '12px Fontin-Sans, Arial',
-                    fill: '#666',
-                    title: longrefs,
-                    cursor: 'pointer',
-                    rotation: '0'});
-
-            labelBBox = label.getBBox();
-            label.translate(labelBBox.width / 2, -labelBBox.height / 3);
-        }
+        revisionGraph.circle(x, y, 3)
+            .attr({
+                fill: colors[commit.space],
+                stroke: 'none',
+            }).toFront();
 
         // paths to parents
         commit.parent_scmids.each(function(parent_scmid) {
@@ -89,16 +76,25 @@ function drawRevisionGraph(holder, commits_hash, graph_space) {
                     'M', x, y,
                     'V', graph_bottom]);
             }
-            path.attr({stroke: colors[commit.space], "stroke-width": 1.5});
+            path.attr({stroke: colors[commit.space], "stroke-width": 1.5}).toBack();
         });
 
-        top.push(revisionGraph.circle(x, y, 10)
+        revision_dot_overlay = revisionGraph.circle(x, y, 10);
+        revision_dot_overlay
             .attr({
-                fill: '#000',
+            	fill: '#000',
                 opacity: 0,
-                cursor: 'pointer',
-                href: commit.href})
-            .hover(function () {}, function () {}));
+                cursor: 'pointer', 
+                href: commit.href
+            });
+
+        if(commit.refs != null && commit.refs.length > 0) {
+            title = document.createElementNS(revisionGraph.canvas.namespaceURI, 'title');
+            title.appendChild(document.createTextNode(commit.refs));
+            revision_dot_overlay.node.appendChild(title);
+        }
+
+        top.push(revision_dot_overlay);
     });
 
     top.toFront();
