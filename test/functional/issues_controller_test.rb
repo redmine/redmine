@@ -531,6 +531,21 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 'application/pdf', @response.content_type
   end
 
+  def test_index_atom
+    get :index, :project_id => 'ecookbook', :format => 'atom'
+    assert_response :success
+    assert_template 'common/feed'
+
+    assert_tag :tag => 'link', :parent =>  {:tag => 'feed', :parent => nil },
+        :attributes => {:rel => 'self', :href => 'http://test.host/projects/ecookbook/issues.atom'}
+    assert_tag :tag => 'link', :parent =>  {:tag => 'feed', :parent => nil },
+        :attributes => {:rel => 'alternate', :href => 'http://test.host/projects/ecookbook/issues'}
+
+    assert_tag :tag => 'entry', :child => {
+      :tag => 'link',
+      :attributes => {:href => 'http://test.host/issues/1'}}
+  end
+
   def test_index_sort
     get :index, :sort => 'tracker,id:desc'
     assert_response :success
@@ -2949,6 +2964,15 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_response :redirect
     assert_redirected_to :controller => 'issues', :action => 'index', :project_id => Project.find(1).identifier
+  end
+
+  def test_bulk_update_with_failure_should_set_flash
+    @request.session[:user_id] = 2
+    Issue.update_all("subject = ''", "id = 2") # Make it invalid
+    post :bulk_update, :ids => [1, 2], :issue => {:priority_id => 6}
+
+    assert_redirected_to :controller => 'issues', :action => 'index', :project_id => 'ecookbook'
+    assert_equal 'Failed to save 1 issue(s) on 2 selected: #2.', flash[:error]
   end
 
   def test_bulk_copy_to_another_project
