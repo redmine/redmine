@@ -20,6 +20,7 @@
 class AuthSourceException < Exception; end
 
 class AuthSource < ActiveRecord::Base
+  include Redmine::SubclassFactory
   include Redmine::Ciphering
 
   has_many :users

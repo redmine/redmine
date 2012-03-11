@@ -182,7 +182,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             :html => {:class => 'custom_fields'}
   menu.push :enumerations, {:controller => 'enumerations'}
   menu.push :settings, {:controller => 'settings'}
-  menu.push :ldap_authentication, {:controller => 'ldap_auth_sources', :action => 'index'},
+  menu.push :ldap_authentication, {:controller => 'auth_sources', :action => 'index'},
             :html => {:class => 'server_authentication'}
   menu.push :plugins, {:controller => 'admin', :action => 'plugins'}, :last => true
   menu.push :info, {:controller => 'admin', :action => 'info'}, :caption => :label_information_plural, :last => true
