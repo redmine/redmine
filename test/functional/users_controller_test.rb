@@ -296,13 +296,13 @@ class UsersControllerTest < ActionController::TestCase
     assert_mail_body_match 'newpass', mail
   end
 
-  test "put :update with a password change to an AuthSource user switching to Internal authentication" do
+  def test_update_user_switchin_from_auth_source_to_password_authentication
     # Configure as auth source
     u = User.find(2)
     u.auth_source = AuthSource.find(1)
     u.save!
 
-    put :update, :id => u.id, :user => {:auth_source_id => '', :password => 'newpass'}, :password_confirmation => 'newpass'
+    put :update, :id => u.id, :user => {:auth_source_id => '', :password => 'newpass', :password_confirmation => 'newpass'}
 
     assert_equal nil, u.reload.auth_source
     assert u.check_password?('newpass')
@@ -336,6 +336,27 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal 3, member.project_id
   end
 
+  def test_create_membership_js_format
+    assert_difference 'Member.count' do
+      post :edit_membership, :id => 7, :membership => {:project_id => 3, :role_ids => [2]}, :format => 'js'
+    end
+    assert_response :success
+    assert_select_rjs :replace_html, 'tab-content-memberships'
+    member = Member.first(:order => 'id DESC')
+    assert_equal User.find(7), member.principal
+    assert_equal [2], member.role_ids
+    assert_equal 3, member.project_id
+  end
+
+  def test_create_membership_js_format_with_failure
+    assert_no_difference 'Member.count' do
+      post :edit_membership, :id => 7, :membership => {:project_id => 3}, :format => 'js'
+    end
+    assert_response :success
+    assert @response.body.match(/alert/i), "Alert message not sent"
+    assert @response.body.match(/role can't be empty/i), "Error message not sent"
+  end
+
   def test_update_membership
     assert_no_difference 'Member.count' do
       put :edit_membership, :id => 2, :membership_id => 1, :membership => { :role_ids => [2]}
@@ -344,11 +365,27 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal [2], Member.find(1).role_ids
   end
 
+  def test_update_membership_js_format
+    assert_no_difference 'Member.count' do
+      put :edit_membership, :id => 2, :membership_id => 1, :membership => {:role_ids => [2]}, :format => 'js'
+    end
+    assert_response :success
+    assert_select_rjs :replace_html, 'tab-content-memberships'
+  end
+
   def test_destroy_membership
     assert_difference 'Member.count', -1 do
       delete :destroy_membership, :id => 2, :membership_id => 1
     end
     assert_redirected_to :action => 'edit', :id => '2', :tab => 'memberships'
     assert_nil Member.find_by_id(1)
+  end
+
+  def test_destroy_membership_js_format
+    assert_difference 'Member.count', -1 do
+      delete :destroy_membership, :id => 2, :membership_id => 1, :format => 'js'
+    end
+    assert_response :success
+    assert_select_rjs :replace_html, 'tab-content-memberships'
   end
 end
