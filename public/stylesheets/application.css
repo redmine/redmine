@@ -958,6 +958,7 @@ padding-bottom: 3px;
 .icon-zoom-in { background-image: url(../images/zoom_in.png); }
 .icon-zoom-out { background-image: url(../images/zoom_out.png); }
 .icon-passwd { background-image: url(../images/textfield_key.png); }
+.icon-test { background-image: url(../images/bullet_go.png); }
 
 .icon-file { background-image: url(../images/files/default.png); }
 .icon-file.text-plain { background-image: url(../images/files/text.png); }
