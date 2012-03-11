@@ -49,8 +49,8 @@ class AuthSourceLdap < AuthSource
   def test_connection
     ldap_con = initialize_ldap_con(self.account, self.account_password)
     ldap_con.open { }
-  rescue  Net::LDAP::LdapError => text
-    raise "LdapError: " + text
+  rescue  Net::LDAP::LdapError => e
+    raise "LdapError: " + e.message
   end
 
   def auth_method_name

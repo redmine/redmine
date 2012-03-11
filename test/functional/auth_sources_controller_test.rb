@@ -117,11 +117,11 @@ class AuthSourcesControllerTest < ActionController::TestCase
   end
 
   def test_test_connection_with_failure
-    AuthSourceLdap.any_instance.stubs(:test_connection).raises(Exception.new("Something went wrong"))
+    AuthSourceLdap.any_instance.stubs(:initialize_ldap_con).raises(Net::LDAP::LdapError.new("Something went wrong"))
 
     get :test_connection, :id => 1
     assert_redirected_to '/auth_sources'
     assert_not_nil flash[:error]
-    assert_include '(Something went wrong)', flash[:error]
+    assert_include 'Something went wrong', flash[:error]
   end
 end
