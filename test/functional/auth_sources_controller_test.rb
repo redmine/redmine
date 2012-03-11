@@ -78,7 +78,7 @@ class AuthSourcesControllerTest < ActionController::TestCase
   end
 
   def test_update
-    post :update, :id => 1, :auth_source => {:name => 'Renamed', :host => '192.168.0.10', :port => '389', :attr_login => 'uid'}
+    put :update, :id => 1, :auth_source => {:name => 'Renamed', :host => '192.168.0.10', :port => '389', :attr_login => 'uid'}
     assert_redirected_to '/auth_sources'
 
     source = AuthSourceLdap.find(1)
@@ -87,7 +87,7 @@ class AuthSourcesControllerTest < ActionController::TestCase
   end
 
   def test_update_with_failure
-    post :update, :id => 1, :auth_source => {:name => 'Renamed', :host => '', :port => '389', :attr_login => 'uid'}
+    put :update, :id => 1, :auth_source => {:name => 'Renamed', :host => '', :port => '389', :attr_login => 'uid'}
     assert_response :success
     assert_template 'edit'
     assert_error_tag :content => /host can't be blank/i
@@ -95,7 +95,7 @@ class AuthSourcesControllerTest < ActionController::TestCase
 
   def test_destroy
     assert_difference 'AuthSourceLdap.count', -1 do
-      post :destroy, :id => 1
+      delete :destroy, :id => 1
     end
   end
 
@@ -103,7 +103,7 @@ class AuthSourcesControllerTest < ActionController::TestCase
     User.find(2).update_attribute :auth_source_id, 1
 
     assert_no_difference 'AuthSourceLdap.count' do
-      post :destroy, :id => 1
+      delete :destroy, :id => 1
     end
   end
 

@@ -353,22 +353,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'admin/default_configuration', :controller => 'admin',
               :action => 'default_configuration', :conditions => {:method => :post}
 
-  # Used by AuthSourcesControllerTest
-  # TODO : refactor *AuthSourcesController to remove these routes
-  map.connect 'auth_sources', :controller => 'auth_sources',
-              :action => 'index', :conditions => {:method => :get}
-  map.connect 'auth_sources/new', :controller => 'auth_sources',
-              :action => 'new', :conditions => {:method => :get}
-  map.connect 'auth_sources/create', :controller => 'auth_sources',
-              :action => 'create', :conditions => {:method => :post}
-  map.connect 'auth_sources/destroy/:id', :controller => 'auth_sources',
-              :action => 'destroy', :id => /\d+/, :conditions => {:method => :post}
-  map.connect 'auth_sources/test_connection/:id', :controller => 'auth_sources',
-              :action => 'test_connection', :conditions => {:method => :get}
-  map.connect 'auth_sources/edit/:id', :controller => 'auth_sources',
-              :action => 'edit', :id => /\d+/, :conditions => {:method => :get}
-  map.connect 'auth_sources/update/:id', :controller => 'auth_sources',
-              :action => 'update', :id => /\d+/, :conditions => {:method => :post}
+  map.resources :auth_sources, :member => {:test_connection => :get}
 
   map.connect 'workflows', :controller => 'workflows',
               :action => 'index', :conditions => {:method => :get}
