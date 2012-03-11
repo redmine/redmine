@@ -4,6 +4,26 @@ Redmine - project management software
 Copyright (C) 2006-2012  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2012-03-11 v1.3.2
+
+* Defect #8194: {{toc}} uses identical anchors for subsections with the same name
+* Defect #9143: Partial diff comparison should be done on actual code, not on html
+* Defect #9523: {{toc}} does not display headers with @ code markup
+* Defect #9815: Release 1.3.0 does not detect rubytree with rubgems 1.8
+* Defect #10053: undefined method `<=>' for nil:NilClass when accessing the settings of a project
+* Defect #10135: ActionView::TemplateError (can't convert Fixnum into String)
+* Defect #10193: Unappropriate icons in highlighted code block
+* Defect #10199: No wiki section edit when title contains code
+* Defect #10218: Error when creating a project with a version custom field
+* Defect #10241: "get version by ID" fails with "401 not authorized" error when using API access key
+* Defect #10284: Note added by commit from a subproject does not contain project identifier
+* Defect #10374: User list is empty when adding users to project / group if remaining users are added late
+* Defect #10390: Mass assignment security vulnerability
+* Patch #8413: Confirmation message before deleting a relationship
+* Patch #10160: Bulgarian translation (r8777)
+* Patch #10242: Migrate Redmine.pm from Digest::Sha1 to Digest::Sha
+* Patch #10258: Italian translation for 1.3-stable
+
 == 2012-02-06 v1.3.1
 
 * Defect #9775: app/views/repository/_revision_graph.html.erb sets window.onload directly..
