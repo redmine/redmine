@@ -84,6 +84,11 @@ class AdminControllerTest < ActionController::TestCase
   end
 
   def test_test_email
+    user = User.find(1)
+    user.pref[:no_self_notified] = '1'
+    user.pref.save!
+    ActionMailer::Base.deliveries.clear
+
     get :test_email
     assert_redirected_to '/settings/edit?tab=notifications'
     mail = ActionMailer::Base.deliveries.last

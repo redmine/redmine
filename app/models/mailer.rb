@@ -98,6 +98,7 @@ class Mailer < ActionMailer::Base
   def document_added(document)
     redmine_headers 'Project' => document.project.identifier
     recipients document.recipients
+    @author = User.current
     subject "[#{document.project.name}] #{l(:label_document_new)}: #{document.title}"
     body :document => document,
          :document_url => url_for(:controller => 'documents', :action => 'show', :id => document)
@@ -113,6 +114,7 @@ class Mailer < ActionMailer::Base
     container = attachments.first.container
     added_to = ''
     added_to_url = ''
+    @author = attachments.first.author
     case container.class.name
     when 'Project'
       added_to_url = url_for(:controller => 'files', :action => 'index', :project_id => container)
@@ -142,6 +144,7 @@ class Mailer < ActionMailer::Base
   #   Mailer.deliver_news_added(news) => sends an email to the news' project recipients
   def news_added(news)
     redmine_headers 'Project' => news.project.identifier
+    @author = news.author
     message_id news
     recipients news.recipients
     subject "[#{news.project.name}] #{l(:label_news)}: #{news.title}"
@@ -158,6 +161,7 @@ class Mailer < ActionMailer::Base
   def news_comment_added(comment)
     news = comment.commented
     redmine_headers 'Project' => news.project.identifier
+    @author = comment.author
     message_id comment
     recipients news.recipients
     cc news.watcher_recipients
@@ -176,6 +180,7 @@ class Mailer < ActionMailer::Base
   def message_posted(message)
     redmine_headers 'Project' => message.project.identifier,
                     'Topic-Id' => (message.parent_id || message.id)
+    @author = message.author
     message_id message
     references message.parent unless message.parent.nil?
     recipients(message.recipients)
@@ -194,6 +199,7 @@ class Mailer < ActionMailer::Base
   def wiki_content_added(wiki_content)
     redmine_headers 'Project' => wiki_content.project.identifier,
                     'Wiki-Page-Id' => wiki_content.page.id
+    @author = wiki_content.author
     message_id wiki_content
     recipients wiki_content.recipients
     cc(wiki_content.page.wiki.watcher_recipients - recipients)
@@ -213,6 +219,7 @@ class Mailer < ActionMailer::Base
   def wiki_content_updated(wiki_content)
     redmine_headers 'Project' => wiki_content.project.identifier,
                     'Wiki-Page-Id' => wiki_content.page.id
+    @author = wiki_content.author
     message_id wiki_content
     recipients wiki_content.recipients
     cc(wiki_content.page.wiki.watcher_recipients + wiki_content.page.watcher_recipients - recipients)
@@ -387,15 +394,18 @@ class Mailer < ActionMailer::Base
 
   # Overrides the create_mail method
   def create_mail
-    # Removes the current user from the recipients and cc
+    # Removes the author from the recipients and cc
     # if he doesn't want to receive notifications about what he does
-    @author ||= User.current
-    if @author.pref[:no_self_notified]
-      recipients.delete(@author.mail) if recipients
-      cc.delete(@author.mail) if cc
+    if @author && @author.logged? && @author.pref[:no_self_notified]
+      if recipients
+        recipients((recipients.is_a?(Array) ? recipients : [recipients]) - [@author.mail])
+      end
+      if cc
+        cc((cc.is_a?(Array) ? cc : [cc]) - [@author.mail])
+      end
     end
 
-    if @author.logged?
+    if @author && @author.logged?
       redmine_headers 'Sender' => @author.login
     end
 
