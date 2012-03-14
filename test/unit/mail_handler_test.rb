@@ -587,8 +587,12 @@ class MailHandlerTest < ActiveSupport::TestCase
 
     user = User.first(:order => 'id DESC')
     assert_equal "foo@example.org", user.mail
-    assert_equal "Ää", user.firstname
-    assert_equal "Öö", user.lastname
+    str1 = "\xc3\x84\xc3\xa4"
+    str2 = "\xc3\x96\xc3\xb6"
+    str1.force_encoding('UTF-8') if str1.respond_to?(:force_encoding)
+    str2.force_encoding('UTF-8') if str2.respond_to?(:force_encoding)
+    assert_equal str1, user.firstname
+    assert_equal str2, user.lastname
   end
 
   private
