@@ -1,8 +1,5 @@
 # encoding: utf-8
 
-# This file includes UTF-8 "Felix Schäfer".
-# We need to consider Ruby 1.9 compatibility.
-
 require File.expand_path('../../../../../../test_helper', __FILE__)
 begin
   require 'mocha'
@@ -10,7 +7,6 @@ begin
   class GitAdapterTest < ActiveSupport::TestCase
     REPOSITORY_PATH = Rails.root.join('tmp/test/git_repository').to_s
 
-    FELIX_UTF8 = "Felix Schäfer"
     FELIX_HEX  = "Felix Sch\xC3\xA4fer"
     CHAR_1_HEX = "\xc3\x9c"
 
@@ -381,7 +377,6 @@ begin
       def test_last_rev_with_spaces_in_filename
         last_rev = @adapter.lastrev("filemane with spaces.txt",
                                     "ed5bb786bbda2dee66a2d50faf51429dbc043a7b")
-        str_felix_utf8 = FELIX_UTF8.dup
         str_felix_hex  = FELIX_HEX.dup
         last_rev_author = last_rev.author
         if last_rev_author.respond_to?(:force_encoding)
@@ -389,8 +384,6 @@ begin
         end
         assert_equal "ed5bb786bbda2dee66a2d50faf51429dbc043a7b", last_rev.scmid
         assert_equal "ed5bb786bbda2dee66a2d50faf51429dbc043a7b", last_rev.identifier
-        assert_equal "#{str_felix_utf8} <felix@fachschaften.org>",
-                       last_rev.author
         assert_equal "#{str_felix_hex} <felix@fachschaften.org>",
                        last_rev.author
         assert_equal "2010-09-18 19:59:46".to_time, last_rev.time
