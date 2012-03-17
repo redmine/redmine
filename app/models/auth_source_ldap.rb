@@ -119,7 +119,7 @@ class AuthSourceLdap < AuthSource
   # Get the user's dn and any attributes for them, given their login
   def get_user_dn(login, password)
     ldap_con = nil
-    if self.account && self.account.include?("login")
+    if self.account && self.account.include?("$login")
       ldap_con = initialize_ldap_con(self.account.sub("$login", Net::LDAP::DN.escape(login)), password)
     else
       ldap_con = initialize_ldap_con(self.account, self.account_password)
