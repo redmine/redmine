@@ -496,7 +496,7 @@ class UserTest < ActiveSupport::TestCase
         end
 
         context "with an unsuccessful authentication" do
-          should "return the user" do
+          should "return nil" do
             assert_nil User.try_to_login('example1', '11111')
           end
         end
@@ -546,7 +546,7 @@ class UserTest < ActiveSupport::TestCase
           end
   
           context "with an unsuccessful authentication" do
-            should "return the user" do
+            should "return nil" do
               assert_nil User.try_to_login('example1', '11111')
             end
           end
