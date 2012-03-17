@@ -60,6 +60,15 @@ class Redmine::I18nTest < ActiveSupport::TestCase
     end
   end
 
+  def test_time_for_each_zone
+    ActiveSupport::TimeZone.all.each do |zone|
+      User.current.stubs(:time_zone).returns(zone.name)
+      assert_nothing_raised "#{zone} failure" do
+        format_time(Time.now)
+      end
+    end
+  end
+
   def test_time_format
     set_language_if_valid 'en'
     now = Time.parse('2011-02-20 15:45:22')
