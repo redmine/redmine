@@ -477,6 +477,31 @@ class UserTest < ActiveSupport::TestCase
         end
       end
 
+      context "binding with user's account" do
+        setup do
+          @auth_source = AuthSourceLdap.find(1)
+          @auth_source.account = "uid=$login,ou=Person,dc=redmine,dc=org"
+          @auth_source.account_password = ''
+          @auth_source.save!
+
+          @ldap_user = User.new(:mail => 'example1@redmine.org', :firstname => 'LDAP', :lastname => 'user', :auth_source_id => 1)
+          @ldap_user.login = 'example1'
+          @ldap_user.save!
+        end
+
+        context "with a successful authentication" do
+          should "return the user" do
+            assert_equal @ldap_user, User.try_to_login('example1', '123456')
+          end
+        end
+
+        context "with an unsuccessful authentication" do
+          should "return the user" do
+            assert_nil User.try_to_login('example1', '11111')
+          end
+        end
+      end
+
       context "on the fly registration" do
         setup do
           @auth_source = AuthSourceLdap.find(1)
@@ -499,6 +524,30 @@ class UserTest < ActiveSupport::TestCase
             assert_no_difference('User.count') do
               user = User.try_to_login('edavis', '123456')
               assert user.admin?
+            end
+          end
+        end
+
+        context "binding with user's account" do
+          setup do
+            @auth_source = AuthSourceLdap.find(1)
+            @auth_source.account = "uid=$login,ou=Person,dc=redmine,dc=org"
+            @auth_source.account_password = ''
+            @auth_source.save!
+          end
+  
+          context "with a successful authentication" do
+            should "create a new user account if it doesn't exist" do
+              assert_difference('User.count') do
+                user = User.try_to_login('example1', '123456')
+                assert_kind_of User, user
+              end
+            end
+          end
+  
+          context "with an unsuccessful authentication" do
+            should "return the user" do
+              assert_nil User.try_to_login('example1', '11111')
             end
           end
         end

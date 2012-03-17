@@ -17,6 +17,7 @@
 
 require 'iconv'
 require 'net/ldap'
+require 'net/ldap/dn'
 
 class AuthSourceLdap < AuthSource
   validates_presence_of :host, :port, :attr_login
@@ -35,7 +36,7 @@ class AuthSourceLdap < AuthSource
 
   def authenticate(login, password)
     return nil if login.blank? || password.blank?
-    attrs = get_user_dn(login)
+    attrs = get_user_dn(login, password)
 
     if attrs && attrs[:dn] && authenticate_dn(attrs[:dn], password)
       logger.debug "Authentication successful for '#{login}'" if logger && logger.debug?
@@ -116,8 +117,13 @@ class AuthSourceLdap < AuthSource
   end
 
   # Get the user's dn and any attributes for them, given their login
-  def get_user_dn(login)
-    ldap_con = initialize_ldap_con(self.account, self.account_password)
+  def get_user_dn(login, password)
+    ldap_con = nil
+    if self.account && self.account.include?("login")
+      ldap_con = initialize_ldap_con(self.account.sub("$login", Net::LDAP::DN.escape(login)), password)
+    else
+      ldap_con = initialize_ldap_con(self.account, self.account_password)
+    end
     login_filter = Net::LDAP::Filter.eq( self.attr_login, login )
     object_filter = Net::LDAP::Filter.eq( "objectClass", "*" )
     attrs = {}
