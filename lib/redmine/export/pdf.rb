@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2011  Jean-Philippe Lang
+# Copyright (C) 2006-2012  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -472,7 +472,7 @@ module Redmine
         unless issue.leaf?
           # for CJK
           truncate_length = ( l(:general_pdf_encoding).upcase == "UTF-8" ? 90 : 65 )
-  
+
           pdf.SetFontStyle('B',9)
           pdf.RDMCell(35+155,5, l(:label_subtask_plural) + ":", "LTR")
           pdf.Ln
@@ -492,7 +492,7 @@ module Redmine
         unless relations.empty?
           # for CJK
           truncate_length = ( l(:general_pdf_encoding).upcase == "UTF-8" ? 80 : 60 )
-  
+
           pdf.SetFontStyle('B',9)
           pdf.RDMCell(35+155,5, l(:label_related_issues) + ":", "LTR")
           pdf.Ln
