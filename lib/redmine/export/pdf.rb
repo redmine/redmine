@@ -234,6 +234,157 @@ module Redmine
         end
       end
 
+      # fetch row values
+      def fetch_row_values(issue, query, level)
+        query.columns.collect do |column|
+          s = if column.is_a?(QueryCustomFieldColumn)
+            cv = issue.custom_field_values.detect {|v| v.custom_field_id == column.custom_field.id}
+            show_value(cv)
+          else
+            value = issue.send(column.name)
+            if column.name == :subject
+              value = "  " * level + value
+            end
+            if value.is_a?(Date)
+              format_date(value)
+            elsif value.is_a?(Time)
+              format_time(value)
+            else
+              value
+            end
+          end
+          s.to_s
+        end
+      end
+
+      # calculate columns width
+      def calc_col_width(issues, query, table_width, pdf)
+        # calculate statistics
+        #  by captions
+        pdf.SetFontStyle('B',8)
+        col_padding = pdf.GetStringWidth('OO')
+        col_width_min = query.columns.map {|v| pdf.GetStringWidth(v.caption) + col_padding}
+        col_width_max = Array.new(col_width_min)
+        col_width_avg = Array.new(col_width_min)
+        word_width_max = query.columns.map {|c|
+          n = 10
+          c.caption.split.each {|w|
+            x = pdf.GetStringWidth(w) + col_padding
+            n = x if n < x
+          }
+          n
+        }
+
+        #  by properties of issues
+        pdf.SetFontStyle('',8)
+        col_padding = pdf.GetStringWidth('OO')
+        k = 1
+        issue_list(issues) {|issue, level|
+          k += 1
+          values = fetch_row_values(issue, query, level)
+          values.each_with_index {|v,i|
+            n = pdf.GetStringWidth(v) + col_padding
+            col_width_max[i] = n if col_width_max[i] < n
+            col_width_min[i] = n if col_width_min[i] > n
+            col_width_avg[i] += n
+            v.split.each {|w|
+              x = pdf.GetStringWidth(w) + col_padding
+              word_width_max[i] = x if word_width_max[i] < x
+            }
+          }
+        }
+        col_width_avg.map! {|x| x / k}
+
+        # calculate columns width
+        ratio = table_width / col_width_avg.inject(0) {|s,w| s += w}
+        col_width = col_width_avg.map {|w| w * ratio}
+
+        # correct max word width if too many columns
+        ratio = table_width / word_width_max.inject(0) {|s,w| s += w}
+        word_width_max.map! {|v| v * ratio} if ratio < 1
+
+        # correct and lock width of some columns
+        done = 1
+        col_fix = []
+        col_width.each_with_index do |w,i|
+          if w > col_width_max[i]
+            col_width[i] = col_width_max[i]
+            col_fix[i] = 1
+            done = 0
+          elsif w < word_width_max[i]
+            col_width[i] = word_width_max[i]
+            col_fix[i] = 1
+            done = 0
+          else
+            col_fix[i] = 0
+          end
+        end
+
+        # iterate while need to correct and lock coluns width
+        while done == 0
+          # calculate free & locked columns width
+          done = 1
+          fix_col_width = 0
+          free_col_width = 0
+          col_width.each_with_index do |w,i|
+            if col_fix[i] == 1
+              fix_col_width += w
+            else
+              free_col_width += w
+            end
+          end
+
+          # calculate column normalizing ratio
+          if free_col_width == 0
+            ratio = table_width / col_width.inject(0) {|s,w| s += w}
+          else
+            ratio = (table_width - fix_col_width) / free_col_width
+          end
+
+          # correct columns width
+          col_width.each_with_index do |w,i|
+            if col_fix[i] == 0
+              col_width[i] = w * ratio
+
+              # check if column width less then max word width
+              if col_width[i] < word_width_max[i]
+                col_width[i] = word_width_max[i]
+                col_fix[i] = 1
+                done = 0
+              elsif col_width[i] > col_width_max[i]
+                col_width[i] = col_width_max[i]
+                col_fix[i] = 1
+                done = 0
+              end
+            end
+          end
+        end
+        col_width
+      end
+
+      def render_table_header(pdf, query, col_width, row_height, col_id_width, table_width)
+        # headers
+        pdf.SetFontStyle('B',8)
+        pdf.SetFillColor(230, 230, 230)
+
+        # render it background to find the max height used
+        base_x = pdf.GetX
+        base_y = pdf.GetY
+        max_height = issues_to_pdf_write_cells(pdf, query.columns, col_width, row_height, true)
+        pdf.Rect(base_x, base_y, table_width + col_id_width, max_height, 'FD');
+        pdf.SetXY(base_x, base_y);
+
+        # write the cells on page
+        pdf.RDMCell(col_id_width, row_height, "#", "T", 0, 'C', 1)
+        issues_to_pdf_write_cells(pdf, query.columns, col_width, row_height, true)
+        issues_to_pdf_draw_borders(pdf, base_x, base_y, base_y + max_height, col_id_width, col_width)
+        pdf.SetY(base_y + max_height);
+
+        # rows
+        pdf.SetFontStyle('',8)
+        pdf.SetFillColor(255, 255, 255)
+      end
+
       # Returns a PDF string of a list of issues
       def issues_to_pdf(issues, project, query)
         pdf = ITCPDF.new(current_language)
@@ -251,77 +402,36 @@ module Redmine
         right_margin  = 10
         bottom_margin = 20
         col_id_width  = 10
-        row_height    = 5
+        row_height    = 4
 
         # column widths
         table_width = page_width - right_margin - 10  # fixed left margin
         col_width = []
         unless query.columns.empty?
-          col_width = query.columns.collect do |c|
-            (c.name == :subject || (c.is_a?(QueryCustomFieldColumn) &&
-              ['string', 'text'].include?(c.custom_field.field_format))) ? 4.0 : 1.0
-          end
-          ratio = (table_width - col_id_width) / col_width.inject(0) {|s,w| s += w}
-          col_width = col_width.collect {|w| w * ratio}
+          col_width = calc_col_width(issues, query, table_width - col_id_width, pdf)
+          table_width = col_width.inject(0) {|s,v| s += v}
         end
 
         # title
         pdf.SetFontStyle('B',11)
         pdf.RDMCell(190,10, title)
         pdf.Ln
-
-        # headers
-        pdf.SetFontStyle('B',8)
-        pdf.SetFillColor(230, 230, 230)
-
-        # render it background to find the max height used
-        base_x = pdf.GetX
-        base_y = pdf.GetY
-        max_height = issues_to_pdf_write_cells(pdf, query.columns, col_width, row_height, true)
-        pdf.Rect(base_x, base_y, table_width, max_height, 'FD');
-        pdf.SetXY(base_x, base_y);
-
-        # write the cells on page
-        pdf.RDMCell(col_id_width, row_height, "#", "T", 0, 'C', 1)
-        issues_to_pdf_write_cells(pdf, query.columns, col_width, row_height, true)
-        issues_to_pdf_draw_borders(pdf, base_x, base_y, base_y + max_height, col_id_width, col_width)
-        pdf.SetY(base_y + max_height);
-
-        # rows
-        pdf.SetFontStyle('',8)
-        pdf.SetFillColor(255, 255, 255)
+        render_table_header(pdf, query, col_width, row_height, col_id_width, table_width)
         previous_group = false
         issue_list(issues) do |issue, level|
           if query.grouped? &&
                (group = query.group_by_column.value(issue)) != previous_group
-            pdf.SetFontStyle('B',9)
+            pdf.SetFontStyle('B',10)
             group_label = group.blank? ? 'None' : group.to_s
             group_label << " (#{query.issue_count_by_group[group]})"
             pdf.Bookmark group_label, 0, -1
-            pdf.RDMCell(277, row_height, group_label, 1, 1, 'L')
+            pdf.RDMCell(table_width + col_id_width, row_height * 2, group_label, 1, 1, 'L')
             pdf.SetFontStyle('',8)
             previous_group = group
           end
-          # fetch all the row values
-          col_values = query.columns.collect do |column|
-            s = if column.is_a?(QueryCustomFieldColumn)
-              cv = issue.custom_field_values.detect {|v| v.custom_field_id == column.custom_field.id}
-              show_value(cv)
-            else
-              value = issue.send(column.name)
-              if column.name == :subject
-                value = "  " * level + value
-              end
-              if value.is_a?(Date)
-                format_date(value)
-              elsif value.is_a?(Time)
-                format_time(value)
-              else
-                value
-              end
-            end
-            s.to_s
-          end
+
+          # fetch row values
+          col_values = fetch_row_values(issue, query, level)
 
           # render it off-page to find the max height used
           base_x = pdf.GetX
@@ -334,6 +444,7 @@ module Redmine
           space_left = page_height - base_y - bottom_margin
           if max_height > space_left
             pdf.AddPage("L")
+            render_table_header(pdf, query, col_width, row_height, col_id_width, table_width)
             base_x = pdf.GetX
             base_y = pdf.GetY
           end
