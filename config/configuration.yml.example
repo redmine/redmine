@@ -54,8 +54,8 @@
 #
 # ==== SMTP server at using TLS (GMail)
 #
-# This requires some additional configuration.  See the article at:
-# http://redmineblog.com/articles/setup-redmine-to-send-email-using-gmail/
+# This might require some additional configuration. See the guides at:
+# http://www.redmine.org/projects/redmine/wiki/EmailConfiguration
 #
 # production:
 #   email_delivery:
