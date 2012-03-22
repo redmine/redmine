@@ -241,7 +241,7 @@ nl:
   field_language: Taal
   field_last_login_on: Laatste bezoek
   field_lastname: Achternaam
-  field_login: Inloggen
+  field_login: Gebruikersnaam
   field_mail: E-mail
   field_mail_notification: Mail mededelingen
   field_max_length: Maximale lengte
