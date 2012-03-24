@@ -1,4 +1,4 @@
-<table style="border-collapse: collapse; border:0;">
+<table class="query-columns">
   <tr>
     <td style="padding-left:0">
       <%= label_tag "available_columns", l(:description_available_columns) %>
@@ -8,7 +8,7 @@
               :multiple => true, :size => 10, :style => "width:150px",
               :ondblclick => "moveOptions(this.form.available_columns, this.form.selected_columns);" %>
     </td>
-    <td align="center" valign="middle">
+    <td class="buttons">
       <input type="button" value="&#8594;"
        onclick="moveOptions(this.form.available_columns, this.form.selected_columns);" /><br />
       <input type="button" value="&#8592;"
@@ -22,7 +22,7 @@
               :id => 'selected_columns', :multiple => true, :size => 10, :style => "width:150px",
               :ondblclick => "moveOptions(this.form.selected_columns, this.form.available_columns);" %>
     </td>
-    <td align="center" valign="middle">
+    <td class="buttons">
       <input type="button" value="&#8593;" onclick="moveOptionUp(this.form.selected_columns);" /><br />
       <input type="button" value="&#8595;" onclick="moveOptionDown(this.form.selected_columns);" />
     </td>
