@@ -29,6 +29,14 @@ class AuthSourceLdap < AuthSource
 
   before_validation :strip_ldap_attributes
 
+  def self.human_attribute_name(attribute_key_name, *args)
+    attr_name = attribute_key_name.to_s
+    if attr_name == "filter"
+      attr_name = "ldap_filter"
+    end
+    super(attr_name, *args)
+  end
+
   def initialize(attributes=nil, *args)
     super
     self.port = 389 if self.port == 0
