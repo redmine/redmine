@@ -82,6 +82,15 @@ and you will have to use this reposman.rb command line to create repository :
 
   reposman.rb --redmine my.redmine.server --svn-dir /var/svn --owner www-data -u http://svn.server/svn-private/
 
+=head1 REPOSITORIES NAMING
+
+A projet repository must be named with the projet identifier. In case
+of multiple repositories for the same project, use the project identifier
+and the repository identifier separated with a dot:
+
+  /var/svn/foo
+  /var/svn/foo.otherrepo
+
 =head1 MIGRATION FROM OLDER RELEASES
 
 If you use an older reposman.rb (r860 or before), you need to change
@@ -399,7 +408,7 @@ sub get_project_identifier {
     my $r = shift;
 
     my $location = $r->location;
-    my ($identifier) = $r->uri =~ m{$location/*([^/]+)};
+    my ($identifier) = $r->uri =~ m{$location/*([^/.]+)};
     $identifier;
 }
 
