@@ -255,6 +255,17 @@ class ChangesetTest < ActiveSupport::TestCase
     assert_equal 'ecookbook:r520', c.text_tag(Project.find(2))
   end
 
+  def test_text_tag_revision_with_repository_identifier
+    r = Repository::Subversion.create!(
+          :project_id => 1,
+          :url     => 'svn://localhost/test',
+          :identifier => 'documents')
+    
+    c = Changeset.new(:revision => '520', :repository => r)
+    assert_equal 'documents|r520', c.text_tag
+    assert_equal 'ecookbook:documents|r520', c.text_tag(Project.find(2))
+  end
+
   def test_text_tag_hash
     c = Changeset.new(
           :scmid    => '7234cb2750b63f47bff735edc50a1c0a433c2518',

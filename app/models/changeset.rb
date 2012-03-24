@@ -157,6 +157,9 @@ class Changeset < ActiveRecord::Base
     else
       "r#{revision}"
     end
+    if repository && repository.identifier.present?
+      tag = "#{repository.identifier}|#{tag}"
+    end
     if ref_project && project && ref_project != project
       tag = "#{project.identifier}:#{tag}" 
     end
