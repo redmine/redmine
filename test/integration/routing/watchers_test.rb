@@ -24,6 +24,10 @@ class RoutingWatchersTest < ActionController::IntegrationTest
         { :controller => 'watchers', :action => 'new' }
       )
     assert_routing(
+        { :method => 'post', :path => "/watchers/append" },
+        { :controller => 'watchers', :action => 'append' }
+      )
+    assert_routing(
         { :method => 'post', :path => "/watchers" },
         { :controller => 'watchers', :action => 'create' }
       )

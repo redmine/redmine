@@ -124,6 +124,8 @@ ActionController::Routing::Routes.draw do |map|
               :conditions => {:method => :get}
   map.connect 'watchers', :controller=> 'watchers', :action => 'create',
               :conditions => {:method => :post}
+  map.connect 'watchers/append', :controller=> 'watchers', :action => 'append',
+              :conditions => {:method => :post}
   map.connect 'watchers/destroy', :controller=> 'watchers', :action => 'destroy',
               :conditions => {:method => :post}
   map.connect 'watchers/watch', :controller=> 'watchers', :action => 'watch',

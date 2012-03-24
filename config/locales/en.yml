@@ -844,6 +844,7 @@ en:
   label_copy_attachments: Copy attachments
   label_item_position: "%{position} of %{count}"
   label_completed_versions: Completed versions
+  label_search_for_watchers: Search for watchers to add
 
   button_login: Login
   button_submit: Submit

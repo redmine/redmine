@@ -1680,6 +1680,21 @@ class IssuesControllerTest < ActionController::TestCase
                                         :value => 'Value for field 2'}
   end
 
+  def test_post_create_with_failure_should_preserve_watchers
+    assert !User.find(8).member_of?(Project.find(1))
+
+    @request.session[:user_id] = 2
+    post :create, :project_id => 1,
+         :issue => {:tracker_id => 1,
+                    :watcher_user_ids => ['3', '8']}
+    assert_response :success
+    assert_template 'new'
+
+    assert_tag 'input', :attributes => {:name => 'issue[watcher_user_ids][]', :value => '2', :checked => nil}
+    assert_tag 'input', :attributes => {:name => 'issue[watcher_user_ids][]', :value => '3', :checked => 'checked'}
+    assert_tag 'input', :attributes => {:name => 'issue[watcher_user_ids][]', :value => '8', :checked => 'checked'}
+  end
+
   def test_post_create_should_ignore_non_safe_attributes
     @request.session[:user_id] = 2
     assert_nothing_raised do

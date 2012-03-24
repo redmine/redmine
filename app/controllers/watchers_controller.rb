@@ -64,6 +64,23 @@ class WatchersController < ApplicationController
     render :text => 'Watcher added.', :layout => true
   end
 
+  def append
+    if params[:watcher].is_a?(Hash)
+      user_ids = params[:watcher][:user_ids] || [params[:watcher][:user_id]]
+      users = User.active.find_all_by_id(user_ids)
+      respond_to do |format|
+        format.js do
+          render :update do |page|
+            users.each do |user|
+              page.select("#issue_watcher_user_ids_#{user.id}").each(&:hide)
+            end
+            page.insert_html :bottom, 'watchers_inputs', :text => watchers_checkboxes(nil, users, true)
+          end
+        end
+      end
+    end
+  end
+
   def destroy
     @watched.set_watcher(User.find(params[:user_id]), false) if request.post?
     respond_to do |format|
@@ -77,16 +94,23 @@ class WatchersController < ApplicationController
   end
 
   def autocomplete_for_user
-    @users = User.active.like(params[:q]).find(:all, :limit => 100) - @watched.watcher_users
+    @users = User.active.like(params[:q]).find(:all, :limit => 100)
+    if @watched
+      @user -= @watched.watcher_users
+    end
     render :layout => false
   end
 
 private
   def find_project
-    klass = Object.const_get(params[:object_type].camelcase)
-    return false unless klass.respond_to?('watched_by')
-    @watched = klass.find(params[:object_id])
-    @project = @watched.project
+    if params[:object_type] && params[:object_id]
+      klass = Object.const_get(params[:object_type].camelcase)
+      return false unless klass.respond_to?('watched_by')
+      @watched = klass.find(params[:object_id])
+      @project = @watched.project
+    elsif params[:project_id]
+      @project = Project.visible.find(params[:project_id])
+    end
   rescue
     render_404
   end

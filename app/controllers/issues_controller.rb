@@ -407,6 +407,7 @@ private
 
     @priorities = IssuePriority.active
     @allowed_statuses = @issue.new_statuses_allowed_to(User.current, true)
+    @available_watchers = (@issue.project.users.sort + @issue.watcher_users).uniq
   end
 
   def check_for_default_issue_status

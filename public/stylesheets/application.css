@@ -265,6 +265,12 @@ div.projects h3 { background: url(../images/projects.png) no-repeat 0% 50%; padd
 #watchers a.delete:hover {opacity: 1;}
 #watchers img.gravatar {margin: 0 4px 2px 0;}
 
+span#watchers_inputs {overflow:auto; display:block;}
+span.search_for_watchers {display:block;}
+span.search_for_watchers, span.add_attachment {font-size:80%; line-height:2.5em;}
+span.search_for_watchers a, span.add_attachment a {padding-left:16px; background: url(../images/bullet_add.png) no-repeat 0 50%; }
+
+
 .highlight { background-color: #FCFD8D;}
 .highlight.token-1 { background-color: #faa;}
 .highlight.token-2 { background-color: #afa;}
