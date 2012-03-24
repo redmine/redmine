@@ -31,7 +31,7 @@ class Changeset < ActiveRecord::Base
                           :join_table => "#{table_name_prefix}changeset_parents#{table_name_suffix}",
                           :association_foreign_key => 'changeset_id', :foreign_key => 'parent_id'
 
-  acts_as_event :title => Proc.new {|o| "#{l(:label_revision)} #{o.format_identifier}" + (o.short_comments.blank? ? '' : (': ' + o.short_comments))},
+  acts_as_event :title => Proc.new {|o| o.title},
                 :description => :long_comments,
                 :datetime => :committed_on,
                 :url => Proc.new {|o| {:controller => 'repositories', :action => 'revision', :id => o.repository.project, :repository_id => o.repository.identifier_param, :rev => o.identifier}}
@@ -164,6 +164,13 @@ class Changeset < ActiveRecord::Base
       tag = "#{project.identifier}:#{tag}" 
     end
     tag
+  end
+
+  # Returns the title used for the changeset in the activity/search results
+  def title
+    repo = (repository && repository.identifier.present?) ? " (#{repository.identifier})" : ''
+    comm = short_comments.blank? ? '' : (': ' + short_comments)
+    "#{l(:label_revision)} #{format_identifier}#{repo}#{comm}"
   end
 
   # Returns the previous changeset
