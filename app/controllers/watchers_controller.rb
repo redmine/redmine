@@ -72,7 +72,7 @@ class WatchersController < ApplicationController
         format.js do
           render :update do |page|
             users.each do |user|
-              page.select("#issue_watcher_user_ids_#{user.id}").each(&:hide)
+              page.select("#issue_watcher_user_ids_#{user.id}").each(&:remove)
             end
             page.insert_html :bottom, 'watchers_inputs', :text => watchers_checkboxes(nil, users, true)
           end
