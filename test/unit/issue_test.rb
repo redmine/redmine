@@ -530,6 +530,15 @@ class IssueTest < ActiveSupport::TestCase
     assert issue.save
   end
 
+  def test_allowed_target_projects_on_move_should_include_projects_with_issue_tracking_enabled
+    assert_include Project.find(2), Issue.allowed_target_projects_on_move(User.find(2))
+  end
+
+  def test_allowed_target_projects_on_move_should_not_include_projects_with_issue_tracking_disabled
+    Project.find(2).disable_module! :issue_tracking
+    assert_not_include Project.find(2), Issue.allowed_target_projects_on_move(User.find(2))
+  end
+
   def test_move_to_another_project_with_same_category
     issue = Issue.find(1)
     issue.project = Project.find(2)
@@ -1170,22 +1179,6 @@ class IssueTest < ActiveSupport::TestCase
     # Private descendant not visible
     assert_equal 1, groups.size
     assert_equal 2, groups.inject(0) {|sum, group| sum + group['total'].to_i}
-  end
-
-  context ".allowed_target_projects_on_move" do
-    should "return all active projects for admin users" do
-      User.current = User.find(1)
-      assert_equal Project.active.count, Issue.allowed_target_projects_on_move.size
-    end
-
-    should "return allowed projects for non admin users" do
-      User.current = User.find(2)
-      Role.non_member.remove_permission! :move_issues
-      assert_equal 3, Issue.allowed_target_projects_on_move.size
-
-      Role.non_member.add_permission! :move_issues
-      assert_equal Project.active.count, Issue.allowed_target_projects_on_move.size
-    end
   end
 
   def test_recently_updated_with_limit_scopes

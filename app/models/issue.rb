@@ -800,18 +800,7 @@ class Issue < ActiveRecord::Base
 
   # Returns an array of projects that user can move issues to
   def self.allowed_target_projects_on_move(user=User.current)
-    projects = []
-    if user.admin?
-      # admin is allowed to move issues to any active (visible) project
-      projects = Project.visible(user).all
-    elsif user.logged?
-      if Role.non_member.allowed_to?(:move_issues)
-        projects = Project.visible(user).all
-      else
-        user.memberships.each {|m| projects << m.project if m.roles.detect {|r| r.allowed_to?(:move_issues)}}
-      end
-    end
-    projects
+    Project.all(:conditions => Project.allowed_to_condition(user, :move_issues))
   end
 
   private
