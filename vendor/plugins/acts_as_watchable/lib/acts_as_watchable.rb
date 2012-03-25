@@ -9,8 +9,6 @@ module Redmine
       module ClassMethods
         def acts_as_watchable(options = {})
           return if self.included_modules.include?(Redmine::Acts::Watchable::InstanceMethods)
-          send :include, Redmine::Acts::Watchable::InstanceMethods
-
           class_eval do
             has_many :watchers, :as => :watchable, :dependent => :delete_all
             has_many :watcher_users, :through => :watchers, :source => :user, :validate => false
@@ -21,6 +19,8 @@ module Redmine
             }
             attr_protected :watcher_ids, :watcher_user_ids
           end
+          send :include, Redmine::Acts::Watchable::InstanceMethods
+          alias_method_chain :watcher_user_ids=, :uniq_ids
         end
       end
 
@@ -52,6 +52,14 @@ module Redmine
         # Adds/removes watcher
         def set_watcher(user, watching=true)
           watching ? add_watcher(user) : remove_watcher(user)
+        end
+
+        # Overrides watcher_user_ids= to make user_ids uniq
+        def watcher_user_ids_with_uniq_ids=(user_ids)
+          if user_ids.is_a?(Array)
+            user_ids = user_ids.uniq
+          end
+          send :watcher_user_ids_without_uniq_ids=, user_ids
         end
 
         # Returns true if object is watched by +user+

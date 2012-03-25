@@ -81,6 +81,13 @@ class WatcherTest < ActiveSupport::TestCase
     assert issue.watched_by?(User.find(1))
   end
 
+  def test_watcher_user_ids_should_make_ids_uniq
+    issue = Issue.new(:project => Project.find(1), :tracker_id => 1, :subject => "test", :author => User.find(2))
+    issue.watcher_user_ids = ['1', '3', '1']
+    issue.save!
+    assert_equal 2, issue.watchers.count
+  end
+
   def test_addable_watcher_users
     addable_watcher_users = @issue.addable_watcher_users
     assert_kind_of Array, addable_watcher_users
