@@ -82,7 +82,7 @@ module Redmine
           return @branches if @branches
           @branches = []
           cmd_args = %w|branch --no-color --verbose --no-abbrev|
-          scm_cmd(*cmd_args) do |io|
+          git_cmd(cmd_args) do |io|
             io.each_line do |line|
               branch_rev = line.match('\s*(\*?)\s*(.*?)\s*([0-9a-f]{40}).*$')
               bran = GitBranch.new(branch_rev[2])
@@ -100,7 +100,7 @@ module Redmine
         def tags
           return @tags if @tags
           cmd_args = %w|tag|
-          scm_cmd(*cmd_args) do |io|
+          git_cmd(cmd_args) do |io|
             @tags = io.readlines.sort!.map{|t| t.strip}
           end
         rescue ScmCommandAborted
@@ -138,7 +138,7 @@ module Redmine
           cmd_args = %w|ls-tree -l|
           cmd_args << "HEAD:#{p}"          if identifier.nil?
           cmd_args << "#{identifier}:#{p}" if identifier
-          scm_cmd(*cmd_args) do |io|
+          git_cmd(cmd_args) do |io|
             io.each_line do |line|
               e = line.chomp.to_s
               if e =~ /^\d+\s+(\w+)\s+([0-9a-f]{40})\s+([0-9-]+)\t(.+)$/
@@ -173,7 +173,7 @@ module Redmine
           cmd_args << rev if rev
           cmd_args << "--" << path unless path.empty?
           lines = []
-          scm_cmd(*cmd_args) { |io| lines = io.readlines }
+          git_cmd(cmd_args) { |io| lines = io.readlines }
           begin
               id = lines[0].split[1]
               author = lines[1].match('Author:\s+(.*)$')[1]
@@ -214,7 +214,7 @@ module Redmine
           end
           cmd_args << "--" << scm_iconv(@path_encoding, 'UTF-8', path) if path && !path.empty?
 
-          scm_cmd *cmd_args do |io|
+          git_cmd(cmd_args) do |io|
             files=[]
             changeset = {}
             parsing_descr = 0  #0: not parsing desc or files, 1: parsing desc, 2: parsing files
@@ -317,7 +317,7 @@ module Redmine
           end
           cmd_args << "--" <<  scm_iconv(@path_encoding, 'UTF-8', path) unless path.empty?
           diff = []
-          scm_cmd *cmd_args do |io|
+          git_cmd(cmd_args) do |io|
             io.each_line do |line|
               diff << line
             end
@@ -333,7 +333,7 @@ module Redmine
           cmd_args << "-p" << identifier << "--" <<  scm_iconv(@path_encoding, 'UTF-8', path)
           blame = Annotate.new
           content = nil
-          scm_cmd(*cmd_args) { |io| io.binmode; content = io.read }
+          git_cmd(cmd_args) { |io| io.binmode; content = io.read }
           # git annotates binary files
           return nil if content.is_binary_data?
           identifier = ''
@@ -367,7 +367,7 @@ module Redmine
           cmd_args = %w|show --no-color|
           cmd_args << "#{identifier}:#{scm_iconv(@path_encoding, 'UTF-8', path)}"
           cat = nil
-          scm_cmd(*cmd_args) do |io|
+          git_cmd(cmd_args) do |io|
             io.binmode
             cat = io.read
           end
@@ -383,7 +383,7 @@ module Redmine
           end
         end
 
-        def scm_cmd(*args, &block)
+        def git_cmd(args, &block)
           repo_path = root_url || url
           full_args = ['--git-dir', repo_path]
           if self.class.client_version_above?([1, 7, 2])
@@ -400,7 +400,7 @@ module Redmine
           end
           ret
         end
-        private :scm_cmd
+        private :git_cmd
       end
     end
   end
