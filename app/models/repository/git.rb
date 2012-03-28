@@ -107,8 +107,7 @@ class Repository::Git < Repository
   # However, Git does not have a sequential commit numbering.
   #
   # In order to fetch only new adding revisions,
-  # Redmine needs to parse revisions per branch.
-  # Branch "last_scmid" is for this requirement.
+  # Redmine needs to save "heads".
   #
   # In Git and Mercurial, revisions are not in date order.
   # Redmine Mercurial fixed issues.
@@ -131,9 +130,17 @@ class Repository::Git < Repository
   def fetch_changesets
     scm_brs = branches
     return if scm_brs.nil? || scm_brs.empty?
+
     h1 = extra_info || {}
     h  = h1.dup
-    h["branches"]       ||= {}
+    repo_heads = scm_brs.map{ |br| br.scmid }
+    h["heads"] ||= []
+    prev_db_heads = h["heads"].dup
+    if prev_db_heads.empty?
+      prev_db_heads += heads_from_branches_hash
+    end
+    return if prev_db_heads.sort == repo_heads.sort
+
     h["db_consistent"]  ||= {}
     if changesets.count == 0
       h["db_consistent"]["ordering"] = 1
@@ -144,31 +151,18 @@ class Repository::Git < Repository
       merge_extra_info(h)
       self.save
     end
-    save_revisions(h, scm_brs)
+    save_revisions(prev_db_heads, repo_heads)
   end
 
-  def save_revisions(h, scm_brs)
-    # Remember what revisions we already processed (in any branches)
-    all_revisions = []
-    scm_brs.each do |br1|
-      br = br1.to_s
-      last_revision = nil
-      from_scmid = nil
-      from_scmid = h["branches"][br]["last_scmid"] if h["branches"][br]
-      h["branches"][br] ||= {}
+  def save_revisions(prev_db_heads, repo_heads)
+      h = {}
+      opts = {}
+      opts[:reverse]  = true
+      opts[:excludes] = prev_db_heads
+      opts[:includes] = repo_heads
 
-      revisions = scm.revisions('', from_scmid, br, {:reverse => true})
-      next if revisions.blank?
-
-      # Remember the last commit id here, before we start removing revisions from the array.
-      # We'll do that for optimization, but it also means, that we may lose even all revisions.
-      last_revision  = revisions.last
-
-      # remove revisions that we have already processed (possibly in other branches)
-      revisions.reject!{|r| all_revisions.include?(r.scmid)}
-      # add revisions that we are to parse now to 'all processed revisions'
-      # (this equals to a union, because we executed diff above)
-      all_revisions += revisions.map{|r| r.scmid}
+      revisions = scm.revisions('', nil, nil, opts)
+      return if revisions.blank?
 
       # Make the search for existing revisions in the database in a more sufficient manner
       # This is replacing the one-after-one queries.
@@ -206,18 +200,11 @@ class Repository::Git < Repository
           parents.each do |ch, chparents|
             ch.parents = chparents.collect{|rp| find_changeset_by_name(rp)}.compact
           end
-          # saving the last scmid was moved from here, because we won't come in here,
-          # if the revision was already added for another branch
         end
       end
-
-      # save the data about the last revision for this branch
-      unless last_revision.nil?
-        h["branches"][br]["last_scmid"] = last_revision.scmid
-        merge_extra_info(h)
-        self.save
-      end
-    end
+      h["heads"] = repo_heads.dup
+      merge_extra_info(h)
+      self.save
   end
   private :save_revisions
 
