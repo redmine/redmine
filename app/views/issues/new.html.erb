@@ -24,19 +24,19 @@
       <p id="watchers_form"><label><%= l(:label_issue_watchers) %></label>
       <span id="watchers_inputs">
         <%= watchers_checkboxes(@issue, @available_watchers) %>
-			</span>
-			<span class="search_for_watchers">
+      </span>
+      <span class="search_for_watchers">
       <%= link_to_remote l(:label_search_for_watchers),
                    :url => {:controller => 'watchers', :action => 'new', :project_id => @issue.project},
                    :method => 'get' %>
-			</span>
-			</p>
+      </span>
+      </p>
     <% end %>
   </div>
 
-    <%= submit_tag l(:button_create) %>
-    <%= submit_tag l(:button_create_and_continue), :name => 'continue' %>
-    <%= link_to_remote l(:label_preview),
+  <%= submit_tag l(:button_create) %>
+  <%= submit_tag l(:button_create_and_continue), :name => 'continue' %>
+  <%= link_to_remote l(:label_preview),
                        { :url => preview_new_issue_path(:project_id => @project),
                          :method => 'post',
                          :update => 'preview',
@@ -44,7 +44,7 @@
                          :complete => "Element.scrollTo('preview')"
                        }, :accesskey => accesskey(:preview) %>
 
-    <%= javascript_tag "Form.Element.focus('issue_subject');" %>
+  <%= javascript_tag "Form.Element.focus('issue_subject');" %>
 <% end %>
 
 <div id="preview" class="wiki"></div>
