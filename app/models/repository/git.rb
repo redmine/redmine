@@ -155,56 +155,56 @@ class Repository::Git < Repository
   end
 
   def save_revisions(prev_db_heads, repo_heads)
-      h = {}
-      opts = {}
-      opts[:reverse]  = true
-      opts[:excludes] = prev_db_heads
-      opts[:includes] = repo_heads
+    h = {}
+    opts = {}
+    opts[:reverse]  = true
+    opts[:excludes] = prev_db_heads
+    opts[:includes] = repo_heads
 
-      revisions = scm.revisions('', nil, nil, opts)
-      return if revisions.blank?
+    revisions = scm.revisions('', nil, nil, opts)
+    return if revisions.blank?
 
-      # Make the search for existing revisions in the database in a more sufficient manner
-      # This is replacing the one-after-one queries.
-      # Find all revisions, that are in the database, and then remove them from the revision array.
-      # Then later we won't need any conditions for db existence.
-      # Query for several revisions at once, and remove them from the revisions array, if they are there.
-      # Do this in chunks, to avoid eventual memory problems (in case of tens of thousands of commits).
-      # If there are no revisions (because the original code's algoritm filtered them),
-      # then this part will be stepped over.
-      # We make queries, just if there is any revision.
-      limit = 100
-      offset = 0
-      revisions_copy = revisions.clone # revisions will change
-      while offset < revisions_copy.size
-        recent_changesets_slice = changesets.find(
+    # Make the search for existing revisions in the database in a more sufficient manner
+    # This is replacing the one-after-one queries.
+    # Find all revisions, that are in the database, and then remove them from the revision array.
+    # Then later we won't need any conditions for db existence.
+    # Query for several revisions at once, and remove them from the revisions array, if they are there.
+    # Do this in chunks, to avoid eventual memory problems (in case of tens of thousands of commits).
+    # If there are no revisions (because the original code's algoritm filtered them),
+    # then this part will be stepped over.
+    # We make queries, just if there is any revision.
+    limit = 100
+    offset = 0
+    revisions_copy = revisions.clone # revisions will change
+    while offset < revisions_copy.size
+      recent_changesets_slice = changesets.find(
                                      :all,
                                      :conditions => [
                                         'scmid IN (?)',
                                         revisions_copy.slice(offset, limit).map{|x| x.scmid}
                                       ]
                                     )
-        # Subtract revisions that redmine already knows about
-        recent_revisions = recent_changesets_slice.map{|c| c.scmid}
-        revisions.reject!{|r| recent_revisions.include?(r.scmid)}
-        offset += limit
-      end
+      # Subtract revisions that redmine already knows about
+      recent_revisions = recent_changesets_slice.map{|c| c.scmid}
+      revisions.reject!{|r| recent_revisions.include?(r.scmid)}
+      offset += limit
+    end
 
-      revisions.each do |rev|
-        transaction do
-          # There is no search in the db for this revision, because above we ensured,
-          # that it's not in the db.
-          db_saved_rev = save_revision(rev)
-          parents = {}
-          parents[db_saved_rev] = rev.parents unless rev.parents.nil?
-          parents.each do |ch, chparents|
-            ch.parents = chparents.collect{|rp| find_changeset_by_name(rp)}.compact
-          end
+    revisions.each do |rev|
+      transaction do
+        # There is no search in the db for this revision, because above we ensured,
+        # that it's not in the db.
+        db_saved_rev = save_revision(rev)
+        parents = {}
+        parents[db_saved_rev] = rev.parents unless rev.parents.nil?
+        parents.each do |ch, chparents|
+          ch.parents = chparents.collect{|rp| find_changeset_by_name(rp)}.compact
         end
       end
-      h["heads"] = repo_heads.dup
-      merge_extra_info(h)
-      self.save
+    end
+    h["heads"] = repo_heads.dup
+    merge_extra_info(h)
+    self.save
   end
   private :save_revisions
 
