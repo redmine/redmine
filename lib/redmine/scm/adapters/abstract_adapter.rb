@@ -206,15 +206,15 @@ module Redmine
           self.class.logger
         end
 
-        def shellout(cmd, &block)
-          self.class.shellout(cmd, &block)
+        def shellout(cmd, options = {}, &block)
+          self.class.shellout(cmd, options, &block)
         end
 
         def self.logger
           Rails.logger
         end
 
-        def self.shellout(cmd, &block)
+        def self.shellout(cmd, options = {}, &block)
           if logger && logger.debug?
             logger.debug "Shelling out: #{strip_credential(cmd)}"
           end
@@ -226,7 +226,7 @@ module Redmine
             mode = "r+"
             IO.popen(cmd, mode) do |io|
               io.set_encoding("ASCII-8BIT") if io.respond_to?(:set_encoding)
-              io.close_write
+              io.close_write unless options[:write_stdin]
               block.call(io) if block_given?
             end
           ## If scm command does not exist,

@@ -197,24 +197,28 @@ module Redmine
 
         def revisions(path, identifier_from, identifier_to, options={})
           revs = Revisions.new
-          cmd_args = %w|log --no-color --encoding=UTF-8 --raw --date=iso --pretty=fuller --parents|
+          cmd_args = %w|log --no-color --encoding=UTF-8 --raw --date=iso --pretty=fuller --parents --stdin|
           cmd_args << "--reverse" if options[:reverse]
           cmd_args << "-n" << "#{options[:limit].to_i}" if options[:limit]
-          from_to = ""
+          cmd_args << "--" << scm_iconv(@path_encoding, 'UTF-8', path) if path && !path.empty?
+          revisions = []
           if identifier_from || identifier_to
-            from_to << "#{identifier_from}.." if identifier_from
-            from_to << "#{identifier_to}" if identifier_to
-            cmd_args << from_to if !from_to.empty?
+            revisions << ""
+            revisions[0] << "#{identifier_from}.." if identifier_from
+            revisions[0] << "#{identifier_to}" if identifier_to
           else
-            cmd_args += options[:includes] unless options[:includes].blank?
+            unless options[:includes].blank?
+              revisions += options[:includes]
+            end
             unless options[:excludes].blank?
-              cmd_args << "--not"
-              cmd_args += options[:excludes]
+              revisions += options[:excludes].map{|r| "^#{r}"}
             end
           end
-          cmd_args << "--" << scm_iconv(@path_encoding, 'UTF-8', path) if path && !path.empty?
 
-          git_cmd(cmd_args) do |io|
+          git_cmd(cmd_args, {:write_stdin => true}) do |io|
+            io.binmode
+            io.puts(revisions.join("\n"))
+            io.close_write
             files=[]
             changeset = {}
             parsing_descr = 0  #0: not parsing desc or files, 1: parsing desc, 2: parsing files
@@ -383,7 +387,7 @@ module Redmine
           end
         end
 
-        def git_cmd(args, &block)
+        def git_cmd(args, options = {}, &block)
           repo_path = root_url || url
           full_args = ['--git-dir', repo_path]
           if self.class.client_version_above?([1, 7, 2])
@@ -393,6 +397,7 @@ module Redmine
           full_args += args
           ret = shellout(
                    self.class.sq_bin + ' ' + full_args.map { |e| shell_quote e.to_s }.join(' '),
+                   options,
                    &block
                    )
           if $? && $?.exitstatus != 0
