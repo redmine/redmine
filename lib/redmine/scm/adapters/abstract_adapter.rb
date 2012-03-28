@@ -223,12 +223,9 @@ module Redmine
             cmd = "#{cmd} 2>>#{shell_quote(Rails.root.join('log/scm.stderr.log').to_s)}"
           end
           begin
-            if RUBY_VERSION < '1.9'
-              mode = "r+"
-            else
-              mode = "r+:ASCII-8BIT"
-            end
+            mode = "r+"
             IO.popen(cmd, mode) do |io|
+              io.set_encoding("ASCII-8BIT") if io.respond_to?(:set_encoding)
               io.close_write
               block.call(io) if block_given?
             end
