@@ -190,14 +190,14 @@ class RepositoryGitTest < ActiveSupport::TestCase
       @project.reload
       assert_equal NUM_REV - 5, @repository.changesets.count
 
-      extra_info_heads << "abcd1234efgh"
+      extra_info_heads << "1234abcd5678"
       h = {}
       h["heads"] = extra_info_heads
       @repository.merge_extra_info(h)
       @repository.save
       @project.reload
       h1 = @repository.extra_info["heads"].dup
-      assert h1.index("abcd1234efgh")
+      assert h1.index("1234abcd5678")
       assert_equal 5, h1.size
 
       @repository.fetch_changesets
