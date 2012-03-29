@@ -208,12 +208,7 @@ class Repository::Git < Repository
       transaction do
         # There is no search in the db for this revision, because above we ensured,
         # that it's not in the db.
-        db_saved_rev = save_revision(rev)
-        parents = {}
-        parents[db_saved_rev] = rev.parents unless rev.parents.nil?
-        parents.each do |ch, chparents|
-          ch.parents = chparents.collect{|rp| find_changeset_by_name(rp)}.compact
-        end
+        save_revision(rev)
       end
     end
     h["heads"] = repo_heads.dup
@@ -223,7 +218,7 @@ class Repository::Git < Repository
   private :save_revisions
 
   def save_revision(rev)
-    changeset = Changeset.new(
+    changeset = Changeset.create(
               :repository   => self,
               :revision     => rev.identifier,
               :scmid        => rev.scmid,
@@ -231,12 +226,12 @@ class Repository::Git < Repository
               :committed_on => rev.time,
               :comments     => rev.message
               )
-    if changeset.save
-      rev.paths.each do |file|
-        Change.create(
-                  :changeset => changeset,
-                  :action    => file[:action],
-                  :path      => file[:path])
+    unless changeset.new_record?
+      rev.paths.each { |change| changeset.create_change(change) }
+      parents = {}
+      parents[changeset] = rev.parents unless rev.parents.nil?
+      parents.each do |ch, chparents|
+        ch.parents = chparents.collect{|rp| find_changeset_by_name(rp)}.compact
       end
     end
     changeset
