@@ -165,6 +165,20 @@ class Repository::Git < Repository
     return if revisions.blank?
 
     # Make the search for existing revisions in the database in a more sufficient manner
+    #
+    # Git branch is the reference to the specific revision.
+    # Git can *delete* remote branch and *re-push* branch.
+    #
+    #  $ git push remote :branch
+    #  $ git push remote branch
+    #
+    # After deleting branch, revisions remain in repository until "git gc".
+    # On git 1.7.2.3, default pruning date is 2 weeks.
+    # So, "git log --not deleted_branch_head_revision" return code is 0.
+    #
+    # After re-pushing branch, "git log" returns revisions which are saved in database.
+    # So, Redmine needs to scan revisions and database every time.
+    #
     # This is replacing the one-after-one queries.
     # Find all revisions, that are in the database, and then remove them from the revision array.
     # Then later we won't need any conditions for db existence.
