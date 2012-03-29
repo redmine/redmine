@@ -170,7 +170,7 @@ class Repository::Git < Repository
     # Then later we won't need any conditions for db existence.
     # Query for several revisions at once, and remove them from the revisions array, if they are there.
     # Do this in chunks, to avoid eventual memory problems (in case of tens of thousands of commits).
-    # If there are no revisions (because the original code's algoritm filtered them),
+    # If there are no revisions (because the original code's algorithm filtered them),
     # then this part will be stepped over.
     # We make queries, just if there is any revision.
     limit = 100
