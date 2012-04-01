@@ -25,7 +25,6 @@ class RedminePluginGenerator < Rails::Generator::NamedBase
 
       m.template 'README.rdoc',    "#{plugin_path}/README.rdoc"
       m.template 'init.rb.erb',   "#{plugin_path}/init.rb"
-      m.template 'en.yml',    "#{plugin_path}/lang/en.yml"
       m.template 'en_rails_i18n.yml',    "#{plugin_path}/config/locales/en.yml"
       m.template 'test_helper.rb.erb',    "#{plugin_path}/test/test_helper.rb"
     end
