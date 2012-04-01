@@ -3,7 +3,7 @@ require 'rails_generator/generators/components/model/model_generator'
 
 class RedminePluginModelGenerator < ModelGenerator
   attr_accessor :plugin_path, :plugin_name, :plugin_pretty_name
-  
+
   def initialize(runtime_args, runtime_options = {})
     runtime_args = runtime_args.dup
     usage if runtime_args.empty?
@@ -12,11 +12,11 @@ class RedminePluginModelGenerator < ModelGenerator
     @plugin_path = "vendor/plugins/#{plugin_name}"
     super(runtime_args, runtime_options)
   end
-  
+
   def destination_root
     File.join(Rails.root, plugin_path)
   end
-  
+
   def manifest
     record do |m|
       # Check for class naming collisions.
@@ -31,7 +31,7 @@ class RedminePluginModelGenerator < ModelGenerator
       m.template 'model.rb.erb',      File.join('app/models', class_path, "#{file_name}.rb")
       m.template 'unit_test.rb.erb',  File.join('test/unit', class_path, "#{file_name}_test.rb")
 
-      unless options[:skip_fixture] 
+      unless options[:skip_fixture]
        	m.template 'fixtures.yml',  File.join('test/fixtures', "#{table_name}.yml")
       end
 
