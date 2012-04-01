@@ -24,7 +24,7 @@ Redmine::Plugin.register :sample_plugin do
 
   # A new item is added to the project menu
   menu :project_menu, :sample_plugin, { :controller => 'example', :action => 'say_hello' }, :caption => 'Sample'
-  
+
   # Meetings are added to the activity view
   activity_provider :meetings
 end
