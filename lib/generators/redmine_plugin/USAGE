@@ -13,7 +13,9 @@ Example:
       create  vendor/plugins/redmine_meetings/assets/javascripts
       create  vendor/plugins/redmine_meetings/assets/stylesheets
       create  vendor/plugins/redmine_meetings/lang
-      create  vendor/plugins/redmine_meetings/README
+      create  vendor/plugins/redmine_meetings/config/locales
+      create  vendor/plugins/redmine_meetings/test
+      create  vendor/plugins/redmine_meetings/README.rdoc
       create  vendor/plugins/redmine_meetings/init.rb
       create  vendor/plugins/redmine_meetings/config/locales/en.yml
       create  vendor/plugins/redmine_meetings/test/test_helper.rb
