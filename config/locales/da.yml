@@ -1041,3 +1041,4 @@ da:
   text_issue_conflict_resolution_cancel: Discard all my changes and redisplay %{link}
   permission_manage_related_issues: Manage related issues
   field_ldap_filter: LDAP filter
+  label_search_for_watchers: Search for watchers to add

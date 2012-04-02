@@ -1040,3 +1040,4 @@ et:
   label_completed_versions: "Lõpetatud versioonid"
   error_attachment_too_big: "Seda faili ei saa üles laadida, kuna ületab maksimumsuurust (%{max_size})"
   field_ldap_filter: LDAP filter
+  label_search_for_watchers: Search for watchers to add
