@@ -270,6 +270,9 @@ ActionController::Routing::Routes.draw do |map|
       repository_views.connect 'projects/:id/repository/:repository_id/show/*path',
                                :requirements => { :path => /.+/ }
 
+      repository_views.connect 'projects/:id/repository/:repository_id/revision',
+                               :action => 'revision'
+
       repository_views.connect 'projects/:id/repository/revisions',
                                :action => 'revisions'
       repository_views.connect 'projects/:id/repository/revisions.:format',
@@ -296,13 +299,12 @@ ActionController::Routing::Routes.draw do |map|
       repository_views.connect 'projects/:id/repository/:action/*path',
                                :requirements => { :action => /(browse|show|entry|changes|annotate|diff)/ }
 
+      repository_views.connect 'projects/:id/repository/revision',
+                               :action => 'revision'
+
       repository_views.connect 'projects/:id/repository/:repository_id',
                                :action => 'show'
     end
-
-    repositories.connect 'projects/:id/repository/revision',
-                         :action => 'revision',
-                         :conditions => {:method => [:get, :post]}
   end
 
   # additional routes for having the file name at the end of url
