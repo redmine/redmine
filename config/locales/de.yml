@@ -1018,30 +1018,30 @@ de:
 
   label_parent_revision: Parent
   label_child_revision: Child
-  error_scm_annotate_big_text_file: The entry cannot be annotated, as it exceeds the maximum text file size.
-  setting_default_issue_start_date_to_creation_date: Use current date as start date for new issues
-  button_edit_section: Edit this section
-  setting_repositories_encodings: Attachments and repositories encodings
-  description_all_columns: All Columns
-  button_export: Export
-  label_export_options: "%{export_format} export options"
-  error_attachment_too_big: This file cannot be uploaded because it exceeds the maximum allowed file size (%{max_size})
-  notice_failed_to_save_time_entries: "Failed to save %{count} time entrie(s) on %{total} selected: %{ids}."
+  error_scm_annotate_big_text_file: Der Eintrag kann nicht umgesetzt werden, da er die maximale Textlänge überschreitet.
+  setting_default_issue_start_date_to_creation_date: Aktuelles Datum als Beginn für neue Tickets verwenden
+  button_edit_section: Diesen Bereich bearbeiten
+  setting_repositories_encodings: Encoding von Anhängen und Repositories
+  description_all_columns: Alle Spalten
+  button_export: Exportieren
+  label_export_options: "%{export_format} Export-Eigenschaften"
+  error_attachment_too_big: Diese Datei kann nicht hochgeladen werden, da sie die maximale Dateigröße von (%{max_size}) überschreitet.
+  notice_failed_to_save_time_entries: "Gescheitert %{count} Zeiteinträge für %{total} von ausgewählten: %{ids} zu speichern." 
   label_x_issues:
-    zero:  0 ticket
-    one:   1 ticket
-    other: "%{count} tickets"
-  label_repository_new: New repository
-  field_repository_is_default: Main repository
-  label_copy_attachments: Copy attachments
+    zero:  0 Tickets
+    one:   1 Ticket
+    other: "%{count} Tickets"
+  label_repository_new: Neues Repository
+  field_repository_is_default: Haupt-Repository
+  label_copy_attachments: Anhänge Kopieren
   label_item_position: "%{position}/%{count}"
-  label_completed_versions: Completed versions
-  field_multiple: Multiple values
-  setting_commit_cross_project_ref: Allow issues of all the other projects to be referenced and fixed
-  text_issue_conflict_resolution_add_notes: Add my notes and discard my other changes
-  text_issue_conflict_resolution_overwrite: Apply my changes anyway (previous notes will be kept but some changes may be overwritten)
-  notice_issue_update_conflict: The issue has been updated by an other user while you were editing it.
-  text_issue_conflict_resolution_cancel: Discard all my changes and redisplay %{link}
-  permission_manage_related_issues: Manage related issues
-  field_ldap_filter: LDAP filter
-  label_search_for_watchers: Search for watchers to add
+  label_completed_versions: Abgeschlossene Versionen
+  field_multiple: Mehrer Werte
+  setting_commit_cross_project_ref: Erlauben auf Tickets aller anderen Projekte zu referenzieren
+  text_issue_conflict_resolution_add_notes: Meine Änderungen übernehmen und alle anderen Änderungen verwerfen
+  text_issue_conflict_resolution_overwrite: Meine Änderungen trotzdem übernehmen (vorherige Notizen bleiben erhalten aber manche können überschrieben werden)
+  notice_issue_update_conflict: Das Ticket wurde von einem anderen Nutzer überarbeitet während Ihrer Bearbeitung.
+  text_issue_conflict_resolution_cancel: Meine Änderungen verwerfen und %{link} neu anzeigen
+  permission_manage_related_issues: Zugehörige Tickets verwalten
+  field_ldap_filter: LDAP Filter
+  label_search_for_watchers: Nach hinzufügbaren Beobachtern suchen
