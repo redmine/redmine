@@ -5,12 +5,12 @@
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -42,12 +42,12 @@ module Redmine
         def self.included(base)
           base.extend ClassMethods
         end
-        
+
         def available_custom_fields
           CustomField.find(:all, :conditions => "type = '#{self.class.name}CustomField'",
                                  :order => 'position')
         end
-        
+
         # Sets the values of the object's custom fields
         # values is an array like [{'id' => 1, 'value' => 'foo'}, {'id' => 2, 'value' => 'bar'}]
         def custom_fields=(values)
@@ -65,7 +65,7 @@ module Redmine
         # values is a hash like {'1' => 'foo', 2 => 'bar'}
         def custom_field_values=(values)
           values = values.stringify_keys
-          
+
           custom_field_values.each do |custom_field_value|
             key = custom_field_value.custom_field_id.to_s
             if values.has_key?(key)
@@ -81,7 +81,7 @@ module Redmine
           end
           @custom_field_values_changed = true
         end
-        
+
         def custom_field_values
           @custom_field_values ||= available_custom_fields.collect do |field|
             x = CustomFieldValue.new
@@ -101,31 +101,31 @@ module Redmine
             x
           end
         end
-        
+
         def visible_custom_field_values
           custom_field_values.select(&:visible?)
         end
-        
+
         def custom_field_values_changed?
           @custom_field_values_changed == true
         end
-        
+
         def custom_value_for(c)
           field_id = (c.is_a?(CustomField) ? c.id : c.to_i)
           custom_values.detect {|v| v.custom_field_id == field_id }
         end
-        
+
         def custom_field_value(c)
           field_id = (c.is_a?(CustomField) ? c.id : c.to_i)
           custom_field_values.detect {|v| v.custom_field_id == field_id }.try(:value)
         end
-        
+
         def validate_custom_field_values
           if new_record? || custom_field_values_changed?
             custom_field_values.each(&:validate_value)
           end
         end
-        
+
         def save_custom_field_values
           target_custom_values = []
           custom_field_values.each do |custom_field_value|
@@ -147,12 +147,12 @@ module Redmine
           @custom_field_values_changed = false
           true
         end
-        
+
         def reset_custom_values!
           @custom_field_values = nil
           @custom_field_values_changed = true
         end
-        
+
         module ClassMethods
         end
       end
