@@ -399,7 +399,7 @@ nl:
   label_f_hour_plural: "%{value} uren"
   label_feed_plural: Feeds
   label_feeds_access_key_created_on: "RSS toegangssleutel %{value} geleden gemaakt."
-  label_file_added: Bericht toegevoegd
+  label_file_added: Bestand toegevoegd
   label_file_plural: Bestanden
   label_filter_add: Voeg filter toe
   label_filter_plural: Filters
