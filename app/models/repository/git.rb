@@ -218,21 +218,18 @@ class Repository::Git < Repository
   private :save_revisions
 
   def save_revision(rev)
+    parents = (rev.parents || []).collect{|rp| find_changeset_by_name(rp)}.compact
     changeset = Changeset.create(
               :repository   => self,
               :revision     => rev.identifier,
               :scmid        => rev.scmid,
               :committer    => rev.author,
               :committed_on => rev.time,
-              :comments     => rev.message
+              :comments     => rev.message,
+              :parents      => parents
               )
     unless changeset.new_record?
       rev.paths.each { |change| changeset.create_change(change) }
-      parents = {}
-      parents[changeset] = rev.parents unless rev.parents.nil?
-      parents.each do |ch, chparents|
-        ch.parents = chparents.collect{|rp| find_changeset_by_name(rp)}.compact
-      end
     end
     changeset
   end
