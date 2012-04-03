@@ -243,7 +243,7 @@ nl:
   field_lastname: Achternaam
   field_login: Gebruikersnaam
   field_mail: E-mail
-  field_mail_notification: Mail mededelingen
+  field_mail_notification: Mail notificaties
   field_max_length: Maximale lengte
   field_min_length: Minimale lengte
   field_name: Naam
@@ -351,9 +351,9 @@ nl:
   label_comment_delete: Verwijder commentaar
   label_comment_plural: Commentaar
   label_x_comments:
-    zero: no comments
-    one: 1 comment
-    other: "%{count} comments"
+    zero: geen commentaar
+    one: 1x commentaar
+    other: "%{count}x commentaar"
   label_commits_per_author: Commits per auteur
   label_commits_per_month: Commits per maand
   label_confirmation: Bevestiging
@@ -421,19 +421,19 @@ nl:
   label_information_plural: Informatie
   label_integer: Integer
   label_internal: Intern
-  label_issue: Issue
-  label_issue_added: Issue toegevoegd
-  label_issue_category: Issuecategorie
+  label_issue: Incident
+  label_issue_added: Incident toegevoegd
+  label_issue_category: Incident categorie
   label_issue_category_new: Nieuwe categorie
   label_issue_category_plural: Issuecategorieën
-  label_issue_new: Nieuw issue
-  label_issue_plural: Issues
-  label_issue_status: Issuestatus
+  label_issue_new: Nieuw incident
+  label_issue_plural: Incidenten
+  label_issue_status: Incident status
   label_issue_status_new: Nieuwe status
-  label_issue_status_plural: Issue statussen
-  label_issue_tracking: Issue-tracking
-  label_issue_updated: Issue bijgewerkt
-  label_issue_view_all: Bekijk alle issues
+  label_issue_status_plural: Incident statussen
+  label_issue_tracking: Incident-tracking
+  label_issue_updated: Incident bijgewerkt
+  label_issue_view_all: Bekijk alle incidenten
   label_issue_watchers: Monitoren
   label_issues_by: "Issues door %{value}"
   label_jump_to_a_project: Ga naar een project...
@@ -512,9 +512,9 @@ nl:
   label_project_new: Nieuw project
   label_project_plural: Projecten
   label_x_projects:
-    zero:  no projects
+    zero:  geen projecten
     one:   1 project
-    other: "%{count} projects"
+    other: "%{count} projecten"
   label_public_projects: Publieke projecten
   label_query: Eigen zoekopdracht
   label_query_new: Nieuwe zoekopdracht
@@ -709,7 +709,7 @@ nl:
   setting_default_projects_public: Nieuwe projecten zijn standaard publiek
   setting_diff_max_lines_displayed: Max aantal diff regels weer te geven
   setting_display_subprojects_issues: Standaard issues van subproject tonen
-  setting_emails_footer: E-mails footer
+  setting_emails_footer: E-mails voettekst
   setting_enabled_scm: SCM ingeschakeld
   setting_feeds_limit: Feedinhoudlimiet
   setting_gravatar_enabled: Gebruik Gravatar gebruikersiconen
@@ -881,15 +881,15 @@ nl:
   permission_manage_project_activities: Beheer project activiteiten
   error_unable_delete_issue_status: Verwijderen van issue status niet gelukt
   label_profile: Profiel
-  permission_manage_subtasks: Beheer subtasks
-  field_parent_issue: Parent task
-  label_subtask_plural: Subtasks
+  permission_manage_subtasks: Beheer subtaken
+  field_parent_issue: Hoofdtaak
+  label_subtask_plural: Subtaken
   label_project_copy_notifications: Stuur email notificaties voor de project kopie
   error_can_not_delete_custom_field: Verwijderen niet mogelijk van custom field
   error_unable_to_connect: Geen connectie (%{value})
   error_can_not_remove_role: Deze rol is in gebruik en kan niet worden verwijderd.
   error_can_not_delete_tracker: Deze tracker bevat nog issues en kan niet worden verwijderd.
-  field_principal: Principal
+  field_principal: Hoofd
   label_my_page_block: Mijn pagina block
   notice_failed_to_save_members: "Niet gelukt om lid/leden op te slaan: %{errors}."
   text_zoom_out: Zoom uit
@@ -928,65 +928,65 @@ nl:
   button_collapse_all: Klap in
   label_additional_workflow_transitions_for_assignee: Aanvullende veranderingen toegestaan wanneer de gebruiker de toegewezene is
   label_additional_workflow_transitions_for_author: Aanvullende veranderingen toegestaan wanneer de gebruiker de auteur is
-  label_bulk_edit_selected_time_entries: Bulk edit selected time entries
-  text_time_entries_destroy_confirmation: Are you sure you want to delete the selected time entr(y/ies)?
-  label_role_anonymous: Anonymous
-  label_role_non_member: Non member
-  label_issue_note_added: Note added
-  label_issue_status_updated: Status updated
-  label_issue_priority_updated: Priority updated
-  label_issues_visibility_own: Issues created by or assigned to the user
-  field_issues_visibility: Issues visibility
-  label_issues_visibility_all: All issues
-  permission_set_own_issues_private: Set own issues public or private
-  field_is_private: Private
-  permission_set_issues_private: Set issues public or private
-  label_issues_visibility_public: All non private issues
-  text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
+  label_bulk_edit_selected_time_entries: Massa wijziging geselecteerd tijd-registraties?
+  text_time_entries_destroy_confirmation: Weet u zeker dat u de geselecteerde item(s) wilt verwijderen ?
+  label_role_anonymous: Anoniem
+  label_role_non_member: Geen lid
+  label_issue_note_added: Notitie toegevoegd
+  label_issue_status_updated: Status gewijzigd
+  label_issue_priority_updated: Prioriteit geupdate
+  label_issues_visibility_own: Probleem aangemaakt door of toegewezen aan
+  field_issues_visibility: Incidenten weergave
+  label_issues_visibility_all: Alle incidenten
+  permission_set_own_issues_private: Zet eigen incidenten publiekelijk of privé
+  field_is_private: Privé
+  permission_set_issues_private: Zet incidenten publiekelijk of privé
+  label_issues_visibility_public: Alle niet privé-incidenten
+  text_issues_destroy_descendants_confirmation: Dit zal ook de %{count} subtaken verwijderen.
   field_commit_logs_encoding: Encodering van commit berichten
-  field_scm_path_encoding: Path encoding
+  field_scm_path_encoding: Pad encodering
   text_scm_path_encoding_note: "Standaard: UTF-8"
-  field_path_to_repository: Path to repository
-  field_root_directory: Root directory
+  field_path_to_repository: Pad naar versie overzicht
+  field_root_directory: Root directorie
   field_cvs_module: Module
   field_cvsroot: CVSROOT
-  text_mercurial_repository_note: Local repository (e.g. /hgrepo, c:\hgrepo)
-  text_scm_command: Command
-  text_scm_command_version: Version
-  label_git_report_last_commit: Report last commit for files and directories
-  text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.
-  text_scm_command_not_available: Scm command is not available. Please check settings on the administration panel.
-  notice_issue_successful_create: Issue %{id} created.
-  label_between: between
-  setting_issue_group_assignment: Allow issue assignment to groups
-  label_diff: diff
-  text_git_repository_note: Repository is bare and local (e.g. /gitrepo, c:\gitrepo)
-  description_query_sort_criteria_direction: Sort direction
-  description_project_scope: Search scope
+  text_mercurial_repository_note: "Lokale versie overzicht (Voorbeeld: /hgrepo, c:\\hgrepo)"
+  text_scm_command: Commando
+  text_scm_command_version: Versie
+  label_git_report_last_commit: Rapporteer laatste toevoegen voor bestanden en directories
+  text_scm_config: U kan de scm commando's configureren in config/configuration.yml. Herstart de applicatie na het wijzigen ervan.
+  text_scm_command_not_available: Scm commando is niet beschikbaar. Controleer de instellingen in het administratiepaneel.
+  notice_issue_successful_create: Probleem %{id} aangemaakt.
+  label_between: tussen
+  setting_issue_group_assignment: Sta groepstoewijzingen toe
+  label_diff: Verschil
+  text_git_repository_note: "Versie overzicht lokaal is leeg (Voorbeeld: /gitrepo, c:\\gitrepo)"
+  description_query_sort_criteria_direction: Sortering
+  description_project_scope: Zoek bereik
   description_filter: Filter
-  description_user_mail_notification: Mail notification settings
-  description_date_from: Enter start date
-  description_message_content: Message content
-  description_available_columns: Available Columns
-  description_date_range_interval: Choose range by selecting start and end date
-  description_issue_category_reassign: Choose issue category
-  description_search: Searchfield
-  description_notes: Notes
-  description_date_range_list: Choose range from list
-  description_choose_project: Projects
-  description_date_to: Enter end date
-  description_query_sort_criteria_attribute: Sort attribute
-  description_wiki_subpages_reassign: Choose new parent page
-  description_selected_columns: Selected Columns
-  label_parent_revision: Parent
-  label_child_revision: Child
-  error_scm_annotate_big_text_file: The entry cannot be annotated, as it exceeds the maximum text file size.
-  setting_default_issue_start_date_to_creation_date: Use current date as start date for new issues
-  button_edit_section: Edit this section
-  setting_repositories_encodings: Attachments and repositories encodings
-  description_all_columns: All Columns
-  button_export: Export
-  label_export_options: "%{export_format} export options"
+  description_user_mail_notification: Mail notificatie instellingen
+  description_date_from: Vul start datum in
+  description_message_content: Inhoud bericht
+  description_available_columns: Beschikbare kolommen
+  description_date_range_interval: Kies een bereik bij het selecteren van een start en eind datum
+  description_issue_category_reassign: Kies probleem categorie
+  description_search: Zoekveld
+  description_notes: Notities
+  description_date_range_list: Kies bereik vanuit de lijst
+  description_choose_project: Projecten
+  description_date_to: Vul eind datum in
+  description_query_sort_criteria_attribute: Sorteer attribuut
+  description_wiki_subpages_reassign: Kies nieuwe hoofdpagina
+  description_selected_columns: Geselecteerde kolommen
+  label_parent_revision: Hoofd
+  label_child_revision: Sub
+  error_scm_annotate_big_text_file: De vermelding kan niet worden geannoteerd, omdat het groter is dan de maximale toegewezen grootte.
+  setting_default_issue_start_date_to_creation_date: Gebruik huidige datum als start datum voor nieuwe incidenten.
+  button_edit_section: Wijzig deze sectie
+  setting_repositories_encodings: Bijlage en opgeslagen bestanden coderingen
+  description_all_columns: Alle kolommen
+  button_export: Exporteren
+  label_export_options: "%{export_format} export opties"
   error_attachment_too_big: This file cannot be uploaded because it exceeds the maximum allowed file size (%{max_size})
   notice_failed_to_save_time_entries: "Failed to save %{count} time entrie(s) on %{total} selected: %{ids}."
   label_x_issues:
