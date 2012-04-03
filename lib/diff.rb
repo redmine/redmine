@@ -33,20 +33,20 @@ module RedmineDiff
         next unless bmatches.has_key? aelem
         k = nil
         bmatches[aelem].reverse.each { |bindex|
-    if k && (thresh[k] > bindex) && (thresh[k-1] < bindex)
-      thresh[k] = bindex
-    else
-      k = thresh.replacenextlarger(bindex, k)
-    end
-    links[k] = [ (k==0) ? nil : links[k-1], aindex, bindex ] if k
+          if k && (thresh[k] > bindex) && (thresh[k-1] < bindex)
+            thresh[k] = bindex
+          else
+            k = thresh.replacenextlarger(bindex, k)
+          end
+          links[k] = [ (k==0) ? nil : links[k-1], aindex, bindex ] if k
         }
       }
 
       if !thresh.empty?
         link = links[thresh.length-1]
         while link
-    mvector[link[1]] = link[2]
-    link = link[0]
+          mvector[link[1]] = link[2]
+          link = link[0]
         end
       end
 
@@ -59,14 +59,14 @@ module RedmineDiff
       while ai < mvector.length
         bline = mvector[ai]
         if bline
-    while bi < bline
-      discardb(bi, b[bi])
-      bi += 1
-    end
-    match(ai, bi)
-    bi += 1
+          while bi < bline
+            discardb(bi, b[bi])
+            bi += 1
+          end
+          match(ai, bi)
+          bi += 1
         else
-    discarda(ai, a[ai])
+          discarda(ai, a[ai])
         end
         ai += 1
       end
@@ -88,17 +88,17 @@ module RedmineDiff
         i = 0
         curdiff = []
         while i < df.length
-    whot = df[i][0]
-    s = @isstring ? df[i][2].chr : [df[i][2]]
-    p = df[i][1]
-    last = df[i][1]
-    i += 1
-    while df[i] && df[i][0] == whot && df[i][1] == last+1
-      s << df[i][2]
-      last  = df[i][1]
-      i += 1
-    end
-    curdiff.push [whot, p, s]
+          whot = df[i][0]
+          s = @isstring ? df[i][2].chr : [df[i][2]]
+          p = df[i][1]
+          last = df[i][1]
+          i += 1
+          while df[i] && df[i][0] == whot && df[i][1] == last+1
+            s << df[i][2]
+            last  = df[i][1]
+            i += 1
+          end
+          curdiff.push [whot, p, s]
         end
         diffs.push curdiff
       }
@@ -160,9 +160,9 @@ module Diffable
     range.each { |i|
       elem = self[i]
       if revmap.has_key? elem
-  revmap[elem].push i
+        revmap[elem].push i
       else
-  revmap[elem] = [i]
+        revmap[elem] = [i]
       end
     }
     return revmap
@@ -181,9 +181,9 @@ module Diffable
       found = self[index]
       return nil if value == found
       if value > found
-  low = index + 1
+        low = index + 1
       else
-  high = index
+        high = index
       end
     end
 
@@ -206,25 +206,25 @@ module Diffable
     bi = 0
     diff.diffs.each { |d|
       d.each { |mod|
-  case mod[0]
-  when '-'
-    while ai < mod[1]
-      newary << self[ai]
-      ai += 1
-      bi += 1
-    end
-    ai += 1
-  when '+'
-    while bi < mod[1]
-      newary << self[ai]
-      ai += 1
-      bi += 1
-    end
-    newary << mod[2]
-    bi += 1
-  else
-    raise "Unknown diff action"
-  end
+        case mod[0]
+        when '-'
+          while ai < mod[1]
+            newary << self[ai]
+            ai += 1
+            bi += 1
+          end
+          ai += 1
+        when '+'
+          while bi < mod[1]
+            newary << self[ai]
+            ai += 1
+            bi += 1
+          end
+          newary << mod[2]
+          bi += 1
+        else
+          raise "Unknown diff action"
+        end
       }
     }
     while ai < self.length
