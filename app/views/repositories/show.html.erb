@@ -57,12 +57,14 @@
 <% if @repositories.size > 1 %>
   <% content_for :sidebar do %>
     <h3><%= l(:label_repository_plural) %></h3>
-    <%= @repositories.sort.collect {|repo|
+    <p>
+      <%= @repositories.sort.collect {|repo|
           link_to h(repo.name), 
                   {:controller => 'repositories', :action => 'show',
                    :id => @project, :repository_id => repo.identifier_param, :rev => nil, :path => nil},
                   :class => 'repository' + (repo == @repository ? ' selected' : '')
-        }.join('<br />').html_safe %></p>
+        }.join('<br />').html_safe %>
+    </p>
   <% end %>
 <% end %>
 
