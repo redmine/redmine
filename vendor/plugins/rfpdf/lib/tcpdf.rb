@@ -1803,7 +1803,7 @@ class TCPDF
 			w = @w - @r_margin - @x;
 		end
 
-		wmax = (w - 2 * @c_margin);
+		wmax = (w - 3 * @c_margin);
 
 		s = txt.gsub("\r", ''); # remove carriage returns
 		nb = s.length;
@@ -1862,7 +1862,7 @@ class TCPDF
 				ns += 1;
 			end
 
-			l = GetStringWidth(s[from_j, to_index - from_j + 1]);
+			l = GetStringWidth(s[from_j, to_index - from_j]);
 
 			if (l > wmax)
 				#Automatic line break
@@ -1945,7 +1945,7 @@ class TCPDF
 
 		#Output text in flowing mode
 		w = @w - @r_margin - @x;
-		wmax = (w - 2 * @c_margin);
+		wmax = (w - 3 * @c_margin);
     
 		s = txt.gsub("\r", '');
 		nb = s.length;
@@ -1974,7 +1974,7 @@ class TCPDF
 				if (nl == 1)
 					@x = @l_margin;
 					w = @w - @r_margin - @x;
-					wmax = (w - 2 * @c_margin);
+					wmax = (w - 3 * @c_margin);
 				end
 				nl += 1;
 				next
@@ -1982,7 +1982,7 @@ class TCPDF
 			if (c == " "[0])
 				sep= i;
 			end
-			l = GetStringWidth(s[j, i - j + 1]);
+			l = GetStringWidth(s[j, i - j]);
 			if (l > wmax)
 				#Automatic line break (word wrapping)
 				if (sep == -1)
@@ -1991,7 +1991,7 @@ class TCPDF
 						@x = @l_margin;
 						@y += h;
 						w=@w - @r_margin - @x;
-						wmax=(w - 2 * @c_margin);
+						wmax=(w - 3 * @c_margin);
 						i += 1
 						nl += 1
 						next
@@ -2010,7 +2010,7 @@ class TCPDF
 				if (nl==1)
 					@x = @l_margin;
 					w = @w - @r_margin - @x;
-					wmax = (w - 2 * @c_margin);
+					wmax = (w - 3 * @c_margin);
 				end
 				nl += 1;
 			else
