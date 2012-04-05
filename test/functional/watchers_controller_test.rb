@@ -98,6 +98,26 @@ class WatchersControllerTest < ActionController::TestCase
     assert Issue.find(2).watched_by?(User.find(7))
   end
 
+  def test_autocomplete_on_watchable_creation
+    xhr :get, :autocomplete_for_user, :q => 'mi'
+    assert_response :success
+    assert_select 'input', :count => 4
+    assert_select 'input[name=?][value=1]', 'watcher[user_ids][]'
+    assert_select 'input[name=?][value=2]', 'watcher[user_ids][]'
+    assert_select 'input[name=?][value=8]', 'watcher[user_ids][]'
+    assert_select 'input[name=?][value=9]', 'watcher[user_ids][]'
+  end
+
+  def test_autocomplete_on_watchable_update
+    xhr :get, :autocomplete_for_user, :q => 'mi', :object_id => '2' , :object_type => 'issue'
+    assert_response :success
+    assert_select 'input', :count => 3
+    assert_select 'input[name=?][value=2]', 'watcher[user_ids][]'
+    assert_select 'input[name=?][value=8]', 'watcher[user_ids][]'
+    assert_select 'input[name=?][value=9]', 'watcher[user_ids][]'
+
+  end
+
   def test_append
     @request.session[:user_id] = 2
     assert_no_difference 'Watcher.count' do

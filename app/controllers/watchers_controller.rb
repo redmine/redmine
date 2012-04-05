@@ -98,7 +98,7 @@ class WatchersController < ApplicationController
   def autocomplete_for_user
     @users = User.active.like(params[:q]).find(:all, :limit => 100)
     if @watched
-      @user -= @watched.watcher_users
+      @users -= @watched.watcher_users
     end
     render :layout => false
   end
