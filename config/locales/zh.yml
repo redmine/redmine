@@ -1002,9 +1002,9 @@ zh:
   label_child_revision: 子修订
   error_scm_annotate_big_text_file: 输入文本内容超长，无法输入。
   setting_default_issue_start_date_to_creation_date: 使用当前日期作为新问题的开始日期
-  button_edit_section: Edit this section
-  setting_repositories_encodings: Attachments and repositories encodings
-  description_all_columns: All Columns
-  button_export: Export
-  label_export_options: "%{export_format} export options"
-  error_attachment_too_big: This file cannot be uploaded because it exceeds the maximum allowed file size (%{max_size})
+  button_edit_section: 编辑此区域
+  setting_repositories_encodings: 附件和版本库编码
+  description_all_columns: 所有列
+  button_export: 导出
+  label_export_options: "%{export_format} 导出选项"
+  error_attachment_too_big: 该文件无法上传。超过文件大小限制 (%{max_size})
