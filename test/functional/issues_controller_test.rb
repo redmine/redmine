@@ -2665,7 +2665,7 @@ class IssuesControllerTest < ActionController::TestCase
       :attributes => {:name => "issue[custom_field_values][#{field.id}]"},
       :children => {
         :only => {:tag => 'option'},
-        :count => Project.find(1).users.count + 1
+        :count => Project.find(1).users.count + 2 # "no change" + "none" options
       }
   end
 
@@ -2681,7 +2681,7 @@ class IssuesControllerTest < ActionController::TestCase
       :attributes => {:name => "issue[custom_field_values][#{field.id}]"},
       :children => {
         :only => {:tag => 'option'},
-        :count => Project.find(1).shared_versions.count + 1
+        :count => Project.find(1).shared_versions.count + 2 # "no change" + "none" options
       }
   end
 
@@ -2698,7 +2698,7 @@ class IssuesControllerTest < ActionController::TestCase
       :attributes => {:name => "issue[custom_field_values][1][]"},
       :children => {
         :only => {:tag => 'option'},
-        :count => 3
+        :count => field.possible_values.size + 1 # "none" options
       }
   end
 
@@ -2924,6 +2924,17 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal '777', journal.details.first.value
   end
 
+  def test_bulk_update_custom_field_to_blank
+    @request.session[:user_id] = 2
+    post :bulk_update, :ids => [1, 3], :notes => 'Bulk editing custom field',
+                                     :issue => {:priority_id => '',
+                                                :assigned_to_id => '',
+                                                :custom_field_values => {'1' => '__none__'}}
+    assert_response 302
+    assert_equal '', Issue.find(1).custom_field_value(1)
+    assert_equal '', Issue.find(3).custom_field_value(1)
+  end
+
   def test_bulk_update_multi_custom_field
     field = CustomField.find(1)
     field.update_attribute :multiple, true
@@ -2940,6 +2951,20 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal ['MySQL', 'Oracle'], Issue.find(3).custom_field_value(1).sort
     # the custom field is not associated with the issue tracker
     assert_nil Issue.find(2).custom_field_value(1)
+  end
+
+  def test_bulk_update_multi_custom_field_to_blank
+    field = CustomField.find(1)
+    field.update_attribute :multiple, true
+
+    @request.session[:user_id] = 2
+    post :bulk_update, :ids => [1, 3], :notes => 'Bulk editing multi custom field',
+                                     :issue => {:priority_id => '',
+                                                :assigned_to_id => '',
+                                                :custom_field_values => {'1' => ['__none__']}}
+    assert_response 302
+    assert_equal [''], Issue.find(1).custom_field_value(1)
+    assert_equal [''], Issue.find(3).custom_field_value(1)
   end
 
   def test_bulk_update_unassign
