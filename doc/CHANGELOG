@@ -4,6 +4,90 @@ Redmine - project management software
 Copyright (C) 2006-2012  Jean-Philippe Lang
 http://www.redmine.org/
 
+== TBD v1.4.0
+
+* Defect #2719: Increase username length limit from 30 to 60
+* Defect #3087: Revision referring to issues across all projects
+* Defect #4824: Unable to connect (can't convert Net::LDAP::LdapError into String)
+* Defect #6859: Moving issues to a tracker with different custom fields should let fill these fields
+* Defect #7398: Error when trying to quick create a version with required custom field
+* Defect #7826: bigdecimal-segfault-fix.rb must be removed for Oracle
+* Defect #7920: Attempted to update a stale object when copying a project
+* Defect #8857: Git: Too long in fetching repositories after upgrade from 1.1 or new branch at first time
+* Defect #9472: The git scm module causes an excess amount of DB traffic.
+* Defect #9685: Adding multiple times the same related issue relation is possible
+* Defect #9798: Release 1.3.0 does not detect rubytree under ruby 1.9.3p0 / rails 2.3.14
+* Defect #9978: Japanese "permission_add_issue_watchers" is wrong
+* Defect #10006: Email reminders are sent for closed issues
+* Defect #10150: CSV export and spent time: rounding issue
+* Defect #10181: Issue context menu and bulk edit form show irrelevant statuses
+* Defect #10198: message_id regex in pop3.rb only recognizes Message-ID header (not Message-Id)
+* Defect #10251: Description diff link in note details is relative when received by email
+* Defect #10272: Ruby 1.9.3: "incompatible character encoding" with LDAP auth
+* Defect #10275: Message object not passed to wiki macros for head topic and in preview edit mode
+* Defect #10334: Full name is not unquoted when creating users from emails
+* Defect #10410: [Localization] Grammar issue of Simplified Chinese in zh.yml
+* Defect #10442: Ruby 1.9.3 Time Zone setting Internal error.
+* Defect #10467: Confusing behavior while moving issue to a project with disabled Issues module
+* Defect #10505: Error when exporting to PDF with NoMethodError (undefined method `downcase' for nil:NilClass)
+* Defect #10554: Defect symbols when exporting tasks in pdf
+* Defect #10575: Uploading of attachments which filename contains non-ASCII chars fails with Ruby 1.9
+* Defect #10590: WikiContent::Version#text return string with #<Encoding:ASCII-8BIT> when uncompressed
+* Defect #10591: Dutch "label_file_added" translation is wrong
+* Defect #10593: Error: 'incompatible character encodings: UTF-8 and ASCII-8BIT' (old annoing issue) on ruby-1.9.3
+* Defect #10600: Watchers search generates an Internal error
+* Defect #10602: Attachment link has get parameter :class
+* Feature #779: Multiple SCM per project
+* Feature #971: Add "Spent time" column to query
+* Feature #1060: Add a LDAP-filter using external auth sources
+* Feature #1102: Shortcut for assigning an issue to me
+* Feature #1189: Multiselect custom fields
+* Feature #1363: Allow underscores in project identifiers
+* Feature #1913: LDAP - authenticate as user
+* Feature #1972: Attachments for News
+* Feature #2009: Manually add related revisions
+* Feature #2323: Workflow permissions for administrators
+* Feature #2416: {background:color} doesn't work in text formatting
+* Feature #2694: Notification on loosing assignment
+* Feature #2715: "Magic links" to notes
+* Feature #2850: Add next/previous navigation to issue
+* Feature #3055: Option to copy attachments when copying an issue
+* Feature #3108: set parent automatically for new pages
+* Feature #3463: Export all wiki pages to PDF
+* Feature #4050: Ruby 1.9 support
+* Feature #4769: Ability to move an issue to a different project from the update form
+* Feature #4774: Change the hyperlink for file attachment to view and download
+* Feature #5159: Ability to add Non-Member watchers to the watch list
+* Feature #5638: Use Bundler (Gemfile) for gem management
+* Feature #5643: Add X-Redmine-Sender header to email notifications
+* Feature #6296: Bulk-edit custom fields through context menu
+* Feature #6386: Issue mail should render the HTML version of the issue details
+* Feature #6449: Edit a wiki page's parent on the edit page
+* Feature #7361: Highlight active query in the side bar
+* Feature #7420: Rest API for projects members
+* Feature #7603: Please make editing issues more obvious than "Change properties (More)"
+* Feature #8171: Adding attachments through the REST API
+* Feature #8691: Better handling of issue update conflict
+* Feature #9803: Change project through REST API issue update
+* Feature #9923: User type custom fields should be filterable by "Me".
+* Feature #9985: Group time report by the Status field
+* Feature #9995: Time entries insertion, "Create and continue" button
+* Feature #10020: Enable global time logging at /time_entries/new
+* Feature #10042: Bulk change private flag
+* Feature #10046: Update installation doc on release
+* Feature #10126: Add members of subprojects in the assignee and author filters
+* Feature #10131: Include custom fiels in time entries API responses
+* Feature #10207: Git: use default branch from HEAD
+* Feature #10208: Estonian translation
+* Feature #10253: Better handling of attachments when validation fails
+* Feature #10350: Bulk copy should allow for changing the target version
+* Patch #9998: Make attachement "Optional Description" less wide
+* Patch #10066: i18n not working with russian gem
+* Patch #10155: Russian translation changed
+* Patch #10464: Enhanced PDF output for Issues list
+* Patch #10470: Efficiently process new git revisions in a single batch
+* Patch #10513: Dutch translation improvement
+
 == 2012-03-11 v1.3.2
 
 * Defect #8194: {{toc}} uses identical anchors for subsections with the same name
