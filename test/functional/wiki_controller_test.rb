@@ -771,11 +771,35 @@ class WikiControllerTest < ActionController::TestCase
     assert_tag 'h1', :content => 'CookBook documentation'
   end
 
+  def test_show_versioned_html
+    @request.session[:user_id] = 2
+    get :show, :project_id => 1, :format => 'html', :version => 2
+    assert_response :success
+    assert_not_nil assigns(:content)
+    assert_equal 2, assigns(:content).version
+    assert_equal 'text/html', @response.content_type
+    assert_equal 'attachment; filename="CookBook_documentation.html"',
+                  @response.headers['Content-Disposition']
+    assert_tag 'h1', :content => 'CookBook documentation'
+  end
+
   def test_show_txt
     @request.session[:user_id] = 2
     get :show, :project_id => 1, :format => 'txt'
     assert_response :success
     assert_not_nil assigns(:page)
+    assert_equal 'text/plain', @response.content_type
+    assert_equal 'attachment; filename="CookBook_documentation.txt"',
+                  @response.headers['Content-Disposition']
+    assert_include 'h1. CookBook documentation', @response.body
+  end
+
+  def test_show_versioned_txt
+    @request.session[:user_id] = 2
+    get :show, :project_id => 1, :format => 'txt', :version => 2
+    assert_response :success
+    assert_not_nil assigns(:content)
+    assert_equal 2, assigns(:content).version
     assert_equal 'text/plain', @response.content_type
     assert_equal 'attachment; filename="CookBook_documentation.txt"',
                   @response.headers['Content-Disposition']
