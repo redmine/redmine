@@ -53,14 +53,38 @@ class WikiContentTest < ActiveSupport::TestCase
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
 
-  def test_update
+  def test_update_should_be_versioned
     content = @page.content
     version_count = content.version
     content.text = "My new content"
-    assert content.save
+    assert_difference 'WikiContent::Version.count' do
+      assert content.save
+    end
     content.reload
     assert_equal version_count+1, content.version
     assert_equal version_count+1, content.versions.length
+
+    version = WikiContent::Version.first(:order => 'id DESC')
+    assert_equal @page.id, version.page_id
+    assert_equal '', version.compression
+    assert_equal "My new content", version.data
+    assert_equal "My new content", version.text
+  end
+
+  def test_update_with_gzipped_history
+    with_settings :wiki_compression => 'gzip' do
+      content = @page.content
+      content.text = "My new content"
+      assert_difference 'WikiContent::Version.count' do
+        assert content.save
+      end
+    end
+
+    version = WikiContent::Version.first(:order => 'id DESC')
+    assert_equal @page.id, version.page_id
+    assert_equal 'gzip', version.compression
+    assert_not_equal "My new content", version.data
+    assert_equal "My new content", version.text
   end
 
   def test_update_should_send_email_notification
