@@ -6,13 +6,17 @@
 <p><label for="message_subject"><%= l(:field_subject) %></label><br />
 <%= f.text_field :subject, :size => 120, :id => "message_subject" %>
 
-<% if !replying && User.current.allowed_to?(:edit_messages, @project) %>
+<% unless replying %>
+  <% if @message.safe_attribute? 'sticky' %>
     <label><%= f.check_box :sticky %><%= l(:label_board_sticky) %></label>
+  <% end %>
+  <% if @message.safe_attribute? 'locked' %>
     <label><%= f.check_box :locked %><%= l(:label_board_locked) %></label>
+  <% end %>
 <% end %>
 </p>
 
-<% if !replying && !@message.new_record? && User.current.allowed_to?(:edit_messages, @project) %>
+<% if !replying && !@message.new_record? && @message.safe_attribute?('board_id') %>
   <p><label><%= l(:label_board) %></label><br />
   <%= f.select :board_id, @project.boards.collect {|b| [b.name, b.id]} %></p>
 <% end %>
