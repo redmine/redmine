@@ -35,7 +35,9 @@ namespace :redmine do
     options[:project] = ENV['project'] if ENV['project']
     options[:tracker] = ENV['tracker'].to_i if ENV['tracker']
     options[:users] = (ENV['users'] || '').split(',').each(&:strip!)
-    
-    Mailer.reminders(options)
+
+    Mailer.with_synched_deliveries do
+      Mailer.reminders(options)
+    end
   end
 end
