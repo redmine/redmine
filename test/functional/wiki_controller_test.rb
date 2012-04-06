@@ -768,6 +768,7 @@ class WikiControllerTest < ActionController::TestCase
     assert_equal 'text/html', @response.content_type
     assert_equal 'attachment; filename="CookBook_documentation.html"',
                   @response.headers['Content-Disposition']
+    assert_tag 'h1', :content => 'CookBook documentation'
   end
 
   def test_show_txt
@@ -778,6 +779,7 @@ class WikiControllerTest < ActionController::TestCase
     assert_equal 'text/plain', @response.content_type
     assert_equal 'attachment; filename="CookBook_documentation.txt"',
                   @response.headers['Content-Disposition']
+    assert_include 'h1. CookBook documentation', @response.body
   end
 
   def test_edit_unprotected_page
