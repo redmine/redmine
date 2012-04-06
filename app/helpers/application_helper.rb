@@ -99,6 +99,7 @@ module ApplicationHelper
     action = options.delete(:download) ? 'download' : 'show'
     opt_only_path = {}
     opt_only_path[:only_path] = (options[:only_path] == false ? false : true)
+    options.delete(:only_path)
     link_to(h(text),
            {:controller => 'attachments', :action => action,
             :id => attachment, :filename => attachment.filename}.merge(opt_only_path),
