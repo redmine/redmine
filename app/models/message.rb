@@ -37,7 +37,6 @@ class Message < ActiveRecord::Base
                             :author_key => :author_id
   acts_as_watchable
 
-  attr_protected :locked, :sticky
   validates_presence_of :board, :subject, :content
   validates_length_of :subject, :maximum => 255
   validate :cannot_reply_to_locked_topic, :on => :create
@@ -50,7 +49,7 @@ class Message < ActiveRecord::Base
                                           :conditions => Project.allowed_to_condition(args.shift || User.current, :view_messages, *args) } }
 
   safe_attributes 'subject', 'content'
-  safe_attributes 'locked', 'sticky',
+  safe_attributes 'locked', 'sticky', 'board_id',
     :if => lambda {|message, user|
       user.allowed_to?(:edit_messages, message.project)
     }
