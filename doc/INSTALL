@@ -31,6 +31,10 @@ Optional:
    of the rmagick gem using:
      bundle install --without development test rmagick
 
+   If you need to load some gems that are not required by Redmine core (eg. fcgi),
+   you can create a file named Gemfile.local at the root of your redmine directory.
+   It will be loaded automatically when running `bundle install`.
+
 3. Create an empty utf8 encoded database: "redmine" for example
 
 4. Configure the database parameters in config/database.yml
