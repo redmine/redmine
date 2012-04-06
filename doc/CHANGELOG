@@ -29,11 +29,8 @@ http://www.redmine.org/
 * Defect #10410: [Localization] Grammar issue of Simplified Chinese in zh.yml
 * Defect #10442: Ruby 1.9.3 Time Zone setting Internal error.
 * Defect #10467: Confusing behavior while moving issue to a project with disabled Issues module
-* Defect #10505: Error when exporting to PDF with NoMethodError (undefined method `downcase' for nil:NilClass)
-* Defect #10554: Defect symbols when exporting tasks in pdf
 * Defect #10575: Uploading of attachments which filename contains non-ASCII chars fails with Ruby 1.9
 * Defect #10590: WikiContent::Version#text return string with #<Encoding:ASCII-8BIT> when uncompressed
-* Defect #10591: Dutch "label_file_added" translation is wrong
 * Defect #10593: Error: 'incompatible character encodings: UTF-8 and ASCII-8BIT' (old annoing issue) on ruby-1.9.3
 * Defect #10600: Watchers search generates an Internal error
 * Defect #10602: Attachment link has get parameter :class
