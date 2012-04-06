@@ -100,6 +100,7 @@ module CustomFieldsHelper
       when "list"
         options = []
         options << [l(:label_no_change_option), ''] unless custom_field.multiple?
+        options << [l(:label_none), '__none__'] unless custom_field.is_required?
         options += custom_field.possible_values_options(projects)
         select_tag(field_name, options_for_select(options),
           :id => field_id, :multiple => custom_field.multiple?)
