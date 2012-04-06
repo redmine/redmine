@@ -88,7 +88,7 @@ class AttachmentsController < ApplicationController
     end
     # Make sure association callbacks are called
     @attachment.container.attachments.delete(@attachment)
-    redirect_back_or_default project_path(@project)
+    redirect_to_referer_or project_path(@project)
   end
 
 private
