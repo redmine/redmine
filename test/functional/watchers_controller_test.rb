@@ -51,6 +51,22 @@ class WatchersControllerTest < ActionController::TestCase
     end
   end
 
+  def test_watch_invalid_class_should_respond_with_404
+    @request.session[:user_id] = 3
+    assert_no_difference('Watcher.count') do
+      xhr :post, :watch, :object_type => 'foo', :object_id => '1'
+      assert_response 404
+    end
+  end
+
+  def test_watch_invalid_object_should_respond_with_404
+    @request.session[:user_id] = 3
+    assert_no_difference('Watcher.count') do
+      xhr :post, :watch, :object_type => 'issue', :object_id => '999'
+      assert_response 404
+    end
+  end
+
   def test_unwatch
     @request.session[:user_id] = 3
     assert_difference('Watcher.count', -1) do
