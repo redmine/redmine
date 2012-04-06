@@ -75,6 +75,11 @@ group :test do
   gem "mocha"
 end
 
+if File.exists?('Gemfile.local')
+  puts "Loading Gemfile.local ..." if $DEBUG # `ruby -d` or `bundle -v`
+  instance_eval File.read('Gemfile.local')
+end
+
 # Load plugins' Gemfiles
 Dir.glob File.expand_path("../vendor/plugins/*/Gemfile", __FILE__) do |file|
   puts "Loading #{file} ..." if $DEBUG # `ruby -d` or `bundle -v`
