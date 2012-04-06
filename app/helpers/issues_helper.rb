@@ -252,7 +252,7 @@ module IssuesHelper
       if detail.property == 'attachment' && !value.blank? && atta = Attachment.find_by_id(detail.prop_key)
         # Link to the attachment if it has not been removed
         value = link_to_attachment(atta, :download => true, :only_path => options[:only_path])
-        if atta.is_text?
+        if options[:only_path] != false && atta.is_text?
           value += link_to(
                        image_tag('magnifier.png'),
                        :controller => 'attachments', :action => 'show',
