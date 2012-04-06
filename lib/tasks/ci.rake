@@ -29,6 +29,42 @@ namespace :ci do
   task :teardown do
   end
 
+  desc "Creates and configures the databases for the CI server"
+  task :database do
+    path = 'config/database.yml'
+    unless File.exists?(path)
+      database = ENV['DATABASE_ADAPTER']
+      ruby = ENV['RUBY_VER'].gsub('.', '').gsub('-', '')
+      branch = ENV['BRANCH'].gsub('.', '').gsub('-', '')
+      dev_db_name = "ci_#{branch}_#{ruby}_dev"
+      test_db_name = "ci_#{branch}_#{ruby}_test"
+
+      case database
+      when 'mysql'
+        raise "Error creating databases" unless
+          system(%|mysql -u jenkins --password=jenkins -e 'create database #{dev_db_name} character set utf8;'|) &&
+          system(%|mysql -u jenkins --password=jenkins -e 'create database #{test_db_name} character set utf8;'|)
+        dev_conf =  { 'adapter' => (RUBY_VERSION >= '1.9' ? 'mysql2' : 'mysql'), 'database' => dev_db_name, 'host' => 'localhost', 'username' => 'jenkins', 'password' => 'jenkins', 'encoding' => 'utf8' }
+        test_conf = { 'adapter' => (RUBY_VERSION >= '1.9' ? 'mysql2' : 'mysql'), 'database' => test_db_name, 'host' => 'localhost', 'username' => 'jenkins', 'password' => 'jenkins', 'encoding' => 'utf8' }
+      when 'postgresql'
+        raise "Error creating databases" unless
+          system(%|psql -U jenkins -d postgres -c "create database #{dev_db_name} owner jenkins encoding 'UTF8';|) &&
+          system(%|psql -U jenkins -d postgres -c "create database #{test_db_name} owner jenkins encoding 'UTF8';|)
+        dev_conf =  { 'adapter' => 'postgresql', 'database' => dev_db_name, 'host' => 'localhost', 'username' => 'jenkins', 'password' => 'jenkins' }
+        test_conf = { 'adapter' => 'postgresql', 'database' => test_db_name, 'host' => 'localhost', 'username' => 'jenkins', 'password' => 'jenkins' }
+      when 'sqlite3'
+        dev_conf =  { 'adapter' => 'sqlite3', 'database' => "db/#{dev_db_name}.sqlite3" }
+        test_conf = { 'adapter' => 'sqlite3', 'database' => "db/#{test_db_name}.sqlite3" }
+      else
+        raise "Unknown database"
+      end
+
+      File.open(path, 'w') do |f|
+        f.write YAML.dump({'development' => dev_conf, 'test' => test_conf})
+      end
+    end
+  end
+
   desc "Dump the environment information to a BUILD_ENVIRONMENT ENV variable for debugging"
   task :dump_environment do
 
