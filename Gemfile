@@ -16,12 +16,14 @@ group :openid do
   gem "ruby-openid", "~> 2.1.4", :require => "openid"
 end
 
-# Optional gem for exporting the gantt to a PNG file
-group :rmagick do
-  # RMagick 2 supports ruby 1.9
-  # RMagick 1 would be fine for ruby 1.8 but Bundler does not support
-  # different requirements for the same gem on different platforms
-  gem "rmagick", ">= 2.0.0"
+# Optional gem for exporting the gantt to a PNG file, not supported with jruby
+platforms :mri, :mingw do
+  group :rmagick do
+    # RMagick 2 supports ruby 1.9
+    # RMagick 1 would be fine for ruby 1.8 but Bundler does not support
+    # different requirements for the same gem on different platforms
+    gem "rmagick", ">= 2.0.0"
+  end
 end
 
 # Database gems
