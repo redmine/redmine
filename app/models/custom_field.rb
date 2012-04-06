@@ -80,7 +80,7 @@ class CustomField < ActiveRecord::Base
     when 'bool'
       [[l(:general_text_Yes), '1'], [l(:general_text_No), '0']]
     else
-      read_attribute(:possible_values) || []
+      read_possible_values_utf8_encoded || []
     end
   end
 
@@ -91,7 +91,7 @@ class CustomField < ActiveRecord::Base
     when 'bool'
       ['1', '0']
     else
-      read_attribute :possible_values
+      read_possible_values_utf8_encoded
     end
   end
 
@@ -217,5 +217,15 @@ class CustomField < ActiveRecord::Base
       end
     end
     errs
+  end
+
+  def read_possible_values_utf8_encoded
+    values = read_attribute(:possible_values)
+    if values.is_a?(Array)
+      values.each do |value|
+        value.force_encoding('UTF-8') if value.respond_to?(:force_encoding)
+      end
+    end
+    values
   end
 end
