@@ -52,7 +52,7 @@ class WatchersController < ApplicationController
       end
     end
     respond_to do |format|
-      format.html { redirect_to :back }
+      format.html { redirect_to_referer_or {render :text => 'Watcher added.', :layout => true}}
       format.js do
         render :update do |page|
           page.replace_html 'ajax-modal', :partial => 'watchers/new', :locals => {:watched => @watched}
@@ -60,8 +60,6 @@ class WatchersController < ApplicationController
         end
       end
     end
-  rescue ::ActionController::RedirectBackError
-    render :text => 'Watcher added.', :layout => true
   end
 
   def append
@@ -120,7 +118,7 @@ private
   def set_watcher(user, watching)
     @watched.set_watcher(user, watching)
     respond_to do |format|
-      format.html { redirect_to :back }
+      format.html { redirect_to_referer_or {render :text => (watching ? 'Watcher added.' : 'Watcher removed.'), :layout => true}}
       format.js do
         render(:update) do |page|
           c = watcher_css(@watched)
@@ -130,7 +128,5 @@ private
         end
       end
     end
-  rescue ::ActionController::RedirectBackError
-    render :text => (watching ? 'Watcher added.' : 'Watcher removed.'), :layout => true
   end
 end

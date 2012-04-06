@@ -154,7 +154,7 @@ class UsersController < ApplicationController
       respond_to do |format|
         format.html {
           flash[:notice] = l(:notice_successful_update)
-          redirect_to :back
+          redirect_to_referer_or edit_user_path(@user)
         }
         format.api  { head :ok }
       end
@@ -169,8 +169,6 @@ class UsersController < ApplicationController
         format.api  { render_validation_errors(@user) }
       end
     end
-  rescue ::ActionController::RedirectBackError
-    redirect_to :controller => 'users', :action => 'edit', :id => @user
   end
 
   def destroy

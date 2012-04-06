@@ -298,6 +298,19 @@ class ApplicationController < ActionController::Base
     false
   end
 
+  # Redirects to the request referer if present, redirects to args or call block otherwise.
+  def redirect_to_referer_or(*args, &block)
+    redirect_to :back
+  rescue ::ActionController::RedirectBackError
+    if args.any?
+      redirect_to *args
+    elsif block_given?
+      block.call
+    else
+      raise "#redirect_to_referer_or takes arguments or a block"
+    end
+  end
+
   def render_403(options={})
     @project = nil
     render_error({:message => :notice_not_authorized, :status => 403}.merge(options))
