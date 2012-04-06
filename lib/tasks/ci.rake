@@ -48,8 +48,8 @@ namespace :ci do
         test_conf = { 'adapter' => (RUBY_VERSION >= '1.9' ? 'mysql2' : 'mysql'), 'database' => test_db_name, 'host' => 'localhost', 'username' => 'jenkins', 'password' => 'jenkins', 'encoding' => 'utf8' }
       when 'postgresql'
         raise "Error creating databases" unless
-          system(%|psql -U jenkins -d postgres -c "create database #{dev_db_name} owner jenkins encoding 'UTF8';|) &&
-          system(%|psql -U jenkins -d postgres -c "create database #{test_db_name} owner jenkins encoding 'UTF8';|)
+          system(%|psql -U jenkins -d postgres -c "create database #{dev_db_name} owner jenkins encoding 'UTF8';"|) &&
+          system(%|psql -U jenkins -d postgres -c "create database #{test_db_name} owner jenkins encoding 'UTF8';"|)
         dev_conf =  { 'adapter' => 'postgresql', 'database' => dev_db_name, 'host' => 'localhost', 'username' => 'jenkins', 'password' => 'jenkins' }
         test_conf = { 'adapter' => 'postgresql', 'database' => test_db_name, 'host' => 'localhost', 'username' => 'jenkins', 'password' => 'jenkins' }
       when 'sqlite3'
