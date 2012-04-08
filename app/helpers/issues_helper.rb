@@ -245,12 +245,7 @@ module IssuesHelper
     value ||= detail.value
     old_value ||= detail.old_value
 
-    if no_html
-      if value.present?
-        old_value = "\"#{old_value}\"" if old_value.present?
-        value = "\"#{value}\""
-      end
-    else
+    unless no_html
       label = content_tag('strong', label)
       old_value = content_tag("i", h(old_value)) if detail.old_value
       old_value = content_tag("strike", old_value) if detail.old_value and detail.value.blank?
