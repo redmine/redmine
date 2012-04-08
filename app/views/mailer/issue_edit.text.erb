@@ -4,6 +4,9 @@
 <%= string %>
 <% end -%>
 
-<%= @journal.notes if @journal.notes? %>
+<% if @journal.notes? -%>
+<%= @journal.notes %>
+
+<% end -%>
 ----------------------------------------
 <%= render :partial => "issue.text.erb", :locals => { :issue => @issue, :issue_url => @issue_url } %>
