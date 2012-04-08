@@ -23,5 +23,9 @@ class RoutingSearchTest < ActionController::IntegrationTest
         { :method => 'get', :path => "/search" },
         { :controller => 'search', :action => 'index' }
       )
+    assert_routing(
+        { :method => 'get', :path => "/projects/foo/search" },
+        { :controller => 'search', :action => 'index', :id => 'foo' }
+      )
   end
 end
