@@ -372,6 +372,17 @@ class Mailer < ActionMailer::Base
     ActionMailer::Base.perform_deliveries = was_enabled
   end
 
+  # Sends emails synchronously in the given block
+  def self.with_synched_deliveries(&block)
+    saved_method = ActionMailer::Base.delivery_method
+    if m = saved_method.to_s.match(%r{^async_(.+)$})
+      ActionMailer::Base.delivery_method = m[1].to_sym
+    end
+    yield
+  ensure
+    ActionMailer::Base.delivery_method = saved_method
+  end
+
   private
   def initialize_defaults(method_name)
     super
