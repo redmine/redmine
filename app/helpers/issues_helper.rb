@@ -332,7 +332,7 @@ module IssuesHelper
             cv = issue.custom_field_values.detect {|v| v.custom_field_id == column.custom_field.id}
             show_value(cv)
           else
-            value = issue.send(column.name)
+            value = column.value(issue)
             if value.is_a?(Date)
               format_date(value)
             elsif value.is_a?(Time)
