@@ -54,6 +54,13 @@ class MailHandler < ActionMailer::Base
       end
       return false
     end
+    # Ignore out-of-office emails
+    if email.header_string("X-Auto-Response-Suppress") == 'OOF'
+      if logger && logger.info
+        logger.info  "MailHandler: ignoring out-of-office email"
+      end
+      return false
+    end
     @user = User.find_by_mail(sender_email) if sender_email.present?
     if @user && !@user.active?
       if logger && logger.info

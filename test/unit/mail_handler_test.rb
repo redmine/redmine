@@ -359,6 +359,15 @@ class MailHandlerTest < ActiveSupport::TestCase
     end
   end
 
+  def test_should_ignore_oof_emails
+    raw = IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
+    raw = "X-Auto-Response-Suppress: OOF\n" + raw
+
+    assert_no_difference 'Issue.count' do
+      assert_equal false, MailHandler.receive(raw)
+    end
+  end
+
   def test_add_issue_should_send_email_notification
     Setting.notified_events = ['issue_added']
     ActionMailer::Base.deliveries.clear
