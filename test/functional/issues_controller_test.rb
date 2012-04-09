@@ -1363,6 +1363,22 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 'This is the test_new issue', issue.subject
   end
 
+  def test_update_new_form_should_propose_transitions_based_on_initial_status
+    @request.session[:user_id] = 2
+    Workflow.delete_all
+    Workflow.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 2)
+    Workflow.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 5)
+    Workflow.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 5, :new_status_id => 4)
+
+    xhr :post, :new, :project_id => 1,
+                     :issue => {:tracker_id => 1,
+                                :status_id => 5,
+                                :subject => 'This is an issue'}
+
+    assert_equal 5, assigns(:issue).status_id
+    assert_equal [1,2,5], assigns(:allowed_statuses).map(&:id).sort
+  end
+
   def test_post_create
     @request.session[:user_id] = 2
     assert_difference 'Issue.count' do
@@ -2169,6 +2185,23 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 1, issue.project_id
     assert_equal 2, issue.tracker_id
     assert_equal 'This is the test_new issue', issue.subject
+  end
+
+  def test_update_edit_form_should_propose_transitions_based_on_initial_status
+    @request.session[:user_id] = 2
+    Workflow.delete_all
+    Workflow.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 2, :new_status_id => 1)
+    Workflow.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 2, :new_status_id => 5)
+    Workflow.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 5, :new_status_id => 4)
+
+    xhr :put, :new, :project_id => 1,
+                    :id => 2,
+                    :issue => {:tracker_id => 2,
+                               :status_id => 5,
+                               :subject => 'This is an issue'}
+
+    assert_equal 5, assigns(:issue).status_id
+    assert_equal [1,2,5], assigns(:allowed_statuses).map(&:id).sort
   end
 
   def test_update_edit_form_with_project_change
