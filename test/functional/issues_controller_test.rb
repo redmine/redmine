@@ -305,6 +305,15 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  def test_index_should_omit_page_param_in_export_links
+    get :index, :page => 2
+    assert_response :success
+    assert_select 'a.atom[href=/issues.atom]'
+    assert_select 'a.csv[href=/issues.csv]'
+    assert_select 'a.pdf[href=/issues.pdf]'
+    assert_select 'form#csv-export-form[action=/issues.csv]'
+  end
+
   def test_index_csv
     get :index, :format => 'csv'
     assert_response :success
