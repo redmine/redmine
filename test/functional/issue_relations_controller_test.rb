@@ -71,6 +71,16 @@ class IssueRelationsControllerTest < ActionController::TestCase
     end
   end
 
+  def test_create_should_strip_id
+    assert_difference 'IssueRelation.count' do
+      @request.session[:user_id] = 3
+      post :create, :issue_id => 1,
+                 :relation => {:issue_to_id => ' 2  ', :relation_type => 'relates', :delay => ''}
+    end
+    relation = IssueRelation.first(:order => 'id DESC')
+    assert_equal 2, relation.issue_to_id
+  end
+
   def test_create_should_not_break_with_non_numerical_id
     assert_no_difference 'IssueRelation.count' do
       assert_nothing_raised do
