@@ -42,6 +42,12 @@ class MailHandler < ActionMailer::Base
     super email
   end
 
+  cattr_accessor :ignored_emails_headers
+  @@ignored_emails_headers = {
+    'X-Auto-Response-Suppress' => 'OOF',
+    'Auto-Submitted' => 'auto-replied'
+  }
+
   # Processes incoming emails
   # Returns the created object (eg. an issue, a message) or false
   def receive(email)
@@ -54,12 +60,15 @@ class MailHandler < ActionMailer::Base
       end
       return false
     end
-    # Ignore out-of-office emails
-    if email.header_string("X-Auto-Response-Suppress") == 'OOF'
-      if logger && logger.info
-        logger.info  "MailHandler: ignoring out-of-office email"
+    # Ignore auto generated emails
+    self.class.ignored_emails_headers.each do |key, ignored_value|
+      value = email.header_string(key)
+      if value && value.to_s.downcase == ignored_value.downcase
+        if logger && logger.info
+          logger.info "MailHandler: ignoring email with #{key}:#{value} header"
+        end
+        return false
       end
-      return false
     end
     @user = User.find_by_mail(sender_email) if sender_email.present?
     if @user && !@user.active?
