@@ -520,4 +520,16 @@ function hideOnLoad() {
   });
 }
 
+function addFormObserversForDoubleSubmit() {
+  $$('form[method=post]').each(function(el) {
+    Event.observe(el, 'submit', function(e) {
+      var form = Event.element(e);
+      form.select('input[type=submit]').each(function(btn) {
+        btn.disable();
+      });
+    });
+  });
+}
+
 Event.observe(window, 'load', hideOnLoad);
+Event.observe(window, 'load', addFormObserversForDoubleSubmit);
