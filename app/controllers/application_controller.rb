@@ -377,18 +377,6 @@ class ApplicationController < ActionController::Base
            :content_type => 'application/atom+xml'
   end
 
-  # TODO: remove in Redmine 1.4
-  def self.accept_key_auth(*actions)
-    ActiveSupport::Deprecation.warn "ApplicationController.accept_key_auth is deprecated and will be removed in Redmine 1.4. Use accept_rss_auth (or accept_api_auth) instead."
-    accept_rss_auth(*actions)
-  end
-
-  # TODO: remove in Redmine 1.4
-  def accept_key_auth_actions
-    ActiveSupport::Deprecation.warn "ApplicationController.accept_key_auth_actions is deprecated and will be removed in Redmine 1.4. Use accept_rss_auth (or accept_api_auth) instead."
-    self.class.accept_rss_auth
-  end
-
   def self.accept_rss_auth(*actions)
     if actions.any?
       write_inheritable_attribute('accept_rss_auth_actions', actions)
