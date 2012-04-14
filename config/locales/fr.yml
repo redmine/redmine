@@ -1039,4 +1039,4 @@ fr:
   label_child_revision: Enfant
   error_scm_annotate_big_text_file: Cette entrée ne peut pas être annotée car elle excède la taille maximale.
   setting_repositories_encodings: Encodages des fichiers et des dépôts
-  label_search_for_watchers: Search for watchers to add
+  label_search_for_watchers: Rechercher des observateurs
