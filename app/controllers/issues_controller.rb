@@ -225,7 +225,11 @@ class IssuesController < ApplicationController
     end
     target_projects ||= @projects
 
-    @available_statuses = @issues.map(&:new_statuses_allowed_to).reduce(:&)
+    if @copy
+      @available_statuses = [IssueStatus.default]
+    else
+      @available_statuses = @issues.map(&:new_statuses_allowed_to).reduce(:&)
+    end
     @custom_fields = target_projects.map{|p|p.all_issue_custom_fields}.reduce(:&)
     @assignables = target_projects.map(&:assignable_users).reduce(:&)
     @trackers = target_projects.map(&:trackers).reduce(:&)

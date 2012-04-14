@@ -395,6 +395,14 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal expected_statuses, issue.new_statuses_allowed_to(admin)
   end
 
+  def test_new_statuses_allowed_to_should_return_default_and_current_status_when_copying
+    issue = Issue.find(1).copy
+    assert_equal [1], issue.new_statuses_allowed_to(User.find(2)).map(&:id)
+
+    issue = Issue.find(2).copy
+    assert_equal [1, 2], issue.new_statuses_allowed_to(User.find(2)).map(&:id)
+  end
+
   def test_copy
     issue = Issue.new.copy_from(1)
     assert issue.copy?

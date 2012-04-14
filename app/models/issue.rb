@@ -511,24 +511,28 @@ class Issue < ActiveRecord::Base
 
   # Returns an array of statuses that user is able to apply
   def new_statuses_allowed_to(user=User.current, include_default=false)
-    initial_status = nil
-    if new_record?
-      initial_status = IssueStatus.default
-    elsif status_id_was
-      initial_status = IssueStatus.find_by_id(status_id_was)
+    if new_record? && @copied_from
+      [IssueStatus.default, @copied_from.status].compact.uniq.sort
+    else
+      initial_status = nil
+      if new_record?
+        initial_status = IssueStatus.default
+      elsif status_id_was
+        initial_status = IssueStatus.find_by_id(status_id_was)
+      end
+      initial_status ||= status
+  
+      statuses = initial_status.find_new_statuses_allowed_to(
+        user.admin ? Role.all : user.roles_for_project(project),
+        tracker,
+        author == user,
+        assigned_to_id_changed? ? assigned_to_id_was == user.id : assigned_to_id == user.id
+        )
+      statuses << initial_status unless statuses.empty?
+      statuses << IssueStatus.default if include_default
+      statuses = statuses.compact.uniq.sort
+      blocked? ? statuses.reject {|s| s.is_closed?} : statuses
     end
-    initial_status ||= status
-
-    statuses = initial_status.find_new_statuses_allowed_to(
-      user.admin ? Role.all : user.roles_for_project(project),
-      tracker,
-      author == user,
-      assigned_to_id_changed? ? assigned_to_id_was == user.id : assigned_to_id == user.id
-      )
-    statuses << initial_status unless statuses.empty?
-    statuses << IssueStatus.default if include_default
-    statuses = statuses.compact.uniq.sort
-    blocked? ? statuses.reject {|s| s.is_closed?} : statuses
   end
 
   def assigned_to_was

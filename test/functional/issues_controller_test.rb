@@ -3065,24 +3065,38 @@ class IssuesControllerTest < ActionController::TestCase
       end
     end
     assert_redirected_to '/projects/ecookbook/issues'
+
+    copies = Issue.all(:order => 'id DESC', :limit => issues.size)
+    copies.each do |copy|
+      assert_equal 2, copy.project_id
+    end
   end
 
   def test_bulk_copy_should_allow_not_changing_the_issue_attributes
     @request.session[:user_id] = 2
-    issue_before_move = Issue.find(1)
-    assert_difference 'Issue.count', 1 do
-      assert_no_difference 'Project.find(1).issues.count' do
-        post :bulk_update, :ids => [1], :copy => '1', 
-             :issue => {
-               :project_id => '2', :tracker_id => '', :assigned_to_id => '',
-               :status_id => '', :start_date => '', :due_date => ''
-             }
-      end
+    issues = [
+      Issue.create!(:project_id => 1, :tracker_id => 1, :status_id => 1, :priority_id => 2, :subject => 'issue 1', :author_id => 1, :assigned_to_id => nil),
+      Issue.create!(:project_id => 2, :tracker_id => 3, :status_id => 2, :priority_id => 1, :subject => 'issue 2', :author_id => 2, :assigned_to_id => 3)
+    ]
+
+    assert_difference 'Issue.count', issues.size do
+      post :bulk_update, :ids => issues.map(&:id), :copy => '1', 
+           :issue => {
+             :project_id => '', :tracker_id => '', :assigned_to_id => '',
+             :status_id => '', :start_date => '', :due_date => ''
+           }
     end
-    issue_after_move = Issue.first(:order => 'id desc', :conditions => {:project_id => 2})
-    assert_equal issue_before_move.tracker_id, issue_after_move.tracker_id
-    assert_equal issue_before_move.status_id, issue_after_move.status_id
-    assert_equal issue_before_move.assigned_to_id, issue_after_move.assigned_to_id
+
+    copies = Issue.all(:order => 'id DESC', :limit => issues.size)
+    issues.each do |orig|
+      copy = copies.detect {|c| c.subject == orig.subject}
+      assert_not_nil copy
+      assert_equal orig.project_id, copy.project_id
+      assert_equal orig.tracker_id, copy.tracker_id
+      assert_equal orig.status_id, copy.status_id
+      assert_equal orig.assigned_to_id, copy.assigned_to_id
+      assert_equal orig.priority_id, copy.priority_id
+    end
   end
 
  def test_bulk_copy_should_allow_changing_the_issue_attributes
@@ -3097,7 +3111,7 @@ class IssuesControllerTest < ActionController::TestCase
         post :bulk_update, :ids => [1, 2], :copy => '1', 
              :issue => {
                :project_id => '2', :tracker_id => '', :assigned_to_id => '4',
-               :status_id => '3', :start_date => '2009-12-01', :due_date => '2009-12-31'
+               :status_id => '1', :start_date => '2009-12-01', :due_date => '2009-12-31'
              }
       end
     end
@@ -3107,7 +3121,7 @@ class IssuesControllerTest < ActionController::TestCase
     copied_issues.each do |issue|
       assert_equal 2, issue.project_id, "Project is incorrect"
       assert_equal 4, issue.assigned_to_id, "Assigned to is incorrect"
-      assert_equal 3, issue.status_id, "Status is incorrect"
+      assert_equal 1, issue.status_id, "Status is incorrect"
       assert_equal '2009-12-01', issue.start_date.to_s, "Start date is incorrect"
       assert_equal '2009-12-31', issue.due_date.to_s, "Due date is incorrect"
     end
