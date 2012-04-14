@@ -1,4 +1,6 @@
-# MySQL (default setup).
+# Default setup is given for MySQL with ruby1.8. If you're running Redmine
+# with MySQL and ruby1.9, replace the adapter name with `mysql2`.
+# Examples for PostgreSQL and SQLite3 can be found at the end.
 
 production:
   adapter: mysql
