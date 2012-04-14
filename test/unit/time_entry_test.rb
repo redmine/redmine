@@ -45,6 +45,7 @@ class TimeEntryTest < ActiveSupport::TestCase
                    "3 h 15 m" => 3.25,
                    "3 hours"  => 3.0,
                    "12min"    => 0.2,
+                   "12 Min"    => 0.2,
                   }
 
     assertions.each do |k, v|
