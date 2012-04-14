@@ -4,13 +4,15 @@ Redmine - project management software
 Copyright (C) 2006-2012  Jean-Philippe Lang
 http://www.redmine.org/
 
-== TBD v1.4.0
+== 2012-04-14 v1.4.0
 
 * Defect #2719: Increase username length limit from 30 to 60
 * Defect #3087: Revision referring to issues across all projects
 * Defect #4824: Unable to connect (can't convert Net::LDAP::LdapError into String)
+* Defect #5058: reminder mails are not sent when delivery_method is :async_smtp
 * Defect #6859: Moving issues to a tracker with different custom fields should let fill these fields
 * Defect #7398: Error when trying to quick create a version with required custom field
+* Defect #7495: Python multiline comments highlighting problem in Repository browser
 * Defect #7826: bigdecimal-segfault-fix.rb must be removed for Oracle
 * Defect #7920: Attempted to update a stale object when copying a project
 * Defect #8857: Git: Too long in fetching repositories after upgrade from 1.1 or new branch at first time
@@ -20,6 +22,7 @@ http://www.redmine.org/
 * Defect #9978: Japanese "permission_add_issue_watchers" is wrong
 * Defect #10006: Email reminders are sent for closed issues
 * Defect #10150: CSV export and spent time: rounding issue
+* Defect #10168: CSV export breaks custom columns
 * Defect #10181: Issue context menu and bulk edit form show irrelevant statuses
 * Defect #10198: message_id regex in pop3.rb only recognizes Message-ID header (not Message-Id)
 * Defect #10251: Description diff link in note details is relative when received by email
@@ -33,7 +36,8 @@ http://www.redmine.org/
 * Defect #10590: WikiContent::Version#text return string with #<Encoding:ASCII-8BIT> when uncompressed
 * Defect #10593: Error: 'incompatible character encodings: UTF-8 and ASCII-8BIT' (old annoing issue) on ruby-1.9.3
 * Defect #10600: Watchers search generates an Internal error
-* Defect #10602: Attachment link has get parameter :class
+* Defect #10605: Bulk edit selected issues does not allow selection of blank values for custom fields
+* Defect #10619: When changing status before tracker, it shows improper status
 * Feature #779: Multiple SCM per project
 * Feature #971: Add "Spent time" column to query
 * Feature #1060: Add a LDAP-filter using external auth sources
@@ -60,6 +64,7 @@ http://www.redmine.org/
 * Feature #6296: Bulk-edit custom fields through context menu
 * Feature #6386: Issue mail should render the HTML version of the issue details
 * Feature #6449: Edit a wiki page's parent on the edit page
+* Feature #6555: Double-click on "Submit" and "Save" buttons should not send two requests to server
 * Feature #7361: Highlight active query in the side bar
 * Feature #7420: Rest API for projects members
 * Feature #7603: Please make editing issues more obvious than "Change properties (More)"
@@ -71,19 +76,31 @@ http://www.redmine.org/
 * Feature #9995: Time entries insertion, "Create and continue" button
 * Feature #10020: Enable global time logging at /time_entries/new
 * Feature #10042: Bulk change private flag
-* Feature #10046: Update installation doc on release
 * Feature #10126: Add members of subprojects in the assignee and author filters
 * Feature #10131: Include custom fiels in time entries API responses
 * Feature #10207: Git: use default branch from HEAD
 * Feature #10208: Estonian translation
 * Feature #10253: Better handling of attachments when validation fails
 * Feature #10350: Bulk copy should allow for changing the target version
+* Feature #10607: Ignore out-of-office incoming emails
+* Feature #10635: Adding time like "123 Min" is invalid
 * Patch #9998: Make attachement "Optional Description" less wide
 * Patch #10066: i18n not working with russian gem
+* Patch #10128: Disable IE 8 compatibility mode to fix wrong div.autoscroll scroll bar behaviour 
 * Patch #10155: Russian translation changed
 * Patch #10464: Enhanced PDF output for Issues list
 * Patch #10470: Efficiently process new git revisions in a single batch
 * Patch #10513: Dutch translation improvement
+
+== 2012-04-14 v1.3.3
+
+* Defect #10505: Error when exporting to PDF with NoMethodError (undefined method `downcase' for nil:NilClass)
+* Defect #10554: Defect symbols when exporting tasks in pdf
+* Defect #10564: Unable to change locked, sticky flags and board when editing a message
+* Defect #10591: Dutch "label_file_added" translation is wrong
+* Defect #10622: "Default administrator account changed" is always true
+* Patch #10555: rake redmine:send_reminders aborted if issue assigned to group
+* Patch #10611: Simplified Chinese translations for 1.3-stable
 
 == 2012-03-11 v1.3.2
 
