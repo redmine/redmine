@@ -145,8 +145,8 @@ class Issue < ActiveRecord::Base
   end
 
   # Returns an unsaved copy of the issue
-  def copy(attributes=nil)
-    copy = self.class.new.copy_from(self)
+  def copy(attributes=nil, copy_options={})
+    copy = self.class.new.copy_from(self, copy_options)
     copy.attributes = attributes if attributes
     copy
   end

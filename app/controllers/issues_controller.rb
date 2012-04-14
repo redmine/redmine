@@ -235,6 +235,9 @@ class IssuesController < ApplicationController
     @trackers = target_projects.map(&:trackers).reduce(:&)
     @versions = target_projects.map {|p| p.shared_versions.open}.reduce(:&)
     @categories = target_projects.map {|p| p.issue_categories}.reduce(:&)
+    if @copy
+      @attachments_present = @issues.detect {|i| i.attachments.any?}.present?
+    end
 
     @safe_attributes = @issues.map(&:safe_attribute_names).reduce(:&)
     render :layout => false if request.xhr?
@@ -250,7 +253,7 @@ class IssuesController < ApplicationController
     @issues.each do |issue|
       issue.reload
       if @copy
-        issue = issue.copy
+        issue = issue.copy({}, :attachments => params[:copy_attachments].present?)
       end
       journal = issue.init_journal(User.current, params[:notes])
       issue.safe_attributes = attributes

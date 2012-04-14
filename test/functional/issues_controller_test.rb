@@ -3057,6 +3057,19 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 'Failed to save 1 issue(s) on 2 selected: #2.', flash[:error]
   end
 
+  def test_get_bulk_copy
+    @request.session[:user_id] = 2
+    get :bulk_edit, :ids => [1, 2, 3], :copy => '1'
+    assert_response :success
+    assert_template 'bulk_edit'
+
+    issues = assigns(:issues)
+    assert_not_nil issues
+    assert_equal [1, 2, 3], issues.map(&:id).sort
+
+    assert_select 'input[name=copy_attachments]'
+  end
+
   def test_bulk_copy_to_another_project
     @request.session[:user_id] = 2
     assert_difference 'Issue.count', 2 do
@@ -3099,7 +3112,7 @@ class IssuesControllerTest < ActionController::TestCase
     end
   end
 
- def test_bulk_copy_should_allow_changing_the_issue_attributes
+  def test_bulk_copy_should_allow_changing_the_issue_attributes
     # Fixes random test failure with Mysql
     # where Issue.all(:limit => 2, :order => 'id desc', :conditions => {:project_id => 2})
     # doesn't return the expected results
@@ -3143,6 +3156,36 @@ class IssuesControllerTest < ActionController::TestCase
     journal = issue.journals.first
     assert_equal 0, journal.details.size
     assert_equal 'Copying one issue', journal.notes
+  end
+
+  def test_bulk_copy_should_allow_not_copying_the_attachments
+    attachment_count = Issue.find(3).attachments.size
+    assert attachment_count > 0
+    @request.session[:user_id] = 2
+
+    assert_difference 'Issue.count', 1 do
+      assert_no_difference 'Attachment.count' do
+        post :bulk_update, :ids => [3], :copy => '1',
+             :issue => {
+               :project_id => ''
+             }
+      end
+    end
+  end
+
+  def test_bulk_copy_should_allow_copying_the_attachments
+    attachment_count = Issue.find(3).attachments.size
+    assert attachment_count > 0
+    @request.session[:user_id] = 2
+
+    assert_difference 'Issue.count', 1 do
+      assert_difference 'Attachment.count', attachment_count do
+        post :bulk_update, :ids => [3], :copy => '1', :copy_attachments => '1',
+             :issue => {
+               :project_id => ''
+             }
+      end
+    end
   end
 
   def test_bulk_copy_to_another_project_should_follow_when_needed
