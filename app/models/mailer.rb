@@ -359,7 +359,7 @@ class Mailer < ActionMailer::Base
 
     issues_by_assignee = scope.all(:include => [:status, :assigned_to, :project, :tracker]).group_by(&:assigned_to)
     issues_by_assignee.each do |assignee, issues|
-      deliver_reminder(assignee, issues, days) if assignee && assignee.active?
+      deliver_reminder(assignee, issues, days) if assignee.is_a?(User) && assignee.active?
     end
   end
 
