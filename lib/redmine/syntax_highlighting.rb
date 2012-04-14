@@ -40,7 +40,7 @@ module Redmine
         # Should not return line numbers nor outer pre tag
         def highlight_by_filename(text, filename)
           language = ::CodeRay::FileType[filename]
-          language ? ::CodeRay.scan(text, language).html : ERB::Util.h(text)
+          language ? ::CodeRay.scan(text, language).html(:break_lines => true) : ERB::Util.h(text)
         end
 
         # Highlights +text+ using +language+ syntax
