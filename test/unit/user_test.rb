@@ -574,6 +574,38 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
+  def test_default_admin_account_changed_should_return_false_if_account_was_not_changed
+    user = User.find_by_login("admin")
+    user.password = "admin"
+    user.save!
+
+    assert_equal false, User.default_admin_account_changed?
+  end
+
+  def test_default_admin_account_changed_should_return_true_if_password_was_changed
+    user = User.find_by_login("admin")
+    user.password = "newpassword"
+    user.save!
+
+    assert_equal true, User.default_admin_account_changed?
+  end
+
+  def test_default_admin_account_changed_should_return_true_if_account_is_disabled
+    user = User.find_by_login("admin")
+    user.password = "admin"
+    user.status = User::STATUS_LOCKED
+    user.save!
+
+    assert_equal true, User.default_admin_account_changed?
+  end
+
+  def test_default_admin_account_changed_should_return_true_if_account_does_not_exist
+    user = User.find_by_login("admin")
+    user.destroy
+
+    assert_equal true, User.default_admin_account_changed?
+  end
+
   def test_roles_for_project
     # user with a role
     roles = @jsmith.roles_for_project(Project.find(1))

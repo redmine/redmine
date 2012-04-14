@@ -343,6 +343,11 @@ class User < Principal
     find(:first, :conditions => ["LOWER(mail) = ?", mail.to_s.downcase])
   end
 
+  # Returns true if the default admin account can no longer be used
+  def self.default_admin_account_changed?
+    !User.active.find_by_login("admin").try(:check_password?, "admin")
+  end
+
   def to_s
     name
   end
