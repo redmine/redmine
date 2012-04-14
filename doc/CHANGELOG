@@ -4,6 +4,16 @@ Redmine - project management software
 Copyright (C) 2006-2012  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2012-04-14 v1.3.3
+
+* Defect #10505: Error when exporting to PDF with NoMethodError (undefined method `downcase' for nil:NilClass)
+* Defect #10554: Defect symbols when exporting tasks in pdf
+* Defect #10564: Unable to change locked, sticky flags and board when editing a message
+* Defect #10591: Dutch "label_file_added" translation is wrong
+* Defect #10622: "Default administrator account changed" is always true
+* Patch #10555: rake redmine:send_reminders aborted if issue assigned to group
+* Patch #10611: Simplified Chinese translations for 1.3-stable
+
 == 2012-03-11 v1.3.2
 
 * Defect #8194: {{toc}} uses identical anchors for subsections with the same name
