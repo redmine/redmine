@@ -509,17 +509,25 @@ class Issue < ActiveRecord::Base
     !relations_to.detect {|ir| ir.relation_type == 'blocks' && !ir.issue_from.closed?}.nil?
   end
 
-  # Returns an array of status that user is able to apply
+  # Returns an array of statuses that user is able to apply
   def new_statuses_allowed_to(user=User.current, include_default=false)
-    statuses = status.find_new_statuses_allowed_to(
+    initial_status = nil
+    if new_record?
+      initial_status = IssueStatus.default
+    elsif status_id_was
+      initial_status = IssueStatus.find_by_id(status_id_was)
+    end
+    initial_status ||= status
+
+    statuses = initial_status.find_new_statuses_allowed_to(
       user.admin ? Role.all : user.roles_for_project(project),
       tracker,
       author == user,
       assigned_to_id_changed? ? assigned_to_id_was == user.id : assigned_to_id == user.id
       )
-    statuses << status unless statuses.empty?
+    statuses << initial_status unless statuses.empty?
     statuses << IssueStatus.default if include_default
-    statuses = statuses.uniq.sort
+    statuses = statuses.compact.uniq.sort
     blocked? ? statuses.reject {|s| s.is_closed?} : statuses
   end
 
