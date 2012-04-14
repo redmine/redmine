@@ -60,6 +60,13 @@
   <p><label><%= h(custom_field.name) %></label> <%= custom_field_tag_for_bulk_edit('issue', custom_field, @projects) %></p>
 <% end %>
 
+<% if @copy && @attachments_present %>
+<p>
+  <label for='copy_attachments'><%= l(:label_copy_attachments) %></label>
+  <%= check_box_tag 'copy_attachments', '1', true %>
+</p>
+<% end %>
+
 <%= call_hook(:view_issues_bulk_edit_details_bottom, { :issues => @issues }) %>
 </div>
 
