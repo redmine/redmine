@@ -482,6 +482,12 @@ class User < Principal
     allowed_to?(action, nil, options.reverse_merge(:global => true), &block)
   end
 
+  # Returns true if the user is allowed to delete his own account
+  def own_account_deletable?
+    Setting.unsubscribe? &&
+      (!admin? || User.active.first(:conditions => ["admin = ? AND id <> ?", true, id]).present?)
+  end
+
   safe_attributes 'login',
     'firstname',
     'lastname',

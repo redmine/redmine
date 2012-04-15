@@ -84,6 +84,45 @@ class MyControllerTest < ActionController::TestCase
     assert user.groups.empty?
   end
 
+  def test_my_account_should_show_destroy_link
+    get :account
+    assert_select 'a[href=/my/account/destroy]'
+  end
+
+  def test_get_destroy_should_display_the_destroy_confirmation
+    get :destroy
+    assert_response :success
+    assert_template 'destroy'
+    assert_select 'form[action=/my/account/destroy]' do
+      assert_select 'input[name=confirm]'
+    end
+  end
+
+  def test_post_destroy_without_confirmation_should_not_destroy_account
+    assert_no_difference 'User.count' do
+      post :destroy
+    end
+    assert_response :success
+    assert_template 'destroy'
+  end
+
+  def test_post_destroy_without_confirmation_should_destroy_account
+    assert_difference 'User.count', -1 do
+      post :destroy, :confirm => '1'
+    end
+    assert_redirected_to '/'
+    assert_match /deleted/i, flash[:notice]
+  end
+
+  def test_post_destroy_with_unsubscribe_not_allowed_should_not_destroy_account
+    User.any_instance.stubs(:own_account_deletable?).returns(false)
+
+    assert_no_difference 'User.count' do
+      post :destroy, :confirm => '1'
+    end
+    assert_redirected_to '/my/account'
+  end
+
   def test_change_password
     get :password
     assert_response :success

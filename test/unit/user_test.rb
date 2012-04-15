@@ -770,7 +770,34 @@ class UserTest < ActiveSupport::TestCase
       user.auth_source = denied_auth_source
       assert !user.change_password_allowed?, "User allowed to change password, though auth source does not"
     end
+  end
 
+  def test_own_account_deletable_should_be_true_with_unsubscrive_enabled
+    with_settings :unsubscribe => '1' do
+      assert_equal true, User.find(2).own_account_deletable?
+    end
+  end
+
+  def test_own_account_deletable_should_be_false_with_unsubscrive_disabled
+    with_settings :unsubscribe => '0' do
+      assert_equal false, User.find(2).own_account_deletable?
+    end
+  end
+
+  def test_own_account_deletable_should_be_false_for_a_single_admin
+    User.delete_all(["admin = ? AND id <> ?", true, 1])
+
+    with_settings :unsubscribe => '1' do
+      assert_equal false, User.find(1).own_account_deletable?
+    end
+  end
+
+  def test_own_account_deletable_should_be_true_for_an_admin_if_other_admin_exists
+    User.generate_with_protected(:admin => true)
+
+    with_settings :unsubscribe => '1' do
+      assert_equal true, User.find(1).own_account_deletable?
+    end
   end
 
   context "#allowed_to?" do

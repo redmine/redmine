@@ -173,6 +173,7 @@ en:
   notice_gantt_chart_truncated: "The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})"
   notice_issue_successful_create: "Issue %{id} created."
   notice_issue_update_conflict: "The issue has been updated by an other user while you were editing it."
+  notice_account_deleted: "Your account has been permanently deleted."
 
   error_can_t_load_default_data: "Default configuration could not be loaded: %{value}"
   error_scm_not_found: "The entry or revision was not found in the repository."
@@ -383,6 +384,7 @@ en:
   setting_issue_group_assignment: Allow issue assignment to groups
   setting_default_issue_start_date_to_creation_date: Use current date as start date for new issues
   setting_commit_cross_project_ref: Allow issues of all the other projects to be referenced and fixed
+  setting_unsubscribe: Allow users to unsubscribe
 
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects
@@ -894,6 +896,7 @@ en:
   button_show: Show
   button_edit_section: Edit this section
   button_export: Export
+  button_delete_my_account: Delete my account
 
   status_active: active
   status_registered: registered
@@ -978,6 +981,7 @@ en:
   text_issue_conflict_resolution_overwrite: "Apply my changes anyway (previous notes will be kept but some changes may be overwritten)"
   text_issue_conflict_resolution_add_notes: "Add my notes and discard my other changes"
   text_issue_conflict_resolution_cancel: "Discard all my changes and redisplay %{link}"
+  text_account_destroy_confirmation: "Are you sure you want to proceed?\nYour account will be permanently deleted, with no way to reactivate it."
 
   default_role_manager: Manager
   default_role_developer: Developer
