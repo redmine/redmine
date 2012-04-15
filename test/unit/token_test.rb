@@ -35,4 +35,27 @@ class TokenTest < ActiveSupport::TestCase
     assert !Token.exists?(t1.id)
     assert  Token.exists?(t2.id)
   end
+
+  def test_destroy_expired_should_not_destroy_feeds_and_api_tokens
+    Token.delete_all
+
+    Token.create!(:user_id => 1, :action => 'api', :created_on => 7.days.ago)
+    Token.create!(:user_id => 1, :action => 'feeds', :created_on => 7.days.ago)
+
+    assert_no_difference 'Token.count' do
+      assert_equal 0, Token.destroy_expired
+    end
+  end
+
+  def test_destroy_expired_should_destroy_expired_tokens
+    Token.delete_all
+
+    Token.create!(:user_id => 1, :action => 'autologin', :created_on => 7.days.ago)
+    Token.create!(:user_id => 2, :action => 'autologin', :created_on => 3.days.ago)
+    Token.create!(:user_id => 3, :action => 'autologin', :created_on => 1.hour.ago)
+
+    assert_difference 'Token.count', -2 do
+      assert_equal 2, Token.destroy_expired
+    end
+  end
 end
