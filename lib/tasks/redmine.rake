@@ -29,4 +29,16 @@ namespace :redmine do
       Token.destroy_expired
     end
   end
+
+  namespace :watchers do
+    desc 'Removes watchers from what they can no longer view.'
+    task :prune => :environment do
+      Watcher.prune
+    end
+  end
+
+  desc 'Fetch changesets from the repositories'
+  task :fetch_changesets => :environment do
+    Repository.fetch_changesets
+  end
 end
