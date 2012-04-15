@@ -284,14 +284,18 @@ class User < Principal
 
   # Return user's RSS key (a 40 chars long string), used to access feeds
   def rss_key
-    token = self.rss_token || Token.create(:user => self, :action => 'feeds')
-    token.value
+    if rss_token.nil?
+      create_rss_token(:action => 'feeds')
+    end
+    rss_token.value
   end
 
   # Return user's API key (a 40 chars long string), used to access the API
   def api_key
-    token = self.api_token || self.create_api_token(:action => 'api')
-    token.value
+    if api_token.nil?
+      create_api_token(:action => 'api')
+    end
+    api_token.value
   end
 
   # Return an array of project ids for which the user has explicitly turned mail notifications on

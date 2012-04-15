@@ -585,6 +585,22 @@ class UserTest < ActiveSupport::TestCase
     assert_equal key, @jsmith.rss_key
   end
 
+  def test_rss_key_should_not_be_generated_twice
+    assert_difference 'Token.count', 1 do
+      key1 = @jsmith.rss_key
+      key2 = @jsmith.rss_key
+      assert_equal key1, key2
+    end
+  end
+
+  def test_api_key_should_not_be_generated_twice
+    assert_difference 'Token.count', 1 do
+      key1 = @jsmith.api_key
+      key2 = @jsmith.api_key
+      assert_equal key1, key2
+    end
+  end
+
   context "User#api_key" do
     should "generate a new one if the user doesn't have one" do
       user = User.generate_with_protected!(:api_token => nil)
