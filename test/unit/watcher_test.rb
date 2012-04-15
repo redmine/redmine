@@ -154,4 +154,12 @@ class WatcherTest < ActiveSupport::TestCase
     assert Issue.find(1).watched_by?(user)
     assert !Issue.find(4).watched_by?(user)
   end
+
+  def test_prune_all
+    user = User.find(9)
+    Watcher.new(:watchable => Issue.find(4), :user => User.find(9)).save(false)
+
+    assert Watcher.prune > 0
+    assert !Issue.find(4).watched_by?(user)
+  end
 end
