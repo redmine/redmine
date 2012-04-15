@@ -1055,3 +1055,9 @@ ja:
   permission_manage_related_issues: 関連するチケットの管理
   field_ldap_filter: LDAPフィルタ
   label_search_for_watchers: ウォッチャーを検索して追加
+  notice_account_deleted: Your account has been permanently deleted.
+  setting_unsubscribe: Allow users to unsubscribe
+  button_delete_my_account: Delete my account
+  text_account_destroy_confirmation: |-
+    Are you sure you want to proceed?
+    Your account will be permanently deleted, with no way to reactivate it.

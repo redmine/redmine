@@ -1024,3 +1024,9 @@ bg:
   description_date_range_interval: Изберете диапазон чрез задаване на начална и крайна дати
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
+  notice_account_deleted: Your account has been permanently deleted.
+  setting_unsubscribe: Allow users to unsubscribe
+  button_delete_my_account: Delete my account
+  text_account_destroy_confirmation: |-
+    Are you sure you want to proceed?
+    Your account will be permanently deleted, with no way to reactivate it.
