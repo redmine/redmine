@@ -992,11 +992,11 @@ de:
   text_scm_config: Die SCM-Kommandos können in der in config/configuration.yml konfiguriert werden. Redmine muss anschließend neu gestartet werden.
   text_scm_command_not_available: Scm Kommando ist nicht verfügbar. Bitte prüfen Sie die Einstellungen im Administrationspanel.
 
-  notice_issue_successful_create: Issue %{id} created.
-  label_between: between
-  setting_issue_group_assignment: Allow issue assignment to groups
+  notice_issue_successful_create: Ticket %{id} erstellt.
+  label_between: zwischen
+  setting_issue_group_assignment: Erlaubt die Ticket-Zuweisung an Gruppen
   label_diff: diff
-  text_git_repository_note: Repository is bare and local (e.g. /gitrepo, c:\gitrepo)
+  text_git_repository_note: Repository steht für sich alleine (bare) und liegt lokal (z.B. /gitrepo, c:\gitrepo)
 
   description_filter: Filter
   description_search: Suchfeld
