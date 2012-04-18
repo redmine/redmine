@@ -46,4 +46,8 @@ class TrackerTest < ActiveSupport::TestCase
     Workflow.delete_all("tracker_id = 1")
     assert_equal [], Tracker.find(1).issue_statuses
   end
+
+  def test_issue_statuses_should_be_empty_for_new_record
+    assert_equal [], Tracker.new.issue_statuses
+  end
 end
