@@ -450,6 +450,18 @@ class TimelogControllerTest < ActionController::TestCase
       :attributes => {:action => "/projects/ecookbook/time_entries", :id => 'query_form'}
   end
 
+  def test_index_from_a_date
+    get :index, :project_id => 'ecookbook', :from => "2007-03-23", :to => ""
+    assert_equal '2007-03-23'.to_date, assigns(:from)
+    assert_nil assigns(:to)
+  end
+
+  def test_index_to_a_date
+    get :index, :project_id => 'ecookbook', :from => "", :to => "2007-03-23"
+    assert_nil assigns(:from)
+    assert_equal '2007-03-23'.to_date, assigns(:to)
+  end
+
   def test_index_today
     Date.stubs(:today).returns('2011-12-15'.to_date)
     get :index, :period => 'today'
