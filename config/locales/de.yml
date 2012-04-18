@@ -210,7 +210,7 @@ de:
   mail_body_lost_password: 'Benutzen Sie den folgenden Link, um Ihr Kennwort zu ändern:'
   mail_subject_register: "%{value} Kontoaktivierung"
   mail_body_register: 'Um Ihr Konto zu aktivieren, benutzen Sie folgenden Link:'
-  mail_body_account_information_external: "Sie können sich mit Ihrem Konto %{value} an anmelden."
+  mail_body_account_information_external: "Sie können sich mit Ihrem Konto %{value} anmelden."
   mail_body_account_information: Ihre Konto-Informationen
   mail_subject_account_activation_request: "Antrag auf %{value} Kontoaktivierung"
   mail_body_account_activation_request: "Ein neuer Benutzer (%{value}) hat sich registriert. Sein Konto wartet auf Ihre Genehmigung:"
@@ -503,7 +503,7 @@ de:
   label_last_login: Letzte Anmeldung
   label_registered_on: Angemeldet am
   label_activity: Aktivität
-  label_overall_activity: Aktivität aller Projekte anzeigen
+  label_overall_activity: Aktivitäten aller Projekte anzeigen
   label_user_activity: "Aktivität von %{value}"
   label_new: Neu
   label_logged_as: Angemeldet als
@@ -717,7 +717,7 @@ de:
   label_message_new: Neues Thema
   label_message_posted: Forenbeitrag hinzugefügt
   label_reply_plural: Antworten
-  label_send_information: Sende Kontoinformationen zum Benutzer
+  label_send_information: Sende Kontoinformationen an Benutzer
   label_year: Jahr
   label_month: Monat
   label_week: Woche
