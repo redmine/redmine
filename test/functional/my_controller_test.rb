@@ -22,7 +22,7 @@ require 'my_controller'
 class MyController; def rescue_action(e) raise e end; end
 
 class MyControllerTest < ActionController::TestCase
-  fixtures :users, :user_preferences, :roles, :projects, :issues, :issue_statuses, :trackers, :enumerations, :custom_fields
+  fixtures :users, :user_preferences, :roles, :projects, :issues, :issue_statuses, :trackers, :enumerations, :custom_fields, :auth_sources
 
   def setup
     @controller = MyController.new
@@ -150,6 +150,14 @@ class MyControllerTest < ActionController::TestCase
                     :new_password_confirmation => 'hello'
     assert_redirected_to '/my/account'
     assert User.try_to_login('jsmith', 'hello')
+  end
+
+  def test_change_password_should_redirect_if_user_cannot_change_its_password
+    User.find(2).update_attribute(:auth_source_id, 1)
+
+    get :password
+    assert_not_nil flash[:error]
+    assert_redirected_to '/my/account'
   end
 
   def test_page_layout
