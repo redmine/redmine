@@ -585,7 +585,7 @@ class RedCloth3 < String
                     last_line = line_id
                 end
                 if line_id - last_line > 1 or line_id == lines.length - 1
-                    depth.delete_if do |v|
+                    while v = depth.pop
                         lines[last_line] << "</li>\n\t</#{ lT( v ) }l>"
                     end
                 end
