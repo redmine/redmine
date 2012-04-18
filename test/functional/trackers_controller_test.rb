@@ -78,12 +78,13 @@ class TrackersControllerTest < ActionController::TestCase
     assert_equal Tracker.find(1).workflows.count, tracker.workflows.count
   end
 
-  def test_create_new_failure
+  def test_create_with_failure
     assert_no_difference 'Tracker.count' do
       post :create, :tracker => { :name => '', :project_ids => ['1', '', ''], :custom_field_ids => ['1', '6', ''] }
     end
     assert_response :success
     assert_template 'new'
+    assert_error_tag :content => /name can't be blank/i
   end
 
   def test_edit
@@ -118,6 +119,13 @@ class TrackersControllerTest < ActionController::TestCase
                                         :project_ids => [''] }
     assert_redirected_to :action => 'index'
     assert Tracker.find(1).project_ids.empty?
+  end
+
+  def test_update_with_failure
+    put :update, :id => 1, :tracker => { :name => '' }
+    assert_response :success
+    assert_template 'edit'
+    assert_error_tag :content => /name can't be blank/i
   end
 
   def test_move_lower
