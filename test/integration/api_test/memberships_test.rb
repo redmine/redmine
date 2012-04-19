@@ -161,6 +161,14 @@ class ApiTest::MembershipsTest < ActionController::IntegrationTest
           member = Member.find(2)
           assert_equal [1,2], member.role_ids.sort
         end
+
+        should "return errors on failure" do
+          put '/memberships/2.xml', {:membership => {:user_id => 3, :role_ids => [99]}}, credentials('jsmith')
+
+          assert_response :unprocessable_entity
+          assert_equal 'application/xml', @response.content_type
+          assert_tag 'errors', :child => {:tag => 'error', :content => "member_roles is invalid"}
+        end
       end
     end
 
