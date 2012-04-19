@@ -33,10 +33,18 @@ class PrincipalTest < ActiveSupport::TestCase
     assert_equal projects.map(&:principals).flatten.sort, Principal.member_of(projects).sort
   end
 
+  def test_member_of_scope_should_be_empty_for_no_projects
+    assert_equal [], Principal.member_of([]).sort
+  end
+
   def test_not_member_of_scope_should_return_users_that_have_no_memberships
     projects = Project.find_all_by_id(1, 2)
     expected = (Principal.all - projects.map(&:memberships).flatten.map(&:principal)).sort
     assert_equal expected, Principal.not_member_of(projects).sort
+  end
+
+  def test_not_member_of_scope_should_be_empty_for_no_projects
+    assert_equal [], Principal.not_member_of([]).sort
   end
 
   context "#like" do
