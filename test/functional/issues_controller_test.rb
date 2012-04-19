@@ -1169,6 +1169,42 @@ class IssuesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:issue)
   end
 
+  def test_show_export_to_pdf_with_ancestors
+    issue = Issue.generate!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'child', :parent_issue_id => 1)
+
+    get :show, :id => issue.id, :format => 'pdf'
+    assert_response :success
+    assert_equal 'application/pdf', @response.content_type
+    assert @response.body.starts_with?('%PDF')
+  end
+
+  def test_show_export_to_pdf_with_descendants
+    c1 = Issue.generate!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'child', :parent_issue_id => 1)
+    c2 = Issue.generate!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'child', :parent_issue_id => 1)
+    c3 = Issue.generate!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'child', :parent_issue_id => c1.id)
+
+    get :show, :id => 1, :format => 'pdf'
+    assert_response :success
+    assert_equal 'application/pdf', @response.content_type
+    assert @response.body.starts_with?('%PDF')
+  end
+
+  def test_show_export_to_pdf_with_journals
+    get :show, :id => 1, :format => 'pdf'
+    assert_response :success
+    assert_equal 'application/pdf', @response.content_type
+    assert @response.body.starts_with?('%PDF')
+  end
+
+  def test_show_export_to_pdf_with_changesets
+    Issue.find(3).changesets = Changeset.find_all_by_id(100, 101, 102)
+
+    get :show, :id => 3, :format => 'pdf'
+    assert_response :success
+    assert_equal 'application/pdf', @response.content_type
+    assert @response.body.starts_with?('%PDF')
+  end
+
   def test_get_new
     @request.session[:user_id] = 2
     get :new, :project_id => 1, :tracker_id => 1
