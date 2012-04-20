@@ -134,6 +134,20 @@ class UserTest < ActiveSupport::TestCase
     assert_equal "john", @admin.login
   end
 
+  def test_update_should_not_fail_for_legacy_user_with_different_case_logins
+    u1 = User.new(:firstname => "new", :lastname => "user", :mail => "newuser1@somenet.foo")
+    u1.login = 'newuser1'
+    assert u1.save
+
+    u2 = User.new(:firstname => "new", :lastname => "user", :mail => "newuser2@somenet.foo")
+    u2.login = 'newuser1'
+    assert u2.save(false)
+
+    user = User.find(u2.id)
+    user.firstname = "firstname"
+    assert user.save, "Save failed"
+  end
+
   def test_destroy_should_delete_members_and_roles
     members = Member.find_all_by_user_id(2)
     ms = members.size
