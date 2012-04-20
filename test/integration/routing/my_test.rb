@@ -25,6 +25,12 @@ class RoutingMyTest < ActionController::IntegrationTest
           { :controller => 'my', :action => 'account' }
         )
     end
+    ["get", "post"].each do |method|
+      assert_routing(
+          { :method => method, :path => "/my/account/destroy" },
+          { :controller => 'my', :action => 'destroy' }
+        )
+    end
     assert_routing(
         { :method => 'get', :path => "/my/page" },
         { :controller => 'my', :action => 'page' }

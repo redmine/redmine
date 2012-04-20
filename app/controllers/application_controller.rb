@@ -126,6 +126,15 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # Logs out current user
+  def logout_user
+    if User.current.logged?
+      cookies.delete :autologin
+      Token.delete_all(["user_id = ? AND action = ?", User.current.id, 'autologin'])
+      self.logged_user = nil
+    end
+  end
+
   # check if login is globally required to access the application
   def check_if_login_required
     # no check needed if user is already logged in

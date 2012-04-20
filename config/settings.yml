@@ -31,6 +31,8 @@ self_registration:
   default: '2'
 lost_password:
   default: 1
+unsubscribe:
+  default: 1
 password_min_length:
   format: int
   default: 4

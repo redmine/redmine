@@ -131,14 +131,6 @@ class AccountController < ApplicationController
 
   private
 
-  def logout_user
-    if User.current.logged?
-      cookies.delete :autologin
-      Token.delete_all(["user_id = ? AND action = ?", User.current.id, 'autologin'])
-      self.logged_user = nil
-    end
-  end
-
   def authenticate_user
     if Setting.openid? && using_open_id?
       open_id_authenticate(params[:openid_url])

@@ -188,6 +188,7 @@ fr:
   notice_gantt_chart_truncated: "Le diagramme a été tronqué car il excède le nombre maximal d'éléments pouvant être affichés (%{max})"
   notice_issue_successful_create: "La demande %{id} a été créée."
   notice_issue_update_conflict: "La demande a été mise à jour par un autre utilisateur pendant que vous la modifiez."
+  notice_account_deleted: "Votre compte a été définitivement supprimé."
 
   error_can_t_load_default_data: "Une erreur s'est produite lors du chargement du paramétrage : %{value}"
   error_scm_not_found: "L'entrée et/ou la révision demandée n'existe pas dans le dépôt."
@@ -379,6 +380,7 @@ fr:
   setting_issue_group_assignment: Permettre l'assignement des demandes aux groupes
   setting_default_issue_start_date_to_creation_date: Donner à la date de début d'une nouvelle demande la valeur de la date du jour
   setting_commit_cross_project_ref: Permettre le référencement et la résolution des demandes de tous les autres projets
+  setting_unsubscribe: Permettre aux utilisateurs de se désinscrire
 
   permission_add_project: Créer un projet
   permission_add_subprojects: Créer des sous-projets
@@ -868,6 +870,7 @@ fr:
   button_show: Afficher
   button_edit_section: Modifier cette section
   button_export: Exporter
+  button_delete_my_account: Supprimer mon compte
 
   status_active: actif
   status_registered: enregistré
@@ -934,6 +937,7 @@ fr:
   text_issue_conflict_resolution_overwrite: "Appliquer quand même ma mise à jour (les notes précédentes seront conservées mais des changements pourront être écrasés)"
   text_issue_conflict_resolution_add_notes: "Ajouter mes notes et ignorer mes autres changements"
   text_issue_conflict_resolution_cancel: "Annuler ma mise à jour et réafficher %{link}"
+  text_account_destroy_confirmation: "Êtes-vous sûr de vouloir continuer ?\nVotre compte sera définitivement supprimé, sans aucune possibilité de le réactiver."
 
   default_role_manager: "Manager "
   default_role_developer: "Développeur "
