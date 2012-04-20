@@ -4,6 +4,17 @@ Redmine - project management software
 Copyright (C) 2006-2012  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2012-04-20 v1.4.1
+
+* Defect #8574: Time report: date range fields not enabled when using the calendar popup
+* Defect #10642: Nested textile ol/ul lists generate invalid HTML
+* Defect #10668: RSS key is generated twice when user is not reloaded
+* Defect #10669: Token.destroy_expired should not delete API tokens
+* Defect #10675: "Submit and continue" is broken
+* Defect #10711: User cannot change account details with "Login has already been taken" error
+* Feature #10664: Unsubscribe Own User Account
+* Patch #10693: German Translation Update
+
 == 2012-04-14 v1.4.0
 
 * Defect #2719: Increase username length limit from 30 to 60
