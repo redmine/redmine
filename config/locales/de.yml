@@ -1045,3 +1045,9 @@ de:
   permission_manage_related_issues: Zugehörige Tickets verwalten
   field_ldap_filter: LDAP Filter
   label_search_for_watchers: Nach hinzufügbaren Beobachtern suchen
+  notice_account_deleted: Your account has been permanently deleted.
+  setting_unsubscribe: Allow users to unsubscribe
+  button_delete_my_account: Delete my account
+  text_account_destroy_confirmation: |-
+    Are you sure you want to proceed?
+    Your account will be permanently deleted, with no way to reactivate it.
