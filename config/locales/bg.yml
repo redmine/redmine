@@ -174,6 +174,7 @@ bg:
   notice_gantt_chart_truncated: Мрежовият график е съкратен, понеже броят на обектите, които могат да бъдат показани е твърде голям (%{max})
   notice_issue_successful_create: Задача %{id} е създадена.
   notice_issue_update_conflict: Задачата е била променена от друг потребител, докато вие сте я редактирали.
+  notice_account_deleted: Вашият профил беше премахнат без възможност за възстановяване.
 
   error_can_t_load_default_data: "Грешка при зареждане на примерната информация: %{value}"
   error_scm_not_found: Несъществуващ обект в хранилището.
@@ -384,6 +385,7 @@ bg:
   setting_issue_group_assignment: Разрешено назначаването на задачи на групи
   setting_default_issue_start_date_to_creation_date: Начална дата на новите задачи по подразбиране да бъде днешната дата
   setting_commit_cross_project_ref: Отбелязване и приключване на задачи от други проекти, несвързани с конкретното хранилище
+  setting_unsubscribe: Потребителите могат да премахват профилите си
 
   permission_add_project: Създаване на проект
   permission_add_subprojects: Създаване на подпроекти
@@ -895,6 +897,7 @@ bg:
   button_show: Показване
   button_edit_section: Редактиране на тази секция
   button_export: Експорт
+  button_delete_my_account: Премахване на моя профил
 
   status_active: активен
   status_registered: регистриран
@@ -979,6 +982,7 @@ bg:
   text_issue_conflict_resolution_overwrite: Прилагане на моите промени (предишните коментари ще бъдат запазени, но някои други промени може да бъдат презаписани)
   text_issue_conflict_resolution_add_notes: Добавяне на моите коментари и отхвърляне на другите мои промени
   text_issue_conflict_resolution_cancel: Отхвърляне на всички мои промени и презареждане на %{link}
+  text_account_destroy_confirmation: "Сигурен/на ли сте, че желаете да продължите?\nВашият профил ще бъде премахнат без възможност за възстановяване."
 
   default_role_manager: Мениджър
   default_role_developer: Разработчик
@@ -1024,9 +1028,3 @@ bg:
   description_date_range_interval: Изберете диапазон чрез задаване на начална и крайна дати
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
-  notice_account_deleted: Your account has been permanently deleted.
-  setting_unsubscribe: Allow users to unsubscribe
-  button_delete_my_account: Delete my account
-  text_account_destroy_confirmation: |-
-    Are you sure you want to proceed?
-    Your account will be permanently deleted, with no way to reactivate it.
