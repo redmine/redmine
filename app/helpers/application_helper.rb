@@ -319,7 +319,7 @@ module ApplicationHelper
     unless groups.empty?
       s << %(<optgroup label="#{h(l(:label_group_plural))}">#{groups}</optgroup>)
     end
-    s
+    s.html_safe
   end
 
   # Truncates and returns the string as a single line
