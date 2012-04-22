@@ -49,19 +49,19 @@ class PrincipalTest < ActiveSupport::TestCase
 
   context "#like" do
     setup do
-      Principal.generate!(:login => 'login')
-      Principal.generate!(:login => 'login2')
+      Principal.create!(:login => 'login')
+      Principal.create!(:login => 'login2')
 
-      Principal.generate!(:firstname => 'firstname')
-      Principal.generate!(:firstname => 'firstname2')
+      Principal.create!(:firstname => 'firstname')
+      Principal.create!(:firstname => 'firstname2')
 
-      Principal.generate!(:lastname => 'lastname')
-      Principal.generate!(:lastname => 'lastname2')
+      Principal.create!(:lastname => 'lastname')
+      Principal.create!(:lastname => 'lastname2')
 
-      Principal.generate!(:mail => 'mail@example.com')
-      Principal.generate!(:mail => 'mail2@example.com')
+      Principal.create!(:mail => 'mail@example.com')
+      Principal.create!(:mail => 'mail2@example.com')
 
-      @palmer = Principal.generate!(:firstname => 'David', :lastname => 'Palmer')
+      @palmer = Principal.create!(:firstname => 'David', :lastname => 'Palmer')
     end
 
     should "search login" do
