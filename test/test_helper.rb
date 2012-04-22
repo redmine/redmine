@@ -243,7 +243,10 @@ class ActiveSupport::TestCase
     context "should allow http basic auth using a username and password for #{http_method} #{url}" do
       context "with a valid HTTP authentication" do
         setup do
-          @user = User.generate_with_protected!(:password => 'my_password', :password_confirmation => 'my_password', :admin => true) # Admin so they can access the project
+          @user = User.generate! do |user|
+            user.admin = true
+            user.password = 'my_password'
+          end
           send(http_method, url, parameters, credentials(@user.login, 'my_password'))
         end
 
@@ -256,7 +259,7 @@ class ActiveSupport::TestCase
 
       context "with an invalid HTTP authentication" do
         setup do
-          @user = User.generate_with_protected!
+          @user = User.generate!
           send(http_method, url, parameters, credentials(@user.login, 'wrong_password'))
         end
 
@@ -297,8 +300,10 @@ class ActiveSupport::TestCase
     context "should allow http basic auth with a key for #{http_method} #{url}" do
       context "with a valid HTTP authentication using the API token" do
         setup do
-          @user = User.generate_with_protected!(:admin => true)
-          @token = Token.generate!(:user => @user, :action => 'api')
+          @user = User.generate! do |user|
+            user.admin = true
+          end
+          @token = Token.create!(:user => @user, :action => 'api')
           send(http_method, url, parameters, credentials(@token.value, 'X'))
         end
 
@@ -312,8 +317,8 @@ class ActiveSupport::TestCase
 
       context "with an invalid HTTP authentication" do
         setup do
-          @user = User.generate_with_protected!
-          @token = Token.generate!(:user => @user, :action => 'feeds')
+          @user = User.generate!
+          @token = Token.create!(:user => @user, :action => 'feeds')
           send(http_method, url, parameters, credentials(@token.value, 'X'))
         end
 
@@ -341,8 +346,10 @@ class ActiveSupport::TestCase
     context "should allow key based auth using key=X for #{http_method} #{url}" do
       context "with a valid api token" do
         setup do
-          @user = User.generate_with_protected!(:admin => true)
-          @token = Token.generate!(:user => @user, :action => 'api')
+          @user = User.generate! do |user|
+            user.admin = true
+          end
+          @token = Token.create!(:user => @user, :action => 'api')
           # Simple url parse to add on ?key= or &key=
           request_url = if url.match(/\?/)
                           url + "&key=#{@token.value}"
@@ -362,8 +369,10 @@ class ActiveSupport::TestCase
 
       context "with an invalid api token" do
         setup do
-          @user = User.generate_with_protected!
-          @token = Token.generate!(:user => @user, :action => 'feeds')
+          @user = User.generate! do |user|
+            user.admin = true
+          end
+          @token = Token.create!(:user => @user, :action => 'feeds')
           # Simple url parse to add on ?key= or &key=
           request_url = if url.match(/\?/)
                           url + "&key=#{@token.value}"
@@ -383,8 +392,10 @@ class ActiveSupport::TestCase
 
     context "should allow key based auth using X-Redmine-API-Key header for #{http_method} #{url}" do
       setup do
-        @user = User.generate_with_protected!(:admin => true)
-        @token = Token.generate!(:user => @user, :action => 'api')
+        @user = User.generate! do |user|
+          user.admin = true
+        end
+        @token = Token.create!(:user => @user, :action => 'api')
         send(http_method, url, parameters, {'X-Redmine-API-Key' => @token.value.to_s})
       end
 

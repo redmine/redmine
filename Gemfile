@@ -71,7 +71,6 @@ end
 
 group :test do
   gem "shoulda", "~> 2.10.3"
-  gem "edavis10-object_daddy", :require => "object_daddy"
   gem "mocha"
 end
 

@@ -21,7 +21,7 @@ class Redmine::CipheringTest < ActiveSupport::TestCase
 
   def test_password_should_be_encrypted
     Redmine::Configuration.with 'database_cipher_key' => 'secret' do
-      r = Repository::Subversion.generate!(:password => 'foo')
+      r = Repository::Subversion.create!(:password => 'foo', :url => 'file:///tmp', :identifier => 'svn')
       assert_equal 'foo', r.password
       assert r.read_attribute(:password).match(/\Aaes-256-cbc:.+\Z/)
     end
@@ -29,7 +29,7 @@ class Redmine::CipheringTest < ActiveSupport::TestCase
 
   def test_password_should_be_clear_with_blank_key
     Redmine::Configuration.with 'database_cipher_key' => '' do
-      r = Repository::Subversion.generate!(:password => 'foo')
+      r = Repository::Subversion.create!(:password => 'foo', :url => 'file:///tmp', :identifier => 'svn')
       assert_equal 'foo', r.password
       assert_equal 'foo', r.read_attribute(:password)
     end
@@ -37,7 +37,7 @@ class Redmine::CipheringTest < ActiveSupport::TestCase
 
   def test_password_should_be_clear_with_nil_key
     Redmine::Configuration.with 'database_cipher_key' => nil do
-      r = Repository::Subversion.generate!(:password => 'foo')
+      r = Repository::Subversion.create!(:password => 'foo', :url => 'file:///tmp', :identifier => 'svn')
       assert_equal 'foo', r.password
       assert_equal 'foo', r.read_attribute(:password)
     end
@@ -45,7 +45,7 @@ class Redmine::CipheringTest < ActiveSupport::TestCase
 
   def test_blank_password_should_be_clear
     Redmine::Configuration.with 'database_cipher_key' => 'secret' do
-      r = Repository::Subversion.generate!(:password => '')
+      r = Repository::Subversion.create!(:password => '', :url => 'file:///tmp', :identifier => 'svn')
       assert_equal '', r.password
       assert_equal '', r.read_attribute(:password)
     end
@@ -53,7 +53,7 @@ class Redmine::CipheringTest < ActiveSupport::TestCase
 
   def test_unciphered_password_should_be_readable
     Redmine::Configuration.with 'database_cipher_key' => nil do
-      r = Repository::Subversion.generate!(:password => 'clear')
+      r = Repository::Subversion.create!(:password => 'clear', :url => 'file:///tmp', :identifier => 'svn')
     end
 
     Redmine::Configuration.with 'database_cipher_key' => 'secret' do
@@ -64,7 +64,7 @@ class Redmine::CipheringTest < ActiveSupport::TestCase
   
   def test_ciphered_password_with_no_cipher_key_configured_should_be_returned_ciphered
     Redmine::Configuration.with 'database_cipher_key' => 'secret' do
-      r = Repository::Subversion.generate!(:password => 'clear')
+      r = Repository::Subversion.create!(:password => 'clear', :url => 'file:///tmp', :identifier => 'svn')
     end
 
     Redmine::Configuration.with 'database_cipher_key' => '' do
@@ -79,8 +79,8 @@ class Redmine::CipheringTest < ActiveSupport::TestCase
   def test_encrypt_all
     Repository.delete_all
     Redmine::Configuration.with 'database_cipher_key' => nil do
-      Repository::Subversion.generate!(:password => 'foo')
-      Repository::Subversion.generate!(:password => 'bar')
+      Repository::Subversion.create!(:password => 'foo', :url => 'file:///tmp', :identifier => 'foo')
+      Repository::Subversion.create!(:password => 'bar', :url => 'file:///tmp', :identifier => 'bar')
     end
 
     Redmine::Configuration.with 'database_cipher_key' => 'secret' do
@@ -94,8 +94,8 @@ class Redmine::CipheringTest < ActiveSupport::TestCase
   def test_decrypt_all
     Repository.delete_all
     Redmine::Configuration.with 'database_cipher_key' => 'secret' do
-      Repository::Subversion.generate!(:password => 'foo')
-      Repository::Subversion.generate!(:password => 'bar')
+      Repository::Subversion.create!(:password => 'foo', :url => 'file:///tmp', :identifier => 'foo')
+      Repository::Subversion.create!(:password => 'bar', :url => 'file:///tmp', :identifier => 'bar')
 
       assert Repository.decrypt_all(:password)
       r = Repository.first(:order => 'id DESC')

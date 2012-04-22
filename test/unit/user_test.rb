@@ -337,8 +337,10 @@ class UserTest < ActiveSupport::TestCase
 
   def test_destroy_should_nullify_changesets
     changeset = Changeset.create!(
-      :repository => Repository::Subversion.generate!(
-        :project_id => 1
+      :repository => Repository::Subversion.create!(
+        :project_id => 1,
+        :url => 'file:///tmp',
+        :identifier => 'tmp'
       ),
       :revision => '12',
       :committed_on => Time.now,
@@ -378,9 +380,9 @@ class UserTest < ActiveSupport::TestCase
     end
 
     should "select the exact matching user first" do
-      case_sensitive_user = User.generate_with_protected!(
-                                   :login => 'changed', :password => 'admin',
-                                   :password_confirmation => 'admin')
+      case_sensitive_user = User.generate! do |user|
+        user.password = "admin"
+      end
       # bypass validations to make it appear like existing data
       case_sensitive_user.update_attribute(:login, 'ADMIN')
 
@@ -628,7 +630,7 @@ class UserTest < ActiveSupport::TestCase
 
     should "return the existing api token value" do
       user = User.generate_with_protected!
-      token = Token.generate!(:action => 'api')
+      token = Token.create!(:action => 'api')
       user.api_token = token
       assert user.save
 
@@ -643,7 +645,7 @@ class UserTest < ActiveSupport::TestCase
 
     should "return nil if the key is found for an inactive user" do
       user = User.generate_with_protected!(:status => User::STATUS_LOCKED)
-      token = Token.generate!(:action => 'api')
+      token = Token.create!(:action => 'api')
       user.api_token = token
       user.save
 
@@ -652,7 +654,7 @@ class UserTest < ActiveSupport::TestCase
 
     should "return the user if the key is found for an active user" do
       user = User.generate_with_protected!(:status => User::STATUS_ACTIVE)
-      token = Token.generate!(:action => 'api')
+      token = Token.create!(:action => 'api')
       user.api_token = token
       user.save
 
@@ -823,7 +825,9 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_own_account_deletable_should_be_true_for_an_admin_if_other_admin_exists
-    User.generate_with_protected(:admin => true)
+    User.generate! do |user|
+      user.admin = true
+    end
 
     with_settings :unsubscribe => '1' do
       assert_equal true, User.find(1).own_account_deletable?
