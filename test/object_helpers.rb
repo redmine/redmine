@@ -1,18 +1,4 @@
 module ObjectHelpers
-  # TODO: Remove these three once everyone has ported their code to use the
-  # new object_daddy version with protected attribute support
-  def User.generate_with_protected(attributes={})
-    User.generate(attributes)
-  end
-
-  def User.generate_with_protected!(attributes={})
-    User.generate!(attributes)
-  end
-
-  def User.spawn_with_protected(attributes={})
-    User.spawn(attributes)
-  end
-
   def User.add_to_project(user, project, roles)
     roles = [roles] unless roles.is_a?(Array)
     Member.create!(:principal => user, :project => project, :roles => roles)

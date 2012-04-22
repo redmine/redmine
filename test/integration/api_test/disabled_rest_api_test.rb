@@ -21,7 +21,7 @@ class ApiTest::DisabledRestApiTest < ActionController::IntegrationTest
   end
 
   def test_with_a_valid_api_token
-    @user = User.generate_with_protected!
+    @user = User.generate!
     @token = Token.create!(:user => @user, :action => 'api')
 
     get "/news.xml?key=#{@token.value}"
@@ -34,7 +34,9 @@ class ApiTest::DisabledRestApiTest < ActionController::IntegrationTest
   end
 
   def test_with_valid_username_password_http_authentication
-    @user = User.generate_with_protected!(:password => 'my_password', :password_confirmation => 'my_password')
+    @user = User.generate! do |user|
+      user.password = 'my_password'
+    end
 
     get "/news.xml", nil, credentials(@user.login, 'my_password')
     assert_response :unauthorized
@@ -46,7 +48,7 @@ class ApiTest::DisabledRestApiTest < ActionController::IntegrationTest
   end
 
   def test_with_valid_token_http_authentication
-    @user = User.generate_with_protected!
+    @user = User.generate!
     @token = Token.create!(:user => @user, :action => 'api')
 
     get "/news.xml", nil, credentials(@token.value, 'X')

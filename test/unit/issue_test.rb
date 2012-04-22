@@ -725,7 +725,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_recipients_should_include_the_assigned_group_members
-    group_member = User.generate_with_protected!
+    group_member = User.generate!
     group = Group.generate!
     group.users << group_member
 
@@ -1212,8 +1212,8 @@ class IssueTest < ActiveSupport::TestCase
   context "Issue#recipients" do
     setup do
       @project = Project.find(1)
-      @author = User.generate_with_protected!
-      @assignee = User.generate_with_protected!
+      @author = User.generate!
+      @assignee = User.generate!
       @issue = Issue.generate_for_project!(@project, :assigned_to => @assignee, :author => @author)
     end
 

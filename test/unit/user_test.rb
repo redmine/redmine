@@ -35,8 +35,8 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'object_daddy creation' do
-    User.generate_with_protected!(:firstname => 'Testing connection')
-    User.generate_with_protected!(:firstname => 'Testing connection')
+    User.generate!(:firstname => 'Testing connection')
+    User.generate!(:firstname => 'Testing connection')
     assert_equal 2, User.count(:all, :conditions => {:firstname => 'Testing connection'})
   end
 
@@ -88,11 +88,11 @@ class UserTest < ActiveSupport::TestCase
 
   context "User#before_create" do
     should "set the mail_notification to the default Setting" do
-      @user1 = User.generate_with_protected!
+      @user1 = User.generate!
       assert_equal 'only_my_events', @user1.mail_notification
 
       with_settings :default_notification_option => 'all' do
-        @user2 = User.generate_with_protected!
+        @user2 = User.generate!
         assert_equal 'all', @user2.mail_notification
       end
     end
@@ -619,7 +619,7 @@ class UserTest < ActiveSupport::TestCase
 
   context "User#api_key" do
     should "generate a new one if the user doesn't have one" do
-      user = User.generate_with_protected!(:api_token => nil)
+      user = User.generate!(:api_token => nil)
       assert_nil user.api_token
 
       key = user.api_key
@@ -629,7 +629,7 @@ class UserTest < ActiveSupport::TestCase
     end
 
     should "return the existing api token value" do
-      user = User.generate_with_protected!
+      user = User.generate!
       token = Token.create!(:action => 'api')
       user.api_token = token
       assert user.save
@@ -644,7 +644,8 @@ class UserTest < ActiveSupport::TestCase
     end
 
     should "return nil if the key is found for an inactive user" do
-      user = User.generate_with_protected!(:status => User::STATUS_LOCKED)
+      user = User.generate!
+      user.status = User::STATUS_LOCKED
       token = Token.create!(:action => 'api')
       user.api_token = token
       user.save
@@ -653,7 +654,7 @@ class UserTest < ActiveSupport::TestCase
     end
 
     should "return the user if the key is found for an active user" do
-      user = User.generate_with_protected!(:status => User::STATUS_ACTIVE)
+      user = User.generate!
       token = Token.create!(:action => 'api')
       user.api_token = token
       user.save
@@ -781,12 +782,12 @@ class UserTest < ActiveSupport::TestCase
 
   context "#change_password_allowed?" do
     should "be allowed if no auth source is set" do
-      user = User.generate_with_protected!
+      user = User.generate!
       assert user.change_password_allowed?
     end
 
     should "delegate to the auth source" do
-      user = User.generate_with_protected!
+      user = User.generate!
 
       allowed_auth_source = AuthSource.generate!
       def allowed_auth_source.allow_password_changes?; true; end
@@ -898,8 +899,8 @@ class UserTest < ActiveSupport::TestCase
     context "Issues" do
       setup do
         @project = Project.find(1)
-        @author = User.generate_with_protected!
-        @assignee = User.generate_with_protected!
+        @author = User.generate!
+        @assignee = User.generate!
         @issue = Issue.generate_for_project!(@project, :assigned_to => @assignee, :author => @author)
       end
 
@@ -914,7 +915,7 @@ class UserTest < ActiveSupport::TestCase
       end
 
       should "be false for a user with :only_my_events and isn't an author, creator, or assignee" do
-        @user = User.generate_with_protected!(:mail_notification => 'only_my_events')
+        @user = User.generate!(:mail_notification => 'only_my_events')
         Member.create!(:user => @user, :project => @project, :role_ids => [1])
         assert ! @user.notify_about?(@issue)
       end
@@ -960,7 +961,7 @@ class UserTest < ActiveSupport::TestCase
       end
 
       should "be false for a user with :selected and is not the author or assignee" do
-        @user = User.generate_with_protected!(:mail_notification => 'selected')
+        @user = User.generate!(:mail_notification => 'selected')
         Member.create!(:user => @user, :project => @project, :role_ids => [1])
         assert ! @user.notify_about?(@issue)
       end
