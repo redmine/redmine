@@ -1,9 +1,4 @@
 module ObjectHelpers
-  def User.add_to_project(user, project, roles)
-    roles = [roles] unless roles.is_a?(Array)
-    Member.create!(:principal => user, :project => project, :roles => roles)
-  end
-
   def User.generate!(attributes={})
     @generated_user_login ||= 'user0'
     @generated_user_login.succ!
@@ -15,6 +10,11 @@ module ObjectHelpers
     yield user if block_given?
     user.save!
     user
+  end
+
+  def User.add_to_project(user, project, roles)
+    roles = [roles] unless roles.is_a?(Array)
+    Member.create!(:principal => user, :project => project, :roles => roles)
   end
 
   def Group.generate!(attributes={})
@@ -67,6 +67,19 @@ module ObjectHelpers
     issue
   end
 
+  # Generate an issue for a project, using its trackers
+  def Issue.generate_for_project!(project, attributes={})
+    issue = Issue.new(attributes) do |issue|
+      issue.project = project
+      issue.tracker = project.trackers.first unless project.trackers.empty?
+      issue.subject = 'Generated' if issue.subject.blank?
+      issue.author ||= User.find(2)
+      yield issue if block_given?
+    end
+    issue.save!
+    issue
+  end
+
   def Version.generate!(attributes={})
     @generated_version_name ||= 'Version 0'
     @generated_version_name.succ!
@@ -85,18 +98,5 @@ module ObjectHelpers
     yield source if block_given?
     source.save!
     source
-  end
-
-  # Generate an issue for a project, using it's trackers
-  def Issue.generate_for_project!(project, attributes={})
-    issue = Issue.new(attributes) do |issue|
-      issue.project = project
-      issue.tracker = project.trackers.first unless project.trackers.empty?
-      issue.subject = 'Generated' if issue.subject.blank?
-      issue.author ||= User.find(2)
-      yield issue if block_given?
-    end
-    issue.save!
-    issue
   end
 end
