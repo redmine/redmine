@@ -20,8 +20,8 @@ require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
 require Rails.root.join('test', 'mocks', 'open_id_authentication_mock.rb').to_s
 
-require File.expand_path(File.dirname(__FILE__) + '/object_daddy_helpers')
-include ObjectDaddyHelpers
+require File.expand_path(File.dirname(__FILE__) + '/object_helpers')
+include ObjectHelpers
 
 class ActiveSupport::TestCase
   # Transactional fixtures accelerate your tests by wrapping each test method

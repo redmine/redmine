@@ -1,4 +1,4 @@
-module ObjectDaddyHelpers
+module ObjectHelpers
   # TODO: Remove these three once everyone has ported their code to use the
   # new object_daddy version with protected attribute support
   def User.generate_with_protected(attributes={})
