@@ -87,14 +87,6 @@ module ObjectHelpers
     source
   end
 
-  # Generate the default Query
-  def Query.generate_default!(attributes={})
-    query = Query.new(attributes)
-    query.name = '_' if query.name.blank?
-    query.save!
-    query
-  end
-
   # Generate an issue for a project, using it's trackers
   def Issue.generate_for_project!(project, attributes={})
     issue = Issue.new(attributes) do |issue|
