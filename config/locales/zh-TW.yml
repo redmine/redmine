@@ -255,6 +255,7 @@
   notice_gantt_chart_truncated: "由於項目數量超過可顯示數量的最大值 (%{max})，故此甘特圖尾部已被截斷"
   notice_issue_successful_create: "問題 %{id} 已建立。"
   notice_issue_update_conflict: "當您正在編輯這個問題的時候，它已經被其他人搶先一步更新過。"
+  notice_account_deleted: "您的帳戶已被永久刪除。"
 
   error_can_t_load_default_data: "無法載入預設組態： %{value}"
   error_scm_not_found: "在儲存機制中找不到這個項目或修訂版。"
@@ -465,6 +466,7 @@
   setting_issue_group_assignment: 允許問題被指派至群組
   setting_default_issue_start_date_to_creation_date: 設定新問題的起始日期為今天的日期
   setting_commit_cross_project_ref: 允許關聯並修正其他專案的問題
+  setting_unsubscribe: 允許用戶取消註冊（刪除帳戶）
 
   permission_add_project: 建立專案
   permission_add_subprojects: 建立子專案
@@ -926,6 +928,7 @@
   label_copy_attachments: 複製附件
   label_item_position: "%{position} / %{count}"
   label_completed_versions: 已完成版本
+  label_search_for_watchers: 搜尋可供加入的監看者
 
   button_login: 登入
   button_submit: 送出
@@ -975,6 +978,7 @@
   button_show: 顯示
   button_edit_section: 編輯此區塊
   button_export: 匯出
+  button_delete_my_account: 刪除我的帳戶
 
   status_active: 活動中
   status_registered: 註冊完成
@@ -1059,6 +1063,9 @@
   text_issue_conflict_resolution_overwrite: "直接套用我的變更 (先前的筆記將會被保留，但是某些變更可能會被複寫)"
   text_issue_conflict_resolution_add_notes: "新增我的筆記並捨棄我其他的變更"
   text_issue_conflict_resolution_cancel: "捨棄我全部的變更並重新顯示 %{link}"
+  text_account_destroy_confirmation: |-
+    您確定要繼續這個動作嗎？
+    您的帳戶將會被永久刪除，且無法被重新啟用。
 
   default_role_manager: 管理人員
   default_role_developer: 開發人員
@@ -1104,10 +1111,3 @@
   description_date_range_interval: 選擇起始與結束日期以設定範圍區間
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
-  label_search_for_watchers: Search for watchers to add
-  notice_account_deleted: Your account has been permanently deleted.
-  setting_unsubscribe: Allow users to unsubscribe
-  button_delete_my_account: Delete my account
-  text_account_destroy_confirmation: |-
-    Are you sure you want to proceed?
-    Your account will be permanently deleted, with no way to reactivate it.
