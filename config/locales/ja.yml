@@ -348,7 +348,7 @@ ja:
   setting_welcome_text: ウェルカムメッセージ
   setting_default_language: 既定の言語
   setting_login_required: 認証が必要
-  setting_self_registration: ユーザは自分で登録できる
+  setting_self_registration: ユーザによるアカウント登録
   setting_attachment_max_size: 添付ファイルサイズの上限
   setting_issues_export_limit: エクスポートするチケット数の上限
   setting_mail_from: 送信元メールアドレス
@@ -1055,9 +1055,9 @@ ja:
   permission_manage_related_issues: 関連するチケットの管理
   field_ldap_filter: LDAPフィルタ
   label_search_for_watchers: ウォッチャーを検索して追加
-  notice_account_deleted: Your account has been permanently deleted.
-  setting_unsubscribe: Allow users to unsubscribe
-  button_delete_my_account: Delete my account
+  notice_account_deleted: アカウントが削除されました。
+  setting_unsubscribe: ユーザによるアカウント削除を許可
+  button_delete_my_account: 自分のアカウントを削除
   text_account_destroy_confirmation: |-
-    Are you sure you want to proceed?
-    Your account will be permanently deleted, with no way to reactivate it.
+    本当にアカウントを削除しますか？
+    アカウントは恒久的に削除されます。削除後に再度アカウントを有効にする手段はありません。
