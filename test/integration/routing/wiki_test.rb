@@ -90,11 +90,13 @@ class RoutingWikiTest < ActionController::IntegrationTest
         { :controller => 'wiki', :action => 'rename', :project_id => '22',
           :id => 'ladida' }
       )
-    assert_routing(
-        { :method => 'post', :path => "/projects/567/wiki/CookBook_documentation/preview" },
-        { :controller => 'wiki', :action => 'preview', :project_id => '567',
-          :id => 'CookBook_documentation' }
-      )
+    ["post", "put"].each do |method|
+      assert_routing(
+          { :method => method, :path => "/projects/567/wiki/CookBook_documentation/preview" },
+          { :controller => 'wiki', :action => 'preview', :project_id => '567',
+            :id => 'CookBook_documentation' }
+        )
+    end
     assert_routing(
         { :method => 'post', :path => "/projects/22/wiki/ladida/rename" },
         { :controller => 'wiki', :action => 'rename', :project_id => '22',

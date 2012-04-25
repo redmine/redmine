@@ -7,7 +7,7 @@
    <span class="size">(<%= number_to_human_size @attachment.filesize %>)</span></p>
 </div>
 <p>
-<% form_tag({}, :method => 'get') do %>
+<%= form_tag({}, :method => 'get') do %>
     <label><%= l(:label_view_diff) %></label>
     <%= select_tag 'type',
                     options_for_select(

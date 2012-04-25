@@ -140,7 +140,7 @@ class QueriesControllerTest < ActionController::TestCase
 
   def test_create_with_failure
     @request.session[:user_id] = 2
-    assert_no_difference 'Query.count' do
+    assert_no_difference '::Query.count' do
       post :create, :project_id => 'ecookbook', :query => {:name => ''}
     end
     assert_response :success

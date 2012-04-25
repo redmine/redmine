@@ -6,7 +6,7 @@
             {:action => 'stats', :id => @project, :repository_id => @repository.identifier_param},
             :class => 'icon icon-stats' if @repository.supports_all_revisions? %>
 
-<% form_tag({:action => controller.action_name,
+<%= form_tag({:action => controller.action_name,
              :id => @project,
              :repository_id => @repository.identifier_param,
              :path => to_path_param(@path),

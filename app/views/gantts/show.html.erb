@@ -1,7 +1,10 @@
 <% @gantt.view = self %>
 <h2><%= @query.new_record? ? l(:label_gantt) : h(@query.name) %></h2>
 
-<% form_tag({:controller => 'gantts', :action => 'show', :project_id => @project, :month => params[:month], :year => params[:year], :months => params[:months]}, :method => :get, :id => 'query_form') do %>
+<%= form_tag({:controller => 'gantts', :action => 'show',
+             :project_id => @project, :month => params[:month],
+             :year => params[:year], :months => params[:months]},
+             :method => :get, :id => 'query_form') do %>
 <%= hidden_field_tag 'set_filter', '1' %>
 <fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
   <legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>

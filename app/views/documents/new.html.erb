@@ -1,6 +1,6 @@
 <h2><%=l(:label_document_new)%></h2>
 
-<% labelled_form_for @document, :url => project_documents_path(@project), :html => {:multipart => true} do |f| %>
+<%= labelled_form_for @document, :url => project_documents_path(@project), :html => {:multipart => true} do |f| %>
   <%= render :partial => 'form', :locals => {:f => f} %>
   <p><%= submit_tag l(:button_create) %></p>
 <% end %>

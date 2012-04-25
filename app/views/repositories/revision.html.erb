@@ -13,7 +13,7 @@
   <% end -%>
   &#187;&nbsp;
 
-  <% form_tag({:controller => 'repositories',
+  <%= form_tag({:controller => 'repositories',
                :action     => 'revision',
                :id         => @project,
                :repository_id => @repository.identifier_param,

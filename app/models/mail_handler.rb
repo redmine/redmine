@@ -15,7 +15,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class MailHandler < ActionMailer::Base
+require 'vendor/tmail'
+
+class MailHandler
   include ActionView::Helpers::SanitizeHelper
   include Redmine::I18n
 
@@ -39,7 +41,14 @@ class MailHandler < ActionMailer::Base
     @@handler_options[:allow_override] << 'status' unless @@handler_options[:issue].has_key?(:status)
 
     @@handler_options[:no_permission_check] = (@@handler_options[:no_permission_check].to_s == '1' ? true : false)
-    super email
+
+    mail = TMail::Mail.parse(email)
+    mail.base64_decode
+    new.receive(mail)
+  end
+
+  def logger
+    Rails.logger
   end
 
   cattr_accessor :ignored_emails_headers

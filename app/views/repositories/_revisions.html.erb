@@ -14,7 +14,7 @@
             :space => graph_space
         }
 end %>
-<% form_tag(
+<%= form_tag(
       {:controller => 'repositories', :action => 'diff', :id => project,
        :repository_id => @repository.identifier_param, :path => to_path_param(path)},
       :method => :get

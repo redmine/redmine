@@ -45,7 +45,7 @@ class ProjectsTest < ActionController::IntegrationTest
   def test_modules_should_not_allow_get
     assert_no_difference 'EnabledModule.count' do
       get '/projects/1/modules', {:enabled_module_names => ['']}, credentials('jsmith')
-      assert_response :method_not_allowed
+      assert_response 404
     end
   end
 end

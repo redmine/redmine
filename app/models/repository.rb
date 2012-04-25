@@ -57,7 +57,7 @@ class Repository < ActiveRecord::Base
   end
 
   alias :attributes_without_extra_info= :attributes=
-  def attributes=(new_attributes, guard_protected_attributes = true)
+  def attributes=(new_attributes)
     return if new_attributes.nil?
     attributes = new_attributes.dup
     attributes.stringify_keys!
@@ -72,7 +72,7 @@ class Repository < ActiveRecord::Base
       end
     end
 
-    send :attributes_without_extra_info=, p, guard_protected_attributes
+    send :attributes_without_extra_info=, p
     if p_extra.keys.any?
       merge_extra_info(p_extra)
     end

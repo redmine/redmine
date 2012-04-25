@@ -1,4 +1,4 @@
-<% form_for :project, @project,
+<%= form_for @project,
             :url => { :action => 'modules', :id => @project },
             :html => {:id => 'modules-form',
                       :method => :post} do |f| %>

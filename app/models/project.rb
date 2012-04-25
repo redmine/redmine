@@ -272,6 +272,10 @@ class Project < ActiveRecord::Base
     end
   end
 
+  def self.find_by_param(*args)
+    self.find(*args)
+  end
+
   def reload(*args)
     @shared_versions = nil
     @rolled_up_versions = nil

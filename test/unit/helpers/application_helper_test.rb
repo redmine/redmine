@@ -79,7 +79,7 @@ class ApplicationHelperTest < ActionView::TestCase
       # two exclamation marks
       'http://example.net/path!602815048C7B5C20!302.html' => '<a class="external" href="http://example.net/path!602815048C7B5C20!302.html">http://example.net/path!602815048C7B5C20!302.html</a>',
       # escaping
-      'http://foo"bar' => '<a class="external" href="http://foo&quot;bar">http://foo"bar</a>',
+      'http://foo"bar' => '<a class="external" href="http://foo&quot;bar">http://foo&quot;bar</a>',
       # wrap in angle brackets
       '<http://foo.bar>' => '&lt;<a class="external" href="http://foo.bar">http://foo.bar</a>&gt;'
     }

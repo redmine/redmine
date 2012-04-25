@@ -75,6 +75,17 @@ class CustomFieldTest < ActiveSupport::TestCase
     assert_equal ["One value", "And another one"], field.possible_values
   end
 
+  if "string".respond_to?(:encoding)
+    def test_possible_values_stored_as_binary_should_be_utf8_encoded
+      field = CustomField.find(11)
+      assert_kind_of Array, field.possible_values
+      assert field.possible_values.size > 0
+      field.possible_values.each do |value|
+        assert_equal "UTF-8", value.encoding.name
+      end
+    end
+  end
+
   def test_destroy
     field = CustomField.find(1)
     assert field.destroy

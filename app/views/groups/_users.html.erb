@@ -29,7 +29,8 @@
 <div class="splitcontentright">
 <% users = User.active.not_in_group(@group).all(:limit => 100) %>
 <% if users.any? %>
-  <% remote_form_for(@group, :url => group_users_path(@group), :html => {:method => :post}) do |f| %>
+  <%= form_for(@group, :remote => true, :url => group_users_path(@group),
+               :html => {:method => :post}) do |f| %>
     <fieldset><legend><%=l(:label_user_new)%></legend>
 
     <p><%= label_tag "user_search", l(:label_user_search) %><%= text_field_tag 'user_search', nil %></p>

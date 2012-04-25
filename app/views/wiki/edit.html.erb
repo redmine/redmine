@@ -2,7 +2,7 @@
 
 <h2><%= h @page.pretty_title %></h2>
 
-<% form_for :content, @content,
+<%= form_for @content, :as => :content,
             :url => {:action => 'update', :id => @page.title},
             :html => {:method => :put, :multipart => true, :id => 'wiki_form'} do |f| %>
 <%= f.hidden_field :version %>
@@ -16,10 +16,10 @@
 <%= text_area_tag 'content[text]', @text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit) %>
 
 <% if @page.safe_attribute_names.include?('parent_id') && @wiki.pages.any? %>
-  <% fields_for @page do |fp| %>
+  <%= fields_for @page do |fp| %>
     <p>
       <label><%= l(:field_parent_title) %></label>
-      <%= fp.select :parent_id, "<option value=''></option>" + wiki_page_options_for_select(@wiki.pages.all(:include => :parent) - @page.self_and_descendants, @page.parent) %>
+      <%= fp.select :parent_id, content_tag('option', '', :value => '') + wiki_page_options_for_select(@wiki.pages.all(:include => :parent) - @page.self_and_descendants, @page.parent) %>
     </p>
   <% end %>
 <% end %>

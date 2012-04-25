@@ -21,14 +21,14 @@ module WikiHelper
 
   def wiki_page_options_for_select(pages, selected = nil, parent = nil, level = 0)
     pages = pages.group_by(&:parent) unless pages.is_a?(Hash)
-    s = ''
+    s = ''.html_safe
     if pages.has_key?(parent)
       pages[parent].each do |page|
         attrs = "value='#{page.id}'"
         attrs << " selected='selected'" if selected == page
-        indent = (level > 0) ? ('&nbsp;' * level * 2 + '&#187; ') : nil
+        indent = (level > 0) ? ('&nbsp;' * level * 2 + '&#187; ') : ''
 
-        s << "<option #{attrs}>#{indent}#{h page.pretty_title}</option>\n" +
+        s << content_tag('option', (indent + h(page.pretty_title)).html_safe, :value => page.id.to_s, :selected => selected == page) +
                wiki_page_options_for_select(pages, selected, page, level + 1)
       end
     end

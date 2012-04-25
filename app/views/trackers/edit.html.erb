@@ -1,5 +1,5 @@
 <h2><%= link_to l(:label_tracker_plural), trackers_path %> &#187; <%=h @tracker %></h2>
 
-<% labelled_form_for @tracker do |f| %>
+<%= labelled_form_for @tracker do |f| %>
 <%= render :partial => 'form', :locals => { :f => f } %>
 <% end %>

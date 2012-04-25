@@ -1,6 +1,6 @@
 <h2><%= l(:label_board) %></h2>
 
-<% labelled_form_for @board, :url => project_board_path(@project, @board) do |f| %>
+<%= labelled_form_for @board, :url => project_board_path(@project, @board) do |f| %>
   <%= render :partial => 'form', :locals => {:f => f} %>
   <%= submit_tag l(:button_save) %>
 <% end %>

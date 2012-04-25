@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../../test_helper', __FILE__)
 
-class Redmine::Hook::ManagerTest < ActiveSupport::TestCase
+class Redmine::Hook::ManagerTest < ActionView::TestCase
 
   fixtures :issues
 

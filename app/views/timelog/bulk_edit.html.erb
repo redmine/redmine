@@ -7,7 +7,7 @@
      )}.join("\n").html_safe %>
 </ul>
 
-<% form_tag(:action => 'bulk_update') do %>
+<%= form_tag(:action => 'bulk_update') do %>
 <%= @time_entries.collect {|i| hidden_field_tag('ids[]', i.id)}.join.html_safe %>
 <div class="box tabular">
   <div>

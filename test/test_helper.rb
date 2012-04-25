@@ -15,15 +15,18 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+#require 'shoulda'
 ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
-require 'test_help'
+require 'rails/test_help'
 require Rails.root.join('test', 'mocks', 'open_id_authentication_mock.rb').to_s
 
 require File.expand_path(File.dirname(__FILE__) + '/object_helpers')
 include ObjectHelpers
 
 class ActiveSupport::TestCase
+  include ActionDispatch::TestProcess
+  
   # Transactional fixtures accelerate your tests by wrapping each test method
   # in a transaction that's rolled back on completion.  This ensures that the
   # test database remains unchanged so your fixtures don't have to be reloaded
@@ -58,12 +61,11 @@ class ActiveSupport::TestCase
   end
 
   def uploaded_test_file(name, mime)
-    ActionController::TestUploadedFile.new(
-      ActiveSupport::TestCase.fixture_path + "/files/#{name}", mime, true)
+    fixture_file_upload("files/#{name}", mime, true)
   end
 
   def credentials(user, password=nil)
-    {:authorization => ActionController::HttpAuthentication::Basic.encode_credentials(user, password || user)}
+    {'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials(user, password || user)}
   end
 
   # Mock out a file
@@ -146,7 +148,7 @@ class ActiveSupport::TestCase
   def repository_path_hash(arr)
     hs = {}
     hs[:path]  = arr.join("/")
-    hs[:param] = arr
+    hs[:param] = arr.join("/")
     hs
   end
 
@@ -179,7 +181,7 @@ class ActiveSupport::TestCase
   end
 
   def mail_body(mail)
-    mail.body
+    mail.parts.first.body.encoded
   end
 
   # Shoulda macros
@@ -417,9 +419,13 @@ class ActiveSupport::TestCase
   def self.should_respond_with_content_type_based_on_url(url)
     case
     when url.match(/xml/i)
-      should_respond_with_content_type :xml
+      should "respond with XML" do
+        assert_equal 'application/xml', @response.content_type
+      end
     when url.match(/json/i)
-      should_respond_with_content_type :json
+      should "respond with JSON" do
+        assert_equal 'application/json', @response.content_type
+      end
     else
       raise "Unknown content type for should_respond_with_content_type_based_on_url: #{url}"
     end
@@ -458,6 +464,11 @@ class ActiveSupport::TestCase
     end
   end
 
+  def self.should_respond_with(status)
+    should "respond with #{status}" do
+      assert_response status
+    end
+  end
 end
 
 # Simple module to "namespace" all of the API tests

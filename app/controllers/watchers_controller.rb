@@ -109,7 +109,7 @@ private
       @watched = klass.find(params[:object_id])
       @project = @watched.project
     elsif params[:project_id]
-      @project = Project.visible.find(params[:project_id])
+      @project = Project.visible.find_by_param(params[:project_id])
     end
   rescue
     render_404

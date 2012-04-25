@@ -14,7 +14,7 @@
     <%= render(:partial => "wiki/content", :locals => {:content => version.wiki_page.content}) if version.wiki_page %>
 
     <% if (issues = @issues_by_version[version]) && issues.size > 0 %>
-    <% form_tag({}) do -%>
+    <%= form_tag({}) do -%>
     <table class="list related-issues">
     <caption><%= l(:label_related_issues) %></caption>
     <% issues.each do |issue| -%>
@@ -32,7 +32,7 @@
 <% end %>
 
 <% content_for :sidebar do %>
-<% form_tag({}, :method => :get) do %>
+<%= form_tag({}, :method => :get) do %>
 <h3><%= l(:label_roadmap) %></h3>
 <% @trackers.each do |tracker| %>
   <label><%= check_box_tag "tracker_ids[]", tracker.id, (@selected_tracker_ids.include? tracker.id.to_s), :id => nil %>

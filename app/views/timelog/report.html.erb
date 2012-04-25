@@ -6,7 +6,9 @@
 
 <h2><%= l(:label_spent_time) %></h2>
 
-<% form_tag({:controller => 'timelog', :action => 'report', :project_id => @project, :issue_id => @issue}, :method => :get, :id => 'query_form') do %>
+<%= form_tag({:controller => 'timelog', :action => 'report',
+              :project_id => @project, :issue_id => @issue},
+            :method => :get, :id => 'query_form') do %>
   <% @report.criteria.each do |criterion| %>
     <%= hidden_field_tag 'criteria[]', criterion, :id => nil %>
   <% end %>

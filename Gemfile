@@ -1,10 +1,12 @@
-source :rubygems
+source 'http://rubygems.org'
 
-gem "rails", "2.3.14"
-gem "i18n", "~> 0.4.2"
+gem 'rails', '3.2.3'
+gem 'prototype-rails', '3.2.1'
+gem "i18n", "~> 0.6.0"
 gem "coderay", "~> 1.0.6"
 gem "fastercsv", "~> 1.5.0", :platforms => [:mri_18, :mingw_18, :jruby]
 gem "tzinfo", "~> 0.3.31"
+gem "builder"
 
 # Optional gem for LDAP authentication
 group :ldap do
@@ -14,6 +16,7 @@ end
 # Optional gem for OpenID authentication
 group :openid do
   gem "ruby-openid", "~> 2.1.4", :require => "openid"
+  gem "rack-openid"
 end
 
 # Optional gem for exporting the gantt to a PNG file, not supported with jruby
@@ -45,7 +48,7 @@ end
 
 platforms :mri_19, :mingw_19 do
   group :mysql do
-    gem "mysql2", "~> 0.2.7"
+    gem "mysql2", "~> 0.3.11"
   end
 end
 
@@ -69,8 +72,9 @@ group :development do
   gem "rdoc", ">= 2.4.2"
 end
 
+
 group :test do
-  gem "shoulda", "~> 2.10.3"
+  gem "shoulda"
   gem "mocha"
 end
 

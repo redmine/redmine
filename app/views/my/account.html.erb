@@ -6,7 +6,7 @@
 <h2><%=l(:label_my_account)%></h2>
 <%= error_messages_for 'user' %>
 
-<% labelled_form_for :user, @user,
+<%= labelled_form_for :user, @user,
                      :url => { :action => "account" },
                      :html => { :id => 'my_account_form',
                                 :method => :post } do |f| %>

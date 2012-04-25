@@ -41,4 +41,28 @@ namespace :redmine do
   task :fetch_changesets => :environment do
     Repository.fetch_changesets
   end
+
+  desc 'Migrates and copies plugins assets.'
+  task :plugins do
+    Rake::Task["redmine:plugins:migrate"].invoke
+    Rake::Task["redmine:plugins:assets"].invoke
+  end
+
+  namespace :plugins do
+    desc 'Migrates installed plugins.'
+    task :migrate => :environment do
+      Redmine::Plugin.all.each do |plugin|
+        puts "Migrating #{plugin.name}..."
+        plugin.migrate
+      end
+    end
+
+    desc 'Copies plugins assets into the public directory.'
+    task :assets => :environment do
+      Redmine::Plugin.all.each do |plugin|
+        puts "Copying #{plugin.name} assets..."
+        plugin.mirror_assets
+      end
+    end
+  end
 end

@@ -9,7 +9,7 @@
 <h2><%= @query.new_record? ? l(:label_issue_plural) : h(@query.name) %></h2>
 <% html_title(@query.new_record? ? l(:label_issue_plural) : @query.name) %>
 
-<% form_tag({ :controller => 'issues', :action => 'index', :project_id => @project },
+<%= form_tag({ :controller => 'issues', :action => 'index', :project_id => @project },
             :method => :get, :id => 'query_form') do %>
     <%= hidden_field_tag 'set_filter', '1' %>
     <div id="query_form_content" class="hide-when-print">
@@ -68,7 +68,7 @@
 
 <div id="csv-export-options" style="display:none;">
   <h3 class="title"><%= l(:label_export_options, :export_format => 'CSV') %></h3>
-  <% form_tag(params.merge({:format => 'csv',:page=>nil}), :method => :get, :id => 'csv-export-form') do %>
+  <%= form_tag(params.merge({:format => 'csv',:page=>nil}), :method => :get, :id => 'csv-export-form') do %>
   <p>
     <label><%= radio_button_tag 'columns', '', true %> <%= l(:description_selected_columns) %></label><br />
     <label><%= radio_button_tag 'columns', 'all' %> <%= l(:description_all_columns) %></label>

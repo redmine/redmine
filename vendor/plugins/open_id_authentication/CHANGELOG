@@ -1,3 +1,5 @@
+* Dump heavy lifting off to rack-openid gem. OpenIdAuthentication is just a simple controller concern.
+
 * Fake HTTP method from OpenID server since they only support a GET. Eliminates the need to set an extra route to match the server's reply. [Josh Peek]
 
 * OpenID 2.0 recommends that forms should use the field name "openid_identifier" rather than "openid_url" [Josh Peek]

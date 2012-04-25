@@ -318,7 +318,7 @@ class IssuesControllerTest < ActionController::TestCase
     get :index, :format => 'csv'
     assert_response :success
     assert_not_nil assigns(:issues)
-    assert_equal 'text/csv', @response.content_type
+    assert_equal 'text/csv; header=present', @response.content_type
     assert @response.body.starts_with?("#,")
     lines = @response.body.chomp.split("\n")
     assert_equal assigns(:query).columns.size + 1, lines[0].split(',').size
@@ -328,14 +328,14 @@ class IssuesControllerTest < ActionController::TestCase
     get :index, :project_id => 1, :format => 'csv'
     assert_response :success
     assert_not_nil assigns(:issues)
-    assert_equal 'text/csv', @response.content_type
+    assert_equal 'text/csv; header=present', @response.content_type
   end
 
   def test_index_csv_with_description
     get :index, :format => 'csv', :description => '1'
     assert_response :success
     assert_not_nil assigns(:issues)
-    assert_equal 'text/csv', @response.content_type
+    assert_equal 'text/csv; header=present', @response.content_type
     assert @response.body.starts_with?("#,")
     lines = @response.body.chomp.split("\n")
     assert_equal assigns(:query).columns.size + 2, lines[0].split(',').size
@@ -347,7 +347,7 @@ class IssuesControllerTest < ActionController::TestCase
 
     get :index, :format => 'csv', :set_filter => '1', :c => %w(subject spent_hours)
     assert_response :success
-    assert_equal 'text/csv', @response.content_type
+    assert_equal 'text/csv; header=present', @response.content_type
     lines = @response.body.chomp.split("\n")
     assert_include "#{issue.id},#{issue.subject},7.33", lines
   end
@@ -356,7 +356,7 @@ class IssuesControllerTest < ActionController::TestCase
     get :index, :format => 'csv', :columns => 'all'
     assert_response :success
     assert_not_nil assigns(:issues)
-    assert_equal 'text/csv', @response.content_type
+    assert_equal 'text/csv; header=present', @response.content_type
     assert @response.body.starts_with?("#,")
     lines = @response.body.chomp.split("\n")
     assert_equal assigns(:query).available_columns.size + 1, lines[0].split(',').size
@@ -391,7 +391,7 @@ class IssuesControllerTest < ActionController::TestCase
                   :f => ['subject'], 
                   :op => '=', :values => [str_utf8],
                   :format => 'csv'
-      assert_equal 'text/csv', @response.content_type
+      assert_equal 'text/csv; header=present', @response.content_type
       lines = @response.body.chomp.split("\n")
       s1 = "\xaa\xac\xbaA"
       if str_utf8.respond_to?(:force_encoding)
@@ -419,7 +419,7 @@ class IssuesControllerTest < ActionController::TestCase
                   :c => ['status', 'subject'],
                   :format => 'csv',
                   :set_filter => 1
-      assert_equal 'text/csv', @response.content_type
+      assert_equal 'text/csv; header=present', @response.content_type
       lines = @response.body.chomp.split("\n")
       s1 = "\xaa\xac\xbaA" # status
       if str_utf8.respond_to?(:force_encoding)
@@ -454,7 +454,7 @@ class IssuesControllerTest < ActionController::TestCase
                   :c => ['estimated_hours', 'subject'],
                   :format => 'csv',
                   :set_filter => 1
-      assert_equal 'text/csv', @response.content_type
+      assert_equal 'text/csv; header=present', @response.content_type
       lines = @response.body.chomp.split("\n")
       assert_equal "#{issue.id},1234.50,#{str1}", lines[1]
 
@@ -483,7 +483,7 @@ class IssuesControllerTest < ActionController::TestCase
                   :c => ['estimated_hours', 'subject'],
                   :format => 'csv',
                   :set_filter => 1
-      assert_equal 'text/csv', @response.content_type
+      assert_equal 'text/csv; header=present', @response.content_type
       lines = @response.body.chomp.split("\n")
       assert_equal "#{issue.id};1234,50;#{str1}", lines[1]
 
@@ -1357,7 +1357,7 @@ class IssuesControllerTest < ActionController::TestCase
       :attributes => {:name => 'issue[tracker_id]'},
       :child => {:tag => 'option', :attributes => {:value => '3', :selected => 'selected'}}
     assert_tag 'textarea',
-      :attributes => {:name => 'issue[description]'}, :content => 'Prefilled'
+      :attributes => {:name => 'issue[description]'}, :content => "\nPrefilled"
     assert_tag 'input',
       :attributes => {:name => 'issue[custom_field_values][2]', :value => 'Custom field value'}
   end
@@ -1727,7 +1727,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_template 'new'
 
     assert_tag :textarea, :attributes => { :name => 'issue[description]' },
-                          :content => 'This is a description'
+                          :content => "\nThis is a description"
     assert_tag :select, :attributes => { :name => 'issue[priority_id]' },
                         :child => { :tag => 'option', :attributes => { :selected => 'selected',
                                                                        :value => '6' },
@@ -2621,7 +2621,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_template 'edit'
 
     assert_error_tag :descendant => {:content => /Activity can't be blank/}
-    assert_tag :textarea, :attributes => { :name => 'notes' }, :content => notes
+    assert_tag :textarea, :attributes => { :name => 'notes' }, :content => "\n"+notes
     assert_tag :input, :attributes => { :name => 'time_entry[hours]', :value => "2z" }
   end
 
@@ -2640,7 +2640,7 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_error_tag :descendant => {:content => /Activity can't be blank/}
     assert_error_tag :descendant => {:content => /Hours can't be blank/}
-    assert_tag :textarea, :attributes => { :name => 'notes' }, :content => notes
+    assert_tag :textarea, :attributes => { :name => 'notes' }, :content => "\n"+notes
     assert_tag :input, :attributes => { :name => 'time_entry[comments]', :value => "this is my comment" }
   end
 

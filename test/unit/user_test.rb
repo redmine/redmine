@@ -141,7 +141,7 @@ class UserTest < ActiveSupport::TestCase
 
     u2 = User.new(:firstname => "new", :lastname => "user", :mail => "newuser2@somenet.foo")
     u2.login = 'newuser1'
-    assert u2.save(false)
+    assert u2.save(:validate => false)
 
     user = User.find(u2.id)
     user.firstname = "firstname"

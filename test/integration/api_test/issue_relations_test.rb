@@ -75,7 +75,7 @@ class ApiTest::IssueRelationsTest < ActionController::IntegrationTest
           end
 
           assert_response :unprocessable_entity
-          assert_tag :errors, :child => {:tag => 'error', :content => 'relation_type is not included in the list'}
+          assert_tag :errors, :child => {:tag => 'error', :content => /relation_type is not included in the list/}
         end
       end
     end

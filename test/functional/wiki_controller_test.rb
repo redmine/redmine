@@ -198,7 +198,7 @@ class WikiControllerTest < ActionController::TestCase
 
     assert_tag 'textarea',
       :attributes => { :name => 'content[text]' },
-      :content => WikiPage.find_by_title('Another_page').content.text
+      :content => "\n"+WikiPage.find_by_title('Another_page').content.text
   end
 
   def test_edit_section
@@ -213,7 +213,7 @@ class WikiControllerTest < ActionController::TestCase
 
     assert_tag 'textarea',
       :attributes => { :name => 'content[text]' },
-      :content => section
+      :content => "\n"+section
     assert_tag 'input',
       :attributes => { :name => 'section', :type => 'hidden', :value => '2' }
     assert_tag 'input',
@@ -294,7 +294,7 @@ class WikiControllerTest < ActionController::TestCase
     assert_template 'edit'
 
     assert_error_tag :descendant => {:content => /Comment is too long/}
-    assert_tag :tag => 'textarea', :attributes => {:id => 'content_text'}, :content => 'edited'
+    assert_tag :tag => 'textarea', :attributes => {:id => 'content_text'}, :content => "\nedited"
     assert_tag :tag => 'input', :attributes => {:id => 'content_version', :value => '1'}
   end
 

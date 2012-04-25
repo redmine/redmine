@@ -1,55 +1,27 @@
-require 'rails_generator/base'
-require 'rails_generator/generators/components/controller/controller_generator'
+class RedminePluginControllerGenerator < Rails::Generators::NamedBase
+  source_root File.expand_path("../templates", __FILE__)
+  argument :controller, :type => :string
+  argument :actions, :type => :array, :default => [], :banner => "ACTION ACTION ..."
 
-class RedminePluginControllerGenerator < ControllerGenerator
   attr_reader :plugin_path, :plugin_name, :plugin_pretty_name
 
-  def initialize(runtime_args, runtime_options = {})
-    runtime_args = runtime_args.dup
-    usage if runtime_args.empty?
-    @plugin_name = "redmine_" + runtime_args.shift.underscore
+  def initialize(*args)
+    super
+    @plugin_name = file_name.underscore
     @plugin_pretty_name = plugin_name.titleize
-    @plugin_path = "vendor/plugins/#{plugin_name}"
-    super(runtime_args, runtime_options)
+    @plugin_path = "plugins/#{plugin_name}"
+    @controller_class = controller.camelize
   end
 
-  def destination_root
-    File.join(Rails.root, plugin_path)
-  end
-
-  def manifest
-    record do |m|
-      # Check for class naming collisions.
-      m.class_collisions class_path, "#{class_name}Controller", "#{class_name}ControllerTest", "#{class_name}Helper"
-
-      # Controller, helper, views, and test directories.
-      m.directory File.join('app/controllers', class_path)
-      m.directory File.join('app/helpers', class_path)
-      m.directory File.join('app/views', class_path, file_name)
-      m.directory File.join('test/functional', class_path)
-
-      # Controller class, functional test, and helper class.
-      m.template 'controller.rb.erb',
-                  File.join('app/controllers',
-                            class_path,
-                            "#{file_name}_controller.rb")
-
-      m.template 'functional_test.rb.erb',
-                  File.join('test/functional',
-                            class_path,
-                            "#{file_name}_controller_test.rb")
-
-      m.template 'helper.rb.erb',
-                  File.join('app/helpers',
-                            class_path,
-                            "#{file_name}_helper.rb")
-
-      # View template for each action.
-      actions.each do |action|
-        path = File.join('app/views', class_path, file_name, "#{action}.html.erb")
-        m.template 'view.html.erb', path,
-          :assigns => { :action => action, :path => path }
-      end
+  def copy_templates
+    template 'controller.rb.erb', "#{plugin_path}/app/controllers/#{controller}_controller.rb"
+    template 'helper.rb.erb', "#{plugin_path}/app/helpers/#{controller}_helper.rb"
+    template 'functional_test.rb.erb', "#{plugin_path}/test/functional/#{controller}_controller_test.rb"
+    # View template for each action.
+    actions.each do |action|
+      path = "#{plugin_path}/app/views/#{controller}/#{action}.html.erb"
+      @action_name = action
+      template 'view.html.erb', path
     end
   end
 end

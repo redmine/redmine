@@ -163,6 +163,8 @@ class WikiController < ApplicationController
     # Optimistic locking exception
     flash.now[:error] = l(:notice_locking_conflict)
     render :action => 'edit'
+  rescue ActiveRecord::RecordNotSaved
+    render :action => 'edit'
   end
 
   # rename a page

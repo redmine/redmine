@@ -222,8 +222,8 @@ module Redmine
                       :author  => author,
                       :message => commit_log.chomp,
                       :paths => [{
-                        :revision => revision,
-                        :branch   => revBranch,
+                        :revision => revision.dup,
+                        :branch   => revBranch.dup,
                         :path     => scm_iconv('UTF-8', @path_encoding, entry_path),
                         :name     => scm_iconv('UTF-8', @path_encoding, entry_name),
                         :kind     => 'file',

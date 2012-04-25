@@ -1,20 +1,22 @@
+# -*- encoding: utf-8 -*-
+lib = File.expand_path('../lib/', __FILE__)
+$:.unshift lib unless $:.include?(lib)
+require 'awesome_nested_set/version'
+
 Gem::Specification.new do |s|
-  s.name = "awesome_nested_set"
-  s.version = "1.1.1"
-  s.summary = "An awesome replacement for acts_as_nested_set and better_nested_set."
-  s.description = s.summary
- 
-  s.files = %w(init.rb MIT-LICENSE Rakefile README.rdoc lib/awesome_nested_set.rb lib/awesome_nested_set/compatability.rb lib/awesome_nested_set/helper.rb lib/awesome_nested_set/named_scope.rb rails/init.rb test/awesome_nested_set_test.rb test/test_helper.rb test/awesome_nested_set/helper_test.rb test/db/database.yml test/db/schema.rb test/fixtures/categories.yml test/fixtures/category.rb test/fixtures/departments.yml test/fixtures/notes.yml)
- 
-  s.add_dependency "activerecord", ['>= 1.1']
- 
-  s.has_rdoc = true
-  s.extra_rdoc_files = [ "README.rdoc"]
+  s.name = %q{awesome_nested_set}
+  s.version = ::AwesomeNestedSet::VERSION
+  s.authors = ["Brandon Keepers", "Daniel Morrison", "Philip Arndt"]
+  s.description = %q{An awesome nested set implementation for Active Record}
+  s.email = %q{info@collectiveidea.com}
+  s.extra_rdoc_files = [
+    "README.rdoc"
+  ]
+  s.files = Dir.glob("lib/**/*") + %w(MIT-LICENSE README.rdoc CHANGELOG)
+  s.homepage = %q{http://github.com/collectiveidea/awesome_nested_set}
   s.rdoc_options = ["--main", "README.rdoc", "--inline-source", "--line-numbers"]
- 
-  s.test_files = %w(test/awesome_nested_set_test.rb test/test_helper.rb test/awesome_nested_set/helper_test.rb test/db/database.yml test/db/schema.rb test/fixtures/categories.yml test/fixtures/category.rb test/fixtures/departments.yml test/fixtures/notes.yml)
-  s.require_path = 'lib'
-  s.author = "Collective Idea"
-  s.email = "info@collectiveidea.com"
-  s.homepage = "http://collectiveidea.com"
+  s.require_paths = ["lib"]
+  s.rubygems_version = %q{1.3.6}
+  s.summary = %q{An awesome nested set implementation for Active Record}
+  s.add_runtime_dependency 'activerecord', '>= 3.0.0'
 end

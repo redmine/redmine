@@ -1033,11 +1033,12 @@ class IssueTest < ActiveSupport::TestCase
     assert IssueRelation.create!(:issue_from => Issue.find(2),
                                  :issue_to   => Issue.find(3),
                                  :relation_type => IssueRelation::TYPE_PRECEDES)
-    # Validation skipping
-    assert IssueRelation.new(:issue_from => Issue.find(3),
-                             :issue_to   => Issue.find(1),
-                             :relation_type => IssueRelation::TYPE_PRECEDES).save(false)
 
+    r = IssueRelation.create!(:issue_from => Issue.find(3),
+                             :issue_to   => Issue.find(7),
+                             :relation_type => IssueRelation::TYPE_PRECEDES)
+    IssueRelation.update_all("issue_to_id = 1", ["id = ?", r.id])
+    
     assert_equal [2, 3], Issue.find(1).all_dependent_issues.collect(&:id).sort
   end
 
@@ -1052,13 +1053,16 @@ class IssueTest < ActiveSupport::TestCase
     assert IssueRelation.create!(:issue_from => Issue.find(3),
                                  :issue_to   => Issue.find(8),
                                  :relation_type => IssueRelation::TYPE_RELATES)
-    # Validation skipping
-    assert IssueRelation.new(:issue_from => Issue.find(8),
-                             :issue_to   => Issue.find(2),
-                             :relation_type => IssueRelation::TYPE_RELATES).save(false)
-    assert IssueRelation.new(:issue_from => Issue.find(3),
-                             :issue_to   => Issue.find(1),
-                             :relation_type => IssueRelation::TYPE_RELATES).save(false)
+
+    r = IssueRelation.create!(:issue_from => Issue.find(8),
+                             :issue_to   => Issue.find(7),
+                             :relation_type => IssueRelation::TYPE_RELATES)
+    IssueRelation.update_all("issue_to_id = 2", ["id = ?", r.id])
+    
+    r = IssueRelation.create!(:issue_from => Issue.find(3),
+                             :issue_to   => Issue.find(7),
+                             :relation_type => IssueRelation::TYPE_RELATES)
+    IssueRelation.update_all("issue_to_id = 1", ["id = ?", r.id])
 
     assert_equal [2, 3, 8], Issue.find(1).all_dependent_issues.collect(&:id).sort
   end

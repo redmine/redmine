@@ -21,6 +21,7 @@ class Redmine::WikiFormatting::MacrosTest < ActionView::TestCase
   include ApplicationHelper
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::SanitizeHelper
+  include ERB::Util
   extend ActionView::Helpers::SanitizeHelper::ClassMethods
 
   fixtures :projects, :roles, :enabled_modules, :users,

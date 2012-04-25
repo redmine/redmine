@@ -3,3 +3,5 @@ I18n.default_locale = 'en'
 I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
 
 require 'redmine'
+
+Redmine::Plugin.load

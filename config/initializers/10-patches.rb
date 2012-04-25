@@ -8,6 +8,9 @@ require 'active_record'
 module ActiveRecord
   class Base
     include Redmine::I18n
+    def self.named_scope(*args)
+      scope(*args)
+    end
 
     # Translate attribute names for validation errors display
     def self.human_attribute_name(attr, *args)
@@ -32,6 +35,18 @@ module ActionView
             else                locale.t :over_x_years,       :count => (distance_in_days / 365).floor
           end
         end
+      end
+    end
+  end
+
+  class Resolver
+    def find_all(name, prefix=nil, partial=false, details={}, key=nil, locals=[])
+      cached(key, [name, prefix, partial], details, locals) do
+        if details[:formats] & [:xml, :json]
+          details = details.dup
+          details[:formats] = details[:formats].dup + [:api]
+        end
+        find_templates(name, prefix, partial, details)
       end
     end
   end
@@ -60,26 +75,9 @@ end
 
 ActionMailer::Base.send :include, AsynchronousMailer
 
-module TMail
-  # TMail::Unquoter.convert_to_with_fallback_on_iso_8859_1 introduced in TMail 1.2.7
-  # triggers a test failure in test_add_issue_with_japanese_keywords(MailHandlerTest)
-  class Unquoter
-    class << self
-      alias_method :convert_to, :convert_to_without_fallback_on_iso_8859_1
-    end
-  end
-
-  # Patch for TMail 1.2.7. See http://www.redmine.org/issues/8751
-  class Encoder
-    def puts_meta(str)
-      add_text str
-    end
-  end
-end
-
 module ActionController
   module MimeResponds
-    class Responder
+    class Collector
       def api(&block)
         any(:xml, :json, &block)
       end

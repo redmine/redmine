@@ -14,22 +14,14 @@ The specification used is http://openid.net/specs/openid-authentication-2_0.html
 Prerequisites
 =============
 
-OpenID authentication uses the session, so be sure that you haven't turned that off. It also relies on a number of
-database tables to store the authentication keys. So you'll have to run the migration to create these before you get started:
-
-  rake open_id_authentication:db:create
-
-Or, use the included generators to install or upgrade:
-
-  ./script/generate open_id_authentication_tables MigrationName
-  ./script/generate upgrade_open_id_authentication_tables MigrationName
+OpenID authentication uses the session, so be sure that you haven't turned that off.
 
 Alternatively, you can use the file-based store, which just relies on on tmp/openids being present in RAILS_ROOT. But be aware that this store only works if you have a single application server. And it's not safe to use across NFS. It's recommended that you use the database store if at all possible. To use the file-based store, you'll also have to add this line to your config/environment.rb:
 
   OpenIdAuthentication.store = :file
 
 This particular plugin also relies on the fact that the authentication action allows for both POST and GET operations.
-If you're using RESTful authentication, you'll need to explicitly allow for this in your routes.rb. 
+If you're using RESTful authentication, you'll need to explicitly allow for this in your routes.rb.
 
 The plugin also expects to find a root_url method that points to the home page of your site. You can accomplish this by using a root route in config/routes.rb:
 
@@ -53,7 +45,7 @@ Also of note is the following code block used in the example below:
   authenticate_with_open_id do |result, identity_url|
     ...
   end
-  
+
 In the above code block, 'identity_url' will need to match user.identity_url exactly. 'identity_url' will be a string in the form of 'http://example.com' -
 If you are storing just 'example.com' with your user, the lookup will fail.
 
@@ -131,8 +123,8 @@ app/controllers/sessions_controller.rb
           end
         end
       end
-    
-    
+
+
     private
       def successful_login
         session[:user_id] = @current_user.id
@@ -171,7 +163,7 @@ You can support it in your app by changing #open_id_authentication
       def open_id_authentication(identity_url)
         # Pass optional :required and :optional keys to specify what sreg fields you want.
         # Be sure to yield registration, a third argument in the #authenticate_with_open_id block.
-        authenticate_with_open_id(identity_url, 
+        authenticate_with_open_id(identity_url,
             :required => [ :nickname, :email ],
             :optional => :fullname) do |result, identity_url, registration|
           case result.status
@@ -199,7 +191,7 @@ You can support it in your app by changing #open_id_authentication
           end
         end
       end
-      
+
       # registration is a hash containing the valid sreg keys given above
       # use this to map them to fields of your user model
       def assign_registration_attributes!(registration)
@@ -221,9 +213,9 @@ Some OpenID providers also support the OpenID AX (attribute exchange) protocol f
 
 Accessing AX data is very similar to the Simple Registration process, described above -- just add the URI identifier for the AX field to your :optional or :required parameters.  For example:
 
-        authenticate_with_open_id(identity_url, 
+        authenticate_with_open_id(identity_url,
             :required => [ :email, 'http://schema.openid.net/birthDate' ]) do |result, identity_url, registration|
-      
+
 This would provide the sreg data for :email, and the AX data for 'http://schema.openid.net/birthDate'
 
 

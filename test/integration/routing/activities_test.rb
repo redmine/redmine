@@ -21,11 +21,11 @@ class RoutingActivitiesTest < ActionController::IntegrationTest
   def test_activities
     assert_routing(
            { :method => 'get', :path => "/activity" },
-           { :controller => 'activities', :action => 'index', :id => nil }
+           { :controller => 'activities', :action => 'index' }
         )
     assert_routing(
            { :method => 'get', :path => "/activity.atom" },
-           { :controller => 'activities', :action => 'index', :id => nil, :format => 'atom' }
+           { :controller => 'activities', :action => 'index', :format => 'atom' }
         )
     assert_routing(
         { :method => 'get', :path => "/projects/33/activity" },

@@ -930,6 +930,9 @@ module ApplicationHelper
   def labelled_form_for(*args, &proc)
     args << {} unless args.last.is_a?(Hash)
     options = args.last
+    if args.first.is_a?(Symbol)
+      options.merge!(:as => args.shift)
+    end
     options.merge!({:builder => Redmine::Views::LabelledFormBuilder})
     form_for(*args, &proc)
   end
@@ -1060,7 +1063,7 @@ module ApplicationHelper
   # +user+ can be a User or a string that will be scanned for an email address (eg. 'joe <joe@foo.bar>')
   def avatar(user, options = { })
     if Setting.gravatar_enabled?
-      options.merge!({:ssl => (defined?(request) && request.ssl?), :default => Setting.gravatar_default})
+      options.merge!({:ssl => (request && request.ssl?), :default => Setting.gravatar_default})
       email = nil
       if user.respond_to?(:mail)
         email = user.mail
@@ -1079,7 +1082,7 @@ module ApplicationHelper
 
   # Returns the javascript tags that are included in the html layout head
   def javascript_heads
-    tags = javascript_include_tag(:defaults)
+    tags = javascript_include_tag('prototype', 'effects', 'dragdrop', 'controls', 'rails', 'application')
     unless User.current.pref.warn_on_leaving_unsaved == '0'
       tags << "\n".html_safe + javascript_tag("Event.observe(window, 'load', function(){ new WarnLeavingUnsaved('#{escape_javascript( l(:text_warn_on_leaving_unsaved) )}'); });")
     end

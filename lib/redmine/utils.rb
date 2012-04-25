@@ -22,7 +22,7 @@ module Redmine
       def relative_url_root
         ActionController::Base.respond_to?('relative_url_root') ?
           ActionController::Base.relative_url_root.to_s :
-          ActionController::AbstractRequest.relative_url_root.to_s
+          ActionController::Base.config.relative_url_root.to_s
       end
 
       # Sets the relative root url of the application
@@ -30,7 +30,7 @@ module Redmine
         if ActionController::Base.respond_to?('relative_url_root=')
           ActionController::Base.relative_url_root=arg
         else
-          ActionController::AbstractRequest.relative_url_root=arg
+          ActionController::Base.config.relative_url_root = arg
         end
       end
 
@@ -38,7 +38,7 @@ module Redmine
       # Example:
       #   random_hex(4) # => "89b8c729"
       def random_hex(n)
-        ActiveSupport::SecureRandom.hex(n)
+        SecureRandom.hex(n)
       end
     end
   end

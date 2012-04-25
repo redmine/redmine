@@ -15,6 +15,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+require 'builder'
+
 module Redmine
   module Views
     module Builders
@@ -29,7 +31,7 @@ module Redmine
         end
 
         def method_missing(sym, *args, &block)
-          if args.size == 1 && args.first.is_a?(Time)
+          if args.size == 1 && args.first.is_a?(::Time)
             __send__ sym, args.first.xmlschema, &block
           else
             super
