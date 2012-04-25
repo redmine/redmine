@@ -151,7 +151,7 @@ module Redmine
           t = CGI::escapeHTML(@text)
           auto_link!(t)
           auto_mailto!(t)
-          simple_format(t)
+          simple_format(t, {}, :sanitize => false)
         end
       end
 
