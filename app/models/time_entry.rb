@@ -42,19 +42,19 @@ class TimeEntry < ActiveRecord::Base
   before_validation :set_project_if_nil
   validate :validate_time_entry
 
-  named_scope :visible, lambda {|*args| {
+  scope :visible, lambda {|*args| {
     :include => :project,
     :conditions => Project.allowed_to_condition(args.shift || User.current, :view_time_entries, *args)
   }}
-  named_scope :on_issue, lambda {|issue| {
+  scope :on_issue, lambda {|issue| {
     :include => :issue,
     :conditions => "#{Issue.table_name}.root_id = #{issue.root_id} AND #{Issue.table_name}.lft >= #{issue.lft} AND #{Issue.table_name}.rgt <= #{issue.rgt}"
   }}
-  named_scope :on_project, lambda {|project, include_subprojects| {
+  scope :on_project, lambda {|project, include_subprojects| {
     :include => :project,
     :conditions => project.project_condition(include_subprojects)
   }}
-  named_scope :spent_between, lambda {|from, to|
+  scope :spent_between, lambda {|from, to|
     if from && to
      {:conditions => ["#{TimeEntry.table_name}.spent_on BETWEEN ? AND ?", from, to]}
     elsif from

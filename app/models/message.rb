@@ -45,7 +45,7 @@ class Message < ActiveRecord::Base
   after_update :update_messages_board
   after_destroy :reset_board_counters
 
-  named_scope :visible, lambda {|*args| { :include => {:board => :project},
+  scope :visible, lambda {|*args| { :include => {:board => :project},
                                           :conditions => Project.allowed_to_condition(args.shift || User.current, :view_messages, *args) } }
 
   safe_attributes 'subject', 'content'

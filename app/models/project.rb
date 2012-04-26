@@ -82,12 +82,12 @@ class Project < ActiveRecord::Base
 
   before_destroy :delete_all_members
 
-  named_scope :has_module, lambda { |mod| { :conditions => ["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s] } }
-  named_scope :active, { :conditions => "#{Project.table_name}.status = #{STATUS_ACTIVE}"}
-  named_scope :status, lambda {|arg| arg.blank? ? {} : {:conditions => {:status => arg.to_i}} }
-  named_scope :all_public, { :conditions => { :is_public => true } }
-  named_scope :visible, lambda {|*args| {:conditions => Project.visible_condition(args.shift || User.current, *args) }}
-  named_scope :allowed_to, lambda {|*args| 
+  scope :has_module, lambda { |mod| { :conditions => ["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s] } }
+  scope :active, { :conditions => "#{Project.table_name}.status = #{STATUS_ACTIVE}"}
+  scope :status, lambda {|arg| arg.blank? ? {} : {:conditions => {:status => arg.to_i}} }
+  scope :all_public, { :conditions => { :is_public => true } }
+  scope :visible, lambda {|*args| {:conditions => Project.visible_condition(args.shift || User.current, *args) }}
+  scope :allowed_to, lambda {|*args| 
     user = User.current
     permission = nil
     if args.first.is_a?(Symbol)
@@ -98,7 +98,7 @@ class Project < ActiveRecord::Base
     end
     { :conditions => Project.allowed_to_condition(user, permission, *args) }
   }
-  named_scope :like, lambda {|arg|
+  scope :like, lambda {|arg|
     if arg.blank?
       {}
     else

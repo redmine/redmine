@@ -24,9 +24,9 @@ class Principal < ActiveRecord::Base
   has_many :issue_categories, :foreign_key => 'assigned_to_id', :dependent => :nullify
 
   # Groups and active users
-  named_scope :active, :conditions => "#{Principal.table_name}.status = 1"
+  scope :active, :conditions => "#{Principal.table_name}.status = 1"
 
-  named_scope :like, lambda {|q|
+  scope :like, lambda {|q|
     if q.blank?
       {}
     else
@@ -44,7 +44,7 @@ class Principal < ActiveRecord::Base
   }
 
   # Principals that are members of a collection of projects
-  named_scope :member_of, lambda {|projects|
+  scope :member_of, lambda {|projects|
     projects = [projects] unless projects.is_a?(Array)
     if projects.empty?
       {:conditions => "1=0"}
@@ -54,7 +54,7 @@ class Principal < ActiveRecord::Base
     end
   }
   # Principals that are not members of projects
-  named_scope :not_member_of, lambda {|projects|
+  scope :not_member_of, lambda {|projects|
     projects = [projects] unless projects.is_a?(Array)
     if projects.empty?
       {:conditions => "1=0"}

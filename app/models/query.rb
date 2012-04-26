@@ -153,7 +153,7 @@ class Query < ActiveRecord::Base
   ]
   cattr_reader :available_columns
 
-  named_scope :visible, lambda {|*args|
+  scope :visible, lambda {|*args|
     user = args.shift || User.current
     base = Project.allowed_to_condition(user, :view_issues, *args)
     user_id = user.logged? ? user.id : 0

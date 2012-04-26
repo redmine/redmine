@@ -35,9 +35,9 @@ class Enumeration < ActiveRecord::Base
   validates_uniqueness_of :name, :scope => [:type, :project_id]
   validates_length_of :name, :maximum => 30
 
-  named_scope :shared, :conditions => { :project_id => nil }
-  named_scope :active, :conditions => { :active => true }
-  named_scope :named, lambda {|arg| { :conditions => ["LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip]}}
+  scope :shared, :conditions => { :project_id => nil }
+  scope :active, :conditions => { :active => true }
+  scope :named, lambda {|arg| { :conditions => ["LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip]}}
 
   def self.default
     # Creates a fake default scope so Enumeration.default will check

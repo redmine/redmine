@@ -60,18 +60,19 @@ class Issue < ActiveRecord::Base
   validates_numericality_of :estimated_hours, :allow_nil => true
   validate :validate_issue
 
-  named_scope :visible, lambda {|*args| { :include => :project,
-                                          :conditions => Issue.visible_condition(args.shift || User.current, *args) } }
+  scope :visible,
+        lambda {|*args| { :include => :project,
+                          :conditions => Issue.visible_condition(args.shift || User.current, *args) } }
 
-  named_scope :open, lambda {|*args|
+  scope :open, lambda {|*args|
     is_closed = args.size > 0 ? !args.first : false
     {:conditions => ["#{IssueStatus.table_name}.is_closed = ?", is_closed], :include => :status}
   }
 
-  named_scope :recently_updated, :order => "#{Issue.table_name}.updated_on DESC"
-  named_scope :with_limit, lambda { |limit| { :limit => limit} }
-  named_scope :on_active_project, :include => [:status, :project, :tracker],
-                                  :conditions => ["#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"]
+  scope :recently_updated, :order => "#{Issue.table_name}.updated_on DESC"
+  scope :with_limit, lambda { |limit| { :limit => limit} }
+  scope :on_active_project, :include => [:status, :project, :tracker],
+                            :conditions => ["#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"]
 
   before_create :default_assign
   before_save :close_duplicates, :update_done_ratio_from_issue_status

@@ -28,7 +28,7 @@ class Board < ActiveRecord::Base
   validates_length_of :name, :maximum => 30
   validates_length_of :description, :maximum => 255
 
-  named_scope :visible, lambda {|*args| { :include => :project,
+  scope :visible, lambda {|*args| { :include => :project,
                                           :conditions => Project.allowed_to_condition(args.shift || User.current, :view_messages, *args) } }
 
   safe_attributes 'name', 'description', 'move_to'

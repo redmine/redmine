@@ -32,7 +32,7 @@ class Tracker < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_length_of :name, :maximum => 30
 
-  named_scope :named, lambda {|arg| { :conditions => ["LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip]}}
+  scope :named, lambda {|arg| { :conditions => ["LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip]}}
 
   def to_s; name end
 
