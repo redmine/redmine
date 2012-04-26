@@ -3,10 +3,6 @@ require 'active_record'
 module ActiveRecord
   class Base
     include Redmine::I18n
-    def self.named_scope(*args)
-      scope(*args)
-    end
-
     # Translate attribute names for validation errors display
     def self.human_attribute_name(attr, *args)
       l("field_#{attr.to_s.gsub(/_id$/, '')}", :default => attr)
