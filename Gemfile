@@ -5,7 +5,6 @@ gem 'prototype-rails', '3.2.1'
 gem "i18n", "~> 0.6.0"
 gem "coderay", "~> 1.0.6"
 gem "fastercsv", "~> 1.5.0", :platforms => [:mri_18, :mingw_18, :jruby]
-gem "tzinfo", "~> 0.3.31"
 gem "builder"
 
 # Optional gem for LDAP authentication
