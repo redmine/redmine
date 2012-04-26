@@ -49,26 +49,39 @@ end
 
 ActionView::Base.field_error_proc = Proc.new{ |html_tag, instance| "#{html_tag}" }
 
-module AsynchronousMailer
-  # Adds :async_smtp and :async_sendmail delivery methods
-  # to perform email deliveries asynchronously
-  %w(smtp sendmail).each do |type|
-    define_method("perform_delivery_async_#{type}") do |mail|
+require 'mail'
+
+module DeliveryMethods
+  class AsyncSMTP < ::Mail::SMTP
+    def deliver!(*args)
       Thread.start do
-        send "perform_delivery_#{type}", mail
+        super *args
       end
     end
   end
 
-  # Adds a delivery method that writes emails in tmp/emails for testing purpose
-  def perform_delivery_tmp_file(mail)
-    dest_dir = File.join(Rails.root, 'tmp', 'emails')
-    Dir.mkdir(dest_dir) unless File.directory?(dest_dir)
-    File.open(File.join(dest_dir, mail.message_id.gsub(/[<>]/, '') + '.eml'), 'wb') {|f| f.write(mail.encoded) }
+  class AsyncSendmail < ::Mail::Sendmail
+    def deliver!(*args)
+      Thread.start do
+        super *args
+      end
+    end
+  end
+
+  class TmpFile
+    def initialize(*args); end
+
+    def deliver!(mail)
+      dest_dir = File.join(Rails.root, 'tmp', 'emails')
+      Dir.mkdir(dest_dir) unless File.directory?(dest_dir)
+      File.open(File.join(dest_dir, mail.message_id.gsub(/[<>]/, '') + '.eml'), 'wb') {|f| f.write(mail.encoded) }
+    end
   end
 end
 
-ActionMailer::Base.send :include, AsynchronousMailer
+ActionMailer::Base.add_delivery_method :async_smtp, DeliveryMethods::AsyncSMTP
+ActionMailer::Base.add_delivery_method :async_sendmail, DeliveryMethods::AsyncSendmail
+ActionMailer::Base.add_delivery_method :tmp_file, DeliveryMethods::TmpFile
 
 module ActionController
   module MimeResponds
