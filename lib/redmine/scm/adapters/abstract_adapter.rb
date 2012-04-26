@@ -267,6 +267,13 @@ module Redmine
             nil
           end
         end
+
+        def parse_xml(xml)
+          if RUBY_PLATFORM == 'java'
+            xml = xml.sub(%r{<\?xml[^>]*\?>}, '')
+          end
+          ActiveSupport::XmlMini.parse(xml)
+        end
       end
 
       class Entries < Array

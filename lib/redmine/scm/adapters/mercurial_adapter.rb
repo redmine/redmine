@@ -135,7 +135,7 @@ module Redmine
               output.force_encoding('UTF-8')
             end
             begin
-              @summary = ActiveSupport::XmlMini.parse(output)['rhsummary']
+              @summary = parse_xml(output)['rhsummary']
             rescue
             end
           end
@@ -151,7 +151,7 @@ module Redmine
               output.force_encoding('UTF-8')
             end
             begin
-              ActiveSupport::XmlMini.parse(output)['rhmanifest']['repository']['manifest']
+              parse_xml(output)['rhmanifest']['repository']['manifest']
             rescue
             end
           end
@@ -199,7 +199,7 @@ module Redmine
             end
             begin
               # Mercurial < 1.5 does not support footer template for '</log>'
-              ActiveSupport::XmlMini.parse("#{output}</log>")['log']
+              parse_xml("#{output}</log>")['log']
             rescue
             end
           end

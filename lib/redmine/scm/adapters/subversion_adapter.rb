@@ -71,7 +71,7 @@ module Redmine
               output.force_encoding('UTF-8')
             end
             begin
-              doc = ActiveSupport::XmlMini.parse(output)
+              doc = parse_xml(output)
               # root_url = doc.elements["info/entry/repository/root"].text
               info = Info.new({:root_url => doc['info']['entry']['repository']['root']['__content__'],
                                :lastrev => Revision.new({
@@ -103,7 +103,7 @@ module Redmine
               output.force_encoding('UTF-8')
             end
             begin
-              doc = ActiveSupport::XmlMini.parse(output)
+              doc = parse_xml(output)
               each_xml_element(doc['lists']['list'], 'entry') do |entry|
                 commit = entry['commit']
                 commit_date = commit['date']
@@ -146,7 +146,7 @@ module Redmine
               output.force_encoding('UTF-8')
             end
             begin
-              doc = ActiveSupport::XmlMini.parse(output)
+              doc = parse_xml(output)
               each_xml_element(doc['properties']['target'], 'property') do |property|
                 properties[ property['name'] ] = property['__content__'].to_s
               end
@@ -173,7 +173,7 @@ module Redmine
               output.force_encoding('UTF-8')
             end
             begin
-              doc = ActiveSupport::XmlMini.parse(output)
+              doc = parse_xml(output)
               each_xml_element(doc['log'], 'logentry') do |logentry|
                 paths = []
                 each_xml_element(logentry['paths'], 'path') do |path|
