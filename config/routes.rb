@@ -254,12 +254,28 @@ RedmineApp::Application.routes.draw do
             :action => /(browse|show|entry|changes|annotate|diff)/,
             :rev    => /[a-z0-9\.\-_]+/
           }
-  get 'projects/:id/repository/:repository_id/:format(/*path(.:ext))', :to => 'repositories#entry', :format => /raw/
-  get 'projects/:id/repository/:repository_id/:action(/*path(.:ext))', :controller => 'repositories', :action => /(browse|show|entry|changes|annotate|diff)/
+  get 'projects/:id/repository/:repository_id/:format(/*path(.:ext))',
+      :to => 'repositories#entry',
+      :constraints => {
+            :format => 'raw'
+          }
+  get 'projects/:id/repository/:repository_id/:action(/*path(.:ext))',
+      :controller => 'repositories',
+      :constraints => {
+            :action => /(browse|entry|changes|annotate|diff)/
+          }
   get 'projects/:id/repository/:repository_id', :to => 'repositories#show', :path => nil
 
-  get 'projects/:id/repository/:format(/*path(.:ext))', :to => 'repositories#entry', :format => /raw/
-  get 'projects/:id/repository/:action(/*path(.:ext))', :controller => 'repositories', :action => /(browse|show|entry|changes|annotate|diff)/
+  get 'projects/:id/repository/:format(/*path(.:ext))',
+      :to => 'repositories#entry',
+      :constraints => {
+            :format => 'raw'
+          }
+  get 'projects/:id/repository/:action(/*path(.:ext))',
+      :controller => 'repositories',
+      :constraints => {
+            :action => /(browse|entry|changes|annotate|diff)/
+          }
   get 'projects/:id/repository', :to => 'repositories#show', :path => nil
 
   # additional routes for having the file name at the end of url
