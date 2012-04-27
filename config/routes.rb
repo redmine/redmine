@@ -259,7 +259,8 @@ ActionController::Routing::Routes.draw do |map|
       repository_views.connect 'projects/:id/repository/:repository_id/revisions/:rev/diff.:format',
                                :action => 'diff'
       repository_views.connect 'projects/:id/repository/:repository_id/revisions/:rev/raw/*path',
-                               :action => 'entry', :format => 'raw'
+                               :action => 'entry', :format => 'raw',
+                               :requirements => { :rev => /[a-z0-9\.\-_]+/ }
       repository_views.connect 'projects/:id/repository/:repository_id/revisions/:rev/:action/*path',
                                :requirements => { 
                                    :action => /(browse|show|entry|changes|annotate|diff)/,
@@ -290,7 +291,8 @@ ActionController::Routing::Routes.draw do |map|
       repository_views.connect 'projects/:id/repository/revisions/:rev/diff.:format',
                                :action => 'diff'
       repository_views.connect 'projects/:id/repository/revisions/:rev/raw/*path',
-                               :action => 'entry', :format => 'raw'
+                               :action => 'entry', :format => 'raw',
+                               :requirements => { :rev => /[a-z0-9\.\-_]+/ }
       repository_views.connect 'projects/:id/repository/revisions/:rev/:action/*path',
                                :requirements => { 
                                    :action => /(browse|show|entry|changes|annotate|diff)/,
