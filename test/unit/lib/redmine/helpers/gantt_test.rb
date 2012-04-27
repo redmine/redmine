@@ -121,7 +121,7 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
                                :tracker => @tracker,
                                :project => @project,
                                :done_ratio => 30,
-                               :start_date => Date.yesterday,
+                               :start_date => (today - 1),
                                :due_date => (today + 7))
       @project.issues << @issue
     end
@@ -186,7 +186,7 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
                                    :tracker => @tracker,
                                    :project => @project,
                                    :done_ratio => 30,
-                                   :start_date => Date.yesterday,
+                                   :start_date => (today - 1),
                                    :due_date => (today + 7))
           @project.issues << @issue
         end
@@ -200,9 +200,9 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
       context "with subtasks" do
         setup do
           attrs = {:project => @project, :tracker => @tracker, :fixed_version => @version}
-          @child1 = Issue.generate!(attrs.merge(:subject => 'child1', :parent_issue_id => @issue.id, :start_date => Date.yesterday, :due_date => (today + 2)))
-          @child2 = Issue.generate!(attrs.merge(:subject => 'child2', :parent_issue_id => @issue.id, :start_date => Date.today, :due_date => (today + 7)))
-          @grandchild = Issue.generate!(attrs.merge(:subject => 'grandchild', :parent_issue_id => @child1.id, :start_date => Date.yesterday, :due_date => (today + 2)))
+          @child1 = Issue.generate!(attrs.merge(:subject => 'child1', :parent_issue_id => @issue.id, :start_date => (today - 1), :due_date => (today + 2)))
+          @child2 = Issue.generate!(attrs.merge(:subject => 'child2', :parent_issue_id => @issue.id, :start_date => today, :due_date => (today + 7)))
+          @grandchild = Issue.generate!(attrs.merge(:subject => 'grandchild', :parent_issue_id => @child1.id, :start_date => (today - 1), :due_date => (today + 2)))
         end
 
         should "indent subtasks" do
@@ -232,7 +232,7 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
                                :tracker => @tracker,
                                :project => @project,
                                :done_ratio => 30,
-                               :start_date => Date.yesterday,
+                               :start_date => (today - 1),
                                :due_date => (today + 7))
       @project.issues << @issue
 
@@ -306,7 +306,7 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
 
       should "style overdue projects" do
         @project.enabled_module_names = [:issue_tracking]
-        @project.versions << Version.generate!(:effective_date => Date.yesterday)
+        @project.versions << Version.generate!(:effective_date => (today - 1))
 
         assert @project.reload.overdue?, "Need an overdue project for this test"
         @output_buffer = @gantt.subject_for_project(@project, {:format => :html})
@@ -327,7 +327,7 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
       @project.enabled_module_names = [:issue_tracking]
       @tracker = Tracker.generate!
       @project.trackers << @tracker
-      @version = Version.generate!(:effective_date => Date.yesterday)
+      @version = Version.generate!(:effective_date => (today - 1))
       @project.versions << @version
 
       @project.issues << Issue.generate!(:fixed_version => @version,
@@ -380,7 +380,7 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
       context "starting marker" do
         should "not appear if the starting point is off the gantt chart" do
           # Shift the date range of the chart
-          @gantt.instance_variable_set('@date_from', Date.today)
+          @gantt.instance_variable_set('@date_from', today)
 
           @output_buffer = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
           assert_select "div.project.starting", false, @output_buffer
@@ -438,14 +438,14 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
       @project.enabled_module_names = [:issue_tracking]
       @tracker = Tracker.generate!
       @project.trackers << @tracker
-      @version = Version.generate!(:effective_date => Date.yesterday)
+      @version = Version.generate!(:effective_date => (today - 1))
       @project.versions << @version
 
       @project.issues << Issue.generate!(:fixed_version => @version,
                                          :subject => "gantt#subject_for_version",
                                          :tracker => @tracker,
                                          :project => @project,
-                                         :start_date => Date.today)
+                                         :start_date => today)
 
     end
 
@@ -547,7 +547,7 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
       context "starting marker" do
         should "not appear if the starting point is off the gantt chart" do
           # Shift the date range of the chart
-          @gantt.instance_variable_set('@date_from', Date.today)
+          @gantt.instance_variable_set('@date_from', today)
 
           @output_buffer = @gantt.line_for_version(@version, {:format => :html, :zoom => 4})
           assert_select "div.version.starting", false
@@ -610,7 +610,7 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
                                :tracker => @tracker,
                                :project => @project,
                                :start_date => (today - 3),
-                               :due_date => Date.yesterday)
+                               :due_date => (today - 1))
       @project.issues << @issue
 
     end
