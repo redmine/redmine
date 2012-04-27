@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2011  Jean-Philippe Lang
+# Copyright (C) 2006-2012  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,6 +18,18 @@
 require File.expand_path('../../../../../test_helper', __FILE__)
 
 class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
+  fixtures :projects, :trackers, :issue_statuses, :issues,
+           :journals, :journal_details,
+           :enumerations, :users, :issue_categories,
+           :projects_trackers,
+           :roles,
+           :member_roles,
+           :members,
+           :enabled_modules,
+           :workflows,
+           :versions,
+           :groups_users
+
   include ApplicationHelper
   include ProjectsHelper
   include IssuesHelper
