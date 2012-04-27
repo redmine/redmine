@@ -71,9 +71,8 @@ group :development do
   gem "rdoc", ">= 2.4.2"
 end
 
-
 group :test do
-  gem "shoulda"
+  gem "shoulda", "~> 2.11"
   gem "mocha"
 end
 
