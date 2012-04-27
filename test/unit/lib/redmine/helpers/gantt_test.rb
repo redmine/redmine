@@ -40,6 +40,10 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
     User.current = User.find(1)
   end
 
+  def today
+    @today ||= Date.today
+  end
+
   # Creates a Gantt chart for a 4 week span
   def create_gantt(project=Project.generate!, options={})
     @project = project
@@ -47,8 +51,8 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
     @gantt.project = @project
     @gantt.query = Query.create!(:project => @project, :name => 'Gantt')
     @gantt.view = self
-    @gantt.instance_variable_set('@date_from', options[:date_from] || 2.weeks.ago.to_date)
-    @gantt.instance_variable_set('@date_to', options[:date_to] || 2.weeks.from_now.to_date)
+    @gantt.instance_variable_set('@date_from', options[:date_from] || (today - 14))
+    @gantt.instance_variable_set('@date_to', options[:date_to] || (today + 14))
   end
 
   context "#number_of_rows" do
@@ -109,7 +113,7 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
       @project.enabled_module_names = [:issue_tracking]
       @tracker = Tracker.generate!
       @project.trackers << @tracker
-      @version = Version.generate!(:effective_date => 1.week.from_now.to_date, :sharing => 'none')
+      @version = Version.generate!(:effective_date => (today + 7), :sharing => 'none')
       @project.versions << @version
 
       @issue = Issue.generate!(:fixed_version => @version,
@@ -118,7 +122,7 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
                                :project => @project,
                                :done_ratio => 30,
                                :start_date => Date.yesterday,
-                               :due_date => 1.week.from_now.to_date)
+                               :due_date => (today + 7))
       @project.issues << @issue
     end
 
@@ -147,7 +151,7 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
 
       context "without assigned issues" do
         setup do
-          @version = Version.generate!(:effective_date => 2.week.from_now.to_date, :sharing => 'none', :name => 'empty_version')
+          @version = Version.generate!(:effective_date => (today + 14), :sharing => 'none', :name => 'empty_version')
           @project.versions << @version
         end
 
@@ -183,7 +187,7 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
                                    :project => @project,
                                    :done_ratio => 30,
                                    :start_date => Date.yesterday,
-                                   :due_date => 1.week.from_now.to_date)
+                                   :due_date => (today + 7))
           @project.issues << @issue
         end
 
@@ -196,9 +200,9 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
       context "with subtasks" do
         setup do
           attrs = {:project => @project, :tracker => @tracker, :fixed_version => @version}
-          @child1 = Issue.generate!(attrs.merge(:subject => 'child1', :parent_issue_id => @issue.id, :start_date => Date.yesterday, :due_date => 2.day.from_now.to_date))
-          @child2 = Issue.generate!(attrs.merge(:subject => 'child2', :parent_issue_id => @issue.id, :start_date => Date.today, :due_date => 1.week.from_now.to_date))
-          @grandchild = Issue.generate!(attrs.merge(:subject => 'grandchild', :parent_issue_id => @child1.id, :start_date => Date.yesterday, :due_date => 2.day.from_now.to_date))
+          @child1 = Issue.generate!(attrs.merge(:subject => 'child1', :parent_issue_id => @issue.id, :start_date => Date.yesterday, :due_date => (today + 2)))
+          @child2 = Issue.generate!(attrs.merge(:subject => 'child2', :parent_issue_id => @issue.id, :start_date => Date.today, :due_date => (today + 7)))
+          @grandchild = Issue.generate!(attrs.merge(:subject => 'grandchild', :parent_issue_id => @child1.id, :start_date => Date.yesterday, :due_date => (today + 2)))
         end
 
         should "indent subtasks" do
@@ -221,7 +225,7 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
       @project.enabled_module_names = [:issue_tracking]
       @tracker = Tracker.generate!
       @project.trackers << @tracker
-      @version = Version.generate!(:effective_date => 1.week.from_now.to_date)
+      @version = Version.generate!(:effective_date => (today + 7))
       @project.versions << @version
       @issue = Issue.generate!(:fixed_version => @version,
                                :subject => "gantt#line_for_project",
@@ -229,7 +233,7 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
                                :project => @project,
                                :done_ratio => 30,
                                :start_date => Date.yesterday,
-                               :due_date => 1.week.from_now.to_date)
+                               :due_date => (today + 7))
       @project.issues << @issue
 
       @output_buffer = @gantt.lines
@@ -331,8 +335,8 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
                                          :tracker => @tracker,
                                          :project => @project,
                                          :done_ratio => 30,
-                                         :start_date => 1.week.ago.to_date,
-                                         :due_date => 1.week.from_now.to_date)
+                                         :start_date => (today - 7),
+                                         :due_date => (today + 7))
     end
 
     context ":html format" do
@@ -391,7 +395,7 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
       context "ending marker" do
         should "not appear if the starting point is off the gantt chart" do
           # Shift the date range of the chart
-          @gantt.instance_variable_set('@date_to', 2.weeks.ago.to_date)
+          @gantt.instance_variable_set('@date_to', (today - 14))
 
           @output_buffer = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
           assert_select "div.project.ending", false, @output_buffer
@@ -406,7 +410,7 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
 
       context "status content" do
         should "appear at the far left, even if it's far in the past" do
-          @gantt.instance_variable_set('@date_to', 2.weeks.ago.to_date)
+          @gantt.instance_variable_set('@date_to', (today - 14))
 
           @output_buffer = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
           assert_select "div.project.label", /#{@project.name}/
@@ -490,7 +494,7 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
       @project.enabled_module_names = [:issue_tracking]
       @tracker = Tracker.generate!
       @project.trackers << @tracker
-      @version = Version.generate!(:effective_date => 1.week.from_now.to_date)
+      @version = Version.generate!(:effective_date => (today + 7))
       @project.versions << @version
 
       @project.issues << Issue.generate!(:fixed_version => @version,
@@ -498,8 +502,8 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
                                          :tracker => @tracker,
                                          :project => @project,
                                          :done_ratio => 30,
-                                         :start_date => 1.week.ago.to_date,
-                                         :due_date => 1.week.from_now.to_date)
+                                         :start_date => (today - 7),
+                                         :due_date => (today + 7))
     end
 
     context ":html format" do
@@ -558,7 +562,7 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
       context "ending marker" do
         should "not appear if the starting point is off the gantt chart" do
           # Shift the date range of the chart
-          @gantt.instance_variable_set('@date_to', 2.weeks.ago.to_date)
+          @gantt.instance_variable_set('@date_to', (today - 14))
 
           @output_buffer = @gantt.line_for_version(@version, {:format => :html, :zoom => 4})
           assert_select "div.version.ending", false
@@ -573,7 +577,7 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
 
       context "status content" do
         should "appear at the far left, even if it's far in the past" do
-          @gantt.instance_variable_set('@date_to', 2.weeks.ago.to_date)
+          @gantt.instance_variable_set('@date_to', (today - 14))
 
           @output_buffer = @gantt.line_for_version(@version, {:format => :html, :zoom => 4})
           assert_select "div.version.label", /#{@version.name}/
@@ -605,7 +609,7 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
       @issue = Issue.generate!(:subject => "gantt#subject_for_issue",
                                :tracker => @tracker,
                                :project => @project,
-                               :start_date => 3.days.ago.to_date,
+                               :start_date => (today - 3),
                                :due_date => Date.yesterday)
       @project.issues << @issue
 
@@ -650,15 +654,15 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
       @project.enabled_module_names = [:issue_tracking]
       @tracker = Tracker.generate!
       @project.trackers << @tracker
-      @version = Version.generate!(:effective_date => 1.week.from_now.to_date)
+      @version = Version.generate!(:effective_date => (today + 7))
       @project.versions << @version
       @issue = Issue.generate!(:fixed_version => @version,
                                :subject => "gantt#line_for_project",
                                :tracker => @tracker,
                                :project => @project,
                                :done_ratio => 30,
-                               :start_date => 1.week.ago.to_date,
-                               :due_date => 1.week.from_now.to_date)
+                               :start_date => (today - 7),
+                               :due_date => (today + 7))
       @project.issues << @issue
     end
 
@@ -701,7 +705,7 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
         end
 
         should "not be the total done width if the chart starts after issue start date"  do
-          create_gantt(@project, :date_from => 5.days.ago.to_date)
+          create_gantt(@project, :date_from => (today - 5))
 
           @output_buffer = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
           assert_select "div.task_done[style*=left:0px]", true, @output_buffer
@@ -728,7 +732,7 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
 
       context "status content" do
         should "appear at the far left, even if it's far in the past" do
-          @gantt.instance_variable_set('@date_to', 2.weeks.ago.to_date)
+          @gantt.instance_variable_set('@date_to', (today - 14))
 
           @output_buffer = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
           assert_select "div.task.label", true, @output_buffer
