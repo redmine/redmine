@@ -489,7 +489,7 @@ begin
 
       def test_cat_revision_invalid
         assert     @adapter.cat('README')
-        assert_nil @adapter.cat('README', 'abcd1234efgh')
+        assert_nil @adapter.cat('README', '1234abcd5678')
       end
 
       def test_diff_path_invalid
@@ -497,9 +497,9 @@ begin
       end
 
       def test_diff_revision_invalid
-        assert_nil @adapter.diff(nil, 'abcd1234efgh')
-        assert_nil @adapter.diff(nil, '713f4944648826f5', 'abcd1234efgh')
-        assert_nil @adapter.diff(nil, 'abcd1234efgh', '713f4944648826f5')
+        assert_nil @adapter.diff(nil, '1234abcd5678')
+        assert_nil @adapter.diff(nil, '713f4944648826f5', '1234abcd5678')
+        assert_nil @adapter.diff(nil, '1234abcd5678', '713f4944648826f5')
       end
 
       def test_annotate_path_invalid
@@ -508,7 +508,7 @@ begin
 
       def test_annotate_revision_invalid
         assert     @adapter.annotate('README')
-        assert_nil @adapter.annotate('README', 'abcd1234efgh')
+        assert_nil @adapter.annotate('README', '1234abcd5678')
       end
 
       private
