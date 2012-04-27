@@ -23,12 +23,12 @@ RedmineApp::Application.routes.draw do
   match 'account/register', :to => 'account#register', :via => [:get, :post]
   match 'account/lost_password', :to => 'account#lost_password', :via => [:get, :post]
   match 'account/activate', :to => 'account#activate', :via => :get
-  
+
   match '/news/preview', :controller => 'previews', :action => 'news', :as => 'preview_news'
   match '/issues/preview/new/:project_id', :to => 'previews#issue', :as => 'preview_new_issue'
   match '/issues/preview/edit/:id', :to => 'previews#issue', :as => 'preview_edit_issue'
   match '/issues/preview', :to => 'previews#issue', :as => 'preview_issue'
-  
+
   match 'projects/:id/wiki', :to => 'wikis#edit', :via => :post
   match 'projects/:id/wiki/destroy', :to => 'wikis#destroy', :via => [:get, :post]
 
@@ -36,7 +36,7 @@ RedmineApp::Application.routes.draw do
   get 'boards/:board_id/topics/:id', :to => 'messages#show'
   match 'boards/:board_id/topics/quote/:id', :to => 'messages#quote', :via => [:get, :post]
   get 'boards/:board_id/topics/:id/edit', :to => 'messages#edit'
-  
+
   post 'boards/:board_id/topics/preview', :to => 'messages#preview'
   post 'boards/:board_id/topics/:id/replies', :to => 'messages#reply'
   post 'boards/:board_id/topics/:id/edit', :to => 'messages#edit'
@@ -181,7 +181,7 @@ RedmineApp::Application.routes.draw do
   resources :news, :only => [:index, :show, :edit, :update, :destroy]
   match '/news/:id/comments', :to => 'comments#create', :via => :post
   match '/news/:id/comments/:comment_id', :to => 'comments#destroy', :via => :delete
-  
+
   resources :versions, :only => [:show, :edit, :update, :destroy] do
     post 'status_by', :on => :member
   end
@@ -202,7 +202,7 @@ RedmineApp::Application.routes.draw do
   match '/time_entries/:id', :to => 'timelog#destroy', :via => :delete, :id => /\d+/
   # TODO: delete /time_entries for bulk deletion
   match '/time_entries/destroy', :to => 'timelog#destroy', :via => :delete
-  
+
   # TODO: port to be part of the resources route(s)
   match 'projects/:id/settings/:tab', :to => 'projects#settings', :via => :get
 
