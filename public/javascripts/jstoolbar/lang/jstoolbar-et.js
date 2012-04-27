@@ -16,18 +16,18 @@
 */
 
 jsToolBar.strings = {};
-jsToolBar.strings['Strong'] = 'Paks';
-jsToolBar.strings['Italic'] = 'Kaldkiri';
-jsToolBar.strings['Underline'] = 'Allakriipsutatud';
-jsToolBar.strings['Deleted'] = 'Läbikriipsutatud';
-jsToolBar.strings['Code'] = 'Inline Code';
-jsToolBar.strings['Heading 1'] = 'Pealkiri 1';
-jsToolBar.strings['Heading 2'] = 'Pealkiri 2';
-jsToolBar.strings['Heading 3'] = 'Pealkiri 3';
+jsToolBar.strings['Strong'] = 'Rõhutatult';
+jsToolBar.strings['Italic'] = 'Kaldkirjas';
+jsToolBar.strings['Underline'] = 'Allakriipsutatult';
+jsToolBar.strings['Deleted'] = 'Läbikriipsutatult';
+jsToolBar.strings['Code'] = 'Koodiblokk';
+jsToolBar.strings['Heading 1'] = '1. taseme pealkiri';
+jsToolBar.strings['Heading 2'] = '2. taseme pealkiri';
+jsToolBar.strings['Heading 3'] = '3. taseme pealkiri';
 jsToolBar.strings['Unordered list'] = 'Täpitud nimekiri';
 jsToolBar.strings['Ordered list'] = 'Nummerdatud nimekiri';
-jsToolBar.strings['Quote'] = 'Tsitaadi algus';
-jsToolBar.strings['Unquote'] = 'Tsitaadi lõpp';
+jsToolBar.strings['Quote'] = 'Tsitaat: aste juurde';
+jsToolBar.strings['Unquote'] = 'Tsitaat: aste madalamaks';
 jsToolBar.strings['Preformatted text'] = 'Eelvormindatud tekst';
-jsToolBar.strings['Wiki link'] = 'Link Wiki lehele';
+jsToolBar.strings['Wiki link'] = 'Vikilehe link';
 jsToolBar.strings['Image'] = 'Pilt';
