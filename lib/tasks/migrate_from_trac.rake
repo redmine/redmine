@@ -85,11 +85,11 @@ namespace :redmine do
       end
 
       class TracComponent < ActiveRecord::Base
-        set_table_name :component
+        self.table_name = :component
       end
 
       class TracMilestone < ActiveRecord::Base
-        set_table_name :milestone
+        self.table_name = :milestone
         # If this attribute is set a milestone has a defined target timepoint
         def due
           if read_attribute(:due) && read_attribute(:due) > 0
@@ -114,11 +114,11 @@ namespace :redmine do
       end
 
       class TracTicketCustom < ActiveRecord::Base
-        set_table_name :ticket_custom
+        self.table_name = :ticket_custom
       end
 
       class TracAttachment < ActiveRecord::Base
-        set_table_name :attachment
+        self.table_name = :attachment
         set_inheritance_column :none
 
         def time; Time.at(read_attribute(:time)) end
@@ -159,7 +159,7 @@ namespace :redmine do
       end
 
       class TracTicket < ActiveRecord::Base
-        set_table_name :ticket
+        self.table_name = :ticket
         set_inheritance_column :none
 
         # ticket changes: only migrate status changes and comments
@@ -187,7 +187,7 @@ namespace :redmine do
       end
 
       class TracTicketChange < ActiveRecord::Base
-        set_table_name :ticket_change
+        self.table_name = :ticket_change
 
         def time; Time.at(read_attribute(:time)) end
       end
@@ -201,7 +201,7 @@ namespace :redmine do
                            CamelCase TitleIndex)
 
       class TracWikiPage < ActiveRecord::Base
-        set_table_name :wiki
+        self.table_name = :wiki
         set_primary_key :name
 
         has_many :attachments, :class_name => "TracAttachment",
@@ -218,11 +218,11 @@ namespace :redmine do
       end
 
       class TracPermission < ActiveRecord::Base
-        set_table_name :permission
+        self.table_name = :permission
       end
 
       class TracSessionAttribute < ActiveRecord::Base
-        set_table_name :session_attribute
+        self.table_name = :session_attribute
       end
 
       def self.find_or_create_user(username, project_member = false)

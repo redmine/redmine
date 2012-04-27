@@ -3,12 +3,12 @@ class Note < ActiveRecord::Base
 end
 
 class Default < ActiveRecord::Base
-  set_table_name 'categories'
+  self.table_name = 'categories'
   acts_as_nested_set
 end
 
 class ScopedCategory < ActiveRecord::Base
-  set_table_name 'categories'
+  self.table_name = 'categories'
   acts_as_nested_set :scope => :organization
 end
 
@@ -48,7 +48,7 @@ end
 
 class DefaultWithCallbacks < ActiveRecord::Base
 
-  set_table_name 'categories'
+  self.table_name = 'categories'
 
   attr_accessor :before_add, :after_add, :before_remove, :after_remove
 

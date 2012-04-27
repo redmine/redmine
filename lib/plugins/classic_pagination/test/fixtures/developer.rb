@@ -3,5 +3,5 @@ class Developer < ActiveRecord::Base
 end
 
 class DeVeLoPeR < ActiveRecord::Base
-  set_table_name "developers"
+  self.table_name = "developers"
 end

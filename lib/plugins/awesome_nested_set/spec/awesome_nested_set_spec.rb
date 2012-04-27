@@ -763,7 +763,7 @@ describe "AwesomeNestedSet" do
 
   it "should not error on a model with attr_accessible" do
     model = Class.new(ActiveRecord::Base)
-    model.set_table_name 'categories'
+    model.table_name = 'categories'
     model.attr_accessible :name
     lambda {
       model.acts_as_nested_set

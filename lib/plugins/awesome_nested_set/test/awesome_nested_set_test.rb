@@ -8,11 +8,11 @@ class AwesomeNestedSetTest < Test::Unit::TestCase
 
   class Default < ActiveRecord::Base
     acts_as_nested_set
-    set_table_name 'categories'
+    self.table_name = 'categories'
   end
   class Scoped < ActiveRecord::Base
     acts_as_nested_set :scope => :organization
-    set_table_name 'categories'
+    self.table_name = 'categories'
   end
 
   def test_left_column_default
