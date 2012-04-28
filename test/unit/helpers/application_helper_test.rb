@@ -1045,4 +1045,20 @@ RAW
     User.current = User.find(4)
     assert_include '<option value="4"><< me >></option>', principals_options_for_select(users)
   end
+
+  def test_stylesheet_link_tag_should_pick_the_default_stylesheet
+    assert_match 'href="/stylesheets/styles.css"', stylesheet_link_tag("styles")
+  end
+
+  def test_stylesheet_link_tag_for_plugin_should_pick_the_plugin_stylesheet
+    assert_match 'href="/plugin_assets/foo/stylesheets/styles.css"', stylesheet_link_tag("styles", :plugin => :foo)
+  end
+
+  def test_javascript_include_tag_should_pick_the_default_javascript
+    assert_match 'src="/javascripts/scripts.js"', javascript_include_tag("scripts")
+  end
+
+  def test_javascript_include_tag_for_plugin_should_pick_the_plugin_javascript
+    assert_match 'src="/plugin_assets/foo/javascripts/scripts.js"', javascript_include_tag("scripts", :plugin => :foo)
+  end
 end

@@ -106,26 +106,6 @@ module ApplicationHelper
     @current_theme
   end
 
-  def stylesheet_path(source)
-    if current_theme && current_theme.stylesheets.include?(source)
-      super current_theme.stylesheet_path(source)
-    else
-      super
-    end
-  end
-
-  def path_to_stylesheet(source)
-    stylesheet_path source
-  end
-
-  def stylesheet_link_tag(source, *args)
-    if current_theme && current_theme.stylesheets.include?(source)
-      super current_theme.stylesheet_path(source), *args
-    else
-      super
-    end
-  end
-
   # Returns the header tags for the current theme
   def heads_for_theme
     if current_theme && current_theme.javascripts.include?('theme')

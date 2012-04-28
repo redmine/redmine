@@ -11,5 +11,5 @@
 <% end %>
 
 <% content_for :header_tags do %>
-  <%= stylesheet_link_tag "/plugin_assets/sample_plugin/stylesheets/example.css", :media => "screen" %>
+  <%= stylesheet_link_tag 'example', :plugin => 'sample_plugin', :media => "screen" %>
 <% end %>

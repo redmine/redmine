@@ -1045,6 +1045,45 @@ module ApplicationHelper
     end
   end
 
+  # Overrides Rails' stylesheet_link_tag with themes and plugins support.
+  # Examples:
+  #   stylesheet_link_tag('styles') # => picks styles.css from the current theme or defaults
+  #   stylesheet_link_tag('styles', :plugin => 'foo) # => picks styles.css from plugin's assets
+  #
+  def stylesheet_link_tag(*sources)
+    options = sources.last.is_a?(Hash) ? sources.pop : {}
+    plugin = options.delete(:plugin)
+    sources = sources.map do |source|
+      if plugin
+        "/plugin_assets/#{plugin}/stylesheets/#{source}"
+      elsif current_theme && current_theme.stylesheets.include?(source)
+        current_theme.stylesheet_path(source)
+      else
+        source
+      end
+    end
+    super sources, options
+  end
+
+  # Overrides Rails' javascript_include_tag with plugins support
+  # Examples:
+  #   javascript_include_tag('scripts') # => picks scripts.js from defaults
+  #   javascript_include_tag('scripts', :plugin => 'foo) # => picks scripts.js from plugin's assets
+  #
+  def javascript_include_tag(*sources)
+    options = sources.last.is_a?(Hash) ? sources.pop : {}
+    if plugin = options.delete(:plugin)
+      sources = sources.map do |source|
+        if plugin
+          "/plugin_assets/#{plugin}/javascripts/#{source}"
+        else
+          source
+        end
+      end
+    end
+    super sources, options
+  end
+
   def content_for(name, content = nil, &block)
     @has_content ||= {}
     @has_content[name] = true
