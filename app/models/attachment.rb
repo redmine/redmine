@@ -49,15 +49,6 @@ class Attachment < ActiveRecord::Base
   before_save :files_to_final_location
   after_destroy :delete_from_disk
 
-  def container_with_blank_type_check
-    if container_type.blank?
-      nil
-    else
-      container_without_blank_type_check
-    end
-  end
-  alias_method_chain :container, :blank_type_check unless method_defined?(:container_without_blank_type_check)
-
   # Returns an unsaved copy of the attachment
   def copy(attributes=nil)
     copy = self.class.new
