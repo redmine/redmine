@@ -59,10 +59,7 @@ namespace :redmine do
 
     desc 'Copies plugins assets into the public directory.'
     task :assets => :environment do
-      Redmine::Plugin.all.each do |plugin|
-        puts "Copying #{plugin.name} assets..."
-        plugin.mirror_assets
-      end
+      Redmine::Plugin.mirror_assets
     end
   end
 end

@@ -148,6 +148,12 @@ default:
   # * encrypt data using 'rake db:encrypt RAILS_ENV=production'
   database_cipher_key:
 
+  # Set this to false to disable plugins' assets mirroring on startup.
+  # You can use `rake redmine:plugins:assets` to manually mirror assets
+  # to public/plugin_assets when you install/upgrade a Redmine plugin.
+  #
+  #mirror_plugins_assets_on_startup: false
+
 # specific configuration options for production environment
 # that overrides the default ones
 production:

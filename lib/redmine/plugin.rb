@@ -359,6 +359,13 @@ module Redmine #:nodoc:
       end
     end
 
+    # Mirrors all plugins' assets to public/plugin_assets
+    def self.mirror_assets
+      all.each do |plugin|
+        plugin.mirror_assets
+      end
+    end
+
     # The directory containing this plugin's migrations (<tt>plugin/db/migrate</tt>)
     def migration_directory
       File.join(Rails.root, 'plugins', id.to_s, 'db', 'migrate')
