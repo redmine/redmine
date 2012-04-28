@@ -154,6 +154,15 @@ default:
   #
   #mirror_plugins_assets_on_startup: false
 
+  # Your secret key for verifying cookie session data integrity. If you
+  # change this key, all old sessions will become invalid! Make sure the
+  # secret is at least 30 characters and all random, no regular words or
+  # you'll be exposed to dictionary attacks.
+  #
+  # If you have a load-balancing Redmine cluster, you have to use the
+  # same secret token on each machine.
+  #secret_token: 'change it to a long random string'
+
 # specific configuration options for production environment
 # that overrides the default ones
 production:
