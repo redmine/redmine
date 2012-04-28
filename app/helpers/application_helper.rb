@@ -1065,6 +1065,18 @@ module ApplicationHelper
     super sources, options
   end
 
+  # Overrides Rails' image_tag with plugins support.
+  # Examples:
+  #   image_tag('image.png') # => picks defaults image.png
+  #   image_tag('image.png', :plugin => 'foo) # => picks image.png from plugin's assets
+  #
+  def image_tag(source, options={})
+    if plugin = options.delete(:plugin)
+      source = "/plugin_assets/#{plugin}/images/#{source}"
+    end
+    super source, options
+  end
+
   # Overrides Rails' javascript_include_tag with plugins support
   # Examples:
   #   javascript_include_tag('scripts') # => picks scripts.js from defaults

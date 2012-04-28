@@ -1054,6 +1054,14 @@ RAW
     assert_match 'href="/plugin_assets/foo/stylesheets/styles.css"', stylesheet_link_tag("styles", :plugin => :foo)
   end
 
+  def test_image_tag_should_pick_the_default_image
+    assert_match 'src="/images/image.png"', image_tag("image.png")
+  end
+
+  def test_image_tag_sfor_plugin_should_pick_the_plugin_image
+    assert_match 'src="/plugin_assets/foo/images/image.png"', image_tag("image.png", :plugin => :foo)
+  end
+
   def test_javascript_include_tag_should_pick_the_default_javascript
     assert_match 'src="/javascripts/scripts.js"', javascript_include_tag("scripts")
   end
