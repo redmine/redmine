@@ -26,8 +26,8 @@ module Redmine
 
     def initialize(name, options={})
       self.name = name
-      self.label = options[:label]
-      self.order = options[:order]
+      self.label = options[:label] || "label_#{name}".to_sym
+      self.order = options[:order] || self.class.available_formats.size
       self.edit_as = options[:edit_as] || name
       self.class_names = options[:only]
     end
@@ -62,7 +62,11 @@ module Redmine
       end
 
       # Registers a custom field format
-      def register(custom_field_format, options={})
+      def register(*args)
+        custom_field_format = args.first
+        unless custom_field_format.is_a?(Redmine::CustomFieldFormat)
+          custom_field_format = Redmine::CustomFieldFormat.new(*args)
+        end
         @@available[custom_field_format.name] = custom_field_format unless @@available.keys.include?(custom_field_format.name)
       end
 
