@@ -564,7 +564,7 @@ class Query < ActiveRecord::Base
     r = nil
     if grouped?
       begin
-        # Rails will raise an (unexpected) RecordNotFound if there's only a nil group value
+        # Rails3 will raise an (unexpected) RecordNotFound if there's only a nil group value
         r = Issue.visible.count(:group => group_by_statement, :include => [:status, :project], :conditions => statement)
       rescue ActiveRecord::RecordNotFound
         r = {nil => issue_count}

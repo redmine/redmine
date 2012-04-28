@@ -705,6 +705,16 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal %w(Fixnum), count_by_group.values.collect {|k| k.class.name}.uniq
   end
 
+  def test_issue_count_with_nil_group_only
+    Issue.update_all("assigned_to_id = NULL")
+
+    q = Query.new(:name => '_', :group_by => 'assigned_to')
+    count_by_group = q.issue_count_by_group
+    assert_kind_of Hash, count_by_group
+    assert_equal 1, count_by_group.keys.size
+    assert_nil count_by_group.keys.first
+  end
+
   def test_issue_ids
     q = Query.new(:name => '_')
     order = "issues.subject, issues.id"
