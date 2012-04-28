@@ -1058,6 +1058,18 @@ RAW
     assert_match 'src="/images/image.png"', image_tag("image.png")
   end
 
+  def test_image_tag_should_pick_the_theme_image_if_it_exists
+    theme = Redmine::Themes.themes.last
+    theme.images << 'image.png'
+
+    with_settings :ui_theme => theme.id do
+      assert_match %|src="/themes/#{theme.dir}/images/image.png"|, image_tag("image.png")
+      assert_match %|src="/images/other.png"|, image_tag("other.png")
+    end
+  ensure
+    theme.images.delete 'image.png'
+  end
+
   def test_image_tag_sfor_plugin_should_pick_the_plugin_image
     assert_match 'src="/plugin_assets/foo/images/image.png"', image_tag("image.png", :plugin => :foo)
   end

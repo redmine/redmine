@@ -67,6 +67,10 @@ module Redmine
         @stylesheets ||= assets("stylesheets", "css")
       end
 
+      def images
+        @images ||= assets("images")
+      end
+
       def javascripts
         @javascripts ||= assets("javascripts", "js")
       end
@@ -75,14 +79,22 @@ module Redmine
         "/themes/#{dir}/stylesheets/#{source}"
       end
 
+      def image_path(source)
+        "/themes/#{dir}/images/#{source}"
+      end
+
       def javascript_path(source)
         "/themes/#{dir}/javascripts/#{source}"
       end
 
       private
 
-      def assets(dir, ext)
-        Dir.glob("#{path}/#{dir}/*.#{ext}").collect {|f| File.basename(f).gsub(/\.#{ext}$/, '')}
+      def assets(dir, ext=nil)
+        if ext
+          Dir.glob("#{path}/#{dir}/*.#{ext}").collect {|f| File.basename(f).gsub(/\.#{ext}$/, '')}
+        else
+          Dir.glob("#{path}/#{dir}/*").collect {|f| File.basename(f)}
+        end
       end
     end
 

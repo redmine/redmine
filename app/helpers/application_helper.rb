@@ -1065,14 +1065,16 @@ module ApplicationHelper
     super sources, options
   end
 
-  # Overrides Rails' image_tag with plugins support.
+  # Overrides Rails' image_tag with themes and plugins support.
   # Examples:
-  #   image_tag('image.png') # => picks defaults image.png
+  #   image_tag('image.png') # => picks image.png from the current theme or defaults
   #   image_tag('image.png', :plugin => 'foo) # => picks image.png from plugin's assets
   #
   def image_tag(source, options={})
     if plugin = options.delete(:plugin)
       source = "/plugin_assets/#{plugin}/images/#{source}"
+    elsif current_theme && current_theme.images.include?(source)
+      source = current_theme.image_path(source)
     end
     super source, options
   end
