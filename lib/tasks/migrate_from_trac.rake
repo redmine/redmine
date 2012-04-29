@@ -164,11 +164,11 @@ namespace :redmine do
 
         # ticket changes: only migrate status changes and comments
         has_many :changes, :class_name => "TracTicketChange", :foreign_key => :ticket
-        has_many :attachments, :class_name => "TracAttachment",
-                               :finder_sql => "SELECT DISTINCT attachment.* FROM #{TracMigrate::TracAttachment.table_name}" +
-                                              " WHERE #{TracMigrate::TracAttachment.table_name}.type = 'ticket'" +
-                                              ' AND #{TracMigrate::TracAttachment.table_name}.id = \'#{TracMigrate::TracAttachment.connection.quote_string(id.to_s)}\''
         has_many :customs, :class_name => "TracTicketCustom", :foreign_key => :ticket
+
+        def attachments
+          TracMigrate::TracAttachment.all(:conditions => ["type = 'ticket' AND id = ?", self.id.to_s])
+        end
 
         def ticket_type
           read_attribute(:type)
@@ -189,6 +189,11 @@ namespace :redmine do
       class TracTicketChange < ActiveRecord::Base
         self.table_name = :ticket_change
 
+        def self.columns
+          # Hides Trac field 'field' to prevent clash with AR field_changed? method (Rails 3.0)
+          super.select {|column| column.name.to_s != 'field'}
+        end
+
         def time; Time.at(read_attribute(:time)) end
       end
 
@@ -204,14 +209,13 @@ namespace :redmine do
         self.table_name = :wiki
         set_primary_key :name
 
-        has_many :attachments, :class_name => "TracAttachment",
-                               :finder_sql => "SELECT DISTINCT attachment.* FROM #{TracMigrate::TracAttachment.table_name}" +
-                                      " WHERE #{TracMigrate::TracAttachment.table_name}.type = 'wiki'" +
-                                      ' AND #{TracMigrate::TracAttachment.table_name}.id = \'#{TracMigrate::TracAttachment.connection.quote_string(id.to_s)}\''
-
         def self.columns
           # Hides readonly Trac field to prevent clash with AR readonly? method (Rails 2.0)
           super.select {|column| column.name.to_s != 'readonly'}
+        end
+
+        def attachments
+          TracMigrate::TracAttachment.all(:conditions => ["type = 'wiki' AND id = ?", self.id.to_s])
         end
 
         def time; Time.at(read_attribute(:time)) end
@@ -621,9 +625,9 @@ namespace :redmine do
 
       def self.set_trac_adapter(adapter)
         return false if adapter.blank?
-        raise "Unknown adapter: #{adapter}!" unless %w(sqlite sqlite3 mysql postgresql).include?(adapter)
+        raise "Unknown adapter: #{adapter}!" unless %w(sqlite3 mysql postgresql).include?(adapter)
         # If adapter is sqlite or sqlite3, make sure that trac.db exists
-        raise "#{trac_db_path} doesn't exist!" if %w(sqlite sqlite3).include?(adapter) && !File.exist?(trac_db_path)
+        raise "#{trac_db_path} doesn't exist!" if %w(sqlite3).include?(adapter) && !File.exist?(trac_db_path)
         @@trac_adapter = adapter
       rescue Exception => e
         puts e
@@ -686,8 +690,8 @@ namespace :redmine do
       end
 
       def self.connection_params
-        if %w(sqlite sqlite3).include?(trac_adapter)
-          {:adapter => trac_adapter,
+        if trac_adapter == 'sqlite3'
+          {:adapter => 'sqlite3',
            :database => trac_db_path}
         else
           {:adapter => trac_adapter,
@@ -746,8 +750,8 @@ namespace :redmine do
     DEFAULT_PORTS = {'mysql' => 3306, 'postgresql' => 5432}
 
     prompt('Trac directory') {|directory| TracMigrate.set_trac_directory directory.strip}
-    prompt('Trac database adapter (sqlite, sqlite3, mysql, postgresql)', :default => 'sqlite') {|adapter| TracMigrate.set_trac_adapter adapter}
-    unless %w(sqlite sqlite3).include?(TracMigrate.trac_adapter)
+    prompt('Trac database adapter (sqlite3, mysql2, postgresql)', :default => 'sqlite3') {|adapter| TracMigrate.set_trac_adapter adapter}
+    unless %w(sqlite3).include?(TracMigrate.trac_adapter)
       prompt('Trac database host', :default => 'localhost') {|host| TracMigrate.set_trac_db_host host}
       prompt('Trac database port', :default => DEFAULT_PORTS[TracMigrate.trac_adapter]) {|port| TracMigrate.set_trac_db_port port}
       prompt('Trac database name') {|name| TracMigrate.set_trac_db_name name}
