@@ -271,8 +271,8 @@ task :migrate_from_mantis => :environment do
     	next unless p.save
     	projects_map[project.id] = p.id
     	p.enabled_module_names = ['issue_tracking', 'news', 'wiki']
-        p.trackers << TRACKER_BUG
-        p.trackers << TRACKER_FEATURE
+        p.trackers << TRACKER_BUG unless p.trackers.include?(TRACKER_BUG)
+        p.trackers << TRACKER_FEATURE unless p.trackers.include?(TRACKER_FEATURE)
     	print '.'
     	
     	# Project members
@@ -331,7 +331,7 @@ task :migrate_from_mantis => :environment do
         # Redmine checks that the assignee is a project member
         if (bug.handler_id && users_map[bug.handler_id])
           i.assigned_to = User.find_by_id(users_map[bug.handler_id])
-          i.save_with_validation(false)
+          i.save(:validate => false)
         end        
     	
     	# Bug notes
@@ -476,7 +476,7 @@ task :migrate_from_mantis => :environment do
   break unless STDIN.gets.match(/^y$/i)
   
   # Default Mantis database settings
-  db_params = {:adapter => 'mysql', 
+  db_params = {:adapter => 'mysql2', 
                :database => 'bugtracker', 
                :host => 'localhost', 
                :username => 'root', 
