@@ -37,6 +37,7 @@ class IssueCategoriesControllerTest < ActionController::TestCase
     get :new, :project_id => '1'
     assert_response :success
     assert_template 'new'
+    assert_select 'input[name=?]', 'issue_category[name]'
   end
 
   def test_create
@@ -86,6 +87,7 @@ class IssueCategoriesControllerTest < ActionController::TestCase
     get :edit, :id => 2
     assert_response :success
     assert_template 'edit'
+    assert_select 'input[name=?][value=?]', 'issue_category[name]', 'Recipes'
   end
 
   def test_update
