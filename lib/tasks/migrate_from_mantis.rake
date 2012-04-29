@@ -190,12 +190,12 @@ task :migrate_from_mantis => :environment do
       end
 
       def read(*args)
-      	if @read_finished
-      		nil
-      	else
-      		@read_finished = true
-      		content
-      	end
+          if @read_finished
+              nil
+          else
+              @read_finished = true
+              content
+          end
       end
     end
 
@@ -242,18 +242,18 @@ task :migrate_from_mantis => :environment do
       users_map = {}
       users_migrated = 0
       MantisUser.find(:all).each do |user|
-    	u = User.new :firstname => encode(user.firstname),
-    				 :lastname => encode(user.lastname),
-    				 :mail => user.email,
-    				 :last_login_on => user.last_visit
-    	u.login = user.username
-    	u.password = 'mantis'
-    	u.status = User::STATUS_LOCKED if user.enabled != 1
-    	u.admin = true if user.access_level == 90
-    	next unless u.save!
-    	users_migrated += 1
-    	users_map[user.id] = u.id
-    	print '.'
+        u = User.new :firstname => encode(user.firstname),
+                     :lastname => encode(user.lastname),
+                     :mail => user.email,
+                     :last_login_on => user.last_visit
+        u.login = user.username
+        u.password = 'mantis'
+        u.status = User::STATUS_LOCKED if user.enabled != 1
+        u.admin = true if user.access_level == 90
+        next unless u.save!
+        users_migrated += 1
+        users_map[user.id] = u.id
+        print '.'
       end
       puts
 
@@ -264,43 +264,43 @@ task :migrate_from_mantis => :environment do
       versions_map = {}
       categories_map = {}
       MantisProject.find(:all).each do |project|
-    	p = Project.new :name => encode(project.name),
+        p = Project.new :name => encode(project.name),
                         :description => encode(project.description)
-    	p.identifier = project.identifier
-    	next unless p.save
-    	projects_map[project.id] = p.id
-    	p.enabled_module_names = ['issue_tracking', 'news', 'wiki']
+        p.identifier = project.identifier
+        next unless p.save
+        projects_map[project.id] = p.id
+        p.enabled_module_names = ['issue_tracking', 'news', 'wiki']
         p.trackers << TRACKER_BUG unless p.trackers.include?(TRACKER_BUG)
         p.trackers << TRACKER_FEATURE unless p.trackers.include?(TRACKER_FEATURE)
-    	print '.'
-    	
-    	# Project members
-    	project.members.each do |member|
+        print '.'
+
+        # Project members
+        project.members.each do |member|
           m = Member.new :user => User.find_by_id(users_map[member.user_id]),
-    	                   :roles => [ROLE_MAPPING[member.access_level] || DEFAULT_ROLE]
-    	  m.project = p
-    	  m.save
-    	end	
-    	
-    	# Project versions
-    	project.versions.each do |version|
+                           :roles => [ROLE_MAPPING[member.access_level] || DEFAULT_ROLE]
+          m.project = p
+          m.save
+        end
+
+        # Project versions
+        project.versions.each do |version|
           v = Version.new :name => encode(version.version),
                           :description => encode(version.description),
                           :effective_date => (version.date_order ? version.date_order.to_date : nil)
           v.project = p
           v.save
           versions_map[version.id] = v.id
-    	end
-    	
-    	# Project categories
-    	project.categories.each do |category|
+        end
+
+        # Project categories
+        project.categories.each do |category|
           g = IssueCategory.new :name => category.category[0,30]
           g.project = p
           g.save
           categories_map[category.category] = g.id
-    	end
-      end	
-      puts	
+        end
+      end
+      puts
 
       # Bugs
       print "Migrating bugs"
@@ -309,22 +309,22 @@ task :migrate_from_mantis => :environment do
       keep_bug_ids = (Issue.count == 0)
       MantisBug.find_each(:batch_size => 200) do |bug|
         next unless projects_map[bug.project_id] && users_map[bug.reporter_id]
-    	i = Issue.new :project_id => projects_map[bug.project_id],
+        i = Issue.new :project_id => projects_map[bug.project_id],
                       :subject => encode(bug.summary),
                       :description => encode(bug.bug_text.full_description),
                       :priority => PRIORITY_MAPPING[bug.priority] || DEFAULT_PRIORITY,
                       :created_on => bug.date_submitted,
                       :updated_on => bug.last_updated
-    	i.author = User.find_by_id(users_map[bug.reporter_id])
-    	i.category = IssueCategory.find_by_project_id_and_name(i.project_id, bug.category[0,30]) unless bug.category.blank?
-    	i.fixed_version = Version.find_by_project_id_and_name(i.project_id, bug.fixed_in_version) unless bug.fixed_in_version.blank?
-    	i.status = STATUS_MAPPING[bug.status] || DEFAULT_STATUS
-    	i.tracker = (bug.severity == 10 ? TRACKER_FEATURE : TRACKER_BUG)
-    	i.id = bug.id if keep_bug_ids
-    	next unless i.save
-    	issues_map[bug.id] = i.id
-    	print '.'
-      STDOUT.flush
+        i.author = User.find_by_id(users_map[bug.reporter_id])
+        i.category = IssueCategory.find_by_project_id_and_name(i.project_id, bug.category[0,30]) unless bug.category.blank?
+        i.fixed_version = Version.find_by_project_id_and_name(i.project_id, bug.fixed_in_version) unless bug.fixed_in_version.blank?
+        i.status = STATUS_MAPPING[bug.status] || DEFAULT_STATUS
+        i.tracker = (bug.severity == 10 ? TRACKER_FEATURE : TRACKER_BUG)
+        i.id = bug.id if keep_bug_ids
+        next unless i.save
+        issues_map[bug.id] = i.id
+        print '.'
+        STDOUT.flush
 
         # Assignee
         # Redmine checks that the assignee is a project member
@@ -332,17 +332,17 @@ task :migrate_from_mantis => :environment do
           i.assigned_to = User.find_by_id(users_map[bug.handler_id])
           i.save(:validate => false)
         end
-    	
-    	# Bug notes
-    	bug.bug_notes.each do |note|
-    	  next unless users_map[note.reporter_id]
+
+        # Bug notes
+        bug.bug_notes.each do |note|
+          next unless users_map[note.reporter_id]
           n = Journal.new :notes => encode(note.bug_note_text.note),
                           :created_on => note.date_submitted
           n.user = User.find_by_id(users_map[note.reporter_id])
           n.journalized = i
           n.save
-    	end
-    	
+        end
+
         # Bug files
         bug.bug_files.each do |file|
           a = Attachment.new :created_on => file.date_added
@@ -481,7 +481,7 @@ task :migrate_from_mantis => :environment do
                :username => 'root',
                :password => '' }
 
-  puts				
+  puts
   puts "Please enter settings for your Mantis database"
   [:adapter, :host, :database, :username, :password].each do |param|
     print "#{param} [#{db_params[param]}]: "
