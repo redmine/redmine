@@ -72,7 +72,7 @@ namespace :ci do
       result = `#{command}`
       "$ #{command}\n#{result}"
     end.join("\n")
-    
+
   end
 end
 
