@@ -32,10 +32,12 @@
 </form>
 <% end %>
 
-<% remote_form_for(:relation, @relation,
+<%= form_for @relation, {
+                 :as => :relation, :remote => true,
                  :url => {:controller => 'issue_relations', :action => 'create', :issue_id => @issue},
                  :method => :post,
                  :complete => "Form.Element.focus('relation_issue_to_id');",
-                 :html => {:id => 'new-relation-form', :style => (@relation ? '' : 'display: none;')}) do |f| %>
+                 :html => {:id => 'new-relation-form', :style => (@relation ? '' : 'display: none;')}
+               } do |f| %>
 <%= render :partial => 'issue_relations/form', :locals => {:f => f}%>
 <% end %>

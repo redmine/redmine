@@ -24,7 +24,7 @@
 </ul>
 
 <% if manage_allowed %>
-  <% remote_form_for(:issue, @issue, 
+  <%= form_for(@issue, :as => :issue, :remote => true,
        :url => {:controller => 'repositories', :action => 'add_related_issue',
                 :id => @project, :repository_id => @repository.identifier_param,
                 :rev => @changeset.identifier},
