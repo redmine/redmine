@@ -1,6 +1,7 @@
 <h2><%=l(:label_issue_category)%></h2>
 
-<% labelled_form_for :issue_category, @category, :url => issue_category_path(@category), :html => {:method => :put} do |f| %>
+<%= labelled_form_for @category, :as => :issue_category,
+                     :url => issue_category_path(@category), :html => {:method => :put} do |f| %>
 <%= render :partial => 'issue_categories/form', :locals => { :f => f } %>
 <%= submit_tag l(:button_save) %>
 <% end %>
