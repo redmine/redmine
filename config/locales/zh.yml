@@ -1007,29 +1007,29 @@ zh:
   button_export: 导出
   label_export_options: "%{export_format} 导出选项"
   error_attachment_too_big: 该文件无法上传。超过文件大小限制 (%{max_size})
-  notice_failed_to_save_time_entries: "Failed to save %{count} time entrie(s) on %{total} selected: %{ids}."
+  notice_failed_to_save_time_entries: "无法保存下列所选取的 %{total} 个项目中的 %{count} 工时： %{ids}。"
   label_x_issues:
     zero:  0 问题
     one:   1 问题
     other: "%{count} 问题"
-  label_repository_new: New repository
-  field_repository_is_default: Main repository
-  label_copy_attachments: Copy attachments
+  label_repository_new: 新建版本库
+  field_repository_is_default: 主版本库
+  label_copy_attachments: 复制附件
   label_item_position: "%{position}/%{count}"
-  label_completed_versions: Completed versions
-  text_project_identifier_info: Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.
-  field_multiple: Multiple values
-  setting_commit_cross_project_ref: Allow issues of all the other projects to be referenced and fixed
-  text_issue_conflict_resolution_add_notes: Add my notes and discard my other changes
-  text_issue_conflict_resolution_overwrite: Apply my changes anyway (previous notes will be kept but some changes may be overwritten)
-  notice_issue_update_conflict: The issue has been updated by an other user while you were editing it.
-  text_issue_conflict_resolution_cancel: Discard all my changes and redisplay %{link}
-  permission_manage_related_issues: Manage related issues
-  field_ldap_filter: LDAP filter
-  label_search_for_watchers: Search for watchers to add
-  notice_account_deleted: Your account has been permanently deleted.
-  setting_unsubscribe: Allow users to unsubscribe
-  button_delete_my_account: Delete my account
+  label_completed_versions: 已完成的版本
+  text_project_identifier_info: 仅小写字母（a-z）、数字、破折号（-）和下划线（_）可以使用。<br />一旦保存，标识无法修改。
+  field_multiple: 多重取值
+  setting_commit_cross_project_ref: 允许引用/修复所有其他项目的问题
+  text_issue_conflict_resolution_add_notes: 添加说明并取消我的其他变更处理。
+  text_issue_conflict_resolution_overwrite: 直接套用我的变更 （先前的说明将被保留，但是某些变更内容可能会被覆盖）
+  notice_issue_update_conflict: 当您正在编辑这个问题的时候，它已经被其他人抢先一步更新过了。
+  text_issue_conflict_resolution_cancel: 取消我所有的变更并重新刷新显示 %{link} 。
+  permission_manage_related_issues: 相关问题管理
+  field_ldap_filter: LDAP 过滤器
+  label_search_for_watchers: 通过查找方式添加跟踪者
+  notice_account_deleted: 您的账号已被永久删除（账号已无法恢复）。
+  setting_unsubscribe: 允许用户退订
+  button_delete_my_account: 删除我的账号
   text_account_destroy_confirmation: |-
-    Are you sure you want to proceed?
-    Your account will be permanently deleted, with no way to reactivate it.
+    确定继续处理？
+    您的账号一旦删除，将无法再次激活使用。
