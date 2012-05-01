@@ -5,9 +5,6 @@
 <IfModule mod_fcgid.c>
 	AddHandler fcgid-script .fcgi
 </IfModule>
-<IfModule mod_cgi.c>
-	AddHandler cgi-script .cgi
-</IfModule>
 Options +FollowSymLinks +ExecCGI
 
 # If you don't want Rails to look in certain directories,
@@ -41,9 +38,6 @@ RewriteCond %{REQUEST_FILENAME} !-f
 </IfModule>
 <IfModule mod_fcgid.c>
 	RewriteRule ^(.*)$ dispatch.fcgi [QSA,L]
-</IfModule>
-<IfModule mod_cgi.c>
-	RewriteRule ^(.*)$ dispatch.cgi [QSA,L]
 </IfModule>
 
 # In case Rails experiences terminal errors
