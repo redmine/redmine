@@ -370,22 +370,39 @@ module Redmine #:nodoc:
     def migration_directory
       File.join(Rails.root, 'plugins', id.to_s, 'db', 'migrate')
     end
-  
+
     # Returns the version number of the latest migration for this plugin. Returns
     # nil if this plugin has no migrations.
     def latest_migration
       migrations.last
     end
-    
+
     # Returns the version numbers of all migrations for this plugin.
     def migrations
       migrations = Dir[migration_directory+"/*.rb"]
       migrations.map { |p| File.basename(p).match(/0*(\d+)\_/)[1].to_i }.sort
     end
-    
+
     # Migrate this plugin to the given version
     def migrate(version = nil)
+      puts "Migrating #{id} (#{name})..."
       Redmine::Plugin::Migrator.migrate_plugin(self, version)
+    end
+
+    # Migrates all plugins or a single plugin to a given version
+    # Exemples:
+    #   Plugin.migrate
+    #   Plugin.migrate('sample_plugin')
+    #   Plugin.migrate('sample_plugin', 1)
+    #
+    def self.migrate(name=nil, version=nil)
+      if name.present?
+        find(name).migrate(version)
+      else
+        all.each do |plugin|
+          plugin.migrate
+        end
+      end
     end
 
     class Migrator < ActiveRecord::Migrator
