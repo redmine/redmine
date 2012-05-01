@@ -1108,6 +1108,14 @@ module ApplicationHelper
     (@has_content && @has_content[name]) || false
   end
 
+  def sidebar_content?
+    has_content?(:sidebar) || view_layouts_base_sidebar_hook_response.present?
+  end
+
+  def view_layouts_base_sidebar_hook_response
+    @view_layouts_base_sidebar_hook_response ||= call_hook(:view_layouts_base_sidebar)
+  end
+
   def email_delivery_enabled?
     !!ActionMailer::Base.perform_deliveries
   end
