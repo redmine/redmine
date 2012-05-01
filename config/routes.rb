@@ -213,7 +213,6 @@ RedmineApp::Application.routes.draw do
   # repositories routes
   get 'projects/:id/repository/:repository_id/statistics', :to => 'repositories#stats'
   get 'projects/:id/repository/:repository_id/graph', :to => 'repositories#graph'
-  match 'projects/:id/repository/:repository_id/committers', :to => 'repositories#committers', :via => [:get, :post]
 
   get 'projects/:id/repository/:repository_id/revisions/:rev', :to => 'repositories#revision'
   get 'projects/:id/repository/:repository_id/revision', :to => 'repositories#revision'
@@ -235,7 +234,6 @@ RedmineApp::Application.routes.draw do
 
   get 'projects/:id/repository/statistics', :to => 'repositories#stats'
   get 'projects/:id/repository/graph', :to => 'repositories#graph'
-  match 'projects/:id/repository/committers', :to => 'repositories#committers', :via => [:get, :post]
 
   get 'projects/:id/repository/revisions', :to => 'repositories#revisions'
   get 'projects/:id/repository/revisions/:rev', :to => 'repositories#revision'
