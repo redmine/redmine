@@ -359,10 +359,14 @@ module Redmine #:nodoc:
       end
     end
 
-    # Mirrors all plugins' assets to public/plugin_assets
-    def self.mirror_assets
-      all.each do |plugin|
-        plugin.mirror_assets
+    # Mirrors assets from one or all plugins to public/plugin_assets
+    def self.mirror_assets(name=nil)
+      if name.present?
+        find(name).mirror_assets
+      else
+        all.each do |plugin|
+          plugin.mirror_assets
+        end
       end
     end
 

@@ -74,7 +74,13 @@ namespace :redmine do
 
     desc 'Copies plugins assets into the public directory.'
     task :assets => :environment do
-      Redmine::Plugin.mirror_assets
+      name = ENV['name']
+
+      begin
+        Redmine::Plugin.mirror_assets(name)
+      rescue Redmine::PluginNotFound
+        abort "Plugin #{name} was not found."
+      end
     end
   end
 end
