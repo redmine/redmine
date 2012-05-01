@@ -1268,7 +1268,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_template 'new'
 
     assert_tag 'select',
-      :attributes => {:name => 'issue[custom_field_values][1]'},
+      :attributes => {:name => 'issue[custom_field_values][1]', :class => 'list_cf'},
       :children => {:count => 4},
       :child => {:tag => 'option', :attributes => {:value => 'MySQL'}, :content => 'MySQL'}
   end
@@ -2740,7 +2740,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_template 'bulk_edit'
 
     assert_tag :select,
-      :attributes => {:name => "issue[custom_field_values][#{field.id}]"},
+      :attributes => {:name => "issue[custom_field_values][#{field.id}]", :class => 'user_cf'},
       :children => {
         :only => {:tag => 'option'},
         :count => Project.find(1).users.count + 2 # "no change" + "none" options
