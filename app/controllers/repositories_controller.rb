@@ -347,13 +347,13 @@ class RepositoriesController < ApplicationController
                           :all, :group => :commit_date,
                           :conditions => ["repository_id = ? AND commit_date BETWEEN ? AND ?", repository.id, @date_from, @date_to])
     commits_by_month = [0] * 12
-    commits_by_day.each {|c| commits_by_month[c.first.to_date.months_ago] += c.last }
+    commits_by_day.each {|c| commits_by_month[(@date_to.month - c.first.to_date.month) % 12] += c.last }
 
     changes_by_day = Change.count(
                           :all, :group => :commit_date, :include => :changeset,
                           :conditions => ["#{Changeset.table_name}.repository_id = ? AND #{Changeset.table_name}.commit_date BETWEEN ? AND ?", repository.id, @date_from, @date_to])
     changes_by_month = [0] * 12
-    changes_by_day.each {|c| changes_by_month[c.first.to_date.months_ago] += c.last }
+    changes_by_day.each {|c| changes_by_month[(@date_to.month - c.first.to_date.month) % 12] += c.last }
 
     fields = []
     12.times {|m| fields << month_name(((Date.today.month - 1 - m) % 12) + 1)}

@@ -201,6 +201,11 @@ class RepositoriesControllerTest < ActionController::TestCase
   end
 
   def test_graph_commits_per_month
+    # Make sure there's some data to display
+    latest = Project.find(1).repository.changesets.maximum(:commit_date)
+    assert_not_nil latest
+    Date.stubs(:today).returns(latest.to_date + 10)
+
     get :graph, :id => 1, :graph => 'commits_per_month'
     assert_response :success
     assert_equal 'image/svg+xml', @response.content_type
