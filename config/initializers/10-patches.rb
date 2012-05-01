@@ -95,7 +95,7 @@ module ActionController
     # when trying to start Redmine with an old session_store.rb
     # TODO: remove it in a later version
     def self.session=(*args)
-      $stderr.puts "Please remove config/session_store.rb and run `rake generate_secret_token`.\n" +
+      $stderr.puts "Please remove config/initializers/session_store.rb and run `rake generate_secret_token`.\n" +
         "Setting the session secret with ActionController.session= is no longer supported in Rails 3."
       exit 1
     end
