@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2011  Jean-Philippe Lang
+# Copyright (C) 2006-2012  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -355,12 +355,14 @@ class RoutingRepositoriesTest < ActionController::IntegrationTest
     assert_routing(
         { :method => 'post',
           :path => "/projects/redmine/repository/revisions/123/issues" },
-        { :controller => 'repositories', :action => 'add_related_issue', :id => 'redmine', :rev => '123' }
+        { :controller => 'repositories', :action => 'add_related_issue',
+          :id => 'redmine', :rev => '123' }
       )
     assert_routing(
         { :method => 'delete',
           :path => "/projects/redmine/repository/revisions/123/issues/25" },
-        { :controller => 'repositories', :action => 'remove_related_issue', :id => 'redmine', :rev => '123', :issue_id => '25' }
+        { :controller => 'repositories', :action => 'remove_related_issue',
+          :id => 'redmine', :rev => '123', :issue_id => '25' }
       )
   end
 
@@ -368,12 +370,14 @@ class RoutingRepositoriesTest < ActionController::IntegrationTest
     assert_routing(
         { :method => 'post',
           :path => "/projects/redmine/repository/foo/revisions/123/issues" },
-        { :controller => 'repositories', :action => 'add_related_issue', :id => 'redmine', :repository_id => 'foo', :rev => '123' }
+        { :controller => 'repositories', :action => 'add_related_issue',
+          :id => 'redmine', :repository_id => 'foo', :rev => '123' }
       )
     assert_routing(
         { :method => 'delete',
           :path => "/projects/redmine/repository/foo/revisions/123/issues/25" },
-        { :controller => 'repositories', :action => 'remove_related_issue', :id => 'redmine', :repository_id => 'foo', :rev => '123', :issue_id => '25' }
+        { :controller => 'repositories', :action => 'remove_related_issue',
+          :id => 'redmine', :repository_id => 'foo', :rev => '123', :issue_id => '25' }
       )
   end
 end
