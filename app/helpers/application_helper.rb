@@ -369,7 +369,8 @@ module ApplicationHelper
   end
 
   def to_path_param(path)
-    path.to_s.split(%r{[/\\]}).select {|p| !p.blank?}
+    str = path.to_s.split(%r{[/\\]}).select{|p| !p.blank?}.join("/")
+    str.blank? ? nil : str
   end
 
   def pagination_links_full(paginator, count=nil, options={})

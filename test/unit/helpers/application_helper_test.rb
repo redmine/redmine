@@ -725,6 +725,13 @@ EXPECTED
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
   end
 
+  def test_to_path_param
+    assert_equal 'test1/test2', to_path_param('test1/test2')
+    assert_equal 'test1/test2', to_path_param('/test1/test2/')
+    assert_equal 'test1/test2', to_path_param('//test1/test2/')
+    assert_equal nil, to_path_param('/')
+  end
+
   def test_wiki_links_in_tables
     to_test = {"|[[Page|Link title]]|[[Other Page|Other title]]|\n|Cell 21|[[Last page]]|" =>
                  '<tr><td><a href="/projects/ecookbook/wiki/Page" class="wiki-page new">Link title</a></td>' +
