@@ -67,6 +67,9 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       assert_tag 'input', :attributes => {:name => 'rev'}
       assert_tag 'a', :content => 'Statistics'
       assert_tag 'a', :content => 'Atom'
+      assert_tag :tag => 'a',
+                 :attributes => {:href => '/projects/subproject1/repository'},
+                 :content => 'root'
     end
 
     def test_show_non_default
