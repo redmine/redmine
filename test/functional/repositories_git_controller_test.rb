@@ -57,6 +57,35 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     Setting.default_language = 'en'
   end
 
+  def test_create_and_update
+    @request.session[:user_id] = 1
+    assert_difference 'Repository.count' do
+      post :create, :project_id => 'subproject1',
+                    :repository_scm => 'Git',
+                    :repository => {
+                       :url => '/test',
+                       :is_default => '0',
+                       :identifier => 'test-create',
+                       :extra_report_last_commit => '1',
+                     }
+    end
+    assert_response 302
+    repository = Repository.first(:order => 'id DESC')
+    assert_kind_of Repository::Git, repository
+    assert_equal '/test', repository.url
+    assert_equal true, repository.extra_report_last_commit
+
+    put :update, :id => repository.id,
+                 :repository => {
+                     :extra_report_last_commit => '0',
+                     :identifier => 'test-update',
+                 }
+    assert_response 302
+    repo2 = Repository.find(repository.id)
+    assert_equal 'test-update', repo2.identifier
+    assert_equal false, repo2.extra_report_last_commit
+  end
+
   if File.directory?(REPOSITORY_PATH)
     def test_get_new
       @request.session[:user_id] = 1
