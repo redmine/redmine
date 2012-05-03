@@ -214,6 +214,9 @@ RedmineApp::Application.routes.draw do
   get 'projects/:id/repository/:repository_id/statistics', :to => 'repositories#stats'
   get 'projects/:id/repository/:repository_id/graph', :to => 'repositories#graph'
 
+  get 'projects/:id/repository/:repository_id/changes(/*path(.:ext))',
+      :to => 'repositories#changes'
+
   get 'projects/:id/repository/:repository_id/revisions/:rev', :to => 'repositories#revision'
   get 'projects/:id/repository/:repository_id/revision', :to => 'repositories#revision'
   post   'projects/:id/repository/:repository_id/revisions/:rev/issues', :to => 'repositories#add_related_issue'
@@ -228,12 +231,15 @@ RedmineApp::Application.routes.draw do
   get 'projects/:id/repository/:repository_id/revisions/:rev/:action(/*path(.:ext))',
       :controller => 'repositories',
       :constraints => {
-            :action => /(browse|show|entry|changes|annotate|diff)/,
+            :action => /(browse|show|entry|annotate|diff)/,
             :rev    => /[a-z0-9\.\-_]+/
           }
 
   get 'projects/:id/repository/statistics', :to => 'repositories#stats'
   get 'projects/:id/repository/graph', :to => 'repositories#graph'
+
+  get 'projects/:id/repository/changes(/*path(.:ext))',
+      :to => 'repositories#changes'
 
   get 'projects/:id/repository/revisions', :to => 'repositories#revisions'
   get 'projects/:id/repository/revisions/:rev', :to => 'repositories#revision'
@@ -249,7 +255,7 @@ RedmineApp::Application.routes.draw do
   get 'projects/:id/repository/revisions/:rev/:action(/*path(.:ext))',
       :controller => 'repositories',
       :constraints => {
-            :action => /(browse|show|entry|changes|annotate|diff)/,
+            :action => /(browse|show|entry|annotate|diff)/,
             :rev    => /[a-z0-9\.\-_]+/
           }
   get 'projects/:id/repository/:repository_id/:format(/*path(.:ext))', :to => 'repositories#entry', :format => /raw/
