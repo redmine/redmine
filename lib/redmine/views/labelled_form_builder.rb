@@ -41,7 +41,7 @@ class Redmine::Views::LabelledFormBuilder < ActionView::Helpers::FormBuilder
       text ||= l(("field_" + field.to_s.gsub(/\_id$/, "")).to_sym)
       text += @template.content_tag("span", " *", :class => "required") if options.delete(:required)
       @template.content_tag("label", text.html_safe,
-                                     :class => (@object && @object.errors[field] ? "error" : nil),
+                                     :class => (@object && @object.errors[field].present? ? "error" : nil),
                                      :for => (@object_name.to_s + "_" + field.to_s))
   end
 end
