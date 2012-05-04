@@ -318,4 +318,13 @@ class RepositoryTest < ActiveSupport::TestCase
     assert_equal "test_value_23",
                  repo.extra_info["test_2"]["test_23"]
   end
+
+  def test_sort_should_not_raise_an_error_with_nil_identifiers
+    r1 = Repository.new
+    r2 = Repository.new
+
+    assert_nothing_raised do
+      [r1, r2].sort
+    end
+  end
 end
