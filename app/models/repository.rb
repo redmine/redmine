@@ -119,7 +119,7 @@ class Repository < ActiveRecord::Base
     elsif repository.is_default?
       1
     else
-      identifier <=> repository.identifier
+      identifier.to_s <=> repository.identifier.to_s
     end
   end
 
