@@ -184,7 +184,7 @@ module CollectiveIdea #:nodoc:
             find(:all, :conditions => ["#{quoted_parent_column_name} = ? #{scope.call(node)}", node], :order => "#{quoted_left_column_name}, #{quoted_right_column_name}, #{acts_as_nested_set_options[:order]}").each{|n| set_left_and_rights.call(n) }
             # set right
             node[right_column_name] = indices[scope.call(node)] += 1    
-            node.save!    
+            node.save(false)
           end
                               
           # Find root node(s)
