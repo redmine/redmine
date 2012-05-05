@@ -50,4 +50,11 @@ class TrackerTest < ActiveSupport::TestCase
   def test_issue_statuses_should_be_empty_for_new_record
     assert_equal [], Tracker.new.issue_statuses
   end
+
+  def test_sort_should_sort_by_position
+    a = Tracker.new(:name => 'Tracker A', :position => 2)
+    b = Tracker.new(:name => 'Tracker B', :position => 1)
+
+    assert_equal [b, a], [a, b].sort
+  end
 end

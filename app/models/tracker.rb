@@ -37,7 +37,7 @@ class Tracker < ActiveRecord::Base
   def to_s; name end
 
   def <=>(tracker)
-    name <=> tracker.name
+    position <=> tracker.position
   end
 
   def self.all
