@@ -216,9 +216,8 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :entry, :id => PRJ_ID,
-          :path => repository_path_hash(['subversion_test', 'helloworld.c'])[:param],
-          :format => 'raw'
+      get :raw, :id => PRJ_ID,
+          :path => repository_path_hash(['subversion_test', 'helloworld.c'])[:param]
       assert_response :success
       assert_equal 'attachment; filename="helloworld.c"', @response.headers['Content-Disposition']
     end

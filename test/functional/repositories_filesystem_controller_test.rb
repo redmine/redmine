@@ -78,8 +78,7 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
     end
 
     def test_entry_download_no_extension
-      get :entry, :id => PRJ_ID, :path => repository_path_hash(['test'])[:param],
-          :format => 'raw'
+      get :raw, :id => PRJ_ID, :path => repository_path_hash(['test'])[:param]
       assert_response :success
       assert_equal 'application/octet-stream', @response.content_type
     end

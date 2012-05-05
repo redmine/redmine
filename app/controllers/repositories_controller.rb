@@ -152,7 +152,15 @@ class RepositoriesController < ApplicationController
     end
   end
 
+  def raw
+    entry_and_raw(true)
+  end
+
   def entry
+    entry_and_raw(false)
+  end
+
+  def entry_and_raw(is_raw)
     @entry = @repository.entry(@path, @rev)
     (show_error_not_found; return) unless @entry
 
@@ -161,7 +169,7 @@ class RepositoriesController < ApplicationController
 
     @content = @repository.cat(@path, @rev)
     (show_error_not_found; return) unless @content
-    if 'raw' == params[:format] ||
+    if is_raw ||
          (@content.size && @content.size > Setting.file_max_size_displayed.to_i.kilobyte) ||
          ! is_entry_text_data?(@content, @path)
       # Force the download
@@ -177,6 +185,7 @@ class RepositoriesController < ApplicationController
       @changeset = @repository.find_changeset_by_name(@rev)
     end
   end
+  private :entry_and_raw
 
   def is_entry_text_data?(ent, path)
     # UTF-16 contains "\x00".

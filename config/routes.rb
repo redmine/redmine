@@ -222,16 +222,10 @@ RedmineApp::Application.routes.draw do
   post   'projects/:id/repository/:repository_id/revisions/:rev/issues', :to => 'repositories#add_related_issue'
   delete 'projects/:id/repository/:repository_id/revisions/:rev/issues/:issue_id', :to => 'repositories#remove_related_issue'
   get 'projects/:id/repository/:repository_id/revisions', :to => 'repositories#revisions'
-  get 'projects/:id/repository/:repository_id/revisions/:rev/:format(/*path(.:ext))',
-      :to => 'repositories#entry',
-      :constraints => {
-            :format => 'raw',
-            :rev    => /[a-z0-9\.\-_]+/
-          }
   get 'projects/:id/repository/:repository_id/revisions/:rev/:action(/*path(.:ext))',
       :controller => 'repositories',
       :constraints => {
-            :action => /(browse|show|entry|annotate|diff)/,
+            :action => /(browse|show|entry|raw|annotate|diff)/,
             :rev    => /[a-z0-9\.\-_]+/
           }
 
@@ -246,24 +240,20 @@ RedmineApp::Application.routes.draw do
   get 'projects/:id/repository/revision', :to => 'repositories#revision'
   post   'projects/:id/repository/revisions/:rev/issues', :to => 'repositories#add_related_issue'
   delete 'projects/:id/repository/revisions/:rev/issues/:issue_id', :to => 'repositories#remove_related_issue'
-  get 'projects/:id/repository/revisions/:rev/:format(/*path(.:ext))',
-      :to => 'repositories#entry',
-      :constraints => {
-            :format => 'raw',
-            :rev    => /[a-z0-9\.\-_]+/
-          }
   get 'projects/:id/repository/revisions/:rev/:action(/*path(.:ext))',
       :controller => 'repositories',
       :constraints => {
-            :action => /(browse|show|entry|annotate|diff)/,
+            :action => /(browse|show|entry|raw|annotate|diff)/,
             :rev    => /[a-z0-9\.\-_]+/
           }
-  get 'projects/:id/repository/:repository_id/:format(/*path(.:ext))', :to => 'repositories#entry', :format => /raw/
-  get 'projects/:id/repository/:repository_id/:action(/*path(.:ext))', :controller => 'repositories', :action => /(browse|show|entry|changes|annotate|diff)/
+  get 'projects/:id/repository/:repository_id/:action(/*path(.:ext))',
+      :controller => 'repositories',
+      :action => /(browse|show|entry|raw|changes|annotate|diff)/
   get 'projects/:id/repository/:repository_id', :to => 'repositories#show', :path => nil
 
-  get 'projects/:id/repository/:format(/*path(.:ext))', :to => 'repositories#entry', :format => /raw/
-  get 'projects/:id/repository/:action(/*path(.:ext))', :controller => 'repositories', :action => /(browse|show|entry|changes|annotate|diff)/
+  get 'projects/:id/repository/:action(/*path(.:ext))',
+      :controller => 'repositories',
+      :action => /(browse|show|entry|raw|changes|annotate|diff)/
   get 'projects/:id/repository', :to => 'repositories#show', :path => nil
 
   # additional routes for having the file name at the end of url
