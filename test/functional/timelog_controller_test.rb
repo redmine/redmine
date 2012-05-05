@@ -278,6 +278,12 @@ class TimelogControllerTest < ActionController::TestCase
 
     # System wide custom field
     assert_tag :select, :attributes => {:name => 'time_entry[custom_field_values][10]'}
+
+    # Activities
+    assert_select 'select[name=?]', 'time_entry[activity_id]' do
+      assert_select 'option[value=]', :text => '(No change)'
+      assert_select 'option[value=9]', :text => 'Design'
+    end
   end
 
   def test_get_bulk_edit_on_different_projects

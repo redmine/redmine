@@ -29,7 +29,7 @@
     <% if @available_activities.any? %>
     <p>
       <label><%= l(:field_activity) %></label>
-      <%= select_tag('time_entry[activity_id]', "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(@available_activities, :id, :name)) %>
+      <%= select_tag('time_entry[activity_id]', content_tag('option', l(:label_no_change_option), :value => '') + options_from_collection_for_select(@available_activities, :id, :name)) %>
     </p>
     <% end %>
 
