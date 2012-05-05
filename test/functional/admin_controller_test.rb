@@ -20,9 +20,23 @@ require File.expand_path('../../test_helper', __FILE__)
 class AdminControllerTest < ActionController::TestCase
   fixtures :projects, :users, :roles
 
+  class TestDelivery
+    def initialize(*)
+    end
+
+    def deliver!(mail)
+      raise 'Some error message'
+    end
+  end
+
   def setup
     User.current = nil
     @request.session[:user_id] = 1 # admin
+    @old_delivery_method = ActionMailer::Base.delivery_method
+  end
+
+  def teardown
+    ActionMailer::Base.delivery_method = @old_delivery_method
   end
 
   def test_index
@@ -98,7 +112,7 @@ class AdminControllerTest < ActionController::TestCase
   end
 
   def test_test_email_failure_should_display_the_error
-    Mailer.stubs(:deliver_test_email).raises(Exception, 'Some error message')
+    ActionMailer::Base.delivery_method = TestDelivery
     get :test_email
     assert_redirected_to '/settings/edit?tab=notifications'
     assert_match /Some error message/, flash[:error]
