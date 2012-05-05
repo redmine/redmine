@@ -1,4 +1,4 @@
-# RedMine - project management software
+# Redmine - project management software
 # Copyright (C) 2006-2012  Jean-Philippe Lang
 #
 # FileSystem adapter
