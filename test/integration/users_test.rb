@@ -17,7 +17,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class USersTest < ActionController::IntegrationTest
+class UsersTest < ActionController::IntegrationTest
   fixtures :users
 
   def test_destroy_should_not_accept_get_requests
