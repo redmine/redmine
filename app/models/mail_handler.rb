@@ -15,9 +15,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require 'vendor/tmail'
-
-class MailHandler
+class MailHandler < ActionMailer::Base
   include ActionView::Helpers::SanitizeHelper
   include Redmine::I18n
 
@@ -42,9 +40,8 @@ class MailHandler
 
     @@handler_options[:no_permission_check] = (@@handler_options[:no_permission_check].to_s == '1' ? true : false)
 
-    mail = TMail::Mail.parse(email)
-    mail.base64_decode
-    new.receive(mail)
+    email.force_encoding('ASCII-8BIT') if email.respond_to?(:force_encoding)
+    super(email)
   end
 
   def logger
@@ -71,7 +68,7 @@ class MailHandler
     end
     # Ignore auto generated emails
     self.class.ignored_emails_headers.each do |key, ignored_value|
-      value = email.header_string(key)
+      value = email.header[key]
       if value && value.to_s.downcase == ignored_value.downcase
         if logger && logger.info
           logger.info "MailHandler: ignoring email with #{key}:#{value} header"
@@ -118,7 +115,7 @@ class MailHandler
 
   private
 
-  MESSAGE_ID_RE = %r{^<redmine\.([a-z0-9_]+)\-(\d+)\.\d+@}
+  MESSAGE_ID_RE = %r{^<?redmine\.([a-z0-9_]+)\-(\d+)\.\d+@}
   ISSUE_REPLY_SUBJECT_RE = %r{\[[^\]]*#(\d+)\]}
   MESSAGE_REPLY_SUBJECT_RE = %r{\[[^\]]*msg(\d+)\]}
 
@@ -245,9 +242,10 @@ class MailHandler
     if email.attachments && email.attachments.any?
       email.attachments.each do |attachment|
         obj.attachments << Attachment.create(:container => obj,
-                          :file => attachment,
+                          :file => attachment.decoded,
+                          :filename => attachment.filename,
                           :author => user,
-                          :content_type => attachment.content_type)
+                          :content_type => attachment.mime_type)
       end
     end
   end
@@ -295,8 +293,13 @@ class MailHandler
     keys.reject! {|k| k.blank?}
     keys.collect! {|k| Regexp.escape(k)}
     format ||= '.+'
-    text.gsub!(/^(#{keys.join('|')})[ \t]*:[ \t]*(#{format})\s*$/i, '')
-    $2 && $2.strip
+    keyword = nil
+    regexp = /^(#{keys.join('|')})[ \t]*:[ \t]*(#{format})\s*$/i
+    if m = text.match(regexp)
+      keyword = m[2].strip
+      text.gsub!(regexp, '')
+    end
+    keyword
   end
 
   def target_project
@@ -347,20 +350,17 @@ class MailHandler
   # If not found (eg. HTML-only email), returns the body with tags removed
   def plain_text_body
     return @plain_text_body unless @plain_text_body.nil?
-    parts = @email.parts.collect {|c| (c.respond_to?(:parts) && !c.parts.empty?) ? c.parts : c}.flatten
-    if parts.empty?
-      parts << @email
+
+    part = email.text_part || email.html_part || email
+    @plain_text_body = Redmine::CodesetUtil.to_utf8(part.body.decoded, part.charset)
+
+    if @plain_text_body.respond_to?(:force_encoding)
+     # @plain_text_body = @plain_text_body.force_encoding(@email.charset).encode("UTF-8")
     end
-    plain_text_part = parts.detect {|p| p.content_type == 'text/plain'}
-    if plain_text_part.nil?
-      # no text/plain part found, assuming html-only email
-      # strip html tags and remove doctype directive
-      @plain_text_body = strip_tags(@email.body.to_s)
-      @plain_text_body.gsub! %r{^<!DOCTYPE .*$}, ''
-    else
-      @plain_text_body = plain_text_part.body.to_s
-    end
-    @plain_text_body.strip!
+
+    # strip html tags and remove doctype directive
+    @plain_text_body = strip_tags(@plain_text_body.strip)
+    @plain_text_body.sub! %r{^<!DOCTYPE .*$}, ''
     @plain_text_body
   end
 
@@ -407,9 +407,13 @@ class MailHandler
   # Creates a User for the +email+ sender
   # Returns the user or nil if it could not be created
   def create_user_from_email
-    addr = email.from_addrs.to_a.first
-    if addr && !addr.spec.blank?
-      user = self.class.new_user_from_attributes(addr.spec, TMail::Unquoter.unquote_and_convert_to(addr.name, 'utf-8'))
+    from = email.header['from'].to_s
+    addr, name = from, nil
+    if m = from.match(/^"?(.+?)"?\s+<(.+@.+)>$/)
+      addr, name = m[2], m[1]
+    end
+    if addr.present?
+      user = self.class.new_user_from_attributes(addr, name)
       if user.save
         user
       else
