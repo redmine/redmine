@@ -497,12 +497,6 @@ class MailerTest < ActiveSupport::TestCase
     assert_mail_body_match 'Bug #3: Error 281 when updating a recipe', mail
   end
 
-  def last_email
-    mail = ActionMailer::Base.deliveries.last
-    assert_not_nil mail
-    mail
-  end
-
   def test_mailer_should_not_change_locale
     Setting.default_language = 'en'
     # Set current language to italian
@@ -535,5 +529,12 @@ class MailerTest < ActiveSupport::TestCase
         end
       end
     end
+  end
+
+private
+  def last_email
+    mail = ActionMailer::Base.deliveries.last
+    assert_not_nil mail
+    mail
   end
 end
