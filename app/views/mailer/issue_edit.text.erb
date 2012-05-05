@@ -9,4 +9,4 @@
 
 <% end -%>
 ----------------------------------------
-<%= render :partial => "issue.text.erb", :locals => { :issue => @issue, :issue_url => @issue_url } %>
+<%= render :partial => 'issue', :formats => [:text], :locals => { :issue => @issue, :issue_url => @issue_url } %>
