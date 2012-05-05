@@ -17,6 +17,6 @@
 
 class MessageObserver < ActiveRecord::Observer
   def after_create(message)
-    Mailer.deliver_message_posted(message) if Setting.notified_events.include?('message_posted')
+    Mailer.message_posted(message).deliver if Setting.notified_events.include?('message_posted')
   end
 end

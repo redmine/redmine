@@ -17,6 +17,6 @@
 
 class IssueObserver < ActiveRecord::Observer
   def after_create(issue)
-    Mailer.deliver_issue_add(issue) if Setting.notified_events.include?('issue_added')
+    Mailer.issue_add(issue).deliver if Setting.notified_events.include?('issue_added')
   end
 end
