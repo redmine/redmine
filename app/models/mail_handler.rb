@@ -354,10 +354,6 @@ class MailHandler < ActionMailer::Base
     part = email.text_part || email.html_part || email
     @plain_text_body = Redmine::CodesetUtil.to_utf8(part.body.decoded, part.charset)
 
-    if @plain_text_body.respond_to?(:force_encoding)
-     # @plain_text_body = @plain_text_body.force_encoding(@email.charset).encode("UTF-8")
-    end
-
     # strip html tags and remove doctype directive
     @plain_text_body = strip_tags(@plain_text_body.strip)
     @plain_text_body.sub! %r{^<!DOCTYPE .*$}, ''
