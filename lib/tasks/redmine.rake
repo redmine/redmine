@@ -51,9 +51,9 @@ namespace :redmine do
   namespace :plugins do
     desc 'Migrates installed plugins.'
     task :migrate => :environment do
-      name = ENV['name']
+      name = ENV['NAME']
       version = nil
-      version_string = ENV['version']
+      version_string = ENV['VERSION']
       if version_string
         if version_string =~ /^\d+$/
           version = version_string.to_i
@@ -61,7 +61,7 @@ namespace :redmine do
             abort "The VERSION argument requires a plugin NAME."
           end
         else
-          abort "Invalid version #{version_string} given."
+          abort "Invalid VERSION #{version_string} given."
         end
       end
 
@@ -74,7 +74,7 @@ namespace :redmine do
 
     desc 'Copies plugins assets into the public directory.'
     task :assets => :environment do
-      name = ENV['name']
+      name = ENV['NAME']
 
       begin
         Redmine::Plugin.mirror_assets(name)
