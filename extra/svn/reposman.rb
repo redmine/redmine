@@ -68,12 +68,14 @@ end
 optparse = OptionParser.new do |opts|
   opts.banner = "Usage: reposman.rb [OPTIONS...] -s [DIR] -r [HOST] -k [KEY]"
   opts.separator("")
-  
   opts.separator("Required arguments:") 
   opts.on("-s", "--svn-dir",           "use DIR as base directory for svn repositories") {|v| $repos_base = v}
-  opts.on("-r", "--redmine-host",      "assume Redmine is hosted on HOST. Examples:", " -r redmine.example.net", " -r http://redmine.example.net", " -r https://redmine.example.net") {|v| $redmine_host = v}
-  opts.on("-k", "--key KEY",           "use KEY as the Redmine API key", "(you can use --key-file option as an alternative)") {|v| $api_key = v}
-
+  opts.on("-r", "--redmine-host",      "assume Redmine is hosted on HOST. Examples:",
+                                       " -r redmine.example.net",
+                                       " -r http://redmine.example.net",
+                                       " -r https://redmine.example.net") {|v| $redmine_host = v}
+  opts.on("-k", "--key KEY",           "use KEY as the Redmine API key",
+                                       "(you can use --key-file option as an alternative)") {|v| $api_key = v}
   opts.separator("")
   opts.separator("Options:")
   opts.on("-o", "--owner OWNER",       "owner of the repository. using the rails login", 
@@ -110,13 +112,9 @@ optparse = OptionParser.new do |opts|
   opts.on("-f", "--force",             "force repository creation even if the project", "repository is already declared in Redmine") {$force = true}
   opts.on("-v", "--verbose",           "verbose") {$verbose += 1}
   opts.on("-V", "--version",           "show version and exit") {puts Version; exit}
-  opts.on("-h", "--help",              "show help and exit") do
-    puts opts
-    exit 1
-  end 
-  opts.on("-q", "--quiet", "no log") {$quiet = true}
+  opts.on("-h", "--help",              "show help and exit") {puts opts; exit 1}
+  opts.on("-q", "--quiet",             "no log") {$quiet = true}
   opts.separator("")
-
   opts.separator("Examples:")
   opts.separator("  reposman.rb --svn-dir=/var/svn --redmine-host=redmine.host")
   opts.separator("  reposman.rb -s /var/git -r redmine.host -u http://git.host --scm git")
