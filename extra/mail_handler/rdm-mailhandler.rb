@@ -57,8 +57,7 @@
 require 'net/http'
 require 'net/https'
 require 'uri'
-require 'getoptlong'
-require 'rdoc/usage'
+require 'optparse'
 
 module Net
   class HTTPS < HTTP
@@ -78,64 +77,68 @@ module Net
 end
 
 class RedmineMailHandler
-  VERSION = '0.1'
+  VERSION = '0.2'
 
   attr_accessor :verbose, :issue_attributes, :allow_override, :unknown_user, :no_permission_check, :url, :key, :no_check_certificate
 
   def initialize
     self.issue_attributes = {}
 
-    opts = GetoptLong.new(
-      [ '--help',           '-h', GetoptLong::NO_ARGUMENT ],
-      [ '--version',        '-V', GetoptLong::NO_ARGUMENT ],
-      [ '--verbose',        '-v', GetoptLong::NO_ARGUMENT ],
-      [ '--url',            '-u', GetoptLong::REQUIRED_ARGUMENT ],
-      [ '--key',            '-k', GetoptLong::REQUIRED_ARGUMENT],
-      [ '--key-file',             GetoptLong::REQUIRED_ARGUMENT],
-      [ '--project',        '-p', GetoptLong::REQUIRED_ARGUMENT ],
-      [ '--status',         '-s', GetoptLong::REQUIRED_ARGUMENT ],
-      [ '--tracker',        '-t', GetoptLong::REQUIRED_ARGUMENT],
-      [ '--category',             GetoptLong::REQUIRED_ARGUMENT],
-      [ '--priority',             GetoptLong::REQUIRED_ARGUMENT],
-      [ '--allow-override', '-o', GetoptLong::REQUIRED_ARGUMENT],
-      [ '--unknown-user',         GetoptLong::REQUIRED_ARGUMENT],
-      [ '--no-permission-check',  GetoptLong::NO_ARGUMENT],
-      [ '--no-check-certificate', GetoptLong::NO_ARGUMENT]
-    )
+    optparse = OptionParser.new do |opts|
+      opts.banner = "Usage: rdm-mailhandler.rb [options] --url=<Redmine URL> --key=<API key>"
+      opts.separator("")
+      opts.separator("Reads an email from standard input and forward it to a Redmine server through a HTTP request.")
+      opts.separator("")
+      opts.separator("Required arguments:")
+      opts.on("-u", "--url URL",              "URL of the Redmine server") {|v| self.url = v}
+      opts.on("-k", "--key KEY",              "Redmine API key") {|v| self.key = v}
+      opts.separator("")
+      opts.separator("General options:")
+      opts.on("--unknown-user ACTION",        "how to handle emails from an unknown user",
+                                              "ACTION can be one of the following values:",
+                                              "* ignore: email is ignored (default)",
+                                              "* accept: accept as anonymous user",
+                                              "* create: create a user account") {|v| self.unknown_user = v}
+      opts.on("--no-permission-check",        "disable permission checking when receiving",
+                                              "the email") {self.no_permission_check = '1'}
+      opts.on("--key-file FILE",              "path to a file that contains the Redmine",
+                                              "API key (use this option instead of --key",
+                                              "if you don't the key to appear in the",
+                                              "command line)") {|v| read_key_from_file(v)}
+      opts.on("--no-check-certificate",       "do not check server certificate") {self.no_check_certificate = true}
+      opts.on("-h", "--help",                 "show this help") {puts opts; exit 1}
+      opts.on("-v", "--verbose",              "show extra information") {self.verbose = true}
+      opts.on("-V", "--version",              "show version information and exit") {puts VERSION; exit}
+      opts.separator("")
+      opts.separator("Issue attributes control options:")
+      opts.on("-p", "--project PROJECT",      "identifier of the target project") {|v| self.issue_attributes['project'] = v}
+      opts.on("-s", "--status STATUS",        "name of the target status") {|v| self.issue_attributes['status'] = v}
+      opts.on("-t", "--tracker TRACKER",      "name of the target tracker") {|v| self.issue_attributes['tracker'] = v}
+      opts.on(      "--category CATEGORY",    "name of the target category") {|v| self.issue_attributes['category'] = v}
+      opts.on(      "--priority PRIORITY",    "name of the target priority") {|v| self.issue_attributes['priority'] = v}
+      opts.on("-o", "--allow-override ATTRS", "allow email content to override attributes",
+                                              "specified by previous options",
+                                              "ATTRS is a comma separated list of attributes") {|v| self.allow_override = v}
+      opts.separator("")
+      opts.separator("Examples:")
+      opts.separator("No project specified. Emails MUST contain the 'Project' keyword:")
+      opts.separator("  rdm-mailhandler.rb --url http://redmine.domain.foo --key secret")
+      opts.separator("")
+      opts.separator("Fixed project and default tracker specified, but emails can override")
+      opts.separator("both tracker and priority attributes using keywords:")
+      opts.separator("  rdm-mailhandler.rb --url https://domain.foo/redmine --key secret \\")
+      opts.separator("    --project foo \\")
+      opts.separator("    --tracker bug \\")
+      opts.separator("    --allow-override tracker,priority")
 
-    opts.each do |opt, arg|
-      case opt
-      when '--url'
-        self.url = arg.dup
-      when '--key'
-        self.key = arg.dup
-      when '--key-file'
-        begin
-          self.key = File.read(arg).strip
-        rescue Exception => e
-          $stderr.puts "Unable to read the key from #{arg}: #{e.message}"
-          exit 1
-        end
-      when '--help'
-        usage
-      when '--verbose'
-        self.verbose = true
-      when '--version'
-        puts VERSION; exit
-      when '--project', '--status', '--tracker', '--category', '--priority'
-        self.issue_attributes[opt.gsub(%r{^\-\-}, '')] = arg.dup
-      when '--allow-override'
-        self.allow_override = arg.dup
-      when '--unknown-user'
-        self.unknown_user = arg.dup
-      when '--no-permission-check'
-        self.no_permission_check = '1'
-      when '--no-check-certificate'
-        self.no_check_certificate = true
-      end
+      opts.summary_width = 27
     end
+    optparse.parse!
 
-    RDoc.usage if url.nil?
+    unless url && key
+      puts "Some arguments are missing. Use `rdm-mailhandler.rb --help` for getting help."
+      exit 1
+    end
   end
 
   def submit(email)
@@ -180,6 +183,15 @@ class RedmineMailHandler
 
   def debug(msg)
     puts msg if verbose
+  end
+
+  def read_key_from_file(filename)
+    begin
+      self.key = File.read(filename).strip
+    rescue Exception => e
+      $stderr.puts "Unable to read the key from #{filename}:\n#{e.message}"
+      exit 1
+    end
   end
 end
 
