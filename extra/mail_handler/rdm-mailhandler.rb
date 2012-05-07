@@ -1,59 +1,5 @@
 #!/usr/bin/env ruby
 
-# == Synopsis
-#
-# Reads an email from standard input and forward it to a Redmine server
-# through a HTTP request.
-#
-# == Usage
-#
-#    rdm-mailhandler [options] --url=<Redmine URL> --key=<API key>
-#
-# == Arguments
-#
-#   -u, --url                      URL of the Redmine server
-#   -k, --key                      Redmine API key
-#
-# General options:
-#       --unknown-user=ACTION      how to handle emails from an unknown user
-#                                  ACTION can be one of the following values:
-#                                  ignore: email is ignored (default)
-#                                  accept: accept as anonymous user
-#                                  create: create a user account
-#       --no-permission-check      disable permission checking when receiving
-#                                  the email
-#       --key-file=PATH            path to a file that contains the Redmine
-#                                  API key (use this option instead of --key
-#                                  if you don't the key to appear in the
-#                                  command line)
-#       --no-check-certificate     do not check server certificate
-#   -h, --help                     show this help
-#   -v, --verbose                  show extra information
-#   -V, --version                  show version information and exit
-#
-# Issue attributes control options:
-#   -p, --project=PROJECT          identifier of the target project
-#   -s, --status=STATUS            name of the target status
-#   -t, --tracker=TRACKER          name of the target tracker
-#       --category=CATEGORY        name of the target category
-#       --priority=PRIORITY        name of the target priority
-#   -o, --allow-override=ATTRS     allow email content to override attributes
-#                                  specified by previous options
-#                                  ATTRS is a comma separated list of attributes
-#
-# == Examples
-# No project specified. Emails MUST contain the 'Project' keyword:
-#
-#   rdm-mailhandler --url http://redmine.domain.foo --key secret
-#
-# Fixed project and default tracker specified, but emails can override
-# both tracker and priority attributes using keywords:
-#
-#   rdm-mailhandler --url https://domain.foo/redmine --key secret \\
-#                   --project foo \\
-#                   --tracker bug \\
-#                   --allow-override tracker,priority
-
 require 'net/http'
 require 'net/https'
 require 'uri'
