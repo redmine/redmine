@@ -483,3 +483,11 @@ end
 # Simple module to "namespace" all of the API tests
 module ApiTest
 end
+
+module ActionController
+  class TestUploadedFile
+    def respond_to?(method_name)
+      @tempfile.respond_to?(method_name) || super
+    end
+  end
+end
