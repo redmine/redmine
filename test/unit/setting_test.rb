@@ -55,4 +55,32 @@ class SettingTest < ActiveSupport::TestCase
     Setting.clear_cache
     assert_equal "New title", Setting.app_title
   end
+
+  def test_per_page_options_array_should_be_an_empty_array_when_setting_is_blank
+    with_settings :per_page_options => nil do
+      assert_equal [], Setting.per_page_options_array
+    end
+
+    with_settings :per_page_options => '' do
+      assert_equal [], Setting.per_page_options_array
+    end
+  end
+
+  def test_per_page_options_array_should_be_an_array_of_integers
+    with_settings :per_page_options => '10, 25, 50' do
+      assert_equal [10, 25, 50], Setting.per_page_options_array
+    end
+  end
+
+  def test_per_page_options_array_should_omit_non_numerial_values
+    with_settings :per_page_options => 'a, 25, 50' do
+      assert_equal [25, 50], Setting.per_page_options_array
+    end
+  end
+
+  def test_per_page_options_array_should_be_sorted
+    with_settings :per_page_options => '25, 10, 50' do
+      assert_equal [10, 25, 50], Setting.per_page_options_array
+    end
+  end
 end
