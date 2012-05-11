@@ -1,0 +1,1029 @@
+sq:
+  # Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
+  direction: ltr
+  date:
+    formats:
+      # Use the strftime parameters for formats.
+      # When no format has been given, it uses default.
+      # You can provide other formats here if you like!
+      default: "%m/%d/%Y"
+      short: "%b %d"
+      long: "%B %d, %Y"
+
+    day_names: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
+    abbr_day_names: [Sun, Mon, Tue, Wed, Thu, Fri, Sat]
+
+    # Don't forget the nil at the beginning; there's no such thing as a 0th month
+    month_names: [~, January, February, March, April, May, June, July, August, September, October, November, December]
+    abbr_month_names: [~, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
+    # Used in date_select and datime_select.
+    order:
+      - :year
+      - :month
+      - :day
+
+  time:
+    formats:
+      default: "%m/%d/%Y %I:%M %p"
+      time: "%I:%M %p"
+      short: "%d %b %H:%M"
+      long: "%B %d, %Y %H:%M"
+    am: "am"
+    pm: "pm"
+
+  datetime:
+    distance_in_words:
+      half_a_minute: "half a minute"
+      less_than_x_seconds:
+        one:   "less than 1 second"
+        other: "less than %{count} seconds"
+      x_seconds:
+        one:   "1 second"
+        other: "%{count} seconds"
+      less_than_x_minutes:
+        one:   "less than a minute"
+        other: "less than %{count} minutes"
+      x_minutes:
+        one:   "1 minute"
+        other: "%{count} minutes"
+      about_x_hours:
+        one:   "about 1 hour"
+        other: "about %{count} hours"
+      x_days:
+        one:   "1 day"
+        other: "%{count} days"
+      about_x_months:
+        one:   "about 1 month"
+        other: "about %{count} months"
+      x_months:
+        one:   "1 month"
+        other: "%{count} months"
+      about_x_years:
+        one:   "about 1 year"
+        other: "about %{count} years"
+      over_x_years:
+        one:   "over 1 year"
+        other: "over %{count} years"
+      almost_x_years:
+        one:   "almost 1 year"
+        other: "almost %{count} years"
+
+  number:
+    format:
+      separator: "."
+      delimiter: ""
+      precision: 3
+
+    human:
+      format:
+        delimiter: ""
+        precision: 1
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: "Byte"
+            other: "Bytes"
+          kb: "kB"
+          mb: "MB"
+          gb: "GB"
+          tb: "TB"
+
+# Used in array.to_sentence.
+  support:
+    array:
+      sentence_connector: "dhe"
+      skip_last_comma: false
+
+  activerecord:
+    errors:
+      template:
+        header:
+          one:    "1 gabim nuk lejon kete %{model} te ruhet"
+          other:  "%{count} gabime nuk lejon kete %{model} te ruhet"
+      messages:
+        inclusion: "nuk eshte perfshire ne liste"
+        exclusion: "eshte i/e rezervuar"
+        invalid: "eshte invalid"
+        confirmation: "nuk perkon me konfirmimin"
+        accepted: "duhet pranuar"
+        empty: "nuk mund te jete bosh"
+        blank: "nuk mund te jete blank"
+        too_long: "eshte shume i gjate (maksimumi eshte %{count} karaktere)"
+        too_short: "eshte shume i gjate (minimumi eshte %{count} karaktere)"
+        wrong_length: "eshte gjatesi e gabuar (duhet te jete %{count} karaktere)"
+        taken: "eshte zene"
+        not_a_number: "nuk eshte numer"
+        not_a_date: "nuk eshte date e vlefshme"
+        greater_than: "duhet te jete me i/e madh(e) se %{count}"
+        greater_than_or_equal_to: "duhet te jete me i/e madh(e) se ose i/e barabarte me %{count}"
+        equal_to: "duhet te jete i/e barabarte me %{count}"
+        less_than: "duhet te jete me i/e vogel se %{count}"
+        less_than_or_equal_to: "duhet te jete me i/e vogel se ose i/e barabarte me %{count}"
+        odd: "duhet te jete tek"
+        even: "duhet te jete cift"
+        greater_than_start_date: "duhet te jete me i/e madh(e) se data e fillimit"
+        not_same_project: "nuk i perket te njejtit projekt"
+        circular_dependency: "Ky relacion do te krijoje nje varesi ciklike (circular dependency)"
+        cant_link_an_issue_with_a_descendant: "Nje ceshtje nuk mund te lidhet me nenceshtje"
+
+  actionview_instancetag_blank_option: Zgjidhni
+
+  general_text_No: 'Jo'
+  general_text_Yes: 'Po'
+  general_text_no: 'jo'
+  general_text_yes: 'po'
+  general_lang_name: 'Albanian (Shqip)'
+  general_csv_separator: ','
+  general_csv_decimal_separator: '.'
+  general_csv_encoding: ISO-8859-1
+  general_pdf_encoding: UTF-8
+  general_first_day_of_week: '7'
+
+  notice_account_updated: Llogaria u perditesua me sukses.
+  notice_account_invalid_creditentials: Perdorues ose Fjalekalim i gabuar.
+  notice_account_password_updated: Fjalekalimi u ndryshua me sukses.
+  notice_account_wrong_password: Fjalekalim i gabuar
+  notice_account_register_done: Llogaria u krijua me sukses. Per te aktivizuar Llogarine tuaj, ndiqni link-un e derguar ne email-in tuaj.
+  notice_account_unknown_email: Perdorues i paidentifikuar.
+  notice_can_t_change_password: Kjo Llogari administrohet nga nje server tjeter. E pamundur te ndryshohet Fjalekalimi.
+  notice_account_lost_email_sent: Ju eshte derguar nje email me instruksionet per te zgjedhur nje Fjalekalim te ri.
+  notice_account_activated: Llogaria juaj u Aktivizua. Tani mund te beni Login.
+  notice_successful_create: Krijim me sukses.
+  notice_successful_update: Modifikim me sukses.
+  notice_successful_delete: Fshirje me sukses.
+  notice_successful_connection: Lidhje e suksesshme.
+  notice_file_not_found: Faqja qe po kerkoni te aksesoni nuk ekziston ose eshte shperngulur.
+  notice_locking_conflict: Te dhenat jane modifikuar nga nje Perdorues tjeter.
+  notice_not_authorized: Nuk jeni i autorizuar te aksesoni kete faqe.
+  notice_not_authorized_archived_project: Projekti, qe po tentoni te te aksesoni eshte arkivuar.
+  notice_email_sent: "Nje email eshte derguar ne %{value}"
+  notice_email_error: "Pati nje gabim gjate dergimit te email-it (%{value})"
+  notice_feeds_access_key_reseted: Your RSS access key was reset.
+  notice_api_access_key_reseted: Your API access key was reset.
+  notice_failed_to_save_issues: "Deshtoi ne ruajtjen e %{count} ceshtje(ve) ne %{total} te zgjedhura: %{ids}."
+  notice_failed_to_save_time_entries: "Deshtoi ne ruajtjen e %{count} time entrie(s) ne %{total} te zgjedhura: %{ids}."
+  notice_failed_to_save_members: "Deshtoi ne ruajtjen e member(s): %{errors}."
+  notice_no_issue_selected: "Nuk eshte zgjedhur asnje Ceshtje! Zgjidh Ceshtjen qe deshironi te modifikoni."
+  notice_account_pending: "Llogaria juaj u krijua dhe eshte ne pritje te aprovimit nga nje administrator."
+  notice_default_data_loaded: Konfigurimi i paracaktuar u ngarkua me sukses.
+  notice_unable_delete_version: E pamundur te fshije versionin.
+  notice_unable_delete_time_entry: E pamundur te fshije rekordin e log-ut.
+  notice_issue_done_ratios_updated: Issue done ratios updated.
+  notice_gantt_chart_truncated: "The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})"
+  notice_issue_successful_create: "Ceshtja %{id} u krijua."
+  notice_issue_update_conflict: "Ceshtja eshte perditesuar nga Perdorues te tjere nderkohe qe ju po e modifikonit ate."
+  notice_account_deleted: "Llogaria juaj u fshi perfundimisht."
+
+  error_can_t_load_default_data: "Konfigurimi i paracaktuar nuk mund te ngarkohet: %{value}"
+  error_scm_not_found: "The entry or revision was not found in the repository."
+  error_scm_command_failed: "An error occurred when trying to access the repository: %{value}"
+  error_scm_annotate: "The entry does not exist or cannot be annotated."
+  error_scm_annotate_big_text_file: "The entry cannot be annotated, as it exceeds the maximum text file size."
+  error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
+  error_no_tracker_in_project: 'No tracker is associated to this project. Please check the Project settings.'
+  error_no_default_issue_status: 'No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").'
+  error_can_not_delete_custom_field: Unable to delete custom field
+  error_can_not_delete_tracker: "This tracker contains issues and cannot be deleted."
+  error_can_not_remove_role: "This role is in use and cannot be deleted."
+  error_can_not_reopen_issue_on_closed_version: 'An issue assigned to a closed version cannot be reopened'
+  error_can_not_archive_project: This project cannot be archived
+  error_issue_done_ratios_not_updated: "Issue done ratios not updated."
+  error_workflow_copy_source: 'Please select a source tracker or role'
+  error_workflow_copy_target: 'Please select target tracker(s) and role(s)'
+  error_unable_delete_issue_status: 'Unable to delete issue status'
+  error_unable_to_connect: "Unable to connect (%{value})"
+  error_attachment_too_big: "This file cannot be uploaded because it exceeds the maximum allowed file size (%{max_size})"
+  warning_attachments_not_saved: "%{count} file(s) could not be saved."
+
+  mail_subject_lost_password: "Fjalekalimi %{value} i juaj"
+  mail_body_lost_password: 'Per te ndryshuar Fjalekalimin, ndiq link-un ne vijim:'
+  mail_subject_register: "Aktivizimi %{value} i Llogarise tuaj"
+  mail_body_register: 'Per te aktivizuar Llogarine tuaj, ndiqni link-un ne vijim:'
+  mail_body_account_information_external: "Mund te perdorni Llogarine tuaj %{value} per Login."
+  mail_body_account_information: Informacioni i Llogarise suaj
+  mail_subject_account_activation_request: "%{value} kerkesa aktivizimi Llogarije"
+  mail_body_account_activation_request: "Nje Perdorues i ri (%{value}) eshte regjistruar. Llogaria pret aprovimin tuaj:"
+  mail_subject_reminder: "%{count} Ceshtje te pritshme ne %{days} ditet pasardhese"
+  mail_body_reminder: "%{count} Ceshtje qe ju jane caktuar jane te pritshme ne %{days} ditet pasardhese:"
+  mail_subject_wiki_content_added: "'%{id}' wiki page eshte shtuar"
+  mail_body_wiki_content_added: "The '%{id}' wiki page eshte shtuar nga %{author}."
+  mail_subject_wiki_content_updated: "'%{id}' wiki page eshte modifikuar"
+  mail_body_wiki_content_updated: "The '%{id}' wiki page eshte modifikuar nga %{author}."
+
+  gui_validation_error: 1 error
+  gui_validation_error_plural: "%{count} gabime"
+
+  field_name: Emri
+  field_description: Pershkrimi
+  field_summary: Permbledhje
+  field_is_required: E Detyrueshme
+  field_firstname: Emri
+  field_lastname: Mbiemri
+  field_mail: Email
+  field_filename: File
+  field_filesize: Madhesia
+  field_downloads: Shkarkime
+  field_author: Autori
+  field_created_on: Krijuar me
+  field_updated_on: Perditesuar me
+  field_field_format: Formati
+  field_is_for_all: Per te gjthe Projektet
+  field_possible_values: Vlera e Mundshme
+  field_regexp: Shprehja e Duhur
+  field_min_length: Gjatesia Minimale
+  field_max_length: Gjatesia Maksimale
+  field_value: Vlera
+  field_category: Kategoria
+  field_title: Titulli
+  field_project: Projekti
+  field_issue: Problemi
+  field_status: Statusi
+  field_notes: Shenime
+  field_is_closed: Problemet e Mbyllura
+  field_is_default: Vlera e Paracaktuar
+  field_tracker: Gjurmuesi
+  field_subject: Subjekti
+  field_due_date: Deri me
+  field_assigned_to: I Ngarkuari
+  field_priority: Prioriteti
+  field_fixed_version: Menyra e Etiketimit
+  field_user: Perdoruesi
+  field_principal: Kapitali
+  field_role: Roli
+  field_homepage: Faqja Kryesore
+  field_is_public: Publike
+  field_parent: Nenprojekti i
+  field_is_in_roadmap: Ceshtje e shfaqur ne roadmap
+  field_login: Login
+  field_mail_notification: Njoftim me Email
+  field_admin: Administratori
+  field_last_login_on: Lidhja e Fundit
+  field_language: Gjuha
+  field_effective_date: Data
+  field_password: Fjalekalimi
+  field_new_password: Fjalekalimi i Ri
+  field_password_confirmation: Konfirmim Fjalekalimi
+  field_version: Versioni
+  field_type: Type
+  field_host: Host
+  field_port: Port
+  field_account: Llogaria
+  field_base_dn: Base DN
+  field_attr_login: Login attribute
+  field_attr_firstname: Firstname attribute
+  field_attr_lastname: Lastname attribute
+  field_attr_mail: Email attribute
+  field_onthefly: On-the-fly user creation
+  field_start_date: Start date
+  field_done_ratio: "% Done"
+  field_auth_source: Authentication mode
+  field_hide_mail: Hide my email address
+  field_comments: Comment
+  field_url: URL
+  field_start_page: Start page
+  field_subproject: Subproject
+  field_hours: Hours
+  field_activity: Activity
+  field_spent_on: Date
+  field_identifier: Identifier
+  field_is_filter: Used as a filter
+  field_issue_to: Related issue
+  field_delay: Delay
+  field_assignable: Issues can be assigned to this role
+  field_redirect_existing_links: Redirect existing links
+  field_estimated_hours: Estimated time
+  field_column_names: Columns
+  field_time_entries: Log time
+  field_time_zone: Time zone
+  field_searchable: Searchable
+  field_default_value: Default value
+  field_comments_sorting: Display comments
+  field_parent_title: Parent page
+  field_editable: Editable
+  field_watcher: Watcher
+  field_identity_url: OpenID URL
+  field_content: Content
+  field_group_by: Group results by
+  field_sharing: Sharing
+  field_parent_issue: Parent task
+  field_member_of_group: "Assignee's group"
+  field_assigned_to_role: "Assignee's role"
+  field_text: Text field
+  field_visible: Visible
+  field_warn_on_leaving_unsaved: "Warn me when leaving a page with unsaved text"
+  field_issues_visibility: Issues visibility
+  field_is_private: Private
+  field_commit_logs_encoding: Commit messages encoding
+  field_scm_path_encoding: Path encoding
+  field_path_to_repository: Path to repository
+  field_root_directory: Root directory
+  field_cvsroot: CVSROOT
+  field_cvs_module: Module
+  field_repository_is_default: Main repository
+  field_multiple: Multiple values
+  field_ldap_filter: LDAP filter
+
+  setting_app_title: Application title
+  setting_app_subtitle: Application subtitle
+  setting_welcome_text: Welcome text
+  setting_default_language: Default language
+  setting_login_required: Authentication required
+  setting_self_registration: Self-registration
+  setting_attachment_max_size: Maximum attachment size
+  setting_issues_export_limit: Issues export limit
+  setting_mail_from: Emission email address
+  setting_bcc_recipients: Blind carbon copy recipients (bcc)
+  setting_plain_text_mail: Plain text mail (no HTML)
+  setting_host_name: Host name and path
+  setting_text_formatting: Text formatting
+  setting_wiki_compression: Wiki history compression
+  setting_feeds_limit: Maximum number of items in Atom feeds
+  setting_default_projects_public: New projects are public by default
+  setting_autofetch_changesets: Fetch commits automatically
+  setting_sys_api_enabled: Enable WS for repository management
+  setting_commit_ref_keywords: Referencing keywords
+  setting_commit_fix_keywords: Fixing keywords
+  setting_autologin: Autologin
+  setting_date_format: Date format
+  setting_time_format: Time format
+  setting_cross_project_issue_relations: Allow cross-project issue relations
+  setting_issue_list_default_columns: Default columns displayed on the issue list
+  setting_repositories_encodings: Attachments and repositories encodings
+  setting_emails_header: Emails header
+  setting_emails_footer: Emails footer
+  setting_protocol: Protocol
+  setting_per_page_options: Objects per page options
+  setting_user_format: Users display format
+  setting_activity_days_default: Days displayed on project activity
+  setting_display_subprojects_issues: Display subprojects issues on main projects by default
+  setting_enabled_scm: Enabled SCM
+  setting_mail_handler_body_delimiters: "Truncate emails after one of these lines"
+  setting_mail_handler_api_enabled: Enable WS for incoming emails
+  setting_mail_handler_api_key: API key
+  setting_sequential_project_identifiers: Generate sequential project identifiers
+  setting_gravatar_enabled: Use Gravatar user icons
+  setting_gravatar_default: Default Gravatar image
+  setting_diff_max_lines_displayed: Maximum number of diff lines displayed
+  setting_file_max_size_displayed: Maximum size of text files displayed inline
+  setting_repository_log_display_limit: Maximum number of revisions displayed on file log
+  setting_openid: Allow OpenID login and registration
+  setting_password_min_length: Minimum password length
+  setting_new_project_user_role_id: Role given to a non-admin user who creates a project
+  setting_default_projects_modules: Default enabled modules for new projects
+  setting_issue_done_ratio: Calculate the issue done ratio with
+  setting_issue_done_ratio_issue_field: Use the issue field
+  setting_issue_done_ratio_issue_status: Use the issue status
+  setting_start_of_week: Start calendars on
+  setting_rest_api_enabled: Enable REST web service
+  setting_cache_formatted_text: Cache formatted text
+  setting_default_notification_option: Default notification option
+  setting_commit_logtime_enabled: Enable time logging
+  setting_commit_logtime_activity_id: Activity for logged time
+  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
+  setting_issue_group_assignment: Allow issue assignment to groups
+  setting_default_issue_start_date_to_creation_date: Use current date as start date for new issues
+  setting_commit_cross_project_ref: Allow issues of all the other projects to be referenced and fixed
+  setting_unsubscribe: Allow users to delete their own account
+
+  permission_add_project: Create project
+  permission_add_subprojects: Create subprojects
+  permission_edit_project: Edit project
+  permission_select_project_modules: Select project modules
+  permission_manage_members: Manage members
+  permission_manage_project_activities: Manage project activities
+  permission_manage_versions: Manage versions
+  permission_manage_categories: Manage issue categories
+  permission_view_issues: View Issues
+  permission_add_issues: Add issues
+  permission_edit_issues: Edit issues
+  permission_manage_issue_relations: Manage issue relations
+  permission_set_issues_private: Set issues public or private
+  permission_set_own_issues_private: Set own issues public or private
+  permission_add_issue_notes: Add notes
+  permission_edit_issue_notes: Edit notes
+  permission_edit_own_issue_notes: Edit own notes
+  permission_move_issues: Move issues
+  permission_delete_issues: Delete issues
+  permission_manage_public_queries: Manage public queries
+  permission_save_queries: Save queries
+  permission_view_gantt: View gantt chart
+  permission_view_calendar: View calendar
+  permission_view_issue_watchers: View watchers list
+  permission_add_issue_watchers: Add watchers
+  permission_delete_issue_watchers: Delete watchers
+  permission_log_time: Log spent time
+  permission_view_time_entries: View spent time
+  permission_edit_time_entries: Edit time logs
+  permission_edit_own_time_entries: Edit own time logs
+  permission_manage_news: Manage news
+  permission_comment_news: Comment news
+  permission_manage_documents: Manage documents
+  permission_view_documents: View documents
+  permission_manage_files: Manage files
+  permission_view_files: View files
+  permission_manage_wiki: Manage wiki
+  permission_rename_wiki_pages: Rename wiki pages
+  permission_delete_wiki_pages: Delete wiki pages
+  permission_view_wiki_pages: View wiki
+  permission_view_wiki_edits: View wiki history
+  permission_edit_wiki_pages: Edit wiki pages
+  permission_delete_wiki_pages_attachments: Delete attachments
+  permission_protect_wiki_pages: Protect wiki pages
+  permission_manage_repository: Manage repository
+  permission_browse_repository: Browse repository
+  permission_view_changesets: View changesets
+  permission_commit_access: Commit access
+  permission_manage_boards: Manage forums
+  permission_view_messages: View messages
+  permission_add_messages: Post messages
+  permission_edit_messages: Edit messages
+  permission_edit_own_messages: Edit own messages
+  permission_delete_messages: Delete messages
+  permission_delete_own_messages: Delete own messages
+  permission_export_wiki_pages: Export wiki pages
+  permission_manage_subtasks: Manage subtasks
+  permission_manage_related_issues: Manage related issues
+
+  project_module_issue_tracking: Issue tracking
+  project_module_time_tracking: Time tracking
+  project_module_news: News
+  project_module_documents: Documents
+  project_module_files: Files
+  project_module_wiki: Wiki
+  project_module_repository: Repository
+  project_module_boards: Forums
+  project_module_calendar: Calendar
+  project_module_gantt: Gantt
+
+  label_user: Perdoruesi
+  label_user_plural: Perdoruesit
+  label_user_new: Perdorues i ri
+  label_user_anonymous: Anonim
+  label_project: Projekt
+  label_project_new: Projekt i ri
+  label_project_plural: Projekte
+  label_x_projects:
+    zero:  asnje projekt
+    one:   1 projekt
+    other: "%{count} projekte"
+  label_project_all: Te gjithe Projektet
+  label_project_latest: Projektet me te fundit
+  label_issue: Ceshtje
+  label_issue_new: Ceshtje e re
+  label_issue_plural: Ceshtjet
+  label_issue_view_all: Shih te gjitha Ceshtjet
+  label_issues_by: "Ceshtje per %{value}"
+  label_issue_added: Ceshtje te shtuara
+  label_issue_updated: Ceshtje te modifikuara
+  label_issue_note_added: Shenime te shtuara
+  label_issue_status_updated: Statusi u modifikua
+  label_issue_priority_updated: Prioriteti u modifikua
+  label_document: Dokument
+  label_document_new: Dokument i ri
+  label_document_plural: Dokumente
+  label_document_added: Dokumente te shtuara
+  label_role: Roli
+  label_role_plural: Role
+  label_role_new: Rol i ri
+  label_role_and_permissions: Role dhe te Drejta
+  label_role_anonymous: Anonim
+  label_role_non_member: Jo Anetar
+  label_member: Anetar
+  label_member_new: Anetar i ri
+  label_member_plural: Anetare
+  label_tracker: Gjurmues
+  label_tracker_plural: Gjurmuesa
+  label_tracker_new: Gjurmues i ri
+  label_workflow: Workflow
+  label_issue_status: Statusi i Ceshtjes
+  label_issue_status_plural: Statuset e Ceshtjeve
+  label_issue_status_new: Statusi i ri
+  label_issue_category: Kategoria e Ceshtjes
+  label_issue_category_plural: Kategorite e Ceshtjeve
+  label_issue_category_new: Kategori e re
+  label_custom_field: Fushe e personalizuar
+  label_custom_field_plural: Fusha te personalizuara
+  label_custom_field_new: Fushe e personalizuar e re
+  label_enumerations: Enumerations
+  label_enumeration_new: Vlere e re
+  label_information: Informacion
+  label_information_plural: Informacione
+  label_please_login: Lutemi login
+  label_register: Regjistrohu
+  label_login_with_open_id_option: ose lidhu me OpenID
+  label_password_lost: Fjalekalim i humbur
+  label_home: Home
+  label_my_page: Faqja ime
+  label_my_account: Llogaria ime
+  label_my_projects: Projektet e mia
+  label_my_page_block: My page block
+  label_administration: Administrim
+  label_login: Login
+  label_logout: Dalje
+  label_help: Ndihme
+  label_reported_issues: Ceshtje te raportuara
+  label_assigned_to_me_issues: Ceshtje te caktuara mua
+  label_last_login: Hyrja e fundit
+  label_registered_on: Regjistruar me
+  label_activity: Aktiviteti
+  label_overall_activity: Aktiviteti i pergjithshem
+  label_user_activity: "Aktiviteti i %{value}"
+  label_new: Shto
+  label_logged_as: Lidhur si
+  label_environment: Ambienti
+  label_authentication: Authentikimi
+  label_auth_source: Menyra e Authentikimit
+  label_auth_source_new: Menyre e re Authentikimi
+  label_auth_source_plural: Menyrat e Authentikimit
+  label_subproject_plural: Nenprojekte
+  label_subproject_new: Nenprojekt i ri
+  label_and_its_subprojects: "%{value} dhe Nenprojektet e vet"
+  label_min_max_length: Gjatesia Min - Max
+  label_list: List
+  label_date: Date
+  label_integer: Integer
+  label_float: Float
+  label_boolean: Boolean
+  label_string: Text
+  label_text: Long text
+  label_attribute: Attribute
+  label_attribute_plural: Attributes
+  label_download: "%{count} Download"
+  label_download_plural: "%{count} Downloads"
+  label_no_data: No data to display
+  label_change_status: Change status
+  label_history: Histori
+  label_attachment: File
+  label_attachment_new: File i ri
+  label_attachment_delete: Fshi file
+  label_attachment_plural: Files
+  label_file_added: File te shtuar
+  label_report: Raport
+  label_report_plural: Raporte
+  label_news: Lajm
+  label_news_new: Shto Lajm
+  label_news_plural: Lajme
+  label_news_latest: Lajmet e fundit
+  label_news_view_all: Veshtro gjithe Lajmet
+  label_news_added: Lajme te shtuara
+  label_news_comment_added: Komenti iu shtua Lajmeve
+  label_settings: Settings
+  label_overview: Overview
+  label_version: Version
+  label_version_new: Version i ri
+  label_version_plural: Versione
+  label_close_versions: Mbyll Versionet e perfunduara
+  label_confirmation: Konfirmim
+  label_export_to: 'Mund te gjendet gjithashtu ne:'
+  label_read: Lexim...
+  label_public_projects: Projekte publike
+  label_open_issues: e hapur
+  label_open_issues_plural: te hapura
+  label_closed_issues: e mbyllur
+  label_closed_issues_plural: te mbyllura
+  label_x_open_issues_abbr_on_total:
+    zero:  0 te hapura / %{total}
+    one:   1 e hapur / %{total}
+    other: "%{count} te hapura / %{total}"
+  label_x_open_issues_abbr:
+    zero:  0 te hapura
+    one:   1 e hapur
+    other: "%{count} te hapura"
+  label_x_closed_issues_abbr:
+    zero:  0 te mbyllura
+    one:   1 e mbyllur
+    other: "%{count} te mbyllura"
+  label_x_issues:
+    zero:  0 ceshtje
+    one:   1 ceshtje
+    other: "%{count} ceshtje"
+  label_total: Total
+  label_permissions: Te drejta
+  label_current_status: Statusi aktual
+  label_new_statuses_allowed: Statuse te reja te lejuara
+  label_all: te gjitha
+  label_none: asnje
+  label_nobody: askush
+  label_next: Pasardhes
+  label_previous: Paraardhes
+  label_used_by: Perdorur nga
+  label_details: Detaje
+  label_add_note: Shto nje Shenim
+  label_per_page: Per Faqe
+  label_calendar: Kalendar
+  label_months_from: muaj nga
+  label_gantt: Gantt
+  label_internal: I brendshem
+  label_last_changes: "%{count} ndryshimet e fundit"
+  label_change_view_all: Shih gjithe ndryshimet
+  label_personalize_page: Personalizo kete Faqe
+  label_comment: Koment
+  label_comment_plural: Komente
+  label_x_comments:
+    zero: asnje koment
+    one: 1 koment
+    other: "%{count} komente"
+  label_comment_add: Shto nje koment
+  label_comment_added: Komenti u shtua
+  label_comment_delete: Fshi komente
+  label_query: Custom query
+  label_query_plural: Custom queries
+  label_query_new: New query
+  label_my_queries: My custom queries
+  label_filter_add: Shto filter
+  label_filter_plural: Filtra
+  label_equals: eshte
+  label_not_equals: nuk eshte
+  label_in_less_than: ne me pak se
+  label_in_more_than: ne me shume se
+  label_greater_or_equal: '>='
+  label_less_or_equal: '<='
+  label_between: ndermjet
+  label_in: ne
+  label_today: sot
+  label_all_time: cdo kohe
+  label_yesterday: dje
+  label_this_week: kete jave
+  label_last_week: javen e kaluar
+  label_last_n_days: "%{count} ditet e fundit"
+  label_this_month: kete muaj
+  label_last_month: muajin e kaluar
+  label_this_year: kete vit
+  label_date_range: Date range
+  label_less_than_ago: me pak se dite para
+  label_more_than_ago: me shume se dite para
+  label_ago: dite para
+  label_contains: permban
+  label_not_contains: nuk permban
+  label_day_plural: dite
+  label_repository: Repository
+  label_repository_new: New repository
+  label_repository_plural: Repositories
+  label_browse: Browse
+  label_modification: "%{count} ndryshim"
+  label_modification_plural: "%{count} ndryshime"
+  label_branch: Dege
+  label_tag: Tag
+  label_revision: Revizion
+  label_revision_plural: Revizione
+  label_revision_id: "Revizion %{value}"
+  label_associated_revisions: Associated revisions
+  label_added: te shtuara
+  label_modified: te modifikuara
+  label_copied: te kopjuara
+  label_renamed: te riemeruara
+  label_deleted: te fshira
+  label_latest_revision: Revizioni i fundit
+  label_latest_revision_plural: Revizionet e fundit
+  label_view_revisions: Shih Revizionet
+  label_view_all_revisions: Shih te gjitha Revizionet
+  label_max_size: Maximum size
+  label_sort_highest: Coje ne krye
+  label_sort_higher: Coje lart
+  label_sort_lower: Coje poshte
+  label_sort_lowest: Coje ne fund
+  label_roadmap: Roadmap
+  label_roadmap_due_in: "E pritshme ne %{value}"
+  label_roadmap_overdue: "%{value} me vonese"
+  label_roadmap_no_issues: Asnje Ceshtje per kete version
+  label_search: Kerko
+  label_result_plural: Rezultatet
+  label_all_words: Te gjitha fjalet
+  label_wiki: Wiki
+  label_wiki_edit: Wiki edit
+  label_wiki_edit_plural: Wiki edits
+  label_wiki_page: Wiki page
+  label_wiki_page_plural: Wiki pages
+  label_index_by_title: Index by title
+  label_index_by_date: Index by date
+  label_current_version: Current version
+  label_preview: Preview
+  label_feed_plural: Feeds
+  label_changes_details: Details of all changes
+  label_issue_tracking: Issue tracking
+  label_spent_time: Spent time
+  label_overall_spent_time: Overall spent time
+  label_f_hour: "%{value} ore"
+  label_f_hour_plural: "%{value} ore"
+  label_time_tracking: Time tracking
+  label_change_plural: Ndryshimet
+  label_statistics: Statistika
+  label_commits_per_month: Commits per month
+  label_commits_per_author: Commits per author
+  label_diff: diff
+  label_view_diff: View differences
+  label_diff_inline: inline
+  label_diff_side_by_side: side by side
+  label_options: Options
+  label_copy_workflow_from: Copy workflow from
+  label_permissions_report: Permissions report
+  label_watched_issues: Watched issues
+  label_related_issues: Related issues
+  label_applied_status: Applied status
+  label_loading: Loading...
+  label_relation_new: New relation
+  label_relation_delete: Delete relation
+  label_relates_to: related to
+  label_duplicates: duplicates
+  label_duplicated_by: duplicated by
+  label_blocks: blocks
+  label_blocked_by: blocked by
+  label_precedes: precedes
+  label_follows: follows
+  label_end_to_start: end to start
+  label_end_to_end: end to end
+  label_start_to_start: start to start
+  label_start_to_end: start to end
+  label_stay_logged_in: Stay logged in
+  label_disabled: disabled
+  label_show_completed_versions: Show completed versions
+  label_me: me
+  label_board: Forum
+  label_board_new: New forum
+  label_board_plural: Forums
+  label_board_locked: Locked
+  label_board_sticky: Sticky
+  label_topic_plural: Topics
+  label_message_plural: Messages
+  label_message_last: Last message
+  label_message_new: New message
+  label_message_posted: Message added
+  label_reply_plural: Replies
+  label_send_information: Send account information to the user
+  label_year: Year
+  label_month: Month
+  label_week: Week
+  label_date_from: From
+  label_date_to: To
+  label_language_based: Based on user's language
+  label_sort_by: "Sort by %{value}"
+  label_send_test_email: Send a test email
+  label_feeds_access_key: RSS access key
+  label_missing_feeds_access_key: Missing a RSS access key
+  label_feeds_access_key_created_on: "RSS access key created %{value} ago"
+  label_module_plural: Modules
+  label_added_time_by: "Added by %{author} %{age} ago"
+  label_updated_time_by: "Updated by %{author} %{age} ago"
+  label_updated_time: "Updated %{value} ago"
+  label_jump_to_a_project: Jump to a project...
+  label_file_plural: Files
+  label_changeset_plural: Changesets
+  label_default_columns: Default columns
+  label_no_change_option: (No change)
+  label_bulk_edit_selected_issues: Bulk edit selected issues
+  label_bulk_edit_selected_time_entries: Bulk edit selected time entries
+  label_theme: Theme
+  label_default: Default
+  label_search_titles_only: Search titles only
+  label_user_mail_option_all: "For any event on all my projects"
+  label_user_mail_option_selected: "For any event on the selected projects only..."
+  label_user_mail_option_none: "No events"
+  label_user_mail_option_only_my_events: "Only for things I watch or I'm involved in"
+  label_user_mail_option_only_assigned: "Only for things I am assigned to"
+  label_user_mail_option_only_owner: "Only for things I am the owner of"
+  label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
+  label_registration_activation_by_email: account activation by email
+  label_registration_manual_activation: manual account activation
+  label_registration_automatic_activation: automatic account activation
+  label_display_per_page: "Per page: %{value}"
+  label_age: Age
+  label_change_properties: Change properties
+  label_general: General
+  label_more: More
+  label_scm: SCM
+  label_plugins: Plugins
+  label_ldap_authentication: LDAP authentication
+  label_downloads_abbr: D/L
+  label_optional_description: Optional description
+  label_add_another_file: Add another file
+  label_preferences: Preferences
+  label_chronological_order: In chronological order
+  label_reverse_chronological_order: In reverse chronological order
+  label_planning: Planning
+  label_incoming_emails: Incoming emails
+  label_generate_key: Generate a key
+  label_issue_watchers: Watchers
+  label_example: Example
+  label_display: Display
+  label_sort: Sort
+  label_ascending: Ascending
+  label_descending: Descending
+  label_date_from_to: From %{start} to %{end}
+  label_wiki_content_added: Wiki page added
+  label_wiki_content_updated: Wiki page updated
+  label_group: Group
+  label_group_plural: Groups
+  label_group_new: New group
+  label_time_entry_plural: Spent time
+  label_version_sharing_none: Not shared
+  label_version_sharing_descendants: With subprojects
+  label_version_sharing_hierarchy: With project hierarchy
+  label_version_sharing_tree: With project tree
+  label_version_sharing_system: With all projects
+  label_update_issue_done_ratios: Update issue done ratios
+  label_copy_source: Source
+  label_copy_target: Target
+  label_copy_same_as_target: Same as target
+  label_display_used_statuses_only: Only display statuses that are used by this tracker
+  label_api_access_key: API access key
+  label_missing_api_access_key: Missing an API access key
+  label_api_access_key_created_on: "API access key created %{value} ago"
+  label_profile: Profile
+  label_subtask_plural: Subtasks
+  label_project_copy_notifications: Send email notifications during the project copy
+  label_principal_search: "Search for user or group:"
+  label_user_search: "Search for user:"
+  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
+  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
+  label_issues_visibility_all: All issues
+  label_issues_visibility_public: All non private issues
+  label_issues_visibility_own: Issues created by or assigned to the user
+  label_git_report_last_commit: Report last commit for files and directories
+  label_parent_revision: Parent
+  label_child_revision: Child
+  label_export_options: "%{export_format} export options"
+  label_copy_attachments: Copy attachments
+  label_item_position: "%{position} of %{count}"
+  label_completed_versions: Completed versions
+  label_search_for_watchers: Search for watchers to add
+
+  button_login: Login
+  button_submit: Submit
+  button_save: Save
+  button_check_all: Check all
+  button_uncheck_all: Uncheck all
+  button_collapse_all: Collapse all
+  button_expand_all: Expand all
+  button_delete: Delete
+  button_create: Create
+  button_create_and_continue: Create and continue
+  button_test: Test
+  button_edit: Edit
+  button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
+  button_add: Add
+  button_change: Change
+  button_apply: Apply
+  button_clear: Clear
+  button_lock: Lock
+  button_unlock: Unlock
+  button_download: Download
+  button_list: List
+  button_view: View
+  button_move: Move
+  button_move_and_follow: Move and follow
+  button_back: Back
+  button_cancel: Cancel
+  button_activate: Activate
+  button_sort: Sort
+  button_log_time: Log time
+  button_rollback: Rollback to this version
+  button_watch: Watch
+  button_unwatch: Unwatch
+  button_reply: Reply
+  button_archive: Archive
+  button_unarchive: Unarchive
+  button_reset: Reset
+  button_rename: Rename
+  button_change_password: Change password
+  button_copy: Copy
+  button_copy_and_follow: Copy and follow
+  button_annotate: Annotate
+  button_update: Update
+  button_configure: Configure
+  button_quote: Quote
+  button_duplicate: Duplicate
+  button_show: Show
+  button_edit_section: Edit this section
+  button_export: Export
+  button_delete_my_account: Delete my account
+
+  status_active: active
+  status_registered: registered
+  status_locked: locked
+
+  version_status_open: open
+  version_status_locked: locked
+  version_status_closed: closed
+
+  field_active: Active
+
+  text_select_mail_notifications: Select actions for which email notifications should be sent.
+  text_regexp_info: eg. ^[A-Z0-9]+$
+  text_min_max_length_info: 0 means no restriction
+  text_project_destroy_confirmation: Are you sure you want to delete this project and related data?
+  text_subprojects_destroy_warning: "Its subproject(s): %{value} will be also deleted."
+  text_workflow_edit: Select a role and a tracker to edit the workflow
+  text_are_you_sure: Are you sure?
+  text_are_you_sure_with_children: "Delete issue and all child issues?"
+  text_journal_changed: "%{label} changed from %{old} to %{new}"
+  text_journal_changed_no_detail: "%{label} updated"
+  text_journal_set_to: "%{label} set to %{value}"
+  text_journal_deleted: "%{label} deleted (%{old})"
+  text_journal_added: "%{label} %{value} added"
+  text_tip_issue_begin_day: issue beginning this day
+  text_tip_issue_end_day: issue ending this day
+  text_tip_issue_begin_end_day: issue beginning and ending this day
+  text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.'
+  text_caracters_maximum: "%{count} characters maximum."
+  text_caracters_minimum: "Must be at least %{count} characters long."
+  text_length_between: "Length between %{min} and %{max} characters."
+  text_tracker_no_workflow: No workflow defined for this tracker
+  text_unallowed_characters: Unallowed characters
+  text_comma_separated: Multiple values allowed (comma separated).
+  text_line_separated: Multiple values allowed (one line for each value).
+  text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
+  text_issue_added: "Issue %{id} has been reported by %{author}."
+  text_issue_updated: "Issue %{id} has been updated by %{author}."
+  text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all its content?
+  text_issue_category_destroy_question: "Some issues (%{count}) are assigned to this category. What do you want to do?"
+  text_issue_category_destroy_assignments: Remove category assignments
+  text_issue_category_reassign_to: Reassign issues to this category
+  text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee)."
+  text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
+  text_load_default_configuration: Load the default configuration
+  text_status_changed_by_changeset: "Applied in changeset %{value}."
+  text_time_logged_by_changeset: "Applied in changeset %{value}."
+  text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s)?'
+  text_issues_destroy_descendants_confirmation: "This will also delete %{count} subtask(s)."
+  text_time_entries_destroy_confirmation: 'Are you sure you want to delete the selected time entr(y/ies)?'
+  text_select_project_modules: 'Select modules to enable for this project:'
+  text_default_administrator_account_changed: Default administrator account changed
+  text_file_repository_writable: Attachments directory writable
+  text_plugin_assets_writable: Plugin assets directory writable
+  text_rmagick_available: RMagick available (optional)
+  text_destroy_time_entries_question: "%{hours} hours were reported on the issues you are about to delete. What do you want to do?"
+  text_destroy_time_entries: Delete reported hours
+  text_assign_time_entries_to_project: Assign reported hours to the project
+  text_reassign_time_entries: 'Reassign reported hours to this issue:'
+  text_user_wrote: "%{value} wrote:"
+  text_enumeration_destroy_question: "%{count} objects are assigned to this value."
+  text_enumeration_category_reassign_to: 'Reassign them to this value:'
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/configuration.yml and restart the application to enable them."
+  text_repository_usernames_mapping: "Select or update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
+  text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
+  text_custom_field_possible_values_info: 'One line for each value'
+  text_wiki_page_destroy_question: "This page has %{descendants} child page(s) and descendant(s). What do you want to do?"
+  text_wiki_page_nullify_children: "Keep child pages as root pages"
+  text_wiki_page_destroy_children: "Delete child pages and all their descendants"
+  text_wiki_page_reassign_children: "Reassign child pages to this parent page"
+  text_own_membership_delete_confirmation: "You are about to remove some or all of your permissions and may no longer be able to edit this project after that.\nAre you sure you want to continue?"
+  text_zoom_in: Zoom in
+  text_zoom_out: Zoom out
+  text_warn_on_leaving_unsaved: "The current page contains unsaved text that will be lost if you leave this page."
+  text_scm_path_encoding_note: "Default: UTF-8"
+  text_git_repository_note: Repository is bare and local (e.g. /gitrepo, c:\gitrepo)
+  text_mercurial_repository_note: Local repository (e.g. /hgrepo, c:\hgrepo)
+  text_scm_command: Command
+  text_scm_command_version: Version
+  text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.
+  text_scm_command_not_available: Scm command is not available. Please check settings on the administration panel.
+  text_issue_conflict_resolution_overwrite: "Apply my changes anyway (previous notes will be kept but some changes may be overwritten)"
+  text_issue_conflict_resolution_add_notes: "Add my notes and discard my other changes"
+  text_issue_conflict_resolution_cancel: "Discard all my changes and redisplay %{link}"
+  text_account_destroy_confirmation: "Are you sure you want to proceed?\nYour account will be permanently deleted, with no way to reactivate it."
+
+  default_role_manager: Manager
+  default_role_developer: Developer
+  default_role_reporter: Reporter
+  default_tracker_bug: Bug
+  default_tracker_feature: Feature
+  default_tracker_support: Support
+  default_issue_status_new: New
+  default_issue_status_in_progress: In Progress
+  default_issue_status_resolved: Resolved
+  default_issue_status_feedback: Feedback
+  default_issue_status_closed: Closed
+  default_issue_status_rejected: Rejected
+  default_doc_category_user: User documentation
+  default_doc_category_tech: Technical documentation
+  default_priority_low: Low
+  default_priority_normal: Normal
+  default_priority_high: High
+  default_priority_urgent: Urgent
+  default_priority_immediate: Immediate
+  default_activity_design: Design
+  default_activity_development: Development
+
+  enumeration_issue_priorities: Issue priorities
+  enumeration_doc_categories: Document categories
+  enumeration_activities: Activities (time tracking)
+  enumeration_system_activity: System Activity
+  description_filter: Filter
+  description_search: Searchfield
+  description_choose_project: Projects
+  description_project_scope: Search scope
+  description_notes: Notes
+  description_message_content: Message content
+  description_query_sort_criteria_attribute: Sort attribute
+  description_query_sort_criteria_direction: Sort direction
+  description_user_mail_notification: Mail notification settings
+  description_available_columns: Available Columns
+  description_selected_columns: Selected Columns
+  description_all_columns: All Columns
+  description_issue_category_reassign: Choose issue category
+  description_wiki_subpages_reassign: Choose new parent page
+  description_date_range_list: Choose range from list
+  description_date_range_interval: Choose range by selecting start and end date
+  description_date_from: Enter start date
+  description_date_to: Enter end date
