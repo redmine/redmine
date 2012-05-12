@@ -68,6 +68,8 @@ end
 optparse = OptionParser.new do |opts|
   opts.banner = "Usage: reposman.rb [OPTIONS...] -s [DIR] -r [HOST] -k [KEY]"
   opts.separator("")
+  opts.separator("Manages your repositories with Redmine.")
+  opts.separator("")
   opts.separator("Required arguments:") 
   opts.on("-s", "--svn-dir DIR",      "use DIR as base directory for svn repositories") {|v| $repos_base = v}
   opts.on("-r", "--redmine-host HOST","assume Redmine is hosted on HOST. Examples:",
