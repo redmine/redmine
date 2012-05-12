@@ -44,7 +44,7 @@ Optional:
    
    Redmine stores session data in cookies by default, which requires
    a secret to be generated. Under the application main directory run:
-     rake generate_session_store
+     rake generate_secret_token
 
 6. Create the database structure
    

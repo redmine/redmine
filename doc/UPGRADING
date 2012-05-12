@@ -19,6 +19,11 @@ http://www.redmine.org/
    This directory contains all the attached files.
 
 4. Copy the folders of the installed plugins and themes into new installation
+   Plugins must be stored in the [redmine_root]/plugins directory
+   Themes must be stored in the [redmine_root]/public/themes directory
+
+   WARNING: plugins from your previous Redmine version may not be compatible
+   with the Redmine version you're upgrading to.
 
 5. Install the required gems by running:
      bundle install --without development test
@@ -31,7 +36,7 @@ http://www.redmine.org/
    
    Redmine stores session data in cookies by default, which requires
    a secret to be generated. Under the new application directory run:
-     rake generate_session_store
+     rake generate_secret_token
    
    DO NOT REPLACE OR EDIT ANY OTHER FILES.
 
