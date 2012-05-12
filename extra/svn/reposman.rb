@@ -59,7 +59,7 @@ def read_key_from_file(filename)
 end
 
 def set_scm(scm)
-  $scm = v.capitalize
+  $scm = scm.capitalize
   unless SUPPORTED_SCM.include?($scm)
     log("Invalid SCM: #{$scm}\nValid SCM are: #{SUPPORTED_SCM.join(', ')}", :exit => true)
   end
