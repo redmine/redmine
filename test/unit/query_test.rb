@@ -112,6 +112,15 @@ class QueryTest < ActiveSupport::TestCase
     assert issues.all? {|i| i.start_date.nil?}
   end
 
+  def test_operator_none_for_string_custom_field
+    query = Query.new(:project => Project.find(1), :name => '_')
+    query.add_filter('cf_2', '!*', [''])
+    assert query.has_filter?('cf_2')
+    issues = find_issues_with_query(query)
+    assert !issues.empty?
+    assert issues.all? {|i| i.custom_field_value(2).blank?}
+  end
+
   def test_operator_all
     query = Query.new(:project => Project.find(1), :name => '_')
     query.add_filter('fixed_version_id', '*', [''])
@@ -127,6 +136,15 @@ class QueryTest < ActiveSupport::TestCase
     issues = find_issues_with_query(query)
     assert !issues.empty?
     assert issues.all? {|i| i.start_date.present?}
+  end
+
+  def test_operator_all_for_string_custom_field
+    query = Query.new(:project => Project.find(1), :name => '_')
+    query.add_filter('cf_2', '*', [''])
+    assert query.has_filter?('cf_2')
+    issues = find_issues_with_query(query)
+    assert !issues.empty?
+    assert issues.all? {|i| i.custom_field_value(2).present?}
   end
 
   def test_numeric_filter_should_not_accept_non_numeric_values

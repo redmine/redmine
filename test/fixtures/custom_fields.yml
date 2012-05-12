@@ -21,6 +21,7 @@ custom_fields_002:
   min_length: 1
   regexp: ""
   is_for_all: true
+  is_filter: true
   type: IssueCustomField
   max_length: 100
   possible_values: ""
