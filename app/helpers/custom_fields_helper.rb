@@ -55,13 +55,13 @@ module CustomFieldsHelper
       unless custom_field.multiple?
         if custom_field.is_required?
           unless custom_field.default_value.present?
-            blank_option = "<option value=\"\">--- #{l(:actionview_instancetag_blank_option)} ---</option>"
+            blank_option = content_tag('option', "--- #{l(:actionview_instancetag_blank_option)} ---", :value => '')
           end
         else
-          blank_option = '<option></option>'
+          blank_option = content_tag('option')
         end
       end
-      s = select_tag(field_name, blank_option.html_safe + options_for_select(custom_field.possible_values_options(custom_value.customized), custom_value.value),
+      s = select_tag(field_name, blank_option + options_for_select(custom_field.possible_values_options(custom_value.customized), custom_value.value),
         tag_options.merge(:multiple => custom_field.multiple?))
       if custom_field.multiple?
         s << hidden_field_tag(field_name, '')
