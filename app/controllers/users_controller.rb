@@ -169,16 +169,16 @@ class UsersController < ApplicationController
         format.api  { render_validation_errors(@user) }
       end
     end
-  rescue ::ActionController::RedirectBackError
-    redirect_to :controller => 'users', :action => 'edit', :id => @user
   end
 
   def destroy
     @user.destroy
     respond_to do |format|
-      format.html { redirect_to(users_url) }
+      format.html { redirect_to :back }
       format.api  { head :ok }
     end
+  rescue ::ActionController::RedirectBackError
+    redirect_to(users_url)
   end
 
   def edit_membership
