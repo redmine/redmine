@@ -31,17 +31,6 @@ class ApplicationController < ActionController::Base
     super
     cookies.delete(:autologin)
   end
-  # Remove broken cookie after upgrade from 0.8.x (#4292)
-  # See https://rails.lighthouseapp.com/projects/8994/tickets/3360
-  # TODO: remove it when Rails is fixed
-  before_filter :delete_broken_cookies
-  def delete_broken_cookies
-    if cookies['_redmine_session'] && cookies['_redmine_session'] !~ /--/
-      cookies.delete '_redmine_session'
-      redirect_to home_path
-      return false
-    end
-  end
 
   # FIXME: Remove this when all of Rack and Rails have learned how to
   # properly use encodings
