@@ -51,7 +51,7 @@ module CustomFieldsHelper
     when "bool"
       hidden_field_tag(field_name, '0') + check_box_tag(field_name, '1', custom_value.true?, tag_options)
     when "list"
-      blank_option = ''
+      blank_option = ''.html_safe
       unless custom_field.multiple?
         if custom_field.is_required?
           unless custom_field.default_value.present?
