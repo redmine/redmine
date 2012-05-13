@@ -395,7 +395,8 @@ class Mailer < ActionMailer::Base
             'X-Redmine-Host' => Setting.host_name,
             'X-Redmine-Site' => Setting.app_title,
             'X-Auto-Response-Suppress' => 'OOF',
-            'Auto-Submitted' => 'auto-generated'
+            'Auto-Submitted' => 'auto-generated',
+            'List-Id' => "<#{Setting.mail_from.to_s.gsub('@', '.')}>"
   end
 
   # Appends a Redmine header field (name is prepended with 'X-Redmine-')
