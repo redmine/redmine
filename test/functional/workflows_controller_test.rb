@@ -142,6 +142,18 @@ class WorkflowsControllerTest < ActionController::TestCase
     get :copy
     assert_response :success
     assert_template 'copy'
+    assert_select 'select[name=source_tracker_id]' do
+      assert_select 'option[value=1]', :text => 'Bug'
+    end
+    assert_select 'select[name=source_role_id]' do
+      assert_select 'option[value=2]', :text => 'Developer'
+    end
+    assert_select 'select[name=?]', 'target_tracker_ids[]' do
+      assert_select 'option[value=3]', :text => 'Support request'
+    end
+    assert_select 'select[name=?]', 'target_role_ids[]' do
+      assert_select 'option[value=1]', :text => 'Manager'
+    end
   end
 
   def test_post_copy_one_to_one
