@@ -169,6 +169,8 @@ class UsersController < ApplicationController
         format.api  { render_validation_errors(@user) }
       end
     end
+  rescue ::ActionController::RedirectBackError
+    redirect_to :controller => 'users', :action => 'edit', :id => @user
   end
 
   def destroy
