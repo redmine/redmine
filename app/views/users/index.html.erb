@@ -11,7 +11,7 @@
 
 <% if @groups.present? %>
 <label for='group_id'><%= l(:label_group) %>:</label>
-<%= select_tag 'group_id', '<option></option>' + options_from_collection_for_select(@groups, :id, :name, params[:group_id].to_i), :onchange => "this.form.submit(); return false;"  %>
+<%= select_tag 'group_id', content_tag('option') + options_from_collection_for_select(@groups, :id, :name, params[:group_id].to_i), :onchange => "this.form.submit(); return false;"  %>
 <% end %>
 
 <label for='name'><%= l(:label_user) %>:</label>

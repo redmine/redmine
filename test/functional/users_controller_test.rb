@@ -74,6 +74,9 @@ class UsersControllerTest < ActionController::TestCase
     users = assigns(:users)
     assert users.any?
     assert_equal([], (users - Group.find(10).users))
+    assert_select 'select[name=group_id]' do
+      assert_select 'option[value=10][selected=selected]'
+    end
   end
 
   def test_show
