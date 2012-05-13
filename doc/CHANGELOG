@@ -4,6 +4,26 @@ Redmine - project management software
 Copyright (C) 2006-2012  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2012-05-13 v1.4.2
+
+* Defect #10744: rake task redmine:email:test broken
+* Defect #10787: "Allow users to unsubscribe" option is confusing
+* Defect #10827: Cannot access Repositories page and Settings in a Project - Error 500
+* Defect #10829: db:migrate fails 0.8.2 -> 1.4.1
+* Defect #10832: REST Uploads fail with fastcgi
+* Defect #10837: reposman and rdm-mailhandler not working with ruby 1.9.x
+* Defect #10856: can not load translations from hr.yml with ruby1.9.3-p194
+* Defect #10865: Filter reset when deleting locked user
+* Feature #9790: Allow filtering text custom fields on "is null" and "is not null"
+* Feature #10778: svn:ignore for config/additional_environment.rb
+* Feature #10875: Partial Albanian Translations
+* Feature #10888: Bring back List-Id to help aid Gmail filtering
+* Patch #10733: Traditional Chinese language file (to r9502)
+* Patch #10745: Japanese translation update (r9519)
+* Patch #10750: Swedish Translation for r9522
+* Patch #10785: Bulgarian translation (jstoolbar)
+* Patch #10800: Simplified Chinese translation
+
 == 2012-04-20 v1.4.1
 
 * Defect #8574: Time report: date range fields not enabled when using the calendar popup
