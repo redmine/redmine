@@ -163,6 +163,7 @@ class MailerTest < ActiveSupport::TestCase
     assert_not_nil mail
     assert_equal 'OOF', mail.header['X-Auto-Response-Suppress'].to_s
     assert_equal 'auto-generated', mail.header['Auto-Submitted'].to_s
+    assert_equal '<redmine.example.net>', mail.header['List-Id'].to_s
   end
 
   def test_email_headers_should_include_sender
