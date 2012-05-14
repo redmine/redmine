@@ -65,7 +65,7 @@ Optional:
 8. Test the installation by running the WEBrick web server
    
    Under the main application directory run:
-     ruby script/server -e production
+     ruby script/rails server -e production
    
    Once WEBrick has started, point your browser to http://localhost:3000/
    You should now see the application welcome page.

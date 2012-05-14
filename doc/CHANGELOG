@@ -4,6 +4,13 @@ Redmine - project management software
 Copyright (C) 2006-2012  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2012-05-15 v2.0.0
+
+* Feature #4796: Rails 3 support
+* Feature #7720: Limit the pagination-limit when max-results is fewer than max-pagination-limit
+* Feature #9034: Add an id to the flash messages
+* Patch #10782: Better translation for Estonian language
+
 == 2012-05-13 v1.4.2
 
 * Defect #10744: rake task redmine:email:test broken
