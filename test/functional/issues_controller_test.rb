@@ -1126,6 +1126,36 @@ class IssuesControllerTest < ActionController::TestCase
     assert_tag 'a', :attributes => {:href => "/projects/ecookbook/repository/revisions/3"}
   end
 
+  def test_show_should_display_watchers
+    @request.session[:user_id] = 2
+    Issue.find(1).add_watcher User.find(2)
+
+    get :show, :id => 1
+    assert_select 'div#watchers ul' do
+      assert_select 'li' do
+        assert_select 'a[href=/users/2]'
+        assert_select 'a img[alt=Delete]'
+      end
+    end
+  end
+
+  def test_show_should_display_watchers_with_gravatars
+    @request.session[:user_id] = 2
+    Issue.find(1).add_watcher User.find(2)
+
+    with_settings :gravatar_enabled => '1' do
+      get :show, :id => 1
+    end
+
+    assert_select 'div#watchers ul' do
+      assert_select 'li' do
+        assert_select 'img.gravatar'
+        assert_select 'a[href=/users/2]'
+        assert_select 'a img[alt=Delete]'
+      end
+    end
+  end
+  
   def test_show_with_multi_custom_field
     field = CustomField.find(1)
     field.update_attribute :multiple, true
