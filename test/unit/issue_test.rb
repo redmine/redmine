@@ -445,6 +445,19 @@ class IssueTest < ActiveSupport::TestCase
     issue.save!
   end
 
+  def test_adding_journal_should_update_timestamp
+    issue = Issue.find(1)
+    updated_on_was = issue.updated_on
+
+    issue.init_journal(User.first, "Adding notes")
+    assert_difference 'Journal.count' do
+      assert issue.save
+    end
+    issue.reload
+
+    assert_not_equal updated_on_was, issue.updated_on
+  end
+
   def test_should_close_duplicates
     # Create 3 issues
     project = Project.find(1)

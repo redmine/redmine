@@ -75,7 +75,7 @@ class Issue < ActiveRecord::Base
                             :conditions => ["#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"]
 
   before_create :default_assign
-  before_save :close_duplicates, :update_done_ratio_from_issue_status
+  before_save :close_duplicates, :update_done_ratio_from_issue_status, :force_updated_on_change
   after_save {|issue| issue.send :after_project_change if !issue.id_changed? && issue.project_id_changed?} 
   after_save :reschedule_following_issues, :update_nested_set_attributes, :update_parent_attributes, :create_journal
   after_destroy :update_parent_attributes
@@ -432,8 +432,6 @@ class Issue < ActiveRecord::Base
       @custom_values_before_change = {}
       self.custom_field_values.each {|c| @custom_values_before_change.store c.custom_field_id, c.value }
     end
-    # Make sure updated_on is updated when adding a note.
-    updated_on_will_change!
     @current_journal
   end
 
@@ -991,6 +989,13 @@ class Issue < ActiveRecord::Base
         end
         duplicate.update_attribute :status, self.status
       end
+    end
+  end
+
+  # Make sure updated_on is updated when adding a note
+  def force_updated_on_change
+    if @current_journal
+      self.updated_on = current_time_from_proper_timezone
     end
   end
 
