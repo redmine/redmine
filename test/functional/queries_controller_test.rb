@@ -36,6 +36,10 @@ class QueriesControllerTest < ActionController::TestCase
                                                  :name => 'query_is_for_all',
                                                  :checked => nil,
                                                  :disabled => nil }
+    assert_select 'select[name=?]', 'c[]' do
+      assert_select 'option[value=tracker]'
+      assert_select 'option[value=subject]'
+    end
   end
 
   def test_new_global_query
