@@ -41,6 +41,17 @@ class IssueCategoriesController < ApplicationController
   def new
     @category = @project.issue_categories.build
     @category.safe_attributes = params[:issue_category]
+
+    respond_to do |format|
+      format.html
+      format.js do
+        render :update do |page|
+          page.replace_html 'ajax-modal', :partial => 'issue_categories/new_modal'
+          page << "showModal('ajax-modal', '600px');"
+          page << "Form.Element.focus('issue_category_name');"
+        end
+      end
+    end
   end
 
   def create
@@ -53,9 +64,11 @@ class IssueCategoriesController < ApplicationController
           redirect_to :controller => 'projects', :action => 'settings', :tab => 'categories', :id => @project
         end
         format.js do
-          # IE doesn't support the replace_html rjs method for select box options
-          render(:update) {|page| page.replace "issue_category_id",
-            content_tag('select', content_tag('option') + options_from_collection_for_select(@project.issue_categories, 'id', 'name', @category.id), :id => 'issue_category_id', :name => 'issue[category_id]')
+          render(:update) {|page| 
+            page << 'hideModal();'
+            # IE doesn't support the replace_html rjs method for select box options
+            page.replace "issue_category_id",
+              content_tag('select', content_tag('option') + options_from_collection_for_select(@project.issue_categories, 'id', 'name', @category.id), :id => 'issue_category_id', :name => 'issue[category_id]')
           }
         end
         format.api { render :action => 'show', :status => :created, :location => issue_category_path(@category) }
@@ -64,7 +77,10 @@ class IssueCategoriesController < ApplicationController
       respond_to do |format|
         format.html { render :action => 'new'}
         format.js do
-          render(:update) {|page| page.alert(@category.errors.full_messages.join('\n')) }
+          render :update do |page|
+            page.replace_html 'ajax-modal', :partial => 'issue_categories/new_modal'
+            page << "Form.Element.focus('version_name');"
+          end
         end
         format.api { render_validation_errors(@category) }
       end

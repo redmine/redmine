@@ -18,12 +18,10 @@
 
 <% if @issue.safe_attribute?('category_id') && @issue.project.issue_categories.any? %>
 <p><%= f.select :category_id, (@issue.project.issue_categories.collect {|c| [c.name, c.id]}), :include_blank => true %>
-<%= prompt_to_remote(image_tag('add.png', :style => 'vertical-align: middle;'),
-                     l(:label_issue_category_new),
-                     'issue_category[name]',
-                     {:controller => 'issue_categories', :action => 'create', :project_id => @issue.project},
-                     :title => l(:label_issue_category_new),
-                     :tabindex => 199) if User.current.allowed_to?(:manage_categories, @issue.project) %></p>
+<%= link_to_remote(image_tag('add.png', :style => 'vertical-align: middle;'),
+                   {:url => new_project_issue_category_path(@issue.project), :method => 'get'},
+                   :title => l(:label_issue_category_new),
+                   :tabindex => 200) if User.current.allowed_to?(:manage_categories, @issue.project) %></p>
 <% end %>
 
 <% if @issue.safe_attribute?('fixed_version_id') && @issue.assignable_versions.any? %>

@@ -79,7 +79,9 @@ class IssueCategoriesControllerTest < ActionController::TestCase
     end
 
     assert_response :success
-    assert_match /alert/, @response.body
+    assert_select_rjs :replace_html, "ajax-modal" do
+      assert_select "div#errorExplanation"
+    end
   end
 
   def test_edit
