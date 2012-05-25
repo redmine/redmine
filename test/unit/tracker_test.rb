@@ -18,7 +18,15 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class TrackerTest < ActiveSupport::TestCase
-  fixtures :trackers, :workflows, :issue_statuses, :roles
+  fixtures :trackers, :workflows, :issue_statuses, :roles, :issues
+
+  def test_sorted_scope
+    assert_equal Tracker.all.sort, Tracker.sorted.all
+  end
+
+  def test_named_scope
+    assert_equal Tracker.find_by_name('Feature'), Tracker.named('feature').first
+  end
 
   def test_copy_workflows
     source = Tracker.find(1)
@@ -56,5 +64,26 @@ class TrackerTest < ActiveSupport::TestCase
     b = Tracker.new(:name => 'Tracker B', :position => 1)
 
     assert_equal [b, a], [a, b].sort
+  end
+
+  def test_destroying_a_tracker_without_issues_should_not_raise_an_error
+    tracker = Tracker.find(1)
+    Issue.delete_all :tracker_id => tracker.id
+
+    assert_difference 'Tracker.count', -1 do
+      assert_nothing_raised do
+        tracker.destroy
+      end
+    end
+  end
+
+  def test_destroying_a_tracker_with_issues_should_raise_an_error
+    tracker = Tracker.find(1)
+
+    assert_no_difference 'Tracker.count' do
+      assert_raise Exception do
+        tracker.destroy
+      end
+    end
   end
 end

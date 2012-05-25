@@ -50,7 +50,7 @@ class Workflow < ActiveRecord::Base
     target_trackers = [target_trackers].flatten.compact
     target_roles = [target_roles].flatten.compact
 
-    target_trackers = Tracker.all if target_trackers.empty?
+    target_trackers = Tracker.sorted.all if target_trackers.empty?
     target_roles = Role.all if target_roles.empty?
 
     target_trackers.each do |target_tracker|

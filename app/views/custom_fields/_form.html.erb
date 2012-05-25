@@ -89,7 +89,7 @@ function toggle_custom_field_format() {
 when "IssueCustomField" %>
 
     <fieldset><legend><%=l(:label_tracker_plural)%></legend>
-    <% Tracker.all.each do |tracker| %>
+    <% Tracker.sorted.all.each do |tracker| %>
       <%= check_box_tag "custom_field[tracker_ids][]",
                         tracker.id,
                         (@custom_field.trackers.include? tracker),

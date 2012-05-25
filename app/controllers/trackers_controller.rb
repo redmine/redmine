@@ -29,7 +29,7 @@ class TrackersController < ApplicationController
         render :action => "index", :layout => false if request.xhr?
       }
       format.api {
-        @trackers = Tracker.all
+        @trackers = Tracker.sorted.all
       }
     end
   end

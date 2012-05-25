@@ -121,7 +121,7 @@ class Project < ActiveRecord::Base
       self.enabled_module_names = Setting.default_projects_modules
     end
     if !initialized.key?('trackers') && !initialized.key?('tracker_ids')
-      self.trackers = Tracker.all
+      self.trackers = Tracker.sorted.all
     end
   end
 
