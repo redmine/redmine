@@ -175,7 +175,7 @@ class Attachment < ActiveRecord::Base
   def self.find_by_token(token)
     if token.to_s =~ /^(\d+)\.([0-9a-f]+)$/
       attachment_id, attachment_digest = $1, $2
-      attachment = Attachment.first(:conditions => {:id => attachment_id, :digest => attachment_digest})
+      attachment = Attachment.where(:id => attachment_id, :digest => attachment_digest).first
       if attachment && attachment.container.nil?
         attachment
       end
@@ -200,8 +200,7 @@ class Attachment < ActiveRecord::Base
   end
 
   def self.prune(age=1.day)
-    attachments = Attachment.all(:conditions => ["created_on < ? AND (container_type IS NULL OR container_type = '')", Time.now - age])
-    attachments.each(&:destroy)
+    Attachment.where("created_on < ? AND (container_type IS NULL OR container_type = '')", Time.now - age).destroy_all
   end
 
   private
