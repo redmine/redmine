@@ -123,7 +123,7 @@ class Attachment < ActiveRecord::Base
 
   # Deletes the file from the file system if it's not referenced by other attachments
   def delete_from_disk
-    if Attachment.first(:conditions => ["disk_filename = ? AND id <> ?", disk_filename, id]).nil?
+    if Attachment.where("disk_filename = ? AND id <> ?", disk_filename, id).empty?
       delete_from_disk!
     end
   end
