@@ -20,6 +20,19 @@ require File.expand_path('../../test_helper', __FILE__)
 class RoleTest < ActiveSupport::TestCase
   fixtures :roles, :workflows
 
+  def test_sorted_scope
+    assert_equal Role.all.sort, Role.sorted.all
+  end
+
+  def test_givable_scope
+    assert_equal Role.all.reject(&:builtin?).sort, Role.givable.all
+  end
+
+  def test_builtin_scope
+    assert_equal Role.all.select(&:builtin?).sort, Role.builtin(true).all.sort
+    assert_equal Role.all.reject(&:builtin?).sort, Role.builtin(false).all.sort
+  end
+
   def test_copy_workflows
     source = Role.find(1)
     assert_equal 90, source.workflows.size
@@ -55,6 +68,10 @@ class RoleTest < ActiveSupport::TestCase
     assert_equal 'Manager', Role.find(1).name
     assert_equal 'Anonyme', Role.anonymous.name
     assert_equal 'Non membre', Role.non_member.name
+  end
+
+  def test_find_all_givable
+    assert_equal Role.all.reject(&:builtin?).sort, Role.find_all_givable
   end
 
   context "#anonymous" do

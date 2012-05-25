@@ -25,8 +25,8 @@ class Workflow < ActiveRecord::Base
   # Returns workflow transitions count by tracker and role
   def self.count_by_tracker_and_role
     counts = connection.select_all("SELECT role_id, tracker_id, count(id) AS c FROM #{Workflow.table_name} GROUP BY role_id, tracker_id")
-    roles = Role.find(:all, :order => 'builtin, position')
-    trackers = Tracker.find(:all, :order => 'position')
+    roles = Role.sorted.all
+    trackers = Tracker.sorted.all
 
     result = []
     trackers.each do |tracker|

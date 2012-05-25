@@ -26,11 +26,11 @@ class Role < ActiveRecord::Base
     ['own', :label_issues_visibility_own]
   ]
 
-  scope :sorted, {:order => 'builtin, position'}
-  scope :givable, { :conditions => "builtin = 0", :order => 'position' }
+  scope :sorted, order("#{table_name}.builtin ASC, #{table_name}.position ASC")
+  scope :givable, order("#{table_name}.position ASC").where(:builtin => 0)
   scope :builtin, lambda { |*args|
-    compare = 'not' if args.first == true
-    { :conditions => "#{compare} builtin = 0" }
+    compare = (args.first == true ? 'not' : '')
+    where("#{compare} builtin = 0")
   }
 
   before_destroy :check_deletable
@@ -87,7 +87,15 @@ class Role < ActiveRecord::Base
   end
 
   def <=>(role)
-    role ? position <=> role.position : -1
+    if role
+      if builtin == role.builtin
+        position <=> role.position
+      else
+        builtin <=> role.builtin
+      end
+    else
+      -1
+    end
   end
 
   def to_s
@@ -134,7 +142,7 @@ class Role < ActiveRecord::Base
 
   # Find all the roles that can be given to a project member
   def self.find_all_givable
-    find(:all, :conditions => {:builtin => 0}, :order => 'position')
+    Role.givable.all
   end
 
   # Return the builtin 'non member' role.  If the role doesn't exist,
@@ -165,7 +173,7 @@ private
   end
 
   def self.find_or_create_system_role(builtin, name)
-    role = first(:conditions => {:builtin => builtin})
+    role = where(:builtin => builtin).first
     if role.nil?
       role = create(:name => name, :position => 0) do |r|
         r.builtin = builtin
