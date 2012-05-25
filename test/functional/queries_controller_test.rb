@@ -149,6 +149,7 @@ class QueriesControllerTest < ActionController::TestCase
     end
     assert_response :success
     assert_template 'new'
+    assert_select 'input[name=?]', 'query[name]'
   end
 
   def test_edit_global_public_query

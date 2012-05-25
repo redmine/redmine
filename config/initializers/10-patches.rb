@@ -43,7 +43,7 @@ module ActionView
   end
 end
 
-ActionView::Base.field_error_proc = Proc.new{ |html_tag, instance| "#{html_tag}" }
+ActionView::Base.field_error_proc = Proc.new{ |html_tag, instance| html_tag || ''.html_safe }
 
 require 'mail'
 
