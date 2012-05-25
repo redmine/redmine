@@ -20,6 +20,19 @@ require File.expand_path('../../test_helper', __FILE__)
 class IssuePriorityTest < ActiveSupport::TestCase
   fixtures :enumerations, :issues
 
+  def test_named_scope
+    assert_equal Enumeration.find_by_name('Normal'), Enumeration.named('normal').first
+  end
+
+  def test_default_should_return_the_default_priority
+    assert_equal Enumeration.find_by_name('Normal'), IssuePriority.default
+  end
+
+  def test_default_should_return_nil_when_no_default_priority
+    IssuePriority.update_all :is_default => false
+    assert_nil IssuePriority.default
+  end
+
   def test_should_be_an_enumeration
     assert IssuePriority.ancestors.include?(Enumeration)
   end
