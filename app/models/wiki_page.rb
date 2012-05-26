@@ -143,7 +143,7 @@ class WikiPage < ActiveRecord::Base
       if time = read_attribute(:updated_on)
         # content updated_on was eager loaded with the page
         begin
-          @updated_on = Time.zone ? Time.zone.parse(time.to_s) : Time.parse(time.to_s)
+          @updated_on = (self.class.default_timezone == :utc ? Time.parse(time.to_s).utc : Time.parse(time.to_s).localtime)
         rescue
         end
       else
