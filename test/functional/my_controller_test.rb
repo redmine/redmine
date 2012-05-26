@@ -22,7 +22,8 @@ require 'my_controller'
 class MyController; def rescue_action(e) raise e end; end
 
 class MyControllerTest < ActionController::TestCase
-  fixtures :users, :user_preferences, :roles, :projects, :issues, :issue_statuses, :trackers, :enumerations, :custom_fields, :auth_sources
+  fixtures :users, :user_preferences, :roles, :projects, :members, :member_roles,
+  :issues, :issue_statuses, :trackers, :enumerations, :custom_fields, :auth_sources
 
   def setup
     @controller = MyController.new
@@ -41,6 +42,20 @@ class MyControllerTest < ActionController::TestCase
     get :page
     assert_response :success
     assert_template 'page'
+  end
+
+  def test_page_with_timelog_block
+    preferences = User.find(2).pref
+    preferences[:my_page_layout] = {'top' => ['timelog']}
+    preferences.save!
+    TimeEntry.create!(:user => User.find(2), :spent_on => Date.yesterday, :issue_id => 1, :hours => 2.5, :activity_id => 10)
+
+    get :page
+    assert_response :success
+    assert_select 'tr.time-entry' do
+      assert_select 'td.subject a[href=/issues/1]'
+      assert_select 'td.hours', :text => '2.50'
+    end
   end
 
   def test_my_account_should_show_editable_custom_fields
