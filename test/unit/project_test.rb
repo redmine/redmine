@@ -106,6 +106,20 @@ class ProjectTest < ActiveSupport::TestCase
     end
   end
 
+  def test_identifier_should_not_be_frozen_for_a_new_project
+    assert_equal false, Project.new.identifier_frozen?
+  end
+
+  def test_identifier_should_not_be_frozen_for_a_saved_project_with_blank_identifier
+    Project.update_all(["identifier = ''"], "id = 1")
+
+    assert_equal false, Project.find(1).identifier_frozen?
+  end
+
+  def test_identifier_should_be_frozen_for_a_saved_project_with_valid_identifier
+    assert_equal true, Project.find(1).identifier_frozen?
+  end
+
   def test_members_should_be_active_users
     Project.all.each do |project|
       assert_nil project.members.detect {|m| !(m.user.is_a?(User) && m.user.active?) }

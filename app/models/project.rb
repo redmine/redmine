@@ -130,7 +130,7 @@ class Project < ActiveRecord::Base
   end
 
   def identifier_frozen?
-    errors[:identifier].nil? && !(new_record? || identifier.blank?)
+    errors[:identifier].blank? && !(new_record? || identifier.blank?)
   end
 
   # returns latest created projects
