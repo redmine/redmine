@@ -370,6 +370,15 @@ class User < Principal
     end
   end
 
+  # Returns the day of +time+ according to user's time zone
+  def time_to_date(time)
+    if time_zone.nil?
+      time.to_date
+    else
+      time.in_time_zone(time_zone).to_date
+    end
+  end
+
   def logged?
     true
   end

@@ -178,7 +178,7 @@ module ApplicationHelper
   end
 
   def format_activity_day(date)
-    date == Date.today ? l(:label_today).titleize : format_date(date)
+    date == User.current.today ? l(:label_today).titleize : format_date(date)
   end
 
   def format_activity_description(text)
@@ -352,7 +352,7 @@ module ApplicationHelper
   def time_tag(time)
     text = distance_of_time_in_words(Time.now, time)
     if @project
-      link_to(text, {:controller => 'activities', :action => 'index', :id => @project, :from => time.to_date}, :title => format_time(time))
+      link_to(text, {:controller => 'activities', :action => 'index', :id => @project, :from => User.current.time_to_date(time)}, :title => format_time(time))
     else
       content_tag('acronym', text, :title => format_time(time))
     end
