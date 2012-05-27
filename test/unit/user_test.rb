@@ -424,7 +424,38 @@ class UserTest < ActiveSupport::TestCase
       assert_equal 'jsmith', @jsmith.reload.name
     end
   end
-  
+
+  def test_today_should_return_the_day_according_to_user_time_zone
+    preference = User.find(1).pref
+    date = Date.new(2012, 05, 15)
+    time = Time.gm(2012, 05, 15, 23, 30).utc # 2012-05-15 23:30 UTC
+    Date.stubs(:today).returns(date)
+    Time.stubs(:now).returns(time)
+
+    preference.update_attribute :time_zone, 'Baku' # UTC+4
+    assert_equal '2012-05-16', User.find(1).today.to_s
+
+    preference.update_attribute :time_zone, 'La Paz' # UTC-4
+    assert_equal '2012-05-15', User.find(1).today.to_s
+
+    preference.update_attribute :time_zone, ''
+    assert_equal '2012-05-15', User.find(1).today.to_s
+  end
+
+  def test_time_to_date_should_return_the_date_according_to_user_time_zone
+    preference = User.find(1).pref
+    time = Time.gm(2012, 05, 15, 23, 30).utc # 2012-05-15 23:30 UTC
+
+    preference.update_attribute :time_zone, 'Baku' # UTC+4
+    assert_equal '2012-05-16', User.find(1).time_to_date(time).to_s
+
+    preference.update_attribute :time_zone, 'La Paz' # UTC-4
+    assert_equal '2012-05-15', User.find(1).time_to_date(time).to_s
+
+    preference.update_attribute :time_zone, ''
+    assert_equal '2012-05-15', User.find(1).time_to_date(time).to_s
+  end
+
   def test_fields_for_order_statement_should_return_fields_according_user_format_setting
     with_settings :user_format => 'lastname_coma_firstname' do
       assert_equal ['users.lastname', 'users.firstname', 'users.id'], User.fields_for_order_statement
