@@ -23,6 +23,10 @@ class RedminePluginGenerator < Rails::Generators::NamedBase
     empty_directory "#{plugin_path}/assets/stylesheets"
     empty_directory "#{plugin_path}/config/locales"
     empty_directory "#{plugin_path}/test"
+    empty_directory "#{plugin_path}/test/fixtures"
+    empty_directory "#{plugin_path}/test/unit"
+    empty_directory "#{plugin_path}/test/functional"
+    empty_directory "#{plugin_path}/test/integration"
 
     template 'README.rdoc',    "#{plugin_path}/README.rdoc"
     template 'init.rb.erb',   "#{plugin_path}/init.rb"
