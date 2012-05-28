@@ -24,7 +24,9 @@ class UsersController; def rescue_action(e) raise e end; end
 class UsersControllerTest < ActionController::TestCase
   include Redmine::I18n
 
-  fixtures :users, :projects, :members, :member_roles, :roles, :custom_fields, :custom_values, :groups_users, :auth_sources
+  fixtures :users, :projects, :members, :member_roles, :roles,
+           :custom_fields, :custom_values, :groups_users,
+           :auth_sources
 
   def setup
     @controller = UsersController.new
@@ -156,7 +158,6 @@ class UsersControllerTest < ActionController::TestCase
 
   def test_new
     get :new
-
     assert_response :success
     assert_template :new
     assert assigns(:user)
@@ -228,14 +229,12 @@ class UsersControllerTest < ActionController::TestCase
     assert_no_difference 'User.count' do
       post :create, :user => {}
     end
-
     assert_response :success
     assert_template 'new'
   end
 
   def test_edit
     get :edit, :id => 2
-
     assert_response :success
     assert_template 'edit'
     assert_equal User.find(2), assigns(:user)
@@ -243,8 +242,9 @@ class UsersControllerTest < ActionController::TestCase
 
   def test_update
     ActionMailer::Base.deliveries.clear
-    put :update, :id => 2, :user => {:firstname => 'Changed', :mail_notification => 'only_assigned'}, :pref => {:hide_mail => '1', :comments_sorting => 'desc'}
-
+    put :update, :id => 2,
+        :user => {:firstname => 'Changed', :mail_notification => 'only_assigned'},
+        :pref => {:hide_mail => '1', :comments_sorting => 'desc'}
     user = User.find(2)
     assert_equal 'Changed', user.firstname
     assert_equal 'only_assigned', user.mail_notification
@@ -257,14 +257,12 @@ class UsersControllerTest < ActionController::TestCase
     assert_no_difference 'User.count' do
       put :update, :id => 2, :user => {:firstname => ''}
     end
-
     assert_response :success
     assert_template 'edit'
   end
 
   def test_update_with_group_ids_should_assign_groups
     put :update, :id => 2, :user => {:group_ids => ['10']}
-
     user = User.find(2)
     assert_equal [10], user.group_ids
   end
