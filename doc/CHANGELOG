@@ -4,6 +4,20 @@ Redmine - project management software
 Copyright (C) 2006-2012  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2012-05-28 v2.0.1
+
+* Defect #10923: After creating a new Version Redmine jumps back to "Information"
+* Defect #10932: Links to delete watchers are escaped when gravatars are enabled
+* Defect #10964: Updated column doesn't get updated on issues
+* Defect #10965: rake yard does not work for generating documentation.
+* Defect #10972: Columns selection not displayed on the custom query form
+* Defect #10991: My page > Spent time 'project' column is html-encoded
+* Defect #10996: Time zones lost when upgrading from Redmine 1.4 to 2.0
+* Defect #11013: Fetching Email from IMAP/POP3 - uninitialized constant RAILS_DEFAULT_LOGGER error
+* Defect #11024: redmine_plugin_model generator does not create the migration
+* Defect #11027: Saving new query without name causes escaping of input field
+* Defect #11028: Project identifier can be updated
+
 == 2012-05-15 v2.0.0
 
 * Feature #4796: Rails 3 support
