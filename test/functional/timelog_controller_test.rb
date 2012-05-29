@@ -65,6 +65,17 @@ class TimelogControllerTest < ActionController::TestCase
     assert_select 'input[name=project_id]', 0
   end
 
+  def test_new_without_project_should_prefill_the_form
+    @request.session[:user_id] = 3
+    get :new, :time_entry => {:project_id => '1'}
+    assert_response :success
+    assert_template 'new'
+    assert_select 'select[name=?]', 'time_entry[project_id]' do
+      assert_select 'option[value=1][selected=selected]'
+    end
+    assert_select 'input[name=project_id]', 0
+  end
+
   def test_new_without_project_should_deny_without_permission
     Role.all.each {|role| role.remove_permission! :log_time}
     @request.session[:user_id] = 3
@@ -146,7 +157,7 @@ class TimelogControllerTest < ActionController::TestCase
                                 :spent_on => '2008-03-14',
                                 :hours => '7.3'},
                 :continue => '1'
-    assert_redirected_to '/projects/ecookbook/time_entries/new'
+    assert_redirected_to '/projects/ecookbook/time_entries/new?time_entry%5Bactivity_id%5D=11&time_entry%5Bissue_id%5D='
   end
 
   def test_create_and_continue_with_issue_id
@@ -157,7 +168,7 @@ class TimelogControllerTest < ActionController::TestCase
                                 :spent_on => '2008-03-14',
                                 :hours => '7.3'},
                 :continue => '1'
-    assert_redirected_to '/projects/ecookbook/issues/1/time_entries/new'
+    assert_redirected_to '/projects/ecookbook/issues/1/time_entries/new?time_entry%5Bactivity_id%5D=11&time_entry%5Bissue_id%5D=1'
   end
 
   def test_create_and_continue_without_project
@@ -169,7 +180,7 @@ class TimelogControllerTest < ActionController::TestCase
                                 :hours => '7.3'},
                   :continue => '1'
 
-    assert_redirected_to '/time_entries/new'
+    assert_redirected_to '/time_entries/new?time_entry%5Bactivity_id%5D=11&time_entry%5Bissue_id%5D=&time_entry%5Bproject_id%5D=1'
   end
 
   def test_create_without_log_time_permission_should_be_denied
