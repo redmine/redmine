@@ -44,6 +44,7 @@ class TimelogControllerTest < ActionController::TestCase
     # Default activity selected
     assert_tag :tag => 'option', :attributes => { :selected => 'selected' },
                                  :content => 'Development'
+    assert_select 'input[name=project_id][value=1]'
   end
 
   def test_get_new_should_only_show_active_time_entry_activities
@@ -61,6 +62,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'new'
     assert_tag 'select', :attributes => {:name => 'time_entry[project_id]'}
+    assert_select 'input[name=project_id]', 0
   end
 
   def test_new_without_project_should_deny_without_permission
