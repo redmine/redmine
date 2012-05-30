@@ -3,6 +3,7 @@
 require 'optparse'
 require 'find'
 require 'etc'
+require 'rubygems'
 
 Version = "1.4"
 SUPPORTED_SCM = %w( Subversion Darcs Mercurial Bazaar Git Filesystem )
