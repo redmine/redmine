@@ -36,7 +36,7 @@ module CollectiveIdea #:nodoc:
       #   Example: <tt>acts_as_nested_set :counter_cache => :children_count</tt>
       #
       # See CollectiveIdea::Acts::NestedSet::Model::ClassMethods for a list of class methods and
-      # CollectiveIdea::Acts::NestedSet::Model::InstanceMethods for a list of instance methods added
+      # CollectiveIdea::Acts::NestedSet::Model for a list of instance methods added
       # to acts_as_nested_set models
       def acts_as_nested_set(options = {})
         options = {
@@ -222,343 +222,341 @@ module CollectiveIdea #:nodoc:
         #
         #   category.self_and_descendants.count
         #   category.ancestors.find(:all, :conditions => "name like '%foo%'")
-        module InstanceMethods
-          # Value of the parent column
-          def parent_id
-            self[parent_column_name]
+
+        # Value of the parent column
+        def parent_id
+          self[parent_column_name]
+        end
+
+        # Value of the left column
+        def left
+          self[left_column_name]
+        end
+
+        # Value of the right column
+        def right
+          self[right_column_name]
+        end
+
+        # Returns true if this is a root node.
+        def root?
+          parent_id.nil?
+        end
+
+        def leaf?
+          new_record? || (right - left == 1)
+        end
+
+        # Returns true is this is a child node
+        def child?
+          !parent_id.nil?
+        end
+
+        # Returns root
+        def root
+          self_and_ancestors.where(parent_column_name => nil).first
+        end
+
+        # Returns the array of all parents and self
+        def self_and_ancestors
+          nested_set_scope.where([
+            "#{self.class.quoted_table_name}.#{quoted_left_column_name} <= ? AND #{self.class.quoted_table_name}.#{quoted_right_column_name} >= ?", left, right
+          ])
+        end
+
+        # Returns an array of all parents
+        def ancestors
+          without_self self_and_ancestors
+        end
+
+        # Returns the array of all children of the parent, including self
+        def self_and_siblings
+          nested_set_scope.where(parent_column_name => parent_id)
+        end
+
+        # Returns the array of all children of the parent, except self
+        def siblings
+          without_self self_and_siblings
+        end
+
+        # Returns a set of all of its nested children which do not have children
+        def leaves
+          descendants.where("#{self.class.quoted_table_name}.#{quoted_right_column_name} - #{self.class.quoted_table_name}.#{quoted_left_column_name} = 1")
+        end
+
+        # Returns the level of this object in the tree
+        # root level is 0
+        def level
+          parent_id.nil? ? 0 : ancestors.count
+        end
+
+        # Returns a set of itself and all of its nested children
+        def self_and_descendants
+          nested_set_scope.where([
+            "#{self.class.quoted_table_name}.#{quoted_left_column_name} >= ? AND #{self.class.quoted_table_name}.#{quoted_right_column_name} <= ?", left, right
+          ])
+        end
+
+        # Returns a set of all of its children and nested children
+        def descendants
+          without_self self_and_descendants
+        end
+
+        def is_descendant_of?(other)
+          other.left < self.left && self.left < other.right && same_scope?(other)
+        end
+
+        def is_or_is_descendant_of?(other)
+          other.left <= self.left && self.left < other.right && same_scope?(other)
+        end
+
+        def is_ancestor_of?(other)
+          self.left < other.left && other.left < self.right && same_scope?(other)
+        end
+
+        def is_or_is_ancestor_of?(other)
+          self.left <= other.left && other.left < self.right && same_scope?(other)
+        end
+
+        # Check if other model is in the same scope
+        def same_scope?(other)
+          Array(acts_as_nested_set_options[:scope]).all? do |attr|
+            self.send(attr) == other.send(attr)
           end
+        end
 
-          # Value of the left column
-          def left
-            self[left_column_name]
+        # Find the first sibling to the left
+        def left_sibling
+          siblings.where(["#{self.class.quoted_table_name}.#{quoted_left_column_name} < ?", left]).
+                  order("#{self.class.quoted_table_name}.#{quoted_left_column_name} DESC").last
+        end
+
+        # Find the first sibling to the right
+        def right_sibling
+          siblings.where(["#{self.class.quoted_table_name}.#{quoted_left_column_name} > ?", left]).first
+        end
+
+        # Shorthand method for finding the left sibling and moving to the left of it.
+        def move_left
+          move_to_left_of left_sibling
+        end
+
+        # Shorthand method for finding the right sibling and moving to the right of it.
+        def move_right
+          move_to_right_of right_sibling
+        end
+
+        # Move the node to the left of another node (you can pass id only)
+        def move_to_left_of(node)
+          move_to node, :left
+        end
+
+        # Move the node to the left of another node (you can pass id only)
+        def move_to_right_of(node)
+          move_to node, :right
+        end
+
+        # Move the node to the child of another node (you can pass id only)
+        def move_to_child_of(node)
+          move_to node, :child
+        end
+
+        # Move the node to root nodes
+        def move_to_root
+          move_to nil, :root
+        end
+
+        def move_possible?(target)
+          self != target && # Can't target self
+          same_scope?(target) && # can't be in different scopes
+          # !(left..right).include?(target.left..target.right) # this needs tested more
+          # detect impossible move
+          !((left <= target.left && right >= target.left) or (left <= target.right && right >= target.right))
+        end
+
+        def to_text
+          self_and_descendants.map do |node|
+            "#{'*'*(node.level+1)} #{node.id} #{node.to_s} (#{node.parent_id}, #{node.left}, #{node.right})"
+          end.join("\n")
+        end
+
+      protected
+
+        def without_self(scope)
+          scope.where(["#{self.class.quoted_table_name}.#{self.class.primary_key} != ?", self])
+        end
+
+        # All nested set queries should use this nested_set_scope, which performs finds on
+        # the base ActiveRecord class, using the :scope declared in the acts_as_nested_set
+        # declaration.
+        def nested_set_scope(options = {})
+          options = {:order => "#{self.class.quoted_table_name}.#{quoted_left_column_name}"}.merge(options)
+          scopes = Array(acts_as_nested_set_options[:scope])
+          options[:conditions] = scopes.inject({}) do |conditions,attr|
+            conditions.merge attr => self[attr]
+          end unless scopes.empty?
+          self.class.base_class.scoped options
+        end
+
+        def store_new_parent
+          @move_to_new_parent_id = send("#{parent_column_name}_changed?") ? parent_id : false
+          true # force callback to return true
+        end
+
+        def move_to_new_parent
+          if @move_to_new_parent_id.nil?
+            move_to_root
+          elsif @move_to_new_parent_id
+            move_to_child_of(@move_to_new_parent_id)
           end
+        end
 
-          # Value of the right column
-          def right
-            self[right_column_name]
+        # on creation, set automatically lft and rgt to the end of the tree
+        def set_default_left_and_right
+          highest_right_row = nested_set_scope(:order => "#{quoted_right_column_name} desc").find(:first, :limit => 1,:lock => true )
+          maxright = highest_right_row ? (highest_right_row[right_column_name] || 0) : 0
+          # adds the new node to the right of all existing nodes
+          self[left_column_name] = maxright + 1
+          self[right_column_name] = maxright + 2
+        end
+
+        def in_tenacious_transaction(&block)
+          retry_count = 0
+          begin
+            transaction(&block)
+          rescue ActiveRecord::StatementInvalid => error
+            raise unless connection.open_transactions.zero?
+            raise unless error.message =~ /Deadlock found when trying to get lock|Lock wait timeout exceeded/
+            raise unless retry_count < 10
+            retry_count += 1
+            logger.info "Deadlock detected on retry #{retry_count}, restarting transaction"
+            sleep(rand(retry_count)*0.1) # Aloha protocol
+            retry
           end
+        end
 
-          # Returns true if this is a root node.
-          def root?
-            parent_id.nil?
-          end
+        # Prunes a branch off of the tree, shifting all of the elements on the right
+        # back to the left so the counts still work.
+        def destroy_descendants
+          return if right.nil? || left.nil? || skip_before_destroy
 
-          def leaf?
-            new_record? || (right - left == 1)
-          end
+          in_tenacious_transaction do
+            reload_nested_set
+            # select the rows in the model that extend past the deletion point and apply a lock
+            self.class.base_class.find(:all,
+              :select => "id",
+              :conditions => ["#{quoted_left_column_name} >= ?", left],
+              :lock => true
+            )
 
-          # Returns true is this is a child node
-          def child?
-            !parent_id.nil?
-          end
-
-          # Returns root
-          def root
-            self_and_ancestors.where(parent_column_name => nil).first
-          end
-
-          # Returns the array of all parents and self
-          def self_and_ancestors
-            nested_set_scope.where([
-              "#{self.class.quoted_table_name}.#{quoted_left_column_name} <= ? AND #{self.class.quoted_table_name}.#{quoted_right_column_name} >= ?", left, right
-            ])
-          end
-
-          # Returns an array of all parents
-          def ancestors
-            without_self self_and_ancestors
-          end
-
-          # Returns the array of all children of the parent, including self
-          def self_and_siblings
-            nested_set_scope.where(parent_column_name => parent_id)
-          end
-
-          # Returns the array of all children of the parent, except self
-          def siblings
-            without_self self_and_siblings
-          end
-
-          # Returns a set of all of its nested children which do not have children
-          def leaves
-            descendants.where("#{self.class.quoted_table_name}.#{quoted_right_column_name} - #{self.class.quoted_table_name}.#{quoted_left_column_name} = 1")
-          end
-
-          # Returns the level of this object in the tree
-          # root level is 0
-          def level
-            parent_id.nil? ? 0 : ancestors.count
-          end
-
-          # Returns a set of itself and all of its nested children
-          def self_and_descendants
-            nested_set_scope.where([
-              "#{self.class.quoted_table_name}.#{quoted_left_column_name} >= ? AND #{self.class.quoted_table_name}.#{quoted_right_column_name} <= ?", left, right
-            ])
-          end
-
-          # Returns a set of all of its children and nested children
-          def descendants
-            without_self self_and_descendants
-          end
-
-          def is_descendant_of?(other)
-            other.left < self.left && self.left < other.right && same_scope?(other)
-          end
-
-          def is_or_is_descendant_of?(other)
-            other.left <= self.left && self.left < other.right && same_scope?(other)
-          end
-
-          def is_ancestor_of?(other)
-            self.left < other.left && other.left < self.right && same_scope?(other)
-          end
-
-          def is_or_is_ancestor_of?(other)
-            self.left <= other.left && other.left < self.right && same_scope?(other)
-          end
-
-          # Check if other model is in the same scope
-          def same_scope?(other)
-            Array(acts_as_nested_set_options[:scope]).all? do |attr|
-              self.send(attr) == other.send(attr)
-            end
-          end
-
-          # Find the first sibling to the left
-          def left_sibling
-            siblings.where(["#{self.class.quoted_table_name}.#{quoted_left_column_name} < ?", left]).
-                    order("#{self.class.quoted_table_name}.#{quoted_left_column_name} DESC").last
-          end
-
-          # Find the first sibling to the right
-          def right_sibling
-            siblings.where(["#{self.class.quoted_table_name}.#{quoted_left_column_name} > ?", left]).first
-          end
-
-          # Shorthand method for finding the left sibling and moving to the left of it.
-          def move_left
-            move_to_left_of left_sibling
-          end
-
-          # Shorthand method for finding the right sibling and moving to the right of it.
-          def move_right
-            move_to_right_of right_sibling
-          end
-
-          # Move the node to the left of another node (you can pass id only)
-          def move_to_left_of(node)
-            move_to node, :left
-          end
-
-          # Move the node to the left of another node (you can pass id only)
-          def move_to_right_of(node)
-            move_to node, :right
-          end
-
-          # Move the node to the child of another node (you can pass id only)
-          def move_to_child_of(node)
-            move_to node, :child
-          end
-
-          # Move the node to root nodes
-          def move_to_root
-            move_to nil, :root
-          end
-
-          def move_possible?(target)
-            self != target && # Can't target self
-            same_scope?(target) && # can't be in different scopes
-            # !(left..right).include?(target.left..target.right) # this needs tested more
-            # detect impossible move
-            !((left <= target.left && right >= target.left) or (left <= target.right && right >= target.right))
-          end
-
-          def to_text
-            self_and_descendants.map do |node|
-              "#{'*'*(node.level+1)} #{node.id} #{node.to_s} (#{node.parent_id}, #{node.left}, #{node.right})"
-            end.join("\n")
-          end
-
-        protected
-
-          def without_self(scope)
-            scope.where(["#{self.class.quoted_table_name}.#{self.class.primary_key} != ?", self])
-          end
-
-          # All nested set queries should use this nested_set_scope, which performs finds on
-          # the base ActiveRecord class, using the :scope declared in the acts_as_nested_set
-          # declaration.
-          def nested_set_scope(options = {})
-            options = {:order => "#{self.class.quoted_table_name}.#{quoted_left_column_name}"}.merge(options)
-            scopes = Array(acts_as_nested_set_options[:scope])
-            options[:conditions] = scopes.inject({}) do |conditions,attr|
-              conditions.merge attr => self[attr]
-            end unless scopes.empty?
-            self.class.base_class.scoped options
-          end
-
-          def store_new_parent
-            @move_to_new_parent_id = send("#{parent_column_name}_changed?") ? parent_id : false
-            true # force callback to return true
-          end
-
-          def move_to_new_parent
-            if @move_to_new_parent_id.nil?
-              move_to_root
-            elsif @move_to_new_parent_id
-              move_to_child_of(@move_to_new_parent_id)
-            end
-          end
-
-          # on creation, set automatically lft and rgt to the end of the tree
-          def set_default_left_and_right
-            highest_right_row = nested_set_scope(:order => "#{quoted_right_column_name} desc").find(:first, :limit => 1,:lock => true )
-            maxright = highest_right_row ? (highest_right_row[right_column_name] || 0) : 0
-            # adds the new node to the right of all existing nodes
-            self[left_column_name] = maxright + 1
-            self[right_column_name] = maxright + 2
-          end
-
-          def in_tenacious_transaction(&block)
-            retry_count = 0
-            begin
-              transaction(&block)
-            rescue ActiveRecord::StatementInvalid => error
-              raise unless connection.open_transactions.zero?
-              raise unless error.message =~ /Deadlock found when trying to get lock|Lock wait timeout exceeded/
-              raise unless retry_count < 10
-              retry_count += 1
-              logger.info "Deadlock detected on retry #{retry_count}, restarting transaction"
-              sleep(rand(retry_count)*0.1) # Aloha protocol
-              retry
-            end
-          end
-
-          # Prunes a branch off of the tree, shifting all of the elements on the right
-          # back to the left so the counts still work.
-          def destroy_descendants
-            return if right.nil? || left.nil? || skip_before_destroy
-
-            in_tenacious_transaction do
-              reload_nested_set
-              # select the rows in the model that extend past the deletion point and apply a lock
-              self.class.base_class.find(:all,
-                :select => "id",
-                :conditions => ["#{quoted_left_column_name} >= ?", left],
-                :lock => true
-              )
-
-              if acts_as_nested_set_options[:dependent] == :destroy
-                descendants.each do |model|
-                  model.skip_before_destroy = true
-                  model.destroy
-                end
-              else
-                nested_set_scope.delete_all(
-                  ["#{quoted_left_column_name} > ? AND #{quoted_right_column_name} < ?",
-                    left, right]
-                )
+            if acts_as_nested_set_options[:dependent] == :destroy
+              descendants.each do |model|
+                model.skip_before_destroy = true
+                model.destroy
               end
-
-              # update lefts and rights for remaining nodes
-              diff = right - left + 1
-              nested_set_scope.update_all(
-                ["#{quoted_left_column_name} = (#{quoted_left_column_name} - ?)", diff],
-                ["#{quoted_left_column_name} > ?", right]
+            else
+              nested_set_scope.delete_all(
+                ["#{quoted_left_column_name} > ? AND #{quoted_right_column_name} < ?",
+                  left, right]
               )
-              nested_set_scope.update_all(
-                ["#{quoted_right_column_name} = (#{quoted_right_column_name} - ?)", diff],
-                ["#{quoted_right_column_name} > ?", right]
+            end
+
+            # update lefts and rights for remaining nodes
+            diff = right - left + 1
+            nested_set_scope.update_all(
+              ["#{quoted_left_column_name} = (#{quoted_left_column_name} - ?)", diff],
+              ["#{quoted_left_column_name} > ?", right]
+            )
+            nested_set_scope.update_all(
+              ["#{quoted_right_column_name} = (#{quoted_right_column_name} - ?)", diff],
+              ["#{quoted_right_column_name} > ?", right]
               )
               
 reload
               # Don't allow multiple calls to destroy to corrupt the set
-              self.skip_before_destroy = true
-            end
+            self.skip_before_destroy = true
           end
+        end
 
-          # reload left, right, and parent
-          def reload_nested_set
-            reload(
-              :select => "#{quoted_left_column_name}, #{quoted_right_column_name}, #{quoted_parent_column_name}",
-              :lock => true
-            )
-          end
+        # reload left, right, and parent
+        def reload_nested_set
+          reload(
+            :select => "#{quoted_left_column_name}, #{quoted_right_column_name}, #{quoted_parent_column_name}",
+            :lock => true
+          )
+        end
 
-          def move_to(target, position)
-            raise ActiveRecord::ActiveRecordError, "You cannot move a new node" if self.new_record?
-            run_callbacks :move do
-              in_tenacious_transaction do
-                if target.is_a? self.class.base_class
-                  target.reload_nested_set
-                elsif position != :root
-                  # load object if node is not an object
-                  target = nested_set_scope.find(target)
-                end
-                self.reload_nested_set
-
-                unless position == :root || move_possible?(target)
-                  raise ActiveRecord::ActiveRecordError, "Impossible move, target node cannot be inside moved tree."
-                end
-
-                bound = case position
-                  when :child;  target[right_column_name]
-                  when :left;   target[left_column_name]
-                  when :right;  target[right_column_name] + 1
-                  when :root;   1
-                  else raise ActiveRecord::ActiveRecordError, "Position should be :child, :left, :right or :root ('#{position}' received)."
-                end
-
-                if bound > self[right_column_name]
-                  bound = bound - 1
-                  other_bound = self[right_column_name] + 1
-                else
-                  other_bound = self[left_column_name] - 1
-                end
-
-                # there would be no change
-                return if bound == self[right_column_name] || bound == self[left_column_name]
-
-                # we have defined the boundaries of two non-overlapping intervals,
-                # so sorting puts both the intervals and their boundaries in order
-                a, b, c, d = [self[left_column_name], self[right_column_name], bound, other_bound].sort
-
-                # select the rows in the model between a and d, and apply a lock
-                self.class.base_class.select('id').lock(true).where(
-                  ["#{quoted_left_column_name} >= :a and #{quoted_right_column_name} <= :d", {:a => a, :d => d}]
-                )
-
-                new_parent = case position
-                  when :child;  target.id
-                  when :root;   nil
-                  else          target[parent_column_name]
-                end
-
-                self.nested_set_scope.update_all([
-                  "#{quoted_left_column_name} = CASE " +
-                    "WHEN #{quoted_left_column_name} BETWEEN :a AND :b " +
-                      "THEN #{quoted_left_column_name} + :d - :b " +
-                    "WHEN #{quoted_left_column_name} BETWEEN :c AND :d " +
-                      "THEN #{quoted_left_column_name} + :a - :c " +
-                    "ELSE #{quoted_left_column_name} END, " +
-                  "#{quoted_right_column_name} = CASE " +
-                    "WHEN #{quoted_right_column_name} BETWEEN :a AND :b " +
-                      "THEN #{quoted_right_column_name} + :d - :b " +
-                    "WHEN #{quoted_right_column_name} BETWEEN :c AND :d " +
-                      "THEN #{quoted_right_column_name} + :a - :c " +
-                    "ELSE #{quoted_right_column_name} END, " +
-                  "#{quoted_parent_column_name} = CASE " +
-                    "WHEN #{self.class.base_class.primary_key} = :id THEN :new_parent " +
-                    "ELSE #{quoted_parent_column_name} END",
-                  {:a => a, :b => b, :c => c, :d => d, :id => self.id, :new_parent => new_parent}
-                ])
+        def move_to(target, position)
+          raise ActiveRecord::ActiveRecordError, "You cannot move a new node" if self.new_record?
+          run_callbacks :move do
+            in_tenacious_transaction do
+              if target.is_a? self.class.base_class
+                target.reload_nested_set
+              elsif position != :root
+                # load object if node is not an object
+                target = nested_set_scope.find(target)
               end
-              target.reload_nested_set if target
               self.reload_nested_set
-            end
-          end
 
+              unless position == :root || move_possible?(target)
+                raise ActiveRecord::ActiveRecordError, "Impossible move, target node cannot be inside moved tree."
+              end
+
+              bound = case position
+                when :child;  target[right_column_name]
+                when :left;   target[left_column_name]
+                when :right;  target[right_column_name] + 1
+                when :root;   1
+                else raise ActiveRecord::ActiveRecordError, "Position should be :child, :left, :right or :root ('#{position}' received)."
+              end
+
+              if bound > self[right_column_name]
+                bound = bound - 1
+                other_bound = self[right_column_name] + 1
+              else
+                other_bound = self[left_column_name] - 1
+              end
+
+              # there would be no change
+              return if bound == self[right_column_name] || bound == self[left_column_name]
+
+              # we have defined the boundaries of two non-overlapping intervals,
+              # so sorting puts both the intervals and their boundaries in order
+              a, b, c, d = [self[left_column_name], self[right_column_name], bound, other_bound].sort
+
+              # select the rows in the model between a and d, and apply a lock
+              self.class.base_class.select('id').lock(true).where(
+                ["#{quoted_left_column_name} >= :a and #{quoted_right_column_name} <= :d", {:a => a, :d => d}]
+              )
+
+              new_parent = case position
+                when :child;  target.id
+                when :root;   nil
+                else          target[parent_column_name]
+              end
+
+              self.nested_set_scope.update_all([
+                "#{quoted_left_column_name} = CASE " +
+                  "WHEN #{quoted_left_column_name} BETWEEN :a AND :b " +
+                    "THEN #{quoted_left_column_name} + :d - :b " +
+                  "WHEN #{quoted_left_column_name} BETWEEN :c AND :d " +
+                    "THEN #{quoted_left_column_name} + :a - :c " +
+                  "ELSE #{quoted_left_column_name} END, " +
+                "#{quoted_right_column_name} = CASE " +
+                  "WHEN #{quoted_right_column_name} BETWEEN :a AND :b " +
+                    "THEN #{quoted_right_column_name} + :d - :b " +
+                  "WHEN #{quoted_right_column_name} BETWEEN :c AND :d " +
+                    "THEN #{quoted_right_column_name} + :a - :c " +
+                  "ELSE #{quoted_right_column_name} END, " +
+                "#{quoted_parent_column_name} = CASE " +
+                  "WHEN #{self.class.base_class.primary_key} = :id THEN :new_parent " +
+                  "ELSE #{quoted_parent_column_name} END",
+                {:a => a, :b => b, :c => c, :d => d, :id => self.id, :new_parent => new_parent}
+              ])
+            end
+            target.reload_nested_set if target
+            self.reload_nested_set
+          end
         end
 
       end
