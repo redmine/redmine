@@ -22,46 +22,33 @@ class GroupsController < ApplicationController
 
   helper :custom_fields
 
-  # GET /groups
-  # GET /groups.xml
   def index
     @groups = Group.find(:all, :order => 'lastname')
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.xml  { render :xml => @groups }
     end
   end
 
-  # GET /groups/1
-  # GET /groups/1.xml
   def show
     @group = Group.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.xml  { render :xml => @group }
     end
   end
 
-  # GET /groups/new
-  # GET /groups/new.xml
   def new
     @group = Group.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html
       format.xml  { render :xml => @group }
     end
   end
 
-  # GET /groups/1/edit
-  def edit
-    @group = Group.find(params[:id], :include => :projects)
-  end
-
-  # POST /groups
-  # POST /groups.xml
   def create
     @group = Group.new
     @group.safe_attributes = params[:group]
@@ -80,8 +67,10 @@ class GroupsController < ApplicationController
     end
   end
 
-  # PUT /groups/1
-  # PUT /groups/1.xml
+  def edit
+    @group = Group.find(params[:id], :include => :projects)
+  end
+
   def update
     @group = Group.find(params[:id])
     @group.safe_attributes = params[:group]
@@ -98,8 +87,6 @@ class GroupsController < ApplicationController
     end
   end
 
-  # DELETE /groups/1
-  # DELETE /groups/1.xml
   def destroy
     @group = Group.find(params[:id])
     @group.destroy
