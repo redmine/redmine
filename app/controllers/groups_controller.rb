@@ -19,6 +19,7 @@ class GroupsController < ApplicationController
   layout 'admin'
 
   before_filter :require_admin
+  before_filter :find_group, :only => [:show, :edit, :update, :destroy, :add_users, :remove_user, :autocomplete_for_user, :edit_membership, :destroy_membership]
 
   helper :custom_fields
 
@@ -32,8 +33,6 @@ class GroupsController < ApplicationController
   end
 
   def show
-    @group = Group.find(params[:id])
-
     respond_to do |format|
       format.html
       format.xml  { render :xml => @group }
@@ -68,11 +67,9 @@ class GroupsController < ApplicationController
   end
 
   def edit
-    @group = Group.find(params[:id], :include => :projects)
   end
 
   def update
-    @group = Group.find(params[:id])
     @group.safe_attributes = params[:group]
 
     respond_to do |format|
@@ -88,7 +85,6 @@ class GroupsController < ApplicationController
   end
 
   def destroy
-    @group = Group.find(params[:id])
     @group.destroy
 
     respond_to do |format|
@@ -98,7 +94,6 @@ class GroupsController < ApplicationController
   end
 
   def add_users
-    @group = Group.find(params[:id])
     users = User.find_all_by_id(params[:user_ids])
     @group.users << users if request.post?
     respond_to do |format|
@@ -113,7 +108,6 @@ class GroupsController < ApplicationController
   end
 
   def remove_user
-    @group = Group.find(params[:id])
     @group.users.delete(User.find(params[:user_id])) if request.delete?
     respond_to do |format|
       format.html { redirect_to :controller => 'groups', :action => 'edit', :id => @group, :tab => 'users' }
@@ -122,13 +116,11 @@ class GroupsController < ApplicationController
   end
 
   def autocomplete_for_user
-    @group = Group.find(params[:id])
     @users = User.active.not_in_group(@group).like(params[:q]).all(:limit => 100)
     render :layout => false
   end
 
   def edit_membership
-    @group = Group.find(params[:id])
     @membership = Member.edit_membership(params[:membership_id], params[:membership], @group)
     @membership.save if request.post?
     respond_to do |format|
@@ -151,11 +143,18 @@ class GroupsController < ApplicationController
   end
 
   def destroy_membership
-    @group = Group.find(params[:id])
     Member.find(params[:membership_id]).destroy if request.post?
     respond_to do |format|
       format.html { redirect_to :controller => 'groups', :action => 'edit', :id => @group, :tab => 'memberships' }
       format.js { render(:update) {|page| page.replace_html "tab-content-memberships", :partial => 'groups/memberships'} }
     end
+  end
+
+  private
+
+  def find_group
+    @group = Group.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 end
