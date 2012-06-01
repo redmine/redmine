@@ -16,6 +16,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Group < Principal
+  include Redmine::SafeAttributes
+
   has_and_belongs_to_many :users, :after_add => :user_added,
                                   :after_remove => :user_removed
 
@@ -26,6 +28,11 @@ class Group < Principal
   validates_length_of :lastname, :maximum => 30
 
   before_destroy :remove_references_before_destroy
+
+  safe_attributes 'name',
+    'custom_field_values',
+    'custom_fields',
+    :if => lambda {|group, user| user.admin?}
 
   def to_s
     lastname.to_s
