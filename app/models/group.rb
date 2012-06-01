@@ -31,7 +31,13 @@ class Group < Principal
     lastname.to_s
   end
 
-  alias :name :to_s
+  def name
+    lastname
+  end
+
+  def name=(arg)
+    self.lastname = arg
+  end
 
   def user_added(user)
     members.each do |member|

@@ -21,7 +21,7 @@ module ObjectHelpers
     @generated_group_name ||= 'Group 0'
     @generated_group_name.succ!
     group = Group.new(attributes)
-    group.lastname = @generated_group_name if group.lastname.blank?
+    group.name = @generated_group_name if group.name.blank?
     yield group if block_given?
     group.save!
     group

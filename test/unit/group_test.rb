@@ -31,8 +31,10 @@ class GroupTest < ActiveSupport::TestCase
   include Redmine::I18n
 
   def test_create
-    g = Group.new(:lastname => 'New group')
+    g = Group.new(:name => 'New group')
     assert g.save
+    g.reload
+    assert_equal 'New group', g.name
   end
 
   def test_blank_name_error_message

@@ -40,11 +40,12 @@ class GroupsControllerTest < ActionController::TestCase
     get :new
     assert_response :success
     assert_template 'new'
+    assert_select 'input[name=?]', 'group[name]'
   end
 
   def test_create
     assert_difference 'Group.count' do
-      post :create, :group => {:lastname => 'New group'}
+      post :create, :group => {:name => 'New group'}
     end
     assert_redirected_to '/groups'
     group = Group.first(:order => 'id DESC')
@@ -54,7 +55,7 @@ class GroupsControllerTest < ActionController::TestCase
 
   def test_create_and_continue
     assert_difference 'Group.count' do
-      post :create, :group => {:lastname => 'New group'}, :continue => 'Create and continue'
+      post :create, :group => {:name => 'New group'}, :continue => 'Create and continue'
     end
     assert_redirected_to '/groups/new'
     group = Group.first(:order => 'id DESC')
@@ -63,7 +64,7 @@ class GroupsControllerTest < ActionController::TestCase
 
   def test_create_with_failure
     assert_no_difference 'Group.count' do
-      post :create, :group => {:lastname => ''}
+      post :create, :group => {:name => ''}
     end
     assert_response :success
     assert_template 'new'
@@ -79,14 +80,14 @@ class GroupsControllerTest < ActionController::TestCase
 
   def test_update
     new_name = 'New name'
-    put :update, :id => 10, :group => {:lastname => new_name}
+    put :update, :id => 10, :group => {:name => new_name}
     assert_redirected_to '/groups'
     group = Group.find(10)
     assert_equal new_name, group.name
   end
 
   def test_update_with_failure
-    put :update, :id => 10, :group => {:lastname => ''}
+    put :update, :id => 10, :group => {:name => ''}
     assert_response :success
     assert_template 'edit'
   end
