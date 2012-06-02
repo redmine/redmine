@@ -178,8 +178,6 @@ def rhsummary(ui, repo, **opts):
         ui.write('</repository>\n')
         ui.write('</rhsummary>\n')
 
-# This extension should be compatible with Mercurial 0.9.5.
-# Note that Mercurial 0.9.5 doesn't have extensions.wrapfunction().
 cmdtable = {
     'rhannotate': (rhannotate,
          [('r', 'rev', '', 'revision'),
