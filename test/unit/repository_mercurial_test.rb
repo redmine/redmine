@@ -86,7 +86,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      assert_equal 46, @repository.changes.count
+      assert_equal 46, @repository.filechanges.count
       assert_equal "Initial import.\nThe repository contains 3 files.",
                    @repository.changesets.find_by_revision('0').comments
     end
@@ -214,7 +214,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
 
       cs1 = @repository.changesets.find_by_revision('13')
       assert_not_nil cs1
-      c1  = cs1.changes.sort_by(&:path)
+      c1  = cs1.filechanges.sort_by(&:path)
       assert_equal 2, c1.size
 
       assert_equal 'A', c1[0].action
@@ -227,7 +227,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       assert_equal '/sql_escape/underscore_dir/understrike_file.txt', c1[1].from_path
 
       cs2 = @repository.changesets.find_by_revision('15')
-      c2  = cs2.changes
+      c2  = cs2.filechanges
       assert_equal 1, c2.size
 
       assert_equal 'A', c2[0].action
@@ -236,7 +236,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       assert_equal '933ca60293d7', c2[0].from_revision
 
       cs3 = @repository.changesets.find_by_revision('19')
-      c3  = cs3.changes
+      c3  = cs3.filechanges
       assert_equal 1, c3.size
       assert_equal 'A', c3[0].action
       assert_equal "/latin-1-dir/test-#{@char_1}-1.txt",  c3[0].path

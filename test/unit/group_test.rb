@@ -97,7 +97,7 @@ class GroupTest < ActiveSupport::TestCase
 
   def test_roles_removed_when_removing_user_from_group
     assert User.find(8).member_of?(Project.find(5))
-    User.find(8).groups.clear
+    User.find(8).groups = []
     assert !User.find(8).member_of?(Project.find(5))
   end
 

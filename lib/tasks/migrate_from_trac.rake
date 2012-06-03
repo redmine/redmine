@@ -163,7 +163,7 @@ namespace :redmine do
         set_inheritance_column :none
 
         # ticket changes: only migrate status changes and comments
-        has_many :changes, :class_name => "TracTicketChange", :foreign_key => :ticket
+        has_many :ticket_changes, :class_name => "TracTicketChange", :foreign_key => :ticket
         has_many :customs, :class_name => "TracTicketCustom", :foreign_key => :ticket
 
         def attachments
@@ -487,7 +487,7 @@ namespace :redmine do
             end
 
           # Comments and status/resolution changes
-          ticket.changes.group_by(&:time).each do |time, changeset|
+          ticket.ticket_changes.group_by(&:time).each do |time, changeset|
               status_change = changeset.select {|change| change.field == 'status'}.first
               resolution_change = changeset.select {|change| change.field == 'resolution'}.first
               comment_change = changeset.select {|change| change.field == 'comment'}.first

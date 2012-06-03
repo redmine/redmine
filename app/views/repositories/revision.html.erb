@@ -83,7 +83,7 @@
                :id     => @project,
                :repository_id => @repository.identifier_param,
                :path   => "",
-               :rev    => @changeset.identifier) if @changeset.changes.any? %></p>
+               :rev    => @changeset.identifier) if @changeset.filechanges.any? %></p>
 
 <div class="changeset-changes">
 <%= render_changeset_changes %>

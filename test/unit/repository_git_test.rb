@@ -101,7 +101,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       @project.reload
 
       assert_equal NUM_REV, @repository.changesets.count
-      assert_equal 39, @repository.changes.count
+      assert_equal 39, @repository.filechanges.count
 
       commit = @repository.changesets.find_by_revision("7234cb2750b63f47bff735edc50a1c0a433c2518")
       assert_equal "7234cb2750b63f47bff735edc50a1c0a433c2518", commit.scmid
@@ -111,8 +111,8 @@ class RepositoryGitTest < ActiveSupport::TestCase
       # TODO: add a commit with commit time <> author time to the test repository
       assert_equal "2007-12-14 09:22:52".to_time, commit.committed_on
       assert_equal "2007-12-14".to_date, commit.commit_date
-      assert_equal 3, commit.changes.count
-      change = commit.changes.sort_by(&:path).first
+      assert_equal 3, commit.filechanges.count
+      change = commit.filechanges.sort_by(&:path).first
       assert_equal "README", change.path
       assert_equal nil, change.from_path
       assert_equal "A", change.action

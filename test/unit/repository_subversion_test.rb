@@ -36,7 +36,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
       @project.reload
 
       assert_equal NUM_REV, @repository.changesets.count
-      assert_equal 20, @repository.changes.count
+      assert_equal 20, @repository.filechanges.count
       assert_equal 'Initial import.', @repository.changesets.find_by_revision('1').comments
     end
 
@@ -99,7 +99,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
       @project.reload
 
       assert_equal 1, @repository.changesets.count, 'Expected to see 1 revision'
-      assert_equal 2, @repository.changes.count, 'Expected to see 2 changes, dir add and file add'
+      assert_equal 2, @repository.filechanges.count, 'Expected to see 2 changes, dir add and file add'
 
       entries = @repository.entries('')
       assert_not_nil entries, 'Expect to find entries'
