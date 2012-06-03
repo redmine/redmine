@@ -46,17 +46,17 @@ module RepositoriesHelper
   end
 
   def render_changeset_changes
-    changes = @changeset.changes.find(:all, :limit => 1000, :order => 'path').collect do |change|
+    changes = @changeset.filechanges.find(:all, :limit => 1000, :order => 'path').collect do |change|
       case change.action
       when 'A'
         # Detects moved/copied files
         if !change.from_path.blank?
           change.action =
-             @changeset.changes.detect {|c| c.action == 'D' && c.path == change.from_path} ? 'R' : 'C'
+             @changeset.filechanges.detect {|c| c.action == 'D' && c.path == change.from_path} ? 'R' : 'C'
         end
         change
       when 'D'
-        @changeset.changes.detect {|c| c.from_path == change.path} ? nil : change
+        @changeset.filechanges.detect {|c| c.from_path == change.path} ? nil : change
       else
         change
       end

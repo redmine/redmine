@@ -68,7 +68,7 @@ class RepositoryDarcsTest < ActiveSupport::TestCase
       @project.reload
 
       assert_equal NUM_REV, @repository.changesets.count
-      assert_equal 13, @repository.changes.count
+      assert_equal 13, @repository.filechanges.count
       assert_equal "Initial commit.", @repository.changesets.find_by_revision('1').comments
     end
 

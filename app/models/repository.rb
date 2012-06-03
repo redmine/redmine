@@ -22,7 +22,7 @@ class Repository < ActiveRecord::Base
 
   belongs_to :project
   has_many :changesets, :order => "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC"
-  has_many :changes, :through => :changesets
+  has_many :filechanges, :class_name => 'Change', :through => :changesets
 
   serialize :extra_info
 
@@ -228,7 +228,7 @@ class Repository < ActiveRecord::Base
          :order => "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC",
          :limit => limit)
     else
-      changes.find(
+      filechanges.find(
          :all,
          :include => {:changeset => :user},
          :conditions => ["path = ?", path.with_leading_slash],

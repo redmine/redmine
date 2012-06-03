@@ -54,7 +54,7 @@ class Repository::Cvs < Repository
     if entries
       entries.each() do |entry|
         if ( ! entry.lastrev.nil? ) && ( ! entry.lastrev.revision.nil? )
-          change=changes.find_by_revision_and_path(
+          change = filechanges.find_by_revision_and_path(
                      entry.lastrev.revision,
                      scm.with_leading_slash(entry.path) )
           if change
@@ -94,7 +94,7 @@ class Repository::Cvs < Repository
     if rev_to.to_i > 0
       changeset_to = changesets.find_by_revision(rev_to)
     end
-    changeset_from.changes.each() do |change_from|
+    changeset_from.filechanges.each() do |change_from|
       revision_from = nil
       revision_to   = nil
       if path.nil? || (change_from.path.starts_with? scm.with_leading_slash(path))
@@ -102,7 +102,7 @@ class Repository::Cvs < Repository
       end
       if revision_from
         if changeset_to
-          changeset_to.changes.each() do |change_to|
+          changeset_to.filechanges.each() do |change_to|
             revision_to = change_to.revision if change_to.path == change_from.path
           end
         end
@@ -133,7 +133,7 @@ class Repository::Cvs < Repository
         # only add the change to the database, if it doen't exists. the cvs log
         # is not exclusive at all.
         tmp_time = revision.time.clone
-        unless changes.find_by_path_and_revision(
+        unless filechanges.find_by_path_and_revision(
 	                         scm.with_leading_slash(revision.paths[0][:path]),
 	                         revision.paths[0][:revision]
 	                           )

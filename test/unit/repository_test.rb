@@ -98,8 +98,10 @@ class RepositoryTest < ActiveSupport::TestCase
   end
 
   def test_destroy
-    changesets = Changeset.where("repository_id = 10").all.count
-    changes = Changeset.joins([:changes]).where("repository_id = 10").all.count
+    repository = Repository.find(10)
+    changesets = repository.changesets.count
+    changes = repository.filechanges.count
+
     assert_difference 'Changeset.count', -changesets do
       assert_difference 'Change.count', -changes do
         Repository.find(10).destroy

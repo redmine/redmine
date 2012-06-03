@@ -102,7 +102,7 @@ class RepositoryCvsTest < ActiveSupport::TestCase
       @project.reload
 
       assert_equal CHANGESETS_NUM, @repository.changesets.count
-      assert_equal 16, @repository.changes.count
+      assert_equal 16, @repository.filechanges.count
       assert_not_nil @repository.changesets.find_by_comments('Two files changed')
 
       r2 = @repository.changesets.find_by_revision('2')
