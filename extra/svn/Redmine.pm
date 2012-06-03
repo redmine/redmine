@@ -366,12 +366,19 @@ sub is_member {
           );
           $sthldap->execute($auth_source_id);
           while (my @rowldap = $sthldap->fetchrow_array) {
+            my $bind_as = $rowldap[3] ? $rowldap[3] : "";
+            my $bind_pw = $rowldap[4] ? $rowldap[4] : "";
+            if ($bind_as =~ m/\$login/) {
+              # replace $login with $redmine_user and use $redmine_pass
+              $bind_as =~ s/\$login/$redmine_user/g;
+              $bind_pw = $redmine_pass
+            }
             my $ldap = Authen::Simple::LDAP->new(
                 host    =>      ($rowldap[2] eq "1" || $rowldap[2] eq "t") ? "ldaps://$rowldap[0]:$rowldap[1]" : $rowldap[0],
                 port    =>      $rowldap[1],
                 basedn  =>      $rowldap[5],
-                binddn  =>      $rowldap[3] ? $rowldap[3] : "",
-                bindpw  =>      $rowldap[4] ? $rowldap[4] : "",
+                binddn  =>      $bind_as,
+                bindpw  =>      $bind_pw,
                 filter  =>      "(".$rowldap[6]."=%s)"
             );
             my $method = $r->method;
