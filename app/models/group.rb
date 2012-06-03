@@ -30,6 +30,7 @@ class Group < Principal
   before_destroy :remove_references_before_destroy
 
   safe_attributes 'name',
+    'user_ids',
     'custom_field_values',
     'custom_fields',
     :if => lambda {|group, user| user.admin?}

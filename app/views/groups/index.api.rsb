@@ -1,0 +1,10 @@
+api.array :groups do
+  @groups.each do |group|
+    api.group do
+      api.id         group.id
+      api.name       group.lastname
+
+      render_api_custom_values group.visible_custom_field_values, api
+    end
+  end
+end

@@ -9,6 +9,12 @@ api.user do
 
   render_api_custom_values @user.visible_custom_field_values, api
 
+  api.array :groups do |groups|
+    @user.groups.each do |group|
+      api.group :id => group.id, :name => group.name
+    end
+  end if User.current.admin? && include_in_api_response?('groups')
+
   api.array :memberships do
     @memberships.each do |membership|
       api.membership do

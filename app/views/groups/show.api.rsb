@@ -1,0 +1,30 @@
+api.group do
+  api.id         @group.id
+  api.name       @group.lastname
+
+  render_api_custom_values @group.visible_custom_field_values, api
+
+  api.array :users do
+    @group.users.each do |user|
+      api.user :id => user.id, :name => user.name
+    end
+  end
+
+  api.array :memberships do
+    @group.memberships.each do |membership|
+      api.membership do
+        api.id membership.id
+        api.project :id => membership.project.id, :name => membership.project.name
+        api.array :roles do
+          membership.member_roles.each do |member_role|
+            if member_role.role
+              attrs = {:id => member_role.role.id, :name => member_role.role.name}
+              attrs.merge!(:inherited => true) if member_role.inherited_from.present?
+              api.role attrs
+            end 
+          end
+        end
+      end if membership.project
+    end
+  end if include_in_api_response?('memberships')
+end

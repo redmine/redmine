@@ -19,7 +19,8 @@ class GroupsController < ApplicationController
   layout 'admin'
 
   before_filter :require_admin
-  before_filter :find_group, :only => [:show, :edit, :update, :destroy, :add_users, :remove_user, :autocomplete_for_user, :edit_membership, :destroy_membership]
+  before_filter :find_group, :except => [:index, :new, :create]
+  accept_api_auth :index, :show, :create, :update, :destroy, :add_users, :remove_user
 
   helper :custom_fields
 
@@ -28,24 +29,19 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.xml  { render :xml => @groups }
+      format.api
     end
   end
 
   def show
     respond_to do |format|
       format.html
-      format.xml  { render :xml => @group }
+      format.api
     end
   end
 
   def new
     @group = Group.new
-
-    respond_to do |format|
-      format.html
-      format.xml  { render :xml => @group }
-    end
   end
 
   def create
@@ -58,10 +54,10 @@ class GroupsController < ApplicationController
           flash[:notice] = l(:notice_successful_create)
           redirect_to(params[:continue] ? new_group_path : groups_path)
         }
-        format.xml  { render :xml => @group, :status => :created, :location => @group }
+        format.api  { render :action => 'show', :status => :created, :location => group_url(@group) }
       else
         format.html { render :action => "new" }
-        format.xml  { render :xml => @group.errors, :status => :unprocessable_entity }
+        format.api  { render_validation_errors(@group) }
       end
     end
   end
@@ -76,10 +72,10 @@ class GroupsController < ApplicationController
       if @group.save
         flash[:notice] = l(:notice_successful_update)
         format.html { redirect_to(groups_path) }
-        format.xml  { head :ok }
+        format.api  { head :ok }
       else
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @group.errors, :status => :unprocessable_entity }
+        format.api  { render_validation_errors(@group) }
       end
     end
   end
@@ -89,12 +85,12 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to(groups_url) }
-      format.xml  { head :ok }
+      format.api  { head :ok }
     end
   end
 
   def add_users
-    users = User.find_all_by_id(params[:user_ids])
+    users = User.find_all_by_id(params[:user_id] || params[:user_ids])
     @group.users << users if request.post?
     respond_to do |format|
       format.html { redirect_to :controller => 'groups', :action => 'edit', :id => @group, :tab => 'users' }
@@ -104,6 +100,7 @@ class GroupsController < ApplicationController
           users.each {|user| page.visual_effect(:highlight, "user-#{user.id}") }
         }
       }
+      format.api { head :ok }
     end
   end
 
@@ -112,6 +109,7 @@ class GroupsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to :controller => 'groups', :action => 'edit', :id => @group, :tab => 'users' }
       format.js { render(:update) {|page| page.replace_html "tab-content-users", :partial => 'groups/users'} }
+      format.api { head :ok }
     end
   end
 
