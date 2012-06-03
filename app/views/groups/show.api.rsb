@@ -8,7 +8,7 @@ api.group do
     @group.users.each do |user|
       api.user :id => user.id, :name => user.name
     end
-  end
+  end if include_in_api_response?('users')
 
   api.array :memberships do
     @group.memberships.each do |membership|

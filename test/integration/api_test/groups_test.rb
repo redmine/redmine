@@ -76,6 +76,15 @@ class ApiTest::GroupsTest < ActionController::IntegrationTest
         assert_select 'group' do
           assert_select 'name', :text => 'A Team'
           assert_select 'id', :text => '10'
+        end
+      end
+
+      should "include users if requested" do
+        get '/groups/10.xml?include=users', {}, credentials('admin')
+        assert_response :success
+        assert_equal 'application/xml', response.content_type
+
+        assert_select 'group' do
           assert_select 'users' do
             assert_select 'user', Group.find(10).users.count
             assert_select 'user[id=8]'
