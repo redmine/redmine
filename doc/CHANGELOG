@@ -4,6 +4,15 @@ Redmine - project management software
 Copyright (C) 2006-2012  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2012-06-05 v2.0.2
+
+* Defect #11032: Project list is not shown when "For any event on the selected projects only..." is selected on user edit panel
+* Defect #11038: "Create and continue" should preserve project, issue and activity when logging time
+* Defect #11046: Redmine.pm does not support "bind as user" ldap authentication
+* Defect #11051: reposman.rb fails in 1.4.2 because of missing require for rubygems
+* Defect #11085: Wiki start page can't be changed
+* Feature #11084: Update Rails to 3.2.5
+
 == 2012-05-28 v2.0.1
 
 * Defect #10923: After creating a new Version Redmine jumps back to "Information"
