@@ -46,6 +46,26 @@ class SettingsControllerTest < ActionController::TestCase
     assert_tag 'input', :attributes => {:name => 'settings[enabled_scm][]', :value => ''}
   end
 
+  def test_get_edit_should_preselect_default_issue_list_columns
+    with_settings :issue_list_default_columns => %w(tracker subject status updated_on) do
+      get :edit
+      assert_response :success
+    end
+
+    assert_select 'select[id=selected_columns][name=?]', 'settings[issue_list_default_columns][]' do
+      assert_select 'option', 4
+      assert_select 'option[value=tracker]', :text => 'Tracker'
+      assert_select 'option[value=subject]', :text => 'Subject'
+      assert_select 'option[value=status]', :text => 'Status'
+      assert_select 'option[value=updated_on]', :text => 'Updated'
+    end
+
+    assert_select 'select[id=available_columns]' do
+      assert_select 'option[value=tracker]', 0
+      assert_select 'option[value=priority]', :text => 'Priority'
+    end
+  end
+
   def test_post_edit_notifications
     post :edit, :settings => {:mail_from => 'functional@test.foo',
                               :bcc_recipients  => '0',
