@@ -1036,7 +1036,7 @@ de:
   label_copy_attachments: Anhänge Kopieren
   label_item_position: "%{position}/%{count}"
   label_completed_versions: Abgeschlossene Versionen
-  field_multiple: Mehrer Werte
+  field_multiple: Mehrere Werte
   setting_commit_cross_project_ref: Erlauben auf Tickets aller anderen Projekte zu referenzieren
   text_issue_conflict_resolution_add_notes: Meine Änderungen übernehmen und alle anderen Änderungen verwerfen
   text_issue_conflict_resolution_overwrite: Meine Änderungen trotzdem übernehmen (vorherige Notizen bleiben erhalten aber manche können überschrieben werden)
