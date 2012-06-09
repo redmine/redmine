@@ -89,7 +89,7 @@ class Redmine::Hook::ManagerTest < ActionView::TestCase
 
   def test_call_hook_with_context
     @hook_module.add_listener(TestHook3)
-    assert_equal ['Context keys: bar, controller, foo, project, request.'],
+    assert_equal ['Context keys: bar, controller, foo, hook_caller, project, request.'],
                  hook_helper.call_hook(:view_layouts_base_html_head, :foo => 1, :bar => 'a')
   end
 

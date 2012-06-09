@@ -35,6 +35,17 @@ class MenuManagerTest < ActionController::IntegrationTest
     end
   end
 
+  class ContentForInsideHook < Redmine::Hook::ViewListener
+    render_on :view_welcome_index_left, :inline => <<-VIEW
+<% content_for :header_tags do %>
+  <%= javascript_include_tag 'test_plugin.js', :plugin => 'test_plugin' %>
+  <%= stylesheet_link_tag 'test_plugin.css', :plugin => 'test_plugin' %>
+<% end %>
+
+<p>ContentForInsideHook content</p>
+VIEW
+  end
+
   def setup
     Redmine::Hook.clear_listeners
   end
@@ -63,5 +74,17 @@ class MenuManagerTest < ActionController::IntegrationTest
     assert_select 'div#sidebar p', :text => 'Sidebar hook'
     assert_select 'div#main'
     assert_select 'div#main.nosidebar', 0
+  end
+
+  def test_hook_with_content_for_should_append_content
+    Redmine::Hook.add_listener(ContentForInsideHook)
+
+    get '/'
+    assert_response :success
+    assert_select 'p', :text => 'ContentForInsideHook content'
+    assert_select 'head' do
+      assert_select 'script[src=/plugin_assets/test_plugin/javascripts/test_plugin.js]'
+      assert_select 'link[href=/plugin_assets/test_plugin/stylesheets/test_plugin.css]'
+    end
   end
 end
