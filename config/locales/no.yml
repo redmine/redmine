@@ -63,7 +63,7 @@
         other: "nesten %{count} år"
   number:
     format:
-      precision: 2
+      precision: 6
       separator: "."
       delimiter: ","
     currency:

@@ -75,7 +75,7 @@ it:
 
   number:
     format:
-      precision: 3
+      precision: 6
       separator: ','
       delimiter: '.'
     currency:

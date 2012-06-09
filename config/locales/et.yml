@@ -94,7 +94,7 @@ et:
     human:
       format:
         delimiter: ""
-        precision: 1
+        precision: 6
       storage_units:
         format: "%n %u"
         units:

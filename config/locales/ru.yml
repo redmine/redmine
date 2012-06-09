@@ -68,7 +68,7 @@ ru:
     human:
       format:
         delimiter: ""
-        precision: 2
+        precision: 6
       # Rails 2.2
       # storage_units: [байт, КБ, МБ, ГБ, ТБ]
 

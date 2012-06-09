@@ -47,7 +47,7 @@ sv:
         # These three are to override number.format and are optional
         # separator:
         delimiter: ""
-        # precision: 1
+        precision: 6
       storage_units:
         format: "%n %u"
         units:

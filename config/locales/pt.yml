@@ -89,7 +89,7 @@ pt:
         delimiter: ''
     human:
       format:
-        precision: 1
+        precision: 6
         delimiter: ''
       storage_units:
         format: "%n %u"

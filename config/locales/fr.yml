@@ -91,7 +91,7 @@ fr:
         format: '%n %u'
     human:
       format:
-        precision: 2
+        precision: 6
       storage_units:
         format: "%n %u"
         units:
