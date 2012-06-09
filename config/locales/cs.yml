@@ -88,7 +88,7 @@ cs:
           byte:
             one: "Bajt"
             other: "Bajtů"
-          kb: "kB"
+          kb: "KB"
           mb: "MB"
           gb: "GB"
           tb: "TB"
