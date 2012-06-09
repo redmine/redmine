@@ -78,6 +78,8 @@ class ActivitiesControllerTest < ActionController::TestCase
     assert_template 'index'
     assert_not_nil assigns(:events_by_day)
 
+    assert_select 'h2 a[href=/users/2]', :text => 'John Smith'
+
     assert_tag :tag => "h3",
                :content => /#{3.day.ago.to_date.day}/,
                :sibling => { :tag => "dl",
