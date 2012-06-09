@@ -66,7 +66,7 @@ class TimeEntry < ActiveRecord::Base
     end
   }
 
-  safe_attributes 'hours', 'comments', 'issue_id', 'activity_id', 'spent_on', 'custom_field_values'
+  safe_attributes 'hours', 'comments', 'issue_id', 'activity_id', 'spent_on', 'custom_field_values', 'custom_fields'
 
   def initialize(attributes=nil, *args)
     super
