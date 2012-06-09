@@ -79,6 +79,21 @@ class ApiTest::TimeEntriesTest < ActionController::IntegrationTest
         assert_equal 3.5, entry.hours
         assert_equal TimeEntryActivity.find(11), entry.activity
       end
+
+      should "accept custom fields" do
+        field = TimeEntryCustomField.create!(:name => 'Test', :field_format => 'string')
+
+        assert_difference 'TimeEntry.count' do
+          post '/time_entries.xml', {:time_entry => {
+            :issue_id => '1', :spent_on => '2010-12-02', :hours => '3.5', :activity_id => '11', :custom_fields => [{:id => field.id.to_s, :value => 'accepted'}]
+          }}, credentials('jsmith')
+        end
+        assert_response :created
+        assert_equal 'application/xml', @response.content_type
+
+        entry = TimeEntry.first(:order => 'id DESC')
+        assert_equal 'accepted', entry.custom_field_value(field)
+      end
     end
 
     context "with project_id" do
