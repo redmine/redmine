@@ -97,7 +97,7 @@ pt-BR:
         delimiter: '.'
     human:
       format:
-        precision: 1
+        precision: 3
         delimiter: '.'
       storage_units:
         format: "%n %u"

@@ -47,14 +47,14 @@ sv:
         # These three are to override number.format and are optional
         # separator:
         delimiter: ""
-        # precision: 1
+        precision: 3
       storage_units:
         format: "%n %u"
         units:
           byte:
             one: "Byte"
             other: "Bytes"
-          kb: "kB"
+          kb: "KB"
           mb: "MB"
           gb: "GB"
           tb: "TB"

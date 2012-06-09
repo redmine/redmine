@@ -91,7 +91,7 @@ da:
       format:
         # separator:
         delimiter: ""
-        precision: 1
+        precision: 3
       storage_units:
         format: "%n %u"
         units:

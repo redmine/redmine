@@ -76,14 +76,14 @@ ar:
     human:
       format:
         delimiter: ""
-        precision: 1
+        precision: 3
       storage_units:
         format: "%n %u"
         units:
           byte:
             one: "Byte"
             other: "Bytes"
-          kb: "kB"
+          kb: "KB"
           mb: "MB"
           gb: "GB"
           tb: "TB"

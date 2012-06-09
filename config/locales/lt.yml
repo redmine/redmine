@@ -109,7 +109,7 @@ lt:
     human:
       format:
         delimiter: ""
-        precision: 1
+        precision: 3
       storage_units:
         # Storage units output formatting.
         # %u is the storage unit, %n is the number (default: 2 MB)
