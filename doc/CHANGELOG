@@ -4,6 +4,11 @@ Redmine - project management software
 Copyright (C) 2006-2012  Jean-Philippe Lang
 http://www.redmine.org/
 
+== TBD v1.4.4
+
+* Defect #11112: REST API - custom fields in POST/PUT ignored for time_entries
+* Patch #11113: Small glitch in German localization
+
 == 2012-06-05 v1.4.3
 
 * Defect #11038: "Create and continue" should preserve project, issue and activity when logging time
