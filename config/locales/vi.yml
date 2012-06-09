@@ -48,7 +48,7 @@ vi:
         # These three are to override number.format and are optional
         # separator:
         delimiter: ""
-        precision: 6
+        precision: 3
       storage_units:
         format: "%n %u"
         units:

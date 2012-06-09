@@ -76,7 +76,7 @@ he:
 
   number:
     format:
-      precision: 6
+      precision: 3
       separator: '.'
       delimiter: ','
     currency:

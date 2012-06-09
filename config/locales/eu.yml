@@ -79,7 +79,7 @@ eu:
     human:
       format:
         delimiter: ""
-        precision: 6
+        precision: 3
       storage_units:
         format: "%n %u"
         units:

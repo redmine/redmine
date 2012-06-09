@@ -87,7 +87,7 @@
         # 下列三個選項設定, 若有設定值將會取代 number.format 成為預設值
         # separator:
         delimiter: ""
-        precision: 6
+        precision: 3
         # 儲存單位輸出格式.
         # %u 是儲存單位, %n 是數值 (預設值: 2 MB)
       storage_units:
