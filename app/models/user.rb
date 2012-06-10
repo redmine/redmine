@@ -130,8 +130,11 @@ class User < Principal
 
   # Returns the user that matches provided login and password, or nil
   def self.try_to_login(login, password)
+    login = login.to_s
+    password = password.to_s
+
     # Make sure no one can sign in with an empty password
-    return nil if password.to_s.empty?
+    return nil if password.empty?
     user = find_by_login(login)
     if user
       # user is already in local database
