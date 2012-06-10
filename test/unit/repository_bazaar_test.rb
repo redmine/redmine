@@ -88,6 +88,7 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
 
     def test_entries
       entries = @repository.entries
+      assert_kind_of Redmine::Scm::Adapters::Entries, entries
       assert_equal 2, entries.size
 
       assert_equal 'dir', entries[0].kind

@@ -278,7 +278,7 @@ module Redmine
 
       class Entries < Array
         def sort_by_name
-          sort {|x,y|
+          dup.sort! {|x,y|
             if x.kind == y.kind
               x.name.to_s <=> y.name.to_s
             else

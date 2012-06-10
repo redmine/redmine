@@ -81,6 +81,11 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       assert_equal true, klass.scm_available
     end
 
+    def test_entries
+      entries = @repository.entries
+      assert_kind_of Redmine::Scm::Adapters::Entries, entries
+    end
+
     def test_fetch_changesets_from_scratch
       assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets

@@ -88,6 +88,11 @@ class RepositoryDarcsTest < ActiveSupport::TestCase
       assert_equal NUM_REV, @repository.changesets.count
     end
 
+    def test_entries
+      entries = @repository.entries
+      assert_kind_of Redmine::Scm::Adapters::Entries, entries
+    end
+
     def test_entries_invalid_revision
       assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
