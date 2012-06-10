@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
     cookies.delete(:autologin)
   end
 
-  before_filter :user_setup, :check_if_login_required, :set_localization
+  before_filter :session_expiration, :user_setup, :check_if_login_required, :set_localization
 
   rescue_from ActionController::InvalidAuthenticityToken, :with => :invalid_authenticity_token
   rescue_from ::Unauthorized, :with => :deny_access
@@ -43,6 +43,38 @@ class ApplicationController < ActionController::Base
   include Redmine::Search::Controller
   include Redmine::MenuManager::MenuController
   helper Redmine::MenuManager::MenuHelper
+
+  def session_expiration
+    if session[:user_id]
+      if session_expired? && !try_to_autologin
+        reset_session
+        flash[:error] = l(:error_session_expired)
+        redirect_to signin_url
+      else
+        session[:atime] = Time.now.utc.to_i
+      end
+    end
+  end
+
+  def session_expired?
+    if Setting.session_lifetime?
+      unless session[:ctime] && (Time.now.utc.to_i - session[:ctime].to_i <= Setting.session_lifetime.to_i * 60)
+        return true
+      end
+    end
+    if Setting.session_timeout?
+      unless session[:atime] && (Time.now.utc.to_i - session[:atime].to_i <= Setting.session_timeout.to_i * 60)
+        return true
+      end
+    end
+    false
+  end
+
+  def start_user_session(user)
+    session[:user_id] = user.id
+    session[:ctime] = Time.now.utc.to_i
+    session[:atime] = Time.now.utc.to_i
+  end
 
   def user_setup
     # Check the settings cache for each request
@@ -57,10 +89,7 @@ class ApplicationController < ActionController::Base
     if session[:user_id]
       # existing session
       (User.active.find(session[:user_id]) rescue nil)
-    elsif cookies[:autologin] && Setting.autologin?
-      # auto-login feature starts a new session
-      user = User.try_to_autologin(cookies[:autologin])
-      session[:user_id] = user.id if user
+    elsif user = try_to_autologin
       user
     elsif params[:format] == 'atom' && params[:key] && request.get? && accept_rss_auth?
       # RSS key authentication does not start a session
@@ -78,12 +107,24 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def try_to_autologin
+    if cookies[:autologin] && Setting.autologin?
+      # auto-login feature starts a new session
+      user = User.try_to_autologin(cookies[:autologin])
+      if user
+        reset_session
+        start_user_session(user)
+      end
+      user
+    end
+  end
+
   # Sets the logged in user
   def logged_user=(user)
     reset_session
     if user && user.is_a?(User)
       User.current = user
-      session[:user_id] = user.id
+      start_user_session(user)
     else
       User.current = User.anonymous
     end

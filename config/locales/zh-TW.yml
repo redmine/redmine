@@ -120,6 +120,9 @@
       about_x_hours:
         one: "約 1 小時"
         other: "約 %{count} 小時"
+      x_hours:
+        one:   "1 hour"
+        other: "%{count} hours"
       x_days:
         one: "1 天"
         other: "%{count} 天"
@@ -1111,3 +1114,8 @@
   description_date_range_interval: 選擇起始與結束日期以設定範圍區間
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
+  error_session_expired: Your session has expired. Please login again.
+  text_session_expiration_settings: "Warning: changing these settings may expire the current sessions including yours."
+  setting_session_lifetime: Session maximum lifetime
+  setting_session_timeout: Session inactivity timeout
+  label_session_expiration: Session expiration

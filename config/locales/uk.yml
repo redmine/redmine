@@ -48,6 +48,9 @@ uk:
       about_x_hours:
         one:   "about 1 hour"
         other: "about %{count} hours"
+      x_hours:
+        one:   "1 hour"
+        other: "%{count} hours"
       x_days:
         one:   "1 day"
         other: "%{count} days"
@@ -1026,3 +1029,8 @@ uk:
   setting_unsubscribe: "Дозволити користувачам видаляти свої облікові записи" 
   button_delete_my_account: "Видалити мій обліковий запис" 
   text_account_destroy_confirmation: "Ваш обліковий запис буде повністю видалений без можливості відновлення.\nВи певні, что бажаете продовжити?" 
+  error_session_expired: Your session has expired. Please login again.
+  text_session_expiration_settings: "Warning: changing these settings may expire the current sessions including yours."
+  setting_session_lifetime: Session maximum lifetime
+  setting_session_timeout: Session inactivity timeout
+  label_session_expiration: Session expiration
