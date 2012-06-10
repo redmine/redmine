@@ -486,9 +486,9 @@ class ApplicationController < ActionController::Base
   # Returns the API key present in the request
   def api_key_from_request
     if params[:key].present?
-      params[:key]
+      params[:key].to_s
     elsif request.headers["X-Redmine-API-Key"].present?
-      request.headers["X-Redmine-API-Key"]
+      request.headers["X-Redmine-API-Key"].to_s
     end
   end
 
