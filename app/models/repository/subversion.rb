@@ -81,6 +81,22 @@ class Repository::Subversion < Repository
     end
   end
 
+  protected
+
+  def load_entries_changesets(entries)
+    entries_with_identifier = entries.select {|entry| entry.lastrev && entry.lastrev.identifier.present?}
+    identifiers = entries_with_identifier.map {|entry| entry.lastrev.identifier}.compact.uniq
+
+    if identifiers.any?
+      changesets_by_identifier = changesets.where(:revision => identifiers).includes(:user, :repository).all.group_by(&:revision)
+      entries_with_identifier.each do |entry|
+        if m = changesets_by_identifier[entry.lastrev.identifier]
+          entry.changeset = m.first
+        end
+      end
+    end
+  end
+
   private
 
   # Returns the relative url of the repository
