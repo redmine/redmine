@@ -40,7 +40,12 @@ class Repository::Subversion < Repository
 
   def latest_changesets(path, rev, limit=10)
     revisions = scm.revisions(path, rev, nil, :limit => limit)
-    revisions ? changesets.find_all_by_revision(revisions.collect(&:identifier), :order => "committed_on DESC", :include => :user) : []
+    if revisions
+      identifiers = revisions.collect(&:identifier).compact
+      changesets.where(:revision => identifiers).reorder("committed_on DESC").includes(:repository, :user).all
+    else
+      []
+    end
   end
 
   # Returns a path relative to the url of the repository
