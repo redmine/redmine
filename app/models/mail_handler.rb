@@ -163,7 +163,7 @@ class MailHandler < ActionMailer::Base
     issue = Issue.new(:author => user, :project => project)
     issue.safe_attributes = issue_attributes_from_keywords(issue)
     issue.safe_attributes = {'custom_field_values' => custom_field_values_from_keywords(issue)}
-    issue.subject = email.subject.to_s.chomp[0,255]
+    issue.subject = cleaned_up_subject
     if issue.subject.blank?
       issue.subject = '(no subject)'
     end
@@ -223,7 +223,7 @@ class MailHandler < ActionMailer::Base
       end
 
       if !message.locked?
-        reply = Message.new(:subject => email.subject.gsub(%r{^.*msg\d+\]}, '').strip,
+        reply = Message.new(:subject => cleaned_up_subject.gsub(%r{^.*msg\d+\]}, '').strip,
                             :content => cleaned_up_text_body)
         reply.author = user
         reply.board = message.board
@@ -362,6 +362,23 @@ class MailHandler < ActionMailer::Base
 
   def cleaned_up_text_body
     cleanup_body(plain_text_body)
+  end
+
+  def cleaned_up_subject
+    subject = email.subject.to_s
+    unless subject.respond_to?(:encoding)
+      # try to reencode to utf8 manually with ruby1.8
+      begin
+        if h = email.header[:subject]
+          if m = h.value.match(/^=\?([^\?]+)\?/)
+            subject = Redmine::CodesetUtil.to_utf8(subject, m[1])
+          end
+        end
+      rescue
+        # nop
+      end
+    end
+    subject.strip[0,255]
   end
 
   def self.full_sanitizer
