@@ -341,7 +341,7 @@ class User < Principal
   end
 
   def self.find_by_rss_key(key)
-    token = Token.find_by_value(key.to_s)
+    token = Token.find_by_action_and_value('feeds', key.to_s)
     token && token.user.active? ? token.user : nil
   end
 
