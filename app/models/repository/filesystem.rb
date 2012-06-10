@@ -44,10 +44,6 @@ class Repository::Filesystem < Repository
     false
   end
 
-  def entries(path=nil, identifier=nil)
-    scm.entries(path, identifier)
-  end
-
   def fetch_changesets
     nil
   end

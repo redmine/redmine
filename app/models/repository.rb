@@ -167,7 +167,9 @@ class Repository < ActiveRecord::Base
   end
 
   def entries(path=nil, identifier=nil)
-    scm.entries(path, identifier)
+    entries = scm.entries(path, identifier)
+    load_entries_changesets(entries)
+    entries
   end
 
   def branches
@@ -377,6 +379,16 @@ class Repository < ActiveRecord::Base
     end
     if is_default? && is_default_changed?
       Repository.update_all(["is_default = ?", false], ["project_id = ?", project_id])
+    end
+  end
+
+  def load_entries_changesets(entries)
+    if entries
+      entries.each do |entry|
+        if entry.lastrev && entry.lastrev.identifier
+          entry.changeset = find_changeset_by_name(entry.lastrev.identifier)
+        end
+      end
     end
   end
 

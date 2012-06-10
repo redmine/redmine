@@ -301,7 +301,8 @@ module Redmine
       end
 
       class Entry
-        attr_accessor :name, :path, :kind, :size, :lastrev
+        attr_accessor :name, :path, :kind, :size, :lastrev, :changeset
+
         def initialize(attributes={})
           self.name = attributes[:name] if attributes[:name]
           self.path = attributes[:path] if attributes[:path]

@@ -66,6 +66,7 @@ class Repository::Cvs < Repository
         end
       end
     end
+    load_entries_changesets(entries)
     entries
   end
 

@@ -94,9 +94,9 @@ class Repository::Git < Repository
   end
 
   def entries(path=nil, identifier=nil)
-    scm.entries(path,
-                identifier,
-                options = {:report_last_commit => extra_report_last_commit})
+    entries = scm.entries(path, identifier, :report_last_commit => extra_report_last_commit)
+    load_entries_changesets(entries)
+    entries
   end
 
   # With SCMs that have a sequential commit numbering,
