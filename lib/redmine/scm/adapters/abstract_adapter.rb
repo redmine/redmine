@@ -322,6 +322,14 @@ module Redmine
         def is_text?
           Redmine::MimeType.is_type?('text', name)
         end
+
+        def author
+          if changeset
+            changeset.author.to_s
+          elsif lastrev
+            Redmine::CodesetUtil.replace_invalid_utf8(lastrev.author.to_s.split('<').first)
+          end
+        end
       end
 
       class Revisions < Array
