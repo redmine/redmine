@@ -48,6 +48,9 @@ sk:
       about_x_hours:
         one:   "okolo 1 hodiny"
         other: "okolo %{count} hodín"
+      x_hours:
+        one:   "1 hour"
+        other: "%{count} hours"
       x_days:
         one:   "1 deň"
         other: "%{count} dní"
@@ -1031,3 +1034,8 @@ sk:
   text_account_destroy_confirmation: |-
     Are you sure you want to proceed?
     Your account will be permanently deleted, with no way to reactivate it.
+  error_session_expired: Your session has expired. Please login again.
+  text_session_expiration_settings: "Warning: changing these settings may expire the current sessions including yours."
+  setting_session_lifetime: Session maximum lifetime
+  setting_session_timeout: Session inactivity timeout
+  label_session_expiration: Session expiration

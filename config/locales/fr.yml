@@ -53,6 +53,9 @@ fr:
       about_x_hours:
         one:   "environ une heure"
         other: "environ %{count} heures"
+      x_hours:
+        one:   "une heure"
+        other: "%{count} heures"
       x_days:
         one:   "un jour"
         other: "%{count} jours"
@@ -201,6 +204,7 @@ fr:
   error_workflow_copy_target: 'Veuillez sélectionner les trackers et rôles cibles'
   error_issue_done_ratios_not_updated: L'avancement des demandes n'a pas pu être mis à jour.
   error_attachment_too_big: Ce fichier ne peut pas être attaché car il excède la taille maximale autorisée (%{max_size})
+  error_session_expired: "Votre session a expiré. Veuillez vous reconnecter."
 
   warning_attachments_not_saved: "%{count} fichier(s) n'ont pas pu être sauvegardés."
 
@@ -381,6 +385,8 @@ fr:
   setting_default_issue_start_date_to_creation_date: Donner à la date de début d'une nouvelle demande la valeur de la date du jour
   setting_commit_cross_project_ref: Permettre le référencement et la résolution des demandes de tous les autres projets
   setting_unsubscribe: Permettre aux utilisateurs de supprimer leur propre compte
+  setting_session_lifetime: Durée de vie maximale des sessions
+  setting_session_timeout: Durée maximale d'inactivité
 
   permission_add_project: Créer un projet
   permission_add_subprojects: Créer des sous-projets
@@ -822,6 +828,7 @@ fr:
   label_copy_attachments: Copier les fichiers
   label_item_position: "%{position} sur %{count}"
   label_completed_versions: Versions passées
+  label_session_expiration: Expiration des sessions
 
   button_login: Connexion
   button_submit: Soumettre
@@ -938,6 +945,7 @@ fr:
   text_issue_conflict_resolution_add_notes: "Ajouter mes notes et ignorer mes autres changements"
   text_issue_conflict_resolution_cancel: "Annuler ma mise à jour et réafficher %{link}"
   text_account_destroy_confirmation: "Êtes-vous sûr de vouloir continuer ?\nVotre compte sera définitivement supprimé, sans aucune possibilité de le réactiver."
+  text_session_expiration_settings: "Attention : le changement de ces paramètres peut entrainer l'expiration des sessions utilisateurs en cours, y compris la vôtre."
 
   default_role_manager: "Manager "
   default_role_developer: "Développeur "

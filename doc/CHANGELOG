@@ -7,6 +7,7 @@ http://www.redmine.org/
 == TBD v1.4.4
 
 * Defect #11112: REST API - custom fields in POST/PUT ignored for time_entries
+* Feature #6597: Configurable session lifetime and timeout
 * Patch #11113: Small glitch in German localization
 
 == 2012-06-05 v1.4.3
