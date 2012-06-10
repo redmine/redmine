@@ -167,7 +167,7 @@ class User < Principal
 
   # Returns the user who matches the given autologin +key+ or nil
   def self.try_to_autologin(key)
-    tokens = Token.find_all_by_action_and_value('autologin', key)
+    tokens = Token.find_all_by_action_and_value('autologin', key.to_s)
     # Make sure there's only 1 token that matches the key
     if tokens.size == 1
       token = tokens.first
@@ -341,12 +341,12 @@ class User < Principal
   end
 
   def self.find_by_rss_key(key)
-    token = Token.find_by_value(key)
+    token = Token.find_by_value(key.to_s)
     token && token.user.active? ? token.user : nil
   end
 
   def self.find_by_api_key(key)
-    token = Token.find_by_action_and_value('api', key)
+    token = Token.find_by_action_and_value('api', key.to_s)
     token && token.user.active? ? token.user : nil
   end
 
