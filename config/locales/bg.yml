@@ -198,6 +198,7 @@ bg:
   error_unable_delete_issue_status: Невъзможност за изтриване на състояние на задача
   error_unable_to_connect: Невъзможност за свързване с (%{value})
   error_attachment_too_big: Този файл не може да бъде качен, понеже надхвърля максималната възможна големина (%{max_size})
+  error_session_expired: Вашата сесия е изтекла. Моля влезете в Redmine отново.
   warning_attachments_not_saved: "%{count} файла не бяха записани."
 
   mail_subject_lost_password: "Вашата парола (%{value})"
@@ -389,6 +390,8 @@ bg:
   setting_default_issue_start_date_to_creation_date: Начална дата на новите задачи по подразбиране да бъде днешната дата
   setting_commit_cross_project_ref: Отбелязване и приключване на задачи от други проекти, несвързани с конкретното хранилище
   setting_unsubscribe: Потребителите могат да премахват профилите си
+  setting_session_lifetime: Максимален живот на сесиите
+  setting_session_timeout: Таймаут за неактивност преди прекратяване на сесиите
 
   permission_add_project: Създаване на проект
   permission_add_subprojects: Създаване на подпроекти
@@ -851,6 +854,7 @@ bg:
   label_item_position: "%{position}/%{count}"
   label_completed_versions: Завършени версии
   label_search_for_watchers: Търсене на потребители за наблюдатели
+  label_session_expiration: Изтичане на сесиите
 
   button_login: Вход
   button_submit: Прикачване
@@ -986,6 +990,7 @@ bg:
   text_issue_conflict_resolution_add_notes: Добавяне на моите коментари и отхвърляне на другите мои промени
   text_issue_conflict_resolution_cancel: Отхвърляне на всички мои промени и презареждане на %{link}
   text_account_destroy_confirmation: "Сигурен/на ли сте, че желаете да продължите?\nВашият профил ще бъде премахнат без възможност за възстановяване."
+  text_session_expiration_settings: "Внимание: промяната на тези установяваноя може да прекрати всички активни сесии, включително и вашата."
 
   default_role_manager: Мениджър
   default_role_developer: Разработчик
@@ -1031,8 +1036,3 @@ bg:
   description_date_range_interval: Изберете диапазон чрез задаване на начална и крайна дати
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
-  error_session_expired: Your session has expired. Please login again.
-  text_session_expiration_settings: "Warning: changing these settings may expire the current sessions including yours."
-  setting_session_lifetime: Session maximum lifetime
-  setting_session_timeout: Session inactivity timeout
-  label_session_expiration: Session expiration
