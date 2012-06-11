@@ -73,6 +73,7 @@ class ActivitiesControllerTest < ActionController::TestCase
   end
 
   def test_user_index
+    @request.session[:user_id] = 1
     get :index, :user_id => 2
     assert_response :success
     assert_template 'index'
@@ -80,8 +81,11 @@ class ActivitiesControllerTest < ActionController::TestCase
 
     assert_select 'h2 a[href=/users/2]', :text => 'John Smith'
 
+    i1 = Issue.find(1)
+    d1 = User.find(1).time_to_date(i1.created_on)
+
     assert_tag :tag => "h3",
-               :content => /#{3.day.ago.to_date.day}/,
+               :content => /#{d1.day}/,
                :sibling => { :tag => "dl",
                  :child => { :tag => "dt",
                    :attributes => { :class => /issue/ },
