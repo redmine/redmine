@@ -53,8 +53,8 @@ ja:
         one:   "約1時間"
         other: "約%{count}時間"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1時間"
+        other: "%{count}時間"
       x_days:
         one:   "1日"
         other: "%{count}日"
@@ -1064,8 +1064,8 @@ ja:
   text_account_destroy_confirmation: |-
     本当にアカウントを削除しますか？
     アカウントは恒久的に削除されます。削除後に再度アカウントを有効にする手段はありません。
-  error_session_expired: Your session has expired. Please login again.
-  text_session_expiration_settings: "Warning: changing these settings may expire the current sessions including yours."
-  setting_session_lifetime: Session maximum lifetime
-  setting_session_timeout: Session inactivity timeout
-  label_session_expiration: Session expiration
+  error_session_expired: セッションが失効しました。ログインし直してください。
+  text_session_expiration_settings: "警告: この設定を変更すると現在有効なセッションが失効する可能性があります。"
+  setting_session_lifetime: 有効期間の最大値
+  setting_session_timeout: 無操作タイムアウト
+  label_session_expiration: セッション有効期間
