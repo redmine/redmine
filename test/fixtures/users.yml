@@ -126,7 +126,9 @@ users_008:
   status: 1
   last_login_on: 
   language: 'it'
-  hashed_password: 1
+  # password = foo
+  salt: 7599f9963ec07b5a3b55b354407120c0
+  hashed_password: 8f659c8d7c072f189374edacfa90d6abbc26d8ed
   updated_on: 2006-07-19 19:33:19 +02:00
   admin: false
   mail: miscuser8@foo.bar

@@ -8,8 +8,8 @@ Running Tests
 =============
 
 Run `rake --tasks test` to see available tests.
-Run `rake test` to run the entire test suite (note that this will drop
-and recreate your test database)
+Run `rake test` to run the entire test suite (except the tests for the
+Apache perl module Redmine.pm, see below).
 
 You can run `ruby test/unit/issue_test.rb` for running a single test case.
 
@@ -42,3 +42,16 @@ The OpenLDAP project provides a simple LDAP implementation that should work
 good as a test server.
 
 If the LDAP is not available, the tests that need it will be skipped.
+
+Running Redmine.pm tests
+========================
+
+(work in progress)
+
+Running the tests for the Redmine.pm perl module needs a bit more setup.
+You need an Apache server with mod_perl, mod_dav_svn and Redmine.pm configured.
+See: http://www.redmine.org/projects/redmine/wiki/Repositories_access_control_with_apache_mod_dav_svn_and_mod_perl
+
+You need an empty repository accessible at http://127.0.0.1/svn/ecookbook
+Then, you can run the tests with:
+`ruby test\extra\redmine_pm\repository_subversion_test.rb`
