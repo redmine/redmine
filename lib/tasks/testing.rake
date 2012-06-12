@@ -6,9 +6,8 @@ namespace :test do
     rm_f "coverage"
     rm_f "coverage.data"
     rcov = "rcov --rails --aggregate coverage.data --text-summary -Ilib --html --exclude gems/"
-    files = Dir.glob("test/**/*_test.rb").join(" ")
+    files = %w(unit functional integration).map {|dir| Dir.glob("test/#{dir}/**/*_test.rb")}.flatten.join(" ")
     system("#{rcov} #{files}")
-    system("open coverage/index.html") if PLATFORM['darwin']
   end
 
   desc 'Run unit and functional scm tests'
