@@ -167,7 +167,7 @@ class RedminePmTest::RepositorySubversionTest < RedminePmTest::TestCase
 
   def test_write_commands
     Role.find(2).add_permission! :commit_access
-    filename = DateTime.now.strftime("%y%m%d%H%M%S")
+    filename = random_filename
 
     Dir.mktmpdir do |dir|
       assert_success "checkout", svn_url, dir
