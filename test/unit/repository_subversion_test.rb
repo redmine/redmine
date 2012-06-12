@@ -61,6 +61,11 @@ class RepositorySubversionTest < ActiveSupport::TestCase
       assert_kind_of Redmine::Scm::Adapters::Entries, entries
     end
 
+    def test_entries_for_invalid_path_should_return_nil
+      entries = @repository.entries('invalid_path')
+      assert_nil entries
+    end
+
     def test_latest_changesets
       assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
