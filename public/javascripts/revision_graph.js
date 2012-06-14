@@ -38,6 +38,7 @@ function drawRevisionGraph(holder, commits_hash, graph_space) {
     var parent_commit;
     var x, y, parent_x, parent_y;
     var path, title;
+    var revision_dot_overlay;
 
     commits.each(function(commit) {
 
