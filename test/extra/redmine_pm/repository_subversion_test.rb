@@ -19,7 +19,7 @@ require File.expand_path('../test_case', __FILE__)
 require 'tmpdir'
 
 class RedminePmTest::RepositorySubversionTest < RedminePmTest::TestCase
-  fixtures :projects, :users, :members, :roles, :member_roles
+  fixtures :projects, :users, :members, :roles, :member_roles, :auth_sources
 
   SVN_BIN = Redmine::Configuration['scm_subversion_command'] || "svn"
 
@@ -150,6 +150,41 @@ class RedminePmTest::RepositorySubversionTest < RedminePmTest::TestCase
     end
     with_credentials "dlopper", "wrong" do
       assert_failure "ls", svn_url
+    end
+  end
+
+  def test_anonymous_read_should_fail_with_login_required
+    assert_success "ls", svn_url
+    with_settings :login_required => '1' do
+      assert_failure "ls", svn_url
+    end
+  end
+
+  def test_authenticated_read_should_succeed_with_login_required
+    with_settings :login_required => '1' do
+      with_credentials "miscuser8", "foo" do
+        assert_success "ls", svn_url
+      end
+    end
+  end
+
+  if ldap_configured?
+    def test_user_with_ldap_auth_source_should_authenticate_with_ldap_credentials
+      ldap_user = User.new(:mail => 'example1@redmine.org', :firstname => 'LDAP', :lastname => 'user', :auth_source_id => 1)
+      ldap_user.login = 'example1'
+      ldap_user.save!
+  
+      with_settings :login_required => '1' do
+        with_credentials "example1", "123456" do
+          assert_success "ls", svn_url
+        end
+      end
+  
+      with_settings :login_required => '1' do
+        with_credentials "example1", "wrong" do
+          assert_failure "ls", svn_url
+        end
+      end
     end
   end
 
