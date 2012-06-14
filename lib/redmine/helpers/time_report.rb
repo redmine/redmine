@@ -138,21 +138,21 @@ module Redmine
         # Add list and boolean custom fields as available criteria
         custom_fields = (@project.nil? ? IssueCustomField.for_all : @project.all_issue_custom_fields)
         custom_fields.select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
-          @available_criteria["cf_#{cf.id}"] = {:sql => "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'Issue' AND c.customized_id = #{Issue.table_name}.id)",
+          @available_criteria["cf_#{cf.id}"] = {:sql => "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'Issue' AND c.customized_id = #{Issue.table_name}.id ORDER BY c.value LIMIT 1)",
                                                  :format => cf.field_format,
                                                  :label => cf.name}
         end if @project
 
         # Add list and boolean time entry custom fields
         TimeEntryCustomField.find(:all).select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
-          @available_criteria["cf_#{cf.id}"] = {:sql => "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'TimeEntry' AND c.customized_id = #{TimeEntry.table_name}.id)",
+          @available_criteria["cf_#{cf.id}"] = {:sql => "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'TimeEntry' AND c.customized_id = #{TimeEntry.table_name}.id ORDER BY c.value LIMIT 1)",
                                                  :format => cf.field_format,
                                                  :label => cf.name}
         end
 
         # Add list and boolean time entry activity custom fields
         TimeEntryActivityCustomField.find(:all).select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
-          @available_criteria["cf_#{cf.id}"] = {:sql => "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'Enumeration' AND c.customized_id = #{TimeEntry.table_name}.activity_id)",
+          @available_criteria["cf_#{cf.id}"] = {:sql => "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'Enumeration' AND c.customized_id = #{TimeEntry.table_name}.activity_id ORDER BY c.value LIMIT 1)",
                                                  :format => cf.field_format,
                                                  :label => cf.name}
         end
