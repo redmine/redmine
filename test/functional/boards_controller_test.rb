@@ -55,6 +55,20 @@ class BoardsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:topics)
   end
 
+  def test_show_should_display_sticky_messages_first
+    Message.update_all(:sticky => 0)
+    Message.update_all({:sticky => 1}, {:id => 1})
+
+    get :show, :project_id => 1, :id => 1
+    assert_response :success
+
+    topics = assigns(:topics)
+    assert_not_nil topics
+    assert topics.size > 1, "topics size was #{topics.size}"
+    assert topics.first.sticky?
+    assert topics.first.updated_on < topics.second.updated_on
+  end
+
   def test_show_with_permission_should_display_the_new_message_form
     @request.session[:user_id] = 2
     get :show, :project_id => 1, :id => 1

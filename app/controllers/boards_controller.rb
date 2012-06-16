@@ -43,10 +43,10 @@ class BoardsController < ApplicationController
 
         @topic_count = @board.topics.count
         @topic_pages = Paginator.new self, @topic_count, per_page_option, params['page']
-        @topics =  @board.topics.find :all, :order => ["#{Message.table_name}.sticky DESC", sort_clause].compact.join(', '),
+        @topics =  @board.topics.reorder("#{Message.table_name}.sticky DESC").order(sort_clause).all(
                                       :include => [:author, {:last_reply => :author}],
                                       :limit  =>  @topic_pages.items_per_page,
-                                      :offset =>  @topic_pages.current.offset
+                                      :offset =>  @topic_pages.current.offset)
         @message = Message.new(:board => @board)
         render :action => 'show', :layout => !request.xhr?
       }
