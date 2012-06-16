@@ -22,7 +22,7 @@ class Redmine::I18nTest < ActiveSupport::TestCase
   include ActionView::Helpers::NumberHelper
 
   def setup
-    @hook_module = Redmine::Hook
+    User.current.language = nil
   end
 
   def test_date_format_default
@@ -37,6 +37,16 @@ class Redmine::I18nTest < ActiveSupport::TestCase
     today = Date.today
     Setting.date_format = '%d %m %Y'
     assert_equal today.strftime('%d %m %Y'), format_date(today)
+  end
+
+  def test_date_format_default_with_user_locale
+    set_language_if_valid 'es'
+    today = now = Time.parse('2011-02-20 14:00:00')
+    Setting.date_format = '%d %B %Y'
+    User.current.language = 'fr'
+    assert_equal "20 f\u00E9vrier 2011", format_date(today)
+    User.current.language = nil
+    assert_equal '20 Febrero 2011', format_date(today)
   end
 
   def test_date_and_time_for_each_language
@@ -95,6 +105,22 @@ class Redmine::I18nTest < ActiveSupport::TestCase
       with_settings :date_format => '%Y-%m-%d' do
         assert_equal '2011-02-20 03:45 pm', format_time(now)
         assert_equal '03:45 pm', format_time(now, false)
+      end
+    end
+  end
+
+  def test_time_format_default_with_user_locale
+    set_language_if_valid 'en'
+    User.current.language = 'fr'
+    now = Time.parse('2011-02-20 15:45:22')
+    with_settings :time_format => '' do
+      with_settings :date_format => '' do
+        assert_equal '20/02/2011 15:45', format_time(now)
+        assert_equal '15:45', format_time(now, false)
+      end
+      with_settings :date_format => '%Y-%m-%d' do
+        assert_equal '2011-02-20 15:45', format_time(now)
+        assert_equal '15:45', format_time(now, false)
       end
     end
   end

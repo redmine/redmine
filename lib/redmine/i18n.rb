@@ -37,16 +37,21 @@ module Redmine
 
     def format_date(date)
       return nil unless date
-      Setting.date_format.blank? ? ::I18n.l(date.to_date) : date.strftime(Setting.date_format)
+      options = {}
+      options[:format] = Setting.date_format unless Setting.date_format.blank?
+      options[:locale] = User.current.language unless User.current.language.blank?
+      ::I18n.l(date.to_date, options)
     end
 
     def format_time(time, include_date = true)
       return nil unless time
+      options = {}
+      options[:format] = (Setting.time_format.blank? ? :time : Setting.time_format)
+      options[:locale] = User.current.language unless User.current.language.blank?
       time = time.to_time if time.is_a?(String)
       zone = User.current.time_zone
       local = zone ? time.in_time_zone(zone) : (time.utc? ? time.localtime : time)
-      (include_date ? "#{format_date(local)} " : "") +
-        (Setting.time_format.blank? ? ::I18n.l(local, :format => :time) : local.strftime(Setting.time_format))
+      (include_date ? "#{format_date(local)} " : "") + ::I18n.l(local, options)
     end
 
     def day_name(day)
