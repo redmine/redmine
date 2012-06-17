@@ -6,6 +6,7 @@ http://www.redmine.org/
 
 == TBD v1.4.4
 
+* Defect #11061: Cannot choose commit versions to view differences in Git/Mercurial repository view
 * Defect #11112: REST API - custom fields in POST/PUT ignored for time_entries
 * Feature #6597: Configurable session lifetime and timeout
 * Patch #11113: Small glitch in German localization
