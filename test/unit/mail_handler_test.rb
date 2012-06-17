@@ -347,6 +347,15 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 'caaf384198bcbc9563ab5c058acd73cd', attachment.digest
   end
 
+  def test_add_issue_with_iso_8859_1_subject
+    issue = submit_email(
+              'subject_as_iso-8859-1.eml',
+              :issue => {:project => 'ecookbook'}
+            )
+    assert_kind_of Issue, issue
+    assert_equal 'Testmail from Webmail: ä ö ü...', issue.subject
+  end
+
   def test_should_ignore_emails_from_locked_users
     User.find(2).lock!
 
