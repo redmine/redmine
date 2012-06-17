@@ -13,8 +13,12 @@ begin
     ## Ruby uses ANSI api to fork a process on Windows.
     ## Japanese Shift_JIS and Traditional Chinese Big5 have 0x5c(backslash) problem
     ## and these are incompatible with ASCII.
-    # WINDOWS_PASS = Redmine::Platform.mswin?
-    WINDOWS_PASS = false
+    ## Git for Windows (msysGit) changed internal API from ANSI to Unicode in 1.7.10
+    ## http://code.google.com/p/msysgit/issues/detail?id=80
+    ## So, Latin-1 path tests fail on Japanese Windows
+    WINDOWS_PASS = (Redmine::Platform.mswin? &&
+                       Redmine::Scm::Adapters::GitAdapter.client_version_above?([1, 7, 10]))
+    WINDOWS_SKIP_STR = "TODO: This test fails in Git for Windows above 1.7.10"
 
     ## Git, Mercurial and CVS path encodings are binary.
     ## Subversion supports URL encoding for path.
@@ -391,7 +395,7 @@ begin
 
       def test_latin_1_path
         if WINDOWS_PASS
-          #
+          puts WINDOWS_SKIP_STR
         elsif JRUBY_SKIP
           puts JRUBY_SKIP_STR
         else
@@ -453,7 +457,7 @@ begin
 
       def test_entries_latin_1_dir
         if WINDOWS_PASS
-          #
+          puts WINDOWS_SKIP_STR
         elsif JRUBY_SKIP
           puts JRUBY_SKIP_STR
         else
