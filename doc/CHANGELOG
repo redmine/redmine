@@ -13,6 +13,7 @@ http://www.redmine.org/
 * Defect #11178: Spent time sorted by date-descending order lists same-date entries in physical order
 * Feature #6597: Configurable session lifetime and timeout
 * Patch #11113: Small glitch in German localization
+* Fix for Rails vulnerabilities CVE-2012-2694 and CVE-2012-2695
 
 == 2012-06-05 v1.4.3
 
