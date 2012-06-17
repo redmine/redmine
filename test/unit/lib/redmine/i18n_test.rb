@@ -44,7 +44,9 @@ class Redmine::I18nTest < ActiveSupport::TestCase
     today = now = Time.parse('2011-02-20 14:00:00')
     Setting.date_format = '%d %B %Y'
     User.current.language = 'fr'
-    assert_equal "20 f\u00E9vrier 2011", format_date(today)
+    s1 = "20 f\xc3\xa9vrier 2011"
+    s1.force_encoding("UTF-8") if s1.respond_to?(:force_encoding)
+    assert_equal s1, format_date(today)
     User.current.language = nil
     assert_equal '20 Febrero 2011', format_date(today)
   end
