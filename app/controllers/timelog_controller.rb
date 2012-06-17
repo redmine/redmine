@@ -39,7 +39,7 @@ class TimelogController < ApplicationController
 
   def index
     sort_init 'spent_on', 'desc'
-    sort_update 'spent_on' => 'spent_on',
+    sort_update 'spent_on' => ['spent_on', "#{TimeEntry.table_name}.created_on"],
                 'user' => 'user_id',
                 'activity' => 'activity_id',
                 'project' => "#{Project.table_name}.name",

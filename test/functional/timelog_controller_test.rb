@@ -568,6 +568,20 @@ class TimelogControllerTest < ActionController::TestCase
       :attributes => {:action => "/projects/ecookbook/issues/1/time_entries", :id => 'query_form'}
   end
 
+  def test_index_should_sort_by_spent_on_and_created_on
+    t1 = TimeEntry.create!(:user => User.find(1), :project => Project.find(1), :hours => 1, :spent_on => '2012-06-16', :created_on => '2012-06-16 20:00:00', :activity_id => 10)
+    t2 = TimeEntry.create!(:user => User.find(1), :project => Project.find(1), :hours => 1, :spent_on => '2012-06-16', :created_on => '2012-06-16 20:05:00', :activity_id => 10)
+    t3 = TimeEntry.create!(:user => User.find(1), :project => Project.find(1), :hours => 1, :spent_on => '2012-06-15', :created_on => '2012-06-16 20:10:00', :activity_id => 10)
+
+    get :index, :project_id => 1, :from => '2012-06-15', :to => '2012-06-16'
+    assert_response :success
+    assert_equal [t2, t1, t3], assigns(:entries)
+
+    get :index, :project_id => 1, :from => '2012-06-15', :to => '2012-06-16', :sort => 'spent_on'
+    assert_response :success
+    assert_equal [t3, t1, t2], assigns(:entries)
+  end
+
   def test_index_atom_feed
     get :index, :project_id => 1, :format => 'atom'
     assert_response :success
