@@ -8,6 +8,7 @@ http://www.redmine.org/
 
 * Defect #11061: Cannot choose commit versions to view differences in Git/Mercurial repository view
 * Defect #11112: REST API - custom fields in POST/PUT ignored for time_entries
+* Defect #11133: Wiki-page section edit link can point to incorrect section
 * Feature #6597: Configurable session lifetime and timeout
 * Patch #11113: Small glitch in German localization
 

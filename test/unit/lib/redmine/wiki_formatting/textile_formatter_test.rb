@@ -394,6 +394,31 @@ Nulla nunc nisi, egestas in ornare vel, posuere ac libero."]
       @formatter.new(text).update_section(3, replacement)
   end
 
+  def test_get_section_should_support_lines_with_spaces_before_heading
+    # the lines after Content 2 and Heading 4 contain a space
+    text = <<-STR
+h1. Heading 1
+
+Content 1
+
+h1. Heading 2
+
+Content 2
+ 
+h1. Heading 3
+
+Content 3
+
+h1. Heading 4
+ 
+Content 4
+STR
+
+    [1, 2, 3, 4].each do |index|
+      assert_match /\Ah1. Heading #{index}.+Content #{index}/m, @formatter.new(text).get_section(index).first
+    end
+  end
+
   private
 
   def assert_html_output(to_test, expect_paragraph = true)
