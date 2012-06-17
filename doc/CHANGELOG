@@ -6,6 +6,7 @@ http://www.redmine.org/
 
 == TBD v1.4.4
 
+* Defect #11160: SQL Error on time report if a custom field has multiple values for an entry
 * Defect #11061: Cannot choose commit versions to view differences in Git/Mercurial repository view
 * Defect #11112: REST API - custom fields in POST/PUT ignored for time_entries
 * Defect #11133: Wiki-page section edit link can point to incorrect section
