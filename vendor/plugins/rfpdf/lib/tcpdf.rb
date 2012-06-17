@@ -283,6 +283,7 @@ class TCPDF
 		@state ||= 0
   	@tableborder ||= 0
   	@tdbegin ||= false
+	@tdtext ||= ''
   	@tdwidth ||= 0
   	@tdheight ||= 0
   	@tdalign ||= "L"
@@ -3510,28 +3511,12 @@ class TCPDF
 				
       else
         #Text
-				if (@href)
+				if (@tdbegin)
+					element.gsub!(/[\t\r\n\f]/, "");
+					@tdtext << element.gsub(/&nbsp;/, " ");
+				elsif (@href)
 					element.gsub!(/[\t\r\n\f]/, "");
 					addHtmlLink(@href, element, fill);
-				elsif (@tdbegin)
-					element.gsub!(/[\t\r\n\f]/, "");
-					element.gsub!(/&nbsp;/, " ");
-					base_page = @page;
-					base_x = @x;
-					base_y = @y;
-
-					MultiCell(@tdwidth, @tdheight, unhtmlentities(element.strip), @tableborder, @tdalign, @tdfill, 1);
-					tr_end = @t_cells[@table_id][@tr_id][@td_id]['j1'] + 1;
-					if @max_td_page[tr_end].nil?  or (@max_td_page[tr_end] < @page)
-						@max_td_page[tr_end] = @page
-						@max_td_y[tr_end] = @y
-					elsif (@max_td_page[tr_end] == @page)
-						@max_td_y[tr_end] = @y if @max_td_y[tr_end].nil? or (@max_td_y[tr_end] < @y) 
-					end
-
-					@page = base_page;
-					@x = base_x + @tdwidth;
-					@y = base_y;
 				elsif (@pre_state == true and element.length > 0)
 					Write(@lasth, unhtmlentities(element), '', fill);
 				elsif (element.strip.length > 0)
@@ -3825,6 +3810,7 @@ class TCPDF
 				@x += 5;	
 
 			when 'table'
+				Ln();
 				if @default_table_columns < @max_table_columns[@table_id]
 					@table_columns = @max_table_columns[@table_id];
 				else
@@ -3921,6 +3907,11 @@ class TCPDF
 				
 			when 'img'
 				if (!attrs['src'].nil?)
+					# Don't generates image inside table tag
+					if (@tdbegin)
+						@tdtext << attrs['src'];
+						return
+					end
 					# Only generates image include a pdf if RMagick is avalaible
 					unless Object.const_defined?(:Magick)
 						Write(@lasth, attrs['src'], '', fill);
@@ -4079,6 +4070,23 @@ class TCPDF
 				Ln();
 
 			when 'td','th'
+				base_page = @page;
+				base_x = @x;
+				base_y = @y;
+
+				MultiCell(@tdwidth, @tdheight, unhtmlentities(@tdtext.strip), @tableborder, @tdalign, @tdfill, 1);
+				tr_end = @t_cells[@table_id][@tr_id][@td_id]['j1'] + 1;
+				if @max_td_page[tr_end].nil?  or (@max_td_page[tr_end] < @page)
+					@max_td_page[tr_end] = @page
+					@max_td_y[tr_end] = @y
+				elsif (@max_td_page[tr_end] == @page)
+					@max_td_y[tr_end] = @y if @max_td_y[tr_end].nil? or (@max_td_y[tr_end] < @y) 
+				end
+
+				@page = base_page;
+				@x = base_x + @tdwidth;
+				@y = base_y;
+				@tdtext = '';
 				@tdbegin = false;
 				@tdwidth = 0;
 				@tdheight = 0;
@@ -4126,7 +4134,6 @@ class TCPDF
 				@l_margin -= 5;
 				@r_margin -= 5;
 				@tableborder=0;
-				Ln();
 				@table_id += 1;
 				
 			when 'strong'
