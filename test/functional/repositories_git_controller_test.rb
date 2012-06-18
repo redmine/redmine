@@ -29,16 +29,6 @@ class RepositoriesGitControllerTest < ActionController::TestCase
   CHAR_1_HEX = "\xc3\x9c"
   NUM_REV = 28
 
-  ## Ruby uses ANSI api to fork a process on Windows.
-  ## Japanese Shift_JIS and Traditional Chinese Big5 have 0x5c(backslash) problem
-  ## and these are incompatible with ASCII.
-  ## Git for Windows (msysGit) changed internal API from ANSI to Unicode in 1.7.10
-  ## http://code.google.com/p/msysgit/issues/detail?id=80
-  ## So, Latin-1 path tests fail on Japanese Windows
-  WINDOWS_PASS = (Redmine::Platform.mswin? &&
-                       Redmine::Scm::Adapters::GitAdapter.client_version_above?([1, 7, 10]))
-  WINDOWS_SKIP_STR = "TODO: This test fails in Git for Windows above 1.7.10"
-
   ## Git, Mercurial and CVS path encodings are binary.
   ## Subversion supports URL encoding for path.
   ## Redmine Mercurial adapter and extension use URL encoding.
@@ -97,6 +87,16 @@ class RepositoriesGitControllerTest < ActionController::TestCase
   end
 
   if File.directory?(REPOSITORY_PATH)
+    ## Ruby uses ANSI api to fork a process on Windows.
+    ## Japanese Shift_JIS and Traditional Chinese Big5 have 0x5c(backslash) problem
+    ## and these are incompatible with ASCII.
+    ## Git for Windows (msysGit) changed internal API from ANSI to Unicode in 1.7.10
+    ## http://code.google.com/p/msysgit/issues/detail?id=80
+    ## So, Latin-1 path tests fail on Japanese Windows
+    WINDOWS_PASS = (Redmine::Platform.mswin? &&
+                         Redmine::Scm::Adapters::GitAdapter.client_version_above?([1, 7, 10]))
+    WINDOWS_SKIP_STR = "TODO: This test fails in Git for Windows above 1.7.10"
+
     def test_get_new
       @request.session[:user_id] = 1
       @project.repository.destroy
