@@ -279,6 +279,7 @@
   error_unable_delete_issue_status: '無法刪除問題狀態'
   error_unable_to_connect: "無法連線至（%{value}）"
   error_attachment_too_big: "這個檔案無法被上傳，因為它已經超過最大的檔案大小 (%{max_size})"
+  error_session_expired: "您的工作階段已經過期。請重新登入。"
   warning_attachments_not_saved: "%{count} 個附加檔案無法被儲存。"
 
   mail_subject_lost_password: 您的 Redmine 網站密碼
@@ -470,6 +471,8 @@
   setting_default_issue_start_date_to_creation_date: 設定新問題的起始日期為今天的日期
   setting_commit_cross_project_ref: 允許關聯並修正其他專案的問題
   setting_unsubscribe: 允許用戶取消註冊（刪除帳戶）
+  setting_session_lifetime: 工作階段存留時間最大值
+  setting_session_timeout: 工作階段無活動逾時時間
 
   permission_add_project: 建立專案
   permission_add_subprojects: 建立子專案
@@ -932,6 +935,7 @@
   label_item_position: "%{position} / %{count}"
   label_completed_versions: 已完成版本
   label_search_for_watchers: 搜尋可供加入的監看者
+  label_session_expiration: 工作階段逾期
 
   button_login: 登入
   button_submit: 送出
@@ -1069,6 +1073,7 @@
   text_account_destroy_confirmation: |-
     您確定要繼續這個動作嗎？
     您的帳戶將會被永久刪除，且無法被重新啟用。
+  text_session_expiration_settings: "警告：變更這些設定將會導致包含您在內的所有工作階段過期。"
 
   default_role_manager: 管理人員
   default_role_developer: 開發人員
@@ -1114,8 +1119,3 @@
   description_date_range_interval: 選擇起始與結束日期以設定範圍區間
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
-  error_session_expired: Your session has expired. Please login again.
-  text_session_expiration_settings: "Warning: changing these settings may expire the current sessions including yours."
-  setting_session_lifetime: Session maximum lifetime
-  setting_session_timeout: Session inactivity timeout
-  label_session_expiration: Session expiration
