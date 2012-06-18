@@ -190,6 +190,18 @@ class ProjectTest < ActiveSupport::TestCase
     assert_nil Issue.first(:conditions => {:project_id => @ecookbook.id})
   end
 
+  def test_destroy_should_destroy_subtasks
+    issues = (0..2).to_a.map {Issue.create!(:project_id => 1, :tracker_id => 1, :author_id => 1, :subject => 'test')}
+    issues[0].update_attribute :parent_issue_id, issues[1].id
+    issues[2].update_attribute :parent_issue_id, issues[1].id
+    assert_equal 2, issues[1].children.count
+
+    assert_nothing_raised do
+      Project.find(1).destroy
+    end
+    assert Issue.find_all_by_id(issues.map(&:id)).empty?
+  end
+
   def test_destroying_root_projects_should_clear_data
     Project.roots.each do |root|
       root.destroy

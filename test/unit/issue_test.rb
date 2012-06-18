@@ -761,6 +761,30 @@ class IssueTest < ActiveSupport::TestCase
     assert_nil TimeEntry.find_by_issue_id(1)
   end
 
+  def test_destroying_a_deleted_issue_should_not_raise_an_error
+    issue = Issue.find(1)
+    Issue.find(1).destroy
+
+    assert_nothing_raised do
+      assert_no_difference 'Issue.count' do
+        issue.destroy
+      end
+      assert issue.destroyed?
+    end
+  end
+
+  def test_destroying_a_stale_issue_should_not_raise_an_error
+    issue = Issue.find(1)
+    Issue.find(1).update_attribute :subject, "Updated"
+
+    assert_nothing_raised do
+      assert_difference 'Issue.count', -1 do
+        issue.destroy
+      end
+      assert issue.destroyed?
+    end
+  end
+
   def test_blocked
     blocked_issue = Issue.find(9)
     blocking_issue = Issue.find(10)
