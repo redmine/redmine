@@ -4,6 +4,24 @@ Redmine - project management software
 Copyright (C) 2006-2012  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2012-06-18 v2.0.3
+
+* Defect #10688: PDF export from Wiki - Problems with tables
+* Defect #11061: Cannot choose commit versions to view differences in Git/Mercurial repository view
+* Defect #11065: E-Mail submitted tickets: German umlauts in 'Subject' get malformed (ruby 1.8)
+* Defect #11098: Default priorities have the same position and can't be reordered
+* Defect #11105: <% content_for :header_tags do %> doesn't work inside hook
+* Defect #11112: REST API - custom fields in POST/PUT ignored for time_entries
+* Defect #11118: "Maximum file size" displayed on upload forms is incorrect
+* Defect #11124: Link to user is escaped in activity title
+* Defect #11133: Wiki-page section edit link can point to incorrect section
+* Defect #11160: SQL Error on time report if a custom field has multiple values for an entry
+* Defect #11170: Topics sort order is broken in Redmine 2.x
+* Defect #11178: Spent time sorted by date-descending order lists same-date entries in physical order (not-reverse)
+* Defect #11185: Redmine fails to delete a project with parent/child task
+* Feature #11162: Upgrade to Rails 3.2.6
+* Patch #11113: Small glitch in German localization
+
 == 2012-06-05 v2.0.2
 
 * Defect #11032: Project list is not shown when "For any event on the selected projects only..." is selected on user edit panel
