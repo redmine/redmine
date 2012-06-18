@@ -4,14 +4,15 @@ Redmine - project management software
 Copyright (C) 2006-2012  Jean-Philippe Lang
 http://www.redmine.org/
 
-== TBD v1.4.4
+== 2012-06-18 v1.4.4
 
 * Defect #10688: PDF export from Wiki - Problems with tables
-* Defect #11160: SQL Error on time report if a custom field has multiple values for an entry
 * Defect #11061: Cannot choose commit versions to view differences in Git/Mercurial repository view
 * Defect #11112: REST API - custom fields in POST/PUT ignored for time_entries
 * Defect #11133: Wiki-page section edit link can point to incorrect section
+* Defect #11160: SQL Error on time report if a custom field has multiple values for an entry
 * Defect #11178: Spent time sorted by date-descending order lists same-date entries in physical order
+* Defect #11185: Redmine fails to delete a project with parent/child task
 * Feature #6597: Configurable session lifetime and timeout
 * Patch #11113: Small glitch in German localization
 * Fix for Rails vulnerabilities CVE-2012-2694 and CVE-2012-2695
