@@ -123,6 +123,28 @@ class Issue < ActiveRecord::Base
     end
   end
 
+  # AR#Base#destroy would raise and StaleObjectError exception
+  # if the issue was already deleted or updated (non matching lock_version).
+  # This is a problem when bulk deleting issues or deleting a project
+  # (because an issue may already be deleted if its parent was deleted
+  # first).
+  # The issue is reloaded by the nested_set before being deleted so
+  # the lock_version condition should not be an issue but we handle it.
+  def destroy
+    super
+  rescue ActiveRecord::StaleObjectError
+    # Stale or already deleted
+    begin
+      reload
+    rescue ActiveRecord::RecordNotFound
+      # The issue was actually already deleted
+      @destroyed = true
+      return freeze
+    end
+    # The issue was stale, retry to destroy
+    super
+  end
+
   # Overrides Redmine::Acts::Customizable::InstanceMethods#available_custom_fields
   def available_custom_fields
     (project && tracker) ? (project.all_issue_custom_fields & tracker.custom_fields.all) : []
