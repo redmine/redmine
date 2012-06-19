@@ -31,7 +31,11 @@ module Redmine
       def safe_attributes(*args)
         @safe_attributes ||= []
         if args.empty?
-          @safe_attributes
+          if superclass.include?(Redmine::SafeAttributes)
+            @safe_attributes + superclass.safe_attributes 
+          else
+            @safe_attributes
+          end
         else
           options = args.last.is_a?(Hash) ? args.pop : {}
           @safe_attributes << [args, options]

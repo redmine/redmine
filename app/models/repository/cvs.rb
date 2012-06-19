@@ -21,6 +21,8 @@ require 'digest/sha1'
 class Repository::Cvs < Repository
   validates_presence_of :url, :root_url, :log_encoding
 
+  safe_attributes 'root_url'
+
   def self.human_attribute_name(attribute_key_name, *args)
     attr_name = attribute_key_name.to_s
     if attr_name == "root_url"

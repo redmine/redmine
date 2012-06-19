@@ -19,6 +19,7 @@ class ScmFetchError < Exception; end
 
 class Repository < ActiveRecord::Base
   include Redmine::Ciphering
+  include Redmine::SafeAttributes
 
   belongs_to :project
   has_many :changesets, :order => "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC"
@@ -41,6 +42,14 @@ class Repository < ActiveRecord::Base
   validates_format_of :identifier, :with => /^(?!\d+$)[a-z0-9\-_]*$/, :allow_blank => true
   # Checks if the SCM is enabled when creating a repository
   validate :repo_create_validation, :on => :create
+
+  safe_attributes 'identifier',
+    'url',
+    'login',
+    'password',
+    'path_encoding',
+    'log_encoding',
+    'is_default'
 
   def repo_create_validation
     unless Setting.enabled_scm.include?(self.class.name.demodulize)

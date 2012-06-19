@@ -47,7 +47,8 @@ class RepositoriesController < ApplicationController
 
   def create
     attrs = pickup_extra_info
-    @repository = Repository.factory(params[:repository_scm], attrs[:attrs])
+    @repository = Repository.factory(params[:repository_scm])
+    @repository.safe_attributes = params[:repository]
     if attrs[:attrs_extra].keys.any?
       @repository.merge_extra_info(attrs[:attrs_extra])
     end
@@ -64,7 +65,7 @@ class RepositoriesController < ApplicationController
 
   def update
     attrs = pickup_extra_info
-    @repository.attributes = attrs[:attrs]
+    @repository.safe_attributes = attrs[:attrs]
     if attrs[:attrs_extra].keys.any?
       @repository.merge_extra_info(attrs[:attrs_extra])
     end
