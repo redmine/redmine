@@ -38,9 +38,11 @@ class ReportsControllerTest < ActionController::TestCase
     assert_template 'issue_report'
 
     [:issues_by_tracker, :issues_by_version, :issues_by_category, :issues_by_assigned_to,
-     :issues_by_author, :issues_by_subproject].each do |ivar|
+     :issues_by_author, :issues_by_subproject, :issues_by_priority].each do |ivar|
       assert_not_nil assigns(ivar)
     end
+
+    assert_equal IssuePriority.all.reverse, assigns(:priorities)
   end
 
   def test_get_issue_report_details
@@ -54,6 +56,11 @@ class ReportsControllerTest < ActionController::TestCase
       assert_not_nil assigns(:data)
       assert_not_nil assigns(:report_title)
     end
+  end
+
+  def test_get_issue_report_details_by_priority
+    get :issue_report_details, :id => 1, :detail => 'priority'
+    assert_equal IssuePriority.all.reverse, assigns(:rows)
   end
 
   def test_get_issue_report_details_with_an_invalid_detail
