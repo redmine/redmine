@@ -44,12 +44,14 @@ class Repository < ActiveRecord::Base
   validate :repo_create_validation, :on => :create
 
   safe_attributes 'identifier',
-    'url',
     'login',
     'password',
     'path_encoding',
     'log_encoding',
     'is_default'
+
+  safe_attributes 'url',
+    :if => lambda {|repository, user| repository.new_record?}
 
   def repo_create_validation
     unless Setting.enabled_scm.include?(self.class.name.demodulize)

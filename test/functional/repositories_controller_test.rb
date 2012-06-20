@@ -40,7 +40,7 @@ class RepositoriesControllerTest < ActionController::TestCase
     assert_template 'new'
     assert_kind_of Repository::Subversion, assigns(:repository)
     assert assigns(:repository).new_record?
-    assert_tag 'input', :attributes => {:name => 'repository[url]'}
+    assert_tag 'input', :attributes => {:name => 'repository[url]', :disabled => nil}
   end
 
   def test_new_should_propose_enabled_scm_only
@@ -91,7 +91,7 @@ class RepositoriesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
     assert_equal Repository.find(11), assigns(:repository)
-    assert_tag 'input', :attributes => {:name => 'repository[url]', :value => 'svn://localhost/test'}
+    assert_tag 'input', :attributes => {:name => 'repository[url]', :value => 'svn://localhost/test', :disabled => 'disabled'}
   end
 
   def test_update
