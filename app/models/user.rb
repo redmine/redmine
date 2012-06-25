@@ -455,12 +455,7 @@ class User < Principal
   #   or falls back to Non Member / Anonymous permissions depending if the user is logged
   def allowed_to?(action, context, options={}, &block)
     if context && context.is_a?(Project)
-      # No action allowed on archived projects
-      return false if context.archived?
-      # No action allowed on disabled modules
       return false unless context.allows_to?(action)
-      # No write action allowed on closed projects
-      return false unless context.active? || Redmine::AccessControl.read_action?(action)
       # Admin users are authorized for anything else
       return true if admin?
 

@@ -573,11 +573,20 @@ class Project < ActiveRecord::Base
     end
   end
 
-  # Return true if this project is allowed to do the specified action.
+  # Return true if this project allows to do the specified action.
   # action can be:
   # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
   # * a permission Symbol (eg. :edit_project)
   def allows_to?(action)
+    if archived?
+      # No action allowed on archived projects
+      return false
+    end
+    unless active? || Redmine::AccessControl.read_action?(action)
+      # No write action allowed on closed projects
+      return false
+    end
+    # No action allowed on disabled modules
     if action.is_a? Hash
       allowed_actions.include? "#{action[:controller]}/#{action[:action]}"
     else
