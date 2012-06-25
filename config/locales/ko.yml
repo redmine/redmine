@@ -1089,3 +1089,11 @@ ko:
   setting_session_lifetime: 세션 최대 시간
   setting_session_timeout: 세션 비활성화 타임아웃
   label_session_expiration: 세션 만료
+  permission_close_project: Close / reopen the project
+  label_show_closed_projects: View closed projects
+  button_close: Close
+  button_reopen: Reopen
+  project_status_active: active
+  project_status_closed: closed
+  project_status_archived: archived
+  text_project_closed: This project is closed and read-only.

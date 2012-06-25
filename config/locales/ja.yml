@@ -1069,3 +1069,11 @@ ja:
   setting_session_lifetime: 有効期間の最大値
   setting_session_timeout: 無操作タイムアウト
   label_session_expiration: セッション有効期間
+  permission_close_project: Close / reopen the project
+  label_show_closed_projects: View closed projects
+  button_close: Close
+  button_reopen: Reopen
+  project_status_active: active
+  project_status_closed: closed
+  project_status_archived: archived
+  text_project_closed: This project is closed and read-only.
