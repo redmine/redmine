@@ -239,7 +239,7 @@ sub RedmineDSN {
   my ($self, $parms, $arg) = @_;
   $self->{RedmineDSN} = $arg;
   my $query = "SELECT 
-                 hashed_password, salt, auth_source_id, permissions
+                 users.hashed_password, users.salt, users.auth_source_id, roles.permissions, projects.status
               FROM projects, users, roles
               WHERE 
                 users.login=? 
@@ -381,7 +381,7 @@ sub is_public_project {
 
     my $dbh = connect_database($r);
     my $sth = $dbh->prepare(
-        "SELECT is_public FROM projects WHERE projects.identifier = ?;"
+        "SELECT is_public FROM projects WHERE projects.identifier = ? AND projects.status <> 9;"
     );
 
     $sth->execute($project_id);
@@ -460,7 +460,10 @@ sub is_member {
   $sth->execute($redmine_user, $project_id);
 
   my $ret;
-  while (my ($hashed_password, $salt, $auth_source_id, $permissions) = $sth->fetchrow_array) {
+  while (my ($hashed_password, $salt, $auth_source_id, $permissions, $project_status) = $sth->fetchrow_array) {
+      if ($project_status eq "9" || ($project_status ne "1" && $access_mode eq "W")) {
+        last;
+      }
 
       unless ($auth_source_id) {
 	  			my $method = $r->method;

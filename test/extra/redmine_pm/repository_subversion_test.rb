@@ -168,6 +168,49 @@ class RedminePmTest::RepositorySubversionTest < RedminePmTest::TestCase
     end
   end
 
+  def test_read_on_archived_projects_should_fail
+    Project.find(1).update_attribute :status, Project::STATUS_ARCHIVED
+    assert_failure "ls", svn_url
+  end
+
+  def test_read_on_archived_private_projects_should_fail
+    Project.find(1).update_attribute :status, Project::STATUS_ARCHIVED
+    Project.find(1).update_attribute :is_public, false
+    with_credentials "dlopper", "foo" do
+      assert_failure "ls", svn_url
+    end
+  end
+
+  def test_read_on_closed_projects_should_succeed
+    Project.find(1).update_attribute :status, Project::STATUS_CLOSED
+    assert_success "ls", svn_url
+  end
+
+  def test_read_on_closed_private_projects_should_succeed
+    Project.find(1).update_attribute :status, Project::STATUS_CLOSED
+    Project.find(1).update_attribute :is_public, false
+    with_credentials "dlopper", "foo" do
+      assert_success "ls", svn_url
+    end
+  end
+
+  def test_commit_on_closed_projects_should_fail
+    Project.find(1).update_attribute :status, Project::STATUS_CLOSED
+    Role.find(2).add_permission! :commit_access
+    with_credentials "dlopper", "foo" do
+      assert_failure "mkdir --message Creating_a_directory", svn_url(random_filename)
+    end
+  end
+
+  def test_commit_on_closed_private_projects_should_fail
+    Project.find(1).update_attribute :status, Project::STATUS_CLOSED
+    Project.find(1).update_attribute :is_public, false
+    Role.find(2).add_permission! :commit_access
+    with_credentials "dlopper", "foo" do
+      assert_failure "mkdir --message Creating_a_directory", svn_url(random_filename)
+    end
+  end
+
   if ldap_configured?
     def test_user_with_ldap_auth_source_should_authenticate_with_ldap_credentials
       ldap_user = User.new(:mail => 'example1@redmine.org', :firstname => 'LDAP', :lastname => 'user', :auth_source_id => 1)
