@@ -391,6 +391,7 @@ fr:
   permission_add_project: Créer un projet
   permission_add_subprojects: Créer des sous-projets
   permission_edit_project: Modifier le projet
+  permission_close_project: Fermer / réouvrir le projet
   permission_select_project_modules: Choisir les modules
   permission_manage_members: Gérer les membres
   permission_manage_versions: Gérer les versions
@@ -829,6 +830,7 @@ fr:
   label_item_position: "%{position} sur %{count}"
   label_completed_versions: Versions passées
   label_session_expiration: Expiration des sessions
+  label_show_closed_projects: Voir les projets fermés
 
   button_login: Connexion
   button_submit: Soumettre
@@ -878,10 +880,16 @@ fr:
   button_edit_section: Modifier cette section
   button_export: Exporter
   button_delete_my_account: Supprimer mon compte
+  button_close: Fermer
+  button_reopen: Réouvrir
 
   status_active: actif
   status_registered: enregistré
   status_locked: verrouillé
+
+  project_status_active: actif
+  project_status_closed: fermé
+  project_status_archived: archivé
 
   version_status_open: ouvert
   version_status_locked: verrouillé
@@ -946,6 +954,7 @@ fr:
   text_issue_conflict_resolution_cancel: "Annuler ma mise à jour et réafficher %{link}"
   text_account_destroy_confirmation: "Êtes-vous sûr de vouloir continuer ?\nVotre compte sera définitivement supprimé, sans aucune possibilité de le réactiver."
   text_session_expiration_settings: "Attention : le changement de ces paramètres peut entrainer l'expiration des sessions utilisateurs en cours, y compris la vôtre."
+  text_project_closed: Ce projet est fermé et accessible en lecture seule.
 
   default_role_manager: "Manager "
   default_role_developer: "Développeur "

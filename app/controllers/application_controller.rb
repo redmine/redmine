@@ -276,7 +276,7 @@ class ApplicationController < ActionController::Base
   # make sure that the user is a member of the project (or admin) if project is private
   # used as a before_filter for actions that do not require any particular permission on the project
   def check_project_privacy
-    if @project && @project.active?
+    if @project && !@project.archived?
       if @project.visible?
         true
       else

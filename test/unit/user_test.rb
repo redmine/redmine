@@ -874,6 +874,18 @@ class UserTest < ActiveSupport::TestCase
         assert ! @admin.allowed_to?(:view_issues, Project.find(1))
       end
 
+      should "return false for write action if project is closed" do
+        project = Project.find(1)
+        Project.any_instance.stubs(:status).returns(Project::STATUS_CLOSED)
+        assert ! @admin.allowed_to?(:edit_project, Project.find(1))
+      end
+
+      should "return true for read action if project is closed" do
+        project = Project.find(1)
+        Project.any_instance.stubs(:status).returns(Project::STATUS_CLOSED)
+        assert @admin.allowed_to?(:view_project, Project.find(1))
+      end
+
       should "return false if related module is disabled" do
         project = Project.find(1)
         project.enabled_module_names = ["issue_tracking"]

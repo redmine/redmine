@@ -93,6 +93,8 @@ RedmineApp::Application.routes.draw do
       post 'modules'
       post 'archive'
       post 'unarchive'
+      post 'close'
+      post 'reopen'
       match 'copy', :via => [:get, :post]
     end
 

@@ -244,13 +244,15 @@ module Redmine #:nodoc:
     #   permission :destroy_contacts, { :contacts => :destroy }
     #   permission :view_contacts, { :contacts => [:index, :show] }
     #
-    # The +options+ argument can be used to make the permission public (implicitly given to any user)
-    # or to restrict users the permission can be given to.
+    # The +options+ argument is a hash that accept the following keys:
+    # * :public => the permission is public if set to true (implicitly given to any user)
+    # * :require => can be set to one of the following values to restrict users the permission can be given to: :loggedin, :member
+    # * :read => set it to true so that the permission is still granted on closed projects
     #
     # Examples
     #   # A permission that is implicitly given to any user
     #   # This permission won't appear on the Roles & Permissions setup screen
-    #   permission :say_hello, { :example => :say_hello }, :public => true
+    #   permission :say_hello, { :example => :say_hello }, :public => true, :read => true
     #
     #   # A permission that can be given to any user
     #   permission :say_hello, { :example => :say_hello }

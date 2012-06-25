@@ -54,6 +54,16 @@ module Redmine
         @loggedin_only_permissions ||= @permissions.select {|p| p.require_loggedin?}
       end
 
+      def read_action?(action)
+        if action.is_a?(Symbol)
+          perm = permission(action)
+          !perm.nil? && perm.read?
+        else
+          s = "#{action[:controller]}/#{action[:action]}"
+          permissions.detect {|p| p.actions.include?(s) && !p.read?}.nil?
+        end
+      end
+
       def available_project_modules
         @available_project_modules ||= @permissions.collect(&:project_module).uniq.compact
       end
@@ -93,6 +103,7 @@ module Redmine
         @actions = []
         @public = options[:public] || false
         @require = options[:require]
+        @read = options[:read] || false
         @project_module = options[:project_module]
         hash.each do |controller, actions|
           if actions.is_a? Array
@@ -114,6 +125,10 @@ module Redmine
 
       def require_loggedin?
         @require && (@require == :member || @require == :loggedin)
+      end
+
+      def read?
+        @read
       end
     end
   end

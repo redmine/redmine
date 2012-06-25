@@ -70,6 +70,14 @@ class RoutingProjectsTest < ActionController::IntegrationTest
         { :controller => 'projects', :action => 'unarchive', :id => '64' }
       )
     assert_routing(
+        { :method => 'post', :path => "/projects/64/close" },
+        { :controller => 'projects', :action => 'close', :id => '64' }
+      )
+    assert_routing(
+        { :method => 'post', :path => "/projects/64/reopen" },
+        { :controller => 'projects', :action => 'reopen', :id => '64' }
+      )
+    assert_routing(
         { :method => 'put', :path => "/projects/4223" },
         { :controller => 'projects', :action => 'update', :id => '4223' }
       )

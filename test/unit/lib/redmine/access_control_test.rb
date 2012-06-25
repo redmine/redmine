@@ -46,4 +46,14 @@ class Redmine::AccessControlTest < ActiveSupport::TestCase
     assert perm.actions.is_a?(Array)
     assert perm.actions.include?('projects/settings')
   end
+
+  def test_read_action_should_return_true_for_read_actions
+    assert_equal true, @access_module.read_action?(:view_project)
+    assert_equal true, @access_module.read_action?(:controller => 'projects', :action => 'show')
+  end
+
+  def test_read_action_should_return_false_for_update_actions
+    assert_equal false, @access_module.read_action?(:edit_project)
+    assert_equal false, @access_module.read_action?(:controller => 'projects', :action => 'edit')
+  end
 end

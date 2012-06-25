@@ -394,7 +394,7 @@ class User < Principal
   def roles_for_project(project)
     roles = []
     # No role on archived projects
-    return roles unless project && project.active?
+    return roles if project.nil? || project.archived?
     if logged?
       # Find project membership
       membership = memberships.detect {|m| m.project_id == project.id}
@@ -456,9 +456,11 @@ class User < Principal
   def allowed_to?(action, context, options={}, &block)
     if context && context.is_a?(Project)
       # No action allowed on archived projects
-      return false unless context.active?
+      return false if context.archived?
       # No action allowed on disabled modules
       return false unless context.allows_to?(action)
+      # No write action allowed on closed projects
+      return false unless context.active? || Redmine::AccessControl.read_action?(action)
       # Admin users are authorized for anything else
       return true if admin?
 

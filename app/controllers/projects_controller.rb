@@ -48,7 +48,11 @@ class ProjectsController < ApplicationController
   def index
     respond_to do |format|
       format.html {
-        @projects = Project.visible.find(:all, :order => 'lft')
+        scope = Project
+        unless params[:closed]
+          scope = scope.active
+        end
+        @projects = scope.visible.order('lft').all
       }
       format.api  {
         @offset, @limit = api_offset_and_limit
@@ -222,6 +226,16 @@ class ProjectsController < ApplicationController
   def unarchive
     @project.unarchive if request.post? && !@project.active?
     redirect_to(url_for(:controller => 'admin', :action => 'projects', :status => params[:status]))
+  end
+
+  def close
+    @project.close
+    redirect_to project_path(@project)
+  end
+
+  def reopen
+    @project.reopen
+    redirect_to project_path(@project)
   end
 
   # Delete @project

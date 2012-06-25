@@ -145,11 +145,11 @@ module ApplicationHelper
   #   link_to_project(project, {}, :class => "project") # => html options with default url (project overview)
   #
   def link_to_project(project, options={}, html_options = nil)
-    if project.active?
+    if project.archived?
+      h(project)
+    else
       url = {:controller => 'projects', :action => 'show', :id => project}.merge(options)
       link_to(h(project), url, html_options)
-    else
-      h(project)
     end
   end
 
@@ -237,7 +237,7 @@ module ApplicationHelper
   # Renders the project quick-jump box
   def render_project_jump_box
     return unless User.current.logged?
-    projects = User.current.memberships.collect(&:project).compact.uniq
+    projects = User.current.memberships.collect(&:project).compact.select(&:active?).uniq
     if projects.any?
       s = '<select onchange="if (this.value != \'\') { window.location = this.value; }">' +
             "<option value=''>#{ l(:label_jump_to_a_project) }</option>" +
