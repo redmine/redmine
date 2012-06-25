@@ -396,6 +396,7 @@ bg:
   permission_add_project: Създаване на проект
   permission_add_subprojects: Създаване на подпроекти
   permission_edit_project: Редактиране на проект
+  permission_close_project: Затваряне / отваряне на проект
   permission_select_project_modules: Избор на проектни модули
   permission_manage_members: Управление на членовете (на екип)
   permission_manage_project_activities: Управление на дейностите на проекта
@@ -855,6 +856,7 @@ bg:
   label_completed_versions: Завършени версии
   label_search_for_watchers: Търсене на потребители за наблюдатели
   label_session_expiration: Изтичане на сесиите
+  label_show_closed_projects: Разглеждане на затворени проекти
 
   button_login: Вход
   button_submit: Прикачване
@@ -905,10 +907,16 @@ bg:
   button_edit_section: Редактиране на тази секция
   button_export: Експорт
   button_delete_my_account: Премахване на моя профил
+  button_close: Затваряне
+  button_reopen: Отваряне
 
   status_active: активен
   status_registered: регистриран
   status_locked: заключен
+
+  project_status_active: активен
+  project_status_closed: затворен
+  project_status_archived: архивиран
 
   version_status_open: отворена
   version_status_locked: заключена
@@ -991,6 +999,7 @@ bg:
   text_issue_conflict_resolution_cancel: Отхвърляне на всички мои промени и презареждане на %{link}
   text_account_destroy_confirmation: "Сигурен/на ли сте, че желаете да продължите?\nВашият профил ще бъде премахнат без възможност за възстановяване."
   text_session_expiration_settings: "Внимание: промяната на тези установяваноя може да прекрати всички активни сесии, включително и вашата."
+  text_project_closed: Този проект е затворен и е само за четене.
 
   default_role_manager: Мениджър
   default_role_developer: Разработчик
@@ -1036,11 +1045,3 @@ bg:
   description_date_range_interval: Изберете диапазон чрез задаване на начална и крайна дати
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
-  permission_close_project: Close / reopen the project
-  label_show_closed_projects: View closed projects
-  button_close: Close
-  button_reopen: Reopen
-  project_status_active: active
-  project_status_closed: closed
-  project_status_archived: archived
-  text_project_closed: This project is closed and read-only.
