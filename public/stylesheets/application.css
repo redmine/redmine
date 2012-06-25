@@ -108,6 +108,7 @@ a:hover, a:active{ color: #c61a1a; text-decoration: underline;}
 a img{ border: 0; }
 
 a.issue.closed, a.issue.closed:link, a.issue.closed:visited { color: #999; text-decoration: line-through; }
+a.project.closed, a.project.closed:link, a.project.closed:visited { color: #999; }
 
 #sidebar a.selected {line-height:1.7em; padding:1px 3px 2px 2px; margin-left:-2px; background-color:#9DB9D5; color:#fff; border-radius:2px; -moz-border-radius:2px;}
 #sidebar a.selected:hover {text-decoration:none;}
@@ -130,6 +131,8 @@ table.list td.buttons a { padding-right: 0.6em; }
 table.list caption { text-align: left; padding: 0.5em 0.5em 0.5em 0; }
 
 tr.project td.name a { white-space:nowrap; }
+tr.project.closed, tr.project.archived { color: #aaa; }
+tr.project.closed a, tr.project.archived a { color: #aaa; }
 
 tr.project.idnt td.name span {background: url(../images/bullet_arrow_right.png) no-repeat 0 50%; padding-left: 16px;}
 tr.project.idnt-1 td.name {padding-left: 0.5em;}
