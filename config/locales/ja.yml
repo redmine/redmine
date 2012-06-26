@@ -188,7 +188,7 @@ ja:
   notice_file_not_found: アクセスしようとしたページは存在しないか削除されています。
   notice_locking_conflict: 別のユーザがデータを更新しています。
   notice_not_authorized: このページにアクセスするには認証が必要です。
-  notice_not_authorized_archived_project: プロジェクトは書庫に保存されています。
+  notice_not_authorized_archived_project: プロジェクトはアーカイブされています。
   notice_email_sent: "%{value} 宛にメールを送信しました。"
   notice_email_error: "メール送信中にエラーが発生しました (%{value})"
   notice_feeds_access_key_reseted: RSSアクセスキーを初期化しました。
@@ -215,7 +215,7 @@ ja:
   error_unable_to_connect: "接続できません。 (%{value})"
   error_can_not_remove_role: 'このロールは使用されています。削除できません。'
   error_can_not_reopen_issue_on_closed_version: '終了したバージョンにひも付けされたチケットの再オープンはできません。'
-  error_can_not_archive_project: このプロジェクトは書庫に保存できません
+  error_can_not_archive_project: このプロジェクトはアーカイブできません
   error_issue_done_ratios_not_updated: "チケットの進捗が更新できません。"
   error_workflow_copy_source: 'コピー元となるトラッカーまたはロールを選択してください'
   error_workflow_copy_target: 'コピー先となるトラッカーとロールを選択してください'
@@ -874,8 +874,8 @@ ja:
   button_watch: ウォッチ
   button_unwatch: ウォッチをやめる
   button_reply: 返答
-  button_archive: 書庫に保存
-  button_unarchive: 書庫から戻す
+  button_archive: アーカイブ
+  button_unarchive: アーカイブ解除
   button_reset: リセット
   button_rename: 名前変更
   button_change_password: パスワード変更
@@ -1069,11 +1069,11 @@ ja:
   setting_session_lifetime: 有効期間の最大値
   setting_session_timeout: 無操作タイムアウト
   label_session_expiration: セッション有効期間
-  permission_close_project: Close / reopen the project
-  label_show_closed_projects: View closed projects
-  button_close: Close
-  button_reopen: Reopen
-  project_status_active: active
-  project_status_closed: closed
-  project_status_archived: archived
-  text_project_closed: This project is closed and read-only.
+  permission_close_project: プロジェクトの終了/再開
+  label_show_closed_projects: 終了したプロジェクトを表示
+  button_close: 終了
+  button_reopen: 再開
+  project_status_active: 有効
+  project_status_closed: 終了
+  project_status_archived: アーカイブ
+  text_project_closed: このプロジェクトは終了しているため読み取り専用です。
