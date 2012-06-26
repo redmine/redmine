@@ -189,7 +189,7 @@ fr:
   notice_issue_done_ratios_updated: L'avancement des demandes a été mis à jour.
   notice_api_access_key_reseted: Votre clé d'accès API a été réinitialisée.
   notice_gantt_chart_truncated: "Le diagramme a été tronqué car il excède le nombre maximal d'éléments pouvant être affichés (%{max})"
-  notice_issue_successful_create: Demande %{id} créée."
+  notice_issue_successful_create: "Demande %{id} créée."
   notice_issue_update_conflict: "La demande a été mise à jour par un autre utilisateur pendant que vous la modifiez."
   notice_account_deleted: "Votre compte a été définitivement supprimé."
   notice_user_successful_create: "Utilisateur %{id} créé."
