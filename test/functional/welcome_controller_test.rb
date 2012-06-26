@@ -96,6 +96,16 @@ class WelcomeControllerTest < ActionController::TestCase
     assert @controller.respond_to?(:call_hook)
   end
 
+  def test_project_jump_box_should_escape_names_once
+    Project.find(1).update_attribute :name, 'Foo & Bar'
+    @request.session[:user_id] = 2
+
+    get :index
+    assert_select "#header select" do
+      assert_select "option", :text => 'Foo &amp; Bar'
+    end
+  end
+
   context "test_api_offset_and_limit" do
     context "without params" do
       should "return 0, 25" do
