@@ -52,8 +52,8 @@ zh:
         one: "大约一小时"
         other: "大约 %{count} 小时"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 小时"
+        other: "%{count} 小时"
       x_days:
         one: "一天"
         other: "%{count} 天"
