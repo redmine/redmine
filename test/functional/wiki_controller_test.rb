@@ -495,11 +495,19 @@ class WikiControllerTest < ActionController::TestCase
   end
 
   def test_diff
-    get :diff, :project_id => 1, :id => 'CookBook_documentation', :version => 2, :version_from => 1
+    content = WikiPage.find(1).content
+    assert_difference 'WikiContent::Version.count', 2 do
+      content.text = "Line removed\nThis is a sample text for testing diffs"
+      content.save!
+      content.text = "This is a sample text for testing diffs\nLine added"
+      content.save!
+    end
+
+    get :diff, :project_id => 1, :id => 'CookBook_documentation', :version => content.version, :version_from => (content.version - 1)
     assert_response :success
     assert_template 'diff'
-    assert_tag :tag => 'span', :attributes => { :class => 'diff_in'},
-                               :content => /updated/
+    assert_select 'span.diff_out', :text => 'Line removed'
+    assert_select 'span.diff_in', :text => 'Line added'
   end
 
   def test_annotate
