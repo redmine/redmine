@@ -192,6 +192,7 @@ fr:
   notice_issue_successful_create: "La demande %{id} a été créée."
   notice_issue_update_conflict: "La demande a été mise à jour par un autre utilisateur pendant que vous la modifiez."
   notice_account_deleted: "Votre compte a été définitivement supprimé."
+  notice_user_successful_create: "Utilisateur %{id} créé."
 
   error_can_t_load_default_data: "Une erreur s'est produite lors du chargement du paramétrage : %{value}"
   error_scm_not_found: "L'entrée et/ou la révision demandée n'existe pas dans le dépôt."

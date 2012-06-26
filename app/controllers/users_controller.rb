@@ -103,7 +103,7 @@ class UsersController < ApplicationController
 
       respond_to do |format|
         format.html {
-          flash[:notice] = l(:notice_successful_create)
+          flash[:notice] = l(:notice_user_successful_create, :id => view_context.link_to(@user.login, user_path(@user)))
           redirect_to(params[:continue] ?
             {:controller => 'users', :action => 'new'} :
             {:controller => 'users', :action => 'edit', :id => @user}

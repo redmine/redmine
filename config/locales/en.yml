@@ -177,6 +177,7 @@ en:
   notice_issue_successful_create: "Issue %{id} created."
   notice_issue_update_conflict: "The issue has been updated by an other user while you were editing it."
   notice_account_deleted: "Your account has been permanently deleted."
+  notice_user_successful_create: "User %{id} created."
 
   error_can_t_load_default_data: "Default configuration could not be loaded: %{value}"
   error_scm_not_found: "The entry or revision was not found in the repository."

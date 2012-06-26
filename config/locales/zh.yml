@@ -1049,3 +1049,4 @@ zh:
   project_status_closed: 已关闭
   project_status_archived: 已存档
   text_project_closed: 当前项目已被关闭。当前项目只读。
+  notice_user_successful_create: User %{id} created.
