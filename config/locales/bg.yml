@@ -178,6 +178,7 @@ bg:
   notice_issue_successful_create: Задача %{id} е създадена.
   notice_issue_update_conflict: Задачата е била променена от друг потребител, докато вие сте я редактирали.
   notice_account_deleted: Вашият профил беше премахнат без възможност за възстановяване.
+  notice_user_successful_create: Потребител %{id} е създаден.
 
   error_can_t_load_default_data: "Грешка при зареждане на примерната информация: %{value}"
   error_scm_not_found: Несъществуващ обект в хранилището.
@@ -1045,4 +1046,3 @@ bg:
   description_date_range_interval: Изберете диапазон чрез задаване на начална и крайна дати
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
-  notice_user_successful_create: User %{id} created.
