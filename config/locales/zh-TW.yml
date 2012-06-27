@@ -259,6 +259,7 @@
   notice_issue_successful_create: "問題 %{id} 已建立。"
   notice_issue_update_conflict: "當您正在編輯這個問題的時候，它已經被其他人搶先一步更新過。"
   notice_account_deleted: "您的帳戶已被永久刪除。"
+  notice_user_successful_create: "已建立用戶 %{id}。"
 
   error_can_t_load_default_data: "無法載入預設組態： %{value}"
   error_scm_not_found: "在儲存機制中找不到這個項目或修訂版。"
@@ -1128,4 +1129,3 @@
   description_date_range_interval: 選擇起始與結束日期以設定範圍區間
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
-  notice_user_successful_create: User %{id} created.
