@@ -128,7 +128,7 @@ module ApplicationHelper
       h(truncate(message.subject, :length => 60)),
       { :controller => 'messages', :action => 'show',
         :board_id => message.board_id,
-        :id => message.root,
+        :id => (message.parent_id || message.id),
         :r => (message.parent_id && message.id),
         :anchor => (message.parent_id ? "message-#{message.id}" : nil)
       }.merge(options),
