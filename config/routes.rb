@@ -226,6 +226,7 @@ RedmineApp::Application.routes.draw do
   get 'projects/:id/repository/:repository_id/revisions', :to => 'repositories#revisions'
   get 'projects/:id/repository/:repository_id/revisions/:rev/:action(/*path(.:ext))',
       :controller => 'repositories',
+      :format => false,
       :constraints => {
             :action => /(browse|show|entry|raw|annotate|diff)/,
             :rev    => /[a-z0-9\.\-_]+/
@@ -244,6 +245,7 @@ RedmineApp::Application.routes.draw do
   delete 'projects/:id/repository/revisions/:rev/issues/:issue_id', :to => 'repositories#remove_related_issue'
   get 'projects/:id/repository/revisions/:rev/:action(/*path(.:ext))',
       :controller => 'repositories',
+      :format => false,
       :constraints => {
             :action => /(browse|show|entry|raw|annotate|diff)/,
             :rev    => /[a-z0-9\.\-_]+/
