@@ -30,11 +30,6 @@ class CustomField < ActiveRecord::Base
   validate :validate_custom_field
   before_validation :set_searchable
 
-  def initialize(attributes=nil, *args)
-    super
-    self.possible_values ||= []
-  end
-
   def set_searchable
     # make sure these fields are not searchable
     self.searchable = false if %w(int float date bool).include?(field_format)
@@ -97,7 +92,7 @@ class CustomField < ActiveRecord::Base
           value.force_encoding('UTF-8') if value.respond_to?(:force_encoding)
         end
       end
-      values
+      values || []
     end
   end
 
