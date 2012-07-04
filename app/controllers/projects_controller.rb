@@ -156,12 +156,8 @@ class ProjectsController < ApplicationController
 
     cond = @project.project_condition(Setting.display_subprojects_issues?)
 
-    @open_issues_by_tracker = Issue.visible.count(:group => :tracker,
-                                            :include => [:project, :status, :tracker],
-                                            :conditions => ["(#{cond}) AND #{IssueStatus.table_name}.is_closed=?", false])
-    @total_issues_by_tracker = Issue.visible.count(:group => :tracker,
-                                            :include => [:project, :status, :tracker],
-                                            :conditions => cond)
+    @open_issues_by_tracker = Issue.visible.open.where(cond).count(:group => :tracker)
+    @total_issues_by_tracker = Issue.visible.where(cond).count(:group => :tracker)
 
     if User.current.allowed_to?(:view_time_entries, @project)
       @total_hours = TimeEntry.visible.sum(:hours, :include => :project, :conditions => cond).to_f
