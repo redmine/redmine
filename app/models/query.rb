@@ -174,9 +174,9 @@ class Query < ActiveRecord::Base
       if values_for(field)
         case type_for(field)
         when :integer
-          add_filter_error(field, :invalid) if values_for(field).detect {|v| v.present? && !v.match(/^\d+$/) }
+          add_filter_error(field, :invalid) if values_for(field).detect {|v| v.present? && !v.match(/^[+-]?\d+$/) }
         when :float
-          add_filter_error(field, :invalid) if values_for(field).detect {|v| v.present? && !v.match(/^\d+(\.\d*)?$/) }
+          add_filter_error(field, :invalid) if values_for(field).detect {|v| v.present? && !v.match(/^[+-]?\d+(\.\d*)?$/) }
         when :date, :date_past
           case operator_for(field)
           when "=", ">=", "<=", "><"
