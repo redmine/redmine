@@ -4,6 +4,10 @@ Redmine - project management software
 Copyright (C) 2006-2012  Jean-Philippe Lang
 http://www.redmine.org/
 
+== TBD v1.4.5
+
+* Patch #11328: Fix Japanese mistranslation for 'label_language_based'
+
 == 2012-06-18 v1.4.4
 
 * Defect #10688: PDF export from Wiki - Problems with tables
