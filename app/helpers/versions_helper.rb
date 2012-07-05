@@ -19,10 +19,10 @@
 
 module VersionsHelper
 
-  STATUS_BY_CRITERIAS = %w(category tracker status priority author assigned_to)
+  STATUS_BY_CRITERIAS = %w(tracker status priority author assigned_to category)
 
   def render_issue_status_by(version, criteria)
-    criteria = 'category' unless STATUS_BY_CRITERIAS.include?(criteria)
+    criteria = 'tracker' unless STATUS_BY_CRITERIAS.include?(criteria)
 
     h = Hash.new {|k,v| k[v] = [0, 0]}
     begin

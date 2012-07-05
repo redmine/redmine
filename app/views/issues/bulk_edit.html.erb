@@ -33,28 +33,40 @@
   <%= select_tag('issue[status_id]',content_tag('option', l(:label_no_change_option), :value => '') + options_from_collection_for_select(@available_statuses, :id, :name)) %>
 </p>
 <% end %>
+
+<% if @safe_attributes.include?('priority_id') -%>
 <p>
   <label for='issue_priority_id'><%= l(:field_priority) %></label>
   <%= select_tag('issue[priority_id]', content_tag('option', l(:label_no_change_option), :value => '') + options_from_collection_for_select(IssuePriority.active, :id, :name)) %>
 </p>
+<% end %>
+
+<% if @safe_attributes.include?('assigned_to_id') -%>
 <p>
   <label for='issue_assigned_to_id'><%= l(:field_assigned_to) %></label>
   <%= select_tag('issue[assigned_to_id]', content_tag('option', l(:label_no_change_option), :value => '') +
                                  content_tag('option', l(:label_nobody), :value => 'none') +
                                  principals_options_for_select(@assignables)) %>
 </p>
+<% end %>
+
+<% if @safe_attributes.include?('category_id') -%>
 <p>
   <label for='issue_category_id'><%= l(:field_category) %></label>
   <%= select_tag('issue[category_id]', content_tag('option', l(:label_no_change_option), :value => '') +
                                 content_tag('option', l(:label_none), :value => 'none') +
                                 options_from_collection_for_select(@categories, :id, :name)) %>
 </p>
+<% end %>
+
+<% if @safe_attributes.include?('fixed_version_id') -%>
 <p>
   <label for='issue_fixed_version_id'><%= l(:field_fixed_version) %></label>
   <%= select_tag('issue[fixed_version_id]', content_tag('option', l(:label_no_change_option), :value => '') +
                                    content_tag('option', l(:label_none), :value => 'none') +
                                    version_options_for_select(@versions.sort)) %>
 </p>
+<% end %>
 
 <% @custom_fields.each do |custom_field| %>
   <p><label><%= h(custom_field.name) %></label> <%= custom_field_tag_for_bulk_edit('issue', custom_field, @projects) %></p>
@@ -79,7 +91,8 @@
                                 content_tag('option', l(:general_text_No), :value => '0')) %>
 </p>
 <% end %>
-<% if @project && User.current.allowed_to?(:manage_subtasks, @project) %>
+
+<% if @safe_attributes.include?('parent_issue_id') && @project %>
 <p>
   <label for='issue_parent_issue_id'><%= l(:field_parent_issue) %></label>
   <%= text_field_tag 'issue[parent_issue_id]', '', :size => 10 %>
@@ -87,15 +100,22 @@
 <div id="parent_issue_candidates" class="autocomplete"></div>
 <%= javascript_tag "observeParentIssueField('#{auto_complete_issues_path(:project_id => @project) }')" %>
 <% end %>
+
+<% if @safe_attributes.include?('start_date') %>
 <p>
   <label for='issue_start_date'><%= l(:field_start_date) %></label>
   <%= text_field_tag 'issue[start_date]', '', :size => 10 %><%= calendar_for('issue_start_date') %>
 </p>
+<% end %>
+
+<% if @safe_attributes.include?('due_date') %>
 <p>
   <label for='issue_due_date'><%= l(:field_due_date) %></label>
   <%= text_field_tag 'issue[due_date]', '', :size => 10 %><%= calendar_for('issue_due_date') %>
 </p>
-<% if Issue.use_field_for_done_ratio? %>
+<% end %>
+
+<% if @safe_attributes.include?('done_ratio') && Issue.use_field_for_done_ratio? %>
 <p>
   <label for='issue_done_ratio'><%= l(:field_done_ratio) %></label>
   <%= select_tag 'issue[done_ratio]', options_for_select([[l(:label_no_change_option), '']] + (0..10).to_a.collect {|r| ["#{r*10} %", r*10] }) %>

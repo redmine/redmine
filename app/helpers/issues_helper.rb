@@ -92,6 +92,48 @@ module IssuesHelper
     s.html_safe
   end
 
+  class IssueFieldsRows
+    include ActionView::Helpers::TagHelper
+
+    def initialize
+      @left = []
+      @right = []
+    end
+
+    def left(*args)
+      args.any? ? @left << cells(*args) : @left
+    end
+
+    def right(*args)
+      args.any? ? @right << cells(*args) : @right
+    end
+
+    def size
+      @left.size > @right.size ? @left.size : @right.size
+    end
+
+    def to_html
+      html = ''.html_safe
+      blank = content_tag('th', '') + content_tag('td', '')
+      size.times do |i|
+        left = @left[i] || blank
+        right = @right[i] || blank
+        html << content_tag('tr', left + right)
+      end
+      html
+    end
+
+    def cells(label, text, options={})
+      content_tag('th', "#{label}:", options) + content_tag('td', text, options)
+    end
+  end
+
+  def issue_fields_rows
+    r = IssueFieldsRows.new
+    yield r
+    r.to_html
+  end
+
   def render_custom_fields_rows(issue)
     return if issue.custom_field_values.empty?
     ordered_values = []

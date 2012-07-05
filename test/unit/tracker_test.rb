@@ -59,6 +59,30 @@ class TrackerTest < ActiveSupport::TestCase
     assert_equal [], Tracker.new.issue_statuses
   end
 
+  def test_core_fields_should_be_enabled_by_default
+    tracker = Tracker.new
+    assert_equal Tracker::CORE_FIELDS, tracker.core_fields
+    assert_equal [], tracker.disabled_core_fields
+  end
+
+  def test_core_fields
+    tracker = Tracker.new
+    tracker.core_fields = %w(assigned_to_id due_date)
+
+    assert_equal %w(assigned_to_id due_date), tracker.core_fields
+    assert_equal Tracker::CORE_FIELDS - %w(assigned_to_id due_date), tracker.disabled_core_fields
+  end
+
+  def test_core_fields_should_return_fields_enabled_for_any_tracker
+    trackers = []
+    trackers << Tracker.new(:core_fields => %w(assigned_to_id due_date))
+    trackers << Tracker.new(:core_fields => %w(assigned_to_id done_ratio))
+    trackers << Tracker.new(:core_fields => [])
+
+    assert_equal %w(assigned_to_id due_date done_ratio), Tracker.core_fields(trackers)
+    assert_equal Tracker::CORE_FIELDS - %w(assigned_to_id due_date done_ratio), Tracker.disabled_core_fields(trackers)
+  end
+
   def test_sort_should_sort_by_position
     a = Tracker.new(:name => 'Tracker A', :position => 2)
     b = Tracker.new(:name => 'Tracker B', :position => 1)

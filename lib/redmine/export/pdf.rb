@@ -18,6 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require 'iconv'
+require 'tcpdf'
 require 'fpdf/chinese'
 require 'fpdf/japanese'
 require 'fpdf/korean'
@@ -497,14 +498,13 @@ module Redmine
       # Returns a PDF string of a single issue
       def issue_to_pdf(issue)
         pdf = ITCPDF.new(current_language)
-        pdf.SetTitle("#{issue.project} - ##{issue.tracker} #{issue.id}")
+        pdf.SetTitle("#{issue.project} - #{issue.tracker} ##{issue.id}")
         pdf.alias_nb_pages
         pdf.footer_date = format_date(Date.today)
         pdf.AddPage
         pdf.SetFontStyle('B',11)
-        buf = "#{issue.project} - #{issue.tracker} # #{issue.id}"
+        buf = "#{issue.project} - #{issue.tracker} ##{issue.id}"
         pdf.RDMMultiCell(190, 5, buf)
-        pdf.Ln
         pdf.SetFontStyle('',8)
         base_x = pdf.GetX
         i = 1
@@ -514,62 +514,54 @@ module Redmine
           pdf.RDMMultiCell(190 - i, 5, buf)
           i += 1 if i < 35
         end
+        pdf.SetFontStyle('B',11)
+        pdf.RDMMultiCell(190 - i, 5, issue.subject.to_s)
+        pdf.SetFontStyle('',8)
+        pdf.RDMMultiCell(190, 5, "#{format_time(issue.created_on)} - #{issue.author}")
         pdf.Ln
 
-        pdf.SetFontStyle('B',9)
-        pdf.RDMCell(35,5, l(:field_status) + ":","LT")
-        pdf.SetFontStyle('',9)
-        pdf.RDMCell(60,5, issue.status.to_s,"RT")
-        pdf.SetFontStyle('B',9)
-        pdf.RDMCell(35,5, l(:field_priority) + ":","LT")
-        pdf.SetFontStyle('',9)
-        pdf.RDMCell(60,5, issue.priority.to_s,"RT")
-        pdf.Ln
+        left = []
+        left << [l(:field_status), issue.status]
+        left << [l(:field_priority), issue.priority]
+        left << [l(:field_assigned_to), issue.assigned_to] unless issue.disabled_core_fields.include?('assigned_to_id')
+        left << [l(:field_category), issue.category] unless issue.disabled_core_fields.include?('category_id')
+        left << [l(:field_fixed_version), issue.fixed_version] unless issue.disabled_core_fields.include?('fixed_version_id')
 
-        pdf.SetFontStyle('B',9)
-        pdf.RDMCell(35,5, l(:field_author) + ":","L")
-        pdf.SetFontStyle('',9)
-        pdf.RDMCell(60,5, issue.author.to_s,"R")
-        pdf.SetFontStyle('B',9)
-        pdf.RDMCell(35,5, l(:field_category) + ":","L")
-        pdf.SetFontStyle('',9)
-        pdf.RDMCell(60,5, issue.category.to_s,"R")
-        pdf.Ln
+        right = []
+        right << [l(:field_start_date), format_date(issue.start_date)] unless issue.disabled_core_fields.include?('start_date')
+        right << [l(:field_due_date), format_date(issue.due_date)] unless issue.disabled_core_fields.include?('due_date')
+        right << [l(:field_done_ratio), "#{issue.done_ratio}%"] unless issue.disabled_core_fields.include?('done_ratio')
+        right << [l(:field_estimated_hours), l_hours(issue.estimated_hours)] unless issue.disabled_core_fields.include?('estimated_hours')
+        right << [l(:label_spent_time), l_hours(issue.total_spent_hours)] if User.current.allowed_to?(:view_time_entries, issue.project)
 
-        pdf.SetFontStyle('B',9)
-        pdf.RDMCell(35,5, l(:field_created_on) + ":","L")
-        pdf.SetFontStyle('',9)
-        pdf.RDMCell(60,5, format_date(issue.created_on),"R")
-        pdf.SetFontStyle('B',9)
-        pdf.RDMCell(35,5, l(:field_assigned_to) + ":","L")
-        pdf.SetFontStyle('',9)
-        pdf.RDMCell(60,5, issue.assigned_to.to_s,"R")
-        pdf.Ln
-
-        pdf.SetFontStyle('B',9)
-        pdf.RDMCell(35,5, l(:field_updated_on) + ":","LB")
-        pdf.SetFontStyle('',9)
-        pdf.RDMCell(60,5, format_date(issue.updated_on),"RB")
-        pdf.SetFontStyle('B',9)
-        pdf.RDMCell(35,5, l(:field_due_date) + ":","LB")
-        pdf.SetFontStyle('',9)
-        pdf.RDMCell(60,5, format_date(issue.due_date),"RB")
-        pdf.Ln
-
-        for custom_value in issue.custom_field_values
-          pdf.SetFontStyle('B',9)
-          pdf.RDMCell(35,5, custom_value.custom_field.name + ":","L")
-          pdf.SetFontStyle('',9)
-          pdf.RDMMultiCell(155,5, (show_value custom_value),"R")
+        rows = left.size > right.size ? left.size : right.size
+        while left.size < rows
+          left << nil
+        end
+        while right.size < rows
+          right << nil
         end
 
-        y0 = pdf.GetY
+        half = (issue.custom_field_values.size / 2.0).ceil
+        issue.custom_field_values.each_with_index do |custom_value, i|
+          (i < half ? left : right) << [custom_value.custom_field.name, show_value(custom_value)]
+        end
 
-        pdf.SetFontStyle('B',9)
-        pdf.RDMCell(35,5, l(:field_subject) + ":","LT")
-        pdf.SetFontStyle('',9)
-        pdf.RDMMultiCell(155,5, issue.subject,"RT")
-        pdf.Line(pdf.GetX, y0, pdf.GetX, pdf.GetY)
+        rows = left.size > right.size ? left.size : right.size
+        rows.times do |i|
+          item = left[i]
+          pdf.SetFontStyle('B',9)
+          pdf.RDMCell(35,5, item ? "#{item.first}:" : "", i == 0 ? "LT" : "L")
+          pdf.SetFontStyle('',9)
+          pdf.RDMCell(60,5, item ? item.last.to_s : "", i == 0 ? "RT" : "R")
+
+          item = right[i]
+          pdf.SetFontStyle('B',9)
+          pdf.RDMCell(35,5, item ? "#{item.first}:" : "", i == 0 ? "LT" : "L")
+          pdf.SetFontStyle('',9)
+          pdf.RDMCell(60,5, item ? item.last.to_s : "", i == 0 ? "RT" : "R")
+          pdf.Ln
+        end
 
         pdf.SetFontStyle('B',9)
         pdf.RDMCell(35+155, 5, l(:field_description), "LRT", 1)

@@ -213,10 +213,12 @@ class Query < ActiveRecord::Base
     is_public && !@is_for_all && user.allowed_to?(:manage_public_queries, project)
   end
 
+  def trackers
+    @trackers ||= project.nil? ? Tracker.find(:all, :order => 'position') : project.rolled_up_trackers
+  end
+
   def available_filters
     return @available_filters if @available_filters
-
-    trackers = project.nil? ? Tracker.find(:all, :order => 'position') : project.rolled_up_trackers
 
     @available_filters = { "status_id" => { :type => :list_status, :order => 1, :values => IssueStatus.find(:all, :order => 'position').collect{|s| [s.name, s.id.to_s] } },
                            "tracker_id" => { :type => :list, :order => 2, :values => trackers.collect{|s| [s.name, s.id.to_s] } },
@@ -300,6 +302,11 @@ class Query < ActiveRecord::Base
       end
       add_custom_fields_filters(IssueCustomField.find(:all, :conditions => {:is_filter => true, :is_for_all => true}))
     end
+    
+    Tracker.disabled_core_fields(trackers).each {|field|
+      @available_filters.delete field
+    }
+
     @available_filters
   end
 
@@ -380,6 +387,12 @@ class Query < ActiveRecord::Base
         :caption => :label_spent_time
       )
     end
+
+    disabled_fields = Tracker.disabled_core_fields(trackers).map {|field| field.sub(/_id$/, '')}
+    @available_columns.reject! {|column|
+      disabled_fields.include?(column.name.to_s)
+    }
+
     @available_columns
   end
 

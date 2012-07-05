@@ -65,6 +65,7 @@ class ContextMenusController < ApplicationController
       end
     end
 
+    @safe_attributes = @issues.map(&:safe_attribute_names).reduce(:&)
     render :layout => false
   end
 

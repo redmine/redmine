@@ -336,6 +336,12 @@ class Issue < ActiveRecord::Base
     :if => lambda {|issue, user| (issue.new_record? || user.allowed_to?(:edit_issues, issue.project)) &&
       user.allowed_to?(:manage_subtasks, issue.project)}
 
+  def safe_attribute_names(*args)
+    names = super(*args)
+    names -= disabled_core_fields
+    names
+  end
+
   # Safely sets attributes
   # Should be called from controllers instead of #attributes=
   # attr_accessible is too rough because we still want things like
@@ -343,20 +349,21 @@ class Issue < ActiveRecord::Base
   def safe_attributes=(attrs, user=User.current)
     return unless attrs.is_a?(Hash)
 
-    # User can change issue attributes only if he has :edit permission or if a workflow transition is allowed
-    attrs = delete_unsafe_attributes(attrs, user)
-    return if attrs.empty?
+    attrs = attrs.dup
 
     # Project and Tracker must be set before since new_statuses_allowed_to depends on it.
-    if p = attrs.delete('project_id')
+    if (p = attrs.delete('project_id')) && safe_attribute?('project_id')
       if allowed_target_projects(user).collect(&:id).include?(p.to_i)
         self.project_id = p
       end
     end
 
-    if t = attrs.delete('tracker_id')
+    if (t = attrs.delete('tracker_id')) && safe_attribute?('tracker_id')
       self.tracker_id = t
     end
+
+    attrs = delete_unsafe_attributes(attrs, user)
+    return if attrs.empty?
 
     if attrs['status_id']
       unless new_statuses_allowed_to(user).collect(&:id).include?(attrs['status_id'].to_i)
@@ -374,6 +381,10 @@ class Issue < ActiveRecord::Base
 
     # mass-assignment security bypass
     assign_attributes attrs, :without_protection => true
+  end
+
+  def disabled_core_fields
+    tracker ? tracker.disabled_core_fields : []
   end
 
   def done_ratio

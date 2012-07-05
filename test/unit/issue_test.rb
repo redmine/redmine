@@ -403,6 +403,52 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal [1, 2], issue.new_statuses_allowed_to(User.find(2)).map(&:id)
   end
 
+  def test_safe_attributes_should_not_include_disabled_field
+    tracker = Tracker.new(:core_fields => %w(assigned_to_id fixed_version_id))
+
+    issue = Issue.new(:tracker => tracker)
+    assert_include 'tracker_id', issue.safe_attribute_names
+    assert_include 'status_id', issue.safe_attribute_names
+    assert_include 'subject', issue.safe_attribute_names
+    assert_include 'description', issue.safe_attribute_names
+    assert_include 'custom_field_values', issue.safe_attribute_names
+    assert_include 'custom_fields', issue.safe_attribute_names
+    assert_include 'lock_version', issue.safe_attribute_names
+
+    tracker.core_fields.each do |field|
+      assert_include field, issue.safe_attribute_names
+    end
+
+    tracker.disabled_core_fields.each do |field|
+      assert_not_include field, issue.safe_attribute_names
+    end
+  end
+
+  def test_safe_attributes_should_ignore_disabled_fields
+    tracker = Tracker.find(1)
+    tracker.core_fields = %w(assigned_to_id due_date)
+    tracker.save!
+
+    issue = Issue.new(:tracker => tracker)
+    issue.safe_attributes = {'start_date' => '2012-07-14', 'due_date' => '2012-07-14'}
+    assert_nil issue.start_date
+    assert_equal Date.parse('2012-07-14'), issue.due_date
+  end
+
+  def test_safe_attributes_should_accept_target_tracker_fields
+    source = Tracker.find(1)
+    source.core_fields = []
+    source.save!
+    target = Tracker.find(2)
+    target.core_fields = %w(assigned_to_id due_date)
+    target.save!
+
+    issue = Issue.new(:tracker => source)
+    issue.safe_attributes = {'tracker_id' => 2, 'due_date' => '2012-07-14'}
+    assert_equal target, issue.tracker
+    assert_equal Date.parse('2012-07-14'), issue.due_date
+  end
+
   def test_copy
     issue = Issue.new.copy_from(1)
     assert issue.copy?

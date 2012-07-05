@@ -64,8 +64,19 @@ class TrackersControllerTest < ActionController::TestCase
     tracker = Tracker.first(:order => 'id DESC')
     assert_equal 'New tracker', tracker.name
     assert_equal [1], tracker.project_ids.sort
+    assert_equal Tracker::CORE_FIELDS, tracker.core_fields
     assert_equal [1, 6], tracker.custom_field_ids.sort
     assert_equal 0, tracker.workflows.count
+  end
+
+  def create_with_disabled_core_fields
+    assert_difference 'Tracker.count' do
+      post :create, :tracker => { :name => 'New tracker', :core_fields => ['assigned_to_id', 'fixed_version_id', ''] }
+    end
+    assert_redirected_to :action => 'index'
+    tracker = Tracker.first(:order => 'id DESC')
+    assert_equal 'New tracker', tracker.name
+    assert_equal %w(assigned_to_id fixed_version_id), tracker.core_fields
   end
 
   def test_create_new_with_workflow_copy
@@ -107,6 +118,24 @@ class TrackersControllerTest < ActionController::TestCase
                                         :type => 'hidden'}
   end
 
+  def test_edit_should_check_core_fields
+    tracker = Tracker.find(1)
+    tracker.core_fields = %w(assigned_to_id fixed_version_id)
+    tracker.save!
+
+    get :edit, :id => 1
+    assert_response :success
+    assert_template 'edit'
+
+    assert_select 'input[name=?][value=assigned_to_id][checked=checked]', 'tracker[core_fields][]'
+    assert_select 'input[name=?][value=fixed_version_id][checked=checked]', 'tracker[core_fields][]'
+
+    assert_select 'input[name=?][value=category_id]', 'tracker[core_fields][]'
+    assert_select 'input[name=?][value=category_id][checked=checked]', 'tracker[core_fields][]', 0
+
+    assert_select 'input[name=?][value=][type=hidden]', 'tracker[core_fields][]'
+  end
+
   def test_update
     put :update, :id => 1, :tracker => { :name => 'Renamed',
                                         :project_ids => ['1', '2', ''] }
@@ -119,6 +148,12 @@ class TrackersControllerTest < ActionController::TestCase
                                         :project_ids => [''] }
     assert_redirected_to :action => 'index'
     assert Tracker.find(1).project_ids.empty?
+  end
+
+  def test_update_without_core_fields
+    put :update, :id => 1, :tracker => { :name => 'Renamed', :core_fields => [''] }
+    assert_redirected_to :action => 'index'
+    assert Tracker.find(1).core_fields.empty?
   end
 
   def test_update_with_failure
