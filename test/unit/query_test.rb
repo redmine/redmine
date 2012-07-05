@@ -258,6 +258,36 @@ class QueryTest < ActiveSupport::TestCase
     assert issues.map(&:id).include?(3)
   end
 
+  def test_operator_is_on_is_private_field
+    # is_private filter only available for those who can set issues private
+    User.current = User.find(2)
+
+    query = Query.new(:name => '_')
+    assert query.available_filters.key?('is_private')
+
+    query.add_filter("is_private", '=', ['1'])
+    issues = find_issues_with_query(query)
+    assert issues.any?
+    assert_nil issues.detect {|issue| !issue.is_private?}
+  ensure
+    User.current = nil
+  end
+
+  def test_operator_is_not_on_is_private_field
+    # is_private filter only available for those who can set issues private
+    User.current = User.find(2)
+
+    query = Query.new(:name => '_')
+    assert query.available_filters.key?('is_private')
+
+    query.add_filter("is_private", '!', ['1'])
+    issues = find_issues_with_query(query)
+    assert issues.any?
+    assert_nil issues.detect {|issue| issue.is_private?}
+  ensure
+    User.current = nil
+  end
+
   def test_operator_greater_than
     query = Query.new(:project => Project.find(1), :name => '_')
     query.add_filter('done_ratio', '>=', ['40'])

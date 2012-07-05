@@ -302,7 +302,12 @@ class Query < ActiveRecord::Base
       end
       add_custom_fields_filters(IssueCustomField.find(:all, :conditions => {:is_filter => true, :is_for_all => true}))
     end
-    
+
+    if User.current.allowed_to?(:set_issues_private, nil, :global => true) ||
+      User.current.allowed_to?(:set_own_issues_private, nil, :global => true)
+      @available_filters["is_private"] = { :type => :list, :order => 15, :values => [[l(:general_text_yes), "1"], [l(:general_text_no), "0"]] }
+    end
+
     Tracker.disabled_core_fields(trackers).each {|field|
       @available_filters.delete field
     }
@@ -702,6 +707,13 @@ class Query < ActiveRecord::Base
       "(#{nl} #{Issue.table_name}.assigned_to_id #{sw} IN (SELECT DISTINCT #{Member.table_name}.user_id FROM #{Member.table_name}, #{MemberRole.table_name}" +
         " WHERE #{Member.table_name}.project_id = #{Issue.table_name}.project_id AND #{Member.table_name}.id = #{MemberRole.table_name}.member_id AND #{role_cond}))"
     end
+  end
+
+  def sql_for_is_private_field(field, operator, value)
+    op = (operator == "=" ? 'IN' : 'NOT IN')
+    va = value.map {|v| v == '0' ? connection.quoted_false : connection.quoted_true}.uniq.join(',')
+
+    "#{Issue.table_name}.is_private #{op} (#{va})"
   end
 
   private
