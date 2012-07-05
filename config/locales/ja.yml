@@ -1078,3 +1078,4 @@ ja:
   project_status_archived: アーカイブ
   text_project_closed: このプロジェクトは終了しているため読み取り専用です。
   notice_user_successful_create: User %{id} created.
+  field_core_fields: Standard fields

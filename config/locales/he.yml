@@ -1053,3 +1053,4 @@ he:
   project_status_archived: archived
   text_project_closed: This project is closed and read-only.
   notice_user_successful_create: User %{id} created.
+  field_core_fields: Standard fields
