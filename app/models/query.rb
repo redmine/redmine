@@ -388,6 +388,11 @@ class Query < ActiveRecord::Base
       )
     end
 
+    if User.current.allowed_to?(:set_issues_private, nil, :global => true) ||
+      User.current.allowed_to?(:set_own_issues_private, nil, :global => true)
+      @available_columns << QueryColumn.new(:is_private, :sortable => "#{Issue.table_name}.is_private")
+    end
+
     disabled_fields = Tracker.disabled_core_fields(trackers).map {|field| field.sub(/_id$/, '')}
     @available_columns.reject! {|column|
       disabled_fields.include?(column.name.to_s)
