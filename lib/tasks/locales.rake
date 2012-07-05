@@ -41,7 +41,8 @@ namespace :locales do
     dir = ENV['DIR'] || './config/locales'
     en_strings = YAML.load(File.read(File.join(dir,'en.yml')))['en']
     files = Dir.glob(File.join(dir,'*.{yaml,yml}'))
-    files.each do |file|
+    files.sort.each do |file|
+      puts "parsing #{file}..."
       file_strings = YAML.load(File.read(file))
       file_strings = file_strings[file_strings.keys.first]
 
@@ -129,7 +130,7 @@ END_DESC
       parser = Psych::Parser.new
       dir = ENV['DIR'] || './config/locales'
       files = Dir.glob(File.join(dir,'*.yml'))
-      files.each do |filename|
+      files.sort.each do |filename|
         next if File.directory? filename
         puts "parsing #{filename}..."
         begin
