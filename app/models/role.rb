@@ -16,6 +16,19 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Role < ActiveRecord::Base
+  # Custom coder for the permissions attribute that should be an
+  # array of symbols. Rails 3 uses Psych which can be *unbelievably*
+  # slow on some platforms (eg. mingw32).
+  class PermissionsAttributeCoder
+    def self.load(str)
+      str.to_s.scan(/:([a-z0-9_]+)/).flatten.map(&:to_sym)
+    end
+
+    def self.dump(value)
+      YAML.dump(value)
+    end
+  end
+
   # Built-in roles
   BUILTIN_NON_MEMBER = 1
   BUILTIN_ANONYMOUS  = 2
@@ -44,7 +57,7 @@ class Role < ActiveRecord::Base
   has_many :members, :through => :member_roles
   acts_as_list
 
-  serialize :permissions, Array
+  serialize :permissions, ::Role::PermissionsAttributeCoder
   attr_protected :builtin
 
   validates_presence_of :name
@@ -53,10 +66,6 @@ class Role < ActiveRecord::Base
   validates_inclusion_of :issues_visibility,
     :in => ISSUES_VISIBILITY_OPTIONS.collect(&:first),
     :if => lambda {|role| role.respond_to?(:issues_visibility)}
-
-  def permissions
-    read_attribute(:permissions) || []
-  end
 
   def permissions=(perms)
     perms = perms.collect {|p| p.to_sym unless p.blank? }.compact.uniq if perms

@@ -44,6 +44,11 @@ class RoleTest < ActiveSupport::TestCase
     assert_equal 90, target.workflows.size
   end
 
+  def test_permissions_should_be_unserialized_with_its_coder
+    Role::PermissionsAttributeCoder.expects(:load).once
+    Role.find(1).permissions
+  end
+
   def test_add_permission
     role = Role.find(1)
     size = role.permissions.size
