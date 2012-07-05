@@ -659,6 +659,10 @@ class AnonymousUser < User
   def time_zone; nil end
   def rss_key; nil end
 
+  def pref
+    UserPreference.new(:user => self)
+  end
+
   # Anonymous user can not be destroyed
   def destroy
     false
