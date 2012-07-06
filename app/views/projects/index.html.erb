@@ -13,6 +13,12 @@
 
 <h2><%=l(:label_project_plural)%></h2>
 
+<p>A list of all the projects in the Open Source Brain repository.</p>
+
+<p>A number of these are available as <a href="embedded/osb">automatically generated descriptions</a> from neuroConstruct projects.</p>
+
+<p><a href="themes">Themes</a> are summaries of the projects present in the OSB for specific areas of neuronal modelling, e.g. related to a particular brain region or disease state.</p>
+
 <%= render_project_hierarchy(@projects)%>
 
 <% if User.current.logged? %>

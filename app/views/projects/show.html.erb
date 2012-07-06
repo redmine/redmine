@@ -7,23 +7,70 @@
 <h2><%=l(:label_overview)%></h2>
 
 <div class="splitcontentleft">
+
+	<% unless @project.homepage.blank? %>
+	    <% if h(@project.homepage).starts_with? 'http://opensourcebrain.org:8080/embedded' or h(@project.homepage).starts_with? 'http://www.opensourcebrain.org:8080/embedded'%>
+	        <p><a href="<%= @project.homepage %>"> <img alt="Project description" border="0" src="<%= @project.homepage %>/images/small.png"/> </a></p>
+        <% else %>
+        
+	        <p>More information: <%= auto_link(h(@project.homepage)) %></p>
+        <% end %>
+	<% end %>
+	
   <div class="wiki">
     <%= textilizable @project.description %>
   </div>
-  <ul>
-  <% unless @project.homepage.blank? %>
-    <li><%=l(:field_homepage)%>: <%= link_to h(@project.homepage), @project.homepage %></li>
-  <% end %>
+  
+ 
   <% if @subprojects.any? %>
-    <li><%=l(:label_subproject_plural)%>:
-      <%= @subprojects.collect{|p| link_to(h(p), :action => 'show', :id => p)}.join(", ").html_safe %></li>
+ 	<p><%=l(:label_subproject_plural)%>:
+	    <%= @subprojects.collect{|p| link_to(h(p), :action => 'show', :id => p)}.join(", ") %></p>
   <% end %>
-  <% @project.visible_custom_field_values.each do |custom_value| %>
-  <% if !custom_value.value.blank? %>
-     <li><%=h custom_value.custom_field.name %>: <%=h show_value(custom_value) %></li>
-  <% end %>
-  <% end %>
-  </ul>
+  
+	<% @project.visible_custom_field_values.each do |custom_value| %>
+	    <% if !custom_value.value.blank? %>
+	        <% if custom_value.custom_field.name != 'Category'  %>
+	        
+	            
+	        <% end %>
+	    <% end %>
+	<% end %>
+  
+  
+	<% @project.visible_custom_field_values.each do |custom_value| %>
+	
+	    <% if !custom_value.value.blank? %>
+        
+            <% if custom_value.custom_field.name == 'NeuroML version' %>
+            
+	            <h2>NeuroML compatibility</h2> 
+                <p>The minimum version of NeuroML for this model is: <b><%=h show_value(custom_value) %></b></p>
+            <% end %>
+            
+	    <% end %>
+	<% end %>
+  
+  
+	<% @project.visible_custom_field_values.each do |custom_value| %>
+	
+	    <% if !custom_value.value.blank? %>
+        
+            <% if custom_value.custom_field.name == 'ModelDB reference' %>
+                <p>The original published version of this model is available on ModelDB:</p>
+                <% if !show_value(custom_value).starts_with? 'http://senselab.med.yale.edu/ModelDB/ShowModel.asp?model=' %>
+                    <p><a href="http://senselab.med.yale.edu/ModelDB/ShowModel.asp?model=<%=h show_value(custom_value) %>">
+                                             <img alt="ModelDB" border="0" src="../images/modeldb.gif"/></a></p>
+                <% else %>
+                    <p><a href="<%=h show_value(custom_value) %>">
+                                             <img alt="ModelDB" border="0" src="../images/modeldb.gif"/></a></p>
+                <% end %>
+            <% elsif custom_value.custom_field.name == 'Original format' %>
+	            <h2>Original model</h2> 
+                <p>This model was originally developed in: <b><%=h show_value(custom_value) %></b></p>
+            <% end %>
+            
+	    <% end %>
+	<% end %>
 
   <% if User.current.allowed_to?(:view_issues, @project) %>
   <div class="issues box">
