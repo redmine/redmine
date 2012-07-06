@@ -18,6 +18,10 @@
 RedmineApp::Application.routes.draw do
   root :to => 'welcome#index', :as => 'home'
 
+  ## OSB specific
+  match 'about', :to => 'about#index'
+  ##
+
   match 'login', :to => 'account#login', :as => 'signin'
   match 'logout', :to => 'account#logout', :as => 'signout'
   match 'account/register', :to => 'account#register', :via => [:get, :post]
