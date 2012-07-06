@@ -30,3 +30,6 @@
 /Gemfile.lock
 /Gemfile.local
 
+config/configuration.yml~
+plugins/embedded/
+plugins/redmine_github_hook/
