@@ -47,7 +47,8 @@
     </div>
     <% end %>
 
-    <h1><%= page_header_title %></h1>
+    <!--<h1><%= page_header_title %></h1>-->
+    <img src="/images/logo.png" style="top-margin: 15px; right-margin: 15px;"/>
 
     <% if display_main_menu?(@project) %>
     <div id="main-menu">
@@ -75,7 +76,7 @@
 
 <div id="footer">
   <div class="bgl"><div class="bgr">
-    Powered by <%= link_to Redmine::Info.app_name, Redmine::Info.url %> &copy; 2006-2012 Jean-Philippe Lang
+    The Open Source Brain Initiative. Funding provided by the <%= link_to 'Wellcome Trust', 'http://www.wellcome.ac.uk/' %>. Powered by <%= link_to Redmine::Info.app_name, Redmine::Info.url %>
   </div></div>
 </div>
 </div>
