@@ -17,7 +17,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class AccountControllerTest < ActionController::TestCase
+class AccountControllerOpenidTest < ActionController::TestCase
   tests AccountController
   fixtures :users, :roles
 
