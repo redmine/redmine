@@ -80,7 +80,7 @@ class AccountControllerTest < ActionController::TestCase
       post :login, :openid_url => 'http://openid.example.com/good_user'
       assert_redirected_to home_url
       user = User.find_by_login('cool_user')
-      assert ! user
+      assert_nil user
     end
   
     def test_login_with_openid_with_new_user_created_with_email_activation_should_have_a_token
