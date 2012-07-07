@@ -40,19 +40,22 @@ class AccountController < ApplicationController
     redirect_to home_url
   end
 
-  # Enable user to choose a new password
+  # Lets user choose a new password
   def lost_password
     redirect_to(home_url) && return unless Setting.lost_password?
     if params[:token]
-      @token = Token.find_by_action_and_value("recovery", params[:token])
-      redirect_to(home_url) && return unless @token and !@token.expired?
+      @token = Token.find_by_action_and_value("recovery", params[:token].to_s)
+      if @token.nil? || @token.expired?
+        redirect_to home_url
+        return
+      end
       @user = @token.user
       if request.post?
         @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
         if @user.save
           @token.destroy
           flash[:notice] = l(:notice_account_password_updated)
-          redirect_to :action => 'login'
+          redirect_to signin_path
           return
         end
       end
