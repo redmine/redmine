@@ -149,6 +149,7 @@ class AccountControllerTest < ActionController::TestCase
   end
 
   def test_lost_password_for_active_user_should_create_a_token
+    Token.delete_all
     assert_difference 'ActionMailer::Base.deliveries.size' do
       assert_difference 'Token.count' do
         with_settings :host_name => 'mydomain.foo', :protocol => 'http' do
@@ -168,6 +169,7 @@ class AccountControllerTest < ActionController::TestCase
   end
 
   def test_lost_password_for_unknown_user_should_fail
+    Token.delete_all
     assert_no_difference 'Token.count' do
       post :lost_password, :mail => 'invalid@somenet.foo'
       assert_response :success
@@ -175,6 +177,7 @@ class AccountControllerTest < ActionController::TestCase
   end
 
   def test_lost_password_for_non_active_user_should_fail
+    Token.delete_all
     assert User.find(2).lock!
 
     assert_no_difference 'Token.count' do
