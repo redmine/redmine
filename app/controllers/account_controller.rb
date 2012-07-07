@@ -63,11 +63,17 @@ class AccountController < ApplicationController
       return
     else
       if request.post?
-        user = User.find_by_mail(params[:mail])
-        # user not found in db
-        (flash.now[:error] = l(:notice_account_unknown_email); return) unless user
-        # user uses an external authentification
-        (flash.now[:error] = l(:notice_can_t_change_password); return) if user.auth_source_id
+        user = User.find_by_mail(params[:mail].to_s)
+        # user not found or not active
+        unless user && user.active?
+          flash.now[:error] = l(:notice_account_unknown_email)
+          return
+        end
+        # user cannot change its password
+        unless user.change_password_allowed?
+          flash.now[:error] = l(:notice_can_t_change_password)
+          return
+        end
         # create a new token for password recovery
         token = Token.new(:user => user, :action => "recovery")
         if token.save

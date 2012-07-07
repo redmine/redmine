@@ -141,4 +141,45 @@ class AccountControllerTest < ActionController::TestCase
       end
     end
   end
+
+  def test_get_lost_password_should_display_lost_password_form
+    get :lost_password
+    assert_response :success
+    assert_select 'input[name=mail]'
+  end
+
+  def test_lost_password_for_active_user_should_create_a_token
+    assert_difference 'ActionMailer::Base.deliveries.size' do
+      assert_difference 'Token.count' do
+        with_settings :host_name => 'mydomain.foo', :protocol => 'http' do
+          post :lost_password, :mail => 'JSmith@somenet.foo'
+          assert_redirected_to '/login'
+        end
+      end
+    end
+
+    token = Token.order('id DESC').first
+    assert_equal User.find(2), token.user
+    assert_equal 'recovery', token.action
+
+    assert_select_email do
+      assert_select "a[href=?]", "http://mydomain.foo/account/lost_password?token=#{token.value}"
+    end
+  end
+
+  def test_lost_password_for_unknown_user_should_fail
+    assert_no_difference 'Token.count' do
+      post :lost_password, :mail => 'invalid@somenet.foo'
+      assert_response :success
+    end
+  end
+
+  def test_lost_password_for_non_active_user_should_fail
+    assert User.find(2).lock!
+
+    assert_no_difference 'Token.count' do
+      post :lost_password, :mail => 'JSmith@somenet.foo'
+      assert_response :success
+    end
+  end
 end
