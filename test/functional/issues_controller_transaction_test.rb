@@ -71,10 +71,14 @@ class IssuesControllerTransactionTest < ActionController::TestCase
 
     assert_response :success
     assert_template 'edit'
-    assert_tag 'div', :attributes => {:class => 'conflict'}
-    assert_tag 'input', :attributes => {:name => 'conflict_resolution', :value => 'overwrite'}
-    assert_tag 'input', :attributes => {:name => 'conflict_resolution', :value => 'add_notes'}
-    assert_tag 'input', :attributes => {:name => 'conflict_resolution', :value => 'cancel'}
+
+    assert_select 'div.conflict'
+    assert_select 'input[name=?][value=?]', 'conflict_resolution', 'overwrite'
+    assert_select 'input[name=?][value=?]', 'conflict_resolution', 'add_notes'
+    assert_select 'label' do
+      assert_select 'input[name=?][value=?]', 'conflict_resolution', 'cancel'
+      assert_select 'a[href=/issues/2]'
+    end
   end
 
   def test_update_stale_issue_should_save_attachments
