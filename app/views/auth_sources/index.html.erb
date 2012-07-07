@@ -21,11 +21,7 @@
     <td align="center"><%= h source.users.count %></td>
     <td class="buttons">
       <%= link_to l(:button_test), {:action => 'test_connection', :id => source}, :class => 'icon icon-test' %>
-      <%= link_to l(:button_delete), { :action => 'destroy', :id => source },
-                                                        :method => :delete,
-                                                        :confirm => l(:text_are_you_sure),
-                                                        :class => 'icon icon-del',
-                                                        :disabled => source.users.any? %>
+      <%= delete_link auth_source_path(source) %>
     </td>
   </tr>
 <% end %>

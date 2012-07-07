@@ -22,10 +22,7 @@
              :class => 'icon icon-user') %>
         <%= link_to(l(:button_edit), edit_repository_path(repository),
              :class => 'icon icon-edit') %>
-        <%= link_to(l(:button_delete), repository_path(repository),
-            :confirm => l(:text_are_you_sure),
-            :method  => :delete,
-            :class   => 'icon icon-del') %>
+        <%= delete_link repository_path(repository) %>
       <% end %>
       </td>
     </tr>

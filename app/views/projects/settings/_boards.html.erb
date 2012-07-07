@@ -20,7 +20,7 @@
     <td class="buttons">
     <% if User.current.allowed_to?(:manage_boards, @project) %>
       <%= link_to l(:button_edit), edit_project_board_path(@project, board), :class => 'icon icon-edit' %>
-      <%= link_to l(:button_delete), project_board_path(@project, board), :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del' %>
+      <%= delete_link project_board_path(@project, board) %>
 		<% end %>
     </td>
   </tr>

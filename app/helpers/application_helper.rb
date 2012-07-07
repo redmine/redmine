@@ -985,6 +985,16 @@ module ApplicationHelper
     html.html_safe
   end  
 
+  def delete_link(url, options={})
+    options = {
+      :method => :delete,
+      :data => {:confirm => l(:text_are_you_sure)},
+      :class => 'icon icon-del'
+    }.merge(options)
+
+    link_to l(:button_delete), url, options
+  end
+
   def back_url_hidden_field_tag
     back_url = params[:back_url] || request.env['HTTP_REFERER']
     back_url = CGI.unescape(back_url.to_s)

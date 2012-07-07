@@ -41,7 +41,7 @@
             l(:button_delete),
             { :url => membership_path(member),
               :method => :delete,
-              :confirm => (!User.current.admin? && member.include?(User.current) ? l(:text_own_membership_delete_confirmation) : nil) },
+              :data => {:confirm => (!User.current.admin? && member.include?(User.current) ? l(:text_own_membership_delete_confirmation) : nil)} },
             :title => l(:button_delete),
             :class => 'icon icon-del'
           ) if member.deletable? %>

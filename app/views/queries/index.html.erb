@@ -17,7 +17,7 @@
         <small>
         <% if query.editable_by?(User.current) %>
         <%= link_to l(:button_edit), edit_query_path(query), :class => 'icon icon-edit' %>
-        <%= link_to l(:button_delete), query_path(query), :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del' %>
+        <%= delete_link query_path(query) %>
         </small>
       <% end %>
       </td>

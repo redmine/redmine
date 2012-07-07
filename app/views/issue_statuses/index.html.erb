@@ -1,6 +1,6 @@
 <div class="contextual">
 <%= link_to l(:label_issue_status_new), new_issue_status_path, :class => 'icon icon-add' %>
-<%= link_to(l(:label_update_issue_done_ratios), update_issue_done_ratio_issue_statuses_path, :class => 'icon icon-multiple', :method => 'post', :confirm => l(:text_are_you_sure)) if Issue.use_status_for_done_ratio? %>
+<%= link_to(l(:label_update_issue_done_ratios), update_issue_done_ratio_issue_statuses_path, :class => 'icon icon-multiple', :method => 'post', :data => {:confirm => l(:text_are_you_sure)}) if Issue.use_status_for_done_ratio? %>
 </div>
 
 <h2><%=l(:label_issue_status_plural)%></h2>
@@ -27,10 +27,7 @@
   <td align="center"><%= checked_image status.is_closed? %></td>
   <td align="center" style="width:15%;"><%= reorder_links('issue_status', {:action => 'update', :id => status}, :put) %></td>
   <td class="buttons">
-    <%= link_to(l(:button_delete), issue_status_path(status),
-                                   :method => :delete,
-                                   :confirm => l(:text_are_you_sure),
-                                   :class => 'icon icon-del') %>
+    <%= delete_link issue_status_path(status) %>
   </td>
   </tr>
 <% end %>

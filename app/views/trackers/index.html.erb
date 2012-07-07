@@ -18,10 +18,7 @@
   <td align="center"><% unless tracker.workflows.count > 0 %><span class="icon icon-warning"><%= l(:text_tracker_no_workflow) %> (<%= link_to l(:button_edit), {:controller => 'workflows', :action => 'edit', :tracker_id => tracker} %>)</span><% end %></td>
   <td align="center" style="width:15%;"><%= reorder_links('tracker', {:action => 'update', :id => tracker}, :put) %></td>
   <td class="buttons">
-    <%= link_to(l(:button_delete), tracker_path(tracker),
-                                   :method => :delete,
-                                   :confirm => l(:text_are_you_sure),
-                                   :class => 'icon icon-del') %>
+    <%= delete_link tracker_path(tracker) %>
   </td>
   </tr>
 <% end %>
