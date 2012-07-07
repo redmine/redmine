@@ -114,6 +114,16 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
         end
       end
     end
+
+    def test_authenticate_should_timeout
+      auth_source = AuthSourceLdap.find(1)
+      auth_source.timeout = 1
+      def auth_source.initialize_ldap_con(*args); sleep(5); end
+
+      assert_raise AuthSourceTimeoutException do
+        auth_source.authenticate 'example1', '123456'
+      end
+    end
   else
     puts '(Test LDAP server not configured)'
   end

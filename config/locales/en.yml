@@ -329,6 +329,7 @@ en:
   field_multiple: Multiple values
   field_ldap_filter: LDAP filter
   field_core_fields: Standard fields
+  field_timeout: "Timeout (in seconds)"
 
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle

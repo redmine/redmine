@@ -26,6 +26,9 @@
 <p><label for="auth_source_custom_filter"><%=l(:field_ldap_filter)%></label>
 <%= text_field 'auth_source', 'filter', :size => 60 %></p>
 
+<p><label for="auth_source_timeout"><%=l(:field_timeout)%></label>
+<%= text_field 'auth_source', 'timeout', :size => 4 %></p>
+
 <p><label for="auth_source_onthefly_register"><%=l(:field_onthefly)%></label>
 <%= check_box 'auth_source', 'onthefly_register' %></p>
 </div>
