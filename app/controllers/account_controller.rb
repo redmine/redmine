@@ -70,7 +70,7 @@ class AccountController < ApplicationController
         if token.save
           Mailer.lost_password(token).deliver
           flash[:notice] = l(:notice_account_lost_email_sent)
-          redirect_to :action => 'login'
+          redirect_to signin_path
           return
         end
       end
@@ -129,7 +129,7 @@ class AccountController < ApplicationController
       token.destroy
       flash[:notice] = l(:notice_account_activated)
     end
-    redirect_to :action => 'login'
+    redirect_to signin_path
   end
 
   private
@@ -224,7 +224,7 @@ class AccountController < ApplicationController
   def onthefly_creation_failed(user, auth_source_options = { })
     @user = user
     session[:auth_source_registration] = auth_source_options unless auth_source_options.empty?
-    render :action => 'register'
+    render register_path
   end
 
   def invalid_credentials
@@ -240,7 +240,7 @@ class AccountController < ApplicationController
     if user.save and token.save
       Mailer.register(token).deliver
       flash[:notice] = l(:notice_account_register_done)
-      redirect_to :action => 'login'
+      redirect_to signin_path
     else
       yield if block_given?
     end
@@ -277,6 +277,6 @@ class AccountController < ApplicationController
 
   def account_pending
     flash[:notice] = l(:notice_account_pending)
-    redirect_to :action => 'login'
+    redirect_to signin_path
   end
 end

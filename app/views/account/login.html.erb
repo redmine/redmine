@@ -1,6 +1,6 @@
 <%= call_hook :view_account_login_top %>
 <div id="login-form">
-<%= form_tag({:action=> "login"}) do %>
+<%= form_tag(signin_path) do %>
 <%= back_url_hidden_field_tag %>
 <table>
 <tr>
@@ -28,7 +28,7 @@
 <tr>
     <td align="left">
         <% if Setting.lost_password? %>
-            <%= link_to l(:label_password_lost), :controller => 'account', :action => 'lost_password' %>
+            <%= link_to l(:label_password_lost), lost_password_path %>
         <% end %>
     </td>
     <td align="right">

@@ -20,8 +20,8 @@ RedmineApp::Application.routes.draw do
 
   match 'login', :to => 'account#login', :as => 'signin'
   match 'logout', :to => 'account#logout', :as => 'signout'
-  match 'account/register', :to => 'account#register', :via => [:get, :post]
-  match 'account/lost_password', :to => 'account#lost_password', :via => [:get, :post]
+  match 'account/register', :to => 'account#register', :via => [:get, :post], :as => 'register'
+  match 'account/lost_password', :to => 'account#lost_password', :via => [:get, :post], :as => 'lost_password'
   match 'account/activate', :to => 'account#activate', :via => :get
 
   match '/news/preview', :controller => 'previews', :action => 'news', :as => 'preview_news'
