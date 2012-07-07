@@ -20,4 +20,14 @@
   <% end %>
   </p>
 <% end %>
+<% if defined?(thumbnails) && thumbnails %>
+  <% images = attachments.select(&:thumbnailable?) %>
+  <% if images.any? %>
+  <div class="thumbnails">
+    <% images.each do |attachment| %>
+      <div><%= thumbnail_tag(attachment) %></div>
+    <% end %>
+  </div>
+  <% end %>
+<% end %>
 </div>

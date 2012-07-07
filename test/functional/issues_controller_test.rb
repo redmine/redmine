@@ -1155,7 +1155,33 @@ class IssuesControllerTest < ActionController::TestCase
       end
     end
   end
-  
+
+  def test_show_with_thumbnails_enabled_should_display_thumbnails
+    @request.session[:user_id] = 2
+
+    with_settings :thumbnails_enabled => '1' do
+      get :show, :id => 14
+      assert_response :success
+    end
+
+    assert_select 'div.thumbnails' do
+      assert_select 'a[href=/attachments/16/testfile.png]' do
+        assert_select 'img[src=/attachments/thumbnail/16]'
+      end
+    end
+  end
+
+  def test_show_with_thumbnails_disabled_should_not_display_thumbnails
+    @request.session[:user_id] = 2
+
+    with_settings :thumbnails_enabled => '0' do
+      get :show, :id => 14
+      assert_response :success
+    end
+
+    assert_select 'div.thumbnails', 0
+  end
+
   def test_show_with_multi_custom_field
     field = CustomField.find(1)
     field.update_attribute :multiple, true

@@ -163,6 +163,10 @@ default:
   # same secret token on each machine.
   #secret_token: 'change it to a long random string'
 
+  # Absolute path (e.g. /usr/bin/convert, c:/im/convert.exe) to
+  # the ImageMagick's `convert` binary. Used to generate attachment thumbnails.
+  #imagemagick_convert_command:
+
 # specific configuration options for production environment
 # that overrides the default ones
 production:

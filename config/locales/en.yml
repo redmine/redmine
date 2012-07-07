@@ -394,6 +394,8 @@ en:
   setting_unsubscribe: Allow users to delete their own account
   setting_session_lifetime: Session maximum lifetime
   setting_session_timeout: Session inactivity timeout
+  setting_thumbnails_enabled: Display attachment thumbnails
+  setting_thumbnails_size: Thumbnails size (in pixels)
 
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects

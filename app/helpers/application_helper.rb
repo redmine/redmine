@@ -153,6 +153,12 @@ module ApplicationHelper
     end
   end
 
+  def thumbnail_tag(attachment)
+    link_to image_tag(url_for(:controller => 'attachments', :action => 'thumbnail', :id => attachment)),
+      {:controller => 'attachments', :action => 'show', :id => attachment, :filename => attachment.filename},
+      :title => attachment.filename
+  end
+
   def toggle_link(name, id, options={})
     onclick = "Element.toggle('#{id}'); "
     onclick << (options[:focus] ? "Form.Element.focus('#{options[:focus]}'); " : "this.blur(); ")

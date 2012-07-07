@@ -214,4 +214,28 @@ class AttachmentTest < ActiveSupport::TestCase
 
     set_tmp_attachments_directory
   end
+
+  def test_thumbnailable_should_be_true_for_images
+    assert_equal true, Attachment.new(:filename => 'test.jpg').thumbnailable?
+  end
+
+  def test_thumbnailable_should_be_true_for_non_images
+    assert_equal false, Attachment.new(:filename => 'test.txt').thumbnailable?
+  end
+
+  if convert_installed?
+    def test_thumbnail_should_generate_the_thumbnail
+      set_fixtures_attachments_directory
+      attachment = Attachment.find(16)
+      Attachment.clear_thumbnails
+
+      assert_difference "Dir.glob(File.join(Attachment.thumbnails_storage_path, '*.thumb')).size" do
+        thumbnail = attachment.thumbnail
+        assert_equal "16_8e0294de2441577c529f170b6fb8f638_100.thumb", File.basename(thumbnail)
+        assert File.exists?(thumbnail)
+      end
+    end
+  else
+    puts '(ImageMagick convert not available)'
+  end
 end

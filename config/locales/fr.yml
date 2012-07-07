@@ -390,6 +390,8 @@ fr:
   setting_unsubscribe: Permettre aux utilisateurs de supprimer leur propre compte
   setting_session_lifetime: Durée de vie maximale des sessions
   setting_session_timeout: Durée maximale d'inactivité
+  setting_thumbnails_enabled: Afficher les vignettes des images
+  setting_thumbnails_size: Taille des vignettes (en pixels)
 
   permission_add_project: Créer un projet
   permission_add_subprojects: Créer des sous-projets

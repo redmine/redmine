@@ -252,10 +252,56 @@ class AttachmentsControllerTest < ActionController::TestCase
     set_tmp_attachments_directory
   end
 
-  def test_anonymous_on_private_private
+  def test_download_should_be_denied_without_permission
     get :download, :id => 7
     assert_redirected_to '/login?back_url=http%3A%2F%2Ftest.host%2Fattachments%2Fdownload%2F7'
     set_tmp_attachments_directory
+  end
+
+  if convert_installed?
+    def test_thumbnail
+      Attachment.clear_thumbnails
+      @request.session[:user_id] = 2
+      with_settings :thumbnails_enabled => '1' do
+        get :thumbnail, :id => 16
+        assert_response :success
+        assert_equal 'image/png', response.content_type
+      end
+    end
+
+    def test_thumbnail_should_return_404_for_non_image_attachment
+      @request.session[:user_id] = 2
+      with_settings :thumbnails_enabled => '1' do
+        get :thumbnail, :id => 15
+        assert_response 404
+      end
+    end
+
+    def test_thumbnail_should_return_404_if_thumbnails_not_enabled
+      @request.session[:user_id] = 2
+      with_settings :thumbnails_enabled => '0' do
+        get :thumbnail, :id => 16
+        assert_response 404
+      end
+    end
+
+    def test_thumbnail_should_return_404_if_thumbnail_generation_failed
+      Attachment.any_instance.stubs(:thumbnail).returns(nil)
+      @request.session[:user_id] = 2
+      with_settings :thumbnails_enabled => '1' do
+        get :thumbnail, :id => 16
+        assert_response 404
+      end
+    end
+
+    def test_thumbnail_should_be_denied_without_permission
+      with_settings :thumbnails_enabled => '1' do
+        get :thumbnail, :id => 16
+        assert_redirected_to '/login?back_url=http%3A%2F%2Ftest.host%2Fattachments%2Fthumbnail%2F16'
+      end
+    end
+  else
+    puts '(ImageMagick convert not available)'
   end
 
   def test_destroy_issue_attachment

@@ -128,6 +128,13 @@ class ActiveSupport::TestCase
     return nil
   end
 
+  def self.convert_installed?
+    bin = Redmine::Configuration['imagemagick_convert_command'] || 'convert'
+    system("#{bin} -version")
+  rescue
+    false
+  end
+
   # Returns the path to the test +vendor+ repository
   def self.repository_path(vendor)
     Rails.root.join("tmp/test/#{vendor.downcase}_repository").to_s

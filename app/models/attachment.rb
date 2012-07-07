@@ -46,6 +46,9 @@ class Attachment < ActiveRecord::Base
   cattr_accessor :storage_path
   @@storage_path = Redmine::Configuration['attachments_storage_path'] || File.join(Rails.root, "files")
 
+  cattr_accessor :thumbnails_storage_path
+  @@thumbnails_storage_path = File.join(Rails.root, "tmp", "thumbnails")
+
   before_save :files_to_final_location
   after_destroy :delete_from_disk
 
@@ -150,7 +153,35 @@ class Attachment < ActiveRecord::Base
   end
 
   def image?
-    self.filename =~ /\.(bmp|gif|jpg|jpe|jpeg|png)$/i
+    !!(self.filename =~ /\.(bmp|gif|jpg|jpe|jpeg|png)$/i)
+  end
+
+  def thumbnailable?
+    image?
+  end
+
+  # Returns the full path the attachment thumbnail, or nil
+  # if the thumbnail cannot be generated.
+  def thumbnail
+    if thumbnailable? && readable?
+      size = Setting.thumbnails_size.to_i
+      size = 100 unless size > 0
+      target = File.join(self.class.thumbnails_storage_path, "#{id}_#{digest}_#{size}.thumb")
+
+      begin
+        Redmine::Thumbnail.generate(self.diskfile, target, size)
+      rescue => e
+        logger.error "An error occured while generating thumbnail for #{disk_filename} to #{target}\nException was: #{e.message}" if logger
+        return nil
+      end
+    end
+  end
+
+  # Deletes all thumbnails
+  def self.clear_thumbnails
+    Dir.glob(File.join(thumbnails_storage_path, "*.thumb")).each do |file|
+      File.delete file
+    end
   end
 
   def is_text?

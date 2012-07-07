@@ -21,12 +21,14 @@ module AttachmentsHelper
   # Displays view/delete links to the attachments of the given object
   # Options:
   #   :author -- author names are not displayed if set to false
+  #   :thumbails -- display thumbnails if enabled in settings
   def link_to_attachments(container, options = {})
-    options.assert_valid_keys(:author)
+    options.assert_valid_keys(:author, :thumbnails)
 
     if container.attachments.any?
       options = {:deletable => container.attachments_deletable?, :author => true}.merge(options)
-      render :partial => 'attachments/links', :locals => {:attachments => container.attachments, :options => options}
+      render :partial => 'attachments/links',
+        :locals => {:attachments => container.attachments, :options => options, :thumbnails => (options[:thumbnails] && Setting.thumbnails_enabled?)}
     end
   end
 

@@ -81,7 +81,7 @@ end %>
   <%= textilizable @issue, :description, :attachments => @issue.attachments %>
   </div>
 <% end %>
-<%= link_to_attachments @issue %>
+<%= link_to_attachments @issue, :thumbnails => true %>
 <% end -%>
 
 <%= call_hook(:view_issues_show_description_bottom, :issue => @issue) %>
