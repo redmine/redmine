@@ -23,13 +23,17 @@ class AccountControllerTest < ActionController::TestCase
 
   def setup
     User.current = nil
+    Setting.openid = '1'
+  end
+
+  def teardown
+    Setting.openid = '0'
   end
 
   if Object.const_defined?(:OpenID)
 
     def test_login_with_openid_for_existing_user
       Setting.self_registration = '3'
-      Setting.openid = '1'
       existing_user = User.new(:firstname => 'Cool',
                                :lastname => 'User',
                                :mail => 'user@somedomain.com',
@@ -43,14 +47,12 @@ class AccountControllerTest < ActionController::TestCase
   
     def test_login_with_invalid_openid_provider
       Setting.self_registration = '0'
-      Setting.openid = '1'
       post :login, :openid_url => 'http;//openid.example.com/good_user'
       assert_redirected_to home_url
     end
   
     def test_login_with_openid_for_existing_non_active_user
       Setting.self_registration = '2'
-      Setting.openid = '1'
       existing_user = User.new(:firstname => 'Cool',
                                :lastname => 'User',
                                :mail => 'user@somedomain.com',
@@ -65,7 +67,6 @@ class AccountControllerTest < ActionController::TestCase
   
     def test_login_with_openid_with_new_user_created
       Setting.self_registration = '3'
-      Setting.openid = '1'
       post :login, :openid_url => 'http://openid.example.com/good_user'
       assert_redirected_to '/my/account'
       user = User.find_by_login('cool_user')
@@ -76,7 +77,6 @@ class AccountControllerTest < ActionController::TestCase
   
     def test_login_with_openid_with_new_user_and_self_registration_off
       Setting.self_registration = '0'
-      Setting.openid = '1'
       post :login, :openid_url => 'http://openid.example.com/good_user'
       assert_redirected_to home_url
       user = User.find_by_login('cool_user')
@@ -85,7 +85,6 @@ class AccountControllerTest < ActionController::TestCase
   
     def test_login_with_openid_with_new_user_created_with_email_activation_should_have_a_token
       Setting.self_registration = '1'
-      Setting.openid = '1'
       post :login, :openid_url => 'http://openid.example.com/good_user'
       assert_redirected_to '/login'
       user = User.find_by_login('cool_user')
@@ -97,7 +96,6 @@ class AccountControllerTest < ActionController::TestCase
   
     def test_login_with_openid_with_new_user_created_with_manual_activation
       Setting.self_registration = '2'
-      Setting.openid = '1'
       post :login, :openid_url => 'http://openid.example.com/good_user'
       assert_redirected_to '/login'
       user = User.find_by_login('cool_user')
@@ -107,7 +105,6 @@ class AccountControllerTest < ActionController::TestCase
   
     def test_login_with_openid_with_new_user_with_conflict_should_register
       Setting.self_registration = '3'
-      Setting.openid = '1'
       existing_user = User.new(:firstname => 'Cool', :lastname => 'User', :mail => 'user@somedomain.com')
       existing_user.login = 'cool_user'
       assert existing_user.save!
@@ -120,7 +117,6 @@ class AccountControllerTest < ActionController::TestCase
     end
   
     def test_setting_openid_should_return_true_when_set_to_true
-      Setting.openid = '1'
       assert_equal true, Setting.openid?
     end
 
