@@ -1051,3 +1051,4 @@ zh:
   text_project_closed: 当前项目已被关闭。当前项目只读。
   notice_user_successful_create: User %{id} created.
   field_core_fields: Standard fields
+  field_timeout: Timeout (in seconds)
