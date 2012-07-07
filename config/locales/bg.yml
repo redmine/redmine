@@ -1048,3 +1048,5 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   field_timeout: Timeout (in seconds)
+  setting_thumbnails_enabled: Display attachment thumbnails
+  setting_thumbnails_size: Thumbnails size (in pixels)
