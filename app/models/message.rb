@@ -41,9 +41,9 @@ class Message < ActiveRecord::Base
   validates_length_of :subject, :maximum => 255
   validate :cannot_reply_to_locked_topic, :on => :create
 
-  after_create :add_author_as_watcher, :update_parent_last_reply
+  after_create :add_author_as_watcher, :reset_counters!
   after_update :update_messages_board
-  after_destroy :reset_board_counters
+  after_destroy :reset_counters!
 
   scope :visible, lambda {|*args| { :include => {:board => :project},
                                           :conditions => Project.allowed_to_condition(args.shift || User.current, :view_messages, *args) } }
@@ -63,13 +63,6 @@ class Message < ActiveRecord::Base
     errors.add :base, 'Topic is locked' if root.locked? && self != root
   end
 
-  def update_parent_last_reply
-    if parent
-      parent.reload.update_attribute(:last_reply_id, self.id)
-    end
-    board.reset_counters!
-  end
-
   def update_messages_board
     if board_id_changed?
       Message.update_all("board_id = #{board_id}", ["id = ? OR parent_id = ?", root.id, root.id])
@@ -78,7 +71,10 @@ class Message < ActiveRecord::Base
     end
   end
 
-  def reset_board_counters
+  def reset_counters!
+    if parent && parent.id
+      Message.update_all({:last_reply_id => parent.children.maximum(:id)}, {:id => parent.id})
+    end
     board.reset_counters!
   end
 
