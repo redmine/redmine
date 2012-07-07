@@ -84,8 +84,9 @@ class AccountController < ApplicationController
       session[:auth_source_registration] = nil
       @user = User.new(:language => Setting.default_language)
     else
+      user_params = params[:user] || {}
       @user = User.new
-      @user.safe_attributes = params[:user]
+      @user.safe_attributes = user_params
       @user.admin = false
       @user.register
       if session[:auth_source_registration]
@@ -100,7 +101,9 @@ class AccountController < ApplicationController
         end
       else
         @user.login = params[:user][:login]
-        @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation]
+        unless user_params[:identity_url].present? && user_params[:password].blank? && user_params[:password_confirmation].blank?
+          @user.password, @user.password_confirmation = user_params[:password], user_params[:password_confirmation]
+        end
 
         case Setting.self_registration
         when '1'

@@ -116,6 +116,42 @@ class AccountControllerTest < ActionController::TestCase
       assert_equal 'http://openid.example.com/good_user', assigns(:user)[:identity_url]
     end
   
+    def test_login_with_openid_with_new_user_with_missing_information_should_register
+      Setting.self_registration = '3'
+  
+      post :login, :openid_url => 'http://openid.example.com/good_blank_user'
+      assert_response :success
+      assert_template 'register'
+      assert assigns(:user)
+      assert_equal 'http://openid.example.com/good_blank_user', assigns(:user)[:identity_url]
+
+      assert_select 'input[name=?]', 'user[login]'
+      assert_select 'input[name=?]', 'user[password]'
+      assert_select 'input[name=?]', 'user[password_confirmation]'
+      assert_select 'input[name=?][value=?]', 'user[identity_url]', 'http://openid.example.com/good_blank_user'
+    end
+
+    def test_register_after_login_failure_should_not_require_user_to_enter_a_password
+      Setting.self_registration = '3'
+
+      assert_difference 'User.count' do
+        post :register, :user => {
+          :login => 'good_blank_user',
+          :password => '',
+          :password_confirmation => '',
+          :firstname => 'Cool',
+          :lastname => 'User',
+          :mail => 'user@somedomain.com',
+          :identity_url => 'http://openid.example.com/good_blank_user'
+        }
+        assert_response 302
+      end
+
+      user = User.first(:order => 'id DESC')
+      assert_equal 'http://openid.example.com/good_blank_user', user.identity_url
+      assert user.hashed_password.blank?, "Hashed password was #{user.hashed_password}"
+    end
+
     def test_setting_openid_should_return_true_when_set_to_true
       assert_equal true, Setting.openid?
     end
