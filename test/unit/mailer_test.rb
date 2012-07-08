@@ -404,6 +404,11 @@ class MailerTest < ActiveSupport::TestCase
       Setting.default_language = lang.to_s
       assert_difference 'ActionMailer::Base.deliveries.size' do
         assert Mailer.wiki_content_added(content).deliver
+        assert_select_email do
+          assert_select 'a[href=?]',
+            'http://mydomain.foo/projects/ecookbook/wiki/CookBook_documentation',
+            :text => 'CookBook documentation'
+        end
       end
     end
   end
@@ -414,6 +419,11 @@ class MailerTest < ActiveSupport::TestCase
       Setting.default_language = lang.to_s
       assert_difference 'ActionMailer::Base.deliveries.size' do
         assert Mailer.wiki_content_updated(content).deliver
+        assert_select_email do
+          assert_select 'a[href=?]',
+            'http://mydomain.foo/projects/ecookbook/wiki/CookBook_documentation',
+            :text => 'CookBook documentation'
+        end
       end
     end
   end
