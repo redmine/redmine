@@ -44,8 +44,8 @@ class MailHandler < ActionMailer::Base
 
   cattr_accessor :ignored_emails_headers
   @@ignored_emails_headers = {
-    'X-Auto-Response-Suppress' => 'OOF',
-    'Auto-Submitted' => 'auto-replied'
+    'X-Auto-Response-Suppress' => 'oof',
+    'Auto-Submitted' => /^auto-/
   }
 
   # Processes incoming emails
@@ -63,11 +63,14 @@ class MailHandler < ActionMailer::Base
     # Ignore auto generated emails
     self.class.ignored_emails_headers.each do |key, ignored_value|
       value = email.header_string(key)
-      if value && value.to_s.downcase == ignored_value.downcase
-        if logger && logger.info
-          logger.info "MailHandler: ignoring email with #{key}:#{value} header"
+      if value
+        value = value.to_s.downcase
+        if (ignored_value.is_a?(Regexp) && value.match(ignored_value)) || value == ignored_value
+          if logger && logger.info
+            logger.info "MailHandler: ignoring email with #{key}:#{value} header"
+          end
+          return false
         end
-        return false
       end
     end
     @user = User.find_by_mail(sender_email) if sender_email.present?
