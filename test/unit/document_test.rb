@@ -27,10 +27,11 @@ class DocumentTest < ActiveSupport::TestCase
 
   def test_create_should_send_email_notification
     ActionMailer::Base.deliveries.clear
-    Setting.notified_events << 'document_added'
-    doc = Document.new(:project => Project.find(1), :title => 'New document', :category => Enumeration.find_by_name('User documentation'))
-
-    assert doc.save
+    
+    with_settings :notified_events => %w(document_added) do
+      doc = Document.new(:project => Project.find(1), :title => 'New document', :category => Enumeration.find_by_name('User documentation'))
+      assert doc.save
+    end
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
 

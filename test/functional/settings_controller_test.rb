@@ -77,6 +77,7 @@ class SettingsControllerTest < ActionController::TestCase
     assert !Setting.bcc_recipients?
     assert_equal %w(issue_added issue_updated news_added), Setting.notified_events
     assert_equal 'Test footer', Setting.emails_footer
+    Setting.clear_cache
   end
 
   def test_get_plugin_settings

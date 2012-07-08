@@ -82,12 +82,13 @@ class NewsControllerTest < ActionController::TestCase
 
   def test_post_create
     ActionMailer::Base.deliveries.clear
-    Setting.notified_events << 'news_added'
-
     @request.session[:user_id] = 2
-    post :create, :project_id => 1, :news => { :title => 'NewsControllerTest',
+
+    with_settings :notified_events => %w(news_added) do
+      post :create, :project_id => 1, :news => { :title => 'NewsControllerTest',
                                             :description => 'This is the description',
                                             :summary => '' }
+    end
     assert_redirected_to '/projects/ecookbook/news'
 
     news = News.find_by_title('NewsControllerTest')

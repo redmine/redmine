@@ -33,6 +33,10 @@ class SysControllerTest < ActionController::TestCase
     Setting.enabled_scm = %w(Subversion Git)
   end
 
+  def teardown
+    Setting.clear_cache
+  end
+
   def test_projects_with_repository_enabled
     get :projects
     assert_response :success

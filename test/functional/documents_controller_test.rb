@@ -95,16 +95,16 @@ LOREM
 
   def test_create_with_one_attachment
     ActionMailer::Base.deliveries.clear
-    Setting.notified_events << 'document_added'
     @request.session[:user_id] = 2
     set_tmp_attachments_directory
 
-    post :create, :project_id => 'ecookbook',
+    with_settings :notified_events => %w(document_added) do
+      post :create, :project_id => 'ecookbook',
                :document => { :title => 'DocumentsControllerTest#test_post_new',
                               :description => 'This is a new document',
                               :category_id => 2},
                :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
-
+    end
     assert_redirected_to '/projects/ecookbook/documents'
 
     document = Document.find_by_title('DocumentsControllerTest#test_post_new')

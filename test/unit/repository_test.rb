@@ -149,7 +149,6 @@ class RepositoryTest < ActiveSupport::TestCase
 
   def test_scan_changesets_for_issue_ids
     Setting.default_language = 'en'
-    Setting.notified_events = ['issue_added','issue_updated']
 
     # choosing a status to apply to fix issues
     Setting.commit_fix_status_id = IssueStatus.find(
@@ -166,7 +165,9 @@ class RepositoryTest < ActiveSupport::TestCase
     assert !fixed_issue.status.is_closed?
     old_status = fixed_issue.status
 
-    Repository.scan_changesets_for_issue_ids
+    with_settings :notified_events => %w(issue_added issue_updated) do
+      Repository.scan_changesets_for_issue_ids
+    end
     assert_equal [101, 102], Issue.find(3).changeset_ids
 
     # fixed issues
