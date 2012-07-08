@@ -45,12 +45,11 @@
   </li>
   <% end %>
 
-  <% #TODO: allow editing versions when multiple projects %>
-  <% if @safe_attributes.include?('fixed_version_id') && @project && @project.shared_versions.open.any? -%>
+  <% if @safe_attributes.include?('fixed_version_id') && @versions.any? -%>
   <li class="folder">
     <a href="#" class="submenu"><%= l(:field_fixed_version) %></a>
     <ul>
-    <% @project.shared_versions.open.sort.each do |v| -%>
+    <% @versions.sort.each do |v| -%>
         <li><%= context_menu_link format_version_name(v), {:controller => 'issues', :action => 'bulk_update', :ids => @issues.collect(&:id), :issue => {'fixed_version_id' => v}, :back_url => @back}, :method => :post,
                                   :selected => (@issue && v == @issue.fixed_version), :disabled => !@can[:update] %></li>
     <% end -%>

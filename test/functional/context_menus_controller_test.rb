@@ -223,6 +223,18 @@ class ContextMenusControllerTest < ActionController::TestCase
                                              :class => '' }
   end
 
+  def test_context_menu_should_propose_shared_versions_for_issues_from_different_projects
+    @request.session[:user_id] = 2
+    version = Version.create!(:name => 'Shared', :sharing => 'system', :project_id => 1)
+
+    get :issues, :ids => [1, 4]
+    assert_response :success
+    assert_template 'context_menu'
+
+    assert_include version, assigns(:versions)
+    assert_tag :tag => 'a', :content => 'eCookbook - Shared'
+  end
+
   def test_context_menu_issue_visibility
     get :issues, :ids => [1, 4]
     assert_response :success

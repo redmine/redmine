@@ -48,6 +48,7 @@ class ContextMenusController < ApplicationController
       @assignables = @projects.map(&:assignable_users).reduce(:&)
       @trackers = @projects.map(&:trackers).reduce(:&)
     end
+    @versions = @projects.map {|p| p.shared_versions.open}.reduce(:&)
 
     @priorities = IssuePriority.active.reverse
     @back = back_url
