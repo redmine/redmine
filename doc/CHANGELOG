@@ -6,6 +6,7 @@ http://www.redmine.org/
 
 == TBD v1.4.5
 
+* Defect #11192: Make repository identifier accept underscores
 * Patch #11328: Fix Japanese mistranslation for 'label_language_based'
 
 == 2012-06-18 v1.4.4

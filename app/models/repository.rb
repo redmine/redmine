@@ -37,8 +37,8 @@ class Repository < ActiveRecord::Base
   validates_presence_of :identifier, :unless => Proc.new { |r| r.is_default? || r.set_as_default? }
   validates_uniqueness_of :identifier, :scope => :project_id, :allow_blank => true
   validates_exclusion_of :identifier, :in => %w(show entry raw changes annotate diff show stats graph)
-  # donwcase letters, digits, dashes but not digits only
-  validates_format_of :identifier, :with => /^(?!\d+$)[a-z0-9\-]*$/, :allow_blank => true
+  # donwcase letters, digits, dashes, underscores but not digits only
+  validates_format_of :identifier, :with => /^(?!\d+$)[a-z0-9\-_]*$/, :allow_blank => true
   # Checks if the SCM is enabled when creating a repository
   validate :repo_create_validation, :on => :create
 
