@@ -178,6 +178,20 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal 2, issues.first.id
   end
 
+  def test_operator_is_on_integer_custom_field_should_accept_negative_value
+    f = IssueCustomField.create!(:name => 'filter', :field_format => 'int', :is_for_all => true, :is_filter => true)
+    CustomValue.create!(:custom_field => f, :customized => Issue.find(1), :value => '7')
+    CustomValue.create!(:custom_field => f, :customized => Issue.find(2), :value => '-12')
+    CustomValue.create!(:custom_field => f, :customized => Issue.find(3), :value => '')
+
+    query = Query.new(:name => '_')
+    query.add_filter("cf_#{f.id}", '=', ['-12'])
+    assert query.valid?
+    issues = find_issues_with_query(query)
+    assert_equal 1, issues.size
+    assert_equal 2, issues.first.id
+  end
+
   def test_operator_is_on_float_custom_field
     f = IssueCustomField.create!(:name => 'filter', :field_format => 'float', :is_filter => true, :is_for_all => true)
     CustomValue.create!(:custom_field => f, :customized => Issue.find(1), :value => '7.3')
@@ -186,6 +200,20 @@ class QueryTest < ActiveSupport::TestCase
 
     query = Query.new(:name => '_')
     query.add_filter("cf_#{f.id}", '=', ['12.7'])
+    issues = find_issues_with_query(query)
+    assert_equal 1, issues.size
+    assert_equal 2, issues.first.id
+  end
+
+  def test_operator_is_on_float_custom_field_should_accept_negative_value
+    f = IssueCustomField.create!(:name => 'filter', :field_format => 'float', :is_filter => true, :is_for_all => true)
+    CustomValue.create!(:custom_field => f, :customized => Issue.find(1), :value => '7.3')
+    CustomValue.create!(:custom_field => f, :customized => Issue.find(2), :value => '-12.7')
+    CustomValue.create!(:custom_field => f, :customized => Issue.find(3), :value => '')
+
+    query = Query.new(:name => '_')
+    query.add_filter("cf_#{f.id}", '=', ['-12.7'])
+    assert query.valid?
     issues = find_issues_with_query(query)
     assert_equal 1, issues.size
     assert_equal 2, issues.first.id
