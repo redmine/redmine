@@ -24,6 +24,7 @@ class ContextMenusController < ApplicationController
     if (@issues.size == 1)
       @issue = @issues.first
     end
+    @issue_ids = @issues.map(&:id).sort
 
     @allowed_statuses = @issues.map(&:new_statuses_allowed_to).reduce(:&)
     @projects = @issues.collect(&:project).compact.uniq
