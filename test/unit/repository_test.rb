@@ -97,6 +97,15 @@ class RepositoryTest < ActiveSupport::TestCase
     assert_equal [repository1, repository2], Project.find(3).repositories.sort
   end
 
+  def test_identifier_should_accept_letters_digits_dashes_and_underscores
+    r = Repository::Subversion.new(
+      :project_id => 3,
+      :identifier => 'svn-123_45',
+      :url => 'file:///svn'
+    )
+    assert r.save
+  end
+
   def test_destroy
     repository = Repository.find(10)
     changesets = repository.changesets.count
