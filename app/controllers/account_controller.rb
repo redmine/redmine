@@ -50,6 +50,10 @@ class AccountController < ApplicationController
         return
       end
       @user = @token.user
+      unless @user && @user.active?
+        redirect_to home_url
+        return
+      end
       if request.post?
         @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
         if @user.save

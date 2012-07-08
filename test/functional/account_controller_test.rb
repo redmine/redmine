@@ -186,4 +186,58 @@ class AccountControllerTest < ActionController::TestCase
       assert_response :success
     end
   end
+
+  def test_get_lost_password_with_token_should_display_the_password_recovery_form
+    user = User.find(2)
+    token = Token.create!(:action => 'recovery', :user => user)
+
+    get :lost_password, :token => token.value
+    assert_response :success
+    assert_template 'password_recovery'
+
+    assert_select 'input[type=hidden][name=token][value=?]', token.value
+  end
+
+  def test_get_lost_password_with_invalid_token_should_redirect
+    get :lost_password, :token => "abcdef"
+    assert_redirected_to '/'
+  end
+
+  def test_post_lost_password_with_token_should_change_the_user_password
+    user = User.find(2)
+    token = Token.create!(:action => 'recovery', :user => user)
+
+    post :lost_password, :token => token.value, :new_password => 'newpass', :new_password_confirmation => 'newpass'
+    assert_redirected_to '/login'
+    user.reload
+    assert user.check_password?('newpass')
+    assert_nil Token.find_by_id(token.id), "Token was not deleted"
+  end
+
+  def test_post_lost_password_with_token_for_non_active_user_should_fail
+    user = User.find(2)
+    token = Token.create!(:action => 'recovery', :user => user)
+    user.lock!
+
+    post :lost_password, :token => token.value, :new_password => 'newpass', :new_password_confirmation => 'newpass'
+    assert_redirected_to '/'
+    assert ! user.check_password?('newpass')
+  end
+
+  def test_post_lost_password_with_token_and_password_confirmation_failure_should_redisplay_the_form
+    user = User.find(2)
+    token = Token.create!(:action => 'recovery', :user => user)
+
+    post :lost_password, :token => token.value, :new_password => 'newpass', :new_password_confirmation => 'wrongpass'
+    assert_response :success
+    assert_template 'password_recovery'
+    assert_not_nil Token.find_by_id(token.id), "Token was deleted"
+
+    assert_select 'input[type=hidden][name=token][value=?]', token.value
+  end
+
+  def test_post_lost_password_with_invalid_token_should_redirect
+    post :lost_password, :token => "abcdef", :new_password => 'newpass', :new_password_confirmation => 'newpass'
+    assert_redirected_to '/'
+  end
 end
