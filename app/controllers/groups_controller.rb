@@ -25,7 +25,7 @@ class GroupsController < ApplicationController
   helper :custom_fields
 
   def index
-    @groups = Group.find(:all, :order => 'lastname')
+    @groups = Group.sorted.all
 
     respond_to do |format|
       format.html
