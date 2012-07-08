@@ -150,6 +150,7 @@ class AccountControllerTest < ActionController::TestCase
 
   def test_lost_password_for_active_user_should_create_a_token
     Token.delete_all
+    ActionMailer::Base.deliveries.clear
     assert_difference 'ActionMailer::Base.deliveries.size' do
       assert_difference 'Token.count' do
         with_settings :host_name => 'mydomain.foo', :protocol => 'http' do
