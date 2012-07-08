@@ -68,7 +68,7 @@ class ContextMenusControllerTest < ActionController::TestCase
     assert_not_nil assigns(:issues)
     assert_equal [1, 2], assigns(:issues).map(&:id).sort
 
-    ids = assigns(:issues).map(&:id).map {|i| "ids%5B%5D=#{i}"}.join('&amp;')
+    ids = assigns(:issues).map(&:id).sort.map {|i| "ids%5B%5D=#{i}"}.join('&amp;')
     assert_tag :tag => 'a', :content => 'Edit',
                             :attributes => { :href => "/issues/bulk_edit?#{ids}",
                                              :class => 'icon-edit' }
@@ -98,7 +98,7 @@ class ContextMenusControllerTest < ActionController::TestCase
     assert_not_nil assigns(:issues)
     assert_equal [1, 2, 6], assigns(:issues).map(&:id).sort
 
-    ids = assigns(:issues).map(&:id).map {|i| "ids%5B%5D=#{i}"}.join('&amp;')
+    ids = assigns(:issues).map(&:id).sort.map {|i| "ids%5B%5D=#{i}"}.join('&amp;')
     assert_tag :tag => 'a', :content => 'Edit',
                             :attributes => { :href => "/issues/bulk_edit?#{ids}",
                                              :class => 'icon-edit' }
