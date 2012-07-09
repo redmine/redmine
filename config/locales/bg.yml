@@ -330,6 +330,7 @@ bg:
   field_multiple: Избор на повече от една стойност
   field_ldap_filter: LDAP филтър
   field_core_fields: Стандартни полета
+  field_timeout: Таймаут (в секунди)
 
   setting_app_title: Заглавие
   setting_app_subtitle: Описание
@@ -394,6 +395,8 @@ bg:
   setting_unsubscribe: Потребителите могат да премахват профилите си
   setting_session_lifetime: Максимален живот на сесиите
   setting_session_timeout: Таймаут за неактивност преди прекратяване на сесиите
+  setting_thumbnails_enabled: Показване на миниатюри на прикачените изображения
+  setting_thumbnails_size: Размер на миниатюрите (в пиксели)
 
   permission_add_project: Създаване на проект
   permission_add_subprojects: Създаване на подпроекти
@@ -1047,6 +1050,3 @@ bg:
   description_date_range_interval: Изберете диапазон чрез задаване на начална и крайна дати
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
-  field_timeout: Timeout (in seconds)
-  setting_thumbnails_enabled: Display attachment thumbnails
-  setting_thumbnails_size: Thumbnails size (in pixels)
