@@ -1114,6 +1114,14 @@ class IssuesControllerTest < ActionController::TestCase
     assert_no_tag 'a', :content => /Next/
   end
 
+  def test_show_should_display_link_to_the_assignee
+    get :show, :id => 2
+    assert_response :success
+    assert_select '.assigned-to' do
+      assert_select 'a[href=/users/3]'
+    end
+  end
+
   def test_show_should_display_visible_changesets_from_other_projects
     project = Project.find(2)
     issue = project.issues.first
