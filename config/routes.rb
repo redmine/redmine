@@ -20,6 +20,9 @@ RedmineApp::Application.routes.draw do
 
   ## OSB specific
   match 'about', :to => 'about#index'
+   #match 'guides', :to => 'guides#index'
+  match 'themes', :to => 'themes#index'
+
   ##
 
   match 'login', :to => 'account#login', :as => 'signin'
