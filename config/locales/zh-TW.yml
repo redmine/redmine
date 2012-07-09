@@ -411,6 +411,7 @@
   field_multiple: 多重值
   field_ldap_filter: LDAP 篩選器
   field_core_fields: 標準欄位
+  field_timeout: "逾時 (單位: 秒)"
 
   setting_app_title: 標題
   setting_app_subtitle: 副標題
@@ -475,6 +476,8 @@
   setting_unsubscribe: 允許用戶取消註冊（刪除帳戶）
   setting_session_lifetime: 工作階段存留時間最大值
   setting_session_timeout: 工作階段無活動逾時時間
+  setting_thumbnails_enabled: 顯示附加檔案的縮圖
+  setting_thumbnails_size: "縮圖大小 (單位: 像素 pixels)"
 
   permission_add_project: 建立專案
   permission_add_subprojects: 建立子專案
@@ -1130,6 +1133,3 @@
   description_date_range_interval: 選擇起始與結束日期以設定範圍區間
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
-  field_timeout: Timeout (in seconds)
-  setting_thumbnails_enabled: Display attachment thumbnails
-  setting_thumbnails_size: Thumbnails size (in pixels)
