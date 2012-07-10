@@ -2064,11 +2064,10 @@ class TCPDF
 				img = Magick::ImageList.new(file)
 				img.format = "PNG"     # convert to PNG from gif 
 				img.opacity = 0        # PNG alpha channel delete
-				File.open( @@k_path_cache + File::basename(file), 'w'){|f|
+				open( @@k_path_cache + File::basename(file), 'w') do |f|
 					f.binmode
 					f.print img.to_blob
-					f.close
-				}
+				end
 				info=parsepng( @@k_path_cache + File::basename(file));
 				File.delete( @@k_path_cache + File::basename(file))
 			else
