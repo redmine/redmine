@@ -2982,7 +2982,7 @@ class TCPDF
 		end
 		return {'w' => w, 'h' => h, 'cs' => colspace, 'bpc' => bpc, 'f'=>'FlateDecode', 'parms' => parms, 'pal' => pal, 'trns' => trns, 'data' => data}
 	ensure
-    f.close
+		f.close
 	end
 
 	#
