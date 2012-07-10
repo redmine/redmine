@@ -2981,8 +2981,9 @@ class TCPDF
 		if (colspace=='Indexed' and pal.empty?)
 			Error('Missing palette in ' + file);
 		end
-		f.close
 		return {'w' => w, 'h' => h, 'cs' => colspace, 'bpc' => bpc, 'f'=>'FlateDecode', 'parms' => parms, 'pal' => pal, 'trns' => trns, 'data' => data}
+	ensure
+    f.close
 	end
 
 	#
