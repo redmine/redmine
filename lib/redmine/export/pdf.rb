@@ -36,7 +36,7 @@ module Redmine
         attr_accessor :footer_date
 
         def initialize(lang)
-          @@k_path_cache = Rails.root.join('tmp', 'pdf').to_path
+          @@k_path_cache = Rails.root.join('tmp', 'pdf').to_s
           FileUtils.mkdir_p @@k_path_cache unless File::exist?(@@k_path_cache)
           set_language_if_valid lang
           pdf_encoding = l(:general_pdf_encoding).upcase
