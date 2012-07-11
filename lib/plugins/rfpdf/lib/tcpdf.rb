@@ -31,6 +31,9 @@
 #
 #============================================================+
 
+require 'tempfile'
+require 'core/rmagick'
+
 #
 # TCPDF Class.
 # @package com.tecnick.tcpdf
@@ -86,10 +89,10 @@ class TCPDF
   @@k_small_ratio = 2/3.0
   
   cattr_accessor :k_path_cache
-  @@k_path_cache = Rails.root.join('tmp').to_s
+  @@k_path_cache = Rails.root.join('tmp')
   
   cattr_accessor :k_path_url_cache
-  @@k_path_url_cache = Rails.root.join('tmp').to_s
+  @@k_path_url_cache = Rails.root.join('tmp')
   
   cattr_accessor :decoder
 		
@@ -2060,16 +2063,12 @@ class TCPDF
 			type.downcase!
 			if (type == 'jpg' or type == 'jpeg')
 				info=parsejpg(file);
-			elsif (type == 'png' or type == 'gif')
-				img = Magick::ImageList.new(file)
-				img.format = "PNG"     # convert to PNG from gif 
-				img.opacity = 0        # PNG alpha channel delete
-				open( @@k_path_cache + File::basename(file), 'w') do |f|
-					f.binmode
-					f.print img.to_blob
-				end
-				info=parsepng( @@k_path_cache + File::basename(file));
-				File.delete( @@k_path_cache + File::basename(file))
+			elsif (type == 'png')
+				info=parsepng(file);
+			elsif (type == 'gif')
+			  tmpFile = imageToPNG(file);
+				info=parsepng(tmpFile.path);
+				tmpFile.delete
 			else
 				#Allow for additional formats
 				mtd='parse' + type;
@@ -2892,12 +2891,27 @@ class TCPDF
 		#Read whole file
 		data='';
 
-		open( @@k_path_cache + File::basename(file),'rb') do |f|
+		open(file,'rb') do |f|
 			data<<f.read();
 		end
-		File.delete( @@k_path_cache + File::basename(file))
 
 		return {'w' => a[0],'h' => a[1],'cs' => colspace,'bpc' => bpc,'f'=>'DCTDecode','data' => data}
+	end
+
+	def imageToPNG(file)
+		return unless Object.const_defined?(:Magick)
+
+		img = Magick::ImageList.new(file)
+		img.format = 'PNG'	 # convert to PNG from gif 
+		img.opacity = 0			 # PNG alpha channel delete
+
+		#use a temporary file....
+		tmpFile = Tempfile.new(['', '_' + File::basename(file) + '.png'], @@k_path_cache);
+		tmpFile.binmode
+		tmpFile.print img.to_blob
+		tmpFile
+	ensure
+		tmpFile.close
 	end
 
 	#
@@ -3937,9 +3951,6 @@ class TCPDF
 					rescue => err
 						logger.error "pdf: Image: error: #{err.message}"
 						Write(@lasth, attrs['src'], '', fill);
-						if File.file?( @@k_path_cache + File::basename(file))
-							File.delete( @@k_path_cache + File::basename(file))
-						end
 					end
 				end
 				
