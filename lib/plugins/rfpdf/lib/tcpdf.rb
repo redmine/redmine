@@ -2634,7 +2634,7 @@ class TCPDF
 			if (!info['trns'].nil? and info['trns'].kind_of?(Array))
 				trns='';
 				0.upto(info['trns'].length) do |i|
-					trns << info['trns'][i] + ' ' + info['trns'][i] + ' ';
+					trns << ("#{info['trns'][i]} " * 2);
 				end
 				out('/Mask [' + trns + ']');
 			end
@@ -2975,8 +2975,8 @@ class TCPDF
 				elsif (ct==2)
 					trns = t[[1].unpack('C')[0], t[3].unpack('C')[0], t[5].unpack('C')[0]]
 				else
-					pos=t.include?(0.chr);
-					if (pos!=false)
+					pos=t.index(0.chr);
+					unless (pos.nil?)
 						trns = [pos]
 					end
 				end
