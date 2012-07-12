@@ -9,11 +9,11 @@
 <div class="splitcontentleft">
 
 	<% unless @project.homepage.blank? %>
-	    <% if h(@project.homepage).starts_with? 'http://opensourcebrain.org:8080/embedded' or h(@project.homepage).starts_with? 'http://www.opensourcebrain.org:8080/embedded'%>
+	    <% if h(@project.homepage).starts_with? 'http://opensourcebrain.org/embedded' or h(@project.homepage).starts_with? 'http://www.opensourcebrain.org/embedded'%>
 	        <p><a href="<%= @project.homepage %>"> <img alt="Project description" border="0" src="<%= @project.homepage %>/images/small.png"/> </a></p>
         <% else %>
         
-	        <p>More information: <%= auto_link(h(@project.homepage)) %></p>
+	        <p>More information: <a href="<%= @project.homepage %>"><%= @project.homepage %></a></p>
         <% end %>
 	<% end %>
 	
@@ -40,6 +40,12 @@
 	<% @project.visible_custom_field_values.each do |custom_value| %>
 	
 	    <% if !custom_value.value.blank? %>
+        
+            <% if custom_value.custom_field.name == 'GitHub repository' %>
+            
+	            <h2>GitHub repository</h2> 
+                <p>The source for this project is hosted on GitHub: <a href='<%=h show_value(custom_value) %>'><%=h show_value(custom_value) %></a></p>
+            <% end %>
         
             <% if custom_value.custom_field.name == 'NeuroML version' %>
             

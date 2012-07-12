@@ -4,6 +4,21 @@
   <%= render :partial => 'navigation' %>
 </div>
 
+<!-- ------------OSB------------ -->
+
+<% @project.visible_custom_field_values.each do |custom_value| %>
+    <% if !custom_value.value.blank? %>
+        <% if custom_value.custom_field.name == 'GitHub repository' %>
+            <div class="box">
+                <p><b>Note: The source for this project is hosted on GitHub: <a href='<%=h show_value(custom_value) %>'><%=h show_value(custom_value) %></a></b></p>
+                <p>A history of recent changes is displayed below. This local copy of the repository facilitates referencing of commits in issues and activity updates on OSB.</p>
+            </div>            
+        <% end %>
+    <% end %>
+<% end %>
+
+<!-- ------------OSB------------ -->
+
 <h2><%= render :partial => 'breadcrumbs',
                :locals => { :path => @path, :kind => 'dir', :revision => @rev } %></h2>
 
