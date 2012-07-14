@@ -156,7 +156,7 @@ class UsersController < ApplicationController
           flash[:notice] = l(:notice_successful_update)
           redirect_to_referer_or edit_user_path(@user)
         }
-        format.api  { head :ok }
+        format.api  { render_api_ok }
       end
     else
       @auth_sources = AuthSource.find(:all)
@@ -175,7 +175,7 @@ class UsersController < ApplicationController
     @user.destroy
     respond_to do |format|
       format.html { redirect_to_referer_or(users_url) }
-      format.api  { head :ok }
+      format.api  { render_api_ok }
     end
   end
 

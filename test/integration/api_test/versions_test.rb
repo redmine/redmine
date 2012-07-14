@@ -120,6 +120,7 @@ class ApiTest::VersionsTest < ActionController::IntegrationTest
         put '/versions/2.xml', {:version => {:name => 'API update'}}, credentials('jsmith')
 
         assert_response :ok
+        assert_equal '', @response.body
         assert_equal 'API update', Version.find(2).name
       end
     end
@@ -131,6 +132,7 @@ class ApiTest::VersionsTest < ActionController::IntegrationTest
         end
 
         assert_response :ok
+        assert_equal '', @response.body
         assert_nil Version.find_by_id(3)
       end
     end

@@ -148,6 +148,7 @@ class ApiTest::GroupsTest < ActionController::IntegrationTest
         should "update the group" do
           put '/groups/10.xml', {:group => {:name => 'New name', :user_ids => [2, 3]}}, credentials('admin')
           assert_response :ok
+          assert_equal '', @response.body
   
           group = Group.find(10)
           assert_equal 'New name', group.name
@@ -177,6 +178,7 @@ class ApiTest::GroupsTest < ActionController::IntegrationTest
         assert_difference 'Group.count', -1 do
           delete '/groups/10.xml', {}, credentials('admin')
           assert_response :ok
+          assert_equal '', @response.body
         end
       end
     end
@@ -188,6 +190,7 @@ class ApiTest::GroupsTest < ActionController::IntegrationTest
         assert_difference 'Group.find(10).users.count' do
           post '/groups/10/users.xml', {:user_id => 5}, credentials('admin')
           assert_response :ok
+          assert_equal '', @response.body
         end
         assert_include User.find(5), Group.find(10).users
       end
@@ -200,6 +203,7 @@ class ApiTest::GroupsTest < ActionController::IntegrationTest
         assert_difference 'Group.find(10).users.count', -1 do
           delete '/groups/10/users/8.xml', {}, credentials('admin')
           assert_response :ok
+          assert_equal '', @response.body
         end
         assert_not_include User.find(8), Group.find(10).users
       end

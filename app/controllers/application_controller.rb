@@ -520,6 +520,12 @@ class ApplicationController < ActionController::Base
     render_error "An error occurred while executing the query and has been logged. Please report this error to your Redmine administrator."
   end
 
+  # Renders a 200 response for successfull updates or deletions via the API
+  def render_api_ok
+    # head :ok would return a response body with one space
+    render :text => '', :status => :ok, :layout => nil
+  end
+
   # Renders API response on validation failure
   def render_validation_errors(objects)
     if objects.is_a?(Array)

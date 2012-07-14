@@ -144,7 +144,7 @@ class VersionsController < ApplicationController
             flash[:notice] = l(:notice_successful_update)
             redirect_back_or_default :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
           }
-          format.api  { head :ok }
+          format.api  { render_api_ok }
         end
       else
         respond_to do |format|
@@ -167,7 +167,7 @@ class VersionsController < ApplicationController
       @version.destroy
       respond_to do |format|
         format.html { redirect_back_or_default :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project }
-        format.api  { head :ok }
+        format.api  { render_api_ok }
       end
     else
       respond_to do |format|

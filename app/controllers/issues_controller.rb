@@ -197,7 +197,7 @@ class IssuesController < ApplicationController
 
       respond_to do |format|
         format.html { redirect_back_or_default({:action => 'show', :id => @issue}) }
-        format.api  { head :ok }
+        format.api  { render_api_ok }
       end
     else
       respond_to do |format|
@@ -307,7 +307,7 @@ class IssuesController < ApplicationController
     end
     respond_to do |format|
       format.html { redirect_back_or_default(:action => 'index', :project_id => @project) }
-      format.api  { head :ok }
+      format.api  { render_api_ok }
     end
   end
 

@@ -72,7 +72,7 @@ class GroupsController < ApplicationController
       if @group.save
         flash[:notice] = l(:notice_successful_update)
         format.html { redirect_to(groups_path) }
-        format.api  { head :ok }
+        format.api  { render_api_ok }
       else
         format.html { render :action => "edit" }
         format.api  { render_validation_errors(@group) }
@@ -85,7 +85,7 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to(groups_url) }
-      format.api  { head :ok }
+      format.api  { render_api_ok }
     end
   end
 
@@ -100,7 +100,7 @@ class GroupsController < ApplicationController
           users.each {|user| page.visual_effect(:highlight, "user-#{user.id}") }
         }
       }
-      format.api { head :ok }
+      format.api { render_api_ok }
     end
   end
 
@@ -109,7 +109,7 @@ class GroupsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to :controller => 'groups', :action => 'edit', :id => @group, :tab => 'users' }
       format.js { render(:update) {|page| page.replace_html "tab-content-users", :partial => 'groups/users'} }
-      format.api { head :ok }
+      format.api { render_api_ok }
     end
   end
 

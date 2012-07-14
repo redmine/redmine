@@ -98,7 +98,7 @@ class IssueCategoriesController < ApplicationController
           flash[:notice] = l(:notice_successful_update)
           redirect_to :controller => 'projects', :action => 'settings', :tab => 'categories', :id => @project
         }
-        format.api { head :ok }
+        format.api { render_api_ok }
       end
     else
       respond_to do |format|
@@ -118,7 +118,7 @@ class IssueCategoriesController < ApplicationController
       @category.destroy(reassign_to)
       respond_to do |format|
         format.html { redirect_to :controller => 'projects', :action => 'settings', :id => @project, :tab => 'categories' }
-        format.api { head :ok }
+        format.api { render_api_ok }
       end
       return
     end

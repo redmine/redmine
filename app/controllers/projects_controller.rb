@@ -191,7 +191,7 @@ class ProjectsController < ApplicationController
           flash[:notice] = l(:notice_successful_update)
           redirect_to :action => 'settings', :id => @project
         }
-        format.api  { head :ok }
+        format.api  { render_api_ok }
       end
     else
       respond_to do |format|
@@ -241,7 +241,7 @@ class ProjectsController < ApplicationController
       @project_to_destroy.destroy
       respond_to do |format|
         format.html { redirect_to :controller => 'admin', :action => 'projects' }
-        format.api  { head :ok }
+        format.api  { render_api_ok }
       end
     end
     # hide project in layout

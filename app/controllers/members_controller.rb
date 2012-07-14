@@ -107,7 +107,7 @@ class MembersController < ApplicationController
       }
       format.api {
         if saved
-          head :ok
+          render_api_ok
         else
           render_validation_errors(@member)
         end
@@ -128,7 +128,7 @@ class MembersController < ApplicationController
       }
       format.api {
         if @member.destroyed?
-          head :ok
+          render_api_ok
         else
           head :unprocessable_entity
         end

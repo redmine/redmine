@@ -770,6 +770,7 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
         {:issue => {:notes => 'Attachment added', :uploads => [{:token => token, :filename => 'test.txt', :content_type => 'text/plain'}]}},
         credentials('jsmith')
       assert_response :ok
+      assert_equal '', @response.body
     end
 
     issue = Issue.find(1)
