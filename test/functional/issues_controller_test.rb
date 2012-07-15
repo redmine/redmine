@@ -1371,6 +1371,26 @@ class IssuesControllerTest < ActionController::TestCase
       :attributes => {:name => "issue[custom_field_values][#{field.id}][]", :value => ''}
   end
 
+  def test_get_new_with_date_custom_field
+    field = IssueCustomField.create!(:name => 'Date', :field_format => 'date', :tracker_ids => [1], :is_for_all => true)
+
+    @request.session[:user_id] = 2
+    get :new, :project_id => 1, :tracker_id => 1
+    assert_response :success
+
+    assert_select 'input[name=?]', "issue[custom_field_values][#{field.id}]"
+  end
+
+  def test_get_new_with_text_custom_field
+    field = IssueCustomField.create!(:name => 'Text', :field_format => 'text', :tracker_ids => [1], :is_for_all => true)
+
+    @request.session[:user_id] = 2
+    get :new, :project_id => 1, :tracker_id => 1
+    assert_response :success
+
+    assert_select 'textarea[name=?]', "issue[custom_field_values][#{field.id}]"
+  end
+
   def test_get_new_without_default_start_date_is_creation_date
     Setting.default_issue_start_date_to_creation_date = 0
 
