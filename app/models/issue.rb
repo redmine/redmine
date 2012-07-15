@@ -420,7 +420,7 @@ class Issue < ActiveRecord::Base
   #   issue.read_only_attribute_names # => ['due_date', '2']
   #   issue.read_only_attribute_names(user) # => []
   def read_only_attribute_names(user=nil)
-    workflow_rule_by_attribute(user).select {|attr, rule| rule == 'readonly'}.keys
+    workflow_rule_by_attribute(user).reject {|attr, rule| rule != 'readonly'}.keys
   end
 
   # Returns the names of required attributes for user or the current user
@@ -432,7 +432,7 @@ class Issue < ActiveRecord::Base
   #   issue.required_attribute_names # => ['due_date', '2']
   #   issue.required_attribute_names(user) # => []
   def required_attribute_names(user=nil)
-    workflow_rule_by_attribute(user).select {|attr, rule| rule == 'required'}.keys
+    workflow_rule_by_attribute(user).reject {|attr, rule| rule != 'required'}.keys
   end
 
   # Returns true if the attribute is required for user
