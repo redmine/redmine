@@ -30,6 +30,7 @@
   <%= form_tag({}, :id => 'workflow_form' ) do %>
     <%= hidden_field_tag 'tracker_id', @tracker.id %>
     <%= hidden_field_tag 'role_id', @role.id %>
+    <%= hidden_field_tag 'used_statuses_only', params[:used_statuses_only] %>
     <div class="autoscroll">
     <table class="list fields_permissions">
     <thead>

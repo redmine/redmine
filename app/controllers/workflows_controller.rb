@@ -38,7 +38,7 @@ class WorkflowsController < ApplicationController
         }
       }
       if @role.save
-        redirect_to :action => 'edit', :role_id => @role, :tracker_id => @tracker
+        redirect_to :action => 'edit', :role_id => @role, :tracker_id => @tracker, :used_statuses_only => params[:used_statuses_only]
         return
       end
     end
@@ -64,7 +64,7 @@ class WorkflowsController < ApplicationController
 
     if request.post? && @role && @tracker
       WorkflowPermission.replace_permissions(@tracker, @role, params[:permissions] || {})
-      redirect_to :action => 'permissions', :role_id => @role, :tracker_id => @tracker
+      redirect_to :action => 'permissions', :role_id => @role, :tracker_id => @tracker, :used_statuses_only => params[:used_statuses_only]
       return
     end
 
