@@ -72,6 +72,9 @@ class WorkflowsController < ApplicationController
       end
 
       @statuses = @tracker.issue_statuses
+      if @statuses.empty?
+        @statuses = IssueStatus.sorted.all
+      end
       @fields = (Tracker::CORE_FIELDS_ALL - @tracker.disabled_core_fields).map {|field| [field, l("field_"+field.sub(/_id$/, ''))]}
       @custom_fields = @tracker.custom_fields
 
