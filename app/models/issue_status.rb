@@ -28,23 +28,22 @@ class IssueStatus < ActiveRecord::Base
   validates_length_of :name, :maximum => 30
   validates_inclusion_of :default_done_ratio, :in => 0..100, :allow_nil => true
 
-  scope :named, lambda {|arg| { :conditions => ["LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip]}}
+  scope :named, lambda {|arg| where(["LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip])}
 
   def update_default
-    IssueStatus.update_all("is_default=#{connection.quoted_false}", ['id <> ?', id]) if self.is_default?
+    IssueStatus.update_all({:is_default => false}, ['id <> ?', id]) if self.is_default?
   end
 
   # Returns the default status for new issues
   def self.default
-    find(:first, :conditions =>["is_default=?", true])
+    where(:is_default => true).first
   end
 
   # Update all the +Issues+ setting their done_ratio to the value of their +IssueStatus+
   def self.update_issue_done_ratios
     if Issue.use_status_for_done_ratio?
-      IssueStatus.find(:all, :conditions => ["default_done_ratio >= 0"]).each do |status|
-        Issue.update_all(["done_ratio = ?", status.default_done_ratio],
-                         ["status_id = ?", status.id])
+      IssueStatus.where("default_done_ratio >= 0").all.each do |status|
+        Issue.update_all({:done_ratio => status.default_done_ratio}, {:status_id => status.id})
       end
     end
 
@@ -61,7 +60,7 @@ class IssueStatus < ActiveRecord::Base
         w.tracker_id == tracker.id &&
         ((!w.author && !w.assignee) || (author && w.author) || (assignee && w.assignee))
       end
-      transitions.collect{|w| w.new_status}.compact.sort
+      transitions.map(&:new_status).compact.sort
     else
       []
     end
@@ -75,12 +74,12 @@ class IssueStatus < ActiveRecord::Base
       conditions << " OR author = :true" if author
       conditions << " OR assignee = :true" if assignee
 
-      workflows.find(:all,
-        :include => :new_status,
-        :conditions => ["role_id IN (:role_ids) AND tracker_id = :tracker_id AND (#{conditions})",
+      workflows.
+        includes(:new_status).
+        where(["role_id IN (:role_ids) AND tracker_id = :tracker_id AND (#{conditions})",
           {:role_ids => roles.collect(&:id), :tracker_id => tracker.id, :true => true, :false => false}
-          ]
-        ).collect{|w| w.new_status}.compact.sort
+          ]).all.
+        map(&:new_status).compact.sort
     else
       []
     end
@@ -92,9 +91,10 @@ class IssueStatus < ActiveRecord::Base
 
   def to_s; name end
 
-private
+  private
+
   def check_integrity
-    raise "Can't delete status" if Issue.find(:first, :conditions => ["status_id=?", self.id])
+    raise "Can't delete status" if Issue.where(:status_id => id).any?
   end
 
   # Deletes associated workflows

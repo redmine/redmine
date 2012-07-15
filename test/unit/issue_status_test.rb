@@ -111,4 +111,10 @@ class IssueStatusTest < ActiveSupport::TestCase
       assert_equal [50], issues.map {|issue| issue.read_attribute(:done_ratio)}.uniq
     end
   end
+
+  def test_named_scope
+    status = IssueStatus.named("resolved").first
+    assert_not_nil status
+    assert_equal "Resolved", status.name
+  end
 end
