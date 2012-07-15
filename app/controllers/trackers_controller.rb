@@ -45,7 +45,7 @@ class TrackersController < ApplicationController
     if request.post? and @tracker.save
       # workflow copy
       if !params[:copy_workflow_from].blank? && (copy_from = Tracker.find_by_id(params[:copy_workflow_from]))
-        @tracker.workflows.copy(copy_from)
+        @tracker.workflow_rules.copy(copy_from)
       end
       flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'index'

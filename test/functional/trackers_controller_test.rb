@@ -66,7 +66,7 @@ class TrackersControllerTest < ActionController::TestCase
     assert_equal [1], tracker.project_ids.sort
     assert_equal Tracker::CORE_FIELDS, tracker.core_fields
     assert_equal [1, 6], tracker.custom_field_ids.sort
-    assert_equal 0, tracker.workflows.count
+    assert_equal 0, tracker.workflow_rules.count
   end
 
   def create_with_disabled_core_fields
@@ -86,7 +86,7 @@ class TrackersControllerTest < ActionController::TestCase
     assert_redirected_to :action => 'index'
     tracker = Tracker.find_by_name('New tracker')
     assert_equal 0, tracker.projects.count
-    assert_equal Tracker.find(1).workflows.count, tracker.workflows.count
+    assert_equal Tracker.find(1).workflow_rules.count, tracker.workflow_rules.count
   end
 
   def test_create_with_failure

@@ -77,7 +77,7 @@ class RolesControllerTest < ActionController::TestCase
     assert_redirected_to '/roles'
     role = Role.find_by_name('RoleWithWorkflowCopy')
     assert_not_nil role
-    assert_equal Role.find(1).workflows.size, role.workflows.size
+    assert_equal Role.find(1).workflow_rules.size, role.workflow_rules.size
   end
 
   def test_edit

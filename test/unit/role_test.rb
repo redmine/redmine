@@ -35,13 +35,13 @@ class RoleTest < ActiveSupport::TestCase
 
   def test_copy_workflows
     source = Role.find(1)
-    assert_equal 90, source.workflows.size
+    assert_equal 90, source.workflow_rules.size
 
     target = Role.new(:name => 'Target')
     assert target.save
-    target.workflows.copy(source)
+    target.workflow_rules.copy(source)
     target.reload
-    assert_equal 90, target.workflows.size
+    assert_equal 90, target.workflow_rules.size
   end
 
   def test_permissions_should_be_unserialized_with_its_coder

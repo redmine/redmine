@@ -36,8 +36,8 @@ class IssueStatusTest < ActiveSupport::TestCase
     assert_difference 'IssueStatus.count', -1 do
       assert status.destroy
     end
-    assert_nil Workflow.first(:conditions => {:old_status_id => status.id})
-    assert_nil Workflow.first(:conditions => {:new_status_id => status.id})
+    assert_nil WorkflowTransition.first(:conditions => {:old_status_id => status.id})
+    assert_nil WorkflowTransition.first(:conditions => {:new_status_id => status.id})
   end
 
   def test_destroy_status_in_use
@@ -70,12 +70,12 @@ class IssueStatusTest < ActiveSupport::TestCase
   end
 
   def test_new_statuses_allowed_to
-    Workflow.delete_all
+    WorkflowTransition.delete_all
 
-    Workflow.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 2, :author => false, :assignee => false)
-    Workflow.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 3, :author => true, :assignee => false)
-    Workflow.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 4, :author => false, :assignee => true)
-    Workflow.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 5, :author => true, :assignee => true)
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 2, :author => false, :assignee => false)
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 3, :author => true, :assignee => false)
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 4, :author => false, :assignee => true)
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 5, :author => true, :assignee => true)
     status = IssueStatus.find(1)
     role = Role.find(1)
     tracker = Tracker.find(1)

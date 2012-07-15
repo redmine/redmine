@@ -23,7 +23,7 @@ class WorkflowsController < ApplicationController
   before_filter :find_trackers
 
   def index
-    @workflow_counts = Workflow.count_by_tracker_and_role
+    @workflow_counts = WorkflowTransition.count_by_tracker_and_role
   end
 
   def edit
@@ -31,16 +31,15 @@ class WorkflowsController < ApplicationController
     @tracker = Tracker.find_by_id(params[:tracker_id])
 
     if request.post?
-      Workflow.destroy_all( ["role_id=? and tracker_id=?", @role.id, @tracker.id])
+      WorkflowTransition.destroy_all( ["role_id=? and tracker_id=?", @role.id, @tracker.id])
       (params[:issue_status] || []).each { |status_id, transitions|
         transitions.each { |new_status_id, options|
           author = options.is_a?(Array) && options.include?('author') && !options.include?('always')
           assignee = options.is_a?(Array) && options.include?('assignee') && !options.include?('always')
-          @role.workflows.build(:tracker_id => @tracker.id, :old_status_id => status_id, :new_status_id => new_status_id, :author => author, :assignee => assignee)
+          WorkflowTransition.create(:role_id => @role.id, :tracker_id => @tracker.id, :old_status_id => status_id, :new_status_id => new_status_id, :author => author, :assignee => assignee)
         }
       }
       if @role.save
-        flash[:notice] = l(:notice_successful_update)
         redirect_to :action => 'edit', :role_id => @role, :tracker_id => @tracker
         return
       end
@@ -53,11 +52,42 @@ class WorkflowsController < ApplicationController
     @statuses ||= IssueStatus.find(:all, :order => 'position')
 
     if @tracker && @role && @statuses.any?
-      workflows = Workflow.all(:conditions => {:role_id => @role.id, :tracker_id => @tracker.id})
+      workflows = WorkflowTransition.all(:conditions => {:role_id => @role.id, :tracker_id => @tracker.id})
       @workflows = {}
       @workflows['always'] = workflows.select {|w| !w.author && !w.assignee}
       @workflows['author'] = workflows.select {|w| w.author}
       @workflows['assignee'] = workflows.select {|w| w.assignee}
+    end
+  end
+
+  def permissions
+    @role = Role.find_by_id(params[:role_id])
+    @tracker = Tracker.find_by_id(params[:tracker_id])
+
+    if @role && @tracker
+      if request.post?
+        WorkflowPermission.destroy_all({:role_id => @role.id, :tracker_id => @tracker.id})
+        (params[:permissions] || {}).each { |field, rule_by_status_id|
+          rule_by_status_id.each { |status_id, rule|
+            if rule.present?
+              WorkflowPermission.create(:role_id => @role.id, :tracker_id => @tracker.id, :old_status_id => status_id, :field_name => field, :rule => rule)
+            end
+          }
+        }
+        redirect_to :action => 'permissions', :role_id => @role, :tracker_id => @tracker
+        return
+      end
+
+      @statuses = @tracker.issue_statuses
+      @fields = (Tracker::CORE_FIELDS_ALL - @tracker.disabled_core_fields).map {|field| [field, l("field_"+field.sub(/_id$/, ''))]}
+      @custom_fields = @tracker.custom_fields
+
+      @permissions = WorkflowPermission.where(:tracker_id => @tracker.id, :role_id => @role.id).all.inject({}) do |h, w|
+        h[w.old_status_id] ||= {}
+        h[w.old_status_id][w.field_name] = w.rule
+        h
+      end
+      @statuses.each {|status| @permissions[status.id] ||= {}}
     end
   end
 
@@ -83,7 +113,7 @@ class WorkflowsController < ApplicationController
       elsif @target_trackers.nil? || @target_roles.nil?
         flash.now[:error] = l(:error_workflow_copy_target)
       else
-        Workflow.copy(@source_tracker, @source_role, @target_trackers, @target_roles)
+        WorkflowRule.copy(@source_tracker, @source_role, @target_trackers, @target_roles)
         flash[:notice] = l(:notice_successful_update)
         redirect_to :action => 'copy', :source_tracker_id => @source_tracker, :source_role_id => @source_role
       end

@@ -17,14 +17,17 @@
 
 class Tracker < ActiveRecord::Base
 
-  # Other fields should be appended, not inserted!
-  CORE_FIELDS = %w(assigned_to_id category_id fixed_version_id parent_issue_id start_date due_date estimated_hours done_ratio)
+  CORE_FIELDS_UNDISABLABLE = %w(project_id tracker_id subject description priority_id is_private).freeze
+  # Fields that can be disabled
+  # Other (future) fields should be appended, not inserted!
+  CORE_FIELDS = %w(assigned_to_id category_id fixed_version_id parent_issue_id start_date due_date estimated_hours done_ratio).freeze
+  CORE_FIELDS_ALL = (CORE_FIELDS_UNDISABLABLE + CORE_FIELDS).freeze
 
   before_destroy :check_integrity
   has_many :issues
-  has_many :workflows, :dependent => :delete_all do
+  has_many :workflow_rules, :dependent => :delete_all do
     def copy(source_tracker)
-      Workflow.copy(source_tracker, nil, proxy_association.owner, nil)
+      WorkflowRule.copy(source_tracker, nil, proxy_association.owner, nil)
     end
   end
 
@@ -56,8 +59,8 @@ class Tracker < ActiveRecord::Base
       return []
     end
 
-    ids = Workflow.
-            connection.select_rows("SELECT DISTINCT old_status_id, new_status_id FROM #{Workflow.table_name} WHERE tracker_id = #{id}").
+    ids = WorkflowTransition.
+            connection.select_rows("SELECT DISTINCT old_status_id, new_status_id FROM #{WorkflowTransition.table_name} WHERE tracker_id = #{id} AND type = 'WorkflowTransition'").
             flatten.
             uniq
 

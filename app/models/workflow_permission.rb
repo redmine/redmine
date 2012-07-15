@@ -1,5 +1,3 @@
-# encoding: utf-8
-#
 # Redmine - project management software
 # Copyright (C) 2006-2012  Jean-Philippe Lang
 #
@@ -17,11 +15,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-module WorkflowsHelper
-  def field_permission_tag(permissions, status, field)
-    name = field.is_a?(CustomField) ? field.id.to_s : field
-    select_tag("permissions[#{name}][#{status.id}]",
-      options_for_select([["", ""], ["Read-only", "readonly"], ["Required", "required"]], permissions[status.id][name])
-    )
+class WorkflowPermission < WorkflowRule
+  validates_inclusion_of :rule, :in => %w(readonly required)
+  validate :validate_field_name
+
+  protected
+
+  def validate_field_name
+    unless Tracker::CORE_FIELDS_ALL.include?(field_name) || field_name.to_s.match(/^\d+$/)
+      errors.add :field_name, :invalid
+    end
   end
 end

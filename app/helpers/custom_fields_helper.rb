@@ -73,15 +73,17 @@ module CustomFieldsHelper
   end
 
   # Return custom field label tag
-  def custom_field_label_tag(name, custom_value)
+  def custom_field_label_tag(name, custom_value, options={})
+    required = options[:required] || custom_value.custom_field.is_required?
+
     content_tag "label", h(custom_value.custom_field.name) +
-	(custom_value.custom_field.is_required? ? " <span class=\"required\">*</span>".html_safe : ""),
-	:for => "#{name}_custom_field_values_#{custom_value.custom_field.id}"
+      (required ? " <span class=\"required\">*</span>".html_safe : ""),
+      :for => "#{name}_custom_field_values_#{custom_value.custom_field.id}"
   end
 
   # Return custom field tag with its label tag
-  def custom_field_tag_with_label(name, custom_value)
-    custom_field_label_tag(name, custom_value) + custom_field_tag(name, custom_value)
+  def custom_field_tag_with_label(name, custom_value, options={})
+    custom_field_label_tag(name, custom_value, options) + custom_field_tag(name, custom_value)
   end
 
   def custom_field_tag_for_bulk_edit(name, custom_field, projects=nil)

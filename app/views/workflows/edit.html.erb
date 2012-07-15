@@ -2,6 +2,13 @@
 
 <h2><%=l(:label_workflow)%></h2>
 
+<div class="tabs">
+  <ul>
+    <li><%= link_to 'Status transitions', {:action => 'edit', :role_id => @role, :tracker_id => @tracker}, :class => 'selected' %></li>
+    <li><%= link_to 'Fields permissions', {:action => 'permissions', :role_id => @role, :tracker_id => @tracker} %></li>
+  </ul>
+</div>
+
 <p><%=l(:text_workflow_edit)%>:</p>
 
 <%= form_tag({}, :method => 'get') do %>
@@ -12,11 +19,11 @@
   <label><%=l(:label_tracker)%>:
   <%= select_tag 'tracker_id', options_from_collection_for_select(@trackers, "id", "name", @tracker && @tracker.id) %></label>
 
+  <%= submit_tag l(:button_edit), :name => nil %>
+
   <%= hidden_field_tag 'used_statuses_only', '0' %>
   <label><%= check_box_tag 'used_statuses_only', '1', @used_statuses_only %> <%= l(:label_display_used_statuses_only) %></label>
-</p>
-<p>
-<%= submit_tag l(:button_edit), :name => nil %>
+
 </p>
 <% end %>
 

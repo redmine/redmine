@@ -17,10 +17,10 @@
 
 class IssueStatus < ActiveRecord::Base
   before_destroy :check_integrity
-  has_many :workflows, :foreign_key => "old_status_id"
+  has_many :workflows, :class_name => 'WorkflowTransition', :foreign_key => "old_status_id"
   acts_as_list
 
-  before_destroy :delete_workflows
+  before_destroy :delete_workflow_rules
   after_save     :update_default
 
   validates_presence_of :name
@@ -98,7 +98,7 @@ private
   end
 
   # Deletes associated workflows
-  def delete_workflows
-    Workflow.delete_all(["old_status_id = :id OR new_status_id = :id", {:id => id}])
+  def delete_workflow_rules
+    WorkflowRule.delete_all(["old_status_id = :id OR new_status_id = :id", {:id => id}])
   end
 end

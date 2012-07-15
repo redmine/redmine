@@ -15,31 +15,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class Workflow < ActiveRecord::Base
+class WorkflowRule < ActiveRecord::Base
+  self.table_name = "#{table_name_prefix}workflows#{table_name_suffix}"
+
   belongs_to :role
+  belongs_to :tracker
   belongs_to :old_status, :class_name => 'IssueStatus', :foreign_key => 'old_status_id'
   belongs_to :new_status, :class_name => 'IssueStatus', :foreign_key => 'new_status_id'
 
-  validates_presence_of :role, :old_status, :new_status
-
-  # Returns workflow transitions count by tracker and role
-  def self.count_by_tracker_and_role
-    counts = connection.select_all("SELECT role_id, tracker_id, count(id) AS c FROM #{Workflow.table_name} GROUP BY role_id, tracker_id")
-    roles = Role.sorted.all
-    trackers = Tracker.sorted.all
-
-    result = []
-    trackers.each do |tracker|
-      t = []
-      roles.each do |role|
-        row = counts.detect {|c| c['role_id'].to_s == role.id.to_s && c['tracker_id'].to_s == tracker.id.to_s}
-        t << [role, (row.nil? ? 0 : row['c'].to_i)]
-      end
-      result << [tracker, t]
-    end
-
-    result
-  end
+  validates_presence_of :role, :tracker, :old_status
 
   # Copies workflows from source to targets
   def self.copy(source_tracker, source_role, target_trackers, target_roles)
@@ -78,9 +62,9 @@ class Workflow < ActiveRecord::Base
     else
       transaction do
         delete_all :tracker_id => target_tracker.id, :role_id => target_role.id
-        connection.insert "INSERT INTO #{Workflow.table_name} (tracker_id, role_id, old_status_id, new_status_id, author, assignee)" +
-                          " SELECT #{target_tracker.id}, #{target_role.id}, old_status_id, new_status_id, author, assignee" +
-                          " FROM #{Workflow.table_name}" +
+        connection.insert "INSERT INTO #{WorkflowRule.table_name} (tracker_id, role_id, old_status_id, new_status_id, author, assignee, field_name, rule, type)" +
+                          " SELECT #{target_tracker.id}, #{target_role.id}, old_status_id, new_status_id, author, assignee, field_name, rule, type" +
+                          " FROM #{WorkflowRule.table_name}" +
                           " WHERE tracker_id = #{source_tracker.id} AND role_id = #{source_role.id}"
       end
       true

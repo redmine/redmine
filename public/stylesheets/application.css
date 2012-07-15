@@ -433,6 +433,9 @@ ul.properties li span {font-style:italic;}
 #user_login, #user_firstname, #user_lastname, #user_mail, #my_account_form select, #user_form select, #user_identity_url { width: 90%; }
 
 #workflow_copy_form select { width: 200px; }
+table.fields_permissions select {font-size:90%}
+table.fields_permissions td.readonly {background:#ddd;}
+table.fields_permissions td.required {background:#d88;}
 
 textarea#custom_field_possible_values {width: 99%}
 input#content_comments {width: 99%}
@@ -504,7 +507,7 @@ input#time_entry_comments { width: 90%;}
 fieldset.settings label { display: block; }
 fieldset#notified_events .parent { padding-left: 20px; }
 
-.required {color: #bb0000;}
+span.required {color: #bb0000;}
 .summary {font-style: italic;}
 
 #attachments_fields input.description {margin-left: 8px; width:340px;}

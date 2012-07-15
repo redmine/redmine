@@ -823,7 +823,7 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_show_should_display_update_form_with_minimal_permissions
     Role.find(1).update_attribute :permissions, [:view_issues, :add_issue_notes]
-    Workflow.delete_all :role_id => 1
+    WorkflowTransition.delete_all :role_id => 1
 
     @request.session[:user_id] = 2
     get :show, :id => 1
@@ -1300,7 +1300,7 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_get_new_with_minimal_permissions
     Role.find(1).update_attribute :permissions, [:add_issues]
-    Workflow.delete_all :role_id => 1
+    WorkflowTransition.delete_all :role_id => 1
 
     @request.session[:user_id] = 2
     get :new, :project_id => 1, :tracker_id => 1
@@ -1426,6 +1426,50 @@ class IssuesControllerTest < ActionController::TestCase
       :attributes => {:name => 'issue[custom_field_values][2]', :value => 'Custom field value'}
   end
 
+  def test_get_new_should_mark_required_fields
+    cf1 = IssueCustomField.create!(:name => 'Foo', :field_format => 'string', :is_for_all => true, :tracker_ids => [1, 2])
+    cf2 = IssueCustomField.create!(:name => 'Bar', :field_format => 'string', :is_for_all => true, :tracker_ids => [1, 2])
+    WorkflowPermission.delete_all
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1, :role_id => 1, :field_name => 'due_date', :rule => 'required')
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1, :role_id => 1, :field_name => cf2.id.to_s, :rule => 'required')
+    @request.session[:user_id] = 2
+
+    get :new, :project_id => 1
+    assert_response :success
+    assert_template 'new'
+
+    assert_select 'label[for=issue_start_date]' do
+      assert_select 'span[class=required]', 0
+    end
+    assert_select 'label[for=issue_due_date]' do
+      assert_select 'span[class=required]'
+    end
+    assert_select 'label[for=?]', "issue_custom_field_values_#{cf1.id}" do
+      assert_select 'span[class=required]', 0
+    end
+    assert_select 'label[for=?]', "issue_custom_field_values_#{cf2.id}" do
+      assert_select 'span[class=required]'
+    end
+  end
+
+  def test_get_new_should_not_display_readonly_fields
+    cf1 = IssueCustomField.create!(:name => 'Foo', :field_format => 'string', :is_for_all => true, :tracker_ids => [1, 2])
+    cf2 = IssueCustomField.create!(:name => 'Bar', :field_format => 'string', :is_for_all => true, :tracker_ids => [1, 2])
+    WorkflowPermission.delete_all
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1, :role_id => 1, :field_name => 'due_date', :rule => 'readonly')
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1, :role_id => 1, :field_name => cf2.id.to_s, :rule => 'readonly')
+    @request.session[:user_id] = 2
+
+    get :new, :project_id => 1
+    assert_response :success
+    assert_template 'new'
+
+    assert_select 'input[name=?]', 'issue[start_date]'
+    assert_select 'input[name=?]', 'issue[due_date]', 0
+    assert_select 'input[name=?]', "issue[custom_field_values][#{cf1.id}]"
+    assert_select 'input[name=?]', "issue[custom_field_values][#{cf2.id}]", 0
+  end
+
   def test_get_new_without_tracker_id
     @request.session[:user_id] = 2
     get :new, :project_id => 1
@@ -1463,7 +1507,7 @@ class IssuesControllerTest < ActionController::TestCase
                                 :description => 'This is the description',
                                 :priority_id => 5}
     assert_response :success
-    assert_template 'attributes'
+    assert_template 'form'
 
     issue = assigns(:issue)
     assert_kind_of Issue, issue
@@ -1474,10 +1518,10 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_update_new_form_should_propose_transitions_based_on_initial_status
     @request.session[:user_id] = 2
-    Workflow.delete_all
-    Workflow.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 2)
-    Workflow.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 5)
-    Workflow.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 5, :new_status_id => 4)
+    WorkflowTransition.delete_all
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 2)
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 5)
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 5, :new_status_id => 4)
 
     xhr :post, :new, :project_id => 1,
                      :issue => {:tracker_id => 1,
@@ -1676,6 +1720,58 @@ class IssuesControllerTest < ActionController::TestCase
     issue = assigns(:issue)
     assert_not_nil issue
     assert_error_tag :content => /Database can't be blank/
+  end
+
+  def test_create_should_validate_required_fields
+    cf1 = IssueCustomField.create!(:name => 'Foo', :field_format => 'string', :is_for_all => true, :tracker_ids => [1, 2])
+    cf2 = IssueCustomField.create!(:name => 'Bar', :field_format => 'string', :is_for_all => true, :tracker_ids => [1, 2])
+    WorkflowPermission.delete_all
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 2, :role_id => 1, :field_name => 'due_date', :rule => 'required')
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 2, :role_id => 1, :field_name => cf2.id.to_s, :rule => 'required')
+    @request.session[:user_id] = 2
+
+    assert_no_difference 'Issue.count' do
+      post :create, :project_id => 1, :issue => {
+        :tracker_id => 2,
+        :status_id => 1,
+        :subject => 'Test',
+        :start_date => '',
+        :due_date => '',
+        :custom_field_values => {cf1.id.to_s => '', cf2.id.to_s => ''}
+      }
+      assert_response :success
+      assert_template 'new'
+    end
+
+    assert_error_tag :content => /Due date can't be blank/i
+    assert_error_tag :content => /Bar can't be blank/i
+  end
+
+  def test_create_should_ignore_readonly_fields
+    cf1 = IssueCustomField.create!(:name => 'Foo', :field_format => 'string', :is_for_all => true, :tracker_ids => [1, 2])
+    cf2 = IssueCustomField.create!(:name => 'Bar', :field_format => 'string', :is_for_all => true, :tracker_ids => [1, 2])
+    WorkflowPermission.delete_all
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 2, :role_id => 1, :field_name => 'due_date', :rule => 'readonly')
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 2, :role_id => 1, :field_name => cf2.id.to_s, :rule => 'readonly')
+    @request.session[:user_id] = 2
+
+    assert_difference 'Issue.count' do
+      post :create, :project_id => 1, :issue => {
+        :tracker_id => 2,
+        :status_id => 1,
+        :subject => 'Test',
+        :start_date => '2012-07-14',
+        :due_date => '2012-07-16',
+        :custom_field_values => {cf1.id.to_s => 'value1', cf2.id.to_s => 'value2'}
+      }
+      assert_response 302
+    end
+
+    issue = Issue.first(:order => 'id DESC')
+    assert_equal Date.parse('2012-07-14'), issue.start_date
+    assert_nil issue.due_date
+    assert_equal 'value1', issue.custom_field_value(cf1)
+    assert_nil issue.custom_field_value(cf2)
   end
 
   def test_post_create_with_watchers
@@ -1917,7 +2013,7 @@ class IssuesControllerTest < ActionController::TestCase
 
   context "without workflow privilege" do
     setup do
-      Workflow.delete_all(["role_id = ?", Role.anonymous.id])
+      WorkflowTransition.delete_all(["role_id = ?", Role.anonymous.id])
       Role.anonymous.add_permission! :add_issues, :add_issue_notes
     end
 
@@ -1976,9 +2072,9 @@ class IssuesControllerTest < ActionController::TestCase
 
   context "with workflow privilege" do
     setup do
-      Workflow.delete_all(["role_id = ?", Role.anonymous.id])
-      Workflow.create!(:role => Role.anonymous, :tracker_id => 1, :old_status_id => 1, :new_status_id => 3)
-      Workflow.create!(:role => Role.anonymous, :tracker_id => 1, :old_status_id => 1, :new_status_id => 4)
+      WorkflowTransition.delete_all(["role_id = ?", Role.anonymous.id])
+      WorkflowTransition.create!(:role => Role.anonymous, :tracker_id => 1, :old_status_id => 1, :new_status_id => 3)
+      WorkflowTransition.create!(:role => Role.anonymous, :tracker_id => 1, :old_status_id => 1, :new_status_id => 4)
       Role.anonymous.add_permission! :add_issues, :add_issue_notes
     end
 
@@ -2286,7 +2382,7 @@ class IssuesControllerTest < ActionController::TestCase
                                         :description => 'This is the description',
                                         :priority_id => 5}
     assert_response :success
-    assert_template 'attributes'
+    assert_template 'form'
 
     issue = assigns(:issue)
     assert_kind_of Issue, issue
@@ -2298,10 +2394,10 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_update_edit_form_should_propose_transitions_based_on_initial_status
     @request.session[:user_id] = 2
-    Workflow.delete_all
-    Workflow.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 2, :new_status_id => 1)
-    Workflow.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 2, :new_status_id => 5)
-    Workflow.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 5, :new_status_id => 4)
+    WorkflowTransition.delete_all
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 2, :new_status_id => 1)
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 2, :new_status_id => 5)
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 5, :new_status_id => 4)
 
     xhr :put, :new, :project_id => 1,
                     :id => 2,
@@ -2317,7 +2413,6 @@ class IssuesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     xhr :put, :new, :project_id => 1,
                              :id => 1,
-                             :project_change => '1',
                              :issue => {:project_id => 2,
                                         :tracker_id => 2,
                                         :subject => 'This is the test_new issue',
@@ -2845,13 +2940,13 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_bulk_edit_should_only_propose_statuses_allowed_for_all_issues
-    Workflow.delete_all
-    Workflow.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 1)
-    Workflow.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 3)
-    Workflow.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 4)
-    Workflow.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 2, :new_status_id => 1)
-    Workflow.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 2, :new_status_id => 3)
-    Workflow.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 2, :new_status_id => 5)
+    WorkflowTransition.delete_all
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 1)
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 3)
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 4)
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 2, :new_status_id => 1)
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 2, :new_status_id => 3)
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 2, :new_status_id => 5)
     @request.session[:user_id] = 2
     get :bulk_edit, :ids => [1, 2]
 

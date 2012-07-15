@@ -129,11 +129,7 @@ class IssuesController < ApplicationController
       format.html { render :action => 'new', :layout => !request.xhr? }
       format.js {
         render(:update) { |page|
-          if params[:project_change]
-            page.replace_html 'all_attributes', :partial => 'form'
-          else
-            page.replace_html 'attributes', :partial => 'attributes'
-          end
+          page.replace_html 'all_attributes', :partial => 'form'
           m = User.current.allowed_to?(:log_time, @issue.project) ? 'show' : 'hide'
           page << "if ($('log_time')) {Element.#{m}('log_time');}"
         }

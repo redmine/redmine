@@ -9,7 +9,7 @@
 
 <% if @issue.safe_attribute? 'project_id' %>
 <p><%= f.select :project_id, project_tree_options_for_select(@issue.allowed_target_projects, :selected => @issue.project), :required => true %></p>
-<%= observe_field :issue_project_id, :url => project_issue_form_path(@project, :id => @issue, :project_change => '1'),
+<%= observe_field :issue_project_id, :url => project_issue_form_path(@project, :id => @issue),
                                      :with => "Form.serialize('issue-form')" %>
 <% end %>
 
@@ -25,7 +25,7 @@
 
 <% if @issue.safe_attribute? 'description' %>
 <p>
-  <label><%= l(:field_description) %></label>
+  <%= f.label_for_field :description, :required => @issue.required_attribute?('description') %>
   <%= link_to_function image_tag('edit.png'), 
     'Element.hide(this); Effect.toggle("issue_description_and_toolbar", "appear", {duration:0.3})' unless @issue.new_record? %>
   <%= content_tag 'span', :id => "issue_description_and_toolbar", :style => (@issue.new_record? ? nil : 'display:none') do %>
