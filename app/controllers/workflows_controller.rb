@@ -62,17 +62,19 @@ class WorkflowsController < ApplicationController
     @role = Role.find_by_id(params[:role_id]) if params[:role_id]
     @tracker = Tracker.find_by_id(params[:tracker_id]) if params[:tracker_id]
 
-    if @role && @tracker
-      if request.post?
-        WorkflowPermission.replace_permissions(@tracker, @role, params[:permissions] || {})
-        redirect_to :action => 'permissions', :role_id => @role, :tracker_id => @tracker
-        return
-      end
+    if request.post? && @role && @tracker
+      WorkflowPermission.replace_permissions(@tracker, @role, params[:permissions] || {})
+      redirect_to :action => 'permissions', :role_id => @role, :tracker_id => @tracker
+      return
+    end
 
+    @used_statuses_only = (params[:used_statuses_only] == '0' ? false : true)
+    if @tracker && @used_statuses_only && @tracker.issue_statuses.any?
       @statuses = @tracker.issue_statuses
-      if @statuses.empty?
-        @statuses = IssueStatus.sorted.all
-      end
+    end
+    @statuses ||= IssueStatus.sorted.all
+
+    if @role && @tracker
       @fields = (Tracker::CORE_FIELDS_ALL - @tracker.disabled_core_fields).map {|field| [field, l("field_"+field.sub(/_id$/, ''))]}
       @custom_fields = @tracker.custom_fields
 

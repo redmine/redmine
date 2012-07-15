@@ -191,6 +191,14 @@ class WorkflowsControllerTest < ActionController::TestCase
     end
   end
 
+  def test_get_permissions_with_role_and_tracker_and_all_statuses
+    WorkflowTransition.delete_all
+
+    get :permissions, :role_id => 1, :tracker_id => 2, :used_statuses_only => '0'
+    assert_response :success
+    assert_equal IssueStatus.sorted.all, assigns(:statuses)
+  end
+
   def test_post_permissions
     WorkflowPermission.delete_all
 
