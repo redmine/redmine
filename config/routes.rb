@@ -33,7 +33,7 @@ RedmineApp::Application.routes.draw do
   match 'projects/:id/wiki/destroy', :to => 'wikis#destroy', :via => [:get, :post]
 
   match 'boards/:board_id/topics/new', :to => 'messages#new', :via => [:get, :post]
-  get 'boards/:board_id/topics/:id', :to => 'messages#show'
+  get 'boards/:board_id/topics/:id', :to => 'messages#show', :as => 'board_message'
   match 'boards/:board_id/topics/quote/:id', :to => 'messages#quote', :via => [:get, :post]
   get 'boards/:board_id/topics/:id/edit', :to => 'messages#edit'
 

@@ -59,7 +59,7 @@ class MessagesController < ApplicationController
       if @message.save
         call_hook(:controller_messages_new_after_save, { :params => params, :message => @message})
         render_attachment_warning_if_needed(@message)
-        redirect_to :action => 'show', :id => @message
+        redirect_to board_message_path(@board, @message)
       end
     end
   end
@@ -76,7 +76,7 @@ class MessagesController < ApplicationController
       attachments = Attachment.attach_files(@reply, params[:attachments])
       render_attachment_warning_if_needed(@reply)
     end
-    redirect_to :action => 'show', :id => @topic, :r => @reply
+    redirect_to board_message_path(@board, @topic, :r => @reply)
   end
 
   # Edit a message
@@ -88,7 +88,7 @@ class MessagesController < ApplicationController
       render_attachment_warning_if_needed(@message)
       flash[:notice] = l(:notice_successful_update)
       @message.reload
-      redirect_to :action => 'show', :board_id => @message.board, :id => @message.root, :r => (@message.parent_id && @message.id)
+      redirect_to board_message_path(@message.board, @message.root, :r => (@message.parent_id && @message.id))
     end
   end
 
@@ -97,9 +97,11 @@ class MessagesController < ApplicationController
     (render_403; return false) unless @message.destroyable_by?(User.current)
     r = @message.to_param
     @message.destroy
-    redirect_to @message.parent.nil? ?
-      { :controller => 'boards', :action => 'show', :project_id => @project, :id => @board } :
-      { :action => 'show', :id => @message.parent, :r => r }
+    if @message.parent
+      redirect_to board_message_path(@board, @message.parent, :r => r)
+    else
+      redirect_to project_board_path(@project, @board)
+    end
   end
 
   def quote
