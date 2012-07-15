@@ -52,7 +52,7 @@ class WorkflowsController < ApplicationController
     @statuses ||= IssueStatus.sorted.all
 
     if @tracker && @role && @statuses.any?
-      workflows = WorkflowTransition.all(:conditions => {:role_id => @role.id, :tracker_id => @tracker.id})
+      workflows = WorkflowTransition.where(:role_id => @role.id, :tracker_id => @tracker.id).all
       @workflows = {}
       @workflows['always'] = workflows.select {|w| !w.author && !w.assignee}
       @workflows['author'] = workflows.select {|w| w.author}
@@ -119,10 +119,10 @@ class WorkflowsController < ApplicationController
   private
 
   def find_roles
-    @roles = Role.find(:all, :order => 'builtin, position')
+    @roles = Role.sorted.all
   end
 
   def find_trackers
-    @trackers = Tracker.find(:all, :order => 'position')
+    @trackers = Tracker.sorted.all
   end
 end
