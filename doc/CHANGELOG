@@ -8,6 +8,7 @@ http://www.redmine.org/
 
 * Defect #11192: Make repository identifier accept underscores
 * Defect #11307: Can't filter for negative numeric custom fields
+* Defect #11365: Attachment description length is not validated
 * Feature #11338: Exclude emails with auto-submitted => auto-generated
 * Patch #11328: Fix Japanese mistranslation for 'label_language_based'
 
