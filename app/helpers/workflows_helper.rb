@@ -20,8 +20,12 @@
 module WorkflowsHelper
   def field_permission_tag(permissions, status, field)
     name = field.is_a?(CustomField) ? field.id.to_s : field
-    select_tag("permissions[#{name}][#{status.id}]",
-      options_for_select([["", ""], [l(:label_readonly), "readonly"], [l(:label_required), "required"]], permissions[status.id][name])
-    )
+    options = [["", ""], [l(:label_readonly), "readonly"], [l(:label_required), "required"]]
+
+    if field.is_a?(CustomField) && field.is_required?
+      options = [["(#{l(:label_required)})", ""], [l(:label_readonly), "readonly"]]
+    end
+
+    select_tag("permissions[#{name}][#{status.id}]", options_for_select(options, permissions[status.id][name]))
   end
 end
