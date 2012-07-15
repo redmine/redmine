@@ -25,8 +25,8 @@ class WorkflowsController < ApplicationController
   end
 
   def edit
-    @role = Role.find_by_id(params[:role_id])
-    @tracker = Tracker.find_by_id(params[:tracker_id])
+    @role = Role.find_by_id(params[:role_id]) if params[:role_id]
+    @tracker = Tracker.find_by_id(params[:tracker_id]) if params[:tracker_id]
 
     if request.post?
       WorkflowTransition.destroy_all( ["role_id=? and tracker_id=?", @role.id, @tracker.id])
@@ -59,8 +59,8 @@ class WorkflowsController < ApplicationController
   end
 
   def permissions
-    @role = Role.find_by_id(params[:role_id])
-    @tracker = Tracker.find_by_id(params[:tracker_id])
+    @role = Role.find_by_id(params[:role_id]) if params[:role_id]
+    @tracker = Tracker.find_by_id(params[:tracker_id]) if params[:tracker_id]
 
     if @role && @tracker
       if request.post?
