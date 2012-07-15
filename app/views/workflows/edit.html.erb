@@ -4,8 +4,8 @@
 
 <div class="tabs">
   <ul>
-    <li><%= link_to 'Status transitions', {:action => 'edit', :role_id => @role, :tracker_id => @tracker}, :class => 'selected' %></li>
-    <li><%= link_to 'Fields permissions', {:action => 'permissions', :role_id => @role, :tracker_id => @tracker} %></li>
+    <li><%= link_to l(:label_status_transitions), {:action => 'edit', :role_id => @role, :tracker_id => @tracker}, :class => 'selected' %></li>
+    <li><%= link_to l(:label_fields_permissions), {:action => 'permissions', :role_id => @role, :tracker_id => @tracker} %></li>
   </ul>
 </div>
 
