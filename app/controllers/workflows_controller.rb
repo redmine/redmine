@@ -66,14 +66,7 @@ class WorkflowsController < ApplicationController
 
     if @role && @tracker
       if request.post?
-        WorkflowPermission.destroy_all({:role_id => @role.id, :tracker_id => @tracker.id})
-        (params[:permissions] || {}).each { |field, rule_by_status_id|
-          rule_by_status_id.each { |status_id, rule|
-            if rule.present?
-              WorkflowPermission.create(:role_id => @role.id, :tracker_id => @tracker.id, :old_status_id => status_id, :field_name => field, :rule => rule)
-            end
-          }
-        }
+        WorkflowPermission.replace_permissions(@tracker, @role, params[:permissions] || {})
         redirect_to :action => 'permissions', :role_id => @role, :tracker_id => @tracker
         return
       end
