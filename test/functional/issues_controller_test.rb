@@ -1405,6 +1405,7 @@ class IssuesControllerTest < ActionController::TestCase
         :tag => 'input',
         :attributes => {:type => 'file', :name => 'attachments[1][file]'}
       }
+    assert_select 'input[name=?][maxlength=255]', 'attachments[1][description]'
   end
 
   def test_get_new_should_prefill_the_form_from_params
