@@ -112,6 +112,10 @@ class IssueStatusTest < ActiveSupport::TestCase
     end
   end
 
+  def test_sorted_scope
+    assert_equal IssueStatus.all.sort, IssueStatus.sorted.all
+  end
+
   def test_named_scope
     status = IssueStatus.named("resolved").first
     assert_not_nil status
