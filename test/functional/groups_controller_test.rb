@@ -36,6 +36,11 @@ class GroupsControllerTest < ActionController::TestCase
     assert_template 'show'
   end
 
+  def test_show_invalid_should_return_404
+    get :show, :id => 99
+    assert_response 404
+  end
+
   def test_new
     get :new
     assert_response :success
