@@ -31,6 +31,12 @@ class RoutingWorkflowsTest < ActionController::IntegrationTest
     end
     ["get", "post"].each do |method|
       assert_routing(
+          { :method => method, :path => "/workflows/permissions" },
+          { :controller => 'workflows', :action => 'permissions' }
+        )
+    end
+    ["get", "post"].each do |method|
+      assert_routing(
           { :method => method, :path => "/workflows/copy" },
           { :controller => 'workflows', :action => 'copy' }
         )
