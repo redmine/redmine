@@ -836,6 +836,10 @@ fr:
   label_completed_versions: Versions passées
   label_session_expiration: Expiration des sessions
   label_show_closed_projects: Voir les projets fermés
+  label_status_transitions: Changements de statut
+  label_fields_permissions: Permissions sur les champs
+  label_readonly: Lecture
+  label_required: Obligatoire
 
   button_login: Connexion
   button_submit: Soumettre
