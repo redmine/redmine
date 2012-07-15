@@ -1399,13 +1399,10 @@ class IssuesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     get :new, :project_id => 1, :tracker_id => 1
 
-    assert_tag :tag => 'form',
-      :attributes => {:id => 'issue-form', :method => 'post', :enctype => 'multipart/form-data'},
-      :descendant => {
-        :tag => 'input',
-        :attributes => {:type => 'file', :name => 'attachments[1][file]'}
-      }
-    assert_select 'input[name=?][maxlength=255]', 'attachments[1][description]'
+    assert_select 'form[id=issue-form][method=post][enctype=multipart/form-data]' do
+      assert_select 'input[name=?][type=file]', 'attachments[1][file]'
+      assert_select 'input[name=?][maxlength=255]', 'attachments[1][description]'
+    end
   end
 
   def test_get_new_should_prefill_the_form_from_params
