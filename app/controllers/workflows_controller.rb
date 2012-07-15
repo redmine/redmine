@@ -18,9 +18,7 @@
 class WorkflowsController < ApplicationController
   layout 'admin'
 
-  before_filter :require_admin
-  before_filter :find_roles
-  before_filter :find_trackers
+  before_filter :require_admin, :find_roles, :find_trackers
 
   def index
     @workflow_counts = WorkflowTransition.count_by_tracker_and_role
