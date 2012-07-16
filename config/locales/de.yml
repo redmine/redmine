@@ -1057,20 +1057,20 @@ de:
   setting_session_lifetime: Längste Dauer einer Sitzung
   setting_session_timeout: Zeitüberschreitung bei Inaktivität
   label_session_expiration: Ende einer Sitzung
-  permission_close_project: Close / reopen the project
-  label_show_closed_projects: View closed projects
-  button_close: Close
-  button_reopen: Reopen
-  project_status_active: active
-  project_status_closed: closed
-  project_status_archived: archived
-  text_project_closed: This project is closed and read-only.
-  notice_user_successful_create: User %{id} created.
-  field_core_fields: Standard fields
-  field_timeout: Timeout (in seconds)
-  setting_thumbnails_enabled: Display attachment thumbnails
-  setting_thumbnails_size: Thumbnails size (in pixels)
+  permission_close_project: Schließen / erneutes Öffnen eines Projekts
+  label_show_closed_projects: Geschlossene Projekte anzeigen
+  button_close: Schließen
+  button_reopen: Öffnen
+  project_status_active: aktiv
+  project_status_closed: geschlossen
+  project_status_archived: archiviert
+  text_project_closed: Dieses Projekt ist geschlossen und kann nicht bearbeitet werden.
+  notice_user_successful_create: Benutzer %{id} angelegt.
+  field_core_fields: Standardwerte
+  field_timeout: Auszeit (in Sekunden)
+  setting_thumbnails_enabled: Vorschaubilder von Dateianhängen anzeigen
+  setting_thumbnails_size: Größe der Vorschaubilder (in Pixel)
   label_status_transitions: Status transitions
   label_fields_permissions: Fields permissions
-  label_readonly: Read-only
-  label_required: Required
+  label_readonly: Nur-Lese-Zugriff
+  label_required: Erforderlich
