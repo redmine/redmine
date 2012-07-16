@@ -842,7 +842,7 @@ ja:
   label_child_revision: 子
 
   button_login: ログイン
-  button_submit: 変更
+  button_submit: 送信
   button_save: 保存
   button_check_all: すべてにチェックをつける
   button_uncheck_all: すべてのチェックを外す
