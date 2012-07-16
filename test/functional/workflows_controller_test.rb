@@ -191,7 +191,7 @@ class WorkflowsControllerTest < ActionController::TestCase
     end
   end
 
-  def test_get_permissions_with_always_required_custom_field
+  def test_get_permissions_with_required_custom_field_should_not_show_required_option
     cf = IssueCustomField.create!(:name => 'Foo', :field_format => 'string', :tracker_ids => [1], :is_required => true)
 
     get :permissions, :role_id => 1, :tracker_id => 1
@@ -201,7 +201,7 @@ class WorkflowsControllerTest < ActionController::TestCase
     # Custom field that is always required
     # The default option is "(Required)"
     assert_select 'select[name=?]', "permissions[#{cf.id}][3]" do
-      assert_select 'option[value=]', :text => '(Required)'
+      assert_select 'option[value=]'
       assert_select 'option[value=readonly]', :text => 'Read-only'
       assert_select 'option[value=required]', 0
     end
