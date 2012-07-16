@@ -150,6 +150,14 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal 'cbb5b0f30978ba03731d61f9f6d10011', Attachment.disk_filename("test_accentué.ça")[13..-1]
   end
 
+  def test_title
+    a = Attachment.new(:filename => "test.png")
+    assert_equal "test.png", a.title
+
+    a = Attachment.new(:filename => "test.png", :description => "Cool image")
+    assert_equal "test.png (Cool image)", a.title
+  end
+
   def test_prune_should_destroy_old_unattached_attachments
     Attachment.create!(:file => uploaded_test_file("testfile.txt", ""), :author_id => 1, :created_on => 2.days.ago)
     Attachment.create!(:file => uploaded_test_file("testfile.txt", ""), :author_id => 1, :created_on => 2.days.ago)

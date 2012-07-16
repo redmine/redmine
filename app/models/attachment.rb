@@ -137,6 +137,14 @@ class Attachment < ActiveRecord::Base
     File.join(self.class.storage_path, disk_filename.to_s)
   end
 
+  def title
+    title = filename.to_s
+    if description.present?
+      title << " (#{description})"
+    end
+    title
+  end
+
   def increment_download
     increment!(:downloads)
   end
