@@ -21,22 +21,32 @@ module Redmine
   module Thumbnail
     extend Redmine::Utils::Shell
 
+    CONVERT_BIN = (Redmine::Configuration['imagemagick_convert_command'] || 'convert').freeze
+
     # Generates a thumbnail for the source image to target
     def self.generate(source, target, size)
+      return nil unless convert_available?
       unless File.exists?(target)
         directory = File.dirname(target)
         unless File.exists?(directory)
           FileUtils.mkdir_p directory
         end
-        bin = Redmine::Configuration['imagemagick_convert_command'] || 'convert'
         size_option = "#{size}x#{size}>"
-        cmd = "#{shell_quote bin} #{shell_quote source} -thumbnail #{shell_quote size_option} #{shell_quote target}"
+        cmd = "#{shell_quote CONVERT_BIN} #{shell_quote source} -thumbnail #{shell_quote size_option} #{shell_quote target}"
         unless system(cmd)
           logger.error("Creating thumbnail failed (#{$?}):\nCommand: #{cmd}")
           return nil
         end
       end
       target
+    end
+
+    def self.convert_available?
+      return @convert_available if defined?(@convert_available)
+      logger.warn("testing for convert...")
+      @convert_available = system("#{shell_quote CONVERT_BIN} -version") rescue false
+      logger.warn("Imagemagick's convert binary (#{CONVERT_BIN}) not available") unless @convert_available
+      @convert_available
     end
 
     def self.logger

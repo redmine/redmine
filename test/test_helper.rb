@@ -129,10 +129,7 @@ class ActiveSupport::TestCase
   end
 
   def self.convert_installed?
-    bin = Redmine::Configuration['imagemagick_convert_command'] || 'convert'
-    system("#{bin} -version")
-  rescue
-    false
+    Redmine::Thumbnail.convert_available?
   end
 
   # Returns the path to the test +vendor+ repository
