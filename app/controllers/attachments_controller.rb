@@ -61,7 +61,7 @@ class AttachmentsController < ApplicationController
   end
 
   def thumbnail
-    if @attachment.thumbnailable? && Setting.thumbnails_enabled? && thumbnail = @attachment.thumbnail
+    if @attachment.thumbnailable? && thumbnail = @attachment.thumbnail(:size => params[:size])
       if stale?(:etag => thumbnail)
         send_file thumbnail,
           :filename => filename_for_content_disposition(@attachment.filename),

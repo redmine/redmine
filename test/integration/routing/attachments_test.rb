@@ -50,6 +50,10 @@ class RoutingAttachmentsTest < ActionController::IntegrationTest
            { :controller => 'attachments', :action => 'thumbnail', :id => '1' }
          )
     assert_routing(
+           { :method => 'get', :path => "/attachments/thumbnail/1/200" },
+           { :controller => 'attachments', :action => 'thumbnail', :id => '1', :size => '200' }
+         )
+    assert_routing(
            { :method => 'delete', :path => "/attachments/1" },
            { :controller => 'attachments', :action => 'destroy', :id => '1' }
          )

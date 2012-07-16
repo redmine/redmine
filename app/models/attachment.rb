@@ -171,9 +171,17 @@ class Attachment < ActiveRecord::Base
 
   # Returns the full path the attachment thumbnail, or nil
   # if the thumbnail cannot be generated.
-  def thumbnail
+  def thumbnail(options={})
     if thumbnailable? && readable?
-      size = Setting.thumbnails_size.to_i
+      size = options[:size].to_i
+      if size > 0
+        # Limit the number of thumbnails per image
+        size = (size / 50) * 50
+        # Maximum thumbnail size
+        size = 800 if size > 800
+      else
+        size = Setting.thumbnails_size.to_i
+      end
       size = 100 unless size > 0
       target = File.join(self.class.thumbnails_storage_path, "#{id}_#{digest}_#{size}.thumb")
 

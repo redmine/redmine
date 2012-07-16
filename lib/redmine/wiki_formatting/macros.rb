@@ -116,6 +116,24 @@ module Redmine
         @included_wiki_pages.pop
         out
       end
+
+      desc "Displays a clickable thumbnail of an attached image. Examples:\n\n<pre>{{thumbnail(image.png)}}\n{{thumbnail(image.png, size=300, title=Thumbnail)}}</pre>"
+      macro :thumbnail do |obj, args|
+        args, options = extract_macro_options(args, :size, :title)
+        filename = args.first
+        raise 'Filename required' unless filename.present?
+        size = options[:size]
+        raise 'Invalid size parameter' unless size.nil? || size.match(/^\d+$/)
+        size = size.to_i
+        size = nil unless size > 0
+        if obj && obj.respond_to?(:attachments) && attachment = Attachment.latest_attach(obj.attachments, filename)
+          title = options[:title] || attachment.title
+          img = image_tag(url_for(:controller => 'attachments', :action => 'thumbnail', :id => attachment, :size => size), :alt => attachment.filename)
+          link_to(img, url_for(:controller => 'attachments', :action => 'show', :id => attachment), :class => 'thumbnail', :title => title)
+        else
+          raise "Attachment #{filename} not found"
+        end
+      end
     end
   end
 end
