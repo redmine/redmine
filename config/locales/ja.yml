@@ -565,10 +565,10 @@ ja:
   label_no_data: 表示するデータがありません
   label_change_status: ステータスの変更
   label_history: 履歴
-  label_attachment: 添付ファイル
-  label_attachment_new: 新しい添付ファイル
-  label_attachment_delete: 添付ファイルを削除
-  label_attachment_plural: 添付ファイル
+  label_attachment: ファイル
+  label_attachment_new: 新しいファイル
+  label_attachment_delete: ファイルを削除
+  label_attachment_plural: ファイル
   label_file_added: ファイルが追加されました
   label_report: レポート
   label_report_plural: レポート
