@@ -173,7 +173,7 @@ ja:
   general_first_day_of_week: '7'
 
   notice_account_updated: アカウントが更新されました。
-  notice_account_invalid_creditentials: ユーザ名もしくはパスワードが無効
+  notice_account_invalid_creditentials: ユーザ名もしくはパスワードが無効です
   notice_account_password_updated: パスワードが更新されました。
   notice_account_wrong_password: パスワードが違います
   notice_account_register_done: アカウントが作成されました。
