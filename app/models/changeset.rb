@@ -162,7 +162,7 @@ class Changeset < ActiveRecord::Base
       tag = "#{repository.identifier}|#{tag}"
     end
     if ref_project && project && ref_project != project
-      tag = "#{project.identifier}:#{tag}" 
+      tag = "#{project.identifier}:#{tag}"
     end
     tag
   end
