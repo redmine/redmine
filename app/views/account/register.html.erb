@@ -5,11 +5,11 @@
 
 <div class="box tabular">
 
-<p>WARNING: The Open Source Brain is in an early stage of development, meaning major changes are possible at any time to the website and the repositories it hosts.</p>
+
 <p>Interested parties are welcome to sign up at this stage, but please be aware:</p>
 <p><b>Your name will be publicly visible on the website.</b></p>
 <p><b>You should provide a valid URL to a lab, company or software project webpage with which you are directly associated.</b></p>
-
+<p>Note that the Open Source Brain is in an early stage of development, meaning significant changes are possible to the website and the repositories it hosts. All user information and activity will be preserved, although the layout & flow of content may alter. </p>
 
 <% if @user.auth_source_id.nil? %>
   <p><%= f.text_field :login, :size => 25, :required => true %></p>
