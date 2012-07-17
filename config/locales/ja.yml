@@ -1077,12 +1077,12 @@ ja:
   project_status_closed: 終了
   project_status_archived: アーカイブ
   text_project_closed: このプロジェクトは終了しているため読み取り専用です。
-  notice_user_successful_create: User %{id} created.
-  field_core_fields: Standard fields
-  field_timeout: Timeout (in seconds)
-  setting_thumbnails_enabled: Display attachment thumbnails
-  setting_thumbnails_size: Thumbnails size (in pixels)
-  label_status_transitions: Status transitions
-  label_fields_permissions: Fields permissions
-  label_readonly: Read-only
-  label_required: Required
+  notice_user_successful_create: ユーザー %{id} を作成しました。
+  field_core_fields: 標準フィールド
+  field_timeout: タイムアウト(秒単位)
+  setting_thumbnails_enabled: 添付ファイルのサムネイル画像を表示
+  setting_thumbnails_size: サムネイル画像の大きさ(ピクセル単位)
+  label_status_transitions: ステータスの遷移
+  label_fields_permissions: フィールドに対する権限
+  label_readonly: 読み取り専用
+  label_required: 必須
