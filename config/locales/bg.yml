@@ -862,6 +862,10 @@ bg:
   label_search_for_watchers: Търсене на потребители за наблюдатели
   label_session_expiration: Изтичане на сесиите
   label_show_closed_projects: Разглеждане на затворени проекти
+  label_status_transitions: Преходи между състоянията
+  label_fields_permissions: Видимост на полетата
+  label_readonly: Само за четене
+  label_required: Задължително
 
   button_login: Вход
   button_submit: Прикачване
@@ -1050,7 +1054,3 @@ bg:
   description_date_range_interval: Изберете диапазон чрез задаване на начална и крайна дати
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
-  label_status_transitions: Status transitions
-  label_fields_permissions: Fields permissions
-  label_readonly: Read-only
-  label_required: Required
