@@ -1049,12 +1049,12 @@ zh:
   project_status_closed: 已关闭
   project_status_archived: 已存档
   text_project_closed: 当前项目已被关闭。当前项目只读。
-  notice_user_successful_create: User %{id} created.
-  field_core_fields: Standard fields
-  field_timeout: Timeout (in seconds)
-  setting_thumbnails_enabled: Display attachment thumbnails
-  setting_thumbnails_size: Thumbnails size (in pixels)
-  label_status_transitions: Status transitions
-  label_fields_permissions: Fields permissions
-  label_readonly: Read-only
-  label_required: Required
+  notice_user_successful_create: 用户 %{id} 已创建。
+  field_core_fields: 标准字段
+  field_timeout: 超时 (秒)
+  setting_thumbnails_enabled: 显示附件略缩图
+  setting_thumbnails_size: 略缩图尺寸 (像素)
+  label_status_transitions: 状态转换
+  label_fields_permissions: 字段权限
+  label_readonly: 只读
+  label_required: 必填
