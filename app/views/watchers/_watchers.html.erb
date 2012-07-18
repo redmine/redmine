@@ -1,12 +1,9 @@
 <% if User.current.allowed_to?(:add_issue_watchers, @project) %>
 <div class="contextual">
-<%= link_to_remote l(:button_add),
-                   :url => {:controller => 'watchers',
-                            :action => 'new',
-                            :object_type => watched.class.name.underscore,
-                            :object_id => watched},
-                   :method => 'get',
-                   :before => "if ($('ajax-modal').hasClassName('new-watcher')) {showModal('ajax-modal'); return false;}" %>
+<%= link_to l(:button_add),
+      {:controller => 'watchers', :action => 'new', :object_type => watched.class.name.underscore, :object_id => watched},
+      :remote => true,
+      :method => 'get' %>
 </div>
 <% end %>
 
