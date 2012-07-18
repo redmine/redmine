@@ -23,9 +23,11 @@ module JournalsHelper
     editable = User.current.logged? && (User.current.allowed_to?(:edit_issue_notes, issue.project) || (journal.user == User.current && User.current.allowed_to?(:edit_own_issue_notes, issue.project)))
     links = []
     if !journal.notes.blank?
-      links << link_to_remote(image_tag('comment.png'),
-                              { :url => {:controller => 'journals', :action => 'new', :id => issue, :journal_id => journal} },
-                              :title => l(:button_quote)) if options[:reply_links]
+      links << link_to(image_tag('comment.png'),
+                       {:controller => 'journals', :action => 'new', :id => issue, :journal_id => journal},
+                       :remote => true,
+                       :method => 'post',
+                       :title => l(:button_quote)) if options[:reply_links]
       links << link_to_in_place_notes_editor(image_tag('edit.png'), "journal-#{journal.id}-notes",
                                              { :controller => 'journals', :action => 'edit', :id => journal },
                                                 :title => l(:button_edit)) if editable
