@@ -943,6 +943,10 @@
   label_search_for_watchers: 搜尋可供加入的監看者
   label_session_expiration: 工作階段逾期
   label_show_closed_projects: 檢視已關閉的專案
+  label_status_transitions: 狀態轉換
+  label_fields_permissions: 欄位權限
+  label_readonly: 唯讀
+  label_required: 必填
 
   button_login: 登入
   button_submit: 送出
@@ -1133,7 +1137,3 @@
   description_date_range_interval: 選擇起始與結束日期以設定範圍區間
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
-  label_status_transitions: Status transitions
-  label_fields_permissions: Fields permissions
-  label_readonly: Read-only
-  label_required: Required
