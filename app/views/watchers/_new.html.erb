@@ -1,11 +1,12 @@
 <h3 class="title"><%= l(:permission_add_issue_watchers) %></h3>
 
-<%= form_remote_tag :url => {:controller => 'watchers',
-                            :action => (watched ? 'create' : 'append'),
-                            :object_type => watched.class.name.underscore,
-                            :object_id => watched},
-                     :method => :post,
-                     :html => {:id => 'new-watcher-form'} do %>
+<%= form_tag({:controller => 'watchers',
+              :action => (watched ? 'create' : 'append'),
+              :object_type => watched.class.name.underscore,
+              :object_id => watched},
+             :remote => true,
+             :method => :post,
+             :id => 'new-watcher-form') do %>
 
   <p><%= label_tag 'user_search', l(:label_user_search) %><%= text_field_tag 'user_search', nil %></p>
   <%= observe_field(:user_search,
