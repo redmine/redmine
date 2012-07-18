@@ -70,10 +70,11 @@ end %>
 <hr />
 <% if @issue.description? %>
   <div class="contextual">
-  <%= link_to_remote_if_authorized(
-        l(:button_quote),
-        { :url => {:controller => 'journals', :action => 'new', :id => @issue} },
-        :class => 'icon icon-comment') %>
+  <%= link_to l(:button_quote),
+              {:controller => 'journals', :action => 'new', :id => @issue},
+              :remote => true,
+              :method => 'post',
+              :class => 'icon icon-comment' if authorize_for('issues', 'edit') %>
   </div>
 
   <p><strong><%=l(:field_description)%></strong></p>

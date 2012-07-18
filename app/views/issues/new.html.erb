@@ -26,9 +26,10 @@
         <%= watchers_checkboxes(@issue, @available_watchers) %>
       </span>
       <span class="search_for_watchers">
-      <%= link_to_remote l(:label_search_for_watchers),
-                   :url => {:controller => 'watchers', :action => 'new', :project_id => @issue.project},
-                   :method => 'get' %>
+      <%= link_to l(:label_search_for_watchers),
+                  {:controller => 'watchers', :action => 'new', :project_id => @issue.project},
+                  :remote => true,
+                  :method => 'get' %>
       </span>
       </p>
     <% end %>
