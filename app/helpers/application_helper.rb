@@ -966,6 +966,7 @@ module ApplicationHelper
   end
 
   def labelled_remote_form_for(*args, &proc)
+    ActiveSupport::Deprecation.warn "ApplicationHelper#labelled_remote_form_for is deprecated and will be removed in Redmine 2.2."
     args << {} unless args.last.is_a?(Hash)
     options = args.last
     options.merge!({:builder => Redmine::Views::LabelledFormBuilder, :remote => true})
