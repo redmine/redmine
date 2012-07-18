@@ -135,7 +135,11 @@ class MyController < ApplicationController
     @user = User.current
     @blocks = @user.pref[:my_page_layout] || DEFAULT_LAYOUT.dup
     @block_options = []
-    BLOCKS.each {|k, v| @block_options << [l("my.blocks.#{v}", :default => [v, v.to_s.humanize]), k.dasherize]}
+    BLOCKS.each do |k, v|
+      unless %w(top left right).detect {|f| (@blocks[f] ||= []).include?(k)}
+        @block_options << [l("my.blocks.#{v}", :default => [v, v.to_s.humanize]), k.dasherize]
+      end
+    end
   end
 
   # Add a block to user's page
@@ -152,7 +156,7 @@ class MyController < ApplicationController
     layout['top'].unshift block
     @user.pref[:my_page_layout] = layout
     @user.pref.save
-    render :partial => "block", :locals => {:user => @user, :block_name => block}
+    redirect_to :action => 'page_layout'
   end
 
   # Remove a block to user's page
@@ -165,7 +169,7 @@ class MyController < ApplicationController
     %w(top left right).each {|f| (layout[f] ||= []).delete block }
     @user.pref[:my_page_layout] = layout
     @user.pref.save
-    render :nothing => true
+    redirect_to :action => 'page_layout'
   end
 
   # Change blocks order on user's page

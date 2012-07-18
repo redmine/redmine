@@ -182,14 +182,14 @@ class MyControllerTest < ActionController::TestCase
   end
 
   def test_add_block
-    xhr :post, :add_block, :block => 'issuesreportedbyme'
-    assert_response :success
+    post :add_block, :block => 'issuesreportedbyme'
+    assert_redirected_to '/my/page_layout'
     assert User.find(2).pref[:my_page_layout]['top'].include?('issuesreportedbyme')
   end
 
   def test_remove_block
-    xhr :post, :remove_block, :block => 'issuesassignedtome'
-    assert_response :success
+    post :remove_block, :block => 'issuesassignedtome'
+    assert_redirected_to '/my/page_layout'
     assert !User.find(2).pref[:my_page_layout].values.flatten.include?('issuesassignedtome')
   end
 
