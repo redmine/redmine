@@ -337,6 +337,16 @@ function hideModal(el) {
   }
 }
 
+function submitPreview(url, form, target) {
+  new Ajax.Updater(target, url, {
+    asynchronous:true,
+    evalScripts:true,
+    method:'post',
+    onComplete:function(request){Element.scrollTo(target)},
+    parameters:Form.serialize(form)
+  });
+}
+
 function collapseScmEntry(id) {
   var els = document.getElementsByClassName(id, 'browser');
   for (var i = 0; i < els.length; i++) {

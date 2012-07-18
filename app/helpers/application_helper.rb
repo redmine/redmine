@@ -995,6 +995,14 @@ module ApplicationHelper
     link_to l(:button_delete), url, options
   end
 
+  def preview_link(url, form, target='preview', options={})
+    content_tag 'a', l(:label_preview), {
+        :href => "#", 
+        :onclick => %|submitPreview("#{escape_javascript url_for(url)}", "#{escape_javascript form}", "#{escape_javascript target}"); return false;|, 
+        :accesskey => accesskey(:preview)
+      }.merge(options)
+  end
+
   def back_url_hidden_field_tag
     back_url = params[:back_url] || request.env['HTTP_REFERER']
     back_url = CGI.unescape(back_url.to_s)

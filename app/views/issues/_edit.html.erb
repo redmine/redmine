@@ -38,13 +38,7 @@
     <%= f.hidden_field :lock_version %>
     <%= hidden_field_tag 'last_journal_id', params[:last_journal_id] || @issue.last_journal_id %>
     <%= submit_tag l(:button_submit) %>
-    <%= link_to_remote l(:label_preview),
-                       { :url => preview_edit_issue_path(:project_id => @project, :id => @issue),
-                         :method => 'post',
-                         :update => 'preview',
-                         :with => 'Form.serialize("issue-form")',
-                         :complete => "Element.scrollTo('preview')"
-                       }, :accesskey => accesskey(:preview) %>
+    <%= preview_link preview_edit_issue_path(:project_id => @project, :id => @issue), 'issue-form' %>
 <% end %>
 
 <div id="preview" class="wiki"></div>
