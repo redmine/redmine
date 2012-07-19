@@ -34,11 +34,45 @@ class WikisControllerTest < ActionController::TestCase
   def test_create
     @request.session[:user_id] = 1
     assert_nil Project.find(3).wiki
-    post :edit, :id => 3, :wiki => { :start_page => 'Start page' }
-    assert_response :success
+
+    assert_difference 'Wiki.count' do
+      xhr :post, :edit, :id => 3, :wiki => { :start_page => 'Start page' }
+      assert_response :success
+      assert_template 'edit'
+      assert_equal 'text/javascript', response.content_type
+    end
+
     wiki = Project.find(3).wiki
     assert_not_nil wiki
     assert_equal 'Start page', wiki.start_page
+  end
+
+  def test_create_with_failure
+    @request.session[:user_id] = 1
+
+    assert_no_difference 'Wiki.count' do
+      xhr :post, :edit, :id => 3, :wiki => { :start_page => '' }
+      assert_response :success
+      assert_template 'edit'
+      assert_equal 'text/javascript', response.content_type
+    end
+
+    assert_include 'errorExplanation', response.body
+    assert_include 'Start page can\\\'t be blank', response.body
+  end
+
+  def test_update
+    @request.session[:user_id] = 1
+
+    assert_no_difference 'Wiki.count' do
+      xhr :post, :edit, :id => 1, :wiki => { :start_page => 'Other start page' }
+      assert_response :success
+      assert_template 'edit'
+      assert_equal 'text/javascript', response.content_type
+    end
+
+    wiki = Project.find(1).wiki
+    assert_equal 'Other start page', wiki.start_page
   end
 
   def test_destroy
