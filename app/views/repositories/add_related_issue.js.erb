@@ -1,0 +1,6 @@
+<% if @issue %>
+  Element.update('related-issues', '<%= escape_javascript(render :partial => "related_issues") %>');
+  Effect.highlight('related-issue-<%= @issue.id %>');
+<% else %>
+  alert("<%= escape_javascript(l(:label_issue) + ' ' + l('activerecord.errors.messages.invalid')) %>");
+<% end %>
