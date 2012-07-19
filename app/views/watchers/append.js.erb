@@ -1,0 +1,4 @@
+<% @users.each do |user| %>
+  $$("#issue_watcher_user_ids_<%= user.id %>").each(function(el){el.remove();});
+<% end %>
+Element.insert('watchers_inputs', '<%= escape_javascript(watchers_checkboxes(nil, @users, true)) %>');
