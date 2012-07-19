@@ -127,13 +127,7 @@ class IssuesController < ApplicationController
   def new
     respond_to do |format|
       format.html { render :action => 'new', :layout => !request.xhr? }
-      format.js {
-        render(:update) { |page|
-          page.replace_html 'all_attributes', :partial => 'form'
-          m = User.current.allowed_to?(:log_time, @issue.project) ? 'show' : 'hide'
-          page << "if ($('log_time')) {Element.#{m}('log_time');}"
-        }
-      }
+      format.js { render :partial => 'update_form' }
     end
   end
 

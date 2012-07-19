@@ -1525,7 +1525,9 @@ class IssuesControllerTest < ActionController::TestCase
                                 :description => 'This is the description',
                                 :priority_id => 5}
     assert_response :success
+    assert_template 'update_form'
     assert_template 'form'
+    assert_equal 'text/javascript', response.content_type
 
     issue = assigns(:issue)
     assert_kind_of Issue, issue
@@ -2400,6 +2402,8 @@ class IssuesControllerTest < ActionController::TestCase
                                         :description => 'This is the description',
                                         :priority_id => 5}
     assert_response :success
+    assert_equal 'text/javascript', response.content_type
+    assert_template 'update_form'
     assert_template 'form'
 
     issue = assigns(:issue)

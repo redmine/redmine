@@ -1,0 +1,9 @@
+Element.update('all_attributes', '<%= escape_javascript(render :partial => 'form') %>');
+
+if ($('log_time')) {
+  <% if User.current.allowed_to?(:log_time, @issue.project) %>
+    Element.show('log_time');
+  <% else %>
+    Element.hide('log_time');
+  <% end %>
+}
