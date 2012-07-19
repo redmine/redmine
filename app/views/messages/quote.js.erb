@@ -1,0 +1,6 @@
+$('message_subject').value = "<%= raw escape_javascript(@subject) %>";
+$('message_content').value = "<%= raw escape_javascript(@content) %>";
+Element.show('reply');
+Form.Element.focus('message_content');
+Element.scrollTo('reply');
+$('message_content').scrollTop = $('message_content').scrollHeight - $('message_content').clientHeight;

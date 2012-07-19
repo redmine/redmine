@@ -186,7 +186,10 @@ class MessagesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     xhr :get, :quote, :board_id => 1, :id => 3
     assert_response :success
-    assert_select_rjs :show, 'reply'
+    assert_equal 'text/javascript', response.content_type
+    assert_template 'quote'
+    assert_include 'RE: First post', response.body
+    assert_include '> An other reply', response.body
   end
 
   def test_preview_new
