@@ -78,13 +78,7 @@ class VersionsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.js do
-        render :update do |page|
-          page.replace_html 'ajax-modal', :partial => 'versions/new_modal'
-          page << "showModal('ajax-modal', '600px');"
-          page << "Form.Element.focus('version_name');"
-        end
-      end
+      format.js
     end
   end
 
@@ -103,14 +97,7 @@ class VersionsController < ApplicationController
             flash[:notice] = l(:notice_successful_create)
             redirect_back_or_default :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
           end
-          format.js do
-            render(:update) {|page|
-              page << 'hideModal();'
-              # IE doesn't support the replace_html rjs method for select box options
-              page.replace "issue_fixed_version_id",
-                content_tag('select', content_tag('option') + version_options_for_select(@project.shared_versions.open, @version), :id => 'issue_fixed_version_id', :name => 'issue[fixed_version_id]')
-            }
-          end
+          format.js
           format.api do
             render :action => 'show', :status => :created, :location => version_url(@version)
           end
@@ -118,12 +105,7 @@ class VersionsController < ApplicationController
       else
         respond_to do |format|
           format.html { render :action => 'new' }
-          format.js do
-            render :update do |page|
-              page.replace_html 'ajax-modal', :partial => 'versions/new_modal'
-              page << "Form.Element.focus('version_name');"
-            end
-          end
+          format.js   { render :action => 'new' }
           format.api  { render_validation_errors(@version) }
         end
       end

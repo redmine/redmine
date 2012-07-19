@@ -44,13 +44,7 @@ class IssueCategoriesController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.js do
-        render :update do |page|
-          page.replace_html 'ajax-modal', :partial => 'issue_categories/new_modal'
-          page << "showModal('ajax-modal', '600px');"
-          page << "Form.Element.focus('issue_category_name');"
-        end
-      end
+      format.js
     end
   end
 
@@ -63,25 +57,13 @@ class IssueCategoriesController < ApplicationController
           flash[:notice] = l(:notice_successful_create)
           redirect_to :controller => 'projects', :action => 'settings', :tab => 'categories', :id => @project
         end
-        format.js do
-          render(:update) {|page| 
-            page << 'hideModal();'
-            # IE doesn't support the replace_html rjs method for select box options
-            page.replace "issue_category_id",
-              content_tag('select', content_tag('option') + options_from_collection_for_select(@project.issue_categories, 'id', 'name', @category.id), :id => 'issue_category_id', :name => 'issue[category_id]')
-          }
-        end
+        format.js
         format.api { render :action => 'show', :status => :created, :location => issue_category_path(@category) }
       end
     else
       respond_to do |format|
         format.html { render :action => 'new'}
-        format.js do
-          render :update do |page|
-            page.replace_html 'ajax-modal', :partial => 'issue_categories/new_modal'
-            page << "Form.Element.focus('version_name');"
-          end
-        end
+        format.js   { render :action => 'new'}
         format.api { render_validation_errors(@category) }
       end
     end

@@ -100,10 +100,8 @@ class VersionsControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     xhr :get, :new, :project_id => '1'
     assert_response :success
-    assert_select_rjs :replace_html, "ajax-modal" do
-      assert_select "form[action=/projects/ecookbook/versions]"
-      assert_select "input#version_name"
-    end
+    assert_template 'new'
+    assert_equal 'text/javascript', response.content_type
   end
 
   def test_create
@@ -127,9 +125,8 @@ class VersionsControllerTest < ActionController::TestCase
     assert_equal 1, version.project_id
 
     assert_response :success
-    assert_select_rjs :replace, 'issue_fixed_version_id' do
-      assert_select "option[value=#{version.id}][selected=selected]"
-    end
+    assert_template 'create'
+    assert_equal 'text/javascript', response.content_type
   end
 
   def test_create_from_issue_form_with_failure
@@ -138,9 +135,8 @@ class VersionsControllerTest < ActionController::TestCase
       xhr :post, :create, :project_id => '1', :version => {:name => ''}
     end
     assert_response :success
-    assert_select_rjs :replace_html, "ajax-modal" do
-      assert_select "div#errorExplanation"
-    end
+    assert_template 'new'
+    assert_equal 'text/javascript', response.content_type
   end
 
   def test_get_edit
