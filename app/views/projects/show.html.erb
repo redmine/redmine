@@ -4,7 +4,7 @@
   <% end %>
 </div>
 
-<h2><%=l(:label_overview)%></h2>
+<h2><%=l(:label_overview)%>: <%= @project.name %></h2>
 
 <div class="splitcontentleft">
 
@@ -24,7 +24,7 @@
  
   <% if @subprojects.any? %>
  	<p><%=l(:label_subproject_plural)%>:
-	    <%= @subprojects.collect{|p| link_to(h(p), :action => 'show', :id => p)}.join(", ") %></p>
+	    <%= @subprojects.collect{|p| link_to(h(p), :action => 'show', :id => p)}.join(", ").html_safe %></p>
   <% end %>
   
 	<% @project.visible_custom_field_values.each do |custom_value| %>
@@ -36,6 +36,21 @@
 	    <% end %>
 	<% end %>
   
+	<% @project.visible_custom_field_values.each do |custom_value| %>
+	
+	    <% if !custom_value.value.blank? %>
+        
+            <% if custom_value.custom_field.name == 'Status info' %>
+            
+	            <h2>Status</h2> 
+                
+                  <div class="wiki">
+                    <%= textilizable show_value(custom_value) %>
+                  </div>
+            <% end %>
+           
+	    <% end %>
+	<% end %>
   
 	<% @project.visible_custom_field_values.each do |custom_value| %>
 	
@@ -44,7 +59,7 @@
             <% if custom_value.custom_field.name == 'GitHub repository' %>
             
 	            <h2>GitHub repository</h2> 
-                <p>The source for this project is hosted on GitHub: <a href='<%=h show_value(custom_value) %>'><%=h show_value(custom_value) %></a></p>
+                <p>The source for this project is hosted on GitHub: <a target="_blank" href='<%=h show_value(custom_value) %>'><%=h show_value(custom_value) %></a></p>
             <% end %>
         
             <% if custom_value.custom_field.name == 'NeuroML version' %>
@@ -64,10 +79,10 @@
             <% if custom_value.custom_field.name == 'ModelDB reference' %>
                 <p>The original published version of this model is available on ModelDB:</p>
                 <% if !show_value(custom_value).starts_with? 'http://senselab.med.yale.edu/ModelDB/ShowModel.asp?model=' %>
-                    <p><a href="http://senselab.med.yale.edu/ModelDB/ShowModel.asp?model=<%=h show_value(custom_value) %>">
+                    <p><a target="_blank" href="http://senselab.med.yale.edu/ModelDB/ShowModel.asp?model=<%=h show_value(custom_value) %>">
                                              <img alt="ModelDB" border="0" src="../images/modeldb.gif"/></a></p>
                 <% else %>
-                    <p><a href="<%=h show_value(custom_value) %>">
+                    <p><a target="_blank" href="<%=h show_value(custom_value) %>">
                                              <img alt="ModelDB" border="0" src="../images/modeldb.gif"/></a></p>
                 <% end %>
             <% elsif custom_value.custom_field.name == 'Original format' %>
