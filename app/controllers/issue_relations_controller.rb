@@ -49,16 +49,9 @@ class IssueRelationsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to :controller => 'issues', :action => 'show', :id => @issue }
-      format.js do
+      format.js {
         @relations = @issue.relations.select {|r| r.other_issue(@issue) && r.other_issue(@issue).visible? }
-        render :update do |page|
-          page.replace_html "relations", :partial => 'issues/relations'
-          if @relation.errors.empty?
-            page << "$('relation_delay').value = ''"
-            page << "$('relation_issue_to_id').value = ''"
-          end
-        end
-      end
+      }
       format.api {
         if saved
           render :action => 'show', :status => :created, :location => relation_url(@relation)
@@ -75,7 +68,7 @@ class IssueRelationsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to issue_path } # TODO : does this really work since @issue is always nil? What is it useful to?
-      format.js   { render(:update) {|page| page.remove "relation-#{@relation.id}"} }
+      format.js
       format.api  { render_api_ok }
     end
   end

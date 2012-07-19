@@ -57,17 +57,16 @@ class IssueRelationsControllerTest < ActionController::TestCase
   def test_create_xhr
     assert_difference 'IssueRelation.count' do
       @request.session[:user_id] = 3
-      xhr :post, :create,
-        :issue_id => 3,
-        :relation => {:issue_to_id => '1', :relation_type => 'relates', :delay => ''}
-      assert_select_rjs 'relations' do
-        assert_select 'table', 1
-        assert_select 'tr', 2 # relations
-      end
+      xhr :post, :create, :issue_id => 3, :relation => {:issue_to_id => '1', :relation_type => 'relates', :delay => ''}
+      assert_response :success
+      assert_template 'create'
+      assert_equal 'text/javascript', response.content_type
     end
     relation = IssueRelation.first(:order => 'id DESC')
     assert_equal 3, relation.issue_from_id
     assert_equal 1, relation.issue_to_id
+
+    assert_match /Bug #1/, response.body
   end
 
   def test_create_should_accept_id_with_hash
@@ -113,6 +112,19 @@ class IssueRelationsControllerTest < ActionController::TestCase
 
   should "prevent relation creation when there's a circular dependency"
 
+  def test_create_xhr_with_failure
+    assert_no_difference 'IssueRelation.count' do
+      @request.session[:user_id] = 3
+      xhr :post, :create, :issue_id => 3, :relation => {:issue_to_id => '999', :relation_type => 'relates', :delay => ''}
+
+      assert_response :success
+      assert_template 'create'
+      assert_equal 'text/javascript', response.content_type
+    end
+
+    assert_match /errorExplanation/, response.body
+  end
+
   def test_destroy
     assert_difference 'IssueRelation.count', -1 do
       @request.session[:user_id] = 3
@@ -129,7 +141,11 @@ class IssueRelationsControllerTest < ActionController::TestCase
     assert_difference 'IssueRelation.count', -1 do
       @request.session[:user_id] = 3
       xhr :delete, :destroy, :id => '2'
-      assert_select_rjs  :remove, 'relation-2'
+
+      assert_response :success
+      assert_template 'destroy'
+      assert_equal 'text/javascript', response.content_type
+      assert_match /relation-2/, response.body
     end
   end
 end
