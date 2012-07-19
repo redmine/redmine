@@ -1,0 +1,6 @@
+<% if @membership.valid? %>
+  Element.update('tab-content-memberships', '<%= escape_javascript(render :partial => 'groups/memberships') %>');
+  new Effect.Highlight('member-<%= @membership.id %>');
+<% else %>
+  alert('<%= escape_javascript(l(:notice_failed_to_save_members, :errors => @membership.errors.full_messages.join(', '))) %>');
+<% end %>

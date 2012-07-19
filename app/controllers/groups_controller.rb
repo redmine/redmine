@@ -90,16 +90,11 @@ class GroupsController < ApplicationController
   end
 
   def add_users
-    users = User.find_all_by_id(params[:user_id] || params[:user_ids])
-    @group.users << users if request.post?
+    @users = User.find_all_by_id(params[:user_id] || params[:user_ids])
+    @group.users << @users if request.post?
     respond_to do |format|
       format.html { redirect_to :controller => 'groups', :action => 'edit', :id => @group, :tab => 'users' }
-      format.js {
-        render(:update) {|page|
-          page.replace_html "tab-content-users", :partial => 'groups/users'
-          users.each {|user| page.visual_effect(:highlight, "user-#{user.id}") }
-        }
-      }
+      format.js
       format.api { render_api_ok }
     end
   end
@@ -108,7 +103,7 @@ class GroupsController < ApplicationController
     @group.users.delete(User.find(params[:user_id])) if request.delete?
     respond_to do |format|
       format.html { redirect_to :controller => 'groups', :action => 'edit', :id => @group, :tab => 'users' }
-      format.js { render(:update) {|page| page.replace_html "tab-content-users", :partial => 'groups/users'} }
+      format.js
       format.api { render_api_ok }
     end
   end
@@ -122,21 +117,8 @@ class GroupsController < ApplicationController
     @membership = Member.edit_membership(params[:membership_id], params[:membership], @group)
     @membership.save if request.post?
     respond_to do |format|
-      if @membership.valid?
-        format.html { redirect_to :controller => 'groups', :action => 'edit', :id => @group, :tab => 'memberships' }
-        format.js {
-          render(:update) {|page|
-            page.replace_html "tab-content-memberships", :partial => 'groups/memberships'
-            page.visual_effect(:highlight, "member-#{@membership.id}")
-          }
-        }
-      else
-        format.js {
-          render(:update) {|page|
-            page.alert(l(:notice_failed_to_save_members, :errors => @membership.errors.full_messages.join(', ')))
-          }
-        }
-      end
+      format.html { redirect_to :controller => 'groups', :action => 'edit', :id => @group, :tab => 'memberships' }
+      format.js
     end
   end
 
@@ -144,7 +126,7 @@ class GroupsController < ApplicationController
     Member.find(params[:membership_id]).destroy if request.post?
     respond_to do |format|
       format.html { redirect_to :controller => 'groups', :action => 'edit', :id => @group, :tab => 'memberships' }
-      format.js { render(:update) {|page| page.replace_html "tab-content-memberships", :partial => 'groups/memberships'} }
+      format.js
     end
   end
 
