@@ -196,12 +196,16 @@ class VersionsControllerTest < ActionController::TestCase
   def test_issue_status_by
     xhr :get, :status_by, :id => 2
     assert_response :success
+    assert_template 'status_by'
     assert_template '_issue_counts'
   end
 
   def test_issue_status_by_status
     xhr :get, :status_by, :id => 2, :status_by => 'status'
     assert_response :success
+    assert_template 'status_by'
     assert_template '_issue_counts'
+    assert_include 'Assigned', response.body
+    assert_include 'Closed', response.body
   end
 end
