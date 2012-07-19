@@ -1,0 +1,2 @@
+Element.hide("journal-<%= @journal.id %>-notes");
+Element.insert("journal-<%= @journal.id %>-notes", {'after': '<%= escape_javascript(render :partial => 'notes_form') %>'});

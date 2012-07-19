@@ -1,0 +1,5 @@
+$('notes').value = "<%= raw escape_javascript(@content) %>";
+Element.show('update');
+Form.Element.focus('notes');
+Element.scrollTo('update');
+$('notes').scrollTop = $('notes').scrollHeight - $('notes').clientHeight;

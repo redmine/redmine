@@ -54,47 +54,56 @@ class JournalsControllerTest < ActionController::TestCase
 
   def test_reply_to_issue
     @request.session[:user_id] = 2
-    get :new, :id => 6
+    xhr :get, :new, :id => 6
     assert_response :success
-    assert_select_rjs :show, "update"
+    assert_template 'new'
+    assert_equal 'text/javascript', response.content_type
+    assert_include '> This is an issue', response.body
   end
 
   def test_reply_to_issue_without_permission
     @request.session[:user_id] = 7
-    get :new, :id => 6
+    xhr :get, :new, :id => 6
     assert_response 403
   end
 
   def test_reply_to_note
     @request.session[:user_id] = 2
-    get :new, :id => 6, :journal_id => 4
+    xhr :get, :new, :id => 6, :journal_id => 4
     assert_response :success
-    assert_select_rjs :show, "update"
+    assert_template 'new'
+    assert_equal 'text/javascript', response.content_type
+    assert_include '> A comment with a private version', response.body
   end
 
-  def test_get_edit
+  def test_edit_xhr
     @request.session[:user_id] = 1
     xhr :get, :edit, :id => 2
     assert_response :success
-    assert_select_rjs :insert, :after, 'journal-2-notes' do
-      assert_select 'form[id=journal-2-form]'
-      assert_select 'textarea'
-    end
+    assert_template 'edit'
+    assert_equal 'text/javascript', response.content_type
+    assert_include 'textarea', response.body
   end
 
-  def test_post_edit
+  def test_update_xhr
     @request.session[:user_id] = 1
     xhr :post, :edit, :id => 2, :notes => 'Updated notes'
     assert_response :success
-    assert_select_rjs :replace, 'journal-2-notes'
+    assert_template 'update'
+    assert_equal 'text/javascript', response.content_type
     assert_equal 'Updated notes', Journal.find(2).notes
+    assert_include 'journal-2-notes', response.body
   end
 
-  def test_post_edit_with_empty_notes
+  def test_update_xhr_with_empty_notes_should_delete_the_journal
     @request.session[:user_id] = 1
-    xhr :post, :edit, :id => 2, :notes => ''
-    assert_response :success
-    assert_select_rjs :remove, 'change-2'
+    assert_difference 'Journal.count', -1 do
+      xhr :post, :edit, :id => 2, :notes => ''
+      assert_response :success
+      assert_template 'update'
+      assert_equal 'text/javascript', response.content_type
+    end
     assert_nil Journal.find_by_id(2)
+    assert_include 'change-2', response.body
   end
 end
