@@ -19,7 +19,7 @@
 
 module WorkflowsHelper
   def field_required?(field)
-    field.is_a?(CustomField) ? field.is_required? : %w(project_id tracker_id subject priority_id).include?(field)
+    field.is_a?(CustomField) ? field.is_required? : %w(project_id tracker_id subject priority_id is_private).include?(field)
   end
 
   def field_permission_tag(permissions, status, field)
