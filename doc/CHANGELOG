@@ -11,6 +11,7 @@ http://www.redmine.org/
 * Defect #11365: Attachment description length is not validated
 * Feature #11338: Exclude emails with auto-submitted => auto-generated
 * Patch #11328: Fix Japanese mistranslation for 'label_language_based'
+* Patch #11448: Russian translation for 1.4-stable and 2.0-stable
 
 == 2012-06-18 v1.4.4
 
