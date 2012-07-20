@@ -1092,11 +1092,11 @@ ru:
   notice_issue_successful_create: Задача %{id} создана.
   label_between: между
   setting_issue_group_assignment: Разрешить назначение задач группам пользователей
-  label_diff: diff
+  label_diff: Разница(diff)
   text_git_repository_note: Repository is bare and local (e.g. /gitrepo, c:\gitrepo)
-  description_query_sort_criteria_direction: Sort direction
+  description_query_sort_criteria_direction: Порядок сортировки
   description_project_scope: Search scope
-  description_filter: Filter
+  description_filter: Фильтр
   description_user_mail_notification: Mail notification settings
   description_date_from: Enter start date
   description_message_content: Message content
@@ -1104,23 +1104,23 @@ ru:
   description_date_range_interval: Choose range by selecting start and end date
   description_issue_category_reassign: Choose issue category
   description_search: Searchfield
-  description_notes: Notes
-  description_date_range_list: Choose range from list
-  description_choose_project: Projects
-  description_date_to: Enter end date
-  description_query_sort_criteria_attribute: Sort attribute
-  description_wiki_subpages_reassign: Choose new parent page
-  description_selected_columns: Selected Columns
-  label_parent_revision: Parent
-  label_child_revision: Child
-  error_scm_annotate_big_text_file: The entry cannot be annotated, as it exceeds the maximum text file size.
-  setting_default_issue_start_date_to_creation_date: Use current date as start date for new issues
-  button_edit_section: Edit this section
-  setting_repositories_encodings: Attachments and repositories encodings
-  description_all_columns: All Columns
-  button_export: Export
-  label_export_options: "%{export_format} export options"
-  error_attachment_too_big: This file cannot be uploaded because it exceeds the maximum allowed file size (%{max_size})
+  description_notes: Примечания
+  description_date_range_list: Выберите диапазон из списка
+  description_choose_project: Проекты
+  description_date_to: Введите дату выполнения
+  description_query_sort_criteria_attribute: Критерий сортировки
+  description_wiki_subpages_reassign: Выбрать новую родительскую страницу
+  description_selected_columns: Выбранные столбцы
+  label_parent_revision: Родительский
+  label_child_revision: Дочерний
+  error_scm_annotate_big_text_file: Комментарий невозможен из-за превышения максимального размера текстового файла.
+  setting_default_issue_start_date_to_creation_date: Использовать текущую дату в качестве даты начала для новых задач
+  button_edit_section: Редактировать эту секцию
+  setting_repositories_encodings: Кодировка вложений и хранилищ
+  description_all_columns: Все столбцы
+  button_export: Экспорт
+  label_export_options: "%{export_format} параметры экспорта"
+  error_attachment_too_big: Этот файл нельзя загрузить из-за превышения максимального размера файла (%{max_size})
   notice_failed_to_save_time_entries: "Failed to save %{count} time entrie(s) on %{total} selected: %{ids}."
   label_x_issues:
     zero:  0 Задач
@@ -1128,21 +1128,21 @@ ru:
     few:   "%{count} Задач"
     many:  "%{count} Задач"
     other: "%{count} Задач"
-  label_repository_new: New repository
-  field_repository_is_default: Main repository
-  label_copy_attachments: Copy attachments
+  label_repository_new: Новое хранилище
+  field_repository_is_default: Хранилище по умолчанию
+  label_copy_attachments: Копировать вложения
   label_item_position: "%{position}/%{count}"
-  label_completed_versions: Completed versions
-  text_project_identifier_info: Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.
-  field_multiple: Multiple values
-  setting_commit_cross_project_ref: Allow issues of all the other projects to be referenced and fixed
-  text_issue_conflict_resolution_add_notes: Add my notes and discard my other changes
-  text_issue_conflict_resolution_overwrite: Apply my changes anyway (previous notes will be kept but some changes may be overwritten)
-  notice_issue_update_conflict: The issue has been updated by an other user while you were editing it.
-  text_issue_conflict_resolution_cancel: Discard all my changes and redisplay %{link}
-  permission_manage_related_issues: Manage related issues
-  field_ldap_filter: LDAP filter
-  label_search_for_watchers: Search for watchers to add
+  label_completed_versions: Завершенные версии
+  text_project_identifier_info: Допускаются только строчные латинские буквы (a-z), цифры, тире и подчеркивания.<br />После сохранения идентификатор изменить нельзя.
+  field_multiple: Множественные значения
+  setting_commit_cross_project_ref: Разрешить ссылаться и исправлять задачи во всех остальных проектах
+  text_issue_conflict_resolution_add_notes: Добавить мои примечания и отказаться от моих изменений
+  text_issue_conflict_resolution_overwrite: Применить мои изменения (все предыдущие замечания будут сохранены, но некоторые изменения могут быть перезаписаны)
+  notice_issue_update_conflict: Кто-то изменил задачу, пока вы ее редактировали.
+  text_issue_conflict_resolution_cancel: Отменить мои изменения и показать задачу заново %{link}
+  permission_manage_related_issues: Управление связанными задачами
+  field_ldap_filter: Фильтр LDAP
+  label_search_for_watchers: Найти наблюдателей
   notice_account_deleted: "Ваша учетная запись полностью удалена" 
   setting_unsubscribe: "Разрешить пользователям удалять свои учетные записи" 
   button_delete_my_account: "Удалить мою учетную запись" 
