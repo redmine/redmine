@@ -183,21 +183,8 @@ class UsersController < ApplicationController
     @membership = Member.edit_membership(params[:membership_id], params[:membership], @user)
     @membership.save
     respond_to do |format|
-      if @membership.valid?
-        format.html { redirect_to :controller => 'users', :action => 'edit', :id => @user, :tab => 'memberships' }
-        format.js {
-          render(:update) {|page|
-            page.replace_html "tab-content-memberships", :partial => 'users/memberships'
-            page.visual_effect(:highlight, "member-#{@membership.id}")
-          }
-        }
-      else
-        format.js {
-          render(:update) {|page|
-            page.alert(l(:notice_failed_to_save_members, :errors => @membership.errors.full_messages.join(', ')))
-          }
-        }
-      end
+      format.html { redirect_to :controller => 'users', :action => 'edit', :id => @user, :tab => 'memberships' }
+      format.js
     end
   end
 
@@ -208,7 +195,7 @@ class UsersController < ApplicationController
     end
     respond_to do |format|
       format.html { redirect_to :controller => 'users', :action => 'edit', :id => @user, :tab => 'memberships' }
-      format.js { render(:update) {|page| page.replace_html "tab-content-memberships", :partial => 'users/memberships'} }
+      format.js
     end
   end
 

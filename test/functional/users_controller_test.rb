@@ -363,38 +363,45 @@ class UsersControllerTest < ActionController::TestCase
   def test_create_membership_js_format
     assert_difference 'Member.count' do
       post :edit_membership, :id => 7, :membership => {:project_id => 3, :role_ids => [2]}, :format => 'js'
+      assert_response :success
+      assert_template 'edit_membership'
+      assert_equal 'text/javascript', response.content_type
     end
-    assert_response :success
-    assert_select_rjs :replace_html, 'tab-content-memberships'
     member = Member.first(:order => 'id DESC')
     assert_equal User.find(7), member.principal
     assert_equal [2], member.role_ids
     assert_equal 3, member.project_id
+    assert_include 'tab-content-memberships', response.body
   end
 
   def test_create_membership_js_format_with_failure
     assert_no_difference 'Member.count' do
       post :edit_membership, :id => 7, :membership => {:project_id => 3}, :format => 'js'
+      assert_response :success
+      assert_template 'edit_membership'
+      assert_equal 'text/javascript', response.content_type
     end
-    assert_response :success
-    assert @response.body.match(/alert/i), "Alert message not sent"
-    assert @response.body.match(/role can't be empty/i), "Error message not sent"
+    assert_include 'alert', response.body, "Alert message not sent"
+    assert_include 'Role can\\\'t be empty', response.body, "Error message not sent"
   end
 
   def test_update_membership
     assert_no_difference 'Member.count' do
       put :edit_membership, :id => 2, :membership_id => 1, :membership => { :role_ids => [2]}
+      assert_redirected_to :action => 'edit', :id => '2', :tab => 'memberships'
     end
-    assert_redirected_to :action => 'edit', :id => '2', :tab => 'memberships'
     assert_equal [2], Member.find(1).role_ids
   end
 
   def test_update_membership_js_format
     assert_no_difference 'Member.count' do
       put :edit_membership, :id => 2, :membership_id => 1, :membership => {:role_ids => [2]}, :format => 'js'
+      assert_response :success
+      assert_template 'edit_membership'
+      assert_equal 'text/javascript', response.content_type
     end
-    assert_response :success
-    assert_select_rjs :replace_html, 'tab-content-memberships'
+    assert_equal [2], Member.find(1).role_ids
+    assert_include 'tab-content-memberships', response.body
   end
 
   def test_destroy_membership
@@ -408,8 +415,11 @@ class UsersControllerTest < ActionController::TestCase
   def test_destroy_membership_js_format
     assert_difference 'Member.count', -1 do
       delete :destroy_membership, :id => 2, :membership_id => 1, :format => 'js'
+      assert_response :success
+      assert_template 'destroy_membership'
+      assert_equal 'text/javascript', response.content_type
     end
-    assert_response :success
-    assert_select_rjs :replace_html, 'tab-content-memberships'
+    assert_nil Member.find_by_id(1)
+    assert_include 'tab-content-memberships', response.body
   end
 end

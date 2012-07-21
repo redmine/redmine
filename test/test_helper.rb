@@ -160,8 +160,8 @@ class ActiveSupport::TestCase
     assert_tag({:attributes => { :id => 'errorExplanation' }}.merge(options))
   end
 
-  def assert_include(expected, s)
-    assert s.include?(expected), "\"#{expected}\" not found in \"#{s}\""
+  def assert_include(expected, s, message=nil)
+    assert s.include?(expected), (message || "\"#{expected}\" not found in \"#{s}\"")
   end
 
   def assert_not_include(expected, s)
