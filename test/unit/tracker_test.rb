@@ -83,6 +83,11 @@ class TrackerTest < ActiveSupport::TestCase
     assert_equal Tracker::CORE_FIELDS - %w(assigned_to_id due_date done_ratio), Tracker.disabled_core_fields(trackers)
   end
 
+  def test_core_fields_should_return_all_fields_for_an_empty_argument
+    assert_equal Tracker::CORE_FIELDS, Tracker.core_fields([])
+    assert_equal [], Tracker.disabled_core_fields([])
+  end
+
   def test_sort_should_sort_by_position
     a = Tracker.new(:name => 'Tracker A', :position => 2)
     b = Tracker.new(:name => 'Tracker B', :position => 1)

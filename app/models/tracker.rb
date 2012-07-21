@@ -92,12 +92,20 @@ class Tracker < ActiveRecord::Base
 
   # Returns the fields that are disabled for all the given trackers
   def self.disabled_core_fields(trackers)
-    trackers.uniq.map(&:disabled_core_fields).reduce(:&)
+    if trackers.present?
+      trackers.uniq.map(&:disabled_core_fields).reduce(:&)
+    else
+      []
+    end
   end
 
   # Returns the fields that are enabled for one tracker at least
   def self.core_fields(trackers)
-    trackers.uniq.map(&:core_fields).reduce(:|)
+    if trackers.present?
+      trackers.uniq.map(&:core_fields).reduce(:|)
+    else
+      CORE_FIELDS.dup
+    end
   end
 
 private

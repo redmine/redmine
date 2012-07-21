@@ -66,6 +66,13 @@ class SettingsControllerTest < ActionController::TestCase
     end
   end
 
+  def test_get_edit_without_trackers_should_succeed
+    Tracker.delete_all
+
+    get :edit
+    assert_response :success
+  end
+
   def test_post_edit_notifications
     post :edit, :settings => {:mail_from => 'functional@test.foo',
                               :bcc_recipients  => '0',
