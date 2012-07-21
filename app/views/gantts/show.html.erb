@@ -32,7 +32,8 @@
 
 <%= error_messages_for 'query' %>
 <% if @query.valid? %>
-<% zoom = 1
+<%
+zoom = 1
 @gantt.zoom.times { zoom = zoom * 2 }
 
 subject_width = 330
@@ -53,13 +54,12 @@ end
 
 # Width of the entire chart
 g_width = ((@gantt.date_to - @gantt.date_from + 1) * zoom).to_i
-
-@gantt.render(:top => headers_height + 8, :zoom => zoom, :g_width => g_width, :subject_width => subject_width)
-
+@gantt.render(:top => headers_height + 8,
+              :zoom => zoom,
+              :g_width => g_width,
+              :subject_width => subject_width)
 g_height = [(20 * (@gantt.number_of_rows + 6)) + 150, 206].max
 t_height = g_height + headers_height
-
-
 %>
 
 <% if @gantt.truncated %>
@@ -161,8 +161,9 @@ end %>
 #
 # Today red line (excluded from cache)
 #
-if Date.today >= @gantt.date_from and Date.today <= @gantt.date_to %>
-    <div style="position: absolute;height:<%= g_height %>px;top:<%= headers_height + 1 %>px;left:<%= (((Date.today - @gantt.date_from + 1) * zoom).floor() - 1).to_i %>px;width:10px;border-left: 1px dashed red;">&nbsp;</div>
+%>
+<% if Date.today >= @gantt.date_from and Date.today <= @gantt.date_to %>
+  <div style="position: absolute;height:<%= g_height %>px;top:<%= headers_height + 1 %>px;left:<%= (((Date.today - @gantt.date_from + 1) * zoom).floor() - 1).to_i %>px;width:10px;border-left: 1px dashed red;">&nbsp;</div>
 <% end %>
 
 </div>
@@ -184,7 +185,7 @@ if Date.today >= @gantt.date_from and Date.today <= @gantt.date_to %>
 <% end # query.valid? %>
 
 <% content_for :sidebar do %>
-    <%= render :partial => 'issues/sidebar' %>
+  <%= render :partial => 'issues/sidebar' %>
 <% end %>
 
 <% html_title(l(:label_gantt)) -%>
