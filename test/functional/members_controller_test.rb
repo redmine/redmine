@@ -51,20 +51,25 @@ class MembersControllerTest < ActionController::TestCase
 
   def test_xhr_create
     assert_difference 'Member.count', 3 do
-      post :create, :project_id => 1, :membership => {:role_ids => [1], :user_ids => [7, 8, 9]}, :format => "js"
+      xhr :post, :create, :project_id => 1, :membership => {:role_ids => [1], :user_ids => [7, 8, 9]}
+      assert_response :success
+      assert_template 'create'
+      assert_equal 'text/javascript', response.content_type
     end
-    assert_select_rjs :replace_html, 'tab-content-members'
     assert User.find(7).member_of?(Project.find(1))
     assert User.find(8).member_of?(Project.find(1))
     assert User.find(9).member_of?(Project.find(1))
+    assert_include 'tab-content-members', response.body
   end
 
   def test_xhr_create_with_failure
     assert_no_difference 'Member.count' do
-      post :create, :project_id => 1, :membership => {:role_ids => [], :user_ids => [7, 8, 9]}, :format => "js"
+      xhr :post, :create, :project_id => 1, :membership => {:role_ids => [], :user_ids => [7, 8, 9]}
+      assert_response :success
+      assert_template 'create'
+      assert_equal 'text/javascript', response.content_type
     end
-    assert_select '#tab-content-members', 0
-    assert @response.body.match(/alert/i), "Alert message not sent"
+    assert_match /alert/, response.body, "Alert message not sent"
   end
 
   def test_edit
@@ -77,11 +82,14 @@ class MembersControllerTest < ActionController::TestCase
   def test_xhr_edit
     assert_no_difference 'Member.count' do
       xhr :put, :update, :id => 2, :membership => {:role_ids => [1], :user_id => 3}
+      assert_response :success
+      assert_template 'update'
+      assert_equal 'text/javascript', response.content_type
     end
-    assert_select_rjs :replace_html, 'tab-content-members'
     member = Member.find(2)
     assert_equal [1], member.role_ids
     assert_equal 3, member.user_id
+    assert_include 'tab-content-members', response.body
   end
 
   def test_destroy
@@ -95,8 +103,12 @@ class MembersControllerTest < ActionController::TestCase
   def test_xhr_destroy
     assert_difference 'Member.count', -1 do
       xhr :delete, :destroy, :id => 2
+      assert_response :success
+      assert_template 'destroy'
+      assert_equal 'text/javascript', response.content_type
     end
-    assert_select_rjs :replace_html, 'tab-content-members'
+    assert_nil Member.find_by_id(2)
+    assert_include 'tab-content-members', response.body
   end
 
   def test_autocomplete

@@ -63,31 +63,16 @@ class MembersController < ApplicationController
     end
 
     respond_to do |format|
-      if members.present? && members.all? {|m| m.valid? }
-        format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project }
-        format.js {
-          render(:update) {|page|
-            page.replace_html "tab-content-members", :partial => 'projects/settings/members'
-            page << 'hideOnLoad()'
-            members.each {|member| page.visual_effect(:highlight, "member-#{member.id}") }
-          }
-        }
-        format.api {
-          @member = members.first
+      format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project }
+      format.js { @members = members }
+      format.api {
+        @member = members.first
+        if @member.valid?
           render :action => 'show', :status => :created, :location => membership_url(@member)
-        }
-      else
-        format.js {
-          render(:update) {|page|
-            errors = members.collect {|m|
-              m.errors.full_messages
-            }.flatten.uniq
-
-            page.alert(l(:notice_failed_to_save_members, :errors => errors.join(', ')))
-          }
-        }
-        format.api { render_validation_errors(members.first) }
-      end
+        else
+          render_validation_errors(@member)
+        end
+      }
     end
   end
 
@@ -98,13 +83,7 @@ class MembersController < ApplicationController
     saved = @member.save
     respond_to do |format|
       format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project }
-      format.js {
-        render(:update) {|page|
-          page.replace_html "tab-content-members", :partial => 'projects/settings/members'
-          page << 'hideOnLoad()'
-          page.visual_effect(:highlight, "member-#{@member.id}")
-        }
-      }
+      format.js
       format.api {
         if saved
           render_api_ok
@@ -121,11 +100,7 @@ class MembersController < ApplicationController
     end
     respond_to do |format|
       format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project }
-      format.js { render(:update) {|page|
-          page.replace_html "tab-content-members", :partial => 'projects/settings/members'
-          page << 'hideOnLoad()'
-        }
-      }
+      format.js
       format.api {
         if @member.destroyed?
           render_api_ok
@@ -140,5 +115,4 @@ class MembersController < ApplicationController
     @principals = Principal.active.not_member_of(@project).like(params[:q]).all(:limit => 100)
     render :layout => false
   end
-
 end
