@@ -110,7 +110,7 @@ a img{ border: 0; }
 a.issue.closed, a.issue.closed:link, a.issue.closed:visited { color: #999; text-decoration: line-through; }
 a.project.closed, a.project.closed:link, a.project.closed:visited { color: #999; }
 
-#sidebar a.selected {line-height:1.7em; padding:1px 3px 2px 2px; margin-left:-2px; background-color:#9DB9D5; color:#fff; border-radius:2px; -moz-border-radius:2px;}
+#sidebar a.selected {line-height:1.7em; padding:1px 3px 2px 2px; margin-left:-2px; background-color:#9DB9D5; color:#fff; border-radius:2px;}
 #sidebar a.selected:hover {text-decoration:none;}
 #admin-menu a {line-height:1.7em;}
 #admin-menu a.selected {padding-left: 20px !important; background-position: 2px 40%;}
@@ -321,7 +321,7 @@ div.issue div.subject div div { padding-left: 16px; }
 div.issue div.subject p {margin: 0; margin-bottom: 0.1em; font-size: 90%; color: #999;}
 div.issue div.subject>div>p { margin-top: 0.5em; }
 div.issue div.subject h3 {margin: 0; margin-bottom: 0.1em;}
-div.issue span.private { position:relative; bottom: 2px; text-transform: uppercase; background: #d22; color: #fff; font-weight:bold; padding: 0px 2px 0px 2px; font-size: 60%; margin-right: 2px; border-radius: 2px; -moz-border-radius: 2px;}
+div.issue span.private { position:relative; bottom: 2px; text-transform: uppercase; background: #d22; color: #fff; font-weight:bold; padding: 0px 2px 0px 2px; font-size: 60%; margin-right: 2px; border-radius: 2px;}
 div.issue .next-prev-links {color:#999;}
 div.issue table.attributes th {width:22%;}
 div.issue table.attributes td {width:28%;}
