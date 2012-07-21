@@ -433,51 +433,51 @@ module Redmine
 
         # Weeks headers
         if show_weeks
-        	left = subject_width
-        	height = header_height
-        	if @date_from.cwday == 1
-        	    # date_from is monday
-                week_f = date_from
-        	else
-        	    # find next monday after date_from
-        		week_f = @date_from + (7 - @date_from.cwday + 1)
-        		width = (7 - @date_from.cwday + 1) * zoom
-                gc.fill('white')
-                gc.stroke('grey')
-                gc.stroke_width(1)
-                gc.rectangle(left, header_height, left + width, 2*header_height + g_height-1)
-        		left = left + width
-        	end
-        	while week_f <= date_to
-        		width = (week_f + 6 <= date_to) ? 7 * zoom : (date_to - week_f + 1) * zoom
-                gc.fill('white')
-                gc.stroke('grey')
-                gc.stroke_width(1)
-                gc.rectangle(left.round, header_height, left.round + width, 2*header_height + g_height-1)
-                gc.fill('black')
-                gc.stroke('transparent')
-                gc.stroke_width(1)
-                gc.text(left.round + 2, header_height + 14, week_f.cweek.to_s)
-        		left = left + width
-        		week_f = week_f+7
-        	end
+          left = subject_width
+          height = header_height
+          if @date_from.cwday == 1
+            # date_from is monday
+            week_f = date_from
+          else
+            # find next monday after date_from
+            week_f = @date_from + (7 - @date_from.cwday + 1)
+            width = (7 - @date_from.cwday + 1) * zoom
+            gc.fill('white')
+            gc.stroke('grey')
+            gc.stroke_width(1)
+            gc.rectangle(left, header_height, left + width, 2*header_height + g_height-1)
+            left = left + width
+          end
+          while week_f <= date_to
+            width = (week_f + 6 <= date_to) ? 7 * zoom : (date_to - week_f + 1) * zoom
+            gc.fill('white')
+            gc.stroke('grey')
+            gc.stroke_width(1)
+            gc.rectangle(left.round, header_height, left.round + width, 2*header_height + g_height-1)
+            gc.fill('black')
+            gc.stroke('transparent')
+            gc.stroke_width(1)
+            gc.text(left.round + 2, header_height + 14, week_f.cweek.to_s)
+            left = left + width
+            week_f = week_f+7
+          end
         end
 
         # Days details (week-end in grey)
         if show_days
-        	left = subject_width
-        	height = g_height + header_height - 1
-        	wday = @date_from.cwday
-        	(date_to - @date_from + 1).to_i.times do
-              width =  zoom
-              gc.fill(wday == 6 || wday == 7 ? '#eee' : 'white')
-              gc.stroke('#ddd')
-              gc.stroke_width(1)
-              gc.rectangle(left, 2*header_height, left + width, 2*header_height + g_height-1)
-              left = left + width
-              wday = wday + 1
-              wday = 1 if wday > 7
-        	end
+          left = subject_width
+          height = g_height + header_height - 1
+          wday = @date_from.cwday
+          (date_to - @date_from + 1).to_i.times do
+            width =  zoom
+            gc.fill(wday == 6 || wday == 7 ? '#eee' : 'white')
+            gc.stroke('#ddd')
+            gc.stroke_width(1)
+            gc.rectangle(left, 2*header_height, left + width, 2*header_height + g_height-1)
+            left = left + width
+            wday = wday + 1
+            wday = 1 if wday > 7
+          end
         end
 
         # border
