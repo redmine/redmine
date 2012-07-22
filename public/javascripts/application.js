@@ -273,33 +273,27 @@ function setPredecessorFieldsVisibility() {
 }
 
 function showModal(id, width) {
-  el = $('#'+id).first();
+  var el = $('#'+id).first();
   if (el.length == 0 || el.is(':visible')) {return;}
-  var h = $('body').height();
-  var d = document.createElement("div");
-  d.id = 'modalbg';
-  $(d).appendTo('#main').css('width', '100%').css('height', h + 'px').show();
-
-  var pageWidth = $(window).width();
-  if (width) {
-    el.css('width', width);
-  }
-  el.css('left', (((pageWidth - el.width())/2  *100) / pageWidth) + '%');
-  el.addClass('modal');
-  el.show();
-
+  var title = el.find('h3.title').text();
+  el.dialog({
+    width: width,
+    modal: true,
+    resizable: false,
+    dialogClass: 'modal',
+    title: title
+  });
   el.find("input[type=text], input[type=submit]").first().focus();
 }
 
 function hideModal(el) {
   var modal;
   if (el) {
-    modal = $(el).parents('div.modal').first();
+    modal = $(el).parents('.ui-dialog-content');
   } else {
     modal = $('#ajax-modal');
   }
-  modal.hide();
-  $('#modalbg').remove();
+  modal.dialog("close");
 }
 
 function submitPreview(url, form, target) {
