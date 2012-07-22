@@ -29,15 +29,7 @@
     <fieldset><legend><%=l(:label_user_new)%></legend>
 
     <p><%= label_tag "user_search", l(:label_user_search) %><%= text_field_tag 'user_search', nil %></p>
-    <%= observe_field(:user_search,
-                 :frequency => 0.5,
-                 :update => :users,
-                 :url => autocomplete_for_user_group_path(@group),
-                 :method => :get,
-                 :before => '$("user_search").addClassName("ajax-loading")',
-                 :complete => '$("user_search").removeClassName("ajax-loading")',
-                 :with => 'q')
-                  %>
+    <%= javascript_tag "observeSearchfield('user_search', 'users', '#{ escape_javascript autocomplete_for_user_group_path(@group) }')" %>
 
     <div id="users">
       <%= principals_check_box_tags 'user_ids[]', users %>

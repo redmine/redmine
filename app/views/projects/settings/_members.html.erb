@@ -29,13 +29,13 @@
         <%= hidden_field_tag 'membership[role_ids][]', '' %>
         <p><%= submit_tag l(:button_change), :class => "small" %>
         <%= link_to_function l(:button_cancel),
-                             "$('member-#{member.id}-roles').show(); $('member-#{member.id}-roles-form').hide(); return false;"
+                             "$('#member-#{member.id}-roles').show(); $('#member-#{member.id}-roles-form').hide(); return false;"
              %></p>
       <% end %>
   </td>
   <td class="buttons">
       <%= link_to_function l(:button_edit),
-                           "$('member-#{member.id}-roles').hide(); $('member-#{member.id}-roles-form').show(); return false;",
+                           "$('#member-#{member.id}-roles').hide(); $('#member-#{member.id}-roles-form').show(); return false;",
                            :class => 'icon icon-edit' %>
       <%= delete_link membership_path(member),
                       :remote => true,
@@ -55,23 +55,11 @@
 
 <div class="splitcontentright">
 <% if roles.any? && principals.any? %>
-  <%= form_for(@member, {:as => :membership, :remote => true, 
-                     :url => project_memberships_path(@project), :method => :post,
-                     :loading => '$(\'member-add-submit\').disable();',
-                     :complete => 'if($(\'member-add-submit\')) $(\'member-add-submit\').enable();'
-                  } ) do |f| %>
+  <%= form_for(@member, {:as => :membership, :url => project_memberships_path(@project), :remote => true, :method => :post}) do |f| %>
     <fieldset><legend><%=l(:label_member_new)%></legend>
 
     <p><%= label_tag "principal_search", l(:label_principal_search) %><%= text_field_tag 'principal_search', nil %></p>
-    <%= observe_field(:principal_search,
-                 :frequency => 0.5,
-                 :update => :principals,
-                 :url => autocomplete_project_memberships_path(@project),
-                 :method => :get,
-                 :before => '$("principal_search").addClassName("ajax-loading")',
-                 :complete => '$("principal_search").removeClassName("ajax-loading")',
-                 :with => 'q')
-                  %>
+    <%= javascript_tag "observeSearchfield('principal_search', 'principals', '#{ escape_javascript autocomplete_project_memberships_path(@project) }')" %>
 
     <div id="principals">
       <%= principals_check_box_tags 'membership[user_ids][]', principals %>

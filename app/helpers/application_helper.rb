@@ -43,13 +43,6 @@ module ApplicationHelper
     link_to(name, options, html_options, *parameters_for_method_reference) if authorize_for(options[:controller] || params[:controller], options[:action])
   end
 
-  # Display a link to remote if user is authorized
-  def link_to_remote_if_authorized(name, options = {}, html_options = nil)
-    ActiveSupport::Deprecation.warn "ApplicationHelper#link_to_remote_if_authorized is deprecated and will be removed in Redmine 2.2."
-    url = options[:url] || {}
-    link_to_remote(name, options, html_options) if authorize_for(url[:controller] || params[:controller], url[:action])
-  end
-
   # Displays a link to user's account page if active
   def link_to_user(user, options={})
     if user.is_a?(User)
@@ -161,8 +154,8 @@ module ApplicationHelper
   end
 
   def toggle_link(name, id, options={})
-    onclick = "Element.toggle('#{id}'); "
-    onclick << (options[:focus] ? "Form.Element.focus('#{options[:focus]}'); " : "this.blur(); ")
+    onclick = "$('##{id}').toggle(); "
+    onclick << (options[:focus] ? "$('##{options[:focus]}').focus(); " : "this.blur(); ")
     onclick << "return false;"
     link_to(name, "#", :onclick => onclick)
   end
@@ -173,11 +166,6 @@ module ApplicationHelper
         :type => "image", :src => image_path(name),
         :onclick => (html_options[:onclick] ? "#{html_options[:onclick]}; " : "") + "#{function};"
         }))
-  end
-
-  def prompt_to_remote(name, text, param, url, html_options = {})
-    html_options[:onclick] = "promptToRemote('#{text}', '#{param}', '#{url_for(url)}'); return false;"
-    link_to name, {}, html_options
   end
 
   def format_activity_title(text)
@@ -1042,7 +1030,7 @@ module ApplicationHelper
       end
       @context_menu_included = true
     end
-    javascript_tag "new ContextMenu('#{ url_for(url) }')"
+    javascript_tag "contextMenuInit('#{ url_for(url) }')"
   end
 
   def calendar_for(field_id)
@@ -1173,9 +1161,9 @@ module ApplicationHelper
 
   # Returns the javascript tags that are included in the html layout head
   def javascript_heads
-    tags = javascript_include_tag('prototype', 'effects', 'dragdrop', 'controls', 'rails', 'application')
+    tags = javascript_include_tag('jquery-1.7.2-ui-1.8.21-ujs-2.0.2', 'application')
     unless User.current.pref.warn_on_leaving_unsaved == '0'
-      tags << "\n".html_safe + javascript_tag("Event.observe(window, 'load', function(){ new WarnLeavingUnsaved('#{escape_javascript( l(:text_warn_on_leaving_unsaved) )}'); });")
+      tags << "\n".html_safe + javascript_tag("$(window).load(function(){ warnLeavingUnsaved('#{escape_javascript l(:text_warn_on_leaving_unsaved)}'); });")
     end
     tags
   end

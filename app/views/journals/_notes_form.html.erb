@@ -11,8 +11,7 @@
     <%= preview_link preview_edit_issue_path(:project_id => @project, :id => @journal.issue), 
                      "journal-#{@journal.id}-form",
                      "journal_#{@journal.id}_preview" %> |
-    <%= link_to l(:button_cancel), '#', :onclick => "Element.remove('journal-#{@journal.id}-form'); " +
-                                                    "Element.show('journal-#{@journal.id}-notes'); return false;" %></p>
+    <%= link_to l(:button_cancel), '#', :onclick => "$('#journal-#{@journal.id}-form').remove(); $('#journal-#{@journal.id}-notes').show(); return false;" %></p>
 
     <div id="journal_<%= @journal.id %>_preview" class="wiki"></div>
 <% end %>

@@ -50,4 +50,4 @@
 </tr>
 </table>
 <%= hidden_field_tag 'f[]', '' %>
-<%= javascript_tag 'Event.observe(window,"load",apply_filters_observer);' %>
+<%= javascript_tag '$(document).ready(function(){observeIssueFilters();});' %>

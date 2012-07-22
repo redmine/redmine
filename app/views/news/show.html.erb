@@ -4,7 +4,7 @@
       edit_news_path(@news),
       :class => 'icon icon-edit',
       :accesskey => accesskey(:edit),
-      :onclick => 'Element.show("edit-news"); return false;') if User.current.allowed_to?(:manage_news, @project) %>
+      :onclick => '$("#edit-news").show(); return false;') if User.current.allowed_to?(:manage_news, @project) %>
 <%= delete_link news_path(@news) if User.current.allowed_to?(:manage_news, @project) %>
 </div>
 
@@ -17,7 +17,7 @@
 <%= render :partial => 'form', :locals => { :f => f } %>
 <%= submit_tag l(:button_save) %>
 <%= preview_link preview_news_path(:project_id => @project), 'news-form' %> |
-<%= link_to l(:button_cancel), "#", :onclick => 'Element.hide("edit-news"); return false;' %>
+<%= link_to l(:button_cancel), "#", :onclick => '$("#edit-news").hide(); return false;' %>
 <% end %>
 <div id="preview" class="wiki"></div>
 </div>

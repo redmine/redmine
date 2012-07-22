@@ -9,7 +9,6 @@
 <%= toggle_link l(:button_cancel), 'new-relation-form'%>
 </p>
 
-<div id="related_issue_candidates" class="autocomplete"></div>
-<%= javascript_tag "observeRelatedIssueField('#{auto_complete_issues_path(:id => @issue, :project_id => @project) }')" %>
+<%= javascript_tag "observeAutocompleteField('relation_issue_to_id', '#{escape_javascript auto_complete_issues_path(:id => @issue, :project_id => @project, :scope => 'all')}')" %>
 
 <%= javascript_tag "setPredecessorFieldsVisibility();" %>

@@ -17,11 +17,9 @@
 <% if @allowed_projects.present? %>
 <p>
   <label for="issue_project_id"><%= l(:field_project) %></label>
-  <%= select_tag('issue[project_id]', content_tag('option', l(:label_no_change_option), :value => '') + project_tree_options_for_select(@allowed_projects, :selected => @target_project)) %>
+  <%= select_tag('issue[project_id]', content_tag('option', l(:label_no_change_option), :value => '') + project_tree_options_for_select(@allowed_projects, :selected => @target_project),
+                 :onchange => "updateBulkEditFrom('#{escape_javascript url_for(:action => 'bulk_edit', :format => 'js')}')") %>
 </p>
-<%= observe_field :issue_project_id, :url => {:action => 'bulk_edit'},
-                                     :update => 'content',
-                                     :with => "Form.serialize('bulk_edit_form')" %>
 <% end %>
 <p>
   <label for="issue_tracker_id"><%= l(:field_tracker) %></label>
@@ -97,8 +95,7 @@
   <label for='issue_parent_issue_id'><%= l(:field_parent_issue) %></label>
   <%= text_field_tag 'issue[parent_issue_id]', '', :size => 10 %>
 </p>
-<div id="parent_issue_candidates" class="autocomplete"></div>
-<%= javascript_tag "observeParentIssueField('#{auto_complete_issues_path(:project_id => @project) }')" %>
+<%= javascript_tag "observeAutocompleteField('issue_parent_issue_id', '#{escape_javascript auto_complete_issues_path(:project_id => @project)}')" %>
 <% end %>
 
 <% if @safe_attributes.include?('start_date') %>

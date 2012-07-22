@@ -42,7 +42,6 @@ class RepositoriesController < ApplicationController
     @repository = Repository.factory(scm)
     @repository.is_default = @project.repository.nil?
     @repository.project = @project
-    render :layout => !request.xhr?
   end
 
   def create

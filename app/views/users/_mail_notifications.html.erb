@@ -4,7 +4,7 @@
       'user[mail_notification]',
       options_for_select(
          user_mail_notification_options(@user), @user.mail_notification),
-      :onchange => 'if (this.value == "selected") {Element.show("notified-projects")} else {Element.hide("notified-projects")}'
+      :onchange => 'if (this.value == "selected") {$("#notified-projects").show();} else {$("#notified-projects").hide();}'
      ) %>
 </p>
 <%= content_tag 'div', :id => 'notified-projects', :style => (@user.mail_notification == 'selected' ? '' : 'display:none;') do %>

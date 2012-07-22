@@ -20,7 +20,7 @@ class AutoCompletesController < ApplicationController
 
   def issues
     @issues = []
-    q = params[:q].to_s
+    q = (params[:q] || params[:term]).to_s
     query = (params[:scope] == "all" && Setting.cross_project_issue_relations?) ? Issue : @project.issues
     if q.match(/^\d+$/)
       @issues << query.visible.find_by_id(q.to_i)

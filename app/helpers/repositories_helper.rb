@@ -141,12 +141,7 @@ module RepositoriesHelper
     select_tag('repository_scm',
                options_for_select(scm_options, repository.class.name.demodulize),
                :disabled => (repository && !repository.new_record?),
-               :onchange => remote_function(
-                 :url => new_project_repository_path(@project),
-                 :method => :get,
-                 :update => 'content',
-                 :with   => "Form.serialize(this.form)")
-             )
+               :data => {:remote => true, :method => 'get'})
   end
 
   def with_leading_slash(path)

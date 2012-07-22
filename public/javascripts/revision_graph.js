@@ -5,12 +5,12 @@ function drawRevisionGraph(holder, commits_hash, graph_space) {
     var XSTEP = 20,
         CIRCLE_INROW_OFFSET = 10;
 
-    var commits_by_scmid = $H(commits_hash),
-        commits = commits_by_scmid.values();
+    var commits_by_scmid = commits_hash,
+        commits = $.map(commits_by_scmid, function(val,i){return val;});
 
     var max_rdmid = commits.length - 1;
 
-    var commit_table_rows = $$('table.changesets tr.changeset');
+    var commit_table_rows = $('table.changesets tr.changeset');
 
     // create graph
     if(revisionGraph != null)
@@ -21,10 +21,10 @@ function drawRevisionGraph(holder, commits_hash, graph_space) {
     var top = revisionGraph.set();
 
     // init dimensions
-    var graph_x_offset = Element.select(commit_table_rows.first(),'td').first().getLayout().get('left') - $(holder).getLayout().get('left'),
-        graph_y_offset = $(holder).getLayout().get('top'),
+    var graph_x_offset = commit_table_rows.first().find('td').first().position().left - $(holder).position().left,
+        graph_y_offset = $(holder).position().top,
         graph_right_side = graph_x_offset + (graph_space + 1) * XSTEP,
-        graph_bottom = commit_table_rows.last().getLayout().get('top') + commit_table_rows.last().getLayout().get('height') - graph_y_offset;
+        graph_bottom = commit_table_rows.last().position().top + commit_table_rows.last().height() - graph_y_offset;
 
     revisionGraph.setSize(graph_right_side, graph_bottom);
 
@@ -40,9 +40,9 @@ function drawRevisionGraph(holder, commits_hash, graph_space) {
     var path, title;
     var revision_dot_overlay;
 
-    commits.each(function(commit) {
+    $.each(commits, function(index, commit) {
 
-        y = commit_table_rows[max_rdmid - commit.rdmid].getLayout().get('top') - graph_y_offset + CIRCLE_INROW_OFFSET;
+        y = commit_table_rows.eq(max_rdmid - commit.rdmid).position().top - graph_y_offset + CIRCLE_INROW_OFFSET;
         x = graph_x_offset + XSTEP / 2 + XSTEP * commit.space;
 
         revisionGraph.circle(x, y, 3)
@@ -52,11 +52,11 @@ function drawRevisionGraph(holder, commits_hash, graph_space) {
             }).toFront();
 
         // paths to parents
-        commit.parent_scmids.each(function(parent_scmid) {
-            parent_commit = commits_by_scmid.get(parent_scmid);
+        $.each(commit.parent_scmids, function(index, parent_scmid) {
+            parent_commit = commits_by_scmid[parent_scmid];
 
             if (parent_commit) {
-                parent_y = commit_table_rows[max_rdmid - parent_commit.rdmid].getLayout().get('top') - graph_y_offset + CIRCLE_INROW_OFFSET;
+                parent_y = commit_table_rows.eq(max_rdmid - parent_commit.rdmid).position().top - graph_y_offset + CIRCLE_INROW_OFFSET;
                 parent_x = graph_x_offset + XSTEP / 2 + XSTEP * parent_commit.space;
 
                 if (parent_commit.space == commit.space) {

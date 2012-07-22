@@ -29,7 +29,6 @@
                 :id => @project, :repository_id => @repository.identifier_param,
                 :rev => @changeset.identifier},
        :method => :post,
-       :complete => "Form.Element.focus('issue_id');",
        :html => {:id => 'new-relation-form', :style => (@issue ? '' : 'display: none;')}) do |f| %>
   <%= l(:label_issue) %> #<%= text_field_tag 'issue_id', '', :size => 10 %>
   <%= submit_tag l(:button_add) %>

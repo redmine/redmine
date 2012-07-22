@@ -3,16 +3,16 @@
 <div>
 <p>
 <%= label_tag "period_type_list", l(:description_date_range_list), :class => "hidden-for-sighted" %>
-<%= radio_button_tag 'period_type', '1', !@free_period, :onclick => 'Form.Element.disable("from");Form.Element.disable("to");Form.Element.enable("period");', :id => "period_type_list"%>
+<%= radio_button_tag 'period_type', '1', !@free_period, :onclick => '$("#from,#to").attr("disabled", true);$("#period").removeAttr("disabled");', :id => "period_type_list"%>
 <%= select_tag 'period', options_for_period_select(params[:period]),
                          :onchange => 'this.form.submit();',
-                         :onfocus => '$("period_type_1").checked = true;',
+                         :onfocus => '$("#period_type_1").attr("checked", true);',
                          :disabled => @free_period %>
 </p>
 <p>
 <%= label_tag "period_type_interval", l(:description_date_range_interval), :class => "hidden-for-sighted" %>
-<%= radio_button_tag 'period_type', '2', @free_period, :onclick => 'Form.Element.enable("from");Form.Element.enable("to");Form.Element.disable("period");', :id => "period_type_interval" %>
-<span onclick="$('period_type_interval').checked = true;Form.Element.enable('from');Form.Element.enable('to');Form.Element.disable('period');">
+<%= radio_button_tag 'period_type', '2', @free_period, :onclick => '$("#from,#to").removeAttr("disabled");$("#period").attr("disabled", true);', :id => "period_type_interval" %>
+<span onclick="$('#period_type_interval').attr('checked', true);$('#from,#to').removeAttr('disabled');$('#period').attr('disabled', true);">
 <%= l(:label_date_from_to,
         :start => ((label_tag "from", l(:description_date_from), :class => "hidden-for-sighted") + 
             text_field_tag('from', @from, :size => 10, :disabled => !@free_period) + calendar_for('from')),
@@ -23,7 +23,7 @@
 </div>
 </fieldset>
 <p class="buttons">
-  <%= link_to_function l(:button_apply), '$("query_form").submit()', :class => 'icon icon-checked' %>
+  <%= link_to_function l(:button_apply), '$("#query_form").submit()', :class => 'icon icon-checked' %>
   <%= link_to l(:button_clear), {:controller => controller_name, :action => action_name, :project_id => @project, :issue_id => @issue}, :class => 'icon icon-reload' %>
 </p>
 

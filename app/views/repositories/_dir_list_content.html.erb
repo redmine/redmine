@@ -7,22 +7,14 @@
 <td style="padding-left: <%=18 * depth%>px;" class="<%=
            @repository.report_last_commit ? "filename" : "filename_no_report" %>";>
 <% if entry.is_dir? %>
-<span class="expander" onclick="<%= remote_function(
-                  :url => {
+<span class="expander" onclick="scmEntryClick('<%= tr_id %>', '<%= escape_javascript(url_for(
                        :action => 'show',
                        :id     => @project,
 											 :repository_id => @repository.identifier_param,
                        :path   => to_path_param(ent_path),
                        :rev    => @rev,
                        :depth  => (depth + 1),
-                       :parent_id => tr_id
-                         },
-                  :method => :get,
-                  :update => { :success => tr_id },
-                  :position => :after,
-                  :success => "scmEntryLoaded('#{tr_id}')",
-                  :condition => "scmEntryClick('#{tr_id}')"
-                ) %>">&nbsp</span>
+                       :parent_id => tr_id)) %>');">&nbsp</span>
 <% end %>
 <%=  link_to h(ent_name),
           {:action => (entry.is_dir? ? 'show' : 'changes'), :id => @project, :repository_id => @repository.identifier_param, :path => to_path_param(ent_path), :rev => @rev},

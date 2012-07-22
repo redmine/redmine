@@ -1,5 +1,6 @@
-Element.update('relations', '<%= escape_javascript(render :partial => 'issues/relations') %>');
+$('#relations').html('<%= escape_javascript(render :partial => 'issues/relations') %>');
 <% if @relation.errors.empty? %>
-  $('relation_delay').value = ''
-  $('relation_issue_to_id').value = ''
+  $('#relation_delay').val('');
+  $('#relation_issue_to_id').val('');
+  $('#relation_issue_to_id').focus();
 <% end %>

@@ -20,7 +20,7 @@
 <%= label_tag('year', l(:label_year)) %>
 <%= select_year(@year, :prefix => "year", :discard_type => true) %>
 
-<%= link_to_function l(:button_apply), '$("query_form").submit()', :class => 'icon icon-checked' %>
+<%= link_to_function l(:button_apply), '$("#query_form").submit()', :class => 'icon icon-checked' %>
 <%= link_to l(:button_clear), { :project_id => @project, :set_filter => 1 }, :class => 'icon icon-reload' %>
 </p>
 <% end %>

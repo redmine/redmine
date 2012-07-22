@@ -25,7 +25,7 @@
 <fieldset class="box tabular">
   <legend><%=l(:label_authentication)%></legend>
   <% unless @auth_sources.empty? %>
-  <p><%= f.select :auth_source_id, ([[l(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] }), {}, :onchange => "if (this.value=='') {Element.show('password_fields');} else {Element.hide('password_fields');}" %></p>
+  <p><%= f.select :auth_source_id, ([[l(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] }), {}, :onchange => "if (this.value=='') {$('#password_fields').show();} else {$('#password_fields').hide();}" %></p>
   <% end %>
   <div id="password_fields" style="<%= 'display:none;' if @user.auth_source %>">
   <p><%= f.password_field :password, :required => true, :size => 25  %>

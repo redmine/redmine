@@ -3,63 +3,65 @@
 <script type="text/javascript">
 //<![CDATA[
 function toggle_custom_field_format() {
-  format = $("custom_field_field_format");
-  p_length = $("custom_field_min_length");
-  p_regexp = $("custom_field_regexp");
-  p_values = $("custom_field_possible_values");
-  p_searchable = $("custom_field_searchable");
-  p_default = $("custom_field_default_value");
-  p_multiple = $("custom_field_multiple");
+  var format = $("#custom_field_field_format").val();
+  var p_length = $("#custom_field_min_length");
+  var p_regexp = $("#custom_field_regexp");
+  var p_values = $("#custom_field_possible_values");
+  var p_searchable = $("#custom_field_searchable");
+  var p_default = $("#custom_field_default_value");
+  var p_multiple = $("#custom_field_multiple");
+  // can't change type on JQuery objects
+  var p_default2 = document.getElementById("custom_field_default_value");
 
-  p_default.setAttribute('type','text');
-  Element.show(p_default.parentNode);
+  p_default2.type = 'text';
+  p_default.parent().show();
 
-  switch (format.value) {
+  switch (format) {
     case "list":
-      Element.hide(p_length.parentNode);
-      Element.hide(p_regexp.parentNode);
-      if (p_searchable) Element.show(p_searchable.parentNode);
-      Element.show(p_values.parentNode);
-      Element.show(p_multiple.parentNode);
+      p_length.parent().hide();
+      p_regexp.parent().hide();
+      p_searchable.parent().show();
+      p_values.parent().show();
+      p_multiple.parent().show();
       break;
     case "bool":
-      p_default.setAttribute('type','checkbox');
-      Element.hide(p_length.parentNode);
-      Element.hide(p_regexp.parentNode);
-      if (p_searchable) Element.hide(p_searchable.parentNode);
-      Element.hide(p_values.parentNode);
-      Element.hide(p_multiple.parentNode);
+      p_default2.type = 'checkbox';
+      p_length.parent().hide();
+      p_regexp.parent().hide();
+      p_searchable.parent().hide();
+      p_values.parent().hide();
+      p_multiple.parent().hide();
       break;
     case "date":
-      Element.hide(p_length.parentNode);
-      Element.hide(p_regexp.parentNode);
-      if (p_searchable) Element.hide(p_searchable.parentNode);
-      Element.hide(p_values.parentNode);
-      Element.hide(p_multiple.parentNode);
+      p_length.parent().hide();
+      p_regexp.parent().hide();
+      p_searchable.parent().hide();
+      p_values.parent().hide();
+      p_multiple.parent().hide();
       break;
     case "float":
     case "int":
-      Element.show(p_length.parentNode);
-      Element.show(p_regexp.parentNode);
-      if (p_searchable) Element.hide(p_searchable.parentNode);
-      Element.hide(p_values.parentNode);
-      Element.hide(p_multiple.parentNode);
+      p_length.parent().show();
+      p_regexp.parent().show();
+      p_searchable.parent().hide();
+      p_values.parent().hide();
+      p_multiple.parent().hide();
       break;
     case "user":
     case "version":
-      Element.hide(p_length.parentNode);
-      Element.hide(p_regexp.parentNode);
-      if (p_searchable) Element.hide(p_searchable.parentNode);
-      Element.hide(p_values.parentNode);
-      Element.hide(p_default.parentNode);
-      Element.show(p_multiple.parentNode);
+      p_length.parent().hide();
+      p_regexp.parent().hide();
+      p_searchable.parent().hide();
+      p_values.parent().hide();
+      p_multiple.parent().show();
+      p_default.parent().hide();
       break;
     default:
-      Element.show(p_length.parentNode);
-      Element.show(p_regexp.parentNode);
-      if (p_searchable) Element.show(p_searchable.parentNode);
-      Element.hide(p_values.parentNode);
-      Element.hide(p_multiple.parentNode);
+      p_length.parent().show();
+      p_regexp.parent().show();
+      p_searchable.parent().show();
+      p_values.parent().hide();
+      p_multiple.parent().hide();
       break;
   }
 }

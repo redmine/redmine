@@ -8,15 +8,13 @@
 <% end %>
 
 <% if @issue.safe_attribute? 'project_id' %>
-<p><%= f.select :project_id, project_tree_options_for_select(@issue.allowed_target_projects, :selected => @issue.project), :required => true %></p>
-<%= observe_field :issue_project_id, :url => project_issue_form_path(@project, :id => @issue),
-                                     :with => "Form.serialize('issue-form')" %>
+<p><%= f.select :project_id, project_tree_options_for_select(@issue.allowed_target_projects, :selected => @issue.project), {:required => true},
+                :onchange => "updateIssueFrom('#{escape_javascript project_issue_form_path(@project, :id => @issue, :format => 'js')}')" %></p>
 <% end %>
 
 <% if @issue.safe_attribute? 'tracker_id' %>
-<p><%= f.select :tracker_id, @issue.project.trackers.collect {|t| [t.name, t.id]}, :required => true %></p>
-<%= observe_field :issue_tracker_id, :url => project_issue_form_path(@project, :id => @issue),
-                                     :with => "Form.serialize('issue-form')" %>
+<p><%= f.select :tracker_id, @issue.project.trackers.collect {|t| [t.name, t.id]}, {:required => true},
+                :onchange => "updateIssueFrom('#{escape_javascript project_issue_form_path(@project, :id => @issue, :format => 'js')}')" %></p>
 <% end %>
 
 <% if @issue.safe_attribute? 'subject' %>
@@ -26,8 +24,7 @@
 <% if @issue.safe_attribute? 'description' %>
 <p>
   <%= f.label_for_field :description, :required => @issue.required_attribute?('description') %>
-  <%= link_to_function image_tag('edit.png'), 
-    'Element.hide(this); Effect.toggle("issue_description_and_toolbar", "appear", {duration:0.3})' unless @issue.new_record? %>
+  <%= link_to_function image_tag('edit.png'), '$(this).hide(); $("#issue_description_and_toolbar").show()' unless @issue.new_record? %>
   <%= content_tag 'span', :id => "issue_description_and_toolbar", :style => (@issue.new_record? ? nil : 'display:none') do %>
     <%= f.text_area :description,
                    :cols => 60,

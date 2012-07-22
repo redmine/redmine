@@ -1,4 +1,4 @@
-Element.update('tab-content-users', '<%= escape_javascript(render :partial => 'groups/users') %>');
+$('#tab-content-users').html('<%= escape_javascript(render :partial => 'groups/users') %>');
 <% @users.each do |user| %>
-  new Effect.Highlight('user-<%= user.id %>');
+  $('#user-<%= user.id %>').effect("highlight");
 <% end %>

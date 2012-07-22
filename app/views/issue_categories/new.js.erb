@@ -1,3 +1,2 @@
-Element.update('ajax-modal', '<%= escape_javascript(render :partial => 'issue_categories/new_modal') %>');
+$('#ajax-modal').html('<%= escape_javascript(render :partial => 'issue_categories/new_modal') %>');
 showModal('ajax-modal', '600px');
-Form.Element.focus('issue_category_name');

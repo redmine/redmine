@@ -29,7 +29,7 @@ module JournalsHelper
                        :method => 'post',
                        :title => l(:button_quote)) if options[:reply_links]
       links << link_to_in_place_notes_editor(image_tag('edit.png'), "journal-#{journal.id}-notes",
-                                             { :controller => 'journals', :action => 'edit', :id => journal },
+                                             { :controller => 'journals', :action => 'edit', :id => journal, :format => 'js' },
                                                 :title => l(:button_edit)) if editable
     end
     content << content_tag('div', links.join(' ').html_safe, :class => 'contextual') unless links.empty?
@@ -40,7 +40,7 @@ module JournalsHelper
   end
 
   def link_to_in_place_notes_editor(text, field_id, url, options={})
-    onclick = "new Ajax.Request('#{url_for(url)}', {asynchronous:true, evalScripts:true, method:'get'}); return false;"
+    onclick = "$.ajax({url: '#{url_for(url)}', type: 'get'}); return false;"
     link_to text, '#', options.merge(:onclick => onclick)
   end
 end

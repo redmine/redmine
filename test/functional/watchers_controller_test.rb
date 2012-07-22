@@ -37,7 +37,7 @@ class WatchersControllerTest < ActionController::TestCase
     assert_difference('Watcher.count') do
       xhr :post, :watch, :object_type => 'issue', :object_id => '1'
       assert_response :success
-      assert @response.body.include?('$$(".issue-1-watcher")')
+      assert_include '$(".issue-1-watcher")', response.body
     end
     assert Issue.find(1).watched_by?(User.find(3))
   end
@@ -72,7 +72,7 @@ class WatchersControllerTest < ActionController::TestCase
     assert_difference('Watcher.count', -1) do
       xhr :post, :unwatch, :object_type => 'issue', :object_id => '2'
       assert_response :success
-      assert @response.body.include?('$$(".issue-2-watcher")')
+      assert_include '$(".issue-2-watcher")', response.body
     end
     assert !Issue.find(1).watched_by?(User.find(3))
   end

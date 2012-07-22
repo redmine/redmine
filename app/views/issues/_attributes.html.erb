@@ -3,9 +3,8 @@
 <div class="splitcontent">
 <div class="splitcontentleft">
 <% if @issue.safe_attribute? 'status_id'  %>
-<p><%= f.select :status_id, (@allowed_statuses.collect {|p| [p.name, p.id]}), :required => true %></p>
-<%= observe_field :issue_status_id, :url => project_issue_form_path(@project, :id => @issue),
-                                     :with => "Form.serialize('issue-form')" %>
+<p><%= f.select :status_id, (@allowed_statuses.collect {|p| [p.name, p.id]}), {:required => true},
+                :onchange => "updateIssueFrom('#{escape_javascript project_issue_form_path(@project, :id => @issue, :format => 'js')}')" %></p>
 
 <% else %>
 <p><label><%= l(:field_status) %></label> <%= h(@issue.status.name) %></p>
@@ -44,8 +43,7 @@
 <div class="splitcontentright">
 <% if @issue.safe_attribute? 'parent_issue_id' %>
 <p id="parent_issue"><%= f.text_field :parent_issue_id, :size => 10, :required => @issue.required_attribute?('parent_issue_id') %></p>
-<div id="parent_issue_candidates" class="autocomplete"></div>
-<%= javascript_tag "observeParentIssueField('#{auto_complete_issues_path(:id => @issue, :project_id => @issue.project) }')" %>
+<%= javascript_tag "observeAutocompleteField('issue_parent_issue_id', '#{escape_javascript auto_complete_issues_path(:id => @issue, :project_id => @issue.project)}')" %>
 <% end %>
 
 <% if @issue.safe_attribute? 'start_date' %>
