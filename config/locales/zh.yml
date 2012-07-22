@@ -3,6 +3,8 @@
 zh:
   # Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: ltr
+  jquery:
+    locale: "zh-CN"
   date:
     formats:
       # Use the strftime parameters for formats.

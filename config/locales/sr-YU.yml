@@ -2,6 +2,8 @@
 # by Vladimir Medarović (vlada@medarovic.com)
 sr-YU:
   direction: ltr
+  jquery:
+    locale: "sr"
   date:
     formats:
       # Use the strftime parameters for formats.

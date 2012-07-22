@@ -659,6 +659,12 @@ font-size: 0.8em;
 color:#505050;
 }
 
+img.ui-datepicker-trigger {
+    cursor: pointer;
+    vertical-align: middle;
+    margin-left: 4px;
+}
+
 /***** Progress bar *****/
 table.progress {
     border-collapse: collapse;

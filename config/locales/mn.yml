@@ -1,5 +1,7 @@
 mn:
   direction: ltr
+  jquery:
+    locale: "en"
   date:
     formats:
       # Use the strftime parameters for formats.

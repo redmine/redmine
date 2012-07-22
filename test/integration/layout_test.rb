@@ -71,6 +71,23 @@ class LayoutTest < ActionController::IntegrationTest
       :parent => {:tag => 'head'}
   end
 
+  def test_calendar_header_tags
+    with_settings :default_language => 'fr' do
+      get '/issues'
+      assert_include "/javascripts/i18n/jquery.ui.datepicker-fr.js", response.body
+    end
+
+    with_settings :default_language => 'en-GB' do
+      get '/issues'
+      assert_include "/javascripts/i18n/jquery.ui.datepicker-en-GB.js", response.body
+    end
+
+    with_settings :default_language => 'en' do
+      get '/issues'
+      assert_not_include "/javascripts/i18n/jquery.ui.datepicker", response.body
+    end
+  end
+
   def test_search_field_outside_project_should_link_to_global_search
     get '/'
     assert_select 'div#quick-search form[action=/search]'
