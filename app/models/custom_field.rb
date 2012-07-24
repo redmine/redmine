@@ -128,7 +128,7 @@ class CustomField < ActiveRecord::Base
 
   # Returns a ORDER BY clause that can used to sort customized
   # objects by their value of the custom field.
-  # Returns false, if the custom field can not be used for sorting.
+  # Returns nil if the custom field can not be used for sorting.
   def order_statement
     return nil if multiple?
     case field_format
@@ -146,6 +146,18 @@ class CustomField < ActiveRecord::Base
           " WHERE cv_sort.customized_type='#{self.class.customized_class.base_class.name}'" +
           " AND cv_sort.customized_id=#{self.class.customized_class.table_name}.id" +
           " AND cv_sort.custom_field_id=#{id} AND cv_sort.value <> '' AND cv_sort.value IS NOT NULL LIMIT 1)"
+      else
+        nil
+    end
+  end
+
+  # Returns a GROUP BY clause that can used to group by custom value
+  # Returns nil if the custom field can not be used for grouping.
+  def group_statement 
+    return nil if multiple?
+    case field_format
+      when 'list', 'date', 'bool', 'int'
+        order_statement
       else
         nil
     end
