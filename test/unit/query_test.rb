@@ -621,6 +621,20 @@ class QueryTest < ActiveSupport::TestCase
     assert_nil column
   end
 
+  def test_groupable_columns_should_include_user_custom_fields
+    cf = IssueCustomField.create!(:name => 'User', :is_for_all => true, :tracker_ids => [1], :field_format => 'user')
+
+    q = Query.new
+    assert q.groupable_columns.detect {|c| c.name == "cf_#{cf.id}".to_sym}
+  end
+
+  def test_groupable_columns_should_include_version_custom_fields
+    cf = IssueCustomField.create!(:name => 'User', :is_for_all => true, :tracker_ids => [1], :field_format => 'version')
+
+    q = Query.new
+    assert q.groupable_columns.detect {|c| c.name == "cf_#{cf.id}".to_sym}
+  end
+
   def test_grouped_with_valid_column
     q = Query.new(:group_by => 'status')
     assert q.grouped?

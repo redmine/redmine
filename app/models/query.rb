@@ -604,13 +604,11 @@ class Query < ActiveRecord::Base
   def issues(options={})
     order_option = [group_by_sort_order, options[:order]].reject {|s| s.blank?}.join(',')
     order_option = nil if order_option.blank?
-    
-    joins = (order_option && order_option.include?('authors')) ? "LEFT OUTER JOIN users authors ON authors.id = #{Issue.table_name}.author_id" : nil
 
     issues = Issue.visible.scoped(:conditions => options[:conditions]).find :all, :include => ([:status, :project] + (options[:include] || [])).uniq,
                      :conditions => statement,
                      :order => order_option,
-                     :joins => joins,
+                     :joins => joins_for_order_statement(order_option),
                      :limit  => options[:limit],
                      :offset => options[:offset]
 
@@ -626,13 +624,11 @@ class Query < ActiveRecord::Base
   def issue_ids(options={})
     order_option = [group_by_sort_order, options[:order]].reject {|s| s.blank?}.join(',')
     order_option = nil if order_option.blank?
-    
-    joins = (order_option && order_option.include?('authors')) ? "LEFT OUTER JOIN users authors ON authors.id = #{Issue.table_name}.author_id" : nil
 
     Issue.visible.scoped(:conditions => options[:conditions]).scoped(:include => ([:status, :project] + (options[:include] || [])).uniq,
                      :conditions => statement,
                      :order => order_option,
-                     :joins => joins,
+                     :joins => joins_for_order_statement(order_option),
                      :limit  => options[:limit],
                      :offset => options[:offset]).find_ids
   rescue ::ActiveRecord::StatementInvalid => e
@@ -894,5 +890,25 @@ class Query < ActiveRecord::Base
   # Returns a SQL clause for a date or datetime field using relative dates.
   def relative_date_clause(table, field, days_from, days_to)
     date_clause(table, field, (days_from ? Date.today + days_from : nil), (days_to ? Date.today + days_to : nil))
+  end
+
+  # Additional joins required for the given sort options
+  def joins_for_order_statement(order_options)
+    joins = []
+
+    if order_options
+      if order_options.include?('authors')
+        joins << "LEFT OUTER JOIN #{User.table_name} authors ON authors.id = #{Issue.table_name}.author_id"
+      end
+      order_options.scan(/cf_\d+/).uniq.each do |name|
+        column = available_columns.detect {|c| c.name.to_s == name}
+        join = column.custom_field.join_for_order_statement
+        if join
+          joins << join
+        end
+      end
+    end
+
+    joins.any? ? joins.join(' ') : nil
   end
 end

@@ -146,6 +146,8 @@ class CustomField < ActiveRecord::Base
           " WHERE cv_sort.customized_type='#{self.class.customized_class.base_class.name}'" +
           " AND cv_sort.customized_id=#{self.class.customized_class.table_name}.id" +
           " AND cv_sort.custom_field_id=#{id} AND cv_sort.value <> '' AND cv_sort.value IS NOT NULL LIMIT 1)"
+      when 'user', 'version'
+        value_class.fields_for_order_statement(value_join_alias)
       else
         nil
     end
@@ -158,13 +160,55 @@ class CustomField < ActiveRecord::Base
     case field_format
       when 'list', 'date', 'bool', 'int'
         order_statement
+      when 'user', 'version'
+        "COALESCE((SELECT cv_sort.value FROM #{CustomValue.table_name} cv_sort" +
+          " WHERE cv_sort.customized_type='#{self.class.customized_class.base_class.name}'" +
+          " AND cv_sort.customized_id=#{self.class.customized_class.table_name}.id" +
+          " AND cv_sort.custom_field_id=#{id} LIMIT 1), '')"
       else
         nil
     end
   end
 
+  def join_for_order_statement
+    case field_format
+      when 'user', 'version'
+        "LEFT OUTER JOIN #{CustomValue.table_name} #{join_alias}" +
+          " ON #{join_alias}.customized_type = '#{self.class.customized_class.base_class.name}'" +
+          " AND #{join_alias}.customized_id = #{self.class.customized_class.table_name}.id" +
+          " AND #{join_alias}.custom_field_id = #{id}" +
+          " AND #{join_alias}.value <> ''" +
+          " AND #{join_alias}.id = (SELECT max(#{join_alias}_2.id) FROM #{CustomValue.table_name} #{join_alias}_2" +
+            " WHERE #{join_alias}_2.customized_type = #{join_alias}.customized_type" +
+            " AND #{join_alias}_2.customized_id = #{join_alias}.customized_id" +
+            " AND #{join_alias}_2.custom_field_id = #{join_alias}.custom_field_id)" +
+          " LEFT OUTER JOIN #{value_class.table_name} #{value_join_alias}" +
+          " ON CAST(#{join_alias}.value as decimal(60,0)) = #{value_join_alias}.id"
+      else
+        nil
+    end
+  end
+
+  def join_alias
+    "cf_#{id}"
+  end
+
+  def value_join_alias
+    join_alias + "_" + field_format
+  end
+
   def <=>(field)
     position <=> field.position
+  end
+
+  # Returns the class that values represent
+  def value_class
+    case field_format
+      when 'user', 'version'
+        field_format.classify.constantize
+      else
+        nil
+    end
   end
 
   def self.customized_class

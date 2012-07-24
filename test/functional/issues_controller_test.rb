@@ -254,6 +254,27 @@ class IssuesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:issue_count_by_group)
   end
 
+  def test_index_with_query_grouped_by_user_custom_field
+    cf = IssueCustomField.create!(:name => 'User', :is_for_all => true, :tracker_ids => [1,2,3], :field_format => 'user')
+    CustomValue.create!(:custom_field => cf, :customized => Issue.find(1), :value => '2')
+    CustomValue.create!(:custom_field => cf, :customized => Issue.find(2), :value => '3')
+    CustomValue.create!(:custom_field => cf, :customized => Issue.find(3), :value => '3')
+    CustomValue.create!(:custom_field => cf, :customized => Issue.find(5), :value => '')
+
+    get :index, :project_id => 1, :set_filter => 1, :group_by => "cf_#{cf.id}"
+    assert_response :success
+
+    assert_select 'tr.group', 3
+    assert_select 'tr.group' do
+      assert_select 'a', :text => 'John Smith'
+      assert_select 'span.count', :text => '(1)'
+    end
+    assert_select 'tr.group' do
+      assert_select 'a', :text => 'Dave Lopper'
+      assert_select 'span.count', :text => '(2)'
+    end
+  end
+
   def test_index_with_query_id_and_project_id_should_set_session_query
     get :index, :project_id => 1, :query_id => 4
     assert_response :success
@@ -617,6 +638,19 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     hours = assigns(:issues).collect(&:spent_hours)
     assert_equal hours.sort.reverse, hours
+  end
+
+  def test_index_sort_by_user_custom_field
+    cf = IssueCustomField.create!(:name => 'User', :is_for_all => true, :tracker_ids => [1,2,3], :field_format => 'user')
+    CustomValue.create!(:custom_field => cf, :customized => Issue.find(1), :value => '2')
+    CustomValue.create!(:custom_field => cf, :customized => Issue.find(2), :value => '3')
+    CustomValue.create!(:custom_field => cf, :customized => Issue.find(3), :value => '3')
+    CustomValue.create!(:custom_field => cf, :customized => Issue.find(5), :value => '')
+
+    get :index, :project_id => 1, :set_filter => 1, :sort => "cf_#{cf.id},id"
+    assert_response :success
+
+    assert_equal [2, 3, 1], assigns(:issues).select {|issue| issue.custom_field_value(cf).present?}.map(&:id)
   end
 
   def test_index_with_columns
@@ -1112,6 +1146,24 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_no_tag 'a', :content => /Previous/
     assert_no_tag 'a', :content => /Next/
+  end
+
+  def test_show_show_should_display_prev_next_links_with_query_sort_by_user_custom_field
+    cf = IssueCustomField.create!(:name => 'User', :is_for_all => true, :tracker_ids => [1,2,3], :field_format => 'user')
+    CustomValue.create!(:custom_field => cf, :customized => Issue.find(1), :value => '2')
+    CustomValue.create!(:custom_field => cf, :customized => Issue.find(2), :value => '3')
+    CustomValue.create!(:custom_field => cf, :customized => Issue.find(3), :value => '3')
+    CustomValue.create!(:custom_field => cf, :customized => Issue.find(5), :value => '')
+
+    query = Query.create!(:name => 'test', :is_public => true,  :user_id => 1, :filters => {},
+      :sort_criteria => [["cf_#{cf.id}", 'asc'], ['id', 'asc']])
+    @request.session[:query] = {:id => query.id, :project_id => nil}
+
+    get :show, :id => 3
+    assert_response :success
+
+    assert_equal 2, assigns(:prev_issue_id)
+    assert_equal 1, assigns(:next_issue_id)
   end
 
   def test_show_should_display_link_to_the_assignee
