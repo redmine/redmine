@@ -703,7 +703,7 @@ module ApplicationHelper
           oid = identifier.to_i
           case prefix
           when nil
-            if issue = Issue.visible.find_by_id(oid, :include => :status)
+            if oid.to_s == identifier && issue = Issue.visible.find_by_id(oid, :include => :status)
               anchor = comment_id ? "note-#{comment_id}" : nil
               link = link_to("##{oid}", {:only_path => only_path, :controller => 'issues', :action => 'show', :id => oid, :anchor => anchor},
                                         :class => issue.css_classes,

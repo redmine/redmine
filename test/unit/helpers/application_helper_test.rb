@@ -260,6 +260,8 @@ RAW
       # ticket notes
       '#3-14'                       => note_link,
       '#3#note-14'                  => note_link,
+      # should not ignore leading zero
+      '#03'                         => '#03',
       # changesets
       'r1'                          => changeset_link,
       'r1.'                         => "#{changeset_link}.",
