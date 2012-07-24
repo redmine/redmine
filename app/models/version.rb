@@ -184,6 +184,11 @@ class Version < ActiveRecord::Base
     end
   end
 
+  def self.fields_for_order_statement(table=nil)
+    table ||= table_name
+    %w(effective_date name).map {|field| "#{table}.#{field}"}
+  end
+
   # Returns the sharings that +user+ can set the version to
   def allowed_sharings(user = User.current)
     VERSION_SHARINGS.select do |s|
