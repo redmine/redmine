@@ -204,12 +204,12 @@ class CustomFieldTest < ActiveSupport::TestCase
   end
 
   def test_value_class_should_return_the_class_used_for_fields_values
-    assert_equal User, CustomField.new(:field_format => 'user')
-    assert_equal Version, CustomField.new(:field_format => 'version')
+    assert_equal User, CustomField.new(:field_format => 'user').value_class
+    assert_equal Version, CustomField.new(:field_format => 'version').value_class
   end
 
   def test_value_class_should_return_nil_for_other_fields
-    assert_nil CustomField.new(:field_format => 'text')
-    assert_nil CustomField.new
+    assert_nil CustomField.new(:field_format => 'text').value_class
+    assert_nil CustomField.new.value_class
   end
 end
