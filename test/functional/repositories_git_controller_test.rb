@@ -77,12 +77,10 @@ class RepositoriesGitControllerTest < ActionController::TestCase
 
     put :update, :id => repository.id,
                  :repository => {
-                     :extra_report_last_commit => '0',
-                     :identifier => 'test-update',
+                     :extra_report_last_commit => '0'
                  }
     assert_response 302
     repo2 = Repository.find(repository.id)
-    assert_equal 'test-update', repo2.identifier
     assert_equal false, repo2.extra_report_last_commit
   end
 
