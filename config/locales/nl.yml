@@ -1038,3 +1038,4 @@ nl:
   label_fields_permissions: Fields permissions
   label_readonly: Read-only
   label_required: Required
+  text_repository_identifier_info: 'Alleen kleine letter (a-z), cijfers, streepjes en liggende streepjes zijn toegestaan.<br />Eenmaal opgeslagen kan de identifier niet worden gewijzigd.'

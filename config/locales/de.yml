@@ -1074,3 +1074,4 @@ de:
   label_fields_permissions: Fields permissions
   label_readonly: Nur-Lese-Zugriff
   label_required: Erforderlich
+  text_repository_identifier_info: 'Kleinbuchstaben (a-z), Ziffern, Binde- und Unterstriche erlaubt.<br />Einmal gespeichert, kann die Kennung nicht mehr geändert werden.'

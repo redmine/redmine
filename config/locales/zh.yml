@@ -1060,3 +1060,4 @@ zh:
   label_fields_permissions: 字段权限
   label_readonly: 只读
   label_required: 必填
+  text_repository_identifier_info: 仅小写字母（a-z）、数字、破折号（-）和下划线（_）可以使用。<br />一旦保存，标识无法修改。

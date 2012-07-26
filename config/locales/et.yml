@@ -1069,3 +1069,4 @@ et:
   label_fields_permissions: Fields permissions
   label_readonly: Read-only
   label_required: Required
+  text_repository_identifier_info: "Lubatud on ainult väikesed tähed (a-z), numbrid ja kriipsud.<br />Peale salvestamist ei saa tunnust enam muuta."

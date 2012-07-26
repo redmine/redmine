@@ -1169,3 +1169,4 @@ ru:
   label_fields_permissions: Fields permissions
   label_readonly: Read-only
   label_required: Required
+  text_repository_identifier_info: Допускаются только строчные латинские буквы (a-z), цифры, тире и подчеркивания.<br />После сохранения идентификатор изменить нельзя.

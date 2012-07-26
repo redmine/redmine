@@ -1094,3 +1094,4 @@ sv:
   label_fields_permissions: Fields permissions
   label_readonly: Read-only
   label_required: Required
+  text_repository_identifier_info: Ändast gemener (a-z), siffror, streck och understreck är tillåtna.<br />När identifieraren sparats kan den inte ändras.

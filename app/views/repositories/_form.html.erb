@@ -9,7 +9,10 @@
 </p>
 
 <p><%= f.check_box :is_default, :label => :field_repository_is_default %></p>
-<p><%= f.text_field :identifier %></p>
+<p><%= f.text_field :identifier, :disabled => @repository.identifier_frozen?  %>
+<% unless @repository.identifier_frozen? %>
+  <em class="info"><%= l(:text_length_between, :min => 1, :max => Repository::IDENTIFIER_MAX_LENGTH) %> <%= l(:text_repository_identifier_info).html_safe %></em>
+<% end %></p>
 
 <% button_disabled = true %>
 <% if @repository %>
