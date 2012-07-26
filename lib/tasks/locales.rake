@@ -118,6 +118,34 @@ END_DESC
     end
   end
 
+  desc 'Duplicates a key. Exemple rake locales:dup key=foo new_key=bar'
+  task :dup do
+    dir = ENV['DIR'] || './config/locales'
+    files = Dir.glob(File.join(dir,'*.yml'))
+    skips = ENV['skip'] ? Regexp.union(ENV['skip'].split(',')) : nil
+    key = ENV['key']
+    new_key = ENV['new_key']
+    abort "Missing key argument" if key.blank?
+    abort "Missing new_key argument" if new_key.blank?
+
+    files.each do |path|
+      # Skip certain locales
+      (puts "Skipping #{path}"; next) if File.basename(path, ".yml") =~ skips
+      puts "Adding #{new_key} to #{path}"
+
+      strings = File.read(path)
+      unless strings =~ /^(  #{key}: .+)$/
+        puts "Key not found in #{path}"
+        next
+      end
+      line = $1
+
+      File.open(path, 'a') do |file|
+        file.puts(line.sub(key, new_key))
+      end
+    end
+  end
+
   desc 'Check parsing yaml by psych library on Ruby 1.9.'
 
   # On Fedora 12 and 13, if libyaml-devel is available,
