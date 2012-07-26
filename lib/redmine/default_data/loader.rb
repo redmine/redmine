@@ -163,14 +163,14 @@ module Redmine
             }
 
             # Enumerations
-            DocumentCategory.create!(:name => l(:default_doc_category_user), :position => 1)
-            DocumentCategory.create!(:name => l(:default_doc_category_tech), :position => 2)
-
             IssuePriority.create!(:name => l(:default_priority_low), :position => 1)
             IssuePriority.create!(:name => l(:default_priority_normal), :position => 2, :is_default => true)
             IssuePriority.create!(:name => l(:default_priority_high), :position => 3)
             IssuePriority.create!(:name => l(:default_priority_urgent), :position => 4)
             IssuePriority.create!(:name => l(:default_priority_immediate), :position => 5)
+
+            DocumentCategory.create!(:name => l(:default_doc_category_user), :position => 1)
+            DocumentCategory.create!(:name => l(:default_doc_category_tech), :position => 2)
 
             TimeEntryActivity.create!(:name => l(:default_activity_design), :position => 1)
             TimeEntryActivity.create!(:name => l(:default_activity_development), :position => 2)
