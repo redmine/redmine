@@ -444,6 +444,10 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'destroy'
     assert_not_nil Project.find_by_id(1)
+    assert_tag :tag => 'strong',
+               :content => ['Private child of eCookbook',
+                            'Child of private child, eCookbook Subproject 1',
+                            'eCookbook Subproject 2'].join(', ')
   end
 
   def test_destroy
