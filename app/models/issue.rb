@@ -148,6 +148,7 @@ class Issue < ActiveRecord::Base
 
   def reload(*args)
     @workflow_rule_by_attribute = nil
+    @assignable_versions = nil
     super
   end
 
@@ -252,6 +253,8 @@ class Issue < ActiveRecord::Base
     write_attribute(:project_id, project ? project.id : nil)
     association_instance_set('project', project)
     if project_was && project && project_was != project
+      @assignable_versions = nil
+
       unless keep_tracker || project.trackers.include?(tracker)
         self.tracker = project.trackers.first
       end
@@ -639,7 +642,21 @@ class Issue < ActiveRecord::Base
 
   # Versions that the issue can be assigned to
   def assignable_versions
-    @assignable_versions ||= (project.shared_versions.open + [Version.find_by_id(fixed_version_id_was)]).compact.uniq.sort
+    return @assignable_versions if @assignable_versions
+
+    versions = project.shared_versions.open.all
+    if fixed_version
+      if fixed_version_id_changed?
+        # nothing to do
+      elsif project_id_changed?
+        if project.shared_versions.include?(fixed_version)
+          versions << fixed_version
+        end
+      else
+        versions << fixed_version
+      end
+    end
+    @assignable_versions = versions.uniq.sort
   end
 
   # Returns true if this issue is blocked by another issue that is still open

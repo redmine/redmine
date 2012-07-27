@@ -760,6 +760,26 @@ class IssueTest < ActiveSupport::TestCase
     assert issue.save
   end
 
+  def test_should_not_be_able_to_keep_unshared_version_when_changing_project
+    issue = Issue.find(2)
+    assert_equal 2, issue.fixed_version_id
+    issue.project_id = 3
+    assert_nil issue.fixed_version_id
+    issue.fixed_version_id = 2
+    assert !issue.save
+    assert_include 'Target version is not included in the list', issue.errors.full_messages
+  end
+
+  def test_should_keep_shared_version_when_changing_project
+    Version.find(2).update_attribute :sharing, 'tree'
+ 
+    issue = Issue.find(2)
+    assert_equal 2, issue.fixed_version_id
+    issue.project_id = 3
+    assert_equal 2, issue.fixed_version_id
+    assert issue.save
+  end
+
   def test_allowed_target_projects_on_move_should_include_projects_with_issue_tracking_enabled
     assert_include Project.find(2), Issue.allowed_target_projects_on_move(User.find(2))
   end
