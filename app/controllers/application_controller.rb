@@ -86,25 +86,30 @@ class ApplicationController < ActionController::Base
   # Returns the current user or nil if no user is logged in
   # and starts a session if needed
   def find_current_user
-    if session[:user_id]
-      # existing session
-      (User.active.find(session[:user_id]) rescue nil)
-    elsif user = try_to_autologin
-      user
-    elsif params[:format] == 'atom' && params[:key] && request.get? && accept_rss_auth?
-      # RSS key authentication does not start a session
-      User.find_by_rss_key(params[:key])
-    elsif Setting.rest_api_enabled? && accept_api_auth?
+    user = nil
+    unless api_request?
+      if session[:user_id] 
+        # existing session
+        user = (User.active.find(session[:user_id]) rescue nil)
+      elsif autologin_user = try_to_autologin
+        user = autologin_user
+      elsif params[:format] == 'atom' && params[:key] && request.get? && accept_rss_auth?
+        # RSS key authentication does not start a session
+        user = User.find_by_rss_key(params[:key])
+      end
+    end
+    if user.nil? && Setting.rest_api_enabled? && accept_api_auth?
       if (key = api_key_from_request)
         # Use API key
-        User.find_by_api_key(key)
+        user = User.find_by_api_key(key)
       else
         # HTTP Basic, either username/password or API key/random
         authenticate_with_http_basic do |username, password|
-          User.try_to_login(username, password) || User.find_by_api_key(username)
+          user = User.try_to_login(username, password) || User.find_by_api_key(username)
         end
       end
     end
+    user
   end
 
   def try_to_autologin
