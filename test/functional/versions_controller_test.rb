@@ -127,6 +127,7 @@ class VersionsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'create'
     assert_equal 'text/javascript', response.content_type
+    assert_include 'test_add_version_from_issue_form', response.body
   end
 
   def test_create_from_issue_form_with_failure

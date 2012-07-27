@@ -91,10 +91,6 @@ module ProjectsHelper
     versions.each do |version|
       grouped[version.project.name] << [version.name, version.id]
     end
-    # Add in the selected
-    if selected && !versions.include?(selected)
-      grouped[selected.project.name] << [selected.name, selected.id]
-    end
 
     if grouped.keys.size > 1
       grouped_options_for_select(grouped, selected && selected.id)

@@ -72,6 +72,6 @@ class ProjectsHelperTest < ActionView::TestCase
 
   def test_version_options_for_select_with_no_versions
     assert_equal '', version_options_for_select([])
-    assert_equal '<option value="1" selected="selected">0.1</option>', version_options_for_select([], Version.find(1))
+    assert_equal '', version_options_for_select([], Version.find(1))
   end
 end
