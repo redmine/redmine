@@ -13,13 +13,11 @@ $(document).ready(function() {
   Copy the branch/tag value into the revision box, then disable
   the dropdowns before submitting the form
   */
-  $('#branch,#tag').each(function() {
-    $(this).change(function() {
-      $('#rev').val($(this).val());
-      $('#branch,#tag').attr('disabled', true);
-      $(this).parent().submit();
-      $('#branch,#tag').removeAttr('disabled');
-    });
+  $('#branch,#tag').change(function() {
+    $('#rev').val($(this).val());
+    $('#branch,#tag').attr('disabled', true);
+    $(this).parent().submit();
+    $('#branch,#tag').removeAttr('disabled');
   });
 
   /*
