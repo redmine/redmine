@@ -220,7 +220,7 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
       # 1.1 line
       assert_tag :tag => 'th',
                  :attributes => { :class => 'line-num' },
-                 :content => '18',
+                 :content => '21',
                  :sibling => {
                    :tag => 'td',
                    :attributes => { :class => 'revision' },

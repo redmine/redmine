@@ -383,8 +383,8 @@ class RepositoriesGitControllerTest < ActionController::TestCase
           :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param]
       assert_response :success
       assert_template 'annotate'
-      # Line 24, changeset 2f9c0091
-      assert_tag :tag => 'th', :content => '24',
+      # Line 23, changeset 2f9c0091
+      assert_tag :tag => 'th', :content => '23',
                  :sibling => {
                     :tag => 'td',
                     :child => {
@@ -392,9 +392,9 @@ class RepositoriesGitControllerTest < ActionController::TestCase
                        :content => /2f9c0091/
                        }
                     }
-      assert_tag :tag => 'th', :content => '24',
+      assert_tag :tag => 'th', :content => '23',
                  :sibling => { :tag => 'td', :content => /jsmith/ }
-      assert_tag :tag => 'th', :content => '24',
+      assert_tag :tag => 'th', :content => '23',
                  :sibling => {
                     :tag => 'td',
                     :child => {
@@ -402,8 +402,8 @@ class RepositoriesGitControllerTest < ActionController::TestCase
                        :content => /2f9c0091/
                        }
                     }
-      assert_tag :tag => 'th', :content => '24',
-                 :sibling => { :tag => 'td', :content => /watcher =/ }
+      assert_tag :tag => 'th', :content => '23',
+                 :sibling => { :tag => 'td', :content => /remove_watcher/ }
     end
 
     def test_annotate_at_given_revision

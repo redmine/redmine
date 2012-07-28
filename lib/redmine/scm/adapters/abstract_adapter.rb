@@ -366,6 +366,18 @@ module Redmine
         def format_identifier
           self.identifier.to_s
         end
+
+        def ==(other)
+          if other.nil?
+            false
+          elsif scmid.present?
+            scmid == other.scmid
+          elsif identifier.present?
+            identifier == other.identifier
+          elsif revision.present?
+            revision == other.revision
+          end
+        end
       end
 
       class Annotate
