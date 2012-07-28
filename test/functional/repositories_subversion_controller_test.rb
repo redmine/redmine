@@ -367,6 +367,19 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
           :path => repository_path_hash(['subversion_test', 'helloworld.c'])[:param]
       assert_response :success
       assert_template 'annotate'
+
+      assert_select 'tr' do
+        assert_select 'th.line-num', :text => '1'
+        assert_select 'td.revision', :text => '4'
+        assert_select 'td.author', :text => 'jp'
+        assert_select 'td', :text => /stdio.h/
+      end
+      # Same revision
+      assert_select 'tr' do
+        assert_select 'th.line-num', :text => '2'
+        assert_select 'td.revision', :text => ''
+        assert_select 'td.author', :text => ''
+      end
     end
 
     def test_annotate_at_given_revision
