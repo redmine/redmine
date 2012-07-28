@@ -303,7 +303,6 @@ function submitPreview(url, form, target) {
     data: $('#'+form).serialize(),
     success: function(data){
       $('#'+target).html(data);
-      $('html, body').animate({scrollTop: $('#'+target).offset().top}, 100);
     }
   });
 }
