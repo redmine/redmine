@@ -25,7 +25,7 @@
 <%= select_year(@gantt.year_from, :prefix => "year", :discard_type => true) %>
 <%= hidden_field_tag 'zoom', @gantt.zoom %>
 
-<%= link_to_function l(:button_apply), '$("query_form").submit()', :class => 'icon icon-checked' %>
+<%= link_to_function l(:button_apply), '$("#query_form").submit()', :class => 'icon icon-checked' %>
 <%= link_to l(:button_clear), { :project_id => @project, :set_filter => 1 }, :class => 'icon icon-reload' %>
 </p>
 <% end %>
