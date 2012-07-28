@@ -61,10 +61,6 @@
   <%= f.link_to 'TXT', :url => {:id => @page.title, :version => params[:version]} %>
 <% end if User.current.allowed_to?(:export_wiki_pages, @project) %>
 
-<% content_for :header_tags do %>
-  <%= stylesheet_link_tag 'scm' %>
-<% end %>
-
 <% content_for :sidebar do %>
   <%= render :partial => 'sidebar' %>
 <% end %>

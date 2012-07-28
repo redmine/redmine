@@ -15,7 +15,3 @@
   <%= preview_link({:controller => 'messages', :action => 'preview', :board_id => @board, :id => @message}, 'message-form') %>
 <% end %>
 <div id="preview" class="wiki"></div>
-
-<% content_for :header_tags do %>
-    <%= stylesheet_link_tag 'scm' %>
-<% end %>
