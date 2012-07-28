@@ -376,29 +376,14 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
           :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param]
       assert_response :success
       assert_template 'annotate'
+
       # Line 22, revision 4:def6d2f1254a
-      assert_tag :tag => 'th',
-                 :content => '22',
-                 :attributes => { :class => 'line-num' },
-                 :sibling =>
-                       {
-                         :tag => 'td',
-                         :attributes => { :class => 'revision' },
-                         :child => { :tag => 'a', :content => '4:def6d2f1254a' }
-                       }
-      assert_tag :tag => 'th',
-                 :content => '22',
-                 :attributes => { :class => 'line-num' },
-                 :sibling =>
-                       {
-                          :tag     => 'td'    ,
-                          :content => 'jsmith' ,
-                          :attributes => { :class   => 'author' },
-                        }
-      assert_tag :tag => 'th',
-                 :content => '22',
-                 :attributes => { :class => 'line-num' },
-                 :sibling => { :tag => 'td', :content => /remove_watcher/ }
+      assert_select 'tr' do
+        assert_select 'th.line-num', :text => '22'
+        assert_select 'td.revision', :text => '4:def6d2f1254a'
+        assert_select 'td.author', :text => 'jsmith'
+        assert_select 'td', :text => /remove_watcher/
+      end
     end
 
     def test_annotate_not_in_tip

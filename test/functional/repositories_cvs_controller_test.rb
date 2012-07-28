@@ -217,34 +217,19 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
           :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param]
       assert_response :success
       assert_template 'annotate'
+
       # 1.1 line
-      assert_tag :tag => 'th',
-                 :attributes => { :class => 'line-num' },
-                 :content => '21',
-                 :sibling => {
-                   :tag => 'td',
-                   :attributes => { :class => 'revision' },
-                   :content => /1.1/,
-                   :sibling => {
-                      :tag => 'td',
-                      :attributes => { :class => 'author' },
-                      :content => /LANG/
-                        }
-                   }
+      assert_select 'tr' do
+        assert_select 'th.line-num', :text => '21'
+        assert_select 'td.revision', :text => /1.1/
+        assert_select 'td.author', :text => /LANG/
+      end
       # 1.2 line
-      assert_tag :tag => 'th',
-                 :attributes => { :class => 'line-num' },
-                 :content => '32',
-                 :sibling => {
-                     :tag => 'td',
-                     :attributes => { :class => 'revision' },
-                     :content => /1.2/,
-                     :sibling => {
-                        :tag => 'td',
-                        :attributes => { :class => 'author' },
-                        :content => /LANG/
-                        }
-                   }
+      assert_select 'tr' do
+        assert_select 'th.line-num', :text => '32'
+        assert_select 'td.revision', :text => /1.2/
+        assert_select 'td.author', :text => /LANG/
+      end
     end
 
     def test_destroy_valid_repository
