@@ -983,6 +983,10 @@ module ApplicationHelper
       }.merge(options)
   end
 
+  def link_to_function(name, function, html_options={})
+    content_tag(:a, name, {:href => '#', :onclick => "#{function}; return false;"}.merge(html_options))
+  end
+
   def back_url_hidden_field_tag
     back_url = params[:back_url] || request.env['HTTP_REFERER']
     back_url = CGI.unescape(back_url.to_s)
