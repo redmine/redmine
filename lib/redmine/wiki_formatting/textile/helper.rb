@@ -36,8 +36,7 @@ module Redmine
         def heads_for_wiki_formatter
           unless @heads_for_wiki_formatter_included
             content_for :header_tags do
-              javascript_include_tag('jstoolbar/jstoolbar') +
-              javascript_include_tag('jstoolbar/textile') +
+              javascript_include_tag('jstoolbar/jstoolbar-textile.min') +
               javascript_include_tag("jstoolbar/lang/jstoolbar-#{current_language.to_s.downcase}") +
               stylesheet_link_tag('jstoolbar')
             end
