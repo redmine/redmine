@@ -32,7 +32,8 @@ class IssuesHelperTest < ActionView::TestCase
            :enabled_modules,
            :workflows,
            :custom_fields,
-           :attachments
+           :attachments,
+           :versions
 
   def setup
     super
@@ -104,7 +105,7 @@ class IssuesHelperTest < ActionView::TestCase
         html = show_detail(@detail, false)
 
         assert_include '<strong>% Done</strong>', html
-        assert_include '<strike><i>50</i></strike>', html
+        assert_include '<del><i>50</i></del>', html
       end
     end
 
