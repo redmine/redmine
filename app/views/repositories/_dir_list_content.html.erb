@@ -14,7 +14,7 @@
                        :path   => to_path_param(ent_path),
                        :rev    => @rev,
                        :depth  => (depth + 1),
-                       :parent_id => tr_id)) %>');">&nbsp</span>
+                       :parent_id => tr_id)) %>');">&nbsp;</span>
 <% end %>
 <%=  link_to h(ent_name),
           {:action => (entry.is_dir? ? 'show' : 'changes'), :id => @project, :repository_id => @repository.identifier_param, :path => to_path_param(ent_path), :rev => @rev},
