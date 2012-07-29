@@ -244,13 +244,13 @@ table.boards td.last-message {font-size:80%;}
 table.messages td.author, table.messages td.created_on, table.messages td.reply-count {text-align:center;}
 
 table.query-columns {
-    border-collapse: collapse;
-    border: 0;
+  border-collapse: collapse;
+  border: 0;
 }
 
 table.query-columns td.buttons {
-    vertical-align: middle;
-    text-align: center;
+  vertical-align: middle;
+  text-align: center;
 }
 
 td.center {text-align:center;}
@@ -281,20 +281,20 @@ span.search_for_watchers a, span.add_attachment a {padding-left:16px; background
 .highlight.token-3 { background-color: #aaf;}
 
 .box{
-padding:6px;
-margin-bottom: 10px;
-background-color:#f6f6f6;
-color:#505050;
-line-height:1.5em;
-border: 1px solid #e4e4e4;
+  padding:6px;
+  margin-bottom: 10px;
+  background-color:#f6f6f6;
+  color:#505050;
+  line-height:1.5em;
+  border: 1px solid #e4e4e4;
 }
 
 div.square {
- border: 1px solid #999;
- float: left;
- margin: .3em .4em 0 .4em;
- overflow: hidden;
- width: .6em; height: .6em;
+  border: 1px solid #999;
+  float: left;
+  margin: .3em .4em 0 .4em;
+  overflow: hidden;
+  width: .6em; height: .6em;
 }
 .contextual {float:right; white-space: nowrap; line-height:1.4em;margin-top:5px; padding-left: 10px; font-size:0.9em;}
 .contextual input, .contextual select {font-size:0.9em;}
@@ -447,45 +447,45 @@ p.pagination {margin-top:8px;}
 
 /***** Tabular forms ******/
 .tabular p{
-margin: 0;
-padding: 3px 0 3px 0;
-padding-left: 180px; /* width of left column containing the label elements */
-min-height: 1.8em;
-clear:left;
+  margin: 0;
+  padding: 3px 0 3px 0;
+  padding-left: 180px; /* width of left column containing the label elements */
+  min-height: 1.8em;
+  clear:left;
 }
 
 html>body .tabular p {overflow:hidden;}
 
 .tabular label{
-font-weight: bold;
-float: left;
-text-align: right;
-/* width of left column */
-margin-left: -180px;
-/* width of labels. Should be smaller than left column to create some right margin */
-width: 175px;
+  font-weight: bold;
+  float: left;
+  text-align: right;
+  /* width of left column */
+  margin-left: -180px;
+  /* width of labels. Should be smaller than left column to create some right margin */
+  width: 175px;
 }
 
 .tabular label.floating{
-font-weight: normal;
-margin-left: 0px;
-text-align: left;
-width: 270px;
+  font-weight: normal;
+  margin-left: 0px;
+  text-align: left;
+  width: 270px;
 }
 
 .tabular label.block{
-font-weight: normal;
-margin-left: 0px !important;
-text-align: left;
-float: none;
-display: block;
-width: auto;
+  font-weight: normal;
+  margin-left: 0px !important;
+  text-align: left;
+  float: none;
+  display: block;
+  width: auto;
 }
 
 .tabular label.inline{
-float:none;
-margin-left: 5px !important;
-width: auto;
+  float:none;
+  margin-left: 5px !important;
+  width: auto;
 }
 
 label.no-css {
@@ -554,48 +554,48 @@ input#principal_search, input#user_search {
   border:1px solid #9EB1C2; border-radius:3px; height:1.5em; width:95%;
 }
 input#principal_search.ajax-loading, input#user_search.ajax-loading {
- background-image: url(../images/loading.gif);
+  background-image: url(../images/loading.gif);
 }
 
 * html div#tab-content-members fieldset div { height: 450px; }
 
 /***** Flash & error messages ****/
 #errorExplanation, div.flash, .nodata, .warning, .conflict {
-    padding: 4px 4px 4px 30px;
-    margin-bottom: 12px;
-    font-size: 1.1em;
-    border: 2px solid;
+  padding: 4px 4px 4px 30px;
+  margin-bottom: 12px;
+  font-size: 1.1em;
+  border: 2px solid;
 }
 
 div.flash {margin-top: 8px;}
 
 div.flash.error, #errorExplanation {
-    background: url(../images/exclamation.png) 8px 50% no-repeat;
-    background-color: #ffe3e3;
-    border-color: #dd0000;
-    color: #880000;
+  background: url(../images/exclamation.png) 8px 50% no-repeat;
+  background-color: #ffe3e3;
+  border-color: #dd0000;
+  color: #880000;
 }
 
 div.flash.notice {
-    background: url(../images/true.png) 8px 5px no-repeat;
-    background-color: #dfffdf;
-    border-color: #9fcf9f;
-    color: #005f00;
+  background: url(../images/true.png) 8px 5px no-repeat;
+  background-color: #dfffdf;
+  border-color: #9fcf9f;
+  color: #005f00;
 }
 
 div.flash.warning, .conflict {
-    background: url(../images/warning.png) 8px 5px no-repeat;
-    background-color: #FFEBC1;
-    border-color: #FDBF3B;
-    color: #A6750C;
-    text-align: left;
+  background: url(../images/warning.png) 8px 5px no-repeat;
+  background-color: #FFEBC1;
+  border-color: #FDBF3B;
+  color: #A6750C;
+  text-align: left;
 }
 
 .nodata, .warning {
-    text-align: center;
-    background-color: #FFEBC1;
-    border-color: #FDBF3B;
-    color: #A6750C;
+  text-align: center;
+  background-color: #FFEBC1;
+  border-color: #FDBF3B;
+  color: #A6750C;
 }
 
 #errorExplanation ul { font-size: 0.9em;}
@@ -661,19 +661,19 @@ color:#505050;
 }
 
 img.ui-datepicker-trigger {
-    cursor: pointer;
-    vertical-align: middle;
-    margin-left: 4px;
+  cursor: pointer;
+  vertical-align: middle;
+  margin-left: 4px;
 }
 
 /***** Progress bar *****/
 table.progress {
-    border-collapse: collapse;
-    border-spacing: 0pt;
-    empty-cells: show;
-    text-align: center;
-    float:left;
-    margin: 1px 6px 1px 0px;
+  border-collapse: collapse;
+  border-spacing: 0pt;
+  empty-cells: show;
+  text-align: center;
+  float:left;
+  margin: 1px 6px 1px 0px;
 }
 
 table.progress td { height: 1em; }
@@ -688,103 +688,68 @@ p.progress-info {clear: left; font-size: 80%; margin-top:-4px; color:#777;}
 #content .tabs {height: 2.6em; margin-bottom:1.2em; position:relative; overflow:hidden;}
 #content .tabs ul {margin:0; position:absolute; bottom:0; padding-left:0.5em; width: 2000px; border-bottom: 1px solid #bbbbbb;}
 #content .tabs ul li {
-float:left;
-list-style-type:none;
-white-space:nowrap;
-margin-right:4px;
-background:#fff;
-position:relative;
-margin-bottom:-1px;
+  float:left;
+  list-style-type:none;
+  white-space:nowrap;
+  margin-right:4px;
+  background:#fff;
+  position:relative;
+  margin-bottom:-1px;
 }
 #content .tabs ul li a{
-display:block;
-font-size: 0.9em;
-text-decoration:none;
-line-height:1.3em;
-padding:4px 6px 4px 6px;
-border: 1px solid #ccc;
-border-bottom: 1px solid #bbbbbb;
-background-color: #f6f6f6;
-color:#999;
-font-weight:bold;
-border-top-left-radius:3px;
-border-top-right-radius:3px;
+  display:block;
+  font-size: 0.9em;
+  text-decoration:none;
+  line-height:1.3em;
+  padding:4px 6px 4px 6px;
+  border: 1px solid #ccc;
+  border-bottom: 1px solid #bbbbbb;
+  background-color: #f6f6f6;
+  color:#999;
+  font-weight:bold;
+  border-top-left-radius:3px;
+  border-top-right-radius:3px;
 }
 
 #content .tabs ul li a:hover {
-background-color: #ffffdd;
-text-decoration:none;
+  background-color: #ffffdd;
+  text-decoration:none;
 }
 
 #content .tabs ul li a.selected {
-background-color: #fff;
-border: 1px solid #bbbbbb;
-border-bottom: 1px solid #fff;
-color:#444;
+  background-color: #fff;
+  border: 1px solid #bbbbbb;
+  border-bottom: 1px solid #fff;
+  color:#444;
 }
 
-#content .tabs ul li a.selected:hover {
-background-color: #fff;
-}
+#content .tabs ul li a.selected:hover {background-color: #fff;}
 
 div.tabs-buttons { position:absolute; right: 0; width: 48px; height: 24px; background: white; bottom: 0; border-bottom: 1px solid #bbbbbb; }
 
 button.tab-left, button.tab-right {
-    font-size: 0.9em;
-    cursor: pointer;
-    height:24px;
-    border: 1px solid #ccc;
-    border-bottom: 1px solid #bbbbbb;
-    position:absolute;
-    padding:4px;
-    width: 20px;
-    bottom: -1px;
+  font-size: 0.9em;
+  cursor: pointer;
+  height:24px;
+  border: 1px solid #ccc;
+  border-bottom: 1px solid #bbbbbb;
+  position:absolute;
+  padding:4px;
+  width: 20px;
+  bottom: -1px;
 }
 
 button.tab-left {
-    right: 20px;
-    background: #eeeeee url(../images/bullet_arrow_left.png) no-repeat 50% 50%;
-    border-top-left-radius:3px;
+  right: 20px;
+  background: #eeeeee url(../images/bullet_arrow_left.png) no-repeat 50% 50%;
+  border-top-left-radius:3px;
 }
 
 button.tab-right {
-    right: 0;
-    background: #eeeeee url(../images/bullet_arrow_right.png) no-repeat 50% 50%;
-    border-top-right-radius:3px;
+  right: 0;
+  background: #eeeeee url(../images/bullet_arrow_right.png) no-repeat 50% 50%;
+  border-top-right-radius:3px;
 }
-
-/***** Auto-complete *****/
-div.autocomplete {
-  position:absolute;
-  width:400px;
-  margin:0;
-  padding:0;
-}
-div.autocomplete ul {
-  list-style-type:none;
-  margin:0;
-  padding:0;
-}
-div.autocomplete ul li {
-  list-style-type:none;
-  display:block;
-  margin:-1px 0 0 0;
-  padding:2px;
-  cursor:pointer;
-  font-size: 90%;
-  border: 1px solid #ccc;
-  border-left: 1px solid #ccc;
-  border-right: 1px solid #ccc;
-  background-color:white;
-}
-div.autocomplete ul li.selected { background-color: #ffb;}
-div.autocomplete ul li span.informal {
-  font-size: 80%;
-  color: #aaa;
-}
-
-#parent_issue_candidates ul li {width: 500px;}
-#related_issue_candidates ul li {width: 500px;}
 
 /***** Diff *****/
 .diff_out { background: #fcc; }
@@ -793,57 +758,55 @@ div.autocomplete ul li span.informal {
 .diff_in span { background: #afa; }
 
 .text-diff {
-padding: 1em;
-background-color:#f6f6f6;
-color:#505050;
-border: 1px solid #e4e4e4;
+  padding: 1em;
+  background-color:#f6f6f6;
+  color:#505050;
+  border: 1px solid #e4e4e4;
 }
 
 /***** Wiki *****/
 div.wiki table {
-    border-collapse: collapse;
-    margin-bottom: 1em;
+  border-collapse: collapse;
+  margin-bottom: 1em;
 }
 
 div.wiki table, div.wiki td, div.wiki th {
-    border: 1px solid #bbb;
-    padding: 4px;
+  border: 1px solid #bbb;
+  padding: 4px;
 }
 
 div.wiki .noborder, div.wiki .noborder td, div.wiki .noborder th {border:0;}
 
 div.wiki .external {
-    background-position: 0% 60%;
-    background-repeat: no-repeat;
-    padding-left: 12px;
-    background-image: url(../images/external.png);
+  background-position: 0% 60%;
+  background-repeat: no-repeat;
+  padding-left: 12px;
+  background-image: url(../images/external.png);
 }
 
-div.wiki a.new {
-    color: #b73535;
-}
+div.wiki a.new {color: #b73535;}
 
 div.wiki ul, div.wiki ol {margin-bottom:1em;}
 
 div.wiki pre {
-    margin: 1em 1em 1em 1.6em;
-    padding: 8px;
-    background-color: #fafafa;
-    border: 1px solid #e2e2e2;
-    width:auto;
-    overflow-x: auto;
-    overflow-y: hidden;
+  margin: 1em 1em 1em 1.6em;
+  padding: 8px;
+  background-color: #fafafa;
+  border: 1px solid #e2e2e2;
+  width:auto;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 div.wiki ul.toc {
-    background-color: #ffffdd;
-    border: 1px solid #e4e4e4;
-    padding: 4px;
-    line-height: 1.2em;
-    margin-bottom: 12px;
-    margin-right: 12px;
-    margin-left: 0;
-    display: table
+  background-color: #ffffdd;
+  border: 1px solid #e4e4e4;
+  padding: 4px;
+  line-height: 1.2em;
+  margin-bottom: 12px;
+  margin-right: 12px;
+  margin-left: 0;
+  display: table
 }
 * html div.wiki ul.toc { width: 50%; } /* IE6 doesn't autosize div */
 
@@ -853,12 +816,11 @@ div.wiki ul.toc ul { margin: 0; padding: 0; }
 div.wiki ul.toc li { list-style-type:none; margin: 0;}
 div.wiki ul.toc li li { margin-left: 1.5em; }
 div.wiki ul.toc li li li { font-size: 0.8em; }
-
 div.wiki ul.toc a {
-    font-size: 0.9em;
-    font-weight: normal;
-    text-decoration: none;
-    color: #606060;
+  font-size: 0.9em;
+  font-weight: normal;
+  text-decoration: none;
+  color: #606060;
 }
 div.wiki ul.toc a:hover { color: #c61a1a; text-decoration: underline;}
 
@@ -870,35 +832,30 @@ div.wiki img { vertical-align: middle; }
 
 /***** My page layout *****/
 .block-receiver {
-border:1px dashed #c0c0c0;
-margin-bottom: 20px;
-padding: 15px 0 15px 0;
+  border:1px dashed #c0c0c0;
+  margin-bottom: 20px;
+  padding: 15px 0 15px 0;
 }
 
 .mypage-box {
-margin:0 0 20px 0;
-color:#505050;
-line-height:1.5em;
+  margin:0 0 20px 0;
+  color:#505050;
+  line-height:1.5em;
 }
 
-.handle {
-cursor: move;
-}
+.handle {cursor: move;}
 
 a.close-icon {
-display:block;
-margin-top:3px;
-overflow:hidden;
-width:12px;
-height:12px;
-background-repeat: no-repeat;
-cursor:pointer;
-background-image:url('../images/close.png');
+  display:block;
+  margin-top:3px;
+  overflow:hidden;
+  width:12px;
+  height:12px;
+  background-repeat: no-repeat;
+  cursor:pointer;
+  background-image:url('../images/close.png');
 }
-
-a.close-icon:hover {
-background-image:url('../images/close_hl.png');
-}
+a.close-icon:hover {background-image:url('../images/close_hl.png');}
 
 /***** Gantt chart *****/
 .gantt_hdr {
@@ -953,11 +910,11 @@ background-image:url('../images/close_hl.png');
 
 /***** Icons *****/
 .icon {
-background-position: 0% 50%;
-background-repeat: no-repeat;
-padding-left: 20px;
-padding-top: 2px;
-padding-bottom: 3px;
+  background-position: 0% 50%;
+  background-repeat: no-repeat;
+  padding-left: 20px;
+  padding-top: 2px;
+  padding-bottom: 3px;
 }
 
 .icon-add { background-image: url(../images/add.png); }
@@ -1018,62 +975,37 @@ padding-bottom: 3px;
 .icon-file.application-x-gzip { background-image: url(../images/files/zip.png); }
 
 img.gravatar {
-    padding: 2px;
-    border: solid 1px #d5d5d5;
-    background: #fff;
-    vertical-align: middle;
+  padding: 2px;
+  border: solid 1px #d5d5d5;
+  background: #fff;
+  vertical-align: middle;
 }
 
 div.issue img.gravatar {
-    float: left;
-    margin: 0 6px 0 0;
-    padding: 5px;
+  float: left;
+  margin: 0 6px 0 0;
+  padding: 5px;
 }
 
 div.issue table img.gravatar {
-    height: 14px;
-    width: 14px;
-    padding: 2px;
-    float: left;
-    margin: 0 0.5em 0 0;
-}
-
-h2 img.gravatar {
-    margin: -2px 4px -4px 0;
-}
-
-h3 img.gravatar {
-    margin: -4px 4px -4px 0;
-}
-
-h4 img.gravatar {
-    margin: -6px 4px -4px 0;
-}
-
-td.username img.gravatar {
-    margin: 0 0.5em 0 0;
-    vertical-align: top;
-}
-
-#activity dt img.gravatar {
-    float: left;
-    margin: 0 1em 1em 0;
-}
-
-/* Used on 12px Gravatar img tags without the icon background */
-.icon-gravatar {
+  height: 14px;
+  width: 14px;
+  padding: 2px;
   float: left;
-  margin-right: 4px;
+  margin: 0 0.5em 0 0;
 }
 
-#activity dt,
-.journal {
-    clear: left;
-}
+h2 img.gravatar {margin: -2px 4px -4px 0;}
+h3 img.gravatar {margin: -4px 4px -4px 0;}
+h4 img.gravatar {margin: -6px 4px -4px 0;}
+td.username img.gravatar {margin: 0 0.5em 0 0; vertical-align: top;}
+#activity dt img.gravatar {float: left; margin: 0 1em 1em 0;}
+/* Used on 12px Gravatar img tags without the icon background */
+.icon-gravatar {float: left; margin-right: 4px;}
 
-.journal-link {
-    float: right;
-}
+#activity dt, .journal {clear: left;}
+
+.journal-link {float: right;}
 
 h2 img { vertical-align:middle; }
 
