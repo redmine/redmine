@@ -241,6 +241,8 @@ table.boards a.board, h3.comments { background: url(../images/comment.png) no-re
 table.boards td.topic-count, table.boards td.message-count {text-align:center;}
 table.boards td.last-message {font-size:80%;}
 
+table.messages td.author, table.messages td.created_on, table.messages td.reply-count {text-align:center;}
+
 table.query-columns {
     border-collapse: collapse;
     border: 0;
