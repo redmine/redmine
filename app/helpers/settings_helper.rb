@@ -44,7 +44,7 @@ module SettingsHelper
     setting_values = Setting.send(setting)
     setting_values = [] unless setting_values.is_a?(Array)
 
-    setting_label(setting, options).html_safe +
+    content_tag("label", l(options[:label] || "setting_#{setting}")) +
       hidden_field_tag("settings[#{setting}][]", '').html_safe +
       choices.collect do |choice|
         text, value = (choice.is_a?(Array) ? choice : [choice, choice])
