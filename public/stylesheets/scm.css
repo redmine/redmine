@@ -34,13 +34,13 @@ li.change .copied-from:before { content: " - "}
 #changes-legend { float: right; font-size: 0.8em; margin: 0; }
 #changes-legend li { float: left; background-position: 5px 0; }
 
-table.filecontent { border: 1px solid #ccc;  border-collapse: collapse; width:98%; background-color: #fafafa; }
-table.filecontent th { border: 1px solid #ccc; background-color: #eee; }
+table.filecontent { border: 1px solid #e2e2e2;  border-collapse: collapse; width:98%; background-color: #fafafa; }
+table.filecontent th { border: 1px solid #e2e2e2; background-color: #eee; }
 table.filecontent th.filename { background-color: #e4e4d4; text-align: left; padding: 0.2em;}
 table.filecontent tr.spacing th { text-align:center; }
 table.filecontent tr.spacing td { height: 0.4em; background: #EAF2F5;}
 table.filecontent th.line-num {
-    border: 1px solid #d7d7d7;
+    border: 1px solid #e2e2e2;
     font-size: 0.8em;
     text-align: right;
     width: 2%;

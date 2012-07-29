@@ -827,9 +827,9 @@ div.wiki ul, div.wiki ol {margin-bottom:1em;}
 
 div.wiki pre {
     margin: 1em 1em 1em 1.6em;
-    padding: 2px 2px 2px 0;
+    padding: 8px;
     background-color: #fafafa;
-    border: 1px solid #dadada;
+    border: 1px solid #e2e2e2;
     width:auto;
     overflow-x: auto;
     overflow-y: hidden;
@@ -1081,14 +1081,7 @@ h2 img { vertical-align:middle; }
 
 /************* CodeRay styles *************/
 .syntaxhl div {display: inline;}
-.syntaxhl .line-numbers {
-    padding: 2px 4px 2px 4px; background-color: #eee; margin:0px 5px 0px 0px;
-    user-select: none;
-    -moz-user-select: none;
-    -o-user-select: none;
-    -ms-user-select: none;
-    -webkit-user-select: none;
-}
+.syntaxhl .line-numbers {padding: 2px 4px 2px 4px; background-color: #eee; margin:0px 5px 0px 0px;}
 .syntaxhl .code pre { overflow: auto }
 .syntaxhl .debug { color: white !important; background: blue !important; }
 
@@ -1099,14 +1092,14 @@ h2 img { vertical-align:middle; }
 .syntaxhl .char .content { color:#D20 }
 .syntaxhl .char .delimiter { color:#710 }
 .syntaxhl .char { color:#D20 }
-.syntaxhl .class { color:#B06; font-weight:bold }
+.syntaxhl .class { color:#258; font-weight:bold }
 .syntaxhl .class-variable { color:#369 }
 .syntaxhl .color { color:#0A0 }
-.syntaxhl .comment { color:#777 }
-.syntaxhl .comment .char { color:#444 }
-.syntaxhl .comment .delimiter { color:#444 }
+.syntaxhl .comment { color:#385 }
+.syntaxhl .comment .char { color:#385 }
+.syntaxhl .comment .delimiter { color:#385 }
 .syntaxhl .complex { color:#A08 }
-.syntaxhl .constant { color:#036; font-weight:bold }
+.syntaxhl .constant { color:#258; font-weight:bold }
 .syntaxhl .decorator { color:#B0B }
 .syntaxhl .definition { color:#099; font-weight:bold }
 .syntaxhl .delimiter { color:black }
@@ -1118,7 +1111,7 @@ h2 img { vertical-align:middle; }
 .syntaxhl .error { color:#F00; background-color:#FAA }
 .syntaxhl .escape  { color:#666 }
 .syntaxhl .exception { color:#C00; font-weight:bold }
-.syntaxhl .float { color:#60E }
+.syntaxhl .float { color:#06D }
 .syntaxhl .function { color:#06B; font-weight:bold }
 .syntaxhl .global-variable { color:#d70 }
 .syntaxhl .hex { color:#02b }
@@ -1127,11 +1120,11 @@ h2 img { vertical-align:middle; }
 .syntaxhl .inline { background-color: hsla(0,0%,0%,0.07); color: black }
 .syntaxhl .inline-delimiter { font-weight: bold; color: #666 }
 .syntaxhl .instance-variable { color:#33B }
-.syntaxhl .integer  { color:#00D }
+.syntaxhl .integer  { color:#06D }
 .syntaxhl .key .char { color: #60f }
 .syntaxhl .key .delimiter { color: #404 }
 .syntaxhl .key { color: #606 }
-.syntaxhl .keyword { color:#080; font-weight:bold }
+.syntaxhl .keyword { color:#939; font-weight:bold }
 .syntaxhl .label { color:#970; font-weight:bold }
 .syntaxhl .local-variable { color:#963 }
 .syntaxhl .namespace { color:#707; font-weight:bold }
@@ -1150,14 +1143,13 @@ h2 img { vertical-align:middle; }
 .syntaxhl .shell .content { color:#2B2 }
 .syntaxhl .shell .delimiter { color:#161 }
 .syntaxhl .shell { background-color:hsla(120,100%,50%,0.06); }
-.syntaxhl .string .char { color: #b0b }
-.syntaxhl .string .content { color: #D20 }
-.syntaxhl .string .delimiter { color: #710 }
-.syntaxhl .string .modifier { color: #E40 }
-.syntaxhl .string { background-color:hsla(0,100%,50%,0.05); }
-.syntaxhl .symbol .content { color:#A60 }
-.syntaxhl .symbol .delimiter { color:#630 }
-.syntaxhl .symbol { color:#A60 }
+.syntaxhl .string .char { color: #46a }
+.syntaxhl .string .content { color: #46a }
+.syntaxhl .string .delimiter { color: #46a }
+.syntaxhl .string .modifier { color: #46a }
+.syntaxhl .symbol .content { color:#d33 }
+.syntaxhl .symbol .delimiter { color:#d33 }
+.syntaxhl .symbol { color:#d33 }
 .syntaxhl .tag { color:#070 }
 .syntaxhl .type { color:#339; font-weight:bold }
 .syntaxhl .value { color: #088; }
