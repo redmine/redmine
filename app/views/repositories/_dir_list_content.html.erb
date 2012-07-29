@@ -5,7 +5,7 @@
 <%  ent_name = Redmine::CodesetUtil.replace_invalid_utf8(entry.name)   %>
 <tr id="<%= tr_id %>" class="<%= h params[:parent_id] %> entry <%= entry.kind %>">
 <td style="padding-left: <%=18 * depth%>px;" class="<%=
-           @repository.report_last_commit ? "filename" : "filename_no_report" %>";>
+           @repository.report_last_commit ? "filename" : "filename_no_report" %>">
 <% if entry.is_dir? %>
 <span class="expander" onclick="scmEntryClick('<%= tr_id %>', '<%= escape_javascript(url_for(
                        :action => 'show',
