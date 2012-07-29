@@ -1060,7 +1060,7 @@ RAW
   def test_principals_options_for_select_should_include_me_option_when_current_user_is_in_collection
     users = [User.find(2), User.find(4)]
     User.current = User.find(4)
-    assert_include '<option value="4"><< me >></option>', principals_options_for_select(users)
+    assert_include '<option value="4">&lt;&lt; me &gt;&gt;</option>', principals_options_for_select(users)
   end
 
   def test_stylesheet_link_tag_should_pick_the_default_stylesheet
