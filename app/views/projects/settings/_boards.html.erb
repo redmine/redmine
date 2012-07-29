@@ -10,7 +10,7 @@
 <% @project.boards.each do |board|
   next if board.new_record? %>
   <tr class="<%= cycle 'odd', 'even' %>">
-    <td><%=h board.name %></td>
+    <td><%= link_to board.name, project_board_path(@project, board) %></td>
     <td><%=h board.description %></td>
     <td align="center">
     <% if authorize_for("boards", "edit") %>
