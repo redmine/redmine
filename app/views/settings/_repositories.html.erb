@@ -16,8 +16,10 @@
 		<% enabled = Setting.send(setting).include?(value) %>
     <tr>
       <td class="scm_name">
+        <label>
         <%= check_box_tag("settings[#{setting}][]", value, enabled, :id => nil) %>
         <%= text.to_s %>
+        </label>
       </td>
       <td>
          <% if enabled %>
