@@ -305,7 +305,7 @@ module ApplicationHelper
   def principals_options_for_select(collection, selected=nil)
     s = ''
     if collection.include?(User.current)
-      s << content_tag('option', "<< #{l(:label_me)} >>".html_safe, :value => User.current.id)
+      s << content_tag('option', "<< #{l(:label_me)} >>", :value => User.current.id)
     end
     groups = ''
     collection.sort.each do |element|
