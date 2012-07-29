@@ -70,6 +70,8 @@ namespace :redmine do
       rescue Redmine::PluginNotFound
         abort "Plugin #{name} was not found."
       end
+
+      Rake::Task["db:schema:dump"].invoke
     end
 
     desc 'Copies plugins assets into the public directory.'
