@@ -10,7 +10,7 @@
 <span class="expander" onclick="scmEntryClick('<%= tr_id %>', '<%= escape_javascript(url_for(
                        :action => 'show',
                        :id     => @project,
-											 :repository_id => @repository.identifier_param,
+                       :repository_id => @repository.identifier_param,
                        :path   => to_path_param(ent_path),
                        :rev    => @rev,
                        :depth  => (depth + 1),
