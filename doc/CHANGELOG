@@ -6,6 +6,7 @@ http://www.redmine.org/
 
 == TBD v1.4.5
 
+* Defect #10818: Running rake in test environment causes exception
 * Defect #11192: Make repository identifier accept underscores
 * Defect #11307: Can't filter for negative numeric custom fields
 * Defect #11365: Attachment description length is not validated
