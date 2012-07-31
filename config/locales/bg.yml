@@ -331,6 +331,7 @@ bg:
   field_auth_source_ldap_filter: LDAP филтър
   field_core_fields: Стандартни полета
   field_timeout: Таймаут (в секунди)
+  field_board_parent: Родителски форум
 
   setting_app_title: Заглавие
   setting_app_subtitle: Описание
@@ -1055,4 +1056,3 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  field_board_parent: Parent forum
