@@ -1087,3 +1087,4 @@ ja:
   label_readonly: 読み取り専用
   label_required: 必須
   text_repository_identifier_info: アルファベット小文字(a-z)・数字・ハイフン・アンダースコアが使えます。<br />識別子は後で変更することはできません。
+  field_board_parent: Parent forum

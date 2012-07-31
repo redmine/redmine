@@ -1095,3 +1095,4 @@ sv:
   label_readonly: Read-only
   label_required: Required
   text_repository_identifier_info: Ändast gemener (a-z), siffror, streck och understreck är tillåtna.<br />När identifieraren sparats kan den inte ändras.
+  field_board_parent: Parent forum

@@ -1079,3 +1079,4 @@ pt-BR:
   label_readonly: Read-only
   label_required: Required
   text_repository_identifier_info: Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.
+  field_board_parent: Parent forum
