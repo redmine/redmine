@@ -1056,7 +1056,7 @@ ja:
   notice_issue_update_conflict: このチケットを編集中に他のユーザーが更新しました。
   text_issue_conflict_resolution_cancel: 自分の編集内容を破棄し %{link} を再表示
   permission_manage_related_issues: 関連するチケットの管理
-  field_ldap_filter: LDAPフィルタ
+  field_auth_source_ldap_filter: LDAPフィルタ
   label_search_for_watchers: ウォッチャーを検索して追加
   notice_account_deleted: アカウントが削除されました。
   setting_unsubscribe: ユーザーによるアカウント削除を許可

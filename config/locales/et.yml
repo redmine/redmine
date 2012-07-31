@@ -342,7 +342,7 @@ et:
   field_cvs_module: "Moodul"
   field_repository_is_default: "Peamine hoidla"
   field_multiple: "Korraga mitu väärtust"
-  field_ldap_filter: "LDAP filter"
+  field_auth_source_ldap_filter: "LDAP filter"
 
   setting_app_title: "Veebilehe pealkiri"
   setting_app_subtitle: "Veebilehe alampealkiri"

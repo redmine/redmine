@@ -409,7 +409,7 @@
   field_cvs_module: 模組
   field_repository_is_default: 主要儲存機制
   field_multiple: 多重值
-  field_ldap_filter: LDAP 篩選器
+  field_auth_source_ldap_filter: LDAP 篩選器
   field_core_fields: 標準欄位
   field_timeout: "逾時 (單位: 秒)"
 

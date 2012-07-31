@@ -367,7 +367,7 @@ sv:
   field_cvs_module: Modul
   field_repository_is_default: Huvudarkiv
   field_multiple: Flera värden
-  field_ldap_filter: LDAP-filter
+  field_auth_source_ldap_filter: LDAP-filter
 
   setting_app_title: Applikationsrubrik
   setting_app_subtitle: Applikationsunderrubrik

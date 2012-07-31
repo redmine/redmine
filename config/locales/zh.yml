@@ -1030,7 +1030,7 @@ zh:
   notice_issue_update_conflict: 当您正在编辑这个问题的时候，它已经被其他人抢先一步更新过了。
   text_issue_conflict_resolution_cancel: 取消我所有的变更并重新刷新显示 %{link} 。
   permission_manage_related_issues: 相关问题管理
-  field_ldap_filter: LDAP 过滤器
+  field_auth_source_ldap_filter: LDAP 过滤器
   label_search_for_watchers: 通过查找方式添加跟踪者
   notice_account_deleted: 您的账号已被永久删除（账号已无法恢复）。
   setting_unsubscribe: 允许用户退订

@@ -1076,7 +1076,7 @@ ko:
   notice_issue_update_conflict: 일감이 수정되는 동안 다른 사용자에 의해서 변경되었습니다.
   text_issue_conflict_resolution_cancel: "변경내용을 되돌리고 다시 표시 %{link}"
   permission_manage_related_issues: 연계된 일감 관리
-  field_ldap_filter: LDAP filter
+  field_auth_source_ldap_filter: LDAP filter
   label_search_for_watchers: 추가할 일감관계자 검색
   notice_account_deleted: 당신의 계정이 완전히 삭제되었습니다.
   setting_unsubscribe: 사용자들이 자신의 계정을 삭제토록 허용

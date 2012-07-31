@@ -1141,7 +1141,7 @@ ru:
   notice_issue_update_conflict: Кто-то изменил задачу, пока вы ее редактировали.
   text_issue_conflict_resolution_cancel: Отменить мои изменения и показать задачу заново %{link}
   permission_manage_related_issues: Управление связанными задачами
-  field_ldap_filter: Фильтр LDAP
+  field_auth_source_ldap_filter: Фильтр LDAP
   label_search_for_watchers: Найти наблюдателей
   notice_account_deleted: "Ваша учетная запись полностью удалена" 
   setting_unsubscribe: "Разрешить пользователям удалять свои учетные записи" 

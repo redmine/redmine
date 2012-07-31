@@ -328,7 +328,7 @@ bg:
   field_cvs_module: Модул
   field_repository_is_default: Главно хранилище
   field_multiple: Избор на повече от една стойност
-  field_ldap_filter: LDAP филтър
+  field_auth_source_ldap_filter: LDAP филтър
   field_core_fields: Стандартни полета
   field_timeout: Таймаут (в секунди)
 

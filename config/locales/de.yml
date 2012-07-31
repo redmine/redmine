@@ -1046,7 +1046,7 @@ de:
   notice_issue_update_conflict: Das Ticket wurde von einem anderen Nutzer überarbeitet während Ihrer Bearbeitung.
   text_issue_conflict_resolution_cancel: Meine Änderungen verwerfen und %{link} neu anzeigen
   permission_manage_related_issues: Zugehörige Tickets verwalten
-  field_ldap_filter: LDAP Filter
+  field_auth_source_ldap_filter: LDAP Filter
   label_search_for_watchers: Nach hinzufügbaren Beobachtern suchen
   notice_account_deleted: Ihr Benutzerkonto wurde unwiderruflich gelöscht.
   setting_unsubscribe: Erlaubt Benutzern das eigene Benutzerkonto zu löschen

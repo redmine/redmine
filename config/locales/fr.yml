@@ -326,7 +326,7 @@ fr:
   field_commit_logs_encoding: Encodage des messages de commit
   field_repository_is_default: Dépôt principal
   field_multiple: Valeurs multiples
-  field_ldap_filter: Filtre LDAP
+  field_auth_source_ldap_filter: Filtre LDAP
   field_core_fields: Champs standards
   field_timeout: "Timeout (en secondes)"
   field_board_parent: Forum parent
