@@ -117,6 +117,7 @@ class MessagesController < ApplicationController
     message = @board.messages.find_by_id(params[:id])
     @attachements = message.attachments if message
     @text = (params[:message] || params[:reply])[:content]
+    @previewed = message
     render :partial => 'common/preview'
   end
 
