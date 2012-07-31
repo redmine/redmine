@@ -329,6 +329,7 @@ fr:
   field_ldap_filter: Filtre LDAP
   field_core_fields: Champs standards
   field_timeout: "Timeout (en secondes)"
+  field_board_parent: Forum parent
 
   setting_app_title: Titre de l'application
   setting_app_subtitle: Sous-titre de l'application

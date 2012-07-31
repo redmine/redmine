@@ -22,6 +22,7 @@ class MessagesController < ApplicationController
   before_filter :find_message, :except => [:new, :preview]
   before_filter :authorize, :except => [:preview, :edit, :destroy]
 
+  helper :boards
   helper :watchers
   helper :attachments
   include AttachmentsHelper

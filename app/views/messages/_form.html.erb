@@ -18,7 +18,7 @@
 
 <% if !replying && !@message.new_record? && @message.safe_attribute?('board_id') %>
   <p><label><%= l(:label_board) %></label><br />
-  <%= f.select :board_id, @project.boards.collect {|b| [b.name, b.id]} %></p>
+  <%= f.select :board_id, boards_options_for_select(@message.project.boards) %></p>
 <% end %>
 
 <p>

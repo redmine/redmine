@@ -98,6 +98,23 @@ class BoardsControllerTest < ActionController::TestCase
     get :new, :project_id => 1
     assert_response :success
     assert_template 'new'
+
+    assert_select 'select[name=?]', 'board[parent_id]' do
+      assert_select 'option', (Project.find(1).boards.size + 1)
+      assert_select 'option[value=]', :text => ''
+      assert_select 'option[value=1]', :text => 'Help'
+    end
+  end
+
+  def test_new_without_project_boards
+    Project.find(1).boards.delete_all
+    @request.session[:user_id] = 2
+
+    get :new, :project_id => 1
+    assert_response :success
+    assert_template 'new'
+
+    assert_select 'select[name=?]', 'board[parent_id]', 0
   end
 
   def test_create
@@ -109,6 +126,16 @@ class BoardsControllerTest < ActionController::TestCase
     board = Board.first(:order => 'id DESC')
     assert_equal 'Testing', board.name
     assert_equal 'Testing board creation', board.description
+  end
+
+  def test_create_with_parent
+    @request.session[:user_id] = 2
+    assert_difference 'Board.count' do
+      post :create, :project_id => 1, :board => { :name => 'Testing', :description => 'Testing', :parent_id => 2}
+    end
+    assert_redirected_to '/projects/ecookbook/settings/boards'
+    board = Board.first(:order => 'id DESC')
+    assert_equal Board.find(2), board.parent
   end
 
   def test_create_with_failure
@@ -125,6 +152,18 @@ class BoardsControllerTest < ActionController::TestCase
     get :edit, :project_id => 1, :id => 2
     assert_response :success
     assert_template 'edit'
+  end
+
+  def test_edit_with_parent
+    board = Board.generate!(:project_id => 1, :parent_id => 2)
+    @request.session[:user_id] = 2
+    get :edit, :project_id => 1, :id => board.id
+    assert_response :success
+    assert_template 'edit'
+
+    assert_select 'select[name=?]', 'board[parent_id]' do
+      assert_select 'option[value=2][selected=selected]'
+    end
   end
 
   def test_update

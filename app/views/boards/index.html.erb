@@ -8,9 +8,9 @@
     <th><%= l(:label_message_last) %></th>
   </tr></thead>
   <tbody>
-<% for board in @boards %>
+<% Board.board_tree(@boards) do |board, level| %>
   <tr class="<%= cycle 'odd', 'even' %>">
-    <td>
+    <td style="padding-left: <%= level * 18 %>px;">
       <%= link_to h(board.name), {:action => 'show', :id => board}, :class => "board"  %><br />
       <%=h board.description %>
     </td>

@@ -1,5 +1,4 @@
-<%= breadcrumb link_to(l(:label_board_plural), project_boards_path(@project)),
-               link_to(h(@board.name), project_board_path(@project, @board)) %>
+<%= board_breadcrumb(@message) %>
 
 <h2><%= avatar(@topic.author, :size => "24") %><%=h @topic.subject %></h2>
 

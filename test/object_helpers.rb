@@ -99,4 +99,15 @@ module ObjectHelpers
     source.save!
     source
   end
+
+  def Board.generate!(attributes={})
+    @generated_board_name ||= 'Forum 0'
+    @generated_board_name.succ!
+    board = Board.new(attributes)
+    board.name = @generated_board_name if board.name.blank?
+    board.description = @generated_board_name if board.description.blank?
+    yield board if block_given?
+    board.save!
+    board
+  end
 end

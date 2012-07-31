@@ -5,7 +5,9 @@ module ActiveRecord
     include Redmine::I18n
     # Translate attribute names for validation errors display
     def self.human_attribute_name(attr, *args)
-      l("field_#{attr.to_s.gsub(/_id$/, '')}", :default => attr)
+      attr = attr.to_s.sub(/_id$/, '')
+
+      l("field_#{name.underscore.gsub('/', '_')}_#{attr}", :default => ["field_#{attr}".to_sym, attr])
     end
   end
 end

@@ -7,10 +7,10 @@
     <th></th>
   </tr></thead>
   <tbody>
-<% @project.boards.each do |board|
+<% Board.board_tree(@project.boards) do |board, level|
   next if board.new_record? %>
   <tr class="<%= cycle 'odd', 'even' %>">
-    <td><%= link_to board.name, project_board_path(@project, board) %></td>
+    <td style="padding-left: <%= level * 18 %>px;"><%= link_to board.name, project_board_path(@project, board) %></td>
     <td><%=h board.description %></td>
     <td align="center">
     <% if authorize_for("boards", "edit") %>
