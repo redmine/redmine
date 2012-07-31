@@ -103,15 +103,11 @@ class ApiTest::VersionsTest < ActionController::IntegrationTest
 
         assert_response :success
         assert_equal 'application/xml', @response.content_type
-        assert_tag 'version',
-          :child => {
-            :tag => 'id',
-            :content => '2',
-            :sibling => {
-              :tag => 'name',
-              :content => '1.0'
-            }
-          }
+        assert_select 'version' do
+          assert_select 'id', :text => '2'
+          assert_select 'name', :text => '1.0'
+          assert_select 'sharing', :text => 'none'
+        end
       end
     end
 
