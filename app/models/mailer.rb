@@ -361,7 +361,9 @@ class Mailer < ActionMailer::Base
   def self.with_synched_deliveries(&block)
     saved_method = ActionMailer::Base.delivery_method
     if m = saved_method.to_s.match(%r{^async_(.+)$})
-      ActionMailer::Base.delivery_method = m[1].to_sym
+      synched_method = m[1]
+      ActionMailer::Base.delivery_method = synched_method.to_sym
+      ActionMailer::Base.send "#{synched_method}_settings=", ActionMailer::Base.send("async_#{synched_method}_settings")
     end
     yield
   ensure
