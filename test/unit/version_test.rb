@@ -107,6 +107,17 @@ class VersionTest < ActiveSupport::TestCase
     assert_progress_equal 25.0/100.0*100, v.closed_pourcent
   end
 
+  def test_should_sort_scheduled_then_unscheduled_versions
+    Version.delete_all
+    v4 = Version.create!(:project_id => 1, :name => 'v4')
+    v3 = Version.create!(:project_id => 1, :name => 'v2', :effective_date => '2012-07-14')
+    v2 = Version.create!(:project_id => 1, :name => 'v1')
+    v1 = Version.create!(:project_id => 1, :name => 'v3', :effective_date => '2012-08-02')
+    v5 = Version.create!(:project_id => 1, :name => 'v5', :effective_date => '2012-07-02')
+
+    assert_equal [v5, v3, v1, v2, v4], Version.sorted.all
+  end
+
   context "#behind_schedule?" do
     setup do
       ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests

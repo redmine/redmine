@@ -186,8 +186,10 @@ class Version < ActiveRecord::Base
 
   def self.fields_for_order_statement(table=nil)
     table ||= table_name
-    %w(effective_date name).map {|field| "#{table}.#{field}"}
+    ["(CASE WHEN #{table}.effective_date IS NULL THEN 1 ELSE 0 END)", "#{table}.effective_date", "#{table}.name", "#{table}.id"]
   end
+
+  scope :sorted, order(fields_for_order_statement)
 
   # Returns the sharings that +user+ can set the version to
   def allowed_sharings(user = User.current)
