@@ -162,8 +162,8 @@ class Version < ActiveRecord::Base
     "#{project} - #{name}"
   end
 
-  # Versions are sorted by effective_date and "Project Name - Version name"
-  # Those with no effective_date are at the end, sorted by "Project Name - Version name"
+  # Versions are sorted by effective_date and name
+  # Those with no effective_date are at the end, sorted by name
   def <=>(version)
     if self.effective_date
       if version.effective_date
