@@ -168,7 +168,7 @@ class Version < ActiveRecord::Base
     if self.effective_date
       if version.effective_date
         if self.effective_date == version.effective_date
-          "#{self.project.name} - #{self.name}" <=> "#{version.project.name} - #{version.name}"
+          name == version.name ? id <=> version.id : name <=> version.name
         else
           self.effective_date <=> version.effective_date
         end
@@ -179,7 +179,7 @@ class Version < ActiveRecord::Base
       if version.effective_date
         1
       else
-        "#{self.project.name} - #{self.name}" <=> "#{version.project.name} - #{version.name}"
+        name == version.name ? id <=> version.id : name <=> version.name
       end
     end
   end

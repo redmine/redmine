@@ -115,6 +115,7 @@ class VersionTest < ActiveSupport::TestCase
     v1 = Version.create!(:project_id => 1, :name => 'v3', :effective_date => '2012-08-02')
     v5 = Version.create!(:project_id => 1, :name => 'v5', :effective_date => '2012-07-02')
 
+    assert_equal [v5, v3, v1, v2, v4], [v1, v2, v3, v4, v5].sort
     assert_equal [v5, v3, v1, v2, v4], Version.sorted.all
   end
 
