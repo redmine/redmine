@@ -44,6 +44,7 @@ module Redmine
       'image/tiff' => 'tiff,tif',
       'image/x-ms-bmp' => 'bmp',
       'image/x-xpixmap' => 'xpm',
+      'image/svg+xml'=> 'svg',
       'application/pdf' => 'pdf',
       'application/rtf' => 'rtf',
       'application/msword' => 'doc',
