@@ -342,8 +342,8 @@ class MailHandler < ActionMailer::Base
   # Returns a Hash of issue custom field values extracted from keywords in the email body
   def custom_field_values_from_keywords(customized)
     customized.custom_field_values.inject({}) do |h, v|
-      if value = get_keyword(v.custom_field.name, :override => true)
-        h[v.custom_field.id.to_s] = value
+      if keyword = get_keyword(v.custom_field.name, :override => true)
+        h[v.custom_field.id.to_s] = v.custom_field.value_from_keyword(keyword, customized)
       end
       h
     end

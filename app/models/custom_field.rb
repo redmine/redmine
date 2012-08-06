@@ -126,6 +126,16 @@ class CustomField < ActiveRecord::Base
     casted
   end
 
+  def value_from_keyword(keyword, customized)
+    possible_values_options = possible_values_options(customized)
+    if possible_values_options.present?
+      keyword = keyword.to_s.downcase
+      possible_values_options.detect {|text, id| text.downcase == keyword}.try(:last)
+    else
+      keyword
+    end
+  end
+ 
   # Returns a ORDER BY clause that can used to sort customized
   # objects by their value of the custom field.
   # Returns nil if the custom field can not be used for sorting.
