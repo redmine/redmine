@@ -210,6 +210,7 @@ class AccountController < ApplicationController
   end
 
   def successful_authentication(user)
+    logger.info "Successful authentication for '#{user.login}' from #{request.remote_ip} at #{Time.now.utc}"
     # Valid user
     self.logged_user = user
     # generate a key and set cookie if autologin
