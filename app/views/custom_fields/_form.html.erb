@@ -55,11 +55,21 @@ when "IssueCustomField" %>
     <p><%= f.check_box :is_required %></p>
     <p><%= f.check_box :visible %></p>
     <p><%= f.check_box :editable %></p>
+    <p><%= f.check_box :is_filter %></p>
 
 <% when "ProjectCustomField" %>
     <p><%= f.check_box :is_required %></p>
     <p><%= f.check_box :visible %></p>
     <p><%= f.check_box :searchable %></p>
+    <p><%= f.check_box :is_filter %></p>
+
+<% when "VersionCustomField" %>
+    <p><%= f.check_box :is_required %></p>
+    <p><%= f.check_box :is_filter %></p>
+
+<% when "GroupCustomField" %>
+    <p><%= f.check_box :is_required %></p>
+    <p><%= f.check_box :is_filter %></p>
 
 <% when "TimeEntryCustomField" %>
     <p><%= f.check_box :is_required %></p>

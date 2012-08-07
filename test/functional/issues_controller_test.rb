@@ -230,6 +230,22 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal({}, query.filters)
   end
 
+  def test_index_with_project_custom_field_filter
+    field = ProjectCustomField.create!(:name => 'Client', :is_filter => true, :field_format => 'string')
+    CustomValue.create!(:custom_field => field, :customized => Project.find(3), :value => 'Foo')
+    CustomValue.create!(:custom_field => field, :customized => Project.find(5), :value => 'Foo')
+    filter_name = "project.cf_#{field.id}"
+    @request.session[:user_id] = 1
+
+    get :index, :set_filter => 1,
+      :f => [filter_name],
+      :op => {filter_name => '='},
+      :v => {filter_name => ['Foo']}
+    assert_response :success
+    assert_template 'index'
+    assert_equal [3, 5], assigns(:issues).map(&:project_id).uniq.sort
+  end
+
   def test_index_with_query
     get :index, :project_id => 1, :query_id => 5
     assert_response :success

@@ -866,6 +866,10 @@ en:
   label_fields_permissions: Fields permissions
   label_readonly: Read-only
   label_required: Required
+  label_attribute_of_project: "Project's %{name}"
+  label_attribute_of_author: "Author's %{name}"
+  label_attribute_of_assigned_to: "Assignee's %{name}"
+  label_attribute_of_fixed_version: "Target version's %{name}"
 
   button_login: Login
   button_submit: Submit

@@ -577,6 +577,51 @@ class QueryTest < ActiveSupport::TestCase
     User.current = nil
   end
 
+  def test_filter_on_project_custom_field
+    field = ProjectCustomField.create!(:name => 'Client', :is_filter => true, :field_format => 'string')
+    CustomValue.create!(:custom_field => field, :customized => Project.find(3), :value => 'Foo')
+    CustomValue.create!(:custom_field => field, :customized => Project.find(5), :value => 'Foo')
+
+    query = Query.new(:name => '_')
+    filter_name = "project.cf_#{field.id}"
+    assert_include filter_name, query.available_filters.keys
+    query.filters = {filter_name => {:operator => '=', :values => ['Foo']}}
+    assert_equal [3, 5], find_issues_with_query(query).map(&:project_id).uniq.sort
+  end
+
+  def test_filter_on_author_custom_field
+    field = UserCustomField.create!(:name => 'Client', :is_filter => true, :field_format => 'string')
+    CustomValue.create!(:custom_field => field, :customized => User.find(3), :value => 'Foo')
+
+    query = Query.new(:name => '_')
+    filter_name = "author.cf_#{field.id}"
+    assert_include filter_name, query.available_filters.keys
+    query.filters = {filter_name => {:operator => '=', :values => ['Foo']}}
+    assert_equal [3], find_issues_with_query(query).map(&:author_id).uniq.sort
+  end
+
+  def test_filter_on_assigned_to_custom_field
+    field = UserCustomField.create!(:name => 'Client', :is_filter => true, :field_format => 'string')
+    CustomValue.create!(:custom_field => field, :customized => User.find(3), :value => 'Foo')
+
+    query = Query.new(:name => '_')
+    filter_name = "assigned_to.cf_#{field.id}"
+    assert_include filter_name, query.available_filters.keys
+    query.filters = {filter_name => {:operator => '=', :values => ['Foo']}}
+    assert_equal [3], find_issues_with_query(query).map(&:assigned_to_id).uniq.sort
+  end
+
+  def test_filter_on_fixed_version_custom_field
+    field = VersionCustomField.create!(:name => 'Client', :is_filter => true, :field_format => 'string')
+    CustomValue.create!(:custom_field => field, :customized => Version.find(2), :value => 'Foo')
+
+    query = Query.new(:name => '_')
+    filter_name = "fixed_version.cf_#{field.id}"
+    assert_include filter_name, query.available_filters.keys
+    query.filters = {filter_name => {:operator => '=', :values => ['Foo']}}
+    assert_equal [2], find_issues_with_query(query).map(&:fixed_version_id).uniq.sort
+  end
+
   def test_statement_should_be_nil_with_no_filters
     q = Query.new(:name => '_')
     q.filters = {}

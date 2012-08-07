@@ -152,10 +152,11 @@ function buildFilterRow(field, operator, values) {
       var option = $('<option>');
       if ($.isArray(filterValue)) {
         option.val(filterValue[1]).html(filterValue[0]);
+        if (values.indexOf(filterValue[1]) > -1) {option.attr('selected', true)};
       } else {
         option.val(filterValue).html(filterValue);
+        if (values.indexOf(filterValue) > -1) {option.attr('selected', true)};
       }
-      if (values.indexOf(filterValues[i][1]) > -1) {option.attr('selected', true)};
       select.append(option);
     }
     break;

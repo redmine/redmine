@@ -305,6 +305,8 @@ class Query < ActiveRecord::Base
       add_custom_fields_filters(IssueCustomField.find(:all, :conditions => {:is_filter => true, :is_for_all => true}))
     end
 
+    add_associations_custom_fields_filters :project, :author, :assigned_to, :fixed_version
+
     if User.current.allowed_to?(:set_issues_private, nil, :global => true) ||
       User.current.allowed_to?(:set_own_issues_private, nil, :global => true)
       @available_filters["is_private"] = { :type => :list, :order => 15, :values => [[l(:general_text_yes), "1"], [l(:general_text_no), "0"]] }
@@ -572,7 +574,7 @@ class Query < ActiveRecord::Base
         end
       end
 
-      if field =~ /^cf_(\d+)$/
+      if field =~ /cf_(\d+)$/
         # custom field
         filters_clauses << sql_for_custom_field(field, operator, v, $1)
       elsif respond_to?("sql_for_#{field}_field")
@@ -733,7 +735,8 @@ class Query < ActiveRecord::Base
     db_table = CustomValue.table_name
     db_field = 'value'
     filter = @available_filters[field]
-    if filter && filter[:format] == 'user'
+    return nil unless filter
+    if filter[:format] == 'user'
       if value.delete('me')
         value.push User.current.id.to_s
       end
@@ -744,7 +747,15 @@ class Query < ActiveRecord::Base
       operator = '='
       not_in = 'NOT'
     end
-    "#{Issue.table_name}.id #{not_in} IN (SELECT #{Issue.table_name}.id FROM #{Issue.table_name} LEFT OUTER JOIN #{db_table} ON #{db_table}.customized_type='Issue' AND #{db_table}.customized_id=#{Issue.table_name}.id AND #{db_table}.custom_field_id=#{custom_field_id} WHERE " +
+    customized_key = "id"
+    customized_class = Issue
+    if field =~ /^(.+)\.cf_/
+      assoc = $1
+      customized_key = "#{assoc}_id"
+      customized_class = Issue.reflect_on_association(assoc.to_sym).klass.base_class rescue nil
+      raise "Unknown Issue association #{assoc}" unless customized_class
+    end
+    "#{Issue.table_name}.#{customized_key} #{not_in} IN (SELECT #{customized_class.table_name}.id FROM #{customized_class.table_name} LEFT OUTER JOIN #{db_table} ON #{db_table}.customized_type='#{customized_class}' AND #{db_table}.customized_id=#{customized_class.table_name}.id AND #{db_table}.custom_field_id=#{custom_field_id} WHERE " +
       sql_for_field(field, operator, value, db_table, db_field, true) + ')'
   end
 
@@ -853,7 +864,8 @@ class Query < ActiveRecord::Base
     return sql
   end
 
-  def add_custom_fields_filters(custom_fields)
+  def add_custom_fields_filters(custom_fields, assoc=nil)
+    return unless custom_fields.present?
     @available_filters ||= {}
 
     custom_fields.select(&:is_filter?).each do |field|
@@ -880,7 +892,25 @@ class Query < ActiveRecord::Base
       else
         options = { :type => :string, :order => 20 }
       end
-      @available_filters["cf_#{field.id}"] = options.merge({ :name => field.name, :format => field.field_format })
+      filter_id = "cf_#{field.id}"
+      filter_name = field.name
+      if assoc.present?
+        filter_id = "#{assoc}.#{filter_id}"
+        filter_name = l("label_attribute_of_#{assoc}", :name => filter_name)
+      end
+      @available_filters[filter_id] = options.merge({ :name => filter_name, :format => field.field_format })
+    end
+  end
+
+  def add_associations_custom_fields_filters(*associations)
+    fields_by_class = CustomField.where(:is_filter => true).group_by(&:class)
+    associations.each do |assoc|
+      association_klass = Issue.reflect_on_association(assoc).klass
+      fields_by_class.each do |field_class, fields|
+        if field_class.customized_class <= association_klass
+          add_custom_fields_filters(fields, assoc)
+        end
+      end
     end
   end
 
