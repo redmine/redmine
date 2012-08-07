@@ -261,6 +261,10 @@ class CustomField < ActiveRecord::Base
     validate_field_value(value).empty?
   end
 
+  def format_in?(*args)
+    args.include?(field_format)
+  end
+
   protected
 
   # Returns the error message for the given value regarding its format

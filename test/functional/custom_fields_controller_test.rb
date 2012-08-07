@@ -16,18 +16,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../test_helper', __FILE__)
-require 'custom_fields_controller'
-
-# Re-raise errors caught by the controller.
-class CustomFieldsController; def rescue_action(e) raise e end; end
 
 class CustomFieldsControllerTest < ActionController::TestCase
   fixtures :custom_fields, :custom_values, :trackers, :users
 
   def setup
-    @controller = CustomFieldsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     @request.session[:user_id] = 1
   end
 
@@ -43,7 +36,10 @@ class CustomFieldsControllerTest < ActionController::TestCase
       assert_response :success
       assert_template 'new'
       assert_kind_of klass, assigns(:custom_field)
-      assert_tag :select, :attributes => {:name => 'custom_field[field_format]'}
+      assert_select 'form#custom_field_form' do
+        assert_select 'select#custom_field_field_format[name=?]', 'custom_field[field_format]'
+        assert_select 'input[type=hidden][name=type][value=?]', klass.name
+      end
     end
   end
 
@@ -51,22 +47,23 @@ class CustomFieldsControllerTest < ActionController::TestCase
     get :new, :type => 'IssueCustomField'
     assert_response :success
     assert_template 'new'
-    assert_tag :input, :attributes => {:name => 'custom_field[name]'}
-    assert_tag :select,
-      :attributes => {:name => 'custom_field[field_format]'},
-      :child => {
-        :tag => 'option',
-        :attributes => {:value => 'user'},
-        :content => 'User'
-      }
-    assert_tag :select,
-      :attributes => {:name => 'custom_field[field_format]'},
-      :child => {
-        :tag => 'option',
-        :attributes => {:value => 'version'},
-        :content => 'Version'
-      }
-    assert_tag :input, :attributes => {:name => 'type', :value => 'IssueCustomField'}
+    assert_select 'form#custom_field_form' do
+      assert_select 'select#custom_field_field_format[name=?]', 'custom_field[field_format]' do
+        assert_select 'option[value=user]', :text => 'User'
+        assert_select 'option[value=version]', :text => 'Version'
+      end
+      assert_select 'input[type=hidden][name=type][value=IssueCustomField]'
+    end
+  end
+
+  def test_new_js
+    get :new, :type => 'IssueCustomField', :custom_field => {:field_format => 'list'}, :format => 'js'
+    assert_response :success
+    assert_template 'new'
+    assert_equal 'text/javascript', response.content_type
+
+    field = assigns(:custom_field)
+    assert_equal 'list', field.field_format
   end
 
   def test_new_with_invalid_custom_field_class_should_render_404
