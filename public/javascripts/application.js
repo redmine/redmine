@@ -78,35 +78,131 @@ function hideFieldset(el) {
   fieldset.children('div').hide();
 }
 
-function add_filter() {
-  var select = $('#add_filter_select');
-  var field = select.val();
-  $('#tr_'+field).show();
-  var check_box = $('#cb_' + field);
-  check_box.attr('checked', true);
-  toggle_filter(field);
-  select.val('');
+function initFilters(){
+  $('#add_filter_select').change(function(){
+    addFilter($(this).val(), '', []);
+  });
+  $('#filters-table td.field input[type=checkbox]').each(function(){
+    toggleFilter($(this).val());
+  });
+  $('#filters-table td.field input[type=checkbox]').live('click',function(){
+    toggleFilter($(this).val());
+  });
+  $('#filters-table .toggle-multiselect').live('click',function(){
+    toggleMultiSelect($(this).siblings('select'));
+  });
+  $('#filters-table input[type=text]').live('keypress', function(e){
+    if (e.keyCode == 13) submit_query_form("query_form");
+  });
+}
 
-  select.children('option').each(function(index) {
+function addFilter(field, operator, values) {
+  var fieldId = field.replace('.', '_');
+  var tr = $('#tr_'+fieldId);
+  if (tr.length > 0) {
+    tr.show();
+  } else {
+    buildFilterRow(field, operator, values);
+  }
+  $('#cb_'+fieldId).attr('checked', true);
+  toggleFilter(field);
+  $('#add_filter_select').val('').children('option').each(function(){
     if ($(this).attr('value') == field) {
       $(this).attr('disabled', true);
     }
   });
 }
 
-function toggle_filter(field) {
-  check_box = $('#cb_' + field);
-  if (check_box.is(':checked')) {
-    $("#operators_" + field).show().removeAttr('disabled');
-    toggle_operator(field);
+function buildFilterRow(field, operator, values) {
+  var fieldId = field.replace('.', '_');
+  var filterTable = $("#filters-table");
+  var filterOptions = availableFilters[field];
+  var operators = operatorByType[filterOptions['type']];
+  var filterValues = filterOptions['values'];
+  var i, select;
+
+  var tr = $('<tr class="filter">').attr('id', 'tr_'+fieldId).html(
+    '<td class="field"><input checked="checked" id="cb_'+fieldId+'" name="f[]" value="'+field+'" type="checkbox"><label for="cb_'+fieldId+'"> '+filterOptions['name']+'</label></td>' +
+    '<td class="operator"><select id="operators_'+fieldId+'" name="op['+field+']"></td>' +
+    '<td class="values"></td>'
+  );
+  filterTable.append(tr);
+
+  select = tr.find('td.operator select');
+  for (i=0;i<operators.length;i++){
+    var option = $('<option>').val(operators[i]).html(operatorLabels[operators[i]]);
+    if (operators[i] == operator) {option.attr('selected', true)};
+    select.append(option);
+  }
+  select.change(function(){toggleOperator(field)});
+
+  switch (filterOptions['type']){
+  case "list":
+  case "list_optional":
+  case "list_status":
+  case "list_subprojects":
+    tr.find('td.values').append(
+      '<span style="display:none;"><select class="value" id="values_'+fieldId+'_1" name="v['+field+'][]"></select>' +
+      ' <span class="toggle-multiselect">&nbsp;</span></span>'
+    );
+    select = tr.find('td.values select');
+    if (values.length > 1) {select.attr('multiple', true)};
+    for (i=0;i<filterValues.length;i++){
+      var filterValue = filterValues[i];
+      var option = $('<option>');
+      if ($.isArray(filterValue)) {
+        option.val(filterValue[1]).html(filterValue[0]);
+      } else {
+        option.val(filterValue).html(filterValue);
+      }
+      if (values.indexOf(filterValues[i][1]) > -1) {option.attr('selected', true)};
+      select.append(option);
+    }
+    break;
+  case "date":
+  case "date_past":
+    tr.find('td.values').append(
+      '<span style="display:none;"><input type="text" name="v['+field+'][]" id="values_'+fieldId+'_1" size="10" class="value date_value" value="'+values[0]+'" /></span>' +
+      ' <span style="display:none;"><input type="text" name="v['+field+'][]" id="values_'+fieldId+'_2" size="10" class="value date_value" value="'+values[1]+'" /></span>' +
+      ' <span style="display:none;"><input type="text" name="v['+field+'][]" id="values_'+fieldId+'" size="3" class="value" value="'+values[0]+'" /> '+labelDayPlural+'</span>'
+    );
+    $('#values_'+fieldId+'_1').val(values[0]).datepicker(datepickerOptions);
+    $('#values_'+fieldId+'_2').val(values[1]).datepicker(datepickerOptions);
+    $('#values_'+fieldId).val(values[0]);
+    break;
+  case "string":
+  case "text":
+    tr.find('td.values').append(
+      '<span style="display:none;"><input type="text" name="v['+field+'][]" id="values_'+fieldId+'" size="30" class="value" value="'+values[0]+'" /></span>'
+    );
+    $('#values_'+fieldId).val(values[0]);
+    break;
+  case "integer":
+  case "float":
+    tr.find('td.values').append(
+      '<span style="display:none;"><input type="text" name="v['+field+'][]" id="values_'+fieldId+'_1" size="6" class="value" value="'+values[0]+'" /></span>' +
+      ' <span style="display:none;"><input type="text" name="v['+field+'][]" id="values_'+fieldId+'_2" size="6" class="value" value="'+values[1]+'" /></span>'
+    );
+    $('#values_'+fieldId+'_1').val(values[0]);
+    $('#values_'+fieldId+'_2').val(values[1]);
+    break;
+  }
+}
+
+function toggleFilter(field) {
+  var fieldId = field.replace('.', '_');
+  if ($('#cb_' + fieldId).is(':checked')) {
+    $("#operators_" + fieldId).show().removeAttr('disabled');
+    toggleOperator(field);
   } else {
-    $("#operators_" + field).hide().attr('disabled', true);
+    $("#operators_" + fieldId).hide().attr('disabled', true);
     enableValues(field, []);
   }
 }
 
 function enableValues(field, indexes) {
-  $(".values_" + field).each(function(index) {
+  var fieldId = field.replace('.', '_');
+  $('#tr_'+fieldId+' td.values .value').each(function(index) {
     if (indexes.indexOf(index) >= 0) {
       $(this).removeAttr('disabled');
       $(this).parents('span').first().show();
@@ -122,16 +218,11 @@ function enableValues(field, indexes) {
       $(this).show();
     }
   });
-
-  if (indexes.length > 0) {
-    $("#div_values_" + field).show();
-  } else {
-    $("#div_values_" + field).hide();
-  }
 }
 
-function toggle_operator(field) {
-  operator = $("#operators_" + field);
+function toggleOperator(field) {
+  var fieldId = field.replace('.', '_');
+  var operator = $("#operators_" + fieldId);
   switch (operator.val()) {
     case "!*":
     case "*":
@@ -158,24 +249,17 @@ function toggle_operator(field) {
   }
 }
 
-function toggle_multi_select(id) {
-  var select = $('#'+id);
-  if (select.attr('multiple')) {
-    select.removeAttr('multiple');
+function toggleMultiSelect(el) {
+  if (el.attr('multiple')) {
+    el.removeAttr('multiple');
   } else {
-    select.attr('multiple', true);
+    el.attr('multiple', true);
   }
 }
 
 function submit_query_form(id) {
   selectAllOptions("selected_columns");
   $('#'+id).submit();
-}
-
-function observeIssueFilters() {
-  $('#query_form input[type=text]').keypress(function(e){
-    if (e.keyCode == 13) submit_query_form("query_form");
-  });
 }
 
 var fileFieldCount = 1;

@@ -18,9 +18,12 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module QueriesHelper
-
-  def operators_for_select(filter_type)
-    Query.operators_by_filter_type[filter_type].collect {|o| [l(Query.operators[o]), o]}
+  def filters_options_for_select(query)
+    options = [[]]
+    options += query.available_filters.sort {|a,b| a[1][:order] <=> b[1][:order]}.map do |field, field_options|
+      [field_options[:name], field]
+    end
+    options_for_select(options)
   end
 
   def column_header(column)

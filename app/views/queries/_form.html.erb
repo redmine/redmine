@@ -23,7 +23,7 @@
 <%= select 'query', 'group_by', @query.groupable_columns.collect {|c| [c.caption, c.name.to_s]}, :include_blank => true %></p>
 </div>
 
-<fieldset><legend><%= l(:label_filter_plural) %></legend>
+<fieldset id="filters"><legend><%= l(:label_filter_plural) %></legend>
 <%= render :partial => 'queries/filters', :locals => {:query => query}%>
 </fieldset>
 

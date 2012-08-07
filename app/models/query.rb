@@ -214,6 +214,11 @@ class Query < ActiveRecord::Base
     @trackers ||= project.nil? ? Tracker.find(:all, :order => 'position') : project.rolled_up_trackers
   end
 
+  # Returns a hash of localized labels for all filter operators
+  def self.operators_labels
+    operators.inject({}) {|h, operator| h[operator.first] = l(operator.last); h}
+  end
+
   def available_filters
     return @available_filters if @available_filters
 
@@ -309,7 +314,20 @@ class Query < ActiveRecord::Base
       @available_filters.delete field
     }
 
+    @available_filters.each do |field, options|
+      options[:name] ||= l("field_#{field}".gsub(/_id$/, ''))
+    end
+
     @available_filters
+  end
+
+	# Returns a representation of the available filters for JSON serialization
+  def available_filters_as_json
+    json = {}
+    available_filters.each do |field, options|
+      json[field] = options.slice(:type, :name, :values).stringify_keys
+    end
+    json
   end
 
   def add_filter(field, operator, values)
