@@ -1171,3 +1171,7 @@ ru:
   label_required: Required
   text_repository_identifier_info: Допускаются только строчные латинские буквы (a-z), цифры, тире и подчеркивания.<br />После сохранения идентификатор изменить нельзя.
   field_board_parent: Parent forum
+  label_attribute_of_project: Project's %{name}
+  label_attribute_of_author: Author's %{name}
+  label_attribute_of_assigned_to: Assignee's %{name}
+  label_attribute_of_fixed_version: Target version's %{name}

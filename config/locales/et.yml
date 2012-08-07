@@ -1071,3 +1071,7 @@ et:
   label_required: Required
   text_repository_identifier_info: "Lubatud on ainult väikesed tähed (a-z), numbrid ja kriipsud.<br />Peale salvestamist ei saa tunnust enam muuta."
   field_board_parent: Parent forum
+  label_attribute_of_project: Project's %{name}
+  label_attribute_of_author: Author's %{name}
+  label_attribute_of_assigned_to: Assignee's %{name}
+  label_attribute_of_fixed_version: Target version's %{name}

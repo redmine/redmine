@@ -1040,3 +1040,7 @@ nl:
   label_required: Required
   text_repository_identifier_info: 'Alleen kleine letter (a-z), cijfers, streepjes en liggende streepjes zijn toegestaan.<br />Eenmaal opgeslagen kan de identifier niet worden gewijzigd.'
   field_board_parent: Parent forum
+  label_attribute_of_project: Project's %{name}
+  label_attribute_of_author: Author's %{name}
+  label_attribute_of_assigned_to: Assignee's %{name}
+  label_attribute_of_fixed_version: Target version's %{name}

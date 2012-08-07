@@ -1108,3 +1108,7 @@ ko:
   label_required: Required
   text_repository_identifier_info: "소문자(a-z),숫자,대쉬(-)와 밑줄(_)만 가능합니다.<br />식별자는 저장후에는 수정할 수 없습니다."
   field_board_parent: Parent forum
+  label_attribute_of_project: Project's %{name}
+  label_attribute_of_author: Author's %{name}
+  label_attribute_of_assigned_to: Assignee's %{name}
+  label_attribute_of_fixed_version: Target version's %{name}
