@@ -74,7 +74,7 @@ group :test do
   # Shoulda does not work nice on Ruby 1.9.3 and seems to need test-unit explicitely.
   gem "test-unit", :platforms => [:mri_19]
   gem "edavis10-object_daddy", :require => "object_daddy"
-  gem "mocha"
+  gem "mocha", "0.12.1"
 end
 
 local_gemfile = File.join(File.dirname(__FILE__), "Gemfile.local")
