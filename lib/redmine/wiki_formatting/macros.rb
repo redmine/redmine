@@ -82,7 +82,7 @@ module Redmine
         #   end
         def macro(name, options={}, &block)
           name = name.to_sym if name.is_a?(String)
-          @@available_macros[name] = {:desc => @@desc || ''}.merge(options)
+          available_macros[name] = {:desc => @@desc || ''}.merge(options)
           @@desc = nil
           raise "Can not create a macro without a block!" unless block_given?
           Definitions.send :define_method, "macro_#{name}".downcase, &block
