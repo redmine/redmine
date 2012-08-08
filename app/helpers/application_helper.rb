@@ -852,7 +852,7 @@ module ApplicationHelper
                 (
                 \{\{                        # opening tag
                 ([\w]+)                     # macro name
-                (\(([^\}]*)\))?             # optional arguments
+                (\((.*?)\))?                # optional arguments
                 \}\}                        # closing tag
                 )
               /x unless const_defined?(:MACROS_RE)

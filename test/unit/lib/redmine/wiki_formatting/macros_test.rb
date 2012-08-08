@@ -65,6 +65,17 @@ class Redmine::WikiFormatting::MacrosTest < ActionView::TestCase
     assert_equal '<p>Bar: () (String)</p>', textilizable("{{bar()}}")
   end
 
+  def test_multiple_macros_on_the_same_line
+    Redmine::WikiFormatting::Macros.macro :foo do |obj, args|
+      args.any? ? "args: #{args.join(',')}" : "no args" 
+    end
+
+    assert_equal '<p>no args no args</p>', textilizable("{{foo}} {{foo}}")
+    assert_equal '<p>args: a,b no args</p>', textilizable("{{foo(a,b)}} {{foo}}")
+    assert_equal '<p>args: a,b args: c,d</p>', textilizable("{{foo(a,b)}} {{foo(c,d)}}")
+    assert_equal '<p>no args args: c,d</p>', textilizable("{{foo}} {{foo(c,d)}}")
+  end
+
   def test_macro_hello_world
     text = "{{hello_world}}"
     assert textilizable(text).match(/Hello world!/)
