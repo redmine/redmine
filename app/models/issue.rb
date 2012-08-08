@@ -583,7 +583,7 @@ class Issue < ActiveRecord::Base
     if new_record?
       nil
     else
-      journals.first(:order => "#{Journal.table_name}.id DESC").try(:id)
+      journals.maximum(:id)
     end
   end
 
