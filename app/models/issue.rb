@@ -587,6 +587,15 @@ class Issue < ActiveRecord::Base
     end
   end
 
+  # Returns a scope for journals that have an id greater than journal_id
+  def journals_after(journal_id)
+    scope = journals.reorder("#{Journal.table_name}.id ASC")
+    if journal_id.present?
+      scope = scope.where("#{Journal.table_name}.id > ?", journal_id.to_i)
+    end
+    scope
+  end
+
   # Return true if the issue is closed, otherwise false
   def closed?
     self.status.is_closed?

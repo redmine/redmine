@@ -1530,4 +1530,13 @@ class IssueTest < ActiveSupport::TestCase
   def test_last_journal_id_without_journals_should_return_nil
     assert_nil Issue.find(3).last_journal_id
   end
+
+  def test_journals_after_should_return_journals_with_greater_id
+    assert_equal [Journal.find(2)], Issue.find(1).journals_after('1')
+    assert_equal [], Issue.find(1).journals_after('2')
+  end
+
+  def test_journals_after_with_blank_arg_should_return_all_journals
+    assert_equal [Journal.find(1), Journal.find(2)], Issue.find(1).journals_after('')
+  end
 end

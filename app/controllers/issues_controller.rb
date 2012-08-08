@@ -172,12 +172,7 @@ class IssuesController < ApplicationController
     rescue ActiveRecord::StaleObjectError
       @conflict = true
       if params[:last_journal_id]
-        if params[:last_journal_id].present?
-          last_journal_id = params[:last_journal_id].to_i
-          @conflict_journals = @issue.journals.all(:conditions => ["#{Journal.table_name}.id > ?", last_journal_id])
-        else
-          @conflict_journals = @issue.journals.all
-        end
+        @conflict_journals = @issue.journals_after(params[:last_journal_id]).all
       end
     end
 
