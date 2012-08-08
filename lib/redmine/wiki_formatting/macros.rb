@@ -20,7 +20,13 @@ module Redmine
     module Macros
       module Definitions
         def exec_macro(name, obj, args)
+          macro_options = Redmine::WikiFormatting::Macros.available_macros[name.to_sym]
+          return unless macro_options
+
           method_name = "macro_#{name}"
+          unless macro_options[:parse_args] == false
+            args = args.split(',').map(&:strip)
+          end
           send(method_name, obj, args) if respond_to?(method_name)
         end
 
@@ -35,6 +41,7 @@ module Redmine
       end
 
       @@available_macros = {}
+      mattr_accessor :available_macros
 
       class << self
         # Called with a block to define additional macros.
@@ -54,11 +61,28 @@ module Redmine
           class_eval(&block) if block_given?
         end
 
-      private
-        # Defines a new macro with the given name and block.
-        def macro(name, &block)
+        # Defines a new macro with the given name, options and block.
+        #
+        # Options:
+        # * :parse_args => false - Disables arguments parsing (the whole arguments string
+        #   is passed to the macro)
+        #
+        # Examples:
+        # By default, when the macro is invoked, the coma separated list of arguments
+        # is parsed and passed to the macro block as an array:
+        #
+        #   macro :my_macro do |obj, args|
+        #     # args is an array
+        #   end
+        #
+        # You can disable arguments parsing with the :parse_args => false option:
+        #
+        #   macro :my_macro, :parse_args => false do |obj, args|
+        #     # args is a string
+        #   end
+        def macro(name, options={}, &block)
           name = name.to_sym if name.is_a?(String)
-          @@available_macros[name] = @@desc || ''
+          @@available_macros[name] = {:desc => @@desc || ''}.merge(options)
           @@desc = nil
           raise "Can not create a macro without a block!" unless block_given?
           Definitions.send :define_method, "macro_#{name}".downcase, &block
@@ -79,9 +103,9 @@ module Redmine
       desc "Displays a list of all available macros, including description if available."
       macro :macro_list do |obj, args|
         out = ''.html_safe
-        @@available_macros.keys.collect(&:to_s).sort.each do |macro|
-          out << content_tag('dt', content_tag('code', macro))
-          out << content_tag('dd', textilizable(@@available_macros[macro.to_sym]))
+        @@available_macros.each do |macro, options|
+          out << content_tag('dt', content_tag('code', macro.to_s))
+          out << content_tag('dd', textilizable(options[:desc]))
         end
         content_tag('dl', out)
       end

@@ -860,8 +860,7 @@ module ApplicationHelper
   # Macros substitution
   def parse_macros(text, project, obj, attr, only_path, options)
     text.gsub!(MACROS_RE) do
-      esc, all, macro = $1, $2, $3.downcase
-      args = ($5 || '').split(',').each(&:strip)
+      esc, all, macro, args = $1, $2, $3.downcase, $5.to_s
       if esc.nil?
         begin
           exec_macro(macro, obj, args)

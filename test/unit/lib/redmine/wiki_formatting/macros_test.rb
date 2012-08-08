@@ -43,12 +43,26 @@ class Redmine::WikiFormatting::MacrosTest < ActionView::TestCase
   def test_macro_registration
     Redmine::WikiFormatting::Macros.register do
       macro :foo do |obj, args|
-        "Foo macro output"
+        "Foo: #{args.size} (#{args.join(',')}) (#{args.class.name})"
       end
     end
 
-    text = "{{foo}}"
-    assert_equal '<p>Foo macro output</p>', textilizable(text)
+    assert_equal '<p>Foo: 0 () (Array)</p>', textilizable("{{foo}}")
+    assert_equal '<p>Foo: 0 () (Array)</p>', textilizable("{{foo()}}")
+    assert_equal '<p>Foo: 1 (arg1) (Array)</p>', textilizable("{{foo(arg1)}}")
+    assert_equal '<p>Foo: 2 (arg1,arg2) (Array)</p>', textilizable("{{foo(arg1, arg2)}}")
+  end
+
+  def test_macro_registration_parse_args_set_to_false_should_disable_arguments_parsing
+    Redmine::WikiFormatting::Macros.register do
+      macro :bar, :parse_args => false do |obj, args|
+        "Bar: (#{args}) (#{args.class.name})"
+      end
+    end
+
+    assert_equal '<p>Bar: (args, more args) (String)</p>', textilizable("{{bar(args, more args)}}")
+    assert_equal '<p>Bar: () (String)</p>', textilizable("{{bar}}")
+    assert_equal '<p>Bar: () (String)</p>', textilizable("{{bar()}}")
   end
 
   def test_macro_hello_world
