@@ -36,3 +36,5 @@
   <% end %>
 <% end %>
 </div>
+
+<%= javascript_tag "observeAutocompleteField('issue_id', '#{escape_javascript auto_complete_issues_path(:project_id => @project, :scope => 'all')}')" %>
