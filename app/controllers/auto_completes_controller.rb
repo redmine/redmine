@@ -20,25 +20,23 @@ class AutoCompletesController < ApplicationController
 
   def issues
     @issues = []
-    q = (params[:q] || params[:term]).to_s
-    query = (params[:scope] == "all" && Setting.cross_project_issue_relations?) ? Issue : @project.issues
-    if q.match(/^\d+$/)
-      @issues << query.visible.find_by_id(q.to_i)
+    q = (params[:q] || params[:term]).to_s.strip
+    if q.present?
+      scope = (params[:scope] == "all" ? Issue : @project.issues).visible
+      if q.match(/^\d+$/)
+        @issues << scope.find_by_id(q.to_i)
+      end
+      @issues += scope.where("LOWER(#{Issue.table_name}.subject) LIKE ?", "%#{q.downcase}%").order("#{Issue.table_name}.id DESC").limit(10).all
+      @issues.compact!
     end
-    unless q.blank?
-      @issues += query.visible.find(:all, :conditions => ["LOWER(#{Issue.table_name}.subject) LIKE ?", "%#{q.downcase}%"], :limit => 10)
-    end
-    @issues.compact!
     render :layout => false
   end
 
   private
 
   def find_project
-    project_id = (params[:issue] && params[:issue][:project_id]) || params[:project_id]
-    @project = Project.find(project_id)
+    @project = Project.find(params[:project_id])
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-
 end
