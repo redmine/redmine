@@ -19,3 +19,5 @@
 	<% end %>
 	<%= call_hook(:view_timelog_edit_form_bottom, { :time_entry => @time_entry, :form => f }) %>
 </div>
+
+<%= javascript_tag "observeAutocompleteField('time_entry_issue_id', '#{escape_javascript auto_complete_issues_path(:project_id => @project, :scope => (@project ? nil : 'all'))}')" %>

@@ -40,6 +40,13 @@ class AutoCompletesControllerTest < ActionController::TestCase
     assert assigns(:issues).include?(Issue.find(13))
   end
 
+  def test_auto_complete_without_project_should_search_all_projects
+    get :issues, :q => '13'
+    assert_response :success
+    assert_not_nil assigns(:issues)
+    assert assigns(:issues).include?(Issue.find(13))
+  end
+
   def test_auto_complete_without_scope_all_should_not_search_other_projects
     get :issues, :project_id => 'ecookbook', :q => '13'
     assert_response :success

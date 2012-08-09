@@ -22,7 +22,7 @@ class AutoCompletesController < ApplicationController
     @issues = []
     q = (params[:q] || params[:term]).to_s.strip
     if q.present?
-      scope = (params[:scope] == "all" ? Issue : @project.issues).visible
+      scope = (params[:scope] == "all" || @project.nil? ? Issue : @project.issues).visible
       if q.match(/^\d+$/)
         @issues << scope.find_by_id(q.to_i)
       end
@@ -35,7 +35,9 @@ class AutoCompletesController < ApplicationController
   private
 
   def find_project
-    @project = Project.find(params[:project_id])
+    if params[:project_id].present?
+      @project = Project.find(params[:project_id])
+    end
   rescue ActiveRecord::RecordNotFound
     render_404
   end
