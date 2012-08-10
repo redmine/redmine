@@ -203,7 +203,7 @@ module ApplicationHelper
     if projects.any?
       ancestors = []
       original_project = @project
-      projects.each do |project|
+      projects.sort_by(&:lft).each do |project|
         # set the project environment to please macros.
         @project = project
         if (ancestors.empty? || project.is_descendant_of?(ancestors.last))
@@ -300,30 +300,6 @@ module ApplicationHelper
   # Wrapper for Project#project_tree
   def project_tree(projects, &block)
     Project.project_tree(projects, &block)
-  end
-
-  def project_nested_ul(projects, &block)
-    s = ''
-    if projects.any?
-      ancestors = []
-      projects.sort_by(&:lft).each do |project|
-        if (ancestors.empty? || project.is_descendant_of?(ancestors.last))
-          s << "<ul>\n"
-        else
-          ancestors.pop
-          s << "</li>"
-          while (ancestors.any? && !project.is_descendant_of?(ancestors.last))
-            ancestors.pop
-            s << "</ul></li>\n"
-          end
-        end
-        s << "<li>"
-        s << yield(project).to_s
-        ancestors << project
-      end
-      s << ("</li></ul>\n" * ancestors.size)
-    end
-    s.html_safe
   end
 
   def principals_check_box_tags(name, principals)

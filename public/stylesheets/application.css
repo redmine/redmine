@@ -413,18 +413,15 @@ input#issue_subject { width: 99%; }
 select#issue_done_ratio { width: 95px; }
 
 ul.projects {margin:0; padding-left:1em;}
+ul.projects ul {padding-left:1.6em;}
 ul.projects.root {margin:0; padding:0;}
 ul.projects li {list-style-type:none;}
 
-#projects-index ul.projects ul.projects { border-left: 3px solid #e0e0e0; }
+#projects-index ul.projects ul.projects { border-left: 3px solid #e0e0e0; padding-left:1em;}
 #projects-index ul.projects li.root {margin-bottom: 1em;}
 #projects-index ul.projects li.child {margin-top: 1em;}
 #projects-index ul.projects div.root a.project { font-family: "Trebuchet MS", Verdana, sans-serif; font-weight: bold; font-size: 16px; margin: 0 0 10px 0; }
-#notified-projects ul.projects ul {padding-left:1.6em;}
 .my-project { padding-left: 18px; background: url(../images/fav.png) no-repeat 0 50%; }
-
-#tracker_project_ids ul { margin: 0;  padding-left: 1em; }
-#tracker_project_ids li { list-style-type:none; }
 
 #related-issues li img {vertical-align:middle;}
 
