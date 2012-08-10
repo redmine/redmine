@@ -81,6 +81,7 @@ class Project < ActiveRecord::Base
   # reserved words
   validates_exclusion_of :identifier, :in => %w( new )
 
+  after_save :update_position_under_parent, :if => Proc.new {|project| project.name_changed?}
   before_destroy :delete_all_members
 
   scope :has_module, lambda { |mod| { :conditions => ["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s] } }
@@ -383,22 +384,7 @@ class Project < ActiveRecord::Base
       # Nothing to do
       true
     elsif p.nil? || (p.active? && move_possible?(p))
-      # Insert the project so that target's children or root projects stay alphabetically sorted
-      sibs = (p.nil? ? self.class.roots : p.children)
-      to_be_inserted_before = sibs.detect {|c| c.name.to_s.downcase > name.to_s.downcase }
-      if to_be_inserted_before
-        move_to_left_of(to_be_inserted_before)
-      elsif p.nil?
-        if sibs.empty?
-          # move_to_root adds the project in first (ie. left) position
-          move_to_root
-        else
-          move_to_right_of(sibs.last) unless self == sibs.last
-        end
-      else
-        # move_to_child_of adds the project in last (ie.right) position
-        move_to_child_of(p)
-      end
+      set_or_update_position_under(p)
       Issue.update_versions_from_hierarchy_change(self)
       true
     else
@@ -942,5 +928,29 @@ class Project < ActiveRecord::Base
       subproject.send :archive!
     end
     update_attribute :status, STATUS_ARCHIVED
+  end
+
+  def update_position_under_parent
+    set_or_update_position_under(parent)
+  end
+
+  # Inserts/moves the project so that target's children or root projects stay alphabetically sorted
+  def set_or_update_position_under(target_parent)
+    sibs = (target_parent.nil? ? self.class.roots : target_parent.children)
+    to_be_inserted_before = sibs.sort_by {|c| c.name.to_s.downcase}.detect {|c| c.name.to_s.downcase > name.to_s.downcase }
+
+    if to_be_inserted_before
+      move_to_left_of(to_be_inserted_before)
+    elsif target_parent.nil?
+      if sibs.empty?
+        # move_to_root adds the project in first (ie. left) position
+        move_to_root
+      else
+        move_to_right_of(sibs.last) unless self == sibs.last
+      end
+    else
+      # move_to_child_of adds the project in last (ie.right) position
+      move_to_child_of(target_parent)
+    end
   end
 end
