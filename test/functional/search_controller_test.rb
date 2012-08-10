@@ -199,4 +199,24 @@ class SearchControllerTest < ActionController::TestCase
     get :index, :id => 1, :q => '"good bye" hello "bye bye"'
     assert_equal ["good bye", "hello", "bye bye"], assigns(:tokens)
   end
+
+  def test_results_should_be_escaped_once
+    assert Issue.find(1).update_attributes(:subject => '<subject> escaped_once', :description => '<description> escaped_once')
+    get :index, :q => 'escaped_once'
+    assert_response :success
+    assert_select '#search-results' do
+      assert_select 'dt.issue a', :text => /&lt;subject&gt;/
+      assert_select 'dd', :text => /&lt;description&gt;/
+    end
+  end
+
+  def test_keywords_should_be_highlighted
+    assert Issue.find(1).update_attributes(:subject => 'subject highlighted', :description => 'description highlighted')
+    get :index, :q => 'highlighted'
+    assert_response :success
+    assert_select '#search-results' do
+      assert_select 'dt.issue a span.highlight', :text => 'highlighted'
+      assert_select 'dd span.highlight', :text => 'highlighted'
+    end
+  end
 end
