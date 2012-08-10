@@ -970,37 +970,25 @@ RAW
     end
   end
 
-  def test_avatar_enabled
-    with_settings :gravatar_enabled => '1' do
-      assert avatar(User.find_by_mail('jsmith@somenet.foo')).include?(Digest::MD5.hexdigest('jsmith@somenet.foo'))
-      assert avatar('jsmith <jsmith@somenet.foo>').include?(Digest::MD5.hexdigest('jsmith@somenet.foo'))
-      # Default size is 50
-      assert avatar('jsmith <jsmith@somenet.foo>').include?('size=50')
-      assert avatar('jsmith <jsmith@somenet.foo>', :size => 24).include?('size=24')
-      # Non-avatar options should be considered html options
-      assert avatar('jsmith <jsmith@somenet.foo>', :title => 'John Smith').include?('title="John Smith"')
-      # The default class of the img tag should be gravatar
-      assert avatar('jsmith <jsmith@somenet.foo>').include?('class="gravatar"')
-      assert !avatar('jsmith <jsmith@somenet.foo>', :class => 'picture').include?('class="gravatar"')
-      assert_nil avatar('jsmith')
-      assert_nil avatar(nil)
-    end
-  end
+  def test_avatar
+    # turn on avatars
+    Setting.gravatar_enabled = '1'
+    assert avatar(User.find_by_mail('jsmith@somenet.foo')).include?(Digest::MD5.hexdigest('jsmith@somenet.foo'))
+    assert avatar('jsmith <jsmith@somenet.foo>').include?(Digest::MD5.hexdigest('jsmith@somenet.foo'))
+    # Default size is 50
+    assert avatar('jsmith <jsmith@somenet.foo>').include?('size=50')
+    assert avatar('jsmith <jsmith@somenet.foo>', :size => 24).include?('size=24')
+    # Non-avatar options should be considered html options
+    assert avatar('jsmith <jsmith@somenet.foo>', :title => 'John Smith').include?('title="John Smith"')
+    # The default class of the img tag should be gravatar
+    assert avatar('jsmith <jsmith@somenet.foo>').include?('class="gravatar"')
+    assert !avatar('jsmith <jsmith@somenet.foo>', :class => 'picture').include?('class="gravatar"')
+    assert_nil avatar('jsmith')
+    assert_nil avatar(nil)
 
-  def test_avatar_should_use_ssl_if_protocol_is_https
-    with_settings :gravatar_enabled => '1', :protocol => 'https' do
-      assert_include 'https://', avatar(User.find_by_mail('jsmith@somenet.foo'))
-    end
-
-    with_settings :gravatar_enabled => '1', :protocol => 'http' do
-      assert_include 'http://', avatar(User.find_by_mail('jsmith@somenet.foo'))
-    end
-  end
-
-  def test_avatar_disabled
-    with_settings :gravatar_enabled => '0' do
-      assert_equal '', avatar(User.find_by_mail('jsmith@somenet.foo'))
-    end
+    # turn off avatars
+    Setting.gravatar_enabled = '0'
+    assert_equal '', avatar(User.find_by_mail('jsmith@somenet.foo'))
   end
 
   def test_link_to_user
