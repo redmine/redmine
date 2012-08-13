@@ -58,6 +58,10 @@ module Redmine
       ::I18n.t('date.day_names')[day % 7]
     end
 
+    def day_letter(day)
+      ::I18n.t('date.abbr_day_names')[day % 7].first
+    end
+
     def month_name(month)
       ::I18n.t('date.month_names')[month]
     end

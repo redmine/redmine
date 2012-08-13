@@ -25,6 +25,10 @@ class Redmine::I18nTest < ActiveSupport::TestCase
     User.current.language = nil
   end
 
+  def teardown
+    set_language_if_valid 'en'
+  end
+
   def test_date_format_default
     set_language_if_valid 'en'
     today = Date.today
@@ -153,6 +157,18 @@ class Redmine::I18nTest < ActiveSupport::TestCase
         assert_match /251/, size
       end
     end
+  end
+
+  def test_day_name
+    set_language_if_valid 'fr'
+    assert_equal 'dimanche', day_name(0)
+    assert_equal 'jeudi', day_name(4)
+  end
+
+  def test_day_letter
+    set_language_if_valid 'fr'
+    assert_equal 'd', day_letter(0)
+    assert_equal 'j', day_letter(4)
   end
 
   def test_valid_languages
