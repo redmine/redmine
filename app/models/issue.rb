@@ -64,7 +64,6 @@ class Issue < ActiveRecord::Base
         lambda {|*args| { :include => :project,
                           :conditions => Issue.visible_condition(args.shift || User.current, *args) } }
 
-  class << self; undef :open; end
   scope :open, lambda {|*args|
     is_closed = args.size > 0 ? !args.first : false
     {:conditions => ["#{IssueStatus.table_name}.is_closed = ?", is_closed], :include => :status}

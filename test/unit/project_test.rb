@@ -132,6 +132,10 @@ class ProjectTest < ActiveSupport::TestCase
     end
   end
 
+  def test_open_scope_on_issues_association
+    assert_kind_of Issue, Project.find(1).issues.open.first
+  end
+
   def test_archive
     user = @ecookbook.members.first.user
     @ecookbook.archive
