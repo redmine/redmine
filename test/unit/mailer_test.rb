@@ -542,10 +542,27 @@ class MailerTest < ActiveSupport::TestCase
     end
   end
 
-private
+  def test_should_escape_html_templates_only
+    Issue.generate!(:project_id => 1, :tracker_id => 1, :subject => 'Subject with a <tag>')
+    mail = last_email
+    assert_equal 2, mail.parts.size
+    assert_include '<tag>', text_part.body.encoded
+    assert_include '&lt;tag&gt;', html_part.body.encoded
+  end
+
+  private
+
   def last_email
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
     mail
+  end
+
+  def text_part
+    last_email.parts.detect {|part| part.content_type.include?('text/plain')}
+  end
+
+  def html_part
+    last_email.parts.detect {|part| part.content_type.include?('text/html')}
   end
 end
