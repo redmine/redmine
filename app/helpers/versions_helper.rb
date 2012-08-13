@@ -19,6 +19,14 @@
 
 module VersionsHelper
 
+  def version_anchor(version)
+    if @project == version.project
+      anchor version.name
+    else
+      anchor "#{version.project.try(:identifier)}-#{version.name}"
+    end
+  end
+
   STATUS_BY_CRITERIAS = %w(tracker status priority author assigned_to category)
 
   def render_issue_status_by(version, criteria)

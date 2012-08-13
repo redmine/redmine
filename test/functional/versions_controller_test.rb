@@ -80,6 +80,20 @@ class VersionsControllerTest < ActionController::TestCase
     assert assigns(:versions).include?(@subproject_version), "Subproject version not found"
   end
 
+  def test_index_should_prepend_shared_versions
+    get :index, :project_id => 1
+    assert_response :success
+
+    assert_select '#sidebar' do
+      assert_select 'a[href=?]', '#2.0', :text => '2.0'
+      assert_select 'a[href=?]', '#subproject1-2.0', :text => 'eCookbook Subproject 1 - 2.0'
+    end
+    assert_select '#content' do
+      assert_select 'a[name=?]', '2.0', :text => '2.0'
+      assert_select 'a[name=?]', 'subproject1-2.0', :text => 'eCookbook Subproject 1 - 2.0'
+    end
+  end
+
   def test_show
     get :show, :id => 2
     assert_response :success
