@@ -130,7 +130,7 @@ function buildFilterRow(field, operator, values) {
 
   select = tr.find('td.operator select');
   for (i=0;i<operators.length;i++){
-    var option = $('<option>').val(operators[i]).html(operatorLabels[operators[i]]);
+    var option = $('<option>').val(operators[i]).text(operatorLabels[operators[i]]);
     if (operators[i] == operator) {option.attr('selected', true)};
     select.append(option);
   }
@@ -151,10 +151,10 @@ function buildFilterRow(field, operator, values) {
       var filterValue = filterValues[i];
       var option = $('<option>');
       if ($.isArray(filterValue)) {
-        option.val(filterValue[1]).html(filterValue[0]);
+        option.val(filterValue[1]).text(filterValue[0]);
         if (values.indexOf(filterValue[1]) > -1) {option.attr('selected', true)};
       } else {
-        option.val(filterValue).html(filterValue);
+        option.val(filterValue).text(filterValue);
         if (values.indexOf(filterValue) > -1) {option.attr('selected', true)};
       }
       select.append(option);
