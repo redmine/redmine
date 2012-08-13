@@ -1157,7 +1157,12 @@ module ApplicationHelper
   end
 
   def sanitize_anchor_name(anchor)
-    anchor.gsub(%r{[^\w\s\-]}, '').gsub(%r{\s+(\-+\s*)?}, '-')
+    if ''.respond_to?(:encoding)
+      anchor.gsub(%r{[^\p{Word}\s\-]}, '').gsub(%r{\s+(\-+\s*)?}, '-')
+    else
+      # TODO: remove when ruby1.8 is no longer supported
+      anchor.gsub(%r{[^\w\s\-]}, '').gsub(%r{\s+(\-+\s*)?}, '-')
+    end
   end
 
   # Returns the javascript tags that are included in the html layout head

@@ -1,3 +1,5 @@
+# encoding: utf-8
+#
 # Redmine - project management software
 # Copyright (C) 2006-2012  Jean-Philippe Lang
 #
@@ -526,6 +528,8 @@ RAW
       # link with anchor
       '[[CookBook documentation#One-section]]' => '<a href="/projects/ecookbook/wiki/CookBook_documentation#One-section" class="wiki-page">CookBook documentation</a>',
       '[[Another page#anchor|Page]]' => '<a href="/projects/ecookbook/wiki/Another_page#anchor" class="wiki-page">Page</a>',
+      # UTF8 anchor
+      '[[Another_page#Тест|Тест]]' => %|<a href="/projects/ecookbook/wiki/Another_page##{CGI.escape 'Тест'}" class="wiki-page">Тест</a>|,
       # page that doesn't exist
       '[[Unknown page]]' => '<a href="/projects/ecookbook/wiki/Unknown_page" class="wiki-page new">Unknown page</a>',
       '[[Unknown page|404]]' => '<a href="/projects/ecookbook/wiki/Unknown_page" class="wiki-page new">404</a>',
