@@ -39,6 +39,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from ActionController::InvalidAuthenticityToken, :with => :invalid_authenticity_token
   rescue_from ::Unauthorized, :with => :deny_access
+  rescue_from ::ActionView::MissingTemplate, :with => :missing_template
 
   include Redmine::Search::Controller
   include Redmine::MenuManager::MenuController
@@ -352,13 +353,17 @@ class ApplicationController < ActionController::Base
       format.html {
         render :template => 'common/error', :layout => use_layout, :status => @status
       }
-      format.atom { head @status }
-      format.xml { head @status }
-      format.js { head @status }
-      format.json { head @status }
+      format.any { head @status }
     end
   end
-  
+
+  # Handler for ActionView::MissingTemplate exception
+  def missing_template
+    logger.warn "Missing template, responding with 404"
+    @project = nil
+    render_404
+  end
+
   # Filter for actions that provide an API response
   # but have no HTML representation for non admin users
   def require_admin_or_api_request
