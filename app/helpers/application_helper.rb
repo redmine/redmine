@@ -1157,7 +1157,7 @@ module ApplicationHelper
   end
 
   def sanitize_anchor_name(anchor)
-    if ''.respond_to?(:encoding)
+    if ''.respond_to?(:encoding) || RUBY_PLATFORM == 'java'
       anchor.gsub(%r{[^\p{Word}\s\-]}, '').gsub(%r{\s+(\-+\s*)?}, '-')
     else
       # TODO: remove when ruby1.8 is no longer supported
