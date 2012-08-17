@@ -18,6 +18,7 @@
 require File.expand_path('../../../../test_helper', __FILE__)
 
 class Redmine::WikiFormattingTest < ActiveSupport::TestCase
+  fixtures :issues
 
   def test_textile_formatter
     assert_equal Redmine::WikiFormatting::Textile::Formatter, Redmine::WikiFormatting.formatter_for('textile')
@@ -51,5 +52,9 @@ EXPECTED
     with_settings :text_formatting => '' do
       assert_equal false, Redmine::WikiFormatting.supports_section_edit?
     end
+  end
+
+  def test_cache_key_for_saved_object_should_no_be_nil
+    assert_not_nil Redmine::WikiFormatting.cache_key_for('textile', 'Text', Issue.find(1), :description)
   end
 end

@@ -19,6 +19,11 @@ module Redmine
   module WikiFormatting
     module Macros
       module Definitions
+        # Returns true if +name+ is the name of an existing macro
+        def macro_exists?(name)
+          Redmine::WikiFormatting::Macros.available_macros.key?(name.to_sym)
+        end
+
         def exec_macro(name, obj, args)
           macro_options = Redmine::WikiFormatting::Macros.available_macros[name.to_sym]
           return unless macro_options
@@ -27,7 +32,12 @@ module Redmine
           unless macro_options[:parse_args] == false
             args = args.split(',').map(&:strip)
           end
-          send(method_name, obj, args) if respond_to?(method_name)
+
+          begin
+            send(method_name, obj, args) if respond_to?(method_name)
+          rescue => e
+            "<div class=\"flash error\">Error executing the <strong>#{h name}</strong> macro (#{h e.to_s})</div>".html_safe
+          end
         end
 
         def extract_macro_options(args, *keys)
@@ -97,7 +107,7 @@ module Redmine
       # Builtin macros
       desc "Sample macro."
       macro :hello_world do |obj, args|
-        "Hello world! Object: #{obj.class.name}, " + (args.empty? ? "Called with no argument." : "Arguments: #{args.join(', ')}")
+        h("Hello world! Object: #{obj.class.name}, " + (args.empty? ? "Called with no argument." : "Arguments: #{args.join(', ')}"))
       end
 
       desc "Displays a list of all available macros, including description if available."

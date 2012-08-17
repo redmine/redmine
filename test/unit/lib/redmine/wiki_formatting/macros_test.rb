@@ -76,12 +76,71 @@ class Redmine::WikiFormatting::MacrosTest < ActionView::TestCase
     assert_equal '<p>no args args: c,d</p>', textilizable("{{foo}} {{foo(c,d)}}")
   end
 
+  def test_macro_should_receive_the_object_as_argument_when_with_object_and_attribute
+    issue = Issue.find(1)
+    issue.description = "{{hello_world}}"
+    assert_equal '<p>Hello world! Object: Issue, Called with no argument.</p>', textilizable(issue, :description)
+  end
+
+  def test_macro_should_receive_the_object_as_argument_when_called_with_object_option
+    text = "{{hello_world}}"
+    assert_equal '<p>Hello world! Object: Issue, Called with no argument.</p>', textilizable(text, :object => Issue.find(1))
+  end
+
+  def test_macro_exception_should_be_displayed
+    Redmine::WikiFormatting::Macros.macro :exception do |obj, args|
+      raise "My message"
+    end
+
+    text = "{{exception}}"
+    assert_include '<div class="flash error">Error executing the <strong>exception</strong> macro (My message)</div>', textilizable(text)
+  end
+
+  def test_macro_arguments_should_not_be_parsed_by_formatters
+    text = '{{hello_world(http://www.redmine.org, #1)}}'
+    assert_include 'Arguments: http://www.redmine.org, #1', textilizable(text)
+  end
+
+  def test_exclamation_mark_should_not_run_macros
+    text = "!{{hello_world}}"
+    assert_equal '<p>{{hello_world}}</p>', textilizable(text)
+  end
+
+  def test_exclamation_mark_should_escape_macros
+    text = "!{{hello_world(<tag>)}}"
+    assert_equal '<p>{{hello_world(&lt;tag&gt;)}}</p>', textilizable(text)
+  end
+
+  def test_unknown_macros_should_not_be_replaced
+    text = "{{unknown}}"
+    assert_equal '<p>{{unknown}}</p>', textilizable(text)
+  end
+
+  def test_unknown_macros_should_parsed_as_text
+    text = "{{unknown(*test*)}}"
+    assert_equal '<p>{{unknown(<strong>test</strong>)}}</p>', textilizable(text)
+  end
+
+  def test_unknown_macros_should_be_escaped
+    text = "{{unknown(<tag>)}}"
+    assert_equal '<p>{{unknown(&lt;tag&gt;)}}</p>', textilizable(text)
+  end
+
+  def test_html_safe_macro_output_should_not_be_escaped
+    Redmine::WikiFormatting::Macros.macro :safe_macro do |obj, args|
+      "<tag>".html_safe
+    end
+    assert_equal '<p><tag></p>', textilizable("{{safe_macro}}")
+  end
+
   def test_macro_hello_world
     text = "{{hello_world}}"
     assert textilizable(text).match(/Hello world!/)
-    # escaping
-    text = "!{{hello_world}}"
-    assert_equal '<p>{{hello_world}}</p>', textilizable(text)
+  end
+
+  def test_macro_hello_world_should_escape_arguments
+    text = "{{hello_world(<tag>)}}"
+    assert_include 'Arguments: &lt;tag&gt;', textilizable(text)
   end
 
   def test_macro_macro_list
@@ -93,18 +152,18 @@ class Redmine::WikiFormatting::MacrosTest < ActionView::TestCase
     @project = Project.find(1)
     # include a page of the current project wiki
     text = "{{include(Another page)}}"
-    assert textilizable(text).match(/This is a link to a ticket/)
+    assert_include 'This is a link to a ticket', textilizable(text)
 
     @project = nil
     # include a page of a specific project wiki
     text = "{{include(ecookbook:Another page)}}"
-    assert textilizable(text).match(/This is a link to a ticket/)
+    assert_include 'This is a link to a ticket', textilizable(text)
 
     text = "{{include(ecookbook:)}}"
-    assert textilizable(text).match(/CookBook documentation/)
+    assert_include 'CookBook documentation', textilizable(text)
 
     text = "{{include(unknowidentifier:somepage)}}"
-    assert textilizable(text).match(/Page not found/)
+    assert_include 'Page not found', textilizable(text)
   end
 
   def test_macro_child_pages
@@ -163,5 +222,41 @@ class Redmine::WikiFormatting::MacrosTest < ActionView::TestCase
   def test_macro_thumbnail_with_invalid_filename_should_fail
     assert_include 'test.png not found',
       textilizable("{{thumbnail(test.png)}}", :object => Issue.find(14))
+  end
+
+  def test_macros_should_not_be_executed_in_pre_tags
+    text = <<-RAW
+{{hello_world(foo)}}
+
+<pre>
+{{hello_world(pre)}}
+!{{hello_world(pre)}}
+</pre>
+
+{{hello_world(bar)}}
+RAW
+
+    expected = <<-EXPECTED
+<p>Hello world! Object: NilClass, Arguments: foo</p>
+
+<pre>
+{{hello_world(pre)}}
+!{{hello_world(pre)}}
+</pre>
+
+<p>Hello world! Object: NilClass, Arguments: bar</p>
+EXPECTED
+
+    assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(text).gsub(%r{[\r\n\t]}, '')
+  end
+
+  def test_macros_should_be_escaped_in_pre_tags
+    text = "<pre>{{hello_world(<tag>)}}</pre>"
+    assert_equal "<pre>{{hello_world(&lt;tag&gt;)}}</pre>", textilizable(text)
+  end
+
+  def test_macros_should_not_mangle_next_macros_outputs
+    text = '{{macro(2)}} !{{macro(2)}} {{hello_world(foo)}}'
+    assert_equal '<p>{{macro(2)}} {{macro(2)}} Hello world! Object: NilClass, Arguments: foo</p>', textilizable(text)
   end
 end

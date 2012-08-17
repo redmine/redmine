@@ -527,6 +527,8 @@ module ApplicationHelper
     project = options[:project] || @project || (obj && obj.respond_to?(:project) ? obj.project : nil)
     only_path = options.delete(:only_path) == false ? false : true
 
+    text = text.dup
+    macros = catch_macros(text)
     text = Redmine::WikiFormatting.to_html(Setting.text_formatting, text, :object => obj, :attribute => attr)
 
     @parsed_headings = []
@@ -534,8 +536,8 @@ module ApplicationHelper
     @current_section = 0 if options[:edit_section_links]
 
     parse_sections(text, project, obj, attr, only_path, options)
-    text = parse_non_pre_blocks(text) do |text|
-      [:parse_inline_attachments, :parse_wiki_links, :parse_redmine_links, :parse_macros].each do |method_name|
+    text = parse_non_pre_blocks(text, obj, macros) do |text|
+      [:parse_inline_attachments, :parse_wiki_links, :parse_redmine_links].each do |method_name|
         send method_name, text, project, obj, attr, only_path, options
       end
     end
@@ -548,7 +550,7 @@ module ApplicationHelper
     text.html_safe
   end
 
-  def parse_non_pre_blocks(text)
+  def parse_non_pre_blocks(text, obj, macros)
     s = StringScanner.new(text)
     tags = []
     parsed = ''
@@ -557,6 +559,9 @@ module ApplicationHelper
       text, full_tag, closing, tag = s[1], s[2], s[3], s[4]
       if tags.empty?
         yield text
+        inject_macros(text, obj, macros) if macros.any?
+      else
+        inject_macros(text, obj, macros, false) if macros.any?
       end
       parsed << text
       if tag
@@ -856,7 +861,7 @@ module ApplicationHelper
     end
   end
 
-  MACROS_RE = /
+  MACROS_RE = /(
                 (!)?                        # escaping
                 (
                 \{\{                        # opening tag
@@ -864,20 +869,46 @@ module ApplicationHelper
                 (\((.*?)\))?                # optional arguments
                 \}\}                        # closing tag
                 )
-              /x unless const_defined?(:MACROS_RE)
+               )/x unless const_defined?(:MACROS_RE)
 
-  # Macros substitution
-  def parse_macros(text, project, obj, attr, only_path, options)
+  MACRO_SUB_RE = /(
+                  \{\{
+                  macro\((\d+)\)
+                  \}\}
+                  )/x unless const_defined?(:MACROS_SUB_RE)
+
+  # Extracts macros from text
+  def catch_macros(text)
+    macros = {}
     text.gsub!(MACROS_RE) do
-      esc, all, macro, args = $1, $2, $3.downcase, $5.to_s
-      if esc.nil?
-        begin
-          exec_macro(macro, obj, args)
-        rescue => e
-          "<div class=\"flash error\">Error executing the <strong>#{macro}</strong> macro (#{e})</div>"
-        end || all
+      all, macro = $1, $4.downcase
+      if macro_exists?(macro) || all =~ MACRO_SUB_RE
+        index = macros.size
+        macros[index] = all
+        "{{macro(#{index})}}"
       else
         all
+      end
+    end
+    macros
+  end
+
+  # Executes and replaces macros in text
+  def inject_macros(text, obj, macros, execute=true)
+    text.gsub!(MACRO_SUB_RE) do
+      all, index = $1, $2.to_i
+      orig = macros.delete(index)
+      if execute && orig && orig =~ MACROS_RE
+        esc, all, macro, args = $2, $3, $4.downcase, $6.to_s
+        if esc.nil?
+          h(exec_macro(macro, obj, args) || all)
+        else
+          h(all)
+        end
+      elsif orig
+        h(orig)
+      else
+        h(all)
       end
     end
   end
