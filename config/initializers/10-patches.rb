@@ -13,7 +13,11 @@ module ActiveRecord
 
   # Undefines private Kernel#open method to allow using `open` scopes in models.
   # See Defect #11545 (http://www.redmine.org/issues/11545) for details.
-  class Base ; undef open ; end
+  class Base
+    class << self
+      undef open
+    end
+  end
   class Relation ; undef open ; end
 end
 
