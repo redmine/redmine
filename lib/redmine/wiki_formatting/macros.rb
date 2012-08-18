@@ -125,10 +125,16 @@ module Redmine
         #     # args is a string
         #   end
         def macro(name, options={}, &block)
+          options.assert_valid_keys(:desc, :parse_args)
+          unless name.to_s.match(/\A\w+\z/)
+            raise "Invalid macro name: #{name} (only 0-9, A-Z, a-z and _ characters are accepted)"
+          end
+          unless block_given?
+            raise "Can not create a macro without a block!"
+          end
           name = name.to_sym if name.is_a?(String)
           available_macros[name] = {:desc => @@desc || ''}.merge(options)
           @@desc = nil
-          raise "Can not create a macro without a block!" unless block_given?
           Definitions.send :define_method, "macro_#{name}".downcase, &block
         end
 
