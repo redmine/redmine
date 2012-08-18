@@ -866,10 +866,11 @@ module ApplicationHelper
                 (
                 \{\{                        # opening tag
                 ([\w]+)                     # macro name
-                (\((.*?)\))?                # optional arguments
+                (\(([^\n\r]*?)\))?          # optional arguments
+                ([\n\r].*[\n\r])?           # optional block of text
                 \}\}                        # closing tag
                 )
-               )/x unless const_defined?(:MACROS_RE)
+               )/mx unless const_defined?(:MACROS_RE)
 
   MACRO_SUB_RE = /(
                   \{\{
@@ -899,9 +900,9 @@ module ApplicationHelper
       all, index = $1, $2.to_i
       orig = macros.delete(index)
       if execute && orig && orig =~ MACROS_RE
-        esc, all, macro, args = $2, $3, $4.downcase, $6.to_s
+        esc, all, macro, args, block = $2, $3, $4.downcase, $6.to_s, $7.try(:strip)
         if esc.nil?
-          h(exec_macro(macro, obj, args) || all)
+          h(exec_macro(macro, obj, args, block) || all)
         else
           h(all)
         end

@@ -24,7 +24,7 @@ module Redmine
           Redmine::WikiFormatting::Macros.available_macros.key?(name.to_sym)
         end
 
-        def exec_macro(name, obj, args)
+        def exec_macro(name, obj, args, text)
           macro_options = Redmine::WikiFormatting::Macros.available_macros[name.to_sym]
           return unless macro_options
 
@@ -34,7 +34,13 @@ module Redmine
           end
 
           begin
-            send(method_name, obj, args) if respond_to?(method_name)
+            if self.class.instance_method(method_name).arity == 3
+              send(method_name, obj, args, text)
+            elsif text
+              raise "This macro does not accept a block of text"
+            else
+              send(method_name, obj, args)
+            end
           rescue => e
             "<div class=\"flash error\">Error executing the <strong>#{h name}</strong> macro (#{h e.to_s})</div>".html_safe
           end
@@ -55,9 +61,11 @@ module Redmine
 
       class << self
         # Called with a block to define additional macros.
-        # Macro blocks accept 2 arguments:
+        # Macro blocks accept 2 or 3 arguments:
         # * obj: the object that is rendered
         # * args: macro arguments
+        # * text: a block of text (if the macro accepts
+        #   3 arguments)
         #
         # Plugins can use this method to define new macros:
         #
@@ -66,7 +74,33 @@ module Redmine
         #     macro :my_macro do |obj, args|
         #       "My macro output"
         #     end
+        #
+        #     desc "This is my macro that accepts a block of text"
+        #     macro :my_macro do |obj, args, text|
+        #       "My macro output"
+        #     end
         #   end
+        #
+        # Macros are invoked in formatted text using the following
+        # syntax:
+        #
+        #   No arguments:
+        #   {{my_macro}}
+        #
+        #   With arguments:
+        #   {{my_macro(arg1, arg2)}}
+        #
+        #   With a block of text:
+        #   {{my_macro
+        #   multiple lines
+        #   of text
+        #   }}
+        #
+        #   With arguments and a block of text
+        #   {{my_macro(arg1, arg2)
+        #   multiple lines
+        #   of text
+        #   }}
         def register(&block)
           class_eval(&block) if block_given?
         end
@@ -79,7 +113,7 @@ module Redmine
         #
         # Examples:
         # By default, when the macro is invoked, the coma separated list of arguments
-        # is parsed and passed to the macro block as an array:
+        # is split and passed to the macro block as an array:
         #
         #   macro :my_macro do |obj, args|
         #     # args is an array
@@ -106,8 +140,11 @@ module Redmine
 
       # Builtin macros
       desc "Sample macro."
-      macro :hello_world do |obj, args|
-        h("Hello world! Object: #{obj.class.name}, " + (args.empty? ? "Called with no argument." : "Arguments: #{args.join(', ')}"))
+      macro :hello_world do |obj, args, text|
+        h("Hello world! Object: #{obj.class.name}, " + 
+          (args.empty? ? "Called with no argument" : "Arguments: #{args.join(', ')}") +
+          " and " + (text.present? ? "a #{text.size} bytes long block of text." : "no block of text.")
+        )
       end
 
       desc "Displays a list of all available macros, including description if available."

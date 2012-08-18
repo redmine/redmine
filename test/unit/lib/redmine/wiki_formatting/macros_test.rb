@@ -65,6 +65,19 @@ class Redmine::WikiFormatting::MacrosTest < ActionView::TestCase
     assert_equal '<p>Bar: () (String)</p>', textilizable("{{bar()}}")
   end
 
+  def test_macro_registration_with_3_args_should_receive_text_argument
+    Redmine::WikiFormatting::Macros.register do
+      macro :baz do |obj, args, text|
+        "Baz: (#{args.join(',')}) (#{text.class.name}) (#{text})"
+      end
+    end
+
+    assert_equal "<p>Baz: () (NilClass) ()</p>", textilizable("{{baz}}")
+    assert_equal "<p>Baz: () (NilClass) ()</p>", textilizable("{{baz()}}")
+    assert_equal "<p>Baz: () (String) (line1\nline2)</p>", textilizable("{{baz()\nline1\nline2\n}}")
+    assert_equal "<p>Baz: (arg1,arg2) (String) (line1\nline2)</p>", textilizable("{{baz(arg1, arg2)\nline1\nline2\n}}")
+  end
+
   def test_multiple_macros_on_the_same_line
     Redmine::WikiFormatting::Macros.macro :foo do |obj, args|
       args.any? ? "args: #{args.join(',')}" : "no args" 
@@ -79,13 +92,14 @@ class Redmine::WikiFormatting::MacrosTest < ActionView::TestCase
   def test_macro_should_receive_the_object_as_argument_when_with_object_and_attribute
     issue = Issue.find(1)
     issue.description = "{{hello_world}}"
-    assert_equal '<p>Hello world! Object: Issue, Called with no argument.</p>', textilizable(issue, :description)
+    assert_equal '<p>Hello world! Object: Issue, Called with no argument and no block of text.</p>', textilizable(issue, :description)
   end
 
   def test_macro_should_receive_the_object_as_argument_when_called_with_object_option
     text = "{{hello_world}}"
-    assert_equal '<p>Hello world! Object: Issue, Called with no argument.</p>', textilizable(text, :object => Issue.find(1))
+    assert_equal '<p>Hello world! Object: Issue, Called with no argument and no block of text.</p>', textilizable(text, :object => Issue.find(1))
   end
+
 
   def test_macro_exception_should_be_displayed
     Redmine::WikiFormatting::Macros.macro :exception do |obj, args|
@@ -237,14 +251,14 @@ class Redmine::WikiFormatting::MacrosTest < ActionView::TestCase
 RAW
 
     expected = <<-EXPECTED
-<p>Hello world! Object: NilClass, Arguments: foo</p>
+<p>Hello world! Object: NilClass, Arguments: foo and no block of text.</p>
 
 <pre>
 {{hello_world(pre)}}
 !{{hello_world(pre)}}
 </pre>
 
-<p>Hello world! Object: NilClass, Arguments: bar</p>
+<p>Hello world! Object: NilClass, Arguments: bar and no block of text.</p>
 EXPECTED
 
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(text).gsub(%r{[\r\n\t]}, '')
@@ -257,6 +271,6 @@ EXPECTED
 
   def test_macros_should_not_mangle_next_macros_outputs
     text = '{{macro(2)}} !{{macro(2)}} {{hello_world(foo)}}'
-    assert_equal '<p>{{macro(2)}} {{macro(2)}} Hello world! Object: NilClass, Arguments: foo</p>', textilizable(text)
+    assert_equal '<p>{{macro(2)}} {{macro(2)}} Hello world! Object: NilClass, Arguments: foo and no block of text.</p>', textilizable(text)
   end
 end
