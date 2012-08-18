@@ -60,13 +60,6 @@ module Redmine
       mattr_accessor :available_macros
 
       class << self
-        # Called with a block to define additional macros.
-        # Macro blocks accept 2 or 3 arguments:
-        # * obj: the object that is rendered
-        # * args: macro arguments
-        # * text: a block of text (if the macro accepts
-        #   3 arguments)
-        #
         # Plugins can use this method to define new macros:
         #
         #   Redmine::WikiFormatting::Macros.register do
@@ -74,15 +67,58 @@ module Redmine
         #     macro :my_macro do |obj, args|
         #       "My macro output"
         #     end
-        #
+        #   
         #     desc "This is my macro that accepts a block of text"
         #     macro :my_macro do |obj, args, text|
         #       "My macro output"
         #     end
         #   end
+        def register(&block)
+          class_eval(&block) if block_given?
+        end
+
+        # Defines a new macro with the given name, options and block.
         #
-        # Macros are invoked in formatted text using the following
-        # syntax:
+        # Options:
+        # * :desc - A description of the macro
+        # * :parse_args => false - Disables arguments parsing (the whole arguments 
+        #   string is passed to the macro)
+        #
+        # Macro blocks accept 2 or 3 arguments:
+        # * obj: the object that is rendered (eg. an Issue, a WikiContent...)
+        # * args: macro arguments
+        # * text: the block of text given to the macro (should be present only if the
+        #   macro accepts a block of text). text is a String or nil if the macro is
+        #   invoked without a block of text.  
+        #
+        # Examples:
+        # By default, when the macro is invoked, the coma separated list of arguments
+        # is split and passed to the macro block as an array. If no argument is given
+        # the macro will be invoked with an empty array:
+        #
+        #   macro :my_macro do |obj, args|
+        #     # args is an array
+        #     # and this macro do not accept a block of text
+        #   end
+        #
+        # You can disable arguments spliting with the :parse_args => false option. In
+        # this case, the full string of arguments is passed to the macro:
+        #
+        #   macro :my_macro, :parse_args => false do |obj, args|
+        #     # args is a string
+        #   end
+        #
+        # Macro can optionally accept a block of text:
+        #
+        #   macro :my_macro do |obj, args, text|
+        #     # this macro accepts a block of text
+        #   end
+        #
+        # Macros are invoked in formatted text using double curly brackets. Arguments
+        # must be enclosed in parenthesis if any. A new line after the macro name or the
+        # arguments starts the block of text that will be passe to the macro (invoking
+        # a macro that do not accept a block of text with some text will fail).
+        # Examples:
         #
         #   No arguments:
         #   {{my_macro}}
@@ -101,29 +137,8 @@ module Redmine
         #   multiple lines
         #   of text
         #   }}
-        def register(&block)
-          class_eval(&block) if block_given?
-        end
-
-        # Defines a new macro with the given name, options and block.
         #
-        # Options:
-        # * :parse_args => false - Disables arguments parsing (the whole arguments string
-        #   is passed to the macro)
-        #
-        # Examples:
-        # By default, when the macro is invoked, the coma separated list of arguments
-        # is split and passed to the macro block as an array:
-        #
-        #   macro :my_macro do |obj, args|
-        #     # args is an array
-        #   end
-        #
-        # You can disable arguments parsing with the :parse_args => false option:
-        #
-        #   macro :my_macro, :parse_args => false do |obj, args|
-        #     # args is a string
-        #   end
+        # If a block of text is given, the closing tag }} must be at the start of a new line.
         def macro(name, options={}, &block)
           options.assert_valid_keys(:desc, :parse_args)
           unless name.to_s.match(/\A\w+\z/)
