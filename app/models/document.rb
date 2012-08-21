@@ -42,7 +42,9 @@ class Document < ActiveRecord::Base
   def initialize(attributes=nil, *args)
     super
     if new_record?
-      self.category ||= DocumentCategory.default
+      # Rails3 use this instead
+      # self.category ||= DocumentCategory.default
+      self.category_id = DocumentCategory.default.id if self.category_id == 0
     end
   end
 
