@@ -126,6 +126,23 @@ LOREM
     assert_template 'new'
   end
 
+  def test_create_non_default_category
+    @request.session[:user_id] = 2
+    category2 = Enumeration.find_by_name('User documentation')
+    category2.update_attributes(:is_default => true)
+    category1 = Enumeration.find_by_name('Uncategorized')
+    post :create,
+         :project_id => 'ecookbook',
+         :document => { :title => 'no default',
+                        :description => 'This is a new document',
+                        :category_id => category1.id }
+    assert_redirected_to '/projects/ecookbook/documents'
+    doc = Document.find_by_title('no default')
+    assert_not_nil doc
+    assert_equal category1.id, doc.category_id
+    assert_equal category1, doc.category
+  end
+
   def test_edit
     @request.session[:user_id] = 2
     get :edit, :id => 1
