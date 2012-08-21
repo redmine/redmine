@@ -31,4 +31,12 @@ class DocumentCategory < Enumeration
   def transfer_relations(to)
     documents.update_all("category_id = #{to.id}")
   end
+
+  def self.default
+    d = super
+    if d.nil?
+      d = find(:first)
+    end
+    d
+  end
 end

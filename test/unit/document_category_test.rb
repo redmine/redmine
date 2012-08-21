@@ -38,4 +38,8 @@ class DocumentCategoryTest < ActiveSupport::TestCase
     e.update_attributes(:is_default => true)
     assert_equal 3, DocumentCategory.default.id
   end
+
+  def test_force_default
+    assert_equal 1, DocumentCategory.default.id
+  end
 end
