@@ -4,16 +4,19 @@ enumerations_001:
   id: 1
   type: DocumentCategory
   active: true
+  position: 1
 enumerations_002: 
   name: User documentation
   id: 2
   type: DocumentCategory
   active: true
+  position: 2
 enumerations_003: 
   name: Technical documentation
   id: 3
   type: DocumentCategory
   active: true
+  position: 3
 enumerations_004: 
   name: Low
   id: 4
@@ -92,3 +95,4 @@ enumerations_016:
   id: 16
   type: DocumentCategory
   active: false
+  position: 4
