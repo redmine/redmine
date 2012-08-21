@@ -32,4 +32,10 @@ class DocumentCategoryTest < ActiveSupport::TestCase
   def test_option_name
     assert_equal :enumeration_doc_categories, DocumentCategory.new.option_name
   end
+
+  def test_default
+    e = Enumeration.find_by_name('Technical documentation')
+    e.update_attributes(:is_default => true)
+    assert_equal 3, DocumentCategory.default.id
+  end
 end
