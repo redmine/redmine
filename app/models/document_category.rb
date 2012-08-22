@@ -34,9 +34,7 @@ class DocumentCategory < Enumeration
 
   def self.default
     d = super
-    if d.nil?
-      d = find(:first)
-    end
+    d = first if d.nil?
     d
   end
 end
