@@ -41,7 +41,18 @@ class EnumerationTest < ActiveSupport::TestCase
     e = Enumeration.default
     assert e.is_a?(Enumeration)
     assert e.is_default?
+    assert e.active?
     assert_equal 'Default Enumeration', e.name
+  end
+
+  def test_default_non_active
+    e = Enumeration.find(12)
+    assert e.is_a?(Enumeration)
+    assert e.is_default?
+    assert e.active?
+    e.update_attributes(:active => false)
+    assert e.is_default?
+    assert !e.active?
   end
 
   def test_create
