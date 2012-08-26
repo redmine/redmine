@@ -49,7 +49,7 @@
     <% end %>
 </div>
 
-<%= tag('div', {:id => 'main', :class => (sidebar_content? ? '' : 'nosidebar')}, true) %>
+<div id="main" class="<%= sidebar_content? ? '' : 'nosidebar' %>">
     <div id="sidebar">
         <%= yield :sidebar %>
         <%= view_layouts_base_sidebar_hook_response %>
