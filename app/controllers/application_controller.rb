@@ -296,12 +296,16 @@ class ApplicationController < ActionController::Base
   end
 
   def back_url
-    params[:back_url] || request.env['HTTP_REFERER']
+    url = params[:back_url]
+    if url.nil? && referer = request.env['HTTP_REFERER']
+      url = CGI.unescape(referer.to_s)
+    end
+    url
   end
 
   def redirect_back_or_default(default)
-    back_url = CGI.unescape(params[:back_url].to_s)
-    if !back_url.blank?
+    back_url = params[:back_url].to_s
+    if back_url.present?
       begin
         uri = URI.parse(back_url)
         # do not redirect user to another host or to the login or register page
@@ -310,6 +314,7 @@ class ApplicationController < ActionController::Base
           return
         end
       rescue URI::InvalidURIError
+        logger.warn("Could not redirect to invalid URL #{back_url}")
         # redirect to default
       end
     end

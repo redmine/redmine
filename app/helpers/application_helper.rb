@@ -1027,10 +1027,17 @@ module ApplicationHelper
     content_tag(:a, name, {:href => '#', :onclick => "#{function}; return false;"}.merge(html_options))
   end
 
+  def back_url
+    url = params[:back_url]
+    if url.nil? && referer = request.env['HTTP_REFERER']
+      url = CGI.unescape(referer.to_s)
+    end
+    url
+  end
+
   def back_url_hidden_field_tag
-    back_url = params[:back_url] || request.env['HTTP_REFERER']
-    back_url = CGI.unescape(back_url.to_s)
-    hidden_field_tag('back_url', CGI.escape(back_url), :id => nil) unless back_url.blank?
+    url = back_url
+    hidden_field_tag('back_url', url, :id => nil) unless url.blank?
   end
 
   def check_all_links(form_name)
