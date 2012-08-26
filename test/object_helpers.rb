@@ -12,7 +12,8 @@ module ObjectHelpers
     user
   end
 
-  def User.add_to_project(user, project, roles)
+  def User.add_to_project(user, project, roles=nil)
+    roles = Role.find(1) if roles.nil?
     roles = [roles] unless roles.is_a?(Array)
     Member.create!(:principal => user, :project => project, :roles => roles)
   end
