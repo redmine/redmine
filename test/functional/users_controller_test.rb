@@ -349,6 +349,13 @@ class UsersControllerTest < ActionController::TestCase
     assert_response 403
   end
 
+  def test_destroy_should_redirect_to_back_url_param
+    assert_difference 'User.count', -1 do
+      delete :destroy, :id => 2, :back_url => '/users?name=foo'
+    end
+    assert_redirected_to '/users?name=foo'
+  end
+
   def test_create_membership
     assert_difference 'Member.count' do
       post :edit_membership, :id => 7, :membership => { :project_id => 3, :role_ids => [2]}
