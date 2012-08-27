@@ -187,7 +187,7 @@ class Project < ActiveRecord::Base
       end
       if user.logged?
         user.projects_by_role.each do |role, projects|
-          if role.allowed_to?(permission)
+          if role.allowed_to?(permission) && projects.any?
             statement_by_role[role] = "#{Project.table_name}.id IN (#{projects.collect(&:id).join(',')})"
           end
         end
