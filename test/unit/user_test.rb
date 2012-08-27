@@ -744,6 +744,13 @@ class UserTest < ActiveSupport::TestCase
     assert_equal [2], user.projects_by_role[Role.find(2)].collect(&:id).sort
   end
 
+  def test_accessing_projects_by_role_with_no_projects_should_return_an_empty_array
+    user = User.find(2)
+    assert_equal [], user.projects_by_role[Role.find(3)]
+    # should not update the hash
+    assert_nil user.projects_by_role.values.detect(&:blank?)
+  end
+
   def test_projects_by_role_for_user_with_no_role
     user = User.generate!
     assert_equal({}, user.projects_by_role)

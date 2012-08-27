@@ -418,10 +418,13 @@ class User < Principal
   def projects_by_role
     return @projects_by_role if @projects_by_role
 
-    @projects_by_role = Hash.new {|h,k| h[k]=[]}
+    @projects_by_role = Hash.new([])
     memberships.each do |membership|
-      membership.roles.each do |role|
-        @projects_by_role[role] << membership.project if membership.project
+      if membership.project
+        membership.roles.each do |role|
+          @projects_by_role[role] = [] unless @projects_by_role.key?(role)
+          @projects_by_role[role] << membership.project
+        end
       end
     end
     @projects_by_role.each do |role, projects|
