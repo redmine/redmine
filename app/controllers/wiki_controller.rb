@@ -109,7 +109,7 @@ class WikiController < ApplicationController
 
     # To prevent StaleObjectError exception when reverting to a previous version
     @content.version = @page.content.version
-    
+
     @text = @content.text
     if params[:section].present? && Redmine::WikiFormatting.supports_section_edit?
       @section = params[:section].to_i
