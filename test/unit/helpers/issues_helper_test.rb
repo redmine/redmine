@@ -116,7 +116,9 @@ class IssuesHelperTest < ActionView::TestCase
                    :value => '2010-01-31',
                    :prop_key => 'start_date'
                 )
-      assert_match "01/31/2010", show_detail(@detail, true)
+      with_settings :date_format => '%m/%d/%Y'do
+        assert_match "01/31/2010", show_detail(@detail, true)
+      end
     end
 
     def test_with_a_start_date_attribute_format_the_old_date
@@ -126,7 +128,9 @@ class IssuesHelperTest < ActionView::TestCase
                    :value => '2010-01-31',
                    :prop_key => 'start_date'
                 )
-      assert_match "01/01/2010", show_detail(@detail, true)
+      with_settings :date_format => '%m/%d/%Y'do
+        assert_match "01/01/2010", show_detail(@detail, true)
+      end
     end
 
     context "with a due_date attribute" do
