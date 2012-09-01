@@ -18,8 +18,14 @@
 require File.expand_path('../../../../test_helper', __FILE__)
 
 class Redmine::Hook::ManagerTest < ActionView::TestCase
-
-  fixtures :issues
+  fixtures :projects, :users, :members, :member_roles, :roles,
+           :groups_users,
+           :trackers, :projects_trackers,
+           :enabled_modules,
+           :versions,
+           :issue_statuses, :issue_categories, :issue_relations, :workflows,
+           :enumerations,
+           :issues
 
   # Some hooks that are manually registered in these tests
   class TestHook < Redmine::Hook::ViewListener; end
