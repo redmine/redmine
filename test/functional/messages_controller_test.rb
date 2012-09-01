@@ -91,11 +91,12 @@ class MessagesControllerTest < ActionController::TestCase
   def test_post_new
     @request.session[:user_id] = 2
     ActionMailer::Base.deliveries.clear
-    Setting.notified_events = ['message_posted']
 
-    post :new, :board_id => 1,
+    with_settings :notified_events => %w(message_posted) do
+      post :new, :board_id => 1,
                :message => { :subject => 'Test created message',
                              :content => 'Message body'}
+    end
     message = Message.find_by_subject('Test created message')
     assert_not_nil message
     assert_redirected_to "/boards/1/topics/#{message.to_param}"

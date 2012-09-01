@@ -35,6 +35,10 @@ class MailHandlerTest < ActiveSupport::TestCase
     Setting.notified_events = Redmine::Notifiable.all.collect(&:name)
   end
 
+  def teardown
+    Setting.clear_cache
+  end
+
   def test_add_issue
     ActionMailer::Base.deliveries.clear
     # This email contains: 'Project: onlinestore'
