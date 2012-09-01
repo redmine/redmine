@@ -109,16 +109,24 @@ class IssuesHelperTest < ActionView::TestCase
       end
     end
 
-    context "with a start_date attribute" do
-      should "format the current date" do
-        @detail = JournalDetail.new(:property => 'attr', :old_value => '2010-01-01', :value => '2010-01-31', :prop_key => 'start_date')
-        assert_match "01/31/2010", show_detail(@detail, true)
-      end
+    def test_with_a_start_date_attribute_format_the_current_date
+      @detail = JournalDetail.new(
+                   :property => 'attr',
+                   :old_value => '2010-01-01',
+                   :value => '2010-01-31',
+                   :prop_key => 'start_date'
+                )
+      assert_match "01/31/2010", show_detail(@detail, true)
+    end
 
-      should "format the old date" do
-        @detail = JournalDetail.new(:property => 'attr', :old_value => '2010-01-01', :value => '2010-01-31', :prop_key => 'start_date')
-        assert_match "01/01/2010", show_detail(@detail, true)
-      end
+    def test_with_a_start_date_attribute_format_the_old_date
+      @detail = JournalDetail.new(
+                   :property => 'attr',
+                   :old_value => '2010-01-01',
+                   :value => '2010-01-31',
+                   :prop_key => 'start_date'
+                )
+      assert_match "01/01/2010", show_detail(@detail, true)
     end
 
     context "with a due_date attribute" do
