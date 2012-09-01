@@ -58,13 +58,14 @@ class FilesControllerTest < ActionController::TestCase
   def test_create_file
     set_tmp_attachments_directory
     @request.session[:user_id] = 2
-    Setting.notified_events = ['file_added']
     ActionMailer::Base.deliveries.clear
 
-    assert_difference 'Attachment.count' do
-      post :create, :project_id => 1, :version_id => '',
-           :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
-      assert_response :redirect
+    with_settings :notified_events => %w(file_added) do
+      assert_difference 'Attachment.count' do
+        post :create, :project_id => 1, :version_id => '',
+             :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
+        assert_response :redirect
+      end
     end
     assert_redirected_to '/projects/ecookbook/files'
     a = Attachment.find(:first, :order => 'created_on DESC')
@@ -80,7 +81,6 @@ class FilesControllerTest < ActionController::TestCase
   def test_create_version_file
     set_tmp_attachments_directory
     @request.session[:user_id] = 2
-    Setting.notified_events = ['file_added']
 
     assert_difference 'Attachment.count' do
       post :create, :project_id => 1, :version_id => '2',
