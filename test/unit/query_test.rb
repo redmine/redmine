@@ -18,6 +18,8 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class QueryTest < ActiveSupport::TestCase
+  include Redmine::I18n
+
   fixtures :projects, :enabled_modules, :users, :members,
            :member_roles, :roles, :trackers, :issue_statuses,
            :issue_categories, :enumerations, :issues,
@@ -856,6 +858,7 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def test_label_for
+    set_language_if_valid 'en'
     q = Query.new
     assert_equal 'Assignee', q.label_for('assigned_to_id')
   end
