@@ -290,22 +290,24 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      # Full diff of changeset 2f9c0091
-      ['inline', 'sbs'].each do |dt|
-        get :diff,
-            :id   => PRJ_ID,
-            :rev  => '2f9c0091c754a91af7a9c478e36556b4bde8dcf7',
-            :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param],
-            :type => dt
-        assert_response :success
-        assert_template 'diff'
-        # Line 22 removed
-        assert_tag :tag => 'th',
-                   :content => '22',
-                   :sibling => { :tag => 'td',
-                                 :attributes => { :class => /diff_out/ },
-                                 :content => /def remove/ }
-        assert_tag :tag => 'h2', :content => /2f9c0091/
+      with_settings :diff_max_lines_displayed => 1000 do
+        # Full diff of changeset 2f9c0091
+        ['inline', 'sbs'].each do |dt|
+          get :diff,
+              :id   => PRJ_ID,
+              :rev  => '2f9c0091c754a91af7a9c478e36556b4bde8dcf7',
+              :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param],
+              :type => dt
+          assert_response :success
+          assert_template 'diff'
+          # Line 22 removed
+          assert_tag :tag => 'th',
+                     :content => '22',
+                     :sibling => { :tag => 'td',
+                                   :attributes => { :class => /diff_out/ },
+                                   :content => /def remove/ }
+          assert_tag :tag => 'h2', :content => /2f9c0091/
+        end
       end
     end
 
