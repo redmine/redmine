@@ -863,6 +863,14 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal 'Assignee', q.label_for('assigned_to_id')
   end
 
+  def test_label_for_fr
+    set_language_if_valid 'fr'
+    q = Query.new
+    s = "Assign\xc3\xa9 \xc3\xa0"
+    s.force_encoding('UTF-8') if s.respond_to?(:force_encoding)
+    assert_equal s, q.label_for('assigned_to_id')
+  end
+
   def test_editable_by
     admin = User.find(1)
     manager = User.find(2)
