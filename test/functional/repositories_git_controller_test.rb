@@ -324,13 +324,13 @@ class RepositoriesGitControllerTest < ActionController::TestCase
               :rev  => '2f9c0091c754a91af7a9c478e36556b4bde8dcf7'
           assert_response :success
           assert @response.body.include?("... This diff was truncated")
-  
-          Setting.default_language = 'fr'
-          get :diff, :id   => PRJ_ID, :type => 'inline',
-              :rev  => '2f9c0091c754a91af7a9c478e36556b4bde8dcf7'
-          assert_response :success
-          assert ! @response.body.include?("... This diff was truncated")
-          assert @response.body.include?("... Ce diff")
+          with_settings :default_language => 'fr' do
+            get :diff, :id   => PRJ_ID, :type => 'inline',
+                :rev  => '2f9c0091c754a91af7a9c478e36556b4bde8dcf7'
+            assert_response :success
+            assert ! @response.body.include?("... This diff was truncated")
+            assert @response.body.include?("... Ce diff")
+          end
         end
       end
     end
