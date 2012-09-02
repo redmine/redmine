@@ -876,7 +876,7 @@ module ApplicationHelper
                   \{\{
                   macro\((\d+)\)
                   \}\}
-                  )/x unless const_defined?(:MACROS_SUB_RE)
+                  )/x unless const_defined?(:MACRO_SUB_RE)
 
   # Extracts macros from text
   def catch_macros(text)
