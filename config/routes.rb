@@ -278,7 +278,11 @@ RedmineApp::Application.routes.draw do
   match 'groups/destroy_membership/:id', :controller => 'groups', :action => 'destroy_membership', :id => /\d+/, :via => :post
   match 'groups/edit_membership/:id', :controller => 'groups', :action => 'edit_membership', :id => /\d+/, :via => :post
 
-  resources :trackers, :except => :show
+  resources :trackers, :except => :show do
+    collection do
+      match 'fields', :via => [:get, :post]
+    end
+  end
   resources :issue_statuses, :except => :show do
     collection do
       post 'update_issue_done_ratio'

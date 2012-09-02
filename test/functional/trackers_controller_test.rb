@@ -185,4 +185,34 @@ class TrackersControllerTest < ActionController::TestCase
     assert_redirected_to :action => 'index'
     assert_not_nil flash[:error]
   end
+
+  def test_get_fields
+    get :fields
+    assert_response :success
+    assert_template 'fields'
+
+    assert_select 'form' do
+      assert_select 'input[type=checkbox][name=?][value=assigned_to_id]', 'trackers[1][core_fields][]'
+      assert_select 'input[type=checkbox][name=?][value=2]', 'trackers[1][custom_field_ids][]'
+
+      assert_select 'input[type=hidden][name=?][value=]', 'trackers[1][core_fields][]'
+      assert_select 'input[type=hidden][name=?][value=]', 'trackers[1][custom_field_ids][]'
+    end
+  end
+
+  def test_post_fields
+    post :fields, :trackers => {
+      '1' => {'core_fields' => ['assigned_to_id', 'due_date', ''], 'custom_field_ids' => ['1', '2']},
+      '2' => {'core_fields' => [''], 'custom_field_ids' => ['']}
+    }
+    assert_redirected_to '/trackers/fields'
+
+    tracker = Tracker.find(1)
+    assert_equal %w(assigned_to_id due_date), tracker.core_fields
+    assert_equal [1, 2], tracker.custom_field_ids.sort
+
+    tracker = Tracker.find(2)
+    assert_equal [], tracker.core_fields
+    assert_equal [], tracker.custom_field_ids.sort
+  end
 end

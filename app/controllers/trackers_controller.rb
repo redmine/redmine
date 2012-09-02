@@ -80,4 +80,22 @@ class TrackersController < ApplicationController
     end
     redirect_to :action => 'index'
   end
+
+  def fields
+    if request.post? && params[:trackers]
+      params[:trackers].each do |tracker_id, tracker_params|
+        tracker = Tracker.find_by_id(tracker_id)
+        if tracker
+          tracker.core_fields = tracker_params[:core_fields]
+          tracker.custom_field_ids = tracker_params[:custom_field_ids]
+          tracker.save
+        end
+      end
+      flash[:notice] = l(:notice_successful_update)
+      redirect_to :action => 'fields'
+      return
+    end
+    @trackers = Tracker.sorted.all
+    @custom_fields = IssueCustomField.all.sort
+  end
 end
