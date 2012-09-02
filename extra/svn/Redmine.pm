@@ -342,7 +342,7 @@ sub authen_handler {
       return OK;
   } else {
       $r->note_auth_failure();
-      return AUTH_REQUIRED;
+      return DECLINED;
   }
 }
 
