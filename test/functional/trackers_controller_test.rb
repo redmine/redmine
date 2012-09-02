@@ -95,7 +95,7 @@ class TrackersControllerTest < ActionController::TestCase
     end
     assert_response :success
     assert_template 'new'
-    assert_error_tag :content => /name can't be blank/i
+    assert_error_tag :content => /name can&#x27;t be blank/i
   end
 
   def test_edit
@@ -160,7 +160,7 @@ class TrackersControllerTest < ActionController::TestCase
     put :update, :id => 1, :tracker => { :name => '' }
     assert_response :success
     assert_template 'edit'
-    assert_error_tag :content => /name can't be blank/i
+    assert_error_tag :content => /name can&#x27;t be blank/i
   end
 
   def test_move_lower

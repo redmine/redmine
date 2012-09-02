@@ -3,5 +3,5 @@
   $('#related-issue-<%= @issue.id %>').effect("highlight");
   $('#issue_id').focus();
 <% else %>
-  alert("<%= escape_javascript(l(:label_issue) + ' ' + l('activerecord.errors.messages.invalid')) %>");
+  alert("<%= raw(escape_javascript(l(:label_issue) + ' ' + l('activerecord.errors.messages.invalid'))) %>");
 <% end %>

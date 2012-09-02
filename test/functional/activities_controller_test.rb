@@ -48,7 +48,7 @@ class ActivitiesControllerTest < ActionController::TestCase
                  :child => { :tag => "dt",
                    :attributes => { :class => /issue/ },
                    :child => { :tag => "a",
-                     :content => /#{Issue.find(1).subject}/,
+                     :content => /Can&#x27;t print recipes/,
                    }
                  }
                }
@@ -69,7 +69,7 @@ class ActivitiesControllerTest < ActionController::TestCase
                  :child => { :tag => "dt",
                    :attributes => { :class => /issue/ },
                    :child => { :tag => "a",
-                     :content => /#{Issue.find(5).subject}/,
+                     :content => /Subproject issue/,
                    }
                  }
                }
@@ -93,7 +93,7 @@ class ActivitiesControllerTest < ActionController::TestCase
                  :child => { :tag => "dt",
                    :attributes => { :class => /issue/ },
                    :child => { :tag => "a",
-                     :content => /#{Issue.find(1).subject}/,
+                     :content => /Can&#x27;t print recipes/,
                    }
                  }
                }

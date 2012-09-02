@@ -58,7 +58,7 @@ class WikisControllerTest < ActionController::TestCase
     end
 
     assert_include 'errorExplanation', response.body
-    assert_include 'Start page can\\\'t be blank', response.body
+    assert_include 'Start page can&#x27;t be blank', response.body
   end
 
   def test_update

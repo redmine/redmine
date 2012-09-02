@@ -65,7 +65,7 @@ class AuthSourcesControllerTest < ActionController::TestCase
       assert_response :success
       assert_template 'new'
     end
-    assert_error_tag :content => /host can't be blank/i
+    assert_error_tag :content => /host can&#x27;t be blank/i
   end
 
   def test_edit
@@ -90,7 +90,7 @@ class AuthSourcesControllerTest < ActionController::TestCase
     put :update, :id => 1, :auth_source => {:name => 'Renamed', :host => '', :port => '389', :attr_login => 'uid'}
     assert_response :success
     assert_template 'edit'
-    assert_error_tag :content => /host can't be blank/i
+    assert_error_tag :content => /host can&#x27;t be blank/i
   end
 
   def test_destroy

@@ -123,7 +123,7 @@ class NewsControllerTest < ActionController::TestCase
     assert_template 'new'
     assert_not_nil assigns(:news)
     assert assigns(:news).new_record?
-    assert_error_tag :content => /title can't be blank/i
+    assert_error_tag :content => /title can&#x27;t be blank/i
   end
 
   def test_get_edit
@@ -160,7 +160,7 @@ class NewsControllerTest < ActionController::TestCase
     put :update, :id => 1, :news => { :description => '' }
     assert_response :success
     assert_template 'edit'
-    assert_error_tag :content => /description can't be blank/i
+    assert_error_tag :content => /description can&#x27;t be blank/i
   end
 
   def test_destroy

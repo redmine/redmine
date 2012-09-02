@@ -61,7 +61,7 @@ class IssuesControllerTest < ActionController::TestCase
       assert_template 'index'
       assert_not_nil assigns(:issues)
       assert_nil assigns(:project)
-      assert_tag :tag => 'a', :content => /Can't print recipes/
+      assert_tag :tag => 'a', :content => /Can&#x27;t print recipes/
       assert_tag :tag => 'a', :content => /Subproject issue/
       # private projects hidden
       assert_no_tag :tag => 'a', :content => /Issue of a private subproject/
@@ -78,7 +78,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_template 'index'
     assert_not_nil assigns(:issues)
     assert_nil assigns(:project)
-    assert_no_tag :tag => 'a', :content => /Can't print recipes/
+    assert_no_tag :tag => 'a', :content => /Can&#x27;t print recipes/
     assert_tag :tag => 'a', :content => /Subproject issue/
   end
 
@@ -95,7 +95,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:issues)
-    assert_tag :tag => 'a', :content => /Can't print recipes/
+    assert_tag :tag => 'a', :content => /Can&#x27;t print recipes/
     assert_no_tag :tag => 'a', :content => /Subproject issue/
   end
 
@@ -105,7 +105,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:issues)
-    assert_tag :tag => 'a', :content => /Can't print recipes/
+    assert_tag :tag => 'a', :content => /Can&#x27;t print recipes/
     assert_tag :tag => 'a', :content => /Subproject issue/
     assert_no_tag :tag => 'a', :content => /Issue of a private subproject/
   end
@@ -117,7 +117,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:issues)
-    assert_tag :tag => 'a', :content => /Can't print recipes/
+    assert_tag :tag => 'a', :content => /Can&#x27;t print recipes/
     assert_tag :tag => 'a', :content => /Subproject issue/
     assert_tag :tag => 'a', :content => /Issue of a private subproject/
   end
@@ -823,7 +823,7 @@ class IssuesControllerTest < ActionController::TestCase
                                 :child => { :tag => 'legend',
                                             :content => /Notes/ } }
     assert_tag :tag => 'title',
-      :content => "Bug #1: Can't print recipes - eCookbook - Redmine"
+      :content => "Bug #1: Can&#x27;t print recipes - eCookbook - Redmine"
   end
 
   def test_show_by_manager
@@ -1807,7 +1807,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_template 'new'
     issue = assigns(:issue)
     assert_not_nil issue
-    assert_error_tag :content => /Database can't be blank/
+    assert_error_tag :content => /Database can&#x27;t be blank/
   end
 
   def test_create_should_validate_required_fields
@@ -1831,8 +1831,8 @@ class IssuesControllerTest < ActionController::TestCase
       assert_template 'new'
     end
 
-    assert_error_tag :content => /Due date can't be blank/i
-    assert_error_tag :content => /Bar can't be blank/i
+    assert_error_tag :content => /Due date can&#x27;t be blank/i
+    assert_error_tag :content => /Bar can&#x27;t be blank/i
   end
 
   def test_create_should_ignore_readonly_fields
@@ -2869,7 +2869,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
 
-    assert_error_tag :descendant => {:content => /Activity can't be blank/}
+    assert_error_tag :descendant => {:content => /Activity can&#x27;t be blank/}
     assert_tag :textarea, :attributes => { :name => 'notes' }, :content => "\n"+notes
     assert_tag :input, :attributes => { :name => 'time_entry[hours]', :value => "2z" }
   end
@@ -2887,8 +2887,8 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
 
-    assert_error_tag :descendant => {:content => /Activity can't be blank/}
-    assert_error_tag :descendant => {:content => /Hours can't be blank/}
+    assert_error_tag :descendant => {:content => /Activity can&#x27;t be blank/}
+    assert_error_tag :descendant => {:content => /Hours can&#x27;t be blank/}
     assert_tag :textarea, :attributes => { :name => 'notes' }, :content => "\n"+notes
     assert_tag :input, :attributes => { :name => 'time_entry[comments]', :value => "this is my comment" }
   end
