@@ -867,7 +867,7 @@ module ApplicationHelper
                 \{\{                        # opening tag
                 ([\w]+)                     # macro name
                 (\(([^\n\r]*?)\))?          # optional arguments
-                ([\n\r].*[\n\r])?           # optional block of text
+                ([\n\r].*?[\n\r])?          # optional block of text
                 \}\}                        # closing tag
                 )
                )/mx unless const_defined?(:MACROS_RE)

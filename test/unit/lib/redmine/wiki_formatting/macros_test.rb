@@ -273,4 +273,23 @@ EXPECTED
     text = '{{macro(2)}} !{{macro(2)}} {{hello_world(foo)}}'
     assert_equal '<p>{{macro(2)}} {{macro(2)}} Hello world! Object: NilClass, Arguments: foo and no block of text.</p>', textilizable(text)
   end
+
+  def test_macros_with_text_should_not_mangle_following_macros
+    text = <<-RAW
+{{hello_world
+Line of text
+}}
+
+{{hello_world
+Another line of text
+}}
+RAW
+
+    expected = <<-EXPECTED
+<p>Hello world! Object: NilClass, Called with no argument and a 12 bytes long block of text.</p>
+<p>Hello world! Object: NilClass, Called with no argument and a 20 bytes long block of text.</p>
+EXPECTED
+
+    assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(text).gsub(%r{[\r\n\t]}, '')
+  end
 end
