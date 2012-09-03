@@ -2,4 +2,4 @@ Description:
     Generates a plugin controller.
 
 Example:
-    ./script/generate redmine_plugin_controller meetings pools index show vote
+    ./script/rails generate redmine_plugin_controller meetings pools index show vote
