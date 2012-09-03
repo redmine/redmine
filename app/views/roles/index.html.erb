@@ -21,6 +21,7 @@
   <% end %>
   </td>
   <td class="buttons">
+    <%= link_to l(:button_copy), new_role_path(:copy => role), :class => 'icon icon-copy' %>
     <%= delete_link role_path(role) unless role.builtin? %>
   </td>
   </tr>

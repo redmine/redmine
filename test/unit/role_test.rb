@@ -33,6 +33,18 @@ class RoleTest < ActiveSupport::TestCase
     assert_equal Role.all.reject(&:builtin?).sort, Role.builtin(false).all.sort
   end
 
+  def test_copy_from
+    role = Role.find(1)
+    copy = Role.new.copy_from(role)
+
+    assert_nil copy.id
+    assert_equal '', copy.name
+    assert_equal role.permissions, copy.permissions
+
+    copy.name = 'Copy'
+    assert copy.save
+  end
+
   def test_copy_workflows
     source = Role.find(1)
     assert_equal 90, source.workflow_rules.size

@@ -46,6 +46,31 @@ class RolesControllerTest < ActionController::TestCase
     assert_template 'new'
   end
 
+  def test_new_with_copy
+    copy_from = Role.find(2)
+
+    get :new, :copy => copy_from.id.to_s
+    assert_response :success
+    assert_template 'new'
+
+    role = assigns(:role)
+    assert_equal copy_from.permissions, role.permissions
+
+    assert_select 'form' do
+      # blank name
+      assert_select 'input[name=?][value=]', 'role[name]'
+      # edit_project permission checked
+      assert_select 'input[type=checkbox][name=?][value=edit_project][checked=checked]', 'role[permissions][]'
+      # add_project permission not checked
+      assert_select 'input[type=checkbox][name=?][value=add_project]', 'role[permissions][]'
+      assert_select 'input[type=checkbox][name=?][value=add_project][checked=checked]', 'role[permissions][]', 0
+      # workflow copy selected
+      assert_select 'select[name=?]', 'copy_workflow_from' do
+        assert_select 'option[value=2][selected=selected]'
+      end
+    end
+  end
+
   def test_create_with_validaton_failure
     post :create, :role => {:name => '',
                          :permissions => ['add_issues', 'edit_issues', 'log_time', ''],
