@@ -241,7 +241,7 @@
   notice_file_not_found: 您想要存取的頁面已經不存在或被搬移至其他位置。
   notice_locking_conflict: 資料已被其他使用者更新。
   notice_not_authorized: 你未被授權存取此頁面。
-  notice_not_authorized_archived_project: 您欲存取的專案已經被歸檔封存。
+  notice_not_authorized_archived_project: 您欲存取的專案已經被封存。
   notice_email_sent: "郵件已經成功寄送至以下收件者： %{value}"
   notice_email_error: "寄送郵件的過程中發生錯誤 (%{value})"
   notice_feeds_access_key_reseted: 您的 RSS 存取金鑰已被重新設定。
@@ -273,7 +273,7 @@
   error_can_not_delete_tracker: "此追蹤標籤已包含問題，無法被刪除。"
   error_can_not_remove_role: "此角色已被使用，無法將其刪除。"
   error_can_not_reopen_issue_on_closed_version: '指派給「已結束」版本的問題，無法再將其狀態變更為「進行中」'
-  error_can_not_archive_project: 此專案無法被歸檔封存
+  error_can_not_archive_project: 此專案無法被封存
   error_issue_done_ratios_not_updated: "問題完成百分比未更新。"
   error_workflow_copy_source: '請選擇一個來源問題追蹤標籤或角色'
   error_workflow_copy_target: '請選擇一個（或多個）目的問題追蹤標籤或角色'
@@ -393,7 +393,7 @@
   field_content: 內容
   field_group_by: 結果分組方式
   field_sharing: 共用
-  field_parent_issue: 父任務
+  field_parent_issue: 父問題
   field_member_of_group: "被指派者的群組"
   field_assigned_to_role: "被指派者的角色"
   field_text: 內容文字
@@ -412,6 +412,7 @@
   field_auth_source_ldap_filter: LDAP 篩選器
   field_core_fields: 標準欄位
   field_timeout: "逾時 (單位: 秒)"
+  field_board_parent: 父論壇
 
   setting_app_title: 標題
   setting_app_subtitle: 副標題
@@ -947,6 +948,10 @@
   label_fields_permissions: 欄位權限
   label_readonly: 唯讀
   label_required: 必填
+  label_attribute_of_project: "專案是 %{name}"
+  label_attribute_of_author: "作者是 %{name}"
+  label_attribute_of_assigned_to: "被指派者是 %{name}"
+  label_attribute_of_fixed_version: "版本是 %{name}"
 
   button_login: 登入
   button_submit: 送出
@@ -981,8 +986,8 @@
   button_watch: 觀察
   button_unwatch: 取消觀察
   button_reply: 回應
-  button_archive: 歸檔封存
-  button_unarchive: 取消歸檔封存
+  button_archive: 封存
+  button_unarchive: 取消封存
   button_reset: 回復
   button_rename: 重新命名
   button_change_password: 變更密碼
@@ -1138,8 +1143,3 @@
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  field_board_parent: Parent forum
-  label_attribute_of_project: Project's %{name}
-  label_attribute_of_author: Author's %{name}
-  label_attribute_of_assigned_to: Assignee's %{name}
-  label_attribute_of_fixed_version: Target version's %{name}
