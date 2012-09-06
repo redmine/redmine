@@ -83,7 +83,7 @@ function drawRevisionGraph(holder, commits_hash, graph_space) {
         revision_dot_overlay = revisionGraph.circle(x, y, 10);
         revision_dot_overlay
             .attr({
-            	fill: '#000',
+                fill: '#000',
                 opacity: 0,
                 cursor: 'pointer', 
                 href: commit.href
