@@ -29,7 +29,7 @@ module Redmine
         end
 
         def method_missing(sym, *args, &block)
-          if args.size == 1 && args.first.is_a?(Time)
+          if args.size == 1 && args.first.is_a?(::Time)
             __send__ sym, args.first.xmlschema, &block
           else
             super
