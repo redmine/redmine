@@ -82,6 +82,7 @@ module Redmine #:nodoc:
       view_path = File.join(p.directory, 'app', 'views')
       if File.directory?(view_path)
         ActionController::Base.prepend_view_path(view_path)
+        ActionMailer::Base.prepend_view_path(view_path)
       end
 
       # Adds the app/{controllers,helpers,models} directories of the plugin to the autoload path
