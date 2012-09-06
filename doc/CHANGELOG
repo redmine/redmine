@@ -8,6 +8,7 @@ http://www.redmine.org/
 
 * Defect #10818: Running rake in test environment causes exception
 * Defect #11192: Make repository identifier accept underscores
+* Defect #11298: Issue API may not work on Ruby 1.9 in Redmine 1.4
 * Defect #11307: Can't filter for negative numeric custom fields
 * Defect #11365: Attachment description length is not validated
 * Defect #11541: Version sharing is missing in the REST API
