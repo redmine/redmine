@@ -1,15 +1,11 @@
 var revisionGraph = null;
 
 function drawRevisionGraph(holder, commits_hash, graph_space) {
-
     var XSTEP = 20,
         CIRCLE_INROW_OFFSET = 10;
-
     var commits_by_scmid = commits_hash,
         commits = $.map(commits_by_scmid, function(val,i){return val;});
-
     var max_rdmid = commits.length - 1;
-
     var commit_table_rows = $('table.changesets tr.changeset');
 
     // create graph
@@ -19,7 +15,6 @@ function drawRevisionGraph(holder, commits_hash, graph_space) {
         revisionGraph = Raphael(holder);
 
     var top = revisionGraph.set();
-
     // init dimensions
     var graph_x_offset = commit_table_rows.first().find('td').first().position().left - $(holder).position().left,
         graph_y_offset = $(holder).position().top,
@@ -39,26 +34,20 @@ function drawRevisionGraph(holder, commits_hash, graph_space) {
     var x, y, parent_x, parent_y;
     var path, title;
     var revision_dot_overlay;
-
     $.each(commits, function(index, commit) {
-
         y = commit_table_rows.eq(max_rdmid - commit.rdmid).position().top - graph_y_offset + CIRCLE_INROW_OFFSET;
         x = graph_x_offset + XSTEP / 2 + XSTEP * commit.space;
-
         revisionGraph.circle(x, y, 3)
             .attr({
                 fill: colors[commit.space],
                 stroke: 'none',
             }).toFront();
-
         // paths to parents
         $.each(commit.parent_scmids, function(index, parent_scmid) {
             parent_commit = commits_by_scmid[parent_scmid];
-
             if (parent_commit) {
                 parent_y = commit_table_rows.eq(max_rdmid - parent_commit.rdmid).position().top - graph_y_offset + CIRCLE_INROW_OFFSET;
                 parent_x = graph_x_offset + XSTEP / 2 + XSTEP * parent_commit.space;
-
                 if (parent_commit.space == commit.space) {
                     // vertical path
                     path = revisionGraph.path([
@@ -79,7 +68,6 @@ function drawRevisionGraph(holder, commits_hash, graph_space) {
             }
             path.attr({stroke: colors[commit.space], "stroke-width": 1.5}).toBack();
         });
-
         revision_dot_overlay = revisionGraph.circle(x, y, 10);
         revision_dot_overlay
             .attr({
@@ -94,9 +82,7 @@ function drawRevisionGraph(holder, commits_hash, graph_space) {
             title.appendChild(document.createTextNode(commit.refs));
             revision_dot_overlay.node.appendChild(title);
         }
-
         top.push(revision_dot_overlay);
     });
-
     top.toFront();
 };
