@@ -11,6 +11,7 @@ http://www.redmine.org/
 * Defect #11307: Can't filter for negative numeric custom fields
 * Defect #11365: Attachment description length is not validated
 * Defect #11541: Version sharing is missing in the REST API
+* Defect #11789: Edit section links broken with h5/h6 headings
 * Feature #11338: Exclude emails with auto-submitted => auto-generated
 * Patch #11328: Fix Japanese mistranslation for 'label_language_based'
 * Patch #11448: Russian translation for 1.4-stable and 2.0-stable
