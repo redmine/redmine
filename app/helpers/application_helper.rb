@@ -822,7 +822,7 @@ module ApplicationHelper
     end
   end
 
-  HEADING_RE = /(<h(1|2|3|4)( [^>]+)?>(.+?)<\/h(1|2|3|4)>)/i unless const_defined?(:HEADING_RE)
+  HEADING_RE = /(<h(\d)( [^>]+)?>(.+?)<\/h(\d)>)/i unless const_defined?(:HEADING_RE)
 
   def parse_sections(text, project, obj, attr, only_path, options)
     return unless options[:edit_section_links]
@@ -919,6 +919,8 @@ module ApplicationHelper
   # Renders the TOC with given headings
   def replace_toc(text, headings)
     text.gsub!(TOC_RE) do
+      # Keep only the 4 first levels
+      headings = headings.select{|level, anchor, item| level <= 4}
       if headings.empty?
         ''
       else
