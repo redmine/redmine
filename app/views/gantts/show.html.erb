@@ -152,23 +152,26 @@ height = (show_weeks ? header_heigth : header_heigth + g_height)
 #
 # Days headers
 #
-if show_days
+%>
+<% if show_days %>
+  <%
   left = 0
   height = g_height + header_heigth - 1
   wday = @gantt.date_from.cwday
-  (@gantt.date_to - @gantt.date_from + 1).to_i.times do
-    width =  zoom - 1
-     %>
-    <div style="left:<%= left %>px;top:37px;width:<%= width %>px;height:<%= height %>px;font-size:0.7em;<%= "background:#f1f1f1;" if wday > 5 %>"
-         class="gantt_hdr">
-      <%= day_letter(wday) %>
-    </div>
+  %>
+  <% (@gantt.date_to - @gantt.date_from + 1).to_i.times do %>
+    <% width =  zoom - 1 %>
+      <div style="left:<%= left %>px;top:37px;width:<%= width %>px;height:<%= height %>px;font-size:0.7em;<%= "background:#f1f1f1;" if wday > 5 %>"
+           class="gantt_hdr">
+        <%= day_letter(wday) %>
+      </div>
     <%
     left = left + width + 1
     wday = wday + 1
     wday = 1 if wday > 7
-  end
-end %>
+    %>
+  <% end %>
+<% end %>
 
 <%= @gantt.lines.html_safe %>
 
