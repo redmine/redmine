@@ -1,6 +1,5 @@
 <%= javascript_include_tag 'raphael.js' %>
 <%= javascript_include_tag 'revision_graph.js' %>
-
 <script type="text/javascript" charset="utf-8">
 function revisionGraphHandler(){
   drawRevisionGraph(
@@ -9,9 +8,7 @@ function revisionGraphHandler(){
     <%= space %>
   );
 }
-
 $(document).ready(revisionGraphHandler);
 $(window).resize(revisionGraphHandler);
 </script>
-
 <div id="holder" class="revision-graph"></div>
