@@ -92,12 +92,14 @@ t_height = g_height + headers_height
 #
 # Months headers
 #
+%>
+<%
 month_f = @gantt.date_from
 left = 0
 height = (show_weeks ? header_heigth : header_heigth + g_height)
-@gantt.months.times do
-  width = (((month_f >> 1) - month_f) * zoom - 1).to_i
-  %>
+%>
+<% @gantt.months.times do %>
+  <% width = (((month_f >> 1) - month_f) * zoom - 1).to_i %>
   <div style="left:<%= left %>px;width:<%= width %>px;height:<%= height %>px;" class="gantt_hdr">
     <%= link_to h("#{month_f.year}-#{month_f.month}"),
                 @gantt.params.merge(:year => month_f.year, :month => month_f.month),
@@ -106,7 +108,8 @@ height = (show_weeks ? header_heigth : header_heigth + g_height)
   <%
   left = left + width + 1
   month_f = month_f >> 1
-end %>
+  %>
+<% end %>
 
 <%
 #
