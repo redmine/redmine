@@ -25,8 +25,10 @@
 <%= select_year(@gantt.year_from, :prefix => "year", :discard_type => true) %>
 <%= hidden_field_tag 'zoom', @gantt.zoom %>
 
-<%= link_to_function l(:button_apply), '$("#query_form").submit()', :class => 'icon icon-checked' %>
-<%= link_to l(:button_clear), { :project_id => @project, :set_filter => 1 }, :class => 'icon icon-reload' %>
+<%= link_to_function l(:button_apply), '$("#query_form").submit()',
+                     :class => 'icon icon-checked' %>
+<%= link_to l(:button_clear), { :project_id => @project, :set_filter => 1 },
+            :class => 'icon icon-reload' %>
 </p>
 <% end %>
 
@@ -72,7 +74,8 @@ t_height = g_height + headers_height
 
 <div style="position:relative;height:<%= t_height + 24 %>px;width:<%= subject_width + 1 %>px;">
 <div style="right:-2px;width:<%= subject_width %>px;height:<%= headers_height %>px;background: #eee;" class="gantt_hdr"></div>
-<div style="right:-2px;width:<%= subject_width %>px;height:<%= t_height %>px;border-left: 1px solid #c0c0c0;overflow:hidden;" class="gantt_hdr"></div>
+<div style="right:-2px;width:<%= subject_width %>px;height:<%= t_height %>px;border-left: 1px solid #c0c0c0;overflow:hidden;"
+     class="gantt_hdr"></div>
 
 <div class="gantt_subjects">
 <%= @gantt.subjects.html_safe %>
@@ -83,7 +86,8 @@ t_height = g_height + headers_height
 <td>
 
 <div style="position:relative;height:<%= t_height + 24 %>px;overflow:auto;">
-<div style="width:<%= g_width - 1 %>px;height:<%= headers_height %>px;background: #eee;" class="gantt_hdr">&nbsp;</div>
+<div style="width:<%= g_width - 1 %>px;height:<%= headers_height %>px;background: #eee;"
+     class="gantt_hdr">&nbsp;</div>
 <%
 #
 # Months headers
@@ -95,7 +99,9 @@ height = (show_weeks ? header_heigth : header_heigth + g_height)
   width = (((month_f >> 1) - month_f) * zoom - 1).to_i
   %>
   <div style="left:<%= left %>px;width:<%= width %>px;height:<%= height %>px;" class="gantt_hdr">
-  <%= link_to h("#{month_f.year}-#{month_f.month}"), @gantt.params.merge(:year => month_f.year, :month => month_f.month), :title => "#{month_name(month_f.month)} #{month_f.year}"%>
+    <%= link_to h("#{month_f.year}-#{month_f.month}"),
+                @gantt.params.merge(:year => month_f.year, :month => month_f.month),
+                :title => "#{month_name(month_f.month)} #{month_f.year}" %>
   </div>
   <%
   left = left + width + 1
@@ -117,7 +123,8 @@ if show_weeks
     week_f = @gantt.date_from + (7 - @gantt.date_from.cwday + 1)
     width = (7 - @gantt.date_from.cwday + 1) * zoom - 1
     %>
-    <div style="left:<%= left %>px;top:19px;width:<%= width %>px;height:<%= height %>px;" class="gantt_hdr">&nbsp;</div>
+    <div style="left:<%= left %>px;top:19px;width:<%= width %>px;height:<%= height %>px;"
+         class="gantt_hdr">&nbsp;</div>
     <%
     left = left + width + 1
   end %>
@@ -145,7 +152,8 @@ if show_days
   (@gantt.date_to - @gantt.date_from + 1).to_i.times do
   width =  zoom - 1
   %>
-  <div style="left:<%= left %>px;top:37px;width:<%= width %>px;height:<%= height %>px;font-size:0.7em;<%= "background:#f1f1f1;" if wday > 5 %>" class="gantt_hdr">
+  <div style="left:<%= left %>px;top:37px;width:<%= width %>px;height:<%= height %>px;font-size:0.7em;<%= "background:#f1f1f1;" if wday > 5 %>"
+       class="gantt_hdr">
   <%= day_letter(wday) %>
   </div>
   <%
