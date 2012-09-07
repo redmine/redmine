@@ -134,19 +134,35 @@ height = (show_weeks ? header_heigth : header_heigth + g_height)
     %>
   <% else %>
     <%
-    # find next monday after @date_from
-    week_f = @gantt.date_from + (7 - @gantt.date_from.cwday + 1)
-    width = (7 - @gantt.date_from.cwday + 1) * zoom - 1
+      # find next monday after @date_from
+      week_f = @gantt.date_from + (7 - @gantt.date_from.cwday + 1)
+      width = (7 - @gantt.date_from.cwday + 1) * zoom - 1
+      style  = ""
+      style += "left: #{left}px;"
+      style += "top: 19px;"
+      style += "width: #{width}px;"
+      style += "height: #{height}px;"
     %>
-    <div style="left:<%= left %>px;top:19px;width:<%= width %>px;height:<%= height %>px;"
-         class="gantt_hdr">&nbsp;</div>
+    <%= content_tag(:div, '&nbsp;'.html_safe,
+                    :style => style, :class => "gantt_hdr") %>
     <% left = left + width + 1 %>
   <% end %>
   <% while week_f <= @gantt.date_to %>
-    <% width = ((week_f + 6 <= @gantt.date_to) ? 7 * zoom - 1 : (@gantt.date_to - week_f + 1) * zoom - 1).to_i %>
-      <div style="left:<%= left %>px;top:19px;width:<%= width %>px;height:<%= height %>px;" class="gantt_hdr">
-        <small><%= week_f.cweek if width >= 16 %></small>
-      </div>
+    <%
+      width = ((week_f + 6 <= @gantt.date_to) ?
+                  7 * zoom - 1 :
+                  (@gantt.date_to - week_f + 1) * zoom - 1).to_i
+      style  = ""
+      style += "left: #{left}px;"
+      style += "top: 19px;"
+      style += "width: #{width}px;"
+      style += "height: #{height}px;"
+    %>
+    <%= content_tag(:div, :style => style, :class => "gantt_hdr") do %>
+      <%= content_tag(:small) do %>
+        <%= week_f.cweek if width >= 16 %>
+      <% end %>
+    <% end %>
     <%
     left = left + width + 1
     week_f = week_f + 7
