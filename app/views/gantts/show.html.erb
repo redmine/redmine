@@ -185,16 +185,12 @@
   <% end %>
 <% end %>
 
-<%
-#
-# Days headers
-#
-%>
+<% ###### Days headers ####### %>
 <% if show_days %>
   <%
-  left = 0
-  height = g_height + header_heigth - 1
-  wday = @gantt.date_from.cwday
+    left = 0
+    height = g_height + header_heigth - 1
+    wday = @gantt.date_from.cwday
   %>
   <% (@gantt.date_to - @gantt.date_from + 1).to_i.times do %>
     <%
@@ -211,9 +207,9 @@
       <%= day_letter(wday) %>
     <% end %>
     <%
-    left = left + width + 1
-    wday = wday + 1
-    wday = 1 if wday > 7
+      left = left + width + 1
+      wday = wday + 1
+      wday = 1 if wday > 7
     %>
   <% end %>
 <% end %>
