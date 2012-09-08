@@ -200,13 +200,13 @@ height = (show_weeks ? header_heigth : header_heigth + g_height)
 <% ###### Today red line (excluded from cache) ###### %>
 <% if Date.today >= @gantt.date_from and Date.today <= @gantt.date_to %>
   <%
-   style  = ""
-   style += "position: absolute;"
-   style += "height: #{g_height}px;"
-   style += "top: #{headers_height + 1}px;"
-   style += "left: #{(((Date.today - @gantt.date_from + 1) * zoom).floor() - 1).to_i}px;"
-   style += "width:10px;"
-   style += "border-left: 1px dashed red;"
+    style  = ""
+    style += "position: absolute;"
+    style += "height: #{g_height}px;"
+    style += "top: #{headers_height + 1}px;"
+    style += "left: #{(((Date.today - @gantt.date_from + 1) * zoom).floor() - 1).to_i}px;"
+    style += "width:10px;"
+    style += "border-left: 1px dashed red;"
   %>
   <%= content_tag(:div, '&nbsp;'.html_safe, :style => style) %>
 <% end %>
