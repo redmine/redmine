@@ -71,17 +71,34 @@ t_height = g_height + headers_height
 <table style="width:100%; border:0; border-collapse: collapse;">
 <tr>
 <td style="width:<%= subject_width %>px; padding:0px;">
-
-<div style="position:relative;height:<%= t_height + 24 %>px;width:<%= subject_width + 1 %>px;">
-<div style="right:-2px;width:<%= subject_width %>px;height:<%= headers_height %>px;background: #eee;" class="gantt_hdr"></div>
-<div style="right:-2px;width:<%= subject_width %>px;height:<%= t_height %>px;border-left: 1px solid #c0c0c0;overflow:hidden;"
-     class="gantt_hdr"></div>
-
-<div class="gantt_subjects">
-<%= @gantt.subjects.html_safe %>
-</div>
-
-</div>
+  <%
+    style  = ""
+    style += "position:relative;"
+    style += "height: #{t_height + 24}px;"
+    style += "width: #{subject_width + 1}px;"
+  %>
+  <%= content_tag(:div, :style => style) do %>
+    <%
+      style  = ""
+      style += "right:-2px;"
+      style += "width: #{subject_width}px;"
+      style += "height: #{headers_height}px;"
+      style += 'background: #eee;'
+    %>
+    <%= content_tag(:div, "", :style => style, :class => "gantt_hdr") %>
+    <%
+      style  = ""
+      style += "right:-2px;"
+      style += "width: #{subject_width}px;"
+      style += "height: #{t_height}px;"
+      style += 'border-left: 1px solid #c0c0c0;'
+      style += 'overflow: hidden;'
+    %>
+    <%= content_tag(:div, "", :style => style, :class => "gantt_hdr") %>
+    <%= content_tag(:div, :class => "gantt_subjects") do %>
+      <%= @gantt.subjects.html_safe %>
+    <% end %>
+  <% end %>
 </td>
 <td>
 
