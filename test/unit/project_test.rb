@@ -1018,7 +1018,23 @@ class ProjectTest < ActiveSupport::TestCase
       assert @project.issue_categories.any?
       assert @project.issues.empty?
     end
+  end
 
+  def test_copy_should_copy_subtasks
+    source = Project.generate!(:tracker_ids => [1])
+    issue = Issue.generate_with_descendants!(source, :subject => 'Parent')
+    project = Project.new(:name => 'Copy', :identifier => 'copy', :tracker_ids => [1])
+
+    assert_difference 'Project.count' do
+      assert_difference 'Issue.count', 1+issue.descendants.count do
+        assert project.copy(source.reload)
+      end
+    end
+    copy = Issue.where(:parent_id => nil).order("id DESC").first
+    assert_equal project, copy.project
+    assert_equal issue.descendants.count, copy.descendants.count
+    child_copy = copy.children.detect {|c| c.subject == 'Child1'}
+    assert child_copy.descendants.any?
   end
 
   context "#start_date" do

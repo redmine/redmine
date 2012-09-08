@@ -773,7 +773,7 @@ class Project < ActiveRecord::Base
     # get copied before their children
     project.issues.find(:all, :order => 'root_id, lft').each do |issue|
       new_issue = Issue.new
-      new_issue.copy_from(issue)
+      new_issue.copy_from(issue, :subtasks => false)
       new_issue.project = self
       # Reassign fixed_versions by name, since names are unique per
       # project and the versions for self are not yet saved
