@@ -136,20 +136,16 @@
   %>
 <% end %>
 
-<%
-#
-# Weeks headers
-#
-%>
+<% ###### Weeks headers ###### %>
 <% if show_weeks %>
   <%
-  left = 0
-  height = (show_days ? header_heigth - 1 : header_heigth - 1 + g_height)
+    left = 0
+    height = (show_days ? header_heigth - 1 : header_heigth - 1 + g_height)
   %>
   <% if @gantt.date_from.cwday == 1 %>
     <%
-    # @date_from is monday
-    week_f = @gantt.date_from
+      # @date_from is monday
+      week_f = @gantt.date_from
     %>
   <% else %>
     <%
@@ -183,8 +179,8 @@
       <% end %>
     <% end %>
     <%
-    left = left + width + 1
-    week_f = week_f + 7
+      left = left + width + 1
+      week_f = week_f + 7
     %>
   <% end %>
 <% end %>
