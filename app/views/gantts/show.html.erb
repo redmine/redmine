@@ -35,33 +35,33 @@
 <%= error_messages_for 'query' %>
 <% if @query.valid? %>
 <%
-zoom = 1
-@gantt.zoom.times { zoom = zoom * 2 }
+  zoom = 1
+  @gantt.zoom.times { zoom = zoom * 2 }
 
-subject_width = 330
-header_heigth = 18
+  subject_width = 330
+  header_heigth = 18
 
-headers_height = header_heigth
-show_weeks = false
-show_days = false
+  headers_height = header_heigth
+  show_weeks = false
+  show_days  = false
 
-if @gantt.zoom > 1
+  if @gantt.zoom > 1
     show_weeks = true
     headers_height = 2 * header_heigth
     if @gantt.zoom > 2
         show_days = true
         headers_height = 3 * header_heigth
     end
-end
+  end
 
-# Width of the entire chart
-g_width = ((@gantt.date_to - @gantt.date_from + 1) * zoom).to_i
-@gantt.render(:top => headers_height + 8,
-              :zoom => zoom,
-              :g_width => g_width,
-              :subject_width => subject_width)
-g_height = [(20 * (@gantt.number_of_rows + 6)) + 150, 206].max
-t_height = g_height + headers_height
+  # Width of the entire chart
+  g_width = ((@gantt.date_to - @gantt.date_from + 1) * zoom).to_i
+  @gantt.render(:top => headers_height + 8,
+                :zoom => zoom,
+                :g_width => g_width,
+                :subject_width => subject_width)
+  g_height = [(20 * (@gantt.number_of_rows + 6)) + 150, 206].max
+  t_height = g_height + headers_height
 %>
 
 <% if @gantt.truncated %>
