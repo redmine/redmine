@@ -3539,6 +3539,21 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal count, copy.descendants.count
   end
 
+  def test_bulk_copy_should_not_copy_selected_subtasks_twice
+    issue = Issue.generate_with_descendants!(Project.find(1), :subject => 'Parent')
+    count = issue.descendants.count
+    @request.session[:user_id] = 2
+
+    assert_difference 'Issue.count', count+1 do
+      post :bulk_update, :ids => issue.self_and_descendants.map(&:id), :copy => '1', :copy_subtasks => '1',
+           :issue => {
+             :project_id => ''
+           }
+    end
+    copy = Issue.where(:parent_id => nil).order("id DESC").first
+    assert_equal count, copy.descendants.count
+  end
+
   def test_bulk_copy_to_another_project_should_follow_when_needed
     @request.session[:user_id] = 2
     post :bulk_update, :ids => [1], :copy => '1', :issue => {:project_id => 2}, :follow => '1'
