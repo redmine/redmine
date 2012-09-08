@@ -105,18 +105,15 @@ t_height = g_height + headers_height
 <div style="position:relative;height:<%= t_height + 24 %>px;overflow:auto;">
 <div style="width:<%= g_width - 1 %>px;height:<%= headers_height %>px;background: #eee;"
      class="gantt_hdr">&nbsp;</div>
+
+<% ###### Months headers ###### %>
 <%
-#
-# Months headers
-#
-%>
-<%
-month_f = @gantt.date_from
-left = 0
-height = (show_weeks ? header_heigth : header_heigth + g_height)
+  month_f = @gantt.date_from
+  left = 0
+  height = (show_weeks ? header_heigth : header_heigth + g_height)
 %>
 <% @gantt.months.times do %>
-  <% 
+  <%
     width = (((month_f >> 1) - month_f) * zoom - 1).to_i
     style  = ""
     style += "left: #{left}px;"
@@ -129,8 +126,8 @@ height = (show_weeks ? header_heigth : header_heigth + g_height)
                 :title => "#{month_name(month_f.month)} #{month_f.year}" %>
   <% end %>
   <%
-  left = left + width + 1
-  month_f = month_f >> 1
+    left = left + width + 1
+    month_f = month_f >> 1
   %>
 <% end %>
 
