@@ -77,6 +77,13 @@
 </p>
 <% end %>
 
+<% if @copy && @subtasks_present %>
+<p>
+  <label for='copy_subtasks'><%= l(:label_copy_subtasks) %></label>
+  <%= check_box_tag 'copy_subtasks', '1', true %>
+</p>
+<% end %>
+
 <%= call_hook(:view_issues_bulk_edit_details_bottom, { :issues => @issues }) %>
 </div>
 

@@ -221,6 +221,7 @@ class IssuesController < ApplicationController
     @categories = target_projects.map {|p| p.issue_categories}.reduce(:&)
     if @copy
       @attachments_present = @issues.detect {|i| i.attachments.any?}.present?
+      @subtasks_present = @issues.detect {|i| !i.leaf?}.present?
     end
 
     @safe_attributes = @issues.map(&:safe_attribute_names).reduce(:&)
@@ -237,7 +238,10 @@ class IssuesController < ApplicationController
     @issues.each do |issue|
       issue.reload
       if @copy
-        issue = issue.copy({}, :attachments => params[:copy_attachments].present?)
+        issue = issue.copy({},
+          :attachments => params[:copy_attachments].present?,
+          :subtasks => params[:copy_subtasks].present?
+        )
       end
       journal = issue.init_journal(User.current, params[:notes])
       issue.safe_attributes = attributes
@@ -374,7 +378,8 @@ private
         begin
           @copy_from = Issue.visible.find(params[:copy_from])
           @copy_attachments = params[:copy_attachments].present? || request.get?
-          @issue.copy_from(@copy_from, :attachments => @copy_attachments)
+          @copy_subtasks = params[:copy_subtasks].present? || request.get?
+          @issue.copy_from(@copy_from, :attachments => @copy_attachments, :subtasks => @copy_subtasks)
         rescue ActiveRecord::RecordNotFound
           render_404
           return

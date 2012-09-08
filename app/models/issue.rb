@@ -77,6 +77,8 @@ class Issue < ActiveRecord::Base
   before_save :close_duplicates, :update_done_ratio_from_issue_status, :force_updated_on_change
   after_save {|issue| issue.send :after_project_change if !issue.id_changed? && issue.project_id_changed?} 
   after_save :reschedule_following_issues, :update_nested_set_attributes, :update_parent_attributes, :create_journal
+  # Should be after_create but would be called before previous after_save callbacks
+  after_save :after_create_from_copy
   after_destroy :update_parent_attributes
 
   # Returns a SQL conditions string used to find all issues visible by the specified user
@@ -169,6 +171,7 @@ class Issue < ActiveRecord::Base
       end
     end
     @copied_from = issue
+    @copy_options = options
     self
   end
 
@@ -997,6 +1000,30 @@ class Issue < ActiveRecord::Base
       unless child.save
         raise ActiveRecord::Rollback
       end
+    end
+  end
+
+  # Copies subtasks from the copied issue
+  def after_create_from_copy
+    return unless copy?
+
+    unless @copied_from.leaf? || @copy_options[:subtasks] == false || @subtasks_copied
+      @copied_from.children.each do |child|
+        unless child.visible?
+          # Do not copy subtasks that are not visible to avoid potential disclosure of private data
+          logger.error "Subtask ##{child.id} was not copied during ##{@copied_from.id} copy because it is not visible to the current user" if logger
+          next
+        end
+        copy = Issue.new.copy_from(child, @copy_options)
+        copy.author = author
+        copy.project = project
+        copy.parent_issue_id = id
+        # Children subtasks are copied recursively
+        unless copy.save
+          logger.error "Could not copy subtask ##{child.id} while copying ##{@copied_from.id} to ##{id} due to validation errors: #{copy.errors.full_messages.join(', ')}" if logger
+        end
+      end
+      @subtasks_copied = true
     end
   end
 

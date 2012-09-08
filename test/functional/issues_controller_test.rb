@@ -2268,6 +2268,14 @@ class IssuesControllerTest < ActionController::TestCase
     assert_no_tag 'input', :attributes => {:name => 'copy_attachments', :type => 'checkbox', :checked => 'checked', :value => '1'}
   end
 
+  def test_new_as_copy_with_subtasks_should_show_copy_subtasks_checkbox
+    @request.session[:user_id] = 2
+    issue = Issue.generate_with_descendants!(Project.find(1), :subject => 'Parent')
+    get :new, :project_id => 1, :copy_from => issue.id
+
+    assert_select 'input[type=checkbox][name=copy_subtasks][checked=checked][value=1]'
+  end
+
   def test_new_as_copy_with_invalid_issue_should_respond_with_404
     @request.session[:user_id] = 2
     get :new, :project_id => 1, :copy_from => 99999
@@ -2347,6 +2355,37 @@ class IssuesControllerTest < ActionController::TestCase
     end
     copy = Issue.first(:order => 'id DESC')
     assert_equal count + 1, copy.attachments.count
+  end
+
+  def test_create_as_copy_should_copy_subtasks
+    @request.session[:user_id] = 2
+    issue = Issue.generate_with_descendants!(Project.find(1), :subject => 'Parent')
+    count = issue.descendants.count
+
+    assert_difference 'Issue.count', count+1 do
+      assert_no_difference 'Journal.count' do
+        post :create, :project_id => 1, :copy_from => issue.id,
+          :issue => {:project_id => '1', :tracker_id => '3', :status_id => '1', :subject => 'Copy with subtasks'},
+          :copy_subtasks => '1'
+      end
+    end
+    copy = Issue.where(:parent_id => nil).first(:order => 'id DESC')
+    assert_equal count, copy.descendants.count
+    assert_equal issue.descendants.map(&:subject).sort, copy.descendants.map(&:subject).sort
+  end
+
+  def test_create_as_copy_without_copy_subtasks_option_should_not_copy_subtasks
+    @request.session[:user_id] = 2
+    issue = Issue.generate_with_descendants!(Project.find(1), :subject => 'Parent')
+
+    assert_difference 'Issue.count', 1 do
+      assert_no_difference 'Journal.count' do
+        post :create, :project_id => 1, :copy_from => 3,
+          :issue => {:project_id => '1', :tracker_id => '3', :status_id => '1', :subject => 'Copy with subtasks'}
+      end
+    end
+    copy = Issue.where(:parent_id => nil).first(:order => 'id DESC')
+    assert_equal 0, copy.descendants.count
   end
 
   def test_create_as_copy_with_failure
@@ -3471,6 +3510,33 @@ class IssuesControllerTest < ActionController::TestCase
              }
       end
     end
+  end
+
+  def test_bulk_copy_should_allow_not_copying_the_subtasks
+    issue = Issue.generate_with_descendants!(Project.find(1), :subject => 'Parent')
+    @request.session[:user_id] = 2
+
+    assert_difference 'Issue.count', 1 do
+      post :bulk_update, :ids => [issue.id], :copy => '1',
+           :issue => {
+             :project_id => ''
+           }
+    end
+  end
+
+  def test_bulk_copy_should_allow_copying_the_subtasks
+    issue = Issue.generate_with_descendants!(Project.find(1), :subject => 'Parent')
+    count = issue.descendants.count
+    @request.session[:user_id] = 2
+
+    assert_difference 'Issue.count', count+1 do
+      post :bulk_update, :ids => [issue.id], :copy => '1', :copy_subtasks => '1',
+           :issue => {
+             :project_id => ''
+           }
+    end
+    copy = Issue.where(:parent_id => nil).order("id DESC").first
+    assert_equal count, copy.descendants.count
   end
 
   def test_bulk_copy_to_another_project_should_follow_when_needed

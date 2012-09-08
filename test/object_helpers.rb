@@ -81,6 +81,15 @@ module ObjectHelpers
     issue
   end
 
+  # Generates an issue with some children and a grandchild
+  def Issue.generate_with_descendants!(project, attributes={})
+    issue = Issue.generate_for_project!(project, attributes)
+    child = Issue.generate_for_project!(project, :subject => 'Child1', :parent_issue_id => issue.id)
+    Issue.generate_for_project!(project, :subject => 'Child2', :parent_issue_id => issue.id)
+    Issue.generate_for_project!(project, :subject => 'Child11', :parent_issue_id => child.id)
+    issue.reload
+  end
+
   def Version.generate!(attributes={})
     @generated_version_name ||= 'Version 0'
     @generated_version_name.succ!

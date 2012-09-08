@@ -857,6 +857,7 @@ en:
   label_child_revision: Child
   label_export_options: "%{export_format} export options"
   label_copy_attachments: Copy attachments
+  label_copy_subtasks: Copy subtasks
   label_item_position: "%{position} of %{count}"
   label_completed_versions: Completed versions
   label_search_for_watchers: Search for watchers to add

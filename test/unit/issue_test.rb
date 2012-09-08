@@ -633,6 +633,41 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal orig.status, issue.status
   end
 
+  def test_copy_should_copy_subtasks
+    issue = Issue.generate_with_descendants!(Project.find(1), :subject => 'Parent')
+
+    copy = issue.reload.copy
+    copy.author = User.find(7)
+    assert_difference 'Issue.count', 1+issue.descendants.count do
+      assert copy.save
+    end
+    copy.reload
+    assert_equal %w(Child1 Child2), copy.children.map(&:subject).sort
+    child_copy = copy.children.detect {|c| c.subject == 'Child1'}
+    assert_equal %w(Child11), child_copy.children.map(&:subject).sort
+    assert_equal copy.author, child_copy.author
+  end
+
+  def test_copy_should_copy_subtasks_to_target_project
+    issue = Issue.generate_with_descendants!(Project.find(1), :subject => 'Parent')
+
+    copy = issue.copy(:project_id => 3)
+    assert_difference 'Issue.count', 1+issue.descendants.count do
+      assert copy.save
+    end
+    assert_equal [3], copy.reload.descendants.map(&:project_id).uniq
+  end
+
+  def test_copy_should_not_copy_subtasks_twice_when_saving_twice
+    issue = Issue.generate_with_descendants!(Project.find(1), :subject => 'Parent')
+
+    copy = issue.reload.copy
+    assert_difference 'Issue.count', 1+issue.descendants.count do
+      assert copy.save
+      assert copy.save
+    end
+  end
+
   def test_should_not_call_after_project_change_on_creation
     issue = Issue.new(:project_id => 1, :tracker_id => 1, :status_id => 1, :subject => 'Test', :author_id => 1)
     issue.expects(:after_project_change).never

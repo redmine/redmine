@@ -17,6 +17,12 @@
       <%= check_box_tag 'copy_attachments', '1', @copy_attachments %>
     </p>
     <% end %>
+    <% if @copy_from && !@copy_from.leaf? %>
+    <p>
+      <label for="copy_subtasks"><%= l(:label_copy_subtasks) %></label>
+      <%= check_box_tag 'copy_subtasks', '1', @copy_subtasks %>
+    </p>
+    <% end %>
 
     <p id="attachments_form"><label><%= l(:label_attachment_plural) %></label><%= render :partial => 'attachments/form', :locals => {:container => @issue} %></p>
 
