@@ -844,6 +844,22 @@ class ProjectTest < ActiveSupport::TestCase
       assert_not_equal assigned_version.id, copied_issue.fixed_version.id # Different record
     end
 
+    should "keep target shared versions from other project" do
+      assigned_version = Version.generate!(:name => "Assigned Issues", :status => 'open', :project_id => 1, :sharing => 'system')
+      issue = Issue.generate_for_project!(@source_project,
+                                  :fixed_version => assigned_version,
+                                  :subject => "keep target shared versions",
+                                  :tracker_id => 1,
+                                  :project_id => @source_project.id)
+
+      assert @project.copy(@source_project)
+      @project.reload
+      copied_issue = @project.issues.first(:conditions => {:subject => "keep target shared versions"})
+
+      assert copied_issue
+      assert_equal assigned_version, copied_issue.fixed_version
+    end
+
     should "copy issue relations" do
       Setting.cross_project_issue_relations = '1'
 

@@ -776,7 +776,7 @@ class Project < ActiveRecord::Base
       new_issue.copy_from(issue, :subtasks => false)
       new_issue.project = self
       # Reassign fixed_versions by name, since names are unique per project
-      if issue.fixed_version
+      if issue.fixed_version && issue.fixed_version.project == project
         new_issue.fixed_version = self.versions.detect {|v| v.name == issue.fixed_version.name}
       end
       # Reassign the category by name, since names are unique per project
