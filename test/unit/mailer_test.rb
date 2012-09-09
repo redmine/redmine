@@ -508,6 +508,27 @@ class MailerTest < ActiveSupport::TestCase
     assert_mail_body_match 'Bug #3: Error 281 when updating a recipe', mail
   end
 
+  def test_reminder_should_include_issues_assigned_to_groups
+    with_settings :default_language => 'en' do
+      group = Group.generate!
+      group.users << User.find(2)
+      group.users << User.find(3)
+
+      Issue.create!(:project_id => 1, :tracker_id => 1, :status_id => 1,
+                      :subject => 'Assigned to group', :assigned_to => group,
+                      :due_date => 5.days.from_now,
+                      :author_id => 2)
+      ActionMailer::Base.deliveries.clear
+
+      Mailer.reminders(:days => 7)
+      assert_equal 2, ActionMailer::Base.deliveries.size
+      assert_equal %w(dlopper@somenet.foo jsmith@somenet.foo), ActionMailer::Base.deliveries.map(&:bcc).flatten.sort
+      ActionMailer::Base.deliveries.each do |mail|
+        assert_mail_body_match 'Assigned to group', mail
+      end
+    end
+  end
+
   def test_mailer_should_not_change_locale
     Setting.default_language = 'en'
     # Set current language to italian

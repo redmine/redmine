@@ -327,7 +327,7 @@ class Mailer < ActionMailer::Base
   # * :days     => how many days in the future to remind about (defaults to 7)
   # * :tracker  => id of tracker for filtering issues (defaults to all trackers)
   # * :project  => id or identifier of project to process (defaults to all projects)
-  # * :users    => array of user ids who should be reminded
+  # * :users    => array of user/group ids who should be reminded
   def self.reminders(options={})
     days = options[:days] || 7
     project = options[:project] ? Project.find(options[:project]) : nil
@@ -343,6 +343,15 @@ class Mailer < ActionMailer::Base
     scope = scope.scoped(:conditions => {:tracker_id => tracker.id}) if tracker
 
     issues_by_assignee = scope.all(:include => [:status, :assigned_to, :project, :tracker]).group_by(&:assigned_to)
+    issues_by_assignee.keys.each do |assignee|
+      if assignee.is_a?(Group)
+        assignee.users.each do |user|
+          issues_by_assignee[user] ||= []
+          issues_by_assignee[user] += issues_by_assignee[assignee]
+        end
+      end
+    end
+
     issues_by_assignee.each do |assignee, issues|
       reminder(assignee, issues, days).deliver if assignee.is_a?(User) && assignee.active?
     end
