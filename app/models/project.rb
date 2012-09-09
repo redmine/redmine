@@ -763,11 +763,16 @@ class Project < ActiveRecord::Base
   end
 
   # Copies issues from +project+
-  # Note: issues assigned to a closed version won't be copied due to validation rules
   def copy_issues(project)
     # Stores the source issue id as a key and the copied issues as the
     # value.  Used to map the two togeather for issue relations.
     issues_map = {}
+
+    # Store status and reopen locked/closed versions
+    version_statuses = versions.reject(&:open?).map {|version| [version, version.status]}
+    version_statuses.each do |version, status|
+      version.update_attribute :status, 'open'
+    end
 
     # Get issues sorted by root_id, lft so that parent issues
     # get copied before their children
@@ -796,6 +801,11 @@ class Project < ActiveRecord::Base
       else
         issues_map[issue.id] = new_issue unless new_issue.new_record?
       end
+    end
+
+    # Restore locked/closed version statuses
+    version_statuses.each do |version, status|
+      version.update_attribute :status, status
     end
 
     # Relations after in case issues related each other

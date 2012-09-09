@@ -823,6 +823,27 @@ class ProjectTest < ActiveSupport::TestCase
       assert_equal "Closed", copied_issue.status.name
     end
 
+    should "copy issues assigned to a locked version" do
+      User.current = User.find(1)
+      assigned_version = Version.generate!(:name => "Assigned Issues")
+      @source_project.versions << assigned_version
+      Issue.generate_for_project!(@source_project,
+                                  :fixed_version_id => assigned_version.id,
+                                  :subject => "copy issues assigned to a locked version",
+                                  :tracker_id => 1,
+                                  :project_id => @source_project.id)
+      assigned_version.update_attribute :status, 'locked'
+
+      assert @project.copy(@source_project)
+      @project.reload
+      copied_issue = @project.issues.first(:conditions => {:subject => "copy issues assigned to a locked version"})
+
+      assert copied_issue
+      assert copied_issue.fixed_version
+      assert_equal "Assigned Issues", copied_issue.fixed_version.name # Same name
+      assert_equal 'locked', copied_issue.fixed_version.status
+    end
+
     should "change the new issues to use the copied version" do
       User.current = User.find(1)
       assigned_version = Version.generate!(:name => "Assigned Issues", :status => 'open')
