@@ -775,15 +775,13 @@ class Project < ActiveRecord::Base
       new_issue = Issue.new
       new_issue.copy_from(issue, :subtasks => false)
       new_issue.project = self
-      # Reassign fixed_versions by name, since names are unique per
-      # project and the versions for self are not yet saved
+      # Reassign fixed_versions by name, since names are unique per project
       if issue.fixed_version
-        new_issue.fixed_version = self.versions.select {|v| v.name == issue.fixed_version.name}.first
+        new_issue.fixed_version = self.versions.detect {|v| v.name == issue.fixed_version.name}
       end
-      # Reassign the category by name, since names are unique per
-      # project and the categories for self are not yet saved
+      # Reassign the category by name, since names are unique per project
       if issue.category
-        new_issue.category = self.issue_categories.select {|c| c.name == issue.category.name}.first
+        new_issue.category = self.issue_categories.detect {|c| c.name == issue.category.name}
       end
       # Parent issue
       if issue.parent_id
