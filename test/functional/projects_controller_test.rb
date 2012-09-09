@@ -542,9 +542,7 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_equal %w(issue_tracking time_tracking), project.enabled_module_names.sort
 
     assert_equal source.versions.count, project.versions.count, "All versions were not copied"
-    # issues assigned to a closed version won't be copied
-    assert_equal source.issues.select {|i| i.fixed_version.nil? || i.fixed_version.open?}.size,
-                 project.issues.count, "All issues were not copied"
+    assert_equal source.issues.count, project.issues.count, "All issues were not copied"
     assert_equal 0, project.members.count
   end
 
