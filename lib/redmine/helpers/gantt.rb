@@ -81,15 +81,20 @@ module Redmine
       end
 
       def params
-        common_params.merge({  :zoom => zoom, :year => year_from, :month => month_from, :months => months })
+        common_params.merge({:zoom => zoom, :year => year_from,
+                             :month => month_from, :months => months})
       end
 
       def params_previous
-        common_params.merge({:year => (date_from << months).year, :month => (date_from << months).month, :zoom => zoom, :months => months })
+        common_params.merge({:year => (date_from << months).year,
+                             :month => (date_from << months).month,
+                             :zoom => zoom, :months => months})
       end
 
       def params_next
-        common_params.merge({:year => (date_from >> months).year, :month => (date_from >> months).month, :zoom => zoom, :months => months })
+        common_params.merge({:year => (date_from >> months).year,
+                             :month => (date_from >> months).month,
+                             :zoom => zoom, :months => months})
       end
 
       # Returns the number of rows that will be rendered on the Gantt chart
