@@ -328,14 +328,18 @@ module Redmine
           css_classes << ' issue-overdue' if issue.overdue?
           css_classes << ' issue-behind-schedule' if issue.behind_schedule?
           css_classes << ' icon icon-issue' unless Setting.gravatar_enabled? && issue.assigned_to
-          subject = "<span class='#{css_classes}'>".html_safe
+          s = "".html_safe
           if issue.assigned_to.present?
             assigned_string = l(:field_assigned_to) + ": " + issue.assigned_to.name
-            subject << view.avatar(issue.assigned_to, :class => 'gravatar icon-gravatar', :size => 10, :title => assigned_string).to_s.html_safe
+            s << view.avatar(issue.assigned_to,
+                             :class => 'gravatar icon-gravatar',
+                             :size => 10,
+                             :title => assigned_string).to_s.html_safe
           end
-          subject << view.link_to_issue(issue).html_safe
-          subject << '</span>'.html_safe
-          html_subject(options, subject, :css => "issue-subject", :title => issue.subject) + "\n"
+          s << view.link_to_issue(issue).html_safe
+          subject = view.content_tag(:span, s, :class => css_classes).html_safe
+          html_subject(options, subject, :css => "issue-subject",
+                       :title => issue.subject) + "\n"
         when :image
           image_subject(options, issue.subject)
         when :pdf
