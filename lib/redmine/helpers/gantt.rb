@@ -353,10 +353,13 @@ module Redmine
         # Skip issues that don't have a due_before (due_date or version's due_date)
         if issue.is_a?(Issue) && issue.due_before
           coords = coordinates(issue.start_date, issue.due_before, issue.done_ratio, options[:zoom])
-          label = "#{ issue.status.name } #{ issue.done_ratio }%"
+          label = "#{issue.status.name} #{issue.done_ratio}%"
           case options[:format]
           when :html
-            html_task(options, coords, :css => "task " + (issue.leaf? ? 'leaf' : 'parent'), :label => label, :issue => issue, :markers => !issue.leaf?)
+            html_task(options, coords,
+                      :css => "task " + (issue.leaf? ? 'leaf' : 'parent'),
+                      :label => label, :issue => issue,
+                      :markers => !issue.leaf?)
           when :image
             image_task(options, coords, :label => label)
           when :pdf
