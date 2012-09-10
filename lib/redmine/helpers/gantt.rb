@@ -94,7 +94,6 @@ module Redmine
       # Returns the number of rows that will be rendered on the Gantt chart
       def number_of_rows
         return @number_of_rows if @number_of_rows
-
         rows = projects.inject(0) {|total, p| total += number_of_rows_on_project(p)}
         rows > @max_rows ? @max_rows : rows
       end
@@ -313,7 +312,6 @@ module Redmine
           @issue_ancestors.pop
           options[:indent] -= options[:indent_increment]
         end
-
         output = case options[:format]
         when :html
           css_classes = ''
@@ -366,7 +364,6 @@ module Redmine
         date_to = (@date_from >> @months)-1
         show_weeks = @zoom > 1
         show_days = @zoom > 2
-
         subject_width = 400
         header_height = 18
         # width of one day in pixels
