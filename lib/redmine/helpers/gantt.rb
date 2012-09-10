@@ -168,7 +168,9 @@ module Redmine
       end
 
       def render(options={})
-        options = {:top => 0, :top_increment => 20, :indent_increment => 20, :render => :subject, :format => :html}.merge(options)
+        options = {:top => 0, :top_increment => 20,
+                   :indent_increment => 20, :render => :subject,
+                   :format => :html}.merge(options)
         indent = options[:indent] || 4
         @subjects = '' unless options[:only] == :lines
         @lines = '' unless options[:only] == :subjects
