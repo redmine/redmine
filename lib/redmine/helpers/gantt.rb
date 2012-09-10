@@ -664,7 +664,9 @@ module Redmine
       def html_subject(params, subject, options={})
         style = "position: absolute;top:#{params[:top]}px;left:#{params[:indent]}px;"
         style << "width:#{params[:subject_width] - params[:indent]}px;" if params[:subject_width]
-        output = view.content_tag 'div', subject, :class => options[:css], :style => style, :title => options[:title]
+        output = view.content_tag('div', subject,
+                                  :class => options[:css], :style => style,
+                                  :title => options[:title])
         @subjects << output
         output
       end
