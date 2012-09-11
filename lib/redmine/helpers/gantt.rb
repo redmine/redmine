@@ -769,10 +769,18 @@ module Redmine
         end
         # Renders the tooltip
         if options[:issue] && coords[:bar_start] && coords[:bar_end]
-          output << "<div class='tooltip' style='position: absolute;top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_end] - coords[:bar_start] }px;height:12px;'>".html_safe
-          output << '<span class="tip">'.html_safe
-          output << view.render_issue_tooltip(options[:issue]).html_safe
-          output << "</span></div>".html_safe
+          s = view.content_tag(:span,
+                               view.render_issue_tooltip(options[:issue]).html_safe,
+                               :class => "tip")
+          style = ""
+          style << "position: absolute;"
+          style << "top:#{params[:top]}px;"
+          style << "left:#{coords[:bar_start]}px;"
+          style << "width:#{coords[:bar_end] - coords[:bar_start]}px;"
+          style << "height:12px;"
+          output << view.content_tag(:div, s.html_safe,
+                                     :style => style,
+                                     :class => "tooltip")
         end
         @lines << output
         output
