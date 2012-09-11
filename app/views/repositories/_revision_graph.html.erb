@@ -1,4 +1,4 @@
-<script type="text/javascript" charset="utf-8">
+<%= javascript_tag do %>
 function revisionGraphHandler(){
   drawRevisionGraph(
     document.getElementById('holder'),
@@ -8,7 +8,8 @@ function revisionGraphHandler(){
 }
 $(document).ready(revisionGraphHandler);
 $(window).resize(revisionGraphHandler);
-</script>
+<% end %>
+
 <div id="holder" class="revision-graph"></div>
 
 <% content_for :header_tags do %>
