@@ -786,14 +786,23 @@ module Redmine
         # Renders the task bar, with progress and late
         if coords[:bar_start] && coords[:bar_end]
           params[:image].fill('#aaa')
-          params[:image].rectangle(params[:subject_width] + coords[:bar_start], params[:top], params[:subject_width] + coords[:bar_end], params[:top] - height)
+          params[:image].rectangle(params[:subject_width] + coords[:bar_start],
+                                   params[:top],
+                                   params[:subject_width] + coords[:bar_end],
+                                   params[:top] - height)
           if coords[:bar_late_end]
             params[:image].fill('#f66')
-            params[:image].rectangle(params[:subject_width] + coords[:bar_start], params[:top], params[:subject_width] + coords[:bar_late_end], params[:top] - height)
+            params[:image].rectangle(params[:subject_width] + coords[:bar_start],
+                                     params[:top],
+                                     params[:subject_width] + coords[:bar_late_end],
+                                     params[:top] - height)
           end
           if coords[:bar_progress_end]
             params[:image].fill('#00c600')
-            params[:image].rectangle(params[:subject_width] + coords[:bar_start], params[:top], params[:subject_width] + coords[:bar_progress_end], params[:top] - height)
+            params[:image].rectangle(params[:subject_width] + coords[:bar_start],
+                                     params[:top],
+                                     params[:subject_width] + coords[:bar_progress_end],
+                                     params[:top] - height)
           end
         end
         # Renders the markers
@@ -802,19 +811,21 @@ module Redmine
             x = params[:subject_width] + coords[:start]
             y = params[:top] - height / 2
             params[:image].fill('blue')
-            params[:image].polygon(x-4, y, x, y-4, x+4, y, x, y+4)
+            params[:image].polygon(x - 4, y, x, y - 4, x + 4, y, x, y + 4)
           end
           if coords[:end]
             x = params[:subject_width] + coords[:end] + params[:zoom]
             y = params[:top] - height / 2
             params[:image].fill('blue')
-            params[:image].polygon(x-4, y, x, y-4, x+4, y, x, y+4)
+            params[:image].polygon(x - 4, y, x, y - 4, x + 4, y, x, y + 4)
           end
         end
         # Renders the label on the right
         if options[:label]
           params[:image].fill('black')
-          params[:image].text(params[:subject_width] + (coords[:bar_end] || 0) + 5,params[:top] + 1, options[:label])
+          params[:image].text(params[:subject_width] + (coords[:bar_end] || 0) + 5,
+                              params[:top] + 1,
+                              options[:label])
         end
       end
     end
