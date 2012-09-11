@@ -35,6 +35,9 @@ function drawRevisionGraph(holder, commits_hash, graph_space) {
     var path, title;
     var revision_dot_overlay;
     $.each(commits, function(index, commit) {
+        if (!commit.hasOwnProperty("space"))
+            commit.space = 0;
+
         y = commit_table_rows.eq(max_rdmid - commit.rdmid).position().top - graph_y_offset + CIRCLE_INROW_OFFSET;
         x = graph_x_offset + XSTEP / 2 + XSTEP * commit.space;
         revisionGraph.circle(x, y, 3)
@@ -46,6 +49,9 @@ function drawRevisionGraph(holder, commits_hash, graph_space) {
         $.each(commit.parent_scmids, function(index, parent_scmid) {
             parent_commit = commits_by_scmid[parent_scmid];
             if (parent_commit) {
+                if (!parent_commit.hasOwnProperty("space"))
+                    parent_commit.space = 0;
+
                 parent_y = commit_table_rows.eq(max_rdmid - parent_commit.rdmid).position().top - graph_y_offset + CIRCLE_INROW_OFFSET;
                 parent_x = graph_x_offset + XSTEP / 2 + XSTEP * parent_commit.space;
                 if (parent_commit.space == commit.space) {
