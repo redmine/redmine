@@ -759,9 +759,13 @@ module Redmine
         end
         # Renders the label on the right
         if options[:label]
-          output << "<div style='top:#{ params[:top] }px;left:#{ (coords[:bar_end] || 0) + 8 }px;' class='#{options[:css]} label'>".html_safe
-          output << options[:label]
-          output << "</div>".html_safe
+          style = ""
+          style << "top:#{params[:top]}px;"
+          style << "left:#{(coords[:bar_end] || 0) + 8}px;"
+          style << "width:15px;"
+          output << view.content_tag(:div, options[:label],
+                                     :style => style,
+                                     :class => "#{options[:css]} label")
         end
         # Renders the tooltip
         if options[:issue] && coords[:bar_start] && coords[:bar_end]
