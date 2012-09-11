@@ -1,5 +1,3 @@
-<%= javascript_include_tag 'raphael.js' %>
-<%= javascript_include_tag 'revision_graph.js' %>
 <script type="text/javascript" charset="utf-8">
 function revisionGraphHandler(){
   drawRevisionGraph(
@@ -12,3 +10,8 @@ $(document).ready(revisionGraphHandler);
 $(window).resize(revisionGraphHandler);
 </script>
 <div id="holder" class="revision-graph"></div>
+
+<% content_for :header_tags do %>
+  <%= javascript_include_tag 'raphael' %>
+  <%= javascript_include_tag 'revision_graph' %>
+<% end %>
