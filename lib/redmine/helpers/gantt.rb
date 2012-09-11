@@ -245,9 +245,12 @@ module Redmine
       def subject_for_project(project, options)
         case options[:format]
         when :html
-          subject = "<span class='icon icon-projects #{project.overdue? ? 'project-overdue' : ''}'>".html_safe
-          subject << view.link_to_project(project).html_safe
-          subject << '</span>'.html_safe
+          html_class = ""
+          html_class << 'icon icon-projects '
+          html_class << (project.overdue? ? 'project-overdue' : '')
+          s = view.link_to_project(project).html_safe
+          subject = view.content_tag(:span, s,
+                                     :class => html_class).html_safe
           html_subject(options, subject, :css => "project-name")
         when :image
           image_subject(options, project.name)
