@@ -1095,8 +1095,12 @@ module ApplicationHelper
     unless @calendar_headers_tags_included
       @calendar_headers_tags_included = true
       content_for :header_tags do
+        # Monday, Sunday, Saturday
+        start_of_week = {1 => 1, 7 => 0, 6 => 6}[Setting.start_of_week.to_i] ||
+          l(:general_first_day_of_week, :default => '1') # use language
+
         tags = javascript_tag(
-                   "var datepickerOptions={dateFormat: 'yy-mm-dd', " +
+                   "var datepickerOptions={dateFormat: 'yy-mm-dd', firstDay: #{start_of_week}, " +
                      "showOn: 'button', buttonImageOnly: true, buttonImage: '" + 
                      path_to_image('/images/calendar.png') +
                      "', showButtonPanel: true};")
