@@ -706,18 +706,18 @@ module Redmine
         if coords[:bar_start] && coords[:bar_end]
           width = coords[:bar_end] - coords[:bar_start] - 2
           style = ""
-          style << "top: #{params[:top]}px;"
-          style << "left: #{coords[:bar_start]}px;"
-          style << "width: #{width}px;"
+          style << "top:#{params[:top]}px;"
+          style << "left:#{coords[:bar_start]}px;"
+          style << "width:#{width}px;"
           output << view.content_tag(:div, '&nbsp;'.html_safe,
                                      :style => style,
                                      :class => "#{options[:css]} task_todo")
           if coords[:bar_late_end]
             width = coords[:bar_late_end] - coords[:bar_start] - 2
             style = ""
-            style << "top: #{params[:top]}px;"
-            style << "left: #{coords[:bar_start]}px;"
-            style << "width: #{width}px;"
+            style << "top:#{params[:top]}px;"
+            style << "left:#{coords[:bar_start]}px;"
+            style << "width:#{width}px;"
             output << view.content_tag(:div, '&nbsp;'.html_safe,
                                        :style => style,
                                        :class => "#{options[:css]} task_late")
@@ -725,9 +725,9 @@ module Redmine
           if coords[:bar_progress_end]
             width = coords[:bar_progress_end] - coords[:bar_start] - 2
             style = ""
-            style << "top: #{params[:top]}px;"
-            style << "left: #{coords[:bar_start]}px;"
-            style << "width: #{width}px;"
+            style << "top:#{params[:top]}px;"
+            style << "left:#{coords[:bar_start]}px;"
+            style << "width:#{width}px;"
             output << view.content_tag(:div, '&nbsp;'.html_safe,
                                        :style => style,
                                        :class => "#{options[:css]} task_done")
