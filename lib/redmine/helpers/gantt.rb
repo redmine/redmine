@@ -281,9 +281,13 @@ module Redmine
       def subject_for_version(version, options)
         case options[:format]
         when :html
-          subject = "<span class='icon icon-package #{version.behind_schedule? ? 'version-behind-schedule' : ''} #{version.overdue? ? 'version-overdue' : ''}'>".html_safe
-          subject << view.link_to_version(version).html_safe
-          subject << '</span>'.html_safe
+          html_class = ""
+          html_class << 'icon icon-package '
+          html_class << (version.behind_schedule? ? 'version-behind-schedule' : '') << " "
+          html_class << (version.overdue? ? 'version-overdue' : '')
+          s = view.link_to_version(version).html_safe
+          subject = view.content_tag(:span, s,
+                                     :class => html_class).html_safe
           html_subject(options, subject, :css => "version-name")
         when :image
           image_subject(options, version.to_s_with_project)
