@@ -486,11 +486,11 @@ module Redmine
         pdf.alias_nb_pages
         pdf.footer_date = format_date(Date.today)
         pdf.AddPage("L")
-        pdf.SetFontStyle('B',12)
+        pdf.SetFontStyle('B', 12)
         pdf.SetX(15)
         pdf.RDMCell(PDF::LeftPaneWidth, 20, project.to_s)
         pdf.Ln
-        pdf.SetFontStyle('B',9)
+        pdf.SetFontStyle('B', 9)
         subject_width = PDF::LeftPaneWidth
         header_height = 5
         headers_height = header_height
@@ -498,10 +498,10 @@ module Redmine
         show_days = false
         if self.months < 7
           show_weeks = true
-          headers_height = 2*header_height
+          headers_height = 2 * header_height
           if self.months < 3
             show_days = true
-            headers_height = 3*header_height
+            headers_height = 3 * header_height
           end
         end
         g_width = PDF.right_pane_width
@@ -551,7 +551,7 @@ module Redmine
           left = subject_width
           height = header_height
           wday = self.date_from.cwday
-          pdf.SetFontStyle('B',7)
+          pdf.SetFontStyle('B', 7)
           (self.date_to - self.date_from + 1).to_i.times do
             width = zoom
             pdf.SetY(y_start + 2 * header_height)
@@ -564,7 +564,7 @@ module Redmine
         end
         pdf.SetY(y_start)
         pdf.SetX(15)
-        pdf.RDMCell(subject_width+g_width-15, headers_height, "", 1)
+        pdf.RDMCell(subject_width + g_width - 15, headers_height, "", 1)
         # Tasks
         top = headers_height + y_start
         options = {
