@@ -382,19 +382,19 @@ module Redmine
       # Generates a gantt image
       # Only defined if RMagick is avalaible
       def to_image(format='PNG')
-        date_to = (@date_from >> @months)-1
+        date_to = (@date_from >> @months) - 1
         show_weeks = @zoom > 1
         show_days = @zoom > 2
         subject_width = 400
         header_height = 18
         # width of one day in pixels
-        zoom = @zoom*2
-        g_width = (@date_to - @date_from + 1)*zoom
+        zoom = @zoom * 2
+        g_width = (@date_to - @date_from + 1) * zoom
         g_height = 20 * number_of_rows + 30
-        headers_height = (show_weeks ? 2*header_height : header_height)
+        headers_height = (show_weeks ? 2 * header_height : header_height)
         height = g_height + headers_height
         imgl = Magick::ImageList.new
-        imgl.new_image(subject_width+g_width+1, height)
+        imgl.new_image(subject_width + g_width + 1, height)
         gc = Magick::Draw.new
         # Subjects
         gc.stroke('transparent')
@@ -429,7 +429,7 @@ module Redmine
             gc.fill('white')
             gc.stroke('grey')
             gc.stroke_width(1)
-            gc.rectangle(left, header_height, left + width, 2*header_height + g_height-1)
+            gc.rectangle(left, header_height, left + width, 2 * header_height + g_height - 1)
             left = left + width
           end
           while week_f <= date_to
@@ -437,13 +437,13 @@ module Redmine
             gc.fill('white')
             gc.stroke('grey')
             gc.stroke_width(1)
-            gc.rectangle(left.round, header_height, left.round + width, 2*header_height + g_height-1)
+            gc.rectangle(left.round, header_height, left.round + width, 2 * header_height + g_height - 1)
             gc.fill('black')
             gc.stroke('transparent')
             gc.stroke_width(1)
             gc.text(left.round + 2, header_height + 14, week_f.cweek.to_s)
             left = left + width
-            week_f = week_f+7
+            week_f = week_f + 7
           end
         end
         # Days details (week-end in grey)
@@ -456,7 +456,7 @@ module Redmine
             gc.fill(wday == 6 || wday == 7 ? '#eee' : 'white')
             gc.stroke('#ddd')
             gc.stroke_width(1)
-            gc.rectangle(left, 2*header_height, left + width, 2*header_height + g_height-1)
+            gc.rectangle(left, 2 * header_height, left + width, 2 * header_height + g_height - 1)
             left = left + width
             wday = wday + 1
             wday = 1 if wday > 7
@@ -466,18 +466,19 @@ module Redmine
         gc.fill('transparent')
         gc.stroke('grey')
         gc.stroke_width(1)
-        gc.rectangle(0, 0, subject_width+g_width, headers_height)
+        gc.rectangle(0, 0, subject_width + g_width, headers_height)
         gc.stroke('black')
-        gc.rectangle(0, 0, subject_width+g_width, g_height+ headers_height-1)
+        gc.rectangle(0, 0, subject_width + g_width, g_height + headers_height - 1)
         # content
         top = headers_height + 20
         gc.stroke('transparent')
-        lines(:image => gc, :top => top, :zoom => zoom, :subject_width => subject_width, :format => :image)
+        lines(:image => gc, :top => top, :zoom => zoom,
+              :subject_width => subject_width, :format => :image)
         # today red line
         if Date.today >= @date_from and Date.today <= date_to
           gc.stroke('red')
-          x = (Date.today-@date_from+1)*zoom + subject_width
-          gc.line(x, headers_height, x, headers_height + g_height-1)
+          x = (Date.today - @date_from + 1) * zoom + subject_width
+          gc.line(x, headers_height, x, headers_height + g_height - 1)
         end
         gc.draw(imgl)
         imgl.format = format
