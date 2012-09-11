@@ -736,10 +736,22 @@ module Redmine
         # Renders the markers
         if options[:markers]
           if coords[:start]
-            output << "<div style='top:#{ params[:top] }px;left:#{ coords[:start] }px;width:15px;' class='#{options[:css]} marker starting'>&nbsp;</div>".html_safe
+            style = ""
+            style << "top:#{params[:top]}px;"
+            style << "left:#{coords[:start]}px;"
+            style << "width:15px;"
+            output << view.content_tag(:div, '&nbsp;'.html_safe,
+                                       :style => style,
+                                       :class => "#{options[:css]} marker starting")
           end
           if coords[:end]
-            output << "<div style='top:#{ params[:top] }px;left:#{ coords[:end] + params[:zoom] }px;width:15px;' class='#{options[:css]} marker ending'>&nbsp;</div>".html_safe
+            style = ""
+            style << "top:#{params[:top]}px;"
+            style << "left:#{coords[:end] + params[:zoom]}px;"
+            style << "width:15px;"
+            output << view.content_tag(:div, '&nbsp;'.html_safe,
+                                       :style => style,
+                                       :class => "#{options[:css]} marker ending")
           end
         end
         # Renders the label on the right
