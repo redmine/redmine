@@ -540,7 +540,7 @@ module Redmine
             pdf.SetY(y_start + header_height)
             pdf.SetX(left)
             pdf.RDMCell(width + 1, height, "", "LTR")
-            left = left + width+1
+            left = left + width + 1
           end
           while week_f <= self.date_to
             width = (week_f + 6 <= self.date_to) ? 7 * zoom : (self.date_to - week_f + 1) * zoom
@@ -548,7 +548,7 @@ module Redmine
             pdf.SetX(left)
             pdf.RDMCell(width, height, (width >= 5 ? week_f.cweek.to_s : ""), "LTR", 0, "C")
             left = left + width
-            week_f = week_f+7
+            week_f = week_f + 7
           end
         end
         # Days headers
