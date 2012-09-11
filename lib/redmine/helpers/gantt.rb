@@ -704,12 +704,33 @@ module Redmine
         output = ''
         # Renders the task bar, with progress and late
         if coords[:bar_start] && coords[:bar_end]
-          output << "<div style='top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_todo'>&nbsp;</div>".html_safe
+          width = coords[:bar_end] - coords[:bar_start] - 2
+          style = ""
+          style << "top: #{params[:top]}px;"
+          style << "left: #{coords[:bar_start]}px;"
+          style << "width: #{width}px;"
+          output << view.content_tag(:div, '&nbsp;'.html_safe,
+                                     :style => style,
+                                     :class => "#{options[:css]} task_todo")
           if coords[:bar_late_end]
-            output << "<div style='top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_late_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_late'>&nbsp;</div>".html_safe
+            width = coords[:bar_late_end] - coords[:bar_start] - 2
+            style = ""
+            style << "top: #{params[:top]}px;"
+            style << "left: #{coords[:bar_start]}px;"
+            style << "width: #{width}px;"
+            output << view.content_tag(:div, '&nbsp;'.html_safe,
+                                       :style => style,
+                                       :class => "#{options[:css]} task_late")
           end
           if coords[:bar_progress_end]
-            output << "<div style='top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_progress_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_done'>&nbsp;</div>".html_safe
+            width = coords[:bar_progress_end] - coords[:bar_start] - 2
+            style = ""
+            style << "top: #{params[:top]}px;"
+            style << "left: #{coords[:bar_start]}px;"
+            style << "width: #{width}px;"
+            output << view.content_tag(:div, '&nbsp;'.html_safe,
+                                       :style => style,
+                                       :class => "#{options[:css]} task_done")
           end
         end
         # Renders the markers
