@@ -51,6 +51,7 @@ class IssueTest < ActiveSupport::TestCase
                       :subject => 'test_create')
     assert issue.save
     assert issue.description.nil?
+    assert_nil issue.estimated_hours
   end
 
   def test_create_with_required_custom_field
