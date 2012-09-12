@@ -1135,7 +1135,7 @@ class Issue < ActiveRecord::Base
     end
   end
 
-  # Callback on attachment deletion
+  # Callback on file attachment
   def attachment_added(obj)
     if @current_journal && !obj.new_record?
       @current_journal.details << JournalDetail.new(:property => 'attachment', :prop_key => obj.id, :value => obj.filename)
