@@ -252,16 +252,13 @@ module RepositoriesHelper
 
   def index_commits(commits, heads)
     return nil if commits.nil? or commits.first.parents.nil?
-
     refs_map = {}
     heads.each do |head|
       refs_map[head.scmid] ||= []
       refs_map[head.scmid] << head
     end
-
     commits_by_scmid = {}
     commits.reverse.each_with_index do |commit, commit_index|
-
       commits_by_scmid[commit.scmid] = {
         :parent_scmids => commit.parents.collect { |parent| parent.scmid },
         :rdmid => commit_index,
@@ -270,38 +267,28 @@ module RepositoriesHelper
         :href  => block_given? ? yield(commit.scmid) : commit.scmid
       }
     end
-
     heads.sort! { |head1, head2| head1.to_s <=> head2.to_s }
-
     space = nil  
     heads.each do |head|
       if commits_by_scmid.include? head.scmid
         space = index_head((space || -1) + 1, head, commits_by_scmid)
       end
     end
-
     # when no head matched anything use first commit
     space ||= index_head(0, commits.first, commits_by_scmid)
-
     return commits_by_scmid, space
   end
 
   def index_head(space, commit, commits_by_scmid)
-
     stack = [[space, commits_by_scmid[commit.scmid]]]
     max_space = space
-
     until stack.empty?
       space, commit = stack.pop
       commit[:space] = space if commit[:space].nil?
-
       space -= 1
       commit[:parent_scmids].each_with_index do |parent_scmid, parent_index|
-
         parent_commit = commits_by_scmid[parent_scmid]
-
         if parent_commit and parent_commit[:space].nil?
-
           stack.unshift [space += 1, parent_commit]
         end
       end
