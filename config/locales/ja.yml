@@ -1087,9 +1087,9 @@ ja:
   label_readonly: 読み取り専用
   label_required: 必須
   text_repository_identifier_info: アルファベット小文字(a-z)・数字・ハイフン・アンダースコアが使えます。<br />識別子は後で変更することはできません。
-  field_board_parent: Parent forum
-  label_attribute_of_project: Project's %{name}
-  label_attribute_of_author: Author's %{name}
-  label_attribute_of_assigned_to: Assignee's %{name}
-  label_attribute_of_fixed_version: Target version's %{name}
-  label_copy_subtasks: Copy subtasks
+  field_board_parent: 親フォーラム
+  label_attribute_of_project: プロジェクトの %{name}
+  label_attribute_of_author: 作成者の %{name}
+  label_attribute_of_assigned_to: 担当者の %{name}
+  label_attribute_of_fixed_version: 対象バージョンの %{name}
+  label_copy_subtasks: 子チケットをコピー
