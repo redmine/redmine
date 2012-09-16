@@ -100,6 +100,23 @@ class ApiTest::AttachmentsTest < ActionController::IntegrationTest
     assert_equal 'File content', File.read(attachment.diskfile)
   end
 
+  test "POST /uploads.json should return the token" do
+    set_tmp_attachments_directory
+    assert_difference 'Attachment.count' do
+      post '/uploads.json', 'File content', {"CONTENT_TYPE" => 'application/octet-stream'}.merge(credentials('jsmith'))
+      assert_response :created
+      assert_equal 'application/json', response.content_type
+    end
+
+    json = ActiveSupport::JSON.decode(response.body)
+    assert_kind_of Hash, json['upload']
+    token = json['upload']['token']
+    assert_not_nil token
+
+    attachment = Attachment.first(:order => 'id DESC')
+    assert_equal token, attachment.token
+  end
+
   test "POST /uploads.xml should not accept other content types" do
     set_tmp_attachments_directory
     assert_no_difference 'Attachment.count' do
