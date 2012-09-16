@@ -22,13 +22,14 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
 
   include Redmine::I18n
 
-  REPOSITORY_PATH = Rails.root.join('tmp/test/bazaar_repository/trunk').to_s
+  REPOSITORY_PATH = Rails.root.join('tmp/test/bazaar_repository').to_s
+  REPOSITORY_PATH_TRUNK = File.join(REPOSITORY_PATH, "trunk")
   NUM_REV = 4
 
   def setup
     @project = Project.find(3)
     @repository = Repository::Bazaar.create(
-              :project => @project, :url => REPOSITORY_PATH,
+              :project => @project, :url => REPOSITORY_PATH_TRUNK,
               :log_encoding => 'UTF-8')
     assert @repository
   end
@@ -59,7 +60,7 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
     assert_include str, repo.errors.full_messages
   end
 
-  if File.directory?(REPOSITORY_PATH)
+  if File.directory?(REPOSITORY_PATH_TRUNK)
     def test_fetch_changesets_from_scratch
       assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
