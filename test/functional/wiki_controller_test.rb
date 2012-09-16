@@ -618,6 +618,11 @@ class WikiControllerTest < ActionController::TestCase
     end
     assert_response :success
     assert_template 'destroy'
+    assert_select 'form' do
+      assert_select 'input[name=todo][value=nullify]'
+      assert_select 'input[name=todo][value=destroy]'
+      assert_select 'input[name=todo][value=reassign]'
+    end
   end
 
   def test_destroy_parent_with_nullify_should_delete_parent_only
