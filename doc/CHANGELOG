@@ -4,6 +4,28 @@ Redmine - project management software
 Copyright (C) 2006-2012  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2012-09-16 v2.0.4
+
+* Defect #10818: Running rake in test environment causes exception
+* Defect #11209: Wiki diff may generate broken HTML
+* Defect #11217: Project names in drop-down are escaped twice
+* Defect #11262: Link is escaped in wiki added/updated notification email
+* Defect #11307: Can't filter for negative numeric custom fields
+* Defect #11325: Unified diff link broken on specific file/revision diff view
+* Defect #11341: Escaped link in conflict resolution form
+* Defect #11365: Attachment description length is not validated
+* Defect #11511: Confirmation page has broken HTML when a project folding sub project is deleted
+* Defect #11533: rake redmine:plugins:test doesn't run tests in subdirectories
+* Defect #11541: Version sharing is missing in the REST API
+* Defect #11550: Issue reminder doesn't work when using asynchronous delivery
+* Defect #11776: Can't override mailer views inside redmine plugin.
+* Defect #11789: Edit section links broken with h5/h6 headings
+* Feature #11338: Exclude emails with auto-submitted => auto-generated
+* Patch #11299: redmine:plugins:migrate should update db/schema.rb
+* Patch #11328: Fix Japanese mistranslation for 'label_language_based'
+* Patch #11448: Russian translation for 1.4-stable and 2.0-stable
+* Patch #11600: Fix plural form of the abbreviation for hours in Brazilian Portuguese
+
 == 2012-06-18 v2.0.3
 
 * Defect #10688: PDF export from Wiki - Problems with tables

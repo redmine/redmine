@@ -13,7 +13,7 @@ http://www.redmine.org/
 
 * A database:
   * MySQL (tested with MySQL 5.1)
-  * PostgreSQL (tested with PostgreSQL 8.4)
+  * PostgreSQL (tested with PostgreSQL 9.1)
   * SQLite3 (tested with SQLite 3.6)
 
 Optional:
@@ -38,7 +38,10 @@ Optional:
 3. Create an empty utf8 encoded database: "redmine" for example
 
 4. Configure the database parameters in config/database.yml
-   for the "production" environment (default database is MySQL)
+   for the "production" environment (default database is MySQL and ruby1.8)
+
+   If you're running Redmine with MySQL and ruby1.9, replace the adapter name
+   with `mysql2`
 
 5. Generate a session store secret
    
