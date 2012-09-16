@@ -131,4 +131,22 @@ class WikiPageTest < ActiveSupport::TestCase
     assert_equal Time.gm(2007, 3, 6, 23, 10, 51), page.content.updated_on
     assert_equal page.content.updated_on, page.updated_on
   end
+
+  def test_descendants
+    page = WikiPage.create!(:wiki => @wiki, :title => 'Parent')
+    child1 = WikiPage.create!(:wiki => @wiki, :title => 'Child1', :parent => page)
+    child11 = WikiPage.create!(:wiki => @wiki, :title => 'Child11', :parent => child1)
+    child111 = WikiPage.create!(:wiki => @wiki, :title => 'Child111', :parent => child11)
+    child2 = WikiPage.create!(:wiki => @wiki, :title => 'Child2', :parent => page)
+
+    assert_equal %w(Child1 Child11 Child111 Child2), page.descendants.map(&:title).sort
+    assert_equal %w(Child1 Child11 Child111 Child2), page.descendants(nil).map(&:title).sort
+    assert_equal %w(Child1 Child11 Child2), page.descendants(2).map(&:title).sort
+    assert_equal %w(Child1 Child2), page.descendants(1).map(&:title).sort
+
+    assert_equal %w(Child1 Child11 Child111 Child2 Parent), page.self_and_descendants.map(&:title).sort
+    assert_equal %w(Child1 Child11 Child111 Child2 Parent), page.self_and_descendants(nil).map(&:title).sort
+    assert_equal %w(Child1 Child11 Child2 Parent), page.self_and_descendants(2).map(&:title).sort
+    assert_equal %w(Child1 Child2 Parent), page.self_and_descendants(1).map(&:title).sort
+  end
 end

@@ -182,7 +182,8 @@ class Redmine::WikiFormatting::MacrosTest < ActionView::TestCase
 
   def test_macro_child_pages
     expected =  "<p><ul class=\"pages-hierarchy\">\n" +
-                 "<li><a href=\"/projects/ecookbook/wiki/Child_1\">Child 1</a></li>\n" +
+                 "<li><a href=\"/projects/ecookbook/wiki/Child_1\">Child 1</a>\n" +
+                 "<ul class=\"pages-hierarchy\">\n<li><a href=\"/projects/ecookbook/wiki/Child_1_1\">Child 1 1</a></li>\n</ul>\n</li>\n" +
                  "<li><a href=\"/projects/ecookbook/wiki/Child_2\">Child 2</a></li>\n" +
                  "</ul>\n</p>"
 
@@ -196,11 +197,12 @@ class Redmine::WikiFormatting::MacrosTest < ActionView::TestCase
     assert_equal expected, textilizable("{{child_pages(ecookbook:Another_page)}}", :object => WikiPage.find(1).content)
   end
 
-  def test_macro_child_pages_with_option
+  def test_macro_child_pages_with_parent_option
     expected =  "<p><ul class=\"pages-hierarchy\">\n" +
                  "<li><a href=\"/projects/ecookbook/wiki/Another_page\">Another page</a>\n" +
                  "<ul class=\"pages-hierarchy\">\n" +
-                 "<li><a href=\"/projects/ecookbook/wiki/Child_1\">Child 1</a></li>\n" +
+                 "<li><a href=\"/projects/ecookbook/wiki/Child_1\">Child 1</a>\n" +
+                 "<ul class=\"pages-hierarchy\">\n<li><a href=\"/projects/ecookbook/wiki/Child_1_1\">Child 1 1</a></li>\n</ul>\n</li>\n" +
                  "<li><a href=\"/projects/ecookbook/wiki/Child_2\">Child 2</a></li>\n" +
                  "</ul>\n</li>\n</ul>\n</p>"
 
@@ -212,6 +214,16 @@ class Redmine::WikiFormatting::MacrosTest < ActionView::TestCase
 
     @project = Project.find(2)
     assert_equal expected, textilizable("{{child_pages(ecookbook:Another_page, parent=1)}}", :object => WikiPage.find(1).content)
+  end
+
+  def test_macro_child_pages_with_depth_option
+    expected =  "<p><ul class=\"pages-hierarchy\">\n" +
+                 "<li><a href=\"/projects/ecookbook/wiki/Child_1\">Child 1</a></li>\n" +
+                 "<li><a href=\"/projects/ecookbook/wiki/Child_2\">Child 2</a></li>\n" +
+                 "</ul>\n</p>"
+
+    @project = Project.find(1)
+    assert_equal expected, textilizable("{{child_pages(depth=1)}}", :object => WikiPage.find(2).content)
   end
 
   def test_macro_child_pages_without_wiki_page_should_fail

@@ -73,15 +73,20 @@ module ActiveRecord
         # Returns list of descendants.
         #
         #   root.descendants # => [child1, subchild1, subchild2]
-        def descendants
-          children + children.collect(&:descendants).flatten
+        def descendants(depth=nil)
+          depth ||= 0
+          result = children.dup
+          unless depth == 1
+            result += children.collect {|child| child.descendants(depth-1)}.flatten
+          end
+          result
         end
 
         # Returns list of descendants and a reference to the current node.
         #
         #   root.self_and_descendants # => [root, child1, subchild1, subchild2]
-        def self_and_descendants
-          [self] + descendants
+        def self_and_descendants(depth=nil)
+          [self] + descendants(depth)
         end
 
         # Returns the root node of the tree.

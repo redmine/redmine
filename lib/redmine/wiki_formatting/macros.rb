@@ -183,7 +183,9 @@ module Redmine
              "  !{{child_pages(Foo)}} -- lists all children of page Foo\n" +
              "  !{{child_pages(Foo, parent=1)}} -- same as above with a link to page Foo"
       macro :child_pages do |obj, args|
-        args, options = extract_macro_options(args, :parent)
+        args, options = extract_macro_options(args, :parent, :depth)
+        options[:depth] = options[:depth].to_i if options[:depth].present?
+
         page = nil
         if args.size > 0
           page = Wiki.find_page(args.first.to_s, :project => @project)
@@ -193,7 +195,7 @@ module Redmine
           raise 'With no argument, this macro can be called from wiki pages only.'
         end
         raise 'Page not found' if page.nil? || !User.current.allowed_to?(:view_wiki_pages, page.wiki.project)
-        pages = ([page] + page.descendants).group_by(&:parent_id)
+        pages = page.self_and_descendants(options[:depth]).group_by(&:parent_id)
         render_page_hierarchy(pages, options[:parent] ? page.parent_id : page.id)
       end
 
