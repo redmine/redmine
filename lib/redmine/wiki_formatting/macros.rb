@@ -180,6 +180,7 @@ module Redmine
 
       desc "Displays a list of child pages. With no argument, it displays the child pages of the current wiki page. Examples:\n\n" +
              "  !{{child_pages}} -- can be used from a wiki page only\n" +
+             "  !{{child_pages(depth=2)}} -- display 2 levels nesting only\n"
              "  !{{child_pages(Foo)}} -- lists all children of page Foo\n" +
              "  !{{child_pages(Foo, parent=1)}} -- same as above with a link to page Foo"
       macro :child_pages do |obj, args|
