@@ -138,7 +138,7 @@ begin
             assert_equal 0, diff1.size
           end
           [4, 'def6d2f1254a'].each do |r2|
-            diff2 = @adapter.diff(nil,r1,r2)
+            diff2 = @adapter.diff(nil, r1, r2)
             assert_equal 49, diff2.size
             buf =  diff2[41].gsub(/\r\n|\r|\n/, "")
             assert_equal "+class WelcomeController < ApplicationController", buf
@@ -146,6 +146,15 @@ begin
             assert_equal 20, diff3.size
             buf =  diff3[12].gsub(/\r\n|\r|\n/, "")
             assert_equal "+    @watched.remove_watcher(user)", buf
+
+            diff4 = @adapter.diff(nil, r2, r1)
+            assert_equal 49, diff4.size
+            buf =  diff4[41].gsub(/\r\n|\r|\n/, "")
+            assert_equal "-class WelcomeController < ApplicationController", buf
+            diff5 = @adapter.diff('sources/watchers_controller.rb', r2, r1)
+            assert_equal 20, diff5.size
+            buf =  diff5[9].gsub(/\r\n|\r|\n/, "")
+            assert_equal "-    @watched.remove_watcher(user)", buf
           end
         end
       end
