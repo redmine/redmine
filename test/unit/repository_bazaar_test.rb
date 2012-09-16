@@ -104,6 +104,7 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
 
       assert_equal 'file', entries.last.kind
       assert_equal 'edit.png', entries.last.name
+      assert_equal 'directory/edit.png', entries.last.path
     end
 
     def test_previous
