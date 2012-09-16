@@ -605,13 +605,13 @@ class WikiControllerTest < ActionController::TestCase
     assert_nil WikiPage.find_by_title('Child_1').parent
   end
 
-  def test_destroy_child
+  def test_destroy_a_page_without_children_should_not_ask_confirmation
     @request.session[:user_id] = 2
-    delete :destroy, :project_id => 1, :id => 'Child_1'
+    delete :destroy, :project_id => 1, :id => 'Child_2'
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
   end
 
-  def test_destroy_parent
+  def test_destroy_parent_should_ask_confirmation
     @request.session[:user_id] = 2
     assert_no_difference('WikiPage.count') do
       delete :destroy, :project_id => 1, :id => 'Another_page'
@@ -620,7 +620,7 @@ class WikiControllerTest < ActionController::TestCase
     assert_template 'destroy'
   end
 
-  def test_destroy_parent_with_nullify
+  def test_destroy_parent_with_nullify_should_delete_parent_only
     @request.session[:user_id] = 2
     assert_difference('WikiPage.count', -1) do
       delete :destroy, :project_id => 1, :id => 'Another_page', :todo => 'nullify'
@@ -629,9 +629,9 @@ class WikiControllerTest < ActionController::TestCase
     assert_nil WikiPage.find_by_id(2)
   end
 
-  def test_destroy_parent_with_cascade
+  def test_destroy_parent_with_cascade_should_delete_descendants
     @request.session[:user_id] = 2
-    assert_difference('WikiPage.count', -3) do
+    assert_difference('WikiPage.count', -4) do
       delete :destroy, :project_id => 1, :id => 'Another_page', :todo => 'destroy'
     end
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
