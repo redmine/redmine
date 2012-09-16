@@ -93,9 +93,11 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
 
       assert_equal 'dir', entries[0].kind
       assert_equal 'directory', entries[0].name
+      assert_equal 'directory', entries[0].path
 
       assert_equal 'file', entries[1].kind
       assert_equal 'doc-mkdir.txt', entries[1].name
+      assert_equal 'doc-mkdir.txt', entries[1].path
     end
 
     def test_entries_in_subdirectory
