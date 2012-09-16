@@ -52,6 +52,13 @@ begin
         assert_nil @adapter.cat('doc-mkdir.txt', '12345678')
       end
 
+      def test_diff
+        diff1 = @adapter.diff('doc-mkdir.txt', 3, 2)
+        assert_equal 21, diff1.size
+        buf =  diff1[14].gsub(/\r\n|\r|\n/, "")
+        assert_equal "-Display more information.", buf
+      end
+
       def test_diff_path_invalid
         assert_equal [], @adapter.diff('invalid', 1)
       end
