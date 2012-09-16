@@ -4,6 +4,105 @@ Redmine - project management software
 Copyright (C) 2006-2012  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2012-09-16 v2.1.0
+
+* Defect #2071: Reordering priority-enumerations breaks alternate-theme's issue-colouring
+* Defect #2190: Month names not translated to german
+* Defect #8978: LDAP timeout if an LDAP auth provider is unreachable
+* Defect #9839: Gantt abbr of weekday should not be necessarily the first letter of the long day name
+* Defect #10928: Documentation about generating a plugin is not up-to-date
+* Defect #11034: TLS configuration documentation for Rails 3
+* Defect #11073: UserCustomField order_statement returns wrong output
+* Defect #11153: Default sorting for target version is DESC instead of ASC
+* Defect #11207: Issues associated with a locked version are not copied when copying a project
+* Defect #11304: Issue-class: status-1, status-2 etc. refer to status position instead of status id
+* Defect #11331: Openid registration form should not require user to enter password
+* Defect #11345: Context menu should show shared versions when editing issues from different projects
+* Defect #11355: Plain text notification emails content is HTML escaped
+* Defect #11388: Updating a version through rest API returns invalid JSON
+* Defect #11389: Warning in awesome_nested_set.rb
+* Defect #11503: Accessing /projects/:project/wiki/something.png fails with error 500
+* Defect #11506: Versions that are not shared should not be assignable when selecting another project
+* Defect #11508: Projects not ordered alphabetically after renaming project
+* Defect #11540: Roadmap anchor links can be ambigous
+* Defect #11545: Overwriting existing method Issue.open
+* Defect #11552: MailHandler does not match assignee name with spaces
+* Defect #11571: Custom fields of type version not proper handled in receiving e-mails
+* Defect #11577: Can't use non-latin anchor in wiki
+* Defect #11612: Revision graph sometimes broken due to raphael.js error
+* Defect #11621: Redmine MIME Detection Of Javascript Files Non-Standard
+* Defect #11633: Macro arguments should not be parsed by text formatters
+* Defect #11662: Invalid query returned from Issues.visible scope after accessing User#projects_by_role with a role that is not present
+* Defect #11691: 404 response when deleting a user from the edit page
+* Defect #11723: redmine:send_reminders notification misses if assignee is a group
+* Defect #11738: Batch update of issues clears project path
+* Defect #11749: Redmine.pm: HEAD is not considered as a read-only method
+* Defect #11814: Date picker does not respect week start setting
+* Feature #703: Configurable required fields per tracker/status/role
+* Feature #1006: Display thumbnails of attached images
+* Feature #1091: Disabling default ticket fields per tracker
+* Feature #1360: Permission for adding an issue to a version.
+* Feature #3061: Let macros optionally match over multiple lines and ignore single curly braces
+* Feature #3510: Inserting image thumbnails inside the wiki
+* Feature #3521: Permissions for roles to change fields per tracker/status
+* Feature #3640: Freeze / Close Projects
+* Feature #3831: Support for subforums
+* Feature #6597: Configurable session lifetime and timeout
+* Feature #6965: Option to Copy Subtasks when copying an issue
+* Feature #8161: Ability to filter issues on project custom fields
+* Feature #8577: "Private" column and filter on the issue list
+* Feature #8981: REST Api for Groups
+* Feature #9258: Create role by copy
+* Feature #9419: Group/sort the issue list by user/version-format custom fields
+* Feature #10362: Show images in repositories inline when clicking the 'View' link
+* Feature #10419: Upgrade raphael.js (2.1.0)
+* Feature #11068: Ability to set default column order in issue list
+* Feature #11102: Add autocomplete to "Related issue" field on revision
+* Feature #11109: Repository Identifier should be frozen
+* Feature #11181: Additional "Log time" link on project overview
+* Feature #11205: Reversed order of priorities on the issue summary page
+* Feature #11445: Switch from Prototype to JQuery
+* Feature #11469: JSONP support
+* Feature #11475: Redmine.pm: Allow fallback to other Apache auth providers
+* Feature #11494: Don't turn #nnn with leading zeros into links
+* Feature #11539: Display a projects tree instead of a flat list in notification preferences
+* Feature #11578: Option to pass whole arguments to a macro without splitting them
+* Feature #11595: Missing mime type for svg files
+* Feature #11758: Upgrade to Rails 3.2.8
+* Patch #4905: Redmine.pm: add support for Git's smart HTTP protocol
+* Patch #10988: New Korean translation patch
+* Patch #11201: Korean translation special update
+* Patch #11401: Fix Japanese mistranslation for "button_submit"
+* Patch #11402: Japanese translation added for default role names
+* Patch #11411: Fix disordered use of long sound in Japanese "user" translation
+* Patch #11412: Unnatural Japanese message when users failed to login
+* Patch #11419: Fix wrong Japanese "label_attachment" translation
+* Patch #11496: Make labels clickable in Adminstration/Settings
+* Patch #11704: Avoid the use of tag("...", "...", true) in layout
+* Patch #11818: Redmine.pm fails when permissions are NULL
+
+== 2012-09-16 v2.0.4
+
+* Defect #10818: Running rake in test environment causes exception
+* Defect #11209: Wiki diff may generate broken HTML
+* Defect #11217: Project names in drop-down are escaped twice
+* Defect #11262: Link is escaped in wiki added/updated notification email
+* Defect #11307: Can't filter for negative numeric custom fields
+* Defect #11325: Unified diff link broken on specific file/revision diff view
+* Defect #11341: Escaped link in conflict resolution form
+* Defect #11365: Attachment description length is not validated
+* Defect #11511: Confirmation page has broken HTML when a project folding sub project is deleted
+* Defect #11533: rake redmine:plugins:test doesn't run tests in subdirectories
+* Defect #11541: Version sharing is missing in the REST API
+* Defect #11550: Issue reminder doesn't work when using asynchronous delivery
+* Defect #11776: Can't override mailer views inside redmine plugin.
+* Defect #11789: Edit section links broken with h5/h6 headings
+* Feature #11338: Exclude emails with auto-submitted => auto-generated
+* Patch #11299: redmine:plugins:migrate should update db/schema.rb
+* Patch #11328: Fix Japanese mistranslation for 'label_language_based'
+* Patch #11448: Russian translation for 1.4-stable and 2.0-stable
+* Patch #11600: Fix plural form of the abbreviation for hours in Brazilian Portuguese
+
 == 2012-06-18 v2.0.3
 
 * Defect #10688: PDF export from Wiki - Problems with tables
