@@ -80,7 +80,7 @@ class Repository::Bazaar < Repository
         while (identifier_from <= scm_revision)
           # loads changesets by batches of 200
           identifier_to = [identifier_from + 199, scm_revision].min
-          revisions = scm.revisions('', identifier_to, identifier_from, :with_paths => true)
+          revisions = scm.revisions('', identifier_to, identifier_from)
           transaction do
             revisions.reverse_each do |revision|
               changeset = Changeset.create(:repository   => self,
