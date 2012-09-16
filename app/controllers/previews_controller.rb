@@ -34,6 +34,10 @@ class PreviewsController < ApplicationController
   end
 
   def news
+    if params[:id].present? && news = News.visible.find_by_id(params[:id])
+      @previewed = news
+      @attachments = news.attachments
+    end
     @text = (params[:news] ? params[:news][:description] : nil)
     render :partial => 'common/preview'
   end
