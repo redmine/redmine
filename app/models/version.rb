@@ -91,7 +91,7 @@ class Version < ActiveRecord::Base
 
   # Returns true if the version is completed: due date reached and no open issues
   def completed?
-    effective_date && (effective_date <= Date.today) && (open_issues_count == 0)
+    effective_date && (effective_date < Date.today) && (open_issues_count == 0)
   end
 
   def behind_schedule?

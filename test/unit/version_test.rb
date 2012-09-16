@@ -119,6 +119,11 @@ class VersionTest < ActiveSupport::TestCase
     assert_equal [v5, v3, v1, v2, v4], Version.sorted.all
   end
 
+  def test_completed_should_be_false_when_due_today
+    version = Version.create!(:project_id => 1, :effective_date => Date.today, :name => 'Due today')
+    assert_equal false, version.completed?
+  end
+
   context "#behind_schedule?" do
     setup do
       ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
