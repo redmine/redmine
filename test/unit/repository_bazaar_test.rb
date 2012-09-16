@@ -23,13 +23,12 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
   include Redmine::I18n
 
   REPOSITORY_PATH = Rails.root.join('tmp/test/bazaar_repository/trunk').to_s
-  REPOSITORY_PATH.gsub!(/\/+/, '/')
   NUM_REV = 4
 
   def setup
     @project = Project.find(3)
     @repository = Repository::Bazaar.create(
-              :project => @project, :url => "file:///#{REPOSITORY_PATH}",
+              :project => @project, :url => REPOSITORY_PATH,
               :log_encoding => 'UTF-8')
     assert @repository
   end
