@@ -151,6 +151,22 @@ begin
         assert_nil @adapter.entries(nil, 12345678)
       end
 
+      def test_revisions
+        revisions = @adapter.revisions(nil, 4, 2)
+        assert_equal 3, revisions.size
+        assert_equal 2, revisions[2].identifier
+        assert_equal 'jsmith@foo.bar-20071203175224-v0eog5d5wrgdrshg', revisions[2].scmid
+        assert_equal 4, revisions[0].identifier
+        assert_equal 'jsmith@foo.bar-20071203175422-t40bf8li5zz0c4cg', revisions[0].scmid
+        assert_equal 2, revisions[0].paths.size
+        assert_equal 'D', revisions[0].paths[0][:action]
+        assert_equal '/doc-deleted.txt', revisions[0].paths[0][:path]
+        assert_equal 'docdeleted.txt-20071203175320-iwwj561ojuubs3gt-1', revisions[0].paths[0][:revision]
+        assert_equal 'M', revisions[0].paths[1][:action]
+        assert_equal '/directory/doc-ls.txt', revisions[0].paths[1][:path]
+        assert_equal 'docls.txt-20071203175005-a3hyc3mn0shl7cgu-1', revisions[0].paths[1][:revision]
+      end
+
       def test_revisions_path_invalid
         assert_nil @adapter.revisions('invalid')
       end
