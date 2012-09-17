@@ -148,7 +148,8 @@ module Redmine
                     revision.message << "#{$1}\n"
                   else
                     if $1 =~ /^(.*)\s+(\S+)$/
-                      path = $1.strip
+                      path_locale = $1.strip
+                      path = scm_iconv('UTF-8', @path_encoding, path_locale)
                       revid = $2
                       case parsing
                       when 'added'
