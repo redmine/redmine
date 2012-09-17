@@ -176,6 +176,37 @@ begin
         assert_nil @adapter.revisions(nil, 12345678, 87654321)
       end
 
+      def test_entry
+        entry = @adapter.entry()
+        assert_equal "", entry.path
+        assert_equal "dir", entry.kind
+        entry = @adapter.entry('')
+        assert_equal "", entry.path
+        assert_equal "dir", entry.kind
+        assert_nil @adapter.entry('invalid')
+        assert_nil @adapter.entry('/invalid')
+        assert_nil @adapter.entry('/invalid/')
+        assert_nil @adapter.entry('invalid/invalid')
+        assert_nil @adapter.entry('invalid/invalid/')
+        assert_nil @adapter.entry('/invalid/invalid')
+        assert_nil @adapter.entry('/invalid/invalid/')
+        ["doc-ls.txt", "/doc-ls.txt"].each do |path|
+          entry = @adapter.entry(path, 2)
+          assert_equal "doc-ls.txt", entry.path
+          assert_equal "file", entry.kind
+        end
+        ["directory", "/directory", "/directory/"].each do |path|
+          entry = @adapter.entry(path, 2)
+          assert_equal "directory", entry.path
+          assert_equal "dir", entry.kind
+        end
+        ["directory/document.txt", "/directory/document.txt"].each do |path|
+          entry = @adapter.entry(path, 2)
+          assert_equal "directory/document.txt", entry.path
+          assert_equal "file", entry.kind
+        end
+      end
+
       private
 
       def test_scm_version_for(scm_command_version, version)
