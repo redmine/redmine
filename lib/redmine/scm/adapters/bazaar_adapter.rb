@@ -288,8 +288,13 @@ module Redmine
         def scm_cmd(*args, &block)
           full_args = []
           full_args += args
+          full_args_locale = []
+          full_args.map do |e|
+            full_args_locale << scm_iconv(@path_encoding, 'UTF-8', e)
+          end
           ret = shellout(
-                   self.class.sq_bin + ' ' + full_args.map { |e| shell_quote e.to_s }.join(' '),
+                   self.class.sq_bin + ' ' + 
+                     full_args_locale.map { |e| shell_quote e.to_s }.join(' '),
                    &block
                    )
           if $? && $?.exitstatus != 0
@@ -302,8 +307,13 @@ module Redmine
         def scm_cmd_no_raise(*args, &block)
           full_args = []
           full_args += args
+          full_args_locale = []
+          full_args.map do |e|
+            full_args_locale << scm_iconv(@path_encoding, 'UTF-8', e)
+          end
           ret = shellout(
-                   self.class.sq_bin + ' ' + full_args.map { |e| shell_quote e.to_s }.join(' '),
+                   self.class.sq_bin + ' ' + 
+                     full_args_locale.map { |e| shell_quote e.to_s }.join(' '),
                    &block
                    )
           ret
