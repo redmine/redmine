@@ -487,6 +487,37 @@ begin
         end
       end
 
+      def test_entry
+        entry = @adapter.entry()
+        assert_equal "", entry.path
+        assert_equal "dir", entry.kind
+        entry = @adapter.entry('')
+        assert_equal "", entry.path
+        assert_equal "dir", entry.kind
+        assert_nil @adapter.entry('invalid')
+        assert_nil @adapter.entry('/invalid')
+        assert_nil @adapter.entry('/invalid/')
+        assert_nil @adapter.entry('invalid/invalid')
+        assert_nil @adapter.entry('invalid/invalid/')
+        assert_nil @adapter.entry('/invalid/invalid')
+        assert_nil @adapter.entry('/invalid/invalid/')
+        ["README", "/README"].each do |path|
+          entry = @adapter.entry(path, '7234cb2750b63f')
+          assert_equal "README", entry.path
+          assert_equal "file", entry.kind
+        end
+        ["sources", "/sources", "/sources/"].each do |path|
+          entry = @adapter.entry(path, '7234cb2750b63f')
+          assert_equal "sources", entry.path
+          assert_equal "dir", entry.kind
+        end
+        ["sources/watchers_controller.rb", "/sources/watchers_controller.rb"].each do |path|
+          entry = @adapter.entry(path, '7234cb2750b63f')
+          assert_equal "sources/watchers_controller.rb", entry.path
+          assert_equal "file", entry.kind
+        end
+      end
+
       def test_path_encoding_default_utf8
         adpt1 = Redmine::Scm::Adapters::GitAdapter.new(
                                   REPOSITORY_PATH
