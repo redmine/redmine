@@ -26,9 +26,9 @@ namespace :redmine do
       Redmine::DefaultData::Loader.load(current_language)
       puts "Default configuration data loaded."
     rescue Redmine::DefaultData::DataAlreadyLoaded => error
-      puts error
+      puts error.message
     rescue => error
-      puts "Error: " + error
+      puts "Error: " + error.message
       puts "Default configuration data was not loaded."
     end
   end
