@@ -154,7 +154,10 @@ module Redmine
                         revision.paths << {:action => 'D', :path => "/#{path}", :revision => revid}
                       when 'renamed'
                         new_path = path.split('=>').last
-                        revision.paths << {:action => 'M', :path => "/#{new_path.strip}", :revision => revid} if new_path
+                        if new_path
+                          revision.paths << {:action => 'M', :path => "/#{new_path.strip}",
+                                             :revision => revid}
+                        end
                       end
                     end
                   end
