@@ -91,13 +91,17 @@ module Redmine
           cmd_args << "-r#{identifier.to_i}"
           cmd_args << bzr_target(path)
           scm_cmd(*cmd_args) do |io|
-            prefix = "#{url}/#{path}".gsub('\\', '/')
-            logger.debug "PREFIX: #{prefix}"
+            prefix_utf8 = "#{url}/#{path}".gsub('\\', '/')
+            logger.debug "PREFIX: #{prefix_utf8}"
+            prefix = scm_iconv(@path_encoding, 'UTF-8', prefix_utf8)
+            prefix.force_encoding('ASCII-8BIT') if prefix.respond_to?(:force_encoding)
             re = %r{^V\s+(#{Regexp.escape(prefix)})?(\/?)([^\/]+)(\/?)\s+(\S+)\r?$}
             io.each_line do |line|
               next unless line =~ re
-              entries << Entry.new({:name => $3.strip,
-                                    :path => ((path.empty? ? "" : "#{path}/") + $3.strip),
+              name_locale = $3.strip
+              name = scm_iconv('UTF-8', @path_encoding, name_locale)
+              entries << Entry.new({:name => name,
+                                    :path => ((path.empty? ? "" : "#{path}/") + name),
                                     :kind => ($4.blank? ? 'file' : 'dir'),
                                     :size => nil,
                                     :lastrev => Revision.new(:revision => $5.strip)
