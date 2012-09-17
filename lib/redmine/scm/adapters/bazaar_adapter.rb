@@ -57,6 +57,11 @@ module Redmine
           end
         end
 
+        def initialize(url, root_url=nil, login=nil, password=nil, path_encoding=nil)
+          @path_encoding = 'UTF-8'
+          super
+        end
+
         # Get info about the repository
         def info
           cmd_args = %w|revno|
