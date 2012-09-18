@@ -37,7 +37,28 @@ class Repository::Bazaar < Repository
     'Bazaar'
   end
 
+  def entry(path=nil, identifier=nil)
+    scm.bzr_path_encodig = log_encoding
+    scm.entry(path, identifier)
+  end
+
+  def cat(path, identifier=nil)
+    scm.bzr_path_encodig = log_encoding
+    scm.cat(path, identifier)
+  end
+
+  def annotate(path, identifier=nil)
+    scm.bzr_path_encodig = log_encoding
+    scm.annotate(path, identifier)
+  end
+
+  def diff(path, rev, rev_to)
+    scm.bzr_path_encodig = log_encoding
+    scm.diff(path, rev, rev_to)
+  end
+
   def entries(path=nil, identifier=nil)
+    scm.bzr_path_encodig = log_encoding
     entries = scm.entries(path, identifier)
     if entries
       entries.each do |e|
@@ -68,6 +89,7 @@ class Repository::Bazaar < Repository
   end
 
   def fetch_changesets
+    scm.bzr_path_encodig = log_encoding
     scm_info = scm.info
     if scm_info
       # latest revision found in database
