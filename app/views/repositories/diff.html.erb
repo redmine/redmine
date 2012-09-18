@@ -5,11 +5,9 @@
   <%= hidden_field_tag('rev', params[:rev]) if params[:rev] %>
   <%= hidden_field_tag('rev_to', params[:rev_to]) if params[:rev_to] %>
   <p>
-    <label><%= l(:label_view_diff) %></label>
-    <%= select_tag 'type',
-                    options_for_select(
-                      [[l(:label_diff_inline), "inline"], [l(:label_diff_side_by_side), "sbs"]], @diff_type),
-                    :onchange => "if (this.value != '') {this.form.submit()}" %>
+    <%= l(:label_view_diff) %>:
+    <label><%= radio_button_tag 'type', 'inline', @diff_type != 'sbs', :onchange => "this.form.submit()" %> <%= l(:label_diff_inline) %></label>
+    <label><%= radio_button_tag 'type', 'sbs', @diff_type == 'sbs', :onchange => "this.form.submit()" %> <%= l(:label_diff_side_by_side) %></label>
   </p>
 <% end %>
 
