@@ -384,6 +384,16 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       end
     end
 
+    def test_diff_should_show_filenames
+      get :diff, :id => PRJ_ID, :rev => 'deff712f05a90d96edbd70facc47d944be5897e3', :type => 'inline'
+      assert_response :success
+      assert_template 'diff'
+      # modified file
+      assert_select 'th.filename', :text => 'sources/watchers_controller.rb'
+      # deleted file
+      assert_select 'th.filename', :text => 'test.txt'
+    end
+
     def test_save_diff_type
       @request.session[:user_id] = 1 # admin
       user = User.find(1)

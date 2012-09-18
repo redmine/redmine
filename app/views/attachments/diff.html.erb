@@ -15,7 +15,7 @@
                     :onchange => "if (this.value != '') {this.form.submit()}" %>
 <% end %>
 </p>
-<%= render :partial => 'common/diff', :locals => {:diff => @diff, :diff_type => @diff_type} %>
+<%= render :partial => 'common/diff', :locals => {:diff => @diff, :diff_type => @diff_type, :diff_style => nil} %>
 
 <% html_title @attachment.filename %>
 

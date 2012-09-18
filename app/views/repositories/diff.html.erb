@@ -14,7 +14,7 @@
 <% end %>
 
 <% cache(@cache_key) do -%>
-<%= render :partial => 'common/diff', :locals => {:diff => @diff, :diff_type => @diff_type} %>
+<%= render :partial => 'common/diff', :locals => {:diff => @diff, :diff_type => @diff_type, :diff_style => @repository.class.scm_name} %>
 <% end -%>
 
 <% other_formats_links do |f| %>
