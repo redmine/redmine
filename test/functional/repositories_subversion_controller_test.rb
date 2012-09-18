@@ -315,8 +315,8 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
         get :diff, :id => PRJ_ID, :rev => 3, :type => dt
         assert_response :success
         assert_template 'diff'
-        assert_tag :tag => 'h2',
-                   :content => / 3/
+        assert_select 'h2', :text => /Revision 3/
+        assert_select 'th.filename', :text => 'subversion_test/textfile.txt'
       end
     end
 

@@ -124,6 +124,9 @@ module Redmine
           # remove leading a/ b/
           @file_name = arg.sub(%r{^(a|b)/}, '')
         end
+      when "Subversion"
+        # removing trailing "(revision nn)"
+        @file_name = arg.sub(%r{\t+\(.*\)$}, '')
       else
         @file_name = arg
       end
