@@ -88,11 +88,19 @@ class Issue < ActiveRecord::Base
       when 'all'
         nil
       when 'default'
-        user_ids = [user.id] + user.groups.map(&:id)
-        "(#{table_name}.is_private = #{connection.quoted_false} OR #{table_name}.author_id = #{user.id} OR #{table_name}.assigned_to_id IN (#{user_ids.join(',')}))"
+        if user.logged?
+          user_ids = [user.id] + user.groups.map(&:id)
+          "(#{table_name}.is_private = #{connection.quoted_false} OR #{table_name}.author_id = #{user.id} OR #{table_name}.assigned_to_id IN (#{user_ids.join(',')}))"
+        else
+          "(#{table_name}.is_private = #{connection.quoted_false})"
+        end
       when 'own'
-        user_ids = [user.id] + user.groups.map(&:id)
-        "(#{table_name}.author_id = #{user.id} OR #{table_name}.assigned_to_id IN (#{user_ids.join(',')}))"
+        if user.logged?
+          user_ids = [user.id] + user.groups.map(&:id)
+          "(#{table_name}.author_id = #{user.id} OR #{table_name}.assigned_to_id IN (#{user_ids.join(',')}))"
+        else
+          '1=0'
+        end
       else
         '1=0'
       end
@@ -106,9 +114,9 @@ class Issue < ActiveRecord::Base
       when 'all'
         true
       when 'default'
-        !self.is_private? || self.author == user || user.is_or_belongs_to?(assigned_to)
+        !self.is_private? || (user.logged? && (self.author == user || user.is_or_belongs_to?(assigned_to)))
       when 'own'
-        self.author == user || user.is_or_belongs_to?(assigned_to)
+        user.logged? && (self.author == user || user.is_or_belongs_to?(assigned_to))
       else
         false
       end
