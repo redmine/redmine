@@ -371,6 +371,20 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       end
     end
 
+    def test_diff_should_show_modified_filenames
+      get :diff, :id => PRJ_ID, :rev => '400bb8672109', :type => 'inline'
+      assert_response :success
+      assert_template 'diff'
+      assert_select 'th.filename', :text => 'sources/watchers_controller.rb'
+    end
+
+    def test_diff_should_show_deleted_filenames
+      get :diff, :id => PRJ_ID, :rev => 'b3a615152df8', :type => 'inline'
+      assert_response :success
+      assert_template 'diff'
+      assert_select 'th.filename', :text => 'sources/welcome_controller.rb'
+    end
+
     def test_annotate
       get :annotate, :id => PRJ_ID,
           :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param]

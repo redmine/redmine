@@ -68,6 +68,7 @@ module Redmine
       @type = type
       @style = style
       @file_name = nil
+      @git_diff = false
     end
 
     # Function for add a line of this Diff
@@ -116,15 +117,21 @@ module Redmine
     private
 
     def file_name=(arg)
-      case @style
-      when "Git"
+      both_git_diff = false
+      if file_name.nil?
+        @git_diff = true if arg =~ %r{^(a/|/dev/null)}
+      else
+        both_git_diff = (@git_diff && arg =~ %r{^(b/|/dev/null)})
+      end
+      if both_git_diff
         if file_name && arg == "/dev/null"
           # keep the original file name
+          @file_name = file_name.sub(%r{^a/}, '')
         else
-          # remove leading a/ b/
-          @file_name = arg.sub(%r{^(a|b)/}, '')
+          # remove leading b/
+          @file_name = arg.sub(%r{^b/}, '')
         end
-      when "Subversion"
+      elsif @style == "Subversion"
         # removing trailing "(revision nn)"
         @file_name = arg.sub(%r{\t+\(.*\)$}, '')
       else
