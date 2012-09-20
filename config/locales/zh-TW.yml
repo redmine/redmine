@@ -939,6 +939,7 @@
   label_child_revision: 子項
   label_export_options: "%{export_format} 匯出選項"
   label_copy_attachments: 複製附件
+  label_copy_subtasks: 複製子任務
   label_item_position: "%{position} / %{count}"
   label_completed_versions: 已完成版本
   label_search_for_watchers: 搜尋可供加入的監看者
@@ -1143,4 +1144,3 @@
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  label_copy_subtasks: Copy subtasks
