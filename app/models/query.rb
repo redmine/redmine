@@ -323,7 +323,7 @@ class Query < ActiveRecord::Base
     @available_filters
   end
 
-	# Returns a representation of the available filters for JSON serialization
+  # Returns a representation of the available filters for JSON serialization
   def available_filters_as_json
     json = {}
     available_filters.each do |field, options|
