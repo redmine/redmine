@@ -1029,6 +1029,11 @@ module ApplicationHelper
     content_tag(:a, name, {:href => '#', :onclick => "#{function}; return false;"}.merge(html_options))
   end
 
+  # Helper to render JSON in views
+  def raw_json(arg)
+    arg.to_json.to_s.gsub('/', '\/').html_safe
+  end
+
   def back_url
     url = params[:back_url]
     if url.nil? && referer = request.env['HTTP_REFERER']

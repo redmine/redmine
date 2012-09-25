@@ -1,12 +1,12 @@
 <%= javascript_tag do %>
-var operatorLabels = <%= raw Query.operators_labels.to_json %>;
-var operatorByType = <%= raw Query.operators_by_filter_type.to_json %>;
-var availableFilters = <%= raw query.available_filters_as_json.to_json %>;
-var labelDayPlural = "<%= raw escape_javascript(l(:label_day_plural)) %>";
+var operatorLabels = <%= raw_json Query.operators_labels %>;
+var operatorByType = <%= raw_json Query.operators_by_filter_type %>;
+var availableFilters = <%= raw_json query.available_filters_as_json %>;
+var labelDayPlural = <%= raw_json l(:label_day_plural) %>;
 $(document).ready(function(){
   initFilters();
   <% query.filters.each do |field, options| %>
-  addFilter("<%= field %>", <%= raw query.operator_for(field).to_json %>, <%= raw query.values_for(field).to_json %>);
+  addFilter("<%= field %>", <%= raw_json query.operator_for(field) %>, <%= raw_json query.values_for(field) %>);
   <% end %>
 });
 <% end %>
