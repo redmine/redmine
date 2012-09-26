@@ -336,7 +336,11 @@ module Redmine #:nodoc:
 
       unless source_files.empty?
         base_target_dir = File.join(destination, File.dirname(source_files.first).gsub(source, ''))
-        FileUtils.mkdir_p(base_target_dir)
+        begin
+          FileUtils.mkdir_p(base_target_dir)
+        rescue Exception => e
+          raise "Could not create directory #{base_target_dir}: " + e.message
+        end
       end
 
       source_dirs.each do |dir|
