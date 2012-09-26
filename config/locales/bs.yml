@@ -80,9 +80,8 @@ bs:
       format:
         unit: 'KM'
         format: '%u %n'
-        separator:
-        delimiter:
-        precision:
+        negative_format: '%u -%n'
+        delimiter: ''
     percentage:
       format:
         delimiter: ""
