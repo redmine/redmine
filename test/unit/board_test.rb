@@ -22,6 +22,8 @@ require File.expand_path('../../test_helper', __FILE__)
 class BoardTest < ActiveSupport::TestCase
   fixtures :projects, :boards, :messages, :attachments, :watchers
 
+  include Redmine::I18n
+
   def setup
     @project = Project.find(1)
   end
@@ -41,6 +43,7 @@ class BoardTest < ActiveSupport::TestCase
   end
 
   def test_parent_should_be_in_same_project
+    set_language_if_valid 'en'
     board = Board.new(:project_id => 3, :name => 'Test', :description => 'Test', :parent_id => 1)
     assert !board.save
     assert_include "Parent forum is invalid", board.errors.full_messages
