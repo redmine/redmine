@@ -126,6 +126,24 @@ class Redmine::I18nTest < ActiveSupport::TestCase
     end
   end
 
+  def test_number_to_currency_for_each_language
+    valid_languages.each do |lang|
+      set_language_if_valid lang
+      assert_nothing_raised "#{lang} failure" do
+        number_to_currency(-1000.2)
+      end
+    end
+  end
+
+  def test_number_to_currency_default
+    set_language_if_valid 'bs'
+    assert_equal "KM -1000,20", number_to_currency(-1000.2)
+    set_language_if_valid 'de'
+    euro_sign = "\xe2\x82\xac"
+    euro_sign.force_encoding('UTF-8') if euro_sign.respond_to?(:force_encoding)
+    assert_equal "-1000,20 #{euro_sign}", number_to_currency(-1000.2)
+  end
+
   def test_valid_languages
     assert valid_languages.is_a?(Array)
     assert valid_languages.first.is_a?(Symbol)
