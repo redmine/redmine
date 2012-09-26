@@ -28,9 +28,6 @@ class ChangesetTest < ActiveSupport::TestCase
            :users, :members, :member_roles, :trackers,
            :enabled_modules, :roles
 
-  def setup
-  end
-
   def test_ref_keywords_any
     ActionMailer::Base.deliveries.clear
     Setting.commit_fix_status_id = IssueStatus.find(
