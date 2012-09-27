@@ -34,8 +34,9 @@ class ProjectTest < ActiveSupport::TestCase
            :versions,
            :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions,
            :groups_users,
-           :boards,
-           :repositories
+           :boards, :messages,
+           :repositories,
+           :documents
 
   def setup
     @ecookbook = Project.find(1)
@@ -217,7 +218,7 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 0, Issue.count
     assert_equal 0, Journal.count
     assert_equal 0, JournalDetail.count
-    assert_equal 0, Attachment.count
+    assert_equal 0, Attachment.count, "Attachments were not deleted: #{Attachment.all.inspect}"
     assert_equal 0, EnabledModule.count
     assert_equal 0, IssueCategory.count
     assert_equal 0, IssueRelation.count
