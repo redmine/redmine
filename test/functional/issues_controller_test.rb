@@ -2357,6 +2357,19 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal count + 1, copy.attachments.count
   end
 
+  def test_create_as_copy_should_add_relation_with_copied_issue
+    @request.session[:user_id] = 2
+
+    assert_difference 'Issue.count' do
+      assert_difference 'IssueRelation.count' do
+        post :create, :project_id => 1, :copy_from => 1,
+          :issue => {:project_id => '1', :tracker_id => '3', :status_id => '1', :subject => 'Copy'}
+      end
+    end
+    copy = Issue.first(:order => 'id DESC')
+    assert_equal 1, copy.relations.size
+  end
+
   def test_create_as_copy_should_copy_subtasks
     @request.session[:user_id] = 2
     issue = Issue.generate_with_descendants!(Project.find(1), :subject => 'Parent')
@@ -3507,6 +3520,19 @@ class IssuesControllerTest < ActionController::TestCase
         post :bulk_update, :ids => [3], :copy => '1', :copy_attachments => '1',
              :issue => {
                :project_id => ''
+             }
+      end
+    end
+  end
+
+  def test_bulk_copy_should_add_relations_with_copied_issues
+    @request.session[:user_id] = 2
+
+    assert_difference 'Issue.count', 2 do
+      assert_difference 'IssueRelation.count', 2 do
+        post :bulk_update, :ids => [1, 3], :copy => '1', 
+             :issue => {
+               :project_id => '1'
              }
       end
     end

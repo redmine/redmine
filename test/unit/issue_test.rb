@@ -636,6 +636,19 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal orig.status, issue.status
   end
 
+  def test_copy_should_add_relation_with_copied_issue
+    copied = Issue.find(1)
+    issue = Issue.new.copy_from(copied)
+    assert issue.save
+    issue.reload
+
+    assert_equal 1, issue.relations.size
+    relation = issue.relations.first
+    assert_equal 'copied_to', relation.relation_type
+    assert_equal copied, relation.issue_from
+    assert_equal issue, relation.issue_to
+  end
+
   def test_copy_should_copy_subtasks
     issue = Issue.generate_with_descendants!(Project.find(1), :subject => 'Parent')
 

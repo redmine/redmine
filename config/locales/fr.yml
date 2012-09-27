@@ -728,6 +728,8 @@ fr:
   label_blocked_by: bloqué par
   label_precedes: précède
   label_follows: suit
+  label_copied_to: copié vers
+  label_copied_from: copié depuis
   label_end_to_start: fin à début
   label_end_to_end: fin à fin
   label_start_to_start: début à début
