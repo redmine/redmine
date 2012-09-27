@@ -152,10 +152,10 @@ function buildFilterRow(field, operator, values) {
       var option = $('<option>');
       if ($.isArray(filterValue)) {
         option.val(filterValue[1]).text(filterValue[0]);
-        if (values.indexOf(filterValue[1]) > -1) {option.attr('selected', true);}
+        if ($.inArray(filterValue[1], values) > -1) {option.attr('selected', true);}
       } else {
         option.val(filterValue).text(filterValue);
-        if (values.indexOf(filterValue) > -1) {option.attr('selected', true);}
+        if ($.inArray(filterValue, values) > -1) {option.attr('selected', true);}
       }
       select.append(option);
     }
@@ -204,7 +204,7 @@ function toggleFilter(field) {
 function enableValues(field, indexes) {
   var fieldId = field.replace('.', '_');
   $('#tr_'+fieldId+' td.values .value').each(function(index) {
-    if (indexes.indexOf(index) >= 0) {
+    if ($.inArray(index, indexes) >= 0) {
       $(this).removeAttr('disabled');
       $(this).parents('span').first().show();
     } else {
