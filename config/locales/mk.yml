@@ -1063,3 +1063,5 @@ mk:
   label_attribute_of_assigned_to: Assignee's %{name}
   label_attribute_of_fixed_version: Target version's %{name}
   label_copy_subtasks: Copy subtasks
+  label_copied_to: copied to
+  label_copied_from: copied from

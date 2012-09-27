@@ -1093,3 +1093,5 @@ ja:
   label_attribute_of_assigned_to: 担当者の %{name}
   label_attribute_of_fixed_version: 対象バージョンの %{name}
   label_copy_subtasks: 子チケットをコピー
+  label_copied_to: copied to
+  label_copied_from: copied from
