@@ -745,6 +745,8 @@ bg:
   label_blocked_by: блокирана от
   label_precedes: предшества
   label_follows: изпълнява се след
+  label_copied_to: копирана в
+  label_copied_from: копирана от
   label_end_to_start: край към начало
   label_end_to_end: край към край
   label_start_to_start: начало към начало
@@ -1061,5 +1063,3 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  label_copied_to: copied to
-  label_copied_from: copied from
