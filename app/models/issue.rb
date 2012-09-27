@@ -1017,7 +1017,7 @@ class Issue < ActiveRecord::Base
   def after_create_from_copy
     return unless copy? && !@after_create_from_copy_handled
 
-    if @copied_from.project_id == project_id || Setting.cross_project_issue_relations?
+    if (@copied_from.project_id == project_id || Setting.cross_project_issue_relations?) && @copy_options[:link] != false
       relation = IssueRelation.new(:issue_from => @copied_from, :issue_to => self, :relation_type => IssueRelation::TYPE_COPIED_TO)
       unless relation.save
         logger.error "Could not create relation while copying ##{@copied_from.id} to ##{id} due to validation errors: #{relation.errors.full_messages.join(', ')}" if logger
