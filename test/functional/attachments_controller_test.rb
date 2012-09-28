@@ -96,8 +96,13 @@ class AttachmentsControllerTest < ActionController::TestCase
   end
 
   def test_save_diff_type
-    @request.session[:user_id] = 1 # admin
+    user1 = User.find(1)
+    user1.pref[:diff_type] = nil
+    user1.preference.save
     user = User.find(1)
+    assert_nil user.pref[:diff_type]
+
+    @request.session[:user_id] = 1 # admin
     get :show, :id => 5
     assert_response :success
     assert_template 'diff'
