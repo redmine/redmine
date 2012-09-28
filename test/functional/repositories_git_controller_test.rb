@@ -370,6 +370,40 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       end
     end
 
+    def test_diff_path_in_subrepo
+      repo = Repository::Git.create(
+                      :project       => @project,
+                      :url           => REPOSITORY_PATH,
+                      :identifier => 'test-diff-path',
+                      :path_encoding => 'ISO-8859-1'
+                      );
+      assert repo
+      assert_equal false, repo.is_default
+      assert_equal 'test-diff-path', repo.identifier
+      get :diff,
+          :id     => PRJ_ID,
+          :repository_id => 'test-diff-path',
+          :rev    => '61b685fbe55ab05b',
+          :rev_to => '2f9c0091c754a91a',
+          :type   => 'inline'
+      assert_response :success
+      assert_template 'diff'
+      diff = assigns(:diff)
+      assert_not_nil diff
+      assert_tag :tag => "form",
+                 :attributes => {
+                   :action => "/projects/subproject1/repository/test-diff-path/" + 
+                                "revisions/61b685fbe55ab05b/diff"
+                 }
+      assert_tag :tag => 'input',
+                 :attributes => {
+                   :id => "rev_to",
+                   :name => "rev_to",
+                   :type => "hidden",
+                   :value => '2f9c0091c754a91a'
+                 }
+    end
+
     def test_diff_latin_1
       if @ruby19_non_utf8_pass
         puts_ruby19_non_utf8_pass()
