@@ -261,6 +261,8 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     end
 
     def test_diff
+      assert_equal true, @repository.is_default
+      assert_nil @repository.identifier
       assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
       @project.reload
@@ -351,6 +353,18 @@ class RepositoriesGitControllerTest < ActionController::TestCase
         diff = assigns(:diff)
         assert_not_nil diff
         assert_tag :tag => 'h2', :content => /2f9c0091:61b685fb/
+        assert_tag :tag => "form",
+                   :attributes => {
+                     :action => "/projects/subproject1/repository/revisions/" +
+                                   "61b685fbe55ab05b5ac68402d5720c1a6ac973d1/diff"
+                   }
+        assert_tag :tag => 'input',
+                   :attributes => {
+                     :id => "rev_to",
+                     :name => "rev_to",
+                     :type => "hidden",
+                     :value => '2f9c0091c754a91af7a9c478e36556b4bde8dcf7'
+                   }
       end
     end
 
