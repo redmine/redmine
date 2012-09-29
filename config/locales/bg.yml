@@ -670,6 +670,8 @@ bg:
   label_ago: преди
   label_contains: съдържа
   label_not_contains: не съдържа
+  label_any_issues_in_project: задачи от проект
+  label_any_issues_not_in_project: задачи, които не са в проект
   label_day_plural: дни
   label_repository: Хранилище
   label_repository_new: Ново хранилище
@@ -1063,5 +1065,3 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  label_any_issues_in_project: any issues in project
-  label_any_issues_not_in_project: any issues not in project
