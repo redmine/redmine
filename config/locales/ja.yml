@@ -370,7 +370,7 @@ ja:
   setting_autologin: 自動ログイン
   setting_date_format: 日付の形式
   setting_time_format: 時刻の形式
-  setting_cross_project_issue_relations: 異なるプロジェクトのチケット間で関係の設定を許可
+  setting_cross_project_issue_relations: 異なるプロジェクトのチケット間で関連の設定を許可
   setting_issue_list_default_columns: チケットの一覧で表示する項目
   setting_repositories_encodings: 添付ファイルとリポジトリのエンコーディング
   setting_emails_header: メールのヘッダ
@@ -729,13 +729,13 @@ ja:
   label_loading: ロード中...
   label_relation_new: 新しい関連
   label_relation_delete: 関連の削除
-  label_relates_to: 関係している
-  label_duplicates: 重複している
-  label_duplicated_by: 重複されている
+  label_relates_to: 関連している
+  label_duplicates: 次のチケットと重複
+  label_duplicated_by: 次のチケットが重複
   label_blocks: ブロックしている
   label_blocked_by: ブロックされている
-  label_precedes: 先行する
-  label_follows: 後続する
+  label_precedes: 次のチケットに先行
+  label_follows: 次のチケットに後続
   label_end_to_start: 最後-最初
   label_end_to_end: 最後-最後
   label_start_to_start: 最初-最初
@@ -1093,7 +1093,7 @@ ja:
   label_attribute_of_assigned_to: 担当者の %{name}
   label_attribute_of_fixed_version: 対象バージョンの %{name}
   label_copy_subtasks: 子チケットをコピー
-  label_copied_to: copied to
-  label_copied_from: copied from
+  label_copied_to: コピー先
+  label_copied_from: コピー元
   label_any_issues_in_project: any issues in project
   label_any_issues_not_in_project: any issues not in project
