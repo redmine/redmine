@@ -1086,3 +1086,5 @@ fi:
   label_copy_subtasks: Copy subtasks
   label_copied_to: copied to
   label_copied_from: copied from
+  label_any_issues_in_project: any issues in project
+  label_any_issues_not_in_project: any issues not in project
