@@ -496,16 +496,14 @@ function observeSearchfield(fieldId, targetId, url) {
       var val = $this.val();
       if ($this.attr('data-value-was') != val){
         $this.attr('data-value-was', val);
-        if (val != '') {
-          $.ajax({
-            url: url,
-            type: 'get',
-            data: {q: $this.val()},
-            success: function(data){ $('#'+targetId).html(data); },
-            beforeSend: function(){ $this.addClass('ajax-loading'); },
-            complete: function(){ $this.removeClass('ajax-loading'); }
-          });
-        }
+        $.ajax({
+          url: url,
+          type: 'get',
+          data: {q: $this.val()},
+          success: function(data){ $('#'+targetId).html(data); },
+          beforeSend: function(){ $this.addClass('ajax-loading'); },
+          complete: function(){ $this.removeClass('ajax-loading'); }
+        });
       }
     };
     var reset = function() {
