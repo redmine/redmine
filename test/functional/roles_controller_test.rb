@@ -110,6 +110,14 @@ class RolesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
     assert_equal Role.find(1), assigns(:role)
+    assert_select 'select[name=?]', 'role[issues_visibility]'
+  end
+
+  def test_edit_anonymous
+    get :edit, :id => Role.anonymous.id
+    assert_response :success
+    assert_template 'edit'
+    assert_select 'select[name=?]', 'role[issues_visibility]', 0
   end
 
   def test_edit_invalid_should_respond_with_404
