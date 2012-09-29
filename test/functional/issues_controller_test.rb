@@ -2521,6 +2521,18 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 'This is the test_new issue', issue.subject
   end
 
+  def test_update_edit_form_should_keep_issue_author
+    @request.session[:user_id] = 3
+    xhr :put, :new, :project_id => 1, :id => 1, :issue => {:subject => 'Changed'}
+    assert_response :success
+    assert_equal 'text/javascript', response.content_type
+
+    issue = assigns(:issue)
+    assert_equal User.find(2), issue.author
+    assert_equal 2, issue.author_id
+    assert_not_equal User.current, issue.author
+  end
+
   def test_update_edit_form_should_propose_transitions_based_on_initial_status
     @request.session[:user_id] = 2
     WorkflowTransition.delete_all
