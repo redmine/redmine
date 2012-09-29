@@ -35,7 +35,7 @@ module QueriesHelper
   def column_content(column, issue)
     value = column.value(issue)
     if value.is_a?(Array)
-      value.collect {|v| column_value(column, issue, v)}.compact.sort.join(', ').html_safe
+      value.collect {|v| column_value(column, issue, v)}.compact.join(', ').html_safe
     else
       column_value(column, issue, value)
     end
@@ -73,6 +73,11 @@ module QueriesHelper
       l(:general_text_No)
     when 'Issue'
       link_to_issue(value, :subject => false)
+    when 'IssueRelation'
+      other = value.other_issue(issue)
+      content_tag('span',
+        (l(value.label_for(issue)) + " " + link_to_issue(other, :subject => false, :tracker => false)).html_safe,
+        :class => value.css_classes_for(issue))
     else
       h(value)
     end

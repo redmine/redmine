@@ -659,6 +659,8 @@ fr:
   label_ago: il y a
   label_contains: contient
   label_not_contains: ne contient pas
+  label_any_issues_in_project: une demande du projet
+  label_any_issues_not_in_project: une demande hors du projet
   label_day_plural: jours
   label_repository: Dépôt
   label_repository_new: Nouveau dépôt
@@ -721,15 +723,15 @@ fr:
   label_loading: Chargement...
   label_relation_new: Nouvelle relation
   label_relation_delete: Supprimer la relation
-  label_relates_to: lié à
-  label_duplicates: duplique
-  label_duplicated_by: dupliqué par
-  label_blocks: bloque
-  label_blocked_by: bloqué par
-  label_precedes: précède
-  label_follows: suit
-  label_copied_to: copié vers
-  label_copied_from: copié depuis
+  label_relates_to: Lié à
+  label_duplicates: Duplique
+  label_duplicated_by: Dupliqué par
+  label_blocks: Bloque
+  label_blocked_by: Bloqué par
+  label_precedes: Précède
+  label_follows: Suit
+  label_copied_to: Copié vers
+  label_copied_from: Copié depuis
   label_end_to_start: fin à début
   label_end_to_end: fin à fin
   label_start_to_start: début à début

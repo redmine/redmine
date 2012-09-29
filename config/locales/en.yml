@@ -669,6 +669,8 @@ en:
   label_ago: days ago
   label_contains: contains
   label_not_contains: doesn't contain
+  label_any_issues_in_project: any issues in project
+  label_any_issues_not_in_project: any issues not in project
   label_day_plural: days
   label_repository: Repository
   label_repository_new: New repository
@@ -737,15 +739,15 @@ en:
   label_loading: Loading...
   label_relation_new: New relation
   label_relation_delete: Delete relation
-  label_relates_to: related to
-  label_duplicates: duplicates
-  label_duplicated_by: duplicated by
-  label_blocks: blocks
-  label_blocked_by: blocked by
-  label_precedes: precedes
-  label_follows: follows
-  label_copied_to: copied to
-  label_copied_from: copied from
+  label_relates_to: Related to
+  label_duplicates: Duplicates
+  label_duplicated_by: Duplicated by
+  label_blocks: Blocks
+  label_blocked_by: Blocked by
+  label_precedes: Precedes
+  label_follows: Follows
+  label_copied_to: Copied to
+  label_copied_from: Copied from
   label_end_to_start: end to start
   label_end_to_end: end to end
   label_start_to_start: start to start

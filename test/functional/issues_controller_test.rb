@@ -766,7 +766,7 @@ class IssuesControllerTest < ActionController::TestCase
     end
   end
 
-  def test_index_with_done_ratio
+  def test_index_with_done_ratio_column
     Issue.find(1).update_attribute :done_ratio, 40
 
     get :index, :set_filter => 1, :c => %w(done_ratio)
@@ -792,10 +792,46 @@ class IssuesControllerTest < ActionController::TestCase
     assert_no_tag 'td', :attributes => {:class => /spent_hours/}
   end
 
-  def test_index_with_fixed_version
+  def test_index_with_fixed_version_column
     get :index, :set_filter => 1, :c => %w(fixed_version)
     assert_tag 'td', :attributes => {:class => /fixed_version/},
       :child => {:tag => 'a', :content => '1.0', :attributes => {:href => '/versions/2'}}
+  end
+
+  def test_index_with_relations_column
+    IssueRelation.delete_all
+    IssueRelation.create!(:relation_type => "relates", :issue_from => Issue.find(1), :issue_to => Issue.find(7))
+    IssueRelation.create!(:relation_type => "relates", :issue_from => Issue.find(8), :issue_to => Issue.find(1))
+    IssueRelation.create!(:relation_type => "blocks", :issue_from => Issue.find(1), :issue_to => Issue.find(11))
+    IssueRelation.create!(:relation_type => "blocks", :issue_from => Issue.find(12), :issue_to => Issue.find(2))
+
+    get :index, :set_filter => 1, :c => %w(subject relations)
+    assert_response :success
+    assert_select "tr#issue-1 td.relations" do
+      assert_select "span", 3
+      assert_select "span", :text => "Related to #7"
+      assert_select "span", :text => "Related to #8"
+      assert_select "span", :text => "Blocks #11"
+    end
+    assert_select "tr#issue-2 td.relations" do
+      assert_select "span", 1
+      assert_select "span", :text => "Blocked by #12"
+    end
+    assert_select "tr#issue-3 td.relations" do
+      assert_select "span", 0
+    end
+
+    get :index, :set_filter => 1, :c => %w(relations), :format => 'csv'
+    assert_response :success
+    assert_equal 'text/csv; header=present', response.content_type
+    lines = response.body.chomp.split("\n")
+    assert_include '1,"Related to #7, Related to #8, Blocks #11"', lines
+    assert_include '2,Blocked by #12', lines
+    assert_include '3,""', lines
+
+    get :index, :set_filter => 1, :c => %w(subject relations), :format => 'pdf'
+    assert_response :success
+    assert_equal 'application/pdf', response.content_type
   end
 
   def test_index_send_html_if_query_is_invalid

@@ -624,6 +624,76 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal [2], find_issues_with_query(query).map(&:fixed_version_id).uniq.sort
   end
 
+  def test_filter_on_relations_with_a_specific_issue
+    IssueRelation.delete_all
+    IssueRelation.create!(:relation_type => "relates", :issue_from => Issue.find(1), :issue_to => Issue.find(2))
+    IssueRelation.create!(:relation_type => "relates", :issue_from => Issue.find(3), :issue_to => Issue.find(1))
+
+    query = Query.new(:name => '_')
+    query.filters = {"relates" => {:operator => '=', :values => ['1']}}
+    assert_equal [2, 3], find_issues_with_query(query).map(&:id).sort
+
+    query = Query.new(:name => '_')
+    query.filters = {"relates" => {:operator => '=', :values => ['2']}}
+    assert_equal [1], find_issues_with_query(query).map(&:id).sort
+  end
+
+  def test_filter_on_relations_with_any_issues_in_a_project
+    IssueRelation.delete_all
+    with_settings :cross_project_issue_relations => '1' do
+      IssueRelation.create!(:relation_type => "relates", :issue_from => Issue.find(1), :issue_to => Project.find(2).issues.first)
+      IssueRelation.create!(:relation_type => "relates", :issue_from => Issue.find(2), :issue_to => Project.find(2).issues.first)
+      IssueRelation.create!(:relation_type => "relates", :issue_from => Issue.find(1), :issue_to => Project.find(3).issues.first)
+    end
+
+    query = Query.new(:name => '_')
+    query.filters = {"relates" => {:operator => '=p', :values => ['2']}}
+    assert_equal [1, 2], find_issues_with_query(query).map(&:id).sort
+
+    query = Query.new(:name => '_')
+    query.filters = {"relates" => {:operator => '=p', :values => ['3']}}
+    assert_equal [1], find_issues_with_query(query).map(&:id).sort
+
+    query = Query.new(:name => '_')
+    query.filters = {"relates" => {:operator => '=p', :values => ['4']}}
+    assert_equal [], find_issues_with_query(query).map(&:id).sort
+  end
+
+  def test_filter_on_relations_with_any_issues_not_in_a_project
+    IssueRelation.delete_all
+    with_settings :cross_project_issue_relations => '1' do
+      IssueRelation.create!(:relation_type => "relates", :issue_from => Issue.find(1), :issue_to => Project.find(2).issues.first)
+      #IssueRelation.create!(:relation_type => "relates", :issue_from => Issue.find(2), :issue_to => Project.find(1).issues.first)
+      IssueRelation.create!(:relation_type => "relates", :issue_from => Issue.find(1), :issue_to => Project.find(3).issues.first)
+    end
+
+    query = Query.new(:name => '_')
+    query.filters = {"relates" => {:operator => '=!p', :values => ['1']}}
+    assert_equal [1], find_issues_with_query(query).map(&:id).sort
+  end
+
+  def test_filter_on_relations_with_no_issues
+    IssueRelation.delete_all
+    IssueRelation.create!(:relation_type => "relates", :issue_from => Issue.find(1), :issue_to => Issue.find(2))
+    IssueRelation.create!(:relation_type => "relates", :issue_from => Issue.find(3), :issue_to => Issue.find(1))
+
+    query = Query.new(:name => '_')
+    query.filters = {"relates" => {:operator => '!*', :values => ['']}}
+    ids = find_issues_with_query(query).map(&:id)
+    assert_equal [], ids & [1, 2, 3]
+    assert_include 4, ids
+  end
+
+  def test_filter_on_relations_with_any_issue
+    IssueRelation.delete_all
+    IssueRelation.create!(:relation_type => "relates", :issue_from => Issue.find(1), :issue_to => Issue.find(2))
+    IssueRelation.create!(:relation_type => "relates", :issue_from => Issue.find(3), :issue_to => Issue.find(1))
+
+    query = Query.new(:name => '_')
+    query.filters = {"relates" => {:operator => '*', :values => ['']}}
+    assert_equal [1, 2, 3], find_issues_with_query(query).map(&:id)
+  end
+
   def test_statement_should_be_nil_with_no_filters
     q = Query.new(:name => '_')
     q.filters = {}

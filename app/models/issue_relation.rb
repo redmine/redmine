@@ -15,6 +15,20 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+# Class used to represent the relations of an issue
+class IssueRelations < Array
+  include Redmine::I18n
+
+  def initialize(issue, *args)
+    @issue = issue
+    super(*args)
+  end
+
+  def to_s(*args)
+    map {|relation| "#{l(relation.label_for(@issue))} ##{relation.other_issue(@issue).id}"}.join(', ')
+  end
+end
+
 class IssueRelation < ActiveRecord::Base
   belongs_to :issue_from, :class_name => 'Issue', :foreign_key => 'issue_from_id'
   belongs_to :issue_to, :class_name => 'Issue', :foreign_key => 'issue_to_id'
@@ -103,6 +117,10 @@ class IssueRelation < ActiveRecord::Base
     TYPES[relation_type] ? TYPES[relation_type][(self.issue_from_id == issue.id) ? :name : :sym_name] : :unknow
   end
 
+  def css_classes_for(issue)
+    "rel-#{relation_type_for(issue)}"
+  end
+
   def handle_issue_order
     reverse_if_needed
 
@@ -128,7 +146,8 @@ class IssueRelation < ActiveRecord::Base
   end
 
   def <=>(relation)
-    TYPES[self.relation_type][:order] <=> TYPES[relation.relation_type][:order]
+    r = TYPES[self.relation_type][:order] <=> TYPES[relation.relation_type][:order]
+    r == 0 ? id <=> relation.id : r
   end
 
   private

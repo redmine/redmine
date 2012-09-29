@@ -752,7 +752,7 @@ class Issue < ActiveRecord::Base
   end
 
   def relations
-    @relations ||= (relations_from + relations_to).sort
+    @relations ||= IssueRelations.new(self, (relations_from + relations_to).sort)
   end
 
   # Preloads relations for a collection of issues
@@ -771,6 +771,25 @@ class Issue < ActiveRecord::Base
       hours_by_issue_id = TimeEntry.visible(user).sum(:hours, :group => :issue_id)
       issues.each do |issue|
         issue.instance_variable_set "@spent_hours", (hours_by_issue_id[issue.id] || 0)
+      end
+    end
+  end
+
+  # Preloads visible relations for a collection of issues
+  def self.load_visible_relations(issues, user=User.current)
+    if issues.any?
+      issue_ids = issues.map(&:id)
+      # Relations with issue_from in given issues and visible issue_to
+      relations_from = IssueRelation.includes(:issue_to => [:status, :project]).where(visible_condition(user)).where(:issue_from_id => issue_ids).all
+      # Relations with issue_to in given issues and visible issue_from
+      relations_to = IssueRelation.includes(:issue_from => [:status, :project]).where(visible_condition(user)).where(:issue_to_id => issue_ids).all
+
+      issues.each do |issue|
+        relations =
+          relations_from.select {|relation| relation.issue_from_id == issue.id} +
+          relations_to.select {|relation| relation.issue_to_id == issue.id}
+
+        issue.instance_variable_set "@relations", IssueRelations.new(issue, relations.sort)
       end
     end
   end

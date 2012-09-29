@@ -64,10 +64,12 @@ module ApplicationHelper
   #   link_to_issue(issue, :truncate => 6)        # => Defect #6: This i...
   #   link_to_issue(issue, :subject => false)     # => Defect #6
   #   link_to_issue(issue, :project => true)      # => Foo - Defect #6
+  #   link_to_issue(issue, :subject => false, :tracker => false)     # => #6
   #
   def link_to_issue(issue, options={})
     title = nil
     subject = nil
+    text = options[:tracker] == false ? "##{issue.id}" : "#{issue.tracker} ##{issue.id}"
     if options[:subject] == false
       title = truncate(issue.subject, :length => 60)
     else
@@ -76,7 +78,7 @@ module ApplicationHelper
         subject = truncate(subject, :length => options[:truncate])
       end
     end
-    s = link_to "#{h(issue.tracker)} ##{issue.id}", {:controller => "issues", :action => "show", :id => issue},
+    s = link_to text, {:controller => "issues", :action => "show", :id => issue},
                                                  :class => issue.css_classes,
                                                  :title => title
     s << h(": #{subject}") if subject
