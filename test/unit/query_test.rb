@@ -684,14 +684,14 @@ class QueryTest < ActiveSupport::TestCase
     assert_include 4, ids
   end
 
-  def test_filter_on_relations_with_any_issue
+  def test_filter_on_relations_with_any_issues
     IssueRelation.delete_all
     IssueRelation.create!(:relation_type => "relates", :issue_from => Issue.find(1), :issue_to => Issue.find(2))
     IssueRelation.create!(:relation_type => "relates", :issue_from => Issue.find(3), :issue_to => Issue.find(1))
 
     query = Query.new(:name => '_')
     query.filters = {"relates" => {:operator => '*', :values => ['']}}
-    assert_equal [1, 2, 3], find_issues_with_query(query).map(&:id)
+    assert_equal [1, 2, 3], find_issues_with_query(query).map(&:id).sort
   end
 
   def test_statement_should_be_nil_with_no_filters
