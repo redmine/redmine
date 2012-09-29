@@ -54,4 +54,19 @@ class UserPreferenceTest < ActiveSupport::TestCase
     assert up.save
     assert_kind_of Hash, up.others
   end
+
+  def test_reading_value_from_nil_others_hash
+    up = UserPreference.new(:user => User.new)
+    up.others = nil
+    assert_nil up.others
+    assert_nil up[:foo]
+  end
+
+  def test_writing_value_to_nil_others_hash
+    up = UserPreference.new(:user => User.new)
+    up.others = nil
+    assert_nil up.others
+    up[:foo] = 'bar'
+    assert_equal 'bar', up[:foo]
+  end
 end

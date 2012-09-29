@@ -44,7 +44,7 @@ class UserPreference < ActiveRecord::Base
     if attribute_present? attr_name
       super
     else
-      h = read_attribute(:others).dup || {}
+      h = (read_attribute(:others) || {}).dup
       h.update(attr_name => value)
       write_attribute(:others, h)
       value
