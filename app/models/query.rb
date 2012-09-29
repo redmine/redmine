@@ -70,7 +70,7 @@ class QueryCustomFieldColumn < QueryColumn
   end
 
   def value(issue)
-    cv = issue.custom_values.select {|v| v.custom_field_id == @cf.id}.collect {|v| @cf.cast_value(v.value)}
+    cv = issue.custom_values.select {|v| v.custom_field_id == @cf.id}.collect {|v| @cf.cast_value(v.value)}.sort {|a,b| a.to_s <=> b.to_s}
     cv.size > 1 ? cv : cv.first
   end
 
