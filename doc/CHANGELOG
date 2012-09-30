@@ -4,6 +4,10 @@ Redmine - project management software
 Copyright (C) 2006-2012  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2012-09-30 v2.1.2
+
+* Defect #11929: XSS vulnerability in Redmine 2.1.x
+
 == 2012-09-30 v2.1.1
 
 * Defect #11290: ParseDate missing in Ruby 1.9x
