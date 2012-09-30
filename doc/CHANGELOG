@@ -4,6 +4,22 @@ Redmine - project management software
 Copyright (C) 2006-2012  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2012-09-30 v2.1.1
+
+* Defect #11290: ParseDate missing in Ruby 1.9x
+* Defect #11844: "load_default_data" rake task fails to print the error message if one occurs
+* Defect #11850: Can't create a user from ldap by on-the-fly on the redmine server using URI prefix
+* Defect #11872: Private issue visible to anonymous users after its author is deleted
+* Defect #11885: Filter misses Selectionfield on IE8
+* Defect #11893: New relation form Cancel link is broken with Chrome 21
+* Defect #11905: Potential "can't dup NilClass" error in UserPreference
+* Defect #11909: Autocomplete results not reset after clearing search field
+* Defect #11922: bs.yml and de.yml lead to error by number_to_currency()
+* Defect #11945: rake task prints "can't convert Errno::EACCES into String" in case of no permission of public/plugin_assets
+* Defect #11975: Undefined status transitions allowed in workflow (author of issue changes when selecting a new status)
+* Defect #11982: SCM diff view generates extra parameter for switching mode
+* Patch #11897: Traditional Chinese language file (to r10433)
+
 == 2012-09-16 v2.1.0
 
 * Defect #2071: Reordering priority-enumerations breaks alternate-theme's issue-colouring
