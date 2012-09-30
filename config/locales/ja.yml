@@ -1095,5 +1095,5 @@ ja:
   label_copy_subtasks: 子チケットをコピー
   label_copied_to: コピー先
   label_copied_from: コピー元
-  label_any_issues_in_project: any issues in project
-  label_any_issues_not_in_project: any issues not in project
+  label_any_issues_in_project: 次のプロジェクト内のチケット
+  label_any_issues_not_in_project: 次のプロジェクト外のチケット
