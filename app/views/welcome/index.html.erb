@@ -1,40 +1,90 @@
-<h2><%= l(:label_home) %></h2>
 
-<div class="splitcontentleft">
-  <%= textilizable Setting.welcome_text %>
-  <% if @news.any? %>
-  <div class="news box">
-  <h3><%=l(:label_news_latest)%></h3>
-    <%= render :partial => 'news/news', :collection => @news %>
-    <%= link_to l(:label_news_view_all), :controller => 'news' %>
-  </div>
-  <% end %>
-  <%= call_hook(:view_welcome_index_left, :projects => @projects) %>
-</div>
+<%= stylesheet_link_tag 'smoothDivScroll', :media => 'all' %>
 
-<div class="splitcontentright">
-    <% if @projects.any? %>
-  <div class="projects box">
-  <h3><%=l(:label_project_latest)%></h3>
-    <ul>
-    <% for project in @projects %>
-      <% @project = project %>
-      <li>
-      <%= link_to_project project %> (<%= format_time(project.created_on) %>)
-      <%= textilizable project.short_description, :project => project %>
-      </li>
-    <% end %>
-    <% @project = nil %>
-    </ul>
-  </div>
-  <% end %>
-    <%= call_hook(:view_welcome_index_right, :projects => @projects) %>
-</div>
+<%= javascript_include_tag('jquery-ui-1.8.23.custom.min.js') %>
+<%= javascript_include_tag('jquery.mousewheel.min.js') %>
+<%= javascript_include_tag('jquery.kinetic.js') %>
+<%= javascript_include_tag('jquery.smoothdivscroll-1.3-min.js') %>
+<%= javascript_include_tag('home.js') %>
+<div id="welcomepage">
 
-<% content_for :header_tags do %>
-<%= stylesheet_link_tag 'scm' %>
-<%= auto_discovery_link_tag(:atom, {:controller => 'news', :action => 'index', :key => User.current.rss_key, :format => 'atom'},
-                                   :title => "#{Setting.app_title}: #{l(:label_news_latest)}") %>
-<%= auto_discovery_link_tag(:atom, {:controller => 'activities', :action => 'index', :key => User.current.rss_key, :format => 'atom'},
-                                   :title => "#{Setting.app_title}: #{l(:label_activity)}") %>
-<% end %>
+	<p class="title">
+		<b>Open Source Brain</b> is a resource for sharing and collaborately developing  computational models of neural systems. 
+		
+	</p>
+	
+	<div id="quick-search">
+		<%= form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
+		<%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
+
+		<%= text_field_tag 'q', @question, :size => 70, :placeholder=>'Search Open Source Brain',:type=>'search', :results=>5, :class => 'large', :accesskey => accesskey(:quick_search) %>
+		<% end %>
+
+	</div>
+	<div>
+
+		<div id="osblogo"></div>
+		<div id="mainbuttons">
+			<div id="explorebutton" onclick="location.href='/projects';">
+				Explore 
+				Open Source Brain
+			</div>
+			<div id="signupbutton" class="register" onclick="location.href='/account/register';">
+				Sign up
+				<div class="smallcaption">
+					Share, Validate and Collaborate on your models
+				</div>
+			</div>
+		</div>
+		<!--
+		<div>
+			<p class="subtitle">
+				Free model sharing, research group management, generated 3d visualization, data export and more...
+			</p>
+			<div id="groups">
+				<a href="http://www.ncbs.res.in/bhalla">Bhalla Lab<a>, <a href="http://krasnow1.gmu.edu/CENlab/index.html">Blackwell Lab<a>, <a href="http://homepages.feis.herts.ac.uk/~comqvs/">Steuber Lab<a>, <a href="http://www.openworm.org">OpenWorm<a>, <a href="http://stat.asu.edu/~crook/">Crook Lab</a><a href="http://www.ncbs.res.in/bhalla">Bhalla Lab<a>, <a href="http://krasnow1.gmu.edu/CENlab/index.html">Blackwell Lab<a>, <a href="http://homepages.feis.herts.ac.uk/~comqvs/">Steuber Lab<a>, <a href="http://www.openworm.org">OpenWorm<a>, <a href="http://stat.asu.edu/~crook/">Crook Lab</a><a href="http://www.ncbs.res.in/bhalla">Bhalla Lab<a>, <a href="http://krasnow1.gmu.edu/CENlab/index.html">Blackwell Lab<a>, <a href="http://homepages.feis.herts.ac.uk/~comqvs/">Steuber Lab<a>, <a href="http://www.openworm.org">OpenWorm<a>, <a href="http://stat.asu.edu/~crook/">Crook Lab</a>
+			</div>
+		</div>
+		-->
+	</div>
+	<!--<h2><%= l(:label_home) %></h2>
+
+	<div class="splitcontentleft">
+	<%= textilizable Setting.welcome_text %>
+	<% if @news.any? %>
+	<div class="news box">
+	<h3><%=l(:label_news_latest)%></h3>
+	<%= render :partial => 'news/news', :collection => @news %>
+	<%= link_to l(:label_news_view_all), :controller => 'news' %>
+	</div>
+	<% end %>
+	<%= call_hook(:view_welcome_index_left, :projects => @projects) %>
+	</div>
+
+	<div class="splitcontentright">
+	<% if @projects.any? %>
+	<div class="projects box">
+	<h3><%=l(:label_project_latest)%></h3>
+	<ul>
+	<% for project in @projects %>
+	<% @project = project %>
+	<li>
+	<%= link_to_project project %> (<%= format_time(project.created_on) %>)
+	<%= textilizable project.short_description, :project => project %>
+	</li>
+	<% end %>
+	<% @project = nil %>
+	</ul>
+	</div>
+	<% end %>
+	<%= call_hook(:view_welcome_index_right, :projects => @projects) %>
+	</div>
+
+	<% content_for :header_tags do %>
+	<%= stylesheet_link_tag 'scm' %>
+	<%= auto_discovery_link_tag(:atom, {:controller => 'news', :action => 'index', :key => User.current.rss_key, :format => 'atom'},
+	:title => "#{Setting.app_title}: #{l(:label_news_latest)}") %>
+	<%= auto_discovery_link_tag(:atom, {:controller => 'activities', :action => 'index', :key => User.current.rss_key, :format => 'atom'},
+	:title => "#{Setting.app_title}: #{l(:label_activity)}") %>
+	<% end %>
+	-->

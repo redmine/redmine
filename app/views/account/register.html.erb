@@ -11,6 +11,7 @@
 <p><b>You should provide a valid URL to a lab, company or software project webpage with which you are directly associated.</b></p>
 <p>Note that the Open Source Brain is in an early stage of development, meaning significant changes are possible to the website and the repositories it hosts. All user information and activity will be preserved, although the layout & flow of content may alter. </p>
 
+<div id="registerForm">
 <% if @user.auth_source_id.nil? %>
   <p><%= f.text_field :login, :size => 25, :required => true %></p>
 
@@ -32,7 +33,9 @@
 <% @user.custom_field_values.select {|v| v.editable? || v.required?}.each do |value| %>
   <p><%= custom_field_tag_with_label :user, value %></p>
 <% end %>
+<%= submit_tag l(:button_submit) %>
+</div>
 </div>
 
-<%= submit_tag l(:button_submit) %>
+
 <% end %>

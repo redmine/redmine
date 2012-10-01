@@ -50,7 +50,82 @@ module ProjectsHelper
     options << project_tree_options_for_select(project.allowed_parents.compact, :selected => selected)
     content_tag('select', options.html_safe, :name => 'project[parent_id]', :id => 'project_parent_id')
   end
-
+  
+  #MC - probably there's a more elegant way to do this, not a Ruby expert
+  def addNode(t,c1,c2,c3,c4,c5,dname,link)
+    if(c1!=nil and c2!=nil and c3!=nil and c4!=nil and c5!=nil and dname!=nil and link!=nil)
+      if(!t.has_key?(c1))
+        t[c1]= Hash.new()
+      end
+      if(!t[c1].has_key?(c2))
+          t[c1][c2]= Hash.new()
+      end
+      if(!t[c1][c2].has_key?(c3))
+        t[c1][c2][c3]=Hash.new()
+      end
+      if(!t[c1][c2][c3].has_key?(c4))
+        t[c1][c2][c3][c4]=Hash.new()
+      end   
+      if(!t[c1][c2][c3][c4].has_key?(c5))
+        t[c1][c2][c3][c4][c5]=Hash.new()
+      end   
+      if(!t[c1][c2][c3][c4][c5].has_key?(dname))
+        t[c1][c2][c3][c4][c5][dname]=link
+      end
+      end         
+  end
+  
+  def createJSONProjectTree(projects)
+    t = Hash.new()
+    if projects.any?
+      projects.each do |project|
+        c1=c2=c3=c4=c5=dname=nil
+        
+        project.visible_custom_field_values.each do |custom_value|
+                  if (custom_value.custom_field.name == 'Spine classification')
+                    c1=custom_value.value
+                  elsif (custom_value.custom_field.name == 'Family')
+                    c2=custom_value.value
+                  elsif (custom_value.custom_field.name == 'Brain region')
+                    c4=custom_value.value
+                  elsif (custom_value.custom_field.name == 'Specie')
+                    c3=custom_value.value
+                  elsif (custom_value.custom_field.name == 'Cell type')
+                    c5=custom_value.value
+        end
+          end
+        addNode(t,c1,c2,c3,c4,c5,project.name,"/projects/"+project.identifier)
+     
+    end
+      return jsonify(t).to_json
+   end
+  end
+              
+  def jsonify(t)
+    print "entering jsonify"
+    newt = Hash.new()
+    newt["name"]="Animal Kingdom"
+    newt["children"]= Array.new()
+    t.each_pair do |k,v| 
+      newt["children"]<<jsonifynode(k,v)
+    end
+    return newt
+  end      
+  
+  def jsonifynode(name, node)
+    newt = Hash.new()
+    newt["name"]=name
+      if(node.kind_of?(Hash))
+        newt["children"]= Array.new()
+        node.each_pair do |k,v| 
+          newt["children"]<<jsonifynode(k,v)
+        end
+      elsif
+        newt["link"]=node
+      end
+    return newt
+  end
+  
   # Renders a tree of projects as a nested set of unordered lists
   # The given collection may be a subset of the whole project tree
   # (eg. some intermediate nodes are private and can not be seen)

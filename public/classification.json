@@ -1,0 +1,80 @@
+{
+"name":"",
+"children":[
+	{
+	 "name": "Vertebrata",
+	 "children": [
+		  {
+		   "name": "Mammalia",
+		   "children": [
+		    {
+		     "name": "Rodent",
+		     "children": [
+			      {"name": "Neocortex",
+			       "children": [
+			      		{"name": "Layer 2/3"},
+			      		{"name": "Layer 4"},
+			      		{"name": "Layer 5"},
+			      		{"name": "Layer 6"},
+			      		{"name": "Network Model"}
+			      		]
+					},
+			      {"name": "Thalamus"},
+			      {"name": "Cerebellum"},
+			      {"name": "Hippocampus"},
+			      {"name": "Brainstem"}
+		     	]
+		    }
+		   ]
+		  },
+		  {
+		   "name": "Cyprinidae",
+		   "children": [
+		      {"name": "Zebra Fish"}
+		    ]
+		  }
+	 ]
+	},
+	{
+	 "name": "Invertebrata",
+	 "children": [
+		  {
+		   "name": "Nematoda",
+		   "children": [
+			    {
+			     "name": "C. elegans",
+			     "children": [
+			      	{"name": "Nervous System",
+				      "children": [
+				      		{"name": "Network Model",
+				      		 "children": [
+				      			{"name": "OpenWorm Connectome",
+				      			 "link":"/projects/celegans"}
+				      		 ]
+				      		}
+				      ]
+				    }
+			     ]
+			    }
+		    ]
+		  },
+		 {
+		 	"name": "Arthropoda",
+		    "children": [
+		    {
+		     "name": "Barnacle",
+		     "children": [
+		      	{
+		      	"name": "Nervous System",
+		      	"children": [
+		      		{"name": "Network Model"}
+		      	]
+		      }
+		     ]
+		    }
+		    ]
+		 }
+	 ]
+	}
+ ]
+}

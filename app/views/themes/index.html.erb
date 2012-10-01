@@ -1,3 +1,6 @@
+<p class="title">Explore Open Source Brain</p>
+
+<!--
 <% content_for :header_tags do %>
     <%= auto_discovery_link_tag(:atom, {:action => 'index', :format => 'atom', :key => User.current.rss_key}) %>
 <% end %>
@@ -11,14 +14,14 @@
                   :id => nil } %>
 </div>
 
-<h2>Themes</h2>
+
 
 <p>Themes summarise projects present in the OSB related to specific areas of neuronal modelling, e.g. a particular brain region or a disease state.</p>
 
 <p>Offers of help to curate these are very welcome, as are suggestions for Themes to add. Please <a href="mailto:info@opensourcebrain.org">get in contact</a>.</p>
 
 <p>&nbsp;</p>
-
+-->
 <%= render_theme_hierarchy(@projects)%>
 
 <% if User.current.logged? %>

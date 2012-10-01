@@ -1,4 +1,4 @@
-<h2>What is the Open Source Brain Initiative?</h2>
+<h2>About</h2>
 
 <div class="splitcontentleft">
 
@@ -48,7 +48,7 @@ Please <a href="../account/register">sign up here</a>.</p>
  <p>The following research groups and organizations are involved in the Open Source Brain Initiative:</p>
 
 		<% for group in @groups %>
-            <div class="box">
+            <div class="boxgroup">
 		        <% @group = group %>
 		    
 		        <h4> <a href="<%=  @group.custom_field_values[0] %>"><%=  @group.name %> </a></h4>

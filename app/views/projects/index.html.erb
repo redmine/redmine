@@ -1,3 +1,7 @@
+<%= javascript_include_tag('d3.v2.js') %>
+<%= javascript_include_tag('d3.layout.js') %>
+<p id="jsontree" style="display: none;"><%= createJSONProjectTree(@projects)%><p>
+<!--
 <% content_for :header_tags do %>
     <%= auto_discovery_link_tag(:atom, {:action => 'index', :format => 'atom', :key => User.current.rss_key}) %>
 <% end %>
@@ -11,14 +15,33 @@
                   :id => nil } %>
 </div>
 
+
+
+
 <h2><%=l(:label_project_plural)%></h2>
-
-<p>A list of all the projects in the Open Source Brain repository.</p>
-
 <p>A number of these are available as <a href="embedded/osb">automatically generated descriptions</a> from neuroConstruct projects.</p>
 
 <p><a href="themes">Themes</a> are summaries of the projects present in the OSB for specific areas of neuronal modelling, e.g. related to a particular brain region or disease state.</p>
+-->
+<div id="body"></div>
 
+	
+<%= javascript_include_tag('projectstree.js') %>
+
+	<div id="exploretreebox">
+		<b>Explore Open Source Brain</b> 
+		<p class="smallcaptiononwhite">Click on a node to expand or collapse.</p>
+		<p class="smallcaptiononwhite">Projects are shown in <b class="blue">blue</b>, click on them to open the project page.</p>
+
+		<%= form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
+		<%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
+
+		<%= text_field_tag 'q', @question, :size => 70, :placeholder=>'Search Open Source Brain',:type=>'search', :results=>5, :id => 'smallsearch', :accesskey => accesskey(:quick_search) %>
+		<% end %>
+
+	</div>
+
+<h2>Projects list</h2>	
 <%= render_project_hierarchy(@projects)%>
 
 <% if User.current.logged? %>

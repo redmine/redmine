@@ -1,0 +1,50 @@
+input[type="button"], input[type="submit"] {
+	font-family: sans-serif;
+	display: inline-block;
+	line-height: 1em;
+	padding: 4px 10px;
+/*	margin: 0 .6em 1.5em 0;*/
+	border: 1px solid #4081AF;
+	border-bottom-color: #20559A;
+	color: white !important;
+	text-align: center;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, .3);
+	text-decoration: none !important;
+	-webkit-border-radius: 15px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	background: -moz-linear-gradient( center top, #52A8E8 20%, #2E76CF 100% );
+	background: -webkit-gradient( linear, left top, left bottom, color-stop(.2, #52A8E8), color-stop(1, #2E76CF) );
+	background: -moz-linear-gradient( center top, #52A8E8 20%, #2E76CF 100% );
+	-webkit-box-shadow: inset 0 1px 0 hsla(0,100%,100%,.3) /*Top*/, inset 0 0 2px hsla(0,100%,100%,.3) /*Shine*/, 0 1px 2px hsla(0, 0%, 0%, .29) /*Shadow*/;
+	-moz-box-shadow: inset 0 1px 0 hsla(0,100%,100%,.3) /*Top*/, inset 0 0 2px hsla(0,100%,100%,.3) /*Shine*/, 0 1px 2px hsla(0, 0%, 0%, .29) /*Shadow*/;
+	box-shadow: inset 0 1px 0 hsla(0,100%,100%,.3) /*Top*/, inset 0 0 2px hsla(0,100%,100%,.3) /*Shine*/, 0 1px 2px hsla(0, 0%, 0%, .29) /*Shadow*/;
+/*	font-size: 13px;*/
+}
+
+input[type="button"]:hover, input[type="submit"]:hover {
+	text-decoration: none !important;
+	background: #0073D2;
+	background: -webkit-gradient(
+	 linear,
+	 left top,
+	 left bottom,
+	 color-stop(.2, #3E9EE5),
+	 color-stop(1, #1666CA)
+	 );
+	background: -moz-linear-gradient(
+	 center top,
+	 #3E9EE5 20%,
+	 #1666CA 100%
+	 );
+}
+
+input[type="button"]:active, input[type="submit"]:active {
+	border-color: #20559A;
+	-webkit-box-shadow: inset 0 0 7px hsla(0,0%,0%,.3) /*Shine*/,
+	 0 1px 0 hsla(0, 100%, 100%, 1) /*Shadow*/;
+	-moz-box-shadow: inset 0 0 7px hsla(0,0%,0%,.3) /*Shine*/,
+	 0 1px 0 hsla(0, 100%, 100%, 1) /*Shadow*/;
+	box-shadow: inset 0 0 7px hsla(0,0%,0%,.3) /*Shine*/,
+	 0 1px 0 hsla(0, 100%, 100%, 1) /*Shadow*/;
+}

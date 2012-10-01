@@ -95,7 +95,7 @@ module Redmine
 
       def render_menu_node(node, project=nil)
         if node.children.present? || !node.child_menus.nil?
-          return render_menu_node_with_children(node, project)
+          return render_menu_node_with_children(node, project) 
         else
           caption, url, selected = extract_node_details(node, project)
           return content_tag('li',

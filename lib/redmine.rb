@@ -151,19 +151,21 @@ Redmine::AccessControl.map do |map|
 end
 
 Redmine::MenuManager.map :top_menu do |menu|
-  menu.push :home, :home_path
-  menu.push :my_page, { :controller => 'my', :action => 'page' }, :if => Proc.new { User.current.logged? }
-  menu.push :projects, { :controller => 'projects', :action => 'index' }, :caption => :label_project_plural
-  menu.push :themes, { :controller => 'themes', :action => 'index' }, :caption => 'Themes'
-  menu.push :guides, { :controller => 'guides', :action => 'index' }, :caption => 'Guides'
-  menu.push :administration, { :controller => 'admin', :action => 'index' }, :if => Proc.new { User.current.admin? }, :last => true
-  menu.push :about, { :controller => 'about', :action => 'index' }, :last => true
+  #menu.push :home, :home_path
+  #menu.push :my_page, { :controller => 'my', :action => 'page' }, :if => Proc.new { User.current.logged? }
+  #menu.push :themes, { :controller => 'themes', :action => 'index' }
+  
+  #menu.push :guides, { :controller => 'guides', :action => 'index' }, :caption => 'Guides'
+  
+  #menu.push :about, { :controller => 'about', :action => 'index' }, :last => true
   
 end
 
 Redmine::MenuManager.map :account_menu do |menu|
-  menu.push :login, :signin_path, :if => Proc.new { !User.current.logged? }
-  menu.push :register, { :controller => 'account', :action => 'register' }, :if => Proc.new { !User.current.logged? && Setting.self_registration? }
+  menu.push :register, { :controller => 'account', :action => 'register' }, :if => Proc.new { !User.current.logged? && Setting.self_registration? }, :caption => 'Sign up'
+  menu.push :administration, { :controller => 'admin', :action => 'index' }, :if => Proc.new { User.current.admin? }, :last => true
+  menu.push :projects, { :controller => 'projects', :action => 'index' }, :caption => :label_project_plural, :caption => 'Explore Open Source Brain'
+  menu.push :login, :signin_path, :if => Proc.new { !User.current.logged? }, :caption => 'Sign in'
   menu.push :my_account, { :controller => 'my', :action => 'account' }, :if => Proc.new { User.current.logged? }
   menu.push :logout, :signout_path, :if => Proc.new { User.current.logged? }
 end

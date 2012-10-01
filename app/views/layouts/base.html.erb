@@ -1,89 +1,110 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-<head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title><%=h html_title %></title>
-<meta name="description" content="<%= Redmine::Info.app_name %>" />
-<meta name="keywords" content="issue,bug,tracker" />
-<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
-<%= csrf_meta_tag %>
-<%= favicon %>
-<%= stylesheet_link_tag 'application', :media => 'all' %>
-<%= stylesheet_link_tag 'rtl', :media => 'all' if l(:direction) == 'rtl' %>
-<%= javascript_heads %>
-<%= heads_for_theme %>
-<!--[if IE 6]>
-    <style type="text/css">
-      * html body{ width: expression( document.documentElement.clientWidth < 900 ? '900px' : '100%' ); }
-      body {behavior: url(<%= stylesheet_path "csshover.htc" %>);}
-    </style>
-<![endif]-->
-<%= call_hook :view_layouts_base_html_head %>
-<!-- page specific tags -->
-<%= yield :header_tags -%>
-</head>
-<body class="<%=h body_css_classes %>">
-<div id="wrapper">
-<div id="wrapper2">
-<div id="top-menu">
-    <div id="account">
-        <%= render_menu :account_menu -%>
-    </div>
-    <%= content_tag('div', "#{l(:label_logged_as)} #{link_to_user(User.current, :format => :username)}".html_safe, :id => 'loggedas') if User.current.logged? %>
-    <%= render_menu :top_menu if User.current.logged? || !Setting.login_required? -%>
-</div>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title><%= h html_title %></title>
+		<meta name="description" content="<%= Redmine::Info.app_name %>" />
+		<meta name="keywords" content="issue,bug,tracker" />
 
-<div id="header">
-    <% if User.current.logged? || !Setting.login_required? %>
-    <div id="quick-search">
-        <%= form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
-        <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
-        <label for='q'>
-          <%= link_to l(:label_search), {:controller => 'search', :action => 'index', :id => @project}, :accesskey => accesskey(:search) %>:
-        </label>
-        <%= text_field_tag 'q', @question, :size => 20, :class => 'small', :accesskey => accesskey(:quick_search) %>
-        <% end %>
-        <%= render_project_jump_box %>
-    </div>
-    <% end %>
+		<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
+		<%= csrf_meta_tag %>
+		<%= favicon %>
+		<%= javascript_include_tag('jquery-1.8.2.min.js') %>
+		<%= stylesheet_link_tag 'application', :media => 'all' %>
+		<%= stylesheet_link_tag 'trajanpro', :media => 'all' %>
+		<%= stylesheet_link_tag 'fontleroy', :media => 'all' %>
+		<%= stylesheet_link_tag 'rtl', :media => 'all' if l(:direction) == 'rtl' %>
+		<%= javascript_heads %>
+		<%= heads_for_theme %>
+		<!--[if IE 6]>
+		<style type="text/css">
+		* html body{ width: expression( document.documentElement.clientWidth < 900 ? '900px' : '100%' ); }
+		body {behavior: url(<%= stylesheet_path "csshover.htc" %>);}
+		</style>
+		<![endif]-->
+		<%= call_hook :view_layouts_base_html_head %>
+		<!-- page specific tags -->
+		<%= yield :header_tags -%>
+	</head>
+	<body class="<%= h body_css_classes %>">
+		<div id="wrapper">
+			<div id="wrapper2">
+				<div id="fullheader">
+					<div id="top-menu">
+						<% if User.current.logged? || !Setting.login_required? %>
+						<!--
+						<div id="quick-search">
+						<%= form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
+						<%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
+						<label for='q'> <%= link_to l(:label_search), {:controller => 'search', :action => 'index', :id => @project}, :accesskey => accesskey(:search) %>: </label>
+						<%= text_field_tag 'q', @question, :size => 20, :class => 'small', :accesskey => accesskey(:quick_search) %>
+						<% end %>
+						<%= render_project_jump_box %>
+						</div>
+						-->
+						<% end %>
+						<div id="account">
+							<%= render_menu :account_menu -%>
+						</div>
+						<%= content_tag('div', "#{l(:label_logged_as)} #{link_to_user(User.current, :format => :username)}".html_safe, :id => 'loggedas') if User.current.logged? %>
+						<%= render_menu :top_menu if User.current.logged? || !Setting.login_required? -%>
+					</div>
 
-    <!--<h1><%= page_header_title %></h1>-->
-    
-    <img src="/images/logo.png" style="top-margin: 15px; right-margin: 15px;"/>
-    
-    !--<b>Please note:</b> Website undergoing maintenence & major restructuring prior to launch at CNS 2012...-->
-    
-    <% if display_main_menu?(@project) %>
-    <div id="main-menu">
-        <%= render_main_menu(@project) %>
-    </div>
-    <% end %>
-</div>
+					<div id="header">
 
-<%= tag('div', {:id => 'main', :class => (sidebar_content? ? '' : 'nosidebar')}, true) %>
-    <div id="sidebar">
-        <%= yield :sidebar %>
-        <%= view_layouts_base_sidebar_hook_response %>
-    </div>
+						<!--<h1><%= page_header_title %></h1>-->
+						<a  href="/"> <img src="/images/osblogo.png" id="logo"/> </a>
 
-    <div id="content">
-        <%= render_flash_messages %>
-        <%= yield %>
-        <%= call_hook :view_layouts_base_content %>
-        <div style="clear:both;"></div>
-    </div>
-</div>
+					</div>
+				</div>
+				<!--MC: Uncomment to put back the sidebar
+				<%= tag('div', {:id => 'main', :class => (sidebar_content? ? '' : 'nosidebar')}, true) %>
+				<div id="sidebar">
+				<%= yield :sidebar %>
+				<%= view_layouts_base_sidebar_hook_response %>
+				</div>
+				-->
+				<div id="content">
 
-<div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>
-<div id="ajax-modal" style="display:none;"></div>
+					<% if display_main_menu?(@project) %>
+					<div id="main-menu">
+						<%= render_main_menu(@project) %>
+					</div>
+					<% end %>
 
-<div id="footer">
-  <div class="bgl"><div class="bgr">
-    The Open Source Brain Initiative. Funding provided by the <%= link_to 'Wellcome Trust', 'http://www.wellcome.ac.uk/' %>. Website powered by <%= link_to Redmine::Info.app_name, Redmine::Info.url %>
-  </div></div>
-</div>
-</div>
-</div>
-<%= call_hook :view_layouts_base_body_bottom %>
-</body>
+					<%= render_flash_messages %>
+					<%= yield %>
+					<%= call_hook :view_layouts_base_content %>
+					<div style="clear:both;"></div>
+				</div>
+			</div>
+
+			<div id="ajax-indicator" style="display:none;">
+				<span><%= l(:label_loading) %></span>
+			</div>
+			<div id="ajax-modal" style="display:none;"></div>
+
+			<div id="footer">
+				<div class="bgl">
+
+					<div class="bgr">
+						<div class="wrapcenter">
+							<!-- <div id="ucllogo"></div> -->
+							<a href="http://www.wellcome.ac.uk/"> <div id="wellcomelogo"></div> </a>
+						</div>
+
+					</div>
+
+				</div>
+				<div id="footerlinks">
+					<a href="/about.html">About</a> | <a href="/guides.html">Guides</a>
+				</div>
+				<div id="footerlbl">
+					Open Source Brain &#169; 2012. All rights reserved. Website powered by <%= link_to Redmine::Info.app_name, Redmine::Info.url %>
+				</div>
+			</div>
+		</div>
+		</div>
+		<%= call_hook :view_layouts_base_body_bottom %>
+	</body>
 </html>
