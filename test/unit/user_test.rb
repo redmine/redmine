@@ -34,7 +34,7 @@ class UserTest < ActiveSupport::TestCase
     @dlopper = User.find(3)
   end
 
-  test 'object_daddy creation' do
+  def test_generate
     User.generate!(:firstname => 'Testing connection')
     User.generate!(:firstname => 'Testing connection')
     assert_equal 2, User.count(:all, :conditions => {:firstname => 'Testing connection'})
