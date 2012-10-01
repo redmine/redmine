@@ -417,6 +417,9 @@ class UserTest < ActiveSupport::TestCase
     with_settings :user_format => :username do
       assert_equal 'jsmith', @jsmith.reload.name
     end
+    with_settings :user_format => :lastname do
+      assert_equal 'Smith', @jsmith.reload.name
+    end
   end
 
   def test_today_should_return_the_day_according_to_user_time_zone

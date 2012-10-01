@@ -48,10 +48,15 @@ class User < Principal
         :order => %w(lastname firstname id),
         :setting_order => 4
       },
+    :lastname => {
+        :string => '#{lastname}',
+        :order => %w(lastname id),
+        :setting_order => 5
+      },
     :username => {
         :string => '#{login}',
         :order => %w(login id),
-        :setting_order => 5
+        :setting_order => 6
       },
   }
 
