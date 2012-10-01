@@ -95,7 +95,7 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-  def test_user_login_be_case_insensitive
+  def test_user_login_should_be_case_insensitive
     u = User.new(:firstname => "new", :lastname => "user", :mail => "newuser@somenet.foo")
     u.login = 'newuser'
     u.password, u.password_confirmation = "password", "password"
