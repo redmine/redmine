@@ -86,31 +86,25 @@ class UserTest < ActiveSupport::TestCase
     assert user.save
   end
 
-  context "User#before_create" do
-    should "set the mail_notification to the default Setting" do
-      @user1 = User.generate!
-      assert_equal 'only_my_events', @user1.mail_notification
-
-      with_settings :default_notification_option => 'all' do
-        @user2 = User.generate!
-        assert_equal 'all', @user2.mail_notification
-      end
+  def test_user_before_create_should_set_the_mail_notification_to_the_default_setting
+    @user1 = User.generate!
+    assert_equal 'only_my_events', @user1.mail_notification
+    with_settings :default_notification_option => 'all' do
+      @user2 = User.generate!
+      assert_equal 'all', @user2.mail_notification
     end
   end
 
-  context "User.login" do
-    should "be case-insensitive." do
-      u = User.new(:firstname => "new", :lastname => "user", :mail => "newuser@somenet.foo")
-      u.login = 'newuser'
-      u.password, u.password_confirmation = "password", "password"
-      assert u.save
-
-      u = User.new(:firstname => "Similar", :lastname => "User", :mail => "similaruser@somenet.foo")
-      u.login = 'NewUser'
-      u.password, u.password_confirmation = "password", "password"
-      assert !u.save
-      assert_include I18n.translate('activerecord.errors.messages.taken'), u.errors[:login]
-    end
+  def test_user_login_be_case_insensitive
+    u = User.new(:firstname => "new", :lastname => "user", :mail => "newuser@somenet.foo")
+    u.login = 'newuser'
+    u.password, u.password_confirmation = "password", "password"
+    assert u.save
+    u = User.new(:firstname => "Similar", :lastname => "User", :mail => "similaruser@somenet.foo")
+    u.login = 'NewUser'
+    u.password, u.password_confirmation = "password", "password"
+    assert !u.save
+    assert_include I18n.translate('activerecord.errors.messages.taken'), u.errors[:login]
   end
 
   def test_mail_uniqueness_should_not_be_case_sensitive
