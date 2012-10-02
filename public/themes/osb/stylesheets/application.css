@@ -223,10 +223,10 @@ div#welcome-store-content h4 {
 
 
 a, a:link, a:visited {
-	color: #8A0;
+	color:#596f00 ;
 }
 
-a:hover{color:#9FC701; text-decoration: none;}
+a:hover{color:#8A0; text-decoration: none;}
 
 div.issue {
 	background: #FFD;
