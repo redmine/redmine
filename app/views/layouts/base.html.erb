@@ -25,6 +25,23 @@
 		<%= call_hook :view_layouts_base_html_head %>
 		<!-- page specific tags -->
 		<%= yield :header_tags -%>
+		<!-- Temp Google Analytics for OSB -->
+
+		<script type="text/javascript">
+		
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-29853802-1']);
+		  _gaq.push(['_trackPageview']);
+		
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+		
+		</script>
+
+<!--  OSB -->
 	</head>
 	<body class="<%= h body_css_classes %>">
 		<div id="wrapper">
