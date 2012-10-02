@@ -95,11 +95,11 @@ font-family: 'trajan_proregular', serif;
 #sidebar .contextual { margin-right: 1em; }
 
 #content { 	
-	font-family:"Helvetica", "arial", "freesans", "clean", "sans-serif";
+	font-family:"CabinRegular","Helvetica", "Calibri",  "sans-serif";
 	font-size:14px;
 	margin: 0px; border-right: 1px solid #ddd; padding: 6px 10px 10px 10px; z-index: 10; }
 * html #content{ width: 75%; padding-left: 0; margin-top: 0px; padding: 6px 10px 10px 10px;}
-html>body #content { min-height: 550px; margin:0 auto; padding-top:20px; margin-left:10px; margin-right:10px;}
+html>body #content { min-height: 500px; margin:0 auto; padding-top:20px; margin-left:10px; margin-right:10px;}
 * html body #content { height: 600px; } /* IE */
 
 
@@ -341,8 +341,8 @@ div.square {
 .message .contextual { margin-top: 0; }
 
 .splitcontent {overflow:auto;}
-.splitcontentleft{float:left; width:49%;}
-.splitcontentright{float:right; width:49%;}
+.splitcontentleft{float:left; width:49%; margin-top:10px;}
+.splitcontentright{float:right; width:49%; margin-top:10px;}
 form {display: inline;}
 input, select {  vertical-align: middle; margin-top: 1px; margin-bottom: 1px;}
 input[type="text"]{width:300px;}
@@ -457,7 +457,7 @@ ul.projects.root { margin: 0;  padding: 0; }
 ul.projects ul.projects { border-left: 3px solid #e0e0e0; }
 ul.projects li.root { list-style-type:none; margin-bottom: 1em; }
 ul.projects li.child { list-style-type:none; margin-top: 1em;}
-ul.projects div.root a.project { font-family: "Trebuchet MS", Verdana, sans-serif; font-weight: bold; font-size: 16px; margin: 0 0 10px 0; }
+ul.projects div.root a.project { font-weight: bold; font-size: 18px; margin: 0 0 10px 0; }
 .my-project { padding-left: 18px; background: url(../images/fav.png) no-repeat 0 50%; }
 
 #tracker_project_ids ul { margin: 0;  padding-left: 1em; }
@@ -1217,6 +1217,7 @@ h2 img { vertical-align:middle; }
 
 
 .members{
+	font-family: 'trajan_proregular';
 	margin-top:20px!important;
 }
 
@@ -1240,7 +1241,7 @@ h2 img { vertical-align:middle; }
 
 .treetext
 {
-	fill:#815f01;
+	fill:#2d2100;
 	width:90px;
 	font-size:12px;
 	background:transparent;
@@ -1250,7 +1251,7 @@ h2 img { vertical-align:middle; }
 
 .treetextwide
 {
-	fill:#815f01;
+	fill:#2d2100;
 	width:200px;
 	font-size:12px;
 	background:transparent;
@@ -1317,7 +1318,9 @@ path.link {
 	color:#43ccee;
 }
 
-
+.description{
+	margin-top:10px;
+}
 #explorebutton{
 	float:left;
 	width:370px;
@@ -1382,10 +1385,7 @@ path.link {
 	color:#2d2100; font-size:2.5em; font-style:normal;text-align: center;
 }
 
-.splitcontentleft{
-	font-family:"Helvetica", "arial", "freesans", "clean", "sans-serif";
-	font-size:14px;
-}
+
 
 #welcomepage{
 	font-family: 'trajan_proregular';

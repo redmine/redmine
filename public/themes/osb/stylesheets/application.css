@@ -14,7 +14,7 @@
 }
 
 ul.projects div.root a.project { font-family: 'trajan_proregular', serif; font-size: 16px; color:#37abc8; margin-bottom:10px;}
-
+ul.projects div.root a.project:hover {color:#43ccee; }
 h1, h2, h3, h4 {
 	font-family: 'trajan_proregular', serif; 
 }
@@ -93,7 +93,7 @@ div#content > #add-news > h2,
 div#content > #add-message > h2 , 
 div#content > #add-document > h2 {
 	border:0;
-	color: #8A0;
+	color: #2d2100;
 	text-align:center;
 }
 
@@ -223,10 +223,10 @@ div#welcome-store-content h4 {
 
 
 a, a:link, a:visited {
-	color: #483500;
+	color: #8A0;
 }
 
-a:hover{color:#ff6600; text-decoration: none;}
+a:hover{color:#9FC701; text-decoration: none;}
 
 div.issue {
 	background: #FFD;
