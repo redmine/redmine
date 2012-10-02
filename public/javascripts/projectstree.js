@@ -1,6 +1,6 @@
 var m = [ 20, 10, 20, 50 ], w = 1000 - m[1] - m[3], h = 800 - m[0] - m[2], i = 0, root;
 
-var tree = d3.layout.tree().size([ h, w ]);
+var tree = d3.layout.tree().size([ h, w ]).separation(function(a, b) { return 100; });
 
 var diagonal = d3.svg.diagonal().projection(function(d) {
 	return [ d.x, d.y ];
