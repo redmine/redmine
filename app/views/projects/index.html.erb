@@ -38,10 +38,11 @@
 
 		<%= text_field_tag 'q', @question, :size => 70, :placeholder=>'Search Open Source Brain',:type=>'search', :results=>5, :id => 'smallsearch', :accesskey => accesskey(:quick_search) %>
 		<% end %>
-
 	</div>
+	
+	<p class="smallcaptiononwhite jumplabel"><a href="#projectslist">Jump to Projects list</a></p>
 
-<h2>Projects list</h2>	
+<h2 ><a name="projectslist">Projects list</a></h2>	
 <%= render_project_hierarchy(@projects)%>
 
 <% if User.current.logged? %>

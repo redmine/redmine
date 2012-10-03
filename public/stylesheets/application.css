@@ -1424,8 +1424,8 @@ input[type="submit"]:hover{
 	width:80%;
 }
 
-p.subtitle{color:black; font-size:1.2em; font-style:normal; text-align: center; font-variant: small-caps;}
-p.title{color:#2D2100; font-size:2em; font-style:normal;text-align: center; font-variant: small-caps;}
+p.subtitle{color:black; font-size:1.2em; font-style:normal; text-align: center;}
+p.title{color:#2D2100; font-size:1.7em; font-style:normal;text-align: center; }
 .splitcontent {overflow:auto;}
 .splitcontentleft{font-family:"CabinRegular","Helvetica", "Calibri",  "sans-serif"; float:left; width:49%; margin-top:10px;}
 .splitcontentright{font-family:"CabinRegular","Helvetica", "Calibri",  "sans-serif"; float:right; width:49%; margin-top:10px;}
@@ -1451,4 +1451,12 @@ div.splitcontentleft > #explorebutton {
 
 div.splitcontentright > #quick-search {
 	margin-right:0px;
+}
+
+.jumplabel{
+	font-family: 'trajan_proregular';
+	position: absolute;
+	top: 160px;
+	right: 30px;
+	text-align: right;
 }
