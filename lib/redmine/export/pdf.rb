@@ -495,7 +495,7 @@ module Redmine
       end
 
       # Returns a PDF string of a single issue
-      def issue_to_pdf(issue)
+      def issue_to_pdf(issue, assoc={})
         pdf = ITCPDF.new(current_language)
         pdf.SetTitle("#{issue.project} - #{issue.tracker} ##{issue.id}")
         pdf.alias_nb_pages
@@ -642,31 +642,28 @@ module Redmine
           end
         end
 
-        pdf.SetFontStyle('B',9)
-        pdf.RDMCell(190,5, l(:label_history), "B")
-        pdf.Ln
-        indice = 0
-        for journal in issue.journals.find(
-                          :all, :include => [:user, :details],
-                          :order => "#{Journal.table_name}.created_on ASC")
-          indice = indice + 1
-          pdf.SetFontStyle('B',8)
-          pdf.RDMCell(190,5,
-             "#" + indice.to_s +
-             " - " + format_time(journal.created_on) +
-             " - " + journal.user.name)
+        if assoc[:journals].present?
+          pdf.SetFontStyle('B',9)
+          pdf.RDMCell(190,5, l(:label_history), "B")
           pdf.Ln
-          pdf.SetFontStyle('I',8)
-          details_to_strings(journal.details, true).each do |string|
-            pdf.RDMMultiCell(190,5, "- " + string)
+          assoc[:journals].each do |journal|
+            pdf.SetFontStyle('B',8)
+            title = "##{journal.indice} - #{format_time(journal.created_on)} - #{journal.user}"
+            title << " (#{l(:field_private_notes)})" if journal.private_notes?
+            pdf.RDMCell(190,5, title)
+            pdf.Ln
+            pdf.SetFontStyle('I',8)
+            details_to_strings(journal.details, true).each do |string|
+              pdf.RDMMultiCell(190,5, "- " + string)
+            end
+            if journal.notes?
+              pdf.Ln unless journal.details.empty?
+              pdf.SetFontStyle('',8)
+              pdf.RDMwriteHTMLCell(190,5,0,0,
+                    journal.notes.to_s, issue.attachments, "")
+            end
+            pdf.Ln
           end
-          if journal.notes?
-            pdf.Ln unless journal.details.empty?
-            pdf.SetFontStyle('',8)
-            pdf.RDMwriteHTMLCell(190,5,0,0,
-                  journal.notes.to_s, issue.attachments, "")
-          end
-          pdf.Ln
         end
 
         if issue.attachments.any?

@@ -904,7 +904,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_tag 'select', :attributes => {:name => 'issue[done_ratio]'}
     assert_tag 'input', :attributes => { :name => 'issue[custom_field_values][2]' }
     assert_no_tag 'input', :attributes => {:name => 'issue[watcher_user_ids][]'}
-    assert_tag 'textarea', :attributes => {:name => 'notes'}
+    assert_tag 'textarea', :attributes => {:name => 'issue[notes]'}
   end
 
   def test_show_should_display_update_form_with_minimal_permissions
@@ -932,7 +932,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_no_tag 'select', :attributes => {:name => 'issue[done_ratio]'}
     assert_no_tag 'input', :attributes => { :name => 'issue[custom_field_values][2]' }
     assert_no_tag 'input', :attributes => {:name => 'issue[watcher_user_ids][]'}
-    assert_tag 'textarea', :attributes => {:name => 'notes'}
+    assert_tag 'textarea', :attributes => {:name => 'issue[notes]'}
   end
 
   def test_show_should_display_update_form_with_workflow_permissions
@@ -959,7 +959,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_tag 'select', :attributes => {:name => 'issue[done_ratio]'}
     assert_no_tag 'input', :attributes => { :name => 'issue[custom_field_values][2]' }
     assert_no_tag 'input', :attributes => {:name => 'issue[watcher_user_ids][]'}
-    assert_tag 'textarea', :attributes => {:name => 'notes'}
+    assert_tag 'textarea', :attributes => {:name => 'issue[notes]'}
   end
 
   def test_show_should_not_display_update_form_without_permissions
@@ -1319,6 +1319,20 @@ class IssuesControllerTest < ActionController::TestCase
 
     # TODO: should display links
     assert_tag :td, :content => 'Dave Lopper, John Smith'
+  end
+
+  def test_show_should_display_private_notes_with_permission_only
+    journal = Journal.create!(:journalized => Issue.find(2), :notes => 'Privates notes', :private_notes => true, :user_id => 1)
+    @request.session[:user_id] = 2
+
+    get :show, :id => 2
+    assert_response :success
+    assert_include journal, assigns(:journals)
+
+    Role.find(1).remove_permission! :view_private_notes
+    get :show, :id => 2
+    assert_response :success
+    assert_not_include journal, assigns(:journals)
   end
 
   def test_show_atom
@@ -2178,14 +2192,14 @@ class IssuesControllerTest < ActionController::TestCase
     context "#update" do
       should "ignore status change" do
         assert_difference 'Journal.count' do
-          put :update, :id => 1, :notes => 'just trying', :issue => {:status_id => 3}
+          put :update, :id => 1, :issue => {:status_id => 3, :notes => 'just trying'}
         end
         assert_equal 1, Issue.find(1).status_id
       end
 
       should "ignore attributes changes" do
         assert_difference 'Journal.count' do
-          put :update, :id => 1, :notes => 'just trying', :issue => {:subject => 'changed', :assigned_to_id => 2}
+          put :update, :id => 1, :issue => {:subject => 'changed', :assigned_to_id => 2, :notes => 'just trying'}
         end
         issue = Issue.find(1)
         assert_equal "Can't print recipes", issue.subject
@@ -2205,21 +2219,21 @@ class IssuesControllerTest < ActionController::TestCase
     context "#update" do
       should "accept authorized status" do
         assert_difference 'Journal.count' do
-          put :update, :id => 1, :notes => 'just trying', :issue => {:status_id => 3}
+          put :update, :id => 1, :issue => {:status_id => 3, :notes => 'just trying'}
         end
         assert_equal 3, Issue.find(1).status_id
       end
 
       should "ignore unauthorized status" do
         assert_difference 'Journal.count' do
-          put :update, :id => 1, :notes => 'just trying', :issue => {:status_id => 2}
+          put :update, :id => 1, :issue => {:status_id => 2, :notes => 'just trying'}
         end
         assert_equal 1, Issue.find(1).status_id
       end
 
       should "accept authorized attributes changes" do
         assert_difference 'Journal.count' do
-          put :update, :id => 1, :notes => 'just trying', :issue => {:assigned_to_id => 2}
+          put :update, :id => 1, :issue => {:assigned_to_id => 2, :notes => 'just trying'}
         end
         issue = Issue.find(1)
         assert_equal 2, issue.assigned_to_id
@@ -2227,7 +2241,7 @@ class IssuesControllerTest < ActionController::TestCase
 
       should "ignore unauthorized attributes changes" do
         assert_difference 'Journal.count' do
-          put :update, :id => 1, :notes => 'just trying', :issue => {:subject => 'changed'}
+          put :update, :id => 1, :issue => {:subject => 'changed', :notes => 'just trying'}
         end
         issue = Issue.find(1)
         assert_equal "Can't print recipes", issue.subject
@@ -2241,21 +2255,21 @@ class IssuesControllerTest < ActionController::TestCase
 
       should "accept authorized status" do
         assert_difference 'Journal.count' do
-          put :update, :id => 1, :notes => 'just trying', :issue => {:status_id => 3}
+          put :update, :id => 1, :issue => {:status_id => 3, :notes => 'just trying'}
         end
         assert_equal 3, Issue.find(1).status_id
       end
 
       should "ignore unauthorized status" do
         assert_difference 'Journal.count' do
-          put :update, :id => 1, :notes => 'just trying', :issue => {:status_id => 2}
+          put :update, :id => 1, :issue => {:status_id => 2, :notes => 'just trying'}
         end
         assert_equal 1, Issue.find(1).status_id
       end
 
       should "accept authorized attributes changes" do
         assert_difference 'Journal.count' do
-          put :update, :id => 1, :notes => 'just trying', :issue => {:subject => 'changed', :assigned_to_id => 2}
+          put :update, :id => 1, :issue => {:subject => 'changed', :assigned_to_id => 2, :notes => 'just trying'}
         end
         issue = Issue.find(1)
         assert_equal "changed", issue.subject
@@ -2750,8 +2764,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_difference('TimeEntry.count', 0) do
       put :update,
            :id => 1,
-           :issue => { :status_id => 2, :assigned_to_id => 3 },
-           :notes => 'Assigned to dlopper',
+           :issue => { :status_id => 2, :assigned_to_id => 3, :notes => 'Assigned to dlopper' },
            :time_entry => { :hours => '', :comments => '', :activity_id => TimeEntryActivity.first }
     end
     assert_redirected_to :action => 'show', :id => '1'
@@ -2772,7 +2785,7 @@ class IssuesControllerTest < ActionController::TestCase
     # anonymous user
     put :update,
          :id => 1,
-         :notes => notes
+         :issue => { :notes => notes }
     assert_redirected_to :action => 'show', :id => '1'
     j = Journal.find(:first, :order => 'id DESC')
     assert_equal notes, j.notes
@@ -2783,13 +2796,47 @@ class IssuesControllerTest < ActionController::TestCase
     assert_mail_body_match notes, mail
   end
 
+  def test_put_update_with_private_note_only
+    notes = 'Private note'
+    @request.session[:user_id] = 2
+
+    assert_difference 'Journal.count' do
+      put :update, :id => 1, :issue => {:notes => notes, :private_notes => '1'}
+      assert_redirected_to :action => 'show', :id => '1'
+    end
+
+    j = Journal.order('id DESC').first
+    assert_equal notes, j.notes
+    assert_equal true, j.private_notes
+  end
+
+  def test_put_update_with_private_note_and_changes
+    notes = 'Private note'
+    @request.session[:user_id] = 2
+
+    assert_difference 'Journal.count', 2 do
+      put :update, :id => 1, :issue => {:subject => 'New subject', :notes => notes, :private_notes => '1'}
+      assert_redirected_to :action => 'show', :id => '1'
+    end
+
+    j = Journal.order('id DESC').first
+    assert_equal notes, j.notes
+    assert_equal true, j.private_notes
+    assert_equal 0, j.details.count
+
+    j = Journal.order('id DESC').offset(1).first
+    assert_nil j.notes
+    assert_equal false, j.private_notes
+    assert_equal 1, j.details.count
+  end
+
   def test_put_update_with_note_and_spent_time
     @request.session[:user_id] = 2
     spent_hours_before = Issue.find(1).spent_hours
     assert_difference('TimeEntry.count') do
       put :update,
            :id => 1,
-           :notes => '2.5 hours added',
+           :issue => { :notes => '2.5 hours added' },
            :time_entry => { :hours => '2.5', :comments => 'test_put_update_with_note_and_spent_time', :activity_id => TimeEntryActivity.first.id }
     end
     assert_redirected_to :action => 'show', :id => '1'
@@ -2816,7 +2863,7 @@ class IssuesControllerTest < ActionController::TestCase
     # anonymous user
     assert_difference 'Attachment.count' do
       put :update, :id => 1,
-        :notes => '',
+        :issue => {:notes => ''},
         :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain'), 'description' => 'test file'}}
     end
 
@@ -2892,7 +2939,7 @@ class IssuesControllerTest < ActionController::TestCase
       assert_difference 'JournalDetail.count' do
         assert_no_difference 'Attachment.count' do
           put :update, :id => 1,
-            :notes => 'Attachment added',
+            :issue => {:notes => 'Attachment added'},
             :attachments => {'p0' => {'token' => attachment.token}}
           assert_redirected_to '/issues/1'
         end
@@ -2920,7 +2967,7 @@ class IssuesControllerTest < ActionController::TestCase
     # anonymous user
     put :update,
          :id => 1,
-         :notes => '',
+         :issue => {:notes => ''},
          :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
     assert_redirected_to :action => 'show', :id => '1'
     assert_equal '1 file(s) could not be saved.', flash[:warning]
@@ -2933,7 +2980,7 @@ class IssuesControllerTest < ActionController::TestCase
 
     put :update,
          :id => 1,
-         :notes => ''
+         :issue => {:notes => ''}
     assert_redirected_to :action => 'show', :id => '1'
 
     issue.reload
@@ -2963,14 +3010,14 @@ class IssuesControllerTest < ActionController::TestCase
     assert_no_difference('Journal.count') do
       put :update,
            :id => 1,
-           :notes => notes,
+           :issue => {:notes => notes},
            :time_entry => {"comments"=>"", "activity_id"=>"", "hours"=>"2z"}
     end
     assert_response :success
     assert_template 'edit'
 
     assert_error_tag :descendant => {:content => /Activity can&#x27;t be blank/}
-    assert_tag :textarea, :attributes => { :name => 'notes' }, :content => "\n"+notes
+    assert_tag :textarea, :attributes => { :name => 'issue[notes]' }, :content => "\n"+notes
     assert_tag :input, :attributes => { :name => 'time_entry[hours]', :value => "2z" }
   end
 
@@ -2981,7 +3028,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_no_difference('Journal.count') do
       put :update,
            :id => 1,
-           :notes => notes,
+           :issue => {:notes => notes},
            :time_entry => {"comments"=>"this is my comment", "activity_id"=>"", "hours"=>""}
     end
     assert_response :success
@@ -2989,7 +3036,7 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_error_tag :descendant => {:content => /Activity can&#x27;t be blank/}
     assert_error_tag :descendant => {:content => /Hours can&#x27;t be blank/}
-    assert_tag :textarea, :attributes => { :name => 'notes' }, :content => "\n"+notes
+    assert_tag :textarea, :attributes => { :name => 'issue[notes]' }, :content => "\n"+notes
     assert_tag :input, :attributes => { :name => 'time_entry[comments]', :value => "this is my comment" }
   end
 

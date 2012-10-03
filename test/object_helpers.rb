@@ -90,6 +90,15 @@ module ObjectHelpers
     issue.reload
   end
 
+  def Journal.generate!(attributes={})
+    journal = Journal.new(attributes)
+    journal.user ||= User.first
+    journal.journalized ||= Issue.first
+    yield journal if block_given?
+    journal.save!
+    journal
+  end
+
   def Version.generate!(attributes={})
     @generated_version_name ||= 'Version 0'
     @generated_version_name.succ!

@@ -358,6 +358,8 @@ div#issue-changesets div.changeset { border-bottom: 1px solid #ddd; }
 div#issue-changesets p { margin-top: 0; margin-bottom: 1em;}
 
 .journal ul.details img {margin:0 0 -3px 4px;}
+div.journal {overflow:auto;}
+div.journal.private-notes {border-left:2px solid #d22; padding-left:4px; margin-left:-6px;}
 
 div#activity dl, #search-results { margin-left: 2em; }
 div#activity dd, #search-results dd { margin-bottom: 1em; padding-left: 18px; font-size: 0.9em; }

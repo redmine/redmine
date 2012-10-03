@@ -58,6 +58,39 @@ class SearchControllerTest < ActionController::TestCase
                     :child => { :tag => 'a',  :content => /Closed/ }
   end
 
+  def test_search_issues_should_search_notes
+    Journal.create!(:journalized => Issue.find(2), :notes => 'Issue notes with searchkeyword')
+
+    get :index, :q => 'searchkeyword', :issues => 1
+    assert_response :success
+    assert_include Issue.find(2), assigns(:results)
+  end
+
+  def test_search_issues_with_multiple_matches_in_journals_should_return_issue_once
+    Journal.create!(:journalized => Issue.find(2), :notes => 'Issue notes with searchkeyword')
+    Journal.create!(:journalized => Issue.find(2), :notes => 'Issue notes with searchkeyword')
+
+    get :index, :q => 'searchkeyword', :issues => 1
+    assert_response :success
+    assert_include Issue.find(2), assigns(:results)
+    assert_equal 1, assigns(:results).size
+  end
+
+  def test_search_issues_should_search_private_notes_with_permission_only
+    Journal.create!(:journalized => Issue.find(2), :notes => 'Private notes with searchkeyword', :private_notes => true)
+    @request.session[:user_id] = 2
+
+    Role.find(1).add_permission! :view_private_notes
+    get :index, :q => 'searchkeyword', :issues => 1
+    assert_response :success
+    assert_include Issue.find(2), assigns(:results)
+
+    Role.find(1).remove_permission! :view_private_notes
+    get :index, :q => 'searchkeyword', :issues => 1
+    assert_response :success
+    assert_not_include Issue.find(2), assigns(:results)
+  end
+
   def test_search_all_projects_with_scope_param
     get :index, :q => 'issue', :scope => 'all'
     assert_response :success

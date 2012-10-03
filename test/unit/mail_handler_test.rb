@@ -435,6 +435,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal User.find_by_login('jsmith'), journal.user
     assert_equal Issue.find(2), journal.journalized
     assert_match /This is reply/, journal.notes
+    assert_equal false, journal.private_notes
     assert_equal 'Feature request', journal.issue.tracker.name
   end
 
@@ -494,6 +495,20 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_match /This is reply/, journal.notes
     assert_equal 'Feature request', journal.issue.tracker.name
     assert_equal 'Normal', journal.issue.priority.name
+  end
+
+  def test_replying_to_a_private_note_should_add_reply_as_private
+    private_journal = Journal.create!(:notes => 'Private notes', :journalized => Issue.find(1), :private_notes => true, :user_id => 2)
+
+    assert_difference 'Journal.count' do
+      journal = submit_email('ticket_reply.eml') do |email|
+        email.sub! %r{^In-Reply-To:.*$}, "In-Reply-To: <redmine.journal-#{private_journal.id}.20060719210421@osiris>"
+      end
+
+      assert_kind_of Journal, journal
+      assert_match /This is reply/, journal.notes
+      assert_equal true, journal.private_notes
+    end
   end
 
   def test_reply_to_a_message

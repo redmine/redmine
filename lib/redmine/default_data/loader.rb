@@ -53,6 +53,8 @@ module Redmine
                                                       :view_issues,
                                                       :add_issues,
                                                       :edit_issues,
+                                                      :view_private_notes,
+                                                      :set_notes_private,
                                                       :manage_issue_relations,
                                                       :manage_subtasks,
                                                       :add_issue_notes,

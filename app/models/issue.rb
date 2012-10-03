@@ -28,6 +28,14 @@ class Issue < ActiveRecord::Base
   belongs_to :category, :class_name => 'IssueCategory', :foreign_key => 'category_id'
 
   has_many :journals, :as => :journalized, :dependent => :destroy
+  has_many :visible_journals,
+    :class_name => 'Journal',
+    :as => :journalized,
+    :conditions => Proc.new { 
+      ["(#{Journal.table_name}.private_notes = ? OR (#{Project.allowed_to_condition(User.current, :view_private_notes)}))", false]
+    },
+    :readonly => true
+
   has_many :time_entries, :dependent => :delete_all
   has_and_belongs_to_many :changesets, :order => "#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC"
 
@@ -39,7 +47,7 @@ class Issue < ActiveRecord::Base
   acts_as_customizable
   acts_as_watchable
   acts_as_searchable :columns => ['subject', "#{table_name}.description", "#{Journal.table_name}.notes"],
-                     :include => [:project, :journals],
+                     :include => [:project, :visible_journals],
                      # sort by id so that limited eager loading doesn't break with postgresql
                      :order_column => "#{table_name}.id"
   acts_as_event :title => Proc.new {|o| "#{o.tracker.name} ##{o.id} (#{o.status}): #{o.subject}"},
@@ -52,6 +60,7 @@ class Issue < ActiveRecord::Base
   DONE_RATIO_OPTIONS = %w(issue_field issue_status)
 
   attr_reader :current_journal
+  delegate :notes, :notes=, :private_notes, :private_notes=, :to => :current_journal, :allow_nil => true
 
   validates_presence_of :subject, :priority, :project, :tracker, :author, :status
 
@@ -335,6 +344,7 @@ class Issue < ActiveRecord::Base
     'custom_field_values',
     'custom_fields',
     'lock_version',
+    'notes',
     :if => lambda {|issue, user| issue.new_record? || user.allowed_to?(:edit_issues, issue.project) }
 
   safe_attributes 'status_id',
@@ -342,7 +352,14 @@ class Issue < ActiveRecord::Base
     'fixed_version_id',
     'done_ratio',
     'lock_version',
+    'notes',
     :if => lambda {|issue, user| issue.new_statuses_allowed_to(user).any? }
+
+  safe_attributes 'notes',
+    :if => lambda {|issue, user| user.allowed_to?(:add_issue_notes, issue.project)}
+
+  safe_attributes 'private_notes',
+    :if => lambda {|issue, user| !issue.new_record? && user.allowed_to?(:set_notes_private, issue.project)} 
 
   safe_attributes 'watcher_user_ids',
     :if => lambda {|issue, user| issue.new_record? && user.allowed_to?(:add_issue_watchers, issue.project)} 
@@ -715,8 +732,8 @@ class Issue < ActiveRecord::Base
     end
   end
 
-  # Returns the mail adresses of users that should be notified
-  def recipients
+  # Returns the users that should be notified
+  def notified_users
     notified = []
     # Author and assignee are always notified unless they have been
     # locked or don't want to be notified
@@ -733,7 +750,12 @@ class Issue < ActiveRecord::Base
     notified.uniq!
     # Remove users that can not view the issue
     notified.reject! {|user| !visible?(user)}
-    notified.collect(&:mail)
+    notified
+  end
+
+  # Returns the email addresses that should be notified
+  def recipients
+    notified_users.collect(&:mail)
   end
 
   # Returns the number of hours spent on this issue

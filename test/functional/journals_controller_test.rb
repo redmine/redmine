@@ -39,6 +39,20 @@ class JournalsControllerTest < ActionController::TestCase
     assert_equal 'application/atom+xml', @response.content_type
   end
 
+  def test_index_should_return_privates_notes_with_permission_only
+    journal = Journal.create!(:journalized => Issue.find(2), :notes => 'Privates notes', :private_notes => true, :user_id => 1)
+    @request.session[:user_id] = 2
+
+    get :index, :project_id => 1
+    assert_response :success
+    assert_include journal, assigns(:journals)
+
+    Role.find(1).remove_permission! :view_private_notes
+    get :index, :project_id => 1
+    assert_response :success
+    assert_not_include journal, assigns(:journals)
+  end
+
   def test_diff
     get :diff, :id => 3, :detail_id => 4
     assert_response :success
@@ -76,6 +90,21 @@ class JournalsControllerTest < ActionController::TestCase
     assert_include '> A comment with a private version', response.body
   end
 
+  def test_reply_to_private_note_should_fail_without_permission
+    journal = Journal.create!(:journalized => Issue.find(2), :notes => 'Privates notes', :private_notes => true)
+    @request.session[:user_id] = 2
+
+    xhr :get, :new, :id => 2, :journal_id => journal.id
+    assert_response :success
+    assert_template 'new'
+    assert_equal 'text/javascript', response.content_type
+    assert_include '> Privates notes', response.body
+
+    Role.find(1).remove_permission! :view_private_notes
+    xhr :get, :new, :id => 2, :journal_id => journal.id
+    assert_response 404
+  end
+
   def test_edit_xhr
     @request.session[:user_id] = 1
     xhr :get, :edit, :id => 2
@@ -83,6 +112,22 @@ class JournalsControllerTest < ActionController::TestCase
     assert_template 'edit'
     assert_equal 'text/javascript', response.content_type
     assert_include 'textarea', response.body
+  end
+
+  def test_edit_private_note_should_fail_without_permission
+    journal = Journal.create!(:journalized => Issue.find(2), :notes => 'Privates notes', :private_notes => true)
+    @request.session[:user_id] = 2
+    Role.find(1).add_permission! :edit_issue_notes
+
+    xhr :get, :edit, :id => journal.id
+    assert_response :success
+    assert_template 'edit'
+    assert_equal 'text/javascript', response.content_type
+    assert_include 'textarea', response.body
+
+    Role.find(1).remove_permission! :view_private_notes
+    xhr :get, :edit, :id => journal.id
+    assert_response 404
   end
 
   def test_update_xhr
