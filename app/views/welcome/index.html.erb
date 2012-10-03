@@ -20,8 +20,9 @@
 			</div>
 	<% else %>
 
-
+		<h2>Welcome back <%= User.current.firstname %> </h2>
 		<div class="splitcontentleft">
+			<div id="explorebutton" onclick="location.href='/projects';">Explore Open Source Brain</div>
 			<div class="news box">
 			<h3><%= l(:label_news_latest)%></h3>
 			<% if @news.any? %>
@@ -33,9 +34,15 @@
 			
 		<div class="splitcontentright">
 			
-			<div class="issues box">
-				<h3>Your activities</h3>
-				<% unless @events_by_day.empty? %>
+			<div id="quick-search">
+				<%= form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
+					<%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
+					<%= text_field_tag 'q', @question, :size => 70, :placeholder=>'Search Open Source Brain',:type=>'search', :results=>5, :class => 'large', :accesskey => accesskey(:quick_search) %>
+				<% end %>
+			</div>
+			
+			<% unless @events_by_day.empty? %>
+				<div class="issues box">
 					<h3><%= link_to l(:label_activity), :controller => 'activities', :action => 'index', :id => nil, :user_id => @user, :from => @events_by_day.keys.first %></h3>
 					<p><%=l(:label_reported_issues)%>: <%= Issue.count(:conditions => ["author_id=?", @user.id]) %></p>
 					<div id="activity">
@@ -52,9 +59,9 @@
 							</dl>
 						<% end -%>
 					</div>
-				<% end %>
-			</div>
-			
+				</div>
+			<% end %>
+
 			<div class="projects box">
 			<h3>Your projects</h3>
 			<% if @projects.any? %>

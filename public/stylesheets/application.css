@@ -1429,3 +1429,26 @@ p.title{color:#2D2100; font-size:2em; font-style:normal;text-align: center; font
 .splitcontent {overflow:auto;}
 .splitcontentleft{font-family:"CabinRegular","Helvetica", "Calibri",  "sans-serif"; float:left; width:49%; margin-top:10px;}
 .splitcontentright{font-family:"CabinRegular","Helvetica", "Calibri",  "sans-serif"; float:right; width:49%; margin-top:10px;}
+div#welcomepage > h2 {
+	border:0;
+	color: #8A0;
+	text-align:center;
+}
+
+
+div.splitcontentleft > #explorebutton {
+	font-family: 'trajan_proregular';
+	float:none;
+	width:250px;
+	height:20px;
+	font-size:13px;
+	font-weight:400;
+	border-width:2px;
+	margin-top:0px;
+	margin-left:0;
+	margin-bottom:25px;
+}
+
+div.splitcontentright > #quick-search {
+	margin-right:0px;
+}

@@ -44,7 +44,7 @@
 <%=l(:label_reported_issues)%>: <%= Issue.count(:conditions => ["author_id=?", @user.id]) %>
 </p>
 
-<div id="activity">
+<!--<div id="activity">
 <% @events_by_day.keys.sort.reverse.each do |day| %>
 <h4><%= format_activity_day(day) %></h4>
 <dl>
@@ -57,7 +57,7 @@
 <% end -%>
 </dl>
 <% end -%>
-</div>
+</div>-->
 
 <% other_formats_links do |f| %>
   <%= f.link_to 'Atom', :url => {:controller => 'activities', :action => 'index', :id => nil, :user_id => @user, :key => User.current.rss_key} %>
