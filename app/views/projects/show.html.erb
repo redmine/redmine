@@ -8,6 +8,7 @@
 
 <div class="splitcontentleft">
 
+	<!-- 
 	<% unless @project.homepage.blank? %>
 	    <% if h(@project.homepage).starts_with? 'http://opensourcebrain.org/embedded' or h(@project.homepage).starts_with? 'http://www.opensourcebrain.org/embedded'%>
 	        <p><a href="<%= @project.homepage %>"> <img alt="Project description" border="0" src="<%= @project.homepage %>/images/small.png"/> </a></p>
@@ -16,7 +17,7 @@
 	        <p>More information: <a href="<%= @project.homepage %>"><%= @project.homepage %></a></p>
         <% end %>
 	<% end %>
-	
+	-->
   <div class="wiki">
     <%= textilizable @project.description %>
   </div>
