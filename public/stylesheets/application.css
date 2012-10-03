@@ -1460,3 +1460,13 @@ div.splitcontentright > #quick-search {
 	right: 30px;
 	text-align: right;
 }
+
+#beta{
+	position:absolute;
+	font-variant:normal;
+	top:60px;
+	left:180px;
+	color:rgba(255,255,255,0.5);
+	font-size:35px;
+	font-family:"FontleroyBrownRegular";
+}
