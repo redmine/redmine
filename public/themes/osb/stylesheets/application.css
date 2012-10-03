@@ -261,8 +261,8 @@ h2, h3, .wiki h1, .wiki h2, .wiki h3 {border-bottom: 0px;}
 
 /* Menu */
 #main-menu li a { color:#483500; font-weight: bold;}
-#main-menu li a:hover { color:#e09904; }
-/*#main-menu li a.selected, #main-menu li a.selected:hover { background-color:#EEEEEE; }*/
+#main-menu li a:hover { color:#F60; }
+
 #main-menu ul { margin-top: 7px; padding-left: 15px;}
 
 /* Tables */
