@@ -48,7 +48,7 @@
 			<div id="wrapper2">
 				<div id="fullheader">
 					<div id="top-menu">
-						<p id="beta">Beta</p>
+	
 						<% if User.current.logged? || !Setting.login_required? %>
 						<!--
 						<div id="quick-search">
@@ -71,7 +71,13 @@
 					<div id="header">
 
 						<!--<h1><%= page_header_title %></h1>-->
-						<a  href="/"> <img src="/images/osblogo.png" id="logo"/> </a>
+						<a  href="/">
+							 <img src="/images/osblogo.png" id="logo"/>
+							<p id="open" class="logofont">OPEN</p>
+							<p id="source" class="logofont">SOURCE</p>
+							<p id="brain" class="logofont">BRAIN</p>
+							<p id="beta">Beta</p>
+							  </a>
 
 					</div>
 				</div>
