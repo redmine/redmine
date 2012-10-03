@@ -340,9 +340,7 @@ div.square {
 .contextual input, .contextual select {font-size:0.9em;}
 .message .contextual { margin-top: 0; }
 
-.splitcontent {overflow:auto;}
-.splitcontentleft{float:left; width:49%; margin-top:10px;}
-.splitcontentright{float:right; width:49%; margin-top:10px;}
+
 form {display: inline;}
 input, select {  vertical-align: middle; margin-top: 1px; margin-bottom: 1px;}
 input[type="text"]{width:300px;}
@@ -1428,3 +1426,6 @@ input[type="submit"]:hover{
 
 p.subtitle{color:black; font-size:1.2em; font-style:normal; text-align: center; font-variant: small-caps;}
 p.title{color:#2D2100; font-size:2em; font-style:normal;text-align: center; font-variant: small-caps;}
+.splitcontent {overflow:auto;}
+.splitcontentleft{font-family:"CabinRegular","Helvetica", "Calibri",  "sans-serif"; float:left; width:49%; margin-top:10px;}
+.splitcontentright{font-family:"CabinRegular","Helvetica", "Calibri",  "sans-serif"; float:right; width:49%; margin-top:10px;}

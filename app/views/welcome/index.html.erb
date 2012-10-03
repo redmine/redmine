@@ -1,90 +1,82 @@
-
-<%= stylesheet_link_tag 'smoothDivScroll', :media => 'all' %>
-
-<%= javascript_include_tag('jquery-ui-1.8.23.custom.min.js') %>
-<%= javascript_include_tag('jquery.mousewheel.min.js') %>
-<%= javascript_include_tag('jquery.kinetic.js') %>
-<%= javascript_include_tag('jquery.smoothdivscroll-1.3-min.js') %>
-<%= javascript_include_tag('home.js') %>
 <div id="welcomepage">
 
-	<p class="title">
-		<b>Open Source Brain</b> is a resource for sharing and collaborately developing  computational models of neural systems. 
-		
-	</p>
+	<% if not User.current.logged? %>
+		<p class="title"><b>Open Source Brain</b> is a resource for sharing and collaborately developing  computational models of neural systems.</p>
 	
-	<div id="quick-search">
-		<%= form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
-		<%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
+		<div id="quick-search">
+			<%= form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
+				<%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
+				<%= text_field_tag 'q', @question, :size => 70, :placeholder=>'Search Open Source Brain',:type=>'search', :results=>5, :class => 'large', :accesskey => accesskey(:quick_search) %>
+			<% end %>
+		</div>
 
-		<%= text_field_tag 'q', @question, :size => 70, :placeholder=>'Search Open Source Brain',:type=>'search', :results=>5, :class => 'large', :accesskey => accesskey(:quick_search) %>
-		<% end %>
-
-	</div>
-	<div>
-
-		<div id="osblogo"></div>
-		<div id="mainbuttons">
-			<div id="explorebutton" onclick="location.href='/projects';">
-				Explore 
-				Open Source Brain
-			</div>
-			<div id="signupbutton" class="register" onclick="location.href='/account/register';">
-				Sign up
-				<div class="smallcaption">
-					Share, Validate and Collaborate on your models
+		<div>
+			<div id="osblogo"></div>
+			<div id="mainbuttons">
+				<div id="explorebutton" onclick="location.href='/projects';">Explore Open Source Brain</div>
+				<div id="signupbutton" class="register" onclick="location.href='/account/register';">Sign up
+					<div class="smallcaption">Share, Validate and Collaborate on your models</div>
 				</div>
 			</div>
-		</div>
-		<!--
-		<div>
-			<p class="subtitle">
-				Free model sharing, research group management, generated 3d visualization, data export and more...
-			</p>
-			<div id="groups">
-				<a href="http://www.ncbs.res.in/bhalla">Bhalla Lab<a>, <a href="http://krasnow1.gmu.edu/CENlab/index.html">Blackwell Lab<a>, <a href="http://homepages.feis.herts.ac.uk/~comqvs/">Steuber Lab<a>, <a href="http://www.openworm.org">OpenWorm<a>, <a href="http://stat.asu.edu/~crook/">Crook Lab</a><a href="http://www.ncbs.res.in/bhalla">Bhalla Lab<a>, <a href="http://krasnow1.gmu.edu/CENlab/index.html">Blackwell Lab<a>, <a href="http://homepages.feis.herts.ac.uk/~comqvs/">Steuber Lab<a>, <a href="http://www.openworm.org">OpenWorm<a>, <a href="http://stat.asu.edu/~crook/">Crook Lab</a><a href="http://www.ncbs.res.in/bhalla">Bhalla Lab<a>, <a href="http://krasnow1.gmu.edu/CENlab/index.html">Blackwell Lab<a>, <a href="http://homepages.feis.herts.ac.uk/~comqvs/">Steuber Lab<a>, <a href="http://www.openworm.org">OpenWorm<a>, <a href="http://stat.asu.edu/~crook/">Crook Lab</a>
+	<% else %>
+
+
+		<div class="splitcontentleft">
+			<div class="news box">
+			<h3><%= l(:label_news_latest)%></h3>
+			<% if @news.any? %>
+				<%= render :partial => 'news/news', :collection => @news %>
+				<%= link_to l(:label_news_view_all), :controller => 'news' %>
+			<% end %>
 			</div>
 		</div>
-		-->
-	</div>
-	<!--<h2><%= l(:label_home) %></h2>
+			
+		<div class="splitcontentright">
+			
+			<div class="issues box">
+				<h3>Your activities</h3>
+				<% unless @events_by_day.empty? %>
+					<h3><%= link_to l(:label_activity), :controller => 'activities', :action => 'index', :id => nil, :user_id => @user, :from => @events_by_day.keys.first %></h3>
+					<p><%=l(:label_reported_issues)%>: <%= Issue.count(:conditions => ["author_id=?", @user.id]) %></p>
+					<div id="activity">
+						<% @events_by_day.keys.sort.reverse.each do |day| %>
+							<h4><%= format_activity_day(day) %></h4>
+							<dl>
+							<% @events_by_day[day].sort {|x,y| y.event_datetime <=> x.event_datetime }.each do |e| -%>
+					  			<dt class="<%= e.event_type %>">
+					  			<span class="time"><%= format_time(e.event_datetime, false) %></span>
+					  			<%= content_tag('span', h(e.project), :class => 'project') %>
+					  			<%= link_to format_activity_title(e.event_title), e.event_url %></dt>
+					  			<dd><span class="description"><%= format_activity_description(e.event_description) %></span></dd>
+							<% end -%>
+							</dl>
+						<% end -%>
+					</div>
+				<% end %>
+			</div>
+			
+			<div class="projects box">
+			<h3>Your projects</h3>
+			<% if @projects.any? %>
+					<%= call_hook(:view_welcome_index_left, :projects => @projects) %>	
+					<% unless @memberships.empty? %>
+						<ul>
+							<% for membership in @memberships %>
+							  	<li>
+							  	<%= link_to_project(membership.project) %>
+								(<%=h membership.roles.sort.collect(&:to_s).join(', ') %>, <%= format_date(membership.created_on) %>)
+								</li>
+							<% end %>
+						</ul>
+					<% end %>
+			<% end %>
+			</div>
+		</div>
 
-	<div class="splitcontentleft">
-	<%= textilizable Setting.welcome_text %>
-	<% if @news.any? %>
-	<div class="news box">
-	<h3><%=l(:label_news_latest)%></h3>
-	<%= render :partial => 'news/news', :collection => @news %>
-	<%= link_to l(:label_news_view_all), :controller => 'news' %>
-	</div>
+		<% content_for :header_tags do %>
+			<%= stylesheet_link_tag 'scm' %>
+			<%= auto_discovery_link_tag(:atom, {:controller => 'news', :action => 'index', :key => User.current.rss_key, :format => 'atom'},:title => "#{Setting.app_title}: #{l(:label_news_latest)}") %>
+			<%= auto_discovery_link_tag(:atom, {:controller => 'activities', :action => 'index', :key => User.current.rss_key, :format => 'atom'},:title => "#{Setting.app_title}: #{l(:label_activity)}") %>
+		<% end %>
 	<% end %>
-	<%= call_hook(:view_welcome_index_left, :projects => @projects) %>
-	</div>
-
-	<div class="splitcontentright">
-	<% if @projects.any? %>
-	<div class="projects box">
-	<h3><%=l(:label_project_latest)%></h3>
-	<ul>
-	<% for project in @projects %>
-	<% @project = project %>
-	<li>
-	<%= link_to_project project %> (<%= format_time(project.created_on) %>)
-	<%= textilizable project.short_description, :project => project %>
-	</li>
-	<% end %>
-	<% @project = nil %>
-	</ul>
-	</div>
-	<% end %>
-	<%= call_hook(:view_welcome_index_right, :projects => @projects) %>
-	</div>
-
-	<% content_for :header_tags do %>
-	<%= stylesheet_link_tag 'scm' %>
-	<%= auto_discovery_link_tag(:atom, {:controller => 'news', :action => 'index', :key => User.current.rss_key, :format => 'atom'},
-	:title => "#{Setting.app_title}: #{l(:label_news_latest)}") %>
-	<%= auto_discovery_link_tag(:atom, {:controller => 'activities', :action => 'index', :key => User.current.rss_key, :format => 'atom'},
-	:title => "#{Setting.app_title}: #{l(:label_activity)}") %>
-	<% end %>
-	-->
+</div>
