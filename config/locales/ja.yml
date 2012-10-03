@@ -1097,3 +1097,6 @@ ja:
   label_copied_from: コピー元
   label_any_issues_in_project: 次のプロジェクト内のチケット
   label_any_issues_not_in_project: 次のプロジェクト外のチケット
+  field_private_notes: Private notes
+  permission_view_private_notes: View private notes
+  permission_set_notes_private: Set notes as private

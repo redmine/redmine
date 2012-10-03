@@ -1068,3 +1068,6 @@ sr:
   label_copied_from: copied from
   label_any_issues_in_project: any issues in project
   label_any_issues_not_in_project: any issues not in project
+  field_private_notes: Private notes
+  permission_view_private_notes: View private notes
+  permission_set_notes_private: Set notes as private
