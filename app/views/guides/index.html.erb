@@ -1,7 +1,7 @@
 <% content_for :header_tags do %>
     <%= auto_discovery_link_tag(:atom, {:action => 'index', :format => 'atom', :key => User.current.rss_key}) %>
 <% end %>
-
+<h2>Guides</h2>
 <div class="contextual">
     <%= link_to(l(:label_project_new), {:controller => 'projects', :action => 'new'}, :class => 'icon icon-add') + ' |' if User.current.allowed_to?(:add_project, nil, :global => true) %>
     <%= link_to(l(:label_issue_view_all), issues_path) + ' |' if User.current.allowed_to?(:view_issues, nil, :global => true) %>
@@ -11,11 +11,9 @@
                   :id => nil } %>
 </div>
 
-<h2>Guides</h2>
 
-<p>Guides are short introductions to various aspects of the functionality of the Open Source Brain website and related tools.</p>
 
-<p>Offers of help to write these are very welcome, as are suggestions for Guides to add. Please <a href="mailto:info@opensourcebrain.org">get in contact</a>.</p>
+<p>Guides are short introductions to various aspects of the functionality of Open Source Brain and related tools. Offers of help to write these are very welcome, as are suggestions for Guides to add. Please <a href="mailto:info@opensourcebrain.org">get in contact</a>.</p>
 
 <p>&nbsp;</p>
 
