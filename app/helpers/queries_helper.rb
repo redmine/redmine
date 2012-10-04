@@ -19,11 +19,14 @@
 
 module QueriesHelper
   def filters_options_for_select(query)
+    options_for_select(filters_options(query))
+  end
+
+  def filters_options(query)
     options = [[]]
     options += query.available_filters.sort {|a,b| a[1][:order] <=> b[1][:order]}.map do |field, field_options|
       [field_options[:name], field]
     end
-    options_for_select(options)
   end
 
   def column_header(column)
