@@ -413,6 +413,7 @@
   field_core_fields: 標準欄位
   field_timeout: "逾時 (單位: 秒)"
   field_board_parent: 父論壇
+  field_private_notes: 私人筆記
 
   setting_app_title: 標題
   setting_app_subtitle: 副標題
@@ -498,6 +499,8 @@
   permission_add_issue_notes: 新增筆記
   permission_edit_issue_notes: 編輯筆記
   permission_edit_own_issue_notes: 編輯自己的筆記
+  permission_view_private_notes: 檢視私人筆記
+  permission_set_notes_private: 設定筆記為私人筆記
   permission_move_issues: 搬移問題
   permission_delete_issues: 刪除問題
   permission_manage_public_queries: 管理公開查詢
@@ -751,6 +754,8 @@
   label_ago: 天以前
   label_contains: 包含
   label_not_contains: 不包含
+  label_any_issues_in_project: 專案中的問題
+  label_any_issues_not_in_project: 不在專案中的問題
   label_day_plural: 天
   label_repository: 儲存機制
   label_repository_new: 建立新儲存機制
@@ -826,6 +831,8 @@
   label_blocked_by: 被阻擋
   label_precedes: 優先於
   label_follows: 跟隨於
+  label_copied_to: 複製到
+  label_copied_from: 複製於
   label_end_to_start: 結束─開始
   label_end_to_end: 結束─結束
   label_start_to_start: 開始─開始
@@ -1144,10 +1151,3 @@
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  label_copied_to: copied to
-  label_copied_from: copied from
-  label_any_issues_in_project: any issues in project
-  label_any_issues_not_in_project: any issues not in project
-  field_private_notes: Private notes
-  permission_view_private_notes: View private notes
-  permission_set_notes_private: Set notes as private
