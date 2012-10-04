@@ -260,6 +260,7 @@ function toggleOperator(field) {
       break;
     case "=p":
     case "=!p":
+    case "!p":
       enableValues(field, [1]);
       break;
     default:

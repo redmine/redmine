@@ -672,6 +672,22 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal [1], find_issues_with_query(query).map(&:id).sort
   end
 
+  def test_filter_on_relations_with_no_issues_in_a_project
+    IssueRelation.delete_all
+    with_settings :cross_project_issue_relations => '1' do
+      IssueRelation.create!(:relation_type => "relates", :issue_from => Issue.find(1), :issue_to => Project.find(2).issues.first)
+      IssueRelation.create!(:relation_type => "relates", :issue_from => Issue.find(2), :issue_to => Project.find(3).issues.first)
+      IssueRelation.create!(:relation_type => "relates", :issue_to => Project.find(2).issues.first, :issue_from => Issue.find(3))
+    end
+
+    query = Query.new(:name => '_')
+    query.filters = {"relates" => {:operator => '!p', :values => ['2']}}
+    ids = find_issues_with_query(query).map(&:id).sort
+    assert_include 2, ids
+    assert_not_include 1, ids
+    assert_not_include 3, ids
+  end
+
   def test_filter_on_relations_with_no_issues
     IssueRelation.delete_all
     IssueRelation.create!(:relation_type => "relates", :issue_from => Issue.find(1), :issue_to => Issue.find(2))

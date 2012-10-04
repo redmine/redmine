@@ -674,6 +674,7 @@ en:
   label_not_contains: doesn't contain
   label_any_issues_in_project: any issues in project
   label_any_issues_not_in_project: any issues not in project
+  label_no_issues_in_project: no issues in project
   label_day_plural: days
   label_repository: Repository
   label_repository_new: New repository

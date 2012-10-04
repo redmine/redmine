@@ -115,7 +115,8 @@ class Query < ActiveRecord::Base
                   "~"   => :label_contains,
                   "!~"  => :label_not_contains,
                   "=p"  => :label_any_issues_in_project,
-                  "=!p" => :label_any_issues_not_in_project}
+                  "=!p" => :label_any_issues_not_in_project,
+                  "!p"  => :label_no_issues_in_project}
 
   cattr_reader :operators
 
@@ -129,7 +130,7 @@ class Query < ActiveRecord::Base
                                  :text => [  "~", "!~", "!*", "*" ],
                                  :integer => [ "=", ">=", "<=", "><", "!*", "*" ],
                                  :float => [ "=", ">=", "<=", "><", "!*", "*" ],
-                                 :relation => ["=", "=p", "=!p", "!*", "*"]}
+                                 :relation => ["=", "=p", "=!p", "!p", "!*", "*"]}
 
   cattr_reader :operators_by_filter_type
 
@@ -807,14 +808,15 @@ class Query < ActiveRecord::Base
       when "=", "!"
         op = (operator == "=" ? 'IN' : 'NOT IN')
         "#{Issue.table_name}.id #{op} (SELECT DISTINCT #{IssueRelation.table_name}.#{join_column} FROM #{IssueRelation.table_name} WHERE #{IssueRelation.table_name}.relation_type = '#{connection.quote_string(relation_type)}' AND #{IssueRelation.table_name}.#{target_join_column} = #{value.first.to_i})"
-      when "=p", "=!p"
-        op = (operator == "=p" ? '=' : '<>')
-        "#{Issue.table_name}.id IN (SELECT DISTINCT #{IssueRelation.table_name}.#{join_column} FROM #{IssueRelation.table_name}, #{Issue.table_name} relissues WHERE #{IssueRelation.table_name}.relation_type = '#{connection.quote_string(relation_type)}' AND #{IssueRelation.table_name}.#{target_join_column} = relissues.id AND relissues.project_id #{op} #{value.first.to_i})"
+      when "=p", "=!p", "!p"
+        op = (operator == "!p" ? 'NOT IN' : 'IN')
+        comp = (operator == "=!p" ? '<>' : '=')
+        "#{Issue.table_name}.id #{op} (SELECT DISTINCT #{IssueRelation.table_name}.#{join_column} FROM #{IssueRelation.table_name}, #{Issue.table_name} relissues WHERE #{IssueRelation.table_name}.relation_type = '#{connection.quote_string(relation_type)}' AND #{IssueRelation.table_name}.#{target_join_column} = relissues.id AND relissues.project_id #{comp} #{value.first.to_i})"
       end
 
     if relation_options[:sym] == field && !options[:reverse]
       sqls = [sql, sql_for_relations(field, operator, value, :reverse => true)]
-      sqls.join(["!", "!*"].include?(operator) ? " AND " : " OR ")
+      sqls.join(["!", "!*", "!p"].include?(operator) ? " AND " : " OR ")
     else
       sql
     end
