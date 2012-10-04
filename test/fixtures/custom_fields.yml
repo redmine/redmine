@@ -16,6 +16,7 @@ custom_fields_001:
   field_format: list
   default_value: ""
   editable: true
+  position: 2
 custom_fields_002: 
   name: Searchable field
   min_length: 1
@@ -31,6 +32,7 @@ custom_fields_002:
   searchable: true
   default_value: "Default string"
   editable: true
+  position: 1
 custom_fields_003: 
   name: Development status
   min_length: 0
@@ -49,6 +51,7 @@ custom_fields_003:
   field_format: list
   default_value: ""
   editable: true
+  position: 1
 custom_fields_004: 
   name: Phone number
   min_length: 0
@@ -62,6 +65,7 @@ custom_fields_004:
   field_format: string
   default_value: ""
   editable: true
+  position: 1
 custom_fields_005: 
   name: Money
   min_length: 0
@@ -75,6 +79,7 @@ custom_fields_005:
   field_format: float
   default_value: ""
   editable: true
+  position: 2
 custom_fields_006: 
   name: Float field
   min_length: 0
@@ -88,6 +93,7 @@ custom_fields_006:
   field_format: float
   default_value: ""
   editable: true
+  position: 3
 custom_fields_007: 
   name: Billable
   min_length: 0
@@ -102,6 +108,7 @@ custom_fields_007:
   field_format: bool
   default_value: ""
   editable: true
+  position: 1
 custom_fields_008: 
   name: Custom date
   min_length: 0
@@ -116,6 +123,7 @@ custom_fields_008:
   field_format: date
   default_value: ""
   editable: true
+  position: 4
 custom_fields_009: 
   name: Project 1 cf
   min_length: 0
@@ -130,6 +138,7 @@ custom_fields_009:
   field_format: date
   default_value: ""
   editable: true
+  position: 5
 custom_fields_010: 
   name: Overtime
   min_length: 0
@@ -144,6 +153,7 @@ custom_fields_010:
   field_format: bool
   default_value: 0
   editable: true
+  position: 1
 custom_fields_011:
   id: 11
   name: Binary
