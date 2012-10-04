@@ -402,7 +402,7 @@ class ApplicationController < ActionController::Base
     @items.sort! {|x,y| y.event_datetime <=> x.event_datetime }
     @items = @items.slice(0, Setting.feeds_limit.to_i)
     @title = options[:title] || Setting.app_title
-    render :template => "common/feed.atom", :layout => false,
+    render :template => "common/feed", :formats => [:atom], :layout => false,
            :content_type => 'application/atom+xml'
   end
 
