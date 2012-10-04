@@ -332,6 +332,7 @@ bg:
   field_core_fields: Стандартни полета
   field_timeout: Таймаут (в секунди)
   field_board_parent: Родителски форум
+  field_private_notes: Лични бележки
 
   setting_app_title: Заглавие
   setting_app_subtitle: Описание
@@ -417,6 +418,8 @@ bg:
   permission_add_issue_notes: Добавяне на бележки
   permission_edit_issue_notes: Редактиране на бележки
   permission_edit_own_issue_notes: Редактиране на собствени бележки
+  permission_view_private_notes: Разглеждане на лични бележки
+  permission_set_notes_private: Установяване на бележките лични
   permission_move_issues: Преместване на задачи
   permission_delete_issues: Изтриване на задачи
   permission_manage_public_queries: Управление на публичните заявки
@@ -1065,6 +1068,3 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  field_private_notes: Private notes
-  permission_view_private_notes: View private notes
-  permission_set_notes_private: Set notes as private
