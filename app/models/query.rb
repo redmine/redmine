@@ -993,7 +993,11 @@ class Query < ActiveRecord::Base
         filter_id = "#{assoc}.#{filter_id}"
         filter_name = l("label_attribute_of_#{assoc}", :name => filter_name)
       end
-      @available_filters[filter_id] = options.merge({ :name => filter_name, :format => field.field_format })
+      @available_filters[filter_id] = options.merge({
+               :name => filter_name,
+               :format => field.field_format,
+               :field => field
+             })
     end
   end
 

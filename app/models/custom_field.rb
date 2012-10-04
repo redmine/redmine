@@ -51,6 +51,8 @@ class CustomField < ActiveRecord::Base
      :label => DocumentCategory::OptionName}
   ]
 
+  CUSTOM_FIELDS_NAMES = CUSTOM_FIELDS_TABS.collect{|v| v[:name]}
+
   def set_searchable
     # make sure these fields are not searchable
     self.searchable = false if %w(int float date bool).include?(field_format)
