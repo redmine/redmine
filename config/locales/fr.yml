@@ -612,6 +612,7 @@ fr:
   label_current_status: Statut actuel
   label_new_statuses_allowed: Nouveaux statuts autorisés
   label_all: tous
+  label_any: tous
   label_none: aucun
   label_nobody: personne
   label_next: Suivant

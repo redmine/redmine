@@ -1092,3 +1092,4 @@ fi:
   permission_view_private_notes: View private notes
   permission_set_notes_private: Set notes as private
   label_no_issues_in_project: no issues in project
+  label_any: kaikki

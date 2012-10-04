@@ -100,7 +100,7 @@ class Query < ActiveRecord::Base
                   "o"   => :label_open_issues,
                   "c"   => :label_closed_issues,
                   "!*"  => :label_none,
-                  "*"   => :label_all,
+                  "*"   => :label_any,
                   ">="  => :label_greater_or_equal,
                   "<="  => :label_less_or_equal,
                   "><"  => :label_between,

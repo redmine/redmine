@@ -619,6 +619,7 @@ en:
   label_current_status: Current status
   label_new_statuses_allowed: New statuses allowed
   label_all: all
+  label_any: any
   label_none: none
   label_nobody: nobody
   label_next: Next
