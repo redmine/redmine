@@ -39,5 +39,7 @@ class QueriesHelperTest < ActionView::TestCase
     assert_equal "project_id", fo[2][1]
     assert_equal "tracker_id", fo[3][1]
     assert_equal "priority_id", fo[4][1]
+    assert_equal "watcher_id", fo[17][1]
+    assert_equal "is_private", fo[18][1]
   end
 end

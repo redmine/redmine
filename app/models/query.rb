@@ -352,7 +352,7 @@ class Query < ActiveRecord::Base
     if User.current.allowed_to?(:set_issues_private, nil, :global => true) ||
       User.current.allowed_to?(:set_own_issues_private, nil, :global => true)
       @available_filters["is_private"] = {
-        :type => :list, :order => 15,
+        :type => :list, :order => 16,
         :values => [[l(:general_text_yes), "1"], [l(:general_text_no), "0"]]
       }
     end
