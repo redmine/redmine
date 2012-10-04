@@ -35,6 +35,8 @@ class QueriesHelperTest < ActionView::TestCase
     fo = filters_options(query)
     assert_equal 31, fo.size
     assert_equal [], fo[0]
+    assert_equal "status_id", fo[1][1]
+    assert_equal "project_id", fo[2][1]
     assert_equal "tracker_id", fo[3][1]
     assert_equal "priority_id", fo[4][1]
   end

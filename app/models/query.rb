@@ -227,7 +227,7 @@ class Query < ActiveRecord::Base
     return @available_filters if @available_filters
     @available_filters = {
       "status_id" => {
-        :type => :list_status, :order => 1,
+        :type => :list_status, :order => 0,
         :values => IssueStatus.find(:all, :order => 'position').collect{|s| [s.name, s.id.to_s] }
        },
       "tracker_id" => {
