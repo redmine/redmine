@@ -22,7 +22,7 @@ class Unauthorized < Exception; end
 
 class ApplicationController < ActionController::Base
   include Redmine::I18n
-  
+
   class_attribute :accept_api_auth_actions
   class_attribute :accept_rss_auth_actions
   class_attribute :model_object
@@ -90,7 +90,7 @@ class ApplicationController < ActionController::Base
   def find_current_user
     user = nil
     unless api_request?
-      if session[:user_id] 
+      if session[:user_id]
         # existing session
         user = (User.active.find(session[:user_id]) rescue nil)
       elsif autologin_user = try_to_autologin
