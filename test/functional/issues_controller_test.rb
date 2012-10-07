@@ -283,11 +283,11 @@ class IssuesControllerTest < ActionController::TestCase
     assert_select 'tr.group', 3
     assert_select 'tr.group' do
       assert_select 'a', :text => 'John Smith'
-      assert_select 'span.count', :text => '(1)'
+      assert_select 'span.count', :text => '1'
     end
     assert_select 'tr.group' do
       assert_select 'a', :text => 'Dave Lopper'
-      assert_select 'span.count', :text => '(2)'
+      assert_select 'span.count', :text => '2'
     end
   end
 
