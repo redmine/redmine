@@ -18,7 +18,17 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class IssueRelationTest < ActiveSupport::TestCase
-  fixtures :issue_relations, :issues
+  fixtures :projects,
+           :users,
+           :roles,
+           :members,
+           :member_roles,
+           :issues,
+           :issue_statuses,
+           :issue_relations,
+           :enabled_modules,
+           :enumerations,
+           :trackers
 
   def test_create
     from = Issue.find(1)
