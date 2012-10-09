@@ -25,6 +25,7 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
     :member_roles,
     :issues,
     :issue_statuses,
+    :issue_relations,
     :versions,
     :trackers,
     :projects_trackers,
