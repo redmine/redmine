@@ -1076,3 +1076,4 @@ zh:
   permission_set_notes_private: Set notes as private
   label_no_issues_in_project: no issues in project
   label_any: 全部
+  label_last_n_weeks: last %{count} weeks
