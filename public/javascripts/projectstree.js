@@ -1,6 +1,8 @@
 var m = [ 20, 10, 20, 50 ], w = 1000 - m[1] - m[3], h = 800 - m[0] - m[2], i = 0, root;
 
-var tree = d3.layout.tree().size([ h, w ]).separation(function(a, b) { return 100; });
+var tree = d3.layout.tree().size([ h, w ]).separation(function(a, b) {
+	return 100;
+});
 
 var diagonal = d3.svg.diagonal().projection(function(d) {
 	return [ d.x, d.y ];
@@ -12,6 +14,13 @@ var vis = d3.select("#body").append("svg:svg").attr("width", w + m[1] + m[3])
 
 tobeparsed = d3.select("#jsontree")[0][0].innerHTML;
 root = JSON.parse(tobeparsed);
+root.children.sort(function(a, b) {
+			if (a.name == "Vertebrate") // vertebrates go first
+				return -1;
+			if (b.name == "Vertebrate") // vertebrates go first
+				return 1;
+			return b.name < a.name ? 1 : b.name > a.name ? -1 : 0;
+		}); // sort everything else alphabetically
 
 root.x0 = h / 2;
 root.y0 = 0;
@@ -25,19 +34,19 @@ function toggleAll(d) {
 
 // Initialize the display to show a few nodes.
 
-
 var step = 0;
 var duration = 600;
 
-var timer=setInterval(function(){update(root)},duration);
+var timer = setInterval(function() {
+	update(root)
+}, duration);
 
 function update(source) {
 	if (step == 0) {
 		toggle(root);
 		root.children.forEach(toggleAll);
 		step++;
-	}
-	else if (step == 1) {
+	} else if (step == 1) {
 		toggle(root.children[0]);
 		step++;
 	} else if (step == 2) {
@@ -62,14 +71,15 @@ function update(source) {
 	});
 
 	// Enter any new nodes at the parent's previous position.
-	var nodeEnter = node.enter().append("svg:g").attr("class", "node").on("click", function(d) {
-		toggle(d);
-		update(d);
-	});
-//	.attr(
-//			"transform", function(d) {
-//				return "translate(" + source.y0 + "," + source.x0 + ")";
-//			})
+	var nodeEnter = node.enter().append("svg:g").attr("class", "node").on(
+			"click", function(d) {
+				toggle(d);
+				update(d);
+			});
+	// .attr(
+	// "transform", function(d) {
+	// return "translate(" + source.y0 + "," + source.x0 + ")";
+	// })
 
 	nodeEnter.append("svg:circle").attr("r", 1e-6).style("fill", function(d) {
 		return d._children ? "#8A0" : "#ff6600";
@@ -95,8 +105,7 @@ function update(source) {
 			})
 
 	// Transition nodes to their new position.
-	var nodeUpdate = node.transition().duration(duration)
-	.attr("transform",
+	var nodeUpdate = node.transition().duration(duration).attr("transform",
 			function(d) {
 				return "translate(" + d.x + "," + d.y + ")";
 			});
