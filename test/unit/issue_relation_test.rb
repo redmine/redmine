@@ -99,18 +99,36 @@ class IssueRelationTest < ActiveSupport::TestCase
 
   def test_validates_circular_dependency
     IssueRelation.delete_all
-    assert IssueRelation.create!(:issue_from => Issue.find(1), :issue_to => Issue.find(2), :relation_type => IssueRelation::TYPE_PRECEDES)
-    assert IssueRelation.create!(:issue_from => Issue.find(2), :issue_to => Issue.find(3), :relation_type => IssueRelation::TYPE_PRECEDES)
-    r = IssueRelation.new(:issue_from => Issue.find(3), :issue_to => Issue.find(1), :relation_type => IssueRelation::TYPE_PRECEDES)
+    assert IssueRelation.create!(
+             :issue_from => Issue.find(1), :issue_to => Issue.find(2),
+             :relation_type => IssueRelation::TYPE_PRECEDES
+           )
+    assert IssueRelation.create!(
+             :issue_from => Issue.find(2), :issue_to => Issue.find(3),
+             :relation_type => IssueRelation::TYPE_PRECEDES
+           )
+    r = IssueRelation.new(
+          :issue_from => Issue.find(3), :issue_to => Issue.find(1),
+          :relation_type => IssueRelation::TYPE_PRECEDES
+        )
     assert !r.save
     assert_not_nil r.errors[:base]
   end
 
   def test_validates_circular_dependency_on_reverse_relations
     IssueRelation.delete_all
-    assert IssueRelation.create!(:issue_from => Issue.find(1), :issue_to => Issue.find(3), :relation_type => IssueRelation::TYPE_BLOCKS)
-    assert IssueRelation.create!(:issue_from => Issue.find(1), :issue_to => Issue.find(2), :relation_type => IssueRelation::TYPE_BLOCKED)
-    r = IssueRelation.new(:issue_from => Issue.find(2), :issue_to => Issue.find(1), :relation_type => IssueRelation::TYPE_BLOCKED)
+    assert IssueRelation.create!(
+             :issue_from => Issue.find(1), :issue_to => Issue.find(3),
+             :relation_type => IssueRelation::TYPE_BLOCKS
+           )
+    assert IssueRelation.create!(
+             :issue_from => Issue.find(1), :issue_to => Issue.find(2),
+             :relation_type => IssueRelation::TYPE_BLOCKED
+           )
+    r = IssueRelation.new(
+          :issue_from => Issue.find(2), :issue_to => Issue.find(1),
+          :relation_type => IssueRelation::TYPE_BLOCKED
+        )
     assert !r.save
     assert_not_nil r.errors[:base]
   end
