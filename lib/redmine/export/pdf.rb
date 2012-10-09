@@ -507,7 +507,7 @@ module Redmine
         pdf.SetFontStyle('',8)
         base_x = pdf.GetX
         i = 1
-        issue.ancestors.each do |ancestor|
+        issue.ancestors.visible.each do |ancestor|
           pdf.SetX(base_x + i)
           buf = "#{ancestor.tracker} # #{ancestor.id} (#{ancestor.status.to_s}): #{ancestor.subject}"
           pdf.RDMMultiCell(190 - i, 5, buf)
@@ -578,7 +578,7 @@ module Redmine
           pdf.SetFontStyle('B',9)
           pdf.RDMCell(35+155,5, l(:label_subtask_plural) + ":", "LTR")
           pdf.Ln
-          issue_list(issue.descendants.sort_by(&:lft)) do |child, level|
+          issue_list(issue.descendants.visible.sort_by(&:lft)) do |child, level|
             buf = truncate("#{child.tracker} # #{child.id}: #{child.subject}",
                            :length => truncate_length)
             level = 10 if level >= 10
