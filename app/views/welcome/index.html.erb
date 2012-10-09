@@ -30,6 +30,27 @@
 				<%= link_to l(:label_news_view_all), :controller => 'news' %>
 			<% end %>
 			</div>
+			
+			<% if @projects.any? %>
+				<div class="projects box">
+  					<h3>Latest projects added on OSB</h3>
+    				<ul>
+    				<% maxprjcount=3 %>
+    				<% i=0 %>
+			    	<% for project in @projects %>
+			    		<%if(i<maxprjcount)%>
+							<% @project = project %>
+							<% i=i+1 %>
+							<li>
+							<%= link_to_project project %> (<%= format_time(project.created_on) %>)
+							</li>
+						<% else break;%>
+						<% end %>
+		    		<% end %>
+			    	<% @project = nil %>
+			    	</ul>
+				</div>
+			<% end %>
 		</div>
 			
 		<div class="splitcontentright">
