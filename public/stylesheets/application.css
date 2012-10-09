@@ -2850,3 +2850,7 @@ div.splitcontentright > #quick-search {
 	top:11px;
 	left:68px;
 }
+
+div.splitcontentleft > h2 {
+	font-size:18px;
+}
