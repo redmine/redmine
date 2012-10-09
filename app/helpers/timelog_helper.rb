@@ -77,6 +77,7 @@ module TimelogHelper
                         [l(:label_yesterday), 'yesterday'],
                         [l(:label_this_week), 'current_week'],
                         [l(:label_last_week), 'last_week'],
+                        [l(:label_last_n_weeks, 2), 'last_2_weeks'],
                         [l(:label_last_n_days, 7), '7_days'],
                         [l(:label_this_month), 'current_month'],
                         [l(:label_last_month), 'last_month'],

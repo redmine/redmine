@@ -653,6 +653,7 @@ fr:
   label_yesterday: hier
   label_this_week: cette semaine
   label_last_week: la semaine dernière
+  label_last_n_weeks: "les %{count} dernières semaines"
   label_last_n_days: "les %{count} derniers jours"
   label_this_month: ce mois-ci
   label_last_month: le mois dernier

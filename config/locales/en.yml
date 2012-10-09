@@ -663,6 +663,7 @@ en:
   label_yesterday: yesterday
   label_this_week: this week
   label_last_week: last week
+  label_last_n_weeks: "last %{count} weeks"
   label_last_n_days: "last %{count} days"
   label_this_month: this month
   label_last_month: last month
