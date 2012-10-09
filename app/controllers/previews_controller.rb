@@ -26,7 +26,7 @@ class PreviewsController < ApplicationController
       if @description && @description.gsub(/(\r?\n|\n\r?)/, "\n") == @issue.description.to_s.gsub(/(\r?\n|\n\r?)/, "\n")
         @description = nil
       end
-      @notes = params[:notes]
+      @notes = (params[:issue] ? params[:issue][:notes] : nil)
     else
       @description = (params[:issue] ? params[:issue][:description] : nil)
     end

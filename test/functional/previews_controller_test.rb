@@ -40,8 +40,7 @@ class PreviewsControllerTest < ActionController::TestCase
   def test_preview_issue_notes
     @request.session[:user_id] = 2
     post :issue, :project_id => '1', :id => 1,
-         :issue => {:description => Issue.find(1).description},
-         :notes => 'Foo'
+         :issue => {:description => Issue.find(1).description, :notes => 'Foo'}
     assert_response :success
     assert_template 'preview'
     assert_not_nil assigns(:notes)
@@ -49,7 +48,7 @@ class PreviewsControllerTest < ActionController::TestCase
 
   def test_preview_journal_notes_for_update
     @request.session[:user_id] = 2
-    post :issue, :project_id => '1', :id => 1, :notes => 'Foo'
+    post :issue, :project_id => '1', :id => 1, :issue => {:notes => 'Foo'}
     assert_response :success
     assert_template 'preview'
     assert_not_nil assigns(:notes)
