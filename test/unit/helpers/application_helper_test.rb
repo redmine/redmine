@@ -253,9 +253,6 @@ RAW
 
     project_url = {:controller => 'projects', :action => 'show', :id => 'subproject1'}
 
-    source_url = {:controller => 'repositories', :action => 'entry', :id => 'ecookbook', :path => ['some', 'file']}
-    source_url_with_ext = {:controller => 'repositories', :action => 'entry', :id => 'ecookbook', :path => ['some', 'file.ext']}
-
     source_url = '/projects/ecookbook/repository/entry/some/file'
     source_url_with_rev = '/projects/ecookbook/repository/revisions/52/entry/some/file'
     source_url_with_ext = '/projects/ecookbook/repository/entry/some/file.ext'
