@@ -1067,3 +1067,4 @@ lv:
   label_no_issues_in_project: no issues in project
   label_any: visi
   label_last_n_weeks: last %{count} weeks
+  setting_cross_project_subtasks: Allow cross-project subtasks
