@@ -358,6 +358,7 @@ bg:
   setting_date_format: Формат на датата
   setting_time_format: Формат на часа
   setting_cross_project_issue_relations: Релации на задачи между проекти
+  setting_cross_project_subtasks: Подзадачи от други проекти
   setting_issue_list_default_columns: Показвани колони по подразбиране
   setting_repositories_encodings: Кодова таблица на прикачените файлове и хранилищата
   setting_emails_header: Emails header
@@ -664,6 +665,7 @@ bg:
   label_yesterday: вчера
   label_this_week: тази седмица
   label_last_week: последната седмица
+  label_last_n_weeks: последните %{count} седмици
   label_last_n_days: "последните %{count} дни"
   label_this_month: текущия месец
   label_last_month: последния месец
@@ -881,6 +883,10 @@ bg:
   label_attribute_of_author: Author's %{name}
   label_attribute_of_assigned_to: Assignee's %{name}
   label_attribute_of_fixed_version: Target version's %{name}
+  label_cross_project_descendants: С подпроекти
+  label_cross_project_tree: С дърво на проектите
+  label_cross_project_hierarchy: С проектна йерархия
+  label_cross_project_system: С всички проекти
 
   button_login: Вход
   button_submit: Прикачване
@@ -1070,9 +1076,3 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  label_last_n_weeks: last %{count} weeks
-  setting_cross_project_subtasks: Allow cross-project subtasks
-  label_cross_project_descendants: С подпроекти
-  label_cross_project_tree: С дърво на проектите
-  label_cross_project_hierarchy: С проектна йерархия
-  label_cross_project_system: С всички проекти
