@@ -62,6 +62,12 @@
 	            <h2>GitHub repository</h2> 
                 <p>The source for this project is hosted on GitHub: <a target="_blank" href='<%=h show_value(custom_value) %>'><%=h show_value(custom_value) %></a></p>
             <% end %>
+            
+            <% if custom_value.custom_field.name == 'Bitbucket repository' %>
+            
+	            <h2>Bitbucket repository</h2> 
+                <p>The source for this project is hosted on Bitbucket: <a target="_blank" href='<%=h show_value(custom_value) %>'><%=h show_value(custom_value) %></a></p>
+            <% end %>
         
             <% if custom_value.custom_field.name == 'NeuroML version' %>
             
