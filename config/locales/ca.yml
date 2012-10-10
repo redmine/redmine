@@ -1076,3 +1076,7 @@ ca:
   label_any: tots
   label_last_n_weeks: last %{count} weeks
   setting_cross_project_subtasks: Allow cross-project subtasks
+  label_cross_project_descendants: "Amb tots els subprojectes"
+  label_cross_project_tree: "Amb l'arbre del projecte"
+  label_cross_project_hierarchy: "Amb la jerarquia del projecte"
+  label_cross_project_system: "Amb tots els projectes"

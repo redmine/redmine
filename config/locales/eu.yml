@@ -1077,3 +1077,7 @@ eu:
   label_any: guztiak
   label_last_n_weeks: last %{count} weeks
   setting_cross_project_subtasks: Allow cross-project subtasks
+  label_cross_project_descendants: Azpiproiektuekin
+  label_cross_project_tree: Proiektu zuhaitzarekin
+  label_cross_project_hierarchy: Proiektu Hierarkiarekin
+  label_cross_project_system: Proiektu guztiekin

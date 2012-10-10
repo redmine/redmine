@@ -1111,3 +1111,7 @@ es:
   label_any: todos
   label_last_n_weeks: last %{count} weeks
   setting_cross_project_subtasks: Allow cross-project subtasks
+  label_cross_project_descendants: Con proyectos hijo
+  label_cross_project_tree: Con el árbol del proyecto
+  label_cross_project_hierarchy: Con la jerarquía del proyecto
+  label_cross_project_system: Con todos los proyectos

@@ -882,6 +882,10 @@ en:
   label_attribute_of_author: "Author's %{name}"
   label_attribute_of_assigned_to: "Assignee's %{name}"
   label_attribute_of_fixed_version: "Target version's %{name}"
+  label_cross_project_descendants: With subprojects
+  label_cross_project_tree: With project tree
+  label_cross_project_hierarchy: With project hierarchy
+  label_cross_project_system: With all projects
 
   button_login: Login
   button_submit: Submit

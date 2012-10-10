@@ -1080,3 +1080,7 @@ id:
   label_any: semua
   label_last_n_weeks: last %{count} weeks
   setting_cross_project_subtasks: Allow cross-project subtasks
+  label_cross_project_descendants: Dengan subproyek
+  label_cross_project_tree: Dengan pohon proyek
+  label_cross_project_hierarchy: Dengan hirarki proyek
+  label_cross_project_system: Dengan semua proyek

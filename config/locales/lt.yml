@@ -1134,3 +1134,7 @@ lt:
   label_any: visi
   label_last_n_weeks: last %{count} weeks
   setting_cross_project_subtasks: Allow cross-project subtasks
+  label_cross_project_descendants: Su subprojektais
+  label_cross_project_tree: Su projekto medžiu
+  label_cross_project_hierarchy: Su projekto hierarchija
+  label_cross_project_system: Su visais projektais

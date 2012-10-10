@@ -1124,3 +1124,7 @@ ko:
   label_any: 모두
   label_last_n_weeks: last %{count} weeks
   setting_cross_project_subtasks: Allow cross-project subtasks
+  label_cross_project_descendants: 하위 프로젝트
+  label_cross_project_tree: 최상위 및 모든 하위 프로젝트
+  label_cross_project_hierarchy: 상위 및 하위 프로젝트
+  label_cross_project_system: 모든 프로젝트

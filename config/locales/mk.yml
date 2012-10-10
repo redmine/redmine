@@ -1074,3 +1074,7 @@ mk:
   label_any: сите
   label_last_n_weeks: last %{count} weeks
   setting_cross_project_subtasks: Allow cross-project subtasks
+  label_cross_project_descendants: Со сите подпроекти
+  label_cross_project_tree: Со дрвото на проектот
+  label_cross_project_hierarchy: Со хиерархијата на проектот
+  label_cross_project_system: Со сите проекти

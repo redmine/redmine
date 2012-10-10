@@ -1095,3 +1095,7 @@ fi:
   label_any: kaikki
   label_last_n_weeks: last %{count} weeks
   setting_cross_project_subtasks: Allow cross-project subtasks
+  label_cross_project_descendants: With subprojects
+  label_cross_project_tree: With project tree
+  label_cross_project_hierarchy: With project hierarchy
+  label_cross_project_system: With all projects

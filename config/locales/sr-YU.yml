@@ -1076,3 +1076,7 @@ sr-YU:
   label_any: svi
   label_last_n_weeks: last %{count} weeks
   setting_cross_project_subtasks: Allow cross-project subtasks
+  label_cross_project_descendants: Sa potprojektima
+  label_cross_project_tree: Sa stablom projekta
+  label_cross_project_hierarchy: Sa hijerarhijom projekta
+  label_cross_project_system: Sa svim projektima

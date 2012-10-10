@@ -1056,3 +1056,7 @@ nl:
   label_any: alle
   label_last_n_weeks: last %{count} weeks
   setting_cross_project_subtasks: Allow cross-project subtasks
+  label_cross_project_descendants: Met subprojecten
+  label_cross_project_tree: Met project boom
+  label_cross_project_hierarchy: Met project hiërarchie
+  label_cross_project_system: Met alle projecten

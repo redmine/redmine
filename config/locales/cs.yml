@@ -1077,3 +1077,7 @@ cs:
   label_any: vše
   label_last_n_weeks: last %{count} weeks
   setting_cross_project_subtasks: Allow cross-project subtasks
+  label_cross_project_descendants: S podprojekty
+  label_cross_project_tree: Se stromem projektu
+  label_cross_project_hierarchy: S hierarchií projektu
+  label_cross_project_system: Se všemi projekty

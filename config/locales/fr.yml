@@ -857,6 +857,10 @@ fr:
   label_attribute_of_author: "%{name} de l'auteur"
   label_attribute_of_assigned_to: "%{name} de l'assigné"
   label_attribute_of_fixed_version: "%{name} de la version cible"
+  label_cross_project_descendants: Avec les sous-projets
+  label_cross_project_tree: Avec tout l'arbre
+  label_cross_project_hierarchy: Avec toute la hiérarchie
+  label_cross_project_system: Avec tous les projets
 
   button_login: Connexion
   button_submit: Soumettre

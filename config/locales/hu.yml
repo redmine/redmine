@@ -1093,3 +1093,7 @@
   label_any: mind
   label_last_n_weeks: last %{count} weeks
   setting_cross_project_subtasks: Allow cross-project subtasks
+  label_cross_project_descendants: Alprojektekkel
+  label_cross_project_tree: Projekt fával
+  label_cross_project_hierarchy: Projekt hierarchiával
+  label_cross_project_system: Minden projekttel

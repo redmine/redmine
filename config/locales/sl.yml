@@ -1074,3 +1074,7 @@ sl:
   label_any: vsi
   label_last_n_weeks: last %{count} weeks
   setting_cross_project_subtasks: Allow cross-project subtasks
+  label_cross_project_descendants: S podprojekti
+  label_cross_project_tree: Z drevesom projekta
+  label_cross_project_hierarchy: S projektno hierarhijo
+  label_cross_project_system: Z vsemi projekti

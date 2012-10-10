@@ -1076,3 +1076,7 @@ fa:
   label_any: همه
   label_last_n_weeks: last %{count} weeks
   setting_cross_project_subtasks: Allow cross-project subtasks
+  label_cross_project_descendants: با زیر پروژه‌ها
+  label_cross_project_tree: با درخت پروژه
+  label_cross_project_hierarchy: با رشته پروژه‌ها
+  label_cross_project_system: با همه پروژه‌ها

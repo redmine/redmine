@@ -1104,3 +1104,7 @@ ja:
   label_any: すべて
   label_last_n_weeks: last %{count} weeks
   setting_cross_project_subtasks: Allow cross-project subtasks
+  label_cross_project_descendants: サブプロジェクト単位
+  label_cross_project_tree: プロジェクトツリー単位
+  label_cross_project_hierarchy: プロジェクト階層単位
+  label_cross_project_system: すべてのプロジェクト

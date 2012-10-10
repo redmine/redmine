@@ -1079,3 +1079,7 @@ he:
   label_any: הכל
   label_last_n_weeks: last %{count} weeks
   setting_cross_project_subtasks: Allow cross-project subtasks
+  label_cross_project_descendants: עם פרויקטים בנים
+  label_cross_project_tree: עם עץ הפרויקט
+  label_cross_project_hierarchy: עם היררכית הפרויקטים
+  label_cross_project_system: עם כל הפרויקטים

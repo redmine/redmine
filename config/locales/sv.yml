@@ -1112,3 +1112,7 @@ sv:
   label_any: alla
   label_last_n_weeks: last %{count} weeks
   setting_cross_project_subtasks: Allow cross-project subtasks
+  label_cross_project_descendants: Med underprojekt
+  label_cross_project_tree: Med projektträd
+  label_cross_project_hierarchy: Med projekthierarki
+  label_cross_project_system: Med alla projekt

@@ -1090,3 +1090,7 @@ de:
   label_any: alle
   label_last_n_weeks: last %{count} weeks
   setting_cross_project_subtasks: Allow cross-project subtasks
+  label_cross_project_descendants: Mit Unterprojekten
+  label_cross_project_tree: Mit Projektbaum
+  label_cross_project_hierarchy: Mit Projekthierarchie
+  label_cross_project_system: Mit allen Projekten

@@ -1087,3 +1087,7 @@ et:
   label_any: "kõik"
   label_last_n_weeks: last %{count} weeks
   setting_cross_project_subtasks: Allow cross-project subtasks
+  label_cross_project_descendants: "alamprojektidega"
+  label_cross_project_tree: "projektipuuga"
+  label_cross_project_hierarchy: "projektihierarhiaga"
+  label_cross_project_system: "kõigi projektidega"
