@@ -285,7 +285,8 @@ class Issue < ActiveRecord::Base
       if fixed_version && fixed_version.project != project && !project.shared_versions.include?(fixed_version)
         self.fixed_version = nil
       end
-      if parent && parent.project_id != project_id
+      # Clear the parent task if it's no longer valid
+      unless valid_parent_project?
         self.parent_issue_id = nil
       end
       @custom_field_values = nil
@@ -550,8 +551,8 @@ class Issue < ActiveRecord::Base
 
     # Checks parent issue assignment
     if @parent_issue
-      if @parent_issue.project_id != project_id
-        errors.add :parent_issue_id, :not_same_project
+      if !valid_parent_project?(@parent_issue)
+        errors.add :parent_issue_id, :invalid
       elsif !new_record?
         # moving an existing issue
         if @parent_issue.root_id != root_id
@@ -559,7 +560,7 @@ class Issue < ActiveRecord::Base
         elsif move_possible?(@parent_issue)
           # move accepted inside tree
         else
-          errors.add :parent_issue_id, :not_a_valid_parent
+          errors.add :parent_issue_id, :invalid
         end
       end
     end
@@ -963,6 +964,25 @@ class Issue < ActiveRecord::Base
     end
   end
 
+	# Returns true if issue's project is a valid
+	# parent issue project
+  def valid_parent_project?(issue=parent)
+    return true if issue.nil? || issue.project_id == project_id
+
+    case Setting.cross_project_subtasks
+    when 'system'
+      true
+    when 'tree'
+      issue.project.root == project.root
+    when 'hierarchy'
+      issue.project.is_or_is_ancestor_of?(project) || issue.project.is_descendant_of?(project)
+    when 'descendants'
+      issue.project.is_or_is_ancestor_of?(project)
+    else
+      false
+    end
+  end
+
   # Extracted from the ReportsController.
   def self.by_tracker(project)
     count_and_group_by(:project => project,
@@ -1042,8 +1062,9 @@ class Issue < ActiveRecord::Base
       relations_to.clear
     end
 
-    # Move subtasks
+    # Move subtasks that were in the same project
     children.each do |child|
+      next unless child.project_id == project_id_was
       # Change project and keep project
       child.send :project=, project, true
       unless child.save

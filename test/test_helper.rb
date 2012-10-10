@@ -156,6 +156,14 @@ class ActiveSupport::TestCase
     hs
   end
 
+  def assert_save(object)
+    saved = object.save
+    message = "#{object.class} could not be saved"
+    errors = object.errors.full_messages.map {|m| "- #{m}"}
+    message << ":\n#{errors.join("\n")}" if errors.any?
+    assert_equal true, saved, message
+  end
+
   def assert_error_tag(options={})
     assert_tag({:attributes => { :id => 'errorExplanation' }}.merge(options))
   end

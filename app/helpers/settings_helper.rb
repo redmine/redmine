@@ -91,4 +91,16 @@ module SettingsHelper
                          l_or_humanize(notifiable.name, :prefix => 'label_').html_safe,
                        :class => notifiable.parent.present? ? "parent" : '').html_safe
   end
+
+  def cross_project_subtasks_options
+    options = [
+      [:label_disabled, ''],
+      [:label_cross_project_system, 'system'],
+      [:label_cross_project_tree, 'tree'],
+      [:label_cross_project_hierarchy, 'hierarchy'],
+      [:label_cross_project_descendants, 'descendants']
+    ]
+
+    options.map {|label, value| [l(label), value.to_s]}
+  end
 end

@@ -65,7 +65,7 @@ module IssuesHelper
     s = ''
     ancestors = issue.root? ? [] : issue.ancestors.visible.all
     ancestors.each do |ancestor|
-      s << '<div>' + content_tag('p', link_to_issue(ancestor))
+      s << '<div>' + content_tag('p', link_to_issue(ancestor, :project => (issue.project_id != ancestor.project_id)))
     end
     s << '<div>'
     subject = h(issue.subject)
@@ -82,7 +82,7 @@ module IssuesHelper
     issue_list(issue.descendants.visible.sort_by(&:lft)) do |child, level|
       s << content_tag('tr',
              content_tag('td', check_box_tag("ids[]", child.id, false, :id => nil), :class => 'checkbox') +
-             content_tag('td', link_to_issue(child, :truncate => 60), :class => 'subject') +
+             content_tag('td', link_to_issue(child, :truncate => 60, :project => (issue.project_id != child.project_id)), :class => 'subject') +
              content_tag('td', h(child.status)) +
              content_tag('td', link_to_user(child.assigned_to)) +
              content_tag('td', progress_bar(child.done_ratio, :width => '80px')),

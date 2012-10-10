@@ -49,7 +49,15 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     assert_equal [parent.id, parent.id, 2, 3], [child.root_id, child.parent_id, child.lft, child.rgt]
   end
 
-  def test_creating_a_child_in_different_project_should_not_validate
+  def test_creating_a_child_in_a_subproject_should_validate
+    issue = create_issue!
+    child = Issue.new(:project_id => 3, :tracker_id => 2, :author_id => 1,
+                      :subject => 'child', :parent_issue_id => issue.id)
+    assert_save child
+    assert_equal issue, child.reload.parent
+  end
+
+  def test_creating_a_child_in_an_invalid_project_should_not_validate
     issue = create_issue!
     child = Issue.new(:project_id => 2, :tracker_id => 1, :author_id => 1,
                       :subject => 'child', :parent_issue_id => issue.id)

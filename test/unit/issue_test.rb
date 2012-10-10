@@ -906,6 +906,24 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal 7, issue.fixed_version_id
   end
 
+  def test_move_to_another_project_should_keep_parent_if_valid
+    issue = Issue.find(1)
+    issue.update_attribute(:parent_issue_id, 2)
+    issue.project = Project.find(3)
+    assert issue.save
+    issue.reload
+    assert_equal 2, issue.parent_id
+  end
+
+  def test_move_to_another_project_should_clear_parent_if_not_valid
+    issue = Issue.find(1)
+    issue.update_attribute(:parent_issue_id, 2)
+    issue.project = Project.find(2)
+    assert issue.save
+    issue.reload
+    assert_nil issue.parent_id
+  end
+
   def test_move_to_another_project_with_disabled_tracker
     issue = Issue.find(1)
     target = Project.find(2)
@@ -993,6 +1011,48 @@ class IssueTest < ActiveSupport::TestCase
       journal = copy.journals.first
       assert_equal 0, journal.details.size
       assert_equal notes, journal.notes
+    end
+  end
+
+  def test_valid_parent_project
+    issue = Issue.find(1)
+    issue_in_same_project = Issue.find(2)
+    issue_in_child_project = Issue.find(5)
+    issue_in_grandchild_project = Issue.generate!(:project_id => 6, :tracker_id => 1)
+    issue_in_other_child_project = Issue.find(6)
+    issue_in_different_tree = Issue.find(4)
+
+    with_settings :cross_project_subtasks => '' do
+      assert_equal true, issue.valid_parent_project?(issue_in_same_project)
+      assert_equal false, issue.valid_parent_project?(issue_in_child_project)
+      assert_equal false, issue.valid_parent_project?(issue_in_grandchild_project)
+      assert_equal false, issue.valid_parent_project?(issue_in_different_tree)
+    end
+
+    with_settings :cross_project_subtasks => 'system' do
+      assert_equal true, issue.valid_parent_project?(issue_in_same_project)
+      assert_equal true, issue.valid_parent_project?(issue_in_child_project)
+      assert_equal true, issue.valid_parent_project?(issue_in_different_tree)
+    end
+
+    with_settings :cross_project_subtasks => 'tree' do
+      assert_equal true, issue.valid_parent_project?(issue_in_same_project)
+      assert_equal true, issue.valid_parent_project?(issue_in_child_project)
+      assert_equal true, issue.valid_parent_project?(issue_in_grandchild_project)
+      assert_equal false, issue.valid_parent_project?(issue_in_different_tree)
+
+      assert_equal true, issue_in_child_project.valid_parent_project?(issue_in_same_project)
+      assert_equal true, issue_in_child_project.valid_parent_project?(issue_in_other_child_project)
+    end
+
+    with_settings :cross_project_subtasks => 'descendants' do
+      assert_equal true, issue.valid_parent_project?(issue_in_same_project)
+      assert_equal false, issue.valid_parent_project?(issue_in_child_project)
+      assert_equal false, issue.valid_parent_project?(issue_in_grandchild_project)
+      assert_equal false, issue.valid_parent_project?(issue_in_different_tree)
+
+      assert_equal true, issue_in_child_project.valid_parent_project?(issue)
+      assert_equal false, issue_in_child_project.valid_parent_project?(issue_in_other_child_project)
     end
   end
 
