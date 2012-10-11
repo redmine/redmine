@@ -27,8 +27,6 @@ class IssueNestedSetTest < ActiveSupport::TestCase
            :custom_fields, :custom_fields_projects, :custom_fields_trackers, :custom_values,
            :time_entries
 
-  self.use_transactional_fixtures = false
-
   def test_create_root_issue
     issue1 = create_issue!
     issue2 = create_issue!
@@ -157,29 +155,6 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     assert_equal [1, parent1.id, 1, 2], [parent1.project_id, parent1.root_id, parent1.lft, parent1.rgt]
     assert_equal [2, child.id, 1, 4], [child.project_id, child.root_id, child.lft, child.rgt]
     assert_equal [2, child.id, 2, 3], [grandchild.project_id, grandchild.root_id, grandchild.lft, grandchild.rgt]
-  end
-
-  def test_invalid_move_to_another_project
-    parent1 = create_issue!
-    child =   create_issue!(:parent_issue_id => parent1.id)
-    grandchild = create_issue!(:parent_issue_id => child.id, :tracker_id => 2)
-    Project.find(2).tracker_ids = [1]
-
-    parent1.reload
-    assert_equal [1, parent1.id, 1, 6], [parent1.project_id, parent1.root_id, parent1.lft, parent1.rgt]
-
-    # child can not be moved to Project 2 because its child is on a disabled tracker
-    child = Issue.find(child.id)
-    child.project = Project.find(2)
-    assert !child.save
-    child.reload
-    grandchild.reload
-    parent1.reload
-
-    # no change
-    assert_equal [1, parent1.id, 1, 6], [parent1.project_id, parent1.root_id, parent1.lft, parent1.rgt]
-    assert_equal [1, parent1.id, 2, 5], [child.project_id, child.root_id, child.lft, child.rgt]
-    assert_equal [1, parent1.id, 3, 4], [grandchild.project_id, grandchild.root_id, grandchild.lft, grandchild.rgt]
   end
 
   def test_moving_an_issue_to_a_descendant_should_not_validate
