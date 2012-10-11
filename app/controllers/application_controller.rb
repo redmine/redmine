@@ -110,6 +110,16 @@ class ApplicationController < ActionController::Base
           user = User.try_to_login(username, password) || User.find_by_api_key(username)
         end
       end
+      # Switch user if requested by an admin user
+      if user && user.admin? && (username = api_switch_user_from_request)
+        su = User.find_by_login(username)
+        if su && su.active?
+          logger.info("  User switched by: #{user.login} (id=#{user.id})") if logger
+          user = su
+        else
+          render_error :message => 'Invalid X-Redmine-Switch-User header', :status => 412
+        end
+      end
     end
     user
   end
@@ -506,6 +516,11 @@ class ApplicationController < ActionController::Base
     elsif request.headers["X-Redmine-API-Key"].present?
       request.headers["X-Redmine-API-Key"].to_s
     end
+  end
+
+  # Returns the API 'switch user' value if present
+  def api_switch_user_from_request
+    request.headers["X-Redmine-Switch-User"].to_s.presence
   end
 
   # Renders a warning flash if obj has unsaved attachments

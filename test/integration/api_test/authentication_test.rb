@@ -20,6 +20,14 @@ require File.expand_path('../../../test_helper', __FILE__)
 class ApiTest::AuthenticationTest < ActionController::IntegrationTest
   fixtures :users
 
+  def setup
+    Setting.rest_api_enabled = '1'
+  end
+
+  def teardown
+    Setting.rest_api_enabled = '0'
+  end
+
   def test_api_request_should_not_use_user_session
     log_user('jsmith', 'jsmith')
 
@@ -28,5 +36,38 @@ class ApiTest::AuthenticationTest < ActionController::IntegrationTest
 
     get '/users/current.json'
     assert_response 401
+  end
+
+  def test_api_should_accept_switch_user_header_for_admin_user
+    user = User.find(1)
+    su = User.find(4)
+
+    get '/users/current', {}, {'X-Redmine-API-Key' => user.api_key, 'X-Redmine-Switch-User' => su.login}
+    assert_response :success
+    assert_equal su, assigns(:user)
+    assert_equal su, User.current
+  end
+
+  def test_api_should_respond_with_412_when_trying_to_switch_to_a_invalid_user
+    get '/users/current', {}, {'X-Redmine-API-Key' => User.find(1).api_key, 'X-Redmine-Switch-User' => 'foobar'}
+    assert_response 412
+  end
+
+  def test_api_should_respond_with_412_when_trying_to_switch_to_a_locked_user
+    user = User.find(5)
+    assert user.locked?
+
+    get '/users/current', {}, {'X-Redmine-API-Key' => User.find(1).api_key, 'X-Redmine-Switch-User' => user.login}
+    assert_response 412
+  end
+
+  def test_api_should_not_accept_switch_user_header_for_non_admin_user
+    user = User.find(2)
+    su = User.find(4)
+
+    get '/users/current', {}, {'X-Redmine-API-Key' => user.api_key, 'X-Redmine-Switch-User' => su.login}
+    assert_response :success
+    assert_equal user, assigns(:user)
+    assert_equal user, User.current
   end
 end
