@@ -1102,8 +1102,8 @@ ja:
   permission_set_notes_private: 注記をプライベートに設定
   label_no_issues_in_project: no issues in project
   label_any: すべて
-  label_last_n_weeks: last %{count} weeks
-  setting_cross_project_subtasks: Allow cross-project subtasks
+  label_last_n_weeks: 直近%{count}週間
+  setting_cross_project_subtasks: 異なるプロジェクトのチケット間の親子関係を許可
   label_cross_project_descendants: サブプロジェクト単位
   label_cross_project_tree: プロジェクトツリー単位
   label_cross_project_hierarchy: プロジェクト階層単位
