@@ -1017,8 +1017,8 @@ de:
   description_date_from: Startdatum eintragen
   description_date_to: Enddatum eintragen
 
-  label_parent_revision: Parent
-  label_child_revision: Child
+  label_parent_revision: Vorgänger
+  label_child_revision: Nachfolger
   error_scm_annotate_big_text_file: Der Eintrag kann nicht umgesetzt werden, da er die maximale Textlänge überschreitet.
   setting_default_issue_start_date_to_creation_date: Aktuelles Datum als Beginn für neue Tickets verwenden
   button_edit_section: Diesen Bereich bearbeiten
