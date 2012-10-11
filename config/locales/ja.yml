@@ -414,7 +414,7 @@ ja:
   permission_view_issues: チケットの閲覧
   permission_add_issues: チケットの追加
   permission_edit_issues: チケットの編集
-  permission_manage_issue_relations: チケットの管理
+  permission_manage_issue_relations: 関連するチケットの管理
   permission_add_issue_notes: 注記の追加
   permission_edit_issue_notes: 注記の編集
   permission_edit_own_issue_notes: 自身が記入した注記の編集
@@ -427,10 +427,10 @@ ja:
   permission_view_issue_watchers: ウォッチャー一覧の閲覧
   permission_add_issue_watchers: ウォッチャーの追加
   permission_delete_issue_watchers: ウォッチャーの削除
-  permission_log_time: 変更履歴の記入
-  permission_view_time_entries: 変更履歴の閲覧
-  permission_edit_time_entries: 変更履歴の編集
-  permission_edit_own_time_entries: 自身が記入した変更履歴の編集
+  permission_log_time: 作業時間の記入
+  permission_view_time_entries: 作業時間の閲覧
+  permission_edit_time_entries: 作業時間の編集
+  permission_edit_own_time_entries: 自身が記入した作業時間の編集
   permission_manage_project_activities: 作業分類 (時間トラッキング) の管理
   permission_manage_news: ニュースの管理
   permission_comment_news: ニュースへのコメント
