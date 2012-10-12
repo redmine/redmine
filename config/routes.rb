@@ -289,7 +289,7 @@ RedmineApp::Application.routes.draw do
     end
   end
   resources :custom_fields, :except => :show
-  resources :roles, :except => :show do
+  resources :roles do
     collection do
       match 'permissions', :via => [:get, :post]
     end
