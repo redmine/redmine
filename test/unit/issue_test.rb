@@ -93,7 +93,9 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_create_with_parent_issue_id
-    issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 1, :subject => 'Group assignment', :parent_issue_id => 1)
+    issue = Issue.new(:project_id => 1, :tracker_id => 1,
+                      :author_id => 1, :subject => 'Group assignment',
+                      :parent_issue_id => 1)
     assert_save issue
     assert_equal 1, issue.parent_issue_id
     assert_equal Issue.find(1), issue.parent
@@ -110,7 +112,9 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_create_with_invalid_parent_issue_id
     set_language_if_valid 'en'
-    issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 1, :subject => 'Group assignment', :parent_issue_id => '01ABC')
+    issue = Issue.new(:project_id => 1, :tracker_id => 1,
+                      :author_id => 1, :subject => 'Group assignment',
+                      :parent_issue_id => '01ABC')
     assert !issue.save
     assert_equal '01ABC', issue.parent_issue_id
     assert_include 'Parent task is invalid', issue.errors.full_messages
