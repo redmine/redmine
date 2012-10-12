@@ -487,17 +487,17 @@ class User < Principal
 
       roles = roles_for_project(context)
       return false unless roles
-      roles.detect {|role|
+      roles.any? {|role|
         (context.is_public? || role.member?) &&
         role.allowed_to?(action) &&
         (block_given? ? yield(role, self) : true)
       }
     elsif context && context.is_a?(Array)
-      # Authorize if user is authorized on every element of the array
-      context.map do |project|
-        allowed_to?(action, project, options, &block)
-      end.inject do |memo,allowed|
-        memo && allowed
+      if context.empty?
+        false
+      else
+        # Authorize if user is authorized on every element of the array
+        context.map {|project| allowed_to?(action, project, options, &block)}.reduce(:&)
       end
     elsif options[:global]
       # Admin users are always authorized
@@ -506,7 +506,7 @@ class User < Principal
       # authorize if user has at least one role that has this permission
       roles = memberships.collect {|m| m.roles}.flatten.uniq
       roles << (self.logged? ? Role.non_member : Role.anonymous)
-      roles.detect {|role|
+      roles.any? {|role|
         role.allowed_to?(action) &&
         (block_given? ? yield(role, self) : true)
       }
