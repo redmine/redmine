@@ -12,26 +12,19 @@ module Redmine
     # * trunk:            devel
     BRANCH = 'devel'
 
+    # Retrieves the revision from the working copy
     def self.revision
-      revision = nil
-      entries_path = "#{Rails.root}/.svn/entries"
-      if File.readable?(entries_path)
+      if File.directory?(File.join(Rails.root, '.svn'))
         begin
-          f = File.open(entries_path, 'r')
-          entries = f.read
-          f.close
-          if entries.match(%r{^\d+})
-            revision = $1.to_i if entries.match(%r{^\d+\s+dir\s+(\d+)\s})
-          else
-            xml = REXML::Document.new(entries)
-            revision =
-              xml.elements['wc-entries'].elements[1].attributes['revision'].to_i
+          path = Redmine::Scm::Adapters::AbstractAdapter.shell_quote(Rails.root.to_s)
+          if `svn info --xml #{path}` =~ /revision="(\d+)"/
+            return $1.to_i
           end
         rescue
           # Could not find the current revision
         end
       end
-      revision
+      nil
     end
 
     REVISION = self.revision
