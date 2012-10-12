@@ -109,6 +109,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_create_with_invalid_parent_issue_id
+    set_language_if_valid 'en'
     issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 1, :subject => 'Group assignment', :parent_issue_id => '01ABC')
     assert !issue.save
     assert_equal '01ABC', issue.parent_issue_id
