@@ -828,11 +828,9 @@ class ProjectTest < ActiveSupport::TestCase
       User.current = User.find(1)
       assigned_version = Version.generate!(:name => "Assigned Issues")
       @source_project.versions << assigned_version
-      Issue.generate_for_project!(@source_project,
-                                  :fixed_version_id => assigned_version.id,
-                                  :subject => "copy issues assigned to a locked version",
-                                  :tracker_id => 1,
-                                  :project_id => @source_project.id)
+      Issue.generate!(:project => @source_project,
+                      :fixed_version_id => assigned_version.id,
+                      :subject => "copy issues assigned to a locked version")
       assigned_version.update_attribute :status, 'locked'
 
       assert @project.copy(@source_project)
@@ -850,11 +848,9 @@ class ProjectTest < ActiveSupport::TestCase
       assigned_version = Version.generate!(:name => "Assigned Issues", :status => 'open')
       @source_project.versions << assigned_version
       assert_equal 3, @source_project.versions.size
-      Issue.generate_for_project!(@source_project,
-                                  :fixed_version_id => assigned_version.id,
-                                  :subject => "change the new issues to use the copied version",
-                                  :tracker_id => 1,
-                                  :project_id => @source_project.id)
+      Issue.generate!(:project => @source_project,
+                      :fixed_version_id => assigned_version.id,
+                      :subject => "change the new issues to use the copied version")
 
       assert @project.copy(@source_project)
       @project.reload
@@ -868,11 +864,9 @@ class ProjectTest < ActiveSupport::TestCase
 
     should "keep target shared versions from other project" do
       assigned_version = Version.generate!(:name => "Assigned Issues", :status => 'open', :project_id => 1, :sharing => 'system')
-      issue = Issue.generate_for_project!(@source_project,
-                                  :fixed_version => assigned_version,
-                                  :subject => "keep target shared versions",
-                                  :tracker_id => 1,
-                                  :project_id => @source_project.id)
+      issue = Issue.generate!(:project => @source_project,
+                              :fixed_version => assigned_version,
+                              :subject => "keep target shared versions")
 
       assert @project.copy(@source_project)
       @project.reload
@@ -1090,8 +1084,8 @@ class ProjectTest < ActiveSupport::TestCase
 
     should "be the earliest start date of it's issues" do
       early = 7.days.ago.to_date
-      Issue.generate_for_project!(@project, :start_date => Date.today)
-      Issue.generate_for_project!(@project, :start_date => early)
+      Issue.generate!(:project => @project, :start_date => Date.today)
+      Issue.generate!(:project => @project, :start_date => early)
 
       assert_equal early, @project.start_date
     end
@@ -1113,8 +1107,8 @@ class ProjectTest < ActiveSupport::TestCase
 
     should "be the latest due date of it's issues" do
       future = 7.days.from_now.to_date
-      Issue.generate_for_project!(@project, :due_date => future)
-      Issue.generate_for_project!(@project, :due_date => Date.today)
+      Issue.generate!(:project => @project, :due_date => future)
+      Issue.generate!(:project => @project, :due_date => Date.today)
 
       assert_equal future, @project.due_date
     end
@@ -1132,7 +1126,7 @@ class ProjectTest < ActiveSupport::TestCase
     should "pick the latest date from it's issues and versions" do
       future = 7.days.from_now.to_date
       far_future = 14.days.from_now.to_date
-      Issue.generate_for_project!(@project, :due_date => far_future)
+      Issue.generate!(:project => @project, :due_date => far_future)
       @project.versions << Version.generate!(:effective_date => future)
 
       assert_equal far_future, @project.due_date
@@ -1163,18 +1157,18 @@ class ProjectTest < ActiveSupport::TestCase
 
       should "return 100 if the version has only closed issues" do
         v1 = Version.generate!(:project => @project)
-        Issue.generate_for_project!(@project, :status => IssueStatus.find_by_name('Closed'), :fixed_version => v1)
+        Issue.generate!(:project => @project, :status => IssueStatus.find_by_name('Closed'), :fixed_version => v1)
         v2 = Version.generate!(:project => @project)
-        Issue.generate_for_project!(@project, :status => IssueStatus.find_by_name('Closed'), :fixed_version => v2)
+        Issue.generate!(:project => @project, :status => IssueStatus.find_by_name('Closed'), :fixed_version => v2)
 
         assert_equal 100, @project.completed_percent
       end
 
       should "return the averaged completed percent of the versions (not weighted)" do
         v1 = Version.generate!(:project => @project)
-        Issue.generate_for_project!(@project, :status => IssueStatus.find_by_name('New'), :estimated_hours => 10, :done_ratio => 50, :fixed_version => v1)
+        Issue.generate!(:project => @project, :status => IssueStatus.find_by_name('New'), :estimated_hours => 10, :done_ratio => 50, :fixed_version => v1)
         v2 = Version.generate!(:project => @project)
-        Issue.generate_for_project!(@project, :status => IssueStatus.find_by_name('New'), :estimated_hours => 10, :done_ratio => 50, :fixed_version => v2)
+        Issue.generate!(:project => @project, :status => IssueStatus.find_by_name('New'), :estimated_hours => 10, :done_ratio => 50, :fixed_version => v2)
 
         assert_equal 50, @project.completed_percent
       end

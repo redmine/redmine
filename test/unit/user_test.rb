@@ -948,7 +948,7 @@ class UserTest < ActiveSupport::TestCase
         @project = Project.find(1)
         @author = User.generate!
         @assignee = User.generate!
-        @issue = Issue.generate_for_project!(@project, :assigned_to => @assignee, :author => @author)
+        @issue = Issue.generate!(:project => @project, :assigned_to => @assignee, :author => @author)
       end
 
       should "be true for a user with :all" do

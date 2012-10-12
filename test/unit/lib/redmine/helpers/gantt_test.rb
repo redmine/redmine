@@ -67,7 +67,7 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
     should "not exceed max_rows option" do
       p = Project.generate!
       5.times do
-        Issue.generate_for_project!(p)
+        Issue.generate!(:project => p)
       end
       create_gantt(p)
       @gantt.render
@@ -90,14 +90,14 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
     end
 
     should "count the number of issues without a version" do
-      @project.issues << Issue.generate_for_project!(@project, :fixed_version => nil)
+      @project.issues << Issue.generate!(:project => @project, :fixed_version => nil)
       assert_equal 2, @gantt.number_of_rows_on_project(@project)
     end
 
     should "count the number of issues on versions, including cross-project" do
       version = Version.generate!
       @project.versions << version
-      @project.issues << Issue.generate_for_project!(@project, :fixed_version => version)
+      @project.issues << Issue.generate!(:project => @project, :fixed_version => version)
       assert_equal 3, @gantt.number_of_rows_on_project(@project)
     end
   end

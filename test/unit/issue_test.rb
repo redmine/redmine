@@ -115,14 +115,14 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_anonymous_should_not_see_private_issues_with_issues_visibility_set_to_default
     assert Role.anonymous.update_attribute(:issues_visibility, 'default')
-    issue = Issue.generate_for_project!(Project.find(1), :author => User.anonymous, :assigned_to => User.anonymous, :is_private => true)
+    issue = Issue.generate!(:author => User.anonymous, :assigned_to => User.anonymous, :is_private => true)
     assert_nil Issue.where(:id => issue.id).visible(User.anonymous).first
     assert !issue.visible?(User.anonymous)
   end
 
   def test_anonymous_should_not_see_private_issues_with_issues_visibility_set_to_own
     assert Role.anonymous.update_attribute(:issues_visibility, 'own')
-    issue = Issue.generate_for_project!(Project.find(1), :author => User.anonymous, :assigned_to => User.anonymous, :is_private => true)
+    issue = Issue.generate!(:author => User.anonymous, :assigned_to => User.anonymous, :is_private => true)
     assert_nil Issue.where(:id => issue.id).visible(User.anonymous).first
     assert !issue.visible?(User.anonymous)
   end
@@ -720,10 +720,9 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_should_close_duplicates
     # Create 3 issues
-    project = Project.find(1)
-    issue1 = Issue.generate_for_project!(project)
-    issue2 = Issue.generate_for_project!(project)
-    issue3 = Issue.generate_for_project!(project)
+    issue1 = Issue.generate!
+    issue2 = Issue.generate!
+    issue3 = Issue.generate!
 
     # 2 is a dupe of 1
     IssueRelation.create!(:issue_from => issue2, :issue_to => issue1, :relation_type => IssueRelation::TYPE_DUPLICATES)
@@ -744,9 +743,8 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_should_not_close_duplicated_issue
-    project = Project.find(1)
-    issue1 = Issue.generate_for_project!(project)
-    issue2 = Issue.generate_for_project!(project)
+    issue1 = Issue.generate!
+    issue2 = Issue.generate!
 
     # 2 is a dupe of 1
     IssueRelation.create(:issue_from => issue2, :issue_to => issue1, :relation_type => IssueRelation::TYPE_DUPLICATES)
@@ -1211,17 +1209,15 @@ class IssueTest < ActiveSupport::TestCase
     end
 
     should "include the issue author" do
-      project = Project.find(1)
       non_project_member = User.generate!
-      issue = Issue.generate_for_project!(project, :author => non_project_member)
+      issue = Issue.generate!(:author => non_project_member)
 
       assert issue.assignable_users.include?(non_project_member)
     end
 
     should "include the current assignee" do
-      project = Project.find(1)
       user = User.generate!
-      issue = Issue.generate_for_project!(project, :assigned_to => user)
+      issue = Issue.generate!(:assigned_to => user)
       user.lock!
 
       assert Issue.find(issue.id).assignable_users.include?(user)
@@ -1580,7 +1576,7 @@ class IssueTest < ActiveSupport::TestCase
 
     before = Issue.on_active_project.length
     # test inclusion to results
-    issue = Issue.generate_for_project!(Project.find(1), :tracker => Project.find(2).trackers.first)
+    issue = Issue.generate!(:tracker => Project.find(2).trackers.first)
     assert_equal before + 1, Issue.on_active_project.length
 
     # Move to an archived project
@@ -1594,7 +1590,7 @@ class IssueTest < ActiveSupport::TestCase
       @project = Project.find(1)
       @author = User.generate!
       @assignee = User.generate!
-      @issue = Issue.generate_for_project!(@project, :assigned_to => @assignee, :author => @author)
+      @issue = Issue.generate!(:project => @project, :assigned_to => @assignee, :author => @author)
     end
 
     should "include project recipients" do

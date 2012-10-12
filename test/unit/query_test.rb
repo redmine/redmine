@@ -1149,11 +1149,11 @@ class QueryTest < ActiveSupport::TestCase
         User.add_to_project(@developer, @project, @developer_role)
         User.add_to_project(@boss, @project, [@manager_role, @developer_role])
         
-        @issue1 = Issue.generate_for_project!(@project, :assigned_to_id => @manager.id)
-        @issue2 = Issue.generate_for_project!(@project, :assigned_to_id => @developer.id)
-        @issue3 = Issue.generate_for_project!(@project, :assigned_to_id => @boss.id)
-        @issue4 = Issue.generate_for_project!(@project, :assigned_to_id => @guest.id)
-        @issue5 = Issue.generate_for_project!(@project)
+        @issue1 = Issue.generate!(:project => @project, :assigned_to_id => @manager.id)
+        @issue2 = Issue.generate!(:project => @project, :assigned_to_id => @developer.id)
+        @issue3 = Issue.generate!(:project => @project, :assigned_to_id => @boss.id)
+        @issue4 = Issue.generate!(:project => @project, :assigned_to_id => @guest.id)
+        @issue5 = Issue.generate!(:project => @project)
       end
 
       should "search assigned to for users with the Role" do
