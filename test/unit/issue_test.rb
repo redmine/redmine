@@ -92,6 +92,20 @@ class IssueTest < ActiveSupport::TestCase
     end
   end
 
+  def test_create_with_parent_issue_id
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 1, :subject => 'Group assignment', :parent_issue_id => 1)
+    assert_save issue
+    assert_equal 1, issue.parent_issue_id
+    assert_equal Issue.find(1), issue.parent
+  end
+
+  def test_create_with_invalid_parent_issue_id
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 1, :subject => 'Group assignment', :parent_issue_id => '01ABC')
+    assert !issue.save
+    assert_equal '01ABC', issue.parent_issue_id
+    assert_include 'Parent task is invalid', issue.errors.full_messages
+  end
+
   def assert_visibility_match(user, issues)
     assert_equal issues.collect(&:id).sort, Issue.all.select {|issue| issue.visible?(user)}.collect(&:id).sort
   end

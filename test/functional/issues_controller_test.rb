@@ -1945,24 +1945,42 @@ class IssuesControllerTest < ActionController::TestCase
                  :issue => {:tracker_id => 1,
                             :subject => 'This is a child issue',
                             :parent_issue_id => 2}
+
+      assert_response 302
     end
     issue = Issue.find_by_subject('This is a child issue')
     assert_not_nil issue
     assert_equal Issue.find(2), issue.parent
   end
 
-  def test_post_create_subissue_with_non_numeric_parent_id
+  def test_post_create_subissue_with_non_visible_parent_id_should_not_validate
     @request.session[:user_id] = 2
 
-    assert_difference 'Issue.count' do
+    assert_no_difference 'Issue.count' do
       post :create, :project_id => 1,
                  :issue => {:tracker_id => 1,
                             :subject => 'This is a child issue',
-                            :parent_issue_id => 'ABC'}
+                            :parent_issue_id => '4'}
+
+      assert_response :success
+      assert_select 'input[name=?][value=?]', 'issue[parent_issue_id]', '4'
+      assert_error_tag :content => /Parent task is invalid/i
     end
-    issue = Issue.find_by_subject('This is a child issue')
-    assert_not_nil issue
-    assert_nil issue.parent
+  end
+
+  def test_post_create_subissue_with_non_numeric_parent_id_should_not_validate
+    @request.session[:user_id] = 2
+
+    assert_no_difference 'Issue.count' do
+      post :create, :project_id => 1,
+                 :issue => {:tracker_id => 1,
+                            :subject => 'This is a child issue',
+                            :parent_issue_id => '01ABC'}
+
+      assert_response :success
+      assert_select 'input[name=?][value=?]', 'issue[parent_issue_id]', '01ABC'
+      assert_error_tag :content => /Parent task is invalid/i
+    end
   end
 
   def test_post_create_private

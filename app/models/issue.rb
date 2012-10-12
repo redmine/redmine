@@ -416,7 +416,9 @@ class Issue < ActiveRecord::Base
     end
 
     if attrs['parent_issue_id'].present?
-      attrs.delete('parent_issue_id') unless Issue.visible(user).exists?(attrs['parent_issue_id'].to_i)
+      unless Issue.visible(user).exists?(attrs['parent_issue_id'].to_i)
+        @invalid_parent_issue_id = attrs.delete('parent_issue_id')
+      end
     end
 
     if attrs['custom_field_values'].present?
@@ -550,7 +552,9 @@ class Issue < ActiveRecord::Base
     end
 
     # Checks parent issue assignment
-    if @parent_issue
+    if @invalid_parent_issue_id.present?
+      errors.add :parent_issue_id, :invalid
+    elsif @parent_issue
       if !valid_parent_project?(@parent_issue)
         errors.add :parent_issue_id, :invalid
       elsif !new_record?
@@ -947,17 +951,19 @@ class Issue < ActiveRecord::Base
   end
 
   def parent_issue_id=(arg)
-    parent_issue_id = arg.blank? ? nil : arg.to_i
-    if parent_issue_id && @parent_issue = Issue.find_by_id(parent_issue_id)
+    s = arg.to_s.strip.presence
+    if s && (m = s.match(%r{\A#?(\d+)\z})) && (@parent_issue = Issue.find_by_id(m[1]))
       @parent_issue.id
     else
       @parent_issue = nil
-      nil
+      @invalid_parent_issue_id = arg
     end
   end
 
   def parent_issue_id
-    if instance_variable_defined? :@parent_issue
+    if @invalid_parent_issue_id
+      @invalid_parent_issue_id
+    elsif instance_variable_defined? :@parent_issue
       @parent_issue.nil? ? nil : @parent_issue.id
     else
       parent_id
