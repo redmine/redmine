@@ -2872,20 +2872,21 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_put_update_with_spent_time_and_failure_should_not_add_spent_time
-    @request.session[:user_id] = 2
-
-    assert_no_difference('TimeEntry.count') do
-      put :update,
-           :id => 1,
-           :issue => { :subject => '' },
-           :time_entry => { :hours => '2.5', :comments => 'should not be added', :activity_id => TimeEntryActivity.first.id }
-      assert_response :success
-    end
-
-    assert_select 'input[name=?][value=?]', 'time_entry[hours]', '2.5'
-    assert_select 'input[name=?][value=?]', 'time_entry[comments]', 'should not be added'
-    assert_select 'select[name=?]', 'time_entry[activity_id]' do
-      assert_select 'option[value=?][selected=selected]', TimeEntryActivity.first.id
+    with_settings :default_language => "en" do
+      @request.session[:user_id] = 2
+      assert_no_difference('TimeEntry.count') do
+        put :update,
+             :id => 1,
+             :issue => { :subject => '' },
+             :time_entry => { :hours => '2.5', :comments => 'should not be added',
+                              :activity_id => TimeEntryActivity.first.id }
+        assert_response :success
+      end
+      assert_select 'input[name=?][value=?]', 'time_entry[hours]', '2.5'
+      assert_select 'input[name=?][value=?]', 'time_entry[comments]', 'should not be added'
+      assert_select 'select[name=?]', 'time_entry[activity_id]' do
+        assert_select 'option[value=?][selected=selected]', TimeEntryActivity.first.id
+      end
     end
   end
 
