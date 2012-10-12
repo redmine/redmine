@@ -2871,6 +2871,24 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal spent_hours_before + 2.5, issue.spent_hours
   end
 
+  def test_put_update_with_spent_time_and_failure_should_not_add_spent_time
+    @request.session[:user_id] = 2
+
+    assert_no_difference('TimeEntry.count') do
+      put :update,
+           :id => 1,
+           :issue => { :subject => '' },
+           :time_entry => { :hours => '2.5', :comments => 'should not be added', :activity_id => TimeEntryActivity.first.id }
+      assert_response :success
+    end
+
+    assert_select 'input[name=?][value=?]', 'time_entry[hours]', '2.5'
+    assert_select 'input[name=?][value=?]', 'time_entry[comments]', 'should not be added'
+    assert_select 'select[name=?]', 'time_entry[activity_id]' do
+      assert_select 'option[value=?][selected=selected]', TimeEntryActivity.first.id
+    end
+  end
+
   def test_put_update_with_attachment_only
     set_tmp_attachments_directory
 
