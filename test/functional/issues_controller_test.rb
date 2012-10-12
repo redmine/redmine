@@ -2320,7 +2320,7 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_new_as_copy_with_subtasks_should_show_copy_subtasks_checkbox
     @request.session[:user_id] = 2
-    issue = Issue.generate_with_descendants!(Project.find(1), :subject => 'Parent')
+    issue = Issue.generate_with_descendants!
     get :new, :project_id => 1, :copy_from => issue.id
 
     assert_select 'input[type=checkbox][name=copy_subtasks][checked=checked][value=1]'
@@ -2422,7 +2422,7 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_create_as_copy_should_copy_subtasks
     @request.session[:user_id] = 2
-    issue = Issue.generate_with_descendants!(Project.find(1), :subject => 'Parent')
+    issue = Issue.generate_with_descendants!
     count = issue.descendants.count
 
     assert_difference 'Issue.count', count+1 do
@@ -2439,7 +2439,7 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_create_as_copy_without_copy_subtasks_option_should_not_copy_subtasks
     @request.session[:user_id] = 2
-    issue = Issue.generate_with_descendants!(Project.find(1), :subject => 'Parent')
+    issue = Issue.generate_with_descendants!
 
     assert_difference 'Issue.count', 1 do
       assert_no_difference 'Journal.count' do
@@ -3634,7 +3634,7 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_bulk_copy_should_allow_not_copying_the_subtasks
-    issue = Issue.generate_with_descendants!(Project.find(1), :subject => 'Parent')
+    issue = Issue.generate_with_descendants!
     @request.session[:user_id] = 2
 
     assert_difference 'Issue.count', 1 do
@@ -3646,7 +3646,7 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_bulk_copy_should_allow_copying_the_subtasks
-    issue = Issue.generate_with_descendants!(Project.find(1), :subject => 'Parent')
+    issue = Issue.generate_with_descendants!
     count = issue.descendants.count
     @request.session[:user_id] = 2
 
@@ -3661,7 +3661,7 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_bulk_copy_should_not_copy_selected_subtasks_twice
-    issue = Issue.generate_with_descendants!(Project.find(1), :subject => 'Parent')
+    issue = Issue.generate_with_descendants!
     count = issue.descendants.count
     @request.session[:user_id] = 2
 

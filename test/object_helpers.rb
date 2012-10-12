@@ -70,12 +70,12 @@ module ObjectHelpers
     issue
   end
 
-  # Generates an issue with some children and a grandchild
-  def Issue.generate_with_descendants!(project, attributes={})
-    issue = Issue.generate!(attributes.merge(:project => project))
-    child = Issue.generate!(:project => project, :subject => 'Child1', :parent_issue_id => issue.id)
-    Issue.generate!(:project => project, :subject => 'Child2', :parent_issue_id => issue.id)
-    Issue.generate!(:project => project, :subject => 'Child11', :parent_issue_id => child.id)
+  # Generates an issue with 2 children and a grandchild
+  def Issue.generate_with_descendants!(attributes={})
+    issue = Issue.generate!(attributes)
+    child = Issue.generate!(:project => issue.project, :subject => 'Child1', :parent_issue_id => issue.id)
+    Issue.generate!(:project => issue.project, :subject => 'Child2', :parent_issue_id => issue.id)
+    Issue.generate!(:project => issue.project, :subject => 'Child11', :parent_issue_id => child.id)
     issue.reload
   end
 

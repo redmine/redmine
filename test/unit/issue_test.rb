@@ -650,7 +650,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_copy_should_copy_subtasks
-    issue = Issue.generate_with_descendants!(Project.find(1), :subject => 'Parent')
+    issue = Issue.generate_with_descendants!
 
     copy = issue.reload.copy
     copy.author = User.find(7)
@@ -665,7 +665,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_copy_should_copy_subtasks_to_target_project
-    issue = Issue.generate_with_descendants!(Project.find(1), :subject => 'Parent')
+    issue = Issue.generate_with_descendants!
 
     copy = issue.copy(:project_id => 3)
     assert_difference 'Issue.count', 1+issue.descendants.count do
@@ -675,7 +675,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_copy_should_not_copy_subtasks_twice_when_saving_twice
-    issue = Issue.generate_with_descendants!(Project.find(1), :subject => 'Parent')
+    issue = Issue.generate_with_descendants!
 
     copy = issue.reload.copy
     assert_difference 'Issue.count', 1+issue.descendants.count do

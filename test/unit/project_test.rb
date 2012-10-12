@@ -1054,7 +1054,7 @@ class ProjectTest < ActiveSupport::TestCase
 
   def test_copy_should_copy_subtasks
     source = Project.generate!(:tracker_ids => [1])
-    issue = Issue.generate_with_descendants!(source, :subject => 'Parent')
+    issue = Issue.generate_with_descendants!(:project => source)
     project = Project.new(:name => 'Copy', :identifier => 'copy', :tracker_ids => [1])
 
     assert_difference 'Project.count' do
