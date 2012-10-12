@@ -23,7 +23,7 @@ class IssueCategoriesController < ApplicationController
   before_filter :find_project_by_project_id, :only => [:index, :new, :create]
   before_filter :authorize
   accept_api_auth :index, :show, :create, :update, :destroy
-  
+
   def index
     respond_to do |format|
       format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'categories', :id => @project }
@@ -92,7 +92,7 @@ class IssueCategoriesController < ApplicationController
 
   def destroy
     @issue_count = @category.issues.size
-    if @issue_count == 0 || params[:todo] || api_request? 
+    if @issue_count == 0 || params[:todo] || api_request?
       reassign_to = nil
       if params[:reassign_to_id] && (params[:todo] == 'reassign' || params[:todo].blank?)
         reassign_to = @project.issue_categories.find_by_id(params[:reassign_to_id])
