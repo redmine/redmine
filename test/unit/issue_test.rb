@@ -603,17 +603,26 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_safe_attributes_should_accept_target_status_writable_fields
     WorkflowPermission.delete_all
-    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1, :role_id => 1, :field_name => 'due_date', :rule => 'readonly')
-    WorkflowPermission.create!(:old_status_id => 2, :tracker_id => 1, :role_id => 1, :field_name => 'start_date', :rule => 'readonly')
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1,
+                               :role_id => 1, :field_name => 'due_date',
+                               :rule => 'readonly')
+    WorkflowPermission.create!(:old_status_id => 2, :tracker_id => 1,
+                               :role_id => 1, :field_name => 'start_date',
+                               :rule => 'readonly')
     user = User.find(2)
 
     issue = Issue.new(:project_id => 1, :tracker_id => 1, :status_id => 1)
 
-    issue.send :safe_attributes=, {'start_date' => '2012-07-12', 'due_date' => '2012-07-14'}, user
+    issue.send :safe_attributes=, {'start_date' => '2012-07-12',
+                                   'due_date' => '2012-07-14'},
+                                   user
     assert_equal Date.parse('2012-07-12'), issue.start_date
     assert_nil issue.due_date
 
-    issue.send :safe_attributes=, {'start_date' => '2012-07-15', 'due_date' => '2012-07-16', 'status_id' => 2}, user
+    issue.send :safe_attributes=, {'start_date' => '2012-07-15',
+                                    'due_date' => '2012-07-16',
+                                    'status_id' => 2},
+                                  user
     assert_equal Date.parse('2012-07-12'), issue.start_date
     assert_equal Date.parse('2012-07-16'), issue.due_date
   end
