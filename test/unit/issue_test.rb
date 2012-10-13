@@ -1384,10 +1384,14 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_journalized_multi_custom_field
-    field = IssueCustomField.create!(:name => 'filter', :field_format => 'list', :is_filter => true, :is_for_all => true,
-      :tracker_ids => [1], :possible_values => ['value1', 'value2', 'value3'], :multiple => true)
+    field = IssueCustomField.create!(:name => 'filter', :field_format => 'list',
+                                     :is_filter => true, :is_for_all => true,
+                                     :tracker_ids => [1],
+                                     :possible_values => ['value1', 'value2', 'value3'],
+                                     :multiple => true)
 
-    issue = Issue.create!(:project_id => 1, :tracker_id => 1, :subject => 'Test', :author_id => 1)
+    issue = Issue.create!(:project_id => 1, :tracker_id => 1,
+                          :subject => 'Test', :author_id => 1)
 
     assert_difference 'Journal.count' do
       assert_difference 'JournalDetail.count' do
