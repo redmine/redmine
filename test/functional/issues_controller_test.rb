@@ -484,14 +484,6 @@ class IssuesControllerTest < ActionController::TestCase
       assert_equal 'text/csv; header=present', @response.content_type
       lines = @response.body.chomp.split("\n")
       assert_equal "#{issue.id},1234.50,#{str1}", lines[1]
-
-      str_tw = "Traditional Chinese (\xe7\xb9\x81\xe9\xab\x94\xe4\xb8\xad\xe6\x96\x87)"
-      if str_tw.respond_to?(:force_encoding)
-        str_tw.force_encoding('UTF-8')
-      end
-      assert_equal str_tw, l(:general_lang_name)
-      assert_equal ',', l(:general_csv_separator)
-      assert_equal '.', l(:general_csv_decimal_separator)
     end
   end
 
@@ -509,14 +501,6 @@ class IssuesControllerTest < ActionController::TestCase
       assert_equal 'text/csv; header=present', @response.content_type
       lines = @response.body.chomp.split("\n")
       assert_equal "#{issue.id};1234,50;#{str1}", lines[1]
-
-      str_fr = "Fran\xc3\xa7ais"
-      if str_fr.respond_to?(:force_encoding)
-        str_fr.force_encoding('UTF-8')
-      end
-      assert_equal str_fr, l(:general_lang_name)
-      assert_equal ';', l(:general_csv_separator)
-      assert_equal ',', l(:general_csv_decimal_separator)
     end
   end
 

@@ -237,4 +237,20 @@ class Redmine::I18nTest < ActiveSupport::TestCase
     end
     assert_equal str_ja_yes, i18n_ja_yes
   end
+
+  def test_traditional_chinese_locale
+    str_tw = "Traditional Chinese (\xe7\xb9\x81\xe9\xab\x94\xe4\xb8\xad\xe6\x96\x87)"
+    if str_tw.respond_to?(:force_encoding)
+      str_tw.force_encoding('UTF-8')
+    end
+    assert_equal str_tw, l(:general_lang_name)
+  end
+
+  def test_french_locale
+    str_fr = "Fran\xc3\xa7ais"
+    if str_fr.respond_to?(:force_encoding)
+      str_fr.force_encoding('UTF-8')
+    end
+    assert_equal str_fr, l(:general_lang_name)
+  end
 end
