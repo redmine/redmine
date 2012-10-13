@@ -798,7 +798,8 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_should_not_call_after_project_change_on_creation
-    issue = Issue.new(:project_id => 1, :tracker_id => 1, :status_id => 1, :subject => 'Test', :author_id => 1)
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :status_id => 1,
+                      :subject => 'Test', :author_id => 1)
     issue.expects(:after_project_change).never
     issue.save!
   end
