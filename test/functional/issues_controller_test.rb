@@ -655,10 +655,11 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal columns, session[:query][:column_names].map(&:to_s)
 
     # ensure only these columns are kept in the selected columns list
-    assert_tag :tag => 'select', :attributes => { :id => 'selected_columns' },
-                                 :children => { :count => 3 }
-    assert_no_tag :tag => 'option', :attributes => { :value => 'project' },
-                                    :parent => { :tag => 'select', :attributes => { :id => "selected_columns" } }
+    assert_select 'select#selected_columns option' do
+      assert_select 'option', 3
+      assert_select 'option[value=tracker]'
+      assert_select 'option[value=project]', 0
+    end
   end
 
   def test_index_without_project_should_implicitly_add_project_column_to_default_columns
@@ -692,9 +693,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_kind_of Query, query
     assert_equal columns, query.column_names.map(&:to_s)
 
-    assert_tag :td,
-      :attributes => {:class => 'cf_2 string'},
-      :ancestor => {:tag => 'table', :attributes => {:class => /issues/}}
+    assert_select 'table.issues td.cf_2.string'
   end
 
   def test_index_with_multi_custom_field_column
@@ -707,9 +706,7 @@ class IssuesControllerTest < ActionController::TestCase
     get :index, :set_filter => 1, :c => %w(tracker subject cf_1)
     assert_response :success
 
-    assert_tag :td,
-      :attributes => {:class => /cf_1/},
-      :content => 'MySQL, Oracle'
+    assert_select 'table.issues td.cf_1', :text => 'MySQL, Oracle'
   end
 
   def test_index_with_multi_user_custom_field_column
@@ -722,17 +719,20 @@ class IssuesControllerTest < ActionController::TestCase
     get :index, :set_filter => 1, :c => ['tracker', 'subject', "cf_#{field.id}"]
     assert_response :success
 
-    assert_tag :td,
-      :attributes => {:class => /cf_#{field.id}/},
-      :child => {:tag => 'a', :content => 'John Smith'}
+    assert_select "table.issues td.cf_#{field.id}" do
+      assert_select 'a', 2
+      assert_select 'a[href=?]', '/users/2', :text => 'John Smith'
+      assert_select 'a[href=?]', '/users/3', :text => 'Dave Lopper'
+    end
   end
 
   def test_index_with_date_column
-    Issue.find(1).update_attribute :start_date, '1987-08-24'
-
     with_settings :date_format => '%d/%m/%Y' do
+      Issue.find(1).update_attribute :start_date, '1987-08-24'
+
       get :index, :set_filter => 1, :c => %w(start_date)
-      assert_tag 'td', :attributes => {:class => /start_date/}, :content => '24/08/1987'
+
+      assert_select "table.issues td.start_date", :text => '24/08/1987'
     end
   end
 
@@ -740,32 +740,33 @@ class IssuesControllerTest < ActionController::TestCase
     Issue.find(1).update_attribute :done_ratio, 40
 
     get :index, :set_filter => 1, :c => %w(done_ratio)
-    assert_tag 'td', :attributes => {:class => /done_ratio/},
-      :child => {:tag => 'table', :attributes => {:class => 'progress'},
-        :descendant => {:tag => 'td', :attributes => {:class => 'closed', :style => 'width: 40%;'}}
-      }
+
+    assert_select 'table.issues td.done_ratio' do
+      assert_select 'table.progress' do
+        assert_select 'td.closed[style=?]', 'width: 40%;'
+      end
+    end
   end
 
   def test_index_with_spent_hours_column
     get :index, :set_filter => 1, :c => %w(subject spent_hours)
 
-    assert_tag 'tr', :attributes => {:id => 'issue-3'},
-      :child => {
-        :tag => 'td', :attributes => {:class => /spent_hours/}, :content => '1.00'
-      }
+    assert_select 'table.issues tr#issue-3 td.spent_hours', :text => '1.00'
   end
 
   def test_index_should_not_show_spent_hours_column_without_permission
     Role.anonymous.remove_permission! :view_time_entries
     get :index, :set_filter => 1, :c => %w(subject spent_hours)
 
-    assert_no_tag 'td', :attributes => {:class => /spent_hours/}
+    assert_select 'td.spent_hours', 0
   end
 
   def test_index_with_fixed_version_column
     get :index, :set_filter => 1, :c => %w(fixed_version)
-    assert_tag 'td', :attributes => {:class => /fixed_version/},
-      :child => {:tag => 'a', :content => '1.0', :attributes => {:href => '/versions/2'}}
+
+    assert_select 'table.issues td.fixed_version' do
+      assert_select 'a[href=?]', '/versions/2', :text => '1.0'
+    end
   end
 
   def test_index_with_relations_column
@@ -820,16 +821,17 @@ class IssuesControllerTest < ActionController::TestCase
     get :show, :id => 1
     assert_response :success
     assert_template 'show'
-    assert_not_nil assigns(:issue)
     assert_equal Issue.find(1), assigns(:issue)
 
     # anonymous role is allowed to add a note
-    assert_tag :tag => 'form',
-               :descendant => { :tag => 'fieldset',
-                                :child => { :tag => 'legend',
-                                            :content => /Notes/ } }
-    assert_tag :tag => 'title',
-      :content => "Bug #1: Can&#x27;t print recipes - eCookbook - Redmine"
+    assert_select 'form#issue-form' do
+      assert_select 'fieldset' do
+        assert_select 'legend', :text => 'Notes'
+        assert_select 'textarea[name=?]', 'issue[notes]'
+      end
+    end
+
+    assert_select 'title', :text => "Bug #1: Can&#x27;t print recipes - eCookbook - Redmine"
   end
 
   def test_show_by_manager
@@ -837,19 +839,22 @@ class IssuesControllerTest < ActionController::TestCase
     get :show, :id => 1
     assert_response :success
 
-    assert_tag :tag => 'a',
-      :content => /Quote/
+    assert_select 'a', :text => /Quote/
 
-    assert_tag :tag => 'form',
-               :descendant => { :tag => 'fieldset',
-                                :child => { :tag => 'legend',
-                                            :content => /Change properties/ } },
-               :descendant => { :tag => 'fieldset',
-                                :child => { :tag => 'legend',
-                                            :content => /Log time/ } },
-               :descendant => { :tag => 'fieldset',
-                                :child => { :tag => 'legend',
-                                            :content => /Notes/ } }
+    assert_select 'form#issue-form' do
+      assert_select 'fieldset' do
+        assert_select 'legend', :text => 'Change properties'
+        assert_select 'input[name=?]', 'issue[subject]'
+      end
+      assert_select 'fieldset' do
+        assert_select 'legend', :text => 'Log time'
+        assert_select 'input[name=?]', 'time_entry[hours]'
+      end
+      assert_select 'fieldset' do
+        assert_select 'legend', :text => 'Notes'
+        assert_select 'textarea[name=?]', 'issue[notes]'
+      end
+    end
   end
 
   def test_show_should_display_update_form
@@ -939,29 +944,31 @@ class IssuesControllerTest < ActionController::TestCase
     get :show, :id => 1
     assert_response :success
 
-    assert_no_tag 'form', :attributes => {:id => 'issue-form'}
+    assert_select 'form#issue-form', 0
   end
 
   def test_update_form_should_not_display_inactive_enumerations
+    assert !IssuePriority.find(15).active?
+
     @request.session[:user_id] = 2
     get :show, :id => 1
     assert_response :success
 
-    assert ! IssuePriority.find(15).active?
-    assert_no_tag :option, :attributes => {:value => '15'},
-                           :parent => {:tag => 'select', :attributes => {:id => 'issue_priority_id'} }
+    assert_select 'form#issue-form' do
+      assert_select 'select[name=?]', 'issue[priority_id]' do
+        assert_select 'option[value=4]'
+        assert_select 'option[value=15]', 0
+      end
+    end
   end
 
   def test_update_form_should_allow_attachment_upload
     @request.session[:user_id] = 2
     get :show, :id => 1
 
-    assert_tag :tag => 'form',
-      :attributes => {:id => 'issue-form', :method => 'post', :enctype => 'multipart/form-data'},
-      :descendant => {
-        :tag => 'input',
-        :attributes => {:type => 'file', :name => 'attachments[1][file]'}
-      }
+    assert_select 'form#issue-form[method=post][enctype=multipart/form-data]' do
+      assert_select 'input[type=file][name=?]', 'attachments[1][file]'
+    end
   end
 
   def test_show_should_deny_anonymous_access_without_permission
@@ -1035,10 +1042,10 @@ class IssuesControllerTest < ActionController::TestCase
     get :show, :id => 1
     assert_response :success
 
-    assert_tag :div, :attributes => { :id => 'relations' },
-                     :descendant => { :tag => 'a', :content => /#2$/ }
-    assert_no_tag :div, :attributes => { :id => 'relations' },
-                        :descendant => { :tag => 'a', :content => /#4$/ }
+    assert_select 'div#relations' do
+      assert_select 'a', :text => /#2$/
+      assert_select 'a', :text => /#4$/, :count => 0
+    end
   end
 
   def test_show_should_list_subtasks
@@ -1046,8 +1053,10 @@ class IssuesControllerTest < ActionController::TestCase
 
     get :show, :id => 1
     assert_response :success
-    assert_tag 'div', :attributes => {:id => 'issue_tree'},
-      :descendant => {:tag => 'td', :content => /Child Issue/, :attributes => {:class => /subject/}}
+
+    assert_select 'div#issue_tree' do
+      assert_select 'td.subject', :text => /Child Issue/
+    end
   end
 
   def test_show_should_list_parents
@@ -1055,10 +1064,11 @@ class IssuesControllerTest < ActionController::TestCase
 
     get :show, :id => issue.id
     assert_response :success
-    assert_tag 'div', :attributes => {:class => 'subject'},
-      :descendant => {:tag => 'h3', :content => 'Child Issue'}
-    assert_tag 'div', :attributes => {:class => 'subject'},
-      :descendant => {:tag => 'a', :attributes => {:href => '/issues/1'}}
+
+    assert_select 'div.subject' do
+      assert_select 'h3', 'Child Issue'
+      assert_select 'a[href=/issues/1]'
+    end
   end
 
   def test_show_should_not_display_prev_next_links_without_query_in_session
@@ -1067,7 +1077,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_nil assigns(:prev_issue_id)
     assert_nil assigns(:next_issue_id)
 
-    assert_no_tag 'div', :attributes => {:class => /next-prev-links/}
+    assert_select 'div.next-prev-links', 0
   end
 
   def test_show_should_display_prev_next_links_with_query_in_session
@@ -1083,12 +1093,13 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 2, assigns(:prev_issue_id)
     assert_equal 5, assigns(:next_issue_id)
 
-    assert_tag 'div', :attributes => {:class => /next-prev-links/}
-    assert_tag 'a', :attributes => {:href => '/issues/2'}, :content => /Previous/
-    assert_tag 'a', :attributes => {:href => '/issues/5'}, :content => /Next/
-
     count = Issue.open.visible.count
-    assert_tag 'span', :attributes => {:class => 'position'}, :content => "3 of #{count}"
+
+    assert_select 'div.next-prev-links' do
+      assert_select 'a[href=/issues/2]', :text => /Previous/
+      assert_select 'a[href=/issues/5]', :text => /Next/
+      assert_select 'span.position', :text => "3 of #{count}"
+    end
   end
 
   def test_show_should_display_prev_next_links_with_saved_query_in_session
@@ -1105,8 +1116,10 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 8, assigns(:prev_issue_id)
     assert_equal 12, assigns(:next_issue_id)
 
-    assert_tag 'a', :attributes => {:href => '/issues/8'}, :content => /Previous/
-    assert_tag 'a', :attributes => {:href => '/issues/12'}, :content => /Next/
+    assert_select 'div.next-prev-links' do
+      assert_select 'a[href=/issues/8]', :text => /Previous/
+      assert_select 'a[href=/issues/12]', :text => /Next/
+    end
   end
 
   def test_show_should_display_prev_next_links_with_query_and_sort_on_association
@@ -1118,8 +1131,10 @@ class IssuesControllerTest < ActionController::TestCase
       get :show, :id => 3
       assert_response :success, "Wrong response status for #{assoc_sort} sort"
 
-      assert_tag 'div', :attributes => {:class => /next-prev-links/}, :content => /Previous/
-      assert_tag 'div', :attributes => {:class => /next-prev-links/}, :content => /Next/
+      assert_select 'div.next-prev-links' do
+        assert_select 'a', :text => /Previous/
+        assert_select 'a', :text => /Next/
+      end
     end
   end
 
@@ -1136,8 +1151,10 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 2, assigns(:prev_issue_id)
     assert_equal 7, assigns(:next_issue_id)
 
-    assert_tag 'a', :attributes => {:href => '/issues/2'}, :content => /Previous/
-    assert_tag 'a', :attributes => {:href => '/issues/7'}, :content => /Next/
+    assert_select 'div.next-prev-links' do
+      assert_select 'a[href=/issues/2]', :text => /Previous/
+      assert_select 'a[href=/issues/7]', :text => /Next/
+    end
   end
 
   def test_show_should_not_display_prev_link_for_first_issue
@@ -1152,8 +1169,10 @@ class IssuesControllerTest < ActionController::TestCase
     assert_nil assigns(:prev_issue_id)
     assert_equal 2, assigns(:next_issue_id)
 
-    assert_no_tag 'a', :content => /Previous/
-    assert_tag 'a', :attributes => {:href => '/issues/2'}, :content => /Next/
+    assert_select 'div.next-prev-links' do
+      assert_select 'a', :text => /Previous/, :count => 0
+      assert_select 'a[href=/issues/2]', :text => /Next/
+    end
   end
 
   def test_show_should_not_display_prev_next_links_for_issue_not_in_query_results
@@ -1166,8 +1185,8 @@ class IssuesControllerTest < ActionController::TestCase
     assert_nil assigns(:prev_issue_id)
     assert_nil assigns(:next_issue_id)
 
-    assert_no_tag 'a', :content => /Previous/
-    assert_no_tag 'a', :content => /Next/
+    assert_select 'a', :text => /Previous/, :count => 0
+    assert_select 'a', :text => /Next/, :count => 0
   end
 
   def test_show_show_should_display_prev_next_links_with_query_sort_by_user_custom_field
@@ -1186,6 +1205,11 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_equal 2, assigns(:prev_issue_id)
     assert_equal 1, assigns(:next_issue_id)
+
+    assert_select 'div.next-prev-links' do
+      assert_select 'a[href=/issues/2]', :text => /Previous/
+      assert_select 'a[href=/issues/1]', :text => /Next/
+    end
   end
 
   def test_show_should_display_link_to_the_assignee
@@ -1201,11 +1225,14 @@ class IssuesControllerTest < ActionController::TestCase
     issue = project.issues.first
     issue.changeset_ids = [102]
     issue.save!
+    # changesets from other projects should be displayed even if repository
+    # is disabled on issue's project
     project.disable_module! :repository
 
     @request.session[:user_id] = 2
     get :show, :id => issue.id
-    assert_tag 'a', :attributes => {:href => "/projects/ecookbook/repository/revisions/3"}
+
+    assert_select 'a[href=?]', '/projects/ecookbook/repository/revisions/3'
   end
 
   def test_show_should_display_watchers
@@ -1274,7 +1301,7 @@ class IssuesControllerTest < ActionController::TestCase
     get :show, :id => 1
     assert_response :success
 
-    assert_tag :td, :content => 'MySQL, Oracle'
+    assert_select 'td', :text => 'MySQL, Oracle'
   end
 
   def test_show_with_multi_user_custom_field
@@ -1288,7 +1315,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
 
     # TODO: should display links
-    assert_tag :td, :content => 'Dave Lopper, John Smith'
+    assert_select 'td', :text => 'Dave Lopper, John Smith'
   end
 
   def test_show_should_display_private_notes_with_permission_only
