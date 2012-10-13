@@ -61,13 +61,15 @@ class IssuesControllerTest < ActionController::TestCase
       assert_template 'index'
       assert_not_nil assigns(:issues)
       assert_nil assigns(:project)
-      assert_tag :tag => 'a', :content => /Can&#x27;t print recipes/
-      assert_tag :tag => 'a', :content => /Subproject issue/
+
+      # links to visible issues
+      assert_select 'a[href=/issues/1]', :text => /Can&#x27;t print recipes/
+      assert_select 'a[href=/issues/5]', :text => /Subproject issue/
       # private projects hidden
-      assert_no_tag :tag => 'a', :content => /Issue of a private subproject/
-      assert_no_tag :tag => 'a', :content => /Issue on project 2/
+      assert_select 'a[href=/issues/6]', 0
+      assert_select 'a[href=/issues/4]', 0
       # project column
-      assert_tag :tag => 'th', :content => /Project/
+      assert_select 'th', :text => /Project/
     end
   end
 
@@ -78,8 +80,9 @@ class IssuesControllerTest < ActionController::TestCase
     assert_template 'index'
     assert_not_nil assigns(:issues)
     assert_nil assigns(:project)
-    assert_no_tag :tag => 'a', :content => /Can&#x27;t print recipes/
-    assert_tag :tag => 'a', :content => /Subproject issue/
+
+    assert_select 'a[href=/issues/1]', 0
+    assert_select 'a[href=/issues/5]', :text => /Subproject issue/
   end
 
   def test_index_should_list_visible_issues_only
@@ -95,8 +98,9 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:issues)
-    assert_tag :tag => 'a', :content => /Can&#x27;t print recipes/
-    assert_no_tag :tag => 'a', :content => /Subproject issue/
+
+    assert_select 'a[href=/issues/1]', :text => /Can&#x27;t print recipes/
+    assert_select 'a[href=/issues/5]', 0
   end
 
   def test_index_with_project_and_subprojects
@@ -105,21 +109,23 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:issues)
-    assert_tag :tag => 'a', :content => /Can&#x27;t print recipes/
-    assert_tag :tag => 'a', :content => /Subproject issue/
-    assert_no_tag :tag => 'a', :content => /Issue of a private subproject/
+
+    assert_select 'a[href=/issues/1]', :text => /Can&#x27;t print recipes/
+    assert_select 'a[href=/issues/5]', :text => /Subproject issue/
+    assert_select 'a[href=/issues/6]', 0
   end
 
-  def test_index_with_project_and_subprojects_should_show_private_subprojects
+  def test_index_with_project_and_subprojects_should_show_private_subprojects_with_permission
     @request.session[:user_id] = 2
     Setting.display_subprojects_issues = 1
     get :index, :project_id => 1
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:issues)
-    assert_tag :tag => 'a', :content => /Can&#x27;t print recipes/
-    assert_tag :tag => 'a', :content => /Subproject issue/
-    assert_tag :tag => 'a', :content => /Issue of a private subproject/
+
+    assert_select 'a[href=/issues/1]', :text => /Can&#x27;t print recipes/
+    assert_select 'a[href=/issues/5]', :text => /Subproject issue/
+    assert_select 'a[href=/issues/6]', :text => /Issue of a private subproject/
   end
 
   def test_index_with_project_and_default_filter
@@ -551,15 +557,13 @@ class IssuesControllerTest < ActionController::TestCase
     get :index, :project_id => 'ecookbook', :format => 'atom'
     assert_response :success
     assert_template 'common/feed'
+    assert_equal 'application/atom+xml', response.content_type
 
-    assert_tag :tag => 'link', :parent =>  {:tag => 'feed', :parent => nil },
-        :attributes => {:rel => 'self', :href => 'http://test.host/projects/ecookbook/issues.atom'}
-    assert_tag :tag => 'link', :parent =>  {:tag => 'feed', :parent => nil },
-        :attributes => {:rel => 'alternate', :href => 'http://test.host/projects/ecookbook/issues'}
-
-    assert_tag :tag => 'entry', :child => {
-      :tag => 'link',
-      :attributes => {:href => 'http://test.host/issues/1'}}
+    assert_select 'feed' do
+      assert_select 'link[rel=self][href=?]', 'http://test.host/projects/ecookbook/issues.atom'
+      assert_select 'link[rel=alternate][href=?]', 'http://test.host/projects/ecookbook/issues'
+      assert_select 'entry link[href=?]', 'http://test.host/issues/1'
+    end
   end
 
   def test_index_sort
@@ -1446,10 +1450,10 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'new'
 
-    assert_tag 'select',
-      :attributes => {:name => 'issue[custom_field_values][1]', :class => 'list_cf'},
-      :children => {:count => 4},
-      :child => {:tag => 'option', :attributes => {:value => 'MySQL'}, :content => 'MySQL'}
+    assert_select 'select.list_cf[name=?]', 'issue[custom_field_values][1]' do
+      assert_select 'option', 4
+      assert_select 'option[value=MySQL]', :text => 'MySQL'
+    end
   end
 
   def test_get_new_with_multi_custom_field
@@ -1461,12 +1465,11 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'new'
 
-    assert_tag 'select',
-      :attributes => {:name => 'issue[custom_field_values][1][]', :multiple => 'multiple'},
-      :children => {:count => 3},
-      :child => {:tag => 'option', :attributes => {:value => 'MySQL'}, :content => 'MySQL'}
-    assert_tag 'input',
-      :attributes => {:name => 'issue[custom_field_values][1][]', :value => ''}
+    assert_select 'select[name=?][multiple=multiple]', 'issue[custom_field_values][1][]' do
+      assert_select 'option', 3
+      assert_select 'option[value=MySQL]', :text => 'MySQL'
+    end
+    assert_select 'input[name=?][type=hidden][value=?]', 'issue[custom_field_values][1][]', ''
   end
 
   def test_get_new_with_multi_user_custom_field
@@ -1478,12 +1481,11 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'new'
 
-    assert_tag 'select',
-      :attributes => {:name => "issue[custom_field_values][#{field.id}][]", :multiple => 'multiple'},
-      :children => {:count => Project.find(1).users.count},
-      :child => {:tag => 'option', :attributes => {:value => '2'}, :content => 'John Smith'}
-    assert_tag 'input',
-      :attributes => {:name => "issue[custom_field_values][#{field.id}][]", :value => ''}
+    assert_select 'select[name=?][multiple=multiple]', "issue[custom_field_values][#{field.id}][]" do
+      assert_select 'option', Project.find(1).users.count
+      assert_select 'option[value=2]', :text => 'John Smith'
+    end
+    assert_select 'input[name=?][type=hidden][value=?]', "issue[custom_field_values][#{field.id}][]", ''
   end
 
   def test_get_new_with_date_custom_field
@@ -1514,8 +1516,8 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'new'
 
-    assert_tag :tag => 'input', :attributes => { :name => 'issue[start_date]',
-                                                 :value => nil }
+    assert_select 'input[name=?]', 'issue[start_date]'
+    assert_select 'input[name=?][value]', 'issue[start_date]', 0
   end
 
   def test_get_new_with_default_start_date_is_creation_date
@@ -1526,8 +1528,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'new'
 
-    assert_tag :tag => 'input', :attributes => { :name => 'issue[start_date]',
-                                                 :value => Date.today.to_s }
+    assert_select 'input[name=?][value=?]', 'issue[start_date]', Date.today.to_s
   end
 
   def test_get_new_form_should_allow_attachment_upload
@@ -1550,13 +1551,11 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 'Prefilled', issue.description
     assert_equal 'Custom field value', issue.custom_field_value(2)
 
-    assert_tag 'select',
-      :attributes => {:name => 'issue[tracker_id]'},
-      :child => {:tag => 'option', :attributes => {:value => '3', :selected => 'selected'}}
-    assert_tag 'textarea',
-      :attributes => {:name => 'issue[description]'}, :content => "\nPrefilled"
-    assert_tag 'input',
-      :attributes => {:name => 'issue[custom_field_values][2]', :value => 'Custom field value'}
+    assert_select 'select[name=?]', 'issue[tracker_id]' do
+      assert_select 'option[value=3][selected=selected]'
+    end
+    assert_select 'textarea[name=?]', 'issue[description]', :text => /Prefilled/
+    assert_select 'input[name=?][value=?]', 'issue[custom_field_values][2]', 'Custom field value'
   end
 
   def test_get_new_should_mark_required_fields
