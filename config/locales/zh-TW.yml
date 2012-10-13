@@ -439,6 +439,7 @@
   setting_date_format: 日期格式
   setting_time_format: 時間格式
   setting_cross_project_issue_relations: 允許關聯至其它專案的問題
+  setting_cross_project_subtasks: 允許跨專案的子任務
   setting_issue_list_default_columns: 預設顯示於問題清單的欄位
   setting_repositories_encodings: 附加檔案與儲存機制的編碼
   setting_emails_header: 電子郵件前頭說明
@@ -745,6 +746,7 @@
   label_yesterday: 昨天
   label_this_week: 本週
   label_last_week: 上週
+  label_last_n_weeks: "過去 %{count} 週"
   label_last_n_days: "過去 %{count} 天"
   label_this_month: 這個月
   label_last_month: 上個月
@@ -962,6 +964,10 @@
   label_attribute_of_author: "作者是 %{name}"
   label_attribute_of_assigned_to: "被指派者是 %{name}"
   label_attribute_of_fixed_version: "版本是 %{name}"
+  label_cross_project_descendants: 與子專案共用
+  label_cross_project_tree: 與專案樹共用
+  label_cross_project_hierarchy: 與專案階層架構共用
+  label_cross_project_system: 與全部的專案共用
 
   button_login: 登入
   button_submit: 送出
@@ -1153,9 +1159,3 @@
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  label_last_n_weeks: last %{count} weeks
-  setting_cross_project_subtasks: Allow cross-project subtasks
-  label_cross_project_descendants: 與子專案共用
-  label_cross_project_tree: 與專案樹共用
-  label_cross_project_hierarchy: 與專案階層架構共用
-  label_cross_project_system: 與全部的專案共用
