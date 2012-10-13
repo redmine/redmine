@@ -864,7 +864,8 @@ class IssueTest < ActiveSupport::TestCase
     issue2 = Issue.generate!
 
     # 2 is a dupe of 1
-    IssueRelation.create(:issue_from => issue2, :issue_to => issue1, :relation_type => IssueRelation::TYPE_DUPLICATES)
+    IssueRelation.create(:issue_from => issue2, :issue_to => issue1,
+                         :relation_type => IssueRelation::TYPE_DUPLICATES)
     # 2 is a dup of 1 but 1 is not a duplicate of 2
     assert !issue2.reload.duplicates.include?(issue1)
 
