@@ -1223,7 +1223,10 @@ class IssueTest < ActiveSupport::TestCase
     assert !Issue.new(:due_date => Date.today).overdue?
     assert !Issue.new(:due_date => 1.day.from_now.to_date).overdue?
     assert !Issue.new(:due_date => nil).overdue?
-    assert !Issue.new(:due_date => 1.day.ago.to_date, :status => IssueStatus.find(:first, :conditions => {:is_closed => true})).overdue?
+    assert !Issue.new(:due_date => 1.day.ago.to_date,
+                      :status => IssueStatus.find(:first,
+                                                  :conditions => {:is_closed => true})
+                      ).overdue?
   end
 
   context "#behind_schedule?" do
