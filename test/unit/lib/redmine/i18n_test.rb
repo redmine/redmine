@@ -239,6 +239,7 @@ class Redmine::I18nTest < ActiveSupport::TestCase
   end
 
   def test_traditional_chinese_locale
+    set_language_if_valid 'zh-TW'
     str_tw = "Traditional Chinese (\xe7\xb9\x81\xe9\xab\x94\xe4\xb8\xad\xe6\x96\x87)"
     if str_tw.respond_to?(:force_encoding)
       str_tw.force_encoding('UTF-8')
@@ -247,6 +248,7 @@ class Redmine::I18nTest < ActiveSupport::TestCase
   end
 
   def test_french_locale
+    set_language_if_valid 'fr'
     str_fr = "Fran\xc3\xa7ais"
     if str_fr.respond_to?(:force_encoding)
       str_fr.force_encoding('UTF-8')
