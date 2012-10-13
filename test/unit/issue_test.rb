@@ -1286,7 +1286,8 @@ class IssueTest < ActiveSupport::TestCase
       assert_equal 2, assignable_user_ids.length
 
       assignable_user_ids.each do |user_id|
-        assert_equal 1, assignable_user_ids.select {|i| i == user_id}.length, "User #{user_id} appears more or less than once"
+        assert_equal 1, assignable_user_ids.select {|i| i == user_id}.length,
+                     "User #{user_id} appears more or less than once"
       end
     end
 
