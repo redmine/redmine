@@ -878,7 +878,9 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_assignable_versions
-    issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 1, :status_id => 1, :fixed_version_id => 1, :subject => 'New issue')
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 1,
+                      :status_id => 1, :fixed_version_id => 1,
+                      :subject => 'New issue')
     assert_equal ['open'], issue.assignable_versions.collect(&:status).uniq
   end
 
