@@ -498,7 +498,9 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_safe_attributes_should_not_include_readonly_fields
     WorkflowPermission.delete_all
-    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1, :role_id => 1, :field_name => 'due_date', :rule => 'readonly')
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1,
+                               :role_id => 1, :field_name => 'due_date',
+                               :rule => 'readonly')
     user = User.find(2)
 
     issue = Issue.new(:project_id => 1, :tracker_id => 1)
