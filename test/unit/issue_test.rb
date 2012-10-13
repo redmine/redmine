@@ -876,7 +876,9 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_should_be_able_to_assign_a_new_issue_to_an_open_version
-    issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 1, :status_id => 1, :fixed_version_id => 3, :subject => 'New issue')
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 1,
+                      :status_id => 1, :fixed_version_id => 3,
+                      :subject => 'New issue')
     assert issue.save
   end
 
