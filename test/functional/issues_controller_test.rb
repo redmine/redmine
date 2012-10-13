@@ -419,10 +419,7 @@ class IssuesControllerTest < ActionController::TestCase
         str_utf8.force_encoding('UTF-8')
         str_big5.force_encoding('Big5')
       end
-      issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 3,
-                        :status_id => 1, :priority => IssuePriority.all.first,
-                        :subject => str_utf8)
-      assert issue.save
+      issue = Issue.generate!(:subject => str_utf8)
 
       get :index, :project_id => 1, 
                   :f => ['subject'], 
@@ -445,10 +442,7 @@ class IssuesControllerTest < ActionController::TestCase
       if str_utf8.respond_to?(:force_encoding)
         str_utf8.force_encoding('UTF-8')
       end
-      issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 3,
-                        :status_id => 1, :priority => IssuePriority.all.first,
-                        :subject => str_utf8)
-      assert issue.save
+      issue = Issue.generate!(:subject => str_utf8)
 
       get :index, :project_id => 1, 
                   :f => ['subject'], 
@@ -479,11 +473,7 @@ class IssuesControllerTest < ActionController::TestCase
   def test_index_csv_tw
     with_settings :default_language => "zh-TW" do
       str1  = "test_index_csv_tw"
-      issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 3,
-                        :status_id => 1, :priority => IssuePriority.all.first,
-                        :subject => str1, :estimated_hours => '1234.5')
-      assert issue.save
-      assert_equal 1234.5, issue.estimated_hours
+      issue = Issue.generate!(:subject => str1, :estimated_hours => '1234.5')
 
       get :index, :project_id => 1, 
                   :f => ['subject'], 
@@ -508,11 +498,7 @@ class IssuesControllerTest < ActionController::TestCase
   def test_index_csv_fr
     with_settings :default_language => "fr" do
       str1  = "test_index_csv_fr"
-      issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 3,
-                        :status_id => 1, :priority => IssuePriority.all.first,
-                        :subject => str1, :estimated_hours => '1234.5')
-      assert issue.save
-      assert_equal 1234.5, issue.estimated_hours
+      issue = Issue.generate!(:subject => str1, :estimated_hours => '1234.5')
 
       get :index, :project_id => 1, 
                   :f => ['subject'], 
