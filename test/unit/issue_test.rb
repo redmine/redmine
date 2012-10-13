@@ -628,26 +628,42 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_required_attributes_should_be_validated
-    cf = IssueCustomField.create!(:name => 'Foo', :field_format => 'string', :is_for_all => true, :tracker_ids => [1, 2])
+    cf = IssueCustomField.create!(:name => 'Foo', :field_format => 'string',
+                                  :is_for_all => true, :tracker_ids => [1, 2])
 
     WorkflowPermission.delete_all
-    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1, :role_id => 1, :field_name => 'due_date', :rule => 'required')
-    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1, :role_id => 1, :field_name => 'category_id', :rule => 'required')
-    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1, :role_id => 1, :field_name => cf.id.to_s, :rule => 'required')
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1,
+                               :role_id => 1, :field_name => 'due_date',
+                               :rule => 'required')
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1,
+                               :role_id => 1, :field_name => 'category_id',
+                               :rule => 'required')
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1,
+                               :role_id => 1, :field_name => cf.id.to_s,
+                               :rule => 'required')
 
-    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 2, :role_id => 1, :field_name => 'start_date', :rule => 'required')
-    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 2, :role_id => 1, :field_name => cf.id.to_s, :rule => 'required')
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 2,
+                               :role_id => 1, :field_name => 'start_date',
+                               :rule => 'required')
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 2,
+                               :role_id => 1, :field_name => cf.id.to_s,
+                               :rule => 'required')
     user = User.find(2)
 
-    issue = Issue.new(:project_id => 1, :tracker_id => 1, :status_id => 1, :subject => 'Required fields', :author => user)
-    assert_equal [cf.id.to_s, "category_id", "due_date"], issue.required_attribute_names(user).sort
+    issue = Issue.new(:project_id => 1, :tracker_id => 1,
+                      :status_id => 1, :subject => 'Required fields',
+                      :author => user)
+    assert_equal [cf.id.to_s, "category_id", "due_date"],
+                 issue.required_attribute_names(user).sort
     assert !issue.save, "Issue was saved"
-    assert_equal ["Category can't be blank", "Due date can't be blank", "Foo can't be blank"], issue.errors.full_messages.sort
+    assert_equal ["Category can't be blank", "Due date can't be blank", "Foo can't be blank"],
+                  issue.errors.full_messages.sort
 
     issue.tracker_id = 2
     assert_equal [cf.id.to_s, "start_date"], issue.required_attribute_names(user).sort
     assert !issue.save, "Issue was saved"
-    assert_equal ["Foo can't be blank", "Start date can't be blank"], issue.errors.full_messages.sort
+    assert_equal ["Foo can't be blank", "Start date can't be blank"],
+                 issue.errors.full_messages.sort
 
     issue.start_date = Date.today
     issue.custom_field_values = {cf.id.to_s => 'bar'}
