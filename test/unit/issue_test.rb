@@ -543,11 +543,13 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_editable_custom_field_values_should_return_non_readonly_custom_values
-    cf1 = IssueCustomField.create!(:name => 'Writable field', :field_format => 'string', :is_for_all => true, :tracker_ids => [1, 2])
-    cf2 = IssueCustomField.create!(:name => 'Readonly field', :field_format => 'string', :is_for_all => true, :tracker_ids => [1, 2])
-
+    cf1 = IssueCustomField.create!(:name => 'Writable field', :field_format => 'string',
+                                   :is_for_all => true, :tracker_ids => [1, 2])
+    cf2 = IssueCustomField.create!(:name => 'Readonly field', :field_format => 'string',
+                                   :is_for_all => true, :tracker_ids => [1, 2])
     WorkflowPermission.delete_all
-    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1, :role_id => 1, :field_name => cf2.id.to_s, :rule => 'readonly')
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1, :role_id => 1,
+                               :field_name => cf2.id.to_s, :rule => 'readonly')
     user = User.find(2)
 
     issue = Issue.new(:project_id => 1, :tracker_id => 1)
