@@ -338,7 +338,9 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_should_not_update_custom_fields_on_changing_tracker_with_different_custom_fields
-    issue = Issue.create!(:project_id => 1, :tracker_id => 1, :author_id => 1, :status_id => 1, :subject => 'Test', :custom_field_values => {'2' => 'Test'})
+    issue = Issue.create!(:project_id => 1, :tracker_id => 1, :author_id => 1,
+                          :status_id => 1, :subject => 'Test',
+                          :custom_field_values => {'2' => 'Test'})
     assert !Tracker.find(2).custom_field_ids.include?(2)
 
     issue = Issue.find(issue.id)
