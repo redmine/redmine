@@ -450,8 +450,9 @@ class IssueTest < ActiveSupport::TestCase
     admin = User.find(1)
     issue = Issue.find(1)
     assert !admin.member_of?(issue.project)
-    expected_statuses = [issue.status] + WorkflowTransition.find_all_by_old_status_id(issue.status_id).map(&:new_status).uniq.sort
-
+    expected_statuses = [issue.status] + 
+                            WorkflowTransition.find_all_by_old_status_id(
+                                issue.status_id).map(&:new_status).uniq.sort
     assert_equal expected_statuses, issue.new_statuses_allowed_to(admin)
   end
 
