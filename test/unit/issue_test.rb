@@ -706,8 +706,12 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_read_only_attribute_names_for_multiple_roles_should_intersect_rules
     WorkflowPermission.delete_all
-    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1, :role_id => 1, :field_name => 'due_date', :rule => 'readonly')
-    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1, :role_id => 1, :field_name => 'start_date', :rule => 'readonly')
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1,
+                               :role_id => 1, :field_name => 'due_date',
+                               :rule => 'readonly')
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1,
+                               :role_id => 1, :field_name => 'start_date',
+                               :rule => 'readonly')
     user = User.find(2)
     member = Member.find(1)
     issue = Issue.new(:project_id => 1, :tracker_id => 1, :status_id => 1)
@@ -718,7 +722,9 @@ class IssueTest < ActiveSupport::TestCase
     member.save!
     assert_equal [], issue.read_only_attribute_names(user.reload)
 
-    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1, :role_id => 2, :field_name => 'due_date', :rule => 'readonly')
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1,
+                              :role_id => 2, :field_name => 'due_date',
+                              :rule => 'readonly')
     assert_equal %w(due_date), issue.read_only_attribute_names(user)
   end
 
