@@ -513,22 +513,31 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_safe_attributes_should_not_include_readonly_custom_fields
-    cf1 = IssueCustomField.create!(:name => 'Writable field', :field_format => 'string', :is_for_all => true, :tracker_ids => [1])
-    cf2 = IssueCustomField.create!(:name => 'Readonly field', :field_format => 'string', :is_for_all => true, :tracker_ids => [1])
-
+    cf1 = IssueCustomField.create!(:name => 'Writable field',
+                                   :field_format => 'string',
+                                   :is_for_all => true, :tracker_ids => [1])
+    cf2 = IssueCustomField.create!(:name => 'Readonly field',
+                                   :field_format => 'string',
+                                   :is_for_all => true, :tracker_ids => [1])
     WorkflowPermission.delete_all
-    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1, :role_id => 1, :field_name => cf2.id.to_s, :rule => 'readonly')
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1,
+                               :role_id => 1, :field_name => cf2.id.to_s,
+                               :rule => 'readonly')
     user = User.find(2)
-
     issue = Issue.new(:project_id => 1, :tracker_id => 1)
     assert_equal [cf2.id.to_s], issue.read_only_attribute_names(user)
     assert_not_include cf2.id.to_s, issue.safe_attribute_names(user)
 
-    issue.send :safe_attributes=, {'custom_field_values' => {cf1.id.to_s => 'value1', cf2.id.to_s => 'value2'}}, user
+    issue.send :safe_attributes=, {'custom_field_values' => {
+                                       cf1.id.to_s => 'value1', cf2.id.to_s => 'value2'
+                                     }}, user
     assert_equal 'value1', issue.custom_field_value(cf1)
     assert_nil issue.custom_field_value(cf2)
 
-    issue.send :safe_attributes=, {'custom_fields' => [{'id' => cf1.id.to_s, 'value' => 'valuea'}, {'id' => cf2.id.to_s, 'value' => 'valueb'}]}, user
+    issue.send :safe_attributes=, {'custom_fields' => [
+                                      {'id' => cf1.id.to_s, 'value' => 'valuea'},
+                                      {'id' => cf2.id.to_s, 'value' => 'valueb'}
+                                    ]}, user
     assert_equal 'valuea', issue.custom_field_value(cf1)
     assert_nil issue.custom_field_value(cf2)
   end
