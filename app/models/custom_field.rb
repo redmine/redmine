@@ -53,6 +53,11 @@ class CustomField < ActiveRecord::Base
 
   CUSTOM_FIELDS_NAMES = CUSTOM_FIELDS_TABS.collect{|v| v[:name]}
 
+  def field_format=(arg)
+    # cannot change format of a saved custom field
+    super if new_record?
+  end
+
   def set_searchable
     # make sure these fields are not searchable
     self.searchable = false if %w(int float date bool).include?(field_format)

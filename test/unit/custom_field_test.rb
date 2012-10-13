@@ -57,6 +57,12 @@ class CustomFieldTest < ActiveSupport::TestCase
     assert field.valid?
   end
 
+  def test_should_not_change_field_format_of_existing_custom_field
+    field = CustomField.find(1)
+    field.field_format = 'int'
+    assert_equal 'list', field.field_format
+  end
+
   def test_possible_values_should_accept_an_array
     field = CustomField.new
     field.possible_values = ["One value", ""]
