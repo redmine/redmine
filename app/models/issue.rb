@@ -416,7 +416,8 @@ class Issue < ActiveRecord::Base
     end
 
     if attrs['parent_issue_id'].present?
-      unless Issue.visible(user).exists?(attrs['parent_issue_id'].to_i)
+      s = attrs['parent_issue_id'].to_s
+      unless (m = s.match(%r{\A#?(\d+)\z})) && Issue.visible(user).exists?(m[1])
         @invalid_parent_issue_id = attrs.delete('parent_issue_id')
       end
     end

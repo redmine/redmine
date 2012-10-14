@@ -1940,12 +1940,24 @@ class IssuesControllerTest < ActionController::TestCase
       post :create, :project_id => 1,
                  :issue => {:tracker_id => 1,
                             :subject => 'This is a child issue',
-                            :parent_issue_id => 2}
-
+                            :parent_issue_id => '2'}
       assert_response 302
     end
-    issue = Issue.find_by_subject('This is a child issue')
-    assert_not_nil issue
+    issue = Issue.order('id DESC').first
+    assert_equal Issue.find(2), issue.parent
+  end
+
+  def test_post_create_subissue_with_sharp_parent_id
+    @request.session[:user_id] = 2
+
+    assert_difference 'Issue.count' do
+      post :create, :project_id => 1,
+                 :issue => {:tracker_id => 1,
+                            :subject => 'This is a child issue',
+                            :parent_issue_id => '#2'}
+      assert_response 302
+    end
+    issue = Issue.order('id DESC').first
     assert_equal Issue.find(2), issue.parent
   end
 
