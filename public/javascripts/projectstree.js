@@ -15,12 +15,12 @@ var vis = d3.select("#body").append("svg:svg").attr("width", w + m[1] + m[3])
 tobeparsed = d3.select("#jsontree")[0][0].innerHTML;
 root = JSON.parse(tobeparsed);
 root.children.sort(function(a, b) {
-			if (a.name == "Vertebrate") // vertebrates go first
-				return -1;
-			if (b.name == "Vertebrate") // vertebrates go first
-				return 1;
-			return b.name < a.name ? 1 : b.name > a.name ? -1 : 0;
-		}); // sort everything else alphabetically
+	if (a.name == "Vertebrate") // vertebrates go first
+		return -1;
+	if (b.name == "Vertebrate") // vertebrates go first
+		return 1;
+	return b.name < a.name ? 1 : b.name > a.name ? -1 : 0;
+}); // sort everything else alphabetically
 
 root.x0 = h / 2;
 root.y0 = 0;
@@ -44,8 +44,11 @@ var timer = setInterval(function() {
 function update(source) {
 	if (step == 0) {
 		toggle(root);
-		root.children.forEach(toggleAll);
-		step++;
+		if (root.children != null) {
+			root.children.forEach(toggleAll);
+			step++;
+		}
+
 	} else if (step == 1) {
 		toggle(root.children[0]);
 		step++;
