@@ -94,6 +94,11 @@ module IssuesHelper
     s.html_safe
   end
 
+  # Returns a link for adding a new subtask to the given issue
+  def link_to_new_subtask(issue)
+    link_to(l(:button_add), {:controller => 'issues', :action => 'new', :project_id => issue.project, :issue => {:parent_issue_id => issue}})
+  end
+
   class IssueFieldsRows
     include ActionView::Helpers::TagHelper
 
