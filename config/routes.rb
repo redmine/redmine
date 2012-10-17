@@ -98,7 +98,7 @@ RedmineApp::Application.routes.draw do
       match 'copy', :via => [:get, :post]
     end
 
-    resources :memberships, :shallow => true, :controller => 'members', :only => [:index, :show, :create, :update, :destroy] do
+    resources :memberships, :shallow => true, :controller => 'members', :only => [:index, :show, :new, :create, :update, :destroy] do
       collection do
         get 'autocomplete'
       end
@@ -295,6 +295,7 @@ RedmineApp::Application.routes.draw do
     end
   end
   resources :enumerations, :except => :show
+  match 'enumerations/:type', :to => 'enumerations#index', :via => :get
 
   get 'projects/:id/search', :controller => 'search', :action => 'index'
   get 'search', :controller => 'search', :action => 'index'

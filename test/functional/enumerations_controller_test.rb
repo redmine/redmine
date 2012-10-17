@@ -30,6 +30,12 @@ class EnumerationsControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
+  def test_index_should_require_admin
+    @request.session[:user_id] = nil
+    get :index
+    assert_response 302
+  end
+
   def test_new
     get :new, :type => 'IssuePriority'
     assert_response :success
@@ -48,7 +54,7 @@ class EnumerationsControllerTest < ActionController::TestCase
     assert_difference 'IssuePriority.count' do
       post :create, :enumeration => {:type => 'IssuePriority', :name => 'Lowest'}
     end
-    assert_redirected_to '/enumerations?type=IssuePriority'
+    assert_redirected_to '/enumerations'
     e = IssuePriority.find_by_name('Lowest')
     assert_not_nil e
   end
@@ -77,7 +83,7 @@ class EnumerationsControllerTest < ActionController::TestCase
     assert_no_difference 'IssuePriority.count' do
       put :update, :id => 6, :enumeration => {:type => 'IssuePriority', :name => 'New name'}
     end
-    assert_redirected_to '/enumerations?type=IssuePriority'
+    assert_redirected_to '/enumerations'
     e = IssuePriority.find(6)
     assert_equal 'New name', e.name
   end

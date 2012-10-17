@@ -15,31 +15,28 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-module Redmine
-  module SubclassFactory
-    def self.included(base) 
-      base.extend ClassMethods
-    end 
+require File.expand_path('../../../test_helper', __FILE__)
 
-    module ClassMethods
-      def get_subclass(class_name)
-        klass = nil
-        begin
-          klass = class_name.to_s.classify.constantize
-        rescue
-          # invalid class name
-        end
-        unless subclasses.include? klass
-          klass = nil
-        end
-        klass
-      end
+class ApiTest::EnumerationsTest < ActionController::IntegrationTest
+  fixtures :enumerations
 
-      # Returns an instance of the given subclass name
-      def new_subclass_instance(class_name, *args)
-        klass = get_subclass(class_name)
-        if klass
-          klass.new(*args)
+  def setup
+    Setting.rest_api_enabled = '1'
+  end
+
+  context "/enumerations/issue_priorities" do
+    context "GET" do
+
+      should "return priorities" do
+        get '/enumerations/issue_priorities.xml'
+
+        assert_response :success
+        assert_equal 'application/xml', response.content_type
+        assert_select 'issue_priorities[type=array]' do
+          assert_select 'issue_priority' do
+            assert_select 'id', :text => '6'
+            assert_select 'name', :text => 'High'
+          end
         end
       end
     end
