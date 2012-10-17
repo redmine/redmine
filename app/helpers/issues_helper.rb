@@ -100,7 +100,7 @@ module IssuesHelper
       :tracker_id => issue.tracker,
       :parent_issue_id => issue
     }
-    link_to(l(:button_add), {:controller => 'issues', :action => 'new', :project_id => issue.project, :issue => attrs})
+    link_to(l(:button_add), new_project_issue_path(issue.project, :issue => attrs))
   end
 
   class IssueFieldsRows
