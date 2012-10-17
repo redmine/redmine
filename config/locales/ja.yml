@@ -196,7 +196,7 @@ ja:
   notice_failed_to_save_issues: "全%{total}件中%{count}件のチケットが保存できませんでした: %{ids}."
   notice_failed_to_save_members: "メンバーの保存に失敗しました: %{errors}."
   notice_no_issue_selected: "チケットが選択されていません! 更新対象のチケットを選択してください。"
-  notice_account_pending: アカウントは作成済みで、管理者の承認待ちです。
+  notice_account_pending: アカウントは作成済みで、システム管理者の承認待ちです。
   notice_default_data_loaded: デフォルト設定をロードしました。
   notice_unable_delete_version: バージョンを削除できません
   notice_unable_delete_time_entry: 作業時間を削除できません
@@ -284,7 +284,7 @@ ja:
   field_is_in_roadmap: チケットをロードマップに表示する
   field_login: ログイン
   field_mail_notification: メール通知
-  field_admin: 管理者
+  field_admin: システム管理者
   field_last_login_on: 最終接続日
   field_language: 言語
   field_effective_date: 期日
@@ -392,7 +392,7 @@ ja:
   setting_repository_log_display_limit: ファイルのリビジョン表示数の上限
   setting_openid: OpenIDによるログインと登録
   setting_password_min_length: パスワードの最低必要文字数
-  setting_new_project_user_role_id: 管理者以外のユーザーが作成したプロジェクトに設定するロール
+  setting_new_project_user_role_id: システム管理者以外のユーザーが作成したプロジェクトに設定するロール
   setting_default_projects_modules: 新規プロジェクトにおいてデフォルトで有効になるモジュール
   setting_issue_done_ratio: 進捗の算出方法
   setting_issue_done_ratio_issue_field: 各チケットにフィールドを用意する
