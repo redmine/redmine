@@ -525,8 +525,12 @@ class Issue < ActiveRecord::Base
   end
 
   def validate_issue
-    if self.due_date.nil? && @attributes['due_date'] && !@attributes['due_date'].empty?
+    if due_date.nil? && @attributes['due_date'].present?
       errors.add :due_date, :not_a_date
+    end
+
+    if start_date.nil? && @attributes['start_date'].present?
+      errors.add :start_date, :not_a_date
     end
 
     if self.due_date and self.start_date and self.due_date < self.start_date

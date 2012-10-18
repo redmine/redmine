@@ -54,6 +54,24 @@ class IssueTest < ActiveSupport::TestCase
     assert_nil issue.estimated_hours
   end
 
+  def test_start_date_format_should_be_validated
+    set_language_if_valid 'en'
+    ['2012', 'ABC', '2012-15-20'].each do |invalid_date|
+      issue = Issue.new(:start_date => invalid_date)
+      assert !issue.valid?
+      assert_include 'Start date is not a valid date', issue.errors.full_messages, "No error found for invalid date #{invalid_date}"
+    end
+  end
+
+  def test_due_date_format_should_be_validated
+    set_language_if_valid 'en'
+    ['2012', 'ABC', '2012-15-20'].each do |invalid_date|
+      issue = Issue.new(:due_date => invalid_date)
+      assert !issue.valid?
+      assert_include 'Due date is not a valid date', issue.errors.full_messages, "No error found for invalid date #{invalid_date}"
+    end
+  end
+
   def test_create_with_required_custom_field
     set_language_if_valid 'en'
     field = IssueCustomField.find_by_name('Database')
