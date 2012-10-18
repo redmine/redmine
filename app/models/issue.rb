@@ -533,7 +533,7 @@ class Issue < ActiveRecord::Base
       errors.add :start_date, :not_a_date
     end
 
-    if self.due_date and self.start_date and self.due_date < self.start_date
+    if due_date && start_date && due_date < start_date
       errors.add :due_date, :greater_than_start_date
     end
 
