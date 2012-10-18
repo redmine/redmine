@@ -72,6 +72,13 @@ class IssueTest < ActiveSupport::TestCase
     end
   end
 
+  def test_due_date_lesser_than_start_date_should_not_validate
+    set_language_if_valid 'en'
+    issue = Issue.new(:start_date => '2012-10-06', :due_date => '2012-10-02')
+    assert !issue.valid?
+    assert_include 'Due date must be greater than start date', issue.errors.full_messages
+  end
+
   def test_create_with_required_custom_field
     set_language_if_valid 'en'
     field = IssueCustomField.find_by_name('Database')
