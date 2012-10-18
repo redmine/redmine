@@ -16,6 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Project < ActiveRecord::Base
+  include Comparable
   include Redmine::SafeAttributes
 
   # Project statuses
@@ -30,8 +31,8 @@ class Project < ActiveRecord::Base
   has_many :members, :include => [:user, :roles], :conditions => "#{User.table_name}.type='User' AND #{User.table_name}.status=#{User::STATUS_ACTIVE}"
   has_many :memberships, :class_name => 'Member'
   has_many :member_principals, :class_name => 'Member',
-                               :include => :principal,
-                               :conditions => "#{Principal.table_name}.type='Group' OR (#{Principal.table_name}.type='User' AND #{Principal.table_name}.status=#{User::STATUS_ACTIVE})"
+  :include => :principal,
+  :conditions => "#{Principal.table_name}.type='Group' OR (#{Principal.table_name}.type='User' AND #{Principal.table_name}.status=#{User::STATUS_ACTIVE})"
   has_many :users, :through => :members
   has_many :principals, :through => :member_principals, :source => :principal
 
@@ -52,20 +53,20 @@ class Project < ActiveRecord::Base
   has_one :wiki, :dependent => :destroy
   # Custom field for the project issues
   has_and_belongs_to_many :issue_custom_fields,
-                          :class_name => 'IssueCustomField',
-                          :order => "#{CustomField.table_name}.position",
-                          :join_table => "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
-                          :association_foreign_key => 'custom_field_id'
+  :class_name => 'IssueCustomField',
+  :order => "#{CustomField.table_name}.position",
+  :join_table => "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
+  :association_foreign_key => 'custom_field_id'
 
   acts_as_nested_set :order => 'name', :dependent => :destroy
   acts_as_attachable :view_permission => :view_files,
-                     :delete_permission => :manage_files
+  :delete_permission => :manage_files
 
   acts_as_customizable
   acts_as_searchable :columns => ['name', 'identifier', 'description'], :project_key => 'id', :permission => nil
   acts_as_event :title => Proc.new {|o| "#{l(:label_project)}: #{o.name}"},
-                :url => Proc.new {|o| {:controller => 'projects', :action => 'show', :id => o}},
-                :author => nil
+  :url => Proc.new {|o| {:controller => 'projects', :action => 'show', :id => o}},
+  :author => nil
 
   attr_protected :status
 
@@ -87,7 +88,7 @@ class Project < ActiveRecord::Base
   scope :status, lambda {|arg| arg.blank? ? {} : {:conditions => {:status => arg.to_i}} }
   scope :all_public, { :conditions => { :is_public => true } }
   scope :visible, lambda {|*args| {:conditions => Project.visible_condition(args.shift || User.current, *args) }}
-  scope :allowed_to, lambda {|*args| 
+  scope :allowed_to, lambda {|*args|
     user = User.current
     permission = nil
     if args.first.is_a?(Symbol)
@@ -136,8 +137,8 @@ class Project < ActiveRecord::Base
   # returns latest created projects
   # non public projects will be returned only if user is a member of those
   def self.latest(user=nil, count=5)
-    visible(user).find(:all, :limit => count, :order => "created_on DESC")	
-  end	
+    visible(user).find(:all, :limit => count, :order => "created_on DESC")
+  end
 
   # Returns true if the project is visible to +user+ or to the current user.
   def visible?(user=User.current)
@@ -308,8 +309,8 @@ class Project < ActiveRecord::Base
     # to one of the project or descendant versions
     v_ids = self_and_descendants.collect {|p| p.version_ids}.flatten
     if v_ids.any? && Issue.find(:first, :include => :project,
-                                        :conditions => ["(#{Project.table_name}.lft < ? OR #{Project.table_name}.rgt > ?)" +
-                                                        " AND #{Issue.table_name}.fixed_version_id IN (?)", lft, rgt, v_ids])
+    :conditions => ["(#{Project.table_name}.lft < ? OR #{Project.table_name}.rgt > ?)" +
+    " AND #{Issue.table_name}.fixed_version_id IN (?)", lft, rgt, v_ids])
       return false
     end
     Project.transaction do
@@ -402,10 +403,10 @@ class Project < ActiveRecord::Base
   # Returns an array of the trackers used by the project and its active sub projects
   def rolled_up_trackers
     @rolled_up_trackers ||=
-      Tracker.find(:all, :joins => :projects,
-                         :select => "DISTINCT #{Tracker.table_name}.*",
-                         :conditions => ["#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status = #{STATUS_ACTIVE}", lft, rgt],
-                         :order => "#{Tracker.table_name}.position")
+    Tracker.find(:all, :joins => :projects,
+    :select => "DISTINCT #{Tracker.table_name}.*",
+    :conditions => ["#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status = #{STATUS_ACTIVE}", lft, rgt],
+    :order => "#{Tracker.table_name}.position")
   end
 
   # Closes open and locked project versions that are completed
@@ -422,26 +423,26 @@ class Project < ActiveRecord::Base
   # Returns a scope of the Versions on subprojects
   def rolled_up_versions
     @rolled_up_versions ||=
-      Version.scoped(:include => :project,
-                     :conditions => ["#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status = #{STATUS_ACTIVE}", lft, rgt])
+    Version.scoped(:include => :project,
+    :conditions => ["#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status = #{STATUS_ACTIVE}", lft, rgt])
   end
 
   # Returns a scope of the Versions used by the project
   def shared_versions
     if new_record?
       Version.scoped(:include => :project,
-                     :conditions => "#{Project.table_name}.status = #{Project::STATUS_ACTIVE} AND #{Version.table_name}.sharing = 'system'")
+      :conditions => "#{Project.table_name}.status = #{Project::STATUS_ACTIVE} AND #{Version.table_name}.sharing = 'system'")
     else
       @shared_versions ||= begin
         r = root? ? self : root
         Version.scoped(:include => :project,
-                       :conditions => "#{Project.table_name}.id = #{id}" +
-                                      " OR (#{Project.table_name}.status = #{Project::STATUS_ACTIVE} AND (" +
-                                          " #{Version.table_name}.sharing = 'system'" +
-                                          " OR (#{Project.table_name}.lft >= #{r.lft} AND #{Project.table_name}.rgt <= #{r.rgt} AND #{Version.table_name}.sharing = 'tree')" +
-                                          " OR (#{Project.table_name}.lft < #{lft} AND #{Project.table_name}.rgt > #{rgt} AND #{Version.table_name}.sharing IN ('hierarchy', 'descendants'))" +
-                                          " OR (#{Project.table_name}.lft > #{lft} AND #{Project.table_name}.rgt < #{rgt} AND #{Version.table_name}.sharing = 'hierarchy')" +
-                                          "))")
+        :conditions => "#{Project.table_name}.id = #{id}" +
+        " OR (#{Project.table_name}.status = #{Project::STATUS_ACTIVE} AND (" +
+        " #{Version.table_name}.sharing = 'system'" +
+        " OR (#{Project.table_name}.lft >= #{r.lft} AND #{Project.table_name}.rgt <= #{r.rgt} AND #{Version.table_name}.sharing = 'tree')" +
+        " OR (#{Project.table_name}.lft < #{lft} AND #{Project.table_name}.rgt > #{rgt} AND #{Version.table_name}.sharing IN ('hierarchy', 'descendants'))" +
+        " OR (#{Project.table_name}.lft > #{lft} AND #{Project.table_name}.rgt < #{rgt} AND #{Version.table_name}.sharing = 'hierarchy')" +
+        "))")
       end
     end
   end
@@ -521,18 +522,18 @@ class Project < ActiveRecord::Base
   # The earliest start date of a project, based on it's issues and versions
   def start_date
     [
-     issues.minimum('start_date'),
-     shared_versions.collect(&:effective_date),
-     shared_versions.collect(&:start_date)
+      issues.minimum('start_date'),
+      shared_versions.collect(&:effective_date),
+      shared_versions.collect(&:start_date)
     ].flatten.compact.min
   end
 
   # The latest due date of an issue or version
   def due_date
     [
-     issues.maximum('due_date'),
-     shared_versions.collect(&:effective_date),
-     shared_versions.collect {|v| v.fixed_issues.maximum('due_date')}
+      issues.maximum('due_date'),
+      shared_versions.collect(&:effective_date),
+      shared_versions.collect {|v| v.fixed_issues.maximum('due_date')}
     ].flatten.compact.max
   end
 
@@ -610,17 +611,17 @@ class Project < ActiveRecord::Base
   end
 
   safe_attributes 'name',
-    'description',
-    'homepage',
-    'is_public',
-    'identifier',
-    'custom_field_values',
-    'custom_fields',
-    'tracker_ids',
-    'issue_custom_field_ids'
+  'description',
+  'homepage',
+  'is_public',
+  'identifier',
+  'custom_field_values',
+  'custom_fields',
+  'tracker_ids',
+  'issue_custom_field_ids'
 
   safe_attributes 'enabled_module_names',
-    :if => lambda {|project, user| project.new_record? || user.allowed_to?(:select_project_modules, project) }
+  :if => lambda {|project, user| project.new_record? || user.allowed_to?(:select_project_modules, project) }
 
   # Returns an array of projects that are in this project's hierarchy
   #
@@ -669,7 +670,6 @@ class Project < ActiveRecord::Base
       end
     end
   end
-
 
   # Copies +project+ and returns the new instance.  This will not save
   # the copy
@@ -901,14 +901,14 @@ class Project < ActiveRecord::Base
   def system_activities_and_project_overrides(include_inactive=false)
     if include_inactive
       return TimeEntryActivity.shared.
-        find(:all,
-             :conditions => ["id NOT IN (?)", self.time_entry_activities.collect(&:parent_id)]) +
-        self.time_entry_activities
+      find(:all,
+      :conditions => ["id NOT IN (?)", self.time_entry_activities.collect(&:parent_id)]) +
+      self.time_entry_activities
     else
       return TimeEntryActivity.shared.active.
-        find(:all,
-             :conditions => ["id NOT IN (?)", self.time_entry_activities.collect(&:parent_id)]) +
-        self.time_entry_activities.active
+      find(:all,
+      :conditions => ["id NOT IN (?)", self.time_entry_activities.collect(&:parent_id)]) +
+      self.time_entry_activities.active
     end
   end
 
@@ -919,4 +919,9 @@ class Project < ActiveRecord::Base
     end
     update_attribute :status, STATUS_ARCHIVED
   end
+
+  def <=> other
+    self.name <=> other.name
+  end
+
 end

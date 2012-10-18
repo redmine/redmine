@@ -25,15 +25,15 @@ module ProjectsHelper
 
   def project_settings_tabs
     tabs = [{:name => 'info', :action => :edit_project, :partial => 'projects/edit', :label => :label_information_plural},
-            {:name => 'modules', :action => :select_project_modules, :partial => 'projects/settings/modules', :label => :label_module_plural},
-            {:name => 'members', :action => :manage_members, :partial => 'projects/settings/members', :label => :label_member_plural},
-            {:name => 'versions', :action => :manage_versions, :partial => 'projects/settings/versions', :label => :label_version_plural},
-            {:name => 'categories', :action => :manage_categories, :partial => 'projects/settings/issue_categories', :label => :label_issue_category_plural},
-            {:name => 'wiki', :action => :manage_wiki, :partial => 'projects/settings/wiki', :label => :label_wiki},
-            {:name => 'repositories', :action => :manage_repository, :partial => 'projects/settings/repositories', :label => :label_repository_plural},
-            {:name => 'boards', :action => :manage_boards, :partial => 'projects/settings/boards', :label => :label_board_plural},
-            {:name => 'activities', :action => :manage_project_activities, :partial => 'projects/settings/activities', :label => :enumeration_activities}
-            ]
+      {:name => 'modules', :action => :select_project_modules, :partial => 'projects/settings/modules', :label => :label_module_plural},
+      {:name => 'members', :action => :manage_members, :partial => 'projects/settings/members', :label => :label_member_plural},
+      {:name => 'versions', :action => :manage_versions, :partial => 'projects/settings/versions', :label => :label_version_plural},
+      {:name => 'categories', :action => :manage_categories, :partial => 'projects/settings/issue_categories', :label => :label_issue_category_plural},
+      {:name => 'wiki', :action => :manage_wiki, :partial => 'projects/settings/wiki', :label => :label_wiki},
+      {:name => 'repositories', :action => :manage_repository, :partial => 'projects/settings/repositories', :label => :label_repository_plural},
+      {:name => 'boards', :action => :manage_boards, :partial => 'projects/settings/boards', :label => :label_board_plural},
+      {:name => 'activities', :action => :manage_project_activities, :partial => 'projects/settings/activities', :label => :enumeration_activities}
+    ]
     tabs.select {|tab| User.current.allowed_to?(tab[:action], @project)}
   end
 
@@ -50,82 +50,86 @@ module ProjectsHelper
     options << project_tree_options_for_select(project.allowed_parents.compact, :selected => selected)
     content_tag('select', options.html_safe, :name => 'project[parent_id]', :id => 'project_parent_id')
   end
-  
+
   #MC - probably there's a more elegant way to do this, not a Ruby expert
-  def addNode(t,c1,c2,c3,c4,c5,dname,link)
-    if(c1!=nil and c2!=nil and c3!=nil and c4!=nil and c5!=nil and dname!=nil and link!=nil)
-      if(!t.has_key?(c1))
-        t[c1]= Hash.new()
-      end
-      if(!t[c1].has_key?(c2))
+  def addNode(t,c1,c2,c3,c4,c5,dname,link,category)
+    if category == 'Project'
+      if(c1!=nil and c2!=nil and c3!=nil and c4!=nil and c5!=nil and dname!=nil and link!=nil)
+        if(!t.has_key?(c1))
+          t[c1]= Hash.new()
+        end
+        if(!t[c1].has_key?(c2))
           t[c1][c2]= Hash.new()
+        end
+        if(!t[c1][c2].has_key?(c3))
+          t[c1][c2][c3]=Hash.new()
+        end
+        if(!t[c1][c2][c3].has_key?(c4))
+          t[c1][c2][c3][c4]=Hash.new()
+        end
+        if(!t[c1][c2][c3][c4].has_key?(c5))
+          t[c1][c2][c3][c4][c5]=Hash.new()
+        end
+        if(!t[c1][c2][c3][c4][c5].has_key?(dname))
+          t[c1][c2][c3][c4][c5][dname]=link
+        end
       end
-      if(!t[c1][c2].has_key?(c3))
-        t[c1][c2][c3]=Hash.new()
-      end
-      if(!t[c1][c2][c3].has_key?(c4))
-        t[c1][c2][c3][c4]=Hash.new()
-      end   
-      if(!t[c1][c2][c3][c4].has_key?(c5))
-        t[c1][c2][c3][c4][c5]=Hash.new()
-      end   
-      if(!t[c1][c2][c3][c4][c5].has_key?(dname))
-        t[c1][c2][c3][c4][c5][dname]=link
-      end
-      end         
+    end
   end
-  
+
   def createJSONProjectTree(projects)
     t = Hash.new()
     if projects.any?
       projects.each do |project|
-        c1=c2=c3=c4=c5=dname=nil
-        
+        c1=c2=c3=c4=c5=dname=category=nil
+
         project.visible_custom_field_values.each do |custom_value|
-                  if (custom_value.custom_field.name == 'Spine classification')
-                    c1=custom_value.value
-                  elsif (custom_value.custom_field.name == 'Family')
-                    c2=custom_value.value
-                  elsif (custom_value.custom_field.name == 'Brain region')
-                    c4=custom_value.value
-                  elsif (custom_value.custom_field.name == 'Specie')
-                    c3=custom_value.value
-                  elsif (custom_value.custom_field.name == 'Cell type')
-                    c5=custom_value.value
-        end
+          if (custom_value.custom_field.name == 'Category')
+            category=custom_value.value
+          elsif (custom_value.custom_field.name == 'Spine classification')
+            c1=custom_value.value
+          elsif (custom_value.custom_field.name == 'Family')
+            c2=custom_value.value
+          elsif (custom_value.custom_field.name == 'Brain region')
+            c4=custom_value.value
+          elsif (custom_value.custom_field.name == 'Specie')
+            c3=custom_value.value
+          elsif (custom_value.custom_field.name == 'Cell type')
+            c5=custom_value.value
           end
-        addNode(t,c1,c2,c3,c4,c5,project.name,"/projects/"+project.identifier)
-     
-    end
+        end
+        addNode(t,c1,c2,c3,c4,c5,project.name,"/projects/"+project.identifier,category)
+
+      end
       return jsonify(t).to_json
-   end
+    end
   end
-              
+
   def jsonify(t)
     print "entering jsonify"
     newt = Hash.new()
     newt["name"]="Animal Kingdom"
     newt["children"]= Array.new()
-    t.each_pair do |k,v| 
+    t.each_pair do |k,v|
       newt["children"]<<jsonifynode(k,v)
     end
     return newt
-  end      
-  
+  end
+
   def jsonifynode(name, node)
     newt = Hash.new()
     newt["name"]=name
-      if(node.kind_of?(Hash))
-        newt["children"]= Array.new()
-        node.each_pair do |k,v| 
-          newt["children"]<<jsonifynode(k,v)
-        end
-      elsif
-        newt["link"]=node
+    if(node.kind_of?(Hash))
+      newt["children"]= Array.new()
+      node.each_pair do |k,v|
+        newt["children"]<<jsonifynode(k,v)
       end
+    elsif
+    newt["link"]=node
+    end
     return newt
   end
-  
+
   # Renders a tree of projects as a nested set of unordered lists
   # The given collection may be a subset of the whole project tree
   # (eg. some intermediate nodes are private and can not be seen)
@@ -134,19 +138,37 @@ module ProjectsHelper
     if projects.any?
       ancestors = []
       original_project = @project
-      projects.each do |project|
-       
-        show_this = 0
-        
-        project.visible_custom_field_values.each do |custom_value|
-	        if (custom_value.custom_field.name == 'Category')
-	            if (custom_value.value == 'Project')
-	                show_this = 1
-	            end
-	         end
-	    end
-        
-        if (show_this == 1)
+
+      #display first Vertebrate...
+      mapp=Hash.new()
+      projects.each do |p|
+        p.visible_custom_field_values.each do |custom_value|
+          if (custom_value.custom_field.name == 'Spine classification')
+            print custom_value.value
+            if (!custom_value.value.nil?())
+              if(!mapp.has_key?(custom_value.value))
+                mapp[custom_value.value]=Array.new()
+              end
+              mapp[custom_value.value]<<p
+            end
+          end
+        end
+      end
+      #by gathering all categories as keys and list of projects as values and sorting in reverse order the keys 
+      mapp.keys().sort().reverse().each do |key|
+        mapp[key].each do |project|
+
+          show_this = 0
+
+          project.visible_custom_field_values.each do |custom_value|
+            if (custom_value.custom_field.name == 'Category')
+              if (custom_value.value == 'Project')
+                show_this = 1
+              end
+            end
+          end
+
+          if (show_this == 1)
             # set the project environment to please macros.
             @project = project
             if (ancestors.empty? || project.is_descendant_of?(ancestors.last))
@@ -154,19 +176,20 @@ module ProjectsHelper
             else
               ancestors.pop
               s << "</li>"
-              while (ancestors.any? && !project.is_descendant_of?(ancestors.last)) 
+              while (ancestors.any? && !project.is_descendant_of?(ancestors.last))
                 ancestors.pop
                 s << "</ul></li>\n"
               end
             end
             classes = (ancestors.empty? ? 'root' : 'child')
             s << "<li class='#{classes}'><div class='#{classes}'>" +
-                   link_to_project(project, {}, :class => "project #{User.current.member_of?(project) ? 'my-project' : nil}")
+            link_to_project(project, {}, :class => "project #{User.current.member_of?(project) ? 'my-project' : nil}")
             s << "<div class='wiki description'>#{textilizable(project.short_description, :project => project)}</div>" unless project.description.blank?
             s << "</div>\n"
             ancestors << project
-        end
+          end
 
+        end
       end
       s << ("</li></ul>\n" * ancestors.size)
       @project = original_project

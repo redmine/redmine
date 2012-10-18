@@ -16,9 +16,13 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class CustomValue < ActiveRecord::Base
+  
+  include Comparable  
+  
   belongs_to :custom_field
   belongs_to :customized, :polymorphic => true
 
+  
   def initialize(attributes=nil, *args)
     super
     if new_record? && custom_field && (customized_type.blank? || (customized && customized.new_record?))
@@ -46,4 +50,8 @@ class CustomValue < ActiveRecord::Base
   def to_s
     value.to_s
   end
+  
+  def <=> other
+      self.value <=> other.value
+    end
 end

@@ -16,8 +16,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class CustomFieldValue
+  include Comparable
   attr_accessor :custom_field, :customized, :value
-
   def custom_field_id
     custom_field.id
   end
@@ -47,4 +47,9 @@ class CustomFieldValue
       customized.errors.add(:base, custom_field.name + ' ' + message)
     end
   end
+
+  def <=> other
+    self.value <=> other.value
+  end
+
 end
