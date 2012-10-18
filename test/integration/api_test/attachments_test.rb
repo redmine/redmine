@@ -117,6 +117,18 @@ class ApiTest::AttachmentsTest < ActionController::IntegrationTest
     assert_equal token, attachment.token
   end
 
+  test "POST /uploads.xml should accept :filename param as the attachment filename" do
+    set_tmp_attachments_directory
+    assert_difference 'Attachment.count' do
+      post '/uploads.xml?filename=test.txt', 'File content', {"CONTENT_TYPE" => 'application/octet-stream'}.merge(credentials('jsmith'))
+      assert_response :created
+    end
+
+    attachment = Attachment.order('id DESC').first
+    assert_equal 'test.txt', attachment.filename
+    assert_match /_test\.txt$/, attachment.diskfile
+  end
+
   test "POST /uploads.xml should not accept other content types" do
     set_tmp_attachments_directory
     assert_no_difference 'Attachment.count' do
