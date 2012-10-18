@@ -237,6 +237,7 @@ hr:
   field_homepage: Naslovnica
   field_is_public: Javni projekt
   field_parent: Potprojekt od
+  field_is_in_chlog: Predmeti se prikazuju u dnevniku promjena
   field_is_in_roadmap: Predmeti se prikazuju u Putokazu
   field_login: Korisničko ime
   field_mail_notification: Obavijest putem e-pošte
@@ -506,6 +507,7 @@ hr:
   label_news_latest: Novosti
   label_news_view_all: Pregled svih novosti
   label_news_added: Novosti dodane
+  label_change_log: Dnevnik promjena
   label_settings: Postavke
   label_overview: Pregled
   label_version: Verzija

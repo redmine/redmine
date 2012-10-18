@@ -237,6 +237,7 @@ id:
   field_homepage: Halaman web
   field_is_public: Publik
   field_parent: Subproyek dari
+  field_is_in_chlog: Masalah ditampilkan di log perubahan
   field_is_in_roadmap: Masalah ditampilkan di rencana kerja
   field_login: Login
   field_mail_notification: Notifikasi email
@@ -498,6 +499,7 @@ id:
   label_news_latest: Berita terakhir
   label_news_view_all: Tampilkan semua berita
   label_news_added: Berita ditambahkan
+  label_change_log: Log perubahan
   label_settings: Pengaturan
   label_overview: Umum
   label_version: Versi

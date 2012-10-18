@@ -244,6 +244,7 @@ eu:
   field_homepage: Orri nagusia
   field_is_public: Publikoa
   field_parent: "Honen azpiproiektua:"
+  field_is_in_chlog: Zereginak aldaketa egunkarian ikusten dira
   field_is_in_roadmap: Arazoak ibilbide-mapan erakutsi
   field_login: Erabiltzaile izena
   field_mail_notification: Eposta jakinarazpenak
@@ -514,6 +515,7 @@ eu:
   label_news_latest: Azken berriak
   label_news_view_all: Berri guztiak ikusi
   label_news_added: Berria gehituta
+  label_change_log: Aldaketa egunkaria
   label_settings: Ezarpenak
   label_overview: Gainbegirada
   label_version: Bertsioa
