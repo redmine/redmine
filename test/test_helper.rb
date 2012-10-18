@@ -114,6 +114,15 @@ class ActiveSupport::TestCase
     saved_settings.each {|k, v| Setting[k] = v} if saved_settings
   end
 
+  # Yields the block with user as the current user
+  def with_current_user(user, &block)
+    saved_user = User.current
+    User.current = user
+    yield
+  ensure
+    User.current = saved_user
+  end
+
   def change_user_password(login, new_password)
     user = User.first(:conditions => {:login => login})
     user.password, user.password_confirmation = new_password, new_password

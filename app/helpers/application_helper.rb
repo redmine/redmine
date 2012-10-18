@@ -47,8 +47,8 @@ module ApplicationHelper
   def link_to_user(user, options={})
     if user.is_a?(User)
       name = h(user.name(options[:format]))
-      if user.active?
-        link_to name, :controller => 'users', :action => 'show', :id => user
+      if user.active? || (User.current.admin? && user.logged?)
+        link_to name, {:controller => 'users', :action => 'show', :id => user}, :class => user.css_classes
       else
         name
       end

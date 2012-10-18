@@ -387,6 +387,17 @@ class User < Principal
     name
   end
 
+  CSS_CLASS_BY_STATUS = {
+    STATUS_ANONYMOUS  => 'anon',
+    STATUS_ACTIVE     => 'active',
+    STATUS_REGISTERED => 'registered',
+    STATUS_LOCKED     => 'locked'
+  }
+
+  def css_classes
+    "user #{CSS_CLASS_BY_STATUS[status]}"
+  end
+
   # Returns the current day according to user's time zone
   def today
     if time_zone.nil?

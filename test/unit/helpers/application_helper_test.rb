@@ -1010,15 +1010,23 @@ RAW
 
   def test_link_to_user
     user = User.find(2)
-    t = link_to_user(user)
-    assert_equal "<a href=\"/users/2\">#{ user.name }</a>", t
+    assert_equal '<a href="/users/2" class="user active">John Smith</a>', link_to_user(user)
   end
 
   def test_link_to_user_should_not_link_to_locked_user
-    user = User.find(5)
-    assert user.locked?
-    t = link_to_user(user)
-    assert_equal user.name, t
+    with_current_user nil do
+      user = User.find(5)
+      assert user.locked?
+      assert_equal 'Dave2 Lopper2', link_to_user(user)
+    end
+  end
+
+  def test_link_to_user_should_link_to_locked_user_if_current_user_is_admin
+    with_current_user User.find(1) do
+      user = User.find(5)
+      assert user.locked?
+      assert_equal '<a href="/users/5" class="user locked">Dave2 Lopper2</a>', link_to_user(user)
+    end
   end
 
   def test_link_to_user_should_not_link_to_anonymous
