@@ -62,7 +62,7 @@ module StatusHelper
             else
               project.visible_custom_field_values.each do |custom_value|
                 if (custom_value.custom_field.name == status_type+' support')
-                  s << "<td>#{custom_value.value}</td>"
+                  s << "<td><img src='images/status#{custom_value.value}.png' alt=' '/></td>"
                 end
               end
             end
