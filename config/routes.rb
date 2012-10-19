@@ -22,6 +22,7 @@ RedmineApp::Application.routes.draw do
   match 'about', :to => 'about#index'
   match 'guides', :to => 'guides#index'
   match 'themes', :to => 'themes#index'
+  match 'status', :to => 'status#index'
 
   ##
 

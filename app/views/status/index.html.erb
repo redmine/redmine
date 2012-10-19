@@ -1,0 +1,16 @@
+<h2>Status</h2>
+
+
+
+<p>Note: this table is still in development!!. </p>
+
+
+<%= render_status_table(@projects)%>
+
+
+<% content_for :header_tags do %>
+<%= auto_discovery_link_tag(:atom, {:controller => 'news', :action => 'index', :key => User.current.rss_key, :format => 'atom'},
+                                   :title => "#{Setting.app_title}: #{l(:label_news_latest)}") %>
+<%= auto_discovery_link_tag(:atom, {:controller => 'activities', :action => 'index', :key => User.current.rss_key, :format => 'atom'},
+                                   :title => "#{Setting.app_title}: #{l(:label_activity)}") %>
+<% end %>
