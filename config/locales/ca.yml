@@ -1080,3 +1080,4 @@ ca:
   label_cross_project_tree: "Amb l'arbre del projecte"
   label_cross_project_hierarchy: "Amb la jerarquia del projecte"
   label_cross_project_system: "Amb tots els projectes"
+  button_hide: Hide

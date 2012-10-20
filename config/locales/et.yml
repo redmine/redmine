@@ -1091,3 +1091,4 @@ et:
   label_cross_project_tree: "projektipuuga"
   label_cross_project_hierarchy: "projektihierarhiaga"
   label_cross_project_system: "kõigi projektidega"
+  button_hide: Hide
