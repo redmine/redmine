@@ -933,6 +933,7 @@ en:
   button_quote: Quote
   button_duplicate: Duplicate
   button_show: Show
+  button_hide: Hide
   button_edit_section: Edit this section
   button_export: Export
   button_delete_my_account: Delete my account

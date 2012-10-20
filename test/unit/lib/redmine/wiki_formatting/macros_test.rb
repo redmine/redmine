@@ -180,6 +180,36 @@ class Redmine::WikiFormatting::MacrosTest < ActionView::TestCase
     assert_include 'Page not found', textilizable(text)
   end
 
+  def test_macro_collapse
+    text = "{{collapse\n*Collapsed* block of text\n}}"
+    result = textilizable(text)
+
+    assert_select_in result, 'div.collapsed-text'
+    assert_select_in result, 'strong', :text => 'Collapsed'
+    assert_select_in result, 'a.collapsible.collapsed', :text => 'Show'
+    assert_select_in result, 'a.collapsible', :text => 'Hide'
+  end
+
+  def test_macro_collapse_with_one_arg
+    text = "{{collapse(Example)\n*Collapsed* block of text\n}}"
+    result = textilizable(text)
+
+    assert_select_in result, 'div.collapsed-text'
+    assert_select_in result, 'strong', :text => 'Collapsed'
+    assert_select_in result, 'a.collapsible.collapsed', :text => 'Example'
+    assert_select_in result, 'a.collapsible', :text => 'Example'
+  end
+
+  def test_macro_collapse_with_two_args
+    text = "{{collapse(Show example, Hide example)\n*Collapsed* block of text\n}}"
+    result = textilizable(text)
+
+    assert_select_in result, 'div.collapsed-text'
+    assert_select_in result, 'strong', :text => 'Collapsed'
+    assert_select_in result, 'a.collapsible.collapsed', :text => 'Show example'
+    assert_select_in result, 'a.collapsible', :text => 'Hide example'
+  end
+
   def test_macro_child_pages
     expected =  "<p><ul class=\"pages-hierarchy\">\n" +
                  "<li><a href=\"/projects/ecookbook/wiki/Child_1\">Child 1</a>\n" +

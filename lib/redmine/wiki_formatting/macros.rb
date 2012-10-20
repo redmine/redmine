@@ -212,6 +212,19 @@ module Redmine
         out
       end
 
+      desc "Inserts of collapsed block of text. Example:\n\n  {{collapse(View details...)\nThis is a block of text that is collapsed by default.\nIt can be expanded by clicking a link.\n}}"
+      macro :collapse do |obj, args, text|
+        html_id = "collapse-#{Redmine::Utils.random_hex(4)}"
+        show_label = args[0] || l(:button_show)
+        hide_label = args[1] || args[0] || l(:button_hide)
+        js = "$('##{html_id}-show, ##{html_id}-hide').toggle(); $('##{html_id}').fadeToggle(150);"
+        out = ''.html_safe
+        out << link_to_function(show_label, js, :id => "#{html_id}-show", :class => 'collapsible collapsed')
+        out << link_to_function(hide_label, js, :id => "#{html_id}-hide", :class => 'collapsible', :style => 'display:none;')
+        out << content_tag('div', textilizable(text, :object => obj), :id => html_id, :class => 'collapsed-text', :style => 'display:none;')
+        out
+      end
+
       desc "Displays a clickable thumbnail of an attached image. Examples:\n\n<pre>{{thumbnail(image.png)}}\n{{thumbnail(image.png, size=300, title=Thumbnail)}}</pre>"
       macro :thumbnail do |obj, args|
         args, options = extract_macro_options(args, :size, :title)

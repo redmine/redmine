@@ -185,6 +185,11 @@ class ActiveSupport::TestCase
     assert !s.include?(expected), "\"#{expected}\" found in \"#{s}\""
   end
 
+  def assert_select_in(text, *args, &block)
+    d = HTML::Document.new(CGI::unescapeHTML(String.new(text))).root
+    assert_select(d, *args, &block)
+  end
+
   def assert_mail_body_match(expected, mail)
     if expected.is_a?(String)
       assert_include expected, mail_body(mail)

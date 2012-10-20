@@ -907,6 +907,7 @@ fr:
   button_quote: Citer
   button_duplicate: Dupliquer
   button_show: Afficher
+  button_hide: Cacher
   button_edit_section: Modifier cette section
   button_export: Exporter
   button_delete_my_account: Supprimer mon compte
