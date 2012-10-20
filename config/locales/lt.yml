@@ -687,9 +687,7 @@ lt:
   label_greater_or_equal: '>='
   label_less_or_equal: '<='
   label_between: tarp
-  # http://www.redmine.org/attachments/8375/lt.yml of
-  # http://www.redmine.org/issues/12142 is empty
-  label_in: in
+  label_in: po
   label_today: šiandien
   label_all_time: visas laikas
   label_yesterday: vakar
