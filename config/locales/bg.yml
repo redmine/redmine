@@ -934,6 +934,7 @@ bg:
   button_quote: Цитат
   button_duplicate: Дублиране
   button_show: Показване
+  button_hide: Скриване
   button_edit_section: Редактиране на тази секция
   button_export: Експорт
   button_delete_my_account: Премахване на моя профил
@@ -1076,4 +1077,3 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  button_hide: Hide
