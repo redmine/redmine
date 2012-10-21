@@ -125,6 +125,24 @@ ActionMailer::Base.add_delivery_method :async_smtp, DeliveryMethods::AsyncSMTP
 ActionMailer::Base.add_delivery_method :async_sendmail, DeliveryMethods::AsyncSendmail
 ActionMailer::Base.add_delivery_method :tmp_file, DeliveryMethods::TmpFile
 
+# Changes how sent emails are logged
+# Rails doesn't log cc and bcc which is misleading when using bcc only (#12090)
+module ActionMailer
+  class LogSubscriber < ActiveSupport::LogSubscriber
+    def deliver(event)
+      recipients = [:to, :cc, :bcc].inject("") do |s, header|
+        r = Array.wrap(event.payload[header])
+        if r.any?
+          s << "\n  #{header}: #{r.join(', ')}"
+        end
+        s
+      end
+      info("\nSent email \"#{event.payload[:subject]}\" (%1.fms)#{recipients}" % event.duration)
+      debug(event.payload[:mail])
+    end
+  end
+end
+
 module ActionController
   module MimeResponds
     class Collector
