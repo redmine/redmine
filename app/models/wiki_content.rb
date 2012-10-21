@@ -115,10 +115,18 @@ class WikiContent < ActiveRecord::Base
 
     # Returns the previous version or nil
     def previous
-      @previous ||= WikiContent::Version.find(:first,
-                                              :order => 'version DESC',
-                                              :include => :author,
-                                              :conditions => ["wiki_content_id = ? AND version < ?", wiki_content_id, version])
+      @previous ||= WikiContent::Version.
+        reorder('version DESC').
+        includes(:author).
+        where("wiki_content_id = ? AND version < ?", wiki_content_id, version).first
+    end
+
+    # Returns the next version or nil
+    def next
+      @next ||= WikiContent::Version.
+        reorder('version ASC').
+        includes(:author).
+        where("wiki_content_id = ? AND version > ?", wiki_content_id, version).first
     end
   end
 end

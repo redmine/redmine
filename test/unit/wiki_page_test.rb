@@ -149,4 +149,14 @@ class WikiPageTest < ActiveSupport::TestCase
     assert_equal %w(Child1 Child11 Child2 Parent), page.self_and_descendants(2).map(&:title).sort
     assert_equal %w(Child1 Child2 Parent), page.self_and_descendants(1).map(&:title).sort
   end
+
+  def test_diff_for_page_with_deleted_version_should_pick_the_previous_available_version
+    WikiContent::Version.find_by_page_id_and_version(1, 2).destroy
+
+    page = WikiPage.find(1)
+    diff = page.diff(3)
+    assert_not_nil diff
+    assert_equal 3, diff.content_to.version
+    assert_equal 1, diff.content_from.version
+  end
 end

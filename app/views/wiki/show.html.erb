@@ -17,14 +17,14 @@
     <p>
     <%= link_to(("\xc2\xab " + l(:label_previous)),
                 :action => 'show', :id => @page.title, :project_id => @page.project,
-                :version => (@content.version - 1)) + " - " if @content.version > 1 %>
+                :version => @content.previous.version) + " - " if @content.previous %>
     <%= "#{l(:label_version)} #{@content.version}/#{@page.content.version}" %>
     <%= '('.html_safe + link_to(l(:label_diff), :controller => 'wiki', :action => 'diff',
                       :id => @page.title, :project_id => @page.project,
-                      :version => @content.version) + ')'.html_safe if @content.version > 1 %> - 
+                      :version => @content.version) + ')'.html_safe if @content.previous %> - 
     <%= link_to((l(:label_next) + " \xc2\xbb"), :action => 'show',
                 :id => @page.title, :project_id => @page.project,
-                :version => (@content.version + 1)) + " - " if @content.version < @page.content.version %>
+                :version => @content.next.version) + " - " if @content.next %>
     <%= link_to(l(:label_current_version), :action => 'show', :id => @page.title, :project_id => @page.project) %>
     <br />
     <em><%= @content.author ? link_to_user(@content.author) : l(:label_user_anonymous)

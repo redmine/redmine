@@ -111,11 +111,12 @@ class WikiPage < ActiveRecord::Base
 
   def diff(version_to=nil, version_from=nil)
     version_to = version_to ? version_to.to_i : self.content.version
-    version_from = version_from ? version_from.to_i : version_to - 1
-    version_to, version_from = version_from, version_to unless version_from < version_to
-
     content_to = content.versions.find_by_version(version_to)
-    content_from = content.versions.find_by_version(version_from)
+    content_from = version_from ? content.versions.find_by_version(version_from.to_i) : content_to.previous
+
+    if content_from.version > content_to.version
+      content_to, content_from = content_from, content_to
+    end
 
     (content_to && content_from) ? WikiDiff.new(content_to, content_from) : nil
   end
