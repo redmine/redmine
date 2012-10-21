@@ -234,7 +234,7 @@ module ApplicationHelper
       content << "<ul class=\"pages-hierarchy\">\n"
       pages[node].each do |page|
         content << "<li>"
-        content << link_to(h(page.pretty_title), {:controller => 'wiki', :action => 'show', :project_id => page.project, :id => page.title},
+        content << link_to(h(page.pretty_title), {:controller => 'wiki', :action => 'show', :project_id => page.project, :id => page.title, :version => nil},
                            :title => (options[:timestamp] && page.updated_on ? l(:label_updated_time, distance_of_time_in_words(Time.now, page.updated_on)) : nil))
         content << "\n" + render_page_hierarchy(pages, page.id, options) if pages[page.id]
         content << "</li>\n"
@@ -644,7 +644,7 @@ module ApplicationHelper
               wiki_page_id = page.present? ? Wiki.titleize(page) : nil
               parent = wiki_page.nil? && obj.is_a?(WikiContent) && obj.page && project == link_project ? obj.page.title : nil
               url_for(:only_path => only_path, :controller => 'wiki', :action => 'show', :project_id => link_project, 
-               :id => wiki_page_id, :anchor => anchor, :parent => parent)
+               :id => wiki_page_id, :version => nil, :anchor => anchor, :parent => parent)
             end
           end
           link_to(title.present? ? title.html_safe : h(page), url, :class => ('wiki-page' + (wiki_page ? '' : ' new')))

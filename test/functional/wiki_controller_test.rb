@@ -64,6 +64,28 @@ class WikiControllerTest < ActionController::TestCase
                                                :alt => 'This is a logo' }
   end
 
+  def test_show_old_version
+    get :show, :project_id => 'ecookbook', :id => 'CookBook_documentation', :version => '2'
+    assert_response :success
+    assert_template 'show'
+
+    assert_select 'a[href=?]', '/projects/ecookbook/wiki/CookBook_documentation/1', :text => /Previous/
+    assert_select 'a[href=?]', '/projects/ecookbook/wiki/CookBook_documentation/2/diff', :text => /diff/
+    assert_select 'a[href=?]', '/projects/ecookbook/wiki/CookBook_documentation/3', :text => /Next/
+    assert_select 'a[href=?]', '/projects/ecookbook/wiki/CookBook_documentation', :text => /Current version/
+  end
+
+  def test_show_first_version
+    get :show, :project_id => 'ecookbook', :id => 'CookBook_documentation', :version => '1'
+    assert_response :success
+    assert_template 'show'
+
+    assert_select 'a', :text => /Previous/, :count => 0
+    assert_select 'a', :text => /diff/, :count => 0
+    assert_select 'a[href=?]', '/projects/ecookbook/wiki/CookBook_documentation/2', :text => /Next/
+    assert_select 'a[href=?]', '/projects/ecookbook/wiki/CookBook_documentation', :text => /Current version/
+  end
+
   def test_show_redirected_page
     WikiRedirect.create!(:wiki_id => 1, :title => 'Old_title', :redirects_to => 'Another_page')
 
@@ -477,12 +499,17 @@ class WikiControllerTest < ActionController::TestCase
   end
 
   def test_history
-    get :history, :project_id => 1, :id => 'CookBook_documentation'
+    get :history, :project_id => 'ecookbook', :id => 'CookBook_documentation'
     assert_response :success
     assert_template 'history'
     assert_not_nil assigns(:versions)
     assert_equal 3, assigns(:versions).size
+
     assert_select "input[type=submit][name=commit]"
+    assert_select 'td' do
+      assert_select 'a[href=?]', '/projects/ecookbook/wiki/CookBook_documentation/2', :text => '2'
+      assert_select 'a[href=?]', '/projects/ecookbook/wiki/CookBook_documentation/2/annotate'
+    end
   end
 
   def test_history_with_one_version

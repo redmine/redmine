@@ -39,17 +39,12 @@ class RoutingWikiTest < ActionController::IntegrationTest
            :id => 'CookBook_documentation' }
        )
     assert_routing(
-         { :method => 'get', :path => "/projects/1/wiki/CookBook_documentation/diff/2" },
+         { :method => 'get', :path => "/projects/1/wiki/CookBook_documentation/2/diff" },
          { :controller => 'wiki', :action => 'diff', :project_id => '1',
            :id => 'CookBook_documentation', :version => '2' }
        )
     assert_routing(
-         { :method => 'get', :path => "/projects/1/wiki/CookBook_documentation/diff/2/vs/1" },
-         { :controller => 'wiki', :action => 'diff', :project_id => '1',
-           :id => 'CookBook_documentation', :version => '2', :version_from => '1' }
-       )
-    assert_routing(
-         { :method => 'get', :path => "/projects/1/wiki/CookBook_documentation/annotate/2" },
+         { :method => 'get', :path => "/projects/1/wiki/CookBook_documentation/2/annotate" },
          { :controller => 'wiki', :action => 'annotate', :project_id => '1',
            :id => 'CookBook_documentation', :version => '2' }
        )

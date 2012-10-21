@@ -143,8 +143,6 @@ RedmineApp::Application.routes.draw do
     end
 
     match 'wiki/index', :controller => 'wiki', :action => 'index', :via => :get
-    match 'wiki/:id/diff/:version/vs/:version_from', :controller => 'wiki', :action => 'diff'
-    match 'wiki/:id/diff/:version', :controller => 'wiki', :action => 'diff'
     resources :wiki, :except => [:index, :new, :create] do
       member do
         get 'rename'
@@ -161,7 +159,9 @@ RedmineApp::Application.routes.draw do
       end
     end
     match 'wiki', :controller => 'wiki', :action => 'show', :via => :get
-    match 'wiki/:id/annotate/:version', :controller => 'wiki', :action => 'annotate'
+    get 'wiki/:id/:version', :to => 'wiki#show'
+    get 'wiki/:id/:version/annotate', :to => 'wiki#annotate'
+    get 'wiki/:id/:version/diff', :to => 'wiki#diff'
   end
 
   resources :issues do
