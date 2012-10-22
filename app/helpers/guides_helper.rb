@@ -72,8 +72,16 @@ module GuidesHelper
 	    end
         
         if (show_this == 1)
+
             # set the project environment to please macros.
             @project = project
+
+            s << "<div class='boxgroup'>\n"
+            s << "<div class='root'><h3><a href='projects/#{project.identifier}/wiki/Wiki'  class='project my-project'>#{project.name}</a></h3>\n"
+            s << "<div class='wiki description'>#{textilizable(project.short_description, :project => project)}</div>\n"
+            s << "</div></div>\n"
+
+=begin
             if (ancestors.empty? || project.is_descendant_of?(ancestors.last))
               s << "<ul class='projects #{ ancestors.empty? ? 'root' : nil}'>\n"
             else
@@ -87,13 +95,15 @@ module GuidesHelper
             classes = (ancestors.empty? ? 'root' : 'child')
             s << "<li class='#{classes}'><div class='#{classes}'>" +
                    link_to_project(project, {}, :class => "project #{User.current.member_of?(project) ? 'my-project' : nil}")
+
             s << "<div class='wiki description'>#{textilizable(project.short_description, :project => project)}</div>" unless project.description.blank?
             s << "</div>\n"
             ancestors << project
+=end
         end
 
       end
-      s << ("</li></ul>\n" * ancestors.size)
+      ##s << ("</li></ul>\n" * ancestors.size)
       @project = original_project
     end
     s.html_safe

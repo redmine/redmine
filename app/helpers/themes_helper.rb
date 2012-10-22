@@ -74,6 +74,14 @@ module ThemesHelper
         if (show_this == 1)
             # set the project environment to please macros.
             @project = project
+
+
+            s << "<div class='boxgroup'>\n"
+            s << "<div class='root'><h3><a href='projects/#{project.identifier}/wiki/Wiki'  class='project my-project'>#{project.name}</a></h3>\n"
+            s << "<div class='wiki description'>#{textilizable(project.short_description, :project => project)}</div>\n"
+            s << "</div></div>\n"
+
+=begin
             if (ancestors.empty? || project.is_descendant_of?(ancestors.last))
               s << "<ul class='projects #{ ancestors.empty? ? 'root' : nil}'>\n"
             else
@@ -90,6 +98,7 @@ module ThemesHelper
             s << "<div class='wiki description'>#{textilizable(project.short_description, :project => project)}</div>" unless project.description.blank?
             s << "</div>\n"
             ancestors << project
+=end
         end
 
       end
