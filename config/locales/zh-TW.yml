@@ -1015,6 +1015,7 @@
   button_quote: 引用
   button_duplicate: 重製
   button_show: 顯示
+  button_hide: 隱藏
   button_edit_section: 編輯此區塊
   button_export: 匯出
   button_delete_my_account: 刪除我的帳戶
@@ -1159,4 +1160,3 @@
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  button_hide: Hide
