@@ -131,27 +131,29 @@ class IssuesHelperTest < ActionView::TestCase
       end
     end
 
-    def test_with_a_due_date_attribute_should_with_a_due_date_attribute
-      @detail = JournalDetail.new(
+    context "with a due_date attribute" do
+      should "format the current date" do
+        @detail = JournalDetail.new(
                   :property  => 'attr',
                   :old_value => '2010-01-01',
                   :value     => '2010-01-31',
                   :prop_key  => 'due_date'
                 )
-      with_settings :date_format => '%m/%d/%Y' do
-        assert_match "01/31/2010", show_detail(@detail, true)
+        with_settings :date_format => '%m/%d/%Y' do
+          assert_match "01/31/2010", show_detail(@detail, true)
+        end
       end
-    end
 
-    def test_with_a_due_date_attribute_should_format_the_old_date
-      @detail = JournalDetail.new(
+      should "format the old date" do
+        @detail = JournalDetail.new(
                   :property  => 'attr',
                   :old_value => '2010-01-01',
                   :value     => '2010-01-31',
                   :prop_key  => 'due_date'
                 )
-      with_settings :date_format => '%m/%d/%Y' do
-        assert_match "01/01/2010", show_detail(@detail, true)
+        with_settings :date_format => '%m/%d/%Y' do
+          assert_match "01/01/2010", show_detail(@detail, true)
+        end
       end
     end
 
