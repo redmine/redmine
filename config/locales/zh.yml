@@ -1061,9 +1061,9 @@ zh:
   label_readonly: 只读
   label_required: 必填
   text_repository_identifier_info: 仅小写字母（a-z）、数字、破折号（-）和下划线（_）可以使用。<br />一旦保存，标识无法修改。
-  field_board_parent: Parent forum
-  label_attribute_of_project: Project's %{name}
-  label_attribute_of_author: Author's %{name}
-  label_attribute_of_assigned_to: Assignee's %{name}
-  label_attribute_of_fixed_version: Target version's %{name}
-  label_copy_subtasks: Copy subtasks
+  field_board_parent: 父论坛
+  label_attribute_of_project: 项目 %{name}
+  label_attribute_of_author: 作者 %{name}
+  label_attribute_of_assigned_to: 分配给 %{name}
+  label_attribute_of_fixed_version: 目标版本 %{name}
+  label_copy_subtasks: 复制子任务
