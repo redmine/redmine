@@ -1067,19 +1067,19 @@ zh:
   label_attribute_of_assigned_to: 分配给 %{name}
   label_attribute_of_fixed_version: 目标版本 %{name}
   label_copy_subtasks: 复制子任务
-  label_copied_to: copied to
-  label_copied_from: copied from
-  label_any_issues_in_project: any issues in project
-  label_any_issues_not_in_project: any issues not in project
-  field_private_notes: Private notes
-  permission_view_private_notes: View private notes
-  permission_set_notes_private: Set notes as private
-  label_no_issues_in_project: no issues in project
+  label_copied_to: 复制到
+  label_copied_from: 复制于
+  label_any_issues_in_project: 项目内任意问题
+  label_any_issues_not_in_project: 项目外任意问题
+  field_private_notes: 私有注解
+  permission_view_private_notes: 查看私有注解
+  permission_set_notes_private: 设置为私有注解
+  label_no_issues_in_project: 项目内无相关问题
   label_any: 全部
-  label_last_n_weeks: last %{count} weeks
-  setting_cross_project_subtasks: Allow cross-project subtasks
+  label_last_n_weeks: 上 %{count} 周前
+  setting_cross_project_subtasks: 支持跨项目子任务
   label_cross_project_descendants: 与子项目共享
   label_cross_project_tree: 与项目树共享
   label_cross_project_hierarchy: 与项目继承层次共享
   label_cross_project_system: 与所有项目共享
-  button_hide: Hide
+  button_hide: 隐藏
