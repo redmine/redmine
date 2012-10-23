@@ -638,11 +638,11 @@ module Redmine
 
       # Sorts a collection of issues by start_date, due_date, id for gantt rendering
       def sort_issues!(issues)
-        issues.sort! { |a, b| gantt_issue_compare(a, b, issues) }
+        issues.sort! { |a, b| gantt_issue_compare(a, b) }
       end
 
       # TODO: top level issues should be sorted by start date
-      def gantt_issue_compare(x, y, issues)
+      def gantt_issue_compare(x, y)
         if x.root_id == y.root_id
           x.lft <=> y.lft
         else
