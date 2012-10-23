@@ -28,7 +28,10 @@
     <td class="updated_on"><%= format_time(ver.updated_on) %></td>
     <td class="author"><%= link_to_user ver.author %></td>
     <td class="comments"><%=h ver.comments %></td>
-    <td class="buttons"><%= link_to l(:button_annotate), :action => 'annotate', :id => @page.title, :version => ver.version %></td>
+    <td class="buttons">
+      <%= link_to l(:button_annotate), :action => 'annotate', :id => @page.title, :version => ver.version %>
+      <%= delete_link wiki_page_path(@page, :version => ver.version) if User.current.allowed_to?(:delete_wiki_pages, @page.project) && @version_count > 1 %>
+    </td>
 </tr>
 <% line_num += 1 %>
 <% end %>

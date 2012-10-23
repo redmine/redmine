@@ -73,6 +73,8 @@ class WikiContent < ActiveRecord::Base
                                                           "LEFT JOIN #{Wiki.table_name} ON #{Wiki.table_name}.id = #{WikiPage.table_name}.wiki_id " +
                                                           "LEFT JOIN #{Project.table_name} ON #{Project.table_name}.id = #{Wiki.table_name}.project_id"}
 
+    after_destroy :page_update_after_destroy
+
     def text=(plain)
       case Setting.wiki_compression
       when 'gzip'
@@ -127,6 +129,19 @@ class WikiContent < ActiveRecord::Base
         reorder('version ASC').
         includes(:author).
         where("wiki_content_id = ? AND version > ?", wiki_content_id, version).first
+    end
+
+    private
+
+    # Updates page's content if the latest version is removed
+    # or destroys the page if it was the only version
+    def page_update_after_destroy
+      latest = page.content.versions.reorder("#{self.class.table_name}.version DESC").first
+      if latest && page.content.version != latest.version
+        raise ActiveRecord::Rollback unless page.content.revert_to!(latest)
+      elsif latest.nil?
+        raise ActiveRecord::Rollback unless page.destroy
+      end
     end
   end
 end

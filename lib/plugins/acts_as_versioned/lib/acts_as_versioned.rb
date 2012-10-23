@@ -374,7 +374,7 @@ module ActiveRecord #:nodoc:
         # Clones a model.  Used when saving a new version or reverting a model's version.
         def clone_versioned_model(orig_model, new_model)
           self.versioned_attributes.each do |key|
-            new_model.send("#{key}=", orig_model.send(key)) if orig_model.has_attribute?(key)
+            new_model.send("#{key}=", orig_model.send(key)) if orig_model.respond_to?(key)
           end
 
 					if self.class.columns_hash.include?(self.class.inheritance_column)

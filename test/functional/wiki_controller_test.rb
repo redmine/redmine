@@ -499,6 +499,7 @@ class WikiControllerTest < ActionController::TestCase
   end
 
   def test_history
+    @request.session[:user_id] = 2
     get :history, :project_id => 'ecookbook', :id => 'CookBook_documentation'
     assert_response :success
     assert_template 'history'
@@ -508,17 +509,24 @@ class WikiControllerTest < ActionController::TestCase
     assert_select "input[type=submit][name=commit]"
     assert_select 'td' do
       assert_select 'a[href=?]', '/projects/ecookbook/wiki/CookBook_documentation/2', :text => '2'
-      assert_select 'a[href=?]', '/projects/ecookbook/wiki/CookBook_documentation/2/annotate'
+      assert_select 'a[href=?]', '/projects/ecookbook/wiki/CookBook_documentation/2/annotate', :text => 'Annotate'
+      assert_select 'a[href=?]', '/projects/ecookbook/wiki/CookBook_documentation/2', :text => 'Delete'
     end
   end
 
   def test_history_with_one_version
-    get :history, :project_id => 1, :id => 'Another_page'
+    @request.session[:user_id] = 2
+    get :history, :project_id => 'ecookbook', :id => 'Another_page'
     assert_response :success
     assert_template 'history'
     assert_not_nil assigns(:versions)
     assert_equal 1, assigns(:versions).size
     assert_select "input[type=submit][name=commit]", false
+    assert_select 'td' do
+      assert_select 'a[href=?]', '/projects/ecookbook/wiki/Another_page/1', :text => '1'
+      assert_select 'a[href=?]', '/projects/ecookbook/wiki/Another_page/1/annotate', :text => 'Annotate'
+      assert_select 'a[href=?]', '/projects/ecookbook/wiki/Another_page/1', :text => 'Delete', :count => 0
+    end
   end
 
   def test_diff
@@ -679,6 +687,18 @@ class WikiControllerTest < ActionController::TestCase
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
     assert_nil WikiPage.find_by_id(2)
     assert_equal WikiPage.find(1), WikiPage.find_by_id(5).parent
+  end
+
+  def test_destroy_version
+    @request.session[:user_id] = 2
+    assert_difference 'WikiContent::Version.count', -1 do
+      assert_no_difference 'WikiContent.count' do
+        assert_no_difference 'WikiPage.count' do
+          delete :destroy_version, :project_id => 'ecookbook', :id => 'CookBook_documentation', :version => 2
+          assert_redirected_to '/projects/ecookbook/wiki/CookBook_documentation/history'
+        end
+      end
+    end
   end
 
   def test_index

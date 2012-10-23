@@ -39,6 +39,11 @@ class RoutingWikiTest < ActionController::IntegrationTest
            :id => 'CookBook_documentation' }
        )
     assert_routing(
+         { :method => 'get', :path => "/projects/1/wiki/CookBook_documentation/2" },
+         { :controller => 'wiki', :action => 'show', :project_id => '1',
+           :id => 'CookBook_documentation', :version => '2' }
+       )
+    assert_routing(
          { :method => 'get', :path => "/projects/1/wiki/CookBook_documentation/2/diff" },
          { :controller => 'wiki', :action => 'diff', :project_id => '1',
            :id => 'CookBook_documentation', :version => '2' }
@@ -116,6 +121,11 @@ class RoutingWikiTest < ActionController::IntegrationTest
         { :method => 'delete', :path => "/projects/22/wiki/ladida" },
         { :controller => 'wiki', :action => 'destroy', :project_id => '22',
           :id => 'ladida' }
+      )
+    assert_routing(
+        { :method => 'delete', :path => "/projects/22/wiki/ladida/3" },
+        { :controller => 'wiki', :action => 'destroy_version', :project_id => '22',
+          :id => 'ladida', :version => '3' }
       )
   end
 end

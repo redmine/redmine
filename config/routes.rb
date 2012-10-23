@@ -160,6 +160,7 @@ RedmineApp::Application.routes.draw do
     end
     match 'wiki', :controller => 'wiki', :action => 'show', :via => :get
     get 'wiki/:id/:version', :to => 'wiki#show'
+    delete 'wiki/:id/:version', :to => 'wiki#destroy_version'
     get 'wiki/:id/:version/annotate', :to => 'wiki#annotate'
     get 'wiki/:id/:version/diff', :to => 'wiki#diff'
   end

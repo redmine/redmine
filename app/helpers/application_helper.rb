@@ -147,6 +147,10 @@ module ApplicationHelper
     end
   end
 
+  def wiki_page_path(page, options={})
+    url_for({:controller => 'wiki', :action => 'show', :project_id => page.project, :id => page.title}.merge(options))
+  end
+
   def thumbnail_tag(attachment)
     link_to image_tag(url_for(:controller => 'attachments', :action => 'thumbnail', :id => attachment)),
       {:controller => 'attachments', :action => 'show', :id => attachment, :filename => attachment.filename},

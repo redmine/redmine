@@ -35,7 +35,7 @@ class WikiController < ApplicationController
   default_search_scope :wiki_pages
   before_filter :find_wiki, :authorize
   before_filter :find_existing_or_new_page, :only => [:show, :edit, :update]
-  before_filter :find_existing_page, :only => [:rename, :protect, :history, :diff, :annotate, :add_attachment, :destroy]
+  before_filter :find_existing_page, :only => [:rename, :protect, :history, :diff, :annotate, :add_attachment, :destroy, :destroy_version]
 
   helper :attachments
   include AttachmentsHelper
@@ -235,6 +235,14 @@ class WikiController < ApplicationController
     end
     @page.destroy
     redirect_to :action => 'index', :project_id => @project
+  end
+
+  def destroy_version
+    return render_403 unless editable?
+
+    @content = @page.content_for_version(params[:version])
+    @content.destroy
+    redirect_to_referer_or :action => 'history', :id => @page.title, :project_id => @project
   end
 
   # Export wiki to a single pdf or html file

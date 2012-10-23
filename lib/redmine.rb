@@ -118,7 +118,7 @@ Redmine::AccessControl.map do |map|
   map.project_module :wiki do |map|
     map.permission :manage_wiki, {:wikis => [:edit, :destroy]}, :require => :member
     map.permission :rename_wiki_pages, {:wiki => :rename}, :require => :member
-    map.permission :delete_wiki_pages, {:wiki => :destroy}, :require => :member
+    map.permission :delete_wiki_pages, {:wiki => [:destroy, :destroy_version]}, :require => :member
     map.permission :view_wiki_pages, {:wiki => [:index, :show, :special, :date_index]}, :read => true
     map.permission :export_wiki_pages, {:wiki => [:export]}, :read => true
     map.permission :view_wiki_edits, {:wiki => [:history, :diff, :annotate]}, :read => true
