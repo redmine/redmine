@@ -26,8 +26,8 @@ module ContextMenusHelper
     end
     if options.delete(:disabled)
       options.delete(:method)
-      options.delete(:confirm)
-      options.delete(:onclick)
+      options.delete(:data)
+      options[:onclick] = 'return false;'
       options[:class] << ' disabled'
       url = '#'
     end
