@@ -4,7 +4,7 @@
         :repository_id => @repository.identifier_param},
        :method => :get
      ) do %>
-  <%= l(:label_revision) %>: <%= text_field_tag 'rev', @rev, :size => 8 %>
+  <%= l(:label_revision) %>: <%= text_field_tag 'rev', nil, :size => 8 %>
   <%= submit_tag 'OK' %>
 <% end %>
 </div>
