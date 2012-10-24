@@ -221,7 +221,9 @@ RedmineApp::Application.routes.draw do
       :to => 'repositories#changes'
 
   get 'projects/:id/repository/:repository_id/revisions/:rev', :to => 'repositories#revision'
-  get 'projects/:id/repository/:repository_id/revision', :to => 'repositories#revision'
+  match 'projects/:id/repository/:repository_id/revision',
+        :to => 'repositories#revision',
+        :via => [:get, :post]
   post   'projects/:id/repository/:repository_id/revisions/:rev/issues', :to => 'repositories#add_related_issue'
   delete 'projects/:id/repository/:repository_id/revisions/:rev/issues/:issue_id', :to => 'repositories#remove_related_issue'
   get 'projects/:id/repository/:repository_id/revisions', :to => 'repositories#revisions'
@@ -241,7 +243,8 @@ RedmineApp::Application.routes.draw do
 
   get 'projects/:id/repository/revisions', :to => 'repositories#revisions'
   get 'projects/:id/repository/revisions/:rev', :to => 'repositories#revision'
-  get 'projects/:id/repository/revision', :to => 'repositories#revision'
+  match 'projects/:id/repository/revision', :to => 'repositories#revision',
+        :via => [:get, :post]
   post   'projects/:id/repository/revisions/:rev/issues', :to => 'repositories#add_related_issue'
   delete 'projects/:id/repository/revisions/:rev/issues/:issue_id', :to => 'repositories#remove_related_issue'
   get 'projects/:id/repository/revisions/:rev/:action(/*path(.:ext))',
