@@ -1,7 +1,8 @@
 <div class="contextual">
 <%= form_tag(
        {:controller => 'repositories', :action => 'revision', :id => @project,
-        :repository_id => @repository.identifier_param}
+        :repository_id => @repository.identifier_param},
+       :method => :get
      ) do %>
   <%= l(:label_revision) %>: <%= text_field_tag 'rev', @rev, :size => 8 %>
   <%= submit_tag 'OK' %>
