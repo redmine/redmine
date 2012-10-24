@@ -547,6 +547,21 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       end
     end
 
+    def test_revisions
+      assert_equal 0, @repository.changesets.count
+      @repository.fetch_changesets
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
+      get :revisions, :id => PRJ_ID
+      assert_response :success
+      assert_template 'revisions'
+      assert_tag :tag => 'form',
+                 :attributes => {
+                   :method => 'get',
+                   :action => '/projects/subproject1/repository/revision'
+                 }
+    end
+
     def test_revision
       assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets

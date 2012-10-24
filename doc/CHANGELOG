@@ -14,6 +14,7 @@ http://www.redmine.org/
 * Defect #11541: Version sharing is missing in the REST API
 * Defect #11789: Edit section links broken with h5/h6 headings
 * Defect #12189: No tmp/pdf directory
+* Defect #12196: "Page not found" on OK button in SCM "View all revisions" page
 * Feature #11338: Exclude emails with auto-submitted => auto-generated
 * Patch #9732: German translations
 * Patch #11328: Fix Japanese mistranslation for 'label_language_based'
