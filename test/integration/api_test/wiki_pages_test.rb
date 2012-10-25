@@ -54,6 +54,7 @@ class ApiTest::WikiPagesTest < ActionController::IntegrationTest
       assert_select 'version', :text => '3'
       assert_select 'text'
       assert_select 'author'
+      assert_select 'comments'
       assert_select 'created_on'
       assert_select 'updated_on'
     end
