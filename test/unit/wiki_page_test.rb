@@ -130,6 +130,7 @@ class WikiPageTest < ActiveSupport::TestCase
     assert_not_nil page.read_attribute(:updated_on)
     assert_equal Time.gm(2007, 3, 6, 23, 10, 51), page.content.updated_on
     assert_equal page.content.updated_on, page.updated_on
+    assert_not_nil page.read_attribute(:version)
   end
 
   def test_descendants

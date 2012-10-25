@@ -36,6 +36,7 @@ class WikiController < ApplicationController
   before_filter :find_wiki, :authorize
   before_filter :find_existing_or_new_page, :only => [:show, :edit, :update]
   before_filter :find_existing_page, :only => [:rename, :protect, :history, :diff, :annotate, :add_attachment, :destroy, :destroy_version]
+  accept_api_auth :index, :show
 
   helper :attachments
   include AttachmentsHelper
@@ -45,7 +46,13 @@ class WikiController < ApplicationController
   # List of pages, sorted alphabetically and by parent (hierarchy)
   def index
     load_pages_for_index
-    @pages_by_parent_id = @pages.group_by(&:parent_id)
+
+    respond_to do |format|
+      format.html {
+        @pages_by_parent_id = @pages.group_by(&:parent_id)
+      }
+      format.api
+    end
   end
 
   # List of page, by last update
@@ -57,7 +64,7 @@ class WikiController < ApplicationController
   # display a page (in editing mode if it doesn't exist)
   def show
     if @page.new_record?
-      if User.current.allowed_to?(:edit_wiki_pages, @project) && editable?
+      if User.current.allowed_to?(:edit_wiki_pages, @project) && editable? && !api_request?
         edit
         render :action => 'edit'
       else
@@ -66,8 +73,7 @@ class WikiController < ApplicationController
       return
     end
     if params[:version] && !User.current.allowed_to?(:view_wiki_edits, @project)
-      # Redirects user to the current version if he's not allowed to view previous versions
-      redirect_to :version => nil
+      deny_access
       return
     end
     @content = @page.content_for_version(params[:version])
@@ -89,7 +95,10 @@ class WikiController < ApplicationController
       @content.current_version? &&
       Redmine::WikiFormatting.supports_section_edit?
 
-    render :action => 'show'
+    respond_to do |format|
+      format.html
+      format.api
+    end
   end
 
   # edit an existing page or a new one
@@ -321,6 +330,6 @@ private
   end
 
   def load_pages_for_index
-    @pages = @wiki.pages.with_updated_on.all(:order => 'title', :include => {:wiki => :project})
+    @pages = @wiki.pages.with_updated_on.order("#{WikiPage.table_name}.title").includes(:wiki => :project).includes(:parent).all
   end
 end

@@ -75,6 +75,13 @@ class WikiControllerTest < ActionController::TestCase
     assert_select 'a[href=?]', '/projects/ecookbook/wiki/CookBook_documentation', :text => /Current version/
   end
 
+  def test_show_old_version_without_permission_should_be_denied
+    Role.anonymous.remove_permission! :view_wiki_edits
+
+    get :show, :project_id => 'ecookbook', :id => 'CookBook_documentation', :version => '2'
+    assert_redirected_to '/login?back_url=http%3A%2F%2Ftest.host%2Fprojects%2Fecookbook%2Fwiki%2FCookBook_documentation%2F2'
+  end
+
   def test_show_first_version
     get :show, :project_id => 'ecookbook', :id => 'CookBook_documentation', :version => '1'
     assert_response :success
