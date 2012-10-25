@@ -59,6 +59,21 @@ class ApiTest::WikiPagesTest < ActionController::IntegrationTest
     end
   end
 
+  test "GET /projects/:project_id/wiki/:title.xml?include=attachments should include attachments" do
+    get '/projects/ecookbook/wiki/Page_with_an_inline_image.xml?include=attachments'
+    assert_response 200
+    assert_equal 'application/xml', response.content_type
+    assert_select 'wiki_page' do
+      assert_select 'title', :text => 'Page_with_an_inline_image'
+      assert_select 'attachments[type=array]' do
+        assert_select 'attachment' do
+          assert_select 'id', :text => '3'
+          assert_select 'filename', :text => 'logo.gif'
+        end
+      end
+    end
+  end
+
   test "GET /projects/:project_id/wiki/:title.xml with unknown title and edit permission should respond with 404" do
     get '/projects/ecookbook/wiki/Invalid_Page.xml', {}, credentials('jsmith')
     assert_response 404
