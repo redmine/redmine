@@ -553,8 +553,13 @@ class ApplicationController < ActionController::Base
 
   # Renders a 200 response for successfull updates or deletions via the API
   def render_api_ok
-    # head :ok would return a response body with one space
-    render :text => '', :status => :ok, :layout => nil
+    render_api_head :ok
+  end
+
+  # Renders a head API response
+  def render_api_head(status)
+    # #head would return a response body with one space
+    render :text => '', :status => status, :layout => nil
   end
 
   # Renders API response on validation failure

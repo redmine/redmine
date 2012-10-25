@@ -34,16 +34,6 @@ class RoutingWikiTest < ActionController::IntegrationTest
           :id => 'lalala', :format => 'pdf' }
         )
     assert_routing(
-        { :method => 'get', :path => "/projects/567/wiki/lalala.xml" },
-        { :controller => 'wiki', :action => 'show', :project_id => '567',
-          :id => 'lalala', :format => 'xml' }
-        )
-    assert_routing(
-        { :method => 'get', :path => "/projects/567/wiki/lalala.json" },
-        { :controller => 'wiki', :action => 'show', :project_id => '567',
-          :id => 'lalala', :format => 'json' }
-        )
-    assert_routing(
          { :method => 'get', :path => "/projects/1/wiki/CookBook_documentation/diff" },
          { :controller => 'wiki', :action => 'diff', :project_id => '1',
            :id => 'CookBook_documentation' }
@@ -52,16 +42,6 @@ class RoutingWikiTest < ActionController::IntegrationTest
          { :method => 'get', :path => "/projects/1/wiki/CookBook_documentation/2" },
          { :controller => 'wiki', :action => 'show', :project_id => '1',
            :id => 'CookBook_documentation', :version => '2' }
-       )
-    assert_routing(
-         { :method => 'get', :path => "/projects/1/wiki/CookBook_documentation/2.xml" },
-         { :controller => 'wiki', :action => 'show', :project_id => '1',
-           :id => 'CookBook_documentation', :version => '2', :format => 'xml' }
-       )
-    assert_routing(
-         { :method => 'get', :path => "/projects/1/wiki/CookBook_documentation/2.json" },
-         { :controller => 'wiki', :action => 'show', :project_id => '1',
-           :id => 'CookBook_documentation', :version => '2', :format => 'json' }
        )
     assert_routing(
          { :method => 'get', :path => "/projects/1/wiki/CookBook_documentation/2/diff" },
@@ -91,14 +71,6 @@ class RoutingWikiTest < ActionController::IntegrationTest
     assert_routing(
          { :method => 'get', :path => "/projects/567/wiki/index" },
          { :controller => 'wiki', :action => 'index', :project_id => '567' }
-       )
-    assert_routing(
-         { :method => 'get', :path => "/projects/567/wiki/index.xml" },
-         { :controller => 'wiki', :action => 'index', :project_id => '567', :format => 'xml' }
-       )
-    assert_routing(
-         { :method => 'get', :path => "/projects/567/wiki/index.json" },
-         { :controller => 'wiki', :action => 'index', :project_id => '567', :format => 'json' }
        )
   end
 
@@ -154,6 +126,47 @@ class RoutingWikiTest < ActionController::IntegrationTest
         { :method => 'delete', :path => "/projects/22/wiki/ladida/3" },
         { :controller => 'wiki', :action => 'destroy_version', :project_id => '22',
           :id => 'ladida', :version => '3' }
+      )
+  end
+
+  def test_api
+    assert_routing(
+        { :method => 'get', :path => "/projects/567/wiki/my_page.xml" },
+        { :controller => 'wiki', :action => 'show', :project_id => '567',
+          :id => 'my_page', :format => 'xml' }
+        )
+    assert_routing(
+        { :method => 'get', :path => "/projects/567/wiki/my_page.json" },
+        { :controller => 'wiki', :action => 'show', :project_id => '567',
+          :id => 'my_page', :format => 'json' }
+        )
+    assert_routing(
+         { :method => 'get', :path => "/projects/1/wiki/CookBook_documentation/2.xml" },
+         { :controller => 'wiki', :action => 'show', :project_id => '1',
+           :id => 'CookBook_documentation', :version => '2', :format => 'xml' }
+       )
+    assert_routing(
+         { :method => 'get', :path => "/projects/1/wiki/CookBook_documentation/2.json" },
+         { :controller => 'wiki', :action => 'show', :project_id => '1',
+           :id => 'CookBook_documentation', :version => '2', :format => 'json' }
+       )
+    assert_routing(
+         { :method => 'get', :path => "/projects/567/wiki/index.xml" },
+         { :controller => 'wiki', :action => 'index', :project_id => '567', :format => 'xml' }
+       )
+    assert_routing(
+         { :method => 'get', :path => "/projects/567/wiki/index.json" },
+         { :controller => 'wiki', :action => 'index', :project_id => '567', :format => 'json' }
+       )
+    assert_routing(
+        { :method => 'put', :path => "/projects/567/wiki/my_page.xml" },
+        { :controller => 'wiki', :action => 'update', :project_id => '567',
+          :id => 'my_page', :format => 'xml' }
+      )
+    assert_routing(
+        { :method => 'put', :path => "/projects/567/wiki/my_page.json" },
+        { :controller => 'wiki', :action => 'update', :project_id => '567',
+          :id => 'my_page', :format => 'json' }
       )
   end
 end
