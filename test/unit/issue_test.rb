@@ -1821,4 +1821,11 @@ class IssueTest < ActiveSupport::TestCase
   def test_journals_after_with_blank_arg_should_return_all_journals
     assert_equal [Journal.find(1), Journal.find(2)], Issue.find(1).journals_after('')
   end
+
+  def test_css_classes_should_include_priority
+    issue = Issue.new(:priority => IssuePriority.find(8))
+    classes = issue.css_classes.split(' ')
+    assert_include 'priority-8', classes
+    assert_include 'priority-highest', classes
+  end
 end
