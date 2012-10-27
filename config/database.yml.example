@@ -7,7 +7,7 @@ production:
   database: redmine
   host: localhost
   username: root
-  password:
+  password: ""
   encoding: utf8
 
 development:
@@ -15,7 +15,7 @@ development:
   database: redmine_development
   host: localhost
   username: root
-  password:
+  password: ""
   encoding: utf8
 
 # Warning: The database defined as "test" will be erased and
@@ -26,7 +26,7 @@ test:
   database: redmine_test
   host: localhost
   username: root
-  password:
+  password: ""
   encoding: utf8
 
 test_pgsql:
