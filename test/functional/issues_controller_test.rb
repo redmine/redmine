@@ -1136,8 +1136,7 @@ class IssuesControllerTest < ActionController::TestCase
       assert_response :success, "Wrong response status for #{assoc_sort} sort"
 
       assert_select 'div.next-prev-links' do
-        assert_select 'a', :text => /Previous/
-        assert_select 'a', :text => /Next/
+        assert_select 'a', :text => /(Previous|Next)/
       end
     end
   end
