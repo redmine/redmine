@@ -71,6 +71,7 @@ end %>
 <% if @issue.description? || @issue.attachments.any? -%>
 <hr />
 <% if @issue.description? %>
+<div class="description">
   <div class="contextual">
   <%= link_to l(:button_quote),
               {:controller => 'journals', :action => 'new', :id => @issue},
@@ -83,6 +84,7 @@ end %>
   <div class="wiki">
   <%= textilizable @issue, :description, :attachments => @issue.attachments %>
   </div>
+</div>
 <% end %>
 <%= link_to_attachments @issue, :thumbnails => true %>
 <% end -%>
