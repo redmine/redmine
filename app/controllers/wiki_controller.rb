@@ -220,7 +220,7 @@ class WikiController < ApplicationController
   # show page history
   def history
     @version_count = @page.content.versions.count
-    @version_pages = Paginator.new self, @version_count, per_page_option, params['p']
+    @version_pages = Paginator.new self, @version_count, per_page_option, params['page']
     # don't load text
     @versions = @page.content.versions.find :all,
                                             :select => "id, author_id, comments, updated_on, version",
