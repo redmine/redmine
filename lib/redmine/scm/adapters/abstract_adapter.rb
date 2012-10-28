@@ -263,7 +263,7 @@ module Redmine
           if str.respond_to?(:force_encoding)
             str.force_encoding(from)
             begin
-              s = str.encode(to)
+              str.encode(to)
             rescue Exception => err
               logger.error("failed to convert from #{from} to #{to}. #{err}")
               nil
