@@ -242,7 +242,7 @@ class RepositoriesController < ApplicationController
   # DELETE /projects/:project_id/repository/(:repository_id/)revisions/:rev/issues/:issue_id
   def remove_related_issue
     @issue = Issue.visible.find_by_id(params[:issue_id])
-    if @issue 
+    if @issue
       @changeset.issues.delete(@issue)
     end
   end
