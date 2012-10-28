@@ -264,7 +264,7 @@ module Redmine
             str.force_encoding(from)
             begin
               s = str.encode(to)
-            rescue Exception => e
+            rescue Exception => err
               logger.error("failed to convert from #{from} to #{to}. #{err}")
               nil
             end
