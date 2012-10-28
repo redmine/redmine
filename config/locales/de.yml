@@ -1068,12 +1068,12 @@ de:
   field_timeout: Auszeit (in Sekunden)
   setting_thumbnails_enabled: Vorschaubilder von Dateianhängen anzeigen
   setting_thumbnails_size: Größe der Vorschaubilder (in Pixel)
-  label_status_transitions: Status transitions
-  label_fields_permissions: Fields permissions
+  label_status_transitions: Statusänderungen
+  label_fields_permissions: Feldberechtigungen
   label_readonly: Nur-Lese-Zugriff
   label_required: Erforderlich
   text_repository_identifier_info: 'Kleinbuchstaben (a-z), Ziffern, Binde- und Unterstriche erlaubt.<br />Einmal gespeichert, kann die Kennung nicht mehr geändert werden.'
-  field_board_parent: Parent forum
+  field_board_parent: Übergeordnetes Forum
   label_attribute_of_project: Project's %{name}
   label_attribute_of_author: Author's %{name}
   label_attribute_of_assigned_to: Assignee's %{name}
