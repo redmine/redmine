@@ -181,4 +181,13 @@ class ApiTest::WikiPagesTest < ActionController::IntegrationTest
     assert_equal 'New_subpage_from_API', page.title
     assert_equal WikiPage.find(1), page.parent
   end
+
+  test "DELETE /projects/:project_id/wiki/:title.xml should destroy the page" do
+    assert_difference 'WikiPage.count', -1 do
+      delete '/projects/ecookbook/wiki/CookBook_documentation.xml', {}, credentials('jsmith')
+      assert_response 200
+    end
+
+    assert_nil WikiPage.find_by_id(1)
+  end
 end

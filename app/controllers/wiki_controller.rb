@@ -36,7 +36,7 @@ class WikiController < ApplicationController
   before_filter :find_wiki, :authorize
   before_filter :find_existing_or_new_page, :only => [:show, :edit, :update]
   before_filter :find_existing_page, :only => [:rename, :protect, :history, :diff, :annotate, :add_attachment, :destroy, :destroy_version]
-  accept_api_auth :index, :show, :update
+  accept_api_auth :index, :show, :update, :destroy
 
   helper :attachments
   include AttachmentsHelper
@@ -263,11 +263,15 @@ class WikiController < ApplicationController
         end
       else
         @reassignable_to = @wiki.pages - @page.self_and_descendants
-        return
+        # display the destroy form if it's a user request
+        return unless api_request?
       end
     end
     @page.destroy
-    redirect_to :action => 'index', :project_id => @project
+    respond_to do |format|
+      format.html { redirect_to :action => 'index', :project_id => @project }
+      format.api { render_api_ok }
+    end
   end
 
   def destroy_version

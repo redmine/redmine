@@ -168,5 +168,15 @@ class RoutingWikiTest < ActionController::IntegrationTest
         { :controller => 'wiki', :action => 'update', :project_id => '567',
           :id => 'my_page', :format => 'json' }
       )
+    assert_routing(
+        { :method => 'delete', :path => "/projects/567/wiki/my_page.xml" },
+        { :controller => 'wiki', :action => 'destroy', :project_id => '567',
+          :id => 'my_page', :format => 'xml' }
+      )
+    assert_routing(
+        { :method => 'delete', :path => "/projects/567/wiki/my_page.json" },
+        { :controller => 'wiki', :action => 'destroy', :project_id => '567',
+          :id => 'my_page', :format => 'json' }
+      )
   end
 end
