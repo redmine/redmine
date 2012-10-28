@@ -3,6 +3,6 @@
 <% if @message.present? %>
   <p id="errorExplanation"><%=h @message %></p>
 <% end %>
-<p><a href="javascript:history.back()">Back</a></p>
+<p><a href="javascript:history.back()"><%= l(:button_back) %></a></p>
 
 <% html_title @status %>
