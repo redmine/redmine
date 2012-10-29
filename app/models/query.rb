@@ -542,7 +542,7 @@ class Query < ActiveRecord::Base
     if arg.is_a?(Hash)
       arg = arg.keys.sort.collect {|k| arg[k]}
     end
-    c = arg.select {|k,o| !k.to_s.blank?}.slice(0,3).collect {|k,o| [k.to_s, o == 'desc' ? o : 'asc']}
+    c = arg.select {|k,o| !k.to_s.blank?}.slice(0,3).collect {|k,o| [k.to_s, (o == 'desc' || o == false) ? 'desc' : 'asc']}
     write_attribute(:sort_criteria, c)
   end
 
@@ -558,12 +558,17 @@ class Query < ActiveRecord::Base
     sort_criteria && sort_criteria[arg] && sort_criteria[arg].last
   end
 
+  def sort_criteria_order_for(key)
+    sort_criteria.detect {|k, order| key.to_s == k}.try(:last)
+  end
+
   # Returns the SQL sort order that should be prepended for grouping
   def group_by_sort_order
     if grouped? && (column = group_by_column)
+      order = sort_criteria_order_for(column.name) || column.default_order
       column.sortable.is_a?(Array) ?
-        column.sortable.collect {|s| "#{s} #{column.default_order}"}.join(',') :
-        "#{column.sortable} #{column.default_order}"
+        column.sortable.collect {|s| "#{s} #{order}"}.join(',') :
+        "#{column.sortable} #{order}"
     end
   end
 

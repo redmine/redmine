@@ -297,6 +297,26 @@ class IssuesControllerTest < ActionController::TestCase
     end
   end
 
+  def test_index_with_query_grouped_by_tracker
+    3.times {|i| Issue.generate!(:tracker_id => (i + 1))}
+
+    get :index, :set_filter => 1, :group_by => 'tracker', :sort => 'id:desc'
+    assert_response :success
+
+    trackers = assigns(:issues).map(&:tracker).uniq
+    assert_equal [1, 2, 3], trackers.map(&:id)
+  end
+
+  def test_index_with_query_grouped_by_tracker_in_reverse_order
+    3.times {|i| Issue.generate!(:tracker_id => (i + 1))}
+
+    get :index, :set_filter => 1, :group_by => 'tracker', :sort => 'id:desc,tracker:desc'
+    assert_response :success
+
+    trackers = assigns(:issues).map(&:tracker).uniq
+    assert_equal [3, 2, 1], trackers.map(&:id)
+  end
+
   def test_index_with_query_id_and_project_id_should_set_session_query
     get :index, :project_id => 1, :query_id => 4
     assert_response :success
