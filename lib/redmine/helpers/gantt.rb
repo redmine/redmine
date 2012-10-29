@@ -457,7 +457,7 @@ module Redmine
           wday = @date_from.cwday
           (date_to - @date_from + 1).to_i.times do
             width =  zoom
-            gc.fill(wday == 6 || wday == 7 ? '#eee' : 'white')
+            gc.fill(non_working_week_days.include?(wday) ? '#eee' : 'white')
             gc.stroke('#ddd')
             gc.stroke_width(1)
             gc.rectangle(left, 2 * header_height, left + width, 2 * header_height + g_height - 1)
