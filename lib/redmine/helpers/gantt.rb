@@ -21,6 +21,7 @@ module Redmine
     class Gantt
       include ERB::Util
       include Redmine::I18n
+      include Redmine::Utils::DateCalculation
 
       # :nodoc:
       # Some utility methods for the PDF export

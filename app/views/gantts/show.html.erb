@@ -201,9 +201,10 @@
       style += "width: #{width}px;"
       style += "height: #{height}px;"
       style += "font-size:0.7em;"
-      style += 'background:#f1f1f1;' if wday > 5
+      clss = "gantt_hdr"
+      clss << " nwday" if @gantt.non_working_week_days.include?(wday)
     %>
-    <%= content_tag(:div, :style => style, :class => "gantt_hdr") do %>
+    <%= content_tag(:div, :style => style, :class => clss) do %>
       <%= day_letter(wday) %>
     <% end %>
     <%

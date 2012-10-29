@@ -879,6 +879,8 @@ a.close-icon:hover {background-image:url('../images/close_hl.png');}
   overflow: hidden;
 }
 
+.gantt_hdr.nwday {background-color:#f1f1f1;}
+
 .gantt_subjects { font-size: 0.8em; }
 .gantt_subjects div { line-height:16px;height:16px;overflow:hidden;white-space:nowrap;text-overflow: ellipsis; }
 
