@@ -1078,4 +1078,4 @@ de:
   label_attribute_of_author: Author's %{name}
   label_attribute_of_assigned_to: Assignee's %{name}
   label_attribute_of_fixed_version: Target version's %{name}
-  label_copy_subtasks: Copy subtasks
+  label_copy_subtasks: Unteraufgaben kopieren
