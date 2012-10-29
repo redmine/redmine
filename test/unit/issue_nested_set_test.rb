@@ -346,7 +346,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     c1 = Issue.generate!(:start_date => '2010-05-12', :due_date => '2010-05-18', :parent_issue_id => parent.id)
     c2 = Issue.generate!(:start_date => '2010-06-03', :due_date => '2010-06-10', :parent_issue_id => parent.id)
     parent.reload
-    parent.reschedule_after(Date.parse('2010-06-02'))
+    parent.reschedule_on!(Date.parse('2010-06-02'))
     c1.reload
     assert_equal [Date.parse('2010-06-02'), Date.parse('2010-06-08')], [c1.start_date, c1.due_date]
     c2.reload

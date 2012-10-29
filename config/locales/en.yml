@@ -399,6 +399,7 @@ en:
   setting_session_timeout: Session inactivity timeout
   setting_thumbnails_enabled: Display attachment thumbnails
   setting_thumbnails_size: Thumbnails size (in pixels)
+  setting_non_working_week_days: Non-working days
 
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects

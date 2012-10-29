@@ -220,3 +220,8 @@ thumbnails_enabled:
 thumbnails_size:
   format: int
   default: 100
+non_working_week_days:
+  serialized: true
+  default:
+  - 6
+  - 7

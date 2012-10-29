@@ -135,7 +135,7 @@ class IssueRelation < ActiveRecord::Base
   def set_issue_to_dates
     soonest_start = self.successor_soonest_start
     if soonest_start && issue_to
-      issue_to.reschedule_after(soonest_start)
+      issue_to.reschedule_on!(soonest_start)
     end
   end
 

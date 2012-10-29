@@ -1300,22 +1300,81 @@ class IssueTest < ActiveSupport::TestCase
     assert !closed_statuses.empty?
   end
 
+  def test_reschedule_an_issue_without_dates
+    with_settings :non_working_week_days => [] do
+      issue = Issue.new(:start_date => nil, :due_date => nil)
+      issue.reschedule_on '2012-10-09'.to_date
+      assert_equal '2012-10-09'.to_date, issue.start_date
+      assert_equal '2012-10-09'.to_date, issue.due_date
+    end
+
+    with_settings :non_working_week_days => %w(6 7) do
+      issue = Issue.new(:start_date => nil, :due_date => nil)
+      issue.reschedule_on '2012-10-09'.to_date
+      assert_equal '2012-10-09'.to_date, issue.start_date
+      assert_equal '2012-10-09'.to_date, issue.due_date
+
+      issue = Issue.new(:start_date => nil, :due_date => nil)
+      issue.reschedule_on '2012-10-13'.to_date
+      assert_equal '2012-10-15'.to_date, issue.start_date
+      assert_equal '2012-10-15'.to_date, issue.due_date
+    end
+  end
+
+  def test_reschedule_an_issue_with_start_date
+    with_settings :non_working_week_days => [] do
+      issue = Issue.new(:start_date => '2012-10-09', :due_date => nil)
+      issue.reschedule_on '2012-10-13'.to_date
+      assert_equal '2012-10-13'.to_date, issue.start_date
+      assert_equal '2012-10-13'.to_date, issue.due_date
+    end
+
+    with_settings :non_working_week_days => %w(6 7) do
+      issue = Issue.new(:start_date => '2012-10-09', :due_date => nil)
+      issue.reschedule_on '2012-10-11'.to_date
+      assert_equal '2012-10-11'.to_date, issue.start_date
+      assert_equal '2012-10-11'.to_date, issue.due_date
+
+      issue = Issue.new(:start_date => '2012-10-09', :due_date => nil)
+      issue.reschedule_on '2012-10-13'.to_date
+      assert_equal '2012-10-15'.to_date, issue.start_date
+      assert_equal '2012-10-15'.to_date, issue.due_date
+    end
+  end
+
+  def test_reschedule_an_issue_with_start_and_due_dates
+    with_settings :non_working_week_days => [] do
+      issue = Issue.new(:start_date => '2012-10-09', :due_date => '2012-10-15')
+      issue.reschedule_on '2012-10-13'.to_date
+      assert_equal '2012-10-13'.to_date, issue.start_date
+      assert_equal '2012-10-19'.to_date, issue.due_date
+    end
+
+    with_settings :non_working_week_days => %w(6 7) do
+      issue = Issue.new(:start_date => '2012-10-09', :due_date => '2012-10-19') # 8 working days
+      issue.reschedule_on '2012-10-11'.to_date
+      assert_equal '2012-10-11'.to_date, issue.start_date
+      assert_equal '2012-10-23'.to_date, issue.due_date
+
+      issue = Issue.new(:start_date => '2012-10-09', :due_date => '2012-10-19')
+      issue.reschedule_on '2012-10-13'.to_date
+      assert_equal '2012-10-15'.to_date, issue.start_date
+      assert_equal '2012-10-25'.to_date, issue.due_date
+    end
+  end
+
   def test_rescheduling_an_issue_should_reschedule_following_issue
-    issue1 = Issue.create!(:project_id => 1, :tracker_id => 1,
-                           :author_id => 1, :status_id => 1,
-                           :subject => '-',
-                           :start_date => Date.today, :due_date => Date.today + 2)
-    issue2 = Issue.create!(:project_id => 1, :tracker_id => 1,
-                           :author_id => 1, :status_id => 1,
-                           :subject => '-',
-                           :start_date => Date.today, :due_date => Date.today + 2)
+    issue1 = Issue.generate!(:start_date => '2012-10-15', :due_date => '2012-10-17')
+    issue2 = Issue.generate!(:start_date => '2012-10-15', :due_date => '2012-10-17')
     IssueRelation.create!(:issue_from => issue1, :issue_to => issue2,
                           :relation_type => IssueRelation::TYPE_PRECEDES)
-    assert_equal issue1.due_date + 1, issue2.reload.start_date
+    assert_equal Date.parse('2012-10-18'), issue2.reload.start_date
 
-    issue1.due_date = Date.today + 5
+    issue1.due_date = '2012-10-23'
     issue1.save!
-    assert_equal issue1.due_date + 1, issue2.reload.start_date
+    issue2.reload
+    assert_equal Date.parse('2012-10-24'), issue2.start_date
+    assert_equal Date.parse('2012-10-26'), issue2.due_date
   end
 
   def test_rescheduling_a_stale_issue_should_not_raise_an_error
@@ -1326,7 +1385,7 @@ class IssueTest < ActiveSupport::TestCase
 
     date = 10.days.from_now.to_date
     assert_nothing_raised do
-      stale.reschedule_after(date)
+      stale.reschedule_on!(date)
     end
     assert_equal date, stale.reload.start_date
   end

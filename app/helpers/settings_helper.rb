@@ -56,7 +56,7 @@ module SettingsHelper
              Setting.send(setting).include?(value),
              :id => nil
            ) + text.to_s,
-          :class => 'block'
+          :class => (options[:inline] ? 'inline' : 'block')
          )
       end.join.html_safe
   end

@@ -493,6 +493,7 @@ html>body .tabular p {overflow:hidden;}
 }
 
 .tabular label.inline{
+  font-weight: normal;
   float:none;
   margin-left: 5px !important;
   width: auto;

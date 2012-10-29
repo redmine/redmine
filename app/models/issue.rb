@@ -17,6 +17,7 @@
 
 class Issue < ActiveRecord::Base
   include Redmine::SafeAttributes
+  include Redmine::Utils::DateCalculation
 
   belongs_to :project
   belongs_to :tracker
@@ -863,6 +864,11 @@ class Issue < ActiveRecord::Base
     (start_date && due_date) ? due_date - start_date : 0
   end
 
+  # Returns the duration in working days
+  def working_duration
+    (start_date && due_date) ? working_days(start_date, due_date) : 0
+  end
+
   def soonest_start
     @soonest_start ||= (
         relations_to.collect{|relation| relation.successor_soonest_start} +
@@ -870,22 +876,33 @@ class Issue < ActiveRecord::Base
       ).compact.max
   end
 
-  def reschedule_after(date)
+  # Sets start_date on the given date or the next working day
+  # and changes due_date to keep the same working duration.
+  def reschedule_on(date)
+    wd = working_duration
+    date = next_working_date(date)
+    self.start_date = date
+    self.due_date = add_working_days(date, wd)
+  end
+
+  # Reschedules the issue on the given date or the next working day and saves the record.
+  # If the issue is a parent task, this is done by rescheduling its subtasks.
+  def reschedule_on!(date)
     return if date.nil?
     if leaf?
       if start_date.nil? || start_date < date
-        self.start_date, self.due_date = date, date + duration
+        reschedule_on(date)
         begin
           save
         rescue ActiveRecord::StaleObjectError
           reload
-          self.start_date, self.due_date = date, date + duration
+          reschedule_on(date)
           save
         end
       end
     else
       leaves.each do |leaf|
-        leaf.reschedule_after(date)
+        leaf.reschedule_on!(date)
       end
     end
   end
