@@ -223,5 +223,5 @@ thumbnails_size:
 non_working_week_days:
   serialized: true
   default:
-  - 6
-  - 7
+  - '6'
+  - '7'
