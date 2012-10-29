@@ -1081,3 +1081,4 @@ ca:
   label_cross_project_hierarchy: "Amb la jerarquia del projecte"
   label_cross_project_system: "Amb tots els projectes"
   button_hide: Hide
+  setting_non_working_week_days: Non-working days
