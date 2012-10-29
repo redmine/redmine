@@ -1074,8 +1074,8 @@ de:
   label_required: Erforderlich
   text_repository_identifier_info: 'Kleinbuchstaben (a-z), Ziffern, Binde- und Unterstriche erlaubt.<br />Einmal gespeichert, kann die Kennung nicht mehr geändert werden.'
   field_board_parent: Übergeordnetes Forum
-  label_attribute_of_project: Project's %{name}
-  label_attribute_of_author: Author's %{name}
-  label_attribute_of_assigned_to: Assignee's %{name}
-  label_attribute_of_fixed_version: Target version's %{name}
+  label_attribute_of_project: "%{name} des Projekts"
+  label_attribute_of_author: "%{name} des Autors"
+  label_attribute_of_assigned_to: "%{name} des Bearbeiters"
+  label_attribute_of_fixed_version: "%{name} der Zielversion"
   label_copy_subtasks: Unteraufgaben kopieren
