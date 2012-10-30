@@ -44,7 +44,8 @@ module VersionsHelper
     rescue ActiveRecord::RecordNotFound
     # When grouping by an association, Rails throws this exception if there's no result (bug)
     end
-    counts = h.keys.compact.sort.collect {|k| {:group => k, :total => h[k][0], :open => h[k][1], :closed => (h[k][0] - h[k][1])}}
+    # Sort with nil keys in last position
+    counts = h.keys.sort {|a,b| a.nil? ? 1 : (b.nil? ? -1 : a <=> b)}.collect {|k| {:group => k, :total => h[k][0], :open => h[k][1], :closed => (h[k][0] - h[k][1])}}
     max = counts.collect {|c| c[:total]}.max
 
     render :partial => 'issue_counts', :locals => {:version => version, :criteria => criteria, :counts => counts, :max => max}

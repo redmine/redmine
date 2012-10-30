@@ -22,7 +22,7 @@ require 'versions_controller'
 class VersionsController; def rescue_action(e) raise e end; end
 
 class VersionsControllerTest < ActionController::TestCase
-  fixtures :projects, :versions, :issues, :users, :roles, :members, :member_roles, :enabled_modules, :issue_statuses
+  fixtures :projects, :versions, :issues, :users, :roles, :members, :member_roles, :enabled_modules, :issue_statuses, :issue_categories
 
   def setup
     @controller = VersionsController.new
@@ -101,6 +101,19 @@ class VersionsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:version)
 
     assert_tag :tag => 'h2', :content => /1.0/
+  end
+
+  def test_show_should_display_nil_counts
+    with_settings :default_language => 'en' do
+      get :show, :id => 2, :status_by => 'category'
+      assert_response :success
+      assert_select 'div#status_by' do
+        assert_select 'select[name=status_by]' do
+          assert_select 'option[value=category][selected=selected]'
+        end
+        assert_select 'a', :text => 'none'
+      end
+    end
   end
 
   def test_new
