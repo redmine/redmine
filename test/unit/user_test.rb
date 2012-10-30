@@ -410,6 +410,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_name_format
+    assert_equal 'John S.', @jsmith.name(:firstname_lastinitial)
     assert_equal 'Smith, John', @jsmith.name(:lastname_coma_firstname)
     with_settings :user_format => :firstname_lastname do
       assert_equal 'John Smith', @jsmith.reload.name
