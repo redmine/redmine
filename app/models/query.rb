@@ -183,7 +183,7 @@ class Query < ActiveRecord::Base
           case operator_for(field)
           when "=", ">=", "<=", "><"
             add_filter_error(field, :invalid) if values_for(field).detect {|v| v.present? && (!v.match(/^\d{4}-\d{2}-\d{2}$/) || (Date.parse(v) rescue nil).nil?) }
-          when ">t-", "<t-", "t-"
+          when ">t-", "<t-", "t-", ">t+", "<t+", "t+"
             add_filter_error(field, :invalid) if values_for(field).detect {|v| v.present? && !v.match(/^\d+$/) }
           end
         end
