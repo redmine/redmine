@@ -642,11 +642,11 @@ ja:
   label_filter_plural: フィルタ
   label_equals: 等しい
   label_not_equals: 等しくない
-  label_in_less_than: が今日から○日後以前
-  label_in_more_than: が今日から○日後以降
+  label_in_less_than: 今日から○日後以前
+  label_in_more_than: 今日から○日後以降
   label_greater_or_equal: 以上
   label_less_or_equal: 以下
-  label_in: が今日から○日後
+  label_in: 今日から○日後
   label_today: 今日
   label_all_time: 全期間
   label_yesterday: 昨日
@@ -657,9 +657,9 @@ ja:
   label_last_month: 先月
   label_this_year: 今年
   label_date_range: 期間
-  label_less_than_ago: が今日より○日前以降
-  label_more_than_ago: が今日より○日前以前
-  label_ago: 日前
+  label_less_than_ago: 今日より○日前以降
+  label_more_than_ago: 今日より○日前以前
+  label_ago: ○日前
   label_contains: 含む
   label_not_contains: 含まない
   label_day_plural: 日
@@ -1110,5 +1110,5 @@ ja:
   label_cross_project_system: すべてのプロジェクト
   button_hide: 隠す
   setting_non_working_week_days: 休業日
-  label_in_the_next_days: in the next
-  label_in_the_past_days: in the past
+  label_in_the_next_days: 今後○日
+  label_in_the_past_days: 過去○日
