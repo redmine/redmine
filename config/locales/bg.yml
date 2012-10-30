@@ -400,6 +400,7 @@ bg:
   setting_session_timeout: Таймаут за неактивност преди прекратяване на сесиите
   setting_thumbnails_enabled: Показване на миниатюри на прикачените изображения
   setting_thumbnails_size: Размер на миниатюрите (в пиксели)
+  setting_non_working_week_days: Не работни дни
 
   permission_add_project: Създаване на проект
   permission_add_subprojects: Създаване на подпроекти
@@ -1077,4 +1078,3 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  setting_non_working_week_days: Non-working days
