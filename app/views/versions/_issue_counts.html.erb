@@ -14,11 +14,11 @@
     <% counts.each do |count| %>
     <tr>
         <td width="130px" align="right" >
-        	<% if count[:group] -%>
+          <% if count[:group] -%>
             <%= link_to(h(count[:group]), project_issues_path(version.project, :set_filter => 1, :status_id => '*', :fixed_version_id => version, "#{criteria}_id" => count[:group])) %>
-				  <% else -%>
+          <% else -%>
             <%= link_to(l(:label_none), project_issues_path(version.project, :set_filter => 1, :status_id => '*', :fixed_version_id => version, "#{criteria}_id" => "!*")) %>
-				  <% end %>
+          <% end %>
         </td>
         <td width="240px">
             <%= progress_bar((count[:closed].to_f / count[:total])*100,
