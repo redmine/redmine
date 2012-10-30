@@ -106,11 +106,13 @@ class Query < ActiveRecord::Base
                   "><"  => :label_between,
                   "<t+" => :label_in_less_than,
                   ">t+" => :label_in_more_than,
+                  "><t+"=> :label_in_the_next_days,
                   "t+"  => :label_in,
                   "t"   => :label_today,
                   "w"   => :label_this_week,
                   ">t-" => :label_less_than_ago,
                   "<t-" => :label_more_than_ago,
+                  "><t-"=> :label_in_the_past_days,
                   "t-"  => :label_ago,
                   "~"   => :label_contains,
                   "!~"  => :label_not_contains,
@@ -124,8 +126,8 @@ class Query < ActiveRecord::Base
                                  :list_status => [ "o", "=", "!", "c", "*" ],
                                  :list_optional => [ "=", "!", "!*", "*" ],
                                  :list_subprojects => [ "*", "!*", "=" ],
-                                 :date => [ "=", ">=", "<=", "><", "<t+", ">t+", "t+", "t", "w", ">t-", "<t-", "t-", "!*", "*" ],
-                                 :date_past => [ "=", ">=", "<=", "><", ">t-", "<t-", "t-", "t", "w", "!*", "*" ],
+                                 :date => [ "=", ">=", "<=", "><", "<t+", ">t+", "><t+", "t+", "t", "w", ">t-", "<t-", "><t-", "t-", "!*", "*" ],
+                                 :date_past => [ "=", ">=", "<=", "><", ">t-", "<t-", "><t-", "t-", "t", "w", "!*", "*" ],
                                  :string => [ "=", "~", "!", "!~", "!*", "*" ],
                                  :text => [  "~", "!~", "!*", "*" ],
                                  :integer => [ "=", ">=", "<=", "><", "!*", "*" ],
@@ -183,7 +185,7 @@ class Query < ActiveRecord::Base
           case operator_for(field)
           when "=", ">=", "<=", "><"
             add_filter_error(field, :invalid) if values_for(field).detect {|v| v.present? && (!v.match(/^\d{4}-\d{2}-\d{2}$/) || (Date.parse(v) rescue nil).nil?) }
-          when ">t-", "<t-", "t-", ">t+", "<t+", "t+"
+          when ">t-", "<t-", "t-", ">t+", "<t+", "t+", "><t+", "><t-"
             add_filter_error(field, :invalid) if values_for(field).detect {|v| v.present? && !v.match(/^\d+$/) }
           end
         end
@@ -936,21 +938,35 @@ class Query < ActiveRecord::Base
       sql = "#{Issue.table_name}.status_id IN (SELECT id FROM #{IssueStatus.table_name} WHERE is_closed=#{connection.quoted_false})" if field == "status_id"
     when "c"
       sql = "#{Issue.table_name}.status_id IN (SELECT id FROM #{IssueStatus.table_name} WHERE is_closed=#{connection.quoted_true})" if field == "status_id"
-    when ">t-"
+    when "><t-"
+      # between today - n days and today
       sql = relative_date_clause(db_table, db_field, - value.first.to_i, 0)
+    when ">t-"
+      # >= today - n days
+      sql = relative_date_clause(db_table, db_field, - value.first.to_i, nil)
     when "<t-"
+      # <= today - n days
       sql = relative_date_clause(db_table, db_field, nil, - value.first.to_i)
     when "t-"
+      # = n days in past
       sql = relative_date_clause(db_table, db_field, - value.first.to_i, - value.first.to_i)
+    when "><t+"
+      # between today and today + n days
+      sql = relative_date_clause(db_table, db_field, 0, value.first.to_i)
     when ">t+"
+      # >= today + n days
       sql = relative_date_clause(db_table, db_field, value.first.to_i, nil)
     when "<t+"
-      sql = relative_date_clause(db_table, db_field, 0, value.first.to_i)
+      # <= today + n days
+      sql = relative_date_clause(db_table, db_field, nil, value.first.to_i)
     when "t+"
+      # = today + n days
       sql = relative_date_clause(db_table, db_field, value.first.to_i, value.first.to_i)
     when "t"
+      # = today
       sql = relative_date_clause(db_table, db_field, 0, 0)
     when "w"
+      # = this week
       first_day_of_week = l(:general_first_day_of_week).to_i
       day_of_week = Date.today.cwday
       days_ago = (day_of_week >= first_day_of_week ? day_of_week - first_day_of_week : day_of_week + 7 - first_day_of_week)

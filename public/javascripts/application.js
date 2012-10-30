@@ -252,9 +252,11 @@ function toggleOperator(field) {
       break;
     case "<t+":
     case ">t+":
+    case "><t+":
     case "t+":
     case ">t-":
     case "<t-":
+    case "><t-":
     case "t-":
       enableValues(field, [2]);
       break;

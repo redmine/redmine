@@ -649,6 +649,8 @@ fr:
   label_not_equals: différent
   label_in_less_than: dans moins de
   label_in_more_than: dans plus de
+  label_in_the_next_days: dans les prochains jours
+  label_in_the_past_days: dans les derniers jours
   label_in: dans
   label_today: aujourd'hui
   label_all_time: toute la période

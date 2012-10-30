@@ -413,6 +413,14 @@ class QueryTest < ActiveSupport::TestCase
     query.add_filter('due_date', '<t+', ['15'])
     issues = find_issues_with_query(query)
     assert !issues.empty?
+    issues.each {|issue| assert(issue.due_date <= (Date.today + 15))}
+  end
+
+  def test_operator_in_the_next_days
+    query = Query.new(:project => Project.find(1), :name => '_')
+    query.add_filter('due_date', '><t+', ['15'])
+    issues = find_issues_with_query(query)
+    assert !issues.empty?
     issues.each {|issue| assert(issue.due_date >= Date.today && issue.due_date <= (Date.today + 15))}
   end
 
@@ -420,6 +428,15 @@ class QueryTest < ActiveSupport::TestCase
     Issue.find(7).update_attribute(:due_date, (Date.today - 3))
     query = Query.new(:project => Project.find(1), :name => '_')
     query.add_filter('due_date', '>t-', ['3'])
+    issues = find_issues_with_query(query)
+    assert !issues.empty?
+    issues.each {|issue| assert(issue.due_date >= (Date.today - 3))}
+  end
+
+  def test_operator_in_the_past_days
+    Issue.find(7).update_attribute(:due_date, (Date.today - 3))
+    query = Query.new(:project => Project.find(1), :name => '_')
+    query.add_filter('due_date', '><t-', ['3'])
     issues = find_issues_with_query(query)
     assert !issues.empty?
     issues.each {|issue| assert(issue.due_date >= (Date.today - 3) && issue.due_date <= Date.today)}
