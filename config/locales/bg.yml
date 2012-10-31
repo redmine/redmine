@@ -657,6 +657,8 @@ bg:
   label_not_equals: не е
   label_in_less_than: след по-малко от
   label_in_more_than: след повече от
+  label_in_the_next_days: в следващите
+  label_in_the_past_days: в предишните
   label_greater_or_equal: ">="
   label_less_or_equal: <=
   label_between: между
@@ -1078,5 +1080,3 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  label_in_the_next_days: in the next
-  label_in_the_past_days: in the past
