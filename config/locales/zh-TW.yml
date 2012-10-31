@@ -481,6 +481,7 @@
   setting_session_timeout: 工作階段無活動逾時時間
   setting_thumbnails_enabled: 顯示附加檔案的縮圖
   setting_thumbnails_size: "縮圖大小 (單位: 像素 pixels)"
+  setting_non_working_week_days: 非工作日
 
   permission_add_project: 建立專案
   permission_add_subprojects: 建立子專案
@@ -737,6 +738,8 @@
   label_not_equals: 不等於
   label_in_less_than: 在小於
   label_in_more_than: 在大於
+  label_in_the_next_days: 在未來幾天之內
+  label_in_the_past_days: 在過去幾天之內
   label_greater_or_equal: "大於等於 (>=)"
   label_less_or_equal: "小於等於 (<=)"
   label_between: 區間
@@ -1160,6 +1163,3 @@
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  setting_non_working_week_days: Non-working days
-  label_in_the_next_days: in the next
-  label_in_the_past_days: in the past
