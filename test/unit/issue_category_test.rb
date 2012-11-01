@@ -18,7 +18,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class IssueCategoryTest < ActiveSupport::TestCase
-  fixtures :issue_categories, :issues
+  fixtures :issue_categories, :issues, :users, :groups_users
 
   def setup
     @category = IssueCategory.find(1)
