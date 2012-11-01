@@ -22,7 +22,7 @@ require 'welcome_controller'
 class WelcomeController; def rescue_action(e) raise e end; end
 
 class WelcomeControllerTest < ActionController::TestCase
-  fixtures :projects, :news
+  fixtures :projects, :news, :users, :members
 
   def setup
     @controller = WelcomeController.new
