@@ -21,7 +21,7 @@ class Redmine::MenuManager::MenuHelperTest < ActionView::TestCase
 
   include Redmine::MenuManager::MenuHelper
   include ERB::Util
-  fixtures :users, :members, :projects, :enabled_modules
+  fixtures :users, :members, :projects, :enabled_modules, :roles, :member_roles
 
   def setup
     setup_with_controller

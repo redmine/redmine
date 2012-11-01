@@ -18,7 +18,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class RoleTest < ActiveSupport::TestCase
-  fixtures :roles, :workflows
+  fixtures :roles, :workflows, :trackers
 
   def test_sorted_scope
     assert_equal Role.all.sort, Role.sorted.all

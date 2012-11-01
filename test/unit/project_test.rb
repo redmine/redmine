@@ -36,6 +36,7 @@ class ProjectTest < ActiveSupport::TestCase
            :groups_users,
            :boards, :messages,
            :repositories,
+           :news, :comments,
            :documents
 
   def setup

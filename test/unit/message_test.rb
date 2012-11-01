@@ -18,7 +18,8 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class MessageTest < ActiveSupport::TestCase
-  fixtures :projects, :roles, :members, :member_roles, :boards, :messages, :users, :watchers
+  fixtures :projects, :roles, :members, :member_roles, :boards, :messages,
+           :users, :watchers, :enabled_modules
 
   def setup
     @board = Board.find(1)

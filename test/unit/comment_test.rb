@@ -18,7 +18,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class CommentTest < ActiveSupport::TestCase
-  fixtures :users, :news, :comments
+  fixtures :users, :news, :comments, :projects, :enabled_modules
 
   def setup
     @jsmith = User.find(2)
