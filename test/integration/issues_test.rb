@@ -22,6 +22,7 @@ class IssuesTest < ActionController::IntegrationTest
            :users,
            :roles,
            :members,
+           :member_roles,
            :trackers,
            :projects_trackers,
            :enabled_modules,
