@@ -97,21 +97,21 @@ namespace :redmine do
       Rake::TestTask.new :units => "db:test:prepare" do |t|
         t.libs << "test"
         t.verbose = true
-        t.test_files = FileList["plugins/#{ENV['NAME'] || '*'}/test/unit/**/*_test.rb"]
+        t.pattern = "plugins/#{ENV['NAME'] || '*'}/test/unit/**/*_test.rb"
       end
 
       desc 'Runs the plugins functional tests.'
       Rake::TestTask.new :functionals => "db:test:prepare" do |t|
         t.libs << "test"
         t.verbose = true
-        t.test_files = FileList["plugins/#{ENV['NAME'] || '*'}/test/functional/**/*_test.rb"]
+        t.pattern = "plugins/#{ENV['NAME'] || '*'}/test/functional/**/*_test.rb"
       end
 
       desc 'Runs the plugins integration tests.'
       Rake::TestTask.new :integration => "db:test:prepare" do |t|
         t.libs << "test"
         t.verbose = true
-        t.test_files = FileList["plugins/#{ENV['NAME'] || '*'}/test/integration/**/*_test.rb"]
+        t.pattern = "plugins/#{ENV['NAME'] || '*'}/test/integration/**/*_test.rb"
       end
     end
   end
