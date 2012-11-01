@@ -18,7 +18,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class GroupsControllerTest < ActionController::TestCase
-  fixtures :projects, :users, :members, :member_roles, :groups_users
+  fixtures :projects, :users, :members, :member_roles, :roles, :groups_users
 
   def setup
     @request.session[:user_id] = 1
