@@ -6,7 +6,7 @@ class IssueStatusesController; def rescue_action(e) raise e end; end
 
 
 class IssueStatusesControllerTest < ActionController::TestCase
-  fixtures :issue_statuses, :issues
+  fixtures :issue_statuses, :issues, :users
 
   def setup
     @controller = IssueStatusesController.new
