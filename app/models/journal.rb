@@ -100,6 +100,14 @@ class Journal < ActiveRecord::Base
     notified.map(&:mail)
   end
 
+  def watcher_recipients
+    notified = journalized.notified_watchers
+    if private_notes?
+      notified = notified.select {|user| user.allowed_to?(:view_private_notes, journalized.project)}
+    end
+    notified.map(&:mail)
+  end
+
   private
 
   def split_private_notes
