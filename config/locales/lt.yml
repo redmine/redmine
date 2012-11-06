@@ -40,44 +40,44 @@ lt:
     distance_in_words:
       half_a_minute: "pusė minutės"
       less_than_x_seconds:
-        one:   "mažiau nei %{count} sekundė"
-        few:   "mažiau nei %{count} sekundės"
+        one:   "mažiau nei %{count} sekundę"
+        few:   "mažiau nei %{count} sekundes"
         many:  "mažiau nei %{count} sekundžių"
-        other: "mažiau nei %{count} sekundės"
+        other: "mažiau nei %{count} sekundžių"
       x_seconds:
         one:   "%{count} sekundė"
-        few:   "%{count} sekundžių"
+        few:   "%{count} sekundės"
         many:  "%{count} sekundžių"
-        other: "%{count} sekundės"
+        other: "%{count} sekundžių"
       less_than_x_minutes:
-        one:   "mažiau nei minutė"
-        other: "mažiau nei %{count} minutės"
+        one:   "mažiau nei minutę"
+        other: "mažiau nei %{count} minutes(čių)"
       x_minutes:
-        one:   "1 minutė"
-        other: "%{count} minutės"
+        one:   "1 minutę"
+        other: "%{count} minutes(čių)"
       about_x_hours:
-        one:   "apie 1 valanda"
-        other: "apie %{count} valandų"
+        one:   "apie 1 valandą"
+        other: "apie %{count} valandas(ų)"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 valandą"
+        other: "%{count} valandas(ų)"
       x_days:
-        one:   "1 diena"
-        other: "%{count} dienų"
+        one:   "1 dieną"
+        other: "%{count} dienas(ų)"
       about_x_months:
         one:   "apie 1 mėnuo"
-        other: "apie %{count} mėnesiai"
+        other: "apie %{count} mėn."
       x_months:
         one:   "1 mėnuo"
-        other: "%{count} mėnesiai"
+        other: "%{count} mėn."
       about_x_years:
-        one:   "apie 1 metai"
+        one:   "apie 1 metus"
         other: "apie %{count} metų"
       over_x_years:
         one:   "virš 1 metų"
         other: "virš %{count} metų"
       almost_x_years:
-        one:   "beveik 1 metai"
+        one:   "beveik 1 metus"
         other: "beveik %{count} metai(us)"
     prompts:
       year:   "Metai"
