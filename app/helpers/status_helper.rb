@@ -49,12 +49,16 @@ module StatusHelper
       projects.each do |project|
 
         show_this = 0
+        alt_text = ""
         
         project.visible_custom_field_values.each do |custom_value|
-	        if (custom_value.custom_field.name == 'Category')
+	      if (custom_value.custom_field.name == 'Category')
             if (custom_value.value == 'Project')
               show_this = 1
             end
+          end
+	      if (custom_value.custom_field.name == 'Status info')
+              alt_text = " title='#{custom_value.value}'"
           end
         end
         
@@ -64,8 +68,9 @@ module StatusHelper
 
           s << "<tr>\n"
           status_types.each do |status_type|
+
             if status_type == ""
-              s << "<td><a href='/projects/#{project.identifier}'>#{project.identifier}</a></td>"
+                s << "<td><a href='/projects/#{project.identifier}'#{alt_text}=>#{project.identifier}</a></td>"
             else
               project.visible_custom_field_values.each do |custom_value|
                 if (custom_value.custom_field.name == status_type+' support')
