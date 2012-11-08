@@ -18,6 +18,7 @@
 <body class="<%=h body_css_classes %>">
 <div id="wrapper">
 <div id="wrapper2">
+<div id="wrapper3">
 <div id="top-menu">
     <div id="account">
         <%= render_menu :account_menu -%>
@@ -61,6 +62,7 @@
         <%= call_hook :view_layouts_base_content %>
         <div style="clear:both;"></div>
     </div>
+</div>
 </div>
 
 <div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>
