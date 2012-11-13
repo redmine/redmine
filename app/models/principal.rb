@@ -32,11 +32,12 @@ class Principal < ActiveRecord::Base
       where({})
     else
       pattern = "%#{q}%"
-      sql = "LOWER(login) LIKE LOWER(:p) OR LOWER(firstname) LIKE LOWER(:p) OR LOWER(lastname) LIKE LOWER(:p) OR LOWER(mail) LIKE LOWER(:p)"
+      sql = %w(login firstname lastname mail).map {|column| "LOWER(#{table_name}.#{column}) LIKE LOWER(:p)"}.join(" OR ")
       params = {:p => pattern}
       if q =~ /^(.+)\s+(.+)$/
         a, b = "#{$1}%", "#{$2}%"
-        sql << " OR (LOWER(firstname) LIKE LOWER(:a) AND LOWER(lastname) LIKE LOWER(:b)) OR (LOWER(firstname) LIKE LOWER(:b) AND LOWER(lastname) LIKE LOWER(:a))"
+        sql << " OR (LOWER(#{table_name}.firstname) LIKE LOWER(:a) AND LOWER(#{table_name}.lastname) LIKE LOWER(:b))"
+        sql << " OR (LOWER(#{table_name}.firstname) LIKE LOWER(:b) AND LOWER(#{table_name}.lastname) LIKE LOWER(:a))"
         params.merge!(:a => a, :b => b)
       end
       where(sql, params)
