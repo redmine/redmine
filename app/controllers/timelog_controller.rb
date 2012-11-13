@@ -138,7 +138,7 @@ class TimelogController < ApplicationController
                 :time_entry => {:issue_id => @time_entry.issue_id, :activity_id => @time_entry.activity_id},
                 :back_url => params[:back_url]
             else
-              redirect_to :action => 'new', 
+              redirect_to :action => 'new',
                 :time_entry => {:project_id => @time_entry.project_id, :issue_id => @time_entry.issue_id, :activity_id => @time_entry.activity_id},
                 :back_url => params[:back_url]
             end
