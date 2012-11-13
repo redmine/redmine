@@ -30,13 +30,13 @@ class Principal < ActiveRecord::Base
     if q.blank?
       {}
     else
-      q = q.to_s.downcase
+      q = q.to_s
       pattern = "%#{q}%"
-      sql = "LOWER(login) LIKE :p OR LOWER(firstname) LIKE :p OR LOWER(lastname) LIKE :p OR LOWER(mail) LIKE :p"
+      sql = "LOWER(login) LIKE LOWER(:p) OR LOWER(firstname) LIKE LOWER(:p) OR LOWER(lastname) LIKE LOWER(:p) OR LOWER(mail) LIKE LOWER(:p)"
       params = {:p => pattern}
       if q =~ /^(.+)\s+(.+)$/
         a, b = "#{$1}%", "#{$2}%"
-        sql << " OR (LOWER(firstname) LIKE :a AND LOWER(lastname) LIKE :b) OR (LOWER(firstname) LIKE :b AND LOWER(lastname) LIKE :a)"
+        sql << " OR (LOWER(firstname) LIKE LOWER(:a) AND LOWER(lastname) LIKE LOWER(:b)) OR (LOWER(firstname) LIKE LOWER(:b) AND LOWER(lastname) LIKE LOWER(:a))"
         params.merge!(:a => a, :b => b)
       end
       {:conditions => [sql, params]}
