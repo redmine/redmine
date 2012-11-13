@@ -27,10 +27,10 @@ class Principal < ActiveRecord::Base
   scope :active, :conditions => "#{Principal.table_name}.status = 1"
 
   scope :like, lambda {|q|
+    q = q.to_s
     if q.blank?
-      {}
+      where({})
     else
-      q = q.to_s
       pattern = "%#{q}%"
       sql = "LOWER(login) LIKE LOWER(:p) OR LOWER(firstname) LIKE LOWER(:p) OR LOWER(lastname) LIKE LOWER(:p) OR LOWER(mail) LIKE LOWER(:p)"
       params = {:p => pattern}
@@ -39,7 +39,7 @@ class Principal < ActiveRecord::Base
         sql << " OR (LOWER(firstname) LIKE LOWER(:a) AND LOWER(lastname) LIKE LOWER(:b)) OR (LOWER(firstname) LIKE LOWER(:b) AND LOWER(lastname) LIKE LOWER(:a))"
         params.merge!(:a => a, :b => b)
       end
-      {:conditions => [sql, params]}
+      where(sql, params)
     end
   }
 
