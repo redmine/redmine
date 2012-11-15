@@ -33,6 +33,7 @@ class Version < ActiveRecord::Base
   validates_format_of :effective_date, :with => /^\d{4}-\d{2}-\d{2}$/, :message => :not_a_date, :allow_nil => true
   validates_inclusion_of :status, :in => VERSION_STATUSES
   validates_inclusion_of :sharing, :in => VERSION_SHARINGS
+  validate :validate_version
 
   scope :named, lambda {|arg| { :conditions => ["LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip]}}
   scope :open, :conditions => {:status => 'open'}
@@ -273,6 +274,12 @@ class Version < ActiveRecord::Base
         progress = done / (estimated_average * issues_count)
       end
       progress
+    end
+  end
+
+  def validate_version
+    if effective_date.nil? && @attributes['effective_date'].present?
+      errors.add :effective_date, :not_a_date
     end
   end
 end
