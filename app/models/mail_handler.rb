@@ -377,7 +377,8 @@ class MailHandler < ActionMailer::Base
       # try to reencode to utf8 manually with ruby1.8
       begin
         if h = email.header[:subject]
-          if m = h.value.match(/^=\?([^\?]+)\?/)
+          # http://tools.ietf.org/html/rfc2047#section-4
+          if m = h.value.match(/=\?([^\?]+)\?[BbQq]\?/)
             subject = Redmine::CodesetUtil.to_utf8(subject, m[1])
           end
         end
