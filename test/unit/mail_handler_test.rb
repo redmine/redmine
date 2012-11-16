@@ -378,8 +378,10 @@ class MailHandlerTest < ActiveSupport::TestCase
               'subject_as_iso-8859-1.eml',
               :issue => {:project => 'ecookbook'}
             )
+    str = "Testmail from Webmail: \xc3\xa4 \xc3\xb6 \xc3\xbc..."
+    str.force_encoding('UTF-8') if str.respond_to?(:force_encoding)
     assert_kind_of Issue, issue
-    assert_equal 'Testmail from Webmail: ä ö ü...', issue.subject
+    assert_equal str, issue.subject
   end
 
   def test_add_issue_with_japanese_subject
