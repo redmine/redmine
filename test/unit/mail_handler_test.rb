@@ -382,6 +382,17 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 'Testmail from Webmail: ä ö ü...', issue.subject
   end
 
+  def test_add_issue_with_japanese_subject
+    issue = submit_email(
+              'subject_japanese_1.eml',
+              :issue => {:project => 'ecookbook'}
+            )
+    assert_kind_of Issue, issue
+    ja = "\xe3\x83\x86\xe3\x82\xb9\xe3\x83\x88"
+    ja.force_encoding('UTF-8') if ja.respond_to?(:force_encoding)
+    assert_equal ja, issue.subject
+  end
+
   def test_should_ignore_emails_from_locked_users
     User.find(2).lock!
 
