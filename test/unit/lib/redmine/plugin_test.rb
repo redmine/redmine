@@ -87,6 +87,7 @@ class Redmine::PluginTest < ActiveSupport::TestCase
     plugin = Redmine::Plugin.register(:foo) {}
     Redmine::VERSION.stubs(:to_a).returns([2, 1, 3, "stable", 10817])
 
+    # Specific version without hash
     assert plugin.requires_redmine('2.1.3')
     assert plugin.requires_redmine('2.1')
     assert_raise Redmine::PluginRequirementError do
@@ -96,16 +97,7 @@ class Redmine::PluginTest < ActiveSupport::TestCase
       plugin.requires_redmine('2.2')
     end
 
-    assert plugin.requires_redmine(:version_or_higher => '0.1.0')
-    assert plugin.requires_redmine(:version_or_higher => '2.1.3')
-    assert plugin.requires_redmine(:version_or_higher => '2.1')
-    assert_raise Redmine::PluginRequirementError do
-      plugin.requires_redmine(:version_or_higher => '2.2.0')
-    end
-    assert_raise Redmine::PluginRequirementError do
-      plugin.requires_redmine(:version_or_higher => '2.2')
-    end
-
+    # Specific version
     assert plugin.requires_redmine(:version => '2.1.3')
     assert plugin.requires_redmine(:version => ['2.1.3', '2.2.0'])
     assert plugin.requires_redmine(:version => '2.1')
@@ -117,6 +109,29 @@ class Redmine::PluginTest < ActiveSupport::TestCase
     end
     assert_raise Redmine::PluginRequirementError do
       plugin.requires_redmine(:version => '2.2')
+    end
+
+    # Version range
+    assert plugin.requires_redmine(:version => '2.0.0'..'2.2.4')
+    assert plugin.requires_redmine(:version => '2.1.3'..'2.2.4')
+    assert plugin.requires_redmine(:version => '2.0.0'..'2.1.3')
+    assert plugin.requires_redmine(:version => '2.0'..'2.2')
+    assert plugin.requires_redmine(:version => '2.1'..'2.2')
+    assert plugin.requires_redmine(:version => '2.0'..'2.1')
+    assert_raise Redmine::PluginRequirementError do
+      plugin.requires_redmine(:version => '2.1.4'..'2.2.4')
+    end
+
+
+    # Version or higher
+    assert plugin.requires_redmine(:version_or_higher => '0.1.0')
+    assert plugin.requires_redmine(:version_or_higher => '2.1.3')
+    assert plugin.requires_redmine(:version_or_higher => '2.1')
+    assert_raise Redmine::PluginRequirementError do
+      plugin.requires_redmine(:version_or_higher => '2.2.0')
+    end
+    assert_raise Redmine::PluginRequirementError do
+      plugin.requires_redmine(:version_or_higher => '2.2')
     end
   end
 

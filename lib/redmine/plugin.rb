@@ -160,32 +160,51 @@ module Redmine #:nodoc:
     #   # Requires Redmine 0.7.3 or higher
     #   requires_redmine :version_or_higher => '0.7.3'
     #   requires_redmine '0.7.3'
+    #   requires_redmine '0.7'
     #
     #   # Requires a specific Redmine version
     #   requires_redmine :version => '0.7.3'              # 0.7.3 only
+    #   requires_redmine :version => '0.7'                # 0.7.x
     #   requires_redmine :version => ['0.7.3', '0.8.0']   # 0.7.3 or 0.8.0
+    #
+    #   # Requires a Redmine version within a range
+    #   requires_redmine :version => '0.7.3'..'0.9.1'     # >= 0.7.3 and <= 0.9.1
+    #   requires_redmine :version => '0.7'..'0.9'         # >= 0.7.x and <= 0.9.x
     def requires_redmine(arg)
       arg = { :version_or_higher => arg } unless arg.is_a?(Hash)
       arg.assert_valid_keys(:version, :version_or_higher)
 
       current = Redmine::VERSION.to_a
-      arg.each do |k, v|
-        v = [] << v unless v.is_a?(Array)
-        versions = v.collect {|s| s.split('.').collect(&:to_i)}
+      arg.each do |k, req|
         case k
         when :version_or_higher
-          raise ArgumentError.new("wrong number of versions (#{versions.size} for 1)") unless versions.size == 1
-          unless (current <=> versions.first) >= 0
-            raise PluginRequirementError.new("#{id} plugin requires Redmine #{v} or higher but current is #{current.join('.')}")
+          raise ArgumentError.new(":version_or_higher accepts a version string only") unless req.is_a?(String)
+          unless compare_versions(req, current) <= 0
+            raise PluginRequirementError.new("#{id} plugin requires Redmine #{req} or higher but current is #{current.join('.')}")
           end
         when :version
-          unless versions.detect {|ver| current.slice(0, ver.size) == ver}
-            raise PluginRequirementError.new("#{id} plugin requires one the following Redmine versions: #{v.join(', ')} but current is #{current.join('.')}")
+          req = [req] if req.is_a?(String)
+          if req.is_a?(Array)
+            unless req.detect {|ver| compare_versions(ver, current) == 0}
+              raise PluginRequirementError.new("#{id} plugin requires one the following Redmine versions: #{req.join(', ')} but current is #{current.join('.')}")
+            end
+          elsif req.is_a?(Range)
+            unless compare_versions(req.first, current) <= 0 && compare_versions(req.last, current) >= 0
+              raise PluginRequirementError.new("#{id} plugin requires a Redmine version between #{req.first} and #{req.last} but current is #{current.join('.')}")
+            end
+          else
+            raise ArgumentError.new(":version option accepts a version string, an array or a range of versions")
           end
         end
       end
       true
     end
+
+    def compare_versions(requirement, current)
+      requirement = requirement.split('.').collect(&:to_i)
+      requirement <=> current.slice(0, requirement.size)
+    end
+    private :compare_versions
 
     # Sets a requirement on a Redmine plugin version
     # Raises a PluginRequirementError exception if the requirement is not met
