@@ -61,6 +61,8 @@ module ObjectHelpers
 
   def Issue.generate!(attributes={})
     issue = Issue.new(attributes)
+    issue.project ||= Project.find(1)
+    issue.tracker ||= issue.project.trackers.first
     issue.subject = 'Generated' if issue.subject.blank?
     issue.author ||= User.find(2)
     yield issue if block_given?

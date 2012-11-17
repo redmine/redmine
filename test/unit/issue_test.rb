@@ -1576,4 +1576,18 @@ class IssueTest < ActiveSupport::TestCase
   def test_journals_after_with_blank_arg_should_return_all_journals
     assert_equal [Journal.find(1), Journal.find(2)], Issue.find(1).journals_after('')
   end
+
+  def test_save_attachments_with_hash_should_save_attachments_in_keys_order
+    set_tmp_attachments_directory
+    issue = Issue.generate!
+    issue.save_attachments({
+      'p0' => {'file' => mock_file_with_options(:original_filename => 'upload')},
+      '3' => {'file' => mock_file_with_options(:original_filename => 'bar')},
+      '1' => {'file' => mock_file_with_options(:original_filename => 'foo')}
+    })
+    issue.attach_saved_attachments
+
+    assert_equal 3, issue.reload.attachments.count
+    assert_equal %w(upload foo bar), issue.attachments.map(&:filename)
+  end
 end

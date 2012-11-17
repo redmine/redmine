@@ -30,7 +30,7 @@ module Redmine
           attachable_options[:delete_permission] = options.delete(:delete_permission) || "edit_#{self.name.pluralize.underscore}".to_sym
 
           has_many :attachments, options.merge(:as => :container,
-                                               :order => "#{Attachment.table_name}.created_on",
+                                               :order => "#{Attachment.table_name}.created_on ASC, #{Attachment.table_name}.id ASC",
                                                :dependent => :destroy)
           send :include, Redmine::Acts::Attachable::InstanceMethods
           before_save :attach_saved_attachments
@@ -62,7 +62,19 @@ module Redmine
 
         def save_attachments(attachments, author=User.current)
           if attachments.is_a?(Hash)
-            attachments = attachments.values
+            attachments = attachments.stringify_keys
+            attachments = attachments.to_a.sort {|a, b|
+              if a.first.to_i > 0 && b.first.to_i > 0
+                a.first.to_i <=> b.first.to_i
+              elsif a.first.to_i > 0
+                1
+              elsif b.first.to_i > 0
+                -1
+              else
+                a.first <=> b.first
+              end
+            }
+            attachments = attachments.map(&:last)
           end
           if attachments.is_a?(Array)
             attachments.each do |attachment|
