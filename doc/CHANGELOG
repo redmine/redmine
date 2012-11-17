@@ -4,6 +4,25 @@ Redmine - project management software
 Copyright (C) 2006-2012  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2012-11-17 v2.1.3
+
+* Defect #12050: :export links to repository files lead to a 404 error
+* Defect #12189: Missing tmp/pdf directory
+* Defect #12195: Javascript error with IE7 / IE8 on new issue form
+* Defect #12196: "Page not found" on OK button in SCM "View all revisions" page
+* Defect #12199: Confirmation message displayed when clicking a disabled delete link in the context menu
+* Defect #12231: Hardcoded "Back" in Repository
+* Defect #12294: Incorrect german translation for "registered" users filter
+* Defect #12349: Watchers auto-complete search on non-latin chars
+* Defect #12358: 'None' grouped issue list section should be translated
+* Defect #12359: Version date field regex validation accepts invalid date
+* Defect #12375: Receiving mail subject encoding broken (MOJIBAKE) in some cases on Ruby 1.8
+* Patch #9732: German translations
+* Patch #12021: Russian locale translations
+* Patch #12188: Simplified Chinese translation with zh.yml file based on Rev:10681
+* Patch #12235: German translation for 2.1-stable
+* Patch #12237: Added German Translation
+
 == 2012-09-30 v2.1.2
 
 * Defect #11929: XSS vulnerability in Redmine 2.1.x
