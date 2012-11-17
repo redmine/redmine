@@ -88,23 +88,35 @@ class Redmine::PluginTest < ActiveSupport::TestCase
     Redmine::VERSION.stubs(:to_a).returns([2, 1, 3, "stable", 10817])
 
     assert plugin.requires_redmine('2.1.3')
+    assert plugin.requires_redmine('2.1')
     assert_raise Redmine::PluginRequirementError do
       plugin.requires_redmine('2.1.4')
+    end
+    assert_raise Redmine::PluginRequirementError do
+      plugin.requires_redmine('2.2')
     end
 
     assert plugin.requires_redmine(:version_or_higher => '0.1.0')
     assert plugin.requires_redmine(:version_or_higher => '2.1.3')
+    assert plugin.requires_redmine(:version_or_higher => '2.1')
     assert_raise Redmine::PluginRequirementError do
       plugin.requires_redmine(:version_or_higher => '2.2.0')
+    end
+    assert_raise Redmine::PluginRequirementError do
+      plugin.requires_redmine(:version_or_higher => '2.2')
     end
 
     assert plugin.requires_redmine(:version => '2.1.3')
     assert plugin.requires_redmine(:version => ['2.1.3', '2.2.0'])
+    assert plugin.requires_redmine(:version => '2.1')
     assert_raise Redmine::PluginRequirementError do
       plugin.requires_redmine(:version => '2.2.0')
     end
     assert_raise Redmine::PluginRequirementError do
       plugin.requires_redmine(:version => ['2.1.4', '2.2.0'])
+    end
+    assert_raise Redmine::PluginRequirementError do
+      plugin.requires_redmine(:version => '2.2')
     end
   end
 

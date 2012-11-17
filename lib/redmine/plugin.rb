@@ -179,7 +179,7 @@ module Redmine #:nodoc:
             raise PluginRequirementError.new("#{id} plugin requires Redmine #{v} or higher but current is #{current.join('.')}")
           end
         when :version
-          unless versions.include?(current.slice(0,3))
+          unless versions.detect {|ver| current.slice(0, ver.size) == ver}
             raise PluginRequirementError.new("#{id} plugin requires one the following Redmine versions: #{v.join(', ')} but current is #{current.join('.')}")
           end
         end
