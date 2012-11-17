@@ -844,7 +844,7 @@ de:
   button_show: Anzeigen
 
   status_active: aktiv
-  status_registered: angemeldet
+  status_registered: nicht aktivierte
   status_locked: gesperrt
 
   version_status_open: offen
