@@ -160,6 +160,8 @@ module Redmine #:nodoc:
     #   # Requires Redmine 0.7.3 or higher
     #   requires_redmine :version_or_higher => '0.7.3'
     #   requires_redmine '0.7.3'
+    #
+    #   # Requires Redmine 0.7.x or higher
     #   requires_redmine '0.7'
     #
     #   # Requires a specific Redmine version
