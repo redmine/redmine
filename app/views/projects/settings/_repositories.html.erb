@@ -14,7 +14,7 @@
     <tr class="<%= cycle 'odd', 'even' %>">
       <td>
       <%= link_to repository.identifier, 
-            {:controller => 'repositories', :action => 'show',:id => @project, :repository_id => repository.identifier_param} if repository.identifier_param.present? %>
+            {:controller => 'repositories', :action => 'show',:id => @project, :repository_id => repository.identifier_param} if repository.identifier.present? %>
       </td>
       <td align="center"><%= checked_image repository.is_default? %></td>
       <td><%=h repository.scm_name %></td>
