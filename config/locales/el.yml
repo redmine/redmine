@@ -137,7 +137,7 @@ el:
   general_text_Yes: 'Ναι'
   general_text_no: 'όχι'
   general_text_yes: 'ναι'
-  general_lang_name: 'Ελληνικά'
+  general_lang_name: 'Greek (Ελληνικά)'
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
   general_csv_encoding: UTF-8

@@ -137,7 +137,7 @@ sr:
   general_text_Yes: 'Да'
   general_text_no: 'не'
   general_text_yes: 'да'
-  general_lang_name: 'Српски'
+  general_lang_name: 'Serbian Cyrillic (Српски)'
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
   general_csv_encoding: UTF-8

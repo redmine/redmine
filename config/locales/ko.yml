@@ -183,7 +183,7 @@ ko:
   general_text_Yes: '예'
   general_text_no: '아니오'
   general_text_yes: '예'
-  general_lang_name: '한국어(Korean)'
+  general_lang_name: 'Korean (한국어)'
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
   general_csv_encoding: CP949
