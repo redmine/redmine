@@ -954,7 +954,6 @@ lt:
   text_subprojects_destroy_warning: "Šis(ie) subprojektas(ai): %{value} taip pat bus ištrintas(i)."
   text_workflow_edit: Išrinkite vaidmenį ir pėdsekį, kad redaguotumėte darbų eigą
   text_are_you_sure: Ar esate įsitikinęs?
-  text_are_you_sure_with_children: Ar ištrinti darbą ir visu sudedamuosius darbus?
   text_journal_changed: "%{label} pakeistas(a) iš %{old} į %{new}"
   text_journal_changed_no_detail: "%{label} atnaujintas(a)"
   text_journal_set_to: "%{label} nustatytas(a) į %{value}"

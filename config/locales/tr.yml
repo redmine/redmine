@@ -939,7 +939,6 @@ tr:
   project_module_gantt: İş-Zaman Çizelgesi
   project_module_calendar: Takvim
   button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
-  text_are_you_sure_with_children: İş, tüm alt işlerle birlikte silinsin mi?
   field_text: Metin alanı
   label_user_mail_option_only_owner: Sadece sahibi olduğum şeyler için
   setting_default_notification_option: Varsayılan bildirim seçeneği

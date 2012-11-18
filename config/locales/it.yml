@@ -921,7 +921,6 @@ it:
   project_module_gantt: Gantt
   project_module_calendar: Calendario
   button_edit_associated_wikipage: "Modifica la pagina wiki associata: %{page_title}"
-  text_are_you_sure_with_children: Eliminare la segnalazione e tutte le discendenti?
   field_text: Campo di testo
   label_user_mail_option_only_owner: Solo se io sono il proprietario
   setting_default_notification_option: Opzione di notifica predefinita

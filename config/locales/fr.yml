@@ -1046,7 +1046,6 @@ fr:
   project_module_gantt: Gantt
   project_module_calendar: Calendrier
   button_edit_associated_wikipage: "Modifier la page wiki associée: %{page_title}"
-  text_are_you_sure_with_children: Supprimer la demande et toutes ses sous-demandes ?
   field_text: Champ texte
   label_user_mail_option_only_owner: Seulement pour ce que j'ai créé
   setting_default_notification_option: Option de notification par défaut

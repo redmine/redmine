@@ -965,7 +965,6 @@ bg:
   text_subprojects_destroy_warning: "Неговите подпроекти: %{value} също ще бъдат изтрити."
   text_workflow_edit: Изберете роля и тракер за да редактирате работния процес
   text_are_you_sure: Сигурни ли сте?
-  text_are_you_sure_with_children: Изтриване на задачата и нейните подзадачи?
   text_journal_changed: "%{label} променен от %{old} на %{new}"
   text_journal_changed_no_detail: "%{label} променен"
   text_journal_set_to: "%{label} установен на %{value}"

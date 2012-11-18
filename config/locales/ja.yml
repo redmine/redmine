@@ -905,7 +905,6 @@ ja:
   text_subprojects_destroy_warning: "サブプロジェクト %{value} も削除されます。"
   text_workflow_edit: ワークフローを編集するロールとトラッカーを選んでください
   text_are_you_sure: よろしいですか？
-  text_are_you_sure_with_children: チケットとその子チケットすべてを削除しますか？
   text_journal_changed: "%{label} を %{old} から %{new} に変更"
   text_journal_changed_no_detail: "%{label} を更新"
   text_journal_set_to: "%{label} を %{value} にセット"

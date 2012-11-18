@@ -860,7 +860,6 @@ de:
   text_subprojects_destroy_warning: "Dessen Unterprojekte (%{value}) werden ebenfalls gelöscht."
   text_workflow_edit: Workflow zum Bearbeiten auswählen
   text_are_you_sure: Sind Sie sicher?
-  text_are_you_sure_with_children: "Lösche Aufgabe und alle Unteraufgaben?"
   text_journal_changed: "%{label} wurde von %{old} zu %{new} geändert"
   text_journal_set_to: "%{label} wurde auf %{value} gesetzt"
   text_journal_deleted: "%{label} %{old} wurde gelöscht"

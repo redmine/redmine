@@ -907,7 +907,6 @@
   project_module_gantt: Gantt
   project_module_calendar: Kalender
   button_edit_associated_wikipage: "Rediger tilhørende Wiki-side: %{page_title}"
-  text_are_you_sure_with_children: Slett sak og alle undersaker?
   field_text: Tekstfelt
   label_user_mail_option_only_owner: Kun for ting jeg eier
   setting_default_notification_option: Standardvalg for varslinger

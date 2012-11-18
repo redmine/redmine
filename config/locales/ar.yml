@@ -899,7 +899,6 @@ ar:
   text_subprojects_destroy_warning: "subproject(s): سيتم حذف أيضا."
   text_workflow_edit: حدد دوراً وتعقب لتحرير سير العمل
   text_are_you_sure: هل أنت متأكد؟
-  text_are_you_sure_with_children: "حذف الموضوع وجميع المسائل المتعلقة بالطفل؟"
   text_journal_changed: "%{label} تغير %{old} الى %{new}"
   text_journal_changed_no_detail: "%{label} تم التحديث"
   text_journal_set_to: "%{label} تغير الى %{value}"

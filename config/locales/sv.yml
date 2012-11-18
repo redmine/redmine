@@ -960,7 +960,6 @@ sv:
   text_subprojects_destroy_warning: "Alla underprojekt: %{value} kommer också tas bort."
   text_workflow_edit: Välj en roll och en ärendetyp för att ändra arbetsflöde
   text_are_you_sure: Är du säker ?
-  text_are_you_sure_with_children: Ta bort ärende och alla underärenden?
   text_journal_changed: "%{label} ändrad från %{old} till %{new}"
   text_journal_changed_no_detail: "%{label} uppdaterad"
   text_journal_set_to: "%{label} satt till %{value}"

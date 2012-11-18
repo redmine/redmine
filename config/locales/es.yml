@@ -957,7 +957,6 @@ es:
   project_module_gantt: Gantt
   project_module_calendar: Calendario
   button_edit_associated_wikipage: "Editar paginas Wiki asociadas: %{page_title}"
-  text_are_you_sure_with_children: ¿Borrar peticiones y todas sus peticiones hijas?
   field_text: Campo de texto
   label_user_mail_option_only_owner: Solo para objetos que soy propietario
   setting_default_notification_option: Opcion de notificacion por defecto

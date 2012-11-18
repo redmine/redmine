@@ -939,7 +939,6 @@
   project_module_gantt: Gantt
   project_module_calendar: Naptár
   button_edit_associated_wikipage: "Hozzárendelt Wiki oldal szerkesztése: %{page_title}"
-  text_are_you_sure_with_children: A feladat törlése az összes alfeladattal együtt?
   field_text: Szöveg mező
   label_user_mail_option_only_owner: Csak arról, aminek én vagyok a tulajdonosa
   setting_default_notification_option: Alapértelmezett értesítési beállítások

@@ -1046,7 +1046,6 @@
   text_subprojects_destroy_warning: "下列子專案： %{value} 將一併被刪除。"
   text_workflow_edit: 選擇角色與追蹤標籤以設定其工作流程
   text_are_you_sure: 確定執行？
-  text_are_you_sure_with_children: "確定刪除此問題及其子問題？"
   text_journal_changed: "%{label} 從 %{old} 變更為 %{new}"
   text_journal_changed_no_detail: "%{label} 已更新"
   text_journal_set_to: "%{label} 設定為 %{value}"

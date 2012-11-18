@@ -859,7 +859,6 @@ fa:
   text_subprojects_destroy_warning: "زیرپروژه‌های آن: %{value} هم پاک خواهند شد."
   text_workflow_edit: یک نقش و یک پیگرد را برای ویرایش گردش کار برگزینید
   text_are_you_sure: آیا این کار انجام شود؟
-  text_are_you_sure_with_children: "آیا پیامد و همه زیرپیامدهای آن پاک شوند؟"
   text_journal_changed: "«%{label}» از «%{old}» به «%{new}» جایگزین شد"
   text_journal_set_to: "«%{label}» به «%{value}» نشانده شد"
   text_journal_deleted: "«%{label}» پاک شد (%{old})"

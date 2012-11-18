@@ -863,7 +863,6 @@ zh:
   text_subprojects_destroy_warning: "以下子项目也将被同时删除：%{value}"
   text_workflow_edit: 选择角色和跟踪标签来编辑工作流程
   text_are_you_sure: 您确定？
-  text_are_you_sure_with_children: "删除问题及子任务？"
   text_journal_changed: "%{label} 从 %{old} 变更为 %{new}"
   text_journal_set_to: "%{label} 被设置为 %{value}"
   text_journal_deleted: "%{label} 已删除 (%{old})"

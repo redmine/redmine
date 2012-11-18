@@ -935,7 +935,6 @@ et:
   text_subprojects_destroy_warning: "Alamprojekt(id) - %{value} - kustutatakse samuti."
   text_workflow_edit: "Töövoo muutmiseks vali roll ja valdkond"
   text_are_you_sure: "Oled Sa kindel?"
-  text_are_you_sure_with_children: "Kustutada teema ja kõik tema alamteemad?"
   text_journal_changed: "%{label} muudetud %{old} -> %{new}"
   text_journal_changed_no_detail: "%{label} uuendatud"
   text_journal_set_to: "%{label} uus väärtus on %{value}"

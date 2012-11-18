@@ -903,7 +903,6 @@ nl:
   project_module_gantt: Gantt
   project_module_calendar: Kalender
   button_edit_associated_wikipage: "Bewerk bijbehorende wiki pagina: %{page_title}"
-  text_are_you_sure_with_children: Verwijder issue en alle onderliggende issues?
   field_text: Tekst veld
   label_user_mail_option_only_owner: Alleen voor dingen waarvan ik de auteur ben
   setting_default_notification_option: Standaard instelling voor mededelingen

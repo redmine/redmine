@@ -921,7 +921,6 @@ eu:
   project_module_gantt: Gantt
   project_module_calendar: Egutegia
   button_edit_associated_wikipage: "Esleitutako wiki orria editatu: %{page_title}"
-  text_are_you_sure_with_children: "Zeregina eta azpi zeregin guztiak ezabatu?"
   field_text: Testu eremua
   label_user_mail_option_only_owner: "Jabea naizen gauzetarako barrarik"
   setting_default_notification_option: "Lehenetsitako ohartarazpen aukera"

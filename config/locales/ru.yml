@@ -906,7 +906,6 @@ ru:
   status_locked: заблокирован
   status_registered: зарегистрирован
 
-  text_are_you_sure_with_children: Удалить задачу и все её подзадачи?
   text_are_you_sure: Вы уверены?
   text_assign_time_entries_to_project: Прикрепить зарегистрированное время к проекту
   text_caracters_maximum: "Максимум %{count} символов(а)."

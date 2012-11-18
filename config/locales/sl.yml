@@ -917,7 +917,6 @@ sl:
   project_module_gantt: Gantogram
   project_module_calendar: Koledear
   button_edit_associated_wikipage: "Uredi povezano Wiki stran: %{page_title}"
-  text_are_you_sure_with_children: Izbriši zahtevek in vse podazahtevke?
   field_text: Besedilno polje
   label_user_mail_option_only_owner: Samo za stvari katerih lastnik sem
   setting_default_notification_option: Privzeta možnost obveščanja

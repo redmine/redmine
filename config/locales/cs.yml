@@ -863,7 +863,6 @@ cs:
   text_subprojects_destroy_warning: "Jeho podprojek(y): %{value} budou také smazány."
   text_workflow_edit: Vyberte roli a frontu k editaci průběhu práce
   text_are_you_sure: Jste si jisti?
-  text_are_you_sure_with_children: Smazat úkol včetně všech podúkolů?
   text_journal_changed: "%{label} změněn z %{old} na %{new}"
   text_journal_set_to: "%{label} nastaven na %{value}"
   text_journal_deleted: "%{label} smazán (%{old})"

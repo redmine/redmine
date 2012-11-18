@@ -853,7 +853,6 @@ he:
   text_subprojects_destroy_warning: "תת־הפרויקטים: %{value} ימחקו גם כן."
   text_workflow_edit: בחר תפקיד וסיווג כדי לערוך את זרימת העבודה
   text_are_you_sure: האם אתה בטוח?
-  text_are_you_sure_with_children: האם למחוק את הנושא ואת כל בניו?
   text_journal_changed: "%{label} השתנה מ%{old} ל%{new}"
   text_journal_set_to: "%{label} נקבע ל%{value}"
   text_journal_deleted: "%{label} נמחק (%{old})"

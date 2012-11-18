@@ -925,7 +925,6 @@ pt:
   project_module_gantt: Gantt
   project_module_calendar: Calendário
   button_edit_associated_wikipage: "Editar página Wiki associada: %{page_title}"
-  text_are_you_sure_with_children: Apagar tarefa e todas as sub-tarefas?
   field_text: Campo de texto
   label_user_mail_option_only_owner: Apenas para tarefas das quais sou proprietário
   setting_default_notification_option: Opção predefinida de notificação

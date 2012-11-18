@@ -936,7 +936,6 @@ da:
   project_module_gantt: Gantt
   project_module_calendar: Kalender
   button_edit_associated_wikipage: "Redigér tilknyttet Wiki side: %{page_title}"
-  text_are_you_sure_with_children: Slet sag og alle undersager?
   field_text: Tekstfelt
   label_user_mail_option_only_owner: Kun for ting jeg er ejer af
   setting_default_notification_option: Standardpåmindelsesmulighed
