@@ -41,7 +41,7 @@ end
 
 platforms :mri_18, :mingw_18 do
   group :mysql do
-    gem "mysql"
+    gem "mysql", "~> 2.8.1"
   end
 end
 
