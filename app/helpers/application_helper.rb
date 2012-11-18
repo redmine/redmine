@@ -962,8 +962,7 @@ module ApplicationHelper
   end
 
   def lang_options_for_select(blank=true)
-    (blank ? [["(auto)", ""]] : []) +
-      valid_languages.collect{|lang| [ ll(lang.to_s, :general_lang_name), lang.to_s]}.sort{|x,y| x.last <=> y.last }
+    (blank ? [["(auto)", ""]] : []) + languages_options
   end
 
   def label_tag_for(name, option_tags = nil, options = {})

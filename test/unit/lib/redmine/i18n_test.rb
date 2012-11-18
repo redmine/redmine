@@ -194,6 +194,17 @@ class Redmine::I18nTest < ActiveSupport::TestCase
     assert valid_languages.first.is_a?(Symbol)
   end
 
+  def test_languages_options
+    options = languages_options
+
+    assert options.is_a?(Array)
+    assert_equal valid_languages.size, options.size
+    assert_nil options.detect {|option| !option.is_a?(Array)}
+    assert_nil options.detect {|option| option.size != 2}
+    assert_nil options.detect {|option| !option.first.is_a?(String) || !option.last.is_a?(String)}
+    assert_include ["English", "en"], options
+  end
+
   def test_locales_validness
     lang_files_count = Dir["#{Rails.root}/config/locales/*.yml"].size
     assert_equal lang_files_count, valid_languages.size
