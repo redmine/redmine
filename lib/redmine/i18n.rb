@@ -117,7 +117,7 @@ module Redmine
 
         # Get available locales from the translations filenames
         def available_locales
-          @available_locales ||= ::I18n.load_path.map {|path| File.basename(path, '.*').to_sym}.uniq.sort
+          @available_locales ||= ::I18n.load_path.map {|path| File.basename(path, '.*')}.uniq.sort.map(&:to_sym)
         end
 
         # Clean up translations
