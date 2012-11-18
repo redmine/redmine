@@ -173,6 +173,21 @@ class WikiPage < ActiveRecord::Base
     self.parent = parent_page
   end
 
+  # Saves the page and its content if text was changed
+  def save_with_content
+    ret = nil
+    transaction do
+      if new_record?
+        # Rails automatically saves associated content
+        ret = save
+      else
+        ret = save && (content.text_changed? ? content.save : true)
+      end
+      raise ActiveRecord::Rollback unless ret
+    end
+    ret
+  end
+
   protected
 
   def validate_parent_title
