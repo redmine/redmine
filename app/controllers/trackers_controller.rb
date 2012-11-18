@@ -59,7 +59,7 @@ class TrackersController < ApplicationController
     @tracker ||= Tracker.find(params[:id])
     @projects = Project.find(:all)
   end
-  
+
   def update
     @tracker = Tracker.find(params[:id])
     if request.put? and @tracker.update_attributes(params[:tracker])
