@@ -249,9 +249,26 @@ class MailHandler < ActionMailer::Base
   def add_attachments(obj)
     if email.attachments && email.attachments.any?
       email.attachments.each do |attachment|
+        filename = attachment.filename
+        unless filename.respond_to?(:encoding)
+          # try to reencode to utf8 manually with ruby1.8
+          h = attachment.header['Content-Disposition']
+          unless h.nil?
+            begin
+              if m = h.value.match(/filename\*[0-9\*]*=([^=']+)'/)
+                filename = Redmine::CodesetUtil.to_utf8(filename, m[1])
+              elsif m = h.value.match(/filename=.*=\?([^\?]+)\?[BbQq]\?/)
+                # http://tools.ietf.org/html/rfc2047#section-4
+                filename = Redmine::CodesetUtil.to_utf8(filename, m[1])
+              end
+            rescue
+              # nop
+            end
+          end
+        end
         obj.attachments << Attachment.create(:container => obj,
                           :file => attachment.decoded,
-                          :filename => attachment.filename,
+                          :filename => filename,
                           :author => user,
                           :content_type => attachment.mime_type)
       end
