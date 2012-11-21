@@ -257,6 +257,7 @@ class Repository::Git < Repository
   end
 
   def clear_extra_info_of_changesets
+    return if extra_info.nil?
     v = extra_info["extra_report_last_commit"]
     write_attribute(:extra_info, nil)
     h = {}
