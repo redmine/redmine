@@ -373,6 +373,80 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 'caaf384198bcbc9563ab5c058acd73cd', attachment.digest
   end
 
+  def test_thunderbird_with_attachment_ja
+    issue = submit_email(
+              'thunderbird_with_attachment_ja.eml',
+              :issue => {:project => 'ecookbook'}
+            )
+    assert_kind_of Issue, issue
+    assert_equal 1, issue.attachments.size
+    ja = "\xe3\x83\x86\xe3\x82\xb9\xe3\x83\x88.txt"
+    ja.force_encoding('UTF-8') if ja.respond_to?(:force_encoding)
+    attachment = issue.attachments.first
+    assert_equal ja, attachment.filename
+    assert_equal 5, attachment.filesize
+    assert File.exist?(attachment.diskfile)
+    assert_equal 5, File.size(attachment.diskfile)
+    assert_equal 'd8e8fca2dc0f896fd7cb4cb0031ba249', attachment.digest
+  end
+
+  def test_gmail_with_attachment_ja
+    issue = submit_email(
+              'gmail_with_attachment_ja.eml',
+              :issue => {:project => 'ecookbook'}
+            )
+    assert_kind_of Issue, issue
+    assert_equal 1, issue.attachments.size
+    ja = "\xe3\x83\x86\xe3\x82\xb9\xe3\x83\x88.txt"
+    ja.force_encoding('UTF-8') if ja.respond_to?(:force_encoding)
+    attachment = issue.attachments.first
+    assert_equal ja, attachment.filename
+    assert_equal 5, attachment.filesize
+    assert File.exist?(attachment.diskfile)
+    assert_equal 5, File.size(attachment.diskfile)
+    assert_equal 'd8e8fca2dc0f896fd7cb4cb0031ba249', attachment.digest
+  end
+
+  def test_thunderbird_with_attachment_latin1
+    issue = submit_email(
+              'thunderbird_with_attachment_iso-8859-1.eml',
+              :issue => {:project => 'ecookbook'}
+            )
+    assert_kind_of Issue, issue
+    assert_equal 1, issue.attachments.size
+    u = ""
+    u.force_encoding('UTF-8') if u.respond_to?(:force_encoding)
+    u1 = "\xc3\x84\xc3\xa4\xc3\x96\xc3\xb6\xc3\x9c\xc3\xbc"
+    u1.force_encoding('UTF-8') if u1.respond_to?(:force_encoding)
+    11.times { u << u1 }
+    attachment = issue.attachments.first
+    assert_equal "#{u}.png", attachment.filename
+    assert_equal 130, attachment.filesize
+    assert File.exist?(attachment.diskfile)
+    assert_equal 130, File.size(attachment.diskfile)
+    assert_equal '4d80e667ac37dddfe05502530f152abb', attachment.digest
+  end
+
+  def test_gmail_with_attachment_latin1
+    issue = submit_email(
+              'gmail_with_attachment_iso-8859-1.eml',
+              :issue => {:project => 'ecookbook'}
+            )
+    assert_kind_of Issue, issue
+    assert_equal 1, issue.attachments.size
+    u = ""
+    u.force_encoding('UTF-8') if u.respond_to?(:force_encoding)
+    u1 = "\xc3\x84\xc3\xa4\xc3\x96\xc3\xb6\xc3\x9c\xc3\xbc"
+    u1.force_encoding('UTF-8') if u1.respond_to?(:force_encoding)
+    11.times { u << u1 }
+    attachment = issue.attachments.first
+    assert_equal "#{u}.txt", attachment.filename
+    assert_equal 5, attachment.filesize
+    assert File.exist?(attachment.diskfile)
+    assert_equal 5, File.size(attachment.diskfile)
+    assert_equal 'd8e8fca2dc0f896fd7cb4cb0031ba249', attachment.digest
+  end
+
   def test_add_issue_with_iso_8859_1_subject
     issue = submit_email(
               'subject_as_iso-8859-1.eml',

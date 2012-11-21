@@ -1,0 +1,20 @@
+Date: Mon, 19 Nov 2012 10:17:45 +0900
+Message-ID: <CANBr5-U6cXMfLek5QiB2ZrBPR3vTThn9_Upvdkf3Dkod664+Xw@mail.gmail.com>
+Subject: test
+From: John Smith <JSmith@somenet.foo>
+To: redmine@somenet.foo
+Content-Type: multipart/mixed; boundary=bcaec54ee4ea84f77904cecee22e
+
+--bcaec54ee4ea84f77904cecee22e
+Content-Type: text/plain; charset=ISO-8859-1
+
+test
+
+--bcaec54ee4ea84f77904cecee22e
+Content-Type: text/plain; charset=US-ASCII; name="=?ISO-2022-JP?B?GyRCJUYlOSVIGyhCLnR4dA==?="
+Content-Disposition: attachment; filename="=?ISO-2022-JP?B?GyRCJUYlOSVIGyhCLnR4dA==?="
+Content-Transfer-Encoding: base64
+X-Attachment-Id: f_h9owndpv0
+
+dGVzdAo=
+--bcaec54ee4ea84f77904cecee22e--
