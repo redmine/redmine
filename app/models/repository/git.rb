@@ -255,4 +255,15 @@ class Repository::Git < Repository
       :order => 'committed_on DESC'
     )
   end
+
+  def clear_extra_info_of_changesets
+    return if extra_info.nil?
+    v = extra_info["extra_report_last_commit"]
+    write_attribute(:extra_info, nil)
+    h = {}
+    h["extra_report_last_commit"] = v
+    merge_extra_info(h)
+    self.save
+  end
+  private :clear_extra_info_of_changesets
 end
