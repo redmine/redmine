@@ -393,6 +393,15 @@ class Project < ActiveRecord::Base
     end
   end
 
+  # Recalculates all lft and rgt values based on project names
+  # Unlike Project.rebuild!, these values are recalculated even if the tree "looks" valid
+  def self.rebuild_tree!
+    transaction do
+      update_all "lft = NULL, rgt = NULL"
+      rebuild!(false)
+    end
+  end
+
   # Returns an array of the trackers used by the project and its active sub projects
   def rolled_up_trackers
     @rolled_up_trackers ||=
