@@ -395,6 +395,7 @@ class Project < ActiveRecord::Base
 
   # Recalculates all lft and rgt values based on project names
   # Unlike Project.rebuild!, these values are recalculated even if the tree "looks" valid
+  # Used in BuildProjectsTree migration
   def self.rebuild_tree!
     transaction do
       update_all "lft = NULL, rgt = NULL"
