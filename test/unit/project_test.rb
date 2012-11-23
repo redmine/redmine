@@ -291,23 +291,6 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal parent.children.all.sort_by(&:name), parent.children.all
   end
 
-  def test_rebuild_should_sort_children_alphabetically
-    ProjectCustomField.delete_all
-    parent = Project.create!(:name => 'Parent', :identifier => 'parent')
-    Project.create!(:name => 'Project C', :identifier => 'project-c').move_to_child_of(parent)
-    Project.create!(:name => 'Project B', :identifier => 'project-b').move_to_child_of(parent)
-    Project.create!(:name => 'Project D', :identifier => 'project-d').move_to_child_of(parent)
-    Project.create!(:name => 'Project A', :identifier => 'project-a').move_to_child_of(parent)
-
-    Project.update_all("lft = NULL, rgt = NULL")
-    Project.rebuild!
-
-    parent.reload
-    assert_equal 4, parent.children.size
-    assert_equal parent.children.all.sort_by(&:name), parent.children.all
-  end
-
-
   def test_set_parent_should_update_issue_fixed_version_associations_when_a_fixed_version_is_moved_out_of_the_hierarchy
     # Parent issue with a hierarchy project's fixed version
     parent_issue = Issue.find(1)
