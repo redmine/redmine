@@ -47,6 +47,13 @@ class ProjectNestedSetTest < ActiveSupport::TestCase
     assert_valid_nested_set
   end
 
+  def test_rebuild_should_build_valid_tree
+    Project.update_all "lft = NULL, rgt = NULL"
+
+    Project.rebuild!
+    assert_valid_nested_set
+  end
+
   def test_moving_a_child_to_a_different_parent_should_keep_valid_tree
     assert_no_difference 'Project.count' do
       Project.find_by_name('B1').set_parent!(Project.find_by_name('A2'))
