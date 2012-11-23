@@ -28,22 +28,29 @@ class ProjectNestedSetTest < ActiveSupport::TestCase
     @a2 = Project.create!(:name => 'A2', :identifier => 'projecta2')
     @a2.set_parent!(@a)
 
+    @c = Project.create!(:name => 'C', :identifier => 'projectc')
+    @c1 = Project.create!(:name => 'C1', :identifier => 'projectc1')
+    @c1.set_parent!(@c)
+
     @b = Project.create!(:name => 'B', :identifier => 'projectb')
+    @b2 = Project.create!(:name => 'B2', :identifier => 'projectb2')
+    @b2.set_parent!(@b)
     @b1 = Project.create!(:name => 'B1', :identifier => 'projectb1')
     @b1.set_parent!(@b)
     @b11 = Project.create!(:name => 'B11', :identifier => 'projectb11')
     @b11.set_parent!(@b1)
-    @b2 = Project.create!(:name => 'B2', :identifier => 'projectb2')
-    @b2.set_parent!(@b)
-
-    @c = Project.create!(:name => 'C', :identifier => 'projectc')
-    @c1 = Project.create!(:name => 'C1', :identifier => 'projectc1')
-    @c1.set_parent!(@c)
 
     @a, @a1, @a2, @b, @b1, @b11, @b2, @c, @c1 = *(Project.all.sort_by(&:name))
   end
 
   def test_valid_tree
+    assert_valid_nested_set
+  end
+
+  def test_rebuild_should_build_valid_tree
+    Project.update_all "lft = NULL, rgt = NULL"
+
+    Project.rebuild!
     assert_valid_nested_set
   end
 

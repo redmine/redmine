@@ -186,7 +186,7 @@ module CollectiveIdea #:nodoc:
             end
 
             # Find root node(s)
-            root_nodes = where("#{quoted_parent_column_name} IS NULL").order("#{quoted_left_column_name}, #{quoted_right_column_name}, id").each do |root_node|
+            root_nodes = where("#{quoted_parent_column_name} IS NULL").order(acts_as_nested_set_options[:order]).each do |root_node|
               # setup index for this scope
               indices[scope.call(root_node)] ||= 0
               set_left_and_rights.call(root_node)
