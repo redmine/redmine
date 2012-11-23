@@ -239,7 +239,7 @@ class WikiController < ApplicationController
 
   # Export wiki to a single pdf or html file
   def export
-    @pages = @wiki.pages.all(:order => 'title', :include => [:content, :attachments], :limit => 75)
+    @pages = @wiki.pages.all(:order => 'title', :include => [:content, :attachments])
     respond_to do |format|
       format.html {
         export = render_to_string :action => 'export_multiple', :layout => false
