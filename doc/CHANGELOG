@@ -4,6 +4,16 @@ Redmine - project management software
 Copyright (C) 2006-2012  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2012-11-24 v2.1.4
+
+* Defect #12274: Wiki export from Index by title is truncated
+* Defect #12298: Right-click context menu unable to batch/bulk update (IE8)
+* Defect #12332: Repository identifier does not display on Project/Settings/Repositories
+* Defect #12396: Error when receiving an email without subject header
+* Defect #12399: Non ASCII attachment filename encoding broken (MOJIBAKE) in receiving mail on Ruby 1.8
+* Defect #12409: Git: changesets aren't read after clear_changesets call
+* Defect #12431: Project.rebuild! sorts root projects by id instead of name
+
 == 2012-11-17 v2.1.3
 
 * Defect #12050: :export links to repository files lead to a 404 error
