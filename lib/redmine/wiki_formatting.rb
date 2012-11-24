@@ -98,7 +98,7 @@ module Redmine
                         (\S+?)                   # url
                         (\/)?                    # slash
                       )
-                      ((?:&gt;)?|[^\w\=\/;\(\)]*?)               # post
+                      ((?:&gt;)?|[^[:alnum:]_\=\/;\(\)]*?)               # post
                       (?=<|\s|$)
                      }x unless const_defined?(:AUTO_LINK_RE)
 

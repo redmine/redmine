@@ -816,10 +816,10 @@ class RedCloth3 < String
             ":
             (                          # $url
             (\/|[a-zA-Z]+:\/\/|www\.|mailto:)  # $proto
-            [\w\/]\S+?
+            [[:alnum:]_\/]\S+?
             )               
             (\/)?                      # $slash
-            ([^\w\=\/;\(\)]*?)         # $post
+            ([^[:alnum:]_\=\/;\(\)]*?)         # $post
             )
             (?=<|\s|$)
         /x 
