@@ -1363,7 +1363,7 @@ class IssueTest < ActiveSupport::TestCase
     end
   end
 
-  def test_rescheduling_an_issue_should_reschedule_following_issue
+  def test_rescheduling_an_issue_to_a_later_due_date_should_reschedule_following_issue
     issue1 = Issue.generate!(:start_date => '2012-10-15', :due_date => '2012-10-17')
     issue2 = Issue.generate!(:start_date => '2012-10-15', :due_date => '2012-10-17')
     IssueRelation.create!(:issue_from => issue1, :issue_to => issue2,
@@ -1375,6 +1375,40 @@ class IssueTest < ActiveSupport::TestCase
     issue2.reload
     assert_equal Date.parse('2012-10-24'), issue2.start_date
     assert_equal Date.parse('2012-10-26'), issue2.due_date
+  end
+
+  def test_rescheduling_an_issue_to_an_earlier_due_date_should_reschedule_following_issue
+    issue1 = Issue.generate!(:start_date => '2012-10-15', :due_date => '2012-10-17')
+    issue2 = Issue.generate!(:start_date => '2012-10-15', :due_date => '2012-10-17')
+    IssueRelation.create!(:issue_from => issue1, :issue_to => issue2,
+                          :relation_type => IssueRelation::TYPE_PRECEDES)
+    assert_equal Date.parse('2012-10-18'), issue2.reload.start_date
+
+    issue1.start_date = '2012-09-17'
+    issue1.due_date = '2012-09-18'
+    issue1.save!
+    issue2.reload
+    assert_equal Date.parse('2012-09-19'), issue2.start_date
+    assert_equal Date.parse('2012-09-21'), issue2.due_date
+  end
+
+  def test_rescheduling_reschedule_following_issue_earlier_should_consider_other_preceding_issues
+    issue1 = Issue.generate!(:start_date => '2012-10-15', :due_date => '2012-10-17')
+    issue2 = Issue.generate!(:start_date => '2012-10-15', :due_date => '2012-10-17')
+    issue3 = Issue.generate!(:start_date => '2012-10-01', :due_date => '2012-10-02')
+    IssueRelation.create!(:issue_from => issue1, :issue_to => issue2,
+                          :relation_type => IssueRelation::TYPE_PRECEDES)
+    IssueRelation.create!(:issue_from => issue3, :issue_to => issue2,
+                          :relation_type => IssueRelation::TYPE_PRECEDES)
+    assert_equal Date.parse('2012-10-18'), issue2.reload.start_date
+
+    issue1.start_date = '2012-09-17'
+    issue1.due_date = '2012-09-18'
+    issue1.save!
+    issue2.reload
+    # Issue 2 must start after Issue 3
+    assert_equal Date.parse('2012-10-03'), issue2.start_date
+    assert_equal Date.parse('2012-10-05'), issue2.due_date
   end
 
   def test_rescheduling_a_stale_issue_should_not_raise_an_error
