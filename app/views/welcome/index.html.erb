@@ -1,7 +1,7 @@
 <div id="welcomepage">
 
 	<% if not User.current.logged? %>
-		<p class="title"><b>Open Source Brain</b> is a resource for sharing and collaborately developing  computational models of neural systems.</p>
+		<p class="title"><b>Open Source Brain</b> is a resource for sharing and collaboratively developing computational models of neural systems</p>
 	
 		<div id="quick-search">
 			<%= form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
@@ -15,7 +15,7 @@
 			<div id="mainbuttons">
 				<div id="explorebutton" onclick="location.href='/projects';">Explore Open Source Brain</div>
 				<div id="signupbutton" class="register" onclick="location.href='/account/register';">Sign up
-					<div class="smallcaption">Share, Validate and Collaborate on your models</div>
+					<div class="smallcaption">Share, validate and collaborate on your models</div>
 				</div>
 			</div>
 	<% else %>
