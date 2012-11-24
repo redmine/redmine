@@ -907,7 +907,15 @@ class Issue < ActiveRecord::Base
       end
     else
       leaves.each do |leaf|
-        leaf.reschedule_on!(date)
+        if leaf.start_date
+          # Only move subtask if it starts at the same date as the parent
+          # or if it starts before the given date
+          if start_date == leaf.start_date || date > leaf.start_date 
+            leaf.reschedule_on!(date)
+          end
+        else
+          leaf.reschedule_on!(date)
+        end
       end
     end
   end
