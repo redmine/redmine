@@ -77,7 +77,7 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 1, user.errors.count
 
     user.login = "newuser"
-    user.password, user.password_confirmation = "passwd", "password"
+    user.password, user.password_confirmation = "password", "pass"
     # password confirmation
     assert !user.save
     assert_equal 1, user.errors.count
@@ -375,12 +375,12 @@ class UserTest < ActiveSupport::TestCase
 
     should "select the exact matching user first" do
       case_sensitive_user = User.generate! do |user|
-        user.password = "admin"
+        user.password = "admin123"
       end
       # bypass validations to make it appear like existing data
       case_sensitive_user.update_attribute(:login, 'ADMIN')
 
-      user = User.try_to_login("ADMIN", "admin")
+      user = User.try_to_login("ADMIN", "admin123")
       assert_kind_of User, user
       assert_equal "ADMIN", user.login
 
@@ -391,10 +391,10 @@ class UserTest < ActiveSupport::TestCase
     user = User.try_to_login("admin", "admin")
     assert_kind_of User, user
     assert_equal "admin", user.login
-    user.password = "hello"
+    user.password = "hello123"
     assert user.save
 
-    user = User.try_to_login("admin", "hello")
+    user = User.try_to_login("admin", "hello123")
     assert_kind_of User, user
     assert_equal "admin", user.login
   end
@@ -695,7 +695,7 @@ class UserTest < ActiveSupport::TestCase
   def test_default_admin_account_changed_should_return_false_if_account_was_not_changed
     user = User.find_by_login("admin")
     user.password = "admin"
-    user.save!
+    assert user.save(:validate => false)
 
     assert_equal false, User.default_admin_account_changed?
   end
@@ -712,7 +712,7 @@ class UserTest < ActiveSupport::TestCase
     user = User.find_by_login("admin")
     user.password = "admin"
     user.status = User::STATUS_LOCKED
-    user.save!
+    assert user.save(:validate => false)
 
     assert_equal true, User.default_admin_account_changed?
   end

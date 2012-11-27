@@ -173,8 +173,8 @@ class UsersControllerTest < ActionController::TestCase
             :firstname => 'John',
             :lastname => 'Doe',
             :login => 'jdoe',
-            :password => 'secret',
-            :password_confirmation => 'secret',
+            :password => 'secret123',
+            :password_confirmation => 'secret123',
             :mail => 'jdoe@gmail.com',
             :mail_notification => 'none'
           },
@@ -190,7 +190,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal 'jdoe', user.login
     assert_equal 'jdoe@gmail.com', user.mail
     assert_equal 'none', user.mail_notification
-    assert user.check_password?('secret')
+    assert user.check_password?('secret123')
 
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
@@ -205,8 +205,8 @@ class UsersControllerTest < ActionController::TestCase
           :firstname => 'John',
           :lastname => 'Doe',
           :login => 'jdoe',
-          :password => 'secret',
-          :password_confirmation => 'secret',
+          :password => 'secret123',
+          :password_confirmation => 'secret123',
           :mail => 'jdoe@gmail.com',
           :mail_notification => 'none'
         },
@@ -287,14 +287,14 @@ class UsersControllerTest < ActionController::TestCase
     ActionMailer::Base.deliveries.clear
     Setting.bcc_recipients = '1'
 
-    put :update, :id => 2, :user => {:password => 'newpass', :password_confirmation => 'newpass'}, :send_information => '1'
+    put :update, :id => 2, :user => {:password => 'newpass123', :password_confirmation => 'newpass123'}, :send_information => '1'
     u = User.find(2)
-    assert u.check_password?('newpass')
+    assert u.check_password?('newpass123')
 
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
     assert_equal [u.mail], mail.bcc
-    assert_mail_body_match 'newpass', mail
+    assert_mail_body_match 'newpass123', mail
   end
 
   def test_update_user_switchin_from_auth_source_to_password_authentication
@@ -303,10 +303,10 @@ class UsersControllerTest < ActionController::TestCase
     u.auth_source = AuthSource.find(1)
     u.save!
 
-    put :update, :id => u.id, :user => {:auth_source_id => '', :password => 'newpass', :password_confirmation => 'newpass'}
+    put :update, :id => u.id, :user => {:auth_source_id => '', :password => 'newpass123', :password_confirmation => 'newpass123'}
 
     assert_equal nil, u.reload.auth_source
-    assert u.check_password?('newpass')
+    assert u.check_password?('newpass123')
   end
 
   def test_update_notified_project

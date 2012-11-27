@@ -91,11 +91,11 @@ class AccountTest < ActionController::IntegrationTest
     assert_select 'input[name=new_password]'
     assert_select 'input[name=new_password_confirmation]'
 
-    post "account/lost_password", :token => token.value, :new_password => 'newpass', :new_password_confirmation => 'newpass'
+    post "account/lost_password", :token => token.value, :new_password => 'newpass123', :new_password_confirmation => 'newpass123'
     assert_redirected_to "/login"
     assert_equal 'Password was successfully updated.', flash[:notice]
 
-    log_user('jsmith', 'newpass')
+    log_user('jsmith', 'newpass123')
     assert_equal 0, Token.count
   end
 
@@ -107,7 +107,7 @@ class AccountTest < ActionController::IntegrationTest
     assert_template 'account/register'
 
     post 'account/register', :user => {:login => "newuser", :language => "en", :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar",
-                             :password => "newpass", :password_confirmation => "newpass"}
+                             :password => "newpass123", :password_confirmation => "newpass123"}
     assert_redirected_to '/my/account'
     follow_redirect!
     assert_response :success
@@ -123,7 +123,7 @@ class AccountTest < ActionController::IntegrationTest
     Setting.self_registration = '2'
 
     post 'account/register', :user => {:login => "newuser", :language => "en", :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar",
-                             :password => "newpass", :password_confirmation => "newpass"}
+                             :password => "newpass123", :password_confirmation => "newpass123"}
     assert_redirected_to '/login'
     assert !User.find_by_login('newuser').active?
   end
@@ -133,7 +133,7 @@ class AccountTest < ActionController::IntegrationTest
     Token.delete_all
 
     post 'account/register', :user => {:login => "newuser", :language => "en", :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar",
-                             :password => "newpass", :password_confirmation => "newpass"}
+                             :password => "newpass123", :password_confirmation => "newpass123"}
     assert_redirected_to '/login'
     assert !User.find_by_login('newuser').active?
 
@@ -144,7 +144,7 @@ class AccountTest < ActionController::IntegrationTest
 
     get 'account/activate', :token => token.value
     assert_redirected_to '/login'
-    log_user('newuser', 'newpass')
+    log_user('newuser', 'newpass123')
   end
 
   def test_onthefly_registration

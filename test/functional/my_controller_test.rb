@@ -145,26 +145,26 @@ class MyControllerTest < ActionController::TestCase
 
     # non matching password confirmation
     post :password, :password => 'jsmith',
-                    :new_password => 'hello',
-                    :new_password_confirmation => 'hello2'
+                    :new_password => 'secret123',
+                    :new_password_confirmation => 'secret1234'
     assert_response :success
     assert_template 'password'
     assert_error_tag :content => /Password doesn&#x27;t match confirmation/
 
     # wrong password
     post :password, :password => 'wrongpassword',
-                    :new_password => 'hello',
-                    :new_password_confirmation => 'hello'
+                    :new_password => 'secret123',
+                    :new_password_confirmation => 'secret123'
     assert_response :success
     assert_template 'password'
     assert_equal 'Wrong password', flash[:error]
 
     # good password
     post :password, :password => 'jsmith',
-                    :new_password => 'hello',
-                    :new_password_confirmation => 'hello'
+                    :new_password => 'secret123',
+                    :new_password_confirmation => 'secret123'
     assert_redirected_to '/my/account'
-    assert User.try_to_login('jsmith', 'hello')
+    assert User.try_to_login('jsmith', 'secret123')
   end
 
   def test_change_password_should_redirect_if_user_cannot_change_its_password

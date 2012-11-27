@@ -102,7 +102,7 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
         @parameters = {
           :user => {
              :login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname',
-             :mail => 'foo@example.net', :password => 'secret',
+             :mail => 'foo@example.net', :password => 'secret123',
              :mail_notification => 'only_assigned'
           }
         }
@@ -113,7 +113,7 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
           '/users.xml',
            {:user => {
               :login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname',
-              :mail => 'foo@example.net', :password => 'secret'
+              :mail => 'foo@example.net', :password => 'secret123'
             }},
           {:success_code => :created})
 
@@ -129,7 +129,7 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
           assert_equal 'foo@example.net', user.mail
           assert_equal 'only_assigned', user.mail_notification
           assert !user.admin?
-          assert user.check_password?('secret')
+          assert user.check_password?('secret123')
 
           assert_response :created
           assert_equal 'application/xml', @response.content_type

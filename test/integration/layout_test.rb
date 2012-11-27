@@ -37,9 +37,9 @@ class LayoutTest < ActionController::IntegrationTest
   end
 
   test "browsing to an unauthorized page should render the base layout" do
-    change_user_password('miscuser9', 'test')
+    change_user_password('miscuser9', 'test1234')
 
-    log_user('miscuser9','test')
+    log_user('miscuser9','test1234')
 
     get "/admin"
     assert_response :forbidden
