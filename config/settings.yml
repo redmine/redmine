@@ -35,7 +35,7 @@ unsubscribe:
   default: 1
 password_min_length:
   format: int
-  default: 4
+  default: 8
 # Maximum lifetime of user sessions in minutes
 session_lifetime:
   format: int
