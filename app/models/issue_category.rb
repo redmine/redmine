@@ -27,7 +27,7 @@ class IssueCategory < ActiveRecord::Base
   
   safe_attributes 'name', 'assigned_to_id'
 
-  scope :named, lambda {|arg| { :conditions => ["LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip]}}
+  scope :named, lambda {|arg| where("LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip)}
 
   alias :destroy_without_reassign :destroy
 

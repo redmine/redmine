@@ -29,7 +29,7 @@ class IssueStatus < ActiveRecord::Base
   validates_inclusion_of :default_done_ratio, :in => 0..100, :allow_nil => true
 
   scope :sorted, order("#{table_name}.position ASC")
-  scope :named, lambda {|arg| where(["LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip])}
+  scope :named, lambda {|arg| where("LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip)}
 
   def update_default
     IssueStatus.update_all({:is_default => false}, ['id <> ?', id]) if self.is_default?
