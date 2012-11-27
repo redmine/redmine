@@ -628,7 +628,7 @@ class User < Principal
         next if user.hashed_password.blank?
         salt = User.generate_salt
         hashed_password = User.hash_password("#{salt}#{user.hashed_password}")
-        User.update_all("salt = '#{salt}', hashed_password = '#{hashed_password}'", ["id = ?", user.id] )
+        User.where(:id => user.id).update_all(:salt => salt, :hashed_password => hashed_password)
       end
     end
   end
