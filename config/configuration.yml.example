@@ -175,7 +175,7 @@ default:
   # in order to show CJK characters correctly,
   # you need to set this configuration.
   #
-  # Because there is no standard font across platforms in non CJK,
+  # Because there is no standard font across platforms in CJK,
   # you need to set a font installed in your server.
   #
   # This setting is not necessary in non CJK.
