@@ -400,6 +400,7 @@ module Redmine
         imgl = Magick::ImageList.new
         imgl.new_image(subject_width + g_width + 1, height)
         gc = Magick::Draw.new
+        gc.font = Redmine::Configuration['rmagick_font_path'] || ""
         # Subjects
         gc.stroke('transparent')
         subjects(:image => gc, :top => (headers_height + 20), :indent => 4, :format => :image)
