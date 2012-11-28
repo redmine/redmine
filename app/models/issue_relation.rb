@@ -43,26 +43,34 @@ class IssueRelation < ActiveRecord::Base
   TYPE_COPIED_TO    = "copied_to"
   TYPE_COPIED_FROM  = "copied_from"
 
-  TYPES = { TYPE_RELATES =>     { :name => :label_relates_to, :sym_name => :label_relates_to, :order => 1, :sym => TYPE_RELATES },
-            TYPE_DUPLICATES =>  { :name => :label_duplicates, :sym_name => :label_duplicated_by, :order => 2, :sym => TYPE_DUPLICATED },
-            TYPE_DUPLICATED =>  { :name => :label_duplicated_by, :sym_name => :label_duplicates, :order => 3, :sym => TYPE_DUPLICATES, :reverse => TYPE_DUPLICATES },
-            TYPE_BLOCKS =>      { :name => :label_blocks, :sym_name => :label_blocked_by, :order => 4, :sym => TYPE_BLOCKED },
-            TYPE_BLOCKED =>     { :name => :label_blocked_by, :sym_name => :label_blocks, :order => 5, :sym => TYPE_BLOCKS, :reverse => TYPE_BLOCKS },
-            TYPE_PRECEDES =>    { :name => :label_precedes, :sym_name => :label_follows, :order => 6, :sym => TYPE_FOLLOWS },
-            TYPE_FOLLOWS =>     { :name => :label_follows, :sym_name => :label_precedes, :order => 7, :sym => TYPE_PRECEDES, :reverse => TYPE_PRECEDES },
-            TYPE_COPIED_TO =>   { :name => :label_copied_to, :sym_name => :label_copied_from, :order => 8, :sym => TYPE_COPIED_FROM },
-            TYPE_COPIED_FROM => { :name => :label_copied_from, :sym_name => :label_copied_to, :order => 9, :sym => TYPE_COPIED_TO, :reverse => TYPE_COPIED_TO }
-          }.freeze
+  TYPES = {
+    TYPE_RELATES =>     { :name => :label_relates_to, :sym_name => :label_relates_to,
+                          :order => 1, :sym => TYPE_RELATES },
+    TYPE_DUPLICATES =>  { :name => :label_duplicates, :sym_name => :label_duplicated_by,
+                          :order => 2, :sym => TYPE_DUPLICATED },
+    TYPE_DUPLICATED =>  { :name => :label_duplicated_by, :sym_name => :label_duplicates,
+                          :order => 3, :sym => TYPE_DUPLICATES, :reverse => TYPE_DUPLICATES },
+    TYPE_BLOCKS =>      { :name => :label_blocks, :sym_name => :label_blocked_by,
+                          :order => 4, :sym => TYPE_BLOCKED },
+    TYPE_BLOCKED =>     { :name => :label_blocked_by, :sym_name => :label_blocks,
+                          :order => 5, :sym => TYPE_BLOCKS, :reverse => TYPE_BLOCKS },
+    TYPE_PRECEDES =>    { :name => :label_precedes, :sym_name => :label_follows,
+                          :order => 6, :sym => TYPE_FOLLOWS },
+    TYPE_FOLLOWS =>     { :name => :label_follows, :sym_name => :label_precedes,
+                          :order => 7, :sym => TYPE_PRECEDES, :reverse => TYPE_PRECEDES },
+    TYPE_COPIED_TO =>   { :name => :label_copied_to, :sym_name => :label_copied_from,
+                          :order => 8, :sym => TYPE_COPIED_FROM },
+    TYPE_COPIED_FROM => { :name => :label_copied_from, :sym_name => :label_copied_to,
+                          :order => 9, :sym => TYPE_COPIED_TO, :reverse => TYPE_COPIED_TO }
+  }.freeze
 
   validates_presence_of :issue_from, :issue_to, :relation_type
   validates_inclusion_of :relation_type, :in => TYPES.keys
   validates_numericality_of :delay, :allow_nil => true
   validates_uniqueness_of :issue_to_id, :scope => :issue_from_id
-
   validate :validate_issue_relation
 
   attr_protected :issue_from_id, :issue_to_id
-
   before_save :handle_issue_order
 
   def visible?(user=User.current)
@@ -87,14 +95,19 @@ class IssueRelation < ActiveRecord::Base
   def validate_issue_relation
     if issue_from && issue_to
       errors.add :issue_to_id, :invalid if issue_from_id == issue_to_id
-      errors.add :issue_to_id, :not_same_project unless issue_from.project_id == issue_to.project_id || Setting.cross_project_issue_relations?
-      #detect circular dependencies depending wether the relation should be reversed
+      unless issue_from.project_id == issue_to.project_id ||
+                Setting.cross_project_issue_relations?
+        errors.add :issue_to_id, :not_same_project
+      end
+      # detect circular dependencies depending wether the relation should be reversed
       if TYPES.has_key?(relation_type) && TYPES[relation_type][:reverse]
         errors.add :base, :circular_dependency if issue_from.all_dependent_issues.include? issue_to
       else
         errors.add :base, :circular_dependency if issue_to.all_dependent_issues.include? issue_from
       end
-      errors.add :base, :cant_link_an_issue_with_a_descendant if issue_from.is_descendant_of?(issue_to) || issue_from.is_ancestor_of?(issue_to)
+      if issue_from.is_descendant_of?(issue_to) || issue_from.is_ancestor_of?(issue_to)
+        errors.add :base, :cant_link_an_issue_with_a_descendant
+      end
     end
   end
 
@@ -114,7 +127,9 @@ class IssueRelation < ActiveRecord::Base
   end
 
   def label_for(issue)
-    TYPES[relation_type] ? TYPES[relation_type][(self.issue_from_id == issue.id) ? :name : :sym_name] : :unknow
+    TYPES[relation_type] ?
+        TYPES[relation_type][(self.issue_from_id == issue.id) ? :name : :sym_name] :
+        :unknow
   end
 
   def css_classes_for(issue)
@@ -140,7 +155,8 @@ class IssueRelation < ActiveRecord::Base
   end
 
   def successor_soonest_start
-    if (TYPE_PRECEDES == self.relation_type) && delay && issue_from && (issue_from.start_date || issue_from.due_date)
+    if (TYPE_PRECEDES == self.relation_type) && delay && issue_from &&
+           (issue_from.start_date || issue_from.due_date)
       (issue_from.due_date || issue_from.start_date) + 1 + delay
     end
   end
