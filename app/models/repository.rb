@@ -20,7 +20,7 @@ class ScmFetchError < Exception; end
 class Repository < ActiveRecord::Base
   include Redmine::Ciphering
   include Redmine::SafeAttributes
-  
+
   # Maximum length for repository identifiers
   IDENTIFIER_MAX_LENGTH = 255
 
@@ -418,7 +418,7 @@ class Repository < ActiveRecord::Base
 
   # Deletes repository data
   def clear_changesets
-    cs = Changeset.table_name 
+    cs = Changeset.table_name
     ch = Change.table_name
     ci = "#{table_name_prefix}changesets_issues#{table_name_suffix}"
     cp = "#{table_name_prefix}changeset_parents#{table_name_suffix}"
