@@ -21,6 +21,7 @@ class RolesController < ApplicationController
   before_filter :require_admin, :except => [:index, :show]
   before_filter :require_admin_or_api_request, :only => [:index, :show]
   before_filter :find_role, :only => [:show, :edit, :update, :destroy]
+  accept_api_auth :index, :show
 
   def index
     respond_to do |format|
