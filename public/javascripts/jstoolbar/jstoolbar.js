@@ -44,8 +44,8 @@ function jsToolBar(textarea) {
 	this.toolbar.className = 'jstElements';
 	this.editor.parentNode.insertBefore(this.toolbar,this.editor);
 	
-	// Dragable resizing (only for gecko)
-	if (this.editor.addEventListener)
+	// Dragable resizing
+	if (this.editor.addEventListener && navigator.appVersion.match(/\bMSIE\b/))
 	{
 		this.handle = document.createElement('div');
 		this.handle.className = 'jstHandle';
