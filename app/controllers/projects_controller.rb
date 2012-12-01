@@ -116,11 +116,7 @@ class ProjectsController < ApplicationController
     @source_project = Project.find(params[:id])
     if request.get?
       @project = Project.copy_from(@source_project)
-      if @project
-        @project.identifier = Project.next_identifier if Setting.sequential_project_identifiers?
-      else
-        redirect_to :controller => 'admin', :action => 'projects'
-      end
+      @project.identifier = Project.next_identifier if Setting.sequential_project_identifiers?
     else
       Mailer.with_deliveries(params[:notifications] == '1') do
         @project = Project.new
@@ -139,7 +135,8 @@ class ProjectsController < ApplicationController
       end
     end
   rescue ActiveRecord::RecordNotFound
-    redirect_to :controller => 'admin', :action => 'projects'
+    # source_project not found
+    render_404
   end
 	
   # Show @project

@@ -523,6 +523,12 @@ class ProjectsControllerTest < ActionController::TestCase
       :attributes => {:name => 'project[enabled_module_names][]', :value => 'issue_tracking'}
   end
 
+  def test_get_copy_with_invalid_source_should_respond_with_404
+    @request.session[:user_id] = 1
+    get :copy, :id => 99
+    assert_response 404
+  end
+
   def test_post_copy_should_copy_requested_items
     @request.session[:user_id] = 1 # admin
     CustomField.delete_all
