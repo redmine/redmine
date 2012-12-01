@@ -20,7 +20,7 @@ class VersionsController < ApplicationController
   model_object Version
   before_filter :find_model_object, :except => [:index, :new, :create, :close_completed]
   before_filter :find_project_from_association, :except => [:index, :new, :create, :close_completed]
-  before_filter :find_project, :only => [:index, :new, :create, :close_completed]
+  before_filter :find_project_by_project_id, :only => [:index, :new, :create, :close_completed]
   before_filter :authorize
 
   accept_api_auth :index, :show, :create, :update, :destroy
@@ -169,12 +169,7 @@ class VersionsController < ApplicationController
     end
   end
 
-private
-  def find_project
-    @project = Project.find(params[:project_id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
+  private
 
   def retrieve_selected_tracker_ids(selectable_trackers, default_trackers=nil)
     if ids = params[:tracker_ids]
@@ -183,5 +178,4 @@ private
       @selected_tracker_ids = (default_trackers || selectable_trackers).collect {|t| t.id.to_s }
     end
   end
-
 end
