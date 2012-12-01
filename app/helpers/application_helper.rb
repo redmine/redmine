@@ -331,6 +331,15 @@ module ApplicationHelper
     s.html_safe
   end
 
+  # Options for the new membership projects combo-box
+  def options_for_membership_project_select(principal, projects)
+    options = content_tag('option', "--- #{l(:actionview_instancetag_blank_option)} ---")
+    options << project_tree_options_for_select(projects) do |p|
+      {:disabled => principal.projects.include?(p)}
+    end
+    options
+  end
+
   # Truncates and returns the string as a single line
   def truncate_single_line(string, *args)
     truncate(string.to_s, *args).gsub(%r{[\r\n]+}m, ' ')
