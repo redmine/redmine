@@ -83,7 +83,7 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new(:language => Setting.default_language, :mail_notification => Setting.default_notification_option)
-    @auth_sources = AuthSource.find(:all)
+    @auth_sources = AuthSource.all
   end
 
   def create
@@ -112,7 +112,7 @@ class UsersController < ApplicationController
         format.api  { render :action => 'show', :status => :created, :location => user_url(@user) }
       end
     else
-      @auth_sources = AuthSource.find(:all)
+      @auth_sources = AuthSource.all
       # Clear password input
       @user.password = @user.password_confirmation = nil
 
@@ -124,7 +124,7 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @auth_sources = AuthSource.find(:all)
+    @auth_sources = AuthSource.all
     @membership ||= Member.new
   end
 
@@ -159,7 +159,7 @@ class UsersController < ApplicationController
         format.api  { render_api_ok }
       end
     else
-      @auth_sources = AuthSource.find(:all)
+      @auth_sources = AuthSource.all
       @membership ||= Member.new
       # Clear password input
       @user.password = @user.password_confirmation = nil

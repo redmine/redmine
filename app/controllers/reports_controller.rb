@@ -90,6 +90,6 @@ class ReportsController < ApplicationController
   private
 
   def find_issue_statuses
-    @statuses = IssueStatus.find(:all, :order => 'position')
+    @statuses = IssueStatus.sorted.all
   end
 end

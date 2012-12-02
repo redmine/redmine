@@ -31,7 +31,7 @@ class VersionsController < ApplicationController
   def index
     respond_to do |format|
       format.html {
-        @trackers = @project.trackers.find(:all, :order => 'position')
+        @trackers = @project.trackers.sorted.all
         retrieve_selected_tracker_ids(@trackers, @trackers.select {|t| t.is_in_roadmap?})
         @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_issues? : (params[:with_subprojects] == '1')
         project_ids = @with_subprojects ? @project.self_and_descendants.collect(&:id) : [@project.id]
@@ -64,9 +64,10 @@ class VersionsController < ApplicationController
   def show
     respond_to do |format|
       format.html {
-        @issues = @version.fixed_issues.visible.find(:all,
-          :include => [:status, :tracker, :priority],
-          :order => "#{Tracker.table_name}.position, #{Issue.table_name}.id")
+        @issues = @version.fixed_issues.visible.
+          includes(:status, :tracker, :priority).
+          reorder("#{Tracker.table_name}.position, #{Issue.table_name}.id").
+          all
       }
       format.api
     end

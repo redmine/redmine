@@ -23,7 +23,7 @@ class CustomFieldsController < ApplicationController
   before_filter :find_custom_field, :only => [:edit, :update, :destroy]
 
   def index
-    @custom_fields_by_type = CustomField.find(:all).group_by {|f| f.class.name }
+    @custom_fields_by_type = CustomField.all.group_by {|f| f.class.name }
     @tab = params[:tab] || 'IssueCustomField'
   end
 

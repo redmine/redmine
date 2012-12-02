@@ -57,11 +57,10 @@ class ProjectsController < ApplicationController
       format.api  {
         @offset, @limit = api_offset_and_limit
         @project_count = Project.visible.count
-        @projects = Project.visible.all(:offset => @offset, :limit => @limit, :order => 'lft')
+        @projects = Project.visible.offset(@offset).limit(@limit).order('lft').all
       }
       format.atom {
-        projects = Project.visible.find(:all, :order => 'created_on DESC',
-                                              :limit => Setting.feeds_limit.to_i)
+        projects = Project.visible.order('created_on DESC').limit(Setting.feeds_limit.to_i).all
         render_feed(projects, :title => "#{Setting.app_title}: #{l(:label_project_latest)}")
       }
     end
@@ -145,7 +144,7 @@ class ProjectsController < ApplicationController
 
     @users_by_role = @project.users_by_role
     @subprojects = @project.children.visible.all
-    @news = @project.news.find(:all, :limit => 5, :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")
+    @news = @project.news.limit(5).includes(:author, :project).reorder("#{News.table_name}.created_on DESC").all
     @trackers = @project.rolled_up_trackers
 
     cond = @project.project_condition(Setting.display_subprojects_issues?)

@@ -141,10 +141,11 @@ class RepositoriesController < ApplicationController
     @changeset_pages = Paginator.new self, @changeset_count,
                                      per_page_option,
                                      params['page']
-    @changesets = @repository.changesets.find(:all,
-                       :limit  =>  @changeset_pages.items_per_page,
-                       :offset =>  @changeset_pages.current.offset,
-                       :include => [:user, :repository, :parents])
+    @changesets = @repository.changesets.
+      limit(@changeset_pages.items_per_page).
+      offset(@changeset_pages.current.offset).
+      includes(:user, :repository, :parents).
+      all
 
     respond_to do |format|
       format.html { render :layout => false if request.xhr? }

@@ -37,7 +37,7 @@ class TrackersController < ApplicationController
   def new
     @tracker ||= Tracker.new(params[:tracker])
     @trackers = Tracker.find :all, :order => 'position'
-    @projects = Project.find(:all)
+    @projects = Project.all
   end
 
   def create
@@ -57,7 +57,7 @@ class TrackersController < ApplicationController
 
   def edit
     @tracker ||= Tracker.find(params[:id])
-    @projects = Project.find(:all)
+    @projects = Project.all
   end
 
   def update

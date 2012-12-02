@@ -40,10 +40,12 @@ class MessagesController < ApplicationController
 
     @reply_count = @topic.children.count
     @reply_pages = Paginator.new self, @reply_count, REPLIES_PER_PAGE, page
-    @replies =  @topic.children.find(:all, :include => [:author, :attachments, {:board => :project}],
-                                           :order => "#{Message.table_name}.created_on ASC",
-                                           :limit => @reply_pages.items_per_page,
-                                           :offset => @reply_pages.current.offset)
+    @replies =  @topic.children.
+      includes(:author, :attachments, {:board => :project}).
+      reorder("#{Message.table_name}.created_on ASC").
+      limit(@reply_pages.items_per_page).
+      offset(@reply_pages.current.offset).
+      all
 
     @reply = Message.new(:subject => "RE: #{@message.subject}")
     render :action => "show", :layout => false if request.xhr?
