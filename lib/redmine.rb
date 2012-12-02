@@ -17,6 +17,12 @@
 
 require 'redmine/core_ext'
 
+begin
+  require 'RMagick' unless Object.const_defined?(:Magick)
+rescue LoadError
+  # RMagick is not available
+end
+
 require 'redmine/about'
 require 'redmine/access_control'
 require 'redmine/access_keys'
@@ -52,12 +58,6 @@ require 'redmine/views/builders'
 require 'redmine/themes'
 require 'redmine/hook'
 require 'redmine/plugin'
-
-begin
-  require 'RMagick' unless Object.const_defined?(:Magick)
-rescue LoadError
-  # RMagick is not available
-end
 
 if RUBY_VERSION < '1.9'
   require 'fastercsv'
