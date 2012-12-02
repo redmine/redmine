@@ -61,7 +61,7 @@ namespace :redmine do
                            'patch' =>TRACKER_FEATURE
                            }
 
-        roles = Role.find(:all, :conditions => {:builtin => 0}, :order => 'position ASC')
+        roles = Role.where(:builtin => 0).order('position ASC').all
         manager_role = roles[0]
         developer_role = roles[1]
         DEFAULT_ROLE = roles.last
@@ -390,7 +390,7 @@ namespace :redmine do
         # Components
         print "Migrating components"
         issues_category_map = {}
-        TracComponent.find(:all).each do |component|
+        TracComponent.all.each do |component|
         print '.'
         STDOUT.flush
           c = IssueCategory.new :project => @target_project,
@@ -404,7 +404,7 @@ namespace :redmine do
         # Milestones
         print "Migrating milestones"
         version_map = {}
-        TracMilestone.find(:all).each do |milestone|
+        TracMilestone.all.each do |milestone|
           print '.'
           STDOUT.flush
           # First we try to find the wiki page...
@@ -443,7 +443,7 @@ namespace :redmine do
                                         :field_format => 'string')
 
           next if f.new_record?
-          f.trackers = Tracker.find(:all)
+          f.trackers = Tracker.all
           f.projects << @target_project
           custom_field_map[field.name] = f
         end
@@ -454,7 +454,7 @@ namespace :redmine do
         r = IssueCustomField.new(:name => 'Resolution',
                                  :field_format => 'list',
                                  :is_filter => true) if r.nil?
-        r.trackers = Tracker.find(:all)
+        r.trackers = Tracker.all
         r.projects << @target_project
         r.possible_values = (r.possible_values + %w(fixed invalid wontfix duplicate worksforme)).flatten.compact.uniq
         r.save!
@@ -549,7 +549,7 @@ namespace :redmine do
         # Wiki
         print "Migrating wiki"
         if wiki.save
-          TracWikiPage.find(:all, :order => 'name, version').each do |page|
+          TracWikiPage.order('name, version').all.each do |page|
             # Do not migrate Trac manual wiki pages
             next if TRAC_WIKI_PAGES.include?(page.name)
             wiki_edit_count += 1

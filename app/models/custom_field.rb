@@ -258,7 +258,7 @@ class CustomField < ActiveRecord::Base
 
   # to move in project_custom_field
   def self.for_all
-    find(:all, :conditions => ["is_for_all=?", true], :order => 'position')
+    where(:is_for_all => true).order('position').all
   end
 
   def type_name

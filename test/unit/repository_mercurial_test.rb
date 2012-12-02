@@ -102,7 +102,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
       # Remove changesets with revision > 2
-      @repository.changesets.find(:all).each {|c| c.destroy if c.revision.to_i > 2}
+      @repository.changesets.all.each {|c| c.destroy if c.revision.to_i > 2}
       @project.reload
       assert_equal 3, @repository.changesets.count
 

@@ -306,7 +306,10 @@ class WorkflowsControllerTest < ActionController::TestCase
 
   # Returns an array of status transitions that can be compared
   def status_transitions(conditions)
-    WorkflowTransition.find(:all, :conditions => conditions,
-                        :order => 'tracker_id, role_id, old_status_id, new_status_id').collect {|w| [w.old_status, w.new_status_id]}
+    WorkflowTransition.
+      where(conditions).
+      order('tracker_id, role_id, old_status_id, new_status_id').
+      all.
+      collect {|w| [w.old_status, w.new_status_id]}
   end
 end

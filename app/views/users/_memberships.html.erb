@@ -1,5 +1,5 @@
 <% roles = Role.find_all_givable %>
-<% projects = Project.active.find(:all, :order => 'lft') %>
+<% projects = Project.active.all %>
 
 <div class="splitcontentleft">
 <% if @user.memberships.any? %>

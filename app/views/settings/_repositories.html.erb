@@ -68,7 +68,7 @@
 <p><%= setting_text_field :commit_fix_keywords, :size => 30 %>
 &nbsp;<%= l(:label_applied_status) %>: <%= setting_select :commit_fix_status_id,
                                                           [["", 0]] +
-                                                              IssueStatus.find(:all).collect{
+                                                              IssueStatus.sorted.all.collect{
                                                                  |status| [status.name, status.id.to_s]
                                                               },
                                                           :label => false %>

@@ -53,7 +53,7 @@ task :migrate_from_mantis => :environment do
       TRACKER_BUG = Tracker.find_by_position(1)
       TRACKER_FEATURE = Tracker.find_by_position(2)
 
-      roles = Role.find(:all, :conditions => {:builtin => 0}, :order => 'position ASC')
+      roles = Role.where(:builtin => 0).order('position ASC').all
       manager_role = roles[0]
       developer_role = roles[1]
       DEFAULT_ROLE = roles.last
@@ -241,7 +241,7 @@ task :migrate_from_mantis => :environment do
       User.delete_all "login <> 'admin'"
       users_map = {}
       users_migrated = 0
-      MantisUser.find(:all).each do |user|
+      MantisUser.all.each do |user|
         u = User.new :firstname => encode(user.firstname),
                      :lastname => encode(user.lastname),
                      :mail => user.email,
@@ -263,7 +263,7 @@ task :migrate_from_mantis => :environment do
       projects_map = {}
       versions_map = {}
       categories_map = {}
-      MantisProject.find(:all).each do |project|
+      MantisProject.all.each do |project|
         p = Project.new :name => encode(project.name),
                         :description => encode(project.description)
         p.identifier = project.identifier
@@ -365,7 +365,7 @@ task :migrate_from_mantis => :environment do
 
       # Bug relationships
       print "Migrating bug relations"
-      MantisBugRelationship.find(:all).each do |relation|
+      MantisBugRelationship.all.each do |relation|
         next unless issues_map[relation.source_bug_id] && issues_map[relation.destination_bug_id]
         r = IssueRelation.new :relation_type => RELATION_TYPE_MAPPING[relation.relationship_type]
         r.issue_from = Issue.find_by_id(issues_map[relation.source_bug_id])
@@ -379,7 +379,7 @@ task :migrate_from_mantis => :environment do
       # News
       print "Migrating news"
       News.destroy_all
-      MantisNews.find(:all, :conditions => 'project_id > 0').each do |news|
+      MantisNews.where('project_id > 0').all.each do |news|
         next unless projects_map[news.project_id]
         n = News.new :project_id => projects_map[news.project_id],
                      :title => encode(news.headline[0..59]),
@@ -395,7 +395,7 @@ task :migrate_from_mantis => :environment do
       # Custom fields
       print "Migrating custom fields"
       IssueCustomField.destroy_all
-      MantisCustomField.find(:all).each do |field|
+      MantisCustomField.all.each do |field|
         f = IssueCustomField.new :name => field.name[0..29],
                                  :field_format => CUSTOM_FIELD_TYPE_MAPPING[field.format],
                                  :min_length => field.length_min,
@@ -407,7 +407,7 @@ task :migrate_from_mantis => :environment do
         print '.'
         STDOUT.flush
         # Trackers association
-        f.trackers = Tracker.find :all
+        f.trackers = Tracker.all
 
         # Projects association
         field.projects.each do |project|

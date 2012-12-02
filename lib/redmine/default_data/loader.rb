@@ -139,15 +139,15 @@ module Redmine
             rejected  = IssueStatus.create!(:name => l(:default_issue_status_rejected), :is_closed => true, :is_default => false, :position => 6)
 
             # Workflow
-            Tracker.find(:all).each { |t|
-              IssueStatus.find(:all).each { |os|
-                IssueStatus.find(:all).each { |ns|
+            Tracker.all.each { |t|
+              IssueStatus.all.each { |os|
+                IssueStatus.all.each { |ns|
                   WorkflowTransition.create!(:tracker_id => t.id, :role_id => manager.id, :old_status_id => os.id, :new_status_id => ns.id) unless os == ns
                 }
               }
             }
 
-            Tracker.find(:all).each { |t|
+            Tracker.all.each { |t|
               [new, in_progress, resolved, feedback].each { |os|
                 [in_progress, resolved, feedback, closed].each { |ns|
                   WorkflowTransition.create!(:tracker_id => t.id, :role_id => developer.id, :old_status_id => os.id, :new_status_id => ns.id) unless os == ns
@@ -155,7 +155,7 @@ module Redmine
               }
             }
 
-            Tracker.find(:all).each { |t|
+            Tracker.all.each { |t|
               [new, in_progress, resolved, feedback].each { |os|
                 [closed].each { |ns|
                   WorkflowTransition.create!(:tracker_id => t.id, :role_id => reporter.id, :old_status_id => os.id, :new_status_id => ns.id) unless os == ns

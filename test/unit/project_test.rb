@@ -183,7 +183,7 @@ class ProjectTest < ActiveSupport::TestCase
     # 2 active members
     assert_equal 2, @ecookbook.members.size
     # and 1 is locked
-    assert_equal 3, Member.find(:all, :conditions => ['project_id = ?', @ecookbook.id]).size
+    assert_equal 3, Member.where('project_id = ?', @ecookbook.id).all.size
     # some boards
     assert @ecookbook.boards.any?
 
@@ -693,7 +693,7 @@ class ProjectTest < ActiveSupport::TestCase
 
   def test_activities_should_use_the_system_activities
     project = Project.find(1)
-    assert_equal project.activities, TimeEntryActivity.find(:all, :conditions => {:active => true} )
+    assert_equal project.activities, TimeEntryActivity.where(:active => true).all
   end
 
 

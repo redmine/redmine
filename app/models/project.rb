@@ -138,7 +138,7 @@ class Project < ActiveRecord::Base
   # returns latest created projects
   # non public projects will be returned only if user is a member of those
   def self.latest(user=nil, count=5)
-    visible(user).find(:all, :limit => count, :order => "created_on DESC")	
+    visible(user).limit(count).order("created_on DESC").all	
   end	
 
   # Returns true if the project is visible to +user+ or to the current user.
@@ -338,7 +338,7 @@ class Project < ActiveRecord::Base
   # by the current user
   def allowed_parents
     return @allowed_parents if @allowed_parents
-    @allowed_parents = Project.find(:all, :conditions => Project.allowed_to_condition(User.current, :add_subprojects))
+    @allowed_parents = Project.where(Project.allowed_to_condition(User.current, :add_subprojects)).all
     @allowed_parents = @allowed_parents - self_and_descendants
     if User.current.allowed_to?(:add_project, nil, :global => true) || (!new_record? && parent.nil?)
       @allowed_parents << nil
@@ -415,7 +415,7 @@ class Project < ActiveRecord::Base
   # Closes open and locked project versions that are completed
   def close_completed_versions
     Version.transaction do
-      versions.find(:all, :conditions => {:status => %w(open locked)}).each do |version|
+      versions.where(:status => %w(open locked)).all.each do |version|
         if version.completed?
           version.update_attribute(:status, 'closed')
         end
@@ -452,7 +452,7 @@ class Project < ActiveRecord::Base
 
   # Returns a hash of project users grouped by role
   def users_by_role
-    members.find(:all, :include => [:user, :roles]).inject({}) do |h, m|
+    members.includes(:user, :roles).all.inject({}) do |h, m|
       m.roles.each do |r|
         h[r] ||= []
         h[r] << m.user
@@ -786,7 +786,7 @@ class Project < ActiveRecord::Base
 
     # Get issues sorted by root_id, lft so that parent issues
     # get copied before their children
-    project.issues.find(:all, :order => 'root_id, lft').each do |issue|
+    project.issues.reorder('root_id, lft').all.each do |issue|
       new_issue = Issue.new
       new_issue.copy_from(issue, :subtasks => false, :link => false)
       new_issue.project = self
@@ -929,13 +929,11 @@ class Project < ActiveRecord::Base
   def system_activities_and_project_overrides(include_inactive=false)
     if include_inactive
       return TimeEntryActivity.shared.
-        find(:all,
-             :conditions => ["id NOT IN (?)", self.time_entry_activities.collect(&:parent_id)]) +
+        where("id NOT IN (?)", self.time_entry_activities.collect(&:parent_id)).all +
         self.time_entry_activities
     else
       return TimeEntryActivity.shared.active.
-        find(:all,
-             :conditions => ["id NOT IN (?)", self.time_entry_activities.collect(&:parent_id)]) +
+        where("id NOT IN (?)", self.time_entry_activities.collect(&:parent_id)).all +
         self.time_entry_activities.active
     end
   end

@@ -92,11 +92,12 @@ class Repository::Mercurial < Repository
   # Sqlite3 and PostgreSQL pass.
   # Is this MySQL bug?
   def latest_changesets(path, rev, limit=10)
-    changesets.find(:all,
-                    :include    => :user,
-                    :conditions => latest_changesets_cond(path, rev, limit),
-                    :limit      => limit,
-                    :order      => "#{Changeset.table_name}.id DESC")
+    changesets.
+      includes(:user).
+      where(latest_changesets_cond(path, rev, limit)).
+      limit(limit).
+      order("#{Changeset.table_name}.id DESC").
+      all
   end
 
   def latest_changesets_cond(path, rev, limit)

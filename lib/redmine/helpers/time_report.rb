@@ -144,14 +144,14 @@ module Redmine
         end if @project
 
         # Add list and boolean time entry custom fields
-        TimeEntryCustomField.find(:all).select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
+        TimeEntryCustomField.all.select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
           @available_criteria["cf_#{cf.id}"] = {:sql => "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'TimeEntry' AND c.customized_id = #{TimeEntry.table_name}.id ORDER BY c.value LIMIT 1)",
                                                  :format => cf.field_format,
                                                  :label => cf.name}
         end
 
         # Add list and boolean time entry activity custom fields
-        TimeEntryActivityCustomField.find(:all).select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
+        TimeEntryActivityCustomField.all.select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
           @available_criteria["cf_#{cf.id}"] = {:sql => "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'Enumeration' AND c.customized_id = #{TimeEntry.table_name}.activity_id ORDER BY c.value LIMIT 1)",
                                                  :format => cf.field_format,
                                                  :label => cf.name}

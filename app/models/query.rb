@@ -218,7 +218,7 @@ class Query < ActiveRecord::Base
   end
 
   def trackers
-    @trackers ||= project.nil? ? Tracker.find(:all, :order => 'position') : project.rolled_up_trackers
+    @trackers ||= project.nil? ? Tracker.sorted.all : project.rolled_up_trackers
   end
 
   # Returns a hash of localized labels for all filter operators
@@ -231,7 +231,7 @@ class Query < ActiveRecord::Base
     @available_filters = {
       "status_id" => {
         :type => :list_status, :order => 0,
-        :values => IssueStatus.find(:all, :order => 'position').collect{|s| [s.name, s.id.to_s] }
+        :values => IssueStatus.sorted.all.collect{|s| [s.name, s.id.to_s] }
        },
       "tracker_id" => {
         :type => :list, :order => 2, :values => trackers.collect{|s| [s.name, s.id.to_s] }
@@ -344,12 +344,7 @@ class Query < ActiveRecord::Base
                                      }
         }
       end
-      add_custom_fields_filters(
-                   IssueCustomField.find(:all,
-                                         :conditions => {
-                                            :is_filter => true,
-                                            :is_for_all => true
-                                         }))
+      add_custom_fields_filters(IssueCustomField.where(:is_filter => true, :is_for_all => true).all)
     end
     add_associations_custom_fields_filters :project, :author, :assigned_to, :fixed_version
     if User.current.allowed_to?(:set_issues_private, nil, :global => true) ||
@@ -455,7 +450,7 @@ class Query < ActiveRecord::Base
     @available_columns = ::Query.available_columns.dup
     @available_columns += (project ?
                             project.all_issue_custom_fields :
-                            IssueCustomField.find(:all)
+                            IssueCustomField.all
                            ).collect {|cf| QueryCustomFieldColumn.new(cf) }
 
     if User.current.allowed_to?(:view_time_entries, project, :global => true)
