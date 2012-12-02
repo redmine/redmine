@@ -7,7 +7,7 @@ class CreateEnabledModules < ActiveRecord::Migration
     add_index :enabled_modules, [:project_id], :name => :enabled_modules_project_id
 
     # Enable all modules for existing projects
-    Project.find(:all).each do |project|
+    Project.all.each do |project|
       project.enabled_module_names = Redmine::AccessControl.available_project_modules
     end
   end

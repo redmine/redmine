@@ -10,7 +10,7 @@ class AddProjectsTrackersUniqueIndex < ActiveRecord::Migration
 
   # Removes duplicates in projects_trackers table
   def self.remove_duplicates
-    Project.find(:all).each do |project|
+    Project.all.each do |project|
       ids = project.trackers.collect(&:id)
       unless ids == ids.uniq
         project.trackers.clear
