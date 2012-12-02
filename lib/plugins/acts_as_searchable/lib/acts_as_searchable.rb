@@ -72,14 +72,8 @@ module Redmine
             tokens = [] << tokens unless tokens.is_a?(Array)
             projects = [] << projects unless projects.nil? || projects.is_a?(Array)
 
-            find_options = {:include => searchable_options[:include]}
-            find_options[:order] = "#{searchable_options[:order_column]} " + (options[:before] ? 'DESC' : 'ASC')
-
             limit_options = {}
             limit_options[:limit] = options[:limit] if options[:limit]
-            if options[:offset]
-              limit_options[:conditions] = "(#{searchable_options[:date_column]} " + (options[:before] ? '<' : '>') + "'#{connection.quoted_date(options[:offset])}')"
-            end
 
             columns = searchable_options[:columns]
             columns = columns[0..0] if options[:titles_only]
@@ -98,9 +92,9 @@ module Redmine
 
             sql = (['(' + token_clauses.join(' OR ') + ')'] * tokens.size).join(options[:all_words] ? ' AND ' : ' OR ')
 
-            find_options[:conditions] = [sql, * (tokens.collect {|w| "%#{w.downcase}%"} * token_clauses.size).sort]
+            tokens_conditions = [sql, * (tokens.collect {|w| "%#{w.downcase}%"} * token_clauses.size).sort]
 
-            scope = self
+            scope = self.scoped
             project_conditions = []
             if searchable_options.has_key?(:permission)
               project_conditions << Project.allowed_to_condition(user, searchable_options[:permission] || :view_project)
@@ -117,9 +111,19 @@ module Redmine
             results = []
             results_count = 0
 
-            scope = scope.scoped({:conditions => project_conditions}).scoped(find_options)
-            results_count = scope.count(:all)
-            results = scope.find(:all, limit_options)
+            scope = scope.
+              includes(searchable_options[:include]).
+              order("#{searchable_options[:order_column]} " + (options[:before] ? 'DESC' : 'ASC')).
+              where(project_conditions).
+              where(tokens_conditions)
+
+            results_count = scope.count
+
+            scope_with_limit = scope.limit(options[:limit])
+            if options[:offset]
+              scope_with_limit = scope_with_limit.where("#{searchable_options[:date_column]} #{options[:before] ? '<' : '>'} ?", options[:offset])
+            end
+            results = scope_with_limit.all
 
             [results, results_count]
           end
