@@ -31,8 +31,8 @@ class FilesController < ApplicationController
                 'size' => "#{Attachment.table_name}.filesize",
                 'downloads' => "#{Attachment.table_name}.downloads"
 
-    @containers = [ Project.find(@project.id, :include => :attachments, :order => sort_clause)]
-    @containers += @project.versions.find(:all, :include => :attachments, :order => sort_clause).sort.reverse
+    @containers = [ Project.includes(:attachments).reorder(sort_clause).find(@project.id)]
+    @containers += @project.versions.includes(:attachments).reorder(sort_clause).all.sort.reverse
     render :layout => !request.xhr?
   end
 
