@@ -67,14 +67,14 @@ class ProjectsController < ApplicationController
   end
 
   def new
-    @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
+    @issue_custom_fields = IssueCustomField.sorted.all
     @trackers = Tracker.sorted.all
     @project = Project.new
     @project.safe_attributes = params[:project]
   end
 
   def create
-    @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
+    @issue_custom_fields = IssueCustomField.sorted.all
     @trackers = Tracker.sorted.all
     @project = Project.new
     @project.safe_attributes = params[:project]
@@ -107,7 +107,7 @@ class ProjectsController < ApplicationController
   end
 
   def copy
-    @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
+    @issue_custom_fields = IssueCustomField.sorted.all
     @trackers = Tracker.sorted.all
     @source_project = Project.find(params[:id])
     if request.get?
@@ -165,7 +165,7 @@ class ProjectsController < ApplicationController
   end
 
   def settings
-    @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
+    @issue_custom_fields = IssueCustomField.sorted.all
     @issue_category ||= IssueCategory.new
     @member ||= @project.members.new
     @trackers = Tracker.sorted.all
