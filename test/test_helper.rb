@@ -492,3 +492,14 @@ end
 # Simple module to "namespace" all of the API tests
 module ApiTest
 end
+
+# URL helpers do not work with config.threadsafe!
+# https://github.com/rspec/rspec-rails/issues/476#issuecomment-4705454
+ActionView::TestCase::TestController.instance_eval do
+  helper Rails.application.routes.url_helpers
+end
+ActionView::TestCase::TestController.class_eval do
+  def _routes
+    Rails.application.routes
+  end
+end

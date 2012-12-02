@@ -34,6 +34,7 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
   include ProjectsHelper
   include IssuesHelper
   include ERB::Util
+  include Rails.application.routes.url_helpers
 
   def setup
     setup_with_controller

@@ -312,7 +312,7 @@ RedmineApp::Application.routes.draw do
 
   resources :auth_sources do
     member do
-      get 'test_connection'
+      get 'test_connection', :as => 'try_connection'
     end
   end
 
