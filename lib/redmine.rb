@@ -1,16 +1,56 @@
-require 'redmine/access_control'
-require 'redmine/menu_manager'
-require 'redmine/activity'
-require 'redmine/search'
-require 'redmine/custom_field_format'
-require 'redmine/mime_type'
+# Redmine - project management software
+# Copyright (C) 2006-2012  Jean-Philippe Lang
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
 require 'redmine/core_ext'
-require 'redmine/themes'
+
+require 'redmine/about'
+require 'redmine/access_control'
+require 'redmine/access_keys'
+require 'redmine/activity'
+require 'redmine/activity/fetcher'
+require 'redmine/ciphering'
+require 'redmine/codeset_util'
+require 'redmine/custom_field_format'
 require 'redmine/hook'
-require 'redmine/plugin'
+require 'redmine/i18n'
+require 'redmine/menu_manager'
 require 'redmine/notifiable'
+require 'redmine/platform'
+require 'redmine/plugin'
+require 'redmine/mime_type'
+require 'redmine/notifiable'
+require 'redmine/search'
+require 'redmine/syntax_highlighting'
+require 'redmine/themes'
+require 'redmine/thumbnail'
+require 'redmine/unified_diff'
+require 'redmine/utils'
+require 'redmine/version'
 require 'redmine/wiki_formatting'
+
+require 'redmine/default_data/loader'
+require 'redmine/helpers/calendar'
+require 'redmine/helpers/diff'
+require 'redmine/helpers/gantt'
+require 'redmine/helpers/time_report'
 require 'redmine/scm/base'
+require 'redmine/views/other_formats_builder'
+require 'redmine/views/labelled_form_builder'
+require 'redmine/views/builders'
 
 begin
   require 'RMagick' unless Object.const_defined?(:Magick)
