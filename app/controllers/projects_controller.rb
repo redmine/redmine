@@ -110,9 +110,6 @@ class ProjectsController < ApplicationController
   def copy
     @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @trackers = Tracker.sorted.all
-    @root_projects = Project.find(:all,
-                                  :conditions => "parent_id IS NULL AND status = #{Project::STATUS_ACTIVE}",
-                                  :order => 'name')
     @source_project = Project.find(params[:id])
     if request.get?
       @project = Project.copy_from(@source_project)
