@@ -173,21 +173,28 @@ module ActionController
     # the +model+ and given +conditions+. Override this method to implement a
     # custom counter.
     def count_collection_for_pagination(model, options)
-      model.count(:conditions => options[:conditions],
-                  :joins => options[:join] || options[:joins],
-                  :include => options[:include],
-                  :select => (options[:group] ? "DISTINCT #{options[:group]}" : options[:count]))
+      model.
+        where(options[:conditions]).
+        joins(options[:join] || options[:joins]).
+        includes(options[:include]).
+        select(options[:group] ? "DISTINCT #{options[:group]}" : options[:count]).
+        count
     end
     
     # Returns a collection of items for the given +model+ and +options[conditions]+,
     # ordered by +options[order]+, for the current page in the given +paginator+.
     # Override this method to implement a custom finder.
     def find_collection_for_pagination(model, options, paginator)
-      model.find(:all, :conditions => options[:conditions],
-                 :order => options[:order_by] || options[:order],
-                 :joins => options[:join] || options[:joins], :include => options[:include],
-                 :select => options[:select], :limit => options[:per_page],
-                 :group => options[:group], :offset => paginator.current.offset)
+      model.
+        where(options[:conditions]).
+        order(options[:order_by] || options[:order]).
+        joins(options[:join] || options[:joins]).
+        includes(options[:include]).
+        select(options[:select]).
+        limit(options[:per_page]).
+        group(options[:group]).
+        offset(paginator.current.offset).
+        all
     end
   
     protected :create_paginators_and_retrieve_collections,
