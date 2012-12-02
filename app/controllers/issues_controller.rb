@@ -313,19 +313,7 @@ class IssuesController < ApplicationController
     end
   end
 
-private
-  def find_issue
-    # Issue.visible.find(...) can not be used to redirect user to the login form
-    # if the issue actually exists but requires authentication
-    @issue = Issue.find(params[:id], :include => [:project, :tracker, :status, :author, :priority, :category])
-    unless @issue.visible?
-      deny_access
-      return
-    end
-    @project = @issue.project
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
+  private
 
   def find_project
     project_id = params[:project_id] || (params[:issue] && params[:issue][:project_id])

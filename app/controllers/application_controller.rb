@@ -276,14 +276,24 @@ class ApplicationController < ActionController::Base
     self.model_object = model
   end
 
-  # Filter for bulk issue operations
+  # Find the issue whose id is the :id parameter
+  # Raises a Unauthorized exception if the issue is not visible
+  def find_issue
+    # Issue.visible.find(...) can not be used to redirect user to the login form
+    # if the issue actually exists but requires authentication
+    @issue = Issue.find(params[:id])
+    raise Unauthorized unless @issue.visible?
+    @project = @issue.project
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+
+  # Find issues with a single :id param or :ids array param
+  # Raises a Unauthorized exception if one of the issues is not visible
   def find_issues
     @issues = Issue.find_all_by_id(params[:id] || params[:ids])
     raise ActiveRecord::RecordNotFound if @issues.empty?
-    if @issues.detect {|issue| !issue.visible?}
-      deny_access
-      return
-    end
+    raise Unauthorized if @issues.all?(&:visible?)
     @projects = @issues.collect(&:project).compact.uniq
     @project = @projects.first if @projects.size == 1
   rescue ActiveRecord::RecordNotFound
