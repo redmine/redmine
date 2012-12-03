@@ -876,7 +876,7 @@ class IssueTest < ActiveSupport::TestCase
     assert issue1.reload.duplicates.include?(issue2)
 
     # Closing issue 1
-    issue1.init_journal(User.find(:first), "Closing issue1")
+    issue1.init_journal(User.first, "Closing issue1")
     issue1.status = IssueStatus.find :first, :conditions => {:is_closed => true}
     assert issue1.save
     # 2 and 3 should be also closed
@@ -895,7 +895,7 @@ class IssueTest < ActiveSupport::TestCase
     assert !issue2.reload.duplicates.include?(issue1)
 
     # Closing issue 2
-    issue2.init_journal(User.find(:first), "Closing issue2")
+    issue2.init_journal(User.first, "Closing issue2")
     issue2.status = IssueStatus.find :first, :conditions => {:is_closed => true}
     assert issue2.save
     # 1 should not be also closed
@@ -1431,8 +1431,7 @@ class IssueTest < ActiveSupport::TestCase
     assert !Issue.new(:due_date => 1.day.from_now.to_date).overdue?
     assert !Issue.new(:due_date => nil).overdue?
     assert !Issue.new(:due_date => 1.day.ago.to_date,
-                      :status => IssueStatus.find(:first,
-                                                  :conditions => {:is_closed => true})
+                      :status => IssueStatus.where(:is_closed => true).first
                       ).overdue?
   end
 
@@ -1630,7 +1629,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_saving_twice_should_not_duplicate_journal_details
-    i = Issue.find(:first)
+    i = Issue.first
     i.init_journal(User.find(2), 'Some notes')
     # initial changes
     i.subject = 'New subject'
@@ -1639,7 +1638,7 @@ class IssueTest < ActiveSupport::TestCase
       assert i.save
     end
     # 1 more change
-    i.priority = IssuePriority.find(:first, :conditions => ["id <> ?", i.priority_id])
+    i.priority = IssuePriority.where("id <> ?", i.priority_id).first
     assert_no_difference 'Journal.count' do
       assert_difference 'JournalDetail.count', 1 do
         i.save

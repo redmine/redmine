@@ -159,7 +159,7 @@ class MessagesControllerTest < ActionController::TestCase
   def test_reply
     @request.session[:user_id] = 2
     post :reply, :board_id => 1, :id => 1, :reply => { :content => 'This is a test reply', :subject => 'Test reply' }
-    reply = Message.find(:first, :order => 'id DESC')
+    reply = Message.order('id DESC').first
     assert_redirected_to "/boards/1/topics/1?r=#{reply.id}"
     assert Message.find_by_subject('Test reply')
   end

@@ -257,7 +257,7 @@ namespace :redmine do
           u.password = 'trac'
           u.admin = true if TracPermission.find_by_username_and_action(username, 'admin')
           # finally, a default user is used if the new user is not valid
-          u = User.find(:first) unless u.save
+          u = User.first unless u.save
         end
         # Make sure he is a member of the project
         if project_member && !u.member_of?(@target_project)
@@ -450,7 +450,7 @@ namespace :redmine do
         puts
 
         # Trac 'resolution' field as a Redmine custom field
-        r = IssueCustomField.find(:first, :conditions => { :name => "Resolution" })
+        r = IssueCustomField.where(:name => "Resolution").first
         r = IssueCustomField.new(:name => 'Resolution',
                                  :field_format => 'list',
                                  :is_filter => true) if r.nil?

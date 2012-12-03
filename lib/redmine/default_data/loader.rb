@@ -26,10 +26,10 @@ module Redmine
         # Returns true if no data is already loaded in the database
         # otherwise false
         def no_data?
-          !Role.find(:first, :conditions => {:builtin => 0}) &&
-            !Tracker.find(:first) &&
-            !IssueStatus.find(:first) &&
-            !Enumeration.find(:first)
+          !Role.where(:builtin => 0).exists? &&
+            !Tracker.exists? &&
+            !IssueStatus.exists? &&
+            !Enumeration.exists?
         end
 
         # Loads the default data

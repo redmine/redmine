@@ -308,9 +308,12 @@ class Project < ActiveRecord::Base
     # Check that there is no issue of a non descendant project that is assigned
     # to one of the project or descendant versions
     v_ids = self_and_descendants.collect {|p| p.version_ids}.flatten
-    if v_ids.any? && Issue.find(:first, :include => :project,
-                                        :conditions => ["(#{Project.table_name}.lft < ? OR #{Project.table_name}.rgt > ?)" +
-                                                        " AND #{Issue.table_name}.fixed_version_id IN (?)", lft, rgt, v_ids])
+    if v_ids.any? &&
+      Issue.
+        includes(:project).
+        where("#{Project.table_name}.lft < ? OR #{Project.table_name}.rgt > ?", lft, rgt).
+        where("#{Issue.table_name}.fixed_version_id IN (?)", v_ids).
+        exists?
       return false
     end
     Project.transaction do
@@ -655,7 +658,7 @@ class Project < ActiveRecord::Base
 
   # Returns an auto-generated project identifier based on the last identifier used
   def self.next_identifier
-    p = Project.find(:first, :order => 'created_on DESC')
+    p = Project.order('created_on DESC').first
     p.nil? ? nil : p.identifier.to_s.succ
   end
 

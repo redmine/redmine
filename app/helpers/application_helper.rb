@@ -799,7 +799,7 @@ module ApplicationHelper
                 repository = project.repository
               end
               if prefix == 'commit'
-                if repository && (changeset = Changeset.visible.find(:first, :conditions => ["repository_id = ? AND scmid LIKE ?", repository.id, "#{name}%"]))
+                if repository && (changeset = Changeset.visible.where("repository_id = ? AND scmid LIKE ?", repository.id, "#{name}%").first)
                   link = link_to h("#{project_prefix}#{repo_prefix}#{name}"), {:only_path => only_path, :controller => 'repositories', :action => 'revision', :id => project, :repository_id => repository.identifier_param, :rev => changeset.identifier},
                                                :class => 'changeset',
                                                :title => truncate_single_line(h(changeset.comments), :length => 100)
@@ -824,7 +824,7 @@ module ApplicationHelper
                                                      :class => 'attachment'
             end
           when 'project'
-            if p = Project.visible.find(:first, :conditions => ["identifier = :s OR LOWER(name) = :s", {:s => name.downcase}])
+            if p = Project.visible.where("identifier = :s OR LOWER(name) = :s", :s => name.downcase).first
               link = link_to_project(p, {:only_path => only_path}, :class => 'project')
             end
           end

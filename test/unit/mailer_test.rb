@@ -210,7 +210,7 @@ class MailerTest < ActiveSupport::TestCase
   end
 
   def test_should_not_send_email_without_recipient
-    news = News.find(:first)
+    news = News.first
     user = news.author
     # Remove members except news author
     news.project.memberships.each {|m| m.destroy unless m.user == user}
@@ -402,7 +402,7 @@ class MailerTest < ActiveSupport::TestCase
   end
 
   def test_news_added
-    news = News.find(:first)
+    news = News.first
     valid_languages.each do |lang|
       Setting.default_language = lang.to_s
       assert Mailer.news_added(news).deliver
@@ -418,7 +418,7 @@ class MailerTest < ActiveSupport::TestCase
   end
 
   def test_message_posted
-    message = Message.find(:first)
+    message = Message.first
     recipients = ([message.root] + message.root.children).collect {|m| m.author.mail if m.author}
     recipients = recipients.compact.uniq
     valid_languages.each do |lang|

@@ -41,8 +41,8 @@ class JournalTest < ActiveSupport::TestCase
 
   def test_create_should_send_email_notification
     ActionMailer::Base.deliveries.clear
-    issue = Issue.find(:first)
-    user = User.find(:first)
+    issue = Issue.first
+    user = User.first
     journal = issue.init_journal(user, issue)
 
     assert journal.save

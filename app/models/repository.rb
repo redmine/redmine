@@ -234,12 +234,15 @@ class Repository < ActiveRecord::Base
   def find_changeset_by_name(name)
     return nil if name.blank?
     s = name.to_s
-    changesets.find(:first, :conditions => (s.match(/^\d*$/) ?
-          ["revision = ?", s] : ["revision LIKE ?", s + '%']))
+    if s.match(/^\d*$/)
+      changesets.where("revision = ?", s).first
+    else
+      changesets.where("revision LIKE ?", s + '%').first
+    end
   end
 
   def latest_changeset
-    @latest_changeset ||= changesets.find(:first)
+    @latest_changeset ||= changesets.first
   end
 
   # Returns the latest changesets for +path+
@@ -301,7 +304,7 @@ class Repository < ActiveRecord::Base
       return @found_committer_users[committer] if @found_committer_users.has_key?(committer)
 
       user = nil
-      c = changesets.find(:first, :conditions => {:committer => committer}, :include => :user)
+      c = changesets.where(:committer => committer).includes(:user).first
       if c && c.user
         user = c.user
       elsif committer.strip =~ /^([^<]+)(<(.*)>)?$/

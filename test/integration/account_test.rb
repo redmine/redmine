@@ -79,7 +79,7 @@ class AccountTest < ActionController::IntegrationTest
     post "account/lost_password", :mail => 'jSmith@somenet.foo'
     assert_redirected_to "/login"
 
-    token = Token.find(:first)
+    token = Token.first
     assert_equal 'recovery', token.action
     assert_equal 'jsmith@somenet.foo', token.user.mail
     assert !token.expired?
@@ -137,7 +137,7 @@ class AccountTest < ActionController::IntegrationTest
     assert_redirected_to '/login'
     assert !User.find_by_login('newuser').active?
 
-    token = Token.find(:first)
+    token = Token.first
     assert_equal 'register', token.action
     assert_equal 'newuser@foo.bar', token.user.mail
     assert !token.expired?

@@ -117,7 +117,7 @@ class EnumerationsControllerTest < ActionController::TestCase
   end
 
   def test_destroy_enumeration_in_use_with_reassignment
-    issue = Issue.find(:first, :conditions => {:priority_id => 4})
+    issue = Issue.where(:priority_id => 4).first
     assert_difference 'IssuePriority.count', -1 do
       delete :destroy, :id => 4, :reassign_to_id => 6
     end

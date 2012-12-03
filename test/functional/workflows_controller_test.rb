@@ -102,9 +102,9 @@ class WorkflowsControllerTest < ActionController::TestCase
       }
     assert_redirected_to '/workflows/edit?role_id=2&tracker_id=1'
 
-    assert_equal 3, WorkflowTransition.count(:conditions => {:tracker_id => 1, :role_id => 2})
-    assert_not_nil  WorkflowTransition.find(:first, :conditions => {:role_id => 2, :tracker_id => 1, :old_status_id => 3, :new_status_id => 2})
-    assert_nil      WorkflowTransition.find(:first, :conditions => {:role_id => 2, :tracker_id => 1, :old_status_id => 5, :new_status_id => 4})
+    assert_equal 3, WorkflowTransition.where(:tracker_id => 1, :role_id => 2).count
+    assert_not_nil  WorkflowTransition.where(:role_id => 2, :tracker_id => 1, :old_status_id => 3, :new_status_id => 2).first
+    assert_nil      WorkflowTransition.where(:role_id => 2, :tracker_id => 1, :old_status_id => 5, :new_status_id => 4).first
   end
 
   def test_post_edit_with_additional_transitions
@@ -115,18 +115,18 @@ class WorkflowsControllerTest < ActionController::TestCase
       }
     assert_redirected_to '/workflows/edit?role_id=2&tracker_id=1'
 
-    assert_equal 4, WorkflowTransition.count(:conditions => {:tracker_id => 1, :role_id => 2})
+    assert_equal 4, WorkflowTransition.where(:tracker_id => 1, :role_id => 2).count
 
-    w = WorkflowTransition.find(:first, :conditions => {:role_id => 2, :tracker_id => 1, :old_status_id => 4, :new_status_id => 5})
+    w = WorkflowTransition.where(:role_id => 2, :tracker_id => 1, :old_status_id => 4, :new_status_id => 5).first
     assert ! w.author
     assert ! w.assignee
-    w = WorkflowTransition.find(:first, :conditions => {:role_id => 2, :tracker_id => 1, :old_status_id => 3, :new_status_id => 1})
+    w = WorkflowTransition.where(:role_id => 2, :tracker_id => 1, :old_status_id => 3, :new_status_id => 1).first
     assert w.author
     assert ! w.assignee
-    w = WorkflowTransition.find(:first, :conditions => {:role_id => 2, :tracker_id => 1, :old_status_id => 3, :new_status_id => 2})
+    w = WorkflowTransition.where(:role_id => 2, :tracker_id => 1, :old_status_id => 3, :new_status_id => 2).first
     assert ! w.author
     assert w.assignee
-    w = WorkflowTransition.find(:first, :conditions => {:role_id => 2, :tracker_id => 1, :old_status_id => 3, :new_status_id => 4})
+    w = WorkflowTransition.where(:role_id => 2, :tracker_id => 1, :old_status_id => 3, :new_status_id => 4).first
     assert w.author
     assert w.assignee
   end

@@ -61,7 +61,7 @@ class VersionTest < ActiveSupport::TestCase
 
   def test_progress_should_be_100_with_closed_assigned_issues
     project = Project.find(1)
-    status = IssueStatus.find(:first, :conditions => {:is_closed => true})
+    status = IssueStatus.where(:is_closed => true).first
     v = Version.create!(:project => project, :name => 'Progress')
     add_issue(v, :status => status)
     add_issue(v, :status => status, :done_ratio => 20)
@@ -86,7 +86,7 @@ class VersionTest < ActiveSupport::TestCase
     v = Version.create!(:project => project, :name => 'Progress')
     add_issue(v)
     add_issue(v, :done_ratio => 20)
-    add_issue(v, :status => IssueStatus.find(:first, :conditions => {:is_closed => true}))
+    add_issue(v, :status => IssueStatus.where(:is_closed => true).first)
     assert_progress_equal (0.0 + 20.0 + 100.0)/3, v.completed_pourcent
     assert_progress_equal (100.0)/3, v.closed_pourcent
   end
@@ -97,7 +97,7 @@ class VersionTest < ActiveSupport::TestCase
     add_issue(v, :estimated_hours => 10)
     add_issue(v, :estimated_hours => 20, :done_ratio => 30)
     add_issue(v, :estimated_hours => 40, :done_ratio => 10)
-    add_issue(v, :estimated_hours => 25, :status => IssueStatus.find(:first, :conditions => {:is_closed => true}))
+    add_issue(v, :estimated_hours => 25, :status => IssueStatus.where(:is_closed => true).first)
     assert_progress_equal (10.0*0 + 20.0*0.3 + 40*0.1 + 25.0*1)/95.0*100, v.completed_pourcent
     assert_progress_equal 25.0/95.0*100, v.closed_pourcent
   end
@@ -106,7 +106,7 @@ class VersionTest < ActiveSupport::TestCase
     project = Project.find(1)
     v = Version.create!(:project => project, :name => 'Progress')
     add_issue(v, :done_ratio => 20)
-    add_issue(v, :status => IssueStatus.find(:first, :conditions => {:is_closed => true}))
+    add_issue(v, :status => IssueStatus.where(:is_closed => true).first)
     add_issue(v, :estimated_hours => 10, :done_ratio => 30)
     add_issue(v, :estimated_hours => 40, :done_ratio => 10)
     assert_progress_equal (25.0*0.2 + 25.0*1 + 10.0*0.3 + 40.0*0.1)/100.0*100, v.completed_pourcent
@@ -242,8 +242,8 @@ class VersionTest < ActiveSupport::TestCase
     Issue.create!({:project => version.project,
                    :fixed_version => version,
                    :subject => 'Test',
-                   :author => User.find(:first),
-                   :tracker => version.project.trackers.find(:first)}.merge(attributes))
+                   :author => User.first,
+                   :tracker => version.project.trackers.first}.merge(attributes))
   end
 
   def assert_progress_equal(expected_float, actual_float, message="")

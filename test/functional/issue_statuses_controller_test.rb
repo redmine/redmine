@@ -45,7 +45,7 @@ class IssueStatusesControllerTest < ActionController::TestCase
       post :create, :issue_status => {:name => 'New status'}
     end
     assert_redirected_to :action => 'index'
-    status = IssueStatus.find(:first, :order => 'id DESC')
+    status = IssueStatus.order('id DESC').first
     assert_equal 'New status', status.name
   end
 

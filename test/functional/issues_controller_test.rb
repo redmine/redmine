@@ -1709,7 +1709,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 2, issue.status_id
     assert_equal Date.parse('2010-11-07'), issue.start_date
     assert_nil issue.estimated_hours
-    v = issue.custom_values.find(:first, :conditions => {:custom_field_id => 2})
+    v = issue.custom_values.where(:custom_field_id => 2).first
     assert_not_nil v
     assert_equal 'Value for field 2', v.value
   end
@@ -2817,7 +2817,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_redirected_to :action => 'show', :id => '1'
     issue.reload
     assert_equal 2, issue.status_id
-    j = Journal.find(:first, :order => 'id DESC')
+    j = Journal.order('id DESC').first
     assert_equal 'Assigned to dlopper', j.notes
     assert_equal 2, j.details.size
 
@@ -2834,7 +2834,7 @@ class IssuesControllerTest < ActionController::TestCase
          :id => 1,
          :issue => { :notes => notes }
     assert_redirected_to :action => 'show', :id => '1'
-    j = Journal.find(:first, :order => 'id DESC')
+    j = Journal.order('id DESC').first
     assert_equal notes, j.notes
     assert_equal 0, j.details.size
     assert_equal User.anonymous, j.user
@@ -2890,7 +2890,7 @@ class IssuesControllerTest < ActionController::TestCase
 
     issue = Issue.find(1)
 
-    j = Journal.find(:first, :order => 'id DESC')
+    j = Journal.order('id DESC').first
     assert_equal '2.5 hours added', j.notes
     assert_equal 0, j.details.size
 
@@ -2915,7 +2915,7 @@ class IssuesControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to :action => 'show', :id => '1'
-    j = Issue.find(1).journals.find(:first, :order => 'id DESC')
+    j = Issue.find(1).journals.reorder('id DESC').first
     assert j.notes.blank?
     assert_equal 1, j.details.size
     assert_equal 'testfile.txt', j.details.first.value
@@ -3278,7 +3278,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal [7, 7], Issue.find_all_by_id([1, 2]).collect {|i| i.priority.id}
 
     issue = Issue.find(1)
-    journal = issue.journals.find(:first, :order => 'created_on DESC')
+    journal = issue.journals.reorder('created_on DESC').first
     assert_equal '125', issue.custom_value_for(2).value
     assert_equal 'Bulk editing', journal.notes
     assert_equal 1, journal.details.size
@@ -3313,7 +3313,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal [7, 7, 7], Issue.find([1,2,6]).map(&:priority_id)
 
     issue = Issue.find(1)
-    journal = issue.journals.find(:first, :order => 'created_on DESC')
+    journal = issue.journals.reorder('created_on DESC').first
     assert_equal '125', issue.custom_value_for(2).value
     assert_equal 'Bulk editing', journal.notes
     assert_equal 1, journal.details.size
@@ -3438,7 +3438,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response 302
 
     issue = Issue.find(1)
-    journal = issue.journals.find(:first, :order => 'created_on DESC')
+    journal = issue.journals.reorder('created_on DESC').first
     assert_equal '777', issue.custom_value_for(2).value
     assert_equal 1, journal.details.size
     assert_equal '125', journal.details.first.old_value

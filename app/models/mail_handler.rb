@@ -355,7 +355,7 @@ class MailHandler < ActionMailer::Base
     }.delete_if {|k, v| v.blank? }
 
     if issue.new_record? && attrs['tracker_id'].nil?
-      attrs['tracker_id'] = issue.project.trackers.find(:first).try(:id)
+      attrs['tracker_id'] = issue.project.trackers.first.try(:id)
     end
 
     attrs
