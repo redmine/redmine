@@ -695,27 +695,17 @@ class Project < ActiveRecord::Base
     end
   end
 
-
-  # Copies +project+ and returns the new instance.  This will not save
-  # the copy
+  # Returns a new unsaved Project instance with attributes copied from +project+
   def self.copy_from(project)
-    begin
-      project = project.is_a?(Project) ? project : Project.find(project)
-      if project
-        # clear unique attributes
-        attributes = project.attributes.dup.except('id', 'name', 'identifier', 'status', 'parent_id', 'lft', 'rgt')
-        copy = Project.new(attributes)
-        copy.enabled_modules = project.enabled_modules
-        copy.trackers = project.trackers
-        copy.custom_values = project.custom_values.collect {|v| v.clone}
-        copy.issue_custom_fields = project.issue_custom_fields
-        return copy
-      else
-        return nil
-      end
-    rescue ActiveRecord::RecordNotFound
-      return nil
-    end
+    project = project.is_a?(Project) ? project : Project.find(project)
+    # clear unique attributes
+    attributes = project.attributes.dup.except('id', 'name', 'identifier', 'status', 'parent_id', 'lft', 'rgt')
+    copy = Project.new(attributes)
+    copy.enabled_modules = project.enabled_modules
+    copy.trackers = project.trackers
+    copy.custom_values = project.custom_values.collect {|v| v.clone}
+    copy.issue_custom_fields = project.issue_custom_fields
+    copy
   end
 
   # Yields the given block for each project with its level in the tree
