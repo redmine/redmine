@@ -8,7 +8,7 @@ class AddCommentsPermissions < ActiveRecord::Migration
   end
 
   def self.down
-    Permission.find(:first, :conditions => ["controller=? and action=?", 'news', 'add_comment']).destroy
-    Permission.find(:first, :conditions => ["controller=? and action=?", 'news', 'destroy_comment']).destroy
+    Permission.where("controller=? and action=?", 'news', 'add_comment').first.destroy
+    Permission.where("controller=? and action=?", 'news', 'destroy_comment').first.destroy
   end
 end

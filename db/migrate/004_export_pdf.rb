@@ -8,7 +8,7 @@ class ExportPdf < ActiveRecord::Migration
   end
 
   def self.down
-    Permission.find(:first, :conditions => ["controller=? and action=?", 'projects', 'export_issues_pdf']).destroy
-    Permission.find(:first, :conditions => ["controller=? and action=?", 'issues', 'export_pdf']).destroy
+    Permission.where("controller=? and action=?", 'projects', 'export_issues_pdf').first.destroy
+    Permission.where("controller=? and action=?", 'issues', 'export_pdf').first.destroy
   end
 end

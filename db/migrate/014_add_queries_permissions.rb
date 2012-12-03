@@ -7,6 +7,6 @@ class AddQueriesPermissions < ActiveRecord::Migration
   end
 
   def self.down
-    Permission.find(:first, :conditions => ["controller=? and action=?", 'projects', 'add_query']).destroy
+    Permission.where("controller=? and action=?", 'projects', 'add_query').first.destroy
   end
 end

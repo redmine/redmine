@@ -51,6 +51,6 @@ class CreateJournals < ActiveRecord::Migration
 
     add_index "issue_histories", ["issue_id"], :name => "issue_histories_issue_id"
 
-    Permission.find(:first, :conditions => ["controller=? and action=?", 'issues', 'history']).destroy
+    Permission.where("controller=? and action=?", 'issues', 'history').first.destroy
   end
 end
