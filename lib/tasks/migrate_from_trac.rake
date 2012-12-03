@@ -30,7 +30,7 @@ namespace :redmine do
         assigned_status = IssueStatus.find_by_position(2)
         resolved_status = IssueStatus.find_by_position(3)
         feedback_status = IssueStatus.find_by_position(4)
-        closed_status = IssueStatus.find :first, :conditions => { :is_closed => true }
+        closed_status = IssueStatus.where(:is_closed => true).first
         STATUS_MAPPING = {'new' => DEFAULT_STATUS,
                           'reopened' => feedback_status,
                           'assigned' => assigned_status,

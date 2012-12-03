@@ -248,14 +248,16 @@ module ActiveRecord #:nodoc:
             def self.reloadable? ; false ; end
             # find first version before the given version
             def self.before(version)
-              find :first, :order => 'version desc',
-                :conditions => ["#{original_class.versioned_foreign_key} = ? and version < ?", version.send(original_class.versioned_foreign_key), version.version]
+              order('version desc').
+                where("#{original_class.versioned_foreign_key} = ? and version < ?", version.send(original_class.versioned_foreign_key), version.version).
+                first
             end
 
             # find first version after the given version.
             def self.after(version)
-              find :first, :order => 'version',
-                :conditions => ["#{original_class.versioned_foreign_key} = ? and version > ?", version.send(original_class.versioned_foreign_key), version.version]
+              order('version').
+                where("#{original_class.versioned_foreign_key} = ? and version > ?", version.send(original_class.versioned_foreign_key), version.version).
+                first
             end
 
             def previous
@@ -467,9 +469,9 @@ module ActiveRecord #:nodoc:
 
           # Finds versions of a specific model.  Takes an options hash like <tt>find</tt>
           def find_versions(id, options = {})
-            versioned_class.find :all, {
+            versioned_class.all({
               :conditions => ["#{versioned_foreign_key} = ?", id],
-              :order      => 'version' }.merge(options)
+              :order      => 'version' }.merge(options))
           end
 
           # Returns an array of columns that are versioned.  See non_versioned_columns

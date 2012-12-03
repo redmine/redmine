@@ -685,12 +685,14 @@ class Query < ActiveRecord::Base
     order_option = [group_by_sort_order, options[:order]].reject {|s| s.blank?}.join(',')
     order_option = nil if order_option.blank?
 
-    issues = Issue.visible.scoped(:conditions => options[:conditions]).find :all, :include => ([:status, :project] + (options[:include] || [])).uniq,
-                     :conditions => statement,
-                     :order => order_option,
-                     :joins => joins_for_order_statement(order_option),
-                     :limit  => options[:limit],
-                     :offset => options[:offset]
+    issues = Issue.visible.where(options[:conditions]).all(
+      :include => ([:status, :project] + (options[:include] || [])).uniq,
+      :conditions => statement,
+      :order => order_option,
+      :joins => joins_for_order_statement(order_option),
+      :limit  => options[:limit],
+      :offset => options[:offset]
+    )
 
     if has_column?(:spent_hours)
       Issue.load_visible_spent_hours(issues)
@@ -721,11 +723,13 @@ class Query < ActiveRecord::Base
   # Returns the journals
   # Valid options are :order, :offset, :limit
   def journals(options={})
-    Journal.visible.find :all, :include => [:details, :user, {:issue => [:project, :author, :tracker, :status]}],
-                       :conditions => statement,
-                       :order => options[:order],
-                       :limit => options[:limit],
-                       :offset => options[:offset]
+    Journal.visible.all(
+      :include => [:details, :user, {:issue => [:project, :author, :tracker, :status]}],
+      :conditions => statement,
+      :order => options[:order],
+      :limit => options[:limit],
+      :offset => options[:offset]
+    )
   rescue ::ActiveRecord::StatementInvalid => e
     raise StatementInvalid.new(e.message)
   end
@@ -733,7 +737,10 @@ class Query < ActiveRecord::Base
   # Returns the versions
   # Valid options are :conditions
   def versions(options={})
-    Version.visible.scoped(:conditions => options[:conditions]).find :all, :include => :project, :conditions => project_statement
+    Version.visible.where(options[:conditions]).all(
+      :include => :project,
+      :conditions => project_statement
+    )
   rescue ::ActiveRecord::StatementInvalid => e
     raise StatementInvalid.new(e.message)
   end

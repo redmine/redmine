@@ -45,7 +45,7 @@ class AccountTest < ActionController::IntegrationTest
     # User logs in with 'autologin' checked
     post '/login', :username => user.login, :password => 'admin', :autologin => 1
     assert_redirected_to '/my/page'
-    token = Token.find :first
+    token = Token.first
     assert_not_nil token
     assert_equal user, token.user
     assert_equal 'autologin', token.action

@@ -27,7 +27,7 @@ class DocumentsController < ApplicationController
 
   def index
     @sort_by = %w(category date title author).include?(params[:sort_by]) ? params[:sort_by] : 'category'
-    documents = @project.documents.find :all, :include => [:attachments, :category]
+    documents = @project.documents.includes(:attachments, :category).all
     case @sort_by
     when 'date'
       @grouped = documents.group_by {|d| d.updated_on.to_date }

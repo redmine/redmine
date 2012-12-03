@@ -30,7 +30,7 @@ task :migrate_from_mantis => :environment do
       assigned_status = IssueStatus.find_by_position(2)
       resolved_status = IssueStatus.find_by_position(3)
       feedback_status = IssueStatus.find_by_position(4)
-      closed_status = IssueStatus.find :first, :conditions => { :is_closed => true }
+      closed_status = IssueStatus.where(:is_closed => true).first
       STATUS_MAPPING = {10 => DEFAULT_STATUS,  # new
                         20 => feedback_status, # feedback
                         30 => DEFAULT_STATUS,  # acknowledged
@@ -347,7 +347,7 @@ task :migrate_from_mantis => :environment do
         bug.bug_files.each do |file|
           a = Attachment.new :created_on => file.date_added
           a.file = file
-          a.author = User.find :first
+          a.author = User.first
           a.container = i
           a.save
         end

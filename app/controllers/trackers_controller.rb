@@ -36,7 +36,7 @@ class TrackersController < ApplicationController
 
   def new
     @tracker ||= Tracker.new(params[:tracker])
-    @trackers = Tracker.find :all, :order => 'position'
+    @trackers = Tracker.sorted.all
     @projects = Project.all
   end
 

@@ -877,7 +877,7 @@ class IssueTest < ActiveSupport::TestCase
 
     # Closing issue 1
     issue1.init_journal(User.first, "Closing issue1")
-    issue1.status = IssueStatus.find :first, :conditions => {:is_closed => true}
+    issue1.status = IssueStatus.where(:is_closed => true).first
     assert issue1.save
     # 2 and 3 should be also closed
     assert issue2.reload.closed?
@@ -896,7 +896,7 @@ class IssueTest < ActiveSupport::TestCase
 
     # Closing issue 2
     issue2.init_journal(User.first, "Closing issue2")
-    issue2.status = IssueStatus.find :first, :conditions => {:is_closed => true}
+    issue2.status = IssueStatus.where(:is_closed => true).first
     assert issue2.save
     # 1 should not be also closed
     assert !issue1.reload.closed?

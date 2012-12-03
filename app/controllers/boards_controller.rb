@@ -43,17 +43,22 @@ class BoardsController < ApplicationController
 
         @topic_count = @board.topics.count
         @topic_pages = Paginator.new self, @topic_count, per_page_option, params['page']
-        @topics =  @board.topics.reorder("#{Message.table_name}.sticky DESC").order(sort_clause).all(
-                                      :include => [:author, {:last_reply => :author}],
-                                      :limit  =>  @topic_pages.items_per_page,
-                                      :offset =>  @topic_pages.current.offset)
+        @topics =  @board.topics.
+          reorder("#{Message.table_name}.sticky DESC").
+          includes(:author, {:last_reply => :author}).
+          limit(@topic_pages.items_per_page).
+          offset(@topic_pages.current.offset).
+          order(sort_clause).
+          all
         @message = Message.new(:board => @board)
         render :action => 'show', :layout => !request.xhr?
       }
       format.atom {
-        @messages = @board.messages.find :all, :order => 'created_on DESC',
-                                               :include => [:author, :board],
-                                               :limit => Setting.feeds_limit.to_i
+        @messages = @board.messages.
+          reorder('created_on DESC').
+          includes(:author, :board).
+          limit(Setting.feeds_limit.to_i).
+          all
         render_feed(@messages, :title => "#{@project}: #{@board}")
       }
     end
