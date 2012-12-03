@@ -58,6 +58,17 @@ class MyControllerTest < ActionController::TestCase
     end
   end
 
+  def test_page_with_all_blocks
+    blocks = MyController::BLOCKS.keys
+    preferences = User.find(2).pref
+    preferences[:my_page_layout] = {'top' => blocks}
+    preferences.save!
+
+    get :page
+    assert_response :success
+    assert_select 'div.mypage-box', blocks.size
+  end
+
   def test_my_account_should_show_editable_custom_fields
     get :account
     assert_response :success
