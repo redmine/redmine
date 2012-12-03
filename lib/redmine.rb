@@ -23,7 +23,6 @@ rescue LoadError
   # RMagick is not available
 end
 
-require 'redmine/about'
 require 'redmine/access_control'
 require 'redmine/access_keys'
 require 'redmine/activity'
