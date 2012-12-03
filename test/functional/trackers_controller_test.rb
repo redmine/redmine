@@ -16,18 +16,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../test_helper', __FILE__)
-require 'trackers_controller'
-
-# Re-raise errors caught by the controller.
-class TrackersController; def rescue_action(e) raise e end; end
 
 class TrackersControllerTest < ActionController::TestCase
   fixtures :trackers, :projects, :projects_trackers, :users, :issues, :custom_fields
 
   def setup
-    @controller = TrackersController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
     @request.session[:user_id] = 1 # admin
   end

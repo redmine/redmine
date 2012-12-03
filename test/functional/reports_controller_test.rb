@@ -28,9 +28,6 @@ class ReportsControllerTest < ActionController::TestCase
            :workflows,
            :versions
 
-  def setup
-  end
-
   def test_get_issue_report
     get :issue_report, :id => 1
 

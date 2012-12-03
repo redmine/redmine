@@ -19,6 +19,7 @@ require File.expand_path('../../test_helper', __FILE__)
 require 'issues_controller'
 
 class IssuesControllerTransactionTest < ActionController::TestCase
+  tests IssuesController
   fixtures :projects,
            :users,
            :roles,
@@ -46,9 +47,6 @@ class IssuesControllerTransactionTest < ActionController::TestCase
   self.use_transactional_fixtures = false
 
   def setup
-    @controller = IssuesController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
   end
 

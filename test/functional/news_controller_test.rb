@@ -16,18 +16,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../test_helper', __FILE__)
-require 'news_controller'
-
-# Re-raise errors caught by the controller.
-class NewsController; def rescue_action(e) raise e end; end
 
 class NewsControllerTest < ActionController::TestCase
   fixtures :projects, :users, :roles, :members, :member_roles, :enabled_modules, :news, :comments
 
   def setup
-    @controller = NewsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
   end
 

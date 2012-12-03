@@ -16,10 +16,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../test_helper', __FILE__)
-require 'wiki_controller'
-
-# Re-raise errors caught by the controller.
-class WikiController; def rescue_action(e) raise e end; end
 
 class WikiControllerTest < ActionController::TestCase
   fixtures :projects, :users, :roles, :members, :member_roles,
@@ -27,9 +23,6 @@ class WikiControllerTest < ActionController::TestCase
            :wiki_content_versions, :attachments
 
   def setup
-    @controller = WikiController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
   end
 

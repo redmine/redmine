@@ -16,19 +16,12 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../test_helper', __FILE__)
-require 'issue_categories_controller'
-
-# Re-raise errors caught by the controller.
-class IssueCategoriesController; def rescue_action(e) raise e end; end
 
 class IssueCategoriesControllerTest < ActionController::TestCase
   fixtures :projects, :users, :members, :member_roles, :roles, :enabled_modules, :issue_categories,
            :issues
 
   def setup
-    @controller = IssueCategoriesController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
     @request.session[:user_id] = 2
   end

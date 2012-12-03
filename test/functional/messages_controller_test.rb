@@ -16,18 +16,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../test_helper', __FILE__)
-require 'messages_controller'
-
-# Re-raise errors caught by the controller.
-class MessagesController; def rescue_action(e) raise e end; end
 
 class MessagesControllerTest < ActionController::TestCase
   fixtures :projects, :users, :members, :member_roles, :roles, :boards, :messages, :enabled_modules
 
   def setup
-    @controller = MessagesController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
   end
 

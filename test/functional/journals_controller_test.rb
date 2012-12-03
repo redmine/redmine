@@ -16,19 +16,12 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../test_helper', __FILE__)
-require 'journals_controller'
-
-# Re-raise errors caught by the controller.
-class JournalsController; def rescue_action(e) raise e end; end
 
 class JournalsControllerTest < ActionController::TestCase
   fixtures :projects, :users, :members, :member_roles, :roles, :issues, :journals, :journal_details, :enabled_modules,
     :trackers, :issue_statuses, :enumerations, :custom_fields, :custom_values, :custom_fields_projects
 
   def setup
-    @controller = JournalsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
   end
 

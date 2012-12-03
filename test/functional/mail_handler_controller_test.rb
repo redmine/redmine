@@ -16,10 +16,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../test_helper', __FILE__)
-require 'mail_handler_controller'
-
-# Re-raise errors caught by the controller.
-class MailHandlerController; def rescue_action(e) raise e end; end
 
 class MailHandlerControllerTest < ActionController::TestCase
   fixtures :users, :projects, :enabled_modules, :roles, :members, :member_roles, :issues, :issue_statuses,
@@ -28,9 +24,6 @@ class MailHandlerControllerTest < ActionController::TestCase
   FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures/mail_handler'
 
   def setup
-    @controller = MailHandlerController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
   end
 

@@ -16,19 +16,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../test_helper', __FILE__)
-require 'sys_controller'
-require 'mocha'
-
-# Re-raise errors caught by the controller.
-class SysController; def rescue_action(e) raise e end; end
 
 class SysControllerTest < ActionController::TestCase
   fixtures :projects, :repositories, :enabled_modules
 
   def setup
-    @controller = SysController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     Setting.sys_api_enabled = '1'
     Setting.enabled_scm = %w(Subversion Git)
   end

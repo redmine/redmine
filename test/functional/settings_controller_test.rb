@@ -16,18 +16,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../test_helper', __FILE__)
-require 'settings_controller'
-
-# Re-raise errors caught by the controller.
-class SettingsController; def rescue_action(e) raise e end; end
 
 class SettingsControllerTest < ActionController::TestCase
   fixtures :users
 
   def setup
-    @controller = SettingsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
     @request.session[:user_id] = 1 # admin
   end

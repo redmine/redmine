@@ -16,18 +16,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../test_helper', __FILE__)
-require 'versions_controller'
-
-# Re-raise errors caught by the controller.
-class VersionsController; def rescue_action(e) raise e end; end
 
 class VersionsControllerTest < ActionController::TestCase
   fixtures :projects, :versions, :issues, :users, :roles, :members, :member_roles, :enabled_modules, :issue_statuses, :issue_categories
 
   def setup
-    @controller = VersionsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
   end
 

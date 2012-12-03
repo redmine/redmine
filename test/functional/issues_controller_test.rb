@@ -16,7 +16,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../test_helper', __FILE__)
-require 'issues_controller'
 
 class IssuesControllerTest < ActionController::TestCase
   fixtures :projects,
@@ -48,9 +47,6 @@ class IssuesControllerTest < ActionController::TestCase
   include Redmine::I18n
 
   def setup
-    @controller = IssuesController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
   end
 

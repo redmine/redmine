@@ -16,10 +16,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../test_helper', __FILE__)
-require 'projects_controller'
-
-# Re-raise errors caught by the controller.
-class ProjectsController; def rescue_action(e) raise e end; end
 
 class ProjectsControllerTest < ActionController::TestCase
   fixtures :projects, :versions, :users, :roles, :members, :member_roles, :issues, :journals, :journal_details,
@@ -27,9 +23,6 @@ class ProjectsControllerTest < ActionController::TestCase
            :attachments, :custom_fields, :custom_values, :time_entries
 
   def setup
-    @controller = ProjectsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     @request.session[:user_id] = nil
     Setting.default_language = 'en'
   end
