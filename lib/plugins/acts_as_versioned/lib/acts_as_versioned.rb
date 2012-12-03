@@ -216,12 +216,12 @@ module ActiveRecord #:nodoc:
             has_many :versions, version_association_options do
               # finds earliest version of this record
               def earliest
-                @earliest ||= find(:first, :order => 'version')
+                @earliest ||= order('version').first
               end
 
               # find latest version of this record
               def latest
-                @latest ||= find(:first, :order => 'version desc')
+                @latest ||= order('version desc').first
               end
             end
             before_save  :set_new_version
