@@ -1405,6 +1405,11 @@ class IssuesControllerTest < ActionController::TestCase
     assert @response.body.starts_with?('%PDF')
   end
 
+  def test_show_invalid_should_respond_with_404
+    get :show, :id => 999
+    assert_response 404
+  end
+
   def test_get_new
     @request.session[:user_id] = 2
     get :new, :project_id => 1, :tracker_id => 1
@@ -3811,6 +3816,14 @@ class IssuesControllerTest < ActionController::TestCase
       delete :destroy, :ids => [parent.id, child.id], :todo => 'destroy'
     end
     assert_response 302
+  end
+
+  def test_destroy_invalid_should_respond_with_404
+    @request.session[:user_id] = 2
+    assert_no_difference 'Issue.count' do
+      delete :destroy, :id => 999
+    end
+    assert_response 404
   end
 
   def test_default_search_scope
