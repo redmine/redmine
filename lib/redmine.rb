@@ -23,6 +23,7 @@ rescue LoadError
   # RMagick is not available
 end
 
+require 'redmine/scm/base'
 require 'redmine/access_control'
 require 'redmine/access_keys'
 require 'redmine/activity'
@@ -49,7 +50,6 @@ require 'redmine/helpers/calendar'
 require 'redmine/helpers/diff'
 require 'redmine/helpers/gantt'
 require 'redmine/helpers/time_report'
-require 'redmine/scm/base'
 require 'redmine/views/other_formats_builder'
 require 'redmine/views/labelled_form_builder'
 require 'redmine/views/builders'
