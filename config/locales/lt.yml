@@ -682,12 +682,12 @@ lt:
   label_filter_plural: Filtrai
   label_equals: yra
   label_not_equals: nėra
-  label_in_less_than: mažiau negu
-  label_in_more_than: daugiau negu
+  label_in_less_than: anksčiau nei po
+  label_in_more_than: vėliau nei po
   label_greater_or_equal: '>='
   label_less_or_equal: '<='
   label_between: tarp
-  label_in: po
+  label_in: per
   label_today: šiandien
   label_all_time: visas laikas
   label_yesterday: vakar
@@ -698,11 +698,11 @@ lt:
   label_last_month: praeitas mėnuo
   label_this_year: šiemet
   label_date_range: Dienų diapazonas
-  label_less_than_ago: prieš mažiau negu dienas
-  label_more_than_ago: prieš daugiau negu dienas
-  label_ago: dienomis prieš
-  label_contains: turi savyje
-  label_not_contains: neturi savyje
+  label_less_than_ago: vėliau nei prieš
+  label_more_than_ago: anksčiau nei prieš
+  label_ago: prieš
+  label_contains: turi
+  label_not_contains: neturi
   label_day_plural: dienų(os)
   label_repository: Saugykla
   label_repository_plural: Saugyklos
@@ -1064,79 +1064,79 @@ lt:
   description_date_from: Įvesti pradžios datą
   description_date_to: Įvesti pabaigos datą
 
-  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
-  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
-  notice_failed_to_save_time_entries: "Failed to save %{count} time entrie(s) on %{total} selected: %{ids}."
+  label_additional_workflow_transitions_for_assignee: Papildomi darbų eigos variantai kai darbas paskirtas vartotojui
+  label_additional_workflow_transitions_for_author: Papildomi darbų eigos variantai kai vartotojas yra darbo autorius
+  notice_failed_to_save_time_entries: "Nepavyko išsaugoti %{count} laiko žurnalo įrašų iš %{total} parinktų: %{ids}."
   label_x_issues:
     zero:  0 darbas
     one:   1 darbas
-    other: "%{count} darbai"
-  label_repository_new: New repository
-  field_repository_is_default: Main repository
-  label_copy_attachments: Copy attachments
+    other: "%{count} darbai(ų)"
+  label_repository_new: Nauja saugykla
+  field_repository_is_default: Pagrindinė saugykla
+  label_copy_attachments: Kopijuoti priedus
   label_item_position: "%{position}/%{count}"
-  label_completed_versions: Completed versions
-  text_project_identifier_info: Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.
-  field_multiple: Multiple values
+  label_completed_versions: Užbaigtos versijos
+  text_project_identifier_info: Leidžiamos tik mažosios raidės (a-z), skaitmenys, brūkšneliai ir pabraukimo simboliai.<br />Kartą išsaugojus pakeitimai negalimi
+  field_multiple: Keletas reikšmių
   setting_commit_cross_project_ref: Allow issues of all the other projects to be referenced and fixed
-  text_issue_conflict_resolution_add_notes: Add my notes and discard my other changes
-  text_issue_conflict_resolution_overwrite: Apply my changes anyway (previous notes will be kept but some changes may be overwritten)
-  notice_issue_update_conflict: The issue has been updated by an other user while you were editing it.
-  text_issue_conflict_resolution_cancel: Discard all my changes and redisplay %{link}
-  permission_manage_related_issues: Manage related issues
-  field_auth_source_ldap_filter: LDAP filter
-  label_search_for_watchers: Search for watchers to add
-  notice_account_deleted: Your account has been permanently deleted.
-  setting_unsubscribe: Allow users to delete their own account
-  button_delete_my_account: Delete my account
+  text_issue_conflict_resolution_add_notes: Išsaugoti mano žinutę ir atmesti likusius mano pataisymus
+  text_issue_conflict_resolution_overwrite: Išsaugoti mano pakeitimus (ankstesnių pakeitimų žinutės bus išsaugotos, tačiau kai kurie pakeitimai bus perrašyti)
+  notice_issue_update_conflict: Darbas buvo pakoreguotas kito vartotojo kol jūs atlikote pakeitimus.
+  text_issue_conflict_resolution_cancel: Atmesti visus mano pakeitimus ir iš naujo rodyti %{link}
+  permission_manage_related_issues: Tvarkyti susietus darbus
+  field_auth_source_ldap_filter: LDAP filtras
+  label_search_for_watchers: Ieškoti vartotojų kuriuos įtraukti kaip stebėtojus
+  notice_account_deleted: Jūsų paskyra panaikinta.
+  setting_unsubscribe: Leisti vartotojams panaikinti savo paskyrą
+  button_delete_my_account: Panaikinti savo paskyrą
   text_account_destroy_confirmation: |-
-    Are you sure you want to proceed?
-    Your account will be permanently deleted, with no way to reactivate it.
-  error_session_expired: Your session has expired. Please login again.
-  text_session_expiration_settings: "Warning: changing these settings may expire the current sessions including yours."
-  setting_session_lifetime: Session maximum lifetime
-  setting_session_timeout: Session inactivity timeout
-  label_session_expiration: Session expiration
-  permission_close_project: Close / reopen the project
-  label_show_closed_projects: View closed projects
-  button_close: Close
-  button_reopen: Reopen
-  project_status_active: active
-  project_status_closed: closed
-  project_status_archived: archived
-  text_project_closed: This project is closed and read-only.
-  notice_user_successful_create: User %{id} created.
-  field_core_fields: Standard fields
-  field_timeout: Timeout (in seconds)
-  setting_thumbnails_enabled: Display attachment thumbnails
-  setting_thumbnails_size: Thumbnails size (in pixels)
-  label_status_transitions: Status transitions
-  label_fields_permissions: Fields permissions
-  label_readonly: Read-only
-  label_required: Required
-  text_repository_identifier_info: Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.
-  field_board_parent: Parent forum
-  label_attribute_of_project: Project's %{name}
-  label_attribute_of_author: Author's %{name}
-  label_attribute_of_assigned_to: Assignee's %{name}
-  label_attribute_of_fixed_version: Target version's %{name}
-  label_copy_subtasks: Copy subtasks
-  label_copied_to: copied to
-  label_copied_from: copied from
-  label_any_issues_in_project: any issues in project
-  label_any_issues_not_in_project: any issues not in project
-  field_private_notes: Private notes
-  permission_view_private_notes: View private notes
-  permission_set_notes_private: Set notes as private
-  label_no_issues_in_project: no issues in project
+    Ar tikrai norite tęsti?
+    Jūsų paskyra bus panaikinta ir nebus galimybės jos atkurti.
+  error_session_expired: Jūsų sesija pasibaigė. Prašome prisijunti iš naujo.
+  text_session_expiration_settings: "Įspėjimas: atlikus šiuos pakeitimus visos aktyvios sesijos gali nustoti galiojusios (įskaitant jūsų sesiją)."
+  setting_session_lifetime: Sesijos maksimalus galiojimas
+  setting_session_timeout: Sesijos neveiklumo laiko tarpas
+  label_session_expiration: Baigėsi sujungimo sesija
+  permission_close_project: Uždaryti / atnaujinti projektą
+  label_show_closed_projects: Matyti uždarytus projektus
+  button_close: Uždaryti
+  button_reopen: Atnaujinti
+  project_status_active: aktyvus
+  project_status_closed: uždarytas
+  project_status_archived: archyvuotas
+  text_project_closed: Šis projektas yra uždarytas, prieinamas tik peržiūrai.
+  notice_user_successful_create: Vartotojas %{id} sukurtas.
+  field_core_fields: Standartiniai laukai
+  field_timeout: Timeout (po sek.)
+  setting_thumbnails_enabled: Rodyti sumažintus priedų atvaizdus
+  setting_thumbnails_size: Sumažinto atvaizdo dydis (taškeliais)
+  label_status_transitions: Darbų eiga
+  label_fields_permissions: Leidimai
+  label_readonly: Tik peržiūra
+  label_required: Privaloma(s)
+  text_repository_identifier_info: Leidžiamos tik mažosios raidės (a-z), skaitmenys, brūkšneliai ir pabraukimo simboliai.<br />Kartą išsaugojus pakeitimai negalimi
+  field_board_parent: Pagrindinis forumas
+  label_attribute_of_project: Projekto pavadinimas %{name}
+  label_attribute_of_author: Autorius %{name}
+  label_attribute_of_assigned_to: Paskirtas %{name}
+  label_attribute_of_fixed_version: Versijos %{name}
+  label_copy_subtasks: Kopijuoti darbo dalis
+  label_copied_to: kopijuota į
+  label_copied_from: kopijuota iš
+  label_any_issues_in_project: bet kurie projekto darbai
+  label_any_issues_not_in_project: bet kurie ne šio projekto darbai
+  field_private_notes: Privačios žinutės
+  permission_view_private_notes: Matyti privačias žinutes
+  permission_set_notes_private: Pakeisti žinutę privačia
+  label_no_issues_in_project: projekte nėra darbų
   label_any: visi
-  label_last_n_weeks: last %{count} weeks
-  setting_cross_project_subtasks: Allow cross-project subtasks
+  label_last_n_weeks: prieš %{count} sav.
+  setting_cross_project_subtasks: Leisti susieti skirtingų projektų užduočių dalis
   label_cross_project_descendants: Su subprojektais
   label_cross_project_tree: Su projekto medžiu
   label_cross_project_hierarchy: Su projekto hierarchija
   label_cross_project_system: Su visais projektais
-  button_hide: Hide
-  setting_non_working_week_days: Non-working days
-  label_in_the_next_days: in the next
-  label_in_the_past_days: in the past
+  button_hide: Slėpti
+  setting_non_working_week_days: Nedarbo dienos
+  label_in_the_next_days: per ateinančias
+  label_in_the_past_days: per paskutines
