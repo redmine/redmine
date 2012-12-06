@@ -50,6 +50,14 @@ module QueriesHelper
     end
   end
 
+  def available_block_columns_tags(query)
+    tags = ''.html_safe
+    query.available_block_columns.each do |column|
+      tags << content_tag('label', check_box_tag('c[]', column.name.to_s, query.has_column?(column)) + " #{column.caption}", :class => 'inline')
+    end
+    tags
+  end
+
   def column_header(column)
     column.sortable ? sort_header_tag(column.name.to_s, :caption => column.caption,
                                                         :default_order => column.default_order) :
@@ -70,6 +78,8 @@ module QueriesHelper
     when 'String'
       if column.name == :subject
         link_to(h(value), :controller => 'issues', :action => 'show', :id => issue)
+      elsif column.name == :description
+        issue.description? ? content_tag('div', textilizable(issue, :description), :class => "wiki") : ''
       else
         h(value)
       end

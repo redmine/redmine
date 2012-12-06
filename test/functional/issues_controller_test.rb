@@ -418,7 +418,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 'text/csv; header=present', @response.content_type
     assert @response.body.starts_with?("#,")
     lines = @response.body.chomp.split("\n")
-    assert_equal assigns(:query).available_columns.size + 1, lines[0].split(',').size
+    assert_equal assigns(:query).available_inline_columns.size + 1, lines[0].split(',').size
   end
 
   def test_index_csv_with_multi_column_field
@@ -821,6 +821,17 @@ class IssuesControllerTest < ActionController::TestCase
     assert_include '3,""', lines
 
     get :index, :set_filter => 1, :c => %w(subject relations), :format => 'pdf'
+    assert_response :success
+    assert_equal 'application/pdf', response.content_type
+  end
+
+  def test_index_with_description_column
+    get :index, :set_filter => 1, :c => %w(subject description)
+
+    assert_select 'table.issues thead th', 3 # columns: chekbox + id + subject
+    assert_select 'td.description[colspan=3]', :text => 'Unable to print recipes'
+
+    get :index, :set_filter => 1, :c => %w(subject description), :format => 'pdf'
     assert_response :success
     assert_equal 'application/pdf', response.content_type
   end

@@ -371,12 +371,16 @@ module IssuesHelper
   def issues_to_csv(issues, project, query, options={})
     decimal_separator = l(:general_csv_decimal_separator)
     encoding = l(:general_csv_encoding)
-    columns = (options[:columns] == 'all' ? query.available_columns : query.columns)
+    columns = (options[:columns] == 'all' ? query.available_inline_columns : query.inline_columns)
+    if options[:description]
+      if description = query.available_columns.detect {|q| q.name == :description}
+        columns << description
+      end
+    end
 
     export = FCSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
       # csv header fields
-      csv << [ "#" ] + columns.collect {|c| Redmine::CodesetUtil.from_utf8(c.caption.to_s, encoding) } +
-        (options[:description] ? [Redmine::CodesetUtil.from_utf8(l(:field_description), encoding)] : [])
+      csv << [ "#" ] + columns.collect {|c| Redmine::CodesetUtil.from_utf8(c.caption.to_s, encoding) }
 
       # csv lines
       issues.each do |issue|
@@ -398,8 +402,7 @@ module IssuesHelper
           end
           s.to_s
         end
-        csv << [ issue.id.to_s ] + col_values.collect {|c| Redmine::CodesetUtil.from_utf8(c.to_s, encoding) } +
-          (options[:description] ? [Redmine::CodesetUtil.from_utf8(issue.description, encoding)] : [])
+        csv << [ issue.id.to_s ] + col_values.collect {|c| Redmine::CodesetUtil.from_utf8(c.to_s, encoding) }
       end
     end
     export

@@ -149,6 +149,8 @@ tr.issue td.subject, tr.issue td.category, td.assigned_to, tr.issue td.string, t
 tr.issue td.subject, tr.issue td.relations { text-align: left; }
 tr.issue td.done_ratio table.progress { margin-left:auto; margin-right: auto;}
 tr.issue td.relations span {white-space: nowrap;}
+table.issues td.description {color:#777; font-size:90%; padding:4px 4px 4px 24px; text-align:left; white-space:normal;}
+table.issues td.description pre {white-space:normal;}
 
 tr.issue.idnt td.subject a {background: url(../images/bullet_arrow_right.png) no-repeat 0 50%; padding-left: 16px;}
 tr.issue.idnt-1 td.subject {padding-left: 0.5em;}

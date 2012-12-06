@@ -27,6 +27,7 @@ class QueryColumn
       self.groupable = name.to_s
     end
     self.default_order = options[:default_order]
+    @inline = options.key?(:inline) ? options[:inline] : true
     @caption_key = options[:caption] || "field_#{name}"
   end
 
@@ -41,6 +42,10 @@ class QueryColumn
 
   def sortable
     @sortable.is_a?(Proc) ? @sortable.call : @sortable
+  end
+
+  def inline?
+    @inline
   end
 
   def value(issue)
@@ -58,6 +63,7 @@ class QueryCustomFieldColumn < QueryColumn
     self.name = "cf_#{custom_field.id}".to_sym
     self.sortable = custom_field.order_statement || false
     self.groupable = custom_field.group_statement || false
+    @inline = true
     @cf = custom_field
   end
 
@@ -153,7 +159,8 @@ class Query < ActiveRecord::Base
     QueryColumn.new(:estimated_hours, :sortable => "#{Issue.table_name}.estimated_hours"),
     QueryColumn.new(:done_ratio, :sortable => "#{Issue.table_name}.done_ratio", :groupable => true),
     QueryColumn.new(:created_on, :sortable => "#{Issue.table_name}.created_on", :default_order => 'desc'),
-    QueryColumn.new(:relations, :caption => :label_related_issues)
+    QueryColumn.new(:relations, :caption => :label_related_issues),
+    QueryColumn.new(:description, :inline => false)
   ]
   cattr_reader :available_columns
 
@@ -504,6 +511,22 @@ class Query < ActiveRecord::Base
     (has_default_columns? ? default_columns_names : column_names).collect do |name|
        available_columns.find { |col| col.name == name }
     end.compact
+  end
+
+  def inline_columns
+    columns.select(&:inline?)
+  end
+
+  def block_columns
+    columns.reject(&:inline?)
+  end
+
+  def available_inline_columns
+    available_columns.select(&:inline?)
+  end
+
+  def available_block_columns
+    available_columns.reject(&:inline?)
   end
 
   def default_columns_names

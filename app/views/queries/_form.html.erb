@@ -21,6 +21,9 @@
 
 <p><label for="query_group_by"><%= l(:field_group_by) %></label>
 <%= select 'query', 'group_by', @query.groupable_columns.collect {|c| [c.caption, c.name.to_s]}, :include_blank => true %></p>
+
+<p><label><%= l(:button_show) %></label>
+<%= available_block_columns_tags(@query) %></p>
 </div>
 
 <fieldset id="filters"><legend><%= l(:label_filter_plural) %></legend>
