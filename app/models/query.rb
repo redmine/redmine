@@ -168,10 +168,8 @@ class Query < ActiveRecord::Base
     user = args.shift || User.current
     base = Project.allowed_to_condition(user, :view_issues, *args)
     user_id = user.logged? ? user.id : 0
-    {
-      :conditions => ["(#{table_name}.project_id IS NULL OR (#{base})) AND (#{table_name}.is_public = ? OR #{table_name}.user_id = ?)", true, user_id],
-      :include => :project
-    }
+
+    includes(:project).where("(#{table_name}.project_id IS NULL OR (#{base})) AND (#{table_name}.is_public = ? OR #{table_name}.user_id = ?)", true, user_id)
   }
 
   def initialize(attributes=nil, *args)

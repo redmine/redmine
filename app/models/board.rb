@@ -30,8 +30,9 @@ class Board < ActiveRecord::Base
   validates_length_of :description, :maximum => 255
   validate :validate_board
 
-  scope :visible, lambda {|*args| { :include => :project,
-                                          :conditions => Project.allowed_to_condition(args.shift || User.current, :view_messages, *args) } }
+  scope :visible, lambda {|*args| 
+    includes(:project).where(Project.allowed_to_condition(args.shift || User.current, :view_messages, *args))
+  }
 
   safe_attributes 'name', 'description', 'parent_id', 'move_to'
 

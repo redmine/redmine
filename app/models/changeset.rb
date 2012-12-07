@@ -49,9 +49,9 @@ class Changeset < ActiveRecord::Base
   validates_uniqueness_of :revision, :scope => :repository_id
   validates_uniqueness_of :scmid, :scope => :repository_id, :allow_nil => true
 
-  scope :visible,
-     lambda {|*args| { :include => {:repository => :project},
-                                          :conditions => Project.allowed_to_condition(args.shift || User.current, :view_changesets, *args) } }
+  scope :visible, lambda {|*args|
+    includes(:repository => :project).where(Project.allowed_to_condition(args.shift || User.current, :view_changesets, *args))
+  }
 
   after_create :scan_for_issues
   before_create :before_create_cs

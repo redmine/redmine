@@ -84,11 +84,13 @@ class Project < ActiveRecord::Base
   after_save :update_position_under_parent, :if => Proc.new {|project| project.name_changed?}
   before_destroy :delete_all_members
 
-  scope :has_module, lambda { |mod| { :conditions => ["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s] } }
-  scope :active, lambda { { :conditions => "#{Project.table_name}.status = #{STATUS_ACTIVE}" } }
-  scope :status, lambda {|arg| arg.blank? ? {} : {:conditions => {:status => arg.to_i}} }
-  scope :all_public, lambda { { :conditions => { :is_public => true } } }
-  scope :visible, lambda {|*args| {:conditions => Project.visible_condition(args.shift || User.current, *args) }}
+  scope :has_module, lambda {|mod|
+    where("#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s)
+  }
+  scope :active, lambda { where(:status => STATUS_ACTIVE) }
+  scope :status, lambda {|arg| where(arg.blank? ? nil : {:status => arg.to_i}) }
+  scope :all_public, lambda { where(:is_public => true) }
+  scope :visible, lambda {|*args| where(Project.visible_condition(args.shift || User.current, *args)) }
   scope :allowed_to, lambda {|*args| 
     user = User.current
     permission = nil
@@ -98,14 +100,14 @@ class Project < ActiveRecord::Base
       user = args.shift
       permission = args.shift
     end
-    { :conditions => Project.allowed_to_condition(user, permission, *args) }
+    where(Project.allowed_to_condition(user, permission, *args))
   }
   scope :like, lambda {|arg|
     if arg.blank?
-      {}
+      where(nil)
     else
       pattern = "%#{arg.to_s.strip.downcase}%"
-      {:conditions => ["LOWER(identifier) LIKE :p OR LOWER(name) LIKE :p", {:p => pattern}]}
+      where("LOWER(identifier) LIKE :p OR LOWER(name) LIKE :p", :p => pattern)
     end
   }
 

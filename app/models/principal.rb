@@ -24,7 +24,7 @@ class Principal < ActiveRecord::Base
   has_many :issue_categories, :foreign_key => 'assigned_to_id', :dependent => :nullify
 
   # Groups and active users
-  scope :active, lambda { { :conditions => "#{Principal.table_name}.status = 1" } }
+  scope :active, lambda { where("#{Principal.table_name}.status = 1") }
 
   scope :like, lambda {|q|
     q = q.to_s
