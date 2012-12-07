@@ -79,9 +79,9 @@ class Issue < ActiveRecord::Base
     {:conditions => ["#{IssueStatus.table_name}.is_closed = ?", is_closed], :include => :status}
   }
 
-  scope :recently_updated, :order => "#{Issue.table_name}.updated_on DESC"
-  scope :on_active_project, :include => [:status, :project, :tracker],
-                            :conditions => ["#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"]
+  scope :recently_updated, lambda { { :order => "#{Issue.table_name}.updated_on DESC" } }
+  scope :on_active_project, lambda { { :include => [:status, :project, :tracker],
+                                       :conditions => ["#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"] } }
 
   before_create :default_assign
   before_save :close_duplicates, :update_done_ratio_from_issue_status, :force_updated_on_change

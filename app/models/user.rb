@@ -82,7 +82,7 @@ class User < Principal
   has_one :api_token, :class_name => 'Token', :conditions => "action='api'"
   belongs_to :auth_source
 
-  scope :logged, :conditions => "#{User.table_name}.status <> #{STATUS_ANONYMOUS}"
+  scope :logged, lambda { { :conditions => "#{User.table_name}.status <> #{STATUS_ANONYMOUS}" } }
   scope :status, lambda {|arg| arg.blank? ? {} : {:conditions => {:status => arg.to_i}} }
 
   acts_as_customizable

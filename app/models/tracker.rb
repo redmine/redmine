@@ -41,7 +41,7 @@ class Tracker < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_length_of :name, :maximum => 30
 
-  scope :sorted, order("#{table_name}.position ASC")
+  scope :sorted, lambda { order("#{table_name}.position ASC") }
   scope :named, lambda {|arg| where("LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip)}
 
   def to_s; name end

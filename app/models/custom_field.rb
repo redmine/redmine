@@ -30,7 +30,7 @@ class CustomField < ActiveRecord::Base
   validate :validate_custom_field
   before_validation :set_searchable
 
-  scope :sorted, order("#{table_name}.position ASC")
+  scope :sorted, lambda { order("#{table_name}.position ASC") }
 
   CUSTOM_FIELDS_TABS = [
     {:name => 'IssueCustomField', :partial => 'custom_fields/index',
