@@ -42,7 +42,7 @@ class TrackersController < ApplicationController
 
   def create
     @tracker = Tracker.new(params[:tracker])
-    if request.post? and @tracker.save
+    if @tracker.save
       # workflow copy
       if !params[:copy_workflow_from].blank? && (copy_from = Tracker.find_by_id(params[:copy_workflow_from]))
         @tracker.workflow_rules.copy(copy_from)
@@ -62,7 +62,7 @@ class TrackersController < ApplicationController
 
   def update
     @tracker = Tracker.find(params[:id])
-    if request.put? and @tracker.update_attributes(params[:tracker])
+    if @tracker.update_attributes(params[:tracker])
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'index'
       return
