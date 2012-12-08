@@ -18,16 +18,16 @@
 RedmineApp::Application.routes.draw do
   root :to => 'welcome#index', :as => 'home'
 
-  match 'login', :to => 'account#login', :as => 'signin'
-  match 'logout', :to => 'account#logout', :as => 'signout'
+  match 'login', :to => 'account#login', :as => 'signin', :via => [:get, :post]
+  match 'logout', :to => 'account#logout', :as => 'signout', :via => [:get, :post]
   match 'account/register', :to => 'account#register', :via => [:get, :post], :as => 'register'
   match 'account/lost_password', :to => 'account#lost_password', :via => [:get, :post], :as => 'lost_password'
   match 'account/activate', :to => 'account#activate', :via => :get
 
-  match '/news/preview', :controller => 'previews', :action => 'news', :as => 'preview_news'
-  match '/issues/preview/new/:project_id', :to => 'previews#issue', :as => 'preview_new_issue'
-  match '/issues/preview/edit/:id', :to => 'previews#issue', :as => 'preview_edit_issue'
-  match '/issues/preview', :to => 'previews#issue', :as => 'preview_issue'
+  match '/news/preview', :controller => 'previews', :action => 'news', :as => 'preview_news', :via => [:get, :post]
+  match '/issues/preview/new/:project_id', :to => 'previews#issue', :as => 'preview_new_issue', :via => [:get, :post]
+  match '/issues/preview/edit/:id', :to => 'previews#issue', :as => 'preview_edit_issue', :via => [:get, :post]
+  match '/issues/preview', :to => 'previews#issue', :as => 'preview_issue', :via => [:get, :post]
 
   match 'projects/:id/wiki', :to => 'wikis#edit', :via => :post
   match 'projects/:id/wiki/destroy', :to => 'wikis#destroy', :via => [:get, :post]
@@ -44,18 +44,18 @@ RedmineApp::Application.routes.draw do
 
   # Misc issue routes. TODO: move into resources
   match '/issues/auto_complete', :to => 'auto_completes#issues', :via => :get, :as => 'auto_complete_issues'
-  match '/issues/context_menu', :to => 'context_menus#issues', :as => 'issues_context_menu'
-  match '/issues/changes', :to => 'journals#index', :as => 'issue_changes'
+  match '/issues/context_menu', :to => 'context_menus#issues', :as => 'issues_context_menu', :via => [:get, :post]
+  match '/issues/changes', :to => 'journals#index', :as => 'issue_changes', :via => :get
   match '/issues/:id/quoted', :to => 'journals#new', :id => /\d+/, :via => :post, :as => 'quoted_issue'
 
   match '/journals/diff/:id', :to => 'journals#diff', :id => /\d+/, :via => :get
   match '/journals/edit/:id', :to => 'journals#edit', :id => /\d+/, :via => [:get, :post]
 
-  match '/projects/:project_id/issues/gantt', :to => 'gantts#show'
-  match '/issues/gantt', :to => 'gantts#show'
+  get '/projects/:project_id/issues/gantt', :to => 'gantts#show'
+  get '/issues/gantt', :to => 'gantts#show'
 
-  match '/projects/:project_id/issues/calendar', :to => 'calendars#show'
-  match '/issues/calendar', :to => 'calendars#show'
+  get '/projects/:project_id/issues/calendar', :to => 'calendars#show'
+  get '/issues/calendar', :to => 'calendars#show'
 
   match 'projects/:id/issues/report', :to => 'reports#issue_report', :via => :get
   match 'projects/:id/issues/report/:detail', :to => 'reports#issue_report_details', :via => :get
@@ -85,7 +85,7 @@ RedmineApp::Application.routes.draw do
   match 'watchers/unwatch', :controller=> 'watchers', :action => 'unwatch', :via => :post
   match 'watchers/autocomplete_for_user', :controller=> 'watchers', :action => 'autocomplete_for_user', :via => :get
 
-  match 'projects/:id/settings/:tab', :to => "projects#settings"
+  get 'projects/:id/settings/:tab', :to => "projects#settings"
 
   resources :projects do
     member do
@@ -106,7 +106,7 @@ RedmineApp::Application.routes.draw do
 
     resource :enumerations, :controller => 'project_enumerations', :only => [:update, :destroy]
 
-    match 'issues/:copy_from/copy', :to => 'issues#new'
+    get 'issues/:copy_from/copy', :to => 'issues#new'
     resources :issues, :only => [:index, :new, :create] do
       resources :time_entries, :controller => 'timelog' do
         collection do
@@ -124,9 +124,9 @@ RedmineApp::Application.routes.draw do
         put 'close_completed'
       end
     end
-    match 'versions.:format', :to => 'versions#index'
-    match 'roadmap', :to => 'versions#index', :format => false
-    match 'versions', :to => 'versions#index'
+    get 'versions.:format', :to => 'versions#index'
+    get 'roadmap', :to => 'versions#index', :format => false
+    get 'versions', :to => 'versions#index'
 
     resources :news, :except => [:show, :edit, :update, :destroy]
     resources :time_entries, :controller => 'timelog' do
@@ -193,7 +193,7 @@ RedmineApp::Application.routes.draw do
     post 'add_attachment', :on => :member
   end
 
-  match '/time_entries/context_menu', :to => 'context_menus#time_entries', :as => :time_entries_context_menu
+  match '/time_entries/context_menu', :to => 'context_menus#time_entries', :as => :time_entries_context_menu, :via => [:get, :post]
 
   resources :time_entries, :controller => 'timelog', :except => :destroy do
     collection do
