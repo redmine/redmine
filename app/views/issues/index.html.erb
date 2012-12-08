@@ -34,6 +34,10 @@
                                  @query.group_by)
                        ) %></td>
           </tr>
+          <tr>
+            <td><%= l(:button_show) %></td>
+            <td><%= available_block_columns_tags(@query) %></td>
+          </tr>
         </table>
       </div>
     </fieldset>
@@ -73,7 +77,7 @@
     <label><%= radio_button_tag 'columns', 'all' %> <%= l(:description_all_columns) %></label>
   </p>
   <p>
-    <label><%= check_box_tag 'description', '1' %> <%= l(:field_description) %></label>
+    <label><%= check_box_tag 'description', '1', @query.has_column?(:description) %> <%= l(:field_description) %></label>
   </p>
   <p class="buttons">
     <%= submit_tag l(:button_export), :name => nil, :onclick => "hideModal(this);" %>

@@ -34,12 +34,12 @@ module Redmine
         include Redmine::I18n
         attr_accessor :footer_date
 
-        def initialize(lang)
+        def initialize(lang, orientation='P')
           @@k_path_cache = Rails.root.join('tmp', 'pdf')
           FileUtils.mkdir_p @@k_path_cache unless File::exist?(@@k_path_cache)
           set_language_if_valid lang
           pdf_encoding = l(:general_pdf_encoding).upcase
-          super('P', 'mm', 'A4', (pdf_encoding == 'UTF-8'), pdf_encoding)
+          super(orientation, 'mm', 'A4', (pdf_encoding == 'UTF-8'), pdf_encoding)
           case current_language.to_s.downcase
           when 'vi'
             @font_for_content = 'DejaVuSans'
@@ -236,7 +236,7 @@ module Redmine
 
       # fetch row values
       def fetch_row_values(issue, query, level)
-        query.columns.collect do |column|
+        query.inline_columns.collect do |column|
           s = if column.is_a?(QueryCustomFieldColumn)
             cv = issue.custom_field_values.detect {|v| v.custom_field_id == column.custom_field.id}
             show_value(cv)
@@ -263,10 +263,10 @@ module Redmine
         #  by captions
         pdf.SetFontStyle('B',8)
         col_padding = pdf.GetStringWidth('OO')
-        col_width_min = query.columns.map {|v| pdf.GetStringWidth(v.caption) + col_padding}
+        col_width_min = query.inline_columns.map {|v| pdf.GetStringWidth(v.caption) + col_padding}
         col_width_max = Array.new(col_width_min)
         col_width_avg = Array.new(col_width_min)
-        word_width_max = query.columns.map {|c|
+        word_width_max = query.inline_columns.map {|c|
           n = 10
           c.caption.split.each {|w|
             x = pdf.GetStringWidth(w) + col_padding
@@ -370,13 +370,13 @@ module Redmine
         # render it background to find the max height used
         base_x = pdf.GetX
         base_y = pdf.GetY
-        max_height = issues_to_pdf_write_cells(pdf, query.columns, col_width, row_height, true)
+        max_height = issues_to_pdf_write_cells(pdf, query.inline_columns, col_width, row_height, true)
         pdf.Rect(base_x, base_y, table_width + col_id_width, max_height, 'FD');
         pdf.SetXY(base_x, base_y);
 
         # write the cells on page
         pdf.RDMCell(col_id_width, row_height, "#", "T", 0, 'C', 1)
-        issues_to_pdf_write_cells(pdf, query.columns, col_width, row_height, true)
+        issues_to_pdf_write_cells(pdf, query.inline_columns, col_width, row_height, true)
         issues_to_pdf_draw_borders(pdf, base_x, base_y, base_y + max_height, col_id_width, col_width)
         pdf.SetY(base_y + max_height);
 
@@ -387,7 +387,7 @@ module Redmine
 
       # Returns a PDF string of a list of issues
       def issues_to_pdf(issues, project, query)
-        pdf = ITCPDF.new(current_language)
+        pdf = ITCPDF.new(current_language, "L")
         title = query.new_record? ? l(:label_issue_plural) : query.name
         title = "#{project} - #{title}" if project
         pdf.SetTitle(title)
@@ -407,8 +407,14 @@ module Redmine
         # column widths
         table_width = page_width - right_margin - 10  # fixed left margin
         col_width = []
-        unless query.columns.empty?
+        unless query.inline_columns.empty?
           col_width = calc_col_width(issues, query, table_width - col_id_width, pdf)
+          table_width = col_width.inject(0) {|s,v| s += v}
+        end
+
+				# use full width if the description is displayed
+        if table_width > 0 && query.has_column?(:description)
+          col_width = col_width.map {|w| w = w * (page_width - right_margin - 10 - col_id_width) / table_width}
           table_width = col_width.inject(0) {|s,v| s += v}
         end
 
@@ -454,6 +460,13 @@ module Redmine
           issues_to_pdf_write_cells(pdf, col_values, col_width, row_height)
           issues_to_pdf_draw_borders(pdf, base_x, base_y, base_y + max_height, col_id_width, col_width)
           pdf.SetY(base_y + max_height);
+
+          if query.has_column?(:description) && issue.description?
+            pdf.SetX(10)
+            pdf.SetAutoPageBreak(true, 20)
+            pdf.RDMwriteHTMLCell(0, 5, 10, 0, issue.description.to_s, issue.attachments, "LRBT")
+            pdf.SetAutoPageBreak(false)
+          end
         end
 
         if issues.size == Setting.issues_export_limit.to_i

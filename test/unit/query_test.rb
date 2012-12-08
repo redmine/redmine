@@ -737,7 +737,9 @@ class QueryTest < ActiveSupport::TestCase
 
   def test_default_columns
     q = Query.new
-    assert !q.columns.empty?
+    assert q.columns.any?
+    assert q.inline_columns.any?
+    assert q.block_columns.empty?
   end
 
   def test_set_column_names
@@ -746,6 +748,21 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal [:tracker, :subject], q.columns.collect {|c| c.name}
     c = q.columns.first
     assert q.has_column?(c)
+  end
+
+  def test_inline_and_block_columns
+    q = Query.new
+    q.column_names = ['subject', 'description', 'tracker']
+
+    assert_equal [:subject, :tracker], q.inline_columns.map(&:name)
+    assert_equal [:description], q.block_columns.map(&:name)
+  end
+
+  def test_custom_field_columns_should_be_inline
+    q = Query.new
+    columns = q.available_columns.select {|column| column.is_a? QueryCustomFieldColumn}
+    assert columns.any?
+    assert_nil columns.detect {|column| !column.inline?}
   end
 
   def test_query_should_preload_spent_hours
