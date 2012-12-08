@@ -52,7 +52,8 @@ platforms :mri_19, :mingw_19 do
 end
 
 platforms :jruby do
-  gem "jruby-openssl"
+  # jruby-openssl is bundled with JRuby 1.7.0
+  gem "jruby-openssl" if Object.const_defined?(:JRUBY_VERSION) && JRUBY_VERSION < '1.7.0'
 
   group :mysql do
     gem "activerecord-jdbcmysql-adapter"
