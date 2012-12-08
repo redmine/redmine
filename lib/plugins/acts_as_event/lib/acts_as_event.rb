@@ -63,6 +63,11 @@ module Redmine
           event_datetime.to_date
         end
 
+        def event_group
+          group = event_options[:group] ? send(event_options[:group]) : self
+          group || self
+        end
+
         def event_url(options = {})
           option = event_options[:url]
           if option.is_a?(Proc)

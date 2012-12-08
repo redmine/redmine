@@ -59,6 +59,7 @@ class WikiContent < ActiveRecord::Base
                   :description => :comments,
                   :datetime => :updated_on,
                   :type => 'wiki-page',
+                  :group => :page,
                   :url => Proc.new {|o| {:controller => 'wiki', :action => 'show', :project_id => o.page.wiki.project, :id => o.page.title, :version => o.version}}
 
     acts_as_activity_provider :type => 'wiki_edits',

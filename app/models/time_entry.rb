@@ -30,6 +30,7 @@ class TimeEntry < ActiveRecord::Base
   acts_as_event :title => Proc.new {|o| "#{l_hours(o.hours)} (#{(o.issue || o.project).event_title})"},
                 :url => Proc.new {|o| {:controller => 'timelog', :action => 'index', :project_id => o.project, :issue_id => o.issue}},
                 :author => :user,
+                :group => :issue,
                 :description => :comments
 
   acts_as_activity_provider :timestamp => "#{table_name}.created_on",
