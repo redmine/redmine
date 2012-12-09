@@ -48,8 +48,8 @@ class QueryColumn
     @inline
   end
 
-  def value(issue)
-    issue.send name
+  def value(object)
+    object.send name
   end
 
   def css_classes
@@ -75,8 +75,8 @@ class QueryCustomFieldColumn < QueryColumn
     @cf
   end
 
-  def value(issue)
-    cv = issue.custom_values.select {|v| v.custom_field_id == @cf.id}.collect {|v| @cf.cast_value(v.value)}
+  def value(object)
+    cv = object.custom_values.select {|v| v.custom_field_id == @cf.id}.collect {|v| @cf.cast_value(v.value)}
     cv.size > 1 ? cv.sort {|a,b| a.to_s <=> b.to_s} : cv.first
   end
 
@@ -146,6 +146,12 @@ class Query < ActiveRecord::Base
 
   class_attribute :available_columns
   self.available_columns = []
+
+  class_attribute :queried_class
+
+  def queried_table_name
+    @queried_table_name ||= self.class.queried_class.table_name
+  end
 
   def initialize(attributes=nil, *args)
     super attributes
@@ -288,10 +294,10 @@ class Query < ActiveRecord::Base
 
   # Returns a Hash of columns and the key for sorting
   def sortable_columns
-    {'id' => "#{Issue.table_name}.id"}.merge(available_columns.inject({}) {|h, column|
-                                               h[column.name.to_s] = column.sortable
-                                               h
-                                             })
+    available_columns.inject({}) {|h, column|
+      h[column.name.to_s] = column.sortable
+      h
+    }
   end
 
   def columns
@@ -318,11 +324,7 @@ class Query < ActiveRecord::Base
   end
 
   def default_columns_names
-    @default_columns_names ||= begin
-      default_columns = Setting.issue_list_default_columns.map(&:to_sym)
-
-      project.present? ? default_columns : [:project] | default_columns
-    end
+    []
   end
 
   def column_names=(names)
@@ -453,7 +455,7 @@ class Query < ActiveRecord::Base
         filters_clauses << send("sql_for_#{field}_field", field, operator, v)
       else
         # regular field
-        filters_clauses << '(' + sql_for_field(field, operator, v, Issue.table_name, field) + ')'
+        filters_clauses << '(' + sql_for_field(field, operator, v, queried_table_name, field) + ')'
       end
     end if filters and valid?
 
@@ -461,96 +463,6 @@ class Query < ActiveRecord::Base
     filters_clauses.reject!(&:blank?)
 
     filters_clauses.any? ? filters_clauses.join(' AND ') : nil
-  end
-
-  def sql_for_watcher_id_field(field, operator, value)
-    db_table = Watcher.table_name
-    "#{Issue.table_name}.id #{ operator == '=' ? 'IN' : 'NOT IN' } (SELECT #{db_table}.watchable_id FROM #{db_table} WHERE #{db_table}.watchable_type='Issue' AND " +
-      sql_for_field(field, '=', value, db_table, 'user_id') + ')'
-  end
-
-  def sql_for_member_of_group_field(field, operator, value)
-    if operator == '*' # Any group
-      groups = Group.all
-      operator = '=' # Override the operator since we want to find by assigned_to
-    elsif operator == "!*"
-      groups = Group.all
-      operator = '!' # Override the operator since we want to find by assigned_to
-    else
-      groups = Group.find_all_by_id(value)
-    end
-    groups ||= []
-
-    members_of_groups = groups.inject([]) {|user_ids, group|
-      if group && group.user_ids.present?
-        user_ids << group.user_ids
-      end
-      user_ids.flatten.uniq.compact
-    }.sort.collect(&:to_s)
-
-    '(' + sql_for_field("assigned_to_id", operator, members_of_groups, Issue.table_name, "assigned_to_id", false) + ')'
-  end
-
-  def sql_for_assigned_to_role_field(field, operator, value)
-    case operator
-    when "*", "!*" # Member / Not member
-      sw = operator == "!*" ? 'NOT' : ''
-      nl = operator == "!*" ? "#{Issue.table_name}.assigned_to_id IS NULL OR" : ''
-      "(#{nl} #{Issue.table_name}.assigned_to_id #{sw} IN (SELECT DISTINCT #{Member.table_name}.user_id FROM #{Member.table_name}" +
-        " WHERE #{Member.table_name}.project_id = #{Issue.table_name}.project_id))"
-    when "=", "!"
-      role_cond = value.any? ?
-        "#{MemberRole.table_name}.role_id IN (" + value.collect{|val| "'#{connection.quote_string(val)}'"}.join(",") + ")" :
-        "1=0"
-
-      sw = operator == "!" ? 'NOT' : ''
-      nl = operator == "!" ? "#{Issue.table_name}.assigned_to_id IS NULL OR" : ''
-      "(#{nl} #{Issue.table_name}.assigned_to_id #{sw} IN (SELECT DISTINCT #{Member.table_name}.user_id FROM #{Member.table_name}, #{MemberRole.table_name}" +
-        " WHERE #{Member.table_name}.project_id = #{Issue.table_name}.project_id AND #{Member.table_name}.id = #{MemberRole.table_name}.member_id AND #{role_cond}))"
-    end
-  end
-
-  def sql_for_is_private_field(field, operator, value)
-    op = (operator == "=" ? 'IN' : 'NOT IN')
-    va = value.map {|v| v == '0' ? connection.quoted_false : connection.quoted_true}.uniq.join(',')
-
-    "#{Issue.table_name}.is_private #{op} (#{va})"
-  end
-
-  def sql_for_relations(field, operator, value, options={})
-    relation_options = IssueRelation::TYPES[field]
-    return relation_options unless relation_options
-
-    relation_type = field
-    join_column, target_join_column = "issue_from_id", "issue_to_id"
-    if relation_options[:reverse] || options[:reverse]
-      relation_type = relation_options[:reverse] || relation_type
-      join_column, target_join_column = target_join_column, join_column
-    end
-
-    sql = case operator
-      when "*", "!*"
-        op = (operator == "*" ? 'IN' : 'NOT IN')
-        "#{Issue.table_name}.id #{op} (SELECT DISTINCT #{IssueRelation.table_name}.#{join_column} FROM #{IssueRelation.table_name} WHERE #{IssueRelation.table_name}.relation_type = '#{connection.quote_string(relation_type)}')"
-      when "=", "!"
-        op = (operator == "=" ? 'IN' : 'NOT IN')
-        "#{Issue.table_name}.id #{op} (SELECT DISTINCT #{IssueRelation.table_name}.#{join_column} FROM #{IssueRelation.table_name} WHERE #{IssueRelation.table_name}.relation_type = '#{connection.quote_string(relation_type)}' AND #{IssueRelation.table_name}.#{target_join_column} = #{value.first.to_i})"
-      when "=p", "=!p", "!p"
-        op = (operator == "!p" ? 'NOT IN' : 'IN')
-        comp = (operator == "=!p" ? '<>' : '=')
-        "#{Issue.table_name}.id #{op} (SELECT DISTINCT #{IssueRelation.table_name}.#{join_column} FROM #{IssueRelation.table_name}, #{Issue.table_name} relissues WHERE #{IssueRelation.table_name}.relation_type = '#{connection.quote_string(relation_type)}' AND #{IssueRelation.table_name}.#{target_join_column} = relissues.id AND relissues.project_id #{comp} #{value.first.to_i})"
-      end
-
-    if relation_options[:sym] == field && !options[:reverse]
-      sqls = [sql, sql_for_relations(field, operator, value, :reverse => true)]
-      sqls.join(["!", "!*", "!p"].include?(operator) ? " AND " : " OR ")
-    else
-      sql
-    end
-  end
-
-  IssueRelation::TYPES.keys.each do |relation_type|
-    alias_method "sql_for_#{relation_type}_field".to_sym, :sql_for_relations
   end
 
   private
@@ -572,14 +484,14 @@ class Query < ActiveRecord::Base
       not_in = 'NOT'
     end
     customized_key = "id"
-    customized_class = Issue
+    customized_class = queried_class
     if field =~ /^(.+)\.cf_/
       assoc = $1
       customized_key = "#{assoc}_id"
-      customized_class = Issue.reflect_on_association(assoc.to_sym).klass.base_class rescue nil
-      raise "Unknown Issue association #{assoc}" unless customized_class
+      customized_class = queried_class.reflect_on_association(assoc.to_sym).klass.base_class rescue nil
+      raise "Unknown #{queried_class.name} association #{assoc}" unless customized_class
     end
-    "#{Issue.table_name}.#{customized_key} #{not_in} IN (SELECT #{customized_class.table_name}.id FROM #{customized_class.table_name} LEFT OUTER JOIN #{db_table} ON #{db_table}.customized_type='#{customized_class}' AND #{db_table}.customized_id=#{customized_class.table_name}.id AND #{db_table}.custom_field_id=#{custom_field_id} WHERE " +
+    "#{queried_table_name}.#{customized_key} #{not_in} IN (SELECT #{customized_class.table_name}.id FROM #{customized_class.table_name} LEFT OUTER JOIN #{db_table} ON #{db_table}.customized_type='#{customized_class}' AND #{db_table}.customized_id=#{customized_class.table_name}.id AND #{db_table}.custom_field_id=#{custom_field_id} WHERE " +
       sql_for_field(field, operator, value, db_table, db_field, true) + ')'
   end
 
@@ -655,9 +567,9 @@ class Query < ActiveRecord::Base
         end
       end
     when "o"
-      sql = "#{Issue.table_name}.status_id IN (SELECT id FROM #{IssueStatus.table_name} WHERE is_closed=#{connection.quoted_false})" if field == "status_id"
+      sql = "#{queried_table_name}.status_id IN (SELECT id FROM #{IssueStatus.table_name} WHERE is_closed=#{connection.quoted_false})" if field == "status_id"
     when "c"
-      sql = "#{Issue.table_name}.status_id IN (SELECT id FROM #{IssueStatus.table_name} WHERE is_closed=#{connection.quoted_true})" if field == "status_id"
+      sql = "#{queried_table_name}.status_id IN (SELECT id FROM #{IssueStatus.table_name} WHERE is_closed=#{connection.quoted_true})" if field == "status_id"
     when "><t-"
       # between today - n days and today
       sql = relative_date_clause(db_table, db_field, - value.first.to_i, 0)
@@ -747,7 +659,7 @@ class Query < ActiveRecord::Base
   def add_associations_custom_fields_filters(*associations)
     fields_by_class = CustomField.where(:is_filter => true).group_by(&:class)
     associations.each do |assoc|
-      association_klass = Issue.reflect_on_association(assoc).klass
+      association_klass = queried_class.reflect_on_association(assoc).klass
       fields_by_class.each do |field_class, fields|
         if field_class.customized_class <= association_klass
           add_custom_fields_filters(fields, assoc)
@@ -788,7 +700,7 @@ class Query < ActiveRecord::Base
 
     if order_options
       if order_options.include?('authors')
-        joins << "LEFT OUTER JOIN #{User.table_name} authors ON authors.id = #{Issue.table_name}.author_id"
+        joins << "LEFT OUTER JOIN #{User.table_name} authors ON authors.id = #{queried_table_name}.author_id"
       end
       order_options.scan(/cf_\d+/).uniq.each do |name|
         column = available_columns.detect {|c| c.name.to_s == name}

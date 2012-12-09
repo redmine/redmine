@@ -17,6 +17,8 @@
 
 class IssueQuery < Query
 
+  self.queried_class = Issue
+
   self.available_columns = [
     QueryColumn.new(:project, :sortable => "#{Project.table_name}.name", :groupable => true),
     QueryColumn.new(:tracker, :sortable => "#{Tracker.table_name}.position", :groupable => true),
@@ -226,6 +228,18 @@ class IssueQuery < Query
     @available_columns
   end
 
+  def sortable_columns
+    {'id' => "#{Issue.table_name}.id"}.merge(super)
+  end
+
+  def default_columns_names
+    @default_columns_names ||= begin
+      default_columns = Setting.issue_list_default_columns.map(&:to_sym)
+
+      project.present? ? default_columns : [:project] | default_columns
+    end
+  end
+
   # Returns the issue count
   def issue_count
     Issue.visible.count(:include => [:status, :project], :conditions => statement)
@@ -317,5 +331,95 @@ class IssueQuery < Query
     )
   rescue ::ActiveRecord::StatementInvalid => e
     raise StatementInvalid.new(e.message)
+  end
+
+  def sql_for_watcher_id_field(field, operator, value)
+    db_table = Watcher.table_name
+    "#{Issue.table_name}.id #{ operator == '=' ? 'IN' : 'NOT IN' } (SELECT #{db_table}.watchable_id FROM #{db_table} WHERE #{db_table}.watchable_type='Issue' AND " +
+      sql_for_field(field, '=', value, db_table, 'user_id') + ')'
+  end
+
+  def sql_for_member_of_group_field(field, operator, value)
+    if operator == '*' # Any group
+      groups = Group.all
+      operator = '=' # Override the operator since we want to find by assigned_to
+    elsif operator == "!*"
+      groups = Group.all
+      operator = '!' # Override the operator since we want to find by assigned_to
+    else
+      groups = Group.find_all_by_id(value)
+    end
+    groups ||= []
+
+    members_of_groups = groups.inject([]) {|user_ids, group|
+      if group && group.user_ids.present?
+        user_ids << group.user_ids
+      end
+      user_ids.flatten.uniq.compact
+    }.sort.collect(&:to_s)
+
+    '(' + sql_for_field("assigned_to_id", operator, members_of_groups, Issue.table_name, "assigned_to_id", false) + ')'
+  end
+
+  def sql_for_assigned_to_role_field(field, operator, value)
+    case operator
+    when "*", "!*" # Member / Not member
+      sw = operator == "!*" ? 'NOT' : ''
+      nl = operator == "!*" ? "#{Issue.table_name}.assigned_to_id IS NULL OR" : ''
+      "(#{nl} #{Issue.table_name}.assigned_to_id #{sw} IN (SELECT DISTINCT #{Member.table_name}.user_id FROM #{Member.table_name}" +
+        " WHERE #{Member.table_name}.project_id = #{Issue.table_name}.project_id))"
+    when "=", "!"
+      role_cond = value.any? ?
+        "#{MemberRole.table_name}.role_id IN (" + value.collect{|val| "'#{connection.quote_string(val)}'"}.join(",") + ")" :
+        "1=0"
+
+      sw = operator == "!" ? 'NOT' : ''
+      nl = operator == "!" ? "#{Issue.table_name}.assigned_to_id IS NULL OR" : ''
+      "(#{nl} #{Issue.table_name}.assigned_to_id #{sw} IN (SELECT DISTINCT #{Member.table_name}.user_id FROM #{Member.table_name}, #{MemberRole.table_name}" +
+        " WHERE #{Member.table_name}.project_id = #{Issue.table_name}.project_id AND #{Member.table_name}.id = #{MemberRole.table_name}.member_id AND #{role_cond}))"
+    end
+  end
+
+  def sql_for_is_private_field(field, operator, value)
+    op = (operator == "=" ? 'IN' : 'NOT IN')
+    va = value.map {|v| v == '0' ? connection.quoted_false : connection.quoted_true}.uniq.join(',')
+
+    "#{Issue.table_name}.is_private #{op} (#{va})"
+  end
+
+  def sql_for_relations(field, operator, value, options={})
+    relation_options = IssueRelation::TYPES[field]
+    return relation_options unless relation_options
+
+    relation_type = field
+    join_column, target_join_column = "issue_from_id", "issue_to_id"
+    if relation_options[:reverse] || options[:reverse]
+      relation_type = relation_options[:reverse] || relation_type
+      join_column, target_join_column = target_join_column, join_column
+    end
+
+    sql = case operator
+      when "*", "!*"
+        op = (operator == "*" ? 'IN' : 'NOT IN')
+        "#{Issue.table_name}.id #{op} (SELECT DISTINCT #{IssueRelation.table_name}.#{join_column} FROM #{IssueRelation.table_name} WHERE #{IssueRelation.table_name}.relation_type = '#{connection.quote_string(relation_type)}')"
+      when "=", "!"
+        op = (operator == "=" ? 'IN' : 'NOT IN')
+        "#{Issue.table_name}.id #{op} (SELECT DISTINCT #{IssueRelation.table_name}.#{join_column} FROM #{IssueRelation.table_name} WHERE #{IssueRelation.table_name}.relation_type = '#{connection.quote_string(relation_type)}' AND #{IssueRelation.table_name}.#{target_join_column} = #{value.first.to_i})"
+      when "=p", "=!p", "!p"
+        op = (operator == "!p" ? 'NOT IN' : 'IN')
+        comp = (operator == "=!p" ? '<>' : '=')
+        "#{Issue.table_name}.id #{op} (SELECT DISTINCT #{IssueRelation.table_name}.#{join_column} FROM #{IssueRelation.table_name}, #{Issue.table_name} relissues WHERE #{IssueRelation.table_name}.relation_type = '#{connection.quote_string(relation_type)}' AND #{IssueRelation.table_name}.#{target_join_column} = relissues.id AND relissues.project_id #{comp} #{value.first.to_i})"
+      end
+
+    if relation_options[:sym] == field && !options[:reverse]
+      sqls = [sql, sql_for_relations(field, operator, value, :reverse => true)]
+      sqls.join(["!", "!*", "!p"].include?(operator) ? " AND " : " OR ")
+    else
+      sql
+    end
+  end
+
+  IssueRelation::TYPES.keys.each do |relation_type|
+    alias_method "sql_for_#{relation_type}_field".to_sym, :sql_for_relations
   end
 end
