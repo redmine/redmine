@@ -21,7 +21,7 @@ class TimeEntryQuery < Query
 
   self.available_columns = [
     QueryColumn.new(:project, :sortable => "#{Project.table_name}.name", :groupable => true),
-    QueryColumn.new(:spent_on, :sortable => ["#{TimeEntry.table_name}.spent_on", "#{TimeEntry.table_name}.created_on"]),
+    QueryColumn.new(:spent_on, :sortable => ["#{TimeEntry.table_name}.spent_on", "#{TimeEntry.table_name}.created_on"], :default_order => 'desc', :groupable => true),
     QueryColumn.new(:user, :sortable => lambda {User.fields_for_order_statement}, :groupable => true),
     QueryColumn.new(:activity, :sortable => "#{TimeEntryActivity.table_name}.position", :groupable => true),
     QueryColumn.new(:issue, :sortable => "#{Issue.table_name}.id"),
@@ -94,6 +94,13 @@ class TimeEntryQuery < Query
       options[:name] ||= l(options[:label] || "field_#{field}".gsub(/_id$/, ''))
     end
     @available_filters
+  end
+
+  def available_columns
+    return @available_columns if @available_columns
+    @available_columns = self.class.available_columns.dup
+    @available_columns += TimeEntryCustomField.all.map {|cf| QueryCustomFieldColumn.new(cf) }
+    @available_columns
   end
 
   def default_columns_names

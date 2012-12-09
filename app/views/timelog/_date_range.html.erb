@@ -1,14 +1,25 @@
 <div id="query_form_content" class="hide-when-print">
-<fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
-  <legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
-  <div style="<%= @query.new_record? ? "" : "display: none;" %>">
-    <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
-  </div>
-</fieldset>
+  <fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
+    <legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
+    <div style="<%= @query.new_record? ? "" : "display: none;" %>">
+      <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
+    </div>
+  </fieldset>
+  <fieldset class="collapsible collapsed">
+    <legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
+    <div style="display: none;">
+      <table>
+        <tr>
+          <td><%= l(:field_column_names) %></td>
+          <td><%= render :partial => 'queries/columns', :locals => {:query => @query} %></td>
+        </tr>
+      </table>
+    </div>
+  </fieldset>
 </div>
 
 <p class="buttons hide-when-print">
-  <%= link_to_function l(:button_apply), '$("#query_form").submit()', :class => 'icon icon-checked' %>
+  <%= link_to_function l(:button_apply), 'submit_query_form("query_form")', :class => 'icon icon-checked' %>
   <%= link_to l(:button_clear), {:project_id => @project, :issue_id => @issue}, :class => 'icon icon-reload'  %>
 </p>
 

@@ -92,6 +92,8 @@ module QueriesHelper
         progress_bar(value, :width => '80px')
       elsif  column.name == :spent_hours
         sprintf "%.2f", value
+      elsif column.name == :hours
+        html_hours("%.2f" % value)
       else
         h(value.to_s)
       end
@@ -106,7 +108,7 @@ module QueriesHelper
     when 'FalseClass'
       l(:general_text_No)
     when 'Issue'
-      link_to_issue(value, :subject => false)
+      value.visible? ? link_to_issue(value) : "##{value.id}"
     when 'IssueRelation'
       other = value.other_issue(issue)
       content_tag('span',
