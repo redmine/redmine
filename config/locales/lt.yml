@@ -1140,3 +1140,4 @@ lt:
   setting_non_working_week_days: Nedarbo dienos
   label_in_the_next_days: per ateinančias
   label_in_the_past_days: per paskutines
+  label_attribute_of_user: User's %{name}
