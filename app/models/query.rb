@@ -101,48 +101,51 @@ class Query < ActiveRecord::Base
   validates_length_of :name, :maximum => 255
   validate :validate_query_filters
 
-  @@operators = { "="   => :label_equals,
-                  "!"   => :label_not_equals,
-                  "o"   => :label_open_issues,
-                  "c"   => :label_closed_issues,
-                  "!*"  => :label_none,
-                  "*"   => :label_any,
-                  ">="  => :label_greater_or_equal,
-                  "<="  => :label_less_or_equal,
-                  "><"  => :label_between,
-                  "<t+" => :label_in_less_than,
-                  ">t+" => :label_in_more_than,
-                  "><t+"=> :label_in_the_next_days,
-                  "t+"  => :label_in,
-                  "t"   => :label_today,
-                  "w"   => :label_this_week,
-                  ">t-" => :label_less_than_ago,
-                  "<t-" => :label_more_than_ago,
-                  "><t-"=> :label_in_the_past_days,
-                  "t-"  => :label_ago,
-                  "~"   => :label_contains,
-                  "!~"  => :label_not_contains,
-                  "=p"  => :label_any_issues_in_project,
-                  "=!p" => :label_any_issues_not_in_project,
-                  "!p"  => :label_no_issues_in_project}
+  class_attribute :operators
+  self.operators = {
+    "="   => :label_equals,
+    "!"   => :label_not_equals,
+    "o"   => :label_open_issues,
+    "c"   => :label_closed_issues,
+    "!*"  => :label_none,
+    "*"   => :label_any,
+    ">="  => :label_greater_or_equal,
+    "<="  => :label_less_or_equal,
+    "><"  => :label_between,
+    "<t+" => :label_in_less_than,
+    ">t+" => :label_in_more_than,
+    "><t+"=> :label_in_the_next_days,
+    "t+"  => :label_in,
+    "t"   => :label_today,
+    "w"   => :label_this_week,
+    ">t-" => :label_less_than_ago,
+    "<t-" => :label_more_than_ago,
+    "><t-"=> :label_in_the_past_days,
+    "t-"  => :label_ago,
+    "~"   => :label_contains,
+    "!~"  => :label_not_contains,
+    "=p"  => :label_any_issues_in_project,
+    "=!p" => :label_any_issues_not_in_project,
+    "!p"  => :label_no_issues_in_project
+  }
 
-  cattr_reader :operators
+  class_attribute :operators_by_filter_type
+  self.operators_by_filter_type = {
+    :list => [ "=", "!" ],
+    :list_status => [ "o", "=", "!", "c", "*" ],
+    :list_optional => [ "=", "!", "!*", "*" ],
+    :list_subprojects => [ "*", "!*", "=" ],
+    :date => [ "=", ">=", "<=", "><", "<t+", ">t+", "><t+", "t+", "t", "w", ">t-", "<t-", "><t-", "t-", "!*", "*" ],
+    :date_past => [ "=", ">=", "<=", "><", ">t-", "<t-", "><t-", "t-", "t", "w", "!*", "*" ],
+    :string => [ "=", "~", "!", "!~", "!*", "*" ],
+    :text => [  "~", "!~", "!*", "*" ],
+    :integer => [ "=", ">=", "<=", "><", "!*", "*" ],
+    :float => [ "=", ">=", "<=", "><", "!*", "*" ],
+    :relation => ["=", "=p", "=!p", "!p", "!*", "*"]
+  }
 
-  @@operators_by_filter_type = { :list => [ "=", "!" ],
-                                 :list_status => [ "o", "=", "!", "c", "*" ],
-                                 :list_optional => [ "=", "!", "!*", "*" ],
-                                 :list_subprojects => [ "*", "!*", "=" ],
-                                 :date => [ "=", ">=", "<=", "><", "<t+", ">t+", "><t+", "t+", "t", "w", ">t-", "<t-", "><t-", "t-", "!*", "*" ],
-                                 :date_past => [ "=", ">=", "<=", "><", ">t-", "<t-", "><t-", "t-", "t", "w", "!*", "*" ],
-                                 :string => [ "=", "~", "!", "!~", "!*", "*" ],
-                                 :text => [  "~", "!~", "!*", "*" ],
-                                 :integer => [ "=", ">=", "<=", "><", "!*", "*" ],
-                                 :float => [ "=", ">=", "<=", "><", "!*", "*" ],
-                                 :relation => ["=", "=p", "=!p", "!p", "!*", "*"]}
-
-  cattr_reader :operators_by_filter_type
-
-  @@available_columns = [
+  class_attribute :available_columns
+  self.available_columns = [
     QueryColumn.new(:project, :sortable => "#{Project.table_name}.name", :groupable => true),
     QueryColumn.new(:tracker, :sortable => "#{Tracker.table_name}.position", :groupable => true),
     QueryColumn.new(:parent, :sortable => ["#{Issue.table_name}.root_id", "#{Issue.table_name}.lft ASC"], :default_order => 'desc', :caption => :field_parent_issue),
@@ -162,7 +165,6 @@ class Query < ActiveRecord::Base
     QueryColumn.new(:relations, :caption => :label_related_issues),
     QueryColumn.new(:description, :inline => false)
   ]
-  cattr_reader :available_columns
 
   scope :visible, lambda {|*args|
     user = args.shift || User.current
@@ -398,11 +400,6 @@ class Query < ActiveRecord::Base
     # check if field is defined as an available filter
     if available_filters.has_key? field
       filter_options = available_filters[field]
-      # check if operator is allowed for that filter
-      #if @@operators_by_filter_type[filter_options[:type]].include? operator
-      #  allowed_values = values & ([""] + (filter_options[:values] || []).collect {|val| val[1]})
-      #  filters[field] = {:operator => operator, :values => allowed_values } if (allowed_values.first and !allowed_values.first.empty?) or ["o", "c", "!*", "*", "t"].include? operator
-      #end
       filters[field] = {:operator => operator, :values => (values || [''])}
     end
   end
@@ -410,7 +407,7 @@ class Query < ActiveRecord::Base
   def add_short_filter(field, expression)
     return unless expression && available_filters.has_key?(field)
     field_type = available_filters[field][:type]
-    @@operators_by_filter_type[field_type].sort.reverse.detect do |operator|
+    operators_by_filter_type[field_type].sort.reverse.detect do |operator|
       next unless expression =~ /^#{Regexp.escape(operator)}(.*)$/
       add_filter field, operator, $1.present? ? $1.split('|') : ['']
     end || add_filter(field, '=', expression.split('|'))
@@ -481,10 +478,6 @@ class Query < ActiveRecord::Base
     }
 
     @available_columns
-  end
-
-  def self.available_columns=(v)
-    self.available_columns = (v)
   end
 
   def self.add_available_column(column)
