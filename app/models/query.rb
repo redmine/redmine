@@ -120,7 +120,7 @@ class Query < ActiveRecord::Base
     "ld"  => :label_yesterday,
     "w"   => :label_this_week,
     "lw"  => :label_last_week,
-    "l2w" => [:label_last_n_weeks, :count => 2],
+    "l2w" => [:label_last_n_weeks, {:count => 2}],
     "m"   => :label_this_month,
     "lm"  => :label_last_month,
     "y"   => :label_this_year,
