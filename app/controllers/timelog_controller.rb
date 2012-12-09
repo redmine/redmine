@@ -30,6 +30,8 @@ class TimelogController < ApplicationController
   accept_rss_auth :index
   accept_api_auth :index, :show, :create, :update, :destroy
 
+  rescue_from Query::StatementInvalid, :with => :query_statement_invalid
+
   helper :sort
   include SortHelper
   helper :issues
