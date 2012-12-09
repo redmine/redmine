@@ -158,6 +158,21 @@ class Query < ActiveRecord::Base
     @is_for_all = project.nil?
   end
 
+  # Builds the query from the given params
+  def build_from_params(params)
+    if params[:fields] || params[:f]
+      self.filters = {}
+      add_filters(params[:fields] || params[:f], params[:operators] || params[:op], params[:values] || params[:v])
+    else
+      available_filters.keys.each do |field|
+        add_short_filter(field, params[field]) if params[field]
+      end
+    end
+    self.group_by = params[:group_by] || (params[:query] && params[:query][:group_by])
+    self.column_names = params[:c] || (params[:query] && params[:query][:column_names])
+    self
+  end
+
   def validate_query_filters
     filters.each_key do |field|
       if values_for(field)

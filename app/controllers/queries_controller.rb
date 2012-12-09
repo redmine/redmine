@@ -47,7 +47,7 @@ class QueriesController < ApplicationController
     @query.user = User.current
     @query.project = @project
     @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
-    build_query_from_params
+    @query.build_from_params(params)
   end
 
   def create
@@ -55,7 +55,7 @@ class QueriesController < ApplicationController
     @query.user = User.current
     @query.project = params[:query_is_for_all] ? nil : @project
     @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
-    build_query_from_params
+    @query.build_from_params(params)
     @query.column_names = nil if params[:default_columns]
 
     if @query.save
@@ -73,7 +73,7 @@ class QueriesController < ApplicationController
     @query.attributes = params[:query]
     @query.project = nil if params[:query_is_for_all]
     @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
-    build_query_from_params
+    @query.build_from_params(params)
     @query.column_names = nil if params[:default_columns]
 
     if @query.save
