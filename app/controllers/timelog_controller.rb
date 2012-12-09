@@ -39,7 +39,7 @@ class TimelogController < ApplicationController
   helper :queries
 
   def index
-    @query = TimeEntryQuery.build_from_params(params, :name => '_')
+    @query = TimeEntryQuery.build_from_params(params, :project => @project, :name => '_')
     scope = time_entry_scope
 
     sort_init(@query.sort_criteria.empty? ? [['spent_on', 'desc']] : @query.sort_criteria)
@@ -90,7 +90,7 @@ class TimelogController < ApplicationController
   end
 
   def report
-    @query = TimeEntryQuery.build_from_params(params, :name => '_')
+    @query = TimeEntryQuery.build_from_params(params, :project => @project, :name => '_')
     scope = time_entry_scope
 
     @report = Redmine::Helpers::TimeReport.new(@project, @issue, params[:criteria], params[:columns], scope)

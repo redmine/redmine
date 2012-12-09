@@ -38,8 +38,57 @@ class TimeEntryQuery < Query
   def available_filters
     return @available_filters if @available_filters
     @available_filters = {
-      "spent_on" => { :type => :date_past, :order => 0 }
+      "spent_on" => { :type => :date_past, :order => 0 },
+      "comments" => { :type => :text, :order => 5 },
+      "hours" => { :type => :float, :order => 6 }
     }
+
+    principals = []
+    if project
+      principals += project.principals.sort
+      unless project.leaf?
+        subprojects = project.descendants.visible.all
+        if subprojects.any?
+          @available_filters["subproject_id"] = {
+            :type => :list_subprojects, :order => 1,
+            :values => subprojects.collect{|s| [s.name, s.id.to_s] }
+          }
+          principals += Principal.member_of(subprojects)
+        end
+      end
+    else
+      if all_projects.any?
+        # members of visible projects
+        principals += Principal.member_of(all_projects)
+        # project filter
+        project_values = []
+        if User.current.logged? && User.current.memberships.any?
+          project_values << ["<< #{l(:label_my_projects).downcase} >>", "mine"]
+        end
+        project_values += all_projects_values
+        @available_filters["project_id"] = {
+          :type => :list, :order => 1, :values => project_values
+        } unless project_values.empty?
+      end
+    end
+    principals.uniq!
+    principals.sort!
+    users = principals.select {|p| p.is_a?(User)}
+
+    users_values = []
+    users_values << ["<< #{l(:label_me)} >>", "me"] if User.current.logged?
+    users_values += users.collect{|s| [s.name, s.id.to_s] }
+    @available_filters["user_id"] = {
+      :type => :list_optional, :order => 2, :values => users_values
+    } unless users_values.empty?
+
+    activities = (project ? project.activities : TimeEntryActivity.shared.active)
+    @available_filters["activity_id"] = {
+      :type => :list, :order => 3, :values => activities.map {|a| [a.name, a.id.to_s]}
+    } unless activities.empty?
+
+    add_custom_fields_filters(TimeEntryCustomField.where(:is_filter => true).all)
+
     @available_filters.each do |field, options|
       options[:name] ||= l(options[:label] || "field_#{field}".gsub(/_id$/, ''))
     end

@@ -73,6 +73,7 @@ when "IssueCustomField" %>
 
 <% when "TimeEntryCustomField" %>
     <p><%= f.check_box :is_required %></p>
+    <p><%= f.check_box :is_filter %></p>
 
 <% else %>
     <p><%= f.check_box :is_required %></p>
