@@ -166,10 +166,9 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
     assert_equal 'text/csv; header=present', @response.content_type
     lines = @response.body.chomp.split("\n")
     # Headers
-    assert_equal 'Project,Member,Activity,2007-1,2007-2,2007-3,2007-4,2007-5,2007-6,Total',
-                 lines.first
+    assert_equal 'Project,Member,Activity,2007-3,2007-4,Total', lines.first
     # Total row
-    assert_equal 'Total,"","","","",154.25,8.65,"","",162.90', lines.last
+    assert_equal 'Total,"","",154.25,8.65,162.90', lines.last
   end
 
   def test_report_csv_export
@@ -180,10 +179,9 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
     assert_equal 'text/csv; header=present', @response.content_type
     lines = @response.body.chomp.split("\n")
     # Headers
-    assert_equal 'Project,Member,Activity,2007-1,2007-2,2007-3,2007-4,2007-5,2007-6,Total',
-                 lines.first
+    assert_equal 'Project,Member,Activity,2007-3,2007-4,Total', lines.first
     # Total row
-    assert_equal 'Total,"","","","",154.25,8.65,"","",162.90', lines.last
+    assert_equal 'Total,"","",154.25,8.65,162.90', lines.last
   end
 
   def test_csv_big_5

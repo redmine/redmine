@@ -242,7 +242,13 @@ function toggleOperator(field) {
     case "!*":
     case "*":
     case "t":
+    case "ld":
     case "w":
+    case "lw":
+    case "l2w":
+    case "m":
+    case "lm":
+    case "y":
     case "o":
     case "c":
       enableValues(field, []);

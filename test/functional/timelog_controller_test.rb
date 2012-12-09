@@ -430,14 +430,26 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal [1, 3], assigns(:entries).collect(&:project_id).uniq.sort
     assert_not_nil assigns(:total_hours)
     assert_equal "162.90", "%.2f" % assigns(:total_hours)
-    # display all time by default
-    assert_nil assigns(:from)
-    assert_nil assigns(:to)
     assert_tag :form,
       :attributes => {:action => "/projects/ecookbook/time_entries", :id => 'query_form'}
   end
 
   def test_index_at_project_level_with_date_range
+    get :index, :project_id => 'ecookbook',
+      :f => ['spent_on'],
+      :op => {'spent_on' => '><'},
+      :v => {'spent_on' => ['2007-03-20', '2007-04-30']}
+    assert_response :success
+    assert_template 'index'
+    assert_not_nil assigns(:entries)
+    assert_equal 3, assigns(:entries).size
+    assert_not_nil assigns(:total_hours)
+    assert_equal "12.90", "%.2f" % assigns(:total_hours)
+    assert_tag :form,
+      :attributes => {:action => "/projects/ecookbook/time_entries", :id => 'query_form'}
+  end
+
+  def test_index_at_project_level_with_date_range_using_from_and_to_params
     get :index, :project_id => 'ecookbook', :from => '2007-03-20', :to => '2007-04-30'
     assert_response :success
     assert_template 'index'
@@ -445,114 +457,21 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal 3, assigns(:entries).size
     assert_not_nil assigns(:total_hours)
     assert_equal "12.90", "%.2f" % assigns(:total_hours)
-    assert_equal '2007-03-20'.to_date, assigns(:from)
-    assert_equal '2007-04-30'.to_date, assigns(:to)
     assert_tag :form,
       :attributes => {:action => "/projects/ecookbook/time_entries", :id => 'query_form'}
   end
 
   def test_index_at_project_level_with_period
-    get :index, :project_id => 'ecookbook', :period => '7_days'
+    get :index, :project_id => 'ecookbook',
+      :f => ['spent_on'],
+      :op => {'spent_on' => '>t-'},
+      :v => {'spent_on' => ['7']}
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:entries)
     assert_not_nil assigns(:total_hours)
-    assert_equal Date.today - 7, assigns(:from)
-    assert_equal Date.today, assigns(:to)
     assert_tag :form,
       :attributes => {:action => "/projects/ecookbook/time_entries", :id => 'query_form'}
-  end
-
-  def test_index_one_day
-    get :index, :project_id => 'ecookbook', :from => "2007-03-23", :to => "2007-03-23"
-    assert_response :success
-    assert_template 'index'
-    assert_not_nil assigns(:total_hours)
-    assert_equal "4.25", "%.2f" % assigns(:total_hours)
-    assert_tag :form,
-      :attributes => {:action => "/projects/ecookbook/time_entries", :id => 'query_form'}
-  end
-
-  def test_index_from_a_date
-    get :index, :project_id => 'ecookbook', :from => "2007-03-23", :to => ""
-    assert_equal '2007-03-23'.to_date, assigns(:from)
-    assert_nil assigns(:to)
-  end
-
-  def test_index_to_a_date
-    get :index, :project_id => 'ecookbook', :from => "", :to => "2007-03-23"
-    assert_nil assigns(:from)
-    assert_equal '2007-03-23'.to_date, assigns(:to)
-  end
-
-  def test_index_today
-    Date.stubs(:today).returns('2011-12-15'.to_date)
-    get :index, :period => 'today'
-    assert_equal '2011-12-15'.to_date, assigns(:from)
-    assert_equal '2011-12-15'.to_date, assigns(:to)
-  end
-
-  def test_index_yesterday
-    Date.stubs(:today).returns('2011-12-15'.to_date)
-    get :index, :period => 'yesterday'
-    assert_equal '2011-12-14'.to_date, assigns(:from)
-    assert_equal '2011-12-14'.to_date, assigns(:to)
-  end
-
-  def test_index_current_week
-    Date.stubs(:today).returns('2011-12-15'.to_date)
-    get :index, :period => 'current_week'
-    assert_equal '2011-12-12'.to_date, assigns(:from)
-    assert_equal '2011-12-18'.to_date, assigns(:to)
-  end
-
-  def test_index_last_week
-    Date.stubs(:today).returns('2011-12-15'.to_date)
-    get :index, :period => 'last_week'
-    assert_equal '2011-12-05'.to_date, assigns(:from)
-    assert_equal '2011-12-11'.to_date, assigns(:to)
-  end
-
-  def test_index_last_2_week
-    Date.stubs(:today).returns('2011-12-15'.to_date)
-    get :index, :period => 'last_2_weeks'
-    assert_equal '2011-11-28'.to_date, assigns(:from)
-    assert_equal '2011-12-11'.to_date, assigns(:to)
-  end
-
-  def test_index_7_days
-    Date.stubs(:today).returns('2011-12-15'.to_date)
-    get :index, :period => '7_days'
-    assert_equal '2011-12-08'.to_date, assigns(:from)
-    assert_equal '2011-12-15'.to_date, assigns(:to)
-  end
-
-  def test_index_current_month
-    Date.stubs(:today).returns('2011-12-15'.to_date)
-    get :index, :period => 'current_month'
-    assert_equal '2011-12-01'.to_date, assigns(:from)
-    assert_equal '2011-12-31'.to_date, assigns(:to)
-  end
-
-  def test_index_last_month
-    Date.stubs(:today).returns('2011-12-15'.to_date)
-    get :index, :period => 'last_month'
-    assert_equal '2011-11-01'.to_date, assigns(:from)
-    assert_equal '2011-11-30'.to_date, assigns(:to)
-  end
-
-  def test_index_30_days
-    Date.stubs(:today).returns('2011-12-15'.to_date)
-    get :index, :period => '30_days'
-    assert_equal '2011-11-15'.to_date, assigns(:from)
-    assert_equal '2011-12-15'.to_date, assigns(:to)
-  end
-
-  def test_index_current_year
-    Date.stubs(:today).returns('2011-12-15'.to_date)
-    get :index, :period => 'current_year'
-    assert_equal '2011-01-01'.to_date, assigns(:from)
-    assert_equal '2011-12-31'.to_date, assigns(:to)
   end
 
   def test_index_at_issue_level
@@ -577,11 +496,18 @@ class TimelogControllerTest < ActionController::TestCase
     t2 = TimeEntry.create!(:user => User.find(1), :project => Project.find(1), :hours => 1, :spent_on => '2012-06-16', :created_on => '2012-06-16 20:05:00', :activity_id => 10)
     t3 = TimeEntry.create!(:user => User.find(1), :project => Project.find(1), :hours => 1, :spent_on => '2012-06-15', :created_on => '2012-06-16 20:10:00', :activity_id => 10)
 
-    get :index, :project_id => 1, :from => '2012-06-15', :to => '2012-06-16'
+    get :index, :project_id => 1,
+      :f => ['spent_on'],
+      :op => {'spent_on' => '><'},
+      :v => {'spent_on' => ['2012-06-15', '2012-06-16']}
     assert_response :success
     assert_equal [t2, t1, t3], assigns(:entries)
 
-    get :index, :project_id => 1, :from => '2012-06-15', :to => '2012-06-16', :sort => 'spent_on'
+    get :index, :project_id => 1,
+      :f => ['spent_on'],
+      :op => {'spent_on' => '><'},
+      :v => {'spent_on' => ['2012-06-15', '2012-06-16']},
+      :sort => 'spent_on'
     assert_response :success
     assert_equal [t3, t1, t2], assigns(:entries)
   end

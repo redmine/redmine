@@ -36,24 +36,14 @@ class TimelogController < ApplicationController
   include TimelogHelper
   helper :custom_fields
   include CustomFieldsHelper
+  helper :queries
 
   def index
-    sort_init 'spent_on', 'desc'
-    sort_update 'spent_on' => ['spent_on', "#{TimeEntry.table_name}.created_on"],
-                'user' => 'user_id',
-                'activity' => 'activity_id',
-                'project' => "#{Project.table_name}.name",
-                'issue' => 'issue_id',
-                'hours' => 'hours'
+    @query = TimeEntryQuery.build_from_params(params, :name => '_')
+    scope = time_entry_scope
 
-    retrieve_date_range
-
-    scope = TimeEntry.visible.spent_between(@from, @to)
-    if @issue
-      scope = scope.on_issue(@issue)
-    elsif @project
-      scope = scope.on_project(@project, Setting.display_subprojects_issues?)
-    end
+    sort_init(@query.sort_criteria.empty? ? [['spent_on', 'desc']] : @query.sort_criteria)
+    sort_update(@query.sortable_columns)
 
     respond_to do |format|
       format.html {
@@ -100,8 +90,10 @@ class TimelogController < ApplicationController
   end
 
   def report
-    retrieve_date_range
-    @report = Redmine::Helpers::TimeReport.new(@project, @issue, params[:criteria], params[:columns], @from, @to)
+    @query = TimeEntryQuery.build_from_params(params, :name => '_')
+    scope = time_entry_scope
+
+    @report = Redmine::Helpers::TimeReport.new(@project, @issue, params[:criteria], params[:columns], scope)
 
     respond_to do |format|
       format.html { render :layout => !request.xhr? }
@@ -289,6 +281,17 @@ private
     elsif !params[:project_id].blank?
       @project = Project.find(params[:project_id])
     end
+  end
+
+  # Returns the TimeEntry scope for index and report actions
+  def time_entry_scope
+    scope = TimeEntry.visible.where(@query.statement)
+    if @issue
+      scope = scope.on_issue(@issue)
+    elsif @project
+      scope = scope.on_project(@project, Setting.display_subprojects_issues?)
+    end
+    scope
   end
 
   # Retrieves the date range based on predefined ranges or specific from/to param dates

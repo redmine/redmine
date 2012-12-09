@@ -18,9 +18,9 @@
 module Redmine
   module Helpers
     class TimeReport
-      attr_reader :criteria, :columns, :from, :to, :hours, :total_hours, :periods
+      attr_reader :criteria, :columns, :hours, :total_hours, :periods
 
-      def initialize(project, issue, criteria, columns, from, to)
+      def initialize(project, issue, criteria, columns, time_entry_scope)
         @project = project
         @issue = issue
 
@@ -30,8 +30,7 @@ module Redmine
         @criteria = @criteria[0,3]
 
         @columns = (columns && %w(year month week day).include?(columns)) ? columns : 'month'
-        @from = from
-        @to = to
+        @scope = time_entry_scope
 
         run
       end
@@ -44,15 +43,9 @@ module Redmine
 
       def run
         unless @criteria.empty?
-          scope = TimeEntry.visible.spent_between(@from, @to)
-          if @issue
-            scope = scope.on_issue(@issue)
-          elsif @project
-            scope = scope.on_project(@project, Setting.display_subprojects_issues?)
-          end
           time_columns = %w(tyear tmonth tweek spent_on)
           @hours = []
-          scope.sum(:hours, :include => :issue, :group => @criteria.collect{|criteria| @available_criteria[criteria][:sql]} + time_columns).each do |hash, hours|
+          @scope.sum(:hours, :include => :issue, :group => @criteria.collect{|criteria| @available_criteria[criteria][:sql]} + time_columns).each do |hash, hours|
             h = {'hours' => hours}
             (@criteria + time_columns).each_with_index do |name, i|
               h[name] = hash[i]
@@ -73,15 +66,11 @@ module Redmine
             end
           end
           
-          if @from.nil?
-            min = @hours.collect {|row| row['spent_on']}.min
-            @from = min ? min.to_date : Date.today
-          end
+          min = @hours.collect {|row| row['spent_on']}.min
+          @from = min ? min.to_date : Date.today
 
-          if @to.nil?
-            max = @hours.collect {|row| row['spent_on']}.max
-            @to = max ? max.to_date : Date.today
-          end
+          max = @hours.collect {|row| row['spent_on']}.max
+          @to = max ? max.to_date : Date.today
           
           @total_hours = @hours.inject(0) {|s,k| s = s + k['hours'].to_f}
 

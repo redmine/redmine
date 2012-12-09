@@ -117,7 +117,13 @@ class Query < ActiveRecord::Base
     "><t+"=> :label_in_the_next_days,
     "t+"  => :label_in,
     "t"   => :label_today,
+    "ld"  => :label_yesterday,
     "w"   => :label_this_week,
+    "lw"  => :label_last_week,
+    "l2w" => [:label_last_n_weeks, :count => 2],
+    "m"   => :label_this_month,
+    "lm"  => :label_last_month,
+    "y"   => :label_this_year,
     ">t-" => :label_less_than_ago,
     "<t-" => :label_more_than_ago,
     "><t-"=> :label_in_the_past_days,
@@ -135,8 +141,8 @@ class Query < ActiveRecord::Base
     :list_status => [ "o", "=", "!", "c", "*" ],
     :list_optional => [ "=", "!", "!*", "*" ],
     :list_subprojects => [ "*", "!*", "=" ],
-    :date => [ "=", ">=", "<=", "><", "<t+", ">t+", "><t+", "t+", "t", "w", ">t-", "<t-", "><t-", "t-", "!*", "*" ],
-    :date_past => [ "=", ">=", "<=", "><", ">t-", "<t-", "><t-", "t-", "t", "w", "!*", "*" ],
+    :date => [ "=", ">=", "<=", "><", "<t+", ">t+", "><t+", "t+", "t", "ld", "w", "lw", "l2w", "m", "lm", "y", ">t-", "<t-", "><t-", "t-", "!*", "*" ],
+    :date_past => [ "=", ">=", "<=", "><", ">t-", "<t-", "><t-", "t-", "t", "ld", "w", "lw", "l2w", "m", "lm", "y", "!*", "*" ],
     :string => [ "=", "~", "!", "!~", "!*", "*" ],
     :text => [  "~", "!~", "!*", "*" ],
     :integer => [ "=", ">=", "<=", "><", "!*", "*" ],
@@ -173,6 +179,11 @@ class Query < ActiveRecord::Base
     self
   end
 
+  # Builds a new query from the given params and attributes
+  def self.build_from_params(params, attributes={})
+    new(attributes).build_from_params(params)
+  end
+
   def validate_query_filters
     filters.each_key do |field|
       if values_for(field)
@@ -195,7 +206,7 @@ class Query < ActiveRecord::Base
           # filter requires one or more values
           (values_for(field) and !values_for(field).first.blank?) or
           # filter doesn't require any value
-          ["o", "c", "!*", "*", "t", "w"].include? operator_for(field)
+          ["o", "c", "!*", "*", "t", "ld", "w", "lw", "l2w", "m", "lm", "y"].include? operator_for(field)
     end if filters
   end
 
@@ -218,7 +229,7 @@ class Query < ActiveRecord::Base
 
   # Returns a hash of localized labels for all filter operators
   def self.operators_labels
-    operators.inject({}) {|h, operator| h[operator.first] = l(operator.last); h}
+    operators.inject({}) {|h, operator| h[operator.first] = l(*operator.last); h}
   end
 
   # Returns a representation of the available filters for JSON serialization
@@ -245,7 +256,7 @@ class Query < ActiveRecord::Base
     @all_projects_values = values
   end
 
-  def add_filter(field, operator, values)
+  def add_filter(field, operator, values=nil)
     # values must be an array
     return unless values.nil? || values.is_a?(Array)
     # check if field is defined as an available filter
@@ -612,12 +623,39 @@ class Query < ActiveRecord::Base
     when "t"
       # = today
       sql = relative_date_clause(db_table, db_field, 0, 0)
+    when "ld"
+      # = yesterday
+      sql = relative_date_clause(db_table, db_field, -1, -1)
     when "w"
       # = this week
       first_day_of_week = l(:general_first_day_of_week).to_i
       day_of_week = Date.today.cwday
       days_ago = (day_of_week >= first_day_of_week ? day_of_week - first_day_of_week : day_of_week + 7 - first_day_of_week)
       sql = relative_date_clause(db_table, db_field, - days_ago, - days_ago + 6)
+    when "lw"
+      # = last week
+      first_day_of_week = l(:general_first_day_of_week).to_i
+      day_of_week = Date.today.cwday
+      days_ago = (day_of_week >= first_day_of_week ? day_of_week - first_day_of_week : day_of_week + 7 - first_day_of_week)
+      sql = relative_date_clause(db_table, db_field, - days_ago - 7, - days_ago - 1)
+    when "l2w"
+      # = last 2 weeks
+      first_day_of_week = l(:general_first_day_of_week).to_i
+      day_of_week = Date.today.cwday
+      days_ago = (day_of_week >= first_day_of_week ? day_of_week - first_day_of_week : day_of_week + 7 - first_day_of_week)
+      sql = relative_date_clause(db_table, db_field, - days_ago - 14, - days_ago - 1)
+    when "m"
+      # = this month
+      date = Date.today
+      sql = date_clause(db_table, db_field, date.beginning_of_month, date.end_of_month)
+    when "lm"
+      # = last month
+      date = Date.today.prev_month
+      sql = date_clause(db_table, db_field, date.beginning_of_month, date.end_of_month)
+    when "y"
+      # = this year
+      date = Date.today
+      sql = date_clause(db_table, db_field, date.beginning_of_year, date.end_of_year)
     when "~"
       sql = "LOWER(#{db_table}.#{db_field}) LIKE '%#{connection.quote_string(value.first.to_s.downcase)}%'"
     when "!~"
