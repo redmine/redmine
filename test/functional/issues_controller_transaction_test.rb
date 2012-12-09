@@ -252,7 +252,7 @@ class IssuesControllerTransactionTest < ActionController::TestCase
   end
 
   def test_index_should_rescue_invalid_sql_query
-    Query.any_instance.stubs(:statement).returns("INVALID STATEMENT")
+    IssueQuery.any_instance.stubs(:statement).returns("INVALID STATEMENT")
 
     get :index
     assert_response 500

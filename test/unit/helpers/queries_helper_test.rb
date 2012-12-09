@@ -31,7 +31,7 @@ class QueriesHelperTest < ActionView::TestCase
 
   def test_order
     User.current = User.find_by_login('admin')
-    query = Query.new(:project => nil, :name => '_')
+    query = IssueQuery.new(:project => nil, :name => '_')
     assert_equal 30, query.available_filters.size
     fo = filters_options(query)
     assert_equal 31, fo.size
@@ -52,7 +52,7 @@ class QueriesHelperTest < ActionView::TestCase
             )
     assert field.save
     User.current = User.find_by_login('admin')
-    query = Query.new(:project => nil, :name => '_')
+    query = IssueQuery.new(:project => nil, :name => '_')
     assert_equal 32, query.available_filters.size
     fo = filters_options(query)
     assert_equal 33, fo.size

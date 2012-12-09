@@ -24,7 +24,7 @@
 	<legend><%= l(:setting_issue_list_default_columns) %></legend>
   <%= render :partial => 'queries/columns',
              :locals => {
-               :query => Query.new(:column_names => Setting.issue_list_default_columns),
+               :query => IssueQuery.new(:column_names => Setting.issue_list_default_columns),
                :tag_name => 'settings[issue_list_default_columns][]'
              } %>
 </fieldset>

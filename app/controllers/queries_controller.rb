@@ -32,9 +32,9 @@ class QueriesController < ApplicationController
       @limit = per_page_option
     end
 
-    @query_count = Query.visible.count
+    @query_count = IssueQuery.visible.count
     @query_pages = Paginator.new self, @query_count, @limit, params['page']
-    @queries = Query.visible.all(:limit => @limit, :offset => @offset, :order => "#{Query.table_name}.name")
+    @queries = IssueQuery.visible.all(:limit => @limit, :offset => @offset, :order => "#{Query.table_name}.name")
 
     respond_to do |format|
       format.html { render :nothing => true }
@@ -43,7 +43,7 @@ class QueriesController < ApplicationController
   end
 
   def new
-    @query = Query.new
+    @query = IssueQuery.new
     @query.user = User.current
     @query.project = @project
     @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
@@ -51,7 +51,7 @@ class QueriesController < ApplicationController
   end
 
   def create
-    @query = Query.new(params[:query])
+    @query = IssueQuery.new(params[:query])
     @query.user = User.current
     @query.project = params[:query_is_for_all] ? nil : @project
     @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
@@ -91,7 +91,7 @@ class QueriesController < ApplicationController
 
 private
   def find_query
-    @query = Query.find(params[:id])
+    @query = IssueQuery.find(params[:id])
     @project = @query.project
     render_403 unless @query.editable_by?(User.current)
   rescue ActiveRecord::RecordNotFound

@@ -42,7 +42,7 @@ class CalendarsControllerTest < ActionController::TestCase
 
   context "GET :show" do
     should "run custom queries" do
-      @query = Query.create!(:name => 'Calendar', :is_public => true)
+      @query = IssueQuery.create!(:name => 'Calendar', :is_public => true)
 
       get :show, :query_id => @query.id
       assert_response :success
