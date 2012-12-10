@@ -786,7 +786,7 @@ class Issue < ActiveRecord::Base
   end
 
   def relations
-    @relations ||= IssueRelations.new(self, (relations_from + relations_to).sort)
+    @relations ||= IssueRelation::Relations.new(self, (relations_from + relations_to).sort)
   end
 
   # Preloads relations for a collection of issues
@@ -823,7 +823,7 @@ class Issue < ActiveRecord::Base
           relations_from.select {|relation| relation.issue_from_id == issue.id} +
           relations_to.select {|relation| relation.issue_to_id == issue.id}
 
-        issue.instance_variable_set "@relations", IssueRelations.new(issue, relations.sort)
+        issue.instance_variable_set "@relations", IssueRelation::Relations.new(issue, relations.sort)
       end
     end
   end
