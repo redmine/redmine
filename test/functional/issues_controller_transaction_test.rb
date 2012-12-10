@@ -104,7 +104,7 @@ class IssuesControllerTransactionTest < ActionController::TestCase
     assert_template 'edit'
     attachment = Attachment.first(:order => 'id DESC')
     assert_tag 'input', :attributes => {:name => 'attachments[p0][token]', :value => attachment.token}
-    assert_tag 'span', :content => /testfile.txt/
+    assert_tag 'input', :attributes => {:name => 'attachments[p0][filename]', :value => 'testfile.txt'}
   end
 
   def test_update_stale_issue_without_notes_should_not_show_add_notes_option

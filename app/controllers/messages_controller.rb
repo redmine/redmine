@@ -19,6 +19,7 @@ class MessagesController < ApplicationController
   menu_item :boards
   default_search_scope :messages
   before_filter :find_board, :only => [:new, :preview]
+  before_filter :find_attachments, :only => [:preview]
   before_filter :find_message, :except => [:new, :preview]
   before_filter :authorize, :except => [:preview, :edit, :destroy]
 
@@ -117,7 +118,6 @@ class MessagesController < ApplicationController
 
   def preview
     message = @board.messages.find_by_id(params[:id])
-    @attachements = message.attachments if message
     @text = (params[:message] || params[:reply])[:content]
     @previewed = message
     render :partial => 'common/preview'

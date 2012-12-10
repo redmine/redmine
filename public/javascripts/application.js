@@ -290,40 +290,6 @@ function submit_query_form(id) {
   $('#'+id).submit();
 }
 
-var fileFieldCount = 1;
-function addFileField() {
-  var fields = $('#attachments_fields');
-  if (fields.children().length >= 10) return false;
-  fileFieldCount++;
-  var s = fields.children('span').first().clone();
-  s.children('input.file').attr('name', "attachments[" + fileFieldCount + "][file]").val('');
-  s.children('input.description').attr('name', "attachments[" + fileFieldCount + "][description]").val('');
-  fields.append(s);
-}
-
-function removeFileField(el) {
-  var fields = $('#attachments_fields');
-  var s = $(el).parents('span').first();
-  if (fields.children().length > 1) {
-    s.remove();
-  } else {
-    s.children('input.file').val('');
-    s.children('input.description').val('');
-  }
-}
-
-function checkFileSize(el, maxSize, message) {
-  var files = el.files;
-  if (files) {
-    for (var i=0; i<files.length; i++) {
-      if (files[i].size > maxSize) {
-        alert(message);
-        el.value = "";
-      }
-    }
-  }
-}
-
 function showTab(name) {
   $('div#content .tab-content').hide();
   $('div.tabs a').removeClass('selected');
@@ -579,8 +545,8 @@ function warnLeavingUnsaved(message) {
 };
 
 $(document).ready(function(){
-  $('#ajax-indicator').bind('ajaxSend', function(){
-    if ($('.ajax-loading').length == 0) {
+  $('#ajax-indicator').bind('ajaxSend', function(event, xhr, settings){
+    if ($('.ajax-loading').length == 0 && settings.contentType != 'application/octet-stream') {
       $('#ajax-indicator').show();
     }
   });
@@ -605,6 +571,11 @@ function addFormObserversForDoubleSubmit() {
       });
     }
   });
+}
+
+function blockEventPropagation(event) {
+  event.stopPropagation();
+  event.preventDefault();
 }
 
 $(document).ready(hideOnLoad);
