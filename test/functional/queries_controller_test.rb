@@ -24,6 +24,12 @@ class QueriesControllerTest < ActionController::TestCase
     User.current = nil
   end
 
+  def test_index
+    get :index
+    # HTML response not implemented
+    assert_response 406
+  end
+
   def test_new_project_query
     @request.session[:user_id] = 2
     get :new, :project_id => 1

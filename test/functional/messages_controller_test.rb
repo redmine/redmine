@@ -81,6 +81,12 @@ class MessagesControllerTest < ActionController::TestCase
     assert_template 'new'
   end
 
+  def test_get_new_with_invalid_board
+    @request.session[:user_id] = 2
+    get :new, :board_id => 99
+    assert_response 404
+  end
+
   def test_post_new
     @request.session[:user_id] = 2
     ActionMailer::Base.deliveries.clear

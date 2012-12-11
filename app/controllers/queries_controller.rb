@@ -37,7 +37,6 @@ class QueriesController < ApplicationController
     @queries = IssueQuery.visible.all(:limit => @limit, :offset => @offset, :order => "#{Query.table_name}.name")
 
     respond_to do |format|
-      format.html { render :nothing => true }
       format.api
     end
   end

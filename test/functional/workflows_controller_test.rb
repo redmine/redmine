@@ -297,6 +297,26 @@ class WorkflowsControllerTest < ActionController::TestCase
     assert_equal source_t3, status_transitions(:tracker_id => 3, :role_id => 3)
   end
 
+  def test_post_copy_with_incomplete_source_specification_should_fail
+    assert_no_difference 'WorkflowRule.count' do
+      post :copy,
+        :source_tracker_id => '', :source_role_id => '2',
+        :target_tracker_ids => ['2', '3'], :target_role_ids => ['1', '3']
+      assert_response 200
+      assert_select 'div.flash.error', :text => 'Please select a source tracker or role' 
+    end
+  end
+
+  def test_post_copy_with_incomplete_target_specification_should_fail
+    assert_no_difference 'WorkflowRule.count' do
+      post :copy,
+        :source_tracker_id => '1', :source_role_id => '2',
+        :target_tracker_ids => ['2', '3']
+      assert_response 200
+      assert_select 'div.flash.error', :text => 'Please select target tracker(s) and role(s)'
+    end
+  end
+
   # Returns an array of status transitions that can be compared
   def status_transitions(conditions)
     WorkflowTransition.
