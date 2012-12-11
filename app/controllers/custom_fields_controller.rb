@@ -31,7 +31,7 @@ class CustomFieldsController < ApplicationController
   end
 
   def create
-    if request.post? and @custom_field.save
+    if @custom_field.save
       flash[:notice] = l(:notice_successful_create)
       call_hook(:controller_custom_fields_new_after_save, :params => params, :custom_field => @custom_field)
       redirect_to custom_fields_path(:tab => @custom_field.class.name)
@@ -44,7 +44,7 @@ class CustomFieldsController < ApplicationController
   end
 
   def update
-    if request.put? and @custom_field.update_attributes(params[:custom_field])
+    if @custom_field.update_attributes(params[:custom_field])
       flash[:notice] = l(:notice_successful_update)
       call_hook(:controller_custom_fields_edit_after_save, :params => params, :custom_field => @custom_field)
       redirect_to custom_fields_path(:tab => @custom_field.class.name)
@@ -54,10 +54,11 @@ class CustomFieldsController < ApplicationController
   end
 
   def destroy
-    @custom_field.destroy
-    redirect_to custom_fields_path(:tab => @custom_field.class.name)
-  rescue
-    flash[:error] = l(:error_can_not_delete_custom_field)
+    begin
+      @custom_field.destroy
+    rescue
+      flash[:error] = l(:error_can_not_delete_custom_field)
+    end
     redirect_to custom_fields_path(:tab => @custom_field.class.name)
   end
 
