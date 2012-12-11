@@ -30,7 +30,7 @@ class WikisController < ApplicationController
   def destroy
     if request.post? && params[:confirm] && @project.wiki
       @project.wiki.destroy
-      redirect_to :controller => 'projects', :action => 'settings', :id => @project, :tab => 'wiki'
+      redirect_to settings_project_path(@project, :tab => 'wiki')
     end
   end
 end

@@ -334,6 +334,16 @@ class ApplicationController < ActionController::Base
     url
   end
 
+  # Returns the path to project issues or to the cross-project
+  # issue list if project is nil
+  def _issues_path(project, *args)
+    if project
+      project_issues_path(project, *args)
+    else
+      issues_path(*args)
+    end
+  end
+
   def redirect_back_or_default(default)
     back_url = params[:back_url].to_s
     if back_url.present?

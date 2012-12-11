@@ -48,7 +48,7 @@ class TrackersController < ApplicationController
         @tracker.workflow_rules.copy(copy_from)
       end
       flash[:notice] = l(:notice_successful_create)
-      redirect_to :action => 'index'
+      redirect_to trackers_path
       return
     end
     new
@@ -64,7 +64,7 @@ class TrackersController < ApplicationController
     @tracker = Tracker.find(params[:id])
     if @tracker.update_attributes(params[:tracker])
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'index'
+      redirect_to trackers_path
       return
     end
     edit
@@ -78,7 +78,7 @@ class TrackersController < ApplicationController
     else
       @tracker.destroy
     end
-    redirect_to :action => 'index'
+    redirect_to trackers_path
   end
 
   def fields
@@ -92,7 +92,7 @@ class TrackersController < ApplicationController
         end
       end
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'fields'
+      redirect_to fields_trackers_path
       return
     end
     @trackers = Tracker.sorted.all

@@ -36,7 +36,7 @@ class SettingsController < ApplicationController
         Setting[name] = value
       end
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'edit', :tab => params[:tab]
+      redirect_to settings_path(:tab => params[:tab])
     else
       @options = {}
       user_format = User::USER_FORMATS.collect{|key, value| [key, value[:setting_order]]}.sort{|a, b| a[1] <=> b[1]}
@@ -55,7 +55,7 @@ class SettingsController < ApplicationController
     if request.post?
       Setting.send "plugin_#{@plugin.id}=", params[:settings]
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'plugin', :id => @plugin.id
+      redirect_to plugin_settings_path(@plugin.id)
     else
       @partial = @plugin.settings[:partial]
       @settings = Setting.send "plugin_#{@plugin.id}"

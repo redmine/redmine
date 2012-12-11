@@ -101,10 +101,11 @@ class UsersController < ApplicationController
       respond_to do |format|
         format.html {
           flash[:notice] = l(:notice_user_successful_create, :id => view_context.link_to(@user.login, user_path(@user)))
-          redirect_to(params[:continue] ?
-            {:controller => 'users', :action => 'new'} :
-            {:controller => 'users', :action => 'edit', :id => @user}
-          )
+          if params[:continue]
+            redirect_to new_user_path
+          else
+            redirect_to edit_user_path(@user)
+          end
         }
         format.api  { render :action => 'show', :status => :created, :location => user_url(@user) }
       end
@@ -171,7 +172,7 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     respond_to do |format|
-      format.html { redirect_back_or_default(users_url) }
+      format.html { redirect_back_or_default(users_path) }
       format.api  { render_api_ok }
     end
   end
@@ -180,7 +181,7 @@ class UsersController < ApplicationController
     @membership = Member.edit_membership(params[:membership_id], params[:membership], @user)
     @membership.save
     respond_to do |format|
-      format.html { redirect_to :controller => 'users', :action => 'edit', :id => @user, :tab => 'memberships' }
+      format.html { redirect_to edit_user_path(@user, :tab => 'memberships') }
       format.js
     end
   end
@@ -191,7 +192,7 @@ class UsersController < ApplicationController
       @membership.destroy
     end
     respond_to do |format|
-      format.html { redirect_to :controller => 'users', :action => 'edit', :id => @user, :tab => 'memberships' }
+      format.html { redirect_to edit_user_path(@user, :tab => 'memberships') }
       format.js
     end
   end

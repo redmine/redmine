@@ -38,7 +38,7 @@ class WorkflowsController < ApplicationController
         }
       }
       if @role.save
-        redirect_to :action => 'edit', :role_id => @role, :tracker_id => @tracker, :used_statuses_only => params[:used_statuses_only]
+        redirect_to workflows_edit_path(:role_id => @role, :tracker_id => @tracker, :used_statuses_only => params[:used_statuses_only])
         return
       end
     end
@@ -64,7 +64,7 @@ class WorkflowsController < ApplicationController
 
     if request.post? && @role && @tracker
       WorkflowPermission.replace_permissions(@tracker, @role, params[:permissions] || {})
-      redirect_to :action => 'permissions', :role_id => @role, :tracker_id => @tracker, :used_statuses_only => params[:used_statuses_only]
+      redirect_to workflows_permissions_path(:role_id => @role, :tracker_id => @tracker, :used_statuses_only => params[:used_statuses_only])
       return
     end
 
@@ -111,7 +111,7 @@ class WorkflowsController < ApplicationController
       else
         WorkflowRule.copy(@source_tracker, @source_role, @target_trackers, @target_roles)
         flash[:notice] = l(:notice_successful_update)
-        redirect_to :action => 'copy', :source_tracker_id => @source_tracker, :source_role_id => @source_role
+        redirect_to workflows_copy_path(:source_tracker_id => @source_tracker, :source_role_id => @source_role)
       end
     end
   end

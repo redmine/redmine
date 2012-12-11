@@ -141,7 +141,7 @@ RedmineApp::Application.routes.draw do
     end
 
     match 'wiki/index', :controller => 'wiki', :action => 'index', :via => :get
-    resources :wiki, :except => [:index, :new, :create] do
+    resources :wiki, :except => [:index, :new, :create], :as => 'wiki_page' do
       member do
         get 'rename'
         post 'rename'
@@ -317,7 +317,7 @@ RedmineApp::Application.routes.draw do
   match 'workflows/copy', :controller => 'workflows', :action => 'copy', :via => [:get, :post]
   match 'settings', :controller => 'settings', :action => 'index', :via => :get
   match 'settings/edit', :controller => 'settings', :action => 'edit', :via => [:get, :post]
-  match 'settings/plugin/:id', :controller => 'settings', :action => 'plugin', :via => [:get, :post]
+  match 'settings/plugin/:id', :controller => 'settings', :action => 'plugin', :via => [:get, :post], :as => 'plugin_settings'
 
   match 'sys/projects', :to => 'sys#projects', :via => :get
   match 'sys/projects/:id/repository', :to => 'sys#create_project_repository', :via => :post

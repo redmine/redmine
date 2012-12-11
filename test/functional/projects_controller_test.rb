@@ -184,7 +184,7 @@ class ProjectsControllerTest < ActionController::TestCase
         assert_difference 'Project.count' do
           post :create, :project => {:name => "blog", :identifier => "blog"}, :continue => 'Create and continue'
         end
-        assert_redirected_to '/projects/new?'
+        assert_redirected_to '/projects/new'
       end
     end
 

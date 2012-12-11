@@ -145,8 +145,12 @@ class IssuesController < ApplicationController
         format.html {
           render_attachment_warning_if_needed(@issue)
           flash[:notice] = l(:notice_issue_successful_create, :id => view_context.link_to("##{@issue.id}", issue_path(@issue), :title => @issue.subject))
-          redirect_to(params[:continue] ?  { :action => 'new', :project_id => @issue.project, :issue => {:tracker_id => @issue.tracker, :parent_issue_id => @issue.parent_issue_id}.reject {|k,v| v.nil?} } :
-                      { :action => 'show', :id => @issue })
+          if params[:continue]
+            attrs = {:tracker_id => @issue.tracker, :parent_issue_id => @issue.parent_issue_id}.reject {|k,v| v.nil?}
+            redirect_to new_project_issue_path(@issue.project, :issue => attrs)
+          else
+            redirect_to issue_path(@issue)
+          end
         }
         format.api  { render :action => 'show', :status => :created, :location => issue_url(@issue) }
       end
@@ -187,7 +191,7 @@ class IssuesController < ApplicationController
       flash[:notice] = l(:notice_successful_update) unless @issue.current_journal.new_record?
 
       respond_to do |format|
-        format.html { redirect_back_or_default({:action => 'show', :id => @issue}) }
+        format.html { redirect_back_or_default issue_path(@issue) }
         format.api  { render_api_ok }
       end
     else
@@ -270,12 +274,12 @@ class IssuesController < ApplicationController
 
     if params[:follow]
       if @issues.size == 1 && moved_issues.size == 1
-        redirect_to :controller => 'issues', :action => 'show', :id => moved_issues.first
+        redirect_to issue_path(moved_issues.first)
       elsif moved_issues.map(&:project).uniq.size == 1
-        redirect_to :controller => 'issues', :action => 'index', :project_id => moved_issues.map(&:project).first
+        redirect_to project_issues_path(moved_issues.map(&:project).first)
       end
     else
-      redirect_back_or_default({:controller => 'issues', :action => 'index', :project_id => @project})
+      redirect_back_or_default _issues_path(@project)
     end
   end
 
@@ -308,7 +312,7 @@ class IssuesController < ApplicationController
       end
     end
     respond_to do |format|
-      format.html { redirect_back_or_default(:action => 'index', :project_id => @project) }
+      format.html { redirect_back_or_default _issues_path(@project) }
       format.api  { render_api_ok }
     end
   end

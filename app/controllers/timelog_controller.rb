@@ -128,16 +128,24 @@ class TimelogController < ApplicationController
           flash[:notice] = l(:notice_successful_create)
           if params[:continue]
             if params[:project_id]
-              redirect_to :action => 'new', :project_id => @time_entry.project, :issue_id => @time_entry.issue,
+              options = {
                 :time_entry => {:issue_id => @time_entry.issue_id, :activity_id => @time_entry.activity_id},
                 :back_url => params[:back_url]
+              }
+              if @time_entry.issue
+                redirect_to new_project_issue_time_entry_path(@time_entry.project, @time_entry.issue, options)
+              else
+                redirect_to new_project_time_entry_path(@time_entry.project, options)
+              end
             else
-              redirect_to :action => 'new',
+              options = {
                 :time_entry => {:project_id => @time_entry.project_id, :issue_id => @time_entry.issue_id, :activity_id => @time_entry.activity_id},
                 :back_url => params[:back_url]
+              }
+              redirect_to new_time_entry_path(options)
             end
           else
-            redirect_back_or_default :action => 'index', :project_id => @time_entry.project
+            redirect_back_or_default project_time_entries_path(@time_entry.project)
           end
         }
         format.api  { render :action => 'show', :status => :created, :location => time_entry_url(@time_entry) }
@@ -163,7 +171,7 @@ class TimelogController < ApplicationController
       respond_to do |format|
         format.html {
           flash[:notice] = l(:notice_successful_update)
-          redirect_back_or_default :action => 'index', :project_id => @time_entry.project
+          redirect_back_or_default project_time_entries_path(@time_entry.project)
         }
         format.api  { render_api_ok }
       end
@@ -194,7 +202,7 @@ class TimelogController < ApplicationController
       end
     end
     set_flash_from_bulk_time_entry_save(@time_entries, unsaved_time_entry_ids)
-    redirect_back_or_default({:controller => 'timelog', :action => 'index', :project_id => @projects.first})
+    redirect_back_or_default project_time_entries_path(@projects.first)
   end
 
   def destroy
@@ -213,7 +221,7 @@ class TimelogController < ApplicationController
         else
           flash[:error] = l(:notice_unable_delete_time_entry)
         end
-        redirect_back_or_default(:action => 'index', :project_id => @projects.first)
+        redirect_back_or_default project_time_entries_path(@projects.first)
       }
       format.api  {
         if destroyed

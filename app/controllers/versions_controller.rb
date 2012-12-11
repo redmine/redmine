@@ -96,7 +96,7 @@ class VersionsController < ApplicationController
         respond_to do |format|
           format.html do
             flash[:notice] = l(:notice_successful_create)
-            redirect_back_or_default :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
+            redirect_back_or_default settings_project_path(@project, :tab => 'versions')
           end
           format.js
           format.api do
@@ -125,7 +125,7 @@ class VersionsController < ApplicationController
         respond_to do |format|
           format.html {
             flash[:notice] = l(:notice_successful_update)
-            redirect_back_or_default :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
+            redirect_back_or_default settings_project_path(@project, :tab => 'versions')
           }
           format.api  { render_api_ok }
         end
@@ -142,21 +142,21 @@ class VersionsController < ApplicationController
     if request.put?
       @project.close_completed_versions
     end
-    redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
+    redirect_to settings_project_path(@project, :tab => 'versions')
   end
 
   def destroy
     if @version.fixed_issues.empty?
       @version.destroy
       respond_to do |format|
-        format.html { redirect_back_or_default :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project }
+        format.html { redirect_back_or_default settings_project_path(@project, :tab => 'versions') }
         format.api  { render_api_ok }
       end
     else
       respond_to do |format|
         format.html {
           flash[:error] = l(:notice_unable_delete_version)
-          redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
+          redirect_to settings_project_path(@project, :tab => 'versions')
         }
         format.api  { head :unprocessable_entity }
       end

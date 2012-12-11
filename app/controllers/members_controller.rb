@@ -63,7 +63,7 @@ class MembersController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project }
+      format.html { redirect_to_settings_in_projects }
       format.js { @members = members }
       format.api {
         @member = members.first
@@ -82,7 +82,7 @@ class MembersController < ApplicationController
     end
     saved = @member.save
     respond_to do |format|
-      format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project }
+      format.html { redirect_to_settings_in_projects }
       format.js
       format.api {
         if saved
@@ -99,7 +99,7 @@ class MembersController < ApplicationController
       @member.destroy
     end
     respond_to do |format|
-      format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project }
+      format.html { redirect_to_settings_in_projects }
       format.js
       format.api {
         if @member.destroyed?
@@ -114,5 +114,11 @@ class MembersController < ApplicationController
   def autocomplete
     @principals = Principal.active.not_member_of(@project).like(params[:q]).all(:limit => 100)
     render :layout => false
+  end
+
+  private
+
+  def redirect_to_settings_in_projects
+    redirect_to settings_project_path(@project, :tab => 'members')
   end
 end

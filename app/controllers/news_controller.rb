@@ -73,7 +73,7 @@ class NewsController < ApplicationController
     if @news.save
       render_attachment_warning_if_needed(@news)
       flash[:notice] = l(:notice_successful_create)
-      redirect_to :controller => 'news', :action => 'index', :project_id => @project
+      redirect_to project_news_index_path(@project)
     else
       render :action => 'new'
     end
@@ -88,7 +88,7 @@ class NewsController < ApplicationController
     if @news.save
       render_attachment_warning_if_needed(@news)
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'show', :id => @news
+      redirect_to news_path(@news)
     else
       render :action => 'edit'
     end
@@ -96,7 +96,7 @@ class NewsController < ApplicationController
 
   def destroy
     @news.destroy
-    redirect_to :action => 'index', :project_id => @project
+    redirect_to project_news_index_path(@project)
   end
 
   private

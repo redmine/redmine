@@ -58,7 +58,7 @@ class RolesController < ApplicationController
         @role.workflow_rules.copy(copy_from)
       end
       flash[:notice] = l(:notice_successful_create)
-      redirect_to :action => 'index'
+      redirect_to roles_path
     else
       @roles = Role.sorted.all
       render :action => 'new'
@@ -71,7 +71,7 @@ class RolesController < ApplicationController
   def update
     if request.put? and @role.update_attributes(params[:role])
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'index'
+      redirect_to roles_path
     else
       render :action => 'edit'
     end
@@ -79,10 +79,10 @@ class RolesController < ApplicationController
 
   def destroy
     @role.destroy
-    redirect_to :action => 'index'
+    redirect_to roles_path
   rescue
     flash[:error] =  l(:error_can_not_remove_role)
-    redirect_to :action => 'index'
+    redirect_to roles_path
   end
 
   def permissions
@@ -94,7 +94,7 @@ class RolesController < ApplicationController
         role.save
       end
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'index'
+      redirect_to roles_path
     end
   end
 
