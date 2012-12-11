@@ -232,7 +232,7 @@ class AttachmentsControllerTest < ActionController::TestCase
     assert_response 200
   end
 
-  def test_show_file_without_container_should_be_allowed_to_author
+  def test_show_file_without_container_should_be_denied_to_other_users
     set_tmp_attachments_directory
     attachment = Attachment.create!(:file => uploaded_test_file("testfile.txt", "text/plain"), :author_id => 2)
 
