@@ -46,7 +46,7 @@ class EnumerationsController < ApplicationController
   def create
     if request.post? && @enumeration.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to :action => 'index'
+      redirect_to enumerations_path
     else
       render :action => 'new'
     end
@@ -58,7 +58,7 @@ class EnumerationsController < ApplicationController
   def update
     if request.put? && @enumeration.update_attributes(params[:enumeration])
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'index'
+      redirect_to enumerations_path
     else
       render :action => 'edit'
     end
@@ -68,12 +68,12 @@ class EnumerationsController < ApplicationController
     if !@enumeration.in_use?
       # No associated objects
       @enumeration.destroy
-      redirect_to :action => 'index'
+      redirect_to enumerations_path
       return
     elsif params[:reassign_to_id]
       if reassign_to = @enumeration.class.find_by_id(params[:reassign_to_id])
         @enumeration.destroy(reassign_to)
-        redirect_to :action => 'index'
+        redirect_to enumerations_path
         return
       end
     end

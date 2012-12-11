@@ -54,7 +54,7 @@ class AdminController < ApplicationController
         flash[:error] = l(:error_can_t_load_default_data, e.message)
       end
     end
-    redirect_to :action => 'index'
+    redirect_to admin_path
   end
 
   def test_email
@@ -68,7 +68,7 @@ class AdminController < ApplicationController
       flash[:error] = l(:notice_email_error, e.message)
     end
     ActionMailer::Base.raise_delivery_errors = raise_delivery_errors
-    redirect_to :controller => 'settings', :action => 'edit', :tab => 'notifications'
+    redirect_to settings_path(:tab => 'notifications')
   end
 
   def info

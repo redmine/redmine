@@ -90,7 +90,7 @@ class AdminControllerTest < ActionController::TestCase
     ActionMailer::Base.deliveries.clear
 
     get :test_email
-    assert_redirected_to '/settings/edit?tab=notifications'
+    assert_redirected_to '/settings?tab=notifications'
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
     user = User.find(1)
@@ -100,7 +100,7 @@ class AdminControllerTest < ActionController::TestCase
   def test_test_email_failure_should_display_the_error
     Mailer.stubs(:test_email).raises(Exception, 'Some error message')
     get :test_email
-    assert_redirected_to '/settings/edit?tab=notifications'
+    assert_redirected_to '/settings?tab=notifications'
     assert_match /Some error message/, flash[:error]
   end
 

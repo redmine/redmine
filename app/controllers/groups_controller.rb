@@ -84,7 +84,7 @@ class GroupsController < ApplicationController
     @group.destroy
 
     respond_to do |format|
-      format.html { redirect_to(groups_url) }
+      format.html { redirect_to(groups_path) }
       format.api  { render_api_ok }
     end
   end
@@ -93,7 +93,7 @@ class GroupsController < ApplicationController
     @users = User.find_all_by_id(params[:user_id] || params[:user_ids])
     @group.users << @users if request.post?
     respond_to do |format|
-      format.html { redirect_to :controller => 'groups', :action => 'edit', :id => @group, :tab => 'users' }
+      format.html { redirect_to edit_group_path(@group, :tab => 'users') }
       format.js
       format.api { render_api_ok }
     end
@@ -102,7 +102,7 @@ class GroupsController < ApplicationController
   def remove_user
     @group.users.delete(User.find(params[:user_id])) if request.delete?
     respond_to do |format|
-      format.html { redirect_to :controller => 'groups', :action => 'edit', :id => @group, :tab => 'users' }
+      format.html { redirect_to edit_group_path(@group, :tab => 'users') }
       format.js
       format.api { render_api_ok }
     end
@@ -117,7 +117,7 @@ class GroupsController < ApplicationController
     @membership = Member.edit_membership(params[:membership_id], params[:membership], @group)
     @membership.save if request.post?
     respond_to do |format|
-      format.html { redirect_to :controller => 'groups', :action => 'edit', :id => @group, :tab => 'memberships' }
+      format.html { redirect_to edit_group_path(@group, :tab => 'memberships') }
       format.js
     end
   end
@@ -125,7 +125,7 @@ class GroupsController < ApplicationController
   def destroy_membership
     Member.find(params[:membership_id]).destroy if request.post?
     respond_to do |format|
-      format.html { redirect_to :controller => 'groups', :action => 'edit', :id => @group, :tab => 'memberships' }
+      format.html { redirect_to edit_group_path(@group, :tab => 'memberships') }
       format.js
     end
   end

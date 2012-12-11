@@ -48,7 +48,7 @@ class IssueRelationsController < ApplicationController
     saved = @relation.save
 
     respond_to do |format|
-      format.html { redirect_to :controller => 'issues', :action => 'show', :id => @issue }
+      format.html { redirect_to issue_path(@issue) }
       format.js {
         @relations = @issue.relations.select {|r| r.other_issue(@issue) && r.other_issue(@issue).visible? }
       }
@@ -67,7 +67,7 @@ class IssueRelationsController < ApplicationController
     @relation.destroy
 
     respond_to do |format|
-      format.html { redirect_to issue_path } # TODO : does this really work since @issue is always nil? What is it useful to?
+      format.html { redirect_to issue_path(@relation.issue_from) }
       format.js
       format.api  { render_api_ok }
     end

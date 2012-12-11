@@ -34,7 +34,7 @@ class AuthSourcesController < ApplicationController
     @auth_source = AuthSource.new_subclass_instance(params[:type], params[:auth_source])
     if @auth_source.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to :action => 'index'
+      redirect_to auth_sources_path
     else
       render :action => 'new'
     end
@@ -48,7 +48,7 @@ class AuthSourcesController < ApplicationController
     @auth_source = AuthSource.find(params[:id])
     if @auth_source.update_attributes(params[:auth_source])
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'index'
+      redirect_to auth_sources_path
     else
       render :action => 'edit'
     end
@@ -62,7 +62,7 @@ class AuthSourcesController < ApplicationController
     rescue Exception => e
       flash[:error] = l(:error_unable_to_connect, e.message)
     end
-    redirect_to :action => 'index'
+    redirect_to auth_sources_path
   end
 
   def destroy
@@ -71,6 +71,6 @@ class AuthSourcesController < ApplicationController
       @auth_source.destroy
       flash[:notice] = l(:notice_successful_delete)
     end
-    redirect_to :action => 'index'
+    redirect_to auth_sources_path
   end
 end

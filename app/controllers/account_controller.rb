@@ -110,7 +110,7 @@ class AccountController < ApplicationController
           session[:auth_source_registration] = nil
           self.logged_user = @user
           flash[:notice] = l(:notice_account_activated)
-          redirect_to :controller => 'my', :action => 'account'
+          redirect_to my_account_path
         end
       else
         @user.login = params[:user][:login]
@@ -218,7 +218,7 @@ class AccountController < ApplicationController
       set_autologin_cookie(user)
     end
     call_hook(:controller_account_success_authentication_after, {:user => user })
-    redirect_back_or_default :controller => 'my', :action => 'page'
+    redirect_back_or_default my_page_path
   end
 
   def set_autologin_cookie(user)
@@ -270,7 +270,7 @@ class AccountController < ApplicationController
     if user.save
       self.logged_user = user
       flash[:notice] = l(:notice_account_activated)
-      redirect_to :controller => 'my', :action => 'account'
+      redirect_to my_account_path
     else
       yield if block_given?
     end

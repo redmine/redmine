@@ -99,7 +99,7 @@ class BoardsController < ApplicationController
 
 private
   def redirect_to_settings_in_projects
-    redirect_to :controller => 'projects', :action => 'settings', :id => @project, :tab => 'boards'
+    redirect_to settings_project_path(@project, :tab => 'boards')
   end
 
   def find_board_if_available

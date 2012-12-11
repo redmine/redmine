@@ -58,7 +58,7 @@ class DocumentsController < ApplicationController
     if @document.save
       render_attachment_warning_if_needed(@document)
       flash[:notice] = l(:notice_successful_create)
-      redirect_to :action => 'index', :project_id => @project
+      redirect_to project_documents_path(@project)
     else
       render :action => 'new'
     end
@@ -71,7 +71,7 @@ class DocumentsController < ApplicationController
     @document.safe_attributes = params[:document]
     if request.put? and @document.save
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'show', :id => @document
+      redirect_to document_path(@document)
     else
       render :action => 'edit'
     end
@@ -79,7 +79,7 @@ class DocumentsController < ApplicationController
 
   def destroy
     @document.destroy if request.delete?
-    redirect_to :controller => 'documents', :action => 'index', :project_id => @project
+    redirect_to project_documents_path(@project)
   end
 
   def add_attachment
@@ -89,6 +89,6 @@ class DocumentsController < ApplicationController
     if attachments.present? && attachments[:files].present? && Setting.notified_events.include?('document_added')
       Mailer.attachments_added(attachments[:files]).deliver
     end
-    redirect_to :action => 'show', :id => @document
+    redirect_to document_path(@document)
   end
 end

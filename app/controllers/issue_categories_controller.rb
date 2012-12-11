@@ -26,14 +26,14 @@ class IssueCategoriesController < ApplicationController
 
   def index
     respond_to do |format|
-      format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'categories', :id => @project }
+      format.html { redirect_to_settings_in_projects }
       format.api { @categories = @project.issue_categories.all }
     end
   end
 
   def show
     respond_to do |format|
-      format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'categories', :id => @project }
+      format.html { redirect_to_settings_in_projects }
       format.api
     end
   end
@@ -55,7 +55,7 @@ class IssueCategoriesController < ApplicationController
       respond_to do |format|
         format.html do
           flash[:notice] = l(:notice_successful_create)
-          redirect_to :controller => 'projects', :action => 'settings', :tab => 'categories', :id => @project
+          redirect_to_settings_in_projects
         end
         format.js
         format.api { render :action => 'show', :status => :created, :location => issue_category_path(@category) }
@@ -78,7 +78,7 @@ class IssueCategoriesController < ApplicationController
       respond_to do |format|
         format.html {
           flash[:notice] = l(:notice_successful_update)
-          redirect_to :controller => 'projects', :action => 'settings', :tab => 'categories', :id => @project
+          redirect_to_settings_in_projects
         }
         format.api { render_api_ok }
       end
@@ -99,7 +99,7 @@ class IssueCategoriesController < ApplicationController
       end
       @category.destroy(reassign_to)
       respond_to do |format|
-        format.html { redirect_to :controller => 'projects', :action => 'settings', :id => @project, :tab => 'categories' }
+        format.html { redirect_to_settings_in_projects }
         format.api { render_api_ok }
       end
       return
@@ -107,7 +107,12 @@ class IssueCategoriesController < ApplicationController
     @categories = @project.issue_categories - [@category]
   end
 
-private
+  private
+
+  def redirect_to_settings_in_projects
+    redirect_to settings_project_path(@project, :tab => 'categories')
+  end
+
   # Wrap ApplicationController's find_model_object method to set
   # @category instead of just @issue_category
   def find_model_object
