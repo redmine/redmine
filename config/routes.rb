@@ -85,11 +85,9 @@ RedmineApp::Application.routes.draw do
   match 'watchers/unwatch', :controller=> 'watchers', :action => 'unwatch', :via => :post
   match 'watchers/autocomplete_for_user', :controller=> 'watchers', :action => 'autocomplete_for_user', :via => :get
 
-  get 'projects/:id/settings/:tab', :to => "projects#settings"
-
   resources :projects do
     member do
-      get 'settings'
+      get 'settings(/:tab)', :action => 'settings', :as => 'settings'
       post 'modules'
       post 'archive'
       post 'unarchive'
@@ -205,9 +203,6 @@ RedmineApp::Application.routes.draw do
   match '/time_entries/:id', :to => 'timelog#destroy', :via => :delete, :id => /\d+/
   # TODO: delete /time_entries for bulk deletion
   match '/time_entries/destroy', :to => 'timelog#destroy', :via => :delete
-
-  # TODO: port to be part of the resources route(s)
-  match 'projects/:id/settings/:tab', :to => 'projects#settings', :via => :get
 
   get 'projects/:id/activity', :to => 'activities#index'
   get 'projects/:id/activity.:format', :to => 'activities#index'
