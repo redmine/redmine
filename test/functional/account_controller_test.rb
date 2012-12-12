@@ -99,6 +99,19 @@ class AccountControllerTest < ActionController::TestCase
     end
   end
 
+  def test_get_register_should_detect_user_language
+    with_settings :self_registration => '3' do
+      @request.env['HTTP_ACCEPT_LANGUAGE'] = 'fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3'
+      get :register
+      assert_response :success
+      assert_not_nil assigns(:user)
+      assert_equal 'fr', assigns(:user).language
+      assert_select 'select[name=?]', 'user[language]' do
+        assert_select 'option[value=fr][selected=selected]'
+      end
+    end
+  end
+
   def test_get_register_with_registration_off_should_redirect
     with_settings :self_registration => '0' do
       get :register

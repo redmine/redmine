@@ -95,7 +95,7 @@ class AccountController < ApplicationController
     redirect_to(home_url) && return unless Setting.self_registration? || session[:auth_source_registration]
     if request.get?
       session[:auth_source_registration] = nil
-      @user = User.new(:language => Setting.default_language)
+      @user = User.new(:language => current_language.to_s)
     else
       user_params = params[:user] || {}
       @user = User.new
