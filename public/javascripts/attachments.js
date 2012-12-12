@@ -8,7 +8,7 @@ function addFile(inputEl, file, eagerUpload) {
     var attachmentId = addFile.nextAttachmentId++;
 
     var fileSpan = $('<span>', { id: 'attachments_' + attachmentId });
-    
+
     fileSpan.append(
         $('<input>', { type: 'text', 'class': 'filename readonly', name: 'attachments[' + attachmentId + '][filename]', readonly: 'readonly'} ).val(file.name),
         $('<input>', { type: 'text', 'class': 'description', name: 'attachments[' + attachmentId + '][description]', maxlength: 255, placeholder: $(inputEl).data('description-placeholder') } ).toggle(!eagerUpload),
@@ -31,7 +31,7 @@ function ajaxUpload(file, attachmentId, fileSpan, inputEl) {
   function onLoadstart(e) {
     fileSpan.removeClass('ajax-waiting');
     fileSpan.addClass('ajax-loading');
-    $('input:submit', $(this).parents('form')).attr('disabled', 'disabled');    
+    $('input:submit', $(this).parents('form')).attr('disabled', 'disabled');
   }
 
   function onProgress(e) {
@@ -129,7 +129,7 @@ function addInputFiles(inputEl) {
     if (attachmentId) {
       $(inputEl).attr({ name: 'attachments[' + attachmentId + '][file]', style: 'display:none;' }).appendTo('#attachments_' + attachmentId);
     }
-  } 
+  }
 
   clearedFileInput.insertAfter('#attachments_fields');
 }
