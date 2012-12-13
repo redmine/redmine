@@ -138,9 +138,6 @@ class AttachmentTest < ActiveSupport::TestCase
   end
 
   def test_identical_attachments_at_the_same_time_should_not_overwrite
-    time = DateTime.now
-    DateTime.stubs(:now).returns(time)
-
     a1 = Attachment.create!(:container => Issue.find(1),
                             :file => uploaded_test_file("testfile.txt", ""),
                             :author => User.find(1))
