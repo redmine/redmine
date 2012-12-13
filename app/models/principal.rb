@@ -30,7 +30,7 @@ class Principal < ActiveRecord::Base
   has_many :issue_categories, :foreign_key => 'assigned_to_id', :dependent => :nullify
 
   # Groups and active users
-  scope :active, lambda { where("#{Principal.table_name}.status = 1") }
+  scope :active, lambda { where(:status => STATUS_ACTIVE) }
 
   scope :like, lambda {|q|
     q = q.to_s
@@ -57,7 +57,7 @@ class Principal < ActiveRecord::Base
       where("1=0")
     else
       ids = projects.map(&:id)
-      where("#{Principal.table_name}.status = 1 AND #{Principal.table_name}.id IN (SELECT DISTINCT user_id FROM #{Member.table_name} WHERE project_id IN (?))", ids)
+      active.where("#{Principal.table_name}.id IN (SELECT DISTINCT user_id FROM #{Member.table_name} WHERE project_id IN (?))", ids)
     end
   }
   # Principals that are not members of projects
