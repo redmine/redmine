@@ -55,7 +55,7 @@ class SettingsController < ApplicationController
     if request.post?
       Setting.send "plugin_#{@plugin.id}=", params[:settings]
       flash[:notice] = l(:notice_successful_update)
-      redirect_to plugin_settings_path(@plugin.id)
+      redirect_to plugin_settings_path(@plugin)
     else
       @partial = @plugin.settings[:partial]
       @settings = Setting.send "plugin_#{@plugin.id}"

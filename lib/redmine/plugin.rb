@@ -145,6 +145,10 @@ module Redmine #:nodoc:
       File.join(self.class.public_directory, id.to_s)
     end
 
+    def to_param
+      id
+    end
+
     def assets_directory
       File.join(directory, 'assets')
     end
