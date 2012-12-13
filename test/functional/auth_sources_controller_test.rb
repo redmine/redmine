@@ -42,8 +42,15 @@ class AuthSourcesControllerTest < ActionController::TestCase
     assert_equal AuthSourceLdap, source.class
     assert source.new_record?
 
-    assert_tag 'input', :attributes => {:name => 'type', :value => 'AuthSourceLdap'}
-    assert_tag 'input', :attributes => {:name => 'auth_source[host]'}
+    assert_select 'form#auth_source_form' do
+      assert_select 'input[name=type][value=AuthSourceLdap]'
+      assert_select 'input[name=?]', 'auth_source[host]'
+    end
+  end
+
+  def test_new_with_invalid_type_should_respond_with_404
+    get :new, :type => 'foo'
+    assert_response 404
   end
 
   def test_create
@@ -52,7 +59,7 @@ class AuthSourcesControllerTest < ActionController::TestCase
       assert_redirected_to '/auth_sources'
     end
 
-    source = AuthSourceLdap.first(:order => 'id DESC')
+    source = AuthSourceLdap.order('id DESC').first
     assert_equal 'Test', source.name
     assert_equal '127.0.0.1', source.host
     assert_equal 389, source.port
@@ -74,7 +81,23 @@ class AuthSourcesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
 
-    assert_tag 'input', :attributes => {:name => 'auth_source[host]'}
+    assert_select 'form#auth_source_form' do
+      assert_select 'input[name=?]', 'auth_source[host]'
+    end
+  end
+
+  def test_edit_should_not_contain_password
+    AuthSource.find(1).update_column :account_password, 'secret'
+
+    get :edit, :id => 1
+    assert_response :success
+    assert_select 'input[value=secret]', 0
+    assert_select 'input[name=dummy_password][value=?]', /x+/
+  end
+
+  def test_edit_invalid_should_respond_with_404
+    get :edit, :id => 99
+    assert_response 404
   end
 
   def test_update
@@ -96,6 +119,7 @@ class AuthSourcesControllerTest < ActionController::TestCase
   def test_destroy
     assert_difference 'AuthSourceLdap.count', -1 do
       delete :destroy, :id => 1
+      assert_redirected_to '/auth_sources'
     end
   end
 
@@ -104,6 +128,7 @@ class AuthSourcesControllerTest < ActionController::TestCase
 
     assert_no_difference 'AuthSourceLdap.count' do
       delete :destroy, :id => 1
+      assert_redirected_to '/auth_sources'
     end
   end
 
