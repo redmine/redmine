@@ -544,16 +544,19 @@ function warnLeavingUnsaved(message) {
   };
 };
 
-$(document).ready(function(){
-  $('#ajax-indicator').bind('ajaxSend', function(event, xhr, settings){
+function setupAjaxIndicator() {
+
+  $('#ajax-indicator').bind('ajaxSend', function(event, xhr, settings) {
+  
     if ($('.ajax-loading').length == 0 && settings.contentType != 'application/octet-stream') {
       $('#ajax-indicator').show();
     }
   });
-  $('#ajax-indicator').bind('ajaxStop', function(){
+  
+  $('#ajax-indicator').bind('ajaxStop', function() {
     $('#ajax-indicator').hide();
   });
-});
+}
 
 function hideOnLoad() {
   $('.hol').hide();
@@ -578,5 +581,6 @@ function blockEventPropagation(event) {
   event.preventDefault();
 }
 
+$(document).ready(setupAjaxIndicator);
 $(document).ready(hideOnLoad);
 $(document).ready(addFormObserversForDoubleSubmit);
