@@ -52,8 +52,23 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal 'text/plain', a.content_type
     assert_equal 0, a.downloads
     assert_equal '1478adae0d4eb06d35897518540e25d6', a.digest
+
+    assert a.disk_directory
+    assert_match %r{\A\d{4}/\d{2}\z}, a.disk_directory
+
     assert File.exist?(a.diskfile)
     assert_equal 59, File.size(a.diskfile)
+  end
+
+  def test_copy_should_preserve_attributes
+    a = Attachment.find(1)
+    copy = a.copy
+
+    assert_save copy
+    copy = Attachment.order('id DESC').first
+    %w(filename filesize content_type author_id created_on description digest disk_filename disk_directory diskfile).each do |attribute|
+      assert_equal a.send(attribute), copy.send(attribute), "#{attribute} was different"
+    end
   end
 
   def test_size_should_be_validated_for_new_file
@@ -123,6 +138,9 @@ class AttachmentTest < ActiveSupport::TestCase
   end
 
   def test_identical_attachments_at_the_same_time_should_not_overwrite
+    time = DateTime.now
+    DateTime.stubs(:now).returns(time)
+
     a1 = Attachment.create!(:container => Issue.find(1),
                             :file => uploaded_test_file("testfile.txt", ""),
                             :author => User.find(1))
@@ -166,6 +184,21 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_difference 'Attachment.count', -2 do
       Attachment.prune
     end
+  end
+
+  def test_move_from_root_to_target_directory_should_move_root_files
+    a = Attachment.find(20)
+    assert a.disk_directory.blank?
+    # Create a real file for this fixture
+    File.open(a.diskfile, "w") do |f|
+      f.write "test file at the root of files directory"
+    end
+    assert a.readable?
+    Attachment.move_from_root_to_target_directory
+
+    a.reload
+    assert_equal '2012/05', a.disk_directory
+    assert a.readable?
   end
 
   context "Attachmnet.attach_files" do

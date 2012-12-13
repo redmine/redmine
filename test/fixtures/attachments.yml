@@ -4,6 +4,7 @@ attachments_001:
   downloads: 0
   content_type: text/plain
   disk_filename: 060719210727_error281.txt
+  disk_directory: "2006/07"
   container_id: 3
   digest: b91e08d0cf966d5c6ff411bd8c4cc3a2
   id: 1
@@ -16,6 +17,7 @@ attachments_002:
   downloads: 0
   content_type: text/plain
   disk_filename: 060719210727_document.txt
+  disk_directory: "2006/07"
   container_id: 1
   digest: b91e08d0cf966d5c6ff411bd8c4cc3a2
   id: 2
@@ -28,6 +30,7 @@ attachments_003:
   downloads: 0
   content_type: image/gif
   disk_filename: 060719210727_logo.gif
+  disk_directory: "2006/07"
   container_id: 4
   digest: b91e08d0cf966d5c6ff411bd8c4cc3a2
   id: 3
@@ -42,6 +45,7 @@ attachments_004:
   container_id: 3
   downloads: 0
   disk_filename: 060719210727_source.rb
+  disk_directory: "2006/07"
   digest: b91e08d0cf966d5c6ff411bd8c4cc3a2
   id: 4
   filesize: 153
@@ -55,6 +59,7 @@ attachments_005:
   container_id: 3
   downloads: 0
   disk_filename: 060719210727_changeset_iso8859-1.diff
+  disk_directory: "2006/07"
   digest: b91e08d0cf966d5c6ff411bd8c4cc3a2
   id: 5
   filesize: 687
@@ -67,6 +72,7 @@ attachments_006:
   container_id: 3
   downloads: 0
   disk_filename: 060719210727_archive.zip
+  disk_directory: "2006/07"
   digest: b91e08d0cf966d5c6ff411bd8c4cc3a2
   id: 6
   filesize: 157
@@ -79,6 +85,7 @@ attachments_007:
   container_id: 4
   downloads: 0
   disk_filename: 060719210727_archive.zip
+  disk_directory: "2006/07"
   digest: b91e08d0cf966d5c6ff411bd8c4cc3a2
   id: 7
   filesize: 157
@@ -91,6 +98,7 @@ attachments_008:
   container_id: 1
   downloads: 0
   disk_filename: 060719210727_project_file.zip
+  disk_directory: "2006/07"
   digest: b91e08d0cf966d5c6ff411bd8c4cc3a2
   id: 8
   filesize: 320
@@ -103,6 +111,7 @@ attachments_009:
   container_id: 1
   downloads: 0
   disk_filename: 060719210727_archive.zip
+  disk_directory: "2006/07"
   digest: b91e08d0cf966d5c6ff411bd8c4cc3a2
   id: 9
   filesize: 452
@@ -115,6 +124,7 @@ attachments_010:
   container_id: 2
   downloads: 0
   disk_filename: 060719210727_picture.jpg
+  disk_directory: "2006/07"
   digest: b91e08d0cf966d5c6ff411bd8c4cc3a2
   id: 10
   filesize: 452
@@ -127,6 +137,7 @@ attachments_011:
   container_id: 1
   downloads: 0
   disk_filename: 060719210727_picture.jpg
+  disk_directory: "2006/07"
   digest: b91e08d0cf966d5c6ff411bd8c4cc3a2
   id: 11
   filesize: 452
@@ -139,6 +150,7 @@ attachments_012:
   container_id: 1
   downloads: 0
   disk_filename: 060719210727_version_file.zip
+  disk_directory: "2006/07"
   digest: b91e08d0cf966d5c6ff411bd8c4cc3a2
   id: 12
   filesize: 452
@@ -151,6 +163,7 @@ attachments_013:
   container_id: 1
   downloads: 0
   disk_filename: 060719210727_foo.zip
+  disk_directory: "2006/07"
   digest: b91e08d0cf966d5c6ff411bd8c4cc3a2
   id: 13
   filesize: 452
@@ -163,6 +176,7 @@ attachments_014:
   container_id: 3
   downloads: 0
   disk_filename: 060719210727_changeset_utf8.diff
+  disk_directory: "2006/07"
   digest: b91e08d0cf966d5c6ff411bd8c4cc3a2
   id: 14
   filesize: 687
@@ -176,6 +190,7 @@ attachments_015:
   container_id: 14
   downloads: 0
   disk_filename: 060719210727_changeset_utf8.diff
+  disk_directory: "2006/07"
   digest: b91e08d0cf966d5c6ff411bd8c4cc3a2
   filesize: 687
   filename: private.diff
@@ -187,6 +202,7 @@ attachments_016:
   downloads: 0
   created_on: 2010-11-23 16:14:50 +09:00
   disk_filename: 101123161450_testfile_1.png
+  disk_directory: "2010/11"
   container_id: 14
   digest: 8e0294de2441577c529f170b6fb8f638
   id: 16
@@ -200,6 +216,7 @@ attachments_017:
   downloads: 0
   created_on: 2010-12-23 16:14:50 +09:00
   disk_filename: 101223161450_testfile_2.png
+  disk_directory: "2010/12"
   container_id: 14
   digest: 6bc2963e8d7ea0d3e68d12d1fba3d6ca
   id: 17
@@ -213,6 +230,7 @@ attachments_018:
   downloads: 0
   created_on: 2011-01-23 16:14:50 +09:00
   disk_filename: 101123161450_testfile_1.png
+  disk_directory: "2010/11"
   container_id: 14
   digest: 8e0294de2441577c529f170b6fb8f638
   id: 18
@@ -226,6 +244,7 @@ attachments_019:
   downloads: 0
   created_on: 2011-02-23 16:14:50 +09:00
   disk_filename: 101223161450_testfile_2.png
+  disk_directory: "2010/12"
   container_id: 14
   digest: 6bc2963e8d7ea0d3e68d12d1fba3d6ca
   id: 19
@@ -233,4 +252,18 @@ attachments_019:
   description: ""
   filename: Testテスト.PNG
   filesize: 3582
+  author_id: 2
+attachments_020: 
+  content_type: text/plain
+  downloads: 0
+  created_on: 2012-05-12 16:14:50 +09:00
+  disk_filename: 120512161450_root_attachment.txt
+  disk_directory:
+  container_id: 14
+  digest: b0fe2abdb2599743d554a61d7da7ff74
+  id: 20
+  container_type: Issue
+  description: ""
+  filename: root_attachment.txt
+  filesize: 54
   author_id: 2

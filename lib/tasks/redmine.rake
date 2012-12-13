@@ -21,6 +21,11 @@ namespace :redmine do
     task :prune => :environment do
       Attachment.prune
     end
+
+    desc 'Moves attachments stored at the root of the file directory (ie. created before Redmine 2.3) to their subdirectories'
+    task :move_to_subdirectories => :environment do
+      Attachment.move_from_root_to_target_directory
+    end
   end
 
   namespace :tokens do
