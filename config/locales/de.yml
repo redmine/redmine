@@ -1097,4 +1097,4 @@ de:
   setting_non_working_week_days: Arbeitsfreie Tage
   label_in_the_next_days: in den nächsten
   label_in_the_past_days: in den letzten
-  label_attribute_of_user: User's %{name}
+  label_attribute_of_user: "%{name} des Benutzers"
