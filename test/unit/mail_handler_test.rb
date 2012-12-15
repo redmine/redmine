@@ -177,8 +177,8 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert !issue.new_record?
     issue.reload
     assert_equal 'New ticket with custom field values', issue.subject
-    assert_equal 'Value for a custom field',
-                 issue.custom_value_for(CustomField.find_by_name('Searchable field')).value
+    assert_equal 'PostgreSQL', issue.custom_field_value(1)
+    assert_equal 'Value for a custom field', issue.custom_field_value(2)
     assert !issue.description.match(/^searchable field:/i)
   end
 
