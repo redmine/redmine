@@ -100,6 +100,25 @@ class Redmine::WikiFormatting::MacrosTest < ActionView::TestCase
     assert_equal '<p>Hello world! Object: Issue, Called with no argument and no block of text.</p>', textilizable(text, :object => Issue.find(1))
   end
 
+  def test_extract_macro_options_should_with_args
+    options = extract_macro_options(["arg1", "arg2"], :foo, :size)
+    assert_equal([["arg1", "arg2"], {}], options)
+  end
+
+  def test_extract_macro_options_should_with_options
+    options = extract_macro_options(["foo=bar", "size=2"], :foo, :size)
+    assert_equal([[], {:foo => "bar", :size => "2"}], options)
+  end
+
+  def test_extract_macro_options_should_with_args_and_options
+    options = extract_macro_options(["arg1", "arg2", "foo=bar", "size=2"], :foo, :size)
+    assert_equal([["arg1", "arg2"], {:foo => "bar", :size => "2"}], options)
+  end
+
+  def test_extract_macro_options_should_parse_options_lazily
+    options = extract_macro_options(["params=x=1&y=2"], :params)
+    assert_equal([[], {:params => "x=1&y=2"}], options)
+  end
 
   def test_macro_exception_should_be_displayed
     Redmine::WikiFormatting::Macros.macro :exception do |obj, args|

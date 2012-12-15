@@ -48,7 +48,7 @@ module Redmine
 
         def extract_macro_options(args, *keys)
           options = {}
-          while args.last.to_s.strip =~ %r{^(.+)\=(.+)$} && keys.include?($1.downcase.to_sym)
+          while args.last.to_s.strip =~ %r{^(.+?)\=(.+)$} && keys.include?($1.downcase.to_sym)
             options[$1.downcase.to_sym] = $2
             args.pop
           end
