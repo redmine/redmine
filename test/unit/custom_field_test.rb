@@ -218,4 +218,9 @@ class CustomFieldTest < ActiveSupport::TestCase
     assert_nil CustomField.new(:field_format => 'text').value_class
     assert_nil CustomField.new.value_class
   end
+
+  def test_value_from_keyword_for_list_custom_field
+    field = CustomField.find(1)
+    assert_equal 'PostgreSQL', field.value_from_keyword('postgresql', Issue.find(1))
+  end
 end
