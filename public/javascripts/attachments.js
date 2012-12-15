@@ -156,8 +156,7 @@ function handleFileDropEvent(e) {
   blockEventPropagation(e);
 
   if ($.inArray('Files', e.dataTransfer.types) > -1) {
-
-    uploadAndAttachFiles(e.dataTransfer.files, $('input:file[name=attachments_files]'));
+    uploadAndAttachFiles(e.dataTransfer.files, $('input:file.file_selector'));
   }
 }
 

@@ -11,8 +11,9 @@
 <% end %>
 </span>
 <span class="add_attachment">
-<%= file_field_tag 'attachments_files',
+<%= file_field_tag 'attachments[dummy][file]',
       :id => nil,
+      :class => 'file_selector',
       :multiple => true,
       :onchange => 'addInputFiles(this);',
       :data => {

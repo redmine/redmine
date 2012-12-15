@@ -1000,7 +1000,7 @@ class IssuesControllerTest < ActionController::TestCase
     get :show, :id => 1
 
     assert_select 'form#issue-form[method=post][enctype=multipart/form-data]' do
-      assert_select 'input[type=file][name=?]', 'attachments_files'
+      assert_select 'input[type=file][name=?]', 'attachments[dummy][file]'
     end
   end
 
@@ -1569,7 +1569,7 @@ class IssuesControllerTest < ActionController::TestCase
     get :new, :project_id => 1, :tracker_id => 1
 
     assert_select 'form[id=issue-form][method=post][enctype=multipart/form-data]' do
-      assert_select 'input[name=?][type=file]', 'attachments_files'
+      assert_select 'input[name=?][type=file]', 'attachments[dummy][file]'
     end
   end
 
