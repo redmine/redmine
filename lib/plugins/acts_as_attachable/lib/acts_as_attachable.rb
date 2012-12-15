@@ -78,6 +78,7 @@ module Redmine
           end
           if attachments.is_a?(Array)
             attachments.each do |attachment|
+              next unless attachment.is_a?(Hash)
               a = nil
               if file = attachment['file']
                 next unless file.size > 0
