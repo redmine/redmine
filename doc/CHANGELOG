@@ -7,6 +7,7 @@ http://www.redmine.org/
 == TBD v1.4.6
 
 * Defect #12409: Git: changesets aren't read after clear_changesets call
+* Patch #12605: Norwegian translation for 1.4-stable update
 
 == 2012-11-17 v1.4.5
 
