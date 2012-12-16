@@ -1099,7 +1099,7 @@ ja:
   field_private_notes: プライベート注記
   permission_view_private_notes: プライベート注記の閲覧
   permission_set_notes_private: 注記をプライベートに設定
-  label_no_issues_in_project: no issues in project
+  label_no_issues_in_project: 次のプロジェクト内のチケットを除く
   label_any: すべて
   label_last_n_weeks: 直近%{count}週間
   setting_cross_project_subtasks: 異なるプロジェクトのチケット間の親子関係を許可
