@@ -970,64 +970,64 @@
   setting_issue_group_assignment: Tillat tildeling av saker til grupper
   label_diff: diff
 
-  description_query_sort_criteria_direction: Sort direction
+  description_query_sort_criteria_direction: Sorteringsretning
   description_project_scope: Search scope
   description_filter: Filter
   description_user_mail_notification: Mail notification settings
-  description_date_from: Enter start date
-  description_message_content: Message content
-  description_available_columns: Available Columns
-  description_date_range_interval: Choose range by selecting start and end date
+  description_date_from: Oppgi startdato
+  description_message_content: Meldingsinnhold
+  description_available_columns: Tilgjengelige kolonner
+  description_date_range_interval: Velg datointervall ved å spesifisere start- og sluttdato
   description_issue_category_reassign: Choose issue category
-  description_search: Searchfield
+  description_search: Søkefelt
   description_notes: Notes
   description_date_range_list: Choose range from list
-  description_choose_project: Projects
-  description_date_to: Enter end date
+  description_choose_project: Prosjekter
+  description_date_to: Oppgi sluttdato
   description_query_sort_criteria_attribute: Sort attribute
-  description_wiki_subpages_reassign: Choose new parent page
-  description_selected_columns: Selected Columns
-  label_parent_revision: Parent
-  label_child_revision: Child
+  description_wiki_subpages_reassign: Velg ny overordnet side
+  description_selected_columns: Valgte kolonner
+  label_parent_revision: Overordnet
+  label_child_revision: Underordnet
   error_scm_annotate_big_text_file: The entry cannot be annotated, as it exceeds the maximum text file size.
-  setting_default_issue_start_date_to_creation_date: Use current date as start date for new issues
-  button_edit_section: Edit this section
+  setting_default_issue_start_date_to_creation_date: Bruk dagens dato som startdato for nye saker
+  button_edit_section: Rediger denne seksjonen
   setting_repositories_encodings: Attachments and repositories encodings
-  description_all_columns: All Columns
-  button_export: Export
-  label_export_options: "%{export_format} export options"
-  error_attachment_too_big: This file cannot be uploaded because it exceeds the maximum allowed file size (%{max_size})
+  description_all_columns: Alle kolonnene
+  button_export: Eksporter
+  label_export_options: "%{export_format} eksportvalg"
+  error_attachment_too_big: Filen overstiger maksimum filstørrelse (%{max_size}) og kan derfor ikke lastes opp
   notice_failed_to_save_time_entries: "Failed to save %{count} time entrie(s) on %{total} selected: %{ids}."
   label_x_issues:
     zero:  0 sak
     one:   1 sak
     other: "%{count} saker"
-  label_repository_new: New repository
-  field_repository_is_default: Main repository
-  label_copy_attachments: Copy attachments
+  label_repository_new: Nytt depot
+  field_repository_is_default: Hoveddepot
+  label_copy_attachments: Kopier vedlegg
   label_item_position: "%{position}/%{count}"
   label_completed_versions: Completed versions
-  text_project_identifier_info: Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.
-  field_multiple: Multiple values
+  text_project_identifier_info: Kun små bokstaver (a-z), tall, bindestrek (-) og "underscore" (_) er tillatt.<br />Etter lagring er det ikke mulig å gjøre endringer.
+  field_multiple: Flere verdier
   setting_commit_cross_project_ref: Allow issues of all the other projects to be referenced and fixed
   text_issue_conflict_resolution_add_notes: Add my notes and discard my other changes
   text_issue_conflict_resolution_overwrite: Apply my changes anyway (previous notes will be kept but some changes may be overwritten)
-  notice_issue_update_conflict: The issue has been updated by an other user while you were editing it.
-  text_issue_conflict_resolution_cancel: Discard all my changes and redisplay %{link}
+  notice_issue_update_conflict: Saken ble oppdatert av en annen bruker mens du redigerte den.
+  text_issue_conflict_resolution_cancel: Forkast alle endringen mine og vis %{link} på nytt
   permission_manage_related_issues: Manage related issues
   field_auth_source_ldap_filter: LDAP filter
   label_search_for_watchers: Search for watchers to add
-  notice_account_deleted: Your account has been permanently deleted.
-  setting_unsubscribe: Allow users to delete their own account
-  button_delete_my_account: Delete my account
+  notice_account_deleted: Din konto er ugjenkallelig slettet.
+  setting_unsubscribe: Tillat brukere å slette sin egen konto
+  button_delete_my_account: Slett kontoen min
   text_account_destroy_confirmation: |-
-    Are you sure you want to proceed?
-    Your account will be permanently deleted, with no way to reactivate it.
-  error_session_expired: Your session has expired. Please login again.
-  text_session_expiration_settings: "Warning: changing these settings may expire the current sessions including yours."
-  setting_session_lifetime: Session maximum lifetime
-  setting_session_timeout: Session inactivity timeout
-  label_session_expiration: Session expiration
+    Er du sikker på at du ønsker å fortsette?
+    Kontoen din vil bli ugjenkallelig slettet uten mulighet for å reaktiveres igjen.
+  error_session_expired: Økten har gått ut på tid. Vennligst logg på igjen.
+  text_session_expiration_settings: "Advarsel: ved å endre disse innstillingene kan aktive økter gå ut på tid, inkludert din egen."
+  setting_session_lifetime: Øktenes makslengde
+  setting_session_timeout: Økten er avsluttet på grunn av inaktivitet
+  label_session_expiration: Økten er avsluttet
   permission_close_project: Close / reopen the project
   label_show_closed_projects: View closed projects
   button_close: Close
