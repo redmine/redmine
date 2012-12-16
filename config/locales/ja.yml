@@ -1111,4 +1111,4 @@ ja:
   setting_non_working_week_days: 休業日
   label_in_the_next_days: 今後○日
   label_in_the_past_days: 過去○日
-  label_attribute_of_user: User's %{name}
+  label_attribute_of_user: ユーザーの %{name}
