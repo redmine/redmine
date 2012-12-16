@@ -926,13 +926,13 @@
   notice_gantt_chart_truncated: Diagrammet ble avkortet fordi det overstiger det maksimale antall elementer som kan vises (%{max})
   setting_gantt_items_limit: Maksimalt antall elementer vist på gantt-diagrammet
   field_warn_on_leaving_unsaved: Vis meg en advarsel når jeg forlater en side med ikke lagret tekst
-  text_warn_on_leaving_unsaved: Den gjeldende siden inneholder tekst som ikke er lagret, som vil bli tapt hvis du forlater denne siden.
+  text_warn_on_leaving_unsaved: Siden inneholder tekst som ikke er lagret og som vil bli tapt om du forlater denne siden.
   label_my_queries: Mine egne spørringer
   text_journal_changed_no_detail: "%{label} oppdatert"
   label_news_comment_added: Kommentar lagt til en nyhet
   button_expand_all: Utvid alle
   button_collapse_all: Kollaps alle
-  label_additional_workflow_transitions_for_assignee: Ytterligere overganger tillatt når brukeren er sakens tildelte
+  label_additional_workflow_transitions_for_assignee: Ytterligere overganger tillatt når brukeren er den som er tildelt saken
   label_additional_workflow_transitions_for_author: Ytterligere overganger tillatt når brukeren er den som har opprettet saken
   label_bulk_edit_selected_time_entries: Masserediger valgte timeliste-oppføringer
   text_time_entries_destroy_confirmation: Er du sikker på du vil slette de(n) valgte timeliste-oppføringen(e)?
@@ -999,7 +999,7 @@
   error_attachment_too_big: Filen overstiger maksimum filstørrelse (%{max_size}) og kan derfor ikke lastes opp
   notice_failed_to_save_time_entries: "Failed to save %{count} time entrie(s) on %{total} selected: %{ids}."
   label_x_issues:
-    zero:  0 sak
+    zero:  0 saker
     one:   1 sak
     other: "%{count} saker"
   label_repository_new: Nytt depot
