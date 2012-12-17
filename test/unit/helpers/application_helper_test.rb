@@ -1146,19 +1146,4 @@ RAW
   def test_javascript_include_tag_for_plugin_should_pick_the_plugin_javascript
     assert_match 'src="/plugin_assets/foo/javascripts/scripts.js"', javascript_include_tag("scripts", :plugin => :foo)
   end
-
-  def test_per_page_links_should_show_usefull_values
-    set_language_if_valid 'en'
-    stubs(:link_to).returns("[link]")
-
-    with_settings :per_page_options => '10, 25, 50, 100' do
-      assert_nil per_page_links(10, 3)
-      assert_nil per_page_links(25, 3)
-      assert_equal "Per page: 10, [link]", per_page_links(10, 22)
-      assert_equal "Per page: [link], 25", per_page_links(25, 22)
-      assert_equal "Per page: [link], [link], 50", per_page_links(50, 22)
-      assert_equal "Per page: [link], 25, [link]", per_page_links(25, 26)
-      assert_equal "Per page: [link], 25, [link], [link]", per_page_links(25, 120)
-    end
-  end
 end

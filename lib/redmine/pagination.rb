@@ -208,22 +208,30 @@ module Redmine
 
       # Renders the "Per page" links.
       def per_page_links(selected=nil, item_count=nil, &block)
-        values = Setting.per_page_options_array
-        if item_count && values.any?
-          if item_count > values.first
-            max = values.detect {|value| value >= item_count} || item_count
+        values = per_page_options(selected, item_count)
+        if values.any?
+          links = values.collect do |n|
+            n == selected ? n : yield(n, :per_page => n)
+          end
+          l(:label_display_per_page, links.join(', '))
+        end
+      end
+
+      def per_page_options(selected=nil, item_count=nil)
+        options = Setting.per_page_options_array
+        if item_count && options.any?
+          if item_count > options.first
+            max = options.detect {|value| value >= item_count} || item_count
           else
             max = item_count
           end
-          values = values.select {|value| value <= max || value == selected}
+          options = options.select {|value| value <= max || value == selected}
         end
-        if values.empty? || (values.size == 1 && values.first == selected)
-          return nil
+        if options.empty? || (options.size == 1 && options.first == selected)
+          []
+        else
+          options
         end
-        links = values.collect do |n|
-          n == selected ? n : yield(n, :per_page => n)
-        end
-        l(:label_display_per_page, links.join(', '))
       end
     end
   end
