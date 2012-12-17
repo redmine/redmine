@@ -211,7 +211,7 @@ module Redmine
         values = per_page_options(paginator.per_page, paginator.item_count)
         if values.any?
           links = values.collect do |n|
-            n == paginator.per_page ? n : yield(n, :per_page => n)
+            n == paginator.per_page ? n : yield(n, :per_page => n, paginator.page_param => nil)
           end
           l(:label_display_per_page, links.join(', '))
         end
