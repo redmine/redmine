@@ -199,7 +199,7 @@ module Redmine
 
         html << "(#{paginator.first_item}-#{paginator.last_item}/#{paginator.item_count}) "
 
-        if per_page_links != false && links = per_page_links(paginator.per_page, paginator.item_count, &block)
+        if per_page_links != false && links = per_page_links(paginator, &block)
           html << "| #{links}"
         end
 
@@ -207,11 +207,11 @@ module Redmine
       end
 
       # Renders the "Per page" links.
-      def per_page_links(selected=nil, item_count=nil, &block)
-        values = per_page_options(selected, item_count)
+      def per_page_links(paginator, &block)
+        values = per_page_options(paginator.per_page, paginator.item_count)
         if values.any?
           links = values.collect do |n|
-            n == selected ? n : yield(n, :per_page => n)
+            n == paginator.per_page ? n : yield(n, :per_page => n)
           end
           l(:label_display_per_page, links.join(', '))
         end
