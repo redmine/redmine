@@ -25,7 +25,7 @@ class TrackersController < ApplicationController
   def index
     respond_to do |format|
       format.html {
-        @tracker_pages, @trackers = paginate :trackers, :per_page => 10, :order => 'position'
+        @tracker_pages, @trackers = paginate Tracker.sorted, :per_page => 10
         render :action => "index", :layout => false if request.xhr?
       }
       format.api {
