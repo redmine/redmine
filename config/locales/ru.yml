@@ -1120,7 +1120,7 @@ ru:
   button_export: Экспорт
   label_export_options: "%{export_format} параметры экспорта"
   error_attachment_too_big: Этот файл нельзя загрузить из-за превышения максимального размера файла (%{max_size})
-  notice_failed_to_save_time_entries: "Failed to save %{count} time entrie(s) on %{total} selected: %{ids}."
+  notice_failed_to_save_time_entries: "Невозможно сохранить %{count} затраченное время для %{total} выбранных: %{ids}."
   label_x_issues:
     zero:  0 Задач
     one:   1 Задача
@@ -1146,11 +1146,11 @@ ru:
   setting_unsubscribe: "Разрешить пользователям удалять свои учетные записи" 
   button_delete_my_account: "Удалить мою учетную запись" 
   text_account_destroy_confirmation: "Ваша учетная запись будет полностью удалена без возможности восстановления.\nВы уверены, что хотите продолжить?" 
-  error_session_expired: Your session has expired. Please login again.
+  error_session_expired: Срок вашей сессии истек. Пожалуйста войдите еще раз
   text_session_expiration_settings: "Warning: changing these settings may expire the current sessions including yours."
-  setting_session_lifetime: Session maximum lifetime
-  setting_session_timeout: Session inactivity timeout
-  label_session_expiration: Session expiration
+  setting_session_lifetime: Максимальная продолжительность сессии
+  setting_session_timeout: Таймут сессии 
+  label_session_expiration: Срок истечения сессии
   permission_close_project: Закрывать / открывать проекты
   label_show_closed_projects: Просматривать закрытые проекты
   button_close: Сделать закрытым
@@ -1161,19 +1161,19 @@ ru:
   text_project_closed: Проект закрыт и находиться в режиме только для чтения.
   notice_user_successful_create: Пользователь %{id} создан.
   field_core_fields: Стандартные поля
-  field_timeout: Timeout (in seconds)
-  setting_thumbnails_enabled: Display attachment thumbnails
-  setting_thumbnails_size: Thumbnails size (in pixels)
+  field_timeout: Таймаут (в секундах)
+  setting_thumbnails_enabled: Отображать превью для приложений
+  setting_thumbnails_size: Размер первью (в пикселях)
   label_status_transitions: Статус-переходы
   label_fields_permissions: Права на изменения полей
   label_readonly: Не изменяется
   label_required: Обязательное
   text_repository_identifier_info: Допускаются только строчные латинские буквы (a-z), цифры, тире и подчеркивания.<br />После сохранения идентификатор изменить нельзя.
   field_board_parent: Родительский форум
-  label_attribute_of_project: Project's %{name}
+  label_attribute_of_project: Проект %{name}
   label_attribute_of_author: Имя автора %{name}
-  label_attribute_of_assigned_to: Assignee's %{name}
-  label_attribute_of_fixed_version: Target version's %{name}
+  label_attribute_of_assigned_to: Назначена %{name}
+  label_attribute_of_fixed_version: Версия %{name}
   label_copy_subtasks: Копировать подзадачи
   label_copied_to: скопирована в
   label_copied_from: скопирована с
@@ -1182,16 +1182,16 @@ ru:
   field_private_notes: Приватный комментарий
   permission_view_private_notes: Просмотр приватных комментариев
   permission_set_notes_private: Размещение приватных комментариев
-  label_no_issues_in_project: no issues in project
+  label_no_issues_in_project: нет задач в проекте
   label_any: все
-  label_last_n_weeks: last %{count} weeks
-  setting_cross_project_subtasks: Allow cross-project subtasks
+  label_last_n_weeks: последние %{count} недель
+  setting_cross_project_subtasks: Разрешить подзадачи в между проектами
   label_cross_project_descendants: С подпроектами
   label_cross_project_tree: С деревом проектов
   label_cross_project_hierarchy: С иерархией проектов
   label_cross_project_system: Со всеми проектами
-  button_hide: Hide
-  setting_non_working_week_days: Non-working days
-  label_in_the_next_days: in the next
-  label_in_the_past_days: in the past
-  label_attribute_of_user: User's %{name}
+  button_hide: Скрыть
+  setting_non_working_week_days: Не рабочие дни
+  label_in_the_next_days: в средующие дни
+  label_in_the_past_days: в прошлые дни
+  label_attribute_of_user: Пользователь %{name}
