@@ -153,19 +153,29 @@ module Redmine
       # Options:
       #   :per_page_links    if set to false, the "Per page" links are not rendered
       #
-      def pagination_links_full(paginator, count=nil, options={})
+      def pagination_links_full(*args)
+        pagination_links_each(*args) do |text, parameters|
+          if block_given?
+            yield text, parameters
+          else
+            link_to text, params.merge(parameters)
+          end
+        end
+      end
+
+      # Yields the given block with the text and parameters
+      # for each pagination link and returns a string that represents the links
+      def pagination_links_each(paginator, count=nil, options={}, &block)
         options.assert_valid_keys :per_page_links
 
         per_page_links = options.delete(:per_page_links)
         per_page_links = false if count.nil?
         page_param = paginator.page_param
-        url_param = params.dup
 
         html = ''
         if paginator.previous_page
           # \xc2\xab(utf-8) = &#171;
-          html << link_to("\xc2\xab " + l(:label_previous),
-                    url_param.merge(page_param => paginator.previous_page)) + ' '
+          html << yield("\xc2\xab " + l(:label_previous), page_param => paginator.previous_page) + ' '
         end
 
         previous = nil
@@ -176,7 +186,7 @@ module Redmine
           if page == paginator.page
             html << page.to_s
           else
-            html << link_to(page.to_s, url_param.merge(page_param => page))
+            html << link_to(page.to_s, page_param => page)
           end
           html << ' '
           previous = page
@@ -184,13 +194,12 @@ module Redmine
 
         if paginator.next_page
           # \xc2\xbb(utf-8) = &#187;
-          html << ' ' + link_to(l(:label_next) + " \xc2\xbb",
-                          url_param.merge(page_param => paginator.next_page))
+          html << ' ' + link_to(l(:label_next) + " \xc2\xbb", page_param => paginator.next_page)
         end
 
         html << " (#{paginator.first_item}-#{paginator.last_item}/#{paginator.item_count})"
 
-        if per_page_links != false && links = per_page_links(paginator.per_page, paginator.item_count)
+        if per_page_links != false && links = per_page_links(paginator.per_page, paginator.item_count, &block)
           html << " | #{links}"
         end
 
@@ -198,7 +207,7 @@ module Redmine
       end
 
       # Renders the "Per page" links.
-      def per_page_links(selected=nil, item_count=nil)
+      def per_page_links(selected=nil, item_count=nil, &block)
         values = Setting.per_page_options_array
         if item_count && values.any?
           if item_count > values.first
@@ -212,7 +221,7 @@ module Redmine
           return nil
         end
         links = values.collect do |n|
-          n == selected ? n : link_to(n, params.merge(:per_page => n))
+          n == selected ? n : yield(n, :per_page => n)
         end
         l(:label_display_per_page, links.join(', '))
       end
