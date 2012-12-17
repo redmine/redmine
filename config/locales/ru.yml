@@ -502,7 +502,7 @@ ru:
   label_enumeration_new: Новое значение
   label_enumerations: Списки значений
   label_environment: Окружение
-  label_equals: является
+  label_equals: соответствует
   label_example: Пример
   label_export_to: Экспортировать в
   label_feed_plural: RSS
@@ -603,7 +603,7 @@ ru:
   label_no_data: Нет данных для отображения
   label_none: отсутствует
   label_not_contains: не содержит
-  label_not_equals: не является
+  label_not_equals: не соответствует
   label_open_issues: открыто
   label_open_issues_plural: открыто
   label_open_issues_plural2: открыто
