@@ -186,7 +186,7 @@ module Redmine
           if page == paginator.page
             html << page.to_s
           else
-            html << link_to(page.to_s, page_param => page)
+            html << yield(page.to_s, page_param => page)
           end
           html << ' '
           previous = page
@@ -194,7 +194,7 @@ module Redmine
 
         if paginator.next_page
           # \xc2\xbb(utf-8) = &#187;
-          html << link_to(l(:label_next) + " \xc2\xbb", page_param => paginator.next_page) + ' '
+          html << yield(l(:label_next) + " \xc2\xbb", page_param => paginator.next_page) + ' '
         end
 
         html << "(#{paginator.first_item}-#{paginator.last_item}/#{paginator.item_count}) "
