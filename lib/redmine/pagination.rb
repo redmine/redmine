@@ -181,7 +181,7 @@ module Redmine
         previous = nil
         paginator.linked_pages.each do |page|
           if previous && previous != page - 1
-            html << ' ... '
+            html << '... '
           end
           if page == paginator.page
             html << page.to_s
@@ -194,13 +194,13 @@ module Redmine
 
         if paginator.next_page
           # \xc2\xbb(utf-8) = &#187;
-          html << ' ' + link_to(l(:label_next) + " \xc2\xbb", page_param => paginator.next_page)
+          html << link_to(l(:label_next) + " \xc2\xbb", page_param => paginator.next_page) + ' '
         end
 
-        html << " (#{paginator.first_item}-#{paginator.last_item}/#{paginator.item_count})"
+        html << "(#{paginator.first_item}-#{paginator.last_item}/#{paginator.item_count}) "
 
         if per_page_links != false && links = per_page_links(paginator.per_page, paginator.item_count, &block)
-          html << " | #{links}"
+          html << "| #{links}"
         end
 
         html.html_safe
