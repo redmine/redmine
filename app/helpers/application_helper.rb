@@ -24,6 +24,7 @@ module ApplicationHelper
   include Redmine::WikiFormatting::Macros::Definitions
   include Redmine::I18n
   include GravatarHelper::PublicMethods
+  include Redmine::Pagination::Helper
 
   extend Forwardable
   def_delegators :wiki_helper, :wikitoolbar_for, :heads_for_wiki_formatter
@@ -389,59 +390,6 @@ module ApplicationHelper
   def to_path_param(path)
     str = path.to_s.split(%r{[/\\]}).select{|p| !p.blank?}.join("/")
     str.blank? ? nil : str
-  end
-
-  def pagination_links_full(paginator, count=nil, options={})
-    page_param = options.delete(:page_param) || :page
-    per_page_links = options.delete(:per_page_links)
-    url_param = params.dup
-
-    html = ''
-    if paginator.current.previous
-      # \xc2\xab(utf-8) = &#171;
-      html << link_to_content_update(
-                   "\xc2\xab " + l(:label_previous),
-                   url_param.merge(page_param => paginator.current.previous)) + ' '
-    end
-
-    html << (pagination_links_each(paginator, options) do |n|
-      link_to_content_update(n.to_s, url_param.merge(page_param => n))
-    end || '')
-
-    if paginator.current.next
-      # \xc2\xbb(utf-8) = &#187;
-      html << ' ' + link_to_content_update(
-                      (l(:label_next) + " \xc2\xbb"),
-                      url_param.merge(page_param => paginator.current.next))
-    end
-
-    unless count.nil?
-      html << " (#{paginator.current.first_item}-#{paginator.current.last_item}/#{count})"
-      if per_page_links != false && links = per_page_links(paginator.items_per_page, count)
-	      html << " | #{links}"
-      end
-    end
-
-    html.html_safe
-  end
-
-  def per_page_links(selected=nil, item_count=nil)
-    values = Setting.per_page_options_array
-    if item_count && values.any?
-      if item_count > values.first
-        max = values.detect {|value| value >= item_count} || item_count
-      else
-        max = item_count
-      end
-      values = values.select {|value| value <= max || value == selected}
-    end
-    if values.empty? || (values.size == 1 && values.first == selected)
-      return nil
-    end
-    links = values.collect do |n|
-      n == selected ? n : link_to_content_update(n, params.merge(:per_page => n))
-    end
-    l(:label_display_per_page, links.join(', '))
   end
 
   def reorder_links(name, url, method = :post)

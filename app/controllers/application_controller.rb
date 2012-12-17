@@ -22,6 +22,7 @@ class Unauthorized < Exception; end
 
 class ApplicationController < ActionController::Base
   include Redmine::I18n
+  include Redmine::Pagination
 
   class_attribute :accept_api_auth_actions
   class_attribute :accept_rss_auth_actions
