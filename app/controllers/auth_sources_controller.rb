@@ -23,7 +23,7 @@ class AuthSourcesController < ApplicationController
   before_filter :find_auth_source, :only => [:edit, :update, :test_connection, :destroy]
 
   def index
-    @auth_source_pages, @auth_sources = paginate AuthSource, :per_page => 10
+    @auth_source_pages, @auth_sources = paginate AuthSource, :per_page => 25
   end
 
   def new
