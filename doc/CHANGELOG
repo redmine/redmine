@@ -8,6 +8,7 @@ http://www.redmine.org/
 
 * Defect #12409: Git: changesets aren't read after clear_changesets call
 * Patch #12605: Norwegian translation for 1.4-stable update
+* Patch #12614: Dutch translation
 
 == 2012-11-17 v1.4.5
 
