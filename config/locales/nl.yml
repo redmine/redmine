@@ -49,7 +49,7 @@ nl:
         one:   "ongeveer 1 uur"
         other: "ongeveer %{count} uren"
       x_hours:
-        one:   "1 hour"
+        one:   "1 uur"
         other: "%{count} hours"
       x_days:
         one:   "1 dag"
@@ -989,61 +989,61 @@ nl:
   description_all_columns: Alle kolommen
   button_export: Exporteren
   label_export_options: "%{export_format} export opties"
-  error_attachment_too_big: This file cannot be uploaded because it exceeds the maximum allowed file size (%{max_size})
-  notice_failed_to_save_time_entries: "Failed to save %{count} time entrie(s) on %{total} selected: %{ids}."
+  error_attachment_too_big: Dit bestand kan niet worden geupload omdat het de maximaal toegestane grootte overschrijd (%{max_size})
+  notice_failed_to_save_time_entries: "Opslaan gefaald voor %{count} tijdsnotatie(s) van %{total} geselecteerde: %{ids}."
   label_x_issues:
-    zero:  0 issue
-    one:   1 issue
-    other: "%{count} issues"
-  label_repository_new: New repository
-  field_repository_is_default: Main repository
-  label_copy_attachments: Copy attachments
+    zero:  0 incidenten
+    one:   1 incidenten
+    other: "%{count} incidenten"
+  label_repository_new: Nieuw repository
+  field_repository_is_default: Hoofd repository
+  label_copy_attachments: Copieer bijlage(n)
   label_item_position: "%{position}/%{count}"
-  label_completed_versions: Completed versions
-  field_multiple: Multiple values
-  setting_commit_cross_project_ref: Allow issues of all the other projects to be referenced and fixed
-  text_issue_conflict_resolution_add_notes: Add my notes and discard my other changes
-  text_issue_conflict_resolution_overwrite: Apply my changes anyway (previous notes will be kept but some changes may be overwritten)
-  notice_issue_update_conflict: The issue has been updated by an other user while you were editing it.
-  text_issue_conflict_resolution_cancel: Discard all my changes and redisplay %{link}
-  permission_manage_related_issues: Manage related issues
+  label_completed_versions: Versies compleet
+  field_multiple: Meerdere waardes
+  setting_commit_cross_project_ref: Sta toe om incidenten van alle projecten te refereren en oplossen
+  text_issue_conflict_resolution_add_notes: Voeg mijn notities toe en annuleer andere wijzigingen
+  text_issue_conflict_resolution_overwrite: Voeg mijn wijzigingen alsnog toe (voorgaande notities worden bewaard, maar sommige kunnen overschreden worden)
+  notice_issue_update_conflict: Dit incident is reeds geupdate door een andere gebruiker terwijl jij bezig was
+  text_issue_conflict_resolution_cancel: Annuleer mijn wijzigingen en geef pagina opnieuw weer %{link}
+  permission_manage_related_issues: Beheer gerelateerde incidenten
   field_auth_source_ldap_filter: LDAP filter
-  label_search_for_watchers: Search for watchers to add
-  notice_account_deleted: Your account has been permanently deleted.
-  setting_unsubscribe: Allow users to delete their own account
-  button_delete_my_account: Delete my account
+  label_search_for_watchers: Zoek om monitoorders toe te voegen
+  notice_account_deleted: Uw account is permanent verwijderd
+  setting_unsubscribe: Sta gebruikers toe hun eigen account te verwijderen
+  button_delete_my_account: Verwijder mijn account
   text_account_destroy_confirmation: |-
-    Are you sure you want to proceed?
-    Your account will be permanently deleted, with no way to reactivate it.
-  error_session_expired: Your session has expired. Please login again.
-  text_session_expiration_settings: "Warning: changing these settings may expire the current sessions including yours."
-  setting_session_lifetime: Session maximum lifetime
-  setting_session_timeout: Session inactivity timeout
-  label_session_expiration: Session expiration
-  permission_close_project: Close / reopen the project
-  label_show_closed_projects: View closed projects
-  button_close: Close
-  button_reopen: Reopen
-  project_status_active: active
-  project_status_closed: closed
-  project_status_archived: archived
-  text_project_closed: This project is closed and read-only.
-  notice_user_successful_create: User %{id} created.
-  field_core_fields: Standard fields
+    Weet u zeker dat u door wilt gaan?
+    Uw account wordt permanent verwijderd zonder mogelijkheid deze te heractiveren.
+  error_session_expired: Uw sessie is verlopen. U dient opnieuw in te loggen.
+  text_session_expiration_settings: "Waarschuwing: door deze instelling te wijzigen kan sessies laten verlopen inclusief de uwe"
+  setting_session_lifetime: Maximale sessieduur
+  setting_session_timeout: Sessie inactiviteit timeout
+  label_session_expiration: Sessie verlopen
+  permission_close_project: Sluit / heropen project
+  label_show_closed_projects: Gesloten projecten weergeven
+  button_close: Sluiten
+  button_reopen: Heropen
+  project_status_active: actief
+  project_status_closed: gesloten
+  project_status_archived: gearchiveerd
+  text_project_closed: Dit project is gesloten en op alleen-lezen
+  notice_user_successful_create: Gebruiker %{id} aangemaakt.
+  field_core_fields: Standaard verleden
   field_timeout: Timeout (in seconds)
-  setting_thumbnails_enabled: Display attachment thumbnails
-  setting_thumbnails_size: Thumbnails size (in pixels)
-  label_status_transitions: Status transitions
-  label_fields_permissions: Fields permissions
-  label_readonly: Read-only
-  label_required: Required
+  setting_thumbnails_enabled: Geef bijlage miniaturen weer
+  setting_thumbnails_size: Grootte miniaturen (in pixels)
+  label_status_transitions: Status transitie
+  label_fields_permissions: Permissie velden
+  label_readonly: Alleen-lezen
+  label_required: Verplicht
   text_repository_identifier_info: 'Alleen kleine letter (a-z), cijfers, streepjes en liggende streepjes zijn toegestaan.<br />Eenmaal opgeslagen kan de identifier niet worden gewijzigd.'
-  field_board_parent: Parent forum
-  label_attribute_of_project: Project's %{name}
-  label_attribute_of_author: Author's %{name}
-  label_attribute_of_assigned_to: Assignee's %{name}
-  label_attribute_of_fixed_version: Target version's %{name}
-  label_copy_subtasks: Copy subtasks
+  field_board_parent: Hoofd forum
+  label_attribute_of_project: Project %{name}
+  label_attribute_of_author: Auteur(s) %{name}
+  label_attribute_of_assigned_to: Toegewezen %{name}
+  label_attribute_of_fixed_version: Target versions %{name}
+  label_copy_subtasks: Kopieer subtaken
   label_copied_to: copied to
   label_copied_from: copied from
   label_any_issues_in_project: any issues in project
