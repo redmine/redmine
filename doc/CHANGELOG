@@ -4,6 +4,76 @@ Redmine - project management software
 Copyright (C) 2006-2012  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2012-12-18 v2.2.0
+
+* Defect #4787: Gannt to PNG - CJK (Chinese, Japanese and Korean) characters appear as ?
+* Defect #8106: Issues by Category should show tasks without category
+* Defect #8373: i18n string text_are_you_sure_with_children no longer used
+* Defect #11426: Filtering with Due Date in less than N days should show overdue issues
+* Defect #11834: Bazaar: "???" instead of non ASCII character in paths on non UTF-8 locale
+* Defect #11868: Git and Mercurial diff displays deleted files as /dev/null
+* Defect #11979: No validation errors when entering an invalid "Parent task"
+* Defect #12012: Redmine::VERSION.revision method does not work on Subversion 1.7 working copy
+* Defect #12018: Issue filter select box order changes randomly
+* Defect #12090: email recipients not written to action_mailer log if BCC recipients setting is checked
+* Defect #12092: Issue "start date" validation does not work correctly
+* Defect #12285: Some unit and functional tests miss fixtures and break when run alone
+* Defect #12286: Emails of private notes are sent to watcher users regardless of viewing permissions
+* Defect #12310: Attachments may not be displayed in the order they were selected
+* Defect #12356: Issue "Update" link broken focus
+* Defect #12397: Error in Textile conversion of HTTP links, containing russian letters
+* Defect #12434: Respond with 404 instead of 500 when requesting a wiki diff with invalid versions
+* Feature #1554: Private comments in tickets
+* Feature #2161: Time tracking code should respect weekends as "no work" days
+* Feature #3239: Show related issues on the Issues Listing
+* Feature #3265: Filter on issue relations
+* Feature #3447: Option to display the issue descriptions on the issues list
+* Feature #3511: Ability to sort issues by grouped column
+* Feature #4590: Precede-Follow relation should move following issues when rescheduling issue earlier
+* Feature #5487: Allow subtasks to cross projects
+* Feature #6899: Add a relation between the original and copied issue
+* Feature #7082: Rest API for wiki
+* Feature #9835: REST API - List priorities
+* Feature #10789: Macros {{child_pages}} with depth parameter
+* Feature #10852: Ability to delete a version from a wiki page history
+* Feature #10937: new user format #{lastname}
+* Feature #11502: Expose roles details via REST API
+* Feature #11755: Impersonate user through REST API auth
+* Feature #12085: New user name format: firstname + first letter of lastname
+* Feature #12125: Set filename used to store attachment updloaded via the REST API
+* Feature #12167: Macro for inserting collapsible block of text
+* Feature #12211: Wrap issue description and its contextual menu in a div
+* Feature #12216: Textual CSS class for priorities
+* Feature #12299: Redmine version requirement improvements (in plugins)
+* Feature #12393: Upgrade to Rails 3.2.9
+* Feature #12475: Lazy loading of translation files for faster startup
+* Patch #11846: Fill username when authentification failed
+* Patch #11862: Add "last 2 weeks" preset to time entries reporting
+* Patch #11992: Japanese translation about issue relations improved
+* Patch #12027: Incorrect Spanish "September" month name
+* Patch #12061: Japanese translation improvement (permission names)
+* Patch #12078: User#allowed_to? should return true or false
+* Patch #12117: Change Japanese translation of "admin"
+* Patch #12142: Updated translation in Lithuanian
+* Patch #12232: German translation enhancements
+* Patch #12316: Fix Lithuanian numeral translation
+* Patch #12494: Bulgarian "button_submit" translation change
+* Patch #12514: Updated translation in Lithuanian
+* Patch #12602: Korean translation update for 2.2-stable
+* Patch #12608: Norwegian translation changed
+* Patch #12619: Russian translation change
+
+== 2012-12-18 v2.1.5
+
+* Defect #12400: Validation fails when receiving an email with list custom fields
+* Defect #12451: Macros.rb extract_macro_options should use lazy search
+* Defect #12513: Grouping of issues by custom fields not correct in PDF export
+* Defect #12566: Issue history notes previews are broken
+* Defect #12568: Clicking "edit" on a journal multiple times shows multiple forms
+* Patch #12605: Norwegian translation for 1.4-stable update
+* Patch #12614: Dutch translation
+* Patch #12615: Russian translation
+
 == 2012-11-24 v2.1.4
 
 * Defect #12274: Wiki export from Index by title is truncated
