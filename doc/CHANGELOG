@@ -4,6 +4,17 @@ Redmine - project management software
 Copyright (C) 2006-2012  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2012-12-18 v2.1.5
+
+* Defect #12400: Validation fails when receiving an email with list custom fields
+* Defect #12451: Macros.rb extract_macro_options should use lazy search
+* Defect #12513: Grouping of issues by custom fields not correct in PDF export
+* Defect #12566: Issue history notes previews are broken
+* Defect #12568: Clicking "edit" on a journal multiple times shows multiple forms
+* Patch #12605: Norwegian translation for 1.4-stable update
+* Patch #12614: Dutch translation
+* Patch #12615: Russian translation
+
 == 2012-11-24 v2.1.4
 
 * Defect #12274: Wiki export from Index by title is truncated
