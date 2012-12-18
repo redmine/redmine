@@ -450,7 +450,7 @@ ja:
   permission_manage_repository: リポジトリの管理
   permission_browse_repository: リポジトリの閲覧
   permission_view_changesets: 更新履歴の閲覧
-  permission_commit_access: コミットの閲覧
+  permission_commit_access: コミット権限
   permission_manage_boards: フォーラムの管理
   permission_view_messages: メッセージの閲覧
   permission_add_messages: メッセージの追加
@@ -862,7 +862,7 @@ ja:
   button_unlock: アンロック
   button_download: ダウンロード
   button_list: 一覧
-  button_view: 見る
+  button_view: 表示
   button_move: 移動
   button_move_and_follow: 移動後表示
   button_back: 戻る
