@@ -117,7 +117,9 @@ ru:
         many:  "около %{count} часов"
         other: "около %{count} часов"
       x_hours:
-        one:   "1 час"
+        one:   "%{count} час"
+        few:   "%{count} часа"
+        many:  "%{count} часов"
         other: "%{count} часов"
       x_days:
         one:   "%{count} день"
