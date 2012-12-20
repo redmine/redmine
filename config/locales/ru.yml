@@ -401,11 +401,6 @@ ru:
   general_text_yes: 'да'
   general_text_Yes: 'Да'
 
-  gui_validation_error: 1 ошибка
-  gui_validation_error_plural: "%{count} ошибок"
-  gui_validation_error_plural2: "%{count} ошибки"
-  gui_validation_error_plural5: "%{count} ошибок"
-
   label_activity: Действия
   label_add_another_file: Добавить ещё один файл
   label_added_time_by: "Добавил(а) %{author} %{age} назад"

@@ -197,8 +197,6 @@ da:
   mail_subject_account_activation_request: "%{value} kontoaktivering"
   mail_body_account_activation_request: "En ny bruger (%{value}) er registreret. Godkend venligst kontoen:"
 
-  gui_validation_error: 1 fejl
-  gui_validation_error_plural: "%{count} fejl"
 
   field_name: Navn
   field_description: Beskrivelse

@@ -206,8 +206,6 @@ pt-BR:
   mail_subject_reminder: "%{count} tarefa(s) com data prevista para os próximos %{days} dias"
   mail_body_reminder: "%{count} tarefa(s) para você com data prevista para os próximos %{days} dias:"
 
-  gui_validation_error: 1 erro
-  gui_validation_error_plural: "%{count} erros"
 
   field_name: Nome
   field_description: Descrição

@@ -180,8 +180,6 @@ th:
   mail_subject_account_activation_request: "กรุณาเปิดบัญชี %{value}"
   mail_body_account_activation_request: "ผู้ใช้ใหม่ (%{value}) ได้ลงทะเบียน. บัญชีของเขากำลังรออนุมัติ:"
 
-  gui_validation_error: 1 ข้อผิดพลาด
-  gui_validation_error_plural: "%{count} ข้อผิดพลาด"
 
   field_name: ชื่อ
   field_description: รายละเอียด

@@ -203,8 +203,6 @@
   mail_subject_account_activation_request: Redmine azonosító aktiválási kérelem
   mail_body_account_activation_request: "Egy új felhasználó (%{value}) regisztrált, azonosítója jóváhasgyásra várakozik:"
 
-  gui_validation_error: 1 hiba
-  gui_validation_error_plural: "%{count} hiba"
 
   field_name: Név
   field_description: Leírás

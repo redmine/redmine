@@ -174,8 +174,6 @@
   mail_subject_reminder: "%{count} sak(er) har frist de kommende %{days} dagene"
   mail_body_reminder: "%{count} sak(er) som er tildelt deg har frist de kommende %{days} dager:"
 
-  gui_validation_error: 1 feil
-  gui_validation_error_plural: "%{count} feil"
 
   field_name: Navn
   field_description: Beskrivelse

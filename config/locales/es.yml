@@ -345,8 +345,6 @@ es:
   general_text_Yes: 'Sí'
   general_text_no: 'no'
   general_text_yes: 'sí'
-  gui_validation_error: 1 error
-  gui_validation_error_plural: "%{count} errores"
   label_activity: Actividad
   label_add_another_file: Añadir otro fichero
   label_add_note: Añadir una nota

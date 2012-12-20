@@ -212,8 +212,6 @@ he:
   mail_subject_wiki_content_updated: "דף ה־wiki ‏'%{id}' עודכן"
   mail_body_wiki_content_updated: דף ה־wiki ‏'%{id}' עודכן ע"י %{author}.
 
-  gui_validation_error: שגיאה 1
-  gui_validation_error_plural: "%{count} שגיאות"
 
   field_name: שם
   field_description: תיאור

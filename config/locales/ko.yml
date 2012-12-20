@@ -238,8 +238,6 @@ ko:
   mail_body_wiki_content_added: "%{author}이(가) 위키페이지 '%{id}'을(를) 추가하였습니다."
   mail_body_wiki_content_updated: "%{author}이(가) 위키페이지 '%{id}'을(를) 수정하였습니다."
 
-  gui_validation_error: 에러
-  gui_validation_error_plural: "%{count}개 에러"
 
   field_name: 이름
   field_description: 설명

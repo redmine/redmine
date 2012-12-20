@@ -194,8 +194,6 @@ el:
   mail_subject_wiki_content_updated: "'ενημερώθηκε η σελίδα wiki %{id}' "
   mail_body_wiki_content_updated: "Η σελίδα wiki  '%{id}' ενημερώθηκε από τον %{author}."
 
-  gui_validation_error: 1 σφάλμα
-  gui_validation_error_plural: "%{count} σφάλματα"
 
   field_name: Όνομα
   field_description: Περιγραφή

@@ -207,8 +207,6 @@ mk:
   mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
   mail_body_wiki_content_updated: "The '%{id}' wiki page has been updated by %{author}."
 
-  gui_validation_error: 1 грешка
-  gui_validation_error_plural: "%{count} грешки"
 
   field_name: Име
   field_description: Опис

@@ -184,8 +184,6 @@ sl:
   mail_subject_reminder: "%{count} zahtevek(zahtevki) zapadejo v naslednjih %{days} dneh"
   mail_body_reminder: "%{count} zahtevek(zahtevki), ki so vam dodeljeni bodo zapadli v naslednjih %{days} dneh:"
 
-  gui_validation_error: 1 napaka
-  gui_validation_error_plural: "%{count} napak"
 
   field_name: Ime
   field_description: Opis

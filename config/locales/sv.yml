@@ -256,8 +256,6 @@ sv:
   mail_subject_wiki_content_updated: "'%{id}' wikisida har uppdaterats"
   mail_body_wiki_content_updated: "The '%{id}' wikisida har uppdaterats av %{author}."
 
-  gui_validation_error: 1 fel
-  gui_validation_error_plural: "%{count} fel"
 
   field_name: Namn
   field_description: Beskrivning

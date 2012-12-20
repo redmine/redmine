@@ -176,8 +176,6 @@ it:
   mail_subject_register: "Attivazione utente %{value}"
   mail_body_register: "Per attivare l'utente, usa il seguente collegamento:"
 
-  gui_validation_error: 1 errore
-  gui_validation_error_plural: "%{count} errori"
 
   field_name: Nome
   field_description: Descrizione

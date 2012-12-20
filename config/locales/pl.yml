@@ -310,10 +310,7 @@ pl:
   general_text_Yes: 'Tak'
   general_text_no: 'nie'
   general_text_yes: 'tak'
-  gui_validation_error: 1 błąd
-  gui_validation_error_plural234: "%{count} błędy"
-  gui_validation_error_plural5: "%{count} błędów"
-  gui_validation_error_plural: "%{count} błędów"
+
   label_activity: Aktywność
   label_add_another_file: Dodaj kolejny plik
   label_add_note: Dodaj notatkę

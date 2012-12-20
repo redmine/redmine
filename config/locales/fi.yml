@@ -205,8 +205,6 @@ fi:
   mail_subject_account_activation_request: "%{value} tilin aktivointi pyyntö"
   mail_body_account_activation_request: "Uusi käyttäjä (%{value}) on rekisteröitynyt. Hänen tili odottaa hyväksyntääsi:"
 
-  gui_validation_error: 1 virhe
-  gui_validation_error_plural: "%{count} virhettä"
 
   field_name: Nimi
   field_description: Kuvaus

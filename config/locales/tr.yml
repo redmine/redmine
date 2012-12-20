@@ -204,8 +204,6 @@ tr:
   mail_subject_account_activation_request: "%{value} hesabı etkinleştirme isteği"
   mail_body_account_activation_request: "Yeni bir kullanıcı (%{value}) kaydedildi. Hesap onaylanmayı bekliyor:"
 
-  gui_validation_error: 1 hata
-  gui_validation_error_plural: "%{count} hata"
 
   field_name: İsim
   field_description: Yorum

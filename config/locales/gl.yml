@@ -320,8 +320,6 @@ gl:
   general_text_Yes: 'Si'
   general_text_no: 'non'
   general_text_yes: 'si'
-  gui_validation_error: 1 erro
-  gui_validation_error_plural: "%{count} erros"
   label_activity: Actividade
   label_add_another_file: Engadir outro arquivo
   label_add_note: Engadir unha nota

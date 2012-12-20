@@ -194,8 +194,6 @@ lv:
   mail_subject_wiki_content_updated: "'%{id}' Wiki lapa atjaunota"
   mail_body_wiki_content_updated: "The '%{id}' Wiki lapu atjaunojis %{author}."
 
-  gui_validation_error: 1 kļūda
-  gui_validation_error_plural: "%{count} kļūdas"
 
   field_name: Nosaukums
   field_description: Apraksts

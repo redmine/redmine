@@ -174,8 +174,6 @@ uk:
   mail_subject_account_activation_request: "Запит на активацію облікового запису %{value}"
   mail_body_account_activation_request: "Новий користувач (%{value}) зареєструвався. Його обліковий запис чекає на ваше підтвердження:"
 
-  gui_validation_error: 1 помилка
-  gui_validation_error_plural: "%{count} помилки(ок)"
 
   field_name: Ім'я
   field_description: Опис

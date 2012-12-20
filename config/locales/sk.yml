@@ -183,8 +183,6 @@ sk:
   mail_subject_account_activation_request: "Aktivácia %{value} účtu"
   mail_body_account_activation_request: "Bol zaregistrovaný nový uživateľ %{value}. Aktivácia jeho účtu závisí na vašom potvrdení."
 
-  gui_validation_error: 1 chyba
-  gui_validation_error_plural: "%{count} chyb(y)"
 
   field_name: Názov
   field_description: Popis

@@ -211,8 +211,6 @@ ar:
   mail_subject_wiki_content_updated: "'%{id}' تم تحديث صفحة ويكي"
   mail_body_wiki_content_updated: "The '%{id}'تم تحديث صفحة ويكي من قبل %{author}."
 
-  gui_validation_error: خطأ
-  gui_validation_error_plural: "%{count}أخطاء"
 
   field_name: الاسم
   field_description: الوصف

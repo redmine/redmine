@@ -291,8 +291,6 @@ nl:
   general_text_Yes: 'Ja'
   general_text_no: 'nee'
   general_text_yes: 'ja'
-  gui_validation_error: 1 fout
-  gui_validation_error_plural: "%{count} fouten"
   label_activity: Activiteit
   label_add_another_file: Ander bestand toevoegen
   label_add_note: Voeg een notitie toe

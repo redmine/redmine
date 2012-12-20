@@ -184,8 +184,6 @@ ro:
   mail_subject_reminder: "%{count} tichete trebuie rezolvate în următoarele %{days} zile"
   mail_body_reminder: "%{count} tichete atribuite dumneavoastră trebuie rezolvate în următoarele %{days} zile:"
 
-  gui_validation_error: o eroare
-  gui_validation_error_plural: "%{count} erori"
 
   field_name: Nume
   field_description: Descriere

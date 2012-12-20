@@ -193,8 +193,6 @@ pt:
   mail_subject_reminder: "%{count} tarefa(s) para entregar nos próximos %{days} dias"
   mail_body_reminder: "%{count} tarefa(s) que estão atribuídas a si estão agendadas para estarem completas nos próximos %{days} dias:"
 
-  gui_validation_error: 1 erro
-  gui_validation_error_plural: "%{count} erros"
 
   field_name: Nome
   field_description: Descrição

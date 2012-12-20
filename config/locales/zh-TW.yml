@@ -298,8 +298,6 @@
   mail_subject_wiki_content_updated: "'%{id}' wiki 頁面已被更新"
   mail_body_wiki_content_updated: "此 '%{id}' wiki 頁面已被 %{author} 更新。"
 
-  gui_validation_error: 1 個錯誤
-  gui_validation_error_plural: "%{count} 個錯誤"
 
   field_name: 名稱
   field_description: 概述

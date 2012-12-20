@@ -209,8 +209,6 @@ sr-YU:
   mail_subject_wiki_content_updated: "Wiki stranica '%{id}' je ažurirana"
   mail_body_wiki_content_updated: "%{author} je ažurirao wiki stranicu '%{id}'."
 
-  gui_validation_error: jedna greška
-  gui_validation_error_plural: "%{count} grešaka"
 
   field_name: Naziv
   field_description: Opis

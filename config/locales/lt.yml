@@ -268,8 +268,6 @@ lt:
   mail_subject_wiki_content_updated: "'%{id}' atnaujintas wiki puslapis"
   mail_body_wiki_content_updated: "'%{id}' wiki puslapį atnaujino %{author}."
 
-  gui_validation_error: 1 klaida
-  gui_validation_error_plural: "%{count} klaidų(os)"
 
   field_name: Pavadinimas
   field_description: Aprašas

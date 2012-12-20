@@ -212,8 +212,6 @@ cs:
   mail_subject_wiki_content_updated: "'%{id}' Wiki stránka byla aktualizována"
   mail_body_wiki_content_updated: "'%{id}' Wiki stránka byla aktualizována od %{author}."
 
-  gui_validation_error: 1 chyba
-  gui_validation_error_plural: "%{count} chyb(y)"
 
   field_name: Název
   field_description: Popis

@@ -209,8 +209,6 @@ ca:
   mail_subject_wiki_content_updated: "S'ha actualitzat la pàgina wiki «%{id}»"
   mail_body_wiki_content_updated: "En %{author} ha actualitzat la pàgina wiki «%{id}»."
 
-  gui_validation_error: 1 error
-  gui_validation_error_plural: "%{count} errors"
 
   field_name: Nom
   field_description: Descripció

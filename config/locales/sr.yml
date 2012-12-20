@@ -207,8 +207,6 @@ sr:
   mail_subject_wiki_content_updated: "Wiki страница '%{id}' је ажурирана"
   mail_body_wiki_content_updated: "%{author} је ажурирао wiki страницу '%{id}'."
 
-  gui_validation_error: једна грешка
-  gui_validation_error_plural: "%{count} грешака"
 
   field_name: Назив
   field_description: Опис
