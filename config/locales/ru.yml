@@ -115,12 +115,12 @@ ru:
         one:   "около %{count} часа"
         few:   "около %{count} часов"
         many:  "около %{count} часов"
-        other: "около %{count} часов"
+        other: "около %{count} часа"
       x_hours:
         one:   "%{count} час"
         few:   "%{count} часа"
         many:  "%{count} часов"
-        other: "%{count} часов"
+        other: "%{count} часа"
       x_days:
         one:   "%{count} день"
         few:   "%{count} дня"
