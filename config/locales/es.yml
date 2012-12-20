@@ -515,8 +515,6 @@ es:
   label_message_plural: Mensajes
   label_message_posted: Mensaje añadido
   label_min_max_length: Longitud mín - máx
-  label_modification: "%{count} modificación"
-  label_modification_plural: "%{count} modificaciones"
   label_modified: modificado
   label_module_plural: Módulos
   label_month: Mes

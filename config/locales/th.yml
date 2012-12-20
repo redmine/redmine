@@ -488,8 +488,6 @@ th:
   label_repository: ที่เก็บต้นฉบับ
   label_repository_plural: ที่เก็บต้นฉบับ
   label_browse: เปิดหา
-  label_modification: "%{count} เปลี่ยนแปลง"
-  label_modification_plural: "%{count} เปลี่ยนแปลง"
   label_revision: การแก้ไข
   label_revision_plural: การแก้ไข
   label_associated_revisions: การแก้ไขที่เกี่ยวข้อง

@@ -625,8 +625,6 @@ zh:
   label_repository: 版本库
   label_repository_plural: 版本库
   label_browse: 浏览
-  label_modification: "%{count} 个更新"
-  label_modification_plural: "%{count} 个更新"
   label_branch: 分支
   label_tag: 标签
   label_revision: 修订

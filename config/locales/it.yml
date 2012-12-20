@@ -441,8 +441,6 @@ it:
   label_day_plural: giorni
   label_repository: Repository
   label_browse: Sfoglia
-  label_modification: "%{count} modifica"
-  label_modification_plural: "%{count} modifiche"
   label_revision: Versione
   label_revision_plural: Versioni
   label_added: aggiunto

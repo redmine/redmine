@@ -618,8 +618,6 @@ he:
   label_repository: מאגר
   label_repository_plural: מאגרים
   label_browse: סייר
-  label_modification: "שינוי %{count}"
-  label_modification_plural: "%{count} שינויים"
   label_branch: ענף
   label_tag: סימון
   label_revision: מהדורה

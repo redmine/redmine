@@ -549,8 +549,6 @@ sl:
   label_repository: Shramba
   label_repository_plural: Shrambe
   label_browse: Prebrskaj
-  label_modification: "%{count} sprememba"
-  label_modification_plural: "%{count} spremembe"
   label_revision: Revizija
   label_revision_plural: Revizije
   label_associated_revisions: Povezane revizije

@@ -579,8 +579,6 @@ id:
   label_repository: Repositori
   label_repository_plural: Repositori
   label_browse: Jelajah
-  label_modification: "%{count} perubahan"
-  label_modification_plural: "%{count} perubahan"
   label_branch: Cabang
   label_tag: Tag
   label_revision: Revisi

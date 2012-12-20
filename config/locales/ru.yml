@@ -568,10 +568,6 @@ ru:
   label_message_posted: Добавлено сообщение
   label_me: мне
   label_min_max_length: Минимальная - максимальная длина
-  label_modification: "%{count} изменение"
-  label_modification_plural: "%{count} изменений"
-  label_modification_plural2: "%{count} изменения"
-  label_modification_plural5: "%{count} изменений"
   label_modified: изменено
   label_module_plural: Модули
   label_months_from: месяцев(ца) с

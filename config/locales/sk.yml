@@ -490,8 +490,6 @@ sk:
   label_repository: Repozitár
   label_repository_plural: Repozitáre
   label_browse: Prechádzať
-  label_modification: "%{count} zmena"
-  label_modification_plural: "%{count} zmien"
   label_revision: Revízia
   label_revision_plural: Revízií
   label_associated_revisions: Súvisiace verzie

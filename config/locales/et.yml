@@ -677,8 +677,6 @@ et:
   label_repository_new: "Uus hoidla"
   label_repository_plural: "Hoidlad"
   label_browse: "Sirvi"
-  label_modification: "%{count} muudatus"
-  label_modification_plural: "%{count} muudatust"
   label_branch: "Haru"
   label_tag: "Sildiga"
   label_revision: "Sissekanne"

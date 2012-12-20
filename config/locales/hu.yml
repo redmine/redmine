@@ -511,8 +511,6 @@
   label_repository: Forráskód
   label_repository_plural: Forráskódok
   label_browse: Tallóz
-  label_modification: "%{count} változás"
-  label_modification_plural: "%{count} változás"
   label_revision: Revízió
   label_revision_plural: Revíziók
   label_associated_revisions: Kapcsolt revíziók

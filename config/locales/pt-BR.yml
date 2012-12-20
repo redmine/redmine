@@ -521,8 +521,6 @@ pt-BR:
   label_repository: Repositório
   label_repository_plural: Repositórios
   label_browse: Procurar
-  label_modification: "%{count} alteração"
-  label_modification_plural: "%{count} alterações"
   label_revision: Revisão
   label_revision_plural: Revisões
   label_associated_revisions: Revisões associadas

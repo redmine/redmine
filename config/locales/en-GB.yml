@@ -633,8 +633,6 @@ en-GB:
   label_repository: Repository
   label_repository_plural: Repositories
   label_browse: Browse
-  label_modification: "%{count} change"
-  label_modification_plural: "%{count} changes"
   label_branch: Branch
   label_tag: Tag
   label_revision: Revision

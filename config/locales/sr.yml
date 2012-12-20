@@ -608,8 +608,6 @@ sr:
   label_repository: Спремиште
   label_repository_plural: Спремишта
   label_browse: Прегледање
-  label_modification: "%{count} промена"
-  label_modification_plural: "%{count} промена"
   label_branch: Грана
   label_tag: Ознака
   label_revision: Ревизија

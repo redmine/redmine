@@ -662,8 +662,6 @@ ja:
   label_repository: リポジトリ
   label_repository_plural: リポジトリ
   label_browse: ブラウズ
-  label_modification: "%{count}点の変更"
-  label_modification_plural: "%{count}点の変更"
   label_branch: ブランチ
   label_tag: タグ
   label_revision: リビジョン

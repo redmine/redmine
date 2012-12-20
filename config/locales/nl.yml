@@ -461,8 +461,6 @@ nl:
   label_message_plural: Berichten
   label_message_posted: Bericht toegevoegd
   label_min_max_length: Min-max lengte
-  label_modification: "%{count} wijziging"
-  label_modification_plural: "%{count} wijzigingen"
   label_modified: gewijzigd
   label_module_plural: Modules
   label_month: Maand

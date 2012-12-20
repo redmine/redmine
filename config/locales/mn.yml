@@ -597,8 +597,6 @@ mn:
   label_repository: Репозитори
   label_repository_plural: Репозиторууд
   label_browse: Үзэх
-  label_modification: "%{count} өөрчлөлт"
-  label_modification_plural: "%{count} өөрчлөлтүүд"
   label_branch: Салбар
   label_tag: Шошго
   label_revision: Хувилбар

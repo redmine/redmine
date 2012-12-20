@@ -510,8 +510,6 @@ tr:
   label_repository: Depo
   label_repository_plural: Depolar
   label_browse: Gözat
-  label_modification: "%{count} değişim"
-  label_modification_plural: "%{count} değişim"
   label_revision: Değişiklik
   label_revision_plural: Değişiklikler
   label_associated_revisions: Birleştirilmiş değişiklikler

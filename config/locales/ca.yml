@@ -613,8 +613,6 @@ ca:
   label_repository: Dipòsit
   label_repository_plural: Dipòsits
   label_browse: Navega
-  label_modification: "%{count} canvi"
-  label_modification_plural: "%{count} canvis"
   label_branch: Branca
   label_tag: Etiqueta
   label_revision: Revisió

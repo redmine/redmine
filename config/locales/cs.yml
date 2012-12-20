@@ -625,8 +625,6 @@ cs:
   label_repository: Repozitář
   label_repository_plural: Repozitáře
   label_browse: Procházet
-  label_modification: "%{count} změna"
-  label_modification_plural: "%{count} změn"
   label_branch: Větev
   label_tag: Tag
   label_revision: Revize

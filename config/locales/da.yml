@@ -497,8 +497,6 @@ da:
   label_repository: Repository
   label_repository_plural: Repositories
   label_browse: Gennemse
-  label_modification: "%{count} ændring"
-  label_modification_plural: "%{count} ændringer"
   label_revision: Revision
   label_revision_plural: Revisioner
   label_associated_revisions: Tilknyttede revisioner

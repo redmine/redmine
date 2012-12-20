@@ -573,8 +573,6 @@ el:
   label_repository: Αποθετήριο
   label_repository_plural: Αποθετήρια
   label_browse: Πλοήγηση
-  label_modification: "%{count} τροποποίηση"
-  label_modification_plural: "%{count} τροποποιήσεις"
   label_branch: Branch
   label_tag: Tag
   label_revision: Αναθεώρηση

@@ -610,8 +610,6 @@ sr-YU:
   label_repository: Spremište
   label_repository_plural: Spremišta
   label_browse: Pregledanje
-  label_modification: "%{count} promena"
-  label_modification_plural: "%{count} promena"
   label_branch: Grana
   label_tag: Oznaka
   label_revision: Revizija

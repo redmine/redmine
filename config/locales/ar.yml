@@ -646,8 +646,6 @@ ar:
   label_repository: المستودع
   label_repository_plural: المستودعات
   label_browse: تصفح
-  label_modification: "%{count} تغير"
-  label_modification_plural: "%{count}تغيرات "
   label_branch: فرع
   label_tag: ربط
   label_revision: مراجعة

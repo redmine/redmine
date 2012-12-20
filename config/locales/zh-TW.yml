@@ -764,8 +764,6 @@
   label_repository_new: 建立新儲存機制
   label_repository_plural: 儲存機制清單
   label_browse: 瀏覽
-  label_modification: "%{count} 變更"
-  label_modification_plural: "%{count} 變更"
   label_branch: 分支
   label_tag: 標籤
   label_revision: 修訂版

@@ -702,8 +702,6 @@ sv:
   label_repository_new: Nytt versionsarkiv
   label_repository_plural: Versionsarkiv
   label_browse: Bläddra
-  label_modification: "%{count} ändring"
-  label_modification_plural: "%{count} ändringar"
   label_branch: Branch
   label_tag: Tag
   label_revision: Revision

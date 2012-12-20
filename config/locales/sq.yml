@@ -660,8 +660,6 @@ sq:
   label_repository_new: New repository
   label_repository_plural: Repositories
   label_browse: Browse
-  label_modification: "%{count} ndryshim"
-  label_modification_plural: "%{count} ndryshime"
   label_branch: Dege
   label_tag: Tag
   label_revision: Revizion

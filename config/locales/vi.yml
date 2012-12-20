@@ -549,8 +549,6 @@ vi:
   label_repository: Kho lưu trữ
   label_repository_plural: Kho lưu trữ
   label_browse: Duyệt
-  label_modification: "%{count} thay đổi"
-  label_modification_plural: "%{count} thay đổi"
   label_revision: Bản điều chỉnh
   label_revision_plural: Bản điều chỉnh
   label_associated_revisions: Associated revisions

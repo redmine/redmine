@@ -621,8 +621,6 @@ fa:
   label_repository: انباره
   label_repository_plural: انباره
   label_browse: چریدن
-  label_modification: "%{count} جایگذاری"
-  label_modification_plural: "%{count} جایگذاری"
   label_branch: شاخه
   label_tag: برچسب
   label_revision: بازبینی

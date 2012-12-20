@@ -482,8 +482,6 @@
   label_repository: Depot
   label_repository_plural: Depoter
   label_browse: Utforsk
-  label_modification: "%{count} endring"
-  label_modification_plural: "%{count} endringer"
   label_revision: Revisjon
   label_revision_plural: Revisjoner
   label_associated_revisions: Assosierte revisjoner

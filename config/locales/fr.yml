@@ -672,8 +672,6 @@ fr:
   label_repository_new: Nouveau dépôt
   label_repository_plural: Dépôts
   label_browse: Parcourir
-  label_modification: "%{count} modification"
-  label_modification_plural: "%{count} modifications"
   label_revision: "Révision "
   label_revision_plural: Révisions
   label_associated_revisions: Révisions associées

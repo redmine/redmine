@@ -611,8 +611,6 @@ mk:
   label_repository: Складиште
   label_repository_plural: Складишта
   label_browse: Прелистувај
-  label_modification: "%{count} промени"
-  label_modification_plural: "%{count} промени"
   label_branch: Гранка
   label_tag: Tag
   label_revision: Ревизија

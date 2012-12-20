@@ -482,8 +482,6 @@ fi:
   label_repository: Tietovarasto
   label_repository_plural: Tietovarastot
   label_browse: Selaus
-  label_modification: "%{count} muutos"
-  label_modification_plural: "%{count} muutettu"
   label_revision: Versio
   label_revision_plural: Versiot
   label_added: lisätty

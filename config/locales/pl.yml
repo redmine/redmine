@@ -485,10 +485,6 @@ pl:
   label_message_plural: Wiadomości
   label_message_posted: Dodano wiadomość
   label_min_max_length: Min - Maks długość
-  label_modification: "%{count} modyfikacja"
-  label_modification_plural234: "%{count} modyfikacje"
-  label_modification_plural5: "%{count} modyfikacji"
-  label_modification_plural: "%{count} modyfikacje"
   label_modified: zmodyfikowane
   label_module_plural: Moduły
   label_month: Miesiąc

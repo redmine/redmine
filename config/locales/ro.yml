@@ -557,8 +557,6 @@ ro:
   label_repository: Depozit
   label_repository_plural: Depozite
   label_browse: Afișează
-  label_modification: "%{count} schimbare"
-  label_modification_plural: "%{count} schimbări"
   label_revision: Revizie
   label_revision_plural: Revizii
   label_associated_revisions: Revizii asociate

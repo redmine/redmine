@@ -683,8 +683,6 @@ bg:
   label_repository_new: Ново хранилище
   label_repository_plural: Хранилища
   label_browse: Разглеждане
-  label_modification: "%{count} промяна"
-  label_modification_plural: "%{count} промени"
   label_branch: работен вариант
   label_tag: Версия
   label_revision: Ревизия

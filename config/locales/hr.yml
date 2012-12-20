@@ -587,8 +587,6 @@ hr:
   label_repository: Skladište
   label_repository_plural: Skladišta
   label_browse: Pregled
-  label_modification: "%{count} promjena"
-  label_modification_plural: "%{count} promjena"
   label_branch: Branch
   label_tag: Tag
   label_revision: Revizija

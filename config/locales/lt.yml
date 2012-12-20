@@ -703,8 +703,6 @@ lt:
   label_repository: Saugykla
   label_repository_plural: Saugyklos
   label_browse: Naršyti
-  label_modification: "%{count} pakeitimas"
-  label_modification_plural: "%{count} pakeitimai"
   label_branch: Šaka
   label_tag: Tag
   label_revision: Revizija

@@ -490,8 +490,6 @@ gl:
   label_message_plural: Mensaxes
   label_message_posted: Mensaxe engadida
   label_min_max_length: Lonxitude mín - máx
-  label_modification: "%{count} modificación"
-  label_modification_plural: "%{count} modificacións"
   label_modified: modificado
   label_module_plural: Módulos
   label_month: Mes

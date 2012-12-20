@@ -573,8 +573,6 @@ bs:
   label_repository: Repozitorij
   label_repository_plural: Repozitoriji
   label_browse: Listaj
-  label_modification: "%{count} promjena"
-  label_modification_plural: "%{count} promjene"
   label_revision: Revizija
   label_revision_plural: Revizije
   label_associated_revisions: Doddjeljene revizije

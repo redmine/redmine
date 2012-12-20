@@ -449,8 +449,6 @@ uk:
   label_day_plural: днів(я)
   label_repository: Репозиторій
   label_browse: Проглянути
-  label_modification: "%{count} зміна"
-  label_modification_plural: "%{count} змін"
   label_revision: Версія
   label_revision_plural: Версій
   label_added: додано

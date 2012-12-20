@@ -591,8 +591,6 @@ lv:
   label_repository: Repozitorijs
   label_repository_plural: Repozitoriji
   label_browse: Pārlūkot
-  label_modification: "%{count} izmaiņa"
-  label_modification_plural: "%{count} izmaiņas"
   label_branch: Zars
   label_tag: Birka
   label_revision: Revīzija

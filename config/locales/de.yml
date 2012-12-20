@@ -626,8 +626,6 @@ de:
   label_repository: Projektarchiv
   label_repository_plural: Projektarchive
   label_browse: Codebrowser
-  label_modification: "%{count} Änderung"
-  label_modification_plural: "%{count} Änderungen"
   label_branch: Zweig
   label_tag: Markierung
   label_revision: Revision
