@@ -437,8 +437,6 @@ es:
   label_document_added: Documento añadido
   label_document_new: Nuevo documento
   label_document_plural: Documentos
-  label_download: "%{count} Descarga"
-  label_download_plural: "%{count} Descargas"
   label_downloads_abbr: D/L
   label_duplicated_by: duplicada por
   label_duplicates: duplicada de

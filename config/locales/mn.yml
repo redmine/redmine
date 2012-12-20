@@ -495,8 +495,6 @@ mn:
   label_text: Урт текст
   label_attribute: Аттрибут
   label_attribute_plural: Аттрибутууд
-  label_download: "%{count} Татаж авсан зүйл"
-  label_download_plural: "%{count} Татаж авсан зүйлс"
   label_no_data: Үзүүлэх өгөгдөл байхгүй байна
   label_change_status: Төлвийг өөрчлөх
   label_history: Түүх

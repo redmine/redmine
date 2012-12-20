@@ -511,8 +511,6 @@ ca:
   label_text: Text llarg
   label_attribute: Atribut
   label_attribute_plural: Atributs
-  label_download: "%{count} baixada"
-  label_download_plural: "%{count} baixades"
   label_no_data: Sense dades a mostrar
   label_change_status: "Canvia l'estat"
   label_history: Historial

@@ -389,8 +389,6 @@ th:
   label_text: ข้อความขนาดยาว
   label_attribute: คุณลักษณะ
   label_attribute_plural: คุณลักษณะ
-  label_download: "%{count} ดาวน์โหลด"
-  label_download_plural: "%{count} ดาวน์โหลด"
   label_no_data: จำนวนข้อมูลที่แสดง
   label_change_status: เปลี่ยนสถานะ
   label_history: ประวัติ

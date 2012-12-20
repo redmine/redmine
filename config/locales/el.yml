@@ -472,8 +472,6 @@ el:
   label_text: Μακροσκελές κείμενο
   label_attribute: Ιδιότητα
   label_attribute_plural: Ιδιότητες
-  label_download: "%{count} Μεταφόρτωση"
-  label_download_plural: "%{count} Μεταφορτώσεις"
   label_no_data: Δεν υπάρχουν δεδομένα
   label_change_status: Αλλαγή κατάστασης
   label_history: Ιστορικό

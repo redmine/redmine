@@ -494,8 +494,6 @@ eu:
   label_text: Testu luzea
   label_attribute: Atributua
   label_attribute_plural: Atributuak
-  label_download: "Deskarga %{count}"
-  label_download_plural: "%{count} Deskarga"
   label_no_data: Ez dago erakusteko daturik
   label_change_status: Egoera aldatu
   label_history: Historikoa

@@ -516,8 +516,6 @@ he:
   label_text: טקסט ארוך
   label_attribute: תכונה
   label_attribute_plural: תכונות
-  label_download: "הורדה %{count}"
-  label_download_plural: "%{count} הורדות"
   label_no_data: אין מידע להציג
   label_change_status: שנה מצב
   label_history: היסטוריה

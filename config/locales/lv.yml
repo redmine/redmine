@@ -489,8 +489,6 @@ lv:
   label_text: Garš teksts
   label_attribute: Atribūts
   label_attribute_plural: Atribūti
-  label_download: "%{count} Lejupielāde"
-  label_download_plural: "%{count} Lejupielādes"
   label_no_data: Nav datu, ko parādīt
   label_change_status: Mainīt statusu
   label_history: Vēsture

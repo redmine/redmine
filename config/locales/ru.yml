@@ -487,10 +487,6 @@ ru:
   label_document_added: Добавлен документ
   label_document_new: Новый документ
   label_document_plural: Документы
-  label_download: "%{count} загрузка"
-  label_download_plural: "%{count} скачиваний"
-  label_download_plural2: "%{count} загрузки"
-  label_download_plural5: "%{count} загрузок"
   label_downloads_abbr: Скачиваний
   label_duplicated_by: дублируется
   label_duplicates: дублирует

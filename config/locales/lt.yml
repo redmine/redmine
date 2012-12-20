@@ -598,8 +598,6 @@ lt:
   label_text: Ilgas tekstas
   label_attribute: Požymis
   label_attribute_plural: Požymiai
-  label_download: "%{count} persiuntimas"
-  label_download_plural: "%{count} persiuntimai"
   label_no_data: Nėra ką atvaizduoti
   label_change_status: Pakeitimo būsena
   label_history: Istorija

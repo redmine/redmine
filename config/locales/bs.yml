@@ -474,8 +474,6 @@ bs:
   label_text: Dugi tekst
   label_attribute: Atribut
   label_attribute_plural: Atributi
-  label_download: "%{count} download"
-  label_download_plural: "%{count} download-i"
   label_no_data: Nema podataka za prikaz
   label_change_status: Promjeni status
   label_history: Istorija

@@ -647,8 +647,6 @@
   label_text: 長文字
   label_attribute: 屬性
   label_attribute_plural: 屬性
-  label_download: "%{count} 個下載"
-  label_download_plural: "%{count} 個下載"
   label_no_data: 沒有任何資料可供顯示
   label_change_status: 變更狀態
   label_history: 歷史

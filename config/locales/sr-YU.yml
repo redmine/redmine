@@ -508,8 +508,6 @@ sr-YU:
   label_text: Dugi tekst
   label_attribute: Osobina
   label_attribute_plural: Osobine
-  label_download: "%{count} preuzimanje"
-  label_download_plural: "%{count} preuzimanja"
   label_no_data: Nema podataka za prikazivanje
   label_change_status: Promena statusa
   label_history: Istorija

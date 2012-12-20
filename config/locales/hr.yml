@@ -486,8 +486,6 @@ hr:
   label_text: Long text
   label_attribute: Atribut
   label_attribute_plural: Atributi
-  label_download: "%{count} Download"
-  label_download_plural: "%{count} Downloads"
   label_no_data: Nema podataka za prikaz
   label_change_status: Promjena statusa
   label_history: Povijest

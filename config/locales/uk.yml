@@ -361,8 +361,6 @@ uk:
   label_text: Довгий текст
   label_attribute: Атрибут
   label_attribute_plural: атрибути
-  label_download: "%{count} Завантажено"
-  label_download_plural: "%{count} Завантажень"
   label_no_data: Немає даних для відображення
   label_change_status: Змінити статус
   label_history: Історія

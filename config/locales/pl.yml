@@ -407,10 +407,6 @@ pl:
   label_document_added: Dodano dokument
   label_document_new: Nowy dokument
   label_document_plural: Dokumenty
-  label_download: "%{count} Pobranie"
-  label_download_plural234: "%{count} Pobrania"
-  label_download_plural5: "%{count} Pobrań"
-  label_download_plural: "%{count} Pobrania"
   label_downloads_abbr: Pobieranie
   label_duplicated_by: zduplikowane przez
   label_duplicates: duplikuje

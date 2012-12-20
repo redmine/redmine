@@ -383,8 +383,6 @@
   label_text: Lang tekst
   label_attribute: Attributt
   label_attribute_plural: Attributter
-  label_download: "%{count} Nedlasting"
-  label_download_plural: "%{count} Nedlastinger"
   label_no_data: Ingen data å vise
   label_change_status: Endre status
   label_history: Historikk

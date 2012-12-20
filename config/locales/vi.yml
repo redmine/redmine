@@ -450,8 +450,6 @@ vi:
   label_text: Long text
   label_attribute: Attribute
   label_attribute_plural: Attributes
-  label_download: "%{count} lần tải"
-  label_download_plural: "%{count} lần tải"
   label_no_data: Chưa có thông tin gì
   label_change_status: Đổi trạng thái
   label_history: Lược sử

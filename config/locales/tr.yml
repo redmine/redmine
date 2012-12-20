@@ -411,8 +411,6 @@ tr:
   label_text: Uzun Metin
   label_attribute: Nitelik
   label_attribute_plural: Nitelikler
-  label_download: "%{count} indirme"
-  label_download_plural: "%{count} indirme"
   label_no_data: Gösterilecek veri yok
   label_change_status: Değişim Durumu
   label_history: Geçmiş

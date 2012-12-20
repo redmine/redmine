@@ -506,8 +506,6 @@ sr:
   label_text: Дуги текст
   label_attribute: Особина
   label_attribute_plural: Особине
-  label_download: "%{count} преузимање"
-  label_download_plural: "%{count} преузимања"
   label_no_data: Нема података за приказивање
   label_change_status: Промена статуса
   label_history: Историја

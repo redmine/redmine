@@ -566,8 +566,6 @@ bg:
   label_text: Дълъг текст
   label_attribute: Атрибут
   label_attribute_plural: Атрибути
-  label_download: "%{count} изтегляне"
-  label_download_plural: "%{count} изтегляния"
   label_no_data: Няма изходни данни
   label_change_status: Промяна на състоянието
   label_history: История

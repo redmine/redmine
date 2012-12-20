@@ -558,8 +558,6 @@ ja:
   label_text: 長いテキスト
   label_attribute: 属性
   label_attribute_plural: 属性
-  label_download: "%{count}ダウンロード"
-  label_download_plural: "%{count}ダウンロード"
   label_no_data: 表示するデータがありません
   label_change_status: ステータスの変更
   label_history: 履歴

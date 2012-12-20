@@ -478,8 +478,6 @@ id:
   label_text: Long text
   label_attribute: Atribut
   label_attribute_plural: Atribut
-  label_download: "%{count} Unduhan"
-  label_download_plural: "%{count} Unduhan"
   label_no_data: Tidak ada data untuk ditampilkan
   label_change_status: Status perubahan
   label_history: Riwayat

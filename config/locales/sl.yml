@@ -450,8 +450,6 @@ sl:
   label_text: Dolgo besedilo
   label_attribute: Lastnost
   label_attribute_plural: Lastnosti
-  label_download: "%{count} Prenos"
-  label_download_plural: "%{count} Prenosi"
   label_no_data: Ni podatkov za prikaz
   label_change_status: Spremeni stanje
   label_history: Zgodovina

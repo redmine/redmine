@@ -523,8 +523,6 @@ cs:
   label_text: Dlouhý text
   label_attribute: Atribut
   label_attribute_plural: Atributy
-  label_download: "%{count} stažení"
-  label_download_plural: "%{count} stažení"
   label_no_data: Žádné položky
   label_change_status: Změnit stav
   label_history: Historie

@@ -567,8 +567,6 @@ et:
   label_text: "Pikk tekst"
   label_attribute: "Atribuut"
   label_attribute_plural: "Atribuudid"
-  label_download: "%{count} allalaadimine"
-  label_download_plural: "%{count} allalaadimist"
   label_no_data: "Pole"
   label_change_status: "Muuda olekut"
   label_history: "Ajalugu"

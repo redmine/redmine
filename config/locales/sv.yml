@@ -592,8 +592,6 @@ sv:
   label_text: Lång text
   label_attribute: Attribut
   label_attribute_plural: Attribut
-  label_download: "%{count} Nerladdning"
-  label_download_plural: "%{count} Nerladdningar"
   label_no_data: Ingen data att visa
   label_change_status: Ändra status
   label_history: Historia

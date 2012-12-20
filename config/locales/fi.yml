@@ -394,8 +394,6 @@ fi:
   label_text: Pitkä merkkijono
   label_attribute: Määre
   label_attribute_plural: Määreet
-  label_download: "%{count} Lataus"
-  label_download_plural: "%{count} Lataukset"
   label_no_data: Ei tietoa näytettäväksi
   label_change_status: Muutos tila
   label_history: Historia

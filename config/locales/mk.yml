@@ -509,8 +509,6 @@ mk:
   label_text: Долг текст
   label_attribute: Атрибут
   label_attribute_plural: Атрибути
-  label_download: "%{count} превземање"
-  label_download_plural: "%{count} превземања"
   label_no_data: Нема податоци за прикажување
   label_change_status: Промени статус
   label_history: Историја

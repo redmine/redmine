@@ -458,8 +458,6 @@ ro:
   label_text: Text lung
   label_attribute: Atribut
   label_attribute_plural: Atribute
-  label_download: "%{count} descărcare"
-  label_download_plural: "%{count} descărcări"
   label_no_data: Nu există date de afișat
   label_change_status: Schimbă starea
   label_history: Istoric

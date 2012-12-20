@@ -406,8 +406,6 @@ pt:
   label_text: Texto longo
   label_attribute: Atributo
   label_attribute_plural: Atributos
-  label_download: "%{count} Download"
-  label_download_plural: "%{count} Downloads"
   label_no_data: Sem dados para mostrar
   label_change_status: Mudar estado
   label_history: Histórico

@@ -398,8 +398,6 @@ da:
   label_text: Lang tekst
   label_attribute: Attribut
   label_attribute_plural: Attributter
-  label_download: "%{count} Download"
-  label_download_plural: "%{count} Downloads"
   label_no_data: Ingen data at vise
   label_change_status: Ændringsstatus
   label_history: Historik

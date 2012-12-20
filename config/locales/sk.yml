@@ -391,8 +391,6 @@ sk:
   label_text: Dlhý text
   label_attribute: Atribut
   label_attribute_plural: Atributy
-  label_download: "%{count} Download"
-  label_download_plural: "%{count} Downloady"
   label_no_data: Žiadné položky
   label_change_status: Zmeniť stav
   label_history: História

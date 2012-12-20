@@ -523,8 +523,6 @@ zh:
   label_text: 文本
   label_attribute: 属性
   label_attribute_plural: 属性
-  label_download: "%{count} 次下载"
-  label_download_plural: "%{count} 次下载"
   label_no_data: 没有任何数据可供显示
   label_change_status: 变更状态
   label_history: 历史记录

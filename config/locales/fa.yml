@@ -519,8 +519,6 @@ fa:
   label_text: نوشته بلند
   label_attribute: نشانه
   label_attribute_plural: نشانه
-  label_download: "%{count} بار دریافت شده"
-  label_download_plural: "%{count} بار دریافت شده"
   label_no_data: هیچ داده‌ای برای نمایش نیست
   label_change_status: جایگزینی وضعیت
   label_history: پیشینه

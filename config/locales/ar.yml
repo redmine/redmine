@@ -541,8 +541,6 @@ ar:
   label_text: نص طويل
   label_attribute: سمة
   label_attribute_plural: السمات
-  label_download: "تحميل"
-  label_download_plural: "تحميل"
   label_no_data: لا توجد بيانات للعرض
   label_change_status: تغيير الوضع
   label_history: التاريخ

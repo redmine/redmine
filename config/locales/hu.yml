@@ -412,8 +412,6 @@
   label_text: Hosszú szöveg
   label_attribute: Tulajdonság
   label_attribute_plural: Tulajdonságok
-  label_download: "%{count} Letöltés"
-  label_download_plural: "%{count} Letöltés"
   label_no_data: Nincs megjeleníthető adat
   label_change_status: Státusz módosítása
   label_history: Történet
