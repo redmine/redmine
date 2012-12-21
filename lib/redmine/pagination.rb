@@ -154,11 +154,11 @@ module Redmine
       #   :per_page_links    if set to false, the "Per page" links are not rendered
       #
       def pagination_links_full(*args)
-        pagination_links_each(*args) do |text, parameters|
+        pagination_links_each(*args) do |text, parameters, options|
           if block_given?
-            yield text, parameters
+            yield text, parameters, options
           else
-            link_to text, params.merge(parameters)
+            link_to text, params.merge(parameters), options
           end
         end
       end
@@ -175,18 +175,19 @@ module Redmine
         html = ''
         if paginator.previous_page
           # \xc2\xab(utf-8) = &#171;
-          html << yield("\xc2\xab " + l(:label_previous), page_param => paginator.previous_page) + ' '
+          text = "\xc2\xab " + l(:label_previous)
+          html << yield(text, {page_param => paginator.previous_page}, :class => 'previous') + ' '
         end
 
         previous = nil
         paginator.linked_pages.each do |page|
           if previous && previous != page - 1
-            html << '... '
+            html << content_tag('span', '...', :class => 'spacer') + ' '
           end
           if page == paginator.page
-            html << page.to_s
+            html << content_tag('span', page.to_s, :class => 'current page')
           else
-            html << yield(page.to_s, page_param => page)
+            html << yield(page.to_s, {page_param => page}, :class => 'page')
           end
           html << ' '
           previous = page
@@ -194,13 +195,14 @@ module Redmine
 
         if paginator.next_page
           # \xc2\xbb(utf-8) = &#187;
-          html << yield(l(:label_next) + " \xc2\xbb", page_param => paginator.next_page) + ' '
+          text = l(:label_next) + " \xc2\xbb"
+          html << yield(text, {page_param => paginator.next_page}, :class => 'next') + ' '
         end
 
-        html << "(#{paginator.first_item}-#{paginator.last_item}/#{paginator.item_count}) "
+        html << content_tag('span', "(#{paginator.first_item}-#{paginator.last_item}/#{paginator.item_count})", :class => 'items') + ' '
 
         if per_page_links != false && links = per_page_links(paginator, &block)
-          html << "| #{links}"
+          html << content_tag('span', links.to_s, :class => 'per-page')
         end
 
         html.html_safe
@@ -211,9 +213,13 @@ module Redmine
         values = per_page_options(paginator.per_page, paginator.item_count)
         if values.any?
           links = values.collect do |n|
-            n == paginator.per_page ? n : yield(n, :per_page => n, paginator.page_param => nil)
+            if n == paginator.per_page
+              content_tag('span', n.to_s)
+            else
+              yield(n, :per_page => n, paginator.page_param => nil)
+            end
           end
-          l(:label_display_per_page, links.join(', '))
+          l(:label_display_per_page, links.join(', ')).html_safe
         end
       end
 

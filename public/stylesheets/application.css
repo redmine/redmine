@@ -456,8 +456,7 @@ table.fields_permissions td.required {background:#d88;}
 textarea#custom_field_possible_values {width: 99%}
 input#content_comments {width: 99%}
 
-.pagination {font-size: 90%}
-p.pagination {margin-top:8px;}
+p.pagination {margin-top:8px; font-size: 90%}
 
 /***** Tabular forms ******/
 .tabular p{
