@@ -19,12 +19,12 @@ class IssueRelation < ActiveRecord::Base
   # Class used to represent the relations of an issue
   class Relations < Array
     include Redmine::I18n
-  
+
     def initialize(issue, *args)
       @issue = issue
       super(*args)
     end
-  
+
     def to_s(*args)
       map {|relation| "#{l(relation.label_for(@issue))} ##{relation.other_issue(@issue).id}"}.join(', ')
     end
