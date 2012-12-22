@@ -1,12 +1,12 @@
 <h2><%= @copy ? l(:button_copy) : l(:label_bulk_edit_selected_issues) %></h2>
 
-<ul>
+<ul id="bulk-selection">
 <% @issues.each do |issue| %>
   <%= content_tag 'li', link_to_issue(issue) %>
 <% end %>
 </ul>
 
-<%= form_tag({:action => 'bulk_update'}, :id => 'bulk_edit_form') do %>
+<%= form_tag(bulk_update_issues_path, :id => 'bulk_edit_form') do %>
 <%= @issues.collect {|i| hidden_field_tag('ids[]', i.id)}.join("\n").html_safe %>
 <div class="box tabular">
 <fieldset class="attributes">

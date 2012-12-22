@@ -293,13 +293,20 @@ class TimelogControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'bulk_edit'
 
-    # System wide custom field
-    assert_tag :select, :attributes => {:name => 'time_entry[custom_field_values][10]'}
+    assert_select 'ul#bulk-selection' do
+      assert_select 'li', 2
+      assert_select 'li a', :text => '03/23/2007 - eCookbook: 4.25 hours'
+    end
 
-    # Activities
-    assert_select 'select[name=?]', 'time_entry[activity_id]' do
-      assert_select 'option[value=]', :text => '(No change)'
-      assert_select 'option[value=9]', :text => 'Design'
+    assert_select 'form#bulk_edit_form[action=?]', '/time_entries/bulk_update' do
+      # System wide custom field
+      assert_select 'select[name=?]', 'time_entry[custom_field_values][10]'
+  
+      # Activities
+      assert_select 'select[name=?]', 'time_entry[activity_id]' do
+        assert_select 'option[value=]', :text => '(No change)'
+        assert_select 'option[value=9]', :text => 'Design'
+      end
     end
   end
 

@@ -3155,23 +3155,33 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'bulk_edit'
 
-    assert_select 'select[name=?]', 'issue[project_id]'
-    assert_select 'input[name=?]', 'issue[parent_issue_id]'
+    assert_select 'ul#bulk-selection' do
+      assert_select 'li', 2
+      assert_select 'li a', :text => 'Bug #1'
+    end
 
-    # Project specific custom field, date type
-    field = CustomField.find(9)
-    assert !field.is_for_all?
-    assert_equal 'date', field.field_format
-    assert_select 'input[name=?]', 'issue[custom_field_values][9]'
+    assert_select 'form#bulk_edit_form[action=?]', '/issues/bulk_update' do
+      assert_select 'input[name=?]', 'ids[]', 2
+      assert_select 'input[name=?][value=1][type=hidden]', 'ids[]'
 
-    # System wide custom field
-    assert CustomField.find(1).is_for_all?
-    assert_select 'select[name=?]', 'issue[custom_field_values][1]'
-
-    # Be sure we don't display inactive IssuePriorities
-    assert ! IssuePriority.find(15).active?
-    assert_select 'select[name=?]', 'issue[priority_id]' do
-      assert_select 'option[value=15]', 0
+      assert_select 'select[name=?]', 'issue[project_id]'
+      assert_select 'input[name=?]', 'issue[parent_issue_id]'
+  
+      # Project specific custom field, date type
+      field = CustomField.find(9)
+      assert !field.is_for_all?
+      assert_equal 'date', field.field_format
+      assert_select 'input[name=?]', 'issue[custom_field_values][9]'
+  
+      # System wide custom field
+      assert CustomField.find(1).is_for_all?
+      assert_select 'select[name=?]', 'issue[custom_field_values][1]'
+  
+      # Be sure we don't display inactive IssuePriorities
+      assert ! IssuePriority.find(15).active?
+      assert_select 'select[name=?]', 'issue[priority_id]' do
+        assert_select 'option[value=15]', 0
+      end
     end
   end
 
