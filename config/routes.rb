@@ -104,7 +104,7 @@ RedmineApp::Application.routes.draw do
 
     resource :enumerations, :controller => 'project_enumerations', :only => [:update, :destroy]
 
-    get 'issues/:copy_from/copy', :to => 'issues#new'
+    get 'issues/:copy_from/copy', :to => 'issues#new', :as => 'copy_issue'
     resources :issues, :only => [:index, :new, :create] do
       resources :time_entries, :controller => 'timelog' do
         collection do

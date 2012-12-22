@@ -1,59 +1,59 @@
 <ul>
   <%= call_hook(:view_issues_context_menu_start, {:issues => @issues, :can => @can, :back => @back }) %>
 
-<% if !@issue.nil? -%>
-  <li><%= context_menu_link l(:button_edit), {:controller => 'issues', :action => 'edit', :id => @issue},
-          :class => 'icon-edit', :disabled => !@can[:edit] %></li>
-<% else %>
-  <li><%= context_menu_link l(:button_edit), {:controller => 'issues', :action => 'bulk_edit', :ids => @issue_ids},
-          :class => 'icon-edit', :disabled => !@can[:edit] %></li>
-<% end %>
+  <% if @issue -%>
+    <li><%= context_menu_link l(:button_edit), edit_issue_path(@issue),
+            :class => 'icon-edit', :disabled => !@can[:edit] %></li>
+  <% else %>
+    <li><%= context_menu_link l(:button_edit), bulk_edit_issues_path(:ids => @issue_ids),
+            :class => 'icon-edit', :disabled => !@can[:edit] %></li>
+  <% end %>
 
   <% if @allowed_statuses.present? %>
   <li class="folder">
     <a href="#" class="submenu"><%= l(:field_status) %></a>
     <ul>
     <% @allowed_statuses.each do |s| -%>
-        <li><%= context_menu_link h(s.name), {:controller => 'issues', :action => 'bulk_update', :ids => @issue_ids, :issue => {:status_id => s}, :back_url => @back}, :method => :post,
+        <li><%= context_menu_link h(s.name), bulk_update_issues_path(:ids => @issue_ids, :issue => {:status_id => s}, :back_url => @back), :method => :post,
                                   :selected => (@issue && s == @issue.status), :disabled => !@can[:update] %></li>
     <% end -%>
     </ul>
   </li>
   <% end %>
 
-  <% unless @trackers.nil? %>
+  <% if @trackers.present? %>
   <li class="folder">
     <a href="#" class="submenu"><%= l(:field_tracker) %></a>
     <ul>
     <% @trackers.each do |t| -%>
-        <li><%= context_menu_link h(t.name), {:controller => 'issues', :action => 'bulk_update', :ids => @issue_ids, :issue => {'tracker_id' => t}, :back_url => @back}, :method => :post,
+        <li><%= context_menu_link h(t.name), bulk_update_issues_path(:ids => @issue_ids, :issue => {'tracker_id' => t}, :back_url => @back), :method => :post,
                                   :selected => (@issue && t == @issue.tracker), :disabled => !@can[:edit] %></li>
     <% end -%>
     </ul>
   </li>
   <% end %>
 
-  <% if @safe_attributes.include?('priority_id') -%>
+  <% if @safe_attributes.include?('priority_id') && @priorities.present? -%>
   <li class="folder">
     <a href="#" class="submenu"><%= l(:field_priority) %></a>
     <ul>
     <% @priorities.each do |p| -%>
-        <li><%= context_menu_link h(p.name), {:controller => 'issues', :action => 'bulk_update', :ids => @issue_ids, :issue => {'priority_id' => p}, :back_url => @back}, :method => :post,
+        <li><%= context_menu_link h(p.name), bulk_update_issues_path(:ids => @issue_ids, :issue => {'priority_id' => p}, :back_url => @back), :method => :post,
                                   :selected => (@issue && p == @issue.priority), :disabled => (!@can[:edit] || @issues.detect {|i| !i.leaf?}) %></li>
     <% end -%>
     </ul>
   </li>
   <% end %>
 
-  <% if @safe_attributes.include?('fixed_version_id') && @versions.any? -%>
+  <% if @safe_attributes.include?('fixed_version_id') && @versions.present? -%>
   <li class="folder">
     <a href="#" class="submenu"><%= l(:field_fixed_version) %></a>
     <ul>
     <% @versions.sort.each do |v| -%>
-        <li><%= context_menu_link format_version_name(v), {:controller => 'issues', :action => 'bulk_update', :ids => @issue_ids, :issue => {'fixed_version_id' => v}, :back_url => @back}, :method => :post,
+        <li><%= context_menu_link format_version_name(v), bulk_update_issues_path(:ids => @issue_ids, :issue => {'fixed_version_id' => v}, :back_url => @back), :method => :post,
                                   :selected => (@issue && v == @issue.fixed_version), :disabled => !@can[:update] %></li>
     <% end -%>
-        <li><%= context_menu_link l(:label_none), {:controller => 'issues', :action => 'bulk_update', :ids => @issue_ids, :issue => {'fixed_version_id' => 'none'}, :back_url => @back}, :method => :post,
+        <li><%= context_menu_link l(:label_none), bulk_update_issues_path(:ids => @issue_ids, :issue => {'fixed_version_id' => 'none'}, :back_url => @back), :method => :post,
                                   :selected => (@issue && @issue.fixed_version.nil?), :disabled => !@can[:update] %></li>
     </ul>
   </li>
@@ -64,14 +64,14 @@
     <a href="#" class="submenu"><%= l(:field_assigned_to) %></a>
     <ul>
     <% if @assignables.include?(User.current) %>
-        <li><%= context_menu_link "<< #{l(:label_me)} >>", {:controller => 'issues', :action => 'bulk_update', :ids => @issue_ids, :issue => {'assigned_to_id' => User.current}, :back_url => @back}, :method => :post,
+        <li><%= context_menu_link "<< #{l(:label_me)} >>", bulk_update_issues_path(:ids => @issue_ids, :issue => {'assigned_to_id' => User.current}, :back_url => @back), :method => :post,
                                   :disabled => !@can[:update] %></li>
     <% end %>
     <% @assignables.each do |u| -%>
-        <li><%= context_menu_link h(u.name), {:controller => 'issues', :action => 'bulk_update', :ids => @issue_ids, :issue => {'assigned_to_id' => u}, :back_url => @back}, :method => :post,
+        <li><%= context_menu_link h(u.name), bulk_update_issues_path(:ids => @issue_ids, :issue => {'assigned_to_id' => u}, :back_url => @back), :method => :post,
                                   :selected => (@issue && u == @issue.assigned_to), :disabled => !@can[:update] %></li>
     <% end -%>
-        <li><%= context_menu_link l(:label_nobody), {:controller => 'issues', :action => 'bulk_update', :ids => @issue_ids, :issue => {'assigned_to_id' => 'none'}, :back_url => @back}, :method => :post,
+        <li><%= context_menu_link l(:label_nobody), bulk_update_issues_path(:ids => @issue_ids, :issue => {'assigned_to_id' => 'none'}, :back_url => @back), :method => :post,
                                   :selected => (@issue && @issue.assigned_to.nil?), :disabled => !@can[:update] %></li>
     </ul>
   </li>
@@ -82,10 +82,10 @@
     <a href="#" class="submenu"><%= l(:field_category) %></a>
     <ul>
     <% @project.issue_categories.each do |u| -%>
-        <li><%= context_menu_link h(u.name), {:controller => 'issues', :action => 'bulk_update', :ids => @issue_ids, :issue => {'category_id' => u}, :back_url => @back}, :method => :post,
+        <li><%= context_menu_link h(u.name), bulk_update_issues_path(:ids => @issue_ids, :issue => {'category_id' => u}, :back_url => @back), :method => :post,
                                   :selected => (@issue && u == @issue.category), :disabled => !@can[:update] %></li>
     <% end -%>
-        <li><%= context_menu_link l(:label_none), {:controller => 'issues', :action => 'bulk_update', :ids => @issue_ids, :issue => {'category_id' => 'none'}, :back_url => @back}, :method => :post,
+        <li><%= context_menu_link l(:label_none), bulk_update_issues_path(:ids => @issue_ids, :issue => {'category_id' => 'none'}, :back_url => @back), :method => :post,
                                   :selected => (@issue && @issue.category.nil?), :disabled => !@can[:update] %></li>
     </ul>
   </li>
@@ -96,7 +96,7 @@
     <a href="#" class="submenu"><%= l(:field_done_ratio) %></a>
     <ul>
     <% (0..10).map{|x|x*10}.each do |p| -%>
-        <li><%= context_menu_link "#{p}%", {:controller => 'issues', :action => 'bulk_update', :ids => @issue_ids, :issue => {'done_ratio' => p}, :back_url => @back}, :method => :post,
+        <li><%= context_menu_link "#{p}%", bulk_update_issues_path(:ids => @issue_ids, :issue => {'done_ratio' => p}, :back_url => @back), :method => :post,
                                       :selected => (@issue && p == @issue.done_ratio), :disabled => (!@can[:edit] || @issues.detect {|i| !i.leaf?}) %></li>
     <% end -%>
     </ul>
@@ -117,21 +117,18 @@
     </li>
   <% end %>
 
-<% if !@issue.nil? %>
-  <% if @can[:log_time] -%>
-  <li><%= context_menu_link l(:button_log_time), {:controller => 'timelog', :action => 'new', :issue_id => @issue},
-          :class => 'icon-time-add' %></li>
-  <% end %>
+<% if @issue.present? %>
   <% if User.current.logged? %>
   <li><%= watcher_link(@issue, User.current) %></li>
   <% end %>
-<% end %>
-
-<% if @issue.present? %>
-  <li><%= context_menu_link l(:button_copy), {:controller => 'issues', :action => 'new', :project_id => @project, :copy_from => @issue},
+  <% if @can[:log_time] -%>
+  <li><%= context_menu_link l(:button_log_time), new_issue_time_entry_path(@issue),
+          :class => 'icon-time-add' %></li>
+  <% end %>
+  <li><%= context_menu_link l(:button_copy), project_copy_issue_path(@project, @issue),
           :class => 'icon-copy', :disabled => !@can[:copy] %></li>
 <% else %>
-  <li><%= context_menu_link l(:button_copy), {:controller => 'issues', :action => 'bulk_edit', :ids => @issue_ids, :copy => '1'},
+  <li><%= context_menu_link l(:button_copy), bulk_edit_issues_path(:ids => @issue_ids, :copy => '1'),
                           :class => 'icon-copy', :disabled => !@can[:move] %></li>
 <% end %>													
   <li><%= context_menu_link l(:button_delete), issues_path(:ids => @issue_ids, :back_url => @back),
