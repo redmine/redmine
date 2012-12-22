@@ -32,12 +32,12 @@ RedmineApp::Application.routes.draw do
   match 'projects/:id/wiki', :to => 'wikis#edit', :via => :post
   match 'projects/:id/wiki/destroy', :to => 'wikis#destroy', :via => [:get, :post]
 
-  match 'boards/:board_id/topics/new', :to => 'messages#new', :via => [:get, :post]
+  match 'boards/:board_id/topics/new', :to => 'messages#new', :via => [:get, :post], :as => 'new_board_message'
   get 'boards/:board_id/topics/:id', :to => 'messages#show', :as => 'board_message'
   match 'boards/:board_id/topics/quote/:id', :to => 'messages#quote', :via => [:get, :post]
   get 'boards/:board_id/topics/:id/edit', :to => 'messages#edit'
 
-  post 'boards/:board_id/topics/preview', :to => 'messages#preview'
+  post 'boards/:board_id/topics/preview', :to => 'messages#preview', :as => 'preview_board_message'
   post 'boards/:board_id/topics/:id/replies', :to => 'messages#reply'
   post 'boards/:board_id/topics/:id/edit', :to => 'messages#edit'
   post 'boards/:board_id/topics/:id/destroy', :to => 'messages#destroy'
