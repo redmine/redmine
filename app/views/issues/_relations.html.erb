@@ -10,22 +10,24 @@
 <form>
 <table class="list issues">
 <% @relations.each do |relation| %>
-<tr class="issue hascontextmenu" id="relation-<%= relation.id %>">
-<td class="checkbox"><%= check_box_tag("ids[]", relation.other_issue(@issue).id, false, :id => nil) %></td>
-<td class="subject"><%= l(relation.label_for(@issue)) %> <%= "(#{l('datetime.distance_in_words.x_days', :count => relation.delay)})" if relation.delay && relation.delay != 0 %>
+  <tr class="issue hascontextmenu" id="relation-<%= relation.id %>">
+  <td class="checkbox"><%= check_box_tag("ids[]", relation.other_issue(@issue).id, false, :id => nil) %></td>
+  <td class="subject">
+    <%= l(relation.label_for(@issue)) %>
+    <%= "(#{l('datetime.distance_in_words.x_days', :count => relation.delay)})" if relation.delay && relation.delay != 0 %>
     <%= h(relation.other_issue(@issue).project) + ' - ' if Setting.cross_project_issue_relations? %>
     <%= link_to_issue(relation.other_issue(@issue), :truncate => 60) %>
-</td>
-<td class="status"><%=h relation.other_issue(@issue).status.name %></td>
-<td class="start_date"><%= format_date(relation.other_issue(@issue).start_date) %></td>
-<td class="due_date"><%= format_date(relation.other_issue(@issue).due_date) %></td>
-<td class="buttons"><%= link_to image_tag('link_break.png'),
-                                {:controller => 'issue_relations', :action => 'destroy', :id => relation},
-                                :remote => true,
-                                :method => :delete,
-                                :data => {:confirm => l(:text_are_you_sure)},
-                                :title => l(:label_relation_delete) if User.current.allowed_to?(:manage_issue_relations, @project) %></td>
-</tr>
+  </td>
+  <td class="status"><%=h relation.other_issue(@issue).status.name %></td>
+  <td class="start_date"><%= format_date(relation.other_issue(@issue).start_date) %></td>
+  <td class="due_date"><%= format_date(relation.other_issue(@issue).due_date) %></td>
+  <td class="buttons"><%= link_to image_tag('link_break.png'),
+                                  relation_path(relation),
+                                  :remote => true,
+                                  :method => :delete,
+                                  :data => {:confirm => l(:text_are_you_sure)},
+                                  :title => l(:label_relation_delete) if User.current.allowed_to?(:manage_issue_relations, @project) %></td>
+  </tr>
 <% end %>
 </table>
 </form>
@@ -33,7 +35,7 @@
 
 <%= form_for @relation, {
                  :as => :relation, :remote => true,
-                 :url => {:controller => 'issue_relations', :action => 'create', :issue_id => @issue},
+                 :url => issue_relations_path(@issue),
                  :method => :post,
                  :html => {:id => 'new-relation-form', :style => (@relation ? '' : 'display: none;')}
                } do |f| %>
