@@ -61,7 +61,7 @@
     end
   end
   if User.current.allowed_to?(:view_time_entries, @project)
-    rows.right l(:label_spent_time), (@issue.total_spent_hours > 0 ? (link_to l_hours(@issue.total_spent_hours), {:controller => 'timelog', :action => 'index', :project_id => @project, :issue_id => @issue}) : "-"), :class => 'spent-time'
+    rows.right l(:label_spent_time), (@issue.total_spent_hours > 0 ? link_to(l_hours(@issue.total_spent_hours), project_issue_time_entries_path(@project, @issue)) : "-"), :class => 'spent-time'
   end
 end %>
 <%= render_custom_fields_rows(@issue) %>
@@ -73,11 +73,7 @@ end %>
 <% if @issue.description? %>
 <div class="description">
   <div class="contextual">
-  <%= link_to l(:button_quote),
-              {:controller => 'journals', :action => 'new', :id => @issue},
-              :remote => true,
-              :method => 'post',
-              :class => 'icon icon-comment' if authorize_for('issues', 'edit') %>
+  <%= link_to l(:button_quote), quoted_issue_path(@issue), :remote => true, :method => 'post', :class => 'icon icon-comment' if authorize_for('issues', 'edit') %>
   </div>
 
   <p><strong><%=l(:field_description)%></strong></p>
@@ -130,7 +126,7 @@ end %>
 <%= render :partial => 'action_menu' %>
 
 <div style="clear: both;"></div>
-<% if authorize_for('issues', 'edit') %>
+<% if @issue.editable? %>
   <div id="update" style="display:none;">
   <h3><%= l(:button_update) %></h3>
   <%= render :partial => 'edit' %>
