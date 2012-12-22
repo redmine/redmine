@@ -1,20 +1,20 @@
 <%= board_breadcrumb(@board) %>
 
 <div class="contextual">
-<%= link_to_if_authorized l(:label_message_new),
-                          {:controller => 'messages', :action => 'new', :board_id => @board},
-                          :class => 'icon icon-add',
-                          :onclick => 'showAndScrollTo("add-message", "message_subject"); return false;' %>
+<%= link_to l(:label_message_new),
+            new_board_message_path(@board),
+            :class => 'icon icon-add',
+            :onclick => 'showAndScrollTo("add-message", "message_subject"); return false;' if User.current.allowed_to?(:add_messages, @board.project) %>
 <%= watcher_tag(@board, User.current) %>
 </div>
 
 <div id="add-message" style="display:none;">
-<% if authorize_for('messages', 'new') %>
-<h2><%= link_to h(@board.name), :controller => 'boards', :action => 'show', :project_id => @project, :id => @board %> &#187; <%= l(:label_message_new) %></h2>
-<%= form_for @message, :url => {:controller => 'messages', :action => 'new', :board_id => @board}, :html => {:multipart => true, :id => 'message-form'} do |f| %>
+<% if User.current.allowed_to?(:add_messages, @board.project) %>
+<h2><%= link_to h(@board.name), project_board_path(@project, @board) %> &#187; <%= l(:label_message_new) %></h2>
+<%= form_for @message, :url => new_board_message_path(@board), :html => {:multipart => true, :id => 'message-form'} do |f| %>
   <%= render :partial => 'messages/form', :locals => {:f => f} %>
   <p><%= submit_tag l(:button_create) %>
-  <%= preview_link({:controller => 'messages', :action => 'preview', :board_id => @board}, 'message-form') %> |
+  <%= preview_link(preview_board_message_path(@board), 'message-form') %> |
   <%= link_to l(:button_cancel), "#", :onclick => '$("#add-message").hide(); return false;' %></p>
 <% end %>
 <div id="preview" class="wiki"></div>
@@ -36,7 +36,7 @@
   <tbody>
   <% @topics.each do |topic| %>
     <tr class="message <%= cycle 'odd', 'even' %> <%= topic.sticky? ? 'sticky' : '' %> <%= topic.locked? ? 'locked' : '' %>">
-      <td class="subject"><%= link_to h(topic.subject), { :controller => 'messages', :action => 'show', :board_id => @board, :id => topic } %></td>
+      <td class="subject"><%= link_to h(topic.subject), board_message_path(@board, topic) %></td>
       <td class="author"><%= link_to_user(topic.author) %></td>
       <td class="created_on"><%= format_time(topic.created_on) %></td>
       <td class="reply-count"><%= topic.replies_count %></td>
