@@ -75,8 +75,9 @@ class BoardsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'show'
 
-    assert_tag 'form', :attributes => {:id => 'message-form'}
-    assert_tag 'input', :attributes => {:name => 'message[subject]'}
+    assert_select 'form#message-form' do
+      assert_select 'input[name=?]', 'message[subject]'
+    end
   end
 
   def test_show_atom

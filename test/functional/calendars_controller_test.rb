@@ -56,42 +56,32 @@ class CalendarsControllerTest < ActionController::TestCase
     get :show, :month => '1', :year => '2010'
     assert_response :success
 
-    assert_tag :tag => 'tr',
-      :descendant => {:tag => 'td',
-                      :attributes => {:class => 'week-number'}, :content => '53'},
-      :descendant => {:tag => 'td',
-                      :attributes => {:class => 'odd'}, :content => '27'},
-      :descendant => {:tag => 'td',
-                      :attributes => {:class => 'even'}, :content => '2'}
+    assert_select 'tr' do
+      assert_select 'td.week-number', :text => '53'
+      assert_select 'td.odd', :text => '27'
+      assert_select 'td.even', :text => '2'
+    end
 
-    assert_tag :tag => 'tr',
-      :descendant => {:tag => 'td',
-                      :attributes => {:class => 'week-number'}, :content => '1'},
-      :descendant => {:tag => 'td',
-                      :attributes => {:class => 'odd'}, :content => '3'},
-      :descendant => {:tag => 'td',
-                      :attributes => {:class => 'even'}, :content => '9'}
-
+    assert_select 'tr' do
+      assert_select 'td.week-number', :text => '1'
+      assert_select 'td.odd', :text => '3'
+      assert_select 'td.even', :text => '9'
+    end
 
     Setting.start_of_week = 1
     get :show, :month => '1', :year => '2010'
     assert_response :success
 
-    assert_tag :tag => 'tr',
-      :descendant => {:tag => 'td',
-                      :attributes => {:class => 'week-number'}, :content => '53'},
-      :descendant => {:tag => 'td',
-                      :attributes => {:class => 'even'}, :content => '28'},
-      :descendant => {:tag => 'td',
-                      :attributes => {:class => 'even'}, :content => '3'}
+    assert_select 'tr' do
+      assert_select 'td.week-number', :text => '53'
+      assert_select 'td.even', :text => '28'
+      assert_select 'td.even', :text => '3'
+    end
 
-    assert_tag :tag => 'tr',
-      :descendant => {:tag => 'td',
-                      :attributes => {:class => 'week-number'}, :content => '1'},
-      :descendant => {:tag => 'td',
-                      :attributes => {:class => 'even'}, :content => '4'},
-      :descendant => {:tag => 'td',
-                      :attributes => {:class => 'even'}, :content => '10'}
-
+    assert_select 'tr' do
+      assert_select 'td.week-number', :text => '1'
+      assert_select 'td.even', :text => '4'
+      assert_select 'td.even', :text => '10'
+    end
   end
 end

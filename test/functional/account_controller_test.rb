@@ -94,8 +94,8 @@ class AccountControllerTest < ActionController::TestCase
       assert_template 'register'
       assert_not_nil assigns(:user)
 
-      assert_tag 'input', :attributes => {:name => 'user[password]'}
-      assert_tag 'input', :attributes => {:name => 'user[password_confirmation]'}
+      assert_select 'input[name=?]', 'user[password]'
+      assert_select 'input[name=?]', 'user[password_confirmation]'
     end
   end
 
