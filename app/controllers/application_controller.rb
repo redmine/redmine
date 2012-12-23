@@ -23,6 +23,8 @@ class Unauthorized < Exception; end
 class ApplicationController < ActionController::Base
   include Redmine::I18n
   include Redmine::Pagination
+  include RoutesHelper
+  helper :routes
 
   class_attribute :accept_api_auth_actions
   class_attribute :accept_rss_auth_actions
@@ -333,16 +335,6 @@ class ApplicationController < ActionController::Base
       url = CGI.unescape(referer.to_s)
     end
     url
-  end
-
-  # Returns the path to project issues or to the cross-project
-  # issue list if project is nil
-  def _issues_path(project, *args)
-    if project
-      project_issues_path(project, *args)
-    else
-      issues_path(*args)
-    end
   end
 
   def redirect_back_or_default(default)
