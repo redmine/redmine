@@ -51,10 +51,10 @@ RedmineApp::Application.routes.draw do
   match '/journals/diff/:id', :to => 'journals#diff', :id => /\d+/, :via => :get
   match '/journals/edit/:id', :to => 'journals#edit', :id => /\d+/, :via => [:get, :post]
 
-  get '/projects/:project_id/issues/gantt', :to => 'gantts#show'
+  get '/projects/:project_id/issues/gantt', :to => 'gantts#show', :as => 'project_gantt'
   get '/issues/gantt', :to => 'gantts#show'
 
-  get '/projects/:project_id/issues/calendar', :to => 'calendars#show'
+  get '/projects/:project_id/issues/calendar', :to => 'calendars#show', :as => 'project_calendar'
   get '/issues/calendar', :to => 'calendars#show'
 
   match 'projects/:id/issues/report', :to => 'reports#issue_report', :via => :get

@@ -1,6 +1,6 @@
 <div class="contextual">
   <% if User.current.allowed_to?(:add_subprojects, @project) %>
-    <%= link_to l(:label_subproject_new), {:controller => 'projects', :action => 'new', :parent_id => @project}, :class => 'icon icon-add' %>
+    <%= link_to l(:label_subproject_new), new_project_path(:parent_id => @project), :class => 'icon icon-add' %>
   <% end %>
   <% if User.current.allowed_to?(:close_project, @project) %>
     <% if @project.active? %>
@@ -29,7 +29,7 @@
   <% end %>
   <% if @subprojects.any? %>
     <li><%=l(:label_subproject_plural)%>:
-      <%= @subprojects.collect{|p| link_to(h(p), :action => 'show', :id => p)}.join(", ").html_safe %></li>
+      <%= @subprojects.collect{|p| link_to p, project_path(p)}.join(", ").html_safe %></li>
   <% end %>
   <% @project.visible_custom_field_values.each do |custom_value| %>
   <% if !custom_value.value.blank? %>
@@ -43,21 +43,19 @@
     <h3><%=l(:label_issue_tracking)%></h3>
     <ul>
     <% for tracker in @trackers %>
-      <li><%= link_to h(tracker.name), :controller => 'issues', :action => 'index', :project_id => @project,
-                                                :set_filter => 1,
-                                                "tracker_id" => tracker.id %>:
+      <li><%= link_to h(tracker.name), project_issues_path(@project, :set_filter => 1, :tracker_id => tracker.id) %>:
           <%= l(:label_x_open_issues_abbr_on_total, :count => @open_issues_by_tracker[tracker].to_i,
                                                     :total => @total_issues_by_tracker[tracker].to_i) %>
       </li>
     <% end %>
     </ul>
     <p>
-      <%= link_to l(:label_issue_view_all), :controller => 'issues', :action => 'index', :project_id => @project, :set_filter => 1 %>
+      <%= link_to l(:label_issue_view_all), project_issues_path(@project, :set_filter => 1) %>
       <% if User.current.allowed_to?(:view_calendar, @project, :global => true) %>
-        | <%= link_to(l(:label_calendar), :controller => 'calendars', :action => 'show', :project_id => @project) %>
+        | <%= link_to l(:label_calendar), project_calendar_path(@project) %>
       <% end %>
       <% if User.current.allowed_to?(:view_gantt, @project, :global => true) %>
-        | <%= link_to(l(:label_gantt), :controller => 'gantts', :action => 'show', :project_id => @project) %>
+        | <%= link_to l(:label_gantt), project_gantt_path(@project) %>
       <% end %>
     </p>
   </div>
@@ -72,7 +70,7 @@
   <div class="news box">
     <h3><%=l(:label_news_latest)%></h3>
     <%= render :partial => 'news/news', :collection => @news %>
-    <p><%= link_to l(:label_news_view_all), :controller => 'news', :action => 'index', :project_id => @project %></p>
+    <p><%= link_to l(:label_news_view_all), project_news_index_path(@project) %></p>
   </div>
   <% end %>
   <%= call_hook(:view_projects_show_right, :project => @project) %>
