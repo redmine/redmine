@@ -1,7 +1,7 @@
 <h2><%= link_to l(:label_tracker_plural), trackers_path %> &#187; <%= l(:field_summary) %></h2>
 
 <% if @trackers.any? %>
-  <%= form_tag({}) do %>
+  <%= form_tag fields_trackers_path do %>
     <div class="autoscroll">
     <table class="list">
     <thead>

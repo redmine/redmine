@@ -1,6 +1,6 @@
 <div class="contextual">
 <%= link_to l(:label_tracker_new), new_tracker_path, :class => 'icon icon-add' %>
-<%= link_to l(:field_summary), {:action => 'fields'}, :class => 'icon icon-summary' %>
+<%= link_to l(:field_summary), fields_trackers_path, :class => 'icon icon-summary' %>
 </div>
 
 <h2><%=l(:label_tracker_plural)%></h2>
@@ -16,8 +16,16 @@
 <% for tracker in @trackers %>
   <tr class="<%= cycle("odd", "even") %>">
   <td><%= link_to h(tracker.name), edit_tracker_path(tracker) %></td>
-  <td align="center"><% unless tracker.workflow_rules.count > 0 %><span class="icon icon-warning"><%= l(:text_tracker_no_workflow) %> (<%= link_to l(:button_edit), {:controller => 'workflows', :action => 'edit', :tracker_id => tracker} %>)</span><% end %></td>
-  <td align="center" style="width:15%;"><%= reorder_links('tracker', {:action => 'update', :id => tracker}, :put) %></td>
+  <td align="center">
+    <% unless tracker.workflow_rules.count > 0 %>
+      <span class="icon icon-warning">
+        <%= l(:text_tracker_no_workflow) %> (<%= link_to l(:button_edit), workflows_edit_path(:tracker_id => tracker) %>)
+      </span>
+    <% end %>
+  </td>
+  <td align="center" style="width:15%;">
+    <%= reorder_links('tracker', {:action => 'update', :id => tracker}, :put) %>
+  </td>
   <td class="buttons">
     <%= delete_link tracker_path(tracker) %>
   </td>
