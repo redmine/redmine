@@ -28,4 +28,12 @@ module RoutesHelper
       issues_path(*args)
     end
   end
+
+  def _project_calendar_path(project, *args)
+    project ? project_calendar_path(project, *args) : issues_calendar_path(*args)
+  end
+
+  def _project_gantt_path(project, *args)
+    project ? project_gantt_path(project, *args) : issues_gantt_path(*args)
+  end
 end

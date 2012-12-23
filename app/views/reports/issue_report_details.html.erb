@@ -3,5 +3,5 @@
 <h3><%=@report_title%></h3>
 <%= render :partial => 'details', :locals => { :data => @data, :field_name => @field, :rows => @rows } %>
 <br />
-<%= link_to l(:button_back), :action => 'issue_report' %>
+<%= link_to l(:button_back), project_issues_report_path(@project) %>
 
