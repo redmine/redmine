@@ -279,7 +279,7 @@ class IssuesController < ApplicationController
         redirect_to project_issues_path(moved_issues.map(&:project).first)
       end
     else
-      redirect_back_or_default _issues_path(@project)
+      redirect_back_or_default _project_issues_path(@project)
     end
   end
 
@@ -312,7 +312,7 @@ class IssuesController < ApplicationController
       end
     end
     respond_to do |format|
-      format.html { redirect_back_or_default _issues_path(@project) }
+      format.html { redirect_back_or_default _project_issues_path(@project) }
       format.api  { render_api_ok }
     end
   end

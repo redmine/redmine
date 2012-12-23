@@ -59,7 +59,7 @@ class QueriesController < ApplicationController
 
     if @query.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to _issues_path(@project, :query_id => @query)
+      redirect_to _project_issues_path(@project, :query_id => @query)
     else
       render :action => 'new', :layout => !request.xhr?
     end
@@ -77,7 +77,7 @@ class QueriesController < ApplicationController
 
     if @query.save
       flash[:notice] = l(:notice_successful_update)
-      redirect_to _issues_path(@project, :query_id => @query)
+      redirect_to _project_issues_path(@project, :query_id => @query)
     else
       render :action => 'edit'
     end
@@ -85,7 +85,7 @@ class QueriesController < ApplicationController
 
   def destroy
     @query.destroy
-    redirect_to _issues_path(@project, :set_filter => 1)
+    redirect_to _project_issues_path(@project, :set_filter => 1)
   end
 
 private

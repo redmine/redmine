@@ -21,7 +21,7 @@ module RoutesHelper
 
   # Returns the path to project issues or to the cross-project
   # issue list if project is nil
-  def _issues_path(project, *args)
+  def _project_issues_path(project, *args)
     if project
       project_issues_path(project, *args)
     else
