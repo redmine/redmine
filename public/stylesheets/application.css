@@ -569,12 +569,13 @@ div#tab-content-members fieldset div, div#tab-content-users fieldset div { max-h
 
 table.members td.group { padding-left: 20px; background: url(../images/group.png) no-repeat 0% 50%; }
 
-input#principal_search, input#user_search {width:100%}
-input#principal_search, input#user_search {
-  background: url(../images/magnifier.png) no-repeat 2px 50%; padding-left:20px;
-  border:1px solid #9EB1C2; border-radius:3px; height:1.5em; width:95%;
+input#principal_search, input#user_search {width:90%}
+
+input.autocomplete {
+  background: #fff url(../images/magnifier.png) no-repeat 2px 50%; padding-left:20px;
+  border:1px solid #9EB1C2; border-radius:2px; height:1.5em;
 }
-input#principal_search.ajax-loading, input#user_search.ajax-loading {
+input.autocomplete.ajax-loading {
   background-image: url(../images/loading.gif);
 }
 
