@@ -309,6 +309,9 @@ RedmineApp::Application.routes.draw do
     member do
       get 'test_connection', :as => 'try_connection'
     end
+    collection do
+      get 'autocomplete_for_new_user'
+    end
   end
 
   match 'workflows', :controller => 'workflows', :action => 'index', :via => :get

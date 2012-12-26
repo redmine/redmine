@@ -48,6 +48,24 @@ class AuthSource < ActiveRecord::Base
     write_ciphered_attribute(:account_password, arg)
   end
 
+  def searchable?
+    false
+  end
+
+  def self.search(q)
+    results = []
+    AuthSource.all.each do |source|
+      begin
+        if source.searchable?
+          results += source.search(q)
+        end
+      rescue AuthSourceException => e
+        logger.error "Error while searching users in #{source.name}: #{e.message}"
+      end
+    end
+    results
+  end
+
   def allow_password_changes?
     self.class.allow_password_changes?
   end

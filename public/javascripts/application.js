@@ -456,12 +456,12 @@ function updateBulkEditFrom(url) {
   });
 }
 
-function observeAutocompleteField(fieldId, url) {
+function observeAutocompleteField(fieldId, url, options) {
   $(document).ready(function() {
-    $('#'+fieldId).autocomplete({
+    $('#'+fieldId).autocomplete($.extend({
       source: url,
       minLength: 2
-    });
+    }, options));
   });
 }
 

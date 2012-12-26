@@ -124,6 +124,30 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
         auth_source.authenticate 'example1', '123456'
       end
     end
+
+    def test_search_should_return_matching_entries
+      results = AuthSource.search("exa")
+      assert_equal 1, results.size
+      result = results.first
+      assert_kind_of Hash, result
+      assert_equal "example1", result[:login]
+      assert_equal "Example", result[:firstname]
+      assert_equal "One", result[:lastname]
+      assert_equal "example1@redmine.org", result[:mail]
+      assert_equal 1, result[:auth_source_id]
+    end
+
+    def test_search_with_no_match_should_return_an_empty_array
+      results = AuthSource.search("wro")
+      assert_equal [], results
+    end
+
+    def test_search_with_exception_should_return_an_empty_array
+      Net::LDAP.stubs(:new).raises(Net::LDAP::LdapError, 'Cannot connect')
+
+      results = AuthSource.search("exa")
+      assert_equal [], results
+    end
   else
     puts '(Test LDAP server not configured)'
   end
