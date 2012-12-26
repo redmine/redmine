@@ -128,7 +128,12 @@ private
 
   # Checks that the file exists and is readable
   def file_readable
-    @attachment.readable? ? true : render_404
+    if @attachment.readable?
+      true
+    else
+      logger.error "Cannot send attachment, #{@attachment.diskfile} does not exist or is unreadable."
+      render_404
+    end
   end
 
   def read_authorize
