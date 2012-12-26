@@ -9,7 +9,10 @@
 	    <p><%= f.select :project_id, project_tree_options_for_select(Project.allowed_to(:log_time).all, :selected => @time_entry.project), :required => true %></p>
 	  <% end %>
 	<% end %>
-	<p><%= f.text_field :issue_id, :size => 6 %> <em><%= h("#{@time_entry.issue.tracker.name} ##{@time_entry.issue.id}: #{@time_entry.issue.subject}") if @time_entry.issue %></em></p>
+	<p>
+    <%= f.text_field :issue_id, :size => 6 %>
+    <span id="time_entry_issue"><%= h("#{@time_entry.issue.tracker.name} ##{@time_entry.issue.id}: #{@time_entry.issue.subject}") if @time_entry.issue %></span>
+  </p>
 	<p><%= f.text_field :spent_on, :size => 10, :required => true %><%= calendar_for('time_entry_spent_on') %></p>
 	<p><%= f.text_field :hours, :size => 6, :required => true %></p>
 	<p><%= f.text_field :comments, :size => 100 %></p>
@@ -20,4 +23,10 @@
 	<%= call_hook(:view_timelog_edit_form_bottom, { :time_entry => @time_entry, :form => f }) %>
 </div>
 
-<%= javascript_tag "observeAutocompleteField('time_entry_issue_id', '#{escape_javascript auto_complete_issues_path(:project_id => @project, :scope => (@project ? nil : 'all'))}')" %>
+<%= javascript_tag do %>
+  observeAutocompleteField('time_entry_issue_id', '<%= escape_javascript auto_complete_issues_path(:project_id => @project, :scope => (@project ? nil : 'all'))%>', {
+    select: function(event, ui) {
+      $('#time_entry_issue').text(ui.item.label);
+    }
+  });
+<% end %>
