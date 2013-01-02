@@ -57,6 +57,7 @@ platforms :jruby do
   gem "activerecord-jdbc-adapter", "1.2.2"
 
   group :mysql do
+    gem "jdbc-mysql", "5.1.13"
     gem "activerecord-jdbcmysql-adapter"
   end
 
