@@ -45,7 +45,10 @@ module Redmine
         unless @criteria.empty?
           time_columns = %w(tyear tmonth tweek spent_on)
           @hours = []
-          @scope.sum(:hours, :include => :issue, :group => @criteria.collect{|criteria| @available_criteria[criteria][:sql]} + time_columns).each do |hash, hours|
+          @scope.sum(:hours,
+              :include => [:issue, :activity],
+              :group => @criteria.collect{|criteria| @available_criteria[criteria][:sql]} + time_columns,
+              :joins => @criteria.collect{|criteria| @available_criteria[criteria][:joins]}.compact).each do |hash, hours|
             h = {'hours' => hours}
             (@criteria + time_columns).each_with_index do |name, i|
               h[name] = hash[i]
@@ -127,21 +130,24 @@ module Redmine
         # Add list and boolean custom fields as available criteria
         custom_fields = (@project.nil? ? IssueCustomField.for_all : @project.all_issue_custom_fields)
         custom_fields.select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
-          @available_criteria["cf_#{cf.id}"] = {:sql => "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'Issue' AND c.customized_id = #{Issue.table_name}.id ORDER BY c.value LIMIT 1)",
+          @available_criteria["cf_#{cf.id}"] = {:sql => "#{cf.join_alias}.value",
+                                                 :joins => cf.join_for_order_statement,
                                                  :format => cf.field_format,
                                                  :label => cf.name}
         end if @project
 
         # Add list and boolean time entry custom fields
         TimeEntryCustomField.all.select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
-          @available_criteria["cf_#{cf.id}"] = {:sql => "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'TimeEntry' AND c.customized_id = #{TimeEntry.table_name}.id ORDER BY c.value LIMIT 1)",
+          @available_criteria["cf_#{cf.id}"] = {:sql => "#{cf.join_alias}.value",
+                                                 :joins => cf.join_for_order_statement,
                                                  :format => cf.field_format,
                                                  :label => cf.name}
         end
 
         # Add list and boolean time entry activity custom fields
         TimeEntryActivityCustomField.all.select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
-          @available_criteria["cf_#{cf.id}"] = {:sql => "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'Enumeration' AND c.customized_id = #{TimeEntry.table_name}.activity_id ORDER BY c.value LIMIT 1)",
+          @available_criteria["cf_#{cf.id}"] = {:sql => "#{cf.join_alias}.value",
+                                                 :joins => cf.join_for_order_statement,
                                                  :format => cf.field_format,
                                                  :label => cf.name}
         end
