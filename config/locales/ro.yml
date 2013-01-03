@@ -10,10 +10,8 @@ ro:
     day_names: [Duminică, Luni, Marti, Miercuri, Joi, Vineri, Sâmbătă]
     abbr_day_names: [Dum, Lun, Mar, Mie, Joi, Vin, Sâm]
 
-    # Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names: [~, Ianuarie, Februarie, Martie, Aprilie, Mai, Iunie, Iulie, August, Septembrie, Octombrie, Noiembrie, Decembrie]
     abbr_month_names: [~, Ian, Feb, Mar, Apr, Mai, Iun, Iul, Aug, Sep, Oct, Noi, Dec]
-    # Used in date_select and datime_select.
     order:
       - :day
       - :month
