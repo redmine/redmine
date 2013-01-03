@@ -328,7 +328,7 @@ class QueryTest < ActiveSupport::TestCase
     f = IssueCustomField.create!(:name => 'filter', :field_format => 'int', :is_filter => true, :is_for_all => true)
     query = IssueQuery.new(:project => Project.find(1), :name => '_')
     query.add_filter("cf_#{f.id}", '<=', ['30'])
-    assert query.statement.include?("CAST(custom_values.value AS decimal(30,3)) <= 30.0")
+    assert_match /CAST.+ <= 30\.0/, query.statement
     find_issues_with_query(query)
   end
 
@@ -343,7 +343,7 @@ class QueryTest < ActiveSupport::TestCase
     f = IssueCustomField.create!(:name => 'filter', :field_format => 'int', :is_filter => true, :is_for_all => true)
     query = IssueQuery.new(:project => Project.find(1), :name => '_')
     query.add_filter("cf_#{f.id}", '><', ['30', '40'])
-    assert_include "CAST(custom_values.value AS decimal(30,3)) BETWEEN 30.0 AND 40.0", query.statement
+    assert_match /CAST.+ BETWEEN 30.0 AND 40.0/, query.statement
     find_issues_with_query(query)
   end
 
