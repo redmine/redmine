@@ -253,7 +253,7 @@ class IssueQuery < Query
     if grouped?
       begin
         # Rails3 will raise an (unexpected) RecordNotFound if there's only a nil group value
-        r = Issue.visible.count(:group => group_by_statement, :include => [:status, :project], :conditions => statement)
+        r = Issue.visible.count(:joins => joins_for_order_statement(group_by_statement), :group => group_by_statement, :include => [:status, :project], :conditions => statement)
       rescue ActiveRecord::RecordNotFound
         r = {nil => issue_count}
       end

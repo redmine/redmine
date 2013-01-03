@@ -877,9 +877,7 @@ class QueryTest < ActiveSupport::TestCase
     c = q.available_columns.find {|col| col.is_a?(QueryCustomFieldColumn) && col.custom_field.field_format == 'string' }
     assert c
     assert c.sortable
-    issues = Issue.includes([:assigned_to, :status, :tracker, :project, :priority]).where(
-         q.statement
-       ).order("#{c.sortable} ASC").all
+    issues = q.issues(:order => "#{c.sortable} ASC")
     values = issues.collect {|i| i.custom_value_for(c.custom_field).to_s}
     assert !values.empty?
     assert_equal values.sort, values
@@ -890,9 +888,7 @@ class QueryTest < ActiveSupport::TestCase
     c = q.available_columns.find {|col| col.is_a?(QueryCustomFieldColumn) && col.custom_field.field_format == 'string' }
     assert c
     assert c.sortable
-    issues = Issue.includes([:assigned_to, :status, :tracker, :project, :priority]).where(
-         q.statement
-       ).order("#{c.sortable} DESC").all
+    issues = q.issues(:order => "#{c.sortable} DESC")
     values = issues.collect {|i| i.custom_value_for(c.custom_field).to_s}
     assert !values.empty?
     assert_equal values.sort.reverse, values
@@ -903,9 +899,7 @@ class QueryTest < ActiveSupport::TestCase
     c = q.available_columns.find {|col| col.is_a?(QueryCustomFieldColumn) && col.custom_field.field_format == 'float' }
     assert c
     assert c.sortable
-    issues = Issue.includes([:assigned_to, :status, :tracker, :project, :priority]).where(
-         q.statement
-       ).order("#{c.sortable} ASC").all
+    issues = q.issues(:order => "#{c.sortable} ASC")
     values = issues.collect {|i| begin; Kernel.Float(i.custom_value_for(c.custom_field).to_s); rescue; nil; end}.compact
     assert !values.empty?
     assert_equal values.sort, values
