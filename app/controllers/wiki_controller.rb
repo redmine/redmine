@@ -351,6 +351,6 @@ private
   end
 
   def load_pages_for_index
-    @pages = @wiki.pages.with_updated_on.order("#{WikiPage.table_name}.title").includes(:wiki => :project).includes(:parent).all
+    @pages = @wiki.pages.with_updated_on.reorder("#{WikiPage.table_name}.title").includes(:wiki => :project).includes(:parent).all
   end
 end
