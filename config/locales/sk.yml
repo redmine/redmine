@@ -2,9 +2,6 @@ sk:
   direction: ltr
   date:
     formats:
-      # Use the strftime parameters for formats.
-      # When no format has been given, it uses default.
-      # You can provide other formats here if you like!
       default: "%Y-%m-%d"
       short: "%b %d"
       long: "%B %d, %Y"
