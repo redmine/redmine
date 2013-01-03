@@ -188,7 +188,7 @@ class CustomField < ActiveRecord::Base
         # Make the database cast values into numeric
         # Postgresql will raise an error if a value can not be casted!
         # CustomValue validations should ensure that it doesn't occur
-        "(SELECT CAST(cv_sort.value AS decimal(60,3)) FROM #{CustomValue.table_name} cv_sort" +
+        "(SELECT CAST(cv_sort.value AS decimal(30,3)) FROM #{CustomValue.table_name} cv_sort" +
           " WHERE cv_sort.customized_type='#{self.class.customized_class.base_class.name}'" +
           " AND cv_sort.customized_id=#{self.class.customized_class.table_name}.id" +
           " AND cv_sort.custom_field_id=#{id} AND cv_sort.value <> '' AND cv_sort.value IS NOT NULL LIMIT 1)"
@@ -229,7 +229,7 @@ class CustomField < ActiveRecord::Base
             " AND #{join_alias}_2.customized_id = #{join_alias}.customized_id" +
             " AND #{join_alias}_2.custom_field_id = #{join_alias}.custom_field_id)" +
           " LEFT OUTER JOIN #{value_class.table_name} #{value_join_alias}" +
-          " ON CAST(#{join_alias}.value as decimal(60,0)) = #{value_join_alias}.id"
+          " ON CAST(#{join_alias}.value as decimal(30,0)) = #{value_join_alias}.id"
       else
         nil
     end
