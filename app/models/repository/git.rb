@@ -251,8 +251,7 @@ class Repository::Git < Repository
       :conditions => [
         "scmid IN (?)",
         revisions.map!{|c| c.scmid}
-      ],
-      :order => 'committed_on DESC'
+      ]
     )
   end
 
