@@ -347,6 +347,9 @@ module IssuesHelper
 
   # Find the name of an associated record stored in the field attribute
   def find_name_by_reflection(field, id)
+    unless id.present?
+      return nil
+    end
     association = Issue.reflect_on_association(field.to_sym)
     if association
       record = association.class_name.constantize.find_by_id(id)
