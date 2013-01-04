@@ -209,7 +209,7 @@ class IssueQuery < Query
       index = (index ? index + 1 : -1)
       # insert the column after estimated_hours or at the end
       @available_columns.insert index, QueryColumn.new(:spent_hours,
-        :sortable => "(SELECT COALESCE(SUM(hours), 0) FROM #{TimeEntry.table_name} WHERE #{TimeEntry.table_name}.issue_id = #{Issue.table_name}.id)",
+        :sortable => "COALESCE((SELECT SUM(hours) FROM #{TimeEntry.table_name} WHERE #{TimeEntry.table_name}.issue_id = #{Issue.table_name}.id), 0)",
         :default_order => 'desc',
         :caption => :label_spent_time
       )
