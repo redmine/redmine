@@ -154,4 +154,25 @@ class JournalTest < ActiveSupport::TestCase
     # Admin should see issues on private projects that he does not belong to
     assert journals.detect {|journal| !journal.issue.project.is_public?}
   end
+
+  def test_details_should_normalize_dates
+    j = JournalDetail.create!(:old_value => Date.parse('2012-11-03'), :value => Date.parse('2013-01-02'))
+    j.reload
+    assert_equal '2012-11-03', j.old_value
+    assert_equal '2013-01-02', j.value
+  end
+
+  def test_details_should_normalize_true_values
+    j = JournalDetail.create!(:old_value => true, :value => true)
+    j.reload
+    assert_equal '1', j.old_value
+    assert_equal '1', j.value
+  end
+
+  def test_details_should_normalize_false_values
+    j = JournalDetail.create!(:old_value => false, :value => false)
+    j.reload
+    assert_equal '0', j.old_value
+    assert_equal '0', j.value
+  end
 end
