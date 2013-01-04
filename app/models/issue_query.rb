@@ -270,14 +270,13 @@ class IssueQuery < Query
   # Returns the issues
   # Valid options are :order, :offset, :limit, :include, :conditions
   def issues(options={})
-    order_option = [group_by_sort_order, options[:order]].reject {|s| s.blank?}.join(',')
-    order_option = nil if order_option.blank?
+    order_option = [group_by_sort_order, options[:order]].flatten.reject(&:blank?)
 
     issues = Issue.visible.where(options[:conditions]).all(
       :include => ([:status, :project] + (options[:include] || [])).uniq,
       :conditions => statement,
       :order => order_option,
-      :joins => joins_for_order_statement(order_option),
+      :joins => joins_for_order_statement(order_option.join(',')),
       :limit  => options[:limit],
       :offset => options[:offset]
     )
@@ -295,13 +294,12 @@ class IssueQuery < Query
 
   # Returns the issues ids
   def issue_ids(options={})
-    order_option = [group_by_sort_order, options[:order]].reject {|s| s.blank?}.join(',')
-    order_option = nil if order_option.blank?
+    order_option = [group_by_sort_order, options[:order]].flatten.reject(&:blank?)
 
     Issue.visible.scoped(:conditions => options[:conditions]).scoped(:include => ([:status, :project] + (options[:include] || [])).uniq,
                      :conditions => statement,
                      :order => order_option,
-                     :joins => joins_for_order_statement(order_option),
+                     :joins => joins_for_order_statement(order_option.join(',')),
                      :limit  => options[:limit],
                      :offset => options[:offset]).find_ids
   rescue ::ActiveRecord::StatementInvalid => e
