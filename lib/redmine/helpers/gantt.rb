@@ -307,9 +307,9 @@ module Redmine
           options[:zoom] ||= 1
           options[:g_width] ||= (self.date_to - self.date_from + 1) * options[:zoom]
           coords = coordinates(version.start_date,
-                               version.due_date, version.completed_pourcent,
+                               version.due_date, version.completed_percent,
                                options[:zoom])
-          label = "#{h version} #{h version.completed_pourcent.to_i.to_s}%"
+          label = "#{h version} #{h version.completed_percent.to_i.to_s}%"
           label = h("#{version.project} -") + label unless @project && @project == version.project
           case options[:format]
           when :html

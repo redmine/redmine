@@ -46,8 +46,8 @@ class VersionTest < ActiveSupport::TestCase
   def test_progress_should_be_0_with_no_assigned_issues
     project = Project.find(1)
     v = Version.create!(:project => project, :name => 'Progress')
-    assert_equal 0, v.completed_pourcent
-    assert_equal 0, v.closed_pourcent
+    assert_equal 0, v.completed_percent
+    assert_equal 0, v.closed_percent
   end
 
   def test_progress_should_be_0_with_unbegun_assigned_issues
@@ -55,8 +55,8 @@ class VersionTest < ActiveSupport::TestCase
     v = Version.create!(:project => project, :name => 'Progress')
     add_issue(v)
     add_issue(v, :done_ratio => 0)
-    assert_progress_equal 0, v.completed_pourcent
-    assert_progress_equal 0, v.closed_pourcent
+    assert_progress_equal 0, v.completed_percent
+    assert_progress_equal 0, v.closed_percent
   end
 
   def test_progress_should_be_100_with_closed_assigned_issues
@@ -67,8 +67,8 @@ class VersionTest < ActiveSupport::TestCase
     add_issue(v, :status => status, :done_ratio => 20)
     add_issue(v, :status => status, :done_ratio => 70, :estimated_hours => 25)
     add_issue(v, :status => status, :estimated_hours => 15)
-    assert_progress_equal 100.0, v.completed_pourcent
-    assert_progress_equal 100.0, v.closed_pourcent
+    assert_progress_equal 100.0, v.completed_percent
+    assert_progress_equal 100.0, v.closed_percent
   end
 
   def test_progress_should_consider_done_ratio_of_open_assigned_issues
@@ -77,8 +77,8 @@ class VersionTest < ActiveSupport::TestCase
     add_issue(v)
     add_issue(v, :done_ratio => 20)
     add_issue(v, :done_ratio => 70)
-    assert_progress_equal (0.0 + 20.0 + 70.0)/3, v.completed_pourcent
-    assert_progress_equal 0, v.closed_pourcent
+    assert_progress_equal (0.0 + 20.0 + 70.0)/3, v.completed_percent
+    assert_progress_equal 0, v.closed_percent
   end
 
   def test_progress_should_consider_closed_issues_as_completed
@@ -87,8 +87,8 @@ class VersionTest < ActiveSupport::TestCase
     add_issue(v)
     add_issue(v, :done_ratio => 20)
     add_issue(v, :status => IssueStatus.where(:is_closed => true).first)
-    assert_progress_equal (0.0 + 20.0 + 100.0)/3, v.completed_pourcent
-    assert_progress_equal (100.0)/3, v.closed_pourcent
+    assert_progress_equal (0.0 + 20.0 + 100.0)/3, v.completed_percent
+    assert_progress_equal (100.0)/3, v.closed_percent
   end
 
   def test_progress_should_consider_estimated_hours_to_weigth_issues
@@ -98,8 +98,8 @@ class VersionTest < ActiveSupport::TestCase
     add_issue(v, :estimated_hours => 20, :done_ratio => 30)
     add_issue(v, :estimated_hours => 40, :done_ratio => 10)
     add_issue(v, :estimated_hours => 25, :status => IssueStatus.where(:is_closed => true).first)
-    assert_progress_equal (10.0*0 + 20.0*0.3 + 40*0.1 + 25.0*1)/95.0*100, v.completed_pourcent
-    assert_progress_equal 25.0/95.0*100, v.closed_pourcent
+    assert_progress_equal (10.0*0 + 20.0*0.3 + 40*0.1 + 25.0*1)/95.0*100, v.completed_percent
+    assert_progress_equal 25.0/95.0*100, v.closed_percent
   end
 
   def test_progress_should_consider_average_estimated_hours_to_weigth_unestimated_issues
@@ -109,8 +109,8 @@ class VersionTest < ActiveSupport::TestCase
     add_issue(v, :status => IssueStatus.where(:is_closed => true).first)
     add_issue(v, :estimated_hours => 10, :done_ratio => 30)
     add_issue(v, :estimated_hours => 40, :done_ratio => 10)
-    assert_progress_equal (25.0*0.2 + 25.0*1 + 10.0*0.3 + 40.0*0.1)/100.0*100, v.completed_pourcent
-    assert_progress_equal 25.0/100.0*100, v.closed_pourcent
+    assert_progress_equal (25.0*0.2 + 25.0*1 + 10.0*0.3 + 40.0*0.1)/100.0*100, v.completed_percent
+    assert_progress_equal 25.0/100.0*100, v.closed_percent
   end
 
   def test_should_sort_scheduled_then_unscheduled_versions
@@ -152,7 +152,7 @@ class VersionTest < ActiveSupport::TestCase
       @version.update_attribute(:effective_date, 7.days.from_now.to_date)
       add_issue(@version, :start_date => 7.days.ago, :done_ratio => 60) # 14 day span, 60% done, 50% time left
       add_issue(@version, :start_date => 7.days.ago, :done_ratio => 60) # 14 day span, 60% done, 50% time left
-      assert_equal 60, @version.completed_pourcent
+      assert_equal 60, @version.completed_percent
       assert_equal false, @version.behind_schedule?
     end
 
@@ -160,7 +160,7 @@ class VersionTest < ActiveSupport::TestCase
       @version.update_attribute(:effective_date, 7.days.from_now.to_date)
       add_issue(@version, :start_date => 7.days.ago, :done_ratio => 60) # 14 day span, 60% done, 50% time left
       add_issue(@version, :start_date => 7.days.ago, :done_ratio => 20) # 14 day span, 20% done, 50% time left
-      assert_equal 40, @version.completed_pourcent
+      assert_equal 40, @version.completed_percent
       assert_equal true, @version.behind_schedule?
     end
 
@@ -168,7 +168,7 @@ class VersionTest < ActiveSupport::TestCase
       @version.update_attribute(:effective_date, 7.days.from_now.to_date)
       add_issue(@version, :start_date => 14.days.ago, :done_ratio => 100, :status => IssueStatus.find(5)) # 7 day span
       add_issue(@version, :start_date => 14.days.ago, :done_ratio => 100, :status => IssueStatus.find(5)) # 7 day span
-      assert_equal 100, @version.completed_pourcent
+      assert_equal 100, @version.completed_percent
       assert_equal false, @version.behind_schedule?
     end
   end

@@ -1026,7 +1026,7 @@ module ApplicationHelper
         (pcts[1] > 0 ? content_tag('td', '', :style => "width: #{pcts[1]}%;", :class => 'done') : ''.html_safe) +
         (pcts[2] > 0 ? content_tag('td', '', :style => "width: #{pcts[2]}%;", :class => 'todo') : ''.html_safe)
       ), :class => 'progress', :style => "width: #{width};").html_safe +
-      content_tag('p', legend, :class => 'pourcent').html_safe
+      content_tag('p', legend, :class => 'percent').html_safe
   end
 
   def checked_image(checked=true)
