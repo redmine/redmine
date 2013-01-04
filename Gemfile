@@ -54,10 +54,9 @@ end
 platforms :jruby do
   # jruby-openssl is bundled with JRuby 1.7.0
   gem "jruby-openssl" if Object.const_defined?(:JRUBY_VERSION) && JRUBY_VERSION < '1.7.0'
-  gem "activerecord-jdbc-adapter", "1.2.2"
+  gem "activerecord-jdbc-adapter", "1.2.5"
 
   group :mysql do
-    gem "jdbc-mysql", "5.1.13"
     gem "activerecord-jdbcmysql-adapter"
   end
 
