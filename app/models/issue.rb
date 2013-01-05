@@ -68,6 +68,8 @@ class Issue < ActiveRecord::Base
   validates_length_of :subject, :maximum => 255
   validates_inclusion_of :done_ratio, :in => 0..100
   validates_numericality_of :estimated_hours, :allow_nil => true
+  validates :start_date, :date => true
+  validates :due_date, :date => true
   validate :validate_issue, :validate_required_fields
 
   scope :visible, lambda {|*args|
@@ -532,14 +534,6 @@ class Issue < ActiveRecord::Base
   end
 
   def validate_issue
-    if due_date.nil? && @attributes['due_date'].present?
-      errors.add :due_date, :not_a_date
-    end
-
-    if start_date.nil? && @attributes['start_date'].present?
-      errors.add :start_date, :not_a_date
-    end
-
     if due_date && start_date && due_date < start_date
       errors.add :due_date, :greater_than_start_date
     end

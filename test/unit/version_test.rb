@@ -37,6 +37,8 @@ class VersionTest < ActiveSupport::TestCase
     assert !v.valid?
     v.effective_date = '2012-31-11'
     assert !v.valid?
+    v.effective_date = '-2012-31-11'
+    assert !v.valid?
     v.effective_date = 'ABC'
     assert !v.valid?
     assert_include I18n.translate('activerecord.errors.messages.not_a_date'),
