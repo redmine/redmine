@@ -102,7 +102,7 @@
 </td>
 
 <td>
-<div style="position:relative;height:<%= t_height + 24 %>px;overflow:auto;">
+<div style="position:relative;height:<%= t_height + 24 %>px;overflow:auto;" id="gantt_area">
 <%
   style  = ""
   style += "width: #{g_width - 1}px;"
@@ -231,7 +231,15 @@
   %>
   <%= content_tag(:div, '&nbsp;'.html_safe, :style => style) %>
 <% end %>
-
+<%
+  style  = ""
+  style += "position: absolute;"
+  style += "height: #{g_height}px;"
+  style += "top: #{headers_height + 1}px;"
+  style += "left: 0px;"
+  style += "width: #{g_width - 1}px;"
+%>
+<%= content_tag(:div, '', :style => style, :id => "gantt_draw_area") %>
 </div>
 </td>
 </tr>
@@ -261,3 +269,14 @@
 <% end %>
 
 <% html_title(l(:label_gantt)) -%>
+
+<% content_for :header_tags do %>
+  <%= javascript_include_tag 'raphael' %>
+  <%= javascript_include_tag 'gantt' %>
+<% end %>
+
+<%= javascript_tag do %>
+  var issue_relation_type = <%= raw Redmine::Helpers::Gantt::DRAW_TYPES.to_json %>;
+  $(document).ready(drawGanttHandler);
+  $(window).resize(drawGanttHandler);
+<% end %>

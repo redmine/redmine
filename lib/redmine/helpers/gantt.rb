@@ -23,6 +23,12 @@ module Redmine
       include Redmine::I18n
       include Redmine::Utils::DateCalculation
 
+      # Relation types that are rendered
+      DRAW_TYPES = {
+        IssueRelation::TYPE_BLOCKS   => { :landscape_margin => 16, :color => '#F34F4F' },
+        IssueRelation::TYPE_PRECEDES => { :landscape_margin => 20, :color => '#628FEA' }
+      }.freeze
+
       # :nodoc:
       # Some utility methods for the PDF export
       class PDF
@@ -134,6 +140,20 @@ module Redmine
           :order => "#{Project.table_name}.lft ASC, #{Issue.table_name}.id ASC",
           :limit => @max_rows
         )
+      end
+
+      # Returns a hash of the relations between the issues that are present on the gantt
+      # and that should be displayed, grouped by issue ids.
+      def relations
+        return @relations if @relations
+        if issues.any?
+          issue_ids = issues.map(&:id)
+          @relations = IssueRelation.
+            where(:issue_from_id => issue_ids, :issue_to_id => issue_ids, :relation_type => DRAW_TYPES.keys).
+            group_by(&:issue_from_id)
+        else
+          @relations = {}
+        end
       end
 
       # Return all the project nodes that will be displayed
@@ -705,6 +725,16 @@ module Redmine
         params[:image].text(params[:indent], params[:top] + 2, subject)
       end
 
+      def issue_relations(issue)
+        rels = {}
+        if relations[issue.id]
+          relations[issue.id].each do |relation|
+            (rels[relation.relation_type] ||= []) << relation.issue_to_id
+          end
+        end
+        rels
+      end
+
       def html_task(params, coords, options={})
         output = ''
         # Renders the task bar, with progress and late
@@ -714,9 +744,18 @@ module Redmine
           style << "top:#{params[:top]}px;"
           style << "left:#{coords[:bar_start]}px;"
           style << "width:#{width}px;"
-          output << view.content_tag(:div, '&nbsp;'.html_safe,
-                                     :style => style,
-                                     :class => "#{options[:css]} task_todo")
+          html_id = "task-todo-issue-#{options[:issue].id}" if options[:issue]
+          content_opt = {:style => style,
+                         :class => "#{options[:css]} task_todo",
+                         :id => html_id}
+          if options[:issue]
+            rels_hash = {}
+            issue_relations(options[:issue]).each do |k, v|
+              rels_hash[k] = v.join(',')
+            end
+            content_opt[:data] = {"rels" => rels_hash}
+          end
+          output << view.content_tag(:div, '&nbsp;'.html_safe, content_opt)
           if coords[:bar_late_end]
             width = coords[:bar_late_end] - coords[:bar_start] - 2
             style = ""

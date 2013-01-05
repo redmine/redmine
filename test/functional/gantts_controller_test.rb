@@ -81,6 +81,22 @@ class GanttsControllerTest < ActionController::TestCase
     assert_no_tag 'a', :content => /Private child of eCookbook/
   end
 
+  def test_gantt_should_display_relations
+    IssueRelation.delete_all
+    issue1 = Issue.generate!(:start_date => 1.day.from_now, :due_date => 3.day.from_now)
+    issue2 = Issue.generate!(:start_date => 1.day.from_now, :due_date => 3.day.from_now)
+    IssueRelation.create!(:issue_from => issue1, :issue_to => issue2, :relation_type => 'precedes')
+
+    get :show
+    assert_response :success
+
+    relations = assigns(:gantt).relations
+    assert_kind_of Hash, relations
+    assert relations.present?
+    assert_select 'div.task_todo[id=?][data-rels*=?]', "task-todo-issue-#{issue1.id}", issue2.id.to_s
+    assert_select 'div.task_todo[id=?][data-rels=?]', "task-todo-issue-#{issue2.id}", '{}'
+  end
+
   def test_gantt_should_export_to_pdf
     get :show, :project_id => 1, :format => 'pdf'
     assert_response :success
