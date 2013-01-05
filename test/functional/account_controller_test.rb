@@ -33,6 +33,14 @@ class AccountControllerTest < ActionController::TestCase
     assert_select 'input[name=password]'
   end
 
+  def test_get_login_while_logged_in_should_redirect_to_home
+    @request.session[:user_id] = 2
+
+    get :login
+    assert_redirected_to '/'
+    assert_equal 2, @request.session[:user_id]
+  end
+
   def test_login_should_redirect_to_back_url_param
     # request.uri is "test.host" in test environment
     post :login, :username => 'jsmith', :password => 'jsmith', :back_url => 'http://test.host/issues/show/1'
