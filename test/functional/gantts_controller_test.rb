@@ -94,7 +94,7 @@ class GanttsControllerTest < ActionController::TestCase
     assert_kind_of Hash, relations
     assert relations.present?
     assert_select 'div.task_todo[id=?][data-rels*=?]', "task-todo-issue-#{issue1.id}", issue2.id.to_s
-    assert_select 'div.task_todo[id=?][data-rels=?]', "task-todo-issue-#{issue2.id}", '{}'
+    assert_select 'div.task_todo[id=?]:not([data-rels])', "task-todo-issue-#{issue2.id}"
   end
 
   def test_gantt_should_export_to_pdf
