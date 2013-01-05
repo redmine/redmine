@@ -67,7 +67,7 @@ class Issue < ActiveRecord::Base
 
   validates_length_of :subject, :maximum => 255
   validates_inclusion_of :done_ratio, :in => 0..100
-  validates_numericality_of :estimated_hours, :allow_nil => true
+  validates :estimated_hours, :numericality => {:greater_than_or_equal_to => 0, :allow_nil => true, :message => :invalid}
   validates :start_date, :date => true
   validates :due_date, :date => true
   validate :validate_issue, :validate_required_fields

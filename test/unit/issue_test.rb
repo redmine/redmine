@@ -79,6 +79,15 @@ class IssueTest < ActiveSupport::TestCase
     assert_include 'Due date must be greater than start date', issue.errors.full_messages
   end
 
+  def test_estimated_hours_should_be_validated
+    set_language_if_valid 'en'
+    ['-2'].each do |invalid|
+      issue = Issue.new(:estimated_hours => invalid)
+      assert !issue.valid?
+      assert_include 'Estimated time is invalid', issue.errors.full_messages
+    end
+  end
+
   def test_create_with_required_custom_field
     set_language_if_valid 'en'
     field = IssueCustomField.find_by_name('Database')
