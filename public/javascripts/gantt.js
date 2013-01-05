@@ -13,18 +13,16 @@ function setDrawArea() {
 
 function getRelationsArray() {
   var arr = new Array();
-  $.each($('div.task_todo'), function(index_div, element) {
+  $.each($('div.task_todo[data-rels]'), function(index_div, element) {
     var element_id = $(element).attr("id");
     if (element_id != null) {
       var issue_id = element_id.replace("task-todo-issue-", "");
       var data_rels = $(element).data("rels");
-      if (data_rels != null) {
-        for (rel_type_key in data_rels) {
-          $.each(data_rels[rel_type_key], function(index_issue, element_issue) {
-            arr.push({issue_from: issue_id, issue_to: element_issue,
-                      rel_type: rel_type_key});
-          });
-        }
+      for (rel_type_key in data_rels) {
+        $.each(data_rels[rel_type_key], function(index_issue, element_issue) {
+          arr.push({issue_from: issue_id, issue_to: element_issue,
+                    rel_type: rel_type_key});
+        });
       }
     }
   });
