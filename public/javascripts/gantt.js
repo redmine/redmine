@@ -19,14 +19,11 @@ function getRelationsArray() {
       var issue_id = element_id.replace("task-todo-issue-", "");
       var data_rels = $(element).data("rels");
       if (data_rels != null) {
-        for (rel_type_key in issue_relation_type) {
-          if (rel_type_key in data_rels) {
-            var issue_arr = data_rels[rel_type_key].toString().split(",");
-              $.each(issue_arr, function(index_issue, element_issue) {
-                arr.push({issue_from: issue_id, issue_to: element_issue,
-                          rel_type: rel_type_key});
-              });
-          }
+        for (rel_type_key in data_rels) {
+          $.each(data_rels[rel_type_key], function(index_issue, element_issue) {
+            arr.push({issue_from: issue_id, issue_to: element_issue,
+                      rel_type: rel_type_key});
+          });
         }
       }
     }

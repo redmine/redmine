@@ -749,11 +749,7 @@ module Redmine
                          :class => "#{options[:css]} task_todo",
                          :id => html_id}
           if options[:issue]
-            rels_hash = {}
-            issue_relations(options[:issue]).each do |k, v|
-              rels_hash[k] = v.join(',')
-            end
-            content_opt[:data] = {"rels" => rels_hash}
+            content_opt[:data] = {"rels" => issue_relations(options[:issue]).to_json}
           end
           output << view.content_tag(:div, '&nbsp;'.html_safe, content_opt)
           if coords[:bar_late_end]
