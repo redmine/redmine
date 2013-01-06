@@ -1041,7 +1041,7 @@ ja:
   label_copy_attachments: 添付ファイルをコピー
   label_item_position: "%{position}/%{count}"
   label_completed_versions: 完了したバージョン
-  text_project_identifier_info: アルファベット小文字(a-z)・数字・ハイフン・アンダースコアが使えます。<br />識別子は後で変更することはできません。
+  text_project_identifier_info: アルファベット小文字(a-z)・数字・ハイフン・アンダースコアが使えます。最初の文字はアルファベットの小文字にしてください。<br />識別子は後で変更することはできません。
   field_multiple: 複数選択可
   setting_commit_cross_project_ref: 異なるプロジェクトのチケットの参照/修正を許可
   text_issue_conflict_resolution_add_notes: 自分の編集内容を破棄し注記のみ追加
