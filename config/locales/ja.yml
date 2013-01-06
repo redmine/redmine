@@ -176,7 +176,7 @@ ja:
   notice_account_invalid_creditentials: ユーザー名もしくはパスワードが無効です
   notice_account_password_updated: パスワードが更新されました。
   notice_account_wrong_password: パスワードが違います
-  notice_account_register_done: アカウントが作成されました。
+  notice_account_register_done: アカウントが作成されました。有効にするには送信したメールにあるリンクをクリックしてください。
   notice_account_unknown_email: ユーザーが存在しません。
   notice_can_t_change_password: このアカウントでは外部認証を使っています。パスワードは変更できません。
   notice_account_lost_email_sent: 新しいパスワードのメールを送信しました。
