@@ -53,7 +53,7 @@ module StatusHelper
         
         project.visible_custom_field_values.each do |custom_value|
 	      if (custom_value.custom_field.name == 'Category')
-            if (custom_value.value == 'Project')
+            if (custom_value.value == 'Project' || custom_value.value == 'Showcase')
               show_this = 1
             end
           end
