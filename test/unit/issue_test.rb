@@ -309,6 +309,16 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal issues, issues.select(&:closed?)
   end
 
+  def test_fixed_version_scope_with_a_version_should_return_its_fixed_issues
+    version = Version.find(2)
+    assert version.fixed_issues.any?
+    assert_equal version.fixed_issues.to_a.sort, Issue.fixed_version(version).to_a.sort
+  end
+
+  def test_fixed_version_scope_with_empty_array_should_return_no_result
+    assert_equal 0, Issue.fixed_version([]).count
+  end
+
   def test_errors_full_messages_should_include_custom_fields_errors
     field = IssueCustomField.find_by_name('Database')
 
