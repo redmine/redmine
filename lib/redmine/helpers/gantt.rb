@@ -297,7 +297,6 @@ module Redmine
             pdf_task(options, coords, :label => label, :markers => true, :height => 0.8)
           end
         else
-          ActiveRecord::Base.logger.debug "Gantt#line_for_project was not given a project with a start_date"
           ''
         end
       end
@@ -340,7 +339,6 @@ module Redmine
             pdf_task(options, coords, :label => label, :markers => true, :height => 0.8)
           end
         else
-          ActiveRecord::Base.logger.debug "Gantt#line_for_version was not given a version with a start_date"
           ''
         end
       end
@@ -398,7 +396,6 @@ module Redmine
             pdf_task(options, coords, :label => label)
         end
         else
-          ActiveRecord::Base.logger.debug "GanttHelper#line_for_issue was not given an issue with a due_before"
           ''
         end
       end
