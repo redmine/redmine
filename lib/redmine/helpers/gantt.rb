@@ -322,7 +322,7 @@ module Redmine
 
       def line_for_version(version, options)
         # Skip versions that don't have a start_date
-        if version.is_a?(Version) && version.start_date && version.due_date
+        if version.is_a?(Version) && version.due_date && version.start_date
           options[:zoom] ||= 1
           options[:g_width] ||= (self.date_to - self.date_from + 1) * options[:zoom]
           coords = coordinates(version.start_date,
