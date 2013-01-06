@@ -9,7 +9,7 @@
 <% end %>
 
 <p><%= f.text_area :description, :rows => 5, :class => 'wiki-edit' %></p>
-<p><%= f.text_field :identifier, :required => true, :size => 60, :disabled => @project.identifier_frozen? %>
+<p><%= f.text_field :identifier, :required => true, :size => 60, :disabled => @project.identifier_frozen?, :maxlength => Project::IDENTIFIER_MAX_LENGTH %>
 <% unless @project.identifier_frozen? %>
   <em class="info"><%= l(:text_length_between, :min => 1, :max => Project::IDENTIFIER_MAX_LENGTH) %> <%= l(:text_project_identifier_info).html_safe %></em>
 <% end %></p>
@@ -62,3 +62,9 @@
 <% end %>
 <% end %>
 <!--[eoform:project]-->
+
+<% unless @project.identifier_frozen? %>
+  <% content_for :header_tags do %>
+    <%= javascript_include_tag 'project_identifier' %>
+  <% end %>
+<% end %>
