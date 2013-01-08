@@ -40,8 +40,8 @@ class NewsController < ApplicationController
     scope = @project ? @project.news.visible : News.visible
 
     @news_count = scope.count
-    @news_pages = Paginator.new self, @news_count, @limit, params['page']
-    @offset ||= @news_pages.current.offset
+    @news_pages = Paginator.new @news_count, @limit, params['page']
+    @offset ||= @news_pages.offset
     @newss = scope.all(:include => [:author, :project],
                                        :order => "#{News.table_name}.created_on DESC",
                                        :offset => @offset,

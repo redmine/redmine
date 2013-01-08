@@ -45,8 +45,8 @@ class UsersController < ApplicationController
     scope = scope.in_group(params[:group_id]) if params[:group_id].present?
 
     @user_count = scope.count
-    @user_pages = Paginator.new self, @user_count, @limit, params['page']
-    @offset ||= @user_pages.current.offset
+    @user_pages = Paginator.new @user_count, @limit, params['page']
+    @offset ||= @user_pages.offset
     @users =  scope.order(sort_clause).limit(@limit).offset(@offset).all
 
     respond_to do |format|

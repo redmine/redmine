@@ -26,8 +26,8 @@ class MembersController < ApplicationController
   def index
     @offset, @limit = api_offset_and_limit
     @member_count = @project.member_principals.count
-    @member_pages = Paginator.new self, @member_count, @limit, params['page']
-    @offset ||= @member_pages.current.offset
+    @member_pages = Paginator.new @member_count, @limit, params['page']
+    @offset ||= @member_pages.offset
     @members =  @project.member_principals.all(
       :order => "#{Member.table_name}.id",
       :limit  =>  @limit,

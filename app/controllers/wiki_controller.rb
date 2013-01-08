@@ -212,13 +212,13 @@ class WikiController < ApplicationController
   # show page history
   def history
     @version_count = @page.content.versions.count
-    @version_pages = Paginator.new self, @version_count, per_page_option, params['page']
+    @version_pages = Paginator.new @version_count, per_page_option, params['page']
     # don't load text
     @versions = @page.content.versions.
       select("id, author_id, comments, updated_on, version").
       reorder('version DESC').
       limit(@version_pages.items_per_page + 1).
-      offset(@version_pages.current.offset).
+      offset(@version_pages.offset).
       all
 
     render :layout => false if request.xhr?

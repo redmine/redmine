@@ -42,12 +42,12 @@ class BoardsController < ApplicationController
                     'updated_on' => "#{Message.table_name}.updated_on"
 
         @topic_count = @board.topics.count
-        @topic_pages = Paginator.new self, @topic_count, per_page_option, params['page']
+        @topic_pages = Paginator.new @topic_count, per_page_option, params['page']
         @topics =  @board.topics.
           reorder("#{Message.table_name}.sticky DESC").
           includes(:author, {:last_reply => :author}).
           limit(@topic_pages.items_per_page).
-          offset(@topic_pages.current.offset).
+          offset(@topic_pages.offset).
           order(sort_clause).
           all
         @message = Message.new(:board => @board)

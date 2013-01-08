@@ -142,7 +142,7 @@ module Redmine
       page_param = options[:parameter] || :page
       page = (params[page_param] || 1).to_i
       per_page = options[:per_page] || per_page_option
-      Paginator.new(self, item_count, per_page, page, page_param)
+      Paginator.new(item_count, per_page, page, page_param)
     end
 
     module Helper

@@ -138,12 +138,12 @@ class RepositoriesController < ApplicationController
 
   def revisions
     @changeset_count = @repository.changesets.count
-    @changeset_pages = Paginator.new self, @changeset_count,
+    @changeset_pages = Paginator.new @changeset_count,
                                      per_page_option,
                                      params['page']
     @changesets = @repository.changesets.
       limit(@changeset_pages.items_per_page).
-      offset(@changeset_pages.current.offset).
+      offset(@changeset_pages.offset).
       includes(:user, :repository, :parents).
       all
 

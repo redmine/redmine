@@ -51,12 +51,12 @@ class TimelogController < ApplicationController
       format.html {
         # Paginate results
         @entry_count = scope.count
-        @entry_pages = Paginator.new self, @entry_count, per_page_option, params['page']
+        @entry_pages = Paginator.new @entry_count, per_page_option, params['page']
         @entries = scope.all(
           :include => [:project, :activity, :user, {:issue => :tracker}],
           :order => sort_clause,
           :limit  =>  @entry_pages.items_per_page,
-          :offset =>  @entry_pages.current.offset
+          :offset =>  @entry_pages.offset
         )
         @total_hours = scope.sum(:hours).to_f
 
