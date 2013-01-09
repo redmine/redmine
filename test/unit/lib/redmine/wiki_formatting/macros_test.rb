@@ -78,6 +78,12 @@ class Redmine::WikiFormatting::MacrosTest < ActionView::TestCase
     assert_equal "<p>Baz: (arg1,arg2) (String) (line1\nline2)</p>", textilizable("{{baz(arg1, arg2)\nline1\nline2\n}}")
   end
 
+  def test_macro_name_with_upper_case
+    Redmine::WikiFormatting::Macros.macro(:UpperCase) {|obj, args| "Upper"}
+
+    assert_equal "<p>Upper</p>", textilizable("{{UpperCase}}")
+  end
+
   def test_multiple_macros_on_the_same_line
     Redmine::WikiFormatting::Macros.macro :foo do |obj, args|
       args.any? ? "args: #{args.join(',')}" : "no args" 
