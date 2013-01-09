@@ -4,6 +4,16 @@ Redmine - project management software
 Copyright (C) 2006-2012  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2013-01-09 v2.2.1
+
+* Upgrade to Rails 3.2.11
+* Defect #12652: "Copy ticket" selects "new ticket"
+* Defect #12691: Textile Homepage Dead?
+* Defect #12711: incorrect fix of lib/SVG/Graph/TimeSeries.rb
+* Defect #12744: Unable to call a macro with a name that contains uppercase letters
+* Defect #12776: Security vulnerability in Rails 3.2.10 (CVE-2013-0156)
+* Patch #12630: Russian "x_hours" translation
+
 == 2012-12-18 v2.2.0
 
 * Defect #4787: Gannt to PNG - CJK (Chinese, Japanese and Korean) characters appear as ?
