@@ -129,15 +129,6 @@ class WikiController < ApplicationController
     # don't keep previous comment
     @content.comments = nil
 
-    if !@page.new_record? && params[:content].present? && @content.text == params[:content][:text]
-      attachments = Attachment.attach_files(@page, params[:attachments])
-      render_attachment_warning_if_needed(@page)
-      # don't save content if text wasn't changed
-      @page.save
-      redirect_to :action => 'show', :project_id => @project, :id => @page.title
-      return
-    end
-
     @content.comments = params[:content][:comments]
     @text = params[:content][:text]
     if params[:section].present? && Redmine::WikiFormatting.supports_section_edit?
@@ -149,8 +140,8 @@ class WikiController < ApplicationController
       @content.text = @text
     end
     @content.author = User.current
-    @page.content = @content
-    if @page.save
+
+    if @page.save_with_content
       attachments = Attachment.attach_files(@page, params[:attachments])
       render_attachment_warning_if_needed(@page)
       call_hook(:controller_wiki_edit_after_save, { :params => params, :page => @page})
