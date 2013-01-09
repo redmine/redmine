@@ -2356,6 +2356,9 @@ class IssuesControllerTest < ActionController::TestCase
     assert_tag 'select', :attributes => {:name => 'issue[project_id]'},
       :child => {:tag => 'option', :attributes => {:value => '2', :selected => nil}, :content => 'OnlineStore'}
     assert_tag 'input', :attributes => {:name => 'copy_from', :value => '1'}
+
+    # "New issue" menu item should not link to copy
+    assert_select '#main-menu a.new-issue[href=/projects/ecookbook/issues/new]'
   end
 
   def test_new_as_copy_with_attachments_should_show_copy_attachments_checkbox
