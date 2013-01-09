@@ -4,7 +4,7 @@ Redmine - project management software
 Copyright (C) 2006-2012  Jean-Philippe Lang
 http://www.redmine.org/
 
-== TBD v1.4.6
+== 2013-01-09 v1.4.6
 
 * Upgrade to Rails 2.3.15
 * Defect #12409: Git: changesets aren't read after clear_changesets call
