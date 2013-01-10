@@ -419,6 +419,20 @@ STR
     end
   end
 
+  def test_get_section_should_support_headings_starting_with_a_tab
+    text = <<-STR
+h1.\tHeading 1
+
+Content 1
+
+h1. Heading 2
+
+Content 2
+STR
+
+    assert_match /\Ah1.\tHeading 1\s+Content 1\z/, @formatter.new(text).get_section(1).first
+  end
+
   private
 
   def assert_html_output(to_test, expect_paragraph = true)
