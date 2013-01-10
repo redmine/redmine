@@ -133,7 +133,7 @@ module ProjectsHelper
   # Renders a tree of projects as a nested set of unordered lists
   # The given collection may be a subset of the whole project tree
   # (eg. some intermediate nodes are private and can not be seen)
-  def render_project_hierarchy(projects)
+  def render_project_hierarchy(projects, category)
     s = ''
     if projects.any?
       ancestors = []
@@ -162,7 +162,7 @@ module ProjectsHelper
 
           project.visible_custom_field_values.each do |custom_value|
             if (custom_value.custom_field.name == 'Category')
-              if (custom_value.value == 'Project')
+              if (custom_value.value == category)
                 show_this = 1
               end
             end

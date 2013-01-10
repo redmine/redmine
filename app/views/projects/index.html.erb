@@ -46,8 +46,16 @@
 <% else %>
 	<p class="smallcaptiononwhite">Switch to Google Chrome or Mozilla Firefox to enhanced visualization.</p>
 <% end %>
-<h2 ><a name="projectslist">Projects list</a></h2>	
-<%= render_project_hierarchy(@projects)%>
+<h2 ><a name="projectslist">Cell and network projects</a></h2>
+<p>The following is a list of projects in the Open Source Brain repository featuring specific neurophysiological 
+  cell and network types. </p>
+<p>There are also a number of <a href="#showcase">Technology showcase projects</a> which highlight
+  specific tools, databases and methods, which can be of use to many types models.</p>
+<br/>
+<%= render_project_hierarchy(@projects, 'Project')%>
+
+<h2 ><a name="showcase">Technology showcase projects</a></h2>
+<%= render_project_hierarchy(@projects, 'Showcase')%>
 
 <% if User.current.logged? %>
 <p style="text-align:right;">

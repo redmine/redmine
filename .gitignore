@@ -32,4 +32,5 @@
 
 config/configuration.yml~
 plugins/embedded/
+plugins/redmine_bitbucket_hook/
 plugins/redmine_github_hook/
