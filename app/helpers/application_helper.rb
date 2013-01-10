@@ -545,9 +545,9 @@ module ApplicationHelper
 
   def parse_inline_attachments(text, project, obj, attr, only_path, options)
     # when using an image link, try to use an attachment, if possible
-    if options[:attachments].present? || (obj && obj.respond_to?(:attachments))
+    if options[:attachments].present? || obj.respond_to?(:attachments)
       attachments = options[:attachments] || []
-      attachments += obj.attachments if obj
+      attachments += obj.attachments if obj.respond_to?(:attachments)
       text.gsub!(/src="([^\/"]+\.(bmp|gif|jpg|jpe|jpeg|png))"(\s+alt="([^"]*)")?/i) do |m|
         filename, ext, alt, alttext = $1.downcase, $2, $3, $4
         # search for the picture in attachments

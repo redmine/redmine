@@ -68,6 +68,19 @@ class WikiControllerTest < ActionController::TestCase
     assert_select 'a[href=?]', '/projects/ecookbook/wiki/CookBook_documentation', :text => /Current version/
   end
 
+  def test_show_old_version_with_attachments
+    page = WikiPage.find(4)
+    assert page.attachments.any?
+    content = page.content
+    content.text = "update"
+    content.save!
+
+    get :show, :project_id => 'ecookbook', :id => page.title, :version => '1'
+    assert_kind_of WikiContent::Version, assigns(:content)
+    assert_response :success
+    assert_template 'show'
+  end
+
   def test_show_old_version_without_permission_should_be_denied
     Role.anonymous.remove_permission! :view_wiki_edits
 
