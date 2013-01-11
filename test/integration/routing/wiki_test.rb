@@ -53,6 +53,10 @@ class RoutingWikiTest < ActionController::IntegrationTest
          { :controller => 'wiki', :action => 'annotate', :project_id => '1',
            :id => 'CookBook_documentation', :version => '2' }
        )
+    # Make sure we don't route wiki page sub-uris to let plugins handle them
+    assert_raise(ActionController::RoutingError) do
+      assert_recognizes({}, {:method => 'get', :path => "/projects/1/wiki/CookBook_documentation/whatever"})
+    end
   end
 
   def test_wiki_misc
