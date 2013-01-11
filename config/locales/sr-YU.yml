@@ -917,47 +917,47 @@ sr-YU:
   project_module_calendar: Kalendar
   button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   field_text: Text field
-  label_user_mail_option_only_owner: Only for things I am the owner of
-  setting_default_notification_option: Default notification option
-  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
-  label_user_mail_option_only_assigned: Only for things I am assigned to
-  label_user_mail_option_none: No events
+  label_user_mail_option_only_owner: Samo za stvari koje posedujem
+  setting_default_notification_option: Podrazumevana opcija za notifikaciju
+  label_user_mail_option_only_my_events: Za dogadjaje koje pratim ili sam u njih uključen
+  label_user_mail_option_only_assigned: Za dogadjaje koji su mi dodeljeni lično
+  label_user_mail_option_none: Bez obaveštenja
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
-  notice_not_authorized_archived_project: The project you're trying to access has been archived.
-  label_principal_search: "Search for user or group:"
-  label_user_search: "Search for user:"
-  field_visible: Visible
-  setting_emails_header: Emails header
+  notice_not_authorized_archived_project: Projekat kome pokušavate da pristupite je arhiviran
+  label_principal_search: "Traži korisnike ili grupe:"
+  label_user_search: "Traži korisnike:"
+  field_visible: Vidljivo
+  setting_emails_header: Email zaglavlje
   setting_commit_logtime_activity_id: Activity for logged time
   text_time_logged_by_changeset: Applied in changeset %{value}.
-  setting_commit_logtime_enabled: Enable time logging
+  setting_commit_logtime_enabled: Omogući praćenje vremena
   notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
-  field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
-  text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
+  setting_gantt_items_limit: Maksimalan broj stavki na gant grafiku
+  field_warn_on_leaving_unsaved: Upozori me ako napuštam stranu sa tekstom koji nije snimljen
+  text_warn_on_leaving_unsaved: Strana sadrži tekst koji nije snimljen i biće izgubljen ako je napustite.
   label_my_queries: My custom queries
-  text_journal_changed_no_detail: "%{label} updated"
-  label_news_comment_added: Comment added to a news
-  button_expand_all: Expand all
-  button_collapse_all: Collapse all
+  text_journal_changed_no_detail: "%{label} ažuriran"
+  label_news_comment_added: Komentar dodat u novosti
+  button_expand_all: Proširi sve
+  button_collapse_all: Zatvori sve
   label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
   label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
   label_bulk_edit_selected_time_entries: Bulk edit selected time entries
-  text_time_entries_destroy_confirmation: Are you sure you want to delete the selected time entr(y/ies)?
-  label_role_anonymous: Anonymous
-  label_role_non_member: Non member
-  label_issue_note_added: Note added
-  label_issue_status_updated: Status updated
-  label_issue_priority_updated: Priority updated
-  label_issues_visibility_own: Issues created by or assigned to the user
-  field_issues_visibility: Issues visibility
-  label_issues_visibility_all: All issues
-  permission_set_own_issues_private: Set own issues public or private
-  field_is_private: Private
-  permission_set_issues_private: Set issues public or private
-  label_issues_visibility_public: All non private issues
-  text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
+  text_time_entries_destroy_confirmation: Da li ste sigurni da želite da obrišete selektovane stavke ?
+  label_role_anonymous: Anonimus
+  label_role_non_member: Nije član
+  label_issue_note_added: Nota dodana
+  label_issue_status_updated: Status ažuriran
+  label_issue_priority_updated: Prioritet ažuriran
+  label_issues_visibility_own: Problem kreiran od strane ili je dodeljen korisniku
+  field_issues_visibility: Vidljivost problema
+  label_issues_visibility_all: Svi problemi
+  permission_set_own_issues_private: Podesi sopstveni problem kao privatan ili javan
+  field_is_private: Privatno
+  permission_set_issues_private: Podesi problem kao privatan ili javan
+  label_issues_visibility_public: Svi javni problemi
+  text_issues_destroy_descendants_confirmation: Ova operacija će takođe obrisati  %{count} podzadataka.
   field_commit_logs_encoding: Kodiranje izvršnih poruka
   field_scm_path_encoding: Path encoding
   text_scm_path_encoding_note: "Default: UTF-8"
