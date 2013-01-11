@@ -219,6 +219,7 @@ sv:
   notice_issue_successful_create: Ärende %{id} skapades.
   notice_issue_update_conflict: Detta ärende har uppdaterats av en annan användare samtidigt som du redigerade det.
   notice_account_deleted: Ditt konto har avslutats permanent.
+  notice_user_successful_create: "Användare %{id} skapad."
 
   error_can_t_load_default_data: "Standardkonfiguration gick inte att läsa in: %{value}"
   error_scm_not_found: "Inlägg och/eller revision finns inte i detta versionsarkiv."
@@ -239,6 +240,7 @@ sv:
   error_unable_delete_issue_status: 'Ärendestatus kunde inte tas bort'
   error_unable_to_connect: "Kan inte ansluta (%{value})"
   error_attachment_too_big: Denna fil kan inte laddas upp eftersom den överstiger maximalt tillåten filstorlek (%{max_size})
+  error_session_expired: "Din session har gått ut. Vänligen logga in på nytt."
   warning_attachments_not_saved: "%{count} fil(er) kunde inte sparas."
 
   mail_subject_lost_password: "Ditt %{value} lösenord"
@@ -366,6 +368,10 @@ sv:
   field_repository_is_default: Huvudarkiv
   field_multiple: Flera värden
   field_auth_source_ldap_filter: LDAP-filter
+  field_core_fields: Standardfält
+  field_timeout: "Timeout (i sekunder)"
+  field_board_parent: Förälderforum
+  field_private_notes: Privata anteckningar
 
   setting_app_title: Applikationsrubrik
   setting_app_subtitle: Applikationsunderrubrik
@@ -390,6 +396,7 @@ sv:
   setting_autologin: Automatisk inloggning
   setting_date_format: Datumformat
   setting_time_format: Tidsformat
+  setting_cross_project_subtasks: Tillåt underaktiviteter mellan projekt
   setting_cross_project_issue_relations: Tillåt ärenderelationer mellan projekt
   setting_issue_list_default_columns: Standardkolumner i ärendelistan
   setting_repositories_encodings: Encoding för bilagor och versionsarkiv
@@ -428,10 +435,16 @@ sv:
   setting_default_issue_start_date_to_creation_date: Använd dagens datum som startdatum för nya ärenden
   setting_commit_cross_project_ref: Tillåt ärende i alla de andra projekten att bli refererade och fixade
   setting_unsubscribe: Tillåt användare att avsluta prenumereration
+  setting_session_lifetime: Maximal sessionslivslängd
+  setting_session_timeout: Tidsgräns för sessionsinaktivitet
+  setting_thumbnails_enabled: Visa miniatyrbilder av bilagor
+  setting_thumbnails_size: Storlek på miniatyrbilder (i pixlar)
+  setting_non_working_week_days: Lediga dagar
 
   permission_add_project: Skapa projekt
   permission_add_subprojects: Skapa underprojekt
   permission_edit_project: Ändra projekt
+  permission_close_project: Stänga / återöppna projektet
   permission_select_project_modules: Välja projektmoduler
   permission_manage_members: Hantera medlemmar
   permission_manage_project_activities: Hantera projektaktiviteter
@@ -446,6 +459,8 @@ sv:
   permission_add_issue_notes: Lägga till ärendenotering
   permission_edit_issue_notes: Ändra ärendenoteringar
   permission_edit_own_issue_notes: Ändra egna ärendenoteringar
+  permission_view_private_notes: Visa privata anteckningar
+  permission_set_notes_private: Ställa in anteckningar som privata
   permission_move_issues: Flytta ärenden
   permission_delete_issues: Ta bort ärenden
   permission_manage_public_queries: Hantera publika frågor
@@ -678,6 +693,8 @@ sv:
   label_not_equals: är inte
   label_in_less_than: om mindre än
   label_in_more_than: om mer än
+  label_in_the_next_days: under kommande
+  label_in_the_past_days: under föregående
   label_greater_or_equal: '>='
   label_less_or_equal: '<='
   label_between: mellan
@@ -687,6 +704,7 @@ sv:
   label_yesterday: igår
   label_this_week: denna vecka
   label_last_week: senaste veckan
+  label_last_n_weeks: "senaste %{count} veckorna"
   label_last_n_days: "senaste %{count} dagarna"
   label_this_month: denna månad
   label_last_month: senaste månaden
@@ -697,6 +715,9 @@ sv:
   label_ago: dagar sedan
   label_contains: innehåller
   label_not_contains: innehåller inte
+  label_any_issues_in_project: några ärenden i projektet
+  label_any_issues_not_in_project: några ärenden utanför projektet
+  label_no_issues_in_project: inga ärenden i projektet
   label_day_plural: dagar
   label_repository: Versionsarkiv
   label_repository_new: Nytt versionsarkiv
@@ -770,6 +791,8 @@ sv:
   label_blocked_by: blockerad av
   label_precedes: kommer före
   label_follows: följer
+  label_copied_to: Kopierad till
+  label_copied_from: Kopierad från
   label_end_to_start: slut till start
   label_end_to_end: slut till slut
   label_start_to_start: start till start
@@ -883,9 +906,21 @@ sv:
   label_child_revision: Barn
   label_export_options: "%{export_format} exportalternativ"
   label_copy_attachments: Kopiera bilagor
+  label_copy_subtasks: Kopiera underaktiviteter
   label_item_position: "%{position}/%{count}"
   label_completed_versions: Klara versioner
   label_search_for_watchers: Sök efter bevakare att lägga till
+  label_session_expiration: Sessionsutgång
+  label_show_closed_projects: Visa stängda projekt
+  label_status_transitions: Statusövergångar
+  label_fields_permissions: Fältbehörigheter
+  label_readonly: Skrivskyddad
+  label_required: Nödvändig
+  label_attribute_of_project: Projektets %{name}
+  label_attribute_of_author: Författarens %{name}
+  label_attribute_of_assigned_to: Tilldelads %{name}
+  label_attribute_of_user: Användarens %{name}
+  label_attribute_of_fixed_version: Målversionens %{name}
 
   button_login: Logga in
   button_submit: Skicka
@@ -933,13 +968,20 @@ sv:
   button_quote: Citera
   button_duplicate: Duplicera
   button_show: Visa
+  button_hide: Göm
   button_edit_section: Redigera denna sektion
   button_export: Exportera
   button_delete_my_account: Ta bort mitt konto
+  button_close: Stäng
+  button_reopen: Återöppna
 
   status_active: aktiv
   status_registered: registrerad
   status_locked: låst
+
+  project_status_active: aktiv
+  project_status_closed: stängd
+  project_status_archived: arkiverad
 
   version_status_open: öppen
   version_status_locked: låst
@@ -1020,6 +1062,8 @@ sv:
   text_issue_conflict_resolution_add_notes: Lägg till mina anteckningar och kasta mina andra ändringar
   text_issue_conflict_resolution_cancel: Kasta alla mina ändringar och visa igen %{link}
   text_account_destroy_confirmation: "Är du säker på att du vill fortsätta?\nDitt konto kommer tas bort permanent, utan möjlighet att återaktivera det."
+  text_session_expiration_settings: "Varning: ändring av dessa inställningar kan få alla nuvarande sessioner, inklusive din egen, att gå ut."
+  text_project_closed: Detta projekt är stängt och skrivskyddat.
 
   default_role_manager: Projektledare
   default_role_developer: Utvecklare
@@ -1065,52 +1109,9 @@ sv:
   description_date_range_interval: Ange intervall genom att välja start- och slutdatum
   description_date_from: Ange startdatum
   description_date_to: Ange slutdatum
-  error_session_expired: Your session has expired. Please login again.
-  text_session_expiration_settings: "Warning: changing these settings may expire the current sessions including yours."
-  setting_session_lifetime: Session maximum lifetime
-  setting_session_timeout: Session inactivity timeout
-  label_session_expiration: Session expiration
-  permission_close_project: Close / reopen the project
-  label_show_closed_projects: View closed projects
-  button_close: Close
-  button_reopen: Reopen
-  project_status_active: active
-  project_status_closed: closed
-  project_status_archived: archived
-  text_project_closed: This project is closed and read-only.
-  notice_user_successful_create: User %{id} created.
-  field_core_fields: Standard fields
-  field_timeout: Timeout (in seconds)
-  setting_thumbnails_enabled: Display attachment thumbnails
-  setting_thumbnails_size: Thumbnails size (in pixels)
-  label_status_transitions: Status transitions
-  label_fields_permissions: Fields permissions
-  label_readonly: Read-only
-  label_required: Required
   text_repository_identifier_info: Ändast gemener (a-z), siffror, streck och understreck är tillåtna.<br />När identifieraren sparats kan den inte ändras.
-  field_board_parent: Parent forum
-  label_attribute_of_project: Project's %{name}
-  label_attribute_of_author: Author's %{name}
-  label_attribute_of_assigned_to: Assignee's %{name}
-  label_attribute_of_fixed_version: Target version's %{name}
-  label_copy_subtasks: Copy subtasks
-  label_copied_to: copied to
-  label_copied_from: copied from
-  label_any_issues_in_project: any issues in project
-  label_any_issues_not_in_project: any issues not in project
-  field_private_notes: Private notes
-  permission_view_private_notes: View private notes
-  permission_set_notes_private: Set notes as private
-  label_no_issues_in_project: no issues in project
   label_any: alla
-  label_last_n_weeks: last %{count} weeks
-  setting_cross_project_subtasks: Allow cross-project subtasks
   label_cross_project_descendants: Med underprojekt
   label_cross_project_tree: Med projektträd
   label_cross_project_hierarchy: Med projekthierarki
   label_cross_project_system: Med alla projekt
-  button_hide: Hide
-  setting_non_working_week_days: Non-working days
-  label_in_the_next_days: in the next
-  label_in_the_past_days: in the past
-  label_attribute_of_user: User's %{name}
