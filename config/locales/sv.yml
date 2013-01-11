@@ -215,10 +215,10 @@ sv:
   notice_unable_delete_version: Denna version var inte möjlig att ta bort.
   notice_unable_delete_time_entry: Tidloggning kunde inte tas bort.
   notice_issue_done_ratios_updated: "% klart uppdaterade."
-  notice_gantt_chart_truncated: "Schemat förminskades eftersom det överskrider det maximala antalet aktiviteter som får visas (%{max})"
-  notice_issue_successful_create: Ärende %{id} skapades.
-  notice_issue_update_conflict: Detta ärende har uppdaterats av en annan användare samtidigt som du redigerade det.
-  notice_account_deleted: Ditt konto har avslutats permanent.
+  notice_gantt_chart_truncated: "Schemat förminskades eftersom det överskrider det maximala antalet aktiviteter som kan visas (%{max})"
+  notice_issue_successful_create: "Ärende %{id} skapades."
+  notice_issue_update_conflict: "Detta ärende har uppdaterats av en annan användare samtidigt som du redigerade det."
+  notice_account_deleted: "Ditt konto har avslutats permanent."
   notice_user_successful_create: "Användare %{id} skapad."
 
   error_can_t_load_default_data: "Standardkonfiguration gick inte att läsa in: %{value}"
@@ -239,7 +239,7 @@ sv:
   error_workflow_copy_target: 'Vänligen välj ärendetyp(er) och roll(er) för mål'
   error_unable_delete_issue_status: 'Ärendestatus kunde inte tas bort'
   error_unable_to_connect: "Kan inte ansluta (%{value})"
-  error_attachment_too_big: Denna fil kan inte laddas upp eftersom den överstiger maximalt tillåten filstorlek (%{max_size})
+  error_attachment_too_big: "Denna fil kan inte laddas upp eftersom den överstiger maximalt tillåten filstorlek (%{max_size})"
   error_session_expired: "Din session har gått ut. Vänligen logga in på nytt."
   warning_attachments_not_saved: "%{count} fil(er) kunde inte sparas."
 
@@ -456,9 +456,9 @@ sv:
   permission_manage_issue_relations: Hantera ärenderelationer
   permission_set_issues_private: Sätta ärenden publika eller privata
   permission_set_own_issues_private: Sätta egna ärenden publika eller privata
-  permission_add_issue_notes: Lägga till ärendenotering
-  permission_edit_issue_notes: Ändra ärendenoteringar
-  permission_edit_own_issue_notes: Ändra egna ärendenoteringar
+  permission_add_issue_notes: Lägga till ärendeanteckning
+  permission_edit_issue_notes: Ändra ärendeanteckningar
+  permission_edit_own_issue_notes: Ändra egna ärendeanteckningar
   permission_view_private_notes: Visa privata anteckningar
   permission_set_notes_private: Ställa in anteckningar som privata
   permission_move_issues: Flytta ärenden
@@ -659,6 +659,7 @@ sv:
   label_current_status: Nuvarande status
   label_new_statuses_allowed: Nya tillåtna statusvärden
   label_all: alla
+  label_any: några
   label_none: ingen
   label_nobody: ingen
   label_next: Nästa
@@ -784,13 +785,13 @@ sv:
   label_loading: Laddar...
   label_relation_new: Ny relation
   label_relation_delete: Ta bort relation
-  label_relates_to: relaterar till
-  label_duplicates: kopierar
-  label_duplicated_by: kopierad av
-  label_blocks: blockerar
-  label_blocked_by: blockerad av
-  label_precedes: kommer före
-  label_follows: följer
+  label_relates_to: Relaterar till
+  label_duplicates: Kopierar
+  label_duplicated_by: Kopierad av
+  label_blocks: Blockerar
+  label_blocked_by: Blockerad av
+  label_precedes: Kommer före
+  label_follows: Följer
   label_copied_to: Kopierad till
   label_copied_from: Kopierad från
   label_end_to_start: slut till start
@@ -921,6 +922,10 @@ sv:
   label_attribute_of_assigned_to: Tilldelads %{name}
   label_attribute_of_user: Användarens %{name}
   label_attribute_of_fixed_version: Målversionens %{name}
+  label_cross_project_descendants: Med underprojekt
+  label_cross_project_tree: Med projektträd
+  label_cross_project_hierarchy: Med projekthierarki
+  label_cross_project_system: Med alla projekt
 
   button_login: Logga in
   button_submit: Skicka
@@ -1050,7 +1055,7 @@ sv:
   text_own_membership_delete_confirmation: "Några av, eller alla, dina behörigheter kommer att tas bort och du kanske inte längre kommer kunna göra ändringar i det här projektet.\nVill du verkligen fortsätta?"
   text_zoom_out: Zooma ut
   text_zoom_in: Zooma in
-  text_warn_on_leaving_unsaved: Nuvarande sida innehåller osparad text som kommer försvinna om du lämnar sidan.
+  text_warn_on_leaving_unsaved: "Nuvarande sida innehåller osparad text som kommer försvinna om du lämnar sidan."
   text_scm_path_encoding_note: "Standard: UTF-8"
   text_git_repository_note: Versionsarkiv är tomt och lokalt (t.ex. /gitrepo, c:\gitrepo)
   text_mercurial_repository_note: Lokalt versionsarkiv (t.ex. /hgrepo, c:\hgrepo)
@@ -1058,9 +1063,9 @@ sv:
   text_scm_command_version: Version
   text_scm_config: Du kan konfigurera dina scm-kommando i config/configuration.yml. Vänligen starta om applikationen när ändringar gjorts.
   text_scm_command_not_available: Scm-kommando är inte tillgängligt. Vänligen kontrollera inställningarna i administratörspanelen.
-  text_issue_conflict_resolution_overwrite: Använd mina ändringar i alla fall (tidigare anteckningar kommer behållas men några ändringar kan bli överskrivna)
-  text_issue_conflict_resolution_add_notes: Lägg till mina anteckningar och kasta mina andra ändringar
-  text_issue_conflict_resolution_cancel: Kasta alla mina ändringar och visa igen %{link}
+  text_issue_conflict_resolution_overwrite: "Använd mina ändringar i alla fall (tidigare anteckningar kommer behållas men några ändringar kan bli överskrivna)"
+  text_issue_conflict_resolution_add_notes: "Lägg till mina anteckningar och kasta mina andra ändringar"
+  text_issue_conflict_resolution_cancel: "Kasta alla mina ändringar och visa igen %{link}"
   text_account_destroy_confirmation: "Är du säker på att du vill fortsätta?\nDitt konto kommer tas bort permanent, utan möjlighet att återaktivera det."
   text_session_expiration_settings: "Varning: ändring av dessa inställningar kan få alla nuvarande sessioner, inklusive din egen, att gå ut."
   text_project_closed: Detta projekt är stängt och skrivskyddat.
@@ -1109,9 +1114,4 @@ sv:
   description_date_range_interval: Ange intervall genom att välja start- och slutdatum
   description_date_from: Ange startdatum
   description_date_to: Ange slutdatum
-  text_repository_identifier_info: Ändast gemener (a-z), siffror, streck och understreck är tillåtna.<br />När identifieraren sparats kan den inte ändras.
-  label_any: alla
-  label_cross_project_descendants: Med underprojekt
-  label_cross_project_tree: Med projektträd
-  label_cross_project_hierarchy: Med projekthierarki
-  label_cross_project_system: Med alla projekt
+  text_repository_identifier_info: 'Endast gemener (a-z), siffror, streck och understreck är tillåtna.<br />När identifieraren sparats kan den inte ändras.'
