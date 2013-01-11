@@ -288,7 +288,7 @@ sr-YU:
   field_delay: Kašnjenje
   field_assignable: Problem može biti dodeljen ovoj ulozi
   field_redirect_existing_links: Preusmeri postojeće veze
-  field_estimated_hours: Proteklo vreme
+  field_estimated_hours: Procenjeno vreme 
   field_column_names: Kolone
   field_time_zone: Vremenska zona
   field_searchable: Može da se pretražuje
