@@ -519,6 +519,15 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal [t3, t1, t2], assigns(:entries)
   end
 
+  def test_index_with_filter_on_issue_custom_field
+    issue = Issue.generate!(:project_id => 1, :tracker_id => 1, :custom_field_values => {2 => 'filter_on_issue_custom_field'})
+    entry = TimeEntry.generate!(:issue => issue, :hours => 2.5)
+
+    get :index, :f => ['issue.cf_2'], :op => {'issue.cf_2' => '='}, :v => {'issue.cf_2' => ['filter_on_issue_custom_field']}
+    assert_response :success
+    assert_equal [entry], assigns(:entries)
+  end
+
   def test_index_atom_feed
     get :index, :project_id => 1, :format => 'atom'
     assert_response :success

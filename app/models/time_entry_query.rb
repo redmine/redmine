@@ -88,7 +88,7 @@ class TimeEntryQuery < Query
     } unless activities.empty?
 
     add_custom_fields_filters(TimeEntryCustomField.where(:is_filter => true).all)
-    add_associations_custom_fields_filters :project, :user
+    add_associations_custom_fields_filters :project, :issue, :user
 
     @available_filters.each do |field, options|
       options[:name] ||= l(options[:label] || "field_#{field}".gsub(/_id$/, ''))

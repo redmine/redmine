@@ -98,6 +98,17 @@ module ObjectHelpers
     version
   end
 
+  def TimeEntry.generate!(attributes={})
+    entry = TimeEntry.new(attributes)
+    entry.user ||= User.find(2)
+    entry.issue ||= Issue.find(1)
+    entry.project ||= entry.issue.project
+    entry.activity ||= TimeEntryActivity.first
+    entry.spent_on ||= Date.today
+    entry.save!
+    entry
+  end
+
   def AuthSource.generate!(attributes={})
     @generated_auth_source_name ||= 'Auth 0'
     @generated_auth_source_name.succ!

@@ -875,6 +875,7 @@ en:
   label_readonly: Read-only
   label_required: Required
   label_attribute_of_project: "Project's %{name}"
+  label_attribute_of_issue: "Issue's %{name}"
   label_attribute_of_author: "Author's %{name}"
   label_attribute_of_assigned_to: "Assignee's %{name}"
   label_attribute_of_user: "User's %{name}"
