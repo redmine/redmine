@@ -1,4 +1,6 @@
-require 'iconv'
+if RUBY_VERSION < '1.9'
+  require 'iconv'
+end
 
 module Redmine
   module CodesetUtil
@@ -100,10 +102,17 @@ module Redmine
       end
       encodings = Setting.repositories_encodings.split(',').collect(&:strip)
       encodings.each do |encoding|
-        begin
-          return Iconv.conv('UTF-8', encoding, str)
-        rescue Iconv::Failure
-          # do nothing here and try the next encoding
+        if str.respond_to?(:force_encoding)
+          str.force_encoding(encoding)
+          if str.valid_encoding?
+            return str.encode('UTF-8')
+          end
+        else
+          begin
+            return Iconv.conv('UTF-8', encoding, str)
+          rescue Iconv::Failure
+            # do nothing here and try the next encoding
+          end
         end
       end
       str = self.replace_invalid_utf8(str)

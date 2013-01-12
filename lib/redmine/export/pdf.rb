@@ -17,11 +17,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require 'iconv'
 require 'tcpdf'
 require 'fpdf/chinese'
 require 'fpdf/japanese'
 require 'fpdf/korean'
+
+if RUBY_VERSION < '1.9'
+  require 'iconv'
+end
 
 module Redmine
   module Export
@@ -86,7 +89,7 @@ module Redmine
 
         def SetTitle(txt)
           txt = begin
-            utf16txt = Iconv.conv('UTF-16BE', 'UTF-8', txt)
+            utf16txt = to_utf16(txt)
             hextxt = "<FEFF"  # FEFF is BOM
             hextxt << utf16txt.unpack("C*").map {|x| sprintf("%02X",x) }.join
             hextxt << ">"
@@ -107,6 +110,15 @@ module Redmine
 
         def fix_text_encoding(txt)
           RDMPdfEncoding::rdm_from_utf8(txt, l(:general_pdf_encoding))
+        end
+
+        # Encodes an UTF-8 string to UTF-16BE
+        def to_utf16(str)
+          if str.respond_to?(:encode)
+            str.encode('UTF-16BE')
+          else
+            Iconv.conv('UTF-16BE', 'UTF-8', str)
+          end
         end
 
         def RDMCell(w ,h=0, txt='', border=0, ln=0, align='', fill=0, link='')
@@ -154,7 +166,7 @@ module Redmine
 
         def bookmark_title(txt)
           txt = begin
-            utf16txt = Iconv.conv('UTF-16BE', 'UTF-8', txt)
+            utf16txt = to_utf16(txt)
             hextxt = "<FEFF"  # FEFF is BOM
             hextxt << utf16txt.unpack("C*").map {|x| sprintf("%02X",x) }.join
             hextxt << ">"
