@@ -104,8 +104,10 @@ module Redmine
       encodings.each do |encoding|
         if str.respond_to?(:force_encoding)
           str.force_encoding(encoding)
-          if str.valid_encoding?
+          begin
             return str.encode('UTF-8')
+          rescue Encoding::InvalidByteSequenceError
+            # do nothing here and try the next encoding
           end
         else
           begin
