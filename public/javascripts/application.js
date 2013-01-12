@@ -1,5 +1,5 @@
 /* Redmine - project management software
-   Copyright (C) 2006-2012  Jean-Philippe Lang */
+   Copyright (C) 2006-2013  Jean-Philippe Lang */
 
 function checkAll(id, checked) {
   if (checked) {
