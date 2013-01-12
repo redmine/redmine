@@ -1115,3 +1115,5 @@ sv:
   description_date_from: Ange startdatum
   description_date_to: Ange slutdatum
   text_repository_identifier_info: 'Endast gemener (a-z), siffror, streck och understreck är tillåtna.<br />När identifieraren sparats kan den inte ändras.'
+  text_turning_multiple_off: If you disable multiple values, duplicate values will be
+    removed in order to preserve only one value per item.

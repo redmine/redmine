@@ -5,7 +5,12 @@
 <p><%= f.select :field_format, custom_field_formats_for_select(@custom_field), {}, :disabled => !@custom_field.new_record? %></p>
 
 <% if @custom_field.format_in? 'list', 'user', 'version' %>
-<p><%= f.check_box :multiple %></p>
+<p>
+  <%= f.check_box :multiple %>
+  <% if !@custom_field.new_record? && @custom_field.multiple %>
+  <em class="info"><%= l(:text_turning_multiple_off) %></em>
+  <% end %>
+</p>
 <% end %>
 
 <% unless @custom_field.format_in? 'list', 'bool', 'date', 'user', 'version' %>

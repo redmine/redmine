@@ -1026,6 +1026,7 @@ en:
   text_account_destroy_confirmation: "Are you sure you want to proceed?\nYour account will be permanently deleted, with no way to reactivate it."
   text_session_expiration_settings: "Warning: changing these settings may expire the current sessions including yours."
   text_project_closed: This project is closed and read-only.
+  text_turning_multiple_off: "If you disable multiple values, duplicate values will be removed in order to preserve only one value per item."
 
   default_role_manager: Manager
   default_role_developer: Developer
