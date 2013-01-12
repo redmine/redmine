@@ -79,8 +79,8 @@ sv:
         one:   "ungefär en timme"
         other: "ungefär %{count} timmar"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 timme"
+        other: "%{count} timmar"
       x_days:
         one:   "en dag"
         other: "%{count} dagar"
