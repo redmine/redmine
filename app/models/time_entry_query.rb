@@ -100,6 +100,7 @@ class TimeEntryQuery < Query
     return @available_columns if @available_columns
     @available_columns = self.class.available_columns.dup
     @available_columns += TimeEntryCustomField.all.map {|cf| QueryCustomFieldColumn.new(cf) }
+    @available_columns += IssueCustomField.all.map {|cf| QueryAssociationCustomFieldColumn.new(:issue, cf) }
     @available_columns
   end
 
