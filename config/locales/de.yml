@@ -425,6 +425,7 @@ de:
   label_attribute_of_assigned_to: "%{name} des Bearbeiters"
   label_attribute_of_author: "%{name} des Autors"
   label_attribute_of_fixed_version: "%{name} der Zielversion"
+  label_attribute_of_issue: "%{name} des Tickets"
   label_attribute_of_project: "%{name} des Projekts"
   label_attribute_of_user: "%{name} des Benutzers"
   label_attribute_plural: Attribute
@@ -1070,6 +1071,8 @@ de:
   text_tip_issue_begin_end_day: Aufgabe, die an diesem Tag beginnt und endet
   text_tip_issue_end_day: Aufgabe, die an diesem Tag endet
   text_tracker_no_workflow: Kein Workflow für diesen Tracker definiert.
+  text_turning_multiple_off: Wenn Sie die Mehrfachauswahl deaktivieren, werden Felder mit Mehrfachauswahl bereinigt.
+    Dadurch wird sichergestellt, dass lediglich ein Wert pro Feld ausgewählt ist.
   text_unallowed_characters: Nicht erlaubte Zeichen
   text_user_mail_option: "Für nicht ausgewählte Projekte werden Sie nur Benachrichtigungen für Dinge erhalten, die Sie beobachten oder an denen Sie beteiligt sind (z. B. Tickets, deren Autor Sie sind oder die Ihnen zugewiesen sind)."
   text_user_wrote: "%{value} schrieb:"
@@ -1088,6 +1091,3 @@ de:
   version_status_open: offen
   
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
-  text_turning_multiple_off: If you disable multiple values, duplicate values will be
-    removed in order to preserve only one value per item.
-  label_attribute_of_issue: Issue's %{name}
