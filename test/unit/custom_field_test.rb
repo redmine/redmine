@@ -209,6 +209,24 @@ class CustomFieldTest < ActiveSupport::TestCase
     assert !f.valid_field_value?(['value1', 'abc'])
   end
 
+  def test_changing_multiple_to_false_should_delete_multiple_values
+    field = ProjectCustomField.create!(:name => 'field', :field_format => 'list', :multiple => 'true', :possible_values => ['field1', 'field2'])
+    other = ProjectCustomField.create!(:name => 'other', :field_format => 'list', :multiple => 'true', :possible_values => ['other1', 'other2'])
+
+    item_with_multiple_values = Project.generate!(:custom_field_values => {field.id => ['field1', 'field2'], other.id => ['other1', 'other2']})
+    item_with_single_values = Project.generate!(:custom_field_values => {field.id => ['field1'], other.id => ['other2']})
+
+    assert_difference 'CustomValue.count', -1 do
+      field.multiple = false
+      field.save!
+    end
+
+    item_with_multiple_values = Project.find(item_with_multiple_values.id)
+    assert_kind_of String, item_with_multiple_values.custom_field_value(field)
+    assert_kind_of Array, item_with_multiple_values.custom_field_value(other)
+    assert_equal 2, item_with_multiple_values.custom_field_value(other).size
+  end
+
   def test_value_class_should_return_the_class_used_for_fields_values
     assert_equal User, CustomField.new(:field_format => 'user').value_class
     assert_equal Version, CustomField.new(:field_format => 'version').value_class

@@ -29,6 +29,7 @@ class CustomField < ActiveRecord::Base
 
   validate :validate_custom_field
   before_validation :set_searchable
+  after_save :handle_multiplicity_change
 
   scope :sorted, lambda { order("#{table_name}.position ASC") }
 
@@ -334,5 +335,21 @@ class CustomField < ActiveRecord::Base
       end
     end
     errs
+  end
+
+  # Removes multiple values for the custom field after setting the multiple attribute to false
+  # We kepp the value with the highest id for each customized object
+  def handle_multiplicity_change
+    if !new_record? && multiple_was && !multiple
+      ids = custom_values.
+        where("EXISTS(SELECT 1 FROM #{CustomValue.table_name} cve WHERE cve.custom_field_id = #{CustomValue.table_name}.custom_field_id" + 
+          " AND cve.customized_type = #{CustomValue.table_name}.customized_type AND cve.customized_id = #{CustomValue.table_name}.customized_id" + 
+          " AND cve.id > #{CustomValue.table_name}.id)").
+        pluck(:id)
+
+      if ids.any?
+        custom_values.where(:id => ids).delete_all
+      end
+    end
   end
 end

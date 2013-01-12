@@ -5,7 +5,7 @@
 <p><%= f.select :field_format, custom_field_formats_for_select(@custom_field), {}, :disabled => !@custom_field.new_record? %></p>
 
 <% if @custom_field.format_in? 'list', 'user', 'version' %>
-<p><%= f.check_box :multiple, :disabled => @custom_field.multiple && !@custom_field.new_record? %></p>
+<p><%= f.check_box :multiple %></p>
 <% end %>
 
 <% unless @custom_field.format_in? 'list', 'bool', 'date', 'user', 'version' %>
