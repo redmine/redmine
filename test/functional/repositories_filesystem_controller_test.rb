@@ -109,7 +109,8 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
     end
 
     def test_show_utf16
-      with_settings :repositories_encodings => 'UTF-16' do
+      enc = (RUBY_VERSION == "1.9.2" ? 'UTF-16LE' : 'UTF-16')
+      with_settings :repositories_encodings => enc do
         get :entry, :id => PRJ_ID,
             :path => repository_path_hash(['japanese', 'utf-16.txt'])[:param]
         assert_response :success
