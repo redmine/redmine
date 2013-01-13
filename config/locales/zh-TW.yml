@@ -958,8 +958,10 @@
   label_readonly: 唯讀
   label_required: 必填
   label_attribute_of_project: "專案是 %{name}"
+  label_attribute_of_issue: "問題是 %{name}"
   label_attribute_of_author: "作者是 %{name}"
   label_attribute_of_assigned_to: "被指派者是 %{name}"
+  label_attribute_of_user: "用戶是 %{name}"
   label_attribute_of_fixed_version: "版本是 %{name}"
   label_cross_project_descendants: 與子專案共用
   label_cross_project_tree: 與專案樹共用
@@ -1110,6 +1112,7 @@
     您的帳戶將會被永久刪除，且無法被重新啟用。
   text_session_expiration_settings: "警告：變更這些設定將會導致包含您在內的所有工作階段過期。"
   text_project_closed: 此專案已被關閉，僅供唯讀使用。
+  text_turning_multiple_off: "若您停用多重值設定，重複的值將會被移除，以使每個項目僅保留一個值。"
 
   default_role_manager: 管理人員
   default_role_developer: 開發人員
@@ -1156,7 +1159,3 @@
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  label_attribute_of_user: User's %{name}
-  text_turning_multiple_off: If you disable multiple values, duplicate values will be
-    removed in order to preserve only one value per item.
-  label_attribute_of_issue: Issue's %{name}
