@@ -50,7 +50,7 @@ class AttachmentsControllerTest < ActionController::TestCase
     set_tmp_attachments_directory
   end
 
-  def test_show_diff_replcace_cannot_convert_content
+  def test_show_diff_replace_cannot_convert_content
     with_settings :repositories_encodings => 'UTF-8' do
       ['inline', 'sbs'].each do |dt|
         # 060719210727_changeset_iso8859-1.diff
@@ -152,7 +152,7 @@ class AttachmentsControllerTest < ActionController::TestCase
                :sibling => { :tag => 'td', :content => /#{str_japanese}/ }
   end
 
-  def test_show_text_file_replcace_cannot_convert_content
+  def test_show_text_file_replace_cannot_convert_content
     set_tmp_attachments_directory
     with_settings :repositories_encodings => 'UTF-8' do
       a = Attachment.new(:container => Issue.find(1),
