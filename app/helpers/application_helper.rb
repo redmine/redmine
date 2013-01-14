@@ -135,7 +135,6 @@ module ApplicationHelper
   # Examples:
   #
   #   link_to_project(project)                          # => link to the specified project overview
-  #   link_to_project(project, :action=>'settings')     # => link to project settings
   #   link_to_project(project, {:only_path => false}, :class => "project") # => 3rd arg adds html options
   #   link_to_project(project, {}, :class => "project") # => html options with default url (project overview)
   #
