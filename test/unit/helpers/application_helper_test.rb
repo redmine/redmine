@@ -1063,6 +1063,20 @@ RAW
     assert_equal ::I18n.t(:label_user_anonymous), t
   end
 
+  def test_link_to_attachment
+    a = Attachment.find(3)
+    assert_equal '<a href="/attachments/3/logo.gif">logo.gif</a>',
+      link_to_attachment(a)
+    assert_equal '<a href="/attachments/3/logo.gif">Text</a>',
+      link_to_attachment(a, :text => 'Text')
+    assert_equal '<a href="/attachments/3/logo.gif" class="foo">logo.gif</a>',
+      link_to_attachment(a, :class => 'foo')
+    assert_equal '<a href="/attachments/download/3/logo.gif">logo.gif</a>',
+      link_to_attachment(a, :download => true)
+    assert_equal '<a href="http://test.host/attachments/3/logo.gif">logo.gif</a>',
+      link_to_attachment(a, :only_path => false)
+  end
+
   def test_link_to_project
     project = Project.find(1)
     assert_equal %(<a href="/projects/ecookbook">eCookbook</a>),

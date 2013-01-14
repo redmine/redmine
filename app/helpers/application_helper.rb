@@ -91,14 +91,10 @@ module ApplicationHelper
   # * :download - Force download (default: false)
   def link_to_attachment(attachment, options={})
     text = options.delete(:text) || attachment.filename
-    action = options.delete(:download) ? 'download' : 'show'
-    opt_only_path = {}
-    opt_only_path[:only_path] = (options[:only_path] == false ? false : true)
-    options.delete(:only_path)
-    link_to(h(text),
-           {:controller => 'attachments', :action => action,
-            :id => attachment, :filename => attachment.filename}.merge(opt_only_path),
-           options)
+    route_method = options.delete(:download) ? :download_named_attachment_path : :named_attachment_path
+    html_options = options.slice!(:only_path)
+    url = send(route_method, attachment, attachment.filename, options)
+    link_to text, url, html_options
   end
 
   # Generates a link to a SCM revision
