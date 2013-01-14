@@ -549,9 +549,8 @@ RAW
   end
 
   def test_attachment_links
-    attachment_link = link_to('error281.txt', {:controller => 'attachments', :action => 'download', :id => '1'}, :class => 'attachment')
     to_test = {
-      'attachment:error281.txt'      => attachment_link
+      'attachment:error281.txt' => '<a href="/attachments/download/1/error281.txt" class="attachment">error281.txt</a>'
     }
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text, :attachments => Issue.find(3).attachments), "#{text} failed" }
   end
