@@ -559,8 +559,7 @@ module ApplicationHelper
         filename, ext, alt, alttext = $1.downcase, $2, $3, $4
         # search for the picture in attachments
         if found = Attachment.latest_attach(attachments, filename)
-          image_url = url_for :only_path => only_path, :controller => 'attachments',
-                              :action => 'download', :id => found
+          image_url = download_named_attachment_path(found, found.filename, :only_path => only_path)
           desc = found.description.to_s.gsub('"', '')
           if !desc.blank? && alttext.blank?
             alt = " title=\"#{desc}\" alt=\"#{desc}\""
