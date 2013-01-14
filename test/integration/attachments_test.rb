@@ -57,7 +57,7 @@ class AttachmentsTest < ActionController::IntegrationTest
       }
     assert_response :success
 
-    attachment_path = response.body.match(%r{<img src="(/attachments/download/\d+)"})[1]
+    attachment_path = response.body.match(%r{<img src="(/attachments/download/\d+/myupload.jpg)"})[1]
     assert_not_nil token, "No attachment path found in response:\n#{response.body}"
 
     get attachment_path
