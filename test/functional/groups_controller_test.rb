@@ -79,8 +79,11 @@ class GroupsControllerTest < ActionController::TestCase
     get :edit, :id => 10
     assert_response :success
     assert_template 'edit'
-    assert_tag 'div', :attributes => {:id => 'tab-content-users'}
-    assert_tag 'div', :attributes => {:id => 'tab-content-memberships'}
+
+    assert_select 'div#tab-content-users'
+    assert_select 'div#tab-content-memberships' do
+      assert_select 'a', :text => 'Private child of eCookbook'
+    end
   end
 
   def test_update
