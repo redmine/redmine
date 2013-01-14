@@ -775,8 +775,7 @@ module ApplicationHelper
           when 'attachment'
             attachments = options[:attachments] || (obj && obj.respond_to?(:attachments) ? obj.attachments : nil)
             if attachments && attachment = attachments.detect {|a| a.filename == name }
-              link = link_to h(attachment.filename), {:only_path => only_path, :controller => 'attachments', :action => 'download', :id => attachment},
-                                                     :class => 'attachment'
+              link = link_to_attachment(attachment, :only_path => only_path, :download => true, :class => 'attachment')
             end
           when 'project'
             if p = Project.visible.where("identifier = :s OR LOWER(name) = :s", :s => name.downcase).first
