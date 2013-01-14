@@ -1077,6 +1077,12 @@ RAW
       link_to_attachment(a, :only_path => false)
   end
 
+  def test_thumbnail_tag
+    a = Attachment.find(3)
+    assert_equal '<a href="/attachments/3/logo.gif" title="logo.gif"><img alt="3" src="/attachments/thumbnail/3" /></a>',
+      thumbnail_tag(a)
+  end
+
   def test_link_to_project
     project = Project.find(1)
     assert_equal %(<a href="/projects/ecookbook">eCookbook</a>),

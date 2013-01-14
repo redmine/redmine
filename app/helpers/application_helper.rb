@@ -160,8 +160,8 @@ module ApplicationHelper
   end
 
   def thumbnail_tag(attachment)
-    link_to image_tag(url_for(:controller => 'attachments', :action => 'thumbnail', :id => attachment)),
-      {:controller => 'attachments', :action => 'show', :id => attachment, :filename => attachment.filename},
+    link_to image_tag(thumbnail_path(attachment)),
+      named_attachment_path(attachment, attachment.filename),
       :title => attachment.filename
   end
 
