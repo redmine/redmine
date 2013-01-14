@@ -1075,6 +1075,17 @@ RAW
                  link_to_project(project, {:action => 'settings'}, :class => "project")
   end
 
+  def test_link_to_project_settings
+    project = Project.find(1)
+    assert_equal '<a href="/projects/ecookbook/settings">eCookbook</a>', link_to_project_settings(project)
+
+    project.status = Project::STATUS_CLOSED
+    assert_equal '<a href="/projects/ecookbook">eCookbook</a>', link_to_project_settings(project)
+
+    project.status = Project::STATUS_ARCHIVED
+    assert_equal 'eCookbook', link_to_project_settings(project)
+  end
+
   def test_link_to_legacy_project_with_numerical_identifier_should_use_id
     # numeric identifier are no longer allowed
     Project.update_all "identifier=25", "id=1"
