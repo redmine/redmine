@@ -129,4 +129,16 @@ module ObjectHelpers
     board.save!
     board
   end
+
+  def Attachment.generate!(attributes={})
+    @generated_filename ||= 'testfile0'
+    @generated_filename.succ!
+    attributes = attributes.dup
+    attachment = Attachment.new(attributes)
+    attachment.container ||= Issue.find(1)
+    attachment.author ||= User.find(2)
+    attachment.filename = @generated_filename if attachment.filename.blank?
+    attachment.save!
+    attachment
+  end
 end

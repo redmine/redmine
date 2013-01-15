@@ -555,6 +555,15 @@ RAW
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text, :attachments => Issue.find(3).attachments), "#{text} failed" }
   end
 
+  def test_attachment_link_should_link_to_latest_attachment
+    set_tmp_attachments_directory
+    a1 = Attachment.generate!(:filename => "test.txt", :created_on => 1.hour.ago)
+    a2 = Attachment.generate!(:filename => "test.txt")
+
+    assert_equal %(<p><a href="/attachments/download/#{a2.id}/test.txt" class="attachment">test.txt</a></p>),
+      textilizable('attachment:test.txt', :attachments => [a1, a2])
+  end
+
   def test_wiki_links
     to_test = {
       '[[CookBook documentation]]' => '<a href="/projects/ecookbook/wiki/CookBook_documentation" class="wiki-page">CookBook documentation</a>',
