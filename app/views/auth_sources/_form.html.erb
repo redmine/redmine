@@ -1,13 +1,6 @@
 <%= error_messages_for 'auth_source' %>
 
-<div class="box">
-<!--[form:auth_source]-->
-<p><label for="auth_source_name"><%=l(:field_name)%> <span class="required">*</span></label>
-<%= text_field 'auth_source', 'name'  %></p>
-
-<p><label for="auth_source_onthefly_register"><%=l(:field_onthefly)%></label>
-<%= check_box 'auth_source', 'onthefly_register' %></p>
+<div class="box tabular">
+  <p><%= f.text_field :name, :required => true %></p>
+  <p><%= f.check_box :onthefly_register, :label => :field_onthefly %></p>
 </div>
-
-<!--[eoform:auth_source]-->
-

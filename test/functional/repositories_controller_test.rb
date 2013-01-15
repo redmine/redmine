@@ -16,10 +16,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../test_helper', __FILE__)
-require 'repositories_controller'
-
-# Re-raise errors caught by the controller.
-class RepositoriesController; def rescue_action(e) raise e end; end
 
 class RepositoriesControllerTest < ActionController::TestCase
   fixtures :projects, :users, :roles, :members, :member_roles, :enabled_modules,
@@ -27,9 +23,6 @@ class RepositoriesControllerTest < ActionController::TestCase
            :issue_categories, :enumerations, :custom_fields, :custom_values, :trackers
 
   def setup
-    @controller = RepositoriesController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
   end
 
@@ -40,7 +33,7 @@ class RepositoriesControllerTest < ActionController::TestCase
     assert_template 'new'
     assert_kind_of Repository::Subversion, assigns(:repository)
     assert assigns(:repository).new_record?
-    assert_tag 'input', :attributes => {:name => 'repository[url]'}
+    assert_tag 'input', :attributes => {:name => 'repository[url]', :disabled => nil}
   end
 
   def test_new_should_propose_enabled_scm_only
@@ -91,7 +84,7 @@ class RepositoriesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
     assert_equal Repository.find(11), assigns(:repository)
-    assert_tag 'input', :attributes => {:name => 'repository[url]', :value => 'svn://localhost/test'}
+    assert_tag 'input', :attributes => {:name => 'repository[url]', :value => 'svn://localhost/test', :disabled => 'disabled'}
   end
 
   def test_update
@@ -171,20 +164,25 @@ class RepositoriesControllerTest < ActionController::TestCase
   def test_add_related_issue
     @request.session[:user_id] = 2
     assert_difference 'Changeset.find(103).issues.size' do
-      post :add_related_issue, :id => 1, :rev => 4, :issue_id => 2, :format => 'js'
+      xhr :post, :add_related_issue, :id => 1, :rev => 4, :issue_id => 2, :format => 'js'
       assert_response :success
+      assert_template 'add_related_issue'
+      assert_equal 'text/javascript', response.content_type
     end
-    assert_select_rjs :replace_html, 'related-issues'
     assert_equal [2], Changeset.find(103).issue_ids
+    assert_include 'related-issues', response.body
+    assert_include 'Feature request #2', response.body
   end
 
   def test_add_related_issue_with_invalid_issue_id
     @request.session[:user_id] = 2
     assert_no_difference 'Changeset.find(103).issues.size' do
-      post :add_related_issue, :id => 1, :rev => 4, :issue_id => 9999, :format => 'js'
+      xhr :post, :add_related_issue, :id => 1, :rev => 4, :issue_id => 9999, :format => 'js'
       assert_response :success
+      assert_template 'add_related_issue'
+      assert_equal 'text/javascript', response.content_type
     end
-    assert_include 'alert("Issue is invalid")', @response.body
+    assert_include 'alert("Issue is invalid")', response.body
   end
 
   def test_remove_related_issue
@@ -193,11 +191,13 @@ class RepositoriesControllerTest < ActionController::TestCase
 
     @request.session[:user_id] = 2
     assert_difference 'Changeset.find(103).issues.size', -1 do
-      delete :remove_related_issue, :id => 1, :rev => 4, :issue_id => 2, :format => 'js'
+      xhr :delete, :remove_related_issue, :id => 1, :rev => 4, :issue_id => 2, :format => 'js'
       assert_response :success
+      assert_template 'remove_related_issue'
+      assert_equal 'text/javascript', response.content_type
     end
-    assert_select_rjs :remove, 'related-issue-2'
     assert_equal [1], Changeset.find(103).issue_ids
+    assert_include 'related-issue-2', response.body
   end
 
   def test_graph_commits_per_month

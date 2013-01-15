@@ -1,6 +1,7 @@
-<%= labelled_remote_form_for @wiki,
+<%= labelled_form_for @wiki,
                    :as => :wiki,
-                   :url => { :controller => 'wikis', :action => 'edit', :id => @project }, :method => 'post' do |f| %>
+                   :url => { :controller => 'wikis', :action => 'edit', :id => @project },
+                   :remote => true, :method => 'post' do |f| %>
 
 <%= error_messages_for 'wiki' %>
 

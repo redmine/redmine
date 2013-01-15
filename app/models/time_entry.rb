@@ -30,6 +30,7 @@ class TimeEntry < ActiveRecord::Base
   acts_as_event :title => Proc.new {|o| "#{l_hours(o.hours)} (#{(o.issue || o.project).event_title})"},
                 :url => Proc.new {|o| {:controller => 'timelog', :action => 'index', :project_id => o.project, :issue_id => o.issue}},
                 :author => :user,
+                :group => :issue,
                 :description => :comments
 
   acts_as_activity_provider :timestamp => "#{table_name}.created_on",
@@ -42,27 +43,24 @@ class TimeEntry < ActiveRecord::Base
   before_validation :set_project_if_nil
   validate :validate_time_entry
 
-  scope :visible, lambda {|*args| {
-    :include => :project,
-    :conditions => Project.allowed_to_condition(args.shift || User.current, :view_time_entries, *args)
-  }}
-  scope :on_issue, lambda {|issue| {
-    :include => :issue,
-    :conditions => "#{Issue.table_name}.root_id = #{issue.root_id} AND #{Issue.table_name}.lft >= #{issue.lft} AND #{Issue.table_name}.rgt <= #{issue.rgt}"
-  }}
-  scope :on_project, lambda {|project, include_subprojects| {
-    :include => :project,
-    :conditions => project.project_condition(include_subprojects)
-  }}
+  scope :visible, lambda {|*args|
+    includes(:project).where(Project.allowed_to_condition(args.shift || User.current, :view_time_entries, *args))
+  }
+  scope :on_issue, lambda {|issue|
+    includes(:issue).where("#{Issue.table_name}.root_id = #{issue.root_id} AND #{Issue.table_name}.lft >= #{issue.lft} AND #{Issue.table_name}.rgt <= #{issue.rgt}")
+  }
+  scope :on_project, lambda {|project, include_subprojects|
+    includes(:project).where(project.project_condition(include_subprojects))
+  }
   scope :spent_between, lambda {|from, to|
     if from && to
-     {:conditions => ["#{TimeEntry.table_name}.spent_on BETWEEN ? AND ?", from, to]}
+     where("#{TimeEntry.table_name}.spent_on BETWEEN ? AND ?", from, to)
     elsif from
-     {:conditions => ["#{TimeEntry.table_name}.spent_on >= ?", from]}
+     where("#{TimeEntry.table_name}.spent_on >= ?", from)
     elsif to
-     {:conditions => ["#{TimeEntry.table_name}.spent_on <= ?", to]}
+     where("#{TimeEntry.table_name}.spent_on <= ?", to)
     else
-     {}
+     where(nil)
     end
   }
 

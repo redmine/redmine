@@ -111,7 +111,7 @@ module ProjectsHelper
     newt["name"]="Animal Kingdom"
     newt["children"]= Array.new()
     t.each_pair do |k,v|
-      newt["children"]<<jsonifynode(k,v)
+      newt["children"] << jsonifynode(k,v)
     end
     return newt
   end
@@ -122,7 +122,7 @@ module ProjectsHelper
     if(node.kind_of?(Hash))
       newt["children"]= Array.new()
       node.each_pair do |k,v|
-        newt["children"]<<jsonifynode(k,v)
+        newt["children"] << jsonifynode(k,v)
       end
     elsif
     newt["link"]=node
@@ -149,12 +149,12 @@ module ProjectsHelper
               if(!mapp.has_key?(custom_value.value))
                 mapp[custom_value.value]=Array.new()
               end
-              mapp[custom_value.value]<<p
+              mapp[custom_value.value] << p
             end
           end
         end
       end
-      #by gathering all categories as keys and list of projects as values and sorting in reverse order the keys 
+      #by gathering all categories as keys and list of projects as values and sorting in reverse order the keys
       mapp.keys().sort().reverse().each do |key|
         mapp[key].each do |project|
 
@@ -191,10 +191,8 @@ module ProjectsHelper
 
         end
       end
-      s << ("</li></ul>\n" * ancestors.size)
-      @project = original_project
+      s
     end
-    s.html_safe
   end
 
   # Returns a set of options for a select field, grouped by project.
@@ -202,10 +200,6 @@ module ProjectsHelper
     grouped = Hash.new {|h,k| h[k] = []}
     versions.each do |version|
       grouped[version.project.name] << [version.name, version.id]
-    end
-    # Add in the selected
-    if selected && !versions.include?(selected)
-      grouped[selected.project.name] << [selected.name, selected.id]
     end
 
     if grouped.keys.size > 1

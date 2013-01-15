@@ -16,18 +16,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../test_helper', __FILE__)
-require 'trackers_controller'
-
-# Re-raise errors caught by the controller.
-class TrackersController; def rescue_action(e) raise e end; end
 
 class TrackersControllerTest < ActionController::TestCase
   fixtures :trackers, :projects, :projects_trackers, :users, :issues, :custom_fields
 
   def setup
-    @controller = TrackersController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
     @request.session[:user_id] = 1 # admin
   end
@@ -64,8 +57,19 @@ class TrackersControllerTest < ActionController::TestCase
     tracker = Tracker.first(:order => 'id DESC')
     assert_equal 'New tracker', tracker.name
     assert_equal [1], tracker.project_ids.sort
+    assert_equal Tracker::CORE_FIELDS, tracker.core_fields
     assert_equal [1, 6], tracker.custom_field_ids.sort
-    assert_equal 0, tracker.workflows.count
+    assert_equal 0, tracker.workflow_rules.count
+  end
+
+  def create_with_disabled_core_fields
+    assert_difference 'Tracker.count' do
+      post :create, :tracker => { :name => 'New tracker', :core_fields => ['assigned_to_id', 'fixed_version_id', ''] }
+    end
+    assert_redirected_to :action => 'index'
+    tracker = Tracker.first(:order => 'id DESC')
+    assert_equal 'New tracker', tracker.name
+    assert_equal %w(assigned_to_id fixed_version_id), tracker.core_fields
   end
 
   def test_create_new_with_workflow_copy
@@ -75,7 +79,7 @@ class TrackersControllerTest < ActionController::TestCase
     assert_redirected_to :action => 'index'
     tracker = Tracker.find_by_name('New tracker')
     assert_equal 0, tracker.projects.count
-    assert_equal Tracker.find(1).workflows.count, tracker.workflows.count
+    assert_equal Tracker.find(1).workflow_rules.count, tracker.workflow_rules.count
   end
 
   def test_create_with_failure
@@ -84,7 +88,7 @@ class TrackersControllerTest < ActionController::TestCase
     end
     assert_response :success
     assert_template 'new'
-    assert_error_tag :content => /name can't be blank/i
+    assert_error_tag :content => /name can&#x27;t be blank/i
   end
 
   def test_edit
@@ -107,6 +111,24 @@ class TrackersControllerTest < ActionController::TestCase
                                         :type => 'hidden'}
   end
 
+  def test_edit_should_check_core_fields
+    tracker = Tracker.find(1)
+    tracker.core_fields = %w(assigned_to_id fixed_version_id)
+    tracker.save!
+
+    get :edit, :id => 1
+    assert_response :success
+    assert_template 'edit'
+
+    assert_select 'input[name=?][value=assigned_to_id][checked=checked]', 'tracker[core_fields][]'
+    assert_select 'input[name=?][value=fixed_version_id][checked=checked]', 'tracker[core_fields][]'
+
+    assert_select 'input[name=?][value=category_id]', 'tracker[core_fields][]'
+    assert_select 'input[name=?][value=category_id][checked=checked]', 'tracker[core_fields][]', 0
+
+    assert_select 'input[name=?][value=][type=hidden]', 'tracker[core_fields][]'
+  end
+
   def test_update
     put :update, :id => 1, :tracker => { :name => 'Renamed',
                                         :project_ids => ['1', '2', ''] }
@@ -121,11 +143,17 @@ class TrackersControllerTest < ActionController::TestCase
     assert Tracker.find(1).project_ids.empty?
   end
 
+  def test_update_without_core_fields
+    put :update, :id => 1, :tracker => { :name => 'Renamed', :core_fields => [''] }
+    assert_redirected_to :action => 'index'
+    assert Tracker.find(1).core_fields.empty?
+  end
+
   def test_update_with_failure
     put :update, :id => 1, :tracker => { :name => '' }
     assert_response :success
     assert_template 'edit'
-    assert_error_tag :content => /name can't be blank/i
+    assert_error_tag :content => /name can&#x27;t be blank/i
   end
 
   def test_move_lower
@@ -149,5 +177,35 @@ class TrackersControllerTest < ActionController::TestCase
     end
     assert_redirected_to :action => 'index'
     assert_not_nil flash[:error]
+  end
+
+  def test_get_fields
+    get :fields
+    assert_response :success
+    assert_template 'fields'
+
+    assert_select 'form' do
+      assert_select 'input[type=checkbox][name=?][value=assigned_to_id]', 'trackers[1][core_fields][]'
+      assert_select 'input[type=checkbox][name=?][value=2]', 'trackers[1][custom_field_ids][]'
+
+      assert_select 'input[type=hidden][name=?][value=]', 'trackers[1][core_fields][]'
+      assert_select 'input[type=hidden][name=?][value=]', 'trackers[1][custom_field_ids][]'
+    end
+  end
+
+  def test_post_fields
+    post :fields, :trackers => {
+      '1' => {'core_fields' => ['assigned_to_id', 'due_date', ''], 'custom_field_ids' => ['1', '2']},
+      '2' => {'core_fields' => [''], 'custom_field_ids' => ['']}
+    }
+    assert_redirected_to '/trackers/fields'
+
+    tracker = Tracker.find(1)
+    assert_equal %w(assigned_to_id due_date), tracker.core_fields
+    assert_equal [1, 2], tracker.custom_field_ids.sort
+
+    tracker = Tracker.find(2)
+    assert_equal [], tracker.core_fields
+    assert_equal [], tracker.custom_field_ids.sort
   end
 end

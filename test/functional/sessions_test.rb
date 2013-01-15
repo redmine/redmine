@@ -20,6 +20,8 @@ require File.expand_path('../../test_helper', __FILE__)
 class SessionStartTest < ActionController::TestCase
   tests AccountController
 
+  fixtures :users
+
   def test_login_should_set_session_timestamps
     post :login, :username => 'jsmith', :password => 'jsmith'
     assert_response 302
@@ -31,6 +33,8 @@ end
 
 class SessionsTest < ActionController::TestCase
   tests WelcomeController
+
+  fixtures :users
 
   def test_atime_from_user_session_should_be_updated
     created = 2.hours.ago.utc.to_i

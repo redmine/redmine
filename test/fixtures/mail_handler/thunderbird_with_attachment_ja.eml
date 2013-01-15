@@ -1,0 +1,26 @@
+Message-ID: <50AA00C6.4070108@gmail.com>
+Date: Mon, 19 Nov 2012 18:49:58 +0900
+From: John Smith <JSmith@somenet.foo>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.1.15) Gecko/20101027 Fedora/3.0.10-1.fc12 Lightning/1.0b1 Thunderbird/3.0.10
+MIME-Version: 1.0
+To: redmine@somenet.foo
+Subject: test
+Content-Type: multipart/mixed;
+ boundary="------------030104060902010800050907"
+
+This is a multi-part message in MIME format.
+--------------030104060902010800050907
+Content-Type: text/plain; charset=ISO-2022-JP
+Content-Transfer-Encoding: 7bit
+
+test
+
+--------------030104060902010800050907
+Content-Type: text/plain;
+ name="=?ISO-2022-JP?B?GyRCJUYlOSVIGyhCLnR4dA==?="
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename*=ISO-2022-JP''%1B%24%42%25%46%25%39%25%48%1B%28%42%2E%74%78%74
+
+dGVzdAo=
+--------------030104060902010800050907--

@@ -18,15 +18,16 @@
 module Redmine
   # Class used to parse unified diffs
   class UnifiedDiff < Array
-    attr_reader :diff_type
+    attr_reader :diff_type, :diff_style
 
     def initialize(diff, options={})
-      options.assert_valid_keys(:type, :max_lines)
+      options.assert_valid_keys(:type, :style, :max_lines)
       diff = diff.split("\n") if diff.is_a?(String)
       @diff_type = options[:type] || 'inline'
+      @diff_style = options[:style]
       lines = 0
       @truncated = false
-      diff_table = DiffTable.new(@diff_type)
+      diff_table = DiffTable.new(diff_type, diff_style)
       diff.each do |line|
         line_encoding = nil
         if line.respond_to?(:force_encoding)
@@ -39,7 +40,7 @@ module Redmine
         unless diff_table.add_line line
           line.force_encoding(line_encoding) if line_encoding
           self << diff_table if diff_table.length > 0
-          diff_table = DiffTable.new(diff_type)
+          diff_table = DiffTable.new(diff_type, diff_style)
         end
         lines += 1
         if options[:max_lines] && lines > options[:max_lines]
@@ -60,11 +61,14 @@ module Redmine
 
     # Initialize with a Diff file and the type of Diff View
     # The type view must be inline or sbs (side_by_side)
-    def initialize(type="inline")
+    def initialize(type="inline", style=nil)
       @parsing = false
       @added = 0
       @removed = 0
       @type = type
+      @style = style
+      @file_name = nil
+      @git_diff = false
     end
 
     # Function for add a line of this Diff
@@ -72,7 +76,7 @@ module Redmine
     def add_line(line)
       unless @parsing
         if line =~ /^(---|\+\+\+) (.*)$/
-          @file_name = $2
+          self.file_name = $2
         elsif line =~ /^@@ (\+|\-)(\d+)(,\d+)? (\+|\-)(\d+)(,\d+)? @@/
           @line_num_l = $2.to_i
           @line_num_r = $5.to_i
@@ -111,6 +115,29 @@ module Redmine
     end
 
     private
+
+    def file_name=(arg)
+      both_git_diff = false
+      if file_name.nil?
+        @git_diff = true if arg =~ %r{^(a/|/dev/null)}
+      else
+        both_git_diff = (@git_diff && arg =~ %r{^(b/|/dev/null)})
+      end
+      if both_git_diff
+        if file_name && arg == "/dev/null"
+          # keep the original file name
+          @file_name = file_name.sub(%r{^a/}, '')
+        else
+          # remove leading b/
+          @file_name = arg.sub(%r{^b/}, '')
+        end
+      elsif @style == "Subversion"
+        # removing trailing "(revision nn)"
+        @file_name = arg.sub(%r{\t+\(.*\)$}, '')
+      else
+        @file_name = arg
+      end
+    end
 
     def diff_for_added_line
       if @type == 'sbs' && @removed > 0 && @added < @removed

@@ -1,0 +1,4 @@
+$('#message_subject').val("<%= raw escape_javascript(@subject) %>");
+$('#message_content').val("<%= raw escape_javascript(@content) %>");
+showAndScrollTo("reply", "message_content");
+$('#message_content').scrollTop = $('#message_content').scrollHeight - $('#message_content').clientHeight;

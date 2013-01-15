@@ -1,35 +1,33 @@
-Event.observe(window,'load',function() {
+$(document).ready(function() {
   /* 
   If we're viewing a tag or branch, don't display it in the
   revision box
   */
-  var branch_selected = $('branch') && $('rev').getValue() == $('branch').getValue();
-  var tag_selected = $('tag') && $('rev').getValue() == $('tag').getValue();
+  var branch_selected = $('#branch').length > 0 && $('#rev').val() == $('#branch').val();
+  var tag_selected = $('#tag').length > 0 && $('#rev').val() == $('#tag').val();
   if (branch_selected || tag_selected) {
-    $('rev').setValue('');
+    $('#rev').val('');
   }
 
   /* 
   Copy the branch/tag value into the revision box, then disable
   the dropdowns before submitting the form
   */
-  $$('#branch,#tag').each(function(e) {
-    e.observe('change',function(e) {
-      $('rev').setValue(e.element().getValue());
-      $$('#branch,#tag').invoke('disable');
-      e.element().parentNode.submit();
-      $$('#branch,#tag').invoke('enable');
-    });
+  $('#branch,#tag').change(function() {
+    $('#rev').val($(this).val());
+    $('#branch,#tag').attr('disabled', true);
+    $(this).parent().submit();
+    $('#branch,#tag').removeAttr('disabled');
   });
 
   /*
   Disable the branch/tag dropdowns before submitting the revision form
   */
-  $('rev').observe('keydown', function(e) {
+  $('#rev').keydown(function(e) {
     if (e.keyCode == 13) {
-      $$('#branch,#tag').invoke('disable');
-      e.element().parentNode.submit();
-      $$('#branch,#tag').invoke('enable');
+      $('#branch,#tag').attr('disabled', true);
+      $(this).parent().submit();
+      $('#branch,#tag').removeAttr('disabled');
     }
   });
 })

@@ -2,9 +2,9 @@
 <table class="list">
   <thead>
     <tr>
-      <th><%= l(:label_scm) %></th>
       <th><%= l(:field_identifier) %></th>
       <th><%= l(:field_repository_is_default) %></th>
+      <th><%= l(:label_scm) %></th>
       <th><%= l(:label_repository) %></th>
       <th></th>
     </tr>
@@ -12,9 +12,12 @@
   <tbody>
   <% @project.repositories.sort.each do |repository| %>
     <tr class="<%= cycle 'odd', 'even' %>">
-      <td><%=h repository.scm_name %></td>
-      <td><%=h repository.identifier %></td>
+      <td>
+      <%= link_to repository.identifier, 
+            {:controller => 'repositories', :action => 'show',:id => @project, :repository_id => repository.identifier_param} if repository.identifier.present? %>
+      </td>
       <td align="center"><%= checked_image repository.is_default? %></td>
+      <td><%=h repository.scm_name %></td>
       <td><%=h repository.url %></td>
       <td class="buttons">
       <% if User.current.allowed_to?(:manage_repository, @project) %>
@@ -22,10 +25,7 @@
              :class => 'icon icon-user') %>
         <%= link_to(l(:button_edit), edit_repository_path(repository),
              :class => 'icon icon-edit') %>
-        <%= link_to(l(:button_delete), repository_path(repository),
-            :confirm => l(:text_are_you_sure),
-            :method  => :delete,
-            :class   => 'icon icon-del') %>
+        <%= delete_link repository_path(repository) %>
       <% end %>
       </td>
     </tr>

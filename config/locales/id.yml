@@ -195,8 +195,6 @@ id:
   mail_subject_wiki_content_updated: "'%{id}' halaman wiki sudah diperbarui"
   mail_body_wiki_content_updated: "The '%{id}' halaman wiki sudah diperbarui oleh %{author}."
 
-  gui_validation_error: 1 kesalahan
-  gui_validation_error_plural: "%{count} kesalahan"
 
   field_name: Nama
   field_description: Deskripsi
@@ -237,7 +235,6 @@ id:
   field_homepage: Halaman web
   field_is_public: Publik
   field_parent: Subproyek dari
-  field_is_in_chlog: Masalah ditampilkan di log perubahan
   field_is_in_roadmap: Masalah ditampilkan di rencana kerja
   field_login: Login
   field_mail_notification: Notifikasi email
@@ -481,8 +478,6 @@ id:
   label_text: Long text
   label_attribute: Atribut
   label_attribute_plural: Atribut
-  label_download: "%{count} Unduhan"
-  label_download_plural: "%{count} Unduhan"
   label_no_data: Tidak ada data untuk ditampilkan
   label_change_status: Status perubahan
   label_history: Riwayat
@@ -499,7 +494,6 @@ id:
   label_news_latest: Berita terakhir
   label_news_view_all: Tampilkan semua berita
   label_news_added: Berita ditambahkan
-  label_change_log: Log perubahan
   label_settings: Pengaturan
   label_overview: Umum
   label_version: Versi
@@ -585,8 +579,6 @@ id:
   label_repository: Repositori
   label_repository_plural: Repositori
   label_browse: Jelajah
-  label_modification: "%{count} perubahan"
-  label_modification_plural: "%{count} perubahan"
   label_branch: Cabang
   label_tag: Tag
   label_revision: Revisi
@@ -926,7 +918,6 @@ id:
   project_module_gantt: Gantt
   project_module_calendar: Calendar
   button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
-  text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
   label_user_mail_option_only_owner: Only for things I am the owner of
   setting_default_notification_option: Default notification option
@@ -1032,7 +1023,7 @@ id:
   notice_issue_update_conflict: The issue has been updated by an other user while you were editing it.
   text_issue_conflict_resolution_cancel: Discard all my changes and redisplay %{link}
   permission_manage_related_issues: Manage related issues
-  field_ldap_filter: LDAP filter
+  field_auth_source_ldap_filter: LDAP filter
   label_search_for_watchers: Search for watchers to add
   notice_account_deleted: Your account has been permanently deleted.
   setting_unsubscribe: Allow users to delete their own account
@@ -1045,3 +1036,47 @@ id:
   setting_session_lifetime: Session maximum lifetime
   setting_session_timeout: Session inactivity timeout
   label_session_expiration: Session expiration
+  permission_close_project: Close / reopen the project
+  label_show_closed_projects: View closed projects
+  button_close: Close
+  button_reopen: Reopen
+  project_status_active: active
+  project_status_closed: closed
+  project_status_archived: archived
+  text_project_closed: This project is closed and read-only.
+  notice_user_successful_create: User %{id} created.
+  field_core_fields: Standard fields
+  field_timeout: Timeout (in seconds)
+  setting_thumbnails_enabled: Display attachment thumbnails
+  setting_thumbnails_size: Thumbnails size (in pixels)
+  label_status_transitions: Status transitions
+  label_fields_permissions: Fields permissions
+  label_readonly: Read-only
+  label_required: Required
+  text_repository_identifier_info: Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.
+  field_board_parent: Parent forum
+  label_attribute_of_project: Project's %{name}
+  label_attribute_of_author: Author's %{name}
+  label_attribute_of_assigned_to: Assignee's %{name}
+  label_attribute_of_fixed_version: Target version's %{name}
+  label_copy_subtasks: Copy subtasks
+  label_copied_to: copied to
+  label_copied_from: copied from
+  label_any_issues_in_project: any issues in project
+  label_any_issues_not_in_project: any issues not in project
+  field_private_notes: Private notes
+  permission_view_private_notes: View private notes
+  permission_set_notes_private: Set notes as private
+  label_no_issues_in_project: no issues in project
+  label_any: semua
+  label_last_n_weeks: last %{count} weeks
+  setting_cross_project_subtasks: Allow cross-project subtasks
+  label_cross_project_descendants: Dengan subproyek
+  label_cross_project_tree: Dengan pohon proyek
+  label_cross_project_hierarchy: Dengan hirarki proyek
+  label_cross_project_system: Dengan semua proyek
+  button_hide: Hide
+  setting_non_working_week_days: Non-working days
+  label_in_the_next_days: in the next
+  label_in_the_past_days: in the past
+  label_attribute_of_user: User's %{name}

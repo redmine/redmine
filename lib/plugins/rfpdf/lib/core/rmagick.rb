@@ -57,12 +57,7 @@ module RFPDF
     end
 
     out['bits'] = image.channel_depth
-    File.open( TCPDF.k_path_cache + File::basename(filename), 'w'){|f|
-      f.binmode
-      f.print image.to_blob
-      f.close
-    }
-    
+
     out
   end
   

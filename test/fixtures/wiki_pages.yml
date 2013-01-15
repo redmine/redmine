@@ -76,3 +76,10 @@ wiki_pages_011:
   wiki_id: 1
   protected: false
   parent_id: 
+wiki_pages_012: 
+  created_on: 2007-03-08 00:18:07 +01:00
+  title: Child_1_1
+  id: 12
+  wiki_id: 1
+  protected: false
+  parent_id: 5

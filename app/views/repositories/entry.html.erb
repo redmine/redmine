@@ -6,7 +6,7 @@
 
 <h2><%= render :partial => 'breadcrumbs', :locals => { :path => @path, :kind => 'file', :revision => @rev } %></h2>
 
-<p><%= render :partial => 'link_to_functions' %></p>
+<%= render :partial => 'link_to_functions' %>
 
 <%= render :partial => 'common/file', :locals => {:filename => @path, :content => @content} %>
 

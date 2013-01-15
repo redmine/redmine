@@ -66,4 +66,25 @@ class ApiTest::RolesTest < ActionController::IntegrationTest
       end
     end
   end
+
+  context "/roles/:id" do
+    context "GET" do
+      context "xml" do
+        should "return the role" do
+          get '/roles/1.xml'
+
+          assert_response :success
+          assert_equal 'application/xml', @response.content_type
+
+          assert_select 'role' do
+            assert_select 'name', :text => 'Manager'
+            assert_select 'role permissions[type=array]' do
+              assert_select 'permission', Role.find(1).permissions.size
+              assert_select 'permission', :text => 'view_issues'
+            end
+          end
+        end
+      end
+    end
+  end
 end

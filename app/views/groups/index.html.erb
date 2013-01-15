@@ -16,7 +16,7 @@
   <tr class="<%= cycle 'odd', 'even' %>">
     <td><%= link_to h(group), edit_group_path(group) %></td>
     <td align="center"><%= group.users.size %></td>
-    <td class="buttons"><%= link_to l(:button_delete), group, :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del' %></td>
+    <td class="buttons"><%= delete_link group %></td>
   </tr>
 <% end %>
 </table>

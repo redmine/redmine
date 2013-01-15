@@ -30,20 +30,20 @@ class TrackerTest < ActiveSupport::TestCase
 
   def test_copy_workflows
     source = Tracker.find(1)
-    assert_equal 89, source.workflows.size
+    assert_equal 89, source.workflow_rules.size
 
     target = Tracker.new(:name => 'Target')
     assert target.save
-    target.workflows.copy(source)
+    target.workflow_rules.copy(source)
     target.reload
-    assert_equal 89, target.workflows.size
+    assert_equal 89, target.workflow_rules.size
   end
 
   def test_issue_statuses
     tracker = Tracker.find(1)
-    Workflow.delete_all
-    Workflow.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 2, :new_status_id => 3)
-    Workflow.create!(:role_id => 2, :tracker_id => 1, :old_status_id => 3, :new_status_id => 5)
+    WorkflowTransition.delete_all
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 2, :new_status_id => 3)
+    WorkflowTransition.create!(:role_id => 2, :tracker_id => 1, :old_status_id => 3, :new_status_id => 5)
 
     assert_kind_of Array, tracker.issue_statuses
     assert_kind_of IssueStatus, tracker.issue_statuses.first
@@ -51,12 +51,41 @@ class TrackerTest < ActiveSupport::TestCase
   end
 
   def test_issue_statuses_empty
-    Workflow.delete_all("tracker_id = 1")
+    WorkflowTransition.delete_all("tracker_id = 1")
     assert_equal [], Tracker.find(1).issue_statuses
   end
 
   def test_issue_statuses_should_be_empty_for_new_record
     assert_equal [], Tracker.new.issue_statuses
+  end
+
+  def test_core_fields_should_be_enabled_by_default
+    tracker = Tracker.new
+    assert_equal Tracker::CORE_FIELDS, tracker.core_fields
+    assert_equal [], tracker.disabled_core_fields
+  end
+
+  def test_core_fields
+    tracker = Tracker.new
+    tracker.core_fields = %w(assigned_to_id due_date)
+
+    assert_equal %w(assigned_to_id due_date), tracker.core_fields
+    assert_equal Tracker::CORE_FIELDS - %w(assigned_to_id due_date), tracker.disabled_core_fields
+  end
+
+  def test_core_fields_should_return_fields_enabled_for_any_tracker
+    trackers = []
+    trackers << Tracker.new(:core_fields => %w(assigned_to_id due_date))
+    trackers << Tracker.new(:core_fields => %w(assigned_to_id done_ratio))
+    trackers << Tracker.new(:core_fields => [])
+
+    assert_equal %w(assigned_to_id due_date done_ratio), Tracker.core_fields(trackers)
+    assert_equal Tracker::CORE_FIELDS - %w(assigned_to_id due_date done_ratio), Tracker.disabled_core_fields(trackers)
+  end
+
+  def test_core_fields_should_return_all_fields_for_an_empty_argument
+    assert_equal Tracker::CORE_FIELDS, Tracker.core_fields([])
+    assert_equal [], Tracker.disabled_core_fields([])
   end
 
   def test_sort_should_sort_by_position

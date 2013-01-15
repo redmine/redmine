@@ -1,0 +1,2 @@
+$('#ajax-modal').html('<%= escape_javascript(render(:partial => 'watchers/new', :locals => {:watched => @watched})) %>');
+$('#watchers').html('<%= escape_javascript(render(:partial => 'watchers/watchers', :locals => {:watched => @watched})) %>');

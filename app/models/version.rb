@@ -30,14 +30,15 @@ class Version < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => [:project_id]
   validates_length_of :name, :maximum => 60
-  validates_format_of :effective_date, :with => /^\d{4}-\d{2}-\d{2}$/, :message => :not_a_date, :allow_nil => true
+  validates :effective_date, :date => true
   validates_inclusion_of :status, :in => VERSION_STATUSES
   validates_inclusion_of :sharing, :in => VERSION_SHARINGS
 
-  scope :named, lambda {|arg| { :conditions => ["LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip]}}
-  scope :open, :conditions => {:status => 'open'}
-  scope :visible, lambda {|*args| { :include => :project,
-                                          :conditions => Project.allowed_to_condition(args.first || User.current, :view_issues) } }
+  scope :named, lambda {|arg| where("LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip)}
+  scope :open, lambda { where(:status => 'open') }
+  scope :visible, lambda {|*args|
+    includes(:project).where(Project.allowed_to_condition(args.first || User.current, :view_issues))
+  }
 
   safe_attributes 'name', 
     'description',
@@ -78,7 +79,7 @@ class Version < ActiveRecord::Base
 
   # Returns the total reported time for this version
   def spent_hours
-    @spent_hours ||= TimeEntry.sum(:hours, :joins => :issue, :conditions => ["#{Issue.table_name}.fixed_version_id = ?", id]).to_f
+    @spent_hours ||= TimeEntry.joins(:issue).where("#{Issue.table_name}.fixed_version_id = ?", id).sum(:hours).to_f
   end
 
   def closed?
@@ -91,14 +92,14 @@ class Version < ActiveRecord::Base
 
   # Returns true if the version is completed: due date reached and no open issues
   def completed?
-    effective_date && (effective_date <= Date.today) && (open_issues_count == 0)
+    effective_date && (effective_date < Date.today) && (open_issues_count == 0)
   end
 
   def behind_schedule?
-    if completed_pourcent == 100
+    if completed_percent == 100
       return false
     elsif due_date && start_date
-      done_date = start_date + ((due_date - start_date+1)* completed_pourcent/100).floor
+      done_date = start_date + ((due_date - start_date+1)* completed_percent/100).floor
       return done_date <= Date.today
     else
       false # No issues so it's not late
@@ -107,7 +108,7 @@ class Version < ActiveRecord::Base
 
   # Returns the completion percentage of this version based on the amount of open/closed issues
   # and the time spent on the open issues.
-  def completed_pourcent
+  def completed_percent
     if issues_count == 0
       0
     elsif open_issues_count == 0
@@ -117,13 +118,25 @@ class Version < ActiveRecord::Base
     end
   end
 
+  # TODO: remove in Redmine 3.0
+  def completed_pourcent
+    ActiveSupport::Deprecation.warn "Version#completed_pourcent is deprecated and will be removed in Redmine 3.0. Please use #completed_percent instead."
+    completed_percent
+  end
+
   # Returns the percentage of issues that have been marked as 'closed'.
-  def closed_pourcent
+  def closed_percent
     if issues_count == 0
       0
     else
       issues_progress(false)
     end
+  end
+
+  # TODO: remove in Redmine 3.0
+  def closed_pourcent
+    ActiveSupport::Deprecation.warn "Version#closed_pourcent is deprecated and will be removed in Redmine 3.0. Please use #closed_percent instead."
+    closed_percent
   end
 
   # Returns true if the version is overdue: due date reached and some open issues
@@ -162,13 +175,13 @@ class Version < ActiveRecord::Base
     "#{project} - #{name}"
   end
 
-  # Versions are sorted by effective_date and "Project Name - Version name"
-  # Those with no effective_date are at the end, sorted by "Project Name - Version name"
+  # Versions are sorted by effective_date and name
+  # Those with no effective_date are at the end, sorted by name
   def <=>(version)
     if self.effective_date
       if version.effective_date
         if self.effective_date == version.effective_date
-          "#{self.project.name} - #{self.name}" <=> "#{version.project.name} - #{version.name}"
+          name == version.name ? id <=> version.id : name <=> version.name
         else
           self.effective_date <=> version.effective_date
         end
@@ -179,10 +192,17 @@ class Version < ActiveRecord::Base
       if version.effective_date
         1
       else
-        "#{self.project.name} - #{self.name}" <=> "#{version.project.name} - #{version.name}"
+        name == version.name ? id <=> version.id : name <=> version.name
       end
     end
   end
+
+  def self.fields_for_order_statement(table=nil)
+    table ||= table_name
+    ["(CASE WHEN #{table}.effective_date IS NULL THEN 1 ELSE 0 END)", "#{table}.effective_date", "#{table}.name", "#{table}.id"]
+  end
+
+  scope :sorted, order(fields_for_order_statement)
 
   # Returns the sharings that +user+ can set the version to
   def allowed_sharings(user = User.current)
@@ -260,9 +280,7 @@ class Version < ActiveRecord::Base
       if issues_count > 0
         ratio = open ? 'done_ratio' : 100
 
-        done = fixed_issues.sum("COALESCE(estimated_hours, #{estimated_average}) * #{ratio}",
-                                  :joins => :status,
-                                  :conditions => ["#{IssueStatus.table_name}.is_closed = ?", !open]).to_f
+        done = fixed_issues.open(open).sum("COALESCE(estimated_hours, #{estimated_average}) * #{ratio}").to_f
         progress = done / (estimated_average * issues_count)
       end
       progress

@@ -21,7 +21,7 @@
     <td class="buttons">
       <% if version.project == @project && User.current.allowed_to?(:manage_versions, @project) %>
         <%= link_to l(:button_edit), edit_version_path(version), :class => 'icon icon-edit' %>
-        <%= link_to l(:button_delete), version_path(version), :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del' %>
+        <%= delete_link version_path(version) %>
       <% end %>
      </td>
     </tr>

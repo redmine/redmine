@@ -12,12 +12,12 @@
     <tr id="issue-<%= h(issue.id) %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %>">
       <td class="id">
         <%= check_box_tag("ids[]", issue.id, false, :style => 'display:none;', :id => nil) %>
-        <%= link_to(h(issue.id), :controller => 'issues', :action => 'show', :id => issue) %>
+        <%= link_to issue.id, issue_path(issue) %>
       </td>
       <td class="project"><%= link_to_project(issue.project) %></td>
       <td class="tracker"><%=h issue.tracker %></td>
       <td class="subject">
-        <%= link_to h(truncate(issue.subject, :length => 60)), :controller => 'issues', :action => 'show', :id => issue %> (<%=h issue.status %>)
+        <%= link_to truncate(issue.subject, :length => 60), issue_path(issue) %> (<%=h issue.status %>)
       </td>
     </tr>
     <% end %>

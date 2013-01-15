@@ -62,9 +62,9 @@ class Mailer < ActionMailer::Base
     message_id journal
     references issue
     @author = journal.user
-    recipients = issue.recipients
+    recipients = journal.recipients
     # Watchers in cc
-    cc = issue.watcher_recipients - recipients
+    cc = journal.watcher_recipients - recipients
     s = "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] "
     s << "(#{issue.status.name}) " if journal.new_value_for('status_id')
     s << issue.subject
@@ -252,7 +252,7 @@ class Mailer < ActionMailer::Base
   #   Mailer.account_activation_request(user).deliver => sends an email to all active administrators
   def account_activation_request(user)
     # Send the email to all active administrators
-    recipients = User.active.find(:all, :conditions => {:admin => true}).collect { |u| u.mail }.compact
+    recipients = User.active.where(:admin => true).all.collect { |u| u.mail }.compact
     @user = user
     @url = url_for(:controller => 'users', :action => 'index',
                          :status => User::STATUS_REGISTERED,
@@ -327,22 +327,31 @@ class Mailer < ActionMailer::Base
   # * :days     => how many days in the future to remind about (defaults to 7)
   # * :tracker  => id of tracker for filtering issues (defaults to all trackers)
   # * :project  => id or identifier of project to process (defaults to all projects)
-  # * :users    => array of user ids who should be reminded
+  # * :users    => array of user/group ids who should be reminded
   def self.reminders(options={})
     days = options[:days] || 7
     project = options[:project] ? Project.find(options[:project]) : nil
     tracker = options[:tracker] ? Tracker.find(options[:tracker]) : nil
     user_ids = options[:users]
 
-    scope = Issue.open.scoped(:conditions => ["#{Issue.table_name}.assigned_to_id IS NOT NULL" +
+    scope = Issue.open.where("#{Issue.table_name}.assigned_to_id IS NOT NULL" +
       " AND #{Project.table_name}.status = #{Project::STATUS_ACTIVE}" +
-      " AND #{Issue.table_name}.due_date <= ?", days.day.from_now.to_date]
+      " AND #{Issue.table_name}.due_date <= ?", days.day.from_now.to_date
     )
-    scope = scope.scoped(:conditions => {:assigned_to_id => user_ids}) if user_ids.present?
-    scope = scope.scoped(:conditions => {:project_id => project.id}) if project
-    scope = scope.scoped(:conditions => {:tracker_id => tracker.id}) if tracker
+    scope = scope.where(:assigned_to_id => user_ids) if user_ids.present?
+    scope = scope.where(:project_id => project.id) if project
+    scope = scope.where(:tracker_id => tracker.id) if tracker
 
-    issues_by_assignee = scope.all(:include => [:status, :assigned_to, :project, :tracker]).group_by(&:assigned_to)
+    issues_by_assignee = scope.includes(:status, :assigned_to, :project, :tracker).all.group_by(&:assigned_to)
+    issues_by_assignee.keys.each do |assignee|
+      if assignee.is_a?(Group)
+        assignee.users.each do |user|
+          issues_by_assignee[user] ||= []
+          issues_by_assignee[user] += issues_by_assignee[assignee]
+        end
+      end
+    end
+
     issues_by_assignee.each do |assignee, issues|
       reminder(assignee, issues, days).deliver if assignee.is_a?(User) && assignee.active?
     end
@@ -361,7 +370,9 @@ class Mailer < ActionMailer::Base
   def self.with_synched_deliveries(&block)
     saved_method = ActionMailer::Base.delivery_method
     if m = saved_method.to_s.match(%r{^async_(.+)$})
-      ActionMailer::Base.delivery_method = m[1].to_sym
+      synched_method = m[1]
+      ActionMailer::Base.delivery_method = synched_method.to_sym
+      ActionMailer::Base.send "#{synched_method}_settings=", ActionMailer::Base.send("async_#{synched_method}_settings")
     end
     yield
   ensure

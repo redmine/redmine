@@ -32,10 +32,9 @@ class AdminController < ApplicationController
   def projects
     @status = params[:status] || 1
 
-    scope = Project.status(@status)
+    scope = Project.status(@status).order('lft')
     scope = scope.like(params[:name]) if params[:name].present?
-
-    @projects = scope.all(:order => 'lft')
+    @projects = scope.all
 
     render :action => "projects", :layout => false if request.xhr?
   end
@@ -55,7 +54,7 @@ class AdminController < ApplicationController
         flash[:error] = l(:error_can_t_load_default_data, e.message)
       end
     end
-    redirect_to :action => 'index'
+    redirect_to admin_path
   end
 
   def test_email
@@ -69,7 +68,7 @@ class AdminController < ApplicationController
       flash[:error] = l(:notice_email_error, e.message)
     end
     ActionMailer::Base.raise_delivery_errors = raise_delivery_errors
-    redirect_to :controller => 'settings', :action => 'edit', :tab => 'notifications'
+    redirect_to settings_path(:tab => 'notifications')
   end
 
   def info

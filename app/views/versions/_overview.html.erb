@@ -16,7 +16,7 @@
 <% end %>
 
 <% if version.issues_count > 0 %>
-    <%= progress_bar([version.closed_pourcent, version.completed_pourcent], :width => '40em', :legend => ('%0.0f%' % version.completed_pourcent)) %>
+    <%= progress_bar([version.closed_percent, version.completed_percent], :width => '40em', :legend => ('%0.0f%' % version.completed_percent)) %>
     <p class="progress-info">
     	  <%= link_to(l(:label_x_issues, :count => version.issues_count), 
               project_issues_path(version.project, :status_id => '*', :fixed_version_id => version, :set_filter => 1)) %>

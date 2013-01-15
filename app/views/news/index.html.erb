@@ -2,7 +2,7 @@
 <%= link_to(l(:label_news_new),
             new_project_news_path(@project),
             :class => 'icon icon-add',
-            :onclick => 'Element.show("add-news"); Form.Element.focus("news_title"); return false;') if @project && User.current.allowed_to?(:manage_news, @project) %>
+            :onclick => 'showAndScrollTo("add-news", "news_title"); return false;') if @project && User.current.allowed_to?(:manage_news, @project) %>
 </div>
 
 <div id="add-news" style="display:none;">
@@ -11,13 +11,8 @@
                                            :html => { :id => 'news-form', :multipart => true } do |f| %>
 <%= render :partial => 'news/form', :locals => { :f => f } %>
 <%= submit_tag l(:button_create) %>
-<%= link_to_remote l(:label_preview),
-                   { :url => preview_news_path(:project_id => @project),
-                     :method => 'get',
-                     :update => 'preview',
-                     :with => "Form.serialize('news-form')"
-                   }, :accesskey => accesskey(:preview) %> |
-<%= link_to l(:button_cancel), "#", :onclick => 'Element.hide("add-news")' %>
+<%= preview_link preview_news_path(:project_id => @project), 'news-form' %> |
+<%= link_to l(:button_cancel), "#", :onclick => '$("#add-news").hide()' %>
 <% end if @project %>
 <div id="preview" class="wiki"></div>
 </div>

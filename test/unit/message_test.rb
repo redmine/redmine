@@ -18,7 +18,8 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class MessageTest < ActiveSupport::TestCase
-  fixtures :projects, :roles, :members, :member_roles, :boards, :messages, :users, :watchers
+  fixtures :projects, :roles, :members, :member_roles, :boards, :messages,
+           :users, :watchers, :enabled_modules
 
   def setup
     @board = Board.find(1)
@@ -131,6 +132,21 @@ class MessageTest < ActiveSupport::TestCase
     # Checks counters
     assert_equal topics_count, board.topics_count
     assert_equal messages_count - 1, board.messages_count
+  end
+
+  def test_destroying_last_reply_should_update_topic_last_reply_id
+    topic = Message.find(4)
+    assert_equal 6, topic.last_reply_id
+
+    assert_difference 'Message.count', -1 do
+      Message.find(6).destroy
+    end
+    assert_equal 5, topic.reload.last_reply_id
+
+    assert_difference 'Message.count', -1 do
+      Message.find(5).destroy
+    end
+    assert_nil topic.reload.last_reply_id
   end
 
   def test_editable_by

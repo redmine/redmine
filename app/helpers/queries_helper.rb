@@ -18,9 +18,44 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module QueriesHelper
+  def filters_options_for_select(query)
+    options_for_select(filters_options(query))
+  end
 
-  def operators_for_select(filter_type)
-    Query.operators_by_filter_type[filter_type].collect {|o| [l(Query.operators[o]), o]}
+  def filters_options(query)
+    options = [[]]
+    sorted_options = query.available_filters.sort do |a, b|
+      ord = 0
+      if !(a[1][:order] == 20 && b[1][:order] == 20) 
+        ord = a[1][:order] <=> b[1][:order]
+      else
+        cn = (CustomField::CUSTOM_FIELDS_NAMES.index(a[1][:field].class.name) <=>
+                CustomField::CUSTOM_FIELDS_NAMES.index(b[1][:field].class.name))
+        if cn != 0
+          ord = cn
+        else
+          f = (a[1][:field] <=> b[1][:field])
+          if f != 0
+            ord = f
+          else
+            # assigned_to or author 
+            ord = (a[0] <=> b[0])
+          end
+        end
+      end
+      ord
+    end
+    options += sorted_options.map do |field, field_options|
+      [field_options[:name], field]
+    end
+  end
+
+  def available_block_columns_tags(query)
+    tags = ''.html_safe
+    query.available_block_columns.each do |column|
+      tags << content_tag('label', check_box_tag('c[]', column.name.to_s, query.has_column?(column)) + " #{column.caption}", :class => 'inline')
+    end
+    tags
   end
 
   def column_header(column)
@@ -32,7 +67,7 @@ module QueriesHelper
   def column_content(column, issue)
     value = column.value(issue)
     if value.is_a?(Array)
-      value.collect {|v| column_value(column, issue, v)}.compact.sort.join(', ').html_safe
+      value.collect {|v| column_value(column, issue, v)}.compact.join(', ').html_safe
     else
       column_value(column, issue, value)
     end
@@ -43,6 +78,8 @@ module QueriesHelper
     when 'String'
       if column.name == :subject
         link_to(h(value), :controller => 'issues', :action => 'show', :id => issue)
+      elsif column.name == :description
+        issue.description? ? content_tag('div', textilizable(issue, :description), :class => "wiki") : ''
       else
         h(value)
       end
@@ -55,6 +92,8 @@ module QueriesHelper
         progress_bar(value, :width => '80px')
       elsif  column.name == :spent_hours
         sprintf "%.2f", value
+      elsif column.name == :hours
+        html_hours("%.2f" % value)
       else
         h(value.to_s)
       end
@@ -69,7 +108,12 @@ module QueriesHelper
     when 'FalseClass'
       l(:general_text_No)
     when 'Issue'
-      link_to_issue(value, :subject => false)
+      value.visible? ? link_to_issue(value) : "##{value.id}"
+    when 'IssueRelation'
+      other = value.other_issue(issue)
+      content_tag('span',
+        (l(value.label_for(issue)) + " " + link_to_issue(other, :subject => false, :tracker => false)).html_safe,
+        :class => value.css_classes_for(issue))
     else
       h(value)
     end
@@ -80,21 +124,21 @@ module QueriesHelper
     if !params[:query_id].blank?
       cond = "project_id IS NULL"
       cond << " OR project_id = #{@project.id}" if @project
-      @query = Query.find(params[:query_id], :conditions => cond)
+      @query = IssueQuery.find(params[:query_id], :conditions => cond)
       raise ::Unauthorized unless @query.visible?
       @query.project = @project
       session[:query] = {:id => @query.id, :project_id => @query.project_id}
       sort_clear
     elsif api_request? || params[:set_filter] || session[:query].nil? || session[:query][:project_id] != (@project ? @project.id : nil)
       # Give it a name, required to be valid
-      @query = Query.new(:name => "_")
+      @query = IssueQuery.new(:name => "_")
       @query.project = @project
-      build_query_from_params
+      @query.build_from_params(params)
       session[:query] = {:project_id => @query.project_id, :filters => @query.filters, :group_by => @query.group_by, :column_names => @query.column_names}
     else
       # retrieve from session
-      @query = Query.find_by_id(session[:query][:id]) if session[:query][:id]
-      @query ||= Query.new(:name => "_", :filters => session[:query][:filters], :group_by => session[:query][:group_by], :column_names => session[:query][:column_names])
+      @query = IssueQuery.find_by_id(session[:query][:id]) if session[:query][:id]
+      @query ||= IssueQuery.new(:name => "_", :filters => session[:query][:filters], :group_by => session[:query][:group_by], :column_names => session[:query][:column_names])
       @query.project = @project
     end
   end
@@ -102,10 +146,10 @@ module QueriesHelper
   def retrieve_query_from_session
     if session[:query]
       if session[:query][:id]
-        @query = Query.find_by_id(session[:query][:id])
+        @query = IssueQuery.find_by_id(session[:query][:id])
         return unless @query
       else
-        @query = Query.new(:name => "_", :filters => session[:query][:filters], :group_by => session[:query][:group_by], :column_names => session[:query][:column_names])
+        @query = IssueQuery.new(:name => "_", :filters => session[:query][:filters], :group_by => session[:query][:group_by], :column_names => session[:query][:column_names])
       end
       if session[:query].has_key?(:project_id)
         @query.project_id = session[:query][:project_id]
@@ -114,18 +158,5 @@ module QueriesHelper
       end
       @query
     end
-  end
-
-  def build_query_from_params
-    if params[:fields] || params[:f]
-      @query.filters = {}
-      @query.add_filters(params[:fields] || params[:f], params[:operators] || params[:op], params[:values] || params[:v])
-    else
-      @query.available_filters.keys.each do |field|
-        @query.add_short_filter(field, params[field]) if params[field]
-      end
-    end
-    @query.group_by = params[:group_by] || (params[:query] && params[:query][:group_by])
-    @query.column_names = params[:c] || (params[:query] && params[:query][:column_names])
   end
 end

@@ -3,6 +3,8 @@
 zh:
   # Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: ltr
+  jquery:
+    locale: "zh-CN"
   date:
     formats:
       # Use the strftime parameters for formats.
@@ -52,8 +54,8 @@ zh:
         one: "大约一小时"
         other: "大约 %{count} 小时"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 小时"
+        other: "%{count} 小时"
       x_days:
         one: "一天"
         other: "%{count} 天"
@@ -210,8 +212,6 @@ zh:
   mail_subject_wiki_content_updated: "'%{id}' wiki页面已更新。"
   mail_body_wiki_content_updated: "'%{id}' wiki页面已由 %{author} 更新。"
 
-  gui_validation_error: 1 个错误
-  gui_validation_error_plural: "%{count} 个错误"
 
   field_name: 名称
   field_description: 描述
@@ -523,8 +523,6 @@ zh:
   label_text: 文本
   label_attribute: 属性
   label_attribute_plural: 属性
-  label_download: "%{count} 次下载"
-  label_download_plural: "%{count} 次下载"
   label_no_data: 没有任何数据可供显示
   label_change_status: 变更状态
   label_history: 历史记录
@@ -627,8 +625,6 @@ zh:
   label_repository: 版本库
   label_repository_plural: 版本库
   label_browse: 浏览
-  label_modification: "%{count} 个更新"
-  label_modification_plural: "%{count} 个更新"
   label_branch: 分支
   label_tag: 标签
   label_revision: 修订
@@ -861,7 +857,6 @@ zh:
   text_subprojects_destroy_warning: "以下子项目也将被同时删除：%{value}"
   text_workflow_edit: 选择角色和跟踪标签来编辑工作流程
   text_are_you_sure: 您确定？
-  text_are_you_sure_with_children: "删除问题及子任务？"
   text_journal_changed: "%{label} 从 %{old} 变更为 %{new}"
   text_journal_set_to: "%{label} 被设置为 %{value}"
   text_journal_deleted: "%{label} 已删除 (%{old})"
@@ -1028,7 +1023,7 @@ zh:
   notice_issue_update_conflict: 当您正在编辑这个问题的时候，它已经被其他人抢先一步更新过了。
   text_issue_conflict_resolution_cancel: 取消我所有的变更并重新刷新显示 %{link} 。
   permission_manage_related_issues: 相关问题管理
-  field_ldap_filter: LDAP 过滤器
+  field_auth_source_ldap_filter: LDAP 过滤器
   label_search_for_watchers: 通过查找方式添加跟踪者
   notice_account_deleted: 您的账号已被永久删除（账号已无法恢复）。
   setting_unsubscribe: 允许用户退订
@@ -1041,3 +1036,47 @@ zh:
   setting_session_lifetime: 会话最大有效时间
   setting_session_timeout: 会话闲置超时
   label_session_expiration: 会话过期
+  permission_close_project: 关闭/重开项目
+  label_show_closed_projects: 查看已关闭的项目
+  button_close: 关闭
+  button_reopen: 重开
+  project_status_active: 已激活
+  project_status_closed: 已关闭
+  project_status_archived: 已存档
+  text_project_closed: 当前项目已被关闭。当前项目只读。
+  notice_user_successful_create: 用户 %{id} 已创建。
+  field_core_fields: 标准字段
+  field_timeout: 超时 (秒)
+  setting_thumbnails_enabled: 显示附件略缩图
+  setting_thumbnails_size: 略缩图尺寸 (像素)
+  label_status_transitions: 状态转换
+  label_fields_permissions: 字段权限
+  label_readonly: 只读
+  label_required: 必填
+  text_repository_identifier_info: 仅小写字母（a-z）、数字、破折号（-）和下划线（_）可以使用。<br />一旦保存，标识无法修改。
+  field_board_parent: 父论坛
+  label_attribute_of_project: 项目 %{name}
+  label_attribute_of_author: 作者 %{name}
+  label_attribute_of_assigned_to: 分配给 %{name}
+  label_attribute_of_fixed_version: 目标版本 %{name}
+  label_copy_subtasks: 复制子任务
+  label_copied_to: 复制到
+  label_copied_from: 复制于
+  label_any_issues_in_project: 项目内任意问题
+  label_any_issues_not_in_project: 项目外任意问题
+  field_private_notes: 私有注解
+  permission_view_private_notes: 查看私有注解
+  permission_set_notes_private: 设置为私有注解
+  label_no_issues_in_project: 项目内无相关问题
+  label_any: 全部
+  label_last_n_weeks: 上 %{count} 周前
+  setting_cross_project_subtasks: 支持跨项目子任务
+  label_cross_project_descendants: 与子项目共享
+  label_cross_project_tree: 与项目树共享
+  label_cross_project_hierarchy: 与项目继承层次共享
+  label_cross_project_system: 与所有项目共享
+  button_hide: 隐藏
+  setting_non_working_week_days: Non-working days
+  label_in_the_next_days: in the next
+  label_in_the_past_days: in the past
+  label_attribute_of_user: User's %{name}

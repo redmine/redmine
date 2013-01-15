@@ -4,11 +4,6 @@
                                            :html => { :id => 'news-form', :multipart => true } do |f| %>
   <%= render :partial => 'news/form', :locals => { :f => f } %>
   <%= submit_tag l(:button_create) %>
-  <%= link_to_remote l(:label_preview),
-                     { :url => preview_news_path(:project_id => @project),
-                       :method => 'get',
-                       :update => 'preview',
-                       :with => "Form.serialize('news-form')"
-                     }, :accesskey => accesskey(:preview) %>
+  <%= preview_link preview_news_path(:project_id => @project), 'news-form' %>
 <% end %>
 <div id="preview" class="wiki"></div>

@@ -1,7 +1,7 @@
 <div class="contextual">
 <% if User.current.allowed_to?(:manage_documents, @project) %>
 <%= link_to l(:button_edit), edit_document_path(@document), :class => 'icon icon-edit', :accesskey => accesskey(:edit) %>
-<%= link_to l(:button_delete), document_path(@document), :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del' %>
+<%= delete_link document_path(@document) %>
 <% end %>
 </div>
 
@@ -17,7 +17,7 @@
 <%= link_to_attachments @document %>
 
 <% if authorize_for('documents', 'add_attachment') %>
-<p><%= link_to l(:label_attachment_new), {}, :onclick => "Element.show('add_attachment_form'); Element.hide(this); Element.scrollTo('add_attachment_form'); return false;",
+<p><%= link_to l(:label_attachment_new), {}, :onclick => "$('#add_attachment_form').show(); return false;",
                                              :id => 'attach_files_link' %></p>
   <%= form_tag({ :controller => 'documents', :action => 'add_attachment', :id => @document }, :multipart => true, :id => "add_attachment_form", :style => "display:none;") do %>
   <div class="box">
@@ -28,7 +28,3 @@
 <% end %>
 
 <% html_title @document.title -%>
-
-<% content_for :header_tags do %>
-    <%= stylesheet_link_tag 'scm' %>
-<% end %>

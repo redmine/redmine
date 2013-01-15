@@ -15,13 +15,16 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+require 'redmine/views/builders/json'
+require 'redmine/views/builders/xml'
+
 module Redmine
   module Views
     module Builders
-      def self.for(format, &block)
+      def self.for(format, request, response, &block)
         builder = case format
-          when 'xml',  :xml;  Builders::Xml.new
-          when 'json', :json; Builders::Json.new
+          when 'xml',  :xml;  Builders::Xml.new(request, response)
+          when 'json', :json; Builders::Json.new(request, response)
           else; raise "No builder for format #{format}"
         end
         if block

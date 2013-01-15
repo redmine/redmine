@@ -217,6 +217,40 @@ class RepositoryGitTest < ActiveSupport::TestCase
       assert_equal h1, h2
     end
 
+    def test_keep_extra_report_last_commit_in_clear_changesets
+      assert_nil @repository.extra_info
+      h = {}
+      h["extra_report_last_commit"] = "1"
+      @repository.merge_extra_info(h)
+      @repository.save
+      @project.reload
+
+      assert_equal 0, @repository.changesets.count
+      @repository.fetch_changesets
+      @project.reload
+
+      assert_equal NUM_REV, @repository.changesets.count
+      @repository.send(:clear_changesets)
+      assert_equal 1, @repository.extra_info.size
+      assert_equal "1", @repository.extra_info["extra_report_last_commit"]
+    end
+
+    def test_refetch_after_clear_changesets
+      assert_nil @repository.extra_info
+      assert_equal 0, @repository.changesets.count
+      @repository.fetch_changesets
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
+
+      @repository.send(:clear_changesets)
+      @project.reload
+      assert_equal 0, @repository.changesets.count
+
+      @repository.fetch_changesets
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
+    end
+
     def test_parents
       assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets

@@ -1,0 +1,9 @@
+api.array @klass.name.underscore.pluralize do
+  @enumerations.each do |enumeration|
+    api.__send__ @klass.name.underscore do
+      api.id enumeration.id
+      api.name enumeration.name
+      api.is_default enumeration.is_default
+    end
+  end
+end

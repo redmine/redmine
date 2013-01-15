@@ -25,7 +25,7 @@ class IssueStatusesController < ApplicationController
   def index
     respond_to do |format|
       format.html {
-        @issue_status_pages, @issue_statuses = paginate :issue_statuses, :per_page => 25, :order => "position"
+        @issue_status_pages, @issue_statuses = paginate IssueStatus.sorted, :per_page => 25
         render :action => "index", :layout => false if request.xhr?
       }
       format.api {
@@ -42,7 +42,7 @@ class IssueStatusesController < ApplicationController
     @issue_status = IssueStatus.new(params[:issue_status])
     if request.post? && @issue_status.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to :action => 'index'
+      redirect_to issue_statuses_path
     else
       render :action => 'new'
     end
@@ -56,7 +56,7 @@ class IssueStatusesController < ApplicationController
     @issue_status = IssueStatus.find(params[:id])
     if request.put? && @issue_status.update_attributes(params[:issue_status])
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'index'
+      redirect_to issue_statuses_path
     else
       render :action => 'edit'
     end
@@ -64,10 +64,10 @@ class IssueStatusesController < ApplicationController
 
   def destroy
     IssueStatus.find(params[:id]).destroy
-    redirect_to :action => 'index'
+    redirect_to issue_statuses_path
   rescue
     flash[:error] = l(:error_unable_delete_issue_status)
-    redirect_to :action => 'index'
+    redirect_to issue_statuses_path
   end  	
 
   def update_issue_done_ratio
@@ -76,6 +76,6 @@ class IssueStatusesController < ApplicationController
     else
       flash[:error] =  l(:error_issue_done_ratios_not_updated)
     end
-    redirect_to :action => 'index'
+    redirect_to issue_statuses_path
   end
 end

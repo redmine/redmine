@@ -6,6 +6,17 @@
 <p><%= f.text_field :name, :required => true %></p>
 <p><%= f.check_box :is_in_roadmap %></p>
 
+<p>
+  <label><%= l(:field_core_fields) %></label>
+  <% Tracker::CORE_FIELDS.each do |field| %>
+  <label class="block">
+    <%= check_box_tag 'tracker[core_fields][]', field, @tracker.core_fields.include?(field) %>
+    <%= l("field_#{field}".sub(/_id$/, '')) %>
+  </label>
+  <% end %>
+</p>
+<%= hidden_field_tag 'tracker[core_fields][]', '' %>
+
 <% if IssueCustomField.all.any? %>
 <p>
   <label><%= l(:label_custom_field_plural) %></label>
@@ -31,7 +42,7 @@
 <div class="splitcontentright">
 <% if @projects.any? %>
 <fieldset class="box" id="tracker_project_ids"><legend><%= l(:label_project_plural) %></legend>
-<%= project_nested_ul(@projects) do |p|
+<%= render_project_nested_lists(@projects) do |p|
   content_tag('label', check_box_tag('tracker[project_ids][]', p.id, @tracker.projects.include?(p), :id => nil) + ' ' + h(p))
 end %>
 <%= hidden_field_tag('tracker[project_ids][]', '', :id => nil) %>

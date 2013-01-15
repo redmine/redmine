@@ -9,7 +9,7 @@
 <% else %>
 <div id="roadmap">
 <% @versions.each do |version| %>
-    <h3 class="version"><%= tag 'a', :name => anchor(version.name) %><%= link_to_version version %></h3>
+    <h3 class="version"><%= link_to_version version, :name => version_anchor(version) %></h3>
     <%= render :partial => 'versions/overview', :locals => {:version => version} %>
     <%= render(:partial => "wiki/content", :locals => {:content => version.wiki_page.content}) if version.wiki_page %>
 
@@ -49,12 +49,12 @@
 
 <h3><%= l(:label_version_plural) %></h3>
 <% @versions.each do |version| %>
-<%= link_to format_version_name(version), "##{anchor(version.name)}" %><br />
+<%= link_to format_version_name(version), "##{version_anchor(version)}" %><br />
 <% end %>
 <% if @completed_versions.present? %>
 <p>
 	<%= link_to_function l(:label_completed_versions), 
-	                     'Element.toggleClassName("toggle-completed-versions", "collapsed"); Element.toggle("completed-versions")',
+	                     '$("#toggle-completed-versions").toggleClass("collapsed"); $("#completed-versions").toggle()',
 	                     :id => 'toggle-completed-versions', :class => 'collapsible collapsed' %><br />
 	<span id="completed-versions" style="display:none;">
 	  <%= @completed_versions.map {|version| link_to format_version_name(version), version_path(version)}.join("<br />\n").html_safe %>

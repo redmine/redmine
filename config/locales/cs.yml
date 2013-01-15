@@ -140,7 +140,7 @@ cs:
   general_text_Yes: 'Ano'
   general_text_no: 'ne'
   general_text_yes: 'ano'
-  general_lang_name: 'Čeština'
+  general_lang_name: 'Czech (Čeština)'
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
   general_csv_encoding: UTF-8
@@ -212,8 +212,6 @@ cs:
   mail_subject_wiki_content_updated: "'%{id}' Wiki stránka byla aktualizována"
   mail_body_wiki_content_updated: "'%{id}' Wiki stránka byla aktualizována od %{author}."
 
-  gui_validation_error: 1 chyba
-  gui_validation_error_plural: "%{count} chyb(y)"
 
   field_name: Název
   field_description: Popis
@@ -525,8 +523,6 @@ cs:
   label_text: Dlouhý text
   label_attribute: Atribut
   label_attribute_plural: Atributy
-  label_download: "%{count} stažení"
-  label_download_plural: "%{count} stažení"
   label_no_data: Žádné položky
   label_change_status: Změnit stav
   label_history: Historie
@@ -629,8 +625,6 @@ cs:
   label_repository: Repozitář
   label_repository_plural: Repozitáře
   label_browse: Procházet
-  label_modification: "%{count} změna"
-  label_modification_plural: "%{count} změn"
   label_branch: Větev
   label_tag: Tag
   label_revision: Revize
@@ -863,7 +857,6 @@ cs:
   text_subprojects_destroy_warning: "Jeho podprojek(y): %{value} budou také smazány."
   text_workflow_edit: Vyberte roli a frontu k editaci průběhu práce
   text_are_you_sure: Jste si jisti?
-  text_are_you_sure_with_children: Smazat úkol včetně všech podúkolů?
   text_journal_changed: "%{label} změněn z %{old} na %{new}"
   text_journal_set_to: "%{label} nastaven na %{value}"
   text_journal_deleted: "%{label} smazán (%{old})"
@@ -1029,7 +1022,7 @@ cs:
   notice_issue_update_conflict: The issue has been updated by an other user while you were editing it.
   text_issue_conflict_resolution_cancel: Discard all my changes and redisplay %{link}
   permission_manage_related_issues: Manage related issues
-  field_ldap_filter: LDAP filter
+  field_auth_source_ldap_filter: LDAP filter
   label_search_for_watchers: Search for watchers to add
   notice_account_deleted: Your account has been permanently deleted.
   setting_unsubscribe: Allow users to delete their own account
@@ -1042,3 +1035,47 @@ cs:
   setting_session_lifetime: Session maximum lifetime
   setting_session_timeout: Session inactivity timeout
   label_session_expiration: Session expiration
+  permission_close_project: Close / reopen the project
+  label_show_closed_projects: View closed projects
+  button_close: Close
+  button_reopen: Reopen
+  project_status_active: active
+  project_status_closed: closed
+  project_status_archived: archived
+  text_project_closed: This project is closed and read-only.
+  notice_user_successful_create: User %{id} created.
+  field_core_fields: Standard fields
+  field_timeout: Timeout (in seconds)
+  setting_thumbnails_enabled: Display attachment thumbnails
+  setting_thumbnails_size: Thumbnails size (in pixels)
+  label_status_transitions: Status transitions
+  label_fields_permissions: Fields permissions
+  label_readonly: Read-only
+  label_required: Required
+  text_repository_identifier_info: Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.
+  field_board_parent: Parent forum
+  label_attribute_of_project: Project's %{name}
+  label_attribute_of_author: Author's %{name}
+  label_attribute_of_assigned_to: Assignee's %{name}
+  label_attribute_of_fixed_version: Target version's %{name}
+  label_copy_subtasks: Copy subtasks
+  label_copied_to: copied to
+  label_copied_from: copied from
+  label_any_issues_in_project: any issues in project
+  label_any_issues_not_in_project: any issues not in project
+  field_private_notes: Private notes
+  permission_view_private_notes: View private notes
+  permission_set_notes_private: Set notes as private
+  label_no_issues_in_project: no issues in project
+  label_any: vše
+  label_last_n_weeks: last %{count} weeks
+  setting_cross_project_subtasks: Allow cross-project subtasks
+  label_cross_project_descendants: S podprojekty
+  label_cross_project_tree: Se stromem projektu
+  label_cross_project_hierarchy: S hierarchií projektu
+  label_cross_project_system: Se všemi projekty
+  button_hide: Hide
+  setting_non_working_week_days: Non-working days
+  label_in_the_next_days: in the next
+  label_in_the_past_days: in the past
+  label_attribute_of_user: User's %{name}

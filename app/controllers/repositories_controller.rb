@@ -42,12 +42,12 @@ class RepositoriesController < ApplicationController
     @repository = Repository.factory(scm)
     @repository.is_default = @project.repository.nil?
     @repository.project = @project
-    render :layout => !request.xhr?
   end
 
   def create
     attrs = pickup_extra_info
-    @repository = Repository.factory(params[:repository_scm], attrs[:attrs])
+    @repository = Repository.factory(params[:repository_scm])
+    @repository.safe_attributes = params[:repository]
     if attrs[:attrs_extra].keys.any?
       @repository.merge_extra_info(attrs[:attrs_extra])
     end
@@ -64,7 +64,7 @@ class RepositoriesController < ApplicationController
 
   def update
     attrs = pickup_extra_info
-    @repository.attributes = attrs[:attrs]
+    @repository.safe_attributes = attrs[:attrs]
     if attrs[:attrs_extra].keys.any?
       @repository.merge_extra_info(attrs[:attrs_extra])
     end
@@ -138,13 +138,14 @@ class RepositoriesController < ApplicationController
 
   def revisions
     @changeset_count = @repository.changesets.count
-    @changeset_pages = Paginator.new self, @changeset_count,
+    @changeset_pages = Paginator.new @changeset_count,
                                      per_page_option,
                                      params['page']
-    @changesets = @repository.changesets.find(:all,
-                       :limit  =>  @changeset_pages.items_per_page,
-                       :offset =>  @changeset_pages.current.offset,
-                       :include => [:user, :repository, :parents])
+    @changesets = @repository.changesets.
+      limit(@changeset_pages.items_per_page).
+      offset(@changeset_pages.offset).
+      includes(:user, :repository, :parents).
+      all
 
     respond_to do |format|
       format.html { render :layout => false if request.xhr? }
@@ -235,22 +236,6 @@ class RepositoriesController < ApplicationController
 
     if @issue
       @changeset.issues << @issue
-      respond_to do |format|
-        format.js {
-          render :update do |page|
-            page.replace_html "related-issues", :partial => "related_issues"
-            page.visual_effect :highlight, "related-issue-#{@issue.id}"
-          end
-        }
-      end
-    else
-      respond_to do |format|
-        format.js {
-          render :update do |page|
-            page.alert(l(:label_issue) + ' ' + l('activerecord.errors.messages.invalid'))
-          end
-        }
-      end
     end
   end
 
@@ -258,16 +243,8 @@ class RepositoriesController < ApplicationController
   # DELETE /projects/:project_id/repository/(:repository_id/)revisions/:rev/issues/:issue_id
   def remove_related_issue
     @issue = Issue.visible.find_by_id(params[:issue_id])
-    if @issue 
+    if @issue
       @changeset.issues.delete(@issue)
-    end
-
-    respond_to do |format|
-      format.js {
-        render :update do |page|
-          page.remove "related-issue-#{@issue.id}"
-        end if @issue
-      }
     end
   end
 
@@ -455,4 +432,3 @@ class RepositoriesController < ApplicationController
     graph.burn
   end
 end
-

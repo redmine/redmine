@@ -37,9 +37,9 @@ class LayoutTest < ActionController::IntegrationTest
   end
 
   test "browsing to an unauthorized page should render the base layout" do
-    change_user_password('miscuser9', 'test')
+    change_user_password('miscuser9', 'test1234')
 
-    log_user('miscuser9','test')
+    log_user('miscuser9','test1234')
 
     get "/admin"
     assert_response :forbidden
@@ -67,8 +67,25 @@ class LayoutTest < ActionController::IntegrationTest
 
     get '/projects/ecookbook/issues/new'
     assert_tag :script,
-      :attributes => {:src => %r{^/javascripts/jstoolbar/textile.js}},
+      :attributes => {:src => %r{^/javascripts/jstoolbar/jstoolbar-textile.min.js}},
       :parent => {:tag => 'head'}
+  end
+
+  def test_calendar_header_tags
+    with_settings :default_language => 'fr' do
+      get '/issues'
+      assert_include "/javascripts/i18n/jquery.ui.datepicker-fr.js", response.body
+    end
+
+    with_settings :default_language => 'en-GB' do
+      get '/issues'
+      assert_include "/javascripts/i18n/jquery.ui.datepicker-en-GB.js", response.body
+    end
+
+    with_settings :default_language => 'en' do
+      get '/issues'
+      assert_not_include "/javascripts/i18n/jquery.ui.datepicker", response.body
+    end
   end
 
   def test_search_field_outside_project_should_link_to_global_search

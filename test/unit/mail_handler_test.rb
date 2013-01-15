@@ -35,6 +35,10 @@ class MailHandlerTest < ActiveSupport::TestCase
     Setting.notified_events = Redmine::Notifiable.all.collect(&:name)
   end
 
+  def teardown
+    Setting.clear_cache
+  end
+
   def test_add_issue
     ActionMailer::Base.deliveries.clear
     # This email contains: 'Project: onlinestore'
@@ -173,9 +177,31 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert !issue.new_record?
     issue.reload
     assert_equal 'New ticket with custom field values', issue.subject
-    assert_equal 'Value for a custom field',
-                 issue.custom_value_for(CustomField.find_by_name('Searchable field')).value
+    assert_equal 'PostgreSQL', issue.custom_field_value(1)
+    assert_equal 'Value for a custom field', issue.custom_field_value(2)
     assert !issue.description.match(/^searchable field:/i)
+  end
+
+  def test_add_issue_with_version_custom_fields
+    field = IssueCustomField.create!(:name => 'Affected version', :field_format => 'version', :is_for_all => true, :tracker_ids => [1,2,3])
+
+    issue = submit_email('ticket_with_custom_fields.eml', :issue => {:project => 'ecookbook'}) do |email|
+      email << "Affected version: 1.0\n"
+    end
+    assert issue.is_a?(Issue)
+    assert !issue.new_record?
+    issue.reload
+    assert_equal '2', issue.custom_field_value(field)
+  end
+
+  def test_add_issue_should_match_assignee_on_display_name
+    user = User.generate!(:firstname => 'Foo Bar', :lastname => 'Foo Baz')
+    User.add_to_project(user, Project.find(2))
+    issue = submit_email('ticket_on_given_project.eml') do |email|
+      email.sub!(/^Assigned to.*$/, 'Assigned to: Foo Bar Foo baz')
+    end
+    assert issue.is_a?(Issue)
+    assert_equal user, issue.assigned_to
   end
 
   def test_add_issue_with_cc
@@ -347,13 +373,120 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 'caaf384198bcbc9563ab5c058acd73cd', attachment.digest
   end
 
+  def test_thunderbird_with_attachment_ja
+    issue = submit_email(
+              'thunderbird_with_attachment_ja.eml',
+              :issue => {:project => 'ecookbook'}
+            )
+    assert_kind_of Issue, issue
+    assert_equal 1, issue.attachments.size
+    ja = "\xe3\x83\x86\xe3\x82\xb9\xe3\x83\x88.txt"
+    ja.force_encoding('UTF-8') if ja.respond_to?(:force_encoding)
+    attachment = issue.attachments.first
+    assert_equal ja, attachment.filename
+    assert_equal 5, attachment.filesize
+    assert File.exist?(attachment.diskfile)
+    assert_equal 5, File.size(attachment.diskfile)
+    assert_equal 'd8e8fca2dc0f896fd7cb4cb0031ba249', attachment.digest
+  end
+
+  def test_gmail_with_attachment_ja
+    issue = submit_email(
+              'gmail_with_attachment_ja.eml',
+              :issue => {:project => 'ecookbook'}
+            )
+    assert_kind_of Issue, issue
+    assert_equal 1, issue.attachments.size
+    ja = "\xe3\x83\x86\xe3\x82\xb9\xe3\x83\x88.txt"
+    ja.force_encoding('UTF-8') if ja.respond_to?(:force_encoding)
+    attachment = issue.attachments.first
+    assert_equal ja, attachment.filename
+    assert_equal 5, attachment.filesize
+    assert File.exist?(attachment.diskfile)
+    assert_equal 5, File.size(attachment.diskfile)
+    assert_equal 'd8e8fca2dc0f896fd7cb4cb0031ba249', attachment.digest
+  end
+
+  def test_thunderbird_with_attachment_latin1
+    issue = submit_email(
+              'thunderbird_with_attachment_iso-8859-1.eml',
+              :issue => {:project => 'ecookbook'}
+            )
+    assert_kind_of Issue, issue
+    assert_equal 1, issue.attachments.size
+    u = ""
+    u.force_encoding('UTF-8') if u.respond_to?(:force_encoding)
+    u1 = "\xc3\x84\xc3\xa4\xc3\x96\xc3\xb6\xc3\x9c\xc3\xbc"
+    u1.force_encoding('UTF-8') if u1.respond_to?(:force_encoding)
+    11.times { u << u1 }
+    attachment = issue.attachments.first
+    assert_equal "#{u}.png", attachment.filename
+    assert_equal 130, attachment.filesize
+    assert File.exist?(attachment.diskfile)
+    assert_equal 130, File.size(attachment.diskfile)
+    assert_equal '4d80e667ac37dddfe05502530f152abb', attachment.digest
+  end
+
+  def test_gmail_with_attachment_latin1
+    issue = submit_email(
+              'gmail_with_attachment_iso-8859-1.eml',
+              :issue => {:project => 'ecookbook'}
+            )
+    assert_kind_of Issue, issue
+    assert_equal 1, issue.attachments.size
+    u = ""
+    u.force_encoding('UTF-8') if u.respond_to?(:force_encoding)
+    u1 = "\xc3\x84\xc3\xa4\xc3\x96\xc3\xb6\xc3\x9c\xc3\xbc"
+    u1.force_encoding('UTF-8') if u1.respond_to?(:force_encoding)
+    11.times { u << u1 }
+    attachment = issue.attachments.first
+    assert_equal "#{u}.txt", attachment.filename
+    assert_equal 5, attachment.filesize
+    assert File.exist?(attachment.diskfile)
+    assert_equal 5, File.size(attachment.diskfile)
+    assert_equal 'd8e8fca2dc0f896fd7cb4cb0031ba249', attachment.digest
+  end
+
   def test_add_issue_with_iso_8859_1_subject
     issue = submit_email(
               'subject_as_iso-8859-1.eml',
               :issue => {:project => 'ecookbook'}
             )
+    str = "Testmail from Webmail: \xc3\xa4 \xc3\xb6 \xc3\xbc..."
+    str.force_encoding('UTF-8') if str.respond_to?(:force_encoding)
     assert_kind_of Issue, issue
-    assert_equal 'Testmail from Webmail: ä ö ü...', issue.subject
+    assert_equal str, issue.subject
+  end
+
+  def test_add_issue_with_japanese_subject
+    issue = submit_email(
+              'subject_japanese_1.eml',
+              :issue => {:project => 'ecookbook'}
+            )
+    assert_kind_of Issue, issue
+    ja = "\xe3\x83\x86\xe3\x82\xb9\xe3\x83\x88"
+    ja.force_encoding('UTF-8') if ja.respond_to?(:force_encoding)
+    assert_equal ja, issue.subject
+  end
+
+  def test_add_issue_with_no_subject_header
+    issue = submit_email(
+              'no_subject_header.eml',
+              :issue => {:project => 'ecookbook'}
+            )
+    assert_kind_of Issue, issue
+    assert_equal '(no subject)', issue.subject
+  end
+
+  def test_add_issue_with_mixed_japanese_subject
+    issue = submit_email(
+              'subject_japanese_2.eml',
+              :issue => {:project => 'ecookbook'}
+            )
+    assert_kind_of Issue, issue
+    ja = "Re: \xe3\x83\x86\xe3\x82\xb9\xe3\x83\x88"
+    ja.force_encoding('UTF-8') if ja.respond_to?(:force_encoding)
+    assert_equal ja, issue.subject
   end
 
   def test_should_ignore_emails_from_locked_users
@@ -382,7 +515,8 @@ class MailHandlerTest < ActiveSupport::TestCase
     [
       "X-Auto-Response-Suppress: OOF",
       "Auto-Submitted: auto-replied",
-      "Auto-Submitted: Auto-Replied"
+      "Auto-Submitted: Auto-Replied",
+      "Auto-Submitted: auto-generated"
     ].each do |header|
       raw = IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
       raw = header + "\n" + raw
@@ -408,6 +542,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal User.find_by_login('jsmith'), journal.user
     assert_equal Issue.find(2), journal.journalized
     assert_match /This is reply/, journal.notes
+    assert_equal false, journal.private_notes
     assert_equal 'Feature request', journal.issue.tracker.name
   end
 
@@ -467,6 +602,20 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_match /This is reply/, journal.notes
     assert_equal 'Feature request', journal.issue.tracker.name
     assert_equal 'Normal', journal.issue.priority.name
+  end
+
+  def test_replying_to_a_private_note_should_add_reply_as_private
+    private_journal = Journal.create!(:notes => 'Private notes', :journalized => Issue.find(1), :private_notes => true, :user_id => 2)
+
+    assert_difference 'Journal.count' do
+      journal = submit_email('ticket_reply.eml') do |email|
+        email.sub! %r{^In-Reply-To:.*$}, "In-Reply-To: <redmine.journal-#{private_journal.id}.20060719210421@osiris>"
+      end
+
+      assert_kind_of Journal, journal
+      assert_match /This is reply/, journal.notes
+      assert_equal true, journal.private_notes
+    end
   end
 
   def test_reply_to_a_message

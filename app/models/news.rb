@@ -34,10 +34,9 @@ class News < ActiveRecord::Base
 
   after_create :add_author_as_watcher
 
-  scope :visible, lambda {|*args| {
-    :include => :project,
-    :conditions => Project.allowed_to_condition(args.shift || User.current, :view_news, *args)
-  }}
+  scope :visible, lambda {|*args|
+    includes(:project).where(Project.allowed_to_condition(args.shift || User.current, :view_news, *args))
+  }
 
   safe_attributes 'title', 'summary', 'description'
 

@@ -40,7 +40,7 @@ class WikiPage < ActiveRecord::Base
   attr_accessor :redirect_existing_links
 
   validates_presence_of :title
-  validates_format_of :title, :with => /^[^,\.\/\?\;\|\s]*$/
+  validates_format_of :title, :with => /\A[^,\.\/\?\;\|\s]*\z/
   validates_uniqueness_of :title, :scope => :wiki_id, :case_sensitive => false
   validates_associated :content
 
@@ -49,15 +49,15 @@ class WikiPage < ActiveRecord::Base
   before_save    :handle_redirects
 
   # eager load information about last updates, without loading text
-  scope :with_updated_on, {
-    :select => "#{WikiPage.table_name}.*, #{WikiContent.table_name}.updated_on",
-    :joins => "LEFT JOIN #{WikiContent.table_name} ON #{WikiContent.table_name}.page_id = #{WikiPage.table_name}.id"
+  scope :with_updated_on, lambda {
+    select("#{WikiPage.table_name}.*, #{WikiContent.table_name}.updated_on, #{WikiContent.table_name}.version").
+      joins("LEFT JOIN #{WikiContent.table_name} ON #{WikiContent.table_name}.page_id = #{WikiPage.table_name}.id")
   }
 
   # Wiki pages that are protected by default
   DEFAULT_PROTECTED_PAGES = %w(sidebar)
 
-  safe_attributes 'parent_id',
+  safe_attributes 'parent_id', 'parent_title',
     :if => lambda {|page, user| page.new_record? || user.allowed_to?(:rename_wiki_pages, page.project)}
 
   def initialize(attributes=nil, *args)
@@ -111,11 +111,13 @@ class WikiPage < ActiveRecord::Base
 
   def diff(version_to=nil, version_from=nil)
     version_to = version_to ? version_to.to_i : self.content.version
-    version_from = version_from ? version_from.to_i : version_to - 1
-    version_to, version_from = version_from, version_to unless version_from < version_to
-
     content_to = content.versions.find_by_version(version_to)
-    content_from = content.versions.find_by_version(version_from)
+    content_from = version_from ? content.versions.find_by_version(version_from.to_i) : content_to.try(:previous)
+    return nil unless content_to && content_from
+
+    if content_from.version > content_to.version
+      content_to, content_from = content_from, content_to
+    end
 
     (content_to && content_from) ? WikiDiff.new(content_to, content_from) : nil
   end
@@ -170,6 +172,21 @@ class WikiPage < ActiveRecord::Base
     @parent_title = t
     parent_page = t.blank? ? nil : self.wiki.find_page(t)
     self.parent = parent_page
+  end
+
+  # Saves the page and its content if text was changed
+  def save_with_content
+    ret = nil
+    transaction do
+      if new_record?
+        # Rails automatically saves associated content
+        ret = save
+      else
+        ret = save && (content.text_changed? ? content.save : true)
+      end
+      raise ActiveRecord::Rollback unless ret
+    end
+    ret
   end
 
   protected

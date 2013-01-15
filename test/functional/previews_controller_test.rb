@@ -26,7 +26,8 @@ class PreviewsControllerTest < ActionController::TestCase
            :members,
            :enabled_modules,
            :workflows,
-           :journals, :journal_details
+           :journals, :journal_details,
+           :news
 
   def test_preview_new_issue
     @request.session[:user_id] = 2
@@ -39,8 +40,7 @@ class PreviewsControllerTest < ActionController::TestCase
   def test_preview_issue_notes
     @request.session[:user_id] = 2
     post :issue, :project_id => '1', :id => 1,
-         :issue => {:description => Issue.find(1).description},
-         :notes => 'Foo'
+         :issue => {:description => Issue.find(1).description, :notes => 'Foo'}
     assert_response :success
     assert_template 'preview'
     assert_not_nil assigns(:notes)
@@ -55,13 +55,27 @@ class PreviewsControllerTest < ActionController::TestCase
     assert_tag :p, :content => 'Foo'
   end
 
-  def test_news
+  def test_preview_new_news
     get :news, :project_id => 1,
                   :news => {:title => '',
                             :description => 'News description',
                             :summary => ''}
     assert_response :success
     assert_template 'common/_preview'
+    assert_tag :tag => 'fieldset', :attributes => { :class => 'preview' },
+                                   :content => /News description/
+  end
+
+  def test_existing_new_news
+    get :news, :project_id => 1, :id => 2,
+                  :news => {:title => '',
+                            :description => 'News description',
+                            :summary => ''}
+    assert_response :success
+    assert_template 'common/_preview'
+    assert_equal News.find(2), assigns(:previewed)
+    assert_not_nil assigns(:attachments)
+
     assert_tag :tag => 'fieldset', :attributes => { :class => 'preview' },
                                    :content => /News description/
   end

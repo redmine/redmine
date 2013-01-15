@@ -26,15 +26,6 @@ module UsersHelper
                         ["#{l(:status_locked)} (#{user_count_by_status[3].to_i})", '3']], selected.to_s)
   end
 
-  # Options for the new membership projects combo-box
-  def options_for_membership_project_select(user, projects)
-    options = content_tag('option', "--- #{l(:actionview_instancetag_blank_option)} ---")
-    options << project_tree_options_for_select(projects) do |p|
-      {:disabled => (user.projects.include?(p))}
-    end
-    options
-  end
-
   def user_mail_notification_options(user)
     user.valid_notification_options.collect {|o| [l(o.last), o.first]}
   end

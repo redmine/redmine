@@ -16,19 +16,12 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../test_helper', __FILE__)
-require 'watchers_controller'
-
-# Re-raise errors caught by the controller.
-class WatchersController; def rescue_action(e) raise e end; end
 
 class WatchersControllerTest < ActionController::TestCase
   fixtures :projects, :users, :roles, :members, :member_roles, :enabled_modules,
            :issues, :trackers, :projects_trackers, :issue_statuses, :enumerations, :watchers
 
   def setup
-    @controller = WatchersController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
   end
 
@@ -37,7 +30,7 @@ class WatchersControllerTest < ActionController::TestCase
     assert_difference('Watcher.count') do
       xhr :post, :watch, :object_type => 'issue', :object_id => '1'
       assert_response :success
-      assert @response.body.include?('$$(".issue-1-watcher")')
+      assert_include '$(".issue-1-watcher")', response.body
     end
     assert Issue.find(1).watched_by?(User.find(3))
   end
@@ -72,7 +65,7 @@ class WatchersControllerTest < ActionController::TestCase
     assert_difference('Watcher.count', -1) do
       xhr :post, :unwatch, :object_type => 'issue', :object_id => '2'
       assert_response :success
-      assert @response.body.include?('$$(".issue-2-watcher")')
+      assert_include '$(".issue-2-watcher")', response.body
     end
     assert !Issue.find(1).watched_by?(User.find(3))
   end
@@ -81,7 +74,7 @@ class WatchersControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     xhr :get, :new, :object_type => 'issue', :object_id => '2'
     assert_response :success
-    assert_select_rjs :replace_html, 'ajax-modal'
+    assert_match /ajax-modal/, response.body
   end
 
   def test_new_for_new_record_with_id
@@ -89,7 +82,7 @@ class WatchersControllerTest < ActionController::TestCase
     xhr :get, :new, :project_id => 1
     assert_response :success
     assert_equal Project.find(1), assigns(:project)
-    assert_select_rjs :replace_html, 'ajax-modal'
+    assert_match /ajax-modal/, response.body
   end
 
   def test_new_for_new_record_with_identifier
@@ -97,7 +90,7 @@ class WatchersControllerTest < ActionController::TestCase
     xhr :get, :new, :project_id => 'ecookbook'
     assert_response :success
     assert_equal Project.find(1), assigns(:project)
-    assert_select_rjs :replace_html, 'ajax-modal'
+    assert_match /ajax-modal/, response.body
   end
 
   def test_create
@@ -105,8 +98,8 @@ class WatchersControllerTest < ActionController::TestCase
     assert_difference('Watcher.count') do
       xhr :post, :create, :object_type => 'issue', :object_id => '2', :watcher => {:user_id => '4'}
       assert_response :success
-      assert_select_rjs :replace_html, 'watchers'
-      assert_select_rjs :replace_html, 'ajax-modal'
+      assert_match /watchers/, response.body
+      assert_match /ajax-modal/, response.body
     end
     assert Issue.find(2).watched_by?(User.find(4))
   end
@@ -116,8 +109,8 @@ class WatchersControllerTest < ActionController::TestCase
     assert_difference('Watcher.count', 2) do
       xhr :post, :create, :object_type => 'issue', :object_id => '2', :watcher => {:user_ids => ['4', '7']}
       assert_response :success
-      assert_select_rjs :replace_html, 'watchers'
-      assert_select_rjs :replace_html, 'ajax-modal'
+      assert_match /watchers/, response.body
+      assert_match /ajax-modal/, response.body
     end
     assert Issue.find(2).watched_by?(User.find(4))
     assert Issue.find(2).watched_by?(User.find(7))
@@ -148,10 +141,8 @@ class WatchersControllerTest < ActionController::TestCase
     assert_no_difference 'Watcher.count' do
       xhr :post, :append, :watcher => {:user_ids => ['4', '7']}
       assert_response :success
-      assert_select_rjs :insert_html, 'watchers_inputs' do
-        assert_select 'input[name=?][value=4]', 'issue[watcher_user_ids][]'
-        assert_select 'input[name=?][value=7]', 'issue[watcher_user_ids][]'
-      end
+      assert_include 'watchers_inputs', response.body
+      assert_include 'issue[watcher_user_ids][]', response.body
     end
   end
 
@@ -160,7 +151,7 @@ class WatchersControllerTest < ActionController::TestCase
     assert_difference('Watcher.count', -1) do
       xhr :post, :destroy, :object_type => 'issue', :object_id => '2', :user_id => '3'
       assert_response :success
-      assert_select_rjs :replace_html, 'watchers'
+      assert_match /watchers/, response.body
     end
     assert !Issue.find(2).watched_by?(User.find(3))
   end

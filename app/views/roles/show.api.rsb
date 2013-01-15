@@ -1,0 +1,9 @@
+api.role do
+  api.id @role.id
+  api.name @role.name
+  api.array :permissions do
+    @role.permissions.each do |perm|
+      api.permission(perm.to_s)
+    end
+  end
+end

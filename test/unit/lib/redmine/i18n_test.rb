@@ -25,6 +25,10 @@ class Redmine::I18nTest < ActiveSupport::TestCase
     User.current.language = nil
   end
 
+  def teardown
+    set_language_if_valid 'en'
+  end
+
   def test_date_format_default
     set_language_if_valid 'en'
     today = Date.today
@@ -155,9 +159,50 @@ class Redmine::I18nTest < ActiveSupport::TestCase
     end
   end
 
+  def test_day_name
+    set_language_if_valid 'fr'
+    assert_equal 'dimanche', day_name(0)
+    assert_equal 'jeudi', day_name(4)
+  end
+
+  def test_day_letter
+    set_language_if_valid 'fr'
+    assert_equal 'd', day_letter(0)
+    assert_equal 'j', day_letter(4)
+  end
+
+  def test_number_to_currency_for_each_language
+    valid_languages.each do |lang|
+      set_language_if_valid lang
+      assert_nothing_raised "#{lang} failure" do
+        number_to_currency(-1000.2)
+      end
+    end
+  end
+
+  def test_number_to_currency_default
+    set_language_if_valid 'bs'
+    assert_equal "KM -1000,20", number_to_currency(-1000.2)
+    set_language_if_valid 'de'
+    euro_sign = "\xe2\x82\xac"
+    euro_sign.force_encoding('UTF-8') if euro_sign.respond_to?(:force_encoding)
+    assert_equal "-1000,20 #{euro_sign}", number_to_currency(-1000.2)
+  end
+
   def test_valid_languages
     assert valid_languages.is_a?(Array)
     assert valid_languages.first.is_a?(Symbol)
+  end
+
+  def test_languages_options
+    options = languages_options
+
+    assert options.is_a?(Array)
+    assert_equal valid_languages.size, options.size
+    assert_nil options.detect {|option| !option.is_a?(Array)}
+    assert_nil options.detect {|option| option.size != 2}
+    assert_nil options.detect {|option| !option.first.is_a?(String) || !option.last.is_a?(String)}
+    assert_include ["English", "en"], options
   end
 
   def test_locales_validness
@@ -202,5 +247,23 @@ class Redmine::I18nTest < ActiveSupport::TestCase
       assert_equal "UTF-8", i18n_ja_yes.encoding.to_s
     end
     assert_equal str_ja_yes, i18n_ja_yes
+  end
+
+  def test_traditional_chinese_locale
+    set_language_if_valid 'zh-TW'
+    str_tw = "Traditional Chinese (\xe7\xb9\x81\xe9\xab\x94\xe4\xb8\xad\xe6\x96\x87)"
+    if str_tw.respond_to?(:force_encoding)
+      str_tw.force_encoding('UTF-8')
+    end
+    assert_equal str_tw, l(:general_lang_name)
+  end
+
+  def test_french_locale
+    set_language_if_valid 'fr'
+    str_fr = "Fran\xc3\xa7ais"
+    if str_fr.respond_to?(:force_encoding)
+      str_fr.force_encoding('UTF-8')
+    end
+    assert_equal str_fr, l(:general_lang_name)
   end
 end

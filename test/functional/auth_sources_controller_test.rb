@@ -42,8 +42,15 @@ class AuthSourcesControllerTest < ActionController::TestCase
     assert_equal AuthSourceLdap, source.class
     assert source.new_record?
 
-    assert_tag 'input', :attributes => {:name => 'type', :value => 'AuthSourceLdap'}
-    assert_tag 'input', :attributes => {:name => 'auth_source[host]'}
+    assert_select 'form#auth_source_form' do
+      assert_select 'input[name=type][value=AuthSourceLdap]'
+      assert_select 'input[name=?]', 'auth_source[host]'
+    end
+  end
+
+  def test_new_with_invalid_type_should_respond_with_404
+    get :new, :type => 'foo'
+    assert_response 404
   end
 
   def test_create
@@ -52,7 +59,7 @@ class AuthSourcesControllerTest < ActionController::TestCase
       assert_redirected_to '/auth_sources'
     end
 
-    source = AuthSourceLdap.first(:order => 'id DESC')
+    source = AuthSourceLdap.order('id DESC').first
     assert_equal 'Test', source.name
     assert_equal '127.0.0.1', source.host
     assert_equal 389, source.port
@@ -65,7 +72,7 @@ class AuthSourcesControllerTest < ActionController::TestCase
       assert_response :success
       assert_template 'new'
     end
-    assert_error_tag :content => /host can't be blank/i
+    assert_error_tag :content => /host can&#x27;t be blank/i
   end
 
   def test_edit
@@ -74,7 +81,23 @@ class AuthSourcesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
 
-    assert_tag 'input', :attributes => {:name => 'auth_source[host]'}
+    assert_select 'form#auth_source_form' do
+      assert_select 'input[name=?]', 'auth_source[host]'
+    end
+  end
+
+  def test_edit_should_not_contain_password
+    AuthSource.find(1).update_column :account_password, 'secret'
+
+    get :edit, :id => 1
+    assert_response :success
+    assert_select 'input[value=secret]', 0
+    assert_select 'input[name=dummy_password][value=?]', /x+/
+  end
+
+  def test_edit_invalid_should_respond_with_404
+    get :edit, :id => 99
+    assert_response 404
   end
 
   def test_update
@@ -90,12 +113,13 @@ class AuthSourcesControllerTest < ActionController::TestCase
     put :update, :id => 1, :auth_source => {:name => 'Renamed', :host => '', :port => '389', :attr_login => 'uid'}
     assert_response :success
     assert_template 'edit'
-    assert_error_tag :content => /host can't be blank/i
+    assert_error_tag :content => /host can&#x27;t be blank/i
   end
 
   def test_destroy
     assert_difference 'AuthSourceLdap.count', -1 do
       delete :destroy, :id => 1
+      assert_redirected_to '/auth_sources'
     end
   end
 
@@ -104,6 +128,7 @@ class AuthSourcesControllerTest < ActionController::TestCase
 
     assert_no_difference 'AuthSourceLdap.count' do
       delete :destroy, :id => 1
+      assert_redirected_to '/auth_sources'
     end
   end
 
@@ -123,5 +148,21 @@ class AuthSourcesControllerTest < ActionController::TestCase
     assert_redirected_to '/auth_sources'
     assert_not_nil flash[:error]
     assert_include 'Something went wrong', flash[:error]
+  end
+
+  def test_autocomplete_for_new_user
+    AuthSource.expects(:search).with('foo').returns([
+      {:login => 'foo1', :firstname => 'John', :lastname => 'Smith', :mail => 'foo1@example.net', :auth_source_id => 1},
+      {:login => 'Smith', :firstname => 'John', :lastname => 'Doe', :mail => 'foo2@example.net', :auth_source_id => 1}
+    ])
+
+    get :autocomplete_for_new_user, :term => 'foo'
+    assert_response :success
+    assert_equal 'application/json', response.content_type
+    json = ActiveSupport::JSON.decode(response.body)
+    assert_kind_of Array, json
+    assert_equal 2, json.size
+    assert_equal 'foo1', json.first['value']
+    assert_equal 'foo1 (John Smith)', json.first['label']
   end
 end

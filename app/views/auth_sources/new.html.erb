@@ -1,7 +1,7 @@
 <h2><%=l(:label_auth_source_new)%> (<%= h(@auth_source.auth_method_name) %>)</h2>
 
-<%= form_tag({:action => 'create'}, :class => "tabular") do %>
+<%= labelled_form_for @auth_source, :as => :auth_source, :url => auth_sources_path, :html => {:id => 'auth_source_form'} do |f| %>
   <%= hidden_field_tag 'type', @auth_source.type %>
-  <%= render :partial => auth_source_partial_name(@auth_source) %>
+  <%= render :partial => auth_source_partial_name(@auth_source), :locals => { :f => f } %>
   <%= submit_tag l(:button_create) %>
 <% end %>

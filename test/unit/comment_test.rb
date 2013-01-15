@@ -18,7 +18,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class CommentTest < ActiveSupport::TestCase
-  fixtures :users, :news, :comments
+  fixtures :users, :news, :comments, :projects, :enabled_modules
 
   def setup
     @jsmith = User.find(2)
@@ -33,11 +33,12 @@ class CommentTest < ActiveSupport::TestCase
   end
 
   def test_create_should_send_notification
-    Setting.notified_events << 'news_comment_added'
     Watcher.create!(:watchable => @news, :user => @jsmith)
 
-    assert_difference 'ActionMailer::Base.deliveries.size' do
-      Comment.create!(:commented => @news, :author => @jsmith, :comments => "my comment")
+    with_settings :notified_events => %w(news_comment_added) do
+      assert_difference 'ActionMailer::Base.deliveries.size' do
+        Comment.create!(:commented => @news, :author => @jsmith, :comments => "my comment")
+      end
     end
   end
 

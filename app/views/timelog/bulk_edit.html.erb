@@ -1,13 +1,13 @@
 <h2><%= l(:label_bulk_edit_selected_time_entries) %></h2>
 
-<ul>
-<%= @time_entries.collect {|i| content_tag('li', 
-        link_to(h("#{i.spent_on.strftime("%Y-%m-%d")} - #{i.project}:  #{l(:label_f_hour_plural, :value => i.hours)}"),
-                { :action => 'edit', :id => i })
-     )}.join("\n").html_safe %>
+<ul id="bulk-selection">
+<% @time_entries.each do |entry| %>
+  <%= content_tag 'li',
+        link_to("#{format_date(entry.spent_on)} - #{entry.project}: #{l(:label_f_hour_plural, :value => entry.hours)}", edit_time_entry_path(entry)) %>
+<% end %>
 </ul>
 
-<%= form_tag(:action => 'bulk_update') do %>
+<%= form_tag(bulk_update_time_entries_path, :id => 'bulk_edit_form') do %>
 <%= @time_entries.collect {|i| hidden_field_tag('ids[]', i.id)}.join.html_safe %>
 <div class="box tabular">
   <div>

@@ -27,10 +27,13 @@ class JournalDetail < ActiveRecord::Base
   end
 
   def normalize(v)
-    if v == true
+    case v
+    when true
       "1"
-    elsif v == false
+    when false
       "0"
+    when Date
+      v.strftime("%Y-%m-%d")
     else
       v
     end

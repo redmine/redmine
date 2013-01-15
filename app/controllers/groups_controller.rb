@@ -25,7 +25,7 @@ class GroupsController < ApplicationController
   helper :custom_fields
 
   def index
-    @groups = Group.find(:all, :order => 'lastname')
+    @groups = Group.sorted.all
 
     respond_to do |format|
       format.html
@@ -72,7 +72,7 @@ class GroupsController < ApplicationController
       if @group.save
         flash[:notice] = l(:notice_successful_update)
         format.html { redirect_to(groups_path) }
-        format.api  { head :ok }
+        format.api  { render_api_ok }
       else
         format.html { render :action => "edit" }
         format.api  { render_validation_errors(@group) }
@@ -84,32 +84,27 @@ class GroupsController < ApplicationController
     @group.destroy
 
     respond_to do |format|
-      format.html { redirect_to(groups_url) }
-      format.api  { head :ok }
+      format.html { redirect_to(groups_path) }
+      format.api  { render_api_ok }
     end
   end
 
   def add_users
-    users = User.find_all_by_id(params[:user_id] || params[:user_ids])
-    @group.users << users if request.post?
+    @users = User.find_all_by_id(params[:user_id] || params[:user_ids])
+    @group.users << @users if request.post?
     respond_to do |format|
-      format.html { redirect_to :controller => 'groups', :action => 'edit', :id => @group, :tab => 'users' }
-      format.js {
-        render(:update) {|page|
-          page.replace_html "tab-content-users", :partial => 'groups/users'
-          users.each {|user| page.visual_effect(:highlight, "user-#{user.id}") }
-        }
-      }
-      format.api { head :ok }
+      format.html { redirect_to edit_group_path(@group, :tab => 'users') }
+      format.js
+      format.api { render_api_ok }
     end
   end
 
   def remove_user
     @group.users.delete(User.find(params[:user_id])) if request.delete?
     respond_to do |format|
-      format.html { redirect_to :controller => 'groups', :action => 'edit', :id => @group, :tab => 'users' }
-      format.js { render(:update) {|page| page.replace_html "tab-content-users", :partial => 'groups/users'} }
-      format.api { head :ok }
+      format.html { redirect_to edit_group_path(@group, :tab => 'users') }
+      format.js
+      format.api { render_api_ok }
     end
   end
 
@@ -122,29 +117,16 @@ class GroupsController < ApplicationController
     @membership = Member.edit_membership(params[:membership_id], params[:membership], @group)
     @membership.save if request.post?
     respond_to do |format|
-      if @membership.valid?
-        format.html { redirect_to :controller => 'groups', :action => 'edit', :id => @group, :tab => 'memberships' }
-        format.js {
-          render(:update) {|page|
-            page.replace_html "tab-content-memberships", :partial => 'groups/memberships'
-            page.visual_effect(:highlight, "member-#{@membership.id}")
-          }
-        }
-      else
-        format.js {
-          render(:update) {|page|
-            page.alert(l(:notice_failed_to_save_members, :errors => @membership.errors.full_messages.join(', ')))
-          }
-        }
-      end
+      format.html { redirect_to edit_group_path(@group, :tab => 'memberships') }
+      format.js
     end
   end
 
   def destroy_membership
     Member.find(params[:membership_id]).destroy if request.post?
     respond_to do |format|
-      format.html { redirect_to :controller => 'groups', :action => 'edit', :id => @group, :tab => 'memberships' }
-      format.js { render(:update) {|page| page.replace_html "tab-content-memberships", :partial => 'groups/memberships'} }
+      format.html { redirect_to edit_group_path(@group, :tab => 'memberships') }
+      format.js
     end
   end
 

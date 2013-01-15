@@ -36,10 +36,11 @@ class SettingsController < ApplicationController
         Setting[name] = value
       end
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'edit', :tab => params[:tab]
+      redirect_to settings_path(:tab => params[:tab])
     else
       @options = {}
-      @options[:user_format] = User::USER_FORMATS.keys.collect {|f| [User.current.name(f), f.to_s] }
+      user_format = User::USER_FORMATS.collect{|key, value| [key, value[:setting_order]]}.sort{|a, b| a[1] <=> b[1]}
+      @options[:user_format] = user_format.collect{|f| [User.current.name(f[0]), f[0].to_s]}
       @deliveries = ActionMailer::Base.perform_deliveries
 
       @guessed_host_and_path = request.host_with_port.dup
@@ -54,7 +55,7 @@ class SettingsController < ApplicationController
     if request.post?
       Setting.send "plugin_#{@plugin.id}=", params[:settings]
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'plugin', :id => @plugin.id
+      redirect_to plugin_settings_path(@plugin)
     else
       @partial = @plugin.settings[:partial]
       @settings = Setting.send "plugin_#{@plugin.id}"

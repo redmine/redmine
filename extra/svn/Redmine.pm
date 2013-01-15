@@ -239,7 +239,7 @@ sub RedmineDSN {
   my ($self, $parms, $arg) = @_;
   $self->{RedmineDSN} = $arg;
   my $query = "SELECT 
-                 hashed_password, salt, auth_source_id, permissions
+                 users.hashed_password, users.salt, users.auth_source_id, roles.permissions, projects.status
               FROM projects, users, roles
               WHERE 
                 users.login=? 
@@ -249,7 +249,8 @@ sub RedmineDSN {
                   roles.id IN (SELECT member_roles.role_id FROM members, member_roles WHERE members.user_id = users.id AND members.project_id = projects.id AND members.id = member_roles.member_id)
                   OR
                   (roles.builtin=1 AND cast(projects.is_public as CHAR) IN ('t', '1'))
-                ) ";
+                )
+                AND roles.permissions IS NOT NULL";
   $self->{RedmineQuery} = trim($query);
 }
 
@@ -295,7 +296,7 @@ sub set_val {
 Apache2::Module::add(__PACKAGE__, \@directives);
 
 
-my %read_only_methods = map { $_ => 1 } qw/GET PROPFIND REPORT OPTIONS/;
+my %read_only_methods = map { $_ => 1 } qw/GET HEAD PROPFIND REPORT OPTIONS/;
 
 sub request_is_read_only {
   my ($r) = @_;
@@ -342,7 +343,7 @@ sub authen_handler {
       return OK;
   } else {
       $r->note_auth_failure();
-      return AUTH_REQUIRED;
+      return DECLINED;
   }
 }
 
@@ -381,15 +382,15 @@ sub is_public_project {
 
     my $dbh = connect_database($r);
     my $sth = $dbh->prepare(
-        "SELECT is_public FROM projects WHERE projects.identifier = ?;"
+        "SELECT is_public FROM projects WHERE projects.identifier = ? AND projects.status <> 9;"
     );
 
     $sth->execute($project_id);
     my $ret = 0;
     if (my @row = $sth->fetchrow_array) {
-    	if ($row[0] eq "1" || $row[0] eq "t") {
-    		$ret = 1;
-    	}
+      if ($row[0] eq "1" || $row[0] eq "t") {
+        $ret = 1;
+      }
     }
     $sth->finish();
     undef $sth;
@@ -460,12 +461,15 @@ sub is_member {
   $sth->execute($redmine_user, $project_id);
 
   my $ret;
-  while (my ($hashed_password, $salt, $auth_source_id, $permissions) = $sth->fetchrow_array) {
+  while (my ($hashed_password, $salt, $auth_source_id, $permissions, $project_status) = $sth->fetchrow_array) {
+      if ($project_status eq "9" || ($project_status ne "1" && $access_mode eq "W")) {
+        last;
+      }
 
       unless ($auth_source_id) {
-	  			my $method = $r->method;
+          my $method = $r->method;
           my $salted_password = Digest::SHA::sha1_hex($salt.$pass_digest);
-					if ($hashed_password eq $salted_password && (($access_mode eq "R" && $permissions =~ /:browse_repository/) || $permissions =~ /:commit_access/) ) {
+          if ($hashed_password eq $salted_password && (($access_mode eq "R" && $permissions =~ /:browse_repository/) || $permissions =~ /:commit_access/) ) {
               $ret = 1;
               last;
           }

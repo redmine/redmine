@@ -1,3 +1,20 @@
+# Redmine - project management software
+# Copyright (C) 2006-2012  Jean-Philippe Lang
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
 require File.expand_path('../../../../../../test_helper', __FILE__)
 begin
   require 'mocha'
@@ -121,7 +138,7 @@ begin
             assert_equal 0, diff1.size
           end
           [4, 'def6d2f1254a'].each do |r2|
-            diff2 = @adapter.diff(nil,r1,r2)
+            diff2 = @adapter.diff(nil, r1, r2)
             assert_equal 49, diff2.size
             buf =  diff2[41].gsub(/\r\n|\r|\n/, "")
             assert_equal "+class WelcomeController < ApplicationController", buf
@@ -129,6 +146,15 @@ begin
             assert_equal 20, diff3.size
             buf =  diff3[12].gsub(/\r\n|\r|\n/, "")
             assert_equal "+    @watched.remove_watcher(user)", buf
+
+            diff4 = @adapter.diff(nil, r2, r1)
+            assert_equal 49, diff4.size
+            buf =  diff4[41].gsub(/\r\n|\r|\n/, "")
+            assert_equal "-class WelcomeController < ApplicationController", buf
+            diff5 = @adapter.diff('sources/watchers_controller.rb', r2, r1)
+            assert_equal 20, diff5.size
+            buf =  diff5[9].gsub(/\r\n|\r|\n/, "")
+            assert_equal "-    @watched.remove_watcher(user)", buf
           end
         end
       end

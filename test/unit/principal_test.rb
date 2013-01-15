@@ -1,3 +1,5 @@
+# encoding: utf-8
+#
 # Redmine - project management software
 # Copyright (C) 2006-2012  Jean-Philippe Lang
 #
@@ -105,5 +107,12 @@ class PrincipalTest < ActiveSupport::TestCase
       assert_equal 1, results.count
       assert_equal @palmer, results.first
     end
+  end
+
+  def test_like_scope_with_cyrillic_name
+    user = User.generate!(:firstname => 'Соболев', :lastname => 'Денис')
+    results = Principal.like('Собо')
+    assert_equal 1, results.count
+    assert_equal user, results.first
   end
 end

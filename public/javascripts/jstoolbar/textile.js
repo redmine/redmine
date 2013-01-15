@@ -198,3 +198,14 @@ jsToolBar.prototype.elements.img = {
 		wiki: function() { this.encloseSelection("!", "!") }
 	}
 }
+
+// spacer
+jsToolBar.prototype.elements.space5 = {type: 'space'}
+// help
+jsToolBar.prototype.elements.help = {
+	type: 'button',
+	title: 'Help',
+	fn: {
+		wiki: function() { window.open(this.help_link, '', 'resizable=yes, location=no, width=300, height=640, menubar=no, status=no, scrollbars=yes') }
+	}
+}

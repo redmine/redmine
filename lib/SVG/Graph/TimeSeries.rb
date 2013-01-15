@@ -1,5 +1,4 @@
 require 'SVG/Graph/Plot'
-require 'parsedate'
 
 module SVG
   module Graph
@@ -157,8 +156,7 @@ module SVG
         y = []
         data[:data].each_index {|i|
           if i%2 == 0
-            arr = ParseDate.parsedate( data[:data][i] )
-            t = Time.local( *arr[0,6].compact )
+            t = DateTime.parse( data[:data][i] ).to_time
             x << t.to_i
           else
             y << data[:data][i]
@@ -173,8 +171,7 @@ module SVG
       protected
 
       def min_x_value=(value)
-        arr = ParseDate.parsedate( value )
-        @min_x_value = Time.local( *arr[0,6].compact ).to_i
+        @min_x_value = DateTime.parse( value ).to_time
       end
 
 

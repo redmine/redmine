@@ -1,16 +1,12 @@
 var revisionGraph = null;
 
 function drawRevisionGraph(holder, commits_hash, graph_space) {
-
     var XSTEP = 20,
         CIRCLE_INROW_OFFSET = 10;
-
-    var commits_by_scmid = $H(commits_hash),
-        commits = commits_by_scmid.values();
-
+    var commits_by_scmid = commits_hash,
+        commits = $.map(commits_by_scmid, function(val,i){return val;});
     var max_rdmid = commits.length - 1;
-
-    var commit_table_rows = $$('table.changesets tr.changeset');
+    var commit_table_rows = $('table.changesets tr.changeset');
 
     // create graph
     if(revisionGraph != null)
@@ -19,12 +15,11 @@ function drawRevisionGraph(holder, commits_hash, graph_space) {
         revisionGraph = Raphael(holder);
 
     var top = revisionGraph.set();
-
     // init dimensions
-    var graph_x_offset = Element.select(commit_table_rows.first(),'td').first().getLayout().get('left') - $(holder).getLayout().get('left'),
-        graph_y_offset = $(holder).getLayout().get('top'),
+    var graph_x_offset = commit_table_rows.first().find('td').first().position().left - $(holder).position().left,
+        graph_y_offset = $(holder).position().top,
         graph_right_side = graph_x_offset + (graph_space + 1) * XSTEP,
-        graph_bottom = commit_table_rows.last().getLayout().get('top') + commit_table_rows.last().getLayout().get('height') - graph_y_offset;
+        graph_bottom = commit_table_rows.last().position().top + commit_table_rows.last().height() - graph_y_offset;
 
     revisionGraph.setSize(graph_right_side, graph_bottom);
 
@@ -39,26 +34,26 @@ function drawRevisionGraph(holder, commits_hash, graph_space) {
     var x, y, parent_x, parent_y;
     var path, title;
     var revision_dot_overlay;
+    $.each(commits, function(index, commit) {
+        if (!commit.hasOwnProperty("space"))
+            commit.space = 0;
 
-    commits.each(function(commit) {
-
-        y = commit_table_rows[max_rdmid - commit.rdmid].getLayout().get('top') - graph_y_offset + CIRCLE_INROW_OFFSET;
+        y = commit_table_rows.eq(max_rdmid - commit.rdmid).position().top - graph_y_offset + CIRCLE_INROW_OFFSET;
         x = graph_x_offset + XSTEP / 2 + XSTEP * commit.space;
-
         revisionGraph.circle(x, y, 3)
             .attr({
                 fill: colors[commit.space],
                 stroke: 'none',
             }).toFront();
-
         // paths to parents
-        commit.parent_scmids.each(function(parent_scmid) {
-            parent_commit = commits_by_scmid.get(parent_scmid);
-
+        $.each(commit.parent_scmids, function(index, parent_scmid) {
+            parent_commit = commits_by_scmid[parent_scmid];
             if (parent_commit) {
-                parent_y = commit_table_rows[max_rdmid - parent_commit.rdmid].getLayout().get('top') - graph_y_offset + CIRCLE_INROW_OFFSET;
-                parent_x = graph_x_offset + XSTEP / 2 + XSTEP * parent_commit.space;
+                if (!parent_commit.hasOwnProperty("space"))
+                    parent_commit.space = 0;
 
+                parent_y = commit_table_rows.eq(max_rdmid - parent_commit.rdmid).position().top - graph_y_offset + CIRCLE_INROW_OFFSET;
+                parent_x = graph_x_offset + XSTEP / 2 + XSTEP * parent_commit.space;
                 if (parent_commit.space == commit.space) {
                     // vertical path
                     path = revisionGraph.path([
@@ -79,11 +74,10 @@ function drawRevisionGraph(holder, commits_hash, graph_space) {
             }
             path.attr({stroke: colors[commit.space], "stroke-width": 1.5}).toBack();
         });
-
         revision_dot_overlay = revisionGraph.circle(x, y, 10);
         revision_dot_overlay
             .attr({
-            	fill: '#000',
+                fill: '#000',
                 opacity: 0,
                 cursor: 'pointer', 
                 href: commit.href
@@ -94,9 +88,7 @@ function drawRevisionGraph(holder, commits_hash, graph_space) {
             title.appendChild(document.createTextNode(commit.refs));
             revision_dot_overlay.node.appendChild(title);
         }
-
         top.push(revision_dot_overlay);
     });
-
     top.toFront();
 };

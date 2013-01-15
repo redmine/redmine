@@ -260,11 +260,21 @@ module Redmine
         def scm_iconv(to, from, str)
           return nil if str.nil?
           return str if to == from
-          begin
-            Iconv.conv(to, from, str)
-          rescue Iconv::Failure => err
-            logger.error("failed to convert from #{from} to #{to}. #{err}")
-            nil
+          if str.respond_to?(:force_encoding)
+            str.force_encoding(from)
+            begin
+              str.encode(to)
+            rescue Exception => err
+              logger.error("failed to convert from #{from} to #{to}. #{err}")
+              nil
+            end
+          else
+            begin
+              Iconv.conv(to, from, str)
+            rescue Iconv::Failure => err
+              logger.error("failed to convert from #{from} to #{to}. #{err}")
+              nil
+            end
           end
         end
 
@@ -365,6 +375,18 @@ module Redmine
         # Returns the readable identifier.
         def format_identifier
           self.identifier.to_s
+        end
+
+        def ==(other)
+          if other.nil?
+            false
+          elsif scmid.present?
+            scmid == other.scmid
+          elsif identifier.present?
+            identifier == other.identifier
+          elsif revision.present?
+            revision == other.revision
+          end
         end
       end
 

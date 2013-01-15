@@ -241,7 +241,7 @@
   notice_file_not_found: 您想要存取的頁面已經不存在或被搬移至其他位置。
   notice_locking_conflict: 資料已被其他使用者更新。
   notice_not_authorized: 你未被授權存取此頁面。
-  notice_not_authorized_archived_project: 您欲存取的專案已經被歸檔封存。
+  notice_not_authorized_archived_project: 您欲存取的專案已經被封存。
   notice_email_sent: "郵件已經成功寄送至以下收件者： %{value}"
   notice_email_error: "寄送郵件的過程中發生錯誤 (%{value})"
   notice_feeds_access_key_reseted: 您的 RSS 存取金鑰已被重新設定。
@@ -259,6 +259,7 @@
   notice_issue_successful_create: "問題 %{id} 已建立。"
   notice_issue_update_conflict: "當您正在編輯這個問題的時候，它已經被其他人搶先一步更新過。"
   notice_account_deleted: "您的帳戶已被永久刪除。"
+  notice_user_successful_create: "已建立用戶 %{id}。"
 
   error_can_t_load_default_data: "無法載入預設組態： %{value}"
   error_scm_not_found: "在儲存機制中找不到這個項目或修訂版。"
@@ -272,7 +273,7 @@
   error_can_not_delete_tracker: "此追蹤標籤已包含問題，無法被刪除。"
   error_can_not_remove_role: "此角色已被使用，無法將其刪除。"
   error_can_not_reopen_issue_on_closed_version: '指派給「已結束」版本的問題，無法再將其狀態變更為「進行中」'
-  error_can_not_archive_project: 此專案無法被歸檔
+  error_can_not_archive_project: 此專案無法被封存
   error_issue_done_ratios_not_updated: "問題完成百分比未更新。"
   error_workflow_copy_source: '請選擇一個來源問題追蹤標籤或角色'
   error_workflow_copy_target: '請選擇一個（或多個）目的問題追蹤標籤或角色'
@@ -297,8 +298,6 @@
   mail_subject_wiki_content_updated: "'%{id}' wiki 頁面已被更新"
   mail_body_wiki_content_updated: "此 '%{id}' wiki 頁面已被 %{author} 更新。"
 
-  gui_validation_error: 1 個錯誤
-  gui_validation_error_plural: "%{count} 個錯誤"
 
   field_name: 名稱
   field_description: 概述
@@ -392,7 +391,7 @@
   field_content: 內容
   field_group_by: 結果分組方式
   field_sharing: 共用
-  field_parent_issue: 父任務
+  field_parent_issue: 父問題
   field_member_of_group: "被指派者的群組"
   field_assigned_to_role: "被指派者的角色"
   field_text: 內容文字
@@ -408,7 +407,11 @@
   field_cvs_module: 模組
   field_repository_is_default: 主要儲存機制
   field_multiple: 多重值
-  field_ldap_filter: LDAP 篩選器
+  field_auth_source_ldap_filter: LDAP 篩選器
+  field_core_fields: 標準欄位
+  field_timeout: "逾時 (單位: 秒)"
+  field_board_parent: 父論壇
+  field_private_notes: 私人筆記
 
   setting_app_title: 標題
   setting_app_subtitle: 副標題
@@ -434,6 +437,7 @@
   setting_date_format: 日期格式
   setting_time_format: 時間格式
   setting_cross_project_issue_relations: 允許關聯至其它專案的問題
+  setting_cross_project_subtasks: 允許跨專案的子任務
   setting_issue_list_default_columns: 預設顯示於問題清單的欄位
   setting_repositories_encodings: 附加檔案與儲存機制的編碼
   setting_emails_header: 電子郵件前頭說明
@@ -473,10 +477,14 @@
   setting_unsubscribe: 允許用戶取消註冊（刪除帳戶）
   setting_session_lifetime: 工作階段存留時間最大值
   setting_session_timeout: 工作階段無活動逾時時間
+  setting_thumbnails_enabled: 顯示附加檔案的縮圖
+  setting_thumbnails_size: "縮圖大小 (單位: 像素 pixels)"
+  setting_non_working_week_days: 非工作日
 
   permission_add_project: 建立專案
   permission_add_subprojects: 建立子專案
   permission_edit_project: 編輯專案
+  permission_close_project: 關閉 / 重新開啟專案
   permission_select_project_modules: 選擇專案模組
   permission_manage_members: 管理成員
   permission_manage_project_activities: 管理專案活動
@@ -491,6 +499,8 @@
   permission_add_issue_notes: 新增筆記
   permission_edit_issue_notes: 編輯筆記
   permission_edit_own_issue_notes: 編輯自己的筆記
+  permission_view_private_notes: 檢視私人筆記
+  permission_set_notes_private: 設定筆記為私人筆記
   permission_move_issues: 搬移問題
   permission_delete_issues: 刪除問題
   permission_manage_public_queries: 管理公開查詢
@@ -637,8 +647,6 @@
   label_text: 長文字
   label_attribute: 屬性
   label_attribute_plural: 屬性
-  label_download: "%{count} 個下載"
-  label_download_plural: "%{count} 個下載"
   label_no_data: 沒有任何資料可供顯示
   label_change_status: 變更狀態
   label_history: 歷史
@@ -691,6 +699,7 @@
   label_current_status: 目前狀態
   label_new_statuses_allowed: 可變更至以下狀態
   label_all: 全部
+  label_any: 任意一個
   label_none: 空值
   label_nobody: 無名
   label_next: 下一頁
@@ -725,6 +734,8 @@
   label_not_equals: 不等於
   label_in_less_than: 在小於
   label_in_more_than: 在大於
+  label_in_the_next_days: 在未來幾天之內
+  label_in_the_past_days: 在過去幾天之內
   label_greater_or_equal: "大於等於 (>=)"
   label_less_or_equal: "小於等於 (<=)"
   label_between: 區間
@@ -734,6 +745,7 @@
   label_yesterday: 昨天
   label_this_week: 本週
   label_last_week: 上週
+  label_last_n_weeks: "過去 %{count} 週"
   label_last_n_days: "過去 %{count} 天"
   label_this_month: 這個月
   label_last_month: 上個月
@@ -744,13 +756,14 @@
   label_ago: 天以前
   label_contains: 包含
   label_not_contains: 不包含
+  label_any_issues_in_project: 在專案中的任意問題
+  label_any_issues_not_in_project: 不在專案中的任意問題
+  label_no_issues_in_project: 沒有問題在專案中
   label_day_plural: 天
   label_repository: 儲存機制
   label_repository_new: 建立新儲存機制
   label_repository_plural: 儲存機制清單
   label_browse: 瀏覽
-  label_modification: "%{count} 變更"
-  label_modification_plural: "%{count} 變更"
   label_branch: 分支
   label_tag: 標籤
   label_revision: 修訂版
@@ -819,6 +832,8 @@
   label_blocked_by: 被阻擋
   label_precedes: 優先於
   label_follows: 跟隨於
+  label_copied_to: 複製到
+  label_copied_from: 複製於
   label_end_to_start: 結束─開始
   label_end_to_end: 結束─結束
   label_start_to_start: 開始─開始
@@ -932,10 +947,24 @@
   label_child_revision: 子項
   label_export_options: "%{export_format} 匯出選項"
   label_copy_attachments: 複製附件
+  label_copy_subtasks: 複製子任務
   label_item_position: "%{position} / %{count}"
   label_completed_versions: 已完成版本
   label_search_for_watchers: 搜尋可供加入的監看者
   label_session_expiration: 工作階段逾期
+  label_show_closed_projects: 檢視已關閉的專案
+  label_status_transitions: 狀態轉換
+  label_fields_permissions: 欄位權限
+  label_readonly: 唯讀
+  label_required: 必填
+  label_attribute_of_project: "專案是 %{name}"
+  label_attribute_of_author: "作者是 %{name}"
+  label_attribute_of_assigned_to: "被指派者是 %{name}"
+  label_attribute_of_fixed_version: "版本是 %{name}"
+  label_cross_project_descendants: 與子專案共用
+  label_cross_project_tree: 與專案樹共用
+  label_cross_project_hierarchy: 與專案階層架構共用
+  label_cross_project_system: 與全部的專案共用
 
   button_login: 登入
   button_submit: 送出
@@ -970,8 +999,8 @@
   button_watch: 觀察
   button_unwatch: 取消觀察
   button_reply: 回應
-  button_archive: 歸檔
-  button_unarchive: 取消歸檔
+  button_archive: 封存
+  button_unarchive: 取消封存
   button_reset: 回復
   button_rename: 重新命名
   button_change_password: 變更密碼
@@ -983,13 +1012,20 @@
   button_quote: 引用
   button_duplicate: 重製
   button_show: 顯示
+  button_hide: 隱藏
   button_edit_section: 編輯此區塊
   button_export: 匯出
   button_delete_my_account: 刪除我的帳戶
+  button_close: 關閉
+  button_reopen: 重新開啟
 
   status_active: 活動中
   status_registered: 註冊完成
   status_locked: 鎖定中
+
+  project_status_active: 使用中
+  project_status_closed: 已關閉
+  project_status_archived: 已封存
 
   version_status_open: 進行中
   version_status_locked: 已鎖定
@@ -1004,7 +1040,6 @@
   text_subprojects_destroy_warning: "下列子專案： %{value} 將一併被刪除。"
   text_workflow_edit: 選擇角色與追蹤標籤以設定其工作流程
   text_are_you_sure: 確定執行？
-  text_are_you_sure_with_children: "確定刪除此問題及其子問題？"
   text_journal_changed: "%{label} 從 %{old} 變更為 %{new}"
   text_journal_changed_no_detail: "%{label} 已更新"
   text_journal_set_to: "%{label} 設定為 %{value}"
@@ -1074,6 +1109,7 @@
     您確定要繼續這個動作嗎？
     您的帳戶將會被永久刪除，且無法被重新啟用。
   text_session_expiration_settings: "警告：變更這些設定將會導致包含您在內的所有工作階段過期。"
+  text_project_closed: 此專案已被關閉，僅供唯讀使用。
 
   default_role_manager: 管理人員
   default_role_developer: 開發人員
@@ -1119,3 +1155,5 @@
   description_date_range_interval: 選擇起始與結束日期以設定範圍區間
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
+  text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
+  label_attribute_of_user: User's %{name}

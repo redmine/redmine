@@ -1,0 +1,2 @@
+<% selector = ".#{watcher_css(watched)}" %>
+$("<%= selector %>").each(function(){$(this).html("<%= escape_javascript watcher_link(watched, user) %>")});

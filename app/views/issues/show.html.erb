@@ -32,34 +32,38 @@
         </p>
 
 <table class="attributes">
-<tr>
-    <th class="status"><%=l(:field_status)%>:</th><td class="status"><%= h(@issue.status.name) %></td>
-    <th class="start-date"><%=l(:field_start_date)%>:</th><td class="start-date"><%= format_date(@issue.start_date) %></td>
-</tr>
-<tr>
-    <th class="priority"><%=l(:field_priority)%>:</th><td class="priority"><%= h(@issue.priority.name) %></td>
-    <th class="due-date"><%=l(:field_due_date)%>:</th><td class="due-date"><%= format_date(@issue.due_date) %></td>
-</tr>
-<tr>
-    <th class="assigned-to"><%=l(:field_assigned_to)%>:</th><td class="assigned-to"><%= avatar(@issue.assigned_to, :size => "14") %><%= @issue.assigned_to ? link_to_user(@issue.assigned_to) : "-" %></td>
-    <th class="progress"><%=l(:field_done_ratio)%>:</th><td class="progress"><%= progress_bar @issue.done_ratio, :width => '80px', :legend => "#{@issue.done_ratio}%" %></td>
-</tr>
-<tr>
-    <th class="category"><%=l(:field_category)%>:</th><td class="category"><%=h(@issue.category ? @issue.category.name : "-") %></td>
-    <% if User.current.allowed_to?(:view_time_entries, @project) %>
-    <th class="spent-time"><%=l(:label_spent_time)%>:</th>
-    <td class="spent-time"><%= @issue.total_spent_hours > 0 ? (link_to l_hours(@issue.total_spent_hours), {:controller => 'timelog', :action => 'index', :project_id => @project, :issue_id => @issue}) : "-" %></td>
-    <% else %>
-    <th></th>
-    <td></td>
-    <% end %>
-</tr>
-<tr>
-    <th class="fixed-version"><%=l(:field_fixed_version)%>:</th><td class="fixed-version"><%= @issue.fixed_version ? link_to_version(@issue.fixed_version) : "-" %></td>
-    <% if @issue.estimated_hours %>
-    <th class="estimated-hours"><%=l(:field_estimated_hours)%>:</th><td class="estimated-hours"><%= l_hours(@issue.estimated_hours) %></td>
-    <% end %>
-</tr>
+<%= issue_fields_rows do |rows|
+  rows.left l(:field_status), h(@issue.status.name), :class => 'status'
+  rows.left l(:field_priority), h(@issue.priority.name), :class => 'priority'
+
+  unless @issue.disabled_core_fields.include?('assigned_to_id')
+    rows.left l(:field_assigned_to), avatar(@issue.assigned_to, :size => "14").to_s.html_safe + (@issue.assigned_to ? link_to_user(@issue.assigned_to) : "-"), :class => 'assigned-to'
+  end
+  unless @issue.disabled_core_fields.include?('category_id')
+    rows.left l(:field_category), h(@issue.category ? @issue.category.name : "-"), :class => 'category'
+  end
+  unless @issue.disabled_core_fields.include?('fixed_version_id')
+    rows.left l(:field_fixed_version), (@issue.fixed_version ? link_to_version(@issue.fixed_version) : "-"), :class => 'fixed-version'
+  end
+
+  unless @issue.disabled_core_fields.include?('start_date')
+    rows.right l(:field_start_date), format_date(@issue.start_date), :class => 'start-date'
+  end
+  unless @issue.disabled_core_fields.include?('due_date')
+    rows.right l(:field_due_date), format_date(@issue.due_date), :class => 'due-date'
+  end
+  unless @issue.disabled_core_fields.include?('done_ratio')
+    rows.right l(:field_done_ratio), progress_bar(@issue.done_ratio, :width => '80px', :legend => "#{@issue.done_ratio}%"), :class => 'progress'
+  end
+  unless @issue.disabled_core_fields.include?('estimated_hours')
+    unless @issue.estimated_hours.nil?
+      rows.right l(:field_estimated_hours), l_hours(@issue.estimated_hours), :class => 'estimated-hours'
+    end
+  end
+  if User.current.allowed_to?(:view_time_entries, @project)
+    rows.right l(:label_spent_time), (@issue.total_spent_hours > 0 ? link_to(l_hours(@issue.total_spent_hours), project_issue_time_entries_path(@project, @issue)) : "-"), :class => 'spent-time'
+  end
+end %>
 <%= render_custom_fields_rows(@issue) %>
 <%= call_hook(:view_issues_show_details_bottom, :issue => @issue) %>
 </table>
@@ -67,19 +71,18 @@
 <% if @issue.description? || @issue.attachments.any? -%>
 <hr />
 <% if @issue.description? %>
+<div class="description">
   <div class="contextual">
-  <%= link_to_remote_if_authorized(
-        l(:button_quote),
-        { :url => {:controller => 'journals', :action => 'new', :id => @issue} },
-        :class => 'icon icon-comment') %>
+  <%= link_to l(:button_quote), quoted_issue_path(@issue), :remote => true, :method => 'post', :class => 'icon icon-comment' if authorize_for('issues', 'edit') %>
   </div>
 
   <p><strong><%=l(:field_description)%></strong></p>
   <div class="wiki">
   <%= textilizable @issue, :description, :attachments => @issue.attachments %>
   </div>
+</div>
 <% end %>
-<%= link_to_attachments @issue %>
+<%= link_to_attachments @issue, :thumbnails => true %>
 <% end -%>
 
 <%= call_hook(:view_issues_show_description_bottom, :issue => @issue) %>
@@ -88,7 +91,7 @@
 <hr />
 <div id="issue_tree">
 <div class="contextual">
-  <%= link_to(l(:button_add), {:controller => 'issues', :action => 'new', :project_id => @project, :issue => {:parent_issue_id => @issue}}) if User.current.allowed_to?(:manage_subtasks, @project) %>
+  <%= link_to_new_subtask(@issue) if User.current.allowed_to?(:manage_subtasks, @project) %>
 </div>
 <p><strong><%=l(:label_subtask_plural)%></strong></p>
 <%= render_descendants_tree(@issue) unless @issue.leaf? %>
@@ -123,7 +126,7 @@
 <%= render :partial => 'action_menu' %>
 
 <div style="clear: both;"></div>
-<% if authorize_for('issues', 'edit') %>
+<% if @issue.editable? %>
   <div id="update" style="display:none;">
   <h3><%= l(:button_update) %></h3>
   <%= render :partial => 'edit' %>
@@ -150,7 +153,6 @@
 
 <% content_for :header_tags do %>
     <%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.rss_key}, :title => "#{@issue.project} - #{@issue.tracker} ##{@issue.id}: #{@issue.subject}") %>
-    <%= stylesheet_link_tag 'scm' %>
 <% end %>
 
 <%= context_menu issues_context_menu_path %>

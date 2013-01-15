@@ -16,6 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require "digest/md5"
+require "fileutils"
 
 class Attachment < ActiveRecord::Base
   belongs_to :container, :polymorphic => true
@@ -24,6 +25,7 @@ class Attachment < ActiveRecord::Base
   validates_presence_of :filename, :author
   validates_length_of :filename, :maximum => 255
   validates_length_of :disk_filename, :maximum => 255
+  validates_length_of :description, :maximum => 255
   validate :validate_max_file_size
 
   acts_as_event :title => :filename,
@@ -45,6 +47,9 @@ class Attachment < ActiveRecord::Base
 
   cattr_accessor :storage_path
   @@storage_path = Redmine::Configuration['attachments_storage_path'] || File.join(Rails.root, "files")
+
+  cattr_accessor :thumbnails_storage_path
+  @@thumbnails_storage_path = File.join(Rails.root, "tmp", "thumbnails")
 
   before_save :files_to_final_location
   after_destroy :delete_from_disk
@@ -88,9 +93,6 @@ class Attachment < ActiveRecord::Base
 
   def filename=(arg)
     write_attribute :filename, sanitize_filename(arg.to_s)
-    if new_record? && disk_filename.blank?
-      self.disk_filename = Attachment.disk_filename(filename)
-    end
     filename
   end
 
@@ -98,7 +100,13 @@ class Attachment < ActiveRecord::Base
   # and computes its MD5 hash
   def files_to_final_location
     if @temp_file && (@temp_file.size > 0)
+      self.disk_directory = target_directory
+      self.disk_filename = Attachment.disk_filename(filename, disk_directory)
       logger.info("Saving attachment '#{self.diskfile}' (#{@temp_file.size} bytes)")
+      path = File.dirname(diskfile)
+      unless File.directory?(path)
+        FileUtils.mkdir_p(path)
+      end
       md5 = Digest::MD5.new
       File.open(diskfile, "wb") do |f|
         if @temp_file.respond_to?(:read)
@@ -130,7 +138,15 @@ class Attachment < ActiveRecord::Base
 
   # Returns file's location on disk
   def diskfile
-    File.join(self.class.storage_path, disk_filename.to_s)
+    File.join(self.class.storage_path, disk_directory.to_s, disk_filename.to_s)
+  end
+
+  def title
+    title = filename.to_s
+    if description.present?
+      title << " (#{description})"
+    end
+    title
   end
 
   def increment_download
@@ -142,15 +158,59 @@ class Attachment < ActiveRecord::Base
   end
 
   def visible?(user=User.current)
-    container && container.attachments_visible?(user)
+    if container_id
+      container && container.attachments_visible?(user)
+    else
+      author == user
+    end
   end
 
   def deletable?(user=User.current)
-    container && container.attachments_deletable?(user)
+    if container_id
+      container && container.attachments_deletable?(user)
+    else
+      author == user
+    end
   end
 
   def image?
-    self.filename =~ /\.(bmp|gif|jpg|jpe|jpeg|png)$/i
+    !!(self.filename =~ /\.(bmp|gif|jpg|jpe|jpeg|png)$/i)
+  end
+
+  def thumbnailable?
+    image?
+  end
+
+  # Returns the full path the attachment thumbnail, or nil
+  # if the thumbnail cannot be generated.
+  def thumbnail(options={})
+    if thumbnailable? && readable?
+      size = options[:size].to_i
+      if size > 0
+        # Limit the number of thumbnails per image
+        size = (size / 50) * 50
+        # Maximum thumbnail size
+        size = 800 if size > 800
+      else
+        size = Setting.thumbnails_size.to_i
+      end
+      size = 100 unless size > 0
+      target = File.join(self.class.thumbnails_storage_path, "#{id}_#{digest}_#{size}.thumb")
+
+      begin
+        Redmine::Thumbnail.generate(self.diskfile, target, size)
+      rescue => e
+        logger.error "An error occured while generating thumbnail for #{disk_filename} to #{target}\nException was: #{e.message}" if logger
+        return nil
+      end
+    end
+  end
+
+  # Deletes all thumbnails
+  def self.clear_thumbnails
+    Dir.glob(File.join(thumbnails_storage_path, "*.thumb")).each do |file|
+      File.delete file
+    end
   end
 
   def is_text?
@@ -203,6 +263,26 @@ class Attachment < ActiveRecord::Base
     Attachment.where("created_on < ? AND (container_type IS NULL OR container_type = '')", Time.now - age).destroy_all
   end
 
+  # Moves an existing attachment to its target directory 
+  def move_to_target_directory!
+    if !new_record? & readable?
+      src = diskfile
+      self.disk_directory = target_directory
+      dest = diskfile
+      if src != dest && FileUtils.mkdir_p(File.dirname(dest)) && FileUtils.mv(src, dest)
+        update_column :disk_directory, disk_directory
+      end
+    end
+  end
+
+  # Moves existing attachments that are stored at the root of the files
+  # directory (ie. created before Redmine 2.3) to their target subdirectories
+  def self.move_from_root_to_target_directory
+    Attachment.where("disk_directory IS NULL OR disk_directory = ''").find_each do |attachment|
+      attachment.move_to_target_directory!
+    end
+  end
+
   private
 
   # Physically deletes the file from the file system
@@ -220,8 +300,15 @@ class Attachment < ActiveRecord::Base
     @filename = just_filename.gsub(/[\/\?\%\*\:\|\"\'<>]+/, '_')
   end
 
-  # Returns an ASCII or hashed filename
-  def self.disk_filename(filename)
+  # Returns the subdirectory in which the attachment will be saved
+  def target_directory
+    time = created_on || DateTime.now
+    time.strftime("%Y/%m")
+  end
+
+  # Returns an ASCII or hashed filename that do not
+  # exists yet in the given subdirectory
+  def self.disk_filename(filename, directory=nil)
     timestamp = DateTime.now.strftime("%y%m%d%H%M%S")
     ascii = ''
     if filename =~ %r{^[a-zA-Z0-9_\.\-]*$}
@@ -231,7 +318,7 @@ class Attachment < ActiveRecord::Base
       # keep the extension if any
       ascii << $1 if filename =~ %r{(\.[a-zA-Z0-9]+)$}
     end
-    while File.exist?(File.join(@@storage_path, "#{timestamp}_#{ascii}"))
+    while File.exist?(File.join(storage_path, directory.to_s, "#{timestamp}_#{ascii}"))
       timestamp.succ!
     end
     "#{timestamp}_#{ascii}"

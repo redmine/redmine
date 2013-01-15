@@ -27,15 +27,13 @@ class AdminControllerTest < ActionController::TestCase
 
   def test_index
     get :index
-    assert_no_tag :tag => 'div',
-                  :attributes => { :class => /nodata/ }
+    assert_select 'div.nodata', 0
   end
 
   def test_index_with_no_configuration_data
     delete_configuration_data
     get :index
-    assert_tag :tag => 'div',
-               :attributes => { :class => /nodata/ }
+    assert_select 'div.nodata'
   end
 
   def test_projects
@@ -90,7 +88,7 @@ class AdminControllerTest < ActionController::TestCase
     ActionMailer::Base.deliveries.clear
 
     get :test_email
-    assert_redirected_to '/settings/edit?tab=notifications'
+    assert_redirected_to '/settings?tab=notifications'
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
     user = User.find(1)
@@ -100,7 +98,7 @@ class AdminControllerTest < ActionController::TestCase
   def test_test_email_failure_should_display_the_error
     Mailer.stubs(:test_email).raises(Exception, 'Some error message')
     get :test_email
-    assert_redirected_to '/settings/edit?tab=notifications'
+    assert_redirected_to '/settings?tab=notifications'
     assert_match /Some error message/, flash[:error]
   end
 
@@ -128,8 +126,14 @@ class AdminControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'plugins'
 
-    assert_tag :td, :child => { :tag => 'span', :content => 'Foo plugin' }
-    assert_tag :td, :child => { :tag => 'span', :content => 'Bar' }
+    assert_select 'tr#plugin-foo' do
+      assert_select 'td span.name', :text => 'Foo plugin'
+      assert_select 'td.configure a[href=/settings/plugin/foo]'
+    end
+    assert_select 'tr#plugin-bar' do
+      assert_select 'td span.name', :text => 'Bar'
+      assert_select 'td.configure a', 0
+    end
   end
 
   def test_info
@@ -145,8 +149,7 @@ class AdminControllerTest < ActionController::TestCase
 
     get :index
     assert_response :success
-    assert_tag :a, :attributes => { :href => '/foo/bar' },
-                   :content => 'Test'
+    assert_select 'div#admin-menu a[href=/foo/bar]', :text => 'Test'
 
     Redmine::MenuManager.map :admin_menu do |menu|
       menu.delete :test_admin_menu_plugin_extension

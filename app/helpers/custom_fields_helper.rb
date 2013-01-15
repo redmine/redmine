@@ -20,16 +20,7 @@
 module CustomFieldsHelper
 
   def custom_fields_tabs
-    tabs = [{:name => 'IssueCustomField', :partial => 'custom_fields/index', :label => :label_issue_plural},
-            {:name => 'TimeEntryCustomField', :partial => 'custom_fields/index', :label => :label_spent_time},
-            {:name => 'ProjectCustomField', :partial => 'custom_fields/index', :label => :label_project_plural},
-            {:name => 'VersionCustomField', :partial => 'custom_fields/index', :label => :label_version_plural},
-            {:name => 'UserCustomField', :partial => 'custom_fields/index', :label => :label_user_plural},
-            {:name => 'GroupCustomField', :partial => 'custom_fields/index', :label => :label_group_plural},
-            {:name => 'TimeEntryActivityCustomField', :partial => 'custom_fields/index', :label => TimeEntryActivity::OptionName},
-            {:name => 'IssuePriorityCustomField', :partial => 'custom_fields/index', :label => IssuePriority::OptionName},
-            {:name => 'DocumentCategoryCustomField', :partial => 'custom_fields/index', :label => DocumentCategory::OptionName}
-            ]
+    CustomField::CUSTOM_FIELDS_TABS
   end
 
   # Return custom field html tag corresponding to its format
@@ -73,15 +64,17 @@ module CustomFieldsHelper
   end
 
   # Return custom field label tag
-  def custom_field_label_tag(name, custom_value)
+  def custom_field_label_tag(name, custom_value, options={})
+    required = options[:required] || custom_value.custom_field.is_required?
+
     content_tag "label", h(custom_value.custom_field.name) +
-	(custom_value.custom_field.is_required? ? " <span class=\"required\">*</span>".html_safe : ""),
-	:for => "#{name}_custom_field_values_#{custom_value.custom_field.id}"
+      (required ? " <span class=\"required\">*</span>".html_safe : ""),
+      :for => "#{name}_custom_field_values_#{custom_value.custom_field.id}"
   end
 
   # Return custom field tag with its label tag
-  def custom_field_tag_with_label(name, custom_value)
-    custom_field_label_tag(name, custom_value) + custom_field_tag(name, custom_value)
+  def custom_field_tag_with_label(name, custom_value, options={})
+    custom_field_label_tag(name, custom_value, options) + custom_field_tag(name, custom_value)
   end
 
   def custom_field_tag_for_bulk_edit(name, custom_field, projects=nil)

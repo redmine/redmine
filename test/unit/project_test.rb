@@ -34,8 +34,10 @@ class ProjectTest < ActiveSupport::TestCase
            :versions,
            :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions,
            :groups_users,
-           :boards,
-           :repositories
+           :boards, :messages,
+           :repositories,
+           :news, :comments,
+           :documents
 
   def setup
     @ecookbook = Project.find(1)
@@ -132,6 +134,10 @@ class ProjectTest < ActiveSupport::TestCase
     end
   end
 
+  def test_open_scope_on_issues_association
+    assert_kind_of Issue, Project.find(1).issues.open.first
+  end
+
   def test_archive
     user = @ecookbook.members.first.user
     @ecookbook.archive
@@ -177,7 +183,7 @@ class ProjectTest < ActiveSupport::TestCase
     # 2 active members
     assert_equal 2, @ecookbook.members.size
     # and 1 is locked
-    assert_equal 3, Member.find(:all, :conditions => ['project_id = ?', @ecookbook.id]).size
+    assert_equal 3, Member.where('project_id = ?', @ecookbook.id).all.size
     # some boards
     assert @ecookbook.boards.any?
 
@@ -213,7 +219,7 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 0, Issue.count
     assert_equal 0, Journal.count
     assert_equal 0, JournalDetail.count
-    assert_equal 0, Attachment.count
+    assert_equal 0, Attachment.count, "Attachments were not deleted: #{Attachment.all.inspect}"
     assert_equal 0, EnabledModule.count
     assert_equal 0, IssueCategory.count
     assert_equal 0, IssueRelation.count
@@ -284,23 +290,6 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 4, parent.children.size
     assert_equal parent.children.all.sort_by(&:name), parent.children.all
   end
-
-  def test_rebuild_should_sort_children_alphabetically
-    ProjectCustomField.delete_all
-    parent = Project.create!(:name => 'Parent', :identifier => 'parent')
-    Project.create!(:name => 'Project C', :identifier => 'project-c').move_to_child_of(parent)
-    Project.create!(:name => 'Project B', :identifier => 'project-b').move_to_child_of(parent)
-    Project.create!(:name => 'Project D', :identifier => 'project-d').move_to_child_of(parent)
-    Project.create!(:name => 'Project A', :identifier => 'project-a').move_to_child_of(parent)
-
-    Project.update_all("lft = NULL, rgt = NULL")
-    Project.rebuild!
-
-    parent.reload
-    assert_equal 4, parent.children.size
-    assert_equal parent.children.all.sort_by(&:name), parent.children.all
-  end
-
 
   def test_set_parent_should_update_issue_fixed_version_associations_when_a_fixed_version_is_moved_out_of_the_hierarchy
     # Parent issue with a hierarchy project's fixed version
@@ -704,7 +693,7 @@ class ProjectTest < ActiveSupport::TestCase
 
   def test_activities_should_use_the_system_activities
     project = Project.find(1)
-    assert_equal project.activities, TimeEntryActivity.find(:all, :conditions => {:active => true} )
+    assert_equal project.activities, TimeEntryActivity.where(:active => true).all
   end
 
 
@@ -718,7 +707,7 @@ class ProjectTest < ActiveSupport::TestCase
 
   def test_activities_should_not_include_the_inactive_project_specific_activities
     project = Project.find(1)
-    overridden_activity = TimeEntryActivity.new({:name => "Project", :project => project, :parent => TimeEntryActivity.find(:first), :active => false})
+    overridden_activity = TimeEntryActivity.new({:name => "Project", :project => project, :parent => TimeEntryActivity.first, :active => false})
     assert overridden_activity.save!
 
     assert !project.activities.include?(overridden_activity), "Inactive Project specific Activity found"
@@ -733,7 +722,7 @@ class ProjectTest < ActiveSupport::TestCase
   end
 
   def test_activities_should_handle_nils
-    overridden_activity = TimeEntryActivity.new({:name => "Project", :project => Project.find(1), :parent => TimeEntryActivity.find(:first)})
+    overridden_activity = TimeEntryActivity.new({:name => "Project", :project => Project.find(1), :parent => TimeEntryActivity.first})
     TimeEntryActivity.delete_all
 
     # No activities
@@ -748,7 +737,7 @@ class ProjectTest < ActiveSupport::TestCase
 
   def test_activities_should_override_system_activities_with_project_activities
     project = Project.find(1)
-    parent_activity = TimeEntryActivity.find(:first)
+    parent_activity = TimeEntryActivity.first
     overridden_activity = TimeEntryActivity.new({:name => "Project", :project => project, :parent => parent_activity})
     assert overridden_activity.save!
 
@@ -758,7 +747,7 @@ class ProjectTest < ActiveSupport::TestCase
 
   def test_activities_should_include_inactive_activities_if_specified
     project = Project.find(1)
-    overridden_activity = TimeEntryActivity.new({:name => "Project", :project => project, :parent => TimeEntryActivity.find(:first), :active => false})
+    overridden_activity = TimeEntryActivity.new({:name => "Project", :project => project, :parent => TimeEntryActivity.first, :active => false})
     assert overridden_activity.save!
 
     assert project.activities(true).include?(overridden_activity), "Inactive Project specific Activity not found"
@@ -819,16 +808,33 @@ class ProjectTest < ActiveSupport::TestCase
       assert_equal "Closed", copied_issue.status.name
     end
 
+    should "copy issues assigned to a locked version" do
+      User.current = User.find(1)
+      assigned_version = Version.generate!(:name => "Assigned Issues")
+      @source_project.versions << assigned_version
+      Issue.generate!(:project => @source_project,
+                      :fixed_version_id => assigned_version.id,
+                      :subject => "copy issues assigned to a locked version")
+      assigned_version.update_attribute :status, 'locked'
+
+      assert @project.copy(@source_project)
+      @project.reload
+      copied_issue = @project.issues.first(:conditions => {:subject => "copy issues assigned to a locked version"})
+
+      assert copied_issue
+      assert copied_issue.fixed_version
+      assert_equal "Assigned Issues", copied_issue.fixed_version.name # Same name
+      assert_equal 'locked', copied_issue.fixed_version.status
+    end
+
     should "change the new issues to use the copied version" do
       User.current = User.find(1)
       assigned_version = Version.generate!(:name => "Assigned Issues", :status => 'open')
       @source_project.versions << assigned_version
       assert_equal 3, @source_project.versions.size
-      Issue.generate_for_project!(@source_project,
-                                  :fixed_version_id => assigned_version.id,
-                                  :subject => "change the new issues to use the copied version",
-                                  :tracker_id => 1,
-                                  :project_id => @source_project.id)
+      Issue.generate!(:project => @source_project,
+                      :fixed_version_id => assigned_version.id,
+                      :subject => "change the new issues to use the copied version")
 
       assert @project.copy(@source_project)
       @project.reload
@@ -838,6 +844,20 @@ class ProjectTest < ActiveSupport::TestCase
       assert copied_issue.fixed_version
       assert_equal "Assigned Issues", copied_issue.fixed_version.name # Same name
       assert_not_equal assigned_version.id, copied_issue.fixed_version.id # Different record
+    end
+
+    should "keep target shared versions from other project" do
+      assigned_version = Version.generate!(:name => "Assigned Issues", :status => 'open', :project_id => 1, :sharing => 'system')
+      issue = Issue.generate!(:project => @source_project,
+                              :fixed_version => assigned_version,
+                              :subject => "keep target shared versions")
+
+      assert @project.copy(@source_project)
+      @project.reload
+      copied_issue = @project.issues.first(:conditions => {:subject => "keep target shared versions"})
+
+      assert copied_issue
+      assert_equal assigned_version, copied_issue.fixed_version
     end
 
     should "copy issue relations" do
@@ -1014,7 +1034,23 @@ class ProjectTest < ActiveSupport::TestCase
       assert @project.issue_categories.any?
       assert @project.issues.empty?
     end
+  end
 
+  def test_copy_should_copy_subtasks
+    source = Project.generate!(:tracker_ids => [1])
+    issue = Issue.generate_with_descendants!(:project => source)
+    project = Project.new(:name => 'Copy', :identifier => 'copy', :tracker_ids => [1])
+
+    assert_difference 'Project.count' do
+      assert_difference 'Issue.count', 1+issue.descendants.count do
+        assert project.copy(source.reload)
+      end
+    end
+    copy = Issue.where(:parent_id => nil).order("id DESC").first
+    assert_equal project, copy.project
+    assert_equal issue.descendants.count, copy.descendants.count
+    child_copy = copy.children.detect {|c| c.subject == 'Child1'}
+    assert child_copy.descendants.any?
   end
 
   context "#start_date" do
@@ -1032,8 +1068,8 @@ class ProjectTest < ActiveSupport::TestCase
 
     should "be the earliest start date of it's issues" do
       early = 7.days.ago.to_date
-      Issue.generate_for_project!(@project, :start_date => Date.today)
-      Issue.generate_for_project!(@project, :start_date => early)
+      Issue.generate!(:project => @project, :start_date => Date.today)
+      Issue.generate!(:project => @project, :start_date => early)
 
       assert_equal early, @project.start_date
     end
@@ -1055,8 +1091,8 @@ class ProjectTest < ActiveSupport::TestCase
 
     should "be the latest due date of it's issues" do
       future = 7.days.from_now.to_date
-      Issue.generate_for_project!(@project, :due_date => future)
-      Issue.generate_for_project!(@project, :due_date => Date.today)
+      Issue.generate!(:project => @project, :due_date => future)
+      Issue.generate!(:project => @project, :due_date => Date.today)
 
       assert_equal future, @project.due_date
     end
@@ -1074,7 +1110,7 @@ class ProjectTest < ActiveSupport::TestCase
     should "pick the latest date from it's issues and versions" do
       future = 7.days.from_now.to_date
       far_future = 14.days.from_now.to_date
-      Issue.generate_for_project!(@project, :due_date => far_future)
+      Issue.generate!(:project => @project, :due_date => far_future)
       @project.versions << Version.generate!(:effective_date => future)
 
       assert_equal far_future, @project.due_date
@@ -1105,18 +1141,18 @@ class ProjectTest < ActiveSupport::TestCase
 
       should "return 100 if the version has only closed issues" do
         v1 = Version.generate!(:project => @project)
-        Issue.generate_for_project!(@project, :status => IssueStatus.find_by_name('Closed'), :fixed_version => v1)
+        Issue.generate!(:project => @project, :status => IssueStatus.find_by_name('Closed'), :fixed_version => v1)
         v2 = Version.generate!(:project => @project)
-        Issue.generate_for_project!(@project, :status => IssueStatus.find_by_name('Closed'), :fixed_version => v2)
+        Issue.generate!(:project => @project, :status => IssueStatus.find_by_name('Closed'), :fixed_version => v2)
 
         assert_equal 100, @project.completed_percent
       end
 
       should "return the averaged completed percent of the versions (not weighted)" do
         v1 = Version.generate!(:project => @project)
-        Issue.generate_for_project!(@project, :status => IssueStatus.find_by_name('New'), :estimated_hours => 10, :done_ratio => 50, :fixed_version => v1)
+        Issue.generate!(:project => @project, :status => IssueStatus.find_by_name('New'), :estimated_hours => 10, :done_ratio => 50, :fixed_version => v1)
         v2 = Version.generate!(:project => @project)
-        Issue.generate_for_project!(@project, :status => IssueStatus.find_by_name('New'), :estimated_hours => 10, :done_ratio => 50, :fixed_version => v2)
+        Issue.generate!(:project => @project, :status => IssueStatus.find_by_name('New'), :estimated_hours => 10, :done_ratio => 50, :fixed_version => v2)
 
         assert_equal 50, @project.completed_percent
       end

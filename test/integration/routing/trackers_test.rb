@@ -67,5 +67,13 @@ class RoutingTrackersTest < ActionController::IntegrationTest
         { :controller => 'trackers', :action => 'destroy',
           :format => 'xml', :id => '1' }
       )
+    assert_routing(
+        { :method => 'get', :path => "/trackers/fields" },
+        { :controller => 'trackers', :action => 'fields' }
+      )
+    assert_routing(
+        { :method => 'post', :path => "/trackers/fields" },
+        { :controller => 'trackers', :action => 'fields' }
+      )
   end
 end

@@ -8,6 +8,7 @@ roles_001:
     --- 
     - :add_project
     - :edit_project
+    - :close_project
     - :select_project_modules
     - :manage_members
     - :manage_versions
@@ -23,6 +24,8 @@ roles_001:
     - :view_issue_watchers
     - :add_issue_watchers
     - :set_issues_private
+    - :set_notes_private
+    - :view_private_notes
     - :delete_issue_watchers
     - :manage_public_queries
     - :save_queries

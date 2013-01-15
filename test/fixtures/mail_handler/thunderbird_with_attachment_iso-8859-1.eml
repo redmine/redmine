@@ -1,0 +1,34 @@
+Message-ID: <50AB9546.7020800@gmail.com>
+Date: Tue, 20 Nov 2012 23:35:50 +0900
+From: John Smith <JSmith@somenet.foo>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
+MIME-Version: 1.0
+To: redmine@somenet.foo
+Subject: test
+Content-Type: multipart/mixed;
+ boundary="------------050902080306030406090208"
+
+This is a multi-part message in MIME format.
+--------------050902080306030406090208
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
+
+test
+
+--------------050902080306030406090208
+Content-Type: image/png;
+ name="=?ISO-8859-1?Q?=C4=E4=D6=F6=DC=FC=C4=E4=D6=F6=DC=FC=C4=E4=D6=F6=DC=FC=C4=E4?=
+ =?ISO-8859-1?Q?=D6=F6=DC=FC=C4=E4=D6=F6=DC=FC=C4=E4=D6=F6=DC=FC=C4=E4=D6?=
+ =?ISO-8859-1?Q?=F6=DC=FC=C4=E4=D6=F6=DC=FC=C4=E4=D6=F6=DC=FC=C4=E4=D6=F6?=
+ =?ISO-8859-1?Q?=DC=FC=C4=E4=D6=F6=DC=FC=2Epng?="
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename*0*=ISO-8859-1''%C4%E4%D6%F6%DC%FC%C4%E4%D6%F6%DC%FC%C4%E4%D6%F6;
+ filename*1*=%DC%FC%C4%E4%D6%F6%DC%FC%C4%E4%D6%F6%DC%FC%C4%E4%D6%F6%DC%FC;
+ filename*2*=%C4%E4%D6%F6%DC%FC%C4%E4%D6%F6%DC%FC%C4%E4%D6%F6%DC%FC%C4%E4;
+ filename*3*=%D6%F6%DC%FC%C4%E4%D6%F6%DC%FC%2E%70%6E%67
+
+iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAIAAAACDbGyAAAAAXNSR0IArs4c6QAAAAlwSFlz
+AAALEwAACxMBAJqcGAAAAAd0SU1FB9wLFA4fJhRKIUQAAAAUSURBVAjXY/z//z8DEmBiQAWk
+8gHq9gMHP8uZWAAAAABJRU5ErkJggg==
+--------------050902080306030406090208--

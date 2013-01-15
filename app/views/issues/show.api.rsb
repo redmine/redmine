@@ -48,7 +48,7 @@ api.issue do
   end if include_in_api_response?('changesets') && User.current.allowed_to?(:view_changesets, @project)
 
   api.array :journals do
-    @issue.journals.each do |journal|
+    @journals.each do |journal|
       api.journal :id => journal.id do
         api.user(:id => journal.user_id, :name => journal.user.name) unless journal.user.nil?
         api.notes journal.notes

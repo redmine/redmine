@@ -6,10 +6,9 @@
 <%= l(:field_delay) %>: <%= f.text_field :delay, :size => 3 %> <%= l(:label_day_plural) %>
 </span>
 <%= submit_tag l(:button_add) %>
-<%= toggle_link l(:button_cancel), 'new-relation-form'%>
+<%= link_to_function l(:button_cancel), '$("#new-relation-form").hide();'%>
 </p>
 
-<div id="related_issue_candidates" class="autocomplete"></div>
-<%= javascript_tag "observeRelatedIssueField('#{auto_complete_issues_path(:id => @issue, :project_id => @project) }')" %>
+<%= javascript_tag "observeAutocompleteField('relation_issue_to_id', '#{escape_javascript auto_complete_issues_path(:project_id => @project, :scope => (Setting.cross_project_issue_relations? ? 'all' : nil))}')" %>
 
 <%= javascript_tag "setPredecessorFieldsVisibility();" %>

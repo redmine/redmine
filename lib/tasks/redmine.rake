@@ -21,6 +21,11 @@ namespace :redmine do
     task :prune => :environment do
       Attachment.prune
     end
+
+    desc 'Moves attachments stored at the root of the file directory (ie. created before Redmine 2.3) to their subdirectories'
+    task :move_to_subdirectories => :environment do
+      Attachment.move_from_root_to_target_directory
+    end
   end
 
   namespace :tokens do
@@ -70,6 +75,8 @@ namespace :redmine do
       rescue Redmine::PluginNotFound
         abort "Plugin #{name} was not found."
       end
+
+      Rake::Task["db:schema:dump"].invoke
     end
 
     desc 'Copies plugins assets into the public directory.'
@@ -95,21 +102,21 @@ namespace :redmine do
       Rake::TestTask.new :units => "db:test:prepare" do |t|
         t.libs << "test"
         t.verbose = true
-        t.test_files = FileList["plugins/#{ENV['NAME'] || '*'}/test/unit/*_test.rb"]
+        t.pattern = "plugins/#{ENV['NAME'] || '*'}/test/unit/**/*_test.rb"
       end
 
       desc 'Runs the plugins functional tests.'
       Rake::TestTask.new :functionals => "db:test:prepare" do |t|
         t.libs << "test"
         t.verbose = true
-        t.test_files = FileList["plugins/#{ENV['NAME'] || '*'}/test/functional/*_test.rb"]
+        t.pattern = "plugins/#{ENV['NAME'] || '*'}/test/functional/**/*_test.rb"
       end
 
       desc 'Runs the plugins integration tests.'
       Rake::TestTask.new :integration => "db:test:prepare" do |t|
         t.libs << "test"
         t.verbose = true
-        t.test_files = FileList["plugins/#{ENV['NAME'] || '*'}/test/integration/*_test.rb"]
+        t.pattern = "plugins/#{ENV['NAME'] || '*'}/test/integration/**/*_test.rb"
       end
     end
   end

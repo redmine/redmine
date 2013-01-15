@@ -8,17 +8,17 @@
 
 <% unless replying %>
   <% if @message.safe_attribute? 'sticky' %>
-    <label><%= f.check_box :sticky %><%= l(:label_board_sticky) %></label>
+    <%= f.check_box :sticky %> <%= label_tag 'message_sticky', l(:label_board_sticky) %>
   <% end %>
   <% if @message.safe_attribute? 'locked' %>
-    <label><%= f.check_box :locked %><%= l(:label_board_locked) %></label>
+    <%= f.check_box :locked %> <%= label_tag 'message_locked', l(:label_board_locked) %>
   <% end %>
 <% end %>
 </p>
 
 <% if !replying && !@message.new_record? && @message.safe_attribute?('board_id') %>
   <p><label><%= l(:label_board) %></label><br />
-  <%= f.select :board_id, @project.boards.collect {|b| [b.name, b.id]} %></p>
+  <%= f.select :board_id, boards_options_for_select(@message.project.boards) %></p>
 <% end %>
 
 <p>

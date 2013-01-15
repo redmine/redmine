@@ -1,0 +1,3 @@
+$('#ajax-modal').html('<%= escape_javascript(render :partial => 'watchers/new', :locals => {:watched => @watched}) %>');
+showModal('ajax-modal', '400px');
+$('#ajax-modal').addClass('new-watcher');

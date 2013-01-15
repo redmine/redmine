@@ -1,0 +1,9 @@
+var fileSpan = $('#attachments_<%= j params[:attachment_id] %>');
+$('<input>', { type: 'hidden', name: 'attachments[<%= j params[:attachment_id] %>][token]' } ).val('<%= j @attachment.token %>').appendTo(fileSpan);
+fileSpan.find('a.remove-upload')
+  .attr({
+    "data-remote": true,
+    "data-method": 'delete',
+    href: '<%= j attachment_path(@attachment, :attachment_id => params[:attachment_id], :format => 'js') %>'
+  })
+  .off('click');

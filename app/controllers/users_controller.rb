@@ -45,12 +45,9 @@ class UsersController < ApplicationController
     scope = scope.in_group(params[:group_id]) if params[:group_id].present?
 
     @user_count = scope.count
-    @user_pages = Paginator.new self, @user_count, @limit, params['page']
-    @offset ||= @user_pages.current.offset
-    @users =  scope.find :all,
-                        :order => sort_clause,
-                        :limit  =>  @limit,
-                        :offset =>  @offset
+    @user_pages = Paginator.new @user_count, @limit, params['page']
+    @offset ||= @user_pages.offset
+    @users =  scope.order(sort_clause).limit(@limit).offset(@offset).all
 
     respond_to do |format|
       format.html {
@@ -83,7 +80,7 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new(:language => Setting.default_language, :mail_notification => Setting.default_notification_option)
-    @auth_sources = AuthSource.find(:all)
+    @auth_sources = AuthSource.all
   end
 
   def create
@@ -103,16 +100,17 @@ class UsersController < ApplicationController
 
       respond_to do |format|
         format.html {
-          flash[:notice] = l(:notice_successful_create)
-          redirect_to(params[:continue] ?
-            {:controller => 'users', :action => 'new'} :
-            {:controller => 'users', :action => 'edit', :id => @user}
-          )
+          flash[:notice] = l(:notice_user_successful_create, :id => view_context.link_to(@user.login, user_path(@user)))
+          if params[:continue]
+            redirect_to new_user_path
+          else
+            redirect_to edit_user_path(@user)
+          end
         }
         format.api  { render :action => 'show', :status => :created, :location => user_url(@user) }
       end
     else
-      @auth_sources = AuthSource.find(:all)
+      @auth_sources = AuthSource.all
       # Clear password input
       @user.password = @user.password_confirmation = nil
 
@@ -124,7 +122,7 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @auth_sources = AuthSource.find(:all)
+    @auth_sources = AuthSource.all
     @membership ||= Member.new
   end
 
@@ -156,10 +154,10 @@ class UsersController < ApplicationController
           flash[:notice] = l(:notice_successful_update)
           redirect_to_referer_or edit_user_path(@user)
         }
-        format.api  { head :ok }
+        format.api  { render_api_ok }
       end
     else
-      @auth_sources = AuthSource.find(:all)
+      @auth_sources = AuthSource.all
       @membership ||= Member.new
       # Clear password input
       @user.password = @user.password_confirmation = nil
@@ -174,8 +172,8 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     respond_to do |format|
-      format.html { redirect_to_referer_or(users_url) }
-      format.api  { head :ok }
+      format.html { redirect_back_or_default(users_path) }
+      format.api  { render_api_ok }
     end
   end
 
@@ -183,21 +181,8 @@ class UsersController < ApplicationController
     @membership = Member.edit_membership(params[:membership_id], params[:membership], @user)
     @membership.save
     respond_to do |format|
-      if @membership.valid?
-        format.html { redirect_to :controller => 'users', :action => 'edit', :id => @user, :tab => 'memberships' }
-        format.js {
-          render(:update) {|page|
-            page.replace_html "tab-content-memberships", :partial => 'users/memberships'
-            page.visual_effect(:highlight, "member-#{@membership.id}")
-          }
-        }
-      else
-        format.js {
-          render(:update) {|page|
-            page.alert(l(:notice_failed_to_save_members, :errors => @membership.errors.full_messages.join(', ')))
-          }
-        }
-      end
+      format.html { redirect_to edit_user_path(@user, :tab => 'memberships') }
+      format.js
     end
   end
 
@@ -207,8 +192,8 @@ class UsersController < ApplicationController
       @membership.destroy
     end
     respond_to do |format|
-      format.html { redirect_to :controller => 'users', :action => 'edit', :id => @user, :tab => 'memberships' }
-      format.js { render(:update) {|page| page.replace_html "tab-content-memberships", :partial => 'users/memberships'} }
+      format.html { redirect_to edit_user_path(@user, :tab => 'memberships') }
+      format.js
     end
   end
 

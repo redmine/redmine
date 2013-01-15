@@ -18,9 +18,9 @@
 </div>
 <p>
   <label><%= radio_button_tag 'conflict_resolution', 'overwrite' %> <%= l(:text_issue_conflict_resolution_overwrite) %></label><br />
-  <% if @notes.present? %>
+  <% if @issue.notes.present? %>
   <label><%= radio_button_tag 'conflict_resolution', 'add_notes' %> <%= l(:text_issue_conflict_resolution_add_notes) %></label><br />
   <% end %>
-  <label><%= radio_button_tag 'conflict_resolution', 'cancel' %> <%= l(:text_issue_conflict_resolution_cancel, :link => link_to_issue(@issue, :subject => false)) %></label>
+  <label><%= radio_button_tag 'conflict_resolution', 'cancel' %> <%= l(:text_issue_conflict_resolution_cancel, :link => link_to_issue(@issue, :subject => false)).html_safe %></label>
 </p>
 <p><%= submit_tag l(:button_submit) %></p>

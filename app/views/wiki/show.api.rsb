@@ -1,0 +1,18 @@
+api.wiki_page do
+  api.title @page.title
+  if @page.parent
+    api.parent :title => @page.parent.title
+  end
+  api.text @content.text
+  api.version @content.version
+  api.author(:id => @content.author_id, :name => @content.author.name)
+  api.comments @page.content.comments
+  api.created_on @page.created_on
+  api.updated_on @content.updated_on
+
+  api.array :attachments do
+    @page.attachments.each do |attachment|
+      render_api_attachment(attachment, api)
+    end
+  end if include_in_api_response?('attachments')
+end

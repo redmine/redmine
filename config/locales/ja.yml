@@ -173,11 +173,11 @@ ja:
   general_first_day_of_week: '7'
 
   notice_account_updated: アカウントが更新されました。
-  notice_account_invalid_creditentials: ユーザ名もしくはパスワードが無効
+  notice_account_invalid_creditentials: ユーザー名もしくはパスワードが無効です
   notice_account_password_updated: パスワードが更新されました。
   notice_account_wrong_password: パスワードが違います
-  notice_account_register_done: アカウントが作成されました。
-  notice_account_unknown_email: ユーザが存在しません。
+  notice_account_register_done: アカウントが作成されました。有効にするには送信したメールにあるリンクをクリックしてください。
+  notice_account_unknown_email: ユーザーが存在しません。
   notice_can_t_change_password: このアカウントでは外部認証を使っています。パスワードは変更できません。
   notice_account_lost_email_sent: 新しいパスワードのメールを送信しました。
   notice_account_activated: アカウントが有効になりました。ログインできます。
@@ -186,9 +186,9 @@ ja:
   notice_successful_delete: 削除しました。
   notice_successful_connection: 接続しました。
   notice_file_not_found: アクセスしようとしたページは存在しないか削除されています。
-  notice_locking_conflict: 別のユーザがデータを更新しています。
+  notice_locking_conflict: 別のユーザーがデータを更新しています。
   notice_not_authorized: このページにアクセスするには認証が必要です。
-  notice_not_authorized_archived_project: プロジェクトは書庫に保存されています。
+  notice_not_authorized_archived_project: プロジェクトはアーカイブされています。
   notice_email_sent: "%{value} 宛にメールを送信しました。"
   notice_email_error: "メール送信中にエラーが発生しました (%{value})"
   notice_feeds_access_key_reseted: RSSアクセスキーを初期化しました。
@@ -196,7 +196,7 @@ ja:
   notice_failed_to_save_issues: "全%{total}件中%{count}件のチケットが保存できませんでした: %{ids}."
   notice_failed_to_save_members: "メンバーの保存に失敗しました: %{errors}."
   notice_no_issue_selected: "チケットが選択されていません! 更新対象のチケットを選択してください。"
-  notice_account_pending: アカウントは作成済みで、管理者の承認待ちです。
+  notice_account_pending: アカウントは作成済みで、システム管理者の承認待ちです。
   notice_default_data_loaded: デフォルト設定をロードしました。
   notice_unable_delete_version: バージョンを削除できません
   notice_unable_delete_time_entry: 作業時間を削除できません
@@ -215,7 +215,7 @@ ja:
   error_unable_to_connect: "接続できません。 (%{value})"
   error_can_not_remove_role: 'このロールは使用されています。削除できません。'
   error_can_not_reopen_issue_on_closed_version: '終了したバージョンにひも付けされたチケットの再オープンはできません。'
-  error_can_not_archive_project: このプロジェクトは書庫に保存できません
+  error_can_not_archive_project: このプロジェクトはアーカイブできません
   error_issue_done_ratios_not_updated: "チケットの進捗が更新できません。"
   error_workflow_copy_source: 'コピー元となるトラッカーまたはロールを選択してください'
   error_workflow_copy_target: 'コピー先となるトラッカーとロールを選択してください'
@@ -230,7 +230,7 @@ ja:
   mail_body_account_information_external: "%{value} アカウントを使ってにログインできます。"
   mail_body_account_information: アカウント情報
   mail_subject_account_activation_request: "%{value} アカウントの承認要求"
-  mail_body_account_activation_request: "新しいユーザ %{value} が登録されました。このアカウントはあなたの承認待ちです："
+  mail_body_account_activation_request: "新しいユーザー %{value} が登録されました。このアカウントはあなたの承認待ちです："
   mail_subject_reminder: "%{count}件のチケットの期日が%{days}日以内に到来します"
   mail_body_reminder: "%{count}件の担当チケットの期日が%{days}日以内に到来します:"
   mail_subject_wiki_content_added: "Wikiページ %{id} が追加されました"
@@ -238,8 +238,6 @@ ja:
   mail_subject_wiki_content_updated: "Wikiページ %{id} が更新されました"
   mail_body_wiki_content_updated: "%{author} によってWikiページ %{id} が更新されました。"
 
-  gui_validation_error: 1件のエラー
-  gui_validation_error_plural: "%{count}件のエラー"
 
   field_name: 名称
   field_description: 説明
@@ -275,7 +273,7 @@ ja:
   field_assigned_to: 担当者
   field_priority: 優先度
   field_fixed_version: 対象バージョン
-  field_user: ユーザ
+  field_user: ユーザー
   field_principal: 主体
   field_role: ロール
   field_homepage: ホームページ
@@ -284,7 +282,7 @@ ja:
   field_is_in_roadmap: チケットをロードマップに表示する
   field_login: ログイン
   field_mail_notification: メール通知
-  field_admin: 管理者
+  field_admin: システム管理者
   field_last_login_on: 最終接続日
   field_language: 言語
   field_effective_date: 期日
@@ -301,7 +299,7 @@ ja:
   field_attr_firstname: 名前属性
   field_attr_lastname: 苗字属性
   field_attr_mail: メール属性
-  field_onthefly: あわせてユーザを作成
+  field_onthefly: あわせてユーザーを作成
   field_start_date: 開始日
   field_done_ratio: 進捗 %
   field_auth_source: 認証方式
@@ -351,7 +349,7 @@ ja:
   setting_welcome_text: ウェルカムメッセージ
   setting_default_language: 既定の言語
   setting_login_required: 認証が必要
-  setting_self_registration: ユーザによるアカウント登録
+  setting_self_registration: ユーザーによるアカウント登録
   setting_attachment_max_size: 添付ファイルサイズの上限
   setting_issues_export_limit: エクスポートするチケット数の上限
   setting_mail_from: 送信元メールアドレス
@@ -370,14 +368,14 @@ ja:
   setting_autologin: 自動ログイン
   setting_date_format: 日付の形式
   setting_time_format: 時刻の形式
-  setting_cross_project_issue_relations: 異なるプロジェクトのチケット間で関係の設定を許可
+  setting_cross_project_issue_relations: 異なるプロジェクトのチケット間で関連の設定を許可
   setting_issue_list_default_columns: チケットの一覧で表示する項目
   setting_repositories_encodings: 添付ファイルとリポジトリのエンコーディング
   setting_emails_header: メールのヘッダ
   setting_emails_footer: メールのフッタ
   setting_protocol: プロトコル
   setting_per_page_options: ページ毎の表示件数
-  setting_user_format: ユーザ名の表示書式
+  setting_user_format: ユーザー名の表示書式
   setting_activity_days_default: プロジェクトの活動ページに表示される日数
   setting_display_subprojects_issues: サブプロジェクトのチケットをメインプロジェクトに表示する
   setting_enabled_scm: 使用するバージョン管理システム
@@ -392,7 +390,7 @@ ja:
   setting_repository_log_display_limit: ファイルのリビジョン表示数の上限
   setting_openid: OpenIDによるログインと登録
   setting_password_min_length: パスワードの最低必要文字数
-  setting_new_project_user_role_id: 管理者以外のユーザが作成したプロジェクトに設定するロール
+  setting_new_project_user_role_id: システム管理者以外のユーザーが作成したプロジェクトに設定するロール
   setting_default_projects_modules: 新規プロジェクトにおいてデフォルトで有効になるモジュール
   setting_issue_done_ratio: 進捗の算出方法
   setting_issue_done_ratio_issue_field: 各チケットにフィールドを用意する
@@ -414,7 +412,7 @@ ja:
   permission_view_issues: チケットの閲覧
   permission_add_issues: チケットの追加
   permission_edit_issues: チケットの編集
-  permission_manage_issue_relations: チケットの管理
+  permission_manage_issue_relations: 関連するチケットの管理
   permission_add_issue_notes: 注記の追加
   permission_edit_issue_notes: 注記の編集
   permission_edit_own_issue_notes: 自身が記入した注記の編集
@@ -427,10 +425,10 @@ ja:
   permission_view_issue_watchers: ウォッチャー一覧の閲覧
   permission_add_issue_watchers: ウォッチャーの追加
   permission_delete_issue_watchers: ウォッチャーの削除
-  permission_log_time: 変更履歴の記入
-  permission_view_time_entries: 変更履歴の閲覧
-  permission_edit_time_entries: 変更履歴の編集
-  permission_edit_own_time_entries: 自身が記入した変更履歴の編集
+  permission_log_time: 作業時間の記入
+  permission_view_time_entries: 作業時間の閲覧
+  permission_edit_time_entries: 作業時間の編集
+  permission_edit_own_time_entries: 自身が記入した作業時間の編集
   permission_manage_project_activities: 作業分類 (時間トラッキング) の管理
   permission_manage_news: ニュースの管理
   permission_comment_news: ニュースへのコメント
@@ -450,7 +448,7 @@ ja:
   permission_manage_repository: リポジトリの管理
   permission_browse_repository: リポジトリの閲覧
   permission_view_changesets: 更新履歴の閲覧
-  permission_commit_access: コミットの閲覧
+  permission_commit_access: コミット権限
   permission_manage_boards: フォーラムの管理
   permission_view_messages: メッセージの閲覧
   permission_add_messages: メッセージの追加
@@ -471,10 +469,10 @@ ja:
   project_module_gantt: ガントチャート
   project_module_calendar: カレンダー
 
-  label_user: ユーザ
-  label_user_plural: ユーザ
-  label_user_new: 新しいユーザ
-  label_user_anonymous: 匿名ユーザ
+  label_user: ユーザー
+  label_user_plural: ユーザー
+  label_user_new: 新しいユーザー
+  label_user_anonymous: 匿名ユーザー
   label_profile: プロフィール
   label_project: プロジェクト
   label_project_new: 新しいプロジェクト
@@ -560,15 +558,13 @@ ja:
   label_text: 長いテキスト
   label_attribute: 属性
   label_attribute_plural: 属性
-  label_download: "%{count}ダウンロード"
-  label_download_plural: "%{count}ダウンロード"
   label_no_data: 表示するデータがありません
   label_change_status: ステータスの変更
   label_history: 履歴
-  label_attachment: 添付ファイル
-  label_attachment_new: 新しい添付ファイル
-  label_attachment_delete: 添付ファイルを削除
-  label_attachment_plural: 添付ファイル
+  label_attachment: ファイル
+  label_attachment_new: 新しいファイル
+  label_attachment_delete: ファイルを削除
+  label_attachment_plural: ファイル
   label_file_added: ファイルが追加されました
   label_report: レポート
   label_report_plural: レポート
@@ -642,11 +638,11 @@ ja:
   label_filter_plural: フィルタ
   label_equals: 等しい
   label_not_equals: 等しくない
-  label_in_less_than: が今日から○日後以前
-  label_in_more_than: が今日から○日後以降
+  label_in_less_than: 今日から○日後以前
+  label_in_more_than: 今日から○日後以降
   label_greater_or_equal: 以上
   label_less_or_equal: 以下
-  label_in: が今日から○日後
+  label_in: 今日から○日後
   label_today: 今日
   label_all_time: 全期間
   label_yesterday: 昨日
@@ -657,17 +653,15 @@ ja:
   label_last_month: 先月
   label_this_year: 今年
   label_date_range: 期間
-  label_less_than_ago: が今日より○日前以降
-  label_more_than_ago: が今日より○日前以前
-  label_ago: 日前
+  label_less_than_ago: 今日より○日前以降
+  label_more_than_ago: 今日より○日前以前
+  label_ago: ○日前
   label_contains: 含む
   label_not_contains: 含まない
   label_day_plural: 日
   label_repository: リポジトリ
   label_repository_plural: リポジトリ
   label_browse: ブラウズ
-  label_modification: "%{count}点の変更"
-  label_modification_plural: "%{count}点の変更"
   label_branch: ブランチ
   label_tag: タグ
   label_revision: リビジョン
@@ -729,13 +723,13 @@ ja:
   label_loading: ロード中...
   label_relation_new: 新しい関連
   label_relation_delete: 関連の削除
-  label_relates_to: 関係している
-  label_duplicates: 重複している
-  label_duplicated_by: 重複されている
+  label_relates_to: 関連している
+  label_duplicates: 次のチケットと重複
+  label_duplicated_by: 次のチケットが重複
   label_blocks: ブロックしている
   label_blocked_by: ブロックされている
-  label_precedes: 先行する
-  label_follows: 後続する
+  label_precedes: 次のチケットに先行
+  label_follows: 次のチケットに後続
   label_end_to_start: 最後-最初
   label_end_to_end: 最後-最後
   label_start_to_start: 最初-最初
@@ -755,13 +749,13 @@ ja:
   label_message_new: 新しいメッセージ
   label_message_posted: メッセージが追加されました
   label_reply_plural: 返答
-  label_send_information: アカウント情報をユーザに送信
+  label_send_information: アカウント情報をユーザーに送信
   label_year: 年
   label_month: 月
   label_week: 週
   label_date_from: "日付指定: "
   label_date_to: から
-  label_language_based: 既定の言語の設定に従う
+  label_language_based: ユーザーの言語の設定に従う
   label_sort_by: "並び替え %{value}"
   label_send_test_email: テストメールを送信
   label_feeds_access_key: RSSアクセスキー
@@ -835,14 +829,14 @@ ja:
   label_api_access_key_created_on: "APIアクセスキーは%{value}前に作成されました"
   label_subtask_plural: 子チケット
   label_project_copy_notifications: コピーしたチケットのメール通知を送信する
-  label_principal_search: "ユーザまたはグループの検索:"
-  label_user_search: "ユーザの検索:"
+  label_principal_search: "ユーザーまたはグループの検索:"
+  label_user_search: "ユーザーの検索:"
   label_git_report_last_commit: ファイルとディレクトリの最新コミットを表示する
   label_parent_revision: 親
   label_child_revision: 子
 
   button_login: ログイン
-  button_submit: 変更
+  button_submit: 送信
   button_save: 保存
   button_check_all: すべてにチェックをつける
   button_uncheck_all: すべてのチェックを外す
@@ -862,7 +856,7 @@ ja:
   button_unlock: アンロック
   button_download: ダウンロード
   button_list: 一覧
-  button_view: 見る
+  button_view: 表示
   button_move: 移動
   button_move_and_follow: 移動後表示
   button_back: 戻る
@@ -874,8 +868,8 @@ ja:
   button_watch: ウォッチ
   button_unwatch: ウォッチをやめる
   button_reply: 返答
-  button_archive: 書庫に保存
-  button_unarchive: 書庫から戻す
+  button_archive: アーカイブ
+  button_unarchive: アーカイブ解除
   button_reset: リセット
   button_rename: 名前変更
   button_change_password: パスワード変更
@@ -905,7 +899,6 @@ ja:
   text_subprojects_destroy_warning: "サブプロジェクト %{value} も削除されます。"
   text_workflow_edit: ワークフローを編集するロールとトラッカーを選んでください
   text_are_you_sure: よろしいですか？
-  text_are_you_sure_with_children: チケットとその子チケットすべてを削除しますか？
   text_journal_changed: "%{label} を %{old} から %{new} に変更"
   text_journal_changed_no_detail: "%{label} を更新"
   text_journal_set_to: "%{label} を %{value} にセット"
@@ -978,7 +971,7 @@ ja:
   default_issue_status_feedback: フィードバック
   default_issue_status_closed: 終了
   default_issue_status_rejected: 却下
-  default_doc_category_user: ユーザ文書
+  default_doc_category_user: ユーザー文書
   default_doc_category_tech: 技術文書
   default_priority_low: 低め
   default_priority_normal: 通常
@@ -997,8 +990,8 @@ ja:
   label_bulk_edit_selected_time_entries: 作業時間の一括編集
   text_time_entries_destroy_confirmation: 本当に選択した作業時間を削除しますか？
 
-  label_role_anonymous: Anonymous
-  label_role_non_member: Non member
+  label_role_anonymous: 匿名ユーザー
+  label_role_non_member: 非メンバー
 
   label_issue_note_added: 注記が追加されました
   label_issue_status_updated: ステータスが更新されました
@@ -1048,18 +1041,18 @@ ja:
   label_copy_attachments: 添付ファイルをコピー
   label_item_position: "%{position}/%{count}"
   label_completed_versions: 完了したバージョン
-  text_project_identifier_info: アルファベット小文字(a-z)・数字・ハイフン・アンダースコアが使えます。<br />識別子は後で変更することはできません。
+  text_project_identifier_info: アルファベット小文字(a-z)・数字・ハイフン・アンダースコアが使えます。最初の文字はアルファベットの小文字にしてください。<br />識別子は後で変更することはできません。
   field_multiple: 複数選択可
   setting_commit_cross_project_ref: 異なるプロジェクトのチケットの参照/修正を許可
   text_issue_conflict_resolution_add_notes: 自分の編集内容を破棄し注記のみ追加
-  text_issue_conflict_resolution_overwrite: 自分の編集内容の保存を強行 (他のユーザの更新内容は注記を除き上書きされます)
-  notice_issue_update_conflict: このチケットを編集中に他のユーザが更新しました。
+  text_issue_conflict_resolution_overwrite: 自分の編集内容の保存を強行 (他のユーザーの更新内容は注記を除き上書きされます)
+  notice_issue_update_conflict: このチケットを編集中に他のユーザーが更新しました。
   text_issue_conflict_resolution_cancel: 自分の編集内容を破棄し %{link} を再表示
   permission_manage_related_issues: 関連するチケットの管理
-  field_ldap_filter: LDAPフィルタ
+  field_auth_source_ldap_filter: LDAPフィルタ
   label_search_for_watchers: ウォッチャーを検索して追加
   notice_account_deleted: アカウントが削除されました。
-  setting_unsubscribe: ユーザによるアカウント削除を許可
+  setting_unsubscribe: ユーザーによるアカウント削除を許可
   button_delete_my_account: 自分のアカウントを削除
   text_account_destroy_confirmation: |-
     本当にアカウントを削除しますか？
@@ -1069,3 +1062,47 @@ ja:
   setting_session_lifetime: 有効期間の最大値
   setting_session_timeout: 無操作タイムアウト
   label_session_expiration: セッション有効期間
+  permission_close_project: プロジェクトの終了/再開
+  label_show_closed_projects: 終了したプロジェクトを表示
+  button_close: 終了
+  button_reopen: 再開
+  project_status_active: 有効
+  project_status_closed: 終了
+  project_status_archived: アーカイブ
+  text_project_closed: このプロジェクトは終了しているため読み取り専用です。
+  notice_user_successful_create: ユーザー %{id} を作成しました。
+  field_core_fields: 標準フィールド
+  field_timeout: タイムアウト(秒単位)
+  setting_thumbnails_enabled: 添付ファイルのサムネイル画像を表示
+  setting_thumbnails_size: サムネイル画像の大きさ(ピクセル単位)
+  label_status_transitions: ステータスの遷移
+  label_fields_permissions: フィールドに対する権限
+  label_readonly: 読み取り専用
+  label_required: 必須
+  text_repository_identifier_info: アルファベット小文字(a-z)・数字・ハイフン・アンダースコアが使えます。<br />識別子は後で変更することはできません。
+  field_board_parent: 親フォーラム
+  label_attribute_of_project: プロジェクトの %{name}
+  label_attribute_of_author: 作成者の %{name}
+  label_attribute_of_assigned_to: 担当者の %{name}
+  label_attribute_of_fixed_version: 対象バージョンの %{name}
+  label_copy_subtasks: 子チケットをコピー
+  label_copied_to: コピー先
+  label_copied_from: コピー元
+  label_any_issues_in_project: 次のプロジェクト内のチケット
+  label_any_issues_not_in_project: 次のプロジェクト外のチケット
+  field_private_notes: プライベート注記
+  permission_view_private_notes: プライベート注記の閲覧
+  permission_set_notes_private: 注記をプライベートに設定
+  label_no_issues_in_project: 次のプロジェクト内のチケットを除く
+  label_any: すべて
+  label_last_n_weeks: 直近%{count}週間
+  setting_cross_project_subtasks: 異なるプロジェクトのチケット間の親子関係を許可
+  label_cross_project_descendants: サブプロジェクト単位
+  label_cross_project_tree: プロジェクトツリー単位
+  label_cross_project_hierarchy: プロジェクト階層単位
+  label_cross_project_system: すべてのプロジェクト
+  button_hide: 隠す
+  setting_non_working_week_days: 休業日
+  label_in_the_next_days: 今後○日
+  label_in_the_past_days: 過去○日
+  label_attribute_of_user: ユーザーの %{name}

@@ -29,6 +29,8 @@ class Group < Principal
 
   before_destroy :remove_references_before_destroy
 
+  scope :sorted, lambda { order("#{table_name}.lastname ASC") }
+
   safe_attributes 'name',
     'user_ids',
     'custom_field_values',
@@ -60,8 +62,11 @@ class Group < Principal
 
   def user_removed(user)
     members.each do |member|
-      MemberRole.find(:all, :include => :member,
-                            :conditions => ["#{Member.table_name}.user_id = ? AND #{MemberRole.table_name}.inherited_from IN (?)", user.id, member.member_role_ids]).each(&:destroy)
+      MemberRole.
+        includes(:member).
+        where("#{Member.table_name}.user_id = ? AND #{MemberRole.table_name}.inherited_from IN (?)", user.id, member.member_role_ids).
+        all.
+        each(&:destroy)
     end
   end
 

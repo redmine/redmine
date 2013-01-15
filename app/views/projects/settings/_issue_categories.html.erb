@@ -14,7 +14,7 @@
     <td class="buttons">
     	<% if User.current.allowed_to?(:manage_categories, @project) %>
         <%= link_to l(:button_edit), edit_issue_category_path(category), :class => 'icon icon-edit' %>
-        <%= link_to l(:button_delete), issue_category_path(category), :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del' %>
+        <%= delete_link issue_category_path(category) %>
 		  <% end %>
     </td>
   </tr>

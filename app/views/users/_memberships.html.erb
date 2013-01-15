@@ -1,5 +1,5 @@
 <% roles = Role.find_all_givable %>
-<% projects = Project.active.find(:all, :order => 'lft') %>
+<% projects = Project.active.all %>
 
 <div class="splitcontentleft">
 <% if @user.memberships.any? %>
@@ -30,21 +30,16 @@
         <%= hidden_field_tag 'membership[role_ids][]', '' %>
         <p><%= submit_tag l(:button_change) %>
         <%= link_to_function l(:button_cancel),
-                             "$('member-#{membership.id}-roles').show(); $('member-#{membership.id}-roles-form').hide(); return false;"
+                             "$('#member-#{membership.id}-roles').show(); $('#member-#{membership.id}-roles-form').hide(); return false;"
             %></p>
     <% end %>
   </td>
   <td class="buttons">
       <%= link_to_function l(:button_edit),
-                           "$('member-#{membership.id}-roles').hide(); $('member-#{membership.id}-roles-form').show(); return false;",
+                           "$('#member-#{membership.id}-roles').hide(); $('#member-#{membership.id}-roles-form').show(); return false;",
                            :class => 'icon icon-edit'
           %>
-      <%= link_to_remote(
-            l(:button_delete),
-            { :url => user_membership_path(@user, membership),
-              :method => :delete },
-            :class => 'icon icon-del'
-          ) if membership.deletable? %>
+      <%= delete_link user_membership_path(@user, membership), :remote => true if membership.deletable? %>
   </td>
       <%= call_hook(:view_users_memberships_table_row, :user => @user, :membership => membership, :roles => roles, :projects => projects )%>
   </tr>

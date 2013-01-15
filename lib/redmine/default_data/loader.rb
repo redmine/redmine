@@ -26,10 +26,10 @@ module Redmine
         # Returns true if no data is already loaded in the database
         # otherwise false
         def no_data?
-          !Role.find(:first, :conditions => {:builtin => 0}) &&
-            !Tracker.find(:first) &&
-            !IssueStatus.find(:first) &&
-            !Enumeration.find(:first)
+          !Role.where(:builtin => 0).exists? &&
+            !Tracker.exists? &&
+            !IssueStatus.exists? &&
+            !Enumeration.exists?
         end
 
         # Loads the default data
@@ -53,6 +53,8 @@ module Redmine
                                                       :view_issues,
                                                       :add_issues,
                                                       :edit_issues,
+                                                      :view_private_notes,
+                                                      :set_notes_private,
                                                       :manage_issue_relations,
                                                       :manage_subtasks,
                                                       :add_issue_notes,
@@ -137,40 +139,40 @@ module Redmine
             rejected  = IssueStatus.create!(:name => l(:default_issue_status_rejected), :is_closed => true, :is_default => false, :position => 6)
 
             # Workflow
-            Tracker.find(:all).each { |t|
-              IssueStatus.find(:all).each { |os|
-                IssueStatus.find(:all).each { |ns|
-                  Workflow.create!(:tracker_id => t.id, :role_id => manager.id, :old_status_id => os.id, :new_status_id => ns.id) unless os == ns
+            Tracker.all.each { |t|
+              IssueStatus.all.each { |os|
+                IssueStatus.all.each { |ns|
+                  WorkflowTransition.create!(:tracker_id => t.id, :role_id => manager.id, :old_status_id => os.id, :new_status_id => ns.id) unless os == ns
                 }
               }
             }
 
-            Tracker.find(:all).each { |t|
+            Tracker.all.each { |t|
               [new, in_progress, resolved, feedback].each { |os|
                 [in_progress, resolved, feedback, closed].each { |ns|
-                  Workflow.create!(:tracker_id => t.id, :role_id => developer.id, :old_status_id => os.id, :new_status_id => ns.id) unless os == ns
+                  WorkflowTransition.create!(:tracker_id => t.id, :role_id => developer.id, :old_status_id => os.id, :new_status_id => ns.id) unless os == ns
                 }
               }
             }
 
-            Tracker.find(:all).each { |t|
+            Tracker.all.each { |t|
               [new, in_progress, resolved, feedback].each { |os|
                 [closed].each { |ns|
-                  Workflow.create!(:tracker_id => t.id, :role_id => reporter.id, :old_status_id => os.id, :new_status_id => ns.id) unless os == ns
+                  WorkflowTransition.create!(:tracker_id => t.id, :role_id => reporter.id, :old_status_id => os.id, :new_status_id => ns.id) unless os == ns
                 }
               }
-              Workflow.create!(:tracker_id => t.id, :role_id => reporter.id, :old_status_id => resolved.id, :new_status_id => feedback.id)
+              WorkflowTransition.create!(:tracker_id => t.id, :role_id => reporter.id, :old_status_id => resolved.id, :new_status_id => feedback.id)
             }
 
             # Enumerations
-            DocumentCategory.create!(:name => l(:default_doc_category_user), :position => 1)
-            DocumentCategory.create!(:name => l(:default_doc_category_tech), :position => 2)
-
             IssuePriority.create!(:name => l(:default_priority_low), :position => 1)
             IssuePriority.create!(:name => l(:default_priority_normal), :position => 2, :is_default => true)
             IssuePriority.create!(:name => l(:default_priority_high), :position => 3)
             IssuePriority.create!(:name => l(:default_priority_urgent), :position => 4)
             IssuePriority.create!(:name => l(:default_priority_immediate), :position => 5)
+
+            DocumentCategory.create!(:name => l(:default_doc_category_user), :position => 1)
+            DocumentCategory.create!(:name => l(:default_doc_category_tech), :position => 2)
 
             TimeEntryActivity.create!(:name => l(:default_activity_design), :position => 1)
             TimeEntryActivity.create!(:name => l(:default_activity_development), :position => 2)

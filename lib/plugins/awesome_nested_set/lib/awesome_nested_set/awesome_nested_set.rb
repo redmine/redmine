@@ -186,7 +186,7 @@ module CollectiveIdea #:nodoc:
             end
 
             # Find root node(s)
-            root_nodes = where("#{quoted_parent_column_name} IS NULL").order("#{quoted_left_column_name}, #{quoted_right_column_name}, id").each do |root_node|
+            root_nodes = where("#{quoted_parent_column_name} IS NULL").order(acts_as_nested_set_options[:order]).each do |root_node|
               # setup index for this scope
               indices[scope.call(root_node)] ||= 0
               set_left_and_rights.call(root_node)
@@ -413,7 +413,7 @@ module CollectiveIdea #:nodoc:
 
         # on creation, set automatically lft and rgt to the end of the tree
         def set_default_left_and_right
-          highest_right_row = nested_set_scope(:order => "#{quoted_right_column_name} desc").find(:first, :limit => 1,:lock => true )
+          highest_right_row = nested_set_scope(:order => "#{quoted_right_column_name} desc").limit(1).lock(true).first
           maxright = highest_right_row ? (highest_right_row[right_column_name] || 0) : 0
           # adds the new node to the right of all existing nodes
           self[left_column_name] = maxright + 1
@@ -443,11 +443,11 @@ module CollectiveIdea #:nodoc:
           in_tenacious_transaction do
             reload_nested_set
             # select the rows in the model that extend past the deletion point and apply a lock
-            self.class.base_class.find(:all,
-              :select => "id",
-              :conditions => ["#{quoted_left_column_name} >= ?", left],
-              :lock => true
-            )
+            self.class.base_class.
+              select("id").
+              where("#{quoted_left_column_name} >= ?", left).
+              lock(true).
+              all
 
             if acts_as_nested_set_options[:dependent] == :destroy
               descendants.each do |model|

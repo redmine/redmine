@@ -1,4 +1,21 @@
 # -*- coding: utf-8 -*-
+# Redmine - project management software
+# Copyright (C) 2006-2012  Jean-Philippe Lang
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
 require File.expand_path('../../test_helper', __FILE__)
 
 class TimeEntryReportsControllerTest < ActionController::TestCase
@@ -73,7 +90,7 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
   end
 
   def test_report_two_criteria
-    get :report, :project_id => 1, :columns => 'month', :from => "2007-01-01", :to => "2007-12-31", :criteria => ["member", "activity"]
+    get :report, :project_id => 1, :columns => 'month', :from => "2007-01-01", :to => "2007-12-31", :criteria => ["user", "activity"]
     assert_response :success
     assert_template 'report'
     assert_not_nil assigns(:report)
@@ -91,7 +108,7 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
   end
 
   def test_report_one_day
-    get :report, :project_id => 1, :columns => 'day', :from => "2007-03-23", :to => "2007-03-23", :criteria => ["member", "activity"]
+    get :report, :project_id => 1, :columns => 'day', :from => "2007-03-23", :to => "2007-03-23", :criteria => ["user", "activity"]
     assert_response :success
     assert_template 'report'
     assert_not_nil assigns(:report)
@@ -99,7 +116,7 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
   end
 
   def test_report_at_issue_level
-    get :report, :project_id => 1, :issue_id => 1, :columns => 'month', :from => "2007-01-01", :to => "2007-12-31", :criteria => ["member", "activity"]
+    get :report, :project_id => 1, :issue_id => 1, :columns => 'month', :from => "2007-01-01", :to => "2007-12-31", :criteria => ["user", "activity"]
     assert_response :success
     assert_template 'report'
     assert_not_nil assigns(:report)
@@ -144,29 +161,27 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
 
   def test_report_all_projects_csv_export
     get :report, :columns => 'month', :from => "2007-01-01", :to => "2007-06-30",
-        :criteria => ["project", "member", "activity"], :format => "csv"
+        :criteria => ["project", "user", "activity"], :format => "csv"
     assert_response :success
     assert_equal 'text/csv; header=present', @response.content_type
     lines = @response.body.chomp.split("\n")
     # Headers
-    assert_equal 'Project,Member,Activity,2007-1,2007-2,2007-3,2007-4,2007-5,2007-6,Total',
-                 lines.first
+    assert_equal 'Project,User,Activity,2007-3,2007-4,Total', lines.first
     # Total row
-    assert_equal 'Total,"","","","",154.25,8.65,"","",162.90', lines.last
+    assert_equal 'Total,"","",154.25,8.65,162.90', lines.last
   end
 
   def test_report_csv_export
     get :report, :project_id => 1, :columns => 'month',
         :from => "2007-01-01", :to => "2007-06-30",
-        :criteria => ["project", "member", "activity"], :format => "csv"
+        :criteria => ["project", "user", "activity"], :format => "csv"
     assert_response :success
     assert_equal 'text/csv; header=present', @response.content_type
     lines = @response.body.chomp.split("\n")
     # Headers
-    assert_equal 'Project,Member,Activity,2007-1,2007-2,2007-3,2007-4,2007-5,2007-6,Total',
-                 lines.first
+    assert_equal 'Project,User,Activity,2007-3,2007-4,Total', lines.first
     # Total row
-    assert_equal 'Total,"","","","",154.25,8.65,"","",162.90', lines.last
+    assert_equal 'Total,"","",154.25,8.65,162.90', lines.last
   end
 
   def test_csv_big_5
@@ -196,12 +211,12 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
 
     get :report, :project_id => 1, :columns => 'day',
         :from => "2011-11-11", :to => "2011-11-11",
-        :criteria => ["member"], :format => "csv"
+        :criteria => ["user"], :format => "csv"
     assert_response :success
     assert_equal 'text/csv; header=present', @response.content_type
     lines = @response.body.chomp.split("\n")    
     # Headers
-    s1 = "\xa6\xa8\xad\xfb,2011-11-11,\xc1`\xadp"
+    s1 = "\xa5\xce\xa4\xe1,2011-11-11,\xc1`\xadp"
     s2 = "\xc1`\xadp"
     if s1.respond_to?(:force_encoding)
       s1.force_encoding('Big5')
@@ -247,12 +262,12 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
 
     get :report, :project_id => 1, :columns => 'day',
         :from => "2011-11-11", :to => "2011-11-11",
-        :criteria => ["member"], :format => "csv"
+        :criteria => ["user"], :format => "csv"
     assert_response :success
     assert_equal 'text/csv; header=present', @response.content_type
     lines = @response.body.chomp.split("\n")    
     # Headers
-    s1 = "\xa6\xa8\xad\xfb,2011-11-11,\xc1`\xadp"
+    s1 = "\xa5\xce\xa4\xe1,2011-11-11,\xc1`\xadp"
     if s1.respond_to?(:force_encoding)
       s1.force_encoding('Big5')
     end
@@ -288,12 +303,12 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
 
       get :report, :project_id => 1, :columns => 'day',
           :from => "2011-11-11", :to => "2011-11-11",
-          :criteria => ["member"], :format => "csv"
+          :criteria => ["user"], :format => "csv"
       assert_response :success
       assert_equal 'text/csv; header=present', @response.content_type
       lines = @response.body.chomp.split("\n")    
       # Headers
-      s1 = "Membre;2011-11-11;Total"
+      s1 = "Utilisateur;2011-11-11;Total"
       s2 = "Total"
       if s1.respond_to?(:force_encoding)
         s1.force_encoding('ISO-8859-1')

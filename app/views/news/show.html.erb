@@ -4,12 +4,8 @@
       edit_news_path(@news),
       :class => 'icon icon-edit',
       :accesskey => accesskey(:edit),
-      :onclick => 'Element.show("edit-news"); return false;') if User.current.allowed_to?(:manage_news, @project) %>
-<%= link_to(l(:button_delete),
-      news_path(@news),
-      :confirm => l(:text_are_you_sure),
-      :method => :delete,
-      :class => 'icon icon-del') if User.current.allowed_to?(:manage_news, @project) %>
+      :onclick => '$("#edit-news").show(); return false;') if User.current.allowed_to?(:manage_news, @project) %>
+<%= delete_link news_path(@news) if User.current.allowed_to?(:manage_news, @project) %>
 </div>
 
 <h2><%= avatar(@news.author, :size => "24") %><%=h @news.title %></h2>
@@ -20,13 +16,8 @@
                                            :html => { :id => 'news-form', :multipart => true, :method => :put } do |f| %>
 <%= render :partial => 'form', :locals => { :f => f } %>
 <%= submit_tag l(:button_save) %>
-<%= link_to_remote l(:label_preview),
-                   { :url => preview_news_path(:project_id => @project),
-                     :method => 'get',
-                     :update => 'preview',
-                     :with => "Form.serialize('news-form')"
-                   }, :accesskey => accesskey(:preview) %> |
-<%= link_to l(:button_cancel), "#", :onclick => 'Element.hide("edit-news"); return false;' %>
+<%= preview_link preview_news_path(:project_id => @project, :id => @news), 'news-form' %> |
+<%= link_to l(:button_cancel), "#", :onclick => '$("#edit-news").hide(); return false;' %>
 <% end %>
 <div id="preview" class="wiki"></div>
 </div>
@@ -46,7 +37,7 @@
     <% next if comment.new_record? %>
     <div class="contextual">
     <%= link_to_if_authorized image_tag('delete.png'), {:controller => 'comments', :action => 'destroy', :id => @news, :comment_id => comment},
-                                                       :confirm => l(:text_are_you_sure), :method => :delete, :title => l(:button_delete) %>
+                                                       :data => {:confirm => l(:text_are_you_sure)}, :method => :delete, :title => l(:button_delete) %>
     </div>
     <h4><%= avatar(comment.author, :size => "24") %><%= authoring comment.created_on, comment.author %></h4>
     <%= textilizable(comment.comments) %>

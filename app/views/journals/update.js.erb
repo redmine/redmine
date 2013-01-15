@@ -1,0 +1,9 @@
+<% if @journal.frozen? %>
+  $("#change-<%= @journal.id %>").remove();
+<% else %>
+  $("#journal-<%= @journal.id %>-notes").replaceWith('<%= escape_javascript(render_notes(@journal.issue, @journal, :reply_links => authorize_for('issues', 'edit'))) %>');
+  $("#journal-<%= @journal.id %>-notes").show();
+  $("#journal-<%= @journal.id %>-form").remove();
+<% end %>
+
+<%= call_hook(:view_journals_update_js_bottom, { :journal => @journal }) %>

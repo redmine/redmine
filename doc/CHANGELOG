@@ -4,6 +4,234 @@ Redmine - project management software
 Copyright (C) 2006-2012  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2013-01-09 v2.2.1
+
+* Upgrade to Rails 3.2.11
+* Defect #12652: "Copy ticket" selects "new ticket"
+* Defect #12691: Textile Homepage Dead?
+* Defect #12711: incorrect fix of lib/SVG/Graph/TimeSeries.rb
+* Defect #12744: Unable to call a macro with a name that contains uppercase letters
+* Defect #12776: Security vulnerability in Rails 3.2.10 (CVE-2013-0156)
+* Patch #12630: Russian "x_hours" translation
+
+== 2012-12-18 v2.2.0
+
+* Defect #4787: Gannt to PNG - CJK (Chinese, Japanese and Korean) characters appear as ?
+* Defect #8106: Issues by Category should show tasks without category
+* Defect #8373: i18n string text_are_you_sure_with_children no longer used
+* Defect #11426: Filtering with Due Date in less than N days should show overdue issues
+* Defect #11834: Bazaar: "???" instead of non ASCII character in paths on non UTF-8 locale
+* Defect #11868: Git and Mercurial diff displays deleted files as /dev/null
+* Defect #11979: No validation errors when entering an invalid "Parent task"
+* Defect #12012: Redmine::VERSION.revision method does not work on Subversion 1.7 working copy
+* Defect #12018: Issue filter select box order changes randomly
+* Defect #12090: email recipients not written to action_mailer log if BCC recipients setting is checked
+* Defect #12092: Issue "start date" validation does not work correctly
+* Defect #12285: Some unit and functional tests miss fixtures and break when run alone
+* Defect #12286: Emails of private notes are sent to watcher users regardless of viewing permissions
+* Defect #12310: Attachments may not be displayed in the order they were selected
+* Defect #12356: Issue "Update" link broken focus
+* Defect #12397: Error in Textile conversion of HTTP links, containing russian letters
+* Defect #12434: Respond with 404 instead of 500 when requesting a wiki diff with invalid versions
+* Feature #1554: Private comments in tickets
+* Feature #2161: Time tracking code should respect weekends as "no work" days
+* Feature #3239: Show related issues on the Issues Listing
+* Feature #3265: Filter on issue relations
+* Feature #3447: Option to display the issue descriptions on the issues list
+* Feature #3511: Ability to sort issues by grouped column
+* Feature #4590: Precede-Follow relation should move following issues when rescheduling issue earlier
+* Feature #5487: Allow subtasks to cross projects
+* Feature #6899: Add a relation between the original and copied issue
+* Feature #7082: Rest API for wiki
+* Feature #9835: REST API - List priorities
+* Feature #10789: Macros {{child_pages}} with depth parameter
+* Feature #10852: Ability to delete a version from a wiki page history
+* Feature #10937: new user format #{lastname}
+* Feature #11502: Expose roles details via REST API
+* Feature #11755: Impersonate user through REST API auth
+* Feature #12085: New user name format: firstname + first letter of lastname
+* Feature #12125: Set filename used to store attachment updloaded via the REST API
+* Feature #12167: Macro for inserting collapsible block of text
+* Feature #12211: Wrap issue description and its contextual menu in a div
+* Feature #12216: Textual CSS class for priorities
+* Feature #12299: Redmine version requirement improvements (in plugins)
+* Feature #12393: Upgrade to Rails 3.2.9
+* Feature #12475: Lazy loading of translation files for faster startup
+* Patch #11846: Fill username when authentification failed
+* Patch #11862: Add "last 2 weeks" preset to time entries reporting
+* Patch #11992: Japanese translation about issue relations improved
+* Patch #12027: Incorrect Spanish "September" month name
+* Patch #12061: Japanese translation improvement (permission names)
+* Patch #12078: User#allowed_to? should return true or false
+* Patch #12117: Change Japanese translation of "admin"
+* Patch #12142: Updated translation in Lithuanian
+* Patch #12232: German translation enhancements
+* Patch #12316: Fix Lithuanian numeral translation
+* Patch #12494: Bulgarian "button_submit" translation change
+* Patch #12514: Updated translation in Lithuanian
+* Patch #12602: Korean translation update for 2.2-stable
+* Patch #12608: Norwegian translation changed
+* Patch #12619: Russian translation change
+
+== 2012-12-18 v2.1.5
+
+* Defect #12400: Validation fails when receiving an email with list custom fields
+* Defect #12451: Macros.rb extract_macro_options should use lazy search
+* Defect #12513: Grouping of issues by custom fields not correct in PDF export
+* Defect #12566: Issue history notes previews are broken
+* Defect #12568: Clicking "edit" on a journal multiple times shows multiple forms
+* Patch #12605: Norwegian translation for 1.4-stable update
+* Patch #12614: Dutch translation
+* Patch #12615: Russian translation
+
+== 2012-11-24 v2.1.4
+
+* Defect #12274: Wiki export from Index by title is truncated
+* Defect #12298: Right-click context menu unable to batch/bulk update (IE8)
+* Defect #12332: Repository identifier does not display on Project/Settings/Repositories
+* Defect #12396: Error when receiving an email without subject header
+* Defect #12399: Non ASCII attachment filename encoding broken (MOJIBAKE) in receiving mail on Ruby 1.8
+* Defect #12409: Git: changesets aren't read after clear_changesets call
+* Defect #12431: Project.rebuild! sorts root projects by id instead of name
+
+== 2012-11-17 v2.1.3
+
+* Defect #12050: :export links to repository files lead to a 404 error
+* Defect #12189: Missing tmp/pdf directory
+* Defect #12195: Javascript error with IE7 / IE8 on new issue form
+* Defect #12196: "Page not found" on OK button in SCM "View all revisions" page
+* Defect #12199: Confirmation message displayed when clicking a disabled delete link in the context menu
+* Defect #12231: Hardcoded "Back" in Repository
+* Defect #12294: Incorrect german translation for "registered" users filter
+* Defect #12349: Watchers auto-complete search on non-latin chars
+* Defect #12358: 'None' grouped issue list section should be translated
+* Defect #12359: Version date field regex validation accepts invalid date
+* Defect #12375: Receiving mail subject encoding broken (MOJIBAKE) in some cases on Ruby 1.8
+* Patch #9732: German translations
+* Patch #12021: Russian locale translations
+* Patch #12188: Simplified Chinese translation with zh.yml file based on Rev:10681
+* Patch #12235: German translation for 2.1-stable
+* Patch #12237: Added German Translation
+
+== 2012-09-30 v2.1.2
+
+* Defect #11929: XSS vulnerability in Redmine 2.1.x
+
+== 2012-09-30 v2.1.1
+
+* Defect #11290: ParseDate missing in Ruby 1.9x
+* Defect #11844: "load_default_data" rake task fails to print the error message if one occurs
+* Defect #11850: Can't create a user from ldap by on-the-fly on the redmine server using URI prefix
+* Defect #11872: Private issue visible to anonymous users after its author is deleted
+* Defect #11885: Filter misses Selectionfield on IE8
+* Defect #11893: New relation form Cancel link is broken with Chrome 21
+* Defect #11905: Potential "can't dup NilClass" error in UserPreference
+* Defect #11909: Autocomplete results not reset after clearing search field
+* Defect #11922: bs.yml and de.yml lead to error by number_to_currency()
+* Defect #11945: rake task prints "can't convert Errno::EACCES into String" in case of no permission of public/plugin_assets
+* Defect #11975: Undefined status transitions allowed in workflow (author of issue changes when selecting a new status)
+* Defect #11982: SCM diff view generates extra parameter for switching mode
+* Patch #11897: Traditional Chinese language file (to r10433)
+
+== 2012-09-16 v2.1.0
+
+* Defect #2071: Reordering priority-enumerations breaks alternate-theme's issue-colouring
+* Defect #2190: Month names not translated to german
+* Defect #8978: LDAP timeout if an LDAP auth provider is unreachable
+* Defect #9839: Gantt abbr of weekday should not be necessarily the first letter of the long day name
+* Defect #10928: Documentation about generating a plugin is not up-to-date
+* Defect #11034: TLS configuration documentation for Rails 3
+* Defect #11073: UserCustomField order_statement returns wrong output
+* Defect #11153: Default sorting for target version is DESC instead of ASC
+* Defect #11207: Issues associated with a locked version are not copied when copying a project
+* Defect #11304: Issue-class: status-1, status-2 etc. refer to status position instead of status id
+* Defect #11331: Openid registration form should not require user to enter password
+* Defect #11345: Context menu should show shared versions when editing issues from different projects
+* Defect #11355: Plain text notification emails content is HTML escaped
+* Defect #11388: Updating a version through rest API returns invalid JSON
+* Defect #11389: Warning in awesome_nested_set.rb
+* Defect #11503: Accessing /projects/:project/wiki/something.png fails with error 500
+* Defect #11506: Versions that are not shared should not be assignable when selecting another project
+* Defect #11508: Projects not ordered alphabetically after renaming project
+* Defect #11540: Roadmap anchor links can be ambigous
+* Defect #11545: Overwriting existing method Issue.open
+* Defect #11552: MailHandler does not match assignee name with spaces
+* Defect #11571: Custom fields of type version not proper handled in receiving e-mails
+* Defect #11577: Can't use non-latin anchor in wiki
+* Defect #11612: Revision graph sometimes broken due to raphael.js error
+* Defect #11621: Redmine MIME Detection Of Javascript Files Non-Standard
+* Defect #11633: Macro arguments should not be parsed by text formatters
+* Defect #11662: Invalid query returned from Issues.visible scope after accessing User#projects_by_role with a role that is not present
+* Defect #11691: 404 response when deleting a user from the edit page
+* Defect #11723: redmine:send_reminders notification misses if assignee is a group
+* Defect #11738: Batch update of issues clears project path
+* Defect #11749: Redmine.pm: HEAD is not considered as a read-only method
+* Defect #11814: Date picker does not respect week start setting
+* Feature #703: Configurable required fields per tracker/status/role
+* Feature #1006: Display thumbnails of attached images
+* Feature #1091: Disabling default ticket fields per tracker
+* Feature #1360: Permission for adding an issue to a version.
+* Feature #3061: Let macros optionally match over multiple lines and ignore single curly braces
+* Feature #3510: Inserting image thumbnails inside the wiki
+* Feature #3521: Permissions for roles to change fields per tracker/status
+* Feature #3640: Freeze / Close Projects
+* Feature #3831: Support for subforums
+* Feature #6597: Configurable session lifetime and timeout
+* Feature #6965: Option to Copy Subtasks when copying an issue
+* Feature #8161: Ability to filter issues on project custom fields
+* Feature #8577: "Private" column and filter on the issue list
+* Feature #8981: REST Api for Groups
+* Feature #9258: Create role by copy
+* Feature #9419: Group/sort the issue list by user/version-format custom fields
+* Feature #10362: Show images in repositories inline when clicking the 'View' link
+* Feature #10419: Upgrade raphael.js (2.1.0)
+* Feature #11068: Ability to set default column order in issue list
+* Feature #11102: Add autocomplete to "Related issue" field on revision
+* Feature #11109: Repository Identifier should be frozen
+* Feature #11181: Additional "Log time" link on project overview
+* Feature #11205: Reversed order of priorities on the issue summary page
+* Feature #11445: Switch from Prototype to JQuery
+* Feature #11469: JSONP support
+* Feature #11475: Redmine.pm: Allow fallback to other Apache auth providers
+* Feature #11494: Don't turn #nnn with leading zeros into links
+* Feature #11539: Display a projects tree instead of a flat list in notification preferences
+* Feature #11578: Option to pass whole arguments to a macro without splitting them
+* Feature #11595: Missing mime type for svg files
+* Feature #11758: Upgrade to Rails 3.2.8
+* Patch #4905: Redmine.pm: add support for Git's smart HTTP protocol
+* Patch #10988: New Korean translation patch
+* Patch #11201: Korean translation special update
+* Patch #11401: Fix Japanese mistranslation for "button_submit"
+* Patch #11402: Japanese translation added for default role names
+* Patch #11411: Fix disordered use of long sound in Japanese "user" translation
+* Patch #11412: Unnatural Japanese message when users failed to login
+* Patch #11419: Fix wrong Japanese "label_attachment" translation
+* Patch #11496: Make labels clickable in Adminstration/Settings
+* Patch #11704: Avoid the use of tag("...", "...", true) in layout
+* Patch #11818: Redmine.pm fails when permissions are NULL
+
+== 2012-09-16 v2.0.4
+
+* Defect #10818: Running rake in test environment causes exception
+* Defect #11209: Wiki diff may generate broken HTML
+* Defect #11217: Project names in drop-down are escaped twice
+* Defect #11262: Link is escaped in wiki added/updated notification email
+* Defect #11307: Can't filter for negative numeric custom fields
+* Defect #11325: Unified diff link broken on specific file/revision diff view
+* Defect #11341: Escaped link in conflict resolution form
+* Defect #11365: Attachment description length is not validated
+* Defect #11511: Confirmation page has broken HTML when a project folding sub project is deleted
+* Defect #11533: rake redmine:plugins:test doesn't run tests in subdirectories
+* Defect #11541: Version sharing is missing in the REST API
+* Defect #11550: Issue reminder doesn't work when using asynchronous delivery
+* Defect #11776: Can't override mailer views inside redmine plugin.
+* Defect #11789: Edit section links broken with h5/h6 headings
+* Feature #11338: Exclude emails with auto-submitted => auto-generated
+* Patch #11299: redmine:plugins:migrate should update db/schema.rb
+* Patch #11328: Fix Japanese mistranslation for 'label_language_based'
+* Patch #11448: Russian translation for 1.4-stable and 2.0-stable
+* Patch #11600: Fix plural form of the abbreviation for hours in Brazilian Portuguese
+
 == 2012-06-18 v2.0.3
 
 * Defect #10688: PDF export from Wiki - Problems with tables

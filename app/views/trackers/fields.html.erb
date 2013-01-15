@@ -1,0 +1,77 @@
+<h2><%= link_to l(:label_tracker_plural), trackers_path %> &#187; <%= l(:field_summary) %></h2>
+
+<% if @trackers.any? %>
+  <%= form_tag fields_trackers_path do %>
+    <div class="autoscroll">
+    <table class="list">
+    <thead>
+      <tr>
+        <th></th>
+        <% @trackers.each do |tracker| %>
+        <th>
+          <%= tracker.name %>
+          <%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('input.tracker-#{tracker.id}')",
+                                                              :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
+        </th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="group open">
+        <td colspan="<%= @trackers.size + 1 %>">
+          <span class="expander" onclick="toggleRowGroup(this);">&nbsp;</span>
+          <%= l(:field_core_fields) %>
+        </td>
+      </tr>
+      <% Tracker::CORE_FIELDS.each do |field| %>
+      <tr class="<%= cycle("odd", "even") %>">
+        <td>
+          <%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('input.core-field-#{field}')",
+                                                              :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
+          <%= l("field_#{field}".sub(/_id$/, '')) %>
+        </td>
+        <% @trackers.each do |tracker| %>
+        <td align="center">
+          <%= check_box_tag "trackers[#{tracker.id}][core_fields][]", field, tracker.core_fields.include?(field),
+                            :class => "tracker-#{tracker.id} core-field-#{field}" %>
+        </td>
+        <% end %>
+      </tr>
+      <% end %>
+      <% if @custom_fields.any? %>
+        <tr class="group open">
+          <td colspan="<%= @trackers.size + 1 %>">
+            <span class="expander" onclick="toggleRowGroup(this);">&nbsp;</span>
+            <%= l(:label_custom_field_plural) %>
+          </td>
+        </tr>
+        <% @custom_fields.each do |field| %>
+        <tr class="<%= cycle("odd", "even") %>">
+          <td>
+            <%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('input.custom-field-#{field.id}')",
+                                                                :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
+            <%= field.name %>
+          </td>
+          <% @trackers.each do |tracker| %>
+          <td align="center">
+            <%= check_box_tag "trackers[#{tracker.id}][custom_field_ids][]", field.id, tracker.custom_fields.include?(field),
+                              :class => "tracker-#{tracker.id} custom-field-#{field.id}" %>
+          </td>
+          <% end %>
+        </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+    </table>
+    </div>
+    <p><%= submit_tag l(:button_save) %></p>
+    <% @trackers.each do |tracker| %>
+      <%= hidden_field_tag "trackers[#{tracker.id}][core_fields][]", '' %>
+      <%= hidden_field_tag "trackers[#{tracker.id}][custom_field_ids][]", '' %>
+    <% end %>
+  <% end %>
+<% else %>
+  <p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
+
+<% html_title l(:field_summary) %>

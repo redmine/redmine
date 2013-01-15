@@ -1,5 +1,6 @@
 <div class="contextual">
 <%= link_to l(:label_role_new), new_role_path, :class => 'icon icon-add' %>
+<%= link_to l(:label_permissions_report), permissions_roles_path, :class => 'icon icon-summary' %>
 </div>
 
 <h2><%=l(:label_role_plural)%></h2>
@@ -20,10 +21,8 @@
   <% end %>
   </td>
   <td class="buttons">
-    <%= link_to(l(:button_delete), role_path(role),
-                                  :method => :delete,
-                                  :confirm => l(:text_are_you_sure),
-                                  :class => 'icon icon-del') unless role.builtin? %>
+    <%= link_to l(:button_copy), new_role_path(:copy => role), :class => 'icon icon-copy' %>
+    <%= delete_link role_path(role) unless role.builtin? %>
   </td>
   </tr>
 <% end %>
@@ -31,7 +30,5 @@
 </table>
 
 <p class="pagination"><%= pagination_links_full @role_pages %></p>
-
-<p><%= link_to l(:label_permissions_report), :action => 'permissions' %></p>
 
 <% html_title(l(:label_role_plural)) -%>

@@ -216,12 +216,12 @@ module ActiveRecord #:nodoc:
             has_many :versions, version_association_options do
               # finds earliest version of this record
               def earliest
-                @earliest ||= find(:first, :order => 'version')
+                @earliest ||= order('version').first
               end
 
               # find latest version of this record
               def latest
-                @latest ||= find(:first, :order => 'version desc')
+                @latest ||= order('version desc').first
               end
             end
             before_save  :set_new_version
@@ -248,14 +248,16 @@ module ActiveRecord #:nodoc:
             def self.reloadable? ; false ; end
             # find first version before the given version
             def self.before(version)
-              find :first, :order => 'version desc',
-                :conditions => ["#{original_class.versioned_foreign_key} = ? and version < ?", version.send(original_class.versioned_foreign_key), version.version]
+              order('version desc').
+                where("#{original_class.versioned_foreign_key} = ? and version < ?", version.send(original_class.versioned_foreign_key), version.version).
+                first
             end
 
             # find first version after the given version.
             def self.after(version)
-              find :first, :order => 'version',
-                :conditions => ["#{original_class.versioned_foreign_key} = ? and version > ?", version.send(original_class.versioned_foreign_key), version.version]
+              order('version').
+                where("#{original_class.versioned_foreign_key} = ? and version > ?", version.send(original_class.versioned_foreign_key), version.version).
+                first
             end
 
             def previous
@@ -374,7 +376,7 @@ module ActiveRecord #:nodoc:
         # Clones a model.  Used when saving a new version or reverting a model's version.
         def clone_versioned_model(orig_model, new_model)
           self.versioned_attributes.each do |key|
-            new_model.send("#{key}=", orig_model.send(key)) if orig_model.has_attribute?(key)
+            new_model.send("#{key}=", orig_model.send(key)) if orig_model.respond_to?(key)
           end
 
 					if self.class.columns_hash.include?(self.class.inheritance_column)
@@ -467,9 +469,9 @@ module ActiveRecord #:nodoc:
 
           # Finds versions of a specific model.  Takes an options hash like <tt>find</tt>
           def find_versions(id, options = {})
-            versioned_class.find :all, {
+            versioned_class.all({
               :conditions => ["#{versioned_foreign_key} = ?", id],
-              :order      => 'version' }.merge(options)
+              :order      => 'version' }.merge(options))
           end
 
           # Returns an array of columns that are versioned.  See non_versioned_columns

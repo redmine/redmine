@@ -20,6 +20,8 @@
 module AdminHelper
   def project_status_options_for_select(selected)
     options_for_select([[l(:label_all), ''],
-                        [l(:status_active), '1']], selected.to_s)
+                        [l(:project_status_active), '1'],
+                        [l(:project_status_closed), '5'],
+                        [l(:project_status_archived), '9']], selected.to_s)
   end
 end

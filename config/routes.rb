@@ -26,47 +26,47 @@ RedmineApp::Application.routes.draw do
 
   ##
 
-  match 'login', :to => 'account#login', :as => 'signin'
-  match 'logout', :to => 'account#logout', :as => 'signout'
-  match 'account/register', :to => 'account#register', :via => [:get, :post]
-  match 'account/lost_password', :to => 'account#lost_password', :via => [:get, :post]
+  match 'login', :to => 'account#login', :as => 'signin', :via => [:get, :post]
+  match 'logout', :to => 'account#logout', :as => 'signout', :via => [:get, :post]
+  match 'account/register', :to => 'account#register', :via => [:get, :post], :as => 'register'
+  match 'account/lost_password', :to => 'account#lost_password', :via => [:get, :post], :as => 'lost_password'
   match 'account/activate', :to => 'account#activate', :via => :get
 
-  match '/news/preview', :controller => 'previews', :action => 'news', :as => 'preview_news'
-  match '/issues/preview/new/:project_id', :to => 'previews#issue', :as => 'preview_new_issue'
-  match '/issues/preview/edit/:id', :to => 'previews#issue', :as => 'preview_edit_issue'
-  match '/issues/preview', :to => 'previews#issue', :as => 'preview_issue'
+  match '/news/preview', :controller => 'previews', :action => 'news', :as => 'preview_news', :via => [:get, :post, :put]
+  match '/issues/preview/new/:project_id', :to => 'previews#issue', :as => 'preview_new_issue', :via => [:get, :post, :put]
+  match '/issues/preview/edit/:id', :to => 'previews#issue', :as => 'preview_edit_issue', :via => [:get, :post, :put]
+  match '/issues/preview', :to => 'previews#issue', :as => 'preview_issue', :via => [:get, :post, :put]
 
   match 'projects/:id/wiki', :to => 'wikis#edit', :via => :post
   match 'projects/:id/wiki/destroy', :to => 'wikis#destroy', :via => [:get, :post]
 
-  match 'boards/:board_id/topics/new', :to => 'messages#new', :via => [:get, :post]
-  get 'boards/:board_id/topics/:id', :to => 'messages#show'
+  match 'boards/:board_id/topics/new', :to => 'messages#new', :via => [:get, :post], :as => 'new_board_message'
+  get 'boards/:board_id/topics/:id', :to => 'messages#show', :as => 'board_message'
   match 'boards/:board_id/topics/quote/:id', :to => 'messages#quote', :via => [:get, :post]
   get 'boards/:board_id/topics/:id/edit', :to => 'messages#edit'
 
-  post 'boards/:board_id/topics/preview', :to => 'messages#preview'
+  post 'boards/:board_id/topics/preview', :to => 'messages#preview', :as => 'preview_board_message'
   post 'boards/:board_id/topics/:id/replies', :to => 'messages#reply'
   post 'boards/:board_id/topics/:id/edit', :to => 'messages#edit'
   post 'boards/:board_id/topics/:id/destroy', :to => 'messages#destroy'
 
   # Misc issue routes. TODO: move into resources
   match '/issues/auto_complete', :to => 'auto_completes#issues', :via => :get, :as => 'auto_complete_issues'
-  match '/issues/context_menu', :to => 'context_menus#issues', :as => 'issues_context_menu'
-  match '/issues/changes', :to => 'journals#index', :as => 'issue_changes'
+  match '/issues/context_menu', :to => 'context_menus#issues', :as => 'issues_context_menu', :via => [:get, :post]
+  match '/issues/changes', :to => 'journals#index', :as => 'issue_changes', :via => :get
   match '/issues/:id/quoted', :to => 'journals#new', :id => /\d+/, :via => :post, :as => 'quoted_issue'
 
   match '/journals/diff/:id', :to => 'journals#diff', :id => /\d+/, :via => :get
   match '/journals/edit/:id', :to => 'journals#edit', :id => /\d+/, :via => [:get, :post]
 
-  match '/projects/:project_id/issues/gantt', :to => 'gantts#show'
-  match '/issues/gantt', :to => 'gantts#show'
+  get '/projects/:project_id/issues/gantt', :to => 'gantts#show', :as => 'project_gantt'
+  get '/issues/gantt', :to => 'gantts#show'
 
-  match '/projects/:project_id/issues/calendar', :to => 'calendars#show'
-  match '/issues/calendar', :to => 'calendars#show'
+  get '/projects/:project_id/issues/calendar', :to => 'calendars#show', :as => 'project_calendar'
+  get '/issues/calendar', :to => 'calendars#show'
 
-  match 'projects/:id/issues/report', :to => 'reports#issue_report', :via => :get
-  match 'projects/:id/issues/report/:detail', :to => 'reports#issue_report_details', :via => :get
+  get 'projects/:id/issues/report', :to => 'reports#issue_report', :as => 'project_issues_report'
+  get 'projects/:id/issues/report/:detail', :to => 'reports#issue_report_details', :as => 'project_issues_report_details'
 
   match 'my/account', :controller => 'my', :action => 'account', :via => [:get, :post]
   match 'my/account/destroy', :controller => 'my', :action => 'destroy', :via => [:get, :post]
@@ -93,18 +93,18 @@ RedmineApp::Application.routes.draw do
   match 'watchers/unwatch', :controller=> 'watchers', :action => 'unwatch', :via => :post
   match 'watchers/autocomplete_for_user', :controller=> 'watchers', :action => 'autocomplete_for_user', :via => :get
 
-  match 'projects/:id/settings/:tab', :to => "projects#settings"
-
   resources :projects do
     member do
-      get 'settings'
+      get 'settings(/:tab)', :action => 'settings', :as => 'settings'
       post 'modules'
       post 'archive'
       post 'unarchive'
+      post 'close'
+      post 'reopen'
       match 'copy', :via => [:get, :post]
     end
 
-    resources :memberships, :shallow => true, :controller => 'members', :only => [:index, :show, :create, :update, :destroy] do
+    resources :memberships, :shallow => true, :controller => 'members', :only => [:index, :show, :new, :create, :update, :destroy] do
       collection do
         get 'autocomplete'
       end
@@ -112,7 +112,7 @@ RedmineApp::Application.routes.draw do
 
     resource :enumerations, :controller => 'project_enumerations', :only => [:update, :destroy]
 
-    match 'issues/:copy_from/copy', :to => 'issues#new'
+    get 'issues/:copy_from/copy', :to => 'issues#new', :as => 'copy_issue'
     resources :issues, :only => [:index, :new, :create] do
       resources :time_entries, :controller => 'timelog' do
         collection do
@@ -130,9 +130,9 @@ RedmineApp::Application.routes.draw do
         put 'close_completed'
       end
     end
-    match 'versions.:format', :to => 'versions#index'
-    match 'roadmap', :to => 'versions#index', :format => false
-    match 'versions', :to => 'versions#index'
+    get 'versions.:format', :to => 'versions#index'
+    get 'roadmap', :to => 'versions#index', :format => false
+    get 'versions', :to => 'versions#index'
 
     resources :news, :except => [:show, :edit, :update, :destroy]
     resources :time_entries, :controller => 'timelog' do
@@ -149,9 +149,7 @@ RedmineApp::Application.routes.draw do
     end
 
     match 'wiki/index', :controller => 'wiki', :action => 'index', :via => :get
-    match 'wiki/:id/diff/:version/vs/:version_from', :controller => 'wiki', :action => 'diff'
-    match 'wiki/:id/diff/:version', :controller => 'wiki', :action => 'diff'
-    resources :wiki, :except => [:index, :new, :create] do
+    resources :wiki, :except => [:index, :new, :create], :as => 'wiki_page' do
       member do
         get 'rename'
         post 'rename'
@@ -167,7 +165,10 @@ RedmineApp::Application.routes.draw do
       end
     end
     match 'wiki', :controller => 'wiki', :action => 'show', :via => :get
-    match 'wiki/:id/annotate/:version', :controller => 'wiki', :action => 'annotate'
+    get 'wiki/:id/:version', :to => 'wiki#show'
+    delete 'wiki/:id/:version', :to => 'wiki#destroy_version'
+    get 'wiki/:id/:version/annotate', :to => 'wiki#annotate'
+    get 'wiki/:id/:version/diff', :to => 'wiki#diff'
   end
 
   resources :issues do
@@ -198,7 +199,7 @@ RedmineApp::Application.routes.draw do
     post 'add_attachment', :on => :member
   end
 
-  match '/time_entries/context_menu', :to => 'context_menus#time_entries', :as => :time_entries_context_menu
+  match '/time_entries/context_menu', :to => 'context_menus#time_entries', :as => :time_entries_context_menu, :via => [:get, :post]
 
   resources :time_entries, :controller => 'timelog', :except => :destroy do
     collection do
@@ -210,9 +211,6 @@ RedmineApp::Application.routes.draw do
   match '/time_entries/:id', :to => 'timelog#destroy', :via => :delete, :id => /\d+/
   # TODO: delete /time_entries for bulk deletion
   match '/time_entries/destroy', :to => 'timelog#destroy', :via => :delete
-
-  # TODO: port to be part of the resources route(s)
-  match 'projects/:id/settings/:tab', :to => 'projects#settings', :via => :get
 
   get 'projects/:id/activity', :to => 'activities#index'
   get 'projects/:id/activity.:format', :to => 'activities#index'
@@ -232,6 +230,7 @@ RedmineApp::Application.routes.draw do
   get 'projects/:id/repository/:repository_id/revisions', :to => 'repositories#revisions'
   get 'projects/:id/repository/:repository_id/revisions/:rev/:action(/*path(.:ext))',
       :controller => 'repositories',
+      :format => false,
       :constraints => {
             :action => /(browse|show|entry|raw|annotate|diff)/,
             :rev    => /[a-z0-9\.\-_]+/
@@ -250,6 +249,7 @@ RedmineApp::Application.routes.draw do
   delete 'projects/:id/repository/revisions/:rev/issues/:issue_id', :to => 'repositories#remove_related_issue'
   get 'projects/:id/repository/revisions/:rev/:action(/*path(.:ext))',
       :controller => 'repositories',
+      :format => false,
       :constraints => {
             :action => /(browse|show|entry|raw|annotate|diff)/,
             :rev    => /[a-z0-9\.\-_]+/
@@ -268,6 +268,7 @@ RedmineApp::Application.routes.draw do
   match 'attachments/:id/:filename', :controller => 'attachments', :action => 'show', :id => /\d+/, :filename => /.*/, :via => :get
   match 'attachments/download/:id/:filename', :controller => 'attachments', :action => 'download', :id => /\d+/, :filename => /.*/, :via => :get
   match 'attachments/download/:id', :controller => 'attachments', :action => 'download', :id => /\d+/, :via => :get
+  match 'attachments/thumbnail/:id(/:size)', :controller => 'attachments', :action => 'thumbnail', :id => /\d+/, :via => :get, :size => /\d+/
   resources :attachments, :only => [:show, :destroy]
 
   resources :groups do
@@ -281,19 +282,24 @@ RedmineApp::Application.routes.draw do
   match 'groups/destroy_membership/:id', :controller => 'groups', :action => 'destroy_membership', :id => /\d+/, :via => :post
   match 'groups/edit_membership/:id', :controller => 'groups', :action => 'edit_membership', :id => /\d+/, :via => :post
 
-  resources :trackers, :except => :show
+  resources :trackers, :except => :show do
+    collection do
+      match 'fields', :via => [:get, :post]
+    end
+  end
   resources :issue_statuses, :except => :show do
     collection do
       post 'update_issue_done_ratio'
     end
   end
   resources :custom_fields, :except => :show
-  resources :roles, :except => :show do
+  resources :roles do
     collection do
       match 'permissions', :via => [:get, :post]
     end
   end
   resources :enumerations, :except => :show
+  match 'enumerations/:type', :to => 'enumerations#index', :via => :get
 
   get 'projects/:id/search', :controller => 'search', :action => 'index'
   get 'search', :controller => 'search', :action => 'index'
@@ -309,16 +315,20 @@ RedmineApp::Application.routes.draw do
 
   resources :auth_sources do
     member do
-      get 'test_connection'
+      get 'test_connection', :as => 'try_connection'
+    end
+    collection do
+      get 'autocomplete_for_new_user'
     end
   end
 
   match 'workflows', :controller => 'workflows', :action => 'index', :via => :get
   match 'workflows/edit', :controller => 'workflows', :action => 'edit', :via => [:get, :post]
+  match 'workflows/permissions', :controller => 'workflows', :action => 'permissions', :via => [:get, :post]
   match 'workflows/copy', :controller => 'workflows', :action => 'copy', :via => [:get, :post]
   match 'settings', :controller => 'settings', :action => 'index', :via => :get
   match 'settings/edit', :controller => 'settings', :action => 'edit', :via => [:get, :post]
-  match 'settings/plugin/:id', :controller => 'settings', :action => 'plugin', :via => [:get, :post]
+  match 'settings/plugin/:id', :controller => 'settings', :action => 'plugin', :via => [:get, :post], :as => 'plugin_settings'
 
   match 'sys/projects', :to => 'sys#projects', :via => :get
   match 'sys/projects/:id/repository', :to => 'sys#create_project_repository', :via => :post

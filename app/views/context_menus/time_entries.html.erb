@@ -28,6 +28,6 @@
   <li>
     <%= context_menu_link l(:button_delete),
       {:controller => 'timelog', :action => 'destroy', :ids => @time_entries.collect(&:id), :back_url => @back},
-      :method => :delete, :confirm => l(:text_time_entries_destroy_confirmation), :class => 'icon-del', :disabled => !@can[:delete] %>
+      :method => :delete, :data => {:confirm => l(:text_time_entries_destroy_confirmation)}, :class => 'icon-del', :disabled => !@can[:delete] %>
   </li>
 </ul>

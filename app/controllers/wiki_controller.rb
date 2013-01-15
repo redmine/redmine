@@ -35,7 +35,9 @@ class WikiController < ApplicationController
   default_search_scope :wiki_pages
   before_filter :find_wiki, :authorize
   before_filter :find_existing_or_new_page, :only => [:show, :edit, :update]
-  before_filter :find_existing_page, :only => [:rename, :protect, :history, :diff, :annotate, :add_attachment, :destroy]
+  before_filter :find_existing_page, :only => [:rename, :protect, :history, :diff, :annotate, :add_attachment, :destroy, :destroy_version]
+  accept_api_auth :index, :show, :update, :destroy
+  before_filter :find_attachments, :only => [:preview]
 
   helper :attachments
   include AttachmentsHelper
@@ -45,7 +47,13 @@ class WikiController < ApplicationController
   # List of pages, sorted alphabetically and by parent (hierarchy)
   def index
     load_pages_for_index
-    @pages_by_parent_id = @pages.group_by(&:parent_id)
+
+    respond_to do |format|
+      format.html {
+        @pages_by_parent_id = @pages.group_by(&:parent_id)
+      }
+      format.api
+    end
   end
 
   # List of page, by last update
@@ -57,7 +65,7 @@ class WikiController < ApplicationController
   # display a page (in editing mode if it doesn't exist)
   def show
     if @page.new_record?
-      if User.current.allowed_to?(:edit_wiki_pages, @project) && editable?
+      if User.current.allowed_to?(:edit_wiki_pages, @project) && editable? && !api_request?
         edit
         render :action => 'edit'
       else
@@ -66,8 +74,7 @@ class WikiController < ApplicationController
       return
     end
     if params[:version] && !User.current.allowed_to?(:view_wiki_edits, @project)
-      # Redirects user to the current version if he's not allowed to view previous versions
-      redirect_to :version => nil
+      deny_access
       return
     end
     @content = @page.content_for_version(params[:version])
@@ -89,7 +96,10 @@ class WikiController < ApplicationController
       @content.current_version? &&
       Redmine::WikiFormatting.supports_section_edit?
 
-    render :action => 'show'
+    respond_to do |format|
+      format.html
+      format.api
+    end
   end
 
   # edit an existing page or a new one
@@ -109,7 +119,7 @@ class WikiController < ApplicationController
 
     # To prevent StaleObjectError exception when reverting to a previous version
     @content.version = @page.content.version
-    
+
     @text = @content.text
     if params[:section].present? && Redmine::WikiFormatting.supports_section_edit?
       @section = params[:section].to_i
@@ -121,50 +131,65 @@ class WikiController < ApplicationController
   # Creates a new page or updates an existing one
   def update
     return render_403 unless editable?
+    was_new_page = @page.new_record?
     @page.content = WikiContent.new(:page => @page) if @page.new_record?
     @page.safe_attributes = params[:wiki_page]
 
-    @content = @page.content_for_version(params[:version])
-    @content.text = initial_page_content(@page) if @content.text.blank?
-    # don't keep previous comment
-    @content.comments = nil
-
-    if !@page.new_record? && params[:content].present? && @content.text == params[:content][:text]
-      attachments = Attachment.attach_files(@page, params[:attachments])
-      render_attachment_warning_if_needed(@page)
-      # don't save content if text wasn't changed
-      @page.save
-      redirect_to :action => 'show', :project_id => @project, :id => @page.title
-      return
+    @content = @page.content
+    content_params = params[:content]
+    if content_params.nil? && params[:wiki_page].is_a?(Hash)
+      content_params = params[:wiki_page].slice(:text, :comments, :version)
     end
+    content_params ||= {}
 
-    @content.comments = params[:content][:comments]
-    @text = params[:content][:text]
+    @content.comments = content_params[:comments]
+    @text = content_params[:text]
     if params[:section].present? && Redmine::WikiFormatting.supports_section_edit?
       @section = params[:section].to_i
       @section_hash = params[:section_hash]
       @content.text = Redmine::WikiFormatting.formatter.new(@content.text).update_section(params[:section].to_i, @text, @section_hash)
     else
-      @content.version = params[:content][:version]
+      @content.version = content_params[:version] if content_params[:version]
       @content.text = @text
     end
     @content.author = User.current
-    @page.content = @content
-    if @page.save
+
+    if @page.save_with_content
       attachments = Attachment.attach_files(@page, params[:attachments])
       render_attachment_warning_if_needed(@page)
       call_hook(:controller_wiki_edit_after_save, { :params => params, :page => @page})
-      redirect_to :action => 'show', :project_id => @project, :id => @page.title
+
+      respond_to do |format|
+        format.html { redirect_to project_wiki_page_path(@project, @page.title) }
+        format.api {
+          if was_new_page
+            render :action => 'show', :status => :created, :location => project_wiki_page_path(@project, @page.title)
+          else
+            render_api_ok
+          end
+        }
+      end
     else
-      render :action => 'edit'
+      respond_to do |format|
+        format.html { render :action => 'edit' }
+        format.api { render_validation_errors(@content) }
+      end
     end
 
   rescue ActiveRecord::StaleObjectError, Redmine::WikiFormatting::StaleSectionError
     # Optimistic locking exception
-    flash.now[:error] = l(:notice_locking_conflict)
-    render :action => 'edit'
+    respond_to do |format|
+      format.html {
+        flash.now[:error] = l(:notice_locking_conflict)
+        render :action => 'edit'
+      }
+      format.api { render_api_head :conflict }
+    end
   rescue ActiveRecord::RecordNotSaved
-    render :action => 'edit'
+    respond_to do |format|
+      format.html { render :action => 'edit' }
+      format.api { render_validation_errors(@content) }
+    end
   end
 
   # rename a page
@@ -175,25 +200,26 @@ class WikiController < ApplicationController
     @original_title = @page.pretty_title
     if request.post? && @page.update_attributes(params[:wiki_page])
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'show', :project_id => @project, :id => @page.title
+      redirect_to project_wiki_page_path(@project, @page.title)
     end
   end
 
   def protect
     @page.update_attribute :protected, params[:protected]
-    redirect_to :action => 'show', :project_id => @project, :id => @page.title
+    redirect_to project_wiki_page_path(@project, @page.title)
   end
 
   # show page history
   def history
     @version_count = @page.content.versions.count
-    @version_pages = Paginator.new self, @version_count, per_page_option, params['p']
+    @version_pages = Paginator.new @version_count, per_page_option, params['page']
     # don't load text
-    @versions = @page.content.versions.find :all,
-                                            :select => "id, author_id, comments, updated_on, version",
-                                            :order => 'version DESC',
-                                            :limit  =>  @version_pages.items_per_page + 1,
-                                            :offset =>  @version_pages.current.offset
+    @versions = @page.content.versions.
+      select("id, author_id, comments, updated_on, version").
+      reorder('version DESC').
+      limit(@version_pages.items_per_page + 1).
+      offset(@version_pages.offset).
+      all
 
     render :layout => false if request.xhr?
   end
@@ -230,16 +256,28 @@ class WikiController < ApplicationController
         end
       else
         @reassignable_to = @wiki.pages - @page.self_and_descendants
-        return
+        # display the destroy form if it's a user request
+        return unless api_request?
       end
     end
     @page.destroy
-    redirect_to :action => 'index', :project_id => @project
+    respond_to do |format|
+      format.html { redirect_to project_wiki_index_path(@project) }
+      format.api { render_api_ok }
+    end
+  end
+
+  def destroy_version
+    return render_403 unless editable?
+
+    @content = @page.content_for_version(params[:version])
+    @content.destroy
+    redirect_to_referer_or history_project_wiki_page_path(@project, @page.title)
   end
 
   # Export wiki to a single pdf or html file
   def export
-    @pages = @wiki.pages.all(:order => 'title', :include => [:content, :attachments], :limit => 75)
+    @pages = @wiki.pages.all(:order => 'title', :include => [:content, {:attachments => :author}])
     respond_to do |format|
       format.html {
         export = render_to_string :action => 'export_multiple', :layout => false
@@ -256,7 +294,7 @@ class WikiController < ApplicationController
     # page is nil when previewing a new page
     return render_403 unless page.nil? || editable?(page)
     if page
-      @attachements = page.attachments
+      @attachments += page.attachments
       @previewed = page.content
     end
     @text = params[:content][:text]
@@ -313,6 +351,6 @@ private
   end
 
   def load_pages_for_index
-    @pages = @wiki.pages.with_updated_on.all(:order => 'title', :include => {:wiki => :project})
+    @pages = @wiki.pages.with_updated_on.reorder("#{WikiPage.table_name}.title").includes(:wiki => :project).includes(:parent).all
   end
 end

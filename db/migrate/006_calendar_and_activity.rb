@@ -9,8 +9,8 @@ class CalendarAndActivity < ActiveRecord::Migration
   end
 
   def self.down
-    Permission.find(:first, :conditions => ["controller=? and action=?", 'projects', 'activity']).destroy
-    Permission.find(:first, :conditions => ["controller=? and action=?", 'projects', 'calendar']).destroy
-    Permission.find(:first, :conditions => ["controller=? and action=?", 'projects', 'gantt']).destroy
+    Permission.where("controller=? and action=?", 'projects', 'activity').first.destroy
+    Permission.where("controller=? and action=?", 'projects', 'calendar').first.destroy
+    Permission.where("controller=? and action=?", 'projects', 'gantt').first.destroy
   end
 end

@@ -28,9 +28,6 @@ class ChangesetTest < ActiveSupport::TestCase
            :users, :members, :member_roles, :trackers,
            :enabled_modules, :roles
 
-  def setup
-  end
-
   def test_ref_keywords_any
     ActionMailer::Base.deliveries.clear
     Setting.commit_fix_status_id = IssueStatus.find(
@@ -179,7 +176,8 @@ class ChangesetTest < ActiveSupport::TestCase
   end
 
   def test_commit_closing_a_subproject_issue
-    with_settings :commit_fix_status_id => 5, :commit_fix_keywords => 'closes' do
+    with_settings :commit_fix_status_id => 5, :commit_fix_keywords => 'closes',
+                  :default_language => 'en' do
       issue = Issue.find(5)
       assert !issue.closed?
       assert_difference 'Journal.count' do

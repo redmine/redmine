@@ -177,6 +177,7 @@ en:
   notice_issue_successful_create: "Issue %{id} created."
   notice_issue_update_conflict: "The issue has been updated by an other user while you were editing it."
   notice_account_deleted: "Your account has been permanently deleted."
+  notice_user_successful_create: "User %{id} created."
 
   error_can_t_load_default_data: "Default configuration could not be loaded: %{value}"
   error_scm_not_found: "The entry or revision was not found in the repository."
@@ -214,9 +215,6 @@ en:
   mail_body_wiki_content_added: "The '%{id}' wiki page has been added by %{author}."
   mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
   mail_body_wiki_content_updated: "The '%{id}' wiki page has been updated by %{author}."
-
-  gui_validation_error: 1 error
-  gui_validation_error_plural: "%{count} errors"
 
   field_name: Name
   field_description: Description
@@ -326,7 +324,11 @@ en:
   field_cvs_module: Module
   field_repository_is_default: Main repository
   field_multiple: Multiple values
-  field_ldap_filter: LDAP filter
+  field_auth_source_ldap_filter: LDAP filter
+  field_core_fields: Standard fields
+  field_timeout: "Timeout (in seconds)"
+  field_board_parent: Parent forum
+  field_private_notes: Private notes
 
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle
@@ -352,6 +354,7 @@ en:
   setting_date_format: Date format
   setting_time_format: Time format
   setting_cross_project_issue_relations: Allow cross-project issue relations
+  setting_cross_project_subtasks: Allow cross-project subtasks
   setting_issue_list_default_columns: Default columns displayed on the issue list
   setting_repositories_encodings: Attachments and repositories encodings
   setting_emails_header: Emails header
@@ -391,10 +394,14 @@ en:
   setting_unsubscribe: Allow users to delete their own account
   setting_session_lifetime: Session maximum lifetime
   setting_session_timeout: Session inactivity timeout
+  setting_thumbnails_enabled: Display attachment thumbnails
+  setting_thumbnails_size: Thumbnails size (in pixels)
+  setting_non_working_week_days: Non-working days
 
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects
   permission_edit_project: Edit project
+  permission_close_project: Close / reopen the project
   permission_select_project_modules: Select project modules
   permission_manage_members: Manage members
   permission_manage_project_activities: Manage project activities
@@ -409,6 +416,8 @@ en:
   permission_add_issue_notes: Add notes
   permission_edit_issue_notes: Edit notes
   permission_edit_own_issue_notes: Edit own notes
+  permission_view_private_notes: View private notes
+  permission_set_notes_private: Set notes as private
   permission_move_issues: Move issues
   permission_delete_issues: Delete issues
   permission_manage_public_queries: Manage public queries
@@ -555,8 +564,6 @@ en:
   label_text: Long text
   label_attribute: Attribute
   label_attribute_plural: Attributes
-  label_download: "%{count} Download"
-  label_download_plural: "%{count} Downloads"
   label_no_data: No data to display
   label_change_status: Change status
   label_history: History
@@ -609,6 +616,7 @@ en:
   label_current_status: Current status
   label_new_statuses_allowed: New statuses allowed
   label_all: all
+  label_any: any
   label_none: none
   label_nobody: nobody
   label_next: Next
@@ -643,6 +651,8 @@ en:
   label_not_equals: is not
   label_in_less_than: in less than
   label_in_more_than: in more than
+  label_in_the_next_days: in the next
+  label_in_the_past_days: in the past
   label_greater_or_equal: '>='
   label_less_or_equal: '<='
   label_between: between
@@ -652,6 +662,7 @@ en:
   label_yesterday: yesterday
   label_this_week: this week
   label_last_week: last week
+  label_last_n_weeks: "last %{count} weeks"
   label_last_n_days: "last %{count} days"
   label_this_month: this month
   label_last_month: last month
@@ -662,13 +673,14 @@ en:
   label_ago: days ago
   label_contains: contains
   label_not_contains: doesn't contain
+  label_any_issues_in_project: any issues in project
+  label_any_issues_not_in_project: any issues not in project
+  label_no_issues_in_project: no issues in project
   label_day_plural: days
   label_repository: Repository
   label_repository_new: New repository
   label_repository_plural: Repositories
   label_browse: Browse
-  label_modification: "%{count} change"
-  label_modification_plural: "%{count} changes"
   label_branch: Branch
   label_tag: Tag
   label_revision: Revision
@@ -730,13 +742,15 @@ en:
   label_loading: Loading...
   label_relation_new: New relation
   label_relation_delete: Delete relation
-  label_relates_to: related to
-  label_duplicates: duplicates
-  label_duplicated_by: duplicated by
-  label_blocks: blocks
-  label_blocked_by: blocked by
-  label_precedes: precedes
-  label_follows: follows
+  label_relates_to: Related to
+  label_duplicates: Duplicates
+  label_duplicated_by: Duplicated by
+  label_blocks: Blocks
+  label_blocked_by: Blocked by
+  label_precedes: Precedes
+  label_follows: Follows
+  label_copied_to: Copied to
+  label_copied_from: Copied from
   label_end_to_start: end to start
   label_end_to_end: end to end
   label_start_to_start: start to start
@@ -850,10 +864,25 @@ en:
   label_child_revision: Child
   label_export_options: "%{export_format} export options"
   label_copy_attachments: Copy attachments
+  label_copy_subtasks: Copy subtasks
   label_item_position: "%{position} of %{count}"
   label_completed_versions: Completed versions
   label_search_for_watchers: Search for watchers to add
   label_session_expiration: Session expiration
+  label_show_closed_projects: View closed projects
+  label_status_transitions: Status transitions
+  label_fields_permissions: Fields permissions
+  label_readonly: Read-only
+  label_required: Required
+  label_attribute_of_project: "Project's %{name}"
+  label_attribute_of_author: "Author's %{name}"
+  label_attribute_of_assigned_to: "Assignee's %{name}"
+  label_attribute_of_user: "User's %{name}"
+  label_attribute_of_fixed_version: "Target version's %{name}"
+  label_cross_project_descendants: With subprojects
+  label_cross_project_tree: With project tree
+  label_cross_project_hierarchy: With project hierarchy
+  label_cross_project_system: With all projects
 
   button_login: Login
   button_submit: Submit
@@ -901,13 +930,20 @@ en:
   button_quote: Quote
   button_duplicate: Duplicate
   button_show: Show
+  button_hide: Hide
   button_edit_section: Edit this section
   button_export: Export
   button_delete_my_account: Delete my account
+  button_close: Close
+  button_reopen: Reopen
 
   status_active: active
   status_registered: registered
   status_locked: locked
+
+  project_status_active: active
+  project_status_closed: closed
+  project_status_archived: archived
 
   version_status_open: open
   version_status_locked: locked
@@ -922,7 +958,6 @@ en:
   text_subprojects_destroy_warning: "Its subproject(s): %{value} will be also deleted."
   text_workflow_edit: Select a role and a tracker to edit the workflow
   text_are_you_sure: Are you sure?
-  text_are_you_sure_with_children: "Delete issue and all child issues?"
   text_journal_changed: "%{label} changed from %{old} to %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_set_to: "%{label} set to %{value}"
@@ -931,7 +966,7 @@ en:
   text_tip_issue_begin_day: issue beginning this day
   text_tip_issue_end_day: issue ending this day
   text_tip_issue_begin_end_day: issue beginning and ending this day
-  text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.'
+  text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed, must start with a lower case letter.<br />Once saved, the identifier cannot be changed.'
   text_caracters_maximum: "%{count} characters maximum."
   text_caracters_minimum: "Must be at least %{count} characters long."
   text_length_between: "Length between %{min} and %{max} characters."
@@ -990,6 +1025,7 @@ en:
   text_issue_conflict_resolution_cancel: "Discard all my changes and redisplay %{link}"
   text_account_destroy_confirmation: "Are you sure you want to proceed?\nYour account will be permanently deleted, with no way to reactivate it."
   text_session_expiration_settings: "Warning: changing these settings may expire the current sessions including yours."
+  text_project_closed: This project is closed and read-only.
 
   default_role_manager: Manager
   default_role_developer: Developer
@@ -1035,3 +1071,4 @@ en:
   description_date_range_interval: Choose range by selecting start and end date
   description_date_from: Enter start date
   description_date_to: Enter end date
+  text_repository_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.'

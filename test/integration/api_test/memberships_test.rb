@@ -157,6 +157,7 @@ class ApiTest::MembershipsTest < ActionController::IntegrationTest
             put '/memberships/2.xml', {:membership => {:user_id => 3, :role_ids => [1,2]}}, credentials('jsmith')
 
             assert_response :ok
+            assert_equal '', @response.body
           end
           member = Member.find(2)
           assert_equal [1,2], member.role_ids.sort
@@ -179,6 +180,7 @@ class ApiTest::MembershipsTest < ActionController::IntegrationTest
             delete '/memberships/2.xml', {}, credentials('jsmith')
 
             assert_response :ok
+            assert_equal '', @response.body
           end
           assert_nil Member.find_by_id(2)
         end

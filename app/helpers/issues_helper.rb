@@ -65,7 +65,7 @@ module IssuesHelper
     s = ''
     ancestors = issue.root? ? [] : issue.ancestors.visible.all
     ancestors.each do |ancestor|
-      s << '<div>' + content_tag('p', link_to_issue(ancestor))
+      s << '<div>' + content_tag('p', link_to_issue(ancestor, :project => (issue.project_id != ancestor.project_id)))
     end
     s << '<div>'
     subject = h(issue.subject)
@@ -80,16 +80,69 @@ module IssuesHelper
   def render_descendants_tree(issue)
     s = '<form><table class="list issues">'
     issue_list(issue.descendants.visible.sort_by(&:lft)) do |child, level|
+      css = "issue issue-#{child.id} hascontextmenu"
+      css << " idnt idnt-#{level}" if level > 0
       s << content_tag('tr',
              content_tag('td', check_box_tag("ids[]", child.id, false, :id => nil), :class => 'checkbox') +
-             content_tag('td', link_to_issue(child, :truncate => 60), :class => 'subject') +
+             content_tag('td', link_to_issue(child, :truncate => 60, :project => (issue.project_id != child.project_id)), :class => 'subject') +
              content_tag('td', h(child.status)) +
              content_tag('td', link_to_user(child.assigned_to)) +
              content_tag('td', progress_bar(child.done_ratio, :width => '80px')),
-             :class => "issue issue-#{child.id} hascontextmenu #{level > 0 ? "idnt idnt-#{level}" : nil}")
+             :class => css)
     end
     s << '</table></form>'
     s.html_safe
+  end
+
+  # Returns a link for adding a new subtask to the given issue
+  def link_to_new_subtask(issue)
+    attrs = {
+      :tracker_id => issue.tracker,
+      :parent_issue_id => issue
+    }
+    link_to(l(:button_add), new_project_issue_path(issue.project, :issue => attrs))
+  end
+
+  class IssueFieldsRows
+    include ActionView::Helpers::TagHelper
+
+    def initialize
+      @left = []
+      @right = []
+    end
+
+    def left(*args)
+      args.any? ? @left << cells(*args) : @left
+    end
+
+    def right(*args)
+      args.any? ? @right << cells(*args) : @right
+    end
+
+    def size
+      @left.size > @right.size ? @left.size : @right.size
+    end
+
+    def to_html
+      html = ''.html_safe
+      blank = content_tag('th', '') + content_tag('td', '')
+      size.times do |i|
+        left = @left[i] || blank
+        right = @right[i] || blank
+        html << content_tag('tr', left + right)
+      end
+      html
+    end
+
+    def cells(label, text, options={})
+      content_tag('th', "#{label}:", options) + content_tag('td', text, options)
+    end
+  end
+
+  def issue_fields_rows
+    r = IssueFieldsRows.new
+    yield r
+    r.to_html
   end
 
   def render_custom_fields_rows(issue)
@@ -131,7 +184,7 @@ module IssuesHelper
 
   def sidebar_queries
     unless @sidebar_queries
-      @sidebar_queries = Query.visible.all(
+      @sidebar_queries = IssueQuery.visible.all(
         :order => "#{Query.table_name}.name ASC",
         # Project specific queries and global queries
         :conditions => (@project.nil? ? ["project_id IS NULL"] : ["project_id IS NULL OR project_id = ?", @project.id])
@@ -248,7 +301,7 @@ module IssuesHelper
     unless no_html
       label = content_tag('strong', label)
       old_value = content_tag("i", h(old_value)) if detail.old_value
-      old_value = content_tag("strike", old_value) if detail.old_value and detail.value.blank?
+      old_value = content_tag("del", old_value) if detail.old_value and detail.value.blank?
       if detail.property == 'attachment' && !value.blank? && atta = Attachment.find_by_id(detail.prop_key)
         # Link to the attachment if it has not been removed
         value = link_to_attachment(atta, :download => true, :only_path => options[:only_path])
@@ -294,6 +347,9 @@ module IssuesHelper
 
   # Find the name of an associated record stored in the field attribute
   def find_name_by_reflection(field, id)
+    unless id.present?
+      return nil
+    end
     association = Issue.reflect_on_association(field.to_sym)
     if association
       record = association.class_name.constantize.find_by_id(id)
@@ -318,12 +374,16 @@ module IssuesHelper
   def issues_to_csv(issues, project, query, options={})
     decimal_separator = l(:general_csv_decimal_separator)
     encoding = l(:general_csv_encoding)
-    columns = (options[:columns] == 'all' ? query.available_columns : query.columns)
+    columns = (options[:columns] == 'all' ? query.available_inline_columns : query.inline_columns)
+    if options[:description]
+      if description = query.available_columns.detect {|q| q.name == :description}
+        columns << description
+      end
+    end
 
     export = FCSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
       # csv header fields
-      csv << [ "#" ] + columns.collect {|c| Redmine::CodesetUtil.from_utf8(c.caption.to_s, encoding) } +
-        (options[:description] ? [Redmine::CodesetUtil.from_utf8(l(:field_description), encoding)] : [])
+      csv << [ "#" ] + columns.collect {|c| Redmine::CodesetUtil.from_utf8(c.caption.to_s, encoding) }
 
       # csv lines
       issues.each do |issue|
@@ -345,8 +405,7 @@ module IssuesHelper
           end
           s.to_s
         end
-        csv << [ issue.id.to_s ] + col_values.collect {|c| Redmine::CodesetUtil.from_utf8(c.to_s, encoding) } +
-          (options[:description] ? [Redmine::CodesetUtil.from_utf8(issue.description, encoding)] : [])
+        csv << [ issue.id.to_s ] + col_values.collect {|c| Redmine::CodesetUtil.from_utf8(c.to_s, encoding) }
       end
     end
     export

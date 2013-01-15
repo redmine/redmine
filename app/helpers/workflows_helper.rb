@@ -18,4 +18,15 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module WorkflowsHelper
+  def field_required?(field)
+    field.is_a?(CustomField) ? field.is_required? : %w(project_id tracker_id subject priority_id is_private).include?(field)
+  end
+
+  def field_permission_tag(permissions, status, field)
+    name = field.is_a?(CustomField) ? field.id.to_s : field
+    options = [["", ""], [l(:label_readonly), "readonly"]]
+    options << [l(:label_required), "required"] unless field_required?(field)
+
+    select_tag("permissions[#{name}][#{status.id}]", options_for_select(options, permissions[status.id][name]))
+  end
 end

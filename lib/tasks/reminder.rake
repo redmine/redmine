@@ -22,7 +22,7 @@ Available options:
   * days     => number of days to remind about (defaults to 7)
   * tracker  => id of tracker (defaults to all trackers)
   * project  => id or identifier of project (defaults to all projects)
-  * users    => comma separated list of user ids who should be reminded
+  * users    => comma separated list of user/group ids who should be reminded
 
 Example:
   rake redmine:send_reminders days=7 users="1,23, 56" RAILS_ENV="production"

@@ -30,7 +30,7 @@ namespace :redmine do
         assigned_status = IssueStatus.find_by_position(2)
         resolved_status = IssueStatus.find_by_position(3)
         feedback_status = IssueStatus.find_by_position(4)
-        closed_status = IssueStatus.find :first, :conditions => { :is_closed => true }
+        closed_status = IssueStatus.where(:is_closed => true).first
         STATUS_MAPPING = {'new' => DEFAULT_STATUS,
                           'reopened' => feedback_status,
                           'assigned' => assigned_status,
@@ -61,7 +61,7 @@ namespace :redmine do
                            'patch' =>TRACKER_FEATURE
                            }
 
-        roles = Role.find(:all, :conditions => {:builtin => 0}, :order => 'position ASC')
+        roles = Role.where(:builtin => 0).order('position ASC').all
         manager_role = roles[0]
         developer_role = roles[1]
         DEFAULT_ROLE = roles.last
@@ -257,7 +257,7 @@ namespace :redmine do
           u.password = 'trac'
           u.admin = true if TracPermission.find_by_username_and_action(username, 'admin')
           # finally, a default user is used if the new user is not valid
-          u = User.find(:first) unless u.save
+          u = User.first unless u.save
         end
         # Make sure he is a member of the project
         if project_member && !u.member_of?(@target_project)
@@ -390,7 +390,7 @@ namespace :redmine do
         # Components
         print "Migrating components"
         issues_category_map = {}
-        TracComponent.find(:all).each do |component|
+        TracComponent.all.each do |component|
         print '.'
         STDOUT.flush
           c = IssueCategory.new :project => @target_project,
@@ -404,7 +404,7 @@ namespace :redmine do
         # Milestones
         print "Migrating milestones"
         version_map = {}
-        TracMilestone.find(:all).each do |milestone|
+        TracMilestone.all.each do |milestone|
           print '.'
           STDOUT.flush
           # First we try to find the wiki page...
@@ -443,18 +443,18 @@ namespace :redmine do
                                         :field_format => 'string')
 
           next if f.new_record?
-          f.trackers = Tracker.find(:all)
+          f.trackers = Tracker.all
           f.projects << @target_project
           custom_field_map[field.name] = f
         end
         puts
 
         # Trac 'resolution' field as a Redmine custom field
-        r = IssueCustomField.find(:first, :conditions => { :name => "Resolution" })
+        r = IssueCustomField.where(:name => "Resolution").first
         r = IssueCustomField.new(:name => 'Resolution',
                                  :field_format => 'list',
                                  :is_filter => true) if r.nil?
-        r.trackers = Tracker.find(:all)
+        r.trackers = Tracker.all
         r.projects << @target_project
         r.possible_values = (r.possible_values + %w(fixed invalid wontfix duplicate worksforme)).flatten.compact.uniq
         r.save!
@@ -549,7 +549,7 @@ namespace :redmine do
         # Wiki
         print "Migrating wiki"
         if wiki.save
-          TracWikiPage.find(:all, :order => 'name, version').each do |page|
+          TracWikiPage.order('name, version').all.each do |page|
             # Do not migrate Trac manual wiki pages
             next if TRAC_WIKI_PAGES.include?(page.name)
             wiki_edit_count += 1

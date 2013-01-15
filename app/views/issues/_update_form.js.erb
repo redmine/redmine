@@ -1,0 +1,7 @@
+$('#all_attributes').html('<%= escape_javascript(render :partial => 'form') %>');
+
+<% if User.current.allowed_to?(:log_time, @issue.project) %>
+  $('#log_time').show();
+<% else %>
+  $('#log_time').hide();
+<% end %>

@@ -16,6 +16,19 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Role < ActiveRecord::Base
+  # Custom coder for the permissions attribute that should be an
+  # array of symbols. Rails 3 uses Psych which can be *unbelievably*
+  # slow on some platforms (eg. mingw32).
+  class PermissionsAttributeCoder
+    def self.load(str)
+      str.to_s.scan(/:([a-z0-9_]+)/).flatten.map(&:to_sym)
+    end
+
+    def self.dump(value)
+      YAML.dump(value)
+    end
+  end
+
   # Built-in roles
   BUILTIN_NON_MEMBER = 1
   BUILTIN_ANONYMOUS  = 2
@@ -26,17 +39,17 @@ class Role < ActiveRecord::Base
     ['own', :label_issues_visibility_own]
   ]
 
-  scope :sorted, order("#{table_name}.builtin ASC, #{table_name}.position ASC")
-  scope :givable, order("#{table_name}.position ASC").where(:builtin => 0)
+  scope :sorted, lambda { order("#{table_name}.builtin ASC, #{table_name}.position ASC") }
+  scope :givable, lambda { order("#{table_name}.position ASC").where(:builtin => 0) }
   scope :builtin, lambda { |*args|
     compare = (args.first == true ? 'not' : '')
     where("#{compare} builtin = 0")
   }
 
   before_destroy :check_deletable
-  has_many :workflows, :dependent => :delete_all do
+  has_many :workflow_rules, :dependent => :delete_all do
     def copy(source_role)
-      Workflow.copy(nil, source_role, nil, proxy_association.owner)
+      WorkflowRule.copy(nil, source_role, nil, proxy_association.owner)
     end
   end
 
@@ -44,7 +57,7 @@ class Role < ActiveRecord::Base
   has_many :members, :through => :member_roles
   acts_as_list
 
-  serialize :permissions, Array
+  serialize :permissions, ::Role::PermissionsAttributeCoder
   attr_protected :builtin
 
   validates_presence_of :name
@@ -54,8 +67,13 @@ class Role < ActiveRecord::Base
     :in => ISSUES_VISIBILITY_OPTIONS.collect(&:first),
     :if => lambda {|role| role.respond_to?(:issues_visibility)}
 
-  def permissions
-    read_attribute(:permissions) || []
+  # Copies attributes from another role, arg can be an id or a Role
+  def copy_from(arg, options={})
+    return unless arg.present?
+    role = arg.is_a?(Role) ? arg : Role.find_by_id(arg.to_s)
+    self.attributes = role.attributes.dup.except("id", "name", "position", "builtin", "permissions")
+    self.permissions = role.permissions.dup
+    self
   end
 
   def permissions=(perms)
@@ -115,6 +133,11 @@ class Role < ActiveRecord::Base
     self.builtin != 0
   end
 
+  # Return true if the role is the anonymous role
+  def anonymous?
+    builtin == 2
+  end
+  
   # Return true if the role is a project member role
   def member?
     !self.builtin?

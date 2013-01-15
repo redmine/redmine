@@ -1,6 +1,7 @@
 --- 
 queries_001: 
   id: 1
+  type: IssueQuery
   project_id: 1
   is_public: true
   name: Multiple custom fields query
@@ -23,6 +24,7 @@ queries_001:
   column_names: 
 queries_002: 
   id: 2
+  type: IssueQuery
   project_id: 1
   is_public: false
   name: Private query for cookbook
@@ -41,6 +43,7 @@ queries_002:
   column_names: 
 queries_003: 
   id: 3
+  type: IssueQuery
   project_id: 
   is_public: false
   name: Private query for all projects
@@ -55,6 +58,7 @@ queries_003:
   column_names: 
 queries_004: 
   id: 4
+  type: IssueQuery
   project_id: 
   is_public: true
   name: Public query for all projects
@@ -69,6 +73,7 @@ queries_004:
   column_names: 
 queries_005: 
   id: 5
+  type: IssueQuery
   project_id: 
   is_public: true
   name: Open issues by priority and tracker
@@ -89,6 +94,7 @@ queries_005:
       - asc
 queries_006: 
   id: 6
+  type: IssueQuery
   project_id: 
   is_public: true
   name: Open issues grouped by tracker
@@ -108,6 +114,7 @@ queries_006:
       - desc
 queries_007: 
   id: 7
+  type: IssueQuery
   project_id: 2
   is_public: true
   name: Public query for project 2
@@ -122,6 +129,7 @@ queries_007:
   column_names: 
 queries_008: 
   id: 8
+  type: IssueQuery
   project_id: 2
   is_public: false
   name: Private query for project 2
@@ -136,6 +144,7 @@ queries_008:
   column_names: 
 queries_009: 
   id: 9
+  type: IssueQuery
   project_id: 
   is_public: true
   name: Open issues grouped by list custom field

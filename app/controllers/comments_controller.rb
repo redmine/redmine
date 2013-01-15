@@ -32,12 +32,12 @@ class CommentsController < ApplicationController
       flash[:notice] = l(:label_comment_added)
     end
 
-    redirect_to :controller => 'news', :action => 'show', :id => @news
+    redirect_to news_path(@news)
   end
 
   def destroy
     @news.comments.find(params[:comment_id]).destroy
-    redirect_to :controller => 'news', :action => 'show', :id => @news
+    redirect_to news_path(@news)
   end
 
   private

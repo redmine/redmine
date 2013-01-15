@@ -16,29 +16,39 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../test_helper', __FILE__)
-require 'account_controller'
-
-# Re-raise errors caught by the controller.
-class AccountController; def rescue_action(e) raise e end; end
 
 class AccountControllerTest < ActionController::TestCase
   fixtures :users, :roles
 
   def setup
-    @controller = AccountController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
+  end
+
+  def test_get_login
+    get :login
+    assert_response :success
+    assert_template 'login'
+
+    assert_select 'input[name=username]'
+    assert_select 'input[name=password]'
+  end
+
+  def test_get_login_while_logged_in_should_redirect_to_home
+    @request.session[:user_id] = 2
+
+    get :login
+    assert_redirected_to '/'
+    assert_equal 2, @request.session[:user_id]
   end
 
   def test_login_should_redirect_to_back_url_param
     # request.uri is "test.host" in test environment
-    post :login, :username => 'jsmith', :password => 'jsmith', :back_url => 'http%3A%2F%2Ftest.host%2Fissues%2Fshow%2F1'
+    post :login, :username => 'jsmith', :password => 'jsmith', :back_url => 'http://test.host/issues/show/1'
     assert_redirected_to '/issues/show/1'
   end
 
   def test_login_should_not_redirect_to_another_host
-    post :login, :username => 'jsmith', :password => 'jsmith', :back_url => 'http%3A%2F%2Ftest.foo%2Ffake'
+    post :login, :username => 'jsmith', :password => 'jsmith', :back_url => 'http://test.foo/fake'
     assert_redirected_to '/my/page'
   end
 
@@ -46,9 +56,11 @@ class AccountControllerTest < ActionController::TestCase
     post :login, :username => 'admin', :password => 'bad'
     assert_response :success
     assert_template 'login'
-    assert_tag 'div',
-               :attributes => { :class => "flash error" },
-               :content => /Invalid user or password/
+
+    assert_select 'div.flash.error', :text => /Invalid user or password/
+    assert_select 'input[name=username][value=admin]'
+    assert_select 'input[name=password]'
+    assert_select 'input[name=password][value]', 0
   end
 
   def test_login_should_rescue_auth_source_exception
@@ -66,109 +78,6 @@ class AccountControllerTest < ActionController::TestCase
 
     post :login, :username => 'jsmith', :password => 'jsmith'
     assert_response 302
-  end
-
-  if Object.const_defined?(:OpenID)
-
-  def test_login_with_openid_for_existing_user
-    Setting.self_registration = '3'
-    Setting.openid = '1'
-    existing_user = User.new(:firstname => 'Cool',
-                             :lastname => 'User',
-                             :mail => 'user@somedomain.com',
-                             :identity_url => 'http://openid.example.com/good_user')
-    existing_user.login = 'cool_user'
-    assert existing_user.save!
-
-    post :login, :openid_url => existing_user.identity_url
-    assert_redirected_to '/my/page'
-  end
-
-  def test_login_with_invalid_openid_provider
-    Setting.self_registration = '0'
-    Setting.openid = '1'
-    post :login, :openid_url => 'http;//openid.example.com/good_user'
-    assert_redirected_to home_url
-  end
-
-  def test_login_with_openid_for_existing_non_active_user
-    Setting.self_registration = '2'
-    Setting.openid = '1'
-    existing_user = User.new(:firstname => 'Cool',
-                             :lastname => 'User',
-                             :mail => 'user@somedomain.com',
-                             :identity_url => 'http://openid.example.com/good_user',
-                             :status => User::STATUS_REGISTERED)
-    existing_user.login = 'cool_user'
-    assert existing_user.save!
-
-    post :login, :openid_url => existing_user.identity_url
-    assert_redirected_to '/login'
-  end
-
-  def test_login_with_openid_with_new_user_created
-    Setting.self_registration = '3'
-    Setting.openid = '1'
-    post :login, :openid_url => 'http://openid.example.com/good_user'
-    assert_redirected_to '/my/account'
-    user = User.find_by_login('cool_user')
-    assert user
-    assert_equal 'Cool', user.firstname
-    assert_equal 'User', user.lastname
-  end
-
-  def test_login_with_openid_with_new_user_and_self_registration_off
-    Setting.self_registration = '0'
-    Setting.openid = '1'
-    post :login, :openid_url => 'http://openid.example.com/good_user'
-    assert_redirected_to home_url
-    user = User.find_by_login('cool_user')
-    assert ! user
-  end
-
-  def test_login_with_openid_with_new_user_created_with_email_activation_should_have_a_token
-    Setting.self_registration = '1'
-    Setting.openid = '1'
-    post :login, :openid_url => 'http://openid.example.com/good_user'
-    assert_redirected_to '/login'
-    user = User.find_by_login('cool_user')
-    assert user
-
-    token = Token.find_by_user_id_and_action(user.id, 'register')
-    assert token
-  end
-
-  def test_login_with_openid_with_new_user_created_with_manual_activation
-    Setting.self_registration = '2'
-    Setting.openid = '1'
-    post :login, :openid_url => 'http://openid.example.com/good_user'
-    assert_redirected_to '/login'
-    user = User.find_by_login('cool_user')
-    assert user
-    assert_equal User::STATUS_REGISTERED, user.status
-  end
-
-  def test_login_with_openid_with_new_user_with_conflict_should_register
-    Setting.self_registration = '3'
-    Setting.openid = '1'
-    existing_user = User.new(:firstname => 'Cool', :lastname => 'User', :mail => 'user@somedomain.com')
-    existing_user.login = 'cool_user'
-    assert existing_user.save!
-
-    post :login, :openid_url => 'http://openid.example.com/good_user'
-    assert_response :success
-    assert_template 'register'
-    assert assigns(:user)
-    assert_equal 'http://openid.example.com/good_user', assigns(:user)[:identity_url]
-  end
-
-  def test_setting_openid_should_return_true_when_set_to_true
-    Setting.openid = '1'
-    assert_equal true, Setting.openid?
-  end
-
-  else
-    puts "Skipping openid tests."
   end
 
   def test_logout
@@ -193,8 +102,21 @@ class AccountControllerTest < ActionController::TestCase
       assert_template 'register'
       assert_not_nil assigns(:user)
 
-      assert_tag 'input', :attributes => {:name => 'user[password]'}
-      assert_tag 'input', :attributes => {:name => 'user[password_confirmation]'}
+      assert_select 'input[name=?]', 'user[password]'
+      assert_select 'input[name=?]', 'user[password_confirmation]'
+    end
+  end
+
+  def test_get_register_should_detect_user_language
+    with_settings :self_registration => '3' do
+      @request.env['HTTP_ACCEPT_LANGUAGE'] = 'fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3'
+      get :register
+      assert_response :success
+      assert_not_nil assigns(:user)
+      assert_equal 'fr', assigns(:user).language
+      assert_select 'select[name=?]', 'user[language]' do
+        assert_select 'option[value=fr][selected=selected]'
+      end
     end
   end
 
@@ -211,8 +133,8 @@ class AccountControllerTest < ActionController::TestCase
       assert_difference 'User.count' do
         post :register, :user => {
           :login => 'register',
-          :password => 'test',
-          :password_confirmation => 'test',
+          :password => 'secret123',
+          :password_confirmation => 'secret123',
           :firstname => 'John',
           :lastname => 'Doe',
           :mail => 'register@example.com'
@@ -224,7 +146,7 @@ class AccountControllerTest < ActionController::TestCase
       assert_equal 'John', user.firstname
       assert_equal 'Doe', user.lastname
       assert_equal 'register@example.com', user.mail
-      assert user.check_password?('test')
+      assert user.check_password?('secret123')
       assert user.active?
     end
   end
@@ -243,5 +165,104 @@ class AccountControllerTest < ActionController::TestCase
         assert_redirected_to '/'
       end
     end
+  end
+
+  def test_get_lost_password_should_display_lost_password_form
+    get :lost_password
+    assert_response :success
+    assert_select 'input[name=mail]'
+  end
+
+  def test_lost_password_for_active_user_should_create_a_token
+    Token.delete_all
+    ActionMailer::Base.deliveries.clear
+    assert_difference 'ActionMailer::Base.deliveries.size' do
+      assert_difference 'Token.count' do
+        with_settings :host_name => 'mydomain.foo', :protocol => 'http' do
+          post :lost_password, :mail => 'JSmith@somenet.foo'
+          assert_redirected_to '/login'
+        end
+      end
+    end
+
+    token = Token.order('id DESC').first
+    assert_equal User.find(2), token.user
+    assert_equal 'recovery', token.action
+
+    assert_select_email do
+      assert_select "a[href=?]", "http://mydomain.foo/account/lost_password?token=#{token.value}"
+    end
+  end
+
+  def test_lost_password_for_unknown_user_should_fail
+    Token.delete_all
+    assert_no_difference 'Token.count' do
+      post :lost_password, :mail => 'invalid@somenet.foo'
+      assert_response :success
+    end
+  end
+
+  def test_lost_password_for_non_active_user_should_fail
+    Token.delete_all
+    assert User.find(2).lock!
+
+    assert_no_difference 'Token.count' do
+      post :lost_password, :mail => 'JSmith@somenet.foo'
+      assert_response :success
+    end
+  end
+
+  def test_get_lost_password_with_token_should_display_the_password_recovery_form
+    user = User.find(2)
+    token = Token.create!(:action => 'recovery', :user => user)
+
+    get :lost_password, :token => token.value
+    assert_response :success
+    assert_template 'password_recovery'
+
+    assert_select 'input[type=hidden][name=token][value=?]', token.value
+  end
+
+  def test_get_lost_password_with_invalid_token_should_redirect
+    get :lost_password, :token => "abcdef"
+    assert_redirected_to '/'
+  end
+
+  def test_post_lost_password_with_token_should_change_the_user_password
+    user = User.find(2)
+    token = Token.create!(:action => 'recovery', :user => user)
+
+    post :lost_password, :token => token.value, :new_password => 'newpass123', :new_password_confirmation => 'newpass123'
+    assert_redirected_to '/login'
+    user.reload
+    assert user.check_password?('newpass123')
+    assert_nil Token.find_by_id(token.id), "Token was not deleted"
+  end
+
+  def test_post_lost_password_with_token_for_non_active_user_should_fail
+    user = User.find(2)
+    token = Token.create!(:action => 'recovery', :user => user)
+    user.lock!
+
+    post :lost_password, :token => token.value, :new_password => 'newpass123', :new_password_confirmation => 'newpass123'
+    assert_redirected_to '/'
+    assert ! user.check_password?('newpass123')
+  end
+
+  def test_post_lost_password_with_token_and_password_confirmation_failure_should_redisplay_the_form
+    user = User.find(2)
+    token = Token.create!(:action => 'recovery', :user => user)
+
+    post :lost_password, :token => token.value, :new_password => 'newpass', :new_password_confirmation => 'wrongpass'
+    assert_response :success
+    assert_template 'password_recovery'
+    assert_not_nil Token.find_by_id(token.id), "Token was deleted"
+
+    assert_select 'input[type=hidden][name=token][value=?]', token.value
+  end
+
+  def test_post_lost_password_with_invalid_token_should_redirect
+    post :lost_password, :token => "abcdef", :new_password => 'newpass', :new_password_confirmation => 'newpass'
+    assert_redirected_to '/'
   end
 end

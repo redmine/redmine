@@ -21,7 +21,7 @@ class NewsTest < ActiveSupport::TestCase
   fixtures :projects, :users, :roles, :members, :member_roles, :enabled_modules, :news
 
   def valid_news
-    { :title => 'Test news', :description => 'Lorem ipsum etc', :author => User.find(:first) }
+    { :title => 'Test news', :description => 'Lorem ipsum etc', :author => User.first }
   end
 
   def setup
@@ -29,10 +29,11 @@ class NewsTest < ActiveSupport::TestCase
 
   def test_create_should_send_email_notification
     ActionMailer::Base.deliveries.clear
-    Setting.notified_events << 'news_added'
     news = Project.find(1).news.new(valid_news)
 
-    assert news.save
+    with_settings :notified_events => %w(news_added) do
+      assert news.save
+    end
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
 

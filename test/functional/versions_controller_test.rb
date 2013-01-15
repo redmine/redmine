@@ -16,18 +16,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../test_helper', __FILE__)
-require 'versions_controller'
-
-# Re-raise errors caught by the controller.
-class VersionsController; def rescue_action(e) raise e end; end
 
 class VersionsControllerTest < ActionController::TestCase
-  fixtures :projects, :versions, :issues, :users, :roles, :members, :member_roles, :enabled_modules, :issue_statuses
+  fixtures :projects, :versions, :issues, :users, :roles, :members, :member_roles, :enabled_modules, :issue_statuses, :issue_categories
 
   def setup
-    @controller = VersionsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
   end
 
@@ -41,7 +34,7 @@ class VersionsControllerTest < ActionController::TestCase
     # Completed version doesn't appear
     assert !assigns(:versions).include?(Version.find(1))
     # Context menu on issues
-    assert_select "script", :text => Regexp.new(Regexp.escape("new ContextMenu('/issues/context_menu')"))
+    assert_select "script", :text => Regexp.new(Regexp.escape("contextMenuInit('/issues/context_menu')"))
     # Links to versions anchors
     assert_tag 'a', :attributes => {:href => '#2.0'},
                     :ancestor => {:tag => 'div', :attributes => {:id => 'sidebar'}}
@@ -80,6 +73,20 @@ class VersionsControllerTest < ActionController::TestCase
     assert assigns(:versions).include?(@subproject_version), "Subproject version not found"
   end
 
+  def test_index_should_prepend_shared_versions
+    get :index, :project_id => 1
+    assert_response :success
+
+    assert_select '#sidebar' do
+      assert_select 'a[href=?]', '#2.0', :text => '2.0'
+      assert_select 'a[href=?]', '#subproject1-2.0', :text => 'eCookbook Subproject 1 - 2.0'
+    end
+    assert_select '#content' do
+      assert_select 'a[name=?]', '2.0', :text => '2.0'
+      assert_select 'a[name=?]', 'subproject1-2.0', :text => 'eCookbook Subproject 1 - 2.0'
+    end
+  end
+
   def test_show
     get :show, :id => 2
     assert_response :success
@@ -87,6 +94,19 @@ class VersionsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:version)
 
     assert_tag :tag => 'h2', :content => /1.0/
+  end
+
+  def test_show_should_display_nil_counts
+    with_settings :default_language => 'en' do
+      get :show, :id => 2, :status_by => 'category'
+      assert_response :success
+      assert_select 'div#status_by' do
+        assert_select 'select[name=status_by]' do
+          assert_select 'option[value=category][selected=selected]'
+        end
+        assert_select 'a', :text => 'none'
+      end
+    end
   end
 
   def test_new
@@ -100,10 +120,8 @@ class VersionsControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     xhr :get, :new, :project_id => '1'
     assert_response :success
-    assert_select_rjs :replace_html, "ajax-modal" do
-      assert_select "form[action=/projects/ecookbook/versions]"
-      assert_select "input#version_name"
-    end
+    assert_template 'new'
+    assert_equal 'text/javascript', response.content_type
   end
 
   def test_create
@@ -127,9 +145,9 @@ class VersionsControllerTest < ActionController::TestCase
     assert_equal 1, version.project_id
 
     assert_response :success
-    assert_select_rjs :replace, 'issue_fixed_version_id' do
-      assert_select "option[value=#{version.id}][selected=selected]"
-    end
+    assert_template 'create'
+    assert_equal 'text/javascript', response.content_type
+    assert_include 'test_add_version_from_issue_form', response.body
   end
 
   def test_create_from_issue_form_with_failure
@@ -138,9 +156,8 @@ class VersionsControllerTest < ActionController::TestCase
       xhr :post, :create, :project_id => '1', :version => {:name => ''}
     end
     assert_response :success
-    assert_select_rjs :replace_html, "ajax-modal" do
-      assert_select "div#errorExplanation"
-    end
+    assert_template 'new'
+    assert_equal 'text/javascript', response.content_type
   end
 
   def test_get_edit
@@ -200,12 +217,16 @@ class VersionsControllerTest < ActionController::TestCase
   def test_issue_status_by
     xhr :get, :status_by, :id => 2
     assert_response :success
+    assert_template 'status_by'
     assert_template '_issue_counts'
   end
 
   def test_issue_status_by_status
     xhr :get, :status_by, :id => 2, :status_by => 'status'
     assert_response :success
+    assert_template 'status_by'
     assert_template '_issue_counts'
+    assert_include 'Assigned', response.body
+    assert_include 'Closed', response.body
   end
 end

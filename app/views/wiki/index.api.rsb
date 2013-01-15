@@ -1,0 +1,13 @@
+api.array :wiki_pages do
+  @pages.each do |page|
+    api.wiki_page do
+      api.title page.title
+      if page.parent
+        api.parent :title => page.parent.title
+      end
+      api.version page.version
+      api.created_on page.created_on
+      api.updated_on page.updated_on
+    end
+  end
+end

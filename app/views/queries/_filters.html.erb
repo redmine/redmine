@@ -1,53 +1,28 @@
+<%= javascript_tag do %>
+var operatorLabels = <%= raw_json Query.operators_labels %>;
+var operatorByType = <%= raw_json Query.operators_by_filter_type %>;
+var availableFilters = <%= raw_json query.available_filters_as_json %>;
+var labelDayPlural = <%= raw_json l(:label_day_plural) %>;
+var allProjects = <%= raw query.all_projects_values.to_json %>;
+$(document).ready(function(){
+  initFilters();
+  <% query.filters.each do |field, options| %>
+  addFilter("<%= field %>", <%= raw_json query.operator_for(field) %>, <%= raw_json query.values_for(field) %>);
+  <% end %>
+});
+<% end %>
+
 <table style="width:100%">
 <tr>
 <td>
-<table>
-<% query.available_filters.sort{|a,b| a[1][:order]<=>b[1][:order]}.each do |filter| %>
-    <% field = filter[0]
-       options = filter[1] %>
-    <tr <%= 'style="display:none;"'.html_safe unless query.has_filter?(field) %> id="tr_<%= field %>" class="filter">
-    <td class="field">
-        <%= check_box_tag 'f[]', field, query.has_filter?(field), :onclick => "toggle_filter('#{field}');", :id => "cb_#{field}" %>
-        <label for="cb_<%= field %>"><%= filter[1][:name] || l(("field_"+field.to_s.gsub(/\_id$/, "")).to_sym) %></label>
-    </td>
-    <td class="operator">
-        <%= label_tag "operators_#{field}", l(:description_filter), :class => "hidden-for-sighted" %>
-        <%= select_tag "op[#{field}]", options_for_select(operators_for_select(options[:type]),
-                        query.operator_for(field)), :id => "operators_#{field}",
-                        :onchange => "toggle_operator('#{field}');" %>
-    </td>
-    <td class="values">
-    <div id="div_values_<%= field %>" style="display:none;">
-    <% case options[:type]
-    when :list, :list_optional, :list_status, :list_subprojects %>
-        <span class="span_values_<%= field %>">
-          <%= select_tag "v[#{field}][]", options_for_select(options[:values], query.values_for(field)), :class => "values_#{field}", :id => "values_#{field}_1", :multiple => (query.values_for(field) && query.values_for(field).length > 1) %>
-          <%= link_to_function image_tag('bullet_toggle_plus.png'), "toggle_multi_select('values_#{field}_1');" %>
-        </span>
-    <% when :date, :date_past %>
-        <span class="span_values_<%= field %>"><%= text_field_tag "v[#{field}][]", query.value_for(field), :size => 10, :class => "values_#{field}", :id => "values_#{field}_1" %> <%= calendar_for "values_#{field}_1" %></span>
-        <span class="span_values_<%= field %>"><%= text_field_tag "v[#{field}][]", query.value_for(field, 1), :size => 10, :class => "values_#{field}", :id => "values_#{field}_2" %> <%= calendar_for "values_#{field}_2" %></span>
-        <span class="span_values_<%= field %>"><%= text_field_tag "v[#{field}][]", query.value_for(field), :size => 3, :class => "values_#{field}" %> <%= l(:label_day_plural) %></span>
-    <% when :string, :text %>
-        <span class="span_values_<%= field %>"><%= text_field_tag "v[#{field}][]", query.value_for(field), :class => "values_#{field}", :id => "values_#{field}", :size => 30 %></span>
-    <% when :integer, :float %>
-        <span class="span_values_<%= field %>"><%= text_field_tag "v[#{field}][]", query.value_for(field), :class => "values_#{field}", :id => "values_#{field}_1", :size => 6 %></span>
-        <span class="span_values_<%= field %>"><%= text_field_tag "v[#{field}][]", query.value_for(field, 1), :class => "values_#{field}", :id => "values_#{field}_2", :size => 6 %></span>
-    <% end %>
-    </div>
-    <script type="text/javascript">toggle_filter('<%= field %>');</script>
-    </td>
-    </tr>
-<% end %>
+<table id="filters-table">
 </table>
 </td>
 <td class="add-filter">
 <%= label_tag('add_filter_select', l(:label_filter_add)) %>
-<%= select_tag 'add_filter_select', options_for_select([["",""]] + query.available_filters.sort{|a,b| a[1][:order]<=>b[1][:order]}.collect{|field| [ field[1][:name] || l(("field_"+field[0].to_s.gsub(/_id$/, "")).to_sym), field[0]] unless query.has_filter?(field[0])}.compact),
-                                    :onchange => "add_filter();",
-                                    :name => nil %>
+<%= select_tag 'add_filter_select', filters_options_for_select(query), :name => nil %>
 </td>
 </tr>
 </table>
 <%= hidden_field_tag 'f[]', '' %>
-<%= javascript_tag 'Event.observe(window,"load",apply_filters_observer);' %>
+<% include_calendar_headers_tags %>

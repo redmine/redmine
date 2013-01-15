@@ -1,4 +1,4 @@
-# Bulgarian translation by Ivan Cenov i_cenov@botevgrad.com
+# Bulgarian translation by Nikolay Solakov and Ivan Cenov
 bg:
   # Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: ltr
@@ -178,6 +178,7 @@ bg:
   notice_issue_successful_create: Задача %{id} е създадена.
   notice_issue_update_conflict: Задачата е била променена от друг потребител, докато вие сте я редактирали.
   notice_account_deleted: Вашият профил беше премахнат без възможност за възстановяване.
+  notice_user_successful_create: Потребител %{id} е създаден.
 
   error_can_t_load_default_data: "Грешка при зареждане на примерната информация: %{value}"
   error_scm_not_found: Несъществуващ обект в хранилището.
@@ -216,8 +217,6 @@ bg:
   mail_subject_wiki_content_updated: "Wiki страницата '%{id}' беше обновена"
   mail_body_wiki_content_updated: Wiki страницата '%{id}' беше обновена от %{author}.
 
-  gui_validation_error: 1 грешка
-  gui_validation_error_plural: "%{count} грешки"
 
   field_name: Име
   field_description: Описание
@@ -327,7 +326,11 @@ bg:
   field_cvs_module: Модул
   field_repository_is_default: Главно хранилище
   field_multiple: Избор на повече от една стойност
-  field_ldap_filter: LDAP филтър
+  field_auth_source_ldap_filter: LDAP филтър
+  field_core_fields: Стандартни полета
+  field_timeout: Таймаут (в секунди)
+  field_board_parent: Родителски форум
+  field_private_notes: Лични бележки
 
   setting_app_title: Заглавие
   setting_app_subtitle: Описание
@@ -353,6 +356,7 @@ bg:
   setting_date_format: Формат на датата
   setting_time_format: Формат на часа
   setting_cross_project_issue_relations: Релации на задачи между проекти
+  setting_cross_project_subtasks: Подзадачи от други проекти
   setting_issue_list_default_columns: Показвани колони по подразбиране
   setting_repositories_encodings: Кодова таблица на прикачените файлове и хранилищата
   setting_emails_header: Emails header
@@ -392,10 +396,14 @@ bg:
   setting_unsubscribe: Потребителите могат да премахват профилите си
   setting_session_lifetime: Максимален живот на сесиите
   setting_session_timeout: Таймаут за неактивност преди прекратяване на сесиите
+  setting_thumbnails_enabled: Показване на миниатюри на прикачените изображения
+  setting_thumbnails_size: Размер на миниатюрите (в пиксели)
+  setting_non_working_week_days: Не работни дни
 
   permission_add_project: Създаване на проект
   permission_add_subprojects: Създаване на подпроекти
   permission_edit_project: Редактиране на проект
+  permission_close_project: Затваряне / отваряне на проект
   permission_select_project_modules: Избор на проектни модули
   permission_manage_members: Управление на членовете (на екип)
   permission_manage_project_activities: Управление на дейностите на проекта
@@ -410,6 +418,8 @@ bg:
   permission_add_issue_notes: Добавяне на бележки
   permission_edit_issue_notes: Редактиране на бележки
   permission_edit_own_issue_notes: Редактиране на собствени бележки
+  permission_view_private_notes: Разглеждане на лични бележки
+  permission_set_notes_private: Установяване на бележките лични
   permission_move_issues: Преместване на задачи
   permission_delete_issues: Изтриване на задачи
   permission_manage_public_queries: Управление на публичните заявки
@@ -556,8 +566,6 @@ bg:
   label_text: Дълъг текст
   label_attribute: Атрибут
   label_attribute_plural: Атрибути
-  label_download: "%{count} изтегляне"
-  label_download_plural: "%{count} изтегляния"
   label_no_data: Няма изходни данни
   label_change_status: Промяна на състоянието
   label_history: История
@@ -610,6 +618,7 @@ bg:
   label_current_status: Текущо състояние
   label_new_statuses_allowed: Позволени състояния
   label_all: всички
+  label_any: която и да е
   label_none: никакви
   label_nobody: никой
   label_next: Следващ
@@ -644,6 +653,8 @@ bg:
   label_not_equals: не е
   label_in_less_than: след по-малко от
   label_in_more_than: след повече от
+  label_in_the_next_days: в следващите
+  label_in_the_past_days: в предишните
   label_greater_or_equal: ">="
   label_less_or_equal: <=
   label_between: между
@@ -653,6 +664,7 @@ bg:
   label_yesterday: вчера
   label_this_week: тази седмица
   label_last_week: последната седмица
+  label_last_n_weeks: последните %{count} седмици
   label_last_n_days: "последните %{count} дни"
   label_this_month: текущия месец
   label_last_month: последния месец
@@ -663,13 +675,14 @@ bg:
   label_ago: преди
   label_contains: съдържа
   label_not_contains: не съдържа
+  label_any_issues_in_project: задачи от проект
+  label_any_issues_not_in_project: задачи, които не са в проект
+  label_no_issues_in_project: никакви задачи в проект
   label_day_plural: дни
   label_repository: Хранилище
   label_repository_new: Ново хранилище
   label_repository_plural: Хранилища
   label_browse: Разглеждане
-  label_modification: "%{count} промяна"
-  label_modification_plural: "%{count} промени"
   label_branch: работен вариант
   label_tag: Версия
   label_revision: Ревизия
@@ -738,6 +751,8 @@ bg:
   label_blocked_by: блокирана от
   label_precedes: предшества
   label_follows: изпълнява се след
+  label_copied_to: копирана в
+  label_copied_from: копирана от
   label_end_to_start: край към начало
   label_end_to_end: край към край
   label_start_to_start: начало към начало
@@ -851,13 +866,27 @@ bg:
   label_child_revision: Ревизия наследник
   label_export_options: "%{export_format} опции за експорт"
   label_copy_attachments: Копиране на прикачените файлове
+  label_copy_subtasks: Копиране на подзадачите
   label_item_position: "%{position}/%{count}"
   label_completed_versions: Завършени версии
   label_search_for_watchers: Търсене на потребители за наблюдатели
   label_session_expiration: Изтичане на сесиите
+  label_show_closed_projects: Разглеждане на затворени проекти
+  label_status_transitions: Преходи между състоянията
+  label_fields_permissions: Видимост на полетата
+  label_readonly: Само за четене
+  label_required: Задължително
+  label_attribute_of_project: Project's %{name}
+  label_attribute_of_author: Author's %{name}
+  label_attribute_of_assigned_to: Assignee's %{name}
+  label_attribute_of_fixed_version: Target version's %{name}
+  label_cross_project_descendants: С подпроекти
+  label_cross_project_tree: С дърво на проектите
+  label_cross_project_hierarchy: С проектна йерархия
+  label_cross_project_system: С всички проекти
 
   button_login: Вход
-  button_submit: Прикачване
+  button_submit: Изпращане
   button_save: Запис
   button_check_all: Избор на всички
   button_uncheck_all: Изчистване на всички
@@ -902,13 +931,20 @@ bg:
   button_quote: Цитат
   button_duplicate: Дублиране
   button_show: Показване
+  button_hide: Скриване
   button_edit_section: Редактиране на тази секция
   button_export: Експорт
   button_delete_my_account: Премахване на моя профил
+  button_close: Затваряне
+  button_reopen: Отваряне
 
   status_active: активен
   status_registered: регистриран
   status_locked: заключен
+
+  project_status_active: активен
+  project_status_closed: затворен
+  project_status_archived: архивиран
 
   version_status_open: отворена
   version_status_locked: заключена
@@ -923,7 +959,6 @@ bg:
   text_subprojects_destroy_warning: "Неговите подпроекти: %{value} също ще бъдат изтрити."
   text_workflow_edit: Изберете роля и тракер за да редактирате работния процес
   text_are_you_sure: Сигурни ли сте?
-  text_are_you_sure_with_children: Изтриване на задачата и нейните подзадачи?
   text_journal_changed: "%{label} променен от %{old} на %{new}"
   text_journal_changed_no_detail: "%{label} променен"
   text_journal_set_to: "%{label} установен на %{value}"
@@ -991,6 +1026,7 @@ bg:
   text_issue_conflict_resolution_cancel: Отхвърляне на всички мои промени и презареждане на %{link}
   text_account_destroy_confirmation: "Сигурен/на ли сте, че желаете да продължите?\nВашият профил ще бъде премахнат без възможност за възстановяване."
   text_session_expiration_settings: "Внимание: промяната на тези установяваноя може да прекрати всички активни сесии, включително и вашата."
+  text_project_closed: Този проект е затворен и е само за четене.
 
   default_role_manager: Мениджър
   default_role_developer: Разработчик
@@ -1036,3 +1072,5 @@ bg:
   description_date_range_interval: Изберете диапазон чрез задаване на начална и крайна дати
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
+  text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
+  label_attribute_of_user: User's %{name}

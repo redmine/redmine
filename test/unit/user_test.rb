@@ -34,7 +34,7 @@ class UserTest < ActiveSupport::TestCase
     @dlopper = User.find(3)
   end
 
-  test 'object_daddy creation' do
+  def test_generate
     User.generate!(:firstname => 'Testing connection')
     User.generate!(:firstname => 'Testing connection')
     assert_equal 2, User.count(:all, :conditions => {:firstname => 'Testing connection'})
@@ -77,7 +77,7 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 1, user.errors.count
 
     user.login = "newuser"
-    user.password, user.password_confirmation = "passwd", "password"
+    user.password, user.password_confirmation = "password", "pass"
     # password confirmation
     assert !user.save
     assert_equal 1, user.errors.count
@@ -86,31 +86,25 @@ class UserTest < ActiveSupport::TestCase
     assert user.save
   end
 
-  context "User#before_create" do
-    should "set the mail_notification to the default Setting" do
-      @user1 = User.generate!
-      assert_equal 'only_my_events', @user1.mail_notification
-
-      with_settings :default_notification_option => 'all' do
-        @user2 = User.generate!
-        assert_equal 'all', @user2.mail_notification
-      end
+  def test_user_before_create_should_set_the_mail_notification_to_the_default_setting
+    @user1 = User.generate!
+    assert_equal 'only_my_events', @user1.mail_notification
+    with_settings :default_notification_option => 'all' do
+      @user2 = User.generate!
+      assert_equal 'all', @user2.mail_notification
     end
   end
 
-  context "User.login" do
-    should "be case-insensitive." do
-      u = User.new(:firstname => "new", :lastname => "user", :mail => "newuser@somenet.foo")
-      u.login = 'newuser'
-      u.password, u.password_confirmation = "password", "password"
-      assert u.save
-
-      u = User.new(:firstname => "Similar", :lastname => "User", :mail => "similaruser@somenet.foo")
-      u.login = 'NewUser'
-      u.password, u.password_confirmation = "password", "password"
-      assert !u.save
-      assert_include I18n.translate('activerecord.errors.messages.taken'), u.errors[:login]
-    end
+  def test_user_login_should_be_case_insensitive
+    u = User.new(:firstname => "new", :lastname => "user", :mail => "newuser@somenet.foo")
+    u.login = 'newuser'
+    u.password, u.password_confirmation = "password", "password"
+    assert u.save
+    u = User.new(:firstname => "Similar", :lastname => "User", :mail => "similaruser@somenet.foo")
+    u.login = 'NewUser'
+    u.password, u.password_confirmation = "password", "password"
+    assert !u.save
+    assert_include I18n.translate('activerecord.errors.messages.taken'), u.errors[:login]
   end
 
   def test_mail_uniqueness_should_not_be_case_sensitive
@@ -381,12 +375,12 @@ class UserTest < ActiveSupport::TestCase
 
     should "select the exact matching user first" do
       case_sensitive_user = User.generate! do |user|
-        user.password = "admin"
+        user.password = "admin123"
       end
       # bypass validations to make it appear like existing data
       case_sensitive_user.update_attribute(:login, 'ADMIN')
 
-      user = User.try_to_login("ADMIN", "admin")
+      user = User.try_to_login("ADMIN", "admin123")
       assert_kind_of User, user
       assert_equal "ADMIN", user.login
 
@@ -397,10 +391,10 @@ class UserTest < ActiveSupport::TestCase
     user = User.try_to_login("admin", "admin")
     assert_kind_of User, user
     assert_equal "admin", user.login
-    user.password = "hello"
+    user.password = "hello123"
     assert user.save
 
-    user = User.try_to_login("admin", "hello")
+    user = User.try_to_login("admin", "hello123")
     assert_kind_of User, user
     assert_equal "admin", user.login
   end
@@ -416,12 +410,16 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_name_format
+    assert_equal 'John S.', @jsmith.name(:firstname_lastinitial)
     assert_equal 'Smith, John', @jsmith.name(:lastname_coma_firstname)
     with_settings :user_format => :firstname_lastname do
       assert_equal 'John Smith', @jsmith.reload.name
     end
     with_settings :user_format => :username do
       assert_equal 'jsmith', @jsmith.reload.name
+    end
+    with_settings :user_format => :lastname do
+      assert_equal 'Smith', @jsmith.reload.name
     end
   end
 
@@ -697,7 +695,7 @@ class UserTest < ActiveSupport::TestCase
   def test_default_admin_account_changed_should_return_false_if_account_was_not_changed
     user = User.find_by_login("admin")
     user.password = "admin"
-    user.save!
+    assert user.save(:validate => false)
 
     assert_equal false, User.default_admin_account_changed?
   end
@@ -714,7 +712,7 @@ class UserTest < ActiveSupport::TestCase
     user = User.find_by_login("admin")
     user.password = "admin"
     user.status = User::STATUS_LOCKED
-    user.save!
+    assert user.save(:validate => false)
 
     assert_equal true, User.default_admin_account_changed?
   end
@@ -742,6 +740,13 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 2, user.projects_by_role.size
     assert_equal [1,5], user.projects_by_role[Role.find(1)].collect(&:id).sort
     assert_equal [2], user.projects_by_role[Role.find(2)].collect(&:id).sort
+  end
+
+  def test_accessing_projects_by_role_with_no_projects_should_return_an_empty_array
+    user = User.find(2)
+    assert_equal [], user.projects_by_role[Role.find(3)]
+    # should not update the hash
+    assert_nil user.projects_by_role.values.detect(&:blank?)
   end
 
   def test_projects_by_role_for_user_with_no_role
@@ -871,45 +876,57 @@ class UserTest < ActiveSupport::TestCase
       should "return false if project is archived" do
         project = Project.find(1)
         Project.any_instance.stubs(:status).returns(Project::STATUS_ARCHIVED)
-        assert ! @admin.allowed_to?(:view_issues, Project.find(1))
+        assert_equal false, @admin.allowed_to?(:view_issues, Project.find(1))
+      end
+
+      should "return false for write action if project is closed" do
+        project = Project.find(1)
+        Project.any_instance.stubs(:status).returns(Project::STATUS_CLOSED)
+        assert_equal false, @admin.allowed_to?(:edit_project, Project.find(1))
+      end
+
+      should "return true for read action if project is closed" do
+        project = Project.find(1)
+        Project.any_instance.stubs(:status).returns(Project::STATUS_CLOSED)
+        assert_equal true, @admin.allowed_to?(:view_project, Project.find(1))
       end
 
       should "return false if related module is disabled" do
         project = Project.find(1)
         project.enabled_module_names = ["issue_tracking"]
-        assert @admin.allowed_to?(:add_issues, project)
-        assert ! @admin.allowed_to?(:view_wiki_pages, project)
+        assert_equal true, @admin.allowed_to?(:add_issues, project)
+        assert_equal false, @admin.allowed_to?(:view_wiki_pages, project)
       end
 
       should "authorize nearly everything for admin users" do
         project = Project.find(1)
         assert ! @admin.member_of?(project)
         %w(edit_issues delete_issues manage_news manage_documents manage_wiki).each do |p|
-          assert @admin.allowed_to?(p.to_sym, project)
+          assert_equal true, @admin.allowed_to?(p.to_sym, project)
         end
       end
 
       should "authorize normal users depending on their roles" do
         project = Project.find(1)
-        assert @jsmith.allowed_to?(:delete_messages, project)    #Manager
-        assert ! @dlopper.allowed_to?(:delete_messages, project) #Developper
+        assert_equal true, @jsmith.allowed_to?(:delete_messages, project)    #Manager
+        assert_equal false, @dlopper.allowed_to?(:delete_messages, project) #Developper
       end
     end
 
     context "with multiple projects" do
       should "return false if array is empty" do
-        assert ! @admin.allowed_to?(:view_project, [])
+        assert_equal false, @admin.allowed_to?(:view_project, [])
       end
 
       should "return true only if user has permission on all these projects" do
-        assert @admin.allowed_to?(:view_project, Project.all)
-        assert ! @dlopper.allowed_to?(:view_project, Project.all) #cannot see Project(2)
-        assert @jsmith.allowed_to?(:edit_issues, @jsmith.projects) #Manager or Developer everywhere
-        assert ! @jsmith.allowed_to?(:delete_issue_watchers, @jsmith.projects) #Dev cannot delete_issue_watchers
+        assert_equal true, @admin.allowed_to?(:view_project, Project.all)
+        assert_equal false, @dlopper.allowed_to?(:view_project, Project.all) #cannot see Project(2)
+        assert_equal true, @jsmith.allowed_to?(:edit_issues, @jsmith.projects) #Manager or Developer everywhere
+        assert_equal false, @jsmith.allowed_to?(:delete_issue_watchers, @jsmith.projects) #Dev cannot delete_issue_watchers
       end
 
       should "behave correctly with arrays of 1 project" do
-        assert ! User.anonymous.allowed_to?(:delete_issues, [Project.first])
+        assert_equal false, User.anonymous.allowed_to?(:delete_issues, [Project.first])
       end
     end
 
@@ -917,11 +934,11 @@ class UserTest < ActiveSupport::TestCase
       should "authorize if user has at least one role that has this permission" do
         @dlopper2 = User.find(5) #only Developper on a project, not Manager anywhere
         @anonymous = User.find(6)
-        assert @jsmith.allowed_to?(:delete_issue_watchers, nil, :global => true)
-        assert ! @dlopper2.allowed_to?(:delete_issue_watchers, nil, :global => true)
-        assert @dlopper2.allowed_to?(:add_issues, nil, :global => true)
-        assert ! @anonymous.allowed_to?(:add_issues, nil, :global => true)
-        assert @anonymous.allowed_to?(:view_issues, nil, :global => true)
+        assert_equal true, @jsmith.allowed_to?(:delete_issue_watchers, nil, :global => true)
+        assert_equal false, @dlopper2.allowed_to?(:delete_issue_watchers, nil, :global => true)
+        assert_equal true, @dlopper2.allowed_to?(:add_issues, nil, :global => true)
+        assert_equal false, @anonymous.allowed_to?(:add_issues, nil, :global => true)
+        assert_equal true, @anonymous.allowed_to?(:view_issues, nil, :global => true)
       end
     end
   end
@@ -932,7 +949,7 @@ class UserTest < ActiveSupport::TestCase
         @project = Project.find(1)
         @author = User.generate!
         @assignee = User.generate!
-        @issue = Issue.generate_for_project!(@project, :assigned_to => @assignee, :author => @author)
+        @issue = Issue.generate!(:project => @project, :assigned_to => @assignee, :author => @author)
       end
 
       should "be true for a user with :all" do

@@ -247,18 +247,15 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       get :revision, :id => 1, :rev => 2
       assert_response :success
       assert_template 'revision'
-      assert_tag :tag => 'ul',
-                 :child => { :tag => 'li',
-                             # link to the entry at rev 2
-                             :child => { :tag => 'a',
-                                         :attributes => {:href => '/projects/ecookbook/repository/revisions/2/entry/test/some/path/in/the/repo'},
-                                         :content => 'repo',
-                                         # link to partial diff
-                                         :sibling =>  { :tag => 'a',
-                                                        :attributes => { :href => '/projects/ecookbook/repository/revisions/2/diff/test/some/path/in/the/repo' }
-                                                       }
-                                        }
-                            }
+
+      assert_select 'ul' do
+        assert_select 'li' do
+          # link to the entry at rev 2
+          assert_select 'a[href=?]', '/projects/ecookbook/repository/revisions/2/entry/test/some/path/in/the/repo', :text => 'repo'
+          # link to partial diff
+          assert_select 'a[href=?]', '/projects/ecookbook/repository/revisions/2/diff/test/some/path/in/the/repo'
+        end
+      end
     end
 
     def test_invalid_revision
@@ -298,18 +295,15 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       get :revision, :id => 1, :rev => 2
       assert_response :success
       assert_template 'revision'
-      assert_tag :tag => 'ul',
-                 :child => { :tag => 'li',
-                             # link to the entry at rev 2
-                             :child => { :tag => 'a',
-                                         :attributes => {:href => '/projects/ecookbook/repository/revisions/2/entry/path/in/the/repo'},
-                                         :content => 'repo',
-                                         # link to partial diff
-                                         :sibling =>  { :tag => 'a',
-                                                        :attributes => { :href => '/projects/ecookbook/repository/revisions/2/diff/path/in/the/repo' }
-                                                       }
-                                        }
-                            }
+
+      assert_select 'ul' do
+        assert_select 'li' do
+          # link to the entry at rev 2
+          assert_select 'a[href=?]', '/projects/ecookbook/repository/revisions/2/entry/path/in/the/repo', :text => 'repo'
+          # link to partial diff
+          assert_select 'a[href=?]', '/projects/ecookbook/repository/revisions/2/diff/path/in/the/repo'
+        end
+      end
     end
 
     def test_revision_diff
@@ -321,8 +315,8 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
         get :diff, :id => PRJ_ID, :rev => 3, :type => dt
         assert_response :success
         assert_template 'diff'
-        assert_tag :tag => 'h2',
-                   :content => / 3/
+        assert_select 'h2', :text => /Revision 3/
+        assert_select 'th.filename', :text => 'subversion_test/textfile.txt'
       end
     end
 
@@ -367,6 +361,19 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
           :path => repository_path_hash(['subversion_test', 'helloworld.c'])[:param]
       assert_response :success
       assert_template 'annotate'
+
+      assert_select 'tr' do
+        assert_select 'th.line-num', :text => '1'
+        assert_select 'td.revision', :text => '4'
+        assert_select 'td.author', :text => 'jp'
+        assert_select 'td', :text => /stdio.h/
+      end
+      # Same revision
+      assert_select 'tr' do
+        assert_select 'th.line-num', :text => '2'
+        assert_select 'td.revision', :text => ''
+        assert_select 'td.author', :text => ''
+      end
     end
 
     def test_annotate_at_given_revision

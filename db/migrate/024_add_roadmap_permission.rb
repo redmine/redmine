@@ -7,6 +7,6 @@ class AddRoadmapPermission < ActiveRecord::Migration
   end
 
   def self.down
-    Permission.find(:first, :conditions => ["controller=? and action=?", 'projects', 'roadmap']).destroy
+    Permission.where("controller=? and action=?", 'projects', 'roadmap').first.destroy
   end
 end

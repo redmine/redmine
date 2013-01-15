@@ -1,38 +1,34 @@
-<fieldset id="date-range" class="collapsible">
-<legend onclick="toggleFieldset(this);"><%= l(:label_date_range) %></legend>
-<div>
-<p>
-<%= label_tag "period_type_list", l(:description_date_range_list), :class => "hidden-for-sighted" %>
-<%= radio_button_tag 'period_type', '1', !@free_period, :onclick => 'Form.Element.disable("from");Form.Element.disable("to");Form.Element.enable("period");', :id => "period_type_list"%>
-<%= select_tag 'period', options_for_period_select(params[:period]),
-                         :onchange => 'this.form.submit();',
-                         :onfocus => '$("period_type_1").checked = true;',
-                         :disabled => @free_period %>
-</p>
-<p>
-<%= label_tag "period_type_interval", l(:description_date_range_interval), :class => "hidden-for-sighted" %>
-<%= radio_button_tag 'period_type', '2', @free_period, :onclick => 'Form.Element.enable("from");Form.Element.enable("to");Form.Element.disable("period");', :id => "period_type_interval" %>
-<span onclick="$('period_type_interval').checked = true;Form.Element.enable('from');Form.Element.enable('to');Form.Element.disable('period');">
-<%= l(:label_date_from_to,
-        :start => ((label_tag "from", l(:description_date_from), :class => "hidden-for-sighted") + 
-            text_field_tag('from', @from, :size => 10, :disabled => !@free_period) + calendar_for('from')),
-        :end => ((label_tag "to", l(:description_date_to), :class => "hidden-for-sighted") +
-            text_field_tag('to', @to, :size => 10, :disabled => !@free_period) + calendar_for('to'))).html_safe %>
-</span>
-</p>
+<div id="query_form_content" class="hide-when-print">
+  <fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
+    <legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
+    <div style="<%= @query.new_record? ? "" : "display: none;" %>">
+      <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
+    </div>
+  </fieldset>
+  <fieldset class="collapsible collapsed">
+    <legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
+    <div style="display: none;">
+      <table>
+        <tr>
+          <td><%= l(:field_column_names) %></td>
+          <td><%= render :partial => 'queries/columns', :locals => {:query => @query} %></td>
+        </tr>
+      </table>
+    </div>
+  </fieldset>
 </div>
-</fieldset>
-<p class="buttons">
-  <%= link_to_function l(:button_apply), '$("query_form").submit()', :class => 'icon icon-checked' %>
-  <%= link_to l(:button_clear), {:controller => controller_name, :action => action_name, :project_id => @project, :issue_id => @issue}, :class => 'icon icon-reload' %>
+
+<p class="buttons hide-when-print">
+  <%= link_to_function l(:button_apply), 'submit_query_form("query_form")', :class => 'icon icon-checked' %>
+  <%= link_to l(:button_clear), {:project_id => @project, :issue_id => @issue}, :class => 'icon icon-reload'  %>
 </p>
 
 <div class="tabs">
-<% url_params = @free_period ? { :from => @from, :to => @to } : { :period => params[:period] } %>
+<% query_params = params.slice(:f, :op, :v, :sort) %>
 <ul>
-    <li><%= link_to(l(:label_details), url_params.merge({:controller => 'timelog', :action => 'index', :project_id => @project, :issue_id => @issue }),
+    <li><%= link_to(l(:label_details), query_params.merge({:controller => 'timelog', :action => 'index', :project_id => @project, :issue_id => @issue }),
                                        :class => (action_name == 'index' ? 'selected' : nil)) %></li>
-    <li><%= link_to(l(:label_report), url_params.merge({:controller => 'timelog', :action => 'report', :project_id => @project, :issue_id => @issue}),
+    <li><%= link_to(l(:label_report), query_params.merge({:controller => 'timelog', :action => 'report', :project_id => @project, :issue_id => @issue}),
                                        :class => (action_name == 'report' ? 'selected' : nil)) %></li>
 </ul>
 </div>

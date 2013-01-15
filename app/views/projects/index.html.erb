@@ -30,7 +30,7 @@
 <%= javascript_include_tag('projectstree.js') %>
 
 	<div id="exploretreebox">
-		<b>Explore Open Source Brain</b> 
+		<b>Explore Open Source Brain</b>
 		<p class="smallcaptiononwhite">Click on a node to expand or collapse.</p>
 		<p class="smallcaptiononwhite">Projects are shown in <b class="blue">blue</b>, click on them to open the project page.</p>
 
@@ -40,14 +40,14 @@
 		<%= text_field_tag 'q', @question, :size => 70, :placeholder=>'Search Open Source Brain',:type=>'search', :results=>5, :id => 'smallsearch', :accesskey => accesskey(:quick_search) %>
 		<% end %>
 	</div>
-	
+
 	<p class="smallcaptiononwhite jumplabel"><a href="#projectslist">Jump to Projects list</a></p>
-    
+
 <% else %>
 	<p class="smallcaptiononwhite">Switch to Google Chrome or Mozilla Firefox to enhanced visualization.</p>
 <% end %>
 <h2 ><a name="projectslist">Cell and network projects</a></h2>
-<p>The following is a list of projects in the Open Source Brain repository featuring specific neurophysiological 
+<p>The following is a list of projects in the Open Source Brain repository featuring specific neurophysiological
   cell and network types. </p>
 <p>There are also a number of <a href="#showcase">Technology showcase projects</a> which highlight
   specific tools, databases and methods, which can be of use to many types models.</p>
@@ -65,6 +65,14 @@
 
 <% other_formats_links do |f| %>
   <%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
+<% end %>
+
+<% content_for :sidebar do %>
+  <%= form_tag({}, :method => :get) do %>
+    <h3><%= l(:label_project_plural) %></h3>
+    <label for="closed"><%= check_box_tag 'closed', 1, params[:closed] %> <%= l(:label_show_closed_projects) %></label>
+    <p><%= submit_tag l(:button_apply), :class => 'button-small', :name => nil %></p>
+  <% end %>
 <% end %>
 
 <% html_title(l(:label_project_plural)) -%>

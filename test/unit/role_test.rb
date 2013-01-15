@@ -18,7 +18,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class RoleTest < ActiveSupport::TestCase
-  fixtures :roles, :workflows
+  fixtures :roles, :workflows, :trackers
 
   def test_sorted_scope
     assert_equal Role.all.sort, Role.sorted.all
@@ -33,15 +33,32 @@ class RoleTest < ActiveSupport::TestCase
     assert_equal Role.all.reject(&:builtin?).sort, Role.builtin(false).all.sort
   end
 
+  def test_copy_from
+    role = Role.find(1)
+    copy = Role.new.copy_from(role)
+
+    assert_nil copy.id
+    assert_equal '', copy.name
+    assert_equal role.permissions, copy.permissions
+
+    copy.name = 'Copy'
+    assert copy.save
+  end
+
   def test_copy_workflows
     source = Role.find(1)
-    assert_equal 90, source.workflows.size
+    assert_equal 90, source.workflow_rules.size
 
     target = Role.new(:name => 'Target')
     assert target.save
-    target.workflows.copy(source)
+    target.workflow_rules.copy(source)
     target.reload
-    assert_equal 90, target.workflows.size
+    assert_equal 90, target.workflow_rules.size
+  end
+
+  def test_permissions_should_be_unserialized_with_its_coder
+    Role::PermissionsAttributeCoder.expects(:load).once
+    Role.find(1).permissions
   end
 
   def test_add_permission

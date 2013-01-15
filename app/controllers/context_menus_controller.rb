@@ -24,6 +24,7 @@ class ContextMenusController < ApplicationController
     if (@issues.size == 1)
       @issue = @issues.first
     end
+    @issue_ids = @issues.map(&:id).sort
 
     @allowed_statuses = @issues.map(&:new_statuses_allowed_to).reduce(:&)
     @projects = @issues.collect(&:project).compact.uniq
@@ -48,6 +49,7 @@ class ContextMenusController < ApplicationController
       @assignables = @projects.map(&:assignable_users).reduce(:&)
       @trackers = @projects.map(&:trackers).reduce(:&)
     end
+    @versions = @projects.map {|p| p.shared_versions.open}.reduce(:&)
 
     @priorities = IssuePriority.active.reverse
     @back = back_url
@@ -65,6 +67,7 @@ class ContextMenusController < ApplicationController
       end
     end
 
+    @safe_attributes = @issues.map(&:safe_attribute_names).reduce(:&)
     render :layout => false
   end
 

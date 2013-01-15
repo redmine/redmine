@@ -1,0 +1,8 @@
+$("#journal-<%= @journal.id %>-notes").hide();
+
+if ($("form#journal-<%= @journal.id %>-form").length > 0) {
+  // journal edit form already loaded
+  $("#journal-<%= @journal.id %>-form").show();
+} else {
+  $("#journal-<%= @journal.id %>-notes").after('<%= escape_javascript(render :partial => 'notes_form') %>');
+}

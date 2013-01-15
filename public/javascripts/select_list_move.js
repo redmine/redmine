@@ -72,11 +72,12 @@ function moveOptionDown(theSel) {
   }
 }
 
+// OK
 function selectAllOptions(id)
 {
-  var select = $(id);
+  var select = $('#'+id);/*
   for (var i=0; i<select.options.length; i++) {
     select.options[i].selected = true;
-  }
+  }*/
+  select.children('option').attr('selected', true);
 }
-

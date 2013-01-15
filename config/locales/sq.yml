@@ -214,8 +214,6 @@ sq:
   mail_subject_wiki_content_updated: "'%{id}' wiki page eshte modifikuar"
   mail_body_wiki_content_updated: "The '%{id}' wiki page eshte modifikuar nga %{author}."
 
-  gui_validation_error: 1 error
-  gui_validation_error_plural: "%{count} gabime"
 
   field_name: Emri
   field_description: Pershkrimi
@@ -325,7 +323,7 @@ sq:
   field_cvs_module: Module
   field_repository_is_default: Main repository
   field_multiple: Multiple values
-  field_ldap_filter: LDAP filter
+  field_auth_source_ldap_filter: LDAP filter
 
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle
@@ -552,8 +550,6 @@ sq:
   label_text: Long text
   label_attribute: Attribute
   label_attribute_plural: Attributes
-  label_download: "%{count} Download"
-  label_download_plural: "%{count} Downloads"
   label_no_data: No data to display
   label_change_status: Change status
   label_history: Histori
@@ -664,8 +660,6 @@ sq:
   label_repository_new: New repository
   label_repository_plural: Repositories
   label_browse: Browse
-  label_modification: "%{count} ndryshim"
-  label_modification_plural: "%{count} ndryshime"
   label_branch: Dege
   label_tag: Tag
   label_revision: Revizion
@@ -918,7 +912,6 @@ sq:
   text_subprojects_destroy_warning: "Its subproject(s): %{value} will be also deleted."
   text_workflow_edit: Select a role and a tracker to edit the workflow
   text_are_you_sure: Are you sure?
-  text_are_you_sure_with_children: "Delete issue and all child issues?"
   text_journal_changed: "%{label} changed from %{old} to %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_set_to: "%{label} set to %{value}"
@@ -1035,3 +1028,47 @@ sq:
   setting_session_lifetime: Session maximum lifetime
   setting_session_timeout: Session inactivity timeout
   label_session_expiration: Session expiration
+  permission_close_project: Close / reopen the project
+  label_show_closed_projects: View closed projects
+  button_close: Close
+  button_reopen: Reopen
+  project_status_active: active
+  project_status_closed: closed
+  project_status_archived: archived
+  text_project_closed: This project is closed and read-only.
+  notice_user_successful_create: User %{id} created.
+  field_core_fields: Standard fields
+  field_timeout: Timeout (in seconds)
+  setting_thumbnails_enabled: Display attachment thumbnails
+  setting_thumbnails_size: Thumbnails size (in pixels)
+  label_status_transitions: Status transitions
+  label_fields_permissions: Fields permissions
+  label_readonly: Read-only
+  label_required: Required
+  text_repository_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.'
+  field_board_parent: Parent forum
+  label_attribute_of_project: Project's %{name}
+  label_attribute_of_author: Author's %{name}
+  label_attribute_of_assigned_to: Assignee's %{name}
+  label_attribute_of_fixed_version: Target version's %{name}
+  label_copy_subtasks: Copy subtasks
+  label_copied_to: copied to
+  label_copied_from: copied from
+  label_any_issues_in_project: any issues in project
+  label_any_issues_not_in_project: any issues not in project
+  field_private_notes: Private notes
+  permission_view_private_notes: View private notes
+  permission_set_notes_private: Set notes as private
+  label_no_issues_in_project: no issues in project
+  label_any: te gjitha
+  label_last_n_weeks: last %{count} weeks
+  setting_cross_project_subtasks: Allow cross-project subtasks
+  label_cross_project_descendants: With subprojects
+  label_cross_project_tree: With project tree
+  label_cross_project_hierarchy: With project hierarchy
+  label_cross_project_system: With all projects
+  button_hide: Hide
+  setting_non_working_week_days: Non-working days
+  label_in_the_next_days: in the next
+  label_in_the_past_days: in the past
+  label_attribute_of_user: User's %{name}

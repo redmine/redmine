@@ -99,6 +99,7 @@ class ApiTest::IssueRelationsTest < ActionController::IntegrationTest
         end
 
         assert_response :ok
+        assert_equal '', @response.body
         assert_nil IssueRelation.find_by_id(2)
       end
     end

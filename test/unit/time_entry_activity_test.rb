@@ -18,7 +18,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class TimeEntryActivityTest < ActiveSupport::TestCase
-  fixtures :enumerations, :time_entries
+  fixtures :enumerations, :time_entries, :custom_fields
 
   include Redmine::I18n
 

@@ -1,25 +1,18 @@
 <h3 class="title"><%= l(:permission_add_issue_watchers) %></h3>
 
-<%= form_remote_tag :url => {:controller => 'watchers',
-                            :action => (watched ? 'create' : 'append'),
-                            :object_type => watched.class.name.underscore,
-                            :object_id => watched},
-                     :method => :post,
-                     :html => {:id => 'new-watcher-form'} do %>
+<%= form_tag({:controller => 'watchers',
+              :action => (watched ? 'create' : 'append'),
+              :object_type => watched.class.name.underscore,
+              :object_id => watched},
+             :remote => true,
+             :method => :post,
+             :id => 'new-watcher-form') do %>
 
   <p><%= label_tag 'user_search', l(:label_user_search) %><%= text_field_tag 'user_search', nil %></p>
-  <%= observe_field(:user_search,
-               :frequency => 0.5,
-               :update => :users_for_watcher,
-               :method => :get,
-               :before => '$("user_search").addClassName("ajax-loading")',
-               :complete => '$("user_search").removeClassName("ajax-loading")',
-               :url => {
-                 :controller => 'watchers',
+  <%= javascript_tag "observeSearchfield('user_search', 'users_for_watcher', '#{ escape_javascript url_for(:controller => 'watchers',
                  :action => 'autocomplete_for_user',
                  :object_type => watched.class.name.underscore,
-                 :object_id => watched},
-               :with => 'q') %>
+                 :object_id => watched) }')" %>
 
   <div id="users_for_watcher">
     <%= principals_check_box_tags 'watcher[user_ids][]', (watched ? watched.addable_watcher_users : User.active.all(:limit => 100)) %>

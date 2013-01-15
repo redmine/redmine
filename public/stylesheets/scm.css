@@ -34,31 +34,34 @@ li.change .copied-from:before { content: " - "}
 #changes-legend { float: right; font-size: 0.8em; margin: 0; }
 #changes-legend li { float: left; background-position: 5px 0; }
 
-table.filecontent { border: 1px solid #ccc;  border-collapse: collapse; width:98%; background-color: #fafafa; }
-table.filecontent th { border: 1px solid #ccc; background-color: #eee; }
-table.filecontent th.filename { background-color: #e4e4d4; text-align: left; padding: 0.2em;}
+table.filecontent { border: 1px solid #e2e2e2;  border-collapse: collapse; width:98%; background-color: #fafafa; }
+table.filecontent tbody {font-family:"Liberation Mono", Courier, monospace; font-size:12px;}
+table.filecontent th { border: 1px solid #e2e2e2; background-color: #eee; }
+table.filecontent th.filename { background-color: #e4e4d4; text-align: left; padding:5px;}
 table.filecontent tr.spacing th { text-align:center; }
 table.filecontent tr.spacing td { height: 0.4em; background: #EAF2F5;}
 table.filecontent th.line-num {
-    border: 1px solid #d7d7d7;
-    font-size: 0.8em;
+    border: 1px solid #e2e2e2;
     text-align: right;
     width: 2%;
-    padding-right: 3px;
+    padding: 0 3px 0 0;
     color: #999;
     user-select: none;
     -moz-user-select: none;
     -o-user-select: none;
     -ms-user-select: none;
     -webkit-user-select: none;
+    font-weight:normal;
 }
 table.filecontent th.line-num a {
     text-decoration: none;
     color: inherit;
 }
+table.filecontent td.line-code {padding: 0 0 0 4px;}
 table.filecontent td.line-code pre {
     margin: 0px;
     white-space: pre-wrap;
+    font-family:"Liberation Mono", Courier, monospace; font-size:12px;
 }
 
 /* 12 different colors for the annonate view */
@@ -76,6 +79,7 @@ table.annotate tr.bloc-10 {background: #FFBFDC;}
 table.annotate tr.bloc-11 {background: #BFE4FF;}
 
 table.annotate td.revision {
+    padding:0;
     text-align: center;
     width: 2%;
     padding-left: 1em;
@@ -83,6 +87,7 @@ table.annotate td.revision {
 }
 
 table.annotate td.author {
+    padding:0;
     text-align: center;
     border-right: 1px solid #d7d7d7;
     white-space: nowrap;
@@ -90,7 +95,6 @@ table.annotate td.author {
     padding-right: 1em;
     width: 3%;
     background: inherit;
-    font-size: 90%;
 }
 
 table.annotate td.line-code { background-color: #fafafa; }
@@ -98,101 +102,3 @@ table.annotate td.line-code { background-color: #fafafa; }
 div.action_M { background: #fd8 }
 div.action_D { background: #f88 }
 div.action_A { background: #bfb }
-
-/************* CodeRay styles *************/
-.syntaxhl div {display: inline;}
-.syntaxhl .line-numbers {
-    padding: 2px 4px 2px 4px; background-color: #eee; margin:0px 5px 0px 0px;
-    user-select: none;
-    -moz-user-select: none;
-    -o-user-select: none;
-    -ms-user-select: none;
-    -webkit-user-select: none;
-}
-.syntaxhl .code pre { overflow: auto }
-.syntaxhl .debug { color: white !important; background: blue !important; }
-
-.syntaxhl .annotation { color:#007 }
-.syntaxhl .attribute-name { color:#b48 }
-.syntaxhl .attribute-value { color:#700 }
-.syntaxhl .binary { color:#509 }
-.syntaxhl .char .content { color:#D20 }
-.syntaxhl .char .delimiter { color:#710 }
-.syntaxhl .char { color:#D20 }
-.syntaxhl .class { color:#B06; font-weight:bold }
-.syntaxhl .class-variable { color:#369 }
-.syntaxhl .color { color:#0A0 }
-.syntaxhl .comment { color:#777 }
-.syntaxhl .comment .char { color:#444 }
-.syntaxhl .comment .delimiter { color:#444 }
-.syntaxhl .complex { color:#A08 }
-.syntaxhl .constant { color:#036; font-weight:bold }
-.syntaxhl .decorator { color:#B0B }
-.syntaxhl .definition { color:#099; font-weight:bold }
-.syntaxhl .delimiter { color:black }
-.syntaxhl .directive { color:#088; font-weight:bold }
-.syntaxhl .doc { color:#970 }
-.syntaxhl .doc-string { color:#D42; font-weight:bold }
-.syntaxhl .doctype { color:#34b }
-.syntaxhl .entity { color:#800; font-weight:bold }
-.syntaxhl .error { color:#F00; background-color:#FAA }
-.syntaxhl .escape  { color:#666 }
-.syntaxhl .exception { color:#C00; font-weight:bold }
-.syntaxhl .float { color:#60E }
-.syntaxhl .function { color:#06B; font-weight:bold }
-.syntaxhl .global-variable { color:#d70 }
-.syntaxhl .hex { color:#02b }
-.syntaxhl .imaginary { color:#f00 }
-.syntaxhl .include { color:#B44; font-weight:bold }
-.syntaxhl .inline { background-color: hsla(0,0%,0%,0.07); color: black }
-.syntaxhl .inline-delimiter { font-weight: bold; color: #666 }
-.syntaxhl .instance-variable { color:#33B }
-.syntaxhl .integer  { color:#00D }
-.syntaxhl .key .char { color: #60f }
-.syntaxhl .key .delimiter { color: #404 }
-.syntaxhl .key { color: #606 }
-.syntaxhl .keyword { color:#080; font-weight:bold }
-.syntaxhl .label { color:#970; font-weight:bold }
-.syntaxhl .local-variable { color:#963 }
-.syntaxhl .namespace { color:#707; font-weight:bold }
-.syntaxhl .octal { color:#40E }
-.syntaxhl .operator { }
-.syntaxhl .predefined { color:#369; font-weight:bold }
-.syntaxhl .predefined-constant { color:#069 }
-.syntaxhl .predefined-type { color:#0a5; font-weight:bold }
-.syntaxhl .preprocessor { color:#579 }
-.syntaxhl .pseudo-class { color:#00C; font-weight:bold }
-.syntaxhl .regexp .content { color:#808 }
-.syntaxhl .regexp .delimiter { color:#404 }
-.syntaxhl .regexp .modifier { color:#C2C }
-.syntaxhl .regexp { background-color:hsla(300,100%,50%,0.06); }
-.syntaxhl .reserved { color:#080; font-weight:bold }
-.syntaxhl .shell .content { color:#2B2 }
-.syntaxhl .shell .delimiter { color:#161 }
-.syntaxhl .shell { background-color:hsla(120,100%,50%,0.06); }
-.syntaxhl .string .char { color: #b0b }
-.syntaxhl .string .content { color: #D20 }
-.syntaxhl .string .delimiter { color: #710 }
-.syntaxhl .string .modifier { color: #E40 }
-.syntaxhl .string { background-color:hsla(0,100%,50%,0.05); }
-.syntaxhl .symbol .content { color:#A60 }
-.syntaxhl .symbol .delimiter { color:#630 }
-.syntaxhl .symbol { color:#A60 }
-.syntaxhl .tag { color:#070 }
-.syntaxhl .type { color:#339; font-weight:bold }
-.syntaxhl .value { color: #088; }
-.syntaxhl .variable  { color:#037 }
- 
-.syntaxhl .insert { background: hsla(120,100%,50%,0.12) }
-.syntaxhl .delete { background: hsla(0,100%,50%,0.12) }
-.syntaxhl .change { color: #bbf; background: #007; }
-.syntaxhl .head { color: #f8f; background: #505 }
-.syntaxhl .head .filename { color: white; }
- 
-.syntaxhl .delete .eyecatcher { background-color: hsla(0,100%,50%,0.2); border: 1px solid hsla(0,100%,45%,0.5); margin: -1px; border-bottom: none; border-top-left-radius: 5px; border-top-right-radius: 5px; }
-.syntaxhl .insert .eyecatcher { background-color: hsla(120,100%,50%,0.2); border: 1px solid hsla(120,100%,25%,0.5); margin: -1px; border-top: none; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px; }
-
-.syntaxhl .insert .insert { color: #0c0; background:transparent; font-weight:bold }
-.syntaxhl .delete .delete { color: #c00; background:transparent; font-weight:bold }
-.syntaxhl .change .change { color: #88f }
-.syntaxhl .head .head { color: #f4f }

@@ -16,10 +16,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../test_helper', __FILE__)
-require 'users_controller'
-
-# Re-raise errors caught by the controller.
-class UsersController; def rescue_action(e) raise e end; end
 
 class UsersControllerTest < ActionController::TestCase
   include Redmine::I18n
@@ -29,9 +25,6 @@ class UsersControllerTest < ActionController::TestCase
            :auth_sources
 
   def setup
-    @controller = UsersController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
     @request.session[:user_id] = 1 # admin
   end
@@ -173,8 +166,8 @@ class UsersControllerTest < ActionController::TestCase
             :firstname => 'John',
             :lastname => 'Doe',
             :login => 'jdoe',
-            :password => 'secret',
-            :password_confirmation => 'secret',
+            :password => 'secret123',
+            :password_confirmation => 'secret123',
             :mail => 'jdoe@gmail.com',
             :mail_notification => 'none'
           },
@@ -190,7 +183,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal 'jdoe', user.login
     assert_equal 'jdoe@gmail.com', user.mail
     assert_equal 'none', user.mail_notification
-    assert user.check_password?('secret')
+    assert user.check_password?('secret123')
 
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
@@ -205,8 +198,8 @@ class UsersControllerTest < ActionController::TestCase
           :firstname => 'John',
           :lastname => 'Doe',
           :login => 'jdoe',
-          :password => 'secret',
-          :password_confirmation => 'secret',
+          :password => 'secret123',
+          :password_confirmation => 'secret123',
           :mail => 'jdoe@gmail.com',
           :mail_notification => 'none'
         },
@@ -287,14 +280,14 @@ class UsersControllerTest < ActionController::TestCase
     ActionMailer::Base.deliveries.clear
     Setting.bcc_recipients = '1'
 
-    put :update, :id => 2, :user => {:password => 'newpass', :password_confirmation => 'newpass'}, :send_information => '1'
+    put :update, :id => 2, :user => {:password => 'newpass123', :password_confirmation => 'newpass123'}, :send_information => '1'
     u = User.find(2)
-    assert u.check_password?('newpass')
+    assert u.check_password?('newpass123')
 
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
     assert_equal [u.mail], mail.bcc
-    assert_mail_body_match 'newpass', mail
+    assert_mail_body_match 'newpass123', mail
   end
 
   def test_update_user_switchin_from_auth_source_to_password_authentication
@@ -303,10 +296,10 @@ class UsersControllerTest < ActionController::TestCase
     u.auth_source = AuthSource.find(1)
     u.save!
 
-    put :update, :id => u.id, :user => {:auth_source_id => '', :password => 'newpass', :password_confirmation => 'newpass'}
+    put :update, :id => u.id, :user => {:auth_source_id => '', :password => 'newpass123', :password_confirmation => 'newpass123'}
 
     assert_equal nil, u.reload.auth_source
-    assert u.check_password?('newpass')
+    assert u.check_password?('newpass123')
   end
 
   def test_update_notified_project
@@ -349,6 +342,13 @@ class UsersControllerTest < ActionController::TestCase
     assert_response 403
   end
 
+  def test_destroy_should_redirect_to_back_url_param
+    assert_difference 'User.count', -1 do
+      delete :destroy, :id => 2, :back_url => '/users?name=foo'
+    end
+    assert_redirected_to '/users?name=foo'
+  end
+
   def test_create_membership
     assert_difference 'Member.count' do
       post :edit_membership, :id => 7, :membership => { :project_id => 3, :role_ids => [2]}
@@ -363,38 +363,45 @@ class UsersControllerTest < ActionController::TestCase
   def test_create_membership_js_format
     assert_difference 'Member.count' do
       post :edit_membership, :id => 7, :membership => {:project_id => 3, :role_ids => [2]}, :format => 'js'
+      assert_response :success
+      assert_template 'edit_membership'
+      assert_equal 'text/javascript', response.content_type
     end
-    assert_response :success
-    assert_select_rjs :replace_html, 'tab-content-memberships'
     member = Member.first(:order => 'id DESC')
     assert_equal User.find(7), member.principal
     assert_equal [2], member.role_ids
     assert_equal 3, member.project_id
+    assert_include 'tab-content-memberships', response.body
   end
 
   def test_create_membership_js_format_with_failure
     assert_no_difference 'Member.count' do
       post :edit_membership, :id => 7, :membership => {:project_id => 3}, :format => 'js'
+      assert_response :success
+      assert_template 'edit_membership'
+      assert_equal 'text/javascript', response.content_type
     end
-    assert_response :success
-    assert @response.body.match(/alert/i), "Alert message not sent"
-    assert @response.body.match(/role can't be empty/i), "Error message not sent"
+    assert_include 'alert', response.body, "Alert message not sent"
+    assert_include 'Role can\\\'t be empty', response.body, "Error message not sent"
   end
 
   def test_update_membership
     assert_no_difference 'Member.count' do
       put :edit_membership, :id => 2, :membership_id => 1, :membership => { :role_ids => [2]}
+      assert_redirected_to :action => 'edit', :id => '2', :tab => 'memberships'
     end
-    assert_redirected_to :action => 'edit', :id => '2', :tab => 'memberships'
     assert_equal [2], Member.find(1).role_ids
   end
 
   def test_update_membership_js_format
     assert_no_difference 'Member.count' do
       put :edit_membership, :id => 2, :membership_id => 1, :membership => {:role_ids => [2]}, :format => 'js'
+      assert_response :success
+      assert_template 'edit_membership'
+      assert_equal 'text/javascript', response.content_type
     end
-    assert_response :success
-    assert_select_rjs :replace_html, 'tab-content-memberships'
+    assert_equal [2], Member.find(1).role_ids
+    assert_include 'tab-content-memberships', response.body
   end
 
   def test_destroy_membership
@@ -408,8 +415,11 @@ class UsersControllerTest < ActionController::TestCase
   def test_destroy_membership_js_format
     assert_difference 'Member.count', -1 do
       delete :destroy_membership, :id => 2, :membership_id => 1, :format => 'js'
+      assert_response :success
+      assert_template 'destroy_membership'
+      assert_equal 'text/javascript', response.content_type
     end
-    assert_response :success
-    assert_select_rjs :replace_html, 'tab-content-memberships'
+    assert_nil Member.find_by_id(1)
+    assert_include 'tab-content-memberships', response.body
   end
 end

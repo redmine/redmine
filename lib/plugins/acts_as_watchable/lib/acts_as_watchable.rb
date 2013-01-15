@@ -67,15 +67,18 @@ module Redmine
           !!(user && self.watcher_user_ids.detect {|uid| uid == user.id })
         end
 
-        # Returns an array of watchers' email addresses
-        def watcher_recipients
+        def notified_watchers
           notified = watcher_users.active
-          notified.reject! {|user| user.mail_notification == 'none'}
-
+          notified.reject! {|user| user.mail.blank? || user.mail_notification == 'none'}
           if respond_to?(:visible?)
             notified.reject! {|user| !visible?(user)}
           end
-          notified.collect(&:mail).compact
+          notified
+        end
+
+        # Returns an array of watchers' email addresses
+        def watcher_recipients
+          notified_watchers.collect(&:mail)
         end
 
         module ClassMethods; end

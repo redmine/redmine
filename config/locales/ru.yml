@@ -117,8 +117,10 @@ ru:
         many:  "около %{count} часов"
         other: "около %{count} часа"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "%{count} час"
+        few:   "%{count} часа"
+        many:  "%{count} часов"
+        other: "%{count} часа"
       x_days:
         one:   "%{count} день"
         few:   "%{count} дня"
@@ -399,11 +401,6 @@ ru:
   general_text_yes: 'да'
   general_text_Yes: 'Да'
 
-  gui_validation_error: 1 ошибка
-  gui_validation_error_plural: "%{count} ошибок"
-  gui_validation_error_plural2: "%{count} ошибки"
-  gui_validation_error_plural5: "%{count} ошибок"
-
   label_activity: Действия
   label_add_another_file: Добавить ещё один файл
   label_added_time_by: "Добавил(а) %{author} %{age} назад"
@@ -490,10 +487,6 @@ ru:
   label_document_added: Добавлен документ
   label_document_new: Новый документ
   label_document_plural: Документы
-  label_download: "%{count} загрузка"
-  label_download_plural: "%{count} скачиваний"
-  label_download_plural2: "%{count} загрузки"
-  label_download_plural5: "%{count} загрузок"
   label_downloads_abbr: Скачиваний
   label_duplicated_by: дублируется
   label_duplicates: дублирует
@@ -502,7 +495,7 @@ ru:
   label_enumeration_new: Новое значение
   label_enumerations: Списки значений
   label_environment: Окружение
-  label_equals: является
+  label_equals: соответствует
   label_example: Пример
   label_export_to: Экспортировать в
   label_feed_plural: RSS
@@ -575,10 +568,6 @@ ru:
   label_message_posted: Добавлено сообщение
   label_me: мне
   label_min_max_length: Минимальная - максимальная длина
-  label_modification: "%{count} изменение"
-  label_modification_plural: "%{count} изменений"
-  label_modification_plural2: "%{count} изменения"
-  label_modification_plural5: "%{count} изменений"
   label_modified: изменено
   label_module_plural: Модули
   label_months_from: месяцев(ца) с
@@ -603,7 +592,7 @@ ru:
   label_no_data: Нет данных для отображения
   label_none: отсутствует
   label_not_contains: не содержит
-  label_not_equals: не является
+  label_not_equals: не соответствует
   label_open_issues: открыто
   label_open_issues_plural: открыто
   label_open_issues_plural2: открыто
@@ -906,7 +895,6 @@ ru:
   status_locked: заблокирован
   status_registered: зарегистрирован
 
-  text_are_you_sure_with_children: Удалить задачу и все её подзадачи?
   text_are_you_sure: Вы уверены?
   text_assign_time_entries_to_project: Прикрепить зарегистрированное время к проекту
   text_caracters_maximum: "Максимум %{count} символов(а)."
@@ -1092,11 +1080,11 @@ ru:
   notice_issue_successful_create: Задача %{id} создана.
   label_between: между
   setting_issue_group_assignment: Разрешить назначение задач группам пользователей
-  label_diff: diff
+  label_diff: Разница(diff)
   text_git_repository_note: Repository is bare and local (e.g. /gitrepo, c:\gitrepo)
-  description_query_sort_criteria_direction: Sort direction
+  description_query_sort_criteria_direction: Порядок сортировки
   description_project_scope: Search scope
-  description_filter: Filter
+  description_filter: Фильтр
   description_user_mail_notification: Mail notification settings
   description_date_from: Enter start date
   description_message_content: Message content
@@ -1104,51 +1092,95 @@ ru:
   description_date_range_interval: Choose range by selecting start and end date
   description_issue_category_reassign: Choose issue category
   description_search: Searchfield
-  description_notes: Notes
-  description_date_range_list: Choose range from list
-  description_choose_project: Projects
-  description_date_to: Enter end date
-  description_query_sort_criteria_attribute: Sort attribute
-  description_wiki_subpages_reassign: Choose new parent page
-  description_selected_columns: Selected Columns
-  label_parent_revision: Parent
-  label_child_revision: Child
-  error_scm_annotate_big_text_file: The entry cannot be annotated, as it exceeds the maximum text file size.
-  setting_default_issue_start_date_to_creation_date: Use current date as start date for new issues
-  button_edit_section: Edit this section
-  setting_repositories_encodings: Attachments and repositories encodings
-  description_all_columns: All Columns
-  button_export: Export
-  label_export_options: "%{export_format} export options"
-  error_attachment_too_big: This file cannot be uploaded because it exceeds the maximum allowed file size (%{max_size})
-  notice_failed_to_save_time_entries: "Failed to save %{count} time entrie(s) on %{total} selected: %{ids}."
+  description_notes: Примечания
+  description_date_range_list: Выберите диапазон из списка
+  description_choose_project: Проекты
+  description_date_to: Введите дату выполнения
+  description_query_sort_criteria_attribute: Критерий сортировки
+  description_wiki_subpages_reassign: Выбрать новую родительскую страницу
+  description_selected_columns: Выбранные столбцы
+  label_parent_revision: Родительский
+  label_child_revision: Дочерний
+  error_scm_annotate_big_text_file: Комментарий невозможен из-за превышения максимального размера текстового файла.
+  setting_default_issue_start_date_to_creation_date: Использовать текущую дату в качестве даты начала для новых задач
+  button_edit_section: Редактировать эту секцию
+  setting_repositories_encodings: Кодировка вложений и хранилищ
+  description_all_columns: Все столбцы
+  button_export: Экспорт
+  label_export_options: "%{export_format} параметры экспорта"
+  error_attachment_too_big: Этот файл нельзя загрузить из-за превышения максимального размера файла (%{max_size})
+  notice_failed_to_save_time_entries: "Невозможно сохранить %{count} затраченное время для %{total} выбранных: %{ids}."
   label_x_issues:
     zero:  0 Задач
     one:   1 Задача
     few:   "%{count} Задач"
     many:  "%{count} Задач"
     other: "%{count} Задач"
-  label_repository_new: New repository
-  field_repository_is_default: Main repository
-  label_copy_attachments: Copy attachments
+  label_repository_new: Новое хранилище
+  field_repository_is_default: Хранилище по умолчанию
+  label_copy_attachments: Копировать вложения
   label_item_position: "%{position}/%{count}"
-  label_completed_versions: Completed versions
-  text_project_identifier_info: Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.
-  field_multiple: Multiple values
-  setting_commit_cross_project_ref: Allow issues of all the other projects to be referenced and fixed
-  text_issue_conflict_resolution_add_notes: Add my notes and discard my other changes
-  text_issue_conflict_resolution_overwrite: Apply my changes anyway (previous notes will be kept but some changes may be overwritten)
-  notice_issue_update_conflict: The issue has been updated by an other user while you were editing it.
-  text_issue_conflict_resolution_cancel: Discard all my changes and redisplay %{link}
-  permission_manage_related_issues: Manage related issues
-  field_ldap_filter: LDAP filter
-  label_search_for_watchers: Search for watchers to add
+  label_completed_versions: Завершенные версии
+  text_project_identifier_info: Допускаются только строчные латинские буквы (a-z), цифры, тире и подчеркивания.<br />После сохранения идентификатор изменить нельзя.
+  field_multiple: Множественные значения
+  setting_commit_cross_project_ref: Разрешить ссылаться и исправлять задачи во всех остальных проектах
+  text_issue_conflict_resolution_add_notes: Добавить мои примечания и отказаться от моих изменений
+  text_issue_conflict_resolution_overwrite: Применить мои изменения (все предыдущие замечания будут сохранены, но некоторые изменения могут быть перезаписаны)
+  notice_issue_update_conflict: Кто-то изменил задачу, пока вы ее редактировали.
+  text_issue_conflict_resolution_cancel: Отменить мои изменения и показать задачу заново %{link}
+  permission_manage_related_issues: Управление связанными задачами
+  field_auth_source_ldap_filter: Фильтр LDAP
+  label_search_for_watchers: Найти наблюдателей
   notice_account_deleted: "Ваша учетная запись полностью удалена" 
   setting_unsubscribe: "Разрешить пользователям удалять свои учетные записи" 
   button_delete_my_account: "Удалить мою учетную запись" 
   text_account_destroy_confirmation: "Ваша учетная запись будет полностью удалена без возможности восстановления.\nВы уверены, что хотите продолжить?" 
-  error_session_expired: Your session has expired. Please login again.
+  error_session_expired: Срок вашей сессии истек. Пожалуйста войдите еще раз
   text_session_expiration_settings: "Warning: changing these settings may expire the current sessions including yours."
-  setting_session_lifetime: Session maximum lifetime
-  setting_session_timeout: Session inactivity timeout
-  label_session_expiration: Session expiration
+  setting_session_lifetime: Максимальная продолжительность сессии
+  setting_session_timeout: Таймут сессии 
+  label_session_expiration: Срок истечения сессии
+  permission_close_project: Закрывать / открывать проекты
+  label_show_closed_projects: Просматривать закрытые проекты
+  button_close: Сделать закрытым
+  button_reopen: Сделать открытым
+  project_status_active: открытые
+  project_status_closed: закрытые
+  project_status_archived: архивированные
+  text_project_closed: Проект закрыт и находиться в режиме только для чтения.
+  notice_user_successful_create: Пользователь %{id} создан.
+  field_core_fields: Стандартные поля
+  field_timeout: Таймаут (в секундах)
+  setting_thumbnails_enabled: Отображать превью для приложений
+  setting_thumbnails_size: Размер первью (в пикселях)
+  label_status_transitions: Статус-переходы
+  label_fields_permissions: Права на изменения полей
+  label_readonly: Не изменяется
+  label_required: Обязательное
+  text_repository_identifier_info: Допускаются только строчные латинские буквы (a-z), цифры, тире и подчеркивания.<br />После сохранения идентификатор изменить нельзя.
+  field_board_parent: Родительский форум
+  label_attribute_of_project: Проект %{name}
+  label_attribute_of_author: Имя автора %{name}
+  label_attribute_of_assigned_to: Назначена %{name}
+  label_attribute_of_fixed_version: Версия %{name}
+  label_copy_subtasks: Копировать подзадачи
+  label_copied_to: скопирована в
+  label_copied_from: скопирована с
+  label_any_issues_in_project: любые задачи в проекте
+  label_any_issues_not_in_project: любые задачи не в проекте
+  field_private_notes: Приватный комментарий
+  permission_view_private_notes: Просмотр приватных комментариев
+  permission_set_notes_private: Размещение приватных комментариев
+  label_no_issues_in_project: нет задач в проекте
+  label_any: все
+  label_last_n_weeks: последние %{count} недель
+  setting_cross_project_subtasks: Разрешить подзадачи в между проектами
+  label_cross_project_descendants: С подпроектами
+  label_cross_project_tree: С деревом проектов
+  label_cross_project_hierarchy: С иерархией проектов
+  label_cross_project_system: Со всеми проектами
+  button_hide: Скрыть
+  setting_non_working_week_days: Не рабочие дни
+  label_in_the_next_days: в средующие дни
+  label_in_the_past_days: в прошлые дни
+  label_attribute_of_user: Пользователь %{name}

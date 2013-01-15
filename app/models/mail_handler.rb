@@ -50,8 +50,8 @@ class MailHandler < ActionMailer::Base
 
   cattr_accessor :ignored_emails_headers
   @@ignored_emails_headers = {
-    'X-Auto-Response-Suppress' => 'OOF',
-    'Auto-Submitted' => 'auto-replied'
+    'X-Auto-Response-Suppress' => 'oof',
+    'Auto-Submitted' => /^auto-/
   }
 
   # Processes incoming emails
@@ -69,11 +69,14 @@ class MailHandler < ActionMailer::Base
     # Ignore auto generated emails
     self.class.ignored_emails_headers.each do |key, ignored_value|
       value = email.header[key]
-      if value && value.to_s.downcase == ignored_value.downcase
-        if logger && logger.info
-          logger.info "MailHandler: ignoring email with #{key}:#{value} header"
+      if value
+        value = value.to_s.downcase
+        if (ignored_value.is_a?(Regexp) && value.match(ignored_value)) || value == ignored_value
+          if logger && logger.info
+            logger.info "MailHandler: ignoring email with #{key}:#{value} header"
+          end
+          return false
         end
-        return false
       end
     end
     @user = User.find_by_mail(sender_email) if sender_email.present?
@@ -104,7 +107,7 @@ class MailHandler < ActionMailer::Base
       else
         # Default behaviour, emails from unknown users are ignored
         if logger && logger.info
-          logger.info  "MailHandler: ignoring email from unknown user [#{sender_email}]" 
+          logger.info  "MailHandler: ignoring email from unknown user [#{sender_email}]"
         end
         return false
       end
@@ -121,6 +124,7 @@ class MailHandler < ActionMailer::Base
 
   def dispatch
     headers = [email.in_reply_to, email.references].flatten.compact
+    subject = email.subject.to_s
     if headers.detect {|h| h.to_s =~ MESSAGE_ID_RE}
       klass, object_id = $1, $2.to_i
       method_name = "receive_#{klass}_reply"
@@ -129,9 +133,9 @@ class MailHandler < ActionMailer::Base
       else
         # ignoring it
       end
-    elsif m = email.subject.match(ISSUE_REPLY_SUBJECT_RE)
+    elsif m = subject.match(ISSUE_REPLY_SUBJECT_RE)
       receive_issue_reply(m[1].to_i)
-    elsif m = email.subject.match(MESSAGE_REPLY_SUBJECT_RE)
+    elsif m = subject.match(MESSAGE_REPLY_SUBJECT_RE)
       receive_message_reply(m[1].to_i)
     else
       dispatch_to_default
@@ -178,7 +182,7 @@ class MailHandler < ActionMailer::Base
   end
 
   # Adds a note to an existing issue
-  def receive_issue_reply(issue_id)
+  def receive_issue_reply(issue_id, from_journal=nil)
     issue = Issue.find_by_id(issue_id)
     return unless issue
     # check permission
@@ -193,6 +197,10 @@ class MailHandler < ActionMailer::Base
     @@handler_options[:issue].clear
 
     journal = issue.init_journal(user)
+    if from_journal && from_journal.private_notes?
+      # If the received email was a reply to a private note, make the added note private
+      issue.private_notes = true
+    end
     issue.safe_attributes = issue_attributes_from_keywords(issue)
     issue.safe_attributes = {'custom_field_values' => custom_field_values_from_keywords(issue)}
     journal.notes = cleaned_up_text_body
@@ -208,7 +216,7 @@ class MailHandler < ActionMailer::Base
   def receive_journal_reply(journal_id)
     journal = Journal.find_by_id(journal_id)
     if journal && journal.journalized_type == 'Issue'
-      receive_issue_reply(journal.journalized_id)
+      receive_issue_reply(journal.journalized_id, journal)
     end
   end
 
@@ -241,9 +249,26 @@ class MailHandler < ActionMailer::Base
   def add_attachments(obj)
     if email.attachments && email.attachments.any?
       email.attachments.each do |attachment|
+        filename = attachment.filename
+        unless filename.respond_to?(:encoding)
+          # try to reencode to utf8 manually with ruby1.8
+          h = attachment.header['Content-Disposition']
+          unless h.nil?
+            begin
+              if m = h.value.match(/filename\*[0-9\*]*=([^=']+)'/)
+                filename = Redmine::CodesetUtil.to_utf8(filename, m[1])
+              elsif m = h.value.match(/filename=.*=\?([^\?]+)\?[BbQq]\?/)
+                # http://tools.ietf.org/html/rfc2047#section-4
+                filename = Redmine::CodesetUtil.to_utf8(filename, m[1])
+              end
+            rescue
+              # nop
+            end
+          end
+        end
         obj.attachments << Attachment.create(:container => obj,
                           :file => attachment.decoded,
-                          :filename => attachment.filename,
+                          :filename => filename,
                           :author => user,
                           :content_type => attachment.mime_type)
       end
@@ -256,7 +281,7 @@ class MailHandler < ActionMailer::Base
     if user.allowed_to?("add_#{obj.class.name.underscore}_watchers".to_sym, obj.project)
       addresses = [email.to, email.cc].flatten.compact.uniq.collect {|a| a.strip.downcase}
       unless addresses.empty?
-        watchers = User.active.find(:all, :conditions => ['LOWER(mail) IN (?)', addresses])
+        watchers = User.active.where('LOWER(mail) IN (?)', addresses).all
         watchers.each {|w| obj.add_watcher(w)}
       end
     end
@@ -330,7 +355,7 @@ class MailHandler < ActionMailer::Base
     }.delete_if {|k, v| v.blank? }
 
     if issue.new_record? && attrs['tracker_id'].nil?
-      attrs['tracker_id'] = issue.project.trackers.find(:first).try(:id)
+      attrs['tracker_id'] = issue.project.trackers.first.try(:id)
     end
 
     attrs
@@ -339,8 +364,8 @@ class MailHandler < ActionMailer::Base
   # Returns a Hash of issue custom field values extracted from keywords in the email body
   def custom_field_values_from_keywords(customized)
     customized.custom_field_values.inject({}) do |h, v|
-      if value = get_keyword(v.custom_field.name, :override => true)
-        h[v.custom_field.id.to_s] = value
+      if keyword = get_keyword(v.custom_field.name, :override => true)
+        h[v.custom_field.id.to_s] = v.custom_field.value_from_keyword(keyword, customized)
       end
       h
     end
@@ -370,7 +395,8 @@ class MailHandler < ActionMailer::Base
       # try to reencode to utf8 manually with ruby1.8
       begin
         if h = email.header[:subject]
-          if m = h.value.match(/^=\?([^\?]+)\?/)
+          # http://tools.ietf.org/html/rfc2047#section-4
+          if m = h.value.match(/=\?([^\?]+)\?[BbQq]\?/)
             subject = Redmine::CodesetUtil.to_utf8(subject, m[1])
           end
         end
@@ -459,13 +485,13 @@ class MailHandler < ActionMailer::Base
                  }
     if assignee.nil? && keyword.match(/ /)
       firstname, lastname = *(keyword.split) # "First Last Throwaway"
-      assignee ||= assignable.detect {|a| 
+      assignee ||= assignable.detect {|a|
                      a.is_a?(User) && a.firstname.to_s.downcase == firstname &&
                        a.lastname.to_s.downcase == lastname
                    }
     end
     if assignee.nil?
-      assignee ||= assignable.detect {|a| a.is_a?(Group) && a.name.downcase == keyword}
+      assignee ||= assignable.detect {|a| a.name.downcase == keyword}
     end
     assignee
   end

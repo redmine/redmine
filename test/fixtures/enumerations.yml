@@ -4,22 +4,26 @@ enumerations_001:
   id: 1
   type: DocumentCategory
   active: true
+  position: 1
 enumerations_002: 
   name: User documentation
   id: 2
   type: DocumentCategory
   active: true
+  position: 2
 enumerations_003: 
   name: Technical documentation
   id: 3
   type: DocumentCategory
   active: true
+  position: 3
 enumerations_004: 
   name: Low
   id: 4
   type: IssuePriority
   active: true
   position: 1
+  position_name: lowest
 enumerations_005: 
   name: Normal
   id: 5
@@ -27,24 +31,28 @@ enumerations_005:
   is_default: true
   active: true
   position: 2
+  position_name: default
 enumerations_006: 
   name: High
   id: 6
   type: IssuePriority
   active: true
   position: 3
+  position_name: high3
 enumerations_007: 
   name: Urgent
   id: 7
   type: IssuePriority
   active: true
   position: 4
+  position_name: high2
 enumerations_008: 
   name: Immediate
   id: 8
   type: IssuePriority
   active: true
   position: 5
+  position_name: highest
 enumerations_009: 
   name: Design
   id: 9
@@ -92,3 +100,4 @@ enumerations_016:
   id: 16
   type: DocumentCategory
   active: false
+  position: 4

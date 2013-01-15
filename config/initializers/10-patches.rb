@@ -5,9 +5,20 @@ module ActiveRecord
     include Redmine::I18n
     # Translate attribute names for validation errors display
     def self.human_attribute_name(attr, *args)
-      l("field_#{attr.to_s.gsub(/_id$/, '')}", :default => attr)
+      attr = attr.to_s.sub(/_id$/, '')
+
+      l("field_#{name.underscore.gsub('/', '_')}_#{attr}", :default => ["field_#{attr}".to_sym, attr])
     end
   end
+
+  # Undefines private Kernel#open method to allow using `open` scopes in models.
+  # See Defect #11545 (http://www.redmine.org/issues/11545) for details.
+  class Base
+    class << self
+      undef open
+    end
+  end
+  class Relation ; undef open ; end
 end
 
 module ActionView
@@ -38,6 +49,41 @@ module ActionView
           details[:formats] = details[:formats].dup + [:api]
         end
         find_templates(name, prefix, partial, details)
+      end
+    end
+  end
+end
+
+# Do not HTML escape text templates
+module ActionView
+  class Template
+    module Handlers
+      class ERB
+        def call(template)
+          if template.source.encoding_aware?
+            # First, convert to BINARY, so in case the encoding is
+            # wrong, we can still find an encoding tag
+            # (<%# encoding %>) inside the String using a regular
+            # expression
+            template_source = template.source.dup.force_encoding("BINARY")
+
+            erb = template_source.gsub(ENCODING_TAG, '')
+            encoding = $2
+
+            erb.force_encoding valid_encoding(template.source.dup, encoding)
+
+            # Always make sure we return a String in the default_internal
+            erb.encode!
+          else
+            erb = template.source.dup
+          end
+
+          self.class.erb_implementation.new(
+            erb,
+            :trim => (self.class.erb_trim_mode == "-"),
+            :escape => template.identifier =~ /\.text/ # only escape HTML templates
+          ).src
+        end
       end
     end
   end
@@ -78,6 +124,24 @@ end
 ActionMailer::Base.add_delivery_method :async_smtp, DeliveryMethods::AsyncSMTP
 ActionMailer::Base.add_delivery_method :async_sendmail, DeliveryMethods::AsyncSendmail
 ActionMailer::Base.add_delivery_method :tmp_file, DeliveryMethods::TmpFile
+
+# Changes how sent emails are logged
+# Rails doesn't log cc and bcc which is misleading when using bcc only (#12090)
+module ActionMailer
+  class LogSubscriber < ActiveSupport::LogSubscriber
+    def deliver(event)
+      recipients = [:to, :cc, :bcc].inject("") do |s, header|
+        r = Array.wrap(event.payload[header])
+        if r.any?
+          s << "\n  #{header}: #{r.join(', ')}"
+        end
+        s
+      end
+      info("\nSent email \"#{event.payload[:subject]}\" (%1.fms)#{recipients}" % event.duration)
+      debug(event.payload[:mail])
+    end
+  end
+end
 
 module ActionController
   module MimeResponds

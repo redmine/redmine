@@ -1,9 +1,6 @@
 <h3><%=l(:label_spent_time)%> (<%= l(:label_last_n_days, 7) %>)</h3>
 <%
-entries = TimeEntry.find(:all,
-        :conditions => ["#{TimeEntry.table_name}.user_id = ? AND #{TimeEntry.table_name}.spent_on BETWEEN ? AND ?", @user.id, Date.today - 6, Date.today],
-        :include => [:activity, :project, {:issue => [:tracker, :status]}],
-        :order => "#{TimeEntry.table_name}.spent_on DESC, #{Project.table_name}.name ASC, #{Tracker.table_name}.position ASC, #{Issue.table_name}.id ASC")
+entries = timelog_items
 entries_by_day = entries.group_by(&:spent_on)
 %>
 
@@ -39,7 +36,7 @@ entries_by_day = entries.group_by(&:spent_on)
         <%= link_to image_tag('edit.png'), {:controller => 'timelog', :action => 'edit', :id => entry},
                                            :title => l(:button_edit) %>
         <%= link_to image_tag('delete.png'), {:controller => 'timelog', :action => 'destroy', :id => entry},
-                                             :confirm => l(:text_are_you_sure),
+                                             :data => {:confirm => l(:text_are_you_sure)},
                                              :method => :delete,
                                              :title => l(:button_delete) %>
     <% end -%>

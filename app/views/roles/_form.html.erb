@@ -1,5 +1,6 @@
 <%= error_messages_for 'role' %>
 
+<% unless @role.anonymous? %>
 <div class="box tabular">
 <% unless @role.builtin? %>
 <p><%= f.text_field :name, :required => true %></p>
@@ -8,9 +9,10 @@
 <p><%= f.select :issues_visibility, Role::ISSUES_VISIBILITY_OPTIONS.collect {|v| [l(v.last), v.first]} %></p>
 <% if @role.new_record? && @roles.any? %>
 <p><label for="copy_workflow_from"><%= l(:label_copy_workflow_from) %></label>
-<%= select_tag(:copy_workflow_from, content_tag("option") + options_from_collection_for_select(@roles, :id, :name)) %></p>
+<%= select_tag(:copy_workflow_from, content_tag("option") + options_from_collection_for_select(@roles, :id, :name, params[:copy_workflow_from] || @copy_from.try(:id))) %></p>
 <% end %>
 </div>
+<% end %>
 
 <h3><%= l(:label_permissions) %></h3>
 <div class="box tabular" id="permissions">

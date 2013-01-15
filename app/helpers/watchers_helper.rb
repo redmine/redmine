@@ -30,10 +30,8 @@ module WatchersHelper
            :action => (watched ? 'unwatch' : 'watch'),
            :object_type => object.class.to_s.underscore,
            :object_id => object.id}
-    link_to_remote((watched ? l(:button_unwatch) : l(:button_watch)),
-                   {:url => url},
-                   :href => url_for(url),
-                   :class => (watched ? 'icon icon-fav' : 'icon icon-fav-off'))
+    link_to((watched ? l(:button_unwatch) : l(:button_watch)), url,
+            :remote => true, :method => 'post', :class => (watched ? 'icon icon-fav' : 'icon icon-fav-off'))
 
   end
 
@@ -57,11 +55,8 @@ module WatchersHelper
                :object_id => object.id,
                :user_id => user}
         s << ' '
-        s << link_to_remote(image_tag('delete.png'),
-                                  {:url => url},
-                                  :href => url_for(url),
-                                  :style => "vertical-align: middle",
-                                  :class => "delete")
+        s << link_to(image_tag('delete.png'), url,
+                     :remote => true, :method => 'post', :style => "vertical-align: middle", :class => "delete")
       end
       content << content_tag('li', s)
     end

@@ -10,3 +10,21 @@
     <%= submit_tag l(:button_create_and_continue), :name => 'continue' %>
   </p>
 <% end %>
+
+<% if @auth_sources.present? && @auth_sources.any?(&:searchable?) %>
+  <%= javascript_tag do %>
+    observeAutocompleteField('user_login', '<%= escape_javascript autocomplete_for_new_user_auth_sources_path %>', {
+      select: function(event, ui) {
+        $('input#user_firstname').val(ui.item.firstname);
+        $('input#user_lastname').val(ui.item.lastname);
+        $('input#user_mail').val(ui.item.mail);
+        $('select#user_auth_source_id option').each(function(){
+          if ($(this).attr('value') == ui.item.auth_source_id) {
+            $(this).attr('selected', true);
+            $('select#user_auth_source_id').trigger('change');
+          }
+        });
+      }
+    });
+  <% end %>
+<% end %>

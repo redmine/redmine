@@ -1,0 +1,3 @@
+$('#tab-content-members').html('<%= escape_javascript(render :partial => 'projects/settings/members') %>');
+hideOnLoad();
+$("#member-<%= @member.id %>").effect("highlight");

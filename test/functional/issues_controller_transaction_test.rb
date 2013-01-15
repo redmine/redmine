@@ -19,6 +19,7 @@ require File.expand_path('../../test_helper', __FILE__)
 require 'issues_controller'
 
 class IssuesControllerTransactionTest < ActionController::TestCase
+  tests IssuesController
   fixtures :projects,
            :users,
            :roles,
@@ -46,9 +47,6 @@ class IssuesControllerTransactionTest < ActionController::TestCase
   self.use_transactional_fixtures = false
 
   def setup
-    @controller = IssuesController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
   end
 
@@ -62,19 +60,23 @@ class IssuesControllerTransactionTest < ActionController::TestCase
               :id => issue.id,
               :issue => {
                 :fixed_version_id => 4,
+                :notes => 'My notes',
                 :lock_version => (issue.lock_version - 1)
               },
-              :notes => 'My notes',
               :time_entry => { :hours => '2.5', :comments => '', :activity_id => TimeEntryActivity.first.id }
       end
     end
 
     assert_response :success
     assert_template 'edit'
-    assert_tag 'div', :attributes => {:class => 'conflict'}
-    assert_tag 'input', :attributes => {:name => 'conflict_resolution', :value => 'overwrite'}
-    assert_tag 'input', :attributes => {:name => 'conflict_resolution', :value => 'add_notes'}
-    assert_tag 'input', :attributes => {:name => 'conflict_resolution', :value => 'cancel'}
+
+    assert_select 'div.conflict'
+    assert_select 'input[name=?][value=?]', 'conflict_resolution', 'overwrite'
+    assert_select 'input[name=?][value=?]', 'conflict_resolution', 'add_notes'
+    assert_select 'label' do
+      assert_select 'input[name=?][value=?]', 'conflict_resolution', 'cancel'
+      assert_select 'a[href=/issues/2]'
+    end
   end
 
   def test_update_stale_issue_should_save_attachments
@@ -89,9 +91,9 @@ class IssuesControllerTransactionTest < ActionController::TestCase
                 :id => issue.id,
                 :issue => {
                   :fixed_version_id => 4,
+                  :notes => 'My notes',
                   :lock_version => (issue.lock_version - 1)
                 },
-                :notes => 'My notes',
                 :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}},
                 :time_entry => { :hours => '2.5', :comments => '', :activity_id => TimeEntryActivity.first.id }
         end
@@ -102,7 +104,7 @@ class IssuesControllerTransactionTest < ActionController::TestCase
     assert_template 'edit'
     attachment = Attachment.first(:order => 'id DESC')
     assert_tag 'input', :attributes => {:name => 'attachments[p0][token]', :value => attachment.token}
-    assert_tag 'span', :content => /testfile.txt/
+    assert_tag 'input', :attributes => {:name => 'attachments[p0][filename]', :value => 'testfile.txt'}
   end
 
   def test_update_stale_issue_without_notes_should_not_show_add_notes_option
@@ -112,15 +114,14 @@ class IssuesControllerTransactionTest < ActionController::TestCase
     put :update, :id => issue.id,
           :issue => {
             :fixed_version_id => 4,
+            :notes => '',
             :lock_version => (issue.lock_version - 1)
-          },
-          :notes => ''
+          }
 
     assert_tag 'div', :attributes => {:class => 'conflict'}
     assert_tag 'input', :attributes => {:name => 'conflict_resolution', :value => 'overwrite'}
     assert_no_tag 'input', :attributes => {:name => 'conflict_resolution', :value => 'add_notes'}
     assert_tag 'input', :attributes => {:name => 'conflict_resolution', :value => 'cancel'}
-    
   end
 
   def test_update_stale_issue_should_show_conflicting_journals
@@ -129,9 +130,9 @@ class IssuesControllerTransactionTest < ActionController::TestCase
     put :update, :id => 1,
           :issue => {
             :fixed_version_id => 4,
+            :notes => '',
             :lock_version => 2
           },
-          :notes => '',
           :last_journal_id => 1
 
     assert_not_nil assigns(:conflict_journals)
@@ -147,9 +148,9 @@ class IssuesControllerTransactionTest < ActionController::TestCase
     put :update, :id => 1,
           :issue => {
             :fixed_version_id => 4,
+            :notes => '',
             :lock_version => 2
           },
-          :notes => '',
           :last_journal_id => ''
 
     assert_not_nil assigns(:conflict_journals)
@@ -160,6 +161,18 @@ class IssuesControllerTransactionTest < ActionController::TestCase
       :descendant => {:content => /Journal notes/}
   end
 
+  def test_update_stale_issue_should_show_private_journals_with_permission_only
+    journal = Journal.create!(:journalized => Issue.find(1), :notes => 'Privates notes', :private_notes => true, :user_id => 1)
+
+    @request.session[:user_id] = 2
+    put :update, :id => 1, :issue => {:fixed_version_id => 4, :lock_version => 2}, :last_journal_id => ''
+    assert_include journal, assigns(:conflict_journals)
+
+    Role.find(1).remove_permission! :view_private_notes
+    put :update, :id => 1, :issue => {:fixed_version_id => 4, :lock_version => 2}, :last_journal_id => ''
+    assert_not_include journal, assigns(:conflict_journals)
+  end
+
   def test_update_stale_issue_with_overwrite_conflict_resolution_should_update
     @request.session[:user_id] = 2
 
@@ -167,9 +180,9 @@ class IssuesControllerTransactionTest < ActionController::TestCase
       put :update, :id => 1,
             :issue => {
               :fixed_version_id => 4,
+              :notes => 'overwrite_conflict_resolution',
               :lock_version => 2
             },
-            :notes => 'overwrite_conflict_resolution',
             :conflict_resolution => 'overwrite'
     end
 
@@ -188,9 +201,9 @@ class IssuesControllerTransactionTest < ActionController::TestCase
       put :update, :id => 1,
             :issue => {
               :fixed_version_id => 4,
+              :notes => 'add_notes_conflict_resolution',
               :lock_version => 2
             },
-            :notes => 'add_notes_conflict_resolution',
             :conflict_resolution => 'add_notes'
     end
 
@@ -209,9 +222,9 @@ class IssuesControllerTransactionTest < ActionController::TestCase
       put :update, :id => 1,
             :issue => {
               :fixed_version_id => 4,
+              :notes => 'add_notes_conflict_resolution',
               :lock_version => 2
             },
-            :notes => 'add_notes_conflict_resolution',
             :conflict_resolution => 'cancel'
     end
 
@@ -220,8 +233,26 @@ class IssuesControllerTransactionTest < ActionController::TestCase
     assert_nil issue.fixed_version_id
   end
 
+  def test_put_update_with_spent_time_and_failure_should_not_add_spent_time
+    @request.session[:user_id] = 2
+
+    assert_no_difference('TimeEntry.count') do
+      put :update,
+           :id => 1,
+           :issue => { :subject => '' },
+           :time_entry => { :hours => '2.5', :comments => 'should not be added', :activity_id => TimeEntryActivity.first.id }
+      assert_response :success
+    end
+
+    assert_select 'input[name=?][value=?]', 'time_entry[hours]', '2.5'
+    assert_select 'input[name=?][value=?]', 'time_entry[comments]', 'should not be added'
+    assert_select 'select[name=?]', 'time_entry[activity_id]' do
+      assert_select 'option[value=?][selected=selected]', TimeEntryActivity.first.id
+    end
+  end
+
   def test_index_should_rescue_invalid_sql_query
-    Query.any_instance.stubs(:statement).returns("INVALID STATEMENT")
+    IssueQuery.any_instance.stubs(:statement).returns("INVALID STATEMENT")
 
     get :index
     assert_response 500

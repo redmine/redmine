@@ -1,18 +1,31 @@
+<span id="attachments_fields">
 <% if defined?(container) && container && container.saved_attachments %>
   <% container.saved_attachments.each_with_index do |attachment, i| %>
-    <span class="icon icon-attachment" style="display:block; line-height:1.5em;">
-      <%= h(attachment.filename) %> (<%= number_to_human_size(attachment.filesize) %>)
-      <%= hidden_field_tag "attachments[p#{i}][token]", "#{attachment.id}.#{attachment.digest}" %>
+    <span id="attachments_p<%= i %>">
+      <%= text_field_tag("attachments[p#{i}][filename]", attachment.filename, :class => 'filename') +
+          text_field_tag("attachments[p#{i}][description]", attachment.description, :maxlength => 255, :placeholder => l(:label_optional_description), :class => 'description') +
+          link_to('&nbsp;'.html_safe, attachment_path(attachment, :attachment_id => "p#{i}", :format => 'js'), :method => 'delete', :remote => true, :class => 'remove-upload') %>
+      <%= hidden_field_tag "attachments[p#{i}][token]", "#{attachment.token}" %>
     </span>
   <% end %>
 <% end %>
-<span id="attachments_fields">
-  <span>
-    <%= file_field_tag 'attachments[1][file]', :size => 30, :id => nil, :class => 'file',
-          :onchange => "checkFileSize(this, #{Setting.attachment_max_size.to_i.kilobytes}, '#{escape_javascript(l(:error_attachment_too_big, :max_size => number_to_human_size(Setting.attachment_max_size.to_i.kilobytes)))}');"  -%>
-    <%= text_field_tag 'attachments[1][description]', '', :id => nil, :class => 'description', :placeholder => l(:label_optional_description) %>
-    <%= link_to_function(image_tag('delete.png'), 'removeFileField(this)', :title => (l(:button_delete))) %>
-  </span>
 </span>
-<span class="add_attachment"><%= link_to l(:label_add_another_file), '#', :onclick => 'addFileField(); return false;', :class => 'add_attachment' %>
-(<%= l(:label_max_size) %>: <%= number_to_human_size(Setting.attachment_max_size.to_i.kilobytes) %>)</span>
+<span class="add_attachment">
+<%= file_field_tag 'attachments[dummy][file]',
+      :id => nil,
+      :class => 'file_selector',
+      :multiple => true,
+      :onchange => 'addInputFiles(this);',
+      :data => {
+        :max_file_size => Setting.attachment_max_size.to_i.kilobytes,
+        :max_file_size_message => l(:error_attachment_too_big, :max_size => number_to_human_size(Setting.attachment_max_size.to_i.kilobytes)),
+        :max_concurrent_uploads => Redmine::Configuration['max_concurrent_ajax_uploads'].to_i,
+        :upload_path => uploads_path(:format => 'js'),
+        :description_placeholder => l(:label_optional_description)
+      } %>
+(<%= l(:label_max_size) %>: <%= number_to_human_size(Setting.attachment_max_size.to_i.kilobytes) %>)
+</span>
+
+<% content_for :header_tags do %>
+  <%= javascript_include_tag 'attachments' %>
+<% end %>

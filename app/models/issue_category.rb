@@ -24,10 +24,10 @@ class IssueCategory < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => [:project_id]
   validates_length_of :name, :maximum => 30
-  
+
   safe_attributes 'name', 'assigned_to_id'
 
-  scope :named, lambda {|arg| { :conditions => ["LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip]}}
+  scope :named, lambda {|arg| where("LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip)}
 
   alias :destroy_without_reassign :destroy
 
@@ -35,7 +35,7 @@ class IssueCategory < ActiveRecord::Base
   # If a category is specified, issues are reassigned to this category
   def destroy(reassign_to = nil)
     if reassign_to && reassign_to.is_a?(IssueCategory) && reassign_to.project == self.project
-      Issue.update_all("category_id = #{reassign_to.id}", "category_id = #{id}")
+      Issue.update_all({:category_id => reassign_to.id}, {:category_id => id})
     end
     destroy_without_reassign
   end

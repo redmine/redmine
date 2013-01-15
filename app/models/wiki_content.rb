@@ -59,6 +59,7 @@ class WikiContent < ActiveRecord::Base
                   :description => :comments,
                   :datetime => :updated_on,
                   :type => 'wiki-page',
+                  :group => :page,
                   :url => Proc.new {|o| {:controller => 'wiki', :action => 'show', :project_id => o.page.wiki.project, :id => o.page.title, :version => o.version}}
 
     acts_as_activity_provider :type => 'wiki_edits',
@@ -72,6 +73,8 @@ class WikiContent < ActiveRecord::Base
                                                 :joins => "LEFT JOIN #{WikiPage.table_name} ON #{WikiPage.table_name}.id = #{WikiContent.versioned_table_name}.page_id " +
                                                           "LEFT JOIN #{Wiki.table_name} ON #{Wiki.table_name}.id = #{WikiPage.table_name}.wiki_id " +
                                                           "LEFT JOIN #{Project.table_name} ON #{Project.table_name}.id = #{Wiki.table_name}.project_id"}
+
+    after_destroy :page_update_after_destroy
 
     def text=(plain)
       case Setting.wiki_compression
@@ -115,10 +118,31 @@ class WikiContent < ActiveRecord::Base
 
     # Returns the previous version or nil
     def previous
-      @previous ||= WikiContent::Version.find(:first,
-                                              :order => 'version DESC',
-                                              :include => :author,
-                                              :conditions => ["wiki_content_id = ? AND version < ?", wiki_content_id, version])
+      @previous ||= WikiContent::Version.
+        reorder('version DESC').
+        includes(:author).
+        where("wiki_content_id = ? AND version < ?", wiki_content_id, version).first
+    end
+
+    # Returns the next version or nil
+    def next
+      @next ||= WikiContent::Version.
+        reorder('version ASC').
+        includes(:author).
+        where("wiki_content_id = ? AND version > ?", wiki_content_id, version).first
+    end
+
+    private
+
+    # Updates page's content if the latest version is removed
+    # or destroys the page if it was the only version
+    def page_update_after_destroy
+      latest = page.content.versions.reorder("#{self.class.table_name}.version DESC").first
+      if latest && page.content.version != latest.version
+        raise ActiveRecord::Rollback unless page.content.revert_to!(latest)
+      elsif latest.nil?
+        raise ActiveRecord::Rollback unless page.destroy
+      end
     end
   end
 end

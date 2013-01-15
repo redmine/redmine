@@ -1,4 +1,6 @@
-<%= form_remote_tag(:url => {}, :html => { :id => "journal-#{@journal.id}-form" }) do %>
+<%= form_tag({:controller => 'journals', :action => 'edit', :id => @journal},
+             :remote => true,
+             :id => "journal-#{@journal.id}-form") do %>
     <%= label_tag "notes", l(:description_notes), :class => "hidden-for-sighted" %>
     <%= text_area_tag :notes, @journal.notes,
           :id => "journal_#{@journal.id}_notes",
@@ -6,16 +8,10 @@
           :rows => (@journal.notes.blank? ? 10 : [[10, @journal.notes.length / 50].max, 100].min) %>
     <%= call_hook(:view_journals_notes_form_after_notes, { :journal => @journal}) %>
     <p><%= submit_tag l(:button_save) %>
-    <%= link_to_remote l(:label_preview),
-                       { :url => preview_edit_issue_path(:project_id => @project, :id => @journal.issue),
-                         :method => 'post',
-                         :update => "journal_#{@journal.id}_preview",
-                         :with => "Form.serialize('journal-#{@journal.id}-form')",
-                         :complete => "Element.scrollTo('journal_#{@journal.id}_preview')"
-                       }, :accesskey => accesskey(:preview) %>
-    |
-    <%= link_to l(:button_cancel), '#', :onclick => "Element.remove('journal-#{@journal.id}-form'); " +
-                                                    "Element.show('journal-#{@journal.id}-notes'); return false;" %></p>
+    <%= preview_link preview_edit_issue_path(:project_id => @project, :id => @journal.issue), 
+                     "journal-#{@journal.id}-form",
+                     "journal_#{@journal.id}_preview" %> |
+    <%= link_to l(:button_cancel), '#', :onclick => "$('#journal-#{@journal.id}-form').remove(); $('#journal-#{@journal.id}-notes').show(); return false;" %></p>
 
     <div id="journal_<%= @journal.id %>_preview" class="wiki"></div>
 <% end %>

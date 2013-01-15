@@ -1,19 +1,30 @@
 <div class="contextual">
   <% if User.current.allowed_to?(:add_subprojects, @project) %>
-    <%= link_to l(:label_subproject_new), {:controller => 'projects', :action => 'new', :parent_id => @project}, :class => 'icon icon-add' %>
+    <%= link_to l(:label_subproject_new), new_project_path(:parent_id => @project), :class => 'icon icon-add' %>
+  <% end %>
+  <% if User.current.allowed_to?(:close_project, @project) %>
+    <% if @project.active? %>
+      <%= link_to l(:button_close), close_project_path(@project), :data => {:confirm => l(:text_are_you_sure)}, :method => :post, :class => 'icon icon-lock' %>
+    <% else %>
+      <%= link_to l(:button_reopen), reopen_project_path(@project), :data => {:confirm => l(:text_are_you_sure)}, :method => :post, :class => 'icon icon-unlock' %>
+    <% end %>
   <% end %>
 </div>
 
 <h2><%= @project.name %></h2>
 
+<% unless @project.active? %>
+  <p class="warning"><span class="icon icon-lock"><%= l(:text_project_closed) %></span></p>
+<% end %>
+
 <div class="splitcontentleft">
 
-	<!-- 
+	<!--
 	<% unless @project.homepage.blank? %>
 	    <% if h(@project.homepage).starts_with? 'http://opensourcebrain.org/embedded' or h(@project.homepage).starts_with? 'http://www.opensourcebrain.org/embedded'%>
 	        <p><a href="<%= @project.homepage %>"> <img alt="Project description" border="0" src="<%= @project.homepage %>/images/small.png"/> </a></p>
         <% else %>
-        
+
 	        <p>More information: <a href="<%= @project.homepage %>"><%= @project.homepage %></a></p>
         <% end %>
 	<% end %>
@@ -26,68 +37,68 @@
         <% end %>
 	<% end %>
   </div>
-  
- 
+
+
   <% if @subprojects.any? %>
  	<p><%=l(:label_subproject_plural)%>:
 	    <%= @subprojects.collect{|p| link_to(h(p), :action => 'show', :id => p)}.join(", ").html_safe %></p>
   <% end %>
-  
+
 	<% @project.visible_custom_field_values.each do |custom_value| %>
 	    <% if !custom_value.value.blank? %>
 	        <% if custom_value.custom_field.name != 'Category'  %>
-	        
-	            
+
+
 	        <% end %>
 	    <% end %>
 	<% end %>
-  
+
 	<% @project.visible_custom_field_values.each do |custom_value| %>
-	
+
 	    <% if !custom_value.value.blank? %>
-        
+
             <% if custom_value.custom_field.name == 'Status info' %>
-            
-	            <h2>Status</h2> 
-                
+
+	            <h2>Status</h2>
+
                   <div class="wiki">
                     <%= textilizable show_value(custom_value) %>
                   </div>
             <% end %>
-           
+
 	    <% end %>
 	<% end %>
-  
+
 	<% @project.visible_custom_field_values.each do |custom_value| %>
-	
+
 	    <% if !custom_value.value.blank? %>
-        
+
             <% if custom_value.custom_field.name == 'GitHub repository' %>
-            
-	            <h2>GitHub repository</h2> 
+
+	            <h2>GitHub repository</h2>
                 <p>The source for this project is hosted on GitHub: <a target="_blank" href='<%=h show_value(custom_value) %>'><%=h show_value(custom_value) %></a></p>
             <% end %>
-            
+
             <% if custom_value.custom_field.name == 'Bitbucket repository' %>
-            
-	            <h2>Bitbucket repository</h2> 
+
+	            <h2>Bitbucket repository</h2>
                 <p>The source for this project is hosted on Bitbucket: <a target="_blank" href='<%=h show_value(custom_value) %>'><%=h show_value(custom_value) %></a></p>
             <% end %>
-        
+
             <% if custom_value.custom_field.name == 'NeuroML version' %>
-            
-	            <h2>NeuroML compatibility</h2> 
+
+	            <h2>NeuroML compatibility</h2>
                 <p>The minimum version of NeuroML for this model is: <b><%=h show_value(custom_value) %></b></p>
             <% end %>
-            
+
 	    <% end %>
 	<% end %>
-  
-  
+
+
 	<% @project.visible_custom_field_values.each do |custom_value| %>
-	
+
 	    <% if !custom_value.value.blank? %>
-        
+
             <% if custom_value.custom_field.name == 'ModelDB reference' %>
                 <p>The original published version of this model is available on ModelDB:</p>
                 <% if !show_value(custom_value).starts_with? 'http://senselab.med.yale.edu/ModelDB/ShowModel.asp?model=' %>
@@ -98,10 +109,10 @@
                                              <img alt="ModelDB" border="0" src="../images/modeldb.gif"/></a></p>
                 <% end %>
             <% elsif custom_value.custom_field.name == 'Original format' %>
-	            <h2>Original model</h2> 
+	            <h2>Original model</h2>
                 <p>This model was originally developed in: <b><%=h show_value(custom_value) %></b></p>
             <% end %>
-            
+
 	    <% end %>
 	<% end %>
 
@@ -110,21 +121,19 @@
     <h3><%=l(:label_issue_tracking)%></h3>
     <ul>
     <% for tracker in @trackers %>
-      <li><%= link_to h(tracker.name), :controller => 'issues', :action => 'index', :project_id => @project,
-                                                :set_filter => 1,
-                                                "tracker_id" => tracker.id %>:
+      <li><%= link_to h(tracker.name), project_issues_path(@project, :set_filter => 1, :tracker_id => tracker.id) %>:
           <%= l(:label_x_open_issues_abbr_on_total, :count => @open_issues_by_tracker[tracker].to_i,
                                                     :total => @total_issues_by_tracker[tracker].to_i) %>
       </li>
     <% end %>
     </ul>
     <p>
-      <%= link_to l(:label_issue_view_all), :controller => 'issues', :action => 'index', :project_id => @project, :set_filter => 1 %>
+      <%= link_to l(:label_issue_view_all), project_issues_path(@project, :set_filter => 1) %>
       <% if User.current.allowed_to?(:view_calendar, @project, :global => true) %>
-        | <%= link_to(l(:label_calendar), :controller => 'calendars', :action => 'show', :project_id => @project) %>
+        | <%= link_to l(:label_calendar), project_calendar_path(@project) %>
       <% end %>
       <% if User.current.allowed_to?(:view_gantt, @project, :global => true) %>
-        | <%= link_to(l(:label_gantt), :controller => 'gantts', :action => 'show', :project_id => @project) %>
+        | <%= link_to l(:label_gantt), project_gantt_path(@project) %>
       <% end %>
     </p>
   </div>
@@ -139,7 +148,7 @@
   <div class="news box">
     <h3><%=l(:label_news_latest)%></h3>
     <%= render :partial => 'news/news', :collection => @news %>
-    <p><%= link_to l(:label_news_view_all), :controller => 'news', :action => 'index', :project_id => @project %></p>
+    <p><%= link_to l(:label_news_view_all), project_news_index_path(@project) %></p>
   </div>
   <% end %>
   <%= call_hook(:view_projects_show_right, :project => @project) %>
@@ -149,7 +158,11 @@
     <% if @total_hours.present? %>
     <h3><%= l(:label_spent_time) %></h3>
     <p><span class="icon icon-time"><%= l_hours(@total_hours) %></span></p>
-    <p><%= link_to(l(:label_details), project_time_entries_path(@project)) %> |
+    <p>
+    <% if User.current.allowed_to?(:log_time, @project) %>
+      <%= link_to l(:button_log_time), new_project_time_entry_path(@project) %> |
+    <% end %>
+    <%= link_to(l(:label_details), project_time_entries_path(@project)) %> |
     <%= link_to(l(:label_report), report_project_time_entries_path(@project)) %></p>
     <% end %>
     <%= call_hook(:view_projects_show_sidebar_bottom, :project => @project) %>

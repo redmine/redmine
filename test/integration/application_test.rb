@@ -60,4 +60,9 @@ class ApplicationTest < ActionController::IntegrationTest
     assert_response 200
     assert_nil session[:user_id]
   end
+
+  def test_missing_template_should_respond_with_404
+    get '/login.png'
+    assert_response 404
+  end
 end

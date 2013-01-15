@@ -1,0 +1,6 @@
+<% if @membership.valid? %>
+  $('#tab-content-memberships').html('<%= escape_javascript(render :partial => 'users/memberships') %>');
+  $("#member-<%= @membership.id %>").effect("highlight");
+<% else %>
+  alert('<%= raw(escape_javascript(l(:notice_failed_to_save_members, :errors => @membership.errors.full_messages.join(', ')))) %>');
+<% end %>

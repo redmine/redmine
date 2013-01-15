@@ -18,7 +18,9 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class DocumentsControllerTest < ActionController::TestCase
-  fixtures :projects, :users, :roles, :members, :member_roles, :enabled_modules, :documents, :enumerations
+  fixtures :projects, :users, :roles, :members, :member_roles,
+           :enabled_modules, :documents, :enumerations,
+           :groups_users, :attachments
 
   def setup
     User.current = nil
@@ -95,16 +97,16 @@ LOREM
 
   def test_create_with_one_attachment
     ActionMailer::Base.deliveries.clear
-    Setting.notified_events << 'document_added'
     @request.session[:user_id] = 2
     set_tmp_attachments_directory
 
-    post :create, :project_id => 'ecookbook',
+    with_settings :notified_events => %w(document_added) do
+      post :create, :project_id => 'ecookbook',
                :document => { :title => 'DocumentsControllerTest#test_post_new',
                               :description => 'This is a new document',
                               :category_id => 2},
                :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
-
+    end
     assert_redirected_to '/projects/ecookbook/documents'
 
     document = Document.find_by_title('DocumentsControllerTest#test_post_new')
@@ -122,6 +124,23 @@ LOREM
     end
     assert_response :success
     assert_template 'new'
+  end
+
+  def test_create_non_default_category
+    @request.session[:user_id] = 2
+    category2 = Enumeration.find_by_name('User documentation')
+    category2.update_attributes(:is_default => true)
+    category1 = Enumeration.find_by_name('Uncategorized')
+    post :create,
+         :project_id => 'ecookbook',
+         :document => { :title => 'no default',
+                        :description => 'This is a new document',
+                        :category_id => category1.id }
+    assert_redirected_to '/projects/ecookbook/documents'
+    doc = Document.find_by_title('no default')
+    assert_not_nil doc
+    assert_equal category1.id, doc.category_id
+    assert_equal category1, doc.category
   end
 
   def test_edit

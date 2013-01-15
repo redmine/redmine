@@ -16,18 +16,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../test_helper', __FILE__)
-require 'welcome_controller'
-
-# Re-raise errors caught by the controller.
-class WelcomeController; def rescue_action(e) raise e end; end
 
 class WelcomeControllerTest < ActionController::TestCase
-  fixtures :projects, :news
+  fixtures :projects, :news, :users, :members
 
   def setup
-    @controller = WelcomeController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
   end
 
@@ -37,7 +30,7 @@ class WelcomeControllerTest < ActionController::TestCase
     assert_template 'index'
     assert_not_nil assigns(:news)
     assert_not_nil assigns(:projects)
-    assert !assigns(:projects).include?(Project.find(:first, :conditions => {:is_public => false}))
+    assert !assigns(:projects).include?(Project.where(:is_public => false).first)
   end
 
   def test_browser_language
@@ -77,7 +70,7 @@ class WelcomeControllerTest < ActionController::TestCase
     get :index
     assert_tag 'script',
       :attributes => {:type => "text/javascript"},
-      :content => %r{new WarnLeavingUnsaved}
+      :content => %r{warnLeavingUnsaved}
   end
 
   def test_warn_on_leaving_unsaved_turn_off
@@ -89,11 +82,21 @@ class WelcomeControllerTest < ActionController::TestCase
     get :index
     assert_no_tag 'script',
       :attributes => {:type => "text/javascript"},
-      :content => %r{new WarnLeavingUnsaved}
+      :content => %r{warnLeavingUnsaved}
   end
 
   def test_call_hook_mixed_in
     assert @controller.respond_to?(:call_hook)
+  end
+
+  def test_project_jump_box_should_escape_names_once
+    Project.find(1).update_attribute :name, 'Foo & Bar'
+    @request.session[:user_id] = 2
+
+    get :index
+    assert_select "#header select" do
+      assert_select "option", :text => 'Foo &amp; Bar'
+    end
   end
 
   context "test_api_offset_and_limit" do

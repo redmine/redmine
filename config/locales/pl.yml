@@ -310,10 +310,7 @@ pl:
   general_text_Yes: 'Tak'
   general_text_no: 'nie'
   general_text_yes: 'tak'
-  gui_validation_error: 1 błąd
-  gui_validation_error_plural234: "%{count} błędy"
-  gui_validation_error_plural5: "%{count} błędów"
-  gui_validation_error_plural: "%{count} błędów"
+
   label_activity: Aktywność
   label_add_another_file: Dodaj kolejny plik
   label_add_note: Dodaj notatkę
@@ -410,10 +407,6 @@ pl:
   label_document_added: Dodano dokument
   label_document_new: Nowy dokument
   label_document_plural: Dokumenty
-  label_download: "%{count} Pobranie"
-  label_download_plural234: "%{count} Pobrania"
-  label_download_plural5: "%{count} Pobrań"
-  label_download_plural: "%{count} Pobrania"
   label_downloads_abbr: Pobieranie
   label_duplicated_by: zduplikowane przez
   label_duplicates: duplikuje
@@ -492,10 +485,6 @@ pl:
   label_message_plural: Wiadomości
   label_message_posted: Dodano wiadomość
   label_min_max_length: Min - Maks długość
-  label_modification: "%{count} modyfikacja"
-  label_modification_plural234: "%{count} modyfikacje"
-  label_modification_plural5: "%{count} modyfikacji"
-  label_modification_plural: "%{count} modyfikacje"
   label_modified: zmodyfikowane
   label_module_plural: Moduły
   label_month: Miesiąc
@@ -937,7 +926,6 @@ pl:
   project_module_gantt: Diagram Gantta
   project_module_calendar: Kalendarz
   button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
-  text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
   label_user_mail_option_only_owner: Only for things I am the owner of
   setting_default_notification_option: Default notification option
@@ -1043,7 +1031,7 @@ pl:
   notice_issue_update_conflict: The issue has been updated by an other user while you were editing it.
   text_issue_conflict_resolution_cancel: Discard all my changes and redisplay %{link}
   permission_manage_related_issues: Manage related issues
-  field_ldap_filter: LDAP filter
+  field_auth_source_ldap_filter: LDAP filter
   label_search_for_watchers: Search for watchers to add
   notice_account_deleted: Your account has been permanently deleted.
   setting_unsubscribe: Allow users to delete their own account
@@ -1056,3 +1044,47 @@ pl:
   setting_session_lifetime: Session maximum lifetime
   setting_session_timeout: Session inactivity timeout
   label_session_expiration: Session expiration
+  permission_close_project: Close / reopen the project
+  label_show_closed_projects: View closed projects
+  button_close: Close
+  button_reopen: Reopen
+  project_status_active: active
+  project_status_closed: closed
+  project_status_archived: archived
+  text_project_closed: This project is closed and read-only.
+  notice_user_successful_create: User %{id} created.
+  field_core_fields: Standard fields
+  field_timeout: Timeout (in seconds)
+  setting_thumbnails_enabled: Display attachment thumbnails
+  setting_thumbnails_size: Thumbnails size (in pixels)
+  label_status_transitions: Status transitions
+  label_fields_permissions: Fields permissions
+  label_readonly: Read-only
+  label_required: Required
+  text_repository_identifier_info: Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.
+  field_board_parent: Parent forum
+  label_attribute_of_project: Project's %{name}
+  label_attribute_of_author: Author's %{name}
+  label_attribute_of_assigned_to: Assignee's %{name}
+  label_attribute_of_fixed_version: Target version's %{name}
+  label_copy_subtasks: Copy subtasks
+  label_copied_to: copied to
+  label_copied_from: copied from
+  label_any_issues_in_project: any issues in project
+  label_any_issues_not_in_project: any issues not in project
+  field_private_notes: Private notes
+  permission_view_private_notes: View private notes
+  permission_set_notes_private: Set notes as private
+  label_no_issues_in_project: no issues in project
+  label_any: wszystko
+  label_last_n_weeks: last %{count} weeks
+  setting_cross_project_subtasks: Allow cross-project subtasks
+  label_cross_project_descendants: Z podprojektami
+  label_cross_project_tree: Z drzewem projektów
+  label_cross_project_hierarchy: Z hierarchią projektów
+  label_cross_project_system: Ze wszystkimi projektami
+  button_hide: Hide
+  setting_non_working_week_days: Non-working days
+  label_in_the_next_days: in the next
+  label_in_the_past_days: in the past
+  label_attribute_of_user: User's %{name}

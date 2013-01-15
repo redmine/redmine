@@ -51,5 +51,9 @@ class RoutingAuthSourcesTest < ActionController::IntegrationTest
         { :controller => 'auth_sources', :action => 'test_connection',
           :id => '1234' }
       )
+    assert_routing(
+        { :method => 'get', :path => "/auth_sources/autocomplete_for_new_user" },
+        { :controller => 'auth_sources', :action => 'autocomplete_for_new_user' }
+      )
   end
 end

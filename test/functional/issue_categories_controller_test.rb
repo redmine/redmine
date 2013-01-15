@@ -16,18 +16,12 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../test_helper', __FILE__)
-require 'issue_categories_controller'
-
-# Re-raise errors caught by the controller.
-class IssueCategoriesController; def rescue_action(e) raise e end; end
 
 class IssueCategoriesControllerTest < ActionController::TestCase
-  fixtures :projects, :users, :members, :member_roles, :roles, :enabled_modules, :issue_categories
+  fixtures :projects, :users, :members, :member_roles, :roles, :enabled_modules, :issue_categories,
+           :issues
 
   def setup
-    @controller = IssueCategoriesController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
     @request.session[:user_id] = 2
   end
@@ -38,6 +32,15 @@ class IssueCategoriesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'new'
     assert_select 'input[name=?]', 'issue_category[name]'
+  end
+
+  def test_new_from_issue_form
+    @request.session[:user_id] = 2 # manager
+    xhr :get, :new, :project_id => '1'
+
+    assert_response :success
+    assert_template 'new'
+    assert_equal 'text/javascript', response.content_type
   end
 
   def test_create
@@ -67,9 +70,8 @@ class IssueCategoriesControllerTest < ActionController::TestCase
     assert_equal 'New category', category.name
 
     assert_response :success
-    assert_select_rjs :replace, 'issue_category_id' do
-      assert_select "option[value=#{category.id}][selected=selected]"
-    end
+    assert_template 'create'
+    assert_equal 'text/javascript', response.content_type
   end
 
   def test_create_from_issue_form_with_failure
@@ -79,9 +81,8 @@ class IssueCategoriesControllerTest < ActionController::TestCase
     end
 
     assert_response :success
-    assert_select_rjs :replace_html, "ajax-modal" do
-      assert_select "div#errorExplanation"
-    end
+    assert_template 'new'
+    assert_equal 'text/javascript', response.content_type
   end
 
   def test_edit
@@ -125,7 +126,7 @@ class IssueCategoriesControllerTest < ActionController::TestCase
   end
 
   def test_destroy_category_in_use_with_reassignment
-    issue = Issue.find(:first, :conditions => {:category_id => 1})
+    issue = Issue.where(:category_id => 1).first
     delete :destroy, :id => 1, :todo => 'reassign', :reassign_to_id => 2
     assert_redirected_to '/projects/ecookbook/settings/categories'
     assert_nil IssueCategory.find_by_id(1)
@@ -134,7 +135,7 @@ class IssueCategoriesControllerTest < ActionController::TestCase
   end
 
   def test_destroy_category_in_use_without_reassignment
-    issue = Issue.find(:first, :conditions => {:category_id => 1})
+    issue = Issue.where(:category_id => 1).first
     delete :destroy, :id => 1, :todo => 'nullify'
     assert_redirected_to '/projects/ecookbook/settings/categories'
     assert_nil IssueCategory.find_by_id(1)

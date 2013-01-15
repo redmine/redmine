@@ -17,8 +17,7 @@
 
 require File.expand_path('../../../../test_helper', __FILE__)
 
-class MenuManagerTest < ActionController::IntegrationTest
-
+class HookTest < ActionController::IntegrationTest
   fixtures :users, :roles, :projects, :members, :member_roles
 
   # Hooks that are manually registered later

@@ -4,7 +4,7 @@ module Redmine
       class << self
 
         def all
-          @scms
+          @scms || []
         end
 
         # Add a new SCM adapter and repository

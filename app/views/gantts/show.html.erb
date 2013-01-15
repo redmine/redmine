@@ -25,41 +25,43 @@
 <%= select_year(@gantt.year_from, :prefix => "year", :discard_type => true) %>
 <%= hidden_field_tag 'zoom', @gantt.zoom %>
 
-<%= link_to_function l(:button_apply), '$("query_form").submit()', :class => 'icon icon-checked' %>
-<%= link_to l(:button_clear), { :project_id => @project, :set_filter => 1 }, :class => 'icon icon-reload' %>
+<%= link_to_function l(:button_apply), '$("#query_form").submit()',
+                     :class => 'icon icon-checked' %>
+<%= link_to l(:button_clear), { :project_id => @project, :set_filter => 1 },
+            :class => 'icon icon-reload' %>
 </p>
 <% end %>
 
 <%= error_messages_for 'query' %>
 <% if @query.valid? %>
-<% zoom = 1
-@gantt.zoom.times { zoom = zoom * 2 }
+<%
+  zoom = 1
+  @gantt.zoom.times { zoom = zoom * 2 }
 
-subject_width = 330
-header_heigth = 18
+  subject_width = 330
+  header_heigth = 18
 
-headers_height = header_heigth
-show_weeks = false
-show_days = false
+  headers_height = header_heigth
+  show_weeks = false
+  show_days  = false
 
-if @gantt.zoom > 1
+  if @gantt.zoom > 1
     show_weeks = true
     headers_height = 2 * header_heigth
     if @gantt.zoom > 2
         show_days = true
         headers_height = 3 * header_heigth
     end
-end
+  end
 
-# Width of the entire chart
-g_width = ((@gantt.date_to - @gantt.date_from + 1) * zoom).to_i
-
-@gantt.render(:top => headers_height + 8, :zoom => zoom, :g_width => g_width, :subject_width => subject_width)
-
-g_height = [(20 * (@gantt.number_of_rows + 6)) + 150, 206].max
-t_height = g_height + headers_height
-
-
+  # Width of the entire chart
+  g_width = ((@gantt.date_to - @gantt.date_from + 1) * zoom).to_i
+  @gantt.render(:top => headers_height + 8,
+                :zoom => zoom,
+                :g_width => g_width,
+                :subject_width => subject_width)
+  g_height = [(20 * (@gantt.number_of_rows + 6)) + 150, 206].max
+  t_height = g_height + headers_height
 %>
 
 <% if @gantt.truncated %>
@@ -69,102 +71,175 @@ t_height = g_height + headers_height
 <table style="width:100%; border:0; border-collapse: collapse;">
 <tr>
 <td style="width:<%= subject_width %>px; padding:0px;">
-
-<div style="position:relative;height:<%= t_height + 24 %>px;width:<%= subject_width + 1 %>px;">
-<div style="right:-2px;width:<%= subject_width %>px;height:<%= headers_height %>px;background: #eee;" class="gantt_hdr"></div>
-<div style="right:-2px;width:<%= subject_width %>px;height:<%= t_height %>px;border-left: 1px solid #c0c0c0;overflow:hidden;" class="gantt_hdr"></div>
-
-<div class="gantt_subjects">
-<%= @gantt.subjects.html_safe %>
-</div>
-
-</div>
+  <%
+    style  = ""
+    style += "position:relative;"
+    style += "height: #{t_height + 24}px;"
+    style += "width: #{subject_width + 1}px;"
+  %>
+  <%= content_tag(:div, :style => style) do %>
+    <%
+      style  = ""
+      style += "right:-2px;"
+      style += "width: #{subject_width}px;"
+      style += "height: #{headers_height}px;"
+      style += 'background: #eee;'
+    %>
+    <%= content_tag(:div, "", :style => style, :class => "gantt_hdr") %>
+    <%
+      style  = ""
+      style += "right:-2px;"
+      style += "width: #{subject_width}px;"
+      style += "height: #{t_height}px;"
+      style += 'border-left: 1px solid #c0c0c0;'
+      style += 'overflow: hidden;'
+    %>
+    <%= content_tag(:div, "", :style => style, :class => "gantt_hdr") %>
+    <%= content_tag(:div, :class => "gantt_subjects") do %>
+      <%= @gantt.subjects.html_safe %>
+    <% end %>
+  <% end %>
 </td>
+
 <td>
-
-<div style="position:relative;height:<%= t_height + 24 %>px;overflow:auto;">
-<div style="width:<%= g_width - 1 %>px;height:<%= headers_height %>px;background: #eee;" class="gantt_hdr">&nbsp;</div>
+<div style="position:relative;height:<%= t_height + 24 %>px;overflow:auto;" id="gantt_area">
 <%
-#
-# Months headers
-#
-month_f = @gantt.date_from
-left = 0
-height = (show_weeks ? header_heigth : header_heigth + g_height)
-@gantt.months.times do
-  width = (((month_f >> 1) - month_f) * zoom - 1).to_i
-  %>
-  <div style="left:<%= left %>px;width:<%= width %>px;height:<%= height %>px;" class="gantt_hdr">
-  <%= link_to h("#{month_f.year}-#{month_f.month}"), @gantt.params.merge(:year => month_f.year, :month => month_f.month), :title => "#{month_name(month_f.month)} #{month_f.year}"%>
-  </div>
-  <%
-  left = left + width + 1
-  month_f = month_f >> 1
-end %>
+  style  = ""
+  style += "width: #{g_width - 1}px;"
+  style += "height: #{headers_height}px;"
+  style += 'background: #eee;'
+%>
+<%= content_tag(:div, '&nbsp;'.html_safe, :style => style, :class => "gantt_hdr") %>
 
+<% ###### Months headers ###### %>
 <%
-#
-# Weeks headers
-#
-if show_weeks
+  month_f = @gantt.date_from
   left = 0
-  height = (show_days ? header_heigth - 1 : header_heigth - 1 + g_height)
-  if @gantt.date_from.cwday == 1
-    # @date_from is monday
-    week_f = @gantt.date_from
-  else
-    # find next monday after @date_from
-    week_f = @gantt.date_from + (7 - @gantt.date_from.cwday + 1)
-    width = (7 - @gantt.date_from.cwday + 1) * zoom - 1
-    %>
-    <div style="left:<%= left %>px;top:19px;width:<%= width %>px;height:<%= height %>px;" class="gantt_hdr">&nbsp;</div>
-    <%
-    left = left + width + 1
-  end %>
+  height = (show_weeks ? header_heigth : header_heigth + g_height)
+%>
+<% @gantt.months.times do %>
   <%
-  while week_f <= @gantt.date_to
-    width = ((week_f + 6 <= @gantt.date_to) ? 7 * zoom - 1 : (@gantt.date_to - week_f + 1) * zoom - 1).to_i
-    %>
-    <div style="left:<%= left %>px;top:19px;width:<%= width %>px;height:<%= height %>px;" class="gantt_hdr">
-    <small><%= week_f.cweek if width >= 16 %></small>
-    </div>
-    <%
-    left = left + width + 1
-    week_f = week_f + 7
-  end
-end %>
-
-<%
-#
-# Days headers
-#
-if show_days
-  left = 0
-  height = g_height + header_heigth - 1
-  wday = @gantt.date_from.cwday
-  (@gantt.date_to - @gantt.date_from + 1).to_i.times do
-  width =  zoom - 1
+    width = (((month_f >> 1) - month_f) * zoom - 1).to_i
+    style  = ""
+    style += "left: #{left}px;"
+    style += "width: #{width}px;"
+    style += "height: #{height}px;"
   %>
-  <div style="left:<%= left %>px;top:37px;width:<%= width %>px;height:<%= height %>px;font-size:0.7em;<%= "background:#f1f1f1;" if wday > 5 %>" class="gantt_hdr">
-  <%= day_name(wday).first %>
-  </div>
+  <%= content_tag(:div, :style => style, :class => "gantt_hdr") do %>
+    <%= link_to h("#{month_f.year}-#{month_f.month}"),
+                @gantt.params.merge(:year => month_f.year, :month => month_f.month),
+                :title => "#{month_name(month_f.month)} #{month_f.year}" %>
+  <% end %>
   <%
-  left = left + width + 1
-  wday = wday + 1
-  wday = 1 if wday > 7
-  end
-end %>
+    left = left + width + 1
+    month_f = month_f >> 1
+  %>
+<% end %>
+
+<% ###### Weeks headers ###### %>
+<% if show_weeks %>
+  <%
+    left = 0
+    height = (show_days ? header_heigth - 1 : header_heigth - 1 + g_height)
+  %>
+  <% if @gantt.date_from.cwday == 1 %>
+    <%
+      # @date_from is monday
+      week_f = @gantt.date_from
+    %>
+  <% else %>
+    <%
+      # find next monday after @date_from
+      week_f = @gantt.date_from + (7 - @gantt.date_from.cwday + 1)
+      width = (7 - @gantt.date_from.cwday + 1) * zoom - 1
+      style  = ""
+      style += "left: #{left}px;"
+      style += "top: 19px;"
+      style += "width: #{width}px;"
+      style += "height: #{height}px;"
+    %>
+    <%= content_tag(:div, '&nbsp;'.html_safe,
+                    :style => style, :class => "gantt_hdr") %>
+    <% left = left + width + 1 %>
+  <% end %>
+  <% while week_f <= @gantt.date_to %>
+    <%
+      width = ((week_f + 6 <= @gantt.date_to) ?
+                  7 * zoom - 1 :
+                  (@gantt.date_to - week_f + 1) * zoom - 1).to_i
+      style  = ""
+      style += "left: #{left}px;"
+      style += "top: 19px;"
+      style += "width: #{width}px;"
+      style += "height: #{height}px;"
+    %>
+    <%= content_tag(:div, :style => style, :class => "gantt_hdr") do %>
+      <%= content_tag(:small) do %>
+        <%= week_f.cweek if width >= 16 %>
+      <% end %>
+    <% end %>
+    <%
+      left = left + width + 1
+      week_f = week_f + 7
+    %>
+  <% end %>
+<% end %>
+
+<% ###### Days headers ####### %>
+<% if show_days %>
+  <%
+    left = 0
+    height = g_height + header_heigth - 1
+    wday = @gantt.date_from.cwday
+  %>
+  <% (@gantt.date_to - @gantt.date_from + 1).to_i.times do %>
+    <%
+      width =  zoom - 1
+      style  = ""
+      style += "left: #{left}px;"
+      style += "top:37px;"
+      style += "width: #{width}px;"
+      style += "height: #{height}px;"
+      style += "font-size:0.7em;"
+      clss = "gantt_hdr"
+      clss << " nwday" if @gantt.non_working_week_days.include?(wday)
+    %>
+    <%= content_tag(:div, :style => style, :class => clss) do %>
+      <%= day_letter(wday) %>
+    <% end %>
+    <%
+      left = left + width + 1
+      wday = wday + 1
+      wday = 1 if wday > 7
+    %>
+  <% end %>
+<% end %>
 
 <%= @gantt.lines.html_safe %>
 
-<%
-#
-# Today red line (excluded from cache)
-#
-if Date.today >= @gantt.date_from and Date.today <= @gantt.date_to %>
-    <div style="position: absolute;height:<%= g_height %>px;top:<%= headers_height + 1 %>px;left:<%= (((Date.today - @gantt.date_from + 1) * zoom).floor() - 1).to_i %>px;width:10px;border-left: 1px dashed red;">&nbsp;</div>
+<% ###### Today red line (excluded from cache) ###### %>
+<% if Date.today >= @gantt.date_from and Date.today <= @gantt.date_to %>
+  <%
+    today_left = (((Date.today - @gantt.date_from + 1) * zoom).floor() - 1).to_i
+    style  = ""
+    style += "position: absolute;"
+    style += "height: #{g_height}px;"
+    style += "top: #{headers_height + 1}px;"
+    style += "left: #{today_left}px;"
+    style += "width:10px;"
+    style += "border-left: 1px dashed red;"
+  %>
+  <%= content_tag(:div, '&nbsp;'.html_safe, :style => style) %>
 <% end %>
-
+<%
+  style  = ""
+  style += "position: absolute;"
+  style += "height: #{g_height}px;"
+  style += "top: #{headers_height + 1}px;"
+  style += "left: 0px;"
+  style += "width: #{g_width - 1}px;"
+%>
+<%= content_tag(:div, '', :style => style, :id => "gantt_draw_area") %>
 </div>
 </td>
 </tr>
@@ -172,8 +247,14 @@ if Date.today >= @gantt.date_from and Date.today <= @gantt.date_to %>
 
 <table style="width:100%">
 <tr>
-<td align="left"><%= link_to_content_update("\xc2\xab " + l(:label_previous), params.merge(@gantt.params_previous)) %></td>
-<td align="right"><%= link_to_content_update(l(:label_next) + " \xc2\xbb", params.merge(@gantt.params_next)) %></td>
+  <td align="left">
+    <%= link_to_content_update("\xc2\xab " + l(:label_previous),
+                               params.merge(@gantt.params_previous)) %>
+  </td>
+  <td align="right">
+    <%= link_to_content_update(l(:label_next) + " \xc2\xbb",
+                               params.merge(@gantt.params_next)) %>
+  </td>
 </tr>
 </table>
 
@@ -184,7 +265,18 @@ if Date.today >= @gantt.date_from and Date.today <= @gantt.date_to %>
 <% end # query.valid? %>
 
 <% content_for :sidebar do %>
-    <%= render :partial => 'issues/sidebar' %>
+  <%= render :partial => 'issues/sidebar' %>
 <% end %>
 
 <% html_title(l(:label_gantt)) -%>
+
+<% content_for :header_tags do %>
+  <%= javascript_include_tag 'raphael' %>
+  <%= javascript_include_tag 'gantt' %>
+<% end %>
+
+<%= javascript_tag do %>
+  var issue_relation_type = <%= raw Redmine::Helpers::Gantt::DRAW_TYPES.to_json %>;
+  $(document).ready(drawGanttHandler);
+  $(window).resize(drawGanttHandler);
+<% end %>

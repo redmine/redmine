@@ -32,35 +32,34 @@ class QueriesController < ApplicationController
       @limit = per_page_option
     end
 
-    @query_count = Query.visible.count
-    @query_pages = Paginator.new self, @query_count, @limit, params['page']
-    @queries = Query.visible.all(:limit => @limit, :offset => @offset, :order => "#{Query.table_name}.name")
+    @query_count = IssueQuery.visible.count
+    @query_pages = Paginator.new @query_count, @limit, params['page']
+    @queries = IssueQuery.visible.all(:limit => @limit, :offset => @offset, :order => "#{Query.table_name}.name")
 
     respond_to do |format|
-      format.html { render :nothing => true }
       format.api
     end
   end
 
   def new
-    @query = Query.new
+    @query = IssueQuery.new
     @query.user = User.current
     @query.project = @project
     @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
-    build_query_from_params
+    @query.build_from_params(params)
   end
 
   def create
-    @query = Query.new(params[:query])
+    @query = IssueQuery.new(params[:query])
     @query.user = User.current
     @query.project = params[:query_is_for_all] ? nil : @project
     @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
-    build_query_from_params
+    @query.build_from_params(params)
     @query.column_names = nil if params[:default_columns]
 
     if @query.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to :controller => 'issues', :action => 'index', :project_id => @project, :query_id => @query
+      redirect_to _project_issues_path(@project, :query_id => @query)
     else
       render :action => 'new', :layout => !request.xhr?
     end
@@ -73,12 +72,12 @@ class QueriesController < ApplicationController
     @query.attributes = params[:query]
     @query.project = nil if params[:query_is_for_all]
     @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
-    build_query_from_params
+    @query.build_from_params(params)
     @query.column_names = nil if params[:default_columns]
 
     if @query.save
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :controller => 'issues', :action => 'index', :project_id => @project, :query_id => @query
+      redirect_to _project_issues_path(@project, :query_id => @query)
     else
       render :action => 'edit'
     end
@@ -86,12 +85,12 @@ class QueriesController < ApplicationController
 
   def destroy
     @query.destroy
-    redirect_to :controller => 'issues', :action => 'index', :project_id => @project, :set_filter => 1
+    redirect_to _project_issues_path(@project, :set_filter => 1)
   end
 
 private
   def find_query
-    @query = Query.find(params[:id])
+    @query = IssueQuery.find(params[:id])
     @project = @query.project
     render_403 unless @query.editable_by?(User.current)
   rescue ActiveRecord::RecordNotFound

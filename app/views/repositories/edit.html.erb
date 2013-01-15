@@ -1,5 +1,5 @@
 <h2><%= l(:label_repository) %></h2>
 
-<%= labelled_form_for :repository, @repository, :url => repository_path(@repository), :html => {:method => :put} do |f| %>
+<%= labelled_form_for :repository, @repository, :url => repository_path(@repository), :html => {:method => :put, :id => 'repository-form'} do |f| %>
   <%= render :partial => 'form', :locals => {:f => f} %>
 <% end %>

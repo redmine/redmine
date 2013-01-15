@@ -44,8 +44,8 @@ function jsToolBar(textarea) {
 	this.toolbar.className = 'jstElements';
 	this.editor.parentNode.insertBefore(this.toolbar,this.editor);
 	
-	// Dragable resizing (only for gecko)
-	if (this.editor.addEventListener)
+	// Dragable resizing
+	if (this.editor.addEventListener && navigator.appVersion.match(/\bMSIE\b/))
 	{
 		this.handle = document.createElement('div');
 		this.handle.className = 'jstHandle';
@@ -206,12 +206,6 @@ jsToolBar.prototype = {
 			this.toolbar.removeChild(this.toolbar.firstChild)
 		}
 		this.toolNodes = {}; // vide les raccourcis DOM/**/
-
-		var h = document.createElement('div');
-		h.className = 'help'
-		h.innerHTML = this.help_link;
-		'<a href="/help/wiki_syntax.html" onclick="window.open(\'/help/wiki_syntax.html\', \'\', \'resizable=yes, location=no, width=300, height=640, menubar=no, status=no, scrollbars=yes\'); return false;">Aide</a>';
-		this.toolbar.appendChild(h);
 
 		// Draw toolbar elements
 		var b, tool, newTool;

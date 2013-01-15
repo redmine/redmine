@@ -1,0 +1,11 @@
+$('#tab-content-members').html('<%= escape_javascript(render :partial => 'projects/settings/members') %>');
+hideOnLoad();
+
+<% if @members.present? && @members.all? {|m| m.valid? } %>
+  <% @members.each do |member| %>
+    $("#member-<%= member.id %>").effect("highlight");
+  <% end %>
+<% else %>
+  <% errors = @members.collect {|m| m.errors.full_messages}.flatten.uniq.join(', ') %>
+  alert('<%= raw(escape_javascript(l(:notice_failed_to_save_members, :errors => errors))) %>');
+<% end %>

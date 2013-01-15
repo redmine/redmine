@@ -26,8 +26,8 @@ class MembersController < ApplicationController
   def index
     @offset, @limit = api_offset_and_limit
     @member_count = @project.member_principals.count
-    @member_pages = Paginator.new self, @member_count, @limit, params['page']
-    @offset ||= @member_pages.current.offset
+    @member_pages = Paginator.new @member_count, @limit, params['page']
+    @offset ||= @member_pages.offset
     @members =  @project.member_principals.all(
       :order => "#{Member.table_name}.id",
       :limit  =>  @limit,
@@ -63,31 +63,16 @@ class MembersController < ApplicationController
     end
 
     respond_to do |format|
-      if members.present? && members.all? {|m| m.valid? }
-        format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project }
-        format.js {
-          render(:update) {|page|
-            page.replace_html "tab-content-members", :partial => 'projects/settings/members'
-            page << 'hideOnLoad()'
-            members.each {|member| page.visual_effect(:highlight, "member-#{member.id}") }
-          }
-        }
-        format.api {
-          @member = members.first
+      format.html { redirect_to_settings_in_projects }
+      format.js { @members = members }
+      format.api {
+        @member = members.first
+        if @member.valid?
           render :action => 'show', :status => :created, :location => membership_url(@member)
-        }
-      else
-        format.js {
-          render(:update) {|page|
-            errors = members.collect {|m|
-              m.errors.full_messages
-            }.flatten.uniq
-
-            page.alert(l(:notice_failed_to_save_members, :errors => errors.join(', ')))
-          }
-        }
-        format.api { render_validation_errors(members.first) }
-      end
+        else
+          render_validation_errors(@member)
+        end
+      }
     end
   end
 
@@ -97,17 +82,11 @@ class MembersController < ApplicationController
     end
     saved = @member.save
     respond_to do |format|
-      format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project }
-      format.js {
-        render(:update) {|page|
-          page.replace_html "tab-content-members", :partial => 'projects/settings/members'
-          page << 'hideOnLoad()'
-          page.visual_effect(:highlight, "member-#{@member.id}")
-        }
-      }
+      format.html { redirect_to_settings_in_projects }
+      format.js
       format.api {
         if saved
-          head :ok
+          render_api_ok
         else
           render_validation_errors(@member)
         end
@@ -120,15 +99,11 @@ class MembersController < ApplicationController
       @member.destroy
     end
     respond_to do |format|
-      format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project }
-      format.js { render(:update) {|page|
-          page.replace_html "tab-content-members", :partial => 'projects/settings/members'
-          page << 'hideOnLoad()'
-        }
-      }
+      format.html { redirect_to_settings_in_projects }
+      format.js
       format.api {
         if @member.destroyed?
-          head :ok
+          render_api_ok
         else
           head :unprocessable_entity
         end
@@ -141,4 +116,9 @@ class MembersController < ApplicationController
     render :layout => false
   end
 
+  private
+
+  def redirect_to_settings_in_projects
+    redirect_to settings_project_path(@project, :tab => 'members')
+  end
 end

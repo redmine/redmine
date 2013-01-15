@@ -12,11 +12,11 @@ class AddRepositoriesPermissions < ActiveRecord::Migration
   end
 
   def self.down
-    Permission.find(:first, :conditions => ["controller=? and action=?", 'repositories', 'show']).destroy
-    Permission.find(:first, :conditions => ["controller=? and action=?", 'repositories', 'browse']).destroy
-    Permission.find(:first, :conditions => ["controller=? and action=?", 'repositories', 'entry']).destroy
-    Permission.find(:first, :conditions => ["controller=? and action=?", 'repositories', 'revisions']).destroy
-    Permission.find(:first, :conditions => ["controller=? and action=?", 'repositories', 'revision']).destroy
-    Permission.find(:first, :conditions => ["controller=? and action=?", 'repositories', 'diff']).destroy
+    Permission.where("controller=? and action=?", 'repositories', 'show').first.destroy
+    Permission.where("controller=? and action=?", 'repositories', 'browse').first.destroy
+    Permission.where("controller=? and action=?", 'repositories', 'entry').first.destroy
+    Permission.where("controller=? and action=?", 'repositories', 'revisions').first.destroy
+    Permission.where("controller=? and action=?", 'repositories', 'revision').first.destroy
+    Permission.where("controller=? and action=?", 'repositories', 'diff').first.destroy
   end
 end

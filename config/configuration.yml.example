@@ -61,7 +61,6 @@
 #   email_delivery:
 #     delivery_method: :smtp
 #     smtp_settings:
-#       tls: true
 #       enable_starttls_auto: true
 #       address: "smtp.gmail.com"
 #       port: 587
@@ -162,6 +161,35 @@ default:
   # If you have a load-balancing Redmine cluster, you have to use the
   # same secret token on each machine.
   #secret_token: 'change it to a long random string'
+
+  # Absolute path (e.g. /usr/bin/convert, c:/im/convert.exe) to
+  # the ImageMagick's `convert` binary. Used to generate attachment thumbnails.
+  #imagemagick_convert_command:
+
+  # Configuration of RMagcik font.
+  #
+  # Redmine uses RMagcik in order to export gantt png.
+  # You don't need this setting if you don't install RMagcik.
+  #
+  # In CJK (Chinese, Japanese and Korean),
+  # in order to show CJK characters correctly,
+  # you need to set this configuration.
+  #
+  # Because there is no standard font across platforms in CJK,
+  # you need to set a font installed in your server.
+  #
+  # This setting is not necessary in non CJK.
+  #
+  # Examples for Japanese:
+  #   Windows:
+  #     rmagick_font_path: C:\windows\fonts\msgothic.ttc
+  #   Linux:
+  #     rmagick_font_path: /usr/share/fonts/ipa-mincho/ipam.ttf
+  #
+  rmagick_font_path:
+
+  # Maximum number of simultaneous AJAX uploads
+  #max_concurrent_ajax_uploads: 2
 
 # specific configuration options for production environment
 # that overrides the default ones

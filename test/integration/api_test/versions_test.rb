@@ -103,15 +103,11 @@ class ApiTest::VersionsTest < ActionController::IntegrationTest
 
         assert_response :success
         assert_equal 'application/xml', @response.content_type
-        assert_tag 'version',
-          :child => {
-            :tag => 'id',
-            :content => '2',
-            :sibling => {
-              :tag => 'name',
-              :content => '1.0'
-            }
-          }
+        assert_select 'version' do
+          assert_select 'id', :text => '2'
+          assert_select 'name', :text => '1.0'
+          assert_select 'sharing', :text => 'none'
+        end
       end
     end
 
@@ -120,6 +116,7 @@ class ApiTest::VersionsTest < ActionController::IntegrationTest
         put '/versions/2.xml', {:version => {:name => 'API update'}}, credentials('jsmith')
 
         assert_response :ok
+        assert_equal '', @response.body
         assert_equal 'API update', Version.find(2).name
       end
     end
@@ -131,6 +128,7 @@ class ApiTest::VersionsTest < ActionController::IntegrationTest
         end
 
         assert_response :ok
+        assert_equal '', @response.body
         assert_nil Version.find_by_id(3)
       end
     end

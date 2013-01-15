@@ -24,7 +24,7 @@ class Enumeration < ActiveRecord::Base
 
   acts_as_list :scope => 'type = \'#{type}\''
   acts_as_customizable
-  acts_as_tree :order => 'position ASC'
+  acts_as_tree :order => "#{Enumeration.table_name}.position ASC"
 
   before_destroy :check_integrity
   before_save    :check_default
@@ -35,8 +35,9 @@ class Enumeration < ActiveRecord::Base
   validates_uniqueness_of :name, :scope => [:type, :project_id]
   validates_length_of :name, :maximum => 30
 
-  scope :shared, where(:project_id => nil)
-  scope :active, where(:active => true)
+  scope :shared, lambda { where(:project_id => nil) }
+  scope :sorted, lambda { order("#{table_name}.position ASC") }
+  scope :active, lambda { where(:active => true) }
   scope :named, lambda {|arg| where("LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip)}
 
   def self.default

@@ -23,10 +23,7 @@ module Redmine
           heads_for_wiki_formatter
           # Is there a simple way to link to a public resource?
           url = "#{Redmine::Utils.relative_url_root}/help/wiki_syntax.html"
-          help_link = link_to(l(:setting_text_formatting), url,
-            :onclick => "window.open(\"#{ url }\", \"\", \"resizable=yes, location=no, width=300, height=640, menubar=no, status=no, scrollbars=yes\"); return false;")
-
-          javascript_tag("var wikiToolbar = new jsToolBar($('#{field_id}')); wikiToolbar.setHelpLink('#{escape_javascript help_link}'); wikiToolbar.draw();")
+          javascript_tag("var wikiToolbar = new jsToolBar(document.getElementById('#{field_id}')); wikiToolbar.setHelpLink('#{escape_javascript url}'); wikiToolbar.draw();")
         end
 
         def initial_page_content(page)
@@ -36,8 +33,7 @@ module Redmine
         def heads_for_wiki_formatter
           unless @heads_for_wiki_formatter_included
             content_for :header_tags do
-              javascript_include_tag('jstoolbar/jstoolbar') +
-              javascript_include_tag('jstoolbar/textile') +
+              javascript_include_tag('jstoolbar/jstoolbar-textile.min') +
               javascript_include_tag("jstoolbar/lang/jstoolbar-#{current_language.to_s.downcase}") +
               stylesheet_link_tag('jstoolbar')
             end

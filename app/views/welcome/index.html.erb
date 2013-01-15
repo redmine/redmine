@@ -2,7 +2,7 @@
 
 	<% if not User.current.logged? %>
 		<p class="title"><b>Open Source Brain</b> is a resource for sharing and collaboratively developing computational models of neural systems</p>
-	
+
 		<div id="quick-search">
 			<%= form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
 				<%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
@@ -30,7 +30,7 @@
 				<%= link_to l(:label_news_view_all), :controller => 'news' %>
 			<% end %>
 			</div>
-			
+
 			<% if @projects.any? %>
 				<div class="projects box">
   					<h3>Latest projects added on OSB</h3>
@@ -52,16 +52,16 @@
 				</div>
 			<% end %>
 		</div>
-			
+
 		<div class="splitcontentright">
-			
+
 			<div id="quick-search">
 				<%= form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
 					<%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
 					<%= text_field_tag 'q', @question, :size => 70, :placeholder=>'Search Open Source Brain',:type=>'search', :results=>5, :class => 'large', :accesskey => accesskey(:quick_search) %>
 				<% end %>
 			</div>
-			
+
 			<% unless @events_by_day.empty? %>
 				<div class="issues box">
 					<h3><%= link_to l(:label_activity), :controller => 'activities', :action => 'index', :id => nil, :user_id => @user, :from => @events_by_day.keys.first %></h3>
@@ -86,7 +86,7 @@
 			<div class="projects box">
 			<h3>Your projects</h3>
 			<% if @projects.any? %>
-					<%= call_hook(:view_welcome_index_left, :projects => @projects) %>	
+					<%= call_hook(:view_welcome_index_left, :projects => @projects) %>
 					<% unless @memberships.empty? %>
 						<ul>
 							<% for membership in @memberships %>
@@ -108,3 +108,4 @@
 		<% end %>
 	<% end %>
 </div>
+

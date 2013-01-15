@@ -1,11 +1,11 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.2.11'
-gem 'prototype-rails', '3.2.1'
+gem "jquery-rails", "~> 2.0.2"
 gem "i18n", "~> 0.6.0"
 gem "coderay", "~> 1.0.6"
 gem "fastercsv", "~> 1.5.0", :platforms => [:mri_18, :mingw_18, :jruby]
-gem "builder"
+gem "builder", "3.0.0"
 
 # Optional gem for LDAP authentication
 group :ldap do
@@ -41,7 +41,7 @@ end
 
 platforms :mri_18, :mingw_18 do
   group :mysql do
-    gem "mysql"
+    gem "mysql", "~> 2.8.1"
   end
 end
 
@@ -52,7 +52,9 @@ platforms :mri_19, :mingw_19 do
 end
 
 platforms :jruby do
-  gem "jruby-openssl"
+  # jruby-openssl is bundled with JRuby 1.7.0
+  gem "jruby-openssl" if Object.const_defined?(:JRUBY_VERSION) && JRUBY_VERSION < '1.7.0'
+  gem "activerecord-jdbc-adapter", "1.2.5"
 
   group :mysql do
     gem "activerecord-jdbcmysql-adapter"
@@ -74,7 +76,12 @@ end
 
 group :test do
   gem "shoulda", "~> 2.11"
-  gem "mocha"
+  # Shoulda does not work nice on Ruby 1.9.3 and JRuby 1.7.
+  # It seems to need test-unit explicitely.
+  platforms = [:mri_19]
+  platforms << :jruby if defined?(JRUBY_VERSION) && JRUBY_VERSION >= "1.7"
+  gem "test-unit", :platforms => platforms
+  gem "mocha", "0.12.3"
 end
 
 local_gemfile = File.join(File.dirname(__FILE__), "Gemfile.local")

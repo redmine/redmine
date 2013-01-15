@@ -18,10 +18,6 @@
 require File.expand_path('../../../../test_helper', __FILE__)
 
 class Redmine::UnifiedDiffTest < ActiveSupport::TestCase
-
-  def setup
-  end
-
   def test_subversion_diff
     diff = Redmine::UnifiedDiff.new(read_diff_fixture('subversion.diff'))
     # number of files
@@ -169,6 +165,60 @@ diff -r 000000000000 -r ea98b14f75f0 README4
 DIFF
     )
     assert_equal 4, diff.size
+    assert_equal "README1", diff[0].file_name
+  end
+
+  def test_both_git_diff
+    diff = Redmine::UnifiedDiff.new(<<-DIFF
+# HG changeset patch
+# User test
+# Date 1348014182 -32400
+# Node ID d1c871b8ef113df7f1c56d41e6e3bfbaff976e1f
+# Parent  180b6605936cdc7909c5f08b59746ec1a7c99b3e
+modify test1.txt
+
+diff -r 180b6605936c -r d1c871b8ef11 test1.txt
+--- a/test1.txt
++++ b/test1.txt
+@@ -1,1 +1,1 @@
+-test1
++modify test1
+DIFF
+    )
+    assert_equal 1, diff.size
+    assert_equal "test1.txt", diff[0].file_name
+  end
+
+  def test_include_a_b_slash
+    diff = Redmine::UnifiedDiff.new(<<-DIFF
+--- test1.txt
++++ b/test02.txt
+@@ -1 +0,0 @@
+-modify test1
+DIFF
+    )
+    assert_equal 1, diff.size
+    assert_equal "b/test02.txt", diff[0].file_name
+
+    diff = Redmine::UnifiedDiff.new(<<-DIFF
+--- a/test1.txt
++++ a/test02.txt
+@@ -1 +0,0 @@
+-modify test1
+DIFF
+    )
+    assert_equal 1, diff.size
+    assert_equal "a/test02.txt", diff[0].file_name
+
+    diff = Redmine::UnifiedDiff.new(<<-DIFF
+--- a/test1.txt
++++ test02.txt
+@@ -1 +0,0 @@
+-modify test1
+DIFF
+    )
+    assert_equal 1, diff.size
+    assert_equal "test02.txt", diff[0].file_name
   end
 
   private

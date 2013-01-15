@@ -15,14 +15,26 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require 'blankslate'
+require 'redmine/views/builders/structure'
 
 module Redmine
   module Views
     module Builders
       class Json < Structure
+        attr_accessor :jsonp
+
+        def initialize(request, response)
+          super
+          self.jsonp = (request.params[:callback] || request.params[:jsonp]).to_s.gsub(/[^a-zA-Z0-9_]/, '')
+        end
+
         def output
-          @struct.first.to_json
+          json = @struct.first.to_json
+          if jsonp.present?
+            json = "#{jsonp}(#{json})"
+            response.content_type = 'application/javascript'
+          end
+          json
         end
       end
     end
