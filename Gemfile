@@ -28,45 +28,43 @@ platforms :mri, :mingw do
   end
 end
 
-# Database gems
-platforms :mri, :mingw do
-  group :postgresql do
-    gem "pg", ">= 0.11.0"
-  end
-
-  group :sqlite do
-    gem "sqlite3"
-  end
-end
-
-platforms :mri_18, :mingw_18 do
-  group :mysql do
-    gem "mysql", "~> 2.8.1"
-  end
-end
-
-platforms :mri_19, :mingw_19 do
-  group :mysql do
-    gem "mysql2", "~> 0.3.11"
-  end
-end
-
 platforms :jruby do
   # jruby-openssl is bundled with JRuby 1.7.0
   gem "jruby-openssl" if Object.const_defined?(:JRUBY_VERSION) && JRUBY_VERSION < '1.7.0'
   gem "activerecord-jdbc-adapter", "1.2.5"
+end
 
-  group :mysql do
-    gem "activerecord-jdbcmysql-adapter"
+# Include database gems for the adapters found in the database
+# configuration file
+database_file = File.join(File.dirname(__FILE__), "config/database.yml")
+if File.exist?(database_file)
+  database_config = YAML.load_file(database_file)
+  adapters = database_config.values.map {|c| c['adapter']}.compact.uniq
+  if adapters.any?
+    adapters.each do |adapter|
+      case adapter
+      when /mysql/
+        gem "mysql", "~> 2.8.1", :platforms => [:mri_18, :mingw_18]
+        gem "mysql2", "~> 0.3.11", :platforms => [:mri_19, :mingw_19]
+        gem "activerecord-jdbcmysql-adapter", :platforms => :jruby
+      when /postgresql/
+        gem "pg", ">= 0.11.0", :platforms => [:mri, :mingw]
+        gem "activerecord-jdbcpostgresql-adapter", :platforms => :jruby
+      when /sqlite3/
+        gem "sqlite3", :platforms => [:mri, :mingw]
+        gem "activerecord-jdbcsqlite3-adapter", :platforms => :jruby
+      when /sqlserver/
+        gem "tiny_tds", "~> 0.5.1", :platforms => [:mri, :mingw]
+        gem "activerecord-sqlserver-adapter", :platforms => [:mri, :mingw]
+      else
+        warn("Unknown database adapter `#{adapter}`, use Gemfile.local to load your own database gems")
+      end
+    end
+  else
+    abort("No adapter found in config/database.yml, please configure it first")
   end
-
-  group :postgresql do
-    gem "activerecord-jdbcpostgresql-adapter"
-  end
-
-  group :sqlite do
-    gem "activerecord-jdbcsqlite3-adapter"
-  end
+else
+  abort("Please configure your config/database.yml first")
 end
 
 group :development do
