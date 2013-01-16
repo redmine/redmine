@@ -46,7 +46,7 @@
 <% else %>
 	<p class="smallcaptiononwhite">Switch to Google Chrome or Mozilla Firefox to enhanced visualization.</p>
 <% end %>
-<h2 ><a name="projectslist">Cell and network projects</a></h2>
+<h2 >Cell and network projects</h2>
 <p>The following is a list of projects in the Open Source Brain repository featuring specific neurophysiological
   cell and network types. </p>
 <p>There are also a number of <a href="#showcase">Technology showcase projects</a> which highlight
@@ -54,25 +54,7 @@
 <br/>
 <%= render_project_hierarchy(@projects, 'Project')%>
 
-<h2 ><a name="showcase">Technology showcase projects</a></h2>
+<h2 >Technology showcase projects</h2>
 <%= render_project_hierarchy(@projects, 'Showcase')%>
 
-<% if User.current.logged? %>
-<p style="text-align:right;">
-<span class="my-project"><%= l(:label_my_projects) %></span>
-</p>
-<% end %>
 
-<% other_formats_links do |f| %>
-  <%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
-<% end %>
-
-<% content_for :sidebar do %>
-  <%= form_tag({}, :method => :get) do %>
-    <h3><%= l(:label_project_plural) %></h3>
-    <label for="closed"><%= check_box_tag 'closed', 1, params[:closed] %> <%= l(:label_show_closed_projects) %></label>
-    <p><%= submit_tag l(:button_apply), :class => 'button-small', :name => nil %></p>
-  <% end %>
-<% end %>
-
-<% html_title(l(:label_project_plural)) -%>

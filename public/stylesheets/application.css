@@ -1286,9 +1286,7 @@ ul.projects.root {
 	margin: 0;
 	padding: 0;
 }
-ul.projects ul.projects {
-	border-left: 3px solid #e0e0e0;
-}
+
 ul.projects li.root {
 	list-style-type: none;
 	margin-bottom: 1em;

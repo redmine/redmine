@@ -188,10 +188,11 @@ module ProjectsHelper
             s << "</div>\n"
             ancestors << project
           end
-
         end
       end
-      s
+      @project = nil
+      s << "</ul>"
+      s.html_safe
     end
   end
 
