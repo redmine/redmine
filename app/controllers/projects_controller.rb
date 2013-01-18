@@ -197,11 +197,14 @@ class ProjectsController < ApplicationController
 
   # Fetches updates from the remote repository
   def getNML2Files(repository)
+    print "entering getNML2Files on "+repository.url.to_s
   	@NML2files = []
     command = git_command('fetch origin', repository)
     if exec(command)
       command = git_command("ls-tree -r master | cut -f2", repository)
+      print command
       @output=exec(command)
+      print @output
       for line in @output
       	if line.strip.ends_with?(".nml")
       		@NML2files.push(line.strip)

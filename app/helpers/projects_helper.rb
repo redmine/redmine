@@ -106,7 +106,6 @@ module ProjectsHelper
   end
 
   def jsonify(t)
-    print "entering jsonify"
     newt = Hash.new()
     newt["name"]="Animal Kingdom"
     newt["children"]= Array.new()
@@ -144,7 +143,6 @@ module ProjectsHelper
       projects.each do |p|
         p.visible_custom_field_values.each do |custom_value|
           if (custom_value.custom_field.name == 'Spine classification')
-            print custom_value.value
             if (!custom_value.value.nil?())
               if(!mapp.has_key?(custom_value.value))
                 mapp[custom_value.value]=Array.new()
