@@ -181,6 +181,7 @@ class ProjectsController < ApplicationController
     success = system("#{command} > #{logfile.path} 2>&1")
     print "\n!!success:"+success.to_s
     output_from_command = File.readlines(logfile.path)
+    print "\nPATH:"+logfile.path.to_s+"\n"
     print output_from_command
     if success
       logger.debug { "GithubHook: Command output: #{output_from_command.inspect}"}
