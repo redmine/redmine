@@ -179,7 +179,7 @@ class ProjectsController < ApplicationController
     logfile.close
     print "\nCOMMAND #{command} > #{logfile.path} 2>&1\n"
     success = system("#{command} > #{logfile.path} 2>&1")
-    
+    print "\nSUCCESS:"+success.to_s
     output_from_command = File.readlines(logfile.path)
     print "\nPATH:"+logfile.path.to_s+"\n"
     print output_from_command
