@@ -14,7 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-
 class ProjectsController < ApplicationController
   menu_item :overview
   menu_item :roadmap, :only => :roadmap
@@ -50,7 +49,7 @@ class ProjectsController < ApplicationController
       format.html {
         scope = Project
         unless params[:closed]
-          scope = scope.active
+        scope = scope.active
         end
         @projects = scope.visible.order('lft').all
       }
@@ -85,7 +84,7 @@ class ProjectsController < ApplicationController
       unless User.current.admin?
         r = Role.givable.find_by_id(Setting.new_project_user_role_id.to_i) || Role.givable.first
         m = Member.new(:user => User.current, :roles => [r])
-        @project.members << m
+      @project.members << m
       end
       respond_to do |format|
         format.html {
@@ -132,10 +131,10 @@ class ProjectsController < ApplicationController
       end
     end
   rescue ActiveRecord::RecordNotFound
-    # source_project not found
+  # source_project not found
     render_404
-  end
-	
+    end
+
   # Show @project
   def show
     if params[:jump]
@@ -152,7 +151,7 @@ class ProjectsController < ApplicationController
 
     @open_issues_by_tracker = Issue.visible.open.where(cond).count(:group => :tracker)
     @total_issues_by_tracker = Issue.visible.where(cond).count(:group => :tracker)
-		@neuroml2files = getNML2Files(@project.repository)
+    @neuroml2files = getNML2Files(@project.repository)
     if User.current.allowed_to?(:view_time_entries, @project)
       @total_hours = TimeEntry.visible.sum(:hours, :include => :project, :conditions => cond).to_f
     end
@@ -165,8 +164,7 @@ class ProjectsController < ApplicationController
     end
   end
 
-  
-   def system(command)
+  def system(command)
     Kernel.system(command)
   end
 
@@ -179,7 +177,7 @@ class ProjectsController < ApplicationController
     logfile.close
 
     success = system("#{command} > #{logfile.path} 2>&1")
-    print "\nCOMMAND #{command} > #{logfile.path} 2>&1\n" 
+    print "\nCOMMAND #{command} > #{logfile.path} 2>&1\n"
     output_from_command = File.readlines(logfile.path)
     print "\nPATH:"+logfile.path.to_s+"\n"
     print output_from_command
@@ -192,7 +190,7 @@ class ProjectsController < ApplicationController
     return output_from_command
   ensure
     logfile.unlink
-  end
+    end
 
   def git_command(command, repository)
     "git --git-dir='#{repository.url}' #{command}"
@@ -201,22 +199,18 @@ class ProjectsController < ApplicationController
   # Fetches updates from the remote repository
   def getNML2Files(repository)
     print "entering getNML2Files on "+repository.url.to_s
-  	@NML2files = []
-    command = git_command('fetch origin', repository)
-    if exec(command)
-      command = git_command("ls-tree -r master | cut -f2", repository)
-      print command
-      @output=exec(command)
-      print @output
-      for line in @output
-      	if line.strip.ends_with?(".nml")
-      		@NML2files.push(line.strip)
-      	end
+    @NML2files = []
+    command = git_command("ls-tree -r master | cut -f2", repository)
+    @output=exec(command)
+    print @output
+    for line in @output
+      if line.strip.ends_with?(".nml")
+      @NML2files.push(line.strip)
       end
     end
     return @NML2files
   end
-  
+
   def settings
     @issue_custom_fields = IssueCustomField.sorted.all
     @issue_category ||= IssueCategory.new
@@ -305,7 +299,7 @@ class ProjectsController < ApplicationController
       parent = parent_id.blank? ? nil : Project.find_by_id(parent_id.to_i)
       unless @project.allowed_parents.include?(parent)
         @project.errors.add :parent_id, :invalid
-        return false
+      return false
       end
     end
     true
