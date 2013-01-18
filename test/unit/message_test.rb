@@ -36,9 +36,9 @@ class MessageTest < ActiveSupport::TestCase
     assert message.save
     @board.reload
     # topics count incremented
-    assert_equal topics_count+1, @board[:topics_count]
+    assert_equal topics_count + 1, @board[:topics_count]
     # messages count incremented
-    assert_equal messages_count+1, @board[:messages_count]
+    assert_equal messages_count + 1, @board[:messages_count]
     assert_equal message, @board.last_message
     # author should be watching the message
     assert message.watched_by?(@user)
