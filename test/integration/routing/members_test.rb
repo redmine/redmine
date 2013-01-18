@@ -55,5 +55,9 @@ class RoutingMembersTest < ActionController::IntegrationTest
         { :method => 'get', :path => "/projects/5234/memberships/autocomplete" },
         { :controller => 'members', :action => 'autocomplete', :project_id => '5234' }
       )
+    assert_routing(
+        { :method => 'get', :path => "/projects/5234/memberships/autocomplete.js" },
+        { :controller => 'members', :action => 'autocomplete', :project_id => '5234', :format => 'js' }
+      )
   end
 end

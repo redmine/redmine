@@ -195,11 +195,8 @@ class GroupsControllerTest < ActionController::TestCase
   end
 
   def test_autocomplete_for_user
-    get :autocomplete_for_user, :id => 10, :q => 'mis'
+    get :autocomplete_for_user, :id => 10, :q => 'smi', :format => 'js'
     assert_response :success
-    users = assigns(:users)
-    assert_not_nil users
-    assert users.any?
-    assert !users.include?(Group.find(10).users.first)
+    assert_include 'John Smith', response.body
   end
 end

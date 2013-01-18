@@ -481,7 +481,7 @@ function observeSearchfield(fieldId, targetId, url) {
           url: url,
           type: 'get',
           data: {q: $this.val()},
-          success: function(data){ $('#'+targetId).html(data); },
+          success: function(data){ if(targetId) $('#'+targetId).html(data); },
           beforeSend: function(){ $this.addClass('ajax-loading'); },
           complete: function(){ $this.removeClass('ajax-loading'); }
         });

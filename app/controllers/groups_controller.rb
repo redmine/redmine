@@ -109,8 +109,9 @@ class GroupsController < ApplicationController
   end
 
   def autocomplete_for_user
-    @users = User.active.not_in_group(@group).like(params[:q]).all(:limit => 100)
-    render :layout => false
+    respond_to do |format|
+      format.js
+    end
   end
 
   def edit_membership

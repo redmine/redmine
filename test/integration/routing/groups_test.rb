@@ -48,6 +48,10 @@ class RoutingGroupsTest < ActionController::IntegrationTest
         { :controller => 'groups', :action => 'autocomplete_for_user', :id => '1' }
       )
     assert_routing(
+        { :method => 'get', :path => "/groups/1/autocomplete_for_user.js" },
+        { :controller => 'groups', :action => 'autocomplete_for_user', :id => '1', :format => 'js' }
+      )
+    assert_routing(
         { :method => 'get', :path => "/groups/1" },
         { :controller => 'groups', :action => 'show', :id => '1' }
       )

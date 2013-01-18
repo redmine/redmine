@@ -112,8 +112,9 @@ class MembersController < ApplicationController
   end
 
   def autocomplete
-    @principals = Principal.active.not_member_of(@project).like(params[:q]).all(:limit => 100)
-    render :layout => false
+    respond_to do |format|
+      format.js
+    end
   end
 
   private

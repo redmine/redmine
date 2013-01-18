@@ -104,11 +104,8 @@ class MembersControllerTest < ActionController::TestCase
   end
 
   def test_autocomplete
-    get :autocomplete, :project_id => 1, :q => 'mis'
+    get :autocomplete, :project_id => 1, :q => 'mis', :format => 'js'
     assert_response :success
-    assert_template 'autocomplete'
-
-    assert_tag :label, :content => /User Misc/,
-                       :child => { :tag => 'input', :attributes => { :name => 'membership[user_ids][]', :value => '8' } }
+    assert_include 'User Misc', response.body
   end
 end
