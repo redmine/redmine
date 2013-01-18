@@ -2685,6 +2685,35 @@ path.link {
 	color: #43ccee;
 }
 
+
+#osbexplorerbutton {
+	width: 370px;
+	height: 35px;
+	padding-top: 15px;
+	background-color: #2d2100;
+	color: #37abc8;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	margin: 0 auto;
+	margin-top: 10px;
+	font-size: 28px;
+	text-align: center;
+	cursor: pointer;
+	font-weight: 600;
+	border-style: solid;
+	border-width: 4px;
+	border-color: #614800;
+	text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.25);
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+	-webkit-font-smoothing: antialiased;
+	font-family: 'trajan_proregular';
+}
+
+#osbexplorerbutton:hover {
+	color: #43ccee;
+}
+
 .smallcaption {
 	font-weight: normal;
 	padding-top: 7px;
@@ -2822,33 +2851,130 @@ div.splitcontentright > #quick-search {
 #beta {
 	position: absolute;
 	font-variant: normal;
-	top: 23px;
-	left: 178px;
-	color: rgba(255,255,255,0.5);
+	top: 18px;
+	left: 158px;
+	color: rgba(255, 255, 255, 0.5);
 	font-size: 35px;
 	font-family: "FontleroyBrownRegular";
 }
 
-.logofont{
+.logofont {
 	font-family: 'trajan_proregular';
-	font-size:30px;
+	font-size: 29px;
 	position: absolute;
-	color:white;
-	z-index:10;
+	color: white;
+	z-index: 10;
 }
-#open{
-	top:-43px;
-	left:74px;
+
+#open {
+	top: -50px;
+	left: 54px;
 }
-#source{
-	top:-15px;
-	left:90px;
+
+#source {
+	top: -18px;
+	left: 72px;
 }
-#brain{
-	top:11px;
-	left:68px;
+
+#brain {
+	top: 11px;
+	left: 47px;
 }
 
 div.splitcontentleft > h2 {
 	font-size:18px;
+}
+
+
+iframe {
+	width: 100%;
+	height: 550px;
+	border: 0;
+}
+
+#nml2menu {
+	margin: 0 auto;
+	width: 550px;
+	cursor: pointer;
+	font-size: 16px;
+}
+
+#browsenml2 {
+	height: 500px;
+}
+
+#backto {
+	cursor: pointer;
+	font-family: 'trajan_proregular';
+	font-size: 14px;
+	position: absolute;
+	top: 650px;
+	right: 15px;
+	color: #596F00;
+}
+
+
+
+#backto:hover {
+	color: #8A0;
+	text-decoration: none;
+}
+
+#projectname {
+	font-family: 'trajan_proregular';
+	font-size: 12px;
+	width:100%;
+	top: 650px;
+	text-align:center;
+	position:absolute;
+	color: #37ABC8;
+}
+
+#nmlbrowserlabel{
+	font-family: 'trajan_proregular';
+	font-size: 15px;
+	width:800px;
+	margin:0 auto;
+	margin-top:50px;
+	margin-bottom:20px;
+}
+
+#nmlbrowserbackto{
+	cursor: pointer;
+	font-family: 'trajan_proregular';
+	font-size: 14px;
+	position: absolute;
+	top: 140px;
+	right: 15px;
+	color: #596F00;
+}
+
+#nmlbrowserbackto:hover {
+	color: #8A0;
+}
+
+.bs-docs-social-buttons {
+margin:0 auto;
+position:absolute;
+top:95px;
+right:-50px;
+width:365px;	
+padding-left: 0;
+list-style: none;
+}
+
+.bs-docs-social-buttons li {
+display: inline-block;
+line-height: 1;
+}
+
+#osbexplorermessage
+{
+	color:#ff6600;
+	font-family: "CabinRegular", "Helvetica", "Calibri", "sans-serif";
+	font-size:12px;
+	text-align:center;
+	margin:0 auto;
+	width:450px;
+	margin-top:5px;
 }

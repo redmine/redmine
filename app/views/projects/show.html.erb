@@ -1,4 +1,6 @@
-
+<%= stylesheet_link_tag 'http://code.jquery.com/ui/1.9.1/themes/overcast/jquery-ui.css', :media => 'all' %>
+<%= javascript_include_tag('http://code.jquery.com/ui/1.9.2/jquery-ui.js') %>
+<%= javascript_include_tag('Detector.js') %>	
 <div class="contextual">
 	<% if User.current.allowed_to?(:add_subprojects, @project) %>
 	<%= link_to l(:label_subproject_new), new_project_path(:parent_id => @project), :class => 'icon icon-add' %>
@@ -79,15 +81,15 @@
 	<% if !custom_value.value.blank? %>
 
 	<% if custom_value.custom_field.name == 'GitHub repository' %>
-
-	<h2>GitHub repository</h2>
+        <% @repourl=custom_value.value %>
+		<h2>GitHub repository</h2>
 	<p>
 		The source for this project is hosted on GitHub: <a target="_blank" href='<%= h show_value(custom_value) %>'><%= h show_value(custom_value) %></a>
 	</p>
 	<% end %>
 
 	<% if custom_value.custom_field.name == 'Bitbucket repository' %>
-
+        <% @repourl=custom_value.value %>
 	<h2>Bitbucket repository</h2>
 	<p>
 		The source for this project is hosted on Bitbucket: <a target="_blank" href='<%= h show_value(custom_value) %>'><%= h show_value(custom_value) %></a>
@@ -158,7 +160,81 @@
 	<%= call_hook(:view_projects_show_left, :project => @project) %>
 </div>
 
+<script>
+
+function showMenu()
+{
+	jQuery("#content").hide();
+	jQuery("#wrapper2").append(jQuery('#browsenml2'));
+	jQuery("#nml2menu" ).menu();
+	jQuery('#browsenml2').show();
+}
+
+function open3DExplorer(file)
+{
+	jQuery("#browsenml2").hide();
+	jQuery("#wrapper2").append("<div id='3dbrowser'><iframe  src='http://184.72.223.204:8080/org.neuroml.visualiser/?url="+file+"'></iframe><div id='projectname'><%= @project.name %></div><div id='backto' onclick='close3DExplorer();'>Back to project</div></div>");
+}
+
+function close3DExplorer()
+{
+	jQuery("#3dbrowser").remove();
+	jQuery("#content").show();
+}
+
+function hideMenu()
+{
+	jQuery('#browsenml2').hide();
+	jQuery("#content").show();
+}
+
+function disableOSBExplorer()
+{
+	    jQuery("#osbexplorerbutton").css("background-color","grey");
+    	jQuery("#osbexplorerbutton").css("color","#aaaaaa");
+    	jQuery("#osbexplorerbutton").css("border-color","#444444");
+    	jQuery("#osbexplorerbutton").css("cursor","default");
+    	jQuery("#osbexplorerbutton").prop("onclick","");
+}
+jQuery(function() {
+    if(<%= @neuroml2files.empty? %>)
+    {
+    	disableOSBExplorer();
+    	jQuery("#osbexplorermessage").html("The current project doesn't contain any NeuroML2 file. Help converting this model to be able to use OSB 3D Explorer or raise an issue to do so!");
+    }
+    else if(<%= @repourl["https://github"]==nil%>)
+    {
+		disableOSBExplorer();
+    	jQuery("#osbexplorermessage").html("Sorry, OSB 3D Explorer is currently available only for repositories hosted on GitHub.");
+    }
+    
+    else if (!Detector.webgl)
+	{
+		disableOSBExplorer();
+		jQuery("#osbexplorermessage").html("Sorry, your browser doesn\'t support <a href='http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation'>WebGL</a> which is required to use OSB 3D Explorer.");
+	}
+    });
+    
+</script>
+<% if(@repourl["https://github"]!=nil)%>
+<div id="browsenml2" style="display:none;">
+<div id="nmlbrowserlabel">The following NeuroML2 files have been found on the <b><%= @project.name %></b> repository. <br/><br/>Click on the file you want to explore:</div>
+<div id='nmlbrowserbackto' onclick='hideMenu();'>Back to project</div>
+<ul id="nml2menu">
+<% @repourl["https://github"]="https://raw.github" %>
+<% for nml2file in @neuroml2files %>
+<li><a onclick="open3DExplorer(encodeURIComponent('<%= @repourl + "/master/" + nml2file %>'));"><%= nml2file %></a></li>
+<% end %>
+</ul>
+</div>
+<% end %>
+
 <div class="splitcontentright">
+   <div class="explorer box">
+   		<div id="osbexplorerbutton" onclick="showMenu();">OSB 3D Explorer</div>
+   		<div id="osbexplorermessage"></div>
+   </div>
+   
 	<%= render :partial => 'members_box' %>
 
 	<% if @news.any? && authorize_for('news', 'index') %>

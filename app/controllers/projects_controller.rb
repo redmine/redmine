@@ -152,7 +152,7 @@ class ProjectsController < ApplicationController
 
     @open_issues_by_tracker = Issue.visible.open.where(cond).count(:group => :tracker)
     @total_issues_by_tracker = Issue.visible.where(cond).count(:group => :tracker)
-
+		@neuroml2files = getNML2Files(@project.repository)
     if User.current.allowed_to?(:view_time_entries, @project)
       @total_hours = TimeEntry.visible.sum(:hours, :include => :project, :conditions => cond).to_f
     end
@@ -165,6 +165,52 @@ class ProjectsController < ApplicationController
     end
   end
 
+  
+   def system(command)
+    Kernel.system(command)
+  end
+
+  # Executes shell command. Returns true if the shell command exits with a success status code
+  def exec(command)
+    logger.debug { "GithubHook: Executing command: '#{command}'" }
+
+    # Get a path to a temp file
+    logfile = Tempfile.new('git_retrieverepos_exec')
+    logfile.close
+
+    success = system("#{command} > #{logfile.path} 2>&1")
+    output_from_command = File.readlines(logfile.path)
+    if success
+      logger.debug { "GithubHook: Command output: #{output_from_command.inspect}"}
+    else
+      logger.error { "GithubHook: Command '#{command}' didn't exit properly. Full output: #{output_from_command.inspect}"}
+    end
+
+    return output_from_command
+  ensure
+    logfile.unlink
+  end
+
+  def git_command(command, repository)
+    "git --git-dir='#{repository.url}' #{command}"
+  end
+
+  # Fetches updates from the remote repository
+  def getNML2Files(repository)
+  	@NML2files = []
+    command = git_command('fetch origin', repository)
+    if exec(command)
+      command = git_command("ls-tree -r master | cut -f2", repository)
+      @output=exec(command)
+      for line in @output
+      	if line.strip.ends_with?(".nml")
+      		@NML2files.push(line.strip)
+      	end
+      end
+    end
+    return @NML2files
+  end
+  
   def settings
     @issue_custom_fields = IssueCustomField.sorted.all
     @issue_category ||= IssueCategory.new
