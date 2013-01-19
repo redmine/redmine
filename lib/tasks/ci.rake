@@ -55,6 +55,9 @@ namespace :ci do
       when 'sqlite3'
         dev_conf =  { 'adapter' => 'sqlite3', 'database' => "db/#{dev_db_name}.sqlite3" }
         test_conf = { 'adapter' => 'sqlite3', 'database' => "db/#{test_db_name}.sqlite3" }
+      when 'sqlserver'
+        dev_conf =  { 'adapter' => 'sqlserver', 'database' => dev_db_name, 'host' => 'mssqlserver', 'port' => 1433, 'username' => 'jenkins', 'password' => 'jenkins' }
+        test_conf = { 'adapter' => 'sqlserver', 'database' => test_db_name, 'host' => 'mssqlserver', 'port' => 1433, 'username' => 'jenkins', 'password' => 'jenkins' }
       else
         raise "Unknown database"
       end
