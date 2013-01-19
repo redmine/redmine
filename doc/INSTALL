@@ -27,10 +27,10 @@ Optional:
 2. Create an empty utf8 encoded database: "redmine" for example
 
 3. Configure the database parameters in config/database.yml
-   for the "production" environment (default database is MySQL and ruby1.8)
+   for the "production" environment (default database is MySQL and ruby1.9)
 
-   If you're running Redmine with MySQL and ruby1.9, replace the adapter name
-   with `mysql2`
+   If you're running Redmine with MySQL and ruby1.8, replace the adapter name
+   with `mysql`
 
 4. Install the required gems by running:
      bundle install --without development test
