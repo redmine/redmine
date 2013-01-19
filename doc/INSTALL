@@ -24,7 +24,15 @@ Optional:
 
 1. Uncompress the program archive
 
-2. Install the required gems by running:
+2. Create an empty utf8 encoded database: "redmine" for example
+
+3. Configure the database parameters in config/database.yml
+   for the "production" environment (default database is MySQL and ruby1.8)
+
+   If you're running Redmine with MySQL and ruby1.9, replace the adapter name
+   with `mysql2`
+
+4. Install the required gems by running:
      bundle install --without development test
 
    If ImageMagick is not installed on your system, you should skip the installation
@@ -34,14 +42,6 @@ Optional:
    If you need to load some gems that are not required by Redmine core (eg. fcgi),
    you can create a file named Gemfile.local at the root of your redmine directory.
    It will be loaded automatically when running `bundle install`.
-
-3. Create an empty utf8 encoded database: "redmine" for example
-
-4. Configure the database parameters in config/database.yml
-   for the "production" environment (default database is MySQL and ruby1.8)
-
-   If you're running Redmine with MySQL and ruby1.9, replace the adapter name
-   with `mysql2`
 
 5. Generate a session store secret
    
