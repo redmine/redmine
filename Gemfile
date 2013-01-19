@@ -61,10 +61,10 @@ if File.exist?(database_file)
       end
     end
   else
-    abort("No adapter found in config/database.yml, please configure it first")
+    warn("No adapter found in config/database.yml, please configure it first")
   end
 else
-  abort("Please configure your config/database.yml first")
+  warn("Please configure your config/database.yml first")
 end
 
 group :development do
