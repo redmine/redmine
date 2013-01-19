@@ -2897,6 +2897,8 @@ iframe {
 	width: 550px;
 	cursor: pointer;
 	font-size: 16px;
+	height: 350px;
+	overflow: auto;
 }
 
 #browsenml2 {
