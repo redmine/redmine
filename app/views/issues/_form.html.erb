@@ -18,7 +18,7 @@
 <% end %>
 
 <% if @issue.safe_attribute? 'subject' %>
-<p><%= f.text_field :subject, :size => 80, :required => true %></p>
+<p><%= f.text_field :subject, :size => 80, :maxlength => 255, :required => true %></p>
 <% end %>
 
 <% if @issue.safe_attribute? 'description' %>
