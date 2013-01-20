@@ -1092,3 +1092,4 @@ gl:
   permission_add_documents: Add documents
   permission_edit_documents: Edit documents
   permission_delete_documents: Delete documents
+  label_gantt_progress_line: Progress line

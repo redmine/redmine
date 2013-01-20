@@ -862,6 +862,7 @@ fr:
   label_cross_project_tree: Avec tout l'arbre
   label_cross_project_hierarchy: Avec toute la hiérarchie
   label_cross_project_system: Avec tous les projets
+  label_gantt_progress_line: Ligne de progression
 
   button_login: Connexion
   button_submit: Soumettre
