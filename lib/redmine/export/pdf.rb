@@ -109,6 +109,13 @@ module Redmine
           RDMPdfEncoding::rdm_from_utf8(txt, l(:general_pdf_encoding))
         end
 
+        def formatted_text(text)
+          html = Redmine::WikiFormatting.to_html(Setting.text_formatting, text)
+          # Strip {{toc}} tags
+          html.gsub!(/<p>\{\{([<>]?)toc\}\}<\/p>/i, '')
+          html
+        end
+
         def RDMCell(w ,h=0, txt='', border=0, ln=0, align='', fill=0, link='')
           Cell(w, h, fix_text_encoding(txt), border, ln, align, fill, link)
         end
@@ -120,8 +127,7 @@ module Redmine
         def RDMwriteHTMLCell(w, h, x, y, txt='', attachments=[], border=0, ln=1, fill=0)
           @attachments = attachments
           writeHTMLCell(w, h, x, y,
-            fix_text_encoding(
-              Redmine::WikiFormatting.to_html(Setting.text_formatting, txt)),
+            fix_text_encoding(formatted_text(txt)),
             border, ln, fill)
         end
 
