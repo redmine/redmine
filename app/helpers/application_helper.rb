@@ -819,7 +819,7 @@ module ApplicationHelper
             end
           when 'attachment'
             attachments = options[:attachments] || (obj && obj.respond_to?(:attachments) ? obj.attachments : nil)
-            if attachments && attachment = attachments.detect {|a| a.filename == name }
+            if attachments && attachment = Attachment.latest_attach(attachments, name)
               link = link_to h(attachment.filename), {:only_path => only_path, :controller => 'attachments', :action => 'download', :id => attachment},
                                                      :class => 'attachment'
             end
