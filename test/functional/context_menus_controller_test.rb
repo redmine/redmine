@@ -226,6 +226,11 @@ class ContextMenusControllerTest < ActionController::TestCase
     assert_equal [1], assigns(:issues).collect(&:id)
   end
 
+  def test_should_respond_with_404_without_ids
+    get :issues
+    assert_response 404
+  end
+
   def test_time_entries_context_menu
     @request.session[:user_id] = 2
     get :time_entries, :ids => [1, 2]
