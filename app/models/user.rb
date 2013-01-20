@@ -353,13 +353,16 @@ class User < Principal
   # Find a user account by matching the exact login and then a case-insensitive
   # version.  Exact matches will be given priority.
   def self.find_by_login(login)
-    # First look for an exact match
-    user = where(:login => login).all.detect {|u| u.login == login}
-    unless user
-      # Fail over to case-insensitive if none was found
-      user = where("LOWER(login) = ?", login.to_s.downcase).first
+    if login.present?
+      login = login.to_s
+      # First look for an exact match
+      user = where(:login => login).all.detect {|u| u.login == login}
+      unless user
+        # Fail over to case-insensitive if none was found
+        user = where("LOWER(login) = ?", login.downcase).first
+      end
+      user
     end
-    user
   end
 
   def self.find_by_rss_key(key)
