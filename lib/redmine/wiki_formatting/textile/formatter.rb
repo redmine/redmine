@@ -69,7 +69,7 @@ module Redmine
           l = 1
           started = false
           ended = false
-          text.scan(/(((?:.*?)(\A|\r?\n\s*\r?\n))(h(\d+)(#{A}#{C})\.(?::(\S+))? (.*?)$)|.*)/m).each do |all, content, lf, heading, level|
+          text.scan(/(((?:.*?)(\A|\r?\n\s*\r?\n))(h(\d+)(#{A}#{C})\.(?::(\S+))?[ \t](.*?)$)|.*)/m).each do |all, content, lf, heading, level|
             if heading.nil?
               if ended
                 after << all
