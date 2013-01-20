@@ -191,6 +191,11 @@ class MyControllerTest < ActionController::TestCase
     assert User.find(2).pref[:my_page_layout]['top'].include?('issuesreportedbyme')
   end
 
+  def test_add_invalid_block_should_redirect
+    post :add_block, :block => 'invalid'
+    assert_redirected_to '/my/page_layout'
+  end
+
   def test_remove_block
     post :remove_block, :block => 'issuesassignedtome'
     assert_redirected_to '/my/page_layout'
