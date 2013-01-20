@@ -4,6 +4,20 @@ Redmine - project management software
 Copyright (C) 2006-2013  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2013-01-20 v2.2.2
+
+* Defect #7510: Link to attachment should return latest attachment
+* Defect #9842: {{toc}} is not replaced by table of content when exporting wiki page to pdf
+* Defect #12749: Plugins cannot route wiki page sub-path
+* Defect #12799: Cannot edit a wiki section which title starts with a tab
+* Defect #12801: Viewing the history of a wiki page with attachments raises an error
+* Defect #12833: Input fields restricted on length should have maxlength parameter set
+* Defect #12838: Blank page when clicking Add with no block selected on my page layout
+* Defect #12851: "Parent task is invalid" while editing child issues by Role with restricted Issues Visibility
+* Patch #12800: Serbian Latin translation patch (sr-YU.yml)
+* Patch #12809: Swedish Translation for r11162
+* Patch #12818: Minor swedish translation fix
+
 == 2013-01-09 v2.2.1
 
 * Upgrade to Rails 3.2.11
