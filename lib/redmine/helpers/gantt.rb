@@ -308,10 +308,18 @@ module Redmine
           html_class << 'icon icon-package '
           html_class << (version.behind_schedule? ? 'version-behind-schedule' : '') << " "
           html_class << (version.overdue? ? 'version-overdue' : '')
+          html_class << ' version-closed' unless version.open?
+          if version.start_date && version.due_date && version.completed_pourcent
+            progress_date = calc_progress_date(version.start_date,
+                                               version.due_date, version.completed_pourcent)
+            html_class << ' behind-start-date' if progress_date < self.date_from
+            html_class << ' over-end-date' if progress_date > self.date_to
+          end
           s = view.link_to_version(version).html_safe
           subject = view.content_tag(:span, s,
                                      :class => html_class).html_safe
-          html_subject(options, subject, :css => "version-name")
+          html_subject(options, subject, :css => "version-name",
+                       :id => "version-#{version.id}")
         when :image
           image_subject(options, version.to_s_with_project)
         when :pdf
@@ -332,7 +340,8 @@ module Redmine
           label = h("#{version.project} -") + label unless @project && @project == version.project
           case options[:format]
           when :html
-            html_task(options, coords, :css => "version task", :label => label, :markers => true)
+            html_task(options, coords, :css => "version task",
+                      :label => label, :markers => true, :version => version)
           when :image
             image_task(options, coords, :label => label, :markers => true, :height => 3)
           when :pdf
@@ -354,6 +363,13 @@ module Redmine
           css_classes << ' issue-overdue' if issue.overdue?
           css_classes << ' issue-behind-schedule' if issue.behind_schedule?
           css_classes << ' icon icon-issue' unless Setting.gravatar_enabled? && issue.assigned_to
+          css_classes << ' issue-closed' if issue.closed?
+          if issue.start_date && issue.due_before && issue.done_ratio
+            progress_date = calc_progress_date(issue.start_date,
+                                               issue.due_before, issue.done_ratio)
+            css_classes << ' behind-start-date' if progress_date < self.date_from
+            css_classes << ' over-end-date' if progress_date > self.date_to
+          end
           s = "".html_safe
           if issue.assigned_to.present?
             assigned_string = l(:field_assigned_to) + ": " + issue.assigned_to.name
@@ -365,7 +381,7 @@ module Redmine
           s << view.link_to_issue(issue).html_safe
           subject = view.content_tag(:span, s, :class => css_classes).html_safe
           html_subject(options, subject, :css => "issue-subject",
-                       :title => issue.subject) + "\n"
+                       :title => issue.subject, :id => "issue-#{issue.id}") + "\n"
         when :image
           image_subject(options, issue.subject)
         when :pdf
@@ -628,7 +644,7 @@ module Redmine
             coords[:bar_end] = self.date_to - self.date_from + 1
           end
           if progress
-            progress_date = start_date + (end_date - start_date + 1) * (progress / 100.0)
+            progress_date = calc_progress_date(start_date, end_date, progress)
             if progress_date > self.date_from && progress_date > start_date
               if progress_date < self.date_to
                 coords[:bar_progress_end] = progress_date - self.date_from
@@ -653,6 +669,10 @@ module Redmine
           coords[key] = (coords[key] * zoom).floor
         end
         coords
+      end
+
+      def calc_progress_date(start_date, end_date, progress)
+        start_date + (end_date - start_date + 1) * (progress / 100.0)
       end
 
       # Sorts a collection of issues by start_date, due_date, id for gantt rendering
@@ -695,9 +715,10 @@ module Redmine
       def html_subject(params, subject, options={})
         style = "position: absolute;top:#{params[:top]}px;left:#{params[:indent]}px;"
         style << "width:#{params[:subject_width] - params[:indent]}px;" if params[:subject_width]
-        output = view.content_tag('div', subject,
+        output = view.content_tag(:div, subject,
                                   :class => options[:css], :style => style,
-                                  :title => options[:title])
+                                  :title => options[:title],
+                                  :id => options[:id])
         @subjects << output
         output
       end
@@ -742,6 +763,7 @@ module Redmine
           style << "left:#{coords[:bar_start]}px;"
           style << "width:#{width}px;"
           html_id = "task-todo-issue-#{options[:issue].id}" if options[:issue]
+          html_id = "task-todo-version-#{options[:version].id}" if options[:version]
           content_opt = {:style => style,
                          :class => "#{options[:css]} task_todo",
                          :id => html_id}
@@ -768,9 +790,12 @@ module Redmine
             style << "top:#{params[:top]}px;"
             style << "left:#{coords[:bar_start]}px;"
             style << "width:#{width}px;"
+            html_id = "task-done-issue-#{options[:issue].id}" if options[:issue]
+            html_id = "task-done-version-#{options[:version].id}" if options[:version]
             output << view.content_tag(:div, '&nbsp;'.html_safe,
                                        :style => style,
-                                       :class => "#{options[:css]} task_done")
+                                       :class => "#{options[:css]} task_done",
+                                       :id => html_id)
           end
         end
         # Renders the markers

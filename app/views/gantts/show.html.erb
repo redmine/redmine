@@ -12,6 +12,39 @@
     <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
   </div>
 </fieldset>
+<fieldset id="filters" class="collapsible">
+  <legend onclick="toggleFieldset(this);"><%= l(:label_display) %></legend>
+  <div>
+    <table>
+      <tr>
+        <td>
+          <fieldset>
+            <legend><%= l(:label_related_issues) %></legend>
+            <label>
+              <%= check_box_tag "draw_rels", params["draw_rels"], true %>
+              <% rels = [IssueRelation::TYPE_BLOCKS, IssueRelation::TYPE_PRECEDES] %>
+              <% rels.each do |rel| %>
+                <% color = Redmine::Helpers::Gantt::DRAW_TYPES[rel][:color] %>
+                <%= content_tag(:span, '&nbsp;&nbsp;&nbsp;'.html_safe,
+                                :style => "background-color: #{color}") %>
+                <%= l(IssueRelation::TYPES[rel][:name]) %>
+              <% end %>
+            </label>
+          </fieldset>
+        </td>
+        <td>
+          <fieldset>
+            <legend><%= l(:label_gantt_progress_line) %></legend>
+            <label>
+              <%= check_box_tag "draw_progress_line", params[:draw_progress_line], false %>
+              <%= l(:label_display) %>
+            </label>
+          </fieldset>
+        </td>
+      </tr>
+    </table>
+  </div>
+</fieldset>
 
 <p class="contextual">
   <%= gantt_zoom_link(@gantt, :in) %>
@@ -229,7 +262,7 @@
     style += "width:10px;"
     style += "border-left: 1px dashed red;"
   %>
-  <%= content_tag(:div, '&nbsp;'.html_safe, :style => style) %>
+  <%= content_tag(:div, '&nbsp;'.html_safe, :style => style, :id => 'today_line') %>
 <% end %>
 <%
   style  = ""
@@ -279,4 +312,8 @@
   var issue_relation_type = <%= raw Redmine::Helpers::Gantt::DRAW_TYPES.to_json %>;
   $(document).ready(drawGanttHandler);
   $(window).resize(drawGanttHandler);
+  $(function() {
+    $("#draw_rels").change(drawGanttHandler);
+    $("#draw_progress_line").change(drawGanttHandler);
+  });
 <% end %>

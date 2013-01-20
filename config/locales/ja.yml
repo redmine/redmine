@@ -833,6 +833,7 @@ ja:
   label_git_report_last_commit: ファイルとディレクトリの最新コミットを表示する
   label_parent_revision: 親
   label_child_revision: 子
+  label_gantt_progress_line: イナズマ線
 
   button_login: ログイン
   button_submit: 送信

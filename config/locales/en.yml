@@ -886,6 +886,7 @@ en:
   label_cross_project_tree: With project tree
   label_cross_project_hierarchy: With project hierarchy
   label_cross_project_system: With all projects
+  label_gantt_progress_line: Progress line
 
   button_login: Login
   button_submit: Submit
