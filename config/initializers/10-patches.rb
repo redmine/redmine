@@ -117,7 +117,9 @@ module ActionController
 end
 
 # Fix for CVE-2013-0155
+# https://groups.google.com/d/msg/rubyonrails-security/c7jT-EeN9eI/L0u4e87zYGMJ
 # https://groups.google.com/d/msg/rubyonrails-security/kKGNeMrnmiY/r2yM7xy-G48J
+# https://github.com/rails/rails/blob/v2.3.15/activerecord/lib/active_record/base.rb#L2340
 module ActiveRecord
   class Base
     class << self
