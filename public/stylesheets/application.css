@@ -337,8 +337,8 @@ div.issue table.attributes td {width:28%;}
 #relations td.buttons {padding:0;}
 
 fieldset.collapsible { border-width: 1px 0 0 0; font-size: 0.9em; }
-fieldset.collapsible legend { padding-left: 16px; background: url(../images/arrow_expanded.png) no-repeat 0% 40%; cursor:pointer; }
-fieldset.collapsible.collapsed legend { background-image: url(../images/arrow_collapsed.png); }
+fieldset.collapsible>legend { padding-left: 16px; background: url(../images/arrow_expanded.png) no-repeat 0% 40%; cursor:pointer; }
+fieldset.collapsible.collapsed>legend { background-image: url(../images/arrow_collapsed.png); }
 
 fieldset#date-range p { margin: 2px 0 2px 0; }
 fieldset#filters table { border-collapse: collapse; }
