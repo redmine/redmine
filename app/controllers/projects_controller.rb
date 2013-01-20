@@ -141,7 +141,8 @@ class ProjectsController < ApplicationController
   def show
     if params[:jump]
       # try to redirect to the requested menu item
-      redirect_to_project_menu_item(@project, params[:jump]) && return
+      redirect_to_project_menu_item(@project, params[:jump])
+      return
     end
 
     @users_by_role = @project.users_by_role

@@ -44,7 +44,7 @@ class AccountController < ApplicationController
 
   # Lets user choose a new password
   def lost_password
-    redirect_to(home_url) && return unless Setting.lost_password?
+    (redirect_to(home_url); return) unless Setting.lost_password?
     if params[:token]
       @token = Token.find_by_action_and_value("recovery", params[:token].to_s)
       if @token.nil? || @token.expired?
@@ -94,7 +94,7 @@ class AccountController < ApplicationController
 
   # User self-registration
   def register
-    redirect_to(home_url) && return unless Setting.self_registration? || session[:auth_source_registration]
+    (redirect_to(home_url); return) unless Setting.self_registration? || session[:auth_source_registration]
     if request.get?
       session[:auth_source_registration] = nil
       @user = User.new(:language => current_language.to_s)
@@ -176,7 +176,7 @@ class AccountController < ApplicationController
         user = User.find_or_initialize_by_identity_url(identity_url)
         if user.new_record?
           # Self-registration off
-          redirect_to(home_url) && return unless Setting.self_registration?
+          (redirect_to(home_url); return) unless Setting.self_registration?
 
           # Create on the fly
           user.login = registration['nickname'] unless registration['nickname'].nil?
