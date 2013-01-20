@@ -52,6 +52,11 @@ class SettingsController < ApplicationController
 
   def plugin
     @plugin = Redmine::Plugin.find(params[:id])
+    unless @plugin.configurable?
+      render_404
+      return
+    end
+
     if request.post?
       Setting.send "plugin_#{@plugin.id}=", params[:settings]
       flash[:notice] = l(:notice_successful_update)
