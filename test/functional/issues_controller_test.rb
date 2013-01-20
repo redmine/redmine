@@ -2916,6 +2916,20 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal spent_hours_before + 2.5, issue.spent_hours
   end
 
+  def test_put_update_should_preserve_parent_issue_even_if_not_visible
+    parent = Issue.generate!(:project_id => 1, :is_private => true)
+    issue = Issue.generate!(:parent_issue_id => parent.id)
+    assert !parent.visible?(User.find(3))
+    @request.session[:user_id] = 3
+
+    get :edit, :id => issue.id
+    assert_select 'input[name=?][value=?]', 'issue[parent_issue_id]', parent.id.to_s
+
+    put :update, :id => issue.id, :issue => {:subject => 'New subject', :parent_issue_id => parent.id.to_s}
+    assert_response 302
+    assert_equal parent, issue.parent
+  end
+
   def test_put_update_with_attachment_only
     set_tmp_attachments_directory
 
