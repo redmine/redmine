@@ -383,7 +383,6 @@ sr:
   permission_edit_own_time_entries: Измена сопственог утрошеног времена
   permission_manage_news: Управљање вестима
   permission_comment_news: Коментарисање вести
-  permission_manage_documents: Управљање документима
   permission_view_documents: Прегледање докумената
   permission_manage_files: Управљање датотекама
   permission_view_files: Прегледање датотека
@@ -1080,3 +1079,6 @@ sr:
   text_turning_multiple_off: If you disable multiple values, duplicate values will be
     removed in order to preserve only one value per item.
   label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents

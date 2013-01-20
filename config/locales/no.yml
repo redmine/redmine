@@ -738,7 +738,6 @@
   permission_comment_news: Kommentere nyheter
   permission_delete_messages: Slette meldinger
   permission_select_project_modules: Velge prosjektmoduler
-  permission_manage_documents: Administrere dokumenter
   permission_edit_wiki_pages: Redigere wiki-sider
   permission_add_issue_watchers: Legge til overvåkere
   permission_view_gantt: Vise gantt-diagram
@@ -1069,3 +1068,6 @@
   text_turning_multiple_off: If you disable multiple values, duplicate values will be
     removed in order to preserve only one value per item.
   label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents

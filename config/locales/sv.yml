@@ -476,7 +476,6 @@ sv:
   permission_edit_own_time_entries: Ändra egna tidloggningar
   permission_manage_news: Hantera nyheter
   permission_comment_news: Kommentera nyheter
-  permission_manage_documents: Hantera dokument
   permission_view_documents: Visa dokument
   permission_manage_files: Hantera filer
   permission_view_files: Visa filer
@@ -1118,3 +1117,6 @@ sv:
   text_turning_multiple_off: If you disable multiple values, duplicate values will be
     removed in order to preserve only one value per item.
   label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents

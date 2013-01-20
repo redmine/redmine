@@ -659,7 +659,6 @@ nl:
   permission_log_time: Gespendeerde tijd loggen
   permission_manage_boards: Forums beheren
   permission_manage_categories: Issue-categorieën beheren
-  permission_manage_documents: Documenten beheren
   permission_manage_files: Bestanden beheren
   permission_manage_issue_relations: Issuerelaties beheren
   permission_manage_members: Leden beheren
@@ -1061,3 +1060,6 @@ nl:
   text_turning_multiple_off: If you disable multiple values, duplicate values will be
     removed in order to preserve only one value per item.
   label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents

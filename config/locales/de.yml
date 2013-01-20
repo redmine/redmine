@@ -888,7 +888,6 @@ de:
   permission_log_time: Aufwände buchen
   permission_manage_boards: Foren verwalten
   permission_manage_categories: Ticket-Kategorien verwalten
-  permission_manage_documents: Dokumente verwalten
   permission_manage_files: Dateien verwalten
   permission_manage_issue_relations: Ticket-Beziehungen verwalten
   permission_manage_members: Mitglieder verwalten
@@ -1091,3 +1090,6 @@ de:
   version_status_open: offen
   
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents

@@ -374,7 +374,6 @@ eu:
   permission_edit_own_time_entries: Nork bere denbora egunkariak editatu
   permission_manage_news: Berriak kudeatu
   permission_comment_news: Berrien iruzkinak egin
-  permission_manage_documents: Dokumentuak kudeatu
   permission_view_documents: Dokumentuak ikusi
   permission_manage_files: Fitxategiak kudeatu
   permission_view_files: Fitxategiak ikusi
@@ -1080,3 +1079,6 @@ eu:
   text_turning_multiple_off: If you disable multiple values, duplicate values will be
     removed in order to preserve only one value per item.
   label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents

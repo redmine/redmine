@@ -355,7 +355,6 @@ bs:
   permission_edit_own_time_entries: Ispravka svog utroška vremena
   permission_manage_news: Upravljaj novostima
   permission_comment_news: Komentiraj novosti
-  permission_manage_documents: Upravljaj dokumentima
   permission_view_documents: Pregled dokumenata
   permission_manage_files: Upravljaj fajlovima
   permission_view_files: Pregled fajlova
@@ -1092,3 +1091,6 @@ bs:
   text_turning_multiple_off: If you disable multiple values, duplicate values will be
     removed in order to preserve only one value per item.
   label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents

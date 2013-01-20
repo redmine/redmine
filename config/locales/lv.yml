@@ -368,7 +368,6 @@ lv:
   permission_edit_own_time_entries:  Rediģēt savus laika reģistrus
   permission_manage_news: Pārvaldīt jaunumus
   permission_comment_news: Komentēt jaunumus
-  permission_manage_documents: Pārvaldīt dokumentus
   permission_view_documents: Skatīt dokumentus
   permission_manage_files: Pārvaldīt failus
   permission_view_files: Skatīt failus
@@ -1073,3 +1072,6 @@ lv:
   text_turning_multiple_off: If you disable multiple values, duplicate values will be
     removed in order to preserve only one value per item.
   label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents

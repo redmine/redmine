@@ -338,7 +338,6 @@ ro:
   permission_edit_own_time_entries: Editează jurnalele proprii cu timpul de lucru
   permission_manage_news: Editează știri
   permission_comment_news: Comentează știrile
-  permission_manage_documents: Editează documente
   permission_view_documents: Afișează documente
   permission_manage_files: Editează fișiere
   permission_view_files: Afișează fișiere
@@ -1074,3 +1073,6 @@ ro:
   text_turning_multiple_off: If you disable multiple values, duplicate values will be
     removed in order to preserve only one value per item.
   label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents

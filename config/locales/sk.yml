@@ -748,7 +748,6 @@ sk:
   permission_comment_news: Komentovanie noviniek
   permission_delete_messages: Mazanie správ
   permission_select_project_modules: Voľba projektových modulov
-  permission_manage_documents: Správa dokumentov
   permission_edit_wiki_pages: Úprava Wiki strániek
   permission_add_issue_watchers: Pridanie pozorovateľov
   permission_view_gantt: Zobrazenie Ganttovho diagramu
@@ -1076,3 +1075,6 @@ sk:
   text_turning_multiple_off: If you disable multiple values, duplicate values will be
     removed in order to preserve only one value per item.
   label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents

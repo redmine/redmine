@@ -429,8 +429,10 @@ fr:
   permission_edit_own_time_entries: Modifier son propre temps passé
   permission_manage_news: Gérer les annonces
   permission_comment_news: Commenter les annonces
-  permission_manage_documents: Gérer les documents
   permission_view_documents: Voir les documents
+  permission_add_documents: Ajouter des documents
+  permission_edit_documents: Modifier les documents
+  permission_delete_documents: Supprimer les documents
   permission_manage_files: Gérer les fichiers
   permission_view_files: Voir les fichiers
   permission_manage_wiki: Gérer le wiki

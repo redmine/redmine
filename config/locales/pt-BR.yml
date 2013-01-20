@@ -773,7 +773,6 @@ pt-BR:
   permission_comment_news: Comentar notícias
   permission_delete_messages: Excluir mensagens
   permission_select_project_modules: Selecionar módulos de projeto
-  permission_manage_documents: Gerenciar documentos
   permission_edit_wiki_pages: Editar páginas wiki
   permission_add_issue_watchers: Adicionar observadores
   permission_view_gantt: Ver gráfico gantt
@@ -1100,3 +1099,6 @@ pt-BR:
   text_turning_multiple_off: If you disable multiple values, duplicate values will be
     removed in order to preserve only one value per item.
   label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents

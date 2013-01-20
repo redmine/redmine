@@ -516,7 +516,6 @@
   permission_edit_own_time_entries: 編輯自己的工時記錄
   permission_manage_news: 管理新聞
   permission_comment_news: 回應新聞
-  permission_manage_documents: 管理文件
   permission_view_documents: 檢視文件
   permission_manage_files: 管理檔案
   permission_view_files: 檢視檔案
@@ -1159,3 +1158,6 @@
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents

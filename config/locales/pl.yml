@@ -685,7 +685,6 @@ pl:
   permission_log_time: Zapisywanie przepracowanego czasu
   permission_manage_boards: Zarządzanie forami
   permission_manage_categories: Zarządzanie kategoriami zaganień
-  permission_manage_documents: Zarządzanie dokumentami
   permission_manage_files: Zarządzanie plikami
   permission_manage_issue_relations: Zarządzanie powiązaniami zagadnień
   permission_manage_members: Zarządzanie uczestnikami
@@ -1091,3 +1090,6 @@ pl:
   text_turning_multiple_off: If you disable multiple values, duplicate values will be
     removed in order to preserve only one value per item.
   label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents

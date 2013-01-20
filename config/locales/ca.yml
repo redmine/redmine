@@ -386,7 +386,6 @@ ca:
   permission_edit_own_time_entries: Edita els registres de temps propis
   permission_manage_news: Gestiona les noticies
   permission_comment_news: Comenta les noticies
-  permission_manage_documents: Gestiona els documents
   permission_view_documents: Visualitza els documents
   permission_manage_files: Gestiona els fitxers
   permission_view_files: Visualitza els fitxers
@@ -1081,3 +1080,6 @@ ca:
   text_turning_multiple_off: If you disable multiple values, duplicate values will be
     removed in order to preserve only one value per item.
   label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents

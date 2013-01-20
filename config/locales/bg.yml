@@ -435,7 +435,6 @@ bg:
   permission_edit_own_time_entries: Редактиране на собствените time logs
   permission_manage_news: Управление на новини
   permission_comment_news: Коментиране на новини
-  permission_manage_documents: Управление на документи
   permission_view_documents: Разглеждане на документи
   permission_manage_files: Управление на файлове
   permission_view_files: Разглеждане на файлове
@@ -1077,3 +1076,6 @@ bg:
   text_turning_multiple_off: If you disable multiple values, duplicate values will be
     removed in order to preserve only one value per item.
   label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents

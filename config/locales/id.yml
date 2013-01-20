@@ -359,7 +359,6 @@ id:
   permission_edit_own_time_entries: Sunting catatan waktu saya
   permission_manage_news: Atur berita
   permission_comment_news: Komentari berita
-  permission_manage_documents: Atur dokumen
   permission_view_documents: Tampilkan dokumen
   permission_manage_files: Atur berkas
   permission_view_files: Tampilkan berkas
@@ -1083,3 +1082,6 @@ id:
   text_turning_multiple_off: If you disable multiple values, duplicate values will be
     removed in order to preserve only one value per item.
   label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents

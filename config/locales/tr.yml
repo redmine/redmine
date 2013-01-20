@@ -772,7 +772,6 @@ tr:
   permission_comment_news: Haberlere yorum yapma
   permission_delete_messages: Mesaj silme
   permission_select_project_modules: Proje modüllerini seçme
-  permission_manage_documents: Belgeleri yönetme
   permission_edit_wiki_pages: Wiki sayfalarını düzenleme
   permission_add_issue_watchers: Takipçi ekleme
   permission_view_gantt: İş-Zaman çizelgesi görme
@@ -1098,3 +1097,6 @@ tr:
   text_turning_multiple_off: If you disable multiple values, duplicate values will be
     removed in order to preserve only one value per item.
   label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents

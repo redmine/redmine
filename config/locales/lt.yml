@@ -468,7 +468,6 @@ lt:
   permission_edit_own_time_entries: Redguoti savo laiko įrašus
   permission_manage_news: Valdyti naujienas
   permission_comment_news: Komentuoti naujienas
-  permission_manage_documents: Valdyti dokumentus
   permission_view_documents: Matyti dokumentus
   permission_manage_files: Valdyti failus
   permission_view_files: Matyti failus
@@ -1138,3 +1137,6 @@ lt:
   text_turning_multiple_off: If you disable multiple values, duplicate values will be
     removed in order to preserve only one value per item.
   label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents

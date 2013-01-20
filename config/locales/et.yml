@@ -436,7 +436,6 @@ et:
   permission_edit_own_time_entries: "Omi ajakulu kandeid muuta"
   permission_manage_news: "Uudiseid hallata"
   permission_comment_news: "Uudiseid kommenteerida"
-  permission_manage_documents: "Dokumente hallata"
   permission_view_documents: "Dokumente näha"
   permission_manage_files: "Faile hallata"
   permission_view_files: "Faile näha"
@@ -1092,3 +1091,6 @@ et:
   text_turning_multiple_off: If you disable multiple values, duplicate values will be
     removed in order to preserve only one value per item.
   label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents

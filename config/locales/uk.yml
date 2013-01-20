@@ -748,7 +748,6 @@ uk:
   permission_comment_news: Comment news
   permission_delete_messages: Delete messages
   permission_select_project_modules: Select project modules
-  permission_manage_documents: Manage documents
   permission_edit_wiki_pages: Edit wiki pages
   permission_add_issue_watchers: Add watchers
   permission_view_gantt: View gantt chart
@@ -1074,3 +1073,6 @@ uk:
   text_turning_multiple_off: If you disable multiple values, duplicate values will be
     removed in order to preserve only one value per item.
   label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents

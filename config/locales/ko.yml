@@ -398,7 +398,6 @@ ko:
   permission_edit_own_time_entries: 내 시간입력 편집
   permission_manage_news: 뉴스 관리
   permission_comment_news: 뉴스에 댓글달기
-  permission_manage_documents: 문서 관리
   permission_view_documents: 문서 보기
   permission_manage_files: 파일관리
   permission_view_files: 파일보기
@@ -1129,3 +1128,6 @@ ko:
   text_turning_multiple_off: If you disable multiple values, duplicate values will be
     removed in order to preserve only one value per item.
   label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents

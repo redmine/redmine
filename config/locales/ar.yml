@@ -411,7 +411,6 @@ ar:
   permission_edit_own_time_entries: تعديل الدخولات الشخصية
   permission_manage_news: ادارة الاخبار
   permission_comment_news: اخبار التعليقات
-  permission_manage_documents: ادارة المستندات
   permission_view_documents: عرض المستندات
   permission_manage_files: ادارة الملفات
   permission_view_files: عرض الملفات
@@ -1079,3 +1078,6 @@ ar:
   text_turning_multiple_off: If you disable multiple values, duplicate values will be
     removed in order to preserve only one value per item.
   label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents

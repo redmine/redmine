@@ -688,7 +688,6 @@ gl:
   permission_log_time: Anotar tempo dedicado
   permission_manage_boards: Administrar foros
   permission_manage_categories: Administrar categorías de peticións
-  permission_manage_documents: Administrar documentos
   permission_manage_files: Administrar arquivos
   permission_manage_issue_relations: Administrar relación con outras peticións
   permission_manage_members: Administrar membros
@@ -1090,3 +1089,6 @@ gl:
   text_turning_multiple_off: If you disable multiple values, duplicate values will be
     removed in order to preserve only one value per item.
   label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents

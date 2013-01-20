@@ -772,7 +772,6 @@ fi:
   permission_comment_news: Kommentoi uutisia
   permission_delete_messages: Poista viestit
   permission_select_project_modules: Valitse projektin modulit
-  permission_manage_documents: Hallinnoi dokumentteja
   permission_edit_wiki_pages: Muokkaa wiki sivuja
   permission_add_issue_watchers: Lisää seuraajia
   permission_view_gantt: Näytä gantt kaavio
@@ -1100,3 +1099,6 @@ fi:
   text_turning_multiple_off: If you disable multiple values, duplicate values will be
     removed in order to preserve only one value per item.
   label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents
