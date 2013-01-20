@@ -901,7 +901,7 @@ class UserTest < ActiveSupport::TestCase
       should "authorize nearly everything for admin users" do
         project = Project.find(1)
         assert ! @admin.member_of?(project)
-        %w(edit_issues delete_issues manage_news manage_documents manage_wiki).each do |p|
+        %w(edit_issues delete_issues manage_news add_documents manage_wiki).each do |p|
           assert_equal true, @admin.allowed_to?(p.to_sym, project)
         end
       end

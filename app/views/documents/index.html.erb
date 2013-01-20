@@ -1,6 +1,6 @@
 <div class="contextual">
 <%= link_to l(:label_document_new), new_project_document_path(@project), :class => 'icon icon-add',
-      :onclick => 'showAndScrollTo("add-document", "document_title"); return false;' if User.current.allowed_to?(:manage_documents, @project) %>
+      :onclick => 'showAndScrollTo("add-document", "document_title"); return false;' if User.current.allowed_to?(:add_documents, @project) %>
 </div>
 
 <div id="add-document" style="display:none;">

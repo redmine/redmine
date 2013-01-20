@@ -19,7 +19,7 @@ class Document < ActiveRecord::Base
   include Redmine::SafeAttributes
   belongs_to :project
   belongs_to :category, :class_name => "DocumentCategory", :foreign_key => "category_id"
-  acts_as_attachable :delete_permission => :manage_documents
+  acts_as_attachable :delete_permission => :delete_documents
 
   acts_as_searchable :columns => ['title', "#{table_name}.description"], :include => :project
   acts_as_event :title => Proc.new {|o| "#{l(:label_document)}: #{o.title}"},
