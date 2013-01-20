@@ -1125,7 +1125,7 @@ ko:
   label_in_the_next_days: 다음
   label_in_the_past_days: 지난
   label_attribute_of_user: User's %{name}
-  text_turning_multiple_off: If you disable multiple values, duplicate values will be
+  text_turning_multiple_off: If you disable multiple values, multiple values will be
     removed in order to preserve only one value per item.
   label_attribute_of_issue: Issue's %{name}
   permission_add_documents: Add documents

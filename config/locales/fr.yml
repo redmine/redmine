@@ -988,7 +988,7 @@ fr:
   text_account_destroy_confirmation: "Êtes-vous sûr de vouloir continuer ?\nVotre compte sera définitivement supprimé, sans aucune possibilité de le réactiver."
   text_session_expiration_settings: "Attention : le changement de ces paramètres peut entrainer l'expiration des sessions utilisateurs en cours, y compris la vôtre."
   text_project_closed: Ce projet est fermé et accessible en lecture seule.
-  text_turning_multiple_off: "Si vous désactivez les valeurs multiples, les valeurs en double seront supprimées pour n'en conserver qu'une par objet."
+  text_turning_multiple_off: "Si vous désactivez les valeurs multiples, les valeurs multiples seront supprimées pour n'en conserver qu'une par objet."
 
   default_role_manager: "Manager "
   default_role_developer: "Développeur "
