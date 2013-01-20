@@ -18,11 +18,17 @@
 require File.expand_path('../../../../test_helper', __FILE__)
 
 class Redmine::MenuManagerTest < ActiveSupport::TestCase
-  context "MenuManager#map" do
-    should "be tested"
+  def test_map_should_yield_a_mapper
+    assert_difference 'Redmine::MenuManager.items(:project_menu).size' do
+      Redmine::MenuManager.map :project_menu do |mapper|
+        assert_kind_of  Redmine::MenuManager::Mapper, mapper
+        mapper.push :new_item, '/'
+      end
+    end
   end
 
-  context "MenuManager#items" do
-    should "be tested"
+  def test_items_should_return_menu_items
+    items = Redmine::MenuManager.items(:project_menu)
+    assert_kind_of Redmine::MenuManager::MenuNode, items.first
   end
 end
