@@ -533,6 +533,7 @@ de:
   label_float: Fließkommazahl
   label_follows: Folgt
   label_gantt: Gantt-Diagramm
+  label_gantt_progress_line: Fortschrittslinie
   label_general: Allgemein
   label_generate_key: Generieren
   label_git_report_last_commit: Bericht des letzten Commits für Dateien und Verzeichnisse
@@ -1091,6 +1092,5 @@ de:
   version_status_closed: abgeschlossen
   version_status_locked: gesperrt
   version_status_open: offen
-  
+
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
-  label_gantt_progress_line: Progress line
