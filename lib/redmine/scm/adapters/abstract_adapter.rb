@@ -218,14 +218,19 @@ module Redmine
           Rails.logger
         end
 
+        # Path to the file where scm stderr output is logged
+        def self.stderr_log_file
+          @stderr_log_path ||=
+            Redmine::Configuration['scm_stderr_log_file'].presence ||
+            Rails.root.join("log/#{Rails.env}.scm.stderr.log").to_s
+        end
+
         def self.shellout(cmd, options = {}, &block)
           if logger && logger.debug?
             logger.debug "Shelling out: #{strip_credential(cmd)}"
           end
-          if Rails.env == 'development'
-            # Capture stderr when running in dev environment
-            cmd = "#{cmd} 2>>#{shell_quote(Rails.root.join('log/scm.stderr.log').to_s)}"
-          end
+          # Capture stderr in a log file
+          cmd = "#{cmd} 2>>#{shell_quote(stderr_log_file)}"
           begin
             mode = "r+"
             IO.popen(cmd, mode) do |io|
