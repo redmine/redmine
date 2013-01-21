@@ -436,6 +436,9 @@ bg:
   permission_manage_news: Управление на новини
   permission_comment_news: Коментиране на новини
   permission_view_documents: Разглеждане на документи
+  permission_add_documents: Добавяне на документи
+  permission_edit_documents: Редактиране на документи
+  permission_delete_documents: Изтриване на документи
   permission_manage_files: Управление на файлове
   permission_view_files: Разглеждане на файлове
   permission_manage_wiki: Управление на wiki
@@ -876,13 +879,16 @@ bg:
   label_readonly: Само за четене
   label_required: Задължително
   label_attribute_of_project: Project's %{name}
+  label_attribute_of_issue: Issue's %{name}
   label_attribute_of_author: Author's %{name}
   label_attribute_of_assigned_to: Assignee's %{name}
+  label_attribute_of_user: User's %{name}
   label_attribute_of_fixed_version: Target version's %{name}
   label_cross_project_descendants: С подпроекти
   label_cross_project_tree: С дърво на проектите
   label_cross_project_hierarchy: С проектна йерархия
   label_cross_project_system: С всички проекти
+  label_gantt_progress_line: Линия на изпълнението
 
   button_login: Вход
   button_submit: Изпращане
@@ -1026,6 +1032,8 @@ bg:
   text_account_destroy_confirmation: "Сигурен/на ли сте, че желаете да продължите?\nВашият профил ще бъде премахнат без възможност за възстановяване."
   text_session_expiration_settings: "Внимание: промяната на тези установяваноя може да прекрати всички активни сесии, включително и вашата."
   text_project_closed: Този проект е затворен и е само за четене.
+  text_turning_multiple_off: Ако забраните възможността за повече от една стойност, повечето стойности ще бъдат
+    премахнати с цел да остане само по една стойност за поле.
 
   default_role_manager: Мениджър
   default_role_developer: Разработчик
@@ -1072,11 +1080,3 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  label_attribute_of_user: User's %{name}
-  text_turning_multiple_off: If you disable multiple values, multiple values will be
-    removed in order to preserve only one value per item.
-  label_attribute_of_issue: Issue's %{name}
-  permission_add_documents: Add documents
-  permission_edit_documents: Edit documents
-  permission_delete_documents: Delete documents
-  label_gantt_progress_line: Progress line
