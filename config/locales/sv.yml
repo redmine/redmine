@@ -477,6 +477,9 @@ sv:
   permission_manage_news: Hantera nyheter
   permission_comment_news: Kommentera nyheter
   permission_view_documents: Visa dokument
+  permission_add_documents: Lägga till dokument
+  permission_edit_documents: Ändra dokument
+  permission_delete_documents: Ta bort dokument
   permission_manage_files: Hantera filer
   permission_view_files: Visa filer
   permission_manage_wiki: Hantera wiki
@@ -917,6 +920,7 @@ sv:
   label_readonly: Skrivskyddad
   label_required: Nödvändig
   label_attribute_of_project: Projektets %{name}
+  label_attribute_of_issue: Ärendets %{name}
   label_attribute_of_author: Författarens %{name}
   label_attribute_of_assigned_to: Tilldelads %{name}
   label_attribute_of_user: Användarens %{name}
@@ -925,6 +929,7 @@ sv:
   label_cross_project_tree: Med projektträd
   label_cross_project_hierarchy: Med projekthierarki
   label_cross_project_system: Med alla projekt
+  label_gantt_progress_line: Framstegslinje
 
   button_login: Logga in
   button_submit: Skicka
@@ -1068,6 +1073,7 @@ sv:
   text_account_destroy_confirmation: "Är du säker på att du vill fortsätta?\nDitt konto kommer tas bort permanent, utan möjlighet att återaktivera det."
   text_session_expiration_settings: "Varning: ändring av dessa inställningar kan få alla nuvarande sessioner, inklusive din egen, att gå ut."
   text_project_closed: Detta projekt är stängt och skrivskyddat.
+  text_turning_multiple_off: "Om du inaktiverar möjligheten till flera värden kommer endast ett värde per objekt behållas."
 
   default_role_manager: Projektledare
   default_role_developer: Utvecklare
@@ -1114,10 +1120,3 @@ sv:
   description_date_from: Ange startdatum
   description_date_to: Ange slutdatum
   text_repository_identifier_info: 'Endast gemener (a-z), siffror, streck och understreck är tillåtna.<br />När identifieraren sparats kan den inte ändras.'
-  text_turning_multiple_off: If you disable multiple values, multiple values will be
-    removed in order to preserve only one value per item.
-  label_attribute_of_issue: Issue's %{name}
-  permission_add_documents: Add documents
-  permission_edit_documents: Edit documents
-  permission_delete_documents: Delete documents
-  label_gantt_progress_line: Progress line
