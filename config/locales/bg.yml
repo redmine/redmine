@@ -620,7 +620,7 @@ bg:
   label_current_status: Текущо състояние
   label_new_statuses_allowed: Позволени състояния
   label_all: всички
-  label_any: която и да е
+  label_any: без значение
   label_none: никакви
   label_nobody: никой
   label_next: Следващ
