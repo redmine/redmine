@@ -661,8 +661,8 @@ sv:
   label_current_status: Nuvarande status
   label_new_statuses_allowed: Nya tillåtna statusvärden
   label_all: alla
-  label_any: några
-  label_none: ingen
+  label_any: vad/vem som helst
+  label_none: inget/ingen
   label_nobody: ingen
   label_next: Nästa
   label_previous: Föregående
@@ -922,7 +922,7 @@ sv:
   label_attribute_of_project: Projektets %{name}
   label_attribute_of_issue: Ärendets %{name}
   label_attribute_of_author: Författarens %{name}
-  label_attribute_of_assigned_to: Tilldelads %{name}
+  label_attribute_of_assigned_to: Tilldelad användares %{name}
   label_attribute_of_user: Användarens %{name}
   label_attribute_of_fixed_version: Målversionens %{name}
   label_cross_project_descendants: Med underprojekt
@@ -1013,7 +1013,7 @@ sv:
   text_tip_issue_begin_day: ärende som börjar denna dag
   text_tip_issue_end_day: ärende som slutar denna dag
   text_tip_issue_begin_end_day: ärende som börjar och slutar denna dag
-  text_project_identifier_info: Ändast gemener (a-z), siffror, streck och understreck är tillåtna.<br />När identifieraren sparats kan den inte ändras.
+  text_project_identifier_info: 'Endast gemener (a-z), siffror, streck och understreck är tillåtna, måste börja med en bokstav.<br />När identifieraren sparats kan den inte ändras.'
   text_caracters_maximum: "max %{count} tecken."
   text_caracters_minimum: "Måste vara minst %{count} tecken lång."
   text_length_between: "Längd mellan %{min} och %{max} tecken."
