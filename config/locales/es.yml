@@ -1111,11 +1111,10 @@ es:
   setting_non_working_week_days: Días no laborables
   label_in_the_next_days: en los próximos
   label_in_the_past_days: en los anteriores
-  label_attribute_of_user: User's %{name}
-  text_turning_multiple_off: If you disable multiple values, multiple values will be
-    removed in order to preserve only one value per item.
-  label_attribute_of_issue: Issue's %{name}
-  permission_add_documents: Add documents
-  permission_edit_documents: Edit documents
-  permission_delete_documents: Delete documents
-  label_gantt_progress_line: Progress line
+  label_attribute_of_user: "%{name} del usuario"
+  text_turning_multiple_off: Si desactiva los valores múltiples, éstos serán eliminados para dejar un único valor por elemento.
+  label_attribute_of_issue: "%{name} de la petición"
+  permission_add_documents: Añadir documentos
+  permission_edit_documents: Editar documentos
+  permission_delete_documents: Borrar documentos
+  label_gantt_progress_line: Línea de progreso
