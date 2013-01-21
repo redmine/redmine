@@ -517,6 +517,9 @@
   permission_manage_news: 管理新聞
   permission_comment_news: 回應新聞
   permission_view_documents: 檢視文件
+  permission_add_documents: 新增文件
+  permission_edit_documents: 編輯文件
+  permission_delete_documents: 刪除文件
   permission_manage_files: 管理檔案
   permission_view_files: 檢視檔案
   permission_manage_wiki: 管理 wiki
@@ -966,6 +969,7 @@
   label_cross_project_tree: 與專案樹共用
   label_cross_project_hierarchy: 與專案階層架構共用
   label_cross_project_system: 與全部的專案共用
+  label_gantt_progress_line: 進度線
 
   button_login: 登入
   button_submit: 送出
@@ -1158,7 +1162,3 @@
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  permission_add_documents: Add documents
-  permission_edit_documents: Edit documents
-  permission_delete_documents: Delete documents
-  label_gantt_progress_line: Progress line
