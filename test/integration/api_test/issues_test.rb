@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class ApiTest::IssuesTest < ActionController::IntegrationTest
+class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
   fixtures :projects,
     :users,
     :roles,

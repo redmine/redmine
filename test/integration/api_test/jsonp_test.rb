@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class ApiTest::JsonpTest < ActionController::IntegrationTest
+class Redmine::ApiTest::JsonpTest < Redmine::ApiTest::Base
   fixtures :trackers
 
   def test_jsonp_should_accept_callback_param

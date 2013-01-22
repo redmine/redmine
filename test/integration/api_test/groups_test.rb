@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class ApiTest::GroupsTest < ActionController::IntegrationTest
+class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
   fixtures :users, :groups_users
 
   def setup

@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class ApiTest::TrackersTest < ActionController::IntegrationTest
+class Redmine::ApiTest::TrackersTest < Redmine::ApiTest::Base
   fixtures :trackers
 
   def setup

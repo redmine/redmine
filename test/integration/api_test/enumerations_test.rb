@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class ApiTest::EnumerationsTest < ActionController::IntegrationTest
+class Redmine::ApiTest::EnumerationsTest < Redmine::ApiTest::Base
   fixtures :enumerations
 
   def setup

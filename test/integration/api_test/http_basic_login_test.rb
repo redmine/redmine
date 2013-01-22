@@ -1,6 +1,6 @@
 require File.expand_path('../../../test_helper', __FILE__)
 
-class ApiTest::HttpBasicLoginTest < ActionController::IntegrationTest
+class Redmine::ApiTest::HttpBasicLoginTest < Redmine::ApiTest::Base
   fixtures :projects, :trackers, :issue_statuses, :issues,
            :enumerations, :users, :issue_categories,
            :projects_trackers,
