@@ -88,7 +88,7 @@
 						</p> </a>
 
 					</div>
-					
+
 					<div class="container">
 						<ul class="bs-docs-social-buttons">
 							<li class="follow-btn">
@@ -120,32 +120,31 @@
 					<%= call_hook :view_layouts_base_content %>
 					<div style="clear:both;"></div>
 				</div>
-			
 
-			<div id="ajax-indicator" style="display:none;">
-				<span><%= l(:label_loading) %></span>
-			</div>
-			<div id="ajax-modal" style="display:none;"></div>
+				<div id="ajax-indicator" style="display:none;">
+					<span><%= l(:label_loading) %></span>
+				</div>
+				<div id="ajax-modal" style="display:none;"></div>
 
-			<div id="footer">
-				<div class="bgl">
+				<div id="footer">
+					<div class="bgl">
 
-					<div class="bgr">
-						<div class="wrapcenter">
-							<!-- <div id="ucllogo"></div> -->
-							<a href="http://www.wellcome.ac.uk/"> <div id="wellcomelogo"></div> </a>
+						<div class="bgr">
+							<div class="wrapcenter">
+								<!-- <div id="ucllogo"></div> -->
+								<a href="http://www.wellcome.ac.uk/"> <div id="wellcomelogo"></div> </a>
+							</div>
+
 						</div>
 
 					</div>
-
+					<div id="footerlinks">
+						<a href="/about.html">About</a> | <a href="/guides.html">Guides</a> | <a href="/themes.html">Research Themes</a>
+					</div>
+					<div id="footerlbl">
+						Open Source Brain &#169; 2013. All rights reserved. Website powered by <%= link_to Redmine::Info.app_name, Redmine::Info.url %>
+					</div>
 				</div>
-				<div id="footerlinks">
-					<a href="/about.html">About</a> | <a href="/guides.html">Guides</a> | <a href="/themes.html">Research Themes</a>
-				</div>
-				<div id="footerlbl">
-					Open Source Brain &#169; 2013. All rights reserved. Website powered by <%= link_to Redmine::Info.app_name, Redmine::Info.url %>
-				</div>
-			</div>
 			</div>
 		</div>
 		</div>
