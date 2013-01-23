@@ -198,39 +198,40 @@ function disableOSBExplorer()
     	jQuery("#osbexplorerbutton").css("cursor","default");
     	jQuery("#osbexplorerbutton").prop("onclick","");
 }
-jQuery(function() {
+
+jQuery(function() 
+{
     if(<%= @neuroml2files.empty? %>)
     {
     	disableOSBExplorer();
     	jQuery("#osbexplorermessage").html("The current project doesn't contain any NeuroML2 file. Help converting this model to be able to use OSB 3D Explorer or raise an issue to do so!");
     }
-    else if(<%= @repourl["https://github"]==nil%>)
+    else if(<%= (@repourl and @repourl["https://github"]==nil)==true%>)
     {
 		disableOSBExplorer();
     	jQuery("#osbexplorermessage").html("Sorry, OSB 3D Explorer is currently available only for repositories hosted on GitHub.");
     }
-    
-    else if (!Detector.webgl)
+    else if(!Detector.webgl)
 	{
 		disableOSBExplorer();
 		jQuery("#osbexplorermessage").html("Sorry, your browser doesn\'t support <a href='http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation'>WebGL</a> which is required to use OSB 3D Explorer.");
 	}
-    });
+});
     
     
-	function resizeIframe() {
-	    var height = document.documentElement.clientHeight;
-	    height -= document.getElementById('3dframe').offsetTop;
-	    
-	    // not sure how to get this dynamically
-	    //height -= 176; /* whatever you set your body bottom margin/padding to be */
-	    
-	    document.getElementById('3dframe').style.height = height +"px";
-	    
-	};
+function resizeIframe() {
+    var height = document.documentElement.clientHeight;
+    height -= document.getElementById('3dframe').offsetTop;
+    
+    // not sure how to get this dynamically
+    //height -= 176; /* whatever you set your body bottom margin/padding to be */
+    
+    document.getElementById('3dframe').style.height = height +"px";
+    
+};
 
 </script>
-<% if(@repourl["https://github"]!=nil)%>
+<% if(@repourl and @repourl["https://github"]!=nil)%>
 <div id="browsenml2" style="display:none;">
 <div id="nmlbrowserlabel">The following NeuroML2 files have been found on the <b><%= @project.name %></b> repository. <br/><br/>Click on the file you want to explore:</div>
 <div id='nmlbrowserbackto' onclick='hideMenu();'>Back to project</div>
