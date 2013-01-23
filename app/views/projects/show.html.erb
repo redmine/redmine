@@ -166,7 +166,8 @@ function showMenu()
 {
 	jQuery("#content").hide();
 	jQuery("#fullheader").after(jQuery('#browsenml2'));
-	jQuery("#nml2menu" ).menu();
+	jQuery("#netnml" ).menu();
+	jQuery("#cellnml" ).menu();
 	jQuery('#browsenml2').show();
 }
 
@@ -232,16 +233,34 @@ function resizeIframe() {
 
 </script>
 <% if(@repourl and @repourl["https://github"]!=nil)%>
-<div id="browsenml2" style="display:none;">
-<div id="nmlbrowserlabel">The following NeuroML2 files have been found on the <b><%= @project.name %></b> repository. <br/><br/>Click on the file you want to explore:</div>
-<div id='nmlbrowserbackto' onclick='hideMenu();'>Back to project</div>
-<ul id="nml2menu">
-<% @repourl["https://github"]="https://raw.github" %>
-<% for nml2file in @neuroml2files %>
-<li><a onclick="open3DExplorer(encodeURIComponent('<%= @repourl + "/master/" + nml2file %>'));"><%= nml2file %></a></li>
-<% end %>
-</ul>
-</div>
+	<div id="browsenml2" style="display:none;">
+	<div id="nmlbrowserlabel">The following NeuroML2 files have been found on the <b><%= @project.name %></b> repository. <br/><br/>Click on the file you want to explore:</div>
+	<div id='nmlbrowserbackto' onclick='hideMenu();'>Back to project</div>
+	<% @networkfiles=[] %>
+	<% for nml2file in @neuroml2files %>
+		<% if nml2file.ends_with?(".net.nml") %>
+			<% @networkfiles.push(nml2file) %>
+		<% end %>
+	<% end %>
+	<% if not @networkfiles.empty? %>
+		<p class="nmlbrowsersubtitles">Networks</p>
+		<ul id="netnml" class="nml2menu">
+		<% @repourl["https://github"]="https://raw.github" %>
+		<% for nml2file in @networkfiles %>
+			<li><a onclick="open3DExplorer(encodeURIComponent('<%= @repourl + "/master/" + nml2file %>'));"><%= nml2file %></a></li>
+		<% end %>
+		</ul>
+	<% end %>
+	<p class="nmlbrowsersubtitles">Cells</p>
+	<ul id="cellnml" class="nml2menu">
+
+	<% for nml2file in @neuroml2files %>
+		<% if not nml2file.ends_with?(".net.nml") %>
+			<li><a onclick="open3DExplorer(encodeURIComponent('<%= @repourl + "/master/" + nml2file %>'));"><%= nml2file %></a></li>
+		<% end %>
+	<% end %>
+	</ul>
+	</div>
 <% end %>
 
 <div class="splitcontentright">

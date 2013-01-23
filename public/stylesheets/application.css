@@ -2922,8 +2922,8 @@ iframe {
 
 
 
-#nml2menu {
-	margin: 0 auto;
+.nml2menu {
+	margin: 0 auto!important;
 	width: 550px;
 	cursor: pointer;
 	font-size: 16px;
@@ -2931,8 +2931,12 @@ iframe {
 	overflow: auto;
 }
 
+#netnml{
+	height:200px;
+}
+
 #browsenml2 {
-	min-height: 650px;
+	min-height: 1050px;
 }
 
 #backto {
@@ -2967,6 +2971,17 @@ iframe {
 	font-size: 15px;
 	width:800px;
 	margin:0 auto;
+	margin-top:50px;
+	margin-bottom:20px;
+}
+
+.nmlbrowsersubtitles{
+	font-family: 'trajan_proregular';
+	font-size: 15px;
+	width:450px;
+	text-align:center;
+	margin:0 auto;
+	font-weight:400;
 	margin-top:50px;
 	margin-bottom:20px;
 }
