@@ -552,7 +552,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal 'text/csv; header=present', @response.content_type
     assert @response.body.include?("Date,User,Activity,Project,Issue,Tracker,Subject,Hours,Comment,Overtime\n")
-    assert @response.body.include?("\n04/21/2007,redMine Admin,Design,eCookbook,3,Bug,Error 281 when updating a recipe,1.0,\"\",\"\"\n")
+    assert @response.body.include?("\n04/21/2007,Redmine Admin,Design,eCookbook,3,Bug,Error 281 when updating a recipe,1.0,\"\",\"\"\n")
   end
 
   def test_index_csv_export
@@ -561,7 +561,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal 'text/csv; header=present', @response.content_type
     assert @response.body.include?("Date,User,Activity,Project,Issue,Tracker,Subject,Hours,Comment,Overtime\n")
-    assert @response.body.include?("\n04/21/2007,redMine Admin,Design,eCookbook,3,Bug,Error 281 when updating a recipe,1.0,\"\",\"\"\n")
+    assert @response.body.include?("\n04/21/2007,Redmine Admin,Design,eCookbook,3,Bug,Error 281 when updating a recipe,1.0,\"\",\"\"\n")
   end
 
   def test_index_csv_export_with_multi_custom_field

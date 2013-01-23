@@ -29,7 +29,7 @@ users_001:
   admin: true
   mail: admin@somenet.foo
   lastname: Admin
-  firstname: redMine
+  firstname: Redmine
   id: 1
   auth_source_id: 
   mail_notification: all

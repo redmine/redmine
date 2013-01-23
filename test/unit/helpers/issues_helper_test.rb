@@ -181,7 +181,7 @@ class IssuesHelperTest < ActionView::TestCase
 
     should "show old and new values with a assigned to attribute" do
       detail = JournalDetail.new(:property => 'attr', :prop_key => 'assigned_to_id', :old_value => 1, :value => 2)
-      assert_match 'redMine Admin', show_detail(detail, true)
+      assert_match 'Redmine Admin', show_detail(detail, true)
       assert_match 'John Smith', show_detail(detail, true)
     end
 

@@ -585,7 +585,7 @@ class WikiControllerTest < ActionController::TestCase
     # Line 5
     assert_tag :tag => 'tr', :child => {
       :tag => 'th', :attributes => {:class => 'line-num'}, :content => '5', :sibling => {
-        :tag => 'td', :attributes => {:class => 'author'}, :content => /redMine Admin/, :sibling => {
+        :tag => 'td', :attributes => {:class => 'author'}, :content => /Redmine Admin/, :sibling => {
           :tag => 'td', :content => /Some updated \[\[documentation\]\] here/
         }
       }
