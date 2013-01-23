@@ -49,6 +49,20 @@ class PrincipalTest < ActiveSupport::TestCase
     assert_equal [], Principal.not_member_of([]).sort
   end
 
+  def test_sorted_scope_should_sort_users_before_groups
+    scope = Principal.where("type <> ?", 'AnonymousUser')
+    expected_order = scope.all.sort do |a, b|
+      if a.is_a?(User) && b.is_a?(Group)
+        -1
+      elsif a.is_a?(Group) && b.is_a?(User)
+        1
+      else
+        a.name.downcase <=> b.name.downcase
+      end
+    end
+    assert_equal expected_order.map(&:name).map(&:downcase), scope.sorted.all.map(&:name).map(&:downcase)
+  end
+
   context "#like" do
     setup do
       Principal.create!(:login => 'login')

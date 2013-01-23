@@ -64,7 +64,7 @@ class WatchersController < ApplicationController
   end
 
   def autocomplete_for_user
-    @users = User.active.like(params[:q]).limit(100).all
+    @users = User.active.sorted.like(params[:q]).limit(100).all
     if @watched
       @users -= @watched.watcher_users
     end

@@ -19,7 +19,7 @@
 
 module MembersHelper
   def render_principals_for_new_members(project)
-    scope = Principal.active.not_member_of(project).like(params[:q]).order('type, login, lastname ASC')
+    scope = Principal.active.sorted.not_member_of(project).like(params[:q])
     principal_count = scope.count
     principal_pages = Redmine::Pagination::Paginator.new principal_count, 100, params['page']
     principals = scope.offset(principal_pages.offset).limit(principal_pages.per_page).all

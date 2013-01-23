@@ -34,6 +34,10 @@ class UserTest < ActiveSupport::TestCase
     @dlopper = User.find(3)
   end
 
+  def test_sorted_scope_should_sort_user_by_display_name
+    assert_equal User.all.map(&:name).map(&:downcase).sort, User.sorted.all.map(&:name).map(&:downcase)
+  end
+
   def test_generate
     User.generate!(:firstname => 'Testing connection')
     User.generate!(:firstname => 'Testing connection')
