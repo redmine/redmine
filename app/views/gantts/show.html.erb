@@ -72,18 +72,18 @@
   @gantt.zoom.times { zoom = zoom * 2 }
 
   subject_width = 330
-  header_heigth = 18
+  header_height = 18
 
-  headers_height = header_heigth
+  headers_height = header_height
   show_weeks = false
   show_days  = false
 
   if @gantt.zoom > 1
     show_weeks = true
-    headers_height = 2 * header_heigth
+    headers_height = 2 * header_height
     if @gantt.zoom > 2
         show_days = true
-        headers_height = 3 * header_heigth
+        headers_height = 3 * header_height
     end
   end
 
@@ -148,7 +148,7 @@
 <%
   month_f = @gantt.date_from
   left = 0
-  height = (show_weeks ? header_heigth : header_heigth + g_height)
+  height = (show_weeks ? header_height : header_height + g_height)
 %>
 <% @gantt.months.times do %>
   <%
@@ -173,7 +173,7 @@
 <% if show_weeks %>
   <%
     left = 0
-    height = (show_days ? header_heigth - 1 : header_heigth - 1 + g_height)
+    height = (show_days ? header_height - 1 : header_height - 1 + g_height)
   %>
   <% if @gantt.date_from.cwday == 1 %>
     <%
@@ -222,7 +222,7 @@
 <% if show_days %>
   <%
     left = 0
-    height = g_height + header_heigth - 1
+    height = g_height + header_height - 1
     wday = @gantt.date_from.cwday
   %>
   <% (@gantt.date_to - @gantt.date_from + 1).to_i.times do %>
