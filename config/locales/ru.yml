@@ -1135,7 +1135,7 @@ ru:
   button_delete_my_account: "Удалить мою учетную запись" 
   text_account_destroy_confirmation: "Ваша учетная запись будет полностью удалена без возможности восстановления.\nВы уверены, что хотите продолжить?" 
   error_session_expired: Срок вашей сессии истек. Пожалуйста войдите еще раз
-  text_session_expiration_settings: "Warning: changing these settings may expire the current sessions including yours."
+  text_session_expiration_settings: "Внимание! Изменение этих настроек может привести к завершению текущих сессий, включая вашу."
   setting_session_lifetime: Максимальная продолжительность сессии
   setting_session_timeout: Таймут сессии 
   label_session_expiration: Срок истечения сессии
