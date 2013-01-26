@@ -80,6 +80,7 @@ group :test do
   platforms << :jruby if defined?(JRUBY_VERSION) && JRUBY_VERSION >= "1.7"
   gem "test-unit", :platforms => platforms
   gem "mocha", "0.12.3"
+  gem 'capybara', '~> 2.0.0'
 end
 
 local_gemfile = File.join(File.dirname(__FILE__), "Gemfile.local")

@@ -9,7 +9,7 @@ Running Tests
 
 Run `rake --tasks test` to see available tests.
 Run `rake test` to run the entire test suite (except the tests for the
-Apache perl module Redmine.pm, see below).
+Apache perl module Redmine.pm and Capybara tests, see below).
 
 You can run `ruby test/unit/issue_test.rb` for running a single test case.
 
@@ -58,3 +58,12 @@ Then, you can run the tests with:
 
 If you svn server is not running on localhost, you can use the REDMINE_TEST_DAV_SERVER
 environment variable to specify another host.
+
+Running Capybara tests
+======================
+
+You need to have PhantomJS WebDriver listening on port 4444:
+`phantomjs --webdriver 4444`
+
+Capybara tests can be run with:
+`rake test:ui`
