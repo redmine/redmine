@@ -25,7 +25,10 @@ module Redmine
 
         def initialize(request, response)
           super
-          self.jsonp = (request.params[:callback] || request.params[:jsonp]).to_s.gsub(/[^a-zA-Z0-9_]/, '')
+          callback = request.params[:callback] || request.params[:jsonp]
+          if callback && Setting.jsonp_enabled?
+            self.jsonp = callback.to_s.gsub(/[^a-zA-Z0-9_]/, '')
+          end
         end
 
         def output

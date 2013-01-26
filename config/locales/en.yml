@@ -397,6 +397,7 @@ en:
   setting_thumbnails_enabled: Display attachment thumbnails
   setting_thumbnails_size: Thumbnails size (in pixels)
   setting_non_working_week_days: Non-working days
+  setting_jsonp_enabled: Enable JSONP support
 
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects
