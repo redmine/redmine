@@ -49,6 +49,10 @@ class News < ActiveRecord::Base
     user.allowed_to?(:comment_news, project)
   end
 
+  def recipients
+    project.users.select {|user| user.notify_about?(self)}.map(&:mail)
+  end
+
   # returns latest news for projects visible by user
   def self.latest(user = User.current, count = 5)
     visible(user).includes([:author, :project]).order("#{News.table_name}.created_on DESC").limit(count).all

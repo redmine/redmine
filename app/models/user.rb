@@ -563,38 +563,26 @@ class User < Principal
   #
   # TODO: only supports Issue events currently
   def notify_about?(object)
-    case mail_notification
-    when 'all'
+    if mail_notification == 'all'
       true
-    when 'selected'
-      # user receives notifications for created/assigned issues on unselected projects
-      if object.is_a?(Issue) && (object.author == self || is_or_belongs_to?(object.assigned_to) || is_or_belongs_to?(object.assigned_to_was))
-        true
-      else
-        false
-      end
-    when 'none'
+    elsif mail_notification.blank? || mail_notification == 'none'
       false
-    when 'only_my_events'
-      if object.is_a?(Issue) && (object.author == self || is_or_belongs_to?(object.assigned_to) || is_or_belongs_to?(object.assigned_to_was))
-        true
-      else
-        false
-      end
-    when 'only_assigned'
-      if object.is_a?(Issue) && (is_or_belongs_to?(object.assigned_to) || is_or_belongs_to?(object.assigned_to_was))
-        true
-      else
-        false
-      end
-    when 'only_owner'
-      if object.is_a?(Issue) && object.author == self
-        true
-      else
-        false
-      end
     else
-      false
+      case object
+      when Issue
+        case mail_notification
+        when 'selected', 'only_my_events'
+          # user receives notifications for created/assigned issues on unselected projects
+          object.author == self || is_or_belongs_to?(object.assigned_to) || is_or_belongs_to?(object.assigned_to_was)
+        when 'only_assigned'
+          is_or_belongs_to?(object.assigned_to) || is_or_belongs_to?(object.assigned_to_was)
+        when 'only_owner'
+          object.author == self
+        end
+      when News
+        # always send to project members except when mail_notification is set to 'none'
+        true
+      end
     end
   end
 

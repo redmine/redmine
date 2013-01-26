@@ -1018,9 +1018,15 @@ class UserTest < ActiveSupport::TestCase
         assert ! @user.notify_about?(@issue)
       end
     end
+  end
 
-    context "other events" do
-      should 'be added and tested'
+  def test_notify_about_news
+    user = User.generate!
+    news = News.new
+
+    User::MAIL_NOTIFICATION_OPTIONS.map(&:first).each do |option|
+      user.mail_notification = option
+      assert_equal (option != 'none'), user.notify_about?(news)
     end
   end
 
