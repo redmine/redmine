@@ -1111,3 +1111,4 @@ ja:
   permission_add_documents: 文書の追加
   permission_edit_documents: 文書の編集
   permission_delete_documents: 文書の削除
+  setting_jsonp_enabled: Enable JSONP support

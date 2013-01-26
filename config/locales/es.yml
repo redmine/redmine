@@ -1118,3 +1118,4 @@ es:
   permission_edit_documents: Editar documentos
   permission_delete_documents: Borrar documentos
   label_gantt_progress_line: Línea de progreso
+  setting_jsonp_enabled: Enable JSONP support
