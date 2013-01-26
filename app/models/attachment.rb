@@ -263,7 +263,7 @@ class Attachment < ActiveRecord::Base
     Attachment.where("created_on < ? AND (container_type IS NULL OR container_type = '')", Time.now - age).destroy_all
   end
 
-  # Moves an existing attachment to its target directory 
+  # Moves an existing attachment to its target directory
   def move_to_target_directory!
     if !new_record? & readable?
       src = diskfile
