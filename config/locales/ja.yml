@@ -1106,9 +1106,8 @@ ja:
   label_in_the_next_days: 今後○日
   label_in_the_past_days: 過去○日
   label_attribute_of_user: ユーザーの %{name}
-  text_turning_multiple_off: If you disable multiple values, multiple values will be
-    removed in order to preserve only one value per item.
-  label_attribute_of_issue: Issue's %{name}
-  permission_add_documents: Add documents
-  permission_edit_documents: Edit documents
-  permission_delete_documents: Delete documents
+  text_turning_multiple_off: この設定を無効にすると、複数選択されている値のうち1個だけが保持され残りは選択解除されます。
+  label_attribute_of_issue: チケットの %{name}
+  permission_add_documents: 文書の追加
+  permission_edit_documents: 文書の編集
+  permission_delete_documents: 文書の削除
