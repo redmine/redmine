@@ -203,7 +203,7 @@ es:
   button_list: Listar
   button_lock: Bloquear
   button_log_time: Tiempo dedicado
-  button_login: Conexión
+  button_login: Acceder
   button_move: Mover
   button_quote: Citar
   button_rename: Renombrar
@@ -503,8 +503,8 @@ es:
   label_list: Lista
   label_loading: Cargando...
   label_logged_as: Conectado como
-  label_login: Conexión
-  label_logout: Desconexión
+  label_login: Iniciar sesión
+  label_logout: Terminar sesión
   label_max_size: Tamaño máximo
   label_me: yo mismo
   label_member: Miembro
@@ -551,7 +551,7 @@ es:
   label_permissions_report: Informe de permisos
   label_personalize_page: Personalizar esta página
   label_planning: Planificación
-  label_please_login: Conexión
+  label_please_login: Por favor, inicie sesión
   label_plugins: Extensiones
   label_precedes: anterior a
   label_preferences: Preferencias
@@ -615,7 +615,7 @@ es:
   label_start_to_end: principio a fin
   label_start_to_start: principio a principio
   label_statistics: Estadísticas
-  label_stay_logged_in: Recordar conexión
+  label_stay_logged_in: Mantener la sesión abierta
   label_string: Texto
   label_subproject_plural: Proyectos secundarios
   label_text: Texto largo
@@ -749,7 +749,7 @@ es:
   setting_app_title: Título de la aplicación
   setting_attachment_max_size: Tamaño máximo del fichero
   setting_autofetch_changesets: Autorellenar los commits del repositorio
-  setting_autologin: Conexión automática
+  setting_autologin: Inicio de sesión automático
   setting_bcc_recipients: Ocultar las copias de carbón (bcc)
   setting_commit_fix_keywords: Palabras clave para la corrección
   setting_commit_ref_keywords: Palabras clave para la referencia
