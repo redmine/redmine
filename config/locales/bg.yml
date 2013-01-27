@@ -217,7 +217,6 @@ bg:
   mail_subject_wiki_content_updated: "Wiki страницата '%{id}' беше обновена"
   mail_body_wiki_content_updated: Wiki страницата '%{id}' беше обновена от %{author}.
 
-
   field_name: Име
   field_description: Описание
   field_summary: Анотация
@@ -399,6 +398,7 @@ bg:
   setting_thumbnails_enabled: Показване на миниатюри на прикачените изображения
   setting_thumbnails_size: Размер на миниатюрите (в пиксели)
   setting_non_working_week_days: Не работни дни
+  setting_jsonp_enabled: Разрешаване на поддръжка на JSONP
 
   permission_add_project: Създаване на проект
   permission_add_subprojects: Създаване на подпроекти
@@ -1080,4 +1080,3 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  setting_jsonp_enabled: Enable JSONP support
