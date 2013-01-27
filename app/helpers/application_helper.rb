@@ -659,7 +659,7 @@ module ApplicationHelper
   #     identifier:version:1.0.0
   #     identifier:source:some/file
   def parse_redmine_links(text, default_project, obj, attr, only_path, options)
-    text.gsub!(%r{([\s\(,\-\[\>]|^)(!)?(([a-z0-9\-_]+):)?(attachment|document|version|forum|news|message|project|commit|source|export)?(((#)|((([a-z0-9\-]+)\|)?(r)))((\d+)((#note)?-(\d+))?)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]][^A-Za-z0-9_/])|,|\s|\]|<|$)}) do |m|
+    text.gsub!(%r{([\s\(,\-\[\>]|^)(!)?(([a-z0-9\-_]+):)?(attachment|document|version|forum|news|message|project|commit|source|export)?(((#)|((([a-z0-9\-_]+)\|)?(r)))((\d+)((#note)?-(\d+))?)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]][^A-Za-z0-9_/])|,|\s|\]|<|$)}) do |m|
       leading, esc, project_prefix, project_identifier, prefix, repo_prefix, repo_identifier, sep, identifier, comment_suffix, comment_id = $1, $2, $3, $4, $5, $10, $11, $8 || $12 || $18, $14 || $19, $15, $17
       link = nil
       project = default_project
@@ -748,7 +748,7 @@ module ApplicationHelper
           when 'commit', 'source', 'export'
             if project
               repository = nil
-              if name =~ %r{^(([a-z0-9\-]+)\|)(.+)$}
+              if name =~ %r{^(([a-z0-9\-_]+)\|)(.+)$}
                 repo_prefix, repo_identifier, name = $1, $2, $3
                 repository = project.repositories.detect {|repo| repo.identifier == repo_identifier}
               else

@@ -408,14 +408,14 @@ RAW
   end
 
   def test_multiple_repositories_redmine_links
-    svn = Repository::Subversion.create!(:project_id => 1, :identifier => 'svn1', :url => 'file:///foo/hg')
+    svn = Repository::Subversion.create!(:project_id => 1, :identifier => 'svn_repo-1', :url => 'file:///foo/hg')
     Changeset.create!(:repository => svn, :committed_on => Time.now, :revision => '123')
     hg = Repository::Mercurial.create!(:project_id => 1, :identifier => 'hg1', :url => '/foo/hg')
     Changeset.create!(:repository => hg, :committed_on => Time.now, :revision => '123', :scmid => 'abcd')
 
     changeset_link = link_to('r2', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :rev => 2},
                                     :class => 'changeset', :title => 'This commit fixes #1, #2 and references #1 & #3')
-    svn_changeset_link = link_to('svn1|r123', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :repository_id => 'svn1', :rev => 123},
+    svn_changeset_link = link_to('svn_repo-1|r123', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :repository_id => 'svn_repo-1', :rev => 123},
                                     :class => 'changeset', :title => '')
     hg_changeset_link = link_to('hg1|abcd', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :repository_id => 'hg1', :rev => 'abcd'},
                                     :class => 'changeset', :title => '')
@@ -425,7 +425,7 @@ RAW
 
     to_test = {
       'r2'                          => changeset_link,
-      'svn1|r123'                   => svn_changeset_link,
+      'svn_repo-1|r123'             => svn_changeset_link,
       'invalid|r123'                => 'invalid|r123',
       'commit:hg1|abcd'             => hg_changeset_link,
       'commit:invalid|abcd'         => 'commit:invalid|abcd',
