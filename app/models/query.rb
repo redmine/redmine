@@ -293,7 +293,8 @@ class Query < ActiveRecord::Base
     field_type = available_filters[field][:type]
     operators_by_filter_type[field_type].sort.reverse.detect do |operator|
       next unless expression =~ /^#{Regexp.escape(operator)}(.*)$/
-      add_filter field, operator, $1.present? ? $1.split('|') : ['']
+      values = $1
+      add_filter field, operator, values.present? ? values.split('|') : ['']
     end || add_filter(field, '=', expression.split('|'))
   end
 
