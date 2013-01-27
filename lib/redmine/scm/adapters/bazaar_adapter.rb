@@ -104,13 +104,13 @@ module Redmine
             re = %r{^V\s+(#{Regexp.escape(prefix)})?(\/?)([^\/]+)(\/?)\s+(\S+)\r?$}
             io.each_line do |line|
               next unless line =~ re
-              name_locale = $3.strip
+              name_locale, slash, revision = $3.strip, $4, $5.strip
               name = scm_iconv('UTF-8', @path_encoding, name_locale)
               entries << Entry.new({:name => name,
                                     :path => ((path.empty? ? "" : "#{path}/") + name),
-                                    :kind => ($4.blank? ? 'file' : 'dir'),
+                                    :kind => (slash.blank? ? 'file' : 'dir'),
                                     :size => nil,
-                                    :lastrev => Revision.new(:revision => $5.strip)
+                                    :lastrev => Revision.new(:revision => revision)
                                   })
             end
           end
