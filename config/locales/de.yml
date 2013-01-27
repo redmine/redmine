@@ -976,6 +976,7 @@ de:
   setting_issue_group_assignment: Ticketzuweisung an Gruppen erlauben
   setting_issue_list_default_columns: Standard-Spalten in der Ticket-Auflistung
   setting_issues_export_limit: Max. Anzahl Tickets bei CSV/PDF-Export
+  setting_jsonp_enabled: JSONP Unterstützung aktivieren
   setting_login_required: Authentifizierung erforderlich
   setting_mail_from: E-Mail-Absender
   setting_mail_handler_api_enabled: Abruf eingehender E-Mails aktivieren
@@ -1094,4 +1095,3 @@ de:
   version_status_open: offen
 
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
-  setting_jsonp_enabled: Enable JSONP support
