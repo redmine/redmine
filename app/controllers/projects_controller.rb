@@ -175,14 +175,14 @@ class ProjectsController < ApplicationController
 
     # Get a path to a temp file
     logfile = Tempfile.new('git_retrieverepos_exec')
-    print "\nTempFile created"
+    # print "\nTempFile created"
     logfile.close
-    print "\nCOMMAND #{command} > #{logfile.path} 2>&1\n"
+    # print "\nCOMMAND #{command} > #{logfile.path} 2>&1\n"
     success = system("#{command} > #{logfile.path} 2>&1")
-    print "\nSUCCESS:"+success.to_s
+    # print "\nSUCCESS:"+success.to_s
     output_from_command = File.readlines(logfile.path)
-    print "\nPATH:"+logfile.path.to_s+"\n"
-    print output_from_command
+    # print "\nPATH:"+logfile.path.to_s+"\n"
+    # print output_from_command
     if success
       logger.debug { "GithubHook: Command output: #{output_from_command.inspect}"}
     else
@@ -204,7 +204,7 @@ class ProjectsController < ApplicationController
     if(repository)
       command = git_command("ls-tree -r master | cut -f2", repository)
       @output=exec(command)
-      print @output
+      # print @output
       for line in @output
         if line.strip.ends_with?(".nml")
         @NML2files.push(line.strip)
