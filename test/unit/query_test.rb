@@ -63,7 +63,7 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def assert_query_statement_includes(query, condition)
-    assert query.statement.include?(condition), "Query statement condition not found in: #{query.statement}"
+    assert_include condition, query.statement
   end
   
   def assert_query_result(expected, query)
