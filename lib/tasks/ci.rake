@@ -22,6 +22,7 @@ namespace :ci do
   desc "Build Redmine"
   task :build do
     Rake::Task["test"].invoke
+    Rake::Task["test:ui"].invoke unless RUBY_VERSION < '1.9'
   end
 
   desc "Finish the build"
