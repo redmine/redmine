@@ -36,9 +36,10 @@ end
 
 # Include database gems for the adapters found in the database
 # configuration file
+require 'erb'
 database_file = File.join(File.dirname(__FILE__), "config/database.yml")
 if File.exist?(database_file)
-  database_config = YAML.load_file(database_file)
+  database_config = YAML::load(ERB.new(IO.read(database_file)).result)
   adapters = database_config.values.map {|c| c['adapter']}.compact.uniq
   if adapters.any?
     adapters.each do |adapter|
