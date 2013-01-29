@@ -1124,7 +1124,7 @@ class QueryTest < ActiveSupport::TestCase
         @query = IssueQuery.new(:name => '_')
         @query.add_filter('member_of_group', '=', [@group.id.to_s])
 
-        assert_query_statement_includes @query, "#{Issue.table_name}.assigned_to_id IN ('#{@user_in_group.id}','#{@second_user_in_group.id}')"
+        assert_query_statement_includes @query, "#{Issue.table_name}.assigned_to_id IN ('#{@user_in_group.id}','#{@second_user_in_group.id}','#{@group.id}')"
         assert_find_issues_with_query_is_successful @query
       end
 
@@ -1133,7 +1133,7 @@ class QueryTest < ActiveSupport::TestCase
         @query.add_filter('member_of_group', '!*', [''])
 
         # Users not in a group
-        assert_query_statement_includes @query, "#{Issue.table_name}.assigned_to_id IS NULL OR #{Issue.table_name}.assigned_to_id NOT IN ('#{@user_in_group.id}','#{@second_user_in_group.id}','#{@user_in_group2.id}')"
+        assert_query_statement_includes @query, "#{Issue.table_name}.assigned_to_id IS NULL OR #{Issue.table_name}.assigned_to_id NOT IN ('#{@user_in_group.id}','#{@second_user_in_group.id}','#{@user_in_group2.id}','#{@group.id}','#{@group2.id}')"
         assert_find_issues_with_query_is_successful @query
       end
 
@@ -1142,7 +1142,7 @@ class QueryTest < ActiveSupport::TestCase
         @query.add_filter('member_of_group', '*', [''])
 
         # Only users in a group
-        assert_query_statement_includes @query, "#{Issue.table_name}.assigned_to_id IN ('#{@user_in_group.id}','#{@second_user_in_group.id}','#{@user_in_group2.id}')"
+        assert_query_statement_includes @query, "#{Issue.table_name}.assigned_to_id IN ('#{@user_in_group.id}','#{@second_user_in_group.id}','#{@user_in_group2.id}','#{@group.id}','#{@group2.id}')"
         assert_find_issues_with_query_is_successful @query
       end
 
