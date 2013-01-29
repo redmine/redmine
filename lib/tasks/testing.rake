@@ -102,7 +102,6 @@ namespace :test do
   Rake::Task['test:rdm_routing'].comment = "Run the routing tests"
 
   Rake::TestTask.new(:ui => "db:test:prepare") do |t|
-    abort "ruby1.9 is required to run test:ui" if RUBY_VERSION < '1.9'
     t.libs << "test"
     t.verbose = true
     t.test_files = FileList['test/ui/**/*_test.rb']
