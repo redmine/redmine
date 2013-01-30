@@ -453,6 +453,21 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     end
   end
 
+  test "GET /issues/:id.xml?include=watchers should include watchers" do
+    Watcher.create!(:user_id => 3, :watchable => Issue.find(1))
+
+    get '/issues/1.xml?include=watchers', {}, credentials('jsmith')
+
+    assert_response :ok
+    assert_equal 'application/xml', response.content_type
+    assert_select 'issue' do
+      assert_select 'watchers', Issue.find(1).watchers.count
+      assert_select 'watchers' do
+        assert_select 'user[id=3]'
+      end
+    end
+  end
+
   context "POST /issues.xml" do
     should_allow_api_authentication(
       :post,
@@ -476,6 +491,18 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
       assert_equal 'application/xml', @response.content_type
       assert_tag 'issue', :child => {:tag => 'id', :content => issue.id.to_s}
     end
+  end
+
+  test "POST /issues.xml with watcher_user_ids should create issue with watchers" do
+    assert_difference('Issue.count') do
+      post '/issues.xml',
+           {:issue => {:project_id => 1, :subject => 'Watchers',
+            :tracker_id => 2, :status_id => 3, :watcher_user_ids => [3, 1]}}, credentials('jsmith')
+      assert_response :created
+    end
+    issue = Issue.order('id desc').first
+    assert_equal 2, issue.watchers.size
+    assert_equal [1, 3], issue.watcher_user_ids.sort
   end
 
   context "POST /issues.xml with failure" do
@@ -718,6 +745,30 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
 
       assert_nil Issue.find_by_id(6)
     end
+  end
+
+  test "POST /issues/:id/watchers.xml should add watcher" do
+    assert_difference 'Watcher.count' do
+      post '/issues/1/watchers.xml', {:user_id => 3}, credentials('jsmith')
+
+      assert_response :ok
+      assert_equal '', response.body
+    end
+    watcher = Watcher.order('id desc').first
+    assert_equal Issue.find(1), watcher.watchable
+    assert_equal User.find(3), watcher.user
+  end
+
+  test "DELETE /issues/:id/watchers/:user_id.xml should remove watcher" do
+    Watcher.create!(:user_id => 3, :watchable => Issue.find(1))
+
+    assert_difference 'Watcher.count', -1 do
+      delete '/issues/1/watchers/3.xml', {}, credentials('jsmith')
+
+      assert_response :ok
+      assert_equal '', response.body
+    end
+    assert_equal false, Issue.find(1).watched_by?(User.find(3))
   end
 
   def test_create_issue_with_uploaded_file

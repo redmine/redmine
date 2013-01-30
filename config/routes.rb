@@ -84,6 +84,9 @@ RedmineApp::Application.routes.draw do
   match 'watchers/watch', :controller=> 'watchers', :action => 'watch', :via => :post
   match 'watchers/unwatch', :controller=> 'watchers', :action => 'unwatch', :via => :post
   match 'watchers/autocomplete_for_user', :controller=> 'watchers', :action => 'autocomplete_for_user', :via => :get
+  # Specific routes for issue watchers API
+  post 'issues/:object_id/watchers', :to => 'watchers#create', :object_type => 'issue'
+  delete 'issues/:object_id/watchers/:user_id' => 'watchers#destroy', :object_type => 'issue'
 
   resources :projects do
     member do

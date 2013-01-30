@@ -19,6 +19,7 @@ class WatchersController < ApplicationController
   before_filter :find_project
   before_filter :require_login, :check_project_privacy, :only => [:watch, :unwatch]
   before_filter :authorize, :only => [:new, :destroy]
+  accept_api_auth :create, :destroy
 
   def watch
     if @watched.respond_to?(:visible?) && !@watched.visible?(User.current)
@@ -36,15 +37,19 @@ class WatchersController < ApplicationController
   end
 
   def create
-    if params[:watcher].is_a?(Hash) && request.post?
-      user_ids = params[:watcher][:user_ids] || [params[:watcher][:user_id]]
-      user_ids.each do |user_id|
-        Watcher.create(:watchable => @watched, :user_id => user_id)
-      end
+    user_ids = []
+    if params[:watcher].is_a?(Hash)
+      user_ids << (params[:watcher][:user_ids] || params[:watcher][:user_id])
+    else
+      user_ids << params[:user_id]
+    end
+    user_ids.flatten.compact.uniq.each do |user_id|
+      Watcher.create(:watchable => @watched, :user_id => user_id)
     end
     respond_to do |format|
       format.html { redirect_to_referer_or {render :text => 'Watcher added.', :layout => true}}
       format.js
+      format.api { render_api_ok }
     end
   end
 
@@ -56,10 +61,11 @@ class WatchersController < ApplicationController
   end
 
   def destroy
-    @watched.set_watcher(User.find(params[:user_id]), false) if request.post?
+    @watched.set_watcher(User.find(params[:user_id]), false)
     respond_to do |format|
       format.html { redirect_to :back }
       format.js
+      format.api { render_api_ok }
     end
   end
 
