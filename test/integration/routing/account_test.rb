@@ -25,10 +25,12 @@ class RoutingAccountTest < ActionController::IntegrationTest
           { :controller => 'account', :action => 'login' }
         )
     end
-    assert_routing(
-        { :method => 'get', :path => "/logout" },
-        { :controller => 'account', :action => 'logout' }
-      )
+    ["get", "post"].each do |method|
+      assert_routing(
+          { :method => method, :path => "/logout" },
+          { :controller => 'account', :action => 'logout' }
+        )
+    end
     ["get", "post"].each do |method|
       assert_routing(
           { :method => method, :path => "/account/register" },

@@ -85,6 +85,13 @@ class WelcomeControllerTest < ActionController::TestCase
       :content => %r{warnLeavingUnsaved}
   end
 
+  def test_logout_link_should_post
+    @request.session[:user_id] = 2
+
+    get :index
+    assert_select 'a[href=/logout][data-method=post]', :text => 'Sign out'
+  end
+
   def test_call_hook_mixed_in
     assert @controller.respond_to?(:call_hook)
   end

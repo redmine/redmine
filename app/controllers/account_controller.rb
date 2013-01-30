@@ -38,8 +38,13 @@ class AccountController < ApplicationController
 
   # Log out current user and redirect to welcome page
   def logout
-    logout_user
-    redirect_to home_url
+    if User.current.anonymous?
+      redirect_to home_url
+    elsif request.post?
+      logout_user
+      redirect_to home_url
+    end
+    # display the logout form
   end
 
   # Lets user choose a new password
