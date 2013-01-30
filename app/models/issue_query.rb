@@ -350,12 +350,8 @@ class IssueQuery < Query
     groups ||= []
 
     members_of_groups = groups.inject([]) {|user_ids, group|
-      if group && group.user_ids.present?
-        user_ids << group.user_ids
-        user_ids << group.id
-      end
-      user_ids.flatten.uniq.compact
-    }.sort.collect(&:to_s)
+      user_ids + group.user_ids + [group.id]
+    }.uniq.compact.sort.collect(&:to_s)
 
     '(' + sql_for_field("assigned_to_id", operator, members_of_groups, Issue.table_name, "assigned_to_id", false) + ')'
   end
