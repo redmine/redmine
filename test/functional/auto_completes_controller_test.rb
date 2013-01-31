@@ -50,6 +50,13 @@ class AutoCompletesControllerTest < ActionController::TestCase
     assert assigns(:issues).include?(Issue.find(13))
   end
 
+  def test_issues_should_return_issue_with_given_id_preceded_with_hash
+    get :issues, :project_id => 'subproject1', :q => '#13'
+    assert_response :success
+    assert_not_nil assigns(:issues)
+    assert assigns(:issues).include?(Issue.find(13))
+  end
+
   def test_auto_complete_with_scope_all_should_search_other_projects
     get :issues, :project_id => 'ecookbook', :q => '13', :scope => 'all'
     assert_response :success
