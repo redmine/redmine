@@ -182,7 +182,7 @@ class User < Principal
         end
       end
     end
-    user.update_attribute(:last_login_on, Time.now) if user && !user.new_record?
+    user.update_column(:last_login_on, Time.now) if user && !user.new_record?
     user
   rescue => text
     raise text
@@ -195,7 +195,7 @@ class User < Principal
     if tokens.size == 1
       token = tokens.first
       if (token.created_on > Setting.autologin.to_i.day.ago) && token.user && token.user.active?
-        token.user.update_attribute(:last_login_on, Time.now)
+        token.user.update_column(:last_login_on, Time.now)
         token.user
       end
     end
