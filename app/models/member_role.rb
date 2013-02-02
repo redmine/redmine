@@ -66,9 +66,6 @@ class MemberRole < ActiveRecord::Base
   def remove_inherited_roles
     MemberRole.where(:inherited_from => id).all.group_by(&:member).each do |member, member_roles|
       member_roles.each(&:destroy)
-      if member && member.user
-        Watcher.prune(:user => member.user, :project => member.project)
-      end
     end
   end
 end

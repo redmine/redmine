@@ -27,7 +27,6 @@ class Member < ActiveRecord::Base
   validate :validate_role
 
   before_destroy :set_issue_category_nil
-  after_destroy :unwatch_from_permission_change
 
   def role
   end
@@ -52,7 +51,6 @@ class Member < ActiveRecord::Base
     member_roles_to_destroy = member_roles.select {|mr| !ids.include?(mr.role_id)}
     if member_roles_to_destroy.any?
       member_roles_to_destroy.each(&:destroy)
-      unwatch_from_permission_change
     end
   end
 
@@ -111,14 +109,5 @@ class Member < ActiveRecord::Base
 
   def validate_role
     errors.add_on_empty :role if member_roles.empty? && roles.empty?
-  end
-
-  private
-
-  # Unwatch things that the user is no longer allowed to view inside project
-  def unwatch_from_permission_change
-    if user
-      Watcher.prune(:user => user, :project => project)
-    end
   end
 end
