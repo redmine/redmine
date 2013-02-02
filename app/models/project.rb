@@ -653,7 +653,7 @@ class Project < ActiveRecord::Base
     :if => lambda {|project, user| project.new_record? || user.allowed_to?(:select_project_modules, project) }
 
   safe_attributes 'inherit_members',
-    :if => lambda {|project, user| project.parent.nil? || project.parent.visible?(:user)}
+    :if => lambda {|project, user| project.parent.nil? || project.parent.visible?(user)}
 
   # Returns an array of projects that are in this project's hierarchy
   #

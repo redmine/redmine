@@ -392,6 +392,13 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_template 'settings'
   end
 
+  def test_settings_of_subproject
+    @request.session[:user_id] = 2
+    get :settings, :id => 'private-child'
+    assert_response :success
+    assert_template 'settings'
+  end
+
   def test_settings_should_be_denied_for_member_on_closed_project
     Project.find(1).close
     @request.session[:user_id] = 2 # manager
