@@ -557,13 +557,13 @@ em.info.error {padding-left:20px; background:url(../images/exclamation.png) no-r
 textarea.text_cf {width:90%;}
 
 #tab-content-modules fieldset p {margin:3px 0 4px 0;}
-/* Project members tab */
-div#tab-content-members .splitcontentleft, div#tab-content-memberships .splitcontentleft, div#tab-content-users .splitcontentleft { width: 64% }
-div#tab-content-members .splitcontentright, div#tab-content-memberships .splitcontentright, div#tab-content-users .splitcontentright { width: 34% }
-div#tab-content-members fieldset, div#tab-content-memberships fieldset, div#tab-content-users fieldset { padding:1em; margin-bottom: 1em; }
-div#tab-content-members fieldset legend, div#tab-content-memberships fieldset legend, div#tab-content-users fieldset legend { font-weight: bold; }
-div#tab-content-members fieldset label, div#tab-content-memberships fieldset label, div#tab-content-users fieldset label { display: block; }
-div#tab-content-members #principals, div#tab-content-users #principals { max-height: 400px; overflow:auto; }
+
+#tab-content-members .splitcontentleft, #tab-content-memberships .splitcontentleft, #tab-content-users .splitcontentleft {width: 64%;}
+#tab-content-members .splitcontentright, #tab-content-memberships .splitcontentright, #tab-content-users .splitcontentright {width: 34%;}
+#tab-content-members fieldset, #tab-content-memberships fieldset, #tab-content-users fieldset {padding:1em; margin-bottom: 1em;}
+#tab-content-members fieldset legend, #tab-content-memberships fieldset legend, #tab-content-users fieldset legend {font-weight: bold;}
+#tab-content-members fieldset label, #tab-content-memberships fieldset label, #tab-content-users fieldset label {display: block;}
+#tab-content-members #principals, #tab-content-users #principals {max-height: 400px; overflow: auto;}
 
 #users_for_watcher {height: 200px; overflow:auto;}
 #users_for_watcher label {display: block;}
@@ -579,8 +579,6 @@ input.autocomplete {
 input.autocomplete.ajax-loading {
   background-image: url(../images/loading.gif);
 }
-
-* html div#tab-content-members fieldset div { height: 450px; }
 
 /***** Flash & error messages ****/
 #errorExplanation, div.flash, .nodata, .warning, .conflict {
