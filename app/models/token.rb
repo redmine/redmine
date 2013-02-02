@@ -37,10 +37,25 @@ class Token < ActiveRecord::Base
     Token.delete_all ["action NOT IN (?) AND created_on < ?", ['feeds', 'api'], Time.now - @@validity_time]
   end
 
-private
+  # Returns the active user who owns the key for the given action
+  def self.find_active_user(action, key, validity_days=nil)
+    action = action.to_s
+    key = key.to_s
+    return nil unless action.present? && key =~ /\A[a-f0-9]+\z/
+
+    token = find_by_action_and_value(action, key)
+    if token && token.user && token.user.active?
+      if validity_days.nil? || (token.created_on > validity_days.ago)
+        token.user
+      end
+    end
+  end
+
   def self.generate_token_value
     Redmine::Utils.random_hex(20)
   end
+
+  private
 
   # Removes obsolete tokens (same user and action)
   def delete_previous_tokens

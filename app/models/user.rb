@@ -190,14 +190,10 @@ class User < Principal
 
   # Returns the user who matches the given autologin +key+ or nil
   def self.try_to_autologin(key)
-    tokens = Token.find_all_by_action_and_value('autologin', key.to_s)
-    # Make sure there's only 1 token that matches the key
-    if tokens.size == 1
-      token = tokens.first
-      if (token.created_on > Setting.autologin.to_i.day.ago) && token.user && token.user.active?
-        token.user.update_column(:last_login_on, Time.now)
-        token.user
-      end
+    user = Token.find_active_user('autologin', key, Setting.autologin.to_i)
+    if user
+      user.update_column(:last_login_on, Time.now)
+      user
     end
   end
 
@@ -367,13 +363,11 @@ class User < Principal
   end
 
   def self.find_by_rss_key(key)
-    token = Token.find_by_action_and_value('feeds', key.to_s)
-    token && token.user.active? ? token.user : nil
+    Token.find_active_user('feeds', key)
   end
 
   def self.find_by_api_key(key)
-    token = Token.find_by_action_and_value('api', key.to_s)
-    token && token.user.active? ? token.user : nil
+    Token.find_active_user('api', key)
   end
 
   # Makes find_by_mail case-insensitive
