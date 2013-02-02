@@ -556,6 +556,7 @@ em.info.error {padding-left:20px; background:url(../images/exclamation.png) no-r
 
 textarea.text_cf {width:90%;}
 
+#tab-content-modules fieldset p {margin:3px 0 4px 0;}
 /* Project members tab */
 div#tab-content-members .splitcontentleft, div#tab-content-memberships .splitcontentleft, div#tab-content-users .splitcontentleft { width: 64% }
 div#tab-content-members .splitcontentright, div#tab-content-memberships .splitcontentright, div#tab-content-users .splitcontentright { width: 34% }
