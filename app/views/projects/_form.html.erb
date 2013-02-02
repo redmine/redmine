@@ -16,7 +16,7 @@
     <p><%= label(:project, :parent_id, l(:field_parent)) %><%= parent_project_select_tag(@project) %></p>
 <% end %>
 
-<% if @project.safe_attribute? 'priority_id' %>
+<% if @project.safe_attribute? 'inherit_members' %>
 <p><%= f.check_box :inherit_members %></p>
 <% end %>
 

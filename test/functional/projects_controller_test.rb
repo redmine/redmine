@@ -397,6 +397,8 @@ class ProjectsControllerTest < ActionController::TestCase
     get :settings, :id => 'private-child'
     assert_response :success
     assert_template 'settings'
+
+    assert_select 'input[type=checkbox][name=?]', 'project[inherit_members]'
   end
 
   def test_settings_should_be_denied_for_member_on_closed_project
