@@ -45,7 +45,7 @@ class Token < ActiveRecord::Base
 
     token = find_by_action_and_value(action, key)
     if token && token.user && token.user.active?
-      if validity_days.nil? || (token.created_on > validity_days.ago)
+      if validity_days.nil? || (token.created_on > validity_days.days.ago)
         token.user
       end
     end
