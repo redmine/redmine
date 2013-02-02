@@ -1190,3 +1190,4 @@ ru:
   permission_delete_documents: Удалить документы
   label_gantt_progress_line: Линия прогресса
   setting_jsonp_enabled: Enable JSONP support
+  field_inherit_members: Inherit members
