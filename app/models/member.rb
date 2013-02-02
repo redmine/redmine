@@ -97,6 +97,16 @@ class Member < ActiveRecord::Base
     @membership
   end
 
+  # Finds or initilizes a Member for the given project and principal
+  def self.find_or_new(project, principal)
+    project_id = project.is_a?(Project) ? project.id : project
+    principal_id = principal.is_a?(Principal) ? principal.id : principal
+
+    member = Member.find_by_project_id_and_user_id(project_id, principal_id)
+    member ||= Member.new(:project_id => project_id, :user_id => principal_id)
+    member
+  end
+
   protected
 
   def validate_role

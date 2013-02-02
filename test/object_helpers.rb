@@ -39,6 +39,12 @@ module ObjectHelpers
     project
   end
 
+  def Project.generate_with_parent!(parent, attributes={})
+    project = Project.generate!(attributes)
+    project.set_parent!(parent)
+    project
+  end
+
   def Tracker.generate!(attributes={})
     @generated_tracker_name ||= 'Tracker 0'
     @generated_tracker_name.succ!

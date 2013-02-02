@@ -4,10 +4,6 @@
 <!--[form:project]-->
 <p><%= f.text_field :name, :required => true, :size => 60 %></p>
 
-<% unless @project.allowed_parents.compact.empty? %>
-    <p><%= label(:project, :parent_id, l(:field_parent)) %><%= parent_project_select_tag(@project) %></p>
-<% end %>
-
 <p><%= f.text_area :description, :rows => 5, :class => 'wiki-edit' %></p>
 <p><%= f.text_field :identifier, :required => true, :size => 60, :disabled => @project.identifier_frozen?, :maxlength => Project::IDENTIFIER_MAX_LENGTH %>
 <% unless @project.identifier_frozen? %>
@@ -15,6 +11,15 @@
 <% end %></p>
 <p><%= f.text_field :homepage, :size => 60 %></p>
 <p><%= f.check_box :is_public %></p>
+
+<% unless @project.allowed_parents.compact.empty? %>
+    <p><%= label(:project, :parent_id, l(:field_parent)) %><%= parent_project_select_tag(@project) %></p>
+<% end %>
+
+<% if @project.safe_attribute? 'priority_id' %>
+<p><%= f.check_box :inherit_members %></p>
+<% end %>
+
 <%= wikitoolbar_for 'project_description' %>
 
 <% @project.custom_field_values.each do |value| %>

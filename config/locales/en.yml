@@ -329,6 +329,7 @@ en:
   field_timeout: "Timeout (in seconds)"
   field_board_parent: Parent forum
   field_private_notes: Private notes
+  field_inherit_members: Inherit members
 
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle

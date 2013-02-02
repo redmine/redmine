@@ -21,8 +21,8 @@ class MemberRole < ActiveRecord::Base
 
   after_destroy :remove_member_if_empty
 
-  after_create :add_role_to_group_users
-  after_destroy :remove_role_from_group_users
+  after_create :add_role_to_group_users, :add_role_to_subprojects
+  after_destroy :remove_inherited_roles
 
   validates_presence_of :role
   validate :validate_role_member
@@ -44,16 +44,26 @@ class MemberRole < ActiveRecord::Base
   end
 
   def add_role_to_group_users
-    if member.principal.is_a?(Group)
+    if member.principal.is_a?(Group) && !inherited?
       member.principal.users.each do |user|
-        user_member = Member.find_by_project_id_and_user_id(member.project_id, user.id) || Member.new(:project_id => member.project_id, :user_id => user.id)
+        user_member = Member.find_or_new(member.project_id, user.id)
         user_member.member_roles << MemberRole.new(:role => role, :inherited_from => id)
         user_member.save!
       end
     end
   end
 
-  def remove_role_from_group_users
+  def add_role_to_subprojects
+    member.project.children.each do |subproject|
+      if subproject.inherit_members?
+        child_member = Member.find_or_new(subproject.id, member.user_id)
+        child_member.member_roles << MemberRole.new(:role => role, :inherited_from => id)
+        child_member.save!
+      end
+    end
+  end
+
+  def remove_inherited_roles
     MemberRole.where(:inherited_from => id).all.group_by(&:member).each do |member, member_roles|
       member_roles.each(&:destroy)
       if member && member.user

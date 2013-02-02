@@ -82,6 +82,7 @@ class Project < ActiveRecord::Base
   validates_exclusion_of :identifier, :in => %w( new )
 
   after_save :update_position_under_parent, :if => Proc.new {|project| project.name_changed?}
+  after_save :update_inherited_members, :if => Proc.new {|project| project.inherit_members_changed?}
   before_destroy :delete_all_members
 
   scope :has_module, lambda {|mod|
@@ -651,6 +652,9 @@ class Project < ActiveRecord::Base
   safe_attributes 'enabled_module_names',
     :if => lambda {|project, user| project.new_record? || user.allowed_to?(:select_project_modules, project) }
 
+  safe_attributes 'inherit_members',
+    :if => lambda {|project, user| project.parent.nil? || project.parent.visible?(:user)}
+
   # Returns an array of projects that are in this project's hierarchy
   #
   # Example: parents, children, siblings
@@ -725,6 +729,44 @@ class Project < ActiveRecord::Base
   end
 
   private
+
+  def after_parent_changed(parent_was)
+    remove_inherited_member_roles
+    add_inherited_member_roles
+  end
+
+  def update_inherited_members
+    if parent
+      if inherit_members? && !inherit_members_was
+        remove_inherited_member_roles
+        add_inherited_member_roles
+      elsif !inherit_members? && inherit_members_was
+        remove_inherited_member_roles
+      end
+    end
+  end
+
+  def remove_inherited_member_roles
+    member_roles = memberships.map(&:member_roles).flatten
+    member_role_ids = member_roles.map(&:id)
+    member_roles.each do |member_role|
+      if member_role.inherited_from && !member_role_ids.include?(member_role.inherited_from)
+        member_role.destroy
+      end
+    end
+  end
+
+  def add_inherited_member_roles
+    if inherit_members? && parent
+      parent.memberships.each do |parent_member|
+        member = Member.find_or_new(self.id, parent_member.user_id)
+        parent_member.member_roles.each do |parent_member_role|
+          member.member_roles << MemberRole.new(:role => parent_member_role.role, :inherited_from => parent_member_role.id)
+        end
+        member.save!
+      end
+    end
+  end
 
   # Copies wiki from +project+
   def copy_wiki(project)
@@ -951,6 +993,7 @@ class Project < ActiveRecord::Base
 
   # Inserts/moves the project so that target's children or root projects stay alphabetically sorted
   def set_or_update_position_under(target_parent)
+    parent_was = parent
     sibs = (target_parent.nil? ? self.class.roots : target_parent.children)
     to_be_inserted_before = sibs.sort_by {|c| c.name.to_s.downcase}.detect {|c| c.name.to_s.downcase > name.to_s.downcase }
 
@@ -966,6 +1009,9 @@ class Project < ActiveRecord::Base
     else
       # move_to_child_of adds the project in last (ie.right) position
       move_to_child_of(target_parent)
+    end
+    if parent_was != target_parent
+      after_parent_changed(parent_was)
     end
   end
 end
