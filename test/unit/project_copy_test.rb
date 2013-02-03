@@ -30,7 +30,6 @@ class ProjectCopyTest < ActiveSupport::TestCase
            :member_roles,
            :members,
            :enabled_modules,
-           :workflows,
            :versions,
            :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions,
            :groups_users,
