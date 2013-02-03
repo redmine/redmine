@@ -29,8 +29,7 @@ class ProjectsHelperTest < ActionView::TestCase
            :member_roles,
            :members,
            :groups_users,
-           :enabled_modules,
-           :workflows
+           :enabled_modules
 
   def setup
     super

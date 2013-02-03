@@ -25,8 +25,7 @@ class TimeEntryTest < ActiveSupport::TestCase
            :journals, :journal_details,
            :issue_categories, :enumerations,
            :groups_users,
-           :enabled_modules,
-           :workflows
+           :enabled_modules
 
   def test_hours_format
     assertions = { "2"      => 2.0,

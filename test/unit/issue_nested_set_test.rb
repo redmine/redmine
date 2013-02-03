@@ -18,14 +18,11 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class IssueNestedSetTest < ActiveSupport::TestCase
-  fixtures :projects, :users, :members, :member_roles, :roles,
+  fixtures :projects, :users, :roles,
            :trackers, :projects_trackers,
-           :versions,
-           :issue_statuses, :issue_categories, :issue_relations, :workflows,
+           :issue_statuses, :issue_categories, :issue_relations,
            :enumerations,
-           :issues,
-           :custom_fields, :custom_fields_projects, :custom_fields_trackers, :custom_values,
-           :time_entries
+           :issues
 
   def test_create_root_issue
     issue1 = Issue.generate!

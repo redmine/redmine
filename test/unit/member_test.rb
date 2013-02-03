@@ -25,7 +25,6 @@ class MemberTest < ActiveSupport::TestCase
            :member_roles,
            :members,
            :enabled_modules,
-           :workflows,
            :groups_users,
            :watchers,
            :journals, :journal_details,
