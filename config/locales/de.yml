@@ -315,6 +315,7 @@ de:
   field_hours: Stunden
   field_identifier: Kennung
   field_identity_url: OpenID-URL
+  field_inherit_members: Benutzer vererben
   field_is_closed: Ticket geschlossen
   field_is_default: Standardeinstellung
   field_is_filter: Als Filter benutzen
@@ -1095,4 +1096,3 @@ de:
   version_status_open: offen
 
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
-  field_inherit_members: Inherit members
