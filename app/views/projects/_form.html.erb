@@ -74,7 +74,7 @@
   <% end %>
 <% end %>
 
-<% if @project.inherit_members? && @project.parent && User.current.member_of?(@project.parent) %>
+<% if !User.current.admin? && @project.inherit_members? && @project.parent && User.current.member_of?(@project.parent) %>
   <%= javascript_tag do %>
     $(document).ready(function() {
       $("#project_inherit_members").change(function(){
