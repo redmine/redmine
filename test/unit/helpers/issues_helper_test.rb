@@ -30,7 +30,6 @@ class IssuesHelperTest < ActionView::TestCase
            :member_roles,
            :members,
            :enabled_modules,
-           :workflows,
            :custom_fields,
            :attachments,
            :versions
