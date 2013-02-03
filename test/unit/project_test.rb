@@ -770,438 +770,135 @@ class ProjectTest < ActiveSupport::TestCase
     assert_not_nil project.versions.detect {|v| !v.completed? && v.status == 'open'}
   end
 
-  context "Project#copy" do
-    setup do
-      ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
-      Project.destroy_all :identifier => "copy-test"
-      @source_project = Project.find(2)
-      @project = Project.new(:name => 'Copy Test', :identifier => 'copy-test')
-      @project.trackers = @source_project.trackers
-      @project.enabled_module_names = @source_project.enabled_modules.collect(&:name)
-    end
-
-    should "copy issues" do
-      @source_project.issues << Issue.generate!(:status => IssueStatus.find_by_name('Closed'),
-                                                :subject => "copy issue status",
-                                                :tracker_id => 1,
-                                                :assigned_to_id => 2,
-                                                :project_id => @source_project.id)
-      assert @project.valid?
-      assert @project.issues.empty?
-      assert @project.copy(@source_project)
-
-      assert_equal @source_project.issues.size, @project.issues.size
-      @project.issues.each do |issue|
-        assert issue.valid?
-        assert ! issue.assigned_to.blank?
-        assert_equal @project, issue.project
-      end
-
-      copied_issue = @project.issues.first(:conditions => {:subject => "copy issue status"})
-      assert copied_issue
-      assert copied_issue.status
-      assert_equal "Closed", copied_issue.status.name
-    end
-
-    should "copy issues assigned to a locked version" do
-      User.current = User.find(1)
-      assigned_version = Version.generate!(:name => "Assigned Issues")
-      @source_project.versions << assigned_version
-      Issue.generate!(:project => @source_project,
-                      :fixed_version_id => assigned_version.id,
-                      :subject => "copy issues assigned to a locked version")
-      assigned_version.update_attribute :status, 'locked'
-
-      assert @project.copy(@source_project)
-      @project.reload
-      copied_issue = @project.issues.first(:conditions => {:subject => "copy issues assigned to a locked version"})
-
-      assert copied_issue
-      assert copied_issue.fixed_version
-      assert_equal "Assigned Issues", copied_issue.fixed_version.name # Same name
-      assert_equal 'locked', copied_issue.fixed_version.status
-    end
-
-    should "change the new issues to use the copied version" do
-      User.current = User.find(1)
-      assigned_version = Version.generate!(:name => "Assigned Issues", :status => 'open')
-      @source_project.versions << assigned_version
-      assert_equal 3, @source_project.versions.size
-      Issue.generate!(:project => @source_project,
-                      :fixed_version_id => assigned_version.id,
-                      :subject => "change the new issues to use the copied version")
-
-      assert @project.copy(@source_project)
-      @project.reload
-      copied_issue = @project.issues.first(:conditions => {:subject => "change the new issues to use the copied version"})
-
-      assert copied_issue
-      assert copied_issue.fixed_version
-      assert_equal "Assigned Issues", copied_issue.fixed_version.name # Same name
-      assert_not_equal assigned_version.id, copied_issue.fixed_version.id # Different record
-    end
-
-    should "keep target shared versions from other project" do
-      assigned_version = Version.generate!(:name => "Assigned Issues", :status => 'open', :project_id => 1, :sharing => 'system')
-      issue = Issue.generate!(:project => @source_project,
-                              :fixed_version => assigned_version,
-                              :subject => "keep target shared versions")
-
-      assert @project.copy(@source_project)
-      @project.reload
-      copied_issue = @project.issues.first(:conditions => {:subject => "keep target shared versions"})
-
-      assert copied_issue
-      assert_equal assigned_version, copied_issue.fixed_version
-    end
-
-    should "copy issue relations" do
-      Setting.cross_project_issue_relations = '1'
-
-      second_issue = Issue.generate!(:status_id => 5,
-                                     :subject => "copy issue relation",
-                                     :tracker_id => 1,
-                                     :assigned_to_id => 2,
-                                     :project_id => @source_project.id)
-      source_relation = IssueRelation.create!(:issue_from => Issue.find(4),
-                                                :issue_to => second_issue,
-                                                :relation_type => "relates")
-      source_relation_cross_project = IssueRelation.create!(:issue_from => Issue.find(1),
-                                                              :issue_to => second_issue,
-                                                              :relation_type => "duplicates")
-
-      assert @project.copy(@source_project)
-      assert_equal @source_project.issues.count, @project.issues.count
-      copied_issue = @project.issues.find_by_subject("Issue on project 2") # Was #4
-      copied_second_issue = @project.issues.find_by_subject("copy issue relation")
-
-      # First issue with a relation on project
-      assert_equal 1, copied_issue.relations.size, "Relation not copied"
-      copied_relation = copied_issue.relations.first
-      assert_equal "relates", copied_relation.relation_type
-      assert_equal copied_second_issue.id, copied_relation.issue_to_id
-      assert_not_equal source_relation.id, copied_relation.id
-
-      # Second issue with a cross project relation
-      assert_equal 2, copied_second_issue.relations.size, "Relation not copied"
-      copied_relation = copied_second_issue.relations.select {|r| r.relation_type == 'duplicates'}.first
-      assert_equal "duplicates", copied_relation.relation_type
-      assert_equal 1, copied_relation.issue_from_id, "Cross project relation not kept"
-      assert_not_equal source_relation_cross_project.id, copied_relation.id
-    end
-
-    should "copy issue attachments" do
-      issue = Issue.generate!(:subject => "copy with attachment", :tracker_id => 1, :project_id => @source_project.id)
-      Attachment.create!(:container => issue, :file => uploaded_test_file("testfile.txt", "text/plain"), :author_id => 1)
-      @source_project.issues << issue
-      assert @project.copy(@source_project)
-
-      copied_issue = @project.issues.first(:conditions => {:subject => "copy with attachment"})
-      assert_not_nil copied_issue
-      assert_equal 1, copied_issue.attachments.count, "Attachment not copied"
-      assert_equal "testfile.txt", copied_issue.attachments.first.filename
-    end
-
-    should "copy memberships" do
-      assert @project.valid?
-      assert @project.members.empty?
-      assert @project.copy(@source_project)
-
-      assert_equal @source_project.memberships.size, @project.memberships.size
-      @project.memberships.each do |membership|
-        assert membership
-        assert_equal @project, membership.project
-      end
-    end
-
-    should "copy memberships with groups and additional roles" do
-      group = Group.create!(:lastname => "Copy group")
-      user = User.find(7)
-      group.users << user
-      # group role
-      Member.create!(:project_id => @source_project.id, :principal => group, :role_ids => [2])
-      member = Member.find_by_user_id_and_project_id(user.id, @source_project.id)
-      # additional role
-      member.role_ids = [1]
-
-      assert @project.copy(@source_project)
-      member = Member.find_by_user_id_and_project_id(user.id, @project.id)
-      assert_not_nil member
-      assert_equal [1, 2], member.role_ids.sort
-    end
-
-    should "copy project specific queries" do
-      assert @project.valid?
-      assert @project.queries.empty?
-      assert @project.copy(@source_project)
-
-      assert_equal @source_project.queries.size, @project.queries.size
-      @project.queries.each do |query|
-        assert query
-        assert_equal @project, query.project
-      end
-      assert_equal @source_project.queries.map(&:user_id).sort, @project.queries.map(&:user_id).sort
-    end
-
-    should "copy versions" do
-      @source_project.versions << Version.generate!
-      @source_project.versions << Version.generate!
-
-      assert @project.versions.empty?
-      assert @project.copy(@source_project)
-
-      assert_equal @source_project.versions.size, @project.versions.size
-      @project.versions.each do |version|
-        assert version
-        assert_equal @project, version.project
-      end
-    end
-
-    should "copy wiki" do
-      assert_difference 'Wiki.count' do
-        assert @project.copy(@source_project)
-      end
-
-      assert @project.wiki
-      assert_not_equal @source_project.wiki, @project.wiki
-      assert_equal "Start page", @project.wiki.start_page
-    end
-
-    should "copy wiki pages and content with hierarchy" do
-      assert_difference 'WikiPage.count', @source_project.wiki.pages.size do
-        assert @project.copy(@source_project)
-      end
-
-      assert @project.wiki
-      assert_equal @source_project.wiki.pages.size, @project.wiki.pages.size
-
-      @project.wiki.pages.each do |wiki_page|
-        assert wiki_page.content
-        assert !@source_project.wiki.pages.include?(wiki_page)
-      end
-
-      parent = @project.wiki.find_page('Parent_page')
-      child1 = @project.wiki.find_page('Child_page_1')
-      child2 = @project.wiki.find_page('Child_page_2')
-      assert_equal parent, child1.parent
-      assert_equal parent, child2.parent
-    end
-
-    should "copy issue categories" do
-      assert @project.copy(@source_project)
-
-      assert_equal 2, @project.issue_categories.size
-      @project.issue_categories.each do |issue_category|
-        assert !@source_project.issue_categories.include?(issue_category)
-      end
-    end
-
-    should "copy boards" do
-      assert @project.copy(@source_project)
-
-      assert_equal 1, @project.boards.size
-      @project.boards.each do |board|
-        assert !@source_project.boards.include?(board)
-      end
-    end
-
-    should "change the new issues to use the copied issue categories" do
-      issue = Issue.find(4)
-      issue.update_attribute(:category_id, 3)
-
-      assert @project.copy(@source_project)
-
-      @project.issues.each do |issue|
-        assert issue.category
-        assert_equal "Stock management", issue.category.name # Same name
-        assert_not_equal IssueCategory.find(3), issue.category # Different record
-      end
-    end
-
-    should "limit copy with :only option" do
-      assert @project.members.empty?
-      assert @project.issue_categories.empty?
-      assert @source_project.issues.any?
-
-      assert @project.copy(@source_project, :only => ['members', 'issue_categories'])
-
-      assert @project.members.any?
-      assert @project.issue_categories.any?
-      assert @project.issues.empty?
-    end
+  test "#start_date should be nil if there are no issues on the project" do
+    project = Project.generate!
+    assert_nil project.start_date
   end
 
-  def test_copy_should_copy_subtasks
-    source = Project.generate!(:tracker_ids => [1])
-    issue = Issue.generate_with_descendants!(:project => source)
-    project = Project.new(:name => 'Copy', :identifier => 'copy', :tracker_ids => [1])
+  test "#start_date should be nil when issues have no start date" do
+    project = Project.generate!
+    project.trackers << Tracker.generate!
+    early = 7.days.ago.to_date
+    Issue.generate!(:project => project, :start_date => nil)
 
-    assert_difference 'Project.count' do
-      assert_difference 'Issue.count', 1+issue.descendants.count do
-        assert project.copy(source.reload)
-      end
-    end
-    copy = Issue.where(:parent_id => nil).order("id DESC").first
-    assert_equal project, copy.project
-    assert_equal issue.descendants.count, copy.descendants.count
-    child_copy = copy.children.detect {|c| c.subject == 'Child1'}
-    assert child_copy.descendants.any?
+    assert_nil project.start_date
   end
 
-  context "#start_date" do
-    setup do
-      ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
-      @project = Project.generate!(:identifier => 'test0')
-      @project.trackers << Tracker.generate!
-    end
+  test "#start_date should be the earliest start date of it's issues" do
+    project = Project.generate!
+    project.trackers << Tracker.generate!
+    early = 7.days.ago.to_date
+    Issue.generate!(:project => project, :start_date => Date.today)
+    Issue.generate!(:project => project, :start_date => early)
 
-    should "be nil if there are no issues on the project" do
-      assert_nil @project.start_date
-    end
-
-    should "be tested when issues have no start date"
-
-    should "be the earliest start date of it's issues" do
-      early = 7.days.ago.to_date
-      Issue.generate!(:project => @project, :start_date => Date.today)
-      Issue.generate!(:project => @project, :start_date => early)
-
-      assert_equal early, @project.start_date
-    end
-
+    assert_equal early, project.start_date
   end
 
-  context "#due_date" do
-    setup do
-      ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
-      @project = Project.generate!(:identifier => 'test0')
-      @project.trackers << Tracker.generate!
-    end
-
-    should "be nil if there are no issues on the project" do
-      assert_nil @project.due_date
-    end
-
-    should "be tested when issues have no due date"
-
-    should "be the latest due date of it's issues" do
-      future = 7.days.from_now.to_date
-      Issue.generate!(:project => @project, :due_date => future)
-      Issue.generate!(:project => @project, :due_date => Date.today)
-
-      assert_equal future, @project.due_date
-    end
-
-    should "be the latest due date of it's versions" do
-      future = 7.days.from_now.to_date
-      @project.versions << Version.generate!(:effective_date => future)
-      @project.versions << Version.generate!(:effective_date => Date.today)
-
-
-      assert_equal future, @project.due_date
-
-    end
-
-    should "pick the latest date from it's issues and versions" do
-      future = 7.days.from_now.to_date
-      far_future = 14.days.from_now.to_date
-      Issue.generate!(:project => @project, :due_date => far_future)
-      @project.versions << Version.generate!(:effective_date => future)
-
-      assert_equal far_future, @project.due_date
-    end
-
+  test "#due_date should be nil if there are no issues on the project" do
+    project = Project.generate!
+    assert_nil project.due_date
   end
 
-  context "Project#completed_percent" do
-    setup do
-      ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
-      @project = Project.generate!(:identifier => 'test0')
-      @project.trackers << Tracker.generate!
-    end
+  test "#due_date should be nil if there are no issues with due dates" do
+    project = Project.generate!
+    project.trackers << Tracker.generate!
+    Issue.generate!(:project => project, :due_date => nil)
 
-    context "no versions" do
-      should "be 100" do
-        assert_equal 100, @project.completed_percent
-      end
-    end
-
-    context "with versions" do
-      should "return 0 if the versions have no issues" do
-        Version.generate!(:project => @project)
-        Version.generate!(:project => @project)
-
-        assert_equal 0, @project.completed_percent
-      end
-
-      should "return 100 if the version has only closed issues" do
-        v1 = Version.generate!(:project => @project)
-        Issue.generate!(:project => @project, :status => IssueStatus.find_by_name('Closed'), :fixed_version => v1)
-        v2 = Version.generate!(:project => @project)
-        Issue.generate!(:project => @project, :status => IssueStatus.find_by_name('Closed'), :fixed_version => v2)
-
-        assert_equal 100, @project.completed_percent
-      end
-
-      should "return the averaged completed percent of the versions (not weighted)" do
-        v1 = Version.generate!(:project => @project)
-        Issue.generate!(:project => @project, :status => IssueStatus.find_by_name('New'), :estimated_hours => 10, :done_ratio => 50, :fixed_version => v1)
-        v2 = Version.generate!(:project => @project)
-        Issue.generate!(:project => @project, :status => IssueStatus.find_by_name('New'), :estimated_hours => 10, :done_ratio => 50, :fixed_version => v2)
-
-        assert_equal 50, @project.completed_percent
-      end
-
-    end
+    assert_nil project.due_date
   end
 
-  context "#notified_users" do
-    setup do
-      @project = Project.generate!
-      @role = Role.generate!
+  test "#due_date should be the latest due date of it's issues" do
+    project = Project.generate!
+    project.trackers << Tracker.generate!
+    future = 7.days.from_now.to_date
+    Issue.generate!(:project => project, :due_date => future)
+    Issue.generate!(:project => project, :due_date => Date.today)
 
-      @user_with_membership_notification = User.generate!(:mail_notification => 'selected')
-      Member.create!(:project => @project, :roles => [@role], :principal => @user_with_membership_notification, :mail_notification => true)
-
-      @all_events_user = User.generate!(:mail_notification => 'all')
-      Member.create!(:project => @project, :roles => [@role], :principal => @all_events_user)
-
-      @no_events_user = User.generate!(:mail_notification => 'none')
-      Member.create!(:project => @project, :roles => [@role], :principal => @no_events_user)
-
-      @only_my_events_user = User.generate!(:mail_notification => 'only_my_events')
-      Member.create!(:project => @project, :roles => [@role], :principal => @only_my_events_user)
-
-      @only_assigned_user = User.generate!(:mail_notification => 'only_assigned')
-      Member.create!(:project => @project, :roles => [@role], :principal => @only_assigned_user)
-
-      @only_owned_user = User.generate!(:mail_notification => 'only_owner')
-      Member.create!(:project => @project, :roles => [@role], :principal => @only_owned_user)
-    end
-
-    should "include members with a mail notification" do
-      assert @project.notified_users.include?(@user_with_membership_notification)
-    end
-
-    should "include users with the 'all' notification option" do
-      assert @project.notified_users.include?(@all_events_user)
-    end
-
-    should "not include users with the 'none' notification option" do
-      assert !@project.notified_users.include?(@no_events_user)
-    end
-
-    should "not include users with the 'only_my_events' notification option" do
-      assert !@project.notified_users.include?(@only_my_events_user)
-    end
-
-    should "not include users with the 'only_assigned' notification option" do
-      assert !@project.notified_users.include?(@only_assigned_user)
-    end
-
-    should "not include users with the 'only_owner' notification option" do
-      assert !@project.notified_users.include?(@only_owned_user)
-    end
+    assert_equal future, project.due_date
   end
 
+  test "#due_date should be the latest due date of it's versions" do
+    project = Project.generate!
+    future = 7.days.from_now.to_date
+    project.versions << Version.generate!(:effective_date => future)
+    project.versions << Version.generate!(:effective_date => Date.today)
+
+    assert_equal future, project.due_date
+  end
+
+  test "#due_date should pick the latest date from it's issues and versions" do
+    project = Project.generate!
+    project.trackers << Tracker.generate!
+    future = 7.days.from_now.to_date
+    far_future = 14.days.from_now.to_date
+    Issue.generate!(:project => project, :due_date => far_future)
+    project.versions << Version.generate!(:effective_date => future)
+
+    assert_equal far_future, project.due_date
+  end
+
+  test "#completed_percent with no versions should be 100" do
+    project = Project.generate!
+    assert_equal 100, project.completed_percent
+  end
+
+  test "#completed_percent with versions should return 0 if the versions have no issues" do
+    project = Project.generate!
+    Version.generate!(:project => project)
+    Version.generate!(:project => project)
+
+    assert_equal 0, project.completed_percent
+  end
+
+  test "#completed_percent with versions should return 100 if the version has only closed issues" do
+    project = Project.generate!
+    project.trackers << Tracker.generate!
+    v1 = Version.generate!(:project => project)
+    Issue.generate!(:project => project, :status => IssueStatus.find_by_name('Closed'), :fixed_version => v1)
+    v2 = Version.generate!(:project => project)
+    Issue.generate!(:project => project, :status => IssueStatus.find_by_name('Closed'), :fixed_version => v2)
+
+    assert_equal 100, project.completed_percent
+  end
+
+  test "#completed_percent with versions should return the averaged completed percent of the versions (not weighted)" do
+    project = Project.generate!
+    project.trackers << Tracker.generate!
+    v1 = Version.generate!(:project => project)
+    Issue.generate!(:project => project, :status => IssueStatus.find_by_name('New'), :estimated_hours => 10, :done_ratio => 50, :fixed_version => v1)
+    v2 = Version.generate!(:project => project)
+    Issue.generate!(:project => project, :status => IssueStatus.find_by_name('New'), :estimated_hours => 10, :done_ratio => 50, :fixed_version => v2)
+
+    assert_equal 50, project.completed_percent
+  end
+
+  test "#notified_users" do
+    project = Project.generate!
+    role = Role.generate!
+
+    user_with_membership_notification = User.generate!(:mail_notification => 'selected')
+    Member.create!(:project => project, :roles => [role], :principal => user_with_membership_notification, :mail_notification => true)
+
+    all_events_user = User.generate!(:mail_notification => 'all')
+    Member.create!(:project => project, :roles => [role], :principal => all_events_user)
+
+    no_events_user = User.generate!(:mail_notification => 'none')
+    Member.create!(:project => project, :roles => [role], :principal => no_events_user)
+
+    only_my_events_user = User.generate!(:mail_notification => 'only_my_events')
+    Member.create!(:project => project, :roles => [role], :principal => only_my_events_user)
+
+    only_assigned_user = User.generate!(:mail_notification => 'only_assigned')
+    Member.create!(:project => project, :roles => [role], :principal => only_assigned_user)
+
+    only_owned_user = User.generate!(:mail_notification => 'only_owner')
+    Member.create!(:project => project, :roles => [role], :principal => only_owned_user)
+
+    assert project.notified_users.include?(user_with_membership_notification), "should include members with a mail notification"
+    assert project.notified_users.include?(all_events_user), "should include users with the 'all' notification option"
+    assert !project.notified_users.include?(no_events_user), "should not include users with the 'none' notification option"
+    assert !project.notified_users.include?(only_my_events_user), "should not include users with the 'only_my_events' notification option"
+    assert !project.notified_users.include?(only_assigned_user), "should not include users with the 'only_assigned' notification option"
+    assert !project.notified_users.include?(only_owned_user), "should not include users with the 'only_owner' notification option"
+  end
 end
