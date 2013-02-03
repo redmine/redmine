@@ -435,56 +435,54 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal [1,2], parent.rolled_up_trackers.collect(&:id)
   end
 
-  context "#rolled_up_versions" do
-    setup do
-      @project = Project.generate!
-      @parent_version_1 = Version.generate!(:project => @project)
-      @parent_version_2 = Version.generate!(:project => @project)
-    end
+  test "#rolled_up_versions should include the versions for the current project" do
+    project = Project.generate!
+    parent_version_1 = Version.generate!(:project => project)
+    parent_version_2 = Version.generate!(:project => project)
+    assert_same_elements [parent_version_1, parent_version_2], project.rolled_up_versions
+  end
 
-    should "include the versions for the current project" do
-      assert_same_elements [@parent_version_1, @parent_version_2], @project.rolled_up_versions
-    end
+  test "#rolled_up_versions should include versions for a subproject" do
+    project = Project.generate!
+    parent_version_1 = Version.generate!(:project => project)
+    parent_version_2 = Version.generate!(:project => project)
+    subproject = Project.generate_with_parent!(project)
+    subproject_version = Version.generate!(:project => subproject)
 
-    should "include versions for a subproject" do
-      @subproject = Project.generate!
-      @subproject.set_parent!(@project)
-      @subproject_version = Version.generate!(:project => @subproject)
+    assert_same_elements [
+                          parent_version_1,
+                          parent_version_2,
+                          subproject_version
+                         ], project.rolled_up_versions
+  end
 
-      assert_same_elements [
-                            @parent_version_1,
-                            @parent_version_2,
-                            @subproject_version
-                           ], @project.rolled_up_versions
-    end
+  test "#rolled_up_versions should include versions for a sub-subproject" do
+    project = Project.generate!
+    parent_version_1 = Version.generate!(:project => project)
+    parent_version_2 = Version.generate!(:project => project)
+    subproject = Project.generate_with_parent!(project)
+    sub_subproject = Project.generate_with_parent!(subproject)
+    sub_subproject_version = Version.generate!(:project => sub_subproject)
+    project.reload
 
-    should "include versions for a sub-subproject" do
-      @subproject = Project.generate!
-      @subproject.set_parent!(@project)
-      @sub_subproject = Project.generate!
-      @sub_subproject.set_parent!(@subproject)
-      @sub_subproject_version = Version.generate!(:project => @sub_subproject)
+    assert_same_elements [
+                          parent_version_1,
+                          parent_version_2,
+                          sub_subproject_version
+                         ], project.rolled_up_versions
+  end
 
-      @project.reload
+  test "#rolled_up_versions should only check active projects" do
+    project = Project.generate!
+    parent_version_1 = Version.generate!(:project => project)
+    parent_version_2 = Version.generate!(:project => project)
+    subproject = Project.generate_with_parent!(project)
+    subproject_version = Version.generate!(:project => subproject)
+    assert subproject.archive
+    project.reload
 
-      assert_same_elements [
-                            @parent_version_1,
-                            @parent_version_2,
-                            @sub_subproject_version
-                           ], @project.rolled_up_versions
-    end
-
-    should "only check active projects" do
-      @subproject = Project.generate!
-      @subproject.set_parent!(@project)
-      @subproject_version = Version.generate!(:project => @subproject)
-      assert @subproject.archive
-
-      @project.reload
-
-      assert !@subproject.active?
-      assert_same_elements [@parent_version_1, @parent_version_2], @project.rolled_up_versions
-    end
+    assert !subproject.active?
+    assert_same_elements [parent_version_1, parent_version_2], project.rolled_up_versions
   end
 
   def test_shared_versions_none_sharing
@@ -611,52 +609,49 @@ class ProjectTest < ActiveSupport::TestCase
     end
   end
 
-  context "enabled_modules" do
-    setup do
-      @project = Project.find(1)
+  test "enabled_modules should define module by names and preserve ids" do
+    @project = Project.find(1)
+    # Remove one module
+    modules = @project.enabled_modules.slice(0..-2)
+    assert modules.any?
+    assert_difference 'EnabledModule.count', -1 do
+      @project.enabled_module_names = modules.collect(&:name)
     end
+    @project.reload
+    # Ids should be preserved
+    assert_equal @project.enabled_module_ids.sort, modules.collect(&:id).sort
+  end
 
-    should "define module by names and preserve ids" do
-      # Remove one module
-      modules = @project.enabled_modules.slice(0..-2)
-      assert modules.any?
-      assert_difference 'EnabledModule.count', -1 do
-        @project.enabled_module_names = modules.collect(&:name)
-      end
-      @project.reload
-      # Ids should be preserved
-      assert_equal @project.enabled_module_ids.sort, modules.collect(&:id).sort
-    end
+  test "enabled_modules should enable a module" do
+    @project = Project.find(1)
+    @project.enabled_module_names = []
+    @project.reload
+    assert_equal [], @project.enabled_module_names
+    #with string
+    @project.enable_module!("issue_tracking")
+    assert_equal ["issue_tracking"], @project.enabled_module_names
+    #with symbol
+    @project.enable_module!(:gantt)
+    assert_equal ["issue_tracking", "gantt"], @project.enabled_module_names
+    #don't add a module twice
+    @project.enable_module!("issue_tracking")
+    assert_equal ["issue_tracking", "gantt"], @project.enabled_module_names
+  end
 
-    should "enable a module" do
-      @project.enabled_module_names = []
-      @project.reload
-      assert_equal [], @project.enabled_module_names
-      #with string
-      @project.enable_module!("issue_tracking")
-      assert_equal ["issue_tracking"], @project.enabled_module_names
-      #with symbol
-      @project.enable_module!(:gantt)
-      assert_equal ["issue_tracking", "gantt"], @project.enabled_module_names
-      #don't add a module twice
-      @project.enable_module!("issue_tracking")
-      assert_equal ["issue_tracking", "gantt"], @project.enabled_module_names
-    end
-
-    should "disable a module" do
-      #with string
-      assert @project.enabled_module_names.include?("issue_tracking")
-      @project.disable_module!("issue_tracking")
-      assert ! @project.reload.enabled_module_names.include?("issue_tracking")
-      #with symbol
-      assert @project.enabled_module_names.include?("gantt")
-      @project.disable_module!(:gantt)
-      assert ! @project.reload.enabled_module_names.include?("gantt")
-      #with EnabledModule object
-      first_module = @project.enabled_modules.first
-      @project.disable_module!(first_module)
-      assert ! @project.reload.enabled_module_names.include?(first_module.name)
-    end
+  test "enabled_modules should disable a module" do
+    @project = Project.find(1)
+    #with string
+    assert @project.enabled_module_names.include?("issue_tracking")
+    @project.disable_module!("issue_tracking")
+    assert ! @project.reload.enabled_module_names.include?("issue_tracking")
+    #with symbol
+    assert @project.enabled_module_names.include?("gantt")
+    @project.disable_module!(:gantt)
+    assert ! @project.reload.enabled_module_names.include?("gantt")
+    #with EnabledModule object
+    first_module = @project.enabled_modules.first
+    @project.disable_module!(first_module)
+    assert ! @project.reload.enabled_module_names.include?(first_module.name)
   end
 
   def test_enabled_module_names_should_not_recreate_enabled_modules

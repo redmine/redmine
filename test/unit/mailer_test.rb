@@ -279,44 +279,40 @@ class MailerTest < ActiveSupport::TestCase
     end
   end
 
-  context("#issue_add") do
-    setup do
-      ActionMailer::Base.deliveries.clear
-      Setting.bcc_recipients = '1'
-      @issue = Issue.find(1)
-    end
+  test "#issue_add should notify project members" do
+    issue = Issue.find(1)
+    assert Mailer.issue_add(issue).deliver
+    assert last_email.bcc.include?('dlopper@somenet.foo')
+  end
 
-    should "notify project members" do
-      assert Mailer.issue_add(@issue).deliver
-      assert last_email.bcc.include?('dlopper@somenet.foo')
-    end
+  test "#issue_add should not notify project members that are not allow to view the issue" do
+    issue = Issue.find(1)
+    Role.find(2).remove_permission!(:view_issues)
+    assert Mailer.issue_add(issue).deliver
+    assert !last_email.bcc.include?('dlopper@somenet.foo')
+  end
 
-    should "not notify project members that are not allow to view the issue" do
-      Role.find(2).remove_permission!(:view_issues)
-      assert Mailer.issue_add(@issue).deliver
-      assert !last_email.bcc.include?('dlopper@somenet.foo')
-    end
+  test "#issue_add should notify issue watchers" do
+    issue = Issue.find(1)
+    user = User.find(9)
+    # minimal email notification options
+    user.pref[:no_self_notified] = '1'
+    user.pref.save
+    user.mail_notification = false
+    user.save
 
-    should "notify issue watchers" do
-      user = User.find(9)
-      # minimal email notification options
-      user.pref[:no_self_notified] = '1'
-      user.pref.save
-      user.mail_notification = false
-      user.save
+    Watcher.create!(:watchable => issue, :user => user)
+    assert Mailer.issue_add(issue).deliver
+    assert last_email.bcc.include?(user.mail)
+  end
 
-      Watcher.create!(:watchable => @issue, :user => user)
-      assert Mailer.issue_add(@issue).deliver
-      assert last_email.bcc.include?(user.mail)
-    end
-
-    should "not notify watchers not allowed to view the issue" do
-      user = User.find(9)
-      Watcher.create!(:watchable => @issue, :user => user)
-      Role.non_member.remove_permission!(:view_issues)
-      assert Mailer.issue_add(@issue).deliver
-      assert !last_email.bcc.include?(user.mail)
-    end
+  test "#issue_add should not notify watchers not allowed to view the issue" do
+    issue = Issue.find(1)
+    user = User.find(9)
+    Watcher.create!(:watchable => issue, :user => user)
+    Role.non_member.remove_permission!(:view_issues)
+    assert Mailer.issue_add(issue).deliver
+    assert !last_email.bcc.include?(user.mail)
   end
 
   # test mailer methods for each language
