@@ -62,7 +62,7 @@ class ProjectMembersInheritanceTest < ActiveSupport::TestCase
     end
   end
 
-  def test_turning_off_inherit_members_should_inherit_members
+  def test_turning_off_inherit_members_should_remove_inherited_members
     Project.generate_with_parent!(@parent, :inherit_members => true)
 
     assert_difference 'Member.count', -1 do
