@@ -73,3 +73,17 @@
     <%= javascript_include_tag 'project_identifier' %>
   <% end %>
 <% end %>
+
+<% if @project.inherit_members? && @project.parent && User.current.member_of?(@project.parent) %>
+  <%= javascript_tag do %>
+    $(document).ready(function() {
+      $("#project_inherit_members").change(function(){
+        if (!$(this).is(':checked')) {
+          if (!confirm("<%= escape_javascript(l(:text_own_membership_delete_confirmation)) %>")) {
+            $("#project_inherit_members").attr("checked", true);
+          }
+        }
+      });
+    });
+  <% end %>
+<% end %>
