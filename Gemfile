@@ -74,7 +74,7 @@ group :development do
 end
 
 group :test do
-  gem "shoulda", "~> 2.11"
+  gem "shoulda", "~> 3.3.2"
   # Shoulda does not work nice on Ruby 1.9.3 and JRuby 1.7.
   # It seems to need test-unit explicitely.
   platforms = [:mri_19]
