@@ -4002,6 +4002,10 @@ class TCPDF
 				@quote_page[@quote_count] = @page;
 				@quote_count += 1
 			when 'br'
+				if @tdbegin
+					@tdtext << "\n"
+					return
+				end
 				Ln();
 
 				if (@li_spacer.length > 0)
