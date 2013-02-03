@@ -1025,81 +1025,50 @@ class QueryTest < ActiveSupport::TestCase
     assert !query_ids.include?(7), 'public query on private project was visible'
   end
 
-  context "#available_filters" do
-    setup do
-      @query = IssueQuery.new(:name => "_")
-    end
+  test "#available_filters should include users of visible projects in cross-project view" do
+    users = IssueQuery.new.available_filters["assigned_to_id"]
+    assert_not_nil users
+    assert users[:values].map{|u|u[1]}.include?("3")
+  end
 
-    should "include users of visible projects in cross-project view" do
-      users = @query.available_filters["assigned_to_id"]
-      assert_not_nil users
-      assert users[:values].map{|u|u[1]}.include?("3")
-    end
+  test "#available_filters should include users of subprojects" do
+    user1 = User.generate!
+    user2 = User.generate!
+    project = Project.find(1)
+    Member.create!(:principal => user1, :project => project.children.visible.first, :role_ids => [1])
 
-    should "include users of subprojects" do
-      user1 = User.generate!
-      user2 = User.generate!
-      project = Project.find(1)
-      Member.create!(:principal => user1, :project => project.children.visible.first, :role_ids => [1])
-      @query.project = project
+    users = IssueQuery.new(:project => project).available_filters["assigned_to_id"]
+    assert_not_nil users
+    assert users[:values].map{|u|u[1]}.include?(user1.id.to_s)
+    assert !users[:values].map{|u|u[1]}.include?(user2.id.to_s)
+  end
 
-      users = @query.available_filters["assigned_to_id"]
-      assert_not_nil users
-      assert users[:values].map{|u|u[1]}.include?(user1.id.to_s)
-      assert !users[:values].map{|u|u[1]}.include?(user2.id.to_s)
-    end
+  test "#available_filters should include visible projects in cross-project view" do
+    projects = IssueQuery.new.available_filters["project_id"]
+    assert_not_nil projects
+    assert projects[:values].map{|u|u[1]}.include?("1")
+  end
 
-    should "include visible projects in cross-project view" do
-      projects = @query.available_filters["project_id"]
-      assert_not_nil projects
-      assert projects[:values].map{|u|u[1]}.include?("1")
-    end
+  test "#available_filters should include 'member_of_group' filter" do
+    query = IssueQuery.new
+    assert query.available_filters.keys.include?("member_of_group")
+    assert_equal :list_optional, query.available_filters["member_of_group"][:type]
+    assert query.available_filters["member_of_group"][:values].present?
+    assert_equal Group.all.sort.map {|g| [g.name, g.id.to_s]},
+      query.available_filters["member_of_group"][:values].sort
+  end
 
-    context "'member_of_group' filter" do
-      should "be present" do
-        assert @query.available_filters.keys.include?("member_of_group")
-      end
+  test "#available_filters should include 'assigned_to_role' filter" do
+    query = IssueQuery.new
+    assert query.available_filters.keys.include?("assigned_to_role")
+    assert_equal :list_optional, query.available_filters["assigned_to_role"][:type]
 
-      should "be an optional list" do
-        assert_equal :list_optional, @query.available_filters["member_of_group"][:type]
-      end
+    assert query.available_filters["assigned_to_role"][:values].include?(['Manager','1'])
+    assert query.available_filters["assigned_to_role"][:values].include?(['Developer','2'])
+    assert query.available_filters["assigned_to_role"][:values].include?(['Reporter','3'])
 
-      should "have a list of the groups as values" do
-        Group.destroy_all # No fixtures
-        group1 = Group.generate!.reload
-        group2 = Group.generate!.reload
-
-        expected_group_list = [
-                               [group1.name, group1.id.to_s],
-                               [group2.name, group2.id.to_s]
-                              ]
-        assert_equal expected_group_list.sort, @query.available_filters["member_of_group"][:values].sort
-      end
-
-    end
-
-    context "'assigned_to_role' filter" do
-      should "be present" do
-        assert @query.available_filters.keys.include?("assigned_to_role")
-      end
-
-      should "be an optional list" do
-        assert_equal :list_optional, @query.available_filters["assigned_to_role"][:type]
-      end
-
-      should "have a list of the Roles as values" do
-        assert @query.available_filters["assigned_to_role"][:values].include?(['Manager','1'])
-        assert @query.available_filters["assigned_to_role"][:values].include?(['Developer','2'])
-        assert @query.available_filters["assigned_to_role"][:values].include?(['Reporter','3'])
-      end
-
-      should "not include the built in Roles as values" do
-        assert ! @query.available_filters["assigned_to_role"][:values].include?(['Non member','4'])
-        assert ! @query.available_filters["assigned_to_role"][:values].include?(['Anonymous','5'])
-      end
-
-    end
-
+    assert ! query.available_filters["assigned_to_role"][:values].include?(['Non member','4'])
+    assert ! query.available_filters["assigned_to_role"][:values].include?(['Anonymous','5'])
   end
 
   context "#statement" do
