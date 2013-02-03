@@ -3,7 +3,7 @@ module ObjectHelpers
     @generated_user_login ||= 'user0'
     @generated_user_login.succ!
     user = User.new(attributes)
-    user.login = @generated_user_login if user.login.blank?
+    user.login = @generated_user_login.dup if user.login.blank?
     user.mail = "#{@generated_user_login}@example.com" if user.mail.blank?
     user.firstname = "Bob" if user.firstname.blank?
     user.lastname = "Doe" if user.lastname.blank?
@@ -22,7 +22,7 @@ module ObjectHelpers
     @generated_group_name ||= 'Group 0'
     @generated_group_name.succ!
     group = Group.new(attributes)
-    group.name = @generated_group_name if group.name.blank?
+    group.name = @generated_group_name.dup if group.name.blank?
     yield group if block_given?
     group.save!
     group
@@ -32,8 +32,8 @@ module ObjectHelpers
     @generated_project_identifier ||= 'project-0000'
     @generated_project_identifier.succ!
     project = Project.new(attributes)
-    project.name = @generated_project_identifier if project.name.blank?
-    project.identifier = @generated_project_identifier if project.identifier.blank?
+    project.name = @generated_project_identifier.dup if project.name.blank?
+    project.identifier = @generated_project_identifier.dup if project.identifier.blank?
     yield project if block_given?
     project.save!
     project
@@ -49,7 +49,7 @@ module ObjectHelpers
     @generated_tracker_name ||= 'Tracker 0'
     @generated_tracker_name.succ!
     tracker = Tracker.new(attributes)
-    tracker.name = @generated_tracker_name if tracker.name.blank?
+    tracker.name = @generated_tracker_name.dup if tracker.name.blank?
     yield tracker if block_given?
     tracker.save!
     tracker
@@ -59,7 +59,7 @@ module ObjectHelpers
     @generated_role_name ||= 'Role 0'
     @generated_role_name.succ!
     role = Role.new(attributes)
-    role.name = @generated_role_name if role.name.blank?
+    role.name = @generated_role_name.dup if role.name.blank?
     yield role if block_given?
     role.save!
     role
@@ -98,7 +98,7 @@ module ObjectHelpers
     @generated_version_name ||= 'Version 0'
     @generated_version_name.succ!
     version = Version.new(attributes)
-    version.name = @generated_version_name if version.name.blank?
+    version.name = @generated_version_name.dup if version.name.blank?
     yield version if block_given?
     version.save!
     version
@@ -119,7 +119,7 @@ module ObjectHelpers
     @generated_auth_source_name ||= 'Auth 0'
     @generated_auth_source_name.succ!
     source = AuthSource.new(attributes)
-    source.name = @generated_auth_source_name if source.name.blank?
+    source.name = @generated_auth_source_name.dup if source.name.blank?
     yield source if block_given?
     source.save!
     source
@@ -129,8 +129,8 @@ module ObjectHelpers
     @generated_board_name ||= 'Forum 0'
     @generated_board_name.succ!
     board = Board.new(attributes)
-    board.name = @generated_board_name if board.name.blank?
-    board.description = @generated_board_name if board.description.blank?
+    board.name = @generated_board_name.dup if board.name.blank?
+    board.description = @generated_board_name.dup if board.description.blank?
     yield board if block_given?
     board.save!
     board
@@ -143,7 +143,7 @@ module ObjectHelpers
     attachment = Attachment.new(attributes)
     attachment.container ||= Issue.find(1)
     attachment.author ||= User.find(2)
-    attachment.filename = @generated_filename if attachment.filename.blank?
+    attachment.filename = @generated_filename.dup if attachment.filename.blank?
     attachment.save!
     attachment
   end
