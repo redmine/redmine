@@ -75,7 +75,7 @@ end
 
 group :test do
   gem "shoulda", "~> 3.3.2"
-  gem "mocha", "0.12.3"
+  gem "mocha"
   gem 'capybara', '~> 2.0.0'
 end
 
