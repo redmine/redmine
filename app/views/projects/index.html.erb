@@ -1,60 +1,65 @@
 <%= javascript_include_tag('d3.v2.js') %>
 <%= javascript_include_tag('d3.layout.js') %>
-<p id="jsontree" style="display: none;"><%= createJSONProjectTree(@projects)%><p>
-<!--
-<% content_for :header_tags do %>
-    <%= auto_discovery_link_tag(:atom, {:action => 'index', :format => 'atom', :key => User.current.rss_key}) %>
-<% end %>
-
-<div class="contextual">
-    <%= link_to(l(:label_project_new), {:controller => 'projects', :action => 'new'}, :class => 'icon icon-add') + ' |' if User.current.allowed_to?(:add_project, nil, :global => true) %>
-    <%= link_to(l(:label_issue_view_all), issues_path) + ' |' if User.current.allowed_to?(:view_issues, nil, :global => true) %>
-    <%= link_to(l(:label_overall_spent_time), time_entries_path) + ' |' if User.current.allowed_to?(:view_time_entries, nil, :global => true) %>
-    <%= link_to l(:label_overall_activity),
-                { :controller => 'activities', :action => 'index',
-                  :id => nil } %>
-</div>
-
-
-
-
-<h2><%=l(:label_project_plural)%></h2>
-<p>A number of these are available as <a href="embedded/osb">automatically generated descriptions</a> from neuroConstruct projects.</p>
-
-<p><a href="themes">Themes</a> are summaries of the projects present in the OSB for specific areas of neuronal modelling, e.g. related to a particular brain region or disease state.</p>
--->
-<div id="body"></div>
-
-
-<% if !(request.env["HTTP_USER_AGENT"] =~ /MSIE/)%>
-<%= javascript_include_tag('projectstree.js') %>
-
-	<div id="exploretreebox">
-		<b>Explore Open Source Brain</b>
-		<p class="smallcaptiononwhite">Click on a node to expand or collapse.</p>
-		<p class="smallcaptiononwhite">Projects are shown in <b class="blue">blue</b>, click on them to open the project page.</p>
-
-		<%= form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
-		<%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
-
-		<%= text_field_tag 'q', @question, :size => 70, :placeholder=>'Search Open Source Brain',:type=>'search', :results=>5, :id => 'smallsearch', :accesskey => accesskey(:quick_search) %>
+<div class="container">
+	<div class="hero-unit">
+		<h1>Explore Open Source Brain</h1>
+		<% if !(request.env["HTTP_USER_AGENT"] =~ /MSIE/)%>
+			<p class="lead">Click on a node to expand or collapse. Projects are shown in <b class="blue">blue</b>, click on them to open the project page.</p>
+		<% else %>
+			<p class="lead">Switch to Google Chrome or Mozilla Firefox to enhanced visualization.</p>
 		<% end %>
+		
+		<div class="tabbable">
+			<div class="row pagination-centered">
+				<div id="view-tab" class="span10 btn-group" data-toggle="buttons-radio">
+		  			<button class="btn btn-large active" href="#tab1" data-toggle="tab">Graph view</button>
+		  			<button class="btn btn-large" href="#tab2" data-toggle="tab">List view</button>
+				</div>
+				<br/><br/><br/>
+			</div>
+		
+			<!-- Tabbable table -->
+			<div class="tab-content">
+			    <div class="tab-pane active" id="tab1">
+					<div id="body"></div>
+					<p id="jsontree" style="display: none;"><%= createJSONProjectTree(@projects)%><p>	
+			    </div>
+			    <div class="tab-pane" id="tab2">
+			    	<div class="span12">
+				    	<ul id="projects-list" class="span3 nav nav-list">
+						  <li class="nav-header">Cell and network projects</li>
+						  <li class="active"><a href="#cells">A</a></li>
+						  <li class=""><a href="#cells">B</a></li>
+						  <li class=""><a href="#cells">C</a></li>
+						  <li class=""><a href="#cells">D</a></li>
+						  <li class="nav-header">Technology showcase projects</li>
+						  <li class="active"><a href="#showcase">B</a></li>
+						  <li class=""><a href="#showcase">D</a></li>
+						  <li class=""><a href="#cells">D</a></li>
+						  <li class=""><a href="#cells">D</a></li>
+						</ul>
+						<div class="span8 tab-content">
+				    		<div class="tab-pane active" id="cells">
+				    			<%= render_project_hierarchy(@projects, 'Project')%>
+				    		</div>
+				    		<div class="tab-pane" id="showcase">
+				    			<%= render_project_hierarchy(@projects, 'Showcase')%>
+				    		</div>		
+			    		</div>	    
+		    		</div>	    		
+				</div>
+		    </div>
+	    </div>
+		
+
+		<!-- Create the tree --> 	    
+	    <% if !(request.env["HTTP_USER_AGENT"] =~ /MSIE/)%>
+			<%= javascript_include_tag('projectstree.js') %>
+		<% end %>
+		
 	</div>
+</div>
+	
 
-	<p class="smallcaptiononwhite jumplabel"><a href="#projectslist">Jump to Projects list</a></p>
-
-<% else %>
-	<p class="smallcaptiononwhite">Switch to Google Chrome or Mozilla Firefox to enhanced visualization.</p>
-<% end %>
-<h2 >Cell and network projects</h2>
-<p>The following is a list of projects in the Open Source Brain repository featuring specific neurophysiological
-  cell and network types. </p>
-<p>There are also a number of <a href="#showcase">Technology showcase projects</a> which highlight
-  specific tools, databases and methods, which can be of use to many types models.</p>
-<br/>
-<%= render_project_hierarchy(@projects, 'Project')%>
-
-<h2 >Technology showcase projects</h2>
-<%= render_project_hierarchy(@projects, 'Showcase')%>
 
 

@@ -1,272 +1,233 @@
-<%= stylesheet_link_tag 'http://code.jquery.com/ui/1.9.1/themes/overcast/jquery-ui.css', :media => 'all' %>
-<%= javascript_include_tag('http://code.jquery.com/ui/1.9.2/jquery-ui.js') %>
-<%= javascript_include_tag('Detector.js') %>	
-<div class="contextual">
-	<% if User.current.allowed_to?(:add_subprojects, @project) %>
-	<%= link_to l(:label_subproject_new), new_project_path(:parent_id => @project), :class => 'icon icon-add' %>
-	<% end %>
-	<% if User.current.allowed_to?(:close_project, @project) %>
-	<% if @project.active? %>
-	<%= link_to l(:button_close), close_project_path(@project), :data => {:confirm => l(:text_are_you_sure)}, :method => :post, :class => 'icon icon-lock' %>
-	<% else %>
-	<%= link_to l(:button_reopen), reopen_project_path(@project), :data => {:confirm => l(:text_are_you_sure)}, :method => :post, :class => 'icon icon-unlock' %>
-	<% end %>
-	<% end %>
-</div>
+<%= javascript_include_tag('Detector.js') %>
 
-<h2><%= @project.name %></h2>
-
-<% unless @project.active? %>
-<p class="warning">
-	<span class="icon icon-lock"><%= l(:text_project_closed) %></span>
-</p>
-<% end %>
-
-<div class="splitcontentleft">
-
-	<!--
-	<% unless @project.homepage.blank? %>
-	<% if h(@project.homepage).starts_with? 'http://opensourcebrain.org/embedded' or h(@project.homepage).starts_with? 'http://www.opensourcebrain.org/embedded'%>
-	<p><a href="<%= @project.homepage %>"> <img alt="Project description" border="0" src="<%= @project.homepage %>/images/small.png"/> </a></p>
-	<% else %>
-
-	<p>More information: <a href="<%= @project.homepage %>"><%= @project.homepage %></a></p>
-	<% end %>
-	<% end %>
-	-->
-	<div class="wiki">
-		<%= textilizable @project.description %>
-		<% unless @project.homepage.blank? %>
-		<% if h(@project.homepage).starts_with? 'http://opensourcebrain.org/embedded' or h(@project.homepage).starts_with? 'http://www.opensourcebrain.org/embedded'%>
-		<p>
-			<a href="<%= @project.homepage %>">More...</a>
-		</p>
-		<% end %>
-		<% end %>
-	</div>
-
-	<% if @subprojects.any? %>
-	<p>
-		<%= l(:label_subproject_plural)%>:
-		<%= @subprojects.collect{|p| link_to(h(p), :action => 'show', :id => p)}.join(", ").html_safe %>
-	</p>
-	<% end %>
-
-	<% @project.visible_custom_field_values.each do |custom_value| %>
-	<% if !custom_value.value.blank? %>
-	<% if custom_value.custom_field.name != 'Category'  %>
-
-	<% end %>
-	<% end %>
-	<% end %>
-
-	<% @project.visible_custom_field_values.each do |custom_value| %>
-
-	<% if !custom_value.value.blank? %>
-
-	<% if custom_value.custom_field.name == 'Status info' %>
-
-	<h2>Status</h2>
-
-	<div class="wiki">
-		<%= textilizable show_value(custom_value) %>
-	</div>
-	<% end %>
-
-	<% end %>
-	<% end %>
-
-	<% @project.visible_custom_field_values.each do |custom_value| %>
-
-	<% if !custom_value.value.blank? %>
-
-	<% if custom_value.custom_field.name == 'GitHub repository' %>
-        <% @repourl=custom_value.value %>
-		<h2>GitHub repository</h2>
-	<p>
-		The source for this project is hosted on GitHub: <a target="_blank" href='<%= h show_value(custom_value) %>'><%= h show_value(custom_value) %></a>
-	</p>
-	<% end %>
-
-	<% if custom_value.custom_field.name == 'Bitbucket repository' %>
-        <% @repourl=custom_value.value %>
-	<h2>Bitbucket repository</h2>
-	<p>
-		The source for this project is hosted on Bitbucket: <a target="_blank" href='<%= h show_value(custom_value) %>'><%= h show_value(custom_value) %></a>
-	</p>
-	<% end %>
-
-	<% if custom_value.custom_field.name == 'NeuroML version' %>
-
-	<h2>NeuroML compatibility</h2>
-	<p>
-		The minimum version of NeuroML for this model is: <b><%= h show_value(custom_value) %></b>
-	</p>
-	<% end %>
-
-	<% end %>
-	<% end %>
-
-	<% @project.visible_custom_field_values.each do |custom_value| %>
-
-	<% if !custom_value.value.blank? %>
-
-	<% if custom_value.custom_field.name == 'ModelDB reference' %>
-	<p>
-		The original published version of this model is available on ModelDB:
-	</p>
-	<% if !show_value(custom_value).starts_with? 'http://senselab.med.yale.edu/ModelDB/ShowModel.asp?model=' %>
-	<p>
-		<a target="_blank" href="http://senselab.med.yale.edu/ModelDB/ShowModel.asp?model=<%= h show_value(custom_value) %>"> <img alt="ModelDB" border="0" src="../images/modeldb.gif"/></a>
-	</p>
-	<% else %>
-	<p>
-		<a target="_blank" href="<%= h show_value(custom_value) %>"> <img alt="ModelDB" border="0" src="../images/modeldb.gif"/></a>
-	</p>
-	<% end %>
-	<% elsif custom_value.custom_field.name == 'Original format' %>
-	<h2>Original model</h2>
-	<p>
-		This model was originally developed in: <b><%= h show_value(custom_value) %></b>
-	</p>
-	<% end %>
-
-	<% end %>
-	<% end %>
-
-	<% if User.current.allowed_to?(:view_issues, @project) %>
-	<div class="issues box">
-		<h3><%= l(:label_issue_tracking)%></h3>
-		<ul>
-			<% for tracker in @trackers %>
-			<li>
-				<%= link_to h(tracker.name), project_issues_path(@project, :set_filter => 1, :tracker_id => tracker.id) %>:
-				<%= l(:label_x_open_issues_abbr_on_total, :count => @open_issues_by_tracker[tracker].to_i,
-				:total => @total_issues_by_tracker[tracker].to_i) %>
-			</li>
-			<% end %>
+<div class="container">
+	
+	<div class="page-header">
+	  <h1 id="pname"><%= @project.name %><small id="author"> </small></h1>
+		<ul class="breadcrumb">
+			<li><a href="#">Animal Kingdom</a> <span class="divider">/</span></li>
+			<li><a href="#">Vertebrate</a> <span class="divider">/</span></li>
+			<li><a href="#">Rodent</a> <span class="divider">/</span></li>
+			<li><a href="#">Cerebellum</a> <span class="divider">/</span></li>
+			<li class="active">Purkinje Cell</li>
 		</ul>
-		<p>
-			<%= link_to l(:label_issue_view_all), project_issues_path(@project, :set_filter => 1) %>
-			<% if User.current.allowed_to?(:view_calendar, @project, :global => true) %>
-			| <%= link_to l(:label_calendar), project_calendar_path(@project) %>
-			<% end %>
-			<% if User.current.allowed_to?(:view_gantt, @project, :global => true) %>
-			| <%= link_to l(:label_gantt), project_gantt_path(@project) %>
-			<% end %>
-		</p>
 	</div>
-	<% end %>
-	<%= call_hook(:view_projects_show_left, :project => @project) %>
+		
+	<!--
+				<% @project.visible_custom_field_values.each do |custom_value| %>
+				<% if !custom_value.value.blank? %>
+					<% if custom_value.custom_field.name != 'Category'  %>
+	
+					<% end %>
+				<% end %>
+			<% end %>
+	-->
+
+
+		<div class="navbar">
+			<div id="menucontainer" class="navbar-inner">
+				<a class="brand" href="#">OSB</a>
+				<% if display_main_menu?(@project) %>
+					<%= render_main_menu(@project) %>
+				<% end %>
+				
+			</div>
+		</div>
+
+	<div class="row-fluid">
+		<% unless @project.active? %>
+		<p class="warning">
+			<span class="icon icon-lock"><%= l(:text_project_closed) %></span>
+		</p>
+		<% end %>
+
+      <div class="span3 bs-docs-sidebar">
+        <ul class="nav nav-list bs-docs-sidenav">
+          <li><a href="#download-bootstrap"><i class="icon-chevron-right"></i>Description</a></li>
+          <li><a href="#file-structure"><i class="icon-chevron-right"></i>Status</a></li>
+          <li><a href="#contents"><i class="icon-chevron-right"></i>Repository</a></li>
+          <li><a href="#file-structure"><i class="icon-chevron-right"></i>Members</a></li>
+          <li><a href="#html-template"><i class="icon-chevron-right"></i>Original model</a></li>
+          <li><a href="#examples"><i class="icon-chevron-right"></i>Issues Summary</a></li>
+        </ul>
+      </div>
+      
+		<div class="span9">
+
+		<!-- DESCRIPTION -->
+		<section id="description">
+			<div class="page-header">
+				<h2>Description</h2>
+			</div>
+			<p class="lead">
+				<%= textilizable @project.description %>
+				<% unless @project.homepage.blank? %>
+					<% if h(@project.homepage).starts_with? 'http://opensourcebrain.org/embedded' or h(@project.homepage).starts_with? 'http://www.opensourcebrain.org/embedded'%>
+						<p><a href="<%= @project.homepage %>">More...</a></p>
+					<% end %>
+				<% end %>
+				<%= render :partial => 'members_box' %>
+			</p>
+		</section>
+		
+		<!-- SUBPROJECT -->
+		<% if @subprojects.any? %>		
+			<section id="subprojects">
+				<div class="page-header">
+					<h2>Sub-Projects</h2>
+				</div>
+				<p class="lead">
+					<%= l(:label_subproject_plural)%>:
+					<%= @subprojects.collect{|p| link_to(h(p), :action => 'show', :id => p)}.join(", ").html_safe %>
+				</p>
+			</section>
+		<% end %>
+
+		<!-- STATUS -->
+		<% @project.visible_custom_field_values.each do |custom_value| %>
+			<% if !custom_value.value.blank? %>
+				<% if custom_value.custom_field.name == 'Status info' %>
+					<section id="status">
+						<div class="page-header">
+							<h2>Status</h2>
+						</div>
+						<p class="lead">
+							<%= show_value(custom_value) %>
+						</p>
+					</section>
+				<% end %>
+			<% end %>
+		<% end %>
+
+		<!-- CUSTOM VALUE SECTION -->
+		<% @project.visible_custom_field_values.each do |custom_value| %>
+			<% if !custom_value.value.blank? %>
+				<% if custom_value.custom_field.name == 'GitHub repository' %>
+					<% @repourl=custom_value.value %>
+					<section id="repository">
+						<div class="page-header">
+							<h2>Repository</h2>
+						</div>
+						<p class="lead">
+							The source for this project is hosted on GitHub:  <a target="_blank" href='<%= h show_value(custom_value) %>'><%= h show_value(custom_value) %></a>
+						</p>
+					</section>
+				<% end %>
+				<% if custom_value.custom_field.name == 'BitBucket repository' %>
+					<% @repourl=custom_value.value %>
+					<section id="repository">
+						<div class="page-header">
+							<h2>Repository</h2>
+						</div>
+						<p class="lead">
+							The source for this project is hosted on BitBucket:  <a target="_blank" href='<%= h show_value(custom_value) %>'><%= h show_value(custom_value) %></a>
+						</p>
+					</section>
+				<% end %>
+				<% if custom_value.custom_field.name == 'NeuroML version' %>
+					<% @repourl=custom_value.value %>
+					<section id="repository">
+						<div class="page-header">
+							<h2>NeuroML compatibility</h2>
+						</div>
+						<p class="lead">
+							The minimum version of NeuroML for this model is: <b><%= h show_value(custom_value) %></b>
+						</p>
+					</section>
+				<% end %>
+				<% if custom_value.custom_field.name == 'ModelDB reference' %>
+					<% @repourl=custom_value.value %>
+					<section id="references">
+						<div class="page-header">
+							<h2>References</h2>
+						</div>
+						<p class="lead">The original published version of this model is available on ModelDB:</p>
+						<% if !show_value(custom_value).starts_with? 'http://senselab.med.yale.edu/ModelDB/ShowModel.asp?model=' %>
+						<p>
+							<a target="_blank" href="http://senselab.med.yale.edu/ModelDB/ShowModel.asp?model=<%= h show_value(custom_value) %>"> <img alt="ModelDB" border="0" src="../images/modeldb.gif"/></a>
+						</p>
+						<% else %>
+						<p>
+							<a target="_blank" href="<%= h show_value(custom_value) %>"> <img alt="ModelDB" border="0" src="../images/modeldb.gif"/></a>
+						</p>
+						<% end %>
+				<% elsif custom_value.custom_field.name == 'Original format' %>
+					<section id="references">
+						<div class="page-header">
+							<h2>References</h2>
+						</div>
+						<p class="lead">This model was originally developed in: <b><%= h show_value(custom_value) %></b></p>
+					</section>
+				<% end %>
+			<% end %>
+		<% end %>
+
+		
+		<!-- NEWS -->
+		<section id="news">
+			<div class="page-header">
+				<h2><%= l(:label_news_latest)%></h2>
+				<p class="lead">
+				<%= render :partial => 'news/news', :collection => @news %>
+				</p>
+				<p>
+					<%= link_to l(:label_news_view_all), project_news_index_path(@project) %>
+				</p>
+				
+			</div>
+		</section>
+
+
+		<% html_title(l(:label_overview)) -%>
+		
+		
+		<!-- ISSUES 
+
+		<div class="explorer box">
+
+				<div id="osbexplorermessage"></div>
+			</div>
+			
+			<% if User.current.allowed_to?(:view_issues, @project) %>
+			<div class="issues box">
+				<h3><%= l(:label_issue_tracking)%></h3>
+				<ul>
+					<% for tracker in @trackers %>
+					<li>
+						<%= link_to h(tracker.name), project_issues_path(@project, :set_filter => 1, :tracker_id => tracker.id) %>:
+						<%= l(:label_x_open_issues_abbr_on_total, :count => @open_issues_by_tracker[tracker].to_i,:total => @total_issues_by_tracker[tracker].to_i) %>
+					</li>
+					<% end %>
+				</ul>
+				<p>
+					<%= link_to l(:label_issue_view_all), project_issues_path(@project, :set_filter => 1) %>
+					<% if User.current.allowed_to?(:view_calendar, @project, :global => true) %>
+					| <%= link_to l(:label_calendar), project_calendar_path(@project) %>
+					<% end %>
+					<% if User.current.allowed_to?(:view_gantt, @project, :global => true) %>
+					| <%= link_to l(:label_gantt), project_gantt_path(@project) %>
+					<% end %>
+				</p>
+			</div>
+			<% end %>
+			<%= call_hook(:view_projects_show_left, :project => @project) %>
+			-->
+			
+
+	</div>
 </div>
 
-<script>
-
-function getParameterByName(name)
-{
-	name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
-	var regexS="[\\?&]"+name+"=([^&#]*)";
-	var regex = new RegExp(regexS);
-	var results = regex.exec(window.location.href);
-	if(results == null)
-		return "";
-	else
-		return decodeURIComponent(results[1].replace(/\+/g, " "));
-}
-
- 
- 
-function showMenu()
-{
-	jQuery("#content").hide();
-	jQuery("#fullheader").after(jQuery('#browsenml2'));
-	jQuery("#netnml" ).menu();
-	jQuery("#cellnml" ).menu();
-	jQuery('#browsenml2').show();
-}
-
-function open3DExplorer(file)
-{
-	jQuery("#browsenml2").hide();
-	if(getParameterByName('explorer')=='')
-	{
-		window.location.href=window.location.href+"?explorer="+file;	
-	}
-	jQuery("#fullheader").after("<div id='3dbrowser'><iframe id='3dframe' src='http://184.72.223.204:8080/org.neuroml.visualiser/?url="+file+"'></iframe><div id='projectname'><%= @project.name %></div><div id='backto' onclick='close3DExplorer();'>Back to project</div></div>");
-	document.getElementById('3dframe').onload = resizeIframe;
-	window.onresize = resizeIframe;
-}
-
-function close3DExplorer()
-{
-	if(window.location.href.indexOf("?")!=-1)
-	{
-		window.location.href=window.location.href.substring(0,window.location.href.indexOf("?"));
-	}
-	jQuery("#3dbrowser").remove();
-	jQuery("#content").show();
-}
-
-function hideMenu()
-{
-	jQuery('#browsenml2').hide();
-	jQuery("#content").show();
-}
-
-function disableOSBExplorer()
-{
-	    jQuery("#osbexplorerbutton").css("background-color","grey");
-    	jQuery("#osbexplorerbutton").css("color","#aaaaaa");
-    	jQuery("#osbexplorerbutton").css("border-color","#444444");
-    	jQuery("#osbexplorerbutton").css("cursor","default");
-    	jQuery("#osbexplorerbutton").prop("onclick","");
-}
-
-jQuery(function() 
-{
-	var geturl=getParameterByName('explorer');
-	if(geturl!='')
-	{
-		jQuery("#content").hide();
-		open3DExplorer(geturl);
-	}
-	else
-	{	
-	    if(<%= @neuroml2files.empty? %>)
-	    {
-	    	disableOSBExplorer();
-	    	jQuery("#osbexplorermessage").html("The current project doesn't contain any NeuroML2 file. Help converting this model to be able to use OSB 3D Explorer or raise an issue to do so!");
-	    }
-	    else if(<%= (@repourl and @repourl["https://github"]==nil)==true%>)
-	    {
-			disableOSBExplorer();
-	    	jQuery("#osbexplorermessage").html("Sorry, OSB 3D Explorer is currently available only for repositories hosted on GitHub.");
-	    }
-	    else if(!Detector.webgl)
-		{
-			disableOSBExplorer();
-			jQuery("#osbexplorermessage").html("Sorry, your browser doesn\'t support <a href='http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation'>WebGL</a> which is required to use OSB 3D Explorer.");
-		}
-	}
-});
-    
-    
-function resizeIframe() {
-    var height = document.documentElement.clientHeight;
-    height -= document.getElementById('3dframe').offsetTop;
-    
-    // not sure how to get this dynamically
-    //height -= 176; /* whatever you set your body bottom margin/padding to be */
-    
-    document.getElementById('3dframe').style.height = height +"px";
-    
-};
-
-</script>
 <% if(@repourl and @repourl["https://github"]!=nil)%>
-	<div id="browsenml2" style="display:none;">
-	<div id="nmlbrowserlabel">The following NeuroML2 files have been found on the <b><%= @project.name %></b> repository. <br/><br/>Click on the file you want to explore:</div>
-	<div id='nmlbrowserbackto' onclick='hideMenu();'>Back to project</div>
+<div id="browsenml2" style="display:none;">
+	<div id="nmlbrowserlabel">
+		The following NeuroML2 files have been found on the <b><%= @project.name %></b> repository.
+		<br/>
+		<br/>
+		Click on the file you want to explore:
+	</div>
+	<div id='nmlbrowserbackto' onclick='hideMenu();'>
+		Back to project
+	</div>
 	<% @repourl["https://github"]="https://raw.github" %>
 	<% @networkfiles=[] %>
 	<% for nml2file in @neuroml2files %>
@@ -275,64 +236,165 @@ function resizeIframe() {
 		<% end %>
 	<% end %>
 	<% if not @networkfiles.empty? %>
-		<p class="nmlbrowsersubtitles">Networks</p>
-		<ul id="netnml" class="nml2menu">		
+		<p class="nmlbrowsersubtitles">
+			Networks
+		</p>
+		<ul id="netnml" class="nml2menu">
 		<% for nml2file in @networkfiles %>
 			<li><a onclick="open3DExplorer(encodeURIComponent('<%= @repourl + "/master/" + nml2file %>'));"><%= nml2file %></a></li>
 		<% end %>
 		</ul>
 	<% end %>
-	<p class="nmlbrowsersubtitles">Cells</p>
+	<p class="nmlbrowsersubtitles">
+		Cells
+	</p>
 	<ul id="cellnml" class="nml2menu">
 
-	<% for nml2file in @neuroml2files %>
-		<% if not nml2file.ends_with?(".net.nml") %>
-			<li><a onclick="open3DExplorer(encodeURIComponent('<%= @repourl + "/master/" + nml2file %>'));"><%= nml2file %></a></li>
+		<% for nml2file in @neuroml2files %>
+			<% if not nml2file.ends_with?(".net.nml") %>
+			<li>
+				<a onclick="open3DExplorer(encodeURIComponent('<%= @repourl + "/master/" + nml2file %>'));"><%= nml2file %></a>
+			</li>
+			<% end %>
 		<% end %>
-	<% end %>
 	</ul>
-	</div>
-<% end %>
-
-<div class="splitcontentright">
-   <div class="explorer box">
-   		<div id="osbexplorerbutton" onclick="showMenu();">OSB 3D Explorer</div>
-   		<div id="osbexplorermessage"></div>
-   </div>
-   
-	<%= render :partial => 'members_box' %>
-
-	<% if @news.any? && authorize_for('news', 'index') %>
-	<div class="news box">
-		<h3><%= l(:label_news_latest)%></h3>
-		<%= render :partial => 'news/news', :collection => @news %>
-		<p>
-			<%= link_to l(:label_news_view_all), project_news_index_path(@project) %>
-		</p>
-	</div>
-	<% end %>
-	<%= call_hook(:view_projects_show_right, :project => @project) %>
 </div>
-
-<% content_for :sidebar do %>
-<% if @total_hours.present? %>
-<h3><%= l(:label_spent_time) %></h3>
-<p>
-	<span class="icon icon-time"><%= l_hours(@total_hours) %></span>
-</p>
-<p>
-	<% if User.current.allowed_to?(:log_time, @project) %>
-	<%= link_to l(:button_log_time), new_project_time_entry_path(@project) %> |
-	<% end %>
-	<%= link_to(l(:label_details), project_time_entries_path(@project)) %> |
-	<%= link_to(l(:label_report), report_project_time_entries_path(@project)) %>
-</p>
-<% end %>
-<%= call_hook(:view_projects_show_sidebar_bottom, :project => @project) %>
 <% end %>
 
-<% content_for :header_tags do %>
-<%= auto_discovery_link_tag(:atom, {:controller => 'activities', :action => 'index', :id => @project, :format => 'atom', :key => User.current.rss_key}) %>
-<% end %>
+<script>
+		function getParameterByName(name)
+	{
+	name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+	var regexS="[\\?&]"+name+"=([^&#]*)";
+	var regex = new RegExp(regexS);
+	var results = regex.exec(window.location.href);
+	if(results == null)
+	return "";
+	else
+	return decodeURIComponent(results[1].replace(/\+/g, " "));
+	}
 
-<% html_title(l(:label_overview)) -%>
+	function showMenu()
+	{
+	jQuery("#content").hide();
+	jQuery("#fullheader").after(jQuery('#browsenml2'));
+	jQuery("#netnml" ).menu();
+	jQuery("#cellnml" ).menu();
+	jQuery('#browsenml2').show();
+	}
+
+	function open3DExplorer(file)
+	{
+	jQuery("#browsenml2").hide();
+	if(getParameterByName('explorer')=='')
+	{
+	window.location.href=window.location.href+"?explorer="+file;
+	}
+	jQuery("#fullheader").after("<div id='3dbrowser'><iframe id='3dframe' src='http://184.72.223.204:8080/org.neuroml.visualiser/?url="+file+"'></iframe><div id='projectname'><%= @project.name %></div><div id='backto' onclick='close3DExplorer();'>Back to project</div></div>");
+		document.getElementById('3dframe').onload = resizeIframe;
+		window.onresize = resizeIframe;
+		}
+
+		function close3DExplorer()
+		{
+		if(window.location.href.indexOf("?")!=-1)
+		{
+		window.location.href=window.location.href.substring(0,window.location.href.indexOf("?"));
+		}
+		jQuery("#3dbrowser").remove();
+		jQuery("#content").show();
+		}
+
+		function hideMenu()
+		{
+		jQuery('#browsenml2').hide();
+		jQuery("#content").show();
+		}
+
+		function disableOSBExplorer()
+		{
+		jQuery("#osbexplorerbutton").css("background-color","grey");
+		jQuery("#osbexplorerbutton").css("color","#aaaaaa");
+		jQuery("#osbexplorerbutton").css("border-color","#444444");
+		jQuery("#osbexplorerbutton").css("cursor","default");
+		jQuery("#osbexplorerbutton").prop("onclick","");
+		}
+
+		jQuery(function()
+		{
+			var $window = jQuery(window);
+			
+			
+			jQuery("#menucontainer > ul").append('<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Actions<b class="caret"></b></a><ul class="dropdown-menu" id="actionsmenu"></ul></li>');
+			jQuery("#actionsmenu").append("<li><a href='javascript:showMenu();'>OSB 3D Explorer</a></li>");
+			
+			<% if User.current.allowed_to?(:add_subprojects, @project) %>
+				jQuery("#actionsmenu").append("<li>"+'<%= link_to l(:label_subproject_new), new_project_path(:parent_id => @project), :class => "" %>'+"</li>");
+			<% end %>
+			<% if User.current.allowed_to?(:close_project, @project) %>
+				<% if @project.active? %>
+					jQuery("#actionsmenu").append("<li>"+'<%= link_to l(:button_close), close_project_path(@project), :data => {:confirm => l(:text_are_you_sure)}, :method => :post, :class => "" %>'+"</li>");
+				<% else %>
+					jQuery("#actionsmenu").append("<li>"+'<%= link_to l(:button_reopen), reopen_project_path(@project), :data => {:confirm => l(:text_are_you_sure)}, :method => :post, :class => "" %>'+"</li>");
+				<% end %>
+			<% end %>
+			
+			var splitProjectName=jQuery('#pname').html().split("-");
+			jQuery('.dropdown-toggle').dropdown();
+			
+			jQuery('#pname').html(jQuery.trim(splitProjectName[0])+" <small>"+jQuery.trim(splitProjectName[1])+"</small>");
+			    // side bar
+		    jQuery('.bs-docs-sidenav').affix({
+		      offset: {
+		        top: function () { return $window.width() <= 980 ? 290 : 210 }
+		      , bottom: 270
+		      }
+		    });
+		    
+			jQuery('.nav li').click(function(e)
+			{
+				jQuery('.nav li').removeClass('active');
+				
+				var $this = $(this);
+				if (!$this.hasClass('active'))
+				{
+					$this.addClass('active');
+				}
+				
+			});
+			
+			jQuery('.overview').parent().addClass("active");
+			var geturl=getParameterByName('explorer');
+			if(geturl!='')
+			{
+				jQuery("#content").hide();
+				open3DExplorer(geturl);
+			}
+			else
+			{
+				if(<%= @neuroml2files.empty? %>) {
+					disableOSBExplorer();
+					jQuery("#osbexplorermessage").html("The current project doesn't contain any NeuroML2 file. Help converting this model to be able to use OSB 3D Explorer or raise an issue to do so!");
+				}
+				else if(<%= (@repourl and @repourl["https://github"]==nil)==true%>) {
+					disableOSBExplorer();
+					jQuery("#osbexplorermessage").html("Sorry, OSB 3D Explorer is currently available only for repositories hosted on GitHub.");
+				}
+				else if (!Detector.webgl) {
+					disableOSBExplorer();
+					jQuery("#osbexplorermessage").html("Sorry, your browser doesn\'t support <a href='http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation'>WebGL</a> which is required to use OSB 3D Explorer.");
+				}
+			}
+		});
+
+		function resizeIframe() {
+			var height = document.documentElement.clientHeight;
+			height -= document.getElementById('3dframe').offsetTop;
+
+			// not sure how to get this dynamically
+			//height -= 176; /* whatever you set your body bottom margin/padding to be */
+
+			document.getElementById('3dframe').style.height = height + "px";
+
+		};
+</script>

@@ -8,14 +8,17 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
 		<%= csrf_meta_tag %>
 		<%= favicon %>
+		<%= javascript_heads %>
+		<%= heads_for_theme %>
 		<%= javascript_include_tag('jquery-1.8.2.min.js') %>
+		<%= javascript_include_tag('bootstrap.min.js') %>
 		<%= stylesheet_link_tag 'application', :media => 'all' %>
 		<%= stylesheet_link_tag 'trajanpro', :media => 'all' %>
 		<%= stylesheet_link_tag 'cabin', :media => 'all' %>
 		<%= stylesheet_link_tag 'fontleroy', :media => 'all' %>
 		<%= stylesheet_link_tag 'rtl', :media => 'all' if l(:direction) == 'rtl' %>
-		<%= javascript_heads %>
-		<%= heads_for_theme %>
+
+		
 		<!--[if IE 6]>
 		<style type="text/css">
 		* html body{ width: expression( document.documentElement.clientWidth < 900 ? '900px' : '100%' ); }
@@ -25,130 +28,98 @@
 		<%= call_hook :view_layouts_base_html_head %>
 		<!-- page specific tags -->
 		<%= yield :header_tags -%>
-		<!-- Temp Google Analytics for OSB -->
-
-		<script type="text/javascript">
-			var _gaq = _gaq || [];
-			_gaq.push(['_setAccount', 'UA-29853802-1']);
-			_gaq.push(['_trackPageview']);
-
-			(function() {
-				var ga = document.createElement('script');
-				ga.type = 'text/javascript';
-				ga.async = true;
-				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-				var s = document.getElementsByTagName('script')[0];
-				s.parentNode.insertBefore(ga, s);
-			})();
-
-		</script>
-
-		<!--  OSB -->
 	</head>
+
 	<body class="<%= h body_css_classes %>">
-		<div id="wrapper">
-			<div id="wrapper2">
-				<div id="fullheader">
-					<div id="top-menu">
 
-						<% if User.current.logged? || !Setting.login_required? %>
-						<!--
-						<div id="quick-search">
-						<%= form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
-						<%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
-						<label for='q'> <%= link_to l(:label_search), {:controller => 'search', :action => 'index', :id => @project}, :accesskey => accesskey(:search) %>: </label>
-						<%= text_field_tag 'q', @question, :size => 20, :class => 'small', :accesskey => accesskey(:quick_search) %>
-						<% end %>
-						<%= render_project_jump_box %>
-						</div>
-						-->
-						<% end %>
-						<div id="account">
-							<%= render_menu :account_menu -%>
-						</div>
-						<%= content_tag('div', "#{l(:label_logged_as)} #{link_to_user(User.current, :format => :username)}".html_safe, :id => 'loggedas') if User.current.logged? %>
-						<%= render_menu :top_menu if User.current.logged? || !Setting.login_required? -%>
-					</div>
+		<!-- NAVIGATOR -->
 
-					<div id="header">
-
-						<!--<h1><%= page_header_title %></h1>-->
-						<a  href="/"> <img src="/images/osblogo.png" id="logo"/>
-						<p id="open" class="logofont">
-							OPEN
-						</p>
-						<p id="source" class="logofont">
-							SOURCE
-						</p>
-						<p id="brain" class="logofont">
-							BRAIN
-						</p>
-						<p id="beta">
-							Beta
-						</p> </a>
-
-					</div>
-
-					<div class="container">
-						<ul class="bs-docs-social-buttons">
+		<div class="navbar navbar-inverse navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container" >
+					<div class="row">
+						<div class="span3" id="osblogo"></div>
+						<!--<ul class="bs-docs-social-buttons">
 							<li class="follow-btn">
 								<a href="https://twitter.com/osbteam" class="twitter-follow-button" data-link-color="#0069D6" data-show-count="true">Follow @osbteam</a>
 							</li>
 							<li class="tweet-btn">
 								<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://opensourcebrain.org" data-count="horizontal" data-via="osbteam" data-related="Interesting -> Open Source Brain online repository for computational neural models!">Tweet</a>
 							</li>
-						</ul>
-					</div>
-				</div>
-				<!--MC: Uncomment to put back the sidebar
-				<%= tag('div', {:id => 'main', :class => (sidebar_content? ? '' : 'nosidebar')}, true) %>
-				<div id="sidebar">
-				<%= yield :sidebar %>
-				<%= view_layouts_base_sidebar_hook_response %>
-				</div>
-				-->
-				<div id="content">
-
-					<% if display_main_menu?(@project) %>
-					<div id="main-menu">
-						<%= render_main_menu(@project) %>
-					</div>
-					<% end %>
-
-					<%= render_flash_messages %>
-					<%= yield %>
-					<%= call_hook :view_layouts_base_content %>
-					<div style="clear:both;"></div>
-				</div>
-
-				<div id="ajax-indicator" style="display:none;">
-					<span><%= l(:label_loading) %></span>
-				</div>
-				<div id="ajax-modal" style="display:none;"></div>
-
-				<div id="footer">
-					<div class="bgl">
-
-						<div class="bgr">
-							<div class="wrapcenter">
-								<!-- <div id="ucllogo"></div> -->
-								<a href="http://www.wellcome.ac.uk/"> <div id="wellcomelogo"></div> </a>
-							</div>
-
+						</ul>-->
+						<div id="header_menu" class="span9 pull-right">
+							<%= render_menu :account_menu -%>
+							<%= content_tag('div', "#{l(:label_logged_as)} #{link_to_user(User.current, :format => :username)}".html_safe, :id => 'loggedas') if User.current.logged? %>
+							<%= render_menu :top_menu if User.current.logged? || !Setting.login_required? -%>
+							<%= form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
+								<%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
+								<%= text_field_tag 'q', @question, :size => 100, :placeholder=>'Search Open Source Brain',:type=>'text', :results=>5, :class => 'search-query', :accesskey => accesskey(:quick_search) %>
+							<% end %>
 						</div>
-
-					</div>
-					<div id="footerlinks">
-						<a href="/about.html">About</a> | <a href="/guides.html">Guides</a> | <a href="/themes.html">Research Themes</a>
-					</div>
-					<div id="footerlbl">
-						Open Source Brain &#169; 2013. All rights reserved. Website powered by <%= link_to Redmine::Info.app_name, Redmine::Info.url %>
 					</div>
 				</div>
 			</div>
 		</div>
+
+		<!-- CONTENT -->
+
+		<div id="content">
+			<%= render_flash_messages %>
+			<%= yield %>
+			<%= call_hook :view_layouts_base_content %>
+			<div id="ajax-indicator" style="display:none;">
+				<span><%= l(:label_loading) %></span>
+			</div>
+			<div id="ajax-modal" style="display:none;"></div>
 		</div>
+		<!-- FOOTER -->
+
 		<%= call_hook :view_layouts_base_body_bottom %>
+		<footer class="footer">
+			<div class="container">
+				<a href="http://www.wellcome.ac.uk/"> <div id="wellcomelogo"></div> </a>
+				<ul class="footer-links">
+					<li>
+						<a href="/about.html">About</a>
+					</li>
+					<li>
+						<a href="/guides.html">Guides</a>
+					</li>
+					<li>
+						<a href="/themes.html">Research Themes</a>
+					</li>
+				</ul>
+				</p>Open Source Brain &#169; 2013. All rights reserved. Website powered by <%= link_to Redmine::Info.app_name, Redmine::Info.url %></p>
+			</div>
+		</footer>
+
 	</body>
 </html>
+
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-29853802-1']);
+	_gaq.push(['_trackPageview']);
+
+	(function() {
+		var ga = document.createElement('script');
+		ga.type = 'text/javascript';
+		ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0];
+		s.parentNode.insertBefore(ga, s);
+	})();
+	
+	
+	jQuery(function()
+	{
+			
+			jQuery("#header_menu > ul").addClass("pull-right");
+			jQuery("#header_menu > ul").append('<li id="loggedelement"></li>');
+			jQuery("#loggedas > a").appendTo("#loggedelement");
+			jQuery("#loggedas").remove();
+	});
+</script>
 <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<%= javascript_include_tag('main.js') %>
+<%= javascript_include_tag('retina.js') %>
