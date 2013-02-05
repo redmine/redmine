@@ -25,7 +25,7 @@ class ProjectsController < ApplicationController
   before_filter :authorize_global, :only => [:new, :create]
   before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
   accept_rss_auth :index
-  accept_api_auth :index, :show, :create, :update, :destroy
+  accept_api_auth :index, :show, :create, :update, :destroy, :copy
 
   after_filter :only => [:create, :edit, :update, :archive, :unarchive, :destroy] do |controller|
     if controller.request.post?
@@ -123,14 +123,23 @@ class ProjectsController < ApplicationController
         @project.safe_attributes = params[:project]
         if validate_parent_id && @project.copy(@source_project, :only => params[:only])
           @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
-          flash[:notice] = l(:notice_successful_create)
-          redirect_to :controller => 'projects', :action => 'settings', :id => @project
+          respond_to do |format|
+            format.html { 
+              flash[:notice] = l(:notice_successful_create)
+              redirect_to :controller => 'projects', :action => 'settings', :id => @project 
+            }
+            format.api  { render :action => 'show', :status => :created, :location => url_for(:controller => 'projects', :action => 'show', :id => @project.id) }
+          end
+
         elsif !@project.new_record?
           # Project was created
           # But some objects were not copied due to validation failures
           # (eg. issues from disabled trackers)
           # TODO: inform about that
-          redirect_to :controller => 'projects', :action => 'settings', :id => @project
+          respond_to do |format|
+            format.html { redirect_to :controller => 'projects', :action => 'settings', :id => @project }
+            format.api  { render_validation_errors(@project) }
+          end
         end
       end
     end
