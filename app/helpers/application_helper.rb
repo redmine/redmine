@@ -148,6 +148,7 @@ module ApplicationHelper
     end
   end
 
+  
   def wiki_page_path(page, options={})
     url_for({:controller => 'wiki', :action => 'show', :project_id => page.project, :id => page.title}.merge(options))
   end

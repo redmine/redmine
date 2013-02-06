@@ -1,7 +1,7 @@
 <%= javascript_include_tag('d3.v2.js') %>
 <%= javascript_include_tag('d3.layout.js') %>
 <div class="container">
-	<div class="hero-unit">
+	<div class="explore-view">
 		<h1>Explore Open Source Brain</h1>
 		<% if !(request.env["HTTP_USER_AGENT"] =~ /MSIE/)%>
 			<p class="lead">Click on a node to expand or collapse. Projects are shown in <b class="blue">blue</b>, click on them to open the project page.</p>
@@ -11,7 +11,7 @@
 		
 		<div class="tabbable">
 			<div class="row pagination-centered">
-				<div id="view-tab" class="span10 btn-group" data-toggle="buttons-radio">
+				<div id="view-tab" class="span12 btn-group" data-toggle="buttons-radio">
 		  			<button class="btn btn-large active" href="#tab1" data-toggle="tab">Graph view</button>
 		  			<button class="btn btn-large" href="#tab2" data-toggle="tab">List view</button>
 				</div>
@@ -25,29 +25,45 @@
 					<p id="jsontree" style="display: none;"><%= createJSONProjectTree(@projects)%><p>	
 			    </div>
 			    <div class="tab-pane" id="tab2">
-			    	<div class="span12">
-				    	<ul id="projects-list" class="span3 nav nav-list">
-						  <li class="nav-header">Cell and network projects</li>
-						  <li class="active"><a href="#cells">A</a></li>
-						  <li class=""><a href="#cells">B</a></li>
-						  <li class=""><a href="#cells">C</a></li>
-						  <li class=""><a href="#cells">D</a></li>
-						  <li class="nav-header">Technology showcase projects</li>
-						  <li class="active"><a href="#showcase">B</a></li>
-						  <li class=""><a href="#showcase">D</a></li>
-						  <li class=""><a href="#cells">D</a></li>
-						  <li class=""><a href="#cells">D</a></li>
-						</ul>
-						<div class="span8 tab-content">
-				    		<div class="tab-pane active" id="cells">
-				    			<%= render_project_hierarchy(@projects, 'Project')%>
-				    		</div>
-				    		<div class="tab-pane" id="showcase">
-				    			<%= render_project_hierarchy(@projects, 'Showcase')%>
-				    		</div>		
-			    		</div>	    
-		    		</div>	    		
-				</div>
+			    	<div class="span4 navbar">
+				    	<div class="nav-collapse">
+				    		<form class="filterform form-search" action="#">
+				    			<div class="input-prepend">
+								  <span class="add-on"><i class="icon-filter"></i></span>
+								  <input class="filterinput search-query" type="text" placeholder="Filter projects...">
+								</div>
+
+
+							</form>
+					    	<ul id="projectlist" class="nav projects-list">
+								<% for p in @projects %>
+									<%  p.visible_custom_field_values.each do |custom_value| %>
+										<% if (custom_value.custom_field.name == 'Category') %>
+			              					<% if (custom_value.value == 'Project') %>
+												<li class=""><a data-toggle="tab" href="#cell<%= p.id %>"><%= p.name %></a></li>
+											<% end %>
+										<% end %>
+									<% end %>
+								<% end %>		 
+							</ul>
+						 </div>
+					 </div>	 	
+					<div class="span7 tab-content">
+						<% for p in @projects %>
+							<%  p.visible_custom_field_values.each do |custom_value| %>
+								<% if (custom_value.custom_field.name == 'Category') %>
+	              					<% if (custom_value.value == 'Project') %>
+	              						<div class="tab-pane" id="cell<%= p.id %>"">
+	              							<a class="btn btn-large btn-primary" href="<%= url_for({:controller => 'projects', :action => 'show', :id => p}) %>">Open project</a>
+			    							<br/><br/>
+			    							<%= textilizable(p.short_description, :project => p) %>
+			    						</div>
+									<% end %>
+								<% end %>
+							<% end %>
+						<% end %>
+		    		</div>	    
+	    		</div>	    		
 		    </div>
 	    </div>
 		
