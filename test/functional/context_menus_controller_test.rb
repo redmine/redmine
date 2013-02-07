@@ -112,7 +112,7 @@ class ContextMenusControllerTest < ActionController::TestCase
       assert_select 'ul' do
         assert_select 'a', 3
         assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bcustom_field_values%5D%5B#{field.id}%5D=Foo", :text => 'Foo'
-        assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bcustom_field_values%5D%5B#{field.id}%5D=", :text => 'none'
+        assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bcustom_field_values%5D%5B#{field.id}%5D=__none__", :text => 'none'
       end
     end
   end
@@ -162,7 +162,7 @@ class ContextMenusControllerTest < ActionController::TestCase
         assert_select 'a', 3
         assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bcustom_field_values%5D%5B#{field.id}%5D=0", :text => 'No'
         assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bcustom_field_values%5D%5B#{field.id}%5D=1", :text => 'Yes'
-        assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bcustom_field_values%5D%5B#{field.id}%5D=", :text => 'none'
+        assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bcustom_field_values%5D%5B#{field.id}%5D=__none__", :text => 'none'
       end
     end
   end
@@ -178,7 +178,7 @@ class ContextMenusControllerTest < ActionController::TestCase
       assert_select 'ul' do
         assert_select 'a', Project.find(1).members.count + 1
         assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bcustom_field_values%5D%5B#{field.id}%5D=2", :text => 'John Smith'
-        assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bcustom_field_values%5D%5B#{field.id}%5D=", :text => 'none'
+        assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bcustom_field_values%5D%5B#{field.id}%5D=__none__", :text => 'none'
       end
     end
   end
@@ -193,7 +193,7 @@ class ContextMenusControllerTest < ActionController::TestCase
       assert_select 'ul' do
         assert_select 'a', Project.find(1).shared_versions.count + 1
         assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bcustom_field_values%5D%5B#{field.id}%5D=3", :text => '2.0'
-        assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bcustom_field_values%5D%5B#{field.id}%5D=", :text => 'none'
+        assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bcustom_field_values%5D%5B#{field.id}%5D=__none__", :text => 'none'
       end
     end
   end
