@@ -111,7 +111,7 @@
         <li><%= bulk_update_custom_field_context_menu_link(field, text, value || text) %></li>
       <% end %>
       <% unless field.is_required? %>
-        <li><%= bulk_update_custom_field_context_menu_link(field, l(:label_none), '') %></li>
+        <li><%= bulk_update_custom_field_context_menu_link(field, l(:label_none), '__none__') %></li>
       <% end %>
       </ul>
     </li>
