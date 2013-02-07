@@ -233,6 +233,15 @@ class ProjectCopyTest < ActiveSupport::TestCase
     assert_equal "Start page", @project.wiki.start_page
   end
 
+  test "#copy should copy wiki without wiki module" do
+    project = Project.new(:name => 'Copy Test', :identifier => 'copy-test', :enabled_module_names => [])
+    assert_difference 'Wiki.count' do
+      assert project.copy(@source_project)
+    end
+
+    assert project.wiki
+  end
+
   test "#copy should copy wiki pages and content with hierarchy" do
     assert_difference 'WikiPage.count', @source_project.wiki.pages.size do
       assert @project.copy(@source_project)

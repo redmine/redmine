@@ -772,7 +772,7 @@ class Project < ActiveRecord::Base
   def copy_wiki(project)
     # Check that the source project has a wiki first
     unless project.wiki.nil?
-      self.wiki ||= Wiki.new
+      wiki = self.wiki || Wiki.new
       wiki.attributes = project.wiki.attributes.dup.except("id", "project_id")
       wiki_pages_map = {}
       project.wiki.pages.each do |page|
@@ -784,6 +784,8 @@ class Project < ActiveRecord::Base
         wiki.pages << new_wiki_page
         wiki_pages_map[page.id] = new_wiki_page
       end
+
+      self.wiki = wiki
       wiki.save
       # Reproduce page hierarchy
       project.wiki.pages.each do |page|
