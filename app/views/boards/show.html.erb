@@ -5,7 +5,7 @@
             new_board_message_path(@board),
             :class => 'icon icon-add',
             :onclick => 'showAndScrollTo("add-message", "message_subject"); return false;' if User.current.allowed_to?(:add_messages, @board.project) %>
-<%= watcher_tag(@board, User.current) %>
+<%= watcher_link(@board, User.current) %>
 </div>
 
 <div id="add-message" style="display:none;">

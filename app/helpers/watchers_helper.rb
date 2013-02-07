@@ -20,19 +20,20 @@
 module WatchersHelper
 
   def watcher_tag(object, user, options={})
-    content_tag("span", watcher_link(object, user), :class => watcher_css(object))
+    ActiveSupport::Deprecation.warn "#watcher_tag is deprecated and will be removed in Redmine 3.0. Use #watcher_link instead."
+    watcher_link(object, user)
   end
 
   def watcher_link(object, user)
     return '' unless user && user.logged? && object.respond_to?('watched_by?')
     watched = object.watched_by?(user)
+    css = [watcher_css(object), watched ? 'icon icon-fav' : 'icon icon-fav-off'].join(' ')
     url = {:controller => 'watchers',
            :action => (watched ? 'unwatch' : 'watch'),
            :object_type => object.class.to_s.underscore,
            :object_id => object.id}
     link_to((watched ? l(:button_unwatch) : l(:button_watch)), url,
-            :remote => true, :method => 'post', :class => (watched ? 'icon icon-fav' : 'icon icon-fav-off'))
-
+            :remote => true, :method => 'post', :class => css)
   end
 
   # Returns the css class used to identify watch links for a given +object+
