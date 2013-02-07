@@ -2,43 +2,97 @@
 <%= javascript_include_tag('d3.layout.js') %>
 <div class="container">
 	<div class="explore-view">
-		<h1>Explore Open Source Brain</h1>
-		<% if !(request.env["HTTP_USER_AGENT"] =~ /MSIE/)%>
+		<p class="lead">Explore Open Source Brain</p>
+		
+		<!--<% if !(request.env["HTTP_USER_AGENT"] =~ /MSIE/)%>
 			<p class="lead">Click on a node to expand or collapse. Projects are shown in <b class="blue">blue</b>, click on them to open the project page.</p>
 		<% else %>
 			<p class="lead">Switch to Google Chrome or Mozilla Firefox to enhanced visualization.</p>
-		<% end %>
-		
-		<div class="tabbable">
-			<div class="row pagination-centered">
-				<div id="view-tab" class="span12 btn-group" data-toggle="buttons-radio">
-		  			<button class="btn btn-large active" href="#tab1" data-toggle="tab">Graph view</button>
-		  			<button class="btn btn-large" href="#tab2" data-toggle="tab">List view</button>
-				</div>
-				<br/><br/><br/>
-			</div>
-		
-			<!-- Tabbable table -->
+		<% end %>-->
+
+		<!-- This begins the vertical tab on the left-->
+		<div class="tabbable tabs-left">
+			<ul class="nav nav-tabs">
+				<li class="active"><a href="#cells" data-toggle="tab">Cells and Networks</a></li>
+                <li><a href="#technology" data-toggle="tab">Technology</a></li>
+                <li><a href="#groups" data-toggle="tab">Research groups</a></li>
+                <li><a href="#people" data-toggle="tab">People</a></li>
+			</ul>
+			<!-- This begins the cells and network section -->
 			<div class="tab-content">
-			    <div class="tab-pane active" id="tab1">
-					<div id="body"></div>
-					<p id="jsontree" style="display: none;"><%= createJSONProjectTree(@projects)%><p>	
-			    </div>
-			    <div class="tab-pane" id="tab2">
+				<div class="tab-pane active" id="cells">
+					<div class="tabbable">
+						<div class="row pagination-centered">
+							<div id="view-tab" class="btn-group" data-toggle="buttons-radio">
+					  			<button class="btn btn-large active" href="#graph" data-toggle="tab"><icon class="icon-circle-blank"></icon> Graph view</button>
+					  			<button class="btn btn-large" href="#listcells" data-toggle="tab"><icon class="icon-th-list"></icon> List view</button>
+							</div>
+						<br/><br/><br/>
+					</div>
+					<!-- This begins the graph or list section -->
+					<div class="tab-content">
+					    <div class="tab-pane active" id="graph">
+							<div id="body"></div>
+							<p id="jsontree" style="display: none;"><%= createJSONProjectTree(@projects)%><p>	
+					    </div>
+					    <div class="tab-pane row-fluid" id="listcells">
+					    	<div class="span4 navbar">
+						    	<div class="nav-collapse">
+						    		<form class="filterform form-search" action="#">
+						    			<div class="input-prepend">
+										  <span class="add-on"><i class="icon-filter"></i></span>
+										  <input id="cellsfilter" class="filter search-query" type="text" placeholder="Filter projects...">
+										</div>
+									</form>
+							    	<ul id="cellslist" class="nav projects-list">
+										<% for p in @projects %>
+											<%  p.visible_custom_field_values.each do |custom_value| %>
+												<% if (custom_value.custom_field.name == 'Category') %>
+					              					<% if (custom_value.value == 'Project') %>
+														<li class="capitalize"><a data-toggle="tab" href="#cell<%= p.id %>"><%= p.name %></a></li>
+													<% end %>
+												<% end %>
+											<% end %>
+										<% end %>		 
+									</ul>
+								 </div>
+							 </div>	 	
+							<div class="span8 tab-content">
+								<% for p in @projects %>
+									<%  p.visible_custom_field_values.each do |custom_value| %>
+										<% if (custom_value.custom_field.name == 'Category') %>
+			              					<% if (custom_value.value == 'Project') %>
+			              						<div class="tab-pane" id="cell<%= p.id %>"">
+			              							<a class="btn btn-large btn-primary pull-right" href="<%= url_for({:controller => 'projects', :action => 'show', :id => p}) %>"><icon class="icon-folder-open"></icon> Open project</a>
+					    							<br/><br/>
+					    							<%= textilizable(p.short_description, :project => p) %>
+					    						</div>
+											<% end %>
+										<% end %>
+									<% end %>
+								<% end %>
+				    		</div>	    
+			    		</div>	    		
+				    </div>
+		    	</div>
+            </div>
+            <!-- This begins the technology section -->
+            <div class="tab-pane" id="technology">
+				<div class="tab-pane row-fluid" id="listcells">
 			    	<div class="span4 navbar">
 				    	<div class="nav-collapse">
 				    		<form class="filterform form-search" action="#">
 				    			<div class="input-prepend">
 								  <span class="add-on"><i class="icon-filter"></i></span>
-								  <input class="filterinput search-query" type="text" placeholder="Filter projects...">
+								  <input id="technologyfilter"class="filter search-query" type="text" placeholder="Filter technologies...">
 								</div>
 							</form>
-					    	<ul id="projectlist" class="nav projects-list">
+					    	<ul id="technologylist" class="nav projects-list">
 								<% for p in @projects %>
 									<%  p.visible_custom_field_values.each do |custom_value| %>
 										<% if (custom_value.custom_field.name == 'Category') %>
-			              					<% if (custom_value.value == 'Project') %>
-												<li class=""><a data-toggle="tab" href="#cell<%= p.id %>"><%= p.name %></a></li>
+			              					<% if (custom_value.value == 'Showcase') %>
+												<li class="capitalize"><a data-toggle="tab" href="#cell<%= p.id %>"><%= p.name %></a></li>
 											<% end %>
 										<% end %>
 									<% end %>
@@ -46,11 +100,11 @@
 							</ul>
 						 </div>
 					 </div>	 	
-					<div class="span7 tab-content">
+					<div class="span8 tab-content">
 						<% for p in @projects %>
 							<%  p.visible_custom_field_values.each do |custom_value| %>
 								<% if (custom_value.custom_field.name == 'Category') %>
-	              					<% if (custom_value.value == 'Project') %>
+	              					<% if (custom_value.value == 'Showcase') %>
 	              						<div class="tab-pane" id="cell<%= p.id %>"">
 	              							<a class="btn btn-large btn-primary pull-right" href="<%= url_for({:controller => 'projects', :action => 'show', :id => p}) %>"><icon class="icon-folder-open"></icon> Open project</a>
 			    							<br/><br/>
@@ -62,14 +116,77 @@
 						<% end %>
 		    		</div>	    
 	    		</div>	    		
-		    </div>
-	    </div>
-		
-
-		<!-- Create the tree --> 	    
-	    <% if !(request.env["HTTP_USER_AGENT"] =~ /MSIE/)%>
-			<%= javascript_include_tag('projectstree.js') %>
-		<% end %>
+            </div>
+            <!-- This begins the research groups section -->
+            <div class="tab-pane" id="groups">
+            	<div class="tab-pane row-fluid" id="listcells">
+			    	<div class="span3 navbar">
+				    	<div class="nav-collapse">
+				    		<form class="filterform form-search" action="#">
+				    			<div class="input-prepend">
+								  <span class="add-on"><i class="icon-filter"></i></span>
+								  <input id="groupsfilter"class="filter search-query" type="text" placeholder="Filter groups...">
+								</div>
+							</form>
+					    	<ul id="groupslist" class="nav projects-list">
+								<% for group in @groups %>
+									<li class="capitalize"><a data-toggle="tab" href="#group<%= group.id %>"><%= group.name %></a></li>
+								<% end %>		 
+							</ul>
+						 </div>
+					 </div>	 	
+					<div class="span9 tab-content">
+						<% for group in @groups %>
+							<div class="tab-pane" id="group<%= group.id %>"">
+						        <h3><a href="<%=  group.custom_field_values[0] %>"><%=  group.name %> </a></h3>
+						        <!-- Obtained from http://findicons.com/pack/282/flags -->
+								<img src="images/<%= group.custom_field_values[4] %>.png" alt="<%= group.custom_field_values[4] %>"/>
+						        <p>Principal investigator: <b><%= group.custom_field_values[1] %></b> </p>
+						        <p><%= group.custom_field_values[3] %>, <%= group.custom_field_values[2] %>   </p>
+						        <ul class="nav nav-list">
+						            <% group.users.each do |user| %>
+				                        <div><li><i class="icon-user"></i> <%= link_to_user user %></li></div>
+				                    <% end %>
+						        </ul>
+					      	</div>
+						<% end %>
+		    		</div>	    
+	    		</div>	    		
+            </div>
+			<!-- This begins the people section -->
+            <div class="tab-pane" id="people">
+            	<div class="tab-pane row-fluid" id="listpeople">
+			    	<div class="span3 navbar">
+				    	<div class="nav-collapse">
+				    		<form class="filterform form-search" action="#">
+				    			<div class="input-prepend">
+								  <span class="add-on"><i class="icon-filter"></i></span>
+								  <input id="peoplefilter"class="filter search-query" type="text" placeholder="Filter people...">
+								</div>
+							</form>
+					    	<ul id="peoplelist" class="nav projects-list">
+								<% for user in @users %>
+									<li class="capitalize"><a data-toggle="tab" href="#user<%= user.id %>"><%= user.name %></a></li>
+								<% end %>		 
+							</ul>
+						 </div>
+					 </div>	 	
+					<div class="span9 tab-content">
+						<% for user in @users %>
+							<div class="tab-pane" id="user<%= user.id %>">
+						        <h4> <a href=""><%=  user.name %></a></h4>
+					      	</div>
+						<% end %>
+		    		</div>	    
+	    		</div>	    		
+            </div>
+		</div>
+    </div> 
+		        
+    <!-- Create the tree unless it's IE --> 	    
+    <% if !(request.env["HTTP_USER_AGENT"] =~ /MSIE/)%>
+		<%= javascript_include_tag('projectstree.js') %>
+	<% end %>
 		
 	</div>
 </div>

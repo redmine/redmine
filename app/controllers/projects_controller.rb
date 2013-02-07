@@ -63,6 +63,12 @@ class ProjectsController < ApplicationController
         render_feed(projects, :title => "#{Setting.app_title}: #{l(:label_project_latest)}")
       }
     end
+    @groups = Group.find(:all, :order => 'lastname')
+    
+    userscope = User.logged.status(@status)
+    userscope = userscope.like(params[:name]) if params[:name].present?
+    userscope = userscope.in_group(params[:group_id]) if params[:group_id].present?
+    @users = userscope.find(:all, :order => 'lastname')
   end
 
   def new

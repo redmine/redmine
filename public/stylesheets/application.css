@@ -192,16 +192,16 @@ body {
   .nav-collapse .dropdown-menu a {
     padding: 9px 15px;
     color: #777777;
-    -webkit-border-radius: 3px;
-       -moz-border-radius: 3px;
-            border-radius: 3px;
+    -webkit-border-radius: 8px;
+       -moz-border-radius: 8px;
+            border-radius: 8px;
   }
   .nav-collapse .btn {
     padding: 4px 10px 4px;
     font-weight: normal;
-    -webkit-border-radius: 4px;
-       -moz-border-radius: 4px;
-            border-radius: 4px;
+    -webkit-border-radius: 8px;
+       -moz-border-radius: 8px;
+            border-radius: 8px;
   }
   .nav-collapse .dropdown-menu li + li a {
     margin-bottom: 2px;
@@ -243,6 +243,13 @@ a:hover {
 	}
 }
 
+.filter{
+	width:70%;
+}
+
+.capitalize{
+	text-transform:capitalize;
+}
 .explore-view{
   padding: 20px;
   margin-bottom: 30px;
@@ -255,8 +262,11 @@ a:hover {
           border-radius: 6px;
 }
 .projects-list{
-	overflow:auto;
-	height:600px;
+	overflow:hidden;
+	height:400px;
+}
+.projects-list:hover{
+	overflow-y: scroll;
 }
 
 .node circle {
@@ -524,16 +534,6 @@ path.link {
 	color: white;
 	margin-top: 0px;
 	margin-left: 20px;
-}
-#groups {
-	margin: 0 auto;
-	margin-top: 20px;
-	width: 800px;
-	height: 40px;
-	color: #2d2100;
-	font-size: 2.5em;
-	font-style: normal;
-	text-align: center;
 }
 
 #welcomepage {
