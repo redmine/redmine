@@ -231,15 +231,15 @@ a:hover {
 #osblogo {
 	margin-top: 10px;
 	margin-bottom: 10px;
-	width: 184px;
-	height: 103px;
+	width: 144px;
+	height: 90px;
 	background-image: url("/images/osblogo.png");
 }
 
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
 	#osblogo {
 		background-image: url('/images/osblogo@2x.png');
-		background-size: 184px 103px;
+		background-size: 144px 90px;
 	}
 }
 
@@ -266,7 +266,7 @@ a:hover {
 	height:400px;
 }
 .projects-list:hover{
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 .node circle {
