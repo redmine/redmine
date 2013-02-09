@@ -434,6 +434,19 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal [1,2], parent.rolled_up_trackers.collect(&:id)
   end
 
+  test "#rolled_up_trackers should ignore projects with issue_tracking module disabled" do
+    parent = Project.generate!
+    parent.trackers = Tracker.find([1, 2])
+    child = Project.generate_with_parent!(parent)
+    child.trackers = Tracker.find([2, 3])
+
+    assert_equal [1, 2, 3], parent.rolled_up_trackers.collect(&:id).sort
+
+    assert child.disable_module!(:issue_tracking)
+    parent.reload
+    assert_equal [1, 2], parent.rolled_up_trackers.collect(&:id).sort
+  end
+
   test "#rolled_up_versions should include the versions for the current project" do
     project = Project.generate!
     parent_version_1 = Version.generate!(:project => project)
