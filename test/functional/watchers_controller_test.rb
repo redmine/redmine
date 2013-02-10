@@ -84,7 +84,7 @@ class WatchersControllerTest < ActionController::TestCase
   def test_unwatch
     @request.session[:user_id] = 3
     assert_difference('Watcher.count', -1) do
-      xhr :post, :unwatch, :object_type => 'issue', :object_id => '2'
+      xhr :delete, :unwatch, :object_type => 'issue', :object_id => '2'
       assert_response :success
       assert_include '$(".issue-2-watcher")', response.body
     end
@@ -97,7 +97,7 @@ class WatchersControllerTest < ActionController::TestCase
     Watcher.create!(:user_id => 3, :watchable => Issue.find(3))
 
     assert_difference('Watcher.count', -2) do
-      xhr :post, :unwatch, :object_type => 'issue', :object_id => ['1', '3']
+      xhr :delete, :unwatch, :object_type => 'issue', :object_id => ['1', '3']
       assert_response :success
       assert_include '$(".issue-bulk-watcher")', response.body
     end

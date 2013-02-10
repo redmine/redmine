@@ -31,14 +31,13 @@ module WatchersHelper
     watched = objects.any? {|object| object.watched_by?(user)}
     css = [watcher_css(objects), watched ? 'icon icon-fav' : 'icon icon-fav-off'].join(' ')
     text = watched ? l(:button_unwatch) : l(:button_watch)
-    url = {
-      :controller => 'watchers',
-      :action => (watched ? 'unwatch' : 'watch'),
+    url = watch_path(
       :object_type => objects.first.class.to_s.underscore,
       :object_id => (objects.size == 1 ? objects.first.id : objects.map(&:id).sort)
-    }
+    )
+    method = watched ? 'delete' : 'post'
 
-    link_to text, url, :remote => true, :method => 'post', :class => css
+    link_to text, url, :remote => true, :method => method, :class => css
   end
 
   # Returns the css class used to identify watch links for a given +object+
