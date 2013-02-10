@@ -77,13 +77,13 @@ RedmineApp::Application.routes.draw do
   match 'users/:id/memberships/:membership_id', :to => 'users#destroy_membership', :via => :delete
   match 'users/:id/memberships', :to => 'users#edit_membership', :via => :post, :as => 'user_memberships'
 
-  match 'watchers/new', :controller=> 'watchers', :action => 'new', :via => :get
-  match 'watchers', :controller=> 'watchers', :action => 'create', :via => :post
-  match 'watchers/append', :controller=> 'watchers', :action => 'append', :via => :post
-  match 'watchers/destroy', :controller=> 'watchers', :action => 'destroy', :via => :post
-  match 'watchers/watch', :controller=> 'watchers', :action => 'watch', :via => :post
-  match 'watchers/unwatch', :controller=> 'watchers', :action => 'unwatch', :via => :post
-  match 'watchers/autocomplete_for_user', :controller=> 'watchers', :action => 'autocomplete_for_user', :via => :get
+  get 'watchers/new', :to => 'watchers#new'
+  post 'watchers', :to => 'watchers#create'
+  post 'watchers/append', :to => 'watchers#append'
+  post 'watchers/destroy', :to => 'watchers#destroy'
+  post 'watchers/watch', :to => 'watchers#watch'
+  post 'watchers/unwatch', :to => 'watchers#unwatch'
+  get 'watchers/autocomplete_for_user', :to => 'watchers#autocomplete_for_user'
   # Specific routes for issue watchers API
   post 'issues/:object_id/watchers', :to => 'watchers#create', :object_type => 'issue'
   delete 'issues/:object_id/watchers/:user_id' => 'watchers#destroy', :object_type => 'issue'
