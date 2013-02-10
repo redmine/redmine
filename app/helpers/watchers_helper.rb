@@ -24,21 +24,28 @@ module WatchersHelper
     watcher_link(object, user)
   end
 
-  def watcher_link(object, user)
-    return '' unless user && user.logged? && object.respond_to?('watched_by?')
-    watched = object.watched_by?(user)
-    css = [watcher_css(object), watched ? 'icon icon-fav' : 'icon icon-fav-off'].join(' ')
-    url = {:controller => 'watchers',
-           :action => (watched ? 'unwatch' : 'watch'),
-           :object_type => object.class.to_s.underscore,
-           :object_id => object.id}
-    link_to((watched ? l(:button_unwatch) : l(:button_watch)), url,
-            :remote => true, :method => 'post', :class => css)
+  def watcher_link(objects, user)
+    return '' unless user && user.logged?
+    objects = Array.wrap(objects)
+
+    watched = objects.any? {|object| object.watched_by?(user)}
+    css = [watcher_css(objects), watched ? 'icon icon-fav' : 'icon icon-fav-off'].join(' ')
+    text = watched ? l(:button_unwatch) : l(:button_watch)
+    url = {
+      :controller => 'watchers',
+      :action => (watched ? 'unwatch' : 'watch'),
+      :object_type => objects.first.class.to_s.underscore,
+      :object_id => (objects.size == 1 ? objects.first.id : objects.map(&:id).sort)
+    }
+
+    link_to text, url, :remote => true, :method => 'post', :class => css
   end
 
   # Returns the css class used to identify watch links for a given +object+
-  def watcher_css(object)
-    "#{object.class.to_s.underscore}-#{object.id}-watcher"
+  def watcher_css(objects)
+    objects = Array.wrap(objects)
+    id = (objects.size == 1 ? objects.first.id : 'bulk')
+    "#{objects.first.class.to_s.underscore}-#{id}-watcher"
   end
 
   # Returns a comma separated list of users watching the given object

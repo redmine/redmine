@@ -117,10 +117,11 @@
     </li>
   <% end %>
 
+<% if User.current.logged? %>
+  <li><%= watcher_link(@issues, User.current) %></li>
+<% end %>
+
 <% if @issue.present? %>
-  <% if User.current.logged? %>
-  <li><%= watcher_link(@issue, User.current) %></li>
-  <% end %>
   <% if @can[:log_time] -%>
   <li><%= context_menu_link l(:button_log_time), new_issue_time_entry_path(@issue),
           :class => 'icon-time-add' %></li>

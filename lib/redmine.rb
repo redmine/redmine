@@ -127,7 +127,7 @@ Redmine::AccessControl.map do |map|
     map.permission :save_queries, {:queries => [:new, :create, :edit, :update, :destroy]}, :require => :loggedin
     # Watchers
     map.permission :view_issue_watchers, {}, :read => true
-    map.permission :add_issue_watchers, {:watchers => :new}
+    map.permission :add_issue_watchers, {:watchers => [:new, :create, :append, :autocomplete_for_user]}
     map.permission :delete_issue_watchers, {:watchers => :destroy}
   end
 
