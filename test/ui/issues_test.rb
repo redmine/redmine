@@ -56,6 +56,32 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
     assert_equal 'Value for field 2', issue.custom_field_value(CustomField.find_by_name('Searchable field'))
   end
 
+  def test_create_issue_with_watchers
+    User.generate!(:firstname => 'Some', :lastname => 'Watcher')
+
+    assert_difference 'Issue.count' do
+      log_user('jsmith', 'jsmith')
+      visit '/projects/ecookbook/issues/new'
+      fill_in 'Subject', :with => 'Issue with watchers'
+      # Add a project member as watcher
+      check 'Dave Lopper'
+      # Search for another user
+      click_link 'Search for watchers to add'
+      within('form#new-watcher-form') do
+        assert page.has_content?('Some One')
+        fill_in 'user_search', :with => 'watch'
+        sleep(2) # autocomplete delay
+        assert !page.has_content?('Some One')
+        check 'Some Watcher'
+        click_button 'Add'
+      end
+      find('input[name=commit]').click
+    end
+
+    issue = Issue.order('id desc').first
+    assert_equal ['Dave Lopper', 'Some Watcher'], issue.watcher_users.map(&:name).sort
+  end
+
   def test_preview_issue_description
     log_user('jsmith', 'jsmith')
     visit new_issue_path(:project_id => 1)
