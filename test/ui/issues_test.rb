@@ -71,8 +71,7 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
       within('form#new-watcher-form') do
         assert page.has_content?('Some One')
         fill_in 'user_search', :with => 'watch'
-        sleep(2) # autocomplete delay
-        assert !page.has_content?('Some One')
+        assert page.has_no_content?('Some One')
         check 'Some Watcher'
         click_button 'Add'
       end
@@ -98,10 +97,10 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
   end
 
   def test_watch_issue_via_context_menu
-      log_user('jsmith', 'jsmith')
-      visit '/issues'
-      find('tr#issue-1 td.updated_on').click
-      page.execute_script "$('tr#issue-1 td.updated_on').trigger('contextmenu');"
+    log_user('jsmith', 'jsmith')
+    visit '/issues'
+    find('tr#issue-1 td.updated_on').click
+    page.execute_script "$('tr#issue-1 td.updated_on').trigger('contextmenu');"
     assert_difference 'Watcher.count' do
       within('#context-menu') do
         click_link 'Watch'
@@ -111,12 +110,12 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
   end
 
   def test_bulk_watch_issues_via_context_menu
+    log_user('jsmith', 'jsmith')
+    visit '/issues'
+    find('tr#issue-1 input[type=checkbox]').click
+    find('tr#issue-4 input[type=checkbox]').click
+    page.execute_script "$('tr#issue-1 td.updated_on').trigger('contextmenu');"
     assert_difference 'Watcher.count', 2 do
-      log_user('jsmith', 'jsmith')
-      visit '/issues'
-      find('tr#issue-1 input[type=checkbox]').click
-      find('tr#issue-4 input[type=checkbox]').click
-      page.execute_script "$('tr#issue-1 td.updated_on').trigger('contextmenu');"
       within('#context-menu') do
         click_link 'Watch'
       end
