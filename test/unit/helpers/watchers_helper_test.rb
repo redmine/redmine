@@ -61,8 +61,8 @@ class WatchersHelperTest < ActionView::TestCase
 
     expected = link_to(
       "Unwatch",
-      "/watchers/unwatch?object_id=1&object_type=issue",
-      :remote => true, :method => 'post', :class => "issue-1-watcher icon icon-fav"
+      "/watchers/watch?object_id=1&object_type=issue",
+      :remote => true, :method => 'delete', :class => "issue-1-watcher icon icon-fav"
     )
     assert_equal expected, watcher_link(Issue.find(1), User.find(1))
   end
