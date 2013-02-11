@@ -1,32 +1,29 @@
-<%= javascript_include_tag('d3.v2.js') %>
-<%= javascript_include_tag('d3.layout.js') %>
-<div class="container">
-	<div class="explore-view">
-		<p class="lead">Explore Open Source Brain</p>
-		
-		<!--<% if !(request.env["HTTP_USER_AGENT"] =~ /MSIE/)%>
-			<p class="lead">Click on a node to expand or collapse. Projects are shown in <b class="blue">blue</b>, click on them to open the project page.</p>
-		<% else %>
-			<p class="lead">Switch to Google Chrome or Mozilla Firefox to enhanced visualization.</p>
-		<% end %>-->
+<div class="explore-view">
+	<p class="lead">Explore Open Source Brain</p>
+	
+	<!--<% if !(request.env["HTTP_USER_AGENT"] =~ /MSIE/)%>
+		<p class="lead">Click on a node to expand or collapse. Projects are shown in <b class="blue">blue</b>, click on them to open the project page.</p>
+	<% else %>
+		<p class="lead">Switch to Google Chrome or Mozilla Firefox to enhanced visualization.</p>
+	<% end %>-->
 
-		<!-- This begins the vertical tab on the left-->
-		<div class="tabbable tabs-left">
-			<ul class="nav nav-tabs">
-				<li class="active"><a href="#cells" data-toggle="tab">Cells and Networks</a></li>
-                <li><a href="#technology" data-toggle="tab">Technology</a></li>
-                <li><a href="#groups" data-toggle="tab">Research groups</a></li>
-                <li><a href="#people" data-toggle="tab">People</a></li>
-			</ul>
-			<!-- This begins the cells and network section -->
-			<div class="tab-content">
-				<div class="tab-pane active" id="cells">
-					<div class="tabbable">
-						<div class="row pagination-centered">
-							<div id="view-tab" class="btn-group" data-toggle="buttons-radio">
-					  			<button class="btn btn-large active" href="#graph" data-toggle="tab"><icon class="icon-circle-blank"></icon> Graph view</button>
-					  			<button class="btn btn-large" href="#listcells" data-toggle="tab"><icon class="icon-th-list"></icon> List view</button>
-							</div>
+	<!-- This begins the vertical tab on the left-->
+	<div class="tabbable tabs-left">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#cells" data-toggle="tab">Cells and Networks</a></li>
+            <li><a href="#technology" data-toggle="tab">Technology</a></li>
+            <li><a href="#groups" data-toggle="tab">Research groups</a></li>
+            <li><a href="#people" data-toggle="tab">People</a></li>
+		</ul>
+		<!-- This begins the cells and network section -->
+		<div class="tab-content">
+			<div class="tab-pane active" id="cells">
+				<div class="tabbable">
+					<div class="row pagination-centered">
+						<div id="view-tab" class="btn-group" data-toggle="buttons-radio">
+				  			<button class="btn btn-large active" href="#graph" data-toggle="tab"><icon class="icon-circle-blank"></icon> Graph view</button>
+				  			<button class="btn btn-large" href="#listcells" data-toggle="tab"><icon class="icon-th-list"></icon> List view</button>
+						</div>
 						<br/><br/><br/>
 					</div>
 					<!-- This begins the graph or list section -->
@@ -72,12 +69,12 @@
 									<% end %>
 								<% end %>
 				    		</div>	    
-			    		</div>	    		
-				    </div>
-		    	</div>
-            </div>
-            <!-- This begins the technology section -->
-            <div class="tab-pane" id="technology">
+		    			</div>	    		
+			   		</div>
+	    		</div>
+        	</div>
+	        <!-- This begins the technology section -->
+	        <div class="tab-pane" id="technology">
 				<div class="tab-pane row-fluid" id="listcells">
 			    	<div class="span4 navbar">
 				    	<div class="nav-collapse">
@@ -116,10 +113,10 @@
 						<% end %>
 		    		</div>	    
 	    		</div>	    		
-            </div>
-            <!-- This begins the research groups section -->
-            <div class="tab-pane" id="groups">
-            	<div class="tab-pane row-fluid" id="listcells">
+	        </div>
+	        <!-- This begins the research groups section -->
+	        <div class="tab-pane" id="groups">
+	        	<div class="tab-pane row-fluid" id="listcells">
 			    	<div class="span3 navbar">
 				    	<div class="nav-collapse">
 				    		<form class="filterform form-search" action="#">
@@ -140,7 +137,7 @@
 							<div class="tab-pane" id="group<%= group.id %>"">
 						        <h3><a class="capitalize" href="<%=  group.custom_field_values[0] %>"><%=  group.name %> </a></h3>
 						        <!-- Obtained from http://findicons.com/pack/282/flags -->
-								<img src="images/<%= group.custom_field_values[4] %>.png" alt="<%= group.custom_field_values[4] %>"/>
+								<img src="../images/<%= group.custom_field_values[4] %>.png" alt="<%= group.custom_field_values[4] %>"/>
 						        <p>Principal investigator: <b><%= group.custom_field_values[1] %></b> </p>
 						        <p><%= group.custom_field_values[3] %>, <%= group.custom_field_values[2] %>   </p>
 						        <ul class="nav nav-list">
@@ -152,10 +149,10 @@
 						<% end %>
 		    		</div>	    
 	    		</div>	    		
-            </div>
+	        </div>
 			<!-- This begins the people section -->
-            <div class="tab-pane" id="people">
-            	<div class="tab-pane row-fluid" id="listpeople">
+	        <div class="tab-pane" id="people">
+	        	<div class="tab-pane row-fluid" id="listpeople">
 			    	<div class="span3 navbar">
 				    	<div class="nav-collapse">
 				    		<form class="filterform form-search" action="#">
@@ -183,23 +180,18 @@
 										<li><%= link_to_project(membership.project) %>(<%=h membership.roles.sort.collect(&:to_s).join(', ') %>, <%= format_date(membership.created_on) %>)</li>
 									<% end %>
 									</ul>
-									<% end %>
+								<% end %>
 					      	</div>
 						<% end %>
 		    		</div>	    
 	    		</div>	    		
-            </div>
+	        </div>
 		</div>
-    </div> 
-		        
-    <!-- Create the tree unless it's IE --> 	    
-    <% if !(request.env["HTTP_USER_AGENT"] =~ /MSIE/)%>
-		<%= javascript_include_tag('projectstree.js') %>
-	<% end %>
-		
-	</div>
+	</div> 
 </div>
-	
-
-
-
+<%= javascript_include_tag('d3.v2.js') %>
+<%= javascript_include_tag('d3.layout.js') %>
+<!-- Create the tree unless it's IE --> 	    
+<% if !(request.env["HTTP_USER_AGENT"] =~ /MSIE/)%>
+	<%= javascript_include_tag('projectstree.js') %>
+<% end %>

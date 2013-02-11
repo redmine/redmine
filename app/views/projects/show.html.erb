@@ -1,39 +1,5 @@
 <%= javascript_include_tag('Detector.js') %>
 
-<div class="container">
-	
-	<div class="page-header">
-	  <h1 id="pname"><%= @project.name %><small id="author"> </small></h1>
-		<ul class="breadcrumb">
-			<li><a href="#">Animal Kingdom</a> <span class="divider">/</span></li>
-			<li><a href="#">Vertebrate</a> <span class="divider">/</span></li>
-			<li><a href="#">Rodent</a> <span class="divider">/</span></li>
-			<li><a href="#">Cerebellum</a> <span class="divider">/</span></li>
-			<li class="active">Purkinje Cell</li>
-		</ul>
-	</div>
-		
-	<!--
-				<% @project.visible_custom_field_values.each do |custom_value| %>
-				<% if !custom_value.value.blank? %>
-					<% if custom_value.custom_field.name != 'Category'  %>
-	
-					<% end %>
-				<% end %>
-			<% end %>
-	-->
-
-
-		<div class="navbar">
-			<div id="menucontainer" class="navbar-inner">
-				<a class="brand" href="#">OSB</a>
-				<% if display_main_menu?(@project) %>
-					<%= render_main_menu(@project) %>
-				<% end %>
-				
-			</div>
-		</div>
-
 	<div class="row-fluid">
 		<% unless @project.active? %>
 		<p class="warning">
@@ -258,7 +224,7 @@
 			<% end %>
 		<% end %>
 	</ul>
-</div>
+
 <% end %>
 
 <script>
@@ -322,48 +288,9 @@
 
 		jQuery(function()
 		{
-			var $window = jQuery(window);
-			
-			
-			jQuery("#menucontainer > ul").append('<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Actions<b class="caret"></b></a><ul class="dropdown-menu" id="actionsmenu"></ul></li>');
-			jQuery("#actionsmenu").append("<li><a href='javascript:showMenu();'>OSB 3D Explorer</a></li>");
-			
-			<% if User.current.allowed_to?(:add_subprojects, @project) %>
-				jQuery("#actionsmenu").append("<li>"+'<%= link_to l(:label_subproject_new), new_project_path(:parent_id => @project), :class => "" %>'+"</li>");
-			<% end %>
-			<% if User.current.allowed_to?(:close_project, @project) %>
-				<% if @project.active? %>
-					jQuery("#actionsmenu").append("<li>"+'<%= link_to l(:button_close), close_project_path(@project), :data => {:confirm => l(:text_are_you_sure)}, :method => :post, :class => "" %>'+"</li>");
-				<% else %>
-					jQuery("#actionsmenu").append("<li>"+'<%= link_to l(:button_reopen), reopen_project_path(@project), :data => {:confirm => l(:text_are_you_sure)}, :method => :post, :class => "" %>'+"</li>");
-				<% end %>
-			<% end %>
-			
-			var splitProjectName=jQuery('#pname').html().split("-");
-			jQuery('.dropdown-toggle').dropdown();
-			
-			jQuery('#pname').html(jQuery.trim(splitProjectName[0])+" <small>"+jQuery.trim(splitProjectName[1])+"</small>");
-			    // side bar
-		    jQuery('.bs-docs-sidenav').affix({
-		      offset: {
-		        top: function () { return $window.width() <= 980 ? 290 : 210 }
-		      , bottom: 270
-		      }
-		    });
-		    
-			jQuery('.nav li').click(function(e)
-			{
-				jQuery('.nav li').removeClass('active');
-				
-				var $this = $(this);
-				if (!$this.hasClass('active'))
-				{
-					$this.addClass('active');
-				}
-				
-			});
 			
 			jQuery('.overview').parent().addClass("active");
+			
 			var geturl=getParameterByName('explorer');
 			if(geturl!='')
 			{

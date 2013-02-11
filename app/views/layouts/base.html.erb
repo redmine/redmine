@@ -8,9 +8,10 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
 		<%= csrf_meta_tag %>
 		<%= favicon %>
+		<%= stylesheet_link_tag 'jquery/jquery-ui-1.9.2', 'application', :media => 'all' %>
+		<%= stylesheet_link_tag 'rtl', :media => 'all' if l(:direction) == 'rtl' %>
 		<%= javascript_heads %>
 		<%= heads_for_theme %>
-		<%= javascript_include_tag('jquery-1.8.2.min.js') %>
 		<%= javascript_include_tag('bootstrap.min.js') %>
 		<%= stylesheet_link_tag 'bootstrap', :media => 'all' %>
 		<%= stylesheet_link_tag 'bootstrap-responsive', :media => 'all' %>
@@ -39,7 +40,7 @@
 			<div class="navbar-inner">
 				<div class="container" >
 					<div class="row">
-						<div class="span3" id="osblogo"></div>
+						<div class="span6" id="osblogo" onclick="window.location.href='/';"></div>
 						<!--<ul class="bs-docs-social-buttons">
 							<li class="follow-btn">
 								<a href="https://twitter.com/osbteam" class="twitter-follow-button" data-link-color="#0069D6" data-show-count="true">Follow @osbteam</a>
@@ -48,14 +49,14 @@
 								<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://opensourcebrain.org" data-count="horizontal" data-via="osbteam" data-related="Interesting -> Open Source Brain online repository for computational neural models!">Tweet</a>
 							</li>
 						</ul>-->
-						<div id="header_menu" class="span9 pull-right">
+						<div id="header_menu" class="span6 pull-right">
 							<%= render_menu :account_menu -%>
 							<%= content_tag('div', "#{l(:label_logged_as)} #{link_to_user(User.current, :format => :username)}".html_safe, :id => 'loggedas') if User.current.logged? %>
 							<%= render_menu :top_menu if User.current.logged? || !Setting.login_required? -%>
-							<%= form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
+							<!--<%= form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
 								<%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
 								<%= text_field_tag 'q', @question, :size => 100, :placeholder=>'Search Open Source Brain',:type=>'text', :results=>5, :class => 'search-query', :accesskey => accesskey(:quick_search) %>
-							<% end %>
+							<% end %>-->
 						</div>
 					</div>
 				</div>
@@ -65,9 +66,35 @@
 		<!-- CONTENT -->
 
 		<div id="content">
+			<div class="container">
+			
+			<% if display_main_menu?(@project) %>
+
+					<div class="page-header">
+					  <h1 id="pname"><%= @project.name %><small id="author"> </small></h1>
+						<ul class="breadcrumb">
+							<li><a href="#">Animal Kingdom</a> <span class="divider">/</span></li>
+							<li><a href="#">Vertebrate</a> <span class="divider">/</span></li>
+							<li><a href="#">Rodent</a> <span class="divider">/</span></li>
+							<li><a href="#">Cerebellum</a> <span class="divider">/</span></li>
+							<li class="active">Purkinje Cell</li>
+						</ul>
+					</div>
+					<div class="navbar">
+						<div id="menucontainer" class="navbar-inner">
+							<a class="brand" href="#">OSB</a>
+							<% if display_main_menu?(@project) %>
+								<%= render_main_menu(@project) %>
+							<% end %>
+						</div>
+					</div>
+			<% end %>
+			<div>
+			<%= call_hook :view_layouts_base_content %>
+			
+			</div>
 			<%= render_flash_messages %>
 			<%= yield %>
-			<%= call_hook :view_layouts_base_content %>
 			<div id="ajax-indicator" style="display:none;">
 				<span><%= l(:label_loading) %></span>
 			</div>
@@ -97,30 +124,5 @@
 	</body>
 </html>
 
-<script type="text/javascript">
-	var _gaq = _gaq || [];
-	_gaq.push(['_setAccount', 'UA-29853802-1']);
-	_gaq.push(['_trackPageview']);
-
-	(function() {
-		var ga = document.createElement('script');
-		ga.type = 'text/javascript';
-		ga.async = true;
-		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-		var s = document.getElementsByTagName('script')[0];
-		s.parentNode.insertBefore(ga, s);
-	})();
-	
-	
-	jQuery(function()
-	{
-			
-			jQuery("#header_menu > ul").addClass("pull-right");
-			jQuery("#header_menu > ul").append('<li id="loggedelement"></li>');
-			jQuery("#loggedas > a").appendTo("#loggedelement");
-			jQuery("#loggedas").remove();
-	});
-</script>
 <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
 <%= javascript_include_tag('main.js') %>
-<%= javascript_include_tag('retina.js') %>

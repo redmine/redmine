@@ -5,6 +5,56 @@ body {
 	line-height: 20px;
 }
 
+/* From redmine */
+
+div#activity dt, #search-results dt {
+	margin-bottom: 0px;
+	padding-left: 20px;
+	line-height: 18px;
+	background-position: 0 50%;
+	background-repeat: no-repeat;
+}
+
+dt.issue {
+	background-image: url(../images/ticket.png);
+}
+dt.issue-edit {
+	background-image: url(../images/ticket_edit.png);
+}
+dt.issue-closed {
+	background-image: url(../images/ticket_checked.png);
+}
+dt.issue-note {
+	background-image: url(../images/ticket_note.png);
+}
+dt.changeset {
+	background-image: url(../images/changeset.png);
+}
+dt.news {
+	background-image: url(../images/news.png);
+}
+dt.message {
+	background-image: url(../images/message.png);
+}
+dt.reply {
+	background-image: url(../images/comments.png);
+}
+dt.wiki-page {
+	background-image: url(../images/wiki_edit.png);
+}
+dt.attachment {
+	background-image: url(../images/attachment.png);
+}
+dt.document {
+	background-image: url(../images/document.png);
+}
+dt.project {
+	background-image: url(../images/projects.png);
+}
+dt.time-entry {
+	background-image: url(../images/time.png);
+}
+
 /* Base class */
 .bs-docs-example {
 	position: relative;
@@ -224,6 +274,47 @@ a:hover {
 	color: #297385;
 }
 
+.btn-xlarge {
+padding: 21px 29px;
+font-size: 37.5px;
+-webkit-border-radius: 6px;
+-moz-border-radius: 6px;
+border-radius: 6px;
+}
+
+.btn-success {
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-color: #5bb75b;
+  *background-color: #51a351;
+  background-image: -moz-linear-gradient(top, #88aa00, #5e7600);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#88aa00), to(#5e7600));
+  background-image: -webkit-linear-gradient(top, #88aa00, #5e7600);
+  background-image: -o-linear-gradient(top, #88aa00, #5e7600);
+  background-image: linear-gradient(to bottom, #88aa00, #5e7600);
+  background-repeat: repeat-x;
+  border-color: #5e7600 #5e7600 #387038;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff62c462', endColorstr='#ff51a351', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+.btn-success:hover,
+.btn-success:focus,
+.btn-success:active,
+.btn-success.active,
+.btn-success.disabled,
+.btn-success[disabled] {
+  color: #ffffff;
+  background-color: #5e7600;
+  *background-color: #499249;
+}
+
+.big-lead{
+	font-weight:200;
+	font-size:40px;
+	line-height: 1.2;
+}
 .btn-group a {
     display:inline-block;
 }
@@ -231,15 +322,31 @@ a:hover {
 #osblogo {
 	margin-top: 10px;
 	margin-bottom: 10px;
-	width: 144px;
-	height: 90px;
+	width: 329px;
+	height: 70px;
 	background-image: url("/images/osblogo.png");
+	cursor:pointer;
 }
 
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
 	#osblogo {
 		background-image: url('/images/osblogo@2x.png');
-		background-size: 144px 90px;
+		background-size: 329px 70px;
+	}
+}
+#osbcircle {
+	margin:0 auto;
+	margin-top:20px;
+	margin-bottom:20px;
+	width: 250px;
+	height: 257px;
+	background-image: url("/images/osbcircle.png");
+}
+
+@media all and (-webkit-min-device-pixel-ratio: 1.5) {
+	#osbcircle {
+		background-image: url('/images/osbcircle@2x.png');
+		background-size: 250px 257px;
 	}
 }
 
