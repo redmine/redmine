@@ -23,7 +23,7 @@ class Redmine::Hook::ManagerTest < ActionView::TestCase
            :trackers, :projects_trackers,
            :enabled_modules,
            :versions,
-           :issue_statuses, :issue_categories, :issue_relations, :workflows,
+           :issue_statuses, :issue_categories, :issue_relations,
            :enumerations,
            :issues
 

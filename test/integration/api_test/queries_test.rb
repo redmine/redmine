@@ -25,7 +25,6 @@ class Redmine::ApiTest::QueriesTest < Redmine::ApiTest::Base
            :member_roles,
            :members,
            :enabled_modules,
-           :workflows,
            :queries
 
   def setup

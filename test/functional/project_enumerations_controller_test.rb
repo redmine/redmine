@@ -25,7 +25,6 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
            :member_roles,
            :members,
            :enabled_modules,
-           :workflows,
            :custom_fields, :custom_fields_projects,
            :custom_fields_trackers, :custom_values,
            :time_entries

@@ -25,7 +25,6 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
            :member_roles,
            :members,
            :enabled_modules,
-           :workflows,
            :attachments
 
   def setup

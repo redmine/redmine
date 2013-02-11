@@ -24,8 +24,7 @@ class LayoutTest < ActionController::IntegrationTest
            :roles,
            :member_roles,
            :members,
-           :enabled_modules,
-           :workflows
+           :enabled_modules
 
   test "browsing to a missing page should render the base layout" do
     get "/users/100000000"

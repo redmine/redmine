@@ -26,7 +26,6 @@ class AutoCompletesControllerTest < ActionController::TestCase
            :member_roles,
            :members,
            :enabled_modules,
-           :workflows,
            :journals, :journal_details
 
   def test_issues_should_not_be_case_sensitive

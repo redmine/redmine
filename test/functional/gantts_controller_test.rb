@@ -25,7 +25,6 @@ class GanttsControllerTest < ActionController::TestCase
            :member_roles,
            :members,
            :enabled_modules,
-           :workflows,
            :versions
 
   def test_gantt_should_work

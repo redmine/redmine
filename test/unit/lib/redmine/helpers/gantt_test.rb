@@ -26,7 +26,6 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
            :member_roles,
            :members,
            :enabled_modules,
-           :workflows,
            :versions,
            :groups_users
 

@@ -26,7 +26,6 @@ class ActivitiesControllerTest < ActionController::TestCase
            :members,
            :groups_users,
            :enabled_modules,
-           :workflows,
            :journals, :journal_details
 
 

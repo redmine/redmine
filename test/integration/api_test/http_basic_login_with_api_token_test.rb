@@ -24,8 +24,7 @@ class Redmine::ApiTest::HttpBasicLoginWithApiTokenTest < Redmine::ApiTest::Base
            :roles,
            :member_roles,
            :members,
-           :enabled_modules,
-           :workflows
+           :enabled_modules
 
   def setup
     Setting.rest_api_enabled = '1'

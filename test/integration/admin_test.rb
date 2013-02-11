@@ -24,8 +24,7 @@ class AdminTest < ActionController::IntegrationTest
            :roles,
            :member_roles,
            :members,
-           :enabled_modules,
-           :workflows
+           :enabled_modules
 
   def test_add_user
     log_user("admin", "admin")

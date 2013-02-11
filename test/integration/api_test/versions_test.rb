@@ -25,7 +25,6 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
            :member_roles,
            :members,
            :enabled_modules,
-           :workflows,
            :versions
 
   def setup

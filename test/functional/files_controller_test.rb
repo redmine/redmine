@@ -25,7 +25,6 @@ class FilesControllerTest < ActionController::TestCase
            :member_roles,
            :members,
            :enabled_modules,
-           :workflows,
            :journals, :journal_details,
            :attachments,
            :versions

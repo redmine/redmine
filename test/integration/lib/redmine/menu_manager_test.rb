@@ -26,8 +26,7 @@ class MenuManagerTest < ActionController::IntegrationTest
            :roles,
            :member_roles,
            :members,
-           :enabled_modules,
-           :workflows
+           :enabled_modules
 
   def test_project_menu_with_specific_locale
     get 'projects/ecookbook/issues', { }, 'HTTP_ACCEPT_LANGUAGE' => 'fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3'

@@ -25,7 +25,6 @@ class Redmine::ApiTest::TimeEntriesTest < Redmine::ApiTest::Base
            :member_roles,
            :members,
            :enabled_modules,
-           :workflows,
            :time_entries
 
   def setup

@@ -26,8 +26,7 @@ class ApplicationTest < ActionController::IntegrationTest
            :roles,
            :member_roles,
            :members,
-           :enabled_modules,
-           :workflows
+           :enabled_modules
 
   def test_set_localization
     Setting.default_language = 'en'

@@ -25,7 +25,6 @@ class ReportsControllerTest < ActionController::TestCase
            :member_roles,
            :members,
            :enabled_modules,
-           :workflows,
            :versions
 
   def test_get_issue_report

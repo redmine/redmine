@@ -25,7 +25,6 @@ class Redmine::ApiTest::IssueRelationsTest < Redmine::ApiTest::Base
            :member_roles,
            :members,
            :enabled_modules,
-           :workflows,
            :issue_relations
 
   def setup
