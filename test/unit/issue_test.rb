@@ -421,6 +421,21 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal 'MySQL', issue.custom_field_value(1)
   end
 
+  def test_reload_should_reload_custom_field_values
+    issue = Issue.generate!
+    issue.custom_field_values = {'2' => 'Foo'}
+    issue.save!
+
+    issue = Issue.order('id desc').first
+    assert_equal 'Foo', issue.custom_field_value(2)
+
+    issue.custom_field_values = {'2' => 'Bar'}
+    assert_equal 'Bar', issue.custom_field_value(2)
+
+    issue.reload
+    assert_equal 'Foo', issue.custom_field_value(2)
+  end
+
   def test_should_update_issue_with_disabled_tracker
     p = Project.find(1)
     issue = Issue.find(1)

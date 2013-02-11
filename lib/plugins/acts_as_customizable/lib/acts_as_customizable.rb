@@ -32,6 +32,8 @@ module Redmine
                                    :order => "#{CustomField.table_name}.position",
                                    :dependent => :delete_all,
                                    :validate => false
+
+          send :alias_method, :reload_without_custom_fields, :reload
           send :include, Redmine::Acts::Customizable::InstanceMethods
           validate :validate_custom_field_values
           after_save :save_custom_field_values
@@ -150,6 +152,12 @@ module Redmine
         def reset_custom_values!
           @custom_field_values = nil
           @custom_field_values_changed = true
+        end
+
+        def reload(*args)
+          @custom_field_values = nil
+          @custom_field_values_changed = false
+          reload_without_custom_fields(*args)
         end
 
         module ClassMethods
