@@ -172,7 +172,7 @@ class CustomField < ActiveRecord::Base
       keyword
     end
   end
- 
+
   # Returns a ORDER BY clause that can used to sort customized
   # objects by their value of the custom field.
   # Returns nil if the custom field can not be used for sorting.
@@ -196,7 +196,7 @@ class CustomField < ActiveRecord::Base
 
   # Returns a GROUP BY clause that can used to group by custom value
   # Returns nil if the custom field can not be used for grouping.
-  def group_statement 
+  def group_statement
     return nil if multiple?
     case field_format
       when 'list', 'date', 'bool', 'int'
@@ -342,8 +342,8 @@ class CustomField < ActiveRecord::Base
   def handle_multiplicity_change
     if !new_record? && multiple_was && !multiple
       ids = custom_values.
-        where("EXISTS(SELECT 1 FROM #{CustomValue.table_name} cve WHERE cve.custom_field_id = #{CustomValue.table_name}.custom_field_id" + 
-          " AND cve.customized_type = #{CustomValue.table_name}.customized_type AND cve.customized_id = #{CustomValue.table_name}.customized_id" + 
+        where("EXISTS(SELECT 1 FROM #{CustomValue.table_name} cve WHERE cve.custom_field_id = #{CustomValue.table_name}.custom_field_id" +
+          " AND cve.customized_type = #{CustomValue.table_name}.customized_type AND cve.customized_id = #{CustomValue.table_name}.customized_id" +
           " AND cve.id > #{CustomValue.table_name}.id)").
         pluck(:id)
 
