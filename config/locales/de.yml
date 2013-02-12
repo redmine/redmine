@@ -668,8 +668,8 @@ de:
   label_project_plural: Projekte
   label_public_projects: Öffentliche Projekte
   label_query: Benutzerdefinierte Abfrage
-  label_query_new: Neuer Bericht
-  label_query_plural: Benutzerdefinierte Berichte
+  label_query_new: Neue Abfrage
+  label_query_plural: Benutzerdefinierte Abfrage
   label_read: Lesen...
   label_readonly: Nur-Lese-Zugriff
   label_register: Registrieren
