@@ -4,6 +4,19 @@ Redmine - project management software
 Copyright (C) 2006-2013  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2013-02-12 v2.2.3
+
+* Upgrade to Rails 3.2.12
+* Defect #11987: pdf: Broken new line in table
+* Defect #12930: 404 Error when referencing different project source files in the wiki syntax
+* Defect #12979: Wiki link syntax commit:repo_a:abcd doesn't work
+* Defect #13075: Can't clear custom field value through context menu in the issue list
+* Defect #13097: Project copy fails when wiki module is disabled
+* Defect #13126: Issue view: estimated time vs. spent time
+* Patch #12922: Update Spanish translation
+* Patch #12928: Bulgarian translation for 2.2-stable
+* Patch #12987: Russian translation for 2.2-stable
+
 == 2013-01-20 v2.2.2
 
 * Defect #7510: Link to attachment should return latest attachment
