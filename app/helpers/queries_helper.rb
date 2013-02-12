@@ -87,14 +87,14 @@ module QueriesHelper
       format_time(value)
     when 'Date'
       format_date(value)
-    when 'Fixnum', 'Float'
+    when 'Fixnum'
       if column.name == :done_ratio
         progress_bar(value, :width => '80px')
-      elsif  column.name == :spent_hours
-        sprintf "%.2f", value
       else
-        h(value.to_s)
+        value.to_s
       end
+    when 'Float'
+      sprintf "%.2f", value
     when 'User'
       link_to_user value
     when 'Project'
