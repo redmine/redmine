@@ -132,7 +132,7 @@ class ContextMenusControllerTest < ActionController::TestCase
       :attributes => {:href => "/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bcustom_field_values%5D%5B#{field.id}%5D=Foo"}
     assert_tag 'a',
       :content => 'none',
-      :attributes => {:href => "/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bcustom_field_values%5D%5B#{field.id}%5D="}
+      :attributes => {:href => "/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bcustom_field_values%5D%5B#{field.id}%5D=__none__"}
   end
 
   def test_context_menu_should_not_include_null_value_for_required_custom_fields
