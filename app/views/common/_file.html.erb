@@ -1,6 +1,7 @@
+<!--
 <div class="autoscroll">
 <table class="filecontent syntaxhl">
-<tbody>
+<<tbody>>pre
 <% line_num = 1 %>
 <% syntax_highlight_lines(filename, Redmine::CodesetUtil.to_utf8_by_setting(content)).each do |line| %>
   <tr>
@@ -16,3 +17,9 @@
 </tbody>
 </table>
 </div>
+-->
+<pre class="prettyprint linenums">
+<% syntax_highlight_lines(filename, Redmine::CodesetUtil.to_utf8_by_setting(content)).each do |line| %>
+<%= line.html_safe %>
+<% end %>
+</pre>

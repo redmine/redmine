@@ -17,6 +17,7 @@
 		<%= stylesheet_link_tag 'bootstrap-responsive', :media => 'all' %>
 		<%= stylesheet_link_tag 'font-awesome', :media => 'all' %>
 		<%= stylesheet_link_tag 'application', :media => 'all' %>
+		<%= stylesheet_link_tag 'prettify', :media => 'all' %>
 
 		<%= stylesheet_link_tag 'rtl', :media => 'all' if l(:direction) == 'rtl' %>
 
@@ -40,7 +41,7 @@
 			<div class="navbar-inner">
 				<div class="container" >
 					<div class="row">
-						<div class="span6" id="osblogo" onclick="window.location.href='/';"></div>
+						<div class="span5" id="osblogo" onclick="window.location.href='/';"></div>
 						<!--<ul class="bs-docs-social-buttons">
 							<li class="follow-btn">
 								<a href="https://twitter.com/osbteam" class="twitter-follow-button" data-link-color="#0069D6" data-show-count="true">Follow @osbteam</a>
@@ -49,7 +50,7 @@
 								<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://opensourcebrain.org" data-count="horizontal" data-via="osbteam" data-related="Interesting -> Open Source Brain online repository for computational neural models!">Tweet</a>
 							</li>
 						</ul>-->
-						<div id="header_menu" class="span6 pull-right">
+						<div id="header_menu" class="span7 pull-right">
 							<%= render_menu :account_menu -%>
 							<%= content_tag('div', "#{l(:label_logged_as)} #{link_to_user(User.current, :format => :username)}".html_safe, :id => 'loggedas') if User.current.logged? %>
 							<%= render_menu :top_menu if User.current.logged? || !Setting.login_required? -%>
@@ -93,12 +94,14 @@
 			<%= call_hook :view_layouts_base_content %>
 			
 			</div>
-			<%= render_flash_messages %>
-			<%= yield %>
-			<div id="ajax-indicator" style="display:none;">
-				<span><%= l(:label_loading) %></span>
+				<%= render_flash_messages %>
+				<%= yield %>
+				<div id="ajax-indicator" style="display:none;">
+					<span><%= l(:label_loading) %></span>
+				</div>
+				<div id="ajax-modal" style="display:none;"></div>
 			</div>
-			<div id="ajax-modal" style="display:none;"></div>
+		</div>
 		</div>
 		<!-- FOOTER -->
 
@@ -125,4 +128,5 @@
 </html>
 
 <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<%= javascript_include_tag('prettify.js') %>
 <%= javascript_include_tag('main.js') %>

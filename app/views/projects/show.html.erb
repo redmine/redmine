@@ -1,46 +1,35 @@
 <%= javascript_include_tag('Detector.js') %>
 
-	<div class="row-fluid">
-		<% unless @project.active? %>
-		<p class="warning">
-			<span class="icon icon-lock"><%= l(:text_project_closed) %></span>
-		</p>
-		<% end %>
+<div class="row">
+	<% unless @project.active? %>
+	<p class="warning">
+		<span class="icon icon-lock"><%= l(:text_project_closed) %></span>
+	</p>
+	<% end %>
 
-      <div class="span3 bs-docs-sidebar">
-        <ul class="nav nav-list bs-docs-sidenav">
-          <li><a href="#download-bootstrap"><i class="icon-chevron-right"></i>Description</a></li>
-          <li><a href="#file-structure"><i class="icon-chevron-right"></i>Status</a></li>
-          <li><a href="#contents"><i class="icon-chevron-right"></i>Repository</a></li>
-          <li><a href="#file-structure"><i class="icon-chevron-right"></i>Members</a></li>
-          <li><a href="#html-template"><i class="icon-chevron-right"></i>Original model</a></li>
-          <li><a href="#examples"><i class="icon-chevron-right"></i>Issues Summary</a></li>
-        </ul>
-      </div>
-      
-		<div class="span9">
-
+	<div class="span3 bs-docs-sidebar">
+		<ul id="project_overview_list" class="nav nav-list bs-docs-sidenav">
+		</ul>
+	</div>
+  
+	<div id="project_overview_sections" class="span9">
 		<!-- DESCRIPTION -->
 		<section id="description">
 			<div class="page-header">
-				<h2>Description</h2>
+				<h1>Description</h1>
 			</div>
-			<p class="lead">
 				<%= textilizable @project.description %>
 				<% unless @project.homepage.blank? %>
 					<% if h(@project.homepage).starts_with? 'http://opensourcebrain.org/embedded' or h(@project.homepage).starts_with? 'http://www.opensourcebrain.org/embedded'%>
 						<p><a href="<%= @project.homepage %>">More...</a></p>
 					<% end %>
 				<% end %>
-				<%= render :partial => 'members_box' %>
-			</p>
 		</section>
-		
 		<!-- SUBPROJECT -->
 		<% if @subprojects.any? %>		
 			<section id="subprojects">
 				<div class="page-header">
-					<h2>Sub-Projects</h2>
+					<h1>Sub-Projects</h1>
 				</div>
 				<p class="lead">
 					<%= l(:label_subproject_plural)%>:
@@ -48,23 +37,28 @@
 				</p>
 			</section>
 		<% end %>
-
 		<!-- STATUS -->
 		<% @project.visible_custom_field_values.each do |custom_value| %>
 			<% if !custom_value.value.blank? %>
 				<% if custom_value.custom_field.name == 'Status info' %>
 					<section id="status">
 						<div class="page-header">
-							<h2>Status</h2>
+							<h1>Status</h1>
 						</div>
 						<p class="lead">
-							<%= show_value(custom_value) %>
+							<%= textilizable show_value(custom_value) %>
 						</p>
 					</section>
 				<% end %>
 			<% end %>
 		<% end %>
-
+		<!-- MEMBERS -->
+		<section id="members">
+			<div class="page-header">
+				<h1>Members</h1>
+			</div>
+			<%= render :partial => 'members_box' %>
+		</section>
 		<!-- CUSTOM VALUE SECTION -->
 		<% @project.visible_custom_field_values.each do |custom_value| %>
 			<% if !custom_value.value.blank? %>
@@ -72,7 +66,7 @@
 					<% @repourl=custom_value.value %>
 					<section id="repository">
 						<div class="page-header">
-							<h2>Repository</h2>
+							<h1>Repository</h1>
 						</div>
 						<p class="lead">
 							The source for this project is hosted on GitHub:  <a target="_blank" href='<%= h show_value(custom_value) %>'><%= h show_value(custom_value) %></a>
@@ -83,7 +77,7 @@
 					<% @repourl=custom_value.value %>
 					<section id="repository">
 						<div class="page-header">
-							<h2>Repository</h2>
+							<h1>Repository</h1>
 						</div>
 						<p class="lead">
 							The source for this project is hosted on BitBucket:  <a target="_blank" href='<%= h show_value(custom_value) %>'><%= h show_value(custom_value) %></a>
@@ -94,7 +88,7 @@
 					<% @repourl=custom_value.value %>
 					<section id="repository">
 						<div class="page-header">
-							<h2>NeuroML compatibility</h2>
+							<h1>NeuroML compatibility</h1>
 						</div>
 						<p class="lead">
 							The minimum version of NeuroML for this model is: <b><%= h show_value(custom_value) %></b>
@@ -105,7 +99,7 @@
 					<% @repourl=custom_value.value %>
 					<section id="references">
 						<div class="page-header">
-							<h2>References</h2>
+							<h1>References</h1>
 						</div>
 						<p class="lead">The original published version of this model is available on ModelDB:</p>
 						<% if !show_value(custom_value).starts_with? 'http://senselab.med.yale.edu/ModelDB/ShowModel.asp?model=' %>
@@ -120,66 +114,14 @@
 				<% elsif custom_value.custom_field.name == 'Original format' %>
 					<section id="references">
 						<div class="page-header">
-							<h2>References</h2>
+							<h1>References</h1>
 						</div>
 						<p class="lead">This model was originally developed in: <b><%= h show_value(custom_value) %></b></p>
 					</section>
 				<% end %>
 			<% end %>
 		<% end %>
-
-		
-		<!-- NEWS -->
-		<section id="news">
-			<div class="page-header">
-				<h2><%= l(:label_news_latest)%></h2>
-				<p class="lead">
-				<%= render :partial => 'news/news', :collection => @news %>
-				</p>
-				<p>
-					<%= link_to l(:label_news_view_all), project_news_index_path(@project) %>
-				</p>
-				
-			</div>
-		</section>
-
-
 		<% html_title(l(:label_overview)) -%>
-		
-		
-		<!-- ISSUES 
-
-		<div class="explorer box">
-
-				<div id="osbexplorermessage"></div>
-			</div>
-			
-			<% if User.current.allowed_to?(:view_issues, @project) %>
-			<div class="issues box">
-				<h3><%= l(:label_issue_tracking)%></h3>
-				<ul>
-					<% for tracker in @trackers %>
-					<li>
-						<%= link_to h(tracker.name), project_issues_path(@project, :set_filter => 1, :tracker_id => tracker.id) %>:
-						<%= l(:label_x_open_issues_abbr_on_total, :count => @open_issues_by_tracker[tracker].to_i,:total => @total_issues_by_tracker[tracker].to_i) %>
-					</li>
-					<% end %>
-				</ul>
-				<p>
-					<%= link_to l(:label_issue_view_all), project_issues_path(@project, :set_filter => 1) %>
-					<% if User.current.allowed_to?(:view_calendar, @project, :global => true) %>
-					| <%= link_to l(:label_calendar), project_calendar_path(@project) %>
-					<% end %>
-					<% if User.current.allowed_to?(:view_gantt, @project, :global => true) %>
-					| <%= link_to l(:label_gantt), project_gantt_path(@project) %>
-					<% end %>
-				</p>
-			</div>
-			<% end %>
-			<%= call_hook(:view_projects_show_left, :project => @project) %>
-			-->
-			
-
 	</div>
 </div>
 
