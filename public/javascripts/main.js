@@ -21,8 +21,10 @@ jQuery(function()
 	// -- Add bootstrap class to all the tables
 	jQuery('table').addClass('table table-bordered');
 	
-	$(":submit").addClass('btn');
-
+	jQuery(":submit").addClass('btn');
+	
+	replaceIconWithFontAwesome();
+	
 	// make code pretty
     window.prettyPrint && prettyPrint();
     
@@ -117,6 +119,52 @@ function setupFilter(idFilter, idList)
 	});
 }
 
+
+function replaceIconWithFontAwesome()
+{
+
+	jQuery("a.icon-add").removeClass("icon-add").prepend("<icon class='icon-folder-open-alt'/>");
+	jQuery("a.icon-edit").removeClass("icon-edit").prepend("<icon class='icon-folder-open-alt'/>");
+	jQuery("a.icon-copy").removeClass("icon-copy").prepend("<icon class='icon-folder-open-alt'/>");
+	jQuery("a.icon-duplicate").removeClass("icon-duplicate").prepend("<icon class='icon-folder-open-alt'/>");
+	jQuery("a.icon-del").removeClass("icon-del").prepend("<icon class='icon-folder-open-alt'/>");
+	jQuery("a.icon-move").removeClass("icon-move").prepend("<icon class='icon-folder-open-alt'/>");
+	jQuery("a.icon-save").removeClass("icon-save").prepend("<icon class='icon-folder-open-alt'/>");
+	jQuery("a.icon-cancel").removeClass("icon-cancel").prepend("<icon class='icon-folder-open-alt'/>");
+	jQuery("a.icon-multiple").removeClass("icon-multiple").prepend("<icon class='icon-folder-open-alt'/>");
+	jQuery("a.icon-folder").removeClass("icon-folder").prepend("<icon class='icon-folder-open-alt'/>");
+	
+	jQuery("a.open").removeClass("icon-folder").prepend("<icon class='icon-folder-open-alt'/>");
+	
+	jQuery("a.icon-package").removeClass("icon-package").prepend("<icon class='icon-folder-open-alt'/>");
+	jQuery("a.icon-user").removeClass("icon-user").prepend("<icon class='icon-user'/>");
+	jQuery("a.icon-projects").removeClass("icon-projects").prepend("<icon class='icon-folder-open-alt'/>");
+	jQuery("a.icon-help").removeClass("icon-help").prepend("<icon class='icon-help'/>");
+	jQuery("a.icon-attachment").removeClass("icon-attachment").prepend("<icon class='icon-attachment'/>");
+	jQuery("a.icon-history").removeClass("icon-history").prepend("<icon class='icon-folder-open-alt'/>");
+	jQuery("a.icon-time").removeClass("icon-time").prepend("<icon class='icon-time'/>");
+	jQuery("a.icon-time-add").removeClass("icon-time-add").prepend("<icon class='icon-folder-open-alt'/>");
+	jQuery("a.icon-stats").removeClass("icon-stats").prepend("<icon class='icon-bar-chart'/>");
+	jQuery("a.icon-warning").removeClass("icon-warning").prepend("<icon class='icon-folder-open-alt'/>");
+	jQuery("a.icon-fav").removeClass("icon-fav").prepend("<icon class='icon-heart'/>");
+	jQuery("a.icon-fav-off").removeClass("icon-fav-off").prepend("<icon class='icon-heart-empty'/>");
+	jQuery("a.icon-reload").removeClass("icon-reload").prepend("<icon class='icon-repeat'/>");
+	jQuery("a.icon-lock").removeClass("icon-lock").prepend("<icon class='icon-lock'/>");
+	jQuery("a.icon-unlock").removeClass("icon-unlock").prepend("<icon class='icon-unlock'/>");
+	jQuery("a.icon-checked").removeClass("icon-checked").prepend("<icon class='icon-check'/>");
+	jQuery("a.icon-details").removeClass("icon-details").prepend("<icon class='icon-folder-open-alt'/>");
+	jQuery("a.icon-report").removeClass("icon-report").prepend("<icon class='icon-list-alt'/>");
+	jQuery("a.icon-comment").removeClass("icon-comment").prepend("<icon class='icon-comment'/>");
+	jQuery("a.icon-summary").removeClass("icon-summary").prepend("<icon class='icon-folder-open-alt'/>");
+	jQuery("a.icon-server-authentication").removeClass("icon-server-authentication").prepend("<icon class='icon-folder-open-alt'/>");
+	jQuery("a.icon-issue").removeClass("icon-issue").prepend("<icon class='icon-folder-open-alt'/>");
+	jQuery("a.icon-zoom-in").removeClass("icon-zoom-in").prepend("<icon class='icon-folder-open-alt'/>");
+	jQuery("a.icon-zoom-out").removeClass("icon-zoom-out").prepend("<icon class='icon-folder-open-alt'/>");
+	jQuery("a.icon-passwd").removeClass("icon-passwd").prepend("<icon class='icon-folder-open-alt'/>");
+	jQuery("a.icon-test").removeClass("icon-test").prepend("<icon class='icon-folder-open-alt'/>");
+	jQuery("a.icon-file").removeClass("icon-file").prepend("<icon class='icon-file'/>");
+
+}
 //Google Analytics
 var _gaq = _gaq || [];
 _gaq.push([ '_setAccount', 'UA-29853802-1' ]);

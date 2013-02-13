@@ -425,6 +425,7 @@ function scmEntryClick(id, url) {
       success: function(data){
         el.after(data);
         el.addClass('open').addClass('loaded').removeClass('loading');
+        replaceIconWithFontAwesome();
       }
     });
     return true;
