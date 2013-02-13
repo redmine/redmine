@@ -17,6 +17,7 @@ jQuery(function()
 	    
 	// -- Bootstrap widget calls
 	jQuery('.dropdown-toggle').dropdown();
+	jQuery(".alert").alert();
 	
 	// -- Add bootstrap class to all the tables
 	jQuery('table').addClass('table table-bordered');

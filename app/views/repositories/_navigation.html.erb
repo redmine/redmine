@@ -1,25 +1,29 @@
 <% content_for :header_tags do %>
   <%= javascript_include_tag 'repository_navigation' %>
 <% end %>
+<div class="pull-right">
 
-<%= link_to l(:label_statistics),
-            {:action => 'stats', :id => @project, :repository_id => @repository.identifier_param},
-            :class => 'icon icon-stats' if @repository.supports_all_revisions? %>
 
-<%= form_tag({:action => controller.action_name,
+<% @basepath=url_for({:action => controller.action_name,
              :id => @project,
              :repository_id => @repository.identifier_param,
              :path => to_path_param(@path),
-             :rev => nil},
-            {:method => :get, :id => 'revision_selector'}) do -%>
+             :rev => nil}) %>
+
   <!-- Branches Dropdown -->
   <% if !@repository.branches.nil? && @repository.branches.length > 0 -%>
-    | <%= l(:label_branch) %>: 
-    <%= select_tag :branch,
-                   options_for_select([''] + @repository.branches, @rev),
-                   :id => 'branch' %>
-  <% end -%>
+  <div class="dropdown">
+	  <a class="btn dropdown-toggle" data-toggle="dropdown"><icon class="icon-random"></icon> <%= l(:label_branch) %> <span class="caret"></span></a>
+	  <ul class="dropdown-menu">
+	  	<% @repository.branches.each do |b| %>
+	  	<li><a href="<%= @basepath %>?utf8=%E2%9C%93&rev=<%= b %>"><%= b%></a></li>
+		<% end %>
+	  </ul>
 
+<%= link_to " Statistics",
+            {:action => 'stats', :id => @project, :repository_id => @repository.identifier_param},
+            :class => 'btn icon icon-stats' if @repository.supports_all_revisions? %>
+            
   <% if !@repository.tags.nil? && @repository.tags.length > 0 -%>
     | <%= l(:label_tag) %>: 
     <%= select_tag :tag,
@@ -27,8 +31,8 @@
                    :id => 'tag' %>
   <% end -%>
 
-  <% if @repository.supports_all_revisions? %>
-    | <%= l(:label_revision) %>: 
-    <%= text_field_tag 'rev', @rev, :size => 8 %>
-	<% end %>
+
 <% end -%>
+  </div>
+
+</div>
