@@ -582,8 +582,8 @@ it:
   text_unallowed_characters: Caratteri non permessi
   text_comma_separated: Valori multipli permessi (separati da virgole).
   text_issues_ref_in_commit_messages: Segnalazioni di riferimento e chiusura nei messaggi di commit
-  text_issue_added: "E' stata segnalata l'anomalia %{id} da %{author}."
-  text_issue_updated: "L'anomalia %{id} è stata aggiornata da %{author}."
+  text_issue_added: "%{author} ha aggiunto la segnalazione %{id}."
+  text_issue_updated: "La segnalazione %{id} è stata aggiornata da %{author}."
   text_wiki_destroy_confirmation: Sicuro di voler eliminare questo wiki e tutti i suoi contenuti?
   text_issue_category_destroy_question: "Alcune segnalazioni (%{count}) risultano assegnate a questa categoria. Cosa vuoi fare ?"
   text_issue_category_destroy_assignments: Rimuovi le assegnazioni a questa categoria
