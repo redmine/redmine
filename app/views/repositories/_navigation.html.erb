@@ -20,7 +20,7 @@
 		<% end %>
 	  </ul>
 
-<%= link_to " Statistics",
+<%= link_to " Graphs",
             {:action => 'stats', :id => @project, :repository_id => @repository.identifier_param},
             :class => 'btn icon icon-stats' if @repository.supports_all_revisions? %>
             
