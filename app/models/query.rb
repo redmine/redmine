@@ -278,6 +278,37 @@ class Query < ActiveRecord::Base
     @all_projects_values = values
   end
 
+  # Adds available filters
+  def initialize_available_filters
+    # implemented by sub-classes
+  end
+  protected :initialize_available_filters
+
+  # Adds an available filter
+  def add_available_filter(field, options)
+    @available_filters ||= ActiveSupport::OrderedHash.new
+    @available_filters[field] = options
+    @available_filters
+  end
+
+  # Removes an available filter
+  def delete_available_filter(field)
+    if @available_filters
+      @available_filters.delete(field)
+    end
+  end
+
+  # Return a hash of available filters
+  def available_filters
+    unless @available_filters
+      initialize_available_filters
+      @available_filters.each do |field, options|
+        options[:name] ||= l(options[:label] || "field_#{field}".gsub(/_id$/, ''))
+      end
+    end
+    @available_filters
+  end
+
   def add_filter(field, operator, values=nil)
     # values must be an array
     return unless values.nil? || values.is_a?(Array)
@@ -692,31 +723,30 @@ class Query < ActiveRecord::Base
 
   def add_custom_fields_filters(custom_fields, assoc=nil)
     return unless custom_fields.present?
-    @available_filters ||= {}
 
-    custom_fields.select(&:is_filter?).each do |field|
+    custom_fields.select(&:is_filter?).sort.each do |field|
       case field.field_format
       when "text"
-        options = { :type => :text, :order => 20 }
+        options = { :type => :text }
       when "list"
-        options = { :type => :list_optional, :values => field.possible_values, :order => 20}
+        options = { :type => :list_optional, :values => field.possible_values }
       when "date"
-        options = { :type => :date, :order => 20 }
+        options = { :type => :date }
       when "bool"
-        options = { :type => :list, :values => [[l(:general_text_yes), "1"], [l(:general_text_no), "0"]], :order => 20 }
+        options = { :type => :list, :values => [[l(:general_text_yes), "1"], [l(:general_text_no), "0"]] }
       when "int"
-        options = { :type => :integer, :order => 20 }
+        options = { :type => :integer }
       when "float"
-        options = { :type => :float, :order => 20 }
+        options = { :type => :float }
       when "user", "version"
         next unless project
         values = field.possible_values_options(project)
         if User.current.logged? && field.field_format == 'user'
           values.unshift ["<< #{l(:label_me)} >>", "me"]
         end
-        options = { :type => :list_optional, :values => values, :order => 20}
+        options = { :type => :list_optional, :values => values }
       else
-        options = { :type => :string, :order => 20 }
+        options = { :type => :string }
       end
       filter_id = "cf_#{field.id}"
       filter_name = field.name
@@ -724,7 +754,7 @@ class Query < ActiveRecord::Base
         filter_id = "#{assoc}.#{filter_id}"
         filter_name = l("label_attribute_of_#{assoc}", :name => filter_name)
       end
-      @available_filters[filter_id] = options.merge({
+      add_available_filter filter_id, options.merge({
                :name => filter_name,
                :format => field.field_format,
                :field => field

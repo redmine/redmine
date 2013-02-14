@@ -28,6 +28,11 @@ class QueryTest < ActiveSupport::TestCase
            :projects_trackers,
            :custom_fields_trackers
 
+  def test_available_filters_should_be_ordered
+    query = IssueQuery.new
+    assert_equal 0, query.available_filters.keys.index('status_id')
+  end
+
   def test_custom_fields_for_all_projects_should_be_available_in_global_queries
     query = IssueQuery.new(:project => nil, :name => '_')
     assert query.available_filters.has_key?('cf_1')
