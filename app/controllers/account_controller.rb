@@ -51,7 +51,7 @@ class AccountController < ApplicationController
   def lost_password
     (redirect_to(home_url); return) unless Setting.lost_password?
     if params[:token]
-      @token = Token.find_by_action_and_value("recovery", params[:token].to_s)
+      @token = Token.find_token("recovery", params[:token].to_s)
       if @token.nil? || @token.expired?
         redirect_to home_url
         return
@@ -140,7 +140,7 @@ class AccountController < ApplicationController
   # Token based account activation
   def activate
     (redirect_to(home_url); return) unless Setting.self_registration? && params[:token].present?
-    token = Token.find_by_action_and_value('register', params[:token].to_s)
+    token = Token.find_token('register', params[:token].to_s)
     (redirect_to(home_url); return) unless token and !token.expired?
     user = token.user
     (redirect_to(home_url); return) unless user.registered?

@@ -58,4 +58,56 @@ class TokenTest < ActiveSupport::TestCase
       assert_equal 2, Token.destroy_expired
     end
   end
+
+  def test_find_active_user_should_return_user
+    token = Token.create!(:user_id => 1, :action => 'api')
+    assert_equal User.find(1), Token.find_active_user('api', token.value)
+  end
+
+  def test_find_active_user_should_return_nil_for_locked_user
+    token = Token.create!(:user_id => 1, :action => 'api')
+    User.find(1).lock!
+    assert_nil Token.find_active_user('api', token.value)
+  end
+
+  def test_find_user_should_return_user
+    token = Token.create!(:user_id => 1, :action => 'api')
+    assert_equal User.find(1), Token.find_user('api', token.value)
+  end
+
+  def test_find_user_should_return_locked_user
+    token = Token.create!(:user_id => 1, :action => 'api')
+    User.find(1).lock!
+    assert_equal User.find(1), Token.find_user('api', token.value)
+  end
+
+  def test_find_token_should_return_the_token
+    token = Token.create!(:user_id => 1, :action => 'api')
+    assert_equal token, Token.find_token('api', token.value)
+  end
+
+  def test_find_token_should_return_the_token_with_validity
+    token = Token.create!(:user_id => 1, :action => 'api', :created_on => 1.hour.ago)
+    assert_equal token, Token.find_token('api', token.value, 1)
+  end
+
+  def test_find_token_should_return_nil_with_wrong_action
+    token = Token.create!(:user_id => 1, :action => 'feeds')
+    assert_nil Token.find_token('api', token.value)
+  end
+
+  def test_find_token_should_return_nil_with_wrong_action
+    token = Token.create!(:user_id => 1, :action => 'feeds')
+    assert_nil Token.find_token('api', Token.generate_token_value)
+  end
+
+  def test_find_token_should_return_nil_without_user
+    token = Token.create!(:user_id => 999, :action => 'api')
+    assert_nil Token.find_token('api', token.value)
+  end
+
+  def test_find_token_should_return_nil_with_validity_expired
+    token = Token.create!(:user_id => 999, :action => 'api', :created_on => 2.days.ago)
+    assert_nil Token.find_token('api', token.value, 1)
+  end
 end
