@@ -10,8 +10,8 @@ module Net
     def self.post_form(url, params, headers, options={})
       request = Post.new(url.path)
       request.form_data = params
-      request.basic_auth url.user, url.password if url.user
       request.initialize_http_header(headers)
+      request.basic_auth url.user, url.password if url.user
       http = new(url.host, url.port)
       http.use_ssl = (url.scheme == 'https')
       if options[:no_check_certificate]
@@ -23,7 +23,7 @@ module Net
 end
 
 class RedmineMailHandler
-  VERSION = '0.2'
+  VERSION = '0.2.1'
 
   attr_accessor :verbose, :issue_attributes, :allow_override, :unknown_user, :no_permission_check, :url, :key, :no_check_certificate
 
