@@ -44,6 +44,12 @@ function jsToolBar(textarea) {
 	this.toolbar.className = 'jstElements';
 	this.editor.parentNode.insertBefore(this.toolbar,this.editor);
 	
+	this.hr = document.createElement("hr");
+	this.hr.class = "soften";
+	this.editor.parentNode.insertBefore(this.hr,this.editor);
+	
+	
+	
 	// Dragable resizing
 	if (this.editor.addEventListener && navigator.appVersion.match(/\bMSIE\b/))
 	{

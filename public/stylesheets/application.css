@@ -6,6 +6,16 @@ body {
 
 /* From redmine */
 
+a.wiki-anchor {
+	display: none;
+	margin-left: 6px;
+	text-decoration: none;
+}
+a.wiki-anchor:hover {
+	color: #aaa !important;
+	text-decoration: none;
+}
+
 div#activity dt, #search-results dt {
 	margin-bottom: 0px;
 	padding-left: 20px;
@@ -99,7 +109,7 @@ tr.open span.expander:before {
 }
 
 /* Base class */
-.bs-docs-example {
+.bs-docs {
 	position: relative;
 	margin: 15px 0;
 	padding: 39px 19px 14px;
@@ -112,8 +122,7 @@ tr.open span.expander:before {
 }
 
 /* Echo out a label for the example */
-.bs-docs-example:after {
-	content: "Status";
+.bs-docs:after {
 	position: absolute;
 	top: -1px;
 	left: -1px;
@@ -126,6 +135,14 @@ tr.open span.expander:before {
 	-webkit-border-radius: 4px 0 4px 0;
 	-moz-border-radius: 4px 0 4px 0;
 	border-radius: 4px 0 4px 0;
+}
+
+.bs-docs-editing:after{
+	content: "Editing";
+}
+
+.bs-docs-preview:after{
+	content: "Preview";
 }
 
 /* Remove spacing between an example and it's code */
@@ -309,10 +326,26 @@ hr.soften {
 }
 
 /***********Additions************/
+
+.icon-h1:before                 { content: "h1"; }
+.icon-h2:before                 { content: "h2"; }
+.icon-h3:before                 { content: "h3"; }
+.icon-code:before                 { content: "C"; }
+.icon-pre:before                 { content: "pre "; }
+
+
+.btn-square{
+	width:40px;
+	height:30px;
+}
+
+.filename  icon{
+	font-size:18px;
+}
 icon {
 	text-decoration: none !important;
 	margin-right: 5px;
-	font-size: 18px;
+
 }
 icon:hover {
 	color: #37abc8 !important;
@@ -523,6 +556,12 @@ section p {
 	text-decoration: none;
 }
 
+.remove-upload{
+margin-left:5px;
+height: 20px;
+line-height: 20px;
+}
+
 /*OLD*/
 
 #osbbox {
@@ -644,10 +683,6 @@ path.link {
 
 #signupbutton:hover {
 	color: #43ccee;
-}
-
-.description {
-	margin-top: 10px;
 }
 
 .smallcaption {

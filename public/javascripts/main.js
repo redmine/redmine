@@ -20,10 +20,13 @@ jQuery(function()
 	jQuery(".alert").alert();
 	
 	// -- Add bootstrap class to all the tables
-	jQuery('table').addClass('table table-bordered');
+	jQuery('table').addClass('table table-bordered table-hover');
 	
-	jQuery(":submit").addClass('btn');
-	
+	jQuery(":submit").addClass('btn btn-success btn-large');
+	jQuery('button').addClass('btn');
+	jQuery('.jstElements button').addClass('btn-square');
+	jQuery('.jstElements').addClass('btn-group');
+	jQuery('form').addClass('form-horizontal');
 	replaceIconWithFontAwesome();
 	
 	// make code pretty
@@ -144,8 +147,8 @@ function replaceIconWithFontAwesome()
 	jQuery("a.icon-user").removeClass("icon-user").prepend("<icon class='icon-user'/>");
 	jQuery("a.icon-projects").removeClass("icon-projects").prepend("<icon class='icon-folder-open-alt'/>");
 	jQuery("a.icon-help").removeClass("icon-help").prepend("<icon class='icon-help'/>");
-	jQuery("a.icon-attachment").removeClass("icon-attachment").prepend("<icon class='icon-attachment'/>");
-	jQuery("a.icon-history").removeClass("icon-history").prepend("<icon class='icon-folder-open-alt'/>");
+	jQuery("a.icon-attachment").removeClass("icon-attachment").prepend("<icon class='icon-paper-clip'/>");
+	jQuery("a.icon-history").removeClass("icon-history").prepend("<icon class='icon-time'/>");
 	jQuery("a.icon-time").removeClass("icon-time").prepend("<icon class='icon-time'/>");
 	jQuery("a.icon-time-add").removeClass("icon-time-add").prepend("<icon class='icon-folder-open-alt'/>");
 	jQuery("a.icon-stats").removeClass("icon-stats").prepend("<icon class='icon-bar-chart'/>");
@@ -168,6 +171,25 @@ function replaceIconWithFontAwesome()
 	jQuery("a.icon-test").removeClass("icon-test").prepend("<icon class='icon-folder-open-alt'/>");
 	jQuery("a.icon-file").removeClass("icon-file").prepend("<icon class='icon-file'/>");
 
+	
+	//JSTB
+	
+	jQuery(".jstb_strong").removeClass("jstb_strong").prepend("<icon class='icon-bold'/>");
+	jQuery(".jstb_em").removeClass("jstb_em").prepend("<icon class='icon-italic'/>");
+	jQuery(".jstb_ins").removeClass("jstb_ins").prepend("<icon class='icon-underline'/>");
+	jQuery(".jstb_del").removeClass("jstb_del").prepend("<icon class='icon-strikethrough'/>");
+	jQuery(".jstb_code").removeClass("jstb_code").prepend("<icon class='icon-code'/>");
+	jQuery(".jstb_h1").removeClass("jstb_h1").prepend("<icon class='icon-h1'/>");
+	jQuery(".jstb_h2").removeClass("jstb_h2").prepend("<icon class='icon-h2'/>");
+	jQuery(".jstb_h3").removeClass("jstb_h3").prepend("<icon class='icon-h3'/>");
+	jQuery(".jstb_ul").removeClass("jstb_ul").prepend("<icon class='icon-list-ul'/>");
+	jQuery(".jstb_ol").removeClass("jstb_ol").prepend("<icon class='icon-list-ol'/>");
+	jQuery(".jstb_bq").removeClass("jstb_bq").prepend("<icon class='icon-indent-right'/>");
+	jQuery(".jstb_unbq").removeClass("jstb_unbq").prepend("<icon class='icon-indent-left'/>");
+	jQuery(".jstb_pre").removeClass("jstb_pre").prepend("<icon class='icon-pre'/>");
+	jQuery(".jstb_link").removeClass("jstb_link").prepend("<icon class='icon-link'/>");
+	jQuery(".jstb_img").removeClass("jstb_img").prepend("<icon class='icon-picture'/>");
+	jQuery(".jstb_help").removeClass("jstb_help").prepend("<icon class='icon-question-sign'/>");
 }
 //Google Analytics
 var _gaq = _gaq || [];

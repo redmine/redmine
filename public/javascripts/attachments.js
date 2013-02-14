@@ -12,7 +12,8 @@ function addFile(inputEl, file, eagerUpload) {
     fileSpan.append(
         $('<input>', { type: 'text', 'class': 'filename readonly', name: 'attachments[' + attachmentId + '][filename]', readonly: 'readonly'} ).val(file.name),
         $('<input>', { type: 'text', 'class': 'description', name: 'attachments[' + attachmentId + '][description]', maxlength: 255, placeholder: $(inputEl).data('description-placeholder') } ).toggle(!eagerUpload),
-        $('<a>&nbsp</a>').attr({ href: "#", 'class': 'remove-upload' }).click(removeFile).toggle(!eagerUpload)
+        $('<a>&nbsp</a>').attr({ href: "#", 'class': 'remove-upload btn icon-trash' }).click(removeFile).toggle(!eagerUpload),
+        $('<br/><br/>')
     ).appendTo('#attachments_fields');
 
     if(eagerUpload) {
