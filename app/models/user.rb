@@ -156,19 +156,13 @@ class User < Principal
     login = login.to_s
     password = password.to_s
 
-    # Make sure no one can sign in with an empty password
-    return nil if password.empty?
+    # Make sure no one can sign in with an empty login or password
+    return nil if login.empty? || password.empty?
     user = find_by_login(login)
     if user
       # user is already in local database
-      return nil if !user.active?
-      if user.auth_source
-        # user has an external authentication method
-        return nil unless user.auth_source.authenticate(login, password)
-      else
-        # authentication with local password
-        return nil unless user.check_password?(password)
-      end
+      return nil unless user.active?
+      return nil unless user.check_password?(password)
     else
       # user is not yet registered, try to authenticate with available sources
       attrs = AuthSource.authenticate(login, password)
