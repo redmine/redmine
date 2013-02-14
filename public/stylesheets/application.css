@@ -24,46 +24,13 @@ div#activity dt, #search-results dt {
 	background-repeat: no-repeat;
 }
 
-dt.issue {
-	background-image: url(../images/ticket.png);
-}
-dt.issue-edit {
-	background-image: url(../images/ticket_edit.png);
-}
-dt.issue-closed {
-	background-image: url(../images/ticket_checked.png);
-}
-dt.issue-note {
-	background-image: url(../images/ticket_note.png);
-}
-dt.changeset {
-	background-image: url(../images/changeset.png);
-}
-dt.news {
-	background-image: url(../images/news.png);
-}
-dt.message {
-	background-image: url(../images/message.png);
-}
-dt.reply {
-	background-image: url(../images/comments.png);
-}
-dt.wiki-page {
-	background-image: url(../images/wiki_edit.png);
-}
-dt.attachment {
-	background-image: url(../images/attachment.png);
-}
-dt.document {
-	background-image: url(../images/document.png);
-}
-dt.project {
-	background-image: url(../images/projects.png);
-}
-dt.time-entry {
-	background-image: url(../images/time.png);
+
+dt icon{
+	font-size:40px;
+	color: #bbb;
 }
 
+	
 tr span.expander {
 	padding-left: 8px;
 	margin-left: 0;
@@ -77,6 +44,7 @@ tr.entry.file td.filename a {
 tr.entry.file td.filename_no_report a {
 	margin-left: 16px;
 }
+
 
 tr span.expander {
 	padding-left: 8px;

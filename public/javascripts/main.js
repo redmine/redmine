@@ -190,6 +190,24 @@ function replaceIconWithFontAwesome()
 	jQuery(".jstb_link").removeClass("jstb_link").prepend("<icon class='icon-link'/>");
 	jQuery(".jstb_img").removeClass("jstb_img").prepend("<icon class='icon-picture'/>");
 	jQuery(".jstb_help").removeClass("jstb_help").prepend("<icon class='icon-question-sign'/>");
+	
+	//DT
+	
+	jQuery("dt.issue").removeClass("dt.issue").prepend('<icon class="icon-edit"/>');
+	jQuery("dt.issue-edit").removeClass("dt.issue-edit").prepend('<icon class="icon-edit"/>');
+	jQuery("dt.issue-closed").removeClass("dt.issue-closed").prepend('<icon class="icon-edit"/>');
+	jQuery("dt.issue-note").removeClass("dt.issue-note").prepend('<icon class="icon-edit"/>');
+	jQuery("dt.changeset").removeClass("dt.changeset").prepend('<icon class="icon-cog"/>');
+	jQuery("dt.news").removeClass("dt.news").prepend('<icon class="icon-bullhorn"/>');
+	jQuery("dt.message").removeClass("dt.message").prepend('<icon class="icon-comment"/>');
+	jQuery("dt.reply").removeClass("dt.reply").prepend('<icon class="icon-reply"/>');
+	jQuery("dt.wiki-page").removeClass("dt.wiki-page").prepend('<icon class="icon-font"/>');
+	jQuery("dt.attachment").removeClass("dt.attachment").prepend('<icon class="icon-paper-clip"/>');
+	jQuery("dt.document").removeClass("dt.document").prepend('<icon class="icon-file-alt"/>');
+	jQuery("dt.project").removeClass("dt.project").prepend('<icon class="icon-book"/>');
+	jQuery("dt.time-entry").removeClass("dt.time-entry").prepend('<icon class="icon-time"/>');
+		
+	
 }
 //Google Analytics
 var _gaq = _gaq || [];
