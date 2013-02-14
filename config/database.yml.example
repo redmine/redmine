@@ -1,6 +1,7 @@
 # Default setup is given for MySQL with ruby1.9. If you're running Redmine
 # with MySQL and ruby1.8, replace the adapter name with `mysql`.
-# Examples for PostgreSQL and SQLite3 can be found at the end.
+# Examples for PostgreSQL, SQLite3 and SQL Server can be found at the end.
+# Line indentation must be 2 spaces (no tabs).
 
 production:
   adapter: mysql2
@@ -29,13 +30,23 @@ test:
   password: ""
   encoding: utf8
 
-test_pgsql:
-  adapter: postgresql
-  database: redmine_test
-  host: localhost
-  username: postgres
-  password: "postgres"
+# PostgreSQL configuration example
+#production:
+#  adapter: postgresql
+#  database: redmine
+#  host: localhost
+#  username: postgres
+#  password: "postgres"
 
-test_sqlite3:
-  adapter: sqlite3
-  database: db/test.sqlite3
+# SQLite3 configuration example
+#production:
+#  adapter: sqlite3
+#  database: db/redmine.sqlite3
+
+# SQL Server configuration example
+#production:
+#  adapter: sqlserver
+#  database: redmine
+#  host: localhost
+#  username: jenkins
+#  password: jenkins
