@@ -1,5 +1,8 @@
 <h2><%= @author.nil? ? "": l(:label_user_activity, link_to_user(@author)).html_safe %></h2>
-
+<% other_formats_links do |f| %>
+  <%= f.link_to 'Atom', {:url => params.merge(:from => nil, :key => User.current.rss_key),:class=>"btn icon-rss btn-rss", :caption=>" News feed"}%>
+<% end %>
+<br/>
 <div id="activity">
 	<% @actID=0 %>
 	<% @events_by_day.keys.sort.reverse.each do |day| %>
@@ -15,7 +18,7 @@
 			  			
 			  			<%= content_tag('span', h(e.project), :class => 'project-title') if @project.nil? || @project != e.project %></strong></div>
 			  			<div class="row-fluid">
-			  			<%= avatar(e.event_author, :size => "50") if e.respond_to?(:event_author) %>
+			  			<%= avatar(e.event_author, :size => "50", :class => "img-rounded") if e.respond_to?(:event_author) %>
 			  			<%= link_to format_activity_title(e.event_title), e.event_url %>
 			  			</div>
 			  			<div class="<%= "grouped" if in_group %> row-fluid">
@@ -28,42 +31,30 @@
 	<% end -%>
 </div>
 
-<%= content_tag('p', l(:label_no_data), :class => 'nodata') if @events_by_day.empty? %>
-
-<div style="float:left;">
-<%= link_to_content_update("\xc2\xab " + l(:label_previous),
-                   params.merge(:from => @date_to - @days - 1),
-                   :title => l(:label_date_from_to, :start => format_date(@date_to - 2*@days), :end => format_date(@date_to - @days - 1))) %>
-</div>
-<div style="float:right;">
-<%= link_to_content_update(l(:label_next) + " \xc2\xbb",
-                   params.merge(:from => @date_to + @days - 1),
-                   :title => l(:label_date_from_to, :start => format_date(@date_to), :end => format_date(@date_to + @days - 1))) unless @date_to >= Date.today %>
-</div>
-&nbsp;
-<% other_formats_links do |f| %>
-  <%= f.link_to 'Atom', :url => params.merge(:from => nil, :key => User.current.rss_key) %>
+<% if @events_by_day.empty? %>
+	<div class="alert alert-warning fade in">
+		<button type="button" class="close" data-dismiss="alert">×</button>
+    	<strong>Ops!</strong> No data to display!</a>
+  	</div>
 <% end %>
+
+<br/>
+<div class="btn-group">
+<%= link_to_content_update(l(:label_previous),
+                   params.merge(:from => @date_to - @days - 1),{:class=>"btn",
+                   :title => l(:label_date_from_to, :start => format_date(@date_to - 2*@days), :end => format_date(@date_to - @days - 1))}) %>
+
+<%= link_to_content_update(l(:label_next),
+                   params.merge(:from => @date_to + @days - 1),{:class=>"btn",
+                   :title => l(:label_date_from_to, :start => format_date(@date_to), :end => format_date(@date_to + @days - 1))}) unless @date_to >= Date.today %>
+</div>
+
+
 
 <% content_for :header_tags do %>
 <%= auto_discovery_link_tag(:atom, params.merge(:format => 'atom', :from => nil, :key => User.current.rss_key)) %>
 <% end %>
 
-<% content_for :sidebar do %>
-<%= form_tag({}, :method => :get) do %>
-<h3><%= l(:label_activity) %></h3>
-<p><% @activity.event_types.each do |t| %>
-<%= check_box_tag "show_#{t}", 1, @activity.scope.include?(t) %>
-<label for="show_<%=t%>"><%= link_to(l("label_#{t.singularize}_plural"), {"show_#{t}" => 1, :user_id => params[:user_id], :from => params[:from]})%></label>
-<br />
-<% end %></p>
-<% if @project && @project.descendants.active.any? %>
-    <%= hidden_field_tag 'with_subprojects', 0 %>
-    <p><label><%= check_box_tag 'with_subprojects', 1, @with_subprojects %> <%=l(:label_subproject_plural)%></label></p>
-<% end %>
-<%= hidden_field_tag('user_id', params[:user_id]) unless params[:user_id].blank? %>
-<p><%= submit_tag l(:button_apply), :class => 'button-small', :name => nil %></p>
-<% end %>
-<% end %>
+
 
 <% html_title(l(:label_activity), @author) -%>

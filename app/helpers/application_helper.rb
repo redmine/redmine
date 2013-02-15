@@ -414,9 +414,9 @@ module ApplicationHelper
   end
 
   def other_formats_links(&block)
-    concat('<p class="other-formats">'.html_safe + l(:label_export_to))
+    concat('<div class="row pull-right">'.html_safe )
     yield Redmine::Views::OtherFormatsBuilder.new(self)
-    concat('</p>'.html_safe)
+    concat('</div>'.html_safe)
   end
 
   def page_header_title
