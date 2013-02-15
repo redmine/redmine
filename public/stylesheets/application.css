@@ -454,6 +454,8 @@ table.fields_permissions td.readonly {background:#ddd;}
 table.fields_permissions td.required {background:#d88;}
 
 textarea#custom_field_possible_values {width: 99%}
+textarea#custom_field_default_value {width: 99%}
+
 input#content_comments {width: 99%}
 
 p.pagination {margin-top:8px; font-size: 90%}

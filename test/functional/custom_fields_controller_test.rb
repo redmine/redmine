@@ -56,6 +56,30 @@ class CustomFieldsControllerTest < ActionController::TestCase
     end
   end
 
+  def test_default_value_should_be_an_input_for_string_custom_field
+    get :new, :type => 'IssueCustomField', :custom_field => {:field_format => 'string'}
+    assert_response :success
+    assert_select 'input[name=?]', 'custom_field[default_value]'
+  end
+
+  def test_default_value_should_be_a_textarea_for_text_custom_field
+    get :new, :type => 'IssueCustomField', :custom_field => {:field_format => 'text'}
+    assert_response :success
+    assert_select 'textarea[name=?]', 'custom_field[default_value]'
+  end
+
+  def test_default_value_should_be_a_checkbox_for_bool_custom_field
+    get :new, :type => 'IssueCustomField', :custom_field => {:field_format => 'bool'}
+    assert_response :success
+    assert_select 'input[name=?][type=checkbox]', 'custom_field[default_value]'
+  end
+
+  def test_default_value_should_not_be_present_for_user_custom_field
+    get :new, :type => 'IssueCustomField', :custom_field => {:field_format => 'user'}
+    assert_response :success
+    assert_select '[name=?]', 'custom_field[default_value]', 0
+  end
+
   def test_new_js
     get :new, :type => 'IssueCustomField', :custom_field => {:field_format => 'list'}, :format => 'js'
     assert_response :success

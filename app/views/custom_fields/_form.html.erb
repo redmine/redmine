@@ -27,8 +27,14 @@
 </p>
 <% end %>
 
-<% unless @custom_field.format_in? 'user', 'version' %>
-<p><%= @custom_field.field_format == 'bool' ? f.check_box(:default_value) : f.text_field(:default_value) %></p>
+<% case @custom_field.field_format %>
+<% when 'bool' %>
+  <p><%= f.check_box(:default_value) %></p>
+<% when 'text' %>
+  <p><%= f.text_area(:default_value, :rows => 8) %></p>
+<% when 'user', 'version' %>
+<% else %>
+  <p><%= f.text_field(:default_value) %></p>
 <% end %>
 
 <%= call_hook(:view_custom_fields_form_upper_box, :custom_field => @custom_field, :form => f) %>
