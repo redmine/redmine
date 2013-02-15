@@ -11,6 +11,7 @@ end
 namespace :ci do
   desc "Setup Redmine for a new build"
   task :setup do
+    Rake::Task["tmp:clear"].invoke
     Rake::Task["log:clear"].invoke
     Rake::Task["db:create:all"].invoke
     Rake::Task["db:migrate"].invoke
