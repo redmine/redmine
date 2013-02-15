@@ -391,11 +391,6 @@ az:
   general_text_yes: 'bəli'
   general_text_Yes: 'Bəli'
 
-  gui_validation_error: 1 səhv
-  gui_validation_error_plural: "%{count} səhv"
-  gui_validation_error_plural2: "%{count} səhv"
-  gui_validation_error_plural5: "%{count} səhv"
-
   label_activity: Görülən işlər
   label_add_another_file: Bir fayl daha əlavə etmək
   label_added_time_by: "Əlavə etdi %{author} %{age} əvvəl"
