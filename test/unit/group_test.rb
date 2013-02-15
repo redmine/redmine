@@ -35,6 +35,14 @@ class GroupTest < ActiveSupport::TestCase
     assert_equal 'New group', g.name
   end
 
+  def test_name_should_accept_255_characters
+    name = 'a' * 255
+    g = Group.new(:name => name)
+    assert g.save
+    g.reload
+    assert_equal name, g.name
+  end
+
   def test_blank_name_error_message
     set_language_if_valid 'en'
     g = Group.new

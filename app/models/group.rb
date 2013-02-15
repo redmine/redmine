@@ -25,7 +25,7 @@ class Group < Principal
 
   validates_presence_of :lastname
   validates_uniqueness_of :lastname, :case_sensitive => false
-  validates_length_of :lastname, :maximum => 30
+  validates_length_of :lastname, :maximum => 255
 
   before_destroy :remove_references_before_destroy
 
