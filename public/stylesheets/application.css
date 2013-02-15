@@ -16,21 +16,6 @@ a.wiki-anchor:hover {
 	text-decoration: none;
 }
 
-div#activity dt, #search-results dt {
-	margin-bottom: 0px;
-	padding-left: 20px;
-	line-height: 18px;
-	background-position: 0 50%;
-	background-repeat: no-repeat;
-}
-
-
-dt icon{
-	font-size:40px;
-	color: #bbb;
-}
-
-	
 tr span.expander {
 	padding-left: 8px;
 	margin-left: 0;
@@ -282,6 +267,9 @@ section > ul li {
 	margin: 40px 0 39px;
 }
 
+
+/***********Additions************/
+
 /* Faded out hr */
 hr.soften {
 	height: 1px;
@@ -293,7 +281,35 @@ hr.soften {
 	border: 0;
 }
 
-/***********Additions************/
+.activity-item:first-child {
+	border-top: none;
+	padding-top:0px;
+}
+.activity-item {
+	border-top: 1px solid #f1f1f1;
+	padding-top:10px;
+	padding-bottom:10px;
+}
+
+
+.span05{
+	width: 20px!important;
+	padding-top:10px;
+}
+#activity icon{
+	font-size:40px;
+	color: #bbb;
+}
+
+#activity{
+	font-size:14px;
+}
+
+.time {
+font-size: 13px;
+font-weight:200;
+color: #bbb;
+}
 
 .icon-h1:before                 { content: "h1"; }
 .icon-h2:before                 { content: "h2"; }

@@ -1,22 +1,31 @@
 <h2><%= @author.nil? ? "": l(:label_user_activity, link_to_user(@author)).html_safe %></h2>
 
 <div id="activity">
-<% @events_by_day.keys.sort.reverse.each do |day| %>
-<h3><%= format_activity_day(day) %></h3>
-<dl>
-<% sort_activity_events(@events_by_day[day]).each do |e, in_group| -%>
-  <dt class="<%= e.event_type %> <%= "grouped" if in_group %> <%= User.current.logged? && e.respond_to?(:event_author) && User.current == e.event_author ? 'me' : nil %>">
-  <%= avatar(e.event_author, :size => "24") if e.respond_to?(:event_author) %>
-  <span class="time"><%= format_time(e.event_datetime, false) %></span>
-  <%= content_tag('span', h(e.project), :class => 'project') if @project.nil? || @project != e.project %>
-  <%= link_to format_activity_title(e.event_title), e.event_url %>
-  </dt>
-  <dd class="<%= "grouped" if in_group %>"><span class="description"><%= format_activity_description(e.event_description) %></span>
-  <span class="author"><%= link_to_user(e.event_author) if e.respond_to?(:event_author) %></span></dd>
-<% end -%>
-</dl>
-<hr class="soften"/>
-<% end -%>
+	<% @actID=0 %>
+	<% @events_by_day.keys.sort.reverse.each do |day| %>
+		<% @actID=@actID+1 %>
+		<div class="row-fluid activity-item">
+		<% sort_activity_events(@events_by_day[day]).each do |e, in_group| -%>
+			<% @actID=@actID+1 %>
+				<div class="row-fluid activity-item">
+			  		<div class="span05 <%= "E_"+e.event_type %><%= "grouped" if in_group %><%= User.current.logged? && e.respond_to?(:event_author) && User.current == e.event_author ? 'me' : nil %>"></div>
+			  		<div class="span11">
+			  			<div class="time row-fluid" id="<%= 'T'+@actID.to_s() %>"><%= javascript_tag "jQuery('#{'#T'+@actID.to_s()}').html(moment('#{e.event_datetime}', 'YYYY-MM-DD HH:mm:ss Z').fromNow());" %></div>
+			  			<div class="author row-fluid"><strong><%= link_to_user(e.event_author) if e.respond_to?(:event_author) %> edited
+			  			
+			  			<%= content_tag('span', h(e.project), :class => 'project-title') if @project.nil? || @project != e.project %></strong></div>
+			  			<div class="row-fluid">
+			  			<%= avatar(e.event_author, :size => "50") if e.respond_to?(:event_author) %>
+			  			<%= link_to format_activity_title(e.event_title), e.event_url %>
+			  			</div>
+			  			<div class="<%= "grouped" if in_group %> row-fluid">
+			  				<div class="description"><%= format_activity_description(e.event_description) %></div>
+		  				</div>
+		  			</div>
+				</div>
+			<% end -%>
+		</div>
+	<% end -%>
 </div>
 
 <%= content_tag('p', l(:label_no_data), :class => 'nodata') if @events_by_day.empty? %>

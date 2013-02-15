@@ -193,19 +193,19 @@ function replaceIconWithFontAwesome()
 	
 	//DT
 	
-	jQuery("dt.issue").removeClass("dt.issue").prepend('<icon class="icon-edit"/>');
-	jQuery("dt.issue-edit").removeClass("dt.issue-edit").prepend('<icon class="icon-edit"/>');
-	jQuery("dt.issue-closed").removeClass("dt.issue-closed").prepend('<icon class="icon-edit"/>');
-	jQuery("dt.issue-note").removeClass("dt.issue-note").prepend('<icon class="icon-edit"/>');
-	jQuery("dt.changeset").removeClass("dt.changeset").prepend('<icon class="icon-cog"/>');
-	jQuery("dt.news").removeClass("dt.news").prepend('<icon class="icon-bullhorn"/>');
-	jQuery("dt.message").removeClass("dt.message").prepend('<icon class="icon-comment"/>');
-	jQuery("dt.reply").removeClass("dt.reply").prepend('<icon class="icon-reply"/>');
-	jQuery("dt.wiki-page").removeClass("dt.wiki-page").prepend('<icon class="icon-font"/>');
-	jQuery("dt.attachment").removeClass("dt.attachment").prepend('<icon class="icon-paper-clip"/>');
-	jQuery("dt.document").removeClass("dt.document").prepend('<icon class="icon-file-alt"/>');
-	jQuery("dt.project").removeClass("dt.project").prepend('<icon class="icon-book"/>');
-	jQuery("dt.time-entry").removeClass("dt.time-entry").prepend('<icon class="icon-time"/>');
+	jQuery(".E_issue").prepend('<icon class="icon-edit"/>');
+	jQuery(".E_issue-edit").prepend('<icon class="icon-edit"/>');
+	jQuery(".E_issue-closed").prepend('<icon class="icon-edit"/>');
+	jQuery(".E_issue-note").prepend('<icon class="icon-edit"/>');
+	jQuery(".E_changeset").prepend('<icon class="icon-cog"/>');
+	jQuery(".E_news").prepend('<icon class="icon-bullhorn"/>');
+	jQuery(".E_message").prepend('<icon class="icon-comment"/>');
+	jQuery(".E_reply").prepend('<icon class="icon-reply"/>');
+	jQuery(".E_wiki-page").prepend('<icon class="icon-font"/>');
+	jQuery(".E_attachment").prepend('<icon class="icon-paper-clip"/>');
+	jQuery(".E_document").prepend('<icon class="icon-file-alt"/>');
+	jQuery(".E_project").prepend('<icon class="icon-book"/>');
+	jQuery(".E_time-entry").prepend('<icon class="icon-time"/>');
 		
 	
 }
