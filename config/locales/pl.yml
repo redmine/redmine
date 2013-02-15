@@ -547,7 +547,7 @@ pl:
   label_x_projects:
     zero:  brak projektów
     one:   1 projekt
-    one:   "%{count} projekty"
+    few:   "%{count} projekty"
     other: "%{count} projektów"
   label_public_projects: Projekty publiczne
   label_query: Kwerenda
