@@ -126,7 +126,12 @@ class Project < ActiveRecord::Base
       self.enabled_module_names = Setting.default_projects_modules
     end
     if !initialized.key?('trackers') && !initialized.key?('tracker_ids')
-      self.trackers = Tracker.sorted.all
+      default = Setting.default_projects_tracker_ids
+      if default.is_a?(Array)
+        self.trackers = Tracker.where(:id => default.map(&:to_i)).sorted.all
+      else
+        self.trackers = Tracker.sorted.all
+      end
     end
   end
 

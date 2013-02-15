@@ -87,7 +87,15 @@ class ActiveSupport::TestCase
   end
 
   def with_settings(options, &block)
-    saved_settings = options.keys.inject({}) {|h, k| h[k] = Setting[k].is_a?(Symbol) ? Setting[k] : Setting[k].dup; h}
+    saved_settings = options.keys.inject({}) do |h, k|
+      h[k] = case Setting[k]
+        when Symbol, false, true, nil
+          Setting[k]
+        else
+          Setting[k].dup
+        end
+      h
+    end
     options.each {|k, v| Setting[k] = v}
     yield
   ensure

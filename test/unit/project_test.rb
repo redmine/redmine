@@ -74,9 +74,30 @@ class ProjectTest < ActiveSupport::TestCase
     with_settings :default_projects_modules => ['issue_tracking', 'repository'] do
       assert_equal ['issue_tracking', 'repository'], Project.new.enabled_module_names
     end
+  end
 
-    assert_equal Tracker.all.sort, Project.new.trackers.sort
-    assert_equal Tracker.find(1, 3).sort, Project.new(:tracker_ids => [1, 3]).trackers.sort
+  def test_default_trackers_should_match_default_tracker_ids_setting
+    with_settings :default_projects_tracker_ids => ['1', '3'] do
+      assert_equal Tracker.find(1, 3).sort, Project.new.trackers.sort
+    end
+  end
+
+  def test_default_trackers_should_be_all_trackers_with_blank_setting
+    with_settings :default_projects_tracker_ids => nil do
+      assert_equal Tracker.all.sort, Project.new.trackers.sort
+    end
+  end
+
+  def test_default_trackers_should_be_empty_with_empty_setting
+    with_settings :default_projects_tracker_ids => [] do
+      assert_equal [], Project.new.trackers
+    end
+  end
+
+  def test_default_trackers_should_not_replace_initialized_trackers
+    with_settings :default_projects_tracker_ids => ['1', '3'] do
+      assert_equal Tracker.find(1, 2).sort, Project.new(:tracker_ids => [1, 2]).trackers.sort
+    end
   end
 
   def test_update

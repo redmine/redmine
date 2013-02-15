@@ -179,6 +179,9 @@ default_projects_modules:
   - boards
   - calendar
   - gantt
+default_projects_tracker_ids:
+  serialized: true
+  default: 
 # Role given to a non-admin user who creates a project
 new_project_user_role_id:
   format: int

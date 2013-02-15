@@ -53,7 +53,7 @@ module SettingsHelper
           check_box_tag(
              "settings[#{setting}][]",
              value,
-             Setting.send(setting).include?(value),
+             setting_values.include?(value),
              :id => nil
            ) + text.to_s,
           :class => (options[:inline] ? 'inline' : 'block')
