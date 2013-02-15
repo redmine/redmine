@@ -898,7 +898,6 @@ az:
   status_locked: bloklanıb
   status_registered: qeydiyyatdan keçib
 
-  text_are_you_sure_with_children: Tapşırıq və onun bütün alt tapşırıqları silinsin?
   text_are_you_sure: Siz əminsinizmi?
   text_assign_time_entries_to_project: Qeydiyyata alınmış vaxtı layihəyə bərkitmək
   text_caracters_maximum: "Maksimum %{count} simvol."
