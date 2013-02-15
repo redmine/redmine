@@ -32,6 +32,9 @@
   <p><%= f.check_box(:default_value) %></p>
 <% when 'text' %>
   <p><%= f.text_area(:default_value, :rows => 8) %></p>
+<% when 'date' %>
+  <p><%= f.text_field(:default_value, :size => 10) %></p>
+  <%= calendar_for('custom_field_default_value') %>
 <% when 'user', 'version' %>
 <% else %>
   <p><%= f.text_field(:default_value) %></p>
@@ -92,3 +95,5 @@ when "IssueCustomField" %>
 <% end %>
 <%= call_hook(:"view_custom_fields_form_#{@custom_field.type.to_s.underscore}", :custom_field => @custom_field, :form => f) %>
 </div>
+
+<% include_calendar_headers_tags %>
