@@ -803,7 +803,6 @@ az:
   permission_manage_project_activities: Layihə üçün hərəkət tiplərinin idarə edilməsi
   permission_manage_boards: Forumların idarə edilməsi
   permission_manage_categories: Tapşırıq kateqoriyalarının idarə edilməsi
-  permission_manage_documents: Sənədlərin idarə edilməsi
   permission_manage_files: Faylların idarə edilməsi
   permission_manage_issue_relations: Tapşırıq bağlantılarının idarə edilməsi
   permission_manage_members: İştirakçıların idarə edilməsi
