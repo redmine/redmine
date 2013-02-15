@@ -1153,3 +1153,31 @@ az:
   label_attribute_of_assigned_to: Assignee's %{name}
   label_attribute_of_fixed_version: Target version's %{name}
   label_copy_subtasks: Copy subtasks
+  label_cross_project_hierarchy: With project hierarchy
+  permission_edit_documents: Edit documents
+  button_hide: Hide
+  text_turning_multiple_off: If you disable multiple values, multiple values will be removed in order to preserve only one value per item.
+  label_any: any
+  label_cross_project_system: With all projects
+  label_last_n_weeks: last %{count} weeks
+  label_in_the_past_days: in the past
+  label_copied_to: Copied to
+  permission_set_notes_private: Set notes as private
+  label_in_the_next_days: in the next
+  label_attribute_of_issue: Issue's %{name}
+  label_any_issues_in_project: any issues in project
+  label_cross_project_descendants: With subprojects
+  field_private_notes: Private notes
+  setting_jsonp_enabled: Enable JSONP support
+  label_gantt_progress_line: Progress line
+  permission_add_documents: Add documents
+  permission_view_private_notes: View private notes
+  label_attribute_of_user: User's %{name}
+  permission_delete_documents: Delete documents
+  field_inherit_members: Inherit members
+  setting_cross_project_subtasks: Allow cross-project subtasks
+  label_no_issues_in_project: no issues in project
+  label_copied_from: Copied from
+  setting_non_working_week_days: Non-working days
+  label_any_issues_not_in_project: any issues not in project
+  label_cross_project_tree: With project tree
