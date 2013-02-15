@@ -558,10 +558,6 @@ az:
   label_message_posted: Məlumat əlavə olunub
   label_me: mənə
   label_min_max_length: Minimal - maksimal uzunluq
-  label_modification: "%{count} dəyişiklik"
-  label_modification_plural: "%{count} dəyişiklik"
-  label_modification_plural2: "%{count} dəyişikliklər"
-  label_modification_plural5: "%{count} dəyişiklik"
   label_modified: dəyişilib
   label_module_plural: Modullar
   label_months_from: ay
