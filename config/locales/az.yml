@@ -477,10 +477,6 @@ az:
   label_document_added: Sənəd əlavə edilib
   label_document_new: Yeni sənəd
   label_document_plural: Sənədlər
-  label_download: "%{count} yükləmə"
-  label_download_plural: "%{count} yükləmə"
-  label_download_plural2: "%{count} yükləmələr"
-  label_download_plural5: "%{count} yükləmə"
   label_downloads_abbr: Yükləmələr
   label_duplicated_by: çoxaldılır
   label_duplicates: çoxaldır
