@@ -1070,17 +1070,17 @@ az:
   label_between: arasında
   setting_issue_group_assignment: İstifadəçi qruplarına təyinata icazə vermək 
   label_diff: Fərq(diff)
-  text_git_repository_note: Repository is bare and local (e.g. /gitrepo, c:\gitrepo)
+  text_git_repository_note: "Saxlama yerini göstərin (məs: /gitrepo, c:\\gitrepo)"
   description_query_sort_criteria_direction: Çeşidləmə qaydası
-  description_project_scope: Searcscope
+  description_project_scope: Layihənin həcmi
   description_filter: Filtr
-  description_user_mail_notification: Mail notification settings
-  description_date_from: Enter start date
-  description_message_content: Message content
-  description_available_columns: Available Columns
-  description_date_range_interval: Choose range by selecting start and end date
-  description_issue_category_reassign: Choose issue category
-  description_search: Searchfield
+  description_user_mail_notification: E-poçt Mail xəbərdarlıqlarının sazlaması
+  description_date_from: Başlama tarixini daxil edin
+  description_message_content: Mesajın kontenti
+  description_available_columns: Mövcud sütunlar
+  description_date_range_interval: Tarixlər diapazonunu seçin
+  description_issue_category_reassign: Məsələnin kateqoriyasını seçin
+  description_search: Axtarış sahəsi
   description_notes: Qeyd
   description_date_range_list: Siyahıdan diapazonu seçin
   description_choose_project: Layihələr
@@ -1098,7 +1098,7 @@ az:
   button_export: İxrac
   label_export_options: "%{export_format} ixracın parametrləri"
   error_attachment_too_big: Faylın maksimal ölçüsü artdığına görə bu faylı yükləmək mümkün deyildir (%{max_size})
-  notice_failed_to_save_time_entries: "Failed to save %{count} time entrie(s) on %{total} selected: %{ids}."
+  notice_failed_to_save_time_entries: "Səhv N %{ids}. %{total} girişdən %{count} yaddaşa saxlanıla bilmədi."
   label_x_issues:
     zero:  0 Tapşırıq
     one:   1 Tapşırıq
@@ -1124,35 +1124,35 @@ az:
   setting_unsubscribe: "İstifadəçilərə şəxsi uçot qeydlərini silməyə icazə vermək" 
   button_delete_my_account: "Mənim uçot qeydlərimi silmək" 
   text_account_destroy_confirmation: "Sizin uçot qeydiniz bir daha bərpa edilmədən tam olaraq silinəcək.\nDavam etmək istədiyinizə əminsinizmi?" 
-  error_session_expired: Your session has expired. Please login again.
-  text_session_expiration_settings: "Warning: changing these settings may expire the current sessions including yours."
-  setting_session_lifetime: Session maximum lifetime
-  setting_session_timeout: Session inactivity timeout
-  label_session_expiration: Session expiration
-  permission_close_project: Close / reopen the project
+  error_session_expired: Sizin sessiya bitmişdir. Xahiş edirik yenidən daxil olun.
+  text_session_expiration_settings: "Diqqət: bu sazlamaların dəyişməyi cari sessiyanın bağlanmasına çıxara bilər."
+  setting_session_lifetime: Sessiyanın maksimal Session maximum həyat müddəti
+  setting_session_timeout: Sessiyanın qeyri aktivlik müddəti
+  label_session_expiration: Sessiyanın bitməsi
+  permission_close_project: Layihəni bağla / yenidən aç
   label_show_closed_projects: Bağlı layihələrə baxmaq
-  button_close: Close
-  button_reopen: Reopen
-  project_status_active: active
-  project_status_closed: closed
-  project_status_archived: archived
-  text_project_closed: This project is closed and read-only.
-  notice_user_successful_create: User %{id} created.
-  field_core_fields: Standard fields
-  field_timeout: Timeout (in seconds)
-  setting_thumbnails_enabled: Display attachment thumbnails
-  setting_thumbnails_size: Thumbnails size (in pixels)
-  label_status_transitions: Status transitions
-  label_fields_permissions: Fields permissions
-  label_readonly: Read-only
-  label_required: Required
+  button_close: Bağla
+  button_reopen: Yenidən aç
+  project_status_active: aktiv
+  project_status_closed: bağlı
+  project_status_archived: arxiv
+  text_project_closed: Bu layihə bağlıdı və yalnız oxuma olar.
+  notice_user_successful_create: İstifadəçi %{id} yaradıldı.
+  field_core_fields: Standart sahələr
+  field_timeout: Zaman aşımı (saniyə ilə)
+  setting_thumbnails_enabled: Əlavələrin kiçik şəklini göstər
+  setting_thumbnails_size: Kiçik şəkillərin ölçüsü (piksel ilə)
+  label_status_transitions: Status keçidləri
+  label_fields_permissions: Sahələrin icazələri
+  label_readonly: Ancaq oxumaq üçün
+  label_required: Tələb olunur
   text_repository_identifier_info: Yalnız kiçik latın hərflərinə (a-z), rəqəmlərə, tire və çicgilərə icazə verilir.<br />Yadda saxladıqdan sonra identifikatoru dəyişmək olmaz.
-  field_board_parent: Parent forum
-  label_attribute_of_project: Project's %{name}
-  label_attribute_of_author: Author's %{name}
-  label_attribute_of_assigned_to: Assignee's %{name}
-  label_attribute_of_fixed_version: Target version's %{name}
-  label_copy_subtasks: Copy subtasks
+  field_board_parent: Ana forum
+  label_attribute_of_project: Layihə %{name}
+  label_attribute_of_author: Müəllif %{name}
+  label_attribute_of_assigned_to: Təyin edilib %{name}
+  label_attribute_of_fixed_version: Əsas versiya %{name}
+  label_copy_subtasks: Alt tapşırığın surətini çıxarmaq
   label_cross_project_hierarchy: With project hierarchy
   permission_edit_documents: Edit documents
   button_hide: Hide
