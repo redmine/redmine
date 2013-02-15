@@ -1,0 +1,1170 @@
+#
+# Translated by Saadat Mutallimova
+# Data Processing Center of the Ministry of Communication and Information Technologies
+# 
+az:
+  direction: ltr
+  date:
+    formats:
+      default: "%d.%m.%Y"
+      short: "%d %b"
+      long: "%d %B %Y"
+
+    day_names: [bazar, bazar ertəsi, çərşənbə axşamı, çərşənbə, cümə axşamı, cümə, şənbə]
+    standalone_day_names: [Bazar, Bazar ertəsi, Çərşənbə axşamı, Çərşənbə, Cümə axşamı, Cümə, Şənbə]
+    abbr_day_names: [B, Be, Ça, Ç, Ca, C, Ş]
+
+    month_names: [~, yanvar, fevral, mart, aprel, may, iyun, iyul, avqust, sentyabr, oktyabr, noyabr, dekabr]
+    # see russian gem for info on "standalone" day names
+    standalone_month_names: [~, Yanvar, Fevral, Mart, Aprel, May, İyun, İyul, Avqust, Sentyabr, Oktyabr, Noyabr, Dekabr]
+    abbr_month_names: [~, yan., fev., mart, apr., may, iyun, iyul, avq., sent., okt., noy., dek.]
+    standalone_abbr_month_names: [~, yan., fev., mart, apr., may, iyun, iyul, avq., sent., okt., noy., dek.]
+
+    order:
+      - :day
+      - :month
+      - :year
+
+  time:
+    formats:
+      default: "%a, %d %b %Y, %H:%M:%S %z"
+      time: "%H:%M"
+      short: "%d %b, %H:%M"
+      long: "%d %B %Y, %H:%M"
+
+    am: "səhər"
+    pm: "axşam"
+
+  number:
+    format:
+      separator: ","
+      delimiter: " "
+      precision: 3
+
+    currency:
+      format:
+        format: "%n %u"
+        unit: "man."
+        separator: "."
+        delimiter: " "
+        precision: 2
+
+    percentage:
+      format:
+        delimiter: ""
+
+    precision:
+      format:
+        delimiter: ""
+
+    human:
+      format:
+        delimiter: ""
+        precision: 3
+      # Rails 2.2
+      # storage_units: [байт, КБ, МБ, ГБ, ТБ]
+
+      # Rails 2.3
+      storage_units:
+        # Storage units output formatting.
+        # %u is the storage unit, %n is the number (default: 2 MB)
+        format: "%n %u"
+        units:
+          byte:
+            one:   "bayt"
+            few:   "bayt"
+            many:  "bayt"
+            other: "bayt"
+          kb: "KB"
+          mb: "MB"
+          gb: "GB"
+          tb: "TB"
+
+  datetime:
+    distance_in_words:
+      half_a_minute: "bir dəqiqədən az"
+      less_than_x_seconds:
+        one:   "%{count} saniyədən az"
+        few:   "%{count} saniyədən az"
+        many:  "%{count} saniyədən az"
+        other: "%{count} saniyədən az"
+      x_seconds:
+        one:   "%{count} saniyə"
+        few:   "%{count} saniyə"
+        many:  "%{count} saniyə"
+        other: "%{count} saniyə"
+      less_than_x_minutes:
+        one:   "%{count} dəqiqədən az"
+        few:   "%{count} dəqiqədən az"
+        many:  "%{count} dəqiqədən az"
+        other: "%{count} dəqiqədən az"
+      x_minutes:
+        one:   "%{count} dəqiqə"
+        few:   "%{count} dəqiqə"
+        many:  "%{count} dəqiqə"
+        other: "%{count} dəqiqə"
+      about_x_hours:
+        one:   "təxminən %{count} saat"
+        few:   "təxminən %{count} saat"
+        many:  "təxminən %{count} saat"
+        other: "təxminən %{count} saat"
+      x_hours:
+        one:   "1 hour"
+        other: "%{count} hours"
+      x_days:
+        one:   "%{count} gün"
+        few:   "%{count} gün"
+        many:  "%{count} gün"
+        other: "%{count} gün"
+      about_x_months:
+        one:   "təxminən %{count} ay"
+        few:   "təxminən %{count} ay"
+        many:  "təxminən %{count} ay"
+        other: "təxminən %{count} ay"
+      x_months:
+        one:   "%{count} ay"
+        few:   "%{count} ay"
+        many:  "%{count} ay"
+        other: "%{count} ay"
+      about_x_years:
+        one:   "təxminən %{count} il"
+        few:   "təxminən %{count} il"
+        many:  "təxminən %{count} il"
+        other: "təxminən %{count} il"
+      over_x_years:
+        one:   "%{count} ildən çox"
+        few:   "%{count} ildən çox"
+        many:  "%{count} ildən çox"
+        other: "%{count} ildən çox"
+      almost_x_years:
+        one:   "təxminən 1 il"
+        few:   "təxminən %{count} il"
+        many:  "təxminən %{count} il"
+        other: "təxminən %{count} il"
+    prompts:
+      year: "İl"
+      month: "Ay"
+      day: "Gün"
+      hour: "Saat"
+      minute: "Dəqiqə"
+      second: "Saniyə"
+
+  activerecord:
+    errors:
+      template:
+        header:
+          one:   "%{model}: %{count} səhvə görə yadda saxlamaq mümkün olmadı"
+          few:   "%{model}: %{count} səhvlərə görə yadda saxlamaq mümkün olmadı"
+          many:  "%{model}: %{count} səhvlərə görə yadda saxlamaq mümkün olmadı"
+          other: "%{model}: %{count} səhvə görə yadda saxlamaq mümkün olmadı"
+
+        body: "Problemlər aşağıdakı sahələrdə yarandı:"
+
+      messages:
+        inclusion: "nəzərdə tutulmamış təyinata malikdir"
+        exclusion: "ehtiyata götürülməmiş təyinata malikdir"
+        invalid: "düzgün təyinat deyildir"
+        confirmation: "təsdiq ilə üst-üstə düşmür"
+        accepted: "təsdiq etmək lazımdır"
+        empty: "boş saxlanıla bilməz"
+        blank: "boş saxlanıla bilməz"
+        too_long:
+          one:   "çox böyük uzunluq (%{count} simvoldan çox ola bilməz)"
+          few:   "çox böyük uzunluq (%{count} simvoldan çox ola bilməz)"
+          many:  "çox böyük uzunluq (%{count} simvoldan çox ola bilməz)"
+          other: "çox böyük uzunluq (%{count} simvoldan çox ola bilməz)"
+        too_short:
+          one:   "uzunluq kifayət qədər deyildir (%{count} simvoldan az ola bilməz)"
+          few:   "uzunluq kifayət qədər deyildir (%{count} simvoldan az ola bilməz)"
+          many:  "uzunluq kifayət qədər deyildir (%{count} simvoldan az ola bilməz)"
+          other: "uzunluq kifayət qədər deyildir (%{count} simvoldan az ola bilməz)"
+        wrong_length:
+          one:   "düzgün olmayan uzunluq (tam %{count} simvol ola bilər)"
+          few:   "düzgün olmayan uzunluq (tam %{count} simvol ola bilər)"
+          many:  "düzgün olmayan uzunluq (tam %{count} simvol ola bilər)"
+          other: "düzgün olmayan uzunluq (tam %{count} simvol ola bilər)"
+        taken: "artıq mövcuddur"
+        not_a_number: "say kimi hesab edilmir"
+        greater_than: "%{count} çox təyinata malik ola bilər"
+        greater_than_or_equal_to: "%{count} çox və ya ona bərabər təyinata malik ola bilər"
+        equal_to: "yalnız %{count} bərabər təyinata malik ola bilər"
+        less_than: "%{count} az təyinata malik ola bilər"
+        less_than_or_equal_to: "%{count} az və ya ona bərabər təyinata malik ola bilər"
+        odd: "yalnız tək təyinata malik ola bilər"
+        even: "yalnız cüt təyinata malik ola bilər"
+        greater_than_start_date: "başlanğıc tarixindən sonra olmalıdır"
+        not_same_project: "təkcə bir layihəyə aid deyildir"
+        circular_dependency: "Belə əlaqə dövri asılılığa gətirib çıxaracaq"
+        cant_link_an_issue_with_a_descendant: "Tapşırıq özünün alt tapşırığı ilə əlaqəli ola bilməz"
+
+  support:
+    array:
+      # Rails 2.2
+      sentence_connector: "və"
+      skip_last_comma: true
+
+      # Rails 2.3
+      words_connector: ", "
+      two_words_connector: " və"
+      last_word_connector: " və "
+
+  actionview_instancetag_blank_option: Seçim edin
+
+  button_activate: Aktivləşdirmək
+  button_add: Əlavə etmək
+  button_annotate: Müəlliflik
+  button_apply: Tətbiq etmək
+  button_archive: Arxivləşdirmək
+  button_back: Geriyə
+  button_cancel: İmtina
+  button_change_password: Parolu dəyişmək
+  button_change: Dəyişmək
+  button_check_all: Hamını qeyd etmək
+  button_clear: Təmizləmək
+  button_configure: Parametlər
+  button_copy: Sürətini çıxarmaq
+  button_create: Yaratmaq
+  button_create_and_continue: Yaratmaq və davam etmək
+  button_delete: Silmək
+  button_download: Yükləmək
+  button_edit: Redaktə etmək
+  button_edit_associated_wikipage: "Əlaqəli wiki-səhifəni redaktə etmək: %{page_title}"
+  button_list: Siyahı
+  button_lock: Bloka salmaq
+  button_login: Giriş
+  button_log_time: Sərf olunan vaxt
+  button_move: Yerini dəyişmək
+  button_quote: Sitat gətirmək
+  button_rename: Adını dəyişmək
+  button_reply: Cavablamaq
+  button_reset: Sıfırlamaq
+  button_rollback: Bu versiyaya qayıtmaq
+  button_save: Yadda saxlamaq
+  button_sort: Çeşidləmək
+  button_submit: Qəbul etmək
+  button_test: Yoxlamaq
+  button_unarchive: Arxivdən çıxarmaq
+  button_uncheck_all: Təmizləmək
+  button_unlock: Blokdan çıxarmaq
+  button_unwatch: İzləməmək
+  button_update: Yeniləmək
+  button_view: Baxmaq
+  button_watch: İzləmək
+
+  default_activity_design: Layihənin hazırlanması
+  default_activity_development: Hazırlanma prosesi
+  default_doc_category_tech: Texniki sənədləşmə
+  default_doc_category_user: İstifadəçi sənədi
+  default_issue_status_in_progress: İşlənməkdədir
+  default_issue_status_closed: Bağlanıb
+  default_issue_status_feedback: Əks əlaqə
+  default_issue_status_new: Yeni
+  default_issue_status_rejected: Rədd etmə
+  default_issue_status_resolved: Həll edilib
+  default_priority_high: Yüksək
+  default_priority_immediate: Təxirsiz
+  default_priority_low: Aşağı
+  default_priority_normal: Normal
+  default_priority_urgent: Təcili
+  default_role_developer: Hazırlayan
+  default_role_manager: Menecer
+  default_role_reporter: Reportyor
+  default_tracker_bug: Səhv
+  default_tracker_feature: Təkmilləşmə
+  default_tracker_support: Dəstək
+
+  enumeration_activities: Hərəkətlər (vaxtın uçotu)
+  enumeration_doc_categories: Sənədlərin kateqoriyası
+  enumeration_issue_priorities: Tapşırıqların prioriteti
+
+  error_can_not_remove_role: Bu rol istifadə edilir və silinə bilməz.
+  error_can_not_delete_custom_field: Sazlanmış sahəni silmək mümkün deyildir
+  error_can_not_delete_tracker: Bu treker tapşırıqlardan ibarət olduğu üçün silinə bilməz.
+  error_can_t_load_default_data: "Susmaya görə konfiqurasiya yüklənməmişdir: %{value}"
+  error_issue_not_found_in_project: Tapşırıq tapılmamışdır və ya bu layihəyə bərkidilməmişdir
+  error_scm_annotate: "Verilənlər mövcud deyildir və ya imzalana bilməz."
+  error_scm_command_failed: "Saxlayıcıya giriş imkanı səhvi: %{value}"
+  error_scm_not_found: Saxlayıcıda yazı və/ və ya düzəliş yoxdur.
+  error_unable_to_connect: Qoşulmaq mümkün deyildir (%{value})
+  error_unable_delete_issue_status: Tapşırığın statusunu silmək mümkün deyildir
+
+  field_account: İstifadəçi hesabı
+  field_activity: Fəaliyyət
+  field_admin: İnzibatçı
+  field_assignable: Tapşırıq bu rola təyin edilə bilər
+  field_assigned_to: Təyin edilib
+  field_attr_firstname: Ad
+  field_attr_lastname: Soyad
+  field_attr_login: Atribut Login
+  field_attr_mail: e-poçt
+  field_author: Müəllif
+  field_auth_source: Autentifikasiya rejimi
+  field_base_dn: BaseDN
+  field_category: Kateqoriya
+  field_column_names: Sütunlar
+  field_comments: Şərhlər
+  field_comments_sorting: Şərhlərin təsviri
+  field_content: Content
+  field_created_on: Yaradılıb
+  field_default_value: Susmaya görə təyinat
+  field_delay: Təxirə salmaq
+  field_description: Təsvir
+  field_done_ratio: Hazırlıq
+  field_downloads: Yükləmələr
+  field_due_date: Yerinə yetirilmə tarixi
+  field_editable: Redaktə edilən
+  field_effective_date: Tarix
+  field_estimated_hours: Vaxtın dəyərləndirilməsi
+  field_field_format: Format
+  field_filename: Fayl
+  field_filesize: Ölçü
+  field_firstname: Ad
+  field_fixed_version: Variant
+  field_hide_mail: E-poçtumu gizlət
+  field_homepage: Başlanğıc səhifə
+  field_host: Kompyuter
+  field_hours: saat
+  field_identifier: Unikal identifikator
+  field_identity_url: OpenID URL
+  field_is_closed: Tapşırıq bağlanıb
+  field_is_default: Susmaya görə tapşırıq
+  field_is_filter: Filtr kimi istifadə edilir
+  field_is_for_all: Bütün layihələr üçün
+  field_is_in_roadmap: Operativ planda əks olunan tapşırıqlar
+  field_is_public: Ümümaçıq
+  field_is_required: Mütləq
+  field_issue_to: Əlaqəli tapşırıqlar
+  field_issue: Tapşırıq
+  field_language: Dil
+  field_last_login_on: Son qoşulma
+  field_lastname: Soyad
+  field_login: İstifadəçi
+  field_mail: e-poçt
+  field_mail_notification: e-poçt ilə bildiriş
+  field_max_length: maksimal uzunluq
+  field_min_length: minimal uzunluq
+  field_name: Ad
+  field_new_password: Yeni parol
+  field_notes: Qeyd
+  field_onthefly: Tez bir zamanda istifadəçinin yaradılması
+  field_parent_title: Valideyn səhifə
+  field_parent: Valideyn layihə
+  field_parent_issue: Valideyn tapşırıq
+  field_password_confirmation: Təsdiq 
+  field_password: Parol
+  field_port: Port
+  field_possible_values: Mümkün olan təyinatlar
+  field_priority: Prioritet
+  field_project: Layihə
+  field_redirect_existing_links: Mövcud olan istinadları istiqamətləndirmək
+  field_regexp: Müntəzəm ifadə
+  field_role: Rol
+  field_searchable: Axtarış üçün açıqdır
+  field_spent_on: Tarix
+  field_start_date: Başlanıb
+  field_start_page: Başlanğıc səhifə
+  field_status: Status
+  field_subject: Mövzu
+  field_subproject: Altlayihə
+  field_summary: Qısa təsvir
+  field_text: Mətn sahəsi
+  field_time_entries: Sərf olunan zaman
+  field_time_zone: Saat qurşağı
+  field_title: Başlıq
+  field_tracker: Treker
+  field_type: Tip
+  field_updated_on: Yenilənib
+  field_url: URL
+  field_user: İstifadəçi
+  field_value: Təyinat
+  field_version: Variant
+  field_watcher: Nəzarətçi
+
+  general_csv_decimal_separator: ','
+  general_csv_encoding: UTF-8
+  general_csv_separator: ';'
+  general_first_day_of_week: '1'
+  general_lang_name: 'Azeri'
+  general_pdf_encoding: UTF-8
+  general_text_no: 'xeyr'
+  general_text_No: 'Xeyr'
+  general_text_yes: 'bəli'
+  general_text_Yes: 'Bəli'
+
+  gui_validation_error: 1 səhv
+  gui_validation_error_plural: "%{count} səhv"
+  gui_validation_error_plural2: "%{count} səhv"
+  gui_validation_error_plural5: "%{count} səhv"
+
+  label_activity: Görülən işlər
+  label_add_another_file: Bir fayl daha əlavə etmək
+  label_added_time_by: "Əlavə etdi %{author} %{age} əvvəl"
+  label_added: əlavə edilib
+  label_add_note: Qeydi əlavə etmək
+  label_administration: İnzibatçılıq
+  label_age: Yaş
+  label_ago: gün əvvəl
+  label_all_time: hər zaman
+  label_all_words: Bütün sözlər
+  label_all: hamı
+  label_and_its_subprojects: "%{value} və bütün altlayihələr"
+  label_applied_status: Tətbiq olunan status
+  label_ascending: Artmaya görə
+  label_assigned_to_me_issues: Mənim tapşırıqlarım
+  label_associated_revisions: Əlaqəli redaksiyalar
+  label_attachment: Fayl
+  label_attachment_delete: Faylı silmək
+  label_attachment_new: Yeni fayl
+  label_attachment_plural: Fayllar
+  label_attribute: Atribut
+  label_attribute_plural: Atributlar
+  label_authentication: Autentifikasiya
+  label_auth_source: Autentifikasiyanın rejimi
+  label_auth_source_new: Autentifikasiyanın yeni rejimi
+  label_auth_source_plural: Autentifikasiyanın rejimləri
+  label_blocked_by: bloklanır
+  label_blocks: bloklayır
+  label_board: Forum
+  label_board_new: Yeni forum
+  label_board_plural: Forumlar
+  label_boolean: Məntiqi
+  label_browse: Baxış
+  label_bulk_edit_selected_issues: Seçilən bütün tapşırıqları redaktə etmək
+  label_calendar: Təqvim
+  label_calendar_filter: O cümlədən
+  label_calendar_no_assigned: Mənim deyil
+  label_change_plural: Dəyişikliklər
+  label_change_properties: Xassələri dəyişmək
+  label_change_status: Statusu dəyişmək
+  label_change_view_all: Bütün dəyişikliklərə baxmaq
+  label_changes_details: Bütün dəyişikliklərə görə təfsilatlar
+  label_changeset_plural: Dəyişikliklər
+  label_chronological_order: Xronoloji ardıcıllıq ilə
+  label_closed_issues: Bağlıdır
+  label_closed_issues_plural: bağlıdır
+  label_closed_issues_plural2: bağlıdır
+  label_closed_issues_plural5: bağlıdır
+  label_comment: şərhlər
+  label_comment_add: Şərhləri qeyd etmək
+  label_comment_added: Əlavə olunmuş şərhlər
+  label_comment_delete: Şərhi silmək
+  label_comment_plural: Şərhlər
+  label_comment_plural2: Şərhlər
+  label_comment_plural5: şərhlərin
+  label_commits_per_author: İstifadəçi üzərində dəyişikliklər
+  label_commits_per_month: Ay üzərində dəyişikliklər
+  label_confirmation: Təsdiq 
+  label_contains: tərkibi
+  label_copied: surəti köçürülüb
+  label_copy_workflow_from: görülən işlərin ardıcıllığının surətini köçürmək
+  label_current_status: Cari status
+  label_current_version: Cari variant
+  label_custom_field: Sazlanan sahə
+  label_custom_field_new: Yeni sazlanan sahə
+  label_custom_field_plural: Sazlanan sahələr
+  label_date_from: С
+  label_date_from_to: С %{start} по %{end}
+  label_date_range: vaxt intervalı
+  label_date_to: üzrə
+  label_date: Tarix
+  label_day_plural: gün
+  label_default: Susmaya görə
+  label_default_columns: Susmaya görə sütunlar
+  label_deleted: silinib
+  label_descending: Azalmaya görə
+  label_details: Təfsilatlar
+  label_diff_inline: mətndə
+  label_diff_side_by_side: Yanaşı
+  label_disabled: söndürülüb
+  label_display: Təsvir
+  label_display_per_page: "Səhifəyə: %{value}"
+  label_document: Sənəd
+  label_document_added: Sənəd əlavə edilib
+  label_document_new: Yeni sənəd
+  label_document_plural: Sənədlər
+  label_download: "%{count} yükləmə"
+  label_download_plural: "%{count} yükləmə"
+  label_download_plural2: "%{count} yükləmələr"
+  label_download_plural5: "%{count} yükləmə"
+  label_downloads_abbr: Yükləmələr
+  label_duplicated_by: çoxaldılır
+  label_duplicates: çoxaldır
+  label_end_to_end: sondan sona doğru
+  label_end_to_start: sondan əvvələ doğru
+  label_enumeration_new: Yeni qiymət
+  label_enumerations: Qiymətlərin siyahısı
+  label_environment: Mühit
+  label_equals: sayılır
+  label_example: Nümunə
+  label_export_to: ixrac etmək 
+  label_feed_plural: RSS
+  label_feeds_access_key_created_on: "RSS-ə giriş açarı %{value} əvvəl yaradılıb"
+  label_f_hour: "%{value} saat"
+  label_f_hour_plural: "%{value} saat"
+  label_file_added: Fayl əlavə edilib
+  label_file_plural: Fayllar
+  label_filter_add: Filtr əlavə etmək
+  label_filter_plural: Filtrlər
+  label_float: Həqiqi ədəd
+  label_follows: Əvvəlki
+  label_gantt: Qant diaqramması
+  label_general: Ümumi
+  label_generate_key: Açarı generasiya etmək
+  label_greater_or_equal: ">="
+  label_help: Kömək
+  label_history: Tarixçə
+  label_home: Ana səhifə
+  label_incoming_emails: Məlumatların qəbulu
+  label_index_by_date: Səhifələrin tarixçəsi
+  label_index_by_title: Başlıq
+  label_information_plural: İnformasiya
+  label_information: İnformasiya
+  label_in_less_than: az
+  label_in_more_than: çox
+  label_integer: Tam
+  label_internal: Daxili
+  label_in: da (də)
+  label_issue: Tapşırıq
+  label_issue_added: Tapşırıq əlavə edilib
+  label_issue_category_new: Yeni kateqoriya
+  label_issue_category_plural: Tapşırığın kateqoriyası
+  label_issue_category: Tapşırığın kateqoriyası
+  label_issue_new: Yeni tapşırıq
+  label_issue_plural: Tapşırıqlar
+  label_issues_by: "%{value} üzrə çeşidləmək"
+  label_issue_status_new: Yeni status
+  label_issue_status_plural: Tapşırıqların statusu
+  label_issue_status: Tapşırığın statusu
+  label_issue_tracking: Tapşırıqlar
+  label_issue_updated: Tapşırıq yenilənib
+  label_issue_view_all: Bütün tapşırıqlara baxmaq
+  label_issue_watchers: Nəzarətçilər
+  label_jump_to_a_project: ... layihəyə keçid
+  label_language_based: Dilin əsasında
+  label_last_changes: "%{count} az dəyişiklik"
+  label_last_login: Sonuncu qoşulma
+  label_last_month: sonuncu ay
+  label_last_n_days: "son %{count} gün"
+  label_last_week: sonuncu həftə
+  label_latest_revision: Sonuncu redaksiya
+  label_latest_revision_plural: Sonuncu redaksiyalar
+  label_ldap_authentication: LDAP vasitəsilə avtorizasiya
+  label_less_or_equal: <=
+  label_less_than_ago: gündən az
+  label_list: Siyahı
+  label_loading: Yükləmə...
+  label_logged_as: Daxil olmusunuz
+  label_login: Daxil olmaq
+  label_login_with_open_id_option: və ya OpenID vasitəsilə daxil olmaq
+  label_logout: Çıxış
+  label_max_size: Maksimal ölçü
+  label_member_new: Yeni iştirakçı
+  label_member: İştirakçı
+  label_member_plural: İştirakçılar
+  label_message_last: Sonuncu məlumat
+  label_message_new: Yeni məlumat
+  label_message_plural: Məlumatlar
+  label_message_posted: Məlumat əlavə olunub
+  label_me: mənə
+  label_min_max_length: Minimal - maksimal uzunluq
+  label_modification: "%{count} dəyişiklik"
+  label_modification_plural: "%{count} dəyişiklik"
+  label_modification_plural2: "%{count} dəyişikliklər"
+  label_modification_plural5: "%{count} dəyişiklik"
+  label_modified: dəyişilib
+  label_module_plural: Modullar
+  label_months_from: ay
+  label_month: Ay
+  label_more_than_ago: gündən əvvəl
+  label_more: Çox
+  label_my_account: Mənim hesabım
+  label_my_page: Mənim səhifəm
+  label_my_page_block: Mənim səhifəmin bloku
+  label_my_projects: Mənim layihələrim
+  label_new: Yeni
+  label_new_statuses_allowed: İcazə verilən yeni statuslar
+  label_news_added: Xəbər əlavə edilib
+  label_news_latest: Son xəbərlər
+  label_news_new: Xəbər əlavə etmək
+  label_news_plural: Xəbərlər
+  label_news_view_all: Bütün xəbərlərə baxmaq
+  label_news: Xəbərlər
+  label_next: Növbəti
+  label_nobody: heç kim
+  label_no_change_option: (Dəyişiklik yoxdur)
+  label_no_data: Təsvir üçün verilənlər yoxdur
+  label_none: yoxdur
+  label_not_contains: mövcud deyil
+  label_not_equals: sayılmır
+  label_open_issues: açıqdır
+  label_open_issues_plural: açıqdır
+  label_open_issues_plural2: açıqdır
+  label_open_issues_plural5: açıqdır
+  label_optional_description: Təsvir (vacib deyil)
+  label_options: Opsiyalar
+  label_overall_activity: Görülən işlərin toplu hesabatı
+  label_overview: Baxış
+  label_password_lost: Parolun bərpası
+  label_permissions_report: Giriş hüquqları üzrə hesabat 
+  label_permissions: Giriş hüquqları
+  label_per_page: Səhifəyə
+  label_personalize_page: bu səhifəni fərdiləşdirmək
+  label_planning: Planlaşdırma
+  label_please_login: Xahiş edirik, daxil olun.
+  label_plugins: Modullar
+  label_precedes: növbəti
+  label_preferences: Üstünlük
+  label_preview: İlkin baxış
+  label_previous: Əvvəlki
+  label_profile: Profil
+  label_project: Layihə
+  label_project_all: Bütün layihələr
+  label_project_copy_notifications: Layihənin surətinin çıxarılması zamanı elektron poçt ilə bildiriş göndərmək
+  label_project_latest: Son layihələr
+  label_project_new: Yeni layihə
+  label_project_plural: Layihələr
+  label_project_plural2: layihəni
+  label_project_plural5: layihələri
+  label_public_projects: Ümumi layihələr
+  label_query: Yadda saxlanılmış sorğu
+  label_query_new: Yeni sorğu
+  label_query_plural: Yadda saxlanılmış sorğular
+  label_read: Oxu...
+  label_register: Qeydiyyat
+  label_registered_on: Qeydiyyatdan keçib
+  label_registration_activation_by_email: e-poçt üzrə hesabımın aktivləşdirilməsi
+  label_registration_automatic_activation: uçot qeydlərinin avtomatik aktivləşdirilməsi
+  label_registration_manual_activation: uçot qeydlərini əl ilə aktivləşdirmək
+  label_related_issues: Əlaqəli tapşırıqlar
+  label_relates_to: əlaqəlidir
+  label_relation_delete: Əlaqəni silmək
+  label_relation_new: Yeni münasibət
+  label_renamed: adını dəyişmək
+  label_reply_plural: Cavablar
+  label_report: Hesabat
+  label_report_plural: Hesabatlar
+  label_reported_issues: Yaradılan tapşırıqlar
+  label_repository: Saxlayıcı
+  label_repository_plural: Saxlayıcı
+  label_result_plural: Nəticələr
+  label_reverse_chronological_order: Əks ardıcıllıqda
+  label_revision: Redaksiya
+  label_revision_plural: Redaksiyalar
+  label_roadmap: Operativ plan
+  label_roadmap_due_in: "%{value} müddətində"
+  label_roadmap_no_issues: bu versiya üçün tapşırıq yoxdur
+  label_roadmap_overdue: "gecikmə %{value}"
+  label_role: Rol
+  label_role_and_permissions: Rollar və giriş hüquqları
+  label_role_new: Yeni rol
+  label_role_plural: Rollar
+  label_scm: Saxlayıcının tipi
+  label_search: Axtarış
+  label_search_titles_only: Ancaq adlarda axtarmaq
+  label_send_information: İstifadəçiyə uçot qeydləri üzrə informasiyanı göndərmək
+  label_send_test_email: Yoxlama üçün email göndərmək
+  label_settings: Sazlamalar
+  label_show_completed_versions: Bitmiş variantları göstərmək
+  label_sort: Çeşidləmək
+  label_sort_by: "%{value} üzrə çeşidləmək"
+  label_sort_higher: Yuxarı
+  label_sort_highest: Əvvələ qayıt
+  label_sort_lower: Aşağı
+  label_sort_lowest: Sona qayıt
+  label_spent_time: Sərf olunan vaxt
+  label_start_to_end: əvvəldən axıra doğru
+  label_start_to_start: əvvəldən əvvələ doğru
+  label_statistics: Statistika
+  label_stay_logged_in: Sistemdə qalmaq
+  label_string: Mətn
+  label_subproject_plural: Altlayihələr
+  label_subtask_plural: Alt tapşırıqlar
+  label_text: Uzun mətn 
+  label_theme: Mövzu
+  label_this_month: bu ay
+  label_this_week: bu həftə
+  label_this_year: bu il
+  label_time_tracking: Vaxtın uçotu
+  label_timelog_today: Bu günə sərf olunan vaxt
+  label_today: bu gün
+  label_topic_plural: Mövzular
+  label_total: Cəmi
+  label_tracker: Treker
+  label_tracker_new: Yeni treker
+  label_tracker_plural: Trekerlər
+  label_updated_time: "%{value} əvvəl yenilənib"
+  label_updated_time_by: "%{author} %{age} əvvəl yenilənib"
+  label_used_by: İstifadə olunur
+  label_user: İstifasdəçi
+  label_user_activity: "İstifadəçinin gördüyü işlər %{value}"
+  label_user_mail_no_self_notified: "Tərəfimdən edilən dəyişikliklər haqqında məni xəbərdar etməmək"
+  label_user_mail_option_all: "Mənim layihələrimdəki bütün hadisələr haqqında"
+  label_user_mail_option_selected: "Yalnız seçilən layihədəki bütün hadisələr haqqında..."
+  label_user_mail_option_only_owner: Yalnız sahibi olduğum obyektlər üçün
+  label_user_mail_option_only_my_events: Yalnız izlədiyim və ya iştirak etdiyim obyektlər üçün
+  label_user_mail_option_only_assigned: Yalnız mənə təyin edilən obyektlər üçün
+  label_user_new: Yeni istifadəçi
+  label_user_plural: İstifadəçilər
+  label_version: Variant
+  label_version_new: Yeni variant
+  label_version_plural: Variantlar
+  label_view_diff: Fərqlərə baxmaq
+  label_view_revisions: Redaksiyalara baxmaq
+  label_watched_issues: Tapşırığın izlənilməsi
+  label_week: Həftə
+  label_wiki: Wiki
+  label_wiki_edit: Wiki-nin redaktəsi
+  label_wiki_edit_plural: Wiki
+  label_wiki_page: Wiki səhifəsi
+  label_wiki_page_plural: Wiki səhifələri
+  label_workflow: Görülən işlərin ardıcıllığı
+  label_x_closed_issues_abbr:
+    zero:  "0 bağlıdır"
+    one:   "1 bağlanıb"
+    few:   "%{count} bağlıdır"
+    many:  "%{count} bağlıdır"
+    other: "%{count} bağlıdır"
+  label_x_comments:
+    zero:  "şərh yoxdur"
+    one:   "1 şərh"
+    few:   "%{count} şərhlər"
+    many:  "%{count} şərh"
+    other: "%{count} şərh"
+  label_x_open_issues_abbr:
+    zero:  "0 açıqdır"
+    one:   "1 açıq"
+    few:   "%{count} açıqdır"
+    many:  "%{count} açıqdır"
+    other: "%{count} açıqdır"
+  label_x_open_issues_abbr_on_total:
+    zero:  "0 açıqdır / %{total}"
+    one:   "1 açıqdır / %{total}"
+    few:   "%{count} açıqdır / %{total}"
+    many:  "%{count} açıqdır / %{total}"
+    other: "%{count} açıqdır / %{total}"
+  label_x_projects:
+    zero:  "layihələr yoxdur"
+    one:   "1 layihə"
+    few:   "%{count} layihə"
+    many:  "%{count} layihə"
+    other: "%{count} layihə"
+  label_year: İl
+  label_yesterday: dünən
+
+  mail_body_account_activation_request: "Yeni istifadəçi qeydiyyatdan keçib (%{value}). Uçot qeydi Sizin təsdiqinizi gözləyir:"
+  mail_body_account_information: Sizin uçot qeydiniz haqqında informasiya
+  mail_body_account_information_external: "Siz özünüzün %{value} uçot qeydinizi giriş üçün istifadə edə bilərsiniz."
+  mail_body_lost_password: 'Parolun dəyişdirilməsi üçün aşağıdakı linkə keçin:'
+  mail_body_register: 'Uçot qeydinin aktivləşdirilməsi üçün aşağıdakı linkə keçin:'
+  mail_body_reminder: "növbəti %{days} gün üçün Sizə təyin olunan %{count}:"
+  mail_subject_account_activation_request: "Sistemdə istifadəçinin aktivləşdirilməsi üçün sorğu %{value}"
+  mail_subject_lost_password: "Sizin %{value} parolunuz"
+  mail_subject_register: "Uçot qeydinin aktivləşdirilməsi %{value}"
+  mail_subject_reminder: "yaxın %{days} gün üçün Sizə təyin olunan %{count}"
+
+  notice_account_activated: Sizin uçot qeydiniz aktivləşdirilib. Sistemə daxil ola bilərsiniz.
+  notice_account_invalid_creditentials: İstifadəçi adı və ya parolu düzgün deyildir
+  notice_account_lost_email_sent: Sizə yeni parolun seçimi ilə bağlı təlimatı əks etdirən məktub göndərilmişdir.
+  notice_account_password_updated: Parol müvəffəqiyyətlə yeniləndi.
+  notice_account_pending: "Sizin uçot qeydiniz yaradıldı və inzibatçının təsdiqini gözləyir."
+  notice_account_register_done: Uçot qeydi müvəffəqiyyətlə yaradıldı. Sizin uçot qeydinizin aktivləşdirilməsi üçün elektron poçtunuza göndərilən linkə keçin.
+  notice_account_unknown_email: Naməlum istifadəçi.
+  notice_account_updated: Uçot qeydi müvəffəqiyyətlə yeniləndi.
+  notice_account_wrong_password: Parol düzgün deyildir
+  notice_can_t_change_password: Bu uçot qeydi üçün xarici autentifikasiya mənbəyi istifadə olunur. Parolu dəyişmək mümkün deyildir.
+  notice_default_data_loaded: Susmaya görə konfiqurasiya yüklənilmişdir.
+  notice_email_error: "Məktubun göndərilməsi zamanı səhv baş vermişdi (%{value})"
+  notice_email_sent: "Məktub göndərilib %{value}"
+  notice_failed_to_save_issues: "Seçilən %{total} içərisindən %{count} bəndləri saxlamaq mümkün olmadı: %{ids}."
+  notice_failed_to_save_members: "İştirakçını (ları) yadda saxlamaq mümkün olmadı: %{errors}."
+  notice_feeds_access_key_reseted: Sizin RSS giriş açarınız sıfırlanmışdır.
+  notice_file_not_found: Daxil olmağa çalışdığınız səhifə mövcud deyildir və ya silinib.
+  notice_locking_conflict: İnformasiya digər istifadəçi tərəfindən yenilənib.
+  notice_no_issue_selected: "Heç bir tapşırıq seçilməyib! Xahiş edirik, redaktə etmək istədiyiniz tapşırığı qeyd edin."
+  notice_not_authorized: Sizin bu səhifəyə daxil olmaq hüququnuz yoxdur.
+  notice_successful_connection: Qoşulma müvəffəqiyyətlə yerinə yetirilib.
+  notice_successful_create: Yaratma müvəffəqiyyətlə yerinə yetirildi.
+  notice_successful_delete: Silinmə müvəffəqiyyətlə yerinə yetirildi.
+  notice_successful_update: Yeniləmə müvəffəqiyyətlə yerinə yetirildi.
+  notice_unable_delete_version: Variantı silmək mümkün olmadı.
+
+  permission_add_issues: Tapşırıqların əlavə edilməsi
+  permission_add_issue_notes: Qeydlərin əlavə edilməsi
+  permission_add_issue_watchers: Nəzarətçilərin əlavə edilməsi
+  permission_add_messages: Məlumatların göndərilməsi
+  permission_browse_repository: Saxlayıcıya baxış
+  permission_comment_news: Xəbərlərə şərh
+  permission_commit_access: Saxlayıcıda faylların dəyişdirilməsi
+  permission_delete_issues: Tapşırıqların silinməsi
+  permission_delete_messages: Məlumatların silinməsi
+  permission_delete_own_messages: Şəxsi məlumatların silinməsi
+  permission_delete_wiki_pages: Wiki-səhifələrin silinməsi
+  permission_delete_wiki_pages_attachments: Bərkidilən faylların silinməsi
+  permission_edit_issue_notes: Qeydlərin redaktə edilməsi
+  permission_edit_issues: Tapşırıqların redaktə edilməsi
+  permission_edit_messages: Məlumatların redaktə edilməsi
+  permission_edit_own_issue_notes: Şəxsi qeydlərin redaktə edilməsi
+  permission_edit_own_messages: Şəxsi məlumatların redaktə edilməsi
+  permission_edit_own_time_entries: Şəxsi vaxt uçotunun redaktə edilməsi
+  permission_edit_project: Layihələrin redaktə edilməsi
+  permission_edit_time_entries: Vaxt uçotunun redaktə edilməsi
+  permission_edit_wiki_pages: Wiki-səhifənin redaktə edilməsi
+  permission_export_wiki_pages: Wiki-səhifənin ixracı
+  permission_log_time: Sərf olunan vaxtın uçotu
+  permission_view_changesets: Saxlayıcı dəyişikliklərinə baxış 
+  permission_view_time_entries: Sərf olunan vaxta baxış
+  permission_manage_project_activities: Layihə üçün hərəkət tiplərinin idarə edilməsi
+  permission_manage_boards: Forumların idarə edilməsi
+  permission_manage_categories: Tapşırıq kateqoriyalarının idarə edilməsi
+  permission_manage_documents: Sənədlərin idarə edilməsi
+  permission_manage_files: Faylların idarə edilməsi
+  permission_manage_issue_relations: Tapşırıq bağlantılarının idarə edilməsi
+  permission_manage_members: İştirakçıların idarə edilməsi
+  permission_manage_news: Xəbərlərin idarə edilməsi
+  permission_manage_public_queries: Ümumi sorğuların idarə edilməsi
+  permission_manage_repository: Saxlayıcının idarə edilməsi
+  permission_manage_subtasks: Alt tapşırıqların idarə edilməsi
+  permission_manage_versions: Variantların idarə edilməsi
+  permission_manage_wiki: Wiki-nin idarə edilməsi
+  permission_move_issues: Tapşırıqların köçürülməsi
+  permission_protect_wiki_pages: Wiki-səhifələrin bloklanması
+  permission_rename_wiki_pages: Wiki-səhifələrin adının dəyişdirilməsi
+  permission_save_queries: Sorğuların yadda saxlanılması
+  permission_select_project_modules: Layihə modulunun seçimi
+  permission_view_calendar: Təqvimə baxış
+  permission_view_documents: Sənədlərə baxış
+  permission_view_files: Fayllara baxış
+  permission_view_gantt: Qant diaqramına baxış
+  permission_view_issue_watchers: Nəzarətçilərin siyahılarına baxış
+  permission_view_messages: Məlumatlara baxış
+  permission_view_wiki_edits: Wiki tarixçəsinə baxış
+  permission_view_wiki_pages: Wiki-yə baxış
+
+  project_module_boards: Forumlar
+  project_module_documents: Sənədlər
+  project_module_files: Fayllar
+  project_module_issue_tracking: Tapşırıqlar
+  project_module_news: Xəbərlər
+  project_module_repository: Saxlayıcı
+  project_module_time_tracking: Vaxtın uçotu
+  project_module_wiki: Wiki
+  project_module_gantt: Qant diaqramı
+  project_module_calendar: Təqvim
+
+  setting_activity_days_default: Görülən işlərdə əks olunan günlərin sayı
+  setting_app_subtitle: Əlavənin sərlövhəsi
+  setting_app_title: Əlavənin adı
+  setting_attachment_max_size: Yerləşdirmənin maksimal ölçüsü
+  setting_autofetch_changesets: Saxlayıcının dəyişikliklərini avtomatik izləmək
+  setting_autologin: Avtomatik giriş
+  setting_bcc_recipients: Gizli surətləri istifadə etmək (BCC)
+  setting_cache_formatted_text: Formatlaşdırılmış mətnin heşlənməsi
+  setting_commit_fix_keywords: Açar sözlərin təyini
+  setting_commit_ref_keywords: Axtarış üçün açar sözlər
+  setting_cross_project_issue_relations: Layihələr üzrə tapşırıqların kəsişməsinə icazə vermək
+  setting_date_format: Tarixin formatı
+  setting_default_language: Susmaya görə dil
+  setting_default_notification_option: Susmaya görə xəbərdarlıq üsulu
+  setting_default_projects_public: Yeni layihələr ümumaçıq hesab edilir
+  setting_diff_max_lines_displayed: diff üçün sətirlərin maksimal sayı 
+  setting_display_subprojects_issues: Susmaya görə altlayihələrin əks olunması
+  setting_emails_footer: Məktubun sətiraltı qeydləri
+  setting_enabled_scm: Daxil edilən SCM
+  setting_feeds_limit: RSS axını üçün başlıqların sayının məhdudlaşdırılması
+  setting_file_max_size_displayed: Əks olunma üçün mətn faylının maksimal ölçüsü
+  setting_gravatar_enabled: İstifadəçi avatarını Gravatar-dan istifadə etmək
+  setting_host_name: Kompyuterin adı
+  setting_issue_list_default_columns: Susmaya görə tapşırıqların siyahısında əks oluna sütunlar
+  setting_issues_export_limit: İxrac olunan tapşırıqlar üzrə məhdudiyyətlər
+  setting_login_required: Autentifikasiya vacibdir
+  setting_mail_from: Çıxan e-poçt ünvanı
+  setting_mail_handler_api_enabled: Daxil olan məlumatlar üçün veb-servisi qoşmaq
+  setting_mail_handler_api_key: API açar
+  setting_openid: Giriş və qeydiyyat üçün OpenID izacə vermək
+  setting_per_page_options: Səhifə üçün qeydlərin sayı
+  setting_plain_text_mail: Yalnız sadə mətn (HTML olmadan)
+  setting_protocol: Protokol
+  setting_repository_log_display_limit: Dəyişikliklər jurnalında əks olunan redaksiyaların maksimal sayı
+  setting_self_registration: Özünüqeydiyyat
+  setting_sequential_project_identifiers: Layihələrin ardıcıl identifikatorlarını generasiya etmək
+  setting_sys_api_enabled: Saxlayıcının idarə edilməsi üçün veb-servisi qoşmaq
+  setting_text_formatting: Mətnin formatlaşdırılması
+  setting_time_format: Vaxtın formatı
+  setting_user_format: Adın əks olunma formatı
+  setting_welcome_text: Salamlama mətni 
+  setting_wiki_compression: Wiki tarixçəsinin sıxlaşdırılması
+
+  status_active: aktivdir
+  status_locked: bloklanıb
+  status_registered: qeydiyyatdan keçib
+
+  text_are_you_sure_with_children: Tapşırıq və onun bütün alt tapşırıqları silinsin?
+  text_are_you_sure: Siz əminsinizmi?
+  text_assign_time_entries_to_project: Qeydiyyata alınmış vaxtı layihəyə bərkitmək
+  text_caracters_maximum: "Maksimum %{count} simvol."
+  text_caracters_minimum: "%{count} simvoldan az olmamalıdır."
+  text_comma_separated: Bir neçə qiymət mümkündür (vergül vasitəsilə).
+  text_custom_field_possible_values_info: 'Hər sətirə bir qiymət'
+  text_default_administrator_account_changed: İnzibatçının uçot qeydi susmaya görə dəyişmişdir
+  text_destroy_time_entries_question: "Bu tapşırıq üçün sərf olunan vaxta görə %{hours} saat qeydiyyata alınıb. Siz nə etmək istəyirsiniz?"
+  text_destroy_time_entries: Qeydiyyata alınmış vaxtı silmək
+  text_diff_truncated: '... Bu diff məhduddur, çünki əks olunan maksimal ölçünü keçir.'
+  text_email_delivery_not_configured: "Poçt serveri ilə işin parametrləri sazlanmayıb və e-poçt ilə bildiriş funksiyası aktiv deyildir.\nSizin SMTP-server üçün parametrləri config/configuration.yml faylından sazlaya bilərsiniz. Dəyişikliklərin tətbiq edilməsi üçün əlavəni yenidən başladın."
+  text_enumeration_category_reassign_to: 'Onlara aşağıdakı qiymətləri təyin etmək:'
+  text_enumeration_destroy_question: "%{count} obyekt bu qiymətlə bağlıdır."
+  text_file_repository_writable: Qeydə giriş imkanı olan saxlayıcı
+  text_issue_added: "Yeni tapşırıq yaradılıb %{id} (%{author})."
+  text_issue_category_destroy_assignments: Kateqoriyanın təyinatını silmək
+  text_issue_category_destroy_question: "Bir neçə tapşırıq (%{count}) bu kateqoriya üçün təyin edilib. Siz nə etmək istəyirsiniz?"
+  text_issue_category_reassign_to: Bu kateqoriya üçün tapşırığı yenidən təyin etmək
+  text_issues_destroy_confirmation: 'Seçilən tapşırıqları silmək istədiyinizə əminsinizmi?'
+  text_issues_ref_in_commit_messages: Məlumatın mətnindən çıxış edərək tapşırıqların statuslarının tutuşdurulması və dəyişdirilməsi
+  text_issue_updated: "Tapşırıq %{id} yenilənib (%{author})."
+  text_journal_changed: "Parametr %{label} %{old} - %{new} dəyişib"
+  text_journal_deleted: "Parametrin %{old} qiyməti %{label} silinib"
+  text_journal_set_to: "%{label} parametri %{value} dəyişib"
+  text_length_between: "%{min} və %{max} simvollar arasındakı uzunluq."
+  text_load_default_configuration: Susmaya görə konfiqurasiyanı yükləmək
+  text_min_max_length_info: 0 məhdudiyyətlərin olmadığını bildirir
+  text_no_configuration_data: "Rollar, trekerlər, tapşırıqların statusları və operativ plan konfiqurasiya olunmayıblar.\nSusmaya görə konfiqurasiyanın yüklənməsi təkidlə xahiş olunur. Siz onu sonradan dəyişə bilərsiniz."
+  text_plugin_assets_writable: Modullar kataloqu qeyd üçün açıqdır
+  text_project_destroy_confirmation: Siz bu layihə və ona aid olan bütün informasiyanı silmək istədiyinizə əminsinizmi?
+  text_reassign_time_entries: 'Qeydiyyata alınmış vaxtı aşağıdakı tapşırığa keçir:'
+  text_regexp_info: "məsələn: ^[A-Z0-9]+$"
+  text_repository_usernames_mapping: "Saxlayıcının jurnalında tapılan adlarla bağlı olan Redmine istifadəçisini seçin və ya yeniləyin.\nEyni ad və e-poçta sahib olan istifadəçilər Redmine və saxlayıcıda avtomatik əlaqələndirilir."
+  text_rmagick_available: RMagick istifadəsi mümkündür (opsional olaraq)
+  text_select_mail_notifications: Elektron poçta bildirişlərin göndərilməsi seçim edəcəyiniz hərəkətlərdən asılıdır.
+  text_select_project_modules: 'Layihədə istifadə olunacaq modulları seçin:'
+  text_status_changed_by_changeset: "%{value} redaksiyada reallaşdırılıb."
+  text_subprojects_destroy_warning: "Altlayihələr: %{value} həmçinin silinəcək."
+  text_tip_issue_begin_day: tapşırığın başlanğıc tarixi
+  text_tip_issue_begin_end_day: elə həmin gün tapşırığın başlanğıc və bitmə tarixi
+  text_tip_issue_end_day: tapşırığın başa çatma tarixi
+  text_tracker_no_workflow: Bu treker üçün hərəkətlərin ardıcıllığı müəyyən ediməyib
+  text_unallowed_characters: Qadağan edilmiş simvollar
+  text_user_mail_option: "Seçilməyən layihələr üçün Siz yalnız baxdığınız və ya iştirak etdiyiniz layihələr barədə bildiriş alacaqsınız məsələn, müəllifi olduğunuz layihələr və ya o layihələr ki, Sizə təyin edilib)."
+  text_user_wrote: "%{value} yazıb:"
+  text_wiki_destroy_confirmation: Siz bu Wiki və onun tərkibindəkiləri silmək istədiyinizə əminsinizmi?
+  text_workflow_edit: Vəziyyətlərin ardıcıllığını redaktə etmək üçün rol və trekeri seçin
+
+  warning_attachments_not_saved: "faylın (ların) %{count} yadda saxlamaq mümkün deyildir."
+  text_wiki_page_destroy_question: Bu səhifə %{descendants} yaxın və çox yaxın səhifələrə malikdir. Siz nə etmək istəyirsiniz?
+  text_wiki_page_reassign_children: Cari səhifə üçün yaxın səhifələri yenidən təyin etmək
+  text_wiki_page_nullify_children: Yaxın səhifələri baş səhifələr etmək
+  text_wiki_page_destroy_children: Yaxın və çox yaxın səhifələri silmək
+  setting_password_min_length: Parolun minimal uzunluğu
+  field_group_by: Nəticələri qruplaşdırmaq
+  mail_subject_wiki_content_updated: "Wiki-səhifə '%{id}' yenilənmişdir"
+  label_wiki_content_added: Wiki-səhifə əlavə olunub
+  mail_subject_wiki_content_added: "Wiki-səhifə  '%{id}' əlavə edilib"
+  mail_body_wiki_content_added: "%{author} Wiki-səhifəni '%{id}' əlavə edib."
+  label_wiki_content_updated: Wiki-səhifə yenilənib
+  mail_body_wiki_content_updated: "%{author} Wiki-səhifəni '%{id}' yeniləyib."
+  permission_add_project: Layihənin yaradılması
+  setting_new_project_user_role_id: Layihəni yaradan istifadəçiyə təyin olunan rol
+  label_view_all_revisions: Bütün yoxlamaları göstərmək
+  label_tag: Nişan
+  label_branch: Şöbə
+  error_no_tracker_in_project: Bu layihə ilə heç bir treker assosiasiya olunmayıb. Layihənin sazlamalarını yoxlayın.
+  error_no_default_issue_status: Susmaya görə tapşırıqların statusu müəyyən edilməyib. Sazlamaları yoxlayın (bax. "İnzibatçılıq -> Tapşırıqların statusu").
+  label_group_plural: Qruplar
+  label_group: Qrup
+  label_group_new: Yeni qrup
+  label_time_entry_plural: Sərf olunan vaxt
+  text_journal_added: "%{label} %{value} əlavə edilib"
+  field_active: Aktiv
+  enumeration_system_activity: Sistemli
+  permission_delete_issue_watchers: Nəzarətçilərin silinməsi
+  version_status_closed: Bağlanıb
+  version_status_locked: bloklanıb
+  version_status_open: açıqdır
+  error_can_not_reopen_issue_on_closed_version: Bağlı varianta təyin edilən tapşırıq yenidən açıq ola bilməz
+  label_user_anonymous: Anonim
+  button_move_and_follow: Yerləşdirmək və keçid
+  setting_default_projects_modules: Yeni layihələr üçün susmaya görə daxil edilən modullar
+  setting_gravatar_default: Susmaya görə Gravatar təsviri
+  field_sharing: Birgə istifadə
+  label_version_sharing_hierarchy: Layihələrin iyerarxiyasına görə
+  label_version_sharing_system: bütün layihələr ilə
+  label_version_sharing_descendants: Alt layihələr ilə
+  label_version_sharing_tree: Layihələrin iyerarxiyası ilə
+  label_version_sharing_none: Birgə istifadə olmadan
+  error_can_not_archive_project: Bu layihə arxivləşdirilə bilməz
+  button_duplicate: Təkrarlamaq
+  button_copy_and_follow: Surətini çıxarmaq və davam etmək
+  label_copy_source: Mənbə
+  setting_issue_done_ratio: Sahənin köməyi ilə tapşırığın hazırlığını nəzərə almaq
+  setting_issue_done_ratio_issue_status: Tapşırığın statusu
+  error_issue_done_ratios_not_updated: Tapşırıqların hazırlıq parametri yenilənməyib
+  error_workflow_copy_target: Məqsədə uyğun trekerləri və rolları seçin
+  setting_issue_done_ratio_issue_field: Tapşırığın hazırlıq səviyyəsi
+  label_copy_same_as_target: Məqsəddə olduğu kimi
+  label_copy_target: Məqsəd
+  notice_issue_done_ratios_updated: Parametr &laquo;hazırlıq&raquo; yenilənib.
+  error_workflow_copy_source: Cari trekeri və ya rolu seçin
+  label_update_issue_done_ratios: Tapşırığın hazırlıq səviyyəsini yeniləmək
+  setting_start_of_week: Həftənin birinci günü
+  label_api_access_key: API-yə giriş açarı
+  text_line_separated: Bİr neçə qiymət icazə verilib (hər sətirə bir qiymət).
+  label_revision_id: Yoxlama %{value}
+  permission_view_issues: Tapşırıqlara baxış
+  label_display_used_statuses_only: Yalnız bu trekerdə istifadə olunan statusları əks etdirmək
+  label_api_access_key_created_on: API-yə giriş açarı %{value} əvvəl aradılıb
+  label_feeds_access_key: RSS giriş açarı
+  notice_api_access_key_reseted: Sizin API giriş açarınız sıfırlanıb.
+  setting_rest_api_enabled: REST veb-servisini qoşmaq
+  button_show: Göstərmək
+  label_missing_api_access_key: API-yə giriş açarı mövcud deyildir
+  label_missing_feeds_access_key: RSS-ə giriş açarı mövcud deyildir
+  setting_mail_handler_body_delimiters: Bu sətirlərin birindən sonra məktubu qısaltmaq
+  permission_add_subprojects: Alt layihələrin yaradılması
+  label_subproject_new: Yeni alt layihə
+  text_own_membership_delete_confirmation: |-
+    Siz bəzi və ya bütün hüquqları silməyə çalışırsınız, nəticədə bu layihəni redaktə etmək hüququnu da itirə bilərsiniz. Davam etmək istədiyinizə əminsinizmi?
+    
+  label_close_versions: Başa çatmış variantları bağlamaq
+  label_board_sticky: Bərkidilib
+  label_board_locked: Bloklanıb
+  field_principal: Ad
+  text_zoom_out: Uzaqlaşdırmaq
+  text_zoom_in: Yaxınlaşdırmaq
+  notice_unable_delete_time_entry: Jurnalın qeydini silmək mümkün deyildir.
+  label_overall_spent_time: Cəmi sərf olunan vaxt
+  label_user_mail_option_none: Hadisə yoxdur
+  field_member_of_group: Təyin olunmuş qrup 
+  field_assigned_to_role: Təyin olunmuş rol
+  notice_not_authorized_archived_project: Sorğulanan layihə arxivləşdirilib.
+  label_principal_search: "İstifadəçini və ya qrupu tapmaq:"
+  label_user_search: "İstifadəçini tapmaq:"
+  field_visible: Görünmə dərəcəsi
+  setting_emails_header: Məktubun başlığı
+
+  setting_commit_logtime_activity_id: Vaxtın uçotu üçün görülən hərəkətlər
+  text_time_logged_by_changeset: "%{value} redaksiyada nəzərə alınıb."
+  setting_commit_logtime_enabled: Vaxt uçotunu qoşmaq
+  notice_gantt_chart_truncated: Əks oluna biləcək elementlərin maksimal sayı artdığına görə diaqram kəsiləcək (%{max})
+  setting_gantt_items_limit: Qant diaqramında əks olunan elementlərin maksimal sayı 
+  field_warn_on_leaving_unsaved: Yadda saxlanılmayan mətnin səhifəsi bağlanan zaman xəbərdarlıq etmək
+  text_warn_on_leaving_unsaved: Tərk etmək istədiyiniz cari səhifədə yadda saxlanılmayan və itə biləcək mətn vardır.
+  label_my_queries: Mənim yadda saxlanılan sorğularım
+  text_journal_changed_no_detail: "%{label} yenilənib"
+  label_news_comment_added: Xəbərə şərh əlavə olunub
+  button_expand_all: Hamısını aç
+  button_collapse_all: Hamısını çevir
+  label_additional_workflow_transitions_for_assignee: İstifadəçi icraçı olduğu zaman əlavə keçidlər 
+  label_additional_workflow_transitions_for_author: İstifadəçi müəllif olduğu zaman əlavə keçidlər 
+  label_bulk_edit_selected_time_entries: Sərf olunan vaxtın seçilən qeydlərinin kütləvi şəkildə dəyişdirilməsi
+  text_time_entries_destroy_confirmation: Siz sərf olunan vaxtın seçilən qeydlərini silmək istədiyinizə əminsinizmi?
+  label_role_anonymous: Anonim
+  label_role_non_member: İştirakçı deyil
+  label_issue_note_added: Qeyd əlavə olunub
+  label_issue_status_updated: Status yenilənib
+  label_issue_priority_updated: Prioritet yenilənib
+  label_issues_visibility_own: İstifadəçi üçün yaradılan və ya ona təyin olunan tapşırıqlar
+  field_issues_visibility: Tapşırıqların görünmə dərəcəsi
+  label_issues_visibility_all: Bütün tapşırıqlar
+  permission_set_own_issues_private: Şəxsi tapşırıqlar üçün görünmə dərəcəsinin (ümumi/şəxsi) qurulması
+  field_is_private: Şəxsi
+  permission_set_issues_private: Tapşırıqlar üçün görünmə dərəcəsinin (ümumi/şəxsi) qurulması
+  label_issues_visibility_public: Yalnız ümumi tapşırıqlar
+  text_issues_destroy_descendants_confirmation: Həmçinin %{count} tapşırıq (lar) silinəcək.
+  field_commit_logs_encoding: Saxlayıcıda şərhlərin kodlaşdırılması
+  field_scm_path_encoding: Yolun kodlaşdırılması
+  text_scm_path_encoding_note: "Susmaya görə: UTF-8"
+  field_path_to_repository: Saxlayıcıya yol
+  field_root_directory: Kök direktoriya
+  field_cvs_module: Modul
+  field_cvsroot: CVSROOT
+  text_mercurial_repository_note: Lokal saxlayıcı (məsələn, /hgrepo, c:\hgrepo)
+  text_scm_command: Komanda
+  text_scm_command_version: Variant
+  label_git_report_last_commit: Fayllar və direktoriyalar üçün son dəyişiklikləri göstərmək
+  text_scm_config: Siz config/configuration.yml faylında SCM komandasını sazlaya bilərsiniz. Xahiş olunur, bu faylın redaktəsindən sonra əlavəni işə salın.
+  text_scm_command_not_available: Variantların nəzarət sisteminin komandasına giriş mümkün deyildir. Xahiş olunur, inzibatçı panelindəki sazlamaları yoxlayın.
+  notice_issue_successful_create: Tapşırıq %{id} yaradılıb.
+  label_between: arasında
+  setting_issue_group_assignment: İstifadəçi qruplarına təyinata icazə vermək 
+  label_diff: Fərq(diff)
+  text_git_repository_note: Repository is bare and local (e.g. /gitrepo, c:\gitrepo)
+  description_query_sort_criteria_direction: Çeşidləmə qaydası
+  description_project_scope: Searcscope
+  description_filter: Filtr
+  description_user_mail_notification: Mail notification settings
+  description_date_from: Enter start date
+  description_message_content: Message content
+  description_available_columns: Available Columns
+  description_date_range_interval: Choose range by selecting start and end date
+  description_issue_category_reassign: Choose issue category
+  description_search: Searchfield
+  description_notes: Qeyd
+  description_date_range_list: Siyahıdan diapazonu seçin
+  description_choose_project: Layihələr
+  description_date_to: Yerinə yetirilmə tarixini daxil edin
+  description_query_sort_criteria_attribute: Çeşidləmə meyarları
+  description_wiki_subpages_reassign: Yeni valideyn səhifəsini seçmək
+  description_selected_columns: Seçilmiş sütunlar
+  label_parent_revision: Valideyn
+  label_child_revision: Əsas
+  error_scm_annotate_big_text_file: Mətn faylının maksimal ölçüsü artdığına görə şərh mümkün deyildir.
+  setting_default_issue_start_date_to_creation_date: Yeni tapşırıqlar üçün cari tarixi başlanğıc tarixi kimi istifadə etmək
+  button_edit_section: Bu bölməni redaktə etmək
+  setting_repositories_encodings: Əlavələrin və saxlayıcıların kodlaşdırılması
+  description_all_columns: Bütün sütunlar
+  button_export: İxrac
+  label_export_options: "%{export_format} ixracın parametrləri"
+  error_attachment_too_big: Faylın maksimal ölçüsü artdığına görə bu faylı yükləmək mümkün deyildir (%{max_size})
+  notice_failed_to_save_time_entries: "Failed to save %{count} time entrie(s) on %{total} selected: %{ids}."
+  label_x_issues:
+    zero:  0 Tapşırıq
+    one:   1 Tapşırıq
+    few:   "%{count} Tapşırıq"
+    many:  "%{count} Tapşırıq"
+    other: "%{count} Tapşırıq"
+  label_repository_new: Yeni saxlayıcı
+  field_repository_is_default: Susmaya görə saxlayıcı
+  label_copy_attachments: Əlavənin surətini çıxarmaq
+  label_item_position: "%{position}/%{count}"
+  label_completed_versions: Başa çatdırılmış variantlar
+  text_project_identifier_info: Yalnız kiçik latın hərflərinə (a-z), rəqəmlərə, tire və çicgilərə icazə verilir.<br />Yadda saxladıqdan sonra identifikatoru dəyişmək olmaz.
+  field_multiple: Çoxsaylı qiymətlər
+  setting_commit_cross_project_ref: Digər bütün layihələrdə tapşırıqları düzəltmək və istinad etmək
+  text_issue_conflict_resolution_add_notes: Qeydlərimi əlavə etmək və mənim dəyişikliklərimdən imtina etmək
+  text_issue_conflict_resolution_overwrite: Dəyişikliklərimi tətbiq etmək (əvvəlki bütün qeydlər yadda saxlanacaq, lakin bəzi qeydlər yenidən yazıla bilər)
+  notice_issue_update_conflict: Tapşırığı redaktə etdiyiniz zaman kimsə onu artıq dəyişib.
+  text_issue_conflict_resolution_cancel: Mənim dəyişikliklərimi ləğv etmək və tapşırığı yenidən göstərmək %{link}
+  permission_manage_related_issues: Əlaqəli tapşırıqların idarə edilməsi
+  field_auth_source_ldap_filter: LDAP filtri
+  label_search_for_watchers: Nəzarətçiləri axtarmaq 
+  notice_account_deleted: "Sizin uçot qeydiniz tam olaraq silinib" 
+  setting_unsubscribe: "İstifadəçilərə şəxsi uçot qeydlərini silməyə icazə vermək" 
+  button_delete_my_account: "Mənim uçot qeydlərimi silmək" 
+  text_account_destroy_confirmation: "Sizin uçot qeydiniz bir daha bərpa edilmədən tam olaraq silinəcək.\nDavam etmək istədiyinizə əminsinizmi?" 
+  error_session_expired: Your session has expired. Please login again.
+  text_session_expiration_settings: "Warning: changing these settings may expire the current sessions including yours."
+  setting_session_lifetime: Session maximum lifetime
+  setting_session_timeout: Session inactivity timeout
+  label_session_expiration: Session expiration
+  permission_close_project: Close / reopen the project
+  label_show_closed_projects: Bağlı layihələrə baxmaq
+  button_close: Close
+  button_reopen: Reopen
+  project_status_active: active
+  project_status_closed: closed
+  project_status_archived: archived
+  text_project_closed: This project is closed and read-only.
+  notice_user_successful_create: User %{id} created.
+  field_core_fields: Standard fields
+  field_timeout: Timeout (in seconds)
+  setting_thumbnails_enabled: Display attachment thumbnails
+  setting_thumbnails_size: Thumbnails size (in pixels)
+  label_status_transitions: Status transitions
+  label_fields_permissions: Fields permissions
+  label_readonly: Read-only
+  label_required: Required
+  text_repository_identifier_info: Yalnız kiçik latın hərflərinə (a-z), rəqəmlərə, tire və çicgilərə icazə verilir.<br />Yadda saxladıqdan sonra identifikatoru dəyişmək olmaz.
+  field_board_parent: Parent forum
+  label_attribute_of_project: Project's %{name}
+  label_attribute_of_author: Author's %{name}
+  label_attribute_of_assigned_to: Assignee's %{name}
+  label_attribute_of_fixed_version: Target version's %{name}
+  label_copy_subtasks: Copy subtasks
