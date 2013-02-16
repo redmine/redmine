@@ -1171,7 +1171,11 @@ ru:
   permission_set_notes_private: Размещение приватных комментариев
   label_no_issues_in_project: нет задач в проекте
   label_any: все
-  label_last_n_weeks: последние %{count} недель
+  label_last_n_weeks:
+    one:   "последняя %{count} неделя"
+    few:   "последние %{count} недели"
+    many:  "последние %{count} недель"
+    other: "последние %{count} недели"
   setting_cross_project_subtasks: Разрешить подзадачи в между проектами
   label_cross_project_descendants: С подпроектами
   label_cross_project_tree: С деревом проектов
