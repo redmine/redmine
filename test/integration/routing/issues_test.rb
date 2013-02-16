@@ -107,8 +107,8 @@ class RoutingIssuesTest < ActionController::IntegrationTest
   def test_issues_form_update
     ["post", "put"].each do |method|
       assert_routing(
-          { :method => method, :path => "/projects/23/issues/new" },
-          { :controller => 'issues', :action => 'new', :project_id => '23' }
+          { :method => method, :path => "/projects/23/issues/update_form" },
+          { :controller => 'issues', :action => 'update_form', :project_id => '23' }
         )
     end
   end

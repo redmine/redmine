@@ -65,15 +65,6 @@ class IssuesTest < ActionController::IntegrationTest
     assert_equal 1, issue.status.id
   end
 
-  def test_update_issue_form
-    log_user('jsmith', 'jsmith')
-    post 'projects/ecookbook/issues/new', :issue => { :tracker_id => "2"}
-    assert_response :success
-    assert_tag 'select',
-      :attributes => {:name => 'issue[tracker_id]'},
-      :child => {:tag => 'option', :attributes => {:value => '2', :selected => 'selected'}}
-  end
-
   # add then remove 2 attachments to an issue
   def test_issue_attachments
     log_user('jsmith', 'jsmith')

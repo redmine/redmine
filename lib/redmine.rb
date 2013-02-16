@@ -115,7 +115,7 @@ Redmine::AccessControl.map do |map|
     map.permission :manage_subtasks, {}
     map.permission :set_issues_private, {}
     map.permission :set_own_issues_private, {}, :require => :loggedin
-    map.permission :add_issue_notes, {:issues => [:edit, :update], :journals => [:new], :attachments => :upload}
+    map.permission :add_issue_notes, {:issues => [:edit, :update, :update_form], :journals => [:new], :attachments => :upload}
     map.permission :edit_issue_notes, {:journals => :edit}, :require => :loggedin
     map.permission :edit_own_issue_notes, {:journals => :edit}, :require => :loggedin
     map.permission :view_private_notes, {}, :read => true, :require => :member

@@ -116,7 +116,7 @@ RedmineApp::Application.routes.draw do
       end
     end
     # issue form update
-    match 'issues/new', :controller => 'issues', :action => 'new', :via => [:put, :post], :as => 'issue_form'
+    match 'issues/update_form', :controller => 'issues', :action => 'update_form', :via => [:put, :post], :as => 'issue_form'
 
     resources :files, :only => [:index, :new, :create]
 

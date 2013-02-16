@@ -1671,9 +1671,9 @@ class IssuesControllerTest < ActionController::TestCase
     assert_error_tag :content => /No tracker/
   end
 
-  def test_update_new_form
+  def test_update_form_for_new_issue
     @request.session[:user_id] = 2
-    xhr :post, :new, :project_id => 1,
+    xhr :post, :update_form, :project_id => 1,
                      :issue => {:tracker_id => 2,
                                 :subject => 'This is the test_new issue',
                                 :description => 'This is the description',
@@ -1690,14 +1690,14 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 'This is the test_new issue', issue.subject
   end
 
-  def test_update_new_form_should_propose_transitions_based_on_initial_status
+  def test_update_form_for_new_issue_should_propose_transitions_based_on_initial_status
     @request.session[:user_id] = 2
     WorkflowTransition.delete_all
     WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 2)
     WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 5)
     WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 5, :new_status_id => 4)
 
-    xhr :post, :new, :project_id => 1,
+    xhr :post, :update_form, :project_id => 1,
                      :issue => {:tracker_id => 1,
                                 :status_id => 5,
                                 :subject => 'This is an issue'}
@@ -2626,9 +2626,9 @@ class IssuesControllerTest < ActionController::TestCase
     end
   end
 
-  def test_update_edit_form
+  def test_update_form_for_existing_issue
     @request.session[:user_id] = 2
-    xhr :put, :new, :project_id => 1,
+    xhr :put, :update_form, :project_id => 1,
                              :id => 1,
                              :issue => {:tracker_id => 2,
                                         :subject => 'This is the test_new issue',
@@ -2647,9 +2647,9 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 'This is the test_new issue', issue.subject
   end
 
-  def test_update_edit_form_should_keep_issue_author
+  def test_update_form_for_existing_issue_should_keep_issue_author
     @request.session[:user_id] = 3
-    xhr :put, :new, :project_id => 1, :id => 1, :issue => {:subject => 'Changed'}
+    xhr :put, :update_form, :project_id => 1, :id => 1, :issue => {:subject => 'Changed'}
     assert_response :success
     assert_equal 'text/javascript', response.content_type
 
@@ -2659,14 +2659,14 @@ class IssuesControllerTest < ActionController::TestCase
     assert_not_equal User.current, issue.author
   end
 
-  def test_update_edit_form_should_propose_transitions_based_on_initial_status
+  def test_update_form_for_existing_issue_should_propose_transitions_based_on_initial_status
     @request.session[:user_id] = 2
     WorkflowTransition.delete_all
     WorkflowTransition.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 2, :new_status_id => 1)
     WorkflowTransition.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 2, :new_status_id => 5)
     WorkflowTransition.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 5, :new_status_id => 4)
 
-    xhr :put, :new, :project_id => 1,
+    xhr :put, :update_form, :project_id => 1,
                     :id => 2,
                     :issue => {:tracker_id => 2,
                                :status_id => 5,
@@ -2676,9 +2676,9 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal [1,2,5], assigns(:allowed_statuses).map(&:id).sort
   end
 
-  def test_update_edit_form_with_project_change
+  def test_update_form_for_existing_issue_with_project_change
     @request.session[:user_id] = 2
-    xhr :put, :new, :project_id => 1,
+    xhr :put, :update_form, :project_id => 1,
                              :id => 1,
                              :issue => {:project_id => 2,
                                         :tracker_id => 2,

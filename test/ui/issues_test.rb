@@ -56,6 +56,35 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
     assert_equal 'Value for field 2', issue.custom_field_value(CustomField.find_by_name('Searchable field'))
   end
 
+  def test_create_issue_with_form_update
+    field = IssueCustomField.create!(
+      :field_format => 'string',
+      :name => 'Form update CF',
+      :is_for_all => true,
+      :trackers => Tracker.find_all_by_name('Feature request')
+    )
+
+    Role.non_member.add_permission! :add_issues
+    Role.non_member.remove_permission! :edit_issues, :add_issue_notes
+
+    log_user('someone', 'foo')
+    visit '/projects/ecookbook/issues/new'
+    assert page.has_no_content?('Form update CF')
+
+    fill_in 'Subject', :with => 'new test issue'
+    # the custom field should show up when changing tracker
+    select 'Feature request', :from => 'Tracker'
+    assert page.has_content?('Form update CF')
+
+    fill_in 'Form update', :with => 'CF value'
+    assert_difference 'Issue.count' do
+      find('input[name=commit]').click
+    end
+
+    issue = Issue.order('id desc').first
+    assert_equal 'CF value', issue.custom_field_value(field)
+  end
+
   def test_create_issue_with_watchers
     User.generate!(:firstname => 'Some', :lastname => 'Watcher')
 
@@ -96,6 +125,35 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
 
     issue = Issue.order('id desc').first
     assert_equal 'new issue description', issue.description
+  end
+
+  def test_update_issue_with_form_update
+    field = IssueCustomField.create!(
+      :field_format => 'string',
+      :name => 'Form update CF',
+      :is_for_all => true,
+      :trackers => Tracker.find_all_by_name('Feature request')
+    )
+
+    Role.non_member.add_permission! :edit_issues
+    Role.non_member.remove_permission! :add_issues, :add_issue_notes
+
+    log_user('someone', 'foo')
+    visit '/issues/1'
+    assert page.has_no_content?('Form update CF')
+
+    page.first(:link, 'Update').click
+    # the custom field should show up when changing tracker
+    select 'Feature request', :from => 'Tracker'
+    assert page.has_content?('Form update CF')
+
+    fill_in 'Form update', :with => 'CF value'
+    assert_no_difference 'Issue.count' do
+      page.first(:button, 'Submit').click
+    end
+
+    issue = Issue.find(1)
+    assert_equal 'CF value', issue.custom_field_value(field)
   end
 
   def test_watch_issue_via_context_menu
