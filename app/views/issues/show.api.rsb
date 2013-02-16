@@ -22,6 +22,7 @@ api.issue do
 
   api.created_on @issue.created_on
   api.updated_on @issue.updated_on
+  api.closed_on @issue.closed_on
 
   render_api_issue_children(@issue, api) if include_in_api_response?('children')
 
