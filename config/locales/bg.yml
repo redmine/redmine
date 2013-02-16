@@ -230,6 +230,7 @@ bg:
   field_author: Автор
   field_created_on: От дата
   field_updated_on: Обновена
+  field_closed_on: Затворена
   field_field_format: Тип
   field_is_for_all: За всички проекти
   field_possible_values: Възможни стойности
@@ -246,7 +247,7 @@ bg:
   field_is_closed: Затворена задача
   field_is_default: Състояние по подразбиране
   field_tracker: Тракер
-  field_subject: Относно
+  field_subject: Заглавие
   field_due_date: Крайна дата
   field_assigned_to: Възложена на
   field_priority: Приоритет
@@ -1081,4 +1082,3 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  field_closed_on: Closed
