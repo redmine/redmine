@@ -57,11 +57,17 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
   end
 
   def test_create_issue_with_form_update
-    field = IssueCustomField.create!(
+    field1 = IssueCustomField.create!(
       :field_format => 'string',
-      :name => 'Form update CF',
+      :name => 'Field1',
       :is_for_all => true,
-      :trackers => Tracker.find_all_by_name('Feature request')
+      :trackers => Tracker.find_all_by_id([1, 2])
+    )
+    field2 = IssueCustomField.create!(
+      :field_format => 'string',
+      :name => 'Field2',
+      :is_for_all => true,
+      :trackers => Tracker.find_all_by_id(2)
     )
 
     Role.non_member.add_permission! :add_issues
@@ -69,20 +75,30 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
 
     log_user('someone', 'foo')
     visit '/projects/ecookbook/issues/new'
-    assert page.has_no_content?('Form update CF')
+    assert page.has_no_content?(field2.name)
+    assert page.has_content?(field1.name)
 
-    fill_in 'Subject', :with => 'new test issue'
-    # the custom field should show up when changing tracker
+    fill_in 'Subject', :with => 'New test issue'
+    fill_in 'Description', :with => 'New test issue description'
+    fill_in field1.name, :with => 'CF1 value'
+    select 'Low', :from => 'Priority'
+
+    # field2 should show up when changing tracker
     select 'Feature request', :from => 'Tracker'
-    assert page.has_content?('Form update CF')
+    assert page.has_content?(field2.name)
+    assert page.has_content?(field1.name)
 
-    fill_in 'Form update', :with => 'CF value'
+    fill_in field2.name, :with => 'CF2 value'
     assert_difference 'Issue.count' do
-      find('input[name=commit]').click
+      page.first(:button, 'Create').click
     end
 
     issue = Issue.order('id desc').first
-    assert_equal 'CF value', issue.custom_field_value(field)
+    assert_equal 'New test issue', issue.subject
+    assert_equal 'New test issue description', issue.description
+    assert_equal 'Low', issue.priority.name
+    assert_equal 'CF1 value', issue.custom_field_value(field1)
+    assert_equal 'CF2 value', issue.custom_field_value(field2)
   end
 
   def test_create_issue_with_watchers
