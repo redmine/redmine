@@ -229,6 +229,7 @@ en:
   field_author: Author
   field_created_on: Created
   field_updated_on: Updated
+  field_closed_on: Closed
   field_field_format: Format
   field_is_for_all: For all projects
   field_possible_values: Possible values

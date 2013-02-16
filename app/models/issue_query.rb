@@ -36,6 +36,7 @@ class IssueQuery < Query
     QueryColumn.new(:estimated_hours, :sortable => "#{Issue.table_name}.estimated_hours"),
     QueryColumn.new(:done_ratio, :sortable => "#{Issue.table_name}.done_ratio", :groupable => true),
     QueryColumn.new(:created_on, :sortable => "#{Issue.table_name}.created_on", :default_order => 'desc'),
+    QueryColumn.new(:closed_on, :sortable => "#{Issue.table_name}.closed_on", :default_order => 'desc'),
     QueryColumn.new(:relations, :caption => :label_related_issues),
     QueryColumn.new(:description, :inline => false)
   ]
@@ -145,6 +146,7 @@ class IssueQuery < Query
     add_available_filter "subject", :type => :text
     add_available_filter "created_on", :type => :date_past
     add_available_filter "updated_on", :type => :date_past
+    add_available_filter "closed_on", :type => :date_past
     add_available_filter "start_date", :type => :date
     add_available_filter "due_date", :type => :date
     add_available_filter "estimated_hours", :type => :float

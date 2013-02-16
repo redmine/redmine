@@ -238,6 +238,7 @@ fr:
   field_author: Auteur
   field_created_on: "Créé "
   field_updated_on: "Mis-à-jour "
+  field_closed_on: Fermé
   field_field_format: Format
   field_is_for_all: Pour tous les projets
   field_possible_values: Valeurs possibles
