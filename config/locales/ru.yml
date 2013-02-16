@@ -1110,11 +1110,10 @@ ru:
   error_attachment_too_big: Этот файл нельзя загрузить из-за превышения максимального размера файла (%{max_size})
   notice_failed_to_save_time_entries: "Невозможно сохранить %{count} затраченное время для %{total} выбранных: %{ids}."
   label_x_issues:
-    zero:  0 Задач
-    one:   1 Задача
-    few:   "%{count} Задач"
-    many:  "%{count} Задач"
-    other: "%{count} Задач"
+    one:   "%{count} задача"
+    few:   "%{count} задачи"
+    many:  "%{count} задач"
+    other: "%{count} Задачи"
   label_repository_new: Новое хранилище
   field_repository_is_default: Хранилище по умолчанию
   label_copy_attachments: Копировать вложения
