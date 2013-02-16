@@ -1917,4 +1917,58 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal 3, issue.reload.attachments.count
     assert_equal %w(upload foo bar), issue.attachments.map(&:filename)
   end
+
+  def test_closed_on_should_be_nil_when_creating_an_open_issue
+    issue = Issue.generate!(:status_id => 1).reload
+    assert !issue.closed?
+    assert_nil issue.closed_on
+  end
+
+  def test_closed_on_should_be_set_when_creating_a_closed_issue
+    issue = Issue.generate!(:status_id => 5).reload
+    assert issue.closed?
+    assert_not_nil issue.closed_on
+    assert_equal issue.updated_on, issue.closed_on
+    assert_equal issue.created_on, issue.closed_on
+  end
+
+  def test_closed_on_should_be_nil_when_updating_an_open_issue
+    issue = Issue.find(1)
+    issue.subject = 'Not closed yet'
+    issue.save!
+    issue.reload
+    assert_nil issue.closed_on
+  end
+
+  def test_closed_on_should_be_set_when_closing_an_open_issue
+    issue = Issue.find(1)
+    issue.subject = 'Now closed'
+    issue.status_id = 5
+    issue.save!
+    issue.reload
+    assert_not_nil issue.closed_on
+    assert_equal issue.updated_on, issue.closed_on
+  end
+
+  def test_closed_on_should_not_be_updated_when_updating_a_closed_issue
+    issue = Issue.open(false).first
+    was_closed_on = issue.closed_on
+    assert_not_nil was_closed_on
+    issue.subject = 'Updating a closed issue'
+    issue.save!
+    issue.reload
+    assert_equal was_closed_on, issue.closed_on
+  end
+
+  def test_closed_on_should_be_preserved_when_reopening_a_closed_issue
+    issue = Issue.open(false).first
+    was_closed_on = issue.closed_on
+    assert_not_nil was_closed_on
+    issue.subject = 'Reopening a closed issue'
+    issue.status_id = 1
+    issue.save!
+    issue.reload
+    assert !issue.closed?
+    assert_equal was_closed_on, issue.closed_on
+  end
 end

@@ -91,7 +91,7 @@ class Issue < ActiveRecord::Base
   }
 
   before_create :default_assign
-  before_save :close_duplicates, :update_done_ratio_from_issue_status, :force_updated_on_change
+  before_save :close_duplicates, :update_done_ratio_from_issue_status, :force_updated_on_change, :update_closed_on
   after_save {|issue| issue.send :after_project_change if !issue.id_changed? && issue.project_id_changed?} 
   after_save :reschedule_following_issues, :update_nested_set_attributes, :update_parent_attributes, :create_journal
   # Should be after_create but would be called before previous after_save callbacks
@@ -1307,10 +1307,23 @@ class Issue < ActiveRecord::Base
     end
   end
 
-  # Make sure updated_on is updated when adding a note
+  # Make sure updated_on is updated when adding a note and set updated_on now
+  # so we can set closed_on with the same value on closing
   def force_updated_on_change
-    if @current_journal
+    if @current_journal || changed?
       self.updated_on = current_time_from_proper_timezone
+      if new_record?
+        self.created_on = updated_on
+      end
+    end
+  end
+
+  # Callback for setting closed_on when the issue is closed.
+  # The closed_on attribute stores the time of the last closing
+  # and is preserved when the issue is reopened.
+  def update_closed_on
+    if closing? || (new_record? && closed?)
+      self.closed_on = updated_on
     end
   end
 
@@ -1320,7 +1333,7 @@ class Issue < ActiveRecord::Base
     if @current_journal
       # attributes changes
       if @attributes_before_change
-        (Issue.column_names - %w(id root_id lft rgt lock_version created_on updated_on)).each {|c|
+        (Issue.column_names - %w(id root_id lft rgt lock_version created_on updated_on closed_on)).each {|c|
           before = @attributes_before_change[c]
           after = send(c)
           next if before == after || (before.blank? && after.blank?)
