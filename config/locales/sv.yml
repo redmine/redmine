@@ -1122,3 +1122,4 @@ sv:
   text_repository_identifier_info: 'Endast gemener (a-z), siffror, streck och understreck är tillåtna.<br />När identifieraren sparats kan den inte ändras.'
   setting_jsonp_enabled: Enable JSONP support
   field_inherit_members: Inherit members
+  field_closed_on: Closed

@@ -1181,3 +1181,4 @@ az:
   setting_non_working_week_days: Non-working days
   label_any_issues_not_in_project: any issues not in project
   label_cross_project_tree: With project tree
+  field_closed_on: Closed

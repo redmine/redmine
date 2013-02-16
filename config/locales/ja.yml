@@ -1113,3 +1113,4 @@ ja:
   permission_delete_documents: 文書の削除
   setting_jsonp_enabled: JSONPを有効にする
   field_inherit_members: Inherit members
+  field_closed_on: Closed

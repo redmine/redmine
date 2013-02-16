@@ -1120,3 +1120,4 @@ es:
   label_gantt_progress_line: Línea de progreso
   setting_jsonp_enabled: Enable JSONP support
   field_inherit_members: Inherit members
+  field_closed_on: Closed
