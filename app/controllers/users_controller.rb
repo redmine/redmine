@@ -55,7 +55,7 @@ class UsersController < ApplicationController
         render :layout => !request.xhr?
       }
       format.api
-    end	
+    end
   end
 
   def show
