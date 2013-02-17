@@ -146,8 +146,8 @@ class Project < ActiveRecord::Base
   # returns latest created projects
   # non public projects will be returned only if user is a member of those
   def self.latest(user=nil, count=5)
-    visible(user).limit(count).order("created_on DESC").all	
-  end	
+    visible(user).limit(count).order("created_on DESC").all
+  end
 
   # Returns true if the project is visible to +user+ or to the current user.
   def visible?(user=User.current)
