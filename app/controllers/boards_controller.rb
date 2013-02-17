@@ -46,7 +46,7 @@ class BoardsController < ApplicationController
         @topics =  @board.topics.
           reorder("#{Message.table_name}.sticky DESC").
           includes(:last_reply).
-          limit(@topic_pages.items_per_page).
+          limit(@topic_pages.per_page).
           offset(@topic_pages.offset).
           order(sort_clause).
           preload(:author, {:last_reply => :author}).

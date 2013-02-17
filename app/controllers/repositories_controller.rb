@@ -142,7 +142,7 @@ class RepositoriesController < ApplicationController
                                      per_page_option,
                                      params['page']
     @changesets = @repository.changesets.
-      limit(@changeset_pages.items_per_page).
+      limit(@changeset_pages.per_page).
       offset(@changeset_pages.offset).
       includes(:user, :repository, :parents).
       all

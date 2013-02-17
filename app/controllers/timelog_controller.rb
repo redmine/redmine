@@ -55,7 +55,7 @@ class TimelogController < ApplicationController
         @entries = scope.all(
           :include => [:project, :activity, :user, {:issue => :tracker}],
           :order => sort_clause,
-          :limit  =>  @entry_pages.items_per_page,
+          :limit  =>  @entry_pages.per_page,
           :offset =>  @entry_pages.offset
         )
         @total_hours = scope.sum(:hours).to_f

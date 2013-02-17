@@ -217,7 +217,7 @@ class WikiController < ApplicationController
     @versions = @page.content.versions.
       select("id, author_id, comments, updated_on, version").
       reorder('version DESC').
-      limit(@version_pages.items_per_page + 1).
+      limit(@version_pages.per_page + 1).
       offset(@version_pages.offset).
       all
 
