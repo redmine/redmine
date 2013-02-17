@@ -195,7 +195,7 @@ module ApplicationHelper
 
   def format_version_name(version)
     if version.project == @project
-    	h(version)
+      h(version)
     else
       h("#{version.project} - #{version}")
     end
