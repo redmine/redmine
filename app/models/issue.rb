@@ -155,6 +155,13 @@ class Issue < ActiveRecord::Base
     end
   end
 
+  def create_or_update
+    super
+  ensure
+    @status_was = nil
+  end
+  private :create_or_update
+
   # AR#Persistence#destroy would raise and RecordNotFound exception
   # if the issue was already deleted or updated (non matching lock_version).
   # This is a problem when bulk deleting issues or deleting a project
@@ -637,6 +644,14 @@ class Issue < ActiveRecord::Base
     scope
   end
 
+  # Returns the initial status of the issue
+  # Returns nil for a new issue
+  def status_was
+    if status_id_was && status_id_was.to_i > 0
+      @status_was ||= IssueStatus.find_by_id(status_id_was)
+    end
+  end
+
   # Return true if the issue is closed, otherwise false
   def closed?
     self.status.is_closed?
@@ -657,9 +672,7 @@ class Issue < ActiveRecord::Base
   # Return true if the issue is being closed
   def closing?
     if !new_record? && status_id_changed?
-      status_was = IssueStatus.find_by_id(status_id_was)
-      status_new = IssueStatus.find_by_id(status_id)
-      if status_was && status_new && !status_was.is_closed? && status_new.is_closed?
+      if status_was && status && !status_was.is_closed? && status.is_closed?
         return true
       end
     end

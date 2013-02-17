@@ -1971,4 +1971,23 @@ class IssueTest < ActiveSupport::TestCase
     assert !issue.closed?
     assert_equal was_closed_on, issue.closed_on
   end
+
+  def test_status_was_should_return_nil_for_new_issue
+    issue = Issue.new
+    assert_nil issue.status_was
+  end
+
+  def test_status_was_should_return_status_before_change
+    issue = Issue.find(1)
+    issue.status = IssueStatus.find(2)
+    assert_equal IssueStatus.find(1), issue.status_was
+  end
+
+  def test_status_was_should_be_reset_on_save
+    issue = Issue.find(1)
+    issue.status = IssueStatus.find(2)
+    assert_equal IssueStatus.find(1), issue.status_was
+    assert issue.save!
+    assert_equal IssueStatus.find(2), issue.status_was
+  end
 end
