@@ -57,7 +57,7 @@ class Principal < ActiveRecord::Base
       where("1=0")
     else
       ids = projects.map(&:id)
-      active.where("#{Principal.table_name}.id IN (SELECT DISTINCT user_id FROM #{Member.table_name} WHERE project_id IN (?))", ids)
+      active.uniq.joins(:members).where("#{Member.table_name}.project_id IN (?)", ids)
     end
   }
   # Principals that are not members of projects
