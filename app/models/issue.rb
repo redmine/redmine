@@ -1022,8 +1022,8 @@ class Issue < ActiveRecord::Base
     end
   end
 
-	# Returns true if issue's project is a valid
-	# parent issue project
+  # Returns true if issue's project is a valid
+  # parent issue project
   def valid_parent_project?(issue=parent)
     return true if issue.nil? || issue.project_id == project_id
 
