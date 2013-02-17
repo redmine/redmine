@@ -68,7 +68,7 @@ class IssueStatusesController < ApplicationController
   rescue
     flash[:error] = l(:error_unable_delete_issue_status)
     redirect_to issue_statuses_path
-  end  	
+  end
 
   def update_issue_done_ratio
     if request.post? && IssueStatus.update_issue_done_ratios
