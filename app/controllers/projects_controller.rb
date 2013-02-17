@@ -136,7 +136,7 @@ class ProjectsController < ApplicationController
     # source_project not found
     render_404
   end
-	
+
   # Show @project
   def show
     # try to redirect to the requested menu item
