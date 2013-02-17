@@ -35,6 +35,19 @@ class IssueTest < ActiveSupport::TestCase
     User.current = nil
   end
 
+  def test_initialize
+    issue = Issue.new
+
+    assert_nil issue.project_id
+    assert_nil issue.tracker_id
+    assert_nil issue.author_id
+    assert_nil issue.assigned_to_id
+    assert_nil issue.category_id
+
+    assert_equal IssueStatus.default, issue.status
+    assert_equal IssuePriority.default, issue.priority
+  end
+
   def test_create
     issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 3,
                       :status_id => 1, :priority => IssuePriority.all.first,
