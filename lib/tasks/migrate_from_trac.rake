@@ -16,7 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require 'active_record'
-require 'iconv'
+require 'iconv' if RUBY_VERSION < '1.9'
 require 'pp'
 
 namespace :redmine do
@@ -603,10 +603,7 @@ namespace :redmine do
       end
 
       def self.encoding(charset)
-        @ic = Iconv.new('UTF-8', charset)
-      rescue Iconv::InvalidEncoding
-        puts "Invalid encoding!"
-        return false
+        @charset = charset
       end
 
       def self.set_trac_directory(path)
@@ -713,11 +710,13 @@ namespace :redmine do
         end
       end
 
-    private
       def self.encode(text)
-        @ic.iconv text
-      rescue
-        text
+        if RUBY_VERSION < '1.9'
+          @ic ||= Iconv.new('UTF-8', @charset)
+          @ic.iconv text
+        else
+          text.to_s.force_encoding(@charset).encode('UTF-8')
+        end
       end
     end
 
