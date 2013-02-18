@@ -1,6 +1,6 @@
 api.user do
   api.id         @user.id
-  api.login      @user.login if User.current.admin?
+  api.login      @user.login if User.current.admin? || (User.current == @user)
   api.firstname  @user.firstname
   api.lastname   @user.lastname
   api.mail       @user.mail if User.current.admin? || !@user.pref.hide_mail

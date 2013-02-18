@@ -96,6 +96,18 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
     end
   end
 
+  test "GET /users/:id should not return login for other user" do
+    get '/users/3.xml', {}, credentials('jsmith')
+    assert_response :success
+    assert_no_tag 'user', :child => {:tag => 'login'}
+  end
+
+  test "GET /users/:id should return login for current user" do
+    get '/users/2.xml', {}, credentials('jsmith')
+    assert_response :success
+    assert_tag 'user', :child => {:tag => 'login', :content => 'jsmith'}
+  end
+
   context "POST /users" do
     context "with valid parameters" do
       setup do
