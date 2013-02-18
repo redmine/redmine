@@ -286,6 +286,7 @@ de:
   field_board_parent: Übergeordnetes Forum
   field_category: Kategorie
   field_column_names: Spalten
+  field_closed_on: Geschlossen am
   field_comments: Kommentar
   field_comments_sorting: Kommentare anzeigen
   field_commit_logs_encoding: Kodierung der Commit-Log-Meldungen
@@ -1096,4 +1097,3 @@ de:
   version_status_open: offen
 
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
-  field_closed_on: Closed
