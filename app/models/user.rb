@@ -92,7 +92,7 @@ class User < Principal
   validates_presence_of :login, :firstname, :lastname, :mail, :if => Proc.new { |user| !user.is_a?(AnonymousUser) }
   validates_uniqueness_of :login, :if => Proc.new { |user| user.login_changed? && user.login.present? }, :case_sensitive => false
   validates_uniqueness_of :mail, :if => Proc.new { |user| user.mail_changed? && user.mail.present? }, :case_sensitive => false
-  # Login must contain lettres, numbers, underscores only
+  # Login must contain letters, numbers, underscores only
   validates_format_of :login, :with => /\A[a-z0-9_\-@\.]*\z/i
   validates_length_of :login, :maximum => LOGIN_LENGTH_LIMIT
   validates_length_of :firstname, :lastname, :maximum => 30
@@ -145,7 +145,7 @@ class User < Principal
       begin
         write_attribute(:identity_url, OpenIdAuthentication.normalize_identifier(url))
       rescue OpenIdAuthentication::InvalidOpenId
-        # Invlaid url, don't save
+        # Invalid url, don't save
       end
     end
     self.read_attribute(:identity_url)
