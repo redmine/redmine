@@ -935,7 +935,7 @@ pt:
   setting_commit_logtime_activity_id: Actividade para tempo registado
   text_time_logged_by_changeset: Aplicado no conjunto de alterações %{value}.
   setting_commit_logtime_enabled: Activar registo de tempo
-  notice_gantt_chart_truncated: O gráfico foi truncado porque excede o número máximo de itens visível (%{máx.})
+  notice_gantt_chart_truncated: O gráfico foi truncado porque excede o número máximo de itens visíveis (%{max.})
   setting_gantt_items_limit: Número máximo de itens exibidos no gráfico Gantt
   field_warn_on_leaving_unsaved: Avisar-me quando deixar uma página com texto por salvar
   text_warn_on_leaving_unsaved: A página actual contém texto por salvar que será perdido caso saia desta página.
@@ -1008,7 +1008,7 @@ pt:
   error_attachment_too_big: Este ficheiro não pode ser carregado pois excede o tamanho máximo permitido por ficheiro (%{max_size})
   notice_failed_to_save_time_entries: "Falha ao guardar %{count} registo(s) de tempo dos %{total} seleccionados: %{ids}."
   label_x_issues:
-    zero:  0 tarefa
+    zero:  0 tarefas
     one:   1 tarefa
     other: "%{count} tarefas"
   label_repository_new: Novo repositório
