@@ -1,3 +1,27 @@
+<%= javascript_tag do %>
+jQuery(function() {
+	jQuery("#actionsmenu").append("<li><a href='issues/new'>New Issue</a></li>");
+});
+<% end %>
+
+<div class="row">
+	<div class="btn-toolbar pull-right">
+	    <% other_formats_links do |f| %>
+
+		  <div class="btn-group">
+			  <a class="btn dropdown-toggle icon-share" data-toggle="dropdown" href="#"> Export <span class="caret"></span></a>
+	          <ul class="dropdown-menu">
+	            <li><%= f.link_to 'CSV', :url => params, :onclick => "showModal('csv-export-options', '330px'); return false;", :caption=>"CSV" %></li>
+	            <li><%= f.link_to 'PDF', :url => params, :caption=>"PDF" %></li>
+	          </ul>
+          </div>
+          <div class="btn-group">
+		  	<%= f.link_to 'Atom', {:url => params.merge(:from => nil, :key => User.current.rss_key),:class=>"btn icon-rss btn-rss", :caption=>" News feed"}%>
+		  </div>	
+		<% end %>
+	</div>
+</div>
+    
 <div class="contextual">
 <% if !@query.new_record? && @query.editable_by?(User.current) %>
   <%= link_to l(:button_edit), edit_query_path(@query), :class => 'icon icon-edit' %>
@@ -5,21 +29,18 @@
 <% end %>
 </div>
 
-<h2><%= @query.new_record? ? l(:label_issue_plural) : h(@query.name) %></h2>
 <% html_title(@query.new_record? ? l(:label_issue_plural) : @query.name) %>
 
 <%= form_tag({ :controller => 'issues', :action => 'index', :project_id => @project },
-            :method => :get, :id => 'query_form') do %>
+            :method => :get, :id => 'query_form', :class=>"") do %>
     <%= hidden_field_tag 'set_filter', '1' %>
     <div id="query_form_content" class="hide-when-print">
-    <fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
-      <legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
+    <fieldset id="filters">
       <div style="<%= @query.new_record? ? "" : "display: none;" %>">
         <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
       </div>
     </fieldset>
-    <fieldset class="collapsible collapsed">
-      <legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
+    <fieldset>
       <div style="display: none;">
         <table>
           <tr>
@@ -42,17 +63,21 @@
       </div>
     </fieldset>
     </div>
-    <p class="buttons hide-when-print">
 
-    <%= link_to_function l(:button_apply), 'submit_query_form("query_form")', :class => 'icon icon-checked' %>
-    <%= link_to l(:button_clear), { :set_filter => 1, :project_id => @project }, :class => 'icon icon-reload'  %>
-    <% if @query.new_record? && User.current.allowed_to?(:save_queries, @project, :global => true) %>
-        <%= link_to_function l(:button_save),
-                             "$('#query_form').attr('action', '#{ @project ? new_project_query_path(@project) : new_query_path }'); submit_query_form('query_form')",
-                             :class => 'icon icon-save' %>
-    <% end %>
-    </p>
+    <br/>
 <% end %>
+
+    <div class="row-fluid">
+	    <div class="btn-group hide-when-print pull-left">
+		    <%= link_to_function l(:button_apply), 'submit_query_form("query_form")', :class => 'btn icon icon-checked' %>
+		    <%= link_to l(:button_clear), { :set_filter => 1, :project_id => @project }, :class => 'btn icon icon-reload'  %>
+		    <% if @query.new_record? && User.current.allowed_to?(:save_queries, @project, :global => true) %>
+		        <%= link_to_function l(:button_save),
+		                             "$('#query_form').attr('action', '#{ @project ? new_project_query_path(@project) : new_query_path }'); submit_query_form('query_form')",
+		                             :class => 'btn icon icon-save' %>
+		    <% end %>
+	    </div>
+	</div>
 
 <%= error_messages_for 'query' %>
 <% if @query.valid? %>
@@ -63,11 +88,7 @@
 <p class="pagination"><%= pagination_links_full @issue_pages, @issue_count %></p>
 <% end %>
 
-<% other_formats_links do |f| %>
-  <%= f.link_to 'Atom', :url => params.merge(:key => User.current.rss_key) %>
-  <%= f.link_to 'CSV', :url => params, :onclick => "showModal('csv-export-options', '330px'); return false;" %>
-  <%= f.link_to 'PDF', :url => params %>
-<% end %>
+
 
 <div id="csv-export-options" style="display:none;">
   <h3 class="title"><%= l(:label_export_options, :export_format => 'CSV') %></h3>

@@ -1,3 +1,22 @@
+<% unless @pages.empty? %>
+<div class="row">
+	<div class="btn-toolbar pull-right">
+	    <% other_formats_links do |f| %>
+
+		  <div class="btn-group">
+			  <a class="btn dropdown-toggle icon-share" data-toggle="dropdown" href="#"> Export <span class="caret"></span></a>
+	          <ul class="dropdown-menu">
+	            <li><%= f.link_to 'CSV', :url => params, :onclick => "showModal('csv-export-options', '330px'); return false;", :caption=>"CSV" %></li>
+	            <li><%= f.link_to 'PDF', :url => params, :caption=>"PDF" %></li>
+	          </ul>
+          </div>
+          <div class="btn-group">
+		  	<%= f.link_to 'Atom', {:url => params.merge(:from => nil, :key => User.current.rss_key),:class=>"btn icon-rss btn-rss", :caption=>" News feed"}%>
+		  </div>	
+		<% end %>
+	</div>
+</div>
+<% end %>
 <div class="contextual">
 <%= watcher_tag(@wiki, User.current) %>
 </div>
@@ -14,18 +33,7 @@
   <%= render :partial => 'sidebar' %>
 <% end %>
 
-<% unless @pages.empty? %>
-<% other_formats_links do |f| %>
-  <%= f.link_to 'Atom',
-                :url => {:controller => 'activities', :action => 'index',
-                         :id => @project, :show_wiki_edits => 1,
-                         :key => User.current.rss_key} %>
-  <% if User.current.allowed_to?(:export_wiki_pages, @project) %>
-  <%= f.link_to('PDF', :url => {:action => 'export', :format => 'pdf'}) %>
-  <%= f.link_to('HTML', :url => {:action => 'export'}) %>
-  <% end %>
-<% end %>
-<% end %>
+
 
 <% content_for :header_tags do %>
 <%= auto_discovery_link_tag(

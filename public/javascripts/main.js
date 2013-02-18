@@ -97,8 +97,7 @@ jQuery(function()
 		
 	});
 	
-	//draws the revision graph handler. this moved from _revision_graph since it needs to happen after the tabeles have been bootstraped
-	revisionGraphHandler();
+
 
 });
 

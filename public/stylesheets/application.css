@@ -270,6 +270,33 @@ section > ul li {
 
 /***********Additions************/
 
+#query_form
+{
+	width:100%;
+	margin-bottom:20px;
+}
+
+#issues_list input[type="checkbox"]{
+	margin-left:0;
+}
+#query_form_content{
+	margin-bottom:10px;
+}
+#query_form_content table{
+	margin:0;
+	padding:0;
+	border:0;
+}
+#query_form_content td{
+	margin:0;
+	padding:0;
+	border:0;
+}
+#query_form_content tr{
+	margin:0;
+	padding:0;
+	border:0;
+}
 .btn-rss{
 	margin-left:-30px;
 	color: #37ABC8;

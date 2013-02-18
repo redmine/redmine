@@ -6,23 +6,21 @@ var labelDayPlural = <%= raw_json l(:label_day_plural) %>;
 var allProjects = <%= raw query.all_projects_values.to_json %>;
 $(document).ready(function(){
   initFilters();
-  <% query.filters.each do |field, options| %>
-  addFilter("<%= field %>", <%= raw_json query.operator_for(field) %>, <%= raw_json query.values_for(field) %>);
-  <% end %>
+
 });
 <% end %>
 
 <table style="width:100%">
-<tr>
-<td>
-<table id="filters-table">
-</table>
-</td>
-<td class="add-filter">
-<%= label_tag('add_filter_select', l(:label_filter_add)) %>
-<%= select_tag 'add_filter_select', filters_options_for_select(query), :name => nil %>
-</td>
-</tr>
+	<tr>
+		<td>
+			<table id="filters-table">
+			</table>
+		</td>
+		<td class="add-filter pull-right">
+			<%= label_tag('add_filter_select', l(:label_filter_add)) %>
+			<%= select_tag 'add_filter_select', filters_options_for_select(query), :name => nil %>
+		</td>
+	</tr>
 </table>
 <%= hidden_field_tag 'f[]', '' %>
 <% include_calendar_headers_tags %>
