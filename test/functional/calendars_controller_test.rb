@@ -26,11 +26,18 @@ class CalendarsControllerTest < ActionController::TestCase
            :members,
            :enabled_modules
 
-  def test_calendar
+  def test_show
     get :show, :project_id => 1
     assert_response :success
     assert_template 'calendar'
     assert_not_nil assigns(:calendar)
+  end
+
+  def test_show_should_run_custom_queries
+    @query = IssueQuery.create!(:name => 'Calendar', :is_public => true)
+
+    get :show, :query_id => @query.id
+    assert_response :success
   end
 
   def test_cross_project_calendar
@@ -38,16 +45,6 @@ class CalendarsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'calendar'
     assert_not_nil assigns(:calendar)
-  end
-
-  context "GET :show" do
-    should "run custom queries" do
-      @query = IssueQuery.create!(:name => 'Calendar', :is_public => true)
-
-      get :show, :query_id => @query.id
-      assert_response :success
-    end
-
   end
 
   def test_week_number_calculation
