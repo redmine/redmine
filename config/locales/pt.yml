@@ -1,6 +1,7 @@
 # Portuguese localization for Ruby on Rails
 # by Ricardo Otero <oterosantos@gmail.com>
 # by Alberto Ferreira <toraxic@gmail.com>
+# by Rui Rebelo <rmrebelo@ua.pt>
 pt:
   support:
     array:
@@ -51,8 +52,8 @@ pt:
         one: "aproximadamente 1 hora"
         other: "aproximadamente %{count} horas"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 hora"
+        other: "%{count} horas"
       x_days:
         one: "1 dia"
         other: "%{count} dias"
@@ -69,8 +70,8 @@ pt:
         one: "mais de 1 ano"
         other: "mais de %{count} anos"
       almost_x_years:
-        one:   "almost 1 year"
-        other: "almost %{count} years"
+        one:   "quase 1 ano"
+        other: "quase %{count} anos"
 
   number:
     format:
@@ -436,17 +437,17 @@ pt:
   label_closed_issues: fechado
   label_closed_issues_plural: fechados
   label_x_open_issues_abbr_on_total:
-    zero:  0 open / %{total}
-    one:   1 open / %{total}
-    other: "%{count} open / %{total}"
+    zero:  0 abertas / %{total}
+    one:   1 aberta / %{total}
+    other: "%{count} abertas / %{total}"
   label_x_open_issues_abbr:
-    zero:  0 open
-    one:   1 open
-    other: "%{count} open"
+    zero:  0 abertas
+    one:   1 aberta
+    other: "%{count} abertas"
   label_x_closed_issues_abbr:
-    zero:  0 closed
-    one:   1 closed
-    other: "%{count} closed"
+    zero:  0 fechadas
+    one:   1 fechada
+    other: "%{count} fechadas"
   label_total: Total
   label_permissions: Permissões
   label_current_status: Estado actual
@@ -470,9 +471,9 @@ pt:
   label_comment: Comentário
   label_comment_plural: Comentários
   label_x_comments:
-    zero: no comments
-    one: 1 comment
-    other: "%{count} comments"
+    zero: sem comentários
+    one: 1 comentário
+    other: "%{count} comentários"
   label_comment_add: Adicionar comentário
   label_comment_added: Comentário adicionado
   label_comment_delete: Apagar comentários
@@ -936,149 +937,149 @@ pt:
   setting_commit_logtime_enabled: Activar registo de tempo
   notice_gantt_chart_truncated: O gráfico foi truncado porque excede o número máximo de itens visível (%{máx.})
   setting_gantt_items_limit: Número máximo de itens exibidos no gráfico Gantt
-  field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
-  text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
-  label_my_queries: My custom queries
-  text_journal_changed_no_detail: "%{label} updated"
-  label_news_comment_added: Comment added to a news
-  button_expand_all: Expand all
-  button_collapse_all: Collapse all
-  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
-  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
-  label_bulk_edit_selected_time_entries: Bulk edit selected time entries
-  text_time_entries_destroy_confirmation: Are you sure you want to delete the selected time entr(y/ies)?
-  label_role_anonymous: Anonymous
-  label_role_non_member: Non member
-  label_issue_note_added: Note added
-  label_issue_status_updated: Status updated
-  label_issue_priority_updated: Priority updated
-  label_issues_visibility_own: Issues created by or assigned to the user
-  field_issues_visibility: Issues visibility
-  label_issues_visibility_all: All issues
-  permission_set_own_issues_private: Set own issues public or private
-  field_is_private: Private
-  permission_set_issues_private: Set issues public or private
-  label_issues_visibility_public: All non private issues
-  text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
-  field_commit_logs_encoding: Encoding das mensagens de commit
-  field_scm_path_encoding: Path encoding
-  text_scm_path_encoding_note: "Default: UTF-8"
-  field_path_to_repository: Path to repository
-  field_root_directory: Root directory
-  field_cvs_module: Module
+  field_warn_on_leaving_unsaved: Avisar-me quando deixar uma página com texto por salvar
+  text_warn_on_leaving_unsaved: A página actual contém texto por salvar que será perdido caso saia desta página.
+  label_my_queries: As minhas consultas
+  text_journal_changed_no_detail: "%{label} actualizada"
+  label_news_comment_added: Comentário adicionado a uma notícia
+  button_expand_all: Expandir todos
+  button_collapse_all: Minimizar todos
+  label_additional_workflow_transitions_for_assignee: Transições adicionais permitidas quando a tarefa está atribuida ao utilizador
+  label_additional_workflow_transitions_for_author: Transições adicionais permitidas quando o utilizador é o autor da tarefa
+  label_bulk_edit_selected_time_entries: Edição em massa de registos de tempo
+  text_time_entries_destroy_confirmation: Têm a certeza que pretende apagar o(s) registo(s) de tempo selecionado(s)?
+  label_role_anonymous: Anónimo
+  label_role_non_member: Não membro
+  label_issue_note_added: Nota adicionada
+  label_issue_status_updated: Estado actualizado
+  label_issue_priority_updated: Prioridade adicionada
+  label_issues_visibility_own: Tarefas criadas ou atribuídas ao utilizador
+  field_issues_visibility: Visibilidade das tarefas
+  label_issues_visibility_all: Todas as tarefas
+  permission_set_own_issues_private: Configurar as suas tarefas como públicas ou privadas
+  field_is_private: Privado
+  permission_set_issues_private: Configurar tarefas como públicas ou privadas
+  label_issues_visibility_public: Todas as tarefas públicas
+  text_issues_destroy_descendants_confirmation: Irá apagar também %{count} subtarefa(s).
+  field_commit_logs_encoding: Codificação das mensagens de commit
+  field_scm_path_encoding: Codificação do caminho
+  text_scm_path_encoding_note: "Por omissão: UTF-8"
+  field_path_to_repository: Caminho para o repositório
+  field_root_directory: Raíz do directório
+  field_cvs_module: Módulo
   field_cvsroot: CVSROOT
-  text_mercurial_repository_note: Local repository (e.g. /hgrepo, c:\hgrepo)
-  text_scm_command: Command
-  text_scm_command_version: Version
-  label_git_report_last_commit: Report last commit for files and directories
-  text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.
-  text_scm_command_not_available: Scm command is not available. Please check settings on the administration panel.
-  notice_issue_successful_create: Issue %{id} created.
-  label_between: between
-  setting_issue_group_assignment: Allow issue assignment to groups
-  label_diff: diff
-  text_git_repository_note: Repository is bare and local (e.g. /gitrepo, c:\gitrepo)
-  description_query_sort_criteria_direction: Sort direction
-  description_project_scope: Search scope
-  description_filter: Filter
-  description_user_mail_notification: Mail notification settings
-  description_date_from: Enter start date
-  description_message_content: Message content
-  description_available_columns: Available Columns
-  description_date_range_interval: Choose range by selecting start and end date
-  description_issue_category_reassign: Choose issue category
-  description_search: Searchfield
-  description_notes: Notes
-  description_date_range_list: Choose range from list
-  description_choose_project: Projects
-  description_date_to: Enter end date
-  description_query_sort_criteria_attribute: Sort attribute
-  description_wiki_subpages_reassign: Choose new parent page
-  description_selected_columns: Selected Columns
-  label_parent_revision: Parent
-  label_child_revision: Child
-  error_scm_annotate_big_text_file: The entry cannot be annotated, as it exceeds the maximum text file size.
-  setting_default_issue_start_date_to_creation_date: Use current date as start date for new issues
-  button_edit_section: Edit this section
-  setting_repositories_encodings: Attachments and repositories encodings
-  description_all_columns: All Columns
-  button_export: Export
-  label_export_options: "%{export_format} export options"
-  error_attachment_too_big: This file cannot be uploaded because it exceeds the maximum allowed file size (%{max_size})
-  notice_failed_to_save_time_entries: "Failed to save %{count} time entrie(s) on %{total} selected: %{ids}."
+  text_mercurial_repository_note: "Repositório local (ex: /hgrepo, c:\\hgrepo)"
+  text_scm_command: Comando
+  text_scm_command_version: Versão
+  label_git_report_last_commit: Analisar último commit por ficheiros e pastas
+  text_scm_config: Pode configurar os comando SCM em config/configuration.yml. Por favor reinicie a aplicação depois de alterar o ficheiro.
+  text_scm_command_not_available: O comando SCM não está disponível. Por favor verifique as configurações no painel de administração.
+  notice_issue_successful_create: Tarefa %{id} criada.
+  label_between: entre
+  setting_issue_group_assignment: Permitir atribuir tarefas a grupos
+  label_diff: diferença
+  text_git_repository_note: O repositório é local (e.g. /gitrepo, c:\gitrepo)
+  description_query_sort_criteria_direction: Direcção da ordenação
+  description_project_scope: Âmbito da pesquisa
+  description_filter: Filtro
+  description_user_mail_notification: Configurações das notificações por email
+  description_date_from: Introduza data de início
+  description_message_content: Conteúdo da mensagem
+  description_available_columns: Colunas disponíveis
+  description_date_range_interval: Escolha o intervalo seleccionando a data de início e de fim
+  description_issue_category_reassign: Escolha a categoria da tarefa
+  description_search: Campo de pesquisa
+  description_notes: Notas
+  description_date_range_list: Escolha o intervalo da lista
+  description_choose_project: Projecto
+  description_date_to: Introduza data de fim
+  description_query_sort_criteria_attribute: Ordenar atributos
+  description_wiki_subpages_reassign: Escolha nova página pai
+  description_selected_columns: Colunas seleccionadas
+  label_parent_revision: Pai
+  label_child_revision: Filha
+  error_scm_annotate_big_text_file: Esta entrada não pode ser anotada, excede o tamanha máximo.
+  setting_default_issue_start_date_to_creation_date: Utilizar a data actual como data de início para novas tarefas
+  button_edit_section: Editar esta secção
+  setting_repositories_encodings: Codificação dos anexos e repositórios
+  description_all_columns: Todas as colunas
+  button_export: Exportar
+  label_export_options: "%{export_format} opções de exportação"
+  error_attachment_too_big: Este ficheiro não pode ser carregado pois excede o tamanho máximo permitido por ficheiro (%{max_size})
+  notice_failed_to_save_time_entries: "Falha ao guardar %{count} registo(s) de tempo dos %{total} seleccionados: %{ids}."
   label_x_issues:
     zero:  0 tarefa
     one:   1 tarefa
     other: "%{count} tarefas"
-  label_repository_new: New repository
-  field_repository_is_default: Main repository
-  label_copy_attachments: Copy attachments
+  label_repository_new: Novo repositório
+  field_repository_is_default: Repositório principal
+  label_copy_attachments: Copiar anexos
   label_item_position: "%{position}/%{count}"
-  label_completed_versions: Completed versions
-  text_project_identifier_info: Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.
-  field_multiple: Multiple values
-  setting_commit_cross_project_ref: Allow issues of all the other projects to be referenced and fixed
-  text_issue_conflict_resolution_add_notes: Add my notes and discard my other changes
-  text_issue_conflict_resolution_overwrite: Apply my changes anyway (previous notes will be kept but some changes may be overwritten)
-  notice_issue_update_conflict: The issue has been updated by an other user while you were editing it.
-  text_issue_conflict_resolution_cancel: Discard all my changes and redisplay %{link}
-  permission_manage_related_issues: Manage related issues
-  field_auth_source_ldap_filter: LDAP filter
-  label_search_for_watchers: Search for watchers to add
-  notice_account_deleted: Your account has been permanently deleted.
-  setting_unsubscribe: Allow users to delete their own account
-  button_delete_my_account: Delete my account
+  label_completed_versions: Versões completas
+  text_project_identifier_info: Apenas letras minúsculas (a-z), números, traços e sublinhados são permitidos.<br />Depois de guardar não é possível alterar.
+  field_multiple: Múltiplos valores
+  setting_commit_cross_project_ref: Permitir que tarefas dos restantes projectos sejam referenciadas e resolvidas
+  text_issue_conflict_resolution_add_notes: Adicionar as minhas notas e descartar as minhas restantes alterações
+  text_issue_conflict_resolution_overwrite: Aplicar as minhas alterações (notas antigas serão mantidas mas algumas alterações podem se perder)
+  notice_issue_update_conflict: Esta tarefa foi actualizada por outro utilizador enquanto estava a edita-la.
+  text_issue_conflict_resolution_cancel: Descartar todas as minhas alterações e actualizar %{link}
+  permission_manage_related_issues: Gerir tarefas relacionadas
+  field_auth_source_ldap_filter: Filtro LDAP
+  label_search_for_watchers: Pesquisar por observadores para adicionar
+  notice_account_deleted: A sua conta foi apagada permanentemente.
+  setting_unsubscribe: Permitir aos utilizadores apagarem a sua própria conta
+  button_delete_my_account: Apagar a minha conta
   text_account_destroy_confirmation: |-
-    Are you sure you want to proceed?
-    Your account will be permanently deleted, with no way to reactivate it.
-  error_session_expired: Your session has expired. Please login again.
-  text_session_expiration_settings: "Warning: changing these settings may expire the current sessions including yours."
-  setting_session_lifetime: Session maximum lifetime
-  setting_session_timeout: Session inactivity timeout
-  label_session_expiration: Session expiration
-  permission_close_project: Close / reopen the project
-  label_show_closed_projects: View closed projects
-  button_close: Close
-  button_reopen: Reopen
-  project_status_active: active
-  project_status_closed: closed
-  project_status_archived: archived
-  text_project_closed: This project is closed and read-only.
-  notice_user_successful_create: User %{id} created.
-  field_core_fields: Standard fields
-  field_timeout: Timeout (in seconds)
-  setting_thumbnails_enabled: Display attachment thumbnails
-  setting_thumbnails_size: Thumbnails size (in pixels)
-  label_status_transitions: Status transitions
-  label_fields_permissions: Fields permissions
-  label_readonly: Read-only
-  label_required: Required
-  text_repository_identifier_info: Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.
-  field_board_parent: Parent forum
-  label_attribute_of_project: Project's %{name}
-  label_attribute_of_author: Author's %{name}
-  label_attribute_of_assigned_to: Assignee's %{name}
-  label_attribute_of_fixed_version: Target version's %{name}
-  label_copy_subtasks: Copy subtasks
-  label_copied_to: copied to
-  label_copied_from: copied from
-  label_any_issues_in_project: any issues in project
-  label_any_issues_not_in_project: any issues not in project
-  field_private_notes: Private notes
-  permission_view_private_notes: View private notes
-  permission_set_notes_private: Set notes as private
-  label_no_issues_in_project: no issues in project
+    Têm a certeza que pretende avançar?
+    A sua conta vai ser permanentemente apagada, não será possível recupera-la.
+  error_session_expired: A sua sessão expirou. Por-favor autentique-se novamente.
+  text_session_expiration_settings: "Atenção: alterar estas configurações pode fazer expirar as sessões em curso, incluíndo a sua."
+  setting_session_lifetime: Duração máxima da sessão
+  setting_session_timeout: Tempo limite de inactividade da sessão
+  label_session_expiration: Expiração da sessão
+  permission_close_project: Fechar / re-abrir o projecto
+  label_show_closed_projects: Ver os projectos fechados
+  button_close: Fechar
+  button_reopen: Re-abrir
+  project_status_active: activo
+  project_status_closed: fechado
+  project_status_archived: arquivado
+  text_project_closed: Este projecto está fechado e é apenas de leitura.
+  notice_user_successful_create: Utilizador %{id} criado.
+  field_core_fields: Campos padrão
+  field_timeout: Tempo limite (em segundos)
+  setting_thumbnails_enabled: Apresentar miniaturas dos anexos
+  setting_thumbnails_size: Tamanho das miniaturas (em pixeis)
+  label_status_transitions: Estado das transições
+  label_fields_permissions: Permissões do campo
+  label_readonly: Apenas de leitura
+  label_required: Obrigatório
+  text_repository_identifier_info: Apenas letras minúsculas (a-z), números, traços e sublinhados são permitidos.<br />Depois de guardar não é possível alterar.
+  field_board_parent: Fórum pai
+  label_attribute_of_project: "%{name} do Projecto"
+  label_attribute_of_author: "%{name} do Autor"
+  label_attribute_of_assigned_to: "%{name} do atribuído"
+  label_attribute_of_fixed_version: "%{name} da Versão"
+  label_copy_subtasks: Copiar sub-tarefas
+  label_copied_to: copiado para
+  label_copied_from: copiado de
+  label_any_issues_in_project: tarefas do projecto
+  label_any_issues_not_in_project: tarefas sem projecto
+  field_private_notes: Notas privadas
+  permission_view_private_notes: Ver notas privadas
+  permission_set_notes_private: Configurar notas como privadas
+  label_no_issues_in_project: sem tarefas no projecto
   label_any: todos
-  label_last_n_weeks: last %{count} weeks
-  setting_cross_project_subtasks: Allow cross-project subtasks
+  label_last_n_weeks: últimas %{count} semanas
+  setting_cross_project_subtasks: Permitir sub-tarefas entre projectos
   label_cross_project_descendants: Com os sub-projectos
   label_cross_project_tree: Com árvore do projecto
   label_cross_project_hierarchy: Com hierarquia do projecto
   label_cross_project_system: Com todos os projectos
-  button_hide: Hide
-  setting_non_working_week_days: Non-working days
-  label_in_the_next_days: in the next
-  label_in_the_past_days: in the past
+  button_hide: Esconder
+  setting_non_working_week_days: Dias não úteis
+  label_in_the_next_days: no futuro
+  label_in_the_past_days: no passado
   label_attribute_of_user: User's %{name}
   text_turning_multiple_off: If you disable multiple values, multiple values will be
     removed in order to preserve only one value per item.
