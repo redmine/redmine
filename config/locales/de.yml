@@ -533,7 +533,7 @@ de:
   label_filter_add: Filter hinzufügen
   label_filter_plural: Filter
   label_float: Fließkommazahl
-  label_follows: Folgt
+  label_follows: Nachfolger von
   label_gantt: Gantt-Diagramm
   label_gantt_progress_line: Fortschrittslinie
   label_general: Allgemein
