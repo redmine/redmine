@@ -147,7 +147,7 @@ ru:
         many:  "больше %{count} лет"
         other: "больше %{count} лет"
       almost_x_years:
-        one:   "почти 1 год"
+        one:   "почти %{count} год"
         few:   "почти %{count} года"
         many:  "почти %{count} лет"
         other: "почти %{count} года"
