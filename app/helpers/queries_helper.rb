@@ -96,6 +96,31 @@ module QueriesHelper
     end
   end
 
+  def csv_content(column, issue)
+    value = column.value(issue)
+    if value.is_a?(Array)
+      value.collect {|v| csv_value(column, issue, v)}.compact.join(', ')
+    else
+      csv_value(column, issue, value)
+    end
+  end
+
+  def csv_value(column, issue, value)
+    case value.class.name
+    when 'Time'
+      format_time(value)
+    when 'Date'
+      format_date(value)
+    when 'Float'
+      sprintf("%.2f", value).gsub('.', l(:general_csv_decimal_separator))
+    when 'IssueRelation'
+      other = value.other_issue(issue)
+      l(value.label_for(issue)) + " ##{other.id}"
+    else
+      value.to_s
+    end
+  end
+
   # Retrieve query from session or build a new query
   def retrieve_query
     if !params[:query_id].blank?

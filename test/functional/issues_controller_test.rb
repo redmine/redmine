@@ -433,6 +433,25 @@ class IssuesControllerTest < ActionController::TestCase
     assert lines.detect {|line| line.include?('"MySQL, Oracle"')}
   end
 
+  def test_index_csv_should_format_float_custom_fields_with_csv_decimal_separator
+    field = IssueCustomField.create!(:name => 'Float', :is_for_all => true, :tracker_ids => [1], :field_format => 'float')
+    issue = Issue.generate!(:project_id => 1, :tracker_id => 1, :custom_field_values => {field.id => '185.6'})
+
+    with_settings :default_language => 'fr' do
+      get :index, :format => 'csv', :columns => 'all'
+      assert_response :success
+      issue_line = response.body.chomp.split("\n").map {|line| line.split(';')}.detect {|line| line[0]==issue.id.to_s}
+      assert_include '185,60', issue_line
+    end
+
+    with_settings :default_language => 'en' do
+      get :index, :format => 'csv', :columns => 'all'
+      assert_response :success
+      issue_line = response.body.chomp.split("\n").map {|line| line.split(',')}.detect {|line| line[0]==issue.id.to_s}
+      assert_include '185.60', issue_line
+    end
+  end
+
   def test_index_csv_big_5
     with_settings :default_language => "zh-TW" do
       str_utf8  = "\xe4\xb8\x80\xe6\x9c\x88"
@@ -453,8 +472,8 @@ class IssuesControllerTest < ActionController::TestCase
       if str_utf8.respond_to?(:force_encoding)
         s1.force_encoding('Big5')
       end
-      assert lines[0].include?(s1)
-      assert lines[1].include?(str_big5)
+      assert_include s1, lines[0]
+      assert_include str_big5, lines[1]
     end
   end
 
