@@ -86,44 +86,16 @@ module TimelogHelper
                         value)
   end
 
-  def entries_to_csv(entries)
-    decimal_separator = l(:general_csv_decimal_separator)
-    custom_fields = TimeEntryCustomField.all
+  def entries_to_csv(entries, query, options={})
+    encoding = l(:general_csv_encoding)
+    columns = (options[:columns] == 'all' ? query.available_inline_columns : query.inline_columns)
+
     export = FCSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
       # csv header fields
-      headers = [l(:field_spent_on),
-                 l(:field_user),
-                 l(:field_activity),
-                 l(:field_project),
-                 l(:field_issue),
-                 l(:field_tracker),
-                 l(:field_subject),
-                 l(:field_hours),
-                 l(:field_comments)
-                 ]
-      # Export custom fields
-      headers += custom_fields.collect(&:name)
-
-      csv << headers.collect {|c| Redmine::CodesetUtil.from_utf8(
-                                     c.to_s,
-                                     l(:general_csv_encoding) )  }
+      csv << columns.collect {|c| Redmine::CodesetUtil.from_utf8(c.caption.to_s, encoding) }
       # csv lines
       entries.each do |entry|
-        fields = [format_date(entry.spent_on),
-                  entry.user,
-                  entry.activity,
-                  entry.project,
-                  (entry.issue ? entry.issue.id : nil),
-                  (entry.issue ? entry.issue.tracker : nil),
-                  (entry.issue ? entry.issue.subject : nil),
-                  entry.hours.to_s.gsub('.', decimal_separator),
-                  entry.comments
-                  ]
-        fields += custom_fields.collect {|f| show_value(entry.custom_field_values.detect {|v| v.custom_field_id == f.id}) }
-
-        csv << fields.collect {|c| Redmine::CodesetUtil.from_utf8(
-                                     c.to_s,
-                                     l(:general_csv_encoding) )  }
+        csv << columns.collect {|c| Redmine::CodesetUtil.from_utf8(csv_content(c, entry), encoding) }
       end
     end
     export

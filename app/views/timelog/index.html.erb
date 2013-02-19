@@ -22,8 +22,22 @@
 
 <% other_formats_links do |f| %>
   <%= f.link_to 'Atom', :url => params.merge({:issue_id => @issue, :key => User.current.rss_key}) %>
-  <%= f.link_to 'CSV', :url => params %>
+  <%= f.link_to 'CSV', :url => params, :onclick => "showModal('csv-export-options', '330px'); return false;" %>
 <% end %>
+
+<div id="csv-export-options" style="display:none;">
+  <h3 class="title"><%= l(:label_export_options, :export_format => 'CSV') %></h3>
+  <%= form_tag(params.merge({:format => 'csv',:page=>nil}), :method => :get, :id => 'csv-export-form') do %>
+  <p>
+    <label><%= radio_button_tag 'columns', '', true %> <%= l(:description_selected_columns) %></label><br />
+    <label><%= radio_button_tag 'columns', 'all' %> <%= l(:description_all_columns) %></label>
+  </p>
+  <p class="buttons">
+    <%= submit_tag l(:button_export), :name => nil, :onclick => "hideModal(this);" %>
+    <%= submit_tag l(:button_cancel), :name => nil, :onclick => "hideModal(this);", :type => 'button' %>
+  </p>
+  <% end %>
+</div>
 <% end %>
 
 <% html_title l(:label_spent_time), l(:label_details) %>

@@ -39,6 +39,7 @@ class TimelogController < ApplicationController
   helper :custom_fields
   include CustomFieldsHelper
   helper :queries
+  include QueriesHelper
 
   def index
     @query = TimeEntryQuery.build_from_params(params, :project => @project, :name => '_')
@@ -86,7 +87,7 @@ class TimelogController < ApplicationController
           :include => [:project, :activity, :user, {:issue => [:tracker, :assigned_to, :priority]}],
           :order => sort_clause
         )
-        send_data(entries_to_csv(@entries), :type => 'text/csv; header=present', :filename => 'timelog.csv')
+        send_data(entries_to_csv(@entries, @query, params), :type => 'text/csv; header=present', :filename => 'timelog.csv')
       }
     end
   end
