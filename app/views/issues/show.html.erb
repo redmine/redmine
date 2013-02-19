@@ -1,35 +1,45 @@
-<%= render :partial => 'action_menu' %>
-
-<h2><%= issue_heading(@issue) %></h2>
-
-<div class="<%= @issue.css_classes %> details">
-  <% if @prev_issue_id || @next_issue_id %>
-    <div class="next-prev-links contextual">
-      <%= link_to_if @prev_issue_id,
-                     "\xc2\xab #{l(:label_previous)}",
-                     (@prev_issue_id ? issue_path(@prev_issue_id) : nil),
-                     :title => "##{@prev_issue_id}" %> |
-      <% if @issue_position && @issue_count %>
-        <span class="position"><%= l(:label_item_position, :position => @issue_position, :count => @issue_count) %></span> |
-      <% end %>
-      <%= link_to_if @next_issue_id,
-                     "#{l(:label_next)} \xc2\xbb",
-                     (@next_issue_id ? issue_path(@next_issue_id) : nil),
-                     :title => "##{@next_issue_id}" %>
-    </div>
-  <% end %>
-
-  <%= avatar(@issue.author, :size => "50") %>
-
-<div class="subject">
-<%= render_issue_subject_with_tree(@issue) %>
+<div class="row">
+	<div class="btn-toolbar pull-right">
+	    <% other_formats_links do |f| %>
+		  <div class="btn-group">
+			  <a class="btn dropdown-toggle icon-share" data-toggle="dropdown" href="#"> Export <span class="caret"></span></a>
+	          <ul class="dropdown-menu">
+	            <li><%= f.link_to 'PDF', :url => params, :caption=>"PDF" %></li>
+	          </ul>
+          </div>
+          <div class="btn-group">
+		  	<%= f.link_to 'Atom', {:url => params.merge(:from => nil, :key => User.current.rss_key),:class=>"btn icon-rss btn-rss", :caption=>" News feed"}%>
+		  </div>	
+		<% end %>
+	</div>
 </div>
-        <p class="author">
-        <%= authoring @issue.created_on, @issue.author %>.
-        <% if @issue.created_on != @issue.updated_on %>
-        <%= l(:label_updated_time, time_tag(@issue.updated_on)).html_safe %>.
-        <% end %>
-        </p>
+
+<div class="row-fluid">
+	<%= render :partial => 'action_menu' %>
+	<% if @prev_issue_id || @next_issue_id %>
+	    <div class="next-prev-links contextual">
+			<%= link_to_if @prev_issue_id, "\xc2\xab #{l(:label_previous)}", (@prev_issue_id ? issue_path(@prev_issue_id) : nil), :title => "##{@prev_issue_id}" %> |
+			<% if @issue_position && @issue_count %>
+				<span class="position"><%= l(:label_item_position, :position => @issue_position, :count => @issue_count) %></span> |
+	      	<% end %>
+	      	<%= link_to_if @next_issue_id, "#{l(:label_next)} \xc2\xbb", (@next_issue_id ? issue_path(@next_issue_id) : nil), :title => "##{@next_issue_id}" %>
+		</div>
+	<% end %>
+</div>
+
+<div class="<%= @issue.css_classes %> bs-docs bs-docs-issue">
+	<div class="row-fluid">
+		<div class="span1"><%= avatar(@issue.author, :size => "50",:class=>"img-rounded") %></div>
+		<div class="row-fluid span11" id="issue-title">        
+			<div class="author">
+	        <span class="label label-important"><%= issue_heading(@issue) %></span> <%= authoring @issue.created_on, @issue.author %>.
+	        <% if @issue.created_on != @issue.updated_on %>
+	        <%= l(:label_updated_time, time_tag(@issue.updated_on)).html_safe %>.
+	        <% end %>
+	        </div>
+	        <%= render_issue_subject_with_tree(@issue) %>
+        </div>
+	</div>
 
 <table class="attributes">
 <%= issue_fields_rows do |rows|
@@ -53,7 +63,7 @@
     rows.right l(:field_due_date), format_date(@issue.due_date), :class => 'due-date'
   end
   unless @issue.disabled_core_fields.include?('done_ratio')
-    rows.right l(:field_done_ratio), progress_bar(@issue.done_ratio, :width => '80px', :legend => "#{@issue.done_ratio}%"), :class => 'progress'
+    rows.right l(:field_done_ratio), progress_bar(@issue.done_ratio, :width => "#{@issue.done_ratio}%"), :class => 'progress'
   end
   unless @issue.disabled_core_fields.include?('estimated_hours')
     unless @issue.estimated_hours.nil?
@@ -73,7 +83,7 @@ end %>
 <% if @issue.description? %>
 <div class="description">
   <div class="contextual">
-  <%= link_to l(:button_quote), quoted_issue_path(@issue), :remote => true, :method => 'post', :class => 'icon icon-comment' if authorize_for('issues', 'edit') %>
+  <%= link_to l(:button_quote), quoted_issue_path(@issue), :remote => true, :method => 'post', :class => 'btn icon icon-comment pull-right' if authorize_for('issues', 'edit') %>
   </div>
 
   <p><strong><%=l(:field_description)%></strong></p>
@@ -122,8 +132,6 @@ end %>
 <% end %>
 
 
-<div style="clear: both;"></div>
-<%= render :partial => 'action_menu' %>
 
 <div style="clear: both;"></div>
 <% if @issue.editable? %>
@@ -133,10 +141,6 @@ end %>
   </div>
 <% end %>
 
-<% other_formats_links do |f| %>
-  <%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
-  <%= f.link_to 'PDF' %>
-<% end %>
 
 <% html_title "#{@issue.tracker.name} ##{@issue.id}: #{@issue.subject}" %>
 

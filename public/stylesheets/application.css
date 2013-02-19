@@ -98,6 +98,10 @@ tr.open span.expander:before {
 	content: "Preview";
 }
 
+.bs-docs-issue:after{
+	content: "Issue";
+}
+
 /* Remove spacing between an example and it's code */
 .bs-docs-example + .prettyprint {
 	margin-top: -20px;
@@ -270,6 +274,12 @@ section > ul li {
 
 /***********Additions************/
 
+#issue-title{
+	margin-left:0px;
+}
+#issue-title h3{
+	margin-top:0px;
+}
 #query_form
 {
 	width:100%;

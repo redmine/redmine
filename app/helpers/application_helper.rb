@@ -163,7 +163,7 @@ module ApplicationHelper
     onclick = "$('##{id}').toggle(); "
     onclick << (options[:focus] ? "$('##{options[:focus]}').focus(); " : "this.blur(); ")
     onclick << "return false;"
-    link_to(name, "#", :onclick => onclick)
+    link_to(" "+name, "#", {:onclick => onclick, :class=>"btn pull-right icon-plus-sign"})
   end
 
   def image_to_function(name, function, html_options = {})
@@ -1022,13 +1022,11 @@ module ApplicationHelper
     pcts << (100 - pcts[1] - pcts[0])
     width = options[:width] || '100px;'
     legend = options[:legend] || ''
-    content_tag('table',
-      content_tag('tr',
-        (pcts[0] > 0 ? content_tag('td', '', :style => "width: #{pcts[0]}%;", :class => 'closed') : ''.html_safe) +
-        (pcts[1] > 0 ? content_tag('td', '', :style => "width: #{pcts[1]}%;", :class => 'done') : ''.html_safe) +
-        (pcts[2] > 0 ? content_tag('td', '', :style => "width: #{pcts[2]}%;", :class => 'todo') : ''.html_safe)
-      ), :class => 'progress', :style => "width: #{width};").html_safe +
-      content_tag('p', legend, :class => 'percent').html_safe
+    content_tag('div',
+        (pcts[0] > 0 ? content_tag('div', '', :style => "width:#{pcts[0]}%;", :class => 'bar bar-success closed') : ''.html_safe) +
+        (pcts[1] > 0 ? content_tag('div', '', :style => "width:#{pcts[1]}%;", :class => 'bar bar-success done') : ''.html_safe) +
+        (pcts[2] > 0 ? content_tag('div', '', :style => "width:#{pcts[2]}%;", :class => 'bar bar-success todo') : ''.html_safe),
+       :class => 'progress progress-striped').html_safe
   end
 
   def checked_image(checked=true)
