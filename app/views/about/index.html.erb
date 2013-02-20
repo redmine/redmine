@@ -30,6 +30,8 @@ common use of NeuroML, as is used by <a href="http://neuromorpho.org">NeuroMorph
 <p>We are also planning deep links to databases such as <a href="http://senselab.med.yale.edu/modeldb/">ModelDB</a> for original model scripts and 
 <a href="http://neurolex.org/wiki/Main_Page">NIF/NeuroLex</a> for definitions of model components. Greater support for <a href="http://www.sbml.org">SBML</a>, <a href="http://www.cellml.org">CellML</a> in NeuroML v2.0 will enable greater interaction with the <a href="http://www.ebi.ac.uk/biomodels-main/">BioModels database</a> and the <a href="http://models.cellml.org/cellml">CellML Model Repository</a>.</p>
 
+<p>See <a href="http://www.opensourcebrain.org/projects/neuroinformatics/wiki/Wiki">here</a> for more details on interactions with other Neuroinformatics resources</p>
+
 <p>A number of the contributors to this initiative are involved with the various national nodes of the <a href="http://www.incf.org">INCF</a>.</p>
 
 <p><a href="http://www.incf.org/"><img border="0" alt="INCF" src="images/incf.png"></a></p>
@@ -37,9 +39,7 @@ common use of NeuroML, as is used by <a href="http://neuromorpho.org">NeuroMorph
 <br/>
 <h2>How can I contribute?</h2>
 
-<p>The Open Source Brain Repository is still at an early stage of development. We are happy to hear from 
-anyone interested in helping out with this initiative. We are particularly keen to get modellers or software developers in computational neuroscience involved.
-Please <a href="../account/register">sign up here</a>, or join the <b><a href="https://groups.google.com/forum/#!forum/osb-announce">OSB Announce mailing list</a></b> to get regular updates of progress!.</p>
+<p>The Open Source Brain Repository is still at an early stage of development. We are happy to hear from anyone interested in helping out with this initiative. We are particularly keen to get modellers or software developers in computational neuroscience involved. Please <a href="../account/register">sign up here</a>, or join the <b><a href="https://groups.google.com/forum/#!forum/osb-announce">OSB Announce mailing list</a></b> to get regular updates of progress!.</p>
  
 
 </div>
@@ -53,7 +53,7 @@ Please <a href="../account/register">sign up here</a>, or join the <b><a href="h
 		    
 		        <h4> <a href="<%=  @group.custom_field_values[0] %>"><%=  @group.name %> </a></h4>
 		        <table width="100%"><tr><td>
-		        <p>Principal investigator: <b><%= @group.custom_field_values[1] %></b> </p>
+		        <% if group.custom_field_values[1].value != '' %><p>Principal investigator: <b><%= @group.custom_field_values[1] %></b> </p><% end %>
 		        <p><%= @group.custom_field_values[3] %>, <%= @group.custom_field_values[2] %>   </p>
 		        <ul>
 		            <% @group.users.each do |user| %>
