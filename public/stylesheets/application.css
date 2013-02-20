@@ -270,7 +270,7 @@ div.projects h3 { background: url(../images/projects.png) no-repeat 0% 50%; padd
 #watchers ul {margin: 0;  padding: 0;}
 #watchers li {list-style-type:none;margin: 0px 2px 0px 0px; padding: 0px 0px 0px 0px;}
 #watchers select {width: 95%; display: block;}
-#watchers a.delete {opacity: 0.4;}
+#watchers a.delete {opacity: 0.4; vertical-align: middle;}
 #watchers a.delete:hover {opacity: 1;}
 #watchers img.gravatar {margin: 0 4px 2px 0;}
 
