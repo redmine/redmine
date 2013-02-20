@@ -74,6 +74,11 @@ class MessagesControllerTest < ActionController::TestCase
     assert_response 404
   end
 
+  def test_show_message_from_invalid_board_should_respond_with_404
+    get :show, :board_id => 999, :id => 1
+    assert_response 404
+  end
+
   def test_get_new
     @request.session[:user_id] = 2
     get :new, :board_id => 1
