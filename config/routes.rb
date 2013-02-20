@@ -82,7 +82,7 @@ RedmineApp::Application.routes.draw do
   get 'watchers/new', :to => 'watchers#new'
   post 'watchers', :to => 'watchers#create'
   post 'watchers/append', :to => 'watchers#append'
-  post 'watchers/destroy', :to => 'watchers#destroy'
+  delete 'watchers', :to => 'watchers#destroy'
   get 'watchers/autocomplete_for_user', :to => 'watchers#autocomplete_for_user'
   # Specific routes for issue watchers API
   post 'issues/:object_id/watchers', :to => 'watchers#create', :object_type => 'issue'

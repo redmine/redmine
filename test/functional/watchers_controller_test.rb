@@ -186,7 +186,7 @@ class WatchersControllerTest < ActionController::TestCase
   def test_remove_watcher
     @request.session[:user_id] = 2
     assert_difference('Watcher.count', -1) do
-      xhr :post, :destroy, :object_type => 'issue', :object_id => '2', :user_id => '3'
+      xhr :delete, :destroy, :object_type => 'issue', :object_id => '2', :user_id => '3'
       assert_response :success
       assert_match /watchers/, response.body
     end

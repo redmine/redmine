@@ -63,11 +63,11 @@ module WatchersHelper
                :user_id => user}
         s << ' '
         s << link_to(image_tag('delete.png'), url,
-                     :remote => true, :method => 'post', :style => "vertical-align: middle", :class => "delete")
+                     :remote => true, :method => 'delete', :style => "vertical-align: middle", :class => "delete")
       end
-      content << content_tag('li', s)
+      content << content_tag('li', s, :class => "user-#{user.id}")
     end
-    content.present? ? content_tag('ul', content) : content
+    content.present? ? content_tag('ul', content, :class => 'watchers') : content
   end
 
   def watchers_checkboxes(object, users, checked=nil)

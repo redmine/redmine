@@ -172,6 +172,19 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
     assert_equal 'CF value', issue.custom_field_value(field)
   end
 
+  def test_remove_issue_watcher_from_sidebar
+    user = User.find(3)
+    Watcher.create!(:watchable => Issue.find(1), :user => user)
+
+    log_user('jsmith', 'jsmith')
+    visit '/issues/1'
+    assert page.first('#sidebar').has_content?(user.name)
+    assert_difference 'Watcher.count', -1 do
+      page.first('ul.watchers .user-3 a.delete').click
+    end
+    assert page.first('#sidebar').has_no_content?(user.name)
+  end
+
   def test_watch_issue_via_context_menu
     log_user('jsmith', 'jsmith')
     visit '/issues'

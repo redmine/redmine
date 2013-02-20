@@ -32,7 +32,7 @@ class RoutingWatchersTest < ActionController::IntegrationTest
         { :controller => 'watchers', :action => 'create' }
       )
     assert_routing(
-        { :method => 'post', :path => "/watchers/destroy" },
+        { :method => 'delete', :path => "/watchers" },
         { :controller => 'watchers', :action => 'destroy' }
       )
     assert_routing(
