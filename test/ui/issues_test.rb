@@ -178,10 +178,12 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
 
     log_user('jsmith', 'jsmith')
     visit '/issues/1'
+    assert page.first('#sidebar').has_content?('Watchers (1)')
     assert page.first('#sidebar').has_content?(user.name)
     assert_difference 'Watcher.count', -1 do
       page.first('ul.watchers .user-3 a.delete').click
     end
+    assert page.first('#sidebar').has_content?('Watchers (0)')
     assert page.first('#sidebar').has_no_content?(user.name)
   end
 
