@@ -60,21 +60,64 @@
 	<% end %>
 	<% end %>
 
-	<% @project.visible_custom_field_values.each do |custom_value| %>
-
-	<% if !custom_value.value.blank? %>
-
-	<% if custom_value.custom_field.name == 'Status info' %>
 
 	<h2>Status</h2>
+    
+	<% @project.visible_custom_field_values.each do |custom_value| %>
 
-	<div class="wiki">
-		<%= textilizable show_value(custom_value) %>
-	</div>
+      <% if !custom_value.value.blank? and custom_value.custom_field.name == 'Status info' %>
+
+          <div class="wiki">
+              <%= textilizable show_value(custom_value) %>
+          </div>
+
+      <% end %>
 	<% end %>
 
+	<% @project.visible_custom_field_values.each do |custom_value| %>
+
+      <% if !custom_value.value.blank? %>
+
+        <% if custom_value.custom_field.name == 'Curation level' %>
+          <br/><b>Physiological curation status:</b> <img src='../../images/curation_sm<%= custom_value.value %>.png' alt='' title="How well is the NeuroML version of this model curated against a published model or experimental data? <%= custom_value.value %> out of 3 stars"/><br/>
+        <% end %>
+        <% if custom_value.custom_field.name == 'NeuroML v1.x support' %>
+          <b>NeuroML v1.x support:</b> <img src='../../images/status_sm<%= custom_value.value %>.png' alt=' ' title="How well is this model represented in NeuroML v1.0? <%= custom_value.value %> out of 3 stars"/>&nbsp;&nbsp;
+        <% end %>
+        <% if custom_value.custom_field.name == 'NeuroML v2.x support' %>
+          <b>NeuroML v2.x support: </b><img src='../../images/status_sm<%= custom_value.value %>.png' alt=' ' title="How well is this model represented in NeuroML v2.0? <%= custom_value.value %> out of 3 stars"/>
+        <% end %>
+
+      <% end %>
 	<% end %>
+
+	<% @project.visible_custom_field_values.each do |custom_value| %>
+
+      <% if !custom_value.value.blank? %>
+
+        <% if custom_value.custom_field.name == 'NEURON support' and custom_value.value.to_i >= 1 %>
+          <b>NEURON support: </b><img src='../../images/status_sm<%= custom_value.value %>.png' alt=' ' title="How well can the NeuroML version of this model be mapped to NEURON? <%= custom_value.value %> out of 3 stars"/>
+        <% end %>
+        <% if custom_value.custom_field.name == 'GENESIS 2 support' and custom_value.value.to_i >= 1 %>
+          <b>GENESIS 2 support: </b><img src='../../images/status_sm<%= custom_value.value %>.png' alt=' ' title="How well can the NeuroML version of this model be mapped to GENESIS 2? <%= custom_value.value %> out of 3 stars"/>
+        <% end %>
+        <% if custom_value.custom_field.name == 'MOOSE support' and custom_value.value.to_i >= 1 %>
+          <b>MOOSE support: </b><img src='../../images/status_sm<%= custom_value.value %>.png' alt=' ' title="How well can the NeuroML version of this model be mapped to MOOSE? <%= custom_value.value %> out of 3 stars"/>
+        <% end %>
+        <% if custom_value.custom_field.name == 'PSICS support' and custom_value.value.to_i >= 1 %>
+          <b>PSICS support: </b><img src='../../images/status_sm<%= custom_value.value %>.png' alt=' ' title="How well can the NeuroML version of this model be mapped to PSICS? <%= custom_value.value %> out of 3 stars"/>
+        <% end %>
+        <% if custom_value.custom_field.name == 'NEST support' and custom_value.value.to_i >= 1 %>
+          <b>NEST support: </b><img src='../../images/status_sm<%= custom_value.value %>.png' alt=' ' title="How well can the NeuroML version of this model be mapped to NEST? <%= custom_value.value %> out of 3 stars"/>
+        <% end %>
+        <% if custom_value.custom_field.name == 'Brian support' and custom_value.value.to_i >= 1 %>
+          <b>Brian support: </b><img src='../../images/status_sm<%= custom_value.value %>.png' alt=' ' title="How well can the NeuroML version of this model be mapped to Brian? <%= custom_value.value %> out of 3 stars"/>
+        <% end %>
+
+      <% end %>
 	<% end %>
+
+    <div class="wiki"><a href="../status">More...</a><br/>&nbsp;</div>
 
 	<% @project.visible_custom_field_values.each do |custom_value| %>
 
@@ -96,13 +139,6 @@
 	</p>
 	<% end %>
 
-	<% if custom_value.custom_field.name == 'NeuroML version' %>
-
-	<h2>NeuroML compatibility</h2>
-	<p>
-		The minimum version of NeuroML for this model is: <b><%= h show_value(custom_value) %></b>
-	</p>
-	<% end %>
 
 	<% end %>
 	<% end %>
