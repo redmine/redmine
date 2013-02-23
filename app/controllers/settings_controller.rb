@@ -19,6 +19,8 @@ class SettingsController < ApplicationController
   layout 'admin'
   menu_item :plugins, :only => :plugin
 
+  helper :queries
+
   before_filter :require_admin
 
   def index

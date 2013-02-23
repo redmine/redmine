@@ -37,6 +37,14 @@ module QueriesHelper
     tags
   end
 
+  def query_available_inline_columns_options(query)
+    (query.available_inline_columns - query.columns).reject(&:frozen?).collect {|column| [column.caption, column.name]}
+  end
+
+  def query_selected_inline_columns_options(query)
+    (query.inline_columns & query.available_inline_columns).reject(&:frozen?).collect {|column| [column.caption, column.name]}
+  end
+
   def column_header(column)
     column.sortable ? sort_header_tag(column.name.to_s, :caption => column.caption,
                                                         :default_order => column.default_order) :
