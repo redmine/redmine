@@ -1182,3 +1182,4 @@ az:
   label_any_issues_not_in_project: any issues not in project
   label_cross_project_tree: With project tree
   field_closed_on: Closed
+  field_generate_password: Generate password

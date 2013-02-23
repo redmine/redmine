@@ -1114,3 +1114,4 @@ ja:
   setting_jsonp_enabled: JSONPを有効にする
   field_inherit_members: Inherit members
   field_closed_on: Closed
+  field_generate_password: Generate password
