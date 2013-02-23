@@ -45,6 +45,11 @@ module QueriesHelper
     (query.inline_columns & query.available_inline_columns).reject(&:frozen?).collect {|column| [column.caption, column.name]}
   end
 
+  def render_query_columns_selection(query, options={})
+    tag_name = (options[:name] || 'c') + '[]'
+    render :partial => 'queries/columns', :locals => {:query => query, :tag_name => tag_name}
+  end
+
   def column_header(column)
     column.sortable ? sort_header_tag(column.name.to_s, :caption => column.caption,
                                                         :default_order => column.default_order) :

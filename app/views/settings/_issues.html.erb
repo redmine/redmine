@@ -22,11 +22,9 @@
 
 <fieldset class="box">
 	<legend><%= l(:setting_issue_list_default_columns) %></legend>
-  <%= render :partial => 'queries/columns',
-             :locals => {
-               :query => IssueQuery.new(:column_names => Setting.issue_list_default_columns),
-               :tag_name => 'settings[issue_list_default_columns][]'
-             } %>
+  <%= render_query_columns_selection(
+        IssueQuery.new(:column_names => Setting.issue_list_default_columns),
+        :name => 'settings[issue_list_default_columns]') %>
 </fieldset>
 
 <%= submit_tag l(:button_save) %>

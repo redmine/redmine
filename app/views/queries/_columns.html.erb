@@ -17,10 +17,10 @@
     <td>
       <%= label_tag "selected_columns", l(:description_selected_columns) %>
       <br />
-      <%= select_tag((defined?(tag_name) ? tag_name : 'c[]'),
+      <%= select_tag tag_name,
               options_for_select(query_selected_inline_columns_options(query)),
               :id => 'selected_columns', :multiple => true, :size => 10, :style => "width:150px",
-              :ondblclick => "moveOptions(this.form.selected_columns, this.form.available_columns);") %>
+              :ondblclick => "moveOptions(this.form.selected_columns, this.form.available_columns);" %>
     </td>
     <td class="buttons">
       <input type="button" value="&#8593;" onclick="moveOptionUp(this.form.selected_columns);" /><br />
