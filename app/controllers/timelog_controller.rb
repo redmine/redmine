@@ -87,7 +87,7 @@ class TimelogController < ApplicationController
           :include => [:project, :activity, :user, {:issue => [:tracker, :assigned_to, :priority]}],
           :order => sort_clause
         )
-        send_data(entries_to_csv(@entries, @query, params), :type => 'text/csv; header=present', :filename => 'timelog.csv')
+        send_data(query_to_csv(@entries, @query, params), :type => 'text/csv; header=present', :filename => 'timelog.csv')
       }
     end
   end

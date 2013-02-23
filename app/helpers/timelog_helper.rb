@@ -86,21 +86,6 @@ module TimelogHelper
                         value)
   end
 
-  def entries_to_csv(entries, query, options={})
-    encoding = l(:general_csv_encoding)
-    columns = (options[:columns] == 'all' ? query.available_inline_columns : query.inline_columns)
-
-    export = FCSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
-      # csv header fields
-      csv << columns.collect {|c| Redmine::CodesetUtil.from_utf8(c.caption.to_s, encoding) }
-      # csv lines
-      entries.each do |entry|
-        csv << columns.collect {|c| Redmine::CodesetUtil.from_utf8(csv_content(c, entry), encoding) }
-      end
-    end
-    export
-  end
-
   def format_criteria_value(criteria_options, value)
     if value.blank?
       "[#{l(:label_none)}]"

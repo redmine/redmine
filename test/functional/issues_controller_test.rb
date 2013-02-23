@@ -391,13 +391,18 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_index_csv_with_description
-    get :index, :format => 'csv', :description => '1'
-    assert_response :success
-    assert_not_nil assigns(:issues)
-    assert_equal 'text/csv; header=present', @response.content_type
-    assert @response.body.starts_with?("#,")
-    lines = @response.body.chomp.split("\n")
-    assert_equal assigns(:query).columns.size + 1, lines[0].split(',').size
+    Issue.generate!(:description => 'test_index_csv_with_description')
+
+    with_settings :default_language => 'en' do
+      get :index, :format => 'csv', :description => '1'
+      assert_response :success
+      assert_not_nil assigns(:issues)
+    end
+
+    assert_equal 'text/csv; header=present', response.content_type
+    headers = response.body.chomp.split("\n").first.split(',')
+    assert_include 'Description', headers
+    assert_include 'test_index_csv_with_description', response.body
   end
 
   def test_index_csv_with_spent_time_column

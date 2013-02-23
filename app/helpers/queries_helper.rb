@@ -123,6 +123,26 @@ module QueriesHelper
     end
   end
 
+  def query_to_csv(items, query, options={})
+    encoding = l(:general_csv_encoding)
+    columns = (options[:columns] == 'all' ? query.available_inline_columns : query.inline_columns)
+    query.available_block_columns.each do |column|
+      if options[column.name].present?
+        columns << column
+      end
+    end
+
+    export = FCSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
+      # csv header fields
+      csv << columns.collect {|c| Redmine::CodesetUtil.from_utf8(c.caption.to_s, encoding) }
+      # csv lines
+      items.each do |item|
+        csv << columns.collect {|c| Redmine::CodesetUtil.from_utf8(csv_content(c, item), encoding) }
+      end
+    end
+    export
+  end
+
   # Retrieve query from session or build a new query
   def retrieve_query
     if !params[:query_id].blank?
