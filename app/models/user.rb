@@ -81,7 +81,7 @@ class User < Principal
 
   acts_as_customizable
 
-  attr_accessor :password, :password_confirmation
+  attr_accessor :password, :password_confirmation, :generate_password
   attr_accessor :last_before_login_on
   # Prevents unauthorized assignments
   attr_protected :login, :admin, :password, :password_confirmation, :hashed_password
@@ -103,7 +103,7 @@ class User < Principal
   validate :validate_password_length
 
   before_create :set_mail_notification
-  before_save   :update_hashed_password
+  before_save   :generate_password_if_needed, :update_hashed_password
   before_destroy :remove_references_before_destroy
 
   scope :in_group, lambda {|group|
@@ -274,13 +274,16 @@ class User < Principal
     return auth_source.allow_password_changes?
   end
 
-  # Generate and set a random password.  Useful for automated user creation
-  # Based on Token#generate_token_value
-  #
-  def random_password
+  def generate_password?
+    generate_password == '1' || generate_password == true
+  end
+
+  # Generate and set a random password on given length
+  def random_password(length=40)
     chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
+    chars -= %w(0 O 1 l)
     password = ''
-    40.times { |i| password << chars[rand(chars.size-1)] }
+    length.times {|i| password << chars[SecureRandom.random_number(chars.size)] }
     self.password = password
     self.password_confirmation = password
     self
@@ -541,6 +544,7 @@ class User < Principal
 
   safe_attributes 'status',
     'auth_source_id',
+    'generate_password',
     :if => lambda {|user, current_user| current_user.admin?}
 
   safe_attributes 'group_ids',
@@ -610,6 +614,7 @@ class User < Principal
   protected
 
   def validate_password_length
+    return if password.blank? && generate_password?
     # Password length validation based on setting
     if !password.nil? && password.size < Setting.password_min_length.to_i
       errors.add(:password, :too_short, :count => Setting.password_min_length.to_i)
@@ -617,6 +622,13 @@ class User < Principal
   end
 
   private
+
+  def generate_password_if_needed
+    if generate_password? && auth_source.nil?
+      length = [Setting.password_min_length.to_i + 2, 10].max
+      random_password(length)
+    end
+  end
 
   # Removes references that are not handled by associations
   # Things that are not deleted are reassociated with the anonymous user

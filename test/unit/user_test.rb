@@ -70,6 +70,27 @@ class UserTest < ActiveSupport::TestCase
     assert user.save
   end
 
+  def test_generate_password_on_create_should_set_password
+    user = User.new(:firstname => "new", :lastname => "user", :mail => "newuser@somenet.foo")
+    user.login = "newuser"
+    user.generate_password = true
+    assert user.save
+
+    password = user.password
+    assert user.check_password?(password)
+  end
+
+  def test_generate_password_on_update_should_update_password
+    user = User.find(2)
+    hash = user.hashed_password
+    user.generate_password = true
+    assert user.save
+
+    password = user.password
+    assert user.check_password?(password)
+    assert_not_equal hash, user.reload.hashed_password
+  end
+
   def test_create
     user = User.new(:firstname => "new", :lastname => "user", :mail => "newuser@somenet.foo")
 

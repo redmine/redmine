@@ -331,6 +331,7 @@ fr:
   field_board_parent: Forum parent
   field_private_notes: Notes privées
   field_inherit_members: Hériter les membres
+  field_generate_password: Générer un mot de passe
 
   setting_app_title: Titre de l'application
   setting_app_subtitle: Sous-titre de l'application

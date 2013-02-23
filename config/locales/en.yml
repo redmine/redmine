@@ -331,6 +331,7 @@ en:
   field_board_parent: Parent forum
   field_private_notes: Private notes
   field_inherit_members: Inherit members
+  field_generate_password: Generate password
 
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle
