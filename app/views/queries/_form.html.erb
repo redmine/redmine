@@ -49,7 +49,7 @@
 
 <%= content_tag 'fieldset', :id => 'columns', :style => (query.has_default_columns? ? 'display:none;' : nil) do %>
 <legend><%= l(:field_column_names) %></legend>
-<%= render render_query_columns_selection(query) %>
+<%= render_query_columns_selection(query) %>
 <% end %>
 
 </div>
