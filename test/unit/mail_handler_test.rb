@@ -726,14 +726,6 @@ class MailHandlerTest < ActiveSupport::TestCase
     end
   end
 
-  def test_new_user_from_attributes_should_respect_minimum_password_length
-    with_settings :password_min_length => 15 do
-      user = MailHandler.new_user_from_attributes('jsmith@example.net')
-      assert user.valid?
-      assert user.password.length >= 15
-    end
-  end
-
   def test_new_user_from_attributes_should_use_default_login_if_invalid
     user = MailHandler.new_user_from_attributes('foo+bar@example.net')
     assert user.valid?

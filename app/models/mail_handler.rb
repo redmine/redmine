@@ -429,10 +429,8 @@ class MailHandler < ActionMailer::Base
     assign_string_attribute_with_limit(user, 'firstname', names.shift, 30)
     assign_string_attribute_with_limit(user, 'lastname', names.join(' '), 30)
     user.lastname = '-' if user.lastname.blank?
-
-    password_length = [Setting.password_min_length.to_i, 10].max
-    user.password = Redmine::Utils.random_hex(password_length / 2 + 1)
     user.language = Setting.default_language
+    user.generate_password = true
 
     unless user.valid?
       user.login = "user#{Redmine::Utils.random_hex(6)}" unless user.errors[:login].blank?

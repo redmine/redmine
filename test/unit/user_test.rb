@@ -70,6 +70,20 @@ class UserTest < ActiveSupport::TestCase
     assert user.save
   end
 
+  def test_generate_password_should_respect_minimum_password_length
+    with_settings :password_min_length => 15 do
+      user = User.generate!(:generate_password => true)
+      assert user.password.length >= 15
+    end
+  end
+
+  def test_generate_password_should_not_generate_password_with_less_than_10_characters
+    with_settings :password_min_length => 4 do
+      user = User.generate!(:generate_password => true)
+      assert user.password.length >= 10
+    end
+  end
+
   def test_generate_password_on_create_should_set_password
     user = User.new(:firstname => "new", :lastname => "user", :mail => "newuser@somenet.foo")
     user.login = "newuser"
