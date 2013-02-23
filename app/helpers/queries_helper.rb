@@ -67,7 +67,9 @@ module QueriesHelper
     when 'Date'
       format_date(value)
     when 'Fixnum'
-      if column.name == :done_ratio
+      if column.name == :id
+        link_to value, issue_path(issue)
+      elsif column.name == :done_ratio
         progress_bar(value, :width => '80px')
       else
         value.to_s

@@ -380,7 +380,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 'text/csv; header=present', @response.content_type
     assert @response.body.starts_with?("#,")
     lines = @response.body.chomp.split("\n")
-    assert_equal assigns(:query).columns.size + 1, lines[0].split(',').size
+    assert_equal assigns(:query).columns.size, lines[0].split(',').size
   end
 
   def test_index_csv_with_project
@@ -397,7 +397,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 'text/csv; header=present', @response.content_type
     assert @response.body.starts_with?("#,")
     lines = @response.body.chomp.split("\n")
-    assert_equal assigns(:query).columns.size + 2, lines[0].split(',').size
+    assert_equal assigns(:query).columns.size + 1, lines[0].split(',').size
   end
 
   def test_index_csv_with_spent_time_column
@@ -416,9 +416,9 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:issues)
     assert_equal 'text/csv; header=present', @response.content_type
-    assert @response.body.starts_with?("#,")
-    lines = @response.body.chomp.split("\n")
-    assert_equal assigns(:query).available_inline_columns.size + 1, lines[0].split(',').size
+    assert_match /\A#,/, response.body
+    lines = response.body.chomp.split("\n")
+    assert_equal assigns(:query).available_inline_columns.size, lines[0].split(',').size
   end
 
   def test_index_csv_with_multi_column_field
@@ -708,12 +708,12 @@ class IssuesControllerTest < ActionController::TestCase
     # query should use specified columns
     query = assigns(:query)
     assert_kind_of IssueQuery, query
-    assert_equal [:project, :tracker, :subject, :assigned_to], query.columns.map(&:name)
+    assert_equal [:id, :project, :tracker, :subject, :assigned_to], query.columns.map(&:name)
   end
 
   def test_index_without_project_and_explicit_default_columns_should_not_add_project_column
     Setting.issue_list_default_columns = ['tracker', 'subject', 'assigned_to']
-    columns = ['tracker', 'subject', 'assigned_to']
+    columns = ['id', 'tracker', 'subject', 'assigned_to']
     get :index, :set_filter => 1, :c => columns
 
     # query should use specified columns

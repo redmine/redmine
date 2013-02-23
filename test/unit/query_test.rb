@@ -750,16 +750,34 @@ class QueryTest < ActiveSupport::TestCase
   def test_set_column_names
     q = IssueQuery.new
     q.column_names = ['tracker', :subject, '', 'unknonw_column']
-    assert_equal [:tracker, :subject], q.columns.collect {|c| c.name}
-    c = q.columns.first
-    assert q.has_column?(c)
+    assert_equal [:id, :tracker, :subject], q.columns.collect {|c| c.name}
+  end
+
+  def test_has_column_should_accept_a_column_name
+    q = IssueQuery.new
+    q.column_names = ['tracker', :subject]
+    assert q.has_column?(:tracker)
+    assert !q.has_column?(:category)
+  end
+
+  def test_has_column_should_accept_a_column
+    q = IssueQuery.new
+    q.column_names = ['tracker', :subject]
+
+    tracker_column = q.available_columns.detect {|c| c.name==:tracker}
+    assert_kind_of QueryColumn, tracker_column
+    category_column = q.available_columns.detect {|c| c.name==:category}
+    assert_kind_of QueryColumn, category_column
+
+    assert q.has_column?(tracker_column)
+    assert !q.has_column?(category_column)
   end
 
   def test_inline_and_block_columns
     q = IssueQuery.new
     q.column_names = ['subject', 'description', 'tracker']
 
-    assert_equal [:subject, :tracker], q.inline_columns.map(&:name)
+    assert_equal [:id, :subject, :tracker], q.inline_columns.map(&:name)
     assert_equal [:description], q.block_columns.map(&:name)
   end
 

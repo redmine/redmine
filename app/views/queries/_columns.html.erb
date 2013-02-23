@@ -4,7 +4,7 @@
       <%= label_tag "available_columns", l(:description_available_columns) %>
       <br />
       <%= select_tag 'available_columns',
-              options_for_select((query.available_inline_columns - query.columns).collect {|column| [column.caption, column.name]}),
+              options_for_select((query.available_inline_columns - query.columns).reject(&:frozen?).collect {|column| [column.caption, column.name]}),
               :multiple => true, :size => 10, :style => "width:150px",
               :ondblclick => "moveOptions(this.form.available_columns, this.form.selected_columns);" %>
     </td>
@@ -18,7 +18,7 @@
       <%= label_tag "selected_columns", l(:description_selected_columns) %>
       <br />
       <%= select_tag((defined?(tag_name) ? tag_name : 'c[]'),
-              options_for_select(query.inline_columns.collect {|column| [column.caption, column.name]}),
+              options_for_select((query.inline_columns & query.available_inline_columns).reject(&:frozen?).collect {|column| [column.caption, column.name]}),
               :id => 'selected_columns', :multiple => true, :size => 10, :style => "width:150px",
               :ondblclick => "moveOptions(this.form.selected_columns, this.form.available_columns);") %>
     </td>

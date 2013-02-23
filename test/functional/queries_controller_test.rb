@@ -114,7 +114,7 @@ class QueriesControllerTest < ActionController::TestCase
     assert_redirected_to :controller => 'issues', :action => 'index', :project_id => nil, :query_id => q
     assert !q.is_public?
     assert !q.has_default_columns?
-    assert_equal [:tracker, :subject, :priority, :category], q.columns.collect {|c| c.name}
+    assert_equal [:id, :tracker, :subject, :priority, :category], q.columns.collect {|c| c.name}
     assert q.valid?
   end
 

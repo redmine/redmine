@@ -28,11 +28,12 @@ class QueryColumn
     end
     self.default_order = options[:default_order]
     @inline = options.key?(:inline) ? options[:inline] : true
-    @caption_key = options[:caption] || "field_#{name}"
+    @caption_key = options[:caption] || "field_#{name}".to_sym
+    @frozen = options[:frozen]
   end
 
   def caption
-    l(@caption_key)
+    @caption_key.is_a?(Symbol) ? l(@caption_key) : @caption_key
   end
 
   # Returns true if the column is sortable, otherwise false
@@ -46,6 +47,10 @@ class QueryColumn
 
   def inline?
     @inline
+  end
+
+  def frozen?
+    @frozen
   end
 
   def value(object)
@@ -382,9 +387,10 @@ class Query < ActiveRecord::Base
 
   def columns
     # preserve the column_names order
-    (has_default_columns? ? default_columns_names : column_names).collect do |name|
+    cols = (has_default_columns? ? default_columns_names : column_names).collect do |name|
        available_columns.find { |col| col.name == name }
     end.compact
+    available_columns.select(&:frozen?) | cols
   end
 
   def inline_columns

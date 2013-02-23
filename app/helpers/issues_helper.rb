@@ -382,10 +382,10 @@ module IssuesHelper
 
     export = FCSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
       # csv header fields
-      csv << [ "#" ] + columns.collect {|c| Redmine::CodesetUtil.from_utf8(c.caption.to_s, encoding) }
+      csv << columns.collect {|c| Redmine::CodesetUtil.from_utf8(c.caption.to_s, encoding) }
       # csv lines
       issues.each do |issue|
-        csv << [ issue.id.to_s ] + columns.collect {|c| Redmine::CodesetUtil.from_utf8(csv_content(c, issue), encoding) }
+        csv << columns.collect {|c| Redmine::CodesetUtil.from_utf8(csv_content(c, issue), encoding) }
       end
     end
     export
