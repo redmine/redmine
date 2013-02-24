@@ -109,8 +109,6 @@ class IssueRelationsControllerTest < ActionController::TestCase
     end
   end
 
-  should "prevent relation creation when there's a circular dependency"
-
   def test_create_xhr_with_failure
     assert_no_difference 'IssueRelation.count' do
       xhr :post, :create, :issue_id => 3, :relation => {:issue_to_id => '999', :relation_type => 'relates', :delay => ''}
