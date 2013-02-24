@@ -125,22 +125,36 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
       :attributes => {:action => "/projects/ecookbook/issues/1/time_entries/report", :id => 'query_form'}
   end
 
-  def test_report_custom_field_criteria
-    get :report, :project_id => 1, :criteria => ['project', 'cf_1', 'cf_7']
+  def test_report_should_propose_association_custom_fields
+    get :report
+    assert_response :success
+    assert_template 'report'
+
+    assert_select 'select[name=?]', 'criteria[]' do
+      assert_select 'option[value=cf_1]', {:text => 'Database'}, 'Issue custom field not found'
+      assert_select 'option[value=cf_3]', {:text => 'Development status'}, 'Project custom field not found'
+      assert_select 'option[value=cf_7]', {:text => 'Billable'}, 'TimeEntryActivity custom field not found'
+    end
+  end
+
+  def test_report_with_association_custom_fields
+    get :report, :criteria => ['cf_1', 'cf_3', 'cf_7']
     assert_response :success
     assert_template 'report'
     assert_not_nil assigns(:report)
     assert_equal 3, assigns(:report).criteria.size
     assert_equal "162.90", "%.2f" % assigns(:report).total_hours
-    # Custom field column
-    assert_tag :tag => 'th', :content => 'Database'
+
+    # Custom fields columns
+    assert_select 'th', :text => 'Database'
+    assert_select 'th', :text => 'Development status'
+    assert_select 'th', :text => 'Billable'
+
     # Custom field row
-    assert_tag :tag => 'td', :content => 'MySQL',
-                             :sibling => { :tag => 'td', :attributes => { :class => 'hours' },
-                                                         :child => { :tag => 'span', :attributes => { :class => 'hours hours-int' },
-                                                                                     :content => '1' }}
-    # Second custom field column
-    assert_tag :tag => 'th', :content => 'Billable'
+    assert_select 'tr' do
+      assert_select 'td', :text => 'MySQL'
+      assert_select 'td.hours', :text => '1.00'
+    end
   end
 
   def test_report_one_criteria_no_result
