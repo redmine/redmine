@@ -194,6 +194,7 @@ module IssuesHelper
   end
 
   def query_links(title, queries)
+    return '' if queries.empty?
     # links to #index on issues/show
     url_params = controller_name == 'issues' ? {:controller => 'issues', :action => 'index', :project_id => @project} : params
 
@@ -210,10 +211,8 @@ module IssuesHelper
 
   def render_sidebar_queries
     out = ''.html_safe
-    queries = sidebar_queries.select {|q| !q.is_public?}
-    out << query_links(l(:label_my_queries), queries) if queries.any?
-    queries = sidebar_queries.select {|q| q.is_public?}
-    out << query_links(l(:label_query_plural), queries) if queries.any?
+    out << query_links(l(:label_my_queries), sidebar_queries.reject(&:is_public?))
+    out << query_links(l(:label_query_plural), sidebar_queries.select(&:is_public?))
     out
   end
 
