@@ -28,7 +28,8 @@ class IssueRelationsControllerTest < ActionController::TestCase
            :issue_relations,
            :enabled_modules,
            :enumerations,
-           :trackers
+           :trackers,
+           :projects_trackers
 
   def setup
     User.current = nil
