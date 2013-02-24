@@ -187,6 +187,7 @@ class Issue < ActiveRecord::Base
   def reload(*args)
     @workflow_rule_by_attribute = nil
     @assignable_versions = nil
+    @relations = nil
     super
   end
 

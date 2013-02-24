@@ -50,7 +50,7 @@ class IssueRelationsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to issue_path(@issue) }
       format.js {
-        @relations = @issue.relations.select {|r| r.other_issue(@issue) && r.other_issue(@issue).visible? }
+        @relations = @issue.reload.relations.select {|r| r.other_issue(@issue) && r.other_issue(@issue).visible? }
       }
       format.api {
         if saved
