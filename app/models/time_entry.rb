@@ -40,6 +40,7 @@ class TimeEntry < ActiveRecord::Base
   validates_presence_of :user_id, :activity_id, :project_id, :hours, :spent_on
   validates_numericality_of :hours, :allow_nil => true, :message => :invalid
   validates_length_of :comments, :maximum => 255, :allow_nil => true
+  validates :spent_on, :date => true
   before_validation :set_project_if_nil
   validate :validate_time_entry
 

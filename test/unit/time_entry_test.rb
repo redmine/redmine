@@ -110,6 +110,13 @@ class TimeEntryTest < ActiveSupport::TestCase
     assert_equal 1, te.errors.count
   end
 
+  def test_spent_on_with_2_digits_year_should_not_be_valid
+    entry = TimeEntry.new(:project => Project.find(1), :user => User.find(1), :activity => TimeEntryActivity.first, :hours => 1)
+    entry.spent_on = "09-02-04"
+    assert !entry.valid?
+    assert_include I18n.translate('activerecord.errors.messages.not_a_date'), entry.errors[:spent_on]
+  end
+
   def test_set_project_if_nil
     anon     = User.anonymous
     project  = Project.find(1)
