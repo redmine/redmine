@@ -127,13 +127,16 @@ module Redmine
                                              :label => :label_issue}
                                }
 
-        # Add list and boolean custom fields as available criteria
-        custom_fields = (@project.nil? ? IssueCustomField.for_all : @project.all_issue_custom_fields)
-        # Add list and boolean time entry custom fields
-        custom_fields += TimeEntryCustomField.all
-        # Add list and boolean time entry activity custom fields
+        # Add time entry custom fields
+        custom_fields = TimeEntryCustomField.all
+        # Add project custom fields
+        custom_fields += ProjectCustomField.all
+        # Add issue custom fields
+        custom_fields += (@project.nil? ? IssueCustomField.for_all : @project.all_issue_custom_fields)
+        # Add time entry activity custom fields
         custom_fields += TimeEntryActivityCustomField.all
 
+        # Add list and boolean custom fields as available criteria
         custom_fields.select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
           @available_criteria["cf_#{cf.id}"] = {:sql => "#{cf.join_alias}.value",
                                                  :joins => cf.join_for_order_statement,
