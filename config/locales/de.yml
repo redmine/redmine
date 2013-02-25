@@ -309,6 +309,7 @@ de:
   field_filesize: Größe
   field_firstname: Vorname
   field_fixed_version: Zielversion
+  field_generate_password: Passwort generieren
   field_group_by: Gruppiere Ergebnisse nach
   field_hide_mail: E-Mail-Adresse nicht anzeigen
   field_homepage: Projekt-Homepage
@@ -1097,4 +1098,4 @@ de:
   version_status_open: offen
 
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
-  field_generate_password: Generate password
+
