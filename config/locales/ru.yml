@@ -1192,7 +1192,7 @@ ru:
   permission_edit_documents: Редактировать документы
   permission_delete_documents: Удалить документы
   label_gantt_progress_line: Линия прогресса
-  setting_jsonp_enabled: Enable JSONP support
-  field_inherit_members: Inherit members
-  field_closed_on: Closed
+  setting_jsonp_enabled: Поддержка JSONP
+  field_inherit_members: Наследовать участников
+  field_closed_on: Закрыта
   field_generate_password: Создание пароля
