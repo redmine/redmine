@@ -144,7 +144,7 @@ de:
         greater_than_start_date: "muss größer als Anfangsdatum sein"
         not_same_project: "gehört nicht zum selben Projekt"
         circular_dependency: "Diese Beziehung würde eine zyklische Abhängigkeit erzeugen"
-        cant_link_an_issue_with_a_descendant: "Ein Ticket kann nicht mit einer ihrer Unteraufgaben verlinkt werden"
+        cant_link_an_issue_with_a_descendant: "Ein Ticket kann nicht mit einer Ihrer Unteraufgaben verlinkt werden"
 
   actionview_instancetag_blank_option: Bitte auswählen
 
@@ -525,7 +525,7 @@ de:
   label_f_hour: "%{value} Stunde"
   label_f_hour_plural: "%{value} Stunden"
   label_feed_plural: Feeds
-  label_feeds_access_key: RSS-Zugriffsschlüssel
+  label_feeds_access_key: Atom-Zugriffsschlüssel
   label_feeds_access_key_created_on: "Atom-Zugriffsschlüssel vor %{value} erstellt"
   label_fields_permissions: Feldberechtigungen
   label_file_added: Datei hinzugefügt
@@ -577,7 +577,7 @@ de:
   label_issue_watchers: Beobachter
   label_issues_by: "Tickets pro %{value}"
   label_issues_visibility_all: Alle Tickets
-  label_issues_visibility_own: Tickets die folgender User erstellt hat oder die ihm zugewiesen sind
+  label_issues_visibility_own: Tickets die folgender Benutzer erstellt hat oder die ihm zugewiesen sind
   label_issues_visibility_public: Alle öffentlichen Tickets
   label_item_position: "%{position}/%{count}"
   label_jump_to_a_project: Zu einem Projekt springen...
@@ -610,7 +610,7 @@ de:
   label_message_posted: Forenbeitrag hinzugefügt
   label_min_max_length: Länge (Min. - Max.)
   label_missing_api_access_key: Der API-Zugriffsschlüssel fehlt.
-  label_missing_feeds_access_key: Der RSS-Zugriffsschlüssel fehlt.
+  label_missing_feeds_access_key: Der Atom-Zugriffsschlüssel fehlt.
   label_modified: geändert
   label_module_plural: Module
   label_month: Monat
@@ -872,7 +872,7 @@ de:
   permission_browse_repository: Projektarchiv ansehen
   permission_close_project: Schließen / erneutes Öffnen eines Projekts
   permission_comment_news: News kommentieren
-  permission_commit_access: Commit-Zugriff (über WebDAV)
+  permission_commit_access: Commit-Zugriff
   permission_delete_issue_watchers: Beobachter löschen
   permission_delete_issues: Tickets löschen
   permission_delete_messages: Forenbeiträge löschen
@@ -1054,7 +1054,7 @@ de:
   text_own_membership_delete_confirmation: "Sie sind dabei, einige oder alle Ihre Berechtigungen zu entfernen. Es ist möglich, dass Sie danach das Projekt nicht mehr ansehen oder bearbeiten dürfen.\nSind Sie sicher, dass Sie dies tun möchten?"
   text_plugin_assets_writable: Verzeichnis für Plugin-Assets beschreibbar
   text_project_closed: Dieses Projekt ist geschlossen und kann nicht bearbeitet werden.
-  text_project_destroy_confirmation: Sind Sie sicher, dass sie das Projekt löschen wollen?
+  text_project_destroy_confirmation: Sind Sie sicher, dass Sie das Projekt löschen wollen?
   text_project_identifier_info: 'Kleinbuchstaben (a-z), Ziffern, Binde- und Unterstriche erlaubt, muss mit einem Kleinbuchstaben beginnen.<br />Einmal gespeichert, kann die Kennung nicht mehr geändert werden.'
   text_reassign_time_entries: 'Gebuchte Aufwände diesem Ticket zuweisen:'
   text_regexp_info: z. B. ^[A-Z0-9]+$
@@ -1089,8 +1089,8 @@ de:
   text_wiki_page_nullify_children: Verschiebe die Unterseiten auf die oberste Ebene
   text_wiki_page_reassign_children: Ordne die Unterseiten dieser Seite zu
   text_workflow_edit: Workflow zum Bearbeiten auswählen
-  text_zoom_in: Zoom in
-  text_zoom_out: Zoom out
+  text_zoom_in: Ansicht vergrößern
+  text_zoom_out: Ansicht verkleinern
 
   version_status_closed: abgeschlossen
   version_status_locked: gesperrt
