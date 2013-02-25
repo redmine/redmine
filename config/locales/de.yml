@@ -280,7 +280,7 @@ de:
   field_attr_login: Mitgliedsname-Attribut
   field_attr_mail: E-Mail-Attribut
   field_auth_source: Authentifizierungs-Modus
-  field_auth_source_ldap_filter: LDAP Filter
+  field_auth_source_ldap_filter: LDAP-Filter
   field_author: Autor
   field_base_dn: Base DN
   field_board_parent: Übergeordnetes Forum
@@ -382,7 +382,7 @@ de:
   field_value: Wert
   field_version: Version
   field_visible: Sichtbar
-  field_warn_on_leaving_unsaved: vor dem Verlassen einer Seite mit ungesichertem Text im Editor warnen
+  field_warn_on_leaving_unsaved: Vor dem Verlassen einer Seite mit ungesichertem Text im Editor warnen
   field_watcher: Beobachter
 
   general_csv_decimal_separator: ','
@@ -473,7 +473,7 @@ de:
   label_copied: kopiert
   label_copied_from: Kopiert von
   label_copied_to: Kopiert nach
-  label_copy_attachments: Anhänge Kopieren
+  label_copy_attachments: Anhänge kopieren
   label_copy_same_as_target: So wie das Ziel
   label_copy_source: Quelle
   label_copy_subtasks: Unteraufgaben kopieren
@@ -755,8 +755,8 @@ de:
   label_user_anonymous: Anonym
   label_user_mail_no_self_notified: "Ich möchte nicht über Änderungen benachrichtigt werden, die ich selbst durchführe."
   label_user_mail_option_all: "Für alle Ereignisse in all meinen Projekten"
-  label_user_mail_option_none: keine Ereignisse
-  label_user_mail_option_only_assigned: Nur für Aufgaben für die ich zuständig bin.
+  label_user_mail_option_none: Keine Ereignisse
+  label_user_mail_option_only_assigned: Nur für Aufgaben für die ich zuständig bin
   label_user_mail_option_only_my_events: Nur für Aufgaben die ich beobachte oder an welchen ich mitarbeite
   label_user_mail_option_only_owner: Nur für Aufgaben die ich angelegt habe
   label_user_mail_option_selected: "Für alle Ereignisse in den ausgewählten Projekten..."
@@ -777,8 +777,8 @@ de:
   label_watched_issues: Beobachtete Tickets
   label_week: Woche
   label_wiki: Wiki
-  label_wiki_content_added: Die Wiki-Seite wurde erfolgreich hinzugefügt.
-  label_wiki_content_updated: Die Wiki-Seite wurde erfolgreich aktualisiert.
+  label_wiki_content_added: Wiki-Seite hinzugefügt
+  label_wiki_content_updated: Wiki-Seite aktualisiert
   label_wiki_edit: Wiki-Bearbeitung
   label_wiki_edit_plural: Wiki-Bearbeitungen
   label_wiki_page: Wiki-Seite
@@ -964,11 +964,11 @@ de:
   setting_diff_max_lines_displayed: Maximale Anzahl anzuzeigender Diff-Zeilen
   setting_display_subprojects_issues: Tickets von Unterprojekten im Hauptprojekt anzeigen
   setting_emails_footer: E-Mail-Fußzeile
-  setting_emails_header: E-Mail Betreffzeile
+  setting_emails_header: E-Mail-Betreffzeile
   setting_enabled_scm: Aktivierte Versionskontrollsysteme
   setting_feeds_limit: Max. Anzahl Einträge pro Atom-Feed
   setting_file_max_size_displayed: Maximale Größe inline angezeigter Textdateien
-  setting_gantt_items_limit: Maximale Anzahl von Aufgaben die im Gantt-Chart angezeigt werden.
+  setting_gantt_items_limit: Maximale Anzahl von Aufgaben die im Gantt-Chart angezeigt werden
   setting_gravatar_default: Standard-Gravatar-Bild
   setting_gravatar_enabled: Gravatar-Benutzerbilder benutzen
   setting_host_name: Hostname
@@ -991,7 +991,7 @@ de:
   setting_per_page_options: Objekte pro Seite
   setting_plain_text_mail: Nur reinen Text (kein HTML) senden
   setting_protocol: Protokoll
-  setting_repositories_encodings: Encoding von Anhängen und Repositories
+  setting_repositories_encodings: Encodierung von Anhängen und Repositories
   setting_repository_log_display_limit: Maximale Anzahl anzuzeigender Revisionen in der Historie einer Datei
   setting_rest_api_enabled: REST-Schnittstelle aktivieren
   setting_self_registration: Anmeldung ermöglicht
@@ -1062,7 +1062,7 @@ de:
   text_repository_usernames_mapping: "Bitte legen Sie die Zuordnung der Redmine-Benutzer zu den Benutzernamen der Commit-Log-Meldungen des Projektarchivs fest.\nBenutzer mit identischen Redmine- und Projektarchiv-Benutzernamen oder -E-Mail-Adressen werden automatisch zugeordnet."
   text_rmagick_available: RMagick verfügbar (optional)
   text_scm_command: Kommando
-  text_scm_command_not_available: Scm Kommando ist nicht verfügbar. Bitte prüfen Sie die Einstellungen im Administrationspanel.
+  text_scm_command_not_available: SCM-Kommando ist nicht verfügbar. Bitte prüfen Sie die Einstellungen im Administrationspanel.
   text_scm_command_version: Version
   text_scm_config: Die SCM-Kommandos können in der in config/configuration.yml konfiguriert werden. Redmine muss anschließend neu gestartet werden.
   text_scm_path_encoding_note: "Standard: UTF-8"
