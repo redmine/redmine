@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'http://rubygems.org'
 
 gem 'rails', '3.2.12'
 gem "jquery-rails", "~> 2.0.2"
@@ -37,6 +37,7 @@ end
 # Include database gems for the adapters found in the database
 # configuration file
 require 'erb'
+require 'yaml'
 database_file = File.join(File.dirname(__FILE__), "config/database.yml")
 if File.exist?(database_file)
   database_config = YAML::load(ERB.new(IO.read(database_file)).result)
