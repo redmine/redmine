@@ -128,10 +128,11 @@ class User < Principal
     end
   end
 
+  alias :base_reload :reload
   def reload(*args)
     @name = nil
     @projects_by_role = nil
-    super
+    base_reload(*args)
   end
 
   def mail=(arg)
