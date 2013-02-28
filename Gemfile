@@ -45,10 +45,11 @@ if File.exist?(database_file)
   if adapters.any?
     adapters.each do |adapter|
       case adapter
-      when /mysql/
-        gem "mysql", "~> 2.8.1", :platforms => [:mri_18, :mingw_18]
-        mysql2_platforms = RUBY_VERSION >= '2.0' ? [:mri_20, :mingw_20] : [:mri_19, :mingw_19]
-        gem "mysql2", "~> 0.3.11", :platforms => mysql2_platforms
+      when 'mysql2'
+        gem "mysql2", "~> 0.3.11", :platforms => [:mri, :mingw]
+        gem "activerecord-jdbcmysql-adapter", :platforms => :jruby
+      when 'mysql'
+        gem "mysql", "~> 2.8.1", :platforms => [:mri, :mingw]
         gem "activerecord-jdbcmysql-adapter", :platforms => :jruby
       when /postgresql/
         gem "pg", ">= 0.11.0", :platforms => [:mri, :mingw]
