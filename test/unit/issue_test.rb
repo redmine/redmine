@@ -1411,6 +1411,7 @@ class IssueTest < ActiveSupport::TestCase
                           :relation_type => IssueRelation::TYPE_PRECEDES)
     assert_equal Date.parse('2012-10-18'), issue2.reload.start_date
 
+    issue1.reload
     issue1.due_date = '2012-10-23'
     issue1.save!
     issue2.reload
@@ -1425,6 +1426,7 @@ class IssueTest < ActiveSupport::TestCase
                           :relation_type => IssueRelation::TYPE_PRECEDES)
     assert_equal Date.parse('2012-10-18'), issue2.reload.start_date
 
+    issue1.reload
     issue1.start_date = '2012-09-17'
     issue1.due_date = '2012-09-18'
     issue1.save!
@@ -1443,6 +1445,7 @@ class IssueTest < ActiveSupport::TestCase
                           :relation_type => IssueRelation::TYPE_PRECEDES)
     assert_equal Date.parse('2012-10-18'), issue2.reload.start_date
 
+    issue1.reload
     issue1.start_date = '2012-09-17'
     issue1.due_date = '2012-09-18'
     issue1.save!

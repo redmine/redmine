@@ -82,8 +82,8 @@ class GanttsControllerTest < ActionController::TestCase
 
   def test_gantt_should_display_relations
     IssueRelation.delete_all
-    issue1 = Issue.generate!(:start_date => 1.day.from_now, :due_date => 3.day.from_now)
-    issue2 = Issue.generate!(:start_date => 1.day.from_now, :due_date => 3.day.from_now)
+    issue1 = Issue.generate!(:start_date => 1.day.from_now.to_date, :due_date => 3.day.from_now.to_date)
+    issue2 = Issue.generate!(:start_date => 1.day.from_now.to_date, :due_date => 3.day.from_now.to_date)
     IssueRelation.create!(:issue_from => issue1, :issue_to => issue2, :relation_type => 'precedes')
 
     get :show

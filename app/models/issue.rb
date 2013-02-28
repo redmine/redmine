@@ -1174,7 +1174,6 @@ class Issue < ActiveRecord::Base
       if @parent_issue
         move_to_child_of(@parent_issue)
       end
-      reload
     elsif parent_issue_id != parent_id
       former_parent_id = parent_id
       # moving an existing issue
@@ -1185,7 +1184,6 @@ class Issue < ActiveRecord::Base
         # to another tree
         unless root?
           move_to_right_of(root)
-          reload
         end
         old_root_id = root_id
         self.root_id = (@parent_issue.nil? ? id : @parent_issue.root_id )
@@ -1199,7 +1197,6 @@ class Issue < ActiveRecord::Base
           move_to_child_of(@parent_issue)
         end
       end
-      reload
       # delete invalid relations of all descendants
       self_and_descendants.each do |issue|
         issue.relations.each do |relation|
