@@ -1170,7 +1170,7 @@ class Issue < ActiveRecord::Base
       # issue was just created
       self.root_id = (@parent_issue.nil? ? id : @parent_issue.root_id)
       set_default_left_and_right
-      Issue.update_all("root_id = #{root_id}, lft = #{lft}, rgt = #{rgt}", ["id = ?", id])
+      Issue.update_all(["root_id = ?, lft = ?, rgt = ?", root_id, lft, rgt], ["id = ?", id])
       if @parent_issue
         move_to_child_of(@parent_issue)
       end
@@ -1189,7 +1189,7 @@ class Issue < ActiveRecord::Base
         self.root_id = (@parent_issue.nil? ? id : @parent_issue.root_id )
         target_maxright = nested_set_scope.maximum(right_column_name) || 0
         offset = target_maxright + 1 - lft
-        Issue.update_all("root_id = #{root_id}, lft = lft + #{offset}, rgt = rgt + #{offset}",
+        Issue.update_all(["root_id = ?, lft = lft + ?, rgt = rgt + ?", root_id, offset, offset],
                           ["root_id = ? AND lft >= ? AND rgt <= ? ", old_root_id, lft, rgt])
         self[left_column_name] = lft + offset
         self[right_column_name] = rgt + offset
