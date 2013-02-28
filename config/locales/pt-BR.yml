@@ -1085,7 +1085,7 @@ pt-BR:
   permission_set_notes_private: Set notes as private
   label_no_issues_in_project: no issues in project
   label_any: todos
-  label_last_n_weeks: last %{count} weeks
+  label_last_n_weeks: "últimas %{count} semanas"
   setting_cross_project_subtasks: Allow cross-project subtasks
   label_cross_project_descendants: Com sub-projetos
   label_cross_project_tree: Com a árvore do projeto
