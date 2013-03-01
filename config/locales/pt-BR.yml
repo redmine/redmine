@@ -1095,14 +1095,13 @@ pt-BR:
   setting_non_working_week_days: dias não úteis
   label_in_the_next_days: na próxima
   label_in_the_past_days: no passado
-  label_attribute_of_user: User's %{name}
-  text_turning_multiple_off: If you disable multiple values, multiple values will be
-    removed in order to preserve only one value per item.
-  label_attribute_of_issue: Issue's %{name}
-  permission_add_documents: Add documents
-  permission_edit_documents: Edit documents
-  permission_delete_documents: Delete documents
-  label_gantt_progress_line: Progress line
-  setting_jsonp_enabled: Enable JSONP support
-  field_inherit_members: Inherit members
-  field_closed_on: Closed
+  label_attribute_of_user: Usuário %{name}
+  text_turning_multiple_off: Se você desativar vários valores, vários valores serão removidas, a fim de preservar a somente um valor por item.
+  label_attribute_of_issue: Emissão de %{name}
+  permission_add_documents: Adicionar documentos
+  permission_edit_documents: Editar documentos
+  permission_delete_documents: excluir documentos
+  label_gantt_progress_line: Linha de progresso
+  setting_jsonp_enabled: Ativar suporte JSONP
+  field_inherit_members: Herdar membros
+  field_closed_on: Fechado
