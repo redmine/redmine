@@ -1910,6 +1910,12 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal [Journal.find(1), Journal.find(2)], Issue.find(1).journals_after('')
   end
 
+  def test_css_classes_should_include_tracker
+    issue = Issue.new(:tracker => Tracker.find(2))
+    classes = issue.css_classes.split(' ')
+    assert_include 'tracker-2', classes
+  end
+
   def test_css_classes_should_include_priority
     issue = Issue.new(:priority => IssuePriority.find(8))
     classes = issue.css_classes.split(' ')
