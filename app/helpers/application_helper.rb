@@ -343,7 +343,7 @@ module ApplicationHelper
   def options_for_membership_project_select(principal, projects)
     options = content_tag('option', "--- #{l(:actionview_instancetag_blank_option)} ---")
     options << project_tree_options_for_select(projects) do |p|
-      {:disabled => principal.projects.include?(p)}
+      {:disabled => principal.projects.to_a.include?(p)}
     end
     options
   end
