@@ -727,6 +727,32 @@ class UserTest < ActiveSupport::TestCase
     assert_equal true, User.default_admin_account_changed?
   end
 
+  def test_membership_with_project_should_return_membership
+    project = Project.find(1)
+
+    membership = @jsmith.membership(project)
+    assert_kind_of Member, membership
+    assert_equal @jsmith, membership.user
+    assert_equal project, membership.project
+  end
+
+  def test_membership_with_project_id_should_return_membership
+    project = Project.find(1)
+
+    membership = @jsmith.membership(1)
+    assert_kind_of Member, membership
+    assert_equal @jsmith, membership.user
+    assert_equal project, membership.project
+  end
+
+  def test_membership_for_non_member_should_return_nil
+    project = Project.find(1)
+
+    user = User.generate!
+    membership = user.membership(1)
+    assert_nil membership
+  end
+
   def test_roles_for_project
     # user with a role
     roles = @jsmith.roles_for_project(Project.find(1))

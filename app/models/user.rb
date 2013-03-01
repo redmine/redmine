@@ -131,6 +131,7 @@ class User < Principal
   def reload(*args)
     @name = nil
     @projects_by_role = nil
+    @membership_by_project_id = nil
     super
   end
 
@@ -415,6 +416,17 @@ class User < Principal
     !logged?
   end
 
+  # Returns user's membership for the given project
+  # or nil if the user is not a member of project
+  def membership(project)
+    project_id = project.is_a?(Project) ? project.id : project
+
+    @membership_by_project_id ||= Hash.new {|h, project_id|
+      h[project_id] = memberships.where(:project_id => project_id).first
+    }
+    @membership_by_project_id[project_id]
+  end
+
   # Return user's roles for project
   def roles_for_project(project)
     roles = []
@@ -422,7 +434,7 @@ class User < Principal
     return roles if project.nil? || project.archived?
     if logged?
       # Find project membership
-      membership = memberships.detect {|m| m.project_id == project.id}
+      membership = membership(project)
       if membership
         roles = membership.roles
       else
