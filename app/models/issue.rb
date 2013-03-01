@@ -1147,20 +1147,27 @@ class Issue < ActiveRecord::Base
     end
 
     unless @copied_from.leaf? || @copy_options[:subtasks] == false
-      @copied_from.children.each do |child|
+      copy_options = (@copy_options || {}).merge(:subtasks => false)
+      copied_issue_ids = {@copied_from.id => self.id}
+      @copied_from.reload.descendants.reorder("#{Issue.table_name}.lft").each do |child|
+        # Do not copy self when copying an issue as a descendant of the copied issue
+        next if child == self
+        # Do not copy subtasks of issues that were not copied
+        next unless copied_issue_ids[child.parent_id]
+        # Do not copy subtasks that are not visible to avoid potential disclosure of private data
         unless child.visible?
-          # Do not copy subtasks that are not visible to avoid potential disclosure of private data
           logger.error "Subtask ##{child.id} was not copied during ##{@copied_from.id} copy because it is not visible to the current user" if logger
           next
         end
-        copy = Issue.new.copy_from(child, @copy_options)
+        copy = Issue.new.copy_from(child, copy_options)
         copy.author = author
         copy.project = project
-        copy.parent_issue_id = id
-        # Children subtasks are copied recursively
+        copy.parent_issue_id = copied_issue_ids[child.parent_id]
         unless copy.save
           logger.error "Could not copy subtask ##{child.id} while copying ##{@copied_from.id} to ##{id} due to validation errors: #{copy.errors.full_messages.join(', ')}" if logger
+          next
         end
+        copied_issue_ids[child.id] = copy.id
       end
     end
     @after_create_from_copy_handled = true
