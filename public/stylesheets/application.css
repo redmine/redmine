@@ -567,6 +567,8 @@ textarea.text_cf {width:90%;}
 #tab-content-members fieldset label, #tab-content-memberships fieldset label, #tab-content-users fieldset label {display: block;}
 #tab-content-members #principals, #tab-content-users #principals {max-height: 400px; overflow: auto;}
 
+#tab-content-memberships .splitcontentright select {width:90%}
+
 #users_for_watcher {height: 200px; overflow:auto;}
 #users_for_watcher label {display: block;}
 
