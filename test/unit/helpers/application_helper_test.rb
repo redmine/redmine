@@ -260,9 +260,9 @@ RAW
 
   def test_redmine_links
     issue_link = link_to('#3', {:controller => 'issues', :action => 'show', :id => 3},
-                               :class => 'issue status-1 priority-4 priority-lowest overdue', :title => 'Error 281 when updating a recipe (New)')
+                               :class => Issue.find(3).css_classes, :title => 'Error 281 when updating a recipe (New)')
     note_link = link_to('#3', {:controller => 'issues', :action => 'show', :id => 3, :anchor => 'note-14'},
-                               :class => 'issue status-1 priority-4 priority-lowest overdue', :title => 'Error 281 when updating a recipe (New)')
+                               :class => Issue.find(3).css_classes, :title => 'Error 281 when updating a recipe (New)')
 
     changeset_link = link_to('r1', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :rev => 1},
                                    :class => 'changeset', :title => 'My very first commit')
@@ -752,7 +752,7 @@ RAW
 
     expected = <<-EXPECTED
 <p><a href="/projects/ecookbook/wiki/CookBook_documentation" class="wiki-page">CookBook documentation</a></p>
-<p><a href="/issues/1" class="issue status-1 priority-4 priority-lowest" title="Can&#x27;t print recipes (New)">#1</a></p>
+<p><a href="/issues/1" class="#{Issue.find(1).css_classes}" title="Can&#x27;t print recipes (New)">#1</a></p>
 <pre>
 [[CookBook documentation]]
 
