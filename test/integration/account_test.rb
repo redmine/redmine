@@ -87,6 +87,11 @@ class AccountTest < ActionController::IntegrationTest
       cookies['custom_autologin'] = token
       get '/my/page'
       assert_response :success
+
+      assert_difference 'Token.count', -1 do
+        post '/logout'
+      end
+      assert cookies['custom_autologin'].blank?
     end
   end
 
