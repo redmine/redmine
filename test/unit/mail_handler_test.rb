@@ -320,6 +320,22 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_same_elements [group1, group2], user.groups
   end
 
+  def test_created_user_should_not_receive_account_information_with_no_account_info_option
+    assert_difference 'User.count' do
+      submit_email(
+        'ticket_by_unknown_user.eml',
+        :issue => {:project => 'ecookbook'},
+        :unknown_user => 'create',
+        :no_account_notice => '1'
+      )
+    end
+
+    # only 1 email for the new issue notification
+    assert_equal 1, ActionMailer::Base.deliveries.size
+    email = ActionMailer::Base.deliveries.first
+    assert_include 'Ticket by unknown user', email.subject
+  end
+
   def test_add_issue_without_from_header
     Role.anonymous.add_permission!(:add_issues)
     assert_equal false, submit_email('ticket_without_from_header.eml')
