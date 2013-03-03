@@ -30,6 +30,7 @@ class Group < Principal
   before_destroy :remove_references_before_destroy
 
   scope :sorted, lambda { order("#{table_name}.lastname ASC") }
+  scope :named, lambda {|arg| where("LOWER(#{table_name}.lastname) = LOWER(?)", arg.to_s.strip)}
 
   safe_attributes 'name',
     'user_ids',
