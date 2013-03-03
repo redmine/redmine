@@ -1119,25 +1119,24 @@ vi:
   permission_set_notes_private: Đặt ghi chú thành riêng tư
   label_no_issues_in_project: Không có vấn đề nào trong dự án
   label_any: tất cả
-  label_last_n_weeks: last %{count} weeks
-  setting_cross_project_subtasks: Allow cross-project subtasks
-  label_cross_project_descendants: With subprojects
-  label_cross_project_tree: With project tree
-  label_cross_project_hierarchy: With project hierarchy
-  label_cross_project_system: With all projects
-  button_hide: Hide
-  setting_non_working_week_days: Non-working days
-  label_in_the_next_days: in the next
-  label_in_the_past_days: in the past
-  label_attribute_of_user: User's %{name}
-  text_turning_multiple_off: If you disable multiple values, multiple values will be
-    removed in order to preserve only one value per item.
-  label_attribute_of_issue: Issue's %{name}
-  permission_add_documents: Add documents
-  permission_edit_documents: Edit documents
-  permission_delete_documents: Delete documents
-  label_gantt_progress_line: Progress line
-  setting_jsonp_enabled: Enable JSONP support
-  field_inherit_members: Inherit members
-  field_closed_on: Closed
+  label_last_n_weeks: "%{count} tuần qua"
+  setting_cross_project_subtasks: Cho phép các nhiệm vụ con liên dự án
+  label_cross_project_descendants: Trong các dự án con
+  label_cross_project_tree: Trong cùng cây dự án
+  label_cross_project_hierarchy: Trong dự án cùng cấp bậc
+  label_cross_project_system: Trong tất cả các dự án
+  button_hide: Ẩn
+  setting_non_working_week_days: Các ngày không làm việc
+  label_in_the_next_days: Trong tương lai
+  label_in_the_past_days: Trong quá khứ
+  label_attribute_of_user: "Của người dùng %{name}"
+  text_turning_multiple_off: Nếu bạn vô hiệu hóa nhiều giá trị, chúng sẽ bị loại bỏ để duy trì chỉ có một giá trị cho mỗi mục.
+  label_attribute_of_issue: "Vấn đề của %{name}"
+  permission_add_documents: Thêm tài liệu
+  permission_edit_documents: Soạn thảo tài liệu
+  permission_delete_documents: Xóa tài liệu
+  label_gantt_progress_line: Tiến độ
+  setting_jsonp_enabled: Cho phép trợ giúp JSONP
+  field_inherit_members: Các thành viên kế thừa
+  field_closed_on: Đã đóng
   field_generate_password: Generate password
