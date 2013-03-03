@@ -39,6 +39,7 @@ class MailHandler < ActionMailer::Base
     @@handler_options[:allow_override] << 'status' unless @@handler_options[:issue].has_key?(:status)
 
     @@handler_options[:no_account_notice] = (@@handler_options[:no_account_notice].to_s == '1')
+    @@handler_options[:no_notification] = (@@handler_options[:no_notification].to_s == '1')
     @@handler_options[:no_permission_check] = (@@handler_options[:no_permission_check].to_s == '1')
 
     email.force_encoding('ASCII-8BIT') if email.respond_to?(:force_encoding)
@@ -455,6 +456,9 @@ class MailHandler < ActionMailer::Base
     end
     if addr.present?
       user = self.class.new_user_from_attributes(addr, name)
+      if @@handler_options[:no_notification]
+        user.mail_notification = 'none'
+      end
       if user.save
         user
       else
