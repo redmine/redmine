@@ -2,6 +2,7 @@
 # by
 #   Do Hai Bac (dohaibac@gmail.com)
 #   Dao Thanh Ngoc (ngocdaothanh@gmail.com, http://github.com/ngocdaothanh/rails-i18n/tree/master)
+#   Nguyen Minh Thien (thiencdcn@gmail.com, http://www.eDesignLab.org)
 
 vi:
   number:
@@ -80,8 +81,8 @@ vi:
         one:   "khoảng 1 giờ"
         other: "khoảng %{count} giờ"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 giờ"
+        other: "%{count} giờ"
       x_days:
         one:   "1 ngày"
         other: "%{count} ngày"
@@ -98,8 +99,8 @@ vi:
         one:   "hơn 1 năm"
         other: "hơn %{count} năm"
       almost_x_years:
-        one:   "almost 1 year"
-        other: "almost %{count} years"
+        one:   "gần 1 năm"
+        other: "gần %{count} năm"
     prompts:
       year:   "Năm"
       month:  "Tháng"
@@ -142,7 +143,7 @@ vi:
         greater_than_start_date: "phải đi sau ngày bắt đầu"
         not_same_project: "không thuộc cùng dự án"
         circular_dependency: "quan hệ có thể gây ra lặp vô tận"
-        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
+        cant_link_an_issue_with_a_descendant: "Một vấn đề không thể liên kết tới một trong số những tác vụ con của nó"
 
   direction: ltr
   date:
@@ -214,16 +215,16 @@ vi:
   notice_email_sent: "Email đã được gửi tới %{value}"
   notice_email_error: "Lỗi xảy ra khi gửi email (%{value})"
   notice_feeds_access_key_reseted: Mã số chứng thực RSS đã được tạo lại.
-  notice_failed_to_save_issues: "Failed to save %{count} issue(s) on %{total} selected: %{ids}."
-  notice_no_issue_selected: "No issue is selected! Please, check the issues you want to edit."
+  notice_failed_to_save_issues: "Thất bại khi lưu %{count} vấn đề trong %{total} lựa chọn: %{ids}."
+  notice_no_issue_selected: "Không có vấn đề được chọn! Vui lòng kiểm tra các vấn đề bạn cần chỉnh sửa."
   notice_account_pending: "Thông tin tài khoản đã được tạo ra và đang chờ chứng thực từ ban quản trị."
   notice_default_data_loaded: Đã nạp cấu hình mặc định.
   notice_unable_delete_version: Không thể xóa phiên bản.
 
   error_can_t_load_default_data: "Không thể nạp cấu hình mặc định: %{value}"
-  error_scm_not_found: "The entry or revision was not found in the repository."
+  error_scm_not_found: "Không tìm thấy dữ liệu trong kho chứa."
   error_scm_command_failed: "Lỗi xảy ra khi truy cập vào kho lưu trữ: %{value}"
-  error_scm_annotate: "The entry does not exist or can not be annotated."
+  error_scm_annotate: "Đầu vào không tồn tại hoặc không thể chú thích."
   error_issue_not_found_in_project: 'Vấn đề không tồn tại hoặc không thuộc dự án'
 
   mail_subject_lost_password: "%{value}: mật mã của bạn"
@@ -290,17 +291,17 @@ vi:
   field_version: Phiên bản
   field_type: Kiểu
   field_host: Host
-  field_port: Port
+  field_port: Cổng
   field_account: Tài khoản
   field_base_dn: Base DN
-  field_attr_login: Login attribute
-  field_attr_firstname: Firstname attribute
-  field_attr_lastname: Lastname attribute
-  field_attr_mail: Email attribute
-  field_onthefly: On-the-fly user creation
+  field_attr_login: Thuộc tính đăng nhập
+  field_attr_firstname: Thuộc tính tên đệm và Tên
+  field_attr_lastname: Thuộc tính Họ
+  field_attr_mail: Thuộc tính Email
+  field_onthefly: Tạo người dùng tức thì
   field_start_date: Bắt đầu
   field_done_ratio: Tiến độ
-  field_auth_source: Authentication mode
+  field_auth_source: Chế độ xác thực
   field_hide_mail: Không làm lộ email của bạn
   field_comments: Bình luận
   field_url: URL
@@ -330,31 +331,31 @@ vi:
   setting_login_required: Cần đăng nhập
   setting_self_registration: Tự chứng thực
   setting_attachment_max_size: Cỡ tối đa của tập tin đính kèm
-  setting_issues_export_limit: Issues export limit
-  setting_mail_from: Emission email address
+  setting_issues_export_limit: Giới hạn Export vấn đề
+  setting_mail_from: Địa chỉ email gửi thông báo
   setting_bcc_recipients: Tạo bản CC bí mật (bcc)
   setting_host_name: Tên miền và đường dẫn
   setting_text_formatting: Định dạng bài viết
-  setting_wiki_compression: Wiki history compression
+  setting_wiki_compression: Nén lịch sử Wiki
   setting_feeds_limit: Giới hạn nội dung của feed
   setting_default_projects_public: Dự án mặc định là công cộng
-  setting_autofetch_changesets: Autofetch commits
-  setting_sys_api_enabled: Enable WS for repository management
+  setting_autofetch_changesets: Tự động tìm nạp commits
+  setting_sys_api_enabled: Cho phép WS quản lý kho chứa
   setting_commit_ref_keywords: Từ khóa tham khảo
   setting_commit_fix_keywords: Từ khóa chỉ vấn đề đã giải quyết
   setting_autologin: Tự động đăng nhập
   setting_date_format: Định dạng ngày
   setting_time_format: Định dạng giờ
   setting_cross_project_issue_relations: Cho phép quan hệ chéo giữa các dự án
-  setting_issue_list_default_columns: Default columns displayed on the issue list
+  setting_issue_list_default_columns: Các cột mặc định hiển thị trong danh sách vấn đề
   setting_emails_footer: Chữ ký cuối thư
   setting_protocol: Giao thức
-  setting_per_page_options: Objects per page options
+  setting_per_page_options: Tùy chọn đối tượng mỗi trang
   setting_user_format: Định dạng hiển thị người dùng
-  setting_activity_days_default: Days displayed on project activity
-  setting_display_subprojects_issues: Display subprojects issues on main projects by default
-  setting_enabled_scm: Enabled SCM
-  setting_mail_handler_api_enabled: Enable WS for incoming emails
+  setting_activity_days_default: Ngày hiển thị hoạt động của dự án
+  setting_display_subprojects_issues: Hiển thị mặc định vấn đề của dự án con ở dự án chính
+  setting_enabled_scm: Cho phép SCM
+  setting_mail_handler_api_enabled: Cho phép WS cho các email tới
   setting_mail_handler_api_key: Mã số API
   setting_sequential_project_identifiers: Tự sinh chuỗi ID dự án
 
@@ -374,9 +375,9 @@ vi:
   label_project_new: Dự án mới
   label_project_plural: Dự án
   label_x_projects:
-    zero:  no projects
-    one:   1 project
-    other: "%{count} projects"
+    zero:  không có dự án
+    one:   một dự án
+    other: "%{count} dự án"
   label_project_all: Mọi dự án
   label_project_latest: Dự án mới nhất
   label_issue: Vấn đề
@@ -400,18 +401,18 @@ vi:
   label_tracker: Dòng vấn đề
   label_tracker_plural: Dòng vấn đề
   label_tracker_new: Tạo dòng vấn đề mới
-  label_workflow: Workflow
-  label_issue_status: Issue status
-  label_issue_status_plural: Issue statuses
-  label_issue_status_new: New status
+  label_workflow: Quy trình làm việc
+  label_issue_status: Trạng thái vấn đề
+  label_issue_status_plural: Trạng thái vấn đề
+  label_issue_status_new: Thêm trạng thái
   label_issue_category: Chủ đề
   label_issue_category_plural: Chủ đề
   label_issue_category_new: Chủ đề mới
-  label_custom_field: Custom field
-  label_custom_field_plural: Custom fields
-  label_custom_field_new: New custom field
-  label_enumerations: Enumerations
-  label_enumeration_new: New value
+  label_custom_field: Trường tùy biến
+  label_custom_field_plural: Trường tùy biến
+  label_custom_field_new: Thêm Trường tùy biến
+  label_enumerations: Liệt kê
+  label_enumeration_new: Thêm giá trị
   label_information: Thông tin
   label_information_plural: Thông tin
   label_please_login: Vui lòng đăng nhập
@@ -433,23 +434,23 @@ vi:
   label_overall_activity: Tất cả hoạt động
   label_new: Mới
   label_logged_as: Tài khoản &raquo;
-  label_environment: Environment
-  label_authentication: Authentication
-  label_auth_source: Authentication mode
-  label_auth_source_new: New authentication mode
-  label_auth_source_plural: Authentication modes
+  label_environment: Môi trường
+  label_authentication: Xác thực
+  label_auth_source: Chế độ xác thực
+  label_auth_source_new: Chế độ xác thực mới
+  label_auth_source_plural: Chế độ xác thực
   label_subproject_plural: Dự án con
   label_and_its_subprojects: "%{value} và dự án con"
-  label_min_max_length: Min - Max length
-  label_list: List
+  label_min_max_length: Độ dài nhỏ nhất - lớn nhất
+  label_list: Danh sách
   label_date: Ngày
-  label_integer: Integer
-  label_float: Float
+  label_integer: Số nguyên
+  label_float: Số thực
   label_boolean: Boolean
-  label_string: Text
-  label_text: Long text
-  label_attribute: Attribute
-  label_attribute_plural: Attributes
+  label_string: Văn bản
+  label_text: Văn bản dài
+  label_attribute: Thuộc tính
+  label_attribute_plural: Các thuộc tính
   label_no_data: Chưa có thông tin gì
   label_change_status: Đổi trạng thái
   label_history: Lược sử
@@ -473,24 +474,24 @@ vi:
   label_version_plural: Phiên bản
   label_confirmation: Khẳng định
   label_export_to: 'Định dạng khác của trang này:'
-  label_read: Read...
+  label_read: Đọc...
   label_public_projects: Các dự án công cộng
   label_open_issues: mở
   label_open_issues_plural: mở
   label_closed_issues: đóng
   label_closed_issues_plural: đóng
   label_x_open_issues_abbr_on_total:
-    zero:  0 open / %{total}
-    one:   1 open / %{total}
-    other: "%{count} open / %{total}"
+    zero:  "0 mở / %{total}"
+    one:   "1 mở / %{total}"
+    other: "%{count} mở / %{total}"
   label_x_open_issues_abbr:
-    zero:  0 open
-    one:   1 open
-    other: "%{count} open"
+    zero:  0 mở
+    one:   1 mở
+    other: "%{count} mở"
   label_x_closed_issues_abbr:
-    zero:  0 closed
-    one:   1 closed
-    other: "%{count} closed"
+    zero:  0 đóng
+    one:   1 đóng
+    other: "%{count} đóng"
   label_total: Tổng cộng
   label_permissions: Quyền
   label_current_status: Trạng thái hiện tại
@@ -500,7 +501,7 @@ vi:
   label_nobody: Chẳng ai
   label_next: Sau
   label_previous: Trước
-  label_used_by: Used by
+  label_used_by: Được dùng bởi
   label_details: Chi tiết
   label_add_note: Thêm ghi chú
   label_per_page: Mỗi trang
@@ -514,9 +515,9 @@ vi:
   label_comment: Bình luận
   label_comment_plural: Bình luận
   label_x_comments:
-    zero: no comments
-    one: 1 comment
-    other: "%{count} comments"
+    zero: không có bình luận
+    one: 1 bình luận
+    other: "%{count} bình luận"
   label_comment_add: Thêm bình luận
   label_comment_added: Đã thêm bình luận
   label_comment_delete: Xóa bình luận
@@ -551,7 +552,7 @@ vi:
   label_browse: Duyệt
   label_revision: Bản điều chỉnh
   label_revision_plural: Bản điều chỉnh
-  label_associated_revisions: Associated revisions
+  label_associated_revisions: Các bản điều chỉnh được ghép
   label_added: thêm
   label_modified: đổi
   label_copied: chép
@@ -573,7 +574,7 @@ vi:
   label_result_plural: Kết quả
   label_all_words: Mọi từ
   label_wiki: Wiki
-  label_wiki_edit: Wiki edit
+  label_wiki_edit: Sửa Wiki
   label_wiki_edit_plural: Thay đổi wiki
   label_wiki_page: Trang wiki
   label_wiki_page_plural: Trang wiki
@@ -581,7 +582,7 @@ vi:
   label_index_by_date: Danh sách theo ngày
   label_current_version: Bản hiện tại
   label_preview: Xem trước
-  label_feed_plural: Feeds
+  label_feed_plural: Nguồn cấp tin
   label_changes_details: Chi tiết của mọi thay đổi
   label_issue_tracking: Vấn đề
   label_spent_time: Thời gian
@@ -590,13 +591,13 @@ vi:
   label_time_tracking: Theo dõi thời gian
   label_change_plural: Thay đổi
   label_statistics: Thống kê
-  label_commits_per_month: Commits per month
-  label_commits_per_author: Commits per author
+  label_commits_per_month: Commits mỗi tháng
+  label_commits_per_author: Commits mỗi tác giả
   label_view_diff: So sánh
   label_diff_inline: inline
-  label_diff_side_by_side: side by side
+  label_diff_side_by_side: bên cạnh nhau
   label_options: Tùy chọn
-  label_copy_workflow_from: Copy workflow from
+  label_copy_workflow_from: Sao chép quy trình từ
   label_permissions_report: Thống kê các quyền
   label_watched_issues: Chủ đề đang theo dõi
   label_related_issues: Liên quan
@@ -636,7 +637,7 @@ vi:
   label_date_to: Đến
   label_language_based: Theo ngôn ngữ người dùng
   label_sort_by: "Sắp xếp theo %{value}"
-  label_send_test_email: Send a test email
+  label_send_test_email: Gửi một email kiểm tra
   label_feeds_access_key_created_on: "Mã chứng thực RSS được tạo ra cách đây %{value}"
   label_module_plural: Mô-đun
   label_added_time_by: "thêm bởi %{author} cách đây %{age}"
@@ -653,11 +654,11 @@ vi:
   label_user_mail_option_all: "Mọi sự kiện trên mọi dự án của bạn"
   label_user_mail_option_selected: "Mọi sự kiện trên các dự án được chọn..."
   label_user_mail_no_self_notified: "Đừng gửi email về các thay đổi do chính bạn thực hiện"
-  label_registration_activation_by_email: account activation by email
-  label_registration_manual_activation: manual account activation
-  label_registration_automatic_activation: automatic account activation
+  label_registration_activation_by_email: kích hoạt tài khoản qua email
+  label_registration_manual_activation: kích hoạt tài khoản thủ công
+  label_registration_automatic_activation: kích hoạt tài khoản tự động
   label_display_per_page: "mỗi trang: %{value}"
-  label_age: Age
+  label_age: Thời gian
   label_change_properties: Thay đổi thuộc tính
   label_general: Tổng quan
   label_more: Chi tiết
@@ -721,43 +722,43 @@ vi:
   text_select_mail_notifications: Chọn hành động đối với mỗi email thông báo sẽ gửi.
   text_regexp_info: eg. ^[A-Z0-9]+$
   text_min_max_length_info: 0 để chỉ không hạn chế
-  text_project_destroy_confirmation: Are you sure you want to delete this project and related data ?
-  text_subprojects_destroy_warning: "Its subproject(s): %{value} will be also deleted."
-  text_workflow_edit: Select a role and a tracker to edit the workflow
+  text_project_destroy_confirmation: Bạn có chắc chắn muốn xóa dự án này và các dữ liệu liên quan ?
+  text_subprojects_destroy_warning: "Dự án con của : %{value} cũng sẽ bị xóa."
+  text_workflow_edit: Chọn một vai trò và một vấn đề để sửa quy trình
   text_are_you_sure: Bạn chắc chứ?
   text_tip_issue_begin_day: ngày bắt đầu
   text_tip_issue_end_day: ngày kết thúc
   text_tip_issue_begin_end_day: bắt đầu và kết thúc cùng ngày
   text_caracters_maximum: "Tối đa %{count} ký tự."
   text_caracters_minimum: "Phải gồm ít nhất %{count} ký tự."
-  text_length_between: "Length between %{min} and %{max} characters."
-  text_tracker_no_workflow: No workflow defined for this tracker
+  text_length_between: "Chiều dài giữa %{min} và %{max} ký tự."
+  text_tracker_no_workflow: Không có quy trình được định nghĩa cho theo dõi này
   text_unallowed_characters: Ký tự không hợp lệ
-  text_comma_separated: Multiple values allowed (comma separated).
-  text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
-  text_issue_added: "Issue %{id} has been reported by %{author}."
-  text_issue_updated: "Issue %{id} has been updated by %{author}."
-  text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all its content ?
-  text_issue_category_destroy_question: "Some issues (%{count}) are assigned to this category. What do you want to do ?"
-  text_issue_category_destroy_assignments: Remove category assignments
-  text_issue_category_reassign_to: Reassign issues to this category
+  text_comma_separated: Nhiều giá trị được phép (cách nhau bởi dấu phẩy).
+  text_issues_ref_in_commit_messages: Vấn đề tham khảo và cố định trong ghi chú commit
+  text_issue_added: "Vấn đề %{id} đã được báo cáo bởi %{author}."
+  text_issue_updated: "Vấn đề %{id} đã được cập nhật bởi %{author}."
+  text_wiki_destroy_confirmation: Bạn có chắc chắn muốn xóa trang wiki này và tất cả nội dung của nó ?
+  text_issue_category_destroy_question: "Một số vấn đề (%{count}) được gán cho danh mục này. Bạn muốn làm gì ?"
+  text_issue_category_destroy_assignments: Gỡ bỏ danh mục được phân công
+  text_issue_category_reassign_to: Gán lại vấn đề cho danh mục này
   text_user_mail_option: "Với các dự án không được chọn, bạn chỉ có thể nhận được thông báo về các vấn đề bạn đăng ký theo dõi hoặc có liên quan đến bạn (chẳng hạn, vấn đề được gán cho bạn)."
-  text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
-  text_load_default_configuration: Load the default configuration
-  text_status_changed_by_changeset: "Applied in changeset %{value}."
-  text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s) ?'
+  text_no_configuration_data: "Quyền, theo dõi, tình trạng vấn đề và quy trình chưa được cấu hình.\nBắt buộc phải nạp cấu hình mặc định. Bạn sẽ thay đổi nó được sau khi đã nạp."
+  text_load_default_configuration: Nạp lại cấu hình mặc định
+  text_status_changed_by_changeset: "Áp dụng trong changeset : %{value}."
+  text_issues_destroy_confirmation: 'Bạn có chắc chắn muốn xóa các vấn đề đã chọn ?'
   text_select_project_modules: 'Chọn các mô-đun cho dự án:'
-  text_default_administrator_account_changed: Default administrator account changed
-  text_file_repository_writable: File repository writable
-  text_rmagick_available: RMagick available (optional)
-  text_destroy_time_entries_question: "%{hours} hours were reported on the issues you are about to delete. What do you want to do ?"
-  text_destroy_time_entries: Delete reported hours
-  text_assign_time_entries_to_project: Assign reported hours to the project
-  text_reassign_time_entries: 'Reassign reported hours to this issue:'
-  text_user_wrote: "%{value} wrote:"
-  text_enumeration_destroy_question: "%{count} objects are assigned to this value."
-  text_enumeration_category_reassign_to: 'Reassign them to this value:'
-  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/configuration.yml and restart the application to enable them."
+  text_default_administrator_account_changed: Thay đổi tài khoản quản trị mặc định
+  text_file_repository_writable: Cho phép ghi thư mục đính kèm
+  text_rmagick_available: Trạng thái RMagick
+  text_destroy_time_entries_question: "Thời gian %{hours} giờ đã báo cáo trong vấn đề bạn định xóa. Bạn muốn làm gì tiếp ?"
+  text_destroy_time_entries: Xóa thời gian báo cáo
+  text_assign_time_entries_to_project: Gán thời gian báo cáo cho dự án
+  text_reassign_time_entries: 'Gán lại thời gian báo cáo cho Vấn đề này:'
+  text_user_wrote: "%{value} đã viết:"
+  text_enumeration_destroy_question: "%{count} đối tượng được gán giá trị này."
+  text_enumeration_category_reassign_to: 'Gán lại giá trị này:'
+  text_email_delivery_not_configured: "Cấu hình gửi Email chưa được đặt, và chức năng thông báo bị loại bỏ.\nCấu hình máy chủ SMTP của bạn ở file config/configuration.yml và khởi động lại để kích hoạt chúng."
 
   default_role_manager: Điều hành
   default_role_developer: Phát triển
@@ -766,7 +767,7 @@ vi:
   default_tracker_feature: Tính năng
   default_tracker_support: Hỗ trợ
   default_issue_status_new: Mới
-  default_issue_status_in_progress: In Progress
+  default_issue_status_in_progress: Đang tiến hành
   default_issue_status_resolved: Quyết tâm
   default_issue_status_feedback: Phản hồi
   default_issue_status_closed: Đóng
@@ -836,303 +837,305 @@ vi:
   permission_delete_own_messages: Xóa bài viết cá nhân
   label_example: Ví dụ
   text_repository_usernames_mapping: "Chọn hoặc cập nhật ánh xạ người dùng hệ thống với người dùng trong kho lưu trữ.\nNhững trường hợp trùng hợp về tên và email sẽ được tự động ánh xạ."
-  permission_delete_own_messages: Delete own messages
-  label_user_activity: "%{value}'s activity"
-  label_updated_time_by: "Updated by %{author} %{age} ago"
-  text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
-  setting_diff_max_lines_displayed: Max number of diff lines displayed
-  text_plugin_assets_writable: Plugin assets directory writable
-  warning_attachments_not_saved: "%{count} file(s) could not be saved."
-  button_create_and_continue: Create and continue
-  text_custom_field_possible_values_info: 'One line for each value'
-  label_display: Display
-  field_editable: Editable
-  setting_repository_log_display_limit: Maximum number of revisions displayed on file log
-  setting_file_max_size_displayed: Max size of text files displayed inline
-  field_watcher: Watcher
-  setting_openid: Allow OpenID login and registration
+  permission_delete_own_messages: Xóa thông điệp
+  label_user_activity: "%{value} hoạt động"
+  label_updated_time_by: "Cập nhật bởi %{author} cách đây %{age}"
+  text_diff_truncated: '... Thay đổi này đã được cắt bớt do nó vượt qua giới hạn kích thước có thể hiển thị.'
+  setting_diff_max_lines_displayed: Số dòng thay đổi tối đa được hiển thị
+  text_plugin_assets_writable: Cho phép ghi thư mục Plugin
+  warning_attachments_not_saved: "%{count} file không được lưu."
+  button_create_and_continue: Tạo và tiếp tục
+  text_custom_field_possible_values_info: 'Một dòng cho mỗi giá trị'
+  label_display: Hiển thị
+  field_editable: Có thể sửa được
+  setting_repository_log_display_limit: Số lượng tối đa các bản điều chỉnh hiển thị trong file log
+  setting_file_max_size_displayed: Kích thước tối đa của tệp tin văn bản
+  field_watcher: Người quan sát
+  setting_openid: Cho phép đăng nhập và đăng ký dùng OpenID
   field_identity_url: OpenID URL
-  label_login_with_open_id_option: or login with OpenID
-  field_content: Content
-  label_descending: Descending
-  label_sort: Sort
-  label_ascending: Ascending
-  label_date_from_to: From %{start} to %{end}
+  label_login_with_open_id_option: hoặc đăng nhập với OpenID
+  field_content: Nội dung
+  label_descending: Giảm dần
+  label_sort: Sắp xếp
+  label_ascending: Tăng dần
+  label_date_from_to: "Từ %{start} tới %{end}"
   label_greater_or_equal: ">="
-  label_less_or_equal: <=
-  text_wiki_page_destroy_question: This page has %{descendants} child page(s) and descendant(s). What do you want to do?
-  text_wiki_page_reassign_children: Reassign child pages to this parent page
-  text_wiki_page_nullify_children: Keep child pages as root pages
-  text_wiki_page_destroy_children: Delete child pages and all their descendants
-  setting_password_min_length: Minimum password length
-  field_group_by: Group results by
-  mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
-  label_wiki_content_added: Wiki page added
-  mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
-  mail_body_wiki_content_added: The '%{id}' wiki page has been added by %{author}.
-  label_wiki_content_updated: Wiki page updated
-  mail_body_wiki_content_updated: The '%{id}' wiki page has been updated by %{author}.
-  permission_add_project: Create project
-  setting_new_project_user_role_id: Role given to a non-admin user who creates a project
-  label_view_all_revisions: View all revisions
-  label_tag: Tag
-  label_branch: Branch
-  error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
-  error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
-  text_journal_changed: "%{label} changed from %{old} to %{new}"
-  text_journal_set_to: "%{label} set to %{value}"
-  text_journal_deleted: "%{label} deleted (%{old})"
-  label_group_plural: Groups
-  label_group: Group
-  label_group_new: New group
-  label_time_entry_plural: Spent time
-  text_journal_added: "%{label} %{value} added"
-  field_active: Active
-  enumeration_system_activity: System Activity
-  permission_delete_issue_watchers: Delete watchers
-  version_status_closed: closed
-  version_status_locked: locked
-  version_status_open: open
-  error_can_not_reopen_issue_on_closed_version: An issue assigned to a closed version can not be reopened
-  label_user_anonymous: Anonymous
-  button_move_and_follow: Move and follow
-  setting_default_projects_modules: Default enabled modules for new projects
-  setting_gravatar_default: Default Gravatar image
-  field_sharing: Sharing
-  label_version_sharing_hierarchy: With project hierarchy
-  label_version_sharing_system: With all projects
-  label_version_sharing_descendants: With subprojects
-  label_version_sharing_tree: With project tree
-  label_version_sharing_none: Not shared
-  error_can_not_archive_project: This project can not be archived
-  button_duplicate: Duplicate
-  button_copy_and_follow: Copy and follow
-  label_copy_source: Source
-  setting_issue_done_ratio: Calculate the issue done ratio with
-  setting_issue_done_ratio_issue_status: Use the issue status
-  error_issue_done_ratios_not_updated: Issue done ratios not updated.
-  error_workflow_copy_target: Please select target tracker(s) and role(s)
-  setting_issue_done_ratio_issue_field: Use the issue field
-  label_copy_same_as_target: Same as target
-  label_copy_target: Target
-  notice_issue_done_ratios_updated: Issue done ratios updated.
-  error_workflow_copy_source: Please select a source tracker or role
-  label_update_issue_done_ratios: Update issue done ratios
-  setting_start_of_week: Start calendars on
-  permission_view_issues: View Issues
-  label_display_used_statuses_only: Only display statuses that are used by this tracker
-  label_revision_id: Revision %{value}
-  label_api_access_key: API access key
-  label_api_access_key_created_on: API access key created %{value} ago
-  label_feeds_access_key: RSS access key
-  notice_api_access_key_reseted: Your API access key was reset.
-  setting_rest_api_enabled: Enable REST web service
-  label_missing_api_access_key: Missing an API access key
-  label_missing_feeds_access_key: Missing a RSS access key
-  button_show: Show
-  text_line_separated: Multiple values allowed (one line for each value).
-  setting_mail_handler_body_delimiters: Truncate emails after one of these lines
-  permission_add_subprojects: Create subprojects
-  label_subproject_new: New subproject
+  label_less_or_equal: "<="
+  text_wiki_page_destroy_question: "Trang này có %{descendants} trang con và trang cháu. Bạn muốn làm gì tiếp?"
+  text_wiki_page_reassign_children: Gán lại trang con vào trang mẹ này
+  text_wiki_page_nullify_children: Giữ trang con như trang gốc
+  text_wiki_page_destroy_children: Xóa trang con và tất cả trang con cháu của nó
+  setting_password_min_length: Chiều dài tối thiểu của mật khẩu
+  field_group_by: Nhóm kết quả bởi
+  mail_subject_wiki_content_updated: "%{id} trang wiki đã được cập nhật"
+  label_wiki_content_added: Đã thêm trang Wiki
+  mail_subject_wiki_content_added: "%{id} trang wiki đã được thêm vào"
+  mail_body_wiki_content_added: "Có %{id} trang wiki đã được thêm vào bởi %{author}."
+  label_wiki_content_updated: Trang Wiki đã được cập nhật
+  mail_body_wiki_content_updated: "Có %{id} trang wiki đã được cập nhật bởi %{author}."
+  permission_add_project: Tạo dự án
+  setting_new_project_user_role_id: Quyền được gán cho người dùng không phải quản trị viên khi tạo dự án mới
+  label_view_all_revisions: Xem tất cả bản điều chỉnh
+  label_tag: Thẻ
+  label_branch: Nhánh
+  error_no_tracker_in_project: Không có ai theo dõi dự án này. Hãy kiểm tra lại phần thiết lập cho dự án.
+  error_no_default_issue_status: Không có vấn đề mặc định được định nghĩa. Vui lòng kiểm tra cấu hình của bạn (Vào "Quản trị -> Trạng thái vấn đề").
+  text_journal_changed: "%{label} thay đổi từ %{old} tới %{new}"
+  text_journal_set_to: "%{label} gán cho %{value}"
+  text_journal_deleted: "%{label} xóa (%{old})"
+  label_group_plural: Các nhóm
+  label_group: Nhóm
+  label_group_new: Thêm nhóm
+  label_time_entry_plural: Thời gian đã sử dụng
+  text_journal_added: "%{label} %{value} được thêm"
+  field_active: Tích cực
+  enumeration_system_activity: Hoạt động hệ thống
+  permission_delete_issue_watchers: Xóa người quan sát
+  version_status_closed: đóng
+  version_status_locked: khóa
+  version_status_open: mở
+  error_can_not_reopen_issue_on_closed_version: Một vấn đề được gán cho phiên bản đã đóng không thể mở lại được
+  label_user_anonymous: Ẩn danh
+  button_move_and_follow: Di chuyển và theo
+  setting_default_projects_modules: Các Module được kích hoạt mặc định cho dự án mới
+  setting_gravatar_default: Ảnh Gravatar mặc định
+  field_sharing: Chia sẻ
+  label_version_sharing_hierarchy: Với thứ bậc dự án
+  label_version_sharing_system: Với tất cả dự án
+  label_version_sharing_descendants: Với dự án con
+  label_version_sharing_tree: Với cây dự án
+  label_version_sharing_none: Không chia sẻ
+  error_can_not_archive_project: Dựa án này không thể lưu trữ được
+  button_duplicate: Nhân đôi
+  button_copy_and_follow: Sao chép và theo
+  label_copy_source: Nguồn
+  setting_issue_done_ratio: Tính toán tỷ lệ hoàn thành vấn đề với
+  setting_issue_done_ratio_issue_status: Sử dụng trạng thái của vấn đề
+  error_issue_done_ratios_not_updated: Tỷ lệ hoàn thành vấn đề không được cập nhật.
+  error_workflow_copy_target: Vui lòng lựa chọn đích của theo dấu và quyền
+  setting_issue_done_ratio_issue_field: Dùng trường vấn đề
+  label_copy_same_as_target: Tương tự như đích
+  label_copy_target: Đích
+  notice_issue_done_ratios_updated: Tỷ lệ hoàn thành vấn đề được cập nhật.
+  error_workflow_copy_source: Vui lòng lựa chọn nguồn của theo dấu hoặc quyền
+  label_update_issue_done_ratios: Cập nhật tỷ lệ hoàn thành vấn đề
+  setting_start_of_week: Định dạng lịch
+  permission_view_issues: Xem Vấn đề
+  label_display_used_statuses_only: Chỉ hiển thị trạng thái đã được dùng bởi theo dõi này
+  label_revision_id: "Bản điều chỉnh %{value}"
+  label_api_access_key: Khoá truy cập API
+  label_api_access_key_created_on: "Khoá truy cập API đựơc tạo cách đây %{value}. Khóa này được dùng cho eDesignLab Client."
+  label_feeds_access_key: Khoá truy cập RSS
+  notice_api_access_key_reseted: Khoá truy cập API của bạn đã được đặt lại.
+  setting_rest_api_enabled: Cho phép dịch vụ web REST
+  label_missing_api_access_key: Mất Khoá truy cập API
+  label_missing_feeds_access_key: Mất Khoá truy cập RSS
+  button_show: Hiện
+  text_line_separated: Nhiều giá trị được phép(mỗi dòng một giá trị).
+  setting_mail_handler_body_delimiters: "Cắt bớt email sau những dòng :"
+  permission_add_subprojects: Tạo Dự án con
+  label_subproject_new: Thêm dự án con
   text_own_membership_delete_confirmation: |-
-    You are about to remove some or all of your permissions and may no longer be able to edit this project after that.
-    Are you sure you want to continue?
-  label_close_versions: Close completed versions
-  label_board_sticky: Sticky
-  label_board_locked: Locked
-  permission_export_wiki_pages: Export wiki pages
-  setting_cache_formatted_text: Cache formatted text
-  permission_manage_project_activities: Manage project activities
-  error_unable_delete_issue_status: Unable to delete issue status
-  label_profile: Profile
-  permission_manage_subtasks: Manage subtasks
-  field_parent_issue: Parent task
-  label_subtask_plural: Subtasks
-  label_project_copy_notifications: Send email notifications during the project copy
-  error_can_not_delete_custom_field: Unable to delete custom field
-  error_unable_to_connect: Unable to connect (%{value})
-  error_can_not_remove_role: This role is in use and can not be deleted.
-  error_can_not_delete_tracker: This tracker contains issues and can't be deleted.
-  field_principal: Principal
-  label_my_page_block: My page block
-  notice_failed_to_save_members: "Failed to save member(s): %{errors}."
-  text_zoom_out: Zoom out
-  text_zoom_in: Zoom in
-  notice_unable_delete_time_entry: Unable to delete time log entry.
-  label_overall_spent_time: Overall spent time
+    Bạn đang cố gỡ bỏ một số hoặc tất cả quyền của bạn với dự án này và có thể sẽ mất quyền thay đổi nó sau đó.
+    Bạn có muốn tiếp tục?
+  label_close_versions: Đóng phiên bản đã hoàn thành
+  label_board_sticky: Chú ý
+  label_board_locked: Đã khóa
+  permission_export_wiki_pages: Xuất trang wiki
+  setting_cache_formatted_text: Cache định dạng các ký tự
+  permission_manage_project_activities: Quản lý hoạt động của dự án
+  error_unable_delete_issue_status: Không thể xóa trạng thái vấn đề
+  label_profile: Hồ sơ
+  permission_manage_subtasks: Quản lý tác vụ con
+  field_parent_issue: Tác vụ cha
+  label_subtask_plural: Tác vụ con
+  label_project_copy_notifications: Gửi email thông báo trong khi dự án được sao chép
+  error_can_not_delete_custom_field: Không thể xóa trường tùy biến
+  error_unable_to_connect: "Không thể kết nối (%{value})"
+  error_can_not_remove_role: Quyền này đang được dùng và không thể xóa được.
+  error_can_not_delete_tracker: Theo dõi này chứa vấn đề và không thể xóa được.
+  field_principal: Chủ yếu
+  label_my_page_block: Block trang của tôi
+  notice_failed_to_save_members: "Thất bại khi lưu thành viên : %{errors}."
+  text_zoom_out: Thu nhỏ
+  text_zoom_in: Phóng to
+  notice_unable_delete_time_entry: Không thể xóa mục time log.
+  label_overall_spent_time: Tổng thời gian sử dụng
   field_time_entries: Log time
-  project_module_gantt: Gantt
-  project_module_calendar: Calendar
-  button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
-  field_text: Text field
-  label_user_mail_option_only_owner: Only for things I am the owner of
-  setting_default_notification_option: Default notification option
-  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
-  label_user_mail_option_only_assigned: Only for things I am assigned to
-  label_user_mail_option_none: No events
-  field_member_of_group: Assignee's group
-  field_assigned_to_role: Assignee's role
-  notice_not_authorized_archived_project: The project you're trying to access has been archived.
-  label_principal_search: "Search for user or group:"
-  label_user_search: "Search for user:"
-  field_visible: Visible
-  setting_emails_header: Emails header
-  setting_commit_logtime_activity_id: Activity for logged time
-  text_time_logged_by_changeset: Applied in changeset %{value}.
-  setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
-  field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
-  text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
-  label_my_queries: My custom queries
-  text_journal_changed_no_detail: "%{label} updated"
-  label_news_comment_added: Comment added to a news
-  button_expand_all: Expand all
-  button_collapse_all: Collapse all
-  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
-  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
-  label_bulk_edit_selected_time_entries: Bulk edit selected time entries
-  text_time_entries_destroy_confirmation: Are you sure you want to delete the selected time entr(y/ies)?
-  label_role_anonymous: Anonymous
-  label_role_non_member: Non member
-  label_issue_note_added: Note added
-  label_issue_status_updated: Status updated
-  label_issue_priority_updated: Priority updated
-  label_issues_visibility_own: Issues created by or assigned to the user
-  field_issues_visibility: Issues visibility
-  label_issues_visibility_all: All issues
-  permission_set_own_issues_private: Set own issues public or private
-  field_is_private: Private
-  permission_set_issues_private: Set issues public or private
-  label_issues_visibility_public: All non private issues
-  text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
-  field_commit_logs_encoding: Commit messages encoding
-  field_scm_path_encoding: Path encoding
-  text_scm_path_encoding_note: "Default: UTF-8"
-  field_path_to_repository: Path to repository
-  field_root_directory: Root directory
+  project_module_gantt: Biểu đồ Gantt
+  project_module_calendar: Lịch
+  button_edit_associated_wikipage: "Chỉnh sửa trang Wiki liên quan: %{page_title}"
+  text_are_you_sure_with_children: Xóa vấn đề và tất cả vấn đề con?  
+  field_text: Trường văn bản
+  label_user_mail_option_only_owner: Chỉ những thứ tôi sở hữu
+  setting_default_notification_option: Tuỳ chọn thông báo mặc định
+  label_user_mail_option_only_my_events: Chỉ những thứ tôi theo dõi hoặc liên quan
+  label_user_mail_option_only_assigned: Chỉ những thứ tôi được phân công
+  label_user_mail_option_none: Không có sự kiện
+  field_member_of_group: Nhóm thụ hưởng
+  field_assigned_to_role: Quyền thụ hưởng
+  notice_not_authorized_archived_project: Dự án bạn đang có truy cập đã được lưu trữ.
+  label_principal_search: "Tìm kiếm người dùng hoặc nhóm:"
+  label_user_search: "Tìm kiếm người dùng:"
+  field_visible: Nhìn thấy
+  setting_emails_header: Tiêu đề Email
+  setting_commit_logtime_activity_id: Cho phép ghi lại thời gian
+  text_time_logged_by_changeset: "Áp dụng trong changeset : %{value}."
+  setting_commit_logtime_enabled: Cho phép time logging
+  notice_gantt_chart_truncated: "Đồ thị đã được cắt bớt bởi vì nó đã vượt qua lượng thông tin tối đa có thể hiển thị :(%{max})"
+  setting_gantt_items_limit: Lượng thông tin tối đa trên đồ thị gantt
+  description_selected_columns: Các cột được lựa chọn
+  field_warn_on_leaving_unsaved: Cảnh báo tôi khi rời một trang có các nội dung chưa lưu
+  text_warn_on_leaving_unsaved: Trang hiện tại chứa nội dung chưa lưu và sẽ bị mất nếu bạn rời trang này.
+  label_my_queries: Các truy vấn tùy biến
+  text_journal_changed_no_detail: "%{label} cập nhật"
+  label_news_comment_added: Bình luận đã được thêm cho một tin tức
+  button_expand_all: Mở rộng tất cả
+  button_collapse_all: Thu gọn tất cả
+  label_additional_workflow_transitions_for_assignee: Chuyển đổi bổ sung cho phép khi người sử dụng là người nhận chuyển nhượng
+  label_additional_workflow_transitions_for_author: Các chuyển đổi bổ xung được phép khi người dùng là tác giả
+  label_bulk_edit_selected_time_entries: Sửa nhiều mục đã chọn
+  text_time_entries_destroy_confirmation: Bạn có chắc chắn muốn xóa bỏ các mục đã chọn?
+  label_role_anonymous: Ẩn danh
+  label_role_non_member: Không là thành viên
+  label_issue_note_added: Ghi chú được thêm
+  label_issue_status_updated: Trạng thái cập nhật
+  label_issue_priority_updated: Cập nhật ưu tiên
+  label_issues_visibility_own: Vấn đề tạo bởi hoặc gán cho người dùng
+  field_issues_visibility: Vấn đề được nhìn thấy
+  label_issues_visibility_all: Tất cả vấn đề
+  permission_set_own_issues_private: Đặt vấn đề sở hữu là riêng tư hoặc công cộng
+  field_is_private: Riêng tư
+  permission_set_issues_private: Gán vấn đề là riêng tư hoặc công cộng
+  label_issues_visibility_public: Tất cả vấn đề không riêng tư
+  text_issues_destroy_descendants_confirmation: "Hành động này sẽ xóa %{count} tác vụ con."
+  field_commit_logs_encoding: Mã hóa ghi chú Commit
+  field_scm_path_encoding: Mã hóa đường dẫn
+  text_scm_path_encoding_note: "Mặc định: UTF-8"
+  field_path_to_repository: Đường dẫn tới kho chứa
+  field_root_directory: Thư mục gốc
   field_cvs_module: Module
   field_cvsroot: CVSROOT
-  text_mercurial_repository_note: Local repository (e.g. /hgrepo, c:\hgrepo)
-  text_scm_command: Command
-  text_scm_command_version: Version
-  label_git_report_last_commit: Report last commit for files and directories
-  text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.
-  text_scm_command_not_available: Scm command is not available. Please check settings on the administration panel.
-  notice_issue_successful_create: Issue %{id} created.
-  label_between: between
-  setting_issue_group_assignment: Allow issue assignment to groups
-  label_diff: diff
-  text_git_repository_note: Repository is bare and local (e.g. /gitrepo, c:\gitrepo)
-  description_query_sort_criteria_direction: Sort direction
-  description_project_scope: Search scope
-  description_filter: Filter
-  description_user_mail_notification: Mail notification settings
-  description_date_from: Enter start date
-  description_message_content: Message content
-  description_available_columns: Available Columns
-  description_date_range_interval: Choose range by selecting start and end date
-  description_issue_category_reassign: Choose issue category
-  description_search: Searchfield
-  description_notes: Notes
-  description_date_range_list: Choose range from list
-  description_choose_project: Projects
-  description_date_to: Enter end date
-  description_query_sort_criteria_attribute: Sort attribute
-  description_wiki_subpages_reassign: Choose new parent page
-  description_selected_columns: Selected Columns
-  label_parent_revision: Parent
-  label_child_revision: Child
-  error_scm_annotate_big_text_file: The entry cannot be annotated, as it exceeds the maximum text file size.
-  setting_default_issue_start_date_to_creation_date: Use current date as start date for new issues
-  button_edit_section: Edit this section
-  setting_repositories_encodings: Attachments and repositories encodings
-  description_all_columns: All Columns
+  text_mercurial_repository_note: Kho chứa cục bộ (vd. /hgrepo, c:\hgrepo)
+  text_scm_command: Lệnh
+  text_scm_command_version: Phiên bản  
+  label_git_report_last_commit: Báo cáo lần Commit cuối cùng cho file và thư mục  
+  text_scm_config: Bạn có thể cấu hình lệnh Scm trong file config/configuration.yml. Vui lòng khởi động lại ứng dụng sau khi chỉnh sửa nó.
+  text_scm_command_not_available: Lệnh Scm không có sẵn. Vui lòng kiểm tra lại thiết đặt trong phần Quản trị.  
+  notice_issue_successful_create: "Vấn đề %{id} đã được tạo."  
+  label_between: Ở giữa
+  setting_issue_group_assignment: Cho phép gán vấn đề đến các nhóm
+  label_diff: Sự khác nhau
+  text_git_repository_note: Kho chứa cục bộ và công cộng (vd. /gitrepo, c:\gitrepo)
+  description_query_sort_criteria_direction: Chiều sắp xếp
+  description_project_scope: Phạm vi tìm kiếm
+  description_filter: Lọc
+  description_user_mail_notification: Thiết lập email thông báo
+  description_date_from: Nhập ngày bắt đầu
+  description_message_content: Nội dung thông điệp
+  description_available_columns: Các cột có sẵn
+  description_date_range_interval: Chọn khoảng thời gian giữa ngày bắt đầu và kết thúc
+  description_issue_category_reassign: Chọn danh mục vấn đề
+  description_search: Trường tìm kiếm
+  description_notes: Các chú ý
+  description_date_range_list: Chọn khoảng từ danh sách
+  description_choose_project: Các dự án
+  description_date_to: Nhập ngày kết thúc
+  description_query_sort_criteria_attribute: Sắp xếp thuộc tính
+  description_wiki_subpages_reassign: Chọn một trang cấp trên
+  label_parent_revision: Cha
+  label_child_revision: Con
+  error_scm_annotate_big_text_file: Các mục không được chú thích, vì nó vượt quá kích thước tập tin văn bản tối đa.
+  setting_default_issue_start_date_to_creation_date: Sử dụng thời gian hiện tại khi tạo vấn đề mới
+  button_edit_section: Soạn thảo sự lựa chọn này
+  setting_repositories_encodings: Mã hóa kho chứa
+  description_all_columns: Các cột
   button_export: Export
-  label_export_options: "%{export_format} export options"
-  error_attachment_too_big: This file cannot be uploaded because it exceeds the maximum allowed file size (%{max_size})
-  notice_failed_to_save_time_entries: "Failed to save %{count} time entrie(s) on %{total} selected: %{ids}."
+  label_export_options: "%{export_format} tùy chọn Export"
+  error_attachment_too_big: "File này không thể tải lên vì nó vượt quá kích thước cho phép : (%{max_size})"
+  notice_failed_to_save_time_entries: "Lỗi khi lưu %{count} lần trên %{total} sự lựa chọn : %{ids}."
   label_x_issues:
     zero:  0 vấn đề
     one:   1 vấn đề
     other: "%{count} vấn đề"
-  label_repository_new: New repository
-  field_repository_is_default: Main repository
-  label_copy_attachments: Copy attachments
+  label_repository_new: Kho lưu trữ mới
+  field_repository_is_default: Kho lưu trữ chính
+  label_copy_attachments: Copy các file đính kèm
   label_item_position: "%{position}/%{count}"
-  label_completed_versions: Completed versions
-  text_project_identifier_info: Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.
-  field_multiple: Multiple values
-  setting_commit_cross_project_ref: Allow issues of all the other projects to be referenced and fixed
-  text_issue_conflict_resolution_add_notes: Add my notes and discard my other changes
-  text_issue_conflict_resolution_overwrite: Apply my changes anyway (previous notes will be kept but some changes may be overwritten)
-  notice_issue_update_conflict: The issue has been updated by an other user while you were editing it.
-  text_issue_conflict_resolution_cancel: Discard all my changes and redisplay %{link}
-  permission_manage_related_issues: Manage related issues
-  field_auth_source_ldap_filter: LDAP filter
-  label_search_for_watchers: Search for watchers to add
-  notice_account_deleted: Your account has been permanently deleted.
-  setting_unsubscribe: Allow users to delete their own account
-  button_delete_my_account: Delete my account
+  label_completed_versions: Các phiên bản hoàn thành
+  text_project_identifier_info: Chỉ cho phép chữ cái thường (a-z), con số và dấu gạch ngang.<br />Sau khi lưu, chỉ số ID không thể thay đổi.
+  field_multiple: Nhiều giá trị
+  setting_commit_cross_project_ref: Sử dụng thời gian hiện tại khi tạo vấn đề mới
+  text_issue_conflict_resolution_add_notes: Thêm ghi chú của tôi và loại bỏ các thay đổi khác 
+  text_issue_conflict_resolution_overwrite: Áp dụng thay đổi bằng bất cứ giá nào, ghi chú trước đó có thể bị ghi đè
+  notice_issue_update_conflict: Vấn đề này đã được cập nhật bởi một người dùng khác trong khi bạn đang chỉnh sửa nó.
+  text_issue_conflict_resolution_cancel: "Loại bỏ tất cả các thay đổi và hiển thị lại %{link}"
+  permission_manage_related_issues: Quản lý các vấn đề liên quan
+  field_auth_source_ldap_filter: Bộ lọc LDAP
+  label_search_for_watchers: Tìm kiếm người theo dõi để thêm
+  notice_account_deleted: Tài khoản của bạn đã được xóa vĩnh viễn.
+  button_delete_my_account: Xóa tài khoản của tôi
+  setting_unsubscribe: Cho phép người dùng xóa Account
   text_account_destroy_confirmation: |-
-    Are you sure you want to proceed?
-    Your account will be permanently deleted, with no way to reactivate it.
-  error_session_expired: Your session has expired. Please login again.
-  text_session_expiration_settings: "Warning: changing these settings may expire the current sessions including yours."
-  setting_session_lifetime: Session maximum lifetime
-  setting_session_timeout: Session inactivity timeout
-  label_session_expiration: Session expiration
-  permission_close_project: Close / reopen the project
-  label_show_closed_projects: View closed projects
-  button_close: Close
-  button_reopen: Reopen
-  project_status_active: active
-  project_status_closed: closed
-  project_status_archived: archived
-  text_project_closed: This project is closed and read-only.
-  notice_user_successful_create: User %{id} created.
-  field_core_fields: Standard fields
-  field_timeout: Timeout (in seconds)
-  setting_thumbnails_enabled: Display attachment thumbnails
-  setting_thumbnails_size: Thumbnails size (in pixels)
-  label_status_transitions: Status transitions
-  label_fields_permissions: Fields permissions
-  label_readonly: Read-only
-  label_required: Required
-  text_repository_identifier_info: Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.
-  field_board_parent: Parent forum
-  label_attribute_of_project: Project's %{name}
-  label_attribute_of_author: Author's %{name}
-  label_attribute_of_assigned_to: Assignee's %{name}
-  label_attribute_of_fixed_version: Target version's %{name}
-  label_copy_subtasks: Copy subtasks
-  label_copied_to: copied to
-  label_copied_from: copied from
-  label_any_issues_in_project: any issues in project
-  label_any_issues_not_in_project: any issues not in project
-  field_private_notes: Private notes
-  permission_view_private_notes: View private notes
-  permission_set_notes_private: Set notes as private
-  label_no_issues_in_project: no issues in project
+    Bạn đồng ý không ?
+    Tài khoản của bạn sẽ bị xóa vĩnh viễn, không thể khôi phục lại!
+  error_session_expired: Phiên làm việc của bạn bị quá hạn, hãy đăng nhập lại 
+  text_session_expiration_settings: "Chú ý : Thay đổi các thiết lập này có thể gây vô hiệu hóa Session hiện tại"
+  setting_session_lifetime: Thời gian tồn tại lớn nhất của Session
+  setting_session_timeout: Thời gian vô hiệu hóa Session
+  label_session_expiration: Phiên làm việc bị quá hạn
+  permission_close_project: Đóng / Mở lại dự án
+  label_show_closed_projects: Xem các dự án đã đóng
+  button_close: Đóng
+  button_reopen: Mở lại
+  project_status_active: Kích hoạt
+  project_status_closed: Đã đóng
+  project_status_archived: Lưu trữ
+  text_project_closed: Dự án này đã đóng và chỉ đọc
+  notice_user_successful_create: "Người dùng %{id} đã được tạo."
+  field_core_fields: Các trường tiêu chuẩn
+  field_timeout: Quá hạn
+  setting_thumbnails_enabled: Hiển thị các thumbnail đính kèm
+  setting_thumbnails_size: Kích thước Thumbnails(pixel)
+  setting_session_lifetime: Thời gian tồn tại lớn nhất của Session
+  setting_session_timeout: Thời gian vô hiệu hóa Session
+  label_status_transitions: Trạng thái chuyển tiếp
+  label_fields_permissions: Cho phép các trường
+  label_readonly: Chỉ đọc
+  label_required: Yêu cầu
+  text_repository_identifier_info: Chỉ có các chữ thường (a-z), các số (0-9), dấu gạch ngang và gạch dưới là hợp lệ.<br />Khi đã lưu, tên định danh sẽ không thể thay đổi.
+  field_board_parent: Diễn đàn cha
+  label_attribute_of_project: "Của dự án : %{name}"
+  label_attribute_of_author: "Của tác giả : %{name}"
+  label_attribute_of_assigned_to: "Được phân công bởi %{name}"
+  label_attribute_of_fixed_version: "Phiên bản mục tiêu của %{name}"
+  label_copy_subtasks: Sao chép các nhiệm vụ con
+  label_copied_to: Sao chép đến
+  label_copied_from: Sao chép từ
+  label_any_issues_in_project: Bất kỳ vấn đề nào trong dự án
+  label_any_issues_not_in_project: Bất kỳ vấn đề nào không thuộc dự án
+  field_private_notes: Ghi chú riêng tư
+  permission_view_private_notes: Xem ghi chú riêng tư
+  permission_set_notes_private: Đặt ghi chú thành riêng tư
+  label_no_issues_in_project: Không có vấn đề nào trong dự án
   label_any: tất cả
-  label_last_n_weeks: last %{count} weeks
-  setting_cross_project_subtasks: Allow cross-project subtasks
-  label_cross_project_descendants: With subprojects
-  label_cross_project_tree: With project tree
-  label_cross_project_hierarchy: With project hierarchy
-  label_cross_project_system: With all projects
-  button_hide: Hide
-  setting_non_working_week_days: Non-working days
-  label_in_the_next_days: in the next
-  label_in_the_past_days: in the past
-  label_attribute_of_user: User's %{name}
-  text_turning_multiple_off: If you disable multiple values, multiple values will be
-    removed in order to preserve only one value per item.
-  label_attribute_of_issue: Issue's %{name}
-  permission_add_documents: Add documents
-  permission_edit_documents: Edit documents
-  permission_delete_documents: Delete documents
-  label_gantt_progress_line: Progress line
-  setting_jsonp_enabled: Enable JSONP support
-  field_inherit_members: Inherit members
-  field_closed_on: Closed
+  label_last_n_weeks: "%{count} tuần qua"
+  setting_cross_project_subtasks: Cho phép các nhiệm vụ con liên dự án
+  label_cross_project_descendants: Trong các dự án con
+  label_cross_project_tree: Trong cùng cây dự án
+  label_cross_project_hierarchy: Trong dự án cùng cấp bậc
+  label_cross_project_system: Trong tất cả các dự án
+  button_hide: Ẩn
+  setting_non_working_week_days: Các ngày không làm việc
+  label_in_the_next_days: Trong tương lai
+  label_in_the_past_days: Trong quá khứ
+  label_attribute_of_user: "Của người dùng %{name}"
+  text_turning_multiple_off: Nếu bạn vô hiệu hóa nhiều giá trị, chúng sẽ bị loại bỏ để duy trì chỉ có một giá trị cho mỗi mục.
+  label_attribute_of_issue: "Vấn đề của %{name}"
+  permission_add_documents: Thêm tài liệu
+  permission_edit_documents: Soạn thảo tài liệu
+  permission_delete_documents: Xóa tài liệu
+  label_gantt_progress_line: Tiến độ
+  setting_jsonp_enabled: Cho phép trợ giúp JSONP
+  field_inherit_members: Các thành viên kế thừa
+  field_closed_on: Đã đóng
