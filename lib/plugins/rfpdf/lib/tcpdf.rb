@@ -39,9 +39,6 @@ require 'core/rmagick'
 # @package com.tecnick.tcpdf
 #
  
-@@version = "1.53.0.TC031"
-@@fpdf_charwidths = {}
-
 PDF_PRODUCER = 'TCPDF via RFPDF 1.53.0.TC031 (http://tcpdf.sourceforge.net)'
 
 module TCPDFFontDescriptor
@@ -78,6 +75,9 @@ class TCPDF
   def logger
     Rails.logger
   end
+
+  @@version = "1.53.0.TC031"
+  @@fpdf_charwidths = {}
 
   cattr_accessor :k_cell_height_ratio
   @@k_cell_height_ratio = 1.25
