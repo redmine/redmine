@@ -11,7 +11,7 @@
 		<% sort_activity_events(@events_by_day[day]).each do |e, in_group| -%>
 			<% @actID=@actID+1 %>
 				<div class="row-fluid activity-item">
-			  		<div class="span05 <%= "E_"+e.event_type %><%= "grouped" if in_group %><%= User.current.logged? && e.respond_to?(:event_author) && User.current == e.event_author ? 'me' : nil %>"></div>
+			  		<div class="span05 <%= "E_"+e.event_type %> <%= "grouped" if in_group %><%= User.current.logged? && e.respond_to?(:event_author) && User.current == e.event_author ? 'me' : nil %>"></div>
 			  		<div class="span11">
 			  			<div class="time row-fluid" id="<%= 'T'+@actID.to_s() %>"><%= javascript_tag "jQuery('#{'#T'+@actID.to_s()}').html(moment('#{e.event_datetime}', 'YYYY-MM-DD HH:mm:ss Z').fromNow());" %></div>
 			  			<div class="author row-fluid"><strong><%= link_to_user(e.event_author) if e.respond_to?(:event_author) %> edited

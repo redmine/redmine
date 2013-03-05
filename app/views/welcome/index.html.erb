@@ -66,102 +66,110 @@
 <% else %>
 
 	<!-- HEADER -->
-	
-	
-		<h1>Hi <%= User.current.firstname %> </h1>
+	<div class="span12 pagination-centered">
+		<h1>Hello <%= User.current.firstname %>!</h1>
 		<p class="lead">
-			Welcome back!
+			Welcome back.
 		</p>
-	
+	</div>
+	<p class="pagination-right">
+		<button type="button" class="btn btn-large btn-info" onclick="location.href='/projects';">
+			Explore OSB
+		</button>
+	</p>
+
+
 	<!-- CONTENT -->
-	
-	<div class="splitcontentleft">
-		<div id="explorebutton" onclick="location.href='/projects';">
-			Explore Open Source Brain
-		</div>
+	<div class="row-fluid">
+		<div class="span8">
+			<% unless @events_by_day.empty? %>
+					<div id="activity">
+						<% @actID=0 %>
+						<% @events_by_day.keys.sort.reverse.each do |day| %>
+							<% @actID=@actID+1 %>
+							<div class="row-fluid activity-item">
+							<% @events_by_day[day].sort {|x,y| y.event_datetime <=> x.event_datetime }.each do |e| -%>
+								<% @actID=@actID+1 %>
+									<div class="row-fluid activity-item">
+								  		<div class="span05 <%= "E_"+e.event_type %> <%= User.current.logged? && e.respond_to?(:event_author) && User.current == e.event_author ? 'me' : nil %>"></div>
+								  		<div class="span11">
+								  			<div class="time row-fluid" id="<%= 'T'+@actID.to_s() %>"><%= javascript_tag "jQuery('#{'#T'+@actID.to_s()}').html(moment('#{e.event_datetime}', 'YYYY-MM-DD HH:mm:ss Z').fromNow());" %></div>
+								  			<div class="author row-fluid"><strong><%= link_to_user(e.event_author) if e.respond_to?(:event_author) %> edited
+								  			
+								  			<%= content_tag('span', h(e.project), :class => 'project-title') if @project.nil? || @project != e.project %></strong></div>
+								  			<div class="row-fluid">
+								  			<%= avatar(e.event_author, :size => "50", :class => "img-rounded") if e.respond_to?(:event_author) %>
+								  			<%= link_to format_activity_title(e.event_title), e.event_url %>
+								  			</div>
+								  			<div class="row-fluid">
+								  				<div class="description"><%= format_activity_description(e.event_description) %></div>
+							  				</div>
+							  			</div>
+									</div>
+								<% end -%>
+							</div>
+						<% end -%>
+					</div>
+				</div>
+			<% end %>
+
+		<div class="span4">
+			<table class="projecttable table">
+				<thead>
+					<tr>
+						<td><h4>Your projects </h4></td>
+						<td class="noborder pull-right"><button type="button" class="btn btn-success icon-plus"  onclick="location.href='/projects/new';"> New project</button></td> 	
+					<tr>
+				</thead>
+				<% if @projects.any? %>
+					<%= call_hook(:view_welcome_index_left, :projects => @projects) %>
+					<% unless @memberships.empty? %>
+						
+							<% for membership in @memberships %>
+								<tr><td colspan="2"><icon class=" icon-list-alt"></icon><%= link_to_project(membership.project) %></td></tr>
+							<% end %>
+						
+					<% end %>
+				<% end %>
+			</table>
+			
+			
+			<table class="projecttable table">
+				<thead>
+					<tr>
+						<td><h4>Latest projects added on OSB</h4></td> 	
+					<tr>
+				</thead>
+					<% maxprjcount=3 %>
+					<% i=0 %>
+					<% for project in @projects %>
+						<%if(i<maxprjcount)%>
+							<% @project = project %>
+							<% i=i+1 %>
+								<tr><td><icon class=" icon-list-alt"></icon> <%= link_to_project project %></td></tr> 
+						<% else break;%>
+						<% end %>
+					<% end %>
+					<% @project = nil %>
+			</table>
+			
+				<div>
 		<div class="news box">
+			<div class="pagination-centered"><icon class="icon-bullhorn icon-xxlarge"></icon></div>
 			<h3><%= l(:label_news_latest)%></h3>
 			<% if @news.any? %>
 			<%= render :partial => 'news/news', :collection => @news %>
 			<%= link_to l(:label_news_view_all), :controller => 'news' %>
 			<% end %>
 		</div>
-	
-		<% if @projects.any? %>
-		<div class="projects box">
-			<h3>Latest projects added on OSB</h3>
-			<ul>
-				<% maxprjcount=3 %>
-				<% i=0 %>
-				<% for project in @projects %>
-				<%if(i<maxprjcount)%>
-					<% @project = project %>
-					<% i=i+1 %>
-					<li>
-						<%= link_to_project project %> (<%= format_time(project.created_on) %>)
-					</li>
-					<% else break;%>
-					<% end %>
-					<% end %>
-					<% @project = nil %>
-			</ul>
-		</div>
-		<% end %>
 	</div>
-	
-	<div class="splitcontentright">
-	
-		<div id="quick-search">
-			<%= form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
-			<%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
-			<%= text_field_tag 'q', @question, :size => 70, :placeholder=>'Search Open Source Brain',:type=>'search', :results=>5, :class => 'large', :accesskey => accesskey(:quick_search) %>
-			<% end %>
-		</div>
-	
-		<% unless @events_by_day.empty? %>
-		<div class="issues box">
-			<h3><%= link_to l(:label_activity), :controller => 'activities', :action => 'index', :id => nil, :user_id => @user, :from => @events_by_day.keys.first %></h3>
-			<p>
-				<%= l(:label_reported_issues)%>: <%= Issue.count(:conditions => ["author_id=?", @user.id]) %>
-			</p>
-			<div id="activity">
-				<% @events_by_day.keys.sort.reverse.each do |day| %>
-				<h4><%= format_activity_day(day) %></h4>
-				<dl>
-					<% @events_by_day[day].sort {|x,y| y.event_datetime <=> x.event_datetime }.each do |e| -%>
-					<dt class="<%= e.event_type %>">
-						<span class="time"><%= format_time(e.event_datetime, false) %></span>
-						<%= content_tag('span', h(e.project), :class => 'project') %>
-						<%= link_to format_activity_title(e.event_title), e.event_url %>
-					</dt>
-					<dd>
-						<span class="description"><%= format_activity_description(e.event_description) %></span>
-					</dd>
-					<% end -%>
-				</dl>
-				<% end -%>
-			</div>
-		</div>
-		<% end %>
-	
-		<div class="projects box">
-			<h3>Your projects</h3>
-			<% if @projects.any? %>
-			<%= call_hook(:view_welcome_index_left, :projects => @projects) %>
-			<% unless @memberships.empty? %>
-			<ul>
-				<% for membership in @memberships %>
-				<li>
-					<%= link_to_project(membership.project) %>
-					(<%= h membership.roles.sort.collect(&:to_s).join(', ') %>, <%= format_date(membership.created_on) %>)
-				</li>
-				<% end %>
-			</ul>
-			<% end %>
-			<% end %>
+			
 		</div>
 	</div>
 	
+
+
+		
 	<% content_for :header_tags do %>
 	<%= stylesheet_link_tag 'scm' %>
 	<%= auto_discovery_link_tag(:atom, {:controller => 'news', :action => 'index', :key => User.current.rss_key, :format => 'atom'},:title => "#{Setting.app_title}: #{l(:label_news_latest)}") %>

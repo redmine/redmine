@@ -332,9 +332,26 @@ hr.soften {
 	padding-bottom:10px;
 }
 
+.noborder{
+	border-left:0!important;
+	margin-top:5px;
+}
+.projecttable thead{
+	background-color: #eaeaea;
+	background-image: -moz-linear-gradient(#fafafa, #eaeaea);
+	background-image: -webkit-linear-gradient(#fafafa, #eaeaea);
+	background-image: linear-gradient(#fafafa, #eaeaea);
+	background-repeat: repeat-x;
+	margin: 0;
+	height: 44px;
+	line-height: 44px;
+	padding: 0 10px;
+	font-size: 16px;
+	color: #52595d;
 
+}
 .span05{
-	width: 20px!important;
+	width: 30px!important;
 	padding-top:10px;
 }
 #activity icon{
@@ -427,7 +444,14 @@ section p {
 	font-weight: 200;
 	line-height: 30px;
 }
-
+.icon-xlarge{
+	font-size:45pt;
+	color:gray;
+}
+.icon-xxlarge{
+	font-size:90pt;
+	color:gray;
+}
 .btn-xlarge {
 	padding: 17px 26px;
 	font-size: 34px;
