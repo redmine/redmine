@@ -495,8 +495,8 @@ section p {
 #osblogo {
 	margin-top: 10px;
 	margin-bottom: 10px;
-	width: 235px;
-	height: 50px;
+	width: 212px;
+	height: 30px;
 	background-image: url("/images/osblogo.png");
 	cursor: pointer;
 }
@@ -504,9 +504,26 @@ section p {
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
 	#osblogo {
 		background-image: url('/images/osblogo@2x.png');
-		background-size: 235px 50px;
+		background-size: 212px 30px;
 	}
 }
+
+#wellcomelogo {
+	float: right;
+	width: 154px;
+	height: 41px;
+	background-image: url("/images/wellcomelogo.png");
+	margin-bottom: 10px;
+	clear: both;
+}
+
+@media all and (-webkit-min-device-pixel-ratio: 1.5) {
+	#wellcomelogo {
+		background-image: url('/images/wellcomelogo@2x.png');
+		background-size: 154px 41px;
+	}
+}
+
 #osbcircle {
 	margin: 0 auto;
 	margin-top: 20px;
@@ -670,24 +687,7 @@ line-height: 20px;
 	float: right;
 }
 
-#ucllogo {
-	margin: 0 auto;
-	float: left;
-	width: 149px;
-	height: 44px;
-	background-image: url("/images/ucllogo.png");
-	margin-bottom: 10px;
-	margin-right: 10px;
-}
 
-#wellcomelogo {
-	float: right;
-	width: 177px;
-	height: 41px;
-	background-image: url("/images/wellcomelogo.png");
-	margin-bottom: 10px;
-	clear: both;
-}
 
 .members {
 	margin-top: 20px !important;
