@@ -1112,6 +1112,6 @@ ja:
   permission_edit_documents: 文書の編集
   permission_delete_documents: 文書の削除
   setting_jsonp_enabled: JSONPを有効にする
-  field_inherit_members: Inherit members
-  field_closed_on: Closed
-  field_generate_password: Generate password
+  field_inherit_members: メンバーを継承
+  field_closed_on: 終了日
+  field_generate_password: パスワードを自動生成
