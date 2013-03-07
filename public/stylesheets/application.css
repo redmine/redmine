@@ -354,6 +354,12 @@ hr.soften {
 	width: 30px!important;
 	padding-top:10px;
 }
+
+.popoverlink {
+	position: relative;
+	top:5px;
+
+}
 #activity icon{
 	font-size:40px;
 	color: #bbb;

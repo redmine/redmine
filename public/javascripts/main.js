@@ -18,6 +18,7 @@ jQuery(function()
 	// -- Bootstrap widget calls
 	jQuery('.dropdown-toggle').dropdown();
 	jQuery(".alert").alert();
+	jQuery('.popoverlink').popover();
 	
 	// -- Add bootstrap class to all the tables
 	jQuery('table').addClass('table table-bordered table-hover');
@@ -27,6 +28,7 @@ jQuery(function()
 	jQuery('.jstElements button').addClass('btn-square');
 	jQuery('.jstElements').addClass('btn-group');
 	jQuery('form').addClass('form-horizontal');
+	jQuery('.buttons a').addClass("btn");
 	replaceIconWithFontAwesome();
 	
 	// make code pretty
@@ -77,6 +79,8 @@ jQuery(function()
 	
 	// -- Transforms redmine selected in bootstrap active flag
 	jQuery("li > .selected").parent().addClass("active");
+	jQuery(".tabli").attr("data-toggle","tab");
+	jQuery('.tab-content .tab-pane').first().addClass('active in');
 	
 	// -- Builds the nav menu in the ovewview section
 	jQuery("#project_overview_sections section").each(function(){
@@ -129,15 +133,15 @@ function setupFilter(idFilter, idList)
 function replaceIconWithFontAwesome()
 {
 
-	jQuery("a.icon-add").removeClass("icon-add").prepend("<icon class='icon-folder-open-alt'/>");
-	jQuery("a.icon-edit").removeClass("icon-edit").prepend("<icon class='icon-folder-open-alt'/>");
-	jQuery("a.icon-copy").removeClass("icon-copy").prepend("<icon class='icon-folder-open-alt'/>");
-	jQuery("a.icon-duplicate").removeClass("icon-duplicate").prepend("<icon class='icon-folder-open-alt'/>");
-	jQuery("a.icon-del").removeClass("icon-del").prepend("<icon class='icon-folder-open-alt'/>");
-	jQuery("a.icon-move").removeClass("icon-move").prepend("<icon class='icon-folder-open-alt'/>");
-	jQuery("a.icon-save").removeClass("icon-save").prepend("<icon class='icon-folder-open-alt'/>");
-	jQuery("a.icon-cancel").removeClass("icon-cancel").prepend("<icon class='icon-folder-open-alt'/>");
-	jQuery("a.icon-multiple").removeClass("icon-multiple").prepend("<icon class='icon-folder-open-alt'/>");
+	jQuery("a.icon-add").removeClass("icon-add").prepend("<icon class='icon-plus'/>");
+	jQuery("a.icon-edit").removeClass("icon-edit").prepend("<icon class='icon-edit'/>");
+	jQuery("a.icon-copy").removeClass("icon-copy").prepend("<icon class='icon-copy'/>");
+	jQuery("a.icon-duplicate").removeClass("icon-duplicate").prepend("<icon class='icon-copy'/>");
+	jQuery("a.icon-del").removeClass("icon-del").prepend("<icon class='icon-remove'/>");
+	jQuery("a.icon-move").removeClass("icon-move").prepend("<icon class='icon-move'/>");
+	jQuery("a.icon-save").removeClass("icon-save").prepend("<icon class='icon-save'/>");
+	jQuery("a.icon-cancel").removeClass("icon-cancel").prepend("<icon class='icon-remove'/>");
+	jQuery("a.icon-multiple").removeClass("icon-multiple").prepend("<icon class='icon-th-large'/>");
 	jQuery("a.icon-folder").removeClass("icon-folder").prepend("<icon class='icon-folder-open-alt'/>");
 	
 	jQuery("a.open").removeClass("icon-folder").prepend("<icon class='icon-folder-open-alt'/>");

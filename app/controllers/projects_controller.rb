@@ -77,21 +77,87 @@ class ProjectsController < ApplicationController
     @project = Project.new
     @project.safe_attributes = params[:project]
   end
+  
+  def adminnew
+    @issue_custom_fields = IssueCustomField.sorted.all
+    @trackers = Tracker.sorted.all
+    @project = Project.new
+    @project.safe_attributes = params[:project]
+  end
+  
+  
+  def validateGitHubRepo(repository)
+    if repository
+      #checks is valid
+      #check is already cloned?
+      gitFolder=File.basename(repository.value)
+      if gitFolder!=""
+        if not File.directory? "/home/svnsvn/myGitRepositories/"+gitFolder
+          if File.extname(gitFolder)==".git"
+            return true
+          else
+            @project.errors.add "", "The specified URL is not a valid Git repository."
+          end
+        else
+          @project.errors.add "", "The Git repository specified is already referenced by some other project."
+        end
+      else
+        @project.errors.add "", "You need to specify a Git repository."
+      end
+    else
+      @project.errors.add "", "You need to specify a Git repository."  
+    end
+    return false
+  end
+  
+  def mirrorGitHubRepo(repository)
+    mirroredRepo="/home/svnsvn/myGitRepositories/"+File.basename(repository)
+    exec("git clone --mirror "+repository+" "+mirroredRepo)
+    return mirroredRepo
+  end
 
+  def addMirroredRepo(repo)
+    attrs = getRepoAttrs(repo)
+    @repository = Repository.factory('Git')
+    @repository.safe_attributes = attrs[:attrs]
+    if attrs[:attrs_extra].keys.any?
+      @repository.merge_extra_info(attrs[:attrs_extra])
+    end
+    @project.save
+    @repository.project = @project
+    @repository.save
+  end
+  
+  def getRepoAttrs(repo)
+    p       = {}
+    p_extra = {}
+    p_extra['extra_report_last_commit'] = 1
+    p['is_default'] = 1
+    p['identifier'] = ''
+    p['url'] = repo
+    p['path_encoding'] = ''
+    {:attrs => p, :attrs_extra => p_extra}
+  end
+  
   def create
     @issue_custom_fields = IssueCustomField.sorted.all
     @trackers = Tracker.sorted.all
     @project = Project.new
     @project.safe_attributes = params[:project]
-
-    if validate_parent_id && @project.save
-      @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
-      # Add current user as a project member if he is not admin
-      unless User.current.admin?
-        r = Role.givable.find_by_id(Setting.new_project_user_role_id.to_i) || Role.givable.first
-        m = Member.new(:user => User.current, :roles => [r])
-      @project.members << m
+    @githubRepo=nil
+    @project.custom_field_values.each do |value|
+      if value.custom_field.name == 'GitHub repository'
+        @githubRepo=value
       end
+    end
+      
+    if validate_parent_id && validateGitHubRepo(@githubRepo) && @project.save
+      @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
+
+      r = Role.givable.find_by_id(Setting.new_project_user_role_id.to_i) || Role.givable.first
+      m = Member.new(:user => User.current, :roles => [r, Role.givable.find_by_id(4)])
+      @project.members << m
+
       respond_to do |format|
         format.html {
           flash[:notice] = l(:notice_successful_create)
@@ -104,6 +170,9 @@ class ProjectsController < ApplicationController
         }
         format.api  { render :action => 'show', :status => :created, :location => url_for(:controller => 'projects', :action => 'show', :id => @project.id) }
       end
+      
+      @mirroredRepo=mirrorGitHubRepo(@githubRepo.value)
+      addMirroredRepo(@mirroredRepo)
     else
       respond_to do |format|
         format.html { render :action => 'new' }

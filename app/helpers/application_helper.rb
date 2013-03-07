@@ -959,11 +959,9 @@ module ApplicationHelper
     objects = objects.map {|o| o.is_a?(String) ? instance_variable_get("@#{o}") : o}.compact
     errors = objects.map {|o| o.errors.full_messages}.flatten
     if errors.any?
-      html << "<div id='errorExplanation'><ul>\n"
       errors.each do |error|
-        html << "<li>#{h error}</li>\n"
+        html << "<div class='alert alert-error'><button type='button' class='close' data-dismiss='alert'>&times;</button><strong>Error!</strong> #{h error}</div>"
       end
-      html << "</ul></div>\n"
     end
     html.html_safe
   end  

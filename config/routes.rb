@@ -23,7 +23,7 @@ RedmineApp::Application.routes.draw do
   match 'guides', :to => 'guides#index'
   match 'themes', :to => 'themes#index'
   match 'status', :to => 'status#index'
-
+  match 'projects/adminnew', :to => 'projects#adminnew', :via => :post
   ##
 
   match 'login', :to => 'account#login', :as => 'signin', :via => [:get, :post]
@@ -112,7 +112,7 @@ RedmineApp::Application.routes.draw do
 
     resource :enumerations, :controller => 'project_enumerations', :only => [:update, :destroy]
 
-    get 'issues/:copy_from/copy', :to => 'issues#new', :as => 'copy_issue'
+    get 'issues/:copy_from/copy', :to => 'issues#p', :as => 'copy_issue'
     resources :issues, :only => [:index, :new, :create] do
       resources :time_entries, :controller => 'timelog' do
         collection do
