@@ -1,0 +1,25 @@
+# HG changeset patch
+# User tmaruyama
+# Date 1362559296 0
+# Node ID ee54942e0289c30bea1b1973750b698b1ee7c466
+# Parent  738777832f379f6f099c25251593fc57bc17f586
+fix some Japanese "issue" translations (#13350)
+
+Contributed by Go MAEDA.
+
+diff --git a/config/locales/ja.yml b/config/locales/ja.yml
+--- a/config/locales/ja.yml
++++ b/config/locales/ja.yml
+@@ -904,9 +904,9 @@ ja:
+   text_journal_set_to: "%{label} を %{value} にセット"
+   text_journal_deleted: "%{label} を削除 (%{old})"
+   text_journal_added: "%{label} %{value} を追加"
+-  text_tip_issue_begin_day: この日に開始するタスク
+-  text_tip_issue_end_day: この日に終了するタスク
+-  text_tip_issue_begin_end_day: この日のうちに開始して終了するタスク
++  text_tip_issue_begin_day: この日に開始するチケット
++  text_tip_issue_end_day: この日に終了するチケット
++  text_tip_issue_begin_end_day: この日に開始・終了するチケット
+   text_caracters_maximum: "最大%{count}文字です。"
+   text_caracters_minimum: "最低%{count}文字の長さが必要です"
+   text_length_between: "長さは%{min}から%{max}文字までです。"

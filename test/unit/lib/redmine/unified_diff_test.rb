@@ -221,6 +221,29 @@ DIFF
     assert_equal "test02.txt", diff[0].file_name
   end
 
+  def test_utf8_ja
+    ja = "  text_tip_issue_end_day: "
+    ja += "\xe3\x81\x93\xe3\x81\xae\xe6\x97\xa5\xe3\x81\xab\xe7\xb5\x82\xe4\xba\x86\xe3\x81\x99\xe3\x82\x8b<span>\xe3\x82\xbf\xe3\x82\xb9\xe3\x82\xaf</span>"
+    ja.force_encoding('UTF-8') if ja.respond_to?(:force_encoding)
+    with_settings :repositories_encodings => '' do
+      diff = Redmine::UnifiedDiff.new(read_diff_fixture('issue-12641-ja.diff'), :type => 'inline')
+      assert_equal 1, diff.size
+      assert_equal 12, diff.first.size
+      assert_equal ja, diff.first[4].html_line_left
+    end
+  end
+
+  def test_utf8_ru
+    ru = "        other: &quot;\xd0\xbe\xd0\xba\xd0\xbe\xd0\xbb\xd0\xbe %{count} \xd1\x87\xd0\xb0\xd1\x81<span>\xd0\xb0</span>&quot;"
+    ru.force_encoding('UTF-8') if ru.respond_to?(:force_encoding)
+    with_settings :repositories_encodings => '' do
+      diff = Redmine::UnifiedDiff.new(read_diff_fixture('issue-12641-ru.diff'), :type => 'inline')
+      assert_equal 1, diff.size
+      assert_equal 8, diff.first.size
+      assert_equal ru, diff.first[3].html_line_left
+    end
+  end
+
   private
 
   def read_diff_fixture(filename)
