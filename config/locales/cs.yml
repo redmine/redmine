@@ -192,8 +192,8 @@ cs:
   error_can_not_reopen_issue_on_closed_version: Úkol přiřazený k uzavřené verzi nemůže být znovu otevřen
   error_can_not_archive_project: Tento projekt nemůže být archivován
   error_issue_done_ratios_not_updated: Koeficient dokončení úkolu nebyl aktualizován.
-  error_workflow_copy_source: Prosím vyberte zdrojovou frontu nebo roly
-  error_workflow_copy_target: Prosím vyberte cílovou frontu(y) a roly(e)
+  error_workflow_copy_source: Prosím vyberte zdrojovou frontu nebo roli
+  error_workflow_copy_target: Prosím vyberte cílovou frontu(y) a roli(e)
   error_unable_delete_issue_status: Nelze smazat stavy úkolů
   error_unable_to_connect: Nelze se připojit (%{value})
   warning_attachments_not_saved: "%{count} soubor(ů) nebylo možné uložit."
@@ -717,7 +717,7 @@ cs:
   label_week: Týden
   label_date_from: Od
   label_date_to: Do
-  label_language_based: Podle výchozího jazyku
+  label_language_based: Podle výchozího jazyka
   label_sort_by: "Seřadit podle %{value}"
   label_send_test_email: Poslat testovací email
   label_feeds_access_key: Přístupový klíč pro RSS
@@ -739,9 +739,9 @@ cs:
   label_user_mail_option_all: "Pro všechny události všech mých projektů"
   label_user_mail_option_selected: "Pro všechny události vybraných projektů..."
   label_user_mail_option_none: "Žádné události"
-  label_user_mail_option_only_my_events: "Jen pro věci co sleduji nebo jsem v nich zapojen"
-  label_user_mail_option_only_assigned: "Jen pro všeci kterým sem přiřazen"
-  label_user_mail_option_only_owner: "Jen pro věci které vlastním"
+  label_user_mail_option_only_my_events: "Jen pro věci, co sleduji nebo jsem v nich zapojen"
+  label_user_mail_option_only_assigned: "Jen pro věci, ke kterým sem přiřazen"
+  label_user_mail_option_only_owner: "Jen pro věci, které vlastním"
   label_user_mail_no_self_notified: "Nezasílat informace o mnou vytvořených změnách"
   label_registration_activation_by_email: aktivace účtu emailem
   label_registration_manual_activation: manuální aktivace účtu
@@ -853,7 +853,7 @@ cs:
   text_select_mail_notifications: Vyberte akci při které bude zasláno upozornění emailem.
   text_regexp_info: např. ^[A-Z0-9]+$
   text_min_max_length_info: 0 znamená bez limitu
-  text_project_destroy_confirmation: Jste si jisti, že chcete odstranit tento projekt a všechna související data ?
+  text_project_destroy_confirmation: Jste si jisti, že chcete odstranit tento projekt a všechna související data?
   text_subprojects_destroy_warning: "Jeho podprojek(y): %{value} budou také smazány."
   text_workflow_edit: Vyberte roli a frontu k editaci průběhu práce
   text_are_you_sure: Jste si jisti?
