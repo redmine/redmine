@@ -30,15 +30,8 @@ module Redmine
       diff_table = DiffTable.new(diff_type, diff_style)
       diff.each do |line|
         line_encoding = nil
-        if line.respond_to?(:force_encoding)
-          line_encoding = line.encoding
-          # TODO: UTF-16 and Japanese CP932 which is imcompatible with ASCII
-          #       In Japan, diffrence between file path encoding
-          #       and file contents encoding is popular.
-          line.force_encoding('ASCII-8BIT')
-        end
-        unless diff_table.add_line line
-          line.force_encoding(line_encoding) if line_encoding
+        line = Redmine::CodesetUtil.to_utf8_by_setting(line)
+        unless diff_table.add_line(line)
           self << diff_table if diff_table.length > 0
           diff_table = DiffTable.new(diff_type, diff_style)
         end

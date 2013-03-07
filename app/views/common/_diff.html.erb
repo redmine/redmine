@@ -10,7 +10,7 @@
 <thead>
 <tr>
   <th colspan="4" class="filename">
-    <%= Redmine::CodesetUtil.to_utf8_by_setting(table_file.file_name) %>
+    <%= table_file.file_name %>
   </th>
 </tr>
 </thead>
@@ -24,11 +24,11 @@
 <tr>
   <th class="line-num"><%= line.nb_line_left %></th>
   <td class="line-code <%= line.type_diff_left %>">
-    <pre><%= Redmine::CodesetUtil.to_utf8_by_setting(line.html_line_left).html_safe %></pre>
+    <pre><%= line.html_line_left.html_safe %></pre>
   </td>
   <th class="line-num"><%= line.nb_line_right %></th>
   <td class="line-code <%= line.type_diff_right %>">
-    <pre><%= Redmine::CodesetUtil.to_utf8_by_setting(line.html_line_right).html_safe %></pre>
+    <pre><%= line.html_line_right.html_safe %></pre>
   </td>
 </tr>
 <% end -%>
@@ -40,7 +40,7 @@
 <thead>
   <tr>
     <th colspan="3" class="filename">
-      <%= Redmine::CodesetUtil.to_utf8_by_setting(table_file.file_name) %>
+      <%= table_file.file_name %>
     </th>
   </tr>
 </thead>
@@ -55,7 +55,7 @@
   <th class="line-num"><%= line.nb_line_left %></th>
   <th class="line-num"><%= line.nb_line_right %></th>
   <td class="line-code <%= line.type_diff %>">
-    <pre><%= Redmine::CodesetUtil.to_utf8_by_setting(line.html_line).html_safe %></pre>
+    <pre><%= line.html_line.html_safe %></pre>
   </td>
 </tr>
 <% end -%>
