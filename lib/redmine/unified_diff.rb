@@ -28,9 +28,8 @@ module Redmine
       lines = 0
       @truncated = false
       diff_table = DiffTable.new(diff_type, diff_style)
-      diff.each do |line|
-        line_encoding = nil
-        line = Redmine::CodesetUtil.to_utf8_by_setting(line)
+      diff.each do |line_raw|
+        line = Redmine::CodesetUtil.to_utf8_by_setting(line_raw)
         unless diff_table.add_line(line)
           self << diff_table if diff_table.length > 0
           diff_table = DiffTable.new(diff_type, diff_style)
