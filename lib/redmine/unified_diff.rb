@@ -260,6 +260,12 @@ module Redmine
     private
 
     def line_to_html(line, offsets)
+      html = line_to_html_raw(line, offsets)
+      html.force_encoding('UTF-8') if html.respond_to?(:force_encoding)
+      html
+    end
+
+    def line_to_html_raw(line, offsets)
       if offsets
         s = ''
         unless offsets.first == 0
