@@ -83,7 +83,7 @@ module Redmine
           @parsing = true
         end
       else
-        if line =~ /^[^\+\-\s@\\]/
+        if line =~ %r{^[^\+\-\s@\\]}
           @parsing = false
           return false
         elsif line =~ /^@@ (\+|\-)(\d+)(,\d+)? (\+|\-)(\d+)(,\d+)? @@/
