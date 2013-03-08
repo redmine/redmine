@@ -332,6 +332,11 @@ hr.soften {
 	padding-bottom:10px;
 }
 
+.disabledinput
+{
+	cursor:default;
+	background-color:#D9D9D9!important;
+}
 .noborder{
 	border-left:0!important;
 	margin-top:5px;
@@ -358,6 +363,8 @@ hr.soften {
 .popoverlink {
 	position: relative;
 	top:5px;
+	color: #37abc8;
+
 
 }
 #activity icon{
