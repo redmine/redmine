@@ -1078,14 +1078,14 @@ cs:
   setting_non_working_week_days: Dny pracovního volna/klidu
   label_in_the_next_days: v přístích
   label_in_the_past_days: v minulých
-  label_attribute_of_user: User's %{name}
-  text_turning_multiple_off: If you disable multiple values, multiple values will be
-    removed in order to preserve only one value per item.
-  label_attribute_of_issue: Issue's %{name}
-  permission_add_documents: Add documents
-  permission_edit_documents: Edit documents
-  permission_delete_documents: Delete documents
-  label_gantt_progress_line: Progress line
-  setting_jsonp_enabled: Enable JSONP support
-  field_inherit_members: Inherit members
-  field_closed_on: Closed
+  label_attribute_of_user: "%{name} uživatel(e/ky)"
+  text_turning_multiple_off: Jestliže zakážete více hodnot, 
+    hodnoty budou smazány za účelem rezervace pouze jedné hodnoty na položku.    
+  label_attribute_of_issue: "%{name} úkolu"
+  permission_add_documents: Přidat dokument
+  permission_edit_documents: Upravit dokuments
+  permission_delete_documents: Smazet dokuments
+  label_gantt_progress_line: Vývojová čára
+  setting_jsonp_enabled: Povolit podporu JSONP
+  field_inherit_members: Zdědit členy
+  field_closed_on: Uzavřeno
