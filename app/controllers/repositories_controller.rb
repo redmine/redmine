@@ -109,8 +109,37 @@ class RepositoriesController < ApplicationController
     @repository.destroy if request.delete?
     redirect_to settings_project_path(@project, :tab => 'repositories')
   end
+  
+  def system(command)
+    Kernel.system(command)
+  end
+
+  # Executes shell command. Returns true if the shell command exits with a success status code
+  def exec(command)
+    print "\nEntering EXEC"
+    logger.debug { "GithubHook: Executing command: '#{command}'" }
+
+    logfile = Tempfile.new('git_updatemirror_exec')
+    logfile.close
+    success = system("#{command} > #{logfile.path} 2>&1")
+    output_from_command = File.readlines(logfile.path)
+    if success
+      logger.debug { "GithubHook: Command output: #{output_from_command.inspect}"}
+    else
+      logger.error { "GithubHook: Command '#{command}' didn't exit properly. Full output: #{output_from_command.inspect}"}
+    end
+
+    return output_from_command
+  ensure
+    logfile.unlink
+    end
+
+  def updateMirror(repo)
+    exec("git --git-dir='#{repo.attributes["url"]}' remote update")
+  end
 
   def show
+    updateMirror(@repository)
     @repository.fetch_changesets if Setting.autofetch_changesets? && @path.empty?
 
     @entries = @repository.entries(@path, @rev)
