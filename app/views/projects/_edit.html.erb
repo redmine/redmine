@@ -1,5 +1,26 @@
+<div class="pull-right">
+<a  href="#deleteModal" class="btn btn-danger" role="button" data-toggle="modal"><icon class="icon-trash"></icon>Delete project</a>
+</div>
+<br/>
+<hr/>
 <%= labelled_form_for @project do |f| %>
 <%= render :partial => 'form', :locals => { :f => f } %>
 <br/>
-<%= submit_tag l(:button_save) %>
+
+<%= submit_tag l(:button_save), :class=>"btn btn-success" %>
 <% end %>
+
+<div id="deleteModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Are you sure?</h3>
+  </div>
+  <div class="modal-body">
+    <p>Are you sure you want to delete <%= @project.name %> from OSB?</p>
+    <p><strong>Note</strong>: this operation won't affect the external repository where the project is stored.</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+    <%= link_to " Delete project",project_path(@project), :method => :delete, :class=>"btn btn-danger icon-trash" %>
+  </div>
+</div>

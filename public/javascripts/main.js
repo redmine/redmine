@@ -23,7 +23,7 @@ jQuery(function()
 	// -- Add bootstrap class to all the tables
 	jQuery('table').addClass('table table-bordered table-hover');
 	
-	jQuery(":submit").addClass('btn btn-success btn-large');
+	//jQuery(":submit").addClass('btn btn-success btn-large');
 	jQuery('button').addClass('btn');
 	jQuery('.jstElements button').addClass('btn-square');
 	jQuery('.jstElements').addClass('btn-group');
@@ -137,7 +137,7 @@ function replaceIconWithFontAwesome()
 	jQuery("a.icon-edit").removeClass("icon-edit").prepend("<icon class='icon-edit'/>");
 	jQuery("a.icon-copy").removeClass("icon-copy").prepend("<icon class='icon-copy'/>");
 	jQuery("a.icon-duplicate").removeClass("icon-duplicate").prepend("<icon class='icon-copy'/>");
-	jQuery("a.icon-del").removeClass("icon-del").prepend("<icon class='icon-remove'/>");
+	jQuery("a.icon-del").removeClass("icon-del").prepend("<icon class='icon-trash'/>");
 	jQuery("a.icon-move").removeClass("icon-move").prepend("<icon class='icon-move'/>");
 	jQuery("a.icon-save").removeClass("icon-save").prepend("<icon class='icon-save'/>");
 	jQuery("a.icon-cancel").removeClass("icon-cancel").prepend("<icon class='icon-remove'/>");
