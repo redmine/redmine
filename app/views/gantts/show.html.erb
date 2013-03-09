@@ -21,7 +21,7 @@
           <fieldset>
             <legend><%= l(:label_related_issues) %></legend>
             <label>
-              <%= check_box_tag "draw_rels", params["draw_rels"], true %>
+              <%= check_box_tag "draw_rels", params["draw_rels"], params[:set_filter].blank? || params[:draw_rels] %>
               <% rels = [IssueRelation::TYPE_BLOCKS, IssueRelation::TYPE_PRECEDES] %>
               <% rels.each do |rel| %>
                 <% color = Redmine::Helpers::Gantt::DRAW_TYPES[rel][:color] %>
@@ -36,7 +36,7 @@
           <fieldset>
             <legend><%= l(:label_gantt_progress_line) %></legend>
             <label>
-              <%= check_box_tag "draw_progress_line", params[:draw_progress_line], false %>
+              <%= check_box_tag "draw_progress_line", params[:draw_progress_line], params[:draw_progress_line] %>
               <%= l(:label_display) %>
             </label>
           </fieldset>
