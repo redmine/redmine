@@ -95,7 +95,7 @@ module Redmine
                         (?:www\.)                # www.*
                       )
                       (
-                        (\S+?)                   # url
+                        ([^<]\S*?)               # url
                         (\/)?                    # slash
                       )
                       ((?:&gt;)?|[^[:alnum:]_\=\/;\(\)]*?)               # post
