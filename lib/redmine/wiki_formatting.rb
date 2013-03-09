@@ -86,7 +86,7 @@ module Redmine
       AUTO_LINK_RE = %r{
                       (                          # leading text
                         <\w+.*?>|                # leading HTML tag, or
-                        [^=<>!:'"/]|             # leading punctuation, or
+                        [\s\(\[,;]|              # leading punctuation, or
                         ^                        # beginning of line
                       )
                       (

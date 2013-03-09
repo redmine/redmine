@@ -88,6 +88,7 @@ class ApplicationHelperTest < ActionView::TestCase
       # invalid urls
       'http://' => 'http://',
       'www.' => 'www.',
+      'test-www.bar.com' => 'test-www.bar.com',
     }
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
   end
@@ -104,8 +105,11 @@ class ApplicationHelperTest < ActionView::TestCase
   end
 
   def test_auto_mailto
-    assert_equal '<p><a class="email" href="mailto:test@foo.bar">test@foo.bar</a></p>',
-      textilizable('test@foo.bar')
+    to_test = {
+      'test@foo.bar' => '<a class="email" href="mailto:test@foo.bar">test@foo.bar</a>',
+      'test@www.foo.bar' => '<a class="email" href="mailto:test@www.foo.bar">test@www.foo.bar</a>',
+    }
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
   end
 
   def test_inline_images
