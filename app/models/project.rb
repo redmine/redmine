@@ -285,6 +285,7 @@ class Project < ActiveRecord::Base
     self.find(*args)
   end
 
+  alias :base_reload :reload
   def reload(*args)
     @shared_versions = nil
     @rolled_up_versions = nil
@@ -297,7 +298,7 @@ class Project < ActiveRecord::Base
     @actions_allowed = nil
     @start_date = nil
     @due_date = nil
-    super
+    base_reload(*args)
   end
 
   def to_param
