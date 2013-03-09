@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   def handle_unverified_request
     super
-    cookies.delete(:autologin)
+    cookies.delete(autologin_cookie_name)
   end
 
   before_filter :session_expiration, :user_setup, :check_if_login_required, :set_localization
@@ -127,10 +127,14 @@ class ApplicationController < ActionController::Base
     user
   end
 
+  def autologin_cookie_name
+    Redmine::Configuration['autologin_cookie_name'].presence || 'autologin'
+  end
+
   def try_to_autologin
-    if cookies[:autologin] && Setting.autologin?
+    if cookies[autologin_cookie_name] && Setting.autologin?
       # auto-login feature starts a new session
-      user = User.try_to_autologin(cookies[:autologin])
+      user = User.try_to_autologin(cookies[autologin_cookie_name])
       if user
         reset_session
         start_user_session(user)
@@ -153,7 +157,7 @@ class ApplicationController < ActionController::Base
   # Logs out current user
   def logout_user
     if User.current.logged?
-      cookies.delete :autologin
+      cookies.delete(autologin_cookie_name)
       Token.delete_all(["user_id = ? AND action = ?", User.current.id, 'autologin'])
       self.logged_user = nil
     end
