@@ -63,7 +63,7 @@ module Redmine
             when 'month'
               row['month'] = "#{row['tyear']}-#{row['tmonth']}"
             when 'week'
-              row['week'] = "#{row['tyear']}-#{row['tweek']}"
+              row['week'] = "#{row['spent_on'].cwyear}-#{row['tweek']}"
             when 'day'
               row['day'] = "#{row['spent_on']}"
             end
@@ -90,7 +90,7 @@ module Redmine
               @periods << "#{date_from.year}-#{date_from.month}"
               date_from = (date_from + 1.month).at_beginning_of_month
             when 'week'
-              @periods << "#{date_from.year}-#{date_from.to_date.cweek}"
+              @periods << "#{date_from.to_date.cwyear}-#{date_from.to_date.cweek}"
               date_from = (date_from + 7.day).at_beginning_of_week
             when 'day'
               @periods << "#{date_from.to_date}"

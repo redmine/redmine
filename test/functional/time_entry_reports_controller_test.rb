@@ -125,6 +125,32 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
       :attributes => {:action => "/projects/ecookbook/issues/1/time_entries/report", :id => 'query_form'}
   end
 
+  def test_report_by_week_should_use_commercial_year
+    TimeEntry.delete_all
+    TimeEntry.generate!(:hours => '2', :spent_on => '2009-12-25') # 2009-52
+    TimeEntry.generate!(:hours => '4', :spent_on => '2009-12-31') # 2009-53
+    TimeEntry.generate!(:hours => '8', :spent_on => '2010-01-01') # 2009-53
+    TimeEntry.generate!(:hours => '16', :spent_on => '2010-01-05') # 2010-1
+
+    get :report, :columns => 'week', :from => "2009-12-25", :to => "2010-01-05", :criteria => ["project"]
+    assert_response :success
+
+    assert_select '#time-report thead tr' do
+      assert_select 'th:nth-child(1)', :text => 'Project'
+      assert_select 'th:nth-child(2)', :text => '2009-52'
+      assert_select 'th:nth-child(3)', :text => '2009-53'
+      assert_select 'th:nth-child(4)', :text => '2010-1'
+      assert_select 'th:nth-child(5)', :text => 'Total'
+    end
+    assert_select '#time-report tbody tr' do
+      assert_select 'td:nth-child(1)', :text => 'eCookbook'
+      assert_select 'td:nth-child(2)', :text => '2.00'
+      assert_select 'td:nth-child(3)', :text => '12.00'
+      assert_select 'td:nth-child(4)', :text => '16.00'
+      assert_select 'td:nth-child(5)', :text => '30.00' # Total
+    end
+  end
+
   def test_report_should_propose_association_custom_fields
     get :report
     assert_response :success
