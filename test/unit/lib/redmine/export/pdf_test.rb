@@ -35,9 +35,9 @@ class PdfTest < ActiveSupport::TestCase
       txt_1 = Redmine::Export::PDF::RDMPdfEncoding::rdm_from_utf8(utf8_txt_1, encoding)
       txt_2 = Redmine::Export::PDF::RDMPdfEncoding::rdm_from_utf8(utf8_txt_2, encoding)
       txt_3 = Redmine::Export::PDF::RDMPdfEncoding::rdm_from_utf8(utf8_txt_3, encoding)
-      assert_equal "?\x91\xd4", txt_1
-      assert_equal "?\x91\xd4?", txt_2
-      assert_equal "??\x91\xd4?", txt_3
+      assert_equal "?\x91\xd4".force_encoding("ASCII-8BIT"), txt_1
+      assert_equal "?\x91\xd4?".force_encoding("ASCII-8BIT"), txt_2
+      assert_equal "??\x91\xd4?".force_encoding("ASCII-8BIT"), txt_3
       assert_equal "ASCII-8BIT", txt_1.encoding.to_s
       assert_equal "ASCII-8BIT", txt_2.encoding.to_s
       assert_equal "ASCII-8BIT", txt_3.encoding.to_s
