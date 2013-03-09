@@ -397,6 +397,7 @@ fr:
   setting_thumbnails_size: Taille des vignettes (en pixels)
   setting_non_working_week_days: Jours non travaillés
   setting_jsonp_enabled: Activer le support JSONP
+  setting_default_projects_tracker_ids: Trackers par défaut pour les nouveaux projets
 
   permission_add_project: Créer un projet
   permission_add_subprojects: Créer des sous-projets

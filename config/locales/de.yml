@@ -1008,6 +1008,7 @@ de:
   setting_user_format: Benutzer-Anzeigeformat
   setting_welcome_text: Willkommenstext
   setting_wiki_compression: Wiki-Historie komprimieren
+  setting_default_projects_tracker_ids: Standardmäßig aktivierte Tracker für neue Projekte
 
   status_active: aktiv
   status_locked: gesperrt

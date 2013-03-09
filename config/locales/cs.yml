@@ -1089,3 +1089,4 @@ cs:
   setting_jsonp_enabled: Povolit podporu JSONP
   field_inherit_members: Zdědit členy
   field_closed_on: Uzavřeno
+  setting_default_projects_tracker_ids: Default trackers for new projects

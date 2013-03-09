@@ -1138,3 +1138,4 @@ vi:
   setting_jsonp_enabled: Cho phép trợ giúp JSONP
   field_inherit_members: Các thành viên kế thừa
   field_closed_on: Đã đóng
+  setting_default_projects_tracker_ids: Default trackers for new projects
