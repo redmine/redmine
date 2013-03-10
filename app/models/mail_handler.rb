@@ -97,6 +97,7 @@ class MailHandler < ActionMailer::Base
           if logger && logger.info
             logger.info "MailHandler: [#{@user.login}] account created"
           end
+          add_user_to_group(@@handler_options[:default_group])
           Mailer.account_information(@user, @user.password).deliver
         else
           if logger && logger.error
@@ -462,6 +463,19 @@ class MailHandler < ActionMailer::Base
     else
       logger.error "MailHandler: failed to create User: no FROM address found" if logger
       nil
+    end
+  end
+
+	# Adds the newly created user to default group
+  def add_user_to_group(default_group)
+    if default_group.present?
+      default_group.split(',').each do |group_name|
+        if group = Group.named(group_name).first
+          group.users << @user
+        elsif logger
+          logger.warn "MailHandler: could not add user to [#{group_name}], group not found"
+        end
+      end
     end
   end
 

@@ -23,9 +23,9 @@ module Net
 end
 
 class RedmineMailHandler
-  VERSION = '0.2.1'
+  VERSION = '0.2.2'
 
-  attr_accessor :verbose, :issue_attributes, :allow_override, :unknown_user, :no_permission_check, :url, :key, :no_check_certificate
+  attr_accessor :verbose, :issue_attributes, :allow_override, :unknown_user, :default_group, :no_permission_check, :url, :key, :no_check_certificate
 
   def initialize
     self.issue_attributes = {}
@@ -40,11 +40,6 @@ class RedmineMailHandler
       opts.on("-k", "--key KEY",              "Redmine API key") {|v| self.key = v}
       opts.separator("")
       opts.separator("General options:")
-      opts.on("--unknown-user ACTION",        "how to handle emails from an unknown user",
-                                              "ACTION can be one of the following values:",
-                                              "* ignore: email is ignored (default)",
-                                              "* accept: accept as anonymous user",
-                                              "* create: create a user account") {|v| self.unknown_user = v}
       opts.on("--no-permission-check",        "disable permission checking when receiving",
                                               "the email") {self.no_permission_check = '1'}
       opts.on("--key-file FILE",              "path to a file that contains the Redmine",
@@ -55,6 +50,15 @@ class RedmineMailHandler
       opts.on("-h", "--help",                 "show this help") {puts opts; exit 1}
       opts.on("-v", "--verbose",              "show extra information") {self.verbose = true}
       opts.on("-V", "--version",              "show version information and exit") {puts VERSION; exit}
+      opts.separator("")
+      opts.separator("User creation options:")
+      opts.on("--unknown-user ACTION",        "how to handle emails from an unknown user",
+                                              "ACTION can be one of the following values:",
+                                              "* ignore: email is ignored (default)",
+                                              "* accept: accept as anonymous user",
+                                              "* create: create a user account") {|v| self.unknown_user = v}
+      opts.on("--default-group GROUP",        "add created user to GROUP (none by default)",
+                                              "GROUP can be a comma separated list of groups") { |v| self.default_group = v}
       opts.separator("")
       opts.separator("Issue attributes control options:")
       opts.on("-p", "--project PROJECT",      "identifier of the target project") {|v| self.issue_attributes['project'] = v}
@@ -95,6 +99,7 @@ class RedmineMailHandler
     data = { 'key' => key, 'email' => email,
                            'allow_override' => allow_override,
                            'unknown_user' => unknown_user,
+                           'default_group' => default_group,
                            'no_permission_check' => no_permission_check}
     issue_attributes.each { |attr, value| data["issue[#{attr}]"] = value }
 
