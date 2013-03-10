@@ -1124,17 +1124,16 @@ ko:
   setting_non_working_week_days: 비근무일 (non-working days)
   label_in_the_next_days: 다음
   label_in_the_past_days: 지난
-  label_attribute_of_user: User's %{name}
-  text_turning_multiple_off: If you disable multiple values, multiple values will be
-    removed in order to preserve only one value per item.
-  label_attribute_of_issue: Issue's %{name}
-  permission_add_documents: Add documents
-  permission_edit_documents: Edit documents
-  permission_delete_documents: Delete documents
+  label_attribute_of_user: "사용자의 %{name}"
+  text_turning_multiple_off: 복수선택을 비활성화면, 하나의 값을 제외한 나머지 값들이 지워집니다.
+  label_attribute_of_issue: "일감의 %{name}"
+  permission_add_documents: 문서 추가
+  permission_edit_documents: 문서 편집
+  permission_delete_documents: 문서 삭제
   label_gantt_progress_line: Progress line
-  setting_jsonp_enabled: Enable JSONP support
-  field_inherit_members: Inherit members
-  field_closed_on: Closed
+  setting_jsonp_enabled: JSONP 허용
+  field_inherit_members: 상위 프로젝트로부터 구성원을 상속
+  field_closed_on: 완료일
   field_generate_password: Generate password
-  setting_default_projects_tracker_ids: Default trackers for new projects
+  setting_default_projects_tracker_ids: 새 프로젝트에 기본적으로 추가할 일감 유형
   label_total_time: 합계
