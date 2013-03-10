@@ -38,7 +38,8 @@ class MailHandler < ActionMailer::Base
     # Status overridable by default
     @@handler_options[:allow_override] << 'status' unless @@handler_options[:issue].has_key?(:status)
 
-    @@handler_options[:no_permission_check] = (@@handler_options[:no_permission_check].to_s == '1' ? true : false)
+    @@handler_options[:no_account_notice] = (@@handler_options[:no_account_notice].to_s == '1')
+    @@handler_options[:no_permission_check] = (@@handler_options[:no_permission_check].to_s == '1')
 
     email.force_encoding('ASCII-8BIT') if email.respond_to?(:force_encoding)
     super(email)
@@ -98,7 +99,9 @@ class MailHandler < ActionMailer::Base
             logger.info "MailHandler: [#{@user.login}] account created"
           end
           add_user_to_group(@@handler_options[:default_group])
-          Mailer.account_information(@user, @user.password).deliver
+          unless @@handler_options[:no_account_notice]
+            Mailer.account_information(@user, @user.password).deliver
+          end
         else
           if logger && logger.error
             logger.error "MailHandler: could not create account for [#{sender_email}]"

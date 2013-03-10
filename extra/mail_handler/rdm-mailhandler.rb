@@ -23,9 +23,10 @@ module Net
 end
 
 class RedmineMailHandler
-  VERSION = '0.2.2'
+  VERSION = '0.2.3'
 
-  attr_accessor :verbose, :issue_attributes, :allow_override, :unknown_user, :default_group, :no_permission_check, :url, :key, :no_check_certificate
+  attr_accessor :verbose, :issue_attributes, :allow_override, :unknown_user, :default_group, :no_permission_check,
+    :url, :key, :no_check_certificate, :no_account_notice
 
   def initialize
     self.issue_attributes = {}
@@ -59,6 +60,8 @@ class RedmineMailHandler
                                               "* create: create a user account") {|v| self.unknown_user = v}
       opts.on("--default-group GROUP",        "add created user to GROUP (none by default)",
                                               "GROUP can be a comma separated list of groups") { |v| self.default_group = v}
+      opts.on("--no-account-notice",          "don't send account information to the newly",
+                                              "created user") { |v| self.no_account_notice = '1'}
       opts.separator("")
       opts.separator("Issue attributes control options:")
       opts.on("-p", "--project PROJECT",      "identifier of the target project") {|v| self.issue_attributes['project'] = v}
@@ -100,6 +103,7 @@ class RedmineMailHandler
                            'allow_override' => allow_override,
                            'unknown_user' => unknown_user,
                            'default_group' => default_group,
+                           'no_account_notice' => no_account_notice,
                            'no_permission_check' => no_permission_check}
     issue_attributes.each { |attr, value| data["issue[#{attr}]"] = value }
 
