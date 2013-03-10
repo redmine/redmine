@@ -1115,3 +1115,4 @@ ja:
   setting_jsonp_enabled: JSONPを有効にする
   field_inherit_members: メンバーを継承
   field_closed_on: 終了日
+  label_total_time: 合計

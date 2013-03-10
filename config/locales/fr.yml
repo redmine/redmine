@@ -612,6 +612,7 @@ fr:
     one:   1 demande
     other: "%{count} demandes"
   label_total: Total
+  label_total_time: Temps total
   label_permissions: Permissions
   label_current_status: Statut actuel
   label_new_statuses_allowed: Nouveaux statuts autorisés

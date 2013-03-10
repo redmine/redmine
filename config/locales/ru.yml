@@ -1196,3 +1196,4 @@ ru:
   field_inherit_members: Наследовать участников
   field_closed_on: Закрыта
   setting_default_projects_tracker_ids: Default trackers for new projects
+  label_total_time: Общее время

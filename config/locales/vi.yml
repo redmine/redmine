@@ -1139,3 +1139,4 @@ vi:
   field_inherit_members: Các thành viên kế thừa
   field_closed_on: Đã đóng
   setting_default_projects_tracker_ids: Default trackers for new projects
+  label_total_time: Tổng cộng

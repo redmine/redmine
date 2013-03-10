@@ -618,6 +618,7 @@ en:
     one:   1 issue
     other: "%{count} issues"
   label_total: Total
+  label_total_time: Total time
   label_permissions: Permissions
   label_current_status: Current status
   label_new_statuses_allowed: New statuses allowed
