@@ -180,7 +180,7 @@ bg:
   notice_account_deleted: Вашият профил беше премахнат без възможност за възстановяване.
   notice_user_successful_create: Потребител %{id} е създаден.
 
-  error_can_t_load_default_data: "Грешка при зареждане на примерната информация: %{value}"
+  error_can_t_load_default_data: "Грешка при зареждане на началната информация: %{value}"
   error_scm_not_found: Несъществуващ обект в хранилището.
   error_scm_command_failed: "Грешка при опит за комуникация с хранилище: %{value}"
   error_scm_annotate: "Обектът не съществува или не може да бъде анотиран."
@@ -401,6 +401,7 @@ bg:
   setting_thumbnails_size: Размер на миниатюрите (в пиксели)
   setting_non_working_week_days: Не работни дни
   setting_jsonp_enabled: Разрешаване на поддръжка на JSONP
+  setting_default_projects_tracker_ids: Тракери по подразбиране за нови проекти
 
   permission_add_project: Създаване на проект
   permission_add_subprojects: Създаване на подпроекти
@@ -1082,4 +1083,3 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  setting_default_projects_tracker_ids: Default trackers for new projects
