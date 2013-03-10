@@ -107,14 +107,14 @@ module TimelogHelper
       # Column headers
       headers = report.criteria.collect {|criteria| l(report.available_criteria[criteria][:label]) }
       headers += report.periods
-      headers << l(:label_total)
+      headers << l(:label_total_time)
       csv << headers.collect {|c| Redmine::CodesetUtil.from_utf8(
                                     c.to_s,
                                     l(:general_csv_encoding) ) }
       # Content
       report_criteria_to_csv(csv, report.available_criteria, report.columns, report.criteria, report.periods, report.hours)
       # Total row
-      str_total = Redmine::CodesetUtil.from_utf8(l(:label_total), l(:general_csv_encoding))
+      str_total = Redmine::CodesetUtil.from_utf8(l(:label_total_time), l(:general_csv_encoding))
       row = [ str_total ] + [''] * (report.criteria.size - 1)
       total = 0
       report.periods.each do |period|

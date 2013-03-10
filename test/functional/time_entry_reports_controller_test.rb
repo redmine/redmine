@@ -140,7 +140,7 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
       assert_select 'th:nth-child(2)', :text => '2009-52'
       assert_select 'th:nth-child(3)', :text => '2009-53'
       assert_select 'th:nth-child(4)', :text => '2010-1'
-      assert_select 'th:nth-child(5)', :text => 'Total'
+      assert_select 'th:nth-child(5)', :text => 'Total time'
     end
     assert_select '#time-report tbody tr' do
       assert_select 'td:nth-child(1)', :text => 'eCookbook'
@@ -206,9 +206,9 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
     assert_equal 'text/csv; header=present', @response.content_type
     lines = @response.body.chomp.split("\n")
     # Headers
-    assert_equal 'Project,User,Activity,2007-3,2007-4,Total', lines.first
+    assert_equal 'Project,User,Activity,2007-3,2007-4,Total time', lines.first
     # Total row
-    assert_equal 'Total,"","",154.25,8.65,162.90', lines.last
+    assert_equal 'Total time,"","",154.25,8.65,162.90', lines.last
   end
 
   def test_report_csv_export
@@ -219,9 +219,9 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
     assert_equal 'text/csv; header=present', @response.content_type
     lines = @response.body.chomp.split("\n")
     # Headers
-    assert_equal 'Project,User,Activity,2007-3,2007-4,Total', lines.first
+    assert_equal 'Project,User,Activity,2007-3,2007-4,Total time', lines.first
     # Total row
-    assert_equal 'Total,"","",154.25,8.65,162.90', lines.last
+    assert_equal 'Total time,"","",154.25,8.65,162.90', lines.last
   end
 
   def test_csv_big_5
@@ -348,8 +348,8 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
       assert_equal 'text/csv; header=present', @response.content_type
       lines = @response.body.chomp.split("\n")    
       # Headers
-      s1 = "Utilisateur;2011-11-11;Total"
-      s2 = "Total"
+      s1 = "Utilisateur;2011-11-11;Temps total"
+      s2 = "Temps total"
       if s1.respond_to?(:force_encoding)
         s1.force_encoding('ISO-8859-1')
         s2.force_encoding('ISO-8859-1')

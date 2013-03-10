@@ -1091,3 +1091,4 @@ cs:
   field_closed_on: Uzavřeno
   field_generate_password: Generovat heslo
   setting_default_projects_tracker_ids: Default trackers for new projects
+  label_total_time: Celkem

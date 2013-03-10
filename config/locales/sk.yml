@@ -1084,3 +1084,4 @@ sk:
   field_closed_on: Closed
   field_generate_password: Generate password
   setting_default_projects_tracker_ids: Default trackers for new projects
+  label_total_time: Celkovo

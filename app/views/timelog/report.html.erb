@@ -30,7 +30,7 @@
 
 <% unless @report.criteria.empty? %>
 <div class="total-hours">
-<p><%= l(:label_total) %>: <%= html_hours(l_hours(@report.total_hours)) %></p>
+<p><%= l(:label_total_time) %>: <%= html_hours(l_hours(@report.total_hours)) %></p>
 </div>
 
 <% unless @report.hours.empty? %>
@@ -45,13 +45,13 @@
 <% @report.periods.each do |period| %>
   <th class="period" width="<%= columns_width %>%"><%= period %></th>
 <% end %>
-  <th class="total" width="<%= columns_width %>%"><%= l(:label_total) %></th>
+  <th class="total" width="<%= columns_width %>%"><%= l(:label_total_time) %></th>
 </tr>
 </thead>
 <tbody>
 <%= render :partial => 'report_criteria', :locals => {:criterias => @report.criteria, :hours => @report.hours, :level => 0} %>
   <tr class="total">
-  <td><%= l(:label_total) %></td>
+  <td><%= l(:label_total_time) %></td>
   <%= ('<td></td>' * (@report.criteria.size - 1)).html_safe %>
   <% total = 0 -%>
   <% @report.periods.each do |period| -%>
