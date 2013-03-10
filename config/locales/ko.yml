@@ -231,7 +231,7 @@ ko:
   mail_body_account_information: 계정 정보
   mail_subject_account_activation_request: "%{value} 계정 활성화 요청"
   mail_body_account_activation_request: "새 사용자(%{value})가 등록되었습니다. 관리자님의 승인을 기다리고 있습니다.:"
-  mail_body_reminder: "당신이 맡고 있는 일감 %{count}개의 완료시간이 %{days}일 후 입니다."
+  mail_body_reminder: "당신이 맡고 있는 일감 %{count}개의 완료기한이 %{days}일 후 입니다."
   mail_subject_reminder: "내일이 만기인 일감 %{count}개 (%{days})"
   mail_subject_wiki_content_added: "위키페이지 '%{id}'이(가) 추가되었습니다."
   mail_subject_wiki_content_updated: "'위키페이지 %{id}'이(가) 수정되었습니다."
@@ -269,7 +269,7 @@ ko:
   field_is_default: 기본값
   field_tracker: 유형
   field_subject: 제목
-  field_due_date: 완료시간
+  field_due_date: 완료기한
   field_assigned_to: 담당자
   field_priority: 우선순위
   field_fixed_version: 목표버전
@@ -324,7 +324,7 @@ ko:
   field_comments_sorting: 댓글 정렬
   field_parent_title: 상위 제목
   field_editable: 편집가능
-  field_watcher: 일감관람자
+  field_watcher: 일감지킴이
   field_identity_url: OpenID URL
   field_content: 내용
   field_group_by: 결과를 묶어 보여줄 기준
@@ -390,8 +390,8 @@ ko:
   permission_save_queries: 검색양식 저장
   permission_view_gantt: Gantt차트 보기
   permission_view_calendar: 달력 보기
-  permission_view_issue_watchers: 일감관람자 보기
-  permission_add_issue_watchers: 일감관람자 추가
+  permission_view_issue_watchers: 일감지킴이 보기
+  permission_add_issue_watchers: 일감지킴이 추가
   permission_log_time: 작업시간 기록
   permission_view_time_entries: 시간입력 보기
   permission_edit_time_entries: 시간입력 편집
@@ -741,7 +741,7 @@ ko:
   label_planning: 프로젝트계획
   label_incoming_emails: 수신 메일
   label_generate_key: 키 생성
-  label_issue_watchers: 일감관람자
+  label_issue_watchers: 일감지킴이
   label_example: 예
   label_display: 표시방식
   label_sort: 정렬
@@ -886,7 +886,7 @@ ko:
   text_journal_added: "%{label}에 %{value}이(가) 추가되었습니다."
   field_active: 사용중
   enumeration_system_activity: 시스템 작업
-  permission_delete_issue_watchers: 일감관람자 지우기
+  permission_delete_issue_watchers: 일감지킴이 지우기
   version_status_closed: 닫힘
   version_status_locked: 잠김
   version_status_open: 진행
@@ -1002,7 +1002,7 @@ ko:
   permission_set_own_issues_private: "자신의 일감을 공개나 비공개로 설정"
   field_is_private: "비공개"
   permission_set_issues_private: "일감을 공개나 비공개로 설정"
-  label_issues_visibility_public: "모든 비공개 일감"
+  label_issues_visibility_public: "비공개 일감 제외"
   text_issues_destroy_descendants_confirmation: "%{count} 개의 하위 일감을 삭제할 것입니다."
   field_commit_logs_encoding: "커밋(commit) 기록 인코딩"
   field_scm_path_encoding: "경로 인코딩"
@@ -1069,7 +1069,7 @@ ko:
   text_issue_conflict_resolution_cancel: "변경내용을 되돌리고 다시 표시 %{link}"
   permission_manage_related_issues: 연결된 일감 관리
   field_auth_source_ldap_filter: LDAP 필터
-  label_search_for_watchers: 추가할 일감관람자 검색
+  label_search_for_watchers: 추가할 일감지킴이 검색
   notice_account_deleted: 당신의 계정이 완전히 삭제되었습니다.
   setting_unsubscribe: 사용자들이 자신의 계정을 삭제토록 허용
   button_delete_my_account: 나의 계정 삭제
@@ -1102,7 +1102,7 @@ ko:
   field_board_parent: Parent forum
   label_attribute_of_project: "프로젝트의 %{name}"
   label_attribute_of_author: "저자의 %{name}"
-  label_attribute_of_assigned_to: "구성원의 %{name}"
+  label_attribute_of_assigned_to: "담당자의 %{name}"
   label_attribute_of_fixed_version: "목표버전의 %{name}"
   label_copy_subtasks: 하위 일감들을 복사
   label_copied_to: "다음 일감으로 복사됨:"
@@ -1112,7 +1112,7 @@ ko:
   field_private_notes: 비공개 덧글
   permission_view_private_notes: 비공개 덧글 보기
   permission_set_notes_private: 덧글을 비공개로 설정
-  label_no_issues_in_project: 다음 프로젝트 내에서 해당 일감 없음
+  label_no_issues_in_project: 다음 프로젝트의 일감 제외
   label_any: 모두
   label_last_n_weeks: 최근 %{count} 주
   setting_cross_project_subtasks: 다른 프로젝트의 일감을 상위 일감으로 지정하는 것을 허용
