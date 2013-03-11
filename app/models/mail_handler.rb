@@ -436,6 +436,7 @@ class MailHandler < ActionMailer::Base
     user.lastname = '-' if user.lastname.blank?
     user.language = Setting.default_language
     user.generate_password = true
+    user.mail_notification = 'only_my_events'
 
     unless user.valid?
       user.login = "user#{Redmine::Utils.random_hex(6)}" unless user.errors[:login].blank?

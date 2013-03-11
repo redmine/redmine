@@ -768,6 +768,7 @@ class MailHandlerTest < ActiveSupport::TestCase
       assert_equal expected[0], user.login
       assert_equal expected[1], user.firstname
       assert_equal expected[2], user.lastname
+      assert_equal 'only_my_events', user.mail_notification
     end
   end
 
