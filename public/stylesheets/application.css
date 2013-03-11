@@ -802,6 +802,19 @@ iframe {
 	border: 0;
 }
 
+.nmlfile a{
+	color:#718e00!important;
+	font-weight:bold;
+}
+.icon-osbexplorer{
+	cursor:pointer;
+	color:#718e00;
+	font-size: 16px;
+	
+}
+.icon-osbexplorer:hover{
+	color:#95bb01;
+}
 .nml2menu {
 	margin: 0 auto !important;
 	width: 550px;

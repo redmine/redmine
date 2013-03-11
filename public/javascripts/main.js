@@ -19,7 +19,8 @@ jQuery(function()
 	jQuery('.dropdown-toggle').dropdown();
 	jQuery(".alert").alert();
 	jQuery('.popoverlink').popover();
-	
+	jQuery('.tooltiplink').tooltip();
+	    
 	// -- Add bootstrap class to all the tables
 	jQuery('table').addClass('table table-bordered table-hover');
 	
