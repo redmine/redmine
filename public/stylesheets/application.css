@@ -25,7 +25,7 @@ h4 {border-bottom: 1px dotted #bbb;}
 
 #account {float:right;}
 
-#header {height:5.3em;margin:0;background-color:#628DB6;color:#f8f8f8; padding: 4px 8px 0px 6px; position:relative;}
+#header {min-height:5.3em;margin:0;background-color:#628DB6;color:#f8f8f8; padding: 4px 8px 20px 6px; position:relative;}
 #header a {color:#f8f8f8;}
 #header h1 a.ancestor { font-size: 80%; }
 #quick-search {float:right;}
