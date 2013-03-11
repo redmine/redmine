@@ -336,6 +336,19 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_include 'Ticket by unknown user', email.subject
   end
 
+  def test_created_user_should_have_mail_notification_to_none_with_no_notification_option
+    assert_difference 'User.count' do
+      submit_email(
+        'ticket_by_unknown_user.eml',
+        :issue => {:project => 'ecookbook'},
+        :unknown_user => 'create',
+        :no_notification => '1'
+      )
+    end
+    user = User.order('id DESC').first
+    assert_equal 'none', user.mail_notification
+  end
+
   def test_add_issue_without_from_header
     Role.anonymous.add_permission!(:add_issues)
     assert_equal false, submit_email('ticket_without_from_header.eml')
@@ -755,6 +768,7 @@ class MailHandlerTest < ActiveSupport::TestCase
       assert_equal expected[0], user.login
       assert_equal expected[1], user.firstname
       assert_equal expected[2], user.lastname
+      assert_equal 'only_my_events', user.mail_notification
     end
   end
 
