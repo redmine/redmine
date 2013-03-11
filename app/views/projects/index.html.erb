@@ -103,7 +103,7 @@
 								<% if (custom_value.custom_field.name == 'Category') %>
 	              					<% if (custom_value.value == 'Showcase') %>
 	              						<div class="tab-pane" id="cell<%= p.id %>"">
-	              							<a class="btn btn-large btn-primary pull-right" href="<%= url_for({:controller => 'projects', :action => 'show', :id => p}) %>"><icon class="icon-folder-open"></icon> Open project</a>
+	              							<a class="btn btn-large btn-info pull-right" href="<%= url_for({:controller => 'projects', :action => 'show', :id => p}) %>"><icon class="icon-folder-open"></icon> Open project</a>
 			    							<br/><br/>
 			    							<%= textilizable(p.short_description, :project => p) %>
 			    						</div>

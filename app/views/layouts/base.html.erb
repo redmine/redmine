@@ -31,15 +31,20 @@
 		<%= yield :header_tags -%>
 	</head>
 
-	<body class="<%= h body_css_classes %>">
-
+	<body data-spy="scroll" data-target=".bs-docs-sidebar" class="<%= h body_css_classes %>">
 		<!-- NAVIGATOR -->
 
 		<div class="navbar navbar-inverse navbar-fixed-top">
 			<div class="navbar-inner">
 				<div class="container" >
-					<div class="row">
-						<div class="span5" id="osblogo" onclick="window.location.href='/';"></div>
+					<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+			            <span class="icon-bar"></span>
+			            <span class="icon-bar"></span>
+			            <span class="icon-bar"></span>
+			        </button>
+			        <div class="span5" id="osblogo" onclick="window.location.href='/';"></div>
+					<div class="nav-collapse collapse">
+						
 						<!--<ul class="bs-docs-social-buttons">
 							<li class="follow-btn">
 								<a href="https://twitter.com/osbteam" class="twitter-follow-button" data-link-color="#0069D6" data-show-count="true">Follow @osbteam</a>
@@ -48,7 +53,7 @@
 								<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://opensourcebrain.org" data-count="horizontal" data-via="osbteam" data-related="Interesting -> Open Source Brain online repository for computational neural models!">Tweet</a>
 							</li>
 						</ul>-->
-						<div id="header_menu" class="span7 pull-right">
+						<div id="header_menu" class="span8 pull-right">
 							<%= render_menu :account_menu -%>
 							<%= content_tag('div', "#{l(:label_logged_as)} #{link_to_user(User.current, :format => :username)}".html_safe, :id => 'loggedas') if User.current.logged? %>
 							<%= render_menu :top_menu if User.current.logged? || !Setting.login_required? -%>
