@@ -324,7 +324,7 @@ ko:
   field_comments_sorting: 댓글 정렬
   field_parent_title: 상위 제목
   field_editable: 편집가능
-  field_watcher: 일감지킴이
+  field_watcher: 일감관람자
   field_identity_url: OpenID URL
   field_content: 내용
   field_group_by: 결과를 묶어 보여줄 기준
@@ -390,8 +390,8 @@ ko:
   permission_save_queries: 검색양식 저장
   permission_view_gantt: Gantt차트 보기
   permission_view_calendar: 달력 보기
-  permission_view_issue_watchers: 일감지킴이 보기
-  permission_add_issue_watchers: 일감지킴이 추가
+  permission_view_issue_watchers: 일감관람자 보기
+  permission_add_issue_watchers: 일감관람자 추가
   permission_log_time: 작업시간 기록
   permission_view_time_entries: 시간입력 보기
   permission_edit_time_entries: 시간입력 편집
@@ -741,7 +741,7 @@ ko:
   label_planning: 프로젝트계획
   label_incoming_emails: 수신 메일
   label_generate_key: 키 생성
-  label_issue_watchers: 일감지킴이
+  label_issue_watchers: 일감관람자
   label_example: 예
   label_display: 표시방식
   label_sort: 정렬
@@ -886,7 +886,7 @@ ko:
   text_journal_added: "%{label}에 %{value}이(가) 추가되었습니다."
   field_active: 사용중
   enumeration_system_activity: 시스템 작업
-  permission_delete_issue_watchers: 일감지킴이 지우기
+  permission_delete_issue_watchers: 일감관람자 지우기
   version_status_closed: 닫힘
   version_status_locked: 잠김
   version_status_open: 진행
@@ -1069,7 +1069,7 @@ ko:
   text_issue_conflict_resolution_cancel: "변경내용을 되돌리고 다시 표시 %{link}"
   permission_manage_related_issues: 연결된 일감 관리
   field_auth_source_ldap_filter: LDAP 필터
-  label_search_for_watchers: 추가할 일감지킴이 검색
+  label_search_for_watchers: 추가할 일감관람자 검색
   notice_account_deleted: 당신의 계정이 완전히 삭제되었습니다.
   setting_unsubscribe: 사용자들이 자신의 계정을 삭제토록 허용
   button_delete_my_account: 나의 계정 삭제
@@ -1125,7 +1125,7 @@ ko:
   label_in_the_next_days: 다음
   label_in_the_past_days: 지난
   label_attribute_of_user: "사용자의 %{name}"
-  text_turning_multiple_off: 복수선택을 비활성화면, 하나의 값을 제외한 나머지 값들이 지워집니다.
+  text_turning_multiple_off: 복수선택을 비활성화하면, 하나의 값을 제외한 나머지 값들이 지워집니다.
   label_attribute_of_issue: "일감의 %{name}"
   permission_add_documents: 문서 추가
   permission_edit_documents: 문서 편집
