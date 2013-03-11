@@ -69,6 +69,21 @@ class BoardsControllerTest < ActionController::TestCase
     assert topics.first.updated_on < topics.second.updated_on
   end
 
+  def test_show_should_display_message_with_last_reply_first
+    Message.update_all(:sticky => 0)
+
+    # Reply to an old topic
+    old_topic = Message.where(:board_id => 1, :parent_id => nil).order('created_on ASC').first
+    reply = Message.new(:board_id => 1, :subject => 'New reply', :content => 'New reply', :author_id => 2)
+    old_topic.children << reply
+
+    get :show, :project_id => 1, :id => 1
+    assert_response :success
+    topics = assigns(:topics)
+    assert_not_nil topics
+    assert_equal old_topic, topics.first
+  end
+
   def test_show_with_permission_should_display_the_new_message_form
     @request.session[:user_id] = 2
     get :show, :project_id => 1, :id => 1
