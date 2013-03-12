@@ -1835,42 +1835,42 @@ class IssueTest < ActiveSupport::TestCase
   test "#by_tracker" do
     User.current = User.anonymous
     groups = Issue.by_tracker(Project.find(1))
-    assert_equal 3, groups.size
+    assert_equal 3, groups.count
     assert_equal 7, groups.inject(0) {|sum, group| sum + group['total'].to_i}
   end
 
   test "#by_version" do
     User.current = User.anonymous
     groups = Issue.by_version(Project.find(1))
-    assert_equal 3, groups.size
+    assert_equal 3, groups.count
     assert_equal 3, groups.inject(0) {|sum, group| sum + group['total'].to_i}
   end
 
   test "#by_priority" do
     User.current = User.anonymous
     groups = Issue.by_priority(Project.find(1))
-    assert_equal 4, groups.size
+    assert_equal 4, groups.count
     assert_equal 7, groups.inject(0) {|sum, group| sum + group['total'].to_i}
   end
 
   test "#by_category" do
     User.current = User.anonymous
     groups = Issue.by_category(Project.find(1))
-    assert_equal 2, groups.size
+    assert_equal 2, groups.count
     assert_equal 3, groups.inject(0) {|sum, group| sum + group['total'].to_i}
   end
 
   test "#by_assigned_to" do
     User.current = User.anonymous
     groups = Issue.by_assigned_to(Project.find(1))
-    assert_equal 2, groups.size
+    assert_equal 2, groups.count
     assert_equal 2, groups.inject(0) {|sum, group| sum + group['total'].to_i}
   end
 
   test "#by_author" do
     User.current = User.anonymous
     groups = Issue.by_author(Project.find(1))
-    assert_equal 4, groups.size
+    assert_equal 4, groups.count
     assert_equal 7, groups.inject(0) {|sum, group| sum + group['total'].to_i}
   end
 
@@ -1878,7 +1878,7 @@ class IssueTest < ActiveSupport::TestCase
     User.current = User.anonymous
     groups = Issue.by_subproject(Project.find(1))
     # Private descendant not visible
-    assert_equal 1, groups.size
+    assert_equal 1, groups.count
     assert_equal 2, groups.inject(0) {|sum, group| sum + group['total'].to_i}
   end
 
