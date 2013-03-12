@@ -272,6 +272,7 @@ class IssuesController < ApplicationController
       if issue.save
         moved_issues << issue
       else
+        logger.info "issue could not be updated or copied: #{issue.errors.full_messages}" if logger && logger.info
         # Keep unsaved issue ids to display them in flash error
         unsaved_issue_ids << issue.id
       end

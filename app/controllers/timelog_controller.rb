@@ -198,6 +198,7 @@ class TimelogController < ApplicationController
       time_entry.safe_attributes = attributes
       call_hook(:controller_time_entries_bulk_edit_before_save, { :params => params, :time_entry => time_entry })
       unless time_entry.save
+        logger.info "time entry could not be updated: #{time_entry.errors.full_messages}" if logger && logger.info
         # Keep unsaved time_entry ids to display them in flash error
         unsaved_time_entry_ids << time_entry.id
       end
