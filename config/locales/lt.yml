@@ -1008,8 +1008,6 @@ lt:
   text_mercurial_repository_note: Vietinė saugykla (e.g. /hgrepo, c:\hgrepo)
   text_scm_command: Komanda
   text_scm_command_version: Versija
-  text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.
-  text_scm_command_not_available: Scm command is not available. Please check settings on the administration panel.
 
   default_role_manager: Vadovas
   default_role_developer: Projektuotojas
@@ -1147,3 +1145,5 @@ lt:
   field_generate_password: Generate password
   setting_default_projects_tracker_ids: Default trackers for new projects
   label_total_time: Iš viso
+  text_scm_config: You can configure your SCM commands in config/configuration.yml. Please restart the application after editing it.
+  text_scm_command_not_available: SCM command is not available. Please check settings on the administration panel.
