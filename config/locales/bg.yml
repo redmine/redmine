@@ -361,7 +361,6 @@ bg:
   setting_cross_project_subtasks: Подзадачи от други проекти
   setting_issue_list_default_columns: Показвани колони по подразбиране
   setting_repositories_encodings: Кодова таблица на прикачените файлове и хранилищата
-  setting_emails_header: Emails header
   setting_emails_footer: Подтекст за e-mail
   setting_protocol: Протокол
   setting_per_page_options: Опции за страниране
@@ -1085,3 +1084,4 @@ bg:
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
   label_total_time: Общо
+  setting_emails_header: Email header

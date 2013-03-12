@@ -941,7 +941,6 @@ da:
   label_principal_search: "Søg efter bruger eller gruppe:"
   label_user_search: "Søg efter bruger:"
   field_visible: Synlig
-  setting_emails_header: Emails header
   setting_commit_logtime_activity_id: Aktivitet for registreret tid
   text_time_logged_by_changeset: Anvendt i changeset %{value}.
   setting_commit_logtime_enabled: Aktiver tidsregistrering
@@ -1105,3 +1104,4 @@ da:
   label_total_time: Total
   text_scm_config: You can configure your SCM commands in config/configuration.yml. Please restart the application after editing it.
   text_scm_command_not_available: SCM command is not available. Please check settings on the administration panel.
+  setting_emails_header: Email header
