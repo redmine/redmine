@@ -34,7 +34,6 @@ class Project < ActiveRecord::Base
                                :include => :principal,
                                :conditions => "#{Principal.table_name}.type='Group' OR (#{Principal.table_name}.type='User' AND #{Principal.table_name}.status=#{Principal::STATUS_ACTIVE})"
   has_many :users, :through => :members
-  has_many :principals, :through => :member_principals, :source => :principal
 
   has_many :enabled_modules, :dependent => :delete_all
   has_and_belongs_to_many :trackers, :order => "#{Tracker.table_name}.position"
@@ -215,6 +214,10 @@ class Project < ActiveRecord::Base
     end
   end
 
+  def principals
+    @principals ||= Principal.active.joins(:members).where("#{Member.table_name}.project_id = ?", id).uniq
+  end
+
   # Returns the Systemwide and project specific activities
   def activities(include_inactive=false)
     if include_inactive
@@ -287,6 +290,7 @@ class Project < ActiveRecord::Base
 
   alias :base_reload :reload
   def reload(*args)
+    @principals = nil
     @shared_versions = nil
     @rolled_up_versions = nil
     @rolled_up_trackers = nil
