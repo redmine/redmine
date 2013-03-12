@@ -454,7 +454,7 @@ class User < Principal
 
   # Return true if the user is a member of project
   def member_of?(project)
-    roles_for_project(project).any? {|role| role.member?}
+    projects.to_a.include?(project)
   end
 
   # Returns a hash of user's projects grouped by roles
@@ -702,6 +702,10 @@ class AnonymousUser < User
 
   def pref
     UserPreference.new(:user => self)
+  end
+
+  def member_of?(project)
+    false
   end
 
   # Anonymous user can not be destroyed
