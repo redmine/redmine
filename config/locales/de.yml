@@ -347,7 +347,7 @@ de:
   field_parent_title: Übergeordnete Seite
   field_password: Kennwort
   field_password_confirmation: Bestätigung
-  field_path_to_repository: Pfad zum repository
+  field_path_to_repository: Pfad zum Repository
   field_port: Port
   field_possible_values: Mögliche Werte
   field_principal: Auftraggeber
@@ -359,7 +359,7 @@ de:
   field_repository_is_default: Haupt-Repository
   field_role: Rolle
   field_root_directory: Wurzelverzeichnis
-  field_scm_path_encoding: Pfad Kodierung
+  field_scm_path_encoding: Pfad-Kodierung
   field_searchable: Durchsuchbar
   field_sharing: Gemeinsame Verwendung
   field_spent_on: Datum
@@ -991,7 +991,7 @@ de:
   setting_per_page_options: Objekte pro Seite
   setting_plain_text_mail: Nur reinen Text (kein HTML) senden
   setting_protocol: Protokoll
-  setting_repositories_encodings: Encodierung von Anhängen und Repositories
+  setting_repositories_encodings: Enkodierung von Anhängen und Repositories
   setting_repository_log_display_limit: Maximale Anzahl anzuzeigender Revisionen in der Historie einer Datei
   setting_rest_api_enabled: REST-Schnittstelle aktivieren
   setting_self_registration: Anmeldung ermöglicht
