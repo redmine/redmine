@@ -359,8 +359,8 @@ en:
   setting_cross_project_subtasks: Allow cross-project subtasks
   setting_issue_list_default_columns: Default columns displayed on the issue list
   setting_repositories_encodings: Attachments and repositories encodings
-  setting_emails_header: Emails header
-  setting_emails_footer: Emails footer
+  setting_emails_header: Email header
+  setting_emails_footer: Email footer
   setting_protocol: Protocol
   setting_per_page_options: Objects per page options
   setting_user_format: Users display format
@@ -1027,8 +1027,8 @@ en:
   text_mercurial_repository_note: Local repository (e.g. /hgrepo, c:\hgrepo)
   text_scm_command: Command
   text_scm_command_version: Version
-  text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.
-  text_scm_command_not_available: Scm command is not available. Please check settings on the administration panel.
+  text_scm_config: You can configure your SCM commands in config/configuration.yml. Please restart the application after editing it.
+  text_scm_command_not_available: SCM command is not available. Please check settings on the administration panel.
   text_issue_conflict_resolution_overwrite: "Apply my changes anyway (previous notes will be kept but some changes may be overwritten)"
   text_issue_conflict_resolution_add_notes: "Add my notes and discard my other changes"
   text_issue_conflict_resolution_cancel: "Discard all my changes and redisplay %{link}"

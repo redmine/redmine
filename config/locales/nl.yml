@@ -908,7 +908,6 @@ nl:
   label_principal_search: "Zoek naar gebruiker of groep:"
   label_user_search: "Zoek naar gebruiker:"
   field_visible: Zichtbaar
-  setting_emails_header: Emails header
   setting_commit_logtime_activity_id: Standaard activiteit voor tijdregistratie
   text_time_logged_by_changeset: Toegepast in changeset %{value}.
   setting_commit_logtime_enabled: Activeer tijdregistratie
@@ -1069,3 +1068,4 @@ nl:
   field_closed_on: Closed
   setting_default_projects_tracker_ids: Default trackers for new projects
   label_total_time: Totaal
+  setting_emails_header: Email header
