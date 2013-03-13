@@ -1196,5 +1196,5 @@ ru:
   field_inherit_members: Наследовать участников
   field_closed_on: Закрыта
   field_generate_password: Создание пароля
-  setting_default_projects_tracker_ids: Default trackers for new projects
+  setting_default_projects_tracker_ids: Трекеры по умолчанию для новых проектов
   label_total_time: Общее время
