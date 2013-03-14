@@ -1,8 +1,7 @@
 <div class="contextual">
-<%= link_to(l(:label_attachment_new), new_project_file_path(@project), :class => 'icon icon-add') if User.current.allowed_to?(:manage_files, @project) %>
+<%= link_to(l(:label_attachment_new), new_project_file_path(@project), :class => 'pull-right btn icon icon-add') if User.current.allowed_to?(:manage_files, @project) %>
 </div>
-
-<h2><%=l(:label_attachment_plural)%></h2>
+<br/><br/>
 
 <% delete_allowed = User.current.allowed_to?(:manage_files, @project) %>
 

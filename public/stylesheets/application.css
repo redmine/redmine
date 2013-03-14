@@ -1,5 +1,5 @@
 body {
-	padding-top: 81px;
+	padding-top: 51px;
 	font-size: 14px;
 	line-height: 20px;
 }
@@ -101,6 +101,11 @@ tr.open span.expander:before {
 .bs-docs-issue:after{
 	content: "Issue";
 }
+
+.bs-docs-admin:after{
+	content: "Admin settings";
+}
+
 
 /* Remove spacing between an example and it's code */
 .bs-docs-example + .prettyprint {
@@ -584,6 +589,13 @@ icon:hover {
 	background-color: #37abc8;
 }
 
+.explore-view .nav-collapse .nav > li > a, .nav-collapse .dropdown-menu a {
+	padding: 9px 15px;
+	color: #777777;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+}
 .nav-collapse .btn {
 	padding: 4px 10px 4px;
 	font-weight: normal;
@@ -594,7 +606,9 @@ icon:hover {
 .nav-collapse .dropdown-menu li + li a {
 	margin-bottom: 2px;
 }
-
+.explore-view .nav-collapse .nav > li > a:hover, .nav-collapse .dropdown-menu a:hover {
+	background-color: #f2f2f2;
+}
 
 .navbar-inverse .navbar-inner {
 	background-image: none;
@@ -627,6 +641,25 @@ section p {
 	-webkit-border-radius: 6px;
 	-moz-border-radius: 6px;
 	border-radius: 6px;
+}
+
+.page-header {
+padding-bottom: 0px;
+margin-bottom:10px;
+}
+
+.label
+{
+	cursor:help;
+}
+.label-success
+{
+	background-color:#88aa00;
+}
+
+.label-warning
+{
+	background-color:#ff6600;
 }
 
 .btn-success {
@@ -664,6 +697,7 @@ section p {
 #osblogo {
 	margin-top: 10px;
 	margin-bottom: 10px;
+	margin-left:0;
 	width: 212px;
 	height: 30px;
 	background-image: url("/images/osblogo.png");

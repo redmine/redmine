@@ -82,24 +82,24 @@ module ProjectsHelper
     if projects.any?
       projects.each do |project|
         c1=c2=c3=c4=c5=dname=category=nil
-
-        project.visible_custom_field_values.each do |custom_value|
-          if (custom_value.custom_field.name == 'Category')
-            category=custom_value.value
-          elsif (custom_value.custom_field.name == 'Spine classification')
-            c1=custom_value.value
-          elsif (custom_value.custom_field.name == 'Family')
-            c2=custom_value.value
-          elsif (custom_value.custom_field.name == 'Brain region')
-            c4=custom_value.value
-          elsif (custom_value.custom_field.name == 'Specie')
-            c3=custom_value.value
-          elsif (custom_value.custom_field.name == 'Cell type')
-            c5=custom_value.value
+        if isApproved?(project)
+          project.visible_custom_field_values.each do |custom_value|
+            if (custom_value.custom_field.name == 'Category')
+              category=custom_value.value
+            elsif (custom_value.custom_field.name == 'Spine classification')
+              c1=custom_value.value
+            elsif (custom_value.custom_field.name == 'Family')
+              c2=custom_value.value
+            elsif (custom_value.custom_field.name == 'Brain region')
+              c4=custom_value.value
+            elsif (custom_value.custom_field.name == 'Specie')
+              c3=custom_value.value
+            elsif (custom_value.custom_field.name == 'Cell type')
+              c5=custom_value.value
+            end
           end
         end
         addNode(t,c1,c2,c3,c4,c5,project.name,"/projects/"+project.identifier,category)
-
       end
       return jsonify(t).to_json
     end

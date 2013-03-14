@@ -1,8 +1,8 @@
 jQuery(function()
 {
-	//**************
-	//COMMON
-	//**************
+	// **************
+	// COMMON
+	// **************
 	var $window = jQuery(window);
 	
 	// -- SIDE BAR
@@ -24,7 +24,7 @@ jQuery(function()
 	// -- Add bootstrap class to all the tables
 	jQuery('table').addClass('table table-bordered table-hover');
 	
-	//jQuery(":submit").addClass('btn btn-success btn-large');
+	// jQuery(":submit").addClass('btn btn-success btn-large');
 	jQuery('button').addClass('btn');
 	jQuery('.jstElements button').addClass('btn-square');
 	jQuery('.jstElements').addClass('btn-group');
@@ -35,18 +35,18 @@ jQuery(function()
 	// make code pretty
     window.prettyPrint && prettyPrint();
     
-	//**************
-	//HEADER
-	//**************
+	// **************
+	// HEADER
+	// **************
 	jQuery("#header_menu > ul").addClass("pull-right");
 	jQuery("#header_menu > ul").append('<li id="loggedelement"></li>');
 	jQuery("#loggedas > a").appendTo("#loggedelement");
 	jQuery("#loggedas").remove();
 	
 	
-	//**************
-	//EXPLORE PAGE
-	//**************
+	// **************
+	// EXPLORE PAGE
+	// **************
 	
 	// -- Add filters
 	setupFilter('#cellsfilter', '#cellslist');
@@ -60,9 +60,9 @@ jQuery(function()
 		jQuery(this).find("a").first().click();
 	});
 	
-	//**************
-	//PROJECT PAGE
-	//**************
+	// **************
+	// PROJECT PAGE
+	// **************
 	
 	// -- Add actions menu
 	jQuery("#menucontainer > ul").append('<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Actions<b class="caret"></b></a><ul class="dropdown-menu" id="actionsmenu"></ul></li>');
@@ -86,7 +86,7 @@ jQuery(function()
 	// -- Builds the nav menu in the ovewview section
 	jQuery("#project_overview_sections section").each(function(){
 		var id=jQuery(this).attr("id");
-		var name=jQuery(this).find(".page-header h1").html();
+		var name=jQuery(this).find(".page-header h2").html();
 		jQuery("#project_overview_list").append("<li><a href='#"+id+"'><i class='icon-chevron-right'></i>"+name+"</a></li>");
 	});
 	
@@ -106,7 +106,7 @@ jQuery(function()
 
 });
 
-//This method adds filtering abilities to a text input and a linked list
+// This method adds filtering abilities to a text input and a linked list
 function setupFilter(idFilter, idList)
 {
 	jQuery(idFilter).keyup(function()
@@ -176,7 +176,7 @@ function replaceIconWithFontAwesome()
 	jQuery("a.icon-file").removeClass("icon-file").prepend("<icon class='icon-file'/>");
 
 	
-	//JSTB
+	// JSTB
 	
 	jQuery(".jstb_strong").removeClass("jstb_strong").prepend("<icon class='icon-bold'/>");
 	jQuery(".jstb_em").removeClass("jstb_em").prepend("<icon class='icon-italic'/>");
@@ -195,7 +195,7 @@ function replaceIconWithFontAwesome()
 	jQuery(".jstb_img").removeClass("jstb_img").prepend("<icon class='icon-picture'/>");
 	jQuery(".jstb_help").removeClass("jstb_help").prepend("<icon class='icon-question-sign'/>");
 	
-	//DT
+	// DT
 	
 	jQuery(".E_issue").prepend('<icon class="icon-edit"/>');
 	jQuery(".E_issue-edit").prepend('<icon class="icon-edit"/>');
@@ -213,7 +213,79 @@ function replaceIconWithFontAwesome()
 		
 	
 }
-//Google Analytics
+
+function getParameterByName(name)
+{
+name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+var regexS="[\\?&]"+name+"=([^&#]*)";
+var regex = new RegExp(regexS);
+var results = regex.exec(window.location.href);
+if(results == null)
+return "";
+else
+return decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+function showMenu()
+{
+jQuery("#projectbody").hide();
+jQuery("#content .navbar").after(jQuery('#browsenml2'));
+jQuery("#netnml" ).menu();
+jQuery("#cellnml" ).menu();
+jQuery('#browsenml2').show();
+}
+
+function open3DExplorer(file)
+{
+	jQuery("#browsenml2").hide();
+	if(getParameterByName('explorer')=='')
+	{
+		window.location.href=window.location.href+"?explorer="+file;
+	}
+	jQuery("#content .navbar").after("<div id='3dbrowser'><iframe id='3dframe' src='http://184.72.223.204:8080/org.neuroml.visualiser/?url="+file+"'></iframe>");
+	document.getElementById('3dframe').onload = resizeIframe;
+	window.onresize = resizeIframe;
+}
+
+function close3DExplorer()
+{
+	if(window.location.href.indexOf("?")!=-1)
+	{
+	window.location.href=window.location.href.substring(0,window.location.href.indexOf("?"));
+	}
+	jQuery("#3dbrowser").remove();
+	jQuery("#projectbody").show();
+}
+
+function hideMenu()
+{
+	jQuery('#browsenml2').hide();
+	jQuery("#projectbody").show();
+}
+
+function disableOSBExplorer()
+{
+	jQuery("#osbexplorerbutton").css("background-color","grey");
+	jQuery("#osbexplorerbutton").css("color","#aaaaaa");
+	jQuery("#osbexplorerbutton").css("border-color","#444444");
+	jQuery("#osbexplorerbutton").css("cursor","default");
+	jQuery("#osbexplorerbutton").prop("onclick","");
+}
+
+function resizeIframe() 
+{
+	var height = document.documentElement.clientHeight;
+	height -= document.getElementById('3dframe').offsetTop;
+
+	// not sure how to get this dynamically
+	// height -= 176; /* whatever you set your body bottom margin/padding to be */
+
+	document.getElementById('3dframe').style.height = height + "px";
+
+};
+	
+	
+// Google Analytics
 var _gaq = _gaq || [];
 _gaq.push([ '_setAccount', 'UA-29853802-1' ]);
 _gaq.push([ '_trackPageview' ]);

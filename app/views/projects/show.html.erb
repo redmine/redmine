@@ -1,6 +1,6 @@
 <%= javascript_include_tag('Detector.js') %>
 
-<div class="row">
+<div id="projectbody" class="row">
 	<% unless @project.active? %>
 	<p class="warning">
 		<span class="icon icon-lock"><%= l(:text_project_closed) %></span>
@@ -16,7 +16,7 @@
 		<!-- DESCRIPTION -->
 		<section id="description">
 			<div class="page-header">
-				<h1>Description</h1>
+				<h2>Description</h2>
 			</div>
 				<%= textilizable @project.description %>
 				<% unless @project.homepage.blank? %>
@@ -29,7 +29,7 @@
 		<% if @subprojects.any? %>		
 			<section id="subprojects">
 				<div class="page-header">
-					<h1>Sub-Projects</h1>
+					<h2>Sub-Projects</h2>
 				</div>
 				<p class="lead">
 					<%= l(:label_subproject_plural)%>:
@@ -43,7 +43,7 @@
 				<% if custom_value.custom_field.name == 'Status info' %>
 					<section id="status">
 						<div class="page-header">
-							<h1>Status</h1>
+							<h2>Status</h2>
 						</div>
 						<p class="lead">
 							<%= textilizable show_value(custom_value) %>
@@ -55,7 +55,7 @@
 		<!-- MEMBERS -->
 		<section id="members">
 			<div class="page-header">
-				<h1>Members</h1>
+				<h2>Members</h2>
 			</div>
 			<%= render :partial => 'members_box' %>
 		</section>
@@ -63,10 +63,9 @@
 		<% @project.visible_custom_field_values.each do |custom_value| %>
 			<% if !custom_value.value.blank? %>
 				<% if custom_value.custom_field.name == 'GitHub repository' %>
-					<% @repourl=custom_value.value %>
 					<section id="repository">
 						<div class="page-header">
-							<h1>Repository</h1>
+							<h2>Repository</h2>
 						</div>
 						<p class="lead">
 							The source for this project is hosted on GitHub:  <a target="_blank" href='<%= h show_value(custom_value) %>'><%= h show_value(custom_value) %></a>
@@ -77,7 +76,7 @@
 					<% @repourl=custom_value.value %>
 					<section id="repository">
 						<div class="page-header">
-							<h1>Repository</h1>
+							<h2>Repository</h2>
 						</div>
 						<p class="lead">
 							The source for this project is hosted on BitBucket:  <a target="_blank" href='<%= h show_value(custom_value) %>'><%= h show_value(custom_value) %></a>
@@ -88,7 +87,7 @@
 					<% @repourl=custom_value.value %>
 					<section id="repository">
 						<div class="page-header">
-							<h1>NeuroML compatibility</h1>
+							<h2>NeuroML compatibility</h2>
 						</div>
 						<p class="lead">
 							The minimum version of NeuroML for this model is: <b><%= h show_value(custom_value) %></b>
@@ -99,7 +98,7 @@
 					<% @repourl=custom_value.value %>
 					<section id="references">
 						<div class="page-header">
-							<h1>References</h1>
+							<h2>References</h2>
 						</div>
 						<p class="lead">The original published version of this model is available on ModelDB:</p>
 						<% if !show_value(custom_value).starts_with? 'http://senselab.med.yale.edu/ModelDB/ShowModel.asp?model=' %>
@@ -114,7 +113,7 @@
 				<% elsif custom_value.custom_field.name == 'Original format' %>
 					<section id="references">
 						<div class="page-header">
-							<h1>References</h1>
+							<h2>References</h2>
 						</div>
 						<p class="lead">This model was originally developed in: <b><%= h show_value(custom_value) %></b></p>
 					</section>
@@ -125,145 +124,4 @@
 	</div>
 </div>
 
-<% if(@repourl and @repourl["https://github"]!=nil)%>
-<div id="browsenml2" style="display:none;">
-	<div id="nmlbrowserlabel">
-		The following NeuroML2 files have been found on the <b><%= @project.name %></b> repository.
-		<br/>
-		<br/>
-		Click on the file you want to explore:
-	</div>
-	<div id='nmlbrowserbackto' onclick='hideMenu();'>
-		Back to project
-	</div>
-	<% @repourl["https://github"]="https://raw.github" %>
-	<% @networkfiles=[] %>
-	<% for nml2file in @neuroml2files %>
-		<% if nml2file.ends_with?(".net.nml") %>
-			<% @networkfiles.push(nml2file) %>
-		<% end %>
-	<% end %>
-	<% if not @networkfiles.empty? %>
-		<p class="nmlbrowsersubtitles">
-			Networks
-		</p>
-		<ul id="netnml" class="nml2menu">
-		<% for nml2file in @networkfiles %>
-			<li><a onclick="open3DExplorer(encodeURIComponent('<%= @repourl + "/master/" + nml2file %>'));"><%= nml2file %></a></li>
-		<% end %>
-		</ul>
-	<% end %>
-	<p class="nmlbrowsersubtitles">
-		Cells
-	</p>
-	<ul id="cellnml" class="nml2menu">
 
-		<% for nml2file in @neuroml2files %>
-			<% if not nml2file.ends_with?(".net.nml") %>
-			<li>
-				<a onclick="open3DExplorer(encodeURIComponent('<%= @repourl + "/master/" + nml2file %>'));"><%= nml2file %></a>
-			</li>
-			<% end %>
-		<% end %>
-	</ul>
-
-<% end %>
-
-<script>
-		function getParameterByName(name)
-	{
-	name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
-	var regexS="[\\?&]"+name+"=([^&#]*)";
-	var regex = new RegExp(regexS);
-	var results = regex.exec(window.location.href);
-	if(results == null)
-	return "";
-	else
-	return decodeURIComponent(results[1].replace(/\+/g, " "));
-	}
-
-	function showMenu()
-	{
-	jQuery("#content").hide();
-	jQuery("#fullheader").after(jQuery('#browsenml2'));
-	jQuery("#netnml" ).menu();
-	jQuery("#cellnml" ).menu();
-	jQuery('#browsenml2').show();
-	}
-
-	function open3DExplorer(file)
-	{
-	jQuery("#browsenml2").hide();
-	if(getParameterByName('explorer')=='')
-	{
-	window.location.href=window.location.href+"?explorer="+file;
-	}
-	jQuery("#fullheader").after("<div id='3dbrowser'><iframe id='3dframe' src='http://184.72.223.204:8080/org.neuroml.visualiser/?url="+file+"'></iframe><div id='projectname'><%= @project.name %></div><div id='backto' onclick='close3DExplorer();'>Back to project</div></div>");
-		document.getElementById('3dframe').onload = resizeIframe;
-		window.onresize = resizeIframe;
-		}
-
-		function close3DExplorer()
-		{
-		if(window.location.href.indexOf("?")!=-1)
-		{
-		window.location.href=window.location.href.substring(0,window.location.href.indexOf("?"));
-		}
-		jQuery("#3dbrowser").remove();
-		jQuery("#content").show();
-		}
-
-		function hideMenu()
-		{
-		jQuery('#browsenml2').hide();
-		jQuery("#content").show();
-		}
-
-		function disableOSBExplorer()
-		{
-		jQuery("#osbexplorerbutton").css("background-color","grey");
-		jQuery("#osbexplorerbutton").css("color","#aaaaaa");
-		jQuery("#osbexplorerbutton").css("border-color","#444444");
-		jQuery("#osbexplorerbutton").css("cursor","default");
-		jQuery("#osbexplorerbutton").prop("onclick","");
-		}
-
-		jQuery(function()
-		{
-			
-			jQuery('.overview').parent().addClass("active");
-			
-			var geturl=getParameterByName('explorer');
-			if(geturl!='')
-			{
-				jQuery("#content").hide();
-				open3DExplorer(geturl);
-			}
-			else
-			{
-				if(<%= @neuroml2files.empty? %>) {
-					disableOSBExplorer();
-					jQuery("#osbexplorermessage").html("The current project doesn't contain any NeuroML2 file. Help converting this model to be able to use OSB 3D Explorer or raise an issue to do so!");
-				}
-				else if(<%= (@repourl and @repourl["https://github"]==nil)==true%>) {
-					disableOSBExplorer();
-					jQuery("#osbexplorermessage").html("Sorry, OSB 3D Explorer is currently available only for repositories hosted on GitHub.");
-				}
-				else if (!Detector.webgl) {
-					disableOSBExplorer();
-					jQuery("#osbexplorermessage").html("Sorry, your browser doesn\'t support <a href='http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation'>WebGL</a> which is required to use OSB 3D Explorer.");
-				}
-			}
-		});
-
-		function resizeIframe() {
-			var height = document.documentElement.clientHeight;
-			height -= document.getElementById('3dframe').offsetTop;
-
-			// not sure how to get this dynamically
-			//height -= 176; /* whatever you set your body bottom margin/padding to be */
-
-			document.getElementById('3dframe').style.height = height + "px";
-
-		};
-</script>

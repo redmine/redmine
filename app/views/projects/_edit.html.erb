@@ -7,6 +7,30 @@
 <%= render :partial => 'form', :locals => { :f => f } %>
 <br/>
 
+<% if(User.current.admin?) %>
+<div class="bs-docs bs-docs-admin ">
+	<div class="accordion" id="accordion2">
+	  <div class="accordion-group">
+	    <div class="accordion-heading">
+	      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+	        Custom Fields
+	      </a>
+	    </div>
+	    <div id="collapseOne" class="accordion-body collapse">
+	      <div class="accordion-inner">
+				<% @project.custom_field_values.each do |value| %>
+				  <p><%= custom_field_tag_with_label :project, value %></p>
+				<% end %>
+				<%= call_hook(:view_projects_form, :project => @project, :form => f) %>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+</div>	
+<% end %>
+
+
+
 <%= submit_tag l(:button_save), :class=>"btn btn-success" %>
 <% end %>
 

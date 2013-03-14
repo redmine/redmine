@@ -43,7 +43,76 @@ module ApplicationHelper
   def link_to_if_authorized(name, options = {}, html_options = nil, *parameters_for_method_reference)
     link_to(name, options, html_options, *parameters_for_method_reference) if authorize_for(options[:controller] || params[:controller], options[:action])
   end
+  
+  
+  def isApproved?(project)
+    project.custom_field_values.each do |value| 
+      if value.custom_field.name == 'approved'
+        return value.value=="1"
+      end
+    end
+  end
+  
+  def getCustomField(project, field) 
+    project.custom_field_values.each do |value| 
+      if value.custom_field.name == field
+        return value.value
+      end
+    end
+    return ""
+  end
 
+
+ def system(command)
+    Kernel.system(command)
+  end
+
+  # Executes shell command. Returns true if the shell command exits with a success status code
+  def exec(command)
+    print "\nEntering EXEC"
+    logger.debug { "GithubHook: Executing command: '#{command}'" }
+
+    # Get a path to a temp file
+    logfile = Tempfile.new('git_retrieverepos_exec')
+    # print "\nTempFile created"
+    logfile.close
+    # print "\nCOMMAND #{command} > #{logfile.path} 2>&1\n"
+    success = system("#{command} > #{logfile.path} 2>&1")
+    # print "\nSUCCESS:"+success.to_s
+    output_from_command = File.readlines(logfile.path)
+    # print "\nPATH:"+logfile.path.to_s+"\n"
+    # print output_from_command
+    if success
+      logger.debug { "GithubHook: Command output: #{output_from_command.inspect}"}
+    else
+      logger.error { "GithubHook: Command '#{command}' didn't exit properly. Full output: #{output_from_command.inspect}"}
+    end
+
+    return output_from_command
+  ensure
+    logfile.unlink
+    end
+
+  def git_command(command, repository)
+    "git --git-dir='#{repository.url}' #{command}"
+  end
+
+  # Fetches updates from the remote repository
+  def getNML2Files(repository)
+    @NML2files = []
+    if(repository)
+      command = git_command("ls-tree -r master | cut -f2", repository)
+      @output=exec(command)
+      # print @output
+      for line in @output
+        if line.strip.ends_with?(".nml")
+        @NML2files.push(line.strip)
+        end
+      end
+    end
+    return @NML2files
+  end
+  
   # Displays a link to user's account page if active
   def link_to_user(user, options={})
     if user.is_a?(User)

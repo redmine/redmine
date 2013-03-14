@@ -42,6 +42,7 @@ class ProjectsController < ApplicationController
   helper :repositories
   include RepositoriesHelper
   include ProjectsHelper
+  include ApplicationHelper
 
   # Lists visible projects
   def index
@@ -144,12 +145,7 @@ class ProjectsController < ApplicationController
     @trackers = Tracker.sorted.all
     @project = Project.new
     @project.safe_attributes = params[:project]
-    @githubRepo=nil
-    @project.custom_field_values.each do |value|
-      if value.custom_field.name == 'GitHub repository'
-        @githubRepo=value
-      end
-    end
+    @githubRepo=getCustomField(@project,'GitHub repository')
       
     if validate_parent_id && validateGitHubRepo(@githubRepo) && @project.save
       @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
@@ -226,7 +222,7 @@ class ProjectsController < ApplicationController
 
     @open_issues_by_tracker = Issue.visible.open.where(cond).count(:group => :tracker)
     @total_issues_by_tracker = Issue.visible.where(cond).count(:group => :tracker)
-    @neuroml2files = getNML2Files(@project.repository)
+    
     if User.current.allowed_to?(:view_time_entries, @project)
       @total_hours = TimeEntry.visible.sum(:hours, :include => :project, :conditions => cond).to_f
     end
@@ -239,55 +235,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def system(command)
-    Kernel.system(command)
-  end
-
-  # Executes shell command. Returns true if the shell command exits with a success status code
-  def exec(command)
-    print "\nEntering EXEC"
-    logger.debug { "GithubHook: Executing command: '#{command}'" }
-
-    # Get a path to a temp file
-    logfile = Tempfile.new('git_retrieverepos_exec')
-    # print "\nTempFile created"
-    logfile.close
-    # print "\nCOMMAND #{command} > #{logfile.path} 2>&1\n"
-    success = system("#{command} > #{logfile.path} 2>&1")
-    # print "\nSUCCESS:"+success.to_s
-    output_from_command = File.readlines(logfile.path)
-    # print "\nPATH:"+logfile.path.to_s+"\n"
-    # print output_from_command
-    if success
-      logger.debug { "GithubHook: Command output: #{output_from_command.inspect}"}
-    else
-      logger.error { "GithubHook: Command '#{command}' didn't exit properly. Full output: #{output_from_command.inspect}"}
-    end
-
-    return output_from_command
-  ensure
-    logfile.unlink
-    end
-
-  def git_command(command, repository)
-    "git --git-dir='#{repository.url}' #{command}"
-  end
-
-  # Fetches updates from the remote repository
-  def getNML2Files(repository)
-    @NML2files = []
-    if(repository)
-      command = git_command("ls-tree -r master | cut -f2", repository)
-      @output=exec(command)
-      # print @output
-      for line in @output
-        if line.strip.ends_with?(".nml")
-        @NML2files.push(line.strip)
-        end
-      end
-    end
-    return @NML2files
-  end
 
   def settings
     @issue_custom_fields = IssueCustomField.sorted.all

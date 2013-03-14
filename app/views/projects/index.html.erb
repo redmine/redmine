@@ -43,10 +43,12 @@
 									</form>
 							    	<ul id="cellslist" class="nav projects-list">
 										<% for p in @projects %>
-											<%  p.visible_custom_field_values.each do |custom_value| %>
-												<% if (custom_value.custom_field.name == 'Category') %>
-					              					<% if (custom_value.value == 'Project') %>
-														<li class="capitalize"><a data-toggle="tab" href="#cell<%= p.id %>"><%= p.name %></a></li>
+											<% if isApproved?(p)%>
+												<%  p.visible_custom_field_values.each do |custom_value| %>
+													<% if (custom_value.custom_field.name == 'Category') %>
+						              					<% if (custom_value.value == 'Project') %>
+															<li class="capitalize"><a data-toggle="tab" href="#cell<%= p.id %>"><%= p.name %></a></li>
+														<% end %>
 													<% end %>
 												<% end %>
 											<% end %>
