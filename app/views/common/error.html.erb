@@ -1,7 +1,10 @@
 <h2><%=h @status %></h2>
 
 <% if @message.present? %>
-  <p id="errorExplanation"><%=h @message %></p>
+	<div id="errorExplanation" class="alert alert-error fade in">
+		<button type="button" class="close" data-dismiss="alert">×</button>
+    	<strong>Error</strong> <%=h @message %></a>
+  	</div>
 <% end %>
 <p><a href="javascript:history.back()"><%= l(:button_back) %></a></p>
 

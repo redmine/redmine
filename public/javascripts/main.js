@@ -64,10 +64,6 @@ jQuery(function()
 	// PROJECT PAGE
 	// **************
 	
-	// -- Add actions menu
-	jQuery("#menucontainer > ul").append('<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Actions<b class="caret"></b></a><ul class="dropdown-menu" id="actionsmenu"></ul></li>');
-	jQuery("#actionsmenu").append("<li><a href='javascript:showMenu();'>OSB 3D Explorer</a></li>");
-	
 	// -- Split the project name field in two in the title bar
 	var splitProjectName = jQuery('#pname').html();
 	if (splitProjectName != undefined)
@@ -237,12 +233,15 @@ jQuery('#browsenml2').show();
 
 function open3DExplorer(file)
 {
-	jQuery("#browsenml2").hide();
+	jQuery("#menucontainer li").removeClass("active");
+	jQuery("#explorermenu").parent().addClass("active");
+	jQuery("#3dbrowser").remove();
 	if(getParameterByName('explorer')=='')
 	{
 		window.location.href=window.location.href+"?explorer="+file;
 	}
-	jQuery("#content .navbar").after("<div id='3dbrowser'><iframe id='3dframe' src='http://184.72.223.204:8080/org.neuroml.visualiser/?url="+file+"'></iframe>");
+	jQuery(".page-header").after("<div id='3dbrowser'><iframe id='3dframe' src='http://127.0.0.1:8080/org.neuroml.visualiser/?url="+file+"'></iframe>");
+	//jQuery(".page-header").after("<div id='3dbrowser'><iframe id='3dframe' src='http://184.72.223.204:8080/org.neuroml.visualiser/?url="+file+"'></iframe>");
 	document.getElementById('3dframe').onload = resizeIframe;
 	window.onresize = resizeIframe;
 }
@@ -279,7 +278,10 @@ function resizeIframe()
 
 	// not sure how to get this dynamically
 	// height -= 176; /* whatever you set your body bottom margin/padding to be */
-
+	if(height<700)
+	{
+		height=700;
+	}
 	document.getElementById('3dframe').style.height = height + "px";
 
 };

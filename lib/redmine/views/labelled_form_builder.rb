@@ -24,14 +24,14 @@ class Redmine::Views::LabelledFormBuilder < ActionView::Helpers::FormBuilder
         %w(date_select)).each do |selector|
     src = <<-END_SRC
     def #{selector}(field, options = {})
-      label_for_field(field, options) + super(field, options.except(:label)).html_safe
+      label_for_field(field, options) + ("<div class='controls'>" + super(field, options.except(:label)) + "</div>").html_safe
     end
     END_SRC
     class_eval src, __FILE__, __LINE__
   end
 
   def select(field, choices, options = {}, html_options = {})
-    label_for_field(field, options) + super(field, choices, options, html_options.except(:label)).html_safe
+    label_for_field(field, options) + ("<div class='controls'>" + super(field, choices, options, html_options.except(:label)) + "</div>").html_safe
   end
 
   def time_zone_select(field, priority_zones = nil, options = {}, html_options = {})
@@ -45,7 +45,7 @@ class Redmine::Views::LabelledFormBuilder < ActionView::Helpers::FormBuilder
       text ||= l(("field_" + field.to_s.gsub(/\_id$/, "")).to_sym)
       text += @template.content_tag("span", " *", :class => "required") if options.delete(:required)
       @template.content_tag("label", text.html_safe,
-                                     :class => (@object && @object.errors[field].present? ? "error" : nil),
+                                     :class => (@object && @object.errors[field].present? ? "control-label error" : "control-label"),
                                      :for => (@object_name.to_s + "_" + field.to_s))
   end
 end

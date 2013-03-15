@@ -479,9 +479,35 @@ section > ul li {
 	margin-left:-30px;
 	color: #37ABC8;
 }
+form{
+	clear:both;
+}
+#login-form
+{
+	padding:40px;
+}
+.sidetitle{
+	font-size:40pt;
+	color:#777777;
+	margin-top:40px;
+}
 
+.popoverform
+{
+	margin-top:-5px;
+}
 
-
+.nolabelcontrols{
+  *display: inline-block;
+  *padding-left: 20px;
+  margin-left: 180px;
+  *margin-left: 0;
+}
+.controls{
+	float:left;
+	margin-left:20px!important;
+	margin-right:10px;
+}
 /* Faded out hr */
 hr.soften {
 	height: 1px;
@@ -1042,36 +1068,6 @@ iframe {
 	color: #37ABC8;
 }
 
-#nmlbrowserlabel {
-	font-size: 15px;
-	width: 800px;
-	margin: 0 auto;
-	margin-top: 50px;
-	margin-bottom: 20px;
-}
-
-.nmlbrowsersubtitles {
-	font-size: 15px;
-	width: 450px;
-	text-align: center;
-	margin: 0 auto;
-	font-weight: 400;
-	margin-top: 50px;
-	margin-bottom: 20px;
-}
-
-#nmlbrowserbackto {
-	cursor: pointer;
-	font-size: 14px;
-	position: absolute;
-	top: 140px;
-	right: 15px;
-	color: #596F00;
-}
-
-#nmlbrowserbackto:hover {
-	color: #8A0;
-}
 
 .bs-docs-social-buttons {
 	margin: 0 auto;

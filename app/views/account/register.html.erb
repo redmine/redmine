@@ -1,39 +1,41 @@
-<h2><%=l(:label_register)%> <%=link_to l(:label_login_with_open_id_option), signin_url if Setting.openid? %></h2>
+<div class="row pull-right lead sidetitle ">OSB Sign up <i class="icon-pencil"></i></div>
 
 <%= labelled_form_for @user, :url => register_path do |f| %>
 <%= error_messages_for 'user' %>
 
 <div class="box tabular">
 
-
-<p>Interested parties are welcome to sign up at this stage, but please be aware:</p>
-<p><b>You should provide a valid URL to a lab, company or software project webpage with which you are directly associated.</b></p>
-<p><b>Your name and/or lab details may be publicly visible on the website.</b></p>
-<p>Note that the Open Source Brain is in an early stage of development, meaning significant changes are possible to the website and the repositories it hosts. All user information and activity will be preserved, although the layout & flow of content may alter. </p>
-
 <div id="registerForm">
 <% if @user.auth_source_id.nil? %>
-  <p><%= f.text_field :login, :size => 25, :required => true %></p>
+  <div class="control-group"><%= f.text_field :login, :size => 25, :required => true %></div>
 
-  <p><%= f.password_field :password, :size => 25, :required => true %>
-  <em class="info"><%= l(:text_caracters_minimum, :count => Setting.password_min_length) %></em></p>
+  <div class="control-group"><%= f.password_field :password, :size => 25, :required => true %>
+ 	 <div class="popoverform"><icon class="popoverlink icon-2x icon-lightbulb"target="_blank" data-toggle="popover" data-trigger="hover" title="" data-content="<%= l(:text_caracters_minimum, :count => Setting.password_min_length) %>" data-original-title="Password"></icon></div>
+  </div>
 
-  <p><%= f.password_field :password_confirmation, :size => 25, :required => true %></p>
+  <div class="control-group"><%= f.password_field :password_confirmation, :size => 25, :required => true %></div>
 <% end %>
 
-<p><%= f.text_field :firstname, :required => true %></p>
-<p><%= f.text_field :lastname, :required => true %></p>
-<p><%= f.text_field :mail, :required => true %></p>
-<p><%= f.select :language, lang_options_for_select %></p>
+<div class="control-group"><%= f.text_field :firstname, :required => true %></div>
+<div class="control-group"><%= f.text_field :lastname, :required => true %></div>
+<div class="control-group"><%= f.text_field :mail, :required => true %></div>
 
 <% if Setting.openid? %>
-  <p><%= f.text_field :identity_url  %></p>
+  <div class="control-group"><%= f.text_field :identity_url  %></div>
 <% end %>
 
-<% @user.custom_field_values.select {|v| v.editable? || v.required?}.each do |value| %>
-  <p><%= custom_field_tag_with_label :user, value %></p>
+<% @user.custom_field_values.select {|v| v.required?}.each do |value| %>
+  <div class="control-group"><%= custom_field_tag_with_label :user, value %>
+  	<% if value.custom_field.name=="URL" %>
+  		<div class="popoverform"><icon class="popoverlink icon-2x icon-lightbulb"target="_blank" data-toggle="popover" data-trigger="hover" title="" data-content="You should provide a valid URL to a lab, instituion, company or software project webpage with which you are directly associated." data-original-title="Affiliation"></icon></div>
+  	<% end %>
+  </div>
 <% end %>
-<%= submit_tag l(:button_submit) %>
+<div class="control-group">
+	<div class="nolabelcontrols">
+		<%= submit_tag l(:button_submit), :class => "btn btn-success" %>
+	</div>
+</div>
 </div>
 </div>
 
