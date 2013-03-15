@@ -131,7 +131,7 @@
 <% else %>
   <li><%= context_menu_link l(:button_copy), bulk_edit_issues_path(:ids => @issue_ids, :copy => '1'),
                           :class => 'icon-copy', :disabled => !@can[:move] %></li>
-<% end %>													
+<% end %>
   <li><%= context_menu_link l(:button_delete), issues_path(:ids => @issue_ids, :back_url => @back),
                             :method => :delete, :data => {:confirm => issues_destroy_confirmation_message(@issues)}, :class => 'icon-del', :disabled => !@can[:delete] %></li>
 
