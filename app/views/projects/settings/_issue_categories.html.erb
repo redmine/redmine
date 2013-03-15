@@ -12,10 +12,10 @@
     <td><%=h(category.name) %></td>
     <td><%=h(category.assigned_to.name) if category.assigned_to %></td>
     <td class="buttons">
-    	<% if User.current.allowed_to?(:manage_categories, @project) %>
+      <% if User.current.allowed_to?(:manage_categories, @project) %>
         <%= link_to l(:button_edit), edit_issue_category_path(category), :class => 'icon icon-edit' %>
         <%= delete_link issue_category_path(category) %>
-		  <% end %>
+      <% end %>
     </td>
   </tr>
   <% end %>
