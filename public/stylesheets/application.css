@@ -607,10 +607,7 @@ icon:hover {
 .icon-small {
 	font-size: 10px;
 }
-.big-lead {
-	margin-bottom: 30px;
-	margin-top: 40px;
-}
+
 .nav-list > .active > a, .nav-list > .active > a:hover, .nav-list > .active > a:focus {
 	background-color: #37abc8;
 }
@@ -713,8 +710,11 @@ margin-bottom:10px;
 
 .big-lead {
 	font-weight: 200;
-	font-size: 40px;
+	font-size: 60px;
 	line-height: 1.2;
+	margin-bottom: 30px;
+	margin-top: 40px;
+
 }
 .btn-group a {
 	display: inline-block;
@@ -755,7 +755,7 @@ margin-bottom:10px;
 
 #osbcircle {
 	margin: 0 auto;
-	margin-top: 20px;
+	margin-top: 80px;
 	margin-bottom: 20px;
 	width: 250px;
 	height: 257px;

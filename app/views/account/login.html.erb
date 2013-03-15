@@ -23,7 +23,7 @@
 			<% if Setting.autologin? %> <label for="autologin"><%= check_box_tag 'autologin', 1, false, :tabindex => 4 %> <%= l(:label_stay_logged_in) %></label> <% end %>
 		</div>
 		<div class="control-group">
-			<div class="nolabelcontrols"><input type="submit" class="btn btn-success" name="login" value="<%= l(:button_login)%> &#187;" tabindex="5"/></div>
+			<div class="nolabelcontrols"><input type="submit" class="btn btn-large btn-success" name="login" value="<%= l(:button_login)%> &#187;" tabindex="5"/></div>
 		</div>
 		<div class="control-group">
 			<% if Setting.lost_password? %>
