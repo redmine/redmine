@@ -21,7 +21,7 @@
 </div>
 
 <fieldset class="box">
-	<legend><%= l(:setting_issue_list_default_columns) %></legend>
+  <legend><%= l(:setting_issue_list_default_columns) %></legend>
   <%= render_query_columns_selection(
         IssueQuery.new(:column_names => Setting.issue_list_default_columns),
         :name => 'settings[issue_list_default_columns]') %>
