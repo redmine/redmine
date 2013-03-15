@@ -1063,7 +1063,7 @@ pt-BR:
   notice_user_successful_create: Usuário %{id} criado.
   field_core_fields: campos padrão
   field_timeout: Tempo de espera (em segundos)
-  setting_thumbnails_enabled: exibir miniaturas de anexos
+  setting_thumbnails_enabled: Exibir miniaturas de anexos
   setting_thumbnails_size: Tamanho das miniaturas (em pixels)
   label_status_transitions: Estados das transições
   label_fields_permissions: Permissões de campos
@@ -1086,7 +1086,7 @@ pt-BR:
   label_no_issues_in_project: sem problemas em projeto
   label_any: todos
   label_last_n_weeks: "últimas %{count} semanas"
-  setting_cross_project_subtasks: Permitir cruzamento de sub-tarefas entre projetos 
+  setting_cross_project_subtasks: Permitir cruzamento de sub-tarefas entre projetos
   label_cross_project_descendants: com sub-Projetos
   label_cross_project_tree: Com uma Árvore fazer o Projeto
   label_cross_project_hierarchy: Com uma hierarquia fazer o Projeto
