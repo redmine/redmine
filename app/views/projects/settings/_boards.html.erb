@@ -21,7 +21,7 @@
     <% if User.current.allowed_to?(:manage_boards, @project) %>
       <%= link_to l(:button_edit), edit_project_board_path(@project, board), :class => 'icon icon-edit' %>
       <%= delete_link project_board_path(@project, board) %>
-		<% end %>
+    <% end %>
     </td>
   </tr>
 <% end %>
