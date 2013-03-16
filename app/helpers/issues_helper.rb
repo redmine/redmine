@@ -355,7 +355,10 @@ module IssuesHelper
     association = Issue.reflect_on_association(field.to_sym)
     if association
       record = association.class_name.constantize.find_by_id(id)
-      return record.name if record
+      if record
+        record.name.force_encoding('UTF-8') if record.name.respond_to?(:force_encoding)
+        return record.name
+      end
     end
   end
 
