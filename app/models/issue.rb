@@ -853,28 +853,16 @@ class Issue < ActiveRecord::Base
     IssueRelation.find(relation_id, :conditions => ["issue_to_id = ? OR issue_from_id = ?", id, id])
   end
 
+  # Returns all the other issues that depend on the issue
   def all_dependent_issues(except=[])
     except << self
     dependencies = []
-    relations_from.each do |relation|
-      if relation.issue_to && !except.include?(relation.issue_to)
-        dependencies << relation.issue_to
-        dependencies += relation.issue_to.all_dependent_issues(except)
-      end
-    end
-    unless leaf?
-      children.each do |child|
-        if !except.include?(child)
-          dependencies << child
-          dependencies += child.all_dependent_issues(except)
-        end
-      end
-    end
-    if parent && !except.include?(parent)
-      dependencies << parent
-      dependencies += parent.all_dependent_issues(except)
-    end
-    dependencies
+    dependencies += relations_from.map(&:issue_to)
+    dependencies += children unless leaf?
+    dependencies << parent
+    dependencies.compact!
+    dependencies -= except
+    dependencies + dependencies.map {|issue| issue.all_dependent_issues(except)}.flatten
   end
 
   # Returns an array of issues that duplicate this one
