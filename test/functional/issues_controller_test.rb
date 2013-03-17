@@ -3474,6 +3474,8 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_bulk_update_parent_id
+    IssueRelation.delete_all
+
     @request.session[:user_id] = 2
     post :bulk_update, :ids => [1, 3],
       :notes => 'Bulk editing parent',

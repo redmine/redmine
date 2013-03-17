@@ -576,6 +576,8 @@ class Issue < ActiveRecord::Base
     elsif @parent_issue
       if !valid_parent_project?(@parent_issue)
         errors.add :parent_issue_id, :invalid
+      elsif (@parent_issue != parent) && (all_dependent_issues.include?(@parent_issue) || @parent_issue.all_dependent_issues.include?(self))
+        errors.add :parent_issue_id, :invalid
       elsif !new_record?
         # moving an existing issue
         if @parent_issue.root_id != root_id
@@ -859,6 +861,18 @@ class Issue < ActiveRecord::Base
         dependencies << relation.issue_to
         dependencies += relation.issue_to.all_dependent_issues(except)
       end
+    end
+    unless leaf?
+      children.each do |child|
+        if !except.include?(child)
+          dependencies << child
+          dependencies += child.all_dependent_issues(except)
+        end
+      end
+    end
+    if parent && !except.include?(parent)
+      dependencies << parent
+      dependencies += parent.all_dependent_issues(except)
     end
     dependencies
   end

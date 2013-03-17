@@ -166,22 +166,6 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     assert_not_nil child.errors[:parent_issue_id]
   end
 
-  def test_moving_an_issue_should_keep_valid_relations_only
-    issue1 = Issue.generate!
-    issue2 = Issue.generate!
-    issue3 = Issue.generate!(:parent_issue_id => issue2.id)
-    issue4 = Issue.generate!
-    r1 = IssueRelation.create!(:issue_from => issue1, :issue_to => issue2, :relation_type => IssueRelation::TYPE_PRECEDES)
-    r2 = IssueRelation.create!(:issue_from => issue1, :issue_to => issue3, :relation_type => IssueRelation::TYPE_PRECEDES)
-    r3 = IssueRelation.create!(:issue_from => issue2, :issue_to => issue4, :relation_type => IssueRelation::TYPE_PRECEDES)
-    issue2.reload
-    issue2.parent_issue_id = issue1.id
-    issue2.save!
-    assert !IssueRelation.exists?(r1.id)
-    assert !IssueRelation.exists?(r2.id)
-    assert IssueRelation.exists?(r3.id)
-  end
-
   def test_destroy_should_destroy_children
     issue1 = Issue.generate!
     issue2 = Issue.generate!
