@@ -1051,7 +1051,7 @@ module ApplicationHelper
         :href => "#", 
         :onclick => %|submitPreview("#{escape_javascript url_for(url)}", "#{escape_javascript form}", "#{escape_javascript target}"); return false;|, 
         :accesskey => accesskey(:preview),
-        :class => 'btn btn-large'
+        :class => 'btn btn-large icon-search'
       }.merge(options)
   end
 

@@ -1,23 +1,19 @@
-<%= javascript_tag do %>
-jQuery(function() {
-	jQuery("#actionsmenu").append("<li><a href='issues/new'>New Issue</a></li>");
-});
-<% end %>
-
 <div class="row">
 	<div class="btn-toolbar pull-right">
 	    <% other_formats_links do |f| %>
-
-		  <div class="btn-group">
-			  <a class="btn dropdown-toggle icon-share" data-toggle="dropdown" href="#"> Export <span class="caret"></span></a>
-	          <ul class="dropdown-menu">
-	            <li><%= f.link_to 'CSV', :url => params, :onclick => "showModal('csv-export-options', '330px'); return false;", :caption=>"CSV" %></li>
-	            <li><%= f.link_to 'PDF', :url => params, :caption=>"PDF" %></li>
-	          </ul>
-          </div>
-          <div class="btn-group">
-		  	<%= f.link_to 'Atom', {:url => params.merge(:from => nil, :key => User.current.rss_key),:class=>"btn icon-rss btn-rss", :caption=>" News feed"}%>
-		  </div>	
+			<div class="btn-group">
+				<a href='issues/new' class="btn icon-plus"> New Issue</a>
+		  	</div>
+		  	<div class="btn-group">
+			  	<a class="btn dropdown-toggle icon-share" data-toggle="dropdown" href="#"> Export <span class="caret"></span></a>
+	          	<ul class="dropdown-menu">
+	            	<li><%= f.link_to 'CSV', :url => params, :onclick => "showModal('csv-export-options', '330px'); return false;", :caption=>"CSV" %></li>
+	            	<li><%= f.link_to 'PDF', :url => params, :caption=>"PDF" %></li>
+	          	</ul>
+          	</div>
+          	<div class="btn-group">
+		  		<%= f.link_to 'Atom', {:url => params.merge(:from => nil, :key => User.current.rss_key),:class=>"btn icon-rss btn-rss", :caption=>" News feed"}%>
+		  	</div>	
 		<% end %>
 	</div>
 </div>
@@ -111,8 +107,8 @@ jQuery(function() {
     <label><%= check_box_tag 'description', '1', @query.has_column?(:description) %> <%= l(:field_description) %></label>
   </p>
   <p class="buttons">
-    <%= submit_tag l(:button_export), :name => nil, :onclick => "hideModal(this);" %>
-    <%= submit_tag l(:button_cancel), :name => nil, :onclick => "hideModal(this);", :type => 'button' %>
+    <%= submit_tag l(:button_export), :name => nil, :onclick => "hideModal(this);", :class =>"btn" %>
+    <%= submit_tag l(:button_cancel), :name => nil, :onclick => "hideModal(this);", :class =>"btn", :type => 'button' %>
   </p>
   <% end %>
 </div>
