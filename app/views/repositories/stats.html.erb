@@ -1,12 +1,18 @@
-<h2><%= l(:label_statistics) %></h2>
+<div class="row pull-right lead sidetitle ">Graphs <i class="icon-bar-chart"></i></div>
 
-<p>
-<%= tag("embed", :width => 800, :height => 300, :type => "image/svg+xml", :src => url_for(:controller => 'repositories', :action => 'graph', :id => @project, :repository_id => @repository.identifier_param, :graph => "commits_per_month")) %>
-</p>
-<p>
-<%= tag("embed", :width => 800, :height => 400, :type => "image/svg+xml", :src => url_for(:controller => 'repositories', :action => 'graph', :id => @project, :repository_id => @repository.identifier_param, :graph => "commits_per_author")) %>
-</p>
+<br/>
+<br/>
+<div class="row-fluid">
+<%= tag("embed", :width => 800, :height => 300, :class=>"thumbnail", :type => "image/svg+xml", :src => url_for(:controller => 'repositories', :action => 'graph', :id => @project, :repository_id => @repository.identifier_param, :graph => "commits_per_month")) %>
+</div>
+<br/>
+<br/>
+<div class="row-fluid">
+<%= tag("embed", :width => 800, :height => 400, :class=>"thumbnail",:type => "image/svg+xml", :src => url_for(:controller => 'repositories', :action => 'graph', :id => @project, :repository_id => @repository.identifier_param, :graph => "commits_per_author")) %>
+</div>
 
-<p><%= link_to l(:button_back), :action => 'show', :id => @project %></p>
+<div class="row">
+	<%= link_to l(:button_back), {:action => 'show'}, :id => @project, :class=>"btn pull-right"  %>
+</div>
 
 <% html_title(l(:label_repository), l(:label_statistics)) -%>
