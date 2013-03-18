@@ -68,85 +68,86 @@
 		</div>
 
 		<!-- CONTENT -->
-
-		<div id="content">
-			<div class="container">
-			
-			<% if display_main_menu?(@project) %>
-					<% @neuroml2files = getNML2Files(@project.repository) %>
-					<div class="page-header">
-				  		<h1 id="pname"><%= @project.name %><small id="author"> </small></h1>
-						<% if isApproved?(@project) %>
-							<span class="label label-success tooltiplink" data-toggle='tooltip' data-placement='right' title='This project is certified by OSB and is officially supported.'>OSB Certified project</span>
-							<br/><br/>
-							<ul class="breadcrumb">
-								<li><a href="#"><%= getCustomField(@project,"Spine classification") %></a> <span class="divider">/</span></li>
-								<li><a href="#"><%= getCustomField(@project,"Family") %></a> <span class="divider">/</span></li>
-								<li><a href="#"><%= getCustomField(@project,"Specie") %></a> <span class="divider">/</span></li>
-								<li><a href="#"><%= getCustomField(@project,"Brain region") %></a> <span class="divider">/</span></li>
-								<li><a href="#"><%= getCustomField(@project,"Cell type") %></a> <span class="divider">/</span></li>
-								<li class="active"><%= @project.name %></li>
-							</ul>
-						<% else %>
-							<span class="label label-warning tooltiplink" data-toggle='tooltip' data-placement='right' title='This project has not been certified yet by OSB.'>Uncertified project</span>
-							<br/><br/>
-						<% end %>
-
-					
-						<div class="navbar">
-							<div id="menucontainer" class="navbar-inner">
-								<a class="brand" href="#">OSB</a>
-								<% if display_main_menu?(@project) %>
-									<%= render_main_menu(@project) %>
-								<% end %>
-								<%= javascript_tag 'jQuery("#menucontainer > ul").append("<li class=dropdown><a class=dropdown-toggle data-toggle=dropdown href=#><i class=icon-eye-open></i><strong> OSB 3D Explorer </strong><b class=caret></b></a><ul class=dropdown-menu id=explorermenu></ul></li>");' %>
+		<div id="wrap">
+			<div id="content">
+				<div id="main" class="container">
+				<br/></br/><br/>
+				<% if display_main_menu?(@project) %>
+						<% @neuroml2files = getNML2Files(@project.repository) %>
+						<div class="page-header">
+					  		<h1 id="pname"><%= @project.name %><small id="author"> </small></h1>
+							<% if isApproved?(@project) %>
+								<span class="label label-success tooltiplink" data-toggle='tooltip' data-placement='right' title='This project is certified by OSB and is officially supported.'>OSB Certified project</span>
+								<br/><br/>
+								<ul class="breadcrumb">
+									<li><a href="#"><%= getCustomField(@project,"Spine classification") %></a> <span class="divider">/</span></li>
+									<li><a href="#"><%= getCustomField(@project,"Family") %></a> <span class="divider">/</span></li>
+									<li><a href="#"><%= getCustomField(@project,"Specie") %></a> <span class="divider">/</span></li>
+									<li><a href="#"><%= getCustomField(@project,"Brain region") %></a> <span class="divider">/</span></li>
+									<li><a href="#"><%= getCustomField(@project,"Cell type") %></a> <span class="divider">/</span></li>
+									<li class="active"><%= @project.name %></li>
+								</ul>
+							<% else %>
+								<span class="label label-warning tooltiplink" data-toggle='tooltip' data-placement='right' title='This project has not been certified yet by OSB.'>Uncertified project</span>
+								<br/><br/>
+							<% end %>
+	
+						
+							<div class="navbar">
+								<div id="menucontainer" class="navbar-inner">
+									<a class="brand" href="#">OSB</a>
+									<% if display_main_menu?(@project) %>
+										<%= render_main_menu(@project) %>
+									<% end %>
+									<%= javascript_tag 'jQuery("#menucontainer > ul").append("<li class=dropdown><a class=dropdown-toggle data-toggle=dropdown href=#><i class=icon-eye-open></i><strong> OSB 3D Explorer </strong><b class=caret></b></a><ul class=dropdown-menu id=explorermenu></ul></li>");' %>
+								</div>
 							</div>
 						</div>
-					</div>
-					<% @repourl=getCustomField(@project,"GitHub repository") %>
-					
-					<% if(@repourl and @repourl["https://github"]!=nil)%>
-
-							<% @repourl["https://github"]="https://raw.github" %>
-							<% @networkfiles=[] %>
-							
-							<% for nml2file in @neuroml2files %>
-								<% if nml2file.ends_with?(".net.nml") %>
-									<% @networkfiles.push(nml2file) %>
+						<% @repourl=getCustomField(@project,"GitHub repository") %>
+						
+						<% if(@repourl and @repourl["https://github"]!=nil)%>
+	
+								<% @repourl["https://github"]="https://raw.github" %>
+								<% @networkfiles=[] %>
+								
+								<% for nml2file in @neuroml2files %>
+									<% if nml2file.ends_with?(".net.nml") %>
+										<% @networkfiles.push(nml2file) %>
+									<% end %>
 								<% end %>
-							<% end %>
-							
-							<% if not @networkfiles.empty? %>
-								<%= javascript_tag 'jQuery("#explorermenu").append("<li class=dropdown-submenu ><a tabindex=-1 href=#>Networks</a><ul class=dropdown-menu id=networkmenu></ul></li>");' %>
-
-								<% for nml2file in @networkfiles %>
-									<%= javascript_tag 'jQuery("#networkmenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + "/master/" + nml2file + '&quot;));>'+ nml2file + '</a></li>");'%>
+								
+								<% if not @networkfiles.empty? %>
+									<%= javascript_tag 'jQuery("#explorermenu").append("<li class=dropdown-submenu ><a tabindex=-1 href=#>Networks</a><ul class=dropdown-menu id=networkmenu></ul></li>");' %>
+	
+									<% for nml2file in @networkfiles %>
+										<%= javascript_tag 'jQuery("#networkmenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + "/master/" + nml2file + '&quot;));>'+ nml2file + '</a></li>");'%>
+									<% end %>
+									</ul>
 								<% end %>
-								</ul>
-							<% end %>
-
-							<%= javascript_tag 'jQuery("#explorermenu").append("<li class=dropdown-submenu ><a tabindex=-1 href=#>Cells</a><ul class=dropdown-menu id=cellsmenu></ul></li>");' %>
-
-
-							<% for nml2file in @neuroml2files %>
-								<% if not nml2file.ends_with?(".net.nml") %>
-										<%= javascript_tag 'jQuery("#cellsmenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + "/master/" + nml2file + '&quot;));>'+ nml2file + '</a></li>");'%>
+	
+								<%= javascript_tag 'jQuery("#explorermenu").append("<li class=dropdown-submenu ><a tabindex=-1 href=#>Cells</a><ul class=dropdown-menu id=cellsmenu></ul></li>");' %>
+	
+	
+								<% for nml2file in @neuroml2files %>
+									<% if not nml2file.ends_with?(".net.nml") %>
+											<%= javascript_tag 'jQuery("#cellsmenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + "/master/" + nml2file + '&quot;));>'+ nml2file + '</a></li>");'%>
+									<% end %>
 								<% end %>
-							<% end %>
-					<% end %>
-			<% end %>
-			<div>
-			<%= call_hook :view_layouts_base_content %>
-			
-			</div>
-				<%= render_flash_messages %>
-				<%= yield %>
-				<div id="ajax-indicator" style="display:none;">
-					<span><%= l(:label_loading) %></span>
+						<% end %>
+				<% end %>
+				<div>
+				<%= call_hook :view_layouts_base_content %>
+				
 				</div>
-				<div id="ajax-modal" style="display:none;"></div>
+					<%= render_flash_messages %>
+					<%= yield %>
+					<div id="ajax-indicator" style="display:none;">
+						<span><%= l(:label_loading) %></span>
+					</div>
+					<div id="ajax-modal" style="display:none;"></div>
+				</div>
 			</div>
-		</div>
+			</div>
 		</div>
 		<!-- FOOTER -->
 
