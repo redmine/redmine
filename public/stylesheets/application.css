@@ -463,7 +463,11 @@ section > ul li {
 	border: 0;
 }
 .btn-rss {
+	height:20px;
+	line-height:20px;
 	margin-left: -30px;
+	display: inline-block;
+	vertical-align: middle;
 	color: #37ABC8;
 }
 form {
@@ -626,6 +630,8 @@ icon:hover {
 	background-image: none;
 }
 
+
+
 a {
 	color: #37abc8;
 }
@@ -764,8 +770,10 @@ section p {
 .capitalize {
 	text-transform: capitalize;
 }
-.explore-view {
+.view {
 	padding: 20px;
+}
+.explore-view {
 	margin-bottom: 30px;
 	font-size: 18px;
 	font-weight: 200;

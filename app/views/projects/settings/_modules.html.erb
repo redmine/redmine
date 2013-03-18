@@ -14,7 +14,8 @@
 </fieldset>
 </div>
 
-<p><%= check_all_links 'modules-form' %></p>
-<p><%= submit_tag l(:button_save) %></p>
-
+<div class="btn-toolbar">
+<div class="btn-group"><%= check_all_links 'modules-form' %></div>
+<div class="btn-group"><%= submit_tag l(:button_save), :class=>"btn" %></div>
+</div>
 <% end %>

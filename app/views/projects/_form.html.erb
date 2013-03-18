@@ -1,30 +1,29 @@
 <%= error_messages_for 'project' %>
 
-<div class="">
+<div class="view">
 <!--[form:project]-->
-	<div class="row-fluid">
-		<div class="span6">
-			<%= f.text_field :name, :required => true, :size => 120, :class=>'input-xlarge' %>
-			<icon class="popoverlink icon-2x icon-lightbulb"target="_blank" data-toggle="popover" data-trigger="hover" title="" data-content="Pick a project name that reflects the hosted model. Separate eventual author with a dash, e.g. 'Purkinje Cell - De Schutter and Bower 1994'." data-original-title="Project Name"></icon>
-		</div>
-		<div class="span4">
-			<%= f.text_field :identifier, :size => 60, :maxlength => Project::IDENTIFIER_MAX_LENGTH , :class=>'input-xlarge disabledinput'%>
-		</div>
+	<div class="control-group">
+		<%= f.text_field :name, :required => true, :size => 120, :class=>'input-xlarge' %>
+		<div class="popoverform"><icon class="popoverlink icon-2x icon-lightbulb"target="_blank" data-toggle="popover" data-trigger="hover" title="" data-content="Pick a project name that reflects the hosted model. Separate eventual author with a dash, e.g. 'Purkinje Cell - De Schutter and Bower 1994'." data-original-title="Project Name"></icon></div>
 	</div>
-	<div class="row-fluid">
-		<%= f.text_field :description, :class=>'input-xxlarge'%>
-		<icon class="popoverlink icon-2x icon-lightbulb"target="_blank" data-toggle="popover" data-trigger="hover" title="" 
+	<div class="control-group">
+		<%= f.text_field :identifier, :size => 60, :maxlength => Project::IDENTIFIER_MAX_LENGTH , :class=>'input-xlarge disabledinput'%>
+	</div>
+
+	<div class="control-group">
+		<%= f.text_area :description, :class=>'input-xxlarge', :rows=>'5'%>
+		<div class="popoverform"><icon class="popoverlink icon-2x icon-lightbulb"target="_blank" data-toggle="popover" data-trigger="hover" title="" 
   		data-content="The description will appear on the overview page of the project. Use this field to detail the purpose of the model."
-  		data-original-title="Project Description"></icon>
+  		data-original-title="Project Description"></icon></div>
 	</div>
-	<div class="row-fluid">
+	<div class="control-group">
 		<% @project.custom_field_values.each do |value| %>
 			<% if value.custom_field.name == 'GitHub repository' %>
 		  		<%= custom_field_tag_with_label :project, value %> 
 		  		
-		  		<a class="popoverlink" href="https://github.com/new" target="_blank" data-toggle="popover" data-trigger="hover" title="" 
+		  		<div class="popoverform"><a class="popoverlink" href="https://github.com/new" target="_blank" data-toggle="popover" data-trigger="hover" title="" 
 		  		data-content="To create a new project on OSB you need a Git repository to host your code: paste here its URL. If you don't have one click on the Octocat to create a new one on GitHub!"
-		  		data-original-title="Project Repository"><icon class="icon-2x icon-github"></icon></a>
+		  		data-original-title="Project Repository"><icon class="icon-2x icon-github"></icon></a></div>
 			<% end %>
 		<% end %>
 	</div>

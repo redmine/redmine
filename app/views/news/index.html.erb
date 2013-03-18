@@ -1,3 +1,5 @@
+<div class="row pull-right lead sidetitle ">News <i class="icon-bullhorn"></i></div>
+<br/><br/><br/><br/>
 <div class="contextual">
 <%= link_to(l(:label_news_new),
             new_project_news_path(@project),
@@ -17,7 +19,7 @@
 <div id="preview" class="wiki"></div>
 </div>
 
-<h2><%=l(:label_news_plural)%></h2>
+
 
 <% if @newss.empty? %>
 <p class="nodata"><%= l(:label_no_data) %></p>

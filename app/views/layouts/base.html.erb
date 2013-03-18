@@ -188,18 +188,20 @@ jQuery(function()
 		}
 		else
 		{
-			if(<%= @neuroml2files.empty? %>) {
-				disableOSBExplorer();
-				jQuery("#osbexplorermessage").html("The current project doesn't contain any NeuroML2 file. Help converting this model to be able to use OSB 3D Explorer or raise an issue to do so!");
-			}
-			else if(<%= (@repourl and @repourl["https://github"]==nil)==true%>) {
-				disableOSBExplorer();
-				jQuery("#osbexplorermessage").html("Sorry, OSB 3D Explorer is currently available only for repositories hosted on GitHub.");
-			}
-			else if (!Detector.webgl) {
-				disableOSBExplorer();
-				jQuery("#osbexplorermessage").html("Sorry, your browser doesn\'t support <a href='http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation'>WebGL</a> which is required to use OSB 3D Explorer.");
-			}
+			<% if @neuroml2file!=nil %>
+				if(<%= @neuroml2files.empty? %>) {
+					disableOSBExplorer();
+					jQuery("#osbexplorermessage").html("The current project doesn't contain any NeuroML2 file. Help converting this model to be able to use OSB 3D Explorer or raise an issue to do so!");
+				}
+				else if(<%= (@repourl and @repourl["https://github"]==nil)==true%>) {
+					disableOSBExplorer();
+					jQuery("#osbexplorermessage").html("Sorry, OSB 3D Explorer is currently available only for repositories hosted on GitHub.");
+				}
+				else if (!Detector.webgl) {
+					disableOSBExplorer();
+					jQuery("#osbexplorermessage").html("Sorry, your browser doesn\'t support <a href='http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation'>WebGL</a> which is required to use OSB 3D Explorer.");
+				}
+			<% end %>
 		}
 	<% end %>
 })

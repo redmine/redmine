@@ -1056,7 +1056,7 @@ module ApplicationHelper
   end
 
   def link_to_function(name, function, html_options={})
-    content_tag(:a, name, {:href => '#', :onclick => "#{function}; return false;"}.merge(html_options))
+    content_tag(:a, name, {:href => '#', :onclick => "#{function}; return false;", :class => "btn"}.merge(html_options))
   end
 
   # Helper to render JSON in views
@@ -1079,7 +1079,7 @@ module ApplicationHelper
 
   def check_all_links(form_name)
     link_to_function(l(:button_check_all), "checkAll('#{form_name}', true)") +
-    " | ".html_safe +
+    "  ".html_safe +
     link_to_function(l(:button_uncheck_all), "checkAll('#{form_name}', false)")
   end
 

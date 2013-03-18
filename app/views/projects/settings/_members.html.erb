@@ -70,7 +70,7 @@
       <label><%= check_box_tag 'membership[role_ids][]', role.id %> <%=h role %></label>
      <% end %></p>
 
-    <p><%= submit_tag l(:button_add), :id => 'member-add-submit' %></p>
+    <p><%= submit_tag l(:button_add), :id => 'member-add-submit', :class => "btn" %></p>
     </fieldset>
   <% end %>
 <% end %>

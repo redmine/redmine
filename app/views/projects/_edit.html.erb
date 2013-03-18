@@ -19,7 +19,7 @@
 	    <div id="collapseOne" class="accordion-body collapse">
 	      <div class="accordion-inner">
 				<% @project.custom_field_values.each do |value| %>
-				  <p><%= custom_field_tag_with_label :project, value %></p>
+				  <div class="control-group"><%= custom_field_tag_with_label :project, value %></div>
 				<% end %>
 				<%= call_hook(:view_projects_form, :project => @project, :form => f) %>
 	      </div>

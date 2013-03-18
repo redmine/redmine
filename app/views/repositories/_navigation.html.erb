@@ -10,29 +10,22 @@
              :path => to_path_param(@path),
              :rev => nil}) %>
 
-  <!-- Branches Dropdown -->
-  <% if !@repository.branches.nil? && @repository.branches.length > 0 -%>
-  <div class="dropdown">
-	  <a class="btn dropdown-toggle" data-toggle="dropdown"><icon class="icon-random"></icon> <%= l(:label_branch) %> <span class="caret"></span></a>
-	  <ul class="dropdown-menu">
-	  	<% @repository.branches.each do |b| %>
-	  	<li><a href="<%= @basepath %>?utf8=%E2%9C%93&rev=<%= b %>"><%= b%></a></li>
-		<% end %>
-	  </ul>
-
-<%= link_to " Graphs",
-            {:action => 'stats', :id => @project, :repository_id => @repository.identifier_param},
-            :class => 'btn icon icon-stats' if @repository.supports_all_revisions? %>
-            
-  <% if !@repository.tags.nil? && @repository.tags.length > 0 -%>
-    | <%= l(:label_tag) %>: 
-    <%= select_tag :tag,
-                   options_for_select([''] + @repository.tags, @rev),
-                   :id => 'tag' %>
-  <% end -%>
-
-
-<% end -%>
-  </div>
+	<div class="btn-toolbar">
+	  	<!-- Branches Dropdown -->
+		<% if !@repository.branches.nil? && @repository.branches.length > 0 -%>
+			<div class="btn-group dropdown">
+				<a class="btn dropdown-toggle" data-toggle="dropdown"><icon class="icon-random"></icon> <%= l(:label_branch) %> <span class="caret"></span></a>
+				<ul class="dropdown-menu">
+			  		<% @repository.branches.each do |b| %>
+			  			<li><a href="<%= @basepath %>?utf8=%E2%9C%93&rev=<%= b %>"><%= b%></a></li>
+					<% end %>
+			  	</ul>
+			</div>
+		<% end -%>
+	
+		<%= link_to " Graphs", {:action => 'stats', :id => @project, :repository_id => @repository.identifier_param}, :class => 'btn icon icon-stats' if @repository.supports_all_revisions? %>
+		<% f=Redmine::Views::OtherFormatsBuilder.new(self) %>
+		<%= f.link_to 'Atom', {:url => {:action => 'revisions', :id => @project,:repository_id => @repository.identifier_param, :key => User.current.rss_key},:class=>"btn icon-rss btn-rss", :caption=>" News feed"} %>
+	</div>
 
 </div>
