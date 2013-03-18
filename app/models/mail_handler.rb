@@ -472,7 +472,7 @@ class MailHandler < ActionMailer::Base
     end
   end
 
-	# Adds the newly created user to default group
+  # Adds the newly created user to default group
   def add_user_to_group(default_group)
     if default_group.present?
       default_group.split(',').each do |group_name|
