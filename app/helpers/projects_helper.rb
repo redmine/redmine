@@ -51,6 +51,39 @@ module ProjectsHelper
     content_tag('select', options.html_safe, :name => 'project[parent_id]', :id => 'project_parent_id')
   end
 
+  def getProjectBreadcrumb(project)
+    spine=getCustomField(project,"Spine classification")
+    family=getCustomField(project,"Family")
+    specie=getCustomField(project,"Specie")
+    brain=getCustomField(project,"Brain region")
+    cell=getCustomField(project,"Cell type")
+    bc=""
+    bc<<'<ul class="breadcrumb">'
+    bc<<'<li>'
+    url = {:controller => 'projects', :action => 'index', :params => {:spine=> spine}}
+    bc<< link_to(spine, url)
+    bc<<'<span class="divider">/</span></li>'
+    bc<<'<li>'
+    url = {:controller => 'projects', :action => 'index', :params => {:spine=> spine, :family=>family}}
+    bc<< link_to(family, url)
+    bc<<'<span class="divider">/</span></li>'
+    bc<<'<li>'
+    url = {:controller => 'projects', :action => 'index', :params => {:spine=> spine, :family=>family, :specie=>specie,}}
+    bc<< link_to(specie, url)
+    bc<<'<span class="divider">/</span></li>'
+    bc<<'<li>'
+    url = {:controller => 'projects', :action => 'index', :params => {:spine=> spine, :family=>family, :specie=>specie, :brain=>brain}}
+    bc<< link_to(brain, url)
+    bc<<'<span class="divider">/</span></li>'
+    bc<<'<li>'
+    url = {:controller => 'projects', :action => 'index', :params => {:spine=> spine, :family=>family, :specie=>specie, :brain=>brain, :cell=>cell}}
+    bc<< link_to(cell, url)
+    bc<<'<span class="divider">/</span></li>'
+    bc<<'<li class="active">'+ project.name + '</li>'
+    bc<<'</ul>'
+    return bc.html_safe()
+  end
+  
   #MC - probably there's a more elegant way to do this, not a Ruby expert
   def addNode(t,c1,c2,c3,c4,c5,dname,link,category)
     if category == 'Project'

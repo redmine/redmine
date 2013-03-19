@@ -70,6 +70,7 @@ class ProjectsController < ApplicationController
     userscope = userscope.like(params[:name]) if params[:name].present?
     userscope = userscope.in_group(params[:group_id]) if params[:group_id].present?
     @users = userscope.find(:all, :order => 'lastname')
+
   end
 
   def new

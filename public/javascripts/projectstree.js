@@ -13,7 +13,7 @@ var vis = d3.select("#body").append("svg:svg").attr("width", w + m[1] + m[3])
 				"translate(" + m[3] + "," + m[0] + ")");
 
 tobeparsed = d3.select("#jsontree")[0][0].innerHTML;
-root = JSON.parse(tobeparsed);
+var root = JSON.parse(tobeparsed);
 root.children.sort(function(a, b) {
 	if (a.name == "Vertebrate") // vertebrates go first
 		return -1;
@@ -32,34 +32,8 @@ function toggleAll(d) {
 	}
 }
 
-// Initialize the display to show a few nodes.
-
-var step = 0;
-var duration = 600;
-
-var timer = setInterval(function() {
-	update(root)
-}, duration);
-
-function update(source) {
-	if (step == 0) {
-		toggle(root);
-		if (root.children != null) {
-			root.children.forEach(toggleAll);
-			step++;
-		}
-
-	} else if (step == 1) {
-		toggle(root.children[0]);
-		step++;
-	} else if (step == 2) {
-		toggle(root.children[0].children[0]);
-		step++;
-	} else if (step == 3) {
-		toggle(root.children[0].children[0].children[0]);
-		step++;
-		clearInterval(timer);
-	}
+function makeTree(source)
+{
 	// Compute the new tree layout.
 	var nodes = tree.nodes(root).reverse();
 
@@ -77,7 +51,7 @@ function update(source) {
 	var nodeEnter = node.enter().append("svg:g").attr("class", "node").on(
 			"click", function(d) {
 				toggle(d);
-				update(d);
+				makeTree(d);
 			});
 	// .attr(
 	// "transform", function(d) {
@@ -177,5 +151,76 @@ function toggle(d) {
 	} else {
 		d.children = d._children;
 		d._children = null;
+	}
+}
+
+var timer=null;
+var step=0;
+var duration = 500;
+
+//7 roaches
+function standardOpening()
+{
+	// Initialize the display to show a few nodes.
+	
+	timer = setInterval(function() {
+		update(root);
+		makeTree(root);
+	}, duration);
+}
+
+function update(source) {
+	if (step == 0) {
+		toggle(root);
+		if (root.children != null) {
+			root.children.forEach(toggleAll);
+			step++;
+		}
+	} else if (step == 1) {
+		toggle(root.children[0]);
+		step++;
+	} else if (step == 2) {
+		toggle(root.children[0].children[0]);
+		step++;
+	} else if (step == 3) {
+		toggle(root.children[0].children[0].children[0]);
+		step++;
+		clearInterval(timer);
+	}
+}
+
+
+//This functions opens a specific configuration of the tree, used as backend for the breadcrumb feature
+function openSpecificTree(spine,family,specie,brain,cell)
+{
+	if (root.children != null) 
+	{
+		root.children.forEach(toggleAll);
+	}
+	n1=toggleChild(root,spine);
+	n2=toggleChild(n1,family);
+	n3=toggleChild(n2,specie);
+	n4=toggleChild(n3,brain);
+	n5=toggleChild(n4,cell);
+	makeTree(root);
+}
+
+//Opens the child of a node give the name of the child
+function toggleChild(node,childname)
+{
+	if(childname && childname!="")
+	{
+		if(!node.children)
+		{
+			toggle(node);
+		}
+		for(var c in node.children)
+		{
+			if(node.children[c].name==childname)
+			{
+				toggle(node.children[c]);
+				return node.children[c];
+			}
+		}
 	}
 }

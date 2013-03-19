@@ -79,14 +79,7 @@
 							<% if isApproved?(@project) %>
 								<span class="label label-success tooltiplink" data-toggle='tooltip' data-placement='right' title='This project is certified by OSB and is officially supported.'>OSB Certified project</span>
 								<br/><br/>
-								<ul class="breadcrumb">
-									<li><a href="#"><%= getCustomField(@project,"Spine classification") %></a> <span class="divider">/</span></li>
-									<li><a href="#"><%= getCustomField(@project,"Family") %></a> <span class="divider">/</span></li>
-									<li><a href="#"><%= getCustomField(@project,"Specie") %></a> <span class="divider">/</span></li>
-									<li><a href="#"><%= getCustomField(@project,"Brain region") %></a> <span class="divider">/</span></li>
-									<li><a href="#"><%= getCustomField(@project,"Cell type") %></a> <span class="divider">/</span></li>
-									<li class="active"><%= @project.name %></li>
-								</ul>
+								<%= getProjectBreadcrumb(@project) %>
 							<% else %>
 								<span class="label label-warning tooltiplink" data-toggle='tooltip' data-placement='right' title='This project has not been certified yet by OSB.'>Uncertified project</span>
 								<br/><br/>
@@ -180,6 +173,7 @@
 
 jQuery(function()
 {	
+	//Show project page
 	<% if @project!=nil %>
 		var geturl=getParameterByName('explorer');
 		if(geturl!='')
@@ -203,6 +197,22 @@ jQuery(function()
 					jQuery("#osbexplorermessage").html("Sorry, your browser doesn\'t support <a href='http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation'>WebGL</a> which is required to use OSB 3D Explorer.");
 				}
 			<% end %>
+		}
+	<% end %>
+	//Projects index page
+	<% if @projects!=nil %>
+		var family=getParameterByName('family');
+		var specie=getParameterByName('specie');
+		var brain=getParameterByName('brain');
+		var cell=getParameterByName('cell');
+		var spine=getParameterByName('spine');
+		if(spine!="")
+		{
+			openSpecificTree(spine,family,specie,brain,cell);
+		}
+		else
+		{
+			standardOpening();
 		}
 	<% end %>
 })
