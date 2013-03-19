@@ -163,7 +163,7 @@ eu:
   notice_not_authorized: Ez duzu orri hau atzitzeko baimenik.
   notice_email_sent: "%{value} helbidera eposta bat bidali da"
   notice_email_error: "Errorea eposta bidaltzean (%{value})"
-  notice_feeds_access_key_reseted: Zure RSS atzipen giltza berrezarri da.
+  notice_feeds_access_key_reseted: Zure Atom atzipen giltza berrezarri da.
   notice_api_access_key_reseted: Zure API atzipen giltza berrezarri da.
   notice_failed_to_save_issues: "Hautatutako %{total} zereginetatik %{count} ezin izan dira konpondu: %{ids}."
   notice_no_issue_selected: "Ez da zereginik hautatu! Mesedez, editatu nahi dituzun arazoak markatu."
@@ -687,9 +687,9 @@ eu:
   label_language_based: Erabiltzailearen hizkuntzaren arabera
   label_sort_by: "Ordenazioa: %{value}"
   label_send_test_email: Frogako mezua bidali
-  label_feeds_access_key: RSS atzipen giltza
-  label_missing_feeds_access_key: RSS atzipen giltza falta da
-  label_feeds_access_key_created_on: "RSS atzipen giltza orain dela %{value} sortuta"
+  label_feeds_access_key: Atom atzipen giltza
+  label_missing_feeds_access_key: Atom atzipen giltza falta da
+  label_feeds_access_key_created_on: "Atom atzipen giltza orain dela %{value} sortuta"
   label_module_plural: Moduluak
   label_added_time_by: "%{author}, orain dela %{age} gehituta"
   label_updated_time_by: "%{author}, orain dela %{age} eguneratuta"

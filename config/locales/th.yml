@@ -159,7 +159,7 @@ th:
   notice_not_authorized: คุณไม่มีสิทธิเข้าถึงหน้านี้.
   notice_email_sent: "อีเมล์ได้ถูกส่งถึง %{value}"
   notice_email_error: "เกิดความผิดพลาดขณะกำส่งอีเมล์ (%{value})"
-  notice_feeds_access_key_reseted: RSS access key ของคุณถูก reset แล้ว.
+  notice_feeds_access_key_reseted: Atom access key ของคุณถูก reset แล้ว.
   notice_failed_to_save_issues: "%{count} ปัญหาจาก %{total} ปัญหาที่ถูกเลือกไม่สามารถจัดเก็บ: %{ids}."
   notice_no_issue_selected: "ไม่มีปัญหาที่ถูกเลือก! กรุณาเลือกปัญหาที่คุณต้องการแก้ไข."
   notice_account_pending: "บัญชีของคุณสร้างเสร็จแล้ว ขณะนี้รอการอนุมัติจากผู้บริหารจัดการ."
@@ -573,7 +573,7 @@ th:
   label_language_based: ขึ้นอยู่กับภาษาของผู้ใช้
   label_sort_by: "เรียงโดย %{value}"
   label_send_test_email: ส่งจดหมายทดสอบ
-  label_feeds_access_key_created_on: "RSS access key สร้างเมื่อ %{value} ที่ผ่านมา"
+  label_feeds_access_key_created_on: "Atom access key สร้างเมื่อ %{value} ที่ผ่านมา"
   label_module_plural: ส่วนประกอบ
   label_added_time_by: "เพิ่มโดย %{author} %{age} ที่ผ่านมา"
   label_updated_time: "ปรับปรุง %{value} ที่ผ่านมา"
@@ -870,11 +870,11 @@ th:
   label_revision_id: Revision %{value}
   label_api_access_key: API access key
   label_api_access_key_created_on: API access key created %{value} ago
-  label_feeds_access_key: RSS access key
+  label_feeds_access_key: Atom access key
   notice_api_access_key_reseted: Your API access key was reset.
   setting_rest_api_enabled: Enable REST web service
   label_missing_api_access_key: Missing an API access key
-  label_missing_feeds_access_key: Missing a RSS access key
+  label_missing_feeds_access_key: Missing a Atom access key
   button_show: Show
   text_line_separated: Multiple values allowed (one line for each value).
   setting_mail_handler_body_delimiters: Truncate emails after one of these lines

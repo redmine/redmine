@@ -160,7 +160,7 @@ uk:
   notice_not_authorized: У вас немає прав для відвідини даної сторінки.
   notice_email_sent: "Відправлено листа %{value}"
   notice_email_error: "Під час відправки листа відбулася помилка (%{value})"
-  notice_feeds_access_key_reseted: Ваш ключ доступу RSS було скинуто.
+  notice_feeds_access_key_reseted: Ваш ключ доступу Atom було скинуто.
   notice_failed_to_save_issues: "Не вдалося зберегти %{count} пункт(ів) з %{total} вибраних: %{ids}."
   notice_no_issue_selected: "Не вибрано жодної задачі! Будь ласка, відзначте задачу, яку ви хочете відредагувати."
   notice_account_pending: "Ваш обліковий запис створено і він чекає на підтвердження адміністратором."
@@ -532,7 +532,7 @@ uk:
   label_language_based: На основі мови користувача
   label_sort_by: "Сортувати за %{value}"
   label_send_test_email: Послати email для перевірки
-  label_feeds_access_key_created_on: "Ключ доступу RSS створений %{value} назад "
+  label_feeds_access_key_created_on: "Ключ доступу Atom створений %{value} назад "
   label_module_plural: Модулі
   label_added_time_by: "Доданий %{author} %{age} назад"
   label_updated_time: "Оновлений %{value} назад"
@@ -870,11 +870,11 @@ uk:
   label_revision_id: Revision %{value}
   label_api_access_key: API access key
   label_api_access_key_created_on: API access key created %{value} ago
-  label_feeds_access_key: RSS access key
+  label_feeds_access_key: Atom access key
   notice_api_access_key_reseted: Your API access key was reset.
   setting_rest_api_enabled: Enable REST web service
   label_missing_api_access_key: Missing an API access key
-  label_missing_feeds_access_key: Missing a RSS access key
+  label_missing_feeds_access_key: Missing a Atom access key
   button_show: Show
   text_line_separated: Multiple values allowed (one line for each value).
   setting_mail_handler_body_delimiters: Truncate emails after one of these lines

@@ -167,7 +167,7 @@ he:
   notice_not_authorized_archived_project: הפרויקט שאתה מנסה לגשת אליו נמצא בארכיון.
   notice_email_sent: "דואל נשלח לכתובת %{value}"
   notice_email_error: "ארעה שגיאה בעת שליחת הדואל (%{value})"
-  notice_feeds_access_key_reseted: מפתח ה־RSS שלך אופס.
+  notice_feeds_access_key_reseted: מפתח ה־Atom שלך אופס.
   notice_api_access_key_reseted: מפתח הגישה שלך ל־API אופס.
   notice_failed_to_save_issues: "נכשרת בשמירת %{count} נושאים ב %{total} נבחרו: %{ids}."
   notice_failed_to_save_members: "כשלון בשמירת חבר(ים): %{errors}."
@@ -712,9 +712,9 @@ he:
   label_language_based: מבוסס שפה
   label_sort_by: "מיין לפי %{value}"
   label_send_test_email: שלח דוא"ל בדיקה
-  label_feeds_access_key: מפתח גישה ל־RSS
-  label_missing_feeds_access_key: חסר מפתח גישה ל־RSS
-  label_feeds_access_key_created_on: "מפתח הזנת RSS נוצר לפני%{value}"
+  label_feeds_access_key: מפתח גישה ל־Atom
+  label_missing_feeds_access_key: חסר מפתח גישה ל־Atom
+  label_feeds_access_key_created_on: "מפתח הזנת Atom נוצר לפני%{value}"
   label_module_plural: מודולים
   label_added_time_by: 'נוסף ע"י %{author} לפני %{age}'
   label_updated_time_by: 'עודכן ע"י %{author} לפני %{age}'

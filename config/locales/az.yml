@@ -488,8 +488,8 @@ az:
   label_equals: sayılır
   label_example: Nümunə
   label_export_to: ixrac etmək 
-  label_feed_plural: RSS
-  label_feeds_access_key_created_on: "RSS-ə giriş açarı %{value} əvvəl yaradılıb"
+  label_feed_plural: Atom
+  label_feeds_access_key_created_on: "Atom-ə giriş açarı %{value} əvvəl yaradılıb"
   label_f_hour: "%{value} saat"
   label_f_hour_plural: "%{value} saat"
   label_file_added: Fayl əlavə edilib
@@ -764,7 +764,7 @@ az:
   notice_email_sent: "Məktub göndərilib %{value}"
   notice_failed_to_save_issues: "Seçilən %{total} içərisindən %{count} bəndləri saxlamaq mümkün olmadı: %{ids}."
   notice_failed_to_save_members: "İştirakçını (ları) yadda saxlamaq mümkün olmadı: %{errors}."
-  notice_feeds_access_key_reseted: Sizin RSS giriş açarınız sıfırlanmışdır.
+  notice_feeds_access_key_reseted: Sizin Atom giriş açarınız sıfırlanmışdır.
   notice_file_not_found: Daxil olmağa çalışdığınız səhifə mövcud deyildir və ya silinib.
   notice_locking_conflict: İnformasiya digər istifadəçi tərəfindən yenilənib.
   notice_no_issue_selected: "Heç bir tapşırıq seçilməyib! Xahiş edirik, redaktə etmək istədiyiniz tapşırığı qeyd edin."
@@ -856,7 +856,7 @@ az:
   setting_display_subprojects_issues: Susmaya görə altlayihələrin əks olunması
   setting_emails_footer: Məktubun sətiraltı qeydləri
   setting_enabled_scm: Daxil edilən SCM
-  setting_feeds_limit: RSS axını üçün başlıqların sayının məhdudlaşdırılması
+  setting_feeds_limit: Atom axını üçün başlıqların sayının məhdudlaşdırılması
   setting_file_max_size_displayed: Əks olunma üçün mətn faylının maksimal ölçüsü
   setting_gravatar_enabled: İstifadəçi avatarını Gravatar-dan istifadə etmək
   setting_host_name: Kompyuterin adı
@@ -995,12 +995,12 @@ az:
   permission_view_issues: Tapşırıqlara baxış
   label_display_used_statuses_only: Yalnız bu trekerdə istifadə olunan statusları əks etdirmək
   label_api_access_key_created_on: API-yə giriş açarı %{value} əvvəl aradılıb
-  label_feeds_access_key: RSS giriş açarı
+  label_feeds_access_key: Atom giriş açarı
   notice_api_access_key_reseted: Sizin API giriş açarınız sıfırlanıb.
   setting_rest_api_enabled: REST veb-servisini qoşmaq
   button_show: Göstərmək
   label_missing_api_access_key: API-yə giriş açarı mövcud deyildir
-  label_missing_feeds_access_key: RSS-ə giriş açarı mövcud deyildir
+  label_missing_feeds_access_key: Atom-ə giriş açarı mövcud deyildir
   setting_mail_handler_body_delimiters: Bu sətirlərin birindən sonra məktubu qısaltmaq
   permission_add_subprojects: Alt layihələrin yaradılması
   label_subproject_new: Yeni alt layihə

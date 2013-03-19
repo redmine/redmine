@@ -161,7 +161,7 @@ id:
   notice_not_authorized: Anda tidak memiliki akses ke halaman ini.
   notice_email_sent: "Email sudah dikirim ke %{value}"
   notice_email_error: "Terjadi kesalahan pada saat pengiriman email (%{value})"
-  notice_feeds_access_key_reseted: RSS access key anda sudah direset.
+  notice_feeds_access_key_reseted: Atom access key anda sudah direset.
   notice_failed_to_save_issues: "Gagal menyimpan %{count} masalah dari %{total} yang dipilih: %{ids}."
   notice_no_issue_selected: "Tidak ada masalah yang dipilih! Silakan pilih masalah yang akan anda sunting."
   notice_account_pending: "Akun anda sudah dibuat dan sekarang sedang menunggu persetujuan administrator."
@@ -669,7 +669,7 @@ id:
   label_language_based: Berdasarkan bahasa pengguna
   label_sort_by: "Urut berdasarkan %{value}"
   label_send_test_email: Kirim email percobaan
-  label_feeds_access_key_created_on: "RSS access key dibuat %{value} yang lalu"
+  label_feeds_access_key_created_on: "Atom access key dibuat %{value} yang lalu"
   label_module_plural: Modul
   label_added_time_by: "Ditambahkan oleh %{author} %{age} yang lalu"
   label_updated_time_by: "Diperbarui oleh %{author} %{age} yang lalu"
@@ -872,7 +872,7 @@ id:
   label_display_used_statuses_only: Only display statuses that are used by this tracker
   error_workflow_copy_target: Please select target tracker(s) and role(s)
   label_api_access_key_created_on: API access key created %{value} ago
-  label_feeds_access_key: RSS access key
+  label_feeds_access_key: Atom access key
   notice_api_access_key_reseted: Your API access key was reset.
   setting_rest_api_enabled: Enable REST web service
   label_copy_same_as_target: Same as target
@@ -880,7 +880,7 @@ id:
   setting_issue_done_ratio_issue_field: Use the issue field
   label_missing_api_access_key: Missing an API access key
   label_copy_target: Target
-  label_missing_feeds_access_key: Missing a RSS access key
+  label_missing_feeds_access_key: Missing a Atom access key
   notice_issue_done_ratios_updated: Issue done ratios updated.
   error_workflow_copy_source: Please select a source tracker or role
   setting_start_of_week: Start calendars on

@@ -167,7 +167,7 @@ cs:
   notice_not_authorized_archived_project: Projekt, ke kterému se snažíte přistupovat, byl archivován.
   notice_email_sent: "Na adresu %{value} byl odeslán email"
   notice_email_error: "Při odesílání emailu nastala chyba (%{value})"
-  notice_feeds_access_key_reseted: Váš klíč pro přístup k RSS byl resetován.
+  notice_feeds_access_key_reseted: Váš klíč pro přístup k Atom byl resetován.
   notice_api_access_key_reseted: Váš API přístupový klíč byl resetován.
   notice_failed_to_save_issues: "Chyba při uložení %{count} úkolu(ů) z %{total} vybraných: %{ids}."
   notice_failed_to_save_members: "Nepodařilo se uložit člena(y): %{errors}."
@@ -720,9 +720,9 @@ cs:
   label_language_based: Podle výchozího jazyka
   label_sort_by: "Seřadit podle %{value}"
   label_send_test_email: Poslat testovací email
-  label_feeds_access_key: Přístupový klíč pro RSS
-  label_missing_feeds_access_key: Postrádá přístupový klíč pro RSS
-  label_feeds_access_key_created_on: "Přístupový klíč pro RSS byl vytvořen před %{value}"
+  label_feeds_access_key: Přístupový klíč pro Atom
+  label_missing_feeds_access_key: Postrádá přístupový klíč pro Atom
+  label_feeds_access_key_created_on: "Přístupový klíč pro Atom byl vytvořen před %{value}"
   label_module_plural: Moduly
   label_added_time_by: "Přidáno uživatelem %{author} před %{age}"
   label_updated_time_by: "Aktualizováno uživatelem %{author} před %{age}"

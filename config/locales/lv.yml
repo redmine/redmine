@@ -155,7 +155,7 @@ lv:
   notice_not_authorized: Jums nav tiesību piekļūt šai lapai.
   notice_email_sent: "E-pasts tika nosūtīts uz %{value}"
   notice_email_error: "Kļūda sūtot e-pastu (%{value})"
-  notice_feeds_access_key_reseted: Jūsu RSS pieejas atslēga tika iestatīta sākuma stāvoklī.
+  notice_feeds_access_key_reseted: Jūsu Atom pieejas atslēga tika iestatīta sākuma stāvoklī.
   notice_api_access_key_reseted: Jūsu API pieejas atslēga tika iestatīta sākuma stāvoklī.
   notice_failed_to_save_issues: "Neizdevās saglabāt %{count} uzdevumu(us) no %{total} izvēlēti: %{ids}."
   notice_no_issue_selected: "Nav izvēlēts uzdevums! Lūdzu, atzīmējiet uzdevumus, kurus vēlaties rediģēt!"
@@ -684,9 +684,9 @@ lv:
   label_language_based: Izmantot lietotāja valodu
   label_sort_by: "Kārtot pēc %{value}"
   label_send_test_email: "Sūtīt testa e-pastu"
-  label_feeds_access_key: RSS piekļuves atslēga
-  label_missing_feeds_access_key: Trūkst RSS piekļuves atslēgas
-  label_feeds_access_key_created_on: "RSS piekļuves atslēga izveidota pirms %{value}"
+  label_feeds_access_key: Atom piekļuves atslēga
+  label_missing_feeds_access_key: Trūkst Atom piekļuves atslēgas
+  label_feeds_access_key_created_on: "Atom piekļuves atslēga izveidota pirms %{value}"
   label_module_plural: Moduļi
   label_added_time_by: "Pievienojis %{author} pirms %{age}"
   label_updated_time_by: "Atjaunojis %{author} pirms %{age}"

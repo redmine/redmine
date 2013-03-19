@@ -161,7 +161,7 @@ ar:
   notice_not_authorized_archived_project: المشروع الذي تحاول الدخول اليه تم ارشفته
   notice_email_sent: "%{value}تم ارسال رسالة الى "
   notice_email_error: " (%{value})لقد حدث خطأ ما اثناء ارسال الرسالة الى "
-  notice_feeds_access_key_reseted: كلمة الدخول  RSSلقد تم تعديل .
+  notice_feeds_access_key_reseted: كلمة الدخول  Atomلقد تم تعديل .
   notice_api_access_key_reseted:  كلمة الدخولAPIلقد تم تعديل .
   notice_failed_to_save_issues: "فشل في حفظ الملف"
   notice_failed_to_save_members: "فشل في حفظ الاعضاء: %{errors}."
@@ -741,9 +741,9 @@ ar:
   label_language_based: استناداً إلى لغة المستخدم
   label_sort_by: " %{value}الترتيب حسب "
   label_send_test_email: ارسل رسالة الكترونية كاختبار
-  label_feeds_access_key: RSS مفتاح دخول
-  label_missing_feeds_access_key: مفقودRSS مفتاح دخول
-  label_feeds_access_key_created_on: "RSS تم انشاء مفتاح %{value} منذ"
+  label_feeds_access_key: Atom مفتاح دخول
+  label_missing_feeds_access_key: مفقودAtom مفتاح دخول
+  label_feeds_access_key_created_on: "Atom تم انشاء مفتاح %{value} منذ"
   label_module_plural: الوحدات النمطية
   label_added_time_by: " تم اضافته من قبل%{author} %{age} منذ"
   label_updated_time_by: " تم تحديثه من قبل%{author} %{age} منذ"

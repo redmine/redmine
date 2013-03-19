@@ -160,7 +160,7 @@ sl:
   notice_not_authorized: Nimate privilegijev za dostop do te strani.
   notice_email_sent: "E-poštno sporočilo je bilo poslano %{value}"
   notice_email_error: "Ob pošiljanju e-sporočila je prišlo do napake (%{value})"
-  notice_feeds_access_key_reseted: Vaš RSS dostopni ključ je bil ponastavljen.
+  notice_feeds_access_key_reseted: Vaš Atom dostopni ključ je bil ponastavljen.
   notice_failed_to_save_issues: "Neuspelo shranjevanje %{count} zahtevka na %{total} izbranem: %{ids}."
   notice_no_issue_selected: "Izbran ni noben zahtevek! Prosimo preverite zahtevke, ki jih želite urediti."
   notice_account_pending: "Vaš račun je bil ustvarjen in čaka na potrditev s strani administratorja."
@@ -284,7 +284,7 @@ sl:
   setting_host_name: Ime gostitelja in pot
   setting_text_formatting: Oblikovanje besedila
   setting_wiki_compression: Stiskanje Wiki zgodovine
-  setting_feeds_limit: Meja obsega RSS virov
+  setting_feeds_limit: Meja obsega Atom virov
   setting_default_projects_public: Novi projekti so privzeto javni
   setting_autofetch_changesets: Samodejni izvleček zapisa sprememb
   setting_sys_api_enabled: Omogoči WS za upravljanje shrambe
@@ -580,7 +580,7 @@ sl:
   label_index_by_date: Razvrsti po datumu
   label_current_version: Trenutna verzija
   label_preview: Predogled
-  label_feed_plural: RSS viri
+  label_feed_plural: Atom viri
   label_changes_details: Podrobnosti o vseh spremembah
   label_issue_tracking: Sledenje zahtevkom
   label_spent_time: Porabljen čas
@@ -636,7 +636,7 @@ sl:
   label_language_based: Glede na uporabnikov jezik
   label_sort_by: "Razporedi po %{value}"
   label_send_test_email: Pošlji testno e-pismo
-  label_feeds_access_key_created_on: "RSS dostopni ključ narejen %{value} nazaj"
+  label_feeds_access_key_created_on: "Atom dostopni ključ narejen %{value} nazaj"
   label_module_plural: Moduli
   label_added_time_by: "Dodan %{author} %{age} nazaj"
   label_updated_time_by: "Posodobljen od %{author} %{age} nazaj"
@@ -870,11 +870,11 @@ sl:
   label_revision_id: Revizija %{value}
   label_api_access_key: API dostopni ključ
   label_api_access_key_created_on: API dostopni ključ ustvarjen pred %{value}
-  label_feeds_access_key: RSS dostopni ključ
+  label_feeds_access_key: Atom dostopni ključ
   notice_api_access_key_reseted: Vaš API dostopni ključ je bil ponastavljen.
   setting_rest_api_enabled: Omogoči REST spletni servis
   label_missing_api_access_key: Manjkajoč API dostopni ključ
-  label_missing_feeds_access_key: Manjkajoč RSS dostopni ključ
+  label_missing_feeds_access_key: Manjkajoč Atom dostopni ključ
   button_show: Prikaži
   text_line_separated: Dovoljenih več vrednosti (ena vrstica za vsako vrednost).
   setting_mail_handler_body_delimiters: Odreži e-pošto po eni od teh vrstic

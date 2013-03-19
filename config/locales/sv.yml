@@ -204,7 +204,7 @@ sv:
   notice_not_authorized_archived_project: Projektet du försöker komma åt har arkiverats.
   notice_email_sent: "Ett mail skickades till %{value}"
   notice_email_error: "Ett fel inträffade när mail skickades (%{value})"
-  notice_feeds_access_key_reseted: Din RSS-nyckel återställdes.
+  notice_feeds_access_key_reseted: Din Atom-nyckel återställdes.
   notice_api_access_key_reseted: Din API-nyckel återställdes.
   notice_failed_to_save_issues: "Misslyckades med att spara %{count} ärende(n) på %{total} valda: %{ids}."
   notice_failed_to_save_time_entries: "Misslyckades med att spara %{count} tidloggning(ar) på %{total} valda: %{ids}."
@@ -824,9 +824,9 @@ sv:
   label_language_based: Språkbaserad
   label_sort_by: "Sortera på %{value}"
   label_send_test_email: Skicka testmail
-  label_feeds_access_key: RSS-nyckel
-  label_missing_feeds_access_key: Saknar en RSS-nyckel
-  label_feeds_access_key_created_on: "RSS-nyckel skapad för %{value} sedan"
+  label_feeds_access_key: Atom-nyckel
+  label_missing_feeds_access_key: Saknar en Atom-nyckel
+  label_feeds_access_key_created_on: "Atom-nyckel skapad för %{value} sedan"
   label_module_plural: Moduler
   label_added_time_by: "Tillagd av %{author} för %{age} sedan"
   label_updated_time_by: "Uppdaterad av %{author} för %{age} sedan"

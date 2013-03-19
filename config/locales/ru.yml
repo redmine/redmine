@@ -498,8 +498,8 @@ ru:
   label_equals: соответствует
   label_example: Пример
   label_export_to: Экспортировать в
-  label_feed_plural: RSS
-  label_feeds_access_key_created_on: "Ключ доступа RSS создан %{value} назад"
+  label_feed_plural: Atom
+  label_feeds_access_key_created_on: "Ключ доступа Atom создан %{value} назад"
   label_f_hour: "%{value} час"
   label_f_hour_plural: "%{value} часов"
   label_file_added: Добавлен файл
@@ -774,7 +774,7 @@ ru:
   notice_email_sent: "Отправлено письмо %{value}"
   notice_failed_to_save_issues: "Не удалось сохранить %{count} пункт(ов) из %{total} выбранных: %{ids}."
   notice_failed_to_save_members: "Не удалось сохранить участника(ов): %{errors}."
-  notice_feeds_access_key_reseted: Ваш ключ доступа RSS был сброшен.
+  notice_feeds_access_key_reseted: Ваш ключ доступа Atom был сброшен.
   notice_file_not_found: Страница, на которую Вы пытаетесь зайти, не существует или удалена.
   notice_locking_conflict: Информация обновлена другим пользователем.
   notice_no_issue_selected: "Не выбрано ни одной задачи! Пожалуйста, отметьте задачи, которые Вы хотите отредактировать."
@@ -866,7 +866,7 @@ ru:
   setting_display_subprojects_issues: Отображение подпроектов по умолчанию
   setting_emails_footer: Подстрочные примечания письма
   setting_enabled_scm: Включённые SCM
-  setting_feeds_limit: Ограничение количества заголовков для RSS потока
+  setting_feeds_limit: Ограничение количества заголовков для Atom потока
   setting_file_max_size_displayed: Максимальный размер текстового файла для отображения
   setting_gravatar_enabled: Использовать аватар пользователя из Gravatar
   setting_host_name: Имя компьютера
@@ -1005,12 +1005,12 @@ ru:
   permission_view_issues: Просмотр задач
   label_display_used_statuses_only: Отображать только те статусы, которые используются в этом трекере
   label_api_access_key_created_on: Ключ доступ к API был создан %{value} назад
-  label_feeds_access_key: Ключ доступа к RSS
+  label_feeds_access_key: Ключ доступа к Atom
   notice_api_access_key_reseted: Ваш ключ доступа к API был сброшен.
   setting_rest_api_enabled: Включить веб-сервис REST
   button_show: Показать
   label_missing_api_access_key: Отсутствует ключ доступа к API
-  label_missing_feeds_access_key: Отсутствует ключ доступа к RSS
+  label_missing_feeds_access_key: Отсутствует ключ доступа к Atom
   setting_mail_handler_body_delimiters: Урезать письмо после одной из этих строк
   permission_add_subprojects: Создание подпроектов
   label_subproject_new: Новый подпроект

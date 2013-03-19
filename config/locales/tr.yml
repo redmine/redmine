@@ -183,7 +183,7 @@ tr:
   notice_not_authorized: Bu sayfaya erişme yetkiniz yok.
   notice_email_sent: "E-posta gönderildi %{value}"
   notice_email_error: "E-posta gönderilirken bir hata oluştu (%{value})"
-  notice_feeds_access_key_reseted: RSS erişim anahtarınız sıfırlandı.
+  notice_feeds_access_key_reseted: Atom erişim anahtarınız sıfırlandı.
   notice_failed_to_save_issues: "Failed to save %{count} issue(s) on %{total} selected: %{ids}."
   notice_no_issue_selected: "Seçili iş yok! Lütfen, düzenlemek istediğiniz işleri işaretleyin."
   notice_account_pending: "Hesabınız oluşturuldu ve yönetici onayı bekliyor."
@@ -595,7 +595,7 @@ tr:
   label_language_based: Kullanıcı dili bazlı
   label_sort_by: "%{value} göre sırala"
   label_send_test_email: Test e-postası gönder
-  label_feeds_access_key_created_on: "RSS erişim anahtarı %{value} önce oluşturuldu"
+  label_feeds_access_key_created_on: "Atom erişim anahtarı %{value} önce oluşturuldu"
   label_module_plural: Modüller
   label_added_time_by: "%{author} tarafından %{age} önce eklendi"
   label_updated_time: "%{value} önce güncellendi"
@@ -894,11 +894,11 @@ tr:
   label_revision_id: Değişiklik %{value}
   label_api_access_key: API erişim anahtarı
   label_api_access_key_created_on: API erişim anahtarı %{value} önce oluşturuldu
-  label_feeds_access_key: RSS erişim anahtarı
+  label_feeds_access_key: Atom erişim anahtarı
   notice_api_access_key_reseted: API erişim anahtarınız sıfırlandı.
   setting_rest_api_enabled: REST web servisini etkinleştir
   label_missing_api_access_key: Bir API erişim anahtarı eksik
-  label_missing_feeds_access_key: Bir RSS erişim anahtarı eksik
+  label_missing_feeds_access_key: Bir Atom erişim anahtarı eksik
   button_show: Göster
   text_line_separated: Çoklu değer girilebilir (her satıra bir değer).
   setting_mail_handler_body_delimiters: Şu satırların birinden sonra e-postayı sonlandır

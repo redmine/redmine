@@ -244,7 +244,7 @@
   notice_not_authorized_archived_project: 您欲存取的專案已經被封存。
   notice_email_sent: "郵件已經成功寄送至以下收件者： %{value}"
   notice_email_error: "寄送郵件的過程中發生錯誤 (%{value})"
-  notice_feeds_access_key_reseted: 您的 RSS 存取金鑰已被重新設定。
+  notice_feeds_access_key_reseted: 您的 Atom 存取金鑰已被重新設定。
   notice_api_access_key_reseted: 您的 API 存取金鑰已被重新設定。
   notice_failed_to_save_issues: "無法儲存 %{count} 問題到下列所選取的 %{total} 個項目中： %{ids}。"
   notice_failed_to_save_time_entries: "無法儲存 %{count} 個工時到下列所選取的 %{total} 個項目中： %{ids}。"
@@ -430,7 +430,7 @@
   setting_host_name: 主機名稱
   setting_text_formatting: 文字格式
   setting_wiki_compression: 壓縮 Wiki 歷史文章
-  setting_feeds_limit: RSS 新聞限制
+  setting_feeds_limit: Atom 新聞限制
   setting_autofetch_changesets: 自動擷取認可
   setting_default_projects_public: 新建立之專案預設為「公開」
   setting_sys_api_enabled: 啟用管理儲存機制的網頁服務 (Web Service)
@@ -868,9 +868,9 @@
   label_language_based: 依用戶之語系決定
   label_sort_by: "按 %{value} 排序"
   label_send_test_email: 寄送測試郵件
-  label_feeds_access_key: RSS 存取金鑰
-  label_missing_feeds_access_key: 找不到 RSS 存取金鑰
-  label_feeds_access_key_created_on: "RSS 存取鍵建立於 %{value} 之前"
+  label_feeds_access_key: Atom 存取金鑰
+  label_missing_feeds_access_key: 找不到 Atom 存取金鑰
+  label_feeds_access_key_created_on: "Atom 存取鍵建立於 %{value} 之前"
   label_module_plural: 模組
   label_added_time_by: "是由 %{author} 於 %{age} 前加入"
   label_updated_time_by: "是由 %{author} 於 %{age} 前更新"

@@ -451,7 +451,7 @@ es:
   label_f_hour: "%{value} hora"
   label_f_hour_plural: "%{value} horas"
   label_feed_plural: Feeds
-  label_feeds_access_key_created_on: "Clave de acceso por RSS creada hace %{value}"
+  label_feeds_access_key_created_on: "Clave de acceso por Atom creada hace %{value}"
   label_file_added: Fichero añadido
   label_file_plural: Archivos
   label_filter_add: Añadir el filtro
@@ -679,7 +679,7 @@ es:
   notice_email_error: "Ha ocurrido un error mientras enviando el correo (%{value})"
   notice_email_sent: "Se ha enviado un correo a %{value}"
   notice_failed_to_save_issues: "Imposible grabar %{count} peticion(es) de %{total} seleccionada(s): %{ids}."
-  notice_feeds_access_key_reseted: Su clave de acceso para RSS ha sido reiniciada.
+  notice_feeds_access_key_reseted: Su clave de acceso para Atom ha sido reiniciada.
   notice_file_not_found: La página a la que intenta acceder no existe.
   notice_locking_conflict: Los datos han sido modificados por otro usuario.
   notice_no_issue_selected: "Ninguna petición seleccionada. Por favor, compruebe la petición que quiere modificar"
@@ -910,11 +910,11 @@ es:
   label_revision_id: Revisión %{value}
   label_api_access_key: Clave de acceso de la API
   label_api_access_key_created_on: Clave de acceso de la API creada hace %{value}
-  label_feeds_access_key: Clave de acceso RSS
+  label_feeds_access_key: Clave de acceso Atom
   notice_api_access_key_reseted: Clave de acceso a la API regenerada.
   setting_rest_api_enabled: Activar servicio web REST
   label_missing_api_access_key: Clave de acceso a la API ausente
-  label_missing_feeds_access_key: Clave de accesso RSS ausente
+  label_missing_feeds_access_key: Clave de accesso Atom ausente
   button_show: Mostrar
   text_line_separated: Múltiples valores permitidos (un valor en cada línea).
   setting_mail_handler_body_delimiters: Truncar correos tras una de estas líneas

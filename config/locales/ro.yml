@@ -156,7 +156,7 @@ ro:
   notice_not_authorized: Nu sunteți autorizat sa accesați această pagină.
   notice_email_sent: "S-a trimis un email către %{value}"
   notice_email_error: "A intervenit o eroare la trimiterea de email (%{value})"
-  notice_feeds_access_key_reseted: Cheia de acces RSS a fost resetată.
+  notice_feeds_access_key_reseted: Cheia de acces Atom a fost resetată.
   notice_failed_to_save_issues: "Nu s-au putut salva %{count} tichete din cele %{total} selectate: %{ids}."
   notice_no_issue_selected: "Niciun tichet selectat! Vă rugăm să selectați tichetele pe care doriți să le editați."
   notice_account_pending: "Contul dumneavoastră a fost creat și așteaptă aprobarea administratorului."
@@ -868,11 +868,11 @@ ro:
   label_revision_id: Revision %{value}
   label_api_access_key: API access key
   label_api_access_key_created_on: API access key created %{value} ago
-  label_feeds_access_key: RSS access key
+  label_feeds_access_key: Atom access key
   notice_api_access_key_reseted: Your API access key was reset.
   setting_rest_api_enabled: Enable REST web service
   label_missing_api_access_key: Missing an API access key
-  label_missing_feeds_access_key: Missing a RSS access key
+  label_missing_feeds_access_key: Missing a Atom access key
   button_show: Show
   text_line_separated: Multiple values allowed (one line for each value).
   setting_mail_handler_body_delimiters: Truncate emails after one of these lines

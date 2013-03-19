@@ -162,7 +162,7 @@ el:
   notice_not_authorized: Δεν έχετε δικαίωμα πρόσβασης σε αυτή τη σελίδα.
   notice_email_sent: "Ένα μήνυμα ηλεκτρονικού ταχυδρομείου εστάλη στο %{value}"
   notice_email_error: "Σφάλμα κατά την αποστολή του μηνύματος στο (%{value})"
-  notice_feeds_access_key_reseted:  Έγινε επαναφορά στο κλειδί πρόσβασης RSS.
+  notice_feeds_access_key_reseted:  Έγινε επαναφορά στο κλειδί πρόσβασης Atom.
   notice_failed_to_save_issues: "Αποτυχία αποθήκευσης %{count} θεμα(των) από τα %{total} επιλεγμένα: %{ids}."
   notice_no_issue_selected: "Κανένα θέμα δεν είναι επιλεγμένο! Παρακαλούμε, ελέγξτε τα θέματα που θέλετε να επεξεργαστείτε."
   notice_account_pending: "Ο λογαριασμός σας έχει δημιουργηθεί και είναι σε στάδιο έγκρισης από τον διαχειριστή."
@@ -663,7 +663,7 @@ el:
   label_language_based: Με βάση τη γλώσσα του χρήστη
   label_sort_by: "Ταξινόμηση ανά %{value}"
   label_send_test_email: Αποστολή δοκιμαστικού email
-  label_feeds_access_key_created_on: "το κλειδί πρόσβασης RSS δημιουργήθηκε πριν από %{value}"
+  label_feeds_access_key_created_on: "το κλειδί πρόσβασης Atom δημιουργήθηκε πριν από %{value}"
   label_module_plural: Μονάδες
   label_added_time_by: "Προστέθηκε από τον %{author} πριν από %{age}"
   label_updated_time_by: "Ενημερώθηκε από τον %{author} πριν από %{age}"
@@ -873,11 +873,11 @@ el:
   label_revision_id: Revision %{value}
   label_api_access_key: API access key
   label_api_access_key_created_on: API access key created %{value} ago
-  label_feeds_access_key: RSS access key
+  label_feeds_access_key: Atom access key
   notice_api_access_key_reseted: Your API access key was reset.
   setting_rest_api_enabled: Enable REST web service
   label_missing_api_access_key: Missing an API access key
-  label_missing_feeds_access_key: Missing a RSS access key
+  label_missing_feeds_access_key: Missing a Atom access key
   button_show: Show
   text_line_separated: Multiple values allowed (one line for each value).
   setting_mail_handler_body_delimiters: Truncate emails after one of these lines

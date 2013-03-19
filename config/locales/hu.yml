@@ -182,7 +182,7 @@
   notice_not_authorized: Nincs hozzáférési engedélye ehhez az oldalhoz.
   notice_email_sent: "Egy e-mail üzenetet küldtünk a következő címre %{value}"
   notice_email_error: "Hiba történt a levél küldése közben (%{value})"
-  notice_feeds_access_key_reseted: Az RSS hozzáférési kulcsát újra generáltuk.
+  notice_feeds_access_key_reseted: Az Atom hozzáférési kulcsát újra generáltuk.
   notice_failed_to_save_issues: "Nem sikerült a %{count} feladat(ok) mentése a %{total} -ban kiválasztva: %{ids}."
   notice_no_issue_selected: "Nincs feladat kiválasztva! Kérem jelölje meg melyik feladatot szeretné szerkeszteni!"
   notice_account_pending: "A fiókja létrejött, és adminisztrátori jóváhagyásra vár."
@@ -301,7 +301,7 @@
   setting_host_name: Kiszolgáló neve
   setting_text_formatting: Szöveg formázás
   setting_wiki_compression: Wiki történet tömörítés
-  setting_feeds_limit: RSS tartalom korlát
+  setting_feeds_limit: Atom tartalom korlát
   setting_default_projects_public: Az új projektek alapértelmezés szerint nyilvánosak
   setting_autofetch_changesets: Commitok automatikus lehúzása
   setting_sys_api_enabled: WS engedélyezése a tárolók kezeléséhez
@@ -596,7 +596,7 @@
   label_language_based: A felhasználó nyelve alapján
   label_sort_by: "%{value} szerint rendezve"
   label_send_test_email: Teszt e-mail küldése
-  label_feeds_access_key_created_on: "RSS hozzáférési kulcs létrehozva %{value}"
+  label_feeds_access_key_created_on: "Atom hozzáférési kulcs létrehozva %{value}"
   label_module_plural: Modulok
   label_added_time_by: "%{author} adta hozzá %{age}"
   label_updated_time: "Utolsó módosítás %{value}"
@@ -892,11 +892,11 @@
   label_revision_id: Revízió %{value}
   label_api_access_key: API hozzáférési kulcs
   label_api_access_key_created_on: API hozzáférési kulcs létrehozva %{value} ezelőtt
-  label_feeds_access_key: RSS hozzáférési kulcs
+  label_feeds_access_key: Atom hozzáférési kulcs
   notice_api_access_key_reseted: Az API hozzáférési kulcsa újragenerálva.
   setting_rest_api_enabled: REST web service engedélyezése
   label_missing_api_access_key: Egy API hozzáférési kulcs hiányzik
-  label_missing_feeds_access_key: RSS hozzáférési kulcs hiányzik
+  label_missing_feeds_access_key: Atom hozzáférési kulcs hiányzik
   button_show: Megmutat
   text_line_separated: Több érték megadása lehetséges (soronként 1 érték).
   setting_mail_handler_body_delimiters: E-mailek levágása a következő sorok valamelyike esetén

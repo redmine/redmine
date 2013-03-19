@@ -162,7 +162,7 @@ fa:
   notice_not_authorized_archived_project: پروژه درخواستی شما بایگانی شده است.
   notice_email_sent: "یک ایمیل به %{value} فرستاده شد."
   notice_email_error: "یک ایراد در فرستادن ایمیل پیش آمد (%{value})."
-  notice_feeds_access_key_reseted: کلید دسترسی RSS شما بازنشانی شد.
+  notice_feeds_access_key_reseted: کلید دسترسی Atom شما بازنشانی شد.
   notice_api_access_key_reseted: کلید دسترسی API شما بازنشانی شد.
   notice_failed_to_save_issues: "ذخیره سازی %{count} پیامد از %{total} پیامد گزینش شده شکست خورد: %{ids}."
   notice_failed_to_save_members: "ذخیره سازی اعضا شکست خورد: %{errors}."
@@ -715,9 +715,9 @@ fa:
   label_language_based: بر اساس زبان کاربر
   label_sort_by: "جور کرد با %{value}"
   label_send_test_email: فرستادن ایمیل آزمایشی
-  label_feeds_access_key: کلید دسترسی RSS
-  label_missing_feeds_access_key: کلید دسترسی RSS در دسترس نیست
-  label_feeds_access_key_created_on: "کلید دسترسی RSS %{value} پیش ساخته شده است"
+  label_feeds_access_key: کلید دسترسی Atom
+  label_missing_feeds_access_key: کلید دسترسی Atom در دسترس نیست
+  label_feeds_access_key_created_on: "کلید دسترسی Atom %{value} پیش ساخته شده است"
   label_module_plural: پیمانه
   label_added_time_by: "افزوده شده به دست %{author} در %{age} پیش"
   label_updated_time_by: "بروز شده به دست %{author} در %{age} پیش"

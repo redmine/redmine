@@ -162,7 +162,7 @@ sr:
   notice_not_authorized: Нисте овлашћени за приступ овој страни.
   notice_email_sent: "E-порука је послата на %{value}"
   notice_email_error: "Догодила се грешка приликом слања е-поруке (%{value})"
-  notice_feeds_access_key_reseted: Ваш RSS приступни кључ је поништен.
+  notice_feeds_access_key_reseted: Ваш Atom приступни кључ је поништен.
   notice_api_access_key_reseted: Ваш API приступни кључ је поништен.
   notice_failed_to_save_issues: "Неуспешно снимање %{count} проблема од %{total} одабраних: %{ids}."
   notice_failed_to_save_members: "Неуспешно снимање члана(ова): %{errors}."
@@ -702,9 +702,9 @@ sr:
   label_language_based: Базирано на језику корисника
   label_sort_by: "Сортирано по %{value}"
   label_send_test_email: Слање пробне е-поруке
-  label_feeds_access_key: RSS приступни кључ
-  label_missing_feeds_access_key: RSS приступни кључ недостаје
-  label_feeds_access_key_created_on: "RSS приступни кључ је направљен пре %{value}"
+  label_feeds_access_key: Atom приступни кључ
+  label_missing_feeds_access_key: Atom приступни кључ недостаје
+  label_feeds_access_key_created_on: "Atom приступни кључ је направљен пре %{value}"
   label_module_plural: Модули
   label_added_time_by: "Додао %{author} пре %{age}"
   label_updated_time_by: "Ажурирао %{author} пре %{age}"

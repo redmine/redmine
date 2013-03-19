@@ -164,7 +164,7 @@ ca:
   notice_not_authorized: No teniu permís per a accedir a aquesta pàgina.
   notice_email_sent: "S'ha enviat un correu electrònic a %{value}"
   notice_email_error: "S'ha produït un error en enviar el correu (%{value})"
-  notice_feeds_access_key_reseted: "S'ha reiniciat la clau d'accés del RSS."
+  notice_feeds_access_key_reseted: "S'ha reiniciat la clau d'accés del Atom."
   notice_api_access_key_reseted: "S'ha reiniciat la clau d'accés a l'API."
   notice_failed_to_save_issues: "No s'han pogut desar %{count} assumptes de %{total} seleccionats: %{ids}."
   notice_failed_to_save_members: "No s'han pogut desar els membres: %{errors}."
@@ -707,9 +707,9 @@ ca:
   label_language_based: "Basat en l'idioma de l'usuari"
   label_sort_by: "Ordena per %{value}"
   label_send_test_email: Envia un correu electrònic de prova
-  label_feeds_access_key: "Clau d'accés del RSS"
-  label_missing_feeds_access_key: "Falta una clau d'accés del RSS"
-  label_feeds_access_key_created_on: "Clau d'accés del RSS creada fa %{value}"
+  label_feeds_access_key: "Clau d'accés del Atom"
+  label_missing_feeds_access_key: "Falta una clau d'accés del Atom"
+  label_feeds_access_key_created_on: "Clau d'accés del Atom creada fa %{value}"
   label_module_plural: Mòduls
   label_added_time_by: "Afegit per %{author} fa %{age}"
   label_updated_time_by: "Actualitzat per %{author} fa %{age}"

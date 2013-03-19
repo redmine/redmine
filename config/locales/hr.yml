@@ -156,7 +156,7 @@ hr:
   notice_not_authorized: Niste ovlašteni za pristup ovoj stranici.
   notice_email_sent: E-mail je poslan %{value}"
   notice_email_error: Dogodila se pogreška tijekom slanja E-maila (%{value})"
-  notice_feeds_access_key_reseted: Vaš RSS pristup je resetovan.
+  notice_feeds_access_key_reseted: Vaš Atom pristup je resetovan.
   notice_api_access_key_reseted: Vaš API pristup je resetovan.
   notice_failed_to_save_issues: "Neuspjelo spremanje %{count} predmeta na %{total} odabrane: %{ids}."
   notice_no_issue_selected: "Niti jedan predmet nije odabran! Molim, odaberite predmete koje želite urediti."
@@ -678,9 +678,9 @@ hr:
   label_language_based: Zasnovano na jeziku
   label_sort_by: "Uredi po %{value}"
   label_send_test_email: Pošalji testno E-pismo
-  label_feeds_access_key: RSS access key
-  label_missing_feeds_access_key: Missing a RSS access key
-  label_feeds_access_key_created_on: "RSS kljuc za pristup je napravljen prije %{value}"
+  label_feeds_access_key: Atom access key
+  label_missing_feeds_access_key: Missing a Atom access key
+  label_feeds_access_key_created_on: "Atom kljuc za pristup je napravljen prije %{value}"
   label_module_plural: Moduli
   label_added_time_by: "Promijenio %{author} prije %{age}"
   label_updated_time_by: "Dodao/la %{author} prije %{age}"

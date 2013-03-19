@@ -166,7 +166,7 @@ it:
   notice_not_authorized: Non sei autorizzato ad accedere a questa pagina.
   notice_email_sent: "Una email è stata spedita a %{value}"
   notice_email_error: "Si è verificato un errore durante l'invio di una email (%{value})"
-  notice_feeds_access_key_reseted: La tua chiave di accesso RSS è stata reimpostata.
+  notice_feeds_access_key_reseted: La tua chiave di accesso Atom è stata reimpostata.
 
   error_scm_not_found: "La risorsa e/o la versione non esistono nel repository."
   error_scm_command_failed: "Si è verificato un errore durante l'accesso al repository: %{value}"
@@ -524,7 +524,7 @@ it:
   label_language_based: Basato sul linguaggio
   label_sort_by: "Ordina per %{value}"
   label_send_test_email: Invia una email di prova
-  label_feeds_access_key_created_on: "chiave di accesso RSS creata %{value} fa"
+  label_feeds_access_key_created_on: "chiave di accesso Atom creata %{value} fa"
   label_module_plural: Moduli
   label_added_time_by: "Aggiunto da %{author} %{age} fa"
   label_updated_time: "Aggiornato %{value} fa"
@@ -874,11 +874,11 @@ it:
   label_revision_id: Revisione %{value}
   label_api_access_key: Chiave di accesso API
   label_api_access_key_created_on: Chiave di accesso API creata %{value} fa
-  label_feeds_access_key: Chiave di accesso RSS
+  label_feeds_access_key: Chiave di accesso Atom
   notice_api_access_key_reseted: La chiave di accesso API è stata reimpostata.
   setting_rest_api_enabled: Abilita il servizio web REST
   label_missing_api_access_key: Chiave di accesso API mancante
-  label_missing_feeds_access_key: Chiave di accesso RSS mancante
+  label_missing_feeds_access_key: Chiave di accesso Atom mancante
   button_show: Mostra
   text_line_separated: Valori multipli permessi (un valore per ogni riga).
   setting_mail_handler_body_delimiters: Tronca email dopo una di queste righe

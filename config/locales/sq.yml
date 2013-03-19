@@ -162,7 +162,7 @@ sq:
   notice_not_authorized_archived_project: Projekti, qe po tentoni te te aksesoni eshte arkivuar.
   notice_email_sent: "Nje email eshte derguar ne %{value}"
   notice_email_error: "Pati nje gabim gjate dergimit te email-it (%{value})"
-  notice_feeds_access_key_reseted: Your RSS access key was reset.
+  notice_feeds_access_key_reseted: Your Atom access key was reset.
   notice_api_access_key_reseted: Your API access key was reset.
   notice_failed_to_save_issues: "Deshtoi ne ruajtjen e %{count} ceshtje(ve) ne %{total} te zgjedhura: %{ids}."
   notice_failed_to_save_time_entries: "Deshtoi ne ruajtjen e %{count} time entrie(s) ne %{total} te zgjedhura: %{ids}."
@@ -753,9 +753,9 @@ sq:
   label_language_based: Based on user's language
   label_sort_by: "Sort by %{value}"
   label_send_test_email: Send a test email
-  label_feeds_access_key: RSS access key
-  label_missing_feeds_access_key: Missing a RSS access key
-  label_feeds_access_key_created_on: "RSS access key created %{value} ago"
+  label_feeds_access_key: Atom access key
+  label_missing_feeds_access_key: Missing a Atom access key
+  label_feeds_access_key_created_on: "Atom access key created %{value} ago"
   label_module_plural: Modules
   label_added_time_by: "Added by %{author} %{age} ago"
   label_updated_time_by: "Updated by %{author} %{age} ago"

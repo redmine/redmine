@@ -186,7 +186,7 @@ fi:
   notice_not_authorized: Sinulla ei ole oikeutta näyttää tätä sivua.
   notice_email_sent: "Sähköposti on lähetty osoitteeseen %{value}"
   notice_email_error: "Sähköpostilähetyksessä tapahtui virhe (%{value})"
-  notice_feeds_access_key_reseted: RSS salasana on nollaantunut.
+  notice_feeds_access_key_reseted: Atom salasana on nollaantunut.
   notice_failed_to_save_issues: "%{count} Tapahtum(an/ien) tallennus epäonnistui %{total} valitut: %{ids}."
   notice_no_issue_selected: "Tapahtumia ei ole valittu! Valitse tapahtumat joita haluat muokata."
   notice_account_pending: "Tilisi on luotu ja odottaa ylläpitäjän hyväksyntää."
@@ -563,7 +563,7 @@ fi:
   label_language_based: Pohjautuen käyttäjän kieleen
   label_sort_by: "Lajittele %{value}"
   label_send_test_email: Lähetä testi sähköposti
-  label_feeds_access_key_created_on: "RSS salasana luotiin %{value} sitten"
+  label_feeds_access_key_created_on: "Atom salasana luotiin %{value} sitten"
   label_module_plural: Moduulit
   label_added_time_by: "Lisännyt %{author} %{age} sitten"
   label_updated_time: "Päivitetty %{value} sitten"
@@ -894,11 +894,11 @@ fi:
   label_revision_id: Revision %{value}
   label_api_access_key: API access key
   label_api_access_key_created_on: API access key created %{value} ago
-  label_feeds_access_key: RSS access key
+  label_feeds_access_key: Atom access key
   notice_api_access_key_reseted: Your API access key was reset.
   setting_rest_api_enabled: Enable REST web service
   label_missing_api_access_key: Missing an API access key
-  label_missing_feeds_access_key: Missing a RSS access key
+  label_missing_feeds_access_key: Missing a Atom access key
   button_show: Show
   text_line_separated: Multiple values allowed (one line for each value).
   setting_mail_handler_body_delimiters: Truncate emails after one of these lines

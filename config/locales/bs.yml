@@ -168,7 +168,7 @@ bs:
   notice_email_error: Došlo je do greške pri slanju emaila (%{value})
   notice_email_sent: "Email je poslan %{value}"
   notice_failed_to_save_issues: "Neuspješno snimanje %{count} aktivnosti na %{total} izabrano: %{ids}."
-  notice_feeds_access_key_reseted: Vaš RSS pristup je resetovan.
+  notice_feeds_access_key_reseted: Vaš Atom pristup je resetovan.
   notice_file_not_found: Stranica kojoj pokušavate da pristupite ne postoji ili je uklonjena.
   notice_locking_conflict: "Konflikt: podaci su izmjenjeni od strane drugog korisnika."
   notice_no_issue_selected: "Nijedna aktivnost nije izabrana! Molim, izaberite aktivnosti koje želite za ispravljate."
@@ -303,7 +303,7 @@ bs:
   setting_text_formatting: Formatiranje teksta
   setting_wiki_compression: Kompresija Wiki istorije
 
-  setting_feeds_limit: 'Limit za "RSS" feed-ove'
+  setting_feeds_limit: 'Limit za "Atom" feed-ove'
   setting_default_projects_public: Podrazumjeva se da je novi projekat javni
   setting_autofetch_changesets: 'Automatski kupi "commit"-e'
   setting_sys_api_enabled: 'Omogući "WS" za upravljanje repozitorijom'
@@ -660,7 +660,7 @@ bs:
   label_language_based: Bazirano na korisnikovom jeziku
   label_sort_by: "Sortiraj po %{value}"
   label_send_test_email: Pošalji testni email
-  label_feeds_access_key_created_on: "RSS pristupni ključ kreiran prije %{value} dana"
+  label_feeds_access_key_created_on: "Atom pristupni ključ kreiran prije %{value} dana"
   label_module_plural: Moduli
   label_added_time_by: "Dodano od %{author} prije %{age}"
   label_updated_time_by: "Izmjenjeno od %{author} prije %{age}"
@@ -886,11 +886,11 @@ bs:
   label_revision_id: Revision %{value}
   label_api_access_key: API access key
   label_api_access_key_created_on: API access key created %{value} ago
-  label_feeds_access_key: RSS access key
+  label_feeds_access_key: Atom access key
   notice_api_access_key_reseted: Your API access key was reset.
   setting_rest_api_enabled: Enable REST web service
   label_missing_api_access_key: Missing an API access key
-  label_missing_feeds_access_key: Missing a RSS access key
+  label_missing_feeds_access_key: Missing a Atom access key
   button_show: Show
   text_line_separated: Multiple values allowed (one line for each value).
   setting_mail_handler_body_delimiters: Truncate emails after one of these lines

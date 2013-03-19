@@ -162,7 +162,7 @@ mk:
   notice_not_authorized: You are not authorized to access this page.
   notice_email_sent: "Е-порака е пратена на %{value}"
   notice_email_error: "Се случи грешка при праќање на е-пораката (%{value})"
-  notice_feeds_access_key_reseted: Вашиот RSS клуч за пристап е reset.
+  notice_feeds_access_key_reseted: Вашиот Atom клуч за пристап е reset.
   notice_api_access_key_reseted: Вашиот API клуч за пристап е reset.
   notice_failed_to_save_issues: "Failed to save %{count} issue(s) on %{total} selected: %{ids}."
   notice_failed_to_save_members: "Failed to save member(s): %{errors}."
@@ -704,9 +704,9 @@ mk:
   label_language_based: Според јазикот на корисникот
   label_sort_by: "Подреди според %{value}"
   label_send_test_email: Испрати тест е-порака
-  label_feeds_access_key: RSS клуч за пристап
-  label_missing_feeds_access_key: Недостика RSS клуч за пристап
-  label_feeds_access_key_created_on: "RSS клучот за пристап креиран пред %{value}"
+  label_feeds_access_key: Atom клуч за пристап
+  label_missing_feeds_access_key: Недостика Atom клуч за пристап
+  label_feeds_access_key_created_on: "Atom клучот за пристап креиран пред %{value}"
   label_module_plural: Модули
   label_added_time_by: "Додадено од %{author} пред %{age}"
   label_updated_time_by: "Ажурирано од %{author} пред %{age}"

@@ -179,7 +179,7 @@ fr:
   notice_not_authorized_archived_project: Le projet auquel vous tentez d'accéder a été archivé.
   notice_email_sent: "Un email a été envoyé à %{value}"
   notice_email_error: "Erreur lors de l'envoi de l'email (%{value})"
-  notice_feeds_access_key_reseted: "Votre clé d'accès aux flux RSS a été réinitialisée."
+  notice_feeds_access_key_reseted: "Votre clé d'accès aux flux Atom a été réinitialisée."
   notice_failed_to_save_issues: "%{count} demande(s) sur les %{total} sélectionnées n'ont pas pu être mise(s) à jour : %{ids}."
   notice_failed_to_save_time_entries: "%{count} temps passé(s) sur les %{total} sélectionnés n'ont pas pu être mis à jour: %{ids}."
   notice_no_issue_selected: "Aucune demande sélectionnée ! Cochez les demandes que vous voulez mettre à jour."
@@ -712,7 +712,7 @@ fr:
   label_index_by_date: Index par date
   label_current_version: Version actuelle
   label_preview: Prévisualisation
-  label_feed_plural: Flux RSS
+  label_feed_plural: Flux Atom
   label_changes_details: Détails de tous les changements
   label_issue_tracking: Suivi des demandes
   label_spent_time: Temps passé
@@ -770,7 +770,7 @@ fr:
   label_language_based: Basé sur la langue de l'utilisateur
   label_sort_by: "Trier par %{value}"
   label_send_test_email: Envoyer un email de test
-  label_feeds_access_key_created_on: "Clé d'accès RSS créée il y a %{value}"
+  label_feeds_access_key_created_on: "Clé d'accès Atom créée il y a %{value}"
   label_module_plural: Modules
   label_added_time_by: "Ajouté par %{author} il y a %{age}"
   label_updated_time_by: "Mis à jour par %{author} il y a %{age}"
@@ -832,9 +832,9 @@ fr:
   label_display_used_statuses_only: N'afficher que les statuts utilisés dans ce tracker
   label_api_access_key: Clé d'accès API
   label_api_access_key_created_on: Clé d'accès API créée il y a %{value}
-  label_feeds_access_key: Clé d'accès RSS
+  label_feeds_access_key: Clé d'accès Atom
   label_missing_api_access_key: Clé d'accès API manquante
-  label_missing_feeds_access_key: Clé d'accès RSS manquante
+  label_missing_feeds_access_key: Clé d'accès Atom manquante
   label_close_versions: Fermer les versions terminées
   label_revision_id: Révision %{value}
   label_profile: Profil

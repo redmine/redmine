@@ -181,7 +181,7 @@ pt-BR:
   notice_not_authorized: Você não está autorizado a acessar esta página.
   notice_email_sent: "Um e-mail foi enviado para %{value}"
   notice_email_error: "Ocorreu um erro ao enviar o e-mail (%{value})"
-  notice_feeds_access_key_reseted: Sua chave RSS foi reconfigurada.
+  notice_feeds_access_key_reseted: Sua chave Atom foi reconfigurada.
   notice_failed_to_save_issues: "Problema ao salvar %{count} tarefa(s) de %{total} selecionadas: %{ids}."
   notice_no_issue_selected: "Nenhuma tarefa selecionada! Por favor, marque as tarefas que você deseja editar."
   notice_account_pending: "Sua conta foi criada e está aguardando aprovação do administrador."
@@ -607,7 +607,7 @@ pt-BR:
   label_language_based: Com base no idioma do usuário
   label_sort_by: "Ordenar por %{value}"
   label_send_test_email: Enviar um e-mail de teste
-  label_feeds_access_key_created_on: "chave de acesso RSS criada %{value} atrás"
+  label_feeds_access_key_created_on: "chave de acesso Atom criada %{value} atrás"
   label_module_plural: Módulos
   label_added_time_by: "Adicionado por %{author} %{age} atrás"
   label_updated_time: "Atualizado %{value} atrás"
@@ -895,11 +895,11 @@ pt-BR:
   label_api_access_key: Chave de acesso a API
   button_show: Exibir
   label_api_access_key_created_on: Chave de acesso a API criado a %{value} atrás
-  label_feeds_access_key: Chave de acesso ao RSS
+  label_feeds_access_key: Chave de acesso ao Atom
   notice_api_access_key_reseted: Sua chave de acesso a API foi redefinida.
   setting_rest_api_enabled: Habilitar a api REST
   label_missing_api_access_key: Chave de acesso a API faltando
-  label_missing_feeds_access_key: Chave de acesso ao RSS faltando
+  label_missing_feeds_access_key: Chave de acesso ao Atom faltando
   text_line_separated: Múltiplos valores permitidos (uma linha para cada valor).
   setting_mail_handler_body_delimiters: Truncar e-mails após uma destas linhas
   permission_add_subprojects: Criar subprojetos

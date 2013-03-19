@@ -170,7 +170,7 @@ pt:
   notice_not_authorized: Não está autorizado a visualizar esta página.
   notice_email_sent: "Foi enviado um e-mail para %{value}"
   notice_email_error: "Ocorreu um erro ao enviar o e-mail (%{value})"
-  notice_feeds_access_key_reseted: A sua chave de RSS foi inicializada.
+  notice_feeds_access_key_reseted: A sua chave de Atom foi inicializada.
   notice_failed_to_save_issues: "Não foi possível guardar %{count} tarefa(s) das %{total} seleccionadas: %{ids}."
   notice_no_issue_selected: "Nenhuma tarefa seleccionada! Por favor, seleccione as tarefas que quer editar."
   notice_account_pending: "A sua conta foi criada e está agora à espera de aprovação do administrador."
@@ -594,7 +594,7 @@ pt:
   label_language_based: Baseado na língua do utilizador
   label_sort_by: "Ordenar por %{value}"
   label_send_test_email: enviar um e-mail de teste
-  label_feeds_access_key_created_on: "Chave RSS criada há %{value} atrás"
+  label_feeds_access_key_created_on: "Chave Atom criada há %{value} atrás"
   label_module_plural: Módulos
   label_added_time_by: "Adicionado por %{author} há %{age} atrás"
   label_updated_time: "Alterado há %{value} atrás"
@@ -879,11 +879,11 @@ pt:
   label_revision_id: Revisão %{value}
   label_api_access_key: Chave de acesso API
   label_api_access_key_created_on: Chave de acesso API criada há %{value}
-  label_feeds_access_key: Chave de acesso RSS
+  label_feeds_access_key: Chave de acesso Atom
   notice_api_access_key_reseted: A sua chave de acesso API foi reinicializada.
   setting_rest_api_enabled: Activar serviço Web REST
   label_missing_api_access_key: Chave de acesso API em falta
-  label_missing_feeds_access_key: Chave de acesso RSS em falta
+  label_missing_feeds_access_key: Chave de acesso Atom em falta
   button_show: Mostrar
   text_line_separated: Vários valores permitidos (uma linha para cada valor).
   setting_mail_handler_body_delimiters: Truncar mensagens de correio electrónico após uma destas linhas

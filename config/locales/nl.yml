@@ -397,7 +397,7 @@ nl:
   label_f_hour: "%{value} uur"
   label_f_hour_plural: "%{value} uren"
   label_feed_plural: Feeds
-  label_feeds_access_key_created_on: "RSS toegangssleutel %{value} geleden gemaakt."
+  label_feeds_access_key_created_on: "Atom toegangssleutel %{value} geleden gemaakt."
   label_file_added: Bestand toegevoegd
   label_file_plural: Bestanden
   label_filter_add: Voeg filter toe
@@ -625,7 +625,7 @@ nl:
   notice_email_error: "Er is een fout opgetreden tijdens het versturen van (%{value})"
   notice_email_sent: "Een e-mail werd verstuurd naar %{value}"
   notice_failed_to_save_issues: "Fout bij bewaren van %{count} issue(s) (%{total} geselecteerd): %{ids}."
-  notice_feeds_access_key_reseted: Je RSS toegangssleutel werd gereset.
+  notice_feeds_access_key_reseted: Je Atom toegangssleutel werd gereset.
   notice_file_not_found: De pagina die u probeerde te benaderen bestaat niet of is verwijderd.
   notice_locking_conflict: De gegevens zijn gewijzigd door een andere gebruiker.
   notice_no_issue_selected: "Er is geen issue geselecteerd. Selecteer de issue die u wilt bewerken."
@@ -856,11 +856,11 @@ nl:
   label_revision_id: Revisie %{value}
   label_api_access_key: API access key
   label_api_access_key_created_on: API access key gemaakt %{value} geleden
-  label_feeds_access_key: RSS access key
+  label_feeds_access_key: Atom access key
   notice_api_access_key_reseted: Uw API access key was gereset.
   setting_rest_api_enabled: Activeer REST web service
   label_missing_api_access_key: Geen API access key
-  label_missing_feeds_access_key: Geen RSS access key
+  label_missing_feeds_access_key: Geen Atom access key
   button_show: Laat zien
   text_line_separated: Meerdere waarden toegestaan (elke regel is een waarde).
   setting_mail_handler_body_delimiters: Breek email verwerking af na een van deze regels

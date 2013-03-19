@@ -151,7 +151,7 @@
   notice_not_authorized: Du har ikke adgang til denne siden.
   notice_email_sent: "En e-post er sendt til %{value}"
   notice_email_error: "En feil oppstod under sending av e-post (%{value})"
-  notice_feeds_access_key_reseted: Din RSS-tilgangsnøkkel er nullstilt.
+  notice_feeds_access_key_reseted: Din Atom-tilgangsnøkkel er nullstilt.
   notice_failed_to_save_issues: "Lykkes ikke å lagre %{count} sak(er) på %{total} valgt: %{ids}."
   notice_no_issue_selected: "Ingen sak valgt! Vennligst merk sakene du vil endre."
   notice_account_pending: "Din konto ble opprettet og avventer nå administrativ godkjenning."
@@ -568,7 +568,7 @@
   label_language_based: Basert på brukerens språk
   label_sort_by: "Sorter etter %{value}"
   label_send_test_email: Send en epost-test
-  label_feeds_access_key_created_on: "RSS tilgangsnøkkel opprettet for %{value} siden"
+  label_feeds_access_key_created_on: "Atom tilgangsnøkkel opprettet for %{value} siden"
   label_module_plural: Moduler
   label_added_time_by: "Lagt til av %{author} for %{age} siden"
   label_updated_time: "Oppdatert for %{value} siden"
@@ -860,11 +860,11 @@
   label_revision_id: Revision %{value}
   label_api_access_key: API tilgangsnøkkel
   label_api_access_key_created_on: API tilgangsnøkkel opprettet for %{value} siden
-  label_feeds_access_key: RSS tilgangsnøkkel
+  label_feeds_access_key: Atom tilgangsnøkkel
   notice_api_access_key_reseted: Din API tilgangsnøkkel ble resatt.
   setting_rest_api_enabled: Aktiver REST webservice
   label_missing_api_access_key: Mangler en API tilgangsnøkkel
-  label_missing_feeds_access_key: Mangler en RSS tilgangsnøkkel
+  label_missing_feeds_access_key: Mangler en Atom tilgangsnøkkel
   button_show: Vis
   text_line_separated: Flere verdier er tillatt (en linje per verdi).
   setting_mail_handler_body_delimiters: Avkort epost etter en av disse linjene

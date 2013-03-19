@@ -161,7 +161,7 @@ mn:
   notice_not_authorized: Танд энэ хуудсыг үзэх эрх байхгүй байна.
   notice_email_sent: "%{value} - руу мэйл илгээлээ"
   notice_email_error: "Мэйл илгээхэд алдаа гарлаа (%{value})"
-  notice_feeds_access_key_reseted: Таны RSS хандалтын түлхүүрийг дахин эхлүүллээ.
+  notice_feeds_access_key_reseted: Таны Atom хандалтын түлхүүрийг дахин эхлүүллээ.
   notice_api_access_key_reseted: Your API access key was reset.
   notice_failed_to_save_issues: "%{total} асуудал сонгогдсоноос %{count} асуудлыг нь хадгалахад алдаа гарлаа: %{ids}."
   notice_no_issue_selected: "Ямар ч асуудал сонгогдоогүй байна! Засварлах асуудлуудаа сонгоно уу."
@@ -690,9 +690,9 @@ mn:
   label_language_based: Хэрэглэгчийн хэлнас шалтгаалан
   label_sort_by: "%{value} талбараар нь эрэмбэлэх"
   label_send_test_email: Турших мэйл илгээх
-  label_feeds_access_key: RSS хандах түлхүүр
-  label_missing_feeds_access_key: RSS хандах түлхүүр алга
-  label_feeds_access_key_created_on: "RSS хандалтын түлхүүр %{value}-ийн өмнө үүссэн"
+  label_feeds_access_key: Atom хандах түлхүүр
+  label_missing_feeds_access_key: Atom хандах түлхүүр алга
+  label_feeds_access_key_created_on: "Atom хандалтын түлхүүр %{value}-ийн өмнө үүссэн"
   label_module_plural: Модулууд
   label_added_time_by: "%{author} %{age}-ийн өмнө нэмсэн"
   label_updated_time_by: "%{author} %{age}-ийн өмнө өөрчилсөн"

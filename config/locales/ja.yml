@@ -191,7 +191,7 @@ ja:
   notice_not_authorized_archived_project: プロジェクトはアーカイブされています。
   notice_email_sent: "%{value} 宛にメールを送信しました。"
   notice_email_error: "メール送信中にエラーが発生しました (%{value})"
-  notice_feeds_access_key_reseted: RSSアクセスキーを初期化しました。
+  notice_feeds_access_key_reseted: Atomアクセスキーを初期化しました。
   notice_api_access_key_reseted: APIアクセスキーを初期化しました。
   notice_failed_to_save_issues: "全%{total}件中%{count}件のチケットが保存できませんでした: %{ids}."
   notice_failed_to_save_members: "メンバーの保存に失敗しました: %{errors}."
@@ -758,9 +758,9 @@ ja:
   label_language_based: ユーザーの言語の設定に従う
   label_sort_by: "並び替え %{value}"
   label_send_test_email: テストメールを送信
-  label_feeds_access_key: RSSアクセスキー
-  label_missing_feeds_access_key: RSSアクセスキーが見つかりません
-  label_feeds_access_key_created_on: "RSSアクセスキーは%{value}前に作成されました"
+  label_feeds_access_key: Atomアクセスキー
+  label_missing_feeds_access_key: Atomアクセスキーが見つかりません
+  label_feeds_access_key_created_on: "Atomアクセスキーは%{value}前に作成されました"
   label_module_plural: モジュール
   label_added_time_by: "%{author} が%{age}前に追加"
   label_updated_time_by: "%{author} が%{age}前に更新"

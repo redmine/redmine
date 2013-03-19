@@ -219,7 +219,7 @@ lt:
   notice_not_authorized_archived_project: Projektas, kurį bandote atidaryti, buvo suarchyvuotas.
   notice_email_sent: "Laiškas išsiųstas %{value}"
   notice_email_error: "Laiško siuntimo metu įvyko klaida (%{value})"
-  notice_feeds_access_key_reseted: Jūsų RSS raktas buvo atnaujintas.
+  notice_feeds_access_key_reseted: Jūsų Atom raktas buvo atnaujintas.
   notice_api_access_key_reseted: Jūsų API prieigos raktas buvo atnaujintas.
   notice_failed_to_save_issues: "Nepavyko išsaugoti %{count} problemos(ų) iš %{total} pasirinkto: %{ids}."
   notice_failed_to_save_members: "Nepavyko išsaugoti nario(ių): %{errors}."
@@ -798,9 +798,9 @@ lt:
   label_language_based: Pagrįsta vartotojo kalba
   label_sort_by: "Rūšiuoti pagal %{value}"
   label_send_test_email: Nusiųsti bandomąjį laišką
-  label_feeds_access_key: RSS prieigos raktas 
-  label_missing_feeds_access_key: TRūksta RSS prieigos rakto
-  label_feeds_access_key_created_on: "RSS prieigos raktas sukurtas prieš %{value}"
+  label_feeds_access_key: Atom prieigos raktas 
+  label_missing_feeds_access_key: TRūksta Atom prieigos rakto
+  label_feeds_access_key_created_on: "Atom prieigos raktas sukurtas prieš %{value}"
   label_module_plural: Moduliai
   label_added_time_by: "Pridėjo %{author} prieš %{age}"
   label_updated_time_by: "Atnaujino %{author} prieš %{age}"

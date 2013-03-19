@@ -178,7 +178,7 @@ da:
   notice_not_authorized: Du har ikke adgang til denne side.
   notice_email_sent: "En email er sendt til %{value}"
   notice_email_error: "En fejl opstod under afsendelse af email (%{value})"
-  notice_feeds_access_key_reseted: Din adgangsnøgle til RSS er nulstillet.
+  notice_feeds_access_key_reseted: Din adgangsnøgle til Atom er nulstillet.
   notice_failed_to_save_issues: "Det mislykkedes at gemme %{count} sage(r) på %{total} valgt: %{ids}."
   notice_no_issue_selected: "Ingen sag er valgt! Vælg venligst hvilke emner du vil rette."
   notice_account_pending: "Din konto er oprettet, og afventer administrators godkendelse."
@@ -582,7 +582,7 @@ da:
   label_language_based: Baseret på brugerens sprog
   label_sort_by: "Sortér efter %{value}"
   label_send_test_email: Send en test email
-  label_feeds_access_key_created_on: "RSS adgangsnøgle dannet for %{value} siden"
+  label_feeds_access_key_created_on: "Atom adgangsnøgle dannet for %{value} siden"
   label_module_plural: Moduler
   label_added_time_by: "Tilføjet af %{author} for %{age} siden"
   label_updated_time: "Opdateret for %{value} siden"
@@ -889,11 +889,11 @@ da:
   label_revision_id: Revision %{value}
   label_api_access_key: API nøgle
   label_api_access_key_created_on: API nøgle genereret %{value} siden
-  label_feeds_access_key: RSS nøgle
+  label_feeds_access_key: Atom nøgle
   notice_api_access_key_reseted: Din API nøgle er nulstillet.
   setting_rest_api_enabled: Aktiver REST web service
   label_missing_api_access_key: Mangler en API nøgle
-  label_missing_feeds_access_key: Mangler en RSS nøgle
+  label_missing_feeds_access_key: Mangler en Atom nøgle
   button_show: Vis
   text_line_separated: Flere væredier tilladt (en linje for hver værdi).
   setting_mail_handler_body_delimiters: Trunkér emails efter en af disse linjer

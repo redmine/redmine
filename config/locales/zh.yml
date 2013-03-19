@@ -166,7 +166,7 @@ zh:
   notice_not_authorized_archived_project: 要访问的项目已经归档。
   notice_email_sent: "邮件已发送至 %{value}"
   notice_email_error: "发送邮件时发生错误 (%{value})"
-  notice_feeds_access_key_reseted: 您的RSS存取键已被重置。
+  notice_feeds_access_key_reseted: 您的Atom存取键已被重置。
   notice_api_access_key_reseted: 您的API访问键已被重置。
   notice_failed_to_save_issues: "%{count} 个问题保存失败（共选择 %{total} 个问题）：%{ids}."
   notice_failed_to_save_members: "成员保存失败: %{errors}."
@@ -325,7 +325,7 @@ zh:
   setting_host_name: 主机名称
   setting_text_formatting: 文本格式
   setting_wiki_compression: 压缩Wiki历史文档
-  setting_feeds_limit: RSS Feed内容条数限制
+  setting_feeds_limit: Atom Feed内容条数限制
   setting_default_projects_public: 新建项目默认为公开项目
   setting_autofetch_changesets: 自动获取程序变更
   setting_sys_api_enabled: 启用用于版本库管理的Web Service
@@ -719,9 +719,9 @@ zh:
   label_language_based: 根据用户的语言
   label_sort_by: "根据 %{value} 排序"
   label_send_test_email: 发送测试邮件
-  label_feeds_access_key: RSS存取键
-  label_missing_feeds_access_key: 缺少RSS存取键
-  label_feeds_access_key_created_on: "RSS存取键是在 %{value} 之前建立的"
+  label_feeds_access_key: Atom存取键
+  label_missing_feeds_access_key: 缺少Atom存取键
+  label_feeds_access_key_created_on: "Atom存取键是在 %{value} 之前建立的"
   label_module_plural: 模块
   label_added_time_by: "由 %{author} 在 %{age} 之前添加"
   label_updated_time: " 更新于 %{value} 之前"

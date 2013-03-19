@@ -163,7 +163,7 @@ bg:
   notice_not_authorized_archived_project: Проектът, който се опитвате да видите е архивиран. Ако смятате, че това не е правилно, обърнете се към администратора за разархивиране.
   notice_email_sent: "Изпратен e-mail на %{value}"
   notice_email_error: "Грешка при изпращане на e-mail (%{value})"
-  notice_feeds_access_key_reseted: Вашия ключ за RSS достъп беше променен.
+  notice_feeds_access_key_reseted: Вашия ключ за Atom достъп беше променен.
   notice_api_access_key_reseted: Вашият API ключ за достъп беше изчистен.
   notice_failed_to_save_issues: "Неуспешен запис на %{count} задачи от %{total} избрани: %{ids}."
   notice_failed_to_save_time_entries: "Невъзможност за запис на %{count} записа за използвано време от %{total} избрани: %{ids}."
@@ -788,9 +788,9 @@ bg:
   label_language_based: В зависимост от езика
   label_sort_by: "Сортиране по %{value}"
   label_send_test_email: Изпращане на тестов e-mail
-  label_feeds_access_key: RSS access ключ
-  label_missing_feeds_access_key: Липсващ RSS ключ за достъп
-  label_feeds_access_key_created_on: "%{value} от създаването на RSS ключа"
+  label_feeds_access_key: Atom access ключ
+  label_missing_feeds_access_key: Липсващ Atom ключ за достъп
+  label_feeds_access_key_created_on: "%{value} от създаването на Atom ключа"
   label_module_plural: Модули
   label_added_time_by: "Публикувана от %{author} преди %{age}"
   label_updated_time_by: "Обновена от %{author} преди %{age}"
