@@ -1509,6 +1509,25 @@ class IssueTest < ActiveSupport::TestCase
     end
   end
 
+  def test_child_issue_should_consider_parent_soonest_start_on_create
+    set_language_if_valid 'en'
+    issue1 = Issue.generate!(:start_date => '2012-10-15', :due_date => '2012-10-17')
+    issue2 = Issue.generate!(:start_date => '2012-10-18', :due_date => '2012-10-20')
+    IssueRelation.create!(:issue_from => issue1, :issue_to => issue2,
+                          :relation_type => IssueRelation::TYPE_PRECEDES)
+    issue1.reload
+    issue2.reload
+    assert_equal Date.parse('2012-10-18'), issue2.start_date
+
+    child = Issue.new(:parent_issue_id => issue2.id, :start_date => '2012-10-16',
+      :project_id => 1, :tracker_id => 1, :status_id => 1, :subject => 'Child', :author_id => 1)
+    assert !child.valid?
+    assert_include 'Start date is invalid', child.errors.full_messages
+    assert_equal Date.parse('2012-10-18'), child.soonest_start
+    child.start_date = '2012-10-18'
+    assert child.save
+  end
+
   def test_overdue
     assert Issue.new(:due_date => 1.day.ago.to_date).overdue?
     assert !Issue.new(:due_date => Date.today).overdue?

@@ -892,7 +892,7 @@ class Issue < ActiveRecord::Base
     @soonest_start = nil if reload
     @soonest_start ||= (
         relations_to(reload).collect{|relation| relation.successor_soonest_start} +
-        ancestors.collect(&:soonest_start)
+        [(@parent_issue || parent).try(:soonest_start)]
       ).compact.max
   end
 
