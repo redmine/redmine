@@ -74,7 +74,7 @@
 				<br/></br/><br/>
 				<% if display_main_menu?(@project) %>
 						<% @neuroml2files = getNML2Files(@project.repository) %>
-						<div class="page-header">
+						<div id="mainheader" class="page-header">
 					  		<h1 id="pname"><%= @project.name %><small id="author"> </small></h1>
 							<% if isApproved?(@project) %>
 								<span class="label label-success tooltiplink" data-toggle='tooltip' data-placement='right' title='This project is certified by OSB and is officially supported.'>OSB Certified project</span>
@@ -128,22 +128,23 @@
 								<% end %>
 						<% end %>
 				<% end %>
-				<div>
+				<div id="mainContent">
 				<%= call_hook :view_layouts_base_content %>
-				
+				<%= render_flash_messages %>
+				<%= yield %>
+
 				</div>
-					<%= render_flash_messages %>
-					<%= yield %>
-					<div id="ajax-indicator" style="display:none;">
-						<span><%= l(:label_loading) %></span>
-					</div>
-					<div id="ajax-modal" style="display:none;"></div>
+				<div id="ajax-indicator" style="display:none;">
+					<span><%= l(:label_loading) %></span>
 				</div>
+				<div id="ajax-modal" style="display:none;"></div>
+			</div>
 			</div>
 			</div>
 		</div>
 		<!-- FOOTER -->
 
+		<br/></br/>
 		<%= call_hook :view_layouts_base_body_bottom %>
 		<footer class="footer">
 			<div class="container">

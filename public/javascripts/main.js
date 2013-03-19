@@ -212,23 +212,14 @@ function replaceIconWithFontAwesome()
 
 function getParameterByName(name)
 {
-name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
-var regexS="[\\?&]"+name+"=([^&#]*)";
-var regex = new RegExp(regexS);
-var results = regex.exec(window.location.href);
-if(results == null)
-return "";
-else
-return decodeURIComponent(results[1].replace(/\+/g, " "));
-}
-
-function showMenu()
-{
-jQuery("#projectbody").hide();
-jQuery("#content .navbar").after(jQuery('#browsenml2'));
-jQuery("#netnml" ).menu();
-jQuery("#cellnml" ).menu();
-jQuery('#browsenml2').show();
+	name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+	var regexS="[\\?&]"+name+"=([^&#]*)";
+	var regex = new RegExp(regexS);
+	var results = regex.exec(window.location.href);
+	if(results == null)
+		return "";
+	else
+		return decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
 function open3DExplorer(file)
@@ -240,27 +231,17 @@ function open3DExplorer(file)
 	{
 		window.location.href=window.location.href+"?explorer="+file;
 	}
-	jQuery(".page-header").after("<div id='3dbrowser'><iframe id='3dframe' src='http://127.0.0.1:8080/org.neuroml.visualiser/?url="+file+"'></iframe>");
-	//jQuery(".page-header").after("<div id='3dbrowser'><iframe id='3dframe' src='http://184.72.223.204:8080/org.neuroml.visualiser/?url="+file+"'></iframe>");
-	document.getElementById('3dframe').onload = resizeIframe;
-	window.onresize = resizeIframe;
-}
-
-function close3DExplorer()
-{
-	if(window.location.href.indexOf("?")!=-1)
+	else
 	{
-	window.location.href=window.location.href.substring(0,window.location.href.indexOf("?"));
+		jQuery("#mainContent").hide();
+		jQuery("#mainContent").before("<div id='3dbrowser'><iframe id='3dframe' src='http://127.0.0.1:8080/org.neuroml.visualiser/?url="+file+"'></iframe>");
+		
+		//jQuery(".page-header").after("<div id='3dbrowser'><iframe id='3dframe' src='http://184.72.223.204:8080/org.neuroml.visualiser/?url="+file+"'></iframe>");
+		document.getElementById('3dframe').onload = resizeIframe;
+		window.onresize = resizeIframe;
 	}
-	jQuery("#3dbrowser").remove();
-	jQuery("#projectbody").show();
 }
 
-function hideMenu()
-{
-	jQuery('#browsenml2').hide();
-	jQuery("#projectbody").show();
-}
 
 function disableOSBExplorer()
 {
