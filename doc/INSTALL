@@ -14,7 +14,7 @@ http://www.redmine.org/
 * A database:
   * MySQL (tested with MySQL 5.1)
   * PostgreSQL (tested with PostgreSQL 9.1)
-  * SQLite3 (tested with SQLite 3.6)
+  * SQLite3 (tested with SQLite 3.7)
   * SQLServer (tested with SQLServer 2012)
 
 Optional:
