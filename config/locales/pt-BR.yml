@@ -1082,7 +1082,7 @@ pt-BR:
   label_any_issues_not_in_project: todas as questões que não estão em projeto
   field_private_notes: notas privadas
   permission_view_private_notes: Ver notas privadas
-  permission_set_notes_private: Defina notas como privada
+  permission_set_notes_private: Permitir alterar notas para privada
   label_no_issues_in_project: sem problemas em projeto
   label_any: todos
   label_last_n_weeks: "últimas %{count} semanas"
