@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.12'
+gem "rails", "3.2.13"
 gem "jquery-rails", "~> 2.0.2"
 gem "i18n", "~> 0.6.0"
 gem "coderay", "~> 1.0.6"
@@ -79,7 +79,7 @@ group :test do
   platforms = [:mri_19]
   platforms << :jruby if defined?(JRUBY_VERSION) && JRUBY_VERSION >= "1.7"
   gem "test-unit", :platforms => platforms
-  gem "mocha", "0.12.3"
+  gem "mocha", "~> 0.13.3"
 end
 
 local_gemfile = File.join(File.dirname(__FILE__), "Gemfile.local")
