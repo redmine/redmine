@@ -40,7 +40,7 @@ class Version < ActiveRecord::Base
     includes(:project).where(Project.allowed_to_condition(args.first || User.current, :view_issues))
   }
 
-  safe_attributes 'name', 
+  safe_attributes 'name',
     'description',
     'effective_date',
     'due_date',
