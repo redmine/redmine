@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.12'
+gem "rails", "3.2.13"
 gem "jquery-rails", "~> 2.0.2"
 gem "i18n", "~> 0.6.0"
 gem "coderay", "~> 1.0.6"
@@ -78,7 +78,7 @@ end
 
 group :test do
   gem "shoulda", "~> 3.3.2"
-  gem "mocha"
+  gem "mocha", "~> 0.13.3"
   gem 'capybara', '~> 2.0.0'
 end
 

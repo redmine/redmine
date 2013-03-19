@@ -254,26 +254,9 @@ class MailHandler < ActionMailer::Base
   def add_attachments(obj)
     if email.attachments && email.attachments.any?
       email.attachments.each do |attachment|
-        filename = attachment.filename
-        unless filename.respond_to?(:encoding)
-          # try to reencode to utf8 manually with ruby1.8
-          h = attachment.header['Content-Disposition']
-          unless h.nil?
-            begin
-              if m = h.value.match(/filename\*[0-9\*]*=([^=']+)'/)
-                filename = Redmine::CodesetUtil.to_utf8(filename, m[1])
-              elsif m = h.value.match(/filename=.*=\?([^\?]+)\?[BbQq]\?/)
-                # http://tools.ietf.org/html/rfc2047#section-4
-                filename = Redmine::CodesetUtil.to_utf8(filename, m[1])
-              end
-            rescue
-              # nop
-            end
-          end
-        end
         obj.attachments << Attachment.create(:container => obj,
                           :file => attachment.decoded,
-                          :filename => filename,
+                          :filename => attachment.filename,
                           :author => user,
                           :content_type => attachment.mime_type)
       end
@@ -396,19 +379,6 @@ class MailHandler < ActionMailer::Base
 
   def cleaned_up_subject
     subject = email.subject.to_s
-    unless subject.respond_to?(:encoding)
-      # try to reencode to utf8 manually with ruby1.8
-      begin
-        if h = email.header[:subject]
-          # http://tools.ietf.org/html/rfc2047#section-4
-          if m = h.value.match(/=\?([^\?]+)\?[BbQq]\?/)
-            subject = Redmine::CodesetUtil.to_utf8(subject, m[1])
-          end
-        end
-      rescue
-        # nop
-      end
-    end
     subject.strip[0,255]
   end
 
