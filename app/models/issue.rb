@@ -576,6 +576,8 @@ class Issue < ActiveRecord::Base
     elsif @parent_issue
       if !valid_parent_project?(@parent_issue)
         errors.add :parent_issue_id, :invalid
+      elsif (@parent_issue != parent) && (all_dependent_issues.include?(@parent_issue) || @parent_issue.all_dependent_issues.include?(self))
+        errors.add :parent_issue_id, :invalid
       elsif !new_record?
         # moving an existing issue
         if @parent_issue.root_id != root_id
@@ -851,16 +853,16 @@ class Issue < ActiveRecord::Base
     IssueRelation.find(relation_id, :conditions => ["issue_to_id = ? OR issue_from_id = ?", id, id])
   end
 
+  # Returns all the other issues that depend on the issue
   def all_dependent_issues(except=[])
     except << self
     dependencies = []
-    relations_from.each do |relation|
-      if relation.issue_to && !except.include?(relation.issue_to)
-        dependencies << relation.issue_to
-        dependencies += relation.issue_to.all_dependent_issues(except)
-      end
-    end
-    dependencies
+    dependencies += relations_from.map(&:issue_to)
+    dependencies += children unless leaf?
+    dependencies << parent
+    dependencies.compact!
+    dependencies -= except
+    dependencies + dependencies.map {|issue| issue.all_dependent_issues(except)}.flatten
   end
 
   # Returns an array of issues that duplicate this one
