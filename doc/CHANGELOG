@@ -4,6 +4,136 @@ Redmine - project management software
 Copyright (C) 2006-2013  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2013-03-19 v2.3.0
+
+* Defect #3107: Issue with two digit year on Logtime
+* Defect #3371: Autologin does not work when using openid
+* Defect #3676: www. generates broken link in formatted text
+* Defect #4700: Adding news does not send notification to all project members
+* Defect #5329: Time entries report broken on first week of year
+* Defect #8794: Circular loop when using relations and subtasks
+* Defect #9475: German Translation "My custom queries" and "Custom queries"
+* Defect #9549: Only 100 users are displayed when adding new project members
+* Defect #10277: Redmine wikitext URL-into-link creation with hyphen is wrong
+* Defect #10364: Custom field float separator in CSV export
+* Defect #10930: rake redmine:load_default_data error in 2.0 with SQLServer
+* Defect #10977: Redmine shouldn't require all database gems
+* Defect #12528: Handle temporary failures gracefully in the external mail handler script
+* Defect #12629: Wrong German "label_issues_by" translation
+* Defect #12641: Diff outputs become ??? in some non ASCII words.
+* Defect #12707: Typo in app/models/tracker.rb
+* Defect #12716: Attachment description lost when issue validation fails
+* Defect #12735: Negative duration allowed
+* Defect #12736: Negative start/due dates allowed
+* Defect #12968: Subtasks don't resepect following/precedes
+* Defect #13006: Filter "Assignee's group" doesn't work with group assignments
+* Defect #13022: Image pointing towards /logout signs out user
+* Defect #13059: Custom fields are listed two times in workflow/Fields permission
+* Defect #13076: Project overview page shows trackers from subprojects with disabled issue module
+* Defect #13119: custom_field_values are not reloaded on #reload
+* Defect #13154: After upgrade to 2.2.2 ticket list on some projects fails
+* Defect #13188: Forms are not updated after changing the status field without "Add issues" permission
+* Defect #13251: Adding a "follows" relation may not refresh relations list
+* Defect #13272: translation missing: setting_default_projects_tracker_ids
+* Defect #13328: Copying an issue as a child of itself creates an extra issue
+* Defect #13335: Autologin does not work with custom autologin cookie name
+* Defect #13350: Japanese mistranslation fix
+* Feature #824: Add "closed_on" issue field (storing time of last closing) & add it as a column and filter on the issue list.
+* Feature #1766: Custom fields should become addable to Spent Time list/report
+* Feature #3436: Show relations in Gantt diagram
+* Feature #3957: Ajax file upload with progress bar
+* Feature #5298: Store attachments in sub directories
+* Feature #5605: Subprojects should (optionally) inherit Members from their parent
+* Feature #6727: Add/remove issue watchers via REST API
+* Feature #7159: Bulk watch/unwatch issues from the context menu
+* Feature #8529: Get the API key of the user through REST API
+* Feature #8579: Multiple file upload with HTML5 / Drag-and-Drop
+* Feature #10191: Add Filters For Spent time's Details and Report
+* Feature #10286: Auto-populate fields while creating a new user with LDAP
+* Feature #10352: Preview should already display the freshly attached images
+* Feature #11498: Add --no-account-notice option for the mail handler script
+* Feature #12122: Gantt progress lines (html only)
+* Feature #12228: JRuby 1.7.2 support
+* Feature #12251: Custom fields: 'Multiple values' should be able to be checked and then unchecked
+* Feature #12401: Split "Manage documents" permission into create, edit and delete permissions
+* Feature #12542: Group events in the activity view
+* Feature #12665: Link to a file in a repository branch
+* Feature #12713: Microsoft SQLServer support
+* Feature #12787: Remove "Warning - iconv will be deprecated in the future, use String#encode instead."
+* Feature #12843: Add links to projects in Group projects list
+* Feature #12898: Handle GET /issues/context_menu parameters nicely to prevent returning error 500 to crawlers
+* Feature #12992: Make JSONP support optional and disabled by default
+* Feature #13174: Raise group name maximum length to 255 characters
+* Feature #13175: Possibility to define the default enable trackers when creating a project
+* Feature #13329: Ruby 2.0 support
+* Feature #13337: Split translation "label_total"
+* Feature #13340: Mail handler: option to add created user to default group
+* Feature #13341: Mail handler: --no-notification option to disable notifications to the created user
+* Patch #7202: Polish translation for v1.0.4
+* Patch #7851: Italian translation for 'issue'
+* Patch #9225: Generate project identifier automatically with JavaScript
+* Patch #10916: Optimisation in issues relations display
+* Patch #12485: Don't force english language for default admin account
+* Patch #12499: Use lambda in model scopes
+* Patch #12611: Login link unexpected logs you out
+* Patch #12626: Updated Japanese translations for button_view and permission_commit_access
+* Patch #12640: Russian "about_x_hours" translation change
+* Patch #12645: Russian numeric translation
+* Patch #12660: Consistent German translation for my page
+* Patch #12708: Restructured german translation (Cleanup)
+* Patch #12721: Optimize MenuManager a bit
+* Patch #12725: Change pourcent to percent (#12724)
+* Patch #12754: Updated Japanese translation for notice_account_register_done
+* Patch #12788: Copyright for 2013
+* Patch #12806: Serbian translation change
+* Patch #12810: Swedish Translation change
+* Patch #12910: Plugin settings div should perhaps have 'settings' CSS class
+* Patch #12911: Fix 500 error for requests to the settings path for non-configurable plugins
+* Patch #12926: Bulgarian translation (r11218)
+* Patch #12927: Swedish Translation for r11244
+* Patch #12967: Change Spanish login/logout translations
+* Patch #12988: Russian translation for trunk
+* Patch #13080: German translation of label_in
+* Patch #13098: Small datepicker improvements
+* Patch #13152: Locale file for Azerbaijanian language
+* Patch #13155: Add login to /users/:id API for current user
+* Patch #13173: Put source :rubygems url HTTP secure
+* Patch #13190: Bulgarian translation (r11404)
+* Patch #13198: Traditional Chinese language file (to r11426)
+* Patch #13203: German translation change for follow and precedes is inconsitent
+* Patch #13206: Portuguese translation file
+* Patch #13246: Some german translation patches
+* Patch #13280: German translation (r11478)
+* Patch #13301: Performance: avoid querying all memberships in User#roles_for_project
+* Patch #13309: Add "tracker-[id]" CSS class to issues
+* Patch #13324: fixing some pt-br locales
+* Patch #13339: Complete language Vietnamese file
+* Patch #13391: Czech translation update
+* Patch #13399: Fixed some wrong or confusing translation in Korean locale
+* Patch #13414: Bulgarian translation (r11567)
+* Patch #13420: Korean translation for 2.3 (r11583)
+* Patch #13437: German translation of setting_emails_header
+* Patch #13438: English translation
+* Patch #13447: German translation - some patches
+* Patch #13450: Czech translation
+* Patch #13475: fixing some pt-br locales
+* Patch #13514: fixing some pt-br locales
+
+== 2013-03-19 v2.2.4
+
+* Upgrade to Rails 3.2.13
+* Defect #12243: Ordering forum replies by last reply date is broken
+* Defect #13127: h1 multiple lined titles breaks into main menu
+* Defect #13138: Generating PDF of issue causes UndefinedConversionError with htmlentities gem
+* Defect #13165: rdm-mailhandler.rb: initialize_http_header override basic auth
+* Defect #13232: Link to topic in nonexistent forum causes error 500
+* Patch #13181: Bulgarian translation of jstoolbar-bg.js
+* Patch #13207: Portuguese translation for 2.2-stable
+* Patch #13310: pt-BR label_last_n_weeks translation
+* Patch #13325: pt-BR translation for 2.2-stable
+* Patch #13343: Vietnamese translation for 2.2-stable
+* Patch #13398: Czech translation for 2.2-stable
+
 == 2013-02-12 v2.2.3
 
 * Upgrade to Rails 3.2.12
