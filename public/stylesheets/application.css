@@ -1037,6 +1037,10 @@ h2 img { vertical-align:middle; }
 
 .hascontextmenu { cursor: context-menu; }
 
+/* Custom JQuery styles */
+.ui-datepicker-title select {width:70px !important; margin-top:-2px !important; margin-right:4px !important;}
+
+
 /************* CodeRay styles *************/
 .syntaxhl div {display: inline;}
 .syntaxhl .line-numbers {padding: 2px 4px 2px 4px; background-color: #eee; margin:0px 5px 0px 0px;}
