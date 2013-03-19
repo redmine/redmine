@@ -4,6 +4,21 @@ Redmine - project management software
 Copyright (C) 2006-2012  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2013-03-19 v2.2.4
+
+* Upgrade to Rails 3.2.13
+* Defect #12243: Ordering forum replies by last reply date is broken
+* Defect #13127: h1 multiple lined titles breaks into main menu
+* Defect #13138: Generating PDF of issue causes UndefinedConversionError with htmlentities gem
+* Defect #13165: rdm-mailhandler.rb: initialize_http_header override basic auth
+* Defect #13232: Link to topic in nonexistent forum causes error 500
+* Patch #13181: Bulgarian translation of jstoolbar-bg.js
+* Patch #13207: Portuguese translation for 2.2-stable
+* Patch #13310: pt-BR label_last_n_weeks translation
+* Patch #13325: pt-BR translation for 2.2-stable
+* Patch #13343: Vietnamese translation for 2.2-stable
+* Patch #13398: Czech translation for 2.2-stable
+
 == 2013-02-12 v2.2.3
 
 * Upgrade to Rails 3.2.12
