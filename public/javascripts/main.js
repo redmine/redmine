@@ -235,7 +235,7 @@ function open3DExplorer(file)
 	{
 		jQuery("#mainContent").hide();
 		//jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' src='http://127.0.0.1:8080/org.neuroml.visualiser/?url="+file+"'></iframe>");
-		jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' src='http://184.72.223.204:8080/org.neuroml.visualiser/?url="+file+"'></iframe>");
+		jQuery("#mainContent").before("<div id='3dbrowser'><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' src='http://184.72.223.204:8080/org.neuroml.visualiser/?url="+file+"'></iframe>");
 		//jQuery(".page-header").after("<div id='3dbrowser'><iframe id='3dframe' src='http://184.72.223.204:8080/org.neuroml.visualiser/?url="+file+"'></iframe>");
 		document.getElementById('3dframe').onload = resizeIframe;
 		window.onresize = resizeIframe;
@@ -244,19 +244,27 @@ function open3DExplorer(file)
 
 function toggleFullScreen()
 {
-	if(jQuery("#wrap").is(":visible") == true)
+	if(jQuery("#mainheader").is(":visible") == true)
 	{
+		jQuery("#main").removeClass("container");
+		jQuery("#main").children("br").first().remove();
+		jQuery("#main").children("br").first().remove();
+		jQuery("#main").children("br").first().remove();
 		jQuery(".fullscreen").html(" Exit Full Screen");
-		jQuery("#3dbrowser").insertBefore("#wrap");
-		jQuery("#3dspacer").show();
-		jQuery("#wrap").hide();
+		jQuery(".navbar-fixed-top").hide();
+		jQuery("#mainheader").hide();
+		jQuery("footer").hide();
 	}
 	else
 	{
+		jQuery("#main").prepend("<br/>");
+		jQuery("#main").prepend("<br/>");
+		jQuery("#main").prepend("<br/>");
+		jQuery("#main").addClass("container");
 		jQuery(".fullscreen").html(" Full Screen");
-		jQuery("#3dbrowser").insertBefore("#mainContent");
-		jQuery("#3dspacer").hide();
-		jQuery("#wrap").show();
+		jQuery(".navbar-fixed-top").show();
+		jQuery("#mainheader").show();
+		jQuery("footer").show();
 	}
 }
 function disableOSBExplorer()
