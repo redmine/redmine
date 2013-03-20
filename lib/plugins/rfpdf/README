@@ -10,10 +10,6 @@ A template plugin allowing the inclusion of ERB-enabled RFPDF template files.
 ==
 ==
 
-If you are using HTML, it is recommended you install:
-
-gem install -r htmlentities
-
 TCPDF Documentation located at:
 
 http://phpdocs.moodle.org/com-tecnick-tcpdf/TCPDF.html

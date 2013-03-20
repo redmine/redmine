@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -42,6 +42,7 @@ class ProjectsController < ApplicationController
   helper :repositories
   include RepositoriesHelper
   include ProjectsHelper
+  helper :members
 
   # Lists visible projects
   def index
@@ -133,13 +134,13 @@ class ProjectsController < ApplicationController
   rescue ActiveRecord::RecordNotFound
   # source_project not found
     render_404
-    end
+  end
 
   # Show @project
   def show
-    if params[:jump]
-      # try to redirect to the requested menu item
-      redirect_to_project_menu_item(@project, params[:jump]) && return
+    # try to redirect to the requested menu item
+    if params[:jump] && redirect_to_project_menu_item(@project, params[:jump])
+      return
     end
 
     @users_by_role = @project.users_by_role

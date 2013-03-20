@@ -51,18 +51,16 @@
 <% end %>
 </div>
 
-<% principals = Principal.active.not_member_of(@project).all(:limit => 100, :order => 'type, login, lastname ASC') %>
-
 <div class="splitcontentright">
-<% if roles.any? && principals.any? %>
+<% if roles.any? %>
   <%= form_for(@member, {:as => :membership, :url => project_memberships_path(@project), :remote => true, :method => :post}) do |f| %>
     <fieldset><legend><%=l(:label_member_new)%></legend>
 
     <p><%= label_tag "principal_search", l(:label_principal_search) %><%= text_field_tag 'principal_search', nil %></p>
-    <%= javascript_tag "observeSearchfield('principal_search', 'principals', '#{ escape_javascript autocomplete_project_memberships_path(@project) }')" %>
+    <%= javascript_tag "observeSearchfield('principal_search', null, '#{ escape_javascript autocomplete_project_memberships_path(@project, :format => 'js') }')" %>
 
-    <div id="principals">
-      <%= principals_check_box_tags 'membership[user_ids][]', principals %>
+    <div id="principals_for_new_member">
+      <%= render_principals_for_new_members(@project) %>
     </div>
 
     <p><%= l(:label_role_plural) %>:

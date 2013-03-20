@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -36,9 +36,9 @@ class MessageTest < ActiveSupport::TestCase
     assert message.save
     @board.reload
     # topics count incremented
-    assert_equal topics_count+1, @board[:topics_count]
+    assert_equal topics_count + 1, @board[:topics_count]
     # messages count incremented
-    assert_equal messages_count+1, @board[:messages_count]
+    assert_equal messages_count + 1, @board[:messages_count]
     assert_equal message, @board.last_message
     # author should be watching the message
     assert message.watched_by?(@user)
@@ -47,13 +47,13 @@ class MessageTest < ActiveSupport::TestCase
   def test_reply
     topics_count = @board.topics_count
     messages_count = @board.messages_count
-    @message = Message.find(1)
-    replies_count = @message.replies_count
+    message = Message.find(1)
+    replies_count = message.replies_count
 
     reply_author = User.find(2)
     reply = Message.new(:board => @board, :subject => 'Test reply',
                         :content => 'Test reply content',
-                        :parent => @message, :author => reply_author)
+                        :parent => message, :author => reply_author)
     assert reply.save
     @board.reload
     # same topics count
@@ -61,42 +61,42 @@ class MessageTest < ActiveSupport::TestCase
     # messages count incremented
     assert_equal messages_count+1, @board[:messages_count]
     assert_equal reply, @board.last_message
-    @message.reload
+    message.reload
     # replies count incremented
-    assert_equal replies_count+1, @message[:replies_count]
-    assert_equal reply, @message.last_reply
+    assert_equal replies_count+1, message[:replies_count]
+    assert_equal reply, message.last_reply
     # author should be watching the message
-    assert @message.watched_by?(reply_author)
+    assert message.watched_by?(reply_author)
   end
 
   def test_cannot_reply_to_locked_topic
     topics_count = @board.topics_count
     messages_count = @board.messages_count
-    @message = Message.find(1)
-    replies_count = @message.replies_count
-    assert_equal false, @message.locked
-    @message.locked = true
-    assert @message.save
-    assert_equal true, @message.locked
+    message = Message.find(1)
+    replies_count = message.replies_count
+    assert_equal false, message.locked
+    message.locked = true
+    assert message.save
+    assert_equal true, message.locked
 
     reply_author = User.find(2)
     reply = Message.new(:board => @board, :subject => 'Test reply',
                         :content => 'Test reply content',
-                        :parent => @message, :author => reply_author)
+                        :parent => message, :author => reply_author)
     reply.save
     assert_equal 1, reply.errors.count
   end
 
   def test_moving_message_should_update_counters
-    @message = Message.find(1)
+    message = Message.find(1)
     assert_no_difference 'Message.count' do
       # Previous board
       assert_difference 'Board.find(1).topics_count', -1 do
-        assert_difference 'Board.find(1).messages_count', -(1 + @message.replies_count) do
+        assert_difference 'Board.find(1).messages_count', -(1 + message.replies_count) do
           # New board
           assert_difference 'Board.find(2).topics_count' do
-            assert_difference 'Board.find(2).messages_count', (1 + @message.replies_count) do
-              @message.update_attributes(:board_id => 2)
+            assert_difference 'Board.find(2).messages_count', (1 + message.replies_count) do
+              message.update_attributes(:board_id => 2)
             end
           end
         end

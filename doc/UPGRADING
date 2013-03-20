@@ -1,7 +1,7 @@
 == Redmine upgrade
 
 Redmine - project management software
-Copyright (C) 2006-2012  Jean-Philippe Lang
+Copyright (C) 2006-2013  Jean-Philippe Lang
 http://www.redmine.org/
 
 
@@ -31,6 +31,16 @@ http://www.redmine.org/
    If ImageMagick is not installed on your system, you should skip the installation
    of the rmagick gem using:
      bundle install --without development test rmagick
+
+   Only the gems that are needed by the adapters you've specified in your database
+   configuration file are actually installed (eg. if your config/database.yml
+   uses the 'mysql2' adapter, then only the mysql2 gem will be installed). Don't
+   forget to re-run `bundle install` when you change config/database.yml for using
+   other database adapters.
+
+   If you need to load some gems that are not required by Redmine core (eg. fcgi),
+   you can create a file named Gemfile.local at the root of your redmine directory.
+   It will be loaded automatically when running `bundle install`.
 
 6. Generate a session store secret
    

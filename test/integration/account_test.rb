@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -66,6 +66,33 @@ class AccountTest < ActionController::IntegrationTest
     assert_template 'my/page'
     assert_equal user.id, session[:user_id]
     assert_not_nil user.reload.last_login_on
+  end
+
+  def test_autologin_should_use_autologin_cookie_name
+    Token.delete_all
+    Redmine::Configuration.stubs(:[]).with('autologin_cookie_name').returns('custom_autologin')
+    Redmine::Configuration.stubs(:[]).with('autologin_cookie_path').returns('/')
+    Redmine::Configuration.stubs(:[]).with('autologin_cookie_secure').returns(false)
+
+    with_settings :autologin => '7' do
+      assert_difference 'Token.count' do
+        post '/login', :username => 'admin', :password => 'admin', :autologin => 1
+      end
+      assert_response 302
+      assert cookies['custom_autologin'].present?
+      token = cookies['custom_autologin']
+  
+      # Session is cleared
+      reset!
+      cookies['custom_autologin'] = token
+      get '/my/page'
+      assert_response :success
+
+      assert_difference 'Token.count', -1 do
+        post '/logout'
+      end
+      assert cookies['custom_autologin'].blank?
+    end
   end
 
   def test_lost_password

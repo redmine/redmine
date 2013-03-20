@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -263,7 +263,7 @@ class Attachment < ActiveRecord::Base
     Attachment.where("created_on < ? AND (container_type IS NULL OR container_type = '')", Time.now - age).destroy_all
   end
 
-  # Moves an existing attachment to its target directory 
+  # Moves an existing attachment to its target directory
   def move_to_target_directory!
     if !new_record? & readable?
       src = diskfile

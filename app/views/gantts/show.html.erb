@@ -12,6 +12,39 @@
     <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
   </div>
 </fieldset>
+<fieldset class="collapsible collapsed">
+  <legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
+  <div style="display: none;">
+    <table>
+      <tr>
+        <td>
+          <fieldset>
+            <legend><%= l(:label_related_issues) %></legend>
+            <label>
+              <%= check_box_tag "draw_rels", params["draw_rels"], params[:set_filter].blank? || params[:draw_rels] %>
+              <% rels = [IssueRelation::TYPE_BLOCKS, IssueRelation::TYPE_PRECEDES] %>
+              <% rels.each do |rel| %>
+                <% color = Redmine::Helpers::Gantt::DRAW_TYPES[rel][:color] %>
+                <%= content_tag(:span, '&nbsp;&nbsp;&nbsp;'.html_safe,
+                                :style => "background-color: #{color}") %>
+                <%= l(IssueRelation::TYPES[rel][:name]) %>
+              <% end %>
+            </label>
+          </fieldset>
+        </td>
+        <td>
+          <fieldset>
+            <legend><%= l(:label_gantt_progress_line) %></legend>
+            <label>
+              <%= check_box_tag "draw_progress_line", params[:draw_progress_line], params[:draw_progress_line] %>
+              <%= l(:label_display) %>
+            </label>
+          </fieldset>
+        </td>
+      </tr>
+    </table>
+  </div>
+</fieldset>
 
 <p class="contextual">
   <%= gantt_zoom_link(@gantt, :in) %>
@@ -39,18 +72,18 @@
   @gantt.zoom.times { zoom = zoom * 2 }
 
   subject_width = 330
-  header_heigth = 18
+  header_height = 18
 
-  headers_height = header_heigth
+  headers_height = header_height
   show_weeks = false
   show_days  = false
 
   if @gantt.zoom > 1
     show_weeks = true
-    headers_height = 2 * header_heigth
+    headers_height = 2 * header_height
     if @gantt.zoom > 2
         show_days = true
-        headers_height = 3 * header_heigth
+        headers_height = 3 * header_height
     end
   end
 
@@ -115,7 +148,7 @@
 <%
   month_f = @gantt.date_from
   left = 0
-  height = (show_weeks ? header_heigth : header_heigth + g_height)
+  height = (show_weeks ? header_height : header_height + g_height)
 %>
 <% @gantt.months.times do %>
   <%
@@ -140,7 +173,7 @@
 <% if show_weeks %>
   <%
     left = 0
-    height = (show_days ? header_heigth - 1 : header_heigth - 1 + g_height)
+    height = (show_days ? header_height - 1 : header_height - 1 + g_height)
   %>
   <% if @gantt.date_from.cwday == 1 %>
     <%
@@ -189,7 +222,7 @@
 <% if show_days %>
   <%
     left = 0
-    height = g_height + header_heigth - 1
+    height = g_height + header_height - 1
     wday = @gantt.date_from.cwday
   %>
   <% (@gantt.date_to - @gantt.date_from + 1).to_i.times do %>
@@ -229,7 +262,7 @@
     style += "width:10px;"
     style += "border-left: 1px dashed red;"
   %>
-  <%= content_tag(:div, '&nbsp;'.html_safe, :style => style) %>
+  <%= content_tag(:div, '&nbsp;'.html_safe, :style => style, :id => 'today_line') %>
 <% end %>
 <%
   style  = ""
@@ -279,4 +312,8 @@
   var issue_relation_type = <%= raw Redmine::Helpers::Gantt::DRAW_TYPES.to_json %>;
   $(document).ready(drawGanttHandler);
   $(window).resize(drawGanttHandler);
+  $(function() {
+    $("#draw_rels").change(drawGanttHandler);
+    $("#draw_progress_line").change(drawGanttHandler);
+  });
 <% end %>

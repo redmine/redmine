@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -86,7 +86,7 @@ module Redmine
       AUTO_LINK_RE = %r{
                       (                          # leading text
                         <\w+.*?>|                # leading HTML tag, or
-                        [^=<>!:'"/]|             # leading punctuation, or
+                        [\s\(\[,;]|              # leading punctuation, or
                         ^                        # beginning of line
                       )
                       (
@@ -95,7 +95,7 @@ module Redmine
                         (?:www\.)                # www.*
                       )
                       (
-                        (\S+?)                   # url
+                        ([^<]\S*?)               # url
                         (\/)?                    # slash
                       )
                       ((?:&gt;)?|[^[:alnum:]_\=\/;\(\)]*?)               # post

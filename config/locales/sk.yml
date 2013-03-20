@@ -572,7 +572,7 @@ sk:
   label_language_based: Podľa výchozieho jazyka
   label_sort_by: "Zoradenie podľa %{value}"
   label_send_test_email: Poslať testovací email
-  label_feeds_access_key_created_on: "Prístupový klúč pre RSS bol vytvorený pred %{value}"
+  label_feeds_access_key_created_on: "Prístupový klúč pre Atom bol vytvorený pred %{value}"
   label_module_plural: Moduly
   label_added_time_by: "Pridané užívateľom %{author} pred %{age}"
   label_updated_time: "Aktualizované pred %{value}"
@@ -748,7 +748,6 @@ sk:
   permission_comment_news: Komentovanie noviniek
   permission_delete_messages: Mazanie správ
   permission_select_project_modules: Voľba projektových modulov
-  permission_manage_documents: Správa dokumentov
   permission_edit_wiki_pages: Úprava Wiki strániek
   permission_add_issue_watchers: Pridanie pozorovateľov
   permission_view_gantt: Zobrazenie Ganttovho diagramu
@@ -871,11 +870,11 @@ sk:
   label_revision_id: Revízia %{value}
   label_api_access_key: API prístupový kľúč
   label_api_access_key_created_on: API prístupový kľúč vytvorený pred %{value}
-  label_feeds_access_key: RSS prístupový kľúč
+  label_feeds_access_key: Atom prístupový kľúč
   notice_api_access_key_reseted: Váš API prístupový kľúč bol resetovaný.
   setting_rest_api_enabled: Zapnúť REST web službu
   label_missing_api_access_key: API prístupový kľuč nenájdený
-  label_missing_feeds_access_key: RSS prístupový kľúč nenájdený
+  label_missing_feeds_access_key: Atom prístupový kľúč nenájdený
   button_show: Zobraziť
   text_line_separated: Možnosť viacerých hodnôt (jeden riadok pre každú hodnotu).
   setting_mail_handler_body_delimiters: Orezať emaily po následujúcich riadkoch
@@ -923,7 +922,6 @@ sk:
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"
   field_visible: Visible
-  setting_emails_header: Emails header
   setting_commit_logtime_activity_id: Activity for logged time
   text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
@@ -964,8 +962,6 @@ sk:
   text_scm_command: Command
   text_scm_command_version: Version
   label_git_report_last_commit: Report last commit for files and directories
-  text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.
-  text_scm_command_not_available: Scm command is not available. Please check settings on the administration panel.
   notice_issue_successful_create: Issue %{id} created.
   label_between: between
   setting_issue_group_assignment: Allow issue assignment to groups
@@ -1073,3 +1069,19 @@ sk:
   label_in_the_next_days: in the next
   label_in_the_past_days: in the past
   label_attribute_of_user: User's %{name}
+  text_turning_multiple_off: If you disable multiple values, multiple values will be
+    removed in order to preserve only one value per item.
+  label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents
+  label_gantt_progress_line: Progress line
+  setting_jsonp_enabled: Enable JSONP support
+  field_inherit_members: Inherit members
+  field_closed_on: Closed
+  field_generate_password: Generate password
+  setting_default_projects_tracker_ids: Default trackers for new projects
+  label_total_time: Celkovo
+  text_scm_config: You can configure your SCM commands in config/configuration.yml. Please restart the application after editing it.
+  text_scm_command_not_available: SCM command is not available. Please check settings on the administration panel.
+  setting_emails_header: Email header

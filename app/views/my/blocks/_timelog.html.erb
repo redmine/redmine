@@ -5,7 +5,7 @@ entries_by_day = entries.group_by(&:spent_on)
 %>
 
 <div class="total-hours">
-<p><%= l(:label_total) %>: <%= html_hours("%.2f" % entries.sum(&:hours).to_f) %></p>
+<p><%= l(:label_total_time) %>: <%= html_hours("%.2f" % entries.sum(&:hours).to_f) %></p>
 </div>
 
 <% if entries.any? %>

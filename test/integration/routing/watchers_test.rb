@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -32,7 +32,7 @@ class RoutingWatchersTest < ActionController::IntegrationTest
         { :controller => 'watchers', :action => 'create' }
       )
     assert_routing(
-        { :method => 'post', :path => "/watchers/destroy" },
+        { :method => 'delete', :path => "/watchers" },
         { :controller => 'watchers', :action => 'destroy' }
       )
     assert_routing(
@@ -44,8 +44,18 @@ class RoutingWatchersTest < ActionController::IntegrationTest
         { :controller => 'watchers', :action => 'watch' }
       )
     assert_routing(
-        { :method => 'post', :path => "/watchers/unwatch" },
+        { :method => 'delete', :path => "/watchers/watch" },
         { :controller => 'watchers', :action => 'unwatch' }
+      )
+    assert_routing(
+        { :method => 'post', :path => "/issues/12/watchers.xml" },
+        { :controller => 'watchers', :action => 'create',
+          :object_type => 'issue', :object_id => '12', :format => 'xml' }
+      )
+    assert_routing(
+        { :method => 'delete', :path => "/issues/12/watchers/3.xml" },
+        { :controller => 'watchers', :action => 'destroy',
+          :object_type => 'issue', :object_id => '12', :user_id => '3', :format => 'xml'}
       )
   end
 end

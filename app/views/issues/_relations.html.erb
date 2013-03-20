@@ -38,7 +38,7 @@
                  :as => :relation, :remote => true,
                  :url => issue_relations_path(@issue),
                  :method => :post,
-                 :html => {:id => 'new-relation-form', :style => (@relation ? '' : 'display: none;')}
+                 :html => {:id => 'new-relation-form', :style => 'display: none;'}
                } do |f| %>
 <%= render :partial => 'issue_relations/form', :locals => {:f => f}%>
 <% end %>

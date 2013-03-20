@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -24,7 +24,7 @@ module CustomFieldsHelper
   end
 
   # Return custom field html tag corresponding to its format
-  def custom_field_tag(name, custom_value)	
+  def custom_field_tag(name, custom_value)
     custom_field = custom_value.custom_field
     field_name = "#{name}[custom_field_values][#{custom_field.id}]"
     field_name << "[]" if custom_field.multiple?

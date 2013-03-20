@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -21,6 +21,7 @@ class ContextMenusController < ApplicationController
 
   def issues
     @issues = Issue.visible.all(:conditions => {:id => params[:ids]}, :include => :project)
+    (render_404; return) unless @issues.present?
     if (@issues.size == 1)
       @issue = @issues.first
     end
@@ -74,6 +75,8 @@ class ContextMenusController < ApplicationController
   def time_entries
     @time_entries = TimeEntry.all(
        :conditions => {:id => params[:ids]}, :include => :project)
+    (render_404; return) unless @time_entries.present?
+
     @projects = @time_entries.collect(&:project).compact.uniq
     @project = @projects.first if @projects.size == 1
     @activities = TimeEntryActivity.shared.active

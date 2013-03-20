@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -29,37 +29,41 @@ class QueriesHelperTest < ActionView::TestCase
            :projects_trackers,
            :custom_fields_trackers
 
-  def test_order
-    User.current = User.find_by_login('admin')
-    query = IssueQuery.new(:project => nil, :name => '_')
-    assert_equal 30, query.available_filters.size
+  def test_filters_options_should_be_ordered
+    set_language_if_valid 'en'
+    query = IssueQuery.new
+    filter_count = query.available_filters.size
     fo = filters_options(query)
-    assert_equal 31, fo.size
+    assert_equal filter_count + 1, fo.size
     assert_equal [], fo[0]
-    assert_equal "status_id", fo[1][1]
-    assert_equal "project_id", fo[2][1]
-    assert_equal "tracker_id", fo[3][1]
-    assert_equal "priority_id", fo[4][1]
-    assert_equal "watcher_id", fo[17][1]
-    assert_equal "is_private", fo[18][1]
+
+    expected_order = [
+      "Status",
+      "Project",
+      "Tracker",
+      "Priority"
+    ]
+    assert_equal expected_order, (fo.map(&:first) & expected_order)
   end
 
-  def test_order_custom_fields
+  def test_filters_options_should_be_ordered_with_custom_fields
     set_language_if_valid 'en'
-    field = UserCustomField.new(
+    field = UserCustomField.create!(
               :name => 'order test', :field_format => 'string',
               :is_for_all => true, :is_filter => true
             )
-    assert field.save
-    User.current = User.find_by_login('admin')
-    query = IssueQuery.new(:project => nil, :name => '_')
-    assert_equal 32, query.available_filters.size
+    query = IssueQuery.new
+    filter_count = query.available_filters.size
     fo = filters_options(query)
-    assert_equal 33, fo.size
-    assert_equal "Searchable field", fo[19][0]
-    assert_equal "Database", fo[20][0]
-    assert_equal "Project's Development status", fo[21][0]
-    assert_equal "Assignee's order test", fo[22][0]
-    assert_equal "Author's order test", fo[23][0]
+    assert_equal filter_count + 1, fo.size
+
+    expected_order = [
+      "Searchable field",
+      "Database",
+      "Project's Development status",
+      "Author's order test",
+      "Assignee's order test"
+    ]
+    assert_equal expected_order, (fo.map(&:first) & expected_order)
   end
 end

@@ -1,7 +1,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '../../../../../test/test_helper')
 
-class SamplePluginRoutingTest < ActionController::IntegrationTest
+class SamplePluginRoutingTest < ActionDispatch::IntegrationTest
   def test_example
     assert_routing(
         { :method => 'get', :path => "/projects/1234/hello" },

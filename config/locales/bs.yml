@@ -168,7 +168,7 @@ bs:
   notice_email_error: Došlo je do greške pri slanju emaila (%{value})
   notice_email_sent: "Email je poslan %{value}"
   notice_failed_to_save_issues: "Neuspješno snimanje %{count} aktivnosti na %{total} izabrano: %{ids}."
-  notice_feeds_access_key_reseted: Vaš RSS pristup je resetovan.
+  notice_feeds_access_key_reseted: Vaš Atom pristup je resetovan.
   notice_file_not_found: Stranica kojoj pokušavate da pristupite ne postoji ili je uklonjena.
   notice_locking_conflict: "Konflikt: podaci su izmjenjeni od strane drugog korisnika."
   notice_no_issue_selected: "Nijedna aktivnost nije izabrana! Molim, izaberite aktivnosti koje želite za ispravljate."
@@ -303,7 +303,7 @@ bs:
   setting_text_formatting: Formatiranje teksta
   setting_wiki_compression: Kompresija Wiki istorije
 
-  setting_feeds_limit: 'Limit za "RSS" feed-ove'
+  setting_feeds_limit: 'Limit za "Atom" feed-ove'
   setting_default_projects_public: Podrazumjeva se da je novi projekat javni
   setting_autofetch_changesets: 'Automatski kupi "commit"-e'
   setting_sys_api_enabled: 'Omogući "WS" za upravljanje repozitorijom'
@@ -355,7 +355,6 @@ bs:
   permission_edit_own_time_entries: Ispravka svog utroška vremena
   permission_manage_news: Upravljaj novostima
   permission_comment_news: Komentiraj novosti
-  permission_manage_documents: Upravljaj dokumentima
   permission_view_documents: Pregled dokumenata
   permission_manage_files: Upravljaj fajlovima
   permission_view_files: Pregled fajlova
@@ -661,7 +660,7 @@ bs:
   label_language_based: Bazirano na korisnikovom jeziku
   label_sort_by: "Sortiraj po %{value}"
   label_send_test_email: Pošalji testni email
-  label_feeds_access_key_created_on: "RSS pristupni ključ kreiran prije %{value} dana"
+  label_feeds_access_key_created_on: "Atom pristupni ključ kreiran prije %{value} dana"
   label_module_plural: Moduli
   label_added_time_by: "Dodano od %{author} prije %{age}"
   label_updated_time_by: "Izmjenjeno od %{author} prije %{age}"
@@ -887,11 +886,11 @@ bs:
   label_revision_id: Revision %{value}
   label_api_access_key: API access key
   label_api_access_key_created_on: API access key created %{value} ago
-  label_feeds_access_key: RSS access key
+  label_feeds_access_key: Atom access key
   notice_api_access_key_reseted: Your API access key was reset.
   setting_rest_api_enabled: Enable REST web service
   label_missing_api_access_key: Missing an API access key
-  label_missing_feeds_access_key: Missing a RSS access key
+  label_missing_feeds_access_key: Missing a Atom access key
   button_show: Show
   text_line_separated: Multiple values allowed (one line for each value).
   setting_mail_handler_body_delimiters: Truncate emails after one of these lines
@@ -939,7 +938,6 @@ bs:
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"
   field_visible: Visible
-  setting_emails_header: Emails header
   setting_commit_logtime_activity_id: Activity for logged time
   text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
@@ -980,8 +978,6 @@ bs:
   text_scm_command: Command
   text_scm_command_version: Version
   label_git_report_last_commit: Report last commit for files and directories
-  text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.
-  text_scm_command_not_available: Scm command is not available. Please check settings on the administration panel.
   notice_issue_successful_create: Issue %{id} created.
   label_between: between
   setting_issue_group_assignment: Allow issue assignment to groups
@@ -1089,3 +1085,19 @@ bs:
   label_in_the_next_days: in the next
   label_in_the_past_days: in the past
   label_attribute_of_user: User's %{name}
+  text_turning_multiple_off: If you disable multiple values, multiple values will be
+    removed in order to preserve only one value per item.
+  label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents
+  label_gantt_progress_line: Progress line
+  setting_jsonp_enabled: Enable JSONP support
+  field_inherit_members: Inherit members
+  field_closed_on: Closed
+  field_generate_password: Generate password
+  setting_default_projects_tracker_ids: Default trackers for new projects
+  label_total_time: Ukupno
+  text_scm_config: You can configure your SCM commands in config/configuration.yml. Please restart the application after editing it.
+  text_scm_command_not_available: SCM command is not available. Please check settings on the administration panel.
+  setting_emails_header: Email header

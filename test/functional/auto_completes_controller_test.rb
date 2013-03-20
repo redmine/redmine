@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -26,7 +26,6 @@ class AutoCompletesControllerTest < ActionController::TestCase
            :member_roles,
            :members,
            :enabled_modules,
-           :workflows,
            :journals, :journal_details
 
   def test_issues_should_not_be_case_sensitive
@@ -45,6 +44,13 @@ class AutoCompletesControllerTest < ActionController::TestCase
 
   def test_issues_should_return_issue_with_given_id
     get :issues, :project_id => 'subproject1', :q => '13'
+    assert_response :success
+    assert_not_nil assigns(:issues)
+    assert assigns(:issues).include?(Issue.find(13))
+  end
+
+  def test_issues_should_return_issue_with_given_id_preceded_with_hash
+    get :issues, :project_id => 'subproject1', :q => '#13'
     assert_response :success
     assert_not_nil assigns(:issues)
     assert assigns(:issues).include?(Issue.find(13))

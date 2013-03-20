@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -25,7 +25,7 @@ class WatchersControllerTest < ActionController::TestCase
     User.current = nil
   end
 
-  def test_watch
+  def test_watch_a_single_object
     @request.session[:user_id] = 3
     assert_difference('Watcher.count') do
       xhr :post, :watch, :object_type => 'issue', :object_id => '1'
@@ -33,6 +33,27 @@ class WatchersControllerTest < ActionController::TestCase
       assert_include '$(".issue-1-watcher")', response.body
     end
     assert Issue.find(1).watched_by?(User.find(3))
+  end
+
+  def test_watch_a_collection_with_a_single_object
+    @request.session[:user_id] = 3
+    assert_difference('Watcher.count') do
+      xhr :post, :watch, :object_type => 'issue', :object_id => ['1']
+      assert_response :success
+      assert_include '$(".issue-1-watcher")', response.body
+    end
+    assert Issue.find(1).watched_by?(User.find(3))
+  end
+
+  def test_watch_a_collection_with_multiple_objects
+    @request.session[:user_id] = 3
+    assert_difference('Watcher.count', 2) do
+      xhr :post, :watch, :object_type => 'issue', :object_id => ['1', '3']
+      assert_response :success
+      assert_include '$(".issue-bulk-watcher")', response.body
+    end
+    assert Issue.find(1).watched_by?(User.find(3))
+    assert Issue.find(3).watched_by?(User.find(3))
   end
 
   def test_watch_should_be_denied_without_permission
@@ -63,11 +84,25 @@ class WatchersControllerTest < ActionController::TestCase
   def test_unwatch
     @request.session[:user_id] = 3
     assert_difference('Watcher.count', -1) do
-      xhr :post, :unwatch, :object_type => 'issue', :object_id => '2'
+      xhr :delete, :unwatch, :object_type => 'issue', :object_id => '2'
       assert_response :success
       assert_include '$(".issue-2-watcher")', response.body
     end
     assert !Issue.find(1).watched_by?(User.find(3))
+  end
+
+  def test_unwatch_a_collection_with_multiple_objects
+    @request.session[:user_id] = 3
+    Watcher.create!(:user_id => 3, :watchable => Issue.find(1))
+    Watcher.create!(:user_id => 3, :watchable => Issue.find(3))
+
+    assert_difference('Watcher.count', -2) do
+      xhr :delete, :unwatch, :object_type => 'issue', :object_id => ['1', '3']
+      assert_response :success
+      assert_include '$(".issue-bulk-watcher")', response.body
+    end
+    assert !Issue.find(1).watched_by?(User.find(3))
+    assert !Issue.find(3).watched_by?(User.find(3))
   end
 
   def test_new
@@ -77,7 +112,7 @@ class WatchersControllerTest < ActionController::TestCase
     assert_match /ajax-modal/, response.body
   end
 
-  def test_new_for_new_record_with_id
+  def test_new_for_new_record_with_project_id
     @request.session[:user_id] = 2
     xhr :get, :new, :project_id => 1
     assert_response :success
@@ -85,7 +120,7 @@ class WatchersControllerTest < ActionController::TestCase
     assert_match /ajax-modal/, response.body
   end
 
-  def test_new_for_new_record_with_identifier
+  def test_new_for_new_record_with_project_identifier
     @request.session[:user_id] = 2
     xhr :get, :new, :project_id => 'ecookbook'
     assert_response :success
@@ -117,7 +152,8 @@ class WatchersControllerTest < ActionController::TestCase
   end
 
   def test_autocomplete_on_watchable_creation
-    xhr :get, :autocomplete_for_user, :q => 'mi'
+    @request.session[:user_id] = 2
+    xhr :get, :autocomplete_for_user, :q => 'mi', :project_id => 'ecookbook'
     assert_response :success
     assert_select 'input', :count => 4
     assert_select 'input[name=?][value=1]', 'watcher[user_ids][]'
@@ -127,7 +163,8 @@ class WatchersControllerTest < ActionController::TestCase
   end
 
   def test_autocomplete_on_watchable_update
-    xhr :get, :autocomplete_for_user, :q => 'mi', :object_id => '2' , :object_type => 'issue'
+    @request.session[:user_id] = 2
+    xhr :get, :autocomplete_for_user, :q => 'mi', :object_id => '2' , :object_type => 'issue', :project_id => 'ecookbook'
     assert_response :success
     assert_select 'input', :count => 3
     assert_select 'input[name=?][value=2]', 'watcher[user_ids][]'
@@ -139,7 +176,7 @@ class WatchersControllerTest < ActionController::TestCase
   def test_append
     @request.session[:user_id] = 2
     assert_no_difference 'Watcher.count' do
-      xhr :post, :append, :watcher => {:user_ids => ['4', '7']}
+      xhr :post, :append, :watcher => {:user_ids => ['4', '7']}, :project_id => 'ecookbook'
       assert_response :success
       assert_include 'watchers_inputs', response.body
       assert_include 'issue[watcher_user_ids][]', response.body
@@ -149,7 +186,7 @@ class WatchersControllerTest < ActionController::TestCase
   def test_remove_watcher
     @request.session[:user_id] = 2
     assert_difference('Watcher.count', -1) do
-      xhr :post, :destroy, :object_type => 'issue', :object_id => '2', :user_id => '3'
+      xhr :delete, :destroy, :object_type => 'issue', :object_id => '2', :user_id => '3'
       assert_response :success
       assert_match /watchers/, response.body
     end

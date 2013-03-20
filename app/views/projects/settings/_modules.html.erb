@@ -3,8 +3,7 @@
             :html => {:id => 'modules-form',
                       :method => :post} do |f| %>
 
-<div class="box">
-<fieldset>
+<fieldset class="box">
 <legend><%= l(:text_select_project_modules) %></legend>
 
 <% Redmine::AccessControl.available_project_modules.each do |m| %>
@@ -12,9 +11,8 @@
  <%= l_or_humanize(m, :prefix => "project_module_") %></label></p>
 <% end %>
 </fieldset>
-</div>
-
 <p><%= check_all_links 'modules-form' %></p>
+
 <p><%= submit_tag l(:button_save) %></p>
 
 <% end %>

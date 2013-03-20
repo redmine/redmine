@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -114,7 +114,7 @@ class QueriesControllerTest < ActionController::TestCase
     assert_redirected_to :controller => 'issues', :action => 'index', :project_id => nil, :query_id => q
     assert !q.is_public?
     assert !q.has_default_columns?
-    assert_equal [:tracker, :subject, :priority, :category], q.columns.collect {|c| c.name}
+    assert_equal [:id, :tracker, :subject, :priority, :category], q.columns.collect {|c| c.name}
     assert q.valid?
   end
 

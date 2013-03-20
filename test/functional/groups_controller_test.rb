@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -79,8 +79,11 @@ class GroupsControllerTest < ActionController::TestCase
     get :edit, :id => 10
     assert_response :success
     assert_template 'edit'
-    assert_tag 'div', :attributes => {:id => 'tab-content-users'}
-    assert_tag 'div', :attributes => {:id => 'tab-content-memberships'}
+
+    assert_select 'div#tab-content-users'
+    assert_select 'div#tab-content-memberships' do
+      assert_select 'a', :text => 'Private child of eCookbook'
+    end
   end
 
   def test_update
@@ -192,11 +195,8 @@ class GroupsControllerTest < ActionController::TestCase
   end
 
   def test_autocomplete_for_user
-    get :autocomplete_for_user, :id => 10, :q => 'mis'
+    get :autocomplete_for_user, :id => 10, :q => 'smi', :format => 'js'
     assert_response :success
-    users = assigns(:users)
-    assert_not_nil users
-    assert users.any?
-    assert !users.include?(Group.find(10).users.first)
+    assert_include 'John Smith', response.body
   end
 end

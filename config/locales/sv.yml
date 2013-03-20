@@ -79,8 +79,8 @@ sv:
         one:   "ungefär en timme"
         other: "ungefär %{count} timmar"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 timme"
+        other: "%{count} timmar"
       x_days:
         one:   "en dag"
         other: "%{count} dagar"
@@ -204,7 +204,7 @@ sv:
   notice_not_authorized_archived_project: Projektet du försöker komma åt har arkiverats.
   notice_email_sent: "Ett mail skickades till %{value}"
   notice_email_error: "Ett fel inträffade när mail skickades (%{value})"
-  notice_feeds_access_key_reseted: Din RSS-nyckel återställdes.
+  notice_feeds_access_key_reseted: Din Atom-nyckel återställdes.
   notice_api_access_key_reseted: Din API-nyckel återställdes.
   notice_failed_to_save_issues: "Misslyckades med att spara %{count} ärende(n) på %{total} valda: %{ids}."
   notice_failed_to_save_time_entries: "Misslyckades med att spara %{count} tidloggning(ar) på %{total} valda: %{ids}."
@@ -215,10 +215,11 @@ sv:
   notice_unable_delete_version: Denna version var inte möjlig att ta bort.
   notice_unable_delete_time_entry: Tidloggning kunde inte tas bort.
   notice_issue_done_ratios_updated: "% klart uppdaterade."
-  notice_gantt_chart_truncated: "Schemat förminskades eftersom det överskrider det maximala antalet aktiviteter som får visas (%{max})"
-  notice_issue_successful_create: Ärende %{id} skapades.
-  notice_issue_update_conflict: Detta ärende har uppdaterats av en annan användare samtidigt som du redigerade det.
-  notice_account_deleted: Ditt konto har avslutats permanent.
+  notice_gantt_chart_truncated: "Schemat förminskades eftersom det överskrider det maximala antalet aktiviteter som kan visas (%{max})"
+  notice_issue_successful_create: "Ärende %{id} skapades."
+  notice_issue_update_conflict: "Detta ärende har uppdaterats av en annan användare samtidigt som du redigerade det."
+  notice_account_deleted: "Ditt konto har avslutats permanent."
+  notice_user_successful_create: "Användare %{id} skapad."
 
   error_can_t_load_default_data: "Standardkonfiguration gick inte att läsa in: %{value}"
   error_scm_not_found: "Inlägg och/eller revision finns inte i detta versionsarkiv."
@@ -238,7 +239,8 @@ sv:
   error_workflow_copy_target: 'Vänligen välj ärendetyp(er) och roll(er) för mål'
   error_unable_delete_issue_status: 'Ärendestatus kunde inte tas bort'
   error_unable_to_connect: "Kan inte ansluta (%{value})"
-  error_attachment_too_big: Denna fil kan inte laddas upp eftersom den överstiger maximalt tillåten filstorlek (%{max_size})
+  error_attachment_too_big: "Denna fil kan inte laddas upp eftersom den överstiger maximalt tillåten filstorlek (%{max_size})"
+  error_session_expired: "Din session har gått ut. Vänligen logga in på nytt."
   warning_attachments_not_saved: "%{count} fil(er) kunde inte sparas."
 
   mail_subject_lost_password: "Ditt %{value} lösenord"
@@ -366,6 +368,10 @@ sv:
   field_repository_is_default: Huvudarkiv
   field_multiple: Flera värden
   field_auth_source_ldap_filter: LDAP-filter
+  field_core_fields: Standardfält
+  field_timeout: "Timeout (i sekunder)"
+  field_board_parent: Förälderforum
+  field_private_notes: Privata anteckningar
 
   setting_app_title: Applikationsrubrik
   setting_app_subtitle: Applikationsunderrubrik
@@ -390,6 +396,7 @@ sv:
   setting_autologin: Automatisk inloggning
   setting_date_format: Datumformat
   setting_time_format: Tidsformat
+  setting_cross_project_subtasks: Tillåt underaktiviteter mellan projekt
   setting_cross_project_issue_relations: Tillåt ärenderelationer mellan projekt
   setting_issue_list_default_columns: Standardkolumner i ärendelistan
   setting_repositories_encodings: Encoding för bilagor och versionsarkiv
@@ -428,10 +435,16 @@ sv:
   setting_default_issue_start_date_to_creation_date: Använd dagens datum som startdatum för nya ärenden
   setting_commit_cross_project_ref: Tillåt ärende i alla de andra projekten att bli refererade och fixade
   setting_unsubscribe: Tillåt användare att avsluta prenumereration
+  setting_session_lifetime: Maximal sessionslivslängd
+  setting_session_timeout: Tidsgräns för sessionsinaktivitet
+  setting_thumbnails_enabled: Visa miniatyrbilder av bilagor
+  setting_thumbnails_size: Storlek på miniatyrbilder (i pixlar)
+  setting_non_working_week_days: Lediga dagar
 
   permission_add_project: Skapa projekt
   permission_add_subprojects: Skapa underprojekt
   permission_edit_project: Ändra projekt
+  permission_close_project: Stänga / återöppna projektet
   permission_select_project_modules: Välja projektmoduler
   permission_manage_members: Hantera medlemmar
   permission_manage_project_activities: Hantera projektaktiviteter
@@ -443,9 +456,11 @@ sv:
   permission_manage_issue_relations: Hantera ärenderelationer
   permission_set_issues_private: Sätta ärenden publika eller privata
   permission_set_own_issues_private: Sätta egna ärenden publika eller privata
-  permission_add_issue_notes: Lägga till ärendenotering
-  permission_edit_issue_notes: Ändra ärendenoteringar
-  permission_edit_own_issue_notes: Ändra egna ärendenoteringar
+  permission_add_issue_notes: Lägga till ärendeanteckning
+  permission_edit_issue_notes: Ändra ärendeanteckningar
+  permission_edit_own_issue_notes: Ändra egna ärendeanteckningar
+  permission_view_private_notes: Visa privata anteckningar
+  permission_set_notes_private: Ställa in anteckningar som privata
   permission_move_issues: Flytta ärenden
   permission_delete_issues: Ta bort ärenden
   permission_manage_public_queries: Hantera publika frågor
@@ -461,8 +476,10 @@ sv:
   permission_edit_own_time_entries: Ändra egna tidloggningar
   permission_manage_news: Hantera nyheter
   permission_comment_news: Kommentera nyheter
-  permission_manage_documents: Hantera dokument
   permission_view_documents: Visa dokument
+  permission_add_documents: Lägga till dokument
+  permission_edit_documents: Ändra dokument
+  permission_delete_documents: Ta bort dokument
   permission_manage_files: Hantera filer
   permission_view_files: Visa filer
   permission_manage_wiki: Hantera wiki
@@ -644,7 +661,8 @@ sv:
   label_current_status: Nuvarande status
   label_new_statuses_allowed: Nya tillåtna statusvärden
   label_all: alla
-  label_none: ingen
+  label_any: vad/vem som helst
+  label_none: inget/ingen
   label_nobody: ingen
   label_next: Nästa
   label_previous: Föregående
@@ -678,6 +696,8 @@ sv:
   label_not_equals: är inte
   label_in_less_than: om mindre än
   label_in_more_than: om mer än
+  label_in_the_next_days: under kommande
+  label_in_the_past_days: under föregående
   label_greater_or_equal: '>='
   label_less_or_equal: '<='
   label_between: mellan
@@ -687,6 +707,7 @@ sv:
   label_yesterday: igår
   label_this_week: denna vecka
   label_last_week: senaste veckan
+  label_last_n_weeks: "senaste %{count} veckorna"
   label_last_n_days: "senaste %{count} dagarna"
   label_this_month: denna månad
   label_last_month: senaste månaden
@@ -697,6 +718,9 @@ sv:
   label_ago: dagar sedan
   label_contains: innehåller
   label_not_contains: innehåller inte
+  label_any_issues_in_project: några ärenden i projektet
+  label_any_issues_not_in_project: några ärenden utanför projektet
+  label_no_issues_in_project: inga ärenden i projektet
   label_day_plural: dagar
   label_repository: Versionsarkiv
   label_repository_new: Nytt versionsarkiv
@@ -763,13 +787,15 @@ sv:
   label_loading: Laddar...
   label_relation_new: Ny relation
   label_relation_delete: Ta bort relation
-  label_relates_to: relaterar till
-  label_duplicates: kopierar
-  label_duplicated_by: kopierad av
-  label_blocks: blockerar
-  label_blocked_by: blockerad av
-  label_precedes: kommer före
-  label_follows: följer
+  label_relates_to: Relaterar till
+  label_duplicates: Kopierar
+  label_duplicated_by: Kopierad av
+  label_blocks: Blockerar
+  label_blocked_by: Blockerad av
+  label_precedes: Kommer före
+  label_follows: Följer
+  label_copied_to: Kopierad till
+  label_copied_from: Kopierad från
   label_end_to_start: slut till start
   label_end_to_end: slut till slut
   label_start_to_start: start till start
@@ -798,9 +824,9 @@ sv:
   label_language_based: Språkbaserad
   label_sort_by: "Sortera på %{value}"
   label_send_test_email: Skicka testmail
-  label_feeds_access_key: RSS-nyckel
-  label_missing_feeds_access_key: Saknar en RSS-nyckel
-  label_feeds_access_key_created_on: "RSS-nyckel skapad för %{value} sedan"
+  label_feeds_access_key: Atom-nyckel
+  label_missing_feeds_access_key: Saknar en Atom-nyckel
+  label_feeds_access_key_created_on: "Atom-nyckel skapad för %{value} sedan"
   label_module_plural: Moduler
   label_added_time_by: "Tillagd av %{author} för %{age} sedan"
   label_updated_time_by: "Uppdaterad av %{author} för %{age} sedan"
@@ -883,9 +909,27 @@ sv:
   label_child_revision: Barn
   label_export_options: "%{export_format} exportalternativ"
   label_copy_attachments: Kopiera bilagor
+  label_copy_subtasks: Kopiera underaktiviteter
   label_item_position: "%{position}/%{count}"
   label_completed_versions: Klara versioner
   label_search_for_watchers: Sök efter bevakare att lägga till
+  label_session_expiration: Sessionsutgång
+  label_show_closed_projects: Visa stängda projekt
+  label_status_transitions: Statusövergångar
+  label_fields_permissions: Fältbehörigheter
+  label_readonly: Skrivskyddad
+  label_required: Nödvändig
+  label_attribute_of_project: Projektets %{name}
+  label_attribute_of_issue: Ärendets %{name}
+  label_attribute_of_author: Författarens %{name}
+  label_attribute_of_assigned_to: Tilldelad användares %{name}
+  label_attribute_of_user: Användarens %{name}
+  label_attribute_of_fixed_version: Målversionens %{name}
+  label_cross_project_descendants: Med underprojekt
+  label_cross_project_tree: Med projektträd
+  label_cross_project_hierarchy: Med projekthierarki
+  label_cross_project_system: Med alla projekt
+  label_gantt_progress_line: Framstegslinje
 
   button_login: Logga in
   button_submit: Skicka
@@ -933,13 +977,20 @@ sv:
   button_quote: Citera
   button_duplicate: Duplicera
   button_show: Visa
+  button_hide: Göm
   button_edit_section: Redigera denna sektion
   button_export: Exportera
   button_delete_my_account: Ta bort mitt konto
+  button_close: Stäng
+  button_reopen: Återöppna
 
   status_active: aktiv
   status_registered: registrerad
   status_locked: låst
+
+  project_status_active: aktiv
+  project_status_closed: stängd
+  project_status_archived: arkiverad
 
   version_status_open: öppen
   version_status_locked: låst
@@ -962,7 +1013,7 @@ sv:
   text_tip_issue_begin_day: ärende som börjar denna dag
   text_tip_issue_end_day: ärende som slutar denna dag
   text_tip_issue_begin_end_day: ärende som börjar och slutar denna dag
-  text_project_identifier_info: Ändast gemener (a-z), siffror, streck och understreck är tillåtna.<br />När identifieraren sparats kan den inte ändras.
+  text_project_identifier_info: 'Endast gemener (a-z), siffror, streck och understreck är tillåtna, måste börja med en bokstav.<br />När identifieraren sparats kan den inte ändras.'
   text_caracters_maximum: "max %{count} tecken."
   text_caracters_minimum: "Måste vara minst %{count} tecken lång."
   text_length_between: "Längd mellan %{min} och %{max} tecken."
@@ -1008,7 +1059,7 @@ sv:
   text_own_membership_delete_confirmation: "Några av, eller alla, dina behörigheter kommer att tas bort och du kanske inte längre kommer kunna göra ändringar i det här projektet.\nVill du verkligen fortsätta?"
   text_zoom_out: Zooma ut
   text_zoom_in: Zooma in
-  text_warn_on_leaving_unsaved: Nuvarande sida innehåller osparad text som kommer försvinna om du lämnar sidan.
+  text_warn_on_leaving_unsaved: "Nuvarande sida innehåller osparad text som kommer försvinna om du lämnar sidan."
   text_scm_path_encoding_note: "Standard: UTF-8"
   text_git_repository_note: Versionsarkiv är tomt och lokalt (t.ex. /gitrepo, c:\gitrepo)
   text_mercurial_repository_note: Lokalt versionsarkiv (t.ex. /hgrepo, c:\hgrepo)
@@ -1016,10 +1067,13 @@ sv:
   text_scm_command_version: Version
   text_scm_config: Du kan konfigurera dina scm-kommando i config/configuration.yml. Vänligen starta om applikationen när ändringar gjorts.
   text_scm_command_not_available: Scm-kommando är inte tillgängligt. Vänligen kontrollera inställningarna i administratörspanelen.
-  text_issue_conflict_resolution_overwrite: Använd mina ändringar i alla fall (tidigare anteckningar kommer behållas men några ändringar kan bli överskrivna)
-  text_issue_conflict_resolution_add_notes: Lägg till mina anteckningar och kasta mina andra ändringar
-  text_issue_conflict_resolution_cancel: Kasta alla mina ändringar och visa igen %{link}
+  text_issue_conflict_resolution_overwrite: "Använd mina ändringar i alla fall (tidigare anteckningar kommer behållas men några ändringar kan bli överskrivna)"
+  text_issue_conflict_resolution_add_notes: "Lägg till mina anteckningar och kasta mina andra ändringar"
+  text_issue_conflict_resolution_cancel: "Kasta alla mina ändringar och visa igen %{link}"
   text_account_destroy_confirmation: "Är du säker på att du vill fortsätta?\nDitt konto kommer tas bort permanent, utan möjlighet att återaktivera det."
+  text_session_expiration_settings: "Varning: ändring av dessa inställningar kan få alla nuvarande sessioner, inklusive din egen, att gå ut."
+  text_project_closed: Detta projekt är stängt och skrivskyddat.
+  text_turning_multiple_off: "Om du inaktiverar möjligheten till flera värden kommer endast ett värde per objekt behållas."
 
   default_role_manager: Projektledare
   default_role_developer: Utvecklare
@@ -1065,52 +1119,10 @@ sv:
   description_date_range_interval: Ange intervall genom att välja start- och slutdatum
   description_date_from: Ange startdatum
   description_date_to: Ange slutdatum
-  error_session_expired: Your session has expired. Please login again.
-  text_session_expiration_settings: "Warning: changing these settings may expire the current sessions including yours."
-  setting_session_lifetime: Session maximum lifetime
-  setting_session_timeout: Session inactivity timeout
-  label_session_expiration: Session expiration
-  permission_close_project: Close / reopen the project
-  label_show_closed_projects: View closed projects
-  button_close: Close
-  button_reopen: Reopen
-  project_status_active: active
-  project_status_closed: closed
-  project_status_archived: archived
-  text_project_closed: This project is closed and read-only.
-  notice_user_successful_create: User %{id} created.
-  field_core_fields: Standard fields
-  field_timeout: Timeout (in seconds)
-  setting_thumbnails_enabled: Display attachment thumbnails
-  setting_thumbnails_size: Thumbnails size (in pixels)
-  label_status_transitions: Status transitions
-  label_fields_permissions: Fields permissions
-  label_readonly: Read-only
-  label_required: Required
-  text_repository_identifier_info: Ändast gemener (a-z), siffror, streck och understreck är tillåtna.<br />När identifieraren sparats kan den inte ändras.
-  field_board_parent: Parent forum
-  label_attribute_of_project: Project's %{name}
-  label_attribute_of_author: Author's %{name}
-  label_attribute_of_assigned_to: Assignee's %{name}
-  label_attribute_of_fixed_version: Target version's %{name}
-  label_copy_subtasks: Copy subtasks
-  label_copied_to: copied to
-  label_copied_from: copied from
-  label_any_issues_in_project: any issues in project
-  label_any_issues_not_in_project: any issues not in project
-  field_private_notes: Private notes
-  permission_view_private_notes: View private notes
-  permission_set_notes_private: Set notes as private
-  label_no_issues_in_project: no issues in project
-  label_any: alla
-  label_last_n_weeks: last %{count} weeks
-  setting_cross_project_subtasks: Allow cross-project subtasks
-  label_cross_project_descendants: Med underprojekt
-  label_cross_project_tree: Med projektträd
-  label_cross_project_hierarchy: Med projekthierarki
-  label_cross_project_system: Med alla projekt
-  button_hide: Hide
-  setting_non_working_week_days: Non-working days
-  label_in_the_next_days: in the next
-  label_in_the_past_days: in the past
-  label_attribute_of_user: User's %{name}
+  text_repository_identifier_info: 'Endast gemener (a-z), siffror, streck och understreck är tillåtna.<br />När identifieraren sparats kan den inte ändras.'
+  setting_jsonp_enabled: Enable JSONP support
+  field_inherit_members: Inherit members
+  field_closed_on: Closed
+  field_generate_password: Generate password
+  setting_default_projects_tracker_ids: Default trackers for new projects
+  label_total_time: Total

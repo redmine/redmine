@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,6 +18,8 @@
 class SettingsController < ApplicationController
   layout 'admin'
   menu_item :plugins, :only => :plugin
+
+  helper :queries
 
   before_filter :require_admin
 
@@ -52,6 +54,11 @@ class SettingsController < ApplicationController
 
   def plugin
     @plugin = Redmine::Plugin.find(params[:id])
+    unless @plugin.configurable?
+      render_404
+      return
+    end
+
     if request.post?
       Setting.send "plugin_#{@plugin.id}=", params[:settings]
       flash[:notice] = l(:notice_successful_update)

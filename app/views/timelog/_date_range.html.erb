@@ -11,7 +11,7 @@
       <table>
         <tr>
           <td><%= l(:field_column_names) %></td>
-          <td><%= render :partial => 'queries/columns', :locals => {:query => @query} %></td>
+          <td><%= render_query_columns_selection(@query) %></td>
         </tr>
       </table>
     </div>

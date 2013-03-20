@@ -5,7 +5,12 @@
 <p><%= f.select :field_format, custom_field_formats_for_select(@custom_field), {}, :disabled => !@custom_field.new_record? %></p>
 
 <% if @custom_field.format_in? 'list', 'user', 'version' %>
-<p><%= f.check_box :multiple, :disabled => @custom_field.multiple && !@custom_field.new_record? %></p>
+<p>
+  <%= f.check_box :multiple %>
+  <% if !@custom_field.new_record? && @custom_field.multiple %>
+  <em class="info"><%= l(:text_turning_multiple_off) %></em>
+  <% end %>
+</p>
 <% end %>
 
 <% unless @custom_field.format_in? 'list', 'bool', 'date', 'user', 'version' %>
@@ -22,8 +27,17 @@
 </p>
 <% end %>
 
-<% unless @custom_field.format_in? 'user', 'version' %>
-<p><%= @custom_field.field_format == 'bool' ? f.check_box(:default_value) : f.text_field(:default_value) %></p>
+<% case @custom_field.field_format %>
+<% when 'bool' %>
+  <p><%= f.check_box(:default_value) %></p>
+<% when 'text' %>
+  <p><%= f.text_area(:default_value, :rows => 8) %></p>
+<% when 'date' %>
+  <p><%= f.text_field(:default_value, :size => 10) %></p>
+  <%= calendar_for('custom_field_default_value') %>
+<% when 'user', 'version' %>
+<% else %>
+  <p><%= f.text_field(:default_value) %></p>
 <% end %>
 
 <%= call_hook(:view_custom_fields_form_upper_box, :custom_field => @custom_field, :form => f) %>
@@ -81,3 +95,5 @@ when "IssueCustomField" %>
 <% end %>
 <%= call_hook(:"view_custom_fields_form_#{@custom_field.type.to_s.underscore}", :custom_field => @custom_field, :form => f) %>
 </div>
+
+<% include_calendar_headers_tags %>

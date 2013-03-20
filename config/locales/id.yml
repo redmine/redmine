@@ -161,7 +161,7 @@ id:
   notice_not_authorized: Anda tidak memiliki akses ke halaman ini.
   notice_email_sent: "Email sudah dikirim ke %{value}"
   notice_email_error: "Terjadi kesalahan pada saat pengiriman email (%{value})"
-  notice_feeds_access_key_reseted: RSS access key anda sudah direset.
+  notice_feeds_access_key_reseted: Atom access key anda sudah direset.
   notice_failed_to_save_issues: "Gagal menyimpan %{count} masalah dari %{total} yang dipilih: %{ids}."
   notice_no_issue_selected: "Tidak ada masalah yang dipilih! Silakan pilih masalah yang akan anda sunting."
   notice_account_pending: "Akun anda sudah dibuat dan sekarang sedang menunggu persetujuan administrator."
@@ -359,7 +359,6 @@ id:
   permission_edit_own_time_entries: Sunting catatan waktu saya
   permission_manage_news: Atur berita
   permission_comment_news: Komentari berita
-  permission_manage_documents: Atur dokumen
   permission_view_documents: Tampilkan dokumen
   permission_manage_files: Atur berkas
   permission_view_files: Tampilkan berkas
@@ -670,7 +669,7 @@ id:
   label_language_based: Berdasarkan bahasa pengguna
   label_sort_by: "Urut berdasarkan %{value}"
   label_send_test_email: Kirim email percobaan
-  label_feeds_access_key_created_on: "RSS access key dibuat %{value} yang lalu"
+  label_feeds_access_key_created_on: "Atom access key dibuat %{value} yang lalu"
   label_module_plural: Modul
   label_added_time_by: "Ditambahkan oleh %{author} %{age} yang lalu"
   label_updated_time_by: "Diperbarui oleh %{author} %{age} yang lalu"
@@ -873,7 +872,7 @@ id:
   label_display_used_statuses_only: Only display statuses that are used by this tracker
   error_workflow_copy_target: Please select target tracker(s) and role(s)
   label_api_access_key_created_on: API access key created %{value} ago
-  label_feeds_access_key: RSS access key
+  label_feeds_access_key: Atom access key
   notice_api_access_key_reseted: Your API access key was reset.
   setting_rest_api_enabled: Enable REST web service
   label_copy_same_as_target: Same as target
@@ -881,7 +880,7 @@ id:
   setting_issue_done_ratio_issue_field: Use the issue field
   label_missing_api_access_key: Missing an API access key
   label_copy_target: Target
-  label_missing_feeds_access_key: Missing a RSS access key
+  label_missing_feeds_access_key: Missing a Atom access key
   notice_issue_done_ratios_updated: Issue done ratios updated.
   error_workflow_copy_source: Please select a source tracker or role
   setting_start_of_week: Start calendars on
@@ -930,7 +929,6 @@ id:
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"
   field_visible: Visible
-  setting_emails_header: Emails header
   setting_commit_logtime_activity_id: Activity for logged time
   text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
@@ -971,8 +969,6 @@ id:
   text_scm_command: Command
   text_scm_command_version: Version
   label_git_report_last_commit: Report last commit for files and directories
-  text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.
-  text_scm_command_not_available: Scm command is not available. Please check settings on the administration panel.
   notice_issue_successful_create: Issue %{id} created.
   label_between: between
   setting_issue_group_assignment: Allow issue assignment to groups
@@ -1080,3 +1076,19 @@ id:
   label_in_the_next_days: in the next
   label_in_the_past_days: in the past
   label_attribute_of_user: User's %{name}
+  text_turning_multiple_off: If you disable multiple values, multiple values will be
+    removed in order to preserve only one value per item.
+  label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents
+  label_gantt_progress_line: Progress line
+  setting_jsonp_enabled: Enable JSONP support
+  field_inherit_members: Inherit members
+  field_closed_on: Closed
+  field_generate_password: Generate password
+  setting_default_projects_tracker_ids: Default trackers for new projects
+  label_total_time: Total
+  text_scm_config: You can configure your SCM commands in config/configuration.yml. Please restart the application after editing it.
+  text_scm_command_not_available: SCM command is not available. Please check settings on the administration panel.
+  setting_emails_header: Email header

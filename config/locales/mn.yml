@@ -161,7 +161,7 @@ mn:
   notice_not_authorized: Танд энэ хуудсыг үзэх эрх байхгүй байна.
   notice_email_sent: "%{value} - руу мэйл илгээлээ"
   notice_email_error: "Мэйл илгээхэд алдаа гарлаа (%{value})"
-  notice_feeds_access_key_reseted: Таны RSS хандалтын түлхүүрийг дахин эхлүүллээ.
+  notice_feeds_access_key_reseted: Таны Atom хандалтын түлхүүрийг дахин эхлүүллээ.
   notice_api_access_key_reseted: Your API access key was reset.
   notice_failed_to_save_issues: "%{total} асуудал сонгогдсоноос %{count} асуудлыг нь хадгалахад алдаа гарлаа: %{ids}."
   notice_no_issue_selected: "Ямар ч асуудал сонгогдоогүй байна! Засварлах асуудлуудаа сонгоно уу."
@@ -374,7 +374,6 @@ mn:
   permission_edit_own_time_entries: Өөрийн хугацааны логуудыг засварлах
   permission_manage_news: Мэдээ мэдээллүүд
   permission_comment_news: Мэдээнд тайлбар үлдээх
-  permission_manage_documents: Бичиг баримтууд
   permission_view_documents: Бичиг баримтуудыг харах
   permission_manage_files: Файлууд
   permission_view_files: Файлуудыг харах
@@ -691,9 +690,9 @@ mn:
   label_language_based: Хэрэглэгчийн хэлнас шалтгаалан
   label_sort_by: "%{value} талбараар нь эрэмбэлэх"
   label_send_test_email: Турших мэйл илгээх
-  label_feeds_access_key: RSS хандах түлхүүр
-  label_missing_feeds_access_key: RSS хандах түлхүүр алга
-  label_feeds_access_key_created_on: "RSS хандалтын түлхүүр %{value}-ийн өмнө үүссэн"
+  label_feeds_access_key: Atom хандах түлхүүр
+  label_missing_feeds_access_key: Atom хандах түлхүүр алга
+  label_feeds_access_key_created_on: "Atom хандалтын түлхүүр %{value}-ийн өмнө үүссэн"
   label_module_plural: Модулууд
   label_added_time_by: "%{author} %{age}-ийн өмнө нэмсэн"
   label_updated_time_by: "%{author} %{age}-ийн өмнө өөрчилсөн"
@@ -927,7 +926,6 @@ mn:
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"
   field_visible: Visible
-  setting_emails_header: Emails header
   setting_commit_logtime_activity_id: Activity for logged time
   text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
@@ -968,8 +966,6 @@ mn:
   text_scm_command: Command
   text_scm_command_version: Version
   label_git_report_last_commit: Report last commit for files and directories
-  text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.
-  text_scm_command_not_available: Scm command is not available. Please check settings on the administration panel.
   notice_issue_successful_create: Issue %{id} created.
   label_between: between
   setting_issue_group_assignment: Allow issue assignment to groups
@@ -1077,3 +1073,19 @@ mn:
   label_in_the_next_days: in the next
   label_in_the_past_days: in the past
   label_attribute_of_user: User's %{name}
+  text_turning_multiple_off: If you disable multiple values, multiple values will be
+    removed in order to preserve only one value per item.
+  label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents
+  label_gantt_progress_line: Progress line
+  setting_jsonp_enabled: Enable JSONP support
+  field_inherit_members: Inherit members
+  field_closed_on: Closed
+  field_generate_password: Generate password
+  setting_default_projects_tracker_ids: Default trackers for new projects
+  label_total_time: Нийт
+  text_scm_config: You can configure your SCM commands in config/configuration.yml. Please restart the application after editing it.
+  text_scm_command_not_available: SCM command is not available. Please check settings on the administration panel.
+  setting_emails_header: Email header

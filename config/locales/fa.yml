@@ -162,7 +162,7 @@ fa:
   notice_not_authorized_archived_project: پروژه درخواستی شما بایگانی شده است.
   notice_email_sent: "یک ایمیل به %{value} فرستاده شد."
   notice_email_error: "یک ایراد در فرستادن ایمیل پیش آمد (%{value})."
-  notice_feeds_access_key_reseted: کلید دسترسی RSS شما بازنشانی شد.
+  notice_feeds_access_key_reseted: کلید دسترسی Atom شما بازنشانی شد.
   notice_api_access_key_reseted: کلید دسترسی API شما بازنشانی شد.
   notice_failed_to_save_issues: "ذخیره سازی %{count} پیامد از %{total} پیامد گزینش شده شکست خورد: %{ids}."
   notice_failed_to_save_members: "ذخیره سازی اعضا شکست خورد: %{errors}."
@@ -394,7 +394,6 @@ fa:
   permission_edit_own_time_entries: ویرایش زمان گذاشته شده خود
   permission_manage_news: سرپرستی رویدادها
   permission_comment_news: گذاشتن دیدگاه روی رویدادها
-  permission_manage_documents: سرپرستی نوشتارها
   permission_view_documents: دیدن نوشتارها
   permission_manage_files: سرپرستی پرونده‌ها
   permission_view_files: دیدن پرونده‌ها
@@ -716,9 +715,9 @@ fa:
   label_language_based: بر اساس زبان کاربر
   label_sort_by: "جور کرد با %{value}"
   label_send_test_email: فرستادن ایمیل آزمایشی
-  label_feeds_access_key: کلید دسترسی RSS
-  label_missing_feeds_access_key: کلید دسترسی RSS در دسترس نیست
-  label_feeds_access_key_created_on: "کلید دسترسی RSS %{value} پیش ساخته شده است"
+  label_feeds_access_key: کلید دسترسی Atom
+  label_missing_feeds_access_key: کلید دسترسی Atom در دسترس نیست
+  label_feeds_access_key_created_on: "کلید دسترسی Atom %{value} پیش ساخته شده است"
   label_module_plural: پیمانه
   label_added_time_by: "افزوده شده به دست %{author} در %{age} پیش"
   label_updated_time_by: "بروز شده به دست %{author} در %{age} پیش"
@@ -969,8 +968,6 @@ fa:
   text_scm_command: Command
   text_scm_command_version: Version
   label_git_report_last_commit: Report last commit for files and directories
-  text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.
-  text_scm_command_not_available: Scm command is not available. Please check settings on the administration panel.
   notice_issue_successful_create: Issue %{id} created.
   label_between: between
   setting_issue_group_assignment: Allow issue assignment to groups
@@ -1078,3 +1075,18 @@ fa:
   label_in_the_next_days: in the next
   label_in_the_past_days: in the past
   label_attribute_of_user: User's %{name}
+  text_turning_multiple_off: If you disable multiple values, multiple values will be
+    removed in order to preserve only one value per item.
+  label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents
+  label_gantt_progress_line: Progress line
+  setting_jsonp_enabled: Enable JSONP support
+  field_inherit_members: Inherit members
+  field_closed_on: Closed
+  field_generate_password: Generate password
+  setting_default_projects_tracker_ids: Default trackers for new projects
+  label_total_time: جمله
+  text_scm_config: You can configure your SCM commands in config/configuration.yml. Please restart the application after editing it.
+  text_scm_command_not_available: SCM command is not available. Please check settings on the administration panel.

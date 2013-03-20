@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -28,11 +28,12 @@ class QueryColumn
     end
     self.default_order = options[:default_order]
     @inline = options.key?(:inline) ? options[:inline] : true
-    @caption_key = options[:caption] || "field_#{name}"
+    @caption_key = options[:caption] || "field_#{name}".to_sym
+    @frozen = options[:frozen]
   end
 
   def caption
-    l(@caption_key)
+    @caption_key.is_a?(Symbol) ? l(@caption_key) : @caption_key
   end
 
   # Returns true if the column is sortable, otherwise false
@@ -46,6 +47,10 @@ class QueryColumn
 
   def inline?
     @inline
+  end
+
+  def frozen?
+    @frozen
   end
 
   def value(object)
@@ -82,6 +87,28 @@ class QueryCustomFieldColumn < QueryColumn
 
   def css_classes
     @css_classes ||= "#{name} #{@cf.field_format}"
+  end
+end
+
+class QueryAssociationCustomFieldColumn < QueryCustomFieldColumn
+
+  def initialize(association, custom_field)
+    super(custom_field)
+    self.name = "#{association}.cf_#{custom_field.id}".to_sym
+    # TODO: support sorting/grouping by association custom field
+    self.sortable = false
+    self.groupable = false
+    @association = association
+  end
+
+  def value(object)
+    if assoc = object.send(@association)
+      super(assoc)
+    end
+  end
+
+  def css_classes
+    @css_classes ||= "#{@association}_cf_#{@cf.id} #{@cf.field_format}"
   end
 end
 
@@ -256,6 +283,37 @@ class Query < ActiveRecord::Base
     @all_projects_values = values
   end
 
+  # Adds available filters
+  def initialize_available_filters
+    # implemented by sub-classes
+  end
+  protected :initialize_available_filters
+
+  # Adds an available filter
+  def add_available_filter(field, options)
+    @available_filters ||= ActiveSupport::OrderedHash.new
+    @available_filters[field] = options
+    @available_filters
+  end
+
+  # Removes an available filter
+  def delete_available_filter(field)
+    if @available_filters
+      @available_filters.delete(field)
+    end
+  end
+
+  # Return a hash of available filters
+  def available_filters
+    unless @available_filters
+      initialize_available_filters
+      @available_filters.each do |field, options|
+        options[:name] ||= l(options[:label] || "field_#{field}".gsub(/_id$/, ''))
+      end
+    end
+    @available_filters
+  end
+
   def add_filter(field, operator, values=nil)
     # values must be an array
     return unless values.nil? || values.is_a?(Array)
@@ -271,7 +329,8 @@ class Query < ActiveRecord::Base
     field_type = available_filters[field][:type]
     operators_by_filter_type[field_type].sort.reverse.detect do |operator|
       next unless expression =~ /^#{Regexp.escape(operator)}(.*)$/
-      add_filter field, operator, $1.present? ? $1.split('|') : ['']
+      values = $1
+      add_filter field, operator, values.present? ? values.split('|') : ['']
     end || add_filter(field, '=', expression.split('|'))
   end
 
@@ -328,9 +387,10 @@ class Query < ActiveRecord::Base
 
   def columns
     # preserve the column_names order
-    (has_default_columns? ? default_columns_names : column_names).collect do |name|
+    cols = (has_default_columns? ? default_columns_names : column_names).collect do |name|
        available_columns.find { |col| col.name == name }
     end.compact
+    available_columns.select(&:frozen?) | cols
   end
 
   def inline_columns
@@ -669,31 +729,30 @@ class Query < ActiveRecord::Base
 
   def add_custom_fields_filters(custom_fields, assoc=nil)
     return unless custom_fields.present?
-    @available_filters ||= {}
 
-    custom_fields.select(&:is_filter?).each do |field|
+    custom_fields.select(&:is_filter?).sort.each do |field|
       case field.field_format
       when "text"
-        options = { :type => :text, :order => 20 }
+        options = { :type => :text }
       when "list"
-        options = { :type => :list_optional, :values => field.possible_values, :order => 20}
+        options = { :type => :list_optional, :values => field.possible_values }
       when "date"
-        options = { :type => :date, :order => 20 }
+        options = { :type => :date }
       when "bool"
-        options = { :type => :list, :values => [[l(:general_text_yes), "1"], [l(:general_text_no), "0"]], :order => 20 }
+        options = { :type => :list, :values => [[l(:general_text_yes), "1"], [l(:general_text_no), "0"]] }
       when "int"
-        options = { :type => :integer, :order => 20 }
+        options = { :type => :integer }
       when "float"
-        options = { :type => :float, :order => 20 }
+        options = { :type => :float }
       when "user", "version"
         next unless project
         values = field.possible_values_options(project)
         if User.current.logged? && field.field_format == 'user'
           values.unshift ["<< #{l(:label_me)} >>", "me"]
         end
-        options = { :type => :list_optional, :values => values, :order => 20}
+        options = { :type => :list_optional, :values => values }
       else
-        options = { :type => :string, :order => 20 }
+        options = { :type => :string }
       end
       filter_id = "cf_#{field.id}"
       filter_name = field.name
@@ -701,7 +760,7 @@ class Query < ActiveRecord::Base
         filter_id = "#{assoc}.#{filter_id}"
         filter_name = l("label_attribute_of_#{assoc}", :name => filter_name)
       end
-      @available_filters[filter_id] = options.merge({
+      add_available_filter filter_id, options.merge({
                :name => filter_name,
                :format => field.field_format,
                :field => field

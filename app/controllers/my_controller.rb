@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -147,15 +147,16 @@ class MyController < ApplicationController
   # params[:block] : id of the block to add
   def add_block
     block = params[:block].to_s.underscore
-    (render :nothing => true; return) unless block && (BLOCKS.keys.include? block)
-    @user = User.current
-    layout = @user.pref[:my_page_layout] || {}
-    # remove if already present in a group
-    %w(top left right).each {|f| (layout[f] ||= []).delete block }
-    # add it on top
-    layout['top'].unshift block
-    @user.pref[:my_page_layout] = layout
-    @user.pref.save
+    if block.present? && BLOCKS.key?(block)
+      @user = User.current
+      layout = @user.pref[:my_page_layout] || {}
+      # remove if already present in a group
+      %w(top left right).each {|f| (layout[f] ||= []).delete block }
+      # add it on top
+      layout['top'].unshift block
+      @user.pref[:my_page_layout] = layout
+      @user.pref.save
+    end
     redirect_to my_page_layout_path
   end
 

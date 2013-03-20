@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -63,15 +63,6 @@ class IssuesTest < ActionController::IntegrationTest
     assert_equal 'jsmith', issue.author.login
     assert_equal 1, issue.project.id
     assert_equal 1, issue.status.id
-  end
-
-  def test_update_issue_form
-    log_user('jsmith', 'jsmith')
-    post 'projects/ecookbook/issues/new', :issue => { :tracker_id => "2"}
-    assert_response :success
-    assert_tag 'select',
-      :attributes => {:name => 'issue[tracker_id]'},
-      :child => {:tag => 'option', :attributes => {:value => '2', :selected => 'selected'}}
   end
 
   # add then remove 2 attachments to an issue

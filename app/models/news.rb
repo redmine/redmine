@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -47,6 +47,10 @@ class News < ActiveRecord::Base
   # Returns true if the news can be commented by user
   def commentable?(user=User.current)
     user.allowed_to?(:comment_news, project)
+  end
+
+  def recipients
+    project.users.select {|user| user.notify_about?(self)}.map(&:mail)
   end
 
   # returns latest news for projects visible by user

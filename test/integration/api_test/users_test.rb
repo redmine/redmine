@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,8 +16,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../../test_helper', __FILE__)
-require 'pp'
-class ApiTest::UsersTest < ActionController::IntegrationTest
+
+class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
   fixtures :users, :members, :member_roles, :roles, :projects
 
   def setup
@@ -94,6 +94,30 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
           :child => {:tag => 'id', :content => '2'}
       end
     end
+  end
+
+  test "GET /users/:id should not return login for other user" do
+    get '/users/3.xml', {}, credentials('jsmith')
+    assert_response :success
+    assert_no_tag 'user', :child => {:tag => 'login'}
+  end
+
+  test "GET /users/:id should return login for current user" do
+    get '/users/2.xml', {}, credentials('jsmith')
+    assert_response :success
+    assert_tag 'user', :child => {:tag => 'login', :content => 'jsmith'}
+  end
+
+  test "GET /users/:id should not return api_key for other user" do
+    get '/users/3.xml', {}, credentials('jsmith')
+    assert_response :success
+    assert_no_tag 'user', :child => {:tag => 'api_key'}
+  end
+
+  test "GET /users/:id should return api_key for current user" do
+    get '/users/2.xml', {}, credentials('jsmith')
+    assert_response :success
+    assert_tag 'user', :child => {:tag => 'api_key', :content => User.find(2).api_key}
   end
 
   context "POST /users" do

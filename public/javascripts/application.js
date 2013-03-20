@@ -1,5 +1,5 @@
 /* Redmine - project management software
-   Copyright (C) 2006-2012  Jean-Philippe Lang */
+   Copyright (C) 2006-2013  Jean-Philippe Lang */
 
 function checkAll(id, checked) {
   if (checked) {
@@ -481,7 +481,7 @@ function observeSearchfield(fieldId, targetId, url) {
           url: url,
           type: 'get',
           data: {q: $this.val()},
-          success: function(data){ $('#'+targetId).html(data); },
+          success: function(data){ if(targetId) $('#'+targetId).html(data); },
           beforeSend: function(){ $this.addClass('ajax-loading'); },
           complete: function(){ $this.removeClass('ajax-loading'); }
         });

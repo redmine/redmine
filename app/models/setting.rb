@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,15 +18,15 @@
 class Setting < ActiveRecord::Base
 
   DATE_FORMATS = [
-	'%Y-%m-%d',
-	'%d/%m/%Y',
-	'%d.%m.%Y',
-	'%d-%m-%Y',
-	'%m/%d/%Y',
-	'%d %b %Y',
-	'%d %B %Y',
-	'%b %d, %Y',
-	'%B %d, %Y'
+        '%Y-%m-%d',
+        '%d/%m/%Y',
+        '%d.%m.%Y',
+        '%d-%m-%Y',
+        '%m/%d/%Y',
+        '%d %b %Y',
+        '%d %B %Y',
+        '%b %d, %Y',
+        '%B %d, %Y'
     ]
 
   TIME_FORMATS = [

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -37,18 +37,19 @@ class BoardsController < ApplicationController
     respond_to do |format|
       format.html {
         sort_init 'updated_on', 'desc'
-        sort_update	'created_on' => "#{Message.table_name}.created_on",
+        sort_update 'created_on' => "#{Message.table_name}.created_on",
                     'replies' => "#{Message.table_name}.replies_count",
-                    'updated_on' => "#{Message.table_name}.updated_on"
+                    'updated_on' => "COALESCE(last_replies_messages.created_on, #{Message.table_name}.created_on)"
 
         @topic_count = @board.topics.count
         @topic_pages = Paginator.new @topic_count, per_page_option, params['page']
         @topics =  @board.topics.
           reorder("#{Message.table_name}.sticky DESC").
-          includes(:author, {:last_reply => :author}).
-          limit(@topic_pages.items_per_page).
+          includes(:last_reply).
+          limit(@topic_pages.per_page).
           offset(@topic_pages.offset).
           order(sort_clause).
+          preload(:author, {:last_reply => :author}).
           all
         @message = Message.new(:board => @board)
         render :action => 'show', :layout => !request.xhr?

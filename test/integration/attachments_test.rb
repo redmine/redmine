@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -57,7 +57,7 @@ class AttachmentsTest < ActionController::IntegrationTest
       }
     assert_response :success
 
-    attachment_path = response.body.match(%r{<img src="(/attachments/download/\d+)"})[1]
+    attachment_path = response.body.match(%r{<img src="(/attachments/download/\d+/myupload.jpg)"})[1]
     assert_not_nil token, "No attachment path found in response:\n#{response.body}"
 
     get attachment_path

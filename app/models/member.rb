@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -27,7 +27,6 @@ class Member < ActiveRecord::Base
   validate :validate_role
 
   before_destroy :set_issue_category_nil
-  after_destroy :unwatch_from_permission_change
 
   def role
   end
@@ -52,7 +51,6 @@ class Member < ActiveRecord::Base
     member_roles_to_destroy = member_roles.select {|mr| !ids.include?(mr.role_id)}
     if member_roles_to_destroy.any?
       member_roles_to_destroy.each(&:destroy)
-      unwatch_from_permission_change
     end
   end
 
@@ -97,18 +95,19 @@ class Member < ActiveRecord::Base
     @membership
   end
 
+  # Finds or initilizes a Member for the given project and principal
+  def self.find_or_new(project, principal)
+    project_id = project.is_a?(Project) ? project.id : project
+    principal_id = principal.is_a?(Principal) ? principal.id : principal
+
+    member = Member.find_by_project_id_and_user_id(project_id, principal_id)
+    member ||= Member.new(:project_id => project_id, :user_id => principal_id)
+    member
+  end
+
   protected
 
   def validate_role
     errors.add_on_empty :role if member_roles.empty? && roles.empty?
-  end
-
-  private
-
-  # Unwatch things that the user is no longer allowed to view inside project
-  def unwatch_from_permission_change
-    if user
-      Watcher.prune(:user => user, :project => project)
-    end
   end
 end

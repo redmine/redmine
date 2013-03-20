@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -302,6 +302,51 @@ class MailHandlerTest < ActiveSupport::TestCase
       password = mail_body(email).match(/\* Password: (.*)$/)[1].strip
       assert_equal issue.author, User.try_to_login(login, password)
     end
+  end
+
+  def test_created_user_should_be_added_to_groups
+    group1 = Group.generate!
+    group2 = Group.generate!
+
+    assert_difference 'User.count' do
+      submit_email(
+        'ticket_by_unknown_user.eml',
+        :issue => {:project => 'ecookbook'},
+        :unknown_user => 'create',
+        :default_group => "#{group1.name},#{group2.name}"
+      )
+    end
+    user = User.order('id DESC').first
+    assert_same_elements [group1, group2], user.groups
+  end
+
+  def test_created_user_should_not_receive_account_information_with_no_account_info_option
+    assert_difference 'User.count' do
+      submit_email(
+        'ticket_by_unknown_user.eml',
+        :issue => {:project => 'ecookbook'},
+        :unknown_user => 'create',
+        :no_account_notice => '1'
+      )
+    end
+
+    # only 1 email for the new issue notification
+    assert_equal 1, ActionMailer::Base.deliveries.size
+    email = ActionMailer::Base.deliveries.first
+    assert_include 'Ticket by unknown user', email.subject
+  end
+
+  def test_created_user_should_have_mail_notification_to_none_with_no_notification_option
+    assert_difference 'User.count' do
+      submit_email(
+        'ticket_by_unknown_user.eml',
+        :issue => {:project => 'ecookbook'},
+        :unknown_user => 'create',
+        :no_notification => '1'
+      )
+    end
+    user = User.order('id DESC').first
+    assert_equal 'none', user.mail_notification
   end
 
   def test_add_issue_without_from_header
@@ -646,73 +691,55 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 'This is a html-only email.', issue.description
   end
 
-  context "truncate emails based on the Setting" do
-    context "with no setting" do
-      setup do
-        Setting.mail_handler_body_delimiters = ''
-      end
-
-      should "add the entire email into the issue" do
-        issue = submit_email('ticket_on_given_project.eml')
-        assert_issue_created(issue)
-        assert issue.description.include?('---')
-        assert issue.description.include?('This paragraph is after the delimiter')
-      end
+  test "truncate emails with no setting should add the entire email into the issue" do
+    with_settings :mail_handler_body_delimiters => '' do
+      issue = submit_email('ticket_on_given_project.eml')
+      assert_issue_created(issue)
+      assert issue.description.include?('---')
+      assert issue.description.include?('This paragraph is after the delimiter')
     end
+  end
 
-    context "with a single string" do
-      setup do
-        Setting.mail_handler_body_delimiters = '---'
-      end
-      should "truncate the email at the delimiter for the issue" do
-        issue = submit_email('ticket_on_given_project.eml')
-        assert_issue_created(issue)
-        assert issue.description.include?('This paragraph is before delimiters')
-        assert issue.description.include?('--- This line starts with a delimiter')
-        assert !issue.description.match(/^---$/)
-        assert !issue.description.include?('This paragraph is after the delimiter')
-      end
+  test "truncate emails with a single string should truncate the email at the delimiter for the issue" do
+    with_settings :mail_handler_body_delimiters => '---' do
+      issue = submit_email('ticket_on_given_project.eml')
+      assert_issue_created(issue)
+      assert issue.description.include?('This paragraph is before delimiters')
+      assert issue.description.include?('--- This line starts with a delimiter')
+      assert !issue.description.match(/^---$/)
+      assert !issue.description.include?('This paragraph is after the delimiter')
     end
+  end
 
-    context "with a single quoted reply (e.g. reply to a Redmine email notification)" do
-      setup do
-        Setting.mail_handler_body_delimiters = '--- Reply above. Do not remove this line. ---'
-      end
-      should "truncate the email at the delimiter with the quoted reply symbols (>)" do
-        journal = submit_email('issue_update_with_quoted_reply_above.eml')
-        assert journal.is_a?(Journal)
-        assert journal.notes.include?('An update to the issue by the sender.')
-        assert !journal.notes.match(Regexp.escape("--- Reply above. Do not remove this line. ---"))
-        assert !journal.notes.include?('Looks like the JSON api for projects was missed.')
-      end
+  test "truncate emails with a single quoted reply should truncate the email at the delimiter with the quoted reply symbols (>)" do
+    with_settings :mail_handler_body_delimiters => '--- Reply above. Do not remove this line. ---' do
+      journal = submit_email('issue_update_with_quoted_reply_above.eml')
+      assert journal.is_a?(Journal)
+      assert journal.notes.include?('An update to the issue by the sender.')
+      assert !journal.notes.match(Regexp.escape("--- Reply above. Do not remove this line. ---"))
+      assert !journal.notes.include?('Looks like the JSON api for projects was missed.')
     end
+  end
 
-    context "with multiple quoted replies (e.g. reply to a reply of a Redmine email notification)" do
-      setup do
-        Setting.mail_handler_body_delimiters = '--- Reply above. Do not remove this line. ---'
-      end
-      should "truncate the email at the delimiter with the quoted reply symbols (>)" do
-        journal = submit_email('issue_update_with_multiple_quoted_reply_above.eml')
-        assert journal.is_a?(Journal)
-        assert journal.notes.include?('An update to the issue by the sender.')
-        assert !journal.notes.match(Regexp.escape("--- Reply above. Do not remove this line. ---"))
-        assert !journal.notes.include?('Looks like the JSON api for projects was missed.')
-      end
+  test "truncate emails with multiple quoted replies should truncate the email at the delimiter with the quoted reply symbols (>)" do
+    with_settings :mail_handler_body_delimiters => '--- Reply above. Do not remove this line. ---' do
+      journal = submit_email('issue_update_with_multiple_quoted_reply_above.eml')
+      assert journal.is_a?(Journal)
+      assert journal.notes.include?('An update to the issue by the sender.')
+      assert !journal.notes.match(Regexp.escape("--- Reply above. Do not remove this line. ---"))
+      assert !journal.notes.include?('Looks like the JSON api for projects was missed.')
     end
+  end
 
-    context "with multiple strings" do
-      setup do
-        Setting.mail_handler_body_delimiters = "---\nBREAK"
-      end
-      should "truncate the email at the first delimiter found (BREAK)" do
-        issue = submit_email('ticket_on_given_project.eml')
-        assert_issue_created(issue)
-        assert issue.description.include?('This paragraph is before delimiters')
-        assert !issue.description.include?('BREAK')
-        assert !issue.description.include?('This paragraph is between delimiters')
-        assert !issue.description.match(/^---$/)
-        assert !issue.description.include?('This paragraph is after the delimiter')
-      end
+  test "truncate emails with multiple strings should truncate the email at the first delimiter found (BREAK)" do
+    with_settings :mail_handler_body_delimiters => "---\nBREAK" do
+      issue = submit_email('ticket_on_given_project.eml')
+      assert_issue_created(issue)
+      assert issue.description.include?('This paragraph is before delimiters')
+      assert !issue.description.include?('BREAK')
+      assert !issue.description.include?('This paragraph is between delimiters')
+      assert !issue.description.match(/^---$/)
+      assert !issue.description.include?('This paragraph is after the delimiter')
     end
   end
 
@@ -741,14 +768,7 @@ class MailHandlerTest < ActiveSupport::TestCase
       assert_equal expected[0], user.login
       assert_equal expected[1], user.firstname
       assert_equal expected[2], user.lastname
-    end
-  end
-
-  def test_new_user_from_attributes_should_respect_minimum_password_length
-    with_settings :password_min_length => 15 do
-      user = MailHandler.new_user_from_attributes('jsmith@example.net')
-      assert user.valid?
-      assert user.password.length >= 15
+      assert_equal 'only_my_events', user.mail_notification
     end
   end
 

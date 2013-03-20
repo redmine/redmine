@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -101,11 +101,31 @@ class SettingsControllerTest < ActionController::TestCase
     assert_response 404
   end
 
+  def test_get_non_configurable_plugin_settings
+    Redmine::Plugin.register(:foo) {}
+
+    get :plugin, :id => 'foo'
+    assert_response 404
+
+    Redmine::Plugin.clear
+  end
+
   def test_post_plugin_settings
     Setting.expects(:plugin_foo=).with({'sample_setting' => 'Value'}).returns(true)
-    Redmine::Plugin.register(:foo) {}
+    Redmine::Plugin.register(:foo) do
+      settings :partial => 'not blank' # so that configurable? is true
+    end
 
     post :plugin, :id => 'foo', :settings => {'sample_setting' => 'Value'}
     assert_redirected_to '/settings/plugin/foo'
+  end
+
+  def test_post_non_configurable_plugin_settings
+    Redmine::Plugin.register(:foo) {}
+
+    post :plugin, :id => 'foo', :settings => {'sample_setting' => 'Value'}
+    assert_response 404
+
+    Redmine::Plugin.clear
   end
 end

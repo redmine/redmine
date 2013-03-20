@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class ApiTest::TimeEntriesTest < ActionController::IntegrationTest
+class Redmine::ApiTest::TimeEntriesTest < Redmine::ApiTest::Base
   fixtures :projects, :trackers, :issue_statuses, :issues,
            :enumerations, :users, :issue_categories,
            :projects_trackers,
@@ -25,7 +25,6 @@ class ApiTest::TimeEntriesTest < ActionController::IntegrationTest
            :member_roles,
            :members,
            :enabled_modules,
-           :workflows,
            :time_entries
 
   def setup

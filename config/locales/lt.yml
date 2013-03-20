@@ -219,7 +219,7 @@ lt:
   notice_not_authorized_archived_project: Projektas, kurį bandote atidaryti, buvo suarchyvuotas.
   notice_email_sent: "Laiškas išsiųstas %{value}"
   notice_email_error: "Laiško siuntimo metu įvyko klaida (%{value})"
-  notice_feeds_access_key_reseted: Jūsų RSS raktas buvo atnaujintas.
+  notice_feeds_access_key_reseted: Jūsų Atom raktas buvo atnaujintas.
   notice_api_access_key_reseted: Jūsų API prieigos raktas buvo atnaujintas.
   notice_failed_to_save_issues: "Nepavyko išsaugoti %{count} problemos(ų) iš %{total} pasirinkto: %{ids}."
   notice_failed_to_save_members: "Nepavyko išsaugoti nario(ių): %{errors}."
@@ -468,7 +468,6 @@ lt:
   permission_edit_own_time_entries: Redguoti savo laiko įrašus
   permission_manage_news: Valdyti naujienas
   permission_comment_news: Komentuoti naujienas
-  permission_manage_documents: Valdyti dokumentus
   permission_view_documents: Matyti dokumentus
   permission_manage_files: Valdyti failus
   permission_view_files: Matyti failus
@@ -799,9 +798,9 @@ lt:
   label_language_based: Pagrįsta vartotojo kalba
   label_sort_by: "Rūšiuoti pagal %{value}"
   label_send_test_email: Nusiųsti bandomąjį laišką
-  label_feeds_access_key: RSS prieigos raktas 
-  label_missing_feeds_access_key: TRūksta RSS prieigos rakto
-  label_feeds_access_key_created_on: "RSS prieigos raktas sukurtas prieš %{value}"
+  label_feeds_access_key: Atom prieigos raktas 
+  label_missing_feeds_access_key: TRūksta Atom prieigos rakto
+  label_feeds_access_key_created_on: "Atom prieigos raktas sukurtas prieš %{value}"
   label_module_plural: Moduliai
   label_added_time_by: "Pridėjo %{author} prieš %{age}"
   label_updated_time_by: "Atnaujino %{author} prieš %{age}"
@@ -1009,8 +1008,6 @@ lt:
   text_mercurial_repository_note: Vietinė saugykla (e.g. /hgrepo, c:\hgrepo)
   text_scm_command: Komanda
   text_scm_command_version: Versija
-  text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.
-  text_scm_command_not_available: Scm command is not available. Please check settings on the administration panel.
 
   default_role_manager: Vadovas
   default_role_developer: Projektuotojas
@@ -1135,3 +1132,18 @@ lt:
   label_in_the_next_days: per ateinančias
   label_in_the_past_days: per paskutines
   label_attribute_of_user: User's %{name}
+  text_turning_multiple_off: If you disable multiple values, multiple values will be
+    removed in order to preserve only one value per item.
+  label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents
+  label_gantt_progress_line: Progress line
+  setting_jsonp_enabled: Enable JSONP support
+  field_inherit_members: Inherit members
+  field_closed_on: Closed
+  field_generate_password: Generate password
+  setting_default_projects_tracker_ids: Default trackers for new projects
+  label_total_time: Iš viso
+  text_scm_config: You can configure your SCM commands in config/configuration.yml. Please restart the application after editing it.
+  text_scm_command_not_available: SCM command is not available. Please check settings on the administration panel.

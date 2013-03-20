@@ -159,7 +159,7 @@ th:
   notice_not_authorized: คุณไม่มีสิทธิเข้าถึงหน้านี้.
   notice_email_sent: "อีเมล์ได้ถูกส่งถึง %{value}"
   notice_email_error: "เกิดความผิดพลาดขณะกำส่งอีเมล์ (%{value})"
-  notice_feeds_access_key_reseted: RSS access key ของคุณถูก reset แล้ว.
+  notice_feeds_access_key_reseted: Atom access key ของคุณถูก reset แล้ว.
   notice_failed_to_save_issues: "%{count} ปัญหาจาก %{total} ปัญหาที่ถูกเลือกไม่สามารถจัดเก็บ: %{ids}."
   notice_no_issue_selected: "ไม่มีปัญหาที่ถูกเลือก! กรุณาเลือกปัญหาที่คุณต้องการแก้ไข."
   notice_account_pending: "บัญชีของคุณสร้างเสร็จแล้ว ขณะนี้รอการอนุมัติจากผู้บริหารจัดการ."
@@ -573,7 +573,7 @@ th:
   label_language_based: ขึ้นอยู่กับภาษาของผู้ใช้
   label_sort_by: "เรียงโดย %{value}"
   label_send_test_email: ส่งจดหมายทดสอบ
-  label_feeds_access_key_created_on: "RSS access key สร้างเมื่อ %{value} ที่ผ่านมา"
+  label_feeds_access_key_created_on: "Atom access key สร้างเมื่อ %{value} ที่ผ่านมา"
   label_module_plural: ส่วนประกอบ
   label_added_time_by: "เพิ่มโดย %{author} %{age} ที่ผ่านมา"
   label_updated_time: "ปรับปรุง %{value} ที่ผ่านมา"
@@ -748,7 +748,6 @@ th:
   permission_comment_news: Comment news
   permission_delete_messages: Delete messages
   permission_select_project_modules: Select project modules
-  permission_manage_documents: Manage documents
   permission_edit_wiki_pages: Edit wiki pages
   permission_add_issue_watchers: Add watchers
   permission_view_gantt: View gantt chart
@@ -871,11 +870,11 @@ th:
   label_revision_id: Revision %{value}
   label_api_access_key: API access key
   label_api_access_key_created_on: API access key created %{value} ago
-  label_feeds_access_key: RSS access key
+  label_feeds_access_key: Atom access key
   notice_api_access_key_reseted: Your API access key was reset.
   setting_rest_api_enabled: Enable REST web service
   label_missing_api_access_key: Missing an API access key
-  label_missing_feeds_access_key: Missing a RSS access key
+  label_missing_feeds_access_key: Missing a Atom access key
   button_show: Show
   text_line_separated: Multiple values allowed (one line for each value).
   setting_mail_handler_body_delimiters: Truncate emails after one of these lines
@@ -923,7 +922,6 @@ th:
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"
   field_visible: Visible
-  setting_emails_header: Emails header
   setting_commit_logtime_activity_id: Activity for logged time
   text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
@@ -964,8 +962,6 @@ th:
   text_scm_command: Command
   text_scm_command_version: Version
   label_git_report_last_commit: Report last commit for files and directories
-  text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.
-  text_scm_command_not_available: Scm command is not available. Please check settings on the administration panel.
   notice_issue_successful_create: Issue %{id} created.
   label_between: between
   setting_issue_group_assignment: Allow issue assignment to groups
@@ -1073,3 +1069,19 @@ th:
   label_in_the_next_days: in the next
   label_in_the_past_days: in the past
   label_attribute_of_user: User's %{name}
+  text_turning_multiple_off: If you disable multiple values, multiple values will be
+    removed in order to preserve only one value per item.
+  label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents
+  label_gantt_progress_line: Progress line
+  setting_jsonp_enabled: Enable JSONP support
+  field_inherit_members: Inherit members
+  field_closed_on: Closed
+  field_generate_password: Generate password
+  setting_default_projects_tracker_ids: Default trackers for new projects
+  label_total_time: จำนวนรวม
+  text_scm_config: You can configure your SCM commands in config/configuration.yml. Please restart the application after editing it.
+  text_scm_command_not_available: SCM command is not available. Please check settings on the administration panel.
+  setting_emails_header: Email header

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -109,8 +109,9 @@ class GroupsController < ApplicationController
   end
 
   def autocomplete_for_user
-    @users = User.active.not_in_group(@group).like(params[:q]).all(:limit => 100)
-    render :layout => false
+    respond_to do |format|
+      format.js
+    end
   end
 
   def edit_membership

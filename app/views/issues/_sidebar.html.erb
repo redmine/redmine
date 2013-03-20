@@ -1,16 +1,20 @@
 <h3><%= l(:label_issue_plural) %></h3>
-<%= link_to l(:label_issue_view_all), _project_issues_path(@project, :set_filter => 1) %><br />
+
+<ul>
+<li><%= link_to l(:label_issue_view_all), _project_issues_path(@project, :set_filter => 1) %></li>
 <% if @project %>
-<%= link_to l(:field_summary), project_issues_report_path(@project) %><br />
+<li><%= link_to l(:field_summary), project_issues_report_path(@project) %></li>
 <% end %>
-<%= call_hook(:view_issues_sidebar_issues_bottom) %>
 
 <% if User.current.allowed_to?(:view_calendar, @project, :global => true) %>
-  <%= link_to l(:label_calendar), _project_calendar_path(@project) %><br />
+<li><%= link_to l(:label_calendar), _project_calendar_path(@project) %></li>
 <% end %>
 <% if User.current.allowed_to?(:view_gantt, @project, :global => true) %>
-  <%= link_to l(:label_gantt), _project_gantt_path(@project) %><br />
+<li><%= link_to l(:label_gantt), _project_gantt_path(@project) %></li>
 <% end %>
+</ul>
+
+<%= call_hook(:view_issues_sidebar_issues_bottom) %>
 <%= call_hook(:view_issues_sidebar_planning_bottom) %>
 
 <%= render_sidebar_queries %>

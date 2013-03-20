@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,7 +16,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../../../../test_helper', __FILE__)
-require 'iconv'
 
 class PdfTest < ActiveSupport::TestCase
   fixtures :users, :projects, :roles, :members, :member_roles,
@@ -36,9 +35,9 @@ class PdfTest < ActiveSupport::TestCase
       txt_1 = Redmine::Export::PDF::RDMPdfEncoding::rdm_from_utf8(utf8_txt_1, encoding)
       txt_2 = Redmine::Export::PDF::RDMPdfEncoding::rdm_from_utf8(utf8_txt_2, encoding)
       txt_3 = Redmine::Export::PDF::RDMPdfEncoding::rdm_from_utf8(utf8_txt_3, encoding)
-      assert_equal "?\x91\xd4", txt_1
-      assert_equal "?\x91\xd4?", txt_2
-      assert_equal "??\x91\xd4?", txt_3
+      assert_equal "?\x91\xd4".force_encoding("ASCII-8BIT"), txt_1
+      assert_equal "?\x91\xd4?".force_encoding("ASCII-8BIT"), txt_2
+      assert_equal "??\x91\xd4?".force_encoding("ASCII-8BIT"), txt_3
       assert_equal "ASCII-8BIT", txt_1.encoding.to_s
       assert_equal "ASCII-8BIT", txt_2.encoding.to_s
       assert_equal "ASCII-8BIT", txt_3.encoding.to_s
