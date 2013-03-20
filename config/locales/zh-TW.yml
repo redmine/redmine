@@ -702,7 +702,6 @@
     one:   1 個問題
     other: "%{count} 個問題"
   label_total: 總計
-  label_total_time: 工時總計
   label_permissions: 權限
   label_current_status: 目前狀態
   label_new_statuses_allowed: 可變更至以下狀態
@@ -1168,3 +1167,4 @@
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
+  label_total_time: 總計
