@@ -1062,10 +1062,17 @@ iframe {
 	height: 200px;
 }
 
-#browsenml2 {
-	min-height: 1050px;
+.fullscreen
+{
+	position:relative;
+	float:right;
+	margin-bottom:5px;
+	margin-right:5px;
 }
 
+#3dsapcer{
+	height:100px;
+}
 #backto {
 	cursor: pointer;
 	font-size: 14px;

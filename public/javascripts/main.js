@@ -234,7 +234,7 @@ function open3DExplorer(file)
 	else
 	{
 		jQuery("#mainContent").hide();
-		jQuery("#mainContent").before("<div id='3dbrowser'><iframe id='3dframe' src='http://127.0.0.1:8080/org.neuroml.visualiser/?url="+file+"'></iframe>");
+		jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' src='http://127.0.0.1:8080/org.neuroml.visualiser/?url="+file+"'></iframe>");
 		
 		//jQuery(".page-header").after("<div id='3dbrowser'><iframe id='3dframe' src='http://184.72.223.204:8080/org.neuroml.visualiser/?url="+file+"'></iframe>");
 		document.getElementById('3dframe').onload = resizeIframe;
@@ -242,7 +242,23 @@ function open3DExplorer(file)
 	}
 }
 
-
+function toggleFullScreen()
+{
+	if(jQuery("#wrap").is(":visible") == true)
+	{
+		jQuery(".fullscreen").html(" Exit Full Screen");
+		jQuery("#3dbrowser").insertBefore("#wrap");
+		jQuery("#3dspacer").show();
+		jQuery("#wrap").hide();
+	}
+	else
+	{
+		jQuery(".fullscreen").html(" Full Screen");
+		jQuery("#3dbrowser").insertBefore("#mainContent");
+		jQuery("#3dspacer").hide();
+		jQuery("#wrap").show();
+	}
+}
 function disableOSBExplorer()
 {
 	jQuery("#osbexplorerbutton").css("background-color","grey");

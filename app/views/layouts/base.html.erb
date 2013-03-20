@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 	<head>
+		<link rel="icon" type="image/png" href="favicon.png">
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<title><%= h html_title %></title>
 		<meta name="description" content="<%= Redmine::Info.app_name %>" />
@@ -19,13 +20,6 @@
 		<%= stylesheet_link_tag 'font-awesome', :media => 'all' %>
 		<%= stylesheet_link_tag 'application', :media => 'all' %>
 		<%= stylesheet_link_tag 'prettify', :media => 'all' %>
-				
-		<!--[if IE 6]>
-		<style type="text/css">
-		* html body{ width: expression( document.documentElement.clientWidth < 900 ? '900px' : '100%' ); }
-		body {behavior: url(<%= stylesheet_path "csshover.htc" %>);}
-		</style>
-		<![endif]-->
 		<%= call_hook :view_layouts_base_html_head %>
 		<!-- page specific tags -->
 		<%= yield :header_tags -%>
@@ -33,7 +27,6 @@
 
 	<body  data-target=".bs-docs-sidebar" class="<%= h body_css_classes %>">
 		<!-- NAVIGATOR -->
-
 		<div class="navbar navbar-inverse navbar-fixed-top">
 			<div class="navbar-inner">
 				<div class="container" >
@@ -44,35 +37,22 @@
 			        </button>
 			        <div class="span5" id="osblogo" onclick="window.location.href='/';"></div>
 					<div class="nav-collapse collapse">
-						
-						<!--<ul class="bs-docs-social-buttons">
-							<li class="follow-btn">
-								<a href="https://twitter.com/osbteam" class="twitter-follow-button" data-link-color="#0069D6" data-show-count="true">Follow @osbteam</a>
-							</li>
-							<li class="tweet-btn">
-								<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://opensourcebrain.org" data-count="horizontal" data-via="osbteam" data-related="Interesting -> Open Source Brain online repository for computational neural models!">Tweet</a>
-							</li>
-						</ul>-->
 						<div id="header_menu" class="span8 pull-right">
 							<%= render_menu :account_menu -%>
 							<%= content_tag('div', "#{l(:label_logged_as)} #{link_to_user(User.current, :format => :username)}".html_safe, :id => 'loggedas') if User.current.logged? %>
 							<%= render_menu :top_menu if User.current.logged? || !Setting.login_required? -%>
-							<!--<%= form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
-								<%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
-								<%= text_field_tag 'q', @question, :size => 100, :placeholder=>'Search Open Source Brain',:type=>'text', :results=>5, :class => 'search-query', :accesskey => accesskey(:quick_search) %>
-							<% end %>-->
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-
 		<!-- CONTENT -->
 		<div id="wrap">
 			<div id="content">
 				<div id="main" class="container">
-				<br/></br/><br/>
-				<% if display_main_menu?(@project) %>
+					<br/></br/><br/>
+					<% if display_main_menu?(@project) %>
+						<!-- If we are inside a project then we show the project header -->
 						<% @neuroml2files = getNML2Files(@project.repository) %>
 						<div id="mainheader" class="page-header">
 					  		<h1 id="pname"><%= @project.name %><small id="author"> </small></h1>
@@ -84,8 +64,6 @@
 								<span class="label label-warning tooltiplink" data-toggle='tooltip' data-placement='right' title='This project has not been certified yet by OSB.'>Uncertified project</span>
 								<br/><br/>
 							<% end %>
-	
-						
 							<div class="navbar">
 								<div id="menucontainer" class="navbar-inner">
 									<a class="brand" href="#">OSB</a>
@@ -97,54 +75,46 @@
 							</div>
 						</div>
 						<% @repourl=getCustomField(@project,"GitHub repository") %>
-						
 						<% if(@repourl and @repourl["https://github"]!=nil)%>
-	
-								<% @repourl["https://github"]="https://raw.github" %>
-								<% @networkfiles=[] %>
-								
-								<% for nml2file in @neuroml2files %>
-									<% if nml2file.ends_with?(".net.nml") %>
-										<% @networkfiles.push(nml2file) %>
-									<% end %>
+							<% @repourl["https://github"]="https://raw.github" %>
+							<% @networkfiles=[] %>
+							<% for nml2file in @neuroml2files %>
+								<% if nml2file.ends_with?(".net.nml") %>
+									<% @networkfiles.push(nml2file) %>
 								<% end %>
-								
-								<% if not @networkfiles.empty? %>
-									<%= javascript_tag 'jQuery("#explorermenu").append("<li class=dropdown-submenu ><a tabindex=-1 href=#>Networks</a><ul class=dropdown-menu id=networkmenu></ul></li>");' %>
-	
-									<% for nml2file in @networkfiles %>
-										<%= javascript_tag 'jQuery("#networkmenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + "/master/" + nml2file + '&quot;));>'+ nml2file + '</a></li>");'%>
-									<% end %>
-									</ul>
+							<% end %>
+							<% if not @networkfiles.empty? %>
+								<%= javascript_tag 'jQuery("#explorermenu").append("<li class=dropdown-submenu ><a tabindex=-1 href=#>Networks</a><ul class=dropdown-menu id=networkmenu></ul></li>");' %>
+								<% for nml2file in @networkfiles %>
+									<%= javascript_tag 'jQuery("#networkmenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + "/master/" + nml2file + '&quot;));>'+ nml2file + '</a></li>");'%>
 								<% end %>
-	
+								</ul>
+							<% end %>
+							<% if not @neuroml2files.empty? %>
 								<%= javascript_tag 'jQuery("#explorermenu").append("<li class=dropdown-submenu ><a tabindex=-1 href=#>Cells</a><ul class=dropdown-menu id=cellsmenu></ul></li>");' %>
-	
-	
 								<% for nml2file in @neuroml2files %>
 									<% if not nml2file.ends_with?(".net.nml") %>
 											<%= javascript_tag 'jQuery("#cellsmenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + "/master/" + nml2file + '&quot;));>'+ nml2file + '</a></li>");'%>
 									<% end %>
 								<% end %>
+							<% end %>
 						<% end %>
-				<% end %>
-				<div id="mainContent">
-				<%= call_hook :view_layouts_base_content %>
-				<%= render_flash_messages %>
-				<%= yield %>
-
+					<% end %>
+					<div id="mainContent">
+						<%= call_hook :view_layouts_base_content %>
+						<%= render_flash_messages %>
+						<!-- page specific content -->
+						<%= yield %>
+					</div>
+					<br/></br/>
+					<div id="ajax-indicator" style="display:none;">
+						<span><%= l(:label_loading) %></span>
+					</div>
+					<div id="ajax-modal" style="display:none;"></div>
 				</div>
-				<div id="ajax-indicator" style="display:none;">
-					<span><%= l(:label_loading) %></span>
-				</div>
-				<div id="ajax-modal" style="display:none;"></div>
-			</div>
-			</div>
 			</div>
 		</div>
 		<!-- FOOTER -->
-
-		<br/></br/>
 		<%= call_hook :view_layouts_base_body_bottom %>
 		<footer class="footer">
 			<div class="container">
@@ -163,14 +133,10 @@
 				</p>Open Source Brain &#169; 2013. All rights reserved. Website powered by <%= link_to Redmine::Info.app_name, Redmine::Info.url %></p>
 			</div>
 		</footer>
-
 	</body>
 </html>
 
 <script>
-
-
-
 
 jQuery(function()
 {	
@@ -220,3 +186,12 @@ jQuery(function()
 </script>
 <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
 <%= javascript_include_tag('prettify.js') %>
+
+<!--<ul class="bs-docs-social-buttons">
+	<li class="follow-btn">
+		<a href="https://twitter.com/osbteam" class="twitter-follow-button" data-link-color="#0069D6" data-show-count="true">Follow @osbteam</a>
+	</li>
+	<li class="tweet-btn">
+		<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://opensourcebrain.org" data-count="horizontal" data-via="osbteam" data-related="Interesting -> Open Source Brain online repository for computational neural models!">Tweet</a>
+	</li>
+</ul>-->
