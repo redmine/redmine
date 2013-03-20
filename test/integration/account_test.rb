@@ -81,7 +81,7 @@ class AccountTest < ActionController::IntegrationTest
       assert_response 302
       assert cookies['custom_autologin'].present?
       token = cookies['custom_autologin']
-  
+
       # Session is cleared
       reset!
       cookies['custom_autologin'] = token
@@ -118,7 +118,9 @@ class AccountTest < ActionController::IntegrationTest
     assert_select 'input[name=new_password]'
     assert_select 'input[name=new_password_confirmation]'
 
-    post "account/lost_password", :token => token.value, :new_password => 'newpass123', :new_password_confirmation => 'newpass123'
+    post "account/lost_password",
+         :token => token.value, :new_password => 'newpass123',
+         :new_password_confirmation => 'newpass123'
     assert_redirected_to "/login"
     assert_equal 'Password was successfully updated.', flash[:notice]
 
@@ -133,8 +135,10 @@ class AccountTest < ActionController::IntegrationTest
     assert_response :success
     assert_template 'account/register'
 
-    post 'account/register', :user => {:login => "newuser", :language => "en", :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar",
-                             :password => "newpass123", :password_confirmation => "newpass123"}
+    post 'account/register',
+         :user => {:login => "newuser", :language => "en",
+                   :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar",
+                   :password => "newpass123", :password_confirmation => "newpass123"}
     assert_redirected_to '/my/account'
     follow_redirect!
     assert_response :success
@@ -149,8 +153,10 @@ class AccountTest < ActionController::IntegrationTest
   def test_register_with_manual_activation
     Setting.self_registration = '2'
 
-    post 'account/register', :user => {:login => "newuser", :language => "en", :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar",
-                             :password => "newpass123", :password_confirmation => "newpass123"}
+    post 'account/register',
+         :user => {:login => "newuser", :language => "en",
+                   :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar",
+                   :password => "newpass123", :password_confirmation => "newpass123"}
     assert_redirected_to '/login'
     assert !User.find_by_login('newuser').active?
   end
@@ -159,8 +165,10 @@ class AccountTest < ActionController::IntegrationTest
     Setting.self_registration = '1'
     Token.delete_all
 
-    post 'account/register', :user => {:login => "newuser", :language => "en", :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar",
-                             :password => "newpass123", :password_confirmation => "newpass123"}
+    post 'account/register',
+         :user => {:login => "newuser", :language => "en",
+                   :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar",
+                   :password => "newpass123", :password_confirmation => "newpass123"}
     assert_redirected_to '/login'
     assert !User.find_by_login('newuser').active?
 
@@ -177,7 +185,9 @@ class AccountTest < ActionController::IntegrationTest
   def test_onthefly_registration
     # disable registration
     Setting.self_registration = '0'
-    AuthSource.expects(:authenticate).returns({:login => 'foo', :firstname => 'Foo', :lastname => 'Smith', :mail => 'foo@bar.com', :auth_source_id => 66})
+    AuthSource.expects(:authenticate).returns(
+      {:login => 'foo', :firstname => 'Foo', :lastname => 'Smith',
+       :mail => 'foo@bar.com', :auth_source_id => 66})
 
     post '/login', :username => 'foo', :password => 'bar'
     assert_redirected_to '/my/page'
@@ -191,7 +201,8 @@ class AccountTest < ActionController::IntegrationTest
   def test_onthefly_registration_with_invalid_attributes
     # disable registration
     Setting.self_registration = '0'
-    AuthSource.expects(:authenticate).returns({:login => 'foo', :lastname => 'Smith', :auth_source_id => 66})
+    AuthSource.expects(:authenticate).returns(
+      {:login => 'foo', :lastname => 'Smith', :auth_source_id => 66})
 
     post '/login', :username => 'foo', :password => 'bar'
     assert_response :success
@@ -201,7 +212,8 @@ class AccountTest < ActionController::IntegrationTest
     assert_no_tag :input, :attributes => { :name => 'user[login]' }
     assert_no_tag :input, :attributes => { :name => 'user[password]' }
 
-    post 'account/register', :user => {:firstname => 'Foo', :lastname => 'Smith', :mail => 'foo@bar.com'}
+    post 'account/register',
+         :user => {:firstname => 'Foo', :lastname => 'Smith', :mail => 'foo@bar.com'}
     assert_redirected_to '/my/account'
 
     user = User.find_by_login('foo')
