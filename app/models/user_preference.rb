@@ -22,7 +22,7 @@ class UserPreference < ActiveRecord::Base
   attr_protected :others, :user_id
 
   before_save :set_others_hash
-  
+
   def initialize(attributes=nil, *args)
     super
     self.others ||= {}
