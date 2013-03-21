@@ -1,4 +1,4 @@
-<p>
+<div class="control-group">
 <%= label_tag "user_mail_notification", l(:description_user_mail_notification), :class => "hidden-for-sighted" %>
 <%= select_tag(
       'user[mail_notification]',
@@ -6,7 +6,7 @@
          user_mail_notification_options(@user), @user.mail_notification),
       :onchange => 'if (this.value == "selected") {$("#notified-projects").show();} else {$("#notified-projects").hide();}'
      ) %>
-</p>
+</div>
 <%= content_tag 'div', :id => 'notified-projects', :style => (@user.mail_notification == 'selected' ? '' : 'display:none;') do %>
   <%= render_project_nested_lists(@user.projects) do |project|
         content_tag('label', 
@@ -19,9 +19,9 @@
       end %>
   <p><em class="info"><%= l(:text_user_mail_option) %></em></p>
 <% end %>
-<p>
+<div class="control-group">
   <label>
     <%= l(:label_user_mail_no_self_notified) %>
     <%= check_box_tag 'no_self_notified', 1, @user.pref[:no_self_notified] %>
   </label>
-</p>
+</div>

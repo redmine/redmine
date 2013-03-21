@@ -1,6 +1,6 @@
 <%= labelled_fields_for :pref, @user.pref do |pref_fields| %>
-<p><%= pref_fields.check_box :hide_mail %></p>
-<p><%= pref_fields.time_zone_select :time_zone, nil, :include_blank => true %></p>
-<p><%= pref_fields.select :comments_sorting, [[l(:label_chronological_order), 'asc'], [l(:label_reverse_chronological_order), 'desc']] %></p>
-<p><%= pref_fields.check_box :warn_on_leaving_unsaved %></p>
+<div class="control-group"><%= pref_fields.check_box :hide_mail %></div>
+<div class="control-group"><%= pref_fields.time_zone_select :time_zone, nil, :include_blank => true %></div>
+<div class="control-group"><%= pref_fields.select :comments_sorting, [[l(:label_chronological_order), 'asc'], [l(:label_reverse_chronological_order), 'desc']] %></div>
+<div class="control-group"><%= pref_fields.check_box :warn_on_leaving_unsaved %></div>
 <% end %>
