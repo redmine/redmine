@@ -1048,6 +1048,12 @@ iframe {
 	color: #718e00 !important;
 	font-weight: bold;
 }
+
+.eyeicon
+{
+	margin:0!important;
+}
+
 .icon-osbexplorer {
 	cursor: pointer;
 	color: #718e00;

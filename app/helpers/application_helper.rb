@@ -129,6 +129,22 @@ module ApplicationHelper
   def git_command(command, repository)
     "git --git-dir='#{repository.url}' #{command}"
   end
+  
+  def getHttpGitURL()
+    @repourl=getCustomField(@project,"GitHub repository")
+    if @repourl.starts_with?"git:"
+      @repourl["git:"]="https:"
+    end
+    if @repourl.ends_with?".git"
+      @repourl[".git"]=""
+    end
+    if (@repourl.starts_with?"https://github") == false 
+      return nil
+    else
+      @repourl["https://github"]="https://raw.github"
+    end
+    return @repourl
+  end
 
   # Fetches updates from the remote repository
   def getNML2Files(repository)

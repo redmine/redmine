@@ -74,9 +74,8 @@
 								</div>
 							</div>
 						</div>
-						<% @repourl=getCustomField(@project,"GitHub repository") %>
-						<% if(@repourl and @repourl["https://github"]!=nil)%>
-							<% @repourl["https://github"]="https://raw.github" %>
+						<% @repourl=getHttpGitURL() %>
+						<% if(@repourl)%>
 							<% @networkfiles=[] %>
 							<% for nml2file in @neuroml2files %>
 								<% if nml2file.ends_with?(".net.nml") %>

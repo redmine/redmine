@@ -69,10 +69,8 @@ jQuery(function()
 	var splitProjectName = jQuery('#pname').html();
 	if (splitProjectName != undefined)
 	{
-
 		splitProjectName = splitProjectName.split("-");
 		jQuery('#pname').html(jQuery.trim(splitProjectName[0]) + " <small>" + jQuery.trim(splitProjectName[1]) + "</small>");
-
 	}
 	
 	// -- Transforms redmine selected in bootstrap active flag
