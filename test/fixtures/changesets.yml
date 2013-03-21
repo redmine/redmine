@@ -5,7 +5,7 @@ changesets_001:
   revision: 1
   scmid: 691322a8eb01e11fd7
   id: 100
-  comments: 'do not escaping #<>&'
+  comments: 'My very first commit do not escaping #<>&'
   repository_id: 10
   committer: dlopper
   user_id: 3
