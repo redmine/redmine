@@ -265,12 +265,12 @@ RAW
                                :class => Issue.find(3).css_classes, :title => 'Error 281 when updating a recipe (New)')
 
     revision_link = link_to('r1', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :rev => 1},
-                                   :class => 'changeset', :title => 'My very first commit')
+                                   :class => 'changeset', :title => 'do not escaping #<>&')
     revision_link2 = link_to('r2', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :rev => 2},
                                     :class => 'changeset', :title => 'This commit fixes #1, #2 and references #1 & #3')
 
-    changeset_link2 = link_to('691322a8eb01e11fd7', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :rev => 2},
-                                    :class => 'changeset', :title => 'This commit fixes #1, #2 and references #1 & #3')
+    changeset_link2 = link_to('691322a8eb01e11fd7', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :rev => 1},
+                                    :class => 'changeset', :title => 'do not escaping #<>&')
 
     document_link = link_to('Test document', {:controller => 'documents', :action => 'show', :id => 1},
                                              :class => 'document')
