@@ -70,7 +70,7 @@
 									<% if display_main_menu?(@project) %>
 										<%= render_main_menu(@project) %>
 									<% end %>
-									<%= javascript_tag 'jQuery("#menucontainer > ul").append("<li class=dropdown><a class=dropdown-toggle data-toggle=dropdown href=#><i class=icon-eye-open></i><strong> OSB 3D Explorer </strong><b class=caret></b></a><ul class=dropdown-menu id=explorermenu></ul></li>");' %>
+									<%= javascript_tag 'jQuery("#menucontainer > ul li:eq(0)").after("<li class=dropdown><a class=dropdown-toggle data-toggle=dropdown href=#><i class=icon-eye-open></i><strong> OSB 3D Explorer </strong><b class=caret></b></a><ul class=dropdown-menu id=explorermenu role=menu aria-labelledby=dropdownMenu></ul></li>");' %>
 								</div>
 							</div>
 						</div>
@@ -145,7 +145,6 @@ jQuery(function()
 		var geturl=getParameterByName('explorer');
 		if(geturl!='')
 		{
-			jQuery("#projectbody").hide();
 			open3DExplorer(geturl);
 		}
 		else

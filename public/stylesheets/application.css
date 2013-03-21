@@ -731,6 +731,12 @@ section p {
 	*background-color: #499249;
 }
 
+.minwidth
+{
+	width:1100px!important;
+	overflow:visible!important;
+}
+
 .big-lead {
 	font-weight: 200;
 	font-size: 60px;
@@ -810,6 +816,7 @@ section p {
 	-webkit-border-radius: 6px;
 	-moz-border-radius: 6px;
 	border-radius: 6px;
+	min-width:1100px;
 }
 .projects-list {
 	overflow: hidden;

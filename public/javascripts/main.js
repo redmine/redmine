@@ -60,6 +60,7 @@ jQuery(function()
 		jQuery(this).find("a").first().click();
 	});
 	
+	
 	// **************
 	// PROJECT PAGE
 	// **************
