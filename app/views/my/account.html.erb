@@ -1,9 +1,12 @@
+<div class="pull-right lead sidetitle"><%=l(:label_my_account)%> <i class="icon-edit"></i></div>
+<br/></br/><br/></br/><br/></br/>
+
 <div class="contextual">
-<%= link_to(l(:button_change_password), {:action => 'password'}, :class => 'icon icon-passwd') if @user.change_password_allowed? %>
+<%= link_to(' '+l(:button_change_password), {:action => 'password'}, :class => 'pull-right btn icon icon-key') if @user.change_password_allowed? %>
 <%= call_hook(:view_my_account_contextual, :user => @user)%>
 </div>
 
-<h2><%=l(:label_my_account)%></h2>
+
 <%= error_messages_for 'user' %>
 
 <%= labelled_form_for :user, @user,
@@ -13,21 +16,21 @@
 <div class="splitcontentleft">
 <fieldset class="box tabular">
   <legend><%=l(:label_information_plural)%></legend>
-  <p><%= f.text_field :firstname, :required => true %></p>
-  <p><%= f.text_field :lastname, :required => true %></p>
-  <p><%= f.text_field :mail, :required => true %></p>
-  <p><%= f.select :language, lang_options_for_select %></p>
+  <div class="control-group"><%= f.text_field :firstname, :required => true %></div>
+  <div class="control-group"><%= f.text_field :lastname, :required => true %></div>
+  <div class="control-group"><%= f.text_field :mail, :required => true %></div>
+  <div class="control-group"><%= f.select :language, lang_options_for_select %></div>
   <% if Setting.openid? %>
-  <p><%= f.text_field :identity_url  %></p>
+  <div class="control-group"><%= f.text_field :identity_url  %></div>
   <% end %>
 
   <% @user.custom_field_values.select(&:editable?).each do |value| %>
-    <p><%= custom_field_tag_with_label :user, value %></p>
+    <div class="control-group"><%= custom_field_tag_with_label :user, value %></div>
   <% end %>
   <%= call_hook(:view_my_account, :user => @user, :form => f) %>
 </fieldset>
 
-<%= submit_tag l(:button_save) %>
+
 </div>
 
 <div class="splitcontentright">
@@ -48,4 +51,6 @@
 <%= render :partial => 'sidebar' %>
 <% end %>
 
+<%= submit_tag l(:button_save), :class=>"btn btn-large btn-success" %>
+<br/></br/><br/></br/>
 <% html_title(l(:label_my_account)) -%>
