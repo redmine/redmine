@@ -343,9 +343,9 @@ nl:
     one:   1 open
     other: "%{count} open"
   label_x_closed_issues_abbr:
-    zero:  0 closed
-    one:   1 closed
-    other: "%{count} closed"
+    zero:  0 gesloten
+    one:   1 gesloten
+    other: "%{count} gesloten"
   label_comment: Commentaar
   label_comment_add: Voeg commentaar toe
   label_comment_added: Commentaar toegevoegd
@@ -1022,7 +1022,7 @@ nl:
   text_project_closed: Dit project is gesloten en op alleen-lezen
   notice_user_successful_create: Gebruiker %{id} aangemaakt.
   field_core_fields: Standaard verleden
-  field_timeout: Timeout (in seconds)
+  field_timeout: Timeout (in seconden)
   setting_thumbnails_enabled: Geef bijlage miniaturen weer
   setting_thumbnails_size: Grootte miniaturen (in pixels)
   label_status_transitions: Status transitie
@@ -1036,36 +1036,35 @@ nl:
   label_attribute_of_assigned_to: Toegewezen %{name}
   label_attribute_of_fixed_version: Target versions %{name}
   label_copy_subtasks: Kopieer subtaken
-  label_copied_to: copied to
-  label_copied_from: copied from
+  label_copied_to: gekopieerd naar
+  label_copied_from: gekopieerd van
   label_any_issues_in_project: any issues in project
   label_any_issues_not_in_project: any issues not in project
-  field_private_notes: Private notes
-  permission_view_private_notes: View private notes
-  permission_set_notes_private: Set notes as private
-  label_no_issues_in_project: no issues in project
+  field_private_notes: Privé notities
+  permission_view_private_notes: Bekijk privé notities
+  permission_set_notes_private: Maak notities privé
+  label_no_issues_in_project: geen issues in project
   label_any: alle
-  label_last_n_weeks: last %{count} weeks
-  setting_cross_project_subtasks: Allow cross-project subtasks
+  label_last_n_weeks: afgelopen %{count} weken
+  setting_cross_project_subtasks: Sta subtaken in andere projecten toe
   label_cross_project_descendants: Met subprojecten
   label_cross_project_tree: Met project boom
   label_cross_project_hierarchy: Met project hiërarchie
   label_cross_project_system: Met alle projecten
-  button_hide: Hide
-  setting_non_working_week_days: Non-working days
-  label_in_the_next_days: in the next
-  label_in_the_past_days: in the past
+  button_hide: Verberg
+  setting_non_working_week_days: Niet-werkdagen
+  label_in_the_next_days: in de volgende
+  label_in_the_past_days: in de afgelopen
   label_attribute_of_user: User's %{name}
-  text_turning_multiple_off: If you disable multiple values, multiple values will be
-    removed in order to preserve only one value per item.
+  text_turning_multiple_off: Bij het uitschakelen van meerdere waardes zal er maar een waarde bewaard blijven.
   label_attribute_of_issue: Issue's %{name}
-  permission_add_documents: Add documents
-  permission_edit_documents: Edit documents
-  permission_delete_documents: Delete documents
-  label_gantt_progress_line: Progress line
-  setting_jsonp_enabled: Enable JSONP support
-  field_inherit_members: Inherit members
-  field_closed_on: Closed
-  setting_default_projects_tracker_ids: Default trackers for new projects
+  permission_add_documents: Voeg documenten toe
+  permission_edit_documents: Bewerk documenten
+  permission_delete_documents: Verwijder documenten
+  label_gantt_progress_line: Voortgangslijn
+  setting_jsonp_enabled: Schakel JSONP support in
+  field_inherit_members: Neem leden over
+  field_closed_on: Gesloten
+  setting_default_projects_tracker_ids: Standaard trackers voor nieuwe projecten
   label_total_time: Totaal
   setting_emails_header: Email header
