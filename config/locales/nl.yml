@@ -1065,7 +1065,7 @@ nl:
   setting_jsonp_enabled: Schakel JSONP support in
   field_inherit_members: Neem leden over
   field_closed_on: Gesloten
-  field_generate_password: Generate password
+  field_generate_password: Genereer wachtwoord
   setting_default_projects_tracker_ids: Standaard trackers voor nieuwe projecten
   label_total_time: Totaal
   setting_emails_header: Email header
