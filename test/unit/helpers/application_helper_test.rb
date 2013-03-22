@@ -264,10 +264,14 @@ RAW
     note_link = link_to('#3', {:controller => 'issues', :action => 'show', :id => 3, :anchor => 'note-14'},
                                :class => Issue.find(3).css_classes, :title => 'Error 281 when updating a recipe (New)')
 
-    changeset_link = link_to('r1', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :rev => 1},
-                                   :class => 'changeset', :title => 'My very first commit')
-    changeset_link2 = link_to('r2', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :rev => 2},
+    revision_link = link_to('r1', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :rev => 1},
+                                   :class => 'changeset', :title => 'My very first commit do not escaping #<>&')
+    revision_link2 = link_to('r2', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :rev => 2},
                                     :class => 'changeset', :title => 'This commit fixes #1, #2 and references #1 & #3')
+
+    changeset_link2 = link_to('691322a8eb01e11fd7',
+                              {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :rev => 1},
+                               :class => 'changeset', :title => 'My very first commit do not escaping #<>&')
 
     document_link = link_to('Test document', {:controller => 'documents', :action => 'show', :id => 1},
                                              :class => 'document')
@@ -304,10 +308,11 @@ RAW
       # should not ignore leading zero
       '#03'                         => '#03',
       # changesets
-      'r1'                          => changeset_link,
-      'r1.'                         => "#{changeset_link}.",
-      'r1, r2'                      => "#{changeset_link}, #{changeset_link2}",
-      'r1,r2'                       => "#{changeset_link},#{changeset_link2}",
+      'r1'                          => revision_link,
+      'r1.'                         => "#{revision_link}.",
+      'r1, r2'                      => "#{revision_link}, #{revision_link2}",
+      'r1,r2'                       => "#{revision_link},#{revision_link2}",
+      'commit:691322a8eb01e11fd7'   => changeset_link2,
       # documents
       'document#1'                  => document_link,
       'document:"Test document"'    => document_link,
