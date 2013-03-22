@@ -420,19 +420,19 @@ nl:
   label_information_plural: Informatie
   label_integer: Integer
   label_internal: Intern
-  label_issue: Incident
-  label_issue_added: Incident toegevoegd
-  label_issue_category: Incident categorie
+  label_issue: Issue
+  label_issue_added: Issue toegevoegd
+  label_issue_category: Issue categorie
   label_issue_category_new: Nieuwe categorie
   label_issue_category_plural: Issuecategorieën
-  label_issue_new: Nieuw incident
-  label_issue_plural: Incidenten
-  label_issue_status: Incident status
+  label_issue_new: Nieuw issue
+  label_issue_plural: Issues
+  label_issue_status: Issue status
   label_issue_status_new: Nieuwe status
-  label_issue_status_plural: Incident statussen
-  label_issue_tracking: Incident-tracking
-  label_issue_updated: Incident bijgewerkt
-  label_issue_view_all: Bekijk alle incidenten
+  label_issue_status_plural: Issue statussen
+  label_issue_tracking: Issue-tracking
+  label_issue_updated: Issue bijgewerkt
+  label_issue_view_all: Bekijk alle issues
   label_issue_watchers: Monitoren
   label_issues_by: "Issues door %{value}"
   label_jump_to_a_project: Ga naar een project...
@@ -922,26 +922,26 @@ nl:
   button_collapse_all: Klap in
   label_additional_workflow_transitions_for_assignee: Aanvullende veranderingen toegestaan wanneer de gebruiker de toegewezene is
   label_additional_workflow_transitions_for_author: Aanvullende veranderingen toegestaan wanneer de gebruiker de auteur is
-  label_bulk_edit_selected_time_entries: Massa wijziging geselecteerd tijd-registraties?
+  label_bulk_edit_selected_time_entries: Alle geselecteerde tijdregistraties wijzigen?
   text_time_entries_destroy_confirmation: Weet u zeker dat u de geselecteerde item(s) wilt verwijderen ?
   label_role_anonymous: Anoniem
   label_role_non_member: Geen lid
   label_issue_note_added: Notitie toegevoegd
   label_issue_status_updated: Status gewijzigd
-  label_issue_priority_updated: Prioriteit geupdate
-  label_issues_visibility_own: Probleem aangemaakt door of toegewezen aan
-  field_issues_visibility: Incidenten weergave
-  label_issues_visibility_all: Alle incidenten
-  permission_set_own_issues_private: Zet eigen incidenten publiekelijk of privé
+  label_issue_priority_updated: Prioriteit gewijzigd
+  label_issues_visibility_own: Issue aangemaakt door of toegewezen aan
+  field_issues_visibility: Issues weergave
+  label_issues_visibility_all: Alle issues
+  permission_set_own_issues_private: Zet eigen issues publiekelijk of privé
   field_is_private: Privé
-  permission_set_issues_private: Zet incidenten publiekelijk of privé
-  label_issues_visibility_public: Alle niet privé-incidenten
+  permission_set_issues_private: Zet issues publiekelijk of privé
+  label_issues_visibility_public: Alle niet privé-issues
   text_issues_destroy_descendants_confirmation: Dit zal ook de %{count} subtaken verwijderen.
   field_commit_logs_encoding: Encodering van commit berichten
   field_scm_path_encoding: Pad encodering
   text_scm_path_encoding_note: "Standaard: UTF-8"
   field_path_to_repository: Pad naar versie overzicht
-  field_root_directory: Root directorie
+  field_root_directory: Root directory
   field_cvs_module: Module
   field_cvsroot: CVSROOT
   text_mercurial_repository_note: "Lokale versie overzicht (Voorbeeld: /hgrepo, c:\\hgrepo)"
@@ -950,10 +950,10 @@ nl:
   label_git_report_last_commit: Rapporteer laatste toevoegen voor bestanden en directories
   text_scm_config: U kan de scm commando's configureren in config/configuration.yml. Herstart de applicatie na het wijzigen ervan.
   text_scm_command_not_available: Scm commando is niet beschikbaar. Controleer de instellingen in het administratiepaneel.
-  notice_issue_successful_create: Probleem %{id} aangemaakt.
+  notice_issue_successful_create: Issue %{id} aangemaakt.
   label_between: tussen
   setting_issue_group_assignment: Sta groepstoewijzingen toe
-  label_diff: Verschil
+  label_diff: diff
   text_git_repository_note: "Versie overzicht lokaal is leeg (Voorbeeld: /gitrepo, c:\\gitrepo)"
   description_query_sort_criteria_direction: Sortering
   description_project_scope: Zoek bereik
@@ -963,7 +963,7 @@ nl:
   description_message_content: Inhoud bericht
   description_available_columns: Beschikbare kolommen
   description_date_range_interval: Kies een bereik bij het selecteren van een start en eind datum
-  description_issue_category_reassign: Kies probleem categorie
+  description_issue_category_reassign: Kies issue categorie
   description_search: Zoekveld
   description_notes: Notities
   description_date_range_list: Kies bereik vanuit de lijst
@@ -975,7 +975,7 @@ nl:
   label_parent_revision: Hoofd
   label_child_revision: Sub
   error_scm_annotate_big_text_file: De vermelding kan niet worden geannoteerd, omdat het groter is dan de maximale toegewezen grootte.
-  setting_default_issue_start_date_to_creation_date: Gebruik huidige datum als start datum voor nieuwe incidenten.
+  setting_default_issue_start_date_to_creation_date: Gebruik huidige datum als start datum voor nieuwe issues.
   button_edit_section: Wijzig deze sectie
   setting_repositories_encodings: Bijlage en opgeslagen bestanden coderingen
   description_all_columns: Alle kolommen
@@ -984,23 +984,23 @@ nl:
   error_attachment_too_big: Dit bestand kan niet worden geupload omdat het de maximaal toegestane grootte overschrijd (%{max_size})
   notice_failed_to_save_time_entries: "Opslaan gefaald voor %{count} tijdsnotatie(s) van %{total} geselecteerde: %{ids}."
   label_x_issues:
-    zero:  0 incidenten
-    one:   1 incidenten
-    other: "%{count} incidenten"
+    zero:  0 issues
+    one:   1 issue
+    other: "%{count} issues"
   label_repository_new: Nieuw repository
   field_repository_is_default: Hoofd repository
-  label_copy_attachments: Copieer bijlage(n)
+  label_copy_attachments: Kopieer bijlage(n)
   label_item_position: "%{position}/%{count}"
   label_completed_versions: Versies compleet
   field_multiple: Meerdere waardes
-  setting_commit_cross_project_ref: Sta toe om incidenten van alle projecten te refereren en oplossen
+  setting_commit_cross_project_ref: Sta toe om issues van alle projecten te refereren en oplossen
   text_issue_conflict_resolution_add_notes: Voeg mijn notities toe en annuleer andere wijzigingen
   text_issue_conflict_resolution_overwrite: Voeg mijn wijzigingen alsnog toe (voorgaande notities worden bewaard, maar sommige kunnen overschreden worden)
-  notice_issue_update_conflict: Dit incident is reeds geupdate door een andere gebruiker terwijl jij bezig was
+  notice_issue_update_conflict: Dit issue is reeds geupdate door een andere gebruiker terwijl jij bezig was
   text_issue_conflict_resolution_cancel: Annuleer mijn wijzigingen en geef pagina opnieuw weer %{link}
-  permission_manage_related_issues: Beheer gerelateerde incidenten
+  permission_manage_related_issues: Beheer gerelateerde issues
   field_auth_source_ldap_filter: LDAP filter
-  label_search_for_watchers: Zoek om monitoorders toe te voegen
+  label_search_for_watchers: Zoek om monitors toe te voegen
   notice_account_deleted: Uw account is permanent verwijderd
   setting_unsubscribe: Sta gebruikers toe hun eigen account te verwijderen
   button_delete_my_account: Verwijder mijn account
