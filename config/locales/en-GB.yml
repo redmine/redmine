@@ -1,7 +1,5 @@
 en-GB:
   direction: ltr
-  jquery:
-    locale: "en-GB"
   date:
     formats:
       # Use the strftime parameters for formats.

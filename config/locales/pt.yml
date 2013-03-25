@@ -9,8 +9,6 @@ pt:
       skip_last_comma: true
 
   direction: ltr
-  jquery:
-    locale: "pt"
   date:
     formats:
       default: "%d/%m/%Y"
