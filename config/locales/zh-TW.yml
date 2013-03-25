@@ -4,6 +4,8 @@
 
 "zh-TW":
   direction: ltr
+  jquery:
+    locale: "zh-TW"
   date:
     formats:
       # Use the strftime parameters for formats.
