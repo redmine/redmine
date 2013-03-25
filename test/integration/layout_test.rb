@@ -95,6 +95,16 @@ class LayoutTest < ActionController::IntegrationTest
       get '/issues'
       assert_include "/javascripts/i18n/jquery.ui.datepicker-zh-TW.js", response.body
     end
+
+    with_settings :default_language => 'pt' do
+      get '/issues'
+      assert_include "/javascripts/i18n/jquery.ui.datepicker-pt.js", response.body
+    end
+
+    with_settings :default_language => 'pt-BR' do
+      get '/issues'
+      assert_include "/javascripts/i18n/jquery.ui.datepicker-pt-BR.js", response.body
+    end
   end
 
   def test_search_field_outside_project_should_link_to_global_search
