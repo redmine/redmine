@@ -1,5 +1,7 @@
 pt-BR:
   direction: ltr
+  jquery:
+    locale: "pt-BR"
   date:
     formats:
       default: "%d/%m/%Y"
