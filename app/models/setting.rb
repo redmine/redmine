@@ -154,7 +154,7 @@ class Setting < ActiveRecord::Base
       clear_cache
     end
   end
-  
+
   # Clears the settings cache
   def self.clear_cache
     @cached_settings.clear
