@@ -200,7 +200,7 @@ ja:
   notice_default_data_loaded: デフォルト設定をロードしました。
   notice_unable_delete_version: バージョンを削除できません
   notice_unable_delete_time_entry: 作業時間を削除できません
-  notice_issue_done_ratios_updated: チケットの進捗が更新されました。
+  notice_issue_done_ratios_updated: チケットの進捗率を更新しました。
   notice_gantt_chart_truncated: ガントチャートは、最大表示項目数(%{max})を超えたたため切り捨てられました。
 
   error_can_t_load_default_data: "デフォルト設定がロードできませんでした: %{value}"
@@ -216,7 +216,7 @@ ja:
   error_can_not_remove_role: 'このロールは使用されています。削除できません。'
   error_can_not_reopen_issue_on_closed_version: '終了したバージョンにひも付けされたチケットの再オープンはできません。'
   error_can_not_archive_project: このプロジェクトはアーカイブできません
-  error_issue_done_ratios_not_updated: "チケットの進捗が更新できません。"
+  error_issue_done_ratios_not_updated: "チケットの進捗率が更新できません。"
   error_workflow_copy_source: 'コピー元となるトラッカーまたはロールを選択してください'
   error_workflow_copy_target: 'コピー先となるトラッカーとロールを選択してください'
   error_can_not_delete_tracker: 'このトラッカーは使用されています。削除できません。'
@@ -301,7 +301,7 @@ ja:
   field_attr_mail: メール属性
   field_onthefly: あわせてユーザーを作成
   field_start_date: 開始日
-  field_done_ratio: 進捗 %
+  field_done_ratio: 進捗率
   field_auth_source: 認証方式
   field_hide_mail: メールアドレスを隠す
   field_comments: コメント
@@ -392,8 +392,8 @@ ja:
   setting_password_min_length: パスワードの最低必要文字数
   setting_new_project_user_role_id: システム管理者以外のユーザーが作成したプロジェクトに設定するロール
   setting_default_projects_modules: 新規プロジェクトにおいてデフォルトで有効になるモジュール
-  setting_issue_done_ratio: 進捗の算出方法
-  setting_issue_done_ratio_issue_field: 各チケットにフィールドを用意する
+  setting_issue_done_ratio: 進捗率の算出方法
+  setting_issue_done_ratio_issue_field: チケットのフィールドを使用する
   setting_issue_done_ratio_issue_status: チケットのステータスを使用する
   setting_start_of_week: 週の開始曜日
   setting_rest_api_enabled: RESTによるWebサービスを有効にする
@@ -819,7 +819,7 @@ ja:
   label_version_sharing_hierarchy: プロジェクト階層単位
   label_version_sharing_tree: プロジェクトツリー単位
   label_version_sharing_system: すべてのプロジェクト
-  label_update_issue_done_ratios: 進捗の更新
+  label_update_issue_done_ratios: 進捗率の更新
   label_copy_source: コピー元
   label_copy_target: コピー先
   label_copy_same_as_target: 同じコピー先

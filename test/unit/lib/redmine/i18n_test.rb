@@ -196,13 +196,15 @@ class Redmine::I18nTest < ActiveSupport::TestCase
 
   def test_languages_options
     options = languages_options
-
     assert options.is_a?(Array)
     assert_equal valid_languages.size, options.size
     assert_nil options.detect {|option| !option.is_a?(Array)}
     assert_nil options.detect {|option| option.size != 2}
     assert_nil options.detect {|option| !option.first.is_a?(String) || !option.last.is_a?(String)}
     assert_include ["English", "en"], options
+    ja = "Japanese (\xe6\x97\xa5\xe6\x9c\xac\xe8\xaa\x9e)"
+    ja.force_encoding('UTF-8') if ja.respond_to?(:force_encoding)
+    assert_include [ja, "ja"], options
   end
 
   def test_locales_validness
