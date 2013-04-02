@@ -314,11 +314,11 @@ module Redmine
         col_width_avg.map! {|x| x / k}
 
         # calculate columns width
-        ratio = table_width / col_width_avg.inject(0) {|s,w| s += w}
+        ratio = table_width / col_width_avg.inject(0, :+)
         col_width = col_width_avg.map {|w| w * ratio}
 
         # correct max word width if too many columns
-        ratio = table_width / word_width_max.inject(0) {|s,w| s += w}
+        ratio = table_width / word_width_max.inject(0, :+)
         word_width_max.map! {|v| v * ratio} if ratio < 1
 
         # correct and lock width of some columns
@@ -354,7 +354,7 @@ module Redmine
 
           # calculate column normalizing ratio
           if free_col_width == 0
-            ratio = table_width / col_width.inject(0) {|s,w| s += w}
+            ratio = table_width / col_width.inject(0, :+)
           else
             ratio = (table_width - fix_col_width) / free_col_width
           end
@@ -426,13 +426,13 @@ module Redmine
         col_width = []
         unless query.inline_columns.empty?
           col_width = calc_col_width(issues, query, table_width, pdf)
-          table_width = col_width.inject(0) {|s,v| s += v}
+          table_width = col_width.inject(0, :+)
         end
 
         # use full width if the description is displayed
         if table_width > 0 && query.has_column?(:description)
           col_width = col_width.map {|w| w * (page_width - right_margin - left_margin) / table_width}
-          table_width = col_width.inject(0) {|s,v| s += v}
+          table_width = col_width.inject(0, :+)
         end
 
         # title
@@ -493,8 +493,7 @@ module Redmine
       end
 
       # Renders MultiCells and returns the maximum height used
-      def issues_to_pdf_write_cells(pdf, col_values, col_widths,
-                                    row_height, head=false)
+      def issues_to_pdf_write_cells(pdf, col_values, col_widths, row_height, head=false)
         base_y = pdf.GetY
         max_height = row_height
         col_values.each_with_index do |column, i|
