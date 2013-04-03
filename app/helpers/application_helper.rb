@@ -62,6 +62,56 @@ module ApplicationHelper
     return ""
   end
   
+  def getStars(nostars)
+    stars=" <i class='icon-remove'></i>"
+    stars=(nostars=="1")?" <i class='icon-star'></i>":stars
+    stars=(nostars=="2")?" <i class='icon-star'></i><i class='icon-star'></i>":stars
+    stars=(nostars=="3")?" <i class='icon-star'></i><i class='icon-star'></i><i class='icon-star'></i>":stars
+    stars=(nostars=="4")?" <i class='icon-star'></i><i class='icon-star'></i><i class='icon-star'></i><i class='icon-star'></i>":stars
+  end
+  
+  def getBadge(project, field)
+    value=getCustomField(project, field)
+    stars=getStars(value).html_safe
+    if(value=="3" or value=="2")
+      badgeClass="badge-success"
+    elsif(value=="1" or value=="2")
+      badgeClass="badge-info"
+    else
+      badgeClass="badge-warning"
+    end
+    badge='<span class="badge '+badgeClass+'">'+field+' '+stars+'</span>&nbsp;&nbsp;'
+    return badge.html_safe
+  end
+  
+  def getTooltipedBadge(project, field,tooltip)
+    value=getCustomField(project, field)
+    stars=getStars(value).html_safe
+    if(value=="-1" or value=="0")
+      badgeClass="badge-warning"
+    elsif(value=="1" or value=="2")
+      badgeClass="badge-info"
+    else
+      badgeClass="badge-success"
+    end
+    badge='<span class="badge tooltiplink pull-right '+badgeClass+'" data-toggle="tooltip" data-placement="left" title="'+ tooltip +'">'+stars+'</span>'
+    return badge.html_safe
+  end
+
+  def getStatusBadges(project)
+    @badges=""
+    @badges+= getBadge(project,'NeuroML v2.x support')
+    @badges+= getBadge(project,'NeuroML v1.x support') 
+    @badges+= getBadge(project,'NEURON support')
+    @badges+= getBadge(project,'GENESIS 2 support') 
+    @badges+= getBadge(project,'MOOSE support') 
+    @badges+= getBadge(project,'PSICS support') 
+    @badges+= getBadge(project,'NEST support') 
+    @badges+= getBadge(project,'PyNN support') 
+    @badges+= getBadge(project,'Brian support') 
+    return @badges.html_safe
+  end
+                
   def getProjectBreadcrumb(project)
     spine=getCustomField(project,"Spine classification")
     family=getCustomField(project,"Family")

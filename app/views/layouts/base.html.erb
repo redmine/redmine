@@ -58,6 +58,7 @@
 					  		<h1 id="pname"><%= @project.name %><small id="author"> </small></h1>
 							<% if isApproved?(@project) %>
 								<span class="label label-success tooltiplink" data-toggle='tooltip' data-placement='right' title='This project is certified by OSB and is officially supported.'>OSB Certified project</span>
+								<%= getTooltipedBadge(@project,'Curation level','The OSB ranking of physiological curation for this project.') %>
 								<br/><br/>
 								<%= getProjectBreadcrumb(@project) %>
 							<% else %>

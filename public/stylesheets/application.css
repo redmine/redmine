@@ -697,7 +697,7 @@ section p {
 #header_menu {
 	margin-top: 5px;
 }
-.label {
+.tooltiplink {
 	cursor: help;
 }
 .label-success {
@@ -706,6 +706,18 @@ section p {
 
 .label-warning {
 	background-color: #ff6600;
+}
+
+.badge-warning{
+	background-color: #ff6600;
+}
+
+.badge-success{
+	background-color:#88aa00;
+}
+
+.badge-info{
+	background-color:#37abc8;
 }
 
 .btn-success {
