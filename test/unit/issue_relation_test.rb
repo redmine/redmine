@@ -137,6 +137,19 @@ class IssueRelationTest < ActiveSupport::TestCase
     assert_include 'This relation would create a circular dependency', r.errors.full_messages
   end
 
+  def test_subtasks_should_allow_precedes_relation
+    parent = Issue.generate!
+    child1 = Issue.generate!(:parent_issue_id => parent.id)
+    child2 = Issue.generate!(:parent_issue_id => parent.id)
+
+    r = IssueRelation.new(
+          :issue_from => child1, :issue_to => child2,
+          :relation_type => IssueRelation::TYPE_PRECEDES
+        )
+    assert r.valid?
+    assert r.save
+  end
+
   def test_validates_circular_dependency_on_reverse_relations
     IssueRelation.delete_all
     assert IssueRelation.create!(

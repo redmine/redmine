@@ -859,10 +859,14 @@ class Issue < ActiveRecord::Base
     dependencies = []
     dependencies += relations_from.map(&:issue_to)
     dependencies += children unless leaf?
-    dependencies << parent
     dependencies.compact!
     dependencies -= except
-    dependencies + dependencies.map {|issue| issue.all_dependent_issues(except)}.flatten
+    dependencies += dependencies.map {|issue| issue.all_dependent_issues(except)}.flatten
+    if parent
+      dependencies << parent
+      dependencies += parent.all_dependent_issues(except + parent.descendants)
+    end
+    dependencies
   end
 
   # Returns an array of issues that duplicate this one
