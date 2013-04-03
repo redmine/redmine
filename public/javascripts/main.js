@@ -252,6 +252,7 @@ function toggleFullScreen()
 		jQuery(".navbar-fixed-top").hide();
 		jQuery("#mainheader").hide();
 		jQuery("footer").hide();
+		resizeIframe();
 	}
 	else
 	{
@@ -263,6 +264,7 @@ function toggleFullScreen()
 		jQuery(".navbar-fixed-top").show();
 		jQuery("#mainheader").show();
 		jQuery("footer").show();
+		resizeIframe();
 	}
 }
 function disableOSBExplorer()
