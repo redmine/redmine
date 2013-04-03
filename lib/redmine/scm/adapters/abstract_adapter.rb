@@ -219,17 +219,38 @@ module Redmine
         end
 
         # Path to the file where scm stderr output is logged
+        # Returns nil if the log file is not writable
         def self.stderr_log_file
-          @stderr_log_path ||=
-            Redmine::Configuration['scm_stderr_log_file'].presence ||
-            Rails.root.join("log/#{Rails.env}.scm.stderr.log").to_s
+          if @stderr_log_file.nil?
+            writable = false
+            path = Redmine::Configuration['scm_stderr_log_file'].presence
+            path ||= Rails.root.join("log/#{Rails.env}.scm.stderr.log").to_s
+            if File.exists?(path)
+              if File.file?(path) && File.writable?(path) 
+                writable = true
+              else
+                logger.warn("SCM log file (#{path}) is not writable")
+              end
+            else
+              begin
+                File.open(path, "w") {}
+                writable = true
+              rescue => e
+                logger.warn("SCM log file (#{path}) cannot be created: #{e.message}")
+              end
+            end
+            @stderr_log_file = writable ? path : false
+          end
+          @stderr_log_file || nil
         end
 
         def self.shellout(cmd, options = {}, &block)
           if logger && logger.debug?
             logger.debug "Shelling out: #{strip_credential(cmd)}"
             # Capture stderr in a log file
-            cmd = "#{cmd} 2>>#{shell_quote(stderr_log_file)}"
+            if stderr_log_file
+              cmd = "#{cmd} 2>>#{shell_quote(stderr_log_file)}"
+            end
           end
           begin
             mode = "r+"
