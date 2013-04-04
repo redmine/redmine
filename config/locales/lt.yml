@@ -1,8 +1,10 @@
 # Lithuanian translations for Ruby on Rails
 # by Laurynas Butkus (laurynas.butkus@gmail.com)
 # Redmine translation by Gediminas Muižis gediminas.muizis@gmail.com
-#                      and Sergej Jegorov sergej.jegorov@gmail.com
-#					   and Gytis Gurklys gytis.gurklys@gmail.com
+# and Sergej Jegorov sergej.jegorov@gmail.com
+# and Gytis Gurklys gytis.gurklys@gmail.com
+# and Andrius Kriučkovas andrius.kriuckovas@gmail.com
+
 lt:
   direction: ltr
   date:
@@ -228,8 +230,8 @@ lt:
   notice_default_data_loaded: Numatytoji konfiguracija sėkmingai užkrauta.
   notice_unable_delete_version: Neįmanoma panaikinti versiją.
   notice_unable_delete_time_entry: Neįmano ištrinti laiko žurnalo įrašą.
-  notice_issue_done_ratios_updated: Issue done ratios updated.
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
+  notice_issue_done_ratios_updated: Problemos baigtumo rodikliai atnaujinti.
+  notice_gantt_chart_truncated: Grafikas buvo sutrumpintas, kadangi jis viršija maksimalų (%{max}) leistinų atvaizduoti elementų kiekį
   notice_issue_successful_create: Darbas %{id} sukurtas.
 
   error_can_t_load_default_data: "Numatytoji konfiguracija negali būti užkrauta: %{value}"
@@ -241,15 +243,16 @@ lt:
   error_no_tracker_in_project: 'Joks pėdsekys nesusietas su šiuo projektu. Prašom patikrinti Projekto nustatymus.'
   error_no_default_issue_status: Nenustatyta numatytoji darbų būsena. Prašome patikrinti konfigūravimą ("Administravimas -> Darbų būsenos").
   error_can_not_delete_custom_field: Negalima ištrinti kliento lauko
-  error_can_not_delete_tracker: "This tracker contains issues and cannot be deleted."
-  error_can_not_remove_role: "This role is in use and cannot be deleted."
+  error_can_not_delete_tracker: "Šis pėdsekys turi įrašus ir todėl negali būti ištrintas."
+  error_can_not_remove_role: "Ši rolė yra naudojama ir negali būti ištrinta."
   error_can_not_reopen_issue_on_closed_version: Uždarytai versijai priskirtas darbas negali būti atnaujintas.
   error_can_not_archive_project: Šio projekto negalima suarchyvuoti
-  error_issue_done_ratios_not_updated: "Issue done ratios not updated."
-  error_workflow_copy_source: 'Please select a source tracker or role'
-  error_workflow_copy_target: 'Please select target tracker(s) and role(s)'
+  error_issue_done_ratios_not_updated: "Įrašo baigtumo rodikliai nebuvo atnaujinti. "
+  error_workflow_copy_source: 'Prašome pasirinkti pirminį šaltinio seklį arba rolę'
+  error_workflow_copy_target: 'Prašome pasirinkti galutinį paskirties seklį(-ius) arba rolę(-s)'
   error_unable_delete_issue_status: 'Negalima ištrinti darbo statuso'
   error_unable_to_connect: Negalima prisijungti (%{value})
+  error_attachment_too_big: "Ši byla negali būti įkelta, nes viršija maksimalią (%{max_size}) leistiną bylos apimtį"
   error_attachment_too_big: "This file cannot be uploaded because it exceeds the maximum allowed file size (%{max_size})"
   warning_attachments_not_saved: "%{count} byla(ų) negali būti išsaugota."
 
@@ -431,7 +434,7 @@ lt:
   setting_cache_formatted_text: Paslėpti formatuotą tekstą
   setting_default_notification_option: Numatytosios pranešimų nuostatos
   setting_commit_logtime_enabled: Įjungti laiko registravimą
-  setting_commit_logtime_activity_id: Activity for logged time
+  setting_commit_logtime_activity_id: Laiko įrašų veikla
   setting_gantt_items_limit: Maksimalus rodmenų skaičius rodomas Gantt'o grafike
   setting_issue_group_assignment: Leisti darbo priskirimą grupėms
   setting_default_issue_start_date_to_creation_date: Naudoti dabartinę datą kaip naujų darbų pradžios datą
@@ -877,8 +880,8 @@ lt:
   label_issues_visibility_public: Visi vieši darbai
   label_issues_visibility_own: Darbai, sukurti vartotojo arba jam priskirti
   label_git_report_last_commit: Nurodyti paskutinį failų ir katalogų pakeitimą
-  label_parent_revision: Parent
-  label_child_revision: Child
+  label_parent_revision: Pirminė revizija
+  label_child_revision: Sekanti revizija
   label_export_options: "%{export_format} eksportavimo nustatymai"
 
   button_login: Registruotis
@@ -994,16 +997,16 @@ lt:
   text_repository_usernames_mapping: "Parinkite ar atnaujinkite Redmine vartotoją, kuris paminėtas saugyklos log'e.\nVartotojai, turintys tą patį Redmine ir saugyklos vardą ar el.paštą yra automatiškai surišti."
   text_diff_truncated: "... Šis diff'as nukarpytas, nes jis viršijo maksimalų rodomų eilučių skaičių."
   text_custom_field_possible_values_info: 'Po vieną eilutę kiekvienai reikšmei'
-  text_wiki_page_destroy_question: "This page has %{descendants} child page(s) and descendant(s). What do you want to do?"
+  text_wiki_page_destroy_question: "Šis puslapis turi %{descendants} susijusių arba išvestinių puslapių. Ką norėtumėte daryti?"
   text_wiki_page_nullify_children: Laikyti child puslapius kaip pagrindinius puslapius
   text_wiki_page_destroy_children: "Pašalinti child puslapius ir jų palikuonis"
   text_wiki_page_reassign_children: "Priskirkite iš naujo 'child' puslapius šiam pagrindiniam puslapiui"
-  text_own_membership_delete_confirmation: "You are about to remove some or all of your permissions and may no longer be able to edit this project after that.\nAre you sure you want to continue?"
+  text_own_membership_delete_confirmation: "Jūs esate pasiruošęs panaikinti dalį arba visus leidimus ir po šio pakeitimo galite prarasti šio projekto redagavimo galimybę. \n Ar jūs esate įsitikinęs ir tęsti?"
   text_zoom_in: Priartinti
   text_zoom_out: Nutolinti
   text_warn_on_leaving_unsaved: "Dabartinis puslapis turi neišsaugoto teksto, kuris bus prarastas, jeigu paliksite šį puslapį."
   text_scm_path_encoding_note: "Numatytasis: UTF-8"
-  text_git_repository_note: Repository is bare and local (e.g. /gitrepo, c:\gitrepo)
+  text_git_repository_note: Saugykla (repository) yra plika ir vietinė (pvz. /gitrepo, c:\gitrepo)
   text_mercurial_repository_note: Vietinė saugykla (e.g. /hgrepo, c:\hgrepo)
   text_scm_command: Komanda
   text_scm_command_version: Versija
@@ -1068,7 +1071,7 @@ lt:
   label_completed_versions: Užbaigtos versijos
   text_project_identifier_info: Leidžiamos tik mažosios raidės (a-z), skaitmenys, brūkšneliai ir pabraukimo simboliai.<br />Kartą išsaugojus pakeitimai negalimi
   field_multiple: Keletas reikšmių
-  setting_commit_cross_project_ref: Allow issues of all the other projects to be referenced and fixed
+  setting_commit_cross_project_ref: Leisti visų kitų projektų įrašus susieti nuorodomis ir sutaisyti
   text_issue_conflict_resolution_add_notes: Išsaugoti mano žinutę ir atmesti likusius mano pataisymus
   text_issue_conflict_resolution_overwrite: Išsaugoti mano pakeitimus (ankstesnių pakeitimų žinutės bus išsaugotos, tačiau kai kurie pakeitimai bus perrašyti)
   notice_issue_update_conflict: Darbas buvo pakoreguotas kito vartotojo kol jūs atlikote pakeitimus.
@@ -1130,18 +1133,17 @@ lt:
   setting_non_working_week_days: Nedarbo dienos
   label_in_the_next_days: per ateinančias
   label_in_the_past_days: per paskutines
-  label_attribute_of_user: User's %{name}
-  text_turning_multiple_off: If you disable multiple values, multiple values will be
-    removed in order to preserve only one value per item.
-  label_attribute_of_issue: Issue's %{name}
-  permission_add_documents: Add documents
-  permission_edit_documents: Edit documents
-  permission_delete_documents: Delete documents
-  label_gantt_progress_line: Progress line
-  setting_jsonp_enabled: Enable JSONP support
-  field_inherit_members: Inherit members
-  field_closed_on: Closed
-  setting_default_projects_tracker_ids: Default trackers for new projects
+  label_attribute_of_user: Vartotojo %{name}
+  text_turning_multiple_off: Jei jūs išjungsite kelių reikšmių pasirinkimą, visos išvardintos reikšmės bus pašalintos ir palikta tik viena reikšmė kiekvienam laukui.
+  label_attribute_of_issue: Įrašai %{name}
+  permission_add_documents: Pridėti dokumentus
+  permission_edit_documents: Redaguoti dokumentus
+  permission_delete_documents: Trinti dokumentus
+  label_gantt_progress_line: Progreso linija
+  setting_jsonp_enabled: Įgalinti JSONP palaikymą
+  field_inherit_members: Paveldėti narius
+  field_closed_on: Uždarytas
+  setting_default_projects_tracker_ids: Sekliai pagal nutylėjimą naujiems projektams
   label_total_time: Iš viso
-  text_scm_config: You can configure your SCM commands in config/configuration.yml. Please restart the application after editing it.
-  text_scm_command_not_available: SCM command is not available. Please check settings on the administration panel.
+  text_scm_config: Jūs galite pakeisti SCM komandas byloje config/configuration.yml. Prašome perkrauti programą po redagavimo, idant įgalinti pakeitimus.
+  text_scm_command_not_available: SCM komanda nepasiekiama. Patikrinkite administravimo skydelio nustatymus.
