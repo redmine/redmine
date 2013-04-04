@@ -206,8 +206,9 @@ Redmine::MenuManager.map :top_menu do |menu|
 end
 
 Redmine::MenuManager.map :account_menu do |menu|
+  menu.push :about, { :controller => 'about', :action => 'index' }, :caption => 'About'
   menu.push :administration, { :controller => 'admin', :action => 'index' }, :if => Proc.new { User.current.admin? }, :last => true
-  menu.push :projects, { :controller => 'projects', :action => 'index' }, :caption => :label_project_plural, :caption => 'Explore Open Source Brain'
+  menu.push :projects, { :controller => 'projects', :action => 'index' }, :caption => 'Explore Open Source Brain'
   menu.push :login, :signin_path, :if => Proc.new { !User.current.logged? }
   menu.push :register, :register_path, :if => Proc.new { !User.current.logged? && Setting.self_registration? }
   menu.push :my_account, { :controller => 'my', :action => 'account' }, :if => Proc.new { User.current.logged? }
