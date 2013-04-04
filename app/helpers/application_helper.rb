@@ -63,7 +63,7 @@ module ApplicationHelper
   end
   
   def getStars(nostars)
-    stars=" <i class='icon-remove'></i>"
+    stars=" <i class='icon-ban-circle'></i>"
     stars=(nostars=="1")?" <i class='icon-star'></i>":stars
     stars=(nostars=="2")?" <i class='icon-star'></i><i class='icon-star'></i>":stars
     stars=(nostars=="3")?" <i class='icon-star'></i><i class='icon-star'></i><i class='icon-star'></i>":stars
@@ -72,30 +72,50 @@ module ApplicationHelper
   
   def getBadge(project, field)
     value=getCustomField(project, field)
-    stars=getStars(value).html_safe
-    if(value=="3" or value=="2")
-      badgeClass="badge-success"
-    elsif(value=="1" or value=="2")
-      badgeClass="badge-info"
+    if(value!="-1")
+      stars=getStars(value).html_safe
+      badge='<span class="badge '+getBadgeClass(value)+'">'+field+' '+stars+'</span>&nbsp;&nbsp;'
+      return badge.html_safe
     else
-      badgeClass="badge-warning"
+      return ""
     end
-    badge='<span class="badge '+badgeClass+'">'+field+' '+stars+'</span>&nbsp;&nbsp;'
-    return badge.html_safe
   end
   
-  def getTooltipedBadge(project, field,tooltip)
-    value=getCustomField(project, field)
-    stars=getStars(value).html_safe
-    if(value=="-1" or value=="0")
-      badgeClass="badge-warning"
-    elsif(value=="1" or value=="2")
-      badgeClass="badge-info"
-    else
+  def getBadgeClass(value)
+    if(value=="3" or value=="4" )
       badgeClass="badge-success"
+    elsif(value=="2" )
+      badgeClass="badge-info" 
+    elsif(value=="1")
+      badgeClass="badge-warning"
+    else
+      badgeClass="badge-default"
     end
-    badge='<span class="badge tooltiplink pull-right '+badgeClass+'" data-toggle="tooltip" data-placement="left" title="'+ tooltip +'">'+stars+'</span>'
-    return badge.html_safe
+  end
+  
+  def getLevel(value)
+    if(value=="3" or value=="4" )
+      level="Good"
+    elsif(value=="2" )
+      level="Medium" 
+    elsif(value=="1")
+      level="Low"
+    elsif(value=="0")
+      level="TBD"
+    else
+      level="Irrelevant"
+    end
+  end
+  
+  def getTooltipedBadge(project, field, text, tooltip)
+    value=getCustomField(project, field)
+    if(value!="-1")
+      stars=getStars(value).html_safe
+      badge='<span class="badge tooltiplink pull-right '+getBadgeClass(value)+'" data-toggle="tooltip" data-placement="left" title="'+ tooltip +'">'+text+': '+getLevel(value)+' '+stars+'</span>'
+      return badge.html_safe
+    else
+      return ""
+    end
   end
 
   def getStatusBadges(project)
@@ -181,19 +201,24 @@ module ApplicationHelper
   end
   
   def getHttpGitURL()
-    @repourl=getCustomField(@project,"GitHub repository")
-    if @repourl.starts_with?"git:"
-      @repourl["git:"]="https:"
-    end
-    if @repourl.ends_with?".git"
-      @repourl[".git"]=""
-    end
-    if (@repourl.starts_with?"https://github") == false 
-      return nil
+    repo=getCustomField(@project,"GitHub repository")
+    if(repo!=nil)
+      @repourl=repo.dup
+      if @repourl.starts_with?"git:"
+        @repourl["git:"]="https:"
+      end
+      if @repourl.ends_with?".git"
+        @repourl[".git"]=""
+      end
+      if (@repourl.starts_with?"https://github") == false 
+        return nil
+      else
+        @repourl["https://github"]="https://raw.github"
+      end
+      return @repourl
     else
-      @repourl["https://github"]="https://raw.github"
+      return nil
     end
-    return @repourl
   end
 
   # Fetches updates from the remote repository

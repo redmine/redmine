@@ -58,7 +58,7 @@
 					  		<h1 id="pname"><%= @project.name %><small id="author"> </small></h1>
 							<% if isApproved?(@project) %>
 								<span class="label label-success tooltiplink" data-toggle='tooltip' data-placement='right' title='This project is certified by OSB and is officially supported.'>OSB Certified project</span>
-								<%= getTooltipedBadge(@project,'Curation level','The OSB ranking of physiological curation for this project.') %>
+								<%= getTooltipedBadge(@project,'Curation level','Physiological accuracy ','The physiological accuracy OSB rank for this project.') %>
 								<br/><br/>
 								<%= getProjectBreadcrumb(@project) %>
 							<% else %>
@@ -90,14 +90,18 @@
 								<% end %>
 								</ul>
 							<% end %>
-							<% if not @neuroml2files.empty? %>
+							<% if (not @neuroml2files.empty?) %>
 								<%= javascript_tag 'jQuery("#explorermenu").append("<li class=dropdown-submenu ><a tabindex=-1 href=#>Cells</a><ul class=dropdown-menu id=cellsmenu></ul></li>");' %>
 								<% for nml2file in @neuroml2files %>
 									<% if not nml2file.ends_with?(".net.nml") %>
-											<%= javascript_tag 'jQuery("#cellsmenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + "/master/" + nml2file + '&quot;));>'+ nml2file + '</a></li>");'%>
-									<% end %>
+										<%= javascript_tag 'jQuery("#cellsmenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + "/master/" + nml2file + '&quot;));>'+ nml2file + '</a></li>");'%>
+									<% end %>									
 								<% end %>
+							<% else %>
+								<%= javascript_tag 'jQuery("#explorermenu").append("<li><a tabindex=-1>No NeuroML2 files found!</a></li>");' %>
 							<% end %>
+						<% else %>
+							<%= javascript_tag 'jQuery("#explorermenu").append("<li><a tabindex=-1>No NeuroML2 files found!</a></li>");' %>
 						<% end %>
 					<% end %>
 					<div id="mainContent">
