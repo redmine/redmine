@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -32,6 +32,7 @@ module Redmine
                                    :order => "#{CustomField.table_name}.position",
                                    :dependent => :delete_all,
                                    :validate => false
+
           send :include, Redmine::Acts::Customizable::InstanceMethods
           validate :validate_custom_field_values
           after_save :save_custom_field_values
@@ -41,6 +42,7 @@ module Redmine
       module InstanceMethods
         def self.included(base)
           base.extend ClassMethods
+          base.send :alias_method_chain, :reload, :custom_fields
         end
 
         def available_custom_fields
@@ -150,6 +152,12 @@ module Redmine
         def reset_custom_values!
           @custom_field_values = nil
           @custom_field_values_changed = true
+        end
+
+        def reload_with_custom_fields(*args)
+          @custom_field_values = nil
+          @custom_field_values_changed = false
+          reload_without_custom_fields(*args)
         end
 
         module ClassMethods

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -35,13 +35,8 @@ class TimeEntryQuery < Query
     add_filter('spent_on', '*') unless filters.present?
   end
 
-  def available_filters
-    return @available_filters if @available_filters
-    @available_filters = {
-      "spent_on" => { :type => :date_past, :order => 0 },
-      "comments" => { :type => :text, :order => 5 },
-      "hours" => { :type => :float, :order => 6 }
-    }
+  def initialize_available_filters
+    add_available_filter "spent_on", :type => :date_past
 
     principals = []
     if project
@@ -49,10 +44,9 @@ class TimeEntryQuery < Query
       unless project.leaf?
         subprojects = project.descendants.visible.all
         if subprojects.any?
-          @available_filters["subproject_id"] = {
-            :type => :list_subprojects, :order => 1,
+          add_available_filter "subproject_id",
+            :type => :list_subprojects,
             :values => subprojects.collect{|s| [s.name, s.id.to_s] }
-          }
           principals += Principal.member_of(subprojects)
         end
       end
@@ -66,9 +60,9 @@ class TimeEntryQuery < Query
           project_values << ["<< #{l(:label_my_projects).downcase} >>", "mine"]
         end
         project_values += all_projects_values
-        @available_filters["project_id"] = {
-          :type => :list, :order => 1, :values => project_values
-        } unless project_values.empty?
+        add_available_filter("project_id",
+          :type => :list, :values => project_values
+        ) unless project_values.empty?
       end
     end
     principals.uniq!
@@ -78,28 +72,27 @@ class TimeEntryQuery < Query
     users_values = []
     users_values << ["<< #{l(:label_me)} >>", "me"] if User.current.logged?
     users_values += users.collect{|s| [s.name, s.id.to_s] }
-    @available_filters["user_id"] = {
-      :type => :list_optional, :order => 2, :values => users_values
-    } unless users_values.empty?
+    add_available_filter("user_id",
+      :type => :list_optional, :values => users_values
+    ) unless users_values.empty?
 
     activities = (project ? project.activities : TimeEntryActivity.shared.active)
-    @available_filters["activity_id"] = {
-      :type => :list, :order => 3, :values => activities.map {|a| [a.name, a.id.to_s]}
-    } unless activities.empty?
+    add_available_filter("activity_id",
+      :type => :list, :values => activities.map {|a| [a.name, a.id.to_s]}
+    ) unless activities.empty?
+
+    add_available_filter "comments", :type => :text
+    add_available_filter "hours", :type => :float
 
     add_custom_fields_filters(TimeEntryCustomField.where(:is_filter => true).all)
-    add_associations_custom_fields_filters :project, :user
-
-    @available_filters.each do |field, options|
-      options[:name] ||= l(options[:label] || "field_#{field}".gsub(/_id$/, ''))
-    end
-    @available_filters
+    add_associations_custom_fields_filters :project, :issue, :user
   end
 
   def available_columns
     return @available_columns if @available_columns
     @available_columns = self.class.available_columns.dup
     @available_columns += TimeEntryCustomField.all.map {|cf| QueryCustomFieldColumn.new(cf) }
+    @available_columns += IssueCustomField.all.map {|cf| QueryAssociationCustomFieldColumn.new(:issue, cf) }
     @available_columns
   end
 

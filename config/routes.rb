@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -85,13 +85,16 @@ RedmineApp::Application.routes.draw do
   match 'users/:id/memberships/:membership_id', :to => 'users#destroy_membership', :via => :delete
   match 'users/:id/memberships', :to => 'users#edit_membership', :via => :post, :as => 'user_memberships'
 
-  match 'watchers/new', :controller=> 'watchers', :action => 'new', :via => :get
-  match 'watchers', :controller=> 'watchers', :action => 'create', :via => :post
-  match 'watchers/append', :controller=> 'watchers', :action => 'append', :via => :post
-  match 'watchers/destroy', :controller=> 'watchers', :action => 'destroy', :via => :post
-  match 'watchers/watch', :controller=> 'watchers', :action => 'watch', :via => :post
-  match 'watchers/unwatch', :controller=> 'watchers', :action => 'unwatch', :via => :post
-  match 'watchers/autocomplete_for_user', :controller=> 'watchers', :action => 'autocomplete_for_user', :via => :get
+  post 'watchers/watch', :to => 'watchers#watch', :as => 'watch'
+  delete 'watchers/watch', :to => 'watchers#unwatch'
+  get 'watchers/new', :to => 'watchers#new'
+  post 'watchers', :to => 'watchers#create'
+  post 'watchers/append', :to => 'watchers#append'
+  delete 'watchers', :to => 'watchers#destroy'
+  get 'watchers/autocomplete_for_user', :to => 'watchers#autocomplete_for_user'
+  # Specific routes for issue watchers API
+  post 'issues/:object_id/watchers', :to => 'watchers#create', :object_type => 'issue'
+  delete 'issues/:object_id/watchers/:user_id' => 'watchers#destroy', :object_type => 'issue'
 
   resources :projects do
     member do
@@ -121,7 +124,7 @@ RedmineApp::Application.routes.draw do
       end
     end
     # issue form update
-    match 'issues/new', :controller => 'issues', :action => 'new', :via => [:put, :post], :as => 'issue_form'
+    match 'issues/update_form', :controller => 'issues', :action => 'update_form', :via => [:put, :post], :as => 'issue_form'
 
     resources :files, :only => [:index, :new, :create]
 
@@ -165,7 +168,7 @@ RedmineApp::Application.routes.draw do
       end
     end
     match 'wiki', :controller => 'wiki', :action => 'show', :via => :get
-    get 'wiki/:id/:version', :to => 'wiki#show'
+    get 'wiki/:id/:version', :to => 'wiki#show', :constraints => {:version => /\d+/}
     delete 'wiki/:id/:version', :to => 'wiki#destroy_version'
     get 'wiki/:id/:version/annotate', :to => 'wiki#annotate'
     get 'wiki/:id/:version/diff', :to => 'wiki#diff'
@@ -265,10 +268,10 @@ RedmineApp::Application.routes.draw do
   get 'projects/:id/repository', :to => 'repositories#show', :path => nil
 
   # additional routes for having the file name at the end of url
-  match 'attachments/:id/:filename', :controller => 'attachments', :action => 'show', :id => /\d+/, :filename => /.*/, :via => :get
-  match 'attachments/download/:id/:filename', :controller => 'attachments', :action => 'download', :id => /\d+/, :filename => /.*/, :via => :get
-  match 'attachments/download/:id', :controller => 'attachments', :action => 'download', :id => /\d+/, :via => :get
-  match 'attachments/thumbnail/:id(/:size)', :controller => 'attachments', :action => 'thumbnail', :id => /\d+/, :via => :get, :size => /\d+/
+  get 'attachments/:id/:filename', :to => 'attachments#show', :id => /\d+/, :filename => /.*/, :as => 'named_attachment'
+  get 'attachments/download/:id/:filename', :to => 'attachments#download', :id => /\d+/, :filename => /.*/, :as => 'download_named_attachment'
+  get 'attachments/download/:id', :to => 'attachments#download', :id => /\d+/
+  get 'attachments/thumbnail/:id(/:size)', :to => 'attachments#thumbnail', :id => /\d+/, :size => /\d+/, :as => 'thumbnail'
   resources :attachments, :only => [:show, :destroy]
 
   resources :groups do

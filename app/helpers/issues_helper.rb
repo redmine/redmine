@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -184,33 +184,35 @@ module IssuesHelper
 
   def sidebar_queries
     unless @sidebar_queries
-      @sidebar_queries = IssueQuery.visible.all(
-        :order => "#{Query.table_name}.name ASC",
+      @sidebar_queries = IssueQuery.visible.
+        order("#{Query.table_name}.name ASC").
         # Project specific queries and global queries
-        :conditions => (@project.nil? ? ["project_id IS NULL"] : ["project_id IS NULL OR project_id = ?", @project.id])
-      )
+        where(@project.nil? ? ["project_id IS NULL"] : ["project_id IS NULL OR project_id = ?", @project.id]).
+        all
     end
     @sidebar_queries
   end
 
   def query_links(title, queries)
+    return '' if queries.empty?
     # links to #index on issues/show
     url_params = controller_name == 'issues' ? {:controller => 'issues', :action => 'index', :project_id => @project} : params
 
-    content_tag('h3', h(title)) +
-      queries.collect {|query|
-          css = 'query'
-          css << ' selected' if query == @query
-          link_to(h(query.name), url_params.merge(:query_id => query), :class => css)
-        }.join('<br />').html_safe
+    content_tag('h3', title) + "\n" +
+      content_tag('ul',
+        queries.collect {|query|
+            css = 'query'
+            css << ' selected' if query == @query
+            content_tag('li', link_to(query.name, url_params.merge(:query_id => query), :class => css))
+          }.join("\n").html_safe,
+        :class => 'queries'
+      ) + "\n"
   end
 
   def render_sidebar_queries
     out = ''.html_safe
-    queries = sidebar_queries.select {|q| !q.is_public?}
-    out << query_links(l(:label_my_queries), queries) if queries.any?
-    queries = sidebar_queries.select {|q| q.is_public?}
-    out << query_links(l(:label_query_plural), queries) if queries.any?
+    out << query_links(l(:label_my_queries), sidebar_queries.reject(&:is_public?))
+    out << query_links(l(:label_query_plural), sidebar_queries.select(&:is_public?))
     out
   end
 
@@ -353,7 +355,10 @@ module IssuesHelper
     association = Issue.reflect_on_association(field.to_sym)
     if association
       record = association.class_name.constantize.find_by_id(id)
-      return record.name if record
+      if record
+        record.name.force_encoding('UTF-8') if record.name.respond_to?(:force_encoding)
+        return record.name
+      end
     end
   end
 
@@ -369,45 +374,5 @@ module IssuesHelper
         end
       end
     end
-  end
-
-  def issues_to_csv(issues, project, query, options={})
-    decimal_separator = l(:general_csv_decimal_separator)
-    encoding = l(:general_csv_encoding)
-    columns = (options[:columns] == 'all' ? query.available_inline_columns : query.inline_columns)
-    if options[:description]
-      if description = query.available_columns.detect {|q| q.name == :description}
-        columns << description
-      end
-    end
-
-    export = FCSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
-      # csv header fields
-      csv << [ "#" ] + columns.collect {|c| Redmine::CodesetUtil.from_utf8(c.caption.to_s, encoding) }
-
-      # csv lines
-      issues.each do |issue|
-        col_values = columns.collect do |column|
-          s = if column.is_a?(QueryCustomFieldColumn)
-            cv = issue.custom_field_values.detect {|v| v.custom_field_id == column.custom_field.id}
-            show_value(cv)
-          else
-            value = column.value(issue)
-            if value.is_a?(Date)
-              format_date(value)
-            elsif value.is_a?(Time)
-              format_time(value)
-            elsif value.is_a?(Float)
-              ("%.2f" % value).gsub('.', decimal_separator)
-            else
-              value
-            end
-          end
-          s.to_s
-        end
-        csv << [ issue.id.to_s ] + col_values.collect {|c| Redmine::CodesetUtil.from_utf8(c.to_s, encoding) }
-      end
-    end
-    export
   end
 end

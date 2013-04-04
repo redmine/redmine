@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -54,6 +54,30 @@ class CustomFieldsControllerTest < ActionController::TestCase
       end
       assert_select 'input[type=hidden][name=type][value=IssueCustomField]'
     end
+  end
+
+  def test_default_value_should_be_an_input_for_string_custom_field
+    get :new, :type => 'IssueCustomField', :custom_field => {:field_format => 'string'}
+    assert_response :success
+    assert_select 'input[name=?]', 'custom_field[default_value]'
+  end
+
+  def test_default_value_should_be_a_textarea_for_text_custom_field
+    get :new, :type => 'IssueCustomField', :custom_field => {:field_format => 'text'}
+    assert_response :success
+    assert_select 'textarea[name=?]', 'custom_field[default_value]'
+  end
+
+  def test_default_value_should_be_a_checkbox_for_bool_custom_field
+    get :new, :type => 'IssueCustomField', :custom_field => {:field_format => 'bool'}
+    assert_response :success
+    assert_select 'input[name=?][type=checkbox]', 'custom_field[default_value]'
+  end
+
+  def test_default_value_should_not_be_present_for_user_custom_field
+    get :new, :type => 'IssueCustomField', :custom_field => {:field_format => 'user'}
+    assert_response :success
+    assert_select '[name=?]', 'custom_field[default_value]', 0
   end
 
   def test_new_js

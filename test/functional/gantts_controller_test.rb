@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -25,7 +25,6 @@ class GanttsControllerTest < ActionController::TestCase
            :member_roles,
            :members,
            :enabled_modules,
-           :workflows,
            :versions
 
   def test_gantt_should_work
@@ -83,8 +82,8 @@ class GanttsControllerTest < ActionController::TestCase
 
   def test_gantt_should_display_relations
     IssueRelation.delete_all
-    issue1 = Issue.generate!(:start_date => 1.day.from_now, :due_date => 3.day.from_now)
-    issue2 = Issue.generate!(:start_date => 1.day.from_now, :due_date => 3.day.from_now)
+    issue1 = Issue.generate!(:start_date => 1.day.from_now.to_date, :due_date => 3.day.from_now.to_date)
+    issue2 = Issue.generate!(:start_date => 1.day.from_now.to_date, :due_date => 3.day.from_now.to_date)
     IssueRelation.create!(:issue_from => issue1, :issue_to => issue2, :relation_type => 'precedes')
 
     get :show

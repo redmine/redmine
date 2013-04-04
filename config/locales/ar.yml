@@ -161,7 +161,7 @@ ar:
   notice_not_authorized_archived_project: المشروع الذي تحاول الدخول اليه تم ارشفته
   notice_email_sent: "%{value}تم ارسال رسالة الى "
   notice_email_error: " (%{value})لقد حدث خطأ ما اثناء ارسال الرسالة الى "
-  notice_feeds_access_key_reseted: كلمة الدخول  RSSلقد تم تعديل .
+  notice_feeds_access_key_reseted: كلمة الدخول  Atomلقد تم تعديل .
   notice_api_access_key_reseted:  كلمة الدخولAPIلقد تم تعديل .
   notice_failed_to_save_issues: "فشل في حفظ الملف"
   notice_failed_to_save_members: "فشل في حفظ الاعضاء: %{errors}."
@@ -411,7 +411,6 @@ ar:
   permission_edit_own_time_entries: تعديل الدخولات الشخصية
   permission_manage_news: ادارة الاخبار
   permission_comment_news: اخبار التعليقات
-  permission_manage_documents: ادارة المستندات
   permission_view_documents: عرض المستندات
   permission_manage_files: ادارة الملفات
   permission_view_files: عرض الملفات
@@ -742,9 +741,9 @@ ar:
   label_language_based: استناداً إلى لغة المستخدم
   label_sort_by: " %{value}الترتيب حسب "
   label_send_test_email: ارسل رسالة الكترونية كاختبار
-  label_feeds_access_key: RSS مفتاح دخول
-  label_missing_feeds_access_key: مفقودRSS مفتاح دخول
-  label_feeds_access_key_created_on: "RSS تم انشاء مفتاح %{value} منذ"
+  label_feeds_access_key: Atom مفتاح دخول
+  label_missing_feeds_access_key: مفقودAtom مفتاح دخول
+  label_feeds_access_key_created_on: "Atom تم انشاء مفتاح %{value} منذ"
   label_module_plural: الوحدات النمطية
   label_added_time_by: " تم اضافته من قبل%{author} %{age} منذ"
   label_updated_time_by: " تم تحديثه من قبل%{author} %{age} منذ"
@@ -1076,3 +1075,16 @@ ar:
   label_in_the_next_days: in the next
   label_in_the_past_days: in the past
   label_attribute_of_user: User's %{name}
+  text_turning_multiple_off: If you disable multiple values, multiple values will be
+    removed in order to preserve only one value per item.
+  label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents
+  label_gantt_progress_line: Progress line
+  setting_jsonp_enabled: Enable JSONP support
+  field_inherit_members: Inherit members
+  field_closed_on: Closed
+  field_generate_password: Generate password
+  setting_default_projects_tracker_ids: Default trackers for new projects
+  label_total_time: الإجمالي

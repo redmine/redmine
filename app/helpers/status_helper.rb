@@ -27,7 +27,7 @@ module StatusHelper
       ancestors = []
       original_project = @project
 
-      status_types = ["", "NeuroML v1.x", "NeuroML v2.x", "PyNN", "NEURON", "GENESIS 2", "MOOSE", "PSICS", "NEST", "Brian"]
+      status_types = ["", "Curation", "NeuroML v1.x", "NeuroML v2.x", "PyNN", "NEURON", "GENESIS 2", "MOOSE", "PSICS", "NEST", "Brian"]
 
       s << "<table  class='list'>\n"
       s << "<thead>\n"
@@ -35,7 +35,7 @@ module StatusHelper
       status_types.each do |status_type|
         link = ""
         case status_type
-          when "NeuroML v1.x", "NeuroML v2.x", "PyNN"
+          when "Curation", "NeuroML v1.x", "NeuroML v2.x", "PyNN"
             link = "#{status_type}"
           else
             link = "<a href='/projects/simulators/wiki/Wiki/##{status_type}'>#{status_type}</a>"
@@ -75,6 +75,9 @@ module StatusHelper
               project.visible_custom_field_values.each do |custom_value|
                 if (custom_value.custom_field.name == status_type+' support')
                   s << "<td><img src='images/status_sm#{custom_value.value}.png' alt=' '/></td>"
+                end
+                if (custom_value.custom_field.name == status_type+' level')
+                  s << "<td><img src='images/curation_sm#{custom_value.value}.png' alt=' '/></td>"
                 end
               end
             end

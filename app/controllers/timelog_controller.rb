@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -39,6 +39,7 @@ class TimelogController < ApplicationController
   helper :custom_fields
   include CustomFieldsHelper
   helper :queries
+  include QueriesHelper
 
   def index
     @query = TimeEntryQuery.build_from_params(params, :project => @project, :name => '_')
@@ -55,7 +56,7 @@ class TimelogController < ApplicationController
         @entries = scope.all(
           :include => [:project, :activity, :user, {:issue => :tracker}],
           :order => sort_clause,
-          :limit  =>  @entry_pages.items_per_page,
+          :limit  =>  @entry_pages.per_page,
           :offset =>  @entry_pages.offset
         )
         @total_hours = scope.sum(:hours).to_f
@@ -86,7 +87,7 @@ class TimelogController < ApplicationController
           :include => [:project, :activity, :user, {:issue => [:tracker, :assigned_to, :priority]}],
           :order => sort_clause
         )
-        send_data(entries_to_csv(@entries), :type => 'text/csv; header=present', :filename => 'timelog.csv')
+        send_data(query_to_csv(@entries, @query, params), :type => 'text/csv; header=present', :filename => 'timelog.csv')
       }
     end
   end
@@ -197,6 +198,7 @@ class TimelogController < ApplicationController
       time_entry.safe_attributes = attributes
       call_hook(:controller_time_entries_bulk_edit_before_save, { :params => params, :time_entry => time_entry })
       unless time_entry.save
+        logger.info "time entry could not be updated: #{time_entry.errors.full_messages}" if logger && logger.info
         # Keep unsaved time_entry ids to display them in flash error
         unsaved_time_entry_ids << time_entry.id
       end

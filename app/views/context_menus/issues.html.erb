@@ -111,16 +111,17 @@
         <li><%= bulk_update_custom_field_context_menu_link(field, text, value || text) %></li>
       <% end %>
       <% unless field.is_required? %>
-        <li><%= bulk_update_custom_field_context_menu_link(field, l(:label_none), '') %></li>
+        <li><%= bulk_update_custom_field_context_menu_link(field, l(:label_none), '__none__') %></li>
       <% end %>
       </ul>
     </li>
   <% end %>
 
+<% if User.current.logged? %>
+  <li><%= watcher_link(@issues, User.current) %></li>
+<% end %>
+
 <% if @issue.present? %>
-  <% if User.current.logged? %>
-  <li><%= watcher_link(@issue, User.current) %></li>
-  <% end %>
   <% if @can[:log_time] -%>
   <li><%= context_menu_link l(:button_log_time), new_issue_time_entry_path(@issue),
           :class => 'icon-time-add' %></li>
@@ -130,7 +131,7 @@
 <% else %>
   <li><%= context_menu_link l(:button_copy), bulk_edit_issues_path(:ids => @issue_ids, :copy => '1'),
                           :class => 'icon-copy', :disabled => !@can[:move] %></li>
-<% end %>													
+<% end %>
   <li><%= context_menu_link l(:button_delete), issues_path(:ids => @issue_ids, :back_url => @back),
                             :method => :delete, :data => {:confirm => issues_destroy_confirmation_message(@issues)}, :class => 'icon-del', :disabled => !@can[:delete] %></li>
 

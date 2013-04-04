@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -55,7 +55,7 @@ class UsersController < ApplicationController
         render :layout => !request.xhr?
       }
       format.api
-    end	
+    end
   end
 
   def show
@@ -80,6 +80,7 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new(:language => Setting.default_language, :mail_notification => Setting.default_notification_option)
+    @user.safe_attributes = params[:user]
     @auth_sources = AuthSource.all
   end
 
@@ -96,13 +97,14 @@ class UsersController < ApplicationController
       @user.pref.save
       @user.notified_project_ids = (@user.mail_notification == 'selected' ? params[:notified_project_ids] : [])
 
-      Mailer.account_information(@user, params[:user][:password]).deliver if params[:send_information]
+      Mailer.account_information(@user, @user.password).deliver if params[:send_information]
 
       respond_to do |format|
         format.html {
           flash[:notice] = l(:notice_user_successful_create, :id => view_context.link_to(@user.login, user_path(@user)))
           if params[:continue]
-            redirect_to new_user_path
+            attrs = params[:user].slice(:generate_password)
+            redirect_to new_user_path(:user => attrs)
           else
             redirect_to edit_user_path(@user)
           end
@@ -145,8 +147,8 @@ class UsersController < ApplicationController
 
       if was_activated
         Mailer.account_activated(@user).deliver
-      elsif @user.active? && params[:send_information] && !params[:user][:password].blank? && @user.auth_source_id.nil?
-        Mailer.account_information(@user, params[:user][:password]).deliver
+      elsif @user.active? && params[:send_information] && @user.password.present? && @user.auth_source_id.nil?
+        Mailer.account_information(@user, @user.password).deliver
       end
 
       respond_to do |format|

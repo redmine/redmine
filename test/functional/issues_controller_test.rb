@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -380,7 +380,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 'text/csv; header=present', @response.content_type
     assert @response.body.starts_with?("#,")
     lines = @response.body.chomp.split("\n")
-    assert_equal assigns(:query).columns.size + 1, lines[0].split(',').size
+    assert_equal assigns(:query).columns.size, lines[0].split(',').size
   end
 
   def test_index_csv_with_project
@@ -391,13 +391,18 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_index_csv_with_description
-    get :index, :format => 'csv', :description => '1'
-    assert_response :success
-    assert_not_nil assigns(:issues)
-    assert_equal 'text/csv; header=present', @response.content_type
-    assert @response.body.starts_with?("#,")
-    lines = @response.body.chomp.split("\n")
-    assert_equal assigns(:query).columns.size + 2, lines[0].split(',').size
+    Issue.generate!(:description => 'test_index_csv_with_description')
+
+    with_settings :default_language => 'en' do
+      get :index, :format => 'csv', :description => '1'
+      assert_response :success
+      assert_not_nil assigns(:issues)
+    end
+
+    assert_equal 'text/csv; header=present', response.content_type
+    headers = response.body.chomp.split("\n").first.split(',')
+    assert_include 'Description', headers
+    assert_include 'test_index_csv_with_description', response.body
   end
 
   def test_index_csv_with_spent_time_column
@@ -416,9 +421,9 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:issues)
     assert_equal 'text/csv; header=present', @response.content_type
-    assert @response.body.starts_with?("#,")
-    lines = @response.body.chomp.split("\n")
-    assert_equal assigns(:query).available_inline_columns.size + 1, lines[0].split(',').size
+    assert_match /\A#,/, response.body
+    lines = response.body.chomp.split("\n")
+    assert_equal assigns(:query).available_inline_columns.size, lines[0].split(',').size
   end
 
   def test_index_csv_with_multi_column_field
@@ -431,6 +436,25 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     lines = @response.body.chomp.split("\n")
     assert lines.detect {|line| line.include?('"MySQL, Oracle"')}
+  end
+
+  def test_index_csv_should_format_float_custom_fields_with_csv_decimal_separator
+    field = IssueCustomField.create!(:name => 'Float', :is_for_all => true, :tracker_ids => [1], :field_format => 'float')
+    issue = Issue.generate!(:project_id => 1, :tracker_id => 1, :custom_field_values => {field.id => '185.6'})
+
+    with_settings :default_language => 'fr' do
+      get :index, :format => 'csv', :columns => 'all'
+      assert_response :success
+      issue_line = response.body.chomp.split("\n").map {|line| line.split(';')}.detect {|line| line[0]==issue.id.to_s}
+      assert_include '185,60', issue_line
+    end
+
+    with_settings :default_language => 'en' do
+      get :index, :format => 'csv', :columns => 'all'
+      assert_response :success
+      issue_line = response.body.chomp.split("\n").map {|line| line.split(',')}.detect {|line| line[0]==issue.id.to_s}
+      assert_include '185.60', issue_line
+    end
   end
 
   def test_index_csv_big_5
@@ -453,8 +477,8 @@ class IssuesControllerTest < ActionController::TestCase
       if str_utf8.respond_to?(:force_encoding)
         s1.force_encoding('Big5')
       end
-      assert lines[0].include?(s1)
-      assert lines[1].include?(str_big5)
+      assert_include s1, lines[0]
+      assert_include str_big5, lines[1]
     end
   end
 
@@ -689,12 +713,12 @@ class IssuesControllerTest < ActionController::TestCase
     # query should use specified columns
     query = assigns(:query)
     assert_kind_of IssueQuery, query
-    assert_equal [:project, :tracker, :subject, :assigned_to], query.columns.map(&:name)
+    assert_equal [:id, :project, :tracker, :subject, :assigned_to], query.columns.map(&:name)
   end
 
   def test_index_without_project_and_explicit_default_columns_should_not_add_project_column
     Setting.issue_list_default_columns = ['tracker', 'subject', 'assigned_to']
-    columns = ['tracker', 'subject', 'assigned_to']
+    columns = ['id', 'tracker', 'subject', 'assigned_to']
     get :index, :set_filter => 1, :c => columns
 
     # query should use specified columns
@@ -1671,9 +1695,9 @@ class IssuesControllerTest < ActionController::TestCase
     assert_error_tag :content => /No tracker/
   end
 
-  def test_update_new_form
+  def test_update_form_for_new_issue
     @request.session[:user_id] = 2
-    xhr :post, :new, :project_id => 1,
+    xhr :post, :update_form, :project_id => 1,
                      :issue => {:tracker_id => 2,
                                 :subject => 'This is the test_new issue',
                                 :description => 'This is the description',
@@ -1690,14 +1714,14 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 'This is the test_new issue', issue.subject
   end
 
-  def test_update_new_form_should_propose_transitions_based_on_initial_status
+  def test_update_form_for_new_issue_should_propose_transitions_based_on_initial_status
     @request.session[:user_id] = 2
     WorkflowTransition.delete_all
     WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 2)
     WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 5)
     WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 5, :new_status_id => 4)
 
-    xhr :post, :new, :project_id => 1,
+    xhr :post, :update_form, :project_id => 1,
                      :issue => {:tracker_id => 1,
                                 :status_id => 5,
                                 :subject => 'This is an issue'}
@@ -2626,9 +2650,9 @@ class IssuesControllerTest < ActionController::TestCase
     end
   end
 
-  def test_update_edit_form
+  def test_update_form_for_existing_issue
     @request.session[:user_id] = 2
-    xhr :put, :new, :project_id => 1,
+    xhr :put, :update_form, :project_id => 1,
                              :id => 1,
                              :issue => {:tracker_id => 2,
                                         :subject => 'This is the test_new issue',
@@ -2647,9 +2671,9 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 'This is the test_new issue', issue.subject
   end
 
-  def test_update_edit_form_should_keep_issue_author
+  def test_update_form_for_existing_issue_should_keep_issue_author
     @request.session[:user_id] = 3
-    xhr :put, :new, :project_id => 1, :id => 1, :issue => {:subject => 'Changed'}
+    xhr :put, :update_form, :project_id => 1, :id => 1, :issue => {:subject => 'Changed'}
     assert_response :success
     assert_equal 'text/javascript', response.content_type
 
@@ -2659,14 +2683,14 @@ class IssuesControllerTest < ActionController::TestCase
     assert_not_equal User.current, issue.author
   end
 
-  def test_update_edit_form_should_propose_transitions_based_on_initial_status
+  def test_update_form_for_existing_issue_should_propose_transitions_based_on_initial_status
     @request.session[:user_id] = 2
     WorkflowTransition.delete_all
     WorkflowTransition.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 2, :new_status_id => 1)
     WorkflowTransition.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 2, :new_status_id => 5)
     WorkflowTransition.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 5, :new_status_id => 4)
 
-    xhr :put, :new, :project_id => 1,
+    xhr :put, :update_form, :project_id => 1,
                     :id => 2,
                     :issue => {:tracker_id => 2,
                                :status_id => 5,
@@ -2676,9 +2700,9 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal [1,2,5], assigns(:allowed_statuses).map(&:id).sort
   end
 
-  def test_update_edit_form_with_project_change
+  def test_update_form_for_existing_issue_with_project_change
     @request.session[:user_id] = 2
-    xhr :put, :new, :project_id => 1,
+    xhr :put, :update_form, :project_id => 1,
                              :id => 1,
                              :issue => {:project_id => 2,
                                         :tracker_id => 2,
@@ -2914,6 +2938,20 @@ class IssuesControllerTest < ActionController::TestCase
     assert_not_nil t
     assert_equal 2.5, t.hours
     assert_equal spent_hours_before + 2.5, issue.spent_hours
+  end
+
+  def test_put_update_should_preserve_parent_issue_even_if_not_visible
+    parent = Issue.generate!(:project_id => 1, :is_private => true)
+    issue = Issue.generate!(:parent_issue_id => parent.id)
+    assert !parent.visible?(User.find(3))
+    @request.session[:user_id] = 3
+
+    get :edit, :id => issue.id
+    assert_select 'input[name=?][value=?]', 'issue[parent_issue_id]', parent.id.to_s
+
+    put :update, :id => issue.id, :issue => {:subject => 'New subject', :parent_issue_id => parent.id.to_s}
+    assert_response 302
+    assert_equal parent, issue.parent
   end
 
   def test_put_update_with_attachment_only
@@ -3436,6 +3474,8 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_bulk_update_parent_id
+    IssueRelation.delete_all
+
     @request.session[:user_id] = 2
     post :bulk_update, :ids => [1, 3],
       :notes => 'Bulk editing parent',

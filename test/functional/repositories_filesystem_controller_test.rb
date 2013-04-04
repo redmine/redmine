@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -109,7 +109,8 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
     end
 
     def test_show_utf16
-      with_settings :repositories_encodings => 'UTF-16' do
+      enc = (RUBY_VERSION == "1.9.2" ? 'UTF-16LE' : 'UTF-16')
+      with_settings :repositories_encodings => enc do
         get :entry, :id => PRJ_ID,
             :path => repository_path_hash(['japanese', 'utf-16.txt'])[:param]
         assert_response :success

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -23,12 +23,12 @@ class AdminController < ApplicationController
 
   before_filter :require_admin
   helper :sort
-  include SortHelper	
+  include SortHelper
 
   def index
     @no_configuration_data = Redmine::DefaultData::Loader::no_data?
   end
-	
+
   def projects
     @status = params[:status] || 1
 

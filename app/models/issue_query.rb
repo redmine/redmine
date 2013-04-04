@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,6 +20,7 @@ class IssueQuery < Query
   self.queried_class = Issue
 
   self.available_columns = [
+    QueryColumn.new(:id, :sortable => "#{Issue.table_name}.id", :default_order => 'desc', :caption => '#', :frozen => true),
     QueryColumn.new(:project, :sortable => "#{Project.table_name}.name", :groupable => true),
     QueryColumn.new(:tracker, :sortable => "#{Tracker.table_name}.position", :groupable => true),
     QueryColumn.new(:parent, :sortable => ["#{Issue.table_name}.root_id", "#{Issue.table_name}.lft ASC"], :default_order => 'desc', :caption => :field_parent_issue),
@@ -36,6 +37,7 @@ class IssueQuery < Query
     QueryColumn.new(:estimated_hours, :sortable => "#{Issue.table_name}.estimated_hours"),
     QueryColumn.new(:done_ratio, :sortable => "#{Issue.table_name}.done_ratio", :groupable => true),
     QueryColumn.new(:created_on, :sortable => "#{Issue.table_name}.created_on", :default_order => 'desc'),
+    QueryColumn.new(:closed_on, :sortable => "#{Issue.table_name}.closed_on", :default_order => 'desc'),
     QueryColumn.new(:relations, :caption => :label_related_issues),
     QueryColumn.new(:description, :inline => false)
   ]
@@ -58,141 +60,128 @@ class IssueQuery < Query
     (project.nil? || user.allowed_to?(:view_issues, project)) && (self.is_public? || self.user_id == user.id)
   end
 
-  def available_filters
-    return @available_filters if @available_filters
-    @available_filters = {
-      "status_id" => {
-        :type => :list_status, :order => 0,
-        :values => IssueStatus.sorted.all.collect{|s| [s.name, s.id.to_s] }
-       },
-      "tracker_id" => {
-        :type => :list, :order => 2, :values => trackers.collect{|s| [s.name, s.id.to_s] }
-       },
-      "priority_id" => {
-        :type => :list, :order => 3, :values => IssuePriority.all.collect{|s| [s.name, s.id.to_s] }
-       },
-      "subject" => { :type => :text, :order => 8 },
-      "created_on" => { :type => :date_past, :order => 9 },
-      "updated_on" => { :type => :date_past, :order => 10 },
-      "start_date" => { :type => :date, :order => 11 },
-      "due_date" => { :type => :date, :order => 12 },
-      "estimated_hours" => { :type => :float, :order => 13 },
-      "done_ratio" =>  { :type => :integer, :order => 14 }
-    }
-    IssueRelation::TYPES.each do |relation_type, options|
-      @available_filters[relation_type] = {
-        :type => :relation, :order => @available_filters.size + 100,
-        :label => options[:name]
-      }
-    end
+  def initialize_available_filters
     principals = []
+    subprojects = []
+    versions = []
+    categories = []
+    issue_custom_fields = []
+    
     if project
       principals += project.principals.sort
       unless project.leaf?
         subprojects = project.descendants.visible.all
-        if subprojects.any?
-          @available_filters["subproject_id"] = {
-            :type => :list_subprojects, :order => 13,
-            :values => subprojects.collect{|s| [s.name, s.id.to_s] }
-          }
-          principals += Principal.member_of(subprojects)
-        end
+        principals += Principal.member_of(subprojects)
       end
+      versions = project.shared_versions.all
+      categories = project.issue_categories.all
+      issue_custom_fields = project.all_issue_custom_fields
     else
       if all_projects.any?
-        # members of visible projects
         principals += Principal.member_of(all_projects)
-        # project filter
-        project_values = []
-        if User.current.logged? && User.current.memberships.any?
-          project_values << ["<< #{l(:label_my_projects).downcase} >>", "mine"]
-        end
-        project_values += all_projects_values
-        @available_filters["project_id"] = {
-          :type => :list, :order => 1, :values => project_values
-        } unless project_values.empty?
       end
+      versions = Version.visible.find_all_by_sharing('system')
+      issue_custom_fields = IssueCustomField.where(:is_filter => true, :is_for_all => true).all
     end
     principals.uniq!
     principals.sort!
     users = principals.select {|p| p.is_a?(User)}
 
-    assigned_to_values = []
-    assigned_to_values << ["<< #{l(:label_me)} >>", "me"] if User.current.logged?
-    assigned_to_values += (Setting.issue_group_assignment? ?
-                              principals : users).collect{|s| [s.name, s.id.to_s] }
-    @available_filters["assigned_to_id"] = {
-      :type => :list_optional, :order => 4, :values => assigned_to_values
-    } unless assigned_to_values.empty?
+
+    add_available_filter "status_id",
+      :type => :list_status, :values => IssueStatus.sorted.all.collect{|s| [s.name, s.id.to_s] }
+
+    if project.nil?
+      project_values = []
+      if User.current.logged? && User.current.memberships.any?
+        project_values << ["<< #{l(:label_my_projects).downcase} >>", "mine"]
+      end
+      project_values += all_projects_values
+      add_available_filter("project_id",
+        :type => :list, :values => project_values
+      ) unless project_values.empty?
+    end
+
+    add_available_filter "tracker_id",
+      :type => :list, :values => trackers.collect{|s| [s.name, s.id.to_s] }
+    add_available_filter "priority_id",
+      :type => :list, :values => IssuePriority.all.collect{|s| [s.name, s.id.to_s] }
 
     author_values = []
     author_values << ["<< #{l(:label_me)} >>", "me"] if User.current.logged?
     author_values += users.collect{|s| [s.name, s.id.to_s] }
-    @available_filters["author_id"] = {
-      :type => :list, :order => 5, :values => author_values
-    } unless author_values.empty?
+    add_available_filter("author_id",
+      :type => :list, :values => author_values
+    ) unless author_values.empty?
+
+    assigned_to_values = []
+    assigned_to_values << ["<< #{l(:label_me)} >>", "me"] if User.current.logged?
+    assigned_to_values += (Setting.issue_group_assignment? ?
+                              principals : users).collect{|s| [s.name, s.id.to_s] }
+    add_available_filter("assigned_to_id",
+      :type => :list_optional, :values => assigned_to_values
+    ) unless assigned_to_values.empty?
 
     group_values = Group.all.collect {|g| [g.name, g.id.to_s] }
-    @available_filters["member_of_group"] = {
-      :type => :list_optional, :order => 6, :values => group_values
-    } unless group_values.empty?
+    add_available_filter("member_of_group",
+      :type => :list_optional, :values => group_values
+    ) unless group_values.empty?
 
     role_values = Role.givable.collect {|r| [r.name, r.id.to_s] }
-    @available_filters["assigned_to_role"] = {
-      :type => :list_optional, :order => 7, :values => role_values
-    } unless role_values.empty?
+    add_available_filter("assigned_to_role",
+      :type => :list_optional, :values => role_values
+    ) unless role_values.empty?
 
-    if User.current.logged?
-      @available_filters["watcher_id"] = {
-        :type => :list, :order => 15, :values => [["<< #{l(:label_me)} >>", "me"]]
-      }
+    if versions.any?
+      add_available_filter "fixed_version_id",
+        :type => :list_optional,
+        :values => versions.sort.collect{|s| ["#{s.project.name} - #{s.name}", s.id.to_s] }
     end
 
-    if project
-      # project specific filters
-      categories = project.issue_categories.all
-      unless categories.empty?
-        @available_filters["category_id"] = {
-          :type => :list_optional, :order => 6,
-          :values => categories.collect{|s| [s.name, s.id.to_s] }
-        }
-      end
-      versions = project.shared_versions.all
-      unless versions.empty?
-        @available_filters["fixed_version_id"] = {
-          :type => :list_optional, :order => 7,
-          :values => versions.sort.collect{|s| ["#{s.project.name} - #{s.name}", s.id.to_s] }
-        }
-      end
-      add_custom_fields_filters(project.all_issue_custom_fields)
-    else
-      # global filters for cross project issue list
-      system_shared_versions = Version.visible.find_all_by_sharing('system')
-      unless system_shared_versions.empty?
-        @available_filters["fixed_version_id"] = {
-          :type => :list_optional, :order => 7,
-          :values => system_shared_versions.sort.collect{|s|
-                                       ["#{s.project.name} - #{s.name}", s.id.to_s]
-                                     }
-        }
-      end
-      add_custom_fields_filters(IssueCustomField.where(:is_filter => true, :is_for_all => true).all)
+    if categories.any?
+      add_available_filter "category_id",
+        :type => :list_optional,
+        :values => categories.collect{|s| [s.name, s.id.to_s] }
     end
-    add_associations_custom_fields_filters :project, :author, :assigned_to, :fixed_version
+
+    add_available_filter "subject", :type => :text
+    add_available_filter "created_on", :type => :date_past
+    add_available_filter "updated_on", :type => :date_past
+    add_available_filter "closed_on", :type => :date_past
+    add_available_filter "start_date", :type => :date
+    add_available_filter "due_date", :type => :date
+    add_available_filter "estimated_hours", :type => :float
+    add_available_filter "done_ratio", :type => :integer
+
     if User.current.allowed_to?(:set_issues_private, nil, :global => true) ||
       User.current.allowed_to?(:set_own_issues_private, nil, :global => true)
-      @available_filters["is_private"] = {
-        :type => :list, :order => 16,
+      add_available_filter "is_private",
+        :type => :list,
         :values => [[l(:general_text_yes), "1"], [l(:general_text_no), "0"]]
-      }
     end
+
+    if User.current.logged?
+      add_available_filter "watcher_id",
+        :type => :list, :values => [["<< #{l(:label_me)} >>", "me"]]
+    end
+
+    if subprojects.any?
+      add_available_filter "subproject_id",
+        :type => :list_subprojects,
+        :values => subprojects.collect{|s| [s.name, s.id.to_s] }
+    end
+
+    add_custom_fields_filters(issue_custom_fields)
+
+    add_associations_custom_fields_filters :project, :author, :assigned_to, :fixed_version
+
+    IssueRelation::TYPES.each do |relation_type, options|
+      add_available_filter relation_type, :type => :relation, :label => options[:name]
+    end
+
     Tracker.disabled_core_fields(trackers).each {|field|
-      @available_filters.delete field
+      delete_available_filter field
     }
-    @available_filters.each do |field, options|
-      options[:name] ||= l(options[:label] || "field_#{field}".gsub(/_id$/, ''))
-    end
-    @available_filters
   end
 
   def available_columns
@@ -226,10 +215,6 @@ class IssueQuery < Query
     }
 
     @available_columns
-  end
-
-  def sortable_columns
-    {'id' => "#{Issue.table_name}.id"}.merge(super)
   end
 
   def default_columns_names
@@ -350,11 +335,8 @@ class IssueQuery < Query
     groups ||= []
 
     members_of_groups = groups.inject([]) {|user_ids, group|
-      if group && group.user_ids.present?
-        user_ids << group.user_ids
-      end
-      user_ids.flatten.uniq.compact
-    }.sort.collect(&:to_s)
+      user_ids + group.user_ids + [group.id]
+    }.uniq.compact.sort.collect(&:to_s)
 
     '(' + sql_for_field("assigned_to_id", operator, members_of_groups, Issue.table_name, "assigned_to_id", false) + ')'
   end

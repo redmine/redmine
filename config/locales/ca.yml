@@ -164,7 +164,7 @@ ca:
   notice_not_authorized: No teniu permís per a accedir a aquesta pàgina.
   notice_email_sent: "S'ha enviat un correu electrònic a %{value}"
   notice_email_error: "S'ha produït un error en enviar el correu (%{value})"
-  notice_feeds_access_key_reseted: "S'ha reiniciat la clau d'accés del RSS."
+  notice_feeds_access_key_reseted: "S'ha reiniciat la clau d'accés del Atom."
   notice_api_access_key_reseted: "S'ha reiniciat la clau d'accés a l'API."
   notice_failed_to_save_issues: "No s'han pogut desar %{count} assumptes de %{total} seleccionats: %{ids}."
   notice_failed_to_save_members: "No s'han pogut desar els membres: %{errors}."
@@ -386,7 +386,6 @@ ca:
   permission_edit_own_time_entries: Edita els registres de temps propis
   permission_manage_news: Gestiona les noticies
   permission_comment_news: Comenta les noticies
-  permission_manage_documents: Gestiona els documents
   permission_view_documents: Visualitza els documents
   permission_manage_files: Gestiona els fitxers
   permission_view_files: Visualitza els fitxers
@@ -708,9 +707,9 @@ ca:
   label_language_based: "Basat en l'idioma de l'usuari"
   label_sort_by: "Ordena per %{value}"
   label_send_test_email: Envia un correu electrònic de prova
-  label_feeds_access_key: "Clau d'accés del RSS"
-  label_missing_feeds_access_key: "Falta una clau d'accés del RSS"
-  label_feeds_access_key_created_on: "Clau d'accés del RSS creada fa %{value}"
+  label_feeds_access_key: "Clau d'accés del Atom"
+  label_missing_feeds_access_key: "Falta una clau d'accés del Atom"
+  label_feeds_access_key_created_on: "Clau d'accés del Atom creada fa %{value}"
   label_module_plural: Mòduls
   label_added_time_by: "Afegit per %{author} fa %{age}"
   label_updated_time_by: "Actualitzat per %{author} fa %{age}"
@@ -928,7 +927,6 @@ ca:
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"
   field_visible: Visible
-  setting_emails_header: Emails header
   setting_commit_logtime_activity_id: Activity for logged time
   text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
@@ -969,8 +967,6 @@ ca:
   text_scm_command: Command
   text_scm_command_version: Version
   label_git_report_last_commit: Report last commit for files and directories
-  text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.
-  text_scm_command_not_available: Scm command is not available. Please check settings on the administration panel.
   notice_issue_successful_create: Issue %{id} created.
   label_between: between
   setting_issue_group_assignment: Allow issue assignment to groups
@@ -1078,3 +1074,19 @@ ca:
   label_in_the_next_days: in the next
   label_in_the_past_days: in the past
   label_attribute_of_user: User's %{name}
+  text_turning_multiple_off: If you disable multiple values, multiple values will be
+    removed in order to preserve only one value per item.
+  label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents
+  label_gantt_progress_line: Progress line
+  setting_jsonp_enabled: Enable JSONP support
+  field_inherit_members: Inherit members
+  field_closed_on: Closed
+  field_generate_password: Generate password
+  setting_default_projects_tracker_ids: Default trackers for new projects
+  label_total_time: Total
+  text_scm_config: You can configure your SCM commands in config/configuration.yml. Please restart the application after editing it.
+  text_scm_command_not_available: SCM command is not available. Please check settings on the administration panel.
+  setting_emails_header: Email header

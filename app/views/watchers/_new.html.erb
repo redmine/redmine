@@ -2,8 +2,9 @@
 
 <%= form_tag({:controller => 'watchers',
               :action => (watched ? 'create' : 'append'),
-              :object_type => watched.class.name.underscore,
-              :object_id => watched},
+              :object_type => (watched && watched.class.name.underscore),
+              :object_id => watched,
+              :project_id => @project},
              :remote => true,
              :method => :post,
              :id => 'new-watcher-form') do %>
@@ -11,8 +12,9 @@
   <p><%= label_tag 'user_search', l(:label_user_search) %><%= text_field_tag 'user_search', nil %></p>
   <%= javascript_tag "observeSearchfield('user_search', 'users_for_watcher', '#{ escape_javascript url_for(:controller => 'watchers',
                  :action => 'autocomplete_for_user',
-                 :object_type => watched.class.name.underscore,
-                 :object_id => watched) }')" %>
+                 :object_type => (watched && watched.class.name.underscore),
+                 :object_id => watched,
+                 :project_id => @project) }')" %>
 
   <div id="users_for_watcher">
     <%= principals_check_box_tags 'watcher[user_ids][]', (watched ? watched.addable_watcher_users : User.active.all(:limit => 100)) %>

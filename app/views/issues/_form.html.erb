@@ -20,7 +20,7 @@
 <% end %>
 
 <% if @issue.safe_attribute? 'subject' %>
-<div class="control-group"><%= f.text_field :subject, :size => 80, :required => true %></div>
+<div class="control-group"><%= f.text_field :subject, :size => 80, :maxlength => 255, :required => true %></div>
 <% end %>
 
 <% if @issue.safe_attribute? 'description' %>

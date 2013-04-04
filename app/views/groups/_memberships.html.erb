@@ -13,7 +13,7 @@
   <% @group.memberships.each do |membership| %>
   <% next if membership.new_record? %>
   <tr id="member-<%= membership.id %>" class="<%= cycle 'odd', 'even' %> class">
-  <td class="project"><%=h membership.project %></td>
+  <td class="project"><%= link_to_project membership.project %></td>
   <td class="roles">
     <span id="member-<%= membership.id %>-roles"><%=h membership.roles.sort.collect(&:to_s).join(', ') %></span>
     <%= form_for(:membership, :remote => true,

@@ -39,9 +39,6 @@ require 'core/rmagick'
 # @package com.tecnick.tcpdf
 #
  
-@@version = "1.53.0.TC031"
-@@fpdf_charwidths = {}
-
 PDF_PRODUCER = 'TCPDF via RFPDF 1.53.0.TC031 (http://tcpdf.sourceforge.net)'
 
 module TCPDFFontDescriptor
@@ -79,6 +76,9 @@ class TCPDF
     Rails.logger
   end
 
+  @@version = "1.53.0.TC031"
+  @@fpdf_charwidths = {}
+
   cattr_accessor :k_cell_height_ratio
   @@k_cell_height_ratio = 1.25
 
@@ -94,8 +94,6 @@ class TCPDF
   cattr_accessor :k_path_url_cache
   @@k_path_url_cache = Rails.root.join('tmp')
   
-  cattr_accessor :decoder
-		
 	attr_accessor :barcode
 	
 	attr_accessor :buffer
@@ -222,12 +220,6 @@ class TCPDF
 			
 		#Some checks
 		dochecks();
-		
-		begin	  
-		  @@decoder = HTMLEntities.new 
-		rescue
-		  @@decoder = nil
-		end
 		
 		#Initialization of properties
   	@barcode ||= false
@@ -4002,6 +3994,10 @@ class TCPDF
 				@quote_page[@quote_count] = @page;
 				@quote_count += 1
 			when 'br'
+				if @tdbegin
+					@tdtext << "\n"
+					return
+				end
 				Ln();
 
 				if (@li_spacer.length > 0)
@@ -4340,11 +4336,7 @@ class TCPDF
 	# @return string converted
 	#
 	def unhtmlentities(string)
-	  if @@decoder.nil?
       CGI.unescapeHTML(string)
-    else
-  	  @@decoder.decode(string)
-    end
   end
   
 end # END OF CLASS

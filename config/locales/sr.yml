@@ -162,7 +162,7 @@ sr:
   notice_not_authorized: Нисте овлашћени за приступ овој страни.
   notice_email_sent: "E-порука је послата на %{value}"
   notice_email_error: "Догодила се грешка приликом слања е-поруке (%{value})"
-  notice_feeds_access_key_reseted: Ваш RSS приступни кључ је поништен.
+  notice_feeds_access_key_reseted: Ваш Atom приступни кључ је поништен.
   notice_api_access_key_reseted: Ваш API приступни кључ је поништен.
   notice_failed_to_save_issues: "Неуспешно снимање %{count} проблема од %{total} одабраних: %{ids}."
   notice_failed_to_save_members: "Неуспешно снимање члана(ова): %{errors}."
@@ -383,7 +383,6 @@ sr:
   permission_edit_own_time_entries: Измена сопственог утрошеног времена
   permission_manage_news: Управљање вестима
   permission_comment_news: Коментарисање вести
-  permission_manage_documents: Управљање документима
   permission_view_documents: Прегледање докумената
   permission_manage_files: Управљање датотекама
   permission_view_files: Прегледање датотека
@@ -703,9 +702,9 @@ sr:
   label_language_based: Базирано на језику корисника
   label_sort_by: "Сортирано по %{value}"
   label_send_test_email: Слање пробне е-поруке
-  label_feeds_access_key: RSS приступни кључ
-  label_missing_feeds_access_key: RSS приступни кључ недостаје
-  label_feeds_access_key_created_on: "RSS приступни кључ је направљен пре %{value}"
+  label_feeds_access_key: Atom приступни кључ
+  label_missing_feeds_access_key: Atom приступни кључ недостаје
+  label_feeds_access_key_created_on: "Atom приступни кључ је направљен пре %{value}"
   label_module_plural: Модули
   label_added_time_by: "Додао %{author} пре %{age}"
   label_updated_time_by: "Ажурирао %{author} пре %{age}"
@@ -927,7 +926,6 @@ sr:
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"
   field_visible: Visible
-  setting_emails_header: Emails header
   setting_commit_logtime_activity_id: Activity for logged time
   text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
@@ -968,8 +966,6 @@ sr:
   text_scm_command: Command
   text_scm_command_version: Version
   label_git_report_last_commit: Report last commit for files and directories
-  text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.
-  text_scm_command_not_available: Scm command is not available. Please check settings on the administration panel.
   notice_issue_successful_create: Issue %{id} created.
   label_between: between
   setting_issue_group_assignment: Allow issue assignment to groups
@@ -1077,3 +1073,19 @@ sr:
   label_in_the_next_days: in the next
   label_in_the_past_days: in the past
   label_attribute_of_user: User's %{name}
+  text_turning_multiple_off: If you disable multiple values, multiple values will be
+    removed in order to preserve only one value per item.
+  label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents
+  label_gantt_progress_line: Progress line
+  setting_jsonp_enabled: Enable JSONP support
+  field_inherit_members: Inherit members
+  field_closed_on: Closed
+  field_generate_password: Generate password
+  setting_default_projects_tracker_ids: Default trackers for new projects
+  label_total_time: Укупно
+  text_scm_config: You can configure your SCM commands in config/configuration.yml. Please restart the application after editing it.
+  text_scm_command_not_available: SCM command is not available. Please check settings on the administration panel.
+  setting_emails_header: Email header

@@ -163,7 +163,7 @@ eu:
   notice_not_authorized: Ez duzu orri hau atzitzeko baimenik.
   notice_email_sent: "%{value} helbidera eposta bat bidali da"
   notice_email_error: "Errorea eposta bidaltzean (%{value})"
-  notice_feeds_access_key_reseted: Zure RSS atzipen giltza berrezarri da.
+  notice_feeds_access_key_reseted: Zure Atom atzipen giltza berrezarri da.
   notice_api_access_key_reseted: Zure API atzipen giltza berrezarri da.
   notice_failed_to_save_issues: "Hautatutako %{total} zereginetatik %{count} ezin izan dira konpondu: %{ids}."
   notice_no_issue_selected: "Ez da zereginik hautatu! Mesedez, editatu nahi dituzun arazoak markatu."
@@ -374,7 +374,6 @@ eu:
   permission_edit_own_time_entries: Nork bere denbora egunkariak editatu
   permission_manage_news: Berriak kudeatu
   permission_comment_news: Berrien iruzkinak egin
-  permission_manage_documents: Dokumentuak kudeatu
   permission_view_documents: Dokumentuak ikusi
   permission_manage_files: Fitxategiak kudeatu
   permission_view_files: Fitxategiak ikusi
@@ -688,9 +687,9 @@ eu:
   label_language_based: Erabiltzailearen hizkuntzaren arabera
   label_sort_by: "Ordenazioa: %{value}"
   label_send_test_email: Frogako mezua bidali
-  label_feeds_access_key: RSS atzipen giltza
-  label_missing_feeds_access_key: RSS atzipen giltza falta da
-  label_feeds_access_key_created_on: "RSS atzipen giltza orain dela %{value} sortuta"
+  label_feeds_access_key: Atom atzipen giltza
+  label_missing_feeds_access_key: Atom atzipen giltza falta da
+  label_feeds_access_key_created_on: "Atom atzipen giltza orain dela %{value} sortuta"
   label_module_plural: Moduluak
   label_added_time_by: "%{author}, orain dela %{age} gehituta"
   label_updated_time_by: "%{author}, orain dela %{age} eguneratuta"
@@ -968,8 +967,6 @@ eu:
   text_scm_command: Komandoa
   text_scm_command_version: Bertsioa
   label_git_report_last_commit: Report last commit for files and directories
-  text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.
-  text_scm_command_not_available: Scm command is not available. Please check settings on the administration panel.
   notice_issue_successful_create: Issue %{id} created.
   label_between: between
   setting_issue_group_assignment: Allow issue assignment to groups
@@ -1077,3 +1074,18 @@ eu:
   label_in_the_next_days: in the next
   label_in_the_past_days: in the past
   label_attribute_of_user: User's %{name}
+  text_turning_multiple_off: If you disable multiple values, multiple values will be
+    removed in order to preserve only one value per item.
+  label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents
+  label_gantt_progress_line: Progress line
+  setting_jsonp_enabled: Enable JSONP support
+  field_inherit_members: Inherit members
+  field_closed_on: Closed
+  field_generate_password: Generate password
+  setting_default_projects_tracker_ids: Default trackers for new projects
+  label_total_time: Guztira
+  text_scm_config: You can configure your SCM commands in config/configuration.yml. Please restart the application after editing it.
+  text_scm_command_not_available: SCM command is not available. Please check settings on the administration panel.

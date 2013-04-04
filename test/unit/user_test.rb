@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -25,13 +25,16 @@ class UserTest < ActiveSupport::TestCase
             :issue_categories, :enumerations, :issues,
             :journals, :journal_details,
             :groups_users,
-            :enabled_modules,
-            :workflows
+            :enabled_modules
 
   def setup
     @admin = User.find(1)
     @jsmith = User.find(2)
     @dlopper = User.find(3)
+  end
+
+  def test_sorted_scope_should_sort_user_by_display_name
+    assert_equal User.all.map(&:name).map(&:downcase).sort, User.sorted.all.map(&:name).map(&:downcase)
   end
 
   def test_generate
@@ -65,6 +68,41 @@ class UserTest < ActiveSupport::TestCase
     user.login = "x" * (User::LOGIN_LENGTH_LIMIT)
     assert user.valid?
     assert user.save
+  end
+
+  def test_generate_password_should_respect_minimum_password_length
+    with_settings :password_min_length => 15 do
+      user = User.generate!(:generate_password => true)
+      assert user.password.length >= 15
+    end
+  end
+
+  def test_generate_password_should_not_generate_password_with_less_than_10_characters
+    with_settings :password_min_length => 4 do
+      user = User.generate!(:generate_password => true)
+      assert user.password.length >= 10
+    end
+  end
+
+  def test_generate_password_on_create_should_set_password
+    user = User.new(:firstname => "new", :lastname => "user", :mail => "newuser@somenet.foo")
+    user.login = "newuser"
+    user.generate_password = true
+    assert user.save
+
+    password = user.password
+    assert user.check_password?(password)
+  end
+
+  def test_generate_password_on_update_should_update_password
+    user = User.find(2)
+    hash = user.hashed_password
+    user.generate_password = true
+    assert user.save
+
+    password = user.password
+    assert user.check_password?(password)
+    assert_not_equal hash, user.reload.hashed_password
   end
 
   def test_create
@@ -724,6 +762,32 @@ class UserTest < ActiveSupport::TestCase
     assert_equal true, User.default_admin_account_changed?
   end
 
+  def test_membership_with_project_should_return_membership
+    project = Project.find(1)
+
+    membership = @jsmith.membership(project)
+    assert_kind_of Member, membership
+    assert_equal @jsmith, membership.user
+    assert_equal project, membership.project
+  end
+
+  def test_membership_with_project_id_should_return_membership
+    project = Project.find(1)
+
+    membership = @jsmith.membership(1)
+    assert_kind_of Member, membership
+    assert_equal @jsmith, membership.user
+    assert_equal project, membership.project
+  end
+
+  def test_membership_for_non_member_should_return_nil
+    project = Project.find(1)
+
+    user = User.generate!
+    membership = user.membership(1)
+    assert_nil membership
+  end
+
   def test_roles_for_project
     # user with a role
     roles = @jsmith.roles_for_project(Project.find(1))
@@ -901,7 +965,7 @@ class UserTest < ActiveSupport::TestCase
       should "authorize nearly everything for admin users" do
         project = Project.find(1)
         assert ! @admin.member_of?(project)
-        %w(edit_issues delete_issues manage_news manage_documents manage_wiki).each do |p|
+        %w(edit_issues delete_issues manage_news add_documents manage_wiki).each do |p|
           assert_equal true, @admin.allowed_to?(p.to_sym, project)
         end
       end
@@ -1014,9 +1078,15 @@ class UserTest < ActiveSupport::TestCase
         assert ! @user.notify_about?(@issue)
       end
     end
+  end
 
-    context "other events" do
-      should 'be added and tested'
+  def test_notify_about_news
+    user = User.generate!
+    news = News.new
+
+    User::MAIL_NOTIFICATION_OPTIONS.map(&:first).each do |option|
+      user.mail_notification = option
+      assert_equal (option != 'none'), user.notify_about?(news)
     end
   end
 

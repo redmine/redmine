@@ -38,7 +38,9 @@ roles_001:
     - :manage_news
     - :comment_news
     - :view_documents
-    - :manage_documents
+    - :add_documents
+    - :edit_documents
+    - :delete_documents
     - :view_wiki_pages
     - :export_wiki_pages
     - :view_wiki_edits
@@ -89,7 +91,9 @@ roles_002:
     - :manage_news
     - :comment_news
     - :view_documents
-    - :manage_documents
+    - :add_documents
+    - :edit_documents
+    - :delete_documents
     - :view_wiki_pages
     - :view_wiki_edits
     - :edit_wiki_pages
@@ -131,7 +135,9 @@ roles_003:
     - :manage_news
     - :comment_news
     - :view_documents
-    - :manage_documents
+    - :add_documents
+    - :edit_documents
+    - :delete_documents
     - :view_wiki_pages
     - :view_wiki_edits
     - :edit_wiki_pages
@@ -163,7 +169,6 @@ roles_004:
     - :view_time_entries
     - :comment_news
     - :view_documents
-    - :manage_documents
     - :view_wiki_pages
     - :view_wiki_edits
     - :edit_wiki_pages

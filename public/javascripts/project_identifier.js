@@ -51,8 +51,8 @@ function generateProjectIdentifier(identifier, maxlength) {
   for(var i=0; i<diacriticsMap.length; i++) {
     identifier = identifier.replace(diacriticsMap[i].letters, diacriticsMap[i].base);
   }
-  identifier = identifier.replace(/[^a-z0-9]+/gi, '-'); // remaining non-alphanumeric => hyphen
-  identifier = identifier.replace(/^[-\d]*|-*$/g, ''); // remove hyphens and numbers at beginning and hyphens at end
+  identifier = identifier.replace(/[^a-z0-9_]+/gi, '-'); // remaining non-alphanumeric => hyphen
+  identifier = identifier.replace(/^[-_\d]*|[-_]*$/g, ''); // remove hyphens/underscores and numbers at beginning and hyphens/underscores at end
   identifier = identifier.toLowerCase(); // to lower
   identifier = identifier.substr(0, maxlength); // max characters
   return identifier;

@@ -162,7 +162,7 @@ en:
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
   notice_email_sent: "An email was sent to %{value}"
   notice_email_error: "An error occurred while sending mail (%{value})"
-  notice_feeds_access_key_reseted: Your RSS access key was reset.
+  notice_feeds_access_key_reseted: Your Atom access key was reset.
   notice_api_access_key_reseted: Your API access key was reset.
   notice_failed_to_save_issues: "Failed to save %{count} issue(s) on %{total} selected: %{ids}."
   notice_failed_to_save_time_entries: "Failed to save %{count} time entrie(s) on %{total} selected: %{ids}."
@@ -229,6 +229,7 @@ en:
   field_author: Author
   field_created_on: Created
   field_updated_on: Updated
+  field_closed_on: Closed
   field_field_format: Format
   field_is_for_all: For all projects
   field_possible_values: Possible values
@@ -329,6 +330,8 @@ en:
   field_timeout: "Timeout (in seconds)"
   field_board_parent: Parent forum
   field_private_notes: Private notes
+  field_inherit_members: Inherit members
+  field_generate_password: Generate password
 
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle
@@ -357,8 +360,8 @@ en:
   setting_cross_project_subtasks: Allow cross-project subtasks
   setting_issue_list_default_columns: Default columns displayed on the issue list
   setting_repositories_encodings: Attachments and repositories encodings
-  setting_emails_header: Emails header
-  setting_emails_footer: Emails footer
+  setting_emails_header: Email header
+  setting_emails_footer: Email footer
   setting_protocol: Protocol
   setting_per_page_options: Objects per page options
   setting_user_format: Users display format
@@ -397,6 +400,8 @@ en:
   setting_thumbnails_enabled: Display attachment thumbnails
   setting_thumbnails_size: Thumbnails size (in pixels)
   setting_non_working_week_days: Non-working days
+  setting_jsonp_enabled: Enable JSONP support
+  setting_default_projects_tracker_ids: Default trackers for new projects
 
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects
@@ -433,8 +438,10 @@ en:
   permission_edit_own_time_entries: Edit own time logs
   permission_manage_news: Manage news
   permission_comment_news: Comment news
-  permission_manage_documents: Manage documents
   permission_view_documents: View documents
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents
   permission_manage_files: Manage files
   permission_view_files: View files
   permission_manage_wiki: Manage wiki
@@ -612,6 +619,7 @@ en:
     one:   1 issue
     other: "%{count} issues"
   label_total: Total
+  label_total_time: Total time
   label_permissions: Permissions
   label_current_status: Current status
   label_new_statuses_allowed: New statuses allowed
@@ -779,9 +787,9 @@ en:
   label_language_based: Based on user's language
   label_sort_by: "Sort by %{value}"
   label_send_test_email: Send a test email
-  label_feeds_access_key: RSS access key
-  label_missing_feeds_access_key: Missing a RSS access key
-  label_feeds_access_key_created_on: "RSS access key created %{value} ago"
+  label_feeds_access_key: Atom access key
+  label_missing_feeds_access_key: Missing a Atom access key
+  label_feeds_access_key_created_on: "Atom access key created %{value} ago"
   label_module_plural: Modules
   label_added_time_by: "Added by %{author} %{age} ago"
   label_updated_time_by: "Updated by %{author} %{age} ago"
@@ -875,6 +883,7 @@ en:
   label_readonly: Read-only
   label_required: Required
   label_attribute_of_project: "Project's %{name}"
+  label_attribute_of_issue: "Issue's %{name}"
   label_attribute_of_author: "Author's %{name}"
   label_attribute_of_assigned_to: "Assignee's %{name}"
   label_attribute_of_user: "User's %{name}"
@@ -883,6 +892,7 @@ en:
   label_cross_project_tree: With project tree
   label_cross_project_hierarchy: With project hierarchy
   label_cross_project_system: With all projects
+  label_gantt_progress_line: Progress line
 
   button_login: Login
   button_submit: Submit
@@ -1018,14 +1028,15 @@ en:
   text_mercurial_repository_note: Local repository (e.g. /hgrepo, c:\hgrepo)
   text_scm_command: Command
   text_scm_command_version: Version
-  text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.
-  text_scm_command_not_available: Scm command is not available. Please check settings on the administration panel.
+  text_scm_config: You can configure your SCM commands in config/configuration.yml. Please restart the application after editing it.
+  text_scm_command_not_available: SCM command is not available. Please check settings on the administration panel.
   text_issue_conflict_resolution_overwrite: "Apply my changes anyway (previous notes will be kept but some changes may be overwritten)"
   text_issue_conflict_resolution_add_notes: "Add my notes and discard my other changes"
   text_issue_conflict_resolution_cancel: "Discard all my changes and redisplay %{link}"
   text_account_destroy_confirmation: "Are you sure you want to proceed?\nYour account will be permanently deleted, with no way to reactivate it."
   text_session_expiration_settings: "Warning: changing these settings may expire the current sessions including yours."
   text_project_closed: This project is closed and read-only.
+  text_turning_multiple_off: "If you disable multiple values, multiple values will be removed in order to preserve only one value per item."
 
   default_role_manager: Manager
   default_role_developer: Developer

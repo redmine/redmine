@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -57,7 +57,7 @@ class Principal < ActiveRecord::Base
       where("1=0")
     else
       ids = projects.map(&:id)
-      active.where("#{Principal.table_name}.id IN (SELECT DISTINCT user_id FROM #{Member.table_name} WHERE project_id IN (?))", ids)
+      active.uniq.joins(:members).where("#{Member.table_name}.project_id IN (?)", ids)
     end
   }
   # Principals that are not members of projects
@@ -70,6 +70,7 @@ class Principal < ActiveRecord::Base
       where("#{Principal.table_name}.id NOT IN (SELECT DISTINCT user_id FROM #{Member.table_name} WHERE project_id IN (?))", ids)
     end
   }
+  scope :sorted, lambda { order(*Principal.fields_for_order_statement)}
 
   before_create :set_default_empty_values
 
@@ -86,6 +87,15 @@ class Principal < ActiveRecord::Base
       # groups after users
       principal.class.name <=> self.class.name
     end
+  end
+
+  # Returns an array of fields names than can be used to make an order statement for principals.
+  # Users are sorted before Groups.
+  # Examples:
+  def self.fields_for_order_statement(table=nil)
+    table ||= table_name
+    columns = ['type DESC'] + (User.name_formatter[:order] - ['id']) + ['lastname', 'id']
+    columns.uniq.map {|field| "#{table}.#{field}"}
   end
 
   protected

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -25,7 +25,6 @@ class MemberTest < ActiveSupport::TestCase
            :member_roles,
            :members,
            :enabled_modules,
-           :workflows,
            :groups_users,
            :watchers,
            :journals, :journal_details,
@@ -121,71 +120,5 @@ class MemberTest < ActiveSupport::TestCase
 
     assert_equal -1, a <=> b
     assert_equal 1,  b <=> a
-  end
-
-  context "removing permissions" do
-    setup do
-      Watcher.delete_all("user_id = 9")
-      user = User.find(9)
-      # public
-      Watcher.create!(:watchable => Issue.find(1), :user => user)
-      # private
-      Watcher.create!(:watchable => Issue.find(4), :user => user)
-      Watcher.create!(:watchable => Message.find(7), :user => user)
-      Watcher.create!(:watchable => Wiki.find(2), :user => user)
-      Watcher.create!(:watchable => WikiPage.find(3), :user => user)
-    end
-
-    context "of user" do
-      setup do
-        @member = Member.create!(:project => Project.find(2), :principal => User.find(9), :role_ids => [1, 2])
-      end
-
-      context "by deleting membership" do
-        should "prune watchers" do
-          assert_difference 'Watcher.count', -4 do
-            @member.destroy
-          end
-        end
-      end
-
-      context "by updating roles" do
-        should "prune watchers" do
-          Role.find(2).remove_permission! :view_wiki_pages
-          member = Member.first(:order => 'id desc')
-          assert_difference 'Watcher.count', -2 do
-            member.role_ids = [2]
-            member.save
-          end
-          assert !Message.find(7).watched_by?(@user)
-        end
-      end
-    end
-
-    context "of group" do
-      setup do
-        group = Group.find(10)
-        @member = Member.create!(:project => Project.find(2), :principal => group, :role_ids => [1, 2])
-        group.users << User.find(9)
-      end
-
-      context "by deleting membership" do
-        should "prune watchers" do
-          assert_difference 'Watcher.count', -4 do
-            @member.destroy
-          end
-        end
-      end
-
-      context "by updating roles" do
-        should "prune watchers" do
-          Role.find(2).remove_permission! :view_wiki_pages
-          assert_difference 'Watcher.count', -2 do
-            @member.role_ids = [2]
-            @member.save
-          end
-        end
-      end
-    end
   end
 end

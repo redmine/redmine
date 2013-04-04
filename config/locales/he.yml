@@ -167,7 +167,7 @@ he:
   notice_not_authorized_archived_project: הפרויקט שאתה מנסה לגשת אליו נמצא בארכיון.
   notice_email_sent: "דואל נשלח לכתובת %{value}"
   notice_email_error: "ארעה שגיאה בעת שליחת הדואל (%{value})"
-  notice_feeds_access_key_reseted: מפתח ה־RSS שלך אופס.
+  notice_feeds_access_key_reseted: מפתח ה־Atom שלך אופס.
   notice_api_access_key_reseted: מפתח הגישה שלך ל־API אופס.
   notice_failed_to_save_issues: "נכשרת בשמירת %{count} נושאים ב %{total} נבחרו: %{ids}."
   notice_failed_to_save_members: "כשלון בשמירת חבר(ים): %{errors}."
@@ -391,7 +391,6 @@ he:
   permission_edit_own_time_entries: עריכת רישום הזמנים של עצמו
   permission_manage_news: ניהול חדשות
   permission_comment_news: תגובה לחדשות
-  permission_manage_documents: ניהול מסמכים
   permission_view_documents: צפיה במסמכים
   permission_manage_files: ניהול קבצים
   permission_view_files: צפיה בקבצים
@@ -713,9 +712,9 @@ he:
   label_language_based: מבוסס שפה
   label_sort_by: "מיין לפי %{value}"
   label_send_test_email: שלח דוא"ל בדיקה
-  label_feeds_access_key: מפתח גישה ל־RSS
-  label_missing_feeds_access_key: חסר מפתח גישה ל־RSS
-  label_feeds_access_key_created_on: "מפתח הזנת RSS נוצר לפני%{value}"
+  label_feeds_access_key: מפתח גישה ל־Atom
+  label_missing_feeds_access_key: חסר מפתח גישה ל־Atom
+  label_feeds_access_key_created_on: "מפתח הזנת Atom נוצר לפני%{value}"
   label_module_plural: מודולים
   label_added_time_by: 'נוסף ע"י %{author} לפני %{age}'
   label_updated_time_by: 'עודכן ע"י %{author} לפני %{age}'
@@ -931,7 +930,6 @@ he:
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"
   field_visible: Visible
-  setting_emails_header: Emails header
   setting_commit_logtime_activity_id: Activity for logged time
   text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
@@ -972,8 +970,6 @@ he:
   text_scm_command: Command
   text_scm_command_version: Version
   label_git_report_last_commit: Report last commit for files and directories
-  text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.
-  text_scm_command_not_available: Scm command is not available. Please check settings on the administration panel.
   notice_issue_successful_create: Issue %{id} created.
   label_between: between
   setting_issue_group_assignment: Allow issue assignment to groups
@@ -1081,3 +1077,19 @@ he:
   label_in_the_next_days: in the next
   label_in_the_past_days: in the past
   label_attribute_of_user: User's %{name}
+  text_turning_multiple_off: If you disable multiple values, multiple values will be
+    removed in order to preserve only one value per item.
+  label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents
+  label_gantt_progress_line: Progress line
+  setting_jsonp_enabled: Enable JSONP support
+  field_inherit_members: Inherit members
+  field_closed_on: Closed
+  field_generate_password: Generate password
+  setting_default_projects_tracker_ids: Default trackers for new projects
+  label_total_time: סה"כ
+  text_scm_config: You can configure your SCM commands in config/configuration.yml. Please restart the application after editing it.
+  text_scm_command_not_available: SCM command is not available. Please check settings on the administration panel.
+  setting_emails_header: Email header

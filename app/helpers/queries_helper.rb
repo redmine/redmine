@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -24,28 +24,7 @@ module QueriesHelper
 
   def filters_options(query)
     options = [[]]
-    sorted_options = query.available_filters.sort do |a, b|
-      ord = 0
-      if !(a[1][:order] == 20 && b[1][:order] == 20) 
-        ord = a[1][:order] <=> b[1][:order]
-      else
-        cn = (CustomField::CUSTOM_FIELDS_NAMES.index(a[1][:field].class.name) <=>
-                CustomField::CUSTOM_FIELDS_NAMES.index(b[1][:field].class.name))
-        if cn != 0
-          ord = cn
-        else
-          f = (a[1][:field] <=> b[1][:field])
-          if f != 0
-            ord = f
-          else
-            # assigned_to or author 
-            ord = (a[0] <=> b[0])
-          end
-        end
-      end
-      ord
-    end
-    options += sorted_options.map do |field, field_options|
+    options += query.available_filters.map do |field, field_options|
       [field_options[:name], field]
     end
   end
@@ -56,6 +35,19 @@ module QueriesHelper
       tags << content_tag('label', check_box_tag('c[]', column.name.to_s, query.has_column?(column)) + " #{column.caption}", :class => 'inline')
     end
     tags
+  end
+
+  def query_available_inline_columns_options(query)
+    (query.available_inline_columns - query.columns).reject(&:frozen?).collect {|column| [column.caption, column.name]}
+  end
+
+  def query_selected_inline_columns_options(query)
+    (query.inline_columns & query.available_inline_columns).reject(&:frozen?).collect {|column| [column.caption, column.name]}
+  end
+
+  def render_query_columns_selection(query, options={})
+    tag_name = (options[:name] || 'c') + '[]'
+    render :partial => 'queries/columns', :locals => {:query => query, :tag_name => tag_name}
   end
 
   def column_header(column)
@@ -87,16 +79,16 @@ module QueriesHelper
       format_time(value)
     when 'Date'
       format_date(value)
-    when 'Fixnum', 'Float'
-      if column.name == :done_ratio
+    when 'Fixnum'
+      if column.name == :id
+        link_to value, issue_path(issue)
+      elsif column.name == :done_ratio
         progress_bar(value, :width => '80px')
-      elsif  column.name == :spent_hours
-        sprintf "%.2f", value
-      elsif column.name == :hours
-        html_hours("%.2f" % value)
       else
-        h(value.to_s)
+        value.to_s
       end
+    when 'Float'
+      sprintf "%.2f", value
     when 'User'
       link_to_user value
     when 'Project'
@@ -117,6 +109,51 @@ module QueriesHelper
     else
       h(value)
     end
+  end
+
+  def csv_content(column, issue)
+    value = column.value(issue)
+    if value.is_a?(Array)
+      value.collect {|v| csv_value(column, issue, v)}.compact.join(', ')
+    else
+      csv_value(column, issue, value)
+    end
+  end
+
+  def csv_value(column, issue, value)
+    case value.class.name
+    when 'Time'
+      format_time(value)
+    when 'Date'
+      format_date(value)
+    when 'Float'
+      sprintf("%.2f", value).gsub('.', l(:general_csv_decimal_separator))
+    when 'IssueRelation'
+      other = value.other_issue(issue)
+      l(value.label_for(issue)) + " ##{other.id}"
+    else
+      value.to_s
+    end
+  end
+
+  def query_to_csv(items, query, options={})
+    encoding = l(:general_csv_encoding)
+    columns = (options[:columns] == 'all' ? query.available_inline_columns : query.inline_columns)
+    query.available_block_columns.each do |column|
+      if options[column.name].present?
+        columns << column
+      end
+    end
+
+    export = FCSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
+      # csv header fields
+      csv << columns.collect {|c| Redmine::CodesetUtil.from_utf8(c.caption.to_s, encoding) }
+      # csv lines
+      items.each do |item|
+        csv << columns.collect {|c| Redmine::CodesetUtil.from_utf8(csv_content(c, item), encoding) }
+      end
+    end
+    export
   end
 
   # Retrieve query from session or build a new query

@@ -27,5 +27,4 @@
 		<% f=Redmine::Views::OtherFormatsBuilder.new(self) %>
 		<%= f.link_to 'Atom', {:url => {:action => 'revisions', :id => @project,:repository_id => @repository.identifier_param, :key => User.current.rss_key},:class=>"btn icon-rss btn-rss", :caption=>" News feed"} %>
 	</div>
-
 </div>

@@ -2,7 +2,7 @@
 
 <div id="settings">
 <%= form_tag({:action => 'plugin'}) do %>
-<div class="box tabular">
+<div class="box tabular settings">
 <%= render :partial => @partial, :locals => {:settings => @settings}%>
 </div>
 <%= submit_tag l(:button_apply) %>

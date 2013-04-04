@@ -9,19 +9,23 @@
 </p>
 
 <p><%= f.check_box :is_default, :label => :field_repository_is_default %></p>
-<p><%= f.text_field :identifier, :disabled => @repository.identifier_frozen?  %>
+<p>
+<%= f.text_field :identifier, :disabled => @repository.identifier_frozen? %>
 <% unless @repository.identifier_frozen? %>
-  <em class="info"><%= l(:text_length_between, :min => 1, :max => Repository::IDENTIFIER_MAX_LENGTH) %> <%= l(:text_repository_identifier_info).html_safe %></em>
-<% end %></p>
+  <em class="info">
+    <%= l(:text_length_between, :min => 1, :max => Repository::IDENTIFIER_MAX_LENGTH) %> <%= l(:text_repository_identifier_info).html_safe %>
+  </em>
+<% end %>
+</p>
 
 <% button_disabled = true %>
 <% if @repository %>
-<%   button_disabled = ! @repository.class.scm_available %>
-<%=    repository_field_tags(f, @repository)%>
+  <%  button_disabled = ! @repository.class.scm_available %>
+  <%= repository_field_tags(f, @repository) %>
 <% end %>
 </div>
 
 <p>
   <%= submit_tag(@repository.new_record? ? l(:button_create) : l(:button_save), :disabled => button_disabled) %>
-	<%= link_to l(:button_cancel), settings_project_path(@project, :tab => 'repositories') %>
+  <%= link_to l(:button_cancel), settings_project_path(@project, :tab => 'repositories') %>
 </p>

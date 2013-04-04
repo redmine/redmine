@@ -1,7 +1,7 @@
 <%= board_breadcrumb(@message) %>
 
 <div class="contextual">
-    <%= watcher_tag(@topic, User.current) %>
+    <%= watcher_link(@topic, User.current) %>
     <%= link_to(
           l(:button_quote),
           {:action => 'quote', :id => @topic},

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -417,6 +417,20 @@ STR
     [1, 2, 3, 4].each do |index|
       assert_match /\Ah1. Heading #{index}.+Content #{index}/m, @formatter.new(text).get_section(index).first
     end
+  end
+
+  def test_get_section_should_support_headings_starting_with_a_tab
+    text = <<-STR
+h1.\tHeading 1
+
+Content 1
+
+h1. Heading 2
+
+Content 2
+STR
+
+    assert_match /\Ah1.\tHeading 1\s+Content 1\z/, @formatter.new(text).get_section(1).first
   end
 
   private

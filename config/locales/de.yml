@@ -144,7 +144,7 @@ de:
         greater_than_start_date: "muss größer als Anfangsdatum sein"
         not_same_project: "gehört nicht zum selben Projekt"
         circular_dependency: "Diese Beziehung würde eine zyklische Abhängigkeit erzeugen"
-        cant_link_an_issue_with_a_descendant: "Ein Ticket kann nicht mit einer ihrer Unteraufgaben verlinkt werden"
+        cant_link_an_issue_with_a_descendant: "Ein Ticket kann nicht mit einer Ihrer Unteraufgaben verlinkt werden"
 
   actionview_instancetag_blank_option: Bitte auswählen
 
@@ -280,12 +280,13 @@ de:
   field_attr_login: Mitgliedsname-Attribut
   field_attr_mail: E-Mail-Attribut
   field_auth_source: Authentifizierungs-Modus
-  field_auth_source_ldap_filter: LDAP Filter
+  field_auth_source_ldap_filter: LDAP-Filter
   field_author: Autor
   field_base_dn: Base DN
   field_board_parent: Übergeordnetes Forum
   field_category: Kategorie
   field_column_names: Spalten
+  field_closed_on: Geschlossen am
   field_comments: Kommentar
   field_comments_sorting: Kommentare anzeigen
   field_commit_logs_encoding: Kodierung der Commit-Log-Meldungen
@@ -308,6 +309,7 @@ de:
   field_filesize: Größe
   field_firstname: Vorname
   field_fixed_version: Zielversion
+  field_generate_password: Passwort generieren
   field_group_by: Gruppiere Ergebnisse nach
   field_hide_mail: E-Mail-Adresse nicht anzeigen
   field_homepage: Projekt-Homepage
@@ -315,6 +317,7 @@ de:
   field_hours: Stunden
   field_identifier: Kennung
   field_identity_url: OpenID-URL
+  field_inherit_members: Benutzer vererben
   field_is_closed: Ticket geschlossen
   field_is_default: Standardeinstellung
   field_is_filter: Als Filter benutzen
@@ -345,7 +348,7 @@ de:
   field_parent_title: Übergeordnete Seite
   field_password: Kennwort
   field_password_confirmation: Bestätigung
-  field_path_to_repository: Pfad zum repository
+  field_path_to_repository: Pfad zum Repository
   field_port: Port
   field_possible_values: Mögliche Werte
   field_principal: Auftraggeber
@@ -357,7 +360,7 @@ de:
   field_repository_is_default: Haupt-Repository
   field_role: Rolle
   field_root_directory: Wurzelverzeichnis
-  field_scm_path_encoding: Pfad Kodierung
+  field_scm_path_encoding: Pfad-Kodierung
   field_searchable: Durchsuchbar
   field_sharing: Gemeinsame Verwendung
   field_spent_on: Datum
@@ -380,7 +383,7 @@ de:
   field_value: Wert
   field_version: Version
   field_visible: Sichtbar
-  field_warn_on_leaving_unsaved: vor dem Verlassen einer Seite mit ungesichertem Text im Editor warnen
+  field_warn_on_leaving_unsaved: Vor dem Verlassen einer Seite mit ungesichertem Text im Editor warnen
   field_watcher: Beobachter
 
   general_csv_decimal_separator: ','
@@ -415,7 +418,7 @@ de:
   label_api_access_key_created_on: Der API-Zugriffsschlüssel wurde vor %{value} erstellt
   label_applied_status: Zugewiesener Status
   label_ascending: Aufsteigend
-  label_assigned_to_me_issues: Mir zugewiesen
+  label_assigned_to_me_issues: Mir zugewiesene Tickets
   label_associated_revisions: Zugehörige Revisionen
   label_attachment: Datei
   label_attachment_delete: Anhang löschen
@@ -425,6 +428,7 @@ de:
   label_attribute_of_assigned_to: "%{name} des Bearbeiters"
   label_attribute_of_author: "%{name} des Autors"
   label_attribute_of_fixed_version: "%{name} der Zielversion"
+  label_attribute_of_issue: "%{name} des Tickets"
   label_attribute_of_project: "%{name} des Projekts"
   label_attribute_of_user: "%{name} des Benutzers"
   label_attribute_plural: Attribute
@@ -470,7 +474,7 @@ de:
   label_copied: kopiert
   label_copied_from: Kopiert von
   label_copied_to: Kopiert nach
-  label_copy_attachments: Anhänge Kopieren
+  label_copy_attachments: Anhänge kopieren
   label_copy_same_as_target: So wie das Ziel
   label_copy_source: Quelle
   label_copy_subtasks: Unteraufgaben kopieren
@@ -522,7 +526,7 @@ de:
   label_f_hour: "%{value} Stunde"
   label_f_hour_plural: "%{value} Stunden"
   label_feed_plural: Feeds
-  label_feeds_access_key: RSS-Zugriffsschlüssel
+  label_feeds_access_key: Atom-Zugriffsschlüssel
   label_feeds_access_key_created_on: "Atom-Zugriffsschlüssel vor %{value} erstellt"
   label_fields_permissions: Feldberechtigungen
   label_file_added: Datei hinzugefügt
@@ -530,8 +534,9 @@ de:
   label_filter_add: Filter hinzufügen
   label_filter_plural: Filter
   label_float: Fließkommazahl
-  label_follows: Folgt
+  label_follows: Nachfolger von
   label_gantt: Gantt-Diagramm
+  label_gantt_progress_line: Fortschrittslinie
   label_general: Allgemein
   label_generate_key: Generieren
   label_git_report_last_commit: Bericht des letzten Commits für Dateien und Verzeichnisse
@@ -542,7 +547,7 @@ de:
   label_help: Hilfe
   label_history: Historie
   label_home: Hauptseite
-  label_in: an
+  label_in: in
   label_in_less_than: in weniger als
   label_in_more_than: in mehr als
   label_in_the_next_days: in den nächsten
@@ -573,7 +578,7 @@ de:
   label_issue_watchers: Beobachter
   label_issues_by: "Tickets pro %{value}"
   label_issues_visibility_all: Alle Tickets
-  label_issues_visibility_own: Tickets die folgender User erstellt hat oder die ihm zugewiesen sind
+  label_issues_visibility_own: Tickets die folgender Benutzer erstellt hat oder die ihm zugewiesen sind
   label_issues_visibility_public: Alle öffentlichen Tickets
   label_item_position: "%{position}/%{count}"
   label_jump_to_a_project: Zu einem Projekt springen...
@@ -606,7 +611,7 @@ de:
   label_message_posted: Forenbeitrag hinzugefügt
   label_min_max_length: Länge (Min. - Max.)
   label_missing_api_access_key: Der API-Zugriffsschlüssel fehlt.
-  label_missing_feeds_access_key: Der RSS-Zugriffsschlüssel fehlt.
+  label_missing_feeds_access_key: Der Atom-Zugriffsschlüssel fehlt.
   label_modified: geändert
   label_module_plural: Module
   label_month: Monat
@@ -615,7 +620,7 @@ de:
   label_more_than_ago: vor mehr als
   label_my_account: Mein Konto
   label_my_page: Meine Seite
-  label_my_page_block: Bereich "Meine Seite"
+  label_my_page_block: Verfügbare Widgets
   label_my_projects: Meine Projekte
   label_my_queries: Meine eigenen Abfragen
   label_new: Neu
@@ -665,8 +670,8 @@ de:
   label_project_plural: Projekte
   label_public_projects: Öffentliche Projekte
   label_query: Benutzerdefinierte Abfrage
-  label_query_new: Neuer Bericht
-  label_query_plural: Benutzerdefinierte Berichte
+  label_query_new: Neue Abfrage
+  label_query_plural: Benutzerdefinierte Abfragen
   label_read: Lesen...
   label_readonly: Nur-Lese-Zugriff
   label_register: Registrieren
@@ -682,7 +687,7 @@ de:
   label_reply_plural: Antworten
   label_report: Bericht
   label_report_plural: Berichte
-  label_reported_issues: Gemeldete Tickets
+  label_reported_issues: Erstellte Tickets
   label_repository: Projektarchiv
   label_repository_new: Neues Repository
   label_repository_plural: Projektarchive
@@ -751,8 +756,8 @@ de:
   label_user_anonymous: Anonym
   label_user_mail_no_self_notified: "Ich möchte nicht über Änderungen benachrichtigt werden, die ich selbst durchführe."
   label_user_mail_option_all: "Für alle Ereignisse in all meinen Projekten"
-  label_user_mail_option_none: keine Ereignisse
-  label_user_mail_option_only_assigned: Nur für Aufgaben für die ich zuständig bin.
+  label_user_mail_option_none: Keine Ereignisse
+  label_user_mail_option_only_assigned: Nur für Aufgaben für die ich zuständig bin
   label_user_mail_option_only_my_events: Nur für Aufgaben die ich beobachte oder an welchen ich mitarbeite
   label_user_mail_option_only_owner: Nur für Aufgaben die ich angelegt habe
   label_user_mail_option_selected: "Für alle Ereignisse in den ausgewählten Projekten..."
@@ -773,8 +778,8 @@ de:
   label_watched_issues: Beobachtete Tickets
   label_week: Woche
   label_wiki: Wiki
-  label_wiki_content_added: Die Wiki-Seite wurde erfolgreich hinzugefügt.
-  label_wiki_content_updated: Die Wiki-Seite wurde erfolgreich aktualisiert.
+  label_wiki_content_added: Wiki-Seite hinzugefügt
+  label_wiki_content_updated: Wiki-Seite aktualisiert
   label_wiki_edit: Wiki-Bearbeitung
   label_wiki_edit_plural: Wiki-Bearbeitungen
   label_wiki_page: Wiki-Seite
@@ -864,16 +869,18 @@ de:
   permission_add_messages: Forenbeiträge hinzufügen
   permission_add_project: Projekt erstellen
   permission_add_subprojects: Unterprojekte erstellen
+  permission_add_documents: Dokumente hinzufügen
   permission_browse_repository: Projektarchiv ansehen
   permission_close_project: Schließen / erneutes Öffnen eines Projekts
   permission_comment_news: News kommentieren
-  permission_commit_access: Commit-Zugriff (über WebDAV)
+  permission_commit_access: Commit-Zugriff
   permission_delete_issue_watchers: Beobachter löschen
   permission_delete_issues: Tickets löschen
   permission_delete_messages: Forenbeiträge löschen
   permission_delete_own_messages: Eigene Forenbeiträge löschen
   permission_delete_wiki_pages: Wiki-Seiten löschen
   permission_delete_wiki_pages_attachments: Anhänge löschen
+  permission_delete_documents: Dokumente löschen
   permission_edit_issue_notes: Kommentare bearbeiten
   permission_edit_issues: Tickets bearbeiten
   permission_edit_messages: Forenbeiträge bearbeiten
@@ -883,11 +890,11 @@ de:
   permission_edit_project: Projekt bearbeiten
   permission_edit_time_entries: Gebuchte Aufwände bearbeiten
   permission_edit_wiki_pages: Wiki-Seiten bearbeiten
+  permission_edit_documents: Dokumente bearbeiten
   permission_export_wiki_pages: Wiki-Seiten exportieren
   permission_log_time: Aufwände buchen
   permission_manage_boards: Foren verwalten
   permission_manage_categories: Ticket-Kategorien verwalten
-  permission_manage_documents: Dokumente verwalten
   permission_manage_files: Dateien verwalten
   permission_manage_issue_relations: Ticket-Beziehungen verwalten
   permission_manage_members: Mitglieder verwalten
@@ -958,11 +965,11 @@ de:
   setting_diff_max_lines_displayed: Maximale Anzahl anzuzeigender Diff-Zeilen
   setting_display_subprojects_issues: Tickets von Unterprojekten im Hauptprojekt anzeigen
   setting_emails_footer: E-Mail-Fußzeile
-  setting_emails_header: E-Mail Betreffzeile
+  setting_emails_header: E-Mail-Kopfzeile
   setting_enabled_scm: Aktivierte Versionskontrollsysteme
   setting_feeds_limit: Max. Anzahl Einträge pro Atom-Feed
   setting_file_max_size_displayed: Maximale Größe inline angezeigter Textdateien
-  setting_gantt_items_limit: Maximale Anzahl von Aufgaben die im Gantt-Chart angezeigt werden.
+  setting_gantt_items_limit: Maximale Anzahl von Aufgaben die im Gantt-Chart angezeigt werden
   setting_gravatar_default: Standard-Gravatar-Bild
   setting_gravatar_enabled: Gravatar-Benutzerbilder benutzen
   setting_host_name: Hostname
@@ -972,6 +979,7 @@ de:
   setting_issue_group_assignment: Ticketzuweisung an Gruppen erlauben
   setting_issue_list_default_columns: Standard-Spalten in der Ticket-Auflistung
   setting_issues_export_limit: Max. Anzahl Tickets bei CSV/PDF-Export
+  setting_jsonp_enabled: JSONP Unterstützung aktivieren
   setting_login_required: Authentifizierung erforderlich
   setting_mail_from: E-Mail-Absender
   setting_mail_handler_api_enabled: Abruf eingehender E-Mails aktivieren
@@ -984,7 +992,7 @@ de:
   setting_per_page_options: Objekte pro Seite
   setting_plain_text_mail: Nur reinen Text (kein HTML) senden
   setting_protocol: Protokoll
-  setting_repositories_encodings: Encoding von Anhängen und Repositories
+  setting_repositories_encodings: Enkodierung von Anhängen und Repositories
   setting_repository_log_display_limit: Maximale Anzahl anzuzeigender Revisionen in der Historie einer Datei
   setting_rest_api_enabled: REST-Schnittstelle aktivieren
   setting_self_registration: Anmeldung ermöglicht
@@ -1001,6 +1009,7 @@ de:
   setting_user_format: Benutzer-Anzeigeformat
   setting_welcome_text: Willkommenstext
   setting_wiki_compression: Wiki-Historie komprimieren
+  setting_default_projects_tracker_ids: Standardmäßig aktivierte Tracker für neue Projekte
 
   status_active: aktiv
   status_locked: gesperrt
@@ -1047,7 +1056,7 @@ de:
   text_own_membership_delete_confirmation: "Sie sind dabei, einige oder alle Ihre Berechtigungen zu entfernen. Es ist möglich, dass Sie danach das Projekt nicht mehr ansehen oder bearbeiten dürfen.\nSind Sie sicher, dass Sie dies tun möchten?"
   text_plugin_assets_writable: Verzeichnis für Plugin-Assets beschreibbar
   text_project_closed: Dieses Projekt ist geschlossen und kann nicht bearbeitet werden.
-  text_project_destroy_confirmation: Sind Sie sicher, dass sie das Projekt löschen wollen?
+  text_project_destroy_confirmation: Sind Sie sicher, dass Sie das Projekt löschen wollen?
   text_project_identifier_info: 'Kleinbuchstaben (a-z), Ziffern, Binde- und Unterstriche erlaubt, muss mit einem Kleinbuchstaben beginnen.<br />Einmal gespeichert, kann die Kennung nicht mehr geändert werden.'
   text_reassign_time_entries: 'Gebuchte Aufwände diesem Ticket zuweisen:'
   text_regexp_info: z. B. ^[A-Z0-9]+$
@@ -1055,7 +1064,7 @@ de:
   text_repository_usernames_mapping: "Bitte legen Sie die Zuordnung der Redmine-Benutzer zu den Benutzernamen der Commit-Log-Meldungen des Projektarchivs fest.\nBenutzer mit identischen Redmine- und Projektarchiv-Benutzernamen oder -E-Mail-Adressen werden automatisch zugeordnet."
   text_rmagick_available: RMagick verfügbar (optional)
   text_scm_command: Kommando
-  text_scm_command_not_available: Scm Kommando ist nicht verfügbar. Bitte prüfen Sie die Einstellungen im Administrationspanel.
+  text_scm_command_not_available: SCM-Kommando ist nicht verfügbar. Bitte prüfen Sie die Einstellungen im Administrationspanel.
   text_scm_command_version: Version
   text_scm_config: Die SCM-Kommandos können in der in config/configuration.yml konfiguriert werden. Redmine muss anschließend neu gestartet werden.
   text_scm_path_encoding_note: "Standard: UTF-8"
@@ -1070,6 +1079,8 @@ de:
   text_tip_issue_begin_end_day: Aufgabe, die an diesem Tag beginnt und endet
   text_tip_issue_end_day: Aufgabe, die an diesem Tag endet
   text_tracker_no_workflow: Kein Workflow für diesen Tracker definiert.
+  text_turning_multiple_off: Wenn Sie die Mehrfachauswahl deaktivieren, werden Felder mit Mehrfachauswahl bereinigt.
+    Dadurch wird sichergestellt, dass lediglich ein Wert pro Feld ausgewählt ist.
   text_unallowed_characters: Nicht erlaubte Zeichen
   text_user_mail_option: "Für nicht ausgewählte Projekte werden Sie nur Benachrichtigungen für Dinge erhalten, die Sie beobachten oder an denen Sie beteiligt sind (z. B. Tickets, deren Autor Sie sind oder die Ihnen zugewiesen sind)."
   text_user_wrote: "%{value} schrieb:"
@@ -1080,11 +1091,12 @@ de:
   text_wiki_page_nullify_children: Verschiebe die Unterseiten auf die oberste Ebene
   text_wiki_page_reassign_children: Ordne die Unterseiten dieser Seite zu
   text_workflow_edit: Workflow zum Bearbeiten auswählen
-  text_zoom_in: Zoom in
-  text_zoom_out: Zoom out
+  text_zoom_in: Ansicht vergrößern
+  text_zoom_out: Ansicht verkleinern
 
   version_status_closed: abgeschlossen
   version_status_locked: gesperrt
   version_status_open: offen
-  
+
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
+  label_total_time: Gesamtzeit

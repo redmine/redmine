@@ -99,4 +99,18 @@ wiki_content_versions_006:
   version: 3
   author_id: 1
   comments: 
+wiki_content_versions_007: 
+  data: |-
+    h1. Page with an inline image
+    
+    This is an inline image:
+    
+    !logo.gif!
+  updated_on: 2007-03-08 00:18:07 +01:00
+  page_id: 4
+  wiki_content_id: 4
+  id: 7
+  version: 1
+  author_id: 1
+  comments: 
   

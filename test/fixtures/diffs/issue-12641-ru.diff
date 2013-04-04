@@ -1,0 +1,19 @@
+# HG changeset patch
+# User tmaruyama
+# Date 1355872765 0
+# Node ID 8a13ebed1779c2e85fa644ecdd0de81996c969c4
+# Parent  5c3c5f917ae92f278fe42c6978366996595b0796
+Russian "about_x_hours" translation changed by Mikhail Velkin (#12640)
+
+diff --git a/config/locales/ru.yml b/config/locales/ru.yml
+--- a/config/locales/ru.yml
++++ b/config/locales/ru.yml
+@@ -115,7 +115,7 @@ ru:
+         one:   "около %{count} часа"
+         few:   "около %{count} часов"
+         many:  "около %{count} часов"
+-        other: "около %{count} часа"
++        other: "около %{count} часов"
+       x_hours:
+         one:   "1 час"
+         other: "%{count} часов"

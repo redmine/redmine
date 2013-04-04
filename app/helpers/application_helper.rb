@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -284,14 +284,10 @@ module ApplicationHelper
   # * :download - Force download (default: false)
   def link_to_attachment(attachment, options={})
     text = options.delete(:text) || attachment.filename
-    action = options.delete(:download) ? 'download' : 'show'
-    opt_only_path = {}
-    opt_only_path[:only_path] = (options[:only_path] == false ? false : true)
-    options.delete(:only_path)
-    link_to(h(text),
-           {:controller => 'attachments', :action => action,
-            :id => attachment, :filename => attachment.filename}.merge(opt_only_path),
-           options)
+    route_method = options.delete(:download) ? :download_named_attachment_path : :named_attachment_path
+    html_options = options.slice!(:only_path)
+    url = send(route_method, attachment, attachment.filename, options)
+    link_to text, url, html_options
   end
 
   # Generates a link to a SCM revision
@@ -313,13 +309,11 @@ module ApplicationHelper
   # Generates a link to a message
   def link_to_message(message, options={}, html_options = nil)
     link_to(
-      h(truncate(message.subject, :length => 60)),
-      { :controller => 'messages', :action => 'show',
-        :board_id => message.board_id,
-        :id => (message.parent_id || message.id),
+      truncate(message.subject, :length => 60),
+      board_message_path(message.board_id, message.parent_id || message.id, {
         :r => (message.parent_id && message.id),
         :anchor => (message.parent_id ? "message-#{message.id}" : nil)
-      }.merge(options),
+      }.merge(options)),
       html_options
     )
   end
@@ -328,16 +322,29 @@ module ApplicationHelper
   # Examples:
   #
   #   link_to_project(project)                          # => link to the specified project overview
-  #   link_to_project(project, :action=>'settings')     # => link to project settings
   #   link_to_project(project, {:only_path => false}, :class => "project") # => 3rd arg adds html options
   #   link_to_project(project, {}, :class => "project") # => html options with default url (project overview)
   #
   def link_to_project(project, options={}, html_options = nil)
     if project.archived?
-      h(project)
-    else
+      h(project.name)
+    elsif options.key?(:action)
+      ActiveSupport::Deprecation.warn "#link_to_project with :action option is deprecated and will be removed in Redmine 3.0."
       url = {:controller => 'projects', :action => 'show', :id => project}.merge(options)
-      link_to(h(project), url, html_options)
+      link_to project.name, url, html_options
+    else
+      link_to project.name, project_path(project, options), html_options
+    end
+  end
+
+  # Generates a link to a project settings if active
+  def link_to_project_settings(project, options={}, html_options=nil)
+    if project.active?
+      link_to project.name, settings_project_path(project, options), html_options
+    elsif project.archived?
+      h(project.name)
+    else
+      link_to project.name, project_path(project, options), html_options
     end
   end
 
@@ -347,8 +354,8 @@ module ApplicationHelper
   end
 
   def thumbnail_tag(attachment)
-    link_to image_tag(url_for(:controller => 'attachments', :action => 'thumbnail', :id => attachment)),
-      {:controller => 'attachments', :action => 'show', :id => attachment, :filename => attachment.filename},
+    link_to image_tag(thumbnail_path(attachment)),
+      named_attachment_path(attachment, attachment.filename),
       :title => attachment.filename
   end
 
@@ -382,7 +389,7 @@ module ApplicationHelper
 
   def format_version_name(version)
     if version.project == @project
-    	h(version)
+      h(version)
     else
       h("#{version.project} - #{version}")
     end
@@ -504,8 +511,8 @@ module ApplicationHelper
 
   def principals_check_box_tags(name, principals)
     s = ''
-    principals.sort.each do |principal|
-      s << "<label>#{ check_box_tag name, principal.id, false } #{h principal}</label>\n"
+    principals.each do |principal|
+      s << "<label>#{ check_box_tag name, principal.id, false, :id => nil } #{h principal}</label>\n"
     end
     s.html_safe
   end
@@ -531,7 +538,7 @@ module ApplicationHelper
   def options_for_membership_project_select(principal, projects)
     options = content_tag('option', "--- #{l(:actionview_instancetag_blank_option)} ---")
     options << project_tree_options_for_select(projects) do |p|
-      {:disabled => principal.projects.include?(p)}
+      {:disabled => principal.projects.to_a.include?(p)}
     end
     options
   end
@@ -740,15 +747,14 @@ module ApplicationHelper
 
   def parse_inline_attachments(text, project, obj, attr, only_path, options)
     # when using an image link, try to use an attachment, if possible
-    if options[:attachments].present? || (obj && obj.respond_to?(:attachments))
-      attachments = options[:attachments] || []
-      attachments += obj.attachments if obj
+    attachments = options[:attachments] || []
+    attachments += obj.attachments if obj.respond_to?(:attachments)
+    if attachments.present?
       text.gsub!(/src="([^\/"]+\.(bmp|gif|jpg|jpe|jpeg|png))"(\s+alt="([^"]*)")?/i) do |m|
         filename, ext, alt, alttext = $1.downcase, $2, $3, $4
         # search for the picture in attachments
         if found = Attachment.latest_attach(attachments, filename)
-          image_url = url_for :only_path => only_path, :controller => 'attachments',
-                              :action => 'download', :id => found
+          image_url = download_named_attachment_path(found, found.filename, :only_path => only_path)
           desc = found.description.to_s.gsub('"', '')
           if !desc.blank? && alttext.blank?
             alt = " title=\"#{desc}\" alt=\"#{desc}\""
@@ -777,9 +783,9 @@ module ApplicationHelper
       esc, all, page, title = $1, $2, $3, $5
       if esc.nil?
         if page =~ /^([^\:]+)\:(.*)$/
-          link_project = Project.find_by_identifier($1) || Project.find_by_name($1)
-          page = $2
-          title ||= $1 if page.blank?
+          identifier, page = $1, $2
+          link_project = Project.find_by_identifier(identifier) || Project.find_by_name(identifier)
+          title ||= identifier if page.blank?
         end
 
         if link_project && link_project.wiki
@@ -847,10 +853,11 @@ module ApplicationHelper
   #     identifier:document:"Some document"
   #     identifier:version:1.0.0
   #     identifier:source:some/file
-  def parse_redmine_links(text, project, obj, attr, only_path, options)
-    text.gsub!(%r{([\s\(,\-\[\>]|^)(!)?(([a-z0-9\-_]+):)?(attachment|document|version|forum|news|message|project|commit|source|export)?(((#)|((([a-z0-9\-]+)\|)?(r)))((\d+)((#note)?-(\d+))?)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]][^A-Za-z0-9_/])|,|\s|\]|<|$)}) do |m|
+  def parse_redmine_links(text, default_project, obj, attr, only_path, options)
+    text.gsub!(%r{([\s\(,\-\[\>]|^)(!)?(([a-z0-9\-_]+):)?(attachment|document|version|forum|news|message|project|commit|source|export)?(((#)|((([a-z0-9\-_]+)\|)?(r)))((\d+)((#note)?-(\d+))?)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]][^A-Za-z0-9_/])|,|\s|\]|<|$)}) do |m|
       leading, esc, project_prefix, project_identifier, prefix, repo_prefix, repo_identifier, sep, identifier, comment_suffix, comment_id = $1, $2, $3, $4, $5, $10, $11, $8 || $12 || $18, $14 || $19, $15, $17
       link = nil
+      project = default_project
       if project_identifier
         project = Project.visible.find_by_identifier(project_identifier)
       end
@@ -936,7 +943,7 @@ module ApplicationHelper
           when 'commit', 'source', 'export'
             if project
               repository = nil
-              if name =~ %r{^(([a-z0-9\-]+)\|)(.+)$}
+              if name =~ %r{^(([a-z0-9\-_]+)\|)(.+)$}
                 repo_prefix, repo_identifier, name = $1, $2, $3
                 repository = project.repositories.detect {|repo| repo.identifier == repo_identifier}
               else
@@ -963,9 +970,8 @@ module ApplicationHelper
             end
           when 'attachment'
             attachments = options[:attachments] || (obj && obj.respond_to?(:attachments) ? obj.attachments : nil)
-            if attachments && attachment = attachments.detect {|a| a.filename == name }
-              link = link_to h(attachment.filename), {:only_path => only_path, :controller => 'attachments', :action => 'download', :id => attachment},
-                                                     :class => 'attachment'
+            if attachments && attachment = Attachment.latest_attach(attachments, name)
+              link = link_to_attachment(attachment, :only_path => only_path, :download => true, :class => 'attachment')
             end
           when 'project'
             if p = Project.visible.where("identifier = :s OR LOWER(name) = :s", :s => name.downcase).first
@@ -1262,7 +1268,7 @@ module ApplicationHelper
                    "var datepickerOptions={dateFormat: 'yy-mm-dd', firstDay: #{start_of_week}, " +
                      "showOn: 'button', buttonImageOnly: true, buttonImage: '" + 
                      path_to_image('/images/calendar.png') +
-                     "', showButtonPanel: true};")
+                     "', showButtonPanel: true, showWeek: true, showOtherMonths: true, selectOtherMonths: true};")
         jquery_locale = l('jquery.locale', :default => current_language.to_s)
         unless jquery_locale == 'en'
           tags << javascript_include_tag("i18n/jquery.ui.datepicker-#{jquery_locale}.js") 
@@ -1366,7 +1372,7 @@ module ApplicationHelper
 
   def sanitize_anchor_name(anchor)
     if ''.respond_to?(:encoding) || RUBY_PLATFORM == 'java'
-      anchor.gsub(%r{[^\p{Word}\s\-]}, '').gsub(%r{\s+(\-+\s*)?}, '-')
+      anchor.gsub(%r{[^\s\-\p{Word}]}, '').gsub(%r{\s+(\-+\s*)?}, '-')
     else
       # TODO: remove when ruby1.8 is no longer supported
       anchor.gsub(%r{[^\w\s\-]}, '').gsub(%r{\s+(\-+\s*)?}, '-')

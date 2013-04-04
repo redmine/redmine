@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -189,6 +189,11 @@ class MyControllerTest < ActionController::TestCase
     post :add_block, :block => 'issuesreportedbyme'
     assert_redirected_to '/my/page_layout'
     assert User.find(2).pref[:my_page_layout]['top'].include?('issuesreportedbyme')
+  end
+
+  def test_add_invalid_block_should_redirect
+    post :add_block, :block => 'invalid'
+    assert_redirected_to '/my/page_layout'
   end
 
   def test_remove_block

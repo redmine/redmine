@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -53,7 +53,7 @@ module SettingsHelper
           check_box_tag(
              "settings[#{setting}][]",
              value,
-             Setting.send(setting).include?(value),
+             setting_values.include?(value),
              :id => nil
            ) + text.to_s,
           :class => (options[:inline] ? 'inline' : 'block')

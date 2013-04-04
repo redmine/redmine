@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@ class Document < ActiveRecord::Base
   include Redmine::SafeAttributes
   belongs_to :project
   belongs_to :category, :class_name => "DocumentCategory", :foreign_key => "category_id"
-  acts_as_attachable :delete_permission => :manage_documents
+  acts_as_attachable :delete_permission => :delete_documents
 
   acts_as_searchable :columns => ['title', "#{table_name}.description"], :include => :project
   acts_as_event :title => Proc.new {|o| "#{l(:label_document)}: #{o.title}"},

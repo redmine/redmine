@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -71,6 +71,11 @@ class MessagesControllerTest < ActionController::TestCase
 
   def test_show_message_not_found
     get :show, :board_id => 1, :id => 99999
+    assert_response 404
+  end
+
+  def test_show_message_from_invalid_board_should_respond_with_404
+    get :show, :board_id => 999, :id => 1
     assert_response 404
   end
 

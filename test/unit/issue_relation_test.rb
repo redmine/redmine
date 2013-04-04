@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -29,6 +29,8 @@ class IssueRelationTest < ActiveSupport::TestCase
            :enabled_modules,
            :enumerations,
            :trackers
+
+  include Redmine::I18n
 
   def test_create
     from = Issue.find(1)
@@ -113,6 +115,26 @@ class IssueRelationTest < ActiveSupport::TestCase
         )
     assert !r.save
     assert_not_nil r.errors[:base]
+  end
+
+  def test_validates_circular_dependency_of_subtask
+    set_language_if_valid 'en'
+    issue1 = Issue.generate!
+    issue2 = Issue.generate!
+    IssueRelation.create!(
+      :issue_from => issue1, :issue_to => issue2,
+      :relation_type => IssueRelation::TYPE_PRECEDES
+    )
+    child = Issue.generate!(:parent_issue_id => issue2.id)
+    issue1.reload
+    child.reload
+
+    r = IssueRelation.new(
+          :issue_from => child, :issue_to => issue1,
+          :relation_type => IssueRelation::TYPE_PRECEDES
+        )
+    assert !r.save
+    assert_include 'This relation would create a circular dependency', r.errors.full_messages
   end
 
   def test_validates_circular_dependency_on_reverse_relations

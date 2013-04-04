@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -46,6 +46,10 @@ class RoutingGroupsTest < ActionController::IntegrationTest
     assert_routing(
         { :method => 'get', :path => "/groups/1/autocomplete_for_user" },
         { :controller => 'groups', :action => 'autocomplete_for_user', :id => '1' }
+      )
+    assert_routing(
+        { :method => 'get', :path => "/groups/1/autocomplete_for_user.js" },
+        { :controller => 'groups', :action => 'autocomplete_for_user', :id => '1', :format => 'js' }
       )
     assert_routing(
         { :method => 'get', :path => "/groups/1" },

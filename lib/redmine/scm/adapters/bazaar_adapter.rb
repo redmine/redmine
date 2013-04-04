@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -104,13 +104,13 @@ module Redmine
             re = %r{^V\s+(#{Regexp.escape(prefix)})?(\/?)([^\/]+)(\/?)\s+(\S+)\r?$}
             io.each_line do |line|
               next unless line =~ re
-              name_locale = $3.strip
+              name_locale, slash, revision = $3.strip, $4, $5.strip
               name = scm_iconv('UTF-8', @path_encoding, name_locale)
               entries << Entry.new({:name => name,
                                     :path => ((path.empty? ? "" : "#{path}/") + name),
-                                    :kind => ($4.blank? ? 'file' : 'dir'),
+                                    :kind => (slash.blank? ? 'file' : 'dir'),
                                     :size => nil,
-                                    :lastrev => Revision.new(:revision => $5.strip)
+                                    :lastrev => Revision.new(:revision => revision)
                                   })
             end
           end

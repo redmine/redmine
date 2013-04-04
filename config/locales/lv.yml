@@ -155,7 +155,7 @@ lv:
   notice_not_authorized: Jums nav tiesību piekļūt šai lapai.
   notice_email_sent: "E-pasts tika nosūtīts uz %{value}"
   notice_email_error: "Kļūda sūtot e-pastu (%{value})"
-  notice_feeds_access_key_reseted: Jūsu RSS pieejas atslēga tika iestatīta sākuma stāvoklī.
+  notice_feeds_access_key_reseted: Jūsu Atom pieejas atslēga tika iestatīta sākuma stāvoklī.
   notice_api_access_key_reseted: Jūsu API pieejas atslēga tika iestatīta sākuma stāvoklī.
   notice_failed_to_save_issues: "Neizdevās saglabāt %{count} uzdevumu(us) no %{total} izvēlēti: %{ids}."
   notice_no_issue_selected: "Nav izvēlēts uzdevums! Lūdzu, atzīmējiet uzdevumus, kurus vēlaties rediģēt!"
@@ -368,7 +368,6 @@ lv:
   permission_edit_own_time_entries:  Rediģēt savus laika reģistrus
   permission_manage_news: Pārvaldīt jaunumus
   permission_comment_news: Komentēt jaunumus
-  permission_manage_documents: Pārvaldīt dokumentus
   permission_view_documents: Skatīt dokumentus
   permission_manage_files: Pārvaldīt failus
   permission_view_files: Skatīt failus
@@ -685,9 +684,9 @@ lv:
   label_language_based: Izmantot lietotāja valodu
   label_sort_by: "Kārtot pēc %{value}"
   label_send_test_email: "Sūtīt testa e-pastu"
-  label_feeds_access_key: RSS piekļuves atslēga
-  label_missing_feeds_access_key: Trūkst RSS piekļuves atslēgas
-  label_feeds_access_key_created_on: "RSS piekļuves atslēga izveidota pirms %{value}"
+  label_feeds_access_key: Atom piekļuves atslēga
+  label_missing_feeds_access_key: Trūkst Atom piekļuves atslēgas
+  label_feeds_access_key_created_on: "Atom piekļuves atslēga izveidota pirms %{value}"
   label_module_plural: Moduļi
   label_added_time_by: "Pievienojis %{author} pirms %{age}"
   label_updated_time_by: "Atjaunojis %{author} pirms %{age}"
@@ -920,7 +919,6 @@ lv:
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"
   field_visible: Visible
-  setting_emails_header: Emails header
   setting_commit_logtime_activity_id: Activity for logged time
   text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
@@ -961,8 +959,6 @@ lv:
   text_scm_command: Command
   text_scm_command_version: Version
   label_git_report_last_commit: Report last commit for files and directories
-  text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.
-  text_scm_command_not_available: Scm command is not available. Please check settings on the administration panel.
   notice_issue_successful_create: Issue %{id} created.
   label_between: between
   setting_issue_group_assignment: Allow issue assignment to groups
@@ -1070,3 +1066,19 @@ lv:
   label_in_the_next_days: in the next
   label_in_the_past_days: in the past
   label_attribute_of_user: User's %{name}
+  text_turning_multiple_off: If you disable multiple values, multiple values will be
+    removed in order to preserve only one value per item.
+  label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents
+  label_gantt_progress_line: Progress line
+  setting_jsonp_enabled: Enable JSONP support
+  field_inherit_members: Inherit members
+  field_closed_on: Closed
+  field_generate_password: Generate password
+  setting_default_projects_tracker_ids: Default trackers for new projects
+  label_total_time: Kopā
+  text_scm_config: You can configure your SCM commands in config/configuration.yml. Please restart the application after editing it.
+  text_scm_command_not_available: SCM command is not available. Please check settings on the administration panel.
+  setting_emails_header: Email header

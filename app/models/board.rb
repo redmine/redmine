@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -30,7 +30,7 @@ class Board < ActiveRecord::Base
   validates_length_of :description, :maximum => 255
   validate :validate_board
 
-  scope :visible, lambda {|*args| 
+  scope :visible, lambda {|*args|
     includes(:project).where(Project.allowed_to_condition(args.shift || User.current, :view_messages, *args))
   }
 

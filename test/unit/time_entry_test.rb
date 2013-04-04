@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -25,8 +25,7 @@ class TimeEntryTest < ActiveSupport::TestCase
            :journals, :journal_details,
            :issue_categories, :enumerations,
            :groups_users,
-           :enabled_modules,
-           :workflows
+           :enabled_modules
 
   def test_hours_format
     assertions = { "2"      => 2.0,
@@ -109,6 +108,13 @@ class TimeEntryTest < ActiveSupport::TestCase
                           :user     => anon,
                           :activity => activity)
     assert_equal 1, te.errors.count
+  end
+
+  def test_spent_on_with_2_digits_year_should_not_be_valid
+    entry = TimeEntry.new(:project => Project.find(1), :user => User.find(1), :activity => TimeEntryActivity.first, :hours => 1)
+    entry.spent_on = "09-02-04"
+    assert !entry.valid?
+    assert_include I18n.translate('activerecord.errors.messages.not_a_date'), entry.errors[:spent_on]
   end
 
   def test_set_project_if_nil

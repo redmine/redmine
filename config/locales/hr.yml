@@ -156,7 +156,7 @@ hr:
   notice_not_authorized: Niste ovlašteni za pristup ovoj stranici.
   notice_email_sent: E-mail je poslan %{value}"
   notice_email_error: Dogodila se pogreška tijekom slanja E-maila (%{value})"
-  notice_feeds_access_key_reseted: Vaš RSS pristup je resetovan.
+  notice_feeds_access_key_reseted: Vaš Atom pristup je resetovan.
   notice_api_access_key_reseted: Vaš API pristup je resetovan.
   notice_failed_to_save_issues: "Neuspjelo spremanje %{count} predmeta na %{total} odabrane: %{ids}."
   notice_no_issue_selected: "Niti jedan predmet nije odabran! Molim, odaberite predmete koje želite urediti."
@@ -366,7 +366,6 @@ hr:
   permission_edit_own_time_entries: Edit own time logs
   permission_manage_news: Upravljaj novostima
   permission_comment_news: Komentiraj novosti
-  permission_manage_documents: Upravljaj dokumentima
   permission_view_documents: Pregledaj dokumente
   permission_manage_files: Upravljaj datotekama
   permission_view_files: Pregledaj datoteke
@@ -679,9 +678,9 @@ hr:
   label_language_based: Zasnovano na jeziku
   label_sort_by: "Uredi po %{value}"
   label_send_test_email: Pošalji testno E-pismo
-  label_feeds_access_key: RSS access key
-  label_missing_feeds_access_key: Missing a RSS access key
-  label_feeds_access_key_created_on: "RSS kljuc za pristup je napravljen prije %{value}"
+  label_feeds_access_key: Atom access key
+  label_missing_feeds_access_key: Missing a Atom access key
+  label_feeds_access_key_created_on: "Atom kljuc za pristup je napravljen prije %{value}"
   label_module_plural: Moduli
   label_added_time_by: "Promijenio %{author} prije %{age}"
   label_updated_time_by: "Dodao/la %{author} prije %{age}"
@@ -927,7 +926,6 @@ hr:
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"
   field_visible: Visible
-  setting_emails_header: Emails header
   setting_commit_logtime_activity_id: Activity for logged time
   text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
@@ -968,8 +966,6 @@ hr:
   text_scm_command: Command
   text_scm_command_version: Version
   label_git_report_last_commit: Report last commit for files and directories
-  text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.
-  text_scm_command_not_available: Scm command is not available. Please check settings on the administration panel.
   notice_issue_successful_create: Issue %{id} created.
   label_between: between
   setting_issue_group_assignment: Allow issue assignment to groups
@@ -1077,3 +1073,19 @@ hr:
   label_in_the_next_days: in the next
   label_in_the_past_days: in the past
   label_attribute_of_user: User's %{name}
+  text_turning_multiple_off: If you disable multiple values, multiple values will be
+    removed in order to preserve only one value per item.
+  label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents
+  label_gantt_progress_line: Progress line
+  setting_jsonp_enabled: Enable JSONP support
+  field_inherit_members: Inherit members
+  field_closed_on: Closed
+  field_generate_password: Generate password
+  setting_default_projects_tracker_ids: Default trackers for new projects
+  label_total_time: Ukupno
+  text_scm_config: You can configure your SCM commands in config/configuration.yml. Please restart the application after editing it.
+  text_scm_command_not_available: SCM command is not available. Please check settings on the administration panel.
+  setting_emails_header: Email header

@@ -163,7 +163,7 @@ bg:
   notice_not_authorized_archived_project: Проектът, който се опитвате да видите е архивиран. Ако смятате, че това не е правилно, обърнете се към администратора за разархивиране.
   notice_email_sent: "Изпратен e-mail на %{value}"
   notice_email_error: "Грешка при изпращане на e-mail (%{value})"
-  notice_feeds_access_key_reseted: Вашия ключ за RSS достъп беше променен.
+  notice_feeds_access_key_reseted: Вашия ключ за Atom достъп беше променен.
   notice_api_access_key_reseted: Вашият API ключ за достъп беше изчистен.
   notice_failed_to_save_issues: "Неуспешен запис на %{count} задачи от %{total} избрани: %{ids}."
   notice_failed_to_save_time_entries: "Невъзможност за запис на %{count} записа за използвано време от %{total} избрани: %{ids}."
@@ -180,7 +180,7 @@ bg:
   notice_account_deleted: Вашият профил беше премахнат без възможност за възстановяване.
   notice_user_successful_create: Потребител %{id} е създаден.
 
-  error_can_t_load_default_data: "Грешка при зареждане на примерната информация: %{value}"
+  error_can_t_load_default_data: "Грешка при зареждане на началната информация: %{value}"
   error_scm_not_found: Несъществуващ обект в хранилището.
   error_scm_command_failed: "Грешка при опит за комуникация с хранилище: %{value}"
   error_scm_annotate: "Обектът не съществува или не може да бъде анотиран."
@@ -217,7 +217,6 @@ bg:
   mail_subject_wiki_content_updated: "Wiki страницата '%{id}' беше обновена"
   mail_body_wiki_content_updated: Wiki страницата '%{id}' беше обновена от %{author}.
 
-
   field_name: Име
   field_description: Описание
   field_summary: Анотация
@@ -231,6 +230,7 @@ bg:
   field_author: Автор
   field_created_on: От дата
   field_updated_on: Обновена
+  field_closed_on: Затворена
   field_field_format: Тип
   field_is_for_all: За всички проекти
   field_possible_values: Възможни стойности
@@ -247,7 +247,7 @@ bg:
   field_is_closed: Затворена задача
   field_is_default: Състояние по подразбиране
   field_tracker: Тракер
-  field_subject: Относно
+  field_subject: Заглавие
   field_due_date: Крайна дата
   field_assigned_to: Възложена на
   field_priority: Приоритет
@@ -331,6 +331,8 @@ bg:
   field_timeout: Таймаут (в секунди)
   field_board_parent: Родителски форум
   field_private_notes: Лични бележки
+  field_inherit_members: Наследяване на членовете на родителския проект
+  field_generate_password: Генериране на парола
 
   setting_app_title: Заглавие
   setting_app_subtitle: Описание
@@ -359,7 +361,7 @@ bg:
   setting_cross_project_subtasks: Подзадачи от други проекти
   setting_issue_list_default_columns: Показвани колони по подразбиране
   setting_repositories_encodings: Кодова таблица на прикачените файлове и хранилищата
-  setting_emails_header: Emails header
+  setting_emails_header: Email header
   setting_emails_footer: Подтекст за e-mail
   setting_protocol: Протокол
   setting_per_page_options: Опции за страниране
@@ -399,6 +401,8 @@ bg:
   setting_thumbnails_enabled: Показване на миниатюри на прикачените изображения
   setting_thumbnails_size: Размер на миниатюрите (в пиксели)
   setting_non_working_week_days: Не работни дни
+  setting_jsonp_enabled: Разрешаване на поддръжка на JSONP
+  setting_default_projects_tracker_ids: Тракери по подразбиране за нови проекти
 
   permission_add_project: Създаване на проект
   permission_add_subprojects: Създаване на подпроекти
@@ -435,8 +439,10 @@ bg:
   permission_edit_own_time_entries: Редактиране на собствените time logs
   permission_manage_news: Управление на новини
   permission_comment_news: Коментиране на новини
-  permission_manage_documents: Управление на документи
   permission_view_documents: Разглеждане на документи
+  permission_add_documents: Добавяне на документи
+  permission_edit_documents: Редактиране на документи
+  permission_delete_documents: Изтриване на документи
   permission_manage_files: Управление на файлове
   permission_view_files: Разглеждане на файлове
   permission_manage_wiki: Управление на wiki
@@ -614,11 +620,12 @@ bg:
     one:   1 задача
     other: "%{count} задачи"
   label_total: Общо
+  label_total_time: Общо
   label_permissions: Права
   label_current_status: Текущо състояние
   label_new_statuses_allowed: Позволени състояния
   label_all: всички
-  label_any: която и да е
+  label_any: без значение
   label_none: никакви
   label_nobody: никой
   label_next: Следващ
@@ -781,9 +788,9 @@ bg:
   label_language_based: В зависимост от езика
   label_sort_by: "Сортиране по %{value}"
   label_send_test_email: Изпращане на тестов e-mail
-  label_feeds_access_key: RSS access ключ
-  label_missing_feeds_access_key: Липсващ RSS ключ за достъп
-  label_feeds_access_key_created_on: "%{value} от създаването на RSS ключа"
+  label_feeds_access_key: Atom access ключ
+  label_missing_feeds_access_key: Липсващ Atom ключ за достъп
+  label_feeds_access_key_created_on: "%{value} от създаването на Atom ключа"
   label_module_plural: Модули
   label_added_time_by: "Публикувана от %{author} преди %{age}"
   label_updated_time_by: "Обновена от %{author} преди %{age}"
@@ -827,7 +834,7 @@ bg:
   label_generate_key: Генериране на ключ
   label_issue_watchers: Наблюдатели
   label_example: Пример
-  label_display: Display
+  label_display: Показване
   label_sort: Сортиране
   label_ascending: Нарастващ
   label_descending: Намаляващ
@@ -877,13 +884,16 @@ bg:
   label_readonly: Само за четене
   label_required: Задължително
   label_attribute_of_project: Project's %{name}
+  label_attribute_of_issue: Issue's %{name}
   label_attribute_of_author: Author's %{name}
   label_attribute_of_assigned_to: Assignee's %{name}
+  label_attribute_of_user: User's %{name}
   label_attribute_of_fixed_version: Target version's %{name}
   label_cross_project_descendants: С подпроекти
   label_cross_project_tree: С дърво на проектите
   label_cross_project_hierarchy: С проектна йерархия
   label_cross_project_system: С всички проекти
+  label_gantt_progress_line: Линия на изпълнението
 
   button_login: Вход
   button_submit: Изпращане
@@ -1027,6 +1037,8 @@ bg:
   text_account_destroy_confirmation: "Сигурен/на ли сте, че желаете да продължите?\nВашият профил ще бъде премахнат без възможност за възстановяване."
   text_session_expiration_settings: "Внимание: промяната на тези установяваноя може да прекрати всички активни сесии, включително и вашата."
   text_project_closed: Този проект е затворен и е само за четене.
+  text_turning_multiple_off: Ако забраните възможността за повече от една стойност, повечето стойности ще бъдат
+    премахнати с цел да остане само по една стойност за поле.
 
   default_role_manager: Мениджър
   default_role_developer: Разработчик
@@ -1073,4 +1085,3 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  label_attribute_of_user: User's %{name}

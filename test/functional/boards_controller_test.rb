@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -67,6 +67,21 @@ class BoardsControllerTest < ActionController::TestCase
     assert topics.size > 1, "topics size was #{topics.size}"
     assert topics.first.sticky?
     assert topics.first.updated_on < topics.second.updated_on
+  end
+
+  def test_show_should_display_message_with_last_reply_first
+    Message.update_all(:sticky => 0)
+
+    # Reply to an old topic
+    old_topic = Message.where(:board_id => 1, :parent_id => nil).order('created_on ASC').first
+    reply = Message.new(:board_id => 1, :subject => 'New reply', :content => 'New reply', :author_id => 2)
+    old_topic.children << reply
+
+    get :show, :project_id => 1, :id => 1
+    assert_response :success
+    topics = assigns(:topics)
+    assert_not_nil topics
+    assert_equal old_topic, topics.first
   end
 
   def test_show_with_permission_should_display_the_new_message_form

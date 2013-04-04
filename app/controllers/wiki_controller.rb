@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -217,7 +217,7 @@ class WikiController < ApplicationController
     @versions = @page.content.versions.
       select("id, author_id, comments, updated_on, version").
       reorder('version DESC').
-      limit(@version_pages.items_per_page + 1).
+      limit(@version_pages.per_page + 1).
       offset(@version_pages.offset).
       all
 

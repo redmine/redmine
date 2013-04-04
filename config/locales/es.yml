@@ -203,7 +203,7 @@ es:
   button_list: Listar
   button_lock: Bloquear
   button_log_time: Tiempo dedicado
-  button_login: Conexión
+  button_login: Acceder
   button_move: Mover
   button_quote: Citar
   button_rename: Renombrar
@@ -451,7 +451,7 @@ es:
   label_f_hour: "%{value} hora"
   label_f_hour_plural: "%{value} horas"
   label_feed_plural: Feeds
-  label_feeds_access_key_created_on: "Clave de acceso por RSS creada hace %{value}"
+  label_feeds_access_key_created_on: "Clave de acceso por Atom creada hace %{value}"
   label_file_added: Fichero añadido
   label_file_plural: Archivos
   label_filter_add: Añadir el filtro
@@ -503,8 +503,8 @@ es:
   label_list: Lista
   label_loading: Cargando...
   label_logged_as: Conectado como
-  label_login: Conexión
-  label_logout: Desconexión
+  label_login: Iniciar sesión
+  label_logout: Terminar sesión
   label_max_size: Tamaño máximo
   label_me: yo mismo
   label_member: Miembro
@@ -551,7 +551,7 @@ es:
   label_permissions_report: Informe de permisos
   label_personalize_page: Personalizar esta página
   label_planning: Planificación
-  label_please_login: Conexión
+  label_please_login: Por favor, inicie sesión
   label_plugins: Extensiones
   label_precedes: anterior a
   label_preferences: Preferencias
@@ -615,7 +615,7 @@ es:
   label_start_to_end: principio a fin
   label_start_to_start: principio a principio
   label_statistics: Estadísticas
-  label_stay_logged_in: Recordar conexión
+  label_stay_logged_in: Mantener la sesión abierta
   label_string: Texto
   label_subproject_plural: Proyectos secundarios
   label_text: Texto largo
@@ -679,7 +679,7 @@ es:
   notice_email_error: "Ha ocurrido un error mientras enviando el correo (%{value})"
   notice_email_sent: "Se ha enviado un correo a %{value}"
   notice_failed_to_save_issues: "Imposible grabar %{count} peticion(es) de %{total} seleccionada(s): %{ids}."
-  notice_feeds_access_key_reseted: Su clave de acceso para RSS ha sido reiniciada.
+  notice_feeds_access_key_reseted: Su clave de acceso para Atom ha sido reiniciada.
   notice_file_not_found: La página a la que intenta acceder no existe.
   notice_locking_conflict: Los datos han sido modificados por otro usuario.
   notice_no_issue_selected: "Ninguna petición seleccionada. Por favor, compruebe la petición que quiere modificar"
@@ -713,7 +713,6 @@ es:
   permission_log_time: Anotar tiempo dedicado
   permission_manage_boards: Administrar foros
   permission_manage_categories: Administrar categorías de peticiones
-  permission_manage_documents: Administrar documentos
   permission_manage_files: Administrar ficheros
   permission_manage_issue_relations: Administrar relación con otras peticiones
   permission_manage_members: Administrar miembros
@@ -750,7 +749,7 @@ es:
   setting_app_title: Título de la aplicación
   setting_attachment_max_size: Tamaño máximo del fichero
   setting_autofetch_changesets: Autorellenar los commits del repositorio
-  setting_autologin: Conexión automática
+  setting_autologin: Inicio de sesión automático
   setting_bcc_recipients: Ocultar las copias de carbón (bcc)
   setting_commit_fix_keywords: Palabras clave para la corrección
   setting_commit_ref_keywords: Palabras clave para la referencia
@@ -911,11 +910,11 @@ es:
   label_revision_id: Revisión %{value}
   label_api_access_key: Clave de acceso de la API
   label_api_access_key_created_on: Clave de acceso de la API creada hace %{value}
-  label_feeds_access_key: Clave de acceso RSS
+  label_feeds_access_key: Clave de acceso Atom
   notice_api_access_key_reseted: Clave de acceso a la API regenerada.
   setting_rest_api_enabled: Activar servicio web REST
   label_missing_api_access_key: Clave de acceso a la API ausente
-  label_missing_feeds_access_key: Clave de accesso RSS ausente
+  label_missing_feeds_access_key: Clave de accesso Atom ausente
   button_show: Mostrar
   text_line_separated: Múltiples valores permitidos (un valor en cada línea).
   setting_mail_handler_body_delimiters: Truncar correos tras una de estas líneas
@@ -1031,85 +1030,97 @@ es:
   description_selected_columns: Columnas seleccionadas
   label_parent_revision: Padre
   label_child_revision: Hijo
-  setting_default_issue_start_date_to_creation_date: Use current date as start date for new issues
-  button_edit_section: Edit this section
-  setting_repositories_encodings: Attachments and repositories encodings
+  setting_default_issue_start_date_to_creation_date: Utilizar la fecha actual como fecha de inicio para nuevas peticiones
+  button_edit_section: Editar esta sección
+  setting_repositories_encodings: Codificación de adjuntos y repositorios
   description_all_columns: Todas las columnas
   button_export: Exportar
   label_export_options: "%{export_format} opciones de exportación"
   error_attachment_too_big: Este fichero no se puede adjuntar porque excede el tamaño máximo de fichero (%{max_size})
-  notice_failed_to_save_time_entries: "Error al guarda %{count} entradas de tiempo de las %{total} seleccionadas: %{ids}."
+  notice_failed_to_save_time_entries: "Error al guardar %{count} entradas de tiempo de las %{total} seleccionadas: %{ids}."
   label_x_issues:
     zero:  0 petición
     one:   1 petición
     other: "%{count} peticiones"
-  label_repository_new: New repository
-  field_repository_is_default: Main repository
-  label_copy_attachments: Copy attachments
+  label_repository_new: Nuevo repositorio
+  field_repository_is_default: Repositorio principal
+  label_copy_attachments: Copiar adjuntos
   label_item_position: "%{position}/%{count}"
-  label_completed_versions: Completed versions
-  text_project_identifier_info: Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.
-  field_multiple: Multiple values
-  setting_commit_cross_project_ref: Allow issues of all the other projects to be referenced and fixed
-  text_issue_conflict_resolution_add_notes: Add my notes and discard my other changes
-  text_issue_conflict_resolution_overwrite: Apply my changes anyway (previous notes will be kept but some changes may be overwritten)
-  notice_issue_update_conflict: The issue has been updated by an other user while you were editing it.
-  text_issue_conflict_resolution_cancel: Discard all my changes and redisplay %{link}
-  permission_manage_related_issues: Manage related issues
-  field_auth_source_ldap_filter: LDAP filter
-  label_search_for_watchers: Search for watchers to add
-  notice_account_deleted: Your account has been permanently deleted.
-  setting_unsubscribe: Allow users to delete their own account
-  button_delete_my_account: Delete my account
+  label_completed_versions: Versiones completadas
+  text_project_identifier_info: Solo se permiten letras en minúscula (a-z), números, guiones y barras bajas.<br />Una vez guardado, el identificador no se puede cambiar.
+  field_multiple: Valores múltiples
+  setting_commit_cross_project_ref: Permitir referenciar y resolver peticiones de todos los demás proyectos
+  text_issue_conflict_resolution_add_notes: Añadir mis notas y descartar mis otros cambios
+  text_issue_conflict_resolution_overwrite: Aplicar mis campos de todas formas (las notas anteriores se mantendrán pero algunos cambios podrían ser sobreescritos)
+  notice_issue_update_conflict: La petición ha sido actualizada por otro usuario mientras la editaba.
+  text_issue_conflict_resolution_cancel: Descartar todos mis cambios y mostrar de nuevo %{link}
+  permission_manage_related_issues: Gestionar peticiones relacionadas
+  field_auth_source_ldap_filter: Filtro LDAP
+  label_search_for_watchers: Buscar seguidores para añadirlos
+  notice_account_deleted: Su cuenta ha sido eliminada
+  setting_unsubscribe: Permitir a los usuarios borrar sus propias cuentas
+  button_delete_my_account: Borrar mi cuenta
   text_account_destroy_confirmation: |-
-    Are you sure you want to proceed?
-    Your account will be permanently deleted, with no way to reactivate it.
-  error_session_expired: Your session has expired. Please login again.
-  text_session_expiration_settings: "Warning: changing these settings may expire the current sessions including yours."
-  setting_session_lifetime: Session maximum lifetime
-  setting_session_timeout: Session inactivity timeout
-  label_session_expiration: Session expiration
-  permission_close_project: Close / reopen the project
-  label_show_closed_projects: View closed projects
-  button_close: Close
-  button_reopen: Reopen
-  project_status_active: active
-  project_status_closed: closed
-  project_status_archived: archived
-  text_project_closed: This project is closed and read-only.
-  notice_user_successful_create: User %{id} created.
-  field_core_fields: Standard fields
-  field_timeout: Timeout (in seconds)
-  setting_thumbnails_enabled: Display attachment thumbnails
-  setting_thumbnails_size: Thumbnails size (in pixels)
-  label_status_transitions: Status transitions
-  label_fields_permissions: Fields permissions
-  label_readonly: Read-only
-  label_required: Required
-  text_repository_identifier_info: Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.
-  field_board_parent: Parent forum
-  label_attribute_of_project: Project's %{name}
-  label_attribute_of_author: Author's %{name}
-  label_attribute_of_assigned_to: Assignee's %{name}
-  label_attribute_of_fixed_version: Target version's %{name}
-  label_copy_subtasks: Copy subtasks
-  label_copied_to: copied to
-  label_copied_from: copied from
-  label_any_issues_in_project: any issues in project
-  label_any_issues_not_in_project: any issues not in project
-  field_private_notes: Private notes
-  permission_view_private_notes: View private notes
-  permission_set_notes_private: Set notes as private
-  label_no_issues_in_project: no issues in project
+    ¿Está seguro de querer proceder?
+    Su cuenta quedará borrada permanentemente, sin la posibilidad de reactivarla.
+  error_session_expired: Su sesión ha expirado. Por favor, vuelva a identificarse.
+  text_session_expiration_settings: "Advertencia: el cambio de estas opciones podría hacer expirar las sesiones activas, incluyendo la suya."
+  setting_session_lifetime: Tiempo de vida máximo de las sesiones
+  setting_session_timeout: Tiempo máximo de inactividad de las sesiones
+  label_session_expiration: Expiración de sesiones
+  permission_close_project: Cerrar / reabrir el proyecto
+  label_show_closed_projects: Ver proyectos cerrados
+  button_close: Cerrar
+  button_reopen: Reabrir
+  project_status_active: activo
+  project_status_closed: cerrado
+  project_status_archived: archivado
+  text_project_closed: Este proyecto está cerrado y es de sólo lectura
+  notice_user_successful_create: Usuario %{id} creado.
+  field_core_fields: Campos básicos
+  field_timeout: Tiempo de inactividad (en segundos)
+  setting_thumbnails_enabled: Mostrar miniaturas de los adjuntos
+  setting_thumbnails_size: Tamaño de las miniaturas (en píxeles)
+  label_status_transitions: Transiciones de estado
+  label_fields_permissions: Permisos sobre los campos
+  label_readonly: Sólo lectura
+  label_required: Requerido
+  text_repository_identifier_info: Solo se permiten letras en minúscula (a-z), números, guiones y barras bajas.<br />Una vez guardado, el identificador no se puede cambiar.
+  field_board_parent: Foro padre
+  label_attribute_of_project: "%{name} del proyecto"
+  label_attribute_of_author: "%{name} del autor"
+  label_attribute_of_assigned_to: "%{name} de la persona asignada"
+  label_attribute_of_fixed_version: "%{name} de la versión indicada"
+  label_copy_subtasks: Copiar subtareas
+  label_copied_to: copiada a
+  label_copied_from: copiada desde
+  label_any_issues_in_project: cualquier petición del proyecto
+  label_any_issues_not_in_project: cualquier petición que no sea del proyecto
+  field_private_notes: Notas privadas
+  permission_view_private_notes: Ver notas privadas
+  permission_set_notes_private: Poner notas como privadas
+  label_no_issues_in_project: no hay peticiones en el proyecto
   label_any: todos
-  label_last_n_weeks: last %{count} weeks
-  setting_cross_project_subtasks: Allow cross-project subtasks
+  label_last_n_weeks: en las últimas %{count} semanas
+  setting_cross_project_subtasks: Permitir subtareas cruzadas entre proyectos
   label_cross_project_descendants: Con proyectos hijo
   label_cross_project_tree: Con el árbol del proyecto
   label_cross_project_hierarchy: Con la jerarquía del proyecto
   label_cross_project_system: Con todos los proyectos
-  button_hide: Hide
-  setting_non_working_week_days: Non-working days
-  label_in_the_next_days: in the next
-  label_in_the_past_days: in the past
-  label_attribute_of_user: User's %{name}
+  button_hide: Ocultar
+  setting_non_working_week_days: Días no laborables
+  label_in_the_next_days: en los próximos
+  label_in_the_past_days: en los anteriores
+  label_attribute_of_user: "%{name} del usuario"
+  text_turning_multiple_off: Si desactiva los valores múltiples, éstos serán eliminados para dejar un único valor por elemento.
+  label_attribute_of_issue: "%{name} de la petición"
+  permission_add_documents: Añadir documentos
+  permission_edit_documents: Editar documentos
+  permission_delete_documents: Borrar documentos
+  label_gantt_progress_line: Línea de progreso
+  setting_jsonp_enabled: Enable JSONP support
+  field_inherit_members: Inherit members
+  field_closed_on: Closed
+  field_generate_password: Generate password
+  setting_default_projects_tracker_ids: Default trackers for new projects
+  label_total_time: Total

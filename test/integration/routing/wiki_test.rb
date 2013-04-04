@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -53,6 +53,10 @@ class RoutingWikiTest < ActionController::IntegrationTest
          { :controller => 'wiki', :action => 'annotate', :project_id => '1',
            :id => 'CookBook_documentation', :version => '2' }
        )
+    # Make sure we don't route wiki page sub-uris to let plugins handle them
+    assert_raise(ActionController::RoutingError) do
+      assert_recognizes({}, {:method => 'get', :path => "/projects/1/wiki/CookBook_documentation/whatever"})
+    end
   end
 
   def test_wiki_misc

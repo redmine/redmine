@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -29,6 +29,7 @@ class CustomField < ActiveRecord::Base
 
   validate :validate_custom_field
   before_validation :set_searchable
+  after_save :handle_multiplicity_change
 
   scope :sorted, lambda { order("#{table_name}.position ASC") }
 
@@ -171,7 +172,7 @@ class CustomField < ActiveRecord::Base
       keyword
     end
   end
- 
+
   # Returns a ORDER BY clause that can used to sort customized
   # objects by their value of the custom field.
   # Returns nil if the custom field can not be used for sorting.
@@ -195,7 +196,7 @@ class CustomField < ActiveRecord::Base
 
   # Returns a GROUP BY clause that can used to group by custom value
   # Returns nil if the custom field can not be used for grouping.
-  def group_statement 
+  def group_statement
     return nil if multiple?
     case field_format
       when 'list', 'date', 'bool', 'int'
@@ -334,5 +335,21 @@ class CustomField < ActiveRecord::Base
       end
     end
     errs
+  end
+
+  # Removes multiple values for the custom field after setting the multiple attribute to false
+  # We kepp the value with the highest id for each customized object
+  def handle_multiplicity_change
+    if !new_record? && multiple_was && !multiple
+      ids = custom_values.
+        where("EXISTS(SELECT 1 FROM #{CustomValue.table_name} cve WHERE cve.custom_field_id = #{CustomValue.table_name}.custom_field_id" +
+          " AND cve.customized_type = #{CustomValue.table_name}.customized_type AND cve.customized_id = #{CustomValue.table_name}.customized_id" +
+          " AND cve.id > #{CustomValue.table_name}.id)").
+        pluck(:id)
+
+      if ids.any?
+        custom_values.where(:id => ids).delete_all
+      end
+    end
   end
 end
