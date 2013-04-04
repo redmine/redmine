@@ -64,65 +64,25 @@
 			<%= render :partial => 'members_box' %>
 		</section>
 		<!-- CUSTOM VALUE SECTION -->
-		<% @project.visible_custom_field_values.each do |custom_value| %>
-			<% if !custom_value.value.blank? %>
-				<% if custom_value.custom_field.name == 'GitHub repository' %>
-					<section id="repository">
-						<div class="page-header">
-							<h2>Repository</h2>
-						</div>
-						<p class="lead">
-							The source for this project is hosted on GitHub:  <a target="_blank" href='<%= h show_value(custom_value) %>'><%= h show_value(custom_value) %></a>
-						</p>
-					</section>
+		<% modeldb=getCustomField(@project,'ModelDB reference') %>
+		<% original=getCustomField(@project,'Original format') %>
+		<% if (modeldb!=nil and  modeldb!="") or (original!=nil and original!="") %>
+			<section id="references">
+				<div class="page-header">
+					<h2>References</h2>
+				</div>
+				<% if modeldb!=nil and  modeldb!="" %>
+					<p class="lead">The original published version of this model is available on
+					<% if !modeldb.starts_with? 'http://senselab.med.yale.edu/ModelDB/ShowModel.asp?model=' %>
+						<a target="_blank" href="http://senselab.med.yale.edu/ModelDB/ShowModel.asp?model=<%= h modeldb %>"> <img alt="ModelDB" border="0" src="../images/modeldb.gif"/></a>
+					<% else %>
+						<a target="_blank" href="<%= h modeldb %>"> <img alt="ModelDB" border="0" src="../images/modeldb.gif"/></a>
+					<% end %>
 				<% end %>
-				<% if custom_value.custom_field.name == 'BitBucket repository' %>
-					<% @repourl=custom_value.value %>
-					<section id="repository">
-						<div class="page-header">
-							<h2>Repository</h2>
-						</div>
-						<p class="lead">
-							The source for this project is hosted on BitBucket:  <a target="_blank" href='<%= h show_value(custom_value) %>'><%= h show_value(custom_value) %></a>
-						</p>
-					</section>
+				<% if original!=nil and original!="" %>
+					<p class="lead">This model was originally developed in: <b><%= h original %></b></p>
 				<% end %>
-				<% if custom_value.custom_field.name == 'NeuroML version' %>
-					<% @repourl=custom_value.value %>
-					<section id="repository">
-						<div class="page-header">
-							<h2>NeuroML compatibility</h2>
-						</div>
-						<p class="lead">
-							The minimum version of NeuroML for this model is: <b><%= h show_value(custom_value) %></b>
-						</p>
-					</section>
-				<% end %>
-				<% if custom_value.custom_field.name == 'ModelDB reference' %>
-					<% @repourl=custom_value.value %>
-					<section id="references">
-						<div class="page-header">
-							<h2>References</h2>
-						</div>
-						<p class="lead">The original published version of this model is available on ModelDB:</p>
-						<% if !show_value(custom_value).starts_with? 'http://senselab.med.yale.edu/ModelDB/ShowModel.asp?model=' %>
-						<p>
-							<a target="_blank" href="http://senselab.med.yale.edu/ModelDB/ShowModel.asp?model=<%= h show_value(custom_value) %>"> <img alt="ModelDB" border="0" src="../images/modeldb.gif"/></a>
-						</p>
-						<% else %>
-						<p>
-							<a target="_blank" href="<%= h show_value(custom_value) %>"> <img alt="ModelDB" border="0" src="../images/modeldb.gif"/></a>
-						</p>
-						<% end %>
-				<% elsif custom_value.custom_field.name == 'Original format' %>
-					<section id="references">
-						<div class="page-header">
-							<h2>References</h2>
-						</div>
-						<p class="lead">This model was originally developed in: <b><%= h show_value(custom_value) %></b></p>
-					</section>
-				<% end %>
-			<% end %>
+				</section>
 		<% end %>
 		<% html_title(l(:label_overview)) -%>
 	</div>

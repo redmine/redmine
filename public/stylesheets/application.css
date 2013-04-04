@@ -365,7 +365,7 @@ tr.open span.expander:before {
 	opacity: 1;
 }
 .bs-docs-sidenav.affix {
-	top: 100px;
+	top: 40px;
 }
 .bs-docs-sidenav.affix-bottom {
 	position: absolute;
@@ -441,8 +441,11 @@ tr.open span.expander:before {
  -------------------------------------------------- */
 
 /* padding for in-page bookmarks and fixed navbar */
+section:first-child {
+	padding-top: 30px;
+}
 section {
-	padding-top: 60px;
+	padding-top: 20px;
 }
 section > .page-header, section > .lead {
 	color: #5a5a5a;
