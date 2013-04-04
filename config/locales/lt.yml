@@ -408,7 +408,7 @@ lt:
   setting_emails_header: Laiško antraštė
   setting_emails_footer: Laiško paraštė
   setting_protocol: Protokolas
-  setting_per_page_options: Įrašų puslapyje nustatymas  
+  setting_per_page_options: Įrašų puslapyje nustatymas
   setting_user_format: Vartotojo atvaizdavimo formatas
   setting_activity_days_default: Atvaizduojamos dienos projekto veikloje
   setting_display_subprojects_issues: Pagal nutylėjimą rodyti sub-projektų darbus pagrindiniame projekte
@@ -527,7 +527,7 @@ lt:
   label_issues_by: "Darbai pagal %{value}"
   label_issue_added: Darbas pridėtas
   label_issue_updated: Darbas atnaujintas
-  label_issue_note_added: Pastaba pridėta 
+  label_issue_note_added: Pastaba pridėta
   label_issue_status_updated: Statusas atnaujintas
   label_issue_priority_updated: Prioritetas atnaujintas
   label_document: Dokumentas
@@ -801,7 +801,7 @@ lt:
   label_language_based: Pagrįsta vartotojo kalba
   label_sort_by: "Rūšiuoti pagal %{value}"
   label_send_test_email: Nusiųsti bandomąjį laišką
-  label_feeds_access_key: Atom prieigos raktas 
+  label_feeds_access_key: Atom prieigos raktas
   label_missing_feeds_access_key: Trūksta Atom prieigos rakto
   label_feeds_access_key_created_on: "Atom prieigos raktas sukurtas prieš %{value}"
   label_module_plural: Moduliai
@@ -817,7 +817,7 @@ lt:
   label_bulk_edit_selected_time_entries: Masiškai redaguotumėte pasirinktus laiko įrašus
   label_theme: Tema
   label_default: Numatyta(-as)
-  label_search_titles_only: Ieškoti tiktai pavadinimų 
+  label_search_titles_only: Ieškoti tiktai pavadinimų
   label_user_mail_option_all: "Bet kokiam įvykiui visuose mano projektuose"
   label_user_mail_option_selected: "Bet kokiam įvykiui tiktai pasirinktuose projektuose ..."
   label_user_mail_option_none: "Nėra įvykių"
