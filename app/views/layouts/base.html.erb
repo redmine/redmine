@@ -62,7 +62,9 @@
 								<br/><br/>
 								<%= getProjectBreadcrumb(@project) %>
 							<% else %>
-								<span class="label label-warning tooltiplink" data-toggle='tooltip' data-placement='right' title='This project has not been certified yet by OSB.'>Uncertified project</span>
+								<% if getCustomField(@project,"Category")=="Project" %>
+									<span class="label label-warning tooltiplink" data-toggle='tooltip' data-placement='right' title='This project has not been certified yet by OSB.'>Uncertified project</span>
+								<% end %>
 								<br/><br/>
 							<% end %>
 							<div class="navbar">
