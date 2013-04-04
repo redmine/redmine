@@ -1,76 +1,35 @@
-<h2>About</h2>
-
-<div class="splitcontentleft">
-
-  <%= textilizable Setting.welcome_text %>
-<br/>
-
-<h2>What types of models can be developed?</h2>
-<p>Models of information processing in the nervous system are created at many levels, from high level models of cognitive processes and consciousness to low level models of signal transduction at synapses. In the near term the OSB will focus on <b>spiking neuron models</b>, i.e. networks of individual neurons which communicate through sending events to synapses on target cells. The core set of models currently under development in the OSB are <a href="http://www.scholarpedia.org/article/Conductance-based">conductance based models</a> of (often <a href="http://www.scholarpedia.org/article/Compartmental_models">multicompartmental</a>) neurons. This class of neuronal model is particularly suited to collaborative development, as models of channels and synapses, or whole cell models, are often reused between studies, and the models themselves are complex software entities. The focus of NeuroML v1.x was on this type of model, but with <a href="http://www.neuroml.org/neuroml2">version 2.0</a> support has been extended to more abstract neuron models (e.g. leaky integrate and fire, adaptive threshold models). </p>
-
-<p>While converting the model components to NeuroML will be a key step towards increasing model transparency and accessibility and making them available for use on multiple simulators, other cross platform technologies will be used to assist model portability. <a href="http://www.Python.org">Python</a> is a scripting language commonly used in computational neuroscience and has been adopted by a number of the target simulators for OSB models. <a href="http://neuralensemble.org/trac/PyNN">PyNN</a> is a Python package for simulator independent specification of neuronal network models, and will be useful for procedural specification of complex network structures. The Simulation Experiment Description
-Markup Language (<a href="http://sed-ml.org/">SED-ML</a>) will be used for specifying settings for running simulations of the models. Mappings of the model components in OSB to other structured languages in computational biology will be supported too where appropriate, such as <a href="http://www.sbml.org">SBML</a>, <a href="http://www.cellml.org">CellML</a> and <a href="http://www.NineML.org">NineML</a>.</p>
-
- <br/>
- 
-<h2>Who's behind it?</h2>
-<p>This project was started in the <a href="http://www.ucl.ac.uk/silverlab/">Silver Lab</a> 
- at <a href="http://www.ucl.ac.uk">UCL</a> as part of a <a href="http://www.wellcome.ac.uk/">Wellcome Trust</a> funded project to
- encourage collaborative development of models in computational neuroscience.</p>
- 
-<a href="http://www.wellcome.ac.uk/"><img border="0" title="Funding for this work was received from the Wellcome Trust" alt="Funding for this work was received from the Wellcome Trust" src="http://www.neuroconstruct.org/images/wct.png"></a>
- 
- <p>A number of research groups and organizations are currently involved in the Open Source Brain Initiative. See list on the right for more details.</p>
- 
- <br/>
-<h2>How is this related to other neuroinformatics initiatives?</h2>
-<p>We are very keen to have close links with other databases and repositories for neuroinformatics and computational neuroscience. Many of these will be enabled through
-common use of NeuroML, as is used by <a href="http://neuromorpho.org">NeuroMorpho.org</a>, and a number of <a href="http://www.neuroml.org/tool_support">other tools and resources</a>. <a href="http://neuralensemble.org/">NeuralEnsemble</a> hosts a number of software tools which will play a key part in simulating and analysing the models in the OSB.</p>
-
-<p>We are also planning deep links to databases such as <a href="http://senselab.med.yale.edu/modeldb/">ModelDB</a> for original model scripts and 
-<a href="http://neurolex.org/wiki/Main_Page">NIF/NeuroLex</a> for definitions of model components. Greater support for <a href="http://www.sbml.org">SBML</a>, <a href="http://www.cellml.org">CellML</a> in NeuroML v2.0 will enable greater interaction with the <a href="http://www.ebi.ac.uk/biomodels-main/">BioModels database</a> and the <a href="http://models.cellml.org/cellml">CellML Model Repository</a>.</p>
-
-<p>A number of the contributors to this initiative are involved with the various national nodes of the <a href="http://www.incf.org">INCF</a>.</p>
-
-<p><a href="http://www.incf.org/"><img border="0" alt="INCF" src="images/incf.png"></a></p>
-
-<br/>
-<h2>How can I contribute?</h2>
-
-<p>The Open Source Brain Repository is still at an early stage of development. We are happy to hear from 
-anyone interested in helping out with this initiative. We are particularly keen to get modellers or software developers in computational neuroscience involved.
-Please <a href="../account/register">sign up here</a>, or join the <b><a href="https://groups.google.com/forum/#!forum/osb-announce">OSB Announce mailing list</a></b> to get regular updates of progress!.</p>
- 
-
+<div class="row pull-right lead sidetitle ">About OSB <i class="icon-group"></i></div>
+<br/></br/></br/><br/>
+<div>
+	<div class="marketing">
+		<h1>What?</h1>
+		<p class="marketing-byline">
+		<br/><strong>Open Source Brain</strong> is a resource for sharing and collaboratively developing computational models of neural systems. Open Source Brain facilitates development of computational neuronal models by providing facilities to analyse, visualise and share them. 
+			<br/><br/>
+			While the models can be collaboratively developed in any format, the ultimate goal is to help the computational community to share their models in <a href="http://www.neuroml.org">NeuroML</a>, a common standardised format which ensures transparency, modularity, accessibility and cross simulator portability.
+		</p>
+		<hr class="soften">
+		<h1>Why?</h1>
+		<p class="marketing-byline">
+			<br/>
+			There are an increasing number of detailed single neuron and network models from various brain regions becoming available which encapsulate the latest data on anatomical and electrophysiological properties of the systems being investigated. These complex models take a long time to develop and are normally only available in one of many incompatible, simulator specific formats. 			
+		</p>
+		<hr class="soften">
+		<h1>Who?</h1>
+		<p class="marketing-byline">
+			<br/>		
+			Open Source Brain is currently developed by the <a href="http://www.ucl.ac.uk/silverlab/">Silver Lab</a> at <a href="http://www.ucl.ac.uk">UCL</a> as part of a <a href="http://www.wellcome.ac.uk/">Wellcome Trust</a> funded project to encourage collaborative development of models in computational neuroscience.
+			<br/>A number of research groups and organizations from all over the world are currently actively developing and sharing their neuronal models on OSB.</p>
+ 			<br/>
+ 			<div id="aboutmap">
+				<div class="pull-left">
+					<br/>
+					<% for group in @groups %>
+						<p class="labname"> <a href="<%=  group.custom_field_values[0] %>"><%=  group.name %> </a></p>
+					<% end %>
+					<% @group = nil %>
+				</div>
+			</div>
+	</div>
 </div>
 
-<div class="splitcontentright">
- <p>The following research groups and organizations are involved in the Open Source Brain Initiative:</p>
-
-		<% for group in @groups %>
-            <div class="boxgroup">
-		        <% @group = group %>
-		    
-		        <h4> <a href="<%=  @group.custom_field_values[0] %>"><%=  @group.name %> </a></h4>
-		        <table width="100%"><tr><td>
-		        <p>Principal investigator: <b><%= @group.custom_field_values[1] %></b> </p>
-		        <p><%= @group.custom_field_values[3] %>, <%= @group.custom_field_values[2] %>   </p>
-		        <ul>
-		            <% @group.users.each do |user| %>
-                        <li><%= link_to_user user %></li>
-                    <% end %>
-		        </ul></td><td align="right">
-		       <!-- Obtained from http://findicons.com/pack/282/flags -->
-		       <img src="images/<%= @group.custom_field_values[4] %>.png" alt="<%= @group.custom_field_values[4] %>"/></td></tr></table>
-		      
-            </div>
-		<% end %>
-        <% @group = nil %>
-</div>
-
-<% content_for :header_tags do %>
-<%= auto_discovery_link_tag(:atom, {:controller => 'news', :action => 'index', :key => User.current.rss_key, :format => 'atom'},
-                                   :title => "#{Setting.app_title}: #{l(:label_news_latest)}") %>
-<%= auto_discovery_link_tag(:atom, {:controller => 'activities', :action => 'index', :key => User.current.rss_key, :format => 'atom'},
-                                   :title => "#{Setting.app_title}: #{l(:label_activity)}") %>
-<% end %>

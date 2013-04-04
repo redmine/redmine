@@ -1146,3 +1146,24 @@ iframe {
 	margin-top: 5px;
 }
 
+#aboutmap{
+	width: 1000px;
+	height: 470px;
+	margin:0 auto;
+	background-image: url("/images/aboutmap.png");
+}
+
+@media all and (-webkit-min-device-pixel-ratio: 1.5) {
+	#aboutmap {
+		background-image: url('/images/aboutmap@2x.png');
+		background-size: 1000px 470px;
+	}
+}
+
+.labname a{
+	font-weight: 200;
+	line-height:6px;
+	font-size:12px;
+	text-transform:uppercase;
+	color:#444444;
+}
