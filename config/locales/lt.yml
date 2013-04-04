@@ -974,7 +974,7 @@ lt:
   text_issue_category_destroy_assignments: Pašalinti kategorijos užduotis
   text_issue_category_reassign_to: Iš naujo priskirti darbus šiai kategorijai
   text_user_mail_option: "Neišrinktiems projektams, jūs gausite tiktai pranešimus apie tuos įvykius, kuriuos jūs stebite, arba į kuriuos esate įtrauktas (pvz. darbai, kurių autorius jūs esate  ar esate priskirtas)."
-  text_no_configuration_data: "Vaidmenys, pėdsekiai, darbų būsenos ir darbų eiga dar nebuvo konfigūruoti. \n Griežtai rekomenduojam užkrauti numatytąją (default) konfigūraciją. Užkrovus, galėsite ją modifikuoti."
+  text_no_configuration_data: "Vaidmenys, pėdsekiai, darbų būsenos ir darbų eiga dar nebuvo konfigūruoti.\nGriežtai rekomenduojam užkrauti numatytąją (default) konfigūraciją. Užkrovus, galėsite ją modifikuoti."
   text_load_default_configuration: Užkrauti numatytąją konfigūraciją
   text_status_changed_by_changeset: "Pakeista %{value} revizijoje."
   text_time_logged_by_changeset: "Applied in changeset %{value}."
@@ -994,14 +994,14 @@ lt:
   text_enumeration_destroy_question: "%{count} objektai(ų) priskirti šiai reikšmei."
   text_enumeration_category_reassign_to: 'Priskirti juos šiai reikšmei:'
   text_email_delivery_not_configured: "El.pašto siuntimas nesukonfigūruotas, ir perspėjimai neaktyvus.\nSukonfigūruokite savo SMTP serverį byloje config/configuration.yml ir perleiskite programą norėdami pritaikyti pakeitimus."
-  text_repository_usernames_mapping: "Parinkite ar atnaujinkite Redmine vartotoją, kuris paminėtas saugyklos žurnale.\n Vartotojai, turintys tą patį Redmine ir saugyklos vardą ar el. paštą yra automatiškai surišti."
+  text_repository_usernames_mapping: "Parinkite ar atnaujinkite Redmine vartotoją, kuris paminėtas saugyklos žurnale.\nVartotojai, turintys tą patį Redmine ir saugyklos vardą ar el. paštą yra automatiškai surišti."
   text_diff_truncated: "... Šis diff'as nukarpytas, nes jis viršijo maksimalų rodomų eilučių skaičių."
   text_custom_field_possible_values_info: 'Po vieną eilutę kiekvienai reikšmei'
   text_wiki_page_destroy_question: "Šis puslapis turi %{descendants} susijusių arba išvestinių puslapių. Ką norėtumėte daryti?"
   text_wiki_page_nullify_children: Laikyti susijusius puslapius kaip pagrindinius puslapius
   text_wiki_page_destroy_children: "Pašalinti susijusius puslapius ir jų palikuonis"
   text_wiki_page_reassign_children: "Priskirkite iš naujo 'susijusius' puslapius šiam pagrindiniam puslapiui"
-  text_own_membership_delete_confirmation: "Jūs esate pasiruošęs panaikinti dalį arba visus leidimus ir po šio pakeitimo galite prarasti šio projekto redagavimo galimybę. \n Ar jūs esate įsitikinęs ir tęsti?"
+  text_own_membership_delete_confirmation: "Jūs esate pasiruošęs panaikinti dalį arba visus leidimus ir po šio pakeitimo galite prarasti šio projekto redagavimo galimybę.\nAr jūs esate įsitikinęs ir tęsti?"
   text_zoom_in: Priartinti
   text_zoom_out: Nutolinti
   text_warn_on_leaving_unsaved: "Dabartinis puslapis turi neišsaugoto teksto, kuris bus prarastas, jeigu paliksite šį puslapį."
