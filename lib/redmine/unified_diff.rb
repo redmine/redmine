@@ -199,7 +199,7 @@ module Redmine
         while starting < max && line_left[starting] == line_right[starting]
           starting += 1
         end
-        unless "".respond_to?(:force_encoding)
+        if (! "".respond_to?(:force_encoding)) && starting < line_left.size
           while line_left[starting].ord.between?(128, 191) && starting > 0
             starting -= 1
           end
@@ -208,7 +208,7 @@ module Redmine
         while ending >= -(max - starting) && line_left[ending] == line_right[ending]
           ending -= 1
         end
-        unless "".respond_to?(:force_encoding)
+        if (! "".respond_to?(:force_encoding)) && ending > (-1 * line_left.size)
           while line_left[ending].ord.between?(128, 191) && ending > -1
             ending -= 1
           end
