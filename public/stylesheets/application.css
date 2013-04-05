@@ -1167,3 +1167,12 @@ iframe {
 	text-transform:uppercase;
 	color:#444444;
 }
+
+.twitterbutton{
+	font-size:20px;
+	text-decoration: none;
+	line-height:8px;
+}
+.twitterbutton:hover{
+	text-decoration: none;
+}
