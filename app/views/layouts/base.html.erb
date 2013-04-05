@@ -59,7 +59,7 @@
 					  		<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
 							<% if isApproved?(@project) %>
 								<span class="label label-success tooltiplink" data-toggle='tooltip' data-placement='right' title='This project is certified by OSB and is officially supported.'>OSB Certified project</span>
-								<a class="twitterbutton icon-twitter-sign tweet-btn" href="https://twitter.com/share" data-url="<%= url_for(:only_path => false) %>" data-text="Checkout <%= @project.name %> project on Open Source Brain! via @osbteam" target="_blank"></a>
+								<a class="twitterbutton icon-twitter-sign" href="https://twitter.com/share?text=Checkout <%= @project.name %> project on Open Source Brain! via @osbteam&tw_p=tweetbutton&url=<%= Rack::Utils.escape(url_for(:only_path => false)) %>" target="_blank"></a>
 								<%= getTooltipedBadge(@project,'Curation level','Physiological accuracy ','The physiological accuracy OSB rank for this project.') %>
 								<br/><br/>
 								<%= getProjectBreadcrumb(@project) %>
