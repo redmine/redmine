@@ -173,7 +173,7 @@
 					<div class="span9 tab-content">
 						<% for user in @users %>
 							<div class="tab-pane" id="user<%= user.id %>">
-						        <h3> <a class="capitalize" href=""><%=  user.name %></a></h3>
+						        <h3> <a class="capitalize" href="<%= user_path(user) %>"><%=  user.name %></a></h3>
 						        <% @memberships = user.memberships.all(:conditions => Project.visible_condition(User.current)) %>
 						        <% unless @memberships.empty? %>
 									<h4><icon class="icon-folder-close"></icon> <%=l(:label_project_plural)%></h4>
