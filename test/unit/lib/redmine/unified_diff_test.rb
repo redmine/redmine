@@ -244,6 +244,70 @@ DIFF
     end
   end
 
+  def test_offset_range_ascii_1
+    raw = <<-DIFF
+--- a.txt	2013-04-05 14:19:39.000000000 +0900
++++ b.txt	2013-04-05 14:19:51.000000000 +0900
+@@ -1,3 +1,3 @@
+ aaaa
+-abc
++abcd
+ bbbb
+DIFF
+    diff = Redmine::UnifiedDiff.new(raw, :type => 'sbs')
+    assert_equal 1, diff.size
+    assert_equal 3, diff.first.size
+    assert_equal "abc<span></span>", diff.first[1].html_line_left
+    assert_equal "abc<span>d</span>", diff.first[1].html_line_right
+  end
+
+  def test_offset_range_ascii_2
+    raw = <<-DIFF
+--- a.txt	2013-04-05 14:19:39.000000000 +0900
++++ b.txt	2013-04-05 14:19:51.000000000 +0900
+@@ -1,3 +1,3 @@
+ aaaa
+-abc
++zabc
+ bbbb
+DIFF
+    diff = Redmine::UnifiedDiff.new(raw, :type => 'sbs')
+    assert_equal 1, diff.size
+    assert_equal 3, diff.first.size
+    assert_equal "<span></span>abc", diff.first[1].html_line_left
+    assert_equal "<span>z</span>abc", diff.first[1].html_line_right
+  end
+
+  def test_offset_range_japanese_1
+    ja1 = "\xe6\x97\xa5\xe6\x9c\xac<span></span>"
+    ja1.force_encoding('UTF-8') if ja1.respond_to?(:force_encoding)
+    ja2 = "\xe6\x97\xa5\xe6\x9c\xac<span>\xe8\xaa\x9e</span>"
+    ja2.force_encoding('UTF-8') if ja2.respond_to?(:force_encoding)
+    with_settings :repositories_encodings => '' do
+      diff = Redmine::UnifiedDiff.new(
+               read_diff_fixture('issue-13644-1.diff'), :type => 'sbs')
+      assert_equal 1, diff.size
+      assert_equal 3, diff.first.size
+      assert_equal ja1, diff.first[1].html_line_left
+      assert_equal ja2, diff.first[1].html_line_right
+    end
+  end
+
+  def test_offset_range_japanese_2
+    ja1 = "<span></span>\xe6\x97\xa5\xe6\x9c\xac"
+    ja1.force_encoding('UTF-8') if ja1.respond_to?(:force_encoding)
+    ja2 = "<span>\xe3\x81\xab\xe3\x81\xa3\xe3\x81\xbd\xe3\x82\x93</span>\xe6\x97\xa5\xe6\x9c\xac"
+    ja2.force_encoding('UTF-8') if ja2.respond_to?(:force_encoding)
+    with_settings :repositories_encodings => '' do
+      diff = Redmine::UnifiedDiff.new(
+               read_diff_fixture('issue-13644-2.diff'), :type => 'sbs')
+      assert_equal 1, diff.size
+      assert_equal 3, diff.first.size
+      assert_equal ja1, diff.first[1].html_line_left
+      assert_equal ja2, diff.first[1].html_line_right
+    end
+  end
+
   private
 
   def read_diff_fixture(filename)
