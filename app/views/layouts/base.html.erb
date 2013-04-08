@@ -52,7 +52,8 @@
 				<div id="main" class="container">
 					<br/></br/><br/>
 					<% if display_main_menu?(@project) %>
-						<% isAProject =  getCustomField(@project,"Category")=="Project" %>
+						<% category =  getCustomField(@project,"Category")  %>
+						<% isAProject = (category=="Project" or category=="Showcase") %>
 						<!-- If we are inside a project then we show the project header -->
 						<% @neuroml2files = getNML2Files(@project.repository) %>
 						<div id="mainheader" class="page-header">
@@ -65,10 +66,10 @@
 								<br/><br/>
 								<%= getProjectBreadcrumb(@project) %>
 							<% else %>
-								<a class="twitterbutton icon-twitter-sign tweet-btn" href="https://twitter.com/share" data-url="http://www.opensourcebrain.org/" data-text="Check out Open Source Brain @osbteam, a repository to share computational neuronal models!" target="_blank"></a>								
 								<% if isAProject %>
 									<span class="label label-warning tooltiplink" data-toggle='tooltip' data-placement='right' title='This project has not been certified yet by OSB.'>Uncertified project</span>
 								<% end %>
+								<a class="twitterbutton icon-twitter-sign tooltiplink clickable" data-toggle='tooltip' data-placement='right' title='Share on Twitter!' href="https://twitter.com/share?text=Checkout <%= @project.name %> project on Open Source Brain! via @osbteam&tw_p=tweetbutton&url=<%= Rack::Utils.escape(url_for(:only_path => false)) %>" target="_blank"></a>
 								<br/><br/>
 							<% end %>
   							

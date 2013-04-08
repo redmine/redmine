@@ -1180,3 +1180,10 @@ iframe {
 .clickable{
 	cursor:pointer!important;
 }
+
+.welcome{
+	font-weight:100;
+	font-size:50pt;
+	color:#777777;
+	margin-left:-30px;
+}
