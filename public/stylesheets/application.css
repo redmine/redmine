@@ -1176,3 +1176,7 @@ iframe {
 .twitterbutton:hover{
 	text-decoration: none;
 }
+
+.clickable{
+	cursor:pointer!important;
+}
