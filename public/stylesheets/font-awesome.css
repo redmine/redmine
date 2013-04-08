@@ -31,9 +31,14 @@
 }
 /*  Font Awesome styles
     ------------------------------------------------------- */
+   
+[class^="icon-"]:before,
+[class*=" icon-"]:before{
+  font-family: FontAwesome;
+}
+
 [class^="icon-"],
 [class*=" icon-"] {
-  font-family: FontAwesome;
   font-weight: normal;
   font-style: normal;
   text-decoration: inherit;

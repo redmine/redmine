@@ -1171,7 +1171,7 @@ iframe {
 .twitterbutton{
 	font-size:20px;
 	text-decoration: none;
-	line-height:8px;
+	vertical-align:middle;
 }
 .twitterbutton:hover{
 	text-decoration: none;
