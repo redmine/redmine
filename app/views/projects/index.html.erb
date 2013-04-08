@@ -1,12 +1,5 @@
 <div class="explore-view view">
 	<p class="lead">Explore Open Source Brain</p>
-	
-	<!--<% if !(request.env["HTTP_USER_AGENT"] =~ /MSIE/)%>
-		<p class="lead">Click on a node to expand or collapse. Projects are shown in <b class="blue">blue</b>, click on them to open the project page.</p>
-	<% else %>
-		<p class="lead">Switch to Google Chrome or Mozilla Firefox to enhanced visualization.</p>
-	<% end %>-->
-
 	<!-- This begins the vertical tab on the left-->
 	<div class="tabbable tabs-left">
 		<ul class="nav nav-tabs">
@@ -29,8 +22,14 @@
 					<!-- This begins the graph or list section -->
 					<div class="tab-content">
 					    <div class="tab-pane active" id="graph">
-					    	<div id="body"></div>
-							<p id="jsontree" style="display: none;"><%= createJSONProjectTree(@projects)%><p>	
+					    	<% if request.env["HTTP_USER_AGENT"] =~ /MSIE/ %>
+								<div class="alert">
+								  <button type="button" class="close" data-dismiss="alert">&times;</button>
+								  <strong>Warning!</strong> Graph visualisation is not compatible with Internet Explorer. <br/> Please switch to <a href="https://www.google.com/intl/en/chrome/browser/" target="_blank">Google Chrome</a>	or <a href="http://www.mozilla.org/en-US/firefox/new/" target="_blank">Mozilla Firefox</a> for the tree view.</div>
+					    	<% else %>
+					    		<div id="body"></div>
+								<p id="jsontree" style="display: none;"><%= createJSONProjectTree(@projects)%><p>
+							<% end %>	
 					    </div>
 					    <div class="tab-pane row-fluid" id="listcells">
 					    	<div class="span4 navbar">
