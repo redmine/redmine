@@ -60,14 +60,14 @@
 					  		<h1 id="pname"><%= @project.name %><small id="author"> </small></h1>
 					  		<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
 							<% if isApproved?(@project) %>
-								<span class="label label-success tooltiplink" data-toggle='tooltip' data-placement='right' title='This project is certified by OSB and is officially supported.'>OSB Certified project</span>
-								<a class="twitterbutton icon-twitter-sign tooltiplink clickable" data-toggle='tooltip' data-placement='right' title='Share on Twitter!' href="https://twitter.com/share?text=Checkout <%= @project.name %> project on Open Source Brain! via @osbteam&tw_p=tweetbutton&url=<%= Rack::Utils.escape(url_for(:only_path => false)) %>" target="_blank"></a>
+								<span class="label label-success tooltiplink" data-toggle='tooltip' data-placement='right' title='This project is endorsed by OSB and is officially supported.'>OSB endorsed project</span>
+								<a class="twitterbutton icon-twitter-sign tooltiplink clickable" data-toggle='tooltip' data-placement='right' title='Share on Twitter!' href="https://twitter.com/share?text=Check out the <%= @project.name %> project on Open Source Brain! via @osbteam&tw_p=tweetbutton&url=<%= Rack::Utils.escape(url_for(:only_path => false)) %>" target="_blank"></a>
 								<!-- <%= getTooltipedBadge(@project,'Curation level','Physiological accuracy ','The physiological accuracy OSB rank for this project.') %> -->
 								<br/><br/>
 								<%= getProjectBreadcrumb(@project) %>
 							<% else %>
 								<% if isAProject %>
-									<span class="label label-warning tooltiplink" data-toggle='tooltip' data-placement='right' title='This project has not been certified yet by OSB.'>Uncertified project</span>
+									<span class="label label-warning tooltiplink" data-toggle='tooltip' data-placement='right' title='This is a personal user project and has not yet been endorsed by OSB. Please get in contact (info@opensourcebrain.org) to have this project endorsed!'>User project</span>
 								<% end %>
 								<a class="twitterbutton icon-twitter-sign tooltiplink clickable" data-toggle='tooltip' data-placement='right' title='Share on Twitter!' href="https://twitter.com/share?text=Checkout <%= @project.name %> project on Open Source Brain! via @osbteam&tw_p=tweetbutton&url=<%= Rack::Utils.escape(url_for(:only_path => false)) %>" target="_blank"></a>
 								<br/><br/>

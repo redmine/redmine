@@ -4,28 +4,44 @@
 	<div class="marketing">
 		<h1>What?</h1>
 		<p class="marketing-byline">
-		<br/><strong>Open Source Brain</strong> is a resource for sharing and collaboratively developing computational models of neural systems. Open Source Brain facilitates development of computational neuronal models by providing facilities to analyse, visualise and share them. 
+		<br/><strong>Open Source Brain</strong> is a resource for sharing and collaboratively developing <a  target="_blank" href="http://www.scholarpedia.org/article/Category:Models_of_Neurons">
+		computational models of neural systems</a>. 
+		
 		<br/><br/>
-		While the models can be collaboratively developed in any format, the ultimate goal is to help the computational community to share their models in open standards such as <a  target="_blank" href="http://www.neuroml.org">NeuroML</a> and <a target="_blank" href="http://neuralensemble.org/PyNN/">PyNN</a>, to ensure transparency, modularity, accessibility and cross simulator portability.
+		While the models can be developed in any format, our goal is to help the community to share their 
+		models in open standards such as <a  target="_blank" href="http://www.neuroml.org">NeuroML</a> and <a target="_blank" href="http://neuralensemble.org/PyNN/">PyNN</a>, 
+		to ensure transparency, modularity, accessibility and cross simulator portability.
+		
+		<br/><br/>
+		OSB will provide advanced facilities to analyse, visualise and transform models in these formats, and to connect researchers interested in models of specific neurons, brain regions and disease states. 
 		</p>
 		<hr class="soften">
 		<h1>Why?</h1>
 		<p class="marketing-byline">
 		<br/>
-		There are an increasing number of detailed single neuron and network models from various brain regions becoming available which encapsulate the latest data on anatomical and electrophysiological properties of the systems being investigated. These complex models take a long time to develop and are normally only available in one of many incompatible, simulator specific formats. 			
+		Ever more detailed single neuron and network models are becoming available which 
+		encapsulate the latest data on anatomical and electrophysiological properties of the systems being investigated. These complex models 
+		take a long time to develop and are normally only available in one of many incompatible, simulator specific formats. 			
+		<br/><br/>
+		Enabling these to be analysed, reused and critically evaluated by as many researchers as possible will increase the power and scientific 
+		rigour of neuronal models and make them more accessible to a wider range of neuroscientists.
 		</p>
 		<hr class="soften">
-		<h1>Who?</h1>
+		<h1>Who?</h1> 
 		<p class="marketing-byline">
 			<br/>		
-			Open Source Brain is currently developed by the <a target="_blank" http://www.ucl.ac.uk/silverlab/">Silver Lab</a> at <a  target="_blank"  href="http://www.ucl.ac.uk">UCL</a> as part of a <a target="_blank" href="http://www.wellcome.ac.uk/">Wellcome Trust</a> funded project to encourage collaborative development of models in computational neuroscience.
+			Open Source Brain is currently developed by the <a target="_blank" href="http://www.ucl.ac.uk/silverlab/">Silver Lab</a> at <a  target="_blank"  href="http://www.ucl.ac.uk">UCL</a> 
+			as part of a <a target="_blank" href="http://www.wellcome.ac.uk/">Wellcome Trust</a> funded project to encourage collaborative development of models in computational neuroscience.
+			<br/>	
 			<br/>A number of research groups and organizations from all over the world are currently actively developing and sharing their neuronal models on OSB.</p>
+ 			<br/>
+			<h3> <%= @allusers.length %> Users... &nbsp;&nbsp;  <%= @groups.length %> Groups... &nbsp;&nbsp;  <%= @allprojects.length %> Projects...</h3>
  			<br/>
  			<div id="aboutmap">
 				<div class="pull-left">
 					<br/>
 					<% for group in @groups %>
-						<p class="labname"> <a  target="_blank"  href="<%=  group.custom_field_values[0] %>"><%=  group.name %> </a></p>
+						<p class="labname"> <a href="groups/<%=  group.id %>"><%=  group.name %> </a></p>
 					<% end %>
 					<% @group = nil %>
 				</div>

@@ -18,8 +18,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module StatusHelper
-
-
   # Renders a table of project statuses
   def render_status_table(projects)
     s = ''
@@ -35,33 +33,40 @@ module StatusHelper
       status_types.each do |status_type|
         link = ""
         case status_type
-          when "Curation", "NeuroML v1.x", "NeuroML v2.x", "PyNN"
-            link = "#{status_type}"
-          else
-            link = "<a href='/projects/simulators/wiki/Wiki/##{status_type}'>#{status_type}</a>"
+        when "Curation", "NeuroML v1.x", "NeuroML v2.x", "PyNN"
+          link = "#{status_type}"
+        else
+          link = "<a href='/projects/simulators/wiki/Wiki/##{status_type}'>#{status_type}</a>"
         end
         s << "<td>#{link}</td>\n"
       end
 
-      s << "</thead>\n"
+      s << "</thead>\n" 
 
-
-      projects.each do |project|
+      projects.each do |project| 
 
         show_this = 0
         alt_text = ""
-        
+        endorsement = ""
+
         project.visible_custom_field_values.each do |custom_value|
-	      if (custom_value.custom_field.name == 'Category')
+          if (custom_value.custom_field.name == 'Category')
             if (custom_value.value == 'Project' || custom_value.value == 'Showcase')
               show_this = 1
             end
           end
-	      if (custom_value.custom_field.name == 'Status info')
-              alt_text = " title='#{custom_value.value}'"
+          if (custom_value.custom_field.name == 'Endorsement')
+            if (custom_value.value == '1')
+              endorsement = "<span class='label label-success tooltiplink' data-toggle='tooltip' data-placement='right' title='This project is endorsed by OSB and is officially supported.'>OSB</span>"
+            else
+              endorsement = "<span class='label label-warning tooltiplink' data-toggle='tooltip' data-placement='right' title='This is a personal user project and has not yet been endorsed by OSB. Please get in contact (info@opensourcebrain.org) to have this project endorsed!'>User</span>"
+            end
+          end
+          if (custom_value.custom_field.name == 'Status info')
+            alt_text = " title='#{custom_value.value}'"  
           end
         end
-        
+
         if (show_this == 1)
           # set the project environment to please macros.
           @project = project
@@ -70,7 +75,7 @@ module StatusHelper
           status_types.each do |status_type|
 
             if status_type == ""
-                s << "<td><a href='/projects/#{project.identifier}'#{alt_text}=>#{project.identifier}</a></td>"
+              s << "<td>#{endorsement} <a href='/projects/#{project.identifier}'#{alt_text}=>#{project.identifier}</a></td>"
             else
               project.visible_custom_field_values.each do |custom_value|
                 if (custom_value.custom_field.name == status_type+' support')
@@ -90,12 +95,9 @@ module StatusHelper
 
       s << "</table>\n"
 
-
-
       @project = original_project
     end
     s.html_safe
   end
-
 
 end

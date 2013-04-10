@@ -47,6 +47,9 @@ module ApplicationHelper
   
   def isApproved?(project)
     project.custom_field_values.each do |value| 
+      if value.custom_field.name == 'Endorsed'
+        return value.value=="1"
+      end
       if value.custom_field.name == 'approved'
         return value.value=="1"
       end
@@ -122,12 +125,13 @@ module ApplicationHelper
     @badges=""
     @badges+= getBadge(project,'NeuroML v2.x support')
     @badges+= getBadge(project,'NeuroML v1.x support') 
+    @badges+= getBadge(project,'PyNN support') 
+    @badges+= "<br/><br/>" 
     @badges+= getBadge(project,'NEURON support')
     @badges+= getBadge(project,'GENESIS 2 support') 
     @badges+= getBadge(project,'MOOSE support') 
     @badges+= getBadge(project,'PSICS support') 
     @badges+= getBadge(project,'NEST support') 
-    @badges+= getBadge(project,'PyNN support') 
     @badges+= getBadge(project,'Brian support') 
     return @badges.html_safe
   end

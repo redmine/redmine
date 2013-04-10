@@ -1,7 +1,24 @@
-<h2><%= link_to l(:label_group_plural), groups_path %> &#187; <%=h @group %></h2>
 
-<ul>
+
+<p class="big-lead pagination-centered"><%=h @group %></p>
+
+<img src="../images/<%= @group.custom_field_values[4] %>.png"
+	alt="<%= @group.custom_field_values[4] %>" /><br/>
+
+
+<p>
+	Principal investigator: <b><%= @group.custom_field_values[1] %></b><br/>
+	<%= @group.custom_field_values[3] %>, <%= @group.custom_field_values[2] %>   <br/>
+	<a href="<%=  @group.custom_field_values[0] %>">Lab URL</a><br/>
+	Joined OSB: <%= format_date(@group.created_on) %>
+</p>
+
+
+<p class="lead"><%=l(:label_member_plural)%></p>
+
 <% @group.users.each do |user| %>
-    <li><%=h user %></li>
+<p><%= avatar user, :size => "50" %> <%= link_to_user user %></p>
+
+
 <% end %>
-</ul>
+

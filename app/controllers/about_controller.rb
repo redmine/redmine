@@ -20,8 +20,10 @@ class AboutController < ApplicationController
   def index
     @news = News.latest User.current
     @projects = Project.latest User.current
-    
+
     @groups = Group.find(:all, :order => 'lastname')
+    @allprojects = Project.find(:all)
+    @allusers = User.find(:all)
   end
   
 end
