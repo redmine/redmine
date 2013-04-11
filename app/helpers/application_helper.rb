@@ -110,11 +110,35 @@ module ApplicationHelper
     end
   end
   
+  def getSupport(value)
+    if(value=="3" or value=="4" )
+        level="3/3 stars"
+    elsif(value=="2" )
+      level="2/3 stars" 
+    elsif(value=="1")
+      level="1/3 stars"
+    elsif(value=="-1")
+      level="This model is not yet supported by this simulator"
+    else
+      level="Not yet determined"
+    end
+  end
+
+  def getSimulatorBadge(project, field)
+    value=getCustomField(project, field)
+    return getTooltipedBadgeAlign(project, field, field, 'How well can the curated NeuroML/PyNN version of the model be run in this simulator? '+getSupport(value), 'pull-left')
+  end
+
   def getTooltipedBadge(project, field, text, tooltip)
+    value=getCustomField(project, field)
+    return getTooltipedBadgeAlign(project, field, text+': '+getLevel(value), tooltip, 'pull-right')
+  end
+    
+  def getTooltipedBadgeAlign(project, field, text, tooltip, align)
     value=getCustomField(project, field)
     if(value!="-1")
       stars=getStars(value).html_safe
-      badge='<span class="badge tooltiplink pull-right '+getBadgeClass(value)+'" data-toggle="tooltip" data-placement="left" title="'+ tooltip +'">'+text+': '+getLevel(value)+' '+stars+'</span>'
+      badge='<span class="badge tooltiplink '+align+' '+getBadgeClass(value)+'" data-toggle="tooltip" data-placement="left" title="'+ tooltip +'">'+text+' '+stars+'</span>'
       return badge.html_safe
     else
       return ""
@@ -123,16 +147,16 @@ module ApplicationHelper
 
   def getStatusBadges(project)
     @badges=""
-    @badges+= getBadge(project,'NeuroML v2.x support')
-    @badges+= getBadge(project,'NeuroML v1.x support') 
-    @badges+= getBadge(project,'PyNN support') 
+    @badges+= getSimulatorBadge(project,'NeuroML v2.x support')+"  "
+    @badges+= getSimulatorBadge(project,'NeuroML v1.x support')+"  "
+    @badges+= getSimulatorBadge(project,'PyNN support')+"  "
     @badges+= "<br/><br/>" 
-    @badges+= getBadge(project,'NEURON support')
-    @badges+= getBadge(project,'GENESIS 2 support') 
-    @badges+= getBadge(project,'MOOSE support') 
-    @badges+= getBadge(project,'PSICS support') 
-    @badges+= getBadge(project,'NEST support') 
-    @badges+= getBadge(project,'Brian support') 
+    @badges+= getSimulatorBadge(project,'NEURON support')+"  "
+    @badges+= getSimulatorBadge(project,'GENESIS 2 support') +"  "
+    @badges+= getSimulatorBadge(project,'MOOSE support') +"  "
+    @badges+= getSimulatorBadge(project,'PSICS support') +"  "
+    @badges+= getSimulatorBadge(project,'NEST support') +"  "
+    @badges+= getSimulatorBadge(project,'Brian support') +"  "
     return @badges.html_safe
   end
                 
