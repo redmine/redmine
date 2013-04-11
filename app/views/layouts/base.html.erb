@@ -64,7 +64,7 @@
 								<a class="twitterbutton icon-twitter-sign tooltiplink clickable" data-toggle='tooltip' data-placement='right' title='Share this project on Twitter!' href="https://twitter.com/share?text=Check out the <%= @project.name %> project on Open Source Brain! via @osbteam&tw_p=tweetbutton&url=<%= Rack::Utils.escape(url_for(:only_path => false)) %>" target="_blank"></a>
 								<%= getTooltipedBadge(@project,'Curation level','Curation against published models','How well does the curated NeuroML/PyNN version of this model reproduce published models? See Status for more details.') %> 
 								<br/><br/>
-								<% if isAProject %>
+								<% if category=="Project" %>
 									<%= getProjectBreadcrumb(@project) %>
 								<% end %>
 							<% else %>
