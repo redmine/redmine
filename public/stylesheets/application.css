@@ -1165,7 +1165,7 @@ iframe {
 	line-height:6px;
 	font-size:12px;
 	text-transform:uppercase;
-	color:#444444;
+	color:#777777;
 }
 
 .twitterbutton{
@@ -1185,5 +1185,10 @@ iframe {
 	font-weight:100;
 	font-size:50pt;
 	color:#777777;
-	margin-left:-30px;
+}
+
+.facts{
+	font-weight:200;
+	font-size:30pt!important;
+	color:#777777;
 }
