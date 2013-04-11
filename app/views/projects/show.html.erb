@@ -66,7 +66,10 @@
 		<!-- CUSTOM VALUE SECTION -->
 		<% modeldb=getCustomField(@project,'ModelDB reference') %>
 		<% original=getCustomField(@project,'Original format') %>
-		<% if (modeldb!=nil and  modeldb!="") or (original!=nil and original!="") %>
+		<% ghrepo=getCustomField(@project,'GitHub repository') %>
+		<% bbrepo=getCustomField(@project,'Bitbucket repository') %>
+		
+		<% if (modeldb!=nil and  modeldb!="") or (original!=nil and original!="") or (ghrepo!=nil and ghrepo!="")  or (bbrepo!=nil and bbrepo!="") %>
 			<section id="references">
 				<div class="page-header">
 					<h2>References</h2>
@@ -80,7 +83,13 @@
 					<% end %>
 				<% end %>
 				<% if original!=nil and original!="" %>
-					<p class="lead">This model was originally developed in: <b><%= h original %></b></p>
+					<p class="lead">This model was originally developed in: <strong><%= h original %></strong></p>
+				<% end %>
+				<% if ghrepo!=nil and ghrepo!="" %>
+					<p class="lead">The code for this model is hosted on GitHub: <a href="<%= h ghrepo %>"><%= h ghrepo %></a></p>
+				<% end %>
+				<% if bbrepo!=nil and bbrepo!="" %>
+					<p class="lead">The code for this model is hosted on Bitbucket: <a href="<%= h bbrepo %>"><%= h bbrepo %></a></p>
 				<% end %>
 				</section>
 		<% end %>
