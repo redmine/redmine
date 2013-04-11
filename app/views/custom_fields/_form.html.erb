@@ -1,43 +1,45 @@
 <%= error_messages_for 'custom_field' %>
-
+<br/><br/>
 <div class="box tabular">
-<p><%= f.text_field :name, :required => true %></p>
-<p><%= f.select :field_format, custom_field_formats_for_select(@custom_field), {}, :disabled => !@custom_field.new_record? %></p>
+<div class="control-group"><%= f.text_field :name, :required => true %></div>
+<div class="control-group"><%= f.select :field_format, custom_field_formats_for_select(@custom_field), {}, :disabled => !@custom_field.new_record? %></div>
 
 <% if @custom_field.format_in? 'list', 'user', 'version' %>
-<p>
+<div class="control-group">
   <%= f.check_box :multiple %>
   <% if !@custom_field.new_record? && @custom_field.multiple %>
   <em class="info"><%= l(:text_turning_multiple_off) %></em>
   <% end %>
-</p>
+</div>
 <% end %>
 
 <% unless @custom_field.format_in? 'list', 'bool', 'date', 'user', 'version' %>
-<p><label for="custom_field_min_length"><%=l(:label_min_max_length)%></label>
-   <%= f.text_field :min_length, :size => 5, :no_label => true %> - 
-   <%= f.text_field :max_length, :size => 5, :no_label => true %><br />(<%=l(:text_min_max_length_info)%>)</p>
-<p><%= f.text_field :regexp, :size => 50 %><br />(<%=l(:text_regexp_info)%>)</p>
+<div class="control-group"><label class="control-label" for="custom_field_min_length">Min length</label>
+   <%= f.text_field :min_length, :size => 5, :no_label => true %> 
+</div>
+   <div class="control-group"> <label class="control-label" for="custom_field_max_length">Max length</label>
+   <%= f.text_field :max_length, :size => 5, :no_label => true %><br />(<%=l(:text_min_max_length_info)%>)</div>
+<div class="control-group"><%= f.text_field :regexp, :size => 50 %><br />(<%=l(:text_regexp_info)%>)</div>
 <% end %>
 
 <% if @custom_field.format_in? 'list' %>
-<p>
+<div class="control-group">
   <%= f.text_area :possible_values, :value => @custom_field.possible_values.to_a.join("\n"), :rows => 15 %>
   <em class="info"><%= l(:text_custom_field_possible_values_info) %></em>
-</p>
+</div>
 <% end %>
 
 <% case @custom_field.field_format %>
 <% when 'bool' %>
-  <p><%= f.check_box(:default_value) %></p>
+  <div class="control-group"><%= f.check_box(:default_value) %></div>
 <% when 'text' %>
-  <p><%= f.text_area(:default_value, :rows => 8) %></p>
+  <div class="control-group"><%= f.text_area(:default_value, :rows => 8) %></div>
 <% when 'date' %>
-  <p><%= f.text_field(:default_value, :size => 10) %></p>
+  <div class="control-group"><%= f.text_field(:default_value, :size => 10) %></div>
   <%= calendar_for('custom_field_default_value') %>
 <% when 'user', 'version' %>
 <% else %>
-  <p><%= f.text_field(:default_value) %></p>
+  <div class="control-group"><%= f.text_field(:default_value) %></div>
 <% end %>
 
 <%= call_hook(:view_custom_fields_form_upper_box, :custom_field => @custom_field, :form => f) %>
@@ -46,7 +48,7 @@
 <div class="box tabular">
 <% case @custom_field.class.name
 when "IssueCustomField" %>
-
+<div class="control-group">
     <fieldset><legend><%=l(:label_tracker_plural)%></legend>
     <% Tracker.sorted.all.each do |tracker| %>
       <%= check_box_tag "custom_field[tracker_ids][]",
@@ -60,37 +62,37 @@ when "IssueCustomField" %>
     <%= hidden_field_tag "custom_field[tracker_ids][]", '' %>
     </fieldset>
     &nbsp;
-    <p><%= f.check_box :is_required %></p>
-    <p><%= f.check_box :is_for_all %></p>
-    <p><%= f.check_box :is_filter %></p>
-    <p><%= f.check_box :searchable %></p>
+    <div class="control-group"><%= f.check_box :is_required %></div>
+    <div class="control-group"><%= f.check_box :is_for_all %></div>
+    <div class="control-group"><%= f.check_box :is_filter %></div>
+    <div class="control-group"><%= f.check_box :searchable %></div>
 
 <% when "UserCustomField" %>
-    <p><%= f.check_box :is_required %></p>
-    <p><%= f.check_box :visible %></p>
-    <p><%= f.check_box :editable %></p>
-    <p><%= f.check_box :is_filter %></p>
+    <div class="control-group"><%= f.check_box :is_required %></div>
+    <div class="control-group"><%= f.check_box :visible %></div>
+    <div class="control-group"><%= f.check_box :editable %></div>
+    <div class="control-group">%= f.check_box :is_filter %></div>
 
 <% when "ProjectCustomField" %>
-    <p><%= f.check_box :is_required %></p>
-    <p><%= f.check_box :visible %></p>
-    <p><%= f.check_box :searchable %></p>
-    <p><%= f.check_box :is_filter %></p>
+    <div class="control-group"><%= f.check_box :is_required %></div>
+    <div class="control-group"><%= f.check_box :visible %></div>
+    <div class="control-group"><%= f.check_box :searchable %></div>
+    <div class="control-group"><%= f.check_box :is_filter %></div>
 
 <% when "VersionCustomField" %>
-    <p><%= f.check_box :is_required %></p>
-    <p><%= f.check_box :is_filter %></p>
+    <div class="control-group"><%= f.check_box :is_required %></div>
+    <div class="control-group"><%= f.check_box :is_filter %></div>
 
 <% when "GroupCustomField" %>
-    <p><%= f.check_box :is_required %></p>
-    <p><%= f.check_box :is_filter %></p>
+    <div class="control-group"><%= f.check_box :is_required %></div>
+    <div class="control-group"><%= f.check_box :is_filter %></div>
 
 <% when "TimeEntryCustomField" %>
-    <p><%= f.check_box :is_required %></p>
-    <p><%= f.check_box :is_filter %></p>
+    <div class="control-group"><%= f.check_box :is_required %></div>
+    <div class="control-group"><%= f.check_box :is_filter %></div>
 
 <% else %>
-    <p><%= f.check_box :is_required %></p>
+    <div class="control-group"><%= f.check_box :is_required %></div>
 
 <% end %>
 <%= call_hook(:"view_custom_fields_form_#{@custom_field.type.to_s.underscore}", :custom_field => @custom_field, :form => f) %>
