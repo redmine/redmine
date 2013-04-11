@@ -585,7 +585,7 @@ module ApplicationHelper
 
   def syntax_highlight_lines(name, content)
     lines = []
-    syntax_highlight(name, content).each_line { |line| lines << line }
+    content.each_line { |line| lines << line }
     lines
   end
 
