@@ -1192,3 +1192,6 @@ iframe {
 	font-size:30pt!important;
 	color:#777777;
 }
+.baseline{
+	vertical-align:baseline!important;
+}

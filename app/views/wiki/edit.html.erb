@@ -32,9 +32,13 @@
 <div class="control-group"><label class="control-label"><%=l(:label_attachment_plural)%></label><div class="controls"><%= render :partial => 'attachments/form' %></div></div>
 </div>
 
-<div class="controls"><%= submit_tag l(:button_save) %>
-   <%= preview_link({:controller => 'wiki', :action => 'preview', :project_id => @project, :id => @page.title }, 'wiki_form') %>
+<div class="control-group">
+	<div class="nolabelcontrols">
+		<%= submit_tag l(:button_save), :class => "btn btn-large btn-success baseline" %>
+   		<%= preview_link({:controller => 'wiki', :action => 'preview', :project_id => @project, :id => @page.title }, 'wiki_form') %>
+   	</div>
 </div>
+    
 <%= wikitoolbar_for 'content_text' %>
 <% end %>
 </div>
