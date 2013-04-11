@@ -1,6 +1,8 @@
 
 <pre class="prettyprint linenums">
 <% syntax_highlight_lines(filename, Redmine::CodesetUtil.to_utf8_by_setting(content)).each do |line| %>
-<%= line.strip %>
+<% line = line.gsub(/\r/," ")%>
+<% line = line.gsub(/\n/," ")%>
+<%= line %>
 <% end %>
 </pre>
