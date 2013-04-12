@@ -22,8 +22,7 @@ jQuery(function()
 	jQuery('.tooltiplink').tooltip();
 	    
 	// -- Add bootstrap class to all the tables
-	jQuery('table').addClass('table table-bordered table-hover');
-	
+	jQuery('table').not(jQuery(".wrapped-channelml table")).addClass('table table-bordered table-hover');
 	// jQuery(":submit").addClass('btn btn-success btn-large');
 	jQuery('button').addClass('btn');
 	jQuery('.jstElements button').addClass('btn-square');
