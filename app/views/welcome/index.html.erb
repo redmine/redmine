@@ -71,8 +71,16 @@ Explore OSB
 					</div>
 				<% end -%>
 			</div>
+			<% end %>
+			<% if @events_by_day.empty? %>
+				<p class="lead">You have no activities yet! Why don't you start by creating a new project?</p>
+				<br/></br/><br/>
+				<icon class="icon-coffee icon-xxxlarge"></icon>
+				<icon class="icon-lightbulb icon-xxxlarge"></icon>
+				<icon class="icon-beaker icon-xxxlarge"></icon>
+			<% end %>
 		</div>
-	<% end %>
+	
 
 		<div class="span4">
 			<table class="projecttable table">

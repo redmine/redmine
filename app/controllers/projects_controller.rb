@@ -93,7 +93,7 @@ class ProjectsController < ApplicationController
     if repository
       #checks is valid
       #check is already cloned?
-      gitFolder=File.basename(repository.value)
+      gitFolder=File.basename(repository)
       if gitFolder!=""
         if not File.directory? "/home/svnsvn/myGitRepositories/"+gitFolder
           if File.extname(gitFolder)==".git"
