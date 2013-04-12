@@ -137,7 +137,7 @@ class Role < ActiveRecord::Base
   def anonymous?
     builtin == 2
   end
-  
+
   # Return true if the role is a project member role
   def member?
     !self.builtin?
