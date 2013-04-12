@@ -169,7 +169,7 @@ class ProjectsController < ApplicationController
         format.api  { render :action => 'show', :status => :created, :location => url_for(:controller => 'projects', :action => 'show', :id => @project.id) }
       end
       
-      @mirroredRepo=mirrorGitHubRepo(@githubRepo.value)
+      @mirroredRepo=mirrorGitHubRepo(@githubRepo)
       addMirroredRepo(@mirroredRepo)
     else
       respond_to do |format|
