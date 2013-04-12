@@ -1195,3 +1195,11 @@ iframe {
 .baseline{
 	vertical-align:baseline!important;
 }
+.icon-xxxlarge{
+	font-size:200px;
+	color: gray;
+	margin-right:70px;
+}
+.icon-xxxlarge:hover{
+	color: gray!important;
+}
