@@ -25,7 +25,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
   def setup
     @project = Project.find(3)
     @repository = Repository::Subversion.create(:project => @project,
-             :url => self.class.subversion_repository_url)
+                    :url => self.class.subversion_repository_url)
     assert @repository
   end
 
