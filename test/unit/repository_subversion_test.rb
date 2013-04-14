@@ -40,7 +40,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
                             :url => url
                           )
       assert !repo.save
-      assert_include "is invalid", repo.errors[:url]
+      assert_equal ["is invalid"], repo.errors[:url]
     end
   end
 
