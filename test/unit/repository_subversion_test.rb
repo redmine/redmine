@@ -20,6 +20,8 @@ require File.expand_path('../../test_helper', __FILE__)
 class RepositorySubversionTest < ActiveSupport::TestCase
   fixtures :projects, :repositories, :enabled_modules, :users, :roles
 
+  include Redmine::I18n
+
   NUM_REV = 11
 
   def setup
@@ -27,6 +29,32 @@ class RepositorySubversionTest < ActiveSupport::TestCase
     @repository = Repository::Subversion.create(:project => @project,
                     :url => self.class.subversion_repository_url)
     assert @repository
+  end
+
+  def test_invalid_url
+    set_language_if_valid 'en'
+    ['invalid', 'http://', 'svn://', 'svn+ssh://', 'file://'].each do |url|
+      repo = Repository::Subversion.new(
+                            :project      => @project,
+                            :identifier   => 'test',
+                            :url => url
+                          )
+      assert !repo.save
+      assert_include "is invalid", repo.errors[:url]
+    end
+  end
+
+  def test_valid_url
+    ['http://valid', 'svn://valid', 'svn+ssh://valid', 'file://valid'].each do |url|
+      repo = Repository::Subversion.new(
+                            :project      => @project,
+                            :identifier   => 'test',
+                            :url => url
+                          )
+      assert repo.save
+      assert_equal [], repo.errors[:url]
+      assert repo.destroy
+    end
   end
 
   if repository_configured?('subversion')
