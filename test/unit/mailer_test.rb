@@ -596,6 +596,26 @@ class MailerTest < ActiveSupport::TestCase
     end
   end
 
+  def test_layout_should_include_the_emails_footer
+    with_settings :emails_footer => "*Footer content*" do
+      with_settings :plain_text_mail => 0 do
+        assert Mailer.test_email(User.find(1)).deliver
+        assert_select_email do
+          assert_select ".footer" do
+            assert_select "strong", :text => "Footer content"
+          end
+        end
+      end
+      with_settings :plain_text_mail => 1 do
+        assert Mailer.test_email(User.find(1)).deliver
+        mail = last_email
+        assert_not_nil mail
+        assert_include "\n-- \n", mail.body.decoded
+        assert_include "*Footer content*", mail.body.decoded
+      end
+    end
+  end
+
   def test_should_escape_html_templates_only
     Issue.generate!(:project_id => 1, :tracker_id => 1, :subject => 'Subject with a <tag>')
     mail = last_email
