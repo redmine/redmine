@@ -579,11 +579,19 @@ class MailerTest < ActiveSupport::TestCase
 
   def test_layout_should_include_the_emails_header
     with_settings :emails_header => "*Header content*" do
-      assert Mailer.test_email(User.find(1)).deliver
-      assert_select_email do
-        assert_select ".header" do
-          assert_select "strong", :text => "Header content"
+      with_settings :plain_text_mail => 0 do
+        assert Mailer.test_email(User.find(1)).deliver
+        assert_select_email do
+          assert_select ".header" do
+            assert_select "strong", :text => "Header content"
+          end
         end
+      end
+      with_settings :plain_text_mail => 1 do
+        assert Mailer.test_email(User.find(1)).deliver
+        mail = last_email
+        assert_not_nil mail
+        assert_include "*Header content*", mail.body.decoded
       end
     end
   end
