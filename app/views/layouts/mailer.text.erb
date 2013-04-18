@@ -1,4 +1,8 @@
+<% if Setting.emails_header.present? -%>
 <%= Setting.emails_header %>
+<% end -%>
 <%= yield %>
+<% if Setting.emails_footer.present? -%>
 -- 
 <%= Setting.emails_footer %>
+<% end -%>
