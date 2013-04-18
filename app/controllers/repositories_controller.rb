@@ -411,7 +411,7 @@ class RepositoriesController < ApplicationController
     fields = fields.collect {|c| c.gsub(%r{<.+@.+>}, '') }
 
     graph = SVG::Graph::BarHorizontal.new(
-      :height => 400,
+      :height => 15 * commits_data.length,
       :width => 800,
       :fields => fields,
       :stack => :side,
