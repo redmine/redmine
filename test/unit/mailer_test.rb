@@ -625,7 +625,7 @@ class MailerTest < ActiveSupport::TestCase
     end
   end
 
-  def test_layout_should_include_the_emails_footer
+  def test_layout_should_not_include_empty_emails_footer
     with_settings :emails_footer => "" do
       with_settings :plain_text_mail => 0 do
         assert Mailer.test_email(User.find(1)).deliver
