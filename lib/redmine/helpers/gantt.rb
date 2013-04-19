@@ -675,7 +675,7 @@ module Redmine
         start_date + (end_date - start_date + 1) * (progress / 100.0)
       end
 
-      # Sorts a collection of issues by start_date, due_date, id for gantt rendering
+      # TODO: Sorts a collection of issues by start_date, due_date, id for gantt rendering
       def sort_issues!(issues)
         issues.sort! { |a, b| gantt_issue_compare(a, b) }
       end
