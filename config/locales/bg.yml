@@ -735,7 +735,7 @@ bg:
   label_f_hour_plural: "%{value} часа"
   label_time_tracking: Отделяне на време
   label_change_plural: Промени
-  label_statistics: Статистики
+  label_statistics: Статистика
   label_commits_per_month: Ревизии по месеци
   label_commits_per_author: Ревизии по автор
   label_diff: diff
