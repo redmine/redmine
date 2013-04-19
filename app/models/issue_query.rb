@@ -66,7 +66,7 @@ class IssueQuery < Query
     versions = []
     categories = []
     issue_custom_fields = []
-    
+
     if project
       principals += project.principals.sort
       unless project.leaf?
@@ -86,7 +86,6 @@ class IssueQuery < Query
     principals.uniq!
     principals.sort!
     users = principals.select {|p| p.is_a?(User)}
-
 
     add_available_filter "status_id",
       :type => :list_status, :values => IssueStatus.sorted.all.collect{|s| [s.name, s.id.to_s] }
