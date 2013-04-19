@@ -48,7 +48,7 @@ class QueriesHelperTest < ActionView::TestCase
 
   def test_filters_options_should_be_ordered_with_custom_fields
     set_language_if_valid 'en'
-    field = UserCustomField.create!(
+    UserCustomField.create!(
               :name => 'order test', :field_format => 'string',
               :is_for_all => true, :is_filter => true
             )
