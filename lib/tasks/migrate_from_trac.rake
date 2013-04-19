@@ -762,9 +762,11 @@ namespace :redmine do
     puts
 
     # Turn off email notifications
+    old_notified_events = Settings.notified_events
     Setting.notified_events = []
 
     TracMigrate.migrate
+    Setting.notified_events = old_notified_events
   end
 end
 
