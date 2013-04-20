@@ -131,7 +131,7 @@ function buildFilterRow(field, operator, values) {
   select = tr.find('td.operator select');
   for (i=0;i<operators.length;i++){
     var option = $('<option>').val(operators[i]).text(operatorLabels[operators[i]]);
-    if (operators[i] == operator) {option.attr('selected', true)};
+    if (operators[i] == operator) { option.attr('selected', true); }
     select.append(option);
   }
   select.change(function(){toggleOperator(field)});
@@ -146,7 +146,7 @@ function buildFilterRow(field, operator, values) {
       ' <span class="toggle-multiselect">&nbsp;</span></span>'
     );
     select = tr.find('td.values select');
-    if (values.length > 1) {select.attr('multiple', true)};
+    if (values.length > 1) { select.attr('multiple', true); }
     for (i=0;i<filterValues.length;i++){
       var filterValue = filterValues[i];
       var option = $('<option>');
@@ -189,7 +189,7 @@ function buildFilterRow(field, operator, values) {
       var filterValue = allProjects[i];
       var option = $('<option>');
       option.val(filterValue[1]).text(filterValue[0]);
-      if (values[0] == filterValue[1]) {option.attr('selected', true)};
+      if (values[0] == filterValue[1]) { option.attr('selected', true); }
       select.append(option);
     }
   case "integer":
