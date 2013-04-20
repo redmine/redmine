@@ -19,7 +19,7 @@ function toggleCheckboxesBySelector(selector) {
 
 function showAndScrollTo(id, focus) {
   $('#'+id).show();
-  if (focus!=null) {
+  if (focus !== null) {
     $('#'+focus).focus();
   }
   $('html, body').animate({scrollTop: $('#'+id).offset().top}, 100);
@@ -352,7 +352,7 @@ function setPredecessorFieldsVisibility() {
 
 function showModal(id, width) {
   var el = $('#'+id).first();
-  if (el.length == 0 || el.is(':visible')) {return;}
+  if (el.length === 0 || el.is(':visible')) {return;}
   var title = el.find('h3.title').text();
   el.dialog({
     width: width,
@@ -552,7 +552,7 @@ function setupAjaxIndicator() {
 
   $('#ajax-indicator').bind('ajaxSend', function(event, xhr, settings) {
   
-    if ($('.ajax-loading').length == 0 && settings.contentType != 'application/octet-stream') {
+    if ($('.ajax-loading').length === 0 && settings.contentType != 'application/octet-stream') {
       $('#ajax-indicator').show();
     }
   });
