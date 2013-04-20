@@ -462,7 +462,7 @@ function observeAutocompleteField(fieldId, url, options) {
       source: url,
       minLength: 2,
       search: function(){$('#'+fieldId).addClass('ajax-loading');},
-      response: function(){$('#'+fieldId).removeClass('ajax-loading');},
+      response: function(){$('#'+fieldId).removeClass('ajax-loading');}
     }, options));
     $('#'+fieldId).addClass('autocomplete');
   });
