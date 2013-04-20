@@ -134,7 +134,7 @@ function buildFilterRow(field, operator, values) {
     if (operators[i] == operator) { option.attr('selected', true); }
     select.append(option);
   }
-  select.change(function(){toggleOperator(field)});
+  select.change(function(){ toggleOperator(field); });
 
   switch (filterOptions['type']){
   case "list":
