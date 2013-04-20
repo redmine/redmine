@@ -546,7 +546,7 @@ function warnLeavingUnsaved(message) {
     });
     if (warn) {return warnLeavingUnsavedMessage;}
   };
-};
+}
 
 function setupAjaxIndicator() {
 
