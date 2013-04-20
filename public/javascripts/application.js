@@ -14,7 +14,7 @@ function toggleCheckboxesBySelector(selector) {
   $(selector).each(function(index) {
     if (!$(this).is(':checked')) { all_checked = false; }
   });
-  $(selector).attr('checked', !all_checked)
+  $(selector).attr('checked', !all_checked);
 }
 
 function showAndScrollTo(id, focus) {
