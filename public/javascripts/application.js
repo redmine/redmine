@@ -14,12 +14,12 @@ function toggleCheckboxesBySelector(selector) {
   $(selector).each(function(index) {
     if (!$(this).is(':checked')) { all_checked = false; }
   });
-  $(selector).attr('checked', !all_checked)
+  $(selector).attr('checked', !all_checked);
 }
 
 function showAndScrollTo(id, focus) {
   $('#'+id).show();
-  if (focus!=null) {
+  if (focus !== null) {
     $('#'+focus).focus();
   }
   $('html, body').animate({scrollTop: $('#'+id).offset().top}, 100);
@@ -131,10 +131,10 @@ function buildFilterRow(field, operator, values) {
   select = tr.find('td.operator select');
   for (i=0;i<operators.length;i++){
     var option = $('<option>').val(operators[i]).text(operatorLabels[operators[i]]);
-    if (operators[i] == operator) {option.attr('selected', true)};
+    if (operators[i] == operator) { option.attr('selected', true); }
     select.append(option);
   }
-  select.change(function(){toggleOperator(field)});
+  select.change(function(){ toggleOperator(field); });
 
   switch (filterOptions['type']){
   case "list":
@@ -146,7 +146,7 @@ function buildFilterRow(field, operator, values) {
       ' <span class="toggle-multiselect">&nbsp;</span></span>'
     );
     select = tr.find('td.values select');
-    if (values.length > 1) {select.attr('multiple', true)};
+    if (values.length > 1) { select.attr('multiple', true); }
     for (i=0;i<filterValues.length;i++){
       var filterValue = filterValues[i];
       var option = $('<option>');
@@ -189,7 +189,7 @@ function buildFilterRow(field, operator, values) {
       var filterValue = allProjects[i];
       var option = $('<option>');
       option.val(filterValue[1]).text(filterValue[0]);
-      if (values[0] == filterValue[1]) {option.attr('selected', true)};
+      if (values[0] == filterValue[1]) { option.attr('selected', true); }
       select.append(option);
     }
   case "integer":
@@ -352,7 +352,7 @@ function setPredecessorFieldsVisibility() {
 
 function showModal(id, width) {
   var el = $('#'+id).first();
-  if (el.length == 0 || el.is(':visible')) {return;}
+  if (el.length === 0 || el.is(':visible')) {return;}
   var title = el.find('h3.title').text();
   el.dialog({
     width: width,
@@ -462,7 +462,7 @@ function observeAutocompleteField(fieldId, url, options) {
       source: url,
       minLength: 2,
       search: function(){$('#'+fieldId).addClass('ajax-loading');},
-      response: function(){$('#'+fieldId).removeClass('ajax-loading');},
+      response: function(){$('#'+fieldId).removeClass('ajax-loading');}
     }, options));
     $('#'+fieldId).addClass('autocomplete');
   });
@@ -546,13 +546,13 @@ function warnLeavingUnsaved(message) {
     });
     if (warn) {return warnLeavingUnsavedMessage;}
   };
-};
+}
 
 function setupAjaxIndicator() {
 
   $('#ajax-indicator').bind('ajaxSend', function(event, xhr, settings) {
   
-    if ($('.ajax-loading').length == 0 && settings.contentType != 'application/octet-stream') {
+    if ($('.ajax-loading').length === 0 && settings.contentType != 'application/octet-stream') {
       $('#ajax-indicator').show();
     }
   });
