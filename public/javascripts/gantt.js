@@ -93,7 +93,7 @@ function drawRelations() {
                    .attr({stroke: "none",
                           fill: color,
                           "stroke-linecap": "butt",
-                          "stroke-linejoin": "miter",
+                          "stroke-linejoin": "miter"
                           });
   });
 }
