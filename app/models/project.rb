@@ -90,7 +90,7 @@ class Project < ActiveRecord::Base
   scope :status, lambda {|arg| where(arg.blank? ? nil : {:status => arg.to_i}) }
   scope :all_public, lambda { where(:is_public => true) }
   scope :visible, lambda {|*args| where(Project.visible_condition(args.shift || User.current, *args)) }
-  scope :allowed_to, lambda {|*args| 
+  scope :allowed_to, lambda {|*args|
     user = User.current
     permission = nil
     if args.first.is_a?(Symbol)
