@@ -1,14 +1,12 @@
 var NS4 = (navigator.appName == "Netscape" && parseInt(navigator.appVersion) < 5);
 
-function addOption(theSel, theText, theValue)
-{
+function addOption(theSel, theText, theValue) {
   var newOpt = new Option(theText, theValue);
   var selLength = theSel.length;
   theSel.options[selLength] = newOpt;
 }
 
-function swapOptions(theSel, index1, index2)
-{
+function swapOptions(theSel, index1, index2) {
   var text, value;
   text = theSel.options[index1].text;
   value = theSel.options[index1].value;
@@ -18,42 +16,31 @@ function swapOptions(theSel, index1, index2)
   theSel.options[index2].value = value;
 }
 
-function deleteOption(theSel, theIndex)
-{
+function deleteOption(theSel, theIndex) {
   var selLength = theSel.length;
-  if(selLength>0)
-  {
+  if (selLength > 0) {
     theSel.options[theIndex] = null;
   }
 }
 
-function moveOptions(theSelFrom, theSelTo)
-{
-
+function moveOptions(theSelFrom, theSelTo) {
   var selLength = theSelFrom.length;
   var selectedText = new Array();
   var selectedValues = new Array();
   var selectedCount = 0;
-
   var i;
-
-  for(i=selLength-1; i>=0; i--)
-  {
-    if(theSelFrom.options[i].selected)
-    {
+  for (i = selLength - 1; i >= 0; i--) {
+    if (theSelFrom.options[i].selected) {
       selectedText[selectedCount] = theSelFrom.options[i].text;
       selectedValues[selectedCount] = theSelFrom.options[i].value;
       deleteOption(theSelFrom, i);
       selectedCount++;
     }
   }
-
-  for(i=selectedCount-1; i>=0; i--)
-  {
+  for (i = selectedCount - 1; i >= 0; i--) {
     addOption(theSelTo, selectedText[i], selectedValues[i]);
   }
-
-  if(NS4) history.go(0);
+  if (NS4) history.go(0);
 }
 
 function moveOptionUp(theSel) {
@@ -73,8 +60,7 @@ function moveOptionDown(theSel) {
 }
 
 // OK
-function selectAllOptions(id)
-{
+function selectAllOptions(id) {
   var select = $('#'+id);
   select.children('option').attr('selected', true);
 }
