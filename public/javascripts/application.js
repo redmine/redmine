@@ -78,20 +78,20 @@ function hideFieldset(el) {
   fieldset.children('div').hide();
 }
 
-function initFilters(){
-  $('#add_filter_select').change(function(){
+function initFilters() {
+  $('#add_filter_select').change(function() {
     addFilter($(this).val(), '', []);
   });
-  $('#filters-table td.field input[type=checkbox]').each(function(){
+  $('#filters-table td.field input[type=checkbox]').each(function() {
     toggleFilter($(this).val());
   });
-  $('#filters-table td.field input[type=checkbox]').live('click',function(){
+  $('#filters-table td.field input[type=checkbox]').live('click', function() {
     toggleFilter($(this).val());
   });
-  $('#filters-table .toggle-multiselect').live('click',function(){
+  $('#filters-table .toggle-multiselect').live('click', function() {
     toggleMultiSelect($(this).siblings('select'));
   });
-  $('#filters-table input[type=text]').live('keypress', function(e){
+  $('#filters-table input[type=text]').live('keypress', function(e) {
     if (e.keyCode == 13) submit_query_form("query_form");
   });
 }
@@ -106,7 +106,7 @@ function addFilter(field, operator, values) {
   }
   $('#cb_'+fieldId).attr('checked', true);
   toggleFilter(field);
-  $('#add_filter_select').val('').children('option').each(function(){
+  $('#add_filter_select').val('').children('option').each(function() {
     if ($(this).attr('value') == field) {
       $(this).attr('disabled', true);
     }
@@ -129,14 +129,14 @@ function buildFilterRow(field, operator, values) {
   filterTable.append(tr);
 
   select = tr.find('td.operator select');
-  for (i=0;i<operators.length;i++){
+  for (i = 0; i < operators.length; i++) {
     var option = $('<option>').val(operators[i]).text(operatorLabels[operators[i]]);
     if (operators[i] == operator) { option.attr('selected', true); }
     select.append(option);
   }
   select.change(function(){ toggleOperator(field); });
 
-  switch (filterOptions['type']){
+  switch (filterOptions['type']) {
   case "list":
   case "list_optional":
   case "list_status":
@@ -147,7 +147,7 @@ function buildFilterRow(field, operator, values) {
     );
     select = tr.find('td.values select');
     if (values.length > 1) { select.attr('multiple', true); }
-    for (i=0;i<filterValues.length;i++){
+    for (i = 0; i < filterValues.length; i++) {
       var filterValue = filterValues[i];
       var option = $('<option>');
       if ($.isArray(filterValue)) {
@@ -185,7 +185,7 @@ function buildFilterRow(field, operator, values) {
     );
     $('#values_'+fieldId).val(values[0]);
     select = tr.find('td.values select');
-    for (i=0;i<allProjects.length;i++){
+    for (i = 0; i < allProjects.length; i++) {
       var filterValue = allProjects[i];
       var option = $('<option>');
       option.val(filterValue[1]).text(filterValue[0]);
@@ -302,7 +302,7 @@ function moveTabRight(el) {
   var lis = $(el).parents('div.tabs').first().find('ul').children();
   var tabsWidth = 0;
   var i = 0;
-  lis.each(function(){
+  lis.each(function() {
     if ($(this).is(':visible')) {
       tabsWidth += $(this).width() + 6;
     }
@@ -315,8 +315,8 @@ function moveTabRight(el) {
 function moveTabLeft(el) {
   var lis = $(el).parents('div.tabs').first().find('ul').children();
   var i = 0;
-  while (i<lis.length && !lis.eq(i).is(':visible')) { i++; }
-  if (i>0) {
+  while (i < lis.length && !lis.eq(i).is(':visible')) { i++; }
+  if (i > 0) {
     lis.eq(i-1).show();
   }
 }
@@ -422,7 +422,7 @@ function scmEntryClick(id, url) {
     el.addClass('loading');
     $.ajax({
       url: url,
-      success: function(data){
+      success: function(data) {
         el.after(data);
         el.addClass('open').addClass('loaded').removeClass('loading');
       }
@@ -503,7 +503,7 @@ function observeProjectModules() {
     /* Hides trackers and issues custom fields on the new project form when issue_tracking module is disabled */
     if ($('#project_enabled_module_names_issue_tracking').attr('checked')) {
       $('#project_trackers').show();
-    }else{
+    } else {
       $('#project_trackers').hide();
     }
   };
@@ -530,7 +530,6 @@ function initMyPageSortable(list, url) {
 var warnLeavingUnsavedMessage;
 function warnLeavingUnsaved(message) {
   warnLeavingUnsavedMessage = message;
-
   $('form').submit(function(){
     $('textarea').removeData('changed');
   });
@@ -549,14 +548,11 @@ function warnLeavingUnsaved(message) {
 }
 
 function setupAjaxIndicator() {
-
   $('#ajax-indicator').bind('ajaxSend', function(event, xhr, settings) {
-  
     if ($('.ajax-loading').length === 0 && settings.contentType != 'application/octet-stream') {
       $('#ajax-indicator').show();
     }
   });
-  
   $('#ajax-indicator').bind('ajaxStop', function() {
     $('#ajax-indicator').hide();
   });
