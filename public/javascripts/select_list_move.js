@@ -75,9 +75,6 @@ function moveOptionDown(theSel) {
 // OK
 function selectAllOptions(id)
 {
-  var select = $('#'+id);/*
-  for (var i=0; i<select.options.length; i++) {
-    select.options[i].selected = true;
-  }*/
+  var select = $('#'+id);
   select.children('option').attr('selected', true);
 }
