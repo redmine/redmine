@@ -44,6 +44,10 @@ module ApplicationHelper
     link_to(name, options, html_options, *parameters_for_method_reference) if authorize_for(options[:controller] || params[:controller], options[:action])
   end
   
+  def isProjectOrShowcase(project)
+    category =  getCustomField(project,"Category")  
+    return (category=="Project" or category=="Showcase")
+  end
   
   def isApproved?(project)
     project.custom_field_values.each do |value| 
