@@ -548,6 +548,46 @@ class TimelogControllerTest < ActionController::TestCase
     assert assigns(:items).first.is_a?(TimeEntry)
   end
 
+  def test_index_at_project_level_should_include_csv_export_dialog
+    get :index, :project_id => 'ecookbook', 
+      :f => ['spent_on'],
+      :op => {'spent_on' => '>='},
+      :v => {'spent_on' => ['2007-04-01']},
+      :c => ['spent_on', 'user']
+    assert_response :success
+
+    assert_select '#csv-export-options' do
+      assert_select 'form[action=?][method=get]', '/projects/ecookbook/time_entries.csv' do
+        # filter
+        assert_select 'input[name=?][value=?]', 'f[]', 'spent_on'
+        assert_select 'input[name=?][value=?]', 'op[spent_on]', '&gt;='
+        assert_select 'input[name=?][value=?]', 'v[spent_on][]', '2007-04-01'
+        # columns
+        assert_select 'input[name=?][value=?]', 'c[]', 'spent_on'
+        assert_select 'input[name=?][value=?]', 'c[]', 'user'
+        assert_select 'input[name=?]', 'c[]', 2
+      end
+    end
+  end
+
+  def test_index_cross_project_should_include_csv_export_dialog
+    get :index
+    assert_response :success
+
+    assert_select '#csv-export-options' do
+      assert_select 'form[action=?][method=get]', '/time_entries.csv'
+    end
+  end
+
+  def test_index_at_issue_level_should_include_csv_export_dialog
+    get :index, :project_id => 'ecookbook', :issue_id => 3
+    assert_response :success
+
+    assert_select '#csv-export-options' do
+      assert_select 'form[action=?][method=get]', '/projects/ecookbook/issues/3/time_entries.csv'
+    end
+  end
+
   def test_index_csv_all_projects
     Setting.date_format = '%m/%d/%Y'
     get :index, :format => 'csv'

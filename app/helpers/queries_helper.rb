@@ -29,6 +29,30 @@ module QueriesHelper
     end
   end
 
+  def query_filters_hidden_tags(query)
+    tags = ''.html_safe
+    query.filters.each do |field, options|
+      tags << hidden_field_tag("f[]", field, :id => nil)
+      tags << hidden_field_tag("op[#{field}]", options[:operator], :id => nil)
+      options[:values].each do |value|
+        tags << hidden_field_tag("v[#{field}][]", value, :id => nil)
+      end
+    end
+    tags
+  end
+
+  def query_columns_hidden_tags(query)
+    tags = ''.html_safe
+    query.columns.each do |column|
+      tags << hidden_field_tag("c[]", column.name, :id => nil)
+    end
+    tags
+  end
+
+  def query_hidden_tags(query)
+    query_filters_hidden_tags(query) + query_columns_hidden_tags(query)
+  end
+
   def available_block_columns_tags(query)
     tags = ''.html_safe
     query.available_block_columns.each do |column|
