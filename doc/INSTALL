@@ -7,7 +7,7 @@ http://www.redmine.org/
 
 == Requirements
 
-* Ruby 1.8.7, 1.9.2 or 1.9.3
+* Ruby 1.8.7, 1.9.2, 1.9.3 or 2.0.0
 * RubyGems
 * Bundler >= 1.0.21
 
@@ -15,6 +15,7 @@ http://www.redmine.org/
   * MySQL (tested with MySQL 5.1)
   * PostgreSQL (tested with PostgreSQL 9.1)
   * SQLite3 (tested with SQLite 3.7)
+  * SQLServer (tested with SQLServer 2012)
 
 Optional:
 * SCM binaries (e.g. svn, git...), for repository browsing (must be available in PATH)
@@ -38,6 +39,12 @@ Optional:
    If ImageMagick is not installed on your system, you should skip the installation
    of the rmagick gem using:
      bundle install --without development test rmagick
+
+   Only the gems that are needed by the adapters you've specified in your database
+   configuration file are actually installed (eg. if your config/database.yml
+   uses the 'mysql2' adapter, then only the mysql2 gem will be installed). Don't
+   forget to re-run `bundle install` when you change config/database.yml for using
+   other database adapters.
 
    If you need to load some gems that are not required by Redmine core (eg. fcgi),
    you can create a file named Gemfile.local at the root of your redmine directory.
