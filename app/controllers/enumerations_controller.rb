@@ -77,7 +77,7 @@ class EnumerationsController < ApplicationController
         return
       end
     end
-    @enumerations = @enumeration.class.all - [@enumeration]
+    @enumerations = @enumeration.class.system.all - [@enumeration]
   end
 
   private
