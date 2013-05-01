@@ -29,6 +29,8 @@ General options:
                            create: create a user account
   no_permission_check=1    disable permission checking when receiving
                            the email
+  no_account_notice=1      disable new user account notification
+  default_group=foo,bar    adds created user to foo and bar groups
 
 Issue attributes control options:
   project=PROJECT          identifier of the target project
@@ -58,6 +60,8 @@ END_DESC
       options[:allow_override] = ENV['allow_override'] if ENV['allow_override']
       options[:unknown_user] = ENV['unknown_user'] if ENV['unknown_user']
       options[:no_permission_check] = ENV['no_permission_check'] if ENV['no_permission_check']
+      options[:no_account_notice] = ENV['no_account_notice'] if ENV['no_account_notice']
+      options[:default_group] = ENV['default_group'] if ENV['default_group']
 
       MailHandler.receive(STDIN.read, options)
     end
@@ -73,6 +77,8 @@ General options:
                            create: create a user account
   no_permission_check=1    disable permission checking when receiving
                            the email
+  no_account_notice=1      disable new user account notification
+  default_group=foo,bar    adds created user to foo and bar groups
 
 Available IMAP options:
   host=HOST                IMAP server host (default: 127.0.0.1)
@@ -129,6 +135,8 @@ END_DESC
       options[:allow_override] = ENV['allow_override'] if ENV['allow_override']
       options[:unknown_user] = ENV['unknown_user'] if ENV['unknown_user']
       options[:no_permission_check] = ENV['no_permission_check'] if ENV['no_permission_check']
+      options[:no_account_notice] = ENV['no_account_notice'] if ENV['no_account_notice']
+      options[:default_group] = ENV['default_group'] if ENV['default_group']
 
       Redmine::IMAP.check(imap_options, options)
     end
@@ -162,6 +170,8 @@ END_DESC
       options[:allow_override] = ENV['allow_override'] if ENV['allow_override']
       options[:unknown_user] = ENV['unknown_user'] if ENV['unknown_user']
       options[:no_permission_check] = ENV['no_permission_check'] if ENV['no_permission_check']
+      options[:no_account_notice] = ENV['no_account_notice'] if ENV['no_account_notice']
+      options[:default_group] = ENV['default_group'] if ENV['default_group']
 
       Redmine::POP3.check(pop_options, options)
     end
