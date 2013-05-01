@@ -228,9 +228,9 @@ module Redmine
         def self.shellout(cmd, options = {}, &block)
           if logger && logger.debug?
             logger.debug "Shelling out: #{strip_credential(cmd)}"
+            # Capture stderr in a log file
+            cmd = "#{cmd} 2>>#{shell_quote(stderr_log_file)}"
           end
-          # Capture stderr in a log file
-          cmd = "#{cmd} 2>>#{shell_quote(stderr_log_file)}"
           begin
             mode = "r+"
             IO.popen(cmd, mode) do |io|
