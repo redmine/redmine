@@ -4,6 +4,25 @@ Redmine - project management software
 Copyright (C) 2006-2013  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2013-05-01 v2.3.1
+
+* Defect #12650: Lost text after selection in issue list with IE
+* Defect #12684: Hotkey for Issue-Edit doesn't work as expected
+* Defect #13405: Commit link title is escaped twice when using "commit:" prefix
+* Defect #13541: Can't access SCM when log/production.scm.stderr.log is not writable
+* Defect #13579: Datepicker uses Simplified Chinese in Traditional Chinese locale
+* Defect #13584: Missing Portuguese jQuery UI date picker
+* Defect #13586: Circular loop testing prevents precedes/follows relation between subtasks
+* Defect #13618: CSV export of spent time ignores filters and columns selection
+* Defect #13630: PDF export generates the issue id twice
+* Defect #13644: Diff - Internal Error
+* Defect #13712: Fix email rake tasks to also support no_account_notice and default_group options
+* Defect #13811: Broken javascript in IE7 ; recurrence of #12195
+* Defect #13823: Trailing comma in javascript files
+* Patch #13531: Traditional Chinese translation for 2.3-stable
+* Patch #13552: Dutch translations for 2.3-stable
+* Patch #13678: Lithuanian translation for 2.3-stable
+
 == 2013-03-19 v2.3.0
 
 * Defect #3107: Issue with two digit year on Logtime
