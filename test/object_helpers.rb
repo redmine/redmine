@@ -107,10 +107,11 @@ module ObjectHelpers
   def TimeEntry.generate!(attributes={})
     entry = TimeEntry.new(attributes)
     entry.user ||= User.find(2)
-    entry.issue ||= Issue.find(1)
+    entry.issue ||= Issue.find(1) unless entry.project
     entry.project ||= entry.issue.project
     entry.activity ||= TimeEntryActivity.first
     entry.spent_on ||= Date.today
+    entry.hours ||= 1.0
     entry.save!
     entry
   end
