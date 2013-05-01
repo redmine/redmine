@@ -471,7 +471,11 @@ module ApplicationHelper
   end
 
   def accesskey(s)
-    Redmine::AccessKeys.key_for s
+    @used_accesskeys ||= []
+    key = Redmine::AccessKeys.key_for(s)
+    return nil if @used_accesskeys.include?(key)
+    @used_accesskeys << key
+    key
   end
 
   # Formats text according to system settings.
