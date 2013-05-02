@@ -57,11 +57,26 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
 
   context "#number_of_rows" do
     context "with one project" do
-      should "return the number of rows just for that project"
+      should "return the number of rows just for that project" do
+        p1, p2 = Project.generate!, Project.generate!
+        i1, i2 = Issue.generate!(:project => p1), Issue.generate!(:project => p2)
+        create_gantt(p1)
+        assert_equal 2, @gantt.number_of_rows
+      end
     end
 
     context "with no project" do
-      should "return the total number of rows for all the projects, resursively"
+      should "return the total number of rows for all the projects, resursively" do
+        p1, p2 = Project.generate!, Project.generate!
+        create_gantt(nil)
+        #fix the return value of #number_of_rows_on_project() to an arbitrary value
+        #so that we really only test #number_of_rows
+        @gantt.stubs(:number_of_rows_on_project).returns(7)
+        #also fix #projects because we want to test #number_of_rows in isolation
+        @gantt.stubs(:projects).returns(Project.all)
+        #actual test
+        assert_equal Project.count*7, @gantt.number_of_rows
+      end
     end
 
     should "not exceed max_rows option" do
