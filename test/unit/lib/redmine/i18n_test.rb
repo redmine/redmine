@@ -131,15 +131,6 @@ class Redmine::I18nTest < ActiveSupport::TestCase
     end
   end
 
-  def test_time_format
-    set_language_if_valid 'en'
-    now = Time.now
-    Setting.date_format = '%d %m %Y'
-    Setting.time_format = '%H %M'
-    assert_equal now.strftime('%d %m %Y %H %M'), format_time(now)
-    assert_equal now.strftime('%H %M'), format_time(now, false)
-  end
-
   def test_utc_time_format
     set_language_if_valid 'en'
     now = Time.now
