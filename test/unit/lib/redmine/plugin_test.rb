@@ -83,6 +83,18 @@ class Redmine::PluginTest < ActiveSupport::TestCase
     assert_nil Redmine::MenuManager.items(:project_menu).detect {|i| i.name == :foo_menu_item}
   end
 
+  def test_directory_with_override
+    @klass.register(:foo) do
+      directory '/path/to/foo'
+    end
+    assert_equal '/path/to/foo', @klass.find('foo').directory
+  end
+
+  def test_directory_without_override
+    @klass.register(:foo) {}
+    assert_equal File.join(@klass.directory, 'foo'), @klass.find('foo').directory
+  end
+
   def test_requires_redmine
     plugin = Redmine::Plugin.register(:foo) {}
     Redmine::VERSION.stubs(:to_a).returns([2, 1, 3, "stable", 10817])

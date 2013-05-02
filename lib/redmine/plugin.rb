@@ -64,15 +64,18 @@ module Redmine #:nodoc:
         end
       end
     end
-    def_field :name, :description, :url, :author, :author_url, :version, :settings
+    def_field :name, :description, :url, :author, :author_url, :version, :settings, :directory
     attr_reader :id
 
     # Plugin constructor
     def self.register(id, &block)
       p = new(id)
       p.instance_eval(&block)
+
       # Set a default name if it was not provided during registration
       p.name(id.to_s.humanize) if p.name.nil?
+      # Set a default directory if it was not provided during registration
+      p.directory(File.join(self.directory, id.to_s)) if p.directory.nil?
 
       # Adds plugin locales if any
       # YAML translation files should be found under <plugin>/config/locales/
@@ -135,10 +138,6 @@ module Redmine #:nodoc:
 
     def initialize(id)
       @id = id.to_sym
-    end
-
-    def directory
-      File.join(self.class.directory, id.to_s)
     end
 
     def public_directory
