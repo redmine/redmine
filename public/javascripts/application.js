@@ -290,11 +290,16 @@ function submit_query_form(id) {
   $('#'+id).submit();
 }
 
-function showTab(name) {
+function showTab(name, url) {
   $('div#content .tab-content').hide();
   $('div.tabs a').removeClass('selected');
   $('#tab-content-' + name).show();
   $('#tab-' + name).addClass('selected');
+  //replaces current URL with the "href" attribute of the current link
+  //(only triggered if supported by browser)
+  if ("replaceState" in window.history) {
+    window.history.replaceState(null, document.title, url);
+  }
   return false;
 }
 
