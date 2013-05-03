@@ -68,10 +68,12 @@
 <p>
   <%= link_to_function l(:label_completed_versions), 
                        '$("#toggle-completed-versions").toggleClass("collapsed"); $("#completed-versions").toggle()',
-                       :id => 'toggle-completed-versions', :class => 'collapsible collapsed' %><br />
-  <span id="completed-versions" style="display:none;">
-    <%= @completed_versions.map {|version| link_to format_version_name(version), version_path(version)}.join("<br />\n").html_safe %>
-  </span>
+                       :id => 'toggle-completed-versions', :class => 'collapsible collapsed' %>
+  <ul id = "completed-versions" style = "display:none;">
+    <% @completed_versions.each do |version| %>
+      <li><%= link_to(format_version_name(version), version_path(version)) %></li>
+    <% end %>  
+  </ul>
 </p>
 <% end %>
 <% end %>
