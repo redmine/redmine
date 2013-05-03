@@ -1,34 +1,35 @@
 <div class="contextual">
-  <%= link_to l(:label_version_new), new_project_version_path(@project), :class => 'icon icon-add' if User.current.allowed_to?(:manage_versions, @project) %>
+  <%= link_to(l(:label_version_new), new_project_version_path(@project),
+              :class => 'icon icon-add') if User.current.allowed_to?(:manage_versions, @project) %>
 </div>
 
 <h2><%=l(:label_roadmap)%></h2>
 
 <% if @versions.empty? %>
-<p class="nodata"><%= l(:label_no_data) %></p>
+  <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
-<div id="roadmap">
-<% @versions.each do |version| %>
+  <div id="roadmap">
+  <% @versions.each do |version| %>
     <h3 class="version"><%= link_to_version version, :name => version_anchor(version) %></h3>
     <%= render :partial => 'versions/overview', :locals => {:version => version} %>
-    <%= render(:partial => "wiki/content", :locals => {:content => version.wiki_page.content}) if version.wiki_page %>
-
+    <%= render(:partial => "wiki/content",
+               :locals => {:content => version.wiki_page.content}) if version.wiki_page %>
     <% if (issues = @issues_by_version[version]) && issues.size > 0 %>
-    <%= form_tag({}) do -%>
-    <table class="list related-issues">
-    <caption><%= l(:label_related_issues) %></caption>
-    <% issues.each do |issue| -%>
-      <tr class="hascontextmenu">
-        <td class="checkbox"><%= check_box_tag 'ids[]', issue.id, false, :id => nil %></td>
-        <td><%= link_to_issue(issue, :project => (@project != issue.project)) %></td>
-      </tr>
-    <% end -%>
-    </table>
-    <% end %>
+      <%= form_tag({}) do -%>
+        <table class="list related-issues">
+        <caption><%= l(:label_related_issues) %></caption>
+        <% issues.each do |issue| -%>
+          <tr class="hascontextmenu">
+            <td class="checkbox"><%= check_box_tag 'ids[]', issue.id, false, :id => nil %></td>
+            <td><%= link_to_issue(issue, :project => (@project != issue.project)) %></td>
+          </tr>
+        <% end -%>
+        </table>
+      <% end %>
     <% end %>
     <%= call_hook :view_projects_roadmap_version_bottom, :version => version %>
-<% end %>
-</div>
+  <% end %>
+  </div>
 <% end %>
 
 <% content_for :sidebar do %>
