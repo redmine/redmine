@@ -221,6 +221,8 @@ module Redmine
     end
 
     class Mapper
+      attr_reader :menu, :menu_items
+
       def initialize(menu, items)
         items[menu] ||= MenuNode.new(:root, {})
         @menu = menu

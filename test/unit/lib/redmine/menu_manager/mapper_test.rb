@@ -19,7 +19,18 @@ require File.expand_path('../../../../../test_helper', __FILE__)
 
 class Redmine::MenuManager::MapperTest < ActiveSupport::TestCase
   context "Mapper#initialize" do
-    should "be tested"
+    should "define a root MenuNode if menu is not present in items" do
+      menu_mapper = Redmine::MenuManager::Mapper.new(:test_menu, {})
+      node = menu_mapper.menu_items
+      assert_not_nil node
+      assert_equal :root, node.name
+    end
+
+    should "use existing MenuNode if present" do
+      node = "foo" # just an arbitrary reference
+      menu_mapper = Redmine::MenuManager::Mapper.new(:test_menu, {:test_menu => node})
+      assert_equal node, menu_mapper.menu_items
+    end
   end
 
   def test_push_onto_root
