@@ -18,7 +18,9 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class VersionsControllerTest < ActionController::TestCase
-  fixtures :projects, :versions, :issues, :users, :roles, :members, :member_roles, :enabled_modules, :issue_statuses, :issue_categories
+  fixtures :projects, :versions, :issues, :users, :roles, :members,
+           :member_roles, :enabled_modules, :issue_statuses,
+           :issue_categories
 
   def setup
     User.current = nil
@@ -171,16 +173,18 @@ class VersionsControllerTest < ActionController::TestCase
     Version.update_all("status = 'open'")
     @request.session[:user_id] = 2
     put :close_completed, :project_id => 'ecookbook'
-    assert_redirected_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => 'ecookbook'
+    assert_redirected_to :controller => 'projects', :action => 'settings',
+                         :tab => 'versions', :id => 'ecookbook'
     assert_not_nil Version.find_by_status('closed')
   end
 
   def test_post_update
     @request.session[:user_id] = 2
     put :update, :id => 2,
-                :version => { :name => 'New version name',
-                              :effective_date => Date.today.strftime("%Y-%m-%d")}
-    assert_redirected_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => 'ecookbook'
+                :version => {:name => 'New version name',
+                             :effective_date => Date.today.strftime("%Y-%m-%d")}
+    assert_redirected_to :controller => 'projects', :action => 'settings',
+                         :tab => 'versions', :id => 'ecookbook'
     version = Version.find(2)
     assert_equal 'New version name', version.name
     assert_equal Date.today, version.effective_date
@@ -200,7 +204,8 @@ class VersionsControllerTest < ActionController::TestCase
     assert_difference 'Version.count', -1 do
       delete :destroy, :id => 3
     end
-    assert_redirected_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => 'ecookbook'
+    assert_redirected_to :controller => 'projects', :action => 'settings',
+                         :tab => 'versions', :id => 'ecookbook'
     assert_nil Version.find_by_id(3)
   end
 
@@ -209,7 +214,8 @@ class VersionsControllerTest < ActionController::TestCase
     assert_no_difference 'Version.count' do
       delete :destroy, :id => 2
     end
-    assert_redirected_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => 'ecookbook'
+    assert_redirected_to :controller => 'projects', :action => 'settings',
+                         :tab => 'versions', :id => 'ecookbook'
     assert flash[:error].match(/Unable to delete version/)
     assert Version.find_by_id(2)
   end
