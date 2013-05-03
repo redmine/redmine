@@ -37,12 +37,12 @@ class VersionsControllerTest < ActionController::TestCase
     assert !assigns(:versions).include?(Version.find(1))
     # Context menu on issues
     assert_select "script", :text => Regexp.new(Regexp.escape("contextMenuInit('/issues/context_menu')"))
-    # Links to versions anchors
-    assert_tag 'a', :attributes => {:href => '#2.0'},
-                    :ancestor => {:tag => 'div', :attributes => {:id => 'sidebar'}}
-    # Links to completed versions in the sidebar
-    assert_tag 'a', :attributes => {:href => '/versions/1'},
-                    :ancestor => {:tag => 'div', :attributes => {:id => 'sidebar'}}
+    assert_select "div#sidebar" do
+      # Links to versions anchors
+      assert_select 'a[href=?]', '#2.0'
+      # Links to completed versions in the sidebar
+      assert_select 'a[href=?]', '/versions/1'
+    end
   end
 
   def test_index_with_completed_versions
