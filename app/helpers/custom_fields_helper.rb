@@ -77,7 +77,7 @@ module CustomFieldsHelper
     custom_field_label_tag(name, custom_value, options) + custom_field_tag(name, custom_value)
   end
 
-  def custom_field_tag_for_bulk_edit(name, custom_field, projects=nil, value=nil)
+  def custom_field_tag_for_bulk_edit(name, custom_field, projects=nil, value='')
     field_name = "#{name}[custom_field_values][#{custom_field.id}]"
     field_name << "[]" if custom_field.multiple?
     field_id = "#{name}_custom_field_values_#{custom_field.id}"
