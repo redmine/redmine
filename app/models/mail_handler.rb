@@ -46,6 +46,19 @@ class MailHandler < ActionMailer::Base
     super(email)
   end
 
+  # Extracts MailHandler options from environment variables
+  # Use when receiving emails with rake tasks
+  def self.extract_options_from_env(env)
+    options = {:issue => {}}
+    %w(project status tracker category priority).each do |option|
+      options[:issue][option.to_sym] = env[option] if env[option]
+    end
+    %w(allow_override unknown_user no_permission_check no_account_notice default_group).each do |option|
+      options[option.to_sym] = env[option] if env[option]
+    end
+    options
+  end
+
   def logger
     Rails.logger
   end

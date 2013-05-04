@@ -798,6 +798,19 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal str2, user.lastname
   end
 
+  def test_extract_options_from_env_should_return_options
+    options = MailHandler.extract_options_from_env({
+      'tracker' => 'defect',
+      'project' => 'foo',
+      'unknown_user' => 'create'
+    })
+
+    assert_equal({
+      :issue => {:tracker => 'defect', :project => 'foo'},
+      :unknown_user => 'create'
+    }, options)
+  end
+
   private
 
   def submit_email(filename, options={})
