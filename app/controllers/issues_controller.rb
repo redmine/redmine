@@ -260,13 +260,15 @@ class IssuesController < ApplicationController
       @issues.reject! {|issue| @issues.detect {|other| issue.is_descendant_of?(other)}}
     end
 
-    @issues.each do |issue|
-      issue.reload
+    @issues.each do |orig_issue|
+      orig_issue.reload
       if @copy
-        issue = issue.copy({},
+        issue = orig_issue.copy({},
           :attachments => params[:copy_attachments].present?,
           :subtasks => params[:copy_subtasks].present?
         )
+      else
+        issue = orig_issue
       end
       journal = issue.init_journal(User.current, params[:notes])
       issue.safe_attributes = attributes
@@ -274,7 +276,7 @@ class IssuesController < ApplicationController
       if issue.save
         saved_issues << issue
       else
-        unsaved_issues << issue
+        unsaved_issues << orig_issue
       end
     end
 

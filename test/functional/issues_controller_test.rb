@@ -3821,6 +3821,13 @@ class IssuesControllerTest < ActionController::TestCase
     assert_redirected_to :controller => 'issues', :action => 'show', :id => issue
   end
 
+  def test_bulk_copy_with_all_failures_should_display_errors
+    @request.session[:user_id] = 2
+    post :bulk_update, :ids => [1, 2], :copy => '1', :issue => {:start_date => 'foo'}
+
+    assert_response :success
+  end
+
   def test_destroy_issue_with_no_time_entries
     assert_nil TimeEntry.find_by_issue_id(2)
     @request.session[:user_id] = 2
