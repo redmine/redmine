@@ -77,7 +77,7 @@ module CustomFieldsHelper
     custom_field_label_tag(name, custom_value, options) + custom_field_tag(name, custom_value)
   end
 
-  def custom_field_tag_for_bulk_edit(name, custom_field, projects=nil)
+  def custom_field_tag_for_bulk_edit(name, custom_field, projects=nil, value=nil)
     field_name = "#{name}[custom_field_values][#{custom_field.id}]"
     field_name << "[]" if custom_field.multiple?
     field_id = "#{name}_custom_field_values_#{custom_field.id}"
@@ -87,22 +87,22 @@ module CustomFieldsHelper
     field_format = Redmine::CustomFieldFormat.find_by_name(custom_field.field_format)
     case field_format.try(:edit_as)
       when "date"
-        text_field_tag(field_name, '', tag_options.merge(:size => 10)) +
+        text_field_tag(field_name, value, tag_options.merge(:size => 10)) +
         calendar_for(field_id)
       when "text"
-        text_area_tag(field_name, '', tag_options.merge(:rows => 3))
+        text_area_tag(field_name, value, tag_options.merge(:rows => 3))
       when "bool"
         select_tag(field_name, options_for_select([[l(:label_no_change_option), ''],
                                                    [l(:general_text_yes), '1'],
-                                                   [l(:general_text_no), '0']]), tag_options)
+                                                   [l(:general_text_no), '0']], value), tag_options)
       when "list"
         options = []
         options << [l(:label_no_change_option), ''] unless custom_field.multiple?
         options << [l(:label_none), '__none__'] unless custom_field.is_required?
         options += custom_field.possible_values_options(projects)
-        select_tag(field_name, options_for_select(options), tag_options.merge(:multiple => custom_field.multiple?))
+        select_tag(field_name, options_for_select(options, value), tag_options.merge(:multiple => custom_field.multiple?))
       else
-        text_field_tag(field_name, '', tag_options)
+        text_field_tag(field_name, value, tag_options)
     end
   end
 

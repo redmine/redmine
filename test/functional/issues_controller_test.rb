@@ -3616,6 +3616,18 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal [issue1.id, issue2.id], assigns[:issues].map(&:id)
   end
 
+  def test_bulk_update_with_failure_should_preserved_form_values
+    @request.session[:user_id] = 2
+    post :bulk_update, :ids => [1, 2], :issue => {:tracker_id => '2', :start_date => 'foo'}
+
+    assert_response :success
+    assert_template 'bulk_edit'
+    assert_select 'select[name=?]', 'issue[tracker_id]' do
+      assert_select 'option[value=2][selected=selected]'
+    end
+    assert_select 'input[name=?][value=?]', 'issue[start_date]', 'foo'
+  end
+
   def test_get_bulk_copy
     @request.session[:user_id] = 2
     get :bulk_edit, :ids => [1, 2, 3], :copy => '1'

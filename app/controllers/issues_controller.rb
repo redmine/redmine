@@ -241,6 +241,9 @@ class IssuesController < ApplicationController
     end
 
     @safe_attributes = @issues.map(&:safe_attribute_names).reduce(:&)
+
+    @issue_params = params[:issue] || {}
+    @issue_params[:custom_field_values] ||= {}
   end
 
   def bulk_update

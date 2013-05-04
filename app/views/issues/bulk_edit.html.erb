@@ -32,34 +32,43 @@
 <% if @allowed_projects.present? %>
 <p>
   <label for="issue_project_id"><%= l(:field_project) %></label>
-  <%= select_tag('issue[project_id]', content_tag('option', l(:label_no_change_option), :value => '') + project_tree_options_for_select(@allowed_projects, :selected => @target_project),
+  <%= select_tag('issue[project_id]',
+                 content_tag('option', l(:label_no_change_option), :value => '') + 
+                   project_tree_options_for_select(@allowed_projects, :selected => @target_project),
                  :onchange => "updateBulkEditFrom('#{escape_javascript url_for(:action => 'bulk_edit', :format => 'js')}')") %>
 </p>
 <% end %>
 <p>
   <label for="issue_tracker_id"><%= l(:field_tracker) %></label>
-  <%= select_tag('issue[tracker_id]', content_tag('option', l(:label_no_change_option), :value => '') + options_from_collection_for_select(@trackers, :id, :name)) %>
+  <%= select_tag('issue[tracker_id]',
+                 content_tag('option', l(:label_no_change_option), :value => '') +
+                   options_from_collection_for_select(@trackers, :id, :name, @issue_params[:tracker_id])) %>
 </p>
 <% if @available_statuses.any? %>
 <p>
   <label for='issue_status_id'><%= l(:field_status) %></label>
-  <%= select_tag('issue[status_id]',content_tag('option', l(:label_no_change_option), :value => '') + options_from_collection_for_select(@available_statuses, :id, :name)) %>
+  <%= select_tag('issue[status_id]',
+                 content_tag('option', l(:label_no_change_option), :value => '') +
+                   options_from_collection_for_select(@available_statuses, :id, :name, @issue_params[:status_id])) %>
 </p>
 <% end %>
 
 <% if @safe_attributes.include?('priority_id') -%>
 <p>
   <label for='issue_priority_id'><%= l(:field_priority) %></label>
-  <%= select_tag('issue[priority_id]', content_tag('option', l(:label_no_change_option), :value => '') + options_from_collection_for_select(IssuePriority.active, :id, :name)) %>
+  <%= select_tag('issue[priority_id]',
+                 content_tag('option', l(:label_no_change_option), :value => '') +
+                   options_from_collection_for_select(IssuePriority.active, :id, :name, @issue_params[:priority_id])) %>
 </p>
 <% end %>
 
 <% if @safe_attributes.include?('assigned_to_id') -%>
 <p>
   <label for='issue_assigned_to_id'><%= l(:field_assigned_to) %></label>
-  <%= select_tag('issue[assigned_to_id]', content_tag('option', l(:label_no_change_option), :value => '') +
-                                 content_tag('option', l(:label_nobody), :value => 'none') +
-                                 principals_options_for_select(@assignables)) %>
+  <%= select_tag('issue[assigned_to_id]',
+                 content_tag('option', l(:label_no_change_option), :value => '') +
+                   content_tag('option', l(:label_nobody), :value => 'none', :selected => (@issue_params[:assigned_to_id] == 'none')) +
+                   principals_options_for_select(@assignables, @issue_params[:assigned_to_id])) %>
 </p>
 <% end %>
 
@@ -67,8 +76,8 @@
 <p>
   <label for='issue_category_id'><%= l(:field_category) %></label>
   <%= select_tag('issue[category_id]', content_tag('option', l(:label_no_change_option), :value => '') +
-                                content_tag('option', l(:label_none), :value => 'none') +
-                                options_from_collection_for_select(@categories, :id, :name)) %>
+                                content_tag('option', l(:label_none), :value => 'none', :selected => (@issue_params[:category_id] == 'none')) +
+                                options_from_collection_for_select(@categories, :id, :name, @issue_params[:category_id])) %>
 </p>
 <% end %>
 
@@ -76,26 +85,31 @@
 <p>
   <label for='issue_fixed_version_id'><%= l(:field_fixed_version) %></label>
   <%= select_tag('issue[fixed_version_id]', content_tag('option', l(:label_no_change_option), :value => '') +
-                                   content_tag('option', l(:label_none), :value => 'none') +
-                                   version_options_for_select(@versions.sort)) %>
+                                   content_tag('option', l(:label_none), :value => 'none', :selected => (@issue_params[:fixed_version_id] == 'none')) +
+                                   version_options_for_select(@versions.sort, @issue_params[:fixed_version_id])) %>
 </p>
 <% end %>
 
 <% @custom_fields.each do |custom_field| %>
-  <p><label><%= h(custom_field.name) %></label> <%= custom_field_tag_for_bulk_edit('issue', custom_field, @projects) %></p>
+  <p>
+    <label><%= h(custom_field.name) %></label>
+    <%= custom_field_tag_for_bulk_edit('issue', custom_field, @projects, @issue_params[:custom_field_values][custom_field.id.to_s]) %>
+  </p>
 <% end %>
 
 <% if @copy && @attachments_present %>
+<%= hidden_field_tag 'copy_attachments', '0' %>
 <p>
   <label for='copy_attachments'><%= l(:label_copy_attachments) %></label>
-  <%= check_box_tag 'copy_attachments', '1', true %>
+  <%= check_box_tag 'copy_attachments', '1', params[:copy_attachments] != '0' %>
 </p>
 <% end %>
 
 <% if @copy && @subtasks_present %>
+<%= hidden_field_tag 'copy_subtasks', '0' %>
 <p>
   <label for='copy_subtasks'><%= l(:label_copy_subtasks) %></label>
-  <%= check_box_tag 'copy_subtasks', '1', true %>
+  <%= check_box_tag 'copy_subtasks', '1', params[:copy_subtasks] != '0' %>
 </p>
 <% end %>
 
@@ -107,15 +121,15 @@
 <p>
   <label for='issue_is_private'><%= l(:field_is_private) %></label>
   <%= select_tag('issue[is_private]', content_tag('option', l(:label_no_change_option), :value => '') +
-                                content_tag('option', l(:general_text_Yes), :value => '1') +
-                                content_tag('option', l(:general_text_No), :value => '0')) %>
+                                content_tag('option', l(:general_text_Yes), :value => '1', :selected => (@issue_params[:is_private] == '1')) +
+                                content_tag('option', l(:general_text_No), :value => '0', :selected => (@issue_params[:is_private] == '0'))) %>
 </p>
 <% end %>
 
 <% if @safe_attributes.include?('parent_issue_id') && @project %>
 <p>
   <label for='issue_parent_issue_id'><%= l(:field_parent_issue) %></label>
-  <%= text_field_tag 'issue[parent_issue_id]', '', :size => 10 %>
+  <%= text_field_tag 'issue[parent_issue_id]', '', :size => 10, :value => @issue_params[:parent_issue_id] %>
 </p>
 <%= javascript_tag "observeAutocompleteField('issue_parent_issue_id', '#{escape_javascript auto_complete_issues_path(:project_id => @project)}')" %>
 <% end %>
@@ -123,21 +137,21 @@
 <% if @safe_attributes.include?('start_date') %>
 <p>
   <label for='issue_start_date'><%= l(:field_start_date) %></label>
-  <%= text_field_tag 'issue[start_date]', '', :size => 10 %><%= calendar_for('issue_start_date') %>
+  <%= text_field_tag 'issue[start_date]', '', :value => @issue_params[:start_date], :size => 10 %><%= calendar_for('issue_start_date') %>
 </p>
 <% end %>
 
 <% if @safe_attributes.include?('due_date') %>
 <p>
   <label for='issue_due_date'><%= l(:field_due_date) %></label>
-  <%= text_field_tag 'issue[due_date]', '', :size => 10 %><%= calendar_for('issue_due_date') %>
+  <%= text_field_tag 'issue[due_date]', '', :value => @issue_params[:due_date], :size => 10 %><%= calendar_for('issue_due_date') %>
 </p>
 <% end %>
 
 <% if @safe_attributes.include?('done_ratio') && Issue.use_field_for_done_ratio? %>
 <p>
   <label for='issue_done_ratio'><%= l(:field_done_ratio) %></label>
-  <%= select_tag 'issue[done_ratio]', options_for_select([[l(:label_no_change_option), '']] + (0..10).to_a.collect {|r| ["#{r*10} %", r*10] }) %>
+  <%= select_tag 'issue[done_ratio]', options_for_select([[l(:label_no_change_option), '']] + (0..10).to_a.collect {|r| ["#{r*10} %", r*10] }, @issue_params[:done_ratio]) %>
 </p>
 <% end %>
 </div>
