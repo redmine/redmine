@@ -94,6 +94,20 @@ module IssuesHelper
     s.html_safe
   end
 
+  # Returns an array of error messages for bulk edited issues
+  def bulk_edit_error_messages(issues)
+    messages = {}
+    issues.each do |issue|
+      issue.errors.full_messages.each do |message|
+        messages[message] ||= []
+        messages[message] << issue
+      end
+    end
+    messages.map { |message, issues|
+      "#{message}: " + issues.map {|i| "##{i.id}"}.join(', ')
+    }
+ end
+
   # Returns a link for adding a new subtask to the given issue
   def link_to_new_subtask(issue)
     attrs = {

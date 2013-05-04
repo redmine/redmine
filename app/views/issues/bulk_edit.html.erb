@@ -1,5 +1,21 @@
 <h2><%= @copy ? l(:button_copy) : l(:label_bulk_edit_selected_issues) %></h2>
 
+<% if @saved_issues && @unsaved_issues.present? %>
+<div id="errorExplanation">
+  <span>
+    <%= l(:notice_failed_to_save_issues,
+        :count => @unsaved_issues.size,
+        :total => @saved_issues.size,
+        :ids => @unsaved_issues.map {|i| "##{i.id}"}.join(', ')) %>
+  </span>
+  <ul>
+  <% bulk_edit_error_messages(@unsaved_issues).each do |message| %>
+    <li><%= message %></li>
+  <% end %>
+  </ul>
+</div>
+<% end %>
+
 <ul id="bulk-selection">
 <% @issues.each do |issue| %>
   <%= content_tag 'li', link_to_issue(issue) %>

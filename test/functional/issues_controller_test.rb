@@ -3588,13 +3588,32 @@ class IssuesControllerTest < ActionController::TestCase
     assert_redirected_to :controller => 'issues', :action => 'index', :project_id => Project.find(1).identifier
   end
 
-  def test_bulk_update_with_failure_should_set_flash
+  def test_bulk_update_with_all_failures_should_show_errors
     @request.session[:user_id] = 2
-    Issue.update_all("subject = ''", "id = 2") # Make it invalid
-    post :bulk_update, :ids => [1, 2], :issue => {:priority_id => 6}
+    post :bulk_update, :ids => [1, 2], :issue => {:start_date => 'foo'}
 
-    assert_redirected_to :controller => 'issues', :action => 'index', :project_id => 'ecookbook'
-    assert_equal 'Failed to save 1 issue(s) on 2 selected: #2.', flash[:error]
+    assert_response :success
+    assert_template 'bulk_edit'
+    assert_select '#errorExplanation span', :text => 'Failed to save 2 issue(s) on 2 selected: #1, #2.'
+    assert_select '#errorExplanation ul li', :text => 'Start date is not a valid date: #1, #2'
+
+    assert_equal [1, 2], assigns[:issues].map(&:id)
+  end
+
+  def test_bulk_update_with_some_failures_should_show_errors
+    issue1 = Issue.generate!(:start_date => '2013-05-12')
+    issue2 = Issue.generate!(:start_date => '2013-05-15')
+    issue3 = Issue.generate!
+
+    @request.session[:user_id] = 2
+    post :bulk_update, :ids => [issue1.id, issue2.id, issue3.id], :issue => {:due_date => '2013-05-01'}
+
+    assert_response :success
+    assert_template 'bulk_edit'
+    assert_select '#errorExplanation span', :text => "Failed to save 2 issue(s) on 3 selected: ##{issue1.id}, ##{issue2.id}."
+    assert_select '#errorExplanation ul li', :text => "Due date must be greater than start date: ##{issue1.id}, ##{issue2.id}"
+
+    assert_equal [issue1.id, issue2.id], assigns[:issues].map(&:id)
   end
 
   def test_get_bulk_copy
