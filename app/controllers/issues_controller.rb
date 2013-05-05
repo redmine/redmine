@@ -413,6 +413,7 @@ class IssuesController < ApplicationController
 
     @issue.project = @project
     @issue.author ||= User.current
+    @issue.assigned_to ||= User.current
     # Tracker must be set before custom field values
     @issue.tracker ||= @project.trackers.find((params[:issue] && params[:issue][:tracker_id]) || params[:tracker_id] || :first)
     if @issue.tracker.nil?
