@@ -1142,7 +1142,7 @@ lt:
   setting_jsonp_enabled: Įgalinti JSONP palaikymą
   field_inherit_members: Paveldėti narius
   field_closed_on: Uždarytas
-  field_generate_password: Generate password
+  field_generate_password: Sugeneruoti slaptažodį
   setting_default_projects_tracker_ids: Sekliai pagal nutylėjimą naujiems projektams
   label_total_time: Iš viso
   text_scm_config: Jūs galite pakeisti SCM komandas byloje config/configuration.yml. Prašome perkrauti programą po redagavimo, idant įgalinti pakeitimus.
