@@ -602,7 +602,7 @@ lt:
   label_no_data: Nėra ką atvaizduoti
   label_change_status: Pakeitimo būsena
   label_history: Istorija
-  label_attachment: Filas
+  label_attachment: Failas
   label_attachment_new: Naujas failas
   label_attachment_delete: Pašalinkite failą
   label_attachment_plural: Failai
