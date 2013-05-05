@@ -253,7 +253,6 @@ lt:
   error_unable_delete_issue_status: 'Negalima ištrinti darbo statuso'
   error_unable_to_connect: Negalima prisijungti (%{value})
   error_attachment_too_big: "Ši byla negali būti įkelta, nes viršija maksimalią (%{max_size}) leistiną bylos apimtį"
-  error_attachment_too_big: "This file cannot be uploaded because it exceeds the maximum allowed file size (%{max_size})"
   warning_attachments_not_saved: "%{count} byla(ų) negali būti išsaugota."
 
   mail_subject_lost_password: "Jūsų %{value} slaptažodis"
