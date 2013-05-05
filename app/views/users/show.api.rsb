@@ -7,6 +7,7 @@ api.user do
   api.created_on @user.created_on
   api.last_login_on @user.last_login_on
   api.api_key    @user.api_key if User.current.admin? || (User.current == @user)
+  api.status     @user.status if User.current.admin?
 
   render_api_custom_values @user.visible_custom_field_values, api
 

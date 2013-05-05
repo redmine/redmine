@@ -120,6 +120,18 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
     assert_tag 'user', :child => {:tag => 'api_key', :content => User.find(2).api_key}
   end
 
+  test "GET /users/:id should not return status for standard user" do
+    get '/users/3.xml', {}, credentials('jsmith')
+    assert_response :success
+    assert_no_tag 'user', :child => {:tag => 'status'}
+  end
+
+  test "GET /users/:id should return status for administrators" do
+    get '/users/2.xml', {}, credentials('admin')
+    assert_response :success
+    assert_tag 'user', :child => {:tag => 'status', :content => User.find(1).status.to_s}
+  end
+
   context "POST /users" do
     context "with valid parameters" do
       setup do
