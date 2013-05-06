@@ -762,10 +762,16 @@ namespace :redmine do
     prompt('Target project identifier') {|identifier| TracMigrate.target_project_identifier identifier}
     puts
 
-    # Turn off email notifications
-    Setting.notified_events = []
-
-    TracMigrate.migrate
+    old_notified_events = Setting.notified_events
+    begin
+      # Turn off email notifications temporarily
+      Setting.notified_events = []
+      # Run the migration
+      TracMigrate.migrate
+    ensure
+      # Restore previous notification settings even if the migration fails
+      Setting.notified_events = old_notified_events
+    end
   end
 end
 
