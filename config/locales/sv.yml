@@ -374,6 +374,7 @@ sv:
   field_board_parent: Förälderforum
   field_private_notes: Privata anteckningar
   field_inherit_members: Ärv medlemmar
+  field_generate_password: Generera lösenord
 
   setting_app_title: Applikationsrubrik
   setting_app_subtitle: Applikationsunderrubrik
@@ -1125,4 +1126,3 @@ sv:
   description_date_from: Ange startdatum
   description_date_to: Ange slutdatum
   text_repository_identifier_info: 'Endast gemener (a-z), siffror, streck och understreck är tillåtna.<br />När identifieraren sparats kan den inte ändras.'
-  field_generate_password: Generate password
