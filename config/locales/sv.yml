@@ -272,6 +272,7 @@ sv:
   field_author: Författare
   field_created_on: Skapad
   field_updated_on: Uppdaterad
+  field_closed_on: Stängd
   field_field_format: Format
   field_is_for_all: För alla projekt
   field_possible_values: Möjliga värden
@@ -372,6 +373,7 @@ sv:
   field_timeout: "Timeout (i sekunder)"
   field_board_parent: Förälderforum
   field_private_notes: Privata anteckningar
+  field_inherit_members: Ärv medlemmar
 
   setting_app_title: Applikationsrubrik
   setting_app_subtitle: Applikationsunderrubrik
@@ -440,6 +442,8 @@ sv:
   setting_thumbnails_enabled: Visa miniatyrbilder av bilagor
   setting_thumbnails_size: Storlek på miniatyrbilder (i pixlar)
   setting_non_working_week_days: Lediga dagar
+  setting_jsonp_enabled: Aktivera JSONP-stöd
+  setting_default_projects_tracker_ids: Standardärendetyper för nya projekt
 
   permission_add_project: Skapa projekt
   permission_add_subprojects: Skapa underprojekt
@@ -657,6 +661,7 @@ sv:
     one:   1 ärende
     other: "%{count} ärenden"
   label_total: Total
+  label_total_time: Total tid
   label_permissions: Behörigheter
   label_current_status: Nuvarande status
   label_new_statuses_allowed: Nya tillåtna statusvärden
@@ -1120,8 +1125,3 @@ sv:
   description_date_from: Ange startdatum
   description_date_to: Ange slutdatum
   text_repository_identifier_info: 'Endast gemener (a-z), siffror, streck och understreck är tillåtna.<br />När identifieraren sparats kan den inte ändras.'
-  setting_jsonp_enabled: Enable JSONP support
-  field_inherit_members: Inherit members
-  field_closed_on: Closed
-  setting_default_projects_tracker_ids: Default trackers for new projects
-  label_total_time: Total
