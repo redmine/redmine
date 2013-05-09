@@ -110,6 +110,8 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
     # Add a project member as watcher
     check 'Dave Lopper'
     # Search for another user
+    assert page.has_no_css?('form#new-watcher-form')
+    assert page.has_no_content?('Some Watcher')
     click_link 'Search for watchers to add'
     within('form#new-watcher-form') do
       assert page.has_content?('Some One')
@@ -118,6 +120,7 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
       check 'Some Watcher'
       click_button 'Add'
     end
+    assert page.has_content?('Some Watcher')
     assert_difference 'Issue.count' do
       find('input[name=commit]').click
     end
