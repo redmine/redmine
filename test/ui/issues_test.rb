@@ -208,6 +208,8 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
   def test_bulk_watch_issues_via_context_menu
     log_user('jsmith', 'jsmith')
     visit '/issues'
+    assert page.has_css?('tr#issue-1')
+    assert page.has_css?('tr#issue-4')
     find('tr#issue-1 input[type=checkbox]').click
     find('tr#issue-4 input[type=checkbox]').click
     page.execute_script "$('tr#issue-1 td.updated_on').trigger('contextmenu');"
@@ -215,6 +217,8 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
       within('#context-menu') do
         click_link 'Watch'
       end
+      assert page.has_css?('tr#issue-1')
+      assert page.has_css?('tr#issue-4')
     end
     assert Issue.find(1).watched_by?(User.find_by_login('jsmith'))
     assert Issue.find(4).watched_by?(User.find_by_login('jsmith'))
