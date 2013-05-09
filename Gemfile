@@ -79,7 +79,10 @@ end
 group :test do
   gem "shoulda", "~> 3.3.2"
   gem "mocha", "~> 0.13.3"
-  gem 'capybara', '~> 2.0.0'
+  platforms :mri_19, :mingw_19 do
+    gem "capybara", "~> 2.1.0"
+    gem "selenium-webdriver"
+  end
 end
 
 local_gemfile = File.join(File.dirname(__FILE__), "Gemfile.local")
