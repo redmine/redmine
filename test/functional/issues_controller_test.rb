@@ -773,9 +773,7 @@ class IssuesControllerTest < ActionController::TestCase
   def test_index_with_date_column
     with_settings :date_format => '%d/%m/%Y' do
       Issue.find(1).update_attribute :start_date, '1987-08-24'
-
       get :index, :set_filter => 1, :c => %w(start_date)
-
       assert_select "table.issues td.start_date", :text => '24/08/1987'
     end
   end
