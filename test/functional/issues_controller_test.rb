@@ -1562,15 +1562,14 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_get_new_without_default_start_date_is_creation_date
-    Setting.default_issue_start_date_to_creation_date = 0
-
-    @request.session[:user_id] = 2
-    get :new, :project_id => 1, :tracker_id => 1
-    assert_response :success
-    assert_template 'new'
-
-    assert_select 'input[name=?]', 'issue[start_date]'
-    assert_select 'input[name=?][value]', 'issue[start_date]', 0
+    with_settings :default_issue_start_date_to_creation_date  => 0 do
+      @request.session[:user_id] = 2
+      get :new, :project_id => 1, :tracker_id => 1
+      assert_response :success
+      assert_template 'new'
+      assert_select 'input[name=?]', 'issue[start_date]'
+      assert_select 'input[name=?][value]', 'issue[start_date]', 0
+    end
   end
 
   def test_get_new_with_default_start_date_is_creation_date
