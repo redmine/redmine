@@ -790,7 +790,6 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_index_with_spent_hours_column
     get :index, :set_filter => 1, :c => %w(subject spent_hours)
-
     assert_select 'table.issues tr#issue-3 td.spent_hours', :text => '1.00'
   end
 
