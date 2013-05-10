@@ -47,11 +47,19 @@
 <% end %>
 
 <% if @issue.safe_attribute? 'start_date' %>
-<p><%= f.text_field :start_date, :size => 10, :disabled => !@issue.leaf?, :required => @issue.required_attribute?('start_date') %><%= calendar_for('issue_start_date') if @issue.leaf? %></p>
+<p>
+  <%= f.text_field(:start_date, :size => 10, :disabled => !@issue.leaf?,
+                   :required => @issue.required_attribute?('start_date')) %>
+  <%= calendar_for('issue_start_date') if @issue.leaf? %>
+</p>
 <% end %>
 
 <% if @issue.safe_attribute? 'due_date' %>
-<p><%= f.text_field :due_date, :size => 10, :disabled => !@issue.leaf?, :required => @issue.required_attribute?('due_date') %><%= calendar_for('issue_due_date') if @issue.leaf? %></p>
+<p>
+  <%= f.text_field(:due_date, :size => 10, :disabled => !@issue.leaf?,
+                   :required => @issue.required_attribute?('due_date')) %>
+  <%= calendar_for('issue_due_date') if @issue.leaf? %>
+</p>
 <% end %>
 
 <% if @issue.safe_attribute? 'estimated_hours' %>
