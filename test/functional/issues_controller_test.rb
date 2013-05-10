@@ -1767,11 +1767,10 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_post_create_without_start_date_and_default_start_date_is_not_creation_date
-    Setting.default_issue_start_date_to_creation_date = 0
-
-    @request.session[:user_id] = 2
-    assert_difference 'Issue.count' do
-      post :create, :project_id => 1,
+    with_settings :default_issue_start_date_to_creation_date  => 0 do
+      @request.session[:user_id] = 2
+      assert_difference 'Issue.count' do
+        post :create, :project_id => 1,
                  :issue => {:tracker_id => 3,
                             :status_id => 2,
                             :subject => 'This is the test_new issue',
@@ -1779,12 +1778,13 @@ class IssuesControllerTest < ActionController::TestCase
                             :priority_id => 5,
                             :estimated_hours => '',
                             :custom_field_values => {'2' => 'Value for field 2'}}
+      end
+      assert_redirected_to :controller => 'issues', :action => 'show',
+                           :id => Issue.last.id
+      issue = Issue.find_by_subject('This is the test_new issue')
+      assert_not_nil issue
+      assert_nil issue.start_date
     end
-    assert_redirected_to :controller => 'issues', :action => 'show', :id => Issue.last.id
-
-    issue = Issue.find_by_subject('This is the test_new issue')
-    assert_not_nil issue
-    assert_nil issue.start_date
   end
 
   def test_post_create_without_start_date_and_default_start_date_is_creation_date
