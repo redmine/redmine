@@ -1573,14 +1573,14 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_get_new_with_default_start_date_is_creation_date
-    Setting.default_issue_start_date_to_creation_date = 1
-
-    @request.session[:user_id] = 2
-    get :new, :project_id => 1, :tracker_id => 1
-    assert_response :success
-    assert_template 'new'
-
-    assert_select 'input[name=?][value=?]', 'issue[start_date]', Date.today.to_s
+    with_settings :default_issue_start_date_to_creation_date  => 1 do
+      @request.session[:user_id] = 2
+      get :new, :project_id => 1, :tracker_id => 1
+      assert_response :success
+      assert_template 'new'
+      assert_select 'input[name=?][value=?]', 'issue[start_date]',
+                    Date.today.to_s
+    end
   end
 
   def test_get_new_form_should_allow_attachment_upload
