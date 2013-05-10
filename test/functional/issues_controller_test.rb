@@ -796,7 +796,6 @@ class IssuesControllerTest < ActionController::TestCase
   def test_index_should_not_show_spent_hours_column_without_permission
     Role.anonymous.remove_permission! :view_time_entries
     get :index, :set_filter => 1, :c => %w(subject spent_hours)
-
     assert_select 'td.spent_hours', 0
   end
 
