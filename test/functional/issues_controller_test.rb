@@ -870,9 +870,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'show'
     assert_equal Issue.find(1), assigns(:issue)
-
     assert_select 'div.issue div.description', :text => /Unable to print recipes/
-
     # anonymous role is allowed to add a note
     assert_select 'form#issue-form' do
       assert_select 'fieldset' do
@@ -880,7 +878,6 @@ class IssuesControllerTest < ActionController::TestCase
         assert_select 'textarea[name=?]', 'issue[notes]'
       end
     end
-
     assert_select 'title', :text => "Bug #1: Can&#x27;t print recipes - eCookbook - Redmine"
   end
 
