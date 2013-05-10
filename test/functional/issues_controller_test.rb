@@ -801,7 +801,6 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_index_with_fixed_version_column
     get :index, :set_filter => 1, :c => %w(fixed_version)
-
     assert_select 'table.issues td.fixed_version' do
       assert_select 'a[href=?]', '/versions/2', :text => '1.0'
     end
