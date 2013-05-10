@@ -885,9 +885,7 @@ class IssuesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     get :show, :id => 1
     assert_response :success
-
     assert_select 'a', :text => /Quote/
-
     assert_select 'form#issue-form' do
       assert_select 'fieldset' do
         assert_select 'legend', :text => 'Change properties'
