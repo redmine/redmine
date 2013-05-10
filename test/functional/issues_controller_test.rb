@@ -780,9 +780,7 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_index_with_done_ratio_column
     Issue.find(1).update_attribute :done_ratio, 40
-
     get :index, :set_filter => 1, :c => %w(done_ratio)
-
     assert_select 'table.issues td.done_ratio' do
       assert_select 'table.progress' do
         assert_select 'td.closed[style=?]', 'width: 40%;'
