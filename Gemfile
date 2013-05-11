@@ -94,5 +94,6 @@ end
 # Load plugins' Gemfiles
 Dir.glob File.expand_path("../plugins/*/Gemfile", __FILE__) do |file|
   puts "Loading #{file} ..." if $DEBUG # `ruby -d` or `bundle -v`
-  instance_eval File.read(file)
+  #TODO: switch to "eval_gemfile file" when bundler >= 1.2.0 will be required (rails 4)
+  instance_eval File.read(file), file
 end
