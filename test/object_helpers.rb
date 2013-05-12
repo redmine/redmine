@@ -148,4 +148,15 @@ module ObjectHelpers
     attachment.save!
     attachment
   end
+
+  def CustomField.generate!(attributes={})
+    @generated_custom_field_name ||= 'Custom field 0'
+    @generated_custom_field_name.succ!
+    field = new(attributes)
+    field.name = @generated_custom_field_name.dup if field.name.blank?
+    field.field_format = 'string' if field.field_format.blank?
+    yield field if block_given?
+    field.save!
+    field
+  end
 end

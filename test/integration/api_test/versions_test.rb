@@ -82,6 +82,29 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
         assert_tag 'version', :child => {:tag => 'id', :content => version.id.to_s}
       end
 
+      should "create the version with custom fields" do
+        field = VersionCustomField.generate!
+
+        assert_difference 'Version.count' do
+          post '/projects/1/versions.xml', {
+              :version => {
+                :name => 'API test',
+                :custom_fields => [
+                  {'id' => field.id.to_s, 'value' => 'Some value'}
+                ]
+              }
+            }, credentials('jsmith')
+        end
+
+        version = Version.first(:order => 'id DESC')
+        assert_equal 'API test', version.name
+        assert_equal 'Some value', version.custom_field_value(field)
+
+        assert_response :created
+        assert_equal 'application/xml', @response.content_type
+        assert_select 'version>custom_fields>custom_field[id=?]>value', field.id.to_s, 'Some value'
+      end
+
       context "with failure" do
         should "return the errors" do
           assert_no_difference('Version.count') do
