@@ -854,10 +854,8 @@ class Issue < ActiveRecord::Base
   end
 
   # Returns all the other issues that depend on the issue
+  # The algorithm is a modified breadth first search (bfs)
   def all_dependent_issues(except=[])
-
-    # The algorithm as a modified bread first search (bfs)
-
     # The found dependencies
     dependencies = []
 
@@ -879,77 +877,77 @@ class Issue < ActiveRecord::Base
     eALL_PROCESSED          = 5       # The issue and all its children, its parent and its related issues have been
                                       # added as dependent issues. It needs no further processing.
 
-    issueStatus = Hash.new(eNOT_DISCOVERED)
+    issue_status = Hash.new(eNOT_DISCOVERED)
 
     # The queue
     queue = []
 
     # Initialize the bfs, add start node (self) to the queue
     queue << self
-    issueStatus[self] = ePROCESS_ALL
+    issue_status[self] = ePROCESS_ALL
 
     while (!queue.empty?) do
 
-      currentIssue = queue.shift
-      currentIssueStatus = issueStatus[currentIssue]
+      current_issue = queue.shift
+      current_issue_status = issue_status[current_issue]
 
-      dependencies << currentIssue
+      dependencies << current_issue
 
       # Add parent to queue, if not already in it.
-      parent = currentIssue.parent
-      parentStatus = issueStatus[parent]
+      parent = current_issue.parent
+      parentStatus = issue_status[parent]
 
       if parent && (parentStatus == eNOT_DISCOVERED) && !except.include?(parent) then
 
         queue << parent
-        issueStatus[parent] = ePROCESS_RELATIONS_ONLY
+        issue_status[parent] = ePROCESS_RELATIONS_ONLY
 
       end
 
       # Add children to queue, but only if they are not already in it and
       # the children of the current node need to be processed.
-      if currentIssue.children && (currentIssueStatus == ePROCESS_CHILDREN_ONLY || currentIssueStatus == ePROCESS_ALL) then
+      if current_issue.children && (current_issue_status == ePROCESS_CHILDREN_ONLY || current_issue_status == ePROCESS_ALL) then
 
-        currentIssue.children.each do |child|
+        current_issue.children.each do |child|
 
-          if (issueStatus[child] == eNOT_DISCOVERED) && !except.include?(child)
+          if (issue_status[child] == eNOT_DISCOVERED) && !except.include?(child)
             queue << child
-            issueStatus[child] = ePROCESS_ALL
+            issue_status[child] = ePROCESS_ALL
 
-          elsif (issueStatus[child] == eRELATIONS_PROCESSED) && !except.include?(child)
+          elsif (issue_status[child] == eRELATIONS_PROCESSED) && !except.include?(child)
             queue << child
-            issueStatus[child] = ePROCESS_CHILDREN_ONLY
+            issue_status[child] = ePROCESS_CHILDREN_ONLY
 
-          elsif (issueStatus[child] == ePROCESS_RELATIONS_ONLY) && !except.include?(child)
+          elsif (issue_status[child] == ePROCESS_RELATIONS_ONLY) && !except.include?(child)
             queue << child
-            issueStatus[child] = ePROCESS_ALL
+            issue_status[child] = ePROCESS_ALL
           end
         end
       end
 
       # Add related issues to the queue, if they are not already in it.
-      currentIssue.relations_from.map(&:issue_to).each do |relatedIssue|
+      current_issue.relations_from.map(&:issue_to).each do |relatedIssue|
 
-        if (issueStatus[relatedIssue] == eNOT_DISCOVERED) && !except.include?(relatedIssue) then
+        if (issue_status[relatedIssue] == eNOT_DISCOVERED) && !except.include?(relatedIssue) then
           queue << relatedIssue
-          issueStatus[relatedIssue] = ePROCESS_ALL
+          issue_status[relatedIssue] = ePROCESS_ALL
 
-        elsif (issueStatus[relatedIssue] == eRELATIONS_PROCESSED) && !except.include?(relatedIssue) then
+        elsif (issue_status[relatedIssue] == eRELATIONS_PROCESSED) && !except.include?(relatedIssue) then
           queue << relatedIssue
-          issueStatus[relatedIssue] = ePROCESS_CHILDREN_ONLY
+          issue_status[relatedIssue] = ePROCESS_CHILDREN_ONLY
 
-        elsif (issueStatus[relatedIssue] == ePROCESS_RELATIONS_ONLY) && !except.include?(relatedIssue) then
+        elsif (issue_status[relatedIssue] == ePROCESS_RELATIONS_ONLY) && !except.include?(relatedIssue) then
           queue << relatedIssue
-          issueStatus[relatedIssue] = ePROCESS_ALL
+          issue_status[relatedIssue] = ePROCESS_ALL
         end
       end
 
       # Set new status for current issue
-      if (currentIssueStatus == ePROCESS_ALL) || (currentIssueStatus == ePROCESS_CHILDREN_ONLY) then
-        issueStatus[currentIssue] = eALL_PROCESSED
+      if (current_issue_status == ePROCESS_ALL) || (current_issue_status == ePROCESS_CHILDREN_ONLY) then
+        issue_status[current_issue] = eALL_PROCESSED
 
-      elsif (currentIssueStatus == ePROCESS_RELATIONS_ONLY) then
-        issueStatus[currentIssue] = eRELATIONS_PROCESSED
+      elsif (current_issue_status == ePROCESS_RELATIONS_ONLY) then
+        issue_status[current_issue] = eRELATIONS_PROCESSED
       end
 
     end # while
