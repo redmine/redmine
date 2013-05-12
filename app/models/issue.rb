@@ -902,7 +902,7 @@ class Issue < ActiveRecord::Base
 
       # Add children to queue, but only if they are not already in it and
       # the children of the current node need to be processed.
-      if current_issue.children && (current_issue_status == ePROCESS_CHILDREN_ONLY || current_issue_status == ePROCESS_ALL)
+      if (current_issue_status == ePROCESS_CHILDREN_ONLY || current_issue_status == ePROCESS_ALL)
         current_issue.children.each do |child|
           next if except.include?(child)
 
