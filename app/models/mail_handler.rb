@@ -377,12 +377,21 @@ class MailHandler < ActionMailer::Base
   def plain_text_body
     return @plain_text_body unless @plain_text_body.nil?
 
-    part = email.text_part || email.html_part || email
-    @plain_text_body = Redmine::CodesetUtil.to_utf8(part.body.decoded, part.charset)
+    parts = if (text_parts = email.all_parts.select {|p| p.mime_type == 'text/plain'}).present?
+              text_parts
+            elsif (html_parts = email.all_parts.select {|p| p.mime_type == 'text/html'}).present?
+              html_parts
+            else
+              [email]
+            end
+    @plain_text_body = parts.map {|p| Redmine::CodesetUtil.to_utf8(p.body.decoded, p.charset)}.join("\r\n")
 
     # strip html tags and remove doctype directive
-    @plain_text_body = strip_tags(@plain_text_body.strip)
-    @plain_text_body.sub! %r{^<!DOCTYPE .*$}, ''
+    if parts.any? {|p| p.mime_type == 'text/html'}
+      @plain_text_body = strip_tags(@plain_text_body.strip)
+      @plain_text_body.sub! %r{^<!DOCTYPE .*$}, ''
+    end
+
     @plain_text_body
   end
 

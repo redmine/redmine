@@ -492,6 +492,13 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 'd8e8fca2dc0f896fd7cb4cb0031ba249', attachment.digest
   end
 
+  def test_multiple_text_parts
+    issue = submit_email('multiple_text_parts.eml', :issue => {:project => 'ecookbook'})
+    assert_include 'first', issue.description
+    assert_include 'second', issue.description
+    assert_include 'third', issue.description
+  end
+
   def test_add_issue_with_iso_8859_1_subject
     issue = submit_email(
               'subject_as_iso-8859-1.eml',
