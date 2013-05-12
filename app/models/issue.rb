@@ -893,9 +893,9 @@ class Issue < ActiveRecord::Base
 
       # Add parent to queue, if not already in it.
       parent = current_issue.parent
-      parentStatus = issue_status[parent]
+      parent_status = issue_status[parent]
 
-      if parent && (parentStatus == eNOT_DISCOVERED) && !except.include?(parent)
+      if parent && (parent_status == eNOT_DISCOVERED) && !except.include?(parent)
         queue << parent
         issue_status[parent] = ePROCESS_RELATIONS_ONLY
       end
@@ -918,16 +918,16 @@ class Issue < ActiveRecord::Base
       end
 
       # Add related issues to the queue, if they are not already in it.
-      current_issue.relations_from.map(&:issue_to).each do |relatedIssue|
-        if (issue_status[relatedIssue] == eNOT_DISCOVERED) && !except.include?(relatedIssue)
-          queue << relatedIssue
-          issue_status[relatedIssue] = ePROCESS_ALL
-        elsif (issue_status[relatedIssue] == eRELATIONS_PROCESSED) && !except.include?(relatedIssue)
-          queue << relatedIssue
-          issue_status[relatedIssue] = ePROCESS_CHILDREN_ONLY
-        elsif (issue_status[relatedIssue] == ePROCESS_RELATIONS_ONLY) && !except.include?(relatedIssue)
-          queue << relatedIssue
-          issue_status[relatedIssue] = ePROCESS_ALL
+      current_issue.relations_from.map(&:issue_to).each do |related_issue|
+        if (issue_status[related_issue] == eNOT_DISCOVERED) && !except.include?(related_issue)
+          queue << related_issue
+          issue_status[related_issue] = ePROCESS_ALL
+        elsif (issue_status[related_issue] == eRELATIONS_PROCESSED) && !except.include?(related_issue)
+          queue << related_issue
+          issue_status[related_issue] = ePROCESS_CHILDREN_ONLY
+        elsif (issue_status[related_issue] == ePROCESS_RELATIONS_ONLY) && !except.include?(related_issue)
+          queue << related_issue
+          issue_status[related_issue] = ePROCESS_ALL
         end
       end
 
