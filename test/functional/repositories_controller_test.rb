@@ -111,6 +111,31 @@ class RepositoriesControllerTest < ActionController::TestCase
     assert_nil Repository.find_by_id(11)
   end
 
+  def test_show_with_autofetch_changesets_enabled_should_fetch_changesets
+    Repository::Subversion.any_instance.expects(:fetch_changesets).once
+
+    with_settings :autofetch_changesets => '1' do
+      get :show, :id => 1
+    end
+  end
+
+  def test_show_with_autofetch_changesets_disabled_should_not_fetch_changesets
+    Repository::Subversion.any_instance.expects(:fetch_changesets).never
+
+    with_settings :autofetch_changesets => '0' do
+      get :show, :id => 1
+    end
+  end
+
+  def test_show_with_closed_project_should_not_fetch_changesets
+    Repository::Subversion.any_instance.expects(:fetch_changesets).never
+    Project.find(1).close
+
+    with_settings :autofetch_changesets => '1' do
+      get :show, :id => 1
+    end
+  end
+
   def test_revisions
     get :revisions, :id => 1
     assert_response :success

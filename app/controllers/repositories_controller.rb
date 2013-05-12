@@ -111,7 +111,7 @@ class RepositoriesController < ApplicationController
   end
 
   def show
-    @repository.fetch_changesets if Setting.autofetch_changesets? && @path.empty?
+    @repository.fetch_changesets if @project.active? && Setting.autofetch_changesets? && @path.empty?
 
     @entries = @repository.entries(@path, @rev)
     @changeset = @repository.find_changeset_by_name(@rev)
