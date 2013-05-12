@@ -904,13 +904,15 @@ class Issue < ActiveRecord::Base
       # the children of the current node need to be processed.
       if current_issue.children && (current_issue_status == ePROCESS_CHILDREN_ONLY || current_issue_status == ePROCESS_ALL)
         current_issue.children.each do |child|
-          if (issue_status[child] == eNOT_DISCOVERED) && !except.include?(child)
+          next if except.include?(child)
+
+          if (issue_status[child] == eNOT_DISCOVERED)
             queue << child
             issue_status[child] = ePROCESS_ALL
-          elsif (issue_status[child] == eRELATIONS_PROCESSED) && !except.include?(child)
+          elsif (issue_status[child] == eRELATIONS_PROCESSED)
             queue << child
             issue_status[child] = ePROCESS_CHILDREN_ONLY
-          elsif (issue_status[child] == ePROCESS_RELATIONS_ONLY) && !except.include?(child)
+          elsif (issue_status[child] == ePROCESS_RELATIONS_ONLY)
             queue << child
             issue_status[child] = ePROCESS_ALL
           end
@@ -919,13 +921,15 @@ class Issue < ActiveRecord::Base
 
       # Add related issues to the queue, if they are not already in it.
       current_issue.relations_from.map(&:issue_to).each do |related_issue|
-        if (issue_status[related_issue] == eNOT_DISCOVERED) && !except.include?(related_issue)
+        next if except.include?(related_issue)
+
+        if (issue_status[related_issue] == eNOT_DISCOVERED)
           queue << related_issue
           issue_status[related_issue] = ePROCESS_ALL
-        elsif (issue_status[related_issue] == eRELATIONS_PROCESSED) && !except.include?(related_issue)
+        elsif (issue_status[related_issue] == eRELATIONS_PROCESSED)
           queue << related_issue
           issue_status[related_issue] = ePROCESS_CHILDREN_ONLY
-        elsif (issue_status[related_issue] == ePROCESS_RELATIONS_ONLY) && !except.include?(related_issue)
+        elsif (issue_status[related_issue] == ePROCESS_RELATIONS_ONLY)
           queue << related_issue
           issue_status[related_issue] = ePROCESS_ALL
         end
