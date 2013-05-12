@@ -855,17 +855,109 @@ class Issue < ActiveRecord::Base
 
   # Returns all the other issues that depend on the issue
   def all_dependent_issues(except=[])
-    except << self
+
+    # The algorithm as a modified bread first search (bfs)
+
+    # The found dependencies
     dependencies = []
-    dependencies += relations_from.map(&:issue_to)
-    dependencies += children unless leaf?
-    dependencies.compact!
+
+    # The visited flag for every node (issue) used by the breadth first search
+    eNOT_DISCOVERED         = 0       # The issue is "new" to the algorithm, it has not seen it before.
+
+    ePROCESS_ALL            = 1       # The issue is added to the queue. Process both children and relations of
+                                      # the issue when it is processed.
+
+    ePROCESS_RELATIONS_ONLY = 2       # The issue was added to the queue and will be output as dependent issue,
+                                      # but its children will not be added to the queue when it is processed.
+
+    eRELATIONS_PROCESSED    = 3       # The related issues, the parent issue and the issue itself have been added to
+                                      # the queue, but its children have not been added.
+
+    ePROCESS_CHILDREN_ONLY  = 4       # The relations and the parent of the issue have been added to the queue, but
+                                      # the children still need to be processed.
+
+    eALL_PROCESSED          = 5       # The issue and all its children, its parent and its related issues have been
+                                      # added as dependent issues. It needs no further processing.
+
+    issueStatus = Hash.new(eNOT_DISCOVERED)
+
+    # The queue
+    queue = []
+
+    # Initialize the bfs, add start node (self) to the queue
+    queue << self
+    issueStatus[self] = ePROCESS_ALL
+
+    while (!queue.empty?) do
+
+      currentIssue = queue.shift
+      currentIssueStatus = issueStatus[currentIssue]
+
+      dependencies << currentIssue
+
+      # Add parent to queue, if not already in it.
+      parent = currentIssue.parent
+      parentStatus = issueStatus[parent]
+
+      if parent && (parentStatus == eNOT_DISCOVERED) && !except.include?(parent) then
+
+        queue << parent
+        issueStatus[parent] = ePROCESS_RELATIONS_ONLY
+
+      end
+
+      # Add children to queue, but only if they are not already in it and
+      # the children of the current node need to be processed.
+      if currentIssue.children && (currentIssueStatus == ePROCESS_CHILDREN_ONLY || currentIssueStatus == ePROCESS_ALL) then
+
+        currentIssue.children.each do |child|
+
+          if (issueStatus[child] == eNOT_DISCOVERED) && !except.include?(child)
+            queue << child
+            issueStatus[child] = ePROCESS_ALL
+
+          elsif (issueStatus[child] == eRELATIONS_PROCESSED) && !except.include?(child)
+            queue << child
+            issueStatus[child] = ePROCESS_CHILDREN_ONLY
+
+          elsif (issueStatus[child] == ePROCESS_RELATIONS_ONLY) && !except.include?(child)
+            queue << child
+            issueStatus[child] = ePROCESS_ALL
+          end
+        end
+      end
+
+      # Add related issues to the queue, if they are not already in it.
+      currentIssue.relations_from.map(&:issue_to).each do |relatedIssue|
+
+        if (issueStatus[relatedIssue] == eNOT_DISCOVERED) && !except.include?(relatedIssue) then
+          queue << relatedIssue
+          issueStatus[relatedIssue] = ePROCESS_ALL
+
+        elsif (issueStatus[relatedIssue] == eRELATIONS_PROCESSED) && !except.include?(relatedIssue) then
+          queue << relatedIssue
+          issueStatus[relatedIssue] = ePROCESS_CHILDREN_ONLY
+
+        elsif (issueStatus[relatedIssue] == ePROCESS_RELATIONS_ONLY) && !except.include?(relatedIssue) then
+          queue << relatedIssue
+          issueStatus[relatedIssue] = ePROCESS_ALL
+        end
+      end
+
+      # Set new status for current issue
+      if (currentIssueStatus == ePROCESS_ALL) || (currentIssueStatus == ePROCESS_CHILDREN_ONLY) then
+        issueStatus[currentIssue] = eALL_PROCESSED
+
+      elsif (currentIssueStatus == ePROCESS_RELATIONS_ONLY) then
+        issueStatus[currentIssue] = eRELATIONS_PROCESSED
+      end
+
+    end # while
+
+    # Remove the issues from the "except" parameter from the result array
     dependencies -= except
-    dependencies += dependencies.map {|issue| issue.all_dependent_issues(except)}.flatten
-    if parent
-      dependencies << parent
-      dependencies += parent.all_dependent_issues(except + parent.descendants)
-    end
+    dependencies.delete(self)
+
     dependencies
   end
 
