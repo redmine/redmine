@@ -897,7 +897,7 @@ class Issue < ActiveRecord::Base
       parent = current_issue.parent
       parentStatus = issue_status[parent]
 
-      if parent && (parentStatus == eNOT_DISCOVERED) && !except.include?(parent) then
+      if parent && (parentStatus == eNOT_DISCOVERED) && !except.include?(parent)
 
         queue << parent
         issue_status[parent] = ePROCESS_RELATIONS_ONLY
@@ -906,7 +906,7 @@ class Issue < ActiveRecord::Base
 
       # Add children to queue, but only if they are not already in it and
       # the children of the current node need to be processed.
-      if current_issue.children && (current_issue_status == ePROCESS_CHILDREN_ONLY || current_issue_status == ePROCESS_ALL) then
+      if current_issue.children && (current_issue_status == ePROCESS_CHILDREN_ONLY || current_issue_status == ePROCESS_ALL)
 
         current_issue.children.each do |child|
 
@@ -928,25 +928,25 @@ class Issue < ActiveRecord::Base
       # Add related issues to the queue, if they are not already in it.
       current_issue.relations_from.map(&:issue_to).each do |relatedIssue|
 
-        if (issue_status[relatedIssue] == eNOT_DISCOVERED) && !except.include?(relatedIssue) then
+        if (issue_status[relatedIssue] == eNOT_DISCOVERED) && !except.include?(relatedIssue)
           queue << relatedIssue
           issue_status[relatedIssue] = ePROCESS_ALL
 
-        elsif (issue_status[relatedIssue] == eRELATIONS_PROCESSED) && !except.include?(relatedIssue) then
+        elsif (issue_status[relatedIssue] == eRELATIONS_PROCESSED) && !except.include?(relatedIssue)
           queue << relatedIssue
           issue_status[relatedIssue] = ePROCESS_CHILDREN_ONLY
 
-        elsif (issue_status[relatedIssue] == ePROCESS_RELATIONS_ONLY) && !except.include?(relatedIssue) then
+        elsif (issue_status[relatedIssue] == ePROCESS_RELATIONS_ONLY) && !except.include?(relatedIssue)
           queue << relatedIssue
           issue_status[relatedIssue] = ePROCESS_ALL
         end
       end
 
       # Set new status for current issue
-      if (current_issue_status == ePROCESS_ALL) || (current_issue_status == ePROCESS_CHILDREN_ONLY) then
+      if (current_issue_status == ePROCESS_ALL) || (current_issue_status == ePROCESS_CHILDREN_ONLY)
         issue_status[current_issue] = eALL_PROCESSED
 
-      elsif (current_issue_status == ePROCESS_RELATIONS_ONLY) then
+      elsif (current_issue_status == ePROCESS_RELATIONS_ONLY)
         issue_status[current_issue] = eRELATIONS_PROCESSED
       end
 
