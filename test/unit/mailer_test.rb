@@ -215,14 +215,14 @@ class MailerTest < ActiveSupport::TestCase
     # Remove members except news author
     news.project.memberships.each {|m| m.destroy unless m.user == user}
 
-    user.pref[:no_self_notified] = false
+    user.pref.no_self_notified = false
     user.pref.save
     User.current = user
     Mailer.news_added(news.reload).deliver
     assert_equal 1, last_email.bcc.size
 
     # nobody to notify
-    user.pref[:no_self_notified] = true
+    user.pref.no_self_notified = true
     user.pref.save
     User.current = user
     ActionMailer::Base.deliveries.clear
@@ -296,7 +296,7 @@ class MailerTest < ActiveSupport::TestCase
     issue = Issue.find(1)
     user = User.find(9)
     # minimal email notification options
-    user.pref[:no_self_notified] = '1'
+    user.pref.no_self_notified = '1'
     user.pref.save
     user.mail_notification = false
     user.save

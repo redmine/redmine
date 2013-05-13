@@ -93,7 +93,6 @@ class UsersController < ApplicationController
 
     if @user.save
       @user.pref.attributes = params[:pref]
-      @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
       @user.pref.save
       @user.notified_project_ids = (@user.mail_notification == 'selected' ? params[:notified_project_ids] : [])
 
@@ -139,7 +138,6 @@ class UsersController < ApplicationController
     was_activated = (@user.status_change == [User::STATUS_REGISTERED, User::STATUS_ACTIVE])
     # TODO: Similar to My#account
     @user.pref.attributes = params[:pref]
-    @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
 
     if @user.save
       @user.pref.save
