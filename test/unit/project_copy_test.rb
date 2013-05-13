@@ -69,6 +69,19 @@ class ProjectCopyTest < ActiveSupport::TestCase
     assert_equal "Closed", copied_issue.status.name
   end
 
+  test "#copy should copy issues custom values" do
+    field = IssueCustomField.generate!(:is_for_all => true, :trackers => Tracker.all)
+    issue = Issue.generate!(:project => @source_project, :subject => 'Custom field copy')
+    issue.custom_field_values = {field.id => 'custom'}
+    issue.save!
+    assert_equal 'custom', issue.reload.custom_field_value(field)
+
+    assert @project.copy(@source_project)
+    copy = @project.issues.find_by_subject('Custom field copy')
+    assert copy
+    assert_equal 'custom', copy.reload.custom_field_value(field)
+  end
+
   test "#copy should copy issues assigned to a locked version" do
     User.current = User.find(1)
     assigned_version = Version.generate!(:name => "Assigned Issues")
