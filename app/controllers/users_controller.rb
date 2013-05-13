@@ -94,7 +94,6 @@ class UsersController < ApplicationController
     if @user.save
       @user.pref.attributes = params[:pref]
       @user.pref.save
-      @user.notified_project_ids = (@user.mail_notification == 'selected' ? params[:notified_project_ids] : [])
 
       Mailer.account_information(@user, @user.password).deliver if params[:send_information]
 
@@ -141,7 +140,6 @@ class UsersController < ApplicationController
 
     if @user.save
       @user.pref.save
-      @user.notified_project_ids = (@user.mail_notification == 'selected' ? params[:notified_project_ids] : [])
 
       if was_activated
         Mailer.account_activated(@user).deliver

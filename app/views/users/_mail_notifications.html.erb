@@ -11,12 +11,13 @@
   <%= render_project_nested_lists(@user.projects) do |project|
         content_tag('label', 
           check_box_tag(
-            'notified_project_ids[]',
+            'user[notified_project_ids][]',
              project.id,
              @user.notified_projects_ids.include?(project.id)
           ) + ' ' + h(project.name)
         )
       end %>
+  <%= hidden_field_tag 'user[notified_project_ids][]', '' %>
   <p><em class="info"><%= l(:text_user_mail_option) %></em></p>
 <% end %>
 

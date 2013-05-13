@@ -105,6 +105,7 @@ class User < Principal
   before_create :set_mail_notification
   before_save   :generate_password_if_needed, :update_hashed_password
   before_destroy :remove_references_before_destroy
+  after_save :update_notified_project_ids
 
   scope :in_group, lambda {|group|
     group_id = group.is_a?(Group) ? group.id : group.to_i
@@ -133,6 +134,8 @@ class User < Principal
     @name = nil
     @projects_by_role = nil
     @membership_by_project_id = nil
+    @notified_projects_ids = nil
+    @notified_projects_ids_changed = false
     base_reload(*args)
   end
 
@@ -325,11 +328,19 @@ class User < Principal
   end
 
   def notified_project_ids=(ids)
-    Member.update_all("mail_notification = #{connection.quoted_false}", ['user_id = ?', id])
-    Member.update_all("mail_notification = #{connection.quoted_true}", ['user_id = ? AND project_id IN (?)', id, ids]) if ids && !ids.empty?
-    @notified_projects_ids = nil
-    notified_projects_ids
+    @notified_projects_ids_changed = true
+    @notified_projects_ids = ids
   end
+
+  # Updates per project notifications (after_save callback)
+  def update_notified_project_ids
+    if @notified_projects_ids_changed
+      ids = (mail_notification == 'selected' ? Array.wrap(notified_projects_ids).reject(&:blank?) : [])
+      members.update_all(:mail_notification => false)
+      members.where(:project_id => ids).update_all(:mail_notification => true) if ids.any?
+    end
+  end
+  private :update_notified_project_ids
 
   def valid_notification_options
     self.class.valid_notification_options(self)
@@ -550,6 +561,7 @@ class User < Principal
     'lastname',
     'mail',
     'mail_notification',
+    'notified_project_ids',
     'language',
     'custom_field_values',
     'custom_fields',

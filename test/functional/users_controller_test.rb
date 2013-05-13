@@ -364,17 +364,13 @@ class UsersControllerTest < ActionController::TestCase
     u = User.find(2)
     assert_equal [1, 2, 5], u.projects.collect{|p| p.id}.sort
     assert_equal [1, 2, 5], u.notified_projects_ids.sort
-    assert_tag :tag => 'input',
-               :attributes => {
-                  :id    => 'notified_project_ids_',
-                  :value => 1,
-                }
+    assert_select 'input[name=?][value=?]', 'user[notified_project_ids][]', '1'
     assert_equal 'all', u.mail_notification
     put :update, :id => 2,
         :user => {
-           :mail_notification => 'selected',
-         },
-        :notified_project_ids => [1, 2]
+          :mail_notification => 'selected',
+          :notified_project_ids => [1, 2]
+        }
     u = User.find(2)
     assert_equal 'selected', u.mail_notification
     assert_equal [1, 2], u.notified_projects_ids.sort
