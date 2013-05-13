@@ -141,7 +141,7 @@ function uploadAndAttachFiles(files, inputEl) {
 
   var sizeExceeded = false;
   $.each(files, function() {
-    if (this.size && maxFileSize && this.size > parseInt(maxFileSize)) {sizeExceeded=true;}
+    if (this.size && maxFileSize != null && this.size > parseInt(maxFileSize)) {sizeExceeded=true;}
   });
   if (sizeExceeded) {
     window.alert(maxFileSizeExceeded);
