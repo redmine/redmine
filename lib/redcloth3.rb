@@ -525,11 +525,12 @@ class RedCloth3 < String
             tatts = pba( tatts, 'table' )
             tatts = shelve( tatts ) if tatts
             rows = []
-
+            fullrow.gsub!(/([^|])\n/, "\\1<br />")
             fullrow.each_line do |row|
                 ratts, row = pba( $1, 'tr' ), $2 if row =~ /^(#{A}#{C}\. )(.*)/m
                 cells = []
                 row.split( /(\|)(?![^\[\|]*\]\])/ )[1..-2].each do |cell|
+                  Rails.logger.debug "cell: #{cell}"
                     next if cell == '|'
                     ctyp = 'd'
                     ctyp = 'h' if cell =~ /^_/

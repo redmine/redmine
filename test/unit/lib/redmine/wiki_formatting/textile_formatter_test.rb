@@ -268,6 +268,42 @@ EXPECTED
     assert_equal expected.gsub(%r{\s+}, ''), to_html(raw).gsub(%r{\s+}, '')
   end
 
+  def test_tables_with_lists
+    raw = <<-RAW
+This is a table with lists:
+
+|cell11|cell12|
+|cell21|ordered list
+# item
+# item 2|
+|cell31|unordered list
+* item
+* item 2|
+
+RAW
+
+    expected = <<-EXPECTED
+<p>This is a table with lists:</p>
+
+<table>
+  <tr>
+    <td>cell11</td>
+    <td>cell12</td>
+  </tr>
+  <tr>
+    <td>cell21</td>
+    <td>ordered list<br /># item<br /># item 2</td>
+  </tr>
+  <tr>
+    <td>cell31</td>
+    <td>unordered list<br />* item<br />* item 2</td>
+  </tr>
+</table>
+EXPECTED
+
+    assert_equal expected.gsub(%r{\s+}, ''), to_html(raw).gsub(%r{\s+}, '')
+  end
+
   def test_textile_should_not_mangle_brackets
     assert_equal '<p>[msg1][msg2]</p>', to_html('[msg1][msg2]')
   end
