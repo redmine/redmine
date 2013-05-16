@@ -1,14 +1,14 @@
 <h2><%= l(:label_statistics) %></h2>
 
 <p>
-<%= tag("embed", :width => 800, :height => params[:height_commits_per_month],
+<%= tag("embed",
         :type => "image/svg+xml", :src => url_for(:controller => 'repositories',
         :action => 'graph', :id => @project,
         :repository_id => @repository.identifier_param,
         :graph => "commits_per_month")) %>
 </p>
 <p>
-<%= tag("embed", :width => 800, :height => params[:height_commits_per_author],
+<%= tag("embed",
         :type => "image/svg+xml", :src => url_for(:controller => 'repositories',
         :action => 'graph', :id => @project,
         :repository_id => @repository.identifier_param,
