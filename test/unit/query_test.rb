@@ -29,8 +29,35 @@ class QueryTest < ActiveSupport::TestCase
            :custom_fields_trackers
 
   def test_available_filters_should_be_ordered
+    set_language_if_valid 'en'
     query = IssueQuery.new
     assert_equal 0, query.available_filters.keys.index('status_id')
+    expected_order = [
+      "Status",
+      "Project",
+      "Tracker",
+      "Priority"
+    ]
+    assert_equal expected_order,
+                 (query.available_filters.values.map{|v| v[:name]} & expected_order)
+  end
+
+  def test_available_filters_with_custom_fields_should_be_ordered
+    set_language_if_valid 'en'
+    UserCustomField.create!(
+              :name => 'order test', :field_format => 'string',
+              :is_for_all => true, :is_filter => true
+            )
+    query = IssueQuery.new
+    expected_order = [
+      "Searchable field",
+      "Database",
+      "Project's Development status",
+      "Author's order test",
+      "Assignee's order test"
+    ]
+    assert_equal expected_order,
+                 (query.available_filters.values.map{|v| v[:name]} & expected_order)
   end
 
   def test_custom_fields_for_all_projects_should_be_available_in_global_queries
