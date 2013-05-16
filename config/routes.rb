@@ -99,9 +99,11 @@ RedmineApp::Application.routes.draw do
       match 'copy', :via => [:get, :post]
     end
 
-    resources :memberships, :shallow => true, :controller => 'members', :only => [:index, :show, :new, :create, :update, :destroy] do
-      collection do
-        get 'autocomplete'
+    shallow do
+      resources :memberships, :controller => 'members', :only => [:index, :show, :new, :create, :update, :destroy] do
+        collection do
+          get 'autocomplete'
+        end
       end
     end
 
@@ -134,15 +136,19 @@ RedmineApp::Application.routes.draw do
       get 'report', :on => :collection
     end
     resources :queries, :only => [:new, :create]
-    resources :issue_categories, :shallow => true
+    shallow do
+      resources :issue_categories
+    end
     resources :documents, :except => [:show, :edit, :update, :destroy]
     resources :boards
-    resources :repositories, :shallow => true, :except => [:index, :show] do
-      member do
-        match 'committers', :via => [:get, :post]
+    shallow do
+      resources :repositories, :except => [:index, :show] do
+        member do
+          match 'committers', :via => [:get, :post]
+        end
       end
     end
-
+  
     match 'wiki/index', :controller => 'wiki', :action => 'index', :via => :get
     resources :wiki, :except => [:index, :new, :create], :as => 'wiki_page' do
       member do
@@ -176,7 +182,9 @@ RedmineApp::Application.routes.draw do
         get 'report'
       end
     end
-    resources :relations, :shallow => true, :controller => 'issue_relations', :only => [:index, :show, :create, :destroy]
+    shallow do
+      resources :relations, :controller => 'issue_relations', :only => [:index, :show, :create, :destroy]
+    end
   end
   match '/issues', :controller => 'issues', :action => 'destroy', :via => :delete
 
