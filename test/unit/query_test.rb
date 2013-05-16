@@ -364,6 +364,20 @@ class QueryTest < ActiveSupport::TestCase
     find_issues_with_query(query)
   end
 
+  def test_operator_lesser_than_on_date_custom_field
+    f = IssueCustomField.create!(:name => 'filter', :field_format => 'date', :is_filter => true, :is_for_all => true)
+    CustomValue.create!(:custom_field => f, :customized => Issue.find(1), :value => '2013-04-11')
+    CustomValue.create!(:custom_field => f, :customized => Issue.find(2), :value => '2013-05-14')
+    CustomValue.create!(:custom_field => f, :customized => Issue.find(3), :value => '')
+
+    query = IssueQuery.new(:project => Project.find(1), :name => '_')
+    query.add_filter("cf_#{f.id}", '<=', ['2013-05-01'])
+    issue_ids = find_issues_with_query(query).map(&:id)
+    assert_include 1, issue_ids
+    assert_not_include 2, issue_ids
+    assert_not_include 3, issue_ids
+  end
+
   def test_operator_between
     query = IssueQuery.new(:project => Project.find(1), :name => '_')
     query.add_filter('done_ratio', '><', ['30', '40'])
