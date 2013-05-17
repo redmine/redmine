@@ -761,4 +761,24 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
   context "#to_pdf" do
     should "be tested"
   end
+
+  def test_sort_issues_no_date
+    project = Project.generate!
+    issue1 = Issue.generate!(:subject => "test", :project => project)
+    issue2 = Issue.generate!(:subject => "test", :project => project)
+    assert issue1.root_id < issue2.root_id
+    child1 = Issue.generate!(:parent_issue_id => issue1.id, :subject => 'child',
+                             :project => project)
+    child2 = Issue.generate!(:parent_issue_id => issue1.id, :subject => 'child',
+                             :project => project)
+    child3 = Issue.generate!(:parent_issue_id => child1.id, :subject => 'child',
+                             :project => project)
+    assert_equal child1.root_id, child2.root_id
+    assert child1.lft < child2.lft
+    assert child3.lft < child2.lft
+    issues = [child3, child2, child1, issue2, issue1]
+    Redmine::Helpers::Gantt.sort_issues!(issues)
+    assert_equal [issue1.id, child1.id, child3.id, child2.id, issue2.id],
+                  issues.map{|v| v.id}
+  end
 end
