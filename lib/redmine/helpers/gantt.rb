@@ -214,7 +214,7 @@ module Redmine
         @number_of_rows += 1
         return if abort?
         issues = project_issues(project).select {|i| i.fixed_version.nil?}
-        sort_issues!(issues)
+        self.class.sort_issues!(issues)
         if issues
           render_issues(issues, options)
           return if abort?
@@ -248,7 +248,7 @@ module Redmine
         return if abort?
         issues = version_issues(project, version)
         if issues
-          sort_issues!(issues)
+          self.class.sort_issues!(issues)
           # Indent issues
           options[:indent] += options[:indent_increment]
           render_issues(issues, options)
@@ -676,12 +676,12 @@ module Redmine
       end
 
       # TODO: Sorts a collection of issues by start_date, due_date, id for gantt rendering
-      def sort_issues!(issues)
+      def self.sort_issues!(issues)
         issues.sort! { |a, b| gantt_issue_compare(a, b) }
       end
 
       # TODO: top level issues should be sorted by start date
-      def gantt_issue_compare(x, y)
+      def self.gantt_issue_compare(x, y)
         if x.root_id == y.root_id
           x.lft <=> y.lft
         else
