@@ -41,6 +41,9 @@ module Redmine
       # uses a separate server thread, which the transactions would be hidden
       self.use_transactional_fixtures = false
 
+      # default: 2
+      Capybara.default_wait_time = 3
+
       # Should not depend on locale since Redmine displays login page
       # using default browser locale which depend on system locale for "real" browsers drivers
       def log_user(login, password)
