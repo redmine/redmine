@@ -13,3 +13,12 @@
 </ul>
 
 <%= textilizable(issue, :description, :only_path => false) %>
+
+<% if issue.attachments.any? %>
+  <fieldset class="attachments"><legend><%= l(:label_attachment_plural) %></legend>
+  <% issue.attachments.each do |attachment| %>
+    <%= link_to_attachment attachment, :download => true, :only_path => false %>
+    (<%= number_to_human_size(attachment.filesize) %>)<br />
+  <% end %>
+  </fieldset>
+<% end %>

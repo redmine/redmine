@@ -2159,6 +2159,25 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 59, File.size(attachment.diskfile)
   end
 
+  def test_post_create_with_attachment_should_notify_with_attachments
+    ActionMailer::Base.deliveries.clear
+    set_tmp_attachments_directory
+    @request.session[:user_id] = 2
+
+    with_settings :host_name => 'mydomain.foo', :protocol => 'http' do
+      assert_difference 'Issue.count' do
+        post :create, :project_id => 1,
+          :issue => { :tracker_id => '1', :subject => 'With attachment' },
+          :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain'), 'description' => 'test file'}}
+      end
+    end
+
+    assert_not_nil ActionMailer::Base.deliveries.last
+    assert_select_email do
+      assert_select 'a[href^=?]', 'http://mydomain.foo/attachments/download', 'testfile.txt'
+    end
+  end
+
   def test_post_create_with_failure_should_save_attachments
     set_tmp_attachments_directory
     @request.session[:user_id] = 2

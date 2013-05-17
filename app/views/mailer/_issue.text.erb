@@ -11,3 +11,10 @@
 <% end -%>
 ----------------------------------------
 <%= issue.description %>
+
+<% if issue.attachments.any? -%>
+---<%= l(:label_attachment_plural).ljust(37, '-') %>
+<% issue.attachments.each do |attachment| -%>
+<%= attachment.filename %> (<%= number_to_human_size(attachment.filesize) %>)
+<% end -%>
+<% end -%>
