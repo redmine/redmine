@@ -99,6 +99,7 @@ module ObjectHelpers
     @generated_version_name.succ!
     version = Version.new(attributes)
     version.name = @generated_version_name.dup if version.name.blank?
+    version.project ||= Project.find(1)
     yield version if block_given?
     version.save!
     version

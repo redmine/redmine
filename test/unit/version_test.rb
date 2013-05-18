@@ -132,75 +132,64 @@ class VersionTest < ActiveSupport::TestCase
     assert_equal false, version.completed?
   end
 
-  context "#behind_schedule?" do
-    setup do
-      ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
-      @project = Project.create!(:name => 'test0', :identifier => 'test0')
-      @project.trackers << Tracker.create!(:name => 'track')
-
-      @version = Version.create!(:project => @project, :effective_date => nil, :name => 'version')
-    end
-
-    should "be false if there are no issues assigned" do
-      @version.update_attribute(:effective_date, Date.yesterday)
-      assert_equal false, @version.behind_schedule?
-    end
-
-    should "be false if there is no effective_date" do
-      assert_equal false, @version.behind_schedule?
-    end
-
-    should "be false if all of the issues are ahead of schedule" do
-      @version.update_attribute(:effective_date, 7.days.from_now.to_date)
-      add_issue(@version, :start_date => 7.days.ago, :done_ratio => 60) # 14 day span, 60% done, 50% time left
-      add_issue(@version, :start_date => 7.days.ago, :done_ratio => 60) # 14 day span, 60% done, 50% time left
-      assert_equal 60, @version.completed_percent
-      assert_equal false, @version.behind_schedule?
-    end
-
-    should "be true if any of the issues are behind schedule" do
-      @version.update_attribute(:effective_date, 7.days.from_now.to_date)
-      add_issue(@version, :start_date => 7.days.ago, :done_ratio => 60) # 14 day span, 60% done, 50% time left
-      add_issue(@version, :start_date => 7.days.ago, :done_ratio => 20) # 14 day span, 20% done, 50% time left
-      assert_equal 40, @version.completed_percent
-      assert_equal true, @version.behind_schedule?
-    end
-
-    should "be false if all of the issues are complete" do
-      @version.update_attribute(:effective_date, 7.days.from_now.to_date)
-      add_issue(@version, :start_date => 14.days.ago, :done_ratio => 100, :status => IssueStatus.find(5)) # 7 day span
-      add_issue(@version, :start_date => 14.days.ago, :done_ratio => 100, :status => IssueStatus.find(5)) # 7 day span
-      assert_equal 100, @version.completed_percent
-      assert_equal false, @version.behind_schedule?
-    end
+  test "#behind_schedule? should be false if there are no issues assigned" do
+    version = Version.generate!(:effective_date => Date.yesterday)
+    assert_equal false, version.behind_schedule?
   end
 
-  context "#estimated_hours" do
-    setup do
-      @version = Version.create!(:project_id => 1, :name => '#estimated_hours')
-    end
+  test "#behind_schedule? should be false if there is no effective_date" do
+    version = Version.generate!(:effective_date => nil)
+    assert_equal false, version.behind_schedule?
+  end
 
-    should "return 0 with no assigned issues" do
-      assert_equal 0, @version.estimated_hours
-    end
+  test "#behind_schedule? should be false if all of the issues are ahead of schedule" do
+    version = Version.generate!(:effective_date => 7.days.from_now.to_date)
+    add_issue(version, :start_date => 7.days.ago, :done_ratio => 60) # 14 day span, 60% done, 50% time left
+    add_issue(version, :start_date => 7.days.ago, :done_ratio => 60) # 14 day span, 60% done, 50% time left
+    assert_equal 60, version.completed_percent
+    assert_equal false, version.behind_schedule?
+  end
 
-    should "return 0 with no estimated hours" do
-      add_issue(@version)
-      assert_equal 0, @version.estimated_hours
-    end
+  test "#behind_schedule? should be true if any of the issues are behind schedule" do
+    version = Version.generate!(:effective_date => 7.days.from_now.to_date)
+    add_issue(version, :start_date => 7.days.ago, :done_ratio => 60) # 14 day span, 60% done, 50% time left
+    add_issue(version, :start_date => 7.days.ago, :done_ratio => 20) # 14 day span, 20% done, 50% time left
+    assert_equal 40, version.completed_percent
+    assert_equal true, version.behind_schedule?
+  end
 
-    should "return the sum of estimated hours" do
-      add_issue(@version, :estimated_hours => 2.5)
-      add_issue(@version, :estimated_hours => 5)
-      assert_equal 7.5, @version.estimated_hours
-    end
+  test "#behind_schedule? should be false if all of the issues are complete" do
+    version = Version.generate!(:effective_date => 7.days.from_now.to_date)
+    add_issue(version, :start_date => 14.days.ago, :done_ratio => 100, :status => IssueStatus.find(5)) # 7 day span
+    add_issue(version, :start_date => 14.days.ago, :done_ratio => 100, :status => IssueStatus.find(5)) # 7 day span
+    assert_equal 100, version.completed_percent
+    assert_equal false, version.behind_schedule?
+  end
 
-    should "return the sum of leaves estimated hours" do
-      parent = add_issue(@version)
-      add_issue(@version, :estimated_hours => 2.5, :parent_issue_id => parent.id)
-      add_issue(@version, :estimated_hours => 5, :parent_issue_id => parent.id)
-      assert_equal 7.5, @version.estimated_hours
-    end
+  test "#estimated_hours should return 0 with no assigned issues" do
+    version = Version.generate!
+    assert_equal 0, version.estimated_hours
+  end
+
+  test "#estimated_hours should return 0 with no estimated hours" do
+    version = Version.generate!
+    add_issue(version)
+    assert_equal 0, version.estimated_hours
+  end
+
+  test "#estimated_hours should return return the sum of estimated hours" do
+    version = Version.generate!
+    add_issue(version, :estimated_hours => 2.5)
+    add_issue(version, :estimated_hours => 5)
+    assert_equal 7.5, version.estimated_hours
+  end
+
+  test "#estimated_hours should return the sum of leaves estimated hours" do
+    version = Version.generate!
+    parent = add_issue(version)
+    add_issue(version, :estimated_hours => 2.5, :parent_issue_id => parent.id)
+    add_issue(version, :estimated_hours => 5, :parent_issue_id => parent.id)
+    assert_equal 7.5, version.estimated_hours
   end
 
   test "should update all issue's fixed_version associations in case the hierarchy changed XXX" do
