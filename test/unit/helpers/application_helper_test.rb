@@ -34,6 +34,10 @@ class ApplicationHelperTest < ActionView::TestCase
   def setup
     super
     set_tmp_attachments_directory
+    @russian_test = "\xd1\x82\xd0\xb5\xd1\x81\xd1\x82"
+    if @russian_test.respond_to?(:force_encoding)
+      @russian_test.force_encoding('UTF-8')
+    end
   end
 
   test "#link_to_if_authorized for authorized user should allow using the :controller and :action for the target link" do
@@ -97,7 +101,8 @@ class ApplicationHelperTest < ActionView::TestCase
   if 'ruby'.respond_to?(:encoding)
     def test_auto_links_with_non_ascii_characters
       to_test = {
-        'http://foo.bar/тест' => '<a class="external" href="http://foo.bar/тест">http://foo.bar/тест</a>'
+        "http://foo.bar/#{@russian_test}" =>
+          %|<a class="external" href="http://foo.bar/#{@russian_test}">http://foo.bar/#{@russian_test}</a>|
       }
       to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
     end
@@ -251,7 +256,8 @@ RAW
   if 'ruby'.respond_to?(:encoding)
     def test_textile_external_links_with_non_ascii_characters
       to_test = {
-        'This is a "link":http://foo.bar/тест' => 'This is a <a href="http://foo.bar/тест" class="external">link</a>'
+        %|This is a "link":http://foo.bar/#{@russian_test}| =>
+          %|This is a <a href="http://foo.bar/#{@russian_test}" class="external">link</a>|
       }
       to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
     end
@@ -587,6 +593,7 @@ RAW
   end
 
   def test_wiki_links
+    russian_eacape = CGI.escape(@russian_test)
     to_test = {
       '[[CookBook documentation]]' => '<a href="/projects/ecookbook/wiki/CookBook_documentation" class="wiki-page">CookBook documentation</a>',
       '[[Another page|Page]]' => '<a href="/projects/ecookbook/wiki/Another_page" class="wiki-page">Page</a>',
@@ -597,7 +604,8 @@ RAW
       '[[CookBook documentation#One-section]]' => '<a href="/projects/ecookbook/wiki/CookBook_documentation#One-section" class="wiki-page">CookBook documentation</a>',
       '[[Another page#anchor|Page]]' => '<a href="/projects/ecookbook/wiki/Another_page#anchor" class="wiki-page">Page</a>',
       # UTF8 anchor
-      '[[Another_page#Тест|Тест]]' => %|<a href="/projects/ecookbook/wiki/Another_page##{CGI.escape 'Тест'}" class="wiki-page">Тест</a>|,
+      "[[Another_page##{@russian_test}|#{@russian_test}]]" =>
+         %|<a href="/projects/ecookbook/wiki/Another_page##{russian_eacape}" class="wiki-page">#{@russian_test}</a>|,
       # page that doesn't exist
       '[[Unknown page]]' => '<a href="/projects/ecookbook/wiki/Unknown_page" class="wiki-page new">Unknown page</a>',
       '[[Unknown page|404]]' => '<a href="/projects/ecookbook/wiki/Unknown_page" class="wiki-page new">404</a>',
