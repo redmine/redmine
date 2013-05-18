@@ -361,6 +361,17 @@ class MailerTest < ActiveSupport::TestCase
     assert_not_include 'someone@foo.bar', ActionMailer::Base.deliveries.last.bcc.sort
   end
 
+  def test_issue_edit_should_mark_private_notes
+    journal = Journal.find(2)
+    journal.private_notes = true
+    journal.save!
+
+    with_settings :default_language => 'en' do
+      Mailer.issue_edit(journal).deliver
+    end
+    assert_mail_body_match '(Private notes)', last_email
+  end
+
   def test_document_added
     document = Document.find(1)
     valid_languages.each do |lang|
