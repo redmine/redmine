@@ -143,7 +143,7 @@ class VersionTest < ActiveSupport::TestCase
   end
 
   test "#behind_schedule? should be false if all of the issues are ahead of schedule" do
-    version = Version.generate!(:effective_date => 7.days.from_now.to_date)
+    version = Version.create!(:project_id => 1, :name => 'test', :effective_date => 7.days.from_now.to_date)
     add_issue(version, :start_date => 7.days.ago, :done_ratio => 60) # 14 day span, 60% done, 50% time left
     add_issue(version, :start_date => 7.days.ago, :done_ratio => 60) # 14 day span, 60% done, 50% time left
     assert_equal 60, version.completed_percent
@@ -151,7 +151,7 @@ class VersionTest < ActiveSupport::TestCase
   end
 
   test "#behind_schedule? should be true if any of the issues are behind schedule" do
-    version = Version.generate!(:effective_date => 7.days.from_now.to_date)
+    version = Version.create!(:project_id => 1, :name => 'test', :effective_date => 7.days.from_now.to_date)
     add_issue(version, :start_date => 7.days.ago, :done_ratio => 60) # 14 day span, 60% done, 50% time left
     add_issue(version, :start_date => 7.days.ago, :done_ratio => 20) # 14 day span, 20% done, 50% time left
     assert_equal 40, version.completed_percent
@@ -159,7 +159,7 @@ class VersionTest < ActiveSupport::TestCase
   end
 
   test "#behind_schedule? should be false if all of the issues are complete" do
-    version = Version.generate!(:effective_date => 7.days.from_now.to_date)
+    version = Version.create!(:project_id => 1, :name => 'test', :effective_date => 7.days.from_now.to_date)
     add_issue(version, :start_date => 14.days.ago, :done_ratio => 100, :status => IssueStatus.find(5)) # 7 day span
     add_issue(version, :start_date => 14.days.ago, :done_ratio => 100, :status => IssueStatus.find(5)) # 7 day span
     assert_equal 100, version.completed_percent
@@ -172,20 +172,20 @@ class VersionTest < ActiveSupport::TestCase
   end
 
   test "#estimated_hours should return 0 with no estimated hours" do
-    version = Version.generate!
+    version = Version.create!(:project_id => 1, :name => 'test')
     add_issue(version)
     assert_equal 0, version.estimated_hours
   end
 
   test "#estimated_hours should return return the sum of estimated hours" do
-    version = Version.generate!
+    version = Version.create!(:project_id => 1, :name => 'test')
     add_issue(version, :estimated_hours => 2.5)
     add_issue(version, :estimated_hours => 5)
     assert_equal 7.5, version.estimated_hours
   end
 
   test "#estimated_hours should return the sum of leaves estimated hours" do
-    version = Version.generate!
+    version = Version.create!(:project_id => 1, :name => 'test')
     parent = add_issue(version)
     add_issue(version, :estimated_hours => 2.5, :parent_issue_id => parent.id)
     add_issue(version, :estimated_hours => 5, :parent_issue_id => parent.id)
