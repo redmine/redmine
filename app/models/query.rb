@@ -577,8 +577,11 @@ class Query < ActiveRecord::Base
       customized_class = queried_class.reflect_on_association(assoc.to_sym).klass.base_class rescue nil
       raise "Unknown #{queried_class.name} association #{assoc}" unless customized_class
     end
-    "#{queried_table_name}.#{customized_key} #{not_in} IN (SELECT #{customized_class.table_name}.id FROM #{customized_class.table_name} LEFT OUTER JOIN #{db_table} ON #{db_table}.customized_type='#{customized_class}' AND #{db_table}.customized_id=#{customized_class.table_name}.id AND #{db_table}.custom_field_id=#{custom_field_id} WHERE " +
-      sql_for_field(field, operator, value, db_table, db_field, true) + ')'
+    where = sql_for_field(field, operator, value, db_table, db_field, true)
+    if operator =~ /[<>]/
+      where = "(#{where}) AND #{db_table}.#{db_field} <> ''"
+    end
+    "#{queried_table_name}.#{customized_key} #{not_in} IN (SELECT #{customized_class.table_name}.id FROM #{customized_class.table_name} LEFT OUTER JOIN #{db_table} ON #{db_table}.customized_type='#{customized_class}' AND #{db_table}.customized_id=#{customized_class.table_name}.id AND #{db_table}.custom_field_id=#{custom_field_id} WHERE #{where})"
   end
 
   # Helper method to generate the WHERE sql for a +field+, +operator+ and a +value+
