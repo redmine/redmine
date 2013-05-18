@@ -24,28 +24,23 @@ class Redmine::ApiTest::IssueStatusesTest < Redmine::ApiTest::Base
     Setting.rest_api_enabled = '1'
   end
 
-  context "/issue_statuses" do
-    context "GET" do
+  test "GET /issue_statuses.xml should return issue statuses" do
+    get '/issue_statuses.xml'
 
-      should "return issue statuses" do
-        get '/issue_statuses.xml'
-
-        assert_response :success
-        assert_equal 'application/xml', @response.content_type
-        assert_tag :tag => 'issue_statuses',
-          :attributes => {:type => 'array'},
-          :child => {
-            :tag => 'issue_status',
-            :child => {
-              :tag => 'id',
-              :content => '2',
-              :sibling => {
-                :tag => 'name',
-                :content => 'Assigned'
-              }
-            }
+    assert_response :success
+    assert_equal 'application/xml', @response.content_type
+    assert_tag :tag => 'issue_statuses',
+      :attributes => {:type => 'array'},
+      :child => {
+        :tag => 'issue_status',
+        :child => {
+          :tag => 'id',
+          :content => '2',
+          :sibling => {
+            :tag => 'name',
+            :content => 'Assigned'
           }
-      end
-    end
+        }
+      }
   end
 end

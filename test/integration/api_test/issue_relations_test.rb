@@ -31,76 +31,62 @@ class Redmine::ApiTest::IssueRelationsTest < Redmine::ApiTest::Base
     Setting.rest_api_enabled = '1'
   end
 
-  context "/issues/:issue_id/relations" do
-    context "GET" do
-      should "return issue relations" do
-        get '/issues/9/relations.xml', {}, credentials('jsmith')
+  test "GET /issues/:issue_id/relations.xml should return issue relations" do
+    get '/issues/9/relations.xml', {}, credentials('jsmith')
 
-        assert_response :success
-        assert_equal 'application/xml', @response.content_type
+    assert_response :success
+    assert_equal 'application/xml', @response.content_type
 
-        assert_tag :tag => 'relations',
-          :attributes => { :type => 'array' },
-          :child => {
-            :tag => 'relation',
-            :child => {
-              :tag => 'id',
-              :content => '1'
-            }
-          }
-      end
-    end
-
-    context "POST" do
-      should "create a relation" do
-        assert_difference('IssueRelation.count') do
-          post '/issues/2/relations.xml', {:relation => {:issue_to_id => 7, :relation_type => 'relates'}}, credentials('jsmith')
-        end
-
-        relation = IssueRelation.first(:order => 'id DESC')
-        assert_equal 2, relation.issue_from_id
-        assert_equal 7, relation.issue_to_id
-        assert_equal 'relates', relation.relation_type
-
-        assert_response :created
-        assert_equal 'application/xml', @response.content_type
-        assert_tag 'relation', :child => {:tag => 'id', :content => relation.id.to_s}
-      end
-
-      context "with failure" do
-        should "return the errors" do
-          assert_no_difference('IssueRelation.count') do
-            post '/issues/2/relations.xml', {:relation => {:issue_to_id => 7, :relation_type => 'foo'}}, credentials('jsmith')
-          end
-
-          assert_response :unprocessable_entity
-          assert_tag :errors, :child => {:tag => 'error', :content => /relation_type is not included in the list/}
-        end
-      end
-    end
+    assert_tag :tag => 'relations',
+      :attributes => { :type => 'array' },
+      :child => {
+        :tag => 'relation',
+        :child => {
+          :tag => 'id',
+          :content => '1'
+        }
+      }
   end
 
-  context "/relations/:id" do
-    context "GET" do
-      should "return the relation" do
-        get '/relations/2.xml', {}, credentials('jsmith')
-
-        assert_response :success
-        assert_equal 'application/xml', @response.content_type
-        assert_tag 'relation', :child => {:tag => 'id', :content => '2'}
-      end
+  test "POST /issues/:issue_id/relations.xml should create the relation" do
+    assert_difference('IssueRelation.count') do
+      post '/issues/2/relations.xml', {:relation => {:issue_to_id => 7, :relation_type => 'relates'}}, credentials('jsmith')
     end
 
-    context "DELETE" do
-      should "delete the relation" do
-        assert_difference('IssueRelation.count', -1) do
-          delete '/relations/2.xml', {}, credentials('jsmith')
-        end
+    relation = IssueRelation.first(:order => 'id DESC')
+    assert_equal 2, relation.issue_from_id
+    assert_equal 7, relation.issue_to_id
+    assert_equal 'relates', relation.relation_type
 
-        assert_response :ok
-        assert_equal '', @response.body
-        assert_nil IssueRelation.find_by_id(2)
-      end
+    assert_response :created
+    assert_equal 'application/xml', @response.content_type
+    assert_tag 'relation', :child => {:tag => 'id', :content => relation.id.to_s}
+  end
+
+  test "POST /issues/:issue_id/relations.xml with failure should return errors" do
+    assert_no_difference('IssueRelation.count') do
+      post '/issues/2/relations.xml', {:relation => {:issue_to_id => 7, :relation_type => 'foo'}}, credentials('jsmith')
     end
+
+    assert_response :unprocessable_entity
+    assert_tag :errors, :child => {:tag => 'error', :content => /relation_type is not included in the list/}
+  end
+
+  test "GET /relations/:id.xml should return the relation" do
+    get '/relations/2.xml', {}, credentials('jsmith')
+
+    assert_response :success
+    assert_equal 'application/xml', @response.content_type
+    assert_tag 'relation', :child => {:tag => 'id', :content => '2'}
+  end
+
+  test "DELETE /relations/:id.xml should delete the relation" do
+    assert_difference('IssueRelation.count', -1) do
+      delete '/relations/2.xml', {}, credentials('jsmith')
+    end
+
+    assert_response :ok
+    assert_equal '', @response.body
+    assert_nil IssueRelation.find_by_id(2)
   end
 end
