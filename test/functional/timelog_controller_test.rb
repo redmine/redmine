@@ -429,6 +429,14 @@ class TimelogControllerTest < ActionController::TestCase
     assert_tag 'a', :attributes => {:href => '/time_entries/new'}, :content => /Log time/
   end
 
+  def test_index_my_spent_time
+    @request.session[:user_id] = 2
+    get :index, :user_id => 'me'
+    assert_response :success
+    assert_template 'index'
+    assert assigns(:entries).all? {|entry| entry.user_id == 2}
+  end
+
   def test_index_at_project_level
     get :index, :project_id => 'ecookbook'
     assert_response :success
