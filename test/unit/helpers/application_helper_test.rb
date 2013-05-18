@@ -20,6 +20,7 @@
 require File.expand_path('../../../test_helper', __FILE__)
 
 class ApplicationHelperTest < ActionView::TestCase
+  include Redmine::I18n
   include ERB::Util
   include Rails.application.routes.url_helpers
 
@@ -96,7 +97,7 @@ class ApplicationHelperTest < ActionView::TestCase
   if 'ruby'.respond_to?(:encoding)
     def test_auto_links_with_non_ascii_characters
       to_test = {
-        'http://foo.bar/тест' => '<a class="external" href="http://foo.bar/тест">http://foo.bar/тест</a>'
+        'http://foo.bar/Ñ‚ÐµÑ�Ñ‚' => '<a class="external" href="http://foo.bar/Ñ‚ÐµÑ�Ñ‚">http://foo.bar/Ñ‚ÐµÑ�Ñ‚</a>'
       }
       to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
     end
@@ -250,7 +251,7 @@ RAW
   if 'ruby'.respond_to?(:encoding)
     def test_textile_external_links_with_non_ascii_characters
       to_test = {
-        'This is a "link":http://foo.bar/тест' => 'This is a <a href="http://foo.bar/тест" class="external">link</a>'
+        'This is a "link":http://foo.bar/Ñ‚ÐµÑ�Ñ‚' => 'This is a <a href="http://foo.bar/Ñ‚ÐµÑ�Ñ‚" class="external">link</a>'
       }
       to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
     end
@@ -596,7 +597,7 @@ RAW
       '[[CookBook documentation#One-section]]' => '<a href="/projects/ecookbook/wiki/CookBook_documentation#One-section" class="wiki-page">CookBook documentation</a>',
       '[[Another page#anchor|Page]]' => '<a href="/projects/ecookbook/wiki/Another_page#anchor" class="wiki-page">Page</a>',
       # UTF8 anchor
-      '[[Another_page#Тест|Тест]]' => %|<a href="/projects/ecookbook/wiki/Another_page##{CGI.escape 'Тест'}" class="wiki-page">Тест</a>|,
+      '[[Another_page#Ð¢ÐµÑ�Ñ‚|Ð¢ÐµÑ�Ñ‚]]' => %|<a href="/projects/ecookbook/wiki/Another_page##{CGI.escape 'Ð¢ÐµÑ�Ñ‚'}" class="wiki-page">Ð¢ÐµÑ�Ñ‚</a>|,
       # page that doesn't exist
       '[[Unknown page]]' => '<a href="/projects/ecookbook/wiki/Unknown_page" class="wiki-page new">Unknown page</a>',
       '[[Unknown page|404]]' => '<a href="/projects/ecookbook/wiki/Unknown_page" class="wiki-page new">404</a>',

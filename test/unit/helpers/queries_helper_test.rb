@@ -19,6 +19,7 @@ require File.expand_path('../../../test_helper', __FILE__)
 
 class QueriesHelperTest < ActionView::TestCase
   include QueriesHelper
+  include Redmine::I18n
 
   fixtures :projects, :enabled_modules, :users, :members,
            :member_roles, :roles, :trackers, :issue_statuses,
