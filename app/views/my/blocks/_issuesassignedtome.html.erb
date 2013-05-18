@@ -1,7 +1,7 @@
 <h3>
   <%= link_to l(:label_assigned_to_me_issues),
         issues_path(:set_filter => 1, :assigned_to_id => 'me', :sort => 'priority:desc,updated_on:desc') %>
-  (<%= Issue.visible.open.count(:conditions => {:assigned_to_id => ([User.current.id] + User.current.group_ids)})%>)
+  (<%= Issue.visible.open.where(:assigned_to_id => ([User.current.id] + User.current.group_ids)).count %>)
 </h3>
 
 <% assigned_issues = issuesassignedtome_items %>
