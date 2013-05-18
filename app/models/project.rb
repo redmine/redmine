@@ -451,26 +451,29 @@ class Project < ActiveRecord::Base
   # Returns a scope of the Versions on subprojects
   def rolled_up_versions
     @rolled_up_versions ||=
-      Version.scoped(:include => :project,
-                     :conditions => ["#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status <> #{STATUS_ARCHIVED}", lft, rgt])
+      Version.
+        includes(:project).
+        where("#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status <> ?", lft, rgt, STATUS_ARCHIVED)
   end
 
   # Returns a scope of the Versions used by the project
   def shared_versions
     if new_record?
-      Version.scoped(:include => :project,
-                     :conditions => "#{Project.table_name}.status <> #{Project::STATUS_ARCHIVED} AND #{Version.table_name}.sharing = 'system'")
+      Version.
+        includes(:project).
+        where("#{Project.table_name}.status <> ? AND #{Version.table_name}.sharing = 'system'", STATUS_ARCHIVED)
     else
       @shared_versions ||= begin
         r = root? ? self : root
-        Version.scoped(:include => :project,
-                       :conditions => "#{Project.table_name}.id = #{id}" +
-                                      " OR (#{Project.table_name}.status <> #{Project::STATUS_ARCHIVED} AND (" +
-                                          " #{Version.table_name}.sharing = 'system'" +
-                                          " OR (#{Project.table_name}.lft >= #{r.lft} AND #{Project.table_name}.rgt <= #{r.rgt} AND #{Version.table_name}.sharing = 'tree')" +
-                                          " OR (#{Project.table_name}.lft < #{lft} AND #{Project.table_name}.rgt > #{rgt} AND #{Version.table_name}.sharing IN ('hierarchy', 'descendants'))" +
-                                          " OR (#{Project.table_name}.lft > #{lft} AND #{Project.table_name}.rgt < #{rgt} AND #{Version.table_name}.sharing = 'hierarchy')" +
-                                          "))")
+        Version.
+          includes(:project).
+          where("#{Project.table_name}.id = #{id}" +
+                  " OR (#{Project.table_name}.status <> #{Project::STATUS_ARCHIVED} AND (" +
+                    " #{Version.table_name}.sharing = 'system'" +
+                    " OR (#{Project.table_name}.lft >= #{r.lft} AND #{Project.table_name}.rgt <= #{r.rgt} AND #{Version.table_name}.sharing = 'tree')" +
+                    " OR (#{Project.table_name}.lft < #{lft} AND #{Project.table_name}.rgt > #{rgt} AND #{Version.table_name}.sharing IN ('hierarchy', 'descendants'))" +
+                    " OR (#{Project.table_name}.lft > #{lft} AND #{Project.table_name}.rgt < #{rgt} AND #{Version.table_name}.sharing = 'hierarchy')" +
+                  "))")
       end
     end
   end
@@ -954,7 +957,7 @@ class Project < ActiveRecord::Base
 
   def allowed_permissions
     @allowed_permissions ||= begin
-      module_names = enabled_modules.all(:select => :name).collect {|m| m.name}
+      module_names = enabled_modules.pluck(:name)
       Redmine::AccessControl.modules_permissions(module_names).collect {|p| p.name}
     end
   end
