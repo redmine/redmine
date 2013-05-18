@@ -37,13 +37,6 @@ class Redmine::ApiTest::TokenAuthenticationTest < Redmine::ApiTest::Base
   end
 
   # Using the NewsController because it's a simple API.
-  context "get /news" do
-    context "in :xml format" do
-      should_allow_key_based_auth(:get, "/news.xml")
-    end
-
-    context "in :json format" do
-      should_allow_key_based_auth(:get, "/news.json")
-    end
-  end
+  should_allow_key_based_auth(:get, "/news.xml")
+  should_allow_key_based_auth(:get, "/news.json")
 end

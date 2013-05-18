@@ -24,76 +24,96 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
     Setting.rest_api_enabled = '1'
   end
 
-  context "GET /users" do
-    should_allow_api_authentication(:get, "/users.xml")
-    should_allow_api_authentication(:get, "/users.json")
+  should_allow_api_authentication(:get, "/users.xml")
+  should_allow_api_authentication(:get, "/users.json")
+  should_allow_api_authentication(:post,
+    '/users.xml',
+     {:user => {
+        :login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname',
+        :mail => 'foo@example.net', :password => 'secret123'
+      }},
+    {:success_code => :created})
+  should_allow_api_authentication(:post,
+    '/users.json',
+    {:user => {
+       :login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname',
+       :mail => 'foo@example.net'
+    }},
+    {:success_code => :created})
+  should_allow_api_authentication(:put,
+    '/users/2.xml',
+    {:user => {
+        :login => 'jsmith', :firstname => 'John', :lastname => 'Renamed',
+        :mail => 'jsmith@somenet.foo'
+    }},
+    {:success_code => :ok})
+  should_allow_api_authentication(:put,
+    '/users/2.json',
+    {:user => {
+        :login => 'jsmith', :firstname => 'John', :lastname => 'Renamed',
+        :mail => 'jsmith@somenet.foo'
+    }},
+    {:success_code => :ok})
+  should_allow_api_authentication(:delete,
+    '/users/2.xml',
+    {},
+    {:success_code => :ok})
+  should_allow_api_authentication(:delete,
+    '/users/2.xml',
+    {},
+    {:success_code => :ok})
+
+  test "GET /users/:id.xml should return the user" do
+    get '/users/2.xml'
+
+    assert_response :success
+    assert_tag :tag => 'user',
+      :child => {:tag => 'id', :content => '2'}
   end
 
-  context "GET /users/2" do
-    context ".xml" do
-      should "return requested user" do
-        get '/users/2.xml'
+  test "GET /users/:id.json should return the user" do
+    get '/users/2.json'
 
-        assert_response :success
-        assert_tag :tag => 'user',
-          :child => {:tag => 'id', :content => '2'}
-      end
-
-      context "with include=memberships" do
-        should "include memberships" do
-          get '/users/2.xml?include=memberships'
-  
-          assert_response :success
-          assert_tag :tag => 'memberships',
-            :parent => {:tag => 'user'},
-            :children => {:count => 1}
-        end
-      end
-    end
-
-    context ".json" do
-      should "return requested user" do
-        get '/users/2.json'
-
-        assert_response :success
-        json = ActiveSupport::JSON.decode(response.body)
-        assert_kind_of Hash, json
-        assert_kind_of Hash, json['user']
-        assert_equal 2, json['user']['id']
-      end
-
-      context "with include=memberships" do
-        should "include memberships" do
-          get '/users/2.json?include=memberships'
-  
-          assert_response :success
-          json = ActiveSupport::JSON.decode(response.body)
-          assert_kind_of Array, json['user']['memberships']
-          assert_equal [{
-            "id"=>1,
-            "project"=>{"name"=>"eCookbook", "id"=>1},
-            "roles"=>[{"name"=>"Manager", "id"=>1}]
-          }], json['user']['memberships']
-        end
-      end
-    end
+    assert_response :success
+    json = ActiveSupport::JSON.decode(response.body)
+    assert_kind_of Hash, json
+    assert_kind_of Hash, json['user']
+    assert_equal 2, json['user']['id']
   end
 
-  context "GET /users/current" do
-    context ".xml" do
-      should "require authentication" do
-        get '/users/current.xml'
+  test "GET /users/:id.xml with include=memberships should include memberships" do
+    get '/users/2.xml?include=memberships'
 
-        assert_response 401
-      end
+    assert_response :success
+    assert_tag :tag => 'memberships',
+      :parent => {:tag => 'user'},
+      :children => {:count => 1}
+  end
 
-      should "return current user" do
-        get '/users/current.xml', {}, credentials('jsmith')
+  test "GET /users/:id.json with include=memberships should include memberships" do
+    get '/users/2.json?include=memberships'
 
-        assert_tag :tag => 'user',
-          :child => {:tag => 'id', :content => '2'}
-      end
-    end
+    assert_response :success
+    json = ActiveSupport::JSON.decode(response.body)
+    assert_kind_of Array, json['user']['memberships']
+    assert_equal [{
+      "id"=>1,
+      "project"=>{"name"=>"eCookbook", "id"=>1},
+      "roles"=>[{"name"=>"Manager", "id"=>1}]
+    }], json['user']['memberships']
+  end
+
+  test "GET /users/current.xml should require authentication" do
+    get '/users/current.xml'
+
+    assert_response 401
+  end
+
+  test "GET /users/current.xml should return current user" do
+    get '/users/current.xml', {}, credentials('jsmith')
+
+    assert_tag :tag => 'user',
+      :child => {:tag => 'id', :content => '2'}
   end
 
   test "GET /users/:id should not return login for other user" do
@@ -132,252 +152,176 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
     assert_tag 'user', :child => {:tag => 'status', :content => User.find(1).status.to_s}
   end
 
-  context "POST /users" do
-    context "with valid parameters" do
-      setup do
-        @parameters = {
-          :user => {
-             :login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname',
-             :mail => 'foo@example.net', :password => 'secret123',
-             :mail_notification => 'only_assigned'
-          }
-        }
-      end
-
-      context ".xml" do
-        should_allow_api_authentication(:post,
-          '/users.xml',
-           {:user => {
-              :login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname',
-              :mail => 'foo@example.net', :password => 'secret123'
-            }},
-          {:success_code => :created})
-
-        should "create a user with the attributes" do
-          assert_difference('User.count') do
-            post '/users.xml', @parameters, credentials('admin')
-          end
-
-          user = User.first(:order => 'id DESC')
-          assert_equal 'foo', user.login
-          assert_equal 'Firstname', user.firstname
-          assert_equal 'Lastname', user.lastname
-          assert_equal 'foo@example.net', user.mail
-          assert_equal 'only_assigned', user.mail_notification
-          assert !user.admin?
-          assert user.check_password?('secret123')
-
-          assert_response :created
-          assert_equal 'application/xml', @response.content_type
-          assert_tag 'user', :child => {:tag => 'id', :content => user.id.to_s}
-        end
-      end
-
-      context ".json" do
-        should_allow_api_authentication(:post,
-          '/users.json',
-          {:user => {
-             :login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname',
-             :mail => 'foo@example.net'
-          }},
-          {:success_code => :created})
-
-        should "create a user with the attributes" do
-          assert_difference('User.count') do
-            post '/users.json', @parameters, credentials('admin')
-          end
-
-          user = User.first(:order => 'id DESC')
-          assert_equal 'foo', user.login
-          assert_equal 'Firstname', user.firstname
-          assert_equal 'Lastname', user.lastname
-          assert_equal 'foo@example.net', user.mail
-          assert !user.admin?
-
-          assert_response :created
-          assert_equal 'application/json', @response.content_type
-          json = ActiveSupport::JSON.decode(response.body)
-          assert_kind_of Hash, json
-          assert_kind_of Hash, json['user']
-          assert_equal user.id, json['user']['id']
-        end
-      end
+  test "POST /users.xml with valid parameters should create the user" do
+    assert_difference('User.count') do
+      post '/users.xml', {
+        :user => {
+          :login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname',
+          :mail => 'foo@example.net', :password => 'secret123',
+          :mail_notification => 'only_assigned'}
+        },
+        credentials('admin')
     end
 
-    context "with invalid parameters" do
-      setup do
-        @parameters = {:user => {:login => 'foo', :lastname => 'Lastname', :mail => 'foo'}}
-      end
+    user = User.first(:order => 'id DESC')
+    assert_equal 'foo', user.login
+    assert_equal 'Firstname', user.firstname
+    assert_equal 'Lastname', user.lastname
+    assert_equal 'foo@example.net', user.mail
+    assert_equal 'only_assigned', user.mail_notification
+    assert !user.admin?
+    assert user.check_password?('secret123')
 
-      context ".xml" do
-        should "return errors" do
-          assert_no_difference('User.count') do
-            post '/users.xml', @parameters, credentials('admin')
-          end
-
-          assert_response :unprocessable_entity
-          assert_equal 'application/xml', @response.content_type
-          assert_tag 'errors', :child => {
-                                 :tag => 'error',
-                                 :content => "First name can't be blank"
-                               }
-        end
-      end
-
-      context ".json" do
-        should "return errors" do
-          assert_no_difference('User.count') do
-            post '/users.json', @parameters, credentials('admin')
-          end
-
-          assert_response :unprocessable_entity
-          assert_equal 'application/json', @response.content_type
-          json = ActiveSupport::JSON.decode(response.body)
-          assert_kind_of Hash, json
-          assert json.has_key?('errors')
-          assert_kind_of Array, json['errors']
-        end
-      end
-    end
+    assert_response :created
+    assert_equal 'application/xml', @response.content_type
+    assert_tag 'user', :child => {:tag => 'id', :content => user.id.to_s}
   end
 
-  context "PUT /users/2" do
-    context "with valid parameters" do
-      setup do
-        @parameters = {
-          :user => {
-            :login => 'jsmith', :firstname => 'John', :lastname => 'Renamed',
-            :mail => 'jsmith@somenet.foo'
-          }
-        }
-      end
-
-      context ".xml" do
-        should_allow_api_authentication(:put,
-          '/users/2.xml',
-          {:user => {
-              :login => 'jsmith', :firstname => 'John', :lastname => 'Renamed',
-              :mail => 'jsmith@somenet.foo'
-          }},
-          {:success_code => :ok})
-
-        should "update user with the attributes" do
-          assert_no_difference('User.count') do
-            put '/users/2.xml', @parameters, credentials('admin')
-          end
-
-          user = User.find(2)
-          assert_equal 'jsmith', user.login
-          assert_equal 'John', user.firstname
-          assert_equal 'Renamed', user.lastname
-          assert_equal 'jsmith@somenet.foo', user.mail
-          assert !user.admin?
-
-          assert_response :ok
-          assert_equal '', @response.body
-        end
-      end
-
-      context ".json" do
-        should_allow_api_authentication(:put,
-          '/users/2.json',
-          {:user => {
-              :login => 'jsmith', :firstname => 'John', :lastname => 'Renamed',
-              :mail => 'jsmith@somenet.foo'
-          }},
-          {:success_code => :ok})
-
-        should "update user with the attributes" do
-          assert_no_difference('User.count') do
-            put '/users/2.json', @parameters, credentials('admin')
-          end
-
-          user = User.find(2)
-          assert_equal 'jsmith', user.login
-          assert_equal 'John', user.firstname
-          assert_equal 'Renamed', user.lastname
-          assert_equal 'jsmith@somenet.foo', user.mail
-          assert !user.admin?
-
-          assert_response :ok
-          assert_equal '', @response.body
-        end
-      end
+  test "POST /users.json with valid parameters should create the user" do
+    assert_difference('User.count') do
+      post '/users.json', {
+        :user => {
+          :login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname',
+          :mail => 'foo@example.net', :password => 'secret123',
+          :mail_notification => 'only_assigned'}
+        },
+        credentials('admin')
     end
 
-    context "with invalid parameters" do
-      setup do
-        @parameters = {
-          :user => {
-            :login => 'jsmith', :firstname => '', :lastname => 'Lastname',
-            :mail => 'foo'
-          }
-        }
-      end
+    user = User.first(:order => 'id DESC')
+    assert_equal 'foo', user.login
+    assert_equal 'Firstname', user.firstname
+    assert_equal 'Lastname', user.lastname
+    assert_equal 'foo@example.net', user.mail
+    assert !user.admin?
 
-      context ".xml" do
-        should "return errors" do
-          assert_no_difference('User.count') do
-            put '/users/2.xml', @parameters, credentials('admin')
-          end
-
-          assert_response :unprocessable_entity
-          assert_equal 'application/xml', @response.content_type
-          assert_tag 'errors', :child => {
-                                 :tag => 'error',
-                                 :content => "First name can't be blank"
-                                }
-        end
-      end
-
-      context ".json" do
-        should "return errors" do
-          assert_no_difference('User.count') do
-            put '/users/2.json', @parameters, credentials('admin')
-          end
-
-          assert_response :unprocessable_entity
-          assert_equal 'application/json', @response.content_type
-          json = ActiveSupport::JSON.decode(response.body)
-          assert_kind_of Hash, json
-          assert json.has_key?('errors')
-          assert_kind_of Array, json['errors']
-        end
-      end
-    end
+    assert_response :created
+    assert_equal 'application/json', @response.content_type
+    json = ActiveSupport::JSON.decode(response.body)
+    assert_kind_of Hash, json
+    assert_kind_of Hash, json['user']
+    assert_equal user.id, json['user']['id']
   end
 
-  context "DELETE /users/2" do
-    context ".xml" do
-      should_allow_api_authentication(:delete,
-        '/users/2.xml',
-        {},
-        {:success_code => :ok})
-
-      should "delete user" do
-        assert_difference('User.count', -1) do
-          delete '/users/2.xml', {}, credentials('admin')
-        end
-
-        assert_response :ok
-        assert_equal '', @response.body
-      end
+  test "POST /users.xml with with invalid parameters should return errors" do
+    assert_no_difference('User.count') do
+      post '/users.xml', {:user => {:login => 'foo', :lastname => 'Lastname', :mail => 'foo'}}, credentials('admin')
     end
 
-    context ".json" do
-      should_allow_api_authentication(:delete,
-        '/users/2.xml',
-        {},
-        {:success_code => :ok})
+    assert_response :unprocessable_entity
+    assert_equal 'application/xml', @response.content_type
+    assert_tag 'errors', :child => {
+                           :tag => 'error',
+                           :content => "First name can't be blank"
+                         }
+  end
 
-      should "delete user" do
-        assert_difference('User.count', -1) do
-          delete '/users/2.json', {}, credentials('admin')
-        end
-
-        assert_response :ok
-        assert_equal '', @response.body
-      end
+  test "POST /users.json with with invalid parameters should return errors" do
+    assert_no_difference('User.count') do
+      post '/users.json', {:user => {:login => 'foo', :lastname => 'Lastname', :mail => 'foo'}}, credentials('admin')
     end
+
+    assert_response :unprocessable_entity
+    assert_equal 'application/json', @response.content_type
+    json = ActiveSupport::JSON.decode(response.body)
+    assert_kind_of Hash, json
+    assert json.has_key?('errors')
+    assert_kind_of Array, json['errors']
+  end
+
+  test "PUT /users/:id.xml with valid parameters should update the user" do
+    assert_no_difference('User.count') do
+      put '/users/2.xml', {
+        :user => {
+          :login => 'jsmith', :firstname => 'John', :lastname => 'Renamed',
+          :mail => 'jsmith@somenet.foo'}
+        },
+        credentials('admin')
+    end
+
+    user = User.find(2)
+    assert_equal 'jsmith', user.login
+    assert_equal 'John', user.firstname
+    assert_equal 'Renamed', user.lastname
+    assert_equal 'jsmith@somenet.foo', user.mail
+    assert !user.admin?
+
+    assert_response :ok
+    assert_equal '', @response.body
+  end
+
+  test "PUT /users/:id.json with valid parameters should update the user" do
+    assert_no_difference('User.count') do
+      put '/users/2.json', {
+        :user => {
+          :login => 'jsmith', :firstname => 'John', :lastname => 'Renamed',
+          :mail => 'jsmith@somenet.foo'}
+        },
+        credentials('admin')
+    end
+
+    user = User.find(2)
+    assert_equal 'jsmith', user.login
+    assert_equal 'John', user.firstname
+    assert_equal 'Renamed', user.lastname
+    assert_equal 'jsmith@somenet.foo', user.mail
+    assert !user.admin?
+
+    assert_response :ok
+    assert_equal '', @response.body
+  end
+
+  test "PUT /users/:id.xml with invalid parameters" do
+    assert_no_difference('User.count') do
+      put '/users/2.xml', {
+        :user => {
+          :login => 'jsmith', :firstname => '', :lastname => 'Lastname',
+          :mail => 'foo'}
+        },
+        credentials('admin')
+    end
+
+    assert_response :unprocessable_entity
+    assert_equal 'application/xml', @response.content_type
+    assert_tag 'errors', :child => {
+                           :tag => 'error',
+                           :content => "First name can't be blank"
+                          }
+  end
+
+  test "PUT /users/:id.json with invalid parameters" do
+    assert_no_difference('User.count') do
+      put '/users/2.json', {
+        :user => {
+          :login => 'jsmith', :firstname => '', :lastname => 'Lastname',
+          :mail => 'foo'}
+        },
+        credentials('admin')
+    end
+
+    assert_response :unprocessable_entity
+    assert_equal 'application/json', @response.content_type
+    json = ActiveSupport::JSON.decode(response.body)
+    assert_kind_of Hash, json
+    assert json.has_key?('errors')
+    assert_kind_of Array, json['errors']
+  end
+
+  test "DELETE /users/:id.xml should delete the user" do
+    assert_difference('User.count', -1) do
+      delete '/users/2.xml', {}, credentials('admin')
+    end
+
+    assert_response :ok
+    assert_equal '', @response.body
+  end
+
+  test "DELETE /users/:id.json should delete the user" do
+    assert_difference('User.count', -1) do
+      delete '/users/2.json', {}, credentials('admin')
+    end
+
+    assert_response :ok
+    assert_equal '', @response.body
   end
 end

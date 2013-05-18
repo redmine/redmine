@@ -31,128 +31,112 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
     Setting.rest_api_enabled = '1'
   end
 
-  context "/projects/:project_id/versions" do
-    context "GET" do
-      should "return project versions" do
-        get '/projects/1/versions.xml'
+  test "GET /projects/:project_id/versions.xml should return project versions" do
+    get '/projects/1/versions.xml'
 
-        assert_response :success
-        assert_equal 'application/xml', @response.content_type
-        assert_tag :tag => 'versions',
-          :attributes => {:type => 'array'},
-          :child => {
-            :tag => 'version',
-            :child => {
-              :tag => 'id',
-              :content => '2',
-              :sibling => {
-                :tag => 'name',
-                :content => '1.0'
-              }
-            }
+    assert_response :success
+    assert_equal 'application/xml', @response.content_type
+    assert_tag :tag => 'versions',
+      :attributes => {:type => 'array'},
+      :child => {
+        :tag => 'version',
+        :child => {
+          :tag => 'id',
+          :content => '2',
+          :sibling => {
+            :tag => 'name',
+            :content => '1.0'
           }
-      end
+        }
+      }
+  end
+
+  test "POST /projects/:project_id/versions.xml should create the version" do
+    assert_difference 'Version.count' do
+      post '/projects/1/versions.xml', {:version => {:name => 'API test'}}, credentials('jsmith')
     end
 
-    context "POST" do
-      should "create the version" do
-        assert_difference 'Version.count' do
-          post '/projects/1/versions.xml', {:version => {:name => 'API test'}}, credentials('jsmith')
-        end
+    version = Version.first(:order => 'id DESC')
+    assert_equal 'API test', version.name
 
-        version = Version.first(:order => 'id DESC')
-        assert_equal 'API test', version.name
+    assert_response :created
+    assert_equal 'application/xml', @response.content_type
+    assert_tag 'version', :child => {:tag => 'id', :content => version.id.to_s}
+  end
 
-        assert_response :created
-        assert_equal 'application/xml', @response.content_type
-        assert_tag 'version', :child => {:tag => 'id', :content => version.id.to_s}
-      end
+  test "POST /projects/:project_id/versions.xml should create the version with due date" do
+    assert_difference 'Version.count' do
+      post '/projects/1/versions.xml', {:version => {:name => 'API test', :due_date => '2012-01-24'}}, credentials('jsmith')
+    end
 
-      should "create the version with due date" do
-        assert_difference 'Version.count' do
-          post '/projects/1/versions.xml', {:version => {:name => 'API test', :due_date => '2012-01-24'}}, credentials('jsmith')
-        end
+    version = Version.first(:order => 'id DESC')
+    assert_equal 'API test', version.name
+    assert_equal Date.parse('2012-01-24'), version.due_date
 
-        version = Version.first(:order => 'id DESC')
-        assert_equal 'API test', version.name
-        assert_equal Date.parse('2012-01-24'), version.due_date
+    assert_response :created
+    assert_equal 'application/xml', @response.content_type
+    assert_tag 'version', :child => {:tag => 'id', :content => version.id.to_s}
+  end
 
-        assert_response :created
-        assert_equal 'application/xml', @response.content_type
-        assert_tag 'version', :child => {:tag => 'id', :content => version.id.to_s}
-      end
+  test "POST /projects/:project_id/versions.xml should create the version with custom fields" do
+    field = VersionCustomField.generate!
 
-      should "create the version with custom fields" do
-        field = VersionCustomField.generate!
+    assert_difference 'Version.count' do
+      post '/projects/1/versions.xml', {
+          :version => {
+            :name => 'API test',
+            :custom_fields => [
+              {'id' => field.id.to_s, 'value' => 'Some value'}
+            ]
+          }
+        }, credentials('jsmith')
+    end
 
-        assert_difference 'Version.count' do
-          post '/projects/1/versions.xml', {
-              :version => {
-                :name => 'API test',
-                :custom_fields => [
-                  {'id' => field.id.to_s, 'value' => 'Some value'}
-                ]
-              }
-            }, credentials('jsmith')
-        end
+    version = Version.first(:order => 'id DESC')
+    assert_equal 'API test', version.name
+    assert_equal 'Some value', version.custom_field_value(field)
 
-        version = Version.first(:order => 'id DESC')
-        assert_equal 'API test', version.name
-        assert_equal 'Some value', version.custom_field_value(field)
+    assert_response :created
+    assert_equal 'application/xml', @response.content_type
+    assert_select 'version>custom_fields>custom_field[id=?]>value', field.id.to_s, 'Some value'
+  end
 
-        assert_response :created
-        assert_equal 'application/xml', @response.content_type
-        assert_select 'version>custom_fields>custom_field[id=?]>value', field.id.to_s, 'Some value'
-      end
+  test "POST /projects/:project_id/versions.xml with failure should return the errors" do
+    assert_no_difference('Version.count') do
+      post '/projects/1/versions.xml', {:version => {:name => ''}}, credentials('jsmith')
+    end
 
-      context "with failure" do
-        should "return the errors" do
-          assert_no_difference('Version.count') do
-            post '/projects/1/versions.xml', {:version => {:name => ''}}, credentials('jsmith')
-          end
+    assert_response :unprocessable_entity
+    assert_tag :errors, :child => {:tag => 'error', :content => "Name can't be blank"}
+  end
 
-          assert_response :unprocessable_entity
-          assert_tag :errors, :child => {:tag => 'error', :content => "Name can't be blank"}
-        end
-      end
+  test "GET /versions/:id.xml should return the version" do
+    get '/versions/2.xml'
+
+    assert_response :success
+    assert_equal 'application/xml', @response.content_type
+    assert_select 'version' do
+      assert_select 'id', :text => '2'
+      assert_select 'name', :text => '1.0'
+      assert_select 'sharing', :text => 'none'
     end
   end
 
-  context "/versions/:id" do
-    context "GET" do
-      should "return the version" do
-        get '/versions/2.xml'
+  test "PUT /versions/:id.xml should update the version" do
+    put '/versions/2.xml', {:version => {:name => 'API update'}}, credentials('jsmith')
 
-        assert_response :success
-        assert_equal 'application/xml', @response.content_type
-        assert_select 'version' do
-          assert_select 'id', :text => '2'
-          assert_select 'name', :text => '1.0'
-          assert_select 'sharing', :text => 'none'
-        end
-      end
+    assert_response :ok
+    assert_equal '', @response.body
+    assert_equal 'API update', Version.find(2).name
+  end
+
+  test "DELETE /versions/:id.xml should destroy the version" do
+    assert_difference 'Version.count', -1 do
+      delete '/versions/3.xml', {}, credentials('jsmith')
     end
 
-    context "PUT" do
-      should "update the version" do
-        put '/versions/2.xml', {:version => {:name => 'API update'}}, credentials('jsmith')
-
-        assert_response :ok
-        assert_equal '', @response.body
-        assert_equal 'API update', Version.find(2).name
-      end
-    end
-
-    context "DELETE" do
-      should "destroy the version" do
-        assert_difference 'Version.count', -1 do
-          delete '/versions/3.xml', {}, credentials('jsmith')
-        end
-
-        assert_response :ok
-        assert_equal '', @response.body
-        assert_nil Version.find_by_id(3)
-      end
-    end
+    assert_response :ok
+    assert_equal '', @response.body
+    assert_nil Version.find_by_id(3)
   end
 end
