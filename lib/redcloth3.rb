@@ -530,7 +530,6 @@ class RedCloth3 < String
                 ratts, row = pba( $1, 'tr' ), $2 if row =~ /^(#{A}#{C}\. )(.*)/m
                 cells = []
                 row.split( /(\|)(?![^\[\|]*\]\])/ )[1..-2].each do |cell|
-                  Rails.logger.debug "cell: #{cell}"
                     next if cell == '|'
                     ctyp = 'd'
                     ctyp = 'h' if cell =~ /^_/
