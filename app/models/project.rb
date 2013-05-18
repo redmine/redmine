@@ -840,6 +840,9 @@ class Project < ActiveRecord::Base
       new_issue = Issue.new
       new_issue.copy_from(issue, :subtasks => false, :link => false)
       new_issue.project = self
+      # Changing project resets the custom field values
+      # TODO: handle this in Issue#project=
+      new_issue.custom_field_values = issue.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
       # Reassign fixed_versions by name, since names are unique per project
       if issue.fixed_version && issue.fixed_version.project == project
         new_issue.fixed_version = self.versions.detect {|v| v.name == issue.fixed_version.name}
