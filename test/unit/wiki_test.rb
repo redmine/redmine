@@ -84,22 +84,18 @@ class WikiTest < ActiveSupport::TestCase
     assert_equal ja_test, Wiki.titleize(ja_test)
   end
 
-  context "#sidebar" do
-    setup do
-      @wiki = Wiki.find(1)
-    end
+  def test_sidebar_should_return_nil_if_undefined
+    @wiki = Wiki.find(1)
+    assert_nil @wiki.sidebar
+  end
 
-    should "return nil if undefined" do
-      assert_nil @wiki.sidebar
-    end
+  def test_sidebar_should_return_a_wiki_page_if_defined
+    @wiki = Wiki.find(1)
+    page = @wiki.pages.new(:title => 'Sidebar')
+    page.content = WikiContent.new(:text => 'Side bar content for test_show_with_sidebar')
+    page.save!
 
-    should "return a WikiPage if defined" do
-      page = @wiki.pages.new(:title => 'Sidebar')
-      page.content = WikiContent.new(:text => 'Side bar content for test_show_with_sidebar')
-      page.save!
-
-      assert_kind_of WikiPage, @wiki.sidebar
-      assert_equal 'Sidebar', @wiki.sidebar.title
-    end
+    assert_kind_of WikiPage, @wiki.sidebar
+    assert_equal 'Sidebar', @wiki.sidebar.title
   end
 end

@@ -35,30 +35,24 @@ class ApplicationHelperTest < ActionView::TestCase
     set_tmp_attachments_directory
   end
 
-  context "#link_to_if_authorized" do
-    context "for authorized user" do
-      should "allow using the :controller and :action for the target link" do
-        User.current = User.find_by_login('admin')
+  test "#link_to_if_authorized for authorized user should allow using the :controller and :action for the target link" do
+    User.current = User.find_by_login('admin')
 
-        @project = Issue.first.project # Used by helper
-        response = link_to_if_authorized('By controller/actionr',
-                                        {:controller => 'issues', :action => 'edit', :id => Issue.first.id})
-        assert_match /href/, response
-      end
-    end
+    @project = Issue.first.project # Used by helper
+    response = link_to_if_authorized('By controller/actionr',
+                                    {:controller => 'issues', :action => 'edit', :id => Issue.first.id})
+    assert_match /href/, response
+  end
 
-    context "for unauthorized user" do
-      should "display nothing if user isn't authorized" do
-        User.current = User.find_by_login('dlopper')
-        @project = Project.find('private-child')
-        issue = @project.issues.first
-        assert !issue.visible?
+  test "#link_to_if_authorized for unauthorized user should display nothing if user isn't authorized" do
+    User.current = User.find_by_login('dlopper')
+    @project = Project.find('private-child')
+    issue = @project.issues.first
+    assert !issue.visible?
 
-        response = link_to_if_authorized('Never displayed',
-                                        {:controller => 'issues', :action => 'show', :id => issue})
-        assert_nil response
-      end
-    end
+    response = link_to_if_authorized('Never displayed',
+                                    {:controller => 'issues', :action => 'show', :id => issue})
+    assert_nil response
   end
 
   def test_auto_links
