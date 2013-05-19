@@ -20,9 +20,6 @@ require File.expand_path('../../test_helper', __FILE__)
 class VersionTest < ActiveSupport::TestCase
   fixtures :projects, :users, :issues, :issue_statuses, :trackers, :enumerations, :versions, :projects_trackers
 
-  def setup
-  end
-
   def test_create
     v = Version.new(:project => Project.find(1), :name => '1.1', :effective_date => '2011-03-25')
     assert v.save
