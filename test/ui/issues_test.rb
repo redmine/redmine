@@ -132,6 +132,21 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
     assert_equal ['Dave Lopper', 'Some Watcher'], issue.watcher_users.map(&:name).sort
   end
 
+  def test_create_issue_start_due_date
+    with_settings :default_issue_start_date_to_creation_date => 0 do
+      log_user('jsmith', 'jsmith')
+      visit '/projects/ecookbook/issues/new'
+      assert_equal "", page.find('input#issue_start_date').value
+      assert_equal "", page.find('input#issue_due_date').value
+      page.first('p#start_date_area img').click
+      page.first("td.ui-datepicker-days-cell-over a").click
+      assert_equal Date.today.to_s, page.find('input#issue_start_date').value
+      page.first('p#due_date_area img').click
+      page.first("td.ui-datepicker-days-cell-over a").click
+      assert_equal Date.today.to_s, page.find('input#issue_due_date').value
+    end
+  end
+
   def test_preview_issue_description
     log_user('jsmith', 'jsmith')
     visit '/projects/ecookbook/issues/new'
