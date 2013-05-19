@@ -3617,15 +3617,15 @@ class IssuesControllerTest < ActionController::TestCase
     issue1 = Issue.generate!(:start_date => '2013-05-12')
     issue2 = Issue.generate!(:start_date => '2013-05-15')
     issue3 = Issue.generate!
-
     @request.session[:user_id] = 2
-    post :bulk_update, :ids => [issue1.id, issue2.id, issue3.id], :issue => {:due_date => '2013-05-01'}
-
+    post :bulk_update, :ids => [issue1.id, issue2.id, issue3.id],
+                       :issue => {:due_date => '2013-05-01'}
     assert_response :success
     assert_template 'bulk_edit'
-    assert_select '#errorExplanation span', :text => "Failed to save 2 issue(s) on 3 selected: ##{issue1.id}, ##{issue2.id}."
-    assert_select '#errorExplanation ul li', :text => "Due date must be greater than start date: ##{issue1.id}, ##{issue2.id}"
-
+    assert_select '#errorExplanation span',
+                  :text => "Failed to save 2 issue(s) on 3 selected: ##{issue1.id}, ##{issue2.id}."
+    assert_select '#errorExplanation ul li',
+                   :text => "Due date must be greater than start date: ##{issue1.id}, ##{issue2.id}"
     assert_equal [issue1.id, issue2.id], assigns[:issues].map(&:id)
   end
 
