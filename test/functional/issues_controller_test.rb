@@ -2506,11 +2506,11 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_create_as_copy_should_add_relation_with_copied_issue
     @request.session[:user_id] = 2
-
     assert_difference 'Issue.count' do
       assert_difference 'IssueRelation.count' do
         post :create, :project_id => 1, :copy_from => 1,
-          :issue => {:project_id => '1', :tracker_id => '3', :status_id => '1', :subject => 'Copy'}
+          :issue => {:project_id => '1', :tracker_id => '3',
+                     :status_id => '1', :subject => 'Copy'}
       end
     end
     copy = Issue.first(:order => 'id DESC')
