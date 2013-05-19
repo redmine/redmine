@@ -18,17 +18,20 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class VersionTest < ActiveSupport::TestCase
-  fixtures :projects, :users, :issues, :issue_statuses, :trackers, :enumerations, :versions, :projects_trackers
+  fixtures :projects, :users, :issues, :issue_statuses, :trackers,
+           :enumerations, :versions, :projects_trackers
 
   def test_create
-    v = Version.new(:project => Project.find(1), :name => '1.1', :effective_date => '2011-03-25')
+    v = Version.new(:project => Project.find(1), :name => '1.1',
+                    :effective_date => '2011-03-25')
     assert v.save
     assert_equal 'open', v.status
     assert_equal 'none', v.sharing
   end
 
   def test_invalid_effective_date_validation
-    v = Version.new(:project => Project.find(1), :name => '1.1', :effective_date => '99999-01-01')
+    v = Version.new(:project => Project.find(1), :name => '1.1',
+                    :effective_date => '99999-01-01')
     assert !v.valid?
     v.effective_date = '2012-11-33'
     assert !v.valid?
@@ -213,11 +216,13 @@ class VersionTest < ActiveSupport::TestCase
 
     # Project 1 now out of the shared scope
     project_1_issue.reload
-    assert_equal nil, project_1_issue.fixed_version, "Fixed version is still set after changing the Version's sharing"
+    assert_equal nil, project_1_issue.fixed_version,
+                "Fixed version is still set after changing the Version's sharing"
 
     # Project 5 now out of the shared scope
     project_5_issue.reload
-    assert_equal nil, project_5_issue.fixed_version, "Fixed version is still set after changing the Version's sharing"
+    assert_equal nil, project_5_issue.fixed_version,
+                "Fixed version is still set after changing the Version's sharing"
 
     # Project 2 issue remains
     project_2_issue.reload
