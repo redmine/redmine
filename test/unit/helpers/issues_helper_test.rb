@@ -232,7 +232,7 @@ class IssuesHelperTest < ActionView::TestCase
                                :prop_key  => 'label_precedes',
                                :old_value => 1)
     assert_equal "Precedes deleted (Bug #1: Can't print recipes)", show_detail(detail, true)
-    assert_match %r{<strong>Precedes</strong> deleted \(<del><i><a href="/issues/1" class=".+">Bug #1</a>: Can&#x27;t print recipes</i></del>\)},
+    assert_match %r{<strong>Precedes</strong> deleted \(<i><a href="/issues/1" class=".+">Bug #1</a>: Can&#x27;t print recipes</i>\)},
                  show_detail(detail, false)
     non_existed_issue_number = 9999
     assert_nil  Issue.find_by_id(non_existed_issue_number)
@@ -240,6 +240,6 @@ class IssuesHelperTest < ActionView::TestCase
                                :prop_key  => 'label_precedes',
                                :old_value => non_existed_issue_number)
     assert_equal "Precedes deleted (Issue 9999)", show_detail(detail, true)
-    assert_equal "<strong>Precedes</strong> deleted (<del><i>Issue 9999</i></del>)", show_detail(detail, false)
+    assert_equal "<strong>Precedes</strong> deleted (<i>Issue 9999</i>)", show_detail(detail, false)
   end
 end
