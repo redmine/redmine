@@ -306,6 +306,17 @@ module IssuesHelper
       end
     when 'attachment'
       label = l(:label_attachment)
+    when 'relation'
+      if detail.value && !detail.old_value
+        rel_issue = Issue.find_by_id(detail.value)
+        value = rel_issue.nil? ? "#{l(:label_issue)} #{detail.value}" :
+                  (no_html ? rel_issue : link_to_issue(rel_issue))
+      elsif detail.old_value && !detail.value
+        rel_issue = Issue.find_by_id(detail.old_value)
+        old_value = rel_issue.nil? ? "#{l(:label_issue)} #{detail.old_value}" :
+                          (no_html ? rel_issue : link_to_issue(rel_issue))
+      end
+      label = l(detail.prop_key.to_sym)
     end
     call_hook(:helper_issues_show_detail_after_setting,
               {:detail => detail, :label => label, :value => value, :old_value => old_value })
@@ -353,7 +364,7 @@ module IssuesHelper
         else
           l(:text_journal_set_to, :label => label, :value => value).html_safe
         end
-      when 'attachment'
+      when 'attachment', 'relation'
         l(:text_journal_added, :label => label, :value => value).html_safe
       end
     else
