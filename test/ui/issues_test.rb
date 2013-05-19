@@ -147,6 +147,22 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
     end
   end
 
+  def test_create_issue_start_due_date_default
+    log_user('jsmith', 'jsmith')
+    visit '/projects/ecookbook/issues/new'
+    fill_in 'Start date', :with => '2012-04-01'
+    fill_in 'Due date', :with => ''
+    page.first('p#due_date_area img').click
+    page.first("td.ui-datepicker-days-cell-over a").click
+    assert_equal '2012-04-01', page.find('input#issue_due_date').value
+
+    fill_in 'Start date', :with => ''
+    fill_in 'Due date', :with => '2012-04-01'
+    page.first('p#start_date_area img').click
+    page.first("td.ui-datepicker-days-cell-over a").click
+    assert_equal '2012-04-01', page.find('input#issue_start_date').value
+  end
+
   def test_preview_issue_description
     log_user('jsmith', 'jsmith')
     visit '/projects/ecookbook/issues/new'
