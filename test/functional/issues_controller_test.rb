@@ -3489,12 +3489,11 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_bulk_update_parent_id
     IssueRelation.delete_all
-
     @request.session[:user_id] = 2
     post :bulk_update, :ids => [1, 3],
       :notes => 'Bulk editing parent',
-      :issue => {:priority_id => '', :assigned_to_id => '', :status_id => '', :parent_issue_id => '2'}
-
+      :issue => {:priority_id => '', :assigned_to_id => '',
+                 :status_id => '', :parent_issue_id => '2'}
     assert_response 302
     parent = Issue.find(2)
     assert_equal parent.id, Issue.find(1).parent_id
