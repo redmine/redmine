@@ -3289,12 +3289,18 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_bulk_edit_should_only_propose_statuses_allowed_for_all_issues
     WorkflowTransition.delete_all
-    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 1)
-    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 3)
-    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 4)
-    WorkflowTransition.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 2, :new_status_id => 1)
-    WorkflowTransition.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 2, :new_status_id => 3)
-    WorkflowTransition.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 2, :new_status_id => 5)
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1,
+                               :old_status_id => 1, :new_status_id => 1)
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1,
+                               :old_status_id => 1, :new_status_id => 3)
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1,
+                               :old_status_id => 1, :new_status_id => 4)
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 2,
+                               :old_status_id => 2, :new_status_id => 1)
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 2,
+                               :old_status_id => 2, :new_status_id => 3)
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 2,
+                               :old_status_id => 2, :new_status_id => 5)
     @request.session[:user_id] = 2
     get :bulk_edit, :ids => [1, 2]
 
