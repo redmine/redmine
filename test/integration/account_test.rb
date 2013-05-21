@@ -18,7 +18,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 begin
-  require 'mocha'
+  require 'mocha/setup'
 rescue
   # Won't run some tests
 end

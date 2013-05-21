@@ -8,7 +8,7 @@ gem 'actionpack'
 require 'action_controller'
 
 gem 'mocha'
-require 'mocha'
+require 'mocha/setup'
 
 gem 'ruby-openid'
 require 'openid'
