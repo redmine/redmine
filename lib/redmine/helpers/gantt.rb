@@ -220,6 +220,7 @@ module Redmine
           return if abort?
         end
         versions = project_versions(project)
+        self.class.sort_versions!(versions)
         versions.each do |version|
           render_version(project, version, options)
         end
@@ -688,6 +689,14 @@ module Redmine
           current_issue = current_issue.parent
         end while (current_issue)
         ancesters_start_date
+      end
+
+      def self.sort_versions!(versions)
+        versions.sort! {|a, b| sort_version_logic(a) <=> sort_version_logic(b)}
+      end
+
+      def self.sort_version_logic(version)
+        [(version.start_date || Date.new()), version.id]
       end
 
       def current_limit
