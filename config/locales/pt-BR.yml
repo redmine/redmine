@@ -994,13 +994,13 @@ pt-BR:
   label_git_report_last_commit: Relatar última alteração para arquivos e diretórios
   text_scm_config: Você pode configurar seus comandos de versionamento em config/configurations.yml. Por favor reinicie a aplicação após alterá-lo.
   text_scm_command_not_available: Comando de versionamento não disponível. Por favor verifique as configurações no painel de administração.
-  notice_issue_successful_create: Issue %{id} created.
-  label_between: between
-  setting_issue_group_assignment: Allow issue assignment to groups
+  notice_issue_successful_create: Tarefa %{id} criada.
+  label_between: entre
+  setting_issue_group_assignment: Permitir tarefas atribuídas a grupos
   label_diff: diff
-  text_git_repository_note: Repository is bare and local (e.g. /gitrepo, c:\gitrepo)
+  text_git_repository_note: Repositório é do tipo bare e local (e.g. /gitrepo, c:\gitrepo)
 
-  description_query_sort_criteria_direction: Sort direction
+  description_query_sort_criteria_direction: Escolher direção
   description_project_scope: Escopo da pesquisa
   description_filter: Filtro
   description_user_mail_notification: Configuração de notificações por e-mail
@@ -1009,96 +1009,96 @@ pt-BR:
   description_available_columns: Colunas disponíveis
   description_date_range_interval: Escolha um período selecionando a data de início e fim
   description_issue_category_reassign: Escolha uma categoria de tarefas
-  description_search: Searchfield
+  description_search: Campo de busca
   description_notes: Notas
   description_date_range_list: Escolha um período a partira da lista
   description_choose_project: Projetos
   description_date_to: Digite a data final
-  description_query_sort_criteria_attribute: Sort attribute
+  description_query_sort_criteria_attribute: Escolha atributo
   description_wiki_subpages_reassign: Escolha uma nova página pai
   description_selected_columns: Colunas selecionadas
 
-  label_parent_revision: Parent
-  label_child_revision: Child
-  error_scm_annotate_big_text_file: The entry cannot be annotated, as it exceeds the maximum text file size.
+  label_parent_revision: Pai
+  label_child_revision: Filho
+  error_scm_annotate_big_text_file: A entrada não pode ser adicionada, pois excede o tamanho de texto máximo do arquivo.
   setting_default_issue_start_date_to_creation_date: Usar data corrente como data inicial para novas tarefas
-  button_edit_section: Edit this section
-  setting_repositories_encodings: Attachments and repositories encodings
-  description_all_columns: All Columns
-  button_export: Export
-  label_export_options: "%{export_format} export options"
-  error_attachment_too_big: This file cannot be uploaded because it exceeds the maximum allowed file size (%{max_size})
-  notice_failed_to_save_time_entries: "Failed to save %{count} time entrie(s) on %{total} selected: %{ids}."
+  button_edit_section: Editar essa seção
+  setting_repositories_encodings: Codificações de anexos e repositórios
+  description_all_columns: Todas colunas
+  button_export: Exportar
+  label_export_options: "%{export_format} opções de exportação"
+  error_attachment_too_big: O arquivo não pode ser carregado porque excede o tamanho máximo permitido (%{max_size})
+  notice_failed_to_save_time_entries: "Falha ao salvar %{count} entrada(s) do %{total} selecionados: %{ids}."
   label_x_issues:
     zero:  0 tarefa
     one:   1 tarefa
     other: "%{count} tarefas"
-  label_repository_new: New repository
-  field_repository_is_default: Main repository
-  label_copy_attachments: Copy attachments
+  label_repository_new: Novo repositório
+  field_repository_is_default: Repositório principal
+  label_copy_attachments: Copiar anexos
   label_item_position: "%{position}/%{count}"
-  label_completed_versions: Completed versions
-  text_project_identifier_info: Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.
-  field_multiple: Multiple values
-  setting_commit_cross_project_ref: Allow issues of all the other projects to be referenced and fixed
-  text_issue_conflict_resolution_add_notes: Add my notes and discard my other changes
-  text_issue_conflict_resolution_overwrite: Apply my changes anyway (previous notes will be kept but some changes may be overwritten)
-  notice_issue_update_conflict: The issue has been updated by an other user while you were editing it.
-  text_issue_conflict_resolution_cancel: Discard all my changes and redisplay %{link}
-  permission_manage_related_issues: Manage related issues
-  field_auth_source_ldap_filter: LDAP filter
-  label_search_for_watchers: Search for watchers to add
-  notice_account_deleted: Your account has been permanently deleted.
-  setting_unsubscribe: Allow users to delete their own account
-  button_delete_my_account: Delete my account
+  label_completed_versions: Versões finalizadas
+  text_project_identifier_info: Apenas letras minúsculas (a-z), números, traços e underline são permitidos.<br />Uma vez salvo, o identificador não pode ser modificado.
+  field_multiple: Múltiplos valores
+  setting_commit_cross_project_ref: Permitir que tarefas de todos outros projetos sejam referenciadas e fixadas
+  text_issue_conflict_resolution_add_notes: Adicionar minhas notas e descartar minhas outras mudanças
+  text_issue_conflict_resolution_overwrite: Adicionar minhas mudanças (notas anteriores podem ser mantidas, mas outras mudanças podem ser sobrescritas)
+  notice_issue_update_conflict: A tarefa está sendo atualizada por outro usuário enquanto você está editando-a.
+  text_issue_conflict_resolution_cancel: Descartar todas minhas mudanças e mostrar e reexibir %{link}
+  permission_manage_related_issues: Gerenciar tarefas relacionadas
+  field_auth_source_ldap_filter: Filtro LDAP
+  label_search_for_watchers: Procurar por observadores para adicionar
+  notice_account_deleted: Sua conta foi permanentemente apagada.
+  setting_unsubscribe: Permitir usuários apagar sua própria conta
+  button_delete_my_account: Apagar minha conta
   text_account_destroy_confirmation: |-
-    Are you sure you want to proceed?
-    Your account will be permanently deleted, with no way to reactivate it.
-  error_session_expired: Your session has expired. Please login again.
-  text_session_expiration_settings: "Warning: changing these settings may expire the current sessions including yours."
-  setting_session_lifetime: Session maximum lifetime
-  setting_session_timeout: Session inactivity timeout
-  label_session_expiration: Session expiration
-  permission_close_project: Close / reopen the project
-  label_show_closed_projects: View closed projects
-  button_close: Close
-  button_reopen: Reopen
-  project_status_active: active
-  project_status_closed: closed
-  project_status_archived: archived
-  text_project_closed: This project is closed and read-only.
-  notice_user_successful_create: User %{id} created.
-  field_core_fields: Standard fields
-  field_timeout: Timeout (in seconds)
-  setting_thumbnails_enabled: Display attachment thumbnails
-  setting_thumbnails_size: Thumbnails size (in pixels)
-  label_status_transitions: Status transitions
-  label_fields_permissions: Fields permissions
-  label_readonly: Read-only
-  label_required: Required
-  text_repository_identifier_info: Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.
-  field_board_parent: Parent forum
-  label_attribute_of_project: Project's %{name}
-  label_attribute_of_author: Author's %{name}
-  label_attribute_of_assigned_to: Assignee's %{name}
-  label_attribute_of_fixed_version: Target version's %{name}
-  label_copy_subtasks: Copy subtasks
-  label_copied_to: copied to
-  label_copied_from: copied from
-  label_any_issues_in_project: any issues in project
-  label_any_issues_not_in_project: any issues not in project
-  field_private_notes: Private notes
-  permission_view_private_notes: View private notes
-  permission_set_notes_private: Set notes as private
-  label_no_issues_in_project: no issues in project
+    Você tem certeza que quer prosseguir?
+    Sua conta será permanentemente apagada, sem formas de reativá-la.
+  error_session_expired: Sua sessão expirou. Por favor logue novamente.
+  text_session_expiration_settings: "Aviso: mudar essas configurações podem expirar a sessão atual, incluindo a sua."
+  setting_session_lifetime: Tempo máximo de sessão
+  setting_session_timeout: Tempo limite de inatividade da sessão
+  label_session_expiration: Fim da sessão
+  permission_close_project: Concluir / Reabir o projeto
+  label_show_closed_projects: Ver projetos concluídos
+  button_close: Concluído
+  button_reopen: Reaberto
+  project_status_active: ativo
+  project_status_closed: concluído
+  project_status_archived: arquivado
+  text_project_closed: O projeto está concluído e somente para leitura.
+  notice_user_successful_create: Usuário %{id} criado.
+  field_core_fields: Campos padrões
+  field_timeout: Tempo limite (em segundos)
+  setting_thumbnails_enabled: Mostrar anexo em miniatura
+  setting_thumbnails_size: Tamanho da miniatura (em pixels)
+  label_status_transitions: Transições de status
+  label_fields_permissions: Permissões de campos
+  label_readonly: Somente leitura
+  label_required: Requerido
+  text_repository_identifier_info: Apenas letras minúsculas (a-z), números, traços e underline são permitidos.<br />Uma vez salvo, o identificador não pode ser modificado.
+  field_board_parent: Forum pai
+  label_attribute_of_project: %{name} do Projeto
+  label_attribute_of_author: %{name} do autor
+  label_attribute_of_assigned_to: %{name} do responsável
+  label_attribute_of_fixed_version: %{name} da versão
+  label_copy_subtasks: Copiar subtarefas
+  label_copied_to: copiado para
+  label_copied_from: copiado de
+  label_any_issues_in_project: qualquer tarefa do projeto
+  label_any_issues_not_in_project: qualquer tarefa que não esteja no projeto
+  field_private_notes: Notas privadas
+  permission_view_private_notes: Visualizar notas privadas
+  permission_set_notes_private: Colocar notas como privadas
+  label_no_issues_in_project: sem tarefa no projeto
   label_any: todos
-  label_last_n_weeks: last %{count} weeks
-  setting_cross_project_subtasks: Allow cross-project subtasks
+  label_last_n_weeks: %{count} última(s) semana(s)
+  setting_cross_project_subtasks: Permitir subtarefas entre projetos
   label_cross_project_descendants: Com sub-projetos
   label_cross_project_tree: Com a árvore do projeto
   label_cross_project_hierarchy: Com a hierarquia do projeto
   label_cross_project_system: Com todos os projetos
-  button_hide: Hide
-  setting_non_working_week_days: Non-working days
-  label_in_the_next_days: in the next
-  label_in_the_past_days: in the past
+  button_hide: Esconder
+  setting_non_working_week_days: Dias sem expediente
+  label_in_the_next_days: nos próximos dias
+  label_in_the_past_days: nos dias anteriores
