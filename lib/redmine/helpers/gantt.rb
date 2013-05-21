@@ -675,18 +675,19 @@ module Redmine
         start_date + (end_date - start_date + 1) * (progress / 100.0)
       end
 
-      # TODO: Sorts a collection of issues by start_date, due_date, id for gantt rendering
       def self.sort_issues!(issues)
-        issues.sort! { |a, b| gantt_issue_compare(a, b) }
+        issues.sort! {|a, b| sort_issue_logic(a) <=> sort_issue_logic(b)}
       end
 
-      # TODO: top level issues should be sorted by start date
-      def self.gantt_issue_compare(x, y)
-        if x.root_id == y.root_id
-          x.lft <=> y.lft
-        else
-          x.root_id <=> y.root_id
-        end
+      def self.sort_issue_logic(issue)
+        julian_date = Date.new()
+        ancesters_start_date = []
+        current_issue = issue
+        begin
+          ancesters_start_date.unshift([current_issue.start_date || julian_date, current_issue.id])
+          current_issue = current_issue.parent
+        end while (current_issue)
+        ancesters_start_date
       end
 
       def current_limit
