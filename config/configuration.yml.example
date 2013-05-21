@@ -200,7 +200,7 @@ default:
   # Configure OpenIdAuthentication.store
   #
   # allowed values: :memory, :file, :memcache
-  openid_authentication_store = :memory
+  #openid_authentication_store: :memory
 
 # specific configuration options for production environment
 # that overrides the default ones
