@@ -1,4 +1,4 @@
-<h2><%=h @issue.tracker %> #<%= @issue.id %></h2>
+<h2><%= @issue.tracker %> #<%= @issue.id %></h2>
 <p><%= authoring @journal.created_on, @journal.user, :label => :label_updated_time_by %></p>
 
 <div class="text-diff">
