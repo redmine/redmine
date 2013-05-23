@@ -636,24 +636,37 @@ icon:hover {
 	background-color: #37abc8;
 }
 
-.explore-view .nav-collapse .nav > li > a, .nav-collapse .dropdown-menu a {
+#cells .nav{
+ 	width:266px;
+}
+#technology .nav{
+ 	width:266px;
+}
+#groups .nav{
+ 	width:195px;
+}
+#people .nav{
+ 	width:195px;
+}
+ 
+.explore-view .nav .nav > li > a, .nav-collapse .dropdown-menu a {
 	padding: 9px 15px;
 	color: #777777;
 	-webkit-border-radius: 8px;
 	-moz-border-radius: 8px;
 	border-radius: 8px;
 }
-.nav-collapse .btn {
+.nav .btn {
 	padding: 4px 10px 4px;
 	font-weight: normal;
 	-webkit-border-radius: 8px;
 	-moz-border-radius: 8px;
 	border-radius: 8px;
 }
-.nav-collapse .dropdown-menu li + li a {
+.nav .dropdown-menu li + li a {
 	margin-bottom: 2px;
 }
-.explore-view .nav-collapse .nav > li > a:hover, .nav-collapse .dropdown-menu a:hover {
+.explore-view .nav-collapse .nav > li > a:hover, .nav .dropdown-menu a:hover {
 	background-color: #f2f2f2;
 }
 

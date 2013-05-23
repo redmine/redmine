@@ -1,4 +1,4 @@
-var m = [ 20, 10, 20, 50 ], w = 820 - m[1] - m[3], h = 800 - m[0] - m[2], i = 0, root;
+var m = [ 20, 10, 20, 50 ], w = 900 - m[1] - m[3], h = 800 - m[0] - m[2], i = 0, root;
 
 var tree = d3.layout.tree().size([ h, w ]).separation(function(a, b) {
 	return 100;
@@ -162,32 +162,9 @@ var duration = 500;
 function standardOpening()
 {
 	// Initialize the display to show a few nodes.
-	
-	timer = setInterval(function() {
-		update(root);
-		makeTree(root);
-	}, duration);
+	openSpecificTree("Vertebrate","Mammalian","Rodent","Cerebellum","");
 }
 
-function update(source) {
-	if (step == 0) {
-		toggle(root);
-		if (root.children != null) {
-			root.children.forEach(toggleAll);
-			step++;
-		}
-	} else if (step == 1) {
-		toggle(root.children[0]);
-		step++;
-	} else if (step == 2) {
-		toggle(root.children[0].children[0]);
-		step++;
-	} else if (step == 3) {
-		toggle(root.children[0].children[0].children[0]);
-		step++;
-		clearInterval(timer);
-	}
-}
 
 
 //This functions opens a specific configuration of the tree, used as backend for the breadcrumb feature
