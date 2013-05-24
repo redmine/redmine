@@ -7,7 +7,7 @@
 
 <p>
   <%= link_to(l(:button_back), issue_path(@issue),
-              :onclick => 'if (history.length > 1) {history.back(); return false;}') %>
+              :onclick => 'if (document.referrer != "") {history.back(); return false;}') %>
 </p>
 
 <% html_title "#{@issue.tracker.name} ##{@issue.id}: #{@issue.subject}" %>
