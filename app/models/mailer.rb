@@ -426,7 +426,7 @@ class Mailer < ActionMailer::Base
     set_language_if_valid Setting.default_language
     super
   end
-  
+
   def self.deliver_mail(mail)
     return false if mail.to.blank? && mail.cc.blank? && mail.bcc.blank?
     super
