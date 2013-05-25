@@ -53,8 +53,8 @@ de:
         one: 'etwa 1 Stunde'
         other: 'etwa %{count} Stunden'
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 Stunde"
+        other: "%{count} Stunden"
       x_days:
         one: '1 Tag'
         other: '%{count} Tagen'
