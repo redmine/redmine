@@ -90,7 +90,7 @@ class ProjectsController < ApplicationController
   
   
   def validateGitHubRepo(repository)
-    if repository
+    if repository!=""
       #checks is valid
       #check is already cloned?
       gitFolder=File.basename(repository)
@@ -108,7 +108,11 @@ class ProjectsController < ApplicationController
         @project.errors.add "", "You need to specify a Git repository."
       end
     else
-      @project.errors.add "", "You need to specify a Git repository."  
+      if (User.current.admin?)==false
+        @project.errors.add "", "You need to specify a Git repository."
+      else
+        return true
+      end  
     end
     return false
   end
@@ -169,8 +173,11 @@ class ProjectsController < ApplicationController
         format.api  { render :action => 'show', :status => :created, :location => url_for(:controller => 'projects', :action => 'show', :id => @project.id) }
       end
       
-      @mirroredRepo=mirrorGitHubRepo(@githubRepo)
-      addMirroredRepo(@mirroredRepo)
+      if @githubRepo!=""
+        @mirroredRepo=mirrorGitHubRepo(@githubRepo)
+        addMirroredRepo(@mirroredRepo)  
+      end
+      
     else
       respond_to do |format|
         format.html { render :action => 'new' }
