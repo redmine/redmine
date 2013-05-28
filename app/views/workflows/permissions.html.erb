@@ -63,6 +63,7 @@
         <% for status in @statuses -%>
         <td align="center" class="<%= @permissions[status.id][field] %>">
           <%= field_permission_tag(@permissions, status, field) %>
+          <% unless status == @statuses.last %><a href="#" class="repeat-value">&#187;</a><% end %>
         </td>
         <% end -%>
       </tr>
@@ -82,6 +83,7 @@
           <% for status in @statuses -%>
           <td align="center" class="<%= @permissions[status.id][field.id.to_s] %>">
             <%= field_permission_tag(@permissions, status, field) %>
+            <% unless status == @statuses.last %><a href="#" class="repeat-value">&#187;</a><% end %>
           </td>
           <% end -%>
         </tr>
@@ -92,4 +94,13 @@
     </div>
     <%= submit_tag l(:button_save) %>
   <% end %>
+<% end %>
+
+<%= javascript_tag do %>
+$("a.repeat-value").click(function(e){
+  e.preventDefault();
+  var td = $(this).closest('td');
+  var selected = td.find("select").find(":selected").val();
+  td.nextAll('td').find("select").val(selected);
+});
 <% end %>
