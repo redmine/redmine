@@ -485,7 +485,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
           assert_response :success
           assert_template 'revision'
           assert_select 'title',
-                        :text => 'Revision 1:9d5b5b004199 - eCookbook Subproject 1 - Redmine'
+                        :text => 'Revision 1:9d5b5b004199 - Added 2 files and modified one. - eCookbook Subproject 1 - Redmine'
           end
       end
     end
