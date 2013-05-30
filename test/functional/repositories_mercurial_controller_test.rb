@@ -474,6 +474,22 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       end
     end
 
+    def test_revision
+      assert_equal 0, @repository.changesets.count
+      @repository.fetch_changesets
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
+      ['1', '9d5b5b', '9d5b5b004199'].each do |r|
+        with_settings :default_language => "en" do
+          get :revision, :id => PRJ_ID, :rev => r
+          assert_response :success
+          assert_template 'revision'
+          assert_select 'title',
+                        :text => 'Revision 1:9d5b5b004199 - eCookbook Subproject 1 - Redmine'
+          end
+      end
+    end
+
     def test_empty_revision
       assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
