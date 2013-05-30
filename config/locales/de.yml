@@ -57,7 +57,7 @@ de:
         other: "%{count} Stunden"
       x_days:
         one: '1 Tag'
-        other: '%{count} Tage'
+        other: '%{count} Tagen'
       about_x_months:
         one: 'etwa 1 Monat'
         other: 'etwa %{count} Monaten'
