@@ -274,7 +274,7 @@ pt-BR:
   field_comments: Comentário
   field_url: URL
   field_start_page: Página inicial
-  field_subproject: Sub-projeto
+  field_subproject: Subprojeto
   field_hours: Horas
   field_activity: Atividade
   field_spent_on: Data
@@ -293,7 +293,7 @@ pt-BR:
   field_parent_title: Página pai
 
   setting_app_title: Título da aplicação
-  setting_app_subtitle: Sub-título da aplicação
+  setting_app_subtitle: Subtítulo da aplicação
   setting_welcome_text: Texto de boas-vindas
   setting_default_language: Idioma padrão
   setting_login_required: Exigir autenticação
@@ -309,8 +309,8 @@ pt-BR:
   setting_default_projects_public: Novos projetos são públicos por padrão
   setting_autofetch_changesets: Obter commits automaticamente
   setting_sys_api_enabled: Ativa WS para gerenciamento do repositório (SVN)
-  setting_commit_ref_keywords: Palavras de referência
-  setting_commit_fix_keywords: Palavras de fechamento
+  setting_commit_ref_keywords: Palavras-chave de referência
+  setting_commit_fix_keywords: Definição de palavras-chave
   setting_autologin: Auto-login
   setting_date_format: Formato da data
   setting_time_format: Formato de hora
@@ -410,8 +410,8 @@ pt-BR:
   label_auth_source: Modo de autenticação
   label_auth_source_new: Novo modo de autenticação
   label_auth_source_plural: Modos de autenticação
-  label_subproject_plural: Sub-projetos
-  label_and_its_subprojects: "%{value} e seus sub-projetos"
+  label_subproject_plural: Subprojetos
+  label_and_its_subprojects: "%{value} e seus subprojetos"
   label_min_max_length: Tamanho mín-máx
   label_list: Lista
   label_date: Data
@@ -563,7 +563,7 @@ pt-BR:
   label_commits_per_month: Commits por mês
   label_commits_per_author: Commits por autor
   label_view_diff: Ver diferenças
-  label_diff_inline: inline
+  label_diff_inline: em linha
   label_diff_side_by_side: lado a lado
   label_options: Opções
   label_copy_workflow_from: Copiar fluxo de trabalho de
@@ -613,10 +613,10 @@ pt-BR:
   label_updated_time: "Atualizado %{value} atrás"
   label_jump_to_a_project: Ir para o projeto...
   label_file_plural: Arquivos
-  label_changeset_plural: Changesets
+  label_changeset_plural: Conjunto de alterações
   label_default_columns: Colunas padrão
   label_no_change_option: (Sem alteração)
-  label_bulk_edit_selected_issues: Edição em massa das tarefas selecionados.
+  label_bulk_edit_selected_issues: Edição em massa das tarefas selecionadas.
   label_theme: Tema
   label_default: Padrão
   label_search_titles_only: Pesquisar somente títulos
@@ -714,7 +714,7 @@ pt-BR:
   text_user_mail_option: "Para projetos (não selecionados), você somente receberá notificações sobre o que você está observando ou está envolvido (ex. tarefas das quais você é o autor ou que estão atribuídas a você)"
   text_no_configuration_data: "Os Papéis, tipos de tarefas, situação de tarefas e fluxos de trabalho não foram configurados ainda.\nÉ altamente recomendado carregar as configurações padrão. Você poderá modificar estas configurações assim que carregadas."
   text_load_default_configuration: Carregar a configuração padrão
-  text_status_changed_by_changeset: "Aplicado no changeset %{value}."
+  text_status_changed_by_changeset: "Aplicado no conjunto de alterações %{value}."
   text_issues_destroy_confirmation: 'Você tem certeza que deseja excluir a(s) tarefa(s) selecionada(s)?'
   text_select_project_modules: 'Selecione módulos para habilitar para este projeto:'
   text_default_administrator_account_changed: Conta padrão do administrador alterada
@@ -761,10 +761,10 @@ pt-BR:
   permission_view_files: Ver arquivos
   permission_edit_issues: Editar tarefas
   permission_edit_own_time_entries: Editar o próprio tempo de trabalho
-  permission_manage_public_queries: Gerenciar consultas publicas
+  permission_manage_public_queries: Gerenciar consultas públicas
   permission_add_issues: Adicionar tarefas
   permission_log_time: Adicionar tempo gasto
-  permission_view_changesets: Ver changesets
+  permission_view_changesets: Ver conjunto de alterações
   permission_view_time_entries: Ver tempo gasto
   permission_manage_versions: Gerenciar versões
   permission_manage_wiki: Gerenciar wiki
@@ -793,7 +793,7 @@ pt-BR:
   permission_delete_issues: Excluir tarefas
   permission_view_issue_watchers: Ver lista de observadores
   permission_manage_repository: Gerenciar repositório
-  permission_commit_access: Acesso de commit
+  permission_commit_access: Acesso do commit
   permission_browse_repository: Pesquisar repositório
   permission_view_documents: Ver documentos
   permission_edit_project: Editar projeto
@@ -819,7 +819,7 @@ pt-BR:
   label_display: Exibição
   field_editable: Editável
   setting_repository_log_display_limit: Número máximo de revisões exibidas no arquivo de log
-  setting_file_max_size_displayed: Tamanho máximo dos arquivos textos exibidos inline
+  setting_file_max_size_displayed: Tamanho máximo dos arquivos textos exibidos em linha
   field_identity_urler: Observador
   setting_openid: Permitir Login e Registro via OpenID
   field_identity_url: OpenID URL
@@ -860,13 +860,13 @@ pt-BR:
   enumeration_system_activity: Atividade do sistema
   permission_delete_issue_watchers: Excluir observadores
   version_status_closed: fechado
-  version_status_locked: travado
+  version_status_locked: bloqueado
   version_status_open: aberto
   error_can_not_reopen_issue_on_closed_version: Uma tarefa atribuída a uma versão fechada não pode ser reaberta
   label_user_anonymous: Anônimo
   button_move_and_follow: Mover e seguir
   setting_default_projects_modules: Módulos habilitados por padrão para novos projetos
-  setting_gravatar_default: Imagem-padrão de Gravatar
+  setting_gravatar_default: Imagem-padrão do Gravatar
   field_sharing: Compartilhamento
   label_version_sharing_hierarchy: Com a hierarquia do projeto
   label_version_sharing_system: Com todos os projetos
@@ -905,17 +905,17 @@ pt-BR:
   permission_add_subprojects: Criar subprojetos
   label_subproject_new: Novo subprojeto
   text_own_membership_delete_confirmation: |-
-    Você está para excluir algumas de suas próprias permissões e pode não mais estar apto a editar este projeto após esta operação.
+    Você irá excluir algumas de suas próprias permissões e não estará mais apto a editar este projeto após esta operação.
     Você tem certeza que deseja continuar?
   label_close_versions: Fechar versões concluídas
   label_board_sticky: Marcado
-  label_board_locked: Travado
+  label_board_locked: Bloqueado
   permission_export_wiki_pages: Exportar páginas wiki
   setting_cache_formatted_text: Realizar cache de texto formatado
   permission_manage_project_activities: Gerenciar atividades do projeto
   error_unable_delete_issue_status: Não foi possível excluir situação da tarefa
   label_profile: Perfil
-  permission_manage_subtasks: Gerenciar sub-tarefas
+  permission_manage_subtasks: Gerenciar subtarefas
   field_parent_issue: Tarefa pai
   label_subtask_plural: Subtarefas
   label_project_copy_notifications: Enviar notificações por e-mail ao copiar projeto
@@ -925,7 +925,7 @@ pt-BR:
   error_can_not_delete_tracker: Este tipo de tarefa está atribuído a alguma(s) tarefa(s) e não pode ser excluído.
   field_principal: Principal
   label_my_page_block: Meu bloco de página
-  notice_failed_to_save_members: "Falha ao gravar membro(s): %{errors}."
+  notice_failed_to_save_members: "Falha ao salvar membro(s): %{errors}."
   text_zoom_out: Afastar zoom
   text_zoom_in: Aproximar zoom
   notice_unable_delete_time_entry: Não foi possível excluir a entrada no registro de horas trabalhadas.
@@ -940,7 +940,7 @@ pt-BR:
   label_user_mail_option_only_my_events: Somente para as coisas que eu esteja observando ou esteja envolvido
   label_user_mail_option_only_assigned: Somente para as coisas que estejam atribuídas a mim
   label_user_mail_option_none: Sem eventos
-  field_member_of_group: Grupo do responsável
+  field_member_of_group: Responsável pelo grupo
   field_assigned_to_role: Papel do responsável
   notice_not_authorized_archived_project: O projeto que você está tentando acessar foi arquivado.
   label_principal_search: "Pesquisar por usuários ou grupos:"
@@ -948,12 +948,12 @@ pt-BR:
   field_visible: Visível
   setting_emails_header: Cabeçalho do e-mail
   setting_commit_logtime_activity_id: Atividade para registrar horas
-  text_time_logged_by_changeset: Aplicado no changeset %{value}.
+  text_time_logged_by_changeset: Aplicado no conjunto de alterações %{value}.
   setting_commit_logtime_enabled: Habilitar registro de horas
   notice_gantt_chart_truncated: O gráfico foi cortado por exceder o tamanho máximo de linhas que podem ser exibidas (%{max})
-  setting_gantt_items_limit: Número máximo de itens exibidos no gráfico gatt
+  setting_gantt_items_limit: Número máximo de itens exibidos no gráfico gantt
   field_warn_on_leaving_unsaved: Alertar-me ao sair de uma página sem salvar o texto
-  text_warn_on_leaving_unsaved: A página atual contem texto que não foi salvo e será perdido se você sair desta página.
+  text_warn_on_leaving_unsaved: A página atual contém texto que não foi salvo e será perdido se você sair desta página.
   label_my_queries: Minhas consultas personalizadas
   text_journal_changed_no_detail: "%{label} atualizado(a)"
   label_news_comment_added: Notícia recebeu um comentário
@@ -993,30 +993,30 @@ pt-BR:
   label_diff: diff
   text_git_repository_note: "Repositório esta vazio e é local (ex: /gitrepo, c:\\gitrepo)"
 
-  description_query_sort_criteria_direction: Direção da ordenação
+  description_query_sort_criteria_direction: Escolher ordenação
   description_project_scope: Escopo da pesquisa
   description_filter: Filtro
   description_user_mail_notification: Configuração de notificações por e-mail
-  description_date_from: Digita a data inicial
+  description_date_from: Digite a data inicial
   description_message_content: Conteúdo da mensagem
   description_available_columns: Colunas disponíveis
   description_date_range_interval: Escolha um período selecionando a data de início e fim
   description_issue_category_reassign: Escolha uma categoria de tarefas
-  description_search: Searchfield
+  description_search: Campo de busca
   description_notes: Notas
-  description_date_range_list: Escolha um período a partira da lista
+  description_date_range_list: Escolha um período a partir da lista
   description_choose_project: Projetos
   description_date_to: Digite a data final
   description_query_sort_criteria_attribute: Atributo de ordenação
   description_wiki_subpages_reassign: Escolha uma nova página pai
   description_selected_columns: Colunas selecionadas
 
-  label_parent_revision: Pais
-  label_child_revision: Filhos
+  label_parent_revision: Pai
+  label_child_revision: Filho
   error_scm_annotate_big_text_file: A entrada não pode ser anotada, pois excede o tamanho máximo do arquivo de texto.
   setting_default_issue_start_date_to_creation_date: Usar data corrente como data inicial para novas tarefas
   button_edit_section: Editar esta seção
-  setting_repositories_encodings: Encoding dos repositórios e anexos
+  setting_repositories_encodings: Codificação dos repositórios e anexos
   description_all_columns: Todas as colunas
   button_export: Exportar
   label_export_options: "Opções de exportação %{export_format}"
@@ -1030,36 +1030,36 @@ pt-BR:
   field_repository_is_default: Repositório principal
   label_copy_attachments: Copiar anexos
   label_item_position: "%{position}/%{count}"
-  label_completed_versions: Versões completadas
-  text_project_identifier_info: Somente letras minúsculas (az), números, traços e sublinhados são permitidos. <br /> Uma vez salvo, o identificador não pode ser alterado.
-  field_multiple: Multiplos valores
+  label_completed_versions: Versões concluídas
+  text_project_identifier_info: Somente letras minúsculas (a-z), números, traços e sublinhados são permitidos. <br /> Uma vez salvo, o identificador não pode ser alterado.
+  field_multiple: Múltiplos valores
   setting_commit_cross_project_ref: Permitir que tarefas de todos os outros projetos sejam refenciadas e resolvidas
-  text_issue_conflict_resolution_add_notes: Adicione minhas anotações e descartar minhas outras mudanças
-  text_issue_conflict_resolution_overwrite: Aplicar as minhas alterações de qualquer maneira (notas anteriores serão mantidos, mas algumas mudanças podem ser substituídos)
+  text_issue_conflict_resolution_add_notes: Adicionar minhas anotações e descartar minhas outras mudanças
+  text_issue_conflict_resolution_overwrite: Aplicar as minhas alterações de qualquer maneira (notas anteriores serão mantidas, mas algumas mudanças podem ser substituídas)
   notice_issue_update_conflict: A tarefa foi atualizada por um outro usuário, enquanto você estava editando.
-  text_issue_conflict_resolution_cancel: Descartar todas as minhas mudanças e re-exibir %{link}
+  text_issue_conflict_resolution_cancel: Descartar todas as minhas mudanças e reexibir %{link}
   permission_manage_related_issues: Gerenciar tarefas relacionadas
   field_auth_source_ldap_filter: Filtro LDAP
   label_search_for_watchers: Procurar por outros observadores para adiconar
   notice_account_deleted: Sua conta foi excluída permanentemente.
-  setting_unsubscribe: Permitir aos usuários excluir sua conta própria
+  setting_unsubscribe: Permitir aos usuários excluir sua própria conta
   button_delete_my_account: Excluir minha conta
   text_account_destroy_confirmation: |-
-    Tem certeza de que quer continuar?
-    Sua conta será excluída permanentemente, sem qualquer forma de reativá-lo.
+    Tem certeza que quer continuar?
+    Sua conta será excluída permanentemente, sem qualquer forma de reativá-la.
   error_session_expired: A sua sessão expirou. Por favor, faça login novamente.
   text_session_expiration_settings: "Aviso: a alteração dessas configurações pode expirar as sessões atuais, incluindo a sua."
   setting_session_lifetime: duração máxima da sessão
   setting_session_timeout: tempo limite de inatividade da sessão
   label_session_expiration: "Expiração da sessão"
   permission_close_project: Fechar / reabrir o projeto
-  label_show_closed_projects: Visualização de projetos fechados
+  label_show_closed_projects: Visualizar projetos fechados
   button_close: Fechar
   button_reopen: Reabrir
   project_status_active: ativo
   project_status_closed: fechado
   project_status_archived: arquivado
-  text_project_closed: Este projeto é fechado e somente leitura.
+  text_project_closed: Este projeto está fechado e somente leitura.
   notice_user_successful_create: Usuário %{id} criado.
   field_core_fields: campos padrão
   field_timeout: Tempo de espera (em segundos)
@@ -1073,38 +1073,38 @@ pt-BR:
   field_board_parent: Fórum Pai
   label_attribute_of_project: "Projeto %{name}"
   label_attribute_of_author: "autor %{name}"
-  label_attribute_of_assigned_to: "atribuído %{name}"
-  label_attribute_of_fixed_version: "versão alvo %{name}"
-  label_copy_subtasks: Copiar sub-tarefas
+  label_attribute_of_assigned_to: "atribuído a %{name}"
+  label_attribute_of_fixed_version: "versão %{name}"
+  label_copy_subtasks: Copiar subtarefas
   label_copied_to: copiada
   label_copied_from: copiado
-  label_any_issues_in_project: quaisquer problemas em projeto
-  label_any_issues_not_in_project: todas as questões que não estão em projeto
+  label_any_issues_in_project: qualquer tarefa do projeto
+  label_any_issues_not_in_project: qualquer tarefa que não está no projeto
   field_private_notes: notas privadas
   permission_view_private_notes: Ver notas privadas
   permission_set_notes_private: Permitir alterar notas para privada
-  label_no_issues_in_project: sem problemas em projeto
+  label_no_issues_in_project: sem tarefas no projeto
   label_any: todos
   label_last_n_weeks: "últimas %{count} semanas"
-  setting_cross_project_subtasks: Permitir cruzamento de sub-tarefas entre projetos
-  label_cross_project_descendants: com sub-Projetos
-  label_cross_project_tree: Com uma Árvore fazer o Projeto
-  label_cross_project_hierarchy: Com uma hierarquia fazer o Projeto
-  label_cross_project_system: Com de Todos os Projetos
-  button_hide: Esconder
+  setting_cross_project_subtasks: Permitir subtarefas entre projetos
+  label_cross_project_descendants: com subprojetos
+  label_cross_project_tree: Com a árvore do Projeto
+  label_cross_project_hierarchy: Com uma hierarquia do Projeto
+  label_cross_project_system: Com todos os Projetos
+  button_hide: Omitir
   setting_non_working_week_days: dias não úteis
-  label_in_the_next_days: na próxima
-  label_in_the_past_days: no passado
+  label_in_the_next_days: nos próximos dias
+  label_in_the_past_days: nos dias anteriores
   label_attribute_of_user: Usuário %{name}
-  text_turning_multiple_off: Se você desativar vários valores, vários valores serão removidas, a fim de preservar a somente um valor por item.
-  label_attribute_of_issue: Emissão de %{name}
+  text_turning_multiple_off: Se você desativar vários valores, eles serão removidos, a fim de preservar somente um valor por item.
+  label_attribute_of_issue: Tarefa %{name}
   permission_add_documents: Adicionar documentos
   permission_edit_documents: Editar documentos
-  permission_delete_documents: excluir documentos
+  permission_delete_documents: Excluir documentos
   label_gantt_progress_line: Linha de progresso
   setting_jsonp_enabled: Ativar suporte JSONP
   field_inherit_members: Herdar membros
-  field_closed_on: Fechado
+  field_closed_on: Concluído
   field_generate_password: Gerar senha
   setting_default_projects_tracker_ids: Tipos padrões para novos projeto
   label_total_time: Total
