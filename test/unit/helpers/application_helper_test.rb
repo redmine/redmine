@@ -1219,4 +1219,14 @@ RAW
   def test_javascript_include_tag_for_plugin_should_pick_the_plugin_javascript
     assert_match 'src="/plugin_assets/foo/javascripts/scripts.js"', javascript_include_tag("scripts", :plugin => :foo)
   end
+
+  def test_raw_json_should_escape_closing_tags
+    s = raw_json(["<foo>bar</foo>"])
+    assert_equal '["<foo>bar<\/foo>"]', s
+  end
+
+  def test_raw_json_should_be_html_safe
+    s = raw_json(["foo"])
+    assert s.html_safe?
+  end
 end
