@@ -1,3 +1,4 @@
+#Contributors - Tarcisio Coutinho - tcs5cin@gmail.com and Marcela Oliveira - magaeu@gmail.com
 pt-BR:
   direction: ltr
   date:
@@ -122,8 +123,8 @@ pt-BR:
     errors:
       template:
         header:
-          one: "model não pode ser salvo: 1 erro"
-          other: "model não pode ser salvo: %{count} erros."
+          one: "modelo não pode ser salvo: 1 erro"
+          other: "modelo não pode ser salvo: %{count} erros."
         body: "Por favor, verifique os seguintes campos:"
       messages:
         inclusion: "não está incluso na lista"
@@ -134,7 +135,7 @@ pt-BR:
         empty: "não pode ficar vazio"
         blank: "não pode ficar vazio"
         too_long: "é muito longo (máximo: %{count} caracteres)"
-        too_short: "é muito curto (mínimon: %{count} caracteres)"
+        too_short: "é muito curto (mínimo: %{count} caracteres)"
         wrong_length: "deve ter %{count} caracteres"
         taken: "não está disponível"
         not_a_number: "não é um número"
@@ -276,7 +277,7 @@ pt-BR:
   field_comments: Comentário
   field_url: URL
   field_start_page: Página inicial
-  field_subproject: Sub-projeto
+  field_subproject: Subprojeto
   field_hours: Horas
   field_activity: Atividade
   field_spent_on: Data
@@ -295,7 +296,7 @@ pt-BR:
   field_parent_title: Página pai
 
   setting_app_title: Título da aplicação
-  setting_app_subtitle: Sub-título da aplicação
+  setting_app_subtitle: Subtítulo da aplicação
   setting_welcome_text: Texto de boas-vindas
   setting_default_language: Idioma padrão
   setting_login_required: Exigir autenticação
@@ -311,8 +312,8 @@ pt-BR:
   setting_default_projects_public: Novos projetos são públicos por padrão
   setting_autofetch_changesets: Obter commits automaticamente
   setting_sys_api_enabled: Ativa WS para gerenciamento do repositório (SVN)
-  setting_commit_ref_keywords: Palavras de referência
-  setting_commit_fix_keywords: Palavras de fechamento
+  setting_commit_ref_keywords: Palavras-chave de referência
+  setting_commit_fix_keywords: Definição de palavras-chave
   setting_autologin: Auto-login
   setting_date_format: Formato da data
   setting_time_format: Formato de hora
@@ -412,8 +413,8 @@ pt-BR:
   label_auth_source: Modo de autenticação
   label_auth_source_new: Novo modo de autenticação
   label_auth_source_plural: Modos de autenticação
-  label_subproject_plural: Sub-projetos
-  label_and_its_subprojects: "%{value} e seus sub-projetos"
+  label_subproject_plural: Subprojetos
+  label_and_its_subprojects: "%{value} e seus subprojetos"
   label_min_max_length: Tamanho mín-máx
   label_list: Lista
   label_date: Data
@@ -569,7 +570,7 @@ pt-BR:
   label_commits_per_month: Commits por mês
   label_commits_per_author: Commits por autor
   label_view_diff: Ver diferenças
-  label_diff_inline: inline
+  label_diff_inline: em linha
   label_diff_side_by_side: lado a lado
   label_options: Opções
   label_copy_workflow_from: Copiar fluxo de trabalho de
@@ -619,10 +620,10 @@ pt-BR:
   label_updated_time: "Atualizado %{value} atrás"
   label_jump_to_a_project: Ir para o projeto...
   label_file_plural: Arquivos
-  label_changeset_plural: Changesets
+  label_changeset_plural: Conjunto de alterações
   label_default_columns: Colunas padrão
   label_no_change_option: (Sem alteração)
-  label_bulk_edit_selected_issues: Edição em massa das tarefas selecionados.
+  label_bulk_edit_selected_issues: Edição em massa das tarefas selecionadas.
   label_theme: Tema
   label_default: Padrão
   label_search_titles_only: Pesquisar somente títulos
@@ -720,7 +721,7 @@ pt-BR:
   text_user_mail_option: "Para projetos (não selecionados), você somente receberá notificações sobre o que você está observando ou está envolvido (ex. tarefas das quais você é o autor ou que estão atribuídas a você)"
   text_no_configuration_data: "Os Papéis, tipos de tarefas, situação de tarefas e fluxos de trabalho não foram configurados ainda.\nÉ altamente recomendado carregar as configurações padrão. Você poderá modificar estas configurações assim que carregadas."
   text_load_default_configuration: Carregar a configuração padrão
-  text_status_changed_by_changeset: "Aplicado no changeset %{value}."
+  text_status_changed_by_changeset: "Aplicado no conjunto de alterações %{value}."
   text_issues_destroy_confirmation: 'Você tem certeza que deseja excluir a(s) tarefa(s) selecionada(s)?'
   text_select_project_modules: 'Selecione módulos para habilitar para este projeto:'
   text_default_administrator_account_changed: Conta padrão do administrador alterada
@@ -767,7 +768,7 @@ pt-BR:
   permission_view_files: Ver arquivos
   permission_edit_issues: Editar tarefas
   permission_edit_own_time_entries: Editar o próprio tempo de trabalho
-  permission_manage_public_queries: Gerenciar consultas publicas
+  permission_manage_public_queries: Gerenciar consultas públicas
   permission_add_issues: Adicionar tarefas
   permission_log_time: Adicionar tempo gasto
   permission_view_changesets: Ver changesets
@@ -800,7 +801,7 @@ pt-BR:
   permission_delete_issues: Excluir tarefas
   permission_view_issue_watchers: Ver lista de observadores
   permission_manage_repository: Gerenciar repositório
-  permission_commit_access: Acesso de commit
+  permission_commit_access: Acesso do commit
   permission_browse_repository: Pesquisar repositório
   permission_view_documents: Ver documentos
   permission_edit_project: Editar projeto
@@ -826,7 +827,7 @@ pt-BR:
   label_display: Exibição
   field_editable: Editável
   setting_repository_log_display_limit: Número máximo de revisões exibidas no arquivo de log
-  setting_file_max_size_displayed: Tamanho máximo dos arquivos textos exibidos inline
+  setting_file_max_size_displayed: Tamanho máximo dos arquivos textos exibidos em linha
   field_identity_urler: Observador
   setting_openid: Permitir Login e Registro via OpenID
   field_identity_url: OpenID URL
@@ -835,10 +836,10 @@ pt-BR:
   label_descending: Descendente
   label_sort: Ordenar
   label_ascending: Ascendente
-  label_date_from_to: De %{start} até %{end}
+  label_date_from_to: "De %{start} até %{end}"
   label_greater_or_equal: ">="
   label_less_or_equal: <=
-  text_wiki_page_destroy_question: Esta página tem %{descendants} página(s) filha(s) e descendente(s). O que você quer fazer?
+  text_wiki_page_destroy_question: "Esta página tem %{descendants} página(s) filha(s) e descendente(s). O que você quer fazer?"
   text_wiki_page_reassign_children: Reatribuir páginas filhas para esta página pai
   text_wiki_page_nullify_children: Manter as páginas filhas como páginas raízes
   text_wiki_page_destroy_children: Excluir páginas filhas e todas suas descendentes
@@ -853,8 +854,8 @@ pt-BR:
   permission_add_project: Criar projeto
   setting_new_project_user_role_id: Papel atribuído a um usuário não-administrador que cria um projeto
   label_view_all_revisions: Ver todas as revisões
-  label_tag: Etiqueta
-  label_branch: Ramo
+  label_tag: Tag
+  label_branch: Branch
   text_journal_changed: "%{label} alterado de %{old} para %{new}"
   text_journal_set_to: "%{label} ajustado para %{value}"
   text_journal_deleted: "%{label} excluído (%{old})"
@@ -867,13 +868,13 @@ pt-BR:
   enumeration_system_activity: Atividade do sistema
   permission_delete_issue_watchers: Excluir observadores
   version_status_closed: fechado
-  version_status_locked: travado
+  version_status_locked: bloqueado
   version_status_open: aberto
   error_can_not_reopen_issue_on_closed_version: Uma tarefa atribuída a uma versão fechada não pode ser reaberta
   label_user_anonymous: Anônimo
   button_move_and_follow: Mover e seguir
   setting_default_projects_modules: Módulos habilitados por padrão para novos projetos
-  setting_gravatar_default: Imagem-padrão de Gravatar
+  setting_gravatar_default: Imagem-padrão do Gravatar
   field_sharing: Compartilhamento
   label_version_sharing_hierarchy: Com a hierarquia do projeto
   label_version_sharing_system: Com todos os projetos
@@ -888,35 +889,35 @@ pt-BR:
   setting_issue_done_ratio_issue_status: Usar a situação da tarefa
   error_issue_done_ratios_not_updated: O pecentual de conclusão das tarefas não foi atualizado.
   error_workflow_copy_target: Por favor, selecione os tipos de tarefa e os papéis alvo
-  setting_issue_done_ratio_issue_field: Use the issue field
+  setting_issue_done_ratio_issue_field: Utilize o campo da tarefa
   label_copy_same_as_target: Mesmo alvo
   label_copy_target: Alvo
-  notice_issue_done_ratios_updated: Percentual de conslusão atualizados.
+  notice_issue_done_ratios_updated: Percentual de conclusão atualizados.
   error_workflow_copy_source: Por favor, selecione um tipo de tarefa e papel de origem
   label_update_issue_done_ratios: Atualizar percentual de conclusão das tarefas
   setting_start_of_week: Início da semana
   field_watcher: Observador
   permission_view_issues: Ver tarefas
   label_display_used_statuses_only: Somente exibir situações que são usadas por este tipo de tarefa
-  label_revision_id: Revisão %{value}
+  label_revision_id: "Revisão %{value}"
   label_api_access_key: Chave de acesso a API
   button_show: Exibir
-  label_api_access_key_created_on: Chave de acesso a API criado a %{value} atrás
+  label_api_access_key_created_on: "Chave de acesso a API criado a %{value} atrás"
   label_feeds_access_key: Chave de acesso ao RSS
   notice_api_access_key_reseted: Sua chave de acesso a API foi redefinida.
   setting_rest_api_enabled: Habilitar REST web service
   label_missing_api_access_key: Chave de acesso a API faltando
   label_missing_feeds_access_key: Chave de acesso ao RSS faltando
-  text_line_separated: Múltiplos valores permitidos (uma linha para cada valor).
+  text_line_separated: "Múltiplos valores permitidos (uma linha para cada valor)."
   setting_mail_handler_body_delimiters: Truncar e-mails após uma destas linhas
   permission_add_subprojects: Criar subprojetos
   label_subproject_new: Novo subprojeto
   text_own_membership_delete_confirmation: |-
-    Você está para excluir algumas de suas próprias permissões e pode não mais estar apto a editar este projeto após esta operação.
+    Você irá excluir algumas de suas próprias permissões e pode não mais estar apto a editar este projeto após esta operação.
     Você tem certeza que deseja continuar?
   label_close_versions: Fechar versões concluídas
   label_board_sticky: Marcado
-  label_board_locked: Travado
+  label_board_locked: Bloqueado
   permission_export_wiki_pages: Exportar páginas wiki
   setting_cache_formatted_text: Realizar cache de texto formatado
   permission_manage_project_activities: Gerenciar atividades do projeto
@@ -927,12 +928,12 @@ pt-BR:
   label_subtask_plural: Subtarefas
   label_project_copy_notifications: Enviar notificações por e-mail ao copiar projeto
   error_can_not_delete_custom_field: Não foi possível excluir o campo personalizado
-  error_unable_to_connect: Não foi possível conectar (%{value})
+  error_unable_to_connect: "Não foi possível conectar (%{value})"
   error_can_not_remove_role: Este papel está em uso e não pode ser excluído.
   error_can_not_delete_tracker: Este tipo de tarefa está atribuído a alguma(s) tarefa(s) e não pode ser excluído.
   field_principal: Principal
   label_my_page_block: Meu bloco de página
-  notice_failed_to_save_members: "Falha ao gravar membro(s): %{errors}."
+  notice_failed_to_save_members: "Falha ao salvar membro(s): %{errors}."
   text_zoom_out: Afastar zoom
   text_zoom_in: Aproximar zoom
   notice_unable_delete_time_entry: Não foi possível excluir a entrada no registro de horas trabalhadas.
@@ -947,7 +948,7 @@ pt-BR:
   label_user_mail_option_only_my_events: Somente para as coisas que eu esteja observando ou esteja envolvido
   label_user_mail_option_only_assigned: Somente para as coisas que estejam atribuídas a mim
   label_user_mail_option_none: Sem eventos
-  field_member_of_group: Grupo do responsável
+  field_member_of_group: Responsável do Grupo
   field_assigned_to_role: Papel do responsável
   notice_not_authorized_archived_project: O projeto que você está tentando acessar foi arquivado.
   label_principal_search: "Pesquisar por usuários ou grupos:"
@@ -955,12 +956,12 @@ pt-BR:
   field_visible: Visível
   setting_emails_header: Cabeçalho do e-mail
   setting_commit_logtime_activity_id: Atividade para registrar horas
-  text_time_logged_by_changeset: Aplicado no changeset %{value}.
+  text_time_logged_by_changeset: "Aplicado no conjunto de alterações %{value}."
   setting_commit_logtime_enabled: Habilitar registro de horas
-  notice_gantt_chart_truncated: O gráfico foi cortado por exceder o tamanho máximo de linhas que podem ser exibidas (%{max})
-  setting_gantt_items_limit: Número máximo de itens exibidos no gráfico gatt
+  notice_gantt_chart_truncated: "O gráfico foi cortado por exceder o tamanho máximo de linhas que podem ser exibidas (%{max})"
+  setting_gantt_items_limit: Número máximo de itens exibidos no gráfico gantt
   field_warn_on_leaving_unsaved: Alertar-me ao sair de uma página sem salvar o texto
-  text_warn_on_leaving_unsaved: A página atual contem texto que não foi salvo e será perdido se você sair desta página.
+  text_warn_on_leaving_unsaved: A página atual contém texto que não foi salvo e será perdido se você sair desta página.
   label_my_queries: Minhas consultas personalizadas
   text_journal_changed_no_detail: "%{label} atualizado(a)"
   label_news_comment_added: Notícia recebeu um comentário
@@ -980,7 +981,7 @@ pt-BR:
   field_is_private: Privado
   permission_set_issues_private: Alterar tarefas para públicas ou privadas
   label_issues_visibility_public: Todas as tarefas não privadas
-  text_issues_destroy_descendants_confirmation: Isto também irá excluir %{count} subtarefa(s).
+  text_issues_destroy_descendants_confirmation: "Isto também irá excluir %{count} subtarefa(s)."
   field_commit_logs_encoding: Codificação das mensagens de commit
   field_scm_path_encoding: Codificação do caminho
   text_scm_path_encoding_note: "Padrão: UTF-8"
@@ -992,7 +993,7 @@ pt-BR:
   text_scm_command: Comando
   text_scm_command_version: Versão
   label_git_report_last_commit: Relatar última alteração para arquivos e diretórios
-  text_scm_config: Você pode configurar seus comandos de versionamento em config/configurations.yml. Por favor reinicie a aplicação após alterá-lo.
+  text_scm_config: "Você pode configurar seus comandos de versionamento em config/configurations.yml. Por favor reinicie a aplicação após alterá-lo."
   text_scm_command_not_available: Comando de versionamento não disponível. Por favor verifique as configurações no painel de administração.
   notice_issue_successful_create: Tarefa %{id} criada.
   label_between: entre
@@ -1004,14 +1005,14 @@ pt-BR:
   description_project_scope: Escopo da pesquisa
   description_filter: Filtro
   description_user_mail_notification: Configuração de notificações por e-mail
-  description_date_from: Digita a data inicial
+  description_date_from: Digite a data inicial
   description_message_content: Conteúdo da mensagem
   description_available_columns: Colunas disponíveis
   description_date_range_interval: Escolha um período selecionando a data de início e fim
   description_issue_category_reassign: Escolha uma categoria de tarefas
   description_search: Campo de busca
   description_notes: Notas
-  description_date_range_list: Escolha um período a partira da lista
+  description_date_range_list: Escolha um período a partir da lista
   description_choose_project: Projetos
   description_date_to: Digite a data final
   description_query_sort_criteria_attribute: Escolha atributo
@@ -1076,12 +1077,12 @@ pt-BR:
   label_fields_permissions: Permissões de campos
   label_readonly: Somente leitura
   label_required: Requerido
+  field_board_parent: Fórum pai
   text_repository_identifier_info: Apenas letras minúsculas (a-z), números, traços e underline são permitidos.<br />Uma vez salvo, o identificador não pode ser modificado.
-  field_board_parent: Forum pai
-  label_attribute_of_project: %{name} do Projeto
-  label_attribute_of_author: %{name} do autor
-  label_attribute_of_assigned_to: %{name} do responsável
-  label_attribute_of_fixed_version: %{name} da versão
+  label_attribute_of_project: Projeto do %{name}
+  label_attribute_of_author: Autor do %{name}
+  label_attribute_of_assigned_to: Responsável por %{name}
+  label_attribute_of_fixed_version: Versão %{name}
   label_copy_subtasks: Copiar subtarefas
   label_copied_to: copiado para
   label_copied_from: copiado de
@@ -1092,13 +1093,13 @@ pt-BR:
   permission_set_notes_private: Colocar notas como privadas
   label_no_issues_in_project: sem tarefa no projeto
   label_any: todos
-  label_last_n_weeks: %{count} última(s) semana(s)
+  label_last_n_weeks: "%{count} última(s) semana(s)"
   setting_cross_project_subtasks: Permitir subtarefas entre projetos
   label_cross_project_descendants: Com sub-projetos
   label_cross_project_tree: Com a árvore do projeto
   label_cross_project_hierarchy: Com a hierarquia do projeto
   label_cross_project_system: Com todos os projetos
-  button_hide: Esconder
+  button_hide: Omitir
   setting_non_working_week_days: Dias sem expediente
   label_in_the_next_days: nos próximos dias
   label_in_the_past_days: nos dias anteriores
