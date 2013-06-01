@@ -730,54 +730,61 @@ class Query < ActiveRecord::Base
     return sql
   end
 
-  def add_custom_fields_filters(custom_fields, assoc=nil)
-    return unless custom_fields.present?
+  # Adds a filter for the given custom field
+  def add_custom_field_filter(field, assoc=nil)
+    case field.field_format
+    when "text"
+      options = { :type => :text }
+    when "list"
+      options = { :type => :list_optional, :values => field.possible_values }
+    when "date"
+      options = { :type => :date }
+    when "bool"
+      options = { :type => :list, :values => [[l(:general_text_yes), "1"], [l(:general_text_no), "0"]] }
+    when "int"
+      options = { :type => :integer }
+    when "float"
+      options = { :type => :float }
+    when "user", "version"
+      return unless project
+      values = field.possible_values_options(project)
+      if User.current.logged? && field.field_format == 'user'
+        values.unshift ["<< #{l(:label_me)} >>", "me"]
+      end
+      options = { :type => :list_optional, :values => values }
+    else
+      options = { :type => :string }
+    end
+    filter_id = "cf_#{field.id}"
+    filter_name = field.name
+    if assoc.present?
+      filter_id = "#{assoc}.#{filter_id}"
+      filter_name = l("label_attribute_of_#{assoc}", :name => filter_name)
+    end
+    add_available_filter filter_id, options.merge({
+      :name => filter_name,
+      :format => field.field_format,
+      :field => field
+    })
+  end
 
-    custom_fields.select(&:is_filter?).sort.each do |field|
-      case field.field_format
-      when "text"
-        options = { :type => :text }
-      when "list"
-        options = { :type => :list_optional, :values => field.possible_values }
-      when "date"
-        options = { :type => :date }
-      when "bool"
-        options = { :type => :list, :values => [[l(:general_text_yes), "1"], [l(:general_text_no), "0"]] }
-      when "int"
-        options = { :type => :integer }
-      when "float"
-        options = { :type => :float }
-      when "user", "version"
-        next unless project
-        values = field.possible_values_options(project)
-        if User.current.logged? && field.field_format == 'user'
-          values.unshift ["<< #{l(:label_me)} >>", "me"]
-        end
-        options = { :type => :list_optional, :values => values }
-      else
-        options = { :type => :string }
-      end
-      filter_id = "cf_#{field.id}"
-      filter_name = field.name
-      if assoc.present?
-        filter_id = "#{assoc}.#{filter_id}"
-        filter_name = l("label_attribute_of_#{assoc}", :name => filter_name)
-      end
-      add_available_filter filter_id, options.merge({
-               :name => filter_name,
-               :format => field.field_format,
-               :field => field
-             })
+  # Adds filters for the given custom fields scope
+  def add_custom_fields_filters(scope, assoc=nil)
+    scope.where(:is_filter => true).sorted.each do |field|
+      add_custom_field_filter(field, assoc)
     end
   end
 
+  # Adds filters for the given associations custom fields
   def add_associations_custom_fields_filters(*associations)
     fields_by_class = CustomField.where(:is_filter => true).group_by(&:class)
     associations.each do |assoc|
       association_klass = queried_class.reflect_on_association(assoc).klass
       fields_by_class.each do |field_class, fields|
         if field_class.customized_class <= association_klass
-          add_custom_fields_filters(fields, assoc)
+          fields.sort.each do |field|
+            add_custom_field_filter(field, assoc)
+          end
         end
       end
     end

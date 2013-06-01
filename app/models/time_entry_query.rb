@@ -84,7 +84,7 @@ class TimeEntryQuery < Query
     add_available_filter "comments", :type => :text
     add_available_filter "hours", :type => :float
 
-    add_custom_fields_filters(TimeEntryCustomField.where(:is_filter => true).all)
+    add_custom_fields_filters(TimeEntryCustomField)
     add_associations_custom_fields_filters :project, :issue, :user
   end
 
