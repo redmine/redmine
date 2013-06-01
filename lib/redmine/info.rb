@@ -14,9 +14,17 @@ module Redmine
           ["Rails version", Rails::VERSION::STRING],
           ["Environment", Rails.env],
           ["Database adapter", ActiveRecord::Base.connection.adapter_name]
-        ].map {|info| "  %-40s %s" % info}.join("\n")
-        s << "\nRedmine plugins:\n"
+        ].map {|info| "  %-40s %s" % info}.join("\n") + "\n"
 
+        s << "SCM:\n"
+        Redmine::Scm::Base.all.each do |scm|
+          scm_class = "Repository::#{scm}".constantize
+          if scm_class.scm_available
+            s << "  %-40s %s\n" % [scm, scm_class.scm_version_string]
+          end
+        end
+
+        s << "Redmine plugins:\n"
         plugins = Redmine::Plugin.all
         if plugins.any?
           s << plugins.map {|plugin| "  %-40s %s" % [plugin.id.to_s, plugin.version.to_s]}.join("\n")
