@@ -513,10 +513,14 @@ class Project < ActiveRecord::Base
     members.select {|m| m.principal.present? && (m.mail_notification? || m.principal.mail_notification == 'all')}.collect {|m| m.principal}
   end
 
-  # Returns an array of all custom fields enabled for project issues
+  # Returns a scope of all custom fields enabled for project issues
   # (explictly associated custom fields and custom fields enabled for all projects)
   def all_issue_custom_fields
-    @all_issue_custom_fields ||= (IssueCustomField.for_all + issue_custom_fields).uniq.sort
+    @all_issue_custom_fields ||= IssueCustomField.
+      sorted.
+      where("is_for_all = ? OR id IN (SELECT DISTINCT cfp.custom_field_id" +
+        " FROM #{table_name_prefix}custom_fields_projects#{table_name_suffix} cfp" +
+        " WHERE cfp.project_id = ?)", true, id)
   end
 
   # Returns an array of all custom fields enabled for project time entries
