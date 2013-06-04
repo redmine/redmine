@@ -511,8 +511,9 @@ module Redmine
 
       # Draw lines to close the row (MultiCell border drawing in not uniform)
       #
-      #  parameter "id_width" is not used. it is kept for compatibility.
-      def issues_to_pdf_draw_borders(pdf, top_x, top_y, lower_y, id_width, col_widths)
+      #  parameter "col_id_width" is not used. it is kept for compatibility.
+      def issues_to_pdf_draw_borders(pdf, top_x, top_y, lower_y,
+                                     col_id_width, col_widths)
         col_x = top_x
         pdf.Line(col_x, top_y, col_x, lower_y)    # id right border
         col_widths.each do |width|
