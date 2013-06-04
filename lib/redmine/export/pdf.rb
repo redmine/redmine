@@ -394,7 +394,7 @@ module Redmine
 
         # write the cells on page
         issues_to_pdf_write_cells(pdf, query.inline_columns, col_width, row_height, true)
-        issues_to_pdf_draw_borders(pdf, base_x, base_y, base_y + max_height, col_width)
+        issues_to_pdf_draw_borders(pdf, base_x, base_y, base_y + max_height, 0, col_width)
         pdf.SetY(base_y + max_height);
 
         # rows
@@ -474,7 +474,7 @@ module Redmine
 
           # write the cells on page
           issues_to_pdf_write_cells(pdf, col_values, col_width, row_height)
-          issues_to_pdf_draw_borders(pdf, base_x, base_y, base_y + max_height, col_width)
+          issues_to_pdf_draw_borders(pdf, base_x, base_y, base_y + max_height, 0, col_width)
           pdf.SetY(base_y + max_height);
 
           if query.has_column?(:description) && issue.description?
@@ -510,7 +510,9 @@ module Redmine
       end
 
       # Draw lines to close the row (MultiCell border drawing in not uniform)
-      def issues_to_pdf_draw_borders(pdf, top_x, top_y, lower_y, col_widths)
+      #
+      #  parameter "id_width" is not used. it is kept for compatibility.
+      def issues_to_pdf_draw_borders(pdf, top_x, top_y, lower_y, id_width, col_widths)
         col_x = top_x
         pdf.Line(col_x, top_y, col_x, lower_y)    # id right border
         col_widths.each do |width|
