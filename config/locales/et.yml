@@ -146,6 +146,7 @@ et:
         not_same_project: "ei kuulu sama projekti juurde"
         circular_dependency: "See suhe looks vastastikuse sõltuvuse"
         cant_link_an_issue_with_a_descendant: "Teemat ei saa sidustada tema enda alamteemaga"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   actionview_instancetag_blank_option: "Palun vali"
 

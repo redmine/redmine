@@ -130,6 +130,7 @@ sr:
         not_same_project: "не припада истом пројекту"
         circular_dependency: "Ова веза ће створити кружну референцу"
         cant_link_an_issue_with_a_descendant: "Проблем не може бити повезан са једним од својих подзадатака"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   actionview_instancetag_blank_option: Молим одаберите
 

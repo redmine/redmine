@@ -196,6 +196,7 @@ az:
         not_same_project: "təkcə bir layihəyə aid deyildir"
         circular_dependency: "Belə əlaqə dövri asılılığa gətirib çıxaracaq"
         cant_link_an_issue_with_a_descendant: "Tapşırıq özünün alt tapşırığı ilə əlaqəli ola bilməz"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   support:
     array:

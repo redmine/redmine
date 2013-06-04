@@ -130,6 +130,7 @@ el:
         not_same_project: "δεν ανήκει στο ίδιο έργο"
         circular_dependency: "Αυτή η σχέση θα δημιουργήσει κυκλικές εξαρτήσεις"
         cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   actionview_instancetag_blank_option: Παρακαλώ επιλέξτε
 

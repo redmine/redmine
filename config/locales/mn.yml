@@ -129,6 +129,7 @@ mn:
         not_same_project: "нэг ижил төсөлд хамаарахгүй байна"
         circular_dependency: "Энэ харьцаа нь гинжин(рекурсив) харьцаа үүсгэх юм байна"
         cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   actionview_instancetag_blank_option: Сонгоно уу
 

@@ -118,6 +118,7 @@
         not_same_project: "hører ikke til samme prosjekt"
         circular_dependency: "Denne relasjonen ville lagd en sirkulær avhengighet"
         cant_link_an_issue_with_a_descendant: "En sak kan ikke kobles mot en av sine undersaker"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
 
   actionview_instancetag_blank_option: Vennligst velg

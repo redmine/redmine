@@ -136,6 +136,7 @@ es:
         not_same_project: "no pertenece al mismo proyecto"
         circular_dependency: "Esta relación podría crear una dependencia circular"
         cant_link_an_issue_with_a_descendant: "Esta petición no puede ser ligada a una de estas tareas"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
         # Append your own errors here or at the model/attributes scope.
 

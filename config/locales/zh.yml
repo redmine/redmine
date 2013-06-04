@@ -133,6 +133,7 @@ zh:
         not_same_project: "不属于同一个项目"
         circular_dependency: "此关联将导致循环依赖"
         cant_link_an_issue_with_a_descendant: "问题不能关联到它的子任务"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   actionview_instancetag_blank_option: 请选择
 

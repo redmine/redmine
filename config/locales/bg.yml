@@ -130,6 +130,7 @@ bg:
         not_same_project: "не е от същия проект"
         circular_dependency: "Тази релация ще доведе до безкрайна зависимост"
         cant_link_an_issue_with_a_descendant: "Една задача не може да бъде свързвана към своя подзадача"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   actionview_instancetag_blank_option: Изберете
 

@@ -146,6 +146,7 @@ fr:
         not_same_project: "n'appartient pas au même projet"
         circular_dependency: "Cette relation créerait une dépendance circulaire"
         cant_link_an_issue_with_a_descendant: "Une demande ne peut pas être liée à l'une de ses sous-tâches"
+        earlier_than_minimum_start_date: "ne peut pas être antérieure au %{date} à cause des demandes qui précédent"
 
   actionview_instancetag_blank_option: Choisir
 

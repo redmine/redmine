@@ -137,6 +137,7 @@ pl:
         not_same_project: "nie należy do tego samego projektu"
         circular_dependency: "Ta relacja może wytworzyć zapętloną zależność"
         cant_link_an_issue_with_a_descendant: "Zagadnienie nie może zostać powiązane z jednym z własnych podzagadnień"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   support:
     array:

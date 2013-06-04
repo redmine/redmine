@@ -137,6 +137,7 @@ pt:
         not_same_project: "não pertence ao mesmo projecto"
         circular_dependency: "Esta relação iria criar uma dependência circular"
         cant_link_an_issue_with_a_descendant: "Não é possível ligar uma tarefa a uma sub-tarefa que lhe é pertencente"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   ## Translated by: Pedro Araújo <phcrva19@hotmail.com>
   actionview_instancetag_blank_option: Seleccione

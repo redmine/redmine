@@ -127,6 +127,7 @@ uk:
         not_same_project: "не відносяться до одного проекту"
         circular_dependency: "Такий зв'язок приведе до циклічної залежності"
         cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   actionview_instancetag_blank_option: Оберіть
 

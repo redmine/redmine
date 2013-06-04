@@ -134,6 +134,7 @@ it:
         not_same_project: "non appartiene allo stesso progetto"
         circular_dependency: "Questa relazione creerebbe una dipendenza circolare"
         cant_link_an_issue_with_a_descendant: "Una segnalazione non può essere collegata a una delle sue discendenti"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   actionview_instancetag_blank_option: Scegli
 

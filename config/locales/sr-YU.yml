@@ -132,6 +132,7 @@ sr-YU:
         not_same_project: "ne pripada istom projektu"
         circular_dependency: "Ova veza će stvoriti kružnu referencu"
         cant_link_an_issue_with_a_descendant: "Problem ne može biti povezan sa jednim od svojih podzadataka"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   actionview_instancetag_blank_option: Molim odaberite
 

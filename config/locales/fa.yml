@@ -129,6 +129,7 @@ fa:
         not_same_project: "به همان پروژه وابسته نیست"
         circular_dependency: "این وابستگی یک وابستگی دایره وار خواهد ساخت"
         cant_link_an_issue_with_a_descendant: "یک پیامد نمی‌تواند به یکی از زیر کارهایش پیوند بخورد"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   actionview_instancetag_blank_option: گزینش کنید
 

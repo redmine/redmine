@@ -141,6 +141,7 @@ da:
         not_same_project: "hører ikke til samme projekt"
         circular_dependency: "Denne relation vil skabe et afhængighedsforhold"
         cant_link_an_issue_with_a_descendant: "En sag kan ikke relateres til en af dens underopgaver"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
       template:
         header:

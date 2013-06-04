@@ -132,6 +132,7 @@ ca:
         not_same_project: "no pertany al mateix projecte"
         circular_dependency: "Aquesta relació crearia una dependència circular"
         cant_link_an_issue_with_a_descendant: "Un assumpte no es pot enllaçar a una de les seves subtasques"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   actionview_instancetag_blank_option: Seleccioneu
 

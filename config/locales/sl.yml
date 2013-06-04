@@ -128,6 +128,7 @@ sl:
         not_same_project: "ne pripada istemu projektu"
         circular_dependency: "Ta odnos bi povzročil krožno odvisnost"
         cant_link_an_issue_with_a_descendant: "Zahtevek ne more biti povezan s svojo podnalogo"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   actionview_instancetag_blank_option: Prosimo izberite
 

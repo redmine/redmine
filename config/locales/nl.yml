@@ -127,6 +127,7 @@ nl:
         not_same_project: "hoort niet bij hetzelfde project"
         circular_dependency: "Deze relatie zou een circulaire afhankelijkheid tot gevolg hebben"
         cant_link_an_issue_with_a_descendant: "Een issue kan niet gelinked worden met een subtask"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   actionview_instancetag_blank_option: Selecteer
 

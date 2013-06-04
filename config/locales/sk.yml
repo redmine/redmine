@@ -125,6 +125,7 @@ sk:
         not_same_project: "nepatrí rovnakému projektu"
         circular_dependency: "Tento vzťah by vytvoril cyklickú závislosť"
         cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   # SK translation by Stanislav Pach | stano.pach@seznam.cz
 

@@ -144,6 +144,7 @@ vi:
         not_same_project: "không thuộc cùng dự án"
         circular_dependency: "quan hệ có thể gây ra lặp vô tận"
         cant_link_an_issue_with_a_descendant: "Một vấn đề không thể liên kết tới một trong số những tác vụ con của nó"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   direction: ltr
   date:

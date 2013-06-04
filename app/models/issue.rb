@@ -18,6 +18,7 @@
 class Issue < ActiveRecord::Base
   include Redmine::SafeAttributes
   include Redmine::Utils::DateCalculation
+  include Redmine::I18n
 
   belongs_to :project
   belongs_to :tracker
@@ -552,7 +553,7 @@ class Issue < ActiveRecord::Base
     end
 
     if start_date && soonest_start && start_date < soonest_start
-      errors.add :start_date, :invalid
+      errors.add :start_date, :earlier_than_minimum_start_date, :date => format_date(soonest_start)
     end
 
     if fixed_version

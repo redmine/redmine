@@ -145,6 +145,7 @@ de:
         not_same_project: "gehört nicht zum selben Projekt"
         circular_dependency: "Diese Beziehung würde eine zyklische Abhängigkeit erzeugen"
         cant_link_an_issue_with_a_descendant: "Ein Ticket kann nicht mit einer Ihrer Unteraufgaben verlinkt werden"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   actionview_instancetag_blank_option: Bitte auswählen
 

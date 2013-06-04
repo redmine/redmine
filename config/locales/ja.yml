@@ -150,6 +150,7 @@ ja:
         not_same_project: "同じプロジェクトに属していません"
         circular_dependency: "この関係では、循環依存になります"
         cant_link_an_issue_with_a_descendant: "指定したチケットとは親子関係になっているため関連づけられません"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   actionview_instancetag_blank_option: 選んでください
 

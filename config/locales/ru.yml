@@ -206,6 +206,7 @@ ru:
         not_same_project: "не относится к одному проекту"
         circular_dependency: "Такая связь приведет к циклической зависимости"
         cant_link_an_issue_with_a_descendant: "Задача не может быть связана со своей подзадачей"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   support:
     array:

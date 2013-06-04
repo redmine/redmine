@@ -134,6 +134,7 @@ he:
         not_same_project: "לא שייך לאותו הפרויקט"
         circular_dependency: "קשר זה יצור תלות מעגלית"
         cant_link_an_issue_with_a_descendant: "לא ניתן לקשר נושא לתת־משימה שלו"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   actionview_instancetag_blank_option: בחר בבקשה
 

@@ -131,6 +131,7 @@ eu:
         not_same_project: "ez dago proiektu berdinean"
         circular_dependency: "Erlazio honek mendekotasun zirkular bat sortuko luke"
         cant_link_an_issue_with_a_descendant: "Zeregin bat ezin da bere azpiataza batekin estekatu."
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   actionview_instancetag_blank_option: Hautatu mesedez
 

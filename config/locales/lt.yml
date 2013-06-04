@@ -188,6 +188,7 @@ lt:
         not_same_project: "nepriklauso tam pačiam projektui"
         circular_dependency: "Šis ryšys sukurtų ciklinę priklausomybę"
         cant_link_an_issue_with_a_descendant: "Darbas negali būti susietas su viena iš savo darbo dalių"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   actionview_instancetag_blank_option: Prašom parinkti
 

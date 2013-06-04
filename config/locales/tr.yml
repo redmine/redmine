@@ -151,6 +151,7 @@ tr:
         not_same_project: "aynı projeye ait değil"
         circular_dependency: "Bu ilişki döngüsel bağımlılık meydana getirecektir"
         cant_link_an_issue_with_a_descendant: "Bir iş, alt işlerinden birine bağlanamaz"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
       models:
 
   actionview_instancetag_blank_option: Lütfen Seçin
