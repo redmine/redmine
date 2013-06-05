@@ -548,11 +548,11 @@ class Issue < ActiveRecord::Base
   end
 
   def validate_issue
-    if due_date && start_date && due_date < start_date
+    if due_date && start_date && (start_date_changed? || due_date_changed?) && due_date < start_date
       errors.add :due_date, :greater_than_start_date
     end
 
-    if start_date && soonest_start && start_date < soonest_start
+    if start_date && start_date_changed? && soonest_start && start_date < soonest_start
       errors.add :start_date, :earlier_than_minimum_start_date, :date => format_date(soonest_start)
     end
 

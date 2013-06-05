@@ -65,13 +65,20 @@ module ObjectHelpers
     role
   end
 
-  def Issue.generate!(attributes={})
+  # Generates an unsaved Issue
+  def Issue.generate(attributes={})
     issue = Issue.new(attributes)
     issue.project ||= Project.find(1)
     issue.tracker ||= issue.project.trackers.first
     issue.subject = 'Generated' if issue.subject.blank?
     issue.author ||= User.find(2)
     yield issue if block_given?
+    issue
+  end
+
+  # Generates a saved Issue
+  def Issue.generate!(attributes={}, &block)
+    issue = Issue.generate(attributes, &block)
     issue.save!
     issue
   end
