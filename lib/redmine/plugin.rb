@@ -443,7 +443,7 @@ module Redmine #:nodoc:
     class Migrator < ActiveRecord::Migrator
       # We need to be able to set the 'current' plugin being migrated.
       cattr_accessor :current_plugin
-    
+
       class << self
         # Runs the migrations from a plugin, up (or down) to the version given
         def migrate_plugin(plugin, version)
@@ -451,7 +451,7 @@ module Redmine #:nodoc:
           return if current_version(plugin) == version
           migrate(plugin.migration_directory, version)
         end
-        
+
         def current_version(plugin=current_plugin)
           # Delete migrations that don't match .. to_i will work because the number comes first
           ::ActiveRecord::Base.connection.select_values(
@@ -459,14 +459,14 @@ module Redmine #:nodoc:
           ).delete_if{ |v| v.match(/-#{plugin.id}/) == nil }.map(&:to_i).max || 0
         end
       end
-           
+
       def migrated
         sm_table = self.class.schema_migrations_table_name
         ::ActiveRecord::Base.connection.select_values(
           "SELECT version FROM #{sm_table}"
         ).delete_if{ |v| v.match(/-#{current_plugin.id}/) == nil }.map(&:to_i).sort
       end
-      
+
       def record_version_state_after_migrating(version)
         super(version.to_s + "-" + current_plugin.id.to_s)
       end
