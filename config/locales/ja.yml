@@ -146,11 +146,11 @@ ja:
         less_than_or_equal_to: "は%{count}以下の値にしてください。"
         odd: "は奇数にしてください。"
         even: "は偶数にしてください。"
-        greater_than_start_date: "を開始日より後にしてください"
-        not_same_project: "同じプロジェクトに属していません"
-        circular_dependency: "この関係では、循環依存になります"
-        cant_link_an_issue_with_a_descendant: "指定したチケットとは親子関係になっているため関連づけられません"
-        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
+        greater_than_start_date: "を開始日より後にしてください。"
+        not_same_project: "同じプロジェクトに属していません。"
+        circular_dependency: "この関係では、循環依存になります。"
+        cant_link_an_issue_with_a_descendant: "親子関係にあるチケット間での関連の設定はできません。"
+        earlier_than_minimum_start_date: "を%{date}より前にすることはできません。先行するチケットがあります。"
 
   actionview_instancetag_blank_option: 選んでください
 
