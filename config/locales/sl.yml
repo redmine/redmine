@@ -50,8 +50,8 @@ sl:
         one:   "okrog 1. ure"
         other: "okrog %{count} ur"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 ura"
+        other: "%{count} ur"
       x_days:
         one:   "1 dan"
         other: "%{count} dni"

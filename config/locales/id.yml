@@ -47,8 +47,8 @@ id:
         one:   "sekitar sejam"
         other: "sekitar %{count} jam"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 jam"
+        other: "%{count} jam"
       x_days:
         one:   "sehari"
         other: "%{count} hari"

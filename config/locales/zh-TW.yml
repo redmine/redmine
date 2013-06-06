@@ -123,8 +123,8 @@
         one: "約 1 小時"
         other: "約 %{count} 小時"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 小時"
+        other: "%{count} 小時"
       x_days:
         one: "1 天"
         other: "%{count} 天"

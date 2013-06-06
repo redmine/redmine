@@ -67,8 +67,8 @@ et:
         one:   "umbes tund"
         other: "umbes %{count} tundi"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 tund"
+        other: "%{count} tundi"
       x_days:
         one:   "1 päev"
         other: "%{count} päeva"

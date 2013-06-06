@@ -51,8 +51,8 @@
         one: 'csaknem 1 órája'
         other: 'csaknem %{count} órája'
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 óra"
+        other: "%{count} óra"
       x_days:
         one: '1 napja'
         other: '%{count} napja'

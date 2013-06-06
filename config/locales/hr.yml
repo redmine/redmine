@@ -49,8 +49,8 @@ hr:
         one:   "oko sat vremena"
         other: "oko %{count} sati"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 sata"
+        other: "%{count} sati"
       x_days:
         one:   "1 dan"
         other: "%{count} dana"

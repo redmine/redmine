@@ -44,8 +44,8 @@
         one: "rundt 1 time"
         other: "rundt %{count} timer"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 time"
+        other: "%{count} timer"
       x_days:
         one: "1 dag"
         other: "%{count} dager"

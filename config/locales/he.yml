@@ -56,8 +56,8 @@ he:
         one: 'בערך שעה אחת'
         other: 'בערך %{count} שעות'
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 שעה"
+        other: "%{count} שעות"
       x_days:
         one: 'יום אחד'
         other: '%{count} ימים'

@@ -51,8 +51,8 @@ sr:
         one:   "приближно један сат"
         other: "приближно %{count} сати"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 сат"
+        other: "%{count} сати"
       x_days:
         one:   "један дан"
         other: "%{count} дана"

@@ -46,8 +46,8 @@ sk:
         one:   "okolo 1 hodiny"
         other: "okolo %{count} hodín"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 hodina"
+        other: "%{count} hodín"
       x_days:
         one:   "1 deň"
         other: "%{count} dní"

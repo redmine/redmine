@@ -50,8 +50,8 @@ ar:
         one:   "حوالي ساعة"
         other: "ساعات %{count}حوالي "
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "%{count} ساعة"
+        other: "%{count} ساعات"
       x_days:
         one:   "يوم"
         other: "%{count} أيام"

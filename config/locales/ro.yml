@@ -45,8 +45,8 @@ ro:
         one:   "aproximativ o oră"
         other: "aproximativ %{count} ore"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 oră"
+        other: "%{count} ore"
       x_days:
         one:   "o zi"
         other: "%{count} zile"

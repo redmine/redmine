@@ -51,8 +51,8 @@ bg:
         one:   "около 1 час"
         other: "около %{count} часа"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 час"
+        other: "%{count} часа"
       x_days:
         one:   "1 ден"
         other: "%{count} дена"
