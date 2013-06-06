@@ -308,11 +308,11 @@ module IssuesHelper
       label = l(:label_attachment)
     when 'relation'
       if detail.value && !detail.old_value
-        rel_issue = Issue.find_by_id(detail.value)
+        rel_issue = Issue.visible.find_by_id(detail.value)
         value = rel_issue.nil? ? "#{l(:label_issue)} #{detail.value}" :
                   (no_html ? rel_issue : link_to_issue(rel_issue))
       elsif detail.old_value && !detail.value
-        rel_issue = Issue.find_by_id(detail.old_value)
+        rel_issue = Issue.visible.find_by_id(detail.old_value)
         old_value = rel_issue.nil? ? "#{l(:label_issue)} #{detail.old_value}" :
                           (no_html ? rel_issue : link_to_issue(rel_issue))
       end

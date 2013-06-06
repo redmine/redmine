@@ -227,6 +227,16 @@ class IssuesHelperTest < ActionView::TestCase
     assert_equal "<strong>Precedes</strong> <i>Issue #{non_existed_issue_number}</i> added", show_detail(detail, false)
   end
 
+  def test_show_detail_relation_added_should_not_disclose_issue_that_is_not_visible
+    issue = Issue.generate!(:is_private => true)
+    detail = JournalDetail.new(:property => 'relation',
+                               :prop_key => 'label_precedes',
+                               :value    => issue.id)
+
+    assert_equal "Precedes Issue #{issue.id} added", show_detail(detail, true)
+    assert_equal "<strong>Precedes</strong> <i>Issue #{issue.id}</i> added", show_detail(detail, false)
+  end
+
   def test_show_detail_delete_relation
     detail = JournalDetail.new(:property  => 'relation',
                                :prop_key  => 'label_precedes',
@@ -241,5 +251,15 @@ class IssuesHelperTest < ActionView::TestCase
                                :old_value => non_existed_issue_number)
     assert_equal "Precedes deleted (Issue 9999)", show_detail(detail, true)
     assert_equal "<strong>Precedes</strong> deleted (<i>Issue 9999</i>)", show_detail(detail, false)
+  end
+
+  def test_show_detail_relation_deleted_should_not_disclose_issue_that_is_not_visible
+    issue = Issue.generate!(:is_private => true)
+    detail = JournalDetail.new(:property => 'relation',
+                               :prop_key => 'label_precedes',
+                               :old_value    => issue.id)
+
+    assert_equal "Precedes deleted (Issue #{issue.id})", show_detail(detail, true)
+    assert_equal "<strong>Precedes</strong> deleted (<i>Issue #{issue.id}</i>)", show_detail(detail, false)
   end
 end
