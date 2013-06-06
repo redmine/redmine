@@ -53,8 +53,8 @@ eu:
         one:   "ordu 1 inguru"
         other: "%{count} ordu inguru"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "ordu 1"
+        other: "%{count} ordu"
       x_days:
         one:   "egun 1"
         other: "%{count} egun"

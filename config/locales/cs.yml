@@ -55,8 +55,8 @@ cs:
         one:   "asi 1 hodina"
         other: "asi %{count} hodin"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 hodina"
+        other: "%{count} hodin"
       x_days:
         one:   "1 den"
         other: "%{count} dnů"

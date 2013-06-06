@@ -46,8 +46,8 @@ lv:
         one:   "aptuveni 1 stunda"
         other: "aptuveni %{count} stundas"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 stunda"
+        other: "%{count} stundas"
       x_days:
         one:   "1 diena"
         other: "%{count} dienas"

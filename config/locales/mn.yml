@@ -51,8 +51,8 @@ mn:
         one:   "1 цаг орчим"
         other: "ойролцоогоор %{count} цаг"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 цаг"
+        other: "%{count} цаг"
       x_days:
         one:   "1 өдөр"
         other: "%{count} өдөр"

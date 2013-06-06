@@ -52,8 +52,8 @@ da:
         one:  "cirka en time"
         other: "cirka %{count} timer"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 time"
+        other: "%{count} timer"
       x_days:
         one:  "en dag"
         other: "%{count} dage"

@@ -53,8 +53,8 @@ ca:
         one:   "aproximadament 1 hora"
         other: "aproximadament %{count} hores"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 hora"
+        other: "%{count} hores"
       x_days:
         one:   "1 dia"
         other: "%{count} dies"

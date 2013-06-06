@@ -82,8 +82,8 @@ pl:
         one:   "około godziny"
         other: "około %{count} godzin"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 godzina"
+        other: "%{count} godzin"
       x_days:
         one:   "1 dzień"
         other: "%{count} dni"

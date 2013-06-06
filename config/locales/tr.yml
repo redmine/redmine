@@ -56,8 +56,8 @@ tr:
         one: 'yaklaşık 1 saat'
         other: 'yaklaşık %{count} saat'
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 saat"
+        other: "%{count} saat"
       x_days:
         one: '1 gün'
         other: '%{count} gün'

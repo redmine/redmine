@@ -80,8 +80,8 @@ es:
         one:  "alrededor de 1 hora"
         other: "alrededor de %{count} horas"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 hora"
+        other: "%{count} horas"
       x_days:
         one:  "1 día"
         other: "%{count} días"

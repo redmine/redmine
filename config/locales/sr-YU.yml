@@ -53,8 +53,8 @@ sr-YU:
         one:   "približno jedan sat"
         other: "približno %{count} sati"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 sat"
+        other: "%{count} sati"
       x_days:
         one:   "jedan dan"
         other: "%{count} dana"

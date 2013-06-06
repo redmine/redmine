@@ -50,7 +50,7 @@ nl:
         other: "ongeveer %{count} uren"
       x_hours:
         one:   "1 uur"
-        other: "%{count} hours"
+        other: "%{count} uren"
       x_days:
         one:   "1 dag"
         other: "%{count} dagen"

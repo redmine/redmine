@@ -50,8 +50,8 @@ ko:
         one:   "약 한시간"
         other: "약 %{count}시간"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 시간"
+        other: "%{count} 시간"
       x_days:
         one:   "하루"
         other: "%{count}일"

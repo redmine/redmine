@@ -95,8 +95,8 @@ fi:
         one:   "noin tunti"
         other: "noin %{count} tuntia"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 tunti"
+        other: "%{count} tuntia"
       x_days:
         one:   "päivä"
         other: "%{count} päivää"

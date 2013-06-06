@@ -109,8 +109,8 @@ az:
         many:  "təxminən %{count} saat"
         other: "təxminən %{count} saat"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 saat"
+        other: "%{count} saat"
       x_days:
         one:   "%{count} gün"
         few:   "%{count} gün"

@@ -50,8 +50,8 @@ fa:
         one:   "نزدیک 1 ساعت"
         other: "نزدیک %{count} ساعت"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 ساعت"
+        other: "%{count} ساعت"
       x_days:
         one:   "1 روز"
         other: "%{count} روز"

@@ -49,8 +49,8 @@ bs:
         one:   "oko 1 sahat"
         other: "oko %{count} sahata"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 sahat"
+        other: "%{count} sahata"
       x_days:
         one:   "1 dan"
         other: "%{count} dana"

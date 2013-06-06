@@ -52,8 +52,8 @@ el:
         one:   "περίπου 1 ώρα"
         other: "περίπου %{count} ώρες"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 ώρα"
+        other: "%{count} ώρες"
       x_days:
         one:   "1 ημέρα"
         other: "%{count} ημέρες"

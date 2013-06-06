@@ -50,8 +50,8 @@ sq:
         one:   "about 1 hour"
         other: "about %{count} hours"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 ore"
+        other: "%{count} ore"
       x_days:
         one:   "1 day"
         other: "%{count} days"

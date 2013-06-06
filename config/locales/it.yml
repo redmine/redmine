@@ -55,8 +55,8 @@ it:
         one:  "circa un'ora"
         other: "circa %{count} ore"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 ora"
+        other: "%{count} ore"
       x_days:
         one:  "1 giorno"
         other: "%{count} giorni"
