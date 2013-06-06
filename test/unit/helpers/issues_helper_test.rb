@@ -211,20 +211,23 @@ class IssuesHelperTest < ActionView::TestCase
     assert_match 'error281.txt', show_detail(detail, true)
   end
 
-  def test_show_detail_create_relation
+  def test_show_detail_relation_added
     detail = JournalDetail.new(:property => 'relation',
                                :prop_key => 'label_precedes',
                                :value    => 1)
     assert_equal "Precedes Bug #1: Can't print recipes added", show_detail(detail, true)
     assert_match %r{<strong>Precedes</strong> <i><a href="/issues/1" class=".+">Bug #1</a>: Can&#x27;t print recipes</i> added},
                  show_detail(detail, false)
-    non_existed_issue_number = 9999
-    assert_nil  Issue.find_by_id(non_existed_issue_number)
+  end
+
+  def test_show_detail_relation_added_with_inexistant_issue
+    inexistant_issue_number = 9999
+    assert_nil  Issue.find_by_id(inexistant_issue_number)
     detail = JournalDetail.new(:property => 'relation',
                                :prop_key => 'label_precedes',
-                               :value    => non_existed_issue_number)
-    assert_equal "Precedes Issue ##{non_existed_issue_number} added", show_detail(detail, true)
-    assert_equal "<strong>Precedes</strong> <i>Issue ##{non_existed_issue_number}</i> added", show_detail(detail, false)
+                               :value    => inexistant_issue_number)
+    assert_equal "Precedes Issue ##{inexistant_issue_number} added", show_detail(detail, true)
+    assert_equal "<strong>Precedes</strong> <i>Issue ##{inexistant_issue_number}</i> added", show_detail(detail, false)
   end
 
   def test_show_detail_relation_added_should_not_disclose_issue_that_is_not_visible
@@ -237,18 +240,21 @@ class IssuesHelperTest < ActionView::TestCase
     assert_equal "<strong>Precedes</strong> <i>Issue ##{issue.id}</i> added", show_detail(detail, false)
   end
 
-  def test_show_detail_delete_relation
+  def test_show_detail_relation_deleted
     detail = JournalDetail.new(:property  => 'relation',
                                :prop_key  => 'label_precedes',
                                :old_value => 1)
     assert_equal "Precedes deleted (Bug #1: Can't print recipes)", show_detail(detail, true)
     assert_match %r{<strong>Precedes</strong> deleted \(<i><a href="/issues/1" class=".+">Bug #1</a>: Can&#x27;t print recipes</i>\)},
                  show_detail(detail, false)
-    non_existed_issue_number = 9999
-    assert_nil  Issue.find_by_id(non_existed_issue_number)
+  end
+
+  def test_show_detail_relation_deleted_with_inexistant_issue
+    inexistant_issue_number = 9999
+    assert_nil  Issue.find_by_id(inexistant_issue_number)
     detail = JournalDetail.new(:property  => 'relation',
                                :prop_key  => 'label_precedes',
-                               :old_value => non_existed_issue_number)
+                               :old_value => inexistant_issue_number)
     assert_equal "Precedes deleted (Issue #9999)", show_detail(detail, true)
     assert_equal "<strong>Precedes</strong> deleted (<i>Issue #9999</i>)", show_detail(detail, false)
   end
