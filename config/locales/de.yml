@@ -133,7 +133,7 @@ de:
         wrong_length: "hat die falsche Länge (muss genau %{count} Zeichen haben)"
         taken: "ist bereits vergeben"
         not_a_number: "ist keine Zahl"
-        not_a_date: "is kein gültiges Datum"
+        not_a_date: "ist kein gültiges Datum"
         greater_than: "muss größer als %{count} sein"
         greater_than_or_equal_to: "muss größer oder gleich %{count} sein"
         equal_to: "muss genau %{count} sein"
@@ -240,6 +240,7 @@ de:
   description_query_sort_criteria_direction: Sortierrichtung
   description_search: Suchfeld
   description_selected_columns: Ausgewählte Spalten
+
   description_user_mail_notification: Mailbenachrichtigungseinstellung
   description_wiki_subpages_reassign: Neue Elternseite wählen
 
@@ -761,7 +762,7 @@ de:
   label_user_mail_option_only_assigned: Nur für Aufgaben für die ich zuständig bin
   label_user_mail_option_only_my_events: Nur für Aufgaben die ich beobachte oder an welchen ich mitarbeite
   label_user_mail_option_only_owner: Nur für Aufgaben die ich angelegt habe
-  label_user_mail_option_selected: "Für alle Ereignisse in den ausgewählten Projekten..."
+  label_user_mail_option_selected: "Für alle Ereignisse in den ausgewählten Projekten"
   label_user_new: Neuer Benutzer
   label_user_plural: Benutzer
   label_user_search: "Nach Benutzer suchen:"
@@ -851,7 +852,7 @@ de:
   notice_gantt_chart_truncated: Die Grafik ist unvollständig, da das Maximum der anzeigbaren Aufgaben überschritten wurde (%{max})
   notice_issue_done_ratios_updated: Der Ticket-Fortschritt wurde aktualisiert.
   notice_issue_successful_create: Ticket %{id} erstellt.
-  notice_issue_update_conflict: Das Ticket wurde von einem anderen Nutzer überarbeitet während Ihrer Bearbeitung.
+  notice_issue_update_conflict: Das Ticket wurde während Ihrer Bearbeitung von einem anderen Nutzer überarbeitet.
   notice_locking_conflict: Datum wurde von einem anderen Benutzer geändert.
   notice_no_issue_selected: "Kein Ticket ausgewählt! Bitte wählen Sie die Tickets, die Sie bearbeiten möchten."
   notice_not_authorized: Sie sind nicht berechtigt, auf diese Seite zuzugreifen.
@@ -1053,7 +1054,7 @@ de:
   text_load_default_configuration: Standard-Konfiguration laden
   text_mercurial_repository_note: Lokales repository (e.g. /hgrepo, c:\hgrepo)
   text_min_max_length_info: 0 heißt keine Beschränkung
-  text_no_configuration_data: "Rollen, Tracker, Ticket-Status und Workflows wurden noch nicht konfiguriert.\nEs ist sehr zu empfehlen, die Standard-Konfiguration zu laden. Sobald sie geladen ist, können Sie sie abändern."
+  text_no_configuration_data: "Rollen, Tracker, Ticket-Status und Workflows wurden noch nicht konfiguriert.\nEs ist sehr zu empfehlen, die Standard-Konfiguration zu laden. Sobald sie geladen ist, können Sie diese abändern."
   text_own_membership_delete_confirmation: "Sie sind dabei, einige oder alle Ihre Berechtigungen zu entfernen. Es ist möglich, dass Sie danach das Projekt nicht mehr ansehen oder bearbeiten dürfen.\nSind Sie sicher, dass Sie dies tun möchten?"
   text_plugin_assets_writable: Verzeichnis für Plugin-Assets beschreibbar
   text_project_closed: Dieses Projekt ist geschlossen und kann nicht bearbeitet werden.
