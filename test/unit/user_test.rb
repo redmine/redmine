@@ -404,24 +404,6 @@ class UserTest < ActiveSupport::TestCase
     assert_not_nil u.errors[:mail_notification]
   end
 
-  test "User#try_to_login should fall-back to case-insensitive if user login is not found as-typed" do
-    user = User.try_to_login("AdMin", "admin")
-    assert_kind_of User, user
-    assert_equal "admin", user.login
-  end
-
-  test "User#try_to_login should select the exact matching user first" do
-    case_sensitive_user = User.generate! do |user|
-      user.password = "admin123"
-    end
-    # bypass validations to make it appear like existing data
-    case_sensitive_user.update_attribute(:login, 'ADMIN')
-
-    user = User.try_to_login("ADMIN", "admin123")
-    assert_kind_of User, user
-    assert_equal "ADMIN", user.login
-  end
-
   def test_password
     user = User.try_to_login("admin", "admin")
     assert_kind_of User, user
@@ -513,17 +495,6 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-  def test_lock
-    user = User.try_to_login("jsmith", "jsmith")
-    assert_equal @jsmith, user
-
-    @jsmith.status = User::STATUS_LOCKED
-    assert @jsmith.save
-
-    user = User.try_to_login("jsmith", "jsmith")
-    assert_equal nil, user
-  end
-
   test ".try_to_login with good credentials should return the user" do
     user = User.try_to_login("admin", "admin")
     assert_kind_of User, user
@@ -532,6 +503,40 @@ class UserTest < ActiveSupport::TestCase
 
   test ".try_to_login with wrong credentials should return nil" do
     assert_nil User.try_to_login("admin", "foo")
+  end
+
+  def test_try_to_login_with_locked_user_should_return_nil
+    @jsmith.status = User::STATUS_LOCKED
+    @jsmith.save!
+
+    user = User.try_to_login("jsmith", "jsmith")
+    assert_equal nil, user
+  end
+
+  def test_try_to_login_with_locked_user_and_not_active_only_should_return_user
+    @jsmith.status = User::STATUS_LOCKED
+    @jsmith.save!
+
+    user = User.try_to_login("jsmith", "jsmith", false)
+    assert_equal @jsmith, user
+  end
+
+  test ".try_to_login should fall-back to case-insensitive if user login is not found as-typed" do
+    user = User.try_to_login("AdMin", "admin")
+    assert_kind_of User, user
+    assert_equal "admin", user.login
+  end
+
+  test ".try_to_login should select the exact matching user first" do
+    case_sensitive_user = User.generate! do |user|
+      user.password = "admin123"
+    end
+    # bypass validations to make it appear like existing data
+    case_sensitive_user.update_attribute(:login, 'ADMIN')
+
+    user = User.try_to_login("ADMIN", "admin123")
+    assert_kind_of User, user
+    assert_equal "ADMIN", user.login
   end
 
   if ldap_configured?
