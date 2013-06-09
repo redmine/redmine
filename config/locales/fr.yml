@@ -167,6 +167,8 @@ fr:
   notice_account_wrong_password: Mot de passe incorrect
   notice_account_register_done: Un message contenant les instructions pour activer votre compte vous a été envoyé.
   notice_account_unknown_email: Aucun compte ne correspond à cette adresse.
+  notice_account_not_activated_yet: Vous n'avez pas encore activé votre compte. Si vous voulez recevoir un nouveau message d'activation, veuillez <a href="%{url}">cliquer sur ce lien</a>.
+  notice_account_locked: Votre compte est verrouillé.
   notice_can_t_change_password: Ce compte utilise une authentification externe. Impossible de changer le mot de passe.
   notice_account_lost_email_sent: Un message contenant les instructions pour choisir un nouveau mot de passe vous a été envoyé.
   notice_account_activated: Votre compte a été activé. Vous pouvez à présent vous connecter.

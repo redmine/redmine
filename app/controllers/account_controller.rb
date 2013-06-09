@@ -75,9 +75,13 @@ class AccountController < ApplicationController
     else
       if request.post?
         user = User.find_by_mail(params[:mail].to_s)
-        # user not found or not active
-        unless user && user.active?
+        # user not found
+        unless user
           flash.now[:error] = l(:notice_account_unknown_email)
+          return
+        end
+        unless user.active?
+          handle_inactive_user(user, lost_password_path)
           return
         end
         # user cannot change its password
@@ -152,6 +156,19 @@ class AccountController < ApplicationController
     redirect_to signin_path
   end
 
+  # Sends a new account activation email
+  def activation_email
+    if session[:registered_user_id] && Setting.self_registration == '1'
+      user_id = session.delete(:registered_user_id).to_i
+      user = User.find_by_id(user_id)
+      if user && user.registered?
+        register_by_email_activation(user)
+        return
+      end
+    end
+    redirect_to(home_url)
+  end
+
   private
 
   def authenticate_user
@@ -163,7 +180,7 @@ class AccountController < ApplicationController
   end
 
   def password_authentication
-    user = User.try_to_login(params[:username], params[:password])
+    user = User.try_to_login(params[:username], params[:password], false)
 
     if user.nil?
       invalid_credentials
@@ -171,7 +188,11 @@ class AccountController < ApplicationController
       onthefly_creation_failed(user, {:login => user.login, :auth_source_id => user.auth_source_id })
     else
       # Valid user
-      successful_authentication(user)
+      if user.active?
+        successful_authentication(user)
+      else
+        handle_inactive_user(user)
+      end
     end
   end
 
@@ -211,7 +232,7 @@ class AccountController < ApplicationController
           if user.active?
             successful_authentication(user)
           else
-            account_pending
+            handle_inactive_user(user)
           end
         end
       end
@@ -291,14 +312,32 @@ class AccountController < ApplicationController
     if user.save
       # Sends an email to the administrators
       Mailer.account_activation_request(user).deliver
-      account_pending
+      account_pending(user)
     else
       yield if block_given?
     end
   end
 
-  def account_pending
-    flash[:notice] = l(:notice_account_pending)
-    redirect_to signin_path
+  def handle_inactive_user(user, redirect_path=signin_path)
+    if user.registered?
+      account_pending(user, redirect_path)
+    else
+      account_locked(user, redirect_path)
+    end
+  end
+
+  def account_pending(user, redirect_path=signin_path)
+    if Setting.self_registration == '1'
+      flash[:error] = l(:notice_account_not_activated_yet, :url => activation_email_path)
+      session[:registered_user_id] = user.id
+    else
+      flash[:error] = l(:notice_account_pending)
+    end
+    redirect_to redirect_path
+  end
+
+  def account_locked(user, redirect_path=signin_path)
+    flash[:error] = l(:notice_account_locked)
+    redirect_to redirect_path
   end
 end

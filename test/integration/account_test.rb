@@ -221,4 +221,49 @@ class AccountTest < ActionController::IntegrationTest
     assert_equal 66, user.auth_source_id
     assert user.hashed_password.blank?
   end
+
+  def test_registered_user_should_be_able_to_get_a_new_activation_email
+    Token.delete_all
+      
+    with_settings :self_registration => '1', :default_language => 'en' do
+      # register a new account
+      assert_difference 'User.count' do
+        assert_difference 'Token.count' do
+          post 'account/register',
+             :user => {:login => "newuser", :language => "en",
+                       :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar",
+                       :password => "newpass123", :password_confirmation => "newpass123"}
+        end
+      end
+      user = User.order('id desc').first
+      assert_equal User::STATUS_REGISTERED, user.status
+      reset!
+
+      # try to use "lost password"
+      assert_no_difference 'ActionMailer::Base.deliveries.size' do
+        post '/account/lost_password', :mail => 'newuser@foo.bar'
+      end
+      assert_redirected_to '/account/lost_password'
+      follow_redirect!
+      assert_response :success
+      assert_select 'div.flash', :text => /new activation email/
+      assert_select 'div.flash a[href=/account/activation_email]'
+
+      # request a new action activation email
+      assert_difference 'ActionMailer::Base.deliveries.size' do
+        get '/account/activation_email'
+      end
+      assert_redirected_to '/login'
+      token = Token.order('id desc').first
+      activation_path = "/account/activate?token=#{token.value}"
+      assert_include activation_path, mail_body(ActionMailer::Base.deliveries.last)
+
+      # activate the account
+      get activation_path
+      assert_redirected_to '/login'
+
+      post '/login', :username => 'newuser', :password => 'newpass123'
+      assert_redirected_to '/my/page'
+    end
+  end
 end

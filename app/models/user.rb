@@ -157,7 +157,7 @@ class User < Principal
   end
 
   # Returns the user that matches provided login and password, or nil
-  def self.try_to_login(login, password)
+  def self.try_to_login(login, password, active_only=true)
     login = login.to_s
     password = password.to_s
 
@@ -166,8 +166,8 @@ class User < Principal
     user = find_by_login(login)
     if user
       # user is already in local database
-      return nil unless user.active?
       return nil unless user.check_password?(password)
+      return nil if !user.active? && active_only 
     else
       # user is not yet registered, try to authenticate with available sources
       attrs = AuthSource.authenticate(login, password)
@@ -181,7 +181,7 @@ class User < Principal
         end
       end
     end
-    user.update_column(:last_login_on, Time.now) if user && !user.new_record?
+    user.update_column(:last_login_on, Time.now) if user && !user.new_record? && user.active?
     user
   rescue => text
     raise text
