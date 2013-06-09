@@ -835,7 +835,6 @@ de:
   notice_account_lost_email_sent: Eine E-Mail mit Anweisungen, ein neues Kennwort zu wählen, wurde Ihnen geschickt.
   notice_account_password_updated: Kennwort wurde erfolgreich aktualisiert.
   notice_account_pending: "Ihr Konto wurde erstellt und wartet jetzt auf die Genehmigung des Administrators."
-  notice_account_register_done: Konto wurde erfolgreich angelegt.
   notice_account_unknown_email: Unbekannter Benutzer.
   notice_account_updated: Konto wurde erfolgreich aktualisiert.
   notice_account_wrong_password: Falsches Kennwort.
@@ -1105,3 +1104,5 @@ de:
   notice_account_not_activated_yet: You haven't activated your account yet. If you want
     to receive a new activation email, please <a href="%{url}">click this link</a>.
   notice_account_locked: Your account is locked.
+  notice_account_register_done: Account was successfully created. An email containing
+    the instructions to activate your account was sent to %{email}.

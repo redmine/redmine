@@ -153,7 +153,6 @@ it:
   notice_account_invalid_creditentials: Nome utente o password non validi.
   notice_account_password_updated: La password è stata aggiornata.
   notice_account_wrong_password: Password errata
-  notice_account_register_done: L'utente è stato creato.
   notice_account_unknown_email: Utente sconosciuto.
   notice_can_t_change_password: Questo utente utilizza un metodo di autenticazione esterno. Impossibile cambiare la password.
   notice_account_lost_email_sent: Ti è stata spedita una email con le istruzioni per cambiare la password.
@@ -1090,3 +1089,5 @@ it:
   notice_account_not_activated_yet: You haven't activated your account yet. If you want
     to receive a new activation email, please <a href="%{url}">click this link</a>.
   notice_account_locked: Your account is locked.
+  notice_account_register_done: Account was successfully created. An email containing
+    the instructions to activate your account was sent to %{email}.
