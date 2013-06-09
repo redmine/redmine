@@ -1109,3 +1109,6 @@ pt-BR:
   field_generate_password: Gerar senha
   setting_default_projects_tracker_ids: Tipos padrões para novos projeto
   label_total_time: Total
+  notice_account_not_activated_yet: You haven't activated your account yet. If you want
+    to receive a new activation email, please <a href="%{url}">click this link</a>.
+  notice_account_locked: Your account is locked.

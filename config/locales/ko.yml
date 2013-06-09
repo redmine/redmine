@@ -1138,3 +1138,6 @@ ko:
   field_generate_password: Generate password
   setting_default_projects_tracker_ids: 새 프로젝트에 기본적으로 추가할 일감 유형
   label_total_time: 합계
+  notice_account_not_activated_yet: You haven't activated your account yet. If you want
+    to receive a new activation email, please <a href="%{url}">click this link</a>.
+  notice_account_locked: Your account is locked.

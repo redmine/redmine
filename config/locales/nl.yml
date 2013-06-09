@@ -1070,3 +1070,6 @@ nl:
   setting_default_projects_tracker_ids: Standaard trackers voor nieuwe projecten
   label_total_time: Totaal
   setting_emails_header: Email header
+  notice_account_not_activated_yet: You haven't activated your account yet. If you want
+    to receive a new activation email, please <a href="%{url}">click this link</a>.
+  notice_account_locked: Your account is locked.

@@ -1199,3 +1199,6 @@ ru:
   field_generate_password: Создание пароля
   setting_default_projects_tracker_ids: Трекеры по умолчанию для новых проектов
   label_total_time: Общее время
+  notice_account_not_activated_yet: You haven't activated your account yet. If you want
+    to receive a new activation email, please <a href="%{url}">click this link</a>.
+  notice_account_locked: Your account is locked.

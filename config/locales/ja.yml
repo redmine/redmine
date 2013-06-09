@@ -1118,3 +1118,6 @@ ja:
   field_closed_on: 終了日
   field_generate_password: パスワードを自動生成
   label_total_time: 合計
+  notice_account_not_activated_yet: You haven't activated your account yet. If you want
+    to receive a new activation email, please <a href="%{url}">click this link</a>.
+  notice_account_locked: Your account is locked.

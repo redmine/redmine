@@ -1148,3 +1148,6 @@ lt:
   label_total_time: Iš viso
   text_scm_config: Jūs galite pakeisti SCM komandas byloje config/configuration.yml. Prašome perkrauti programą po redagavimo, idant įgalinti pakeitimus.
   text_scm_command_not_available: SCM komanda nepasiekiama. Patikrinkite administravimo skydelio nustatymus.
+  notice_account_not_activated_yet: You haven't activated your account yet. If you want
+    to receive a new activation email, please <a href="%{url}">click this link</a>.
+  notice_account_locked: Your account is locked.
