@@ -167,7 +167,7 @@ class User < Principal
     if user
       # user is already in local database
       return nil unless user.check_password?(password)
-      return nil if !user.active? && active_only 
+      return nil if !user.active? && active_only
     else
       # user is not yet registered, try to authenticate with available sources
       attrs = AuthSource.authenticate(login, password)
