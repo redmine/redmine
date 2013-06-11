@@ -19,17 +19,15 @@ class ContextMenusController < ApplicationController
   helper :watchers
   helper :issues
 
+  before_filter :find_issues, :only => :issues
+
   def issues
-    @issues = Issue.visible.all(:conditions => {:id => params[:ids]}, :include => :project)
-    (render_404; return) unless @issues.present?
     if (@issues.size == 1)
       @issue = @issues.first
     end
     @issue_ids = @issues.map(&:id).sort
 
     @allowed_statuses = @issues.map(&:new_statuses_allowed_to).reduce(:&)
-    @projects = @issues.collect(&:project).compact.uniq
-    @project = @projects.first if @projects.size == 1
 
     @can = {:edit => User.current.allowed_to?(:edit_issues, @projects),
             :log_time => (@project && User.current.allowed_to?(:log_time, @project)),

@@ -219,11 +219,9 @@ class ContextMenusControllerTest < ActionController::TestCase
     assert_select 'a', :text => 'eCookbook - Shared'
   end
 
-  def test_context_menu_issue_visibility
-    get :issues, :ids => [1, 4]
-    assert_response :success
-    assert_template 'context_menu'
-    assert_equal [1], assigns(:issues).collect(&:id)
+  def test_context_menu_with_issue_that_is_not_visible_should_fail
+    get :issues, :ids => [1, 4] # issue 4 is not visible
+    assert_response 302
   end
 
   def test_should_respond_with_404_without_ids
