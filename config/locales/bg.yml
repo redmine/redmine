@@ -149,7 +149,12 @@ bg:
   notice_account_invalid_creditentials: Невалиден потребител или парола.
   notice_account_password_updated: Паролата е успешно променена.
   notice_account_wrong_password: Грешна парола
+  notice_account_register_done: Профилът е създаден успешно. E-mail, съдържащ инструкции за активиране на профила
+    е изпратен на %{email}.
   notice_account_unknown_email: Непознат e-mail.
+  notice_account_not_activated_yet: Вие не сте активирали вашия профил все още. Ако искате да
+    получите нов e-mail за активиране, моля <a href="%{url}">натиснете тази връзка</a>.
+  notice_account_locked: Вашият профил е блокиран.
   notice_can_t_change_password: Този профил е с външен метод за оторизация. Невъзможна смяна на паролата.
   notice_account_lost_email_sent: Изпратен ви е e-mail с инструкции за избор на нова парола.
   notice_account_activated: Профилът ви е активиран. Вече може да влезете в системата.
@@ -1085,8 +1090,3 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  notice_account_not_activated_yet: You haven't activated your account yet. If you want
-    to receive a new activation email, please <a href="%{url}">click this link</a>.
-  notice_account_locked: Your account is locked.
-  notice_account_register_done: Account was successfully created. An email containing
-    the instructions to activate your account was sent to %{email}.
