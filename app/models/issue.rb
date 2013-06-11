@@ -348,8 +348,7 @@ class Issue < ActiveRecord::Base
       if issue.new_record?
         issue.copy?
       elsif user.allowed_to?(:move_issues, issue.project)
-        projects = Issue.allowed_target_projects_on_move(user)
-        projects.include?(issue.project) && projects.size > 1
+        Issue.allowed_target_projects_on_move.count > 1
       end
     }
 
@@ -416,7 +415,7 @@ class Issue < ActiveRecord::Base
 
     # Project and Tracker must be set before since new_statuses_allowed_to depends on it.
     if (p = attrs.delete('project_id')) && safe_attribute?('project_id')
-      if allowed_target_projects(user).collect(&:id).include?(p.to_i)
+      if allowed_target_projects(user).where(:id => p.to_i).exists?
         self.project_id = p
       end
     end
@@ -1184,18 +1183,18 @@ class Issue < ActiveRecord::Base
   end
   # End ReportsController extraction
 
-  # Returns an array of projects that user can assign the issue to
+  # Returns a scope of projects that user can assign the issue to
   def allowed_target_projects(user=User.current)
     if new_record?
-      Project.all(:conditions => Project.allowed_to_condition(user, :add_issues))
+      Project.where(Project.allowed_to_condition(user, :add_issues))
     else
       self.class.allowed_target_projects_on_move(user)
     end
   end
 
-  # Returns an array of projects that user can move issues to
+  # Returns a scope of projects that user can move issues to
   def self.allowed_target_projects_on_move(user=User.current)
-    Project.all(:conditions => Project.allowed_to_condition(user, :move_issues))
+    Project.where(Project.allowed_to_condition(user, :move_issues))
   end
 
   private
