@@ -195,7 +195,13 @@ class ApplicationController < ActionController::Base
         url = url_for(:controller => params[:controller], :action => params[:action], :id => params[:id], :project_id => params[:project_id])
       end
       respond_to do |format|
-        format.html { redirect_to :controller => "account", :action => "login", :back_url => url }
+        format.html {
+          if request.xhr?
+            head :unauthorized
+          else
+            redirect_to :controller => "account", :action => "login", :back_url => url
+          end
+        }
         format.atom { redirect_to :controller => "account", :action => "login", :back_url => url }
         format.xml  { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="Redmine API"' }
         format.js   { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="Redmine API"' }

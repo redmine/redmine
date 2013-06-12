@@ -136,4 +136,20 @@ class WelcomeControllerTest < ActionController::TestCase
     assert_equal [0, 100], @controller.api_offset_and_limit({:page => 1, :limit => 100})
     assert_equal [200, 100], @controller.api_offset_and_limit({:page => 3, :limit => 100})
   end
+
+  def test_unhautorized_exception_with_anonymous_should_redirect_to_login
+    WelcomeController.any_instance.stubs(:index).raises(::Unauthorized)
+
+    get :index
+    assert_response 302
+    assert_redirected_to('/login?back_url='+CGI.escape('http://test.host/'))
+  end
+
+  def test_unhautorized_exception_with_anonymous_and_xmlhttprequest_should_respond_with_401_to_anonymous
+    WelcomeController.any_instance.stubs(:index).raises(::Unauthorized)
+
+    @request.env["HTTP_X_REQUESTED_WITH"] = "XMLHttpRequest"
+    get :index
+    assert_response 401
+  end
 end
