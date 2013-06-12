@@ -136,6 +136,7 @@ class User < Principal
     @membership_by_project_id = nil
     @notified_projects_ids = nil
     @notified_projects_ids_changed = false
+    @builtin_role = nil
     base_reload(*args)
   end
 
@@ -444,11 +445,7 @@ class User < Principal
 
   # Returns the user's bult-in role
   def builtin_role
-    if logged?
-      @role_non_member ||= Role.non_member
-    else
-      @role_anonymous ||= Role.anonymous
-    end
+    @builtin_role ||= (logged? ? Role.non_member : Role.anonymous)
   end
 
   # Return user's roles for project
