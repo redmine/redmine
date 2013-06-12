@@ -95,11 +95,11 @@ class Redmine::ApiTest::IssueCategoriesTest < Redmine::ApiTest::Base
   end
     
   test "DELETE /issue_categories/:id.xml should reassign issues with :reassign_to_id param" do
-    issue_count = Issue.count(:conditions => {:category_id => 1})
+    issue_count = Issue.where(:category_id => 1).count
     assert issue_count > 0
 
     assert_difference 'IssueCategory.count', -1 do
-      assert_difference 'Issue.count(:conditions => {:category_id => 2})', 3 do
+      assert_difference 'Issue.where(:category_id => 2).count', 3 do
         delete '/issue_categories/1.xml', {:reassign_to_id => 2}, credentials('jsmith')
       end
     end

@@ -3701,7 +3701,7 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_bulk_copy_should_allow_changing_the_issue_attributes
     # Fixes random test failure with Mysql
-    # where Issue.all(:limit => 2, :order => 'id desc', :conditions => {:project_id => 2})
+    # where Issue.where(:project_id => 2).limit(2).order('id desc')
     # doesn't return the expected results
     Issue.delete_all("project_id=2")
 
@@ -3716,7 +3716,7 @@ class IssuesControllerTest < ActionController::TestCase
       end
     end
 
-    copied_issues = Issue.all(:limit => 2, :order => 'id desc', :conditions => {:project_id => 2})
+    copied_issues = Issue.where(:project_id => 2).limit(2).order('id desc').to_a
     assert_equal 2, copied_issues.size
     copied_issues.each do |issue|
       assert_equal 2, issue.project_id, "Project is incorrect"

@@ -63,7 +63,7 @@ class ProjectCopyTest < ActiveSupport::TestCase
       assert_equal @project, issue.project
     end
 
-    copied_issue = @project.issues.first(:conditions => {:subject => "copy issue status"})
+    copied_issue = @project.issues.where(:subject => "copy issue status").first
     assert copied_issue
     assert copied_issue.status
     assert_equal "Closed", copied_issue.status.name
@@ -93,7 +93,7 @@ class ProjectCopyTest < ActiveSupport::TestCase
 
     assert @project.copy(@source_project)
     @project.reload
-    copied_issue = @project.issues.first(:conditions => {:subject => "copy issues assigned to a locked version"})
+    copied_issue = @project.issues.where(:subject => "copy issues assigned to a locked version").first
 
     assert copied_issue
     assert copied_issue.fixed_version
@@ -112,7 +112,7 @@ class ProjectCopyTest < ActiveSupport::TestCase
 
     assert @project.copy(@source_project)
     @project.reload
-    copied_issue = @project.issues.first(:conditions => {:subject => "change the new issues to use the copied version"})
+    copied_issue = @project.issues.where(:subject => "change the new issues to use the copied version").first
 
     assert copied_issue
     assert copied_issue.fixed_version
@@ -128,7 +128,7 @@ class ProjectCopyTest < ActiveSupport::TestCase
 
     assert @project.copy(@source_project)
     @project.reload
-    copied_issue = @project.issues.first(:conditions => {:subject => "keep target shared versions"})
+    copied_issue = @project.issues.where(:subject => "keep target shared versions").first
 
     assert copied_issue
     assert_equal assigned_version, copied_issue.fixed_version
@@ -175,7 +175,7 @@ class ProjectCopyTest < ActiveSupport::TestCase
     @source_project.issues << issue
     assert @project.copy(@source_project)
 
-    copied_issue = @project.issues.first(:conditions => {:subject => "copy with attachment"})
+    copied_issue = @project.issues.where(:subject => "copy with attachment").first
     assert_not_nil copied_issue
     assert_equal 1, copied_issue.attachments.count, "Attachment not copied"
     assert_equal "testfile.txt", copied_issue.attachments.first.filename

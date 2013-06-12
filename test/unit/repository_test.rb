@@ -183,9 +183,7 @@ class RepositoryTest < ActiveSupport::TestCase
     Setting.default_language = 'en'
 
     # choosing a status to apply to fix issues
-    Setting.commit_fix_status_id = IssueStatus.find(
-                                     :first,
-                                     :conditions => ["is_closed = ?", true]).id
+    Setting.commit_fix_status_id = IssueStatus.where(:is_closed => true).first.id
     Setting.commit_fix_done_ratio = "90"
     Setting.commit_ref_keywords = 'refs , references, IssueID'
     Setting.commit_fix_keywords = 'fixes , closes'
@@ -278,7 +276,7 @@ class RepositoryTest < ActiveSupport::TestCase
   end
 
   def test_manual_user_mapping
-    assert_no_difference "Changeset.count(:conditions => 'user_id <> 2')" do
+    assert_no_difference "Changeset.where('user_id <> 2').count" do
       c = Changeset.create!(
               :repository => @repository,
               :committer => 'foo',

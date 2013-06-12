@@ -155,7 +155,7 @@ class ProjectsController < ApplicationController
     @total_issues_by_tracker = Issue.visible.where(cond).count(:group => :tracker)
 
     if User.current.allowed_to?(:view_time_entries, @project)
-      @total_hours = TimeEntry.visible.sum(:hours, :include => :project, :conditions => cond).to_f
+      @total_hours = TimeEntry.visible.where(cond).sum(:hours).to_f
     end
 
     @key = User.current.rss_key

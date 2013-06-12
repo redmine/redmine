@@ -112,7 +112,7 @@ class ActiveSupport::TestCase
   end
 
   def change_user_password(login, new_password)
-    user = User.first(:conditions => {:login => login})
+    user = User.where(:login => login).first
     user.password, user.password_confirmation = new_password, new_password
     user.save!
   end

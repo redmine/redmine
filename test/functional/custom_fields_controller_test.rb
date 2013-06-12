@@ -153,7 +153,7 @@ class CustomFieldsControllerTest < ActionController::TestCase
   end
 
   def test_destroy
-    custom_values_count = CustomValue.count(:conditions => {:custom_field_id => 1})
+    custom_values_count = CustomValue.where(:custom_field_id => 1).count
     assert custom_values_count > 0
 
     assert_difference 'CustomField.count', -1 do

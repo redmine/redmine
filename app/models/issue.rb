@@ -812,7 +812,7 @@ class Issue < ActiveRecord::Base
   # Preloads relations for a collection of issues
   def self.load_relations(issues)
     if issues.any?
-      relations = IssueRelation.all(:conditions => ["issue_from_id IN (:ids) OR issue_to_id IN (:ids)", {:ids => issues.map(&:id)}])
+      relations = IssueRelation.where("issue_from_id IN (:ids) OR issue_to_id IN (:ids)", :ids => issues.map(&:id)).all
       issues.each do |issue|
         issue.instance_variable_set "@relations", relations.select {|r| r.issue_from_id == issue.id || r.issue_to_id == issue.id}
       end
@@ -822,7 +822,7 @@ class Issue < ActiveRecord::Base
   # Preloads visible spent time for a collection of issues
   def self.load_visible_spent_hours(issues, user=User.current)
     if issues.any?
-      hours_by_issue_id = TimeEntry.visible(user).sum(:hours, :group => :issue_id)
+      hours_by_issue_id = TimeEntry.visible(user).group(:issue_id).sum(:hours)
       issues.each do |issue|
         issue.instance_variable_set "@spent_hours", (hours_by_issue_id[issue.id] || 0)
       end
@@ -850,7 +850,7 @@ class Issue < ActiveRecord::Base
 
   # Finds an issue relation given its id.
   def find_relation(relation_id)
-    IssueRelation.find(relation_id, :conditions => ["issue_to_id = ? OR issue_from_id = ?", id, id])
+    IssueRelation.where("issue_to_id = ? OR issue_from_id = ?", id, id).find(relation_id)
   end
 
   # Returns all the other issues that depend on the issue
@@ -1350,12 +1350,11 @@ class Issue < ActiveRecord::Base
   def self.update_versions(conditions=nil)
     # Only need to update issues with a fixed_version from
     # a different project and that is not systemwide shared
-    Issue.scoped(:conditions => conditions).all(
-      :conditions => "#{Issue.table_name}.fixed_version_id IS NOT NULL" +
+    Issue.includes(:project, :fixed_version).
+      where("#{Issue.table_name}.fixed_version_id IS NOT NULL" +
         " AND #{Issue.table_name}.project_id <> #{Version.table_name}.project_id" +
-        " AND #{Version.table_name}.sharing <> 'system'",
-      :include => [:project, :fixed_version]
-    ).each do |issue|
+        " AND #{Version.table_name}.sharing <> 'system'").
+      where(conditions).each do |issue|
       next if issue.project.nil? || issue.fixed_version.nil?
       unless issue.project.shared_versions.include?(issue.fixed_version)
         issue.init_journal(User.current)

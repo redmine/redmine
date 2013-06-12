@@ -280,7 +280,7 @@ class RepositoriesControllerTest < ActionController::TestCase
             :revision => 100,
             :comments => 'Committed by foo.'
           )
-    assert_no_difference "Changeset.count(:conditions => 'user_id = 3')" do
+    assert_no_difference "Changeset.where(:user_id => 3).count" do
       post :committers, :id => 10, :committers => { '0' => ['foo', '2'], '1' => ['dlopper', '3']}
       assert_response 302
       assert_equal User.find(2), c.reload.user

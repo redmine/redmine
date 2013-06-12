@@ -30,7 +30,7 @@ class WorkflowsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'index'
 
-    count = WorkflowTransition.count(:all, :conditions => 'role_id = 1 AND tracker_id = 2')
+    count = WorkflowTransition.where(:role_id => 1, :tracker_id => 2).count
     assert_tag :tag => 'a', :content => count.to_s,
                             :attributes => { :href => '/workflows/edit?role_id=1&amp;tracker_id=2' }
   end
@@ -125,10 +125,10 @@ class WorkflowsControllerTest < ActionController::TestCase
   end
 
   def test_clear_workflow
-    assert WorkflowTransition.count(:conditions => {:tracker_id => 1, :role_id => 2}) > 0
+    assert WorkflowTransition.where(:role_id => 1, :tracker_id => 2).count > 0
 
-    post :edit, :role_id => 2, :tracker_id => 1
-    assert_equal 0, WorkflowTransition.count(:conditions => {:tracker_id => 1, :role_id => 2})
+    post :edit, :role_id => 1, :tracker_id => 2
+    assert_equal 0, WorkflowTransition.where(:role_id => 1, :tracker_id => 2).count
   end
 
   def test_get_permissions

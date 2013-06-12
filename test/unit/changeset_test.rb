@@ -30,8 +30,7 @@ class ChangesetTest < ActiveSupport::TestCase
 
   def test_ref_keywords_any
     ActionMailer::Base.deliveries.clear
-    Setting.commit_fix_status_id = IssueStatus.find(
-                                   :first, :conditions => ["is_closed = ?", true]).id
+    Setting.commit_fix_status_id = IssueStatus.where(:is_closed => true).first.id
     Setting.commit_fix_done_ratio = '90'
     Setting.commit_ref_keywords = '*'
     Setting.commit_fix_keywords = 'fixes , closes'
@@ -113,8 +112,7 @@ class ChangesetTest < ActiveSupport::TestCase
   end
 
   def test_ref_keywords_closing_with_timelog
-    Setting.commit_fix_status_id = IssueStatus.find(
-                                    :first, :conditions => ["is_closed = ?", true]).id
+    Setting.commit_fix_status_id = IssueStatus.where(:is_closed => true).first.id
     Setting.commit_ref_keywords = '*'
     Setting.commit_fix_keywords = 'fixes , closes'
     Setting.commit_logtime_enabled = '1'

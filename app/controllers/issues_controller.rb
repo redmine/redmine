@@ -301,7 +301,7 @@ class IssuesController < ApplicationController
   end
 
   def destroy
-    @hours = TimeEntry.sum(:hours, :conditions => ['issue_id IN (?)', @issues]).to_f
+    @hours = TimeEntry.where(:issue_id => @issues.map(&:id)).sum(:hours).to_f
     if @hours > 0
       case params[:todo]
       when 'destroy'

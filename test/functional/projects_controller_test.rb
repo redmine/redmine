@@ -51,7 +51,7 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'common/feed'
     assert_select 'feed>title', :text => 'Redmine: Latest projects'
-    assert_select 'feed>entry', :count => Project.count(:conditions => Project.visible_condition(User.current))
+    assert_select 'feed>entry', :count => Project.visible(User.current).count
   end
 
   test "#index by non-admin user with view_time_entries permission should show overall spent time link" do

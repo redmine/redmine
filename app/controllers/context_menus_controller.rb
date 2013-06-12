@@ -71,8 +71,7 @@ class ContextMenusController < ApplicationController
   end
 
   def time_entries
-    @time_entries = TimeEntry.all(
-       :conditions => {:id => params[:ids]}, :include => :project)
+    @time_entries = TimeEntry.where(:id => params[:ids]).preload(:project).to_a
     (render_404; return) unless @time_entries.present?
 
     @projects = @time_entries.collect(&:project).compact.uniq

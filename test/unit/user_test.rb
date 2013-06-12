@@ -40,7 +40,7 @@ class UserTest < ActiveSupport::TestCase
   def test_generate
     User.generate!(:firstname => 'Testing connection')
     User.generate!(:firstname => 'Testing connection')
-    assert_equal 2, User.count(:all, :conditions => {:firstname => 'Testing connection'})
+    assert_equal 2, User.where(:firstname => 'Testing connection').count
   end
 
   def test_truth

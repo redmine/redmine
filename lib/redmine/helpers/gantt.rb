@@ -162,11 +162,12 @@ module Redmine
         ids = issues.collect(&:project).uniq.collect(&:id)
         if ids.any?
           # All issues projects and their visible ancestors
-          @projects = Project.visible.all(
-            :joins => "LEFT JOIN #{Project.table_name} child ON #{Project.table_name}.lft <= child.lft AND #{Project.table_name}.rgt >= child.rgt",
-            :conditions => ["child.id IN (?)", ids],
-            :order => "#{Project.table_name}.lft ASC"
-          ).uniq
+          @projects = Project.visible.
+            joins("LEFT JOIN #{Project.table_name} child ON #{Project.table_name}.lft <= child.lft AND #{Project.table_name}.rgt >= child.rgt").
+            where("child.id IN (?)", ids).
+            order("#{Project.table_name}.lft ASC").
+            uniq.
+            all
         else
           @projects = []
         end
