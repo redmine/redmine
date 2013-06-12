@@ -442,6 +442,15 @@ class User < Principal
     @membership_by_project_id[project_id]
   end
 
+  # Returns the user's bult-in role
+  def builtin_role
+    if logged?
+      @role_non_member ||= Role.non_member
+    else
+      @role_anonymous ||= Role.anonymous
+    end
+  end
+
   # Return user's roles for project
   def roles_for_project(project)
     roles = []
@@ -453,12 +462,10 @@ class User < Principal
       if membership
         roles = membership.roles
       else
-        @role_non_member ||= Role.non_member
-        roles << @role_non_member
+        roles << builtin_role
       end
     else
-      @role_anonymous ||= Role.anonymous
-      roles << @role_anonymous
+      roles << builtin_role
     end
     roles
   end

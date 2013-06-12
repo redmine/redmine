@@ -186,7 +186,7 @@ class Project < ActiveRecord::Base
     else
       statement_by_role = {}
       unless options[:member]
-        role = user.logged? ? Role.non_member : Role.anonymous
+        role = user.builtin_role
         if role.allowed_to?(permission)
           statement_by_role[role] = "#{Project.table_name}.is_public = #{connection.quoted_true}"
         end
