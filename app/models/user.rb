@@ -445,7 +445,7 @@ class User < Principal
 
   # Returns the user's bult-in role
   def builtin_role
-    @builtin_role ||= (logged? ? Role.non_member : Role.anonymous)
+    @builtin_role ||= Role.non_member
   end
 
   # Return user's roles for project
@@ -453,14 +453,8 @@ class User < Principal
     roles = []
     # No role on archived projects
     return roles if project.nil? || project.archived?
-    if logged?
-      # Find project membership
-      membership = membership(project)
-      if membership
-        roles = membership.roles
-      else
-        roles << builtin_role
-      end
+    if membership = membership(project)
+      roles = membership.roles
     else
       roles << builtin_role
     end
@@ -720,7 +714,16 @@ class AnonymousUser < User
     UserPreference.new(:user => self)
   end
 
-  def member_of?(project)
+  # Returns the user's bult-in role
+  def builtin_role
+    @builtin_role ||= Role.anonymous
+  end
+
+  def membership(*args)
+    nil
+  end
+
+  def member_of?(*args)
     false
   end
 
