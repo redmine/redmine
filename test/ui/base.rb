@@ -42,7 +42,7 @@ module Redmine
       self.use_transactional_fixtures = false
 
       # default: 2
-      Capybara.default_wait_time = 5
+      Capybara.default_wait_time = 6
 
       # Should not depend on locale since Redmine displays login page
       # using default browser locale which depend on system locale for "real" browsers drivers
