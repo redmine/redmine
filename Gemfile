@@ -82,6 +82,7 @@ group :test do
   if RUBY_VERSION >= '1.9.3'
     gem "capybara", "~> 2.1.0"
     gem "selenium-webdriver"
+    gem "database_cleaner"
   end
 end
 

@@ -30,6 +30,8 @@ Capybara.register_driver :selenium do |app|
   Capybara::Selenium::Driver.new(app, :browser => :remote)
 end
 
+DatabaseCleaner.strategy = :truncation
+
 module Redmine
   module UiTest
     # Base class for UI tests
@@ -60,6 +62,7 @@ module Redmine
       teardown do
         Capybara.reset_sessions!    # Forget the (simulated) browser state
         Capybara.use_default_driver # Revert Capybara.current_driver to Capybara.default_driver
+        DatabaseCleaner.clean
       end
     end
   end
