@@ -123,7 +123,7 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
     assert page.has_css?('form#issue-form')
     assert page.has_css?('p#watchers_form')
     within('span#watchers_inputs') do
-      assert page.has_content?('Some Watcher'), "No watcher content"
+      assert has_content?('Some Watcher'), "No watcher content"
     end
     assert_difference 'Issue.count' do
       find('input[name=commit]').click
