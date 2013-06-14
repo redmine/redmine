@@ -122,9 +122,11 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
     end
     assert page.has_css?('form#issue-form')
     assert page.has_css?('p#watchers_form')
-    within('span#watchers_inputs') do
-      within("label#issue_watcher_user_ids_#{user.id}") do
-        assert has_content?('Some Watcher'), "No watcher content"
+    using_wait_time(30) do
+      within('span#watchers_inputs') do
+        within("label#issue_watcher_user_ids_#{user.id}") do
+          assert has_content?('Some Watcher'), "No watcher content"
+        end
       end
     end
     assert_difference 'Issue.count' do
