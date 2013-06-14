@@ -102,8 +102,8 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
   end
 
   def test_create_issue_with_watchers
-    User.generate!(:firstname => 'Some', :lastname => 'Watcher')
-
+    user = User.generate!(:firstname => 'Some', :lastname => 'Watcher')
+    assert_equal 'Some Watcher', user.name
     log_user('jsmith', 'jsmith')
     visit '/projects/ecookbook/issues/new'
     fill_in 'Subject', :with => 'Issue with watchers'
@@ -123,7 +123,9 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
     assert page.has_css?('form#issue-form')
     assert page.has_css?('p#watchers_form')
     within('span#watchers_inputs') do
-      assert has_content?('Some Watcher'), "No watcher content"
+      within("label#issue_watcher_user_ids_#{user.id}") do
+        assert has_content?('Some Watcher'), "No watcher content"
+      end
     end
     assert_difference 'Issue.count' do
       find('input[name=commit]').click
