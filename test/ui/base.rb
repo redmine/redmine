@@ -33,6 +33,9 @@ Capybara.register_driver :selenium do |app|
   Capybara::Selenium::Driver.new(app, :browser => :remote)
 end
 
+# default: 2
+Capybara.default_wait_time = 12
+
 DatabaseCleaner.strategy = :truncation
 
 module Redmine
@@ -45,9 +48,6 @@ module Redmine
       # Transactional fixtures do not work with Selenium tests, because Capybara
       # uses a separate server thread, which the transactions would be hidden
       self.use_transactional_fixtures = false
-
-      # default: 2
-      Capybara.default_wait_time = 7
 
       # Should not depend on locale since Redmine displays login page
       # using default browser locale which depend on system locale for "real" browsers drivers
