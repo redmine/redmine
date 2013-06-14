@@ -34,7 +34,7 @@ Capybara.register_driver :selenium do |app|
 end
 
 # default: 2
-Capybara.default_wait_time = 12
+Capybara.default_wait_time = 20
 
 DatabaseCleaner.strategy = :truncation
 
