@@ -23,6 +23,19 @@ body {
 
 /* From redmine */
 
+/***** Diff *****/
+.diff_out { background: #ff6600; color:white; }
+.diff_out span { background: #faa; }
+.diff_in { background: #718e00; color:white; }
+.diff_in span { background: #afa; }
+
+.text-diff {
+  padding: 1em;
+  background-color:#f6f6f6;
+  color:#505050;
+  border: 1px solid #e4e4e4;
+}
+
 a.wiki-anchor {
 	display: none;
 	margin-left: 6px;
