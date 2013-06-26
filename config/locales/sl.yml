@@ -6,9 +6,9 @@ sl:
       # Use the strftime parameters for formats.
       # When no format has been given, it uses default.
       # You can provide other formats here if you like!
-      default: "%Y-%m-%d"
-      short: "%b %d"
-      long: "%B %d, %Y"
+      default: "%d.%m.%Y"
+      short: "%d. %b"
+      long: "%d. %B, %Y"
 
     day_names: [Nedelja, Ponedeljek, Torek, Sreda, Četrtek, Petek, Sobota]
     abbr_day_names: [Ned, Pon, To, Sr, Čet, Pet, Sob]
@@ -18,16 +18,16 @@ sl:
     abbr_month_names: [~, Jan, Feb, Mar, Apr, Maj, Jun, Jul, Aug, Sep, Okt, Nov, Dec]
     # Used in date_select and datime_select.
     order:
-      - :year
-      - :month
       - :day
+      - :month
+      - :year
 
   time:
     formats:
-      default: "%a, %d %b %Y %H:%M:%S %z"
+      default: "%a, %d. %b, %Y %H:%M:%S %z"
       time: "%H:%M"
-      short: "%d %b %H:%M"
-      long: "%B %d, %Y %H:%M"
+      short: "%d. %b %H:%M"
+      long: "%d. %B, %Y %H:%M"
     am: "am"
     pm: "pm"
 
@@ -179,7 +179,7 @@ sl:
   mail_subject_register: "Aktivacija %{value} vašega računa"
   mail_body_register: 'Za aktivacijo vašega računa kliknite na naslednjo povezavo:'
   mail_body_account_information_external: "Za prijavo lahko uporabite vaš %{value} račun."
-  mail_body_account_information: Informacije o vašem računu
+  mail_body_account_information: "Informacije o vašem računu. Za spremembo gesla sledite linku 'Spremeni geslo' na naslovu za prijavo, spodaj."
   mail_subject_account_activation_request: "%{value} zahtevek za aktivacijo računa"
   mail_body_account_activation_request: "Registriral se je nov uporabnik (%{value}). Račun čaka na vašo odobritev:"
   mail_subject_reminder: "%{count} zahtevek(zahtevki) zapadejo v naslednjih %{days} dneh"
@@ -415,20 +415,20 @@ sl:
   label_information_plural: Informacije
   label_please_login: Prosimo prijavite se
   label_register: Registracija
-  label_password_lost: Izgubljeno geslo
+  label_password_lost: Spremeni geslo
   label_home: Domov
   label_my_page: Moja stran
   label_my_account: Moj račun
   label_my_projects: Moji projekti
   label_administration: Upravljanje
-  label_login: Prijavi se
-  label_logout: Odjavi se
+  label_login: Prijava
+  label_logout: Odjava
   label_help: Pomoč
   label_reported_issues: Prijavljeni zahtevki
   label_assigned_to_me_issues: Zahtevki dodeljeni meni
   label_last_login: Zadnja povezava
   label_registered_on: Registriran
-  label_activity: Aktivnost
+  label_activity: Aktivnosti
   label_overall_activity: Celotna aktivnost
   label_user_activity: "Aktivnost %{value}"
   label_new: Nov
@@ -467,7 +467,7 @@ sl:
   label_news_view_all: Poglej vse novice
   label_news_added: Dodane novice
   label_settings: Nastavitve
-  label_overview: Pregled
+  label_overview: Povzetek
   label_version: Verzija
   label_version_new: Nova verzija
   label_version_plural: Verzije
@@ -572,11 +572,11 @@ sl:
   label_search: Išči
   label_result_plural: Rezultati
   label_all_words: Vse besede
-  label_wiki: Wiki
-  label_wiki_edit: Wiki urejanje
-  label_wiki_edit_plural: Wiki urejanja
-  label_wiki_page: Wiki stran
-  label_wiki_page_plural: Wiki strani
+  label_wiki: Predstavitev
+  label_wiki_edit: Uredi stran
+  label_wiki_edit_plural: Uredi strani
+  label_wiki_page: Predstavitvena stran
+  label_wiki_page_plural: Predstavitvene strani
   label_index_by_title: Razvrsti po naslovu
   label_index_by_date: Razvrsti po datumu
   label_current_version: Trenutna verzija
@@ -639,9 +639,9 @@ sl:
   label_send_test_email: Pošlji testno e-pismo
   label_feeds_access_key_created_on: "Atom dostopni ključ narejen %{value} nazaj"
   label_module_plural: Moduli
-  label_added_time_by: "Dodan %{author} %{age} nazaj"
-  label_updated_time_by: "Posodobljen od %{author} %{age} nazaj"
-  label_updated_time: "Posodobljen %{value} nazaj"
+  label_added_time_by: "Dodal %{author} %{age} nazaj"
+  label_updated_time_by: "Posodobil %{author} %{age} nazaj"
+  label_updated_time: "Posodobljeno %{value} nazaj"
   label_jump_to_a_project: Skoči na projekt...
   label_file_plural: Datoteke
   label_changeset_plural: Zapisi sprememb
@@ -739,7 +739,7 @@ sl:
   text_issues_ref_in_commit_messages: Zahtevki sklicev in popravkov v sporočilu predaje
   text_issue_added: "Zahtevek %{id} je sporočil(a) %{author}."
   text_issue_updated: "Zahtevek %{id} je posodobil(a) %{author}."
-  text_wiki_destroy_confirmation: Ali ste prepričani da želite izbrisati ta wiki in vso njegovo vsebino?
+  text_wiki_destroy_confirmation: Ali ste prepričani da želite izbrisati to wiki stran in vso njeno vsebino?
   text_issue_category_destroy_question: "Nekateri zahtevki (%{count}) so dodeljeni tej kategoriji. Kaj želite storiti?"
   text_issue_category_destroy_assignments: Odstrani naloge v kategoriji
   text_issue_category_reassign_to: Ponovno dodeli zahtevke tej kategoriji
