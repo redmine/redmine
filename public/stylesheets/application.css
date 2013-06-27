@@ -1339,3 +1339,69 @@ iframe {
           border-top-right-radius: 4px;
   -moz-border-radius-topright: 4px;
 }
+
+/* Scrolling */
+
+#labs{
+	list-style: none;
+}
+/* Container DIV - automatically generated */
+.simply-scroll-container { 
+	position: relative;
+}
+
+/* Clip DIV - automatically generated */
+.simply-scroll-clip { 
+	position: relative;
+	overflow: hidden;
+}
+
+/* UL/OL/DIV - the element that simplyScroll is inited on
+Class name automatically added to element */
+.simply-scroll-list { 
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+	
+.simply-scroll-list li {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+	
+.simply-scroll-list li img {
+	border: none;
+	display: block;
+}
+
+/* Container DIV */
+.vert { 
+	width: 340px; /* wider than clip for custom button pos. */
+	height: 450px;
+	margin-bottom: 1.5em;
+}
+
+/* Clip DIV */
+.vert .simply-scroll-clip {
+	width: 290px;
+	height: 450px;
+}
+
+/* Explicitly set height/width of each list item */
+.vert .simply-scroll-list li {
+	width: 290px;
+	height: 30px;
+}
+
+/* Modified button positions, overriding previous styles */
+.vert .simply-scroll-btn-up { 
+	right: 0;
+	top: 0;
+}
+
+.vert .simply-scroll-btn-down { 
+	right: 0;
+	top: 52px;
+}
