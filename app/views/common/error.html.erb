@@ -4,12 +4,12 @@
 	<% if @status!="" %>
 		<div id="errorExplanation" class="alert alert-error fade in">
 			<button type="button" class="close" data-dismiss="alert">×</button>
-	    	<strong>Error</strong> <%=h @message %></a>
+	    	<strong>Error</strong> <%=h @message.html_safe %></a>
 	  	</div>
 	<% else %>
 		<div id="errorExplanation" class="alert alert-info fade in">
 			<button type="button" class="close" data-dismiss="alert">×</button>
-	    	<strong>Info</strong> <%=h @message %></a>
+	    	<strong>Info</strong> <%=h @message.html_safe %></a>
 	  	</div>
 	<% end %>
 <% end %>

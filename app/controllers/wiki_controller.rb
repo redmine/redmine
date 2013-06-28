@@ -64,7 +64,10 @@ class WikiController < ApplicationController
   
   
   def render_noWiki(options={})
-    render_error({:message => "There is not yet a wiki page for this project on OSB.", :status => ""}.merge(options))
+    repourl=getCustomField(@project,"GitHub repository")
+    browseurl=url_for({:controller => 'projects', :action => 'show', :id => @project.id})+"/repository"
+    membersurl=url_for({:controller => 'projects', :action => 'show', :id => @project.id})+"/#members"
+    render_error({:message => "There is not yet a wiki page for this project on OSB. You can <a href='#{repourl}'>clone</a> this project, <a href='#{browseurl}'>browse</a> its repository or get in <a href='#{membersurl}'>contact</a> with the developers if you have questions (link to overview#members)", :status => ""}.merge(options))
     return false
   end
 
