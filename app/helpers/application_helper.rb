@@ -487,7 +487,14 @@ module ApplicationHelper
     s = ''
     flash.each do |k,v|
       s << "<br/>"
-      s << content_tag('div', v.html_safe, :class => "alert alert-error fade in flash #{k}", :id => "flash_#{k}")
+      alertkind="alert-info";
+      if k.to_s=="success"
+         alertkind="alert-success"
+      elsif k.to_s=="error"
+         alertkind="alert-error"
+      end
+      s << content_tag('div', v.html_safe, :class => "alert #{alertkind} fade in flash #{k}", :id => "flash_#{k}")
+      
     end
     s.html_safe
   end

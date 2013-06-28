@@ -61,6 +61,12 @@ class WikiController < ApplicationController
     load_pages_for_index
     @pages_by_date = @pages.group_by {|p| p.updated_on.to_date}
   end
+  
+  
+  def render_noWiki(options={})
+    render_error({:message => "There is not yet a wiki page for this project on OSB.", :status => ""}.merge(options))
+    return false
+  end
 
   # display a page (in editing mode if it doesn't exist)
   def show
@@ -69,7 +75,7 @@ class WikiController < ApplicationController
         edit
         render :action => 'edit'
       else
-        render_404
+        render_noWiki
       end
       return
     end
