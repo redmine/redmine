@@ -282,18 +282,18 @@ class IssueTest < ActiveSupport::TestCase
     assert user.groups.any?
     Member.create!(:principal => user.groups.first, :project_id => 1, :role_ids => [2])
     Role.non_member.remove_permission!(:view_issues)
-    
+
     issue = Issue.create(:project_id => 1, :tracker_id => 1, :author_id => 3,
       :status_id => 1, :priority => IssuePriority.all.first,
       :subject => 'Assignment test',
       :assigned_to => user.groups.first,
       :is_private => true)
-    
+
     Role.find(2).update_attribute :issues_visibility, 'default'
     issues = Issue.visible(User.find(8)).all
     assert issues.any?
     assert issues.include?(issue)
-    
+
     Role.find(2).update_attribute :issues_visibility, 'own'
     issues = Issue.visible(User.find(8)).all
     assert issues.any?
@@ -543,7 +543,7 @@ class IssueTest < ActiveSupport::TestCase
     admin = User.find(1)
     issue = Issue.find(1)
     assert !admin.member_of?(issue.project)
-    expected_statuses = [issue.status] + 
+    expected_statuses = [issue.status] +
                             WorkflowTransition.find_all_by_old_status_id(
                                 issue.status_id).map(&:new_status).uniq.sort
     assert_equal expected_statuses, issue.new_statuses_allowed_to(admin)
@@ -1083,7 +1083,7 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_should_keep_shared_version_when_changing_project
     Version.find(2).update_attribute :sharing, 'tree'
- 
+
     issue = Issue.find(2)
     assert_equal 2, issue.fixed_version_id
     issue.project_id = 3
@@ -1820,7 +1820,7 @@ class IssueTest < ActiveSupport::TestCase
     IssueRelation.delete_all
 
     project = Project.generate!(:name => "testproject")
-    
+
     parentIssue = Issue.generate!(:project => project)
     childIssue1 = Issue.generate!(:project => project, :parent_issue_id => parentIssue.id)
     childIssue2 = Issue.generate!(:project => project, :parent_issue_id => parentIssue.id)
@@ -1959,7 +1959,7 @@ class IssueTest < ActiveSupport::TestCase
                              :issue_to   => Issue.find(7),
                              :relation_type => IssueRelation::TYPE_PRECEDES)
     IssueRelation.update_all("issue_to_id = 1", ["id = ?", r.id])
-    
+
     assert_equal [2, 3], Issue.find(1).all_dependent_issues.collect(&:id).sort
   end
 
@@ -1979,7 +1979,7 @@ class IssueTest < ActiveSupport::TestCase
                              :issue_to   => Issue.find(7),
                              :relation_type => IssueRelation::TYPE_RELATES)
     IssueRelation.update_all("issue_to_id = 2", ["id = ?", r.id])
-    
+
     r = IssueRelation.create!(:issue_from => Issue.find(3),
                              :issue_to   => Issue.find(7),
                              :relation_type => IssueRelation::TYPE_RELATES)
