@@ -224,7 +224,7 @@ class AccountTest < ActionController::IntegrationTest
 
   def test_registered_user_should_be_able_to_get_a_new_activation_email
     Token.delete_all
-      
+
     with_settings :self_registration => '1', :default_language => 'en' do
       # register a new account
       assert_difference 'User.count' do
