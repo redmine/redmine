@@ -263,7 +263,7 @@ namespace :redmine do
           # finally, a default user is used if the new user is not valid
           u = User.first unless u.save
         end
-        # Make sure he is a member of the project
+        # Make sure user is a member of the project
         if project_member && !u.member_of?(@target_project)
           role = DEFAULT_ROLE
           if u.admin
