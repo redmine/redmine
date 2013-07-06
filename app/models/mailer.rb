@@ -389,7 +389,8 @@ class Mailer < ActionMailer::Base
             'List-Id' => "<#{Setting.mail_from.to_s.gsub('@', '.')}>"
 
     # Removes the author from the recipients and cc
-    # if he doesn't want to receive notifications about what he does
+    # if the author does not want to receive notifications
+    # about what the author do
     if @author && @author.logged? && @author.pref.no_self_notified
       headers[:to].delete(@author.mail) if headers[:to].is_a?(Array)
       headers[:cc].delete(@author.mail) if headers[:cc].is_a?(Array)
