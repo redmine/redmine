@@ -59,7 +59,7 @@ class AccountTest < ActionController::IntegrationTest
     user.update_attribute :last_login_on, nil
     assert_nil user.reload.last_login_on
 
-    # User comes back with his autologin cookie
+    # User comes back with user's autologin cookie
     cookies[:autologin] = token.value
     get '/my/page'
     assert_response :success
