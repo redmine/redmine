@@ -137,7 +137,7 @@ class JournalTest < ActiveSupport::TestCase
     user.reload
     journals = Journal.visible(user).all
     assert journals.empty?
-    # User should see issues of projects for which he has view_issues permissions only
+    # User should see issues of projects for which user has view_issues permissions only
     Member.create!(:principal => user, :project_id => 1, :role_ids => [1])
     user.reload
     journals = Journal.visible(user).all
@@ -151,7 +151,7 @@ class JournalTest < ActiveSupport::TestCase
     assert user.projects.empty?
     journals = Journal.visible(user).all
     assert journals.any?
-    # Admin should see issues on private projects that he does not belong to
+    # Admin should see issues on private projects that admin does not belong to
     assert journals.detect {|journal| !journal.issue.project.is_public?}
   end
 
