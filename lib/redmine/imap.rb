@@ -29,21 +29,21 @@ module Redmine
         imap = Net::IMAP.new(host, port, ssl)
         imap.login(imap_options[:username], imap_options[:password]) unless imap_options[:username].nil?
         imap.select(folder)
-        imap.search(['NOT', 'SEEN']).each do |message_id|
-          msg = imap.fetch(message_id,'RFC822')[0].attr['RFC822']
-          logger.debug "Receiving message #{message_id}" if logger && logger.debug?
+        imap.uid_search(['NOT', 'SEEN']).each do |uid|
+          msg = imap.uid_fetch(uid,'RFC822')[0].attr['RFC822']
+          logger.debug "Receiving message #{uid}" if logger && logger.debug?
           if MailHandler.receive(msg, options)
-            logger.debug "Message #{message_id} successfully received" if logger && logger.debug?
+            logger.debug "Message #{uid} successfully received" if logger && logger.debug?
             if imap_options[:move_on_success]
-              imap.copy(message_id, imap_options[:move_on_success])
+              imap.uid_copy(uid, imap_options[:move_on_success])
             end
-            imap.store(message_id, "+FLAGS", [:Seen, :Deleted])
+            imap.uid_store(uid, "+FLAGS", [:Seen, :Deleted])
           else
-            logger.debug "Message #{message_id} can not be processed" if logger && logger.debug?
-            imap.store(message_id, "+FLAGS", [:Seen])
+            logger.debug "Message #{uid} can not be processed" if logger && logger.debug?
+            imap.uid_store(uid, "+FLAGS", [:Seen])
             if imap_options[:move_on_failure]
-              imap.copy(message_id, imap_options[:move_on_failure])
-              imap.store(message_id, "+FLAGS", [:Deleted])
+              imap.uid_copy(uid, imap_options[:move_on_failure])
+              imap.uid_store(uid, "+FLAGS", [:Deleted])
             end
           end
         end
