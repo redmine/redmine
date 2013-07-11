@@ -116,8 +116,13 @@ class Query < ActiveRecord::Base
   class StatementInvalid < ::ActiveRecord::StatementInvalid
   end
 
+  VISIBILITY_PRIVATE = 0
+  VISIBILITY_ROLES   = 1
+  VISIBILITY_PUBLIC  = 2
+
   belongs_to :project
   belongs_to :user
+  has_and_belongs_to_many :roles, :join_table => "#{table_name_prefix}queries_roles#{table_name_suffix}", :foreign_key => "query_id"
   serialize :filters
   serialize :column_names
   serialize :sort_criteria, Array
@@ -126,7 +131,17 @@ class Query < ActiveRecord::Base
 
   validates_presence_of :name
   validates_length_of :name, :maximum => 255
+  validates :visibility, :inclusion => { :in => [VISIBILITY_PUBLIC, VISIBILITY_ROLES, VISIBILITY_PRIVATE] }
   validate :validate_query_filters
+  validate do |query|
+    errors.add(:base, l(:label_role_plural) + ' ' + l('activerecord.errors.messages.blank')) if query.visibility == VISIBILITY_ROLES && roles.blank?
+  end
+
+  after_save do |query|
+    if query.visibility_changed? && query.visibility != VISIBILITY_ROLES
+	    query.roles.clear
+	  end
+  end
 
   class_attribute :operators
   self.operators = {
@@ -245,9 +260,9 @@ class Query < ActiveRecord::Base
   def editable_by?(user)
     return false unless user
     # Admin can edit them all and regular users can edit their private queries
-    return true if user.admin? || (!is_public && self.user_id == user.id)
+    return true if user.admin? || (is_private? && self.user_id == user.id)
     # Members can not edit public queries that are for all project (only admin is allowed to)
-    is_public && !@is_for_all && user.allowed_to?(:manage_public_queries, project)
+    is_public? && !@is_for_all && user.allowed_to?(:manage_public_queries, project)
   end
 
   def trackers

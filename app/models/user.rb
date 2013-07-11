@@ -669,7 +669,7 @@ class User < Principal
     Message.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
     News.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
     # Remove private queries and keep public ones
-    ::Query.delete_all ['user_id = ? AND is_public = ?', id, false]
+    ::Query.delete_all ['user_id = ? AND visibility = ?', id, ::Query::VISIBILITY_PRIVATE]
     ::Query.update_all ['user_id = ?', substitute.id], ['user_id = ?', id]
     TimeEntry.update_all ['user_id = ?', substitute.id], ['user_id = ?', id]
     Token.delete_all ['user_id = ?', id]

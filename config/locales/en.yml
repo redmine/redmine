@@ -896,6 +896,9 @@ en:
   label_cross_project_hierarchy: With project hierarchy
   label_cross_project_system: With all projects
   label_gantt_progress_line: Progress line
+  label_visibility_private: to me only
+  label_visibility_roles: to these roles only
+  label_visibility_public: to any users
 
   button_login: Login
   button_submit: Submit

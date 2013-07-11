@@ -35,9 +35,7 @@ class QueriesControllerTest < ActionController::TestCase
     get :new, :project_id => 1
     assert_response :success
     assert_template 'new'
-    assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                 :name => 'query[is_public]',
-                                                 :checked => nil }
+    assert_select 'input[name=?][value=0][checked=checked]', 'query[visibility]'
     assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
                                                  :name => 'query_is_for_all',
                                                  :checked => nil,
@@ -53,8 +51,7 @@ class QueriesControllerTest < ActionController::TestCase
     get :new
     assert_response :success
     assert_template 'new'
-    assert_no_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                    :name => 'query[is_public]' }
+    assert_select 'input[name=?]', 'query[visibility]', 0
     assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
                                                  :name => 'query_is_for_all',
                                                  :checked => 'checked',
@@ -75,7 +72,7 @@ class QueriesControllerTest < ActionController::TestCase
          :f => ["status_id", "assigned_to_id"],
          :op => {"assigned_to_id" => "=", "status_id" => "o"},
          :v => { "assigned_to_id" => ["1"], "status_id" => ["1"]},
-         :query => {"name" => "test_new_project_public_query", "is_public" => "1"}
+         :query => {"name" => "test_new_project_public_query", "visibility" => "2"}
 
     q = Query.find_by_name('test_new_project_public_query')
     assert_redirected_to :controller => 'issues', :action => 'index', :project_id => 'ecookbook', :query_id => q
@@ -92,7 +89,7 @@ class QueriesControllerTest < ActionController::TestCase
          :fields => ["status_id", "assigned_to_id"],
          :operators => {"assigned_to_id" => "=", "status_id" => "o"},
          :values => { "assigned_to_id" => ["1"], "status_id" => ["1"]},
-         :query => {"name" => "test_new_project_private_query", "is_public" => "1"}
+         :query => {"name" => "test_new_project_private_query", "visibility" => "2"}
 
     q = Query.find_by_name('test_new_project_private_query')
     assert_redirected_to :controller => 'issues', :action => 'index', :project_id => 'ecookbook', :query_id => q
@@ -107,7 +104,7 @@ class QueriesControllerTest < ActionController::TestCase
          :fields => ["status_id", "assigned_to_id"],
          :operators => {"assigned_to_id" => "=", "status_id" => "o"},
          :values => { "assigned_to_id" => ["me"], "status_id" => ["1"]},
-         :query => {"name" => "test_new_global_private_query", "is_public" => "1"},
+         :query => {"name" => "test_new_global_private_query", "visibility" => "2"},
          :c => ["", "tracker", "subject", "priority", "category"]
 
     q = Query.find_by_name('test_new_global_private_query')
@@ -140,7 +137,7 @@ class QueriesControllerTest < ActionController::TestCase
          :operators => {"status_id" => "o"},
          :values => {"status_id" => ["1"]},
          :query => {:name => "test_new_with_sort",
-                    :is_public => "1",
+                    :visibility => "2",
                     :sort_criteria => {"0" => ["due_date", "desc"], "1" => ["tracker", ""]}}
 
     query = Query.find_by_name("test_new_with_sort")
@@ -163,9 +160,7 @@ class QueriesControllerTest < ActionController::TestCase
     get :edit, :id => 4
     assert_response :success
     assert_template 'edit'
-    assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                 :name => 'query[is_public]',
-                                                 :checked => 'checked' }
+    assert_select 'input[name=?][value=2][checked=checked]', 'query[visibility]'
     assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
                                                  :name => 'query_is_for_all',
                                                  :checked => 'checked',
@@ -177,8 +172,7 @@ class QueriesControllerTest < ActionController::TestCase
     get :edit, :id => 3
     assert_response :success
     assert_template 'edit'
-    assert_no_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                    :name => 'query[is_public]' }
+    assert_select 'input[name=?]', 'query[visibility]', 0
     assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
                                                  :name => 'query_is_for_all',
                                                  :checked => 'checked',
@@ -190,8 +184,7 @@ class QueriesControllerTest < ActionController::TestCase
     get :edit, :id => 2
     assert_response :success
     assert_template 'edit'
-    assert_no_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                    :name => 'query[is_public]' }
+    assert_select 'input[name=?]', 'query[visibility]', 0
     assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
                                                  :name => 'query_is_for_all',
                                                  :checked => nil,
@@ -203,10 +196,7 @@ class QueriesControllerTest < ActionController::TestCase
     get :edit, :id => 1
     assert_response :success
     assert_template 'edit'
-    assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                 :name => 'query[is_public]',
-                                                 :checked => 'checked'
-                                                  }
+    assert_select 'input[name=?][value=2][checked=checked]', 'query[visibility]'
     assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
                                                  :name => 'query_is_for_all',
                                                  :checked => nil,
@@ -240,7 +230,7 @@ class QueriesControllerTest < ActionController::TestCase
          :fields => ["status_id", "assigned_to_id"],
          :operators => {"assigned_to_id" => "=", "status_id" => "o"},
          :values => { "assigned_to_id" => ["me"], "status_id" => ["1"]},
-         :query => {"name" => "test_edit_global_private_query", "is_public" => "1"}
+         :query => {"name" => "test_edit_global_private_query", "visibility" => "2"}
 
     assert_redirected_to :controller => 'issues', :action => 'index', :query_id => 3
     q = Query.find_by_name('test_edit_global_private_query')
@@ -257,7 +247,7 @@ class QueriesControllerTest < ActionController::TestCase
          :fields => ["status_id", "assigned_to_id"],
          :operators => {"assigned_to_id" => "=", "status_id" => "o"},
          :values => { "assigned_to_id" => ["1"], "status_id" => ["1"]},
-         :query => {"name" => "test_edit_global_public_query", "is_public" => "1"}
+         :query => {"name" => "test_edit_global_public_query", "visibility" => "2"}
 
     assert_redirected_to :controller => 'issues', :action => 'index', :query_id => 4
     q = Query.find_by_name('test_edit_global_public_query')

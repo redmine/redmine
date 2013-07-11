@@ -28,6 +28,24 @@ class QueryTest < ActiveSupport::TestCase
            :projects_trackers,
            :custom_fields_trackers
 
+  def test_query_with_roles_visibility_should_validate_roles
+    set_language_if_valid 'en'
+    query = IssueQuery.new(:name => 'Query', :visibility => IssueQuery::VISIBILITY_ROLES)
+    assert !query.save
+    assert_include "Roles can't be blank", query.errors.full_messages
+    query.role_ids = [1, 2]
+    assert query.save
+  end
+
+  def test_changing_roles_visibility_should_clear_roles
+    query = IssueQuery.create!(:name => 'Query', :visibility => IssueQuery::VISIBILITY_ROLES, :role_ids => [1, 2])
+    assert_equal 2, query.roles.count
+
+    query.visibility = IssueQuery::VISIBILITY_PUBLIC
+    query.save!
+    assert_equal 0, query.roles.count
+  end
+
   def test_available_filters_should_be_ordered
     set_language_if_valid 'en'
     query = IssueQuery.new
@@ -1087,6 +1105,54 @@ class QueryTest < ActiveSupport::TestCase
     assert !query_ids.include?(2), 'private query on public project was visible'
     assert !query_ids.include?(3), 'private query for all projects was visible'
     assert !query_ids.include?(7), 'public query on private project was visible'
+  end
+
+  def test_query_with_public_visibility_should_be_visible_to_anyone
+    q = IssueQuery.create!(:name => 'Query', :visibility => IssueQuery::VISIBILITY_PUBLIC)
+
+    assert q.visible?(User.anonymous)
+    assert IssueQuery.visible(User.anonymous).find_by_id(q.id)
+
+    assert q.visible?(User.find(7))
+    assert IssueQuery.visible(User.find(7)).find_by_id(q.id)
+
+    assert q.visible?(User.find(2))
+    assert IssueQuery.visible(User.find(2)).find_by_id(q.id)
+
+    assert q.visible?(User.find(1))
+    assert IssueQuery.visible(User.find(1)).find_by_id(q.id)
+  end
+
+  def test_query_with_roles_visibility_should_be_visible_to_user_with_role
+    q = IssueQuery.create!(:name => 'Query', :visibility => IssueQuery::VISIBILITY_ROLES, :role_ids => [1,2])
+
+    assert !q.visible?(User.anonymous)
+    assert_nil IssueQuery.visible(User.anonymous).find_by_id(q.id)
+
+    assert !q.visible?(User.find(7))
+    assert_nil IssueQuery.visible(User.find(7)).find_by_id(q.id)
+
+    assert q.visible?(User.find(2))
+    assert IssueQuery.visible(User.find(2)).find_by_id(q.id)
+
+    assert q.visible?(User.find(1))
+    assert IssueQuery.visible(User.find(1)).find_by_id(q.id)
+  end
+
+  def test_query_with_private_visibility_should_be_visible_to_owner
+    q = IssueQuery.create!(:name => 'Query', :visibility => IssueQuery::VISIBILITY_PRIVATE, :user => User.find(7))
+
+    assert !q.visible?(User.anonymous)
+    assert_nil IssueQuery.visible(User.anonymous).find_by_id(q.id)
+
+    assert q.visible?(User.find(7))
+    assert IssueQuery.visible(User.find(7)).find_by_id(q.id)
+
+    assert !q.visible?(User.find(2))
+    assert_nil IssueQuery.visible(User.find(2)).find_by_id(q.id)
+
+    assert q.visible?(User.find(1))
+    assert_nil IssueQuery.visible(User.find(1)).find_by_id(q.id)
   end
 
   test "#available_filters should include users of visible projects in cross-project view" do

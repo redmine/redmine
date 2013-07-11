@@ -45,7 +45,7 @@ class QueriesController < ApplicationController
     @query = IssueQuery.new
     @query.user = User.current
     @query.project = @project
-    @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
+    @query.visibility = IssueQuery::VISIBILITY_PRIVATE unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
     @query.build_from_params(params)
   end
 
@@ -53,7 +53,7 @@ class QueriesController < ApplicationController
     @query = IssueQuery.new(params[:query])
     @query.user = User.current
     @query.project = params[:query_is_for_all] ? nil : @project
-    @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
+    @query.visibility = IssueQuery::VISIBILITY_PRIVATE unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
     @query.build_from_params(params)
     @query.column_names = nil if params[:default_columns]
 
@@ -71,7 +71,7 @@ class QueriesController < ApplicationController
   def update
     @query.attributes = params[:query]
     @query.project = nil if params[:query_is_for_all]
-    @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
+    @query.visibility = IssueQuery::VISIBILITY_PRIVATE unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
     @query.build_from_params(params)
     @query.column_names = nil if params[:default_columns]
 

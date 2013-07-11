@@ -872,6 +872,9 @@ fr:
   label_cross_project_hierarchy: Avec toute la hiérarchie
   label_cross_project_system: Avec tous les projets
   label_gantt_progress_line: Ligne de progression
+  label_visibility_private: par moi uniquement
+  label_visibility_roles: par ces roles uniquement
+  label_visibility_public: par tout le monde
 
   button_login: Connexion
   button_submit: Soumettre

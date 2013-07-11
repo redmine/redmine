@@ -584,6 +584,8 @@ input.autocomplete.ajax-loading {
   background-image: url(../images/loading.gif);
 }
 
+.role-visibility {padding-left:2em;}
+
 /***** Flash & error messages ****/
 #errorExplanation, div.flash, .nodata, .warning, .conflict {
   padding: 4px 4px 4px 30px;

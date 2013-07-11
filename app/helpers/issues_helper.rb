@@ -225,8 +225,8 @@ module IssuesHelper
 
   def render_sidebar_queries
     out = ''.html_safe
-    out << query_links(l(:label_my_queries), sidebar_queries.reject(&:is_public?))
-    out << query_links(l(:label_query_plural), sidebar_queries.select(&:is_public?))
+    out << query_links(l(:label_my_queries), sidebar_queries.select(&:is_private?))
+    out << query_links(l(:label_query_plural), sidebar_queries.reject(&:is_private?))
     out
   end
 

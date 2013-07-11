@@ -291,7 +291,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_destroy_should_delete_private_queries
-    query = Query.new(:name => 'foo', :is_public => false)
+    query = Query.new(:name => 'foo', :visibility => Query::VISIBILITY_PRIVATE)
     query.project_id = 1
     query.user_id = 2
     query.save!
@@ -302,7 +302,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_destroy_should_update_public_queries
-    query = Query.new(:name => 'foo', :is_public => true)
+    query = Query.new(:name => 'foo', :visibility => Query::VISIBILITY_PUBLIC)
     query.project_id = 1
     query.user_id = 2
     query.save!

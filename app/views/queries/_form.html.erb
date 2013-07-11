@@ -6,15 +6,22 @@
 <%= text_field 'query', 'name', :size => 80 %></p>
 
 <% if User.current.admin? || User.current.allowed_to?(:manage_public_queries, @project) %>
-<p><label for="query_is_public"><%=l(:field_is_public)%></label>
-<%= check_box 'query', 'is_public',
-      :onchange => (User.current.admin? ? nil : 'if (this.checked) {$("#query_is_for_all").removeAttr("checked"); $("#query_is_for_all").attr("disabled", true);} else {$("#query_is_for_all").removeAttr("disabled");}') %></p>
+<p><label><%=l(:field_visible)%></label>
+  <label class="block"><%= radio_button 'query', 'visibility', Query::VISIBILITY_PRIVATE %> <%= l(:label_visibility_private) %></label>
+  <label class="block"><%= radio_button 'query', 'visibility', Query::VISIBILITY_ROLES %> <%= l(:label_visibility_roles) %>:</label>
+  <% Role.givable.sorted.each do |role| %>
+    <label class="block role-visibility"><%= check_box_tag 'query[role_ids][]', role.id, @query.roles.include?(role), :id => nil %> <%= role.name %></label>
+  <% end %>
+  <label class="block"><%= radio_button 'query', 'visibility', Query::VISIBILITY_PUBLIC %> <%= l(:label_visibility_public) %></label>
+  <%= hidden_field_tag 'query[role_ids][]', '' %>
+</p>
 <% end %>
 
 <p><label for="query_is_for_all"><%=l(:field_is_for_all)%></label>
 <%= check_box_tag 'query_is_for_all', 1, @query.project.nil?,
       :disabled => (!@query.new_record? && (@query.project.nil? || (@query.is_public? && !User.current.admin?))) %></p>
 
+<fieldset><legend><%= l(:label_options) %></legend>
 <p><label for="query_default_columns"><%=l(:label_default_columns)%></label>
 <%= check_box_tag 'default_columns', 1, @query.has_default_columns?, :id => 'query_default_columns',
       :onclick => 'if (this.checked) {$("#columns").hide();} else {$("#columns").show();}' %></p>
@@ -24,6 +31,7 @@
 
 <p><label><%= l(:button_show) %></label>
 <%= available_block_columns_tags(@query) %></p>
+</fieldset>
 </div>
 
 <fieldset id="filters"><legend><%= l(:label_filter_plural) %></legend>
@@ -53,3 +61,12 @@
 <% end %>
 
 </div>
+
+<%= javascript_tag do %>
+$(document).ready(function(){
+  $("input[name='query[visibility]']").change(function(){
+    var checked = $('#query_visibility_1').is(':checked');
+    $("input[name='query[role_ids][]'][type=checkbox]").attr('disabled', !checked);
+  }).trigger('change');
+});
+<% end %>
