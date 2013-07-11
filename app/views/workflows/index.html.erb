@@ -1,6 +1,4 @@
-<%= render :partial => 'action_menu' %>
-
-<h2><%=l(:label_workflow)%></h2>
+<h2><%= link_to l(:label_workflow), workflows_edit_path %> &#187; <%=l(:field_summary)%></h2>
 
 <% if @workflow_counts.empty? %>
 <p class="nodata"><%= l(:label_no_data) %></p>
