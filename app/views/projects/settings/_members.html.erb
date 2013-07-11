@@ -1,6 +1,6 @@
 <%= error_messages_for 'member' %>
 <% roles = Role.find_all_givable
-   members = @project.member_principals.includes(:roles, :principal).all.sort %>
+   members = @project.member_principals.includes(:member_roles, :roles, :principal).all.sort %>
 
 <div class="splitcontentleft">
 <% if members.any? %>
