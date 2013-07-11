@@ -2169,6 +2169,18 @@ class IssueTest < ActiveSupport::TestCase
     assert_include 'priority-highest', classes
   end
 
+  def test_css_classes_should_include_user_assignment
+    issue = Issue.generate(:assigned_to_id => 2)
+    assert_include 'assigned-to-me', issue.css_classes(User.find(2))
+    assert_not_include 'assigned-to-me', issue.css_classes(User.find(3))
+  end
+
+  def test_css_classes_should_include_user_group_assignment
+    issue = Issue.generate(:assigned_to_id => 10)
+    assert_include 'assigned-to-my-group', issue.css_classes(Group.find(10).users.first)
+    assert_not_include 'assigned-to-my-group', issue.css_classes(User.find(3))
+  end
+
   def test_save_attachments_with_hash_should_save_attachments_in_keys_order
     set_tmp_attachments_directory
     issue = Issue.generate!

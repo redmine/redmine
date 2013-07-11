@@ -1041,15 +1041,18 @@ class Issue < ActiveRecord::Base
   end
 
   # Returns a string of css classes that apply to the issue
-  def css_classes
+  def css_classes(user=User.current)
     s = "issue tracker-#{tracker_id} status-#{status_id} #{priority.try(:css_classes)}"
     s << ' closed' if closed?
     s << ' overdue' if overdue?
     s << ' child' if child?
     s << ' parent' unless leaf?
     s << ' private' if is_private?
-    s << ' created-by-me' if User.current.logged? && author_id == User.current.id
-    s << ' assigned-to-me' if User.current.logged? && assigned_to_id == User.current.id
+    if user.logged?
+      s << ' created-by-me' if author_id == user.id
+      s << ' assigned-to-me' if assigned_to_id == user.id
+      s << ' assigned-to-my-group' if user.groups.any? {|g| g.id = assigned_to_id}
+    end
     s
   end
 
