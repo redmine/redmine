@@ -268,7 +268,9 @@ RAW
   def test_redmine_links
     issue_link = link_to('#3', {:controller => 'issues', :action => 'show', :id => 3},
                                :class => Issue.find(3).css_classes, :title => 'Error 281 when updating a recipe (New)')
-    note_link = link_to('#3', {:controller => 'issues', :action => 'show', :id => 3, :anchor => 'note-14'},
+    note_link = link_to('#3-14', {:controller => 'issues', :action => 'show', :id => 3, :anchor => 'note-14'},
+                               :class => Issue.find(3).css_classes, :title => 'Error 281 when updating a recipe (New)')
+    note_link2 = link_to('#3#note-14', {:controller => 'issues', :action => 'show', :id => 3, :anchor => 'note-14'},
                                :class => Issue.find(3).css_classes, :title => 'Error 281 when updating a recipe (New)')
 
     revision_link = link_to('r1', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :rev => 1},
@@ -311,7 +313,7 @@ RAW
       '#3, [#3], (#3) and #3.'      => "#{issue_link}, [#{issue_link}], (#{issue_link}) and #{issue_link}.",
       # ticket notes
       '#3-14'                       => note_link,
-      '#3#note-14'                  => note_link,
+      '#3#note-14'                  => note_link2,
       # should not ignore leading zero
       '#03'                         => '#03',
       # changesets
