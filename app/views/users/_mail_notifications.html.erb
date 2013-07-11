@@ -19,9 +19,10 @@
       end %>
   <p><em class="info"><%= l(:text_user_mail_option) %></em></p>
 <% end %>
+
+<%= fields_for :pref, @user.pref do |pref_fields| %>
 <p>
-  <label>
-    <%= l(:label_user_mail_no_self_notified) %>
-    <%= check_box_tag 'no_self_notified', 1, @user.pref[:no_self_notified] %>
-  </label>
+  <%= pref_fields.check_box :no_self_notified %>
+  <label for="pref_no_self_notified"><%= l(:label_user_mail_no_self_notified) %></label>
 </p>
+<% end %>

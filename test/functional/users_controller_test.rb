@@ -325,6 +325,18 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal [1, 2], u.notified_projects_ids.sort
   end
 
+  def test_update_status_should_not_update_attributes
+    user = User.find(2)
+    user.pref[:no_self_notified] = '1'
+    user.pref.save
+
+    put :update, :id => 2, :user => {:status => 3}
+    assert_response 302
+    user = User.find(2)
+    assert_equal 3, user.status
+    assert_equal '1', user.pref[:no_self_notified]
+  end
+
   def test_destroy
     assert_difference 'User.count', -1 do
       delete :destroy, :id => 2

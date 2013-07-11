@@ -83,7 +83,7 @@ class AdminControllerTest < ActionController::TestCase
 
   def test_test_email
     user = User.find(1)
-    user.pref[:no_self_notified] = '1'
+    user.pref.no_self_notified = '1'
     user.pref.save!
     ActionMailer::Base.deliveries.clear
 

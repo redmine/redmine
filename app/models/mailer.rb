@@ -390,7 +390,7 @@ class Mailer < ActionMailer::Base
 
     # Removes the author from the recipients and cc
     # if he doesn't want to receive notifications about what he does
-    if @author && @author.logged? && @author.pref[:no_self_notified]
+    if @author && @author.logged? && @author.pref.no_self_notified
       headers[:to].delete(@author.mail) if headers[:to].is_a?(Array)
       headers[:cc].delete(@author.mail) if headers[:cc].is_a?(Array)
     end
