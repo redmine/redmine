@@ -1,3 +1,6 @@
+<% if @journal.private_notes? %>
+  (<%= l(:field_private_notes) %>)
+<% end %>
 <%= l(:text_issue_updated, :id => "##{@issue.id}", :author => h(@journal.user)) %>
 
 <ul>
