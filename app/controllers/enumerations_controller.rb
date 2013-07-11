@@ -70,12 +70,10 @@ class EnumerationsController < ApplicationController
       @enumeration.destroy
       redirect_to enumerations_path
       return
-    elsif params[:reassign_to_id]
-      if reassign_to = @enumeration.class.find_by_id(params[:reassign_to_id])
-        @enumeration.destroy(reassign_to)
-        redirect_to enumerations_path
-        return
-      end
+    elsif params[:reassign_to_id].present? && (reassign_to = @enumeration.class.find_by_id(params[:reassign_to_id].to_i))
+      @enumeration.destroy(reassign_to)
+      redirect_to enumerations_path
+      return
     end
     @enumerations = @enumeration.class.system.all - [@enumeration]
   end
