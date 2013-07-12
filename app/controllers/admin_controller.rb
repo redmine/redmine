@@ -65,7 +65,7 @@ class AdminController < ApplicationController
       @test = Mailer.test_email(User.current).deliver
       flash[:notice] = l(:notice_email_sent, User.current.mail)
     rescue Exception => e
-      flash[:error] = l(:notice_email_error, e.message)
+      flash[:error] = l(:notice_email_error, Redmine::CodesetUtil.replace_invalid_utf8(e.message))
     end
     ActionMailer::Base.raise_delivery_errors = raise_delivery_errors
     redirect_to settings_path(:tab => 'notifications')
