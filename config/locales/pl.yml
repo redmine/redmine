@@ -1114,3 +1114,7 @@ pl:
   notice_account_locked: Your account is locked.
   notice_account_register_done: Account was successfully created. An email containing
     the instructions to activate your account was sent to %{email}.
+  label_hidden: Hidden
+  label_visibility_private: to me only
+  label_visibility_roles: to these roles only
+  label_visibility_public: to any users
