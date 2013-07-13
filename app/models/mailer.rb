@@ -81,9 +81,10 @@ class Mailer < ActionMailer::Base
     issue = journal.journalized.reload
     to = journal.notified_users
     cc = journal.notified_watchers
-    issue.each_notification(to + cc) do |users|
-      next unless journal.notes? || journal.visible_details(users.first).any?
-      Mailer.issue_edit(journal, to & users, cc & users).deliver
+    journal.each_notification(to + cc) do |users|
+      issue.each_notification(users) do |users2|
+        Mailer.issue_edit(journal, to & users2, cc & users2).deliver
+      end
     end
   end
 

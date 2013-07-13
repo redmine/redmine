@@ -374,6 +374,22 @@ class MailerTest < ActiveSupport::TestCase
     assert_mail_body_match '(Private notes)', last_email
   end
 
+  def test_issue_edit_with_relation_should_notify_users_who_can_see_the_related_issue
+    issue = Issue.generate!
+    private_issue = Issue.generate!(:is_private => true)
+    IssueRelation.create!(:issue_from => issue, :issue_to => private_issue, :relation_type => 'relates')
+    issue.reload
+    assert_equal 1, issue.journals.size
+    journal = issue.journals.first
+    ActionMailer::Base.deliveries.clear
+
+    Mailer.deliver_issue_edit(journal)
+    last_email.bcc.each do |email|
+      user = User.find_by_mail(email)
+      assert private_issue.visible?(user), "Issue was not visible to #{user}"
+    end
+  end
+
   def test_document_added
     document = Document.find(1)
     valid_languages.each do |lang|
