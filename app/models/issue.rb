@@ -198,6 +198,13 @@ class Issue < ActiveRecord::Base
     (project && tracker) ? (project.all_issue_custom_fields & tracker.custom_fields.all) : []
   end
 
+  def visible_custom_field_values(user=nil)
+    user_real = user || User.current
+    custom_field_values.select do |value|
+      value.custom_field.visible_by?(project, user_real)
+    end
+  end
+
   # Copies attributes from another issue, arg can be an id or an Issue
   def copy_from(arg, options={})
     issue = arg.is_a?(Issue) ? arg : Issue.visible.find(arg)
@@ -445,11 +452,13 @@ class Issue < ActiveRecord::Base
     end
 
     if attrs['custom_field_values'].present?
-      attrs['custom_field_values'] = attrs['custom_field_values'].reject {|k, v| read_only_attribute_names(user).include? k.to_s}
+      editable_custom_field_ids = editable_custom_field_values(user).map {|v| v.custom_field_id.to_s}
+      attrs['custom_field_values'] = attrs['custom_field_values'].select {|k, v| editable_custom_field_ids.include? k.to_s}
     end
 
     if attrs['custom_fields'].present?
-      attrs['custom_fields'] = attrs['custom_fields'].reject {|c| read_only_attribute_names(user).include? c['id'].to_s}
+      editable_custom_field_ids = editable_custom_field_values(user).map {|v| v.custom_field_id.to_s}
+      attrs['custom_fields'] = attrs['custom_fields'].select {|c| editable_custom_field_ids.include? c['id'].to_s}
     end
 
     # mass-assignment security bypass
@@ -462,7 +471,7 @@ class Issue < ActiveRecord::Base
 
   # Returns the custom_field_values that can be edited by the given user
   def editable_custom_field_values(user=nil)
-    custom_field_values.reject do |value|
+    visible_custom_field_values(user).reject do |value|
       read_only_attribute_names(user).include?(value.custom_field_id.to_s)
     end
   end
@@ -788,6 +797,21 @@ class Issue < ActiveRecord::Base
   # Returns the email addresses that should be notified
   def recipients
     notified_users.collect(&:mail)
+  end
+
+  def each_notification(users, &block)
+    if users.any?
+      if custom_field_values.detect {|value| !value.custom_field.visible?}
+        users_by_custom_field_visibility = users.group_by do |user|
+          visible_custom_field_values(user).map(&:custom_field_id).sort
+        end
+        users_by_custom_field_visibility.values.each do |users|
+          yield(users)
+        end
+      else
+        yield(users)
+      end
+    end
   end
 
   # Returns the number of hours spent on this issue

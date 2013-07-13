@@ -23,7 +23,7 @@ class JournalObserver < ActiveRecord::Observer
           (Setting.notified_events.include?('issue_status_updated') && journal.new_status.present?) ||
           (Setting.notified_events.include?('issue_priority_updated') && journal.new_value_for('priority_id').present?)
         )
-      Mailer.issue_edit(journal).deliver
+      Mailer.deliver_issue_edit(journal)
     end
   end
 end

@@ -225,8 +225,8 @@ class IssueQuery < Query
     @available_columns = self.class.available_columns.dup
     @available_columns += (project ?
                             project.all_issue_custom_fields :
-                            IssueCustomField.all
-                           ).collect {|cf| QueryCustomFieldColumn.new(cf) }
+                            IssueCustomField
+                           ).visible.collect {|cf| QueryCustomFieldColumn.new(cf) }
 
     if User.current.allowed_to?(:view_time_entries, project, :global => true)
       index = nil

@@ -885,6 +885,7 @@ en:
   label_fields_permissions: Fields permissions
   label_readonly: Read-only
   label_required: Required
+  label_hidden: Hidden
   label_attribute_of_project: "Project's %{name}"
   label_attribute_of_issue: "Issue's %{name}"
   label_attribute_of_author: "Author's %{name}"

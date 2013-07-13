@@ -53,6 +53,18 @@ class Journal < ActiveRecord::Base
     (details.empty? && notes.blank?) ? false : super
   end
 
+  def visible_details(user=User.current)
+    details.select do |detail|
+      if detail.property == 'cf' 
+        field_id = detail.prop_key
+        field = CustomField.find_by_id(field_id)
+        field && field.visible_by?(project, user)
+      else
+        true
+      end
+    end
+  end
+
   # Returns the new status if the journal contains a status change, otherwise nil
   def new_status
     c = details.detect {|detail| detail.prop_key == 'status_id'}
@@ -93,20 +105,28 @@ class Journal < ActiveRecord::Base
     @notify = arg
   end
 
-  def recipients
+  def notified_users
     notified = journalized.notified_users
     if private_notes?
       notified = notified.select {|user| user.allowed_to?(:view_private_notes, journalized.project)}
     end
-    notified.map(&:mail)
+    notified
   end
 
-  def watcher_recipients
+  def recipients
+    notified_users.map(&:mail)
+  end
+
+  def notified_watchers
     notified = journalized.notified_watchers
     if private_notes?
       notified = notified.select {|user| user.allowed_to?(:view_private_notes, journalized.project)}
     end
-    notified.map(&:mail)
+    notified
+  end
+
+  def watcher_recipients
+    notified_watchers.map(&:mail)
   end
 
   private

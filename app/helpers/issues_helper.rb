@@ -160,12 +160,13 @@ module IssuesHelper
   end
 
   def render_custom_fields_rows(issue)
-    return if issue.custom_field_values.empty?
+    values = issue.visible_custom_field_values
+    return if values.empty?
     ordered_values = []
-    half = (issue.custom_field_values.size / 2.0).ceil
+    half = (values.size / 2.0).ceil
     half.times do |i|
-      ordered_values << issue.custom_field_values[i]
-      ordered_values << issue.custom_field_values[i + half]
+      ordered_values << values[i]
+      ordered_values << values[i + half]
     end
     s = "<tr>\n"
     n = 0

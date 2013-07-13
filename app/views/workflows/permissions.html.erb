@@ -62,7 +62,7 @@
         </td>
         <% for status in @statuses -%>
         <td align="center" class="<%= @permissions[status.id][field] %>">
-          <%= field_permission_tag(@permissions, status, field) %>
+          <%= field_permission_tag(@permissions, status, field, @role) %>
           <% unless status == @statuses.last %><a href="#" class="repeat-value">&#187;</a><% end %>
         </td>
         <% end -%>
@@ -82,7 +82,7 @@
           </td>
           <% for status in @statuses -%>
           <td align="center" class="<%= @permissions[status.id][field.id.to_s] %>">
-            <%= field_permission_tag(@permissions, status, field) %>
+            <%= field_permission_tag(@permissions, status, field, @role) %>
             <% unless status == @statuses.last %><a href="#" class="repeat-value">&#187;</a><% end %>
           </td>
           <% end -%>

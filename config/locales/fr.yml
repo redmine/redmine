@@ -861,6 +861,7 @@ fr:
   label_fields_permissions: Permissions sur les champs
   label_readonly: Lecture
   label_required: Obligatoire
+  label_hidden: Caché
   label_attribute_of_project: "%{name} du projet"
   label_attribute_of_issue: "%{name} de la demande"
   label_attribute_of_author: "%{name} de l'auteur"

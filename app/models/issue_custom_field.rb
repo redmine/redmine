@@ -23,5 +23,13 @@ class IssueCustomField < CustomField
   def type_name
     :label_issue_plural
   end
-end
 
+  def visible_by?(project, user=User.current)
+    visible? || user.admin? || (roles & user.roles_for_project(project)).present?
+  end
+
+  def validate_custom_field
+    super
+    errors.add(:base, l(:label_role_plural) + ' ' + l('activerecord.errors.messages.blank')) unless visible? || roles.present?
+  end
+end

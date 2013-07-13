@@ -42,7 +42,7 @@ class MailerTest < ActiveSupport::TestCase
     Setting.protocol = 'https'
 
     journal = Journal.find(3)
-    assert Mailer.issue_edit(journal).deliver
+    assert Mailer.deliver_issue_edit(journal)
 
     mail = last_email
     assert_not_nil mail
@@ -81,7 +81,7 @@ class MailerTest < ActiveSupport::TestCase
     Setting.protocol = 'http'
 
     journal = Journal.find(3)
-    assert Mailer.issue_edit(journal).deliver
+    assert Mailer.deliver_issue_edit(journal)
 
     mail = last_email
     assert_not_nil mail
@@ -121,7 +121,7 @@ class MailerTest < ActiveSupport::TestCase
     Redmine::Utils.relative_url_root = nil
 
     journal = Journal.find(3)
-    assert Mailer.issue_edit(journal).deliver
+    assert Mailer.deliver_issue_edit(journal)
 
     mail = last_email
     assert_not_nil mail
@@ -158,7 +158,7 @@ class MailerTest < ActiveSupport::TestCase
 
   def test_email_headers
     issue = Issue.find(1)
-    Mailer.issue_add(issue).deliver
+    Mailer.deliver_issue_add(issue)
     mail = last_email
     assert_not_nil mail
     assert_equal 'OOF', mail.header['X-Auto-Response-Suppress'].to_s
@@ -168,7 +168,7 @@ class MailerTest < ActiveSupport::TestCase
 
   def test_email_headers_should_include_sender
     issue = Issue.find(1)
-    Mailer.issue_add(issue).deliver
+    Mailer.deliver_issue_add(issue)
     mail = last_email
     assert_equal issue.author.login, mail.header['X-Redmine-Sender'].to_s
   end
@@ -176,7 +176,7 @@ class MailerTest < ActiveSupport::TestCase
   def test_plain_text_mail
     Setting.plain_text_mail = 1
     journal = Journal.find(2)
-    Mailer.issue_edit(journal).deliver
+    Mailer.deliver_issue_edit(journal)
     mail = last_email
     assert_equal "text/plain; charset=UTF-8", mail.content_type
     assert_equal 0, mail.parts.size
@@ -186,7 +186,7 @@ class MailerTest < ActiveSupport::TestCase
   def test_html_mail
     Setting.plain_text_mail = 0
     journal = Journal.find(2)
-    Mailer.issue_edit(journal).deliver
+    Mailer.deliver_issue_edit(journal)
     mail = last_email
     assert_equal 2, mail.parts.size
     assert mail.encoded.include?('href')
@@ -231,19 +231,21 @@ class MailerTest < ActiveSupport::TestCase
   end
 
   def test_issue_add_message_id
-    issue = Issue.find(1)
-    Mailer.issue_add(issue).deliver
+    issue = Issue.find(2)
+    Mailer.deliver_issue_add(issue)
     mail = last_email
-    assert_equal Mailer.message_id_for(issue), mail.message_id
-    assert_nil mail.references
+    assert_match /^redmine\.issue-2\.20060719190421\.[a-f0-9]+@example\.net/, mail.message_id
+    assert_include "redmine.issue-2.20060719190421@example.net", mail.references
   end
 
   def test_issue_edit_message_id
-    journal = Journal.find(1)
-    Mailer.issue_edit(journal).deliver
+    journal = Journal.find(3)
+    journal.issue = Issue.find(2)
+
+    Mailer.deliver_issue_edit(journal)
     mail = last_email
-    assert_equal Mailer.message_id_for(journal), mail.message_id
-    assert_include Mailer.message_id_for(journal.issue), mail.references
+    assert_match /^redmine\.journal-3\.\d+\.[a-f0-9]+@example\.net/, mail.message_id
+    assert_include "redmine.issue-2.20060719190421@example.net", mail.references
     assert_select_email do
       # link to the update
       assert_select "a[href=?]",
@@ -255,8 +257,8 @@ class MailerTest < ActiveSupport::TestCase
     message = Message.find(1)
     Mailer.message_posted(message).deliver
     mail = last_email
-    assert_equal Mailer.message_id_for(message), mail.message_id
-    assert_nil mail.references
+    assert_match /^redmine\.message-1\.\d+\.[a-f0-9]+@example\.net/, mail.message_id
+    assert_include "redmine.message-1.20070512151532@example.net", mail.references
     assert_select_email do
       # link to the message
       assert_select "a[href=?]",
@@ -269,8 +271,8 @@ class MailerTest < ActiveSupport::TestCase
     message = Message.find(3)
     Mailer.message_posted(message).deliver
     mail = last_email
-    assert_equal Mailer.message_id_for(message), mail.message_id
-    assert_include Mailer.message_id_for(message.parent), mail.references
+    assert_match /^redmine\.message-3\.\d+\.[a-f0-9]+@example\.net/, mail.message_id
+    assert_include "redmine.message-1.20070512151532@example.net", mail.references
     assert_select_email do
       # link to the reply
       assert_select "a[href=?]",
@@ -281,14 +283,14 @@ class MailerTest < ActiveSupport::TestCase
 
   test "#issue_add should notify project members" do
     issue = Issue.find(1)
-    assert Mailer.issue_add(issue).deliver
+    assert Mailer.deliver_issue_add(issue)
     assert last_email.bcc.include?('dlopper@somenet.foo')
   end
 
   test "#issue_add should not notify project members that are not allow to view the issue" do
     issue = Issue.find(1)
     Role.find(2).remove_permission!(:view_issues)
-    assert Mailer.issue_add(issue).deliver
+    assert Mailer.deliver_issue_add(issue)
     assert !last_email.bcc.include?('dlopper@somenet.foo')
   end
 
@@ -302,7 +304,7 @@ class MailerTest < ActiveSupport::TestCase
     user.save
 
     Watcher.create!(:watchable => issue, :user => user)
-    assert Mailer.issue_add(issue).deliver
+    assert Mailer.deliver_issue_add(issue)
     assert last_email.bcc.include?(user.mail)
   end
 
@@ -311,7 +313,7 @@ class MailerTest < ActiveSupport::TestCase
     user = User.find(9)
     Watcher.create!(:watchable => issue, :user => user)
     Role.non_member.remove_permission!(:view_issues)
-    assert Mailer.issue_add(issue).deliver
+    assert Mailer.deliver_issue_add(issue)
     assert !last_email.bcc.include?(user.mail)
   end
 
@@ -320,7 +322,7 @@ class MailerTest < ActiveSupport::TestCase
     issue = Issue.find(1)
     valid_languages.each do |lang|
       Setting.default_language = lang.to_s
-      assert Mailer.issue_add(issue).deliver
+      assert Mailer.deliver_issue_add(issue)
     end
   end
 
@@ -328,7 +330,7 @@ class MailerTest < ActiveSupport::TestCase
     journal = Journal.find(1)
     valid_languages.each do |lang|
       Setting.default_language = lang.to_s
-      assert Mailer.issue_edit(journal).deliver
+      assert Mailer.deliver_issue_edit(journal)
     end
   end
 
@@ -338,11 +340,11 @@ class MailerTest < ActiveSupport::TestCase
     journal.save!
 
     Role.find(2).add_permission! :view_private_notes
-    Mailer.issue_edit(journal).deliver
+    Mailer.deliver_issue_edit(journal)
     assert_equal %w(dlopper@somenet.foo jsmith@somenet.foo), ActionMailer::Base.deliveries.last.bcc.sort
 
     Role.find(2).remove_permission! :view_private_notes
-    Mailer.issue_edit(journal).deliver
+    Mailer.deliver_issue_edit(journal)
     assert_equal %w(jsmith@somenet.foo), ActionMailer::Base.deliveries.last.bcc.sort
   end
 
@@ -353,11 +355,11 @@ class MailerTest < ActiveSupport::TestCase
     journal.save!
 
     Role.non_member.add_permission! :view_private_notes
-    Mailer.issue_edit(journal).deliver
+    Mailer.deliver_issue_edit(journal)
     assert_include 'someone@foo.bar', ActionMailer::Base.deliveries.last.bcc.sort
 
     Role.non_member.remove_permission! :view_private_notes
-    Mailer.issue_edit(journal).deliver
+    Mailer.deliver_issue_edit(journal)
     assert_not_include 'someone@foo.bar', ActionMailer::Base.deliveries.last.bcc.sort
   end
 
@@ -367,7 +369,7 @@ class MailerTest < ActiveSupport::TestCase
     journal.save!
 
     with_settings :default_language => 'en' do
-      Mailer.issue_edit(journal).deliver
+      Mailer.deliver_issue_edit(journal)
     end
     assert_mail_body_match '(Private notes)', last_email
   end

@@ -4,11 +4,11 @@
 <%= l(:text_issue_updated, :id => "##{@issue.id}", :author => h(@journal.user)) %>
 
 <ul>
-<% details_to_strings(@journal.details, false, :only_path => false).each do |string| %>
+<% details_to_strings(@journal_details, false, :only_path => false).each do |string| %>
   <li><%= string %></li>
 <% end %>
 </ul>
 
 <%= textilizable(@journal, :notes, :only_path => false) %>
 <hr />
-<%= render :partial => 'issue', :formats => [:html], :locals => { :issue => @issue, :issue_url => @issue_url } %>
+<%= render :partial => 'issue', :formats => [:html], :locals => { :issue => @issue, :users => @users, :issue_url => @issue_url } %>

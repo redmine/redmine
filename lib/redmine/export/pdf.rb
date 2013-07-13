@@ -256,7 +256,7 @@ module Redmine
       def fetch_row_values(issue, query, level)
         query.inline_columns.collect do |column|
           s = if column.is_a?(QueryCustomFieldColumn)
-            cv = issue.custom_field_values.detect {|v| v.custom_field_id == column.custom_field.id}
+            cv = issue.visible_custom_field_values.detect {|v| v.custom_field_id == column.custom_field.id}
             show_value(cv)
           else
             value = issue.send(column.name)
@@ -571,8 +571,8 @@ module Redmine
           right << nil
         end
 
-        half = (issue.custom_field_values.size / 2.0).ceil
-        issue.custom_field_values.each_with_index do |custom_value, i|
+        half = (issue.visible_custom_field_values.size / 2.0).ceil
+        issue.visible_custom_field_values.each_with_index do |custom_value, i|
           (i < half ? left : right) << [custom_value.custom_field.name, show_value(custom_value)]
         end
 
@@ -683,7 +683,7 @@ module Redmine
             pdf.RDMCell(190,5, title)
             pdf.Ln
             pdf.SetFontStyle('I',8)
-            details_to_strings(journal.details, true).each do |string|
+            details_to_strings(journal.visible_details, true).each do |string|
               pdf.RDMMultiCell(190,5, "- " + string)
             end
             if journal.notes?

@@ -200,6 +200,23 @@ class WorkflowsControllerTest < ActionController::TestCase
     end
   end
 
+  def test_get_permissions_should_disable_hidden_custom_fields
+    cf1 = IssueCustomField.generate!(:tracker_ids => [1], :visible => true)
+    cf2 = IssueCustomField.generate!(:tracker_ids => [1], :visible => false, :role_ids => [1])
+    cf3 = IssueCustomField.generate!(:tracker_ids => [1], :visible => false, :role_ids => [1, 2])
+
+    get :permissions, :role_id => 2, :tracker_id => 1
+    assert_response :success
+    assert_template 'permissions'
+
+    assert_select 'select[name=?]:not(.disabled)', "permissions[#{cf1.id}][1]"
+    assert_select 'select[name=?]:not(.disabled)', "permissions[#{cf3.id}][1]"
+
+    assert_select 'select[name=?][disabled=disabled]', "permissions[#{cf2.id}][1]" do
+      assert_select 'option[value=][selected=selected]', :text => 'Hidden'
+    end
+  end
+
   def test_get_permissions_with_role_and_tracker_and_all_statuses
     WorkflowTransition.delete_all
 

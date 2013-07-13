@@ -81,8 +81,12 @@ class QueryCustomFieldColumn < QueryColumn
   end
 
   def value(object)
-    cv = object.custom_values.select {|v| v.custom_field_id == @cf.id}.collect {|v| @cf.cast_value(v.value)}
-    cv.size > 1 ? cv.sort {|a,b| a.to_s <=> b.to_s} : cv.first
+    if custom_field.visible_by?(object.project, User.current)
+      cv = object.custom_values.select {|v| v.custom_field_id == @cf.id}.collect {|v| @cf.cast_value(v.value)}
+      cv.size > 1 ? cv.sort {|a,b| a.to_s <=> b.to_s} : cv.first
+    else
+      nil
+    end
   end
 
   def css_classes
@@ -560,6 +564,11 @@ class Query < ActiveRecord::Base
       end
     end if filters and valid?
 
+    if (c = group_by_column) && c.is_a?(QueryCustomFieldColumn)
+      # Excludes results for which the grouped custom field is not visible
+      filters_clauses << c.custom_field.visibility_by_project_condition
+    end
+
     filters_clauses << project_statement
     filters_clauses.reject!(&:blank?)
 
@@ -596,7 +605,10 @@ class Query < ActiveRecord::Base
     if operator =~ /[<>]/
       where = "(#{where}) AND #{db_table}.#{db_field} <> ''"
     end
-    "#{queried_table_name}.#{customized_key} #{not_in} IN (SELECT #{customized_class.table_name}.id FROM #{customized_class.table_name} LEFT OUTER JOIN #{db_table} ON #{db_table}.customized_type='#{customized_class}' AND #{db_table}.customized_id=#{customized_class.table_name}.id AND #{db_table}.custom_field_id=#{custom_field_id} WHERE #{where})"
+    "#{queried_table_name}.#{customized_key} #{not_in} IN (" +
+      "SELECT #{customized_class.table_name}.id FROM #{customized_class.table_name}" +
+      " LEFT OUTER JOIN #{db_table} ON #{db_table}.customized_type='#{customized_class}' AND #{db_table}.customized_id=#{customized_class.table_name}.id AND #{db_table}.custom_field_id=#{custom_field_id}" +
+      " WHERE (#{where}) AND (#{filter[:field].visibility_by_project_condition}))"
   end
 
   # Helper method to generate the WHERE sql for a +field+, +operator+ and a +value+
@@ -785,14 +797,14 @@ class Query < ActiveRecord::Base
 
   # Adds filters for the given custom fields scope
   def add_custom_fields_filters(scope, assoc=nil)
-    scope.where(:is_filter => true).sorted.each do |field|
+    scope.visible.where(:is_filter => true).sorted.each do |field|
       add_custom_field_filter(field, assoc)
     end
   end
 
   # Adds filters for the given associations custom fields
   def add_associations_custom_fields_filters(*associations)
-    fields_by_class = CustomField.where(:is_filter => true).group_by(&:class)
+    fields_by_class = CustomField.visible.where(:is_filter => true).group_by(&:class)
     associations.each do |assoc|
       association_klass = queried_class.reflect_on_association(assoc).klass
       fields_by_class.each do |field_class, fields|

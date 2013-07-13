@@ -169,8 +169,8 @@ class ActiveSupport::TestCase
     assert s.include?(expected), (message || "\"#{expected}\" not found in \"#{s}\"")
   end
 
-  def assert_not_include(expected, s)
-    assert !s.include?(expected), "\"#{expected}\" found in \"#{s}\""
+  def assert_not_include(expected, s, message=nil)
+    assert !s.include?(expected), (message || "\"#{expected}\" found in \"#{s}\"")
   end
 
   def assert_select_in(text, *args, &block)
@@ -178,19 +178,19 @@ class ActiveSupport::TestCase
     assert_select(d, *args, &block)
   end
 
-  def assert_mail_body_match(expected, mail)
+  def assert_mail_body_match(expected, mail, message=nil)
     if expected.is_a?(String)
-      assert_include expected, mail_body(mail)
+      assert_include expected, mail_body(mail), message
     else
-      assert_match expected, mail_body(mail)
+      assert_match expected, mail_body(mail), message
     end
   end
 
-  def assert_mail_body_no_match(expected, mail)
+  def assert_mail_body_no_match(expected, mail, message=nil)
     if expected.is_a?(String)
-      assert_not_include expected, mail_body(mail)
+      assert_not_include expected, mail_body(mail), message
     else
-      assert_no_match expected, mail_body(mail)
+      assert_no_match expected, mail_body(mail), message
     end
   end
 
