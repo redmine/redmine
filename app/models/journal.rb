@@ -53,12 +53,15 @@ class Journal < ActiveRecord::Base
     (details.empty? && notes.blank?) ? false : super
   end
 
+  # Returns journal details that are visible to user
   def visible_details(user=User.current)
     details.select do |detail|
       if detail.property == 'cf' 
         field_id = detail.prop_key
         field = CustomField.find_by_id(field_id)
         field && field.visible_by?(project, user)
+      elsif detail.property == 'relation'
+        Issue.find_by_id(detail.value || detail.old_value).try(:visible?, user)
       else
         true
       end
