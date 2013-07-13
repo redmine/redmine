@@ -453,12 +453,14 @@ class Issue < ActiveRecord::Base
 
     if attrs['custom_field_values'].present?
       editable_custom_field_ids = editable_custom_field_values(user).map {|v| v.custom_field_id.to_s}
-      attrs['custom_field_values'] = attrs['custom_field_values'].select {|k, v| editable_custom_field_ids.include? k.to_s}
+      # TODO: use #select when ruby1.8 support is dropped
+      attrs['custom_field_values'] = attrs['custom_field_values'].reject {|k, v| !editable_custom_field_ids.include?(k.to_s)}
     end
 
     if attrs['custom_fields'].present?
       editable_custom_field_ids = editable_custom_field_values(user).map {|v| v.custom_field_id.to_s}
-      attrs['custom_fields'] = attrs['custom_fields'].select {|c| editable_custom_field_ids.include? c['id'].to_s}
+      # TODO: use #select when ruby1.8 support is dropped
+      attrs['custom_fields'] = attrs['custom_fields'].reject {|c| !editable_custom_field_ids.include?(c['id'].to_s)}
     end
 
     # mass-assignment security bypass
