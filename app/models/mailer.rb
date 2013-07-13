@@ -430,7 +430,17 @@ class Mailer < ActionMailer::Base
 
   def self.deliver_mail(mail)
     return false if mail.to.blank? && mail.cc.blank? && mail.bcc.blank?
-    super
+    begin
+      # Log errors when raise_delivery_errors is set to false, Rails does not
+      mail.raise_delivery_errors = true
+      super
+    rescue Exception => e
+      if ActionMailer::Base.raise_delivery_errors
+        raise e
+      else
+        Rails.logger.error "Email delivery error: #{e.message}"
+      end
+    end
   end
 
   def self.method_missing(method, *args, &block)

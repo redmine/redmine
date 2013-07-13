@@ -661,6 +661,29 @@ class MailerTest < ActiveSupport::TestCase
     assert_include '&lt;tag&gt;', html_part.body.encoded
   end
 
+  def test_should_raise_delivery_errors_when_raise_delivery_errors_is_true
+    mail = Mailer.test_email(User.find(1))
+    mail.delivery_method.stubs(:deliver!).raises(Exception.new("delivery error"))
+
+    ActionMailer::Base.raise_delivery_errors = true
+    assert_raise Exception, "delivery error" do
+      mail.deliver
+    end
+  ensure
+    ActionMailer::Base.raise_delivery_errors = false
+  end
+
+  def test_should_log_delivery_errors_when_raise_delivery_errors_is_false
+    mail = Mailer.test_email(User.find(1))
+    mail.delivery_method.stubs(:deliver!).raises(Exception.new("delivery error"))
+
+    Rails.logger.expects(:error).with("Email delivery error: delivery error")
+    ActionMailer::Base.raise_delivery_errors = false
+    assert_nothing_raised do
+      mail.deliver
+    end
+  end
+
   private
 
   def last_email
