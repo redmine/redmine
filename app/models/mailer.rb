@@ -297,31 +297,6 @@ class Mailer < ActionMailer::Base
       :subject => 'Redmine test'
   end
 
-  # Overrides default deliver! method to prevent from sending an email
-  # with no recipient, cc or bcc
-  def deliver!(mail = @mail)
-    set_language_if_valid @initial_language
-    return false if (recipients.nil? || recipients.empty?) &&
-                    (cc.nil? || cc.empty?) &&
-                    (bcc.nil? || bcc.empty?)
-
-
-    # Log errors when raise_delivery_errors is set to false, Rails does not
-    raise_errors = self.class.raise_delivery_errors
-    self.class.raise_delivery_errors = true
-    begin
-      return super(mail)
-    rescue Exception => e
-      if raise_errors
-        raise e
-      elsif mylogger
-        mylogger.error "The following error occured while sending email notification: \"#{e.message}\". Check your configuration in config/configuration.yml."
-      end
-    ensure
-      self.class.raise_delivery_errors = raise_errors
-    end
-  end
-
   # Sends reminders to issue assignees
   # Available options:
   # * :days     => how many days in the future to remind about (defaults to 7)
