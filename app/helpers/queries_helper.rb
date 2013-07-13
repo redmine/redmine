@@ -198,6 +198,7 @@ module QueriesHelper
       session[:query] = {:project_id => @query.project_id, :filters => @query.filters, :group_by => @query.group_by, :column_names => @query.column_names}
     else
       # retrieve from session
+      @query = nil
       @query = IssueQuery.find_by_id(session[:query][:id]) if session[:query][:id]
       @query ||= IssueQuery.new(:name => "_", :filters => session[:query][:filters], :group_by => session[:query][:group_by], :column_names => session[:query][:column_names])
       @query.project = @project
