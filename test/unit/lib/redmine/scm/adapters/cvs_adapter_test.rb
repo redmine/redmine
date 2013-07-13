@@ -79,6 +79,11 @@ begin
         assert_equal "UTF-8", adpt2.path_encoding
       end
 
+      def test_root_url_path
+        adapter = Redmine::Scm::Adapters::CvsAdapter.new('foo', ':pserver:cvs_user:cvs_password@123.456.789.123:9876/repo')
+        assert_equal '/repo', adapter.send(:root_url_path)
+      end
+
       private
 
       def test_scm_version_for(scm_command_version, version)
