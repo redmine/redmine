@@ -48,11 +48,12 @@ class WikiContentTest < ActiveSupport::TestCase
     page = WikiPage.new(:wiki => @wiki, :title => "A new page")
     page.content = WikiContent.new(:text => "Content text", :author => User.find(1), :comments => "My comment")
 
-    with_settings :notified_events => %w(wiki_content_added) do
+    with_settings :default_language => 'en', :notified_events => %w(wiki_content_added) do
       assert page.save
     end
 
     assert_equal 1, ActionMailer::Base.deliveries.size
+    assert_include 'wiki page has been added', mail_body(ActionMailer::Base.deliveries.last)
   end
 
   def test_update_should_be_versioned
@@ -99,6 +100,7 @@ class WikiContentTest < ActiveSupport::TestCase
     end
 
     assert_equal 1, ActionMailer::Base.deliveries.size
+    assert_include 'wiki page has been updated', mail_body(ActionMailer::Base.deliveries.last)
   end
 
   def test_fetch_history

@@ -98,6 +98,7 @@ class Issue < ActiveRecord::Base
   # Should be after_create but would be called before previous after_save callbacks
   after_save :after_create_from_copy
   after_destroy :update_parent_attributes
+  after_create :send_notification
 
   # Returns a SQL conditions string used to find all issues visible by the specified user
   def self.visible_condition(user, options={})
@@ -1513,6 +1514,12 @@ class Issue < ActiveRecord::Base
       @current_journal.save
       # reset current journal
       init_journal @current_journal.user, @current_journal.notes
+    end
+  end
+
+  def send_notification
+    if Setting.notified_events.include?('issue_added')
+      Mailer.deliver_issue_add(self)
     end
   end
 

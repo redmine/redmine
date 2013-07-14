@@ -39,6 +39,7 @@ class Journal < ActiveRecord::Base
                                                              " (#{JournalDetail.table_name}.prop_key = 'status_id' OR #{Journal.table_name}.notes <> '')"}
 
   before_create :split_private_notes
+  after_create :send_notification
 
   scope :visible, lambda {|*args|
     user = args.shift || User.current
@@ -164,5 +165,15 @@ class Journal < ActiveRecord::Base
       end
     end
     true
+  end
+
+  def send_notification
+    if notify? && (Setting.notified_events.include?('issue_updated') ||
+        (Setting.notified_events.include?('issue_note_added') && notes.present?) ||
+        (Setting.notified_events.include?('issue_status_updated') && new_status.present?) ||
+        (Setting.notified_events.include?('issue_priority_updated') && new_value_for('priority_id').present?)
+      )
+      Mailer.deliver_issue_edit(self)
+    end
   end
 end
