@@ -2,6 +2,8 @@
 
 <div class="box">
 <div class="tabular">
+<%= hidden_field_tag 'gantt', '1' if params[:gantt] %>
+
 <p><label for="query_name"><%=l(:field_name)%></label>
 <%= text_field 'query', 'name', :size => 80 %></p>
 
@@ -31,6 +33,13 @@
 
 <p><label><%= l(:button_show) %></label>
 <%= available_block_columns_tags(@query) %></p>
+
+<% if params[:gantt] %>
+  <p><label><%= l(:label_gantt) %></label>
+  <label class="inline"><%= check_box_tag "query[draw_relations]", "1", @query.draw_relations %> <%= l(:label_related_issues) %></label>
+  <label class="inline"><%= check_box_tag "query[draw_progress_line]", "1", @query.draw_progress_line %> <%= l(:label_gantt_progress_line) %></label>
+  </p>
+<% end %>
 </fieldset>
 </div>
 

@@ -155,6 +155,43 @@ class QueriesControllerTest < ActionController::TestCase
     assert_select 'input[name=?]', 'query[name]'
   end
 
+  def test_create_global_query_from_gantt
+    @request.session[:user_id] = 1
+    assert_difference 'IssueQuery.count' do
+      post :create,
+           :gantt => 1,
+           :operators => {"status_id" => "o"},
+           :values => {"status_id" => ["1"]},
+           :query => {:name => "test_create_from_gantt",
+                      :draw_relations => '1',
+                      :draw_progress_line => '1'}
+      assert_response 302
+    end
+    query = IssueQuery.order('id DESC').first
+    assert_redirected_to "/issues/gantt?query_id=#{query.id}"
+    assert_equal true, query.draw_relations
+    assert_equal true, query.draw_progress_line
+  end
+
+  def test_create_project_query_from_gantt
+    @request.session[:user_id] = 1
+    assert_difference 'IssueQuery.count' do
+      post :create,
+           :project_id => 'ecookbook',
+           :gantt => 1,
+           :operators => {"status_id" => "o"},
+           :values => {"status_id" => ["1"]},
+           :query => {:name => "test_create_from_gantt",
+                      :draw_relations => '0',
+                      :draw_progress_line => '0'}
+      assert_response 302
+    end
+    query = IssueQuery.order('id DESC').first
+    assert_redirected_to "/projects/ecookbook/issues/gantt?query_id=#{query.id}"
+    assert_equal false, query.draw_relations
+    assert_equal false, query.draw_progress_line
+  end
+
   def test_edit_global_public_query
     @request.session[:user_id] = 1
     get :edit, :id => 4

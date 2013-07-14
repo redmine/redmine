@@ -59,7 +59,7 @@ class QueriesController < ApplicationController
 
     if @query.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to _project_issues_path(@project, :query_id => @query)
+      redirect_to_issues(:query_id => @query)
     else
       render :action => 'new', :layout => !request.xhr?
     end
@@ -77,7 +77,7 @@ class QueriesController < ApplicationController
 
     if @query.save
       flash[:notice] = l(:notice_successful_update)
-      redirect_to _project_issues_path(@project, :query_id => @query)
+      redirect_to_issues(:query_id => @query)
     else
       render :action => 'edit'
     end
@@ -85,7 +85,7 @@ class QueriesController < ApplicationController
 
   def destroy
     @query.destroy
-    redirect_to _project_issues_path(@project, :set_filter => 1)
+    redirect_to_issues(:set_filter => 1)
   end
 
 private
@@ -102,5 +102,17 @@ private
     render_403 unless User.current.allowed_to?(:save_queries, @project, :global => true)
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def redirect_to_issues(options)
+    if params[:gantt]
+      if @project
+        redirect_to project_gantt_path(@project, options)
+      else
+        redirect_to issues_gantt_path(options)
+      end
+    else
+      redirect_to _project_issues_path(@project, options)
+    end
   end
 end

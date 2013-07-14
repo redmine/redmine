@@ -97,6 +97,31 @@ class IssueQuery < Query
     !is_private?
   end
 
+  def draw_relations
+    r = options[:draw_relations]
+    r.nil? || r == '1'
+  end
+
+  def draw_relations=(arg)
+    options[:draw_relations] = (arg == '0' ? '0' : nil)
+  end
+
+  def draw_progress_line
+    r = options[:draw_progress_line]
+    r == '1'
+  end
+
+  def draw_progress_line=(arg)
+    options[:draw_progress_line] = (arg == '1' ? '1' : nil)
+  end
+
+  def build_from_params(params)
+    super
+    self.draw_relations = params[:draw_relations] || (params[:query] && params[:query][:draw_relations])
+    self.draw_progress_line = params[:draw_progress_line] || (params[:query] && params[:query][:draw_progress_line])
+    self
+  end
+
   def initialize_available_filters
     principals = []
     subprojects = []

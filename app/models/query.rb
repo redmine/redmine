@@ -130,6 +130,7 @@ class Query < ActiveRecord::Base
   serialize :filters
   serialize :column_names
   serialize :sort_criteria, Array
+  serialize :options, Hash
 
   attr_protected :project_id, :user_id
 
