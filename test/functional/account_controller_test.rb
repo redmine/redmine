@@ -119,6 +119,11 @@ class AccountControllerTest < ActionController::TestCase
     assert_equal 2, @request.session[:user_id]
   end
 
+  def test_get_logout_with_anonymous_should_redirect
+    get :logout
+    assert_redirected_to '/'
+  end
+
   def test_logout
     @request.session[:user_id] = 2
     post :logout
@@ -251,6 +256,15 @@ class AccountControllerTest < ActionController::TestCase
     end
   end
 
+  def test_lost_password_for_user_who_cannot_change_password_should_fail
+    User.any_instance.stubs(:change_password_allowed?).returns(false)
+
+    assert_no_difference 'Token.count' do
+      post :lost_password, :mail => 'JSmith@somenet.foo'
+      assert_response :success
+    end
+  end
+
   def test_get_lost_password_with_token_should_display_the_password_recovery_form
     user = User.find(2)
     token = Token.create!(:action => 'recovery', :user => user)
@@ -313,6 +327,17 @@ class AccountControllerTest < ActionController::TestCase
       assert_difference 'ActionMailer::Base.deliveries.size' do
         get :activation_email
         assert_redirected_to '/login'
+      end
+    end
+  end
+
+  def test_activation_email_without_session_data_should_fail
+    User.find(2).update_attribute :status, User::STATUS_REGISTERED
+
+    with_settings :self_registration => '1' do
+      assert_no_difference 'ActionMailer::Base.deliveries.size' do
+        get :activation_email
+        assert_redirected_to '/'
       end
     end
   end
