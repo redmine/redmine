@@ -29,8 +29,9 @@ class Comment < ActiveRecord::Base
   private
 
   def send_notification
-    if commented.is_a?(News) && Setting.notified_events.include?('news_comment_added')
-      Mailer.news_comment_added(self).deliver
+    mailer_method = "#{commented.class.name.underscore}_comment_added"
+    if Setting.notified_events.include?(mailer_method)
+      Mailer.send(mailer_method, self).deliver
     end
   end
 end
