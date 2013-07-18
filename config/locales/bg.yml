@@ -888,6 +888,7 @@ bg:
   label_fields_permissions: Видимост на полетата
   label_readonly: Само за четене
   label_required: Задължително
+  label_hidden: Скрит
   label_attribute_of_project: Project's %{name}
   label_attribute_of_issue: Issue's %{name}
   label_attribute_of_author: Author's %{name}
@@ -899,6 +900,9 @@ bg:
   label_cross_project_hierarchy: С проектна йерархия
   label_cross_project_system: С всички проекти
   label_gantt_progress_line: Линия на изпълнението
+  label_visibility_private: лични (само за мен)
+  label_visibility_roles: само за тези роли
+  label_visibility_public: за всички потребители
 
   button_login: Вход
   button_submit: Изпращане
@@ -1090,7 +1094,3 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  label_hidden: Hidden
-  label_visibility_private: to me only
-  label_visibility_roles: to these roles only
-  label_visibility_public: to any users
