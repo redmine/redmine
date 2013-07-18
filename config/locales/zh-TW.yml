@@ -234,6 +234,8 @@
   notice_account_wrong_password: 密碼不正確
   notice_account_register_done: 帳號已建立成功。欲啟用您的帳號，請點擊系統確認信函中的啟用連結。
   notice_account_unknown_email: 未知的使用者
+  notice_account_not_activated_yet: 您尚未完成啟用您的帳號。若您要索取新的帳號啟用 Email ，請 <a href="%{url}">點擊此連結</a> 。
+  notice_account_locked: 您的帳號已被鎖定。
   notice_can_t_change_password: 這個帳號使用外部認證方式，無法變更其密碼。
   notice_account_lost_email_sent: 包含選擇新密碼指示的電子郵件，已經寄出給您。
   notice_account_activated: 您的帳號已經啟用，可用它登入系統。
@@ -968,6 +970,7 @@
   label_fields_permissions: 欄位權限
   label_readonly: 唯讀
   label_required: 必填
+  label_hidden: 隱藏
   label_attribute_of_project: "專案是 %{name}"
   label_attribute_of_issue: "問題是 %{name}"
   label_attribute_of_author: "作者是 %{name}"
@@ -979,6 +982,9 @@
   label_cross_project_hierarchy: 與專案階層架構共用
   label_cross_project_system: 與全部的專案共用
   label_gantt_progress_line: 進度線
+  label_visibility_private: 僅我自己可見
+  label_visibility_roles: 僅選取之角色可見
+  label_visibility_public: 任何用戶均可見
 
   button_login: 登入
   button_submit: 送出
@@ -1171,10 +1177,3 @@
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  notice_account_not_activated_yet: You haven't activated your account yet. If you want
-    to receive a new activation email, please <a href="%{url}">click this link</a>.
-  notice_account_locked: Your account is locked.
-  label_hidden: Hidden
-  label_visibility_private: to me only
-  label_visibility_roles: to these roles only
-  label_visibility_public: to any users
