@@ -14,7 +14,7 @@ end
 
 # Optional gem for OpenID authentication
 group :openid do
-  gem "ruby-openid", "~> 2.1.4", :require => "openid"
+  gem "ruby-openid", "~> 2.2.3", :require => "openid"
   gem "rack-openid"
 end
 
