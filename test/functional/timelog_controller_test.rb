@@ -548,6 +548,17 @@ class TimelogControllerTest < ActionController::TestCase
     assert_select 'td.issue_cf_2', :text => 'filter_on_issue_custom_field'
   end
 
+  def test_index_with_time_entry_custom_field_column
+    field = TimeEntryCustomField.generate!(:field_format => 'string')
+    entry = TimeEntry.generate!(:hours => 2.5, :custom_field_values => {field.id => 'CF Value'})
+    field_name = "cf_#{field.id}"
+
+    get :index, :c => ["hours", field_name]
+    assert_response :success
+    assert_include field_name.to_sym, assigns(:query).column_names
+    assert_select "td.#{field_name}", :text => 'CF Value'
+  end
+
   def test_index_atom_feed
     get :index, :project_id => 1, :format => 'atom'
     assert_response :success

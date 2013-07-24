@@ -76,6 +76,10 @@ class CustomField < ActiveRecord::Base
 
   CUSTOM_FIELDS_NAMES = CUSTOM_FIELDS_TABS.collect{|v| v[:name]}
 
+  def visible_by?(project, user=User.current)
+    visible? || user.admin?
+  end
+
   def field_format=(arg)
     # cannot change format of a saved custom field
     super if new_record?

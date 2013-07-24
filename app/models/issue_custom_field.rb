@@ -25,7 +25,7 @@ class IssueCustomField < CustomField
   end
 
   def visible_by?(project, user=User.current)
-    visible? || user.admin? || (roles & user.roles_for_project(project)).present?
+    super || (roles & user.roles_for_project(project)).present?
   end
 
   def validate_custom_field
