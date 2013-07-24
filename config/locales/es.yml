@@ -1118,8 +1118,8 @@ es:
   permission_edit_documents: Editar documentos
   permission_delete_documents: Borrar documentos
   label_gantt_progress_line: Línea de progreso
-  setting_jsonp_enabled: Enable JSONP support
-  field_inherit_members: Inherit members
-  field_closed_on: Closed
-  setting_default_projects_tracker_ids: Default trackers for new projects
+  setting_jsonp_enabled: Habilitar soporte de JSONP
+  field_inherit_members: Heredar miembros
+  field_closed_on: Cerrada
+  setting_default_projects_tracker_ids: Tipos de petición habilitados por defecto
   label_total_time: Total
