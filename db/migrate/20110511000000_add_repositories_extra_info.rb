@@ -1,6 +1,6 @@
 class AddRepositoriesExtraInfo < ActiveRecord::Migration
   def self.up
-    add_column :repositories, :extra_info, :text
+    add_column :repositories, :extra_info, :text, :limit => 4294967295
   end
 
   def self.down
