@@ -10,7 +10,7 @@
     <th><%= l(:field_name) %></th>
     <th style="width:15%;"><%= l(:field_is_default) %></th>
     <th style="width:15%;"><%= l(:field_active) %></th>
-    <th style="width:15%;"></th>
+    <th style="width:15%;"><%=l(:button_sort)%></th>
     <th align="center" style="width:10%;"> </th>
 </tr></thead>
 <% enumerations.each do |enumeration| %>
@@ -18,7 +18,7 @@
     <td><%= link_to h(enumeration), edit_enumeration_path(enumeration) %></td>
     <td class="center" style="width:15%;"><%= checked_image enumeration.is_default? %></td>
     <td class="center" style="width:15%;"><%= checked_image enumeration.active? %></td>
-    <td style="width:15%;"><%= reorder_links('enumeration', {:action => 'update', :id => enumeration}, :put) %></td>
+    <td align="center" style="width:15%;"><%= reorder_links('enumeration', {:action => 'update', :id => enumeration}, :put) %></td>
     <td class="buttons">
     <%= delete_link enumeration_path(enumeration) %>
     </td>
