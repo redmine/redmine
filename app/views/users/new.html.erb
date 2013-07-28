@@ -1,4 +1,4 @@
-<h2><%= link_to l(:label_user_plural), users_path %> &#187; <%=l(:label_user_new)%></h2>
+<%= title [l(:label_user_plural), users_path], l(:label_user_new) %>
 
 <%= labelled_form_for @user do |f| %>
   <%= render :partial => 'form', :locals => { :f => f } %>

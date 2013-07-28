@@ -1,4 +1,4 @@
-<h2><%=l(:label_auth_source_new)%> (<%= h(@auth_source.auth_method_name) %>)</h2>
+<%= title [l(:label_auth_source_plural), auth_sources_path], "#{l(:label_auth_source_new)} (#{@auth_source.auth_method_name})" %>
 
 <%= labelled_form_for @auth_source, :as => :auth_source, :url => auth_sources_path, :html => {:id => 'auth_source_form'} do |f| %>
   <%= hidden_field_tag 'type', @auth_source.type %>

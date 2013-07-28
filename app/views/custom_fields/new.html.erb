@@ -1,6 +1,6 @@
-<h2><%= link_to l(:label_custom_field_plural), :controller => 'custom_fields', :action => 'index' %>
-  &#187; <%= link_to l(@custom_field.type_name), :controller => 'custom_fields', :action => 'index', :tab => @custom_field.class.name %>
-  &#187; <%= l(:label_custom_field_new) %></h2>
+<%= title [l(:label_custom_field_plural), custom_fields_path],
+  [l(@custom_field.type_name), custom_fields_path(:tab => @custom_field.class.name)],
+  l(:label_custom_field_new) %>
 
 <%= labelled_form_for :custom_field, @custom_field, :url => custom_fields_path, :html => {:id => 'custom_field_form'} do |f| %>
 <%= render :partial => 'form', :locals => { :f => f } %>

@@ -1,4 +1,4 @@
-<h2><%= link_to l(:label_workflow), workflows_edit_path %> &#187; <%=l(:button_copy)%></h2>
+<%= title [l(:label_workflow), workflows_edit_path], l(:button_copy) %>
 
 <%= form_tag({}, :id => 'workflow_copy_form') do %>
 <fieldset class="tabular box">
