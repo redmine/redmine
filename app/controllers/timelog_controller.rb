@@ -52,13 +52,9 @@ class TimelogController < ApplicationController
 
     respond_to do |format|
       format.html {
-        # Paginate results
         @entry_count = scope.count
         @entry_pages = Paginator.new @entry_count, per_page_option, params['page']
-        @entries = scope.all(
-          :limit  =>  @entry_pages.per_page,
-          :offset =>  @entry_pages.offset
-        )
+        @entries = scope.offset(@entry_pages.offset).limit(@entry_pages.per_page).all
         @total_hours = scope.sum(:hours).to_f
 
         render :layout => !request.xhr?
@@ -66,15 +62,10 @@ class TimelogController < ApplicationController
       format.api  {
         @entry_count = scope.count
         @offset, @limit = api_offset_and_limit
-        @entries = scope.preload(:custom_values => :custom_field).all(
-          :limit  => @limit,
-          :offset => @offset
-        )
+        @entries = scope.offset(@offset).limit(@limit).preload(:custom_values => :custom_field).all
       }
       format.atom {
-        entries = scope.reorder("#{TimeEntry.table_name}.created_on DESC").all(
-          :limit => Setting.feeds_limit.to_i
-        )
+        entries = scope.limit(Setting.feeds_limit.to_i).reorder("#{TimeEntry.table_name}.created_on DESC").all
         render_feed(entries, :title => l(:label_spent_time))
       }
       format.csv {
