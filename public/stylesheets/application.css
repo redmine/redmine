@@ -577,7 +577,7 @@ table.members td.group { padding-left: 20px; background: url(../images/group.png
 input#principal_search, input#user_search {width:90%}
 
 input.autocomplete {
-  background: #fff url(../images/magnifier.png) no-repeat 2px 50%; padding-left:20px;
+  background: #fff url(../images/magnifier.png) no-repeat 2px 50%; padding-left:20px !important;
   border:1px solid #9EB1C2; border-radius:2px; height:1.5em;
 }
 input.autocomplete.ajax-loading {
