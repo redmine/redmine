@@ -43,10 +43,10 @@ class TimelogController < ApplicationController
 
   def index
     @query = TimeEntryQuery.build_from_params(params, :project => @project, :name => '_')
-    scope = time_entry_scope
 
     sort_init(@query.sort_criteria.empty? ? [['spent_on', 'desc']] : @query.sort_criteria)
     sort_update(@query.sortable_columns)
+    scope = time_entry_scope(:order => sort_clause)
 
     respond_to do |format|
       format.html {
@@ -55,7 +55,6 @@ class TimelogController < ApplicationController
         @entry_pages = Paginator.new @entry_count, per_page_option, params['page']
         @entries = scope.all(
           :include => [:project, :activity, :user, {:issue => :tracker}],
-          :order => sort_clause,
           :limit  =>  @entry_pages.per_page,
           :offset =>  @entry_pages.offset
         )
@@ -68,15 +67,13 @@ class TimelogController < ApplicationController
         @offset, @limit = api_offset_and_limit
         @entries = scope.all(
           :include => [:project, :activity, :user, {:issue => :tracker}],
-          :order => sort_clause,
           :limit  => @limit,
           :offset => @offset
         )
       }
       format.atom {
-        entries = scope.all(
+        entries = scope.reorder("#{TimeEntry.table_name}.created_on DESC").all(
           :include => [:project, :activity, :user, {:issue => :tracker}],
-          :order => "#{TimeEntry.table_name}.created_on DESC",
           :limit => Setting.feeds_limit.to_i
         )
         render_feed(entries, :title => l(:label_spent_time))
@@ -84,8 +81,7 @@ class TimelogController < ApplicationController
       format.csv {
         # Export all entries
         @entries = scope.all(
-          :include => [:project, :activity, :user, {:issue => [:tracker, :assigned_to, :priority]}],
-          :order => sort_clause
+          :include => [:project, :activity, :user, {:issue => [:tracker, :assigned_to, :priority]}]
         )
         send_data(query_to_csv(@entries, @query, params), :type => 'text/csv; header=present', :filename => 'timelog.csv')
       }
@@ -295,8 +291,8 @@ private
   end
 
   # Returns the TimeEntry scope for index and report actions
-  def time_entry_scope
-    scope = TimeEntry.visible.where(@query.statement)
+  def time_entry_scope(options={})
+    scope = @query.results_scope(options)
     if @issue
       scope = scope.on_issue(@issue)
     elsif @project

@@ -540,6 +540,24 @@ class TimelogControllerTest < ActionController::TestCase
     assert_select 'td.issue_cf_2', :text => 'filter_on_issue_custom_field'
   end
 
+  def test_index_with_time_entry_custom_field_sorting
+    field = TimeEntryCustomField.generate!(:field_format => 'string', :name => 'String Field')
+    TimeEntry.generate!(:hours => 2.5, :custom_field_values => {field.id => 'CF Value 1'})
+    TimeEntry.generate!(:hours => 2.5, :custom_field_values => {field.id => 'CF Value 3'})
+    TimeEntry.generate!(:hours => 2.5, :custom_field_values => {field.id => 'CF Value 2'})
+    field_name = "cf_#{field.id}"
+
+    get :index, :c => ["hours", field_name], :sort => field_name
+    assert_response :success
+    assert_include field_name.to_sym, assigns(:query).column_names
+    assert_select "th a.sort", :text => 'String Field'
+
+    # Make sure that values are properly sorted
+    values = assigns(:entries).map {|e| e.custom_field_value(field)}.compact
+    assert_equal 3, values.size
+    assert_equal values.sort, values
+  end
+
   def test_index_atom_feed
     get :index, :project_id => 1, :format => 'atom'
     assert_response :success

@@ -100,6 +100,15 @@ class TimeEntryQuery < Query
     @default_columns_names ||= [:project, :spent_on, :user, :activity, :issue, :comments, :hours]
   end
 
+  def results_scope(options={})
+    order_option = [group_by_sort_order, options[:order]].flatten.reject(&:blank?)
+
+    TimeEntry.visible.
+      where(statement).
+      order(order_option).
+      joins(joins_for_order_statement(order_option.join(',')))
+  end
+
   # Accepts :from/:to params as shortcut filters
   def build_from_params(params)
     super
