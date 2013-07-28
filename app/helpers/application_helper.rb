@@ -449,12 +449,31 @@ module ApplicationHelper
     end
   end
 
+	# Returns a h2 tag and sets the html title with the given arguments
+  def title(*args)
+    strings = args.map do |arg|
+      if arg.is_a?(Array) && arg.size >= 2
+        link_to(*arg)
+      else
+        h(arg.to_s)
+      end
+    end
+    html_title args.reverse.map {|s| (s.is_a?(Array) ? s.first : s).to_s}
+    content_tag('h2', strings.join(' &#187; ').html_safe)
+  end
+
+  # Sets the html title
+  # Returns the html title when called without arguments
+  # Current project name and app_title and automatically appended
+  # Exemples:
+  #   html_title 'Foo', 'Bar'
+  #   html_title # => 'Foo - Bar - My Project - Redmine'
   def html_title(*args)
     if args.empty?
       title = @html_title || []
       title << @project.name if @project
       title << Setting.app_title unless Setting.app_title == title.last
-      title.select {|t| !t.blank? }.join(' - ')
+      title.reject(&:blank?).join(' - ')
     else
       @html_title ||= []
       @html_title += args

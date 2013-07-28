@@ -1231,4 +1231,38 @@ RAW
     s = raw_json(["foo"])
     assert s.html_safe?
   end
+
+  def test_html_title_should_app_title_if_not_set
+    assert_equal 'Redmine', html_title
+  end
+
+  def test_html_title_should_join_items
+    html_title 'Foo', 'Bar'
+    assert_equal 'Foo - Bar - Redmine', html_title
+  end
+
+  def test_html_title_should_append_current_project_name
+    @project = Project.find(1)
+    html_title 'Foo', 'Bar'
+    assert_equal 'Foo - Bar - eCookbook - Redmine', html_title
+  end
+
+  def test_title_should_return_a_h2_tag
+    assert_equal '<h2>Foo</h2>', title('Foo')
+  end
+
+  def test_title_should_set_html_title
+    title('Foo')
+    assert_equal 'Foo - Redmine', html_title
+  end
+
+  def test_title_should_turn_arrays_into_links
+    assert_equal '<h2><a href="/foo">Foo</a></h2>', title(['Foo', '/foo'])
+    assert_equal 'Foo - Redmine', html_title
+  end
+
+  def test_title_should_join_items
+    assert_equal '<h2>Foo &#187; Bar</h2>', title('Foo', 'Bar')
+    assert_equal 'Bar - Foo - Redmine', html_title
+  end
 end
