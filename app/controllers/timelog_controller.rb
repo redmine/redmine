@@ -295,8 +295,6 @@ private
     scope = @query.results_scope(options)
     if @issue
       scope = scope.on_issue(@issue)
-    elsif @project
-      scope = scope.on_project(@project, Setting.display_subprojects_issues?)
     end
     scope
   end

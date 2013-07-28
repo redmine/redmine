@@ -443,6 +443,28 @@ class TimelogControllerTest < ActionController::TestCase
       :attributes => {:action => "/projects/ecookbook/time_entries", :id => 'query_form'}
   end
 
+  def test_index_with_display_subprojects_issues_to_false_should_not_include_subproject_entries
+    entry = TimeEntry.generate!(:project => Project.find(3))
+
+    with_settings :display_subprojects_issues => '0' do
+      get :index, :project_id => 'ecookbook'
+      assert_response :success
+      assert_template 'index'
+      assert_not_include entry, assigns(:entries)
+    end
+  end
+
+  def test_index_with_display_subprojects_issues_to_false_and_subproject_filter_should_include_subproject_entries
+    entry = TimeEntry.generate!(:project => Project.find(3))
+
+    with_settings :display_subprojects_issues => '0' do
+      get :index, :project_id => 'ecookbook', :subproject_id => 3
+      assert_response :success
+      assert_template 'index'
+      assert_include entry, assigns(:entries)
+    end
+  end
+
   def test_index_at_project_level_with_date_range
     get :index, :project_id => 'ecookbook',
       :f => ['spent_on'],
