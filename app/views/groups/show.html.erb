@@ -1,4 +1,4 @@
-<h2><%= link_to l(:label_group_plural), groups_path %> &#187; <%=h @group %></h2>
+<%= title [l(:label_group_plural), groups_path], @group.name %>
 
 <ul>
 <% @group.users.each do |user| %>
