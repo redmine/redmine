@@ -46,7 +46,9 @@ class TimelogController < ApplicationController
 
     sort_init(@query.sort_criteria.empty? ? [['spent_on', 'desc']] : @query.sort_criteria)
     sort_update(@query.sortable_columns)
-    scope = time_entry_scope(:order => sort_clause)
+    scope = time_entry_scope(:order => sort_clause).
+      includes(:project, :activity, :user, :issue).
+      preload(:issue => [:project, :tracker, :status, :assigned_to, :priority])
 
     respond_to do |format|
       format.html {
@@ -54,7 +56,6 @@ class TimelogController < ApplicationController
         @entry_count = scope.count
         @entry_pages = Paginator.new @entry_count, per_page_option, params['page']
         @entries = scope.all(
-          :include => [:project, :activity, :user, {:issue => :tracker}],
           :limit  =>  @entry_pages.per_page,
           :offset =>  @entry_pages.offset
         )
@@ -65,24 +66,20 @@ class TimelogController < ApplicationController
       format.api  {
         @entry_count = scope.count
         @offset, @limit = api_offset_and_limit
-        @entries = scope.all(
-          :include => [:project, :activity, :user, {:issue => :tracker}],
+        @entries = scope.preload(:custom_values => :custom_field).all(
           :limit  => @limit,
           :offset => @offset
         )
       }
       format.atom {
         entries = scope.reorder("#{TimeEntry.table_name}.created_on DESC").all(
-          :include => [:project, :activity, :user, {:issue => :tracker}],
           :limit => Setting.feeds_limit.to_i
         )
         render_feed(entries, :title => l(:label_spent_time))
       }
       format.csv {
         # Export all entries
-        @entries = scope.all(
-          :include => [:project, :activity, :user, {:issue => [:tracker, :assigned_to, :priority]}]
-        )
+        @entries = scope.all
         send_data(query_to_csv(@entries, @query, params), :type => 'text/csv; header=present', :filename => 'timelog.csv')
       }
     end
