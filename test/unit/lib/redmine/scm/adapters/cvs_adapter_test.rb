@@ -79,6 +79,22 @@ begin
         assert_equal "UTF-8", adpt2.path_encoding
       end
 
+      def test_root_url_path
+        to_test = {
+          ':pserver:cvs_user:cvs_password@123.456.789.123:9876/repo' => '/repo',
+          ':pserver:cvs_user:cvs_password@123.456.789.123/repo' => '/repo',
+          ':pserver:cvs_user:cvs_password@cvs_server:/repo' => '/repo',
+          ':pserver:cvs_user:cvs_password@cvs_server:9876/repo' => '/repo',
+          ':pserver:cvs_user:cvs_password@cvs_server/repo' => '/repo',
+          ':pserver:cvs_user:cvs_password@cvs_server/path/repo' => '/path/repo',
+          ':ext:cvsservername:/path' => '/path'
+        }
+
+        to_test.each do |string, expected|
+          assert_equal expected, Redmine::Scm::Adapters::CvsAdapter.new('foo', string).send(:root_url_path), "#{string} failed"
+        end
+      end
+
       private
 
       def test_scm_version_for(scm_command_version, version)
