@@ -205,12 +205,20 @@ module Redmine
           end
         end
         ending = -1
-        while ending >= -(max - starting) && line_left[ending] == line_right[ending]
+        while ending >= -(max - starting) && (line_left[ending] == line_right[ending])
           ending -= 1
         end
         if (! "".respond_to?(:force_encoding)) && ending > (-1 * line_left.size)
-          while line_left[ending].ord.between?(128, 191) && ending > -1
-            ending -= 1
+          while line_left[ending].ord.between?(128, 255) && ending < -1
+            if line_left[ending].ord.between?(128, 191)
+              if line_left[ending + 1].ord.between?(128, 191)
+                ending += 1
+              else
+                break
+              end
+            else
+              ending += 1
+            end
           end
         end
         unless starting == 0 && ending == -1
