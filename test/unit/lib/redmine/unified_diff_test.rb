@@ -308,6 +308,54 @@ DIFF
     end
   end
 
+  def test_offset_range_japanese_3
+    # UTF-8 The 1st byte differs.
+    ja1 = "\xe6\x97\xa5\xe6\x9c\xac<span>\xe8\xa8\x98</span>"
+    ja1.force_encoding('UTF-8') if ja1.respond_to?(:force_encoding)
+    ja2 = "\xe6\x97\xa5\xe6\x9c\xac<span>\xe5\xa8\x98</span>"
+    ja2.force_encoding('UTF-8') if ja2.respond_to?(:force_encoding)
+    with_settings :repositories_encodings => '' do
+      diff = Redmine::UnifiedDiff.new(
+               read_diff_fixture('issue-13644-3.diff'), :type => 'sbs')
+      assert_equal 1, diff.size
+      assert_equal 3, diff.first.size
+      assert_equal ja1, diff.first[1].html_line_left
+      assert_equal ja2, diff.first[1].html_line_right
+    end
+  end
+
+  def test_offset_range_japanese_4
+    # UTF-8 The 2nd byte differs. 
+    ja1 = "\xe6\x97\xa5\xe6\x9c\xac<span>\xe8\xa8\x98</span>"
+    ja1.force_encoding('UTF-8') if ja1.respond_to?(:force_encoding)
+    ja2 = "\xe6\x97\xa5\xe6\x9c\xac<span>\xe8\xaa\x98</span>"
+    ja2.force_encoding('UTF-8') if ja2.respond_to?(:force_encoding)
+    with_settings :repositories_encodings => '' do
+      diff = Redmine::UnifiedDiff.new(
+               read_diff_fixture('issue-13644-4.diff'), :type => 'sbs')
+      assert_equal 1, diff.size
+      assert_equal 3, diff.first.size
+      assert_equal ja1, diff.first[1].html_line_left
+      assert_equal ja2, diff.first[1].html_line_right
+    end
+  end
+
+  def test_offset_range_japanese_5
+    # UTF-8 The 2nd byte differs. 
+    ja1 = "\xe6\x97\xa5\xe6\x9c\xac<span>\xe8\xa8\x98</span>ok"
+    ja1.force_encoding('UTF-8') if ja1.respond_to?(:force_encoding)
+    ja2 = "\xe6\x97\xa5\xe6\x9c\xac<span>\xe8\xaa\x98</span>ok"
+    ja2.force_encoding('UTF-8') if ja2.respond_to?(:force_encoding)
+    with_settings :repositories_encodings => '' do
+      diff = Redmine::UnifiedDiff.new(
+               read_diff_fixture('issue-13644-5.diff'), :type => 'sbs')
+      assert_equal 1, diff.size
+      assert_equal 3, diff.first.size
+      assert_equal ja1, diff.first[1].html_line_left
+      assert_equal ja2, diff.first[1].html_line_right
+    end
+  end
+
   private
 
   def read_diff_fixture(filename)
