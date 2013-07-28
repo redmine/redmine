@@ -509,9 +509,9 @@ class IssueTest < ActiveSupport::TestCase
     WorkflowTransition.create!(:role_id => 1, :tracker_id => 1,
                                :old_status_id => 1, :new_status_id => 3,
                                :author => true, :assignee => false)
-    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1,
-                               :new_status_id => 4, :author => false,
-                               :assignee => true)
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1,
+                               :old_status_id => 1, :new_status_id => 4,
+                               :author => false, :assignee => true)
     WorkflowTransition.create!(:role_id => 1, :tracker_id => 1,
                                :old_status_id => 1, :new_status_id => 5,
                                :author => true, :assignee => true)
@@ -537,6 +537,26 @@ class IssueTest < ActiveSupport::TestCase
                             :project_id => 1, :author => user,
                             :assigned_to => user)
     assert_equal [1, 2, 3, 4, 5], issue.new_statuses_allowed_to(user).map(&:id)
+
+    group = Group.generate!
+    group.users << user
+    issue = Issue.generate!(:tracker => tracker, :status => status,
+                            :project_id => 1, :author => user,
+                            :assigned_to => group)
+    assert_equal [1, 2, 3, 4, 5], issue.new_statuses_allowed_to(user).map(&:id)
+  end
+
+  def test_new_statuses_allowed_to_should_consider_group_assignment
+    WorkflowTransition.delete_all
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1,
+                               :old_status_id => 1, :new_status_id => 4,
+                               :author => false, :assignee => true)
+    user = User.find(2)
+    group = Group.generate!
+    group.users << user
+ 
+    issue = Issue.generate!(:author_id => 1, :assigned_to => group)
+    assert_include 4, issue.new_statuses_allowed_to(user).map(&:id)
   end
 
   def test_new_statuses_allowed_to_should_return_all_transitions_for_admin
