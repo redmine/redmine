@@ -746,6 +746,21 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal [1, 2, 3], find_issues_with_query(query).map(&:id).sort
   end
 
+  def test_filter_on_relations_should_not_ignore_other_filter
+    issue = Issue.generate!
+    issue1 = Issue.generate!(:status_id => 1)
+    issue2 = Issue.generate!(:status_id => 2)
+    IssueRelation.create!(:relation_type => "relates", :issue_from => issue, :issue_to => issue1)
+    IssueRelation.create!(:relation_type => "relates", :issue_from => issue, :issue_to => issue2)
+
+    query = IssueQuery.new(:name => '_')
+    query.filters = {
+      "status_id" => {:operator => '=', :values => ['1']},
+      "relates" => {:operator => '=', :values => [issue.id.to_s]}
+    }
+    assert_equal [issue1], find_issues_with_query(query)
+  end
+
   def test_statement_should_be_nil_with_no_filters
     q = IssueQuery.new(:name => '_')
     q.filters = {}
