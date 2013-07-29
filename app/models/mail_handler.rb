@@ -28,7 +28,6 @@ class MailHandler < ActionMailer::Base
     @@handler_options = options.dup
 
     @@handler_options[:issue] ||= {}
-    @@handler_options[:issue].symbolize_keys!
 
     if @@handler_options[:allow_override].is_a?(String)
       @@handler_options[:allow_override] = @@handler_options[:allow_override].split(',').collect(&:strip)
