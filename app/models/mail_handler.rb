@@ -28,6 +28,7 @@ class MailHandler < ActionMailer::Base
     @@handler_options = options.dup
 
     @@handler_options[:issue] ||= {}
+    @@handler_options[:issue].symbolize_keys!
 
     if @@handler_options[:allow_override].is_a?(String)
       @@handler_options[:allow_override] = @@handler_options[:allow_override].split(',').collect(&:strip)
@@ -333,6 +334,13 @@ class MailHandler < ActionMailer::Base
     # * parse the email To field
     # * specific project (eg. Setting.mail_handler_target_project)
     target = Project.find_by_identifier(get_keyword(:project))
+    if target.nil?
+      # Invalid project keyword, use the project specified as the default one
+      default_project = @@handler_options[:issue][:project]
+      if default_project.present?
+        target = Project.find_by_identifier(default_project)
+      end
+    end
     raise MissingInformation.new('Unable to determine target project') if target.nil?
     target
   end

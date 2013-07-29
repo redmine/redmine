@@ -370,6 +370,15 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
   end
 
+  def test_add_issue_with_invalid_project_should_be_assigned_to_default_project
+    issue = submit_email('ticket_on_given_project.eml', :issue => {:project => 'ecookbook'}, :allow_override => 'project') do |email|
+      email.gsub!(/^Project:.+$/, 'Project: invalid')
+    end
+    assert issue.is_a?(Issue)
+    assert !issue.new_record?
+    assert_equal 'ecookbook', issue.project.identifier
+  end
+
   def test_add_issue_with_localized_attributes
     User.find_by_mail('jsmith@somenet.foo').update_attribute 'language', 'fr'
     issue = submit_email(
