@@ -209,7 +209,7 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_response :success
     project = assigns(:project)
     assert_kind_of Project, project
-    assert_not_nil project.errors[:parent_id]
+    assert_not_equal [], project.errors[:parent_id]
   end
 
   test "#create by non-admin user with add_subprojects permission should create a project with a parent_id" do
@@ -244,7 +244,7 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_response :success
     project = assigns(:project)
     assert_kind_of Project, project
-    assert_not_nil project.errors[:parent_id]
+    assert_not_equal [], project.errors[:parent_id]
   end
 
   test "#create by non-admin user with add_subprojects permission should fail with unauthorized parent_id" do
@@ -265,7 +265,7 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_response :success
     project = assigns(:project)
     assert_kind_of Project, project
-    assert_not_nil project.errors[:parent_id]
+    assert_not_equal [], project.errors[:parent_id]
   end
 
   def test_create_subproject_with_inherit_members_should_inherit_members

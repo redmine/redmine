@@ -490,7 +490,7 @@ class IssueTest < ActiveSupport::TestCase
     issue.tracker_id = 2
     issue.subject = 'New subject'
     assert !issue.save
-    assert_not_nil issue.errors[:tracker_id]
+    assert_not_equal [], issue.errors[:tracker_id]
   end
 
   def test_category_based_assignment
@@ -1045,7 +1045,7 @@ class IssueTest < ActiveSupport::TestCase
                       :status_id => 1, :fixed_version_id => 1,
                       :subject => 'New issue')
     assert !issue.save
-    assert_not_nil issue.errors[:fixed_version_id]
+    assert_not_equal [], issue.errors[:fixed_version_id]
   end
 
   def test_should_not_be_able_to_assign_a_new_issue_to_a_locked_version
@@ -1053,7 +1053,7 @@ class IssueTest < ActiveSupport::TestCase
                       :status_id => 1, :fixed_version_id => 2,
                       :subject => 'New issue')
     assert !issue.save
-    assert_not_nil issue.errors[:fixed_version_id]
+    assert_not_equal [], issue.errors[:fixed_version_id]
   end
 
   def test_should_be_able_to_assign_a_new_issue_to_an_open_version
@@ -1074,7 +1074,7 @@ class IssueTest < ActiveSupport::TestCase
     issue = Issue.find(11)
     issue.status_id = 1
     assert !issue.save
-    assert_not_nil issue.errors[:base]
+    assert_not_equal [], issue.errors[:base]
   end
 
   def test_should_be_able_to_reopen_and_reassign_an_issue_assigned_to_a_closed_version

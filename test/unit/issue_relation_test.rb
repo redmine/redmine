@@ -115,7 +115,7 @@ class IssueRelationTest < ActiveSupport::TestCase
           :relation_type => IssueRelation::TYPE_PRECEDES
         )
     assert !r.save
-    assert_not_nil r.errors[:base]
+    assert_not_equal [], r.errors[:base]
   end
 
   def test_validates_circular_dependency_of_subtask
@@ -166,7 +166,7 @@ class IssueRelationTest < ActiveSupport::TestCase
           :relation_type => IssueRelation::TYPE_BLOCKED
         )
     assert !r.save
-    assert_not_nil r.errors[:base]
+    assert_not_equal [], r.errors[:base]
   end
 
   def test_create_should_make_journal_entry
