@@ -97,6 +97,11 @@ module Redmine
           nil
         end
 
+        def fetch_all
+          logger.info "Fetching git changes"
+          git_cmd(%w|fetch --all|) {|io| puts io.readlines}
+        end
+
         def tags
           return @tags if @tags
           cmd_args = %w|tag|
