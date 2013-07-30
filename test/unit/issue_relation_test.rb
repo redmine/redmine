@@ -28,7 +28,8 @@ class IssueRelationTest < ActiveSupport::TestCase
            :issue_relations,
            :enabled_modules,
            :enumerations,
-           :trackers
+           :trackers,
+           :projects_trackers
 
   include Redmine::I18n
 
