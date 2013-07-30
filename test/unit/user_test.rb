@@ -366,7 +366,7 @@ class UserTest < ActiveSupport::TestCase
     u = User.new
     u.mail_notification = 'foo'
     u.save
-    assert_not_nil u.errors[:mail_notification]
+    assert_not_equal [], u.errors[:mail_notification]
   end
 
   context "User#try_to_login" do

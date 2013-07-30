@@ -93,7 +93,7 @@ class AttachmentTest < ActiveSupport::TestCase
   def test_description_length_should_be_validated
     a = Attachment.new(:description => 'a' * 300)
     assert !a.save
-    assert_not_nil a.errors[:description]
+    assert_not_equal [], a.errors[:description]
   end
 
   def test_destroy
