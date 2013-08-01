@@ -11,7 +11,8 @@ Run `rake --tasks test` to see available tests.
 Run `rake test` to run the entire test suite (except the tests for the
 Apache perl module Redmine.pm and Capybara tests, see below).
 
-You can run `ruby test/unit/issue_test.rb` for running a single test case.
+You can run `ruby test/unit/issue_test.rb` for running a single test case and
+`ruby test/unit/issue_test.rb -n test_create` for running a single test.
 
 Before running tests, you need to configure both development
 and test databases.
