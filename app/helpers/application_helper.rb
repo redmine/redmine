@@ -449,7 +449,7 @@ module ApplicationHelper
     end
   end
 
-	# Returns a h2 tag and sets the html title with the given arguments
+  # Returns a h2 tag and sets the html title with the given arguments
   def title(*args)
     strings = args.map do |arg|
       if arg.is_a?(Array) && arg.size >= 2
