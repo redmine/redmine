@@ -19,8 +19,29 @@
 
 module CustomFieldsHelper
 
+  CUSTOM_FIELDS_TABS = [
+    {:name => 'IssueCustomField', :partial => 'custom_fields/index',
+     :label => :label_issue_plural},
+    {:name => 'TimeEntryCustomField', :partial => 'custom_fields/index',
+     :label => :label_spent_time},
+    {:name => 'ProjectCustomField', :partial => 'custom_fields/index',
+     :label => :label_project_plural},
+    {:name => 'VersionCustomField', :partial => 'custom_fields/index',
+     :label => :label_version_plural},
+    {:name => 'UserCustomField', :partial => 'custom_fields/index',
+     :label => :label_user_plural},
+    {:name => 'GroupCustomField', :partial => 'custom_fields/index',
+     :label => :label_group_plural},
+    {:name => 'TimeEntryActivityCustomField', :partial => 'custom_fields/index',
+     :label => TimeEntryActivity::OptionName},
+    {:name => 'IssuePriorityCustomField', :partial => 'custom_fields/index',
+     :label => IssuePriority::OptionName},
+    {:name => 'DocumentCategoryCustomField', :partial => 'custom_fields/index',
+     :label => DocumentCategory::OptionName}
+  ]
+
   def custom_fields_tabs
-    CustomField::CUSTOM_FIELDS_TABS
+    CUSTOM_FIELDS_TABS
   end
 
   # Return custom field html tag corresponding to its format
