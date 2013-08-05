@@ -538,7 +538,7 @@ function warnLeavingUnsaved(message) {
   $('form').submit(function(){
     $('textarea').removeData('changed');
   });
-  $('textarea').change(function(){
+  $('textarea').live('change', function(){
     $(this).data('changed', 'changed');
   });
   window.onbeforeunload = function(){
