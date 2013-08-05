@@ -535,7 +535,7 @@ function initMyPageSortable(list, url) {
 var warnLeavingUnsavedMessage;
 function warnLeavingUnsaved(message) {
   warnLeavingUnsavedMessage = message;
-  $('form').submit(function(){
+  $('form').live('submit', function(){
     $('textarea').removeData('changed');
   });
   $('textarea').live('change', function(){
