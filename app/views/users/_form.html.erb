@@ -28,10 +28,11 @@
   <p><%= f.select :auth_source_id, ([[l(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] }), {}, :onchange => "if (this.value=='') {$('#password_fields').show();} else {$('#password_fields').hide();}" %></p>
   <% end %>
   <div id="password_fields" style="<%= 'display:none;' if @user.auth_source %>">
-  <p><%= f.check_box :generate_password %></p>
   <p><%= f.password_field :password, :required => true, :size => 25  %>
   <em class="info"><%= l(:text_caracters_minimum, :count => Setting.password_min_length) %></em></p>
   <p><%= f.password_field :password_confirmation, :required => true, :size => 25  %></p>
+  <p><%= f.check_box :generate_password %></p>
+  <p><%= f.check_box :must_change_passwd %></p>
   </div>
 </fieldset>
 </div>

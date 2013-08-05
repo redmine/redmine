@@ -335,6 +335,7 @@ fr:
   field_private_notes: Notes privées
   field_inherit_members: Hériter les membres
   field_generate_password: Générer un mot de passe
+  field_must_change_passwd: Doit changer de mot de passe à la prochaine connexion
 
   setting_app_title: Titre de l'application
   setting_app_subtitle: Sous-titre de l'application

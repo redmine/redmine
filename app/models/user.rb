@@ -280,6 +280,10 @@ class User < Principal
     return auth_source.allow_password_changes?
   end
 
+  def must_change_password?
+    must_change_passwd? && change_password_allowed?
+  end
+
   def generate_password?
     generate_password == '1' || generate_password == true
   end
@@ -568,6 +572,7 @@ class User < Principal
   safe_attributes 'status',
     'auth_source_id',
     'generate_password',
+    'must_change_passwd',
     :if => lambda {|user, current_user| current_user.admin?}
 
   safe_attributes 'group_ids',

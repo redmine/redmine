@@ -38,7 +38,7 @@ class ApplicationController < ActionController::Base
     cookies.delete(autologin_cookie_name)
   end
 
-  before_filter :session_expiration, :user_setup, :check_if_login_required, :set_localization
+  before_filter :session_expiration, :user_setup, :check_if_login_required, :check_password_change, :set_localization
 
   rescue_from ActionController::InvalidAuthenticityToken, :with => :invalid_authenticity_token
   rescue_from ::Unauthorized, :with => :deny_access
@@ -78,6 +78,9 @@ class ApplicationController < ActionController::Base
     session[:user_id] = user.id
     session[:ctime] = Time.now.utc.to_i
     session[:atime] = Time.now.utc.to_i
+    if user.must_change_password?
+      session[:pwd] = '1'
+    end
   end
 
   def user_setup
@@ -111,6 +114,10 @@ class ApplicationController < ActionController::Base
         # HTTP Basic, either username/password or API key/random
         authenticate_with_http_basic do |username, password|
           user = User.try_to_login(username, password) || User.find_by_api_key(username)
+        end
+        if user && user.must_change_password?
+          render_error :message => 'You must change your password', :status => 403
+          return
         end
       end
       # Switch user if requested by an admin user
@@ -168,6 +175,16 @@ class ApplicationController < ActionController::Base
     # no check needed if user is already logged in
     return true if User.current.logged?
     require_login if Setting.login_required?
+  end
+
+  def check_password_change
+    if session[:pwd]
+      if User.current.must_change_password?
+        redirect_to my_password_path
+      else
+        session.delete(:pwd)
+      end
+    end
   end
 
   def set_localization
