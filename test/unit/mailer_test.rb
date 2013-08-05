@@ -317,6 +317,29 @@ class MailerTest < ActiveSupport::TestCase
     assert !last_email.bcc.include?(user.mail)
   end
 
+  def test_issue_add_should_include_enabled_fields
+    Setting.default_language = 'en'
+    issue = Issue.find(2)
+    assert Mailer.deliver_issue_add(issue)
+    assert_mail_body_match '* Target version: 1.0', last_email
+    assert_select_email do
+      assert_select 'li', :text => 'Target version: 1.0'
+    end
+  end
+
+  def test_issue_add_should_not_include_disabled_fields
+    Setting.default_language = 'en'
+    issue = Issue.find(2)
+    tracker = issue.tracker
+    tracker.core_fields -= ['fixed_version_id']
+    tracker.save!
+    assert Mailer.deliver_issue_add(issue)
+    assert_mail_body_no_match 'Target version', last_email
+    assert_select_email do
+      assert_select 'li', :text => /Target version/, :count => 0
+    end
+  end
+
   # test mailer methods for each language
   def test_issue_add
     issue = Issue.find(1)
