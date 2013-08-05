@@ -46,6 +46,7 @@
 <fieldset class="box tabular">
   <legend><%=l(:label_preferences)%></legend>
   <%= render :partial => 'users/preferences' %>
+  <%= call_hook(:view_users_form_preferences, :user => @user, :form => f) %>
 </fieldset>
 </div>
 </div>
