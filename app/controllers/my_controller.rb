@@ -95,7 +95,7 @@ class MyController < ApplicationController
       if !@user.check_password?(params[:password])
         flash.now[:error] = l(:notice_account_wrong_password)
       elsif params[:password] == params[:new_password]
-        flash.now[:error] = 'Your new password must be different from your current password'
+        flash.now[:error] = l(:notice_new_password_must_be_different)
       else
         @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
         @user.must_change_passwd = false

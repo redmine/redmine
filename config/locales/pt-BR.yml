@@ -1117,3 +1117,5 @@ pt-BR:
   label_visibility_roles: to these roles only
   label_visibility_public: to any users
   field_must_change_passwd: Must change password at next logon
+  notice_new_password_must_be_different: The new password must be different from the
+    current password
