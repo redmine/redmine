@@ -1098,3 +1098,4 @@ en-GB:
   label_visibility_private: to me only
   label_visibility_roles: to these roles only
   label_visibility_public: to any users
+  field_must_change_passwd: Must change password at next logon

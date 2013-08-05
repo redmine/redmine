@@ -1124,3 +1124,4 @@ ja:
   label_visibility_private: 自分のみ
   label_visibility_roles: 以下のロールのみ
   label_visibility_public: すべてのユーザー
+  field_must_change_passwd: Must change password at next logon

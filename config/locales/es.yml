@@ -1132,3 +1132,4 @@ es:
   label_visibility_private: solamente para mí
   label_visibility_roles: solamente para estos roles
   label_visibility_public: para cualquier usuario
+  field_must_change_passwd: Must change password at next logon
