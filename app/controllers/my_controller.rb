@@ -17,7 +17,7 @@
 
 class MyController < ApplicationController
   before_filter :require_login
-  # let user change his password when he has to
+  # let user change user's password when user has to
   skip_before_filter :check_password_change, :only => :password
 
   helper :issues
