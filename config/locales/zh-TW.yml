@@ -265,6 +265,7 @@
   notice_issue_update_conflict: "當您正在編輯這個問題的時候，它已經被其他人搶先一步更新過。"
   notice_account_deleted: "您的帳戶已被永久刪除。"
   notice_user_successful_create: "已建立用戶 %{id}。"
+  notice_new_password_must_be_different: 新舊密碼必須相異
 
   error_can_t_load_default_data: "無法載入預設組態： %{value}"
   error_scm_not_found: "在儲存機制中找不到這個項目或修訂版。"
@@ -420,6 +421,7 @@
   field_private_notes: 私人筆記
   field_inherit_members: 繼承父專案成員
   field_generate_password: 產生密碼
+  field_must_change_passwd: 必須在下次登入時變更密碼
 
   setting_app_title: 標題
   setting_app_subtitle: 副標題
@@ -1177,6 +1179,3 @@
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  field_must_change_passwd: Must change password at next logon
-  notice_new_password_must_be_different: The new password must be different from the
-    current password
