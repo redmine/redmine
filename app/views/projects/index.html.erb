@@ -11,10 +11,10 @@
                   :id => nil } %>
 </div>
 
-<h2><%=l(:label_project_plural)%></h2>
+<h2><%= l(:label_project_plural) %></h2>
 
 <div id="projects-index">
-<%= render_project_hierarchy(@projects)%>
+<%= render_project_hierarchy(@projects) %>
 </div>
 
 <% if User.current.logged? %>
