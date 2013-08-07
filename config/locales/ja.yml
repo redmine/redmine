@@ -1124,6 +1124,5 @@ ja:
   label_visibility_private: 自分のみ
   label_visibility_roles: 以下のロールのみ
   label_visibility_public: すべてのユーザー
-  field_must_change_passwd: Must change password at next logon
-  notice_new_password_must_be_different: The new password must be different from the
-    current password
+  field_must_change_passwd: 次回ログイン時にパスワード変更を強制
+  notice_new_password_must_be_different: 新しいパスワードは現在のパスワードと異なるものでなければなりません
