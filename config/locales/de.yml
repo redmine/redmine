@@ -341,6 +341,7 @@ de:
   field_member_of_group: Zuständigkeitsgruppe
   field_min_length: Minimale Länge
   field_multiple: Mehrere Werte
+  field_must_change_passwd: Passwort beim nächsten Login ändern
   field_name: Name
   field_new_password: Neues Kennwort
   field_notes: Kommentare
@@ -547,6 +548,7 @@ de:
   label_group_new: Neue Gruppe
   label_group_plural: Gruppen
   label_help: Hilfe
+  label_hidden: Versteckt
   label_history: Historie
   label_home: Hauptseite
   label_in: in
@@ -746,6 +748,7 @@ de:
   label_today: heute
   label_topic_plural: Themen
   label_total: Gesamtzahl
+  label_total_time: Gesamtzeit
   label_tracker: Tracker
   label_tracker_new: Neuer Tracker
   label_tracker_plural: Tracker
@@ -777,6 +780,9 @@ de:
   label_view_all_revisions: Alle Revisionen anzeigen
   label_view_diff: Unterschiede anzeigen
   label_view_revisions: Revisionen anzeigen
+  label_visibility_private: nur für mich
+  label_visibility_public: für jeden Benutzer
+  label_visibility_roles: nur für diese Rollen
   label_watched_issues: Beobachtete Tickets
   label_week: Woche
   label_wiki: Wiki
@@ -856,6 +862,8 @@ de:
   notice_issue_successful_create: Ticket %{id} erstellt.
   notice_issue_update_conflict: Das Ticket wurde während Ihrer Bearbeitung von einem anderen Nutzer überarbeitet.
   notice_locking_conflict: Datum wurde von einem anderen Benutzer geändert.
+  notice_new_password_must_be_different: Das neue Passwort muss sich vom dem aktuellen
+    unterscheiden
   notice_no_issue_selected: "Kein Ticket ausgewählt! Bitte wählen Sie die Tickets, die Sie bearbeiten möchten."
   notice_not_authorized: Sie sind nicht berechtigt, auf diese Seite zuzugreifen.
   notice_not_authorized_archived_project: Das Projekt wurde archiviert und ist daher nicht nicht verfügbar.
@@ -1103,11 +1111,3 @@ de:
   version_status_open: offen
 
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
-  label_total_time: Gesamtzeit
-  label_hidden: Hidden
-  label_visibility_private: to me only
-  label_visibility_roles: to these roles only
-  label_visibility_public: to any users
-  field_must_change_passwd: Must change password at next logon
-  notice_new_password_must_be_different: The new password must be different from the
-    current password
