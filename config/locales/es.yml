@@ -1132,6 +1132,5 @@ es:
   label_visibility_private: solamente para mí
   label_visibility_roles: solamente para estos roles
   label_visibility_public: para cualquier usuario
-  field_must_change_passwd: Must change password at next logon
-  notice_new_password_must_be_different: The new password must be different from the
-    current password
+  field_must_change_passwd: Cambiar la contraseña en el siguiente identificación
+  notice_new_password_must_be_different: Nueva contraseña debe ser diferente de la actual
