@@ -184,6 +184,7 @@ bg:
   notice_issue_update_conflict: Задачата е била променена от друг потребител, докато вие сте я редактирали.
   notice_account_deleted: Вашият профил беше премахнат без възможност за възстановяване.
   notice_user_successful_create: Потребител %{id} е създаден.
+  notice_new_password_must_be_different: Новата парола трябва да бъде различна от сегашната парола
 
   error_can_t_load_default_data: "Грешка при зареждане на началната информация: %{value}"
   error_scm_not_found: Несъществуващ обект в хранилището.
@@ -338,6 +339,7 @@ bg:
   field_private_notes: Лични бележки
   field_inherit_members: Наследяване на членовете на родителския проект
   field_generate_password: Генериране на парола
+  field_must_change_passwd: Паролата трябва да бъде сменена при следващото влизане в Redmine
 
   setting_app_title: Заглавие
   setting_app_subtitle: Описание
@@ -1094,6 +1096,3 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  field_must_change_passwd: Must change password at next logon
-  notice_new_password_must_be_different: The new password must be different from the
-    current password
