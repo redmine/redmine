@@ -1092,7 +1092,7 @@ pt:
   field_inherit_members: Herdar membros
   field_closed_on: Fechado
   field_generate_password: Generate password
-  setting_default_projects_tracker_ids: Default trackers for new projects
+  setting_default_projects_tracker_ids: Tipo de tarefa padrão para novos projectos
   label_total_time: Total
   notice_account_not_activated_yet: You haven't activated your account yet. If you want
     to receive a new activation email, please <a href="%{url}">click this link</a>.
