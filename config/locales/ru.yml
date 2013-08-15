@@ -1146,7 +1146,7 @@ ru:
   project_status_active: открытые
   project_status_closed: закрытые
   project_status_archived: архивированные
-  text_project_closed: Проект закрыт и находиться в режиме только для чтения.
+  text_project_closed: Проект закрыт и находится в режиме только для чтения.
   notice_user_successful_create: Пользователь %{id} создан.
   field_core_fields: Стандартные поля
   field_timeout: Таймаут (в секундах)
