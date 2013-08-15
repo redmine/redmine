@@ -70,7 +70,7 @@ module ApplicationHelper
   end
   
   def getStars(nostars)
-    stars=" <i class='icon-ban-circle'></i>"
+    stars=" <i class='icon-question-sign'></i>"
     stars=(nostars=="1")?" <i class='icon-star'></i>":stars
     stars=(nostars=="2")?" <i class='icon-star'></i><i class='icon-star'></i>":stars
     stars=(nostars=="3")?" <i class='icon-star'></i><i class='icon-star'></i><i class='icon-star'></i>":stars
@@ -124,7 +124,7 @@ module ApplicationHelper
     elsif(value=="-1")
       level="This model is not yet supported by this simulator"
     else
-      level="Not yet determined"
+      level="Not yet determined. May be supported."
     end
   end
 
