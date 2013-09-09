@@ -191,8 +191,7 @@
 	</div> 
 </div>
 <%= javascript_tag('jQuery("#main").addClass("minwidth");') %>
-<%= javascript_include_tag('d3.v2.js') %>
-<%= javascript_include_tag('d3.layout.js') %>
+<%= javascript_include_tag('d3.v3.js') %>
 <!-- Create the tree unless it's IE --> 	    
 <% if !(request.env["HTTP_USER_AGENT"] =~ /MSIE/)%>
 	<%= javascript_include_tag('projectstree.js') %>
