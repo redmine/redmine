@@ -214,28 +214,6 @@ module IssuesHelper
     out
   end
 
-  def email_issue_attributes(issue, user)
-    items = []
-    %w(author status priority assigned_to category fixed_version).each do |attribute|
-      unless issue.disabled_core_fields.include?(attribute+"_id")
-        items << "#{l("field_#{attribute}")}: #{issue.send attribute}"
-      end
-    end
-    issue.visible_custom_field_values(user).each do |value|
-      items << "#{value.custom_field.name}: #{show_value(value)}"
-    end
-    items
-  end
-
-  def render_email_issue_attributes(issue, user, html=false)
-    items = email_issue_attributes(issue, user)
-    if html
-      content_tag('ul', items.map{|s| content_tag('li', s)}.join("\n").html_safe)
-    else
-      items.map{|s| "* #{s}"}.join("\n")
-    end
-  end
-
   # Returns the textual representation of a journal details
   # as an array of strings
   def details_to_strings(details, no_html=false, options={})
