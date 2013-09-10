@@ -33,7 +33,7 @@ class UserPreference < ActiveRecord::Base
   end
 
   def [](attr_name)
-    if attribute_present? attr_name
+    if has_attribute? attr_name
       super
     else
       others ? others[attr_name] : nil
@@ -41,7 +41,7 @@ class UserPreference < ActiveRecord::Base
   end
 
   def []=(attr_name, value)
-    if attribute_present? attr_name
+    if has_attribute? attr_name
       super
     else
       h = (read_attribute(:others) || {}).dup

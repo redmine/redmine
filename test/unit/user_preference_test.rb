@@ -55,6 +55,11 @@ class UserPreferenceTest < ActiveSupport::TestCase
     assert_kind_of Hash, up.others
   end
 
+  def test_others_should_be_blank_after_initialization
+    pref = User.new.pref
+    assert_equal({}, pref.others)
+  end
+
   def test_reading_value_from_nil_others_hash
     up = UserPreference.new(:user => User.new)
     up.others = nil
