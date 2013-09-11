@@ -42,6 +42,13 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_nil Attachment.new.container
   end
 
+  def test_filename_should_remove_eols
+    assert_equal "line_feed", Attachment.new(:filename => "line\nfeed").filename
+    assert_equal "line_feed", Attachment.new(:filename => "some\npath/line\nfeed").filename
+    assert_equal "carriage_return", Attachment.new(:filename => "carriage\rreturn").filename
+    assert_equal "carriage_return", Attachment.new(:filename => "some\rpath/carriage\rreturn").filename
+  end
+
   def test_create
     a = Attachment.new(:container => Issue.find(1),
                        :file => uploaded_test_file("testfile.txt", "text/plain"),

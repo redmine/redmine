@@ -294,10 +294,10 @@ class Attachment < ActiveRecord::Base
 
   def sanitize_filename(value)
     # get only the filename, not the whole path
-    just_filename = value.gsub(/^.*(\\|\/)/, '')
+    just_filename = value.gsub(/\A.*(\\|\/)/m, '')
 
     # Finally, replace invalid characters with underscore
-    @filename = just_filename.gsub(/[\/\?\%\*\:\|\"\'<>]+/, '_')
+    @filename = just_filename.gsub(/[\/\?\%\*\:\|\"\'<>\n\r]+/, '_')
   end
 
   # Returns the subdirectory in which the attachment will be saved
