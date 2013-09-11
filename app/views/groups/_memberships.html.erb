@@ -58,7 +58,7 @@
 <% roles.each do |role| %>
   <label><%= check_box_tag 'membership[role_ids][]', role.id %> <%=h role %></label>
 <% end %></p>
-<p><%= submit_tag l(:button_add) %></p>
+<p><%= submit_tag l(:button_add), :class=>"btn btn-large btn-success"   %></p>
 <% end %>
 </fieldset>
 <% end %>

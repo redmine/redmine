@@ -1,10 +1,12 @@
+<script type="text/javascript" src="/javascripts/jquery.simplyscroll.min.js"></script>
+
 <div class="row pull-right lead sidetitle ">About OSB <i class="icon-group"></i></div>
 <br/></br/></br/><br/>
 <div>
 	<div class="marketing">
 		<h1>What?</h1>
 		<p class="marketing-byline">
-		<br/><strong>Open Source Brain</strong> is a resource for sharing and collaboratively developing <a  target="_blank" href="http://www.scholarpedia.org/article/Category:Models_of_Neurons">
+		<br/><strong>Open Source Brain</strong> is a resource for sharing and collaboratively developing <a  target="_blank" href="http://en.wikipedia.org/wiki/Computational_neuroscience">
 		computational models of neural systems</a>. 
 		
 		<br/><br/>
@@ -30,24 +32,40 @@
 		<h1>Who?</h1> 
 		<p class="marketing-byline">
 			<br/>		
-			The Open Source Brain initiative was started in the <a target="_blank" href="http://www.ucl.ac.uk/silverlab/">Silver Lab</a> at <a  target="_blank"  href="http://www.ucl.ac.uk">UCL</a> 
+			The Open Source Brain initiative was started in the <a href="groups/7">Silver Lab</a> at <a  target="_blank"  href="http://www.ucl.ac.uk">UCL</a> 
 			as part of a <a target="_blank" href="http://www.wellcome.ac.uk/">Wellcome Trust</a> funded project to encourage collaborative development of models in computational neuroscience.
 			<br/>	
 			<br/>A number of research groups and organisations from all over the world are currently actively developing and sharing their neuronal models on OSB.</p>
  			<br/>
-			<p class="facts"><%= @allusers.length %> Scientists &nbsp;&nbsp;  <%= @groups.length %> Research groups &nbsp;&nbsp;  <%= @allprojects.length %> Projects</h3>
+			<p class="facts"><%= @allusers.length %> Members &nbsp;&nbsp;  <%= @groups.length %> Research groups &nbsp;&nbsp;  <%= @allprojects.length %> Projects</h3>
  			<br/>
  			<div id="aboutmap">
-				<div class="pull-left">
-					<br/>
+				<ul id="labs" class="pull-left">
 					<% for group in @groups %>
-						<p class="labname"> <a href="groups/<%=  group.id %>"><%=  group.name %> </a></p>
+						<li class="labname"> <a href="groups/<%=  group.id %>"><%=  group.name %> </a></li>
 					<% end %>
 					<% @group = nil %>
-				</div>
+				</ul>
 			</div>
 		</p>
 		<br/><br/>
 	</div>
 </div>
+
+
+
+<script type="text/javascript">
+(function($) {
+	$(function() { //on DOM ready 
+    		jQuery("#labs").simplyScroll({
+			customClass: 'vert',
+			orientation: 'vertical',
+            auto: true,
+            manualMode: 'loop',
+			frameRate: 20,
+			speed: 1
+		});
+	});
+ })(jQuery);
+</script>
 

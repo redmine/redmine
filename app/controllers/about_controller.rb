@@ -16,13 +16,19 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class AboutController < ApplicationController
-
+  include ApplicationHelper
   def index
     @news = News.latest User.current
     @projects = Project.latest User.current
 
     @groups = Group.find(:all, :order => 'lastname')
-    @allprojects = Project.find(:all)
+    @allprojects=[]
+    Project.all.each do |project|
+      if isProjectOrShowcase(project)
+        @allprojects << project
+      end
+    end
+
     @allusers = User.find(:all)
   end
   

@@ -61,6 +61,15 @@ class WikiController < ApplicationController
     load_pages_for_index
     @pages_by_date = @pages.group_by {|p| p.updated_on.to_date}
   end
+  
+  
+  def render_noWiki(options={})
+    repourl=getCustomField(@project,"GitHub repository")
+    browseurl=url_for({:controller => 'projects', :action => 'show', :id => @project.id})+"/repository"
+    membersurl=url_for({:controller => 'projects', :action => 'show', :id => @project.id})+"/#members"
+    render_error({:message => "There is not yet a wiki page for this project on OSB. You can <a href='#{repourl}'>clone</a> this project, <a href='#{browseurl}'>browse</a> its repository or get in <a href='#{membersurl}'>contact</a> with the developers if you have questions.", :status => ""}.merge(options))
+    return false
+  end
 
   # display a page (in editing mode if it doesn't exist)
   def show
@@ -69,7 +78,7 @@ class WikiController < ApplicationController
         edit
         render :action => 'edit'
       else
-        render_404
+        render_noWiki
       end
       return
     end

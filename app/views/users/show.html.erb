@@ -26,11 +26,18 @@
       <% elsif custom_value.custom_field.name == 'GitHub username' %>
 
         <% if show_value(custom_value).index('github.com') == nil %>
-          <li><a href="https://github.com/<%=h show_value(custom_value) %>">GitHub user</a></li>
+          <li><a href="https://github.com/<%=h show_value(custom_value) %>" target="_blank">GitHub user</a></li>
         <% else %>
-          <li><a href="<%=h show_value(custom_value) %>">GitHub user</a></li>
+          <li><a href="<%=h show_value(custom_value) %>" target="_blank">GitHub user</a></li>
         <% end %>
+      <% elsif custom_value.custom_field.name == 'Bitbucket username' %>
 
+        <% if show_value(custom_value).index('bitbucket.com') == nil %>
+          <li><a href="https://bitbucket.com/<%=h show_value(custom_value) %>" target="_blank">Bitbucket user</a></li>
+        <% else %>
+          <li><a href="<%=h show_value(custom_value) %>" target="_blank">Bitbucket user</a></li>
+        <% end %>
+	
       <% else %>
         <li><%=h custom_value.custom_field.name%>: <%=h show_value(custom_value) %></li>
       <% end %>

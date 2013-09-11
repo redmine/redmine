@@ -1,11 +1,11 @@
-var m = [ 20, 10, 20, 50 ], w = 820 - m[1] - m[3], h = 800 - m[0] - m[2], i = 0, root;
+var m = [ 20, 10, 20, 50 ], w = 900 - m[1] - m[3], h = 800 - m[0] - m[2], i = 0, root;
 
 var tree = d3.layout.tree().size([ h, w ]).separation(function(a, b) {
 	return 100;
 });
 
 var diagonal = d3.svg.diagonal().projection(function(d) {
-	return [ d.x, d.y ];
+	return [ d.y, d.x ];
 });
 
 var vis = d3.select("#body").append("svg:svg").attr("width", w + m[1] + m[3])
@@ -34,12 +34,33 @@ function toggleAll(d) {
 
 function makeTree(source)
 {
+	//dynamic width
+	
+	  var levelWidth = [1];
+	  var childCount = function(level, n) {
+	    
+	    if(n.children && n.children.length > 0) {
+	      if(levelWidth.length <= level + 1) levelWidth.push(0);
+	      
+	      levelWidth[level+1] += n.children.length;
+	      n.children.forEach(function(d) {
+	        childCount(level + 1, d);
+	      });
+	    }
+	  };
+	  childCount(0, root);  
+	  var newHeight = d3.max(levelWidth) * 150; // 20 pixels per line  
+	  tree = tree.size([newHeight, w]);
+	jQuery("svg").get(0).setAttribute("height", Math.max(newHeight, w) + 150);
+	
+	//end dynamic width
+	
 	// Compute the new tree layout.
 	var nodes = tree.nodes(root).reverse();
-
+	
 	// Normalize for fixed-depth.
 	nodes.forEach(function(d) {
-		d.y = d.depth * 100;
+		d.y = d.depth * 120;
 	});
 
 	// Update the nodesÉ
@@ -48,8 +69,9 @@ function makeTree(source)
 	});
 
 	// Enter any new nodes at the parent's previous position.
-	var nodeEnter = node.enter().append("svg:g").attr("class", "node").on(
-			"click", function(d) {
+	var nodeEnter = node.enter().append("svg:g").attr("class", "node")
+		.attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
+		.on("click", function(d) {
 				toggle(d);
 				makeTree(d);
 			});
@@ -65,8 +87,9 @@ function makeTree(source)
 	nodeEnter.append("a").attr("xlink:href", function(d) {
 		return d.link;
 	}).append("foreignObject").attr("height", "100").attr("width", function(d) {
-		return d.name === "Animal Kingdom" ? "200" : "120";
-	}).attr("x", 10).attr("y", -8).append("xhtml:body").attr(
+		return d.name === "Animal Kingdom" ? "200" : "150";
+	}).attr("x", function(d) { return d.children || d._children ? 10 : 10; })
+    .attr("y", "-10").append("xhtml:body").attr(
 			"class",
 			function(d) {
 				return d.name === "Animal Kingdom" ? "treetextwide"
@@ -84,7 +107,7 @@ function makeTree(source)
 	// Transition nodes to their new position.
 	var nodeUpdate = node.transition().duration(duration).attr("transform",
 			function(d) {
-				return "translate(" + d.x + "," + d.y + ")";
+				return "translate(" + d.y + "," + d.x + ")";
 			});
 
 	nodeUpdate.select("circle").attr("r", 6).style("fill", function(d) {
@@ -162,32 +185,9 @@ var duration = 500;
 function standardOpening()
 {
 	// Initialize the display to show a few nodes.
-	
-	timer = setInterval(function() {
-		update(root);
-		makeTree(root);
-	}, duration);
+	openSpecificTree("Vertebrate","Mammalian","Rodent","Cerebellum","");
 }
 
-function update(source) {
-	if (step == 0) {
-		toggle(root);
-		if (root.children != null) {
-			root.children.forEach(toggleAll);
-			step++;
-		}
-	} else if (step == 1) {
-		toggle(root.children[0]);
-		step++;
-	} else if (step == 2) {
-		toggle(root.children[0].children[0]);
-		step++;
-	} else if (step == 3) {
-		toggle(root.children[0].children[0].children[0]);
-		step++;
-		clearInterval(timer);
-	}
-}
 
 
 //This functions opens a specific configuration of the tree, used as backend for the breadcrumb feature

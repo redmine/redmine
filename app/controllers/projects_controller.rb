@@ -90,10 +90,10 @@ class ProjectsController < ApplicationController
   
   
   def validateGitHubRepo(repository)
-    if repository
+    if repository!=""
       #checks is valid
       #check is already cloned?
-      gitFolder=File.basename(repository.value)
+      gitFolder=File.basename(repository)
       if gitFolder!=""
         if not File.directory? "/home/svnsvn/myGitRepositories/"+gitFolder
           if File.extname(gitFolder)==".git"
@@ -108,7 +108,11 @@ class ProjectsController < ApplicationController
         @project.errors.add "", "You need to specify a Git repository."
       end
     else
-      @project.errors.add "", "You need to specify a Git repository."  
+      if (User.current.admin?)==false
+        @project.errors.add "", "You need to specify a Git repository."
+      else
+        return true
+      end  
     end
     return false
   end
@@ -158,7 +162,7 @@ class ProjectsController < ApplicationController
 
       respond_to do |format|
         format.html {
-          flash[:notice] = l(:notice_successful_create)
+          flash[:success] = l(:notice_successful_create)
           if params[:continue]
             attrs = {:parent_id => @project.parent_id}.reject {|k,v| v.nil?}
             redirect_to new_project_path(attrs)
@@ -169,8 +173,11 @@ class ProjectsController < ApplicationController
         format.api  { render :action => 'show', :status => :created, :location => url_for(:controller => 'projects', :action => 'show', :id => @project.id) }
       end
       
-      @mirroredRepo=mirrorGitHubRepo(@githubRepo.value)
-      addMirroredRepo(@mirroredRepo)
+      if @githubRepo!=""
+        @mirroredRepo=mirrorGitHubRepo(@githubRepo)
+        addMirroredRepo(@mirroredRepo)  
+      end
+      
     else
       respond_to do |format|
         format.html { render :action => 'new' }
@@ -192,7 +199,7 @@ class ProjectsController < ApplicationController
         @project.safe_attributes = params[:project]
         if validate_parent_id && @project.copy(@source_project, :only => params[:only])
           @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
-          flash[:notice] = l(:notice_successful_create)
+          flash[:success] = l(:notice_successful_create)
           redirect_to settings_project_path(@project)
         elsif !@project.new_record?
           # Project was created
@@ -255,7 +262,7 @@ class ProjectsController < ApplicationController
       @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
       respond_to do |format|
         format.html {
-          flash[:notice] = l(:notice_successful_update)
+          flash[:success] = l(:notice_successful_update)
           redirect_to settings_project_path(@project)
         }
         format.api  { render_api_ok }
@@ -273,7 +280,7 @@ class ProjectsController < ApplicationController
 
   def modules
     @project.enabled_module_names = params[:enabled_module_names]
-    flash[:notice] = l(:notice_successful_update)
+    flash[:success] = l(:notice_successful_update)
     redirect_to settings_project_path(@project, :tab => 'modules')
   end
 

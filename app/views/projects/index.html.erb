@@ -33,7 +33,7 @@
 					    </div>
 					    <div class="tab-pane row-fluid" id="listcells">
 					    	<div class="span4 navbar">
-						    	<div class="nav-collapse">
+						    	<div class="nav">
 						    		<form class="filterform form-search" action="#">
 						    			<div class="input-prepend">
 										  <span class="add-on"><i class="icon-filter"></i></span>
@@ -78,7 +78,7 @@
 	        <div class="tab-pane" id="technology">
 				<div class="tab-pane row-fluid" id="listcells">
 			    	<div class="span4 navbar">
-				    	<div class="nav-collapse">
+				    	<div class="nav">
 				    		<form class="filterform form-search" action="#">
 				    			<div class="input-prepend">
 								  <span class="add-on"><i class="icon-filter"></i></span>
@@ -119,7 +119,7 @@
 	        <div class="tab-pane" id="groups">
 	        	<div class="tab-pane row-fluid" id="listcells">
 			    	<div class="span3 navbar">
-				    	<div class="nav-collapse">
+				    	<div class="nav">
 				    		<form class="filterform form-search" action="#">
 				    			<div class="input-prepend">
 								  <span class="add-on"><i class="icon-filter"></i></span>
@@ -136,7 +136,7 @@
 					<div class="span9 tab-content">
 						<% for group in @groups %>
 							<div class="tab-pane" id="group<%= group.id %>"">
-						        <h3><a class="capitalize" href="<%=  group.custom_field_values[0] %>"><%=  group.name %> </a></h3>
+						        <h3><a class="capitalize" href="groups/<%= group.id %>"><%=  group.name %> </a></h3>
 						        <!-- Obtained from http://findicons.com/pack/282/flags -->
 								<img src="../images/<%= group.custom_field_values[4] %>.png" alt="<%= group.custom_field_values[4] %>"/>
 						        <p>Principal investigator: <b><%= group.custom_field_values[1] %></b> </p>
@@ -155,7 +155,7 @@
 	        <div class="tab-pane" id="people">
 	        	<div class="tab-pane row-fluid" id="listpeople">
 			    	<div class="span3 navbar">
-				    	<div class="nav-collapse">
+				    	<div class="nav">
 				    		<form class="filterform form-search" action="#">
 				    			<div class="input-prepend">
 								  <span class="add-on"><i class="icon-filter"></i></span>
@@ -191,8 +191,7 @@
 	</div> 
 </div>
 <%= javascript_tag('jQuery("#main").addClass("minwidth");') %>
-<%= javascript_include_tag('d3.v2.js') %>
-<%= javascript_include_tag('d3.layout.js') %>
+<%= javascript_include_tag('d3.v3.js') %>
 <!-- Create the tree unless it's IE --> 	    
 <% if !(request.env["HTTP_USER_AGENT"] =~ /MSIE/)%>
 	<%= javascript_include_tag('projectstree.js') %>

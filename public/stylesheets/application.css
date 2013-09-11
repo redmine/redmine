@@ -23,6 +23,19 @@ body {
 
 /* From redmine */
 
+/***** Diff *****/
+.diff_out { background: #ff6600; color:white; }
+.diff_out span { background: #faa; }
+.diff_in { background: #718e00; color:white; }
+.diff_in span { background: #afa; }
+
+.text-diff {
+  padding: 1em;
+  background-color:#f6f6f6;
+  color:#505050;
+  border: 1px solid #e4e4e4;
+}
+
 a.wiki-anchor {
 	display: none;
 	margin-left: 6px;
@@ -636,24 +649,37 @@ icon:hover {
 	background-color: #37abc8;
 }
 
-.explore-view .nav-collapse .nav > li > a, .nav-collapse .dropdown-menu a {
+#cells .nav{
+ 	width:266px;
+}
+#technology .nav{
+ 	width:266px;
+}
+#groups .nav{
+ 	width:195px;
+}
+#people .nav{
+ 	width:195px;
+}
+ 
+.explore-view .nav .nav > li > a, .nav-collapse .dropdown-menu a {
 	padding: 9px 15px;
 	color: #777777;
 	-webkit-border-radius: 8px;
 	-moz-border-radius: 8px;
 	border-radius: 8px;
 }
-.nav-collapse .btn {
+.nav .btn {
 	padding: 4px 10px 4px;
 	font-weight: normal;
 	-webkit-border-radius: 8px;
 	-moz-border-radius: 8px;
 	border-radius: 8px;
 }
-.nav-collapse .dropdown-menu li + li a {
+.nav .dropdown-menu li + li a {
 	margin-bottom: 2px;
 }
-.explore-view .nav-collapse .nav > li > a:hover, .nav-collapse .dropdown-menu a:hover {
+.explore-view .nav-collapse .nav > li > a:hover, .nav .dropdown-menu a:hover {
 	background-color: #f2f2f2;
 }
 
@@ -968,7 +994,7 @@ section p {
 
 path.link {
 	fill: none;
-	stroke: #815f01;
+	stroke: #ebebeb;
 	stroke-width: 3px;
 }
 
@@ -1194,4 +1220,188 @@ iframe {
 }
 .baseline{
 	vertical-align:baseline!important;
+}
+.icon-xxxlarge{
+	font-size:200px;
+	color: gray;
+	margin-right:70px;
+}
+.icon-xxxlarge:hover{
+	color: gray!important;
+}
+
+
+
+/* Model components section */
+
+.wrapped-channelml{
+	font-weight:200;
+}
+
+.wrapped-channelml b{
+	font-weight: bold;
+}
+
+.wrapped-channelml .table-borderless{
+	border: 0!important;
+}
+
+
+.wrapped-channelml .table-border-summary {
+  border: 1px solid #dddddd;
+  border-collapse: separate;
+  *border-collapse: collapse;
+  border-left: 0;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+}
+
+.wrapped-channelml .table-border-summary > tbody > tr > th,
+.wrapped-channelml .table-border-summary > tbody > tr > td {
+  border-left: 1px solid #dddddd;
+}
+
+.wrapped-channelml .table-border-summary caption + thead tr:first-child th,
+.wrapped-channelml .table-border-summary caption + tbody tr:first-child th,
+.wrapped-channelml .table-border-summary caption + tbody tr:first-child td,
+.wrapped-channelml .table-border-summary colgroup + thead tr:first-child th,
+.wrapped-channelml .table-border-summary colgroup + tbody tr:first-child th,
+.wrapped-channelml .table-border-summary colgroup + tbody tr:first-child td,
+.wrapped-channelml .table-border-summary thead:first-child tr:first-child th,
+.wrapped-channelml .table-border-summary tbody:first-child tr:first-child th,
+.wrapped-channelml .table-border-summary tbody:first-child tr:first-child td {
+  border-top: 0;
+}
+
+.wrapped-channelml .table-border-summary thead:first-child tr:first-child > th:first-child,
+.wrapped-channelml .table-border-summary tbody:first-child tr:first-child > td:first-child,
+.wrapped-channelml .table-border-summary tbody:first-child tr:first-child > th:first-child {
+  -webkit-border-top-left-radius: 4px;
+          border-top-left-radius: 4px;
+  -moz-border-radius-topleft: 4px;
+}
+
+.wrapped-channelml .table-border-summary thead:first-child tr:first-child > th:last-child,
+.wrapped-channelml .table-border-summary tbody:first-child tr:first-child > td:last-child,
+.wrapped-channelml .table-border-summary tbody:first-child tr:first-child > th:last-child {
+  -webkit-border-top-right-radius: 4px;
+          border-top-right-radius: 4px;
+  -moz-border-radius-topright: 4px;
+}
+
+.wrapped-channelml .table-border-summary thead:last-child tr:last-child > th:first-child,
+.wrapped-channelml .table-border-summary tbody:last-child tr:last-child > td:first-child,
+.wrapped-channelml .table-border-summary tbody:last-child tr:last-child > th:first-child,
+.wrapped-channelml .table-border-summary tfoot:last-child tr:last-child > td:first-child,
+.wrapped-channelml .table-border-summary tfoot:last-child tr:last-child > th:first-child {
+  -webkit-border-bottom-left-radius: 4px;
+          border-bottom-left-radius: 4px;
+  -moz-border-radius-bottomleft: 4px;
+}
+
+.wrapped-channelml .table-border-summary thead:last-child tr:last-child > th:last-child,
+.wrapped-channelml .table-border-summary tbody:last-child tr:last-child > td:last-child,
+.wrapped-channelml .table-border-summary tbody:last-child tr:last-child > th:last-child,
+.wrapped-channelml .table-border-summary tfoot:last-child tr:last-child > td:last-child,
+.wrapped-channelml .table-border-summary tfoot:last-child tr:last-child > th:last-child {
+  -webkit-border-bottom-right-radius: 4px;
+          border-bottom-right-radius: 4px;
+  -moz-border-radius-bottomright: 4px;
+}
+
+.wrapped-channelml .table-border-summary tfoot + tbody:last-child tr:last-child td:first-child {
+  -webkit-border-bottom-left-radius: 0;
+          border-bottom-left-radius: 0;
+  -moz-border-radius-bottomleft: 0;
+}
+
+.wrapped-channelml .table-border-summary tfoot + tbody:last-child tr:last-child td:last-child {
+  -webkit-border-bottom-right-radius: 0;
+          border-bottom-right-radius: 0;
+  -moz-border-radius-bottomright: 0;
+}
+
+.wrapped-channelml .table-border-summary caption + thead tr:first-child th:first-child,
+.wrapped-channelml .table-border-summary caption + tbody tr:first-child td:first-child,
+.wrapped-channelml .table-border-summary colgroup + thead tr:first-child th:first-child,
+.wrapped-channelml .table-border-summary colgroup + tbody tr:first-child td:first-child {
+  -webkit-border-top-left-radius: 4px;
+          border-top-left-radius: 4px;
+  -moz-border-radius-topleft: 4px;
+}
+
+.wrapped-channelml .table-border-summary caption + thead tr:first-child th:last-child,
+.wrapped-channelml .table-border-summary caption + tbody tr:first-child td:last-child,
+.wrapped-channelml .table-border-summary colgroup + thead tr:first-child th:last-child,
+.wrapped-channelml .table-border-summary colgroup + tbody tr:first-child td:last-child {
+  -webkit-border-top-right-radius: 4px;
+          border-top-right-radius: 4px;
+  -moz-border-radius-topright: 4px;
+}
+
+/* Scrolling */
+
+#labs{
+	list-style: none;
+}
+/* Container DIV - automatically generated */
+.simply-scroll-container { 
+	position: relative;
+}
+
+/* Clip DIV - automatically generated */
+.simply-scroll-clip { 
+	position: relative;
+	overflow: hidden;
+}
+
+/* UL/OL/DIV - the element that simplyScroll is inited on
+Class name automatically added to element */
+.simply-scroll-list { 
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+	
+.simply-scroll-list li {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+	
+.simply-scroll-list li img {
+	border: none;
+	display: block;
+}
+
+/* Container DIV */
+.vert { 
+	width: 340px; /* wider than clip for custom button pos. */
+	height: 450px;
+	margin-bottom: 1.5em;
+}
+
+/* Clip DIV */
+.vert .simply-scroll-clip {
+	width: 290px;
+	height: 450px;
+}
+
+/* Explicitly set height/width of each list item */
+.vert .simply-scroll-list li {
+	width: 290px;
+	height: 30px;
+}
+
+/* Modified button positions, overriding previous styles */
+.vert .simply-scroll-btn-up { 
+	right: 0;
+	top: 0;
+}
+
+.vert .simply-scroll-btn-down { 
+	right: 0;
+	top: 52px;
 }

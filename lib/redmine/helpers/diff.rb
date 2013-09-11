@@ -51,7 +51,7 @@ module Redmine
             else
               del_at = pos unless del_at
               deleted << ' ' unless deleted.empty?
-              deleted << h(change[2])
+              deleted << change[2].html_safe
               words_del  += 1
             end
           end

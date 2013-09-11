@@ -1,13 +1,13 @@
 <div class="pull-right lead sidetitle"><%=l(:label_my_account)%> <i class="icon-edit"></i></div>
 <br/></br/><br/></br/><br/></br/>
-
+<%= error_messages_for 'user' %>
 <div class="contextual">
 <%= link_to(' '+l(:button_change_password), {:action => 'password'}, :class => 'pull-right btn icon icon-key') if @user.change_password_allowed? %>
 <%= call_hook(:view_my_account_contextual, :user => @user)%>
 </div>
 
 
-<%= error_messages_for 'user' %>
+
 
 <%= labelled_form_for :user, @user,
                      :url => { :action => "account" },
@@ -45,12 +45,13 @@
 </fieldset>
 
 </div>
+<%= submit_tag l(:button_save), :class=>"btn btn-large btn-success" %>
 <% end %>
 
 <% content_for :sidebar do %>
 <%= render :partial => 'sidebar' %>
 <% end %>
 
-<%= submit_tag l(:button_save), :class=>"btn btn-large btn-success" %>
+
 <br/></br/><br/></br/>
 <% html_title(l(:label_my_account)) -%>

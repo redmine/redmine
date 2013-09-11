@@ -44,6 +44,10 @@ module ApplicationHelper
     link_to(name, options, html_options, *parameters_for_method_reference) if authorize_for(options[:controller] || params[:controller], options[:action])
   end
   
+  def isProjectOrShowcase(project)
+    category =  getCustomField(project,"Category")  
+    return (category=="Project" or category=="Showcase")
+  end
   
   def isApproved?(project)
     project.custom_field_values.each do |value| 
@@ -66,7 +70,7 @@ module ApplicationHelper
   end
   
   def getStars(nostars)
-    stars=" <i class='icon-ban-circle'></i>"
+    stars=" <i class='icon-question-sign'></i>"
     stars=(nostars=="1")?" <i class='icon-star'></i>":stars
     stars=(nostars=="2")?" <i class='icon-star'></i><i class='icon-star'></i>":stars
     stars=(nostars=="3")?" <i class='icon-star'></i><i class='icon-star'></i><i class='icon-star'></i>":stars
@@ -120,7 +124,7 @@ module ApplicationHelper
     elsif(value=="-1")
       level="This model is not yet supported by this simulator"
     else
-      level="Not yet determined"
+      level="Not yet determined. May be supported."
     end
   end
 
@@ -483,7 +487,14 @@ module ApplicationHelper
     s = ''
     flash.each do |k,v|
       s << "<br/>"
-      s << content_tag('div', v.html_safe, :class => "alert alert-error fade in flash #{k}", :id => "flash_#{k}")
+      alertkind="alert-info";
+      if k.to_s=="success"
+         alertkind="alert-success"
+      elsif k.to_s=="error"
+         alertkind="alert-error"
+      end
+      s << content_tag('div', v.html_safe, :class => "alert #{alertkind} fade in flash #{k}", :id => "flash_#{k}")
+      
     end
     s.html_safe
   end

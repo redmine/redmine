@@ -22,8 +22,8 @@ jQuery(function()
 	jQuery('.tooltiplink').tooltip();
 	    
 	// -- Add bootstrap class to all the tables
-	jQuery('table').addClass('table table-bordered table-hover');
-	
+	jQuery('table').not(jQuery(".wrapped-channelml table")).addClass('table table-bordered table-hover');
+	jQuery('.wrapped-channelml .table-border-summary').addClass('table');
 	// jQuery(":submit").addClass('btn btn-success btn-large');
 	jQuery('button').addClass('btn');
 	jQuery('.jstElements button').addClass('btn-square');
@@ -234,7 +234,7 @@ function open3DExplorer(file)
 	{
 		jQuery("#mainContent").hide();
 		//jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' src='http://127.0.0.1:8080/org.neuroml.visualiser/?url="+file+"'></iframe>");
-		jQuery("#mainContent").before("<div id='3dbrowser'><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' src='http://184.72.223.204:8080/org.neuroml.visualisernew/?url="+file+"'></iframe>");
+		jQuery("#mainContent").before("<div id='3dbrowser'><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' src='http://184.72.223.204:8080/org.neuroml.visualiser/?url="+file+"'></iframe>");
 		document.getElementById('3dframe').onload = resizeIframe;
 		window.onresize = resizeIframe;
 	}

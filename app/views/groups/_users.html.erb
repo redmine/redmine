@@ -26,6 +26,8 @@
                :html => {:method => :post}) do |f| %>
     <fieldset><legend><%=l(:label_user_new)%></legend>
 
+
+
     <p><%= label_tag "user_search", l(:label_user_search) %><%= text_field_tag 'user_search', nil %></p>
     <%= javascript_tag "observeSearchfield('user_search', null, '#{ escape_javascript autocomplete_for_user_group_path(@group) }')" %>
 
@@ -33,7 +35,7 @@
       <%= render_principals_for_new_group_users(@group) %>
     </div>
 
-    <p><%= submit_tag l(:button_add) %></p>
+    <p><%= submit_tag l(:button_add), :class=>"btn btn-large btn-success"   %></p>
     </fieldset>
   <% end %>
 </div>

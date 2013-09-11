@@ -22,7 +22,7 @@
 </div>
 <br/><br/><br/>
 <div>
-  <p class="lead pagination-centered" >Join us at the <a href="projects/osb/wiki/Meetings">Open Source Brain kickoff meeting</a> in Alghero, Sardinia in May 2013!</p>
+  <p class="lead pagination-centered" >Read about the <a href="projects/osb/wiki/Sardinia2013">Open Source Brain kickoff meeting</a> in Alghero, Sardinia in May 2013!</p>
 </div>
 <% else %>
 
@@ -71,8 +71,16 @@ Explore OSB
 					</div>
 				<% end -%>
 			</div>
+			<% end %>
+			<% if @events_by_day.empty? %>
+				<p class="lead">You have no activities yet! Why don't you start by creating a new project?</p>
+				<br/></br/><br/>
+				<icon class="icon-coffee icon-xxxlarge"></icon>
+				<icon class="icon-lightbulb icon-xxxlarge"></icon>
+				<icon class="icon-beaker icon-xxxlarge"></icon>
+			<% end %>
 		</div>
-	<% end %>
+	
 
 		<div class="span4">
 			<table class="projecttable table">
