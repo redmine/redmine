@@ -136,7 +136,7 @@
 					<div class="span9 tab-content">
 						<% for group in @groups %>
 							<div class="tab-pane" id="group<%= group.id %>"">
-						        <h3><a class="capitalize" href="<%=  group.custom_field_values[0] %>"><%=  group.name %> </a></h3>
+						        <h3><a class="capitalize" href="groups/<%= group.id %>"><%=  group.name %> </a></h3>
 						        <!-- Obtained from http://findicons.com/pack/282/flags -->
 								<img src="../images/<%= group.custom_field_values[4] %>.png" alt="<%= group.custom_field_values[4] %>"/>
 						        <p>Principal investigator: <b><%= group.custom_field_values[1] %></b> </p>
