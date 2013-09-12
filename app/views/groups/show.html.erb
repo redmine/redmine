@@ -15,17 +15,17 @@
 		</p>
 	</div>	
 	<div class="row-fluid">
-		<div class="span8">
+		<div class="span6">
 			
 			<p class="lead"><%=l(:label_member_plural)%></p>
 			
 			<% @group.users.each do |user| %>
-				<p><%= avatar user, :size => "50" %> <%= link_to_user user %></p>
+				<p><%= avatar(user, :size => "50", :class=>"img-rounded") %> <%= link_to_user user %></p>
 			<% end %>
 		</div>
 		
 		
-		<div class="span4">
+		<div class="span6">
 			<table class="projecttable table">
 			<% if @group.memberships.empty?  %>
 					<thead>
