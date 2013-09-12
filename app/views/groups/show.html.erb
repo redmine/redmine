@@ -23,22 +23,41 @@
 				<p><%= avatar user, :size => "50" %> <%= link_to_user user %></p>
 			<% end %>
 		</div>
+		
+		
 		<div class="span4">
 			<table class="projecttable table">
-				<thead>
-					<tr>
-						<td><h4>Group projects </h4></td>
-						<td class="noborder pull-right"></td> 	
-					<tr>
-				</thead>
+			<% if @group.memberships.empty?  %>
+					<thead>
+						<tr>
+							<td><h4>Members projects </h4></td>
+							<td class="noborder pull-right"></td> 	
+						<tr>
+					</thead>
+					<% addedProjects = Array.new %>
+					<% @group.users.each do |user| %>
+						<% user.memberships.each do |membership| %>
+							<% next if membership.new_record? %>
+							<% next if addedProjects.include?(membership.project.id) %>
+							<% addedProjects.push(membership.project.id) %>
+							<tr><td colspan="2"><icon class=" icon-list-alt"></icon><%= link_to_project membership.project %></td></tr>
+						<% end %>
+					<% end %>
+			<% else %>
+					<thead>
+						<tr>
+							<td><h4>Group projects </h4></td>
+							<td class="noborder pull-right"></td> 	
+						<tr>
+					</thead>
+					
+					<% @group.memberships.each do |membership| %>
+						<% next if membership.new_record? %>
+						<tr><td colspan="2"><icon class=" icon-list-alt"></icon><%= link_to_project membership.project %></td></tr>
+					<% end %>
 				
-				<% @group.memberships.each do |membership| %>
-					<% next if membership.new_record? %>
-					<tr><td colspan="2"><icon class=" icon-list-alt"></icon><%= link_to_project membership.project %></td></tr>
-				<% end %>
+			<% end %>
 			</table>
-			
-
 		</div>
 	</div>
 </div>
