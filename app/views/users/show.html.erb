@@ -2,7 +2,7 @@
 <%= link_to(l(:button_edit), edit_user_path(@user), :class => 'btn icon icon-edit pull-right') if User.current.admin? %>
 </div>
 
-<p class="big-lead pagination-centered"><%= avatar @user, :size => "100" %> <%=h @user.name %></p>
+<p class="big-lead pagination-centered"><%= avatar(@user, :size => "100", :class => "img-rounded") %> <%=h @user.name %></p>
 
 <div class="row-fluid">
 	<div class="span6">
