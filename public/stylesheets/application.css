@@ -1172,6 +1172,11 @@ iframe {
 	margin-top: 5px;
 }
 
+.smallText{
+	font-size:12px;
+
+}
+
 #aboutmap{
 	width: 1000px;
 	height: 470px;
