@@ -71,6 +71,19 @@ class ProjectsController < ApplicationController
     userscope = userscope.like(params[:name]) if params[:name].present?
     userscope = userscope.in_group(params[:group_id]) if params[:group_id].present?
     @users = userscope.find(:all, :order => 'lastname')
+    
+    @modelProjects=[]
+    @showcaseProjects=[]
+    for p in @projects
+      if isApproved?(p)
+        category=getCustomField(p,'Category')
+        if category=='Project'
+          @modelProjects.push(p)
+        elsif category=='Showcase'
+          @showcaseProjects.push(p)
+        end
+      end
+    end
 
   end
 

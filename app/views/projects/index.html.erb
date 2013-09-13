@@ -41,33 +41,19 @@
 										</div>
 									</form>
 							    	<ul id="cellslist" class="nav overflow-list">
-										<% for p in @projects %>
-											<% if isApproved?(p)%>
-												<%  p.visible_custom_field_values.each do |custom_value| %>
-													<% if (custom_value.custom_field.name == 'Category') %>
-						              					<% if (custom_value.value == 'Project') %>
-															<li class="capitalize"><a data-toggle="tab" href="#cell<%= p.id %>"><%= p.name %></a></li>
-														<% end %>
-													<% end %>
-												<% end %>
-											<% end %>
+										<% for p in @modelProjects %>
+												<li class="capitalize"><a data-toggle="tab" href="#cell<%= p.id %>"><%= p.name %></a></li>
 										<% end %>		 
 									</ul>
 								 </div>
 							 </div>	 	
 							<div class="span8 tab-content">
-								<% for p in @projects %>
-									<%  p.visible_custom_field_values.each do |custom_value| %>
-										<% if (custom_value.custom_field.name == 'Category') %>
-			              					<% if (custom_value.value == 'Project') %>
-			              						<div class="tab-pane" id="cell<%= p.id %>"">
-			              							<a class="btn btn-large btn-info pull-right" href="<%= url_for({:controller => 'projects', :action => 'show', :id => p}) %>"><icon class="icon-folder-open"></icon> Open project</a>
-					    							<br/><br/>
-					    							<%= textilizable(p.short_description, :project => p) %>
-					    						</div>
-											<% end %>
-										<% end %>
-									<% end %>
+								<% for p in @modelProjects %>
+              						<div class="tab-pane" id="cell<%= p.id %>"">
+              							<a class="btn btn-large btn-info pull-right" href="<%= url_for({:controller => 'projects', :action => 'show', :id => p}) %>"><icon class="icon-folder-open"></icon> Open project</a>
+		    							<br/><br/>
+		    							<%= textilizable(p.short_description, :project => p) %>
+		    						</div>
 								<% end %>
 				    		</div>	    
 		    			</div>	    		
@@ -86,31 +72,19 @@
 								</div>
 							</form>
 					    	<ul id="technologylist" class="nav overflow-list">
-								<% for p in @projects %>
-									<%  p.visible_custom_field_values.each do |custom_value| %>
-										<% if (custom_value.custom_field.name == 'Category') %>
-			              					<% if (custom_value.value == 'Showcase') %>
-												<li class="capitalize"><a data-toggle="tab" href="#cell<%= p.id %>"><%= p.name %></a></li>
-											<% end %>
-										<% end %>
-									<% end %>
+								<% for p in @showcaseProjects %>
+									<li class="capitalize"><a data-toggle="tab" href="#cell<%= p.id %>"><%= p.name %></a></li>
 								<% end %>		 
 							</ul>
 						 </div>
 					 </div>	 	
 					<div class="span8 tab-content">
-						<% for p in @projects %>
-							<%  p.visible_custom_field_values.each do |custom_value| %>
-								<% if (custom_value.custom_field.name == 'Category') %>
-	              					<% if (custom_value.value == 'Showcase') %>
-	              						<div class="tab-pane" id="cell<%= p.id %>"">
-	              							<a class="btn btn-large btn-info pull-right" href="<%= url_for({:controller => 'projects', :action => 'show', :id => p}) %>"><icon class="icon-folder-open"></icon> Open project</a>
-			    							<br/><br/>
-			    							<%= textilizable(p.short_description, :project => p) %>
-			    						</div>
-									<% end %>
-								<% end %>
-							<% end %>
+						<% for p in @showcaseProjects %>
+      						<div class="tab-pane" id="cell<%= p.id %>">
+      							<a class="btn btn-large btn-info pull-right" href="<%= url_for({:controller => 'projects', :action => 'show', :id => p}) %>"><icon class="icon-folder-open"></icon> Open project</a>
+    							<br/><br/>
+    							<%= textilizable(p.short_description, :project => p) %>
+    						</div>
 						<% end %>
 		    		</div>	    
 	    		</div>	    		
