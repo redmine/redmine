@@ -28,6 +28,15 @@ class IssueCustomField < CustomField
     super || (roles & user.roles_for_project(project)).present?
   end
 
+  def visibility_by_project_condition(*args)
+    sql = super
+    additional_sql = "#{Issue.table_name}.tracker_id IN (SELECT tracker_id FROM #{table_name_prefix}custom_fields_trackers#{table_name_suffix} WHERE custom_field_id = #{id})"
+    unless is_for_all?
+      additional_sql << " AND #{Issue.table_name}.project_id IN (SELECT project_id FROM #{table_name_prefix}custom_fields_projects#{table_name_suffix} WHERE custom_field_id = #{id})"
+    end
+    "((#{sql}) AND (#{additional_sql}))"
+  end
+
   def validate_custom_field
     super
     errors.add(:base, l(:label_role_plural) + ' ' + l('activerecord.errors.messages.blank')) unless visible? || roles.present?

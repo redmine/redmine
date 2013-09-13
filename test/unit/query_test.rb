@@ -219,7 +219,7 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def test_operator_is_on_integer_custom_field
-    f = IssueCustomField.create!(:name => 'filter', :field_format => 'int', :is_for_all => true, :is_filter => true)
+    f = IssueCustomField.create!(:name => 'filter', :field_format => 'int', :is_for_all => true, :is_filter => true, :trackers => Tracker.all)
     CustomValue.create!(:custom_field => f, :customized => Issue.find(1), :value => '7')
     CustomValue.create!(:custom_field => f, :customized => Issue.find(2), :value => '12')
     CustomValue.create!(:custom_field => f, :customized => Issue.find(3), :value => '')
@@ -232,7 +232,7 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def test_operator_is_on_integer_custom_field_should_accept_negative_value
-    f = IssueCustomField.create!(:name => 'filter', :field_format => 'int', :is_for_all => true, :is_filter => true)
+    f = IssueCustomField.create!(:name => 'filter', :field_format => 'int', :is_for_all => true, :is_filter => true, :trackers => Tracker.all)
     CustomValue.create!(:custom_field => f, :customized => Issue.find(1), :value => '7')
     CustomValue.create!(:custom_field => f, :customized => Issue.find(2), :value => '-12')
     CustomValue.create!(:custom_field => f, :customized => Issue.find(3), :value => '')
@@ -246,7 +246,7 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def test_operator_is_on_float_custom_field
-    f = IssueCustomField.create!(:name => 'filter', :field_format => 'float', :is_filter => true, :is_for_all => true)
+    f = IssueCustomField.create!(:name => 'filter', :field_format => 'float', :is_filter => true, :is_for_all => true, :trackers => Tracker.all)
     CustomValue.create!(:custom_field => f, :customized => Issue.find(1), :value => '7.3')
     CustomValue.create!(:custom_field => f, :customized => Issue.find(2), :value => '12.7')
     CustomValue.create!(:custom_field => f, :customized => Issue.find(3), :value => '')
@@ -259,7 +259,7 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def test_operator_is_on_float_custom_field_should_accept_negative_value
-    f = IssueCustomField.create!(:name => 'filter', :field_format => 'float', :is_filter => true, :is_for_all => true)
+    f = IssueCustomField.create!(:name => 'filter', :field_format => 'float', :is_filter => true, :is_for_all => true, :trackers => Tracker.all)
     CustomValue.create!(:custom_field => f, :customized => Issue.find(1), :value => '7.3')
     CustomValue.create!(:custom_field => f, :customized => Issue.find(2), :value => '-12.7')
     CustomValue.create!(:custom_field => f, :customized => Issue.find(3), :value => '')
@@ -274,7 +274,7 @@ class QueryTest < ActiveSupport::TestCase
 
   def test_operator_is_on_multi_list_custom_field
     f = IssueCustomField.create!(:name => 'filter', :field_format => 'list', :is_filter => true, :is_for_all => true,
-      :possible_values => ['value1', 'value2', 'value3'], :multiple => true)
+      :possible_values => ['value1', 'value2', 'value3'], :multiple => true, :trackers => Tracker.all)
     CustomValue.create!(:custom_field => f, :customized => Issue.find(1), :value => 'value1')
     CustomValue.create!(:custom_field => f, :customized => Issue.find(1), :value => 'value2')
     CustomValue.create!(:custom_field => f, :customized => Issue.find(3), :value => 'value1')
@@ -292,7 +292,7 @@ class QueryTest < ActiveSupport::TestCase
 
   def test_operator_is_not_on_multi_list_custom_field
     f = IssueCustomField.create!(:name => 'filter', :field_format => 'list', :is_filter => true, :is_for_all => true,
-      :possible_values => ['value1', 'value2', 'value3'], :multiple => true)
+      :possible_values => ['value1', 'value2', 'value3'], :multiple => true, :trackers => Tracker.all)
     CustomValue.create!(:custom_field => f, :customized => Issue.find(1), :value => 'value1')
     CustomValue.create!(:custom_field => f, :customized => Issue.find(1), :value => 'value2')
     CustomValue.create!(:custom_field => f, :customized => Issue.find(3), :value => 'value1')
@@ -355,7 +355,7 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def test_operator_greater_than_on_int_custom_field
-    f = IssueCustomField.create!(:name => 'filter', :field_format => 'int', :is_filter => true, :is_for_all => true)
+    f = IssueCustomField.create!(:name => 'filter', :field_format => 'int', :is_filter => true, :is_for_all => true, :trackers => Tracker.all)
     CustomValue.create!(:custom_field => f, :customized => Issue.find(1), :value => '7')
     CustomValue.create!(:custom_field => f, :customized => Issue.find(2), :value => '12')
     CustomValue.create!(:custom_field => f, :customized => Issue.find(3), :value => '')
@@ -383,7 +383,7 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def test_operator_lesser_than_on_date_custom_field
-    f = IssueCustomField.create!(:name => 'filter', :field_format => 'date', :is_filter => true, :is_for_all => true)
+    f = IssueCustomField.create!(:name => 'filter', :field_format => 'date', :is_filter => true, :is_for_all => true, :trackers => Tracker.all)
     CustomValue.create!(:custom_field => f, :customized => Issue.find(1), :value => '2013-04-11')
     CustomValue.create!(:custom_field => f, :customized => Issue.find(2), :value => '2013-05-14')
     CustomValue.create!(:custom_field => f, :customized => Issue.find(3), :value => '')
@@ -459,7 +459,7 @@ class QueryTest < ActiveSupport::TestCase
   def test_operator_date_between
     query = IssueQuery.new(:name => '_')
     query.add_filter('due_date', '><', ['2011-06-23', '2011-07-10'])
-    assert_match /issues\.due_date > '2011-06-22 23:59:59(\.9+)?' AND issues\.due_date <= '2011-07-10 23:59:59(\.9+)?/, query.statement
+    assert_match /issues\.due_date > '2011-06-22 23:59:59(\.9+)?' AND issues\.due_date <= '2011-07-10 23:59:59(\.9+)?'/, query.statement
     find_issues_with_query(query)
   end
 
@@ -658,6 +658,34 @@ class QueryTest < ActiveSupport::TestCase
     assert !result.empty?
     assert_equal((Issue.visible - Issue.watched_by(User.current)).sort_by(&:id).size, result.sort_by(&:id).size)
     User.current = nil
+  end
+
+  def test_filter_on_custom_field_should_ignore_projects_with_field_disabled
+    field = IssueCustomField.generate!(:trackers => Tracker.all, :project_ids => [1, 3, 4], :is_filter => true)
+    Issue.generate!(:project_id => 3, :tracker_id => 2, :custom_field_values => {field.id.to_s => 'Foo'})
+    Issue.generate!(:project_id => 4, :tracker_id => 2, :custom_field_values => {field.id.to_s => 'Foo'})
+
+    query = IssueQuery.new(:name => '_', :project => Project.find(1))
+    query.filters = {"cf_#{field.id}" => {:operator => '=', :values => ['Foo']}}
+    assert_equal 2, find_issues_with_query(query).size
+
+    field.project_ids = [1, 3] # Disable the field for project 4
+    field.save!
+    assert_equal 1, find_issues_with_query(query).size
+  end
+
+  def test_filter_on_custom_field_should_ignore_trackers_with_field_disabled
+    field = IssueCustomField.generate!(:tracker_ids => [1, 2], :is_for_all => true, :is_filter => true)
+    Issue.generate!(:project_id => 1, :tracker_id => 1, :custom_field_values => {field.id.to_s => 'Foo'})
+    Issue.generate!(:project_id => 1, :tracker_id => 2, :custom_field_values => {field.id.to_s => 'Foo'})
+
+    query = IssueQuery.new(:name => '_', :project => Project.find(1))
+    query.filters = {"cf_#{field.id}" => {:operator => '=', :values => ['Foo']}}
+    assert_equal 2, find_issues_with_query(query).size
+
+    field.tracker_ids = [1] # Disable the field for tracker 2
+    field.save!
+    assert_equal 1, find_issues_with_query(query).size
   end
 
   def test_filter_on_project_custom_field
