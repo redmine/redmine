@@ -4,6 +4,27 @@ Redmine - project management software
 Copyright (C) 2006-2013  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2013-09-14 v2.3.3
+
+* Defect #13008: Usage of attribute_present? in UserPreference
+* Defect #14340: Autocomplete fields rendering issue with alternate theme
+* Defect #14366: Spent Time report sorting on custom fields causes error
+* Defect #14369: Open/closed issue counts on issues summary are not displayed with SQLServer
+* Defect #14401: Filtering issues on "related to" may ignore other filters
+* Defect #14415: Spent time details and report should ignore 'Setting.display_subprojects_issues?' when 'Subproject' filter is enabled.
+* Defect #14422: CVS root_url not recognized when connection string does not include port
+* Defect #14447: Additional status transitions for assignees do not work if assigned to a group
+* Defect #14511: warning: class variable access from toplevel on Ruby 2.0
+* Defect #14562: diff of CJK (Chinese/Japanese/Korean) is broken on Ruby 1.8
+* Defect #14584: Standard fields disabled for certain trackers still appear in email notifications
+* Defect #14607: rake redmine:load_default_data Error
+* Defect #14697: Wrong Russian translation in close project message
+* Defect #14798: Wrong done_ratio calculation for parent with subtask having estimated_hours=0
+* Patch #14485: Traditional Chinese translation for 2.3-stable
+* Patch #14502: Russian translation for 2.3-stable
+* Patch #14531: Spanish translations for 2.3.x
+* Patch #14686: Portuguese translation for 2.3-stable
+
 == 2013-07-14 v2.3.2
 
 * Defect #9996: configuration.yml in documentation , but redmine ask me to create email.yml
