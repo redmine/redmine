@@ -27,6 +27,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
   REPOSITORY_PATH.gsub!(/\//, "\\") if Redmine::Platform.mswin?
   PRJ_ID     = 3
   CHAR_1_HEX = "\xc3\x9c"
+  FELIX_HEX  = "Felix Sch\xC3\xA4fer"
   NUM_REV = 28
 
   ## Git, Mercurial and CVS path encodings are binary.
@@ -50,8 +51,10 @@ class RepositoriesGitControllerTest < ActionController::TestCase
                       )
     assert @repository
     @char_1        = CHAR_1_HEX.dup
+    @felix_utf8  = FELIX_HEX.dup
     if @char_1.respond_to?(:force_encoding)
       @char_1.force_encoding('UTF-8')
+      @felix_utf8.force_encoding('UTF-8')
     end
   end
 
@@ -540,6 +543,23 @@ class RepositoriesGitControllerTest < ActionController::TestCase
                                 :text => "test-#{@char_1}.txt"
                 end
               end
+            end
+          end
+        end
+      end
+    end
+
+    def test_annotate_latin_1_author
+      ['83ca5fd546063a3c7dc2e568ba3355661a9e2b2c', '83ca5fd546063a'].each do |r1|
+        get :annotate, :id => PRJ_ID,
+            :path => repository_path_hash([" filename with a leading space.txt "])[:param],
+            :rev => r1
+        assert_select "th.line-num", :text => '1' do
+          assert_select "+ td.revision" do
+            assert_select "a", :text => '83ca5fd5'
+            assert_select "+ td.author", :text => @felix_utf8 do
+              assert_select "+ td",
+                            :text => "And this is a file with a leading and trailing space..."
             end
           end
         end

@@ -26,7 +26,9 @@
         </td>
         <td class="author">
           <% if revision && revision != previous_revision %>
-            <%= revision.author.to_s.split('<').first %>
+            <% author = Redmine::CodesetUtil.to_utf8(revision.author.to_s,
+                                                     @repository.repo_log_encoding) %>
+            <%= author.split('<').first %>
           <% end %>
         </td>
         <td class="line-code"><pre><%= line.html_safe %></pre></td>
