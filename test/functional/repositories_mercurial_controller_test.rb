@@ -447,7 +447,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
                  :sibling =>
                        {
                           :tag     => 'td'    ,
-                          :content => 'jsmith' ,
+                          :content => /jsmith/ ,
                           :attributes => { :class   => 'author' },
                         }
         assert_tag :tag => 'th',
