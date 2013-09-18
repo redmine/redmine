@@ -432,30 +432,15 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
             :rev => r1
         assert_response :success
         assert_template 'annotate'
-        assert_tag :tag => 'th',
-                 :content => '1',
-                 :attributes => { :class => 'line-num' },
-                 :sibling =>
-                       {
-                         :tag => 'td',
-                         :attributes => { :class => 'revision' },
-                         :child => { :tag => 'a', :content => '20:709858aafd1b' }
-                       }
-        assert_tag :tag => 'th',
-                 :content => '1',
-                 :attributes => { :class => 'line-num' },
-                 :sibling =>
-                       {
-                          :tag     => 'td'    ,
-                          :content => 'jsmith' ,
-                          :attributes => { :class   => 'author' },
-                        }
-        assert_tag :tag => 'th',
-                 :content => '1',
-                 :attributes => { :class => 'line-num' },
-                 :sibling => { :tag => 'td',
-                               :content => /Mercurial is a distributed version control system/ }
-
+        assert_select "th.line-num", :text => '1' do
+          assert_select "+ td.revision" do
+            assert_select "a", :text => '20:709858aafd1b'
+            assert_select "+ td.author", :text => "jsmith" do
+              assert_select "+ td",
+                            :text => "Mercurial is a distributed version control system."
+            end
+          end
+        end
       end
     end
 
