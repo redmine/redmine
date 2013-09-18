@@ -23,7 +23,8 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
   fixtures :projects, :users, :roles, :members, :member_roles,
            :repositories, :enabled_modules
 
-  REPOSITORY_PATH = Rails.root.join('tmp/test/bazaar_repository/trunk').to_s
+  REPOSITORY_PATH = Rails.root.join('tmp/test/bazaar_repository').to_s
+  REPOSITORY_PATH_TRUNK = File.join(REPOSITORY_PATH, "trunk")
   PRJ_ID = 3
 
   def setup
@@ -31,7 +32,7 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
     @project = Project.find(PRJ_ID)
     @repository = Repository::Bazaar.create(
                     :project      => @project,
-                    :url          => REPOSITORY_PATH,
+                    :url          => REPOSITORY_PATH_TRUNK,
                     :log_encoding => 'UTF-8')
     assert @repository
   end
