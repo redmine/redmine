@@ -26,7 +26,7 @@
         </td>
         <td class="author">
           <% if revision && revision != previous_revision %>
-            <%= h(revision.author.to_s.split('<').first) %>
+            <%= revision.author.to_s.split('<').first %>
           <% end %>
         </td>
         <td class="line-code"><pre><%= line.html_safe %></pre></td>
