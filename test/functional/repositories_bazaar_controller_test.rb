@@ -149,6 +149,28 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
       end
     end
 
+    def test_annotate_author_escaping
+      repository = Repository::Bazaar.create(
+                    :project      => @project,
+                    :url          => File.join(REPOSITORY_PATH, "author_escaping"),
+                    :identifier => 'author_escaping',
+                    :log_encoding => 'UTF-8')
+      assert repository
+      get :annotate, :id => PRJ_ID, :repository_id => 'author_escaping',
+          :path => repository_path_hash(['author-escaping-test.txt'])[:param]
+      assert_response :success
+      assert_template 'annotate'
+      assert_select "th.line-num", :text => '1' do
+        assert_select "+ td.revision" do
+          assert_select "a", :text => '2'
+          assert_select "+ td.author", :text => "test &amp;" do
+            assert_select "+ td",
+                          :text => "author escaping test"
+          end
+        end
+      end
+    end
+
     def test_destroy_valid_repository
       @request.session[:user_id] = 1 # admin
       assert_equal 0, @repository.changesets.count
