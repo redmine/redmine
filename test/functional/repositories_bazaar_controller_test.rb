@@ -23,7 +23,8 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
   fixtures :projects, :users, :roles, :members, :member_roles,
            :repositories, :enabled_modules
 
-  REPOSITORY_PATH = Rails.root.join('tmp/test/bazaar_repository/trunk').to_s
+  REPOSITORY_PATH = Rails.root.join('tmp/test/bazaar_repository').to_s
+  REPOSITORY_PATH_TRUNK = File.join(REPOSITORY_PATH, "trunk")
   PRJ_ID = 3
 
   def setup
@@ -31,7 +32,7 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
     @project = Project.find(PRJ_ID)
     @repository = Repository::Bazaar.create(
                     :project      => @project,
-                    :url          => REPOSITORY_PATH,
+                    :url          => REPOSITORY_PATH_TRUNK,
                     :log_encoding => 'UTF-8')
     assert @repository
   end
@@ -143,6 +144,28 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
           assert_select "+ td.author", :text => "jsmith@" do
             assert_select "+ td",
                           :text => "Main purpose:"
+          end
+        end
+      end
+    end
+
+    def test_annotate_author_escaping
+      repository = Repository::Bazaar.create(
+                    :project      => @project,
+                    :url          => File.join(REPOSITORY_PATH, "author_escaping"),
+                    :identifier => 'author_escaping',
+                    :log_encoding => 'UTF-8')
+      assert repository
+      get :annotate, :id => PRJ_ID, :repository_id => 'author_escaping',
+          :path => repository_path_hash(['author-escaping-test.txt'])[:param]
+      assert_response :success
+      assert_template 'annotate'
+      assert_select "th.line-num", :text => '1' do
+        assert_select "+ td.revision" do
+          assert_select "a", :text => '2'
+          assert_select "+ td.author", :text => "test &amp;" do
+            assert_select "+ td",
+                          :text => "author escaping test"
           end
         end
       end
