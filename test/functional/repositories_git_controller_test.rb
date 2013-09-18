@@ -532,11 +532,15 @@ class RepositoriesGitControllerTest < ActionController::TestCase
             get :annotate, :id => PRJ_ID,
                 :path => repository_path_hash(['latin-1-dir', "test-#{@char_1}.txt"])[:param],
                 :rev => r1
-            assert_tag :tag => 'th',
-                       :content => '1',
-                       :attributes => { :class => 'line-num' },
-                       :sibling => { :tag => 'td',
-                                     :content => /test-#{@char_1}.txt/ }
+            assert_select "th.line-num", :text => '1' do
+              assert_select "+ td.revision" do
+                assert_select "a", :text => '57ca437c'
+                  assert_select "+ td.author", :text => "jsmith" do
+                    assert_select "+ td",
+                          :text => "test-#{@char_1}.txt"
+                  end
+                end
+            end
           end
         end
       end
