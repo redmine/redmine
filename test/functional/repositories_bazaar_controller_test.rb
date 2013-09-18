@@ -137,26 +137,15 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
           :path => repository_path_hash(['doc-mkdir.txt'])[:param]
       assert_response :success
       assert_template 'annotate'
-      assert_tag :tag => 'th', :content => '2',
-                 :sibling => {
-                    :tag => 'td',
-                    :child => {
-                       :tag => 'a',
-                       :content => '3'
-                       }
-                    }
-      assert_tag :tag => 'th', :content => '2',
-                 :sibling => { :tag => 'td', :content => /jsmith/ }
-      assert_tag :tag => 'th', :content => '2',
-                 :sibling => {
-                    :tag => 'td',
-                    :child => {
-                       :tag => 'a',
-                       :content => '3'
-                       }
-                    }
-      assert_tag :tag => 'th', :content => '2',
-                 :sibling => { :tag => 'td', :content => /Main purpose/ }
+      assert_select "th.line-num", :text => '2' do
+        assert_select "+ td.revision" do
+          assert_select "a", :text => '3'
+          assert_select "+ td.author", :text => "jsmith@" do
+            assert_select "+ td",
+                          :text => "Main purpose:"
+          end
+        end
+      end
     end
 
     def test_destroy_valid_repository
