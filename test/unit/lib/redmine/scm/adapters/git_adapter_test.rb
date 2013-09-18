@@ -61,8 +61,10 @@ begin
                    )
         assert @adapter
         @char_1 = CHAR_1_HEX.dup
+        @str_felix_hex  = FELIX_HEX.dup
         if @char_1.respond_to?(:force_encoding)
           @char_1.force_encoding('UTF-8')
+          @str_felix_hex.force_encoding('ASCII-8BIT')
         end
       end
 
@@ -396,14 +398,10 @@ begin
       def test_last_rev_with_spaces_in_filename
         last_rev = @adapter.lastrev("filemane with spaces.txt",
                                     "ed5bb786bbda2dee66a2d50faf51429dbc043a7b")
-        str_felix_hex  = FELIX_HEX.dup
         last_rev_author = last_rev.author
-        if last_rev_author.respond_to?(:force_encoding)
-          str_felix_hex.force_encoding('ASCII-8BIT')
-        end
         assert_equal "ed5bb786bbda2dee66a2d50faf51429dbc043a7b", last_rev.scmid
         assert_equal "ed5bb786bbda2dee66a2d50faf51429dbc043a7b", last_rev.identifier
-        assert_equal "#{str_felix_hex} <felix@fachschaften.org>",
+        assert_equal "#{@str_felix_hex} <felix@fachschaften.org>",
                        last_rev.author
         assert_equal "2010-09-18 19:59:46".to_time, last_rev.time
       end
