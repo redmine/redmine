@@ -179,7 +179,7 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
     if REPOSITORY_PATH.respond_to?(:force_encoding)
       def test_annotate_author_non_ascii
         log_encoding = nil
-        if Encoding.locale_charmap == "UTF-8" || 
+        if Encoding.locale_charmap == "UTF-8" ||
              Encoding.locale_charmap == "ISO-8859-1"
           log_encoding = Encoding.locale_charmap
         end
