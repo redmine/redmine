@@ -535,11 +535,11 @@ class RepositoriesGitControllerTest < ActionController::TestCase
             assert_select "th.line-num", :text => '1' do
               assert_select "+ td.revision" do
                 assert_select "a", :text => '57ca437c'
-                  assert_select "+ td.author", :text => "jsmith" do
-                    assert_select "+ td",
-                          :text => "test-#{@char_1}.txt"
-                  end
+                assert_select "+ td.author", :text => "jsmith" do
+                  assert_select "+ td",
+                                :text => "test-#{@char_1}.txt"
                 end
+              end
             end
           end
         end
