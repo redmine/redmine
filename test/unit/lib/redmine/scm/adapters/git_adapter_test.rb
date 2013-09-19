@@ -424,6 +424,19 @@ begin
         end
       end
 
+      def test_latin_1_user_annotate
+        ['83ca5fd546063a3c7dc2e568ba3355661a9e2b2c', '83ca5fd546063a'].each do |r1|
+          annotate = @adapter.annotate(" filename with a leading space.txt ", r1)
+          assert_kind_of Redmine::Scm::Adapters::Annotate, annotate
+          assert_equal 1, annotate.lines.size
+          assert_equal "And this is a file with a leading and trailing space...",
+                       annotate.lines[0].strip
+          assert_equal "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c",
+                       annotate.revisions[0].identifier
+          assert_equal @str_felix_hex, annotate.revisions[0].author
+        end
+      end
+
       def test_entries_tag
         entries1 = @adapter.entries(nil, 'tag01.annotated',
                                     options = {:report_last_commit => true})
