@@ -20,7 +20,7 @@
 module JournalsHelper
   def render_notes(issue, journal, options={})
     content = ''
-    editable = User.current.logged? && (User.current.allowed_to?(:edit_issue_notes, issue.project) || (journal.user == User.current && User.current.allowed_to?(:edit_own_issue_notes, issue.project)))
+    editable = journal.editable_by?(User.current)
     links = []
     if !journal.notes.blank?
       links << link_to(image_tag('comment.png'),
