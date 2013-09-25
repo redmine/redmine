@@ -953,7 +953,7 @@ fr:
   text_tip_issue_begin_day: tâche commençant ce jour
   text_tip_issue_end_day: tâche finissant ce jour
   text_tip_issue_begin_end_day: tâche commençant et finissant ce jour
-  text_project_identifier_info: 'Seuls les lettres minuscules (a-z), chiffres, tirets et underscore sont autorisés, doit commencer par une minuscule.<br />Un fois sauvegardé, l''identifiant ne pourra plus être modifié.'
+  text_project_identifier_info: 'Seuls les lettres minuscules (a-z), chiffres, tirets et tirets bas sont autorisés, doit commencer par une minuscule.<br />Un fois sauvegardé, l''identifiant ne pourra plus être modifié.'
   text_caracters_maximum: "%{count} caractères maximum."
   text_caracters_minimum: "%{count} caractères minimum."
   text_length_between: "Longueur comprise entre %{min} et %{max} caractères."
@@ -1109,4 +1109,4 @@ fr:
   error_scm_annotate_big_text_file: Cette entrée ne peut pas être annotée car elle excède la taille maximale.
   setting_repositories_encodings: Encodages des fichiers et des dépôts
   label_search_for_watchers: Rechercher des observateurs
-  text_repository_identifier_info: 'Seuls les lettres minuscules (a-z), chiffres, tirets et underscore sont autorisés.<br />Un fois sauvegardé, l''identifiant ne pourra plus être modifié.'
+  text_repository_identifier_info: 'Seuls les lettres minuscules (a-z), chiffres, tirets et tirets bas sont autorisés.<br />Un fois sauvegardé, l''identifiant ne pourra plus être modifié.'
