@@ -249,8 +249,8 @@ namespace :redmine do
           if name_attr = TracSessionAttribute.find_by_sid_and_name(username, 'name')
             name = name_attr.value
           end
-          name =~ (/(.*)(\s+\w+)?/)
-          fn = $1.strip
+          name =~ (/(\w+)(\s+\w+)?/)
+          fn = ($1 || "-").strip
           ln = ($2 || '-').strip
 
           u = User.new :mail => mail.gsub(/[^-@a-z0-9\.]/i, '-'),
