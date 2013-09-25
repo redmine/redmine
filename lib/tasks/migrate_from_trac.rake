@@ -767,14 +767,17 @@ namespace :redmine do
     puts
 
     old_notified_events = Setting.notified_events
+    old_password_min_length = Setting.password_min_length
     begin
       # Turn off email notifications temporarily
       Setting.notified_events = []
+      Setting.password_min_length = 4
       # Run the migration
       TracMigrate.migrate
     ensure
-      # Restore previous notification settings even if the migration fails
+      # Restore previous settings
       Setting.notified_events = old_notified_events
+      Setting.password_min_length = old_password_min_length
     end
   end
 end

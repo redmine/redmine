@@ -504,15 +504,18 @@ task :migrate_from_mantis => :environment do
   Setting.cross_project_issue_relations = 1 if Setting.respond_to? 'cross_project_issue_relations'
 
   old_notified_events = Setting.notified_events
+  old_password_min_length = Setting.password_min_length
   begin
     # Turn off email notifications temporarily
     Setting.notified_events = []
+    Setting.password_min_length = 4
     # Run the migration
     MantisMigrate.establish_connection db_params
     MantisMigrate.migrate
   ensure
-    # Restore previous notification settings even if the migration fails
+    # Restore previous settings
     Setting.notified_events = old_notified_events
+    Setting.password_min_length = old_password_min_length
   end
 
 end
