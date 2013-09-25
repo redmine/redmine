@@ -108,10 +108,10 @@ class Issue < ActiveRecord::Base
         when 'all'
           nil
         when 'default'
-          user_ids = [user.id] + user.groups.map(&:id)
+          user_ids = [user.id] + user.groups.map(&:id).compact
           "(#{table_name}.is_private = #{connection.quoted_false} OR #{table_name}.author_id = #{user.id} OR #{table_name}.assigned_to_id IN (#{user_ids.join(',')}))"
         when 'own'
-          user_ids = [user.id] + user.groups.map(&:id)
+          user_ids = [user.id] + user.groups.map(&:id).compact
           "(#{table_name}.author_id = #{user.id} OR #{table_name}.assigned_to_id IN (#{user_ids.join(',')}))"
         else
           '1=0'
