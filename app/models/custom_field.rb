@@ -123,8 +123,10 @@ class CustomField < ActiveRecord::Base
         values.each do |value|
           value.force_encoding('UTF-8') if value.respond_to?(:force_encoding)
         end
+        values
+      else
+        []
       end
-      values || []
     end
   end
 
@@ -301,7 +303,7 @@ class CustomField < ActiveRecord::Base
 
   def self.customized_class
     self.name =~ /^(.+)CustomField$/
-    begin; $1.constantize; rescue nil; end
+    $1.constantize rescue nil
   end
 
   # to move in project_custom_field
