@@ -1111,3 +1111,4 @@ de:
   version_status_open: offen
 
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
+  setting_mail_handler_excluded_filenames: Exclude attachments by name

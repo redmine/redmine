@@ -1110,3 +1110,4 @@ gl:
   field_must_change_passwd: Must change password at next logon
   notice_new_password_must_be_different: The new password must be different from the
     current password
+  setting_mail_handler_excluded_filenames: Exclude attachments by name
