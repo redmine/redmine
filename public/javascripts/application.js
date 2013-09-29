@@ -465,9 +465,6 @@ function replaceIssueFormWith(html){
   });
   $('#all_attributes').empty();
   $('#all_attributes').prepend(replacement);
-  if (focus) {
-    $('#'+focus).focus();
-  }
 }
 
 function updateBulkEditFrom(url) {
