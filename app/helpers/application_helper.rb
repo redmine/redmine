@@ -488,6 +488,7 @@ module ApplicationHelper
       css << 'theme-' + theme.name
     end
 
+    css << 'project-' + @project.identifier if @project && @project.identifier.present?
     css << 'controller-' + controller_name
     css << 'action-' + action_name
     css.join(' ')

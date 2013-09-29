@@ -589,4 +589,9 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'show'
   end
+
+  def test_body_should_have_project_css_class
+    get :show, :id => 1
+    assert_select 'body.project-ecookbook'
+  end
 end
