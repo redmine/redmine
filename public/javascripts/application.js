@@ -444,13 +444,30 @@ function randomKey(size) {
   return key;
 }
 
-// Can't use Rails' remote select because we need the form data
 function updateIssueFrom(url) {
+  $('#all_attributes input, #all_attributes textarea, #all_attributes select').each(function(){
+    $(this).data('valuebeforeupdate', $(this).val());
+  });
   $.ajax({
     url: url,
     type: 'post',
     data: $('#issue-form').serialize()
   });
+}
+
+function replaceIssueFormWith(html){
+  var replacement = $(html);
+  $('#all_attributes input, #all_attributes textarea, #all_attributes select').each(function(){
+    var object_id = $(this).attr('id');
+    if (object_id && $(this).data('valuebeforeupdate')!=$(this).val()) {
+      replacement.find('#'+object_id).val($(this).val());
+    }
+  });
+  $('#all_attributes').empty();
+  $('#all_attributes').prepend(replacement);
+  if (focus) {
+    $('#'+focus).focus();
+  }
 }
 
 function updateBulkEditFrom(url) {
