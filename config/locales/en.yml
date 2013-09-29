@@ -407,6 +407,7 @@ en:
   setting_non_working_week_days: Non-working days
   setting_jsonp_enabled: Enable JSONP support
   setting_default_projects_tracker_ids: Default trackers for new projects
+  setting_mail_handler_excluded_filenames: Exclude attachments by name
 
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects

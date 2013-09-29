@@ -759,6 +759,24 @@ class MailHandlerTest < ActiveSupport::TestCase
     end
   end
 
+  def test_attachments_that_match_mail_handler_excluded_filenames_should_be_ignored
+    with_settings :mail_handler_excluded_filenames => '*.vcf, *.jpg' do
+      issue = submit_email('ticket_with_attachment.eml', :issue => {:project => 'onlinestore'})
+      assert issue.is_a?(Issue)
+      assert !issue.new_record?
+      assert_equal 0, issue.reload.attachments.size
+    end
+  end
+
+  def test_attachments_that_do_not_match_mail_handler_excluded_filenames_should_be_attached
+    with_settings :mail_handler_excluded_filenames => '*.vcf, *.gif' do
+      issue = submit_email('ticket_with_attachment.eml', :issue => {:project => 'onlinestore'})
+      assert issue.is_a?(Issue)
+      assert !issue.new_record?
+      assert_equal 1, issue.reload.attachments.size
+    end
+  end
+
   def test_email_with_long_subject_line
     issue = submit_email('ticket_with_long_subject.eml')
     assert issue.is_a?(Issue)

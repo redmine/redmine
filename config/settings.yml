@@ -147,6 +147,8 @@ notified_events:
   - issue_updated
 mail_handler_body_delimiters:
   default: ''
+mail_handler_excluded_filenames:
+  default: ''
 mail_handler_api_enabled:
   default: 0
 mail_handler_api_key:

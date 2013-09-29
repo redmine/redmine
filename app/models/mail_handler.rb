@@ -267,6 +267,7 @@ class MailHandler < ActionMailer::Base
   def add_attachments(obj)
     if email.attachments && email.attachments.any?
       email.attachments.each do |attachment|
+        next unless accept_attachment?(attachment)
         obj.attachments << Attachment.create(:container => obj,
                           :file => attachment.decoded,
                           :filename => attachment.filename,
@@ -274,6 +275,19 @@ class MailHandler < ActionMailer::Base
                           :content_type => attachment.mime_type)
       end
     end
+  end
+
+  # Returns false if the +attachment+ of the incoming email should be ignored
+  def accept_attachment?(attachment)
+    @excluded ||= Setting.mail_handler_excluded_filenames.to_s.split(',').map(&:strip).reject(&:blank?)
+    @excluded.each do |pattern|
+      regexp = %r{\A#{Regexp.escape(pattern).gsub("\\*", ".*")}\z}i
+      if attachment.filename.to_s =~ regexp
+        logger.info "MailHandler: ignoring attachment #{attachment.filename} matching #{pattern}"
+        return false
+      end
+    end
+    true
   end
 
   # Adds To and Cc as watchers of the given object if the sender has the
