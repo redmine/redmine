@@ -130,6 +130,7 @@
 <p>
   <label for='issue_parent_issue_id'><%= l(:field_parent_issue) %></label>
   <%= text_field_tag 'issue[parent_issue_id]', '', :size => 10, :value => @issue_params[:parent_issue_id] %>
+  <label class="inline"><%= check_box_tag 'issue[parent_issue_id]', 'none', (@issue_params[:parent_issue_id] == 'none'), :id => nil, :data => {:disables => '#issue_parent_issue_id'} %><%= l(:button_clear) %></label>
 </p>
 <%= javascript_tag "observeAutocompleteField('issue_parent_issue_id', '#{escape_javascript auto_complete_issues_path(:project_id => @project)}')" %>
 <% end %>
@@ -138,6 +139,7 @@
 <p>
   <label for='issue_start_date'><%= l(:field_start_date) %></label>
   <%= text_field_tag 'issue[start_date]', '', :value => @issue_params[:start_date], :size => 10 %><%= calendar_for('issue_start_date') %>
+  <label class="inline"><%= check_box_tag 'issue[start_date]', 'none', (@issue_params[:start_date] == 'none'), :id => nil, :data => {:disables => '#issue_start_date'} %><%= l(:button_clear) %></label>
 </p>
 <% end %>
 
@@ -145,6 +147,7 @@
 <p>
   <label for='issue_due_date'><%= l(:field_due_date) %></label>
   <%= text_field_tag 'issue[due_date]', '', :value => @issue_params[:due_date], :size => 10 %><%= calendar_for('issue_due_date') %>
+  <label class="inline"><%= check_box_tag 'issue[due_date]', 'none', (@issue_params[:due_date] == 'none'), :id => nil, :data => {:disables => '#issue_due_date'} %><%= l(:button_clear) %></label>
 </p>
 <% end %>
 
@@ -177,4 +180,19 @@
   <% end %>
 </p>
 
+<% end %>
+
+<%= javascript_tag do %>
+$(window).load(function(){
+  $(document).on('change', 'input[data-disables]', function(){
+    if ($(this).attr('checked')){
+      $($(this).data('disables')).attr('disabled', true).val('');
+    } else {
+      $($(this).data('disables')).attr('disabled', false);
+    }
+  });
+});
+$(document).ready(function(){
+  $('input[data-disables]').trigger('change');
+});
 <% end %>
