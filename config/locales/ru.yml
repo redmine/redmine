@@ -718,31 +718,31 @@ ru:
   label_workflow: Последовательность действий
   label_x_closed_issues_abbr:
     zero:  "0 закрыто"
-    one:   "1 закрыт"
+    one:   "%{count} закрыта"
     few:   "%{count} закрыто"
     many:  "%{count} закрыто"
     other: "%{count} закрыто"
   label_x_comments:
     zero:  "нет комментариев"
-    one:   "1 комментарий"
+    one:   "%{count} комментарий"
     few:   "%{count} комментария"
     many:  "%{count} комментариев"
     other: "%{count} комментариев"
   label_x_open_issues_abbr:
     zero:  "0 открыто"
-    one:   "1 открыт"
+    one:   "%{count} открыта"
     few:   "%{count} открыто"
     many:  "%{count} открыто"
     other: "%{count} открыто"
   label_x_open_issues_abbr_on_total:
     zero:  "0 открыто / %{total}"
-    one:   "1 открыт / %{total}"
+    one:   "%{count} открыта / %{total}"
     few:   "%{count} открыто / %{total}"
     many:  "%{count} открыто / %{total}"
     other: "%{count} открыто / %{total}"
   label_x_projects:
     zero:  "нет проектов"
-    one:   "1 проект"
+    one:   "%{count} проект"
     few:   "%{count} проекта"
     many:  "%{count} проектов"
     other: "%{count} проектов"
