@@ -380,7 +380,7 @@ ja:
   setting_activity_days_default: プロジェクトの活動ページに表示される日数
   setting_display_subprojects_issues: サブプロジェクトのチケットをメインプロジェクトに表示する
   setting_enabled_scm: 使用するバージョン管理システム
-  setting_mail_handler_body_delimiters: "メール本文から一致する行以降を切り取る"
+  setting_mail_handler_body_delimiters: "メール本文から一致する行以降を切り捨てる"
   setting_mail_handler_api_enabled: 受信メール用のWebサービスを有効にする
   setting_mail_handler_api_key: APIキー
   setting_sequential_project_identifiers: プロジェクト識別子を連番で生成する
@@ -1126,4 +1126,4 @@ ja:
   label_visibility_public: すべてのユーザー
   field_must_change_passwd: 次回ログイン時にパスワード変更を強制
   notice_new_password_must_be_different: 新しいパスワードは現在のパスワードと異なるものでなければなりません
-  setting_mail_handler_excluded_filenames: Exclude attachments by name
+  setting_mail_handler_excluded_filenames: 除外する添付ファイル名
