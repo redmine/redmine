@@ -127,7 +127,7 @@ nl:
         not_same_project: "hoort niet bij hetzelfde project"
         circular_dependency: "Deze relatie zou een circulaire afhankelijkheid tot gevolg hebben"
         cant_link_an_issue_with_a_descendant: "Een issue kan niet gelinked worden met een subtask"
-        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
+        earlier_than_minimum_start_date: "kan niet eerder zijn dan %{date} wegens voorafgaande issues"
 
   actionview_instancetag_blank_option: Selecteer
 
@@ -1069,16 +1069,13 @@ nl:
   setting_default_projects_tracker_ids: Standaard trackers voor nieuwe projecten
   label_total_time: Totaal
   setting_emails_header: Email header
-  notice_account_not_activated_yet: You haven't activated your account yet. If you want
-    to receive a new activation email, please <a href="%{url}">click this link</a>.
-  notice_account_locked: Your account is locked.
-  notice_account_register_done: Account was successfully created. An email containing
-    the instructions to activate your account was sent to %{email}.
-  label_hidden: Hidden
-  label_visibility_private: to me only
-  label_visibility_roles: to these roles only
-  label_visibility_public: to any users
-  field_must_change_passwd: Must change password at next logon
-  notice_new_password_must_be_different: The new password must be different from the
-    current password
+  notice_account_not_activated_yet: Je hebt je account nog niet geactiveerd. Om een nieuwe activatie email te ontvangen, <a href="%{url}">klik op deze link</a>.
+  notice_account_locked: Je account is vergrendeld.
+  notice_account_register_done: "Account aanmaken is gelukt. Een email met instructies om je account te activeren is gestuurd naar: %{email}."
+  label_hidden: Verborgen
+  label_visibility_private: voor mij alleen
+  label_visibility_roles: alleen voor deze rollen
+  label_visibility_public: voor elke gebruiker
+  field_must_change_passwd: Moet wachtwoord wijziging bij volgende keer inloggen
+  notice_new_password_must_be_different: Het nieuwe wachtwoord mag niet hetzelfde zijn als het huidige wachtwoord
   setting_mail_handler_excluded_filenames: Exclude attachments by name
