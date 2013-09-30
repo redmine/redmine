@@ -1130,14 +1130,14 @@ ru:
   permission_manage_related_issues: Управление связанными задачами
   field_auth_source_ldap_filter: Фильтр LDAP
   label_search_for_watchers: Найти наблюдателей
-  notice_account_deleted: "Ваша учетная запись полностью удалена" 
-  setting_unsubscribe: "Разрешить пользователям удалять свои учетные записи" 
-  button_delete_my_account: "Удалить мою учетную запись" 
-  text_account_destroy_confirmation: "Ваша учетная запись будет полностью удалена без возможности восстановления.\nВы уверены, что хотите продолжить?" 
+  notice_account_deleted: "Ваша учетная запись полностью удалена"
+  setting_unsubscribe: "Разрешить пользователям удалять свои учетные записи"
+  button_delete_my_account: "Удалить мою учетную запись"
+  text_account_destroy_confirmation: "Ваша учетная запись будет полностью удалена без возможности восстановления.\nВы уверены, что хотите продолжить?"
   error_session_expired: Срок вашей сессии истек. Пожалуйста войдите еще раз
   text_session_expiration_settings: "Внимание! Изменение этих настроек может привести к завершению текущих сессий, включая вашу."
   setting_session_lifetime: Максимальная продолжительность сессии
-  setting_session_timeout: Таймут сессии 
+  setting_session_timeout: Таймут сессии
   label_session_expiration: Срок истечения сессии
   permission_close_project: Закрывать / открывать проекты
   label_show_closed_projects: Просматривать закрытые проекты
