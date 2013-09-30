@@ -493,10 +493,10 @@ it:
   label_loading: Caricamento...
   label_relation_new: Nuova relazione
   label_relation_delete: Elimina relazione
-  label_relates_to: correlato a
-  label_duplicates: duplicati
-  label_blocks: blocchi
-  label_blocked_by: bloccato da
+  label_relates_to: correlata a
+  label_duplicates: duplica 
+  label_blocks: blocca 
+  label_blocked_by: bloccata da
   label_precedes: precede
   label_follows: segue
   label_end_to_start: fine a inizio
@@ -720,7 +720,7 @@ it:
   mail_body_reminder: "%{count} segnalazioni che ti sono state assegnate scadranno nei prossimi %{days} giorni:"
   mail_subject_reminder: "%{count} segnalazioni in scadenza nei prossimi %{days} giorni"
   text_user_wrote: "%{value} ha scritto:"
-  label_duplicated_by: duplicato da
+  label_duplicated_by: duplicata da
   setting_enabled_scm: SCM abilitato
   text_enumeration_category_reassign_to: 'Riassegnale a questo valore:'
   text_enumeration_destroy_question: "%{count} oggetti hanno un assegnamento su questo valore."
@@ -1054,8 +1054,8 @@ it:
   label_attribute_of_assigned_to: Assegnatari %{name}
   label_attribute_of_fixed_version: Target version's %{name}
   label_copy_subtasks: Copia sottoattività
-  label_copied_to: copia a
-  label_copied_from: copia da
+  label_copied_to: copia 
+  label_copied_from: copiata da
   label_any_issues_in_project: ogni segnalazione del progetto
   label_any_issues_not_in_project: ogni segnalazione non nel progetto
   field_private_notes: Note private
