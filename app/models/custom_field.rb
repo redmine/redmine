@@ -267,7 +267,7 @@ class CustomField < ActiveRecord::Base
       "1=0"
     else
       project_key ||= "#{self.class.customized_class.table_name}.project_id"
-      "#{project_key} IN (SELECT DISTINCT m.project_id FROM #{Member.table_name} m" + 
+      "#{project_key} IN (SELECT DISTINCT m.project_id FROM #{Member.table_name} m" +
         " INNER JOIN #{MemberRole.table_name} mr ON mr.member_id = m.id" +
         " INNER JOIN #{table_name_prefix}custom_fields_roles#{table_name_suffix} cfr ON cfr.role_id = mr.role_id" +
         " WHERE m.user_id = #{user.id} AND cfr.custom_field_id = #{id})"
@@ -280,7 +280,7 @@ class CustomField < ActiveRecord::Base
     elsif user.anonymous?
       "#{table_name}.visible"
     else
-      "#{project_key} IN (SELECT DISTINCT m.project_id FROM #{Member.table_name} m" + 
+      "#{project_key} IN (SELECT DISTINCT m.project_id FROM #{Member.table_name} m" +
         " INNER JOIN #{MemberRole.table_name} mr ON mr.member_id = m.id" +
         " INNER JOIN #{table_name_prefix}custom_fields_roles#{table_name_suffix} cfr ON cfr.role_id = mr.role_id" +
         " WHERE m.user_id = #{user.id} AND cfr.custom_field_id = #{id})"
