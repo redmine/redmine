@@ -492,6 +492,7 @@
   setting_non_working_week_days: 非工作日
   setting_jsonp_enabled: 啟用 JSONP 支援
   setting_default_projects_tracker_ids: 新專案預設使用的追蹤標籤
+  setting_mail_handler_excluded_filenames: 移除符合下列名稱的附件
 
   permission_add_project: 建立專案
   permission_add_subprojects: 建立子專案
@@ -1179,4 +1180,3 @@
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  setting_mail_handler_excluded_filenames: Exclude attachments by name
