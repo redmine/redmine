@@ -997,6 +997,7 @@ de:
   setting_mail_handler_api_enabled: Abruf eingehender E-Mails aktivieren
   setting_mail_handler_api_key: API-Schlüssel
   setting_mail_handler_body_delimiters: "Schneide E-Mails nach einer dieser Zeilen ab"
+  setting_mail_handler_excluded_filenames: Anhänge nach Namen ausschließen
   setting_new_project_user_role_id: Rolle, die einem Nicht-Administrator zugeordnet wird, der ein Projekt erstellt
   setting_non_working_week_days: Arbeitsfreie Tage
   setting_openid: Erlaube OpenID-Anmeldung und -Registrierung
@@ -1111,4 +1112,3 @@ de:
   version_status_open: offen
 
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
-  setting_mail_handler_excluded_filenames: Exclude attachments by name
