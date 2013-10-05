@@ -223,7 +223,7 @@ class Changeset < ActiveRecord::Base
     journal = issue.init_journal(user || User.anonymous, ll(Setting.default_language, :text_status_changed_by_changeset, text_tag(issue.project)))
     issue.assign_attributes updates.slice(*Issue.attribute_names)
     Redmine::Hook.call_hook(:model_changeset_scan_commit_for_issue_ids_pre_issue_update,
-                            { :changeset => self, :issue => issue })
+                            { :changeset => self, :issue => issue, :action => action })
     unless issue.save
       logger.warn("Issue ##{issue.id} could not be saved by changeset #{id}: #{issue.errors.full_messages}") if logger
     end
