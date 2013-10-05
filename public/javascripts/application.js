@@ -517,20 +517,6 @@ function observeSearchfield(fieldId, targetId, url) {
   });
 }
 
-function observeProjectModules() {
-  var f = function() {
-    /* Hides trackers and issues custom fields on the new project form when issue_tracking module is disabled */
-    if ($('#project_enabled_module_names_issue_tracking').attr('checked')) {
-      $('#project_trackers').show();
-    } else {
-      $('#project_trackers').hide();
-    }
-  };
-
-  $(window).load(f);
-  $('#project_enabled_module_names_issue_tracking').change(f);
-}
-
 function initMyPageSortable(list, url) {
   $('#list-'+list).sortable({
     connectWith: '.block-receiver',
