@@ -102,7 +102,7 @@ class Attachment < ActiveRecord::Base
     if @temp_file && (@temp_file.size > 0)
       self.disk_directory = target_directory
       self.disk_filename = Attachment.disk_filename(filename, disk_directory)
-      logger.info("Saving attachment '#{self.diskfile}' (#{@temp_file.size} bytes)")
+      logger.info("Saving attachment '#{self.diskfile}' (#{@temp_file.size} bytes)") if logger
       path = File.dirname(diskfile)
       unless File.directory?(path)
         FileUtils.mkdir_p(path)
