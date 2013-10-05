@@ -89,13 +89,13 @@ class SettingsControllerTest < ActionController::TestCase
     end
     assert_response :success
     assert_select 'tr.commit-keywords', 2
-    assert_select 'tr.commit-keywords:nth-child(1)' do
+    assert_select 'tr.commit-keywords' do
       assert_select 'input[name=?][value=?]', 'settings[commit_update_keywords][keywords][]', 'fixes, resolves'
       assert_select 'select[name=?]', 'settings[commit_update_keywords][status_id][]' do
         assert_select 'option[value=3][selected=selected]'
       end
     end
-    assert_select 'tr.commit-keywords:nth-child(2)' do
+    assert_select 'tr.commit-keywords' do
       assert_select 'input[name=?][value=?]', 'settings[commit_update_keywords][keywords][]', 'closes'
       assert_select 'select[name=?]', 'settings[commit_update_keywords][status_id][]' do
         assert_select 'option[value=5][selected=selected]'
