@@ -254,6 +254,28 @@ class ChangesetTest < ActiveSupport::TestCase
     end
   end
 
+  def test_old_commits_should_not_update_issues_nor_log_time
+    Setting.commit_ref_keywords = '*'
+    Setting.commit_update_keywords = {'fixes , closes' => {'status_id' => '5', 'done_ratio' => '90'}}
+    Setting.commit_logtime_enabled = '1'
+
+    repository = Project.find(1).repository
+    repository.created_on = Time.now
+    repository.save!
+
+    c = Changeset.new(:repository   => repository,
+                      :committed_on => 1.month.ago,
+                      :comments     => 'New commit (#2). Fixes #1 @1h',
+                      :revision     => '12345')
+    assert_no_difference 'TimeEntry.count' do
+      assert c.save
+    end
+    assert_equal [1, 2], c.issue_ids.sort
+    issue = Issue.find(1)
+    assert_equal 1, issue.status_id
+    assert_equal 0, issue.done_ratio
+  end
+
   def test_text_tag_revision
     c = Changeset.new(:revision => '520')
     assert_equal 'r520', c.text_tag

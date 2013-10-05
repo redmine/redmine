@@ -132,8 +132,11 @@ class Changeset < ActiveRecord::Base
         issue, hours = find_referenced_issue_by_id(m[0].to_i), m[2]
         if issue
           referenced_issues << issue
-          fix_issue(issue, action) if fix_keywords.include?(action)
-          log_time(issue, hours) if hours && Setting.commit_logtime_enabled?
+          # Don't update issues or log time when importing old commits
+          unless repository.created_on && committed_on && committed_on < repository.created_on
+            fix_issue(issue, action) if fix_keywords.include?(action)
+            log_time(issue, hours) if hours && Setting.commit_logtime_enabled?
+          end
         end
       end
     end
