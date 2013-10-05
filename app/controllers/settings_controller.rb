@@ -33,9 +33,7 @@ class SettingsController < ApplicationController
     if request.post? && params[:settings] && params[:settings].is_a?(Hash)
       settings = (params[:settings] || {}).dup.symbolize_keys
       settings.each do |name, value|
-        # remove blank values in array settings
-        value.delete_if {|v| v.blank? } if value.is_a?(Array)
-        Setting[name] = value
+        Setting.set_from_params name, value
       end
       flash[:notice] = l(:notice_successful_update)
       redirect_to settings_path(:tab => params[:tab])
@@ -47,6 +45,9 @@ class SettingsController < ApplicationController
 
       @guessed_host_and_path = request.host_with_port.dup
       @guessed_host_and_path << ('/'+ Redmine::Utils.relative_url_root.gsub(%r{^\/}, '')) unless Redmine::Utils.relative_url_root.blank?
+
+      @commit_update_keywords = Setting.commit_update_keywords.dup
+      @commit_update_keywords[''] = {} if @commit_update_keywords.blank?
 
       Redmine::Themes.rescan
     end

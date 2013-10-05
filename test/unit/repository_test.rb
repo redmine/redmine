@@ -182,11 +182,10 @@ class RepositoryTest < ActiveSupport::TestCase
   def test_scan_changesets_for_issue_ids
     Setting.default_language = 'en'
 
-    # choosing a status to apply to fix issues
-    Setting.commit_fix_status_id = IssueStatus.where(:is_closed => true).first.id
-    Setting.commit_fix_done_ratio = "90"
     Setting.commit_ref_keywords = 'refs , references, IssueID'
-    Setting.commit_fix_keywords = 'fixes , closes'
+    Setting.commit_update_keywords = {
+      'fixes , closes' => {'status_id' => IssueStatus.where(:is_closed => true).first.id, 'done_ratio' => '90'}
+    }
     Setting.default_language = 'en'
     ActionMailer::Base.deliveries.clear
 

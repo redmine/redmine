@@ -65,19 +65,6 @@
 <p><%= setting_text_field :commit_ref_keywords, :size => 30 %>
 <em class="info"><%= l(:text_comma_separated) %></em></p>
 
-<p><%= setting_text_field :commit_fix_keywords, :size => 30 %>
-&nbsp;<%= l(:label_applied_status) %>: <%= setting_select :commit_fix_status_id,
-                                                          [["", 0]] +
-                                                              IssueStatus.sorted.all.collect{
-                                                                 |status| [status.name, status.id.to_s]
-                                                              },
-                                                          :label => false %>
-&nbsp;<%= l(:field_done_ratio) %>: <%= setting_select :commit_fix_done_ratio,
-                                                       (0..10).to_a.collect {|r| ["#{r*10} %", "#{r*10}"] },
-                                                       :blank => :label_no_change_option,
-                                                       :label => false %>
-<em class="info"><%= l(:text_comma_separated) %></em></p>
-
 <p><%= setting_check_box :commit_cross_project_ref %></p>
 
 <p><%= setting_check_box :commit_logtime_enabled,
@@ -90,5 +77,48 @@
                       :disabled => !Setting.commit_logtime_enabled?%></p>
 </fieldset>
 
-<%= submit_tag l(:button_save) %>
+<table class="list" id="commit-keywords">
+  <thead>
+    <tr>
+      <th><%= l(:setting_commit_fix_keywords) %></th>
+      <th><%= l(:label_applied_status) %></th>
+      <th><%= l(:field_done_ratio) %></th>
+      <th class="buttons"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @commit_update_keywords.each do |keywords, updates| %>
+    <tr class="commit-keywords">
+      <td><%= text_field_tag "settings[commit_update_keywords][keywords][]", keywords, :size => 30 %></td>
+      <td><%= select_tag "settings[commit_update_keywords][status_id][]", options_for_select([["", 0]] + IssueStatus.sorted.all.collect{|status| [status.name, status.id.to_s]}, updates['status_id']) %></td>
+      <td><%= select_tag "settings[commit_update_keywords][done_ratio][]", options_for_select([["", ""]] + (0..10).to_a.collect {|r| ["#{r*10} %", "#{r*10}"] }, updates['done_ratio']) %></td>
+      <td class="buttons"><%= link_to image_tag('delete.png'), '#', :class => 'delete-commit-keywords' %></td>
+    </tr>
+    <% end %>
+    <tr>
+      <td><em class="info"><%= l(:text_comma_separated) %></em></td>
+      <td></td>
+      <td></td>
+      <td class="buttons"><%= link_to image_tag('add.png'), '#', :class => 'add-commit-keywords' %></td>
+    </tr>
+  </tbody>
+</table>
+
+<p><%= submit_tag l(:button_save) %></p>
+<% end %>
+
+<%= javascript_tag do %>
+$('#commit-keywords').on('click', 'a.delete-commit-keywords', function(e){
+  e.preventDefault();
+  if ($('#commit-keywords tbody tr.commit-keywords').length > 1) {
+    $(this).parents('#commit-keywords tr').remove();
+  } else {
+    $('#commit-keywords tbody tr.commit-keywords').find('input, select').val('');
+  }
+});
+$('#commit-keywords').on('click', 'a.add-commit-keywords', function(e){
+  e.preventDefault();
+  var row = $('#commit-keywords tr.commit-keywords:last');
+  row.clone().insertAfter(row).find('input, select').val('');
+});
 <% end %>

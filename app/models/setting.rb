@@ -132,13 +132,85 @@ class Setting < ActiveRecord::Base
     def self.#{name}=(value)
       self[:#{name}] = value
     end
-    END_SRC
+END_SRC
     class_eval src, __FILE__, __LINE__
+  end
+
+  # Sets a setting value from params
+  def self.set_from_params(name, params)
+    params = params.dup
+    params.delete_if {|v| v.blank? } if params.is_a?(Array)
+
+    m = "#{name}_from_params"
+    if respond_to? m
+      self[name.to_sym] = send m, params
+    else
+      self[name.to_sym] = params
+    end
+  end
+
+  # Returns a hash suitable for commit_update_keywords setting
+  #
+  # Example:
+  # params = {:keywords => ['fixes', 'closes'], :status_id => ["3", "5"], :done_ratio => ["", "100"]}
+  # Setting.commit_update_keywords_from_params(params)
+  # # => {'fixes' => {'status_id' => "3"}, 'closes' => {'status_id' => "5", 'done_ratio' => "100"}}
+  def self.commit_update_keywords_from_params(params)
+    s = {}
+    if params.is_a?(Hash) && params.key?(:keywords) && params.values.all? {|v| v.is_a? Array}
+      attributes = params.except(:keywords).keys
+      params[:keywords].each_with_index do |keywords, i|
+        next if keywords.blank?
+        s[keywords] = attributes.inject({}) {|h, a|
+          value = params[a][i].to_s
+          h[a.to_s] = value if value.present?
+          h
+        }
+      end
+    end
+    s
   end
 
   # Helper that returns an array based on per_page_options setting
   def self.per_page_options_array
     per_page_options.split(%r{[\s,]}).collect(&:to_i).select {|n| n > 0}.sort
+  end
+
+  # Helper that returns a Hash with single update keywords as keys
+  def self.commit_update_by_keyword
+    h = {}
+    if commit_update_keywords.is_a?(Hash)
+      commit_update_keywords.each do |keywords, attribute_updates|
+        next unless attribute_updates.is_a?(Hash)
+        attribute_updates = attribute_updates.dup
+        attribute_updates.delete_if {|k, v| v.blank?}
+        keywords.to_s.split(",").map(&:strip).reject(&:blank?).each do |keyword|
+          h[keyword.downcase] = attribute_updates
+        end
+      end
+    end
+    h
+  end
+
+  def self.commit_fix_keywords
+     ActiveSupport::Deprecation.warn "Setting.commit_fix_keywords is deprecated and will be removed in Redmine 3"
+    if commit_update_keywords.is_a?(Hash)
+      commit_update_keywords.keys.first
+    end
+  end
+
+  def self.commit_fix_status_id
+     ActiveSupport::Deprecation.warn "Setting.commit_fix_status_id is deprecated and will be removed in Redmine 3"
+    if commit_update_keywords.is_a?(Hash)
+      commit_update_keywords[commit_fix_keywords]['status_id']
+    end
+  end
+
+  def self.commit_fix_done_ratio
+     ActiveSupport::Deprecation.warn "Setting.commit_fix_done_ratio is deprecated and will be removed in Redmine 3"
+    if commit_update_keywords.is_a?(Hash)
+      commit_update_keywords[commit_fix_keywords]['done_ratio']
+    end
   end
 
   def self.openid?

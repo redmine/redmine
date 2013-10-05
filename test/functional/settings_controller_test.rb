@@ -80,6 +80,57 @@ class SettingsControllerTest < ActionController::TestCase
     Setting.clear_cache
   end
 
+  def test_edit_commit_update_keywords
+    with_settings :commit_update_keywords => {
+      "fixes, resolves" => {"status_id" => "3"},
+      "closes" => {"status_id" => "5", "done_ratio" => "100"}
+    } do
+      get :edit
+    end
+    assert_response :success
+    assert_select 'tr.commit-keywords', 2
+    assert_select 'tr.commit-keywords:nth-child(1)' do
+      assert_select 'input[name=?][value=?]', 'settings[commit_update_keywords][keywords][]', 'fixes, resolves'
+      assert_select 'select[name=?]', 'settings[commit_update_keywords][status_id][]' do
+        assert_select 'option[value=3][selected=selected]'
+      end
+    end
+    assert_select 'tr.commit-keywords:nth-child(2)' do
+      assert_select 'input[name=?][value=?]', 'settings[commit_update_keywords][keywords][]', 'closes'
+      assert_select 'select[name=?]', 'settings[commit_update_keywords][status_id][]' do
+        assert_select 'option[value=5][selected=selected]'
+      end
+      assert_select 'select[name=?]', 'settings[commit_update_keywords][done_ratio][]' do
+        assert_select 'option[value=100][selected=selected]'
+      end
+    end
+  end
+
+  def test_edit_without_commit_update_keywords_should_show_blank_line
+    with_settings :commit_update_keywords => {} do
+      get :edit
+    end
+    assert_response :success
+    assert_select 'tr.commit-keywords', 1 do
+      assert_select 'input[name=?][value=?]', 'settings[commit_update_keywords][keywords][]', ''
+    end
+  end
+
+  def test_post_edit_commit_update_keywords
+    post :edit, :settings => {
+      :commit_update_keywords => {
+        :keywords => ["resolves", "closes"],
+        :status_id => ["3", "5"],
+        :done_ratio => ["", "100"]
+      }
+    }
+    assert_redirected_to '/settings'
+    assert_equal({
+      "resolves" => {"status_id" => "3"},
+      "closes" => {"status_id" => "5", "done_ratio" => "100"}
+    }, Setting.commit_update_keywords)
+  end
+
   def test_get_plugin_settings
     Setting.stubs(:plugin_foo).returns({'sample_setting' => 'Plugin setting value'})
     ActionController::Base.append_view_path(File.join(Rails.root, "test/fixtures/plugins"))
