@@ -583,7 +583,7 @@ nl:
   label_user: Gebruiker
   label_user_activity: "%{value}'s activiteit"
   label_user_mail_no_self_notified: Ik wil niet op de hoogte gehouden worden van mijn eigen wijzigingen
-  label_user_mail_option_all: "Bij elk gebeurtenis in al mijn projecten..."
+  label_user_mail_option_all: "Bij elke gebeurtenis in al mijn projecten..."
   label_user_mail_option_selected: "Enkel bij elke gebeurtenis op het geselecteerde project..."
   label_user_new: Nieuwe gebruiker
   label_user_plural: Gebruikers
