@@ -47,7 +47,7 @@ class SettingsController < ApplicationController
       @guessed_host_and_path << ('/'+ Redmine::Utils.relative_url_root.gsub(%r{^\/}, '')) unless Redmine::Utils.relative_url_root.blank?
 
       @commit_update_keywords = Setting.commit_update_keywords.dup
-      @commit_update_keywords << {} if @commit_update_keywords.blank?
+      @commit_update_keywords = [{}] unless @commit_update_keywords.is_a?(Array) && @commit_update_keywords.any?
 
       Redmine::Themes.rescan
     end
