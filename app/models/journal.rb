@@ -58,9 +58,7 @@ class Journal < ActiveRecord::Base
   def visible_details(user=User.current)
     details.select do |detail|
       if detail.property == 'cf'
-        field_id = detail.prop_key
-        field = CustomField.find_by_id(field_id)
-        field && field.visible_by?(project, user)
+        detail.custom_field && detail.custom_field.visible_by?(project, user)
       elsif detail.property == 'relation'
         Issue.find_by_id(detail.value || detail.old_value).try(:visible?, user)
       else
@@ -144,6 +142,22 @@ class Journal < ActiveRecord::Base
 
   def watcher_recipients
     notified_watchers.map(&:mail)
+  end
+
+  # Sets @custom_field instance variable on journals details using a single query
+  def self.preload_journals_details_custom_fields(journals)
+    field_ids = journals.map(&:details).flatten.select {|d| d.property == 'cf'}.map(&:prop_key).uniq
+    if field_ids.any?
+      fields_by_id = CustomField.find_all_by_id(field_ids).inject({}) {|h, f| h[f.id] = f; h}
+      journals.each do |journal|
+        journal.details.each do |detail|
+          if detail.property == 'cf'
+            detail.instance_variable_set "@custom_field", fields_by_id[detail.prop_key.to_i]
+          end
+        end
+      end
+    end
+    journals
   end
 
   private

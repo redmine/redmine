@@ -103,6 +103,7 @@ class IssuesController < ApplicationController
     @journals = @issue.journals.includes(:user, :details).reorder("#{Journal.table_name}.id ASC").all
     @journals.each_with_index {|j,i| j.indice = i+1}
     @journals.reject!(&:private_notes?) unless User.current.allowed_to?(:view_private_notes, @issue.project)
+    Journal.preload_journals_details_custom_fields(@journals)
     # TODO: use #select! when ruby1.8 support is dropped
     @journals.reject! {|journal| !journal.notes? && journal.visible_details.empty?}
     @journals.reverse! if User.current.wants_comments_in_reverse_order?

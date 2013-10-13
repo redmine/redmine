@@ -155,6 +155,20 @@ class JournalTest < ActiveSupport::TestCase
     assert journals.detect {|journal| !journal.issue.project.is_public?}
   end
 
+  def test_preload_journals_details_custom_fields_should_set_custom_field_instance_variable
+    d = JournalDetail.new(:property => 'cf', :prop_key => '2')
+    journals = [Journal.new(:details => [d])]
+
+    d.expects(:instance_variable_set).with("@custom_field", CustomField.find(2)).once
+    Journal.preload_journals_details_custom_fields(journals)
+  end
+
+  def test_preload_journals_details_custom_fields_with_empty_set
+    assert_nothing_raised do
+      Journal.preload_journals_details_custom_fields([])
+    end
+  end
+
   def test_details_should_normalize_dates
     j = JournalDetail.create!(:old_value => Date.parse('2012-11-03'), :value => Date.parse('2013-01-02'))
     j.reload
@@ -174,6 +188,16 @@ class JournalTest < ActiveSupport::TestCase
     j.reload
     assert_equal '0', j.old_value
     assert_equal '0', j.value
+  end
+
+  def test_custom_field_should_return_custom_field_for_cf_detail
+    d = JournalDetail.new(:property => 'cf', :prop_key => '2')
+    assert_equal CustomField.find(2), d.custom_field
+  end
+
+  def test_custom_field_should_return_nil_for_non_cf_detail
+    d = JournalDetail.new(:property => 'subject')
+    assert_equal nil, d.custom_field
   end
 
   def test_visible_details_should_include_relations_to_visible_issues_only
