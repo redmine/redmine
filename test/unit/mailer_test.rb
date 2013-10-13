@@ -725,6 +725,10 @@ class MailerTest < ActiveSupport::TestCase
     end
   end
 
+  def test_mail_should_return_a_mail_message
+    assert_kind_of ::Mail::Message, Mailer.test_email(User.find(1))
+  end
+
   private
 
   def last_email

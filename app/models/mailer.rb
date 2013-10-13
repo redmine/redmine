@@ -368,7 +368,7 @@ class Mailer < ActionMailer::Base
     ActionMailer::Base.delivery_method = saved_method
   end
 
-  def mail(headers={})
+  def mail(headers={}, &block)
     headers.merge! 'X-Mailer' => 'Redmine',
             'X-Redmine-Host' => Setting.host_name,
             'X-Redmine-Site' => Setting.app_title,
@@ -403,12 +403,17 @@ class Mailer < ActionMailer::Base
       headers[:references] = @references_objects.collect {|o| "<#{self.class.references_for(o)}>"}.join(' ')
     end
 
-    super headers do |format|
-      format.text
-      format.html unless Setting.plain_text_mail?
+    m = if block_given?
+      super headers, &block
+    else
+      super headers do |format|
+        format.text
+        format.html unless Setting.plain_text_mail?
+      end
     end
-
     set_language_if_valid @initial_language
+
+    m
   end
 
   def initialize(*args)
