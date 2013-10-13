@@ -280,8 +280,13 @@ function toggleOperator(field) {
 function toggleMultiSelect(el) {
   if (el.attr('multiple')) {
     el.removeAttr('multiple');
+    el.attr('size', 1);
   } else {
     el.attr('multiple', true);
+    if (el.children().length > 10)
+      el.attr('size', 10);
+    else
+      el.attr('size', 4);
   }
 }
 
