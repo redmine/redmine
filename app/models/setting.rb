@@ -154,18 +154,18 @@ END_SRC
   # Example:
   # params = {:keywords => ['fixes', 'closes'], :status_id => ["3", "5"], :done_ratio => ["", "100"]}
   # Setting.commit_update_keywords_from_params(params)
-  # # => {'fixes' => {'status_id' => "3"}, 'closes' => {'status_id' => "5", 'done_ratio' => "100"}}
+  # # => [{'keywords => 'fixes', 'status_id' => "3"}, {'keywords => 'closes', 'status_id' => "5", 'done_ratio' => "100"}]
   def self.commit_update_keywords_from_params(params)
-    s = {}
+    s = []
     if params.is_a?(Hash) && params.key?(:keywords) && params.values.all? {|v| v.is_a? Array}
       attributes = params.except(:keywords).keys
       params[:keywords].each_with_index do |keywords, i|
         next if keywords.blank?
-        s[keywords] = attributes.inject({}) {|h, a|
+        s << attributes.inject({}) {|h, a|
           value = params[a][i].to_s
           h[a.to_s] = value if value.present?
           h
-        }
+        }.merge('keywords' => keywords)
       end
     end
     s
@@ -177,39 +177,39 @@ END_SRC
   end
 
   # Helper that returns a Hash with single update keywords as keys
-  def self.commit_update_by_keyword
-    h = {}
-    if commit_update_keywords.is_a?(Hash)
-      commit_update_keywords.each do |keywords, attribute_updates|
-        next unless attribute_updates.is_a?(Hash)
-        attribute_updates = attribute_updates.dup
-        attribute_updates.delete_if {|k, v| v.blank?}
-        keywords.to_s.split(",").map(&:strip).reject(&:blank?).each do |keyword|
-          h[keyword.downcase] = attribute_updates
-        end
+  def self.commit_update_keywords_array
+    a = []
+    if commit_update_keywords.is_a?(Array)
+      commit_update_keywords.each do |rule|
+        next unless rule.is_a?(Hash)
+        rule = rule.dup
+        rule.delete_if {|k, v| v.blank?}
+        keywords = rule['keywords'].to_s.downcase.split(",").map(&:strip).reject(&:blank?)
+        next if keywords.empty?
+        a << rule.merge('keywords' => keywords)
       end
     end
-    h
+    a
   end
 
   def self.commit_fix_keywords
-     ActiveSupport::Deprecation.warn "Setting.commit_fix_keywords is deprecated and will be removed in Redmine 3"
-    if commit_update_keywords.is_a?(Hash)
-      commit_update_keywords.keys.first
+    ActiveSupport::Deprecation.warn "Setting.commit_fix_keywords is deprecated and will be removed in Redmine 3"
+    if commit_update_keywords.is_a?(Array)
+      commit_update_keywords.first && commit_update_keywords.first['keywords']
     end
   end
 
   def self.commit_fix_status_id
-     ActiveSupport::Deprecation.warn "Setting.commit_fix_status_id is deprecated and will be removed in Redmine 3"
-    if commit_update_keywords.is_a?(Hash)
-      commit_update_keywords[commit_fix_keywords]['status_id']
+    ActiveSupport::Deprecation.warn "Setting.commit_fix_status_id is deprecated and will be removed in Redmine 3"
+    if commit_update_keywords.is_a?(Array)
+      commit_update_keywords.first && commit_update_keywords.first['status_id']
     end
   end
 
   def self.commit_fix_done_ratio
-     ActiveSupport::Deprecation.warn "Setting.commit_fix_done_ratio is deprecated and will be removed in Redmine 3"
-    if commit_update_keywords.is_a?(Hash)
-      commit_update_keywords[commit_fix_keywords]['done_ratio']
+    ActiveSupport::Deprecation.warn "Setting.commit_fix_done_ratio is deprecated and will be removed in Redmine 3"
+    if commit_update_keywords.is_a?(Array)
+      commit_update_keywords.first && commit_update_keywords.first['done_ratio']
     end
   end
 

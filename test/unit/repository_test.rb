@@ -183,9 +183,9 @@ class RepositoryTest < ActiveSupport::TestCase
     Setting.default_language = 'en'
 
     Setting.commit_ref_keywords = 'refs , references, IssueID'
-    Setting.commit_update_keywords = {
-      'fixes , closes' => {'status_id' => IssueStatus.where(:is_closed => true).first.id, 'done_ratio' => '90'}
-    }
+    Setting.commit_update_keywords = [
+      {'keywords' => 'fixes , closes', 'status_id' => IssueStatus.where(:is_closed => true).first.id, 'done_ratio' => '90'}
+    ]
     Setting.default_language = 'en'
     ActionMailer::Base.deliveries.clear
 

@@ -108,7 +108,7 @@ commit_ref_keywords:
   default: 'refs,references,IssueID'
 commit_update_keywords:
   serialized: true
-  default: {}
+  default: []
 commit_logtime_enabled:
   default: 0
 commit_logtime_activity_id:

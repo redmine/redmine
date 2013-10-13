@@ -118,7 +118,7 @@ class Changeset < ActiveRecord::Base
     ref_keywords = Setting.commit_ref_keywords.downcase.split(",").collect(&:strip)
     ref_keywords_any = ref_keywords.delete('*')
     # keywords used to fix issues
-    fix_keywords = Setting.commit_update_by_keyword.keys
+    fix_keywords = Setting.commit_update_keywords_array.map {|r| r['keywords']}.flatten.compact
 
     kw_regexp = (ref_keywords + fix_keywords).collect{|kw| Regexp.escape(kw)}.join("|")
 
@@ -215,16 +215,18 @@ class Changeset < ActiveRecord::Base
 
   # Updates the +issue+ according to +action+
   def fix_issue(issue, action)
-    updates = Setting.commit_update_by_keyword[action]
-    return unless updates.is_a?(Hash)
-
     # the issue may have been updated by the closure of another one (eg. duplicate)
     issue.reload
     # don't change the status is the issue is closed
     return if issue.status && issue.status.is_closed?
 
     journal = issue.init_journal(user || User.anonymous, ll(Setting.default_language, :text_status_changed_by_changeset, text_tag(issue.project)))
-    issue.assign_attributes updates.slice(*Issue.attribute_names)
+    rule = Setting.commit_update_keywords_array.detect do |rule|
+      rule['keywords'].include?(action) && (rule['if_tracker_id'].blank? || rule['if_tracker_id'] == issue.tracker_id.to_s)
+    end
+    if rule
+      issue.assign_attributes rule.slice(*Issue.attribute_names)
+    end
     Redmine::Hook.call_hook(:model_changeset_scan_commit_for_issue_ids_pre_issue_update,
                             { :changeset => self, :issue => issue, :action => action })
     unless issue.save
