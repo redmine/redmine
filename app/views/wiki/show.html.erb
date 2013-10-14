@@ -17,6 +17,10 @@
 <%= wiki_page_breadcrumb(@page) %>
 
 <% unless @content.current_version? %>
+  <%= title [@page.pretty_title, project_wiki_page_path(@page.project, @page.title, :version => nil)],
+        [l(:label_history), history_project_wiki_page_path(@page.project, @page.title)],
+        "#{l(:label_version)} #{@content.version}" %>
+
     <p>
     <%= link_to(("\xc2\xab " + l(:label_previous)),
                 :action => 'show', :id => @page.title, :project_id => @page.project,
