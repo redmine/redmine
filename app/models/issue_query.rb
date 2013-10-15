@@ -323,7 +323,7 @@ class IssueQuery < Query
   def issues(options={})
     order_option = [group_by_sort_order, options[:order]].flatten.reject(&:blank?)
 
-    issues = Issue.visible.
+    scope = Issue.visible.
       joins(:status, :project).
       where(statement).
       includes(([:status, :project] + (options[:include] || [])).uniq).
@@ -331,8 +331,13 @@ class IssueQuery < Query
       order(order_option).
       joins(joins_for_order_statement(order_option.join(','))).
       limit(options[:limit]).
-      offset(options[:offset]).
-      all
+      offset(options[:offset])
+
+    if has_custom_field_column?
+      scope = scope.preload(:custom_values)
+    end
+
+    issues = scope.all
 
     if has_column?(:spent_hours)
       Issue.load_visible_spent_hours(issues)

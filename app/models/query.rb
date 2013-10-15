@@ -449,6 +449,10 @@ class Query < ActiveRecord::Base
     column_names && column_names.include?(column.is_a?(QueryColumn) ? column.name : column)
   end
 
+  def has_custom_field_column?
+    columns.any? {|column| column.is_a? QueryCustomFieldColumn}
+  end
+
   def has_default_columns?
     column_names.nil? || column_names.empty?
   end
