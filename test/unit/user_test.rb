@@ -476,19 +476,19 @@ class UserTest < ActiveSupport::TestCase
       assert_equal ['users.lastname', 'users.firstname', 'users.id'], User.fields_for_order_statement
     end
   end
-  
+
   def test_fields_for_order_statement_width_table_name_should_prepend_table_name
     with_settings :user_format => 'lastname_firstname' do
       assert_equal ['authors.lastname', 'authors.firstname', 'authors.id'], User.fields_for_order_statement('authors')
     end
   end
-  
+
   def test_fields_for_order_statement_with_blank_format_should_return_default
     with_settings :user_format => '' do
       assert_equal ['users.firstname', 'users.lastname', 'users.id'], User.fields_for_order_statement
     end
   end
-  
+
   def test_fields_for_order_statement_with_invalid_format_should_return_default
     with_settings :user_format => 'foo' do
       assert_equal ['users.firstname', 'users.lastname', 'users.id'], User.fields_for_order_statement
@@ -614,7 +614,7 @@ class UserTest < ActiveSupport::TestCase
             @auth_source.account_password = ''
             @auth_source.save!
           end
-  
+
           context "with a successful authentication" do
             should "create a new user account if it doesn't exist" do
               assert_difference('User.count') do
@@ -623,7 +623,7 @@ class UserTest < ActiveSupport::TestCase
               end
             end
           end
-  
+
           context "with an unsuccessful authentication" do
             should "return nil" do
               assert_nil User.try_to_login('example1', '11111')
