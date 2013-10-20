@@ -1105,6 +1105,10 @@ class Issue < ActiveRecord::Base
     s = arg.to_s.strip.presence
     if s && (m = s.match(%r{\A#?(\d+)\z})) && (@parent_issue = Issue.find_by_id(m[1]))
       @parent_issue.id
+      @invalid_parent_issue_id = nil
+    elsif s.blank?
+      @parent_issue = nil
+      @invalid_parent_issue_id = nil
     else
       @parent_issue = nil
       @invalid_parent_issue_id = arg
@@ -1280,38 +1284,43 @@ class Issue < ActiveRecord::Base
         move_to_child_of(@parent_issue)
       end
     elsif parent_issue_id != parent_id
-      former_parent_id = parent_id
-      # moving an existing issue
-      if @parent_issue && @parent_issue.root_id == root_id
-        # inside the same tree
-        move_to_child_of(@parent_issue)
-      else
-        # to another tree
-        unless root?
-          move_to_right_of(root)
-        end
-        old_root_id = root_id
-        self.root_id = (@parent_issue.nil? ? id : @parent_issue.root_id )
-        target_maxright = nested_set_scope.maximum(right_column_name) || 0
-        offset = target_maxright + 1 - lft
-        Issue.update_all(["root_id = ?, lft = lft + ?, rgt = rgt + ?", root_id, offset, offset],
-                          ["root_id = ? AND lft >= ? AND rgt <= ? ", old_root_id, lft, rgt])
-        self[left_column_name] = lft + offset
-        self[right_column_name] = rgt + offset
-        if @parent_issue
-          move_to_child_of(@parent_issue)
-        end
-      end
-      # delete invalid relations of all descendants
-      self_and_descendants.each do |issue|
-        issue.relations.each do |relation|
-          relation.destroy unless relation.valid?
-        end
-      end
-      # update former parent
-      recalculate_attributes_for(former_parent_id) if former_parent_id
+      update_nested_set_attributes_on_parent_change
     end
     remove_instance_variable(:@parent_issue) if instance_variable_defined?(:@parent_issue)
+  end
+
+  # Updates the nested set for when an existing issue is moved
+  def update_nested_set_attributes_on_parent_change
+    former_parent_id = parent_id
+    # moving an existing issue
+    if @parent_issue && @parent_issue.root_id == root_id
+      # inside the same tree
+      move_to_child_of(@parent_issue)
+    else
+      # to another tree
+      unless root?
+        move_to_right_of(root)
+      end
+      old_root_id = root_id
+      self.root_id = (@parent_issue.nil? ? id : @parent_issue.root_id )
+      target_maxright = nested_set_scope.maximum(right_column_name) || 0
+      offset = target_maxright + 1 - lft
+      Issue.update_all(["root_id = ?, lft = lft + ?, rgt = rgt + ?", root_id, offset, offset],
+                        ["root_id = ? AND lft >= ? AND rgt <= ? ", old_root_id, lft, rgt])
+      self[left_column_name] = lft + offset
+      self[right_column_name] = rgt + offset
+      if @parent_issue
+        move_to_child_of(@parent_issue)
+      end
+    end
+    # delete invalid relations of all descendants
+    self_and_descendants.each do |issue|
+      issue.relations.each do |relation|
+        relation.destroy unless relation.valid?
+      end
+    end
+    # update former parent
+    recalculate_attributes_for(former_parent_id) if former_parent_id
   end
 
   def update_parent_attributes

@@ -166,6 +166,41 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     assert_not_equal [], child.errors[:parent_issue_id]
   end
 
+  def test_updating_a_root_issue_should_not_trigger_update_nested_set_attributes_on_parent_change
+    issue = Issue.find(Issue.generate!.id)
+    issue.parent_issue_id = ""
+    issue.expects(:update_nested_set_attributes_on_parent_change).never
+    issue.save!
+  end
+
+  def test_updating_a_child_issue_should_not_trigger_update_nested_set_attributes_on_parent_change
+    issue = Issue.find(Issue.generate!(:parent_issue_id => 1).id)
+    issue.parent_issue_id = "1"
+    issue.expects(:update_nested_set_attributes_on_parent_change).never
+    issue.save!
+  end
+
+  def test_moving_a_root_issue_should_trigger_update_nested_set_attributes_on_parent_change
+    issue = Issue.find(Issue.generate!.id)
+    issue.parent_issue_id = "1"
+    issue.expects(:update_nested_set_attributes_on_parent_change).once
+    issue.save!
+  end
+
+  def test_moving_a_child_issue_to_another_parent_should_trigger_update_nested_set_attributes_on_parent_change
+    issue = Issue.find(Issue.generate!(:parent_issue_id => 1).id)
+    issue.parent_issue_id = "2"
+    issue.expects(:update_nested_set_attributes_on_parent_change).once
+    issue.save!
+  end
+
+  def test_moving_a_child_issue_to_root_should_trigger_update_nested_set_attributes_on_parent_change
+    issue = Issue.find(Issue.generate!(:parent_issue_id => 1).id)
+    issue.parent_issue_id = ""
+    issue.expects(:update_nested_set_attributes_on_parent_change).once
+    issue.save!
+  end
+
   def test_destroy_should_destroy_children
     issue1 = Issue.generate!
     issue2 = Issue.generate!
