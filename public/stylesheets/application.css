@@ -433,7 +433,7 @@ ul.projects li {list-style-type:none;}
 #projects-index ul.projects div.root a.project { font-family: "Trebuchet MS", Verdana, sans-serif; font-weight: bold; font-size: 16px; margin: 0 0 10px 0; }
 .my-project { padding-left: 18px; background: url(../images/fav.png) no-repeat 0 50%; }
 
-#notified-projects ul, #tracker_project_ids ul {max-height:250px; overflow-y:auto;}
+#notified-projects ul, #tracker_project_ids ul, #custom_field_project_ids ul {max-height:250px; overflow-y:auto;}
 
 #related-issues li img {vertical-align:middle;}
 

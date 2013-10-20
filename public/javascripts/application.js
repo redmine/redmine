@@ -2,11 +2,7 @@
    Copyright (C) 2006-2013  Jean-Philippe Lang */
 
 function checkAll(id, checked) {
-  if (checked) {
-    $('#'+id).find('input[type=checkbox]').attr('checked', true);
-  } else {
-    $('#'+id).find('input[type=checkbox]').removeAttr('checked');
-  }
+  $('#'+id).find('input[type=checkbox]:enabled').attr('checked', checked);
 }
 
 function toggleCheckboxesBySelector(selector) {

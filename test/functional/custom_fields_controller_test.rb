@@ -18,7 +18,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class CustomFieldsControllerTest < ActionController::TestCase
-  fixtures :custom_fields, :custom_values, :trackers, :users
+  fixtures :custom_fields, :custom_values, :trackers, :users, :projects
 
   def setup
     @request.session[:user_id] = 1
@@ -52,7 +52,19 @@ class CustomFieldsControllerTest < ActionController::TestCase
         assert_select 'option[value=user]', :text => 'User'
         assert_select 'option[value=version]', :text => 'Version'
       end
+      assert_select 'input[type=checkbox][name=?]', 'custom_field[project_ids][]', Project.count
+      assert_select 'input[type=hidden][name=?]', 'custom_field[project_ids][]', 1
       assert_select 'input[type=hidden][name=type][value=IssueCustomField]'
+    end
+  end
+
+  def test_new_time_entry_custom_field_should_not_show_trackers_and_projects
+    get :new, :type => 'TimeEntryCustomField'
+    assert_response :success
+    assert_template 'new'
+    assert_select 'form#custom_field_form' do
+      assert_select 'input[name=?]', 'custom_field[tracker_ids][]', 0
+      assert_select 'input[name=?]', 'custom_field[project_ids][]', 0
     end
   end
 
@@ -116,6 +128,17 @@ class CustomFieldsControllerTest < ActionController::TestCase
     assert_not_nil field
     assert_equal ["0.1", "0.2"], field.possible_values
     assert_equal 1, field.trackers.size
+  end
+
+  def test_create_with_project_ids
+    assert_difference 'CustomField.count' do
+      post :create, :type => "IssueCustomField", :custom_field => {
+        :name => "foo", :field_format => "string", :is_for_all => "0", :project_ids => ["1", "3", ""]
+      }
+      assert_response 302
+    end
+    field = IssueCustomField.order("id desc").first
+    assert_equal [1, 3], field.projects.map(&:id).sort
   end
 
   def test_create_with_failure

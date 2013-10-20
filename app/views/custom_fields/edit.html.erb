@@ -4,5 +4,4 @@
 
 <%= labelled_form_for :custom_field, @custom_field, :url => custom_field_path(@custom_field), :html => {:method => :put, :id => 'custom_field_form'} do |f| %>
 <%= render :partial => 'form', :locals => { :f => f } %>
-<%= submit_tag l(:button_save) %>
 <% end %>
