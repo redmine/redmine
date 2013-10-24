@@ -1076,22 +1076,21 @@ zh:
   label_cross_project_hierarchy: 与项目继承层次共享
   label_cross_project_system: 与所有项目共享
   button_hide: 隐藏
-  setting_non_working_week_days: Non-working days
-  label_in_the_next_days: in the next
-  label_in_the_past_days: in the past
-  label_attribute_of_user: User's %{name}
-  text_turning_multiple_off: If you disable multiple values, multiple values will be
-    removed in order to preserve only one value per item.
-  label_attribute_of_issue: Issue's %{name}
-  permission_add_documents: Add documents
-  permission_edit_documents: Edit documents
-  permission_delete_documents: Delete documents
-  label_gantt_progress_line: Progress line
-  setting_jsonp_enabled: Enable JSONP support
-  field_inherit_members: Inherit members
-  field_closed_on: Closed
+  setting_non_working_week_days: 非工作日
+  label_in_the_next_days: 在未来几天之内
+  label_in_the_past_days: 在过去几天之内
+  label_attribute_of_user: 用户是 %{name}
+  text_turning_multiple_off: 如果您停用多重值设定，重复的值将被移除，以使每个项目仅保留一个值
+  label_attribute_of_issue: 问题是 %{name}
+  permission_add_documents: 添加文档
+  permission_edit_documents: 编辑文档
+  permission_delete_documents: 删除文档
+  label_gantt_progress_line: 进度线
+  setting_jsonp_enabled: 启用JSONP支持
+  field_inherit_members: 继承父项目成员
+  field_closed_on: 结束日期
   field_generate_password: Generate password
-  setting_default_projects_tracker_ids: Default trackers for new projects
+  setting_default_projects_tracker_ids: 新建项目默认跟踪标签
   label_total_time: 合计
   notice_account_not_activated_yet: You haven't activated your account yet. If you want
     to receive a new activation email, please <a href="%{url}">click this link</a>.
