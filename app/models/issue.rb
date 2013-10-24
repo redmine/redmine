@@ -92,9 +92,11 @@ class Issue < ActiveRecord::Base
   }
 
   before_create :default_assign
-  before_save :close_duplicates, :update_done_ratio_from_issue_status, :force_updated_on_change, :update_closed_on
+  before_save :close_duplicates, :update_done_ratio_from_issue_status,
+              :force_updated_on_change, :update_closed_on
   after_save {|issue| issue.send :after_project_change if !issue.id_changed? && issue.project_id_changed?} 
-  after_save :reschedule_following_issues, :update_nested_set_attributes, :update_parent_attributes, :create_journal
+  after_save :reschedule_following_issues, :update_nested_set_attributes,
+             :update_parent_attributes, :create_journal
   # Should be after_create but would be called before previous after_save callbacks
   after_save :after_create_from_copy
   after_destroy :update_parent_attributes
