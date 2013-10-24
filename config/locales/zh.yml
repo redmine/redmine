@@ -1089,17 +1089,15 @@ zh:
   setting_jsonp_enabled: 启用JSONP支持
   field_inherit_members: 继承父项目成员
   field_closed_on: 结束日期
-  field_generate_password: Generate password
+  field_generate_password: 生成密码
   setting_default_projects_tracker_ids: 新建项目默认跟踪标签
   label_total_time: 合计
-  notice_account_not_activated_yet: You haven't activated your account yet. If you want
-    to receive a new activation email, please <a href="%{url}">click this link</a>.
-  notice_account_locked: Your account is locked.
-  label_hidden: Hidden
-  label_visibility_private: to me only
-  label_visibility_roles: to these roles only
-  label_visibility_public: to any users
-  field_must_change_passwd: Must change password at next logon
-  notice_new_password_must_be_different: The new password must be different from the
-    current password
-  setting_mail_handler_excluded_filenames: Exclude attachments by name
+  notice_account_not_activated_yet: 您的账号尚未激活. 若您要重新收取激活邮件, 请<a href="%{url}">单击此链接</a>.
+  notice_account_locked: 您的帐号已被锁定
+  label_hidden: 隐藏
+  label_visibility_private: 仅对我可见
+  label_visibility_roles: 仅对选取角色可见
+  label_visibility_public: 对任何人可见
+  field_must_change_passwd: 下次登录时必须修改密码
+  notice_new_password_must_be_different: 新密码必须和旧密码不同
+  setting_mail_handler_excluded_filenames: 移除符合下列名称的附件
