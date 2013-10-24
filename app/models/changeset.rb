@@ -220,9 +220,13 @@ class Changeset < ActiveRecord::Base
     # don't change the status is the issue is closed
     return if issue.status && issue.status.is_closed?
 
-    journal = issue.init_journal(user || User.anonymous, ll(Setting.default_language, :text_status_changed_by_changeset, text_tag(issue.project)))
+    journal = issue.init_journal(user || User.anonymous,
+                                 ll(Setting.default_language,
+                                    :text_status_changed_by_changeset,
+                                    text_tag(issue.project)))
     rule = Setting.commit_update_keywords_array.detect do |rule|
-      rule['keywords'].include?(action) && (rule['if_tracker_id'].blank? || rule['if_tracker_id'] == issue.tracker_id.to_s)
+      rule['keywords'].include?(action) &&
+        (rule['if_tracker_id'].blank? || rule['if_tracker_id'] == issue.tracker_id.to_s)
     end
     if rule
       issue.assign_attributes rule.slice(*Issue.attribute_names)
