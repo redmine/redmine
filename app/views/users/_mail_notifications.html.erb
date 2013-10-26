@@ -13,7 +13,8 @@
           check_box_tag(
             'user[notified_project_ids][]',
              project.id,
-             @user.notified_projects_ids.include?(project.id)
+             @user.notified_projects_ids.include?(project.id),
+             :id => nil
           ) + ' ' + h(project.name)
         )
       end %>
