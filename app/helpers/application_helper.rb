@@ -384,7 +384,7 @@ module ApplicationHelper
     if @project
       link_to(text, {:controller => 'activities', :action => 'index', :id => @project, :from => User.current.time_to_date(time)}, :title => format_time(time))
     else
-      content_tag('acronym', text, :title => format_time(time))
+      content_tag('abbr', text, :title => format_time(time))
     end
   end
 
