@@ -1016,14 +1016,14 @@ RAW
     result = textilizable(raw, :edit_section_links => {:controller => 'wiki', :action => 'edit', :project_id => '1', :id => 'Test'}).gsub("\n", "")
 
     # heading that contains inline code
-    assert_match Regexp.new('<div class="contextual" title="Edit this section">' +
+    assert_match Regexp.new('<div class="contextual" id="section-4" title="Edit this section">' +
       '<a href="/projects/1/wiki/Test/edit\?section=4"><img alt="Edit" src="/images/edit.png(\?\d+)?" /></a></div>' +
       '<a name="Subtitle-with-inline-code"></a>' +
       '<h2 >Subtitle with <code>inline code</code><a href="#Subtitle-with-inline-code" class="wiki-anchor">&para;</a></h2>'),
       result
 
     # last heading
-    assert_match Regexp.new('<div class="contextual" title="Edit this section">' +
+    assert_match Regexp.new('<div class="contextual" id="section-5" title="Edit this section">' +
       '<a href="/projects/1/wiki/Test/edit\?section=5"><img alt="Edit" src="/images/edit.png(\?\d+)?" /></a></div>' +
       '<a name="Subtitle-after-pre-tag"></a>' +
       '<h2 >Subtitle after pre tag<a href="#Subtitle-after-pre-tag" class="wiki-anchor">&para;</a></h2>'),
