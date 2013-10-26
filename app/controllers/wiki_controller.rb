@@ -144,7 +144,7 @@ class WikiController < ApplicationController
     if params[:section].present? && Redmine::WikiFormatting.supports_section_edit?
       @section = params[:section].to_i
       @section_hash = params[:section_hash]
-      @content.text = Redmine::WikiFormatting.formatter.new(@content.text).update_section(params[:section].to_i, @text, @section_hash)
+      @content.text = Redmine::WikiFormatting.formatter.new(@content.text).update_section(@section, @text, @section_hash)
     else
       @content.version = content_params[:version] if content_params[:version]
       @content.text = @text
@@ -157,7 +157,10 @@ class WikiController < ApplicationController
       call_hook(:controller_wiki_edit_after_save, { :params => params, :page => @page})
 
       respond_to do |format|
-        format.html { redirect_to project_wiki_page_path(@project, @page.title) }
+        format.html {
+          anchor = @section ? "section-#{@section}" : nil
+          redirect_to project_wiki_page_path(@project, @page.title, :anchor => anchor)
+        }
         format.api {
           if was_new_page
             render :action => 'show', :status => :created, :location => project_wiki_page_path(@project, @page.title)

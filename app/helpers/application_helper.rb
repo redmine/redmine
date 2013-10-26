@@ -831,7 +831,8 @@ module ApplicationHelper
         content_tag('div',
           link_to(image_tag('edit.png'), options[:edit_section_links].merge(:section => @current_section)),
           :class => 'contextual',
-          :title => l(:button_edit_section)) + heading.html_safe
+          :title => l(:button_edit_section),
+          :id => "section-#{@current_section}") + heading.html_safe
       else
         heading
       end

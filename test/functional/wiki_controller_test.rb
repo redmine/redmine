@@ -454,7 +454,7 @@ class WikiControllerTest < ActionController::TestCase
         end
       end
     end
-    assert_redirected_to '/projects/ecookbook/wiki/Page_with_sections'
+    assert_redirected_to '/projects/ecookbook/wiki/Page_with_sections#section-2'
     assert_equal Redmine::WikiFormatting::Textile::Formatter.new(text).update_section(2, "New section content"), page.reload.content.text
   end
 
@@ -477,7 +477,7 @@ class WikiControllerTest < ActionController::TestCase
         end
       end
     end
-    assert_redirected_to '/projects/ecookbook/wiki/Page_with_sections'
+    assert_redirected_to '/projects/ecookbook/wiki/Page_with_sections#section-2'
     page.reload
     assert_equal Redmine::WikiFormatting::Textile::Formatter.new(text).update_section(2, "New section content"), page.content.text
     assert_equal 4, page.content.version
