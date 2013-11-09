@@ -229,7 +229,8 @@ class RepositoriesController < ApplicationController
   # Adds a related issue to a changeset
   # POST /projects/:project_id/repository/(:repository_id/)revisions/:rev/issues
   def add_related_issue
-    @issue = @changeset.find_referenced_issue_by_id(params[:issue_id])
+    issue_id = params[:issue_id].to_s.sub(/^#/,'')
+    @issue = @changeset.find_referenced_issue_by_id(issue_id)
     if @issue && (!@issue.visible? || @changeset.issues.include?(@issue))
       @issue = nil
     end
