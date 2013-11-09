@@ -198,11 +198,11 @@ class ProjectMembersInheritanceTest < ActiveSupport::TestCase
         member = Member.create!(:principal => group, :project => @parent, :role_ids => [1, 3])
         project.reload
         member.reload
-  
+
         inherited_group_member = project.memberships.detect {|m| m.principal == group}
         assert_not_nil inherited_group_member
         assert_equal member.roles.sort, inherited_group_member.roles.sort
-  
+
         inherited_user_member = project.memberships.detect {|m| m.principal == user}
         assert_not_nil inherited_user_member
         assert_equal member.roles.sort, inherited_user_member.roles.sort
@@ -221,10 +221,10 @@ class ProjectMembersInheritanceTest < ActiveSupport::TestCase
       assert_difference 'MemberRole.count', -8 do
         member.destroy
         project.reload
-  
+
         inherited_group_member = project.memberships.detect {|m| m.principal == group}
         assert_nil inherited_group_member
-  
+
         inherited_user_member = project.memberships.detect {|m| m.principal == user}
         assert_nil inherited_user_member
       end
