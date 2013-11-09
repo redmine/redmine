@@ -693,11 +693,7 @@ module Redmine
       end
 
       def self.sort_versions!(versions)
-        versions.sort! {|a, b| sort_version_logic(a) <=> sort_version_logic(b)}
-      end
-
-      def self.sort_version_logic(version)
-        [(version.start_date || Date.new()), version.id]
+        versions.sort!
       end
 
       def current_limit

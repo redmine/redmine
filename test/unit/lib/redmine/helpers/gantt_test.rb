@@ -832,25 +832,10 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
   def test_sort_versions
     project = Project.generate!
     version1 = Version.create!(:project => project, :name => 'test1')
-    version2 = Version.create!(:project => project, :name => 'test2')
+    version2 = Version.create!(:project => project, :name => 'test2', :effective_date => '2013-10-25')
     version3 = Version.create!(:project => project, :name => 'test3')
-    version4 = Version.create!(:project => project, :name => 'test4')
-    issue1 = Issue.generate!(:subject => "test", :project => project,
-                             :fixed_version => version1)
-    issue2 = Issue.generate!(:subject => "test", :project => project,
-                             :fixed_version => version2)
-    issue3 = Issue.generate!(:subject => "test", :project => project,
-                             :fixed_version => version3, :start_date => (today - 1))
-    issue4 = Issue.generate!(:subject => "test", :project => project,
-                             :fixed_version => version4, :start_date => (today - 2))
-    assert_nil version1.start_date
-    assert_nil version2.start_date
-    assert version1.id < version2.id
-    assert_equal today - 1, version3.start_date
-    assert_equal today - 2, version4.start_date
-    versions = [version4, version3, version2, version1]
-    Redmine::Helpers::Gantt.sort_versions!(versions)
-    assert_equal [version1.id, version2.id, version4.id, version3.id],
-                  versions.map{|v| v.id}
+    version4 = Version.create!(:project => project, :name => 'test4', :effective_date => '2013-10-02')
+
+    assert_equal versions.sort, Redmine::Helpers::Gantt.sort_versions!(versions)
   end
 end
