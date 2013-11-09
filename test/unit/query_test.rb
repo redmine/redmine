@@ -115,7 +115,7 @@ class QueryTest < ActiveSupport::TestCase
   def assert_query_statement_includes(query, condition)
     assert_include condition, query.statement
   end
-  
+
   def assert_query_result(expected, query)
     assert_nothing_raised do
       assert_equal expected.map(&:id).sort, query.issues.map(&:id).sort
@@ -942,7 +942,7 @@ class QueryTest < ActiveSupport::TestCase
     assert_nil q.group_by_column
     assert_nil q.group_by_statement
   end
-  
+
   def test_sortable_columns_should_sort_assignees_according_to_user_format_setting
     with_settings :user_format => 'lastname_coma_firstname' do
       q = IssueQuery.new
@@ -950,7 +950,7 @@ class QueryTest < ActiveSupport::TestCase
       assert_equal %w(users.lastname users.firstname users.id), q.sortable_columns['assigned_to']
     end
   end
-  
+
   def test_sortable_columns_should_sort_authors_according_to_user_format_setting
     with_settings :user_format => 'lastname_coma_firstname' do
       q = IssueQuery.new
@@ -1340,7 +1340,7 @@ class QueryTest < ActiveSupport::TestCase
         User.add_to_project(@manager, @project, @manager_role)
         User.add_to_project(@developer, @project, @developer_role)
         User.add_to_project(@boss, @project, [@manager_role, @developer_role])
-        
+
         @issue1 = Issue.generate!(:project => @project, :assigned_to_id => @manager.id)
         @issue2 = Issue.generate!(:project => @project, :assigned_to_id => @developer.id)
         @issue3 = Issue.generate!(:project => @project, :assigned_to_id => @boss.id)
@@ -1358,7 +1358,7 @@ class QueryTest < ActiveSupport::TestCase
       should "search assigned to for users with the Role on the issue project" do
         other_project = Project.generate!
         User.add_to_project(@developer, other_project, @manager_role)
-        
+
         @query = IssueQuery.new(:name => '_', :project => @project)
         @query.add_filter('assigned_to_role', '=', [@manager_role.id.to_s])
 
