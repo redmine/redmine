@@ -1,8 +1,9 @@
+<% custom_field_values = @issue.editable_custom_field_values %>
 <div class="splitcontent">
 <div class="splitcontentleft">
 <% i = 0 %>
-<% split_on = (@issue.custom_field_values.size / 2.0).ceil - 1 %>
-<% @issue.editable_custom_field_values.each do |value| %>
+<% split_on = (custom_field_values.size / 2.0).ceil - 1 %>
+<% custom_field_values.each do |value| %>
   <p><%= custom_field_tag_with_label :issue, value, :required => @issue.required_attribute?(value.custom_field_id) %></p>
 <% if i == split_on -%>
 </div><div class="splitcontentright">
