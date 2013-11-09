@@ -90,6 +90,7 @@ class Redmine::ApiTest::WikiPagesTest < Redmine::ApiTest::Base
       assert_select 'version', :text => '2'
       assert_select 'text'
       assert_select 'author'
+      assert_select 'comments', :text => 'Small update'
       assert_select 'created_on'
       assert_select 'updated_on'
     end
