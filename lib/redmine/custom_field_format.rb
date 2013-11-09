@@ -70,6 +70,13 @@ module Redmine
         @@available[custom_field_format.name] = custom_field_format unless @@available.keys.include?(custom_field_format.name)
       end
 
+      def delete(format)
+        if format.is_a?(Redmine::CustomFieldFormat)
+          format = format.name
+        end
+        @@available.delete(format)
+      end
+
       def available_formats
         @@available.keys
       end

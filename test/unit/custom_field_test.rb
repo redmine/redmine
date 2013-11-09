@@ -57,6 +57,20 @@ class CustomFieldTest < ActiveSupport::TestCase
     assert field.valid?
   end
 
+  def test_field_format_should_be_validated
+    field = CustomField.new(:name => 'Test', :field_format => 'foo')
+    assert !field.valid?
+  end
+
+  def test_field_format_validation_should_accept_formats_added_at_runtime
+    Redmine::CustomFieldFormat.register 'foobar'
+
+    field = CustomField.new(:name => 'Some Custom Field', :field_format => 'foobar')
+    assert field.valid?, 'field should be valid'
+  ensure
+    Redmine::CustomFieldFormat.delete 'foobar'
+  end
+
   def test_should_not_change_field_format_of_existing_custom_field
     field = CustomField.find(1)
     field.field_format = 'int'
