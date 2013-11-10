@@ -43,9 +43,9 @@ file 'config/database.yml' do
   case database
   when 'mysql'
     dev_conf =  {'adapter' => (RUBY_VERSION >= '1.9' ? 'mysql2' : 'mysql'),
-                'database' => dev_db_name, 'host' => 'localhost',
-                'username' => 'jenkins', 'password' => 'jenkins',
-                'encoding' => 'utf8'}
+                 'database' => dev_db_name, 'host' => 'localhost',
+                 'username' => 'jenkins', 'password' => 'jenkins',
+                 'encoding' => 'utf8'}
     test_conf = dev_conf.merge('database' => test_db_name)
   when 'postgresql'
     dev_conf =  {'adapter' => 'postgresql', 'database' => dev_db_name,
