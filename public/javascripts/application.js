@@ -117,6 +117,7 @@ function buildFilterRow(field, operator, values) {
   var fieldId = field.replace('.', '_');
   var filterTable = $("#filters-table");
   var filterOptions = availableFilters[field];
+  if (!filterOptions) return;
   var operators = operatorByType[filterOptions['type']];
   var filterValues = filterOptions['values'];
   var i, select;
