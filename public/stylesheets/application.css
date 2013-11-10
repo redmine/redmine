@@ -129,6 +129,7 @@ table.list td.checkbox { width: 15px; padding: 2px 0 0 0; }
 table.list td.checkbox input {padding:0px;}
 table.list td.buttons { width: 15%; white-space:nowrap; text-align: right; }
 table.list td.buttons a { padding-right: 0.6em; }
+table.list td.reorder {width:15%; white-space:nowrap; text-align:center; }
 table.list caption { text-align: left; padding: 0.5em 0.5em 0.5em 0; }
 
 tr.project td.name a { white-space:nowrap; }

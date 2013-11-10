@@ -20,7 +20,7 @@
       <td align="center"><%= checked_image custom_field.is_for_all? %></td>
       <td align="center"><%= l(:label_x_projects, :count => custom_field.projects.count) if custom_field.is_a? IssueCustomField and !custom_field.is_for_all? %></td>
       <% end %>
-      <td align="center" style="width:15%;"><%= reorder_links('custom_field', {:action => 'update', :id => custom_field}, :put) %></td>
+      <td class="reorder"><%= reorder_links('custom_field', {:action => 'update', :id => custom_field}, :put) %></td>
       <td class="buttons">
         <%= delete_link custom_field_path(custom_field) %>
       </td>

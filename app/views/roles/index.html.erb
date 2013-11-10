@@ -15,7 +15,7 @@
 <% for role in @roles %>
   <tr class="<%= cycle("odd", "even") %>">
   <td><%= content_tag(role.builtin? ? 'em' : 'span', link_to(h(role.name), edit_role_path(role))) %></td>
-  <td align="center" style="width:15%;">
+  <td class="reorder">
   <% unless role.builtin? %>
     <%= reorder_links('role', {:action => 'update', :id => role}, :put) %>
   <% end %>
