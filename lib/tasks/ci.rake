@@ -13,10 +13,7 @@ namespace :ci do
   task :setup do
     Rake::Task["tmp:clear"].invoke
     Rake::Task["log:clear"].invoke
-    database = ENV['DATABASE_ADAPTER']
-    unless Object.const_defined?(:JRUBY_VERSION) && database =~ /sqlite3/
-      Rake::Task["db:create:all"].invoke
-    end
+    Rake::Task["db:create:all"].invoke
     Rake::Task["db:migrate"].invoke
     Rake::Task["db:schema:dump"].invoke
     Rake::Task["test:scm:setup:all"].invoke
