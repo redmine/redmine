@@ -1,6 +1,6 @@
 <table class="list">
   <thead><tr>
-    <th width="30%"><%=l(:field_name)%></th>
+    <th><%=l(:field_name)%></th>
     <th><%=l(:field_field_format)%></th>
     <th><%=l(:field_is_required)%></th>
     <% if tab[:name] == 'IssueCustomField' %>
@@ -8,17 +8,17 @@
       <th><%=l(:label_used_by)%></th>
     <% end %>
     <th><%=l(:button_sort)%></th>
-    <th width="10%"></th>
+    <th></th>
   </tr></thead>
   <tbody>
   <% (@custom_fields_by_type[tab[:name]] || []).sort.each do |custom_field| -%>
     <tr class="<%= cycle("odd", "even") %>">
-      <td><%= link_to h(custom_field.name), edit_custom_field_path(custom_field) %></td>
-      <td align="center"><%= l(Redmine::CustomFieldFormat.label_for(custom_field.field_format)) %></td>
-      <td align="center"><%= checked_image custom_field.is_required? %></td>
+      <td class="name"><%= link_to h(custom_field.name), edit_custom_field_path(custom_field) %></td>
+      <td><%= l(Redmine::CustomFieldFormat.label_for(custom_field.field_format)) %></td>
+      <td><%= checked_image custom_field.is_required? %></td>
       <% if tab[:name] == 'IssueCustomField' %>
-      <td align="center"><%= checked_image custom_field.is_for_all? %></td>
-      <td align="center"><%= l(:label_x_projects, :count => custom_field.projects.count) if custom_field.is_a? IssueCustomField and !custom_field.is_for_all? %></td>
+      <td><%= checked_image custom_field.is_for_all? %></td>
+      <td><%= l(:label_x_projects, :count => custom_field.projects.count) if custom_field.is_a? IssueCustomField and !custom_field.is_for_all? %></td>
       <% end %>
       <td class="reorder"><%= reorder_links('custom_field', {:action => 'update', :id => custom_field}, :put) %></td>
       <td class="buttons">

@@ -15,10 +15,10 @@
   <tbody>
 <% for source in @auth_sources %>
   <tr id="auth-source-<%= source.id %>" class="<%= cycle("odd", "even") %>">
-    <td><%= link_to(h(source.name), :action => 'edit', :id => source)%></td>
-    <td align="center"><%= h source.auth_method_name %></td>
-    <td align="center"><%= h source.host %></td>
-    <td align="center"><%= h source.users.count %></td>
+    <td class="name"><%= link_to(h(source.name), :action => 'edit', :id => source)%></td>
+    <td><%= h source.auth_method_name %></td>
+    <td><%= h source.host %></td>
+    <td><%= h source.users.count %></td>
     <td class="buttons">
       <%= link_to l(:button_test), try_connection_auth_source_path(source), :class => 'icon icon-test' %>
       <%= delete_link auth_source_path(source) %>

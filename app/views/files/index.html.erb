@@ -20,7 +20,7 @@
   <% next if container.attachments.empty? -%>
   <% if container.is_a?(Version) -%>
   <tr>
-    <th colspan="6" align="left">
+    <th colspan="6">
       <%= link_to(h(container), {:controller => 'versions', :action => 'show', :id => container}, :class => "icon icon-package") %>
     </th>
   </tr>
@@ -32,7 +32,7 @@
     <td class="filesize"><%= number_to_human_size(file.filesize) %></td>
     <td class="downloads"><%= file.downloads %></td>
     <td class="digest"><%= file.digest %></td>
-    <td align="center">
+    <td class="buttons">
     <%= link_to(image_tag('delete.png'), attachment_path(file),
                                          :data => {:confirm => l(:text_are_you_sure)}, :method => :delete) if delete_allowed %>
     </td>
