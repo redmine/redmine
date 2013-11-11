@@ -36,11 +36,14 @@ class ApplicationController < ActionController::Base
   def handle_unverified_request
     super
     cookies.delete(autologin_cookie_name)
+    if api_request?
+      logger.error "API calls must include a proper Content-type header (application/xml or application/json)."
+    end
+    render_error :status => 422, :message => "Invalid form authenticity token."
   end
 
   before_filter :session_expiration, :user_setup, :check_if_login_required, :check_password_change, :set_localization
 
-  rescue_from ActionController::InvalidAuthenticityToken, :with => :invalid_authenticity_token
   rescue_from ::Unauthorized, :with => :deny_access
   rescue_from ::ActionView::MissingTemplate, :with => :missing_template
 
@@ -448,13 +451,6 @@ class ApplicationController < ActionController::Base
   # @return [boolean, string] name of the layout to use or false for no layout
   def use_layout
     request.xhr? ? false : 'base'
-  end
-
-  def invalid_authenticity_token
-    if api_request?
-      logger.error "Form authenticity token is missing or is invalid. API calls must include a proper Content-type header (text/xml or text/json)."
-    end
-    render_error "Invalid form authenticity token."
   end
 
   def render_feed(items, options={})

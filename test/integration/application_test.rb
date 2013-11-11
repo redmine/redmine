@@ -67,4 +67,13 @@ class ApplicationTest < ActionController::IntegrationTest
     get '/login.png'
     assert_response 404
   end
+
+  def test_invalid_token_should_call_custom_handler
+    ActionController::Base.allow_forgery_protection = true
+    post '/issues'
+    assert_response 422
+    assert_include "Invalid form authenticity token.", response.body
+  ensure
+    ActionController::Base.allow_forgery_protection = false
+  end
 end
