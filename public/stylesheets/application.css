@@ -125,7 +125,7 @@ table.list { border: 1px solid #e4e4e4;  border-collapse: collapse; width: 100%;
 table.list th {  background-color:#EEEEEE; padding: 4px; white-space:nowrap; }
 table.list td {text-align:center; vertical-align:top; padding-right:10px;}
 table.list td.id { width: 2%; text-align: center;}
-table.list td.name, table.list td.description, table.list td.subject {text-align: left;}
+table.list td.name, table.list td.description, table.list td.subject, table.list td.comments {text-align: left;}
 table.list td.tick {width:15%}
 table.list td.checkbox { width: 15px; padding: 2px 0 0 0; }
 table.list td.checkbox input {padding:0px;}
@@ -172,8 +172,8 @@ table.issue-report {table-layout:fixed;}
 
 tr.entry { border: 1px solid #f8f8f8; }
 tr.entry td { white-space: nowrap; }
-tr.entry td.filename { width: 30%; }
-tr.entry td.filename_no_report { width: 70%; }
+tr.entry td.filename {width:30%; text-align:left;}
+tr.entry td.filename_no_report {width:70%; text-align:left;}
 tr.entry td.size { text-align: right; font-size: 90%; }
 tr.entry td.revision, tr.entry td.author { text-align: center; }
 tr.entry td.age { text-align: right; }
