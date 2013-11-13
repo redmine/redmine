@@ -407,7 +407,7 @@ function expandScmEntry(id) {
 }
 
 function scmEntryClick(id, url) {
-    el = $('#'+id);
+    var el = $('#'+id);
     if (el.hasClass('open')) {
         collapseScmEntry(id);
         el.addClass('collapsed');
