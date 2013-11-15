@@ -1090,3 +1090,4 @@ sk:
   field_must_change_passwd: Pri najbližšom prihlásení je potrebné zmeniť heslo
   notice_new_password_must_be_different: Nové heslo nesmie byť rovnaké ako súčasné heslo
   setting_mail_handler_excluded_filenames: Exclude attachments by name
+  text_convert_available: ImageMagick convert available (optional)
