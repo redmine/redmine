@@ -77,7 +77,8 @@ class AdminController < ApplicationController
       [:text_default_administrator_account_changed, User.default_admin_account_changed?],
       [:text_file_repository_writable, File.writable?(Attachment.storage_path)],
       [:text_plugin_assets_writable,   File.writable?(Redmine::Plugin.public_directory)],
-      [:text_rmagick_available,        Object.const_defined?(:Magick)]
+      [:text_rmagick_available,        Object.const_defined?(:Magick)],
+      [:text_convert_available,        Redmine::Thumbnail.convert_available?]
     ]
   end
 end
