@@ -33,7 +33,6 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
       fill_in 'Description', :with => 'new issue'
       select '0 %', :from => 'Done'
       fill_in 'Due date', :with => ''
-      select '', :from => 'Assignee'
       fill_in 'Searchable field', :with => 'Value for field 2'
       # click_button 'Create' would match both 'Create' and 'Create and continue' buttons
       find('input[name=commit]').click
