@@ -25,13 +25,13 @@
       </tr>
       <% Tracker::CORE_FIELDS.each do |field| %>
       <tr class="<%= cycle("odd", "even") %>">
-        <td>
+        <td class="name">
           <%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('input.core-field-#{field}')",
                                                               :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
           <%= l("field_#{field}".sub(/_id$/, '')) %>
         </td>
         <% @trackers.each do |tracker| %>
-        <td align="center">
+        <td>
           <%= check_box_tag "trackers[#{tracker.id}][core_fields][]", field, tracker.core_fields.include?(field),
                             :class => "tracker-#{tracker.id} core-field-#{field}" %>
         </td>
@@ -47,13 +47,13 @@
         </tr>
         <% @custom_fields.each do |field| %>
         <tr class="<%= cycle("odd", "even") %>">
-          <td>
+          <td class="name">
             <%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('input.custom-field-#{field.id}')",
                                                                 :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
             <%= field.name %>
           </td>
           <% @trackers.each do |tracker| %>
-          <td align="center">
+          <td>
             <%= check_box_tag "trackers[#{tracker.id}][custom_field_ids][]", field.id, tracker.custom_fields.include?(field),
                               :class => "tracker-#{tracker.id} custom-field-#{field.id}" %>
           </td>

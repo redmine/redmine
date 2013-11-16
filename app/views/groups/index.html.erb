@@ -14,8 +14,8 @@
   <tbody>
 <% @groups.each do |group| %>
   <tr class="<%= cycle 'odd', 'even' %>">
-    <td><%= link_to h(group), edit_group_path(group) %></td>
-    <td align="center"><%= group.users.size %></td>
+    <td class="name"><%= link_to h(group), edit_group_path(group) %></td>
+    <td><%= group.users.size %></td>
     <td class="buttons"><%= delete_link group %></td>
   </tr>
 <% end %>

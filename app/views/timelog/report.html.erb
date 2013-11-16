@@ -43,9 +43,9 @@
 <% end %>
 <% columns_width = (40 / (@report.periods.length+1)).to_i %>
 <% @report.periods.each do |period| %>
-  <th class="period" width="<%= columns_width %>%"><%= period %></th>
+  <th class="period" style="width:<%= columns_width %>%;"><%= period %></th>
 <% end %>
-  <th class="total" width="<%= columns_width %>%"><%= l(:label_total_time) %></th>
+  <th class="total" style="width:<%= columns_width %>%;"><%= l(:label_total_time) %></th>
 </tr>
 </thead>
 <tbody>

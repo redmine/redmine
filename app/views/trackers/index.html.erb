@@ -15,15 +15,15 @@
   <tbody>
 <% for tracker in @trackers %>
   <tr class="<%= cycle("odd", "even") %>">
-  <td><%= link_to h(tracker.name), edit_tracker_path(tracker) %></td>
-  <td align="center">
+  <td class="name"><%= link_to h(tracker.name), edit_tracker_path(tracker) %></td>
+  <td>
     <% unless tracker.workflow_rules.count > 0 %>
       <span class="icon icon-warning">
         <%= l(:text_tracker_no_workflow) %> (<%= link_to l(:button_edit), workflows_edit_path(:tracker_id => tracker) %>)
       </span>
     <% end %>
   </td>
-  <td align="center" style="width:15%;">
+  <td class="reorder">
     <%= reorder_links('tracker', {:action => 'update', :id => tracker}, :put) %>
   </td>
   <td class="buttons">

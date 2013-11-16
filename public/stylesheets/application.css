@@ -123,12 +123,15 @@ a#toggle-completed-versions {color:#999;}
 /***** Tables *****/
 table.list { border: 1px solid #e4e4e4;  border-collapse: collapse; width: 100%; margin-bottom: 4px; }
 table.list th {  background-color:#EEEEEE; padding: 4px; white-space:nowrap; }
-table.list td { vertical-align: top; padding-right:10px; }
+table.list td {text-align:center; vertical-align:top; padding-right:10px;}
 table.list td.id { width: 2%; text-align: center;}
+table.list td.name, table.list td.description, table.list td.subject, table.list td.comments {text-align: left;}
+table.list td.tick {width:15%}
 table.list td.checkbox { width: 15px; padding: 2px 0 0 0; }
 table.list td.checkbox input {padding:0px;}
 table.list td.buttons { width: 15%; white-space:nowrap; text-align: right; }
 table.list td.buttons a { padding-right: 0.6em; }
+table.list td.reorder {width:15%; white-space:nowrap; text-align:center; }
 table.list caption { text-align: left; padding: 0.5em 0.5em 0.5em 0; }
 
 tr.project td.name a { white-space:nowrap; }
@@ -148,7 +151,7 @@ tr.project.idnt-9 td.name {padding-left: 12.5em;}
 
 tr.issue { text-align: center; white-space: nowrap; }
 tr.issue td.subject, tr.issue td.category, td.assigned_to, tr.issue td.string, tr.issue td.text, tr.issue td.relations { white-space: normal; }
-tr.issue td.subject, tr.issue td.relations { text-align: left; }
+tr.issue td.relations { text-align: left; }
 tr.issue td.done_ratio table.progress { margin-left:auto; margin-right: auto;}
 tr.issue td.relations span {white-space: nowrap;}
 table.issues td.description {color:#777; font-size:90%; padding:4px 4px 4px 24px; text-align:left; white-space:normal;}
@@ -165,10 +168,12 @@ tr.issue.idnt-7 td.subject {padding-left: 9.5em;}
 tr.issue.idnt-8 td.subject {padding-left: 11em;}
 tr.issue.idnt-9 td.subject {padding-left: 12.5em;}
 
+table.issue-report {table-layout:fixed;}
+
 tr.entry { border: 1px solid #f8f8f8; }
 tr.entry td { white-space: nowrap; }
-tr.entry td.filename { width: 30%; }
-tr.entry td.filename_no_report { width: 70%; }
+tr.entry td.filename {width:30%; text-align:left;}
+tr.entry td.filename_no_report {width:70%; text-align:left;}
 tr.entry td.size { text-align: right; font-size: 90%; }
 tr.entry td.revision, tr.entry td.author { text-align: center; }
 tr.entry td.age { text-align: right; }
@@ -184,7 +189,7 @@ tr.changeset td.revision_graph { width: 15%; background-color: #fffffb; }
 tr.changeset td.author { text-align: center; width: 15%; white-space:nowrap;}
 tr.changeset td.committed_on { text-align: center; width: 15%; white-space:nowrap;}
 
-table.files tr.file td { text-align: center; }
+table.files tbody th {text-align:left;}
 table.files tr.file td.filename { text-align: left; padding-left: 24px; }
 table.files tr.file td.digest { font-size: 80%; }
 
@@ -202,9 +207,9 @@ tr.version td.name { padding-left: 20px; }
 tr.version.shared td.name { background: url(../images/link.png) no-repeat 0% 70%; }
 tr.version td.date, tr.version td.status, tr.version td.sharing { text-align: center; white-space:nowrap; }
 
-tr.user td { width:13%; }
+tr.user td {width:13%;white-space: nowrap;}
+tr.user td.username, tr.user td.firstname, tr.user td.lastname, tr.user td.email {text-align:left;}
 tr.user td.email { width:18%; }
-tr.user td { white-space: nowrap; }
 tr.user.locked, tr.user.registered { color: #aaa; }
 tr.user.locked a, tr.user.registered a { color: #aaa; }
 
@@ -223,7 +228,7 @@ table.plugins span.name { font-weight: bold; display: block; margin-bottom: 6px;
 table.plugins span.description { display: block; font-size: 0.9em; }
 table.plugins span.url { display: block; font-size: 0.9em; }
 
-table.list tbody tr.group td { padding: 0.8em 0 0.5em 0.3em; font-weight: bold; border-bottom: 1px solid #ccc; }
+table.list tbody tr.group td { padding: 0.8em 0 0.5em 0.3em; font-weight: bold; border-bottom: 1px solid #ccc; text-align:left; }
 table.list tbody tr.group span.count {position:relative; top:-1px; color:#fff; font-size:10px; background:#9DB9D5; padding:0px 6px 1px 6px; border-radius:3px; margin-left:4px;}
 tr.group a.toggle-all { color: #aaa; font-size: 80%; font-weight: normal; display:none;}
 tr.group:hover a.toggle-all { display:inline;}
@@ -245,10 +250,9 @@ table.attributes th { vertical-align: top; text-align: left; }
 table.attributes td { vertical-align: top; }
 
 table.boards a.board, h3.comments { background: url(../images/comment.png) no-repeat 0% 50%; padding-left: 20px; }
-table.boards td.topic-count, table.boards td.message-count {text-align:center;}
-table.boards td.last-message {font-size:80%;}
+table.boards td.last-message {text-align:left;font-size:80%;}
 
-table.messages td.author, table.messages td.created_on, table.messages td.reply-count {text-align:center;}
+table.messages td.last_message {text-align:left;}
 
 table.query-columns {
   border-collapse: collapse;
