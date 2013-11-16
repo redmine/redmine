@@ -291,18 +291,6 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
     end
   end
 
-  context "#render_project" do
-    should "be tested"
-  end
-
-  context "#render_issues" do
-    should "be tested"
-  end
-
-  context "#render_version" do
-    should "be tested"
-  end
-
   context "#subject_for_project" do
     setup do
       create_gantt
@@ -337,8 +325,6 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
         assert_select 'div span.project-overdue'
       end
     end
-    should "test the PNG format"
-    should "test the PDF format"
   end
 
   context "#line_for_project" do
@@ -368,30 +354,6 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
         should "be the total width of the project" do
           @output_buffer = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
           assert_select "div.project.task_todo[style*=width:58px]", true, @output_buffer
-        end
-      end
-
-      context "late line" do
-        should_eventually "start from the starting point on the left" do
-          @output_buffer = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
-          assert_select "div.project.task_late[style*=left:28px]", true, @output_buffer
-        end
-
-        should_eventually "be the total delayed width of the project" do
-          @output_buffer = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
-          assert_select "div.project.task_late[style*=width:30px]", true, @output_buffer
-        end
-      end
-
-      context "done line" do
-        should_eventually "start from the starting point on the left" do
-          @output_buffer = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
-          assert_select "div.project.task_done[style*=left:28px]", true, @output_buffer
-        end
-
-        should_eventually "Be the total done width of the project"  do
-          @output_buffer = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
-          assert_select "div.project.task_done[style*=width:18px]", true, @output_buffer
         end
       end
 
@@ -434,15 +396,8 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
           @output_buffer = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
           assert_select "div.project.label", /#{@project.name}/
         end
-
-        should_eventually "show the percent complete" do
-          @output_buffer = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
-          assert_select "div.project.label", /0%/
-        end
       end
     end
-    should "test the PNG format"
-    should "test the PDF format"
   end
 
   context "#subject_for_version" do
@@ -494,8 +449,6 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
         assert_select 'div span.version-behind-schedule'
       end
     end
-    should "test the PNG format"
-    should "test the PDF format"
   end
 
   context "#line_for_version" do
@@ -598,8 +551,6 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
         end
       end
     end
-    should "test the PNG format"
-    should "test the PDF format"
   end
 
   context "#subject_for_issue" do
@@ -643,8 +594,6 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
         assert_select 'div span.issue-overdue'
       end
     end
-    should "test the PNG format"
-    should "test the PDF format"
   end
 
   context "#line_for_issue" do
@@ -750,16 +699,6 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
       @output_buffer = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
       assert_select "div.tooltip", /#{@issue.subject}/
     end
-    should "test the PNG format"
-    should "test the PDF format"
-  end
-
-  context "#to_image" do
-    should "be tested"
-  end
-
-  context "#to_pdf" do
-    should "be tested"
   end
 
   def test_sort_issues_no_date
