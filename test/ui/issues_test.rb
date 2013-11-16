@@ -33,7 +33,6 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
       fill_in 'Description', :with => 'new issue'
       select '0 %', :from => 'Done'
       fill_in 'Due date', :with => ''
-      select '', :from => 'Assignee'
       fill_in 'Searchable field', :with => 'Value for field 2'
       # click_button 'Create' would match both 'Create' and 'Create and continue' buttons
       find('input[name=commit]').click
@@ -200,7 +199,7 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
     visit '/issues/1'
     assert page.has_no_content?('Form update CF')
 
-    page.first(:link, 'Update').click
+    page.first(:link, 'Edit').click
     # the custom field should show up when changing tracker
     select 'Feature request', :from => 'Tracker'
     assert page.has_content?('Form update CF')
