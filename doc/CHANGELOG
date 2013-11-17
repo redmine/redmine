@@ -4,6 +4,25 @@ Redmine - project management software
 Copyright (C) 2006-2013  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2013-11-17 v2.3.4
+
+* Defect #13348: Repository tree can't handle two loading at once
+* Defect #13632: Empty page attached when exporting PDF
+* Defect #14590: migrate_from_trac.rake does not import Trac users, uses too short password
+* Defect #14656: JRuby: Encoding error when creating issues
+* Defect #14883: Update activerecord-jdbc-adapter
+* Defect #14902: Potential invalid SQL error with invalid group_ids
+* Defect #14931: SCM annotate with non ASCII author
+* Defect #14960: migrate_from_mantis.rake does not import Mantis users, uses too short password
+* Defect #14977: Internal Server Error while uploading file
+* Defect #15190: JS-error while using a global custom query w/ project filter in a project context
+* Defect #15235: Wiki Pages REST API with version returns wrong comments
+* Defect #15344: Default status always inserted to allowed statuses when changing status
+* Feature #14919: Update ruby-openid version above 2.3.0
+* Patch #14592: migrate_from_trac.rake does not properly parse First Name and Last Name
+* Patch #14886: Norweigan - label_copied_to and label_copied_from translated
+* Patch #15185: Simplified Chinese translation for 2.3-stable
+
 == 2013-09-14 v2.3.3
 
 * Defect #13008: Usage of attribute_present? in UserPreference
