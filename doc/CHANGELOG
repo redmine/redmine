@@ -4,6 +4,122 @@ Redmine - project management software
 Copyright (C) 2006-2013  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2013-11-17 v2.4.0
+
+* Defect #1983: statistics get rather cramped with more than 15 or so contributers
+* Defect #7335: Sorting issues in gantt by date, not by id
+* Defect #12681: Treat group assignments as assigned to me
+* Defect #12824: Useless "edit" link in workflow menu
+* Defect #13260: JQuery Datepicker popup is missing multiple month/year modifiers
+* Defect #13537: Filters will show issues with unused custom fields.
+* Defect #13829: Favicon bug in IE8
+* Defect #13949: Handling of attachment uploads when 'Maximum attachment size' is set to 0
+* Defect #13989: Trac and Mantis importers reset global notification settings
+* Defect #13990: Trac importer breaks on exotic filenames and ruby 1.9+
+* Defect #14028: Plugins Gemfiles loading breaks __FILE__
+* Defect #14086: Better handling of issue start date validation
+* Defect #14206: Synchronize the lang attribute of the HTML with the display language
+* Defect #14403: No error message if notification mail could not delivered
+* Defect #14516: Missing Sort Column Label and Center Align on Admin-Enumerations
+* Defect #14517: Missing Html Tile on Admin (Groups, LDAP and Plugins)
+* Defect #14598: Wrong test with logger.info in model mail_handler
+* Defect #14615: Warn me when leaving a page with unsaved text doesn't work when editing an update note
+* Defect #14621: AJAX call on the issue form resets data entered during the request
+* Defect #14657: Wrong German translation for member inheritance
+* Defect #14773: ActiveRecord::Acts::Versioned::ActMethods#next_version Generates ArgumentError
+* Defect #14819: Newlines in attachment filename causes crash
+* Defect #14986: 500 error when viewing a wiki page without WikiContent
+* Defect #14995: Japanese "notice_not_authorized" translation is incorrect
+* Defect #15044: Patch for giving controller_issues_edit_after_save api hook the correct context
+* Defect #15050: redmine:migrate_from_mantis fails to migrate projects with all upper case name
+* Defect #15058: Project authorization EnabledModule N+1 queries
+* Defect #15113: The mail method should return a Mail::Message
+* Defect #15135: Issue#update_nested_set_attributes comparing nil with empty string
+* Defect #15191: HTML 5 validation failures
+* Defect #15227: Custom fields in issue form - splitting is incorrect
+* Defect #15307: HTML 5 deprecates width and align attributes
+* Feature #1005: Add the addition/removal/change of related issues to the history
+* Feature #1019: Role based custom queries
+* Feature #1391: Ability to force user to change password
+* Feature #2199: Ability to clear dates and text fields when bulk editing issues
+* Feature #2427: Document horizontal rule syntax
+* Feature #2795: Add a "Cancel" button to the "Delete" project page when deleting a project.
+* Feature #2865: One click filter in search view
+* Feature #3413: Exclude attachments from incoming emails based on file name
+* Feature #3872: New user password - better functionality
+* Feature #4911: Multiple issue update rules with different keywords in commit messages
+* Feature #5037: Role-based issue custom field visibility
+* Feature #7590: Different commit Keywords for each tracker
+* Feature #7836: Ability to save Gantt query filters
+* Feature #8253: Update CodeRay to 1.1 final
+* Feature #11159: REST API for getting CustomField definitions
+* Feature #12293: Add links to attachments in new issue email notification
+* Feature #12912: Issue-notes Redmine links: append actual note reference to rendered links
+* Feature #13157: Link on "My Page" to view all my spent time
+* Feature #13746: Highlighting of source link target line
+* Feature #13943: Better handling of validation errors when bulk editing issues
+* Feature #13945: Disable autofetching of repository changesets if projects are closed
+* Feature #14024: Default of issue start and due date
+* Feature #14060: Enable configuration of OpenIdAuthentication.store
+* Feature #14228: Registered users should have a way to get a new action email
+* Feature #14614: View hooks for user preferences
+* Feature #14630: wiki_syntax.html per language (wiki help localization mechanism)
+* Feature #15136: Activate Custom Fields on a selection of projects directly from Custom fields page
+* Feature #15182: Return to section anchor after wiki section edit
+* Feature #15218: Update Rails 3.2.15
+* Feature #15311: Add an indication to admin/info whether or not ImageMagick convert is available
+* Patch #6689: Document project-links in parse_redmine_links
+* Patch #13460: All translations: RSS -> Atom
+* Patch #13482: Do not add empty header/footer to notification emails
+* Patch #13528: Traditional Chinese "label_total_time" translation
+* Patch #13551: update Dutch translations - March 2013
+* Patch #13577: Japanese translation improvement ("done ratio")
+* Patch #13646: Fix handling multiple text parts in email
+* Patch #13674: Lithuanian translation
+* Patch #13687: Favicon bug in opera browser
+* Patch #13697: Back-button on diff page is not working when I'm directed from email
+* Patch #13745: Correct translation for member save button
+* Patch #13808: Changed Bulgarian "label_statistics" translation
+* Patch #13825: German translation: jquery.ui.datepicker-de.js
+* Patch #13900: Update URL when changing tab
+* Patch #13931: Error and inconsistencies in Croatian translation
+* Patch #13948: REST API should return user.status
+* Patch #13988: Enhanced Arabic translation
+* Patch #14138: Output changeset comment in html title
+* Patch #14180: Improve pt-BR translation
+* Patch #14222: German translation: grammar + spelling
+* Patch #14223: Fix icon transparency issues
+* Patch #14360: Slovene language translation
+* Patch #14767: More CSS classes on various fields
+* Patch #14901: Slovak translation
+* Patch #14920: Russian numeric translation
+* Patch #14981: Italian translation
+* Patch #15072: Optimization of issues journal custom fields display
+* Patch #15073: list custom fields : multiple select filter wider
+* Patch #15075: Fix typo in the Dutch "label_user_mail_option_all" translation
+* Patch #15277: Accept custom field format added at runtime
+* Patch #15295: Log error messages when moving attachements in sub-directories
+* Patch #15369: Bulgarian translation (r12278)
+
+== 2013-11-17 v2.3.4
+
+* Defect #13348: Repository tree can't handle two loading at once
+* Defect #13632: Empty page attached when exporting PDF
+* Defect #14590: migrate_from_trac.rake does not import Trac users, uses too short password
+* Defect #14656: JRuby: Encoding error when creating issues
+* Defect #14883: Update activerecord-jdbc-adapter
+* Defect #14902: Potential invalid SQL error with invalid group_ids
+* Defect #14931: SCM annotate with non ASCII author
+* Defect #14960: migrate_from_mantis.rake does not import Mantis users, uses too short password
+* Defect #14977: Internal Server Error while uploading file
+* Defect #15190: JS-error while using a global custom query w/ project filter in a project context
+* Defect #15235: Wiki Pages REST API with version returns wrong comments
+* Defect #15344: Default status always inserted to allowed statuses when changing status
+* Feature #14919: Update ruby-openid version above 2.3.0
+* Patch #14592: migrate_from_trac.rake does not properly parse First Name and Last Name
+* Patch #14886: Norweigan - label_copied_to and label_copied_from translated
+* Patch #15185: Simplified Chinese translation for 2.3-stable
+
 == 2013-09-14 v2.3.3
 
 * Defect #13008: Usage of attribute_present? in UserPreference
