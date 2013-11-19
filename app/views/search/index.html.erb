@@ -37,7 +37,7 @@
     </dl>
 <% end %>
 
-<p><center>
+<p class="pagination">
 <% if @pagination_previous_date %>
 <%= link_to_content_update("\xc2\xab " + l(:label_previous),
       params.merge(:previous => 1,
@@ -48,7 +48,7 @@
       params.merge(:previous => nil,
                    :offset => @pagination_next_date.strftime("%Y%m%d%H%M%S"))) %>
 <% end %>
-</center></p>
+</p>
 
 <% html_title(l(:label_search)) -%>
 
