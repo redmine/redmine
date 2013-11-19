@@ -413,15 +413,15 @@ cs:
   permission_protect_wiki_pages: Zabezpečení Wiki stránek
   permission_manage_repository: Spravování repozitáře
   permission_browse_repository: Procházení repozitáře
-  permission_view_changesets: Zobrazování sady změn
+  permission_view_changesets: Zobrazování revizí
   permission_commit_access: Commit přístup
   permission_manage_boards: Správa diskusních fór
-  permission_view_messages: Prohlížení zpráv
-  permission_add_messages: Posílání zpráv
-  permission_edit_messages: Upravování zpráv
-  permission_edit_own_messages: Upravit vlastní zprávy
-  permission_delete_messages: Mazání zpráv
-  permission_delete_own_messages: Smazat vlastní zprávy
+  permission_view_messages: Prohlížení příspěvků
+  permission_add_messages: Posílání příspěvků
+  permission_edit_messages: Upravování příspěvků
+  permission_edit_own_messages: Upravit vlastní příspěvky
+  permission_delete_messages: Mazání příspěvků
+  permission_delete_own_messages: Smazat vlastní příspěvky
   permission_export_wiki_pages: Exportovat Wiki stránky
   permission_manage_subtasks: Spravovat dílčí úkoly
 
@@ -707,10 +707,10 @@ cs:
   label_board_locked: Zamčeno
   label_board_sticky: Nálepka
   label_topic_plural: Témata
-  label_message_plural: Zprávy
-  label_message_last: Poslední zpráva
-  label_message_new: Nová zpráva
-  label_message_posted: Zpráva přidána
+  label_message_plural: Příspěvky
+  label_message_last: Poslední příspěvek
+  label_message_new: Nový příspěvek
+  label_message_posted: Příspěvek přidán
   label_reply_plural: Odpovědi
   label_send_information: Zaslat informace o účtu uživateli
   label_year: Rok
@@ -730,7 +730,7 @@ cs:
   label_updated_time: "Aktualizováno před %{value}"
   label_jump_to_a_project: Vyberte projekt...
   label_file_plural: Soubory
-  label_changeset_plural: Sady změn
+  label_changeset_plural: Revize
   label_default_columns: Výchozí sloupce
   label_no_change_option: (beze změny)
   label_bulk_edit_selected_issues: Hromadná úprava vybraných úkolů
