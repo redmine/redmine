@@ -1,4 +1,4 @@
-# Update to 2.2 by Karel Picman <karel.picman@kontron.com>
+# Update to 2.2, 2.4 by Karel Picman <karel.picman@kontron.com>
 # Update to 1.1 by Michal Gebauer <mishak@mishak.net>
 # Updated by Josef Liška <jl@chl.cz>
 # CZ translation by Maxim Krušina | Massimo Filippi, s.r.o. | maxim@mxm.cz
@@ -1093,15 +1093,14 @@ cs:
   field_generate_password: Generovat heslo
   setting_default_projects_tracker_ids: Výchozí fronta pro nové projekty
   label_total_time: Celkem
-  notice_account_not_activated_yet: You haven't activated your account yet. If you want
-    to receive a new activation email, please <a href="%{url}">click this link</a>.
-  notice_account_locked: Your account is locked.
-  label_hidden: Hidden
-  label_visibility_private: to me only
-  label_visibility_roles: to these roles only
-  label_visibility_public: to any users
-  field_must_change_passwd: Must change password at next logon
-  notice_new_password_must_be_different: The new password must be different from the
-    current password
-  setting_mail_handler_excluded_filenames: Exclude attachments by name
-  text_convert_available: ImageMagick convert available (optional)
+  notice_account_not_activated_yet: Neaktivovali jste si dosud Váš účet. 
+    Pro opětovné zaslání aktivačního emailu <a href="%{url}">klikněte na tento odkaz</a>, prosím.
+  notice_account_locked: Váš účet je uzamčen.
+  label_hidden: Skrytý
+  label_visibility_private: pouze pro mě
+  label_visibility_roles: pouze pro tyto role
+  label_visibility_public: pro všechny uživatele
+  field_must_change_passwd: Musí změnit heslo při příštím přihlášení
+  notice_new_password_must_be_different: Nové heslo se musí lišit od stávajícího
+  setting_mail_handler_excluded_filenames: Vyřadit přílohy podle jména
+  text_convert_available: ImageMagick convert k dispozici (volitelné)
