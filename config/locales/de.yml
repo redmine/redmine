@@ -1034,6 +1034,7 @@ de:
   text_caracters_maximum: "Max. %{count} Zeichen."
   text_caracters_minimum: "Muss mindestens %{count} Zeichen lang sein."
   text_comma_separated: Mehrere Werte erlaubt (durch Komma getrennt).
+  text_convert_available: ImageMagick Konvertierung verfügbar (optional)
   text_custom_field_possible_values_info: 'Eine Zeile pro Wert'
   text_default_administrator_account_changed: Administrator-Kennwort geändert
   text_destroy_time_entries: Gebuchte Aufwände löschen
@@ -1112,4 +1113,3 @@ de:
   version_status_open: offen
 
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
-  text_convert_available: ImageMagick convert available (optional)
