@@ -1173,18 +1173,13 @@ module ApplicationHelper
     super sources, options
   end
 
-  def content_for(name, content = nil, &block)
-    @has_content ||= {}
-    @has_content[name] = true
-    super(name, content, &block)
-  end
-
+  # TODO: remove this in 2.5.0
   def has_content?(name)
-    (@has_content && @has_content[name]) || false
+    content_for?(name)
   end
 
   def sidebar_content?
-    has_content?(:sidebar) || view_layouts_base_sidebar_hook_response.present?
+    content_for?(:sidebar) || view_layouts_base_sidebar_hook_response.present?
   end
 
   def view_layouts_base_sidebar_hook_response

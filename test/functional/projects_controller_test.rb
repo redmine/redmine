@@ -320,6 +320,16 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_select 'li', :text => /Development status/
   end
 
+  def test_show_should_not_display_empty_sidebar
+    p = Project.find(1)
+    p.enabled_module_names = []
+    p.save!
+
+    get :show, :id => 'ecookbook'
+    assert_response :success
+    assert_select '#main.nosidebar'
+  end
+
   def test_show_should_not_display_hidden_custom_fields
     ProjectCustomField.find_by_name('Development status').update_attribute :visible, false
     get :show, :id => 'ecookbook'
