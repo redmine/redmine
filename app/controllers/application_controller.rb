@@ -33,13 +33,19 @@ class ApplicationController < ActionController::Base
   layout 'base'
 
   protect_from_forgery
-  def handle_unverified_request
-    super
-    cookies.delete(autologin_cookie_name)
-    if api_request?
-      logger.error "API calls must include a proper Content-type header (application/xml or application/json)."
+
+  def verify_authenticity_token
+    unless api_request?
+      super
     end
-    render_error :status => 422, :message => "Invalid form authenticity token."
+  end
+
+  def handle_unverified_request
+    unless api_request?
+      super
+      cookies.delete(autologin_cookie_name)
+      render_error :status => 422, :message => "Invalid form authenticity token."
+    end
   end
 
   before_filter :session_expiration, :user_setup, :check_if_login_required, :check_password_change, :set_localization
