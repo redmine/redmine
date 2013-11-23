@@ -155,6 +155,34 @@ module ApplicationHelper
     end
   end
 
+  # Helper that formats object for html or text rendering
+  def format_object(object, html=true)
+    case object.class.name
+    when 'Time'
+      format_time(object)
+    when 'Date'
+      format_date(object)
+    when 'Fixnum'
+      object.to_s
+    when 'Float'
+      sprintf "%.2f", object
+    when 'User'
+      html ? link_to_user(object) : object.to_s
+    when 'Project'
+      html ? link_to_project(object) : object.to_s
+    when 'Version'
+      html ? link_to(object.name, version_path(object)) : version.to_s
+    when 'TrueClass'
+      l(:general_text_Yes)
+    when 'FalseClass'
+      l(:general_text_No)
+    when 'Issue'
+      object.visible? && html ? link_to_issue(object) : "##{object.id}"
+    else
+      html ? h(object) : object.to_s
+    end
+  end
+
   def wiki_page_path(page, options={})
     url_for({:controller => 'wiki', :action => 'show', :project_id => page.project, :id => page.title}.merge(options))
   end

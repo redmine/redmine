@@ -90,48 +90,22 @@ module QueriesHelper
   end
   
   def column_value(column, issue, value)
-    case value.class.name
-    when 'String'
-      if column.name == :subject
-        link_to(h(value), :controller => 'issues', :action => 'show', :id => issue)
-      elsif column.name == :description
-        issue.description? ? content_tag('div', textilizable(issue, :description), :class => "wiki") : ''
-      else
-        h(value)
-      end
-    when 'Time'
-      format_time(value)
-    when 'Date'
-      format_date(value)
-    when 'Fixnum'
-      if column.name == :id
-        link_to value, issue_path(issue)
-      elsif column.name == :done_ratio
-        progress_bar(value, :width => '80px')
-      else
-        value.to_s
-      end
-    when 'Float'
-      sprintf "%.2f", value
-    when 'User'
-      link_to_user value
-    when 'Project'
-      link_to_project value
-    when 'Version'
-      link_to(h(value), :controller => 'versions', :action => 'show', :id => value)
-    when 'TrueClass'
-      l(:general_text_Yes)
-    when 'FalseClass'
-      l(:general_text_No)
-    when 'Issue'
-      value.visible? ? link_to_issue(value) : "##{value.id}"
-    when 'IssueRelation'
+    case column.name
+    when :id
+      link_to value, issue_path(issue)
+    when :subject
+      link_to value, issue_path(issue)
+    when :description
+      issue.description? ? content_tag('div', textilizable(issue, :description), :class => "wiki") : ''
+    when :done_ratio
+      progress_bar(value, :width => '80px')
+    when :relations
       other = value.other_issue(issue)
       content_tag('span',
         (l(value.label_for(issue)) + " " + link_to_issue(other, :subject => false, :tracker => false)).html_safe,
         :class => value.css_classes_for(issue))
     else
-      h(value)
+      format_object(value)
     end
   end
 
