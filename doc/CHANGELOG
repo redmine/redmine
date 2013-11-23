@@ -4,6 +4,16 @@ Redmine - project management software
 Copyright (C) 2006-2013  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2013-11-23 v2.4.1
+
+* Defect #15401: Wiki syntax "bold italic" is incorrect
+* Defect #15414: Empty sidebar should not be displayed in project overview
+* Defect #15427: REST API POST and PUT broken
+* Patch #15376: Traditional Chinese translation (to r12295)
+* Patch #15395: German "ImageMagick convert available" translation
+* Patch #15400: Czech Wiki syntax traslation
+* Patch #15402: Czech translation for 2.4-stable
+
 == 2013-11-17 v2.4.0
 
 * Defect #1983: statistics get rather cramped with more than 15 or so contributers
