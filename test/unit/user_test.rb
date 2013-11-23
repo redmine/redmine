@@ -344,7 +344,7 @@ class UserTest < ActiveSupport::TestCase
     wiki_content = WikiContent.create!(
       :text => 'foo',
       :author_id => 2,
-      :page => WikiPage.create!(:title => 'Foo', :wiki => Wiki.create!(:project_id => 1, :start_page => 'Start'))
+      :page => WikiPage.create!(:title => 'Foo', :wiki => Wiki.create!(:project_id => 3, :start_page => 'Start'))
     )
     wiki_content.text = 'bar'
     assert_difference 'WikiContent::Version.count' do

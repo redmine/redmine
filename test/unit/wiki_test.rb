@@ -23,7 +23,7 @@ class WikiTest < ActiveSupport::TestCase
   fixtures :projects, :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions
 
   def test_create
-    wiki = Wiki.new(:project => Project.find(2))
+    wiki = Wiki.new(:project => Project.find(3))
     assert !wiki.save
     assert_equal 1, wiki.errors.count
 
