@@ -195,7 +195,7 @@ http://www.redmine.org, someone@foo.bar
 
         <ul>
             <li><strong>!image_url!</strong> image_urlで指定されたURLの画像を表示 (Textile記法)</li>
-            <li><strong>!>image_url!</strong> 画像を右寄せ・テキスト回り込みありで表示</li>
+            <li><strong>!&gt;image_url!</strong> 画像を右寄せ・テキスト回り込みありで表示</li>
             <li>Wikiページに添付された画像があれば、ファイル名を指定して画像を表示させることができます: <strong>!attached_image.png!</strong></li>
         </ul>
 
@@ -213,7 +213,7 @@ h3. Subsubheading
         <h3><a name="9" class="wiki-page"></a>段落</h3>
 
 <pre>
-p>. 右寄せ
+p&gt;. 右寄せ
 p=. センタリング
 </pre>
 
@@ -239,8 +239,8 @@ To go live, all you need to add is a database and a web server.
         <h3><a name="11" class="wiki-page"></a>目次</h3>
 
 <pre>
-{{toc}} => 目次(左寄せ)
-{{>toc}} => 目次(右寄せ)
+{{toc}} =&gt; 目次(左寄せ)
+{{&gt;toc}} =&gt; 目次(右寄せ)
 </pre>
 
         <h3><a name="14" class="wiki-page"></a>区切り線</h3>
