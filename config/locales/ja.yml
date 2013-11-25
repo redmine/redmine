@@ -933,7 +933,7 @@ ja:
   text_default_administrator_account_changed: デフォルト管理アカウントが変更済
   text_file_repository_writable: ファイルリポジトリに書き込み可能
   text_plugin_assets_writable: Plugin assetsディレクトリに書き込み可能
-  text_rmagick_available: RMagickが使用可能 (オプション)
+  text_rmagick_available: RMagickが利用可能 (オプション)
   text_destroy_time_entries_question: このチケットの%{hours}時間分の作業記録の扱いを選択してください。
   text_destroy_time_entries: 記録された作業時間を含めて削除
   text_assign_time_entries_to_project: 記録された作業時間をプロジェクト自体に割り当て
@@ -1127,4 +1127,4 @@ ja:
   field_must_change_passwd: 次回ログイン時にパスワード変更を強制
   notice_new_password_must_be_different: 新しいパスワードは現在のパスワードと異なるものでなければなりません
   setting_mail_handler_excluded_filenames: 除外する添付ファイル名
-  text_convert_available: ImageMagick convert available (optional)
+  text_convert_available: ImageMagickのconvertコマンドが利用可能 (オプション)
