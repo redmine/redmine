@@ -249,19 +249,18 @@ class Repository < ActiveRecord::Base
   # Default behaviour is to search in cached changesets
   def latest_changesets(path, rev, limit=10)
     if path.blank?
-      changesets.find(
-         :all,
-         :include => :user,
-         :order => "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC",
-         :limit => limit)
+      changesets.
+        reorder("#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC").
+        limit(limit).
+        preload(:user).
+        all
     else
-      filechanges.find(
-         :all,
-         :include => {:changeset => :user},
-         :conditions => ["path = ?", path.with_leading_slash],
-         :order => "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC",
-         :limit => limit
-       ).collect(&:changeset)
+      filechanges.
+        where("path = ?", path.with_leading_slash).
+        reorder("#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC").
+        limit(limit).
+        preload(:changeset => :user).
+        collect(&:changeset)
     end
   end
 
@@ -393,7 +392,7 @@ class Repository < ActiveRecord::Base
   end
 
   def set_as_default?
-    new_record? && project && !Repository.first(:conditions => {:project_id => project.id})
+    new_record? && project && Repository.where(:project_id => project.id).empty?
   end
 
   protected

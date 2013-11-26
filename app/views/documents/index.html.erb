@@ -25,10 +25,16 @@
 
 <% content_for :sidebar do %>
   <h3><%= l(:label_sort_by, '') %></h3>
-  <%= link_to l(:field_category), {:sort_by => 'category'}, :class => (@sort_by == 'category' ? 'selected' :nil) %><br />
-  <%= link_to l(:label_date), {:sort_by => 'date'}, :class => (@sort_by == 'date' ? 'selected' :nil) %><br />
-  <%= link_to l(:field_title), {:sort_by => 'title'}, :class => (@sort_by == 'title' ? 'selected' :nil) %><br />
-  <%= link_to l(:field_author), {:sort_by => 'author'}, :class => (@sort_by == 'author' ? 'selected' :nil) %>
+  <ul>
+    <li><%= link_to(l(:field_category), {:sort_by => 'category'},
+                    :class => (@sort_by == 'category' ? 'selected' :nil)) %></li>
+    <li><%= link_to(l(:label_date), {:sort_by => 'date'},
+                    :class => (@sort_by == 'date' ? 'selected' :nil)) %></li>
+    <li><%= link_to(l(:field_title), {:sort_by => 'title'},
+                    :class => (@sort_by == 'title' ? 'selected' :nil)) %></li>
+    <li><%= link_to(l(:field_author), {:sort_by => 'author'},
+                    :class => (@sort_by == 'author' ? 'selected' :nil)) %></li>
+  </ul>
 <% end %>
 
 <% html_title(l(:label_document_plural)) -%>

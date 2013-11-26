@@ -29,6 +29,8 @@ General options:
                            create: create a user account
   no_permission_check=1    disable permission checking when receiving
                            the email
+  no_account_notice=1      disable new user account notification
+  default_group=foo,bar    adds created user to foo and bar groups
 
 Issue attributes control options:
   project=PROJECT          identifier of the target project
@@ -53,13 +55,7 @@ Examples:
 END_DESC
 
     task :read => :environment do
-      options = { :issue => {} }
-      %w(project status tracker category priority).each { |a| options[:issue][a.to_sym] = ENV[a] if ENV[a] }
-      options[:allow_override] = ENV['allow_override'] if ENV['allow_override']
-      options[:unknown_user] = ENV['unknown_user'] if ENV['unknown_user']
-      options[:no_permission_check] = ENV['no_permission_check'] if ENV['no_permission_check']
-
-      MailHandler.receive(STDIN.read, options)
+      MailHandler.receive(STDIN.read, MailHandler.extract_options_from_env(ENV))
     end
 
     desc <<-END_DESC
@@ -73,6 +69,8 @@ General options:
                            create: create a user account
   no_permission_check=1    disable permission checking when receiving
                            the email
+  no_account_notice=1      disable new user account notification
+  default_group=foo,bar    adds created user to foo and bar groups
 
 Available IMAP options:
   host=HOST                IMAP server host (default: 127.0.0.1)
@@ -124,13 +122,7 @@ END_DESC
                       :move_on_success => ENV['move_on_success'],
                       :move_on_failure => ENV['move_on_failure']}
 
-      options = { :issue => {} }
-      %w(project status tracker category priority).each { |a| options[:issue][a.to_sym] = ENV[a] if ENV[a] }
-      options[:allow_override] = ENV['allow_override'] if ENV['allow_override']
-      options[:unknown_user] = ENV['unknown_user'] if ENV['unknown_user']
-      options[:no_permission_check] = ENV['no_permission_check'] if ENV['no_permission_check']
-
-      Redmine::IMAP.check(imap_options, options)
+      Redmine::IMAP.check(imap_options, MailHandler.extract_options_from_env(ENV))
     end
 
     desc <<-END_DESC
@@ -157,13 +149,7 @@ END_DESC
                       :password => ENV['password'],
                       :delete_unprocessed => ENV['delete_unprocessed']}
 
-      options = { :issue => {} }
-      %w(project status tracker category priority).each { |a| options[:issue][a.to_sym] = ENV[a] if ENV[a] }
-      options[:allow_override] = ENV['allow_override'] if ENV['allow_override']
-      options[:unknown_user] = ENV['unknown_user'] if ENV['unknown_user']
-      options[:no_permission_check] = ENV['no_permission_check'] if ENV['no_permission_check']
-
-      Redmine::POP3.check(pop_options, options)
+      Redmine::POP3.check(pop_options, MailHandler.extract_options_from_env(ENV))
     end
 
     desc "Send a test email to the user with the provided login name"

@@ -432,30 +432,15 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
             :rev => r1
         assert_response :success
         assert_template 'annotate'
-        assert_tag :tag => 'th',
-                 :content => '1',
-                 :attributes => { :class => 'line-num' },
-                 :sibling =>
-                       {
-                         :tag => 'td',
-                         :attributes => { :class => 'revision' },
-                         :child => { :tag => 'a', :content => '20:709858aafd1b' }
-                       }
-        assert_tag :tag => 'th',
-                 :content => '1',
-                 :attributes => { :class => 'line-num' },
-                 :sibling =>
-                       {
-                          :tag     => 'td'    ,
-                          :content => 'jsmith' ,
-                          :attributes => { :class   => 'author' },
-                        }
-        assert_tag :tag => 'th',
-                 :content => '1',
-                 :attributes => { :class => 'line-num' },
-                 :sibling => { :tag => 'td',
-                               :content => /Mercurial is a distributed version control system/ }
-
+        assert_select "th.line-num", :text => '1' do
+          assert_select "+ td.revision" do
+            assert_select "a", :text => '20:709858aafd1b'
+            assert_select "+ td.author", :text => "jsmith" do
+              assert_select "+ td",
+                            :text => "Mercurial is a distributed version control system."
+            end
+          end
+        end
       end
     end
 
@@ -471,6 +456,22 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
                      :sibling => { :tag => 'td',
                                    :content => /test-#{@char_1}.txt/ }
         end
+      end
+    end
+
+    def test_revision
+      assert_equal 0, @repository.changesets.count
+      @repository.fetch_changesets
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
+      ['1', '9d5b5b', '9d5b5b004199'].each do |r|
+        with_settings :default_language => "en" do
+          get :revision, :id => PRJ_ID, :rev => r
+          assert_response :success
+          assert_template 'revision'
+          assert_select 'title',
+                        :text => 'Revision 1:9d5b5b004199 - Added 2 files and modified one. - eCookbook Subproject 1 - Redmine'
+          end
       end
     end
 

@@ -82,8 +82,8 @@ pl:
         one:   "około godziny"
         other: "około %{count} godzin"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 godzina"
+        other: "%{count} godzin"
       x_days:
         one:   "1 dzień"
         other: "%{count} dni"
@@ -137,6 +137,7 @@ pl:
         not_same_project: "nie należy do tego samego projektu"
         circular_dependency: "Ta relacja może wytworzyć zapętloną zależność"
         cant_link_an_issue_with_a_descendant: "Zagadnienie nie może zostać powiązane z jednym z własnych podzagadnień"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   support:
     array:
@@ -651,7 +652,6 @@ pl:
   notice_account_lost_email_sent: E-mail z instrukcjami zmiany hasła został wysłany do Ciebie.
   notice_account_password_updated: Hasło prawidłowo zmienione.
   notice_account_pending: "Twoje konto zostało utworzone i oczekuje na zatwierdzenie administratora."
-  notice_account_register_done: Konto prawidłowo utworzone.
   notice_account_unknown_email: Nieznany użytkownik.
   notice_account_updated: Konto prawidłowo zaktualizowane.
   notice_account_wrong_password: Złe hasło
@@ -772,7 +772,7 @@ pl:
   text_default_administrator_account_changed: Zmieniono domyślne hasło administratora
   text_destroy_time_entries: Usuń wpisy dziennika
   text_destroy_time_entries_question: Przepracowano %{hours} godzin przy zagadnieniu, które chcesz usunąć. Co chcesz zrobić?
-  text_email_delivery_not_configured: "Dostarczanie poczty elektronicznej nie zostało skonfigurowane, więc powiadamianie jest nieaktywne.\nSkonfiguruj serwer SMTP w config/email.yml a następnie zrestartuj aplikację i uaktywnij to."
+  text_email_delivery_not_configured: "Dostarczanie poczty elektronicznej nie zostało skonfigurowane, więc powiadamianie jest nieaktywne.\nSkonfiguruj serwer SMTP w config/configuration.yml a następnie zrestartuj aplikację i uaktywnij to."
   text_enumeration_category_reassign_to: 'Zmień przypisanie na tą wartość:'
   text_enumeration_destroy_question: "%{count} obiektów jest przypisanych do tej wartości."
   text_file_repository_writable: Zapisywalne repozytorium plików
@@ -1109,3 +1109,16 @@ pl:
   text_scm_config: You can configure your SCM commands in config/configuration.yml. Please restart the application after editing it.
   text_scm_command_not_available: SCM command is not available. Please check settings on the administration panel.
   setting_emails_header: Email header
+  notice_account_not_activated_yet: You haven't activated your account yet. If you want
+    to receive a new activation email, please <a href="%{url}">click this link</a>.
+  notice_account_locked: Your account is locked.
+  notice_account_register_done: Account was successfully created. An email containing
+    the instructions to activate your account was sent to %{email}.
+  label_hidden: Hidden
+  label_visibility_private: to me only
+  label_visibility_roles: to these roles only
+  label_visibility_public: to any users
+  field_must_change_passwd: Must change password at next logon
+  notice_new_password_must_be_different: The new password must be different from the
+    current password
+  setting_mail_handler_excluded_filenames: Exclude attachments by name

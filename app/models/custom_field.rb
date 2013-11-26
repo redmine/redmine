@@ -19,6 +19,7 @@ class CustomField < ActiveRecord::Base
   include Redmine::SubclassFactory
 
   has_many :custom_values, :dependent => :delete_all
+  has_and_belongs_to_many :roles, :join_table => "#{table_name_prefix}custom_fields_roles#{table_name_suffix}", :foreign_key => "custom_field_id"
   acts_as_list :scope => 'type = \'#{self.class}\''
   serialize :possible_values
 
@@ -26,35 +27,35 @@ class CustomField < ActiveRecord::Base
   validates_uniqueness_of :name, :scope => :type
   validates_length_of :name, :maximum => 30
   validates_inclusion_of :field_format, :in => Redmine::CustomFieldFormat.available_formats
-
   validate :validate_custom_field
+
   before_validation :set_searchable
   after_save :handle_multiplicity_change
+  after_save do |field|
+    if field.visible_changed? && field.visible
+      field.roles.clear
+    end
+  end
 
   scope :sorted, lambda { order("#{table_name}.position ASC") }
+  scope :visible, lambda {|*args|
+    user = args.shift || User.current
+    if user.admin?
+      # nop
+    elsif user.memberships.any?
+      where("#{table_name}.visible = ? OR #{table_name}.id IN (SELECT DISTINCT cfr.custom_field_id FROM #{Member.table_name} m" +
+        " INNER JOIN #{MemberRole.table_name} mr ON mr.member_id = m.id" +
+        " INNER JOIN #{table_name_prefix}custom_fields_roles#{table_name_suffix} cfr ON cfr.role_id = mr.role_id" +
+        " WHERE m.user_id = ?)",
+        true, user.id)
+    else
+      where(:visible => true)
+    end
+  }
 
-  CUSTOM_FIELDS_TABS = [
-    {:name => 'IssueCustomField', :partial => 'custom_fields/index',
-     :label => :label_issue_plural},
-    {:name => 'TimeEntryCustomField', :partial => 'custom_fields/index',
-     :label => :label_spent_time},
-    {:name => 'ProjectCustomField', :partial => 'custom_fields/index',
-     :label => :label_project_plural},
-    {:name => 'VersionCustomField', :partial => 'custom_fields/index',
-     :label => :label_version_plural},
-    {:name => 'UserCustomField', :partial => 'custom_fields/index',
-     :label => :label_user_plural},
-    {:name => 'GroupCustomField', :partial => 'custom_fields/index',
-     :label => :label_group_plural},
-    {:name => 'TimeEntryActivityCustomField', :partial => 'custom_fields/index',
-     :label => TimeEntryActivity::OptionName},
-    {:name => 'IssuePriorityCustomField', :partial => 'custom_fields/index',
-     :label => IssuePriority::OptionName},
-    {:name => 'DocumentCategoryCustomField', :partial => 'custom_fields/index',
-     :label => DocumentCategory::OptionName}
-  ]
-
-  CUSTOM_FIELDS_NAMES = CUSTOM_FIELDS_TABS.collect{|v| v[:name]}
+  def visible_by?(project, user=User.current)
+    visible? || user.admin?
+  end
 
   def field_format=(arg)
     # cannot change format of a saved custom field
@@ -122,8 +123,10 @@ class CustomField < ActiveRecord::Base
         values.each do |value|
           value.force_encoding('UTF-8') if value.respond_to?(:force_encoding)
         end
+        values
+      else
+        []
       end
-      values || []
     end
   end
 
@@ -215,6 +218,7 @@ class CustomField < ActiveRecord::Base
           " ON #{join_alias}.customized_type = '#{self.class.customized_class.base_class.name}'" +
           " AND #{join_alias}.customized_id = #{self.class.customized_class.table_name}.id" +
           " AND #{join_alias}.custom_field_id = #{id}" +
+          " AND (#{visibility_by_project_condition})" +
           " AND #{join_alias}.value <> ''" +
           " AND #{join_alias}.id = (SELECT max(#{join_alias}_2.id) FROM #{CustomValue.table_name} #{join_alias}_2" +
             " WHERE #{join_alias}_2.customized_type = #{join_alias}.customized_type" +
@@ -227,6 +231,7 @@ class CustomField < ActiveRecord::Base
           " ON #{join_alias}.customized_type = '#{self.class.customized_class.base_class.name}'" +
           " AND #{join_alias}.customized_id = #{self.class.customized_class.table_name}.id" +
           " AND #{join_alias}.custom_field_id = #{id}" +
+          " AND (#{visibility_by_project_condition})" +
           " AND #{join_alias}.value <> ''" +
           " AND #{join_alias}.id = (SELECT max(#{join_alias}_2.id) FROM #{CustomValue.table_name} #{join_alias}_2" +
             " WHERE #{join_alias}_2.customized_type = #{join_alias}.customized_type" +
@@ -237,6 +242,7 @@ class CustomField < ActiveRecord::Base
           " ON #{join_alias}.customized_type = '#{self.class.customized_class.base_class.name}'" +
           " AND #{join_alias}.customized_id = #{self.class.customized_class.table_name}.id" +
           " AND #{join_alias}.custom_field_id = #{id}" +
+          " AND (#{visibility_by_project_condition})" +
           " AND #{join_alias}.id = (SELECT max(#{join_alias}_2.id) FROM #{CustomValue.table_name} #{join_alias}_2" +
             " WHERE #{join_alias}_2.customized_type = #{join_alias}.customized_type" +
             " AND #{join_alias}_2.customized_id = #{join_alias}.customized_id" +
@@ -252,6 +258,33 @@ class CustomField < ActiveRecord::Base
 
   def value_join_alias
     join_alias + "_" + field_format
+  end
+
+  def visibility_by_project_condition(project_key=nil, user=User.current)
+    if visible? || user.admin?
+      "1=1"
+    elsif user.anonymous?
+      "1=0"
+    else
+      project_key ||= "#{self.class.customized_class.table_name}.project_id"
+      "#{project_key} IN (SELECT DISTINCT m.project_id FROM #{Member.table_name} m" +
+        " INNER JOIN #{MemberRole.table_name} mr ON mr.member_id = m.id" +
+        " INNER JOIN #{table_name_prefix}custom_fields_roles#{table_name_suffix} cfr ON cfr.role_id = mr.role_id" +
+        " WHERE m.user_id = #{user.id} AND cfr.custom_field_id = #{id})"
+    end
+  end
+
+  def self.visibility_condition
+    if user.admin?
+      "1=1"
+    elsif user.anonymous?
+      "#{table_name}.visible"
+    else
+      "#{project_key} IN (SELECT DISTINCT m.project_id FROM #{Member.table_name} m" +
+        " INNER JOIN #{MemberRole.table_name} mr ON mr.member_id = m.id" +
+        " INNER JOIN #{table_name_prefix}custom_fields_roles#{table_name_suffix} cfr ON cfr.role_id = mr.role_id" +
+        " WHERE m.user_id = #{user.id} AND cfr.custom_field_id = #{id})"
+    end
   end
 
   def <=>(field)
@@ -270,7 +303,7 @@ class CustomField < ActiveRecord::Base
 
   def self.customized_class
     self.name =~ /^(.+)CustomField$/
-    begin; $1.constantize; rescue nil; end
+    $1.constantize rescue nil
   end
 
   # to move in project_custom_field

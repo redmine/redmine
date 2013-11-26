@@ -57,7 +57,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     child = Issue.new(:project_id => 2, :tracker_id => 1, :author_id => 1,
                       :subject => 'child', :parent_issue_id => issue.id)
     assert !child.save
-    assert_not_nil child.errors[:parent_issue_id]
+    assert_not_equal [], child.errors[:parent_issue_id]
   end
 
   def test_move_a_root_to_child
@@ -163,7 +163,42 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     child.reload
     child.parent_issue_id = grandchild.id
     assert !child.save
-    assert_not_nil child.errors[:parent_issue_id]
+    assert_not_equal [], child.errors[:parent_issue_id]
+  end
+
+  def test_updating_a_root_issue_should_not_trigger_update_nested_set_attributes_on_parent_change
+    issue = Issue.find(Issue.generate!.id)
+    issue.parent_issue_id = ""
+    issue.expects(:update_nested_set_attributes_on_parent_change).never
+    issue.save!
+  end
+
+  def test_updating_a_child_issue_should_not_trigger_update_nested_set_attributes_on_parent_change
+    issue = Issue.find(Issue.generate!(:parent_issue_id => 1).id)
+    issue.parent_issue_id = "1"
+    issue.expects(:update_nested_set_attributes_on_parent_change).never
+    issue.save!
+  end
+
+  def test_moving_a_root_issue_should_trigger_update_nested_set_attributes_on_parent_change
+    issue = Issue.find(Issue.generate!.id)
+    issue.parent_issue_id = "1"
+    issue.expects(:update_nested_set_attributes_on_parent_change).once
+    issue.save!
+  end
+
+  def test_moving_a_child_issue_to_another_parent_should_trigger_update_nested_set_attributes_on_parent_change
+    issue = Issue.find(Issue.generate!(:parent_issue_id => 1).id)
+    issue.parent_issue_id = "2"
+    issue.expects(:update_nested_set_attributes_on_parent_change).once
+    issue.save!
+  end
+
+  def test_moving_a_child_issue_to_root_should_trigger_update_nested_set_attributes_on_parent_change
+    issue = Issue.find(Issue.generate!(:parent_issue_id => 1).id)
+    issue.parent_issue_id = ""
+    issue.expects(:update_nested_set_attributes_on_parent_change).once
+    issue.save!
   end
 
   def test_destroy_should_destroy_children
@@ -300,6 +335,17 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     assert_equal 20, parent.reload.done_ratio
     Issue.generate!(:estimated_hours => 20, :done_ratio => 50, :parent_issue_id => parent.id)
     assert_equal (50 * 20 + 20 * 10) / 30, parent.reload.done_ratio
+  end
+
+  def test_parent_done_ratio_with_child_estimate_to_0_should_reach_100
+    parent = Issue.generate!
+    issue1 = Issue.generate!(:parent_issue_id => parent.id)
+    issue2 = Issue.generate!(:parent_issue_id => parent.id, :estimated_hours => 0)
+    assert_equal 0, parent.reload.done_ratio
+    issue1.reload.update_attribute :status_id, 5
+    assert_equal 50, parent.reload.done_ratio
+    issue2.reload.update_attribute :status_id, 5
+    assert_equal 100, parent.reload.done_ratio
   end
 
   def test_parent_estimate_should_be_sum_of_leaves

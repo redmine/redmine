@@ -102,7 +102,7 @@ class Attachment < ActiveRecord::Base
     if @temp_file && (@temp_file.size > 0)
       self.disk_directory = target_directory
       self.disk_filename = Attachment.disk_filename(filename, disk_directory)
-      logger.info("Saving attachment '#{self.diskfile}' (#{@temp_file.size} bytes)")
+      logger.info("Saving attachment '#{self.diskfile}' (#{@temp_file.size} bytes)") if logger
       path = File.dirname(diskfile)
       unless File.directory?(path)
         FileUtils.mkdir_p(path)
@@ -294,10 +294,10 @@ class Attachment < ActiveRecord::Base
 
   def sanitize_filename(value)
     # get only the filename, not the whole path
-    just_filename = value.gsub(/^.*(\\|\/)/, '')
+    just_filename = value.gsub(/\A.*(\\|\/)/m, '')
 
     # Finally, replace invalid characters with underscore
-    @filename = just_filename.gsub(/[\/\?\%\*\:\|\"\'<>]+/, '_')
+    @filename = just_filename.gsub(/[\/\?\%\*\:\|\"\'<>\n\r]+/, '_')
   end
 
   # Returns the subdirectory in which the attachment will be saved

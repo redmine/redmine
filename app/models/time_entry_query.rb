@@ -84,20 +84,29 @@ class TimeEntryQuery < Query
     add_available_filter "comments", :type => :text
     add_available_filter "hours", :type => :float
 
-    add_custom_fields_filters(TimeEntryCustomField.where(:is_filter => true).all)
+    add_custom_fields_filters(TimeEntryCustomField)
     add_associations_custom_fields_filters :project, :issue, :user
   end
 
   def available_columns
     return @available_columns if @available_columns
     @available_columns = self.class.available_columns.dup
-    @available_columns += TimeEntryCustomField.all.map {|cf| QueryCustomFieldColumn.new(cf) }
-    @available_columns += IssueCustomField.all.map {|cf| QueryAssociationCustomFieldColumn.new(:issue, cf) }
+    @available_columns += TimeEntryCustomField.visible.all.map {|cf| QueryCustomFieldColumn.new(cf) }
+    @available_columns += IssueCustomField.visible.all.map {|cf| QueryAssociationCustomFieldColumn.new(:issue, cf) }
     @available_columns
   end
 
   def default_columns_names
     @default_columns_names ||= [:project, :spent_on, :user, :activity, :issue, :comments, :hours]
+  end
+
+  def results_scope(options={})
+    order_option = [group_by_sort_order, options[:order]].flatten.reject(&:blank?)
+
+    TimeEntry.visible.
+      where(statement).
+      order(order_option).
+      joins(joins_for_order_statement(order_option.join(',')))
   end
 
   # Accepts :from/:to params as shortcut filters

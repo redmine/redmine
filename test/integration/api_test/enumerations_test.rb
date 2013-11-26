@@ -24,20 +24,14 @@ class Redmine::ApiTest::EnumerationsTest < Redmine::ApiTest::Base
     Setting.rest_api_enabled = '1'
   end
 
-  context "/enumerations/issue_priorities" do
-    context "GET" do
-
-      should "return priorities" do
-        get '/enumerations/issue_priorities.xml'
-
-        assert_response :success
-        assert_equal 'application/xml', response.content_type
-        assert_select 'issue_priorities[type=array]' do
-          assert_select 'issue_priority' do
-            assert_select 'id', :text => '6'
-            assert_select 'name', :text => 'High'
-          end
-        end
+  test "GET /enumerations/issue_priorities.xml should return priorities" do
+    get '/enumerations/issue_priorities.xml'
+    assert_response :success
+    assert_equal 'application/xml', response.content_type
+    assert_select 'issue_priorities[type=array]' do
+      assert_select 'issue_priority' do
+        assert_select 'id', :text => '6'
+        assert_select 'name', :text => 'High'
       end
     end
   end

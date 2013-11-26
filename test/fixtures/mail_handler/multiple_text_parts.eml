@@ -1,0 +1,55 @@
+From JSmith@somenet.foo  Fri Mar 22 08:30:28 2013
+From: John Smith <JSmith@somenet.foo>
+Content-Type: multipart/mixed; boundary="Apple-Mail=_33C8180A-B097-4B87-A925-441300BDB9C9"
+Message-Id: <BB533668-3CC8-41CA-A951-0A5D8EA37FB0@somenet.foo>
+Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
+Subject: Test with multiple text parts
+Date: Fri, 22 Mar 2013 17:30:20 +0200
+To: redmine@somenet.foo
+X-Mailer: Apple Mail (2.1503)
+
+
+
+--Apple-Mail=_33C8180A-B097-4B87-A925-441300BDB9C9
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
+
+The first text part.
+
+--Apple-Mail=_33C8180A-B097-4B87-A925-441300BDB9C9
+Content-Disposition: inline;
+	filename=1st.pdf
+Content-Type: application/pdf;
+	x-unix-mode=0644;
+	name="1st.pdf"
+Content-Transfer-Encoding: base64
+
+JVBERi0xLjMKJcTl8uXrp/Og0MTGCjQgMCBvYmoKPDwgL0xlbmd0aCA1IDAgUiAvRmlsdGVyIC9G
+
+--Apple-Mail=_33C8180A-B097-4B87-A925-441300BDB9C9
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
+
+The second text part.
+
+--Apple-Mail=_33C8180A-B097-4B87-A925-441300BDB9C9
+Content-Disposition: inline;
+	filename=2nd.pdf
+Content-Type: application/pdf;
+	x-unix-mode=0644;
+	name="2nd.pdf"
+Content-Transfer-Encoding: base64
+
+JVBERi0xLjMKJcTl8uXrp/Og0MTGCjQgMCBvYmoKPDwgL0xlbmd0aCA1IDAgUiAvRmlsdGVyIC9G
+
+
+--Apple-Mail=_33C8180A-B097-4B87-A925-441300BDB9C9
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
+
+The third one.
+
+--Apple-Mail=_33C8180A-B097-4B87-A925-441300BDB9C9--

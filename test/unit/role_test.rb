@@ -91,55 +91,39 @@ class RoleTest < ActiveSupport::TestCase
     assert_equal Role.all.reject(&:builtin?).sort, Role.find_all_givable
   end
 
-  context "#anonymous" do
-    should "return the anonymous role" do
+  def test_anonymous_should_return_the_anonymous_role
+    assert_no_difference('Role.count') do
       role = Role.anonymous
       assert role.builtin?
       assert_equal Role::BUILTIN_ANONYMOUS, role.builtin
     end
+  end
 
-    context "with a missing anonymous role" do
-      setup do
-        Role.delete_all("builtin = #{Role::BUILTIN_ANONYMOUS}")
-      end
+  def test_anonymous_with_a_missing_anonymous_role_should_return_the_anonymous_role
+    Role.where(:builtin => Role::BUILTIN_ANONYMOUS).delete_all
 
-      should "create a new anonymous role" do
-        assert_difference('Role.count') do
-          Role.anonymous
-        end
-      end
-
-      should "return the anonymous role" do
-        role = Role.anonymous
-        assert role.builtin?
-        assert_equal Role::BUILTIN_ANONYMOUS, role.builtin
-      end
+    assert_difference('Role.count') do
+      role = Role.anonymous
+      assert role.builtin?
+      assert_equal Role::BUILTIN_ANONYMOUS, role.builtin
     end
   end
 
-  context "#non_member" do
-    should "return the non-member role" do
+  def test_non_member_should_return_the_non_member_role
+    assert_no_difference('Role.count') do
       role = Role.non_member
       assert role.builtin?
       assert_equal Role::BUILTIN_NON_MEMBER, role.builtin
     end
+  end
 
-    context "with a missing non-member role" do
-      setup do
-        Role.delete_all("builtin = #{Role::BUILTIN_NON_MEMBER}")
-      end
+  def test_non_member_with_a_missing_non_member_role_should_return_the_non_member_role
+    Role.where(:builtin => Role::BUILTIN_NON_MEMBER).delete_all
 
-      should "create a new non-member role" do
-        assert_difference('Role.count') do
-          Role.non_member
-        end
-      end
-
-      should "return the non-member role" do
-        role = Role.non_member
-        assert role.builtin?
-        assert_equal Role::BUILTIN_NON_MEMBER, role.builtin
-      end
+    assert_difference('Role.count') do
+      role = Role.non_member
+      assert role.builtin?
+      assert_equal Role::BUILTIN_NON_MEMBER, role.builtin
     end
   end
 end

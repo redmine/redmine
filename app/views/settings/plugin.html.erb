@@ -1,4 +1,4 @@
-<h2><%= l(:label_settings) %>: <%=h @plugin.name %></h2>
+<%= title [l(:label_plugins), {:controller => 'admin', :action => 'plugins'}], @plugin.name %>
 
 <div id="settings">
 <%= form_tag({:action => 'plugin'}) do %>

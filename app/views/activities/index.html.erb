@@ -3,7 +3,7 @@
 <% other_formats_links do |f| %>
   <%= f.link_to 'Atom', {:url => params.merge(:from => nil, :key => User.current.rss_key),:class=>"btn icon-rss btn-rss", :caption=>" News feed"}%>
 <% end %>
-<br/>
+<br/> 
 <div id="activity">
 	<% @actID=0 %>
 	<% @events_by_day.keys.sort.reverse.each do |day| %>

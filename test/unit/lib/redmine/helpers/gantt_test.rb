@@ -57,11 +57,26 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
 
   context "#number_of_rows" do
     context "with one project" do
-      should "return the number of rows just for that project"
+      should "return the number of rows just for that project" do
+        p1, p2 = Project.generate!, Project.generate!
+        i1, i2 = Issue.generate!(:project => p1), Issue.generate!(:project => p2)
+        create_gantt(p1)
+        assert_equal 2, @gantt.number_of_rows
+      end
     end
 
     context "with no project" do
-      should "return the total number of rows for all the projects, resursively"
+      should "return the total number of rows for all the projects, resursively" do
+        p1, p2 = Project.generate!, Project.generate!
+        create_gantt(nil)
+        #fix the return value of #number_of_rows_on_project() to an arbitrary value
+        #so that we really only test #number_of_rows
+        @gantt.stubs(:number_of_rows_on_project).returns(7)
+        #also fix #projects because we want to test #number_of_rows in isolation
+        @gantt.stubs(:projects).returns(Project.all)
+        #actual test
+        assert_equal Project.count*7, @gantt.number_of_rows
+      end
     end
 
     should "not exceed max_rows option" do
@@ -745,5 +760,97 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
 
   context "#to_pdf" do
     should "be tested"
+  end
+
+  def test_sort_issues_no_date
+    project = Project.generate!
+    issue1 = Issue.generate!(:subject => "test", :project => project)
+    issue2 = Issue.generate!(:subject => "test", :project => project)
+    assert issue1.root_id < issue2.root_id
+    child1 = Issue.generate!(:parent_issue_id => issue1.id, :subject => 'child',
+                             :project => project)
+    child2 = Issue.generate!(:parent_issue_id => issue1.id, :subject => 'child',
+                             :project => project)
+    child3 = Issue.generate!(:parent_issue_id => child1.id, :subject => 'child',
+                             :project => project)
+    assert_equal child1.root_id, child2.root_id
+    assert child1.lft < child2.lft
+    assert child3.lft < child2.lft
+    issues = [child3, child2, child1, issue2, issue1]
+    Redmine::Helpers::Gantt.sort_issues!(issues)
+    assert_equal [issue1.id, child1.id, child3.id, child2.id, issue2.id],
+                  issues.map{|v| v.id}
+  end
+
+  def test_sort_issues_root_only
+    project = Project.generate!
+    issue1 = Issue.generate!(:subject => "test", :project => project)
+    issue2 = Issue.generate!(:subject => "test", :project => project)
+    issue3 = Issue.generate!(:subject => "test", :project => project,
+                             :start_date => (today - 1))
+    issue4 = Issue.generate!(:subject => "test", :project => project,
+                             :start_date => (today - 2))
+    issues = [issue4, issue3, issue2, issue1]
+    Redmine::Helpers::Gantt.sort_issues!(issues)
+    assert_equal [issue1.id, issue2.id, issue4.id, issue3.id],
+                  issues.map{|v| v.id}
+  end
+
+  def test_sort_issues_tree
+    project = Project.generate!
+    issue1 = Issue.generate!(:subject => "test", :project => project)
+    issue2 = Issue.generate!(:subject => "test", :project => project,
+                             :start_date => (today - 2))
+    issue1_child1 =
+             Issue.generate!(:parent_issue_id => issue1.id, :subject => 'child',
+                             :project => project)
+    issue1_child2 =
+             Issue.generate!(:parent_issue_id => issue1.id, :subject => 'child',
+                             :project => project, :start_date => (today - 10))
+    issue1_child1_child1 =
+             Issue.generate!(:parent_issue_id => issue1_child1.id, :subject => 'child',
+                             :project => project, :start_date => (today - 8))
+    issue1_child1_child2 =
+             Issue.generate!(:parent_issue_id => issue1_child1.id, :subject => 'child',
+                             :project => project, :start_date => (today - 9))
+    issue1_child1_child1_logic = Redmine::Helpers::Gantt.sort_issue_logic(issue1_child1_child1)
+    assert_equal [[today - 10, issue1.id], [today - 9, issue1_child1.id],
+                  [today - 8, issue1_child1_child1.id]],
+                 issue1_child1_child1_logic
+    issue1_child1_child2_logic = Redmine::Helpers::Gantt.sort_issue_logic(issue1_child1_child2)
+    assert_equal [[today - 10, issue1.id], [today - 9, issue1_child1.id],
+                  [today - 9, issue1_child1_child2.id]],
+                 issue1_child1_child2_logic
+    issues = [issue1_child1_child2, issue1_child1_child1, issue1_child2,
+              issue1_child1, issue2, issue1]
+    Redmine::Helpers::Gantt.sort_issues!(issues)
+    assert_equal [issue1.id, issue1_child1.id, issue1_child2.id,
+                  issue1_child1_child2.id, issue1_child1_child1.id, issue2.id],
+                 issues.map{|v| v.id}
+  end
+
+  def test_sort_versions
+    project = Project.generate!
+    version1 = Version.create!(:project => project, :name => 'test1')
+    version2 = Version.create!(:project => project, :name => 'test2')
+    version3 = Version.create!(:project => project, :name => 'test3')
+    version4 = Version.create!(:project => project, :name => 'test4')
+    issue1 = Issue.generate!(:subject => "test", :project => project,
+                             :fixed_version => version1)
+    issue2 = Issue.generate!(:subject => "test", :project => project,
+                             :fixed_version => version2)
+    issue3 = Issue.generate!(:subject => "test", :project => project,
+                             :fixed_version => version3, :start_date => (today - 1))
+    issue4 = Issue.generate!(:subject => "test", :project => project,
+                             :fixed_version => version4, :start_date => (today - 2))
+    assert_nil version1.start_date
+    assert_nil version2.start_date
+    assert version1.id < version2.id
+    assert_equal today - 1, version3.start_date
+    assert_equal today - 2, version4.start_date
+    versions = [version4, version3, version2, version1]
+    Redmine::Helpers::Gantt.sort_versions!(versions)
+    assert_equal [version1.id, version2.id, version4.id, version3.id],
+                  versions.map{|v| v.id}
   end
 end

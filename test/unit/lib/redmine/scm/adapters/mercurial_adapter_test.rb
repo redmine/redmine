@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../../../../test_helper', __FILE__)
 begin
-  require 'mocha'
+  require 'mocha/setup'
 
   class MercurialAdapterTest < ActiveSupport::TestCase
     HELPERS_DIR        = Redmine::Scm::Adapters::MercurialAdapter::HELPERS_DIR

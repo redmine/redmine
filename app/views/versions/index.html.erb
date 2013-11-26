@@ -1,64 +1,89 @@
 <div class="contextual">
-  <%= link_to l(:label_version_new), new_project_version_path(@project), :class => 'icon icon-add' if User.current.allowed_to?(:manage_versions, @project) %>
+  <%= link_to(l(:label_version_new), new_project_version_path(@project),
+              :class => 'icon icon-add') if User.current.allowed_to?(:manage_versions, @project) %>
 </div>
 
 <h2><%=l(:label_roadmap)%></h2>
 
 <% if @versions.empty? %>
-<p class="nodata"><%= l(:label_no_data) %></p>
+  <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
-<div id="roadmap">
-<% @versions.each do |version| %>
+  <div id="roadmap">
+  <% @versions.each do |version| %>
     <h3 class="version"><%= link_to_version version, :name => version_anchor(version) %></h3>
     <%= render :partial => 'versions/overview', :locals => {:version => version} %>
-    <%= render(:partial => "wiki/content", :locals => {:content => version.wiki_page.content}) if version.wiki_page %>
-
+    <%= render(:partial => "wiki/content",
+               :locals => {:content => version.wiki_page.content}) if version.wiki_page %>
     <% if (issues = @issues_by_version[version]) && issues.size > 0 %>
-    <%= form_tag({}) do -%>
-    <table class="list related-issues">
-    <caption><%= l(:label_related_issues) %></caption>
-    <% issues.each do |issue| -%>
-      <tr class="hascontextmenu">
-        <td class="checkbox"><%= check_box_tag 'ids[]', issue.id, false, :id => nil %></td>
-        <td><%= link_to_issue(issue, :project => (@project != issue.project)) %></td>
-      </tr>
-    <% end -%>
-    </table>
-    <% end %>
+      <%= form_tag({}) do -%>
+        <table class="list related-issues">
+        <caption><%= l(:label_related_issues) %></caption>
+        <% issues.each do |issue| -%>
+          <tr class="hascontextmenu">
+            <td class="checkbox"><%= check_box_tag 'ids[]', issue.id, false, :id => nil %></td>
+            <td><%= link_to_issue(issue, :project => (@project != issue.project)) %></td>
+          </tr>
+        <% end -%>
+        </table>
+      <% end %>
     <% end %>
     <%= call_hook :view_projects_roadmap_version_bottom, :version => version %>
-<% end %>
-</div>
+  <% end %>
+  </div>
 <% end %>
 
 <% content_for :sidebar do %>
 <%= form_tag({}, :method => :get) do %>
 <h3><%= l(:label_roadmap) %></h3>
+<ul>
 <% @trackers.each do |tracker| %>
-  <label><%= check_box_tag "tracker_ids[]", tracker.id, (@selected_tracker_ids.include? tracker.id.to_s), :id => nil %>
-  <%=h tracker.name %></label><br />
+  <li>
+    <label>
+      <%= check_box_tag("tracker_ids[]", tracker.id,
+                        (@selected_tracker_ids.include? tracker.id.to_s),
+                        :id => nil) %>
+      <%= tracker.name %>
+    </label>
+  </li>
 <% end %>
-<br />
-<label for="completed"><%= check_box_tag "completed", 1, params[:completed] %> <%= l(:label_show_completed_versions) %></label>
-<% if @project.descendants.active.any? %>
-  <%= hidden_field_tag 'with_subprojects', 0 %>
-  <br /><label><%= check_box_tag 'with_subprojects', 1, @with_subprojects %> <%=l(:label_subproject_plural)%></label>
-<% end %>
+</ul>
+<p></p>
+<ul>
+  <li>
+    <label for="completed">
+      <%= check_box_tag "completed", 1, params[:completed] %> <%= l(:label_show_completed_versions) %>
+    </label>
+  </li>
+  <% if @project.descendants.active.any? %>
+  <li>
+    <%= hidden_field_tag 'with_subprojects', 0 %>
+    <label>
+      <%= check_box_tag 'with_subprojects', 1, @with_subprojects %> <%=l(:label_subproject_plural)%>
+    </label>
+  </li>
+  <% end %>
+</ul>
 <p><%= submit_tag l(:button_apply), :class => 'button-small', :name => nil %></p>
 <% end %>
 
 <h3><%= l(:label_version_plural) %></h3>
+<ul>
 <% @versions.each do |version| %>
-<%= link_to format_version_name(version), "##{version_anchor(version)}" %><br />
+  <li>
+    <%= link_to(format_version_name(version), "##{version_anchor(version)}") %>
+  </li>
 <% end %>
+</ul>
 <% if @completed_versions.present? %>
 <p>
   <%= link_to_function l(:label_completed_versions), 
                        '$("#toggle-completed-versions").toggleClass("collapsed"); $("#completed-versions").toggle()',
-                       :id => 'toggle-completed-versions', :class => 'collapsible collapsed' %><br />
-  <span id="completed-versions" style="display:none;">
-    <%= @completed_versions.map {|version| link_to format_version_name(version), version_path(version)}.join("<br />\n").html_safe %>
-  </span>
+                       :id => 'toggle-completed-versions', :class => 'collapsible collapsed' %>
+  <ul id = "completed-versions" style = "display:none;">
+    <% @completed_versions.each do |version| %>
+      <li><%= link_to(format_version_name(version), version_path(version)) %></li>
+    <% end %>  
+  </ul>
 </p>
 <% end %>
 <% end %>

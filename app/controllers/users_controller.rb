@@ -60,7 +60,7 @@ class UsersController < ApplicationController
 
   def show
     # show projects based on current user visibility
-    @memberships = @user.memberships.all(:conditions => Project.visible_condition(User.current))
+    @memberships = @user.memberships.where(Project.visible_condition(User.current)).all
     
     @myGroups=[]
     Group.all.sort.each do |group|
@@ -99,9 +99,7 @@ class UsersController < ApplicationController
 
     if @user.save
       @user.pref.attributes = params[:pref]
-      @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
       @user.pref.save
-      @user.notified_project_ids = (@user.mail_notification == 'selected' ? params[:notified_project_ids] : [])
 
       Mailer.account_information(@user, @user.password).deliver if params[:send_information]
 
@@ -145,11 +143,9 @@ class UsersController < ApplicationController
     was_activated = (@user.status_change == [User::STATUS_REGISTERED, User::STATUS_ACTIVE])
     # TODO: Similar to My#account
     @user.pref.attributes = params[:pref]
-    @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
 
     if @user.save
       @user.pref.save
-      @user.notified_project_ids = (@user.mail_notification == 'selected' ? params[:notified_project_ids] : [])
 
       if was_activated
         Mailer.account_activated(@user).deliver

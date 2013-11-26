@@ -1,8 +1,7 @@
 begin
   require 'zlib'
-  @@__have_zlib = true
 rescue
-  @@__have_zlib = false
+  # Zlib not available
 end
 
 require 'rexml/document'
@@ -211,7 +210,7 @@ module SVG
         @doc.write( data, 0 )
 
         if @config[:compress]
-          if @@__have_zlib
+          if Object.const_defined?(:Zlib)
             inp, out = IO.pipe
             gz = Zlib::GzipWriter.new( out )
             gz.write data

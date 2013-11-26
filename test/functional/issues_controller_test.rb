@@ -327,7 +327,7 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_index_with_cross_project_query_in_session_should_show_project_issues
-    q = IssueQuery.create!(:name => "test", :user_id => 2, :is_public => false, :project => nil)
+    q = IssueQuery.create!(:name => "test", :user_id => 2, :visibility => IssueQuery::VISIBILITY_PRIVATE, :project => nil)
     @request.session[:query] = {:id => q.id, :project_id => 1}
 
     with_settings :display_subprojects_issues => '0' do
@@ -341,7 +341,7 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_private_query_should_not_be_available_to_other_users
-    q = IssueQuery.create!(:name => "private", :user => User.find(2), :is_public => false, :project => nil)
+    q = IssueQuery.create!(:name => "private", :user => User.find(2), :visibility => IssueQuery::VISIBILITY_PRIVATE, :project => nil)
     @request.session[:user_id] = 3
 
     get :index, :query_id => q.id
@@ -349,7 +349,7 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_private_query_should_be_available_to_its_user
-    q = IssueQuery.create!(:name => "private", :user => User.find(2), :is_public => false, :project => nil)
+    q = IssueQuery.create!(:name => "private", :user => User.find(2), :visibility => IssueQuery::VISIBILITY_PRIVATE, :project => nil)
     @request.session[:user_id] = 2
 
     get :index, :query_id => q.id
@@ -357,7 +357,7 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_public_query_should_be_available_to_other_users
-    q = IssueQuery.create!(:name => "private", :user => User.find(2), :is_public => true, :project => nil)
+    q = IssueQuery.create!(:name => "private", :user => User.find(2), :visibility => IssueQuery::VISIBILITY_PUBLIC, :project => nil)
     @request.session[:user_id] = 3
 
     get :index, :query_id => q.id
@@ -773,18 +773,14 @@ class IssuesControllerTest < ActionController::TestCase
   def test_index_with_date_column
     with_settings :date_format => '%d/%m/%Y' do
       Issue.find(1).update_attribute :start_date, '1987-08-24'
-
       get :index, :set_filter => 1, :c => %w(start_date)
-
       assert_select "table.issues td.start_date", :text => '24/08/1987'
     end
   end
 
   def test_index_with_done_ratio_column
     Issue.find(1).update_attribute :done_ratio, 40
-
     get :index, :set_filter => 1, :c => %w(done_ratio)
-
     assert_select 'table.issues td.done_ratio' do
       assert_select 'table.progress' do
         assert_select 'td.closed[style=?]', 'width: 40%;'
@@ -794,20 +790,17 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_index_with_spent_hours_column
     get :index, :set_filter => 1, :c => %w(subject spent_hours)
-
     assert_select 'table.issues tr#issue-3 td.spent_hours', :text => '1.00'
   end
 
   def test_index_should_not_show_spent_hours_column_without_permission
     Role.anonymous.remove_permission! :view_time_entries
     get :index, :set_filter => 1, :c => %w(subject spent_hours)
-
     assert_select 'td.spent_hours', 0
   end
 
   def test_index_with_fixed_version_column
     get :index, :set_filter => 1, :c => %w(fixed_version)
-
     assert_select 'table.issues td.fixed_version' do
       assert_select 'a[href=?]', '/versions/2', :text => '1.0'
     end
@@ -877,9 +870,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'show'
     assert_equal Issue.find(1), assigns(:issue)
-
     assert_select 'div.issue div.description', :text => /Unable to print recipes/
-
     # anonymous role is allowed to add a note
     assert_select 'form#issue-form' do
       assert_select 'fieldset' do
@@ -887,7 +878,6 @@ class IssuesControllerTest < ActionController::TestCase
         assert_select 'textarea[name=?]', 'issue[notes]'
       end
     end
-
     assert_select 'title', :text => "Bug #1: Can&#x27;t print recipes - eCookbook - Redmine"
   end
 
@@ -895,9 +885,7 @@ class IssuesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     get :show, :id => 1
     assert_response :success
-
     assert_select 'a', :text => /Quote/
-
     assert_select 'form#issue-form' do
       assert_select 'fieldset' do
         assert_select 'legend', :text => 'Change properties'
@@ -1163,7 +1151,7 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_show_should_display_prev_next_links_with_saved_query_in_session
-    query = IssueQuery.create!(:name => 'test', :is_public => true,  :user_id => 1,
+    query = IssueQuery.create!(:name => 'test', :visibility => IssueQuery::VISIBILITY_PUBLIC,  :user_id => 1,
       :filters => {'status_id' => {:values => ['5'], :operator => '='}},
       :sort_criteria => [['id', 'asc']])
     @request.session[:query] = {:id => query.id, :project_id => nil}
@@ -1255,7 +1243,7 @@ class IssuesControllerTest < ActionController::TestCase
     CustomValue.create!(:custom_field => cf, :customized => Issue.find(3), :value => '3')
     CustomValue.create!(:custom_field => cf, :customized => Issue.find(5), :value => '')
 
-    query = IssueQuery.create!(:name => 'test', :is_public => true,  :user_id => 1, :filters => {},
+    query = IssueQuery.create!(:name => 'test', :visibility => IssueQuery::VISIBILITY_PUBLIC,  :user_id => 1, :filters => {},
       :sort_criteria => [["cf_#{cf.id}", 'asc'], ['id', 'asc']])
     @request.session[:query] = {:id => query.id, :project_id => nil}
 
@@ -1574,26 +1562,25 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_get_new_without_default_start_date_is_creation_date
-    Setting.default_issue_start_date_to_creation_date = 0
-
-    @request.session[:user_id] = 2
-    get :new, :project_id => 1, :tracker_id => 1
-    assert_response :success
-    assert_template 'new'
-
-    assert_select 'input[name=?]', 'issue[start_date]'
-    assert_select 'input[name=?][value]', 'issue[start_date]', 0
+    with_settings :default_issue_start_date_to_creation_date  => 0 do
+      @request.session[:user_id] = 2
+      get :new, :project_id => 1, :tracker_id => 1
+      assert_response :success
+      assert_template 'new'
+      assert_select 'input[name=?]', 'issue[start_date]'
+      assert_select 'input[name=?][value]', 'issue[start_date]', 0
+    end
   end
 
   def test_get_new_with_default_start_date_is_creation_date
-    Setting.default_issue_start_date_to_creation_date = 1
-
-    @request.session[:user_id] = 2
-    get :new, :project_id => 1, :tracker_id => 1
-    assert_response :success
-    assert_template 'new'
-
-    assert_select 'input[name=?][value=?]', 'issue[start_date]', Date.today.to_s
+    with_settings :default_issue_start_date_to_creation_date  => 1 do
+      @request.session[:user_id] = 2
+      get :new, :project_id => 1, :tracker_id => 1
+      assert_response :success
+      assert_template 'new'
+      assert_select 'input[name=?][value=?]', 'issue[start_date]',
+                    Date.today.to_s
+    end
   end
 
   def test_get_new_form_should_allow_attachment_upload
@@ -1780,11 +1767,10 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_post_create_without_start_date_and_default_start_date_is_not_creation_date
-    Setting.default_issue_start_date_to_creation_date = 0
-
-    @request.session[:user_id] = 2
-    assert_difference 'Issue.count' do
-      post :create, :project_id => 1,
+    with_settings :default_issue_start_date_to_creation_date  => 0 do
+      @request.session[:user_id] = 2
+      assert_difference 'Issue.count' do
+        post :create, :project_id => 1,
                  :issue => {:tracker_id => 3,
                             :status_id => 2,
                             :subject => 'This is the test_new issue',
@@ -1792,20 +1778,20 @@ class IssuesControllerTest < ActionController::TestCase
                             :priority_id => 5,
                             :estimated_hours => '',
                             :custom_field_values => {'2' => 'Value for field 2'}}
+      end
+      assert_redirected_to :controller => 'issues', :action => 'show',
+                           :id => Issue.last.id
+      issue = Issue.find_by_subject('This is the test_new issue')
+      assert_not_nil issue
+      assert_nil issue.start_date
     end
-    assert_redirected_to :controller => 'issues', :action => 'show', :id => Issue.last.id
-
-    issue = Issue.find_by_subject('This is the test_new issue')
-    assert_not_nil issue
-    assert_nil issue.start_date
   end
 
   def test_post_create_without_start_date_and_default_start_date_is_creation_date
-    Setting.default_issue_start_date_to_creation_date = 1
-
-    @request.session[:user_id] = 2
-    assert_difference 'Issue.count' do
-      post :create, :project_id => 1,
+    with_settings :default_issue_start_date_to_creation_date  => 1 do
+      @request.session[:user_id] = 2
+      assert_difference 'Issue.count' do
+        post :create, :project_id => 1,
                  :issue => {:tracker_id => 3,
                             :status_id => 2,
                             :subject => 'This is the test_new issue',
@@ -1813,12 +1799,13 @@ class IssuesControllerTest < ActionController::TestCase
                             :priority_id => 5,
                             :estimated_hours => '',
                             :custom_field_values => {'2' => 'Value for field 2'}}
+      end
+      assert_redirected_to :controller => 'issues', :action => 'show',
+                           :id => Issue.last.id
+      issue = Issue.find_by_subject('This is the test_new issue')
+      assert_not_nil issue
+      assert_equal Date.today, issue.start_date
     end
-    assert_redirected_to :controller => 'issues', :action => 'show', :id => Issue.last.id
-
-    issue = Issue.find_by_subject('This is the test_new issue')
-    assert_not_nil issue
-    assert_equal Date.today, issue.start_date
   end
 
   def test_post_create_and_continue
@@ -2172,6 +2159,25 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 59, File.size(attachment.diskfile)
   end
 
+  def test_post_create_with_attachment_should_notify_with_attachments
+    ActionMailer::Base.deliveries.clear
+    set_tmp_attachments_directory
+    @request.session[:user_id] = 2
+
+    with_settings :host_name => 'mydomain.foo', :protocol => 'http' do
+      assert_difference 'Issue.count' do
+        post :create, :project_id => 1,
+          :issue => { :tracker_id => '1', :subject => 'With attachment' },
+          :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain'), 'description' => 'test file'}}
+      end
+    end
+
+    assert_not_nil ActionMailer::Base.deliveries.last
+    assert_select_email do
+      assert_select 'a[href^=?]', 'http://mydomain.foo/attachments/download', 'testfile.txt'
+    end
+  end
+
   def test_post_create_with_failure_should_save_attachments
     set_tmp_attachments_directory
     @request.session[:user_id] = 2
@@ -2443,12 +2449,12 @@ class IssuesControllerTest < ActionController::TestCase
     issue = Issue.find(3)
     count = issue.attachments.count
     assert count > 0
-
     assert_difference 'Issue.count' do
       assert_difference 'Attachment.count', count do
-        assert_no_difference 'Journal.count' do
+        assert_difference 'Journal.count', 2 do
           post :create, :project_id => 1, :copy_from => 3,
-            :issue => {:project_id => '1', :tracker_id => '3', :status_id => '1', :subject => 'Copy with attachments'},
+            :issue => {:project_id => '1', :tracker_id => '3',
+                       :status_id => '1', :subject => 'Copy with attachments'},
             :copy_attachments => '1'
         end
       end
@@ -2463,12 +2469,12 @@ class IssuesControllerTest < ActionController::TestCase
     issue = Issue.find(3)
     count = issue.attachments.count
     assert count > 0
-
     assert_difference 'Issue.count' do
       assert_no_difference 'Attachment.count' do
-        assert_no_difference 'Journal.count' do
+        assert_difference 'Journal.count', 2 do
           post :create, :project_id => 1, :copy_from => 3,
-            :issue => {:project_id => '1', :tracker_id => '3', :status_id => '1', :subject => 'Copy with attachments'}
+            :issue => {:project_id => '1', :tracker_id => '3',
+                       :status_id => '1', :subject => 'Copy with attachments'}
         end
       end
     end
@@ -2481,14 +2487,16 @@ class IssuesControllerTest < ActionController::TestCase
     issue = Issue.find(3)
     count = issue.attachments.count
     assert count > 0
-
     assert_difference 'Issue.count' do
       assert_difference 'Attachment.count', count + 1 do
-        assert_no_difference 'Journal.count' do
+        assert_difference 'Journal.count', 2 do
           post :create, :project_id => 1, :copy_from => 3,
-            :issue => {:project_id => '1', :tracker_id => '3', :status_id => '1', :subject => 'Copy with attachments'},
+            :issue => {:project_id => '1', :tracker_id => '3',
+                       :status_id => '1', :subject => 'Copy with attachments'},
             :copy_attachments => '1',
-            :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain'), 'description' => 'test file'}}
+            :attachments => {'1' =>
+                   {'file' => uploaded_test_file('testfile.txt', 'text/plain'),
+                    'description' => 'test file'}}
         end
       end
     end
@@ -2498,11 +2506,11 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_create_as_copy_should_add_relation_with_copied_issue
     @request.session[:user_id] = 2
-
     assert_difference 'Issue.count' do
       assert_difference 'IssueRelation.count' do
         post :create, :project_id => 1, :copy_from => 1,
-          :issue => {:project_id => '1', :tracker_id => '3', :status_id => '1', :subject => 'Copy'}
+          :issue => {:project_id => '1', :tracker_id => '3',
+                     :status_id => '1', :subject => 'Copy'}
       end
     end
     copy = Issue.first(:order => 'id DESC')
@@ -2513,11 +2521,11 @@ class IssuesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     issue = Issue.generate_with_descendants!
     count = issue.descendants.count
-
-    assert_difference 'Issue.count', count+1 do
-      assert_no_difference 'Journal.count' do
+    assert_difference 'Issue.count', count + 1 do
+      assert_difference 'Journal.count', (count + 1) * 2 do
         post :create, :project_id => 1, :copy_from => issue.id,
-          :issue => {:project_id => '1', :tracker_id => '3', :status_id => '1', :subject => 'Copy with subtasks'},
+          :issue => {:project_id => '1', :tracker_id => '3',
+                     :status_id => '1', :subject => 'Copy with subtasks'},
           :copy_subtasks => '1'
       end
     end
@@ -2529,11 +2537,11 @@ class IssuesControllerTest < ActionController::TestCase
   def test_create_as_copy_without_copy_subtasks_option_should_not_copy_subtasks
     @request.session[:user_id] = 2
     issue = Issue.generate_with_descendants!
-
     assert_difference 'Issue.count', 1 do
-      assert_no_difference 'Journal.count' do
+      assert_difference 'Journal.count', 2 do
         post :create, :project_id => 1, :copy_from => 3,
-          :issue => {:project_id => '1', :tracker_id => '3', :status_id => '1', :subject => 'Copy with subtasks'}
+          :issue => {:project_id => '1', :tracker_id => '3',
+                     :status_id => '1', :subject => 'Copy with subtasks'}
       end
     end
     copy = Issue.where(:parent_id => nil).first(:order => 'id DESC')
@@ -3279,14 +3287,26 @@ class IssuesControllerTest < ActionController::TestCase
     end
   end
 
+  def test_bulk_edit_should_propose_to_clear_text_custom_fields
+    @request.session[:user_id] = 2
+    get :bulk_edit, :ids => [1, 3]
+    assert_select 'input[name=?][value=?]', 'issue[custom_field_values][2]', '__none__'
+  end
+
   def test_bulk_edit_should_only_propose_statuses_allowed_for_all_issues
     WorkflowTransition.delete_all
-    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 1)
-    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 3)
-    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 4)
-    WorkflowTransition.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 2, :new_status_id => 1)
-    WorkflowTransition.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 2, :new_status_id => 3)
-    WorkflowTransition.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 2, :new_status_id => 5)
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1,
+                               :old_status_id => 1, :new_status_id => 1)
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1,
+                               :old_status_id => 1, :new_status_id => 3)
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1,
+                               :old_status_id => 1, :new_status_id => 4)
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 2,
+                               :old_status_id => 2, :new_status_id => 1)
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 2,
+                               :old_status_id => 2, :new_status_id => 3)
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 2,
+                               :old_status_id => 2, :new_status_id => 5)
     @request.session[:user_id] = 2
     get :bulk_edit, :ids => [1, 2]
 
@@ -3475,12 +3495,11 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_bulk_update_parent_id
     IssueRelation.delete_all
-
     @request.session[:user_id] = 2
     post :bulk_update, :ids => [1, 3],
       :notes => 'Bulk editing parent',
-      :issue => {:priority_id => '', :assigned_to_id => '', :status_id => '', :parent_issue_id => '2'}
-
+      :issue => {:priority_id => '', :assigned_to_id => '',
+                 :status_id => '', :parent_issue_id => '2'}
     assert_response 302
     parent = Issue.find(2)
     assert_equal parent.id, Issue.find(1).parent_id
@@ -3588,13 +3607,44 @@ class IssuesControllerTest < ActionController::TestCase
     assert_redirected_to :controller => 'issues', :action => 'index', :project_id => Project.find(1).identifier
   end
 
-  def test_bulk_update_with_failure_should_set_flash
+  def test_bulk_update_with_all_failures_should_show_errors
     @request.session[:user_id] = 2
-    Issue.update_all("subject = ''", "id = 2") # Make it invalid
-    post :bulk_update, :ids => [1, 2], :issue => {:priority_id => 6}
+    post :bulk_update, :ids => [1, 2], :issue => {:start_date => 'foo'}
 
-    assert_redirected_to :controller => 'issues', :action => 'index', :project_id => 'ecookbook'
-    assert_equal 'Failed to save 1 issue(s) on 2 selected: #2.', flash[:error]
+    assert_response :success
+    assert_template 'bulk_edit'
+    assert_select '#errorExplanation span', :text => 'Failed to save 2 issue(s) on 2 selected: #1, #2.'
+    assert_select '#errorExplanation ul li', :text => 'Start date is not a valid date: #1, #2'
+
+    assert_equal [1, 2], assigns[:issues].map(&:id)
+  end
+
+  def test_bulk_update_with_some_failures_should_show_errors
+    issue1 = Issue.generate!(:start_date => '2013-05-12')
+    issue2 = Issue.generate!(:start_date => '2013-05-15')
+    issue3 = Issue.generate!
+    @request.session[:user_id] = 2
+    post :bulk_update, :ids => [issue1.id, issue2.id, issue3.id],
+                       :issue => {:due_date => '2013-05-01'}
+    assert_response :success
+    assert_template 'bulk_edit'
+    assert_select '#errorExplanation span',
+                  :text => "Failed to save 2 issue(s) on 3 selected: ##{issue1.id}, ##{issue2.id}."
+    assert_select '#errorExplanation ul li',
+                   :text => "Due date must be greater than start date: ##{issue1.id}, ##{issue2.id}"
+    assert_equal [issue1.id, issue2.id], assigns[:issues].map(&:id)
+  end
+
+  def test_bulk_update_with_failure_should_preserved_form_values
+    @request.session[:user_id] = 2
+    post :bulk_update, :ids => [1, 2], :issue => {:tracker_id => '2', :start_date => 'foo'}
+
+    assert_response :success
+    assert_template 'bulk_edit'
+    assert_select 'select[name=?]', 'issue[tracker_id]' do
+      assert_select 'option[value=2][selected=selected]'
+    end
+    assert_select 'input[name=?][value=?]', 'issue[start_date]', 'foo'
   end
 
   def test_get_bulk_copy
@@ -3628,10 +3678,13 @@ class IssuesControllerTest < ActionController::TestCase
   def test_bulk_copy_should_allow_not_changing_the_issue_attributes
     @request.session[:user_id] = 2
     issues = [
-      Issue.create!(:project_id => 1, :tracker_id => 1, :status_id => 1, :priority_id => 2, :subject => 'issue 1', :author_id => 1, :assigned_to_id => nil),
-      Issue.create!(:project_id => 2, :tracker_id => 3, :status_id => 2, :priority_id => 1, :subject => 'issue 2', :author_id => 2, :assigned_to_id => 3)
+      Issue.create!(:project_id => 1, :tracker_id => 1, :status_id => 1,
+                    :priority_id => 2, :subject => 'issue 1', :author_id => 1,
+                    :assigned_to_id => nil),
+      Issue.create!(:project_id => 2, :tracker_id => 3, :status_id => 2,
+                    :priority_id => 1, :subject => 'issue 2', :author_id => 2,
+                    :assigned_to_id => 3)
     ]
-
     assert_difference 'Issue.count', issues.size do
       post :bulk_update, :ids => issues.map(&:id), :copy => '1', 
            :issue => {
@@ -3654,7 +3707,7 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_bulk_copy_should_allow_changing_the_issue_attributes
     # Fixes random test failure with Mysql
-    # where Issue.all(:limit => 2, :order => 'id desc', :conditions => {:project_id => 2})
+    # where Issue.where(:project_id => 2).limit(2).order('id desc')
     # doesn't return the expected results
     Issue.delete_all("project_id=2")
 
@@ -3669,7 +3722,7 @@ class IssuesControllerTest < ActionController::TestCase
       end
     end
 
-    copied_issues = Issue.all(:limit => 2, :order => 'id desc', :conditions => {:project_id => 2})
+    copied_issues = Issue.where(:project_id => 2).limit(2).order('id desc').to_a
     assert_equal 2, copied_issues.size
     copied_issues.each do |issue|
       assert_equal 2, issue.project_id, "Project is incorrect"
@@ -3690,11 +3743,10 @@ class IssuesControllerTest < ActionController::TestCase
              :status_id => '3', :start_date => '2009-12-01', :due_date => '2009-12-31'
            }
     end
-
     issue = Issue.first(:order => 'id DESC')
     assert_equal 1, issue.journals.size
     journal = issue.journals.first
-    assert_equal 0, journal.details.size
+    assert_equal 1, journal.details.size
     assert_equal 'Copying one issue', journal.notes
   end
 
@@ -3788,6 +3840,13 @@ class IssuesControllerTest < ActionController::TestCase
     post :bulk_update, :ids => [1], :copy => '1', :issue => {:project_id => 2}, :follow => '1'
     issue = Issue.first(:order => 'id DESC')
     assert_redirected_to :controller => 'issues', :action => 'show', :id => issue
+  end
+
+  def test_bulk_copy_with_all_failures_should_display_errors
+    @request.session[:user_id] = 2
+    post :bulk_update, :ids => [1, 2], :copy => '1', :issue => {:start_date => 'foo'}
+
+    assert_response :success
   end
 
   def test_destroy_issue_with_no_time_entries

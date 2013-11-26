@@ -187,7 +187,7 @@ class Project < ActiveRecord::Base
     else
       statement_by_role = {}
       unless options[:member]
-        role = user.logged? ? Role.non_member : Role.anonymous
+        role = user.builtin_role
         if role.allowed_to?(permission)
           statement_by_role[role] = "#{Project.table_name}.is_public = #{connection.quoted_true}"
         end
@@ -452,26 +452,29 @@ class Project < ActiveRecord::Base
   # Returns a scope of the Versions on subprojects
   def rolled_up_versions
     @rolled_up_versions ||=
-      Version.scoped(:include => :project,
-                     :conditions => ["#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status <> #{STATUS_ARCHIVED}", lft, rgt])
+      Version.
+        includes(:project).
+        where("#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status <> ?", lft, rgt, STATUS_ARCHIVED)
   end
 
   # Returns a scope of the Versions used by the project
   def shared_versions
     if new_record?
-      Version.scoped(:include => :project,
-                     :conditions => "#{Project.table_name}.status <> #{Project::STATUS_ARCHIVED} AND #{Version.table_name}.sharing = 'system'")
+      Version.
+        includes(:project).
+        where("#{Project.table_name}.status <> ? AND #{Version.table_name}.sharing = 'system'", STATUS_ARCHIVED)
     else
       @shared_versions ||= begin
         r = root? ? self : root
-        Version.scoped(:include => :project,
-                       :conditions => "#{Project.table_name}.id = #{id}" +
-                                      " OR (#{Project.table_name}.status <> #{Project::STATUS_ARCHIVED} AND (" +
-                                          " #{Version.table_name}.sharing = 'system'" +
-                                          " OR (#{Project.table_name}.lft >= #{r.lft} AND #{Project.table_name}.rgt <= #{r.rgt} AND #{Version.table_name}.sharing = 'tree')" +
-                                          " OR (#{Project.table_name}.lft < #{lft} AND #{Project.table_name}.rgt > #{rgt} AND #{Version.table_name}.sharing IN ('hierarchy', 'descendants'))" +
-                                          " OR (#{Project.table_name}.lft > #{lft} AND #{Project.table_name}.rgt < #{rgt} AND #{Version.table_name}.sharing = 'hierarchy')" +
-                                          "))")
+        Version.
+          includes(:project).
+          where("#{Project.table_name}.id = #{id}" +
+                  " OR (#{Project.table_name}.status <> #{Project::STATUS_ARCHIVED} AND (" +
+                    " #{Version.table_name}.sharing = 'system'" +
+                    " OR (#{Project.table_name}.lft >= #{r.lft} AND #{Project.table_name}.rgt <= #{r.rgt} AND #{Version.table_name}.sharing = 'tree')" +
+                    " OR (#{Project.table_name}.lft < #{lft} AND #{Project.table_name}.rgt > #{rgt} AND #{Version.table_name}.sharing IN ('hierarchy', 'descendants'))" +
+                    " OR (#{Project.table_name}.lft > #{lft} AND #{Project.table_name}.rgt < #{rgt} AND #{Version.table_name}.sharing = 'hierarchy')" +
+                  "))")
       end
     end
   end
@@ -511,10 +514,14 @@ class Project < ActiveRecord::Base
     members.select {|m| m.principal.present? && (m.mail_notification? || m.principal.mail_notification == 'all')}.collect {|m| m.principal}
   end
 
-  # Returns an array of all custom fields enabled for project issues
+  # Returns a scope of all custom fields enabled for project issues
   # (explictly associated custom fields and custom fields enabled for all projects)
   def all_issue_custom_fields
-    @all_issue_custom_fields ||= (IssueCustomField.for_all + issue_custom_fields).uniq.sort
+    @all_issue_custom_fields ||= IssueCustomField.
+      sorted.
+      where("is_for_all = ? OR id IN (SELECT DISTINCT cfp.custom_field_id" +
+        " FROM #{table_name_prefix}custom_fields_projects#{table_name_suffix} cfp" +
+        " WHERE cfp.project_id = ?)", true, id)
   end
 
   # Returns an array of all custom fields enabled for project time entries
@@ -682,7 +689,7 @@ class Project < ActiveRecord::Base
 
   # Returns an auto-generated project identifier based on the last identifier used
   def self.next_identifier
-    p = Project.order('created_on DESC').first
+    p = Project.order('id DESC').first
     p.nil? ? nil : p.identifier.to_s.succ
   end
 
@@ -849,6 +856,9 @@ class Project < ActiveRecord::Base
       new_issue = Issue.new
       new_issue.copy_from(issue, :subtasks => false, :link => false)
       new_issue.project = self
+      # Changing project resets the custom field values
+      # TODO: handle this in Issue#project=
+      new_issue.custom_field_values = issue.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
       # Reassign fixed_versions by name, since names are unique per project
       if issue.fixed_version && issue.fixed_version.project == project
         new_issue.fixed_version = self.versions.detect {|v| v.name == issue.fixed_version.name}
@@ -952,7 +962,7 @@ class Project < ActiveRecord::Base
 
   def allowed_permissions
     @allowed_permissions ||= begin
-      module_names = enabled_modules.all(:select => :name).collect {|m| m.name}
+      module_names = enabled_modules.loaded? ? enabled_modules.map(&:name) : enabled_modules.pluck(:name)
       Redmine::AccessControl.modules_permissions(module_names).collect {|p| p.name}
     end
   end

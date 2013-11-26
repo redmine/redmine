@@ -118,22 +118,25 @@ class Changeset < ActiveRecord::Base
     ref_keywords = Setting.commit_ref_keywords.downcase.split(",").collect(&:strip)
     ref_keywords_any = ref_keywords.delete('*')
     # keywords used to fix issues
-    fix_keywords = Setting.commit_fix_keywords.downcase.split(",").collect(&:strip)
+    fix_keywords = Setting.commit_update_keywords_array.map {|r| r['keywords']}.flatten.compact
 
     kw_regexp = (ref_keywords + fix_keywords).collect{|kw| Regexp.escape(kw)}.join("|")
 
     referenced_issues = []
 
     comments.scan(/([\s\(\[,-]|^)((#{kw_regexp})[\s:]+)?(#\d+(\s+@#{TIMELOG_RE})?([\s,;&]+#\d+(\s+@#{TIMELOG_RE})?)*)(?=[[:punct:]]|\s|<|$)/i) do |match|
-      action, refs = match[2], match[3]
+      action, refs = match[2].to_s.downcase, match[3]
       next unless action.present? || ref_keywords_any
 
       refs.scan(/#(\d+)(\s+@#{TIMELOG_RE})?/).each do |m|
         issue, hours = find_referenced_issue_by_id(m[0].to_i), m[2]
         if issue
           referenced_issues << issue
-          fix_issue(issue) if fix_keywords.include?(action.to_s.downcase)
-          log_time(issue, hours) if hours && Setting.commit_logtime_enabled?
+          # Don't update issues or log time when importing old commits
+          unless repository.created_on && committed_on && committed_on < repository.created_on
+            fix_issue(issue, action) if fix_keywords.include?(action)
+            log_time(issue, hours) if hours && Setting.commit_logtime_enabled?
+          end
         end
       end
     end
@@ -210,25 +213,26 @@ class Changeset < ActiveRecord::Base
 
   private
 
-  def fix_issue(issue)
-    status = IssueStatus.find_by_id(Setting.commit_fix_status_id.to_i)
-    if status.nil?
-      logger.warn("No status matches commit_fix_status_id setting (#{Setting.commit_fix_status_id})") if logger
-      return issue
-    end
-
+  # Updates the +issue+ according to +action+
+  def fix_issue(issue, action)
     # the issue may have been updated by the closure of another one (eg. duplicate)
     issue.reload
     # don't change the status is the issue is closed
     return if issue.status && issue.status.is_closed?
 
-    journal = issue.init_journal(user || User.anonymous, ll(Setting.default_language, :text_status_changed_by_changeset, text_tag(issue.project)))
-    issue.status = status
-    unless Setting.commit_fix_done_ratio.blank?
-      issue.done_ratio = Setting.commit_fix_done_ratio.to_i
+    journal = issue.init_journal(user || User.anonymous,
+                                 ll(Setting.default_language,
+                                    :text_status_changed_by_changeset,
+                                    text_tag(issue.project)))
+    rule = Setting.commit_update_keywords_array.detect do |rule|
+      rule['keywords'].include?(action) &&
+        (rule['if_tracker_id'].blank? || rule['if_tracker_id'] == issue.tracker_id.to_s)
+    end
+    if rule
+      issue.assign_attributes rule.slice(*Issue.attribute_names)
     end
     Redmine::Hook.call_hook(:model_changeset_scan_commit_for_issue_ids_pre_issue_update,
-                            { :changeset => self, :issue => issue })
+                            { :changeset => self, :issue => issue, :action => action })
     unless issue.save
       logger.warn("Issue ##{issue.id} could not be saved by changeset #{id}: #{issue.errors.full_messages}") if logger
     end

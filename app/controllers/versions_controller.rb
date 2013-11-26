@@ -46,11 +46,11 @@ class VersionsController < ApplicationController
 
         @issues_by_version = {}
         if @selected_tracker_ids.any? && @versions.any?
-          issues = Issue.visible.all(
-            :include => [:project, :status, :tracker, :priority, :fixed_version],
-            :conditions => {:tracker_id => @selected_tracker_ids, :project_id => project_ids, :fixed_version_id => @versions.map(&:id)},
-            :order => "#{Project.table_name}.lft, #{Tracker.table_name}.position, #{Issue.table_name}.id"
-          )
+          issues = Issue.visible.
+            includes(:project, :tracker).
+            preload(:status, :priority, :fixed_version).
+            where(:tracker_id => @selected_tracker_ids, :project_id => project_ids, :fixed_version_id => @versions.map(&:id)).
+            order("#{Project.table_name}.lft, #{Tracker.table_name}.position, #{Issue.table_name}.id")
           @issues_by_version = issues.group_by(&:fixed_version)
         end
         @versions.reject! {|version| !project_ids.include?(version.project_id) && @issues_by_version[version].blank?}

@@ -21,10 +21,18 @@ class CustomFieldsController < ApplicationController
   before_filter :require_admin
   before_filter :build_new_custom_field, :only => [:new, :create]
   before_filter :find_custom_field, :only => [:edit, :update, :destroy]
+  accept_api_auth :index
 
   def index
-    @custom_fields_by_type = CustomField.all.group_by {|f| f.class.name }
-    @tab = params[:tab] || 'IssueCustomField'
+    respond_to do |format|
+      format.html {
+        @custom_fields_by_type = CustomField.all.group_by {|f| f.class.name }
+        @tab = params[:tab] || 'IssueCustomField'
+      }
+      format.api {
+        @custom_fields = CustomField.all
+      }
+    end
   end
 
   def new

@@ -19,8 +19,29 @@
 
 module CustomFieldsHelper
 
+  CUSTOM_FIELDS_TABS = [
+    {:name => 'IssueCustomField', :partial => 'custom_fields/index',
+     :label => :label_issue_plural},
+    {:name => 'TimeEntryCustomField', :partial => 'custom_fields/index',
+     :label => :label_spent_time},
+    {:name => 'ProjectCustomField', :partial => 'custom_fields/index',
+     :label => :label_project_plural},
+    {:name => 'VersionCustomField', :partial => 'custom_fields/index',
+     :label => :label_version_plural},
+    {:name => 'UserCustomField', :partial => 'custom_fields/index',
+     :label => :label_user_plural},
+    {:name => 'GroupCustomField', :partial => 'custom_fields/index',
+     :label => :label_group_plural},
+    {:name => 'TimeEntryActivityCustomField', :partial => 'custom_fields/index',
+     :label => TimeEntryActivity::OptionName},
+    {:name => 'IssuePriorityCustomField', :partial => 'custom_fields/index',
+     :label => IssuePriority::OptionName},
+    {:name => 'DocumentCategoryCustomField', :partial => 'custom_fields/index',
+     :label => DocumentCategory::OptionName}
+  ]
+
   def custom_fields_tabs
-    CustomField::CUSTOM_FIELDS_TABS
+    CUSTOM_FIELDS_TABS
   end
 
   # Return custom field html tag corresponding to its format
@@ -78,32 +99,44 @@ module CustomFieldsHelper
     custom_field_label_tag(name, custom_value, options) + ("<div class='controls'>" + custom_field_tag(name, custom_value) + "</div>").html_safe()
   end
 
-  def custom_field_tag_for_bulk_edit(name, custom_field, projects=nil)
+  def custom_field_tag_for_bulk_edit(name, custom_field, projects=nil, value='')
     field_name = "#{name}[custom_field_values][#{custom_field.id}]"
     field_name << "[]" if custom_field.multiple?
     field_id = "#{name}_custom_field_values_#{custom_field.id}"
 
     tag_options = {:id => field_id, :class => "#{custom_field.field_format}_cf"}
 
+    unset_tag = ''
+    unless custom_field.is_required?
+      unset_tag = content_tag('label',
+        check_box_tag(field_name, '__none__', (value == '__none__'), :id => nil, :data => {:disables => "##{field_id}"}) + l(:button_clear),
+        :class => 'inline'
+      )
+    end
+
     field_format = Redmine::CustomFieldFormat.find_by_name(custom_field.field_format)
     case field_format.try(:edit_as)
       when "date"
-        text_field_tag(field_name, '', tag_options.merge(:size => 10)) +
-        calendar_for(field_id)
+        text_field_tag(field_name, value, tag_options.merge(:size => 10)) +
+        calendar_for(field_id) +
+        unset_tag
       when "text"
-        text_area_tag(field_name, '', tag_options.merge(:rows => 3))
+        text_area_tag(field_name, value, tag_options.merge(:rows => 3)) +
+        '<br />'.html_safe +
+        unset_tag
       when "bool"
         select_tag(field_name, options_for_select([[l(:label_no_change_option), ''],
                                                    [l(:general_text_yes), '1'],
-                                                   [l(:general_text_no), '0']]), tag_options)
+                                                   [l(:general_text_no), '0']], value), tag_options)
       when "list"
         options = []
         options << [l(:label_no_change_option), ''] unless custom_field.multiple?
         options << [l(:label_none), '__none__'] unless custom_field.is_required?
         options += custom_field.possible_values_options(projects)
-        select_tag(field_name, options_for_select(options), tag_options.merge(:multiple => custom_field.multiple?))
+        select_tag(field_name, options_for_select(options, value), tag_options.merge(:multiple => custom_field.multiple?))
       else
-        text_field_tag(field_name, '', tag_options)
+        text_field_tag(field_name, value, tag_options) +
+        unset_tag
     end
   end
 

@@ -7,7 +7,7 @@
 
 <% else %>
 <div class="control-group"><label><%= l(:field_status) %></label> <%= h(@issue.status.name) %></div>
-<% end %>
+<% end %> 
 
 <% if @issue.safe_attribute? 'priority_id' %>
 <div class="control-group"><%= f.select :priority_id, (@priorities.collect {|p| [p.name, p.id]}), {:required => true}, :disabled => !@issue.leaf? %></div>

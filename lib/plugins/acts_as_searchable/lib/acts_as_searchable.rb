@@ -81,12 +81,13 @@ module Redmine
             token_clauses = columns.collect {|column| "(LOWER(#{column}) LIKE ?)"}
 
             if !options[:titles_only] && searchable_options[:search_custom_fields]
-              searchable_custom_field_ids = CustomField.where(:type => "#{self.name}CustomField", :searchable => true).pluck(:id)
-              if searchable_custom_field_ids.any?
-                custom_field_sql = "#{table_name}.id IN (SELECT customized_id FROM #{CustomValue.table_name}" +
+              searchable_custom_fields = CustomField.where(:type => "#{self.name}CustomField", :searchable => true)
+              searchable_custom_fields.each do |field|
+                sql = "#{table_name}.id IN (SELECT customized_id FROM #{CustomValue.table_name}" +
                   " WHERE customized_type='#{self.name}' AND customized_id=#{table_name}.id AND LOWER(value) LIKE ?" +
-                  " AND #{CustomValue.table_name}.custom_field_id IN (#{searchable_custom_field_ids.join(',')}))"
-                token_clauses << custom_field_sql
+                  " AND #{CustomValue.table_name}.custom_field_id = #{field.id})" +
+                  " AND #{field.visibility_by_project_condition(searchable_options[:project_key], user)}"
+                token_clauses << sql
               end
             end
 

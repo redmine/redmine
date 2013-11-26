@@ -241,4 +241,42 @@ class CustomFieldTest < ActiveSupport::TestCase
     field = CustomField.find(1)
     assert_equal 'PostgreSQL', field.value_from_keyword('postgresql', Issue.find(1))
   end
+
+  def test_visibile_scope_with_admin_should_return_all_custom_fields
+    CustomField.delete_all
+    fields = [
+      CustomField.generate!(:visible => true),
+      CustomField.generate!(:visible => false),
+      CustomField.generate!(:visible => false, :role_ids => [1, 3]),
+      CustomField.generate!(:visible => false, :role_ids => [1, 2]),
+    ]
+
+    assert_equal 4, CustomField.visible(User.find(1)).count
+  end
+
+  def test_visibile_scope_with_non_admin_user_should_return_visible_custom_fields
+    CustomField.delete_all
+    fields = [
+      CustomField.generate!(:visible => true),
+      CustomField.generate!(:visible => false),
+      CustomField.generate!(:visible => false, :role_ids => [1, 3]),
+      CustomField.generate!(:visible => false, :role_ids => [1, 2]),
+    ]
+    user = User.generate!
+    User.add_to_project(user, Project.first, Role.find(3))
+
+    assert_equal [fields[0], fields[2]], CustomField.visible(user).order("id").to_a
+  end
+
+  def test_visibile_scope_with_anonymous_user_should_return_visible_custom_fields
+    CustomField.delete_all
+    fields = [
+      CustomField.generate!(:visible => true),
+      CustomField.generate!(:visible => false),
+      CustomField.generate!(:visible => false, :role_ids => [1, 3]),
+      CustomField.generate!(:visible => false, :role_ids => [1, 2]),
+    ]
+
+    assert_equal [fields[0]], CustomField.visible(User.anonymous).order("id").to_a
+  end
 end

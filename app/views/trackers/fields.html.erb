@@ -1,4 +1,4 @@
-<h2><%= link_to l(:label_tracker_plural), trackers_path %> &#187; <%= l(:field_summary) %></h2>
+<%= title [l(:label_tracker_plural), trackers_path], l(:field_summary) %>
 
 <% if @trackers.any? %>
   <%= form_tag fields_trackers_path do %>
@@ -73,5 +73,3 @@
 <% else %>
   <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
-
-<% html_title l(:field_summary) %>

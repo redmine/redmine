@@ -153,7 +153,11 @@ namespace :redmine do
       private
         def trac_fullpath
           attachment_type = read_attribute(:type)
-          trac_file = filename.gsub( /[^a-zA-Z0-9\-_\.!~*']/n ) {|x| sprintf('%%%02x', x[0]) }
+          #replace exotic characters with their hex representation to avoid invalid filenames
+          trac_file = filename.gsub( /[^a-zA-Z0-9\-_\.!~*']/n ) do |x|
+            codepoint = RUBY_VERSION < '1.9' ? x[0] : x.codepoints.to_a[0]
+            sprintf('%%%02x', codepoint)
+          end
           "#{TracMigrate.trac_attachments_directory}/#{attachment_type}/#{id}/#{trac_file}"
         end
       end
@@ -245,8 +249,8 @@ namespace :redmine do
           if name_attr = TracSessionAttribute.find_by_sid_and_name(username, 'name')
             name = name_attr.value
           end
-          name =~ (/(.*)(\s+\w+)?/)
-          fn = $1.strip
+          name =~ (/(\w+)(\s+\w+)?/)
+          fn = ($1 || "-").strip
           ln = ($2 || '-').strip
 
           u = User.new :mail => mail.gsub(/[^-@a-z0-9\.]/i, '-'),
@@ -259,7 +263,7 @@ namespace :redmine do
           # finally, a default user is used if the new user is not valid
           u = User.first unless u.save
         end
-        # Make sure he is a member of the project
+        # Make sure user is a member of the project
         if project_member && !u.member_of?(@target_project)
           role = DEFAULT_ROLE
           if u.admin
@@ -762,10 +766,19 @@ namespace :redmine do
     prompt('Target project identifier') {|identifier| TracMigrate.target_project_identifier identifier}
     puts
 
-    # Turn off email notifications
-    Setting.notified_events = []
-
-    TracMigrate.migrate
+    old_notified_events = Setting.notified_events
+    old_password_min_length = Setting.password_min_length
+    begin
+      # Turn off email notifications temporarily
+      Setting.notified_events = []
+      Setting.password_min_length = 4
+      # Run the migration
+      TracMigrate.migrate
+    ensure
+      # Restore previous settings
+      Setting.notified_events = old_notified_events
+      Setting.password_min_length = old_password_min_length
+    end
   end
 end
 
