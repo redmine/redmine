@@ -31,7 +31,7 @@
     <%= wikitoolbar_for 'issue_notes' %>
 
     <% if @issue.safe_attribute? 'private_notes' %>
-    <label for="issue_private_notes"><%= f.check_box :private_notes, :no_label => true %> <%= l(:field_private_notes) %></label>
+    <%= f.check_box :private_notes, :no_label => true %> <label for="issue_private_notes"><%= l(:field_private_notes) %></label>
     <% end %>
 
     <%= call_hook(:view_issues_edit_notes_bottom, { :issue => @issue, :notes => @notes, :form => f }) %>
