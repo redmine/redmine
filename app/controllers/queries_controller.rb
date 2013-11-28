@@ -45,7 +45,7 @@ class QueriesController < ApplicationController
     @query = IssueQuery.new
     @query.user = User.current
     @query.project = @project
-    @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
+    @query.visibility = IssueQuery::VISIBILITY_PRIVATE unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
     @query.build_from_params(params)
   end
 
@@ -53,13 +53,13 @@ class QueriesController < ApplicationController
     @query = IssueQuery.new(params[:query])
     @query.user = User.current
     @query.project = params[:query_is_for_all] ? nil : @project
-    @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
+    @query.visibility = IssueQuery::VISIBILITY_PRIVATE unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
     @query.build_from_params(params)
     @query.column_names = nil if params[:default_columns]
 
     if @query.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to _project_issues_path(@project, :query_id => @query)
+      redirect_to_issues(:query_id => @query)
     else
       render :action => 'new', :layout => !request.xhr?
     end
@@ -71,13 +71,13 @@ class QueriesController < ApplicationController
   def update
     @query.attributes = params[:query]
     @query.project = nil if params[:query_is_for_all]
-    @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
+    @query.visibility = IssueQuery::VISIBILITY_PRIVATE unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
     @query.build_from_params(params)
     @query.column_names = nil if params[:default_columns]
 
     if @query.save
       flash[:notice] = l(:notice_successful_update)
-      redirect_to _project_issues_path(@project, :query_id => @query)
+      redirect_to_issues(:query_id => @query)
     else
       render :action => 'edit'
     end
@@ -85,7 +85,7 @@ class QueriesController < ApplicationController
 
   def destroy
     @query.destroy
-    redirect_to _project_issues_path(@project, :set_filter => 1)
+    redirect_to_issues(:set_filter => 1)
   end
 
 private
@@ -102,5 +102,17 @@ private
     render_403 unless User.current.allowed_to?(:save_queries, @project, :global => true)
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def redirect_to_issues(options)
+    if params[:gantt]
+      if @project
+        redirect_to project_gantt_path(@project, options)
+      else
+        redirect_to issues_gantt_path(options)
+      end
+    else
+      redirect_to _project_issues_path(@project, options)
+    end
   end
 end

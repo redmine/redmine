@@ -1,8 +1,6 @@
 <%= wiki_page_breadcrumb(@page) %>
 
-<h2><%= h(@page.pretty_title) %></h2>
-
-<h3><%= l(:label_history) %></h3>
+<%= title [@page.pretty_title, project_wiki_page_path(@page.project, @page.title, :version => nil)], l(:label_history) %>
 
 <%= form_tag({:controller => 'wiki', :action => 'diff',
               :project_id => @page.project, :id => @page.title},

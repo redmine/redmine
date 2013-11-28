@@ -36,8 +36,8 @@ class IssueStatusTest < ActiveSupport::TestCase
     assert_difference 'IssueStatus.count', -1 do
       assert status.destroy
     end
-    assert_nil WorkflowTransition.first(:conditions => {:old_status_id => status.id})
-    assert_nil WorkflowTransition.first(:conditions => {:new_status_id => status.id})
+    assert_nil WorkflowTransition.where(:old_status_id => status.id).first
+    assert_nil WorkflowTransition.where(:new_status_id => status.id).first
   end
 
   def test_destroy_status_in_use
@@ -98,7 +98,7 @@ class IssueStatusTest < ActiveSupport::TestCase
 
     with_settings :issue_done_ratio => 'issue_field' do
       IssueStatus.update_issue_done_ratios
-      assert_equal 0, Issue.count(:conditions => {:done_ratio => 50})
+      assert_equal 0, Issue.where(:done_ratio => 50).count
     end
   end
 
@@ -107,7 +107,7 @@ class IssueStatusTest < ActiveSupport::TestCase
 
     with_settings :issue_done_ratio => 'issue_status' do
       IssueStatus.update_issue_done_ratios
-      issues = Issue.all(:conditions => {:status_id => 1})
+      issues = Issue.where(:status_id => 1).all
       assert_equal [50], issues.map {|issue| issue.read_attribute(:done_ratio)}.uniq
     end
   end

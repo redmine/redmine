@@ -1,0 +1,42 @@
+api.array :custom_fields do
+  @custom_fields.each do |field|
+    api.custom_field do
+      api.id                field.id
+      api.name              field.name
+      api.customized_type   field.class.customized_class.name.underscore if field.class.customized_class
+      api.field_format      field.field_format
+      api.regexp            field.regexp
+      api.min_length        (field.min_length == 0 ? nil : field.min_length)
+      api.max_length        (field.max_length == 0 ? nil : field.max_length)
+      api.is_required       field.is_required?
+      api.is_filter         field.is_filter?
+      api.searchable        field.searchable
+      api.multiple          field.multiple?
+      api.default_value     field.default_value
+      api.visible           field.visible?
+
+      if field.field_format == 'list'
+        api.array :possible_values do
+          field.possible_values.each do |v|
+            api.possible_value do
+              api.value v
+            end
+          end
+        end
+      end
+
+      if field.is_a?(IssueCustomField)
+        api.trackers do
+          field.trackers.each do |tracker|
+            api.tracker :id => tracker.id, :name => tracker.name
+          end
+        end
+        api.roles do
+          field.roles.each do |role|
+            api.role :id => role.id, :name => role.name
+          end
+        end
+      end
+    end
+  end
+end

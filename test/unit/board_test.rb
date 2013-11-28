@@ -100,7 +100,7 @@ class BoardTest < ActiveSupport::TestCase
         end
       end
     end
-    assert_equal 0, Message.count(:conditions => {:board_id => 1})
+    assert_equal 0, Message.where(:board_id => 1).count
   end
 
   def test_destroy_should_nullify_children

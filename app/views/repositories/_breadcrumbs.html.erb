@@ -1,4 +1,4 @@
-<%= link_to(@repository.identifier.present? ? h(@repository.identifier) : 'root', 
+<%= link_to(@repository.identifier.present? ? h(@repository.identifier) : 'root',
       :action => 'show', :id => @project,
       :repository_id => @repository.identifier_param,
       :path => nil, :rev => @rev) %>

@@ -105,6 +105,7 @@ class User < Principal
   before_create :set_mail_notification
   before_save   :generate_password_if_needed, :update_hashed_password
   before_destroy :remove_references_before_destroy
+  after_save :update_notified_project_ids
 
   scope :in_group, lambda {|group|
     group_id = group.is_a?(Group) ? group.id : group.to_i
@@ -133,6 +134,9 @@ class User < Principal
     @name = nil
     @projects_by_role = nil
     @membership_by_project_id = nil
+    @notified_projects_ids = nil
+    @notified_projects_ids_changed = false
+    @builtin_role = nil
     base_reload(*args)
   end
 
@@ -154,7 +158,7 @@ class User < Principal
   end
 
   # Returns the user that matches provided login and password, or nil
-  def self.try_to_login(login, password)
+  def self.try_to_login(login, password, active_only=true)
     login = login.to_s
     password = password.to_s
 
@@ -163,8 +167,8 @@ class User < Principal
     user = find_by_login(login)
     if user
       # user is already in local database
-      return nil unless user.active?
       return nil unless user.check_password?(password)
+      return nil if !user.active? && active_only
     else
       # user is not yet registered, try to authenticate with available sources
       attrs = AuthSource.authenticate(login, password)
@@ -178,7 +182,7 @@ class User < Principal
         end
       end
     end
-    user.update_column(:last_login_on, Time.now) if user && !user.new_record?
+    user.update_column(:last_login_on, Time.now) if user && !user.new_record? && user.active?
     user
   rescue => text
     raise text
@@ -276,6 +280,10 @@ class User < Principal
     return auth_source.allow_password_changes?
   end
 
+  def must_change_password?
+    must_change_passwd? && change_password_allowed?
+  end
+
   def generate_password?
     generate_password == '1' || generate_password == true
   end
@@ -325,11 +333,19 @@ class User < Principal
   end
 
   def notified_project_ids=(ids)
-    Member.update_all("mail_notification = #{connection.quoted_false}", ['user_id = ?', id])
-    Member.update_all("mail_notification = #{connection.quoted_true}", ['user_id = ? AND project_id IN (?)', id, ids]) if ids && !ids.empty?
-    @notified_projects_ids = nil
-    notified_projects_ids
+    @notified_projects_ids_changed = true
+    @notified_projects_ids = ids
   end
+
+  # Updates per project notifications (after_save callback)
+  def update_notified_project_ids
+    if @notified_projects_ids_changed
+      ids = (mail_notification == 'selected' ? Array.wrap(notified_projects_ids).reject(&:blank?) : [])
+      members.update_all(:mail_notification => false)
+      members.where(:project_id => ids).update_all(:mail_notification => true) if ids.any?
+    end
+  end
+  private :update_notified_project_ids
 
   def valid_notification_options
     self.class.valid_notification_options(self)
@@ -431,23 +447,20 @@ class User < Principal
     @membership_by_project_id[project_id]
   end
 
+  # Returns the user's bult-in role
+  def builtin_role
+    @builtin_role ||= Role.non_member
+  end
+
   # Return user's roles for project
   def roles_for_project(project)
     roles = []
     # No role on archived projects
     return roles if project.nil? || project.archived?
-    if logged?
-      # Find project membership
-      membership = membership(project)
-      if membership
-        roles = membership.roles
-      else
-        @role_non_member ||= Role.non_member
-        roles << @role_non_member
-      end
+    if membership = membership(project)
+      roles = membership.roles
     else
-      @role_anonymous ||= Role.anonymous
-      roles << @role_anonymous
+      roles << builtin_role
     end
     roles
   end
@@ -539,7 +552,7 @@ class User < Principal
     allowed_to?(action, nil, options.reverse_merge(:global => true), &block)
   end
 
-  # Returns true if the user is allowed to delete his own account
+  # Returns true if the user is allowed to delete the user's own account
   def own_account_deletable?
     Setting.unsubscribe? &&
       (!admin? || User.active.where("admin = ? AND id <> ?", true, id).exists?)
@@ -550,6 +563,7 @@ class User < Principal
     'lastname',
     'mail',
     'mail_notification',
+    'notified_project_ids',
     'language',
     'custom_field_values',
     'custom_fields',
@@ -558,6 +572,7 @@ class User < Principal
   safe_attributes 'status',
     'auth_source_id',
     'generate_password',
+    'must_change_passwd',
     :if => lambda {|user, current_user| current_user.admin?}
 
   safe_attributes 'group_ids',
@@ -659,7 +674,7 @@ class User < Principal
     Message.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
     News.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
     # Remove private queries and keep public ones
-    ::Query.delete_all ['user_id = ? AND is_public = ?', id, false]
+    ::Query.delete_all ['user_id = ? AND visibility = ?', id, ::Query::VISIBILITY_PRIVATE]
     ::Query.update_all ['user_id = ?', substitute.id], ['user_id = ?', id]
     TimeEntry.update_all ['user_id = ?', substitute.id], ['user_id = ?', id]
     Token.delete_all ['user_id = ?', id]
@@ -704,7 +719,16 @@ class AnonymousUser < User
     UserPreference.new(:user => self)
   end
 
-  def member_of?(project)
+  # Returns the user's bult-in role
+  def builtin_role
+    @builtin_role ||= Role.anonymous
+  end
+
+  def membership(*args)
+    nil
+  end
+
+  def member_of?(*args)
     false
   end
 

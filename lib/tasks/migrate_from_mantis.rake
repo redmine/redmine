@@ -119,7 +119,7 @@ task :migrate_from_mantis => :environment do
       has_many :members, :class_name => "MantisProjectUser", :foreign_key => :project_id
 
       def identifier
-        read_attribute(:name).gsub(/[^a-z0-9\-]+/, '-').slice(0, Project::IDENTIFIER_MAX_LENGTH)
+        read_attribute(:name).downcase.gsub(/[^a-z0-9\-]+/, '-').slice(0, Project::IDENTIFIER_MAX_LENGTH)
       end
     end
 
@@ -503,10 +503,20 @@ task :migrate_from_mantis => :environment do
   # Make sure bugs can refer bugs in other projects
   Setting.cross_project_issue_relations = 1 if Setting.respond_to? 'cross_project_issue_relations'
 
-  # Turn off email notifications
-  Setting.notified_events = []
+  old_notified_events = Setting.notified_events
+  old_password_min_length = Setting.password_min_length
+  begin
+    # Turn off email notifications temporarily
+    Setting.notified_events = []
+    Setting.password_min_length = 4
+    # Run the migration
+    MantisMigrate.establish_connection db_params
+    MantisMigrate.migrate
+  ensure
+    # Restore previous settings
+    Setting.notified_events = old_notified_events
+    Setting.password_min_length = old_password_min_length
+  end
 
-  MantisMigrate.establish_connection db_params
-  MantisMigrate.migrate
 end
 end

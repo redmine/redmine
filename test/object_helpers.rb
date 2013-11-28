@@ -65,13 +65,20 @@ module ObjectHelpers
     role
   end
 
-  def Issue.generate!(attributes={})
+  # Generates an unsaved Issue
+  def Issue.generate(attributes={})
     issue = Issue.new(attributes)
     issue.project ||= Project.find(1)
     issue.tracker ||= issue.project.trackers.first
     issue.subject = 'Generated' if issue.subject.blank?
     issue.author ||= User.find(2)
     yield issue if block_given?
+    issue
+  end
+
+  # Generates a saved Issue
+  def Issue.generate!(attributes={}, &block)
+    issue = Issue.generate(attributes, &block)
     issue.save!
     issue
   end
@@ -107,10 +114,11 @@ module ObjectHelpers
   def TimeEntry.generate!(attributes={})
     entry = TimeEntry.new(attributes)
     entry.user ||= User.find(2)
-    entry.issue ||= Issue.find(1)
+    entry.issue ||= Issue.find(1) unless entry.project
     entry.project ||= entry.issue.project
     entry.activity ||= TimeEntryActivity.first
     entry.spent_on ||= Date.today
+    entry.hours ||= 1.0
     entry.save!
     entry
   end
@@ -146,5 +154,28 @@ module ObjectHelpers
     attachment.filename = @generated_filename.dup if attachment.filename.blank?
     attachment.save!
     attachment
+  end
+
+  def CustomField.generate!(attributes={})
+    @generated_custom_field_name ||= 'Custom field 0'
+    @generated_custom_field_name.succ!
+    field = new(attributes)
+    field.name = @generated_custom_field_name.dup if field.name.blank?
+    field.field_format = 'string' if field.field_format.blank?
+    yield field if block_given?
+    field.save!
+    field
+  end
+
+  def Changeset.generate!(attributes={})
+    @generated_changeset_rev ||= '123456'
+    @generated_changeset_rev.succ!
+    changeset = new(attributes)
+    changeset.repository ||= Project.find(1).repository
+    changeset.revision ||= @generated_changeset_rev
+    changeset.committed_on ||= Time.now
+    yield changeset if block_given?
+    changeset.save!
+    changeset
   end
 end

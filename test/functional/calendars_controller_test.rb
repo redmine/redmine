@@ -34,7 +34,7 @@ class CalendarsControllerTest < ActionController::TestCase
   end
 
   def test_show_should_run_custom_queries
-    @query = IssueQuery.create!(:name => 'Calendar', :is_public => true)
+    @query = IssueQuery.create!(:name => 'Calendar', :visibility => IssueQuery::VISIBILITY_PUBLIC)
 
     get :show, :query_id => @query.id
     assert_response :success

@@ -2,11 +2,7 @@
    Copyright (C) 2006-2013  Jean-Philippe Lang */
 
 function checkAll(id, checked) {
-  if (checked) {
-    $('#'+id).find('input[type=checkbox]').attr('checked', true);
-  } else {
-    $('#'+id).find('input[type=checkbox]').removeAttr('checked');
-  }
+  $('#'+id).find('input[type=checkbox]:enabled').attr('checked', checked);
 }
 
 function toggleCheckboxesBySelector(selector) {
@@ -14,12 +10,12 @@ function toggleCheckboxesBySelector(selector) {
   $(selector).each(function(index) {
     if (!$(this).is(':checked')) { all_checked = false; }
   });
-  $(selector).attr('checked', !all_checked)
+  $(selector).attr('checked', !all_checked);
 }
 
 function showAndScrollTo(id, focus) {
   $('#'+id).show();
-  if (focus!=null) {
+  if (focus !== null) {
     $('#'+focus).focus();
   }
   $('html, body').animate({scrollTop: $('#'+id).offset().top}, 100);
@@ -78,20 +74,20 @@ function hideFieldset(el) {
   fieldset.children('div').hide();
 }
 
-function initFilters(){
-  $('#add_filter_select').change(function(){
+function initFilters() {
+  $('#add_filter_select').change(function() {
     addFilter($(this).val(), '', []);
   });
-  $('#filters-table td.field input[type=checkbox]').each(function(){
+  $('#filters-table td.field input[type=checkbox]').each(function() {
     toggleFilter($(this).val());
   });
-  $('#filters-table td.field input[type=checkbox]').live('click',function(){
+  $('#filters-table td.field input[type=checkbox]').live('click', function() {
     toggleFilter($(this).val());
   });
-  $('#filters-table .toggle-multiselect').live('click',function(){
+  $('#filters-table .toggle-multiselect').live('click', function() {
     toggleMultiSelect($(this).siblings('select'));
   });
-  $('#filters-table input[type=text]').live('keypress', function(e){
+  $('#filters-table input[type=text]').live('keypress', function(e) {
     if (e.keyCode == 13) submit_query_form("query_form");
   });
 }
@@ -106,7 +102,7 @@ function addFilter(field, operator, values) {
   }
   $('#cb_'+fieldId).attr('checked', true);
   toggleFilter(field);
-  $('#add_filter_select').val('').children('option').each(function(){
+  $('#add_filter_select').val('').children('option').each(function() {
     if ($(this).attr('value') == field) {
       $(this).attr('disabled', true);
     }
@@ -117,6 +113,7 @@ function buildFilterRow(field, operator, values) {
   var fieldId = field.replace('.', '_');
   var filterTable = $("#filters-table");
   var filterOptions = availableFilters[field];
+  if (!filterOptions) return;
   var operators = operatorByType[filterOptions['type']];
   var filterValues = filterOptions['values'];
   var i, select;
@@ -129,14 +126,14 @@ function buildFilterRow(field, operator, values) {
   filterTable.append(tr);
 
   select = tr.find('td.operator select');
-  for (i=0;i<operators.length;i++){
+  for (i = 0; i < operators.length; i++) {
     var option = $('<option>').val(operators[i]).text(operatorLabels[operators[i]]);
-    if (operators[i] == operator) {option.attr('selected', true)};
+    if (operators[i] == operator) { option.attr('selected', true); }
     select.append(option);
   }
-  select.change(function(){toggleOperator(field)});
+  select.change(function(){ toggleOperator(field); });
 
-  switch (filterOptions['type']){
+  switch (filterOptions['type']) {
   case "list":
   case "list_optional":
   case "list_status":
@@ -146,8 +143,8 @@ function buildFilterRow(field, operator, values) {
       ' <span class="toggle-multiselect">&nbsp;</span></span>'
     );
     select = tr.find('td.values select');
-    if (values.length > 1) {select.attr('multiple', true)};
-    for (i=0;i<filterValues.length;i++){
+    if (values.length > 1) { select.attr('multiple', true); }
+    for (i = 0; i < filterValues.length; i++) {
       var filterValue = filterValues[i];
       var option = $('<option>');
       if ($.isArray(filterValue)) {
@@ -185,11 +182,11 @@ function buildFilterRow(field, operator, values) {
     );
     $('#values_'+fieldId).val(values[0]);
     select = tr.find('td.values select');
-    for (i=0;i<allProjects.length;i++){
+    for (i = 0; i < allProjects.length; i++) {
       var filterValue = allProjects[i];
       var option = $('<option>');
       option.val(filterValue[1]).text(filterValue[0]);
-      if (values[0] == filterValue[1]) {option.attr('selected', true)};
+      if (values[0] == filterValue[1]) { option.attr('selected', true); }
       select.append(option);
     }
   case "integer":
@@ -280,8 +277,13 @@ function toggleOperator(field) {
 function toggleMultiSelect(el) {
   if (el.attr('multiple')) {
     el.removeAttr('multiple');
+    el.attr('size', 1);
   } else {
     el.attr('multiple', true);
+    if (el.children().length > 10)
+      el.attr('size', 10);
+    else
+      el.attr('size', 4);
   }
 }
 
@@ -290,11 +292,16 @@ function submit_query_form(id) {
   $('#'+id).submit();
 }
 
-function showTab(name) {
+function showTab(name, url) {
   $('div#content .tab-content').hide();
   $('div.tabs a').removeClass('selected');
   $('#tab-content-' + name).show();
   $('#tab-' + name).addClass('selected');
+  //replaces current URL with the "href" attribute of the current link
+  //(only triggered if supported by browser)
+  if ("replaceState" in window.history) {
+    window.history.replaceState(null, document.title, url);
+  }
   return false;
 }
 
@@ -302,7 +309,7 @@ function moveTabRight(el) {
   var lis = $(el).parents('div.tabs').first().find('ul').children();
   var tabsWidth = 0;
   var i = 0;
-  lis.each(function(){
+  lis.each(function() {
     if ($(this).is(':visible')) {
       tabsWidth += $(this).width() + 6;
     }
@@ -315,8 +322,8 @@ function moveTabRight(el) {
 function moveTabLeft(el) {
   var lis = $(el).parents('div.tabs').first().find('ul').children();
   var i = 0;
-  while (i<lis.length && !lis.eq(i).is(':visible')) { i++; }
-  if (i>0) {
+  while (i < lis.length && !lis.eq(i).is(':visible')) { i++; }
+  if (i > 0) {
     lis.eq(i-1).show();
   }
 }
@@ -352,7 +359,7 @@ function setPredecessorFieldsVisibility() {
 
 function showModal(id, width) {
   var el = $('#'+id).first();
-  if (el.length == 0 || el.is(':visible')) {return;}
+  if (el.length === 0 || el.is(':visible')) {return;}
   var title = el.find('h3.title').text();
   el.dialog({
     width: width,
@@ -422,7 +429,7 @@ function scmEntryClick(id, url) {
     el.addClass('loading');
     $.ajax({
       url: url,
-      success: function(data){
+      success: function(data) {
         el.after(data);
         el.addClass('open').addClass('loaded').removeClass('loading');
         replaceIconWithFontAwesome();
@@ -432,21 +439,35 @@ function scmEntryClick(id, url) {
 }
 
 function randomKey(size) {
-  var chars = new Array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z');
+  var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
   var key = '';
-  for (i = 0; i < size; i++) {
-    key += chars[Math.floor(Math.random() * chars.length)];
+  for (var i = 0; i < size; i++) {
+    key += chars.charAt(Math.floor(Math.random() * chars.length));
   }
   return key;
 }
 
-// Can't use Rails' remote select because we need the form data
 function updateIssueFrom(url) {
+  $('#all_attributes input, #all_attributes textarea, #all_attributes select').each(function(){
+    $(this).data('valuebeforeupdate', $(this).val());
+  });
   $.ajax({
     url: url,
     type: 'post',
     data: $('#issue-form').serialize()
   });
+}
+
+function replaceIssueFormWith(html){
+  var replacement = $(html);
+  $('#all_attributes input, #all_attributes textarea, #all_attributes select').each(function(){
+    var object_id = $(this).attr('id');
+    if (object_id && $(this).data('valuebeforeupdate')!=$(this).val()) {
+      replacement.find('#'+object_id).val($(this).val());
+    }
+  });
+  $('#all_attributes').empty();
+  $('#all_attributes').prepend(replacement);
 }
 
 function updateBulkEditFrom(url) {
@@ -463,7 +484,7 @@ function observeAutocompleteField(fieldId, url, options) {
       source: url,
       minLength: 2,
       search: function(){$('#'+fieldId).addClass('ajax-loading');},
-      response: function(){$('#'+fieldId).removeClass('ajax-loading');},
+      response: function(){$('#'+fieldId).removeClass('ajax-loading');}
     }, options));
     $('#'+fieldId).addClass('autocomplete');
   });
@@ -499,20 +520,6 @@ function observeSearchfield(fieldId, targetId, url) {
   });
 }
 
-function observeProjectModules() {
-  var f = function() {
-    /* Hides trackers and issues custom fields on the new project form when issue_tracking module is disabled */
-    if ($('#project_enabled_module_names_issue_tracking').attr('checked')) {
-      $('#project_trackers').show();
-    }else{
-      $('#project_trackers').hide();
-    }
-  };
-
-  $(window).load(f);
-  $('#project_enabled_module_names_issue_tracking').change(f);
-}
-
 function initMyPageSortable(list, url) {
   $('#list-'+list).sortable({
     connectWith: '.block-receiver',
@@ -531,11 +538,10 @@ function initMyPageSortable(list, url) {
 var warnLeavingUnsavedMessage;
 function warnLeavingUnsaved(message) {
   warnLeavingUnsavedMessage = message;
-
-  $('form').submit(function(){
+  $('form').live('submit', function(){
     $('textarea').removeData('changed');
   });
-  $('textarea').change(function(){
+  $('textarea').live('change', function(){
     $(this).data('changed', 'changed');
   });
   window.onbeforeunload = function(){
@@ -547,17 +553,14 @@ function warnLeavingUnsaved(message) {
     });
     if (warn) {return warnLeavingUnsavedMessage;}
   };
-};
+}
 
 function setupAjaxIndicator() {
-
   $('#ajax-indicator').bind('ajaxSend', function(event, xhr, settings) {
-  
-    if ($('.ajax-loading').length == 0 && settings.contentType != 'application/octet-stream') {
+    if ($('.ajax-loading').length === 0 && settings.contentType != 'application/octet-stream') {
       $('#ajax-indicator').show();
     }
   });
-  
   $('#ajax-indicator').bind('ajaxStop', function() {
     $('#ajax-indicator').hide();
   });

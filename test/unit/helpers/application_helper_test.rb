@@ -20,6 +20,7 @@
 require File.expand_path('../../../test_helper', __FILE__)
 
 class ApplicationHelperTest < ActionView::TestCase
+  include Redmine::I18n
   include ERB::Util
   include Rails.application.routes.url_helpers
 
@@ -33,26 +34,30 @@ class ApplicationHelperTest < ActionView::TestCase
   def setup
     super
     set_tmp_attachments_directory
+    @russian_test = "\xd1\x82\xd0\xb5\xd1\x81\xd1\x82"
+    if @russian_test.respond_to?(:force_encoding)
+      @russian_test.force_encoding('UTF-8')
+    end
   end
 
-  context "#link_to_if_authorized" do
-    context "authorized user" do
-      should "be tested"
-    end
+  test "#link_to_if_authorized for authorized user should allow using the :controller and :action for the target link" do
+    User.current = User.find_by_login('admin')
 
-    context "unauthorized user" do
-      should "be tested"
-    end
+    @project = Issue.first.project # Used by helper
+    response = link_to_if_authorized('By controller/actionr',
+                                    {:controller => 'issues', :action => 'edit', :id => Issue.first.id})
+    assert_match /href/, response
+  end
 
-    should "allow using the :controller and :action for the target link" do
-      User.current = User.find_by_login('admin')
+  test "#link_to_if_authorized for unauthorized user should display nothing if user isn't authorized" do
+    User.current = User.find_by_login('dlopper')
+    @project = Project.find('private-child')
+    issue = @project.issues.first
+    assert !issue.visible?
 
-      @project = Issue.first.project # Used by helper
-      response = link_to_if_authorized("By controller/action",
-                                       {:controller => 'issues', :action => 'edit', :id => Issue.first.id})
-      assert_match /href/, response
-    end
-
+    response = link_to_if_authorized('Never displayed',
+                                    {:controller => 'issues', :action => 'show', :id => issue})
+    assert_nil response
   end
 
   def test_auto_links
@@ -96,7 +101,8 @@ class ApplicationHelperTest < ActionView::TestCase
   if 'ruby'.respond_to?(:encoding)
     def test_auto_links_with_non_ascii_characters
       to_test = {
-        'http://foo.bar/тест' => '<a class="external" href="http://foo.bar/тест">http://foo.bar/тест</a>'
+        "http://foo.bar/#{@russian_test}" =>
+          %|<a class="external" href="http://foo.bar/#{@russian_test}">http://foo.bar/#{@russian_test}</a>|
       }
       to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
     end
@@ -250,7 +256,8 @@ RAW
   if 'ruby'.respond_to?(:encoding)
     def test_textile_external_links_with_non_ascii_characters
       to_test = {
-        'This is a "link":http://foo.bar/тест' => 'This is a <a href="http://foo.bar/тест" class="external">link</a>'
+        %|This is a "link":http://foo.bar/#{@russian_test}| =>
+          %|This is a <a href="http://foo.bar/#{@russian_test}" class="external">link</a>|
       }
       to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
     end
@@ -261,13 +268,19 @@ RAW
   def test_redmine_links
     issue_link = link_to('#3', {:controller => 'issues', :action => 'show', :id => 3},
                                :class => Issue.find(3).css_classes, :title => 'Error 281 when updating a recipe (New)')
-    note_link = link_to('#3', {:controller => 'issues', :action => 'show', :id => 3, :anchor => 'note-14'},
+    note_link = link_to('#3-14', {:controller => 'issues', :action => 'show', :id => 3, :anchor => 'note-14'},
+                               :class => Issue.find(3).css_classes, :title => 'Error 281 when updating a recipe (New)')
+    note_link2 = link_to('#3#note-14', {:controller => 'issues', :action => 'show', :id => 3, :anchor => 'note-14'},
                                :class => Issue.find(3).css_classes, :title => 'Error 281 when updating a recipe (New)')
 
-    changeset_link = link_to('r1', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :rev => 1},
-                                   :class => 'changeset', :title => 'My very first commit')
-    changeset_link2 = link_to('r2', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :rev => 2},
+    revision_link = link_to('r1', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :rev => 1},
+                                   :class => 'changeset', :title => 'My very first commit do not escaping #<>&')
+    revision_link2 = link_to('r2', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :rev => 2},
                                     :class => 'changeset', :title => 'This commit fixes #1, #2 and references #1 & #3')
+
+    changeset_link2 = link_to('691322a8eb01e11fd7',
+                              {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :rev => 1},
+                               :class => 'changeset', :title => 'My very first commit do not escaping #<>&')
 
     document_link = link_to('Test document', {:controller => 'documents', :action => 'show', :id => 1},
                                              :class => 'document')
@@ -300,14 +313,15 @@ RAW
       '#3, [#3], (#3) and #3.'      => "#{issue_link}, [#{issue_link}], (#{issue_link}) and #{issue_link}.",
       # ticket notes
       '#3-14'                       => note_link,
-      '#3#note-14'                  => note_link,
+      '#3#note-14'                  => note_link2,
       # should not ignore leading zero
       '#03'                         => '#03',
       # changesets
-      'r1'                          => changeset_link,
-      'r1.'                         => "#{changeset_link}.",
-      'r1, r2'                      => "#{changeset_link}, #{changeset_link2}",
-      'r1,r2'                       => "#{changeset_link},#{changeset_link2}",
+      'r1'                          => revision_link,
+      'r1.'                         => "#{revision_link}.",
+      'r1, r2'                      => "#{revision_link}, #{revision_link2}",
+      'r1,r2'                       => "#{revision_link},#{revision_link2}",
+      'commit:691322a8eb01e11fd7'   => changeset_link2,
       # documents
       'document#1'                  => document_link,
       'document:"Test document"'    => document_link,
@@ -581,6 +595,7 @@ RAW
   end
 
   def test_wiki_links
+    russian_eacape = CGI.escape(@russian_test)
     to_test = {
       '[[CookBook documentation]]' => '<a href="/projects/ecookbook/wiki/CookBook_documentation" class="wiki-page">CookBook documentation</a>',
       '[[Another page|Page]]' => '<a href="/projects/ecookbook/wiki/Another_page" class="wiki-page">Page</a>',
@@ -591,7 +606,8 @@ RAW
       '[[CookBook documentation#One-section]]' => '<a href="/projects/ecookbook/wiki/CookBook_documentation#One-section" class="wiki-page">CookBook documentation</a>',
       '[[Another page#anchor|Page]]' => '<a href="/projects/ecookbook/wiki/Another_page#anchor" class="wiki-page">Page</a>',
       # UTF8 anchor
-      '[[Another_page#Тест|Тест]]' => %|<a href="/projects/ecookbook/wiki/Another_page##{CGI.escape 'Тест'}" class="wiki-page">Тест</a>|,
+      "[[Another_page##{@russian_test}|#{@russian_test}]]" =>
+         %|<a href="/projects/ecookbook/wiki/Another_page##{russian_eacape}" class="wiki-page">#{@russian_test}</a>|,
       # page that doesn't exist
       '[[Unknown page]]' => '<a href="/projects/ecookbook/wiki/Unknown_page" class="wiki-page new">Unknown page</a>',
       '[[Unknown page|404]]' => '<a href="/projects/ecookbook/wiki/Unknown_page" class="wiki-page new">404</a>',
@@ -1000,14 +1016,14 @@ RAW
     result = textilizable(raw, :edit_section_links => {:controller => 'wiki', :action => 'edit', :project_id => '1', :id => 'Test'}).gsub("\n", "")
 
     # heading that contains inline code
-    assert_match Regexp.new('<div class="contextual" title="Edit this section">' +
+    assert_match Regexp.new('<div class="contextual" id="section-4" title="Edit this section">' +
       '<a href="/projects/1/wiki/Test/edit\?section=4"><img alt="Edit" src="/images/edit.png(\?\d+)?" /></a></div>' +
       '<a name="Subtitle-with-inline-code"></a>' +
       '<h2 >Subtitle with <code>inline code</code><a href="#Subtitle-with-inline-code" class="wiki-anchor">&para;</a></h2>'),
       result
 
     # last heading
-    assert_match Regexp.new('<div class="contextual" title="Edit this section">' +
+    assert_match Regexp.new('<div class="contextual" id="section-5" title="Edit this section">' +
       '<a href="/projects/1/wiki/Test/edit\?section=5"><img alt="Edit" src="/images/edit.png(\?\d+)?" /></a></div>' +
       '<a name="Subtitle-after-pre-tag"></a>' +
       '<h2 >Subtitle after pre tag<a href="#Subtitle-after-pre-tag" class="wiki-anchor">&para;</a></h2>'),
@@ -1204,5 +1220,49 @@ RAW
 
   def test_javascript_include_tag_for_plugin_should_pick_the_plugin_javascript
     assert_match 'src="/plugin_assets/foo/javascripts/scripts.js"', javascript_include_tag("scripts", :plugin => :foo)
+  end
+
+  def test_raw_json_should_escape_closing_tags
+    s = raw_json(["<foo>bar</foo>"])
+    assert_equal '["<foo>bar<\/foo>"]', s
+  end
+
+  def test_raw_json_should_be_html_safe
+    s = raw_json(["foo"])
+    assert s.html_safe?
+  end
+
+  def test_html_title_should_app_title_if_not_set
+    assert_equal 'Redmine', html_title
+  end
+
+  def test_html_title_should_join_items
+    html_title 'Foo', 'Bar'
+    assert_equal 'Foo - Bar - Redmine', html_title
+  end
+
+  def test_html_title_should_append_current_project_name
+    @project = Project.find(1)
+    html_title 'Foo', 'Bar'
+    assert_equal 'Foo - Bar - eCookbook - Redmine', html_title
+  end
+
+  def test_title_should_return_a_h2_tag
+    assert_equal '<h2>Foo</h2>', title('Foo')
+  end
+
+  def test_title_should_set_html_title
+    title('Foo')
+    assert_equal 'Foo - Redmine', html_title
+  end
+
+  def test_title_should_turn_arrays_into_links
+    assert_equal '<h2><a href="/foo">Foo</a></h2>', title(['Foo', '/foo'])
+    assert_equal 'Foo - Redmine', html_title
+  end
+
+  def test_title_should_join_items
+    assert_equal '<h2>Foo &#187; Bar</h2>', title('Foo', 'Bar')
+    assert_equal 'Bar - Foo - Redmine', html_title
   end
 end

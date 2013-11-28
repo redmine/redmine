@@ -14,8 +14,8 @@ module Redmine
             has_many :watcher_users, :through => :watchers, :source => :user, :validate => false
 
             scope :watched_by, lambda { |user_id|
-              { :include => :watchers,
-                :conditions => ["#{Watcher.table_name}.user_id = ?", user_id] }
+              joins(:watchers).
+              where("#{Watcher.table_name}.user_id = ?", user_id)
             }
             attr_protected :watcher_ids, :watcher_user_ids
           end
@@ -46,7 +46,7 @@ module Redmine
         # Removes user from the watchers list
         def remove_watcher(user)
           return nil unless user && user.is_a?(User)
-          Watcher.delete_all "watchable_type = '#{self.class}' AND watchable_id = #{self.id} AND user_id = #{user.id}"
+          watchers.where(:user_id => user.id).delete_all
         end
 
         # Adds/removes watcher

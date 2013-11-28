@@ -8,6 +8,7 @@ repositories_001:
   login: ""
   type: Repository::Subversion
   is_default: true
+  created_on: 2006-07-19 19:04:21 +02:00
 repositories_002: 
   project_id: 2
   url: svn://localhost/test
@@ -17,3 +18,4 @@ repositories_002:
   login: ""
   type: Repository::Subversion
   is_default: true
+  created_on: 2006-07-19 19:04:21 +02:00

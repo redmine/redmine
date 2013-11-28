@@ -20,6 +20,7 @@ require File.expand_path('../../../test_helper', __FILE__)
 class ProjectsHelperTest < ActionView::TestCase
   include ApplicationHelper
   include ProjectsHelper
+  include Redmine::I18n
   include ERB::Util
 
   fixtures :projects, :trackers, :issue_statuses, :issues,

@@ -19,6 +19,7 @@ require File.expand_path('../../../test_helper', __FILE__)
 
 class ActivitiesHelperTest < ActionView::TestCase
   include ActivitiesHelper
+  include Redmine::I18n
 
   class MockEvent
     attr_reader :event_datetime, :event_group, :name

@@ -175,7 +175,7 @@ class ProjectTest < ActiveSupport::TestCase
     # Assign an issue of a project to a version of a child project
     Issue.find(4).update_attribute :fixed_version_id, 4
 
-    assert_no_difference "Project.count(:all, :conditions => 'status = #{Project::STATUS_ARCHIVED}')" do
+    assert_no_difference "Project.where(:status => Project::STATUS_ARCHIVED).count" do
       assert_equal false, @ecookbook.archive
     end
     @ecookbook.reload
@@ -211,9 +211,9 @@ class ProjectTest < ActiveSupport::TestCase
     # make sure that the project non longer exists
     assert_raise(ActiveRecord::RecordNotFound) { Project.find(@ecookbook.id) }
     # make sure related data was removed
-    assert_nil Member.first(:conditions => {:project_id => @ecookbook.id})
-    assert_nil Board.first(:conditions => {:project_id => @ecookbook.id})
-    assert_nil Issue.first(:conditions => {:project_id => @ecookbook.id})
+    assert_nil Member.where(:project_id => @ecookbook.id).first
+    assert_nil Board.where(:project_id => @ecookbook.id).first
+    assert_nil Issue.where(:project_id => @ecookbook.id).first
   end
 
   def test_destroy_should_destroy_subtasks
@@ -246,7 +246,7 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 0, Board.count
     assert_equal 0, Message.count
     assert_equal 0, News.count
-    assert_equal 0, Query.count(:conditions => "project_id IS NOT NULL")
+    assert_equal 0, Query.where("project_id IS NOT NULL").count
     assert_equal 0, Repository.count
     assert_equal 0, Changeset.count
     assert_equal 0, Change.count
@@ -260,7 +260,7 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 0, WikiContent::Version.count
     assert_equal 0, Project.connection.select_all("SELECT * FROM projects_trackers").size
     assert_equal 0, Project.connection.select_all("SELECT * FROM custom_fields_projects").size
-    assert_equal 0, CustomValue.count(:conditions => {:customized_type => ['Project', 'Issue', 'TimeEntry', 'Version']})
+    assert_equal 0, CustomValue.where(:customized_type => ['Project', 'Issue', 'TimeEntry', 'Version']).count
   end
 
   def test_move_an_orphan_project_to_a_root_project

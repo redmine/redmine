@@ -50,8 +50,8 @@ fa:
         one:   "نزدیک 1 ساعت"
         other: "نزدیک %{count} ساعت"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 ساعت"
+        other: "%{count} ساعت"
       x_days:
         one:   "1 روز"
         other: "%{count} روز"
@@ -129,6 +129,7 @@ fa:
         not_same_project: "به همان پروژه وابسته نیست"
         circular_dependency: "این وابستگی یک وابستگی دایره وار خواهد ساخت"
         cant_link_an_issue_with_a_descendant: "یک پیامد نمی‌تواند به یکی از زیر کارهایش پیوند بخورد"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   actionview_instancetag_blank_option: گزینش کنید
 
@@ -1090,3 +1091,14 @@ fa:
   label_total_time: جمله
   text_scm_config: You can configure your SCM commands in config/configuration.yml. Please restart the application after editing it.
   text_scm_command_not_available: SCM command is not available. Please check settings on the administration panel.
+  notice_account_not_activated_yet: You haven't activated your account yet. If you want
+    to receive a new activation email, please <a href="%{url}">click this link</a>.
+  notice_account_locked: Your account is locked.
+  label_hidden: Hidden
+  label_visibility_private: to me only
+  label_visibility_roles: to these roles only
+  label_visibility_public: to any users
+  field_must_change_passwd: Must change password at next logon
+  notice_new_password_must_be_different: The new password must be different from the
+    current password
+  setting_mail_handler_excluded_filenames: Exclude attachments by name

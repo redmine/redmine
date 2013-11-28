@@ -1,6 +1,4 @@
-<%= render :partial => 'action_menu' %>
-
-<h2><%=l(:label_workflow)%></h2>
+<%= title [l(:label_workflow), workflows_edit_path], l(:button_copy) %>
 
 <%= form_tag({}, :id => 'workflow_copy_form') do %>
 <fieldset class="tabular box">

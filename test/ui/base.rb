@@ -20,15 +20,23 @@ require 'capybara/rails'
 
 Capybara.default_driver = :selenium
 Capybara.register_driver :selenium do |app|
-  # Use the following driver definition to test locally using Chrome (also requires chromedriver to be in PATH)
+  # Use the following driver definition to test locally using Chrome
+  # (also requires chromedriver to be in PATH)
   # Capybara::Selenium::Driver.new(app, :browser => :chrome)
   # Add :switches => %w[--lang=en] to force default browser locale to English
   # Default for Selenium remote driver is to connect to local host on port 4444 
   # This can be change using :url => 'http://localhost:9195' if necessary
-  # PhantomJS 1.8 now directly supports Webdriver Wire API, simply run it with `phantomjs --webdriver 4444`
-  # Add :desired_capabilities => Selenium::WebDriver::Remote::Capabilities.internet_explorer) to run on Selenium Grid Hub with IE
+  # PhantomJS 1.8 now directly supports Webdriver Wire API,
+  # simply run it with `phantomjs --webdriver 4444`
+  # Add :desired_capabilities => Selenium::WebDriver::Remote::Capabilities.internet_explorer)
+  # to run on Selenium Grid Hub with IE
   Capybara::Selenium::Driver.new(app, :browser => :remote)
 end
+
+# default: 2
+Capybara.default_wait_time = 20
+
+DatabaseCleaner.strategy = :truncation
 
 module Redmine
   module UiTest
@@ -57,6 +65,7 @@ module Redmine
       teardown do
         Capybara.reset_sessions!    # Forget the (simulated) browser state
         Capybara.use_default_driver # Revert Capybara.current_driver to Capybara.default_driver
+        DatabaseCleaner.clean
       end
     end
   end

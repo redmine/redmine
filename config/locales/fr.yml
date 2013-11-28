@@ -146,6 +146,7 @@ fr:
         not_same_project: "n'appartient pas au même projet"
         circular_dependency: "Cette relation créerait une dépendance circulaire"
         cant_link_an_issue_with_a_descendant: "Une demande ne peut pas être liée à l'une de ses sous-tâches"
+        earlier_than_minimum_start_date: "ne peut pas être antérieure au %{date} à cause des demandes qui précédent"
 
   actionview_instancetag_blank_option: Choisir
 
@@ -164,8 +165,10 @@ fr:
   notice_account_invalid_creditentials: Identifiant ou mot de passe invalide.
   notice_account_password_updated: Mot de passe mis à jour avec succès.
   notice_account_wrong_password: Mot de passe incorrect
-  notice_account_register_done: Un message contenant les instructions pour activer votre compte vous a été envoyé.
+  notice_account_register_done: Un message contenant les instructions pour activer votre compte vous a été envoyé à l'adresse %{email}.
   notice_account_unknown_email: Aucun compte ne correspond à cette adresse.
+  notice_account_not_activated_yet: Vous n'avez pas encore activé votre compte. Si vous voulez recevoir un nouveau message d'activation, veuillez <a href="%{url}">cliquer sur ce lien</a>.
+  notice_account_locked: Votre compte est verrouillé.
   notice_can_t_change_password: Ce compte utilise une authentification externe. Impossible de changer le mot de passe.
   notice_account_lost_email_sent: Un message contenant les instructions pour choisir un nouveau mot de passe vous a été envoyé.
   notice_account_activated: Votre compte a été activé. Vous pouvez à présent vous connecter.
@@ -193,6 +196,7 @@ fr:
   notice_issue_update_conflict: "La demande a été mise à jour par un autre utilisateur pendant que vous la modifiez."
   notice_account_deleted: "Votre compte a été définitivement supprimé."
   notice_user_successful_create: "Utilisateur %{id} créé."
+  notice_new_password_must_be_different: Votre nouveau mot de passe doit être différent de votre mot de passe actuel
 
   error_can_t_load_default_data: "Une erreur s'est produite lors du chargement du paramétrage : %{value}"
   error_scm_not_found: "L'entrée et/ou la révision demandée n'existe pas dans le dépôt."
@@ -332,6 +336,7 @@ fr:
   field_private_notes: Notes privées
   field_inherit_members: Hériter les membres
   field_generate_password: Générer un mot de passe
+  field_must_change_passwd: Doit changer de mot de passe à la prochaine connexion
 
   setting_app_title: Titre de l'application
   setting_app_subtitle: Sous-titre de l'application
@@ -399,6 +404,7 @@ fr:
   setting_non_working_week_days: Jours non travaillés
   setting_jsonp_enabled: Activer le support JSONP
   setting_default_projects_tracker_ids: Trackers par défaut pour les nouveaux projets
+  setting_mail_handler_excluded_filenames: Exclure les fichiers attachés par leur nom
 
   permission_add_project: Créer un projet
   permission_add_subprojects: Créer des sous-projets
@@ -858,6 +864,7 @@ fr:
   label_fields_permissions: Permissions sur les champs
   label_readonly: Lecture
   label_required: Obligatoire
+  label_hidden: Caché
   label_attribute_of_project: "%{name} du projet"
   label_attribute_of_issue: "%{name} de la demande"
   label_attribute_of_author: "%{name} de l'auteur"
@@ -869,6 +876,9 @@ fr:
   label_cross_project_hierarchy: Avec toute la hiérarchie
   label_cross_project_system: Avec tous les projets
   label_gantt_progress_line: Ligne de progression
+  label_visibility_private: par moi uniquement
+  label_visibility_roles: par ces roles uniquement
+  label_visibility_public: par tout le monde
 
   button_login: Connexion
   button_submit: Soumettre
@@ -944,7 +954,7 @@ fr:
   text_tip_issue_begin_day: tâche commençant ce jour
   text_tip_issue_end_day: tâche finissant ce jour
   text_tip_issue_begin_end_day: tâche commençant et finissant ce jour
-  text_project_identifier_info: 'Seuls les lettres minuscules (a-z), chiffres, tirets et underscore sont autorisés, doit commencer par une minuscule.<br />Un fois sauvegardé, l''identifiant ne pourra plus être modifié.'
+  text_project_identifier_info: 'Seuls les lettres minuscules (a-z), chiffres, tirets et tirets bas sont autorisés, doit commencer par une minuscule.<br />Un fois sauvegardé, l''identifiant ne pourra plus être modifié.'
   text_caracters_maximum: "%{count} caractères maximum."
   text_caracters_minimum: "%{count} caractères minimum."
   text_length_between: "Longueur comprise entre %{min} et %{max} caractères."
@@ -1100,4 +1110,4 @@ fr:
   error_scm_annotate_big_text_file: Cette entrée ne peut pas être annotée car elle excède la taille maximale.
   setting_repositories_encodings: Encodages des fichiers et des dépôts
   label_search_for_watchers: Rechercher des observateurs
-  text_repository_identifier_info: 'Seuls les lettres minuscules (a-z), chiffres, tirets et underscore sont autorisés.<br />Un fois sauvegardé, l''identifiant ne pourra plus être modifié.'
+  text_repository_identifier_info: 'Seuls les lettres minuscules (a-z), chiffres, tirets et tirets bas sont autorisés.<br />Un fois sauvegardé, l''identifiant ne pourra plus être modifié.'

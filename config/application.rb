@@ -22,9 +22,6 @@ module RedmineApp
     # :all can be used as a placeholder for all plugins not explicitly named.
     # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
 
-    # Activate observers that should always be running.
-    config.active_record.observers = :message_observer, :issue_observer, :journal_observer, :news_observer, :document_observer, :wiki_content_observer, :comment_observer
-
     config.active_record.store_full_sti_class = true
     config.active_record.default_timezone = :local
 

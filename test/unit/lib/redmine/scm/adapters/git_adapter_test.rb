@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../../../../test_helper', __FILE__)
 begin
-  require 'mocha'
+  require 'mocha/setup'
 
   class GitAdapterTest < ActiveSupport::TestCase
     REPOSITORY_PATH = Rails.root.join('tmp/test/git_repository').to_s
@@ -61,8 +61,10 @@ begin
                    )
         assert @adapter
         @char_1 = CHAR_1_HEX.dup
+        @str_felix_hex  = FELIX_HEX.dup
         if @char_1.respond_to?(:force_encoding)
           @char_1.force_encoding('UTF-8')
+          @str_felix_hex.force_encoding('ASCII-8BIT')
         end
       end
 
@@ -396,14 +398,10 @@ begin
       def test_last_rev_with_spaces_in_filename
         last_rev = @adapter.lastrev("filemane with spaces.txt",
                                     "ed5bb786bbda2dee66a2d50faf51429dbc043a7b")
-        str_felix_hex  = FELIX_HEX.dup
         last_rev_author = last_rev.author
-        if last_rev_author.respond_to?(:force_encoding)
-          str_felix_hex.force_encoding('ASCII-8BIT')
-        end
         assert_equal "ed5bb786bbda2dee66a2d50faf51429dbc043a7b", last_rev.scmid
         assert_equal "ed5bb786bbda2dee66a2d50faf51429dbc043a7b", last_rev.identifier
-        assert_equal "#{str_felix_hex} <felix@fachschaften.org>",
+        assert_equal "#{@str_felix_hex} <felix@fachschaften.org>",
                        last_rev.author
         assert_equal "2010-09-18 19:59:46".to_time, last_rev.time
       end
@@ -423,6 +421,19 @@ begin
               assert @adapter.diff(p2, r1, r2)
             end
           end
+        end
+      end
+
+      def test_latin_1_user_annotate
+        ['83ca5fd546063a3c7dc2e568ba3355661a9e2b2c', '83ca5fd546063a'].each do |r1|
+          annotate = @adapter.annotate(" filename with a leading space.txt ", r1)
+          assert_kind_of Redmine::Scm::Adapters::Annotate, annotate
+          assert_equal 1, annotate.lines.size
+          assert_equal "And this is a file with a leading and trailing space...",
+                       annotate.lines[0].strip
+          assert_equal "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c",
+                       annotate.revisions[0].identifier
+          assert_equal @str_felix_hex, annotate.revisions[0].author
         end
       end
 

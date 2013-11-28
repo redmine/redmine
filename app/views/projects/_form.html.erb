@@ -6,7 +6,7 @@
 		<%= f.text_field :name, :required => true, :size => 120, :class=>'input-xlarge' %>
 		<div class="popoverform"><icon class="popoverlink icon-2x icon-lightbulb"target="_blank" data-toggle="popover" data-trigger="hover" title="" data-content="Pick a project name that reflects the hosted model. Separate eventual author with a dash, e.g. 'Purkinje Cell - De Schutter and Bower 1994'." data-original-title="Project Name"></icon></div>
 	</div>
-	<div class="control-group">
+	<div class="control-group"> 
 		<%= f.text_field :identifier, :size => 60, :maxlength => Project::IDENTIFIER_MAX_LENGTH , :class=>'input-xlarge disabledinput'%>
 	</div>
 

@@ -138,9 +138,9 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
         get '/issues.xml',
             {:set_filter => 1, :f => ['cf_1'], :op => {:cf_1 => '='},
              :v => {:cf_1 => ['MySQL']}}
-        expected_ids = Issue.visible.all(
-            :include => :custom_values,
-            :conditions => {:custom_values => {:custom_field_id => 1, :value => 'MySQL'}}).map(&:id)
+        expected_ids = Issue.visible.
+            joins(:custom_values).
+            where(:custom_values => {:custom_field_id => 1, :value => 'MySQL'}).map(&:id)
         assert_select 'issues > issue > id', :count => expected_ids.count do |ids|
            ids.each { |id| assert expected_ids.delete(id.children.first.content.to_i) }
         end
@@ -151,9 +151,9 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
       should "show only issues with the custom field value" do
         get '/issues.xml', { :cf_1 => 'MySQL' }
 
-        expected_ids = Issue.visible.all(
-            :include => :custom_values,
-            :conditions => {:custom_values => {:custom_field_id => 1, :value => 'MySQL'}}).map(&:id)
+        expected_ids = Issue.visible.
+            joins(:custom_values).
+            where(:custom_values => {:custom_field_id => 1, :value => 'MySQL'}).map(&:id)
 
         assert_select 'issues > issue > id', :count => expected_ids.count do |ids|
           ids.each { |id| assert expected_ids.delete(id.children.first.content.to_i) }
@@ -170,7 +170,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     should "show only issues with the status_id" do
       get '/issues.xml?status_id=5'
 
-      expected_ids = Issue.visible.all(:conditions => {:status_id => 5}).map(&:id)
+      expected_ids = Issue.visible.where(:status_id => 5).map(&:id)
 
       assert_select 'issues > issue > id', :count => expected_ids.count do |ids|
          ids.each { |id| assert expected_ids.delete(id.children.first.content.to_i) }

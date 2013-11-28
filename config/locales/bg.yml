@@ -51,8 +51,8 @@ bg:
         one:   "около 1 час"
         other: "около %{count} часа"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 час"
+        other: "%{count} часа"
       x_days:
         one:   "1 ден"
         other: "%{count} дена"
@@ -130,6 +130,7 @@ bg:
         not_same_project: "не е от същия проект"
         circular_dependency: "Тази релация ще доведе до безкрайна зависимост"
         cant_link_an_issue_with_a_descendant: "Една задача не може да бъде свързвана към своя подзадача"
+        earlier_than_minimum_start_date: "не може да бъде по-рано от %{date} поради предхождащи задачи"
 
   actionview_instancetag_blank_option: Изберете
 
@@ -148,8 +149,12 @@ bg:
   notice_account_invalid_creditentials: Невалиден потребител или парола.
   notice_account_password_updated: Паролата е успешно променена.
   notice_account_wrong_password: Грешна парола
-  notice_account_register_done: Профилът е създаден успешно.
+  notice_account_register_done: Профилът е създаден успешно. E-mail, съдържащ инструкции за активиране на профила
+    е изпратен на %{email}.
   notice_account_unknown_email: Непознат e-mail.
+  notice_account_not_activated_yet: Вие не сте активирали вашия профил все още. Ако искате да
+    получите нов e-mail за активиране, моля <a href="%{url}">натиснете тази връзка</a>.
+  notice_account_locked: Вашият профил е блокиран.
   notice_can_t_change_password: Този профил е с външен метод за оторизация. Невъзможна смяна на паролата.
   notice_account_lost_email_sent: Изпратен ви е e-mail с инструкции за избор на нова парола.
   notice_account_activated: Профилът ви е активиран. Вече може да влезете в системата.
@@ -179,6 +184,7 @@ bg:
   notice_issue_update_conflict: Задачата е била променена от друг потребител, докато вие сте я редактирали.
   notice_account_deleted: Вашият профил беше премахнат без възможност за възстановяване.
   notice_user_successful_create: Потребител %{id} е създаден.
+  notice_new_password_must_be_different: Новата парола трябва да бъде различна от сегашната парола
 
   error_can_t_load_default_data: "Грешка при зареждане на началната информация: %{value}"
   error_scm_not_found: Несъществуващ обект в хранилището.
@@ -333,6 +339,7 @@ bg:
   field_private_notes: Лични бележки
   field_inherit_members: Наследяване на членовете на родителския проект
   field_generate_password: Генериране на парола
+  field_must_change_passwd: Паролата трябва да бъде сменена при следващото влизане в Redmine
 
   setting_app_title: Заглавие
   setting_app_subtitle: Описание
@@ -403,6 +410,7 @@ bg:
   setting_non_working_week_days: Не работни дни
   setting_jsonp_enabled: Разрешаване на поддръжка на JSONP
   setting_default_projects_tracker_ids: Тракери по подразбиране за нови проекти
+  setting_mail_handler_excluded_filenames: Имена на прикачени файлове, които да се пропускат при приемане на e-mail-и (например *.vcf, companylogo.gif).
 
   permission_add_project: Създаване на проект
   permission_add_subprojects: Създаване на подпроекти
@@ -735,7 +743,7 @@ bg:
   label_f_hour_plural: "%{value} часа"
   label_time_tracking: Отделяне на време
   label_change_plural: Промени
-  label_statistics: Статистики
+  label_statistics: Статистика
   label_commits_per_month: Ревизии по месеци
   label_commits_per_author: Ревизии по автор
   label_diff: diff
@@ -883,6 +891,7 @@ bg:
   label_fields_permissions: Видимост на полетата
   label_readonly: Само за четене
   label_required: Задължително
+  label_hidden: Скрит
   label_attribute_of_project: Project's %{name}
   label_attribute_of_issue: Issue's %{name}
   label_attribute_of_author: Author's %{name}
@@ -894,6 +903,9 @@ bg:
   label_cross_project_hierarchy: С проектна йерархия
   label_cross_project_system: С всички проекти
   label_gantt_progress_line: Линия на изпълнението
+  label_visibility_private: лични (само за мен)
+  label_visibility_roles: само за тези роли
+  label_visibility_public: за всички потребители
 
   button_login: Вход
   button_submit: Изпращане

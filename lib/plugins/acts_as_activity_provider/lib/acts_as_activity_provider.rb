@@ -57,26 +57,26 @@ module Redmine
             scope = self
 
             if from && to
-              scope = scope.scoped(:conditions => ["#{provider_options[:timestamp]} BETWEEN ? AND ?", from, to])
+              scope = scope.where("#{provider_options[:timestamp]} BETWEEN ? AND ?", from, to)
             end
 
             if options[:author]
               return [] if provider_options[:author_key].nil?
-              scope = scope.scoped(:conditions => ["#{provider_options[:author_key]} = ?", options[:author].id])
+              scope = scope.where("#{provider_options[:author_key]} = ?", options[:author].id)
             end
 
             if options[:limit]
               # id and creation time should be in same order in most cases
-              scope = scope.scoped(:order => "#{table_name}.id DESC", :limit => options[:limit])
+              scope = scope.reorder("#{table_name}.id DESC").limit(options[:limit])
             end
 
             if provider_options.has_key?(:permission)
-              scope = scope.scoped(:conditions => Project.allowed_to_condition(user, provider_options[:permission] || :view_project, options))
+              scope = scope.where(Project.allowed_to_condition(user, provider_options[:permission] || :view_project, options))
             elsif respond_to?(:visible)
               scope = scope.visible(user, options)
             else
               ActiveSupport::Deprecation.warn "acts_as_activity_provider with implicit :permission option is deprecated. Add a visible scope to the #{self.name} model or use explicit :permission option."
-              scope = scope.scoped(:conditions => Project.allowed_to_condition(user, "view_#{self.name.underscore.pluralize}".to_sym, options))
+              scope = scope.where(Project.allowed_to_condition(user, "view_#{self.name.underscore.pluralize}".to_sym, options))
             end
 
             scope.all(provider_options[:find_options].dup)

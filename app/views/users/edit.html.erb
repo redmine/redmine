@@ -4,8 +4,6 @@
 <%= delete_link user_path(@user) if User.current != @user %>
 </div>
 
-<h2><%= link_to l(:label_user_plural), users_path %> &#187; <%=h @user.login %></h2>
+<%= title [l(:label_user_plural), users_path], @user.login %>
 
 <%= render_tabs user_settings_tabs %>
-
-<% html_title(l(:label_user), @user.login, l(:label_administration)) -%>

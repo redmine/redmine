@@ -1,4 +1,4 @@
-<h2><%=l(:label_auth_source)%> (<%= h(@auth_source.auth_method_name) %>)</h2>
+<%= title [l(:label_auth_source_plural), auth_sources_path], @auth_source.name %>
 
 <%= labelled_form_for @auth_source, :as => :auth_source, :url => auth_source_path(@auth_source), :html => {:id => 'auth_source_form'} do |f| %>
   <%= render :partial => auth_source_partial_name(@auth_source), :locals => { :f => f } %>

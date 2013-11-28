@@ -27,271 +27,209 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
     set_tmp_attachments_directory
   end
 
-  context "GET /projects" do
-    context ".xml" do
-      should "return projects" do
-        get '/projects.xml'
-        assert_response :success
-        assert_equal 'application/xml', @response.content_type
+  # TODO: A private project is needed because should_allow_api_authentication
+  # actually tests that authentication is *required*, not just allowed
+  should_allow_api_authentication(:get, "/projects/2.xml")
+  should_allow_api_authentication(:get, "/projects/2.json")
+  should_allow_api_authentication(:post,
+                                  '/projects.xml',
+                                  {:project => {:name => 'API test', :identifier => 'api-test'}},
+                                  {:success_code => :created})
+  should_allow_api_authentication(:put,
+                                  '/projects/2.xml',
+                                  {:project => {:name => 'API update'}},
+                                  {:success_code => :ok})
+  should_allow_api_authentication(:delete,
+                                  '/projects/2.xml',
+                                  {},
+                                  {:success_code => :ok})
 
-        assert_tag :tag => 'projects',
-          :child => {:tag => 'project', :child => {:tag => 'id', :content => '1'}}
-      end
-    end
+  test "GET /projects.xml should return projects" do
+    get '/projects.xml'
+    assert_response :success
+    assert_equal 'application/xml', @response.content_type
 
-    context ".json" do
-      should "return projects" do
-        get '/projects.json'
-        assert_response :success
-        assert_equal 'application/json', @response.content_type
-
-        json = ActiveSupport::JSON.decode(response.body)
-        assert_kind_of Hash, json
-        assert_kind_of Array, json['projects']
-        assert_kind_of Hash, json['projects'].first
-        assert json['projects'].first.has_key?('id')
-      end
-    end
+    assert_tag :tag => 'projects',
+      :child => {:tag => 'project', :child => {:tag => 'id', :content => '1'}}
   end
 
-  context "GET /projects/:id" do
-    context ".xml" do
-      # TODO: A private project is needed because should_allow_api_authentication
-      # actually tests that authentication is *required*, not just allowed
-      should_allow_api_authentication(:get, "/projects/2.xml")
+  test "GET /projects.json should return projects" do
+    get '/projects.json'
+    assert_response :success
+    assert_equal 'application/json', @response.content_type
 
-      should "return requested project" do
-        get '/projects/1.xml'
-        assert_response :success
-        assert_equal 'application/xml', @response.content_type
-
-        assert_tag :tag => 'project',
-          :child => {:tag => 'id', :content => '1'}
-        assert_tag :tag => 'custom_field',
-          :attributes => {:name => 'Development status'}, :content => 'Stable'
-
-        assert_no_tag 'trackers'
-        assert_no_tag 'issue_categories'
-      end
-
-      context "with hidden custom fields" do
-        setup do
-          ProjectCustomField.find_by_name('Development status').update_attribute :visible, false
-        end
-
-        should "not display hidden custom fields" do
-          get '/projects/1.xml'
-          assert_response :success
-          assert_equal 'application/xml', @response.content_type
-
-          assert_no_tag 'custom_field',
-            :attributes => {:name => 'Development status'}
-        end
-      end
-
-      should "return categories with include=issue_categories" do
-        get '/projects/1.xml?include=issue_categories'
-        assert_response :success
-        assert_equal 'application/xml', @response.content_type
-
-        assert_tag 'issue_categories',
-          :attributes => {:type => 'array'},
-          :child => {
-            :tag => 'issue_category',
-            :attributes => {
-              :id => '2',
-              :name => 'Recipes'
-            }
-          }
-      end
-
-      should "return trackers with include=trackers" do
-        get '/projects/1.xml?include=trackers'
-        assert_response :success
-        assert_equal 'application/xml', @response.content_type
-
-        assert_tag 'trackers',
-          :attributes => {:type => 'array'},
-          :child => {
-            :tag => 'tracker',
-            :attributes => {
-              :id => '2',
-              :name => 'Feature request'
-            }
-          }
-      end
-    end
-
-    context ".json" do
-      should_allow_api_authentication(:get, "/projects/2.json")
-
-      should "return requested project" do
-        get '/projects/1.json'
-
-        json = ActiveSupport::JSON.decode(response.body)
-        assert_kind_of Hash, json
-        assert_kind_of Hash, json['project']
-        assert_equal 1, json['project']['id']
-      end
-    end
+    json = ActiveSupport::JSON.decode(response.body)
+    assert_kind_of Hash, json
+    assert_kind_of Array, json['projects']
+    assert_kind_of Hash, json['projects'].first
+    assert json['projects'].first.has_key?('id')
   end
 
-  context "POST /projects" do
-    context "with valid parameters" do
-      setup do
-        Setting.default_projects_modules = ['issue_tracking', 'repository']
-        @parameters = {:project => {:name => 'API test', :identifier => 'api-test'}}
-      end
+  test "GET /projects/:id.xml should return the project" do
+    get '/projects/1.xml'
+    assert_response :success
+    assert_equal 'application/xml', @response.content_type
 
-      context ".xml" do
-        should_allow_api_authentication(:post,
-                                        '/projects.xml',
-                                        {:project => {:name => 'API test', :identifier => 'api-test'}},
-                                        {:success_code => :created})
+    assert_tag :tag => 'project',
+      :child => {:tag => 'id', :content => '1'}
+    assert_tag :tag => 'custom_field',
+      :attributes => {:name => 'Development status'}, :content => 'Stable'
 
-
-        should "create a project with the attributes" do
-          assert_difference('Project.count') do
-            post '/projects.xml', @parameters, credentials('admin')
-          end
-
-          project = Project.first(:order => 'id DESC')
-          assert_equal 'API test', project.name
-          assert_equal 'api-test', project.identifier
-          assert_equal ['issue_tracking', 'repository'], project.enabled_module_names.sort
-          assert_equal Tracker.all.size, project.trackers.size
-
-          assert_response :created
-          assert_equal 'application/xml', @response.content_type
-          assert_tag 'project', :child => {:tag => 'id', :content => project.id.to_s}
-        end
-
-        should "accept enabled_module_names attribute" do
-          @parameters[:project].merge!({:enabled_module_names => ['issue_tracking', 'news', 'time_tracking']})
-
-          assert_difference('Project.count') do
-            post '/projects.xml', @parameters, credentials('admin')
-          end
-
-          project = Project.first(:order => 'id DESC')
-          assert_equal ['issue_tracking', 'news', 'time_tracking'], project.enabled_module_names.sort
-        end
-
-        should "accept tracker_ids attribute" do
-          @parameters[:project].merge!({:tracker_ids => [1, 3]})
-
-          assert_difference('Project.count') do
-            post '/projects.xml', @parameters, credentials('admin')
-          end
-
-          project = Project.first(:order => 'id DESC')
-          assert_equal [1, 3], project.trackers.map(&:id).sort
-        end
-      end
-    end
-
-    context "with invalid parameters" do
-      setup do
-        @parameters = {:project => {:name => 'API test'}}
-      end
-
-      context ".xml" do
-        should "return errors" do
-          assert_no_difference('Project.count') do
-            post '/projects.xml', @parameters, credentials('admin')
-          end
-
-          assert_response :unprocessable_entity
-          assert_equal 'application/xml', @response.content_type
-          assert_tag 'errors', :child => {:tag => 'error', :content => "Identifier can't be blank"}
-        end
-      end
-    end
+    assert_no_tag 'trackers'
+    assert_no_tag 'issue_categories'
   end
 
-  context "PUT /projects/:id" do
-    context "with valid parameters" do
-      setup do
-        @parameters = {:project => {:name => 'API update'}}
-      end
+  test "GET /projects/:id.json should return the project" do
+    get '/projects/1.json'
 
-      context ".xml" do
-        should_allow_api_authentication(:put,
-                                        '/projects/2.xml',
-                                        {:project => {:name => 'API update'}},
-                                        {:success_code => :ok})
-
-        should "update the project" do
-          assert_no_difference 'Project.count' do
-            put '/projects/2.xml', @parameters, credentials('jsmith')
-          end
-          assert_response :ok
-          assert_equal '', @response.body
-          assert_equal 'application/xml', @response.content_type
-          project = Project.find(2)
-          assert_equal 'API update', project.name
-        end
-
-        should "accept enabled_module_names attribute" do
-          @parameters[:project].merge!({:enabled_module_names => ['issue_tracking', 'news', 'time_tracking']})
-
-          assert_no_difference 'Project.count' do
-            put '/projects/2.xml', @parameters, credentials('admin')
-          end
-          assert_response :ok
-          assert_equal '', @response.body
-          project = Project.find(2)
-          assert_equal ['issue_tracking', 'news', 'time_tracking'], project.enabled_module_names.sort
-        end
-
-        should "accept tracker_ids attribute" do
-          @parameters[:project].merge!({:tracker_ids => [1, 3]})
-
-          assert_no_difference 'Project.count' do
-            put '/projects/2.xml', @parameters, credentials('admin')
-          end
-          assert_response :ok
-          assert_equal '', @response.body
-          project = Project.find(2)
-          assert_equal [1, 3], project.trackers.map(&:id).sort
-        end
-      end
-    end
-
-    context "with invalid parameters" do
-      setup do
-        @parameters = {:project => {:name => ''}}
-      end
-
-      context ".xml" do
-        should "return errors" do
-          assert_no_difference('Project.count') do
-            put '/projects/2.xml', @parameters, credentials('admin')
-          end
-
-          assert_response :unprocessable_entity
-          assert_equal 'application/xml', @response.content_type
-          assert_tag 'errors', :child => {:tag => 'error', :content => "Name can't be blank"}
-        end
-      end
-    end
+    json = ActiveSupport::JSON.decode(response.body)
+    assert_kind_of Hash, json
+    assert_kind_of Hash, json['project']
+    assert_equal 1, json['project']['id']
   end
 
-  context "DELETE /projects/:id" do
-    context ".xml" do
-      should_allow_api_authentication(:delete,
-                                      '/projects/2.xml',
-                                      {},
-                                      {:success_code => :ok})
+  test "GET /projects/:id.xml with hidden custom fields should not display hidden custom fields" do
+    ProjectCustomField.find_by_name('Development status').update_attribute :visible, false
 
-      should "delete the project" do
-        assert_difference('Project.count',-1) do
-          delete '/projects/2.xml', {}, credentials('admin')
-        end
-        assert_response :ok
-        assert_equal '', @response.body
-        assert_nil Project.find_by_id(2)
-      end
+    get '/projects/1.xml'
+    assert_response :success
+    assert_equal 'application/xml', @response.content_type
+
+    assert_no_tag 'custom_field',
+      :attributes => {:name => 'Development status'}
+  end
+
+  test "GET /projects/:id.xml with include=issue_categories should return categories" do
+    get '/projects/1.xml?include=issue_categories'
+    assert_response :success
+    assert_equal 'application/xml', @response.content_type
+
+    assert_tag 'issue_categories',
+      :attributes => {:type => 'array'},
+      :child => {
+        :tag => 'issue_category',
+        :attributes => {
+          :id => '2',
+          :name => 'Recipes'
+        }
+      }
+  end
+
+  test "GET /projects/:id.xml with include=trackers should return trackers" do
+    get '/projects/1.xml?include=trackers'
+    assert_response :success
+    assert_equal 'application/xml', @response.content_type
+
+    assert_tag 'trackers',
+      :attributes => {:type => 'array'},
+      :child => {
+        :tag => 'tracker',
+        :attributes => {
+          :id => '2',
+          :name => 'Feature request'
+        }
+      }
+  end
+
+  test "POST /projects.xml with valid parameters should create the project" do
+    Setting.default_projects_modules = ['issue_tracking', 'repository']
+
+    assert_difference('Project.count') do
+      post '/projects.xml',
+        {:project => {:name => 'API test', :identifier => 'api-test'}},
+        credentials('admin')
     end
+
+    project = Project.first(:order => 'id DESC')
+    assert_equal 'API test', project.name
+    assert_equal 'api-test', project.identifier
+    assert_equal ['issue_tracking', 'repository'], project.enabled_module_names.sort
+    assert_equal Tracker.all.size, project.trackers.size
+
+    assert_response :created
+    assert_equal 'application/xml', @response.content_type
+    assert_tag 'project', :child => {:tag => 'id', :content => project.id.to_s}
+  end
+
+  test "POST /projects.xml should accept enabled_module_names attribute" do
+    assert_difference('Project.count') do
+      post '/projects.xml',
+        {:project => {:name => 'API test', :identifier => 'api-test', :enabled_module_names => ['issue_tracking', 'news', 'time_tracking']}},
+        credentials('admin')
+    end
+
+    project = Project.first(:order => 'id DESC')
+    assert_equal ['issue_tracking', 'news', 'time_tracking'], project.enabled_module_names.sort
+  end
+
+  test "POST /projects.xml should accept tracker_ids attribute" do
+    assert_difference('Project.count') do
+      post '/projects.xml',
+        {:project => {:name => 'API test', :identifier => 'api-test', :tracker_ids => [1, 3]}},
+        credentials('admin')
+    end
+
+    project = Project.first(:order => 'id DESC')
+    assert_equal [1, 3], project.trackers.map(&:id).sort
+  end
+
+  test "POST /projects.xml with invalid parameters should return errors" do
+    assert_no_difference('Project.count') do
+      post '/projects.xml', {:project => {:name => 'API test'}}, credentials('admin')
+    end
+
+    assert_response :unprocessable_entity
+    assert_equal 'application/xml', @response.content_type
+    assert_tag 'errors', :child => {:tag => 'error', :content => "Identifier can't be blank"}
+  end
+
+  test "PUT /projects/:id.xml with valid parameters should update the project" do
+    assert_no_difference 'Project.count' do
+      put '/projects/2.xml', {:project => {:name => 'API update'}}, credentials('jsmith')
+    end
+    assert_response :ok
+    assert_equal '', @response.body
+    assert_equal 'application/xml', @response.content_type
+    project = Project.find(2)
+    assert_equal 'API update', project.name
+  end
+
+  test "PUT /projects/:id.xml should accept enabled_module_names attribute" do
+    assert_no_difference 'Project.count' do
+      put '/projects/2.xml', {:project => {:name => 'API update', :enabled_module_names => ['issue_tracking', 'news', 'time_tracking']}}, credentials('admin')
+    end
+    assert_response :ok
+    assert_equal '', @response.body
+    project = Project.find(2)
+    assert_equal ['issue_tracking', 'news', 'time_tracking'], project.enabled_module_names.sort
+  end
+
+  test "PUT /projects/:id.xml should accept tracker_ids attribute" do
+    assert_no_difference 'Project.count' do
+      put '/projects/2.xml', {:project => {:name => 'API update', :tracker_ids => [1, 3]}}, credentials('admin')
+    end
+    assert_response :ok
+    assert_equal '', @response.body
+    project = Project.find(2)
+    assert_equal [1, 3], project.trackers.map(&:id).sort
+  end
+
+  test "PUT /projects/:id.xml with invalid parameters should return errors" do
+    assert_no_difference('Project.count') do
+      put '/projects/2.xml', {:project => {:name => ''}}, credentials('admin')
+    end
+
+    assert_response :unprocessable_entity
+    assert_equal 'application/xml', @response.content_type
+    assert_tag 'errors', :child => {:tag => 'error', :content => "Name can't be blank"}
+  end
+
+  test "DELETE /projects/:id.xml should delete the project" do
+    assert_difference('Project.count',-1) do
+      delete '/projects/2.xml', {}, credentials('admin')
+    end
+    assert_response :ok
+    assert_equal '', @response.body
+    assert_nil Project.find_by_id(2)
   end
 end

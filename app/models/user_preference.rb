@@ -22,7 +22,7 @@ class UserPreference < ActiveRecord::Base
   attr_protected :others, :user_id
 
   before_save :set_others_hash
-  
+
   def initialize(attributes=nil, *args)
     super
     self.others ||= {}
@@ -33,7 +33,7 @@ class UserPreference < ActiveRecord::Base
   end
 
   def [](attr_name)
-    if attribute_present? attr_name
+    if has_attribute? attr_name
       super
     else
       others ? others[attr_name] : nil
@@ -41,7 +41,7 @@ class UserPreference < ActiveRecord::Base
   end
 
   def []=(attr_name, value)
-    if attribute_present? attr_name
+    if has_attribute? attr_name
       super
     else
       h = (read_attribute(:others) || {}).dup
@@ -56,4 +56,7 @@ class UserPreference < ActiveRecord::Base
 
   def warn_on_leaving_unsaved; self[:warn_on_leaving_unsaved] || '1'; end
   def warn_on_leaving_unsaved=(value); self[:warn_on_leaving_unsaved]=value; end
+
+  def no_self_notified; (self[:no_self_notified] == true || self[:no_self_notified] == '1'); end
+  def no_self_notified=(value); self[:no_self_notified]=value; end
 end

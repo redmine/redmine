@@ -1,4 +1,4 @@
-<h2><%= link_to l(@enumeration.option_name), enumerations_path %> &#187; <%=l(:label_enumeration_new)%></h2>
+<%= title [l(@enumeration.option_name), enumerations_path], l(:label_enumeration_new) %>
 
 <%= labelled_form_for :enumeration, @enumeration, :url => enumerations_path do |f| %>
   <%= f.hidden_field :type  %>

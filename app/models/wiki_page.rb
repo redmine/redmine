@@ -175,9 +175,10 @@ class WikiPage < ActiveRecord::Base
   end
 
   # Saves the page and its content if text was changed
-  def save_with_content
+  def save_with_content(content)
     ret = nil
     transaction do
+      self.content = content
       if new_record?
         # Rails automatically saves associated content
         ret = save

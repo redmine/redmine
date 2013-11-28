@@ -5,6 +5,11 @@
     <%= setting_text_area :mail_handler_body_delimiters, :rows => 5 %>
     <em class="info"><%= l(:text_line_separated) %></em>
   </p>
+  <p>
+    <%= setting_text_field :mail_handler_excluded_filenames, :size => 60 %>
+    <em class="info"><%= l(:text_comma_separated) %>
+    <%= l(:label_example) %>: smime.p7s, *.vcf</em>
+  </p>
 </div>
 
 <div class="box tabular settings">

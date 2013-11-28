@@ -1,5 +1,5 @@
 <%= error_messages_for 'custom_field' %>
-<br/><br/>
+<br/><br/> 
 <div class="box tabular">
 <div class="control-group"><%= f.text_field :name, :required => true %></div>
 <div class="control-group"><%= f.select :field_format, custom_field_formats_for_select(@custom_field), {}, :disabled => !@custom_field.new_record? %></div>

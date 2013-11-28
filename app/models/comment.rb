@@ -22,5 +22,16 @@ class Comment < ActiveRecord::Base
 
   validates_presence_of :commented, :author, :comments
 
+  after_create :send_notification
+
   safe_attributes 'comments'
+
+  private
+
+  def send_notification
+    mailer_method = "#{commented.class.name.underscore}_comment_added"
+    if Setting.notified_events.include?(mailer_method)
+      Mailer.send(mailer_method, self).deliver
+    end
+  end
 end

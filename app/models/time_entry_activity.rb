@@ -24,11 +24,15 @@ class TimeEntryActivity < Enumeration
     OptionName
   end
 
+  def objects
+    TimeEntry.where(:activity_id => self_and_descendants(1).map(&:id))
+  end
+
   def objects_count
-    time_entries.count
+    objects.count
   end
 
   def transfer_relations(to)
-    time_entries.update_all("activity_id = #{to.id}")
+    objects.update_all(:activity_id => to.id)
   end
 end

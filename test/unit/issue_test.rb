@@ -92,6 +92,27 @@ class IssueTest < ActiveSupport::TestCase
     assert_include 'Due date must be greater than start date', issue.errors.full_messages
   end
 
+  def test_start_date_lesser_than_soonest_start_should_not_validate_on_create
+    issue = Issue.generate(:start_date => '2013-06-04')
+    issue.stubs(:soonest_start).returns(Date.parse('2013-06-10'))
+    assert !issue.valid?
+    assert_include "Start date cannot be earlier than 06/10/2013 because of preceding issues", issue.errors.full_messages
+  end
+
+  def test_start_date_lesser_than_soonest_start_should_not_validate_on_update_if_changed
+    issue = Issue.generate!(:start_date => '2013-06-04')
+    issue.stubs(:soonest_start).returns(Date.parse('2013-06-10'))
+    issue.start_date = '2013-06-07'
+    assert !issue.valid?
+    assert_include "Start date cannot be earlier than 06/10/2013 because of preceding issues", issue.errors.full_messages
+  end
+
+  def test_start_date_lesser_than_soonest_start_should_validate_on_update_if_unchanged
+    issue = Issue.generate!(:start_date => '2013-06-04')
+    issue.stubs(:soonest_start).returns(Date.parse('2013-06-10'))
+    assert issue.valid?
+  end
+
   def test_estimated_hours_should_be_validated
     set_language_if_valid 'en'
     ['-2'].each do |invalid|
@@ -246,7 +267,7 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_visible_scope_for_member
     user = User.find(9)
-    # User should see issues of projects for which he has view_issues permissions only
+    # User should see issues of projects for which user has view_issues permissions only
     Role.non_member.remove_permission!(:view_issues)
     Member.create!(:principal => user, :project_id => 3, :role_ids => [2])
     issues = Issue.visible(user).all
@@ -261,18 +282,18 @@ class IssueTest < ActiveSupport::TestCase
     assert user.groups.any?
     Member.create!(:principal => user.groups.first, :project_id => 1, :role_ids => [2])
     Role.non_member.remove_permission!(:view_issues)
-    
+
     issue = Issue.create(:project_id => 1, :tracker_id => 1, :author_id => 3,
       :status_id => 1, :priority => IssuePriority.all.first,
       :subject => 'Assignment test',
       :assigned_to => user.groups.first,
       :is_private => true)
-    
+
     Role.find(2).update_attribute :issues_visibility, 'default'
     issues = Issue.visible(User.find(8)).all
     assert issues.any?
     assert issues.include?(issue)
-    
+
     Role.find(2).update_attribute :issues_visibility, 'own'
     issues = Issue.visible(User.find(8)).all
     assert issues.any?
@@ -285,7 +306,7 @@ class IssueTest < ActiveSupport::TestCase
     assert user.projects.empty?
     issues = Issue.visible(user).all
     assert issues.any?
-    # Admin should see issues on private projects that he does not belong to
+    # Admin should see issues on private projects that admin does not belong to
     assert issues.detect {|issue| !issue.project.is_public?}
     # Admin should see private issues of other users
     assert issues.detect {|issue| issue.is_private? && issue.author != user}
@@ -469,7 +490,7 @@ class IssueTest < ActiveSupport::TestCase
     issue.tracker_id = 2
     issue.subject = 'New subject'
     assert !issue.save
-    assert_not_nil issue.errors[:tracker_id]
+    assert_not_equal [], issue.errors[:tracker_id]
   end
 
   def test_category_based_assignment
@@ -488,9 +509,9 @@ class IssueTest < ActiveSupport::TestCase
     WorkflowTransition.create!(:role_id => 1, :tracker_id => 1,
                                :old_status_id => 1, :new_status_id => 3,
                                :author => true, :assignee => false)
-    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1,
-                               :new_status_id => 4, :author => false,
-                               :assignee => true)
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1,
+                               :old_status_id => 1, :new_status_id => 4,
+                               :author => false, :assignee => true)
     WorkflowTransition.create!(:role_id => 1, :tracker_id => 1,
                                :old_status_id => 1, :new_status_id => 5,
                                :author => true, :assignee => true)
@@ -516,13 +537,33 @@ class IssueTest < ActiveSupport::TestCase
                             :project_id => 1, :author => user,
                             :assigned_to => user)
     assert_equal [1, 2, 3, 4, 5], issue.new_statuses_allowed_to(user).map(&:id)
+
+    group = Group.generate!
+    group.users << user
+    issue = Issue.generate!(:tracker => tracker, :status => status,
+                            :project_id => 1, :author => user,
+                            :assigned_to => group)
+    assert_equal [1, 2, 3, 4, 5], issue.new_statuses_allowed_to(user).map(&:id)
+  end
+
+  def test_new_statuses_allowed_to_should_consider_group_assignment
+    WorkflowTransition.delete_all
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1,
+                               :old_status_id => 1, :new_status_id => 4,
+                               :author => false, :assignee => true)
+    user = User.find(2)
+    group = Group.generate!
+    group.users << user
+ 
+    issue = Issue.generate!(:author_id => 1, :assigned_to => group)
+    assert_include 4, issue.new_statuses_allowed_to(user).map(&:id)
   end
 
   def test_new_statuses_allowed_to_should_return_all_transitions_for_admin
     admin = User.find(1)
     issue = Issue.find(1)
     assert !admin.member_of?(issue.project)
-    expected_statuses = [issue.status] + 
+    expected_statuses = [issue.status] +
                             WorkflowTransition.find_all_by_old_status_id(
                                 issue.status_id).map(&:new_status).uniq.sort
     assert_equal expected_statuses, issue.new_statuses_allowed_to(admin)
@@ -1004,7 +1045,7 @@ class IssueTest < ActiveSupport::TestCase
                       :status_id => 1, :fixed_version_id => 1,
                       :subject => 'New issue')
     assert !issue.save
-    assert_not_nil issue.errors[:fixed_version_id]
+    assert_not_equal [], issue.errors[:fixed_version_id]
   end
 
   def test_should_not_be_able_to_assign_a_new_issue_to_a_locked_version
@@ -1012,7 +1053,7 @@ class IssueTest < ActiveSupport::TestCase
                       :status_id => 1, :fixed_version_id => 2,
                       :subject => 'New issue')
     assert !issue.save
-    assert_not_nil issue.errors[:fixed_version_id]
+    assert_not_equal [], issue.errors[:fixed_version_id]
   end
 
   def test_should_be_able_to_assign_a_new_issue_to_an_open_version
@@ -1033,7 +1074,7 @@ class IssueTest < ActiveSupport::TestCase
     issue = Issue.find(11)
     issue.status_id = 1
     assert !issue.save
-    assert_not_nil issue.errors[:base]
+    assert_not_equal [], issue.errors[:base]
   end
 
   def test_should_be_able_to_reopen_and_reassign_an_issue_assigned_to_a_closed_version
@@ -1062,7 +1103,7 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_should_keep_shared_version_when_changing_project
     Version.find(2).update_attribute :sharing, 'tree'
- 
+
     issue = Issue.find(2)
     assert_equal 2, issue.fixed_version_id
     issue.project_id = 3
@@ -1525,7 +1566,7 @@ class IssueTest < ActiveSupport::TestCase
     child = Issue.new(:parent_issue_id => issue2.id, :start_date => '2012-10-16',
       :project_id => 1, :tracker_id => 1, :status_id => 1, :subject => 'Child', :author_id => 1)
     assert !child.valid?
-    assert_include 'Start date is invalid', child.errors.full_messages
+    assert_include 'Start date cannot be earlier than 10/18/2012 because of preceding issues', child.errors.full_messages
     assert_equal Date.parse('2012-10-18'), child.soonest_start
     child.start_date = '2012-10-18'
     assert child.save
@@ -1795,6 +1836,136 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal [2, 3, 8], Issue.find(1).all_dependent_issues.collect(&:id).sort
   end
 
+  def test_all_dependent_issues_with_subtask
+    IssueRelation.delete_all
+
+    project = Project.generate!(:name => "testproject")
+
+    parentIssue = Issue.generate!(:project => project)
+    childIssue1 = Issue.generate!(:project => project, :parent_issue_id => parentIssue.id)
+    childIssue2 = Issue.generate!(:project => project, :parent_issue_id => parentIssue.id)
+
+    assert_equal [childIssue1.id, childIssue2.id].sort, parentIssue.all_dependent_issues.collect(&:id).uniq.sort
+  end
+
+  def test_all_dependent_issues_does_not_include_self
+    IssueRelation.delete_all
+
+    project = Project.generate!(:name => "testproject")
+
+    parentIssue = Issue.generate!(:project => project)
+    childIssue = Issue.generate!(:project => project, :parent_issue_id => parentIssue.id)
+
+    assert_equal [childIssue.id], parentIssue.all_dependent_issues.collect(&:id)
+  end
+
+  def test_all_dependent_issues_with_parenttask_and_sibling
+    IssueRelation.delete_all
+
+    project = Project.generate!(:name => "testproject")
+
+    parentIssue = Issue.generate!(:project => project)
+    childIssue1 = Issue.generate!(:project => project, :parent_issue_id => parentIssue.id)
+    childIssue2 = Issue.generate!(:project => project, :parent_issue_id => parentIssue.id)
+
+    assert_equal [parentIssue.id].sort, childIssue1.all_dependent_issues.collect(&:id)
+  end
+
+  def test_all_dependent_issues_with_relation_to_leaf_in_other_tree
+    IssueRelation.delete_all
+
+    project = Project.generate!(:name => "testproject")
+
+    parentIssue1 = Issue.generate!(:project => project)
+    childIssue1_1 = Issue.generate!(:project => project, :parent_issue_id => parentIssue1.id)
+    childIssue1_2 = Issue.generate!(:project => project, :parent_issue_id => parentIssue1.id)
+
+    parentIssue2 = Issue.generate!(:project => project)
+    childIssue2_1 = Issue.generate!(:project => project, :parent_issue_id => parentIssue2.id)
+    childIssue2_2 = Issue.generate!(:project => project, :parent_issue_id => parentIssue2.id)
+
+
+    assert IssueRelation.create(:issue_from => parentIssue1,
+                                :issue_to   => childIssue2_2,
+                                :relation_type => IssueRelation::TYPE_BLOCKS)
+
+    assert_equal [childIssue1_1.id, childIssue1_2.id, parentIssue2.id, childIssue2_2.id].sort,
+                 parentIssue1.all_dependent_issues.collect(&:id).uniq.sort
+  end
+
+  def test_all_dependent_issues_with_relation_to_parent_in_other_tree
+    IssueRelation.delete_all
+
+    project = Project.generate!(:name => "testproject")
+
+    parentIssue1 = Issue.generate!(:project => project)
+    childIssue1_1 = Issue.generate!(:project => project, :parent_issue_id => parentIssue1.id)
+    childIssue1_2 = Issue.generate!(:project => project, :parent_issue_id => parentIssue1.id)
+
+    parentIssue2 = Issue.generate!(:project => project)
+    childIssue2_1 = Issue.generate!(:project => project, :parent_issue_id => parentIssue2.id)
+    childIssue2_2 = Issue.generate!(:project => project, :parent_issue_id => parentIssue2.id)
+
+
+    assert IssueRelation.create(:issue_from => parentIssue1,
+                                :issue_to   => parentIssue2,
+                                :relation_type => IssueRelation::TYPE_BLOCKS)
+
+    assert_equal [childIssue1_1.id, childIssue1_2.id, parentIssue2.id, childIssue2_1.id, childIssue2_2.id].sort,
+                 parentIssue1.all_dependent_issues.collect(&:id).uniq.sort
+  end
+
+  def test_all_dependent_issues_with_transitive_relation
+    IssueRelation.delete_all
+
+    project = Project.generate!(:name => "testproject")
+
+    parentIssue1 = Issue.generate!(:project => project)
+    childIssue1_1 = Issue.generate!(:project => project, :parent_issue_id => parentIssue1.id)
+
+    parentIssue2 = Issue.generate!(:project => project)
+    childIssue2_1 = Issue.generate!(:project => project, :parent_issue_id => parentIssue2.id)
+
+    independentIssue = Issue.generate!(:project => project)
+
+    assert IssueRelation.create(:issue_from => parentIssue1,
+                                :issue_to   => childIssue2_1,
+                                :relation_type => IssueRelation::TYPE_RELATES)
+
+    assert IssueRelation.create(:issue_from => childIssue2_1,
+                                :issue_to   => independentIssue,
+                                :relation_type => IssueRelation::TYPE_RELATES)
+
+    assert_equal [childIssue1_1.id, parentIssue2.id, childIssue2_1.id, independentIssue.id].sort,
+                 parentIssue1.all_dependent_issues.collect(&:id).uniq.sort
+  end
+
+  def test_all_dependent_issues_with_transitive_relation2
+    IssueRelation.delete_all
+
+    project = Project.generate!(:name => "testproject")
+
+    parentIssue1 = Issue.generate!(:project => project)
+    childIssue1_1 = Issue.generate!(:project => project, :parent_issue_id => parentIssue1.id)
+
+    parentIssue2 = Issue.generate!(:project => project)
+    childIssue2_1 = Issue.generate!(:project => project, :parent_issue_id => parentIssue2.id)
+
+    independentIssue = Issue.generate!(:project => project)
+
+    assert IssueRelation.create(:issue_from => parentIssue1,
+                                :issue_to   => independentIssue,
+                                :relation_type => IssueRelation::TYPE_RELATES)
+
+    assert IssueRelation.create(:issue_from => independentIssue,
+                                :issue_to   => childIssue2_1,
+                                :relation_type => IssueRelation::TYPE_RELATES)
+
+    assert_equal [childIssue1_1.id, parentIssue2.id, childIssue2_1.id, independentIssue.id].sort,
+                 parentIssue1.all_dependent_issues.collect(&:id).uniq.sort
+
+  end
+
   def test_all_dependent_issues_with_persistent_circular_dependency
     IssueRelation.delete_all
     assert IssueRelation.create!(:issue_from => Issue.find(1),
@@ -1808,7 +1979,7 @@ class IssueTest < ActiveSupport::TestCase
                              :issue_to   => Issue.find(7),
                              :relation_type => IssueRelation::TYPE_PRECEDES)
     IssueRelation.update_all("issue_to_id = 1", ["id = ?", r.id])
-    
+
     assert_equal [2, 3], Issue.find(1).all_dependent_issues.collect(&:id).sort
   end
 
@@ -1828,7 +1999,7 @@ class IssueTest < ActiveSupport::TestCase
                              :issue_to   => Issue.find(7),
                              :relation_type => IssueRelation::TYPE_RELATES)
     IssueRelation.update_all("issue_to_id = 2", ["id = ?", r.id])
-    
+
     r = IssueRelation.create!(:issue_from => Issue.find(3),
                              :issue_to   => Issue.find(7),
                              :relation_type => IssueRelation::TYPE_RELATES)
@@ -2016,6 +2187,18 @@ class IssueTest < ActiveSupport::TestCase
     classes = issue.css_classes.split(' ')
     assert_include 'priority-8', classes
     assert_include 'priority-highest', classes
+  end
+
+  def test_css_classes_should_include_user_assignment
+    issue = Issue.generate(:assigned_to_id => 2)
+    assert_include 'assigned-to-me', issue.css_classes(User.find(2))
+    assert_not_include 'assigned-to-me', issue.css_classes(User.find(3))
+  end
+
+  def test_css_classes_should_include_user_group_assignment
+    issue = Issue.generate(:assigned_to_id => 10)
+    assert_include 'assigned-to-my-group', issue.css_classes(Group.find(10).users.first)
+    assert_not_include 'assigned-to-my-group', issue.css_classes(User.find(3))
   end
 
   def test_save_attachments_with_hash_should_save_attachments_in_keys_order

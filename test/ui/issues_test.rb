@@ -102,14 +102,16 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
   end
 
   def test_create_issue_with_watchers
-    User.generate!(:firstname => 'Some', :lastname => 'Watcher')
-
+    user = User.generate!(:firstname => 'Some', :lastname => 'Watcher')
+    assert_equal 'Some Watcher', user.name
     log_user('jsmith', 'jsmith')
     visit '/projects/ecookbook/issues/new'
     fill_in 'Subject', :with => 'Issue with watchers'
     # Add a project member as watcher
     check 'Dave Lopper'
     # Search for another user
+    assert page.has_no_css?('form#new-watcher-form')
+    assert page.has_no_content?('Some Watcher')
     click_link 'Search for watchers to add'
     within('form#new-watcher-form') do
       assert page.has_content?('Some One')
@@ -118,12 +120,52 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
       check 'Some Watcher'
       click_button 'Add'
     end
+    assert page.has_css?('form#issue-form')
+    assert page.has_css?('p#watchers_form')
+    using_wait_time(30) do
+      within('span#watchers_inputs') do
+        within("label#issue_watcher_user_ids_#{user.id}") do
+          assert has_content?('Some Watcher'), "No watcher content"
+        end
+      end
+    end
     assert_difference 'Issue.count' do
       find('input[name=commit]').click
     end
 
     issue = Issue.order('id desc').first
     assert_equal ['Dave Lopper', 'Some Watcher'], issue.watcher_users.map(&:name).sort
+  end
+
+  def test_create_issue_start_due_date
+    with_settings :default_issue_start_date_to_creation_date => 0 do
+      log_user('jsmith', 'jsmith')
+      visit '/projects/ecookbook/issues/new'
+      assert_equal "", page.find('input#issue_start_date').value
+      assert_equal "", page.find('input#issue_due_date').value
+      page.first('p#start_date_area img').click
+      page.first("td.ui-datepicker-days-cell-over a").click
+      assert_equal Date.today.to_s, page.find('input#issue_start_date').value
+      page.first('p#due_date_area img').click
+      page.first("td.ui-datepicker-days-cell-over a").click
+      assert_equal Date.today.to_s, page.find('input#issue_due_date').value
+    end
+  end
+
+  def test_create_issue_start_due_date_default
+    log_user('jsmith', 'jsmith')
+    visit '/projects/ecookbook/issues/new'
+    fill_in 'Start date', :with => '2012-04-01'
+    fill_in 'Due date', :with => ''
+    page.first('p#due_date_area img').click
+    page.first("td.ui-datepicker-days-cell-over a").click
+    assert_equal '2012-04-01', page.find('input#issue_due_date').value
+
+    fill_in 'Start date', :with => ''
+    fill_in 'Due date', :with => '2012-04-01'
+    page.first('p#start_date_area img').click
+    page.first("td.ui-datepicker-days-cell-over a").click
+    assert_equal '2012-04-01', page.find('input#issue_start_date').value
   end
 
   def test_preview_issue_description
@@ -182,20 +224,22 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
     assert page.first('#sidebar').has_content?(user.name)
     assert_difference 'Watcher.count', -1 do
       page.first('ul.watchers .user-3 a.delete').click
+      assert page.first('#sidebar').has_content?('Watchers (0)')
     end
-    assert page.first('#sidebar').has_content?('Watchers (0)')
     assert page.first('#sidebar').has_no_content?(user.name)
   end
 
   def test_watch_issue_via_context_menu
     log_user('jsmith', 'jsmith')
     visit '/issues'
+    assert page.has_css?('tr#issue-1')
     find('tr#issue-1 td.updated_on').click
     page.execute_script "$('tr#issue-1 td.updated_on').trigger('contextmenu');"
     assert_difference 'Watcher.count' do
       within('#context-menu') do
         click_link 'Watch'
       end
+      assert page.has_css?('tr#issue-1')
     end
     assert Issue.find(1).watched_by?(User.find_by_login('jsmith'))
   end
@@ -203,6 +247,8 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
   def test_bulk_watch_issues_via_context_menu
     log_user('jsmith', 'jsmith')
     visit '/issues'
+    assert page.has_css?('tr#issue-1')
+    assert page.has_css?('tr#issue-4')
     find('tr#issue-1 input[type=checkbox]').click
     find('tr#issue-4 input[type=checkbox]').click
     page.execute_script "$('tr#issue-1 td.updated_on').trigger('contextmenu');"
@@ -210,6 +256,8 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
       within('#context-menu') do
         click_link 'Watch'
       end
+      assert page.has_css?('tr#issue-1')
+      assert page.has_css?('tr#issue-4')
     end
     assert Issue.find(1).watched_by?(User.find_by_login('jsmith'))
     assert Issue.find(4).watched_by?(User.find_by_login('jsmith'))
