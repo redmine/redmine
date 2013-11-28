@@ -99,6 +99,23 @@ class WatcherTest < ActiveSupport::TestCase
     assert_nil issue.addable_watcher_users.detect {|user| !issue.visible?(user)}
   end
 
+  def test_any_watched_should_return_false_if_no_object_is_watched
+    objects = (0..2).map {Issue.generate!}
+
+    assert_equal false, Watcher.any_watched?(objects, @user)
+  end
+
+  def test_any_watched_should_return_true_if_one_object_is_watched
+    objects = (0..2).map {Issue.generate!}
+    objects.last.add_watcher(@user)
+
+    assert_equal true, Watcher.any_watched?(objects, @user)
+  end
+
+  def test_any_watched_should_return_false_with_no_object
+    assert_equal false, Watcher.any_watched?([], @user)
+  end
+
   def test_recipients
     @issue.watchers.delete_all
     @issue.reload

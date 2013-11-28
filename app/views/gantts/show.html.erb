@@ -1,4 +1,11 @@
 <% @gantt.view = self %>
+<div class="contextual">
+<% if !@query.new_record? && @query.editable_by?(User.current) %>
+  <%= link_to l(:button_edit), edit_query_path(@query, :gantt => 1), :class => 'icon icon-edit' %>
+  <%= delete_link query_path(@query, :gantt => 1) %>
+<% end %>
+</div>
+
 <h2><%= @query.new_record? ? l(:label_gantt) : h(@query.name) %></h2>
 
 <%= form_tag({:controller => 'gantts', :action => 'show',
@@ -6,6 +13,7 @@
              :year => params[:year], :months => params[:months]},
              :method => :get, :id => 'query_form') do %>
 <%= hidden_field_tag 'set_filter', '1' %>
+<%= hidden_field_tag 'gantt', '1' %>
 <fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
   <legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
   <div style="<%= @query.new_record? ? "" : "display: none;" %>">
@@ -20,8 +28,8 @@
         <td>
           <fieldset>
             <legend><%= l(:label_related_issues) %></legend>
-            <label>
-              <%= check_box_tag "draw_rels", params["draw_rels"], params[:set_filter].blank? || params[:draw_rels] %>
+            <label for="draw_relations">
+              <%= check_box 'query', 'draw_relations', :id => 'draw_relations' %>
               <% rels = [IssueRelation::TYPE_BLOCKS, IssueRelation::TYPE_PRECEDES] %>
               <% rels.each do |rel| %>
                 <% color = Redmine::Helpers::Gantt::DRAW_TYPES[rel][:color] %>
@@ -35,8 +43,8 @@
         <td>
           <fieldset>
             <legend><%= l(:label_gantt_progress_line) %></legend>
-            <label>
-              <%= check_box_tag "draw_progress_line", params[:draw_progress_line], params[:draw_progress_line] %>
+            <label for="draw_progress_line">
+              <%= check_box 'query', 'draw_progress_line', :id => 'draw_progress_line' %>
               <%= l(:label_display) %>
             </label>
           </fieldset>
@@ -62,6 +70,11 @@
                      :class => 'icon icon-checked' %>
 <%= link_to l(:button_clear), { :project_id => @project, :set_filter => 1 },
             :class => 'icon icon-reload' %>
+<% if @query.new_record? && User.current.allowed_to?(:save_queries, @project, :global => true) %>
+  <%= link_to_function l(:button_save),
+                       "$('#query_form').attr('action', '#{ @project ? new_project_query_path(@project) : new_query_path }').submit();",
+                       :class => 'icon icon-save' %>
+<% end %>
 </p>
 <% end %>
 
@@ -313,7 +326,7 @@
   $(document).ready(drawGanttHandler);
   $(window).resize(drawGanttHandler);
   $(function() {
-    $("#draw_rels").change(drawGanttHandler);
+    $("#draw_relations").change(drawGanttHandler);
     $("#draw_progress_line").change(drawGanttHandler);
   });
 <% end %>

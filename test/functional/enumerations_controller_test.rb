@@ -126,4 +126,11 @@ class EnumerationsControllerTest < ActionController::TestCase
     # check that the issue was reassign
     assert_equal 6, issue.reload.priority_id
   end
+
+  def test_destroy_enumeration_in_use_with_blank_reassignment
+    assert_no_difference 'IssuePriority.count' do
+      delete :destroy, :id => 4, :reassign_to_id => ''
+    end
+    assert_response :success
+  end
 end

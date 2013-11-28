@@ -137,6 +137,7 @@ pt:
         not_same_project: "não pertence ao mesmo projecto"
         circular_dependency: "Esta relação iria criar uma dependência circular"
         cant_link_an_issue_with_a_descendant: "Não é possível ligar uma tarefa a uma sub-tarefa que lhe é pertencente"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   ## Translated by: Pedro Araújo <phcrva19@hotmail.com>
   actionview_instancetag_blank_option: Seleccione
@@ -156,7 +157,6 @@ pt:
   notice_account_invalid_creditentials: Utilizador ou palavra-chave inválidos.
   notice_account_password_updated: A palavra-chave foi alterada com sucesso.
   notice_account_wrong_password: Palavra-chave errada.
-  notice_account_register_done: A conta foi criada com sucesso.
   notice_account_unknown_email: Utilizador desconhecido.
   notice_can_t_change_password: Esta conta utiliza uma fonte de autenticação externa. Não é possível alterar a palavra-chave.
   notice_account_lost_email_sent: Foi-lhe enviado um e-mail com as instruções para escolher uma nova palavra-chave.
@@ -1091,6 +1091,18 @@ pt:
   setting_jsonp_enabled: Activar suporte JSONP
   field_inherit_members: Herdar membros
   field_closed_on: Fechado
-  field_generate_password: Generate password
-  setting_default_projects_tracker_ids: Default trackers for new projects
+  field_generate_password: Gerar palavra-chave
+  setting_default_projects_tracker_ids: Tipo de tarefa padrão para novos projectos
   label_total_time: Total
+  notice_account_not_activated_yet: Ainda não activou a sua conta. Se quiser
+    receber um novo email de activação, por favor carregue <a href="%{url}">nesta ligação</a>.
+  notice_account_locked: A sua conta está bloqueada.
+  notice_account_register_done: A conta foi criada com sucesso. Um email contendo
+    as instruções para activar a sua conta foi enviado para %{email}.
+  label_hidden: Escondido
+  label_visibility_private: apenas para mim
+  label_visibility_roles: apenas para estas funções
+  label_visibility_public: para qualquer utilizador
+  field_must_change_passwd: Tem que alterar a palavra-passe no próximo início de sessão
+  notice_new_password_must_be_different: A palavra-passe tem de ser diferente da actual
+  setting_mail_handler_excluded_filenames: Exclude attachments by name

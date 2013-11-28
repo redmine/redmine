@@ -45,6 +45,7 @@ class Message < ActiveRecord::Base
   after_create :add_author_as_watcher, :reset_counters!
   after_update :update_messages_board
   after_destroy :reset_counters!
+  after_create :send_notification
 
   scope :visible, lambda {|*args|
     includes(:board => :project).where(Project.allowed_to_condition(args.shift || User.current, :view_messages, *args))
@@ -104,5 +105,11 @@ class Message < ActiveRecord::Base
 
   def add_author_as_watcher
     Watcher.create(:watchable => self.root, :user => author)
+  end
+
+  def send_notification
+    if Setting.notified_events.include?('message_posted')
+      Mailer.message_posted(self).deliver
+    end
   end
 end

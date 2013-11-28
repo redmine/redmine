@@ -23,6 +23,19 @@ class Watcher < ActiveRecord::Base
   validates_uniqueness_of :user_id, :scope => [:watchable_type, :watchable_id]
   validate :validate_user
 
+  # Returns true if at least one object among objects is watched by user
+  def self.any_watched?(objects, user)
+    objects = objects.reject(&:new_record?)
+    if objects.any?
+      objects.group_by {|object| object.class.base_class}.each do |base_class, objects|
+        if Watcher.where(:watchable_type => base_class.name, :watchable_id => objects.map(&:id), :user_id => user.id).exists?
+          return true
+        end
+      end
+    end
+    false
+  end
+
   # Unwatch things that users are no longer allowed to view
   def self.prune(options={})
     if options.has_key?(:user)

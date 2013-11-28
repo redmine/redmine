@@ -2431,7 +2431,7 @@ class TCPDF
 		out('1 0 obj');
 		out('<</Type /Pages');
 		kids='/Kids [';
-		0.upto(nb) do |i|
+		0.upto(nb - 1) do |i|
 			kids<<(3+2*i).to_s + ' 0 R ';
 		end
 		out(kids + ']');
@@ -3103,7 +3103,7 @@ class TCPDF
 		# is a stream object that contains the definition of the CMap
 		# (PDF Reference 1.3 chap. 5.9)
 		newobj();
-		out('<</Length 383>>');
+		out('<</Length 345>>')
 		out('stream');
 		out('/CIDInit /ProcSet findresource begin');
 		out('12 dict begin');

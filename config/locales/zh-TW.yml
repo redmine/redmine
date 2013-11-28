@@ -4,6 +4,8 @@
 
 "zh-TW":
   direction: ltr
+  jquery:
+    locale: "zh-TW"
   date:
     formats:
       # Use the strftime parameters for formats.
@@ -121,8 +123,8 @@
         one: "約 1 小時"
         other: "約 %{count} 小時"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 小時"
+        other: "%{count} 小時"
       x_days:
         one: "1 天"
         other: "%{count} 天"
@@ -184,6 +186,7 @@
         not_same_project: "不屬於同一個專案"
         circular_dependency: "這個關聯會導致環狀相依"
         cant_link_an_issue_with_a_descendant: "問題無法被連結至自己的子任務"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
       # You can define own errors for models or model attributes.
       # The values :model, :attribute and :value are always available for interpolation.
@@ -231,6 +234,8 @@
   notice_account_wrong_password: 密碼不正確
   notice_account_register_done: 帳號已建立成功。欲啟用您的帳號，請點擊系統確認信函中的啟用連結。
   notice_account_unknown_email: 未知的使用者
+  notice_account_not_activated_yet: 您尚未完成啟用您的帳號。若您要索取新的帳號啟用 Email ，請 <a href="%{url}">點擊此連結</a> 。
+  notice_account_locked: 您的帳號已被鎖定。
   notice_can_t_change_password: 這個帳號使用外部認證方式，無法變更其密碼。
   notice_account_lost_email_sent: 包含選擇新密碼指示的電子郵件，已經寄出給您。
   notice_account_activated: 您的帳號已經啟用，可用它登入系統。
@@ -260,6 +265,7 @@
   notice_issue_update_conflict: "當您正在編輯這個問題的時候，它已經被其他人搶先一步更新過。"
   notice_account_deleted: "您的帳戶已被永久刪除。"
   notice_user_successful_create: "已建立用戶 %{id}。"
+  notice_new_password_must_be_different: 新舊密碼必須相異
 
   error_can_t_load_default_data: "無法載入預設組態： %{value}"
   error_scm_not_found: "在儲存機制中找不到這個項目或修訂版。"
@@ -415,6 +421,7 @@
   field_private_notes: 私人筆記
   field_inherit_members: 繼承父專案成員
   field_generate_password: 產生密碼
+  field_must_change_passwd: 必須在下次登入時變更密碼
 
   setting_app_title: 標題
   setting_app_subtitle: 副標題
@@ -484,6 +491,8 @@
   setting_thumbnails_size: "縮圖大小 (單位: 像素 pixels)"
   setting_non_working_week_days: 非工作日
   setting_jsonp_enabled: 啟用 JSONP 支援
+  setting_default_projects_tracker_ids: 新專案預設使用的追蹤標籤
+  setting_mail_handler_excluded_filenames: 移除符合下列名稱的附件
 
   permission_add_project: 建立專案
   permission_add_subprojects: 建立子專案
@@ -701,6 +710,7 @@
     one:   1 個問題
     other: "%{count} 個問題"
   label_total: 總計
+  label_total_time: 工時總計
   label_permissions: 權限
   label_current_status: 目前狀態
   label_new_statuses_allowed: 可變更至以下狀態
@@ -710,7 +720,7 @@
   label_nobody: 無名
   label_next: 下一頁
   label_previous: 上一頁
-  label_used_by: Used by
+  label_used_by: 已使用專案
   label_details: 明細
   label_add_note: 加入一個新筆記
   label_per_page: 每頁
@@ -963,6 +973,7 @@
   label_fields_permissions: 欄位權限
   label_readonly: 唯讀
   label_required: 必填
+  label_hidden: 隱藏
   label_attribute_of_project: "專案是 %{name}"
   label_attribute_of_issue: "問題是 %{name}"
   label_attribute_of_author: "作者是 %{name}"
@@ -974,6 +985,9 @@
   label_cross_project_hierarchy: 與專案階層架構共用
   label_cross_project_system: 與全部的專案共用
   label_gantt_progress_line: 進度線
+  label_visibility_private: 僅我自己可見
+  label_visibility_roles: 僅選取之角色可見
+  label_visibility_public: 任何用戶均可見
 
   button_login: 登入
   button_submit: 送出
@@ -1166,5 +1180,3 @@
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  setting_default_projects_tracker_ids: Default trackers for new projects
-  label_total_time: 總計

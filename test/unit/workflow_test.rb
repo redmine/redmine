@@ -30,9 +30,9 @@ class WorkflowTest < ActiveSupport::TestCase
       WorkflowTransition.copy(Tracker.find(2), Role.find(1), Tracker.find(3), Role.find(2))
     end
 
-    assert WorkflowTransition.first(:conditions => {:role_id => 2, :tracker_id => 3, :old_status_id => 1, :new_status_id => 2, :author => false, :assignee => false})
-    assert WorkflowTransition.first(:conditions => {:role_id => 2, :tracker_id => 3, :old_status_id => 1, :new_status_id => 3, :author => false, :assignee => true})
-    assert WorkflowTransition.first(:conditions => {:role_id => 2, :tracker_id => 3, :old_status_id => 1, :new_status_id => 4, :author => true, :assignee => false})
+    assert WorkflowTransition.where(:role_id => 2, :tracker_id => 3, :old_status_id => 1, :new_status_id => 2, :author => false, :assignee => false).first
+    assert WorkflowTransition.where(:role_id => 2, :tracker_id => 3, :old_status_id => 1, :new_status_id => 3, :author => false, :assignee => true).first
+    assert WorkflowTransition.where(:role_id => 2, :tracker_id => 3, :old_status_id => 1, :new_status_id => 4, :author => true, :assignee => false).first
   end
 
   def test_workflow_permission_should_validate_rule

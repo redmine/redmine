@@ -41,7 +41,7 @@ class CustomFieldsHelperTest < ActionView::TestCase
     field = CustomField.new(:field_format => 'foo')
     field.id = 52
 
-    assert_equal '<input class="foo_cf" id="object_custom_field_values_52" name="object[custom_field_values][52]" type="text" value="" />',
+    assert_include '<input class="foo_cf" id="object_custom_field_values_52" name="object[custom_field_values][52]" type="text" value="" />',
       custom_field_tag_for_bulk_edit('object', field)
   end
 end

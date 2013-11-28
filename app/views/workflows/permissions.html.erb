@@ -1,6 +1,6 @@
 <%= render :partial => 'action_menu' %>
 
-<h2><%=l(:label_workflow)%></h2>
+<%= title l(:label_workflow) %>
 
 <div class="tabs">
   <ul>
@@ -62,7 +62,8 @@
         </td>
         <% for status in @statuses -%>
         <td align="center" class="<%= @permissions[status.id][field] %>">
-          <%= field_permission_tag(@permissions, status, field) %>
+          <%= field_permission_tag(@permissions, status, field, @role) %>
+          <% unless status == @statuses.last %><a href="#" class="repeat-value">&#187;</a><% end %>
         </td>
         <% end -%>
       </tr>
@@ -81,7 +82,8 @@
           </td>
           <% for status in @statuses -%>
           <td align="center" class="<%= @permissions[status.id][field.id.to_s] %>">
-            <%= field_permission_tag(@permissions, status, field) %>
+            <%= field_permission_tag(@permissions, status, field, @role) %>
+            <% unless status == @statuses.last %><a href="#" class="repeat-value">&#187;</a><% end %>
           </td>
           <% end -%>
         </tr>
@@ -92,4 +94,13 @@
     </div>
     <%= submit_tag l(:button_save) %>
   <% end %>
+<% end %>
+
+<%= javascript_tag do %>
+$("a.repeat-value").click(function(e){
+  e.preventDefault();
+  var td = $(this).closest('td');
+  var selected = td.find("select").find(":selected").val();
+  td.nextAll('td').find("select").val(selected);
+});
 <% end %>

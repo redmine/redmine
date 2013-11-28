@@ -429,6 +429,14 @@ class TimelogControllerTest < ActionController::TestCase
     assert_tag 'a', :attributes => {:href => '/time_entries/new'}, :content => /Log time/
   end
 
+  def test_index_my_spent_time
+    @request.session[:user_id] = 2
+    get :index, :user_id => 'me'
+    assert_response :success
+    assert_template 'index'
+    assert assigns(:entries).all? {|entry| entry.user_id == 2}
+  end
+
   def test_index_at_project_level
     get :index, :project_id => 'ecookbook'
     assert_response :success
@@ -441,6 +449,28 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal "162.90", "%.2f" % assigns(:total_hours)
     assert_tag :form,
       :attributes => {:action => "/projects/ecookbook/time_entries", :id => 'query_form'}
+  end
+
+  def test_index_with_display_subprojects_issues_to_false_should_not_include_subproject_entries
+    entry = TimeEntry.generate!(:project => Project.find(3))
+
+    with_settings :display_subprojects_issues => '0' do
+      get :index, :project_id => 'ecookbook'
+      assert_response :success
+      assert_template 'index'
+      assert_not_include entry, assigns(:entries)
+    end
+  end
+
+  def test_index_with_display_subprojects_issues_to_false_and_subproject_filter_should_include_subproject_entries
+    entry = TimeEntry.generate!(:project => Project.find(3))
+
+    with_settings :display_subprojects_issues => '0' do
+      get :index, :project_id => 'ecookbook', :subproject_id => 3
+      assert_response :success
+      assert_template 'index'
+      assert_include entry, assigns(:entries)
+    end
   end
 
   def test_index_at_project_level_with_date_range
@@ -540,12 +570,81 @@ class TimelogControllerTest < ActionController::TestCase
     assert_select 'td.issue_cf_2', :text => 'filter_on_issue_custom_field'
   end
 
+  def test_index_with_time_entry_custom_field_column
+    field = TimeEntryCustomField.generate!(:field_format => 'string')
+    entry = TimeEntry.generate!(:hours => 2.5, :custom_field_values => {field.id => 'CF Value'})
+    field_name = "cf_#{field.id}"
+
+    get :index, :c => ["hours", field_name]
+    assert_response :success
+    assert_include field_name.to_sym, assigns(:query).column_names
+    assert_select "td.#{field_name}", :text => 'CF Value'
+  end
+
+  def test_index_with_time_entry_custom_field_sorting
+    field = TimeEntryCustomField.generate!(:field_format => 'string', :name => 'String Field')
+    TimeEntry.generate!(:hours => 2.5, :custom_field_values => {field.id => 'CF Value 1'})
+    TimeEntry.generate!(:hours => 2.5, :custom_field_values => {field.id => 'CF Value 3'})
+    TimeEntry.generate!(:hours => 2.5, :custom_field_values => {field.id => 'CF Value 2'})
+    field_name = "cf_#{field.id}"
+
+    get :index, :c => ["hours", field_name], :sort => field_name
+    assert_response :success
+    assert_include field_name.to_sym, assigns(:query).column_names
+    assert_select "th a.sort", :text => 'String Field'
+
+    # Make sure that values are properly sorted
+    values = assigns(:entries).map {|e| e.custom_field_value(field)}.compact
+    assert_equal 3, values.size
+    assert_equal values.sort, values
+  end
+
   def test_index_atom_feed
     get :index, :project_id => 1, :format => 'atom'
     assert_response :success
     assert_equal 'application/atom+xml', @response.content_type
     assert_not_nil assigns(:items)
     assert assigns(:items).first.is_a?(TimeEntry)
+  end
+
+  def test_index_at_project_level_should_include_csv_export_dialog
+    get :index, :project_id => 'ecookbook', 
+      :f => ['spent_on'],
+      :op => {'spent_on' => '>='},
+      :v => {'spent_on' => ['2007-04-01']},
+      :c => ['spent_on', 'user']
+    assert_response :success
+
+    assert_select '#csv-export-options' do
+      assert_select 'form[action=?][method=get]', '/projects/ecookbook/time_entries.csv' do
+        # filter
+        assert_select 'input[name=?][value=?]', 'f[]', 'spent_on'
+        assert_select 'input[name=?][value=?]', 'op[spent_on]', '&gt;='
+        assert_select 'input[name=?][value=?]', 'v[spent_on][]', '2007-04-01'
+        # columns
+        assert_select 'input[name=?][value=?]', 'c[]', 'spent_on'
+        assert_select 'input[name=?][value=?]', 'c[]', 'user'
+        assert_select 'input[name=?]', 'c[]', 2
+      end
+    end
+  end
+
+  def test_index_cross_project_should_include_csv_export_dialog
+    get :index
+    assert_response :success
+
+    assert_select '#csv-export-options' do
+      assert_select 'form[action=?][method=get]', '/time_entries.csv'
+    end
+  end
+
+  def test_index_at_issue_level_should_include_csv_export_dialog
+    get :index, :project_id => 'ecookbook', :issue_id => 3
+    assert_response :success
+
+    assert_select '#csv-export-options' do
+      assert_select 'form[action=?][method=get]', '/projects/ecookbook/issues/3/time_entries.csv'
+    end
   end
 
   def test_index_csv_all_projects

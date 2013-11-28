@@ -6,15 +6,14 @@
 
 <%= wiki_page_breadcrumb(@page) %>
 
-<h2><%=h @page.pretty_title %></h2>
+<%= title [@page.pretty_title, project_wiki_page_path(@page.project, @page.title, :version => nil)],
+      [l(:label_history), history_project_wiki_page_path(@page.project, @page.title)],
+      "#{l(:label_version)} #{@annotate.content.version}" %>
 
 <p>
-<%= l(:label_version) %> <%= link_to h(@annotate.content.version),
-                                     :action => 'show', :project_id => @project,
-                                     :id => @page.title, :version => @annotate.content.version %>
-<em>(<%= h(@annotate.content.author ?
-             @annotate.content.author.name : l(:label_user_anonymous))
-      %>, <%= format_time(@annotate.content.updated_on) %>)</em>
+  <em><%= @annotate.content.author ? link_to_user(@annotate.content.author) : l(:label_user_anonymous)
+       %>, <%= format_time(@annotate.content.updated_on) %> </em><br />
+  <%=h @annotate.content.comments %>
 </p>
 
 <% colors = Hash.new {|k,v| k[v] = (k.size % 12) } %>

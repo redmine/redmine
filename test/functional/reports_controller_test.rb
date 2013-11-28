@@ -54,6 +54,24 @@ class ReportsControllerTest < ActionController::TestCase
     end
   end
 
+  def test_get_issue_report_details_by_tracker_should_show_issue_count
+    Issue.delete_all
+    Issue.generate!(:tracker_id => 1)
+    Issue.generate!(:tracker_id => 1)
+    Issue.generate!(:tracker_id => 1, :status_id => 5)
+    Issue.generate!(:tracker_id => 2)
+
+    get :issue_report_details, :id => 1, :detail => 'tracker'
+    assert_select 'table.list tbody :nth-child(1)' do
+      assert_select 'td', :text => 'Bug'
+      assert_select ':nth-child(2)', :text => '2' # status:1
+      assert_select ':nth-child(3)', :text => '-' # status:2
+      assert_select ':nth-child(8)', :text => '2' # open
+      assert_select ':nth-child(9)', :text => '1' # closed
+      assert_select ':nth-child(10)', :text => '3' # total
+    end
+  end
+
   def test_get_issue_report_details_by_priority
     get :issue_report_details, :id => 1, :detail => 'priority'
     assert_equal IssuePriority.all.reverse, assigns(:rows)

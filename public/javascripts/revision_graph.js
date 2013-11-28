@@ -43,7 +43,7 @@ function drawRevisionGraph(holder, commits_hash, graph_space) {
         revisionGraph.circle(x, y, 3)
             .attr({
                 fill: colors[commit.space],
-                stroke: 'none',
+                stroke: 'none'
             }).toFront();
         // paths to parents
         $.each(commit.parent_scmids, function(index, parent_scmid) {

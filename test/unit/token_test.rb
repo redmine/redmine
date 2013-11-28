@@ -96,11 +96,6 @@ class TokenTest < ActiveSupport::TestCase
     assert_nil Token.find_token('api', token.value)
   end
 
-  def test_find_token_should_return_nil_with_wrong_action
-    token = Token.create!(:user_id => 1, :action => 'feeds')
-    assert_nil Token.find_token('api', Token.generate_token_value)
-  end
-
   def test_find_token_should_return_nil_without_user
     token = Token.create!(:user_id => 999, :action => 'api')
     assert_nil Token.find_token('api', token.value)

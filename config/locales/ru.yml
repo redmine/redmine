@@ -206,6 +206,7 @@ ru:
         not_same_project: "не относится к одному проекту"
         circular_dependency: "Такая связь приведет к циклической зависимости"
         cant_link_an_issue_with_a_descendant: "Задача не может быть связана со своей подзадачей"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   support:
     array:
@@ -717,31 +718,31 @@ ru:
   label_workflow: Последовательность действий
   label_x_closed_issues_abbr:
     zero:  "0 закрыто"
-    one:   "1 закрыт"
+    one:   "%{count} закрыта"
     few:   "%{count} закрыто"
     many:  "%{count} закрыто"
     other: "%{count} закрыто"
   label_x_comments:
     zero:  "нет комментариев"
-    one:   "1 комментарий"
+    one:   "%{count} комментарий"
     few:   "%{count} комментария"
     many:  "%{count} комментариев"
     other: "%{count} комментариев"
   label_x_open_issues_abbr:
     zero:  "0 открыто"
-    one:   "1 открыт"
+    one:   "%{count} открыта"
     few:   "%{count} открыто"
     many:  "%{count} открыто"
     other: "%{count} открыто"
   label_x_open_issues_abbr_on_total:
     zero:  "0 открыто / %{total}"
-    one:   "1 открыт / %{total}"
+    one:   "%{count} открыта / %{total}"
     few:   "%{count} открыто / %{total}"
     many:  "%{count} открыто / %{total}"
     other: "%{count} открыто / %{total}"
   label_x_projects:
     zero:  "нет проектов"
-    one:   "1 проект"
+    one:   "%{count} проект"
     few:   "%{count} проекта"
     many:  "%{count} проектов"
     other: "%{count} проектов"
@@ -1080,17 +1081,17 @@ ru:
   label_between: между
   setting_issue_group_assignment: Разрешить назначение задач группам пользователей
   label_diff: Разница(diff)
-  text_git_repository_note: Repository is bare and local (e.g. /gitrepo, c:\gitrepo)
+  text_git_repository_note: Хранилище пустое и локальное (т.е. /gitrepo, c:\gitrepo)
   description_query_sort_criteria_direction: Порядок сортировки
-  description_project_scope: Search scope
+  description_project_scope: Область поиска
   description_filter: Фильтр
-  description_user_mail_notification: Mail notification settings
-  description_date_from: Enter start date
-  description_message_content: Message content
-  description_available_columns: Available Columns
-  description_date_range_interval: Choose range by selecting start and end date
-  description_issue_category_reassign: Choose issue category
-  description_search: Searchfield
+  description_user_mail_notification: Настройки почтовых оповещений
+  description_date_from: Введите дату начала
+  description_message_content: Содержание сообщения
+  description_available_columns: Доступные столбцы
+  description_date_range_interval: Выберите диапазон, установив дату начала и дату окончания
+  description_issue_category_reassign: Выберите категорию задачи
+  description_search: Поле поиска
   description_notes: Примечания
   description_date_range_list: Выберите диапазон из списка
   description_choose_project: Проекты
@@ -1129,14 +1130,14 @@ ru:
   permission_manage_related_issues: Управление связанными задачами
   field_auth_source_ldap_filter: Фильтр LDAP
   label_search_for_watchers: Найти наблюдателей
-  notice_account_deleted: "Ваша учетная запись полностью удалена" 
-  setting_unsubscribe: "Разрешить пользователям удалять свои учетные записи" 
-  button_delete_my_account: "Удалить мою учетную запись" 
-  text_account_destroy_confirmation: "Ваша учетная запись будет полностью удалена без возможности восстановления.\nВы уверены, что хотите продолжить?" 
+  notice_account_deleted: "Ваша учетная запись полностью удалена"
+  setting_unsubscribe: "Разрешить пользователям удалять свои учетные записи"
+  button_delete_my_account: "Удалить мою учетную запись"
+  text_account_destroy_confirmation: "Ваша учетная запись будет полностью удалена без возможности восстановления.\nВы уверены, что хотите продолжить?"
   error_session_expired: Срок вашей сессии истек. Пожалуйста войдите еще раз
   text_session_expiration_settings: "Внимание! Изменение этих настроек может привести к завершению текущих сессий, включая вашу."
   setting_session_lifetime: Максимальная продолжительность сессии
-  setting_session_timeout: Таймут сессии 
+  setting_session_timeout: Таймут сессии
   label_session_expiration: Срок истечения сессии
   permission_close_project: Закрывать / открывать проекты
   label_show_closed_projects: Просматривать закрытые проекты
@@ -1145,7 +1146,7 @@ ru:
   project_status_active: открытые
   project_status_closed: закрытые
   project_status_archived: архивированные
-  text_project_closed: Проект закрыт и находиться в режиме только для чтения.
+  text_project_closed: Проект закрыт и находится в режиме только для чтения.
   notice_user_successful_create: Пользователь %{id} создан.
   field_core_fields: Стандартные поля
   field_timeout: Таймаут (в секундах)
@@ -1198,3 +1199,14 @@ ru:
   field_generate_password: Создание пароля
   setting_default_projects_tracker_ids: Трекеры по умолчанию для новых проектов
   label_total_time: Общее время
+  notice_account_not_activated_yet: Вы пока не имеете активированных учетных записей.
+    Чтобы получить письмо с активацией, перейдите по <a href="%{url}">ссылке</a>.
+  notice_account_locked: Ваша учетная запись заблокирована.
+  label_hidden: Скрытый
+  label_visibility_private: только мне
+  label_visibility_roles: только этим ролям
+  label_visibility_public: всем пользователям
+  field_must_change_passwd: Must change password at next logon
+  notice_new_password_must_be_different: The new password must be different from the
+    current password
+  setting_mail_handler_excluded_filenames: Exclude attachments by name

@@ -33,6 +33,7 @@ class News < ActiveRecord::Base
   acts_as_watchable
 
   after_create :add_author_as_watcher
+  after_create :send_notification
 
   scope :visible, lambda {|*args|
     includes(:project).where(Project.allowed_to_condition(args.shift || User.current, :view_news, *args))
@@ -62,5 +63,11 @@ class News < ActiveRecord::Base
 
   def add_author_as_watcher
     Watcher.create(:watchable => self, :user => author)
+  end
+
+  def send_notification
+    if Setting.notified_events.include?('news_added')
+      Mailer.news_added(self).deliver
+    end
   end
 end

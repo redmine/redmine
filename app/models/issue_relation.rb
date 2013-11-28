@@ -72,6 +72,8 @@ class IssueRelation < ActiveRecord::Base
 
   attr_protected :issue_from_id, :issue_to_id
   before_save :handle_issue_order
+  after_create  :create_journal_after_create
+  after_destroy :create_journal_after_delete
 
   def visible?(user=User.current)
     (issue_from.nil? || issue_from.visible?(user)) && (issue_to.nil? || issue_to.visible?(user))
@@ -178,5 +180,31 @@ class IssueRelation < ActiveRecord::Base
       self.issue_from = issue_tmp
       self.relation_type = TYPES[relation_type][:reverse]
     end
+  end
+
+  def create_journal_after_create
+    journal = issue_from.init_journal(User.current)
+    journal.details << JournalDetail.new(:property => 'relation',
+                                         :prop_key => label_for(issue_from).to_s,
+                                         :value    => issue_to.id)
+    journal.save
+    journal = issue_to.init_journal(User.current)
+    journal.details << JournalDetail.new(:property => 'relation',
+                                         :prop_key => label_for(issue_to).to_s,
+                                         :value    => issue_from.id)
+    journal.save
+  end
+
+  def create_journal_after_delete
+    journal = issue_from.init_journal(User.current)
+    journal.details << JournalDetail.new(:property  => 'relation',
+                                         :prop_key  => label_for(issue_from).to_s,
+                                         :old_value => issue_to.id)
+    journal.save
+    journal = issue_to.init_journal(User.current)
+    journal.details << JournalDetail.new(:property  => 'relation',
+                                         :prop_key  => label_for(issue_to).to_s,
+                                         :old_value => issue_from.id)
+    journal.save
   end
 end

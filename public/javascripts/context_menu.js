@@ -186,7 +186,7 @@ function contextMenuCheckSelectionBox(tr, checked) {
 function contextMenuClearDocumentSelection() {
   // TODO
   if (document.selection) {
-    document.selection.clear(); // IE
+    document.selection.empty(); // IE
   } else {
     window.getSelection().removeAllRanges();
   }

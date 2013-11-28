@@ -27,34 +27,35 @@ class Mailer < ActionMailer::Base
     { :host => Setting.host_name, :protocol => Setting.protocol }
   end
 
-  # Builds a Mail::Message object used to email recipients of the added issue.
-  #
-  # Example:
-  #   issue_add(issue) => Mail::Message object
-  #   Mailer.issue_add(issue).deliver => sends an email to issue recipients
-  def issue_add(issue)
+  # Builds a mail for notifying to_users and cc_users about a new issue
+  def issue_add(issue, to_users, cc_users)
     redmine_headers 'Project' => issue.project.identifier,
                     'Issue-Id' => issue.id,
                     'Issue-Author' => issue.author.login
     redmine_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
     message_id issue
+    references issue
     @author = issue.author
     @issue = issue
+    @users = to_users + cc_users
     @issue_url = url_for(:controller => 'issues', :action => 'show', :id => issue)
-    recipients = issue.recipients
-    cc = issue.watcher_recipients - recipients
-    mail :to => recipients,
-      :cc => cc,
+    mail :to => to_users.map(&:mail),
+      :cc => cc_users.map(&:mail),
       :subject => "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] (#{issue.status.name}) #{issue.subject}"
   end
 
-  # Builds a Mail::Message object used to email recipients of the edited issue.
-  #
-  # Example:
-  #   issue_edit(journal) => Mail::Message object
-  #   Mailer.issue_edit(journal).deliver => sends an email to issue recipients
-  def issue_edit(journal)
-    issue = journal.journalized.reload
+  # Notifies users about a new issue
+  def self.deliver_issue_add(issue)
+    to = issue.notified_users
+    cc = issue.notified_watchers - to
+    issue.each_notification(to + cc) do |users|
+      Mailer.issue_add(issue, to & users, cc & users).deliver
+    end
+  end
+
+  # Builds a mail for notifying to_users and cc_users about an issue update
+  def issue_edit(journal, to_users, cc_users)
+    issue = journal.journalized
     redmine_headers 'Project' => issue.project.identifier,
                     'Issue-Id' => issue.id,
                     'Issue-Author' => issue.author.login
@@ -62,18 +63,29 @@ class Mailer < ActionMailer::Base
     message_id journal
     references issue
     @author = journal.user
-    recipients = journal.recipients
-    # Watchers in cc
-    cc = journal.watcher_recipients - recipients
     s = "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] "
     s << "(#{issue.status.name}) " if journal.new_value_for('status_id')
     s << issue.subject
     @issue = issue
+    @users = to_users + cc_users
     @journal = journal
+    @journal_details = journal.visible_details(@users.first)
     @issue_url = url_for(:controller => 'issues', :action => 'show', :id => issue, :anchor => "change-#{journal.id}")
-    mail :to => recipients,
-      :cc => cc,
+    mail :to => to_users.map(&:mail),
+      :cc => cc_users.map(&:mail),
       :subject => s
+  end
+
+  # Notifies users about an issue update
+  def self.deliver_issue_edit(journal)
+    issue = journal.journalized.reload
+    to = journal.notified_users
+    cc = journal.notified_watchers
+    journal.each_notification(to + cc) do |users|
+      issue.each_notification(users) do |users2|
+        Mailer.issue_edit(journal, to & users2, cc & users2).deliver
+      end
+    end
   end
 
   def reminder(user, issues, days)
@@ -142,6 +154,7 @@ class Mailer < ActionMailer::Base
     redmine_headers 'Project' => news.project.identifier
     @author = news.author
     message_id news
+    references news
     @news = news
     @news_url = url_for(:controller => 'news', :action => 'show', :id => news)
     mail :to => news.recipients,
@@ -158,6 +171,7 @@ class Mailer < ActionMailer::Base
     redmine_headers 'Project' => news.project.identifier
     @author = comment.author
     message_id comment
+    references news
     @news = news
     @comment = comment
     @news_url = url_for(:controller => 'news', :action => 'show', :id => news)
@@ -176,7 +190,7 @@ class Mailer < ActionMailer::Base
                     'Topic-Id' => (message.parent_id || message.id)
     @author = message.author
     message_id message
-    references message.parent unless message.parent.nil?
+    references message.root
     recipients = message.recipients
     cc = ((message.root.watcher_recipients + message.board.watcher_recipients).uniq - recipients)
     @message = message
@@ -297,31 +311,6 @@ class Mailer < ActionMailer::Base
       :subject => 'Redmine test'
   end
 
-  # Overrides default deliver! method to prevent from sending an email
-  # with no recipient, cc or bcc
-  def deliver!(mail = @mail)
-    set_language_if_valid @initial_language
-    return false if (recipients.nil? || recipients.empty?) &&
-                    (cc.nil? || cc.empty?) &&
-                    (bcc.nil? || bcc.empty?)
-
-
-    # Log errors when raise_delivery_errors is set to false, Rails does not
-    raise_errors = self.class.raise_delivery_errors
-    self.class.raise_delivery_errors = true
-    begin
-      return super(mail)
-    rescue Exception => e
-      if raise_errors
-        raise e
-      elsif mylogger
-        mylogger.error "The following error occured while sending email notification: \"#{e.message}\". Check your configuration in config/configuration.yml."
-      end
-    ensure
-      self.class.raise_delivery_errors = raise_errors
-    end
-  end
-
   # Sends reminders to issue assignees
   # Available options:
   # * :days     => how many days in the future to remind about (defaults to 7)
@@ -379,7 +368,7 @@ class Mailer < ActionMailer::Base
     ActionMailer::Base.delivery_method = saved_method
   end
 
-  def mail(headers={})
+  def mail(headers={}, &block)
     headers.merge! 'X-Mailer' => 'Redmine',
             'X-Redmine-Host' => Setting.host_name,
             'X-Redmine-Site' => Setting.app_title,
@@ -389,8 +378,9 @@ class Mailer < ActionMailer::Base
             'List-Id' => "<#{Setting.mail_from.to_s.gsub('@', '.')}>"
 
     # Removes the author from the recipients and cc
-    # if he doesn't want to receive notifications about what he does
-    if @author && @author.logged? && @author.pref[:no_self_notified]
+    # if the author does not want to receive notifications
+    # about what the author do
+    if @author && @author.logged? && @author.pref.no_self_notified
       headers[:to].delete(@author.mail) if headers[:to].is_a?(Array)
       headers[:cc].delete(@author.mail) if headers[:cc].is_a?(Array)
     end
@@ -410,15 +400,20 @@ class Mailer < ActionMailer::Base
       headers[:message_id] = "<#{self.class.message_id_for(@message_id_object)}>"
     end
     if @references_objects
-      headers[:references] = @references_objects.collect {|o| "<#{self.class.message_id_for(o)}>"}.join(' ')
+      headers[:references] = @references_objects.collect {|o| "<#{self.class.references_for(o)}>"}.join(' ')
     end
 
-    super headers do |format|
-      format.text
-      format.html unless Setting.plain_text_mail?
+    m = if block_given?
+      super headers, &block
+    else
+      super headers do |format|
+        format.text
+        format.html unless Setting.plain_text_mail?
+      end
     end
-
     set_language_if_valid @initial_language
+
+    m
   end
 
   def initialize(*args)
@@ -426,10 +421,20 @@ class Mailer < ActionMailer::Base
     set_language_if_valid Setting.default_language
     super
   end
-  
+
   def self.deliver_mail(mail)
     return false if mail.to.blank? && mail.cc.blank? && mail.bcc.blank?
-    super
+    begin
+      # Log errors when raise_delivery_errors is set to false, Rails does not
+      mail.raise_delivery_errors = true
+      super
+    rescue Exception => e
+      if ActionMailer::Base.raise_delivery_errors
+        raise e
+      else
+        Rails.logger.error "Email delivery error: #{e.message}"
+      end
+    end
   end
 
   def self.method_missing(method, *args, &block)
@@ -448,15 +453,30 @@ class Mailer < ActionMailer::Base
     h.each { |k,v| headers["X-Redmine-#{k}"] = v.to_s }
   end
 
-  # Returns a predictable Message-Id for the given object
-  def self.message_id_for(object)
-    # id + timestamp should reduce the odds of a collision
-    # as far as we don't send multiple emails for the same object
+  def self.token_for(object, rand=true)
     timestamp = object.send(object.respond_to?(:created_on) ? :created_on : :updated_on)
-    hash = "redmine.#{object.class.name.demodulize.underscore}-#{object.id}.#{timestamp.strftime("%Y%m%d%H%M%S")}"
+    hash = [
+      "redmine",
+      "#{object.class.name.demodulize.underscore}-#{object.id}",
+      timestamp.strftime("%Y%m%d%H%M%S")
+    ]
+    if rand
+      hash << Redmine::Utils.random_hex(8)
+    end
     host = Setting.mail_from.to_s.gsub(%r{^.*@}, '')
     host = "#{::Socket.gethostname}.redmine" if host.empty?
-    "#{hash}@#{host}"
+    "#{hash.join('.')}@#{host}"
+  end
+
+  # Returns a Message-Id for the given object
+  def self.message_id_for(object)
+    token_for(object, true)
+  end
+
+  # Returns a uniq token for a given object referenced by all notifications
+  # related to this object
+  def self.references_for(object)
+    token_for(object, false)
   end
 
   def message_id(object)

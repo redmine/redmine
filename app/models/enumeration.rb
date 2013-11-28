@@ -38,6 +38,7 @@ class Enumeration < ActiveRecord::Base
   scope :shared, lambda { where(:project_id => nil) }
   scope :sorted, lambda { order("#{table_name}.position ASC") }
   scope :active, lambda { where(:active => true) }
+  scope :system, lambda { where(:project_id => nil) }
   scope :named, lambda {|arg| where("LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip)}
 
   def self.default

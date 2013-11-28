@@ -49,6 +49,7 @@ class SearchTest < ActiveSupport::TestCase
 
     # Removes the :view_changesets permission from Anonymous role
     remove_permission Role.anonymous, :view_changesets
+    User.current = nil
 
     r = Issue.search(@issue_keyword).first
     assert r.include?(@issue)
@@ -74,6 +75,7 @@ class SearchTest < ActiveSupport::TestCase
 
     # Removes the :view_changesets permission from Non member role
     remove_permission Role.non_member, :view_changesets
+    User.current = User.find_by_login('rhill')
 
     r = Issue.search(@issue_keyword).first
     assert r.include?(@issue)
@@ -128,7 +130,7 @@ class SearchTest < ActiveSupport::TestCase
 
   def test_search_issue_with_multiple_hits_in_journals
     i = Issue.find(1)
-    assert_equal 2, i.journals.count(:all, :conditions => "notes LIKE '%notes%'")
+    assert_equal 2, i.journals.where("notes LIKE '%notes%'").count
 
     r = Issue.search('%notes%').first
     assert_equal 1, r.size

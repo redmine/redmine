@@ -51,7 +51,7 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'common/feed'
     assert_select 'feed>title', :text => 'Redmine: Latest projects'
-    assert_select 'feed>entry', :count => Project.count(:conditions => Project.visible_condition(User.current))
+    assert_select 'feed>entry', :count => Project.visible(User.current).count
   end
 
   test "#index by non-admin user with view_time_entries permission should show overall spent time link" do
@@ -209,7 +209,7 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_response :success
     project = assigns(:project)
     assert_kind_of Project, project
-    assert_not_nil project.errors[:parent_id]
+    assert_not_equal [], project.errors[:parent_id]
   end
 
   test "#create by non-admin user with add_subprojects permission should create a project with a parent_id" do
@@ -244,7 +244,7 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_response :success
     project = assigns(:project)
     assert_kind_of Project, project
-    assert_not_nil project.errors[:parent_id]
+    assert_not_equal [], project.errors[:parent_id]
   end
 
   test "#create by non-admin user with add_subprojects permission should fail with unauthorized parent_id" do
@@ -265,7 +265,7 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_response :success
     project = assigns(:project)
     assert_kind_of Project, project
-    assert_not_nil project.errors[:parent_id]
+    assert_not_equal [], project.errors[:parent_id]
   end
 
   def test_create_subproject_with_inherit_members_should_inherit_members
@@ -588,5 +588,10 @@ class ProjectsControllerTest < ActionController::TestCase
     get :show, :id => 3, :jump => 'foobar'
     assert_response :success
     assert_template 'show'
+  end
+
+  def test_body_should_have_project_css_class
+    get :show, :id => 1
+    assert_select 'body.project-ecookbook'
   end
 end

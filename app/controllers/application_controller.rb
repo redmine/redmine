@@ -38,7 +38,7 @@ class ApplicationController < ActionController::Base
     cookies.delete(autologin_cookie_name)
   end
 
-  before_filter :session_expiration, :user_setup, :check_if_login_required, :set_localization
+  before_filter :session_expiration, :user_setup, :check_if_login_required, :check_password_change, :set_localization
 
   rescue_from ActionController::InvalidAuthenticityToken, :with => :invalid_authenticity_token
   rescue_from ::Unauthorized, :with => :deny_access
@@ -78,6 +78,9 @@ class ApplicationController < ActionController::Base
     session[:user_id] = user.id
     session[:ctime] = Time.now.utc.to_i
     session[:atime] = Time.now.utc.to_i
+    if user.must_change_password?
+      session[:pwd] = '1'
+    end
   end
 
   def user_setup
@@ -111,6 +114,10 @@ class ApplicationController < ActionController::Base
         # HTTP Basic, either username/password or API key/random
         authenticate_with_http_basic do |username, password|
           user = User.try_to_login(username, password) || User.find_by_api_key(username)
+        end
+        if user && user.must_change_password?
+          render_error :message => 'You must change your password', :status => 403
+          return
         end
       end
       # Switch user if requested by an admin user
@@ -170,6 +177,16 @@ class ApplicationController < ActionController::Base
     require_login if Setting.login_required?
   end
 
+  def check_password_change
+    if session[:pwd]
+      if User.current.must_change_password?
+        redirect_to my_password_path
+      else
+        session.delete(:pwd)
+      end
+    end
+  end
+
   def set_localization
     lang = nil
     if User.current.logged?
@@ -195,7 +212,13 @@ class ApplicationController < ActionController::Base
         url = url_for(:controller => params[:controller], :action => params[:action], :id => params[:id], :project_id => params[:project_id])
       end
       respond_to do |format|
-        format.html { redirect_to :controller => "account", :action => "login", :back_url => url }
+        format.html {
+          if request.xhr?
+            head :unauthorized
+          else
+            redirect_to :controller => "account", :action => "login", :back_url => url
+          end
+        }
         format.atom { redirect_to :controller => "account", :action => "login", :back_url => url }
         format.xml  { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="Redmine API"' }
         format.js   { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="Redmine API"' }
@@ -299,7 +322,7 @@ class ApplicationController < ActionController::Base
   # Find issues with a single :id param or :ids array param
   # Raises a Unauthorized exception if one of the issues is not visible
   def find_issues
-    @issues = Issue.find_all_by_id(params[:id] || params[:ids])
+    @issues = Issue.where(:id => (params[:id] || params[:ids])).preload(:project, :status, :tracker, :priority, :author, :assigned_to, :relations_to).to_a
     raise ActiveRecord::RecordNotFound if @issues.empty?
     raise Unauthorized unless @issues.all?(&:visible?)
     @projects = @issues.collect(&:project).compact.uniq
@@ -554,21 +577,6 @@ class ApplicationController < ActionController::Base
   # Renders a warning flash if obj has unsaved attachments
   def render_attachment_warning_if_needed(obj)
     flash[:warning] = l(:warning_attachments_not_saved, obj.unsaved_attachments.size) if obj.unsaved_attachments.present?
-  end
-
-  # Sets the `flash` notice or error based the number of issues that did not save
-  #
-  # @param [Array, Issue] issues all of the saved and unsaved Issues
-  # @param [Array, Integer] unsaved_issue_ids the issue ids that were not saved
-  def set_flash_from_bulk_issue_save(issues, unsaved_issue_ids)
-    if unsaved_issue_ids.empty?
-      flash[:notice] = l(:notice_successful_update) unless issues.empty?
-    else
-      flash[:error] = l(:notice_failed_to_save_issues,
-                        :count => unsaved_issue_ids.size,
-                        :total => issues.size,
-                        :ids => '#' + unsaved_issue_ids.join(', #'))
-    end
   end
 
   # Rescues an invalid query statement. Just in case...

@@ -22,7 +22,7 @@
   <label><%= l(:label_custom_field_plural) %></label>
   <% IssueCustomField.all.each do |field| %>
     <label class="block">
-      <%= check_box_tag 'tracker[custom_field_ids][]',field.id, @tracker.custom_fields.include?(field) %>
+      <%= check_box_tag 'tracker[custom_field_ids][]',field.id, @tracker.custom_fields.to_a.include?(field) %>
       <%=h field.name %>
     </label>
   <% end %>
@@ -43,7 +43,7 @@
 <% if @projects.any? %>
 <fieldset class="box" id="tracker_project_ids"><legend><%= l(:label_project_plural) %></legend>
 <%= render_project_nested_lists(@projects) do |p|
-  content_tag('label', check_box_tag('tracker[project_ids][]', p.id, @tracker.projects.include?(p), :id => nil) + ' ' + h(p))
+  content_tag('label', check_box_tag('tracker[project_ids][]', p.id, @tracker.projects.to_a.include?(p), :id => nil) + ' ' + h(p))
 end %>
 <%= hidden_field_tag('tracker[project_ids][]', '', :id => nil) %>
 <p><%= check_all_links 'tracker_project_ids' %></p>

@@ -55,8 +55,8 @@ cs:
         one:   "asi 1 hodina"
         other: "asi %{count} hodin"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 hodina"
+        other: "%{count} hodin"
       x_days:
         one:   "1 den"
         other: "%{count} dnů"
@@ -134,6 +134,7 @@ cs:
         not_same_project: "nepatří stejnému projektu"
         circular_dependency: "Tento vztah by vytvořil cyklickou závislost"
         cant_link_an_issue_with_a_descendant: "Úkol nemůže být spojen s jedním z jeho dílčích úkolů"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   actionview_instancetag_blank_option: Prosím vyberte
 
@@ -1092,3 +1093,14 @@ cs:
   field_generate_password: Generovat heslo
   setting_default_projects_tracker_ids: Výchozí fronta pro nové projekty
   label_total_time: Celkem
+  notice_account_not_activated_yet: You haven't activated your account yet. If you want
+    to receive a new activation email, please <a href="%{url}">click this link</a>.
+  notice_account_locked: Your account is locked.
+  label_hidden: Hidden
+  label_visibility_private: to me only
+  label_visibility_roles: to these roles only
+  label_visibility_public: to any users
+  field_must_change_passwd: Must change password at next logon
+  notice_new_password_must_be_different: The new password must be different from the
+    current password
+  setting_mail_handler_excluded_filenames: Exclude attachments by name

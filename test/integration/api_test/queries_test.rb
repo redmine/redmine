@@ -31,28 +31,23 @@ class Redmine::ApiTest::QueriesTest < Redmine::ApiTest::Base
     Setting.rest_api_enabled = '1'
   end
 
-  context "/queries" do
-    context "GET" do
+  test "GET /queries.xml should return queries" do
+    get '/queries.xml'
 
-      should "return queries" do
-        get '/queries.xml'
-
-        assert_response :success
-        assert_equal 'application/xml', @response.content_type
-        assert_tag :tag => 'queries',
-          :attributes => {:type => 'array'},
-          :child => {
-            :tag => 'query',
-            :child => {
-              :tag => 'id',
-              :content => '4',
-              :sibling => {
-                :tag => 'name',
-                :content => 'Public query for all projects'
-              }
-            }
+    assert_response :success
+    assert_equal 'application/xml', @response.content_type
+    assert_tag :tag => 'queries',
+      :attributes => {:type => 'array'},
+      :child => {
+        :tag => 'query',
+        :child => {
+          :tag => 'id',
+          :content => '4',
+          :sibling => {
+            :tag => 'name',
+            :content => 'Public query for all projects'
           }
-      end
-    end
+        }
+      }
   end
 end

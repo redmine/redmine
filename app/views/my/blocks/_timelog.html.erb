@@ -1,4 +1,7 @@
-<h3><%=l(:label_spent_time)%> (<%= l(:label_last_n_days, 7) %>)</h3>
+<h3>
+  <%= link_to l(:label_spent_time), time_entries_path(:user_id => 'me') %>
+  (<%= l(:label_last_n_days, 7) %>)
+</h3>
 <%
 entries = timelog_items
 entries_by_day = entries.group_by(&:spent_on)

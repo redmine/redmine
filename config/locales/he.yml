@@ -56,8 +56,8 @@ he:
         one: 'בערך שעה אחת'
         other: 'בערך %{count} שעות'
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 שעה"
+        other: "%{count} שעות"
       x_days:
         one: 'יום אחד'
         other: '%{count} ימים'
@@ -134,6 +134,7 @@ he:
         not_same_project: "לא שייך לאותו הפרויקט"
         circular_dependency: "קשר זה יצור תלות מעגלית"
         cant_link_an_issue_with_a_descendant: "לא ניתן לקשר נושא לתת־משימה שלו"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   actionview_instancetag_blank_option: בחר בבקשה
 
@@ -1093,3 +1094,14 @@ he:
   text_scm_config: You can configure your SCM commands in config/configuration.yml. Please restart the application after editing it.
   text_scm_command_not_available: SCM command is not available. Please check settings on the administration panel.
   setting_emails_header: Email header
+  notice_account_not_activated_yet: You haven't activated your account yet. If you want
+    to receive a new activation email, please <a href="%{url}">click this link</a>.
+  notice_account_locked: Your account is locked.
+  label_hidden: Hidden
+  label_visibility_private: to me only
+  label_visibility_roles: to these roles only
+  label_visibility_public: to any users
+  field_must_change_passwd: Must change password at next logon
+  notice_new_password_must_be_different: The new password must be different from the
+    current password
+  setting_mail_handler_excluded_filenames: Exclude attachments by name

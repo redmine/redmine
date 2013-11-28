@@ -1,5 +1,3 @@
-<h2><%= link_to l(:label_group_plural), groups_path %> &#187; <%= h(@group) %></h2>
+<%= title [l(:label_group_plural), groups_path], @group.name %>
 
 <%= render_tabs group_settings_tabs %>
-
-<% html_title(l(:label_group), @group, l(:label_administration)) -%>

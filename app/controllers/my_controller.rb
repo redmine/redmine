@@ -17,6 +17,8 @@
 
 class MyController < ApplicationController
   before_filter :require_login
+  # let user change user's password when user has to
+  skip_before_filter :check_password_change, :only => :password
 
   helper :issues
   helper :users
@@ -53,10 +55,8 @@ class MyController < ApplicationController
     if request.post?
       @user.safe_attributes = params[:user]
       @user.pref.attributes = params[:pref]
-      @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
       if @user.save
         @user.pref.save
-        @user.notified_project_ids = (@user.mail_notification == 'selected' ? params[:notified_project_ids] : [])
         set_language_if_valid @user.language
         flash[:notice] = l(:notice_account_updated)
         redirect_to my_account_path
@@ -92,14 +92,17 @@ class MyController < ApplicationController
       return
     end
     if request.post?
-      if @user.check_password?(params[:password])
+      if !@user.check_password?(params[:password])
+        flash.now[:error] = l(:notice_account_wrong_password)
+      elsif params[:password] == params[:new_password]
+        flash.now[:error] = l(:notice_new_password_must_be_different)
+      else
         @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
+        @user.must_change_passwd = false
         if @user.save
           flash[:notice] = l(:notice_account_password_updated)
           redirect_to my_account_path
         end
-      else
-        flash[:error] = l(:notice_account_wrong_password)
       end
     end
   end

@@ -1,6 +1,6 @@
-<%= l(:text_issue_updated, :id => "##{@issue.id}", :author => @journal.user) %>
+<%= "(#{l(:field_private_notes)}) " if @journal.private_notes? -%><%= l(:text_issue_updated, :id => "##{@issue.id}", :author => @journal.user) %>
 
-<% details_to_strings(@journal.details, true).each do |string| -%>
+<% details_to_strings(@journal_details, true).each do |string| -%>
 <%= string %>
 <% end -%>
 
@@ -9,4 +9,4 @@
 
 <% end -%>
 ----------------------------------------
-<%= render :partial => 'issue', :formats => [:text], :locals => { :issue => @issue, :issue_url => @issue_url } %>
+<%= render :partial => 'issue', :formats => [:text], :locals => { :issue => @issue, :users => @users, :issue_url => @issue_url } %>

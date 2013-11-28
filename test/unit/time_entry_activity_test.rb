@@ -84,5 +84,33 @@ class TimeEntryActivityTest < ActiveSupport::TestCase
     e.reload
     assert_equal "0", e.custom_value_for(field).value
   end
-end
 
+  def test_system_activity_with_child_in_use_should_be_in_use
+    project = Project.generate!
+    system_activity = TimeEntryActivity.create!(:name => 'Activity')
+    project_activity = TimeEntryActivity.create!(:name => 'Activity', :project => project, :parent_id => system_activity.id)
+
+    TimeEntry.generate!(:project => project, :activity => project_activity)
+
+    assert project_activity.in_use?
+    assert system_activity.in_use?
+  end
+
+  def test_destroying_a_system_activity_should_reassign_children_activities
+    project = Project.generate!
+    system_activity = TimeEntryActivity.create!(:name => 'Activity')
+    project_activity = TimeEntryActivity.create!(:name => 'Activity', :project => project, :parent_id => system_activity.id)
+
+    entries = [
+      TimeEntry.generate!(:project => project, :activity => system_activity),
+      TimeEntry.generate!(:project => project, :activity => project_activity)
+    ]
+
+    assert_difference 'TimeEntryActivity.count', -2 do
+      assert_nothing_raised do
+        assert system_activity.destroy(TimeEntryActivity.find_by_name('Development'))
+      end
+    end
+    assert entries.all? {|entry| entry.reload.activity.name == 'Development'}
+  end
+end

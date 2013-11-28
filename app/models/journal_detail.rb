@@ -19,6 +19,12 @@ class JournalDetail < ActiveRecord::Base
   belongs_to :journal
   before_save :normalize_values
 
+  def custom_field
+    if property == 'cf'
+      @custom_field ||= CustomField.find_by_id(prop_key)
+    end
+  end
+
   private
 
   def normalize_values

@@ -3,7 +3,7 @@ queries_001:
   id: 1
   type: IssueQuery
   project_id: 1
-  is_public: true
+  visibility: 2
   name: Multiple custom fields query
   filters: |
     --- 
@@ -26,7 +26,7 @@ queries_002:
   id: 2
   type: IssueQuery
   project_id: 1
-  is_public: false
+  visibility: 0
   name: Private query for cookbook
   filters: |
     --- 
@@ -45,7 +45,7 @@ queries_003:
   id: 3
   type: IssueQuery
   project_id: 
-  is_public: false
+  visibility: 0
   name: Private query for all projects
   filters: |
     --- 
@@ -60,7 +60,7 @@ queries_004:
   id: 4
   type: IssueQuery
   project_id: 
-  is_public: true
+  visibility: 2
   name: Public query for all projects
   filters: |
     --- 
@@ -75,7 +75,7 @@ queries_005:
   id: 5
   type: IssueQuery
   project_id: 
-  is_public: true
+  visibility: 2
   name: Open issues by priority and tracker
   filters: |
     --- 
@@ -96,7 +96,7 @@ queries_006:
   id: 6
   type: IssueQuery
   project_id: 
-  is_public: true
+  visibility: 2
   name: Open issues grouped by tracker
   filters: |
     --- 
@@ -116,7 +116,7 @@ queries_007:
   id: 7
   type: IssueQuery
   project_id: 2
-  is_public: true
+  visibility: 2
   name: Public query for project 2
   filters: |
     --- 
@@ -131,7 +131,7 @@ queries_008:
   id: 8
   type: IssueQuery
   project_id: 2
-  is_public: false
+  visibility: 0
   name: Private query for project 2
   filters: |
     --- 
@@ -146,7 +146,7 @@ queries_009:
   id: 9
   type: IssueQuery
   project_id: 
-  is_public: true
+  visibility: 2
   name: Open issues grouped by list custom field
   filters: |
     --- 

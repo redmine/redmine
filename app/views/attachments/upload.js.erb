@@ -1,4 +1,8 @@
 var fileSpan = $('#attachments_<%= j params[:attachment_id] %>');
+<% if @attachment.new_record? %>
+  fileSpan.hide();
+  alert("<%= escape_javascript @attachment.errors.full_messages.join(', ') %>");
+<% else %>
 $('<input>', { type: 'hidden', name: 'attachments[<%= j params[:attachment_id] %>][token]' } ).val('<%= j @attachment.token %>').appendTo(fileSpan);
 fileSpan.find('a.remove-upload')
   .attr({
@@ -7,3 +11,4 @@ fileSpan.find('a.remove-upload')
     href: '<%= j attachment_path(@attachment, :attachment_id => params[:attachment_id], :format => 'js') %>'
   })
   .off('click');
+<% end %>

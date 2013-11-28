@@ -80,8 +80,8 @@ es:
         one:  "alrededor de 1 hora"
         other: "alrededor de %{count} horas"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 hora"
+        other: "%{count} horas"
       x_days:
         one:  "1 día"
         other: "%{count} días"
@@ -136,6 +136,7 @@ es:
         not_same_project: "no pertenece al mismo proyecto"
         circular_dependency: "Esta relación podría crear una dependencia circular"
         cant_link_an_issue_with_a_descendant: "Esta petición no puede ser ligada a una de estas tareas"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
         # Append your own errors here or at the model/attributes scope.
 
@@ -1118,9 +1119,19 @@ es:
   permission_edit_documents: Editar documentos
   permission_delete_documents: Borrar documentos
   label_gantt_progress_line: Línea de progreso
-  setting_jsonp_enabled: Enable JSONP support
-  field_inherit_members: Inherit members
-  field_closed_on: Closed
-  field_generate_password: Generate password
-  setting_default_projects_tracker_ids: Default trackers for new projects
+  setting_jsonp_enabled: Habilitar soporte de JSONP
+  field_inherit_members: Heredar miembros
+  field_closed_on: Cerrada
+  field_generate_password: Generar contraseña
+  setting_default_projects_tracker_ids: Tipos de petición habilitados por defecto
   label_total_time: Total
+  notice_account_not_activated_yet: No ha activado su cuenta aún. Si quiere
+    recibir un nuevo correo de activación, por favor <a href="%{url}">haga click en este enlace</a>.
+  notice_account_locked: Su cuenta está bloqueada.
+  label_hidden: Oculto
+  label_visibility_private: solamente para mí
+  label_visibility_roles: solamente para estos roles
+  label_visibility_public: para cualquier usuario
+  field_must_change_passwd: Cambiar la contraseña en el siguiente identificación
+  notice_new_password_must_be_different: Nueva contraseña debe ser diferente de la actual
+  setting_mail_handler_excluded_filenames: Exclude attachments by name
