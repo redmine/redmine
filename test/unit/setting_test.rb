@@ -41,6 +41,20 @@ class SettingTest < ActiveSupport::TestCase
     assert_equal "My other title", Setting.find_by_name('app_title').value
   end
 
+  def test_setting_with_int_format_should_accept_numeric_only
+    with_settings :session_timeout => 30 do
+      Setting.session_timeout = 'foo'
+      assert_equal "30", Setting.session_timeout
+      Setting.session_timeout = 40
+      assert_equal "40", Setting.session_timeout
+    end
+  end
+
+  def test_setting_with_invalid_name_should_be_valid
+    setting = Setting.new(:name => "does_not_exist", :value => "should_not_be_allowed")
+    assert !setting.save
+  end
+
   def test_serialized_setting
     Setting.notified_events = ['issue_added', 'issue_updated', 'news_added']
     assert_equal ['issue_added', 'issue_updated', 'news_added'], Setting.notified_events

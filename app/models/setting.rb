@@ -83,7 +83,9 @@ class Setting < ActiveRecord::Base
 
   validates_uniqueness_of :name
   validates_inclusion_of :name, :in => @@available_settings.keys
-  validates_numericality_of :value, :only_integer => true, :if => Proc.new { |setting| @@available_settings[setting.name]['format'] == 'int' }
+  validates_numericality_of :value, :only_integer => true, :if => Proc.new { |setting|
+    (s = @@available_settings[setting.name]) && s['format'] == 'int'
+  }
 
   # Hash used to cache setting values
   @cached_settings = {}
