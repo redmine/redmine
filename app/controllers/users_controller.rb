@@ -90,11 +90,9 @@ class UsersController < ApplicationController
     @user.admin = params[:user][:admin] || false
     @user.login = params[:user][:login]
     @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation] unless @user.auth_source_id
+    @user.pref.attributes = params[:pref]
 
     if @user.save
-      @user.pref.attributes = params[:pref]
-      @user.pref.save
-
       Mailer.account_information(@user, @user.password).deliver if params[:send_information]
 
       respond_to do |format|

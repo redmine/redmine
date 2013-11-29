@@ -250,6 +250,25 @@ class UsersControllerTest < ActionController::TestCase
     assert_template 'new'
   end
 
+  def test_create_with_failure_sould_preserve_preference
+    assert_no_difference 'User.count' do
+      post :create,
+        :user => {},
+        :pref => {
+          'no_self_notified' => '1',
+          'hide_mail' => '1',
+          'time_zone' => 'Paris',
+          'comments_sorting' => 'desc',
+          'warn_on_leaving_unsaved' => '0'
+        }
+    end
+    assert_response :success
+    assert_template 'new'
+
+    assert_select 'select#pref_time_zone option[selected=selected]', :text => /Paris/
+    assert_select 'input#pref_no_self_notified[value=1][checked=checked]'
+  end
+
   def test_edit
     get :edit, :id => 2
     assert_response :success
