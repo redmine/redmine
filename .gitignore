@@ -38,7 +38,6 @@
 *.rbc
 
 /.bundle
-/Gemfile.lock
 /Gemfile.local
 
 plugins/embedded/
