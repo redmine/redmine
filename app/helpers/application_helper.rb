@@ -1091,7 +1091,7 @@ module ApplicationHelper
         (pcts[0] > 0 ? content_tag('td', '', :style => "width: #{pcts[0]}%;", :class => 'closed') : ''.html_safe) +
         (pcts[1] > 0 ? content_tag('td', '', :style => "width: #{pcts[1]}%;", :class => 'done') : ''.html_safe) +
         (pcts[2] > 0 ? content_tag('td', '', :style => "width: #{pcts[2]}%;", :class => 'todo') : ''.html_safe)
-      ), :class => 'progress progress-#{pcts[0]}', :style => "width: #{width};").html_safe +
+      ), :class => "progress progress-#{pcts[0]}", :style => "width: #{width};").html_safe +
       content_tag('p', legend, :class => 'percent').html_safe
   end
 
