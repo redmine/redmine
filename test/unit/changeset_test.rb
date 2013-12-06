@@ -249,7 +249,6 @@ class ChangesetTest < ActiveSupport::TestCase
     r = Repository::Subversion.create!(
           :project => Project.find(3),
           :url     => 'svn://localhost/test')
-          
     with_settings :commit_cross_project_ref => '0' do
       c = Changeset.new(:repository   => r,
                         :committed_on => Time.now,
@@ -264,7 +263,6 @@ class ChangesetTest < ActiveSupport::TestCase
     r = Repository::Subversion.create!(
           :project => Project.find(3),
           :url     => 'svn://localhost/test')
-          
     with_settings :commit_cross_project_ref => '1' do
       c = Changeset.new(:repository   => r,
                         :committed_on => Time.now,
@@ -317,7 +315,6 @@ class ChangesetTest < ActiveSupport::TestCase
           :project_id => 1,
           :url     => 'svn://localhost/test',
           :identifier => 'documents')
-    
     c = Changeset.new(:revision => '520', :repository => r)
     assert_equal 'documents|r520', c.text_tag
     assert_equal 'ecookbook:documents|r520', c.text_tag(Project.find(2))
