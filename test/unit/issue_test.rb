@@ -1701,6 +1701,18 @@ class IssueTest < ActiveSupport::TestCase
     end
   end
 
+  def test_create_should_send_one_email_notification_with_both_settings
+    ActionMailer::Base.deliveries.clear
+    issue = Issue.new(:project_id => 1, :tracker_id => 1,
+                      :author_id => 3, :status_id => 1,
+                      :priority => IssuePriority.all.first,
+                      :subject => 'test_create', :estimated_hours => '1:30')
+    with_settings :notified_events => %w(issue_added issue_updated) do
+      assert issue.save
+      assert_equal 1, ActionMailer::Base.deliveries.size
+    end
+  end
+
   def test_create_should_not_send_email_notification_with_no_setting
     ActionMailer::Base.deliveries.clear
     issue = Issue.new(:project_id => 1, :tracker_id => 1,
