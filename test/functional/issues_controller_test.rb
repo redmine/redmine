@@ -293,7 +293,7 @@ class IssuesControllerTest < ActionController::TestCase
     end
   end
 
-  def test_index_with_query_grouped_by_tracker
+  def test_index_with_query_grouped_by_tracker_in_normal_order
     3.times {|i| Issue.generate!(:tracker_id => (i + 1))}
 
     get :index, :set_filter => 1, :group_by => 'tracker', :sort => 'id:desc'
