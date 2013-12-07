@@ -33,12 +33,6 @@ class UsersControllerTest < ActionController::TestCase
     get :index
     assert_response :success
     assert_template 'index'
-  end
-
-  def test_index
-    get :index
-    assert_response :success
-    assert_template 'index'
     assert_not_nil assigns(:users)
     # active users only
     assert_nil assigns(:users).detect {|u| !u.active?}
