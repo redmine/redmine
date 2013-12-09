@@ -34,7 +34,8 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_sorted_scope_should_sort_user_by_display_name
-    assert_equal User.all.map(&:name).map(&:downcase).sort, User.sorted.all.map(&:name).map(&:downcase)
+    assert_equal User.all.map(&:name).map(&:downcase).sort,
+                 User.sorted.all.map(&:name).map(&:downcase)
   end
 
   def test_generate
@@ -138,7 +139,8 @@ class UserTest < ActiveSupport::TestCase
     u.login = 'newuser'
     u.password, u.password_confirmation = "password", "password"
     assert u.save
-    u = User.new(:firstname => "Similar", :lastname => "User", :mail => "similaruser@somenet.foo")
+    u = User.new(:firstname => "Similar", :lastname => "User",
+                 :mail => "similaruser@somenet.foo")
     u.login = 'NewUser'
     u.password, u.password_confirmation = "password", "password"
     assert !u.save
@@ -207,7 +209,8 @@ class UserTest < ActiveSupport::TestCase
 
   def test_destroy_should_update_comments
     comment = Comment.create!(
-      :commented => News.create!(:project_id => 1, :author_id => 1, :title => 'foo', :description => 'foo'),
+      :commented => News.create!(:project_id => 1,
+                                 :author_id => 1, :title => 'foo', :description => 'foo'),
       :author => User.find(2),
       :comments => 'foo'
     )
@@ -218,7 +221,8 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_destroy_should_update_issues
-    issue = Issue.create!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'foo')
+    issue = Issue.create!(:project_id => 1, :author_id => 2,
+                          :tracker_id => 1, :subject => 'foo')
 
     User.find(2).destroy
     assert_nil User.find_by_id(2)
@@ -226,7 +230,8 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_destroy_should_unassign_issues
-    issue = Issue.create!(:project_id => 1, :author_id => 1, :tracker_id => 1, :subject => 'foo', :assigned_to_id => 2)
+    issue = Issue.create!(:project_id => 1, :author_id => 1,
+                          :tracker_id => 1, :subject => 'foo', :assigned_to_id => 2)
 
     User.find(2).destroy
     assert_nil User.find_by_id(2)
@@ -234,7 +239,8 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_destroy_should_update_journals
-    issue = Issue.create!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'foo')
+    issue = Issue.create!(:project_id => 1, :author_id => 2,
+                          :tracker_id => 1, :subject => 'foo')
     issue.init_journal(User.find(2), "update")
     issue.save!
 
@@ -244,7 +250,8 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_destroy_should_update_journal_details_old_value
-    issue = Issue.create!(:project_id => 1, :author_id => 1, :tracker_id => 1, :subject => 'foo', :assigned_to_id => 2)
+    issue = Issue.create!(:project_id => 1, :author_id => 1,
+                          :tracker_id => 1, :subject => 'foo', :assigned_to_id => 2)
     issue.init_journal(User.find(1), "update")
     issue.assigned_to_id = nil
     assert_difference 'JournalDetail.count' do
@@ -259,7 +266,8 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_destroy_should_update_journal_details_value
-    issue = Issue.create!(:project_id => 1, :author_id => 1, :tracker_id => 1, :subject => 'foo')
+    issue = Issue.create!(:project_id => 1, :author_id => 1,
+                          :tracker_id => 1, :subject => 'foo')
     issue.init_journal(User.find(1), "update")
     issue.assigned_to_id = 2
     assert_difference 'JournalDetail.count' do
@@ -275,16 +283,16 @@ class UserTest < ActiveSupport::TestCase
 
   def test_destroy_should_update_messages
     board = Board.create!(:project_id => 1, :name => 'Board', :description => 'Board')
-    message = Message.create!(:board_id => board.id, :author_id => 2, :subject => 'foo', :content => 'foo')
-
+    message = Message.create!(:board_id => board.id, :author_id => 2,
+                              :subject => 'foo', :content => 'foo')
     User.find(2).destroy
     assert_nil User.find_by_id(2)
     assert_equal User.anonymous, message.reload.author
   end
 
   def test_destroy_should_update_news
-    news = News.create!(:project_id => 1, :author_id => 2, :title => 'foo', :description => 'foo')
-
+    news = News.create!(:project_id => 1, :author_id => 2,
+                        :title => 'foo', :description => 'foo')
     User.find(2).destroy
     assert_nil User.find_by_id(2)
     assert_equal User.anonymous, news.reload.author
@@ -313,7 +321,8 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_destroy_should_update_time_entries
-    entry = TimeEntry.new(:hours => '2', :spent_on => Date.today, :activity => TimeEntryActivity.create!(:name => 'foo'))
+    entry = TimeEntry.new(:hours => '2', :spent_on => Date.today,
+                          :activity => TimeEntryActivity.create!(:name => 'foo'))
     entry.project_id = 1
     entry.user_id = 2
     entry.save!
@@ -332,7 +341,8 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_destroy_should_delete_watchers
-    issue = Issue.create!(:project_id => 1, :author_id => 1, :tracker_id => 1, :subject => 'foo')
+    issue = Issue.create!(:project_id => 1, :author_id => 1,
+                          :tracker_id => 1, :subject => 'foo')
     watcher = Watcher.create!(:user_id => 2, :watchable => issue)
 
     User.find(2).destroy
@@ -344,7 +354,9 @@ class UserTest < ActiveSupport::TestCase
     wiki_content = WikiContent.create!(
       :text => 'foo',
       :author_id => 2,
-      :page => WikiPage.create!(:title => 'Foo', :wiki => Wiki.create!(:project_id => 3, :start_page => 'Start'))
+      :page => WikiPage.create!(:title => 'Foo',
+                                :wiki => Wiki.create!(:project_id => 3,
+                                                      :start_page => 'Start'))
     )
     wiki_content.text = 'bar'
     assert_difference 'WikiContent::Version.count' do
@@ -418,7 +430,8 @@ class UserTest < ActiveSupport::TestCase
 
   def test_validate_password_length
     with_settings :password_min_length => '100' do
-      user = User.new(:firstname => "new100", :lastname => "user100", :mail => "newuser100@somenet.foo")
+      user = User.new(:firstname => "new100",
+                      :lastname => "user100", :mail => "newuser100@somenet.foo")
       user.login = "newuser100"
       user.password, user.password_confirmation = "password100", "password100"
       assert !user.save
@@ -473,25 +486,29 @@ class UserTest < ActiveSupport::TestCase
 
   def test_fields_for_order_statement_should_return_fields_according_user_format_setting
     with_settings :user_format => 'lastname_coma_firstname' do
-      assert_equal ['users.lastname', 'users.firstname', 'users.id'], User.fields_for_order_statement
+      assert_equal ['users.lastname', 'users.firstname', 'users.id'],
+                   User.fields_for_order_statement
     end
   end
 
   def test_fields_for_order_statement_width_table_name_should_prepend_table_name
     with_settings :user_format => 'lastname_firstname' do
-      assert_equal ['authors.lastname', 'authors.firstname', 'authors.id'], User.fields_for_order_statement('authors')
+      assert_equal ['authors.lastname', 'authors.firstname', 'authors.id'],
+                   User.fields_for_order_statement('authors')
     end
   end
 
   def test_fields_for_order_statement_with_blank_format_should_return_default
     with_settings :user_format => '' do
-      assert_equal ['users.firstname', 'users.lastname', 'users.id'], User.fields_for_order_statement
+      assert_equal ['users.firstname', 'users.lastname', 'users.id'],
+                   User.fields_for_order_statement
     end
   end
 
   def test_fields_for_order_statement_with_invalid_format_should_return_default
     with_settings :user_format => 'foo' do
-      assert_equal ['users.firstname', 'users.lastname', 'users.id'], User.fields_for_order_statement
+      assert_equal ['users.firstname', 'users.lastname', 'users.id'],
+                   User.fields_for_order_statement
     end
   end
 
