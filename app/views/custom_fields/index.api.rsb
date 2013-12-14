@@ -15,11 +15,12 @@ api.array :custom_fields do
       api.default_value     field.default_value
       api.visible           field.visible?
 
-      if field.field_format == 'list'
+      values = field.possible_values_options
+      if values.present?
         api.array :possible_values do
-          field.possible_values.each do |v|
+          values.each do |label, value|
             api.possible_value do
-              api.value v
+              api.value value || label
             end
           end
         end
