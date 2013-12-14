@@ -6,8 +6,8 @@ api.array :custom_fields do
       api.customized_type   field.class.customized_class.name.underscore if field.class.customized_class
       api.field_format      field.field_format
       api.regexp            field.regexp
-      api.min_length        (field.min_length == 0 ? nil : field.min_length)
-      api.max_length        (field.max_length == 0 ? nil : field.max_length)
+      api.min_length        field.min_length
+      api.max_length        field.max_length
       api.is_required       field.is_required?
       api.is_filter         field.is_filter?
       api.searchable        field.searchable

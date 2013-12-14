@@ -218,10 +218,10 @@ module Redmine
           unless custom_field.regexp.blank? or value =~ Regexp.new(custom_field.regexp)
             errs << ::I18n.t('activerecord.errors.messages.invalid')
           end
-          if custom_field.min_length > 0 and value.length < custom_field.min_length
+          if custom_field.min_length && value.length < custom_field.min_length
             errs << ::I18n.t('activerecord.errors.messages.too_short', :count => custom_field.min_length)
           end
-          if custom_field.max_length > 0 and value.length > custom_field.max_length
+          if custom_field.max_length && custom_field.max_length > 0 && value.length > custom_field.max_length
             errs << ::I18n.t('activerecord.errors.messages.too_long', :count => custom_field.max_length)
           end
         end
