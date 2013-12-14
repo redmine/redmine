@@ -29,6 +29,18 @@ class CustomFieldsHelperTest < ActionView::TestCase
     assert_equal 'No', format_value('0', CustomField.new(:field_format => 'bool'))
   end
 
+  def test_label_tag_should_include_description_as_span_title_if_present
+    field = CustomField.new(:field_format => 'string', :description => 'This is the description')
+    tag = custom_field_label_tag('foo', CustomValue.new(:custom_field => field))
+    assert_select_in tag, 'label span[title=?]', 'This is the description'
+  end
+
+  def test_label_tag_should_not_include_title_if_description_is_blank
+    field = CustomField.new(:field_format => 'string')
+    tag = custom_field_label_tag('foo', CustomValue.new(:custom_field => field))
+    assert_select_in tag, 'label span[title]', 0
+  end
+
   def test_unknow_field_format_should_be_edited_as_string
     field = CustomField.new(:field_format => 'foo')
     value = CustomValue.new(:value => 'bar', :custom_field => field)
