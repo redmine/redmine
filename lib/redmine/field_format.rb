@@ -39,8 +39,7 @@ module Redmine
 
     # Return an array of custom field formats which can be used in select_tag
     def self.as_select(class_name=nil)
-      formats = all.values
-      formats.select! do |format|
+      formats = all.values.select do |format|
         format.class.customized_class_names.nil? || format.class.customized_class_names.include?(class_name)
       end
       formats.map {|format| [::I18n.t(format.label), format.name] }.sort_by(&:first)
@@ -547,7 +546,8 @@ module Redmine
         missing = [custom_value.value_was].flatten.reject(&:blank?) - options.map(&:last)
         if missing.any?
           options += target_class.find_all_by_id(missing.map(&:to_i)).map {|o| [o.to_s, o.id.to_s]}
-          options.sort_by!(&:first)
+          #TODO: use #sort_by! when ruby1.8 support is dropped
+          options = options.sort_by(&:first)
         end
         options
       end
