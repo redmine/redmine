@@ -903,6 +903,10 @@ en:
   label_visibility_private: to me only
   label_visibility_roles: to these roles only
   label_visibility_public: to any users
+  label_link: Link
+  label_only: only
+  label_drop_down_list: drop-down list
+  label_checkboxes: checkboxes
 
   button_login: Login
   button_submit: Submit

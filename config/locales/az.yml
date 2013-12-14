@@ -1198,3 +1198,7 @@ az:
     current password
   setting_mail_handler_excluded_filenames: Exclude attachments by name
   text_convert_available: ImageMagick convert available (optional)
+  label_link: Link
+  label_only: only
+  label_drop_down_list: drop-down list
+  label_checkboxes: checkboxes

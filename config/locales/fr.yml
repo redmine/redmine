@@ -879,6 +879,10 @@ fr:
   label_visibility_private: par moi uniquement
   label_visibility_roles: par ces roles uniquement
   label_visibility_public: par tout le monde
+  label_link: Lien
+  label_only: seulement
+  label_drop_down_list: liste déroulante
+  label_checkboxes: cases à cocher
 
   button_login: Connexion
   button_submit: Soumettre

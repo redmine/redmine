@@ -1110,3 +1110,7 @@ tr:
     farklı olmalı
   setting_mail_handler_excluded_filenames: Dosya adı belirtilen ekleri hariç tut
   text_convert_available: ImageMagick dönüştürmesi kullanılabilir (isteğe bağlı)
+  label_link: Link
+  label_only: only
+  label_drop_down_list: drop-down list
+  label_checkboxes: checkboxes

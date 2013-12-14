@@ -1104,3 +1104,7 @@ cs:
   notice_new_password_must_be_different: Nové heslo se musí lišit od stávajícího
   setting_mail_handler_excluded_filenames: Vyřadit přílohy podle jména
   text_convert_available: ImageMagick convert k dispozici (volitelné)
+  label_link: Link
+  label_only: only
+  label_drop_down_list: drop-down list
+  label_checkboxes: checkboxes

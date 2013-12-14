@@ -1107,3 +1107,7 @@ pt:
   notice_new_password_must_be_different: A palavra-passe tem de ser diferente da actual
   setting_mail_handler_excluded_filenames: Exclude attachments by name
   text_convert_available: ImageMagick convert available (optional)
+  label_link: Link
+  label_only: only
+  label_drop_down_list: drop-down list
+  label_checkboxes: checkboxes
