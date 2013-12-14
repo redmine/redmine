@@ -118,7 +118,7 @@ module Redmine
       end
 
       def possible_values_options(custom_field, object=nil)
-        custom_field.possible_values
+        []
       end
 
       # Returns the validation errors for custom_field
@@ -476,12 +476,16 @@ module Redmine
       self.form_partial = 'custom_fields/formats/list'
  
       def possible_custom_value_options(custom_value)
-        options = super
+        options = possible_values_options(custom_value.custom_field)
         missing = [custom_value.value].flatten.reject(&:blank?) - options
         if missing.any?
           options += missing
         end
         options
+      end
+
+      def possible_values_options(custom_field, object=nil)
+        custom_field.possible_values
       end
 
       def validate_custom_field(custom_field)
