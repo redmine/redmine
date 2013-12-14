@@ -96,8 +96,10 @@ module TimelogHelper
       else
         obj
       end
+    elsif cf = criteria_options[:custom_field]
+      format_value(value, cf)
     else
-      format_value(value, criteria_options[:format])
+      value.to_s
     end
   end
 

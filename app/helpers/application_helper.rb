@@ -158,6 +158,8 @@ module ApplicationHelper
   # Helper that formats object for html or text rendering
   def format_object(object, html=true)
     case object.class.name
+    when 'Array'
+      object.map {|o| format_object(o, html)}.join(', ').html_safe
     when 'Time'
       format_time(object)
     when 'Date'
@@ -171,13 +173,24 @@ module ApplicationHelper
     when 'Project'
       html ? link_to_project(object) : object.to_s
     when 'Version'
-      html ? link_to(object.name, version_path(object)) : version.to_s
+      html ? link_to(object.name, version_path(object)) : object.to_s
     when 'TrueClass'
       l(:general_text_Yes)
     when 'FalseClass'
       l(:general_text_No)
     when 'Issue'
       object.visible? && html ? link_to_issue(object) : "##{object.id}"
+    when 'CustomValue', 'CustomFieldValue'
+      if object.custom_field
+        f = object.custom_field.format.formatted_custom_value(self, object, html)
+        if f.nil? || f.is_a?(String)
+          f
+        else
+          format_object(f, html)
+        end
+      else
+        object.value.to_s
+      end
     else
       html ? h(object) : object.to_s
     end

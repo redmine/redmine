@@ -12,7 +12,8 @@ $('#custom_field_field_format').change(function(){
   $.ajax({
     url: '<%= new_custom_field_path(:format => 'js') %>',
     type: 'get',
-    data: $('#custom_field_form').serialize()
+    data: $('#custom_field_form').serialize(),
+    complete: toggleDisabledInit
   });
 });
 <% end %>

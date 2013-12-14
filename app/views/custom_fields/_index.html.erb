@@ -14,7 +14,7 @@
   <% (@custom_fields_by_type[tab[:name]] || []).sort.each do |custom_field| -%>
     <tr class="<%= cycle("odd", "even") %>">
       <td class="name"><%= link_to h(custom_field.name), edit_custom_field_path(custom_field) %></td>
-      <td><%= l(Redmine::CustomFieldFormat.label_for(custom_field.field_format)) %></td>
+      <td><%= l(custom_field.format.label) %></td>
       <td><%= checked_image custom_field.is_required? %></td>
       <% if tab[:name] == 'IssueCustomField' %>
       <td><%= checked_image custom_field.is_for_all? %></td>

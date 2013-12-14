@@ -30,17 +30,26 @@ class CustomFieldsControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
-  def test_new
+  def test_new_should_work_for_each_customized_class_and_format
     custom_field_classes.each do |klass|
-      get :new, :type => klass.name
-      assert_response :success
-      assert_template 'new'
-      assert_kind_of klass, assigns(:custom_field)
-      assert_select 'form#custom_field_form' do
-        assert_select 'select#custom_field_field_format[name=?]', 'custom_field[field_format]'
-        assert_select 'input[type=hidden][name=type][value=?]', klass.name
+      Redmine::FieldFormat.available_formats.each do |format_name|
+        get :new, :type => klass.name, :custom_field => {:field_format => format_name}
+        assert_response :success
+        assert_template 'new'
+        assert_kind_of klass, assigns(:custom_field)
+        assert_equal format_name, assigns(:custom_field).format.name
+        assert_select 'form#custom_field_form' do
+          assert_select 'select#custom_field_field_format[name=?]', 'custom_field[field_format]'
+          assert_select 'input[type=hidden][name=type][value=?]', klass.name
+        end
       end
     end
+  end
+
+  def test_new_should_have_string_default_format
+    get :new, :type => 'IssueCustomField'
+    assert_response :success
+    assert_equal 'string', assigns(:custom_field).format.name
   end
 
   def test_new_issue_custom_field
@@ -83,7 +92,9 @@ class CustomFieldsControllerTest < ActionController::TestCase
   def test_default_value_should_be_a_checkbox_for_bool_custom_field
     get :new, :type => 'IssueCustomField', :custom_field => {:field_format => 'bool'}
     assert_response :success
-    assert_select 'input[name=?][type=checkbox]', 'custom_field[default_value]'
+    assert_select 'select[name=?]', 'custom_field[default_value]' do
+      assert_select 'option', 3
+    end
   end
 
   def test_default_value_should_not_be_present_for_user_custom_field

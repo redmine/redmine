@@ -1,0 +1,646 @@
+# Redmine - project management software
+# Copyright (C) 2006-2013  Jean-Philippe Lang
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+module Redmine
+  module FieldFormat
+    def self.add(name, klass)
+      all[name.to_s] = klass.instance
+    end
+
+    def self.delete(name)
+      all.delete(name.to_s)
+    end
+
+    def self.all
+      @formats ||= Hash.new(Base.instance)
+    end
+
+    def self.available_formats
+      all.keys
+    end
+
+    def self.find(name)
+      all[name.to_s]
+    end
+
+    # Return an array of custom field formats which can be used in select_tag
+    def self.as_select(class_name=nil)
+      formats = all.values
+      formats.select! do |format|
+        format.class.customized_class_names.nil? || format.class.customized_class_names.include?(class_name)
+      end
+      formats.map {|format| [::I18n.t(format.label), format.name] }.sort_by(&:first)
+    end
+
+    class Base
+      include Singleton
+      include Redmine::I18n
+      include ERB::Util
+
+      class_attribute :format_name
+      self.format_name = nil
+
+      # Set this to true if the format supports multiple values
+      class_attribute :multiple_supported
+      self.multiple_supported = false
+
+      # Set this to true if the format supports textual search on custom values
+      class_attribute :searchable_supported
+      self.searchable_supported = false
+
+      # Restricts the classes that the custom field can be added to
+      # Set to nil for no restrictions
+      class_attribute :customized_class_names
+      self.customized_class_names = nil
+
+      # Name of the partial for editing the custom field
+      class_attribute :form_partial
+      self.form_partial = nil
+
+      def self.add(name)
+        self.format_name = name
+        Redmine::FieldFormat.add(name, self)
+      end
+      private_class_method :add
+
+      def self.field_attributes(*args)
+        CustomField.store_accessor :format_store, *args
+      end
+
+      def name
+        self.class.format_name
+      end
+
+      def label
+        "label_#{name}"
+      end
+
+      def cast_custom_value(custom_value)
+        cast_value(custom_value.custom_field, custom_value.value, custom_value.customized)
+      end
+
+      def cast_value(custom_field, value, customized=nil)
+        if value.blank?
+          nil
+        elsif value.is_a?(Array)
+          value.map do |v|
+            cast_single_value(custom_field, v, customized)
+          end.sort
+        else
+          cast_single_value(custom_field, value, customized)
+        end
+      end
+
+      def cast_single_value(custom_field, value, customized=nil)
+        value.to_s
+      end
+
+      def target_class
+        nil
+      end
+ 
+      def possible_custom_value_options(custom_value)
+        possible_values_options(custom_value.custom_field, custom_value.customized)
+      end
+
+      def possible_values_options(custom_field, object=nil)
+        custom_field.possible_values
+      end
+
+      # Returns the validation errors for custom_field
+      # Should return an empty array if custom_field is valid
+      def validate_custom_field(custom_field)
+        []
+      end
+
+      # Returns the validation error messages for custom_value
+      # Should return an empty array if custom_value is valid
+      def validate_custom_value(custom_value)
+        errors = Array.wrap(custom_value.value).reject(&:blank?).map do |value|
+          validate_single_value(custom_value.custom_field, value, custom_value.customized)
+        end
+        errors.flatten.uniq
+      end
+
+      def validate_single_value(custom_field, value, customized=nil)
+        []
+      end
+
+      def formatted_custom_value(view, custom_value, html=false)
+        formatted_value(view, custom_value.custom_field, custom_value.value, custom_value.customized, html)
+      end
+
+      def formatted_value(view, custom_field, value, customized=nil, html=false)
+        cast_value(custom_field, value, customized)
+      end
+
+      def edit_tag(view, tag_id, tag_name, custom_value, options={})
+        view.text_field_tag(tag_name, custom_value.value, options.merge(:id => tag_id))
+      end
+
+      def bulk_edit_tag(view, tag_id, tag_name, custom_field, objects, value, options={})
+        view.text_field_tag(tag_name, value, options.merge(:id => tag_id)) +
+          bulk_clear_tag(view, tag_id, tag_name, custom_field, value)
+      end
+
+      def bulk_clear_tag(view, tag_id, tag_name, custom_field, value)
+        if custom_field.is_required?
+          ''.html_safe
+        else
+          view.content_tag('label',
+            view.check_box_tag(tag_name, '__none__', (value == '__none__'), :id => nil, :data => {:disables => "##{tag_id}"}) + l(:button_clear),
+            :class => 'inline'
+          )
+        end
+      end
+      protected :bulk_clear_tag
+
+      def query_filter_options(custom_field, query)
+        {:type => :string}
+      end
+
+      def before_custom_field_save(custom_field)
+      end
+
+      # Returns a ORDER BY clause that can used to sort customized
+      # objects by their value of the custom field.
+      # Returns nil if the custom field can not be used for sorting.
+      def order_statement(custom_field)
+        # COALESCE is here to make sure that blank and NULL values are sorted equally
+        "COALESCE(#{join_alias custom_field}.value, '')"
+      end
+
+      # Returns a GROUP BY clause that can used to group by custom value
+      # Returns nil if the custom field can not be used for grouping.
+      def group_statement(custom_field)
+        nil
+      end
+
+      # Returns a JOIN clause that is added to the query when sorting by custom values
+      def join_for_order_statement(custom_field)
+        alias_name = join_alias(custom_field)
+
+        "LEFT OUTER JOIN #{CustomValue.table_name} #{alias_name}" +
+          " ON #{alias_name}.customized_type = '#{custom_field.class.customized_class.base_class.name}'" +
+          " AND #{alias_name}.customized_id = #{custom_field.class.customized_class.table_name}.id" +
+          " AND #{alias_name}.custom_field_id = #{custom_field.id}" +
+          " AND (#{custom_field.visibility_by_project_condition})" +
+          " AND #{alias_name}.value <> ''" +
+          " AND #{alias_name}.id = (SELECT max(#{alias_name}_2.id) FROM #{CustomValue.table_name} #{alias_name}_2" +
+            " WHERE #{alias_name}_2.customized_type = #{alias_name}.customized_type" +
+            " AND #{alias_name}_2.customized_id = #{alias_name}.customized_id" +
+            " AND #{alias_name}_2.custom_field_id = #{alias_name}.custom_field_id)"
+      end
+
+      def join_alias(custom_field)
+        "cf_#{custom_field.id}"
+      end
+      protected :join_alias
+    end
+
+    class Unbounded < Base
+      def validate_single_value(custom_field, value, customized=nil)
+        errs = super
+        if value.present?
+          unless custom_field.regexp.blank? or value =~ Regexp.new(custom_field.regexp)
+            errs << ::I18n.t('activerecord.errors.messages.invalid')
+          end
+          if custom_field.min_length > 0 and value.length < custom_field.min_length
+            errs << ::I18n.t('activerecord.errors.messages.too_short', :count => custom_field.min_length)
+          end
+          if custom_field.max_length > 0 and value.length > custom_field.max_length
+            errs << ::I18n.t('activerecord.errors.messages.too_long', :count => custom_field.max_length)
+          end
+        end
+        errs
+      end
+    end
+
+    class StringFormat < Unbounded
+      add 'string'
+      self.searchable_supported = true
+      self.form_partial = 'custom_fields/formats/string'
+      field_attributes :text_formatting
+
+      def formatted_value(view, custom_field, value, customized=nil, html=false)
+        if html && custom_field.text_formatting == 'full'
+          view.textilizable(value, :object => customized)
+        else
+          value.to_s
+        end
+      end
+    end
+
+    class TextFormat < Unbounded
+      add 'text'
+      self.searchable_supported = true
+      self.form_partial = 'custom_fields/formats/text'
+
+      def formatted_value(view, custom_field, value, customized=nil, html=false)
+        if html
+          if custom_field.text_formatting == 'full'
+            view.textilizable(value, :object => customized)
+          else
+            view.simple_format(html_escape(value))
+          end
+        else
+          value.to_s
+        end
+      end
+
+      def edit_tag(view, tag_id, tag_name, custom_value, options={})
+        view.text_area_tag(tag_name, custom_value.value, options.merge(:id => tag_id, :rows => 3))
+      end
+
+      def bulk_edit_tag(view, tag_id, tag_name, custom_field, objects, value, options={})
+        view.text_area_tag(tag_name, value, options.merge(:id => tag_id, :rows => 3)) +
+          '<br />'.html_safe +
+          bulk_clear_tag(view, tag_id, tag_name, custom_field, value)
+      end
+
+      def query_filter_options(custom_field, query)
+        {:type => :text}
+      end
+    end
+
+    class LinkFormat < StringFormat
+      add 'link'
+      self.searchable_supported = false
+      self.form_partial = 'custom_fields/formats/link'
+      field_attributes :url_pattern
+
+      def formatted_value(view, custom_field, value, customized=nil, html=false)
+        if html
+          if custom_field.url_pattern.present?
+            url = custom_field.url_pattern.to_s.dup
+            url.gsub!('%value%') {value.to_s}
+            url.gsub!('%id%') {customized.id.to_s}
+            url.gsub!('%project_id%') {(customized.respond_to?(:project) ? customized.project.try(:id) : nil).to_s}
+            if custom_field.regexp.present?
+              url.gsub!(%r{%m(\d+)%}) do
+                m = $1.to_i
+                matches ||= value.to_s.match(Regexp.new(custom_field.regexp))
+                matches[m].to_s if matches
+              end
+            end
+          else
+            url = value.to_s
+            unless url =~ %r{\A[a-z]+://}i
+              # no protocol found, use http by default
+              url = "http://" + url
+            end
+          end
+          view.link_to value.to_s, url
+        else
+          value.to_s
+        end
+      end
+    end
+
+    class Numeric < Unbounded
+      self.form_partial = 'custom_fields/formats/numeric'
+
+      def order_statement(custom_field)
+        # Make the database cast values into numeric
+        # Postgresql will raise an error if a value can not be casted!
+        # CustomValue validations should ensure that it doesn't occur
+        "CAST(CASE #{join_alias custom_field}.value WHEN '' THEN '0' ELSE #{join_alias custom_field}.value END AS decimal(30,3))"
+      end
+    end
+
+    class IntFormat < Numeric
+      add 'int'
+
+      def label
+        "label_integer"
+      end
+
+      def cast_single_value(custom_field, value, customized=nil)
+        value.to_i
+      end
+
+      def validate_single_value(custom_field, value, customized=nil)
+        errs = super
+        errs << ::I18n.t('activerecord.errors.messages.not_a_number') unless value =~ /^[+-]?\d+$/
+        errs
+      end
+
+      def query_filter_options(custom_field, query)
+        {:type => :integer}
+      end
+
+      def group_statement(custom_field)
+        order_statement(custom_field)
+      end
+    end
+
+    class FloatFormat < Numeric
+      add 'float'
+
+      def cast_single_value(custom_field, value, customized=nil)
+        value.to_f
+      end
+
+      def validate_single_value(custom_field, value, customized=nil)
+        errs = super
+        errs << ::I18n.t('activerecord.errors.messages.invalid') unless (Kernel.Float(value) rescue nil)
+        errs
+      end
+
+      def query_filter_options(custom_field, query)
+        {:type => :float}
+      end
+    end
+
+    class DateFormat < Unbounded
+      add 'date'
+      self.form_partial = 'custom_fields/formats/date'
+
+      def cast_single_value(custom_field, value, customized=nil)
+        value.to_date rescue nil
+      end
+
+      def validate_single_value(custom_field, value, customized=nil)
+        if value =~ /^\d{4}-\d{2}-\d{2}$/ && (value.to_date rescue false)
+          []
+        else
+          [::I18n.t('activerecord.errors.messages.not_a_date')]
+        end
+      end
+
+      def edit_tag(view, tag_id, tag_name, custom_value, options={})
+        view.text_field_tag(tag_name, custom_value.value, options.merge(:id => tag_id, :size => 10)) +
+          view.calendar_for(tag_id)
+      end
+
+      def bulk_edit_tag(view, tag_id, tag_name, custom_field, objects, value, options={})
+        view.text_field_tag(tag_name, value, options.merge(:id => tag_id, :size => 10)) +
+          view.calendar_for(tag_id) +
+          bulk_clear_tag(view, tag_id, tag_name, custom_field, value)
+      end
+
+      def query_filter_options(custom_field, query)
+        {:type => :date}
+      end
+
+      def group_statement(custom_field)
+        order_statement(custom_field)
+      end
+    end
+
+    class List < Base
+      self.multiple_supported = true
+      field_attributes :edit_tag_style
+
+      def edit_tag(view, tag_id, tag_name, custom_value, options={})
+        if custom_value.custom_field.edit_tag_style == 'check_box'
+          check_box_edit_tag(view, tag_id, tag_name, custom_value, options)
+        else
+          select_edit_tag(view, tag_id, tag_name, custom_value, options)
+        end
+      end
+
+      def bulk_edit_tag(view, tag_id, tag_name, custom_field, objects, value, options={})
+        opts = []
+        opts << [l(:label_no_change_option), ''] unless custom_field.multiple?
+        opts << [l(:label_none), '__none__'] unless custom_field.is_required?
+        opts += possible_values_options(custom_field, objects)
+        view.select_tag(tag_name, view.options_for_select(opts, value), options.merge(:multiple => custom_field.multiple?))
+      end
+
+      def query_filter_options(custom_field, query)
+        {:type => :list_optional, :values => possible_values_options(custom_field, query.project)}
+      end
+
+      protected
+
+      # Renders the edit tag as a select tag
+      def select_edit_tag(view, tag_id, tag_name, custom_value, options={})
+        blank_option = ''.html_safe
+        unless custom_value.custom_field.multiple?
+          if custom_value.custom_field.is_required?
+            unless custom_value.custom_field.default_value.present?
+              blank_option = view.content_tag('option', "--- #{l(:actionview_instancetag_blank_option)} ---", :value => '')
+            end
+          else
+            blank_option = view.content_tag('option', '&nbsp;'.html_safe, :value => '')
+          end
+        end
+        options_tags = blank_option + view.options_for_select(possible_custom_value_options(custom_value), custom_value.value)
+        s = view.select_tag(tag_name, options_tags, options.merge(:id => tag_id, :multiple => custom_value.custom_field.multiple?))
+        if custom_value.custom_field.multiple?
+          s << view.hidden_field_tag(tag_name, '')
+        end
+        s
+      end
+
+      # Renders the edit tag as check box or radio tags
+      def check_box_edit_tag(view, tag_id, tag_name, custom_value, options={})
+        opts = []
+        unless custom_value.custom_field.multiple? || custom_value.custom_field.is_required?
+          opts << ["(#{l(:label_none)})", '']
+        end
+        opts += possible_custom_value_options(custom_value)
+        s = ''.html_safe
+        tag_method = custom_value.custom_field.multiple? ? :check_box_tag : :radio_button_tag
+        opts.each do |label, value|
+          value ||= label
+          checked = (custom_value.value.is_a?(Array) && custom_value.value.include?(value)) || custom_value.value.to_s == value
+          tag = view.send(tag_method, tag_name, value, checked, :id => tag_id)
+          # set the id on the first tag only
+          tag_id = nil
+          s << view.content_tag('label', tag + ' ' + label) 
+        end
+        css = "#{options[:class]} check_box_group"
+        view.content_tag('span', s, options.merge(:class => css))
+      end
+    end
+
+    class ListFormat < List
+      add 'list'
+      self.searchable_supported = true
+      self.form_partial = 'custom_fields/formats/list'
+ 
+      def possible_custom_value_options(custom_value)
+        options = super
+        missing = [custom_value.value].flatten.reject(&:blank?) - options
+        if missing.any?
+          options += missing
+        end
+        options
+      end
+
+      def validate_custom_field(custom_field)
+        errors = []
+        errors << [:possible_values, :blank] if custom_field.possible_values.blank?
+        errors << [:possible_values, :invalid] unless custom_field.possible_values.is_a? Array
+        errors
+      end
+
+      def validate_custom_value(custom_value)
+        invalid_values = Array.wrap(custom_value.value) - Array.wrap(custom_value.value_was) - custom_value.custom_field.possible_values
+        if invalid_values.select(&:present?).any?
+          [::I18n.t('activerecord.errors.messages.inclusion')]
+        else
+          []
+        end
+      end
+
+      def group_statement(custom_field)
+        order_statement(custom_field)
+      end
+    end
+
+    class BoolFormat < List
+      add 'bool'
+      self.multiple_supported = false
+      self.form_partial = 'custom_fields/formats/bool'
+
+      def label
+        "label_boolean"
+      end
+
+      def cast_single_value(custom_field, value, customized=nil)
+        value == '1' ? true : false
+      end
+
+      def possible_values_options(custom_field, object=nil)
+        [[::I18n.t(:general_text_Yes), '1'], [::I18n.t(:general_text_No), '0']]
+      end
+
+      def group_statement(custom_field)
+        order_statement(custom_field)
+      end
+    end
+
+    class RecordList < List
+      self.customized_class_names = %w(Issue TimeEntry Version Project)
+
+      def cast_single_value(custom_field, value, customized=nil)
+        target_class.find_by_id(value.to_i) if value.present?
+      end
+
+      def target_class
+        @target_class ||= self.class.name[/^(.*::)?(.+)Format$/, 2].constantize rescue nil
+      end
+ 
+      def possible_custom_value_options(custom_value)
+        options = possible_values_options(custom_value.custom_field, custom_value.customized)
+        missing = [custom_value.value_was].flatten.reject(&:blank?) - options.map(&:last)
+        if missing.any?
+          options += target_class.find_all_by_id(missing.map(&:to_i)).map {|o| [o.to_s, o.id.to_s]}
+          options.sort_by!(&:first)
+        end
+        options
+      end
+
+      def order_statement(custom_field)
+        if target_class.respond_to?(:fields_for_order_statement)
+          target_class.fields_for_order_statement(value_join_alias(custom_field))
+        end
+      end
+
+      def group_statement(custom_field)
+        "COALESCE(#{join_alias custom_field}.value, '')"
+      end
+
+      def join_for_order_statement(custom_field)
+        alias_name = join_alias(custom_field)
+
+        "LEFT OUTER JOIN #{CustomValue.table_name} #{alias_name}" +
+          " ON #{alias_name}.customized_type = '#{custom_field.class.customized_class.base_class.name}'" +
+          " AND #{alias_name}.customized_id = #{custom_field.class.customized_class.table_name}.id" +
+          " AND #{alias_name}.custom_field_id = #{custom_field.id}" +
+          " AND (#{custom_field.visibility_by_project_condition})" +
+          " AND #{alias_name}.value <> ''" +
+          " AND #{alias_name}.id = (SELECT max(#{alias_name}_2.id) FROM #{CustomValue.table_name} #{alias_name}_2" +
+            " WHERE #{alias_name}_2.customized_type = #{alias_name}.customized_type" +
+            " AND #{alias_name}_2.customized_id = #{alias_name}.customized_id" +
+            " AND #{alias_name}_2.custom_field_id = #{alias_name}.custom_field_id)" +
+          " LEFT OUTER JOIN #{target_class.table_name} #{value_join_alias custom_field}" +
+          " ON CAST(CASE #{alias_name}.value WHEN '' THEN '0' ELSE #{alias_name}.value END AS decimal(30,0)) = #{value_join_alias custom_field}.id"
+      end
+
+      def value_join_alias(custom_field)
+        join_alias(custom_field) + "_" + custom_field.field_format
+      end
+      protected :value_join_alias
+    end
+
+    class UserFormat < RecordList
+      add 'user'
+      self.form_partial = 'custom_fields/formats/user'
+      field_attributes :user_role
+
+      def possible_values_options(custom_field, object=nil)
+        if object.is_a?(Array)
+          projects = object.map {|o| o.respond_to?(:project) ? o.project : nil}.compact.uniq
+          projects.map {|project| possible_values_options(custom_field, project)}.reduce(:&) || []
+        elsif object.respond_to?(:project) && object.project
+          scope = object.project.users
+          if custom_field.user_role.is_a?(Array)
+            role_ids = custom_field.user_role.map(&:to_s).reject(&:blank?).map(&:to_i)
+            if role_ids.any?
+              scope = scope.where("#{Member.table_name}.id IN (SELECT DISTINCT member_id FROM #{MemberRole.table_name} WHERE role_id IN (?))", role_ids)
+            end
+          end
+          scope.sorted.collect {|u| [u.to_s, u.id.to_s]}
+        else
+          []
+        end
+      end
+
+      def before_custom_field_save(custom_field)
+        super
+        if custom_field.user_role.is_a?(Array)
+          custom_field.user_role.map!(&:to_s).reject!(&:blank?)
+        end
+      end
+    end
+
+    class VersionFormat < RecordList
+      add 'version'
+      self.form_partial = 'custom_fields/formats/version'
+      field_attributes :version_status
+
+      def possible_values_options(custom_field, object=nil)
+        if object.is_a?(Array)
+          projects = object.map {|o| o.respond_to?(:project) ? o.project : nil}.compact.uniq
+          projects.map {|project| possible_values_options(custom_field, project)}.reduce(:&) || []
+        elsif object.respond_to?(:project) && object.project
+          scope = object.project.shared_versions
+          if custom_field.version_status.is_a?(Array)
+            statuses = custom_field.version_status.map(&:to_s).reject(&:blank?)
+            if statuses.any?
+              scope = scope.where(:status => statuses.map(&:to_s))
+            end
+          end
+          scope.sort.collect {|u| [u.to_s, u.id.to_s]}
+        else
+          []
+        end
+      end
+
+      def before_custom_field_save(custom_field)
+        super
+        if custom_field.version_status.is_a?(Array)
+          custom_field.version_status.map!(&:to_s).reject!(&:blank?)
+        end
+      end
+    end
+  end
+end

@@ -22,14 +22,18 @@ class CustomField < ActiveRecord::Base
   has_and_belongs_to_many :roles, :join_table => "#{table_name_prefix}custom_fields_roles#{table_name_suffix}", :foreign_key => "custom_field_id"
   acts_as_list :scope => 'type = \'#{self.class}\''
   serialize :possible_values
+  store :format_store
 
   validates_presence_of :name, :field_format
   validates_uniqueness_of :name, :scope => :type
   validates_length_of :name, :maximum => 30
-  validates_inclusion_of :field_format, :in => Proc.new { Redmine::CustomFieldFormat.available_formats }
+  validates_inclusion_of :field_format, :in => Proc.new { Redmine::FieldFormat.available_formats }
   validate :validate_custom_field
 
   before_validation :set_searchable
+  before_save do |field|
+    field.format.before_custom_field_save(field)
+  end
   after_save :handle_multiplicity_change
   after_save do |field|
     if field.visible_changed? && field.visible
@@ -57,23 +61,29 @@ class CustomField < ActiveRecord::Base
     visible? || user.admin?
   end
 
+  def format
+    @format ||= Redmine::FieldFormat.find(field_format)
+  end
+
   def field_format=(arg)
     # cannot change format of a saved custom field
-    super if new_record?
+    if new_record?
+      @format = nil
+      super
+    end
   end
 
   def set_searchable
     # make sure these fields are not searchable
-    self.searchable = false if %w(int float date bool).include?(field_format)
+    self.searchable = false unless format.class.searchable_supported
     # make sure only these fields can have multiple values
-    self.multiple = false unless %w(list user version).include?(field_format)
+    self.multiple = false unless format.class.multiple_supported
     true
   end
 
   def validate_custom_field
-    if self.field_format == "list"
-      errors.add(:possible_values, :blank) if self.possible_values.nil? || self.possible_values.empty?
-      errors.add(:possible_values, :invalid) unless self.possible_values.is_a? Array
+    format.validate_custom_field(self).each do |attribute, message|
+      errors.add attribute, message
     end
 
     if regexp.present?
@@ -84,49 +94,34 @@ class CustomField < ActiveRecord::Base
       end
     end
 
-    if default_value.present? && !valid_field_value?(default_value)
-      errors.add(:default_value, :invalid)
+    if default_value.present?
+      validate_field_value(default_value).each do |message|
+        errors.add :default_value, message
+      end
     end
   end
 
-  def possible_values_options(obj=nil)
-    case field_format
-    when 'user', 'version'
-      if obj.respond_to?(:project) && obj.project
-        case field_format
-        when 'user'
-          obj.project.users.sort.collect {|u| [u.to_s, u.id.to_s]}
-        when 'version'
-          obj.project.shared_versions.sort.collect {|u| [u.to_s, u.id.to_s]}
-        end
-      elsif obj.is_a?(Array)
-        obj.collect {|o| possible_values_options(o)}.reduce(:&)
-      else
-        []
-      end
-    when 'bool'
-      [[l(:general_text_Yes), '1'], [l(:general_text_No), '0']]
+  def possible_custom_value_options(custom_value)
+    format.possible_custom_value_options(custom_value)
+  end
+
+  def possible_values_options(object=nil)
+    if object.is_a?(Array)
+      object.map {|o| format.possible_values_options(self, o)}.reduce(:&) || []
     else
-      possible_values || []
+      format.possible_values_options(self, object) || []
     end
   end
 
-  def possible_values(obj=nil)
-    case field_format
-    when 'user', 'version'
-      possible_values_options(obj).collect(&:last)
-    when 'bool'
-      ['1', '0']
-    else
-      values = super()
-      if values.is_a?(Array)
-        values.each do |value|
-          value.force_encoding('UTF-8') if value.respond_to?(:force_encoding)
-        end
-        values
-      else
-        []
+  def possible_values
+    values = super()
+    if values.is_a?(Array)
+      values.each do |value|
+        value.force_encoding('UTF-8') if value.respond_to?(:force_encoding)
       end
+      values
+    else
+      []
     end
   end
 
@@ -140,24 +135,7 @@ class CustomField < ActiveRecord::Base
   end
 
   def cast_value(value)
-    casted = nil
-    unless value.blank?
-      case field_format
-      when 'string', 'text', 'list'
-        casted = value
-      when 'date'
-        casted = begin; value.to_date; rescue; nil end
-      when 'bool'
-        casted = (value == '1' ? true : false)
-      when 'int'
-        casted = value.to_i
-      when 'float'
-        casted = value.to_f
-      when 'user', 'version'
-        casted = (value.blank? ? nil : field_format.classify.constantize.find_by_id(value.to_i))
-      end
-    end
-    casted
+    format.cast_value(self, value)
   end
 
   def value_from_keyword(keyword, customized)
@@ -181,83 +159,18 @@ class CustomField < ActiveRecord::Base
   # Returns nil if the custom field can not be used for sorting.
   def order_statement
     return nil if multiple?
-    case field_format
-      when 'string', 'text', 'list', 'date', 'bool'
-        # COALESCE is here to make sure that blank and NULL values are sorted equally
-        "COALESCE(#{join_alias}.value, '')"
-      when 'int', 'float'
-        # Make the database cast values into numeric
-        # Postgresql will raise an error if a value can not be casted!
-        # CustomValue validations should ensure that it doesn't occur
-        "CAST(CASE #{join_alias}.value WHEN '' THEN '0' ELSE #{join_alias}.value END AS decimal(30,3))"
-      when 'user', 'version'
-        value_class.fields_for_order_statement(value_join_alias)
-      else
-        nil
-    end
+    format.order_statement(self)
   end
 
   # Returns a GROUP BY clause that can used to group by custom value
   # Returns nil if the custom field can not be used for grouping.
   def group_statement
     return nil if multiple?
-    case field_format
-      when 'list', 'date', 'bool', 'int'
-        order_statement
-      when 'user', 'version'
-        "COALESCE(#{join_alias}.value, '')"
-      else
-        nil
-    end
+    format.group_statement(self)
   end
 
   def join_for_order_statement
-    case field_format
-      when 'user', 'version'
-        "LEFT OUTER JOIN #{CustomValue.table_name} #{join_alias}" +
-          " ON #{join_alias}.customized_type = '#{self.class.customized_class.base_class.name}'" +
-          " AND #{join_alias}.customized_id = #{self.class.customized_class.table_name}.id" +
-          " AND #{join_alias}.custom_field_id = #{id}" +
-          " AND (#{visibility_by_project_condition})" +
-          " AND #{join_alias}.value <> ''" +
-          " AND #{join_alias}.id = (SELECT max(#{join_alias}_2.id) FROM #{CustomValue.table_name} #{join_alias}_2" +
-            " WHERE #{join_alias}_2.customized_type = #{join_alias}.customized_type" +
-            " AND #{join_alias}_2.customized_id = #{join_alias}.customized_id" +
-            " AND #{join_alias}_2.custom_field_id = #{join_alias}.custom_field_id)" +
-          " LEFT OUTER JOIN #{value_class.table_name} #{value_join_alias}" +
-          " ON CAST(CASE #{join_alias}.value WHEN '' THEN '0' ELSE #{join_alias}.value END AS decimal(30,0)) = #{value_join_alias}.id"
-      when 'int', 'float'
-        "LEFT OUTER JOIN #{CustomValue.table_name} #{join_alias}" +
-          " ON #{join_alias}.customized_type = '#{self.class.customized_class.base_class.name}'" +
-          " AND #{join_alias}.customized_id = #{self.class.customized_class.table_name}.id" +
-          " AND #{join_alias}.custom_field_id = #{id}" +
-          " AND (#{visibility_by_project_condition})" +
-          " AND #{join_alias}.value <> ''" +
-          " AND #{join_alias}.id = (SELECT max(#{join_alias}_2.id) FROM #{CustomValue.table_name} #{join_alias}_2" +
-            " WHERE #{join_alias}_2.customized_type = #{join_alias}.customized_type" +
-            " AND #{join_alias}_2.customized_id = #{join_alias}.customized_id" +
-            " AND #{join_alias}_2.custom_field_id = #{join_alias}.custom_field_id)"
-      when 'string', 'text', 'list', 'date', 'bool'
-        "LEFT OUTER JOIN #{CustomValue.table_name} #{join_alias}" +
-          " ON #{join_alias}.customized_type = '#{self.class.customized_class.base_class.name}'" +
-          " AND #{join_alias}.customized_id = #{self.class.customized_class.table_name}.id" +
-          " AND #{join_alias}.custom_field_id = #{id}" +
-          " AND (#{visibility_by_project_condition})" +
-          " AND #{join_alias}.id = (SELECT max(#{join_alias}_2.id) FROM #{CustomValue.table_name} #{join_alias}_2" +
-            " WHERE #{join_alias}_2.customized_type = #{join_alias}.customized_type" +
-            " AND #{join_alias}_2.customized_id = #{join_alias}.customized_id" +
-            " AND #{join_alias}_2.custom_field_id = #{join_alias}.custom_field_id)"
-      else
-        nil
-    end
-  end
-
-  def join_alias
-    "cf_#{id}"
-  end
-
-  def value_join_alias
-    join_alias + "_" + field_format
+    format.join_for_order_statement(self)
   end
 
   def visibility_by_project_condition(project_key=nil, user=User.current)
@@ -293,12 +206,7 @@ class CustomField < ActiveRecord::Base
 
   # Returns the class that values represent
   def value_class
-    case field_format
-      when 'user', 'version'
-        field_format.classify.constantize
-      else
-        nil
-    end
+    format.target_class if format.respond_to?(:target_class)
   end
 
   def self.customized_class
@@ -317,7 +225,8 @@ class CustomField < ActiveRecord::Base
 
   # Returns the error messages for the given value
   # or an empty array if value is a valid value for the custom field
-  def validate_field_value(value)
+  def validate_custom_value(custom_value)
+    value = custom_value.value
     errs = []
     if value.is_a?(Array)
       if !multiple?
@@ -326,14 +235,20 @@ class CustomField < ActiveRecord::Base
       if is_required? && value.detect(&:present?).nil?
         errs << ::I18n.t('activerecord.errors.messages.blank')
       end
-      value.each {|v| errs += validate_field_value_format(v)}
     else
       if is_required? && value.blank?
         errs << ::I18n.t('activerecord.errors.messages.blank')
       end
-      errs += validate_field_value_format(value)
+    end
+    if custom_value.value.present?
+      errs += format.validate_custom_value(custom_value)
     end
     errs
+  end
+
+  # Returns the error messages for the default custom field value
+  def validate_field_value(value)
+    validate_custom_value(CustomValue.new(:custom_field => self, :value => value))
   end
 
   # Returns true if value is a valid value for the custom field
@@ -346,29 +261,6 @@ class CustomField < ActiveRecord::Base
   end
 
   protected
-
-  # Returns the error message for the given value regarding its format
-  def validate_field_value_format(value)
-    errs = []
-    if value.present?
-      errs << ::I18n.t('activerecord.errors.messages.invalid') unless regexp.blank? or value =~ Regexp.new(regexp)
-      errs << ::I18n.t('activerecord.errors.messages.too_short', :count => min_length) if min_length > 0 and value.length < min_length
-      errs << ::I18n.t('activerecord.errors.messages.too_long', :count => max_length) if max_length > 0 and value.length > max_length
-
-      # Format specific validations
-      case field_format
-      when 'int'
-        errs << ::I18n.t('activerecord.errors.messages.not_a_number') unless value =~ /^[+-]?\d+$/
-      when 'float'
-        begin; Kernel.Float(value); rescue; errs << ::I18n.t('activerecord.errors.messages.invalid') end
-      when 'date'
-        errs << ::I18n.t('activerecord.errors.messages.not_a_date') unless value =~ /^\d{4}-\d{2}-\d{2}$/ && begin; value.to_date; rescue; false end
-      when 'list'
-        errs << ::I18n.t('activerecord.errors.messages.inclusion') unless possible_values.include?(value)
-      end
-    end
-    errs
-  end
 
   # Removes multiple values for the custom field after setting the multiple attribute to false
   # We kepp the value with the highest id for each customized object

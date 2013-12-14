@@ -1361,8 +1361,10 @@ class IssuesControllerTest < ActionController::TestCase
     get :show, :id => 1
     assert_response :success
 
-    # TODO: should display links
-    assert_select 'td', :text => 'Dave Lopper, John Smith'
+    assert_select "td.cf_#{field.id}", :text => 'Dave Lopper, John Smith' do
+      assert_select 'a', :text => 'Dave Lopper'
+      assert_select 'a', :text => 'John Smith'
+    end
   end
 
   def test_show_should_display_private_notes_with_permission_only

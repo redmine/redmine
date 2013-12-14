@@ -257,7 +257,7 @@ module Redmine
         query.inline_columns.collect do |column|
           s = if column.is_a?(QueryCustomFieldColumn)
             cv = issue.visible_custom_field_values.detect {|v| v.custom_field_id == column.custom_field.id}
-            show_value(cv)
+            show_value(cv, false)
           else
             value = issue.send(column.name)
             if column.name == :subject
@@ -573,7 +573,7 @@ module Redmine
 
         half = (issue.visible_custom_field_values.size / 2.0).ceil
         issue.visible_custom_field_values.each_with_index do |custom_value, i|
-          (i < half ? left : right) << [custom_value.custom_field.name, show_value(custom_value)]
+          (i < half ? left : right) << [custom_value.custom_field.name, show_value(custom_value, false)]
         end
 
         rows = left.size > right.size ? left.size : right.size

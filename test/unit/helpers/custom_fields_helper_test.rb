@@ -18,14 +18,15 @@
 require File.expand_path('../../../test_helper', __FILE__)
 
 class CustomFieldsHelperTest < ActionView::TestCase
+  include ApplicationHelper
   include CustomFieldsHelper
   include Redmine::I18n
   include ERB::Util
 
   def test_format_boolean_value
     I18n.locale = 'en'
-    assert_equal 'Yes', format_value('1', 'bool')
-    assert_equal 'No', format_value('0', 'bool')
+    assert_equal 'Yes', format_value('1', CustomField.new(:field_format => 'bool'))
+    assert_equal 'No', format_value('0', CustomField.new(:field_format => 'bool'))
   end
 
   def test_unknow_field_format_should_be_edited_as_string

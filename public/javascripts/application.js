@@ -588,6 +588,20 @@ function blockEventPropagation(event) {
   event.preventDefault();
 }
 
+function toggleDisabledOnChange() {
+  var checked = $(this).is(':checked');
+  $($(this).data('disables')).attr('disabled', checked);
+  $($(this).data('enables')).attr('disabled', !checked);
+}
+function toggleDisabledInit() {
+  $('input[data-disables], input[data-enables]').each(toggleDisabledOnChange);
+}
+$(document).ready(function(){
+  $('#content').on('change', 'input[data-disables], input[data-enables]', toggleDisabledOnChange);
+  toggleDisabledInit();
+});
+
 $(document).ready(setupAjaxIndicator);
 $(document).ready(hideOnLoad);
 $(document).ready(addFormObserversForDoubleSubmit);
+

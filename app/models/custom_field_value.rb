@@ -16,7 +16,13 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class CustomFieldValue
-  attr_accessor :custom_field, :customized, :value
+  attr_accessor :custom_field, :customized, :value, :value_was
+
+  def initialize(attributes={})
+    attributes.each do |name, v|
+      send "#{name}=", v
+    end
+  end
 
   def custom_field_id
     custom_field.id
@@ -43,7 +49,7 @@ class CustomFieldValue
   end
 
   def validate_value
-    custom_field.validate_field_value(value).each do |message|
+    custom_field.validate_custom_value(self).each do |message|
       customized.errors.add(:base, custom_field.name + ' ' + message)
     end
   end

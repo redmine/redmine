@@ -30,7 +30,6 @@ require 'redmine/activity'
 require 'redmine/activity/fetcher'
 require 'redmine/ciphering'
 require 'redmine/codeset_util'
-require 'redmine/custom_field_format'
 require 'redmine/i18n'
 require 'redmine/menu_manager'
 require 'redmine/notifiable'
@@ -72,18 +71,6 @@ Redmine::Scm::Base.add "Cvs"
 Redmine::Scm::Base.add "Bazaar"
 Redmine::Scm::Base.add "Git"
 Redmine::Scm::Base.add "Filesystem"
-
-Redmine::CustomFieldFormat.map do |fields|
-  fields.register 'string'
-  fields.register 'text'
-  fields.register 'int', :label => :label_integer
-  fields.register 'float'
-  fields.register 'list'
-  fields.register 'date'
-  fields.register 'bool', :label => :label_boolean
-  fields.register 'user', :only => %w(Issue TimeEntry Version Project), :edit_as => 'list'
-  fields.register 'version', :only => %w(Issue TimeEntry Version Project), :edit_as => 'list'
-end
 
 # Permissions
 Redmine::AccessControl.map do |map|

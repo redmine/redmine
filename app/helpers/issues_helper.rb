@@ -171,8 +171,9 @@ module IssuesHelper
     s = "<tr>\n"
     n = 0
     ordered_values.compact.each do |value|
+      css = "cf_#{value.custom_field.id}"
       s << "</tr>\n<tr>\n" if n > 0 && (n % 2) == 0
-      s << "\t<th>#{ h(value.custom_field.name) }:</th><td>#{ simple_format_without_paragraph(h(show_value(value))) }</td>\n"
+      s << "\t<th class=\"#{css}\">#{ h(value.custom_field.name) }:</th><td class=\"#{css}\">#{ h(show_value(value)) }</td>\n"
       n += 1
     end
     s << "</tr>\n"
@@ -239,7 +240,7 @@ module IssuesHelper
       end
     end
     issue.visible_custom_field_values(user).each do |value|
-      items << "#{value.custom_field.name}: #{show_value(value)}"
+      items << "#{value.custom_field.name}: #{show_value(value, false)}"
     end
     items
   end
@@ -324,8 +325,8 @@ module IssuesHelper
       if custom_field
         multiple = custom_field.multiple?
         label = custom_field.name
-        value = format_value(detail.value, custom_field.field_format) if detail.value
-        old_value = format_value(detail.old_value, custom_field.field_format) if detail.old_value
+        value = format_value(detail.value, custom_field) if detail.value
+        old_value = format_value(detail.old_value, custom_field) if detail.old_value
       end
     when 'attachment'
       label = l(:label_attachment)

@@ -587,7 +587,7 @@ class Query < ActiveRecord::Base
     db_field = 'value'
     filter = @available_filters[field]
     return nil unless filter
-    if filter[:format] == 'user'
+    if filter[:field].format.target_class && filter[:field].format.target_class <= User
       if value.delete('me')
         value.push User.current.id.to_s
       end
@@ -764,29 +764,13 @@ class Query < ActiveRecord::Base
 
   # Adds a filter for the given custom field
   def add_custom_field_filter(field, assoc=nil)
-    case field.field_format
-    when "text"
-      options = { :type => :text }
-    when "list"
-      options = { :type => :list_optional, :values => field.possible_values }
-    when "date"
-      options = { :type => :date }
-    when "bool"
-      options = { :type => :list, :values => [[l(:general_text_yes), "1"], [l(:general_text_no), "0"]] }
-    when "int"
-      options = { :type => :integer }
-    when "float"
-      options = { :type => :float }
-    when "user", "version"
-      return unless project
-      values = field.possible_values_options(project)
-      if User.current.logged? && field.field_format == 'user'
-        values.unshift ["<< #{l(:label_me)} >>", "me"]
+    options = field.format.query_filter_options(field, self)
+    if field.format.target_class && field.format.target_class <= User
+      if options[:values].is_a?(Array) && User.current.logged?
+        options[:values].unshift ["<< #{l(:label_me)} >>", "me"]
       end
-      options = { :type => :list_optional, :values => values }
-    else
-      options = { :type => :string }
     end
+
     filter_id = "cf_#{field.id}"
     filter_name = field.name
     if assoc.present?
@@ -795,7 +779,6 @@ class Query < ActiveRecord::Base
     end
     add_available_filter filter_id, options.merge({
       :name => filter_name,
-      :format => field.field_format,
       :field => field
     })
   end

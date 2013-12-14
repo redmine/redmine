@@ -36,6 +36,8 @@ class CustomFieldsController < ApplicationController
   end
 
   def new
+    @custom_field.field_format = 'string' if @custom_field.field_format.blank?
+    @custom_field.default_value = nil
   end
 
   def create
@@ -76,8 +78,6 @@ class CustomFieldsController < ApplicationController
     @custom_field = CustomField.new_subclass_instance(params[:type], params[:custom_field])
     if @custom_field.nil?
       render_404
-    else
-      @custom_field.default_value = nil
     end
   end
 

@@ -99,6 +99,7 @@ module Redmine
               cv ||= custom_values.build(:customized => self, :custom_field => field, :value => nil)
               x.value = cv.value
             end
+            x.value_was = x.value.dup if x.value
             x
           end
         end
