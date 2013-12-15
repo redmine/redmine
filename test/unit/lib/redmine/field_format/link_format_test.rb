@@ -29,7 +29,7 @@ class Redmine::LinkFieldFormatTest < ActionView::TestCase
     assert_equal '<a href="http://foo/bar">bar</a>', field.format.formatted_custom_value(self, custom_value, true)
   end
 
-  def test_link_field_should_substitue_object_id_in_url
+  def test_link_field_should_substitute_object_id_in_url
     object = Issue.new
     object.stubs(:id).returns(10)
 
@@ -40,7 +40,7 @@ class Redmine::LinkFieldFormatTest < ActionView::TestCase
     assert_equal '<a href="http://foo/10">bar</a>', field.format.formatted_custom_value(self, custom_value, true)
   end
 
-  def test_link_field_should_substitue_project_id_in_url
+  def test_link_field_should_substitute_project_id_in_url
     project = Project.new
     project.stubs(:id).returns(52)
     object = Issue.new
@@ -53,7 +53,7 @@ class Redmine::LinkFieldFormatTest < ActionView::TestCase
     assert_equal '<a href="http://foo/52">bar</a>', field.format.formatted_custom_value(self, custom_value, true)
   end
 
-  def test_link_field_should_substitue_regexp_groups
+  def test_link_field_should_substitute_regexp_groups
     field = IssueCustomField.new(:field_format => 'link', :regexp => /^(.+)-(.+)$/, :url_pattern => 'http://foo/%m2%/%m1%')
     custom_value = CustomValue.new(:custom_field => field, :customized => Issue.new, :value => "56-142")
 
