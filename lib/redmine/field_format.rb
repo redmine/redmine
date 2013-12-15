@@ -289,6 +289,7 @@ module Redmine
             url.gsub!('%value%') {value.to_s}
             url.gsub!('%id%') {customized.id.to_s}
             url.gsub!('%project_id%') {(customized.respond_to?(:project) ? customized.project.try(:id) : nil).to_s}
+            url.gsub!('%project_identifier%') {(customized.respond_to?(:project) ? customized.project.try(:identifier) : nil).to_s}
             if custom_field.regexp.present?
               url.gsub!(%r{%m(\d+)%}) do
                 m = $1.to_i
