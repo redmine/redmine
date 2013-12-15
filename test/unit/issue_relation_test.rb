@@ -183,11 +183,11 @@ class IssueRelationTest < ActiveSupport::TestCase
     assert_equal from.journals.size, (from_journals + 1)
     assert_equal to.journals.size, (to_journals + 1)
     assert_equal 'relation', from.journals.last.details.last.property
-    assert_equal 'label_precedes', from.journals.last.details.last.prop_key
+    assert_equal 'precedes', from.journals.last.details.last.prop_key
     assert_equal '2', from.journals.last.details.last.value
     assert_nil   from.journals.last.details.last.old_value
     assert_equal 'relation', to.journals.last.details.last.property
-    assert_equal 'label_follows', to.journals.last.details.last.prop_key
+    assert_equal 'follows', to.journals.last.details.last.prop_key
     assert_equal '1', to.journals.last.details.last.value
     assert_nil   to.journals.last.details.last.old_value
   end
@@ -205,11 +205,11 @@ class IssueRelationTest < ActiveSupport::TestCase
     assert_equal from.journals.size, (from_journals + 1)
     assert_equal to.journals.size, (to_journals + 1)
     assert_equal 'relation', from.journals.last.details.last.property
-    assert_equal 'label_blocks', from.journals.last.details.last.prop_key
+    assert_equal 'blocks', from.journals.last.details.last.prop_key
     assert_equal '9', from.journals.last.details.last.old_value
     assert_nil   from.journals.last.details.last.value
     assert_equal 'relation', to.journals.last.details.last.property
-    assert_equal 'label_blocked_by', to.journals.last.details.last.prop_key
+    assert_equal 'blocked', to.journals.last.details.last.prop_key
     assert_equal '10', to.journals.last.details.last.old_value
     assert_nil   to.journals.last.details.last.value
   end

@@ -340,7 +340,8 @@ module IssuesHelper
         old_value = rel_issue.nil? ? "#{l(:label_issue)} ##{detail.old_value}" :
                           (no_html ? rel_issue : link_to_issue(rel_issue, :only_path => options[:only_path]))
       end
-      label = l(detail.prop_key.to_sym)
+      relation_type = IssueRelation::TYPES[detail.prop_key]
+      label = l(relation_type[:name]) if relation_type
     end
     call_hook(:helper_issues_show_detail_after_setting,
               {:detail => detail, :label => label, :value => value, :old_value => old_value })

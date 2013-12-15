@@ -185,12 +185,12 @@ class IssueRelation < ActiveRecord::Base
   def create_journal_after_create
     journal = issue_from.init_journal(User.current)
     journal.details << JournalDetail.new(:property => 'relation',
-                                         :prop_key => label_for(issue_from).to_s,
+                                         :prop_key => relation_type_for(issue_from),
                                          :value    => issue_to.id)
     journal.save
     journal = issue_to.init_journal(User.current)
     journal.details << JournalDetail.new(:property => 'relation',
-                                         :prop_key => label_for(issue_to).to_s,
+                                         :prop_key => relation_type_for(issue_to),
                                          :value    => issue_from.id)
     journal.save
   end
@@ -198,12 +198,12 @@ class IssueRelation < ActiveRecord::Base
   def create_journal_after_delete
     journal = issue_from.init_journal(User.current)
     journal.details << JournalDetail.new(:property  => 'relation',
-                                         :prop_key  => label_for(issue_from).to_s,
+                                         :prop_key  => relation_type_for(issue_from),
                                          :old_value => issue_to.id)
     journal.save
     journal = issue_to.init_journal(User.current)
     journal.details << JournalDetail.new(:property  => 'relation',
-                                         :prop_key  => label_for(issue_to).to_s,
+                                         :prop_key  => relation_type_for(issue_to),
                                          :old_value => issue_from.id)
     journal.save
   end
