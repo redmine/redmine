@@ -79,7 +79,8 @@ module ApplicationHelper
         subject = truncate(subject, :length => options[:truncate])
       end
     end
-    s = link_to text, issue_path(issue), :class => issue.css_classes, :title => title
+    only_path = options[:only_path].nil? ? true : options[:only_path]
+    s = link_to text, issue_path(issue, :only_path => only_path), :class => issue.css_classes, :title => title
     s << h(": #{subject}") if subject
     s = h("#{issue.project} - ") + s if options[:project]
     s

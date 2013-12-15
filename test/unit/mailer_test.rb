@@ -113,6 +113,16 @@ class MailerTest < ActiveSupport::TestCase
     end
   end
 
+  def test_issue_edit_should_generate_url_with_hostname_for_relations
+    journal = Journal.new(:journalized => Issue.find(1), :user => User.find(1), :created_on => Time.now)
+    journal.details << JournalDetail.new(:property => 'relation', :prop_key => 'label_relates_to', :value => 2)
+    Mailer.deliver_issue_edit(journal)
+    assert_not_nil last_email
+    assert_select_email do
+      assert_select 'a[href=?]', 'http://mydomain.foo/issues/2', :text => 'Feature request #2'
+    end
+  end
+
   def test_generated_links_with_prefix_and_no_relative_url_root
     Setting.default_language = 'en'
     relative_url_root = Redmine::Utils.relative_url_root
