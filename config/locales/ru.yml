@@ -908,7 +908,7 @@ ru:
   text_email_delivery_not_configured: "Параметры работы с почтовым сервером не настроены и функция уведомления по email не активна.\nНастроить параметры для Вашего SMTP-сервера Вы можете в файле config/configuration.yml. Для применения изменений перезапустите приложение."
   text_enumeration_category_reassign_to: 'Назначить им следующее значение:'
   text_enumeration_destroy_question: "%{count} объект(а,ов) связаны с этим значением."
-  text_file_repository_writable: Хранилище с доступом на запись
+  text_file_repository_writable: Хранилище файлов доступно для записи
   text_issue_added: "Создана новая задача %{id} (%{author})."
   text_issue_category_destroy_assignments: Удалить назначения категории
   text_issue_category_destroy_question: "Несколько задач (%{count}) назначено в данную категорию. Что Вы хотите предпринять?"
@@ -923,7 +923,7 @@ ru:
   text_load_default_configuration: Загрузить конфигурацию по умолчанию
   text_min_max_length_info: 0 означает отсутствие ограничений
   text_no_configuration_data: "Роли, трекеры, статусы задач и оперативный план не были сконфигурированы.\nНастоятельно рекомендуется загрузить конфигурацию по-умолчанию. Вы сможете её изменить потом."
-  text_plugin_assets_writable: Каталог модулей доступен для записи
+  text_plugin_assets_writable: Каталог ресурсов модулей доступен для записи
   text_project_destroy_confirmation: Вы настаиваете на удалении данного проекта и всей относящейся к нему информации?
   text_reassign_time_entries: 'Перенести зарегистрированное время на следующую задачу:'
   text_regexp_info: "например: ^[A-Z0-9]+$"
@@ -1137,7 +1137,7 @@ ru:
   error_session_expired: Срок вашей сессии истек. Пожалуйста войдите еще раз
   text_session_expiration_settings: "Внимание! Изменение этих настроек может привести к завершению текущих сессий, включая вашу."
   setting_session_lifetime: Максимальная продолжительность сессии
-  setting_session_timeout: Таймут сессии
+  setting_session_timeout: Таймаут сессии
   label_session_expiration: Срок истечения сессии
   permission_close_project: Закрывать / открывать проекты
   label_show_closed_projects: Просматривать закрытые проекты
@@ -1206,11 +1206,10 @@ ru:
   label_visibility_private: только мне
   label_visibility_roles: только этим ролям
   label_visibility_public: всем пользователям
-  field_must_change_passwd: Must change password at next logon
-  notice_new_password_must_be_different: The new password must be different from the
-    current password
-  setting_mail_handler_excluded_filenames: Exclude attachments by name
-  text_convert_available: ImageMagick convert available (optional)
+  field_must_change_passwd: Изменить пароль при следующем входе
+  notice_new_password_must_be_different: Новый пароль должен отличаться от текущего
+  setting_mail_handler_excluded_filenames: Исключать вложения по имени
+  text_convert_available: Доступно использование ImageMagick (необязательно)
   label_link: Link
   label_only: only
   label_drop_down_list: drop-down list
