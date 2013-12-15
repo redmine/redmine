@@ -194,7 +194,6 @@ class IssueRelationTest < ActiveSupport::TestCase
 
   def test_delete_should_make_journal_entry
     relation = IssueRelation.find(1)
-    id = relation.id
     from = relation.issue_from
     to   = relation.issue_to
     from_journals = from.journals.size
