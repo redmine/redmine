@@ -906,6 +906,10 @@ bg:
   label_visibility_private: лични (само за мен)
   label_visibility_roles: само за тези роли
   label_visibility_public: за всички потребители
+  label_link: Връзка
+  label_only: само
+  label_drop_down_list: drop-down списък
+  label_checkboxes: чек-бокс
 
   button_login: Вход
   button_submit: Изпращане
@@ -1098,7 +1102,3 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  label_link: Link
-  label_only: only
-  label_drop_down_list: drop-down list
-  label_checkboxes: checkboxes
