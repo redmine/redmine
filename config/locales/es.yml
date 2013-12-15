@@ -1126,16 +1126,16 @@ es:
   setting_default_projects_tracker_ids: Tipos de petición habilitados por defecto
   label_total_time: Total
   notice_account_not_activated_yet: No ha activado su cuenta aún. Si quiere
-    recibir un nuevo correo de activación, por favor <a href="%{url}">haga click en este enlace</a>.
+    recibir un nuevo correo de activación, por favor <a href="%{url}">haga clic en este enlace</a>.
   notice_account_locked: Su cuenta está bloqueada.
   label_hidden: Oculto
   label_visibility_private: solamente para mí
   label_visibility_roles: solamente para estos roles
   label_visibility_public: para cualquier usuario
-  field_must_change_passwd: Cambiar la contraseña en el siguiente identificación
-  notice_new_password_must_be_different: Nueva contraseña debe ser diferente de la actual
-  setting_mail_handler_excluded_filenames: Exclude attachments by name
-  text_convert_available: ImageMagick convert available (optional)
+  field_must_change_passwd: Cambiar contraseña en el próximo inicio de sesión
+  notice_new_password_must_be_different: La nueva contraseña debe ser diferente de la actual
+  setting_mail_handler_excluded_filenames: Excluir adjuntos por nombre
+  text_convert_available: Conversión ImageMagick disponible (opcional)
   label_link: Link
   label_only: only
   label_drop_down_list: drop-down list
