@@ -988,6 +988,10 @@
   label_visibility_private: 僅我自己可見
   label_visibility_roles: 僅選取之角色可見
   label_visibility_public: 任何用戶均可見
+  label_link: 連結
+  label_only: 僅於
+  label_drop_down_list: 下拉式清單
+  label_checkboxes: 核取方塊
 
   button_login: 登入
   button_submit: 送出
@@ -1181,7 +1185,3 @@
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  label_link: Link
-  label_only: only
-  label_drop_down_list: drop-down list
-  label_checkboxes: checkboxes
