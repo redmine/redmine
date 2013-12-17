@@ -1,0 +1,31 @@
+<table>
+<tr>
+  <th>organization</th>
+  <td><%= @github_project.organization %></td>
+</tr>
+<tr>
+  <th>project_name</th>
+  <td><%= @github_project.project_name %></td>
+</tr>
+</table>
+<% if User.current.allowed_to?(:manage_github_relation, @project) %>
+  <%= link_to 'edit', edit_github_project_path(id:@github_project.id, project_id: @github_project.project.id), class: "icon icon-edit" %>
+<% end %>
+<br>
+<% if User.current.allowed_to?(:get_from_github, @project) %>
+  <%= form_tag(get_data_github_project_index_path, method: :put) do %>
+    <%= hidden_field_tag :project_id, @project.id %>
+    <table>
+      <tr>
+        <th><%= label_tag :login %></th>
+        <td><%= text_field_tag :login %></td>
+      </tr>
+      <tr>
+        <th><%= label_tag :password %></th>
+        <td><%= text_field_tag :password %></td>
+      </tr>
+    </table>
+
+    <%= submit_tag 'get_from_github' %>
+  <% end %>
+<% end %>

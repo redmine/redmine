@@ -1,0 +1,12 @@
+<%= hidden_field_tag :project_id, @project.id %>
+<table>
+  <tr>
+    <th><%= f.label :organization %></th>
+    <td><%= f.text_field :organization %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :project_name %></th>
+    <td><%= f.text_field :project_name %></td>
+  </tr>
+</table>
+<%= f.submit %>
