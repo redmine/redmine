@@ -1725,6 +1725,19 @@ class IssueTest < ActiveSupport::TestCase
     end
   end
 
+  def test_update_should_notify_previous_assignee
+    ActionMailer::Base.deliveries.clear
+    user = User.find(3)
+    user.members.update_all ["mail_notification = ?", false]
+    user.update_attribute :mail_notification, 'only_assigned'
+
+    issue = Issue.find(2)
+    issue.init_journal User.find(1)
+    issue.assigned_to = nil
+    issue.save!
+    assert_include user.mail, ActionMailer::Base.deliveries.last.bcc
+  end
+
   def test_stale_issue_should_not_send_email_notification
     ActionMailer::Base.deliveries.clear
     issue = Issue.find(1)

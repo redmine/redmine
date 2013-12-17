@@ -93,7 +93,7 @@ class Issue < ActiveRecord::Base
 
   before_create :default_assign
   before_save :close_duplicates, :update_done_ratio_from_issue_status,
-              :force_updated_on_change, :update_closed_on
+              :force_updated_on_change, :update_closed_on, :set_assigned_to_was
   after_save {|issue| issue.send :after_project_change if !issue.id_changed? && issue.project_id_changed?} 
   after_save :reschedule_following_issues, :update_nested_set_attributes,
              :update_parent_attributes, :create_journal
@@ -101,6 +101,8 @@ class Issue < ActiveRecord::Base
   after_save :after_create_from_copy
   after_destroy :update_parent_attributes
   after_create :send_notification
+  # Keep it at the end of after_save callbacks
+  after_save :clear_assigned_to_was
 
   # Returns a SQL conditions string used to find all issues visible by the specified user
   def self.visible_condition(user, options={})
@@ -776,9 +778,12 @@ class Issue < ActiveRecord::Base
     end
   end
 
+  # Returns the previous assignee if changed
   def assigned_to_was
-    if assigned_to_id_changed? && assigned_to_id_was.present?
-      @assigned_to_was ||= User.find_by_id(assigned_to_id_was)
+    # assigned_to_id_was is reset before after_save callbacks
+    user_id = @previous_assigned_to_id || assigned_to_id_was
+    if user_id && user_id != assigned_to_id
+      @assigned_to_was ||= User.find_by_id(user_id)
     end
   end
 
@@ -1513,6 +1518,18 @@ class Issue < ActiveRecord::Base
     if Setting.notified_events.include?('issue_added')
       Mailer.deliver_issue_add(self)
     end
+  end
+
+  # Stores the previous assignee so we can still have access
+  # to it during after_save callbacks (assigned_to_id_was is reset)
+  def set_assigned_to_was
+    @previous_assigned_to_id = assigned_to_id_was
+  end
+
+  # Clears the previous assignee at the end of after_save callbacks
+  def clear_assigned_to_was
+    @assigned_to_was = nil
+    @previous_assigned_to_id = nil
   end
 
   # Query generator for selecting groups of issue counts for a project
