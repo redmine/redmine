@@ -8,34 +8,27 @@ class GithubIssue < ActiveRecord::Base
 
     list_issues.each do |issue_from_github|
       github_issue = GithubIssue.where(issue_number: issue_from_github.number).first_or_create()
-      issue = github_issue.issue || github_issue.build_issue
-
-      next if issue.updated_on.present? && issue.updated_on > issue_from_github.updated_at
-
-      author = if GithubUser.exists?(login:issue_from_github.user.login)
-                  GithubUser.where(login:issue_from_github.user.login).first.user
-               else
-                 User.first
-               end
-      assignee =
-          if issue_from_github.assignee.present?
-            if GithubUser.exists?(login:issue_from_github.assignee.login)
-              GithubUser.where(login:issue_from_github.assignee.login).first.user
-            end
-          end
-
-      issue.subject = issue_from_github.title
-      issue.description = issue_from_github.body
-      issue.project = project
-      issue.tracker = Tracker.first
-      issue.author = author
-      issue.assigned_to = assignee
-      issue.created_on = issue_from_github.created_at
-      issue.updated_on = issue_from_github.updated_at
-      issue.save!
+      github_issue.create_issue_from_github(project, issue_from_github)
       github_issue.save!
     end
 
     Issue.set_callback(:save, :before, :force_updated_on_change)
+  end
+
+  def create_issue_from_github(project, issue_from_github)
+    self.build_issue if issue.nil?
+    return if issue.updated_on.present? && issue.updated_on > issue_from_github.updated_at
+
+    issue.subject = issue_from_github.title
+    issue.description = issue_from_github.body
+    issue.project = project
+    issue.tracker = Tracker.first
+    issue.author = GithubUser.user_by_github_login(issue_from_github.user, User.first)
+    if issue_from_github.assignee.present?
+      issue.assigned_to = GithubUser.user_by_github_login(issue_from_github.assignee)
+    end
+    issue.created_on = issue_from_github.created_at
+    issue.updated_on = issue_from_github.updated_at
+    issue.save!
   end
 end

@@ -17,4 +17,9 @@ class GithubUser < ActiveRecord::Base
       github_user.save!
     end
   end
+
+  def self.user_by_github_login(github_user, default = nil)
+    return default unless self.exists?(login: github_user.login)
+    self.where(login: github_user.login).first.user
+  end
 end
