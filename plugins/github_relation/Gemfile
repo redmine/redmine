@@ -1,2 +1,6 @@
 gem "octokit"
-gem "debugger"
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'debugger'
+  gem 'hashie'
+end

@@ -17,13 +17,19 @@ class GithubIssue < ActiveRecord::Base
                else
                  User.first
                end
+      assignee =
+          if issue_from_github.assignee.present?
+            if GithubUser.exists?(login:issue_from_github.assignee.login)
+              GithubUser.where(login:issue_from_github.assignee.login).first.user
+            end
+          end
 
       issue.subject = issue_from_github.title
       issue.description = issue_from_github.body
       issue.project = project
       issue.tracker = Tracker.first
       issue.author = author
-      issue.assigned_to = GithubUser.where(login:issue_from_github.assignee.login).first.user if issue_from_github.assignee.present?
+      issue.assigned_to = assignee
       issue.created_on = issue_from_github.created_at
       issue.updated_on = issue_from_github.updated_at
       issue.save!

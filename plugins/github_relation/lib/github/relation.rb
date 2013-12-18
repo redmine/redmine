@@ -14,11 +14,11 @@ module Github
       target = "#{organization}/#{project}"
       list_issues_all = []
       page = 1
-      list_issues = client.list_issues(target, page: page, per_page: 1000)
+      list_issues = client.list_issues(target, page: page, per_page: 100)
       while list_issues != []
         list_issues_all += list_issues
         page += 1
-        list_issues = client.list_issues(target, page: page, per_page: 1000)
+        list_issues = client.list_issues(target, page: page, per_page: 100)
       end
       list_issues_all
     end
