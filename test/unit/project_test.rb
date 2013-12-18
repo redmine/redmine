@@ -263,6 +263,15 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 0, CustomValue.where(:customized_type => ['Project', 'Issue', 'TimeEntry', 'Version']).count
   end
 
+  def test_destroy_should_delete_time_entries_custom_values
+    project = Project.generate!
+    time_entry = TimeEntry.generate!(:project => project, :custom_field_values => {10 => '1'})
+
+    assert_difference 'CustomValue.where(:customized_type => "TimeEntry").count', -1 do
+      assert project.destroy
+    end
+  end
+
   def test_move_an_orphan_project_to_a_root_project
     sub = Project.find(2)
     sub.set_parent! @ecookbook

@@ -1375,6 +1375,15 @@ class IssueTest < ActiveSupport::TestCase
     assert_nil TimeEntry.find_by_issue_id(1)
   end
 
+  def test_destroy_should_delete_time_entries_custom_values
+    issue = Issue.generate!
+    time_entry = TimeEntry.generate!(:issue => issue, :custom_field_values => {10 => '1'})
+
+    assert_difference 'CustomValue.where(:customized_type => "TimeEntry").count', -1 do
+      assert issue.destroy
+    end
+  end
+
   def test_destroying_a_deleted_issue_should_not_raise_an_error
     issue = Issue.find(1)
     Issue.find(1).destroy

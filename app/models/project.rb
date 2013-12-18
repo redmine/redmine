@@ -39,7 +39,7 @@ class Project < ActiveRecord::Base
   has_many :issues, :dependent => :destroy, :include => [:status, :tracker]
   has_many :issue_changes, :through => :issues, :source => :journals
   has_many :versions, :dependent => :destroy, :order => "#{Version.table_name}.effective_date DESC, #{Version.table_name}.name DESC"
-  has_many :time_entries, :dependent => :delete_all
+  has_many :time_entries, :dependent => :destroy
   has_many :queries, :class_name => 'IssueQuery', :dependent => :delete_all
   has_many :documents, :dependent => :destroy
   has_many :news, :dependent => :destroy, :include => :author
