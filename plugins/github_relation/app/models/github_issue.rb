@@ -26,6 +26,7 @@ class GithubIssue < ActiveRecord::Base
       issue.assigned_to = GithubUser.where(login:issue_from_github.assignee.login).first.user if issue_from_github.assignee.present?
       issue.created_on = issue_from_github.created_at
       issue.updated_on = issue_from_github.updated_at
+      issue.save!
       github_issue.save!
     end
 

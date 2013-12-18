@@ -14,6 +14,7 @@ class GithubUser < ActiveRecord::Base
       user.lastname = github_user.login
       user.mail = "#{github_user.login}@piyo.hoge"
       user.github_login = github_user.login
+      user.save!
       github_user.save!
     end
   end

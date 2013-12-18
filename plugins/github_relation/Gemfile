@@ -1,1 +1,2 @@
 gem "octokit"
+gem "debugger"
