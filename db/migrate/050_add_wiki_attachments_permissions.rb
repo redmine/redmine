@@ -8,7 +8,7 @@ class AddWikiAttachmentsPermissions < ActiveRecord::Migration
   end
 
   def self.down
-    Permission.find_by_controller_and_action('wiki', 'add_attachment').destroy
-    Permission.find_by_controller_and_action('wiki', 'destroy_attachment').destroy
+    Permission.where(:controller => "wiki", :action => "add_attachment").each {|p| p.destroy}
+    Permission.where(:controller => "wiki", :action => "destroy_attachment").each {|p| p.destroy}
   end
 end

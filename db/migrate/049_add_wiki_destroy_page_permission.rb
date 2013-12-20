@@ -7,6 +7,6 @@ class AddWikiDestroyPagePermission < ActiveRecord::Migration
   end
 
   def self.down
-    Permission.find_by_controller_and_action('wiki', 'destroy').destroy
+    Permission.where(:controller => "wiki", :action => "destroy").each {|p| p.destroy}
   end
 end
