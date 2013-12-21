@@ -501,11 +501,19 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 'd8e8fca2dc0f896fd7cb4cb0031ba249', attachment.digest
   end
 
-  def test_multiple_text_parts
+  def test_multiple_inline_text_parts_should_be_appended_to_issue_description
     issue = submit_email('multiple_text_parts.eml', :issue => {:project => 'ecookbook'})
     assert_include 'first', issue.description
     assert_include 'second', issue.description
     assert_include 'third', issue.description
+  end
+
+  def test_attachment_text_part_should_be_added_as_issue_attachment
+    issue = submit_email('multiple_text_parts.eml', :issue => {:project => 'ecookbook'})
+    assert_not_include 'Plain text attachment', issue.description
+    attachment = issue.attachments.detect {|a| a.filename == 'textfile.txt'}
+    assert_not_nil attachment
+    assert_include 'Plain text attachment', File.read(attachment.diskfile)
   end
 
   def test_add_issue_with_iso_8859_1_subject
