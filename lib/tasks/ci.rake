@@ -16,7 +16,13 @@ namespace :ci do
     Rake::Task["db:create:all"].invoke
     Rake::Task["db:migrate"].invoke
     Rake::Task["db:schema:dump"].invoke
-    Rake::Task["test:scm:setup:all"].invoke
+    if scms = ENV['SCMS']
+      scms.split(',').each do |scm|
+        Rake::Task["test:scm:setup:#{scm}"].invoke
+      end
+    else
+      Rake::Task["test:scm:setup:all"].invoke
+    end
     Rake::Task["test:scm:update"].invoke
   end
 
