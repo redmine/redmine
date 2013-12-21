@@ -23,6 +23,7 @@ class IssuesHelperTest < ActionView::TestCase
   include IssuesHelper
   include CustomFieldsHelper
   include ERB::Util
+  include Rails.application.routes.url_helpers
 
   fixtures :projects, :trackers, :issue_statuses, :issues,
            :enumerations, :users, :issue_categories,
