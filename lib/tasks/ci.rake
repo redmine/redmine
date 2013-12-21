@@ -28,7 +28,11 @@ namespace :ci do
 
   desc "Build Redmine"
   task :build do
-    Rake::Task["test"].invoke
+    if test_suite = ENV['TEST_SUITE']
+      Rake::Task["test:#{test_suite}"].invoke
+    else
+      Rake::Task["test"].invoke
+    end
     # Rake::Task["test:ui"].invoke if RUBY_VERSION >= '1.9.3'
   end
 
