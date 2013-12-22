@@ -131,6 +131,16 @@ class AccountControllerOpenidTest < ActionController::TestCase
       assert_select 'input[name=?][value=?]', 'user[identity_url]', 'http://openid.example.com/good_blank_user'
     end
 
+    def test_post_login_should_not_verify_token_when_using_open_id
+      ActionController::Base.allow_forgery_protection = true
+      AccountController.any_instance.stubs(:using_open_id?).returns(true)
+      AccountController.any_instance.stubs(:authenticate_with_open_id).returns(true)
+      post :login
+      assert_response 200
+    ensure
+      ActionController::Base.allow_forgery_protection = false
+    end
+
     def test_register_after_login_failure_should_not_require_user_to_enter_a_password
       Setting.self_registration = '3'
 
