@@ -1,2 +1,3 @@
 <p><%= f.select :default_value, [[]]+@custom_field.possible_values_options %></p>
+<p><%= f.text_field :url_pattern, :size => 50, :label => :label_link_values_to %></p>
 <p><%= edit_tag_style_tag f %></p>

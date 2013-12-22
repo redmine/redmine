@@ -116,6 +116,27 @@ class Redmine::ListFieldFormatTest < ActionView::TestCase
     end
   end
 
+  def test_field_with_url_pattern_should_link_value
+    field = IssueCustomField.new(:field_format => 'list', :url_pattern => 'http://localhost/%value%')
+    formatted = field.format.formatted_value(self, field, 'foo', Issue.new, true)
+    assert_equal '<a href="http://localhost/foo">foo</a>', formatted
+    assert formatted.html_safe?
+  end
+
+  def test_field_with_url_pattern_and_multiple_values_should_link_values
+    field = IssueCustomField.new(:field_format => 'list', :url_pattern => 'http://localhost/%value%')
+    formatted = field.format.formatted_value(self, field, ['foo', 'bar'], Issue.new, true)
+    assert_equal '<a href="http://localhost/bar">bar</a>, <a href="http://localhost/foo">foo</a>', formatted
+    assert formatted.html_safe?
+  end
+
+  def test_field_with_url_pattern_should_not_link_blank_value
+    field = IssueCustomField.new(:field_format => 'list', :url_pattern => 'http://localhost/%value%')
+    formatted = field.format.formatted_value(self, field, '', Issue.new, true)
+    assert_equal '', formatted
+    assert formatted.html_safe?
+  end
+
   def test_edit_tag_with_check_box_style_and_multiple_should_select_current_values
     field = IssueCustomField.new(:field_format => 'list', :possible_values => ['Foo', 'Bar', 'Baz'], :is_required => false,
       :multiple => true, :edit_tag_style => 'check_box')

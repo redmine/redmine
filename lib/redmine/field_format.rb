@@ -80,6 +80,8 @@ module Redmine
         CustomField.store_accessor :format_store, *args
       end
 
+      field_attributes :url_pattern
+
       def name
         self.class.format_name
       end
@@ -144,8 +146,44 @@ module Redmine
       end
 
       def formatted_value(view, custom_field, value, customized=nil, html=false)
-        cast_value(custom_field, value, customized)
+        casted = cast_value(custom_field, value, customized)
+        if custom_field.url_pattern.present?
+          texts_and_urls = Array.wrap(casted).map do |single_value|
+            text = view.format_object(single_value, false).to_s
+            url = url_from_pattern(custom_field, single_value, customized)
+            [text, url]
+          end
+          links = texts_and_urls.sort_by(&:first).map {|text, url| view.link_to text, url}
+          links.join(', ').html_safe
+        else
+          casted
+        end
       end
+
+      # Returns an URL generated with the custom field URL pattern
+      # and variables substitution:
+      # %value% => the custom field value
+      # %id% => id of the customized object
+      # %project_id% => id of the project of the customized object if defined
+      # %project_identifier% => identifier of the project of the customized object if defined
+      # %m1%, %m2%... => capture groups matches of the custom field regexp if defined
+      def url_from_pattern(custom_field, value, customized)
+        url = custom_field.url_pattern.to_s.dup
+        url.gsub!('%value%') {value.to_s}
+        url.gsub!('%id%') {customized.id.to_s}
+        url.gsub!('%project_id%') {(customized.respond_to?(:project) ? customized.project.try(:id) : nil).to_s}
+        url.gsub!('%project_identifier%') {(customized.respond_to?(:project) ? customized.project.try(:identifier) : nil).to_s}
+        if custom_field.regexp.present?
+          url.gsub!(%r{%m(\d+)%}) do
+            m = $1.to_i
+            if matches ||= value.to_s.match(Regexp.new(custom_field.regexp))
+              matches[m].to_s
+            end
+          end
+        end
+        url
+      end
+      protected :url_from_pattern
 
       def edit_tag(view, tag_id, tag_name, custom_value, options={})
         view.text_field_tag(tag_name, custom_value.value, options.merge(:id => tag_id))
@@ -236,8 +274,14 @@ module Redmine
       field_attributes :text_formatting
 
       def formatted_value(view, custom_field, value, customized=nil, html=false)
-        if html && custom_field.text_formatting == 'full'
-          view.textilizable(value, :object => customized)
+        if html
+          if custom_field.url_pattern.present?
+            super
+          elsif custom_field.text_formatting == 'full'
+            view.textilizable(value, :object => customized)
+          else
+            value.to_s
+          end
         else
           value.to_s
         end
@@ -280,23 +324,11 @@ module Redmine
       add 'link'
       self.searchable_supported = false
       self.form_partial = 'custom_fields/formats/link'
-      field_attributes :url_pattern
 
       def formatted_value(view, custom_field, value, customized=nil, html=false)
         if html
           if custom_field.url_pattern.present?
-            url = custom_field.url_pattern.to_s.dup
-            url.gsub!('%value%') {value.to_s}
-            url.gsub!('%id%') {customized.id.to_s}
-            url.gsub!('%project_id%') {(customized.respond_to?(:project) ? customized.project.try(:id) : nil).to_s}
-            url.gsub!('%project_identifier%') {(customized.respond_to?(:project) ? customized.project.try(:identifier) : nil).to_s}
-            if custom_field.regexp.present?
-              url.gsub!(%r{%m(\d+)%}) do
-                m = $1.to_i
-                matches ||= value.to_s.match(Regexp.new(custom_field.regexp))
-                matches[m].to_s if matches
-              end
-            end
+            url = url_from_pattern(custom_field, value, customized)
           else
             url = value.to_s
             unless url =~ %r{\A[a-z]+://}i

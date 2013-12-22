@@ -883,6 +883,7 @@ fr:
   label_only: seulement
   label_drop_down_list: liste déroulante
   label_checkboxes: cases à cocher
+  label_link_values_to: Lier les valeurs vers l'URL
 
   button_login: Connexion
   button_submit: Soumettre

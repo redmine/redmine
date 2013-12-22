@@ -1101,3 +1101,4 @@ sq:
   label_only: only
   label_drop_down_list: drop-down list
   label_checkboxes: checkboxes
+  label_link_values_to: Link values to URL
