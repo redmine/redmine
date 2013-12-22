@@ -443,7 +443,7 @@ module CollectiveIdea #:nodoc:
           in_tenacious_transaction do
             reload_nested_set
             # select the rows in the model that extend past the deletion point and apply a lock
-            self.class.base_class.
+            nested_set_scope.
               select("id").
               where("#{quoted_left_column_name} >= ?", left).
               lock(true).
