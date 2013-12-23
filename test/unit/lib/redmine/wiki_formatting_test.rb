@@ -30,6 +30,10 @@ class Redmine::WikiFormattingTest < ActiveSupport::TestCase
     assert_equal Redmine::WikiFormatting::NullFormatter::Helper, Redmine::WikiFormatting.helper_for('')
   end
 
+  def test_formats_for_select
+    assert_include ['Textile', 'textile'], Redmine::WikiFormatting.formats_for_select
+  end
+
   def test_should_link_urls_and_email_addresses
     raw = <<-DIFF
 This is a sample *text* with a link: http://www.redmine.org

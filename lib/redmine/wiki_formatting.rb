@@ -28,9 +28,14 @@ module Redmine
         yield self
       end
 
-      def register(name, formatter, helper)
-        raise ArgumentError, "format name '#{name}' is already taken" if @@formatters[name.to_s]
-        @@formatters[name.to_s] = {:formatter => formatter, :helper => helper}
+      def register(name, formatter, helper, options={})
+        name = name.to_s
+        raise ArgumentError, "format name '#{name}' is already taken" if @@formatters[name]
+        @@formatters[name] = {
+          :formatter => formatter,
+          :helper => helper,
+          :label => options[:label] || name.humanize
+        }
       end
 
       def formatter
@@ -49,6 +54,10 @@ module Redmine
 
       def format_names
         @@formatters.keys.map
+      end
+
+      def formats_for_select
+        @@formatters.map {|name, options| [options[:label], name]}
       end
 
       def to_html(format, text, options = {})
