@@ -20,6 +20,8 @@ require File.expand_path('../../../../../test_helper', __FILE__)
 class Redmine::WikiFormatting::MarkdownFormatterTest < ActionView::TestCase
   include ApplicationHelper
 
+  if Object.const_defined?(:Redcarpet)
+
   def setup
     @formatter = Redmine::WikiFormatting::Markdown::Formatter
   end
@@ -58,5 +60,7 @@ STR
   def test_locals_links_should_not_have_external_css_class
     text = 'This is a [link](/issues)'
     assert_equal '<p>This is a <a href="/issues">link</a></p>', @formatter.new(text).to_html.strip
+  end
+
   end
 end

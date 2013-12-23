@@ -22,6 +22,11 @@ begin
 rescue LoadError
   # RMagick is not available
 end
+begin
+  require 'Redcarpet' unless Object.const_defined?(:Redcarpet)
+rescue LoadError
+  # Redcarpet is not available
+end
 
 require 'redmine/scm/base'
 require 'redmine/access_control'
@@ -267,8 +272,10 @@ end
 
 Redmine::WikiFormatting.map do |format|
   format.register :textile, Redmine::WikiFormatting::Textile::Formatter, Redmine::WikiFormatting::Textile::Helper
-  format.register :markdown, Redmine::WikiFormatting::Markdown::Formatter, Redmine::WikiFormatting::Markdown::Helper,
-    :label => 'Markdown (experimental)'
+  if Object.const_defined?(:Redcarpet)
+    format.register :markdown, Redmine::WikiFormatting::Markdown::Formatter, Redmine::WikiFormatting::Markdown::Helper,
+      :label => 'Markdown (experimental)'
+  end
 end
 
 ActionView::Template.register_template_handler :rsb, Redmine::Views::ApiTemplateHandler

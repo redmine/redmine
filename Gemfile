@@ -5,8 +5,6 @@ gem "jquery-rails", "~> 2.0.2"
 gem "coderay", "~> 1.1.0"
 gem "fastercsv", "~> 1.5.0", :platforms => [:mri_18, :mingw_18, :jruby]
 gem "builder", "3.0.0"
-# TODO: upgrade to redcarpet 3.x when ruby1.8 support is dropped
-gem "redcarpet", "~> 2.3.0"
 
 # Optional gem for LDAP authentication
 group :ldap do
@@ -19,13 +17,19 @@ group :openid do
   gem "rack-openid"
 end
 
-# Optional gem for exporting the gantt to a PNG file, not supported with jruby
 platforms :mri, :mingw do
+  # Optional gem for exporting the gantt to a PNG file, not supported with jruby
   group :rmagick do
     # RMagick 2 supports ruby 1.9
     # RMagick 1 would be fine for ruby 1.8 but Bundler does not support
     # different requirements for the same gem on different platforms
     gem "rmagick", ">= 2.0.0"
+  end
+
+  # Optional Markdown support, not for JRuby
+  group :markdown do
+    # TODO: upgrade to redcarpet 3.x when ruby1.8 support is dropped
+    gem "redcarpet", "~> 2.3.0"
   end
 end
 
