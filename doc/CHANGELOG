@@ -4,6 +4,22 @@ Redmine - project management software
 Copyright (C) 2006-2013  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2013-12-23 v2.4.2
+
+* Defect #15398: HTML 5 invalid <center> tag
+* Defect #15523: CSS class for done ratio is not properly generated
+* Defect #15623: Timelog filtering by activity field does not handle project activity overrides
+* Defect #15677: Links for relations in notifications do not include hostname
+* Defect #15684: MailHandler : text/plain attachments are added to description
+* Defect #15714: Notification on loosing assignment does not work
+* Defect #15735: OpenID login fails due to CSRF verification
+* Defect #15741: Multiple scrollbars in project selection tree
+* Patch #9442: Russian wiki syntax help translations
+* Patch #15524: Japanese translation update (r12278)
+* Patch #15601: Turkish translation update
+* Patch #15688: Spanish translation updated
+* Patch #15696: Russian translation update
+
 == 2013-11-23 v2.4.1
 
 * Defect #15401: Wiki syntax "bold italic" is incorrect
