@@ -910,6 +910,7 @@ bg:
   label_only: само
   label_drop_down_list: drop-down списък
   label_checkboxes: чек-бокс
+  label_link_values_to: URL (опция)
 
   button_login: Вход
   button_submit: Изпращане
@@ -1102,4 +1103,3 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  label_link_values_to: Link values to URL
