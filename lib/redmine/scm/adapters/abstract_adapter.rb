@@ -16,6 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require 'cgi'
+require 'redmine/scm/adapters'
 
 if RUBY_VERSION < '1.9'
   require 'iconv'
