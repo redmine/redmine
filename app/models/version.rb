@@ -232,7 +232,7 @@ class Version < ActiveRecord::Base
     unless @issue_count
       @open_issues_count = 0
       @closed_issues_count = 0
-      fixed_issues.count(:all, :group => :status).each do |status, count|
+      fixed_issues.group(:status).count.each do |status, count|
         if status.is_closed?
           @closed_issues_count += count
         else
