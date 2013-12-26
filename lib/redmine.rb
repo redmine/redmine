@@ -23,7 +23,7 @@ rescue LoadError
   # RMagick is not available
 end
 begin
-  require 'Redcarpet' unless Object.const_defined?(:Redcarpet)
+  require 'redcarpet' unless Object.const_defined?(:Redcarpet)
 rescue LoadError
   # Redcarpet is not available
 end
