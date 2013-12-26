@@ -258,8 +258,8 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 0, WikiPage.count
     assert_equal 0, WikiContent.count
     assert_equal 0, WikiContent::Version.count
-    assert_equal 0, Project.connection.select_all("SELECT * FROM projects_trackers").size
-    assert_equal 0, Project.connection.select_all("SELECT * FROM custom_fields_projects").size
+    assert_equal 0, Project.connection.select_all("SELECT * FROM projects_trackers").count
+    assert_equal 0, Project.connection.select_all("SELECT * FROM custom_fields_projects").count
     assert_equal 0, CustomValue.where(:customized_type => ['Project', 'Issue', 'TimeEntry', 'Version']).count
   end
 
