@@ -19,8 +19,6 @@ require File.expand_path('../../../../../test_helper', __FILE__)
 require 'redmine/field_format'
 
 class Redmine::VersionFieldFormatTest < ActionView::TestCase
-  include ApplicationHelper
-
   fixtures :projects, :versions, :trackers
 
   def test_version_status_should_reject_blank_values

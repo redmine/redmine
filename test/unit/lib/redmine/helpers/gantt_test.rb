@@ -29,7 +29,6 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
            :versions,
            :groups_users
 
-  include ApplicationHelper
   include ProjectsHelper
   include IssuesHelper
   include ERB::Util

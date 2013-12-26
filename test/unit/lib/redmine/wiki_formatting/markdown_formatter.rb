@@ -18,8 +18,6 @@
 require File.expand_path('../../../../../test_helper', __FILE__)
 
 class Redmine::WikiFormatting::MarkdownFormatterTest < ActionView::TestCase
-  include ApplicationHelper
-
   if Object.const_defined?(:Redcarpet)
 
   def setup

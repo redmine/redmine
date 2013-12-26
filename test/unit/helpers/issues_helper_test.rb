@@ -18,7 +18,6 @@
 require File.expand_path('../../../test_helper', __FILE__)
 
 class IssuesHelperTest < ActionView::TestCase
-  include ApplicationHelper
   include Redmine::I18n
   include IssuesHelper
   include CustomFieldsHelper

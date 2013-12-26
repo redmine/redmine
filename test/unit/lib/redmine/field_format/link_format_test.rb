@@ -19,8 +19,6 @@ require File.expand_path('../../../../../test_helper', __FILE__)
 require 'redmine/field_format'
 
 class Redmine::LinkFieldFormatTest < ActionView::TestCase
-  include ApplicationHelper
-
   def test_link_field_should_substitute_value
     field = IssueCustomField.new(:field_format => 'link', :url_pattern => 'http://foo/%value%')
     custom_value = CustomValue.new(:custom_field => field, :customized => Issue.new, :value => "bar")
