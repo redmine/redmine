@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../../test_helper', __FILE__)
 
-class ApplicationHelperTest < ActionView::TestCase
+class PaginationHelperTest < ActionView::TestCase
   include Redmine::Pagination::Helper
 
   def test_per_page_options_should_return_usefull_values
