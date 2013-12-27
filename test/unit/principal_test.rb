@@ -40,9 +40,12 @@ class PrincipalTest < ActiveSupport::TestCase
   end
 
   def test_not_member_of_scope_should_return_users_that_have_no_memberships
-    projects = Project.find_all_by_id(1, 2)
-    expected = (Principal.all - projects.map(&:memberships).flatten.map(&:principal)).sort
-    assert_equal expected, Principal.not_member_of(projects).sort
+    [[1], [1, 2]].each do |ids|
+      projects = Project.find(ids)
+      assert_equal ids.size, projects.count
+      expected = (Principal.all - projects.map(&:memberships).flatten.map(&:principal)).sort
+      assert_equal expected, Principal.not_member_of(projects).sort
+    end
   end
 
   def test_not_member_of_scope_should_be_empty_for_no_projects
