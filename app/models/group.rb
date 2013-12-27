@@ -18,8 +18,10 @@
 class Group < Principal
   include Redmine::SafeAttributes
 
-  has_and_belongs_to_many :users, :after_add => :user_added,
-                                  :after_remove => :user_removed
+  has_and_belongs_to_many :users,
+                          :join_table   => "#{table_name_prefix}groups_users#{table_name_suffix}",
+                          :after_add => :user_added,
+                          :after_remove => :user_removed
 
   acts_as_customizable
 

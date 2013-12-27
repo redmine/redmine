@@ -68,8 +68,10 @@ class User < Principal
     ['none', :label_user_mail_option_none]
   ]
 
-  has_and_belongs_to_many :groups, :after_add => Proc.new {|user, group| group.user_added(user)},
-                                   :after_remove => Proc.new {|user, group| group.user_removed(user)}
+  has_and_belongs_to_many :groups,
+                          :join_table   => "#{table_name_prefix}groups_users#{table_name_suffix}",
+                          :after_add    => Proc.new {|user, group| group.user_added(user)},
+                          :after_remove => Proc.new {|user, group| group.user_removed(user)}
   has_many :changesets, :dependent => :nullify
   has_one :preference, :dependent => :destroy, :class_name => 'UserPreference'
   has_one :rss_token, :class_name => 'Token', :conditions => "action='feeds'"
