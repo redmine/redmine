@@ -31,8 +31,10 @@ class PrincipalTest < ActiveSupport::TestCase
   end
 
   def test_member_of_scope_should_return_the_union_of_all_members
-    projects = Project.find_all_by_id(1, 2)
-    assert_equal projects.map(&:principals).flatten.sort, Principal.member_of(projects).sort
+    projects = Project.find([1])
+    assert_equal [3, 2], Principal.member_of(projects).sort.map(&:id)
+    projects = Project.find([1, 2])
+    assert_equal [3, 2, 8, 11], Principal.member_of(projects).sort.map(&:id)
   end
 
   def test_member_of_scope_should_be_empty_for_no_projects
