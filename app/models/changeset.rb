@@ -197,7 +197,7 @@ class Changeset < ActiveRecord::Base
   # Finds an issue that can be referenced by the commit message
   def find_referenced_issue_by_id(id)
     return nil if id.blank?
-    issue = Issue.find_by_id(id.to_i, :include => :project)
+    issue = Issue.includes(:project).where(:id => id.to_i).first
     if Setting.commit_cross_project_ref?
       # all issues can be referenced/fixed
     elsif issue
