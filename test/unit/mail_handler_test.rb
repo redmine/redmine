@@ -538,6 +538,23 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal ja, issue.subject
   end
 
+  def test_add_issue_with_korean_body
+    # Make sure mail bodies with a charset unknown to Ruby
+    # but known to the Mail gem 2.5.4 are handled correctly
+    kr = "\xEA\xB3\xA0\xEB\xA7\x99\xEC\x8A\xB5\xEB\x8B\x88\xEB\x8B\xA4."
+    if !kr.respond_to?(:force_encoding)
+      puts "\nOn Ruby 1.8, skip Korean encoding mail body test"
+    else
+      kr.force_encoding('UTF-8')
+      issue = submit_email(
+              'body_ks_c_5601-1987.eml',
+              :issue => {:project => 'ecookbook'}
+            )
+      assert_kind_of Issue, issue
+      assert_equal kr, issue.description
+    end
+  end
+
   def test_add_issue_with_no_subject_header
     issue = submit_email(
               'no_subject_header.eml',

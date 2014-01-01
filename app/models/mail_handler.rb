@@ -410,7 +410,11 @@ class MailHandler < ActionMailer::Base
       part.header[:content_disposition].try(:disposition_type) == 'attachment'
     end
 
-    @plain_text_body = parts.map {|p| Redmine::CodesetUtil.to_utf8(p.body.decoded, p.charset)}.join("\r\n")
+    @plain_text_body = parts.map do |p|
+      body_charset = p.charset.respond_to?(:force_encoding) ?
+                       Mail::RubyVer.pick_encoding(p.charset).to_s : p.charset
+      Redmine::CodesetUtil.to_utf8(p.body.decoded, body_charset)
+    end.join("\r\n")
 
     # strip html tags and remove doctype directive
     if parts.any? {|p| p.mime_type == 'text/html'}
