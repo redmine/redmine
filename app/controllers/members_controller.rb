@@ -96,7 +96,7 @@ class MembersController < ApplicationController
 
   def destroy
     if request.delete? && @member.deletable?
-      @member.destroy
+      @member.roles.destroy_all
     end
     respond_to do |format|
       format.html { redirect_to_settings_in_projects }
