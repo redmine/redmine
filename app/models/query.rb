@@ -812,12 +812,13 @@ class Query < ActiveRecord::Base
     s = []
     if from
       if from.is_a?(Date)
-        from = Time.local(from.year, from.month, from.day).beginning_of_day
+        from = Time.local(from.year, from.month, from.day).yesterday.end_of_day
+      else
+        from = from - 1 # second
       end
       if self.class.default_timezone == :utc
         from = from.utc
       end
-      from = from - 1
       s << ("#{table}.#{field} > '%s'" % [connection.quoted_date(from)])
     end
     if to
