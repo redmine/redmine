@@ -54,6 +54,14 @@ class PreviewsControllerTest < ActionController::TestCase
     assert_tag :p, :content => 'Foo'
   end
 
+  def test_preview_issue_notes_should_support_links_to_existing_attachments
+    Attachment.generate!(:container => Issue.find(1), :filename => 'foo.bar')
+    @request.session[:user_id] = 2
+    post :issue, :project_id => '1', :id => 1, :notes => 'attachment:foo.bar'
+    assert_response :success
+    assert_select 'a.attachment', :text => 'foo.bar'
+  end
+
   def test_preview_new_news
     get :news, :project_id => 1,
                   :news => {:title => '',

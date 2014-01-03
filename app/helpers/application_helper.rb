@@ -847,7 +847,8 @@ module ApplicationHelper
               repo_prefix = nil
             end
           when 'attachment'
-            attachments = options[:attachments] || (obj && obj.respond_to?(:attachments) ? obj.attachments : nil)
+            attachments = options[:attachments] || []
+            attachments += obj.attachments if obj.respond_to?(:attachments)
             if attachments && attachment = Attachment.latest_attach(attachments, name)
               link = link_to_attachment(attachment, :only_path => only_path, :download => true, :class => 'attachment')
             end
