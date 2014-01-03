@@ -243,7 +243,7 @@ class Query < ActiveRecord::Base
           case operator_for(field)
           when "=", ">=", "<=", "><"
             add_filter_error(field, :invalid) if values_for(field).detect {|v|
-              v.present? && (!v.match(/\A\d{4}-\d{2}-\d{2}(T\d{2}((:)?\d{2}){,2}(Z|\d{2}:?\d{2})?)?\z/) || parse_date(v).nil?)
+              v.present? && (!v.match(/\A\d{4}-\d{2}-\d{2}(T\d{2}((:)?\d{2}){0,2}(Z|\d{2}:?\d{2})?)?\z/) || parse_date(v).nil?)
             }
           when ">t-", "<t-", "t-", ">t+", "<t+", "t+", "><t+", "><t-"
             add_filter_error(field, :invalid) if values_for(field).detect {|v| v.present? && !v.match(/^\d+$/) }

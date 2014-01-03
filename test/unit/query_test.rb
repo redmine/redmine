@@ -449,10 +449,24 @@ class QueryTest < ActiveSupport::TestCase
     find_issues_with_query(query)
   end
 
+  def test_operator_date_lesser_than_with_timestamp
+    query = IssueQuery.new(:name => '_')
+    query.add_filter('updated_on', '<=', ['2011-07-10T19:13:52'])
+    assert_match /issues\.updated_on <= '2011-07-10 19:13:52/, query.statement
+    find_issues_with_query(query)
+  end
+
   def test_operator_date_greater_than
     query = IssueQuery.new(:name => '_')
     query.add_filter('due_date', '>=', ['2011-07-10'])
     assert_match /issues\.due_date > '2011-07-09 23:59:59(\.9+)?'/, query.statement
+    find_issues_with_query(query)
+  end
+
+  def test_operator_date_greater_than_with_timestamp
+    query = IssueQuery.new(:name => '_')
+    query.add_filter('updated_on', '>=', ['2011-07-10T19:13:52'])
+    assert_match /issues\.updated_on > '2011-07-10 19:13:51'/, query.statement
     find_issues_with_query(query)
   end
 
