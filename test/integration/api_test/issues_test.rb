@@ -162,6 +162,29 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     end
   end
 
+  def test_index_should_allow_timestamp_filtering
+    Issue.delete_all
+    Issue.generate!(:subject => '1').update_column(:updated_on, Time.parse("2014-01-02T10:25:00Z"))
+    Issue.generate!(:subject => '2').update_column(:updated_on, Time.parse("2014-01-02T12:13:00Z"))
+
+    get '/issues.xml',
+      {:set_filter => 1, :f => ['updated_on'], :op => {:updated_on => '<='},
+       :v => {:updated_on => ['2014-01-02T12:00:00Z']}}
+    assert_select 'issues>issue', :count => 1
+    assert_select 'issues>issue>subject', :text => '1'
+
+    get '/issues.xml',
+      {:set_filter => 1, :f => ['updated_on'], :op => {:updated_on => '>='},
+       :v => {:updated_on => ['2014-01-02T12:00:00Z']}}
+    assert_select 'issues>issue', :count => 1
+    assert_select 'issues>issue>subject', :text => '2'
+
+    get '/issues.xml',
+      {:set_filter => 1, :f => ['updated_on'], :op => {:updated_on => '>='},
+       :v => {:updated_on => ['2014-01-02T08:00:00Z']}}
+    assert_select 'issues>issue', :count => 2
+  end
+
   context "/index.json" do
     should_allow_api_authentication(:get, "/projects/private-child/issues.json")
   end

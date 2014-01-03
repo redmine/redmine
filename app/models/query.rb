@@ -242,7 +242,9 @@ class Query < ActiveRecord::Base
         when :date, :date_past
           case operator_for(field)
           when "=", ">=", "<=", "><"
-            add_filter_error(field, :invalid) if values_for(field).detect {|v| v.present? && (!v.match(/^\d{4}-\d{2}-\d{2}$/) || (Date.parse(v) rescue nil).nil?) }
+            add_filter_error(field, :invalid) if values_for(field).detect {|v|
+              v.present? && (!v.match(/\A\d{4}-\d{2}-\d{2}(T\d{2}((:)?\d{2}){,2}(Z|\d{2}:?\d{2})?)?\z/) || parse_date(v).nil?)
+            }
           when ">t-", "<t-", "t-", ">t+", "<t+", "t+", "><t+", "><t-"
             add_filter_error(field, :invalid) if values_for(field).detect {|v| v.present? && !v.match(/^\d+$/) }
           end
@@ -624,7 +626,7 @@ class Query < ActiveRecord::Base
       if value.any?
         case type_for(field)
         when :date, :date_past
-          sql = date_clause(db_table, db_field, (Date.parse(value.first) rescue nil), (Date.parse(value.first) rescue nil))
+          sql = date_clause(db_table, db_field, parse_date(value.first), parse_date(value.first))
         when :integer
           if is_custom_filter
             sql = "(#{db_table}.#{db_field} <> '' AND CAST(CASE #{db_table}.#{db_field} WHEN '' THEN '0' ELSE #{db_table}.#{db_field} END AS decimal(30,3)) = #{value.first.to_i})"
@@ -659,7 +661,7 @@ class Query < ActiveRecord::Base
       sql << " AND #{db_table}.#{db_field} <> ''" if is_custom_filter
     when ">="
       if [:date, :date_past].include?(type_for(field))
-        sql = date_clause(db_table, db_field, (Date.parse(value.first) rescue nil), nil)
+        sql = date_clause(db_table, db_field, parse_date(value.first), nil)
       else
         if is_custom_filter
           sql = "(#{db_table}.#{db_field} <> '' AND CAST(CASE #{db_table}.#{db_field} WHEN '' THEN '0' ELSE #{db_table}.#{db_field} END AS decimal(30,3)) >= #{value.first.to_f})"
@@ -669,7 +671,7 @@ class Query < ActiveRecord::Base
       end
     when "<="
       if [:date, :date_past].include?(type_for(field))
-        sql = date_clause(db_table, db_field, nil, (Date.parse(value.first) rescue nil))
+        sql = date_clause(db_table, db_field, nil, parse_date(value.first))
       else
         if is_custom_filter
           sql = "(#{db_table}.#{db_field} <> '' AND CAST(CASE #{db_table}.#{db_field} WHEN '' THEN '0' ELSE #{db_table}.#{db_field} END AS decimal(30,3)) <= #{value.first.to_f})"
@@ -679,7 +681,7 @@ class Query < ActiveRecord::Base
       end
     when "><"
       if [:date, :date_past].include?(type_for(field))
-        sql = date_clause(db_table, db_field, (Date.parse(value[0]) rescue nil), (Date.parse(value[1]) rescue nil))
+        sql = date_clause(db_table, db_field, parse_date(value[0]), parse_date(value[1]))
       else
         if is_custom_filter
           sql = "(#{db_table}.#{db_field} <> '' AND CAST(CASE #{db_table}.#{db_field} WHEN '' THEN '0' ELSE #{db_table}.#{db_field} END AS decimal(30,3)) BETWEEN #{value[0].to_f} AND #{value[1].to_f})"
@@ -809,19 +811,23 @@ class Query < ActiveRecord::Base
   def date_clause(table, field, from, to)
     s = []
     if from
-      from_yesterday = from - 1
-      from_yesterday_time = Time.local(from_yesterday.year, from_yesterday.month, from_yesterday.day)
-      if self.class.default_timezone == :utc
-        from_yesterday_time = from_yesterday_time.utc
+      if from.is_a?(Date)
+        from = Time.local(from.year, from.month, from.day).beginning_of_day
       end
-      s << ("#{table}.#{field} > '%s'" % [connection.quoted_date(from_yesterday_time.end_of_day)])
+      if self.class.default_timezone == :utc
+        from = from.utc
+      end
+      from = from - 1
+      s << ("#{table}.#{field} > '%s'" % [connection.quoted_date(from)])
     end
     if to
-      to_time = Time.local(to.year, to.month, to.day)
-      if self.class.default_timezone == :utc
-        to_time = to_time.utc
+      if to.is_a?(Date)
+        to = Time.local(to.year, to.month, to.day).end_of_day
       end
-      s << ("#{table}.#{field} <= '%s'" % [connection.quoted_date(to_time.end_of_day)])
+      if self.class.default_timezone == :utc
+        to = to.utc
+      end
+      s << ("#{table}.#{field} <= '%s'" % [connection.quoted_date(to)])
     end
     s.join(' AND ')
   end
@@ -829,6 +835,15 @@ class Query < ActiveRecord::Base
   # Returns a SQL clause for a date or datetime field using relative dates.
   def relative_date_clause(table, field, days_from, days_to)
     date_clause(table, field, (days_from ? Date.today + days_from : nil), (days_to ? Date.today + days_to : nil))
+  end
+
+  # Returns a Date or Time from the given filter value
+  def parse_date(arg)
+    if arg.to_s =~ /\A\d{4}-\d{2}-\d{2}T/
+      Time.parse(arg) rescue nil
+    else
+      Date.parse(arg) rescue nil
+    end
   end
 
   # Additional joins required for the given sort options
