@@ -466,7 +466,7 @@ class QueryTest < ActiveSupport::TestCase
   def test_operator_date_greater_than_with_timestamp
     query = IssueQuery.new(:name => '_')
     query.add_filter('updated_on', '>=', ['2011-07-10T19:13:52'])
-    assert_match /issues\.updated_on > '2011-07-10 19:13:51'/, query.statement
+    assert_match /issues\.updated_on > '2011-07-10 19:13:51(\.0+)?'/, query.statement
     find_issues_with_query(query)
   end
 
