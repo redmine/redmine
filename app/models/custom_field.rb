@@ -173,17 +173,18 @@ class CustomField < ActiveRecord::Base
     format.join_for_order_statement(self)
   end
 
-  def visibility_by_project_condition(project_key=nil, user=User.current)
+  def visibility_by_project_condition(project_key=nil, user=User.current, id_column=nil)
     if visible? || user.admin?
       "1=1"
     elsif user.anonymous?
       "1=0"
     else
       project_key ||= "#{self.class.customized_class.table_name}.project_id"
+      id_column ||= id
       "#{project_key} IN (SELECT DISTINCT m.project_id FROM #{Member.table_name} m" +
         " INNER JOIN #{MemberRole.table_name} mr ON mr.member_id = m.id" +
         " INNER JOIN #{table_name_prefix}custom_fields_roles#{table_name_suffix} cfr ON cfr.role_id = mr.role_id" +
-        " WHERE m.user_id = #{user.id} AND cfr.custom_field_id = #{id})"
+        " WHERE m.user_id = #{user.id} AND cfr.custom_field_id = #{id_column})"
     end
   end
 
