@@ -55,13 +55,16 @@ module Redmine
 
     # returns mime type for name or nil if unknown
     def self.of(name)
-      return nil unless name
-      m = name.to_s.match(/(^|\.)([^\.]+)$/)
-      ext = m[2].downcase
-      type = nil
-      type = EXTENSIONS[ext] if m
-      type ||= MIME::Types.find {|type| type.extensions.include?(ext)}.to_s.presence
-      type
+      return nil unless name.present?
+      if m = name.to_s.match(/(^|\.)([^\.]+)$/)
+        extension = m[2].downcase
+        @known_types ||= Hash.new do |h, ext|
+          type = EXTENSIONS[ext]
+          type ||= MIME::Types.find {|type| type.extensions.include?(ext)}.to_s.presence
+          h[ext] = type
+        end
+        @known_types[extension]
+      end
     end
 
     # Returns the css class associated to
