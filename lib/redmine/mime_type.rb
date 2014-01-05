@@ -15,6 +15,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+require 'mime/types'
+
 module Redmine
   module MimeType
 
@@ -42,26 +44,8 @@ module Redmine
       'image/png' => 'png',
       'image/tiff' => 'tiff,tif',
       'image/x-ms-bmp' => 'bmp',
-      'image/x-xpixmap' => 'xpm',
-      'image/svg+xml'=> 'svg',
       'application/javascript' => 'js',
       'application/pdf' => 'pdf',
-      'application/rtf' => 'rtf',
-      'application/msword' => 'doc',
-      'application/vnd.ms-excel' => 'xls',
-      'application/vnd.ms-powerpoint' => 'ppt,pps',
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'docx',
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'xlsx',
-      'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'pptx',
-      'application/vnd.openxmlformats-officedocument.presentationml.slideshow' => 'ppsx',
-      'application/vnd.oasis.opendocument.spreadsheet' => 'ods',
-      'application/vnd.oasis.opendocument.text' => 'odt',
-      'application/vnd.oasis.opendocument.presentation' => 'odp',
-      'application/x-7z-compressed' => '7z',
-      'application/x-rar-compressed' => 'rar',
-      'application/x-tar' => 'tar',
-      'application/zip' => 'zip',
-      'application/x-gzip' => 'gz',
     }.freeze
 
     EXTENSIONS = MIME_TYPES.inject({}) do |map, (type, exts)|
@@ -73,7 +57,11 @@ module Redmine
     def self.of(name)
       return nil unless name
       m = name.to_s.match(/(^|\.)([^\.]+)$/)
-      EXTENSIONS[m[2].downcase] if m
+      ext = m[2].downcase
+      type = nil
+      type = EXTENSIONS[ext] if m
+      type ||= MIME::Types.find {|type| type.extensions.include?(ext)}.to_s.presence
+      type
     end
 
     # Returns the css class associated to
