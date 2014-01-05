@@ -79,7 +79,7 @@ module Redmine #:nodoc:
 
       # Adds plugin locales if any
       # YAML translation files should be found under <plugin>/config/locales/
-      ::I18n.load_path += Dir.glob(File.join(p.directory, 'config', 'locales', '*.yml'))
+      Rails.application.config.i18n.load_path += Dir.glob(File.join(p.directory, 'config', 'locales', '*.yml'))
 
       # Prepends the app/views directory of the plugin to the view path
       view_path = File.join(p.directory, 'app', 'views')
