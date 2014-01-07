@@ -1148,8 +1148,7 @@ RAW
 
   def test_link_to_legacy_project_with_numerical_identifier_should_use_id
     # numeric identifier are no longer allowed
-    Project.update_all "identifier=25", "id=1"
-
+    Project.where(:id => 1).update_all(:identifier => 25)
     assert_equal '<a href="/projects/1">eCookbook</a>',
                  link_to_project(Project.find(1))
   end
