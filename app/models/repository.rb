@@ -402,7 +402,7 @@ class Repository < ActiveRecord::Base
       self.is_default = true
     end
     if is_default? && is_default_changed?
-      Repository.update_all(["is_default = ?", false], ["project_id = ?", project_id])
+      Repository.where(["project_id = ?", project_id]).update_all(["is_default = ?", false])
     end
   end
 
