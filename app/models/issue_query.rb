@@ -142,7 +142,7 @@ class IssueQuery < Query
       if all_projects.any?
         principals += Principal.member_of(all_projects)
       end
-      versions = Version.visible.find_all_by_sharing('system')
+      versions = Version.visible.where(:sharing => 'system').all
       issue_custom_fields = IssueCustomField.where(:is_for_all => true)
     end
     principals.uniq!
