@@ -5,7 +5,7 @@ class CreateCustomFieldsRoles < ActiveRecord::Migration
       t.column :role_id, :integer, :null => false
     end
     add_index :custom_fields_roles, [:custom_field_id, :role_id], :unique => true, :name => :custom_fields_roles_ids
-    CustomField.update_all({:visible => true}, {:type => 'IssueCustomField'})
+    CustomField.where({:type => 'IssueCustomField'}).update_all({:visible => true})
   end
 
   def self.down
