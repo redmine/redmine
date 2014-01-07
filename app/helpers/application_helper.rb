@@ -759,7 +759,8 @@ module ApplicationHelper
           oid = identifier.to_i
           case prefix
           when nil
-            if oid.to_s == identifier && issue = Issue.visible.find_by_id(oid, :include => :status)
+            if oid.to_s == identifier &&
+                  issue = Issue.visible.includes(:status).find_by_id(oid)
               anchor = comment_id ? "note-#{comment_id}" : nil
               link = link_to(h("##{oid}#{comment_suffix}"), {:only_path => only_path, :controller => 'issues', :action => 'show', :id => oid, :anchor => anchor},
                                         :class => issue.css_classes,
@@ -776,7 +777,7 @@ module ApplicationHelper
                                               :class => 'version'
             end
           when 'message'
-            if message = Message.visible.find_by_id(oid, :include => :parent)
+            if message = Message.visible.includes(:parent).find_by_id(oid)
               link = link_to_message(message, {:only_path => only_path}, :class => 'message')
             end
           when 'forum'
