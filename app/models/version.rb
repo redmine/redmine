@@ -203,7 +203,7 @@ class Version < ActiveRecord::Base
     ["(CASE WHEN #{table}.effective_date IS NULL THEN 1 ELSE 0 END)", "#{table}.effective_date", "#{table}.name", "#{table}.id"]
   end
 
-  scope :sorted, order(fields_for_order_statement)
+  scope :sorted, lambda { order(fields_for_order_statement) }
 
   # Returns the sharings that +user+ can set the version to
   def allowed_sharings(user = User.current)
