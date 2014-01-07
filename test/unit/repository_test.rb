@@ -97,6 +97,31 @@ class RepositoryTest < ActiveSupport::TestCase
     assert_equal [repository1, repository2], Project.find(3).repositories.sort
   end
 
+  def test_default_repository_should_be_one
+    assert_equal 0, Project.find(3).repositories.count
+    repository1 = Repository::Subversion.new(
+                      :project => Project.find(3),
+                      :identifier => 'svn1',
+                      :url => 'file:///svn1'
+                    )
+    assert repository1.save
+    assert repository1.is_default?
+
+    repository2 = Repository::Subversion.new(
+                      :project => Project.find(3),
+                      :identifier => 'svn2',
+                      :url => 'file:///svn2',
+                      :is_default => true
+                    )
+    assert repository2.save
+    assert repository2.is_default?
+    repository1.reload
+    assert !repository1.is_default?
+
+    assert_equal repository2, Project.find(3).repository
+    assert_equal [repository2, repository1], Project.find(3).repositories.sort
+  end
+
   def test_identifier_should_accept_letters_digits_dashes_and_underscores
     r = Repository::Subversion.new(
       :project_id => 3,
