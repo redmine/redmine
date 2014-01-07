@@ -585,7 +585,7 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal [1,2,3], parent.version_ids.sort
     assert_equal [4], child.version_ids
     assert_equal [6], private_child.version_ids
-    assert_equal [7], Version.find_all_by_sharing('system').collect(&:id)
+    assert_equal [7], Version.where(:sharing => 'system').all.collect(&:id)
 
     assert_equal 6, parent.shared_versions.size
     parent.shared_versions.each do |version|
