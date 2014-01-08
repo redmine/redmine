@@ -129,7 +129,7 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
   end
 
   def test_update_when_creating_new_activities_will_convert_existing_data
-    assert_equal 3, TimeEntry.find_all_by_activity_id_and_project_id(9, 1).size
+    assert_equal 3, TimeEntry.where(:activity_id => 9, :project_id => 1).count
 
     @request.session[:user_id] = 2 # manager
     put :update, :project_id => 1, :enumerations => {
@@ -152,8 +152,8 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
     TimeEntryActivity.create!({:name => parent.name, :project_id => 1, :position => parent.position, :active => true})
     TimeEntry.create!({:project_id => 1, :hours => 1.0, :user => User.find(1), :issue_id => 3, :activity_id => 10, :spent_on => '2009-01-01'})
 
-    assert_equal 3, TimeEntry.find_all_by_activity_id_and_project_id(9, 1).size
-    assert_equal 1, TimeEntry.find_all_by_activity_id_and_project_id(10, 1).size
+    assert_equal 3, TimeEntry.where(:activity_id => 9, :project_id => 1).count
+    assert_equal 1, TimeEntry.where(:activity_id => 10, :project_id => 1).count
 
     @request.session[:user_id] = 2 # manager
     put :update, :project_id => 1, :enumerations => {
@@ -210,8 +210,15 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
     assert_redirected_to '/projects/ecookbook/settings/activities'
 
     assert_nil TimeEntryActivity.find_by_id(project_activity.id)
-    assert_equal 0, TimeEntry.find_all_by_activity_id_and_project_id(project_activity.id, 1).size, "TimeEntries still assigned to project specific activity"
-    assert_equal 3, TimeEntry.find_all_by_activity_id_and_project_id(9, 1).size, "TimeEntries still assigned to project specific activity"
+    assert_equal 0, TimeEntry.where(
+                      :activity_id => project_activity.id,
+                      :project_id => 1
+                    ).count,
+                 "TimeEntries still assigned to project specific activity"
+    assert_equal 3, TimeEntry.where(
+                      :activity_id => 9,
+                      :project_id => 1
+                    ).count,
+                 "TimeEntries still assigned to project specific activity"
   end
-
 end
