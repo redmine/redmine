@@ -57,7 +57,7 @@ class BoardsControllerTest < ActionController::TestCase
 
   def test_show_should_display_sticky_messages_first
     Message.update_all(:sticky => 0)
-    Message.update_all({:sticky => 1}, {:id => 1})
+    Message.where({:id => 1}).update_all({:sticky => 1})
 
     get :show, :project_id => 1, :id => 1
     assert_response :success
