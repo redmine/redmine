@@ -157,7 +157,7 @@ class AccountControllerOpenidTest < ActionController::TestCase
         assert_response 302
       end
 
-      user = User.first(:order => 'id DESC')
+      user = User.order('id DESC').first
       assert_equal 'http://openid.example.com/good_blank_user', user.identity_url
       assert user.hashed_password.blank?, "Hashed password was #{user.hashed_password}"
     end
