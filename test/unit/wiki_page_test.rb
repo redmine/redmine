@@ -125,7 +125,7 @@ class WikiPageTest < ActiveSupport::TestCase
   end
 
   def test_updated_on_eager_load
-    page = WikiPage.with_updated_on.first(:order => 'id')
+    page = WikiPage.with_updated_on.order('id').first
     assert page.is_a?(WikiPage)
     assert_not_nil page.read_attribute(:updated_on)
     assert_equal Time.gm(2007, 3, 6, 23, 10, 51), page.content.updated_on
