@@ -666,23 +666,27 @@ class User < Principal
     return if self.id.nil?
 
     substitute = User.anonymous
-    Attachment.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
-    Comment.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
-    Issue.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
-    Issue.update_all 'assigned_to_id = NULL', ['assigned_to_id = ?', id]
-    Journal.update_all ['user_id = ?', substitute.id], ['user_id = ?', id]
-    JournalDetail.update_all ['old_value = ?', substitute.id.to_s], ["property = 'attr' AND prop_key = 'assigned_to_id' AND old_value = ?", id.to_s]
-    JournalDetail.update_all ['value = ?', substitute.id.to_s], ["property = 'attr' AND prop_key = 'assigned_to_id' AND value = ?", id.to_s]
-    Message.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
-    News.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
+    Attachment.where(['author_id = ?', id]).update_all(['author_id = ?', substitute.id]) 
+    Comment.where(['author_id = ?', id]).update_all(['author_id = ?', substitute.id])
+    Issue.where(['author_id = ?', id]).update_all(['author_id = ?', substitute.id])
+    Issue.where(['assigned_to_id = ?', id]).update_all('assigned_to_id = NULL')
+    Journal.where(['user_id = ?', id]).update_all(['user_id = ?', substitute.id]) 
+    JournalDetail.
+      where(["property = 'attr' AND prop_key = 'assigned_to_id' AND old_value = ?", id.to_s]).
+      update_all(['old_value = ?', substitute.id.to_s])
+    JournalDetail.
+      where(["property = 'attr' AND prop_key = 'assigned_to_id' AND value = ?", id.to_s]).
+      update_all(['value = ?', substitute.id.to_s]) 
+    Message.where(['author_id = ?', id]).update_all(['author_id = ?', substitute.id])
+    News.where(['author_id = ?', id]).update_all(['author_id = ?', substitute.id])
     # Remove private queries and keep public ones
     ::Query.delete_all ['user_id = ? AND visibility = ?', id, ::Query::VISIBILITY_PRIVATE]
     ::Query.update_all ['user_id = ?', substitute.id], ['user_id = ?', id]
-    TimeEntry.update_all ['user_id = ?', substitute.id], ['user_id = ?', id]
+    TimeEntry.where(['user_id = ?', id]).update_all(['user_id = ?', substitute.id])
     Token.delete_all ['user_id = ?', id]
     Watcher.delete_all ['user_id = ?', id]
-    WikiContent.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
-    WikiContent::Version.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
+    WikiContent.where(['author_id = ?', id]).update_all(['author_id = ?', substitute.id])
+    WikiContent::Version.where(['author_id = ?', id]).update_all(['author_id = ?', substitute.id])
   end
 
   # Return password digest
