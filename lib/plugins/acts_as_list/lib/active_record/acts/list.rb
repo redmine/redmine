@@ -137,7 +137,8 @@ module ActiveRecord
         def reset_positions_in_list
           acts_as_list_class.where(scope_condition).reorder("#{position_column} ASC, id ASC").each_with_index do |item, i|
             unless item.send(position_column) == (i + 1)
-              acts_as_list_class.update_all({position_column => (i + 1)}, {:id => item.id})
+              acts_as_list_class.where({:id => item.id}).
+                update_all({position_column => (i + 1)})
             end
           end
         end
