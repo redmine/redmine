@@ -66,7 +66,7 @@ class IssueCategoriesControllerTest < ActionController::TestCase
     assert_difference 'IssueCategory.count' do
       xhr :post, :create, :project_id => '1', :issue_category => {:name => 'New category'}
     end
-    category = IssueCategory.first(:order => 'id DESC')
+    category = IssueCategory.order('id DESC').first
     assert_equal 'New category', category.name
 
     assert_response :success
