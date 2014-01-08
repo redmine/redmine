@@ -180,7 +180,7 @@ LOREM
       post :add_attachment, :id => 1,
         :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
     end
-    attachment = Attachment.first(:order => 'id DESC')
+    attachment = Attachment.order('id DESC').first
     assert_equal Document.find(1), attachment.container
   end
 end
