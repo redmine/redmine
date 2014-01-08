@@ -102,8 +102,8 @@ class NewsControllerTest < ActionController::TestCase
           :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
       end
     end
-    attachment = Attachment.first(:order => 'id DESC')
-    news = News.first(:order => 'id DESC')
+    attachment = Attachment.order('id DESC').first
+    news = News.order('id DESC').first
     assert_equal news, attachment.container
   end
 
