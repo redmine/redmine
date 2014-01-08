@@ -139,7 +139,7 @@ class BoardsControllerTest < ActionController::TestCase
       post :create, :project_id => 1, :board => { :name => 'Testing', :description => 'Testing board creation'}
     end
     assert_redirected_to '/projects/ecookbook/settings/boards'
-    board = Board.first(:order => 'id DESC')
+    board = Board.order('id DESC').first
     assert_equal 'Testing', board.name
     assert_equal 'Testing board creation', board.description
   end
@@ -150,7 +150,7 @@ class BoardsControllerTest < ActionController::TestCase
       post :create, :project_id => 1, :board => { :name => 'Testing', :description => 'Testing', :parent_id => 2}
     end
     assert_redirected_to '/projects/ecookbook/settings/boards'
-    board = Board.first(:order => 'id DESC')
+    board = Board.order('id DESC').first
     assert_equal Board.find(2), board.parent
   end
 
