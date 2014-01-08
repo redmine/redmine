@@ -87,7 +87,7 @@ class WikiPage < ActiveRecord::Base
         r.title == r.redirects_to ? r.destroy : r.save
       end
       # Remove redirects for the new title
-      wiki.redirects.find_all_by_title(title).each(&:destroy)
+      wiki.redirects.where(:title => title).all.each(&:destroy)
       # Create a redirect to the new title
       wiki.redirects << WikiRedirect.new(:title => @previous_title, :redirects_to => title) unless redirect_existing_links == "0"
       @previous_title = nil
