@@ -96,7 +96,7 @@ class ChangesetTest < ActiveSupport::TestCase
       end
       assert_equal [1], c.issue_ids.sort
 
-      time = TimeEntry.first(:order => 'id desc')
+      time = TimeEntry.order('id desc').first
       assert_equal 1, time.issue_id
       assert_equal 1, time.project_id
       assert_equal 2, time.user_id
