@@ -1286,7 +1286,8 @@ class Issue < ActiveRecord::Base
       # issue was just created
       self.root_id = (@parent_issue.nil? ? id : @parent_issue.root_id)
       set_default_left_and_right
-      Issue.update_all(["root_id = ?, lft = ?, rgt = ?", root_id, lft, rgt], ["id = ?", id])
+      Issue.where(["id = ?", id]).
+        update_all(["root_id = ?, lft = ?, rgt = ?", root_id, lft, rgt])
       if @parent_issue
         move_to_child_of(@parent_issue)
       end
