@@ -88,7 +88,7 @@ when "IssueCustomField" %>
 
 <% if @custom_field.is_a?(IssueCustomField) %>
   <fieldset class="box" id="custom_field_tracker_ids"><legend><%=l(:label_tracker_plural)%></legend>
-  <% Tracker.sorted.all.each do |tracker| %>
+  <% Tracker.sorted.each do |tracker| %>
     <%= check_box_tag "custom_field[tracker_ids][]",
                       tracker.id,
                       (@custom_field.trackers.include? tracker),
