@@ -68,7 +68,6 @@ class Group < Principal
       MemberRole.
         includes(:member).
         where("#{Member.table_name}.user_id = ? AND #{MemberRole.table_name}.inherited_from IN (?)", user.id, member.member_role_ids).
-        all.
         each(&:destroy)
     end
   end
