@@ -1793,7 +1793,7 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_blank_descriptions_should_not_be_journalized
     IssueCustomField.delete_all
-    Issue.update_all("description = NULL", "id=1")
+    Issue.where(:id => 1).update_all("description = NULL")
 
     i = Issue.find(1)
     i.init_journal(User.find(2))
