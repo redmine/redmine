@@ -84,7 +84,8 @@ class Member < ActiveRecord::Base
   def set_issue_category_nil
     if user
       # remove category based auto assignments for this member
-      IssueCategory.update_all "assigned_to_id = NULL", ["project_id = ? AND assigned_to_id = ?", project.id, user.id]
+      IssueCategory.where(["project_id = ? AND assigned_to_id = ?", project.id, user.id]).
+        update_all("assigned_to_id = NULL")
     end
   end
 
