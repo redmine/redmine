@@ -82,7 +82,7 @@ class WikiPage < ActiveRecord::Base
     # Manage redirects if the title has changed
     if !@previous_title.blank? && (@previous_title != title) && !new_record?
       # Update redirects that point to the old title
-      wiki.redirects.find_all_by_redirects_to(@previous_title).each do |r|
+      wiki.redirects.where(:redirects_to => @previous_title).each do |r|
         r.redirects_to = title
         r.title == r.redirects_to ? r.destroy : r.save
       end
@@ -96,7 +96,7 @@ class WikiPage < ActiveRecord::Base
 
   def remove_redirects
     # Remove redirects to this page
-    wiki.redirects.find_all_by_redirects_to(title).each(&:destroy)
+    wiki.redirects.where(:redirects_to => title).each(&:destroy)
   end
 
   def pretty_title
