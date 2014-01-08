@@ -1026,7 +1026,7 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_show_should_deny_anonymous_access_to_private_issue
-    Issue.update_all(["is_private = ?", true], "id = 1")
+    Issue.where(:id => 1).update_all(["is_private = ?", true])
     get :show, :id => 1
     assert_response :redirect
   end
@@ -1039,7 +1039,7 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_show_should_deny_non_member_access_to_private_issue
-    Issue.update_all(["is_private = ?", true], "id = 1")
+    Issue.where(:id => 1).update_all(["is_private = ?", true])
     @request.session[:user_id] = 9
     get :show, :id => 1
     assert_response 403
@@ -1053,28 +1053,28 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_show_should_deny_member_access_to_private_issue_without_permission
-    Issue.update_all(["is_private = ?", true], "id = 1")
+    Issue.where(:id => 1).update_all(["is_private = ?", true])
     @request.session[:user_id] = 3
     get :show, :id => 1
     assert_response 403
   end
 
   def test_show_should_allow_author_access_to_private_issue
-    Issue.update_all(["is_private = ?, author_id = 3", true], "id = 1")
+    Issue.where(:id => 1).update_all(["is_private = ?, author_id = 3", true])
     @request.session[:user_id] = 3
     get :show, :id => 1
     assert_response :success
   end
 
   def test_show_should_allow_assignee_access_to_private_issue
-    Issue.update_all(["is_private = ?, assigned_to_id = 3", true], "id = 1")
+    Issue.where(:id => 1).update_all(["is_private = ?, assigned_to_id = 3", true])
     @request.session[:user_id] = 3
     get :show, :id => 1
     assert_response :success
   end
 
   def test_show_should_allow_member_access_to_private_issue_with_permission
-    Issue.update_all(["is_private = ?", true], "id = 1")
+    Issue.where(:id => 1).update_all(["is_private = ?", true])
     User.find(3).roles_for_project(Project.find(1)).first.update_attribute :issues_visibility, 'all'
     @request.session[:user_id] = 3
     get :show, :id => 1
