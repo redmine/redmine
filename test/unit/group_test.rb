@@ -126,7 +126,7 @@ class GroupTest < ActiveSupport::TestCase
 
   def test_destroy_should_unassign_issues
     group = Group.first
-    Issue.update_all(["assigned_to_id = ?", group.id], 'id = 1')
+    Issue.where(:id => 1).update_all(["assigned_to_id = ?", group.id])
 
     assert group.destroy
     assert group.destroyed?
