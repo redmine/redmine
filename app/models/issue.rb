@@ -1222,7 +1222,7 @@ class Issue < ActiveRecord::Base
 
   def after_project_change
     # Update project_id on related time entries
-    TimeEntry.update_all(["project_id = ?", project_id], {:issue_id => id})
+    TimeEntry.where({:issue_id => id}).update_all(["project_id = ?", project_id])
 
     # Delete issue relations
     unless Setting.cross_project_issue_relations?
@@ -1313,8 +1313,8 @@ class Issue < ActiveRecord::Base
       self.root_id = (@parent_issue.nil? ? id : @parent_issue.root_id )
       target_maxright = nested_set_scope.maximum(right_column_name) || 0
       offset = target_maxright + 1 - lft
-      Issue.update_all(["root_id = ?, lft = lft + ?, rgt = rgt + ?", root_id, offset, offset],
-                        ["root_id = ? AND lft >= ? AND rgt <= ? ", old_root_id, lft, rgt])
+      Issue.where(["root_id = ? AND lft >= ? AND rgt <= ? ", old_root_id, lft, rgt]).
+        update_all(["root_id = ?, lft = lft + ?, rgt = rgt + ?", root_id, offset, offset])
       self[left_column_name] = lft + offset
       self[right_column_name] = rgt + offset
       if @parent_issue
