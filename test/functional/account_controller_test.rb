@@ -185,7 +185,7 @@ class AccountControllerTest < ActionController::TestCase
         }
         assert_redirected_to '/my/account'
       end
-      user = User.first(:order => 'id DESC')
+      user = User.order('id DESC').first
       assert_equal 'register', user.login
       assert_equal 'John', user.firstname
       assert_equal 'Doe', user.lastname
