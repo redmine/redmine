@@ -87,6 +87,6 @@ class Group < Principal
   def remove_references_before_destroy
     return if self.id.nil?
 
-    Issue.update_all 'assigned_to_id = NULL', ['assigned_to_id = ?', id]
+    Issue.where(['assigned_to_id = ?', id]).update_all('assigned_to_id = NULL')
   end
 end
