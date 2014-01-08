@@ -32,7 +32,7 @@ class IssueStatus < ActiveRecord::Base
   scope :named, lambda {|arg| where("LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip)}
 
   def update_default
-    IssueStatus.update_all({:is_default => false}, ['id <> ?', id]) if self.is_default?
+    IssueStatus.where(['id <> ?', id]).update_all({:is_default => false}) if self.is_default?
   end
 
   # Returns the default status for new issues
@@ -44,7 +44,7 @@ class IssueStatus < ActiveRecord::Base
   def self.update_issue_done_ratios
     if Issue.use_status_for_done_ratio?
       IssueStatus.where("default_done_ratio >= 0").all.each do |status|
-        Issue.update_all({:done_ratio => status.default_done_ratio}, {:status_id => status.id})
+        Issue.where({:status_id => status.id}).update_all({:done_ratio => status.default_done_ratio})
       end
     end
 
