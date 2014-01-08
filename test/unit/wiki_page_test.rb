@@ -117,8 +117,8 @@ class WikiPageTest < ActiveSupport::TestCase
     page.destroy
     assert_nil WikiPage.find_by_id(2)
 
-    children = WikiPage.find_all_by_id(child_ids)
-    assert_equal child_ids.size, children.size
+    children = WikiPage.where(:id => child_ids)
+    assert_equal child_ids.size, children.count
     children.each do |child|
       assert_nil child.parent_id
     end
