@@ -202,10 +202,11 @@ class RepositoryTest < ActiveSupport::TestCase
 
   def test_scan_changesets_for_issue_ids
     Setting.default_language = 'en'
-
     Setting.commit_ref_keywords = 'refs , references, IssueID'
     Setting.commit_update_keywords = [
-      {'keywords' => 'fixes , closes', 'status_id' => IssueStatus.where(:is_closed => true).first.id, 'done_ratio' => '90'}
+      {'keywords' => 'fixes , closes',
+       'status_id' => IssueStatus.where(:is_closed => true).first.id,
+       'done_ratio' => '90'}
     ]
     Setting.default_language = 'en'
     ActionMailer::Base.deliveries.clear
