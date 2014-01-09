@@ -2027,7 +2027,7 @@ class IssueTest < ActiveSupport::TestCase
     r = IssueRelation.create!(:issue_from => Issue.find(3),
                              :issue_to   => Issue.find(7),
                              :relation_type => IssueRelation::TYPE_PRECEDES)
-    IssueRelation.update_all("issue_to_id = 1", ["id = ?", r.id])
+    IssueRelation.where(["id = ?", r.id]).update_all("issue_to_id = 1")
 
     assert_equal [2, 3], Issue.find(1).all_dependent_issues.collect(&:id).sort
   end
@@ -2047,12 +2047,12 @@ class IssueTest < ActiveSupport::TestCase
     r = IssueRelation.create!(:issue_from => Issue.find(8),
                              :issue_to   => Issue.find(7),
                              :relation_type => IssueRelation::TYPE_RELATES)
-    IssueRelation.update_all("issue_to_id = 2", ["id = ?", r.id])
+    IssueRelation.where(["id = ?", r.id]).update_all("issue_to_id = 2")
 
     r = IssueRelation.create!(:issue_from => Issue.find(3),
                              :issue_to   => Issue.find(7),
                              :relation_type => IssueRelation::TYPE_RELATES)
-    IssueRelation.update_all("issue_to_id = 1", ["id = ?", r.id])
+    IssueRelation.where(["id = ?", r.id]).update_all("issue_to_id = 1")
 
     assert_equal [2, 3, 8], Issue.find(1).all_dependent_issues.collect(&:id).sort
   end
