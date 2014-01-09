@@ -663,7 +663,7 @@ class MailHandlerTest < ActiveSupport::TestCase
         end
       end
     end
-    journal = Journal.first(:order => 'id DESC')
+    journal = Journal.order('id DESC').first
     assert_equal Issue.find(2), journal.journalized
     assert_equal 1, journal.details.size
 
@@ -846,8 +846,7 @@ class MailHandlerTest < ActiveSupport::TestCase
                 :unknown_user => 'create'
               )
     end
-
-    user = User.first(:order => 'id DESC')
+    user = User.order('id DESC').first
     assert_equal "foo@example.org", user.mail
     str1 = "\xc3\x84\xc3\xa4"
     str2 = "\xc3\x96\xc3\xb6"
