@@ -42,7 +42,7 @@ class Watcher < ActiveRecord::Base
       prune_single_user(options[:user], options)
     else
       pruned = 0
-      User.where("id IN (SELECT DISTINCT user_id FROM #{table_name})").all.each do |user|
+      User.where("id IN (SELECT DISTINCT user_id FROM #{table_name})").each do |user|
         pruned += prune_single_user(user, options)
       end
       pruned
