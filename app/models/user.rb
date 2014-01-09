@@ -681,7 +681,7 @@ class User < Principal
     News.where(['author_id = ?', id]).update_all(['author_id = ?', substitute.id])
     # Remove private queries and keep public ones
     ::Query.delete_all ['user_id = ? AND visibility = ?', id, ::Query::VISIBILITY_PRIVATE]
-    ::Query.update_all ['user_id = ?', substitute.id], ['user_id = ?', id]
+    ::Query.where(['user_id = ?', id]).update_all(['user_id = ?', substitute.id])
     TimeEntry.where(['user_id = ?', id]).update_all(['user_id = ?', substitute.id])
     Token.delete_all ['user_id = ?', id]
     Watcher.delete_all ['user_id = ?', id]
