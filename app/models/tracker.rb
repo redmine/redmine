@@ -63,8 +63,7 @@ class Tracker < ActiveRecord::Base
             connection.select_rows("SELECT DISTINCT old_status_id, new_status_id FROM #{WorkflowTransition.table_name} WHERE tracker_id = #{id} AND type = 'WorkflowTransition'").
             flatten.
             uniq
-
-    @issue_statuses = IssueStatus.find_all_by_id(ids).sort
+    @issue_statuses = IssueStatus.where(:id => ids).all.sort
   end
 
   def disabled_core_fields
