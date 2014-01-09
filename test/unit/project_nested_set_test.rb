@@ -55,7 +55,7 @@ class ProjectNestedSetTest < ActiveSupport::TestCase
   end
 
   def test_rebuild_tree_should_build_valid_tree_even_with_valid_lft_rgt_values
-    Project.update_all "name = 'YY'", {:id => @a.id }
+    Project.where({:id => @a.id }).update_all("name = 'YY'")
     # lft and rgt values are still valid (Project.rebuild! would not update anything)
     # but projects are not ordered properly (YY is in the first place)
 
