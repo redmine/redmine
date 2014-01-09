@@ -209,8 +209,7 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def test_operator_is_on_float
-    Issue.update_all("estimated_hours = 171.2", "id=2")
-
+    Issue.where(:id => 2).update_all("estimated_hours = 171.2")
     query = IssueQuery.new(:name => '_')
     query.add_filter('estimated_hours', '=', ['171.20'])
     issues = find_issues_with_query(query)
