@@ -175,7 +175,7 @@ class RepositoryTest < ActiveSupport::TestCase
 
   def test_destroy_should_delete_parents_associations
     changeset = Changeset.find(102)
-    changeset.parents = Changeset.find_all_by_id([100, 101])
+    changeset.parents = Changeset.where(:id => [100, 101]).all
     assert_difference 'Changeset.connection.select_all("select * from changeset_parents").count', -2 do
       Repository.find(10).destroy
     end
@@ -183,7 +183,7 @@ class RepositoryTest < ActiveSupport::TestCase
 
   def test_destroy_should_delete_issues_associations
     changeset = Changeset.find(102)
-    changeset.issues = Issue.find_all_by_id([1, 2])
+    changeset.issues = Issue.where(:id => [1, 2]).all
     assert_difference 'Changeset.connection.select_all("select * from changesets_issues").count', -2 do
       Repository.find(10).destroy
     end
