@@ -60,7 +60,7 @@ class Watcher < ActiveRecord::Base
   def self.prune_single_user(user, options={})
     return unless user.is_a?(User)
     pruned = 0
-    where(:user_id => user.id).all.each do |watcher|
+    where(:user_id => user.id).each do |watcher|
       next if watcher.watchable.nil?
       if options.has_key?(:project)
         unless watcher.watchable.respond_to?(:project) &&
