@@ -62,11 +62,12 @@ class Watcher < ActiveRecord::Base
     pruned = 0
     where(:user_id => user.id).all.each do |watcher|
       next if watcher.watchable.nil?
-
       if options.has_key?(:project)
-        next unless watcher.watchable.respond_to?(:project) && watcher.watchable.project == options[:project]
+        unless watcher.watchable.respond_to?(:project) &&
+                 watcher.watchable.project == options[:project]
+          next
+        end
       end
-
       if watcher.watchable.respond_to?(:visible?)
         unless watcher.watchable.visible?(user)
           watcher.destroy
