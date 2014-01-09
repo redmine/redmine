@@ -409,7 +409,7 @@ class IssueQuery < Query
       groups = Group.all
       operator = '!' # Override the operator since we want to find by assigned_to
     else
-      groups = Group.find_all_by_id(value)
+      groups = Group.where(:id => value).all
     end
     groups ||= []
 
