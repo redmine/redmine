@@ -136,14 +136,12 @@ class RepositoryTest < ActiveSupport::TestCase
   end
 
   def test_identifier_should_not_be_frozen_for_a_saved_repository_with_blank_identifier
-    Repository.update_all(["identifier = ''"], "id = 10")
-
+    Repository.where(:id => 10).update_all(["identifier = ''"])
     assert_equal false, Repository.find(10).identifier_frozen?
   end
 
   def test_identifier_should_be_frozen_for_a_saved_repository_with_valid_identifier
-    Repository.update_all(["identifier = 'abc123'"], "id = 10")
-
+    Repository.where(:id => 10).update_all(["identifier = 'abc123'"])
     assert_equal true, Repository.find(10).identifier_frozen?
   end
 
