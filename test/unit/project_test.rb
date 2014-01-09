@@ -133,8 +133,7 @@ class ProjectTest < ActiveSupport::TestCase
   end
 
   def test_identifier_should_not_be_frozen_for_a_saved_project_with_blank_identifier
-    Project.update_all(["identifier = ''"], "id = 1")
-
+    Project.where(:id => 1).update_all(["identifier = ''"])
     assert_equal false, Project.find(1).identifier_frozen?
   end
 
