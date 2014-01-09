@@ -224,7 +224,7 @@ class ProjectTest < ActiveSupport::TestCase
     assert_nothing_raised do
       Project.find(1).destroy
     end
-    assert Issue.find_all_by_id(issues.map(&:id)).empty?
+    assert_equal 0, Issue.where(:id => issues.map(&:id)).count
   end
 
   def test_destroying_root_projects_should_clear_data
