@@ -95,8 +95,9 @@ class Repository::Mercurial < Repository
     changesets.
       includes(:user).
       where(latest_changesets_cond(path, rev, limit)).
+      limit(limit).
       order("#{Changeset.table_name}.id DESC").
-      limit(limit)
+      all
   end
 
   def latest_changesets_cond(path, rev, limit)
