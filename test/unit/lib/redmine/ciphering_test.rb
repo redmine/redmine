@@ -57,7 +57,7 @@ class Redmine::CipheringTest < ActiveSupport::TestCase
     end
 
     Redmine::Configuration.with 'database_cipher_key' => 'secret' do
-      r = Repository.first(:order => 'id DESC')
+      r = Repository.order('id DESC').first
       assert_equal 'clear', r.password
     end
   end
@@ -68,7 +68,7 @@ class Redmine::CipheringTest < ActiveSupport::TestCase
     end
 
     Redmine::Configuration.with 'database_cipher_key' => '' do
-      r = Repository.first(:order => 'id DESC')
+      r = Repository.order('id DESC').first
       # password can not be deciphered
       assert_nothing_raised do
         assert r.password.match(/\Aaes-256-cbc:.+\Z/)
@@ -85,7 +85,7 @@ class Redmine::CipheringTest < ActiveSupport::TestCase
 
     Redmine::Configuration.with 'database_cipher_key' => 'secret' do
       assert Repository.encrypt_all(:password)
-      r = Repository.first(:order => 'id DESC')
+      r = Repository.order('id DESC').first
       assert_equal 'bar', r.password
       assert r.read_attribute(:password).match(/\Aaes-256-cbc:.+\Z/)
     end
@@ -98,7 +98,7 @@ class Redmine::CipheringTest < ActiveSupport::TestCase
       Repository::Subversion.create!(:password => 'bar', :url => 'file:///tmp', :identifier => 'bar')
 
       assert Repository.decrypt_all(:password)
-      r = Repository.first(:order => 'id DESC')
+      r = Repository.order('id DESC').first
       assert_equal 'bar', r.password
       assert_equal 'bar', r.read_attribute(:password)
     end
