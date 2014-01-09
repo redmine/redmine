@@ -61,7 +61,7 @@ class WatcherTest < ActiveSupport::TestCase
   end
 
   def test_watcher_users_should_not_validate_user
-    User.update_all("firstname = ''", "id=1")
+    User.where(:id => 1).update_all("firstname = ''")
     @user.reload
     assert !@user.valid?
 
