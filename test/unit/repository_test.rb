@@ -130,7 +130,7 @@ class RepositoryTest < ActiveSupport::TestCase
     )
     assert r.save
   end
-  
+
   def test_identifier_should_not_be_frozen_for_a_new_repository
     assert_equal false, Repository.new.identifier_frozen?
   end
