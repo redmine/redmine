@@ -111,7 +111,8 @@ class ChangesetTest < ActiveSupport::TestCase
 
   def test_ref_keywords_closing_with_timelog
     Setting.commit_ref_keywords = '*'
-    Setting.commit_update_keywords = [{'keywords' => 'fixes , closes', 'status_id' => IssueStatus.where(:is_closed => true).first.id.to_s}]
+    Setting.commit_update_keywords = [{'keywords' => 'fixes , closes',
+                                       'status_id' => IssueStatus.where(:is_closed => true).first.id.to_s}]
     Setting.commit_logtime_enabled = '1'
 
     c = Changeset.new(:repository   => Project.find(1).repository,
