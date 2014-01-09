@@ -202,7 +202,7 @@ class ProjectTest < ActiveSupport::TestCase
     # 2 active members
     assert_equal 2, @ecookbook.members.size
     # and 1 is locked
-    assert_equal 3, Member.where('project_id = ?', @ecookbook.id).all.size
+    assert_equal 3, Member.where(:project_id => @ecookbook.id).count
     # some boards
     assert @ecookbook.boards.any?
 
