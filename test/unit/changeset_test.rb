@@ -126,7 +126,7 @@ class ChangesetTest < ActiveSupport::TestCase
     assert Issue.find(1).closed?
     assert Issue.find(2).closed?
 
-    times = TimeEntry.all(:order => 'id desc', :limit => 2)
+    times = TimeEntry.order('id desc').limit(2)
     assert_equal [1, 2], times.collect(&:issue_id).sort
   end
 
