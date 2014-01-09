@@ -106,8 +106,8 @@ class WikiPageTest < ActiveSupport::TestCase
     page.destroy
     assert_nil WikiPage.find_by_id(1)
     # make sure that page content and its history are deleted
-    assert WikiContent.find_all_by_page_id(1).empty?
-    assert WikiContent.versioned_class.find_all_by_page_id(1).empty?
+    assert_equal 0, WikiContent.where(:page_id => 1).count
+    assert_equal 0, WikiContent.versioned_class.where(:page_id => 1).count
   end
 
   def test_destroy_should_not_nullify_children
