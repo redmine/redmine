@@ -183,18 +183,18 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_destroy_should_delete_members_and_roles
-    members = Member.find_all_by_user_id(2)
-    ms = members.size
+    members = Member.where(:user_id => 2)
+    ms = members.count
     rs = members.collect(&:roles).flatten.size
-
+    assert ms > 0
+    assert rs > 0
     assert_difference 'Member.count', - ms do
       assert_difference 'MemberRole.count', - rs do
         User.find(2).destroy
       end
     end
-
     assert_nil User.find_by_id(2)
-    assert Member.find_all_by_user_id(2).empty?
+    assert_equal 0, Member.where(:user_id => 2).count
   end
 
   def test_destroy_should_update_attachments
