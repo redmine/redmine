@@ -297,7 +297,7 @@ class IssuesController < ApplicationController
     else
       @saved_issues = @issues
       @unsaved_issues = unsaved_issues
-      @issues = Issue.visible.find_all_by_id(@unsaved_issues.map(&:id))
+      @issues = Issue.visible.where(:id => @unsaved_issues.map(&:id)).all
       bulk_edit
       render :action => 'bulk_edit'
     end
