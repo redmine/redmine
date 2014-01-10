@@ -3686,7 +3686,7 @@ class IssuesControllerTest < ActionController::TestCase
     end
     assert_redirected_to '/projects/ecookbook/issues'
 
-    copies = Issue.all(:order => 'id DESC', :limit => issues.size)
+    copies = Issue.order('id DESC').limit(issues.size)
     copies.each do |copy|
       assert_equal 2, copy.project_id
     end
