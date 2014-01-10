@@ -52,7 +52,7 @@ class WatchersController < ApplicationController
   def append
     if params[:watcher].is_a?(Hash)
       user_ids = params[:watcher][:user_ids] || [params[:watcher][:user_id]]
-      @users = User.active.find_all_by_id(user_ids)
+      @users = User.active.where(:id => user_ids).all
     end
   end
 
@@ -91,7 +91,7 @@ class WatchersController < ApplicationController
   def find_watchables
     klass = Object.const_get(params[:object_type].camelcase) rescue nil
     if klass && klass.respond_to?('watched_by')
-      @watchables = klass.find_all_by_id(Array.wrap(params[:object_id]))
+      @watchables = klass.where(:id => Array.wrap(params[:object_id])).all
       raise Unauthorized if @watchables.any? {|w| w.respond_to?(:visible?) && !w.visible?}
     end
     render_404 unless @watchables.present?
