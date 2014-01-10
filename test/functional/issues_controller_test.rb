@@ -1823,7 +1823,7 @@ class IssuesControllerTest < ActionController::TestCase
         :continue => ''
     end
 
-    issue = Issue.first(:order => 'id DESC')
+    issue = Issue.order('id DESC').first
     assert_redirected_to :controller => 'issues', :action => 'new', :project_id => 'ecookbook', :issue => {:tracker_id => 3}
     assert_not_nil flash[:notice], "flash was not set"
     assert_include %|<a href="/issues/#{issue.id}" title="This is first issue">##{issue.id}</a>|, flash[:notice], "issue link not found in the flash message"
@@ -1855,7 +1855,7 @@ class IssuesControllerTest < ActionController::TestCase
                             :custom_field_values => {'1' => ['', 'MySQL', 'Oracle']}}
     end
     assert_response 302
-    issue = Issue.first(:order => 'id DESC')
+    issue = Issue.order('id DESC').first
     assert_equal ['MySQL', 'Oracle'], issue.custom_field_value(1).sort
   end
 
@@ -1873,7 +1873,7 @@ class IssuesControllerTest < ActionController::TestCase
                             :custom_field_values => {'1' => ['']}}
     end
     assert_response 302
-    issue = Issue.first(:order => 'id DESC')
+    issue = Issue.order('id DESC').first
     assert_equal [''], issue.custom_field_value(1).sort
   end
 
@@ -1891,7 +1891,7 @@ class IssuesControllerTest < ActionController::TestCase
                             :custom_field_values => {field.id.to_s => ['', '2', '3']}}
     end
     assert_response 302
-    issue = Issue.first(:order => 'id DESC')
+    issue = Issue.order('id DESC').first
     assert_equal ['2', '3'], issue.custom_field_value(field).sort
   end
 
@@ -1959,7 +1959,7 @@ class IssuesControllerTest < ActionController::TestCase
       assert_response 302
     end
 
-    issue = Issue.first(:order => 'id DESC')
+    issue = Issue.order('id DESC').first
     assert_equal Date.parse('2012-07-14'), issue.start_date
     assert_nil issue.due_date
     assert_equal 'value1', issue.custom_field_value(cf1)
@@ -2058,7 +2058,7 @@ class IssuesControllerTest < ActionController::TestCase
                             :subject => 'This is a private issue',
                             :is_private => '1'}
     end
-    issue = Issue.first(:order => 'id DESC')
+    issue = Issue.order('id DESC').first
     assert issue.is_private?
   end
 
@@ -2075,7 +2075,7 @@ class IssuesControllerTest < ActionController::TestCase
                             :subject => 'This is a private issue',
                             :is_private => '1'}
     end
-    issue = Issue.first(:order => 'id DESC')
+    issue = Issue.order('id DESC').first
     assert issue.is_private?
   end
 
@@ -2153,8 +2153,8 @@ class IssuesControllerTest < ActionController::TestCase
       end
     end
 
-    issue = Issue.first(:order => 'id DESC')
-    attachment = Attachment.first(:order => 'id DESC')
+    issue = Issue.order('id DESC').first
+    attachment = Attachment.order('id DESC').first
 
     assert_equal issue, attachment.container
     assert_equal 2, attachment.author_id
@@ -2199,7 +2199,7 @@ class IssuesControllerTest < ActionController::TestCase
       end
     end
 
-    attachment = Attachment.first(:order => 'id DESC')
+    attachment = Attachment.order('id DESC').first
     assert_equal 'testfile.txt', attachment.filename
     assert File.exists?(attachment.diskfile)
     assert_nil attachment.container
@@ -2241,7 +2241,7 @@ class IssuesControllerTest < ActionController::TestCase
       end
     end
 
-    issue = Issue.first(:order => 'id DESC')
+    issue = Issue.order('id DESC').first
     assert_equal 1, issue.attachments.count
 
     attachment.reload
@@ -2443,7 +2443,7 @@ class IssuesControllerTest < ActionController::TestCase
       assert_not_nil assigns(:issue)
       assert assigns(:issue).copy?
     end
-    issue = Issue.first(:order => 'id DESC')
+    issue = Issue.order('id DESC').first
     assert_redirected_to "/issues/#{issue.id}"
 
     assert_equal 2, issue.project_id
@@ -2466,7 +2466,7 @@ class IssuesControllerTest < ActionController::TestCase
         end
       end
     end
-    copy = Issue.first(:order => 'id DESC')
+    copy = Issue.order('id DESC').first
     assert_equal count, copy.attachments.count
     assert_equal issue.attachments.map(&:filename).sort, copy.attachments.map(&:filename).sort
   end
@@ -2485,7 +2485,7 @@ class IssuesControllerTest < ActionController::TestCase
         end
       end
     end
-    copy = Issue.first(:order => 'id DESC')
+    copy = Issue.order('id DESC').first
     assert_equal 0, copy.attachments.count
   end
 
@@ -2507,7 +2507,7 @@ class IssuesControllerTest < ActionController::TestCase
         end
       end
     end
-    copy = Issue.first(:order => 'id DESC')
+    copy = Issue.order('id DESC').first
     assert_equal count + 1, copy.attachments.count
   end
 
@@ -2520,7 +2520,7 @@ class IssuesControllerTest < ActionController::TestCase
                      :status_id => '1', :subject => 'Copy'}
       end
     end
-    copy = Issue.first(:order => 'id DESC')
+    copy = Issue.order('id DESC').first
     assert_equal 1, copy.relations.size
   end
 
@@ -2536,7 +2536,7 @@ class IssuesControllerTest < ActionController::TestCase
           :copy_subtasks => '1'
       end
     end
-    copy = Issue.where(:parent_id => nil).first(:order => 'id DESC')
+    copy = Issue.where(:parent_id => nil).order('id DESC').first
     assert_equal count, copy.descendants.count
     assert_equal issue.descendants.map(&:subject).sort, copy.descendants.map(&:subject).sort
   end
@@ -2551,7 +2551,7 @@ class IssuesControllerTest < ActionController::TestCase
                      :status_id => '1', :subject => 'Copy with subtasks'}
       end
     end
-    copy = Issue.where(:parent_id => nil).first(:order => 'id DESC')
+    copy = Issue.where(:parent_id => nil).order('id DESC').first
     assert_equal 0, copy.descendants.count
   end
 
@@ -2583,7 +2583,7 @@ class IssuesControllerTest < ActionController::TestCase
       post :create, :project_id => 1, :copy_from => 1,
         :issue => {:project_id => '4', :tracker_id => '3', :status_id => '1', :subject => 'Copy'}
     end
-    issue = Issue.first(:order => 'id DESC')
+    issue = Issue.order('id DESC').first
     assert_equal 1, issue.project_id
   end
 
@@ -3000,7 +3000,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 'testfile.txt', j.details.first.value
     assert_equal User.anonymous, j.user
 
-    attachment = Attachment.first(:order => 'id DESC')
+    attachment = Attachment.order('id DESC').first
     assert_equal Issue.find(1), attachment.container
     assert_equal User.anonymous, attachment.author
     assert_equal 'testfile.txt', attachment.filename
@@ -3028,7 +3028,7 @@ class IssuesControllerTest < ActionController::TestCase
       end
     end
 
-    attachment = Attachment.first(:order => 'id DESC')
+    attachment = Attachment.order('id DESC').first
     assert_equal 'testfile.txt', attachment.filename
     assert File.exists?(attachment.diskfile)
     assert_nil attachment.container
@@ -3075,7 +3075,7 @@ class IssuesControllerTest < ActionController::TestCase
     attachment.reload
     assert_equal Issue.find(1), attachment.container
 
-    journal = Journal.first(:order => 'id DESC')
+    journal = Journal.order('id DESC').first
     assert_equal 1, journal.details.size
     assert_equal 'testfile.txt', journal.details.first.value
   end
@@ -3760,7 +3760,7 @@ class IssuesControllerTest < ActionController::TestCase
              :status_id => '3', :start_date => '2009-12-01', :due_date => '2009-12-31'
            }
     end
-    issue = Issue.first(:order => 'id DESC')
+    issue = Issue.order('id DESC').first
     assert_equal 1, issue.journals.size
     journal = issue.journals.first
     assert_equal 1, journal.details.size
@@ -3855,7 +3855,7 @@ class IssuesControllerTest < ActionController::TestCase
   def test_bulk_copy_to_another_project_should_follow_when_needed
     @request.session[:user_id] = 2
     post :bulk_update, :ids => [1], :copy => '1', :issue => {:project_id => 2}, :follow => '1'
-    issue = Issue.first(:order => 'id DESC')
+    issue = Issue.order('id DESC').first
     assert_redirected_to :controller => 'issues', :action => 'show', :id => issue
   end
 
