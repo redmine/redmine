@@ -504,7 +504,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
              {:issue => {:project_id => 1, :subject => 'API test',
               :tracker_id => 2, :status_id => 3}}, credentials('jsmith')
       end
-      issue = Issue.first(:order => 'id DESC')
+      issue = Issue.order('id DESC').first
       assert_equal 1, issue.project_id
       assert_equal 2, issue.tracker_id
       assert_equal 3, issue.status_id
@@ -553,7 +553,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
              credentials('jsmith')
       end
 
-      issue = Issue.first(:order => 'id DESC')
+      issue = Issue.order('id DESC').first
       assert_equal 1, issue.project_id
       assert_equal 2, issue.tracker_id
       assert_equal 3, issue.status_id
@@ -804,7 +804,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     end
     xml = Hash.from_xml(response.body)
     token = xml['upload']['token']
-    attachment = Attachment.first(:order => 'id DESC')
+    attachment = Attachment.order('id DESC').first
 
     # create the issue with the upload's token
     assert_difference 'Issue.count' do
@@ -815,7 +815,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
            credentials('jsmith')
       assert_response :created
     end
-    issue = Issue.first(:order => 'id DESC')
+    issue = Issue.order('id DESC').first
     assert_equal 1, issue.attachments.count
     assert_equal attachment, issue.attachments.first
 
@@ -850,7 +850,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     end
     xml = Hash.from_xml(response.body)
     token = xml['upload']['token']
-    attachment = Attachment.first(:order => 'id DESC')
+    attachment = Attachment.order('id DESC').first
 
     # update the issue with the upload's token
     assert_difference 'Journal.count' do
