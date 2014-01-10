@@ -156,7 +156,7 @@ class IssuesTest < ActionController::IntegrationTest
           :custom_field_values => {@field.id.to_s => users.first.id.to_s}
         }
     end
-    issue = Issue.first(:order => 'id DESC')
+    issue = Issue.order('id DESC').first
     assert_response 302
 
     # Issue view
