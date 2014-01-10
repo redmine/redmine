@@ -249,18 +249,17 @@ class Project < ActiveRecord::Base
   # does not successfully save.
   def create_time_entry_activity_if_needed(activity)
     if activity['parent_id']
-
       parent_activity = TimeEntryActivity.find(activity['parent_id'])
       activity['name'] = parent_activity.name
       activity['position'] = parent_activity.position
-
       if Enumeration.overridding_change?(activity, parent_activity)
         project_activity = self.time_entry_activities.create(activity)
-
         if project_activity.new_record?
           raise ActiveRecord::Rollback, "Overridding TimeEntryActivity was not successfully saved"
         else
-          self.time_entries.update_all("activity_id = #{project_activity.id}", ["activity_id = ?", parent_activity.id])
+          self.time_entries.
+            where(["activity_id = ?", parent_activity.id]).
+            update_all("activity_id = #{project_activity.id}")
         end
       end
     end
