@@ -92,7 +92,7 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
         }, credentials('jsmith')
     end
 
-    version = Version.first(:order => 'id DESC')
+    version = Version.order('id DESC').first
     assert_equal 'API test', version.name
     assert_equal 'Some value', version.custom_field_value(field)
 
