@@ -140,7 +140,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
         credentials('admin')
     end
 
-    project = Project.first(:order => 'id DESC')
+    project = Project.order('id DESC').first
     assert_equal 'API test', project.name
     assert_equal 'api-test', project.identifier
     assert_equal ['issue_tracking', 'repository'], project.enabled_module_names.sort
@@ -158,7 +158,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
         credentials('admin')
     end
 
-    project = Project.first(:order => 'id DESC')
+    project = Project.order('id DESC').first
     assert_equal ['issue_tracking', 'news', 'time_tracking'], project.enabled_module_names.sort
   end
 
@@ -169,7 +169,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
         credentials('admin')
     end
 
-    project = Project.first(:order => 'id DESC')
+    project = Project.order('id DESC').first
     assert_equal [1, 3], project.trackers.map(&:id).sort
   end
 
