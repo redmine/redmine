@@ -53,7 +53,7 @@ class Redmine::ApiTest::IssueRelationsTest < Redmine::ApiTest::Base
       post '/issues/2/relations.xml', {:relation => {:issue_to_id => 7, :relation_type => 'relates'}}, credentials('jsmith')
     end
 
-    relation = IssueRelation.first(:order => 'id DESC')
+    relation = IssueRelation.order('id DESC').first
     assert_equal 2, relation.issue_from_id
     assert_equal 7, relation.issue_to_id
     assert_equal 'relates', relation.relation_type
