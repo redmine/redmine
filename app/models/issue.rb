@@ -839,8 +839,10 @@ class Issue < ActiveRecord::Base
   #   spent_hours => 0.0
   #   spent_hours => 50.2
   def total_spent_hours
-    @total_spent_hours ||= self_and_descendants.sum("#{TimeEntry.table_name}.hours",
-      :joins => "LEFT JOIN #{TimeEntry.table_name} ON #{TimeEntry.table_name}.issue_id = #{Issue.table_name}.id").to_f || 0.0
+    @total_spent_hours ||=
+      self_and_descendants.
+        joins("LEFT JOIN #{TimeEntry.table_name} ON #{TimeEntry.table_name}.issue_id = #{Issue.table_name}.id").
+        sum("#{TimeEntry.table_name}.hours").to_f || 0.0
   end
 
   def relations
