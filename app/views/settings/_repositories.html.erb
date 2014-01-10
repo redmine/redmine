@@ -95,7 +95,7 @@
                 "settings[commit_update_keywords][if_tracker_id][]",
                 options_for_select(
                   [[l(:label_all), ""]] +
-                    Tracker.sorted.all.map {|t| [t.name, t.id.to_s]},
+                    Tracker.sorted.map {|t| [t.name, t.id.to_s]},
                 rule['if_tracker_id'])
                ) %>
       </td>
@@ -107,7 +107,7 @@
         <%= select_tag("settings[commit_update_keywords][status_id][]",
                        options_for_select(
                          [["", 0]] +
-                         IssueStatus.sorted.all.
+                         IssueStatus.sorted.
                            collect{|status| [status.name, status.id.to_s]},
                          rule['status_id'])
                    ) %>
