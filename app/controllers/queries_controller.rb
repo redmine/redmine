@@ -31,11 +31,13 @@ class QueriesController < ApplicationController
     else
       @limit = per_page_option
     end
-
     @query_count = IssueQuery.visible.count
     @query_pages = Paginator.new @query_count, @limit, params['page']
-    @queries = IssueQuery.visible.all(:limit => @limit, :offset => @offset, :order => "#{Query.table_name}.name")
-
+    @queries = IssueQuery.visible.
+                    order("#{Query.table_name}.name").
+                    limit(@limit).
+                    offset(@offset).
+                    all
     respond_to do |format|
       format.api
     end
