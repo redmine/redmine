@@ -310,14 +310,15 @@ class IssuesController < ApplicationController
       when 'destroy'
         # nothing to do
       when 'nullify'
-        TimeEntry.update_all('issue_id = NULL', ['issue_id IN (?)', @issues])
+        TimeEntry.where(['issue_id IN (?)', @issues]).update_all('issue_id = NULL')
       when 'reassign'
         reassign_to = @project.issues.find_by_id(params[:reassign_to_id])
         if reassign_to.nil?
           flash.now[:error] = l(:error_issue_not_found_in_project)
           return
         else
-          TimeEntry.update_all("issue_id = #{reassign_to.id}", ['issue_id IN (?)', @issues])
+          TimeEntry.where(['issue_id IN (?)', @issues]).
+            update_all("issue_id = #{reassign_to.id}")
         end
       else
         # display the destroy form if it's a user request
