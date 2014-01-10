@@ -28,12 +28,11 @@ class MembersController < ApplicationController
     @member_count = @project.member_principals.count
     @member_pages = Paginator.new @member_count, @limit, params['page']
     @offset ||= @member_pages.offset
-    @members =  @project.member_principals.all(
-      :order => "#{Member.table_name}.id",
-      :limit  =>  @limit,
-      :offset =>  @offset
-    )
-
+    @members =  @project.member_principals.
+                    order("#{Member.table_name}.id").
+                    limit(@limit).
+                    offset(@offset).
+                    all
     respond_to do |format|
       format.html { head 406 }
       format.api
