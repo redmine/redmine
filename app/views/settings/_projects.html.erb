@@ -7,7 +7,7 @@
         Redmine::AccessControl.available_project_modules.collect {|m| [l_or_humanize(m, :prefix => "project_module_"), m.to_s]}) %></p>
 
 <p><%= setting_multiselect(:default_projects_tracker_ids,
-        Tracker.sorted.all.collect {|t| [t.name, t.id.to_s]}) %></p>
+        Tracker.sorted.collect {|t| [t.name, t.id.to_s]}) %></p>
 
 <p><%= setting_check_box :sequential_project_identifiers %></p>
 
