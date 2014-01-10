@@ -56,7 +56,7 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
       post '/projects/1/versions.xml', {:version => {:name => 'API test'}}, credentials('jsmith')
     end
 
-    version = Version.first(:order => 'id DESC')
+    version = Version.order('id DESC').first
     assert_equal 'API test', version.name
 
     assert_response :created
@@ -69,7 +69,7 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
       post '/projects/1/versions.xml', {:version => {:name => 'API test', :due_date => '2012-01-24'}}, credentials('jsmith')
     end
 
-    version = Version.first(:order => 'id DESC')
+    version = Version.order('id DESC').first
     assert_equal 'API test', version.name
     assert_equal Date.parse('2012-01-24'), version.due_date
 
