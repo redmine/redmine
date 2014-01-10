@@ -163,7 +163,7 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
         credentials('admin')
     end
 
-    user = User.first(:order => 'id DESC')
+    user = User.order('id DESC').first
     assert_equal 'foo', user.login
     assert_equal 'Firstname', user.firstname
     assert_equal 'Lastname', user.lastname
@@ -188,7 +188,7 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
         credentials('admin')
     end
 
-    user = User.first(:order => 'id DESC')
+    user = User.order('id DESC').first
     assert_equal 'foo', user.login
     assert_equal 'Firstname', user.firstname
     assert_equal 'Lastname', user.lastname
