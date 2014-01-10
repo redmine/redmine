@@ -339,7 +339,7 @@ class AttachmentsControllerTest < ActionController::TestCase
       end
     end
     assert_nil Attachment.find_by_id(1)
-    j = Journal.first(:order => 'id DESC')
+    j = Journal.order('id DESC').first
     assert_equal issue, j.journalized
     assert_equal 'attachment', j.details.first.property
     assert_equal '1', j.details.first.prop_key
