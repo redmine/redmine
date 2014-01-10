@@ -232,7 +232,7 @@ private
   end
 
   def find_time_entries
-    @time_entries = TimeEntry.find_all_by_id(params[:id] || params[:ids])
+    @time_entries = TimeEntry.where(:id => params[:id] || params[:ids]).all
     raise ActiveRecord::RecordNotFound if @time_entries.empty?
     @projects = @time_entries.collect(&:project).compact.uniq
     @project = @projects.first if @projects.size == 1
