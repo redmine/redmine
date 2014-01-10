@@ -339,7 +339,6 @@ class WorkflowsControllerTest < ActionController::TestCase
     WorkflowTransition.
       where(conditions).
       order('tracker_id, role_id, old_status_id, new_status_id').
-      all.
       collect {|w| [w.old_status, w.new_status_id]}
   end
 end
