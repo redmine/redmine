@@ -51,7 +51,7 @@ class Redmine::ApiTest::IssueCategoriesTest < Redmine::ApiTest::Base
     assert_response :created
     assert_equal 'application/xml', @response.content_type
 
-    category = IssueCategory.first(:order => 'id DESC')
+    category = IssueCategory.order('id DESC').first
     assert_equal 'API', category.name
     assert_equal 1, category.project_id
   end
