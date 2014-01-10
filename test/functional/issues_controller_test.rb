@@ -3710,7 +3710,7 @@ class IssuesControllerTest < ActionController::TestCase
            }
     end
 
-    copies = Issue.all(:order => 'id DESC', :limit => issues.size)
+    copies = Issue.order('id DESC').limit(issues.size)
     issues.each do |orig|
       copy = copies.detect {|c| c.subject == orig.subject}
       assert_not_nil copy
