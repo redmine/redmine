@@ -62,7 +62,7 @@ class Redmine::ApiTest::TimeEntriesTest < Redmine::ApiTest::Base
     assert_response :created
     assert_equal 'application/xml', @response.content_type
 
-    entry = TimeEntry.first(:order => 'id DESC')
+    entry = TimeEntry.order('id DESC').first
     assert_equal 'jsmith', entry.user.login
     assert_equal Issue.find(1), entry.issue
     assert_equal Project.find(1), entry.project
@@ -82,7 +82,7 @@ class Redmine::ApiTest::TimeEntriesTest < Redmine::ApiTest::Base
     assert_response :created
     assert_equal 'application/xml', @response.content_type
 
-    entry = TimeEntry.first(:order => 'id DESC')
+    entry = TimeEntry.order('id DESC').first
     assert_equal 'accepted', entry.custom_field_value(field)
   end
 
@@ -93,7 +93,7 @@ class Redmine::ApiTest::TimeEntriesTest < Redmine::ApiTest::Base
     assert_response :created
     assert_equal 'application/xml', @response.content_type
 
-    entry = TimeEntry.first(:order => 'id DESC')
+    entry = TimeEntry.order('id DESC').first
     assert_equal 'jsmith', entry.user.login
     assert_nil entry.issue
     assert_equal Project.find(1), entry.project
