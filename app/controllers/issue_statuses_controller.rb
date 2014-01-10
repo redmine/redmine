@@ -29,7 +29,7 @@ class IssueStatusesController < ApplicationController
         render :action => "index", :layout => false if request.xhr?
       }
       format.api {
-        @issue_statuses = IssueStatus.all(:order => 'position')
+        @issue_statuses = IssueStatus.order('position').all
       }
     end
   end
