@@ -90,11 +90,39 @@
   <tbody>
     <% @commit_update_keywords.each do |rule| %>
     <tr class="commit-keywords">
-      <td><%= select_tag "settings[commit_update_keywords][if_tracker_id][]", options_for_select([[l(:label_all), ""]] + Tracker.sorted.all.map {|t| [t.name, t.id.to_s]}, rule['if_tracker_id']) %></td>
-      <td><%= text_field_tag "settings[commit_update_keywords][keywords][]", rule['keywords'], :size => 30 %></td>
-      <td><%= select_tag "settings[commit_update_keywords][status_id][]", options_for_select([["", 0]] + IssueStatus.sorted.all.collect{|status| [status.name, status.id.to_s]}, rule['status_id']) %></td>
-      <td><%= select_tag "settings[commit_update_keywords][done_ratio][]", options_for_select([["", ""]] + (0..10).to_a.collect {|r| ["#{r*10} %", "#{r*10}"] }, rule['done_ratio']) %></td>
-      <td class="buttons"><%= link_to image_tag('delete.png'), '#', :class => 'delete-commit-keywords' %></td>
+      <td>
+        <%= select_tag(
+                "settings[commit_update_keywords][if_tracker_id][]",
+                options_for_select(
+                  [[l(:label_all), ""]] +
+                    Tracker.sorted.all.map {|t| [t.name, t.id.to_s]},
+                rule['if_tracker_id'])
+               ) %>
+      </td>
+      <td>
+        <%= text_field_tag("settings[commit_update_keywords][keywords][]",
+                           rule['keywords'], :size => 30) %>
+      </td>
+      <td>
+        <%= select_tag("settings[commit_update_keywords][status_id][]",
+                       options_for_select(
+                         [["", 0]] +
+                         IssueStatus.sorted.all.
+                           collect{|status| [status.name, status.id.to_s]},
+                         rule['status_id'])
+                   ) %>
+      </td>
+      <td>
+        <%= select_tag("settings[commit_update_keywords][done_ratio][]",
+                       options_for_select(
+                          [["", ""]] +
+                          (0..10).to_a.collect {|r| ["#{r*10} %", "#{r*10}"] },
+                       rule['done_ratio'])
+                    ) %>
+      </td>
+      <td class="buttons">
+        <%= link_to(image_tag('delete.png'), '#', :class => 'delete-commit-keywords') %>
+      </td>
     </tr>
     <% end %>
     <tr>
@@ -102,7 +130,7 @@
       <td><em class="info"><%= l(:text_comma_separated) %></em></td>
       <td></td>
       <td></td>
-      <td class="buttons"><%= link_to image_tag('add.png'), '#', :class => 'add-commit-keywords' %></td>
+      <td class="buttons"><%= link_to(image_tag('add.png'), '#', :class => 'add-commit-keywords') %></td>
     </tr>
   </tbody>
 </table>
