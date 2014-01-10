@@ -41,7 +41,7 @@ class IssueRelationsControllerTest < ActionController::TestCase
       post :create, :issue_id => 1,
                  :relation => {:issue_to_id => '2', :relation_type => 'relates', :delay => ''}
     end
-    relation = IssueRelation.first(:order => 'id DESC')
+    relation = IssueRelation.order('id DESC').first
     assert_equal 1, relation.issue_from_id
     assert_equal 2, relation.issue_to_id
     assert_equal 'relates', relation.relation_type
@@ -54,7 +54,7 @@ class IssueRelationsControllerTest < ActionController::TestCase
       assert_template 'create'
       assert_equal 'text/javascript', response.content_type
     end
-    relation = IssueRelation.first(:order => 'id DESC')
+    relation = IssueRelation.order('id DESC').first
     assert_equal 3, relation.issue_from_id
     assert_equal 1, relation.issue_to_id
 
@@ -66,7 +66,7 @@ class IssueRelationsControllerTest < ActionController::TestCase
       post :create, :issue_id => 1,
                  :relation => {:issue_to_id => '#2', :relation_type => 'relates', :delay => ''}
     end
-    relation = IssueRelation.first(:order => 'id DESC')
+    relation = IssueRelation.order('id DESC').first
     assert_equal 2, relation.issue_to_id
   end
 
@@ -75,7 +75,7 @@ class IssueRelationsControllerTest < ActionController::TestCase
       post :create, :issue_id => 1,
                  :relation => {:issue_to_id => ' 2  ', :relation_type => 'relates', :delay => ''}
     end
-    relation = IssueRelation.first(:order => 'id DESC')
+    relation = IssueRelation.order('id DESC').first
     assert_equal 2, relation.issue_to_id
   end
 
