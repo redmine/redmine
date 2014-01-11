@@ -56,7 +56,7 @@ module QueriesHelper
   def available_block_columns_tags(query)
     tags = ''.html_safe
     query.available_block_columns.each do |column|
-      tags << content_tag('label', check_box_tag('c[]', column.name.to_s, query.has_column?(column)) + " #{column.caption}", :class => 'inline')
+      tags << content_tag('label', check_box_tag('c[]', column.name.to_s, query.has_column?(column), :id => nil) + " #{column.caption}", :class => 'inline')
     end
     tags
   end
