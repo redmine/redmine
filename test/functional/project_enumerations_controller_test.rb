@@ -149,16 +149,19 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
     # aren't setup for mocking.  Just create a record now so the
     # second one is a dupicate
     parent = TimeEntryActivity.find(9)
-    TimeEntryActivity.create!({:name => parent.name, :project_id => 1, :position => parent.position, :active => true})
-    TimeEntry.create!({:project_id => 1, :hours => 1.0, :user => User.find(1), :issue_id => 3, :activity_id => 10, :spent_on => '2009-01-01'})
-
+    TimeEntryActivity.create!({:name => parent.name, :project_id => 1,
+                               :position => parent.position, :active => true})
+    TimeEntry.create!({:project_id => 1, :hours => 1.0, :user => User.find(1),
+                       :issue_id => 3, :activity_id => 10, :spent_on => '2009-01-01'})
     assert_equal 3, TimeEntry.where(:activity_id => 9, :project_id => 1).count
     assert_equal 1, TimeEntry.where(:activity_id => 10, :project_id => 1).count
 
     @request.session[:user_id] = 2 # manager
     put :update, :project_id => 1, :enumerations => {
-      "9"=> {"parent_id"=>"9", "custom_field_values"=>{"7" => "1"}, "active"=>"0"}, # Design
-      "10"=> {"parent_id"=>"10", "custom_field_values"=>{"7"=>"0"}, "active"=>"1"} # Development, Change custom value
+      # Design
+      "9"=> {"parent_id"=>"9", "custom_field_values"=>{"7" => "1"}, "active"=>"0"},
+      # Development, Change custom value
+      "10"=> {"parent_id"=>"10", "custom_field_values"=>{"7"=>"0"}, "active"=>"1"}
     }
     assert_response :redirect
 
