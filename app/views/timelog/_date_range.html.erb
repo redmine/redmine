@@ -1,4 +1,5 @@
-<div id="query_form_content" class="hide-when-print">
+<div id="query_form_with_buttons" class="hide-when-print">
+<div id="query_form_content">
   <fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
     <legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
     <div style="<%= @query.new_record? ? "" : "display: none;" %>">
@@ -18,12 +19,13 @@
   </fieldset>
 </div>
 
-<p class="buttons hide-when-print">
+<p class="buttons">
   <%= link_to_function l(:button_apply), 'submit_query_form("query_form")', :class => 'icon icon-checked' %>
   <%= link_to l(:button_clear), {:project_id => @project, :issue_id => @issue}, :class => 'icon icon-reload'  %>
 </p>
+</div>
 
-<div class="tabs">
+<div class="tabs hide-when-print">
 <% query_params = params.slice(:f, :op, :v, :sort) %>
 <ul>
     <li><%= link_to(l(:label_details), query_params.merge({:controller => 'timelog', :action => 'index', :project_id => @project, :issue_id => @issue }),
