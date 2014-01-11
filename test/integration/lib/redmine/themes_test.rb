@@ -32,7 +32,7 @@ class ThemesTest < ActionController::IntegrationTest
     get '/'
 
     assert_response :success
-    assert_select "link[href^=/themes/#{@theme.dir}/stylesheets/application.css]"
+    assert_select "link[rel=stylesheet][href^=/themes/#{@theme.dir}/stylesheets/application.css]"
   end
 
   def test_without_theme_js
@@ -90,7 +90,7 @@ class ThemesTest < ActionController::IntegrationTest
     get '/'
 
     assert_response :success
-    assert_select "link[href^=/foo/themes/#{@theme.dir}/stylesheets/application.css]"
+    assert_select "link[rel=stylesheet][href^=/foo/themes/#{@theme.dir}/stylesheets/application.css]"
     assert_select "script[src^=/foo/themes/#{@theme.dir}/javascripts/theme.js]"
     assert_select "link[rel=shortcut icon][href^=/foo/themes/#{@theme.dir}/favicon/a.ico]"
   ensure
