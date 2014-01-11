@@ -347,8 +347,7 @@ class TimelogControllerTest < ActionController::TestCase
 
     assert_response 302
     # check that the issues were updated
-    assert_equal [9, 9, 9], TimeEntry.where(:id => [1, 2, 4])
-                                .collect {|i| i.activity_id}
+    assert_equal [9, 9, 9], TimeEntry.where(:id => [1, 2, 4]).collect {|i| i.activity_id}
   end
 
   def test_bulk_update_on_different_projects_without_rights
@@ -366,8 +365,7 @@ class TimelogControllerTest < ActionController::TestCase
     post :bulk_update, :ids => [1, 2], :time_entry => { :custom_field_values => {'10' => '0'} }
 
     assert_response 302
-    assert_equal ["0", "0"], TimeEntry.where(:id => [1, 2])
-                                 .collect {|i| i.custom_value_for(10).value}
+    assert_equal ["0", "0"], TimeEntry.where(:id => [1, 2]).collect {|i| i.custom_value_for(10).value}
   end
 
   def test_post_bulk_update_should_redirect_back_using_the_back_url_parameter
