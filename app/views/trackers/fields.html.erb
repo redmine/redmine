@@ -33,7 +33,7 @@
         <% @trackers.each do |tracker| %>
         <td>
           <%= check_box_tag "trackers[#{tracker.id}][core_fields][]", field, tracker.core_fields.include?(field),
-                            :class => "tracker-#{tracker.id} core-field-#{field}" %>
+                            :class => "tracker-#{tracker.id} core-field-#{field}", :id => nil %>
         </td>
         <% end %>
       </tr>
@@ -55,7 +55,7 @@
           <% @trackers.each do |tracker| %>
           <td>
             <%= check_box_tag "trackers[#{tracker.id}][custom_field_ids][]", field.id, tracker.custom_fields.include?(field),
-                              :class => "tracker-#{tracker.id} custom-field-#{field.id}" %>
+                              :class => "tracker-#{tracker.id} custom-field-#{field.id}", :id => nil %>
           </td>
           <% end %>
         </tr>
