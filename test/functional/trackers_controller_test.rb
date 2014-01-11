@@ -54,7 +54,7 @@ class TrackersControllerTest < ActionController::TestCase
       post :create, :tracker => { :name => 'New tracker', :project_ids => ['1', '', ''], :custom_field_ids => ['1', '6', ''] }
     end
     assert_redirected_to :action => 'index'
-    tracker = Tracker.first(:order => 'id DESC')
+    tracker = Tracker.order('id DESC').first
     assert_equal 'New tracker', tracker.name
     assert_equal [1], tracker.project_ids.sort
     assert_equal Tracker::CORE_FIELDS, tracker.core_fields
@@ -67,7 +67,7 @@ class TrackersControllerTest < ActionController::TestCase
       post :create, :tracker => { :name => 'New tracker', :core_fields => ['assigned_to_id', 'fixed_version_id', ''] }
     end
     assert_redirected_to :action => 'index'
-    tracker = Tracker.first(:order => 'id DESC')
+    tracker = Tracker.order('id DESC').first
     assert_equal 'New tracker', tracker.name
     assert_equal %w(assigned_to_id fixed_version_id), tracker.core_fields
   end
