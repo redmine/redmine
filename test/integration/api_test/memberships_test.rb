@@ -73,6 +73,14 @@ class Redmine::ApiTest::MembershipsTest < Redmine::ApiTest::Base
      json)
   end
 
+  test "GET /projects/:project_id/memberships.xml should succeed for closed project" do
+    project = Project.find(1)
+    project.close
+    assert !project.reload.active?
+    get '/projects/1/memberships.json', {}, credentials('jsmith')
+    assert_response :success
+  end
+
   test "POST /projects/:project_id/memberships.xml should create the membership" do
     assert_difference 'Member.count' do
       post '/projects/1/memberships.xml', {:membership => {:user_id => 7, :role_ids => [2,3]}}, credentials('jsmith')

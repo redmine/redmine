@@ -60,7 +60,7 @@ module Redmine
           !perm.nil? && perm.read?
         else
           s = "#{action[:controller]}/#{action[:action]}"
-          permissions.detect {|p| p.actions.include?(s) && !p.read?}.nil?
+          permissions.detect {|p| p.actions.include?(s) && p.read?}.present?
         end
       end
 
