@@ -3371,7 +3371,7 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_response 302
     # check that the issues were updated
-    assert_equal [7, 7], Issue.find_all_by_id([1, 2]).collect {|i| i.priority.id}
+    assert_equal [7, 7], Issue.where(:id =>[1, 2]).collect {|i| i.priority.id}
 
     issue = Issue.find(1)
     journal = issue.journals.reorder('created_on DESC').first
