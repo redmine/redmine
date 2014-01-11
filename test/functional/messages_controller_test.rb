@@ -59,7 +59,7 @@ class MessagesControllerTest < ActionController::TestCase
     assert_template 'show'
     replies = assigns(:replies)
     assert_not_nil replies
-    assert !replies.include?(message.children.first(:order => 'id'))
+    assert !replies.include?(message.children.order('id').first)
     assert replies.include?(message.children.order('id').last)
   end
 
