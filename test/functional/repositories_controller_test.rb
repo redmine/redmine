@@ -60,7 +60,7 @@ class RepositoriesControllerTest < ActionController::TestCase
            :repository => {:url => 'file:///test', :is_default => '1', :identifier => ''}
     end
     assert_response 302
-    repository = Repository.first(:order => 'id DESC')
+    repository = Repository.order('id DESC').first
     assert_kind_of Repository::Subversion, repository
     assert_equal 'file:///test', repository.url
   end
