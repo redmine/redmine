@@ -17,7 +17,11 @@
                  :project_id => @project) }')" %>
 
   <div id="users_for_watcher">
-    <%= principals_check_box_tags 'watcher[user_ids][]', (watched ? watched.addable_watcher_users : User.active.all(:limit => 100)) %>
+    <%= principals_check_box_tags(
+            'watcher[user_ids][]',
+            (watched ?
+               watched.addable_watcher_users : User.active.all(:limit => 100))
+           ) %>
   </div>
 
   <p class="buttons">
