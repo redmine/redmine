@@ -224,7 +224,7 @@ class TimelogControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to '/projects/ecookbook/time_entries'
-    time_entry = TimeEntry.first(:order => 'id DESC')
+    time_entry = TimeEntry.order('id DESC').first
     assert_equal 1, time_entry.project_id
   end
 
