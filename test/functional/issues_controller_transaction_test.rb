@@ -102,7 +102,7 @@ class IssuesControllerTransactionTest < ActionController::TestCase
 
     assert_response :success
     assert_template 'edit'
-    attachment = Attachment.first(:order => 'id DESC')
+    attachment = Attachment.order('id DESC').first
     assert_tag 'input', :attributes => {:name => 'attachments[p0][token]', :value => attachment.token}
     assert_tag 'input', :attributes => {:name => 'attachments[p0][filename]', :value => 'testfile.txt'}
   end
@@ -189,7 +189,7 @@ class IssuesControllerTransactionTest < ActionController::TestCase
     assert_response 302
     issue = Issue.find(1)
     assert_equal 4, issue.fixed_version_id
-    journal = Journal.first(:order => 'id DESC')
+    journal = Journal.order('id DESC').first
     assert_equal 'overwrite_conflict_resolution', journal.notes
     assert journal.details.any?
   end
@@ -210,7 +210,7 @@ class IssuesControllerTransactionTest < ActionController::TestCase
     assert_response 302
     issue = Issue.find(1)
     assert_nil issue.fixed_version_id
-    journal = Journal.first(:order => 'id DESC')
+    journal = Journal.order('id DESC').first
     assert_equal 'add_notes_conflict_resolution', journal.notes
     assert journal.details.empty?
   end
