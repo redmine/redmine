@@ -57,9 +57,40 @@ class ThemesTest < ActionController::IntegrationTest
     @theme.javascripts.delete 'theme'
   end
 
+  def test_use_default_favicon_if_theme_provides_none
+    get '/'
+
+    assert_response :success
+    assert_select 'link[rel=shortcut icon][href^=/favicon.ico]'
+  end
+
+  def test_use_theme_favicon_if_theme_provides_one
+    # Simulate a theme favicon
+    @theme.favicons << 'a.ico'
+    get '/'
+
+    assert_response :success
+    assert_select "link[rel=shortcut icon][href^=/themes/#{@theme.dir}/favicon/a.ico]"
+  ensure
+    @theme.favicons.delete 'a.ico'
+  end
+
+  def test_use_only_one_theme_favicon_if_theme_provides_many
+    @theme.favicons.concat %w{b.ico a.png}
+    get '/'
+
+    assert_response :success
+    assert_select "link[rel=shortcut icon]", 1
+    assert_select "link[rel=shortcut icon][href^=/themes/#{@theme.dir}/favicon/b.ico]"
+  ensure
+    @theme.favicons.delete("b.ico")
+    @theme.favicons.delete("a.png")
+  end
+
   def test_with_sub_uri
     Redmine::Utils.relative_url_root = '/foo'
     @theme.javascripts << 'theme'
+    @theme.favicons << 'a.ico'
     get '/'
 
     assert_response :success
@@ -67,7 +98,7 @@ class ThemesTest < ActionController::IntegrationTest
       :attributes => {:href => %r{^/foo/themes/#{@theme.dir}/stylesheets/application.css}}
     assert_tag :tag => 'script',
       :attributes => {:src => %r{^/foo/themes/#{@theme.dir}/javascripts/theme.js}}
-
+    assert_select "link[rel=shortcut icon][href^=/foo/themes/#{@theme.dir}/favicon/a.ico]"
   ensure
     Redmine::Utils.relative_url_root = ''
   end

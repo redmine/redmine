@@ -75,6 +75,18 @@ module Redmine
         @javascripts ||= assets("javascripts", "js")
       end
 
+      def favicons
+        @favicons ||= assets("favicon")
+      end
+
+      def favicon
+        favicons.first
+      end
+
+      def favicon?
+        favicon.present?
+      end
+
       def stylesheet_path(source)
         "/themes/#{dir}/stylesheets/#{source}"
       end
@@ -85,6 +97,10 @@ module Redmine
 
       def javascript_path(source)
         "/themes/#{dir}/javascripts/#{source}"
+      end
+
+      def favicon_path
+        "/themes/#{dir}/favicon/#{favicon}"
       end
 
       private

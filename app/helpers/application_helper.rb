@@ -1270,7 +1270,8 @@ module ApplicationHelper
   end
 
   def favicon
-    "<link rel='shortcut icon' href='#{image_path('/favicon.ico')}' />".html_safe
+    fav_path = (current_theme && current_theme.favicon?) ? current_theme.favicon_path : '/favicon.ico'
+    "<link rel='shortcut icon' href='#{image_path(fav_path)}' />".html_safe
   end
 
   def robot_exclusion_tag
