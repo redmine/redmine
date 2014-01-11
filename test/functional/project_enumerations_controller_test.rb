@@ -212,7 +212,8 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
                                                :active => true
                                              })
     assert project_activity.save
-    assert TimeEntry.update_all("activity_id = '#{project_activity.id}'", ["project_id = ? AND activity_id = ?", 1, 9])
+    assert TimeEntry.where(["project_id = ? AND activity_id = ?", 1, 9]).
+             update_all("activity_id = '#{project_activity.id}'")
     assert_equal 3, TimeEntry.where(:activity_id => project_activity.id,
                                     :project_id => 1).count
     delete :destroy, :project_id => 1
