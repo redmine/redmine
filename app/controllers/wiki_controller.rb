@@ -284,7 +284,9 @@ class WikiController < ApplicationController
         send_data(export, :type => 'text/html', :filename => "wiki.html")
       }
       format.pdf {
-        send_data(wiki_pages_to_pdf(@pages, @project), :type => 'application/pdf', :filename => "#{@project.identifier}.pdf")
+        send_data(wiki_pages_to_pdf(@pages, @project),
+                  :type => 'application/pdf',
+                  :filename => "#{@project.identifier}.pdf")
       }
     end
   end
@@ -351,6 +353,10 @@ private
   end
 
   def load_pages_for_index
-    @pages = @wiki.pages.with_updated_on.reorder("#{WikiPage.table_name}.title").includes(:wiki => :project).includes(:parent).all
+    @pages = @wiki.pages.with_updated_on.
+                reorder("#{WikiPage.table_name}.title").
+                includes(:wiki => :project).
+                includes(:parent).
+                all
   end
 end
