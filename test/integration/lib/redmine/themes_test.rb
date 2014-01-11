@@ -32,16 +32,14 @@ class ThemesTest < ActionController::IntegrationTest
     get '/'
 
     assert_response :success
-    assert_tag :tag => 'link',
-      :attributes => {:href => %r{^/themes/#{@theme.dir}/stylesheets/application.css}}
+    assert_select "link[href^=/themes/#{@theme.dir}/stylesheets/application.css]"
   end
 
   def test_without_theme_js
     get '/'
 
     assert_response :success
-    assert_no_tag :tag => 'script',
-      :attributes => {:src => %r{^/themes/#{@theme.dir}/javascripts/theme.js}}
+    assert_select "script[src^=/themes/#{@theme.dir}/javascripts/theme.js]", 0
   end
 
   def test_with_theme_js
@@ -50,9 +48,7 @@ class ThemesTest < ActionController::IntegrationTest
     get '/'
 
     assert_response :success
-    assert_tag :tag => 'script',
-      :attributes => {:src => %r{^/themes/#{@theme.dir}/javascripts/theme.js}}
-
+    assert_select "script[src^=/themes/#{@theme.dir}/javascripts/theme.js]", 1
   ensure
     @theme.javascripts.delete 'theme'
   end
@@ -94,10 +90,8 @@ class ThemesTest < ActionController::IntegrationTest
     get '/'
 
     assert_response :success
-    assert_tag :tag => 'link',
-      :attributes => {:href => %r{^/foo/themes/#{@theme.dir}/stylesheets/application.css}}
-    assert_tag :tag => 'script',
-      :attributes => {:src => %r{^/foo/themes/#{@theme.dir}/javascripts/theme.js}}
+    assert_select "link[href^=/foo/themes/#{@theme.dir}/stylesheets/application.css]"
+    assert_select "script[src^=/foo/themes/#{@theme.dir}/javascripts/theme.js]"
     assert_select "link[rel=shortcut icon][href^=/foo/themes/#{@theme.dir}/favicon/a.ico]"
   ensure
     Redmine::Utils.relative_url_root = ''
