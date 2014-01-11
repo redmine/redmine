@@ -71,7 +71,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
                      }
     end
     assert_response 302
-    repository = Repository.first(:order => 'id DESC')
+    repository = Repository.order('id DESC').first
     assert_kind_of Repository::Git, repository
     assert_equal '/test', repository.url
     assert_equal true, repository.extra_report_last_commit
