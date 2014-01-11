@@ -95,7 +95,7 @@ class TimelogCustomFieldsVisibilityTest < ActionController::TestCase
     p1 = Project.generate!
     p2 = Project.generate!
     user = User.generate!
-    User.add_to_project(user, p1, Role.find_all_by_id(1,3))
+    User.add_to_project(user, p1, Role.find_all_by_id([1, 3]))
     User.add_to_project(user, p2, Role.find_all_by_id(3))
     TimeEntry.generate!(
       :issue => Issue.generate!(:project => p1, :tracker_id => 1,
