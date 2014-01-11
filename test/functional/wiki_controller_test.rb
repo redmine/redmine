@@ -953,7 +953,7 @@ class WikiControllerTest < ActionController::TestCase
                      'description' => 'test file'}
            }
     end
-    attachment = Attachment.first(:order => 'id DESC')
+    attachment = Attachment.order('id DESC').first
     assert_equal Wiki.find(1).find_page('CookBook_documentation'), attachment.container
   end
 end
