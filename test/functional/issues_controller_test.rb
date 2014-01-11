@@ -2272,7 +2272,7 @@ class IssuesControllerTest < ActionController::TestCase
                                 :subject => 'This is an issue',
                                 :status_id => 1}
         end
-        issue = Issue.last(:order => 'id')
+        issue = Issue.order('id').last
         assert_equal IssueStatus.default, issue.status
       end
 
