@@ -169,7 +169,7 @@ class UsersControllerTest < ActionController::TestCase
       end
     end
 
-    user = User.first(:order => 'id DESC')
+    user = User.order('id DESC').first
     assert_redirected_to :controller => 'users', :action => 'edit', :id => user.id
 
     assert_equal 'John', user.firstname
@@ -204,7 +204,7 @@ class UsersControllerTest < ActionController::TestCase
           'warn_on_leaving_unsaved' => '0'
         }
     end
-    user = User.first(:order => 'id DESC')
+    user = User.order('id DESC').first
     assert_equal 'jdoe', user.login
     assert_equal true, user.pref.hide_mail
     assert_equal 'Paris', user.pref.time_zone
@@ -430,7 +430,7 @@ class UsersControllerTest < ActionController::TestCase
       post :edit_membership, :id => 7, :membership => { :project_id => 3, :role_ids => [2]}
     end
     assert_redirected_to :action => 'edit', :id => '7', :tab => 'memberships'
-    member = Member.first(:order => 'id DESC')
+    member = Member.order('id DESC').first
     assert_equal User.find(7), member.principal
     assert_equal [2], member.role_ids
     assert_equal 3, member.project_id
@@ -443,7 +443,7 @@ class UsersControllerTest < ActionController::TestCase
       assert_template 'edit_membership'
       assert_equal 'text/javascript', response.content_type
     end
-    member = Member.first(:order => 'id DESC')
+    member = Member.order('id DESC').first
     assert_equal User.find(7), member.principal
     assert_equal [2], member.role_ids
     assert_equal 3, member.project_id
