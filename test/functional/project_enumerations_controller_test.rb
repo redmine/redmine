@@ -138,10 +138,13 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
     assert_response :redirect
 
     # No more TimeEntries using the system activity
-    assert_equal 0, TimeEntry.find_all_by_activity_id_and_project_id(9, 1).size, "Time Entries still assigned to system activities"
+    assert_equal 0, TimeEntry.where(:activity_id => 9, :project_id => 1).count,
+                 "Time Entries still assigned to system activities"
     # All TimeEntries using project activity
     project_specific_activity = TimeEntryActivity.find_by_parent_id_and_project_id(9, 1)
-    assert_equal 3, TimeEntry.find_all_by_activity_id_and_project_id(project_specific_activity.id, 1).size, "No Time Entries assigned to the project activity"
+    assert_equal 3, TimeEntry.where(:activity_id => project_specific_activity.id,
+                                    :project_id => 1).count
+                 "No Time Entries assigned to the project activity"
   end
 
   def test_update_when_creating_new_activities_will_not_convert_existing_data_if_an_exception_is_raised
@@ -166,9 +169,13 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
     assert_response :redirect
 
     # TimeEntries shouldn't have been reassigned on the failed record
-    assert_equal 3, TimeEntry.find_all_by_activity_id_and_project_id(9, 1).size, "Time Entries are not assigned to system activities"
+    assert_equal 3, TimeEntry.where(:activity_id => 9,
+                                    :project_id => 1).count
+                 "Time Entries are not assigned to system activities"
     # TimeEntries shouldn't have been reassigned on the saved record either
-    assert_equal 1, TimeEntry.find_all_by_activity_id_and_project_id(10, 1).size, "Time Entries are not assigned to system activities"
+    assert_equal 1, TimeEntry.where(:activity_id => 10,
+                                    :project_id => 1).count
+                 "Time Entries are not assigned to system activities"
   end
 
   def test_destroy
@@ -206,8 +213,8 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
                                              })
     assert project_activity.save
     assert TimeEntry.update_all("activity_id = '#{project_activity.id}'", ["project_id = ? AND activity_id = ?", 1, 9])
-    assert_equal 3, TimeEntry.find_all_by_activity_id_and_project_id(project_activity.id, 1).size
-
+    assert_equal 3, TimeEntry.where(:activity_id => project_activity.id,
+                                    :project_id => 1).count
     delete :destroy, :project_id => 1
     assert_response :redirect
     assert_redirected_to '/projects/ecookbook/settings/activities'
