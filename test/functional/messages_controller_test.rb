@@ -54,13 +54,13 @@ class MessagesControllerTest < ActionController::TestCase
                                         :board_id => 1)
       end
     end
-    get :show, :board_id => 1, :id => 1, :r => message.children.last(:order => 'id').id
+    get :show, :board_id => 1, :id => 1, :r => message.children.order('id').last.id
     assert_response :success
     assert_template 'show'
     replies = assigns(:replies)
     assert_not_nil replies
     assert !replies.include?(message.children.first(:order => 'id'))
-    assert replies.include?(message.children.last(:order => 'id'))
+    assert replies.include?(message.children.order('id').last)
   end
 
   def test_show_with_reply_permission
