@@ -29,6 +29,7 @@
           <label>
             <%= check_box_tag('membership[role_ids][]',
                               role.id, member.roles.include?(role),
+                              :id => nil,
                               :disabled => member.member_roles.detect {
                                  |mr| mr.role_id == role.id && !mr.inherited_from.nil?
                                  } ) %> <%= role %>
@@ -79,7 +80,7 @@
       <p>
         <%= l(:label_role_plural) %>:
         <% roles.each do |role| %>
-          <label><%= check_box_tag 'membership[role_ids][]', role.id %> <%= role %></label>
+          <label><%= check_box_tag 'membership[role_ids][]', role.id, false, :id => nil %> <%= role %></label>
         <% end %>
       </p>
       <p><%= submit_tag l(:button_add), :id => 'member-add-submit' %></p>

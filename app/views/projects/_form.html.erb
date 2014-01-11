@@ -45,7 +45,7 @@
 <fieldset class="box tabular" id="project_trackers"><legend><%=l(:label_tracker_plural)%></legend>
 <% @trackers.each do |tracker| %>
     <label class="floating">
-    <%= check_box_tag 'project[tracker_ids][]', tracker.id, @project.trackers.include?(tracker) %>
+    <%= check_box_tag 'project[tracker_ids][]', tracker.id, @project.trackers.include?(tracker), :id => nil %>
     <%=h tracker %>
     </label>
 <% end %>
@@ -57,7 +57,9 @@
 <fieldset class="box tabular" id="project_issue_custom_fields"><legend><%=l(:label_custom_field_plural)%></legend>
 <% @issue_custom_fields.each do |custom_field| %>
     <label class="floating">
-  <%= check_box_tag 'project[issue_custom_field_ids][]', custom_field.id, (@project.all_issue_custom_fields.include? custom_field), (custom_field.is_for_all? ? {:disabled => "disabled"} : {}) %>
+  <%= check_box_tag 'project[issue_custom_field_ids][]', custom_field.id, (@project.all_issue_custom_fields.include? custom_field),
+        :disabled => (custom_field.is_for_all? ? "disabled" : nil),
+        :id => nil %>
   <%=h custom_field.name %>
   </label>
 <% end %>
