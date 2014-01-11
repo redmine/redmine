@@ -20,7 +20,7 @@
     <%= principals_check_box_tags(
             'watcher[user_ids][]',
             (watched ?
-               watched.addable_watcher_users : User.active.all(:limit => 100))
+               watched.addable_watcher_users : User.active.limit(100).all)
            ) %>
   </div>
 
