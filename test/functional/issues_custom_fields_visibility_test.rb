@@ -199,8 +199,8 @@ class IssuesCustomFieldsVisibilityTest < ActionController::TestCase
     p1 = Project.generate!
     p2 = Project.generate!
     user = User.generate!
-    User.add_to_project(user, p1, Role.find_all_by_id([1, 3]))
-    User.add_to_project(user, p2, Role.find_all_by_id(3))
+    User.add_to_project(user, p1, Role.where(:id => [1, 3]).all)
+    User.add_to_project(user, p2, Role.where(:id => 3).all)
     Issue.generate!(:project => p1, :tracker_id => 1, :custom_field_values => {@field2.id => 'ValueA'})
     Issue.generate!(:project => p2, :tracker_id => 1, :custom_field_values => {@field2.id => 'ValueB'})
     Issue.generate!(:project => p1, :tracker_id => 1, :custom_field_values => {@field2.id => 'ValueC'})
