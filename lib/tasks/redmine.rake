@@ -53,6 +53,49 @@ namespace :redmine do
     Rake::Task["redmine:plugins:assets"].invoke
   end
 
+desc <<-DESC
+FOR EXPERIMENTAL USE ONLY, Moves Redmine data from production database to the development database.
+This task should only be used when you need to move data from one DBMS to a different one (eg. MySQL to PostgreSQL).
+WARNING: All data in the development database is deleted.
+DESC
+
+  task :migrate_dbms => :environment do
+    ActiveRecord::Base.establish_connection :production
+
+    (ActiveRecord::Base.connection.tables - %w(schema_migrations plugin_schema_info)).each do |table_name|
+      Source = Class.new(ActiveRecord::Base)
+      Target = Class.new(ActiveRecord::Base)
+      Target.establish_connection(:development)
+
+      [Source, Target].each do |klass|
+        klass.table_name = table_name
+        klass.reset_column_information
+        klass.inheritance_column = "foo"
+        klass.record_timestamps = false
+      end
+      Target.primary_key = (Target.column_names.include?("id") ? "id" : nil)
+
+      source_count = Source.count
+      puts "Migrating %6d records from #{table_name}..." % source_count
+
+      Target.delete_all
+      offset = 0
+      while (objects = Source.offset(offset).limit(5000).order("1,2").to_a) && objects.any?
+        offset += objects.size
+        Target.transaction do
+          objects.each do |object|
+            new_object = Target.new(object.attributes)
+            new_object.id = object.id if Target.primary_key
+            new_object.save(:validate => false)
+          end
+        end
+      end
+      Target.connection.reset_pk_sequence!(table_name) if Target.primary_key
+      target_count = Target.count
+      abort "Some records were not migrated" unless source_count == target_count
+    end
+  end
+
   namespace :plugins do
     desc 'Migrates installed plugins.'
     task :migrate => :environment do
