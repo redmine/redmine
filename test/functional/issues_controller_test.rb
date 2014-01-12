@@ -373,6 +373,20 @@ class IssuesControllerTest < ActionController::TestCase
     assert_select 'form#csv-export-form[action=/issues.csv]'
   end
 
+  def test_index_should_not_warn_when_not_exceeding_export_limit
+    with_settings :issues_export_limit => 200 do
+      get :index
+      assert_select '#csv-export-options p.icon-warning', 0
+    end
+  end
+
+  def test_index_should_warn_when_exceeding_export_limit
+    with_settings :issues_export_limit => 2 do
+      get :index
+      assert_select '#csv-export-options p.icon-warning', :text => %r{limit: 2}
+    end
+  end
+
   def test_index_csv
     get :index, :format => 'csv'
     assert_response :success
