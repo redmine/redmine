@@ -1270,8 +1270,21 @@ module ApplicationHelper
   end
 
   def favicon
-    fav_path = (current_theme && current_theme.favicon?) ? current_theme.favicon_path : '/favicon.ico'
-    "<link rel='shortcut icon' href='#{image_path(fav_path)}' />".html_safe
+    "<link rel='shortcut icon' href='#{favicon_path}' />".html_safe
+  end
+
+  # Returns the path to the favicon
+  def favicon_path
+    icon = (current_theme && current_theme.favicon?) ? current_theme.favicon_path : '/favicon.ico'
+    image_path(icon)
+  end
+
+  # Returns the full URL to the favicon
+  def favicon_url
+    # TODO: use #image_url introduced in Rails4
+    path = favicon_path
+    base = url_for(:controller => 'welcome', :action => 'index', :only_path => false)
+    base.sub(%r{/+$},'') + '/' + path.sub(%r{^/+},'')
   end
 
   def robot_exclusion_tag
