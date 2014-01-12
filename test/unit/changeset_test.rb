@@ -343,6 +343,16 @@ class ChangesetTest < ActiveSupport::TestCase
     assert_equal 'commit:0123456789', c.text_tag
   end
 
+  def test_text_tag_hash_with_repository_identifier
+    r = Repository::Subversion.new(
+          :project_id => 1,
+          :url     => 'svn://localhost/test',
+          :identifier => 'documents')
+    c = Changeset.new(:revision => '7234cb27', :scmid => '7234cb27', :repository => r)
+    assert_equal 'commit:documents|7234cb27', c.text_tag
+    assert_equal 'ecookbook:commit:documents|7234cb27', c.text_tag(Project.find(2))
+  end
+
   def test_previous
     changeset = Changeset.find_by_revision('3')
     assert_equal Changeset.find_by_revision('2'), changeset.previous
