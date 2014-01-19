@@ -279,3 +279,5 @@ class CustomField < ActiveRecord::Base
     end
   end
 end
+
+require_dependency 'redmine/field_format'
