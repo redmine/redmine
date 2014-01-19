@@ -30,6 +30,7 @@ class WatchersController < ApplicationController
   accept_api_auth :create, :destroy
 
   def new
+    @users = users_for_new_watcher
   end
 
   def create
@@ -44,7 +45,7 @@ class WatchersController < ApplicationController
     end
     respond_to do |format|
       format.html { redirect_to_referer_or {render :text => 'Watcher added.', :layout => true}}
-      format.js
+      format.js { @users = users_for_new_watcher }
       format.api { render_api_ok }
     end
   end
@@ -66,10 +67,7 @@ class WatchersController < ApplicationController
   end
 
   def autocomplete_for_user
-    @users = User.active.sorted.like(params[:q]).limit(100).all
-    if @watched
-      @users -= @watched.watcher_users
-    end
+    @users = users_for_new_watcher
     render :layout => false
   end
 
@@ -105,5 +103,18 @@ class WatchersController < ApplicationController
       format.html { redirect_to_referer_or {render :text => (watching ? 'Watcher added.' : 'Watcher removed.'), :layout => true}}
       format.js { render :partial => 'set_watcher', :locals => {:user => user, :watched => watchables} }
     end
+  end
+
+  def users_for_new_watcher
+    users = []
+    if params[:q].blank? && @project.present?
+      users = @project.users.sorted
+    else
+      users = User.active.sorted.like(params[:q]).limit(100)
+    end
+    if @watched
+      users -= @watched.watcher_users
+    end
+    users
   end
 end
