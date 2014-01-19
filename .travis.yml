@@ -19,14 +19,6 @@ env:
   - "TEST_SUITE=units       DATABASE_ADAPTER=sqlite3"
   - "TEST_SUITE=functionals DATABASE_ADAPTER=sqlite3"
   - "TEST_SUITE=integration DATABASE_ADAPTER=sqlite3"
-matrix:
-  allow_failures:
-    - rvm: jruby-19mode
-      env: "TEST_SUITE=units       DATABASE_ADAPTER=postgresql"
-    - rvm: jruby-19mode
-      env: "TEST_SUITE=functionals DATABASE_ADAPTER=postgresql"
-    - rvm: jruby-19mode
-      env: "TEST_SUITE=integration DATABASE_ADAPTER=postgresql"
 before_install:
   - "sudo apt-get update -qq"
   - "sudo apt-get --no-install-recommends install bzr cvs git mercurial subversion"
