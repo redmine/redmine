@@ -583,6 +583,12 @@ function addFormObserversForDoubleSubmit() {
   });
 }
 
+function defaultFocus(){
+  if ($('#content :focus').length == 0) {
+    $('#content input[type=text], #content textarea').first().focus();
+  }
+}
+
 function blockEventPropagation(event) {
   event.stopPropagation();
   event.preventDefault();
@@ -604,4 +610,5 @@ $(document).ready(function(){
 $(document).ready(setupAjaxIndicator);
 $(document).ready(hideOnLoad);
 $(document).ready(addFormObserversForDoubleSubmit);
+$(document).ready(defaultFocus);
 
