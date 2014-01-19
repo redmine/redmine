@@ -1,6 +1,6 @@
 # Redmine runs tests on own continuous integration server.
 # http://www.redmine.org/projects/redmine/wiki/Continuous_integration
-# You can also run on tests on your environment.
+# You can also run tests on your environment.
 language: ruby
 rvm:
   - 1.8.7
