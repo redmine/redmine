@@ -310,7 +310,7 @@ module CollectiveIdea #:nodoc:
 
         # Returns true if this is the end of a branch.
         def leaf?
-          new_record? || (persisted? && right.to_i - left.to_i == 1)
+          persisted? && right.to_i - left.to_i == 1
         end
 
         # Returns true is this is a child node

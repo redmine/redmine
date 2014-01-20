@@ -24,6 +24,11 @@ class IssueNestedSetTest < ActiveSupport::TestCase
            :enumerations,
            :issues
 
+  def test_new_record_is_leaf
+    i = Issue.new
+    assert i.leaf?
+  end
+
   def test_create_root_issue
     issue1 = Issue.generate!
     issue2 = Issue.generate!

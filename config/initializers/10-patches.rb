@@ -202,3 +202,16 @@ module ActionController
     end
   end
 end
+
+module CollectiveIdea
+  module Acts
+    module NestedSet
+      module Model
+        def leaf_with_new_record?
+          new_record? || leaf_without_new_record?
+        end
+        alias_method_chain :leaf?, :new_record
+      end
+    end
+  end
+end
