@@ -12,8 +12,16 @@ class ScopedCategory < ActiveRecord::Base
   acts_as_nested_set :scope => :organization
 end
 
+class OrderedCategory < ActiveRecord::Base
+  self.table_name = 'categories'
+  acts_as_nested_set :order_column => 'name'
+end
+
 class RenamedColumns < ActiveRecord::Base
-  acts_as_nested_set :parent_column => 'mother_id', :left_column => 'red', :right_column => 'black'
+  acts_as_nested_set :parent_column => 'mother_id',
+                     :left_column => 'red',
+                     :right_column => 'black',
+                     :depth_column => 'pitch'
 end
 
 class Category < ActiveRecord::Base
@@ -68,5 +76,15 @@ class DefaultWithCallbacks < ActiveRecord::Base
 end
 
 class Broken < ActiveRecord::Base
+  acts_as_nested_set
+end
+
+class Order < ActiveRecord::Base
+  acts_as_nested_set
+
+  default_scope order(:name)
+end
+
+class NoDepth < ActiveRecord::Base
   acts_as_nested_set
 end

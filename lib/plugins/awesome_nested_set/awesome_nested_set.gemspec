@@ -19,4 +19,5 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.6}
   s.summary = %q{An awesome nested set implementation for Active Record}
   s.add_runtime_dependency 'activerecord', '>= 3.0.0'
+  s.add_development_dependency 'rspec-rails', '~> 2.8'
 end

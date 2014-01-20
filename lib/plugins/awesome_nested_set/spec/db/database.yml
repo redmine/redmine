@@ -14,5 +14,12 @@ mysql:
   adapter: mysql2
   host: localhost
   username: root
-  password:
+  password: 
   database: awesome_nested_set_plugin_test
+## Add DB Configuration to run Oracle tests
+oracle:
+  adapter: oracle_enhanced
+  host: localhost
+  username: awesome_nested_set_dev
+  password: 
+  database: xe
