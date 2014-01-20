@@ -198,16 +198,17 @@ module CollectiveIdea #:nodoc:
               # set left
               node[left_column_name] = indices[scope.call(node)] += 1
               # find
-              where(["#{quoted_parent_column_full_name} = ? #{scope.call(node)}", node]).order("#{quoted_left_column_full_name}, #{quoted_right_column_full_name}, id").each{|n| set_left_and_rights.call(n) }
+              where(["#{quoted_parent_column_name} = ? #{scope.call(node)}", node]).
+                order(acts_as_nested_set_options[:order]).
+                each{|n| set_left_and_rights.call(n) }
               # set right
               node[right_column_name] = indices[scope.call(node)] += 1
               node.save!(:validate => validate_nodes)
             end
 
             # Find root node(s)
-            root_nodes = where("#{quoted_parent_column_full_name} IS NULL").
-                order(acts_as_nested_set_options[:order_column]).
-                each do |root_node|
+            root_nodes = where("#{quoted_parent_column_name} IS NULL").
+              order(acts_as_nested_set_options[:order]).each do |root_node|
               # setup index for this scope
               indices[scope.call(root_node)] ||= 0
               set_left_and_rights.call(root_node)
