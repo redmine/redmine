@@ -421,6 +421,7 @@ class Project < ActiveRecord::Base
     transaction do
       update_all "lft = NULL, rgt = NULL"
       rebuild!(false)
+      all.each { |p| p.set_or_update_position_under(p.parent) }
     end
   end
 
@@ -1016,6 +1017,8 @@ class Project < ActiveRecord::Base
   def update_position_under_parent
     set_or_update_position_under(parent)
   end
+
+  public
 
   # Inserts/moves the project so that target's children or root projects stay alphabetically sorted
   def set_or_update_position_under(target_parent)

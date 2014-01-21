@@ -50,7 +50,7 @@ class ProjectNestedSetTest < ActiveSupport::TestCase
   def test_rebuild_should_build_valid_tree
     Project.update_all "lft = NULL, rgt = NULL"
 
-    Project.rebuild!
+    Project.rebuild_tree!
     assert_valid_nested_set
   end
 
