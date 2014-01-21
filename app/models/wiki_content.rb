@@ -44,7 +44,9 @@ class WikiContent < ActiveRecord::Base
   def recipients
     notified = project.notified_users
     notified.reject! {|user| !visible?(user)}
-    notified.collect(&:mail)
+    #hardcoded to notify Developers only!!
+    notified.select {|u| u.roles_for_project(project).collect(&:name).include? 'Developer'}.collect(&:mail)
+    #notified.collect(&:mail)
   end
 
   # Return true if the content is the current page content
