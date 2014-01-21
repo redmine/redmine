@@ -1006,6 +1006,12 @@ describe "AwesomeNestedSet" do
     end
   end
 
+  describe 'rebuilding tree with a default scope ordering' do
+    it "doesn't throw exception" do
+      expect { Position.rebuild! }.not_to raise_error
+    end
+  end
+
   describe 'creating roots with a default scope ordering' do
     it "assigns rgt and lft correctly" do
       alpha = Order.create(:name => 'Alpha')

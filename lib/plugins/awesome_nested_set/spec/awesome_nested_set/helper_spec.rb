@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'awesome_nested_set/helper'
 
 describe "Helper" do
   include CollectiveIdea::Acts::NestedSet::Helper

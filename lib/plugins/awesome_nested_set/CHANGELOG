@@ -1,3 +1,8 @@
+2.1.6
+* Fixed rebuild! when there is a default_scope with order [Adrian Serafin]
+* Testing with stable bundler, ruby 2.0, MySQL and PostgreSQL [Philip Arndt]
+* Optimized move_to for large trees [ericsmith66]
+
 2.1.5
 * Worked around issues where AR#association wasn't present on Rails 3.0.x. [Philip Arndt]
 * Adds option 'order_column' which defaults to 'left_column_name'. [gudata]

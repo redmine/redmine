@@ -181,34 +181,37 @@ module CollectiveIdea #:nodoc:
           # Rebuilds the left & rights if unset or invalid.
           # Also very useful for converting from acts_as_tree.
           def rebuild!(validate_nodes = true)
-            # Don't rebuild a valid tree.
-            return true if valid?
+            # default_scope with order may break database queries so we do all operation without scope
+            unscoped do
+              # Don't rebuild a valid tree.
+              return true if valid?
 
-            scope = lambda{|node|}
-            if acts_as_nested_set_options[:scope]
-              scope = lambda{|node|
-                scope_column_names.inject(""){|str, column_name|
-                  str << "AND #{connection.quote_column_name(column_name)} = #{connection.quote(node.send(column_name.to_sym))} "
+              scope = lambda{|node|}
+              if acts_as_nested_set_options[:scope]
+                scope = lambda{|node|
+                  scope_column_names.inject(""){|str, column_name|
+                    str << "AND #{connection.quote_column_name(column_name)} = #{connection.quote(node.send(column_name.to_sym))} "
+                  }
                 }
-              }
-            end
-            indices = {}
+              end
+              indices = {}
 
-            set_left_and_rights = lambda do |node|
-              # set left
-              node[left_column_name] = indices[scope.call(node)] += 1
-              # find
-              where(["#{quoted_parent_column_full_name} = ? #{scope.call(node)}", node]).order("#{quoted_left_column_full_name}, #{quoted_right_column_full_name}, id").each{|n| set_left_and_rights.call(n) }
-              # set right
-              node[right_column_name] = indices[scope.call(node)] += 1
-              node.save!(:validate => validate_nodes)
-            end
+              set_left_and_rights = lambda do |node|
+                # set left
+                node[left_column_name] = indices[scope.call(node)] += 1
+                # find
+                where(["#{quoted_parent_column_full_name} = ? #{scope.call(node)}", node]).order("#{quoted_left_column_full_name}, #{quoted_right_column_full_name}, id").each{|n| set_left_and_rights.call(n) }
+                # set right
+                node[right_column_name] = indices[scope.call(node)] += 1
+                node.save!(:validate => validate_nodes)
+              end
 
-            # Find root node(s)
-            root_nodes = where("#{quoted_parent_column_full_name} IS NULL").order("#{quoted_left_column_full_name}, #{quoted_right_column_full_name}, id").each do |root_node|
-              # setup index for this scope
-              indices[scope.call(root_node)] ||= 0
-              set_left_and_rights.call(root_node)
+              # Find root node(s)
+              root_nodes = where("#{quoted_parent_column_full_name} IS NULL").order("#{quoted_left_column_full_name}, #{quoted_right_column_full_name}, id").each do |root_node|
+                # setup index for this scope
+                indices[scope.call(root_node)] ||= 0
+                set_left_and_rights.call(root_node)
+              end
             end
           end
 
@@ -590,8 +593,6 @@ module CollectiveIdea #:nodoc:
               ["#{quoted_right_column_name} = (#{quoted_right_column_name} - ?)", diff]
             )
 
-            # Reload is needed because children may have updated their parent (self) during deletion.
-            reload
             # Don't allow multiple calls to destroy to corrupt the set
             self.skip_before_destroy = true
           end
@@ -654,7 +655,27 @@ module CollectiveIdea #:nodoc:
                 else          target[parent_column_name]
               end
 
-              self.nested_set_scope.update_all([
+              where_statement = ["not (#{quoted_left_column_name} = CASE " +
+                                     "WHEN #{quoted_left_column_name} BETWEEN :a AND :b " +
+                                     "THEN #{quoted_left_column_name} + :d - :b " +
+                                     "WHEN #{quoted_left_column_name} BETWEEN :c AND :d " +
+                                     "THEN #{quoted_left_column_name} + :a - :c " +
+                                     "ELSE #{quoted_left_column_name} END AND " +
+                                     "#{quoted_right_column_name} = CASE " +
+                                     "WHEN #{quoted_right_column_name} BETWEEN :a AND :b " +
+                                     "THEN #{quoted_right_column_name} + :d - :b " +
+                                     "WHEN #{quoted_right_column_name} BETWEEN :c AND :d " +
+                                     "THEN #{quoted_right_column_name} + :a - :c " +
+                                     "ELSE #{quoted_right_column_name} END AND " +
+                                     "#{quoted_parent_column_name} = CASE " +
+                                     "WHEN #{self.class.base_class.primary_key} = :id THEN :new_parent " +
+                                     "ELSE #{quoted_parent_column_name} END)" ,
+                                 {:a => a, :b => b, :c => c, :d => d, :id => self.id, :new_parent => new_parent}    ]
+
+
+
+
+              self.nested_set_scope.where(*where_statement).update_all([
                 "#{quoted_left_column_name} = CASE " +
                   "WHEN #{quoted_left_column_name} BETWEEN :a AND :b " +
                     "THEN #{quoted_left_column_name} + :d - :b " +

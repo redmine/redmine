@@ -4,10 +4,14 @@ require 'rubygems'
 require 'bundler/setup'
 require 'awesome_nested_set/version'
 
-require "rspec/core/rake_task"
-RSpec::Core::RakeTask.new(:spec)
-
 task :default => :spec
+
+task :spec do
+  %w(3.0 3.1 3.2).each do |rails_version|
+    puts "\n" + (cmd = "BUNDLE_GEMFILE='gemfiles/Gemfile.rails-#{rails_version}.rb' bundle exec rspec spec")
+    system cmd
+  end
+end
 
 task :build do
   system "gem build awesome_nested_set.gemspec"

@@ -6,20 +6,22 @@ sqlite3mem:
   database: ":memory:"
 postgresql:
   adapter: postgresql
+  encoding: unicode
+  database: awesome_nested_set_plugin_test
+  pool: 5
   username: postgres
   password: postgres
-  database: awesome_nested_set_plugin_test
-  min_messages: ERROR
+  min_messages: warning
 mysql:
   adapter: mysql2
   host: localhost
   username: root
-  password: 
+  password:
   database: awesome_nested_set_plugin_test
 ## Add DB Configuration to run Oracle tests
 oracle:
   adapter: oracle_enhanced
   host: localhost
   username: awesome_nested_set_dev
-  password: 
+  password:
   database: xe
