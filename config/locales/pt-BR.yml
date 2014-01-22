@@ -1109,20 +1109,19 @@ pt-BR:
   field_generate_password: Gerar senha
   setting_default_projects_tracker_ids: Tipos padrões para novos projeto
   label_total_time: Total
-  notice_account_not_activated_yet: You haven't activated your account yet. If you want
-    to receive a new activation email, please <a href="%{url}">click this link</a>.
-  notice_account_locked: Your account is locked.
-  label_hidden: Hidden
-  label_visibility_private: to me only
-  label_visibility_roles: to these roles only
-  label_visibility_public: to any users
-  field_must_change_passwd: Must change password at next logon
-  notice_new_password_must_be_different: The new password must be different from the
-    current password
-  setting_mail_handler_excluded_filenames: Exclude attachments by name
-  text_convert_available: ImageMagick convert available (optional)
+  notice_account_not_activated_yet: Sua conta inda não foi ativada. Se você deseja receber
+    um novo email de ativação, por favor <a href="%{url}">click aqui</a>.
+  notice_account_locked: Sua conta está bloqueada.
+  label_hidden: Visibilidade
+  label_visibility_private: somente para mim
+  label_visibility_roles: somente para os papéis
+  label_visibility_public: para qualquer usuário
+  field_must_change_passwd: É necessário alterar sua senha na próxima vez que tentar acessar sua conta
+  notice_new_password_must_be_different: A nova senha deve ser diferente da senha atual
+  setting_mail_handler_excluded_filenames: Exclui anexos por nome
+  text_convert_available: Conversor ImageMagick disponível (opcional)
   label_link: Link
-  label_only: only
-  label_drop_down_list: drop-down list
+  label_only: somente
+  label_drop_down_list: lista suspensa
   label_checkboxes: checkboxes
-  label_link_values_to: Link values to URL
+  label_link_values_to: Valores do link para URL
