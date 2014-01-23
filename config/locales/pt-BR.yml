@@ -1109,8 +1109,8 @@ pt-BR:
   field_generate_password: Gerar senha
   setting_default_projects_tracker_ids: Tipos padrões para novos projeto
   label_total_time: Total
-  notice_account_not_activated_yet: Sua conta inda não foi ativada. Se você deseja receber
-    um novo email de ativação, por favor <a href="%{url}">click aqui</a>.
+  notice_account_not_activated_yet: Sua conta ainda não foi ativada. Se você deseja receber
+    um novo email de ativação, por favor <a href="%{url}">clique aqui</a>.
   notice_account_locked: Sua conta está bloqueada.
   label_hidden: Visibilidade
   label_visibility_private: somente para mim
