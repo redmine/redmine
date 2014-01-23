@@ -1113,8 +1113,8 @@ pt-BR:
     um novo email de ativação, por favor <a href="%{url}">clique aqui</a>.
   notice_account_locked: Sua conta está bloqueada.
   label_hidden: Visibilidade
-  label_visibility_private: somente para mim
-  label_visibility_roles: somente para os papéis
+  label_visibility_private: para mim
+  label_visibility_roles: para os papéis
   label_visibility_public: para qualquer usuário
   field_must_change_passwd: É necessário alterar sua senha na próxima vez que tentar acessar sua conta
   notice_new_password_must_be_different: A nova senha deve ser diferente da senha atual
