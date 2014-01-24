@@ -69,6 +69,10 @@ wiki_compression:
   default: ""
 default_language:
   default: en
+force_default_language_for_anonymous:
+  default: 0
+force_default_language_for_loggedin:
+  default: 0
 host_name:
   default: localhost:3000
 protocol:

@@ -502,7 +502,7 @@ html>body .tabular p {overflow:hidden;}
   text-align: left;
   float: none;
   display: block;
-  width: auto;
+  width: auto !important;
 }
 
 .tabular label.inline{

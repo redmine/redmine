@@ -405,6 +405,8 @@ fr:
   setting_jsonp_enabled: Activer le support JSONP
   setting_default_projects_tracker_ids: Trackers par défaut pour les nouveaux projets
   setting_mail_handler_excluded_filenames: Exclure les fichiers attachés par leur nom
+  setting_force_default_language_for_anonymous: Forcer la langue par défault pour les utilisateurs anonymes
+  setting_force_default_language_for_loggedin: Forcer la langue par défault pour les utilisateurs identifiés
 
   permission_add_project: Créer un projet
   permission_add_subprojects: Créer des sous-projets

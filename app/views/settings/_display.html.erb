@@ -5,6 +5,10 @@
 
 <p><%= setting_select :default_language, lang_options_for_select(false) %></p>
 
+<p><%= setting_check_box :force_default_language_for_anonymous %></p>
+
+<p><%= setting_check_box :force_default_language_for_loggedin %></p>
+
 <p><%= setting_select :start_of_week, [[day_name(1),'1'], [day_name(6),'6'], [day_name(7),'7']], :blank => :label_language_based %></p>
 <% locale = User.current.language.blank? ? ::I18n.locale : User.current.language %>
 <p><%= setting_select :date_format, Setting::DATE_FORMATS.collect {|f| [::I18n.l(Date.today, :locale => locale, :format => f), f]}, :blank => :label_language_based %></p>

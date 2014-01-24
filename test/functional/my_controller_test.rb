@@ -82,6 +82,20 @@ class MyControllerTest < ActionController::TestCase
     assert_no_tag :input, :attributes => { :name => 'user[custom_field_values][4]'}
   end
 
+  def test_my_account_should_show_language_select
+    get :account
+    assert_response :success
+    assert_select 'select[name=?]', 'user[language]'
+  end
+
+  def test_my_account_should_not_show_language_select_with_force_default_language_for_loggedin
+    with_settings :force_default_language_for_loggedin => '1' do
+      get :account
+      assert_response :success
+      assert_select 'select[name=?]', 'user[language]', 0
+    end
+  end
+
   def test_update_account
     post :account,
       :user => {

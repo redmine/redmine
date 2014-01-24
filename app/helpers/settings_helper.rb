@@ -79,7 +79,7 @@ module SettingsHelper
 
   def setting_label(setting, options={})
     label = options.delete(:label)
-    label != false ? label_tag("settings_#{setting}", l(label || "setting_#{setting}")).html_safe : ''
+    label != false ? label_tag("settings_#{setting}", l(label || "setting_#{setting}"), options[:label_options]).html_safe : ''
   end
 
   # Renders a notification field for a Redmine::Notifiable option

@@ -408,6 +408,8 @@ en:
   setting_jsonp_enabled: Enable JSONP support
   setting_default_projects_tracker_ids: Default trackers for new projects
   setting_mail_handler_excluded_filenames: Exclude attachments by name
+  setting_force_default_language_for_anonymous: Force default language for anonymous users
+  setting_force_default_language_for_loggedin: Force default language for logged-in users
 
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects

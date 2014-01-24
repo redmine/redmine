@@ -314,6 +314,18 @@ class User < Principal
     @time_zone ||= (self.pref.time_zone.blank? ? nil : ActiveSupport::TimeZone[self.pref.time_zone])
   end
 
+  def force_default_language?
+    Setting.force_default_language_for_loggedin?
+  end
+
+  def language
+    if force_default_language?
+      Setting.default_language
+    else
+      super
+    end
+  end
+
   def wants_comments_in_reverse_order?
     self.pref[:comments_sorting] == 'desc'
   end

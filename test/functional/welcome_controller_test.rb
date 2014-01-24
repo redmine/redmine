@@ -54,6 +54,35 @@ class WelcomeControllerTest < ActionController::TestCase
     assert_equal :fr, @controller.current_language
   end
 
+  def test_browser_language_should_be_ignored_with_force_default_language_for_anonymous
+    Setting.default_language = 'en'
+    @request.env['HTTP_ACCEPT_LANGUAGE'] = 'fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3'
+    with_settings :force_default_language_for_anonymous => '1' do
+      get :index
+      assert_equal :en, @controller.current_language
+    end
+  end
+
+  def test_user_language_should_be_used
+    Setting.default_language = 'fi'
+    user = User.find(2).update_attribute :language, 'it'
+    @request.session[:user_id] = 2
+    @request.env['HTTP_ACCEPT_LANGUAGE'] = 'fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3'
+    get :index
+    assert_equal :it, @controller.current_language
+  end
+
+  def test_user_language_should_be_ignored_if_force_default_language_for_loggedin
+    Setting.default_language = 'fi'
+    user = User.find(2).update_attribute :language, 'it'
+    @request.session[:user_id] = 2
+    @request.env['HTTP_ACCEPT_LANGUAGE'] = 'fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3'
+    with_settings :force_default_language_for_loggedin => '1' do
+      get :index
+      assert_equal :fi, @controller.current_language
+    end
+  end
+
   def test_robots
     get :robots
     assert_response :success
