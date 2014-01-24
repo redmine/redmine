@@ -202,7 +202,7 @@ class ActiveSupport::TestCase
 
   # awesome_nested_set new node lft and rgt value changed this refactor revision.
   #   https://github.com/collectiveidea/awesome_nested_set/commit/199fca9bb938e40200cd90714dc69247ef017c61
-  # The reason of behavior change is "self.class.base_class.unscoped" added this line.
+  # The reason of behavior change is that "self.class.base_class.unscoped" was added to this line.
   #   https://github.com/collectiveidea/awesome_nested_set/commit/199fca9bb9#diff-f61b59a5e6319024e211b0ffdd0e4ef1R273
   # It seems correct behavior because of this line comment.
   #   https://github.com/collectiveidea/awesome_nested_set/blame/199fca9bb9/lib/awesome_nested_set/model.rb#L278
