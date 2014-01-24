@@ -32,6 +32,11 @@ class User < Principal
         :order => %w(firstname lastname id),
         :setting_order => 2
       },
+    :firstinitial_lastname => {
+        :string => '#{firstname.to_s.gsub(/(([[:alpha:]])[[:alpha:]]*\.?)/, \'\2.\')} #{lastname}',
+        :order => %w(firstname lastname id),
+        :setting_order => 2
+      },
     :firstname => {
         :string => '#{firstname}',
         :order => %w(firstname id),
