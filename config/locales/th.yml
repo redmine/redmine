@@ -1103,3 +1103,7 @@ th:
   label_drop_down_list: drop-down list
   label_checkboxes: checkboxes
   label_link_values_to: Link values to URL
+  setting_force_default_language_for_anonymous: Force default language for anonymous
+    users
+  setting_force_default_language_for_loggedin: Force default language for logged-in
+    users
