@@ -33,7 +33,25 @@ class AccountControllerTest < ActionController::TestCase
     assert_select 'input[name=password]'
   end
 
-  def test_get_login_while_logged_in_should_redirect_to_home
+  def test_get_login_while_logged_in_should_redirect_to_back_url_if_present
+    @request.session[:user_id] = 2
+    @request.env["HTTP_REFERER"] = 'http://test.host/issues/show/1'
+
+    get :login, :back_url => 'http://test.host/issues/show/1'
+    assert_redirected_to '/issues/show/1'
+    assert_equal 2, @request.session[:user_id]
+  end
+
+  def test_get_login_while_logged_in_should_redirect_to_referer_without_back_url
+    @request.session[:user_id] = 2
+    @request.env["HTTP_REFERER"] = 'http://test.host/issues/show/1'
+
+    get :login
+    assert_redirected_to '/issues/show/1'
+    assert_equal 2, @request.session[:user_id]
+  end
+
+  def test_get_login_while_logged_in_should_redirect_to_home_by_default
     @request.session[:user_id] = 2
 
     get :login

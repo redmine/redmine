@@ -34,7 +34,7 @@ class AccountController < ApplicationController
   def login
     if request.get?
       if User.current.logged?
-        redirect_to home_url
+        redirect_back_or_default home_url, :referer => true
       end
     else
       authenticate_user

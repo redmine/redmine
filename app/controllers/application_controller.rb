@@ -373,7 +373,7 @@ class ApplicationController < ActionController::Base
     url
   end
 
-  def redirect_back_or_default(default)
+  def redirect_back_or_default(default, options={})
     back_url = params[:back_url].to_s
     if back_url.present?
       begin
@@ -387,6 +387,9 @@ class ApplicationController < ActionController::Base
         logger.warn("Could not redirect to invalid URL #{back_url}")
         # redirect to default
       end
+    elsif options[:referer]
+      redirect_to_referer_or default
+      return
     end
     redirect_to default
     false
