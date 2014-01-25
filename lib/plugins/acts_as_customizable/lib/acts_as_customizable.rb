@@ -72,10 +72,12 @@ module Redmine
             if values.has_key?(key)
               value = values[key]
               if value.is_a?(Array)
-                value = value.reject(&:blank?).uniq
+                value = value.reject(&:blank?).map(&:to_s).uniq
                 if value.empty?
                   value << ''
                 end
+              else
+                value = value.to_s
               end
               custom_field_value.value = value
             end
