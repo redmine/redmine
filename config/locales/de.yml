@@ -981,6 +981,8 @@ de:
   setting_enabled_scm: Aktivierte Versionskontrollsysteme
   setting_feeds_limit: Max. Anzahl Einträge pro Atom-Feed
   setting_file_max_size_displayed: Maximale Größe inline angezeigter Textdateien
+  setting_force_default_language_for_anonymous: Standardsprache für anonyme Benutzer erzwingen
+  setting_force_default_language_for_loggedin: Standardsprache für angemeldete Benutzer erzwingen
   setting_gantt_items_limit: Maximale Anzahl von Aufgaben die im Gantt-Chart angezeigt werden
   setting_gravatar_default: Standard-Gravatar-Bild
   setting_gravatar_enabled: Gravatar-Benutzerbilder benutzen
@@ -1118,7 +1120,3 @@ de:
   label_drop_down_list: drop-down list
   label_checkboxes: checkboxes
   label_link_values_to: Link values to URL
-  setting_force_default_language_for_anonymous: Force default language for anonymous
-    users
-  setting_force_default_language_for_loggedin: Force default language for logged-in
-    users
