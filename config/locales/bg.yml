@@ -157,7 +157,7 @@ bg:
   notice_account_locked: Вашият профил е блокиран.
   notice_can_t_change_password: Този профил е с външен метод за оторизация. Невъзможна смяна на паролата.
   notice_account_lost_email_sent: Изпратен ви е e-mail с инструкции за избор на нова парола.
-  notice_account_activated: Профилът ви е активиран. Вече може да влезете в системата.
+  notice_account_activated: Профилът ви е активиран. Вече може да влезете в Redmine.
   notice_successful_create: Успешно създаване.
   notice_successful_update: Успешно обновяване.
   notice_successful_delete: Успешно изтриване.
@@ -345,7 +345,7 @@ bg:
   setting_app_subtitle: Описание
   setting_welcome_text: Допълнителен текст
   setting_default_language: Език по подразбиране
-  setting_login_required: Изискване за вход в системата
+  setting_login_required: Изискване за вход в Redmine
   setting_self_registration: Регистрация от потребители
   setting_attachment_max_size: Максимална големина на прикачен файл
   setting_issues_export_limit: Максимален брой задачи за експорт
