@@ -2,6 +2,7 @@
 # by Francisco Fernando García Nieto (ffgarcianieto@gmail.com)
 # Redmine spanish translation:
 # by J. Cayetano Delgado (Cayetano _dot_ Delgado _at_ ioko _dot_ com)
+# Contributors: @borjacampina
 
 es:
   number:
@@ -1136,12 +1137,10 @@ es:
   notice_new_password_must_be_different: La nueva contraseña debe ser diferente de la actual
   setting_mail_handler_excluded_filenames: Excluir adjuntos por nombre
   text_convert_available: Conversión ImageMagick disponible (opcional)
-  label_link: Link
-  label_only: only
-  label_drop_down_list: drop-down list
-  label_checkboxes: checkboxes
-  label_link_values_to: Link values to URL
-  setting_force_default_language_for_anonymous: Force default language for anonymous
-    users
-  setting_force_default_language_for_loggedin: Force default language for logged-in
-    users
+  label_link: Enlace
+  label_only: sólo
+  label_drop_down_list: Lista desplegable
+  label_checkboxes: casillas de selección
+  label_link_values_to: Enlazar valores a la URL
+  setting_force_default_language_for_anonymous: Forzar lenguaje por defecto a usuarios anónimos
+  setting_force_default_language_for_loggedin: Forzar lenguaje por defecto para usuarios identificados
