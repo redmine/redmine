@@ -38,6 +38,7 @@ class WorkflowsController < ApplicationController
         }
       }
       if @role.save
+        flash[:notice] = l(:notice_successful_update)
         redirect_to workflows_edit_path(:role_id => @role, :tracker_id => @tracker, :used_statuses_only => params[:used_statuses_only])
         return
       end
@@ -64,6 +65,7 @@ class WorkflowsController < ApplicationController
 
     if request.post? && @role && @tracker
       WorkflowPermission.replace_permissions(@tracker, @role, params[:permissions] || {})
+      flash[:notice] = l(:notice_successful_update)
       redirect_to workflows_permissions_path(:role_id => @role, :tracker_id => @tracker, :used_statuses_only => params[:used_statuses_only])
       return
     end
