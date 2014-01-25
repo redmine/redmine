@@ -1121,10 +1121,10 @@ pt-BR:
   setting_mail_handler_excluded_filenames: Exclui anexos por nome
   text_convert_available: Conversor ImageMagick disponível (opcional)
   label_link: Link
-  label_only: only
-  label_drop_down_list: drop-down list
+  label_only: somente
+  label_drop_down_list: lista suspensa
   label_checkboxes: checkboxes
-  label_link_values_to: Link values to URL
+  label_link_values_to: Valores do link para URL
   setting_force_default_language_for_anonymous: Force default language for anonymous
     users
   setting_force_default_language_for_loggedin: Force default language for logged-in
