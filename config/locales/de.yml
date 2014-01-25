@@ -974,6 +974,7 @@ de:
   setting_default_notification_option: Standard Benachrichtigungsoptionen
   setting_default_projects_modules: Standardmäßig aktivierte Module für neue Projekte
   setting_default_projects_public: Neue Projekte sind standardmäßig öffentlich
+  setting_default_projects_tracker_ids: Standardmäßig aktivierte Tracker für neue Projekte
   setting_diff_max_lines_displayed: Maximale Anzahl anzuzeigender Diff-Zeilen
   setting_display_subprojects_issues: Tickets von Unterprojekten im Hauptprojekt anzeigen
   setting_emails_footer: E-Mail-Fußzeile
@@ -1024,7 +1025,6 @@ de:
   setting_user_format: Benutzer-Anzeigeformat
   setting_welcome_text: Willkommenstext
   setting_wiki_compression: Wiki-Historie komprimieren
-  setting_default_projects_tracker_ids: Standardmäßig aktivierte Tracker für neue Projekte
 
   status_active: aktiv
   status_locked: gesperrt
