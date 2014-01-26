@@ -330,7 +330,23 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_visible_and_nested_set_scopes
-    assert_equal 0, Issue.find(1).descendants.visible.all.size
+    user = User.generate!
+    parent = Issue.generate!(:assigned_to => user)
+    assert parent.visible?(user)
+    child1 = Issue.generate!(:parent_issue_id => parent.id, :assigned_to => user)
+    child2 = Issue.generate!(:parent_issue_id => parent.id, :assigned_to => user)
+    parent.reload
+    child1.reload
+    child2.reload
+    assert child1.visible?(user)
+    assert child2.visible?(user)
+    assert_equal 2, parent.descendants.count
+    assert_equal 2, parent.descendants.visible(user).count
+    # awesome_nested_set 2-1-stable has regression.
+    # https://github.com/collectiveidea/awesome_nested_set/commit/3d5ac746542b564f6586c2316180254b088bebb6
+    # ActiveRecord::StatementInvalid: SQLite3::SQLException: ambiguous column name: lft:
+    assert_equal 2, parent.descendants.collect{|i| i}.size
+    assert_equal 2, parent.descendants.visible(user).collect{|i| i}.size
   end
 
   def test_open_scope
