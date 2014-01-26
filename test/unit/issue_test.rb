@@ -342,7 +342,7 @@ class IssueTest < ActiveSupport::TestCase
     assert child2.visible?(user)
     assert_equal 2, parent.descendants.count
     assert_equal 2, parent.descendants.visible(user).count
-    # awesome_nested_set 2-1-stable has regression.
+    # awesome_nested_set 2-1-stable branch has regression.
     # https://github.com/collectiveidea/awesome_nested_set/commit/3d5ac746542b564f6586c2316180254b088bebb6
     # ActiveRecord::StatementInvalid: SQLite3::SQLException: ambiguous column name: lft:
     assert_equal 2, parent.descendants.collect{|i| i}.size
