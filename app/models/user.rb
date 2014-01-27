@@ -387,7 +387,7 @@ class User < Principal
     if login.present?
       login = login.to_s
       # First look for an exact match
-      user = where(:login => login).all.detect {|u| u.login == login}
+      user = where(:login => login).detect {|u| u.login == login}
       unless user
         # Fail over to case-insensitive if none was found
         user = where("LOWER(login) = ?", login.downcase).first
