@@ -96,7 +96,7 @@ class Repository::Subversion < Repository
     if identifiers.any?
       changesets_by_identifier =
         changesets.where(:revision => identifiers).
-          includes(:user, :repository).all.group_by(&:revision)
+          includes(:user, :repository).group_by(&:revision)
       entries_with_identifier.each do |entry|
         if m = changesets_by_identifier[entry.lastrev.identifier]
           entry.changeset = m.first
