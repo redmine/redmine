@@ -43,7 +43,7 @@ class IssueStatus < ActiveRecord::Base
   # Update all the +Issues+ setting their done_ratio to the value of their +IssueStatus+
   def self.update_issue_done_ratios
     if Issue.use_status_for_done_ratio?
-      IssueStatus.where("default_done_ratio >= 0").all.each do |status|
+      IssueStatus.where("default_done_ratio >= 0").each do |status|
         Issue.where({:status_id => status.id}).update_all({:done_ratio => status.default_done_ratio})
       end
     end
