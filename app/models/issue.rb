@@ -1361,7 +1361,7 @@ class Issue < ActiveRecord::Base
           end
           done = p.leaves.joins(:status).
             sum("COALESCE(CASE WHEN estimated_hours > 0 THEN estimated_hours ELSE NULL END, #{average}) " +
-                "* (CASE WHEN is_closed = #{ActiveRecord::Base.connection.quoted_true} THEN 100 ELSE COALESCE(done_ratio, 0) END)").to_f
+                "* (CASE WHEN is_closed = #{connection.quoted_true} THEN 100 ELSE COALESCE(done_ratio, 0) END)").to_f
           progress = done / (average * leaves_count)
           p.done_ratio = progress.round
           p.done_ratio = 100 if p.done_ratio > 100

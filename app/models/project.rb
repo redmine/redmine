@@ -492,7 +492,7 @@ class Project < ActiveRecord::Base
   # Deletes all project's members
   def delete_all_members
     me, mr = Member.table_name, MemberRole.table_name
-    ActiveRecord::Base.connection.delete("DELETE FROM #{mr} WHERE #{mr}.member_id IN (SELECT #{me}.id FROM #{me} WHERE #{me}.project_id = #{id})")
+    connection.delete("DELETE FROM #{mr} WHERE #{mr}.member_id IN (SELECT #{me}.id FROM #{me} WHERE #{me}.project_id = #{id})")
     Member.delete_all(['project_id = ?', id])
   end
 
