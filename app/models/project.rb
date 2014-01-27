@@ -440,7 +440,7 @@ class Project < ActiveRecord::Base
   # Closes open and locked project versions that are completed
   def close_completed_versions
     Version.transaction do
-      versions.where(:status => %w(open locked)).all.each do |version|
+      versions.where(:status => %w(open locked)).each do |version|
         if version.completed?
           version.update_attribute(:status, 'closed')
         end
@@ -480,7 +480,7 @@ class Project < ActiveRecord::Base
 
   # Returns a hash of project users grouped by role
   def users_by_role
-    members.includes(:user, :roles).all.inject({}) do |h, m|
+    members.includes(:user, :roles).inject({}) do |h, m|
       m.roles.each do |r|
         h[r] ||= []
         h[r] << m.user
