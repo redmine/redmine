@@ -91,8 +91,10 @@ class TimeEntryQuery < Query
   def available_columns
     return @available_columns if @available_columns
     @available_columns = self.class.available_columns.dup
-    @available_columns += TimeEntryCustomField.visible.all.map {|cf| QueryCustomFieldColumn.new(cf) }
-    @available_columns += IssueCustomField.visible.all.map {|cf| QueryAssociationCustomFieldColumn.new(:issue, cf) }
+    @available_columns += TimeEntryCustomField.visible.
+                            map {|cf| QueryCustomFieldColumn.new(cf) }
+    @available_columns += IssueCustomField.visible.
+                            map {|cf| QueryAssociationCustomFieldColumn.new(:issue, cf) }
     @available_columns
   end
 
