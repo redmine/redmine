@@ -150,7 +150,7 @@ class IssueQuery < Query
     users = principals.select {|p| p.is_a?(User)}
 
     add_available_filter "status_id",
-      :type => :list_status, :values => IssueStatus.sorted.all.collect{|s| [s.name, s.id.to_s] }
+      :type => :list_status, :values => IssueStatus.sorted.collect{|s| [s.name, s.id.to_s] }
 
     if project.nil?
       project_values = []
