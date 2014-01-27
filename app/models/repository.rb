@@ -424,10 +424,10 @@ class Repository < ActiveRecord::Base
     ci = "#{table_name_prefix}changesets_issues#{table_name_suffix}"
     cp = "#{table_name_prefix}changeset_parents#{table_name_suffix}"
 
-    connection.delete("DELETE FROM #{ch} WHERE #{ch}.changeset_id IN (SELECT #{cs}.id FROM #{cs} WHERE #{cs}.repository_id = #{id})")
-    connection.delete("DELETE FROM #{ci} WHERE #{ci}.changeset_id IN (SELECT #{cs}.id FROM #{cs} WHERE #{cs}.repository_id = #{id})")
-    connection.delete("DELETE FROM #{cp} WHERE #{cp}.changeset_id IN (SELECT #{cs}.id FROM #{cs} WHERE #{cs}.repository_id = #{id})")
-    connection.delete("DELETE FROM #{cs} WHERE #{cs}.repository_id = #{id}")
+    ActiveRecord::Base.connection.delete("DELETE FROM #{ch} WHERE #{ch}.changeset_id IN (SELECT #{cs}.id FROM #{cs} WHERE #{cs}.repository_id = #{id})")
+    ActiveRecord::Base.connection.delete("DELETE FROM #{ci} WHERE #{ci}.changeset_id IN (SELECT #{cs}.id FROM #{cs} WHERE #{cs}.repository_id = #{id})")
+    ActiveRecord::Base.connection.delete("DELETE FROM #{cp} WHERE #{cp}.changeset_id IN (SELECT #{cs}.id FROM #{cs} WHERE #{cs}.repository_id = #{id})")
+    ActiveRecord::Base.connection.delete("DELETE FROM #{cs} WHERE #{cs}.repository_id = #{id}")
     clear_extra_info_of_changesets
   end
 
