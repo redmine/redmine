@@ -65,7 +65,8 @@ class PrincipalTest < ActiveSupport::TestCase
         a.name.downcase <=> b.name.downcase
       end
     end
-    assert_equal expected_order.map(&:name).map(&:downcase), scope.sorted.all.map(&:name).map(&:downcase)
+    assert_equal expected_order.map(&:name).map(&:downcase),
+                 scope.sorted.map(&:name).map(&:downcase)
   end
 
   test "like scope should search login" do
