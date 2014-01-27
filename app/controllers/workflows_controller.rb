@@ -79,8 +79,8 @@ class WorkflowsController < ApplicationController
     if @role && @tracker
       @fields = (Tracker::CORE_FIELDS_ALL - @tracker.disabled_core_fields).map {|field| [field, l("field_"+field.sub(/_id$/, ''))]}
       @custom_fields = @tracker.custom_fields
-
-      @permissions = WorkflowPermission.where(:tracker_id => @tracker.id, :role_id => @role.id).all.inject({}) do |h, w|
+      @permissions = WorkflowPermission.
+          where(:tracker_id => @tracker.id, :role_id => @role.id).inject({}) do |h, w|
         h[w.old_status_id] ||= {}
         h[w.old_status_id][w.field_name] = w.rule
         h
