@@ -581,7 +581,7 @@ class IssueTest < ActiveSupport::TestCase
     assert !admin.member_of?(issue.project)
     expected_statuses = [issue.status] +
                             WorkflowTransition.where(:old_status_id => issue.status_id).
-                                all.map(&:new_status).uniq.sort
+                                map(&:new_status).uniq.sort
     assert_equal expected_statuses, issue.new_statuses_allowed_to(admin)
   end
 
