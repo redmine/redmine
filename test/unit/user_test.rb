@@ -35,7 +35,7 @@ class UserTest < ActiveSupport::TestCase
 
   def test_sorted_scope_should_sort_user_by_display_name
     assert_equal User.all.map(&:name).map(&:downcase).sort,
-                 User.sorted.all.map(&:name).map(&:downcase)
+                 User.sorted.map(&:name).map(&:downcase)
   end
 
   def test_generate
