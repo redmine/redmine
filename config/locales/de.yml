@@ -459,6 +459,7 @@ de:
   label_change_view_all: Alle Änderungen anzeigen
   label_changes_details: Details aller Änderungen
   label_changeset_plural: Changesets
+  label_checkboxes: Checkboxen
   label_child_revision: Nachfolger
   label_chronological_order: in zeitlicher Reihenfolge
   label_close_versions: Vollständige Versionen schließen
@@ -514,6 +515,7 @@ de:
   label_document_added: Dokument hinzugefügt
   label_document_new: Neues Dokument
   label_document_plural: Dokumente
+  label_drop_down_list: Dropdown-Liste
   label_downloads_abbr: D/L
   label_duplicated_by: Dupliziert durch
   label_duplicates: Duplikat von
@@ -598,12 +600,14 @@ de:
   label_ldap_authentication: LDAP-Authentifizierung
   label_less_or_equal: "<="
   label_less_than_ago: vor weniger als
+  label_link_values_to: Werte mit URL verknüpfen
   label_list: Liste
   label_loading: Lade...
   label_logged_as: Angemeldet als
   label_login: Anmelden
   label_login_with_open_id_option: oder mit OpenID anmelden
   label_logout: Abmelden
+  label_only: nur
   label_max_size: Maximale Größe
   label_me: ich
   label_member: Mitglied
@@ -1116,7 +1120,3 @@ de:
 
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
   label_link: Link
-  label_only: only
-  label_drop_down_list: drop-down list
-  label_checkboxes: checkboxes
-  label_link_values_to: Link values to URL
