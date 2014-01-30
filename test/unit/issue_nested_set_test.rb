@@ -364,7 +364,6 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     Issue.generate!(:parent_issue_id => parent.id)
     parent.reload.children.each do |child|
       child.update_attribute :status_id, 5
-      puts parent.reload.done_ratio
     end
     assert_equal 100, parent.reload.done_ratio
   end
