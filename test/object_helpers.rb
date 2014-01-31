@@ -179,3 +179,16 @@ module ObjectHelpers
     changeset
   end
 end
+
+module IssueObjectHelpers
+  def close!
+    self.status = IssueStatus.where(:is_closed => true).first
+    save!
+  end
+
+  def generate_child!(attributes={})
+    Issue.generate!(attributes.merge(:parent_issue_id => self.id))
+  end
+end
+
+Issue.send :include, IssueObjectHelpers
