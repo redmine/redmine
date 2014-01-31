@@ -56,7 +56,7 @@ class WatcherTest < ActiveSupport::TestCase
 
   def test_watcher_users
     watcher_users = Issue.find(2).watcher_users
-    assert_kind_of Array, watcher_users
+    assert_kind_of Array, watcher_users.collect{|w| w}
     assert_kind_of User, watcher_users.first
   end
 
