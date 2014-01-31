@@ -1355,7 +1355,7 @@ class Issue < ActiveRecord::Base
       unless Issue.use_status_for_done_ratio? && p.status && p.status.default_done_ratio
         leaves_count = p.leaves.count
         if leaves_count > 0
-          average = p.leaves.average(:estimated_hours).to_f
+          average = p.leaves.where("estimated_hours > 0").average(:estimated_hours).to_f
           if average == 0
             average = 1
           end

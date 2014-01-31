@@ -368,6 +368,18 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     assert_equal 100, parent.reload.done_ratio
   end
 
+  def test_done_ratio_of_parent_with_a_child_with_estimated_time_at_0_should_not_exceed_100
+    parent = Issue.generate!
+    Issue.generate!(:estimated_hours => 40, :parent_issue_id => parent.id)
+    Issue.generate!(:estimated_hours => 40, :parent_issue_id => parent.id)
+    Issue.generate!(:estimated_hours => 20, :parent_issue_id => parent.id)
+    Issue.generate!(:estimated_hours => 0, :parent_issue_id => parent.id)
+    parent.reload.children.each do |child|
+      child.update_attribute :status_id, 5
+    end
+    assert_equal 100, parent.reload.done_ratio
+  end
+
   def test_move_parent_updates_old_parent_attributes
     first_parent = Issue.generate!
     second_parent = Issue.generate!
