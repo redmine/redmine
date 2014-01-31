@@ -180,10 +180,13 @@ class Repository::Git < Repository
     # So, Redmine needs to scan revisions and database every time.
     #
     # This is replacing the one-after-one queries.
-    # Find all revisions, that are in the database, and then remove them from the revision array.
+    # Find all revisions, that are in the database, and then remove them
+    # from the revision array.
     # Then later we won't need any conditions for db existence.
-    # Query for several revisions at once, and remove them from the revisions array, if they are there.
-    # Do this in chunks, to avoid eventual memory problems (in case of tens of thousands of commits).
+    # Query for several revisions at once, and remove them
+    # from the revisions array, if they are there.
+    # Do this in chunks, to avoid eventual memory problems
+    # (in case of tens of thousands of commits).
     # If there are no revisions (because the original code's algorithm filtered them),
     # then this part will be stepped over.
     # We make queries, just if there is any revision.
@@ -198,7 +201,6 @@ class Repository::Git < Repository
       revisions.reject!{|r| recent_revisions.include?(r.scmid)}
       offset += limit
     end
-
     revisions.each do |rev|
       transaction do
         # There is no search in the db for this revision, because above we ensured,
@@ -240,7 +242,6 @@ class Repository::Git < Repository
   def latest_changesets(path,rev,limit=10)
     revisions = scm.revisions(path, nil, rev, :limit => limit, :all => false)
     return [] if revisions.nil? || revisions.empty?
-
     changesets.where(:scmid => revisions.map {|c| c.scmid}).all
   end
 
