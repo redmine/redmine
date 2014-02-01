@@ -152,24 +152,16 @@ class Repository::Mercurial < Repository
     (db_rev + 1).step(scm_rev, FETCH_AT_ONCE) do |i|
       scm.each_revision('', i, [i + FETCH_AT_ONCE - 1, scm_rev].min) do |re|
         transaction do
-          scmid = re.scmid[0, 12]
-          parents = (re.parents || []).collect do |rp|
-            find_changeset_by_name(rp[0, 12])
-          end.compact
+          parents = (re.parents || []).collect{|rp| find_changeset_by_name(rp)}.compact
           cs = Changeset.create(:repository   => self,
                                 :revision     => re.revision,
-                                :scmid        => scmid,
+                                :scmid        => re.scmid,
                                 :committer    => re.author,
                                 :committed_on => re.time,
                                 :comments     => re.message,
                                 :parents      => parents)
           unless cs.new_record?
-            re.paths.each do |e|
-              if from_revision = e[:from_revision]
-                e[:from_revision] = from_revision[0, 12]
-              end
-              cs.create_change(e)
-            end
+            re.paths.each { |e| cs.create_change(e) }
           end
         end
       end
