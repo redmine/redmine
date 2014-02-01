@@ -46,7 +46,6 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
     end
   end
 
-
   def test_blank_path_to_repository_error_message
     set_language_if_valid 'en'
     repo = Repository::Mercurial.new(
