@@ -187,8 +187,14 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
 
       changesets = @repository.latest_changesets(path, '12', 1)
       assert_equal %w|12|, changesets.collect(&:revision)
+    end
 
-      # tag
+    def test_latest_changesets_tag
+      assert_equal 0, @repository.changesets.count
+      @repository.fetch_changesets
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
+
       changesets = @repository.latest_changesets('', 'tag_test.00')
       assert_equal %w|5 4 3 2 1 0|, changesets.collect(&:revision)
 
@@ -200,8 +206,14 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
 
       changesets = @repository.latest_changesets('sources', 'tag_test.00', 2)
       assert_equal %w|4 3|, changesets.collect(&:revision)
+    end
 
-      # named branch
+    def test_latest_changesets_branch
+      assert_equal 0, @repository.changesets.count
+      @repository.fetch_changesets
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
+
       if @repository.scm.class.client_version_above?([1, 6])
         changesets = @repository.latest_changesets('', @branch_char_1)
         assert_equal %w|27 26|, changesets.collect(&:revision)
