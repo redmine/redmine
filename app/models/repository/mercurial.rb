@@ -100,6 +100,17 @@ class Repository::Mercurial < Repository
       all
   end
 
+  def nodes_in_branch(rev, branch_limit)
+    scm.nodes_in_branch(rev, :limit => branch_limit).collect do |b|
+      b[0, 12]
+    end
+  end
+
+  def tag_scmid(rev)
+    scmid = scm.tagmap[rev]
+    scmid.nil? ? nil : scmid[0, 12]
+  end
+
   def latest_changesets_cond(path, rev, limit)
     cond, args = [], []
     if scm.branchmap.member? rev
@@ -114,8 +125,8 @@ class Repository::Mercurial < Repository
       # Mercurial does not treat direcotry.
       # So, "hg log DIR" is very heavy.
       branch_limit = path.blank? ? limit : ( limit * 5 )
-      args << scm.nodes_in_branch(rev, :limit => branch_limit)
-    elsif last = rev ? find_changeset_by_name(scm.tagmap[rev] || rev) : nil
+      args << nodes_in_branch(rev, branch_limit)
+    elsif last = rev ? find_changeset_by_name(tag_scmid(rev) || rev) : nil
       cond << "#{Changeset.table_name}.id <= ?"
       args << last.id
     end
