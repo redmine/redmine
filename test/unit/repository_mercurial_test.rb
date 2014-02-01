@@ -297,6 +297,17 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       assert_equal '2:400bb8672109', c.format_identifier
     end
 
+    def test_format_identifier_long_id
+      assert_equal 0, @repository.changesets.count
+      Changeset.create!(:repository   => @repository,
+                        :committed_on => Time.now,
+                        :revision     => '0',
+                        :scmid        => '0885933ad4f68d77c2649cd11f8311276e7ef7ce',
+                        :comments     => 'test')
+      c = @repository.changesets.find_by_revision('0')
+      assert_equal '0:0885933ad4f6', c.format_identifier
+    end
+
     def test_find_changeset_by_empty_name
       assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
