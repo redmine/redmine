@@ -90,7 +90,7 @@ begin
           repo_path =  adp.info.root_url.gsub(/\\/, "/")
           assert_equal REPOSITORY_PATH, repo_path
           assert_equal '31', adp.info.lastrev.revision
-          assert_equal '31eeee7395c8',adp.info.lastrev.scmid
+          assert_equal '31eeee7395c8c78e66dd54c50addd078d10b2355',adp.info.lastrev.scmid
         end
       end
 
@@ -98,14 +98,14 @@ begin
         revisions = @adapter.revisions(nil, 2, 4)
         assert_equal 3, revisions.size
         assert_equal '2', revisions[0].revision
-        assert_equal '400bb8672109', revisions[0].scmid
+        assert_equal '400bb86721098697c7d17b3724c794c57636de70', revisions[0].scmid
         assert_equal '4', revisions[2].revision
-        assert_equal 'def6d2f1254a', revisions[2].scmid
+        assert_equal 'def6d2f1254a56fb8fbe9ec3b5c0451674dbd8b8', revisions[2].scmid
 
         revisions = @adapter.revisions(nil, 2, 4, {:limit => 2})
         assert_equal 2, revisions.size
         assert_equal '2', revisions[0].revision
-        assert_equal '400bb8672109', revisions[0].scmid
+        assert_equal '400bb86721098697c7d17b3724c794c57636de70', revisions[0].scmid
       end
 
       def test_parents
@@ -115,12 +115,12 @@ begin
         revs2 = @adapter.revisions(nil, 1, 1)
         assert_equal 1, revs2.size
         assert_equal 1, revs2[0].parents.size
-        assert_equal "0885933ad4f6", revs2[0].parents[0]
+        assert_equal "0885933ad4f68d77c2649cd11f8311276e7ef7ce", revs2[0].parents[0]
         revs3 = @adapter.revisions(nil, 30, 30)
         assert_equal 1, revs3.size
         assert_equal 2, revs3[0].parents.size
-        assert_equal "a94b0528f24f", revs3[0].parents[0]
-        assert_equal "3a330eb32958", revs3[0].parents[1]
+        assert_equal "a94b0528f24fe05ebaef496ae0500bb050772e36", revs3[0].parents[0]
+        assert_equal "3a330eb329586ea2adb3f83237c23310e744ebe9", revs3[0].parents[1]
       end
 
       def test_diff
@@ -213,7 +213,7 @@ begin
           assert_equal 'file', readme.kind
           assert_equal 27, readme.size
           assert_equal '1', readme.lastrev.revision
-          assert_equal '9d5b5b004199', readme.lastrev.identifier
+          assert_equal '9d5b5b00419901478496242e0768deba1ce8c51e', readme.lastrev.identifier
           # 2007-12-14 10:24:01 +0100
           assert_equal Time.gm(2007, 12, 14, 9, 24, 1), readme.lastrev.time
 
@@ -242,7 +242,7 @@ begin
         assert_equal 'file', readme.kind
         assert_equal 21, readme.size
         assert_equal '0', readme.lastrev.revision
-        assert_equal '0885933ad4f6', readme.lastrev.identifier
+        assert_equal '0885933ad4f68d77c2649cd11f8311276e7ef7ce', readme.lastrev.identifier
         # 2007-12-14 10:22:52 +0100
         assert_equal Time.gm(2007, 12, 14, 9, 22, 52), readme.lastrev.time
       end
@@ -260,7 +260,7 @@ begin
         assert_equal 'file', readme.kind
         assert_equal 365, readme.size
         assert_equal '8', readme.lastrev.revision
-        assert_equal 'c51f5bb613cd', readme.lastrev.identifier
+        assert_equal 'c51f5bb613cd60793c2a9fe9df29332e74bb949f', readme.lastrev.identifier
         # 2001-02-01 00:00:00 -0900
         assert_equal Time.gm(2001, 2, 1, 9, 0, 0), readme.lastrev.time
       end
@@ -288,9 +288,9 @@ begin
 
       def test_tagmap
         tm = {
-          @tag_char_1         => 'adf805632193',
-          'tag_test.00'       => '6987191f453a',
-          'tag-init-revision' => '0885933ad4f6',
+          @tag_char_1         => 'adf805632193500ad3b615cd04f58f9b0769f576',
+          'tag_test.00'       => '6987191f453a5f6557018d522feea2c450d5588d',
+          'tag-init-revision' => '0885933ad4f68d77c2649cd11f8311276e7ef7ce',
           }
         assert_equal tm, @adapter.tagmap
       end
@@ -303,36 +303,36 @@ begin
         assert_equal 7, brs.length
         assert_equal 'default', brs[0].to_s
         assert_equal '31', brs[0].revision
-        assert_equal '31eeee7395c8', brs[0].scmid
+        assert_equal '31eeee7395c8c78e66dd54c50addd078d10b2355', brs[0].scmid
         assert_equal 'test-branch-01', brs[1].to_s
         assert_equal '30', brs[1].revision
-        assert_equal 'ad4dc4f80284', brs[1].scmid
+        assert_equal 'ad4dc4f80284a4f9168b77e0b6de288e5d207ee7', brs[1].scmid
         assert_equal @branch_char_1, brs[2].to_s
         assert_equal '27', brs[2].revision
-        assert_equal '7bbf4c738e71', brs[2].scmid
+        assert_equal '7bbf4c738e7145149d2e5eb1eed1d3a8ddd3b914', brs[2].scmid
         assert_equal 'branch (1)[2]&,%.-3_4', brs[3].to_s
         assert_equal '25', brs[3].revision
-        assert_equal 'afc61e85bde7', brs[3].scmid
+        assert_equal 'afc61e85bde74de930e5846c8451bd55b5bafc9c', brs[3].scmid
         assert_equal @branch_char_0, brs[4].to_s
         assert_equal '23', brs[4].revision
-        assert_equal 'c8d3e4887474', brs[4].scmid
+        assert_equal 'c8d3e4887474af6a589190140508037ebaa9d9c3', brs[4].scmid
         assert_equal 'test_branch.latin-1', brs[5].to_s
         assert_equal '22', brs[5].revision
-        assert_equal 'c2ffe7da686a', brs[5].scmid
+        assert_equal 'c2ffe7da686aa3d956e59f2a2854cf8980a8b768', brs[5].scmid
         assert_equal 'test-branch-00', brs[6].to_s
         assert_equal '13', brs[6].revision
-        assert_equal '3a330eb32958', brs[6].scmid
+        assert_equal '3a330eb329586ea2adb3f83237c23310e744ebe9', brs[6].scmid
       end
 
       def test_branchmap
         bm = {
-           'default'               => '31eeee7395c8',
-           'test_branch.latin-1'   => 'c2ffe7da686a',
-           'branch (1)[2]&,%.-3_4' => 'afc61e85bde7',
-           'test-branch-00'        => '3a330eb32958',
-           "test-branch-01"        => 'ad4dc4f80284',
-           @branch_char_0          => 'c8d3e4887474',
-           @branch_char_1          => '7bbf4c738e71',
+           'default'               => '31eeee7395c8c78e66dd54c50addd078d10b2355',
+           'test_branch.latin-1'   => 'c2ffe7da686aa3d956e59f2a2854cf8980a8b768',
+           'branch (1)[2]&,%.-3_4' => 'afc61e85bde74de930e5846c8451bd55b5bafc9c',
+           'test-branch-00'        => '3a330eb329586ea2adb3f83237c23310e744ebe9',
+           "test-branch-01"        => 'ad4dc4f80284a4f9168b77e0b6de288e5d207ee7',
+           @branch_char_0          => 'c8d3e4887474af6a589190140508037ebaa9d9c3',
+           @branch_char_1          => '7bbf4c738e7145149d2e5eb1eed1d3a8ddd3b914',
          }
         assert_equal bm, @adapter.branchmap
       end
@@ -378,18 +378,18 @@ begin
             when 'branch (1)[2]&,%.-3_4'
               if @adapter.class.client_version_above?([1, 6])
                 assert_equal 3, nib0.size
-                assert_equal nib0[0], 'afc61e85bde7'
+                assert_equal 'afc61e85bde74de930e5846c8451bd55b5bafc9c', nib0[0]
                 nib2 = @adapter.nodes_in_branch(bra, :limit => 2)
                 assert_equal 2, nib2.size
-                assert_equal nib2[1], '933ca60293d7'
+                assert_equal '933ca60293d78f7c7979dd123cc0c02431683575', nib2[1]
               end
             when @branch_char_1
               if @adapter.class.client_version_above?([1, 6])
                 assert_equal 2, nib0.size
-                assert_equal nib0[1], '08ff3227303e'
+                assert_equal '08ff3227303ec0dfcc818efa8e9cc652fe81859f', nib0[1]
                 nib2 = @adapter.nodes_in_branch(bra, :limit => 1)
                 assert_equal 1, nib2.size
-                assert_equal nib2[0], '7bbf4c738e71'
+                assert_equal '7bbf4c738e7145149d2e5eb1eed1d3a8ddd3b914', nib2[0]
               end
           end
         end
