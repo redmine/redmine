@@ -295,13 +295,18 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       assert_equal %w|27|, changesets.collect(&:revision)
     end
 
+    def assert_latest_changesets_default_branch
+      changesets = @repository.latest_changesets('', 'default')
+      assert_equal %w|31 28 24 6 4 3 2 1 0|, changesets.collect(&:revision)
+    end
+    private :assert_latest_changesets_default_branch
+
     def test_latest_changesets_default_branch
       assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      changesets = @repository.latest_changesets('', 'default')
-      assert_equal %w|31 28 24 6 4 3 2 1 0|, changesets.collect(&:revision)
+      assert_latest_changesets_default_branch
     end
 
     def test_copied_files
