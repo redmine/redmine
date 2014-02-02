@@ -103,6 +103,44 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       end
     end
 
+    def test_entry_on_tip
+      entry = @repository.entry
+      assert_kind_of Redmine::Scm::Adapters::Entry, entry
+      assert_equal "", entry.path
+      assert_equal 'dir', entry.kind
+    end
+
+    def test_entry_short_id
+      ["README", "/README"].each do |path|
+        ["0", "0885933ad4f6", "0885933ad4f68d77c2649cd11f8311276e7ef7ce"].each do |rev|
+          entry = @repository.entry(path, rev)
+          assert_kind_of Redmine::Scm::Adapters::Entry, entry
+          assert_equal "README", entry.path
+          assert_equal "file", entry.kind
+          assert_equal '0', entry.lastrev.revision
+          assert_equal '0885933ad4f6', entry.lastrev.identifier
+        end
+      end
+      ["sources", "/sources", "/sources/"].each do |path|
+        ["0", "0885933ad4f6", "0885933ad4f68d77c2649cd11f8311276e7ef7ce"].each do |rev|
+          entry = @repository.entry(path, rev)
+          assert_kind_of Redmine::Scm::Adapters::Entry, entry
+          assert_equal "sources", entry.path
+          assert_equal "dir", entry.kind
+        end
+      end
+      ["sources/watchers_controller.rb", "/sources/watchers_controller.rb"].each do |path|
+        ["0", "0885933ad4f6", "0885933ad4f68d77c2649cd11f8311276e7ef7ce"].each do |rev|
+          entry = @repository.entry(path, rev)
+          assert_kind_of Redmine::Scm::Adapters::Entry, entry
+          assert_equal "sources/watchers_controller.rb", entry.path
+          assert_equal "file", entry.kind
+          assert_equal '0', entry.lastrev.revision
+          assert_equal '0885933ad4f6', entry.lastrev.identifier
+        end
+      end
+    end
+
     def test_fetch_changesets_from_scratch
       assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
