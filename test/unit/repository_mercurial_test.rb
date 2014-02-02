@@ -502,6 +502,18 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
         assert_nil changeset.next
       end
     end
+
+    def test_scmid_for_assert
+      rev = "0123456789012345678901234567890123456789"
+      assert_equal rev, scmid_for_assert(rev, false)
+      assert_equal "012345678901", scmid_for_assert(rev, true)
+    end
+
+    private
+
+    def scmid_for_assert(hex, is_short=true)
+      is_short ? hex[0, 12] : hex
+    end
   else
     puts "Mercurial test repository NOT FOUND. Skipping unit tests !!!"
     def test_fake; assert true end
