@@ -165,6 +165,10 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       assert_equal "Initial import.\nThe repository contains 3 files.",
                    rev0.comments
       assert_equal "0885933ad4f6", rev0.scmid
+      first_rev = @repository.changesets.first
+      last_rev  = @repository.changesets.last
+      assert_equal "#{NUM_REV - 1}", first_rev.revision
+      assert_equal "0", last_rev.revision
     end
 
     def test_fetch_changesets_incremental
