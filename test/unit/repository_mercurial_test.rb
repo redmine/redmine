@@ -256,11 +256,18 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       changesets = @repository.latest_changesets('', 'tag_test.00')
       assert_equal %w|5 4 3 2 1 0|, changesets.collect(&:revision)
 
-      changesets = @repository.latest_changesets('', 'tag_test.00', 2)
-      assert_equal %w|5 4|, changesets.collect(&:revision)
-
       changesets = @repository.latest_changesets('sources', 'tag_test.00')
       assert_equal %w|4 3 2 1 0|, changesets.collect(&:revision)
+    end
+
+    def test_latest_changesets_tag_with_limit
+      assert_equal 0, @repository.changesets.count
+      @repository.fetch_changesets
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
+
+      changesets = @repository.latest_changesets('', 'tag_test.00', 2)
+      assert_equal %w|5 4|, changesets.collect(&:revision)
 
       changesets = @repository.latest_changesets('sources', 'tag_test.00', 2)
       assert_equal %w|4 3|, changesets.collect(&:revision)
