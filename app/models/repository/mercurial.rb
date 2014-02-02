@@ -71,6 +71,15 @@ class Repository::Mercurial < Repository
     super(cs, cs_to, ' ')
   end
 
+  def entry(path=nil, identifier=nil)
+    scm.entry(path, identifier)
+  end
+
+  def scm_entries(path=nil, identifier=nil)
+    scm.entries(path, identifier)
+  end
+  protected :scm_entries
+
   # Finds and returns a revision with a number or the beginning of a hash
   def find_changeset_by_name(name)
     return nil if name.blank?
