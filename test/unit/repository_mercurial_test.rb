@@ -247,14 +247,18 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       assert_equal %w|12|, changesets.collect(&:revision)
     end
 
+    def assert_latest_changesets_tag
+      changesets = @repository.latest_changesets('', 'tag_test.00')
+      assert_equal %w|5 4 3 2 1 0|, changesets.collect(&:revision)
+    end
+    private :assert_latest_changesets_tag
+
     def test_latest_changesets_tag
       assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-
-      changesets = @repository.latest_changesets('', 'tag_test.00')
-      assert_equal %w|5 4 3 2 1 0|, changesets.collect(&:revision)
+      assert_latest_changesets_tag
     end
 
     def test_latest_changesets_tag_with_path
