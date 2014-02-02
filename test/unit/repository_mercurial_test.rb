@@ -433,18 +433,23 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       end
     end
 
-    def assert_parents
+    def assert_parents(is_short_scmid=true)
       r1 = @repository.changesets.find_by_revision('0')
       assert_equal [], r1.parents
       r2 = @repository.changesets.find_by_revision('1')
+      hex2 = "0885933ad4f68d77c2649cd11f8311276e7ef7ce"
+      scmid2 = scmid_for_assert(hex2, is_short_scmid)
       assert_equal 1, r2.parents.length
-      assert_equal "0885933ad4f6",
-                   r2.parents[0].identifier
+      assert_equal scmid2, r2.parents[0].identifier
       r3 = @repository.changesets.find_by_revision('30')
       assert_equal 2, r3.parents.length
       r4 = [r3.parents[0].identifier, r3.parents[1].identifier].sort
-      assert_equal "3a330eb32958", r4[0]
-      assert_equal "a94b0528f24f", r4[1]
+      hex41 = "3a330eb329586ea2adb3f83237c23310e744ebe9"
+      scmid41 = scmid_for_assert(hex41, is_short_scmid)
+      hex42 = "a94b0528f24fe05ebaef496ae0500bb050772e36"
+      scmid42 = scmid_for_assert(hex42, is_short_scmid)
+      assert_equal scmid41, r4[0]
+      assert_equal scmid42, r4[1]
     end
     private :assert_parents
 
@@ -453,7 +458,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      assert_parents
+      assert_parents(true)
     end
 
     def test_activities
