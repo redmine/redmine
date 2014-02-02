@@ -110,7 +110,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       assert_equal 'dir', entry.kind
     end
 
-    def test_entry_short_id
+    def assert_entry
       ["README", "/README"].each do |path|
         ["0", "0885933ad4f6", "0885933ad4f68d77c2649cd11f8311276e7ef7ce"].each do |rev|
           entry = @repository.entry(path, rev)
@@ -139,6 +139,11 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
           assert_equal '0885933ad4f6', entry.lastrev.identifier
         end
       end
+    end
+    private :assert_entry
+
+    def test_entry_short_id
+      assert_entry
     end
 
     def test_fetch_changesets_from_scratch
