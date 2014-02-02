@@ -265,6 +265,47 @@ begin
         assert_equal Time.gm(2001, 2, 1, 9, 0, 0), readme.lastrev.time
       end
 
+      def test_entry
+        entry = @adapter.entry()
+        assert_equal "", entry.path
+        assert_equal "dir", entry.kind
+        entry = @adapter.entry('')
+        assert_equal "", entry.path
+        assert_equal "dir", entry.kind
+        assert_nil @adapter.entry('invalid')
+        assert_nil @adapter.entry('/invalid')
+        assert_nil @adapter.entry('/invalid/')
+        assert_nil @adapter.entry('invalid/invalid')
+        assert_nil @adapter.entry('invalid/invalid/')
+        assert_nil @adapter.entry('/invalid/invalid')
+        assert_nil @adapter.entry('/invalid/invalid/')
+        ["README", "/README"].each do |path|
+          ["0", "0885933ad4f6", "0885933ad4f68d77c2649cd11f8311276e7ef7ce"].each do |rev|
+            entry = @adapter.entry(path, rev)
+            assert_equal "README", entry.path
+            assert_equal "file", entry.kind
+            assert_equal '0', entry.lastrev.revision
+            assert_equal '0885933ad4f6', entry.lastrev.identifier
+          end
+        end
+        ["sources", "/sources", "/sources/"].each do |path|
+          ["0", "0885933ad4f6", "0885933ad4f68d77c2649cd11f8311276e7ef7ce"].each do |rev|
+            entry = @adapter.entry(path, rev)
+            assert_equal "sources", entry.path
+            assert_equal "dir", entry.kind
+          end
+        end
+        ["sources/watchers_controller.rb", "/sources/watchers_controller.rb"].each do |path|
+          ["0", "0885933ad4f6", "0885933ad4f68d77c2649cd11f8311276e7ef7ce"].each do |rev|
+            entry = @adapter.entry(path, rev)
+            assert_equal "sources/watchers_controller.rb", entry.path
+            assert_equal "file", entry.kind
+            assert_equal '0', entry.lastrev.revision
+            assert_equal '0885933ad4f6', entry.lastrev.identifier
+          end
+        end
+      end
+
       def test_locate_on_outdated_repository
         assert_equal 1, @adapter.entries("images", 0).size
         assert_equal 2, @adapter.entries("images").size
