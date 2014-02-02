@@ -323,12 +323,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       assert_latest_changesets_default_branch
     end
 
-    def test_copied_files
-      assert_equal 0, @repository.changesets.count
-      @repository.fetch_changesets
-      @project.reload
-      assert_equal NUM_REV, @repository.changesets.count
-
+    def assert_copied_files
       cs1 = @repository.changesets.find_by_revision('13')
       assert_not_nil cs1
       c1  = cs1.filechanges.sort_by(&:path)
@@ -359,6 +354,15 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       assert_equal "/latin-1-dir/test-#{@char_1}-1.txt",  c3[0].path
       assert_equal "/latin-1-dir/test-#{@char_1}.txt",    c3[0].from_path
       assert_equal '5d9891a1b425', c3[0].from_revision
+    end
+    private :assert_copied_files
+
+    def test_copied_files_short_id
+      assert_equal 0, @repository.changesets.count
+      @repository.fetch_changesets
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
+      assert_copied_files
     end
 
     def test_find_changeset_by_name
