@@ -115,7 +115,9 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       assert_equal 'dir', entry.kind
     end
 
-    def assert_entry
+    def assert_entry(is_short_scmid=true)
+      hex = "0885933ad4f68d77c2649cd11f8311276e7ef7ce"
+      scmid = scmid_for_assert(hex, is_short_scmid)
       ["README", "/README"].each do |path|
         ["0", "0885933ad4f6", "0885933ad4f68d77c2649cd11f8311276e7ef7ce"].each do |rev|
           entry = @repository.entry(path, rev)
@@ -123,7 +125,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
           assert_equal "README", entry.path
           assert_equal "file", entry.kind
           assert_equal '0', entry.lastrev.revision
-          assert_equal '0885933ad4f6', entry.lastrev.identifier
+          assert_equal scmid, entry.lastrev.identifier
         end
       end
       ["sources", "/sources", "/sources/"].each do |path|
@@ -141,14 +143,14 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
           assert_equal "sources/watchers_controller.rb", entry.path
           assert_equal "file", entry.kind
           assert_equal '0', entry.lastrev.revision
-          assert_equal '0885933ad4f6', entry.lastrev.identifier
+          assert_equal scmid, entry.lastrev.identifier
         end
       end
     end
     private :assert_entry
 
     def test_entry_short_id
-      assert_entry
+      assert_entry(true)
     end
 
     def test_fetch_changesets_from_scratch
