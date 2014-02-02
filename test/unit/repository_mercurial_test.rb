@@ -422,11 +422,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       end
     end
 
-    def test_parents
-      assert_equal 0, @repository.changesets.count
-      @repository.fetch_changesets
-      @project.reload
-      assert_equal NUM_REV, @repository.changesets.count
+    def assert_parents
       r1 = @repository.changesets.find_by_revision('0')
       assert_equal [], r1.parents
       r2 = @repository.changesets.find_by_revision('1')
@@ -438,6 +434,15 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       r4 = [r3.parents[0].identifier, r3.parents[1].identifier].sort
       assert_equal "3a330eb32958", r4[0]
       assert_equal "a94b0528f24f", r4[1]
+    end
+    private :assert_parents
+
+    def test_parents_short_id
+      assert_equal 0, @repository.changesets.count
+      @repository.fetch_changesets
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
+      assert_parents
     end
 
     def test_activities
