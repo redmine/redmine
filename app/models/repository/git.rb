@@ -93,11 +93,10 @@ class Repository::Git < Repository
     end
   end
 
-  def entries(path=nil, identifier=nil)
-    entries = scm.entries(path, identifier, :report_last_commit => extra_report_last_commit)
-    load_entries_changesets(entries)
-    entries
+  def scm_entries(path=nil, identifier=nil)
+    scm.entries(path, identifier, :report_last_commit => extra_report_last_commit)
   end
+  protected :scm_entries
 
   # With SCMs that have a sequential commit numbering,
   # such as Subversion and Mercurial,

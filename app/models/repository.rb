@@ -188,8 +188,13 @@ class Repository < ActiveRecord::Base
     scm.entry(path, identifier)
   end
 
+  def scm_entries(path=nil, identifier=nil)
+    scm.entries(path, identifier)
+  end
+  protected :scm_entries
+
   def entries(path=nil, identifier=nil)
-    entries = scm.entries(path, identifier)
+    entries = scm_entries(path, identifier)
     load_entries_changesets(entries)
     entries
   end

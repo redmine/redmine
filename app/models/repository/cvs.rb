@@ -47,7 +47,7 @@ class Repository::Cvs < Repository
     scm.entry(path, rev.nil? ? nil : rev.committed_on)
   end
 
-  def entries(path=nil, identifier=nil)
+  def scm_entries(path=nil, identifier=nil)
     rev = nil
     if ! identifier.nil?
       rev = changesets.find_by_revision(identifier)
@@ -69,9 +69,9 @@ class Repository::Cvs < Repository
         end
       end
     end
-    load_entries_changesets(entries)
     entries
   end
+  protected :scm_entries
 
   def cat(path, identifier=nil)
     rev = nil

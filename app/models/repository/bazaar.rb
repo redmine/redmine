@@ -57,7 +57,7 @@ class Repository::Bazaar < Repository
     scm.diff(path, rev, rev_to)
   end
 
-  def entries(path=nil, identifier=nil)
+  def scm_entries(path=nil, identifier=nil)
     scm.bzr_path_encodig = log_encoding
     entries = scm.entries(path, identifier)
     if entries
@@ -80,9 +80,9 @@ class Repository::Bazaar < Repository
         end
       end
     end
-    load_entries_changesets(entries)
     entries
   end
+  protected :scm_entries
 
   def fetch_changesets
     scm.bzr_path_encodig = log_encoding

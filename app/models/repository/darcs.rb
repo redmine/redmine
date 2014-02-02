@@ -45,7 +45,7 @@ class Repository::Darcs < Repository
     scm.entry(path, patch.nil? ? nil : patch.scmid)
   end
 
-  def entries(path=nil, identifier=nil)
+  def scm_entries(path=nil, identifier=nil)
     patch = nil
     if ! identifier.nil?
       patch = changesets.find_by_revision(identifier)
@@ -66,9 +66,9 @@ class Repository::Darcs < Repository
         end
       end
     end
-    load_entries_changesets(entries)
     entries
   end
+  protected :scm_entries
 
   def cat(path, identifier=nil)
     patch = identifier.nil? ? nil : changesets.find_by_revision(identifier.to_s)
