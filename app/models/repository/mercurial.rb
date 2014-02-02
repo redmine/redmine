@@ -71,12 +71,25 @@ class Repository::Mercurial < Repository
     super(cs, cs_to, ' ')
   end
 
+  def modify_entry_lastrev_identifier(entry)
+    if entry.lastrev && entry.lastrev.identifier
+      entry.lastrev.identifier = scmid_for_inserting_db(entry.lastrev.identifier)
+    end
+  end
+  private :modify_entry_lastrev_identifier
+
   def entry(path=nil, identifier=nil)
-    scm.entry(path, identifier)
+    entry = scm.entry(path, identifier)
+    return nil if entry.nil?
+    modify_entry_lastrev_identifier(entry)
+    entry
   end
 
   def scm_entries(path=nil, identifier=nil)
-    scm.entries(path, identifier)
+    entries = scm.entries(path, identifier)
+    return nil if entries.nil?
+    entries.each {|entry| modify_entry_lastrev_identifier(entry)}
+    entries
   end
   protected :scm_entries
 
