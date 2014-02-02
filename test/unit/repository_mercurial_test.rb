@@ -104,10 +104,20 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
 
     def test_entries_short_id
       assert_equal 0, @repository.changesets.count
+      create_rev0_short_id
+      assert_equal 1, @repository.changesets.count
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
       assert_entries(true)
+    end
+
+    def test_entries_long_id
+      assert_equal 0, @repository.changesets.count
+      @repository.fetch_changesets
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
+      assert_entries(false)
     end
 
     def test_entry_on_tip
@@ -152,7 +162,14 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
     private :assert_entry
 
     def test_entry_short_id
+      assert_equal 0, @repository.changesets.count
+      create_rev0_short_id
+      assert_equal 1, @repository.changesets.count
       assert_entry(true)
+    end
+
+    def test_entry_long_id
+      assert_entry(false)
     end
 
     def test_fetch_changesets_from_scratch
@@ -164,11 +181,37 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       rev0 = @repository.changesets.find_by_revision('0')
       assert_equal "Initial import.\nThe repository contains 3 files.",
                    rev0.comments
-      assert_equal "0885933ad4f6", rev0.scmid
+      assert_equal "0885933ad4f68d77c2649cd11f8311276e7ef7ce", rev0.scmid
       first_rev = @repository.changesets.first
       last_rev  = @repository.changesets.last
       assert_equal "#{NUM_REV - 1}", first_rev.revision
       assert_equal "0", last_rev.revision
+    end
+
+    def test_fetch_changesets_keep_short_id
+      assert_equal 0, @repository.changesets.count
+      create_rev0_short_id
+      assert_equal 1, @repository.changesets.count
+      @repository.fetch_changesets
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
+      rev1 = @repository.changesets.find_by_revision('1')
+      assert_equal "9d5b5b004199", rev1.scmid
+    end
+
+    def test_fetch_changesets_keep_long_id
+      assert_equal 0, @repository.changesets.count
+      Changeset.create!(:repository   => @repository,
+                        :committed_on => Time.now,
+                        :revision     => '0',
+                        :scmid        => '0885933ad4f68d77c2649cd11f8311276e7ef7ce',
+                        :comments     => 'test')
+      assert_equal 1, @repository.changesets.count
+      @repository.fetch_changesets
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
+      rev1 = @repository.changesets.find_by_revision('1')
+      assert_equal "9d5b5b00419901478496242e0768deba1ce8c51e", rev1.scmid
     end
 
     def test_fetch_changesets_incremental
@@ -279,6 +322,16 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       assert_latest_changesets_tag
     end
 
+    def test_latest_changesets_tag_short_id
+      assert_equal 0, @repository.changesets.count
+      create_rev0_short_id
+      assert_equal 1, @repository.changesets.count
+      @repository.fetch_changesets
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
+      assert_latest_changesets_tag
+    end
+
     def test_latest_changesets_tag_with_path
       assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
@@ -331,6 +384,16 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       assert_latest_changesets_default_branch
     end
 
+    def test_latest_changesets_default_branch_short_id
+      assert_equal 0, @repository.changesets.count
+      create_rev0_short_id
+      assert_equal 1, @repository.changesets.count
+      @repository.fetch_changesets
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
+      assert_latest_changesets_default_branch
+    end
+
     def assert_copied_files(is_short_scmid=true)
       cs1 = @repository.changesets.find_by_revision('13')
       assert_not_nil cs1
@@ -374,10 +437,20 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
 
     def test_copied_files_short_id
       assert_equal 0, @repository.changesets.count
+      create_rev0_short_id
+      assert_equal 1, @repository.changesets.count
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
       assert_copied_files(true)
+    end
+
+    def test_copied_files_long_id
+      assert_equal 0, @repository.changesets.count
+      @repository.fetch_changesets
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
+      assert_copied_files(false)
     end
 
     def test_find_changeset_by_name
@@ -459,10 +532,20 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
 
     def test_parents_short_id
       assert_equal 0, @repository.changesets.count
+      create_rev0_short_id
+      assert_equal 1, @repository.changesets.count
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
       assert_parents(true)
+    end
+
+    def test_parents_long_id
+      assert_equal 0, @repository.changesets.count
+      @repository.fetch_changesets
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
+      assert_parents(false)
     end
 
     def test_activities
@@ -523,6 +606,27 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       end
     end
 
+    def test_scmid_for_inserting_db_short_id
+      assert_equal 0, @repository.changesets.count
+      create_rev0_short_id
+      assert_equal 1, @repository.changesets.count
+      rev = "0123456789012345678901234567890123456789"
+      assert_equal 12, @repository.scmid_for_inserting_db(rev).length
+    end
+
+    def test_scmid_for_inserting_db_long_id
+      rev = "0123456789012345678901234567890123456789"
+      assert_equal 0, @repository.changesets.count
+      assert_equal 40, @repository.scmid_for_inserting_db(rev).length
+      Changeset.create!(:repository   => @repository,
+                        :committed_on => Time.now,
+                        :revision     => '0',
+                        :scmid        => rev,
+                        :comments     => 'test')
+      assert_equal 1, @repository.changesets.count
+      assert_equal 40, @repository.scmid_for_inserting_db(rev).length
+    end
+
     def test_scmid_for_assert
       rev = "0123456789012345678901234567890123456789"
       assert_equal rev, scmid_for_assert(rev, false)
@@ -533,6 +637,14 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
 
     def scmid_for_assert(hex, is_short=true)
       is_short ? hex[0, 12] : hex
+    end
+
+    def create_rev0_short_id
+      Changeset.create!(:repository   => @repository,
+                        :committed_on => Time.now,
+                        :revision     => '0',
+                        :scmid        => '0885933ad4f6',
+                        :comments     => 'test')
     end
   else
     puts "Mercurial test repository NOT FOUND. Skipping unit tests !!!"

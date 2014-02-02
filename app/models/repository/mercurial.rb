@@ -122,9 +122,15 @@ class Repository::Mercurial < Repository
       all
   end
 
+  def is_short_id_in_db?
+    return @is_short_id_in_db unless @is_short_id_in_db.nil?
+    cs = changesets.first
+    @is_short_id_in_db = (!cs.nil? && cs.scmid.length != 40)
+  end
+  private :is_short_id_in_db?
+
   def scmid_for_inserting_db(scmid)
-    # TODO: switch short or long by existing value in DB
-    scmid[0, 12]
+    is_short_id_in_db? ? scmid[0, 12] : scmid
   end
 
   def nodes_in_branch(rev, branch_limit)
