@@ -323,16 +323,18 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       assert_latest_changesets_default_branch
     end
 
-    def assert_copied_files
+    def assert_copied_files(is_short_scmid=true)
       cs1 = @repository.changesets.find_by_revision('13')
       assert_not_nil cs1
       c1  = cs1.filechanges.sort_by(&:path)
       assert_equal 2, c1.size
 
+      hex1 = "3a330eb329586ea2adb3f83237c23310e744ebe9"
+      scmid1 = scmid_for_assert(hex1, is_short_scmid)
       assert_equal 'A', c1[0].action
       assert_equal '/sql_escape/percent%dir/percentfile1.txt',  c1[0].path
       assert_equal '/sql_escape/percent%dir/percent%file1.txt', c1[0].from_path
-      assert_equal '3a330eb32958', c1[0].from_revision
+      assert_equal scmid1, c1[0].from_revision
 
       assert_equal 'A', c1[1].action
       assert_equal '/sql_escape/underscore_dir/understrike-file.txt', c1[1].path
@@ -342,18 +344,23 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       c2  = cs2.filechanges
       assert_equal 1, c2.size
 
+      hex2 = "933ca60293d78f7c7979dd123cc0c02431683575"
+      scmid2 = scmid_for_assert(hex2, is_short_scmid)
       assert_equal 'A', c2[0].action
       assert_equal '/README (1)[2]&,%.-3_4', c2[0].path
       assert_equal '/README', c2[0].from_path
-      assert_equal '933ca60293d7', c2[0].from_revision
+      assert_equal scmid2, c2[0].from_revision
 
       cs3 = @repository.changesets.find_by_revision('19')
       c3  = cs3.filechanges
+
+      hex3 = "5d9891a1b4258ea256552aa856e388f2da28256a"
+      scmid3 = scmid_for_assert(hex3, is_short_scmid)
       assert_equal 1, c3.size
       assert_equal 'A', c3[0].action
       assert_equal "/latin-1-dir/test-#{@char_1}-1.txt",  c3[0].path
       assert_equal "/latin-1-dir/test-#{@char_1}.txt",    c3[0].from_path
-      assert_equal '5d9891a1b425', c3[0].from_revision
+      assert_equal scmid3, c3[0].from_revision
     end
     private :assert_copied_files
 
@@ -362,7 +369,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      assert_copied_files
+      assert_copied_files(true)
     end
 
     def test_find_changeset_by_name
