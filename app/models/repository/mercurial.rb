@@ -100,15 +100,20 @@ class Repository::Mercurial < Repository
       all
   end
 
+  def scmid_for_inserting_db(scmid)
+    # TODO: switch short or long by existing value in DB
+    scmid[0, 12]
+  end
+
   def nodes_in_branch(rev, branch_limit)
     scm.nodes_in_branch(rev, :limit => branch_limit).collect do |b|
-      b[0, 12]
+      scmid_for_inserting_db(b)
     end
   end
 
   def tag_scmid(rev)
     scmid = scm.tagmap[rev]
-    scmid.nil? ? nil : scmid[0, 12]
+    scmid.nil? ? nil : scmid_for_inserting_db(scmid)
   end
 
   def latest_changesets_cond(path, rev, limit)
@@ -152,16 +157,23 @@ class Repository::Mercurial < Repository
     (db_rev + 1).step(scm_rev, FETCH_AT_ONCE) do |i|
       scm.each_revision('', i, [i + FETCH_AT_ONCE - 1, scm_rev].min) do |re|
         transaction do
-          parents = (re.parents || []).collect{|rp| find_changeset_by_name(rp)}.compact
+          parents = (re.parents || []).collect do |rp|
+            find_changeset_by_name(scmid_for_inserting_db(rp))
+          end.compact
           cs = Changeset.create(:repository   => self,
                                 :revision     => re.revision,
-                                :scmid        => re.scmid,
+                                :scmid        => scmid_for_inserting_db(re.scmid),
                                 :committer    => re.author,
                                 :committed_on => re.time,
                                 :comments     => re.message,
                                 :parents      => parents)
           unless cs.new_record?
-            re.paths.each { |e| cs.create_change(e) }
+            re.paths.each do |e|
+              if from_revision = e[:from_revision]
+                e[:from_revision] = scmid_for_inserting_db(from_revision)
+              end
+              cs.create_change(e)
+            end
           end
         end
       end
