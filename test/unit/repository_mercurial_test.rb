@@ -80,9 +80,27 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       assert_equal true, klass.scm_available
     end
 
-    def test_entries
+    def test_entries_on_tip
       entries = @repository.entries
       assert_kind_of Redmine::Scm::Adapters::Entries, entries
+    end
+
+    def test_entries_short_id
+      assert_equal 0, @repository.changesets.count
+      @repository.fetch_changesets
+      @project.reload
+      assert_equal NUM_REV, @repository.changesets.count
+      [2, '400bb8672109', '400', 400].each do |r|
+        entries1 = @repository.entries(nil, r)
+        assert entries1
+        assert_kind_of Redmine::Scm::Adapters::Entries, entries1
+        assert_equal 3, entries1.size
+        readme = entries1[2]
+        assert_equal '1',            readme.lastrev.revision
+        assert_equal '9d5b5b004199', readme.lastrev.identifier
+        assert_equal '1',            readme.changeset.revision
+        assert_equal '9d5b5b004199', readme.changeset.scmid
+      end
     end
 
     def test_fetch_changesets_from_scratch
