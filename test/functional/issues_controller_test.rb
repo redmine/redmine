@@ -59,7 +59,7 @@ class IssuesControllerTest < ActionController::TestCase
       assert_nil assigns(:project)
 
       # links to visible issues
-      assert_select 'a[href=/issues/1]', :text => /Can&#x27;t print recipes/
+      assert_select 'a[href=/issues/1]', :text => /#{ESCAPED_UCANT} print recipes/
       assert_select 'a[href=/issues/5]', :text => /Subproject issue/
       # private projects hidden
       assert_select 'a[href=/issues/6]', 0
@@ -95,7 +95,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_template 'index'
     assert_not_nil assigns(:issues)
 
-    assert_select 'a[href=/issues/1]', :text => /Can&#x27;t print recipes/
+    assert_select 'a[href=/issues/1]', :text => /#{ESCAPED_UCANT} print recipes/
     assert_select 'a[href=/issues/5]', 0
   end
 
@@ -106,7 +106,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_template 'index'
     assert_not_nil assigns(:issues)
 
-    assert_select 'a[href=/issues/1]', :text => /Can&#x27;t print recipes/
+    assert_select 'a[href=/issues/1]', :text => /#{ESCAPED_UCANT} print recipes/
     assert_select 'a[href=/issues/5]', :text => /Subproject issue/
     assert_select 'a[href=/issues/6]', 0
   end
@@ -119,7 +119,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_template 'index'
     assert_not_nil assigns(:issues)
 
-    assert_select 'a[href=/issues/1]', :text => /Can&#x27;t print recipes/
+    assert_select 'a[href=/issues/1]', :text => /#{ESCAPED_UCANT} print recipes/
     assert_select 'a[href=/issues/5]', :text => /Subproject issue/
     assert_select 'a[href=/issues/6]', :text => /Issue of a private subproject/
   end
@@ -892,7 +892,7 @@ class IssuesControllerTest < ActionController::TestCase
         assert_select 'textarea[name=?]', 'issue[notes]'
       end
     end
-    assert_select 'title', :text => "Bug #1: Can&#x27;t print recipes - eCookbook - Redmine"
+    assert_select 'title', :text => "Bug #1: #{ESCAPED_UCANT} print recipes - eCookbook - Redmine"
   end
 
   def test_show_by_manager
