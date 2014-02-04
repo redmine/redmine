@@ -84,7 +84,8 @@ class TrackersControllerTest < ActionController::TestCase
 
   def test_create_with_failure
     assert_no_difference 'Tracker.count' do
-      post :create, :tracker => { :name => '', :project_ids => ['1', '', ''], :custom_field_ids => ['1', '6', ''] }
+      post :create, :tracker => { :name => '', :project_ids => ['1', '', ''],
+                                  :custom_field_ids => ['1', '6', ''] }
     end
     assert_response :success
     assert_template 'new'
