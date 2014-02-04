@@ -29,7 +29,7 @@ class CalendarsControllerTest < ActionController::TestCase
   def test_show
     get :show, :project_id => 1
     assert_response :success
-    assert_template 'calendar'
+    assert_template :partial => '_calendar'
     assert_not_nil assigns(:calendar)
   end
 
@@ -43,7 +43,7 @@ class CalendarsControllerTest < ActionController::TestCase
   def test_cross_project_calendar
     get :show
     assert_response :success
-    assert_template 'calendar'
+    assert_template :partial => '_calendar'
     assert_not_nil assigns(:calendar)
   end
 
