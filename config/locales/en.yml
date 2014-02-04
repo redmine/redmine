@@ -401,6 +401,7 @@ en:
   setting_non_working_week_days: Non-working days
   setting_jsonp_enabled: Enable JSONP support
   setting_default_projects_tracker_ids: Default trackers for new projects
+  setting_enable_watcher_issue_visibility: Enable watcher issue visibility
 
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects
@@ -866,6 +867,8 @@ en:
   label_issues_visibility_all: All issues
   label_issues_visibility_public: All non private issues
   label_issues_visibility_own: Issues created by or assigned to the user
+  label_issues_visibility_own_watch: Issues created by, assigned to or watched by the user
+  label_issues_visibility_own_watch_contributed: Issues created by, assigned to, watched by or contributed to by the user
   label_git_report_last_commit: Report last commit for files and directories
   label_parent_revision: Parent
   label_child_revision: Child
