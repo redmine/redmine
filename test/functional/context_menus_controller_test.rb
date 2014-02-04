@@ -233,7 +233,7 @@ class ContextMenusControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     get :time_entries, :ids => [1, 2]
     assert_response :success
-    assert_template 'time_entries'
+    assert_template 'context_menus/time_entries'
 
     assert_select 'a:not(.disabled)', :text => 'Edit'
   end
@@ -244,7 +244,7 @@ class ContextMenusControllerTest < ActionController::TestCase
     
     get :time_entries, :ids => [1, 2]
     assert_response :success
-    assert_template 'time_entries'
+    assert_template 'context_menus/time_entries'
     assert_select 'a.disabled', :text => 'Edit'
   end
 end
