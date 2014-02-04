@@ -90,26 +90,23 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
     assert @gantt.truncated
   end
 
-  context "#number_of_rows_on_project" do
-    setup do
-      create_gantt
-    end
+  test "#number_of_rows_on_project should count 0 for an empty the project" do
+    create_gantt
+    assert_equal 0, @gantt.number_of_rows_on_project(@project)
+  end
 
-    should "count 0 for an empty the project" do
-      assert_equal 0, @gantt.number_of_rows_on_project(@project)
-    end
+  test "#number_of_rows_on_project should count the number of issues without a version" do
+    create_gantt
+    @project.issues << Issue.generate!(:project => @project, :fixed_version => nil)
+    assert_equal 2, @gantt.number_of_rows_on_project(@project)
+  end
 
-    should "count the number of issues without a version" do
-      @project.issues << Issue.generate!(:project => @project, :fixed_version => nil)
-      assert_equal 2, @gantt.number_of_rows_on_project(@project)
-    end
-
-    should "count the number of issues on versions, including cross-project" do
-      version = Version.generate!
-      @project.versions << version
-      @project.issues << Issue.generate!(:project => @project, :fixed_version => version)
-      assert_equal 3, @gantt.number_of_rows_on_project(@project)
-    end
+  test "#number_of_rows_on_project should count the number of issues on versions, including cross-project" do
+    create_gantt
+    version = Version.generate!
+    @project.versions << version
+    @project.issues << Issue.generate!(:project => @project, :fixed_version => version)
+    assert_equal 3, @gantt.number_of_rows_on_project(@project)
   end
 
   # TODO: more of an integration test
