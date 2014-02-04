@@ -42,6 +42,7 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
   def today
     @today ||= Date.today
   end
+  private :today
 
   # Creates a Gantt chart for a 4 week span
   def create_gantt(project=Project.generate!, options={})
@@ -53,6 +54,7 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
     @gantt.instance_variable_set('@date_from', options[:date_from] || (today - 14))
     @gantt.instance_variable_set('@date_to', options[:date_to] || (today + 14))
   end
+  private :create_gantt
 
   context "#number_of_rows" do
     context "with one project" do
