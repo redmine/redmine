@@ -2262,63 +2262,65 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal issue, attachment.container
   end
 
-  context "without workflow privilege" do
-    setup do
-      WorkflowTransition.delete_all(["role_id = ?", Role.anonymous.id])
-      Role.anonymous.add_permission! :add_issues, :add_issue_notes
+  def setup_without_workflow_privilege
+    WorkflowTransition.delete_all(["role_id = ?", Role.anonymous.id])
+    Role.anonymous.add_permission! :add_issues, :add_issue_notes
+  end
+  private :setup_without_workflow_privilege
+
+  test "without workflow privilege #new should propose default status only" do
+    setup_without_workflow_privilege
+    get :new, :project_id => 1
+    assert_response :success
+    assert_template 'new'
+    assert_select 'select[name=?]', 'issue[status_id]' do
+      assert_select 'option', 1
+      assert_select 'option[value=?]', IssueStatus.default.id.to_s
     end
+  end
 
-    context "#new" do
-      should "propose default status only" do
-        get :new, :project_id => 1
-        assert_response :success
-        assert_template 'new'
-        assert_select 'select[name=?]', 'issue[status_id]' do
-          assert_select 'option', 1
-          assert_select 'option[value=?]', IssueStatus.default.id.to_s
-        end
-      end
-
-      should "accept default status" do
-        assert_difference 'Issue.count' do
-          post :create, :project_id => 1,
-                     :issue => {:tracker_id => 1,
+  test "without workflow privilege #new should accept default status" do
+    setup_without_workflow_privilege
+    assert_difference 'Issue.count' do
+      post :create, :project_id => 1,
+                    :issue => {:tracker_id => 1,
                                 :subject => 'This is an issue',
                                 :status_id => 1}
-        end
-        issue = Issue.order('id').last
-        assert_equal IssueStatus.default, issue.status
-      end
+    end
+    issue = Issue.order('id').last
+    assert_equal IssueStatus.default, issue.status
+  end
 
-      should "ignore unauthorized status" do
-        assert_difference 'Issue.count' do
-          post :create, :project_id => 1,
+  test "without workflow privilege #new should ignore unauthorized status" do
+    setup_without_workflow_privilege
+    assert_difference 'Issue.count' do
+      post :create, :project_id => 1,
                      :issue => {:tracker_id => 1,
                                 :subject => 'This is an issue',
                                 :status_id => 3}
-        end
-        issue = Issue.order('id').last
-        assert_equal IssueStatus.default, issue.status
-      end
     end
+    issue = Issue.order('id').last
+    assert_equal IssueStatus.default, issue.status
+  end
 
-    context "#update" do
-      should "ignore status change" do
-        assert_difference 'Journal.count' do
-          put :update, :id => 1, :issue => {:status_id => 3, :notes => 'just trying'}
-        end
-        assert_equal 1, Issue.find(1).status_id
-      end
-
-      should "ignore attributes changes" do
-        assert_difference 'Journal.count' do
-          put :update, :id => 1, :issue => {:subject => 'changed', :assigned_to_id => 2, :notes => 'just trying'}
-        end
-        issue = Issue.find(1)
-        assert_equal "Can't print recipes", issue.subject
-        assert_nil issue.assigned_to
-      end
+  test "without workflow privilege #update should ignore status change" do
+    setup_without_workflow_privilege
+    assert_difference 'Journal.count' do
+      put :update, :id => 1, :issue => {:status_id => 3, :notes => 'just trying'}
     end
+    assert_equal 1, Issue.find(1).status_id
+  end
+
+  test "without workflow privilege #update ignore attributes changes" do
+    setup_without_workflow_privilege
+    assert_difference 'Journal.count' do
+      put :update, :id => 1,
+                   :issue => {:subject => 'changed', :assigned_to_id => 2,
+                              :notes => 'just trying'}
+    end
+    issue = Issue.find(1)
+    assert_equal "Can't print recipes", issue.subject
+    assert_nil issue.assigned_to
   end
 
   context "with workflow privilege" do
