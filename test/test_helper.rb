@@ -32,9 +32,9 @@ class ActiveSupport::TestCase
   self.use_transactional_fixtures = true
   self.use_instantiated_fixtures  = false
 
-  ESCAPED_CANT='can&#x27;t'
+  ESCAPED_CANT = 'can&#x27;t'
   # Rails 4.0.2
-  #ESCAPED_CANT='can&#39;t'
+  #ESCAPED_CANT = 'can&#39;t'
 
   def log_user(login, password)
     User.anonymous
