@@ -463,7 +463,7 @@ class Mailer < ActionMailer::Base
     if rand
       hash << Redmine::Utils.random_hex(8)
     end
-    host = Setting.mail_from.to_s.gsub(%r{^.*@}, '')
+    host = Setting.mail_from.to_s.gsub(%r{^.*@}, '').gsub(%r{>}, '')
     host = "#{::Socket.gethostname}.redmine" if host.empty?
     "#{hash.join('.')}@#{host}"
   end
