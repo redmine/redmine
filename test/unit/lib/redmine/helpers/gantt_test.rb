@@ -109,132 +109,119 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
     assert_equal 3, @gantt.number_of_rows_on_project(@project)
   end
 
-  # TODO: more of an integration test
-  context "#subjects" do
-    setup do
-      create_gantt
-      @project.enabled_module_names = [:issue_tracking]
-      @tracker = Tracker.generate!
-      @project.trackers << @tracker
-      @version = Version.generate!(:effective_date => (today + 7), :sharing => 'none')
-      @project.versions << @version
-      @issue = Issue.generate!(:fixed_version => @version,
+  def setup_subjects
+    create_gantt
+    @project.enabled_module_names = [:issue_tracking]
+    @tracker = Tracker.generate!
+    @project.trackers << @tracker
+    @version = Version.generate!(:effective_date => (today + 7), :sharing => 'none')
+    @project.versions << @version
+    @issue = Issue.generate!(:fixed_version => @version,
                                :subject => "gantt#line_for_project",
                                :tracker => @tracker,
                                :project => @project,
                                :done_ratio => 30,
                                :start_date => (today - 1),
                                :due_date => (today + 7))
-      @project.issues << @issue
-    end
+    @project.issues << @issue
+  end
+  private :setup_subjects
 
-    context "project" do
-      should "be rendered" do
-        @output_buffer = @gantt.subjects
-        assert_select "div.project-name a", /#{@project.name}/
-      end
+  # TODO: more of an integration test
+  test "#subjects project should be rendered" do
+    setup_subjects
+    @output_buffer = @gantt.subjects
+    assert_select "div.project-name a", /#{@project.name}/
+  end
 
-      should "have an indent of 4" do
-        @output_buffer = @gantt.subjects
-        assert_select "div.project-name[style*=left:4px]"
-      end
-    end
+  test "#subjects project should have an indent of 4" do
+    setup_subjects
+    @output_buffer = @gantt.subjects
+    assert_select "div.project-name[style*=left:4px]"
+  end
 
-    context "version" do
-      should "be rendered" do
-        @output_buffer = @gantt.subjects
-        assert_select "div.version-name a", /#{@version.name}/
-      end
+  test "#subjects version should be rendered" do
+    setup_subjects
+    @output_buffer = @gantt.subjects
+    assert_select "div.version-name a", /#{@version.name}/
+  end
 
-      should "be indented 24 (one level)" do
-        @output_buffer = @gantt.subjects
-        assert_select "div.version-name[style*=left:24px]"
-      end
+  test "#subjects version should be indented 24 (one level)" do
+    setup_subjects
+    @output_buffer = @gantt.subjects
+    assert_select "div.version-name[style*=left:24px]"
+  end
 
-      context "without assigned issues" do
-        setup do
-          @version = Version.generate!(:effective_date => (today + 14),
+  test "#subjects version without assigned issues should not be rendered" do
+    setup_subjects
+    @version = Version.generate!(:effective_date => (today + 14),
                                        :sharing => 'none',
                                        :name => 'empty_version')
-          @project.versions << @version
-        end
+    @project.versions << @version
+    @output_buffer = @gantt.subjects
+    assert_select "div.version-name a", :text => /#{@version.name}/, :count => 0
+  end
 
-        should "not be rendered" do
-          @output_buffer = @gantt.subjects
-          assert_select "div.version-name a", :text => /#{@version.name}/, :count => 0
-        end
-      end
-    end
+  test "#subjects issue should be rendered" do
+    setup_subjects
+    @output_buffer = @gantt.subjects
+    assert_select "div.issue-subject", /#{@issue.subject}/
+  end
 
-    context "issue" do
-      should "be rendered" do
-        @output_buffer = @gantt.subjects
-        assert_select "div.issue-subject", /#{@issue.subject}/
-      end
+  test "#subjects issue should be indented 44 (two levels)" do
+    setup_subjects
+    @output_buffer = @gantt.subjects
+    assert_select "div.issue-subject[style*=left:44px]"
+  end
 
-      should "be indented 44 (two levels)" do
-        @output_buffer = @gantt.subjects
-        assert_select "div.issue-subject[style*=left:44px]"
-      end
-
-      context "assigned to a shared version of another project" do
-        setup do
-          p = Project.generate!
-          p.enabled_module_names = [:issue_tracking]
-          @shared_version = Version.generate!(:sharing => 'system')
-          p.versions << @shared_version
-          # Reassign the issue to a shared version of another project
-          @issue = Issue.generate!(:fixed_version => @shared_version,
+  test "#subjects issue assigned to a shared version of another project should be rendered" do
+    setup_subjects
+    p = Project.generate!
+    p.enabled_module_names = [:issue_tracking]
+    @shared_version = Version.generate!(:sharing => 'system')
+    p.versions << @shared_version
+    # Reassign the issue to a shared version of another project
+    @issue = Issue.generate!(:fixed_version => @shared_version,
                                    :subject => "gantt#assigned_to_shared_version",
                                    :tracker => @tracker,
                                    :project => @project,
                                    :done_ratio => 30,
                                    :start_date => (today - 1),
                                    :due_date => (today + 7))
-          @project.issues << @issue
-        end
+    @project.issues << @issue
+    @output_buffer = @gantt.subjects
+    assert_select "div.issue-subject", /#{@issue.subject}/
+  end
 
-        should "be rendered" do
-          @output_buffer = @gantt.subjects
-          assert_select "div.issue-subject", /#{@issue.subject}/
-        end
-      end
-
-      context "with subtasks" do
-        setup do
-          attrs = {:project => @project, :tracker => @tracker, :fixed_version => @version}
-          @child1 = Issue.generate!(
+  test "#subjects issue with subtasks should indent subtasks" do
+    setup_subjects
+    attrs = {:project => @project, :tracker => @tracker, :fixed_version => @version}
+    @child1 = Issue.generate!(
                        attrs.merge(:subject => 'child1',
                                    :parent_issue_id => @issue.id,
                                    :start_date => (today - 1),
                                    :due_date => (today + 2))
                       )
-          @child2 = Issue.generate!(
+    @child2 = Issue.generate!(
                        attrs.merge(:subject => 'child2',
                                    :parent_issue_id => @issue.id,
                                    :start_date => today,
                                    :due_date => (today + 7))
                        )
-          @grandchild = Issue.generate!(
+    @grandchild = Issue.generate!(
                           attrs.merge(:subject => 'grandchild',
                                       :parent_issue_id => @child1.id,
                                       :start_date => (today - 1),
                                       :due_date => (today + 2))
                           )
-        end
-
-        should "indent subtasks" do
-          @output_buffer = @gantt.subjects
-          # parent task 44px
-          assert_select "div.issue-subject[style*=left:44px]", /#{@issue.subject}/
-          # children 64px
-          assert_select "div.issue-subject[style*=left:64px]", /child1/
-          assert_select "div.issue-subject[style*=left:64px]", /child2/
-          # grandchild 84px
-          assert_select "div.issue-subject[style*=left:84px]", /grandchild/, @output_buffer
-        end
-      end
-    end
+    @output_buffer = @gantt.subjects
+    # parent task 44px
+    assert_select "div.issue-subject[style*=left:44px]", /#{@issue.subject}/
+    # children 64px
+    assert_select "div.issue-subject[style*=left:64px]", /child1/
+    assert_select "div.issue-subject[style*=left:64px]", /child2/
+    # grandchild 84px
+    assert_select "div.issue-subject[style*=left:84px]", /grandchild/, @output_buffer
   end
 
   context "#lines" do
