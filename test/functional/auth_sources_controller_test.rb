@@ -68,7 +68,9 @@ class AuthSourcesControllerTest < ActionController::TestCase
 
   def test_create_with_failure
     assert_no_difference 'AuthSourceLdap.count' do
-      post :create, :type => 'AuthSourceLdap', :auth_source => {:name => 'Test', :host => '', :port => '389', :attr_login => 'cn'}
+      post :create, :type => 'AuthSourceLdap',
+                    :auth_source => {:name => 'Test', :host => '',
+                                     :port => '389', :attr_login => 'cn'}
       assert_response :success
       assert_template 'new'
     end
@@ -101,16 +103,19 @@ class AuthSourcesControllerTest < ActionController::TestCase
   end
 
   def test_update
-    put :update, :id => 1, :auth_source => {:name => 'Renamed', :host => '192.168.0.10', :port => '389', :attr_login => 'uid'}
+    put :update, :id => 1,
+                 :auth_source => {:name => 'Renamed', :host => '192.168.0.10',
+                                  :port => '389', :attr_login => 'uid'}
     assert_redirected_to '/auth_sources'
-
     source = AuthSourceLdap.find(1)
     assert_equal 'Renamed', source.name
     assert_equal '192.168.0.10', source.host
   end
 
   def test_update_with_failure
-    put :update, :id => 1, :auth_source => {:name => 'Renamed', :host => '', :port => '389', :attr_login => 'uid'}
+    put :update, :id => 1,
+                 :auth_source => {:name => 'Renamed', :host => '',
+                                  :port => '389', :attr_login => 'uid'}
     assert_response :success
     assert_template 'edit'
     assert_error_tag :content => /host can&#x27;t be blank/i
