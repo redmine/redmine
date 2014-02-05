@@ -401,12 +401,15 @@ RAW
   end
 
   def test_cross_project_redmine_links
-    source_link = link_to('ecookbook:source:/some/file', {:controller => 'repositories', :action => 'entry', :id => 'ecookbook', :path => ['some', 'file']},
-      :class => 'source')
-
-    changeset_link = link_to('ecookbook:r2', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :rev => 2},
-      :class => 'changeset', :title => 'This commit fixes #1, #2 and references #1 & #3')
-
+    source_link = link_to('ecookbook:source:/some/file',
+                          {:controller => 'repositories', :action => 'entry',
+                           :id => 'ecookbook', :path => ['some', 'file']},
+                          :class => 'source')
+    changeset_link = link_to('ecookbook:r2',
+                             {:controller => 'repositories', :action => 'revision',
+                              :id => 'ecookbook', :rev => 2},
+                             :class => 'changeset',
+                             :title => 'This commit fixes #1, #2 and references #1 & #3')
     to_test = {
       # documents
       'document:"Test document"'              => 'document:"Test document"',
@@ -426,7 +429,9 @@ RAW
       'invalid:source:/some/file'             => 'invalid:source:/some/file',
     }
     @project = Project.find(3)
-    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text), "#{text} failed" }
+    to_test.each do |text, result|
+      assert_equal "<p>#{result}</p>", textilizable(text), "#{text} failed"
+    end
   end
 
   def test_multiple_repositories_redmine_links
