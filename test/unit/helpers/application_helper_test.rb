@@ -833,13 +833,15 @@ EXPECTED
   end
 
   def test_wiki_links_in_tables
-    to_test = {"|[[Page|Link title]]|[[Other Page|Other title]]|\n|Cell 21|[[Last page]]|" =>
-                 '<tr><td><a href="/projects/ecookbook/wiki/Page" class="wiki-page new">Link title</a></td>' +
-                 '<td><a href="/projects/ecookbook/wiki/Other_Page" class="wiki-page new">Other title</a></td>' +
-                 '</tr><tr><td>Cell 21</td><td><a href="/projects/ecookbook/wiki/Last_page" class="wiki-page new">Last page</a></td></tr>'
-    }
+    text = "|[[Page|Link title]]|[[Other Page|Other title]]|\n|Cell 21|[[Last page]]|"
+    link1 = link_to("Link title", "/projects/ecookbook/wiki/Page", :class => "wiki-page new")
+    link2 = link_to("Other title", "/projects/ecookbook/wiki/Other_Page", :class => "wiki-page new")
+    link3 = link_to("Last page", "/projects/ecookbook/wiki/Last_page", :class => "wiki-page new")
+    result = "<tr><td>#{link1}</td>" +
+               "<td>#{link2}</td>" +
+               "</tr><tr><td>Cell 21</td><td>#{link3}</td></tr>"
     @project = Project.find(1)
-    to_test.each { |text, result| assert_equal "<table>#{result}</table>", textilizable(text).gsub(/[\t\n]/, '') }
+    assert_equal "<table>#{result}</table>", textilizable(text).gsub(/[\t\n]/, '')
   end
 
   def test_text_formatting
