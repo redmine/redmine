@@ -376,10 +376,11 @@ RAW
   def test_redmine_links_with_a_different_project_before_current_project
     vp1 = Version.generate!(:project_id => 1, :name => '1.4.4')
     vp3 = Version.generate!(:project_id => 3, :name => '1.4.4')
-
     @project = Project.find(3)
-    assert_equal %(<p><a href="/versions/#{vp1.id}" class="version">1.4.4</a> <a href="/versions/#{vp3.id}" class="version">1.4.4</a></p>),
-      textilizable("ecookbook:version:1.4.4 version:1.4.4")
+    result1 = link_to("1.4.4", "/versions/#{vp1.id}", :class => "version")
+    result2 = link_to("1.4.4", "/versions/#{vp3.id}", :class => "version")
+    assert_equal "<p>#{result1} #{result2}</p>",
+                 textilizable("ecookbook:version:1.4.4 version:1.4.4")
   end
 
   def test_escaped_redmine_links_should_not_be_parsed
