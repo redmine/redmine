@@ -1138,7 +1138,8 @@ RAW
       link_to_attachment(a)
     assert_equal '<a href="/attachments/3/logo.gif">Text</a>',
       link_to_attachment(a, :text => 'Text')
-    assert_equal '<a href="/attachments/3/logo.gif" class="foo">logo.gif</a>',
+    result = link_to("logo.gif", "/attachments/3/logo.gif", :class => "foo")
+    assert_equal result,
       link_to_attachment(a, :class => 'foo')
     assert_equal '<a href="/attachments/download/3/logo.gif">logo.gif</a>',
       link_to_attachment(a, :download => true)
