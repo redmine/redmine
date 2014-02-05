@@ -750,10 +750,16 @@ module ApplicationHelper
               repository = project.repository
             end
             # project.changesets.visible raises an SQL error because of a double join on repositories
-            if repository && (changeset = Changeset.visible.find_by_repository_id_and_revision(repository.id, identifier))
-              link = link_to(h("#{project_prefix}#{repo_prefix}r#{identifier}"), {:only_path => only_path, :controller => 'repositories', :action => 'revision', :id => project, :repository_id => repository.identifier_param, :rev => changeset.revision},
-                                        :class => 'changeset',
-                                        :title => truncate_single_line(changeset.comments, :length => 100))
+            if repository &&
+                 (changeset = Changeset.visible.
+                                  find_by_repository_id_and_revision(repository.id, identifier))
+              link = link_to(h("#{project_prefix}#{repo_prefix}r#{identifier}"),
+                             {:only_path => only_path, :controller => 'repositories',
+                              :action => 'revision', :id => project,
+                              :repository_id => repository.identifier_param,
+                              :rev => changeset.revision},
+                             :class => 'changeset',
+                             :title => truncate_single_line(changeset.comments, :length => 100))
             end
           end
         elsif sep == '#'
@@ -763,9 +769,11 @@ module ApplicationHelper
             if oid.to_s == identifier &&
                   issue = Issue.visible.includes(:status).find_by_id(oid)
               anchor = comment_id ? "note-#{comment_id}" : nil
-              link = link_to(h("##{oid}#{comment_suffix}"), {:only_path => only_path, :controller => 'issues', :action => 'show', :id => oid, :anchor => anchor},
-                                        :class => issue.css_classes,
-                                        :title => "#{truncate(issue.subject, :length => 100)} (#{issue.status.name})")
+              link = link_to(h("##{oid}#{comment_suffix}"),
+                             {:only_path => only_path, :controller => 'issues',
+                              :action => 'show', :id => oid, :anchor => anchor},
+                             :class => issue.css_classes,
+                             :title => "#{truncate(issue.subject, :length => 100)} (#{issue.status.name})")
             end
           when 'document'
             if document = Document.visible.find_by_id(oid)
