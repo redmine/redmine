@@ -351,7 +351,7 @@
   field_mail_notification: 電子郵件提醒選項
   field_admin: 管理者
   field_last_login_on: 最近連線日期
-  field_language: 語系
+  field_language: 語言
   field_effective_date: 日期
   field_password: 目前密碼
   field_new_password: 新密碼
@@ -426,7 +426,7 @@
   setting_app_title: 標題
   setting_app_subtitle: 副標題
   setting_welcome_text: 歡迎詞
-  setting_default_language: 預設語系
+  setting_default_language: 預設語言
   setting_login_required: 需要驗證
   setting_self_registration: 註冊選項
   setting_attachment_max_size: 附件大小限制
@@ -493,6 +493,8 @@
   setting_jsonp_enabled: 啟用 JSONP 支援
   setting_default_projects_tracker_ids: 新專案預設使用的追蹤標籤
   setting_mail_handler_excluded_filenames: 移除符合下列名稱的附件
+  setting_force_default_language_for_anonymous: 強迫匿名用戶使用預設語言
+  setting_force_default_language_for_loggedin: 強迫已登入用戶使用預設語言
 
   permission_add_project: 建立專案
   permission_add_subprojects: 建立子專案
@@ -875,7 +877,7 @@
   label_week: 週
   label_date_from: 開始
   label_date_to: 結束
-  label_language_based: 依用戶之語系決定
+  label_language_based: 依用戶之語言決定
   label_sort_by: "按 %{value} 排序"
   label_send_test_email: 寄送測試郵件
   label_feeds_access_key: Atom 存取金鑰
@@ -1186,7 +1188,3 @@
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  setting_force_default_language_for_anonymous: Force default language for anonymous
-    users
-  setting_force_default_language_for_loggedin: Force default language for logged-in
-    users
