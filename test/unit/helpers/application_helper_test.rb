@@ -590,9 +590,10 @@ RAW
     set_tmp_attachments_directory
     a1 = Attachment.generate!(:filename => "test.txt", :created_on => 1.hour.ago)
     a2 = Attachment.generate!(:filename => "test.txt")
-
-    assert_equal %(<p><a href="/attachments/download/#{a2.id}/test.txt" class="attachment">test.txt</a></p>),
-      textilizable('attachment:test.txt', :attachments => [a1, a2])
+    result = link_to("test.txt", "/attachments/download/#{a2.id}/test.txt",
+                     :class => "attachment")
+    assert_equal "<p>#{result}</p>",
+                 textilizable('attachment:test.txt', :attachments => [a1, a2])
   end
 
   def test_wiki_links
