@@ -413,11 +413,13 @@ RAW
     to_test = {
       # documents
       'document:"Test document"'              => 'document:"Test document"',
-      'ecookbook:document:"Test document"'    => '<a href="/documents/1" class="document">Test document</a>',
+      'ecookbook:document:"Test document"'    =>
+          link_to("Test document", "/documents/1", :class => "document"),
       'invalid:document:"Test document"'      => 'invalid:document:"Test document"',
       # versions
       'version:"1.0"'                         => 'version:"1.0"',
-      'ecookbook:version:"1.0"'               => '<a href="/versions/2" class="version">1.0</a>',
+      'ecookbook:version:"1.0"'               =>
+          link_to("1.0", "/versions/2", :class => "version"),
       'invalid:version:"1.0"'                 => 'invalid:version:"1.0"',
       # changeset
       'r2'                                    => 'r2',
