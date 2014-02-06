@@ -72,11 +72,11 @@ module ApplicationHelper
     subject = nil
     text = options[:tracker] == false ? "##{issue.id}" : "#{issue.tracker} ##{issue.id}"
     if options[:subject] == false
-      title = truncate(issue.subject, :length => 60)
+      title = issue.subject.truncate(60)
     else
       subject = issue.subject
-      if options[:truncate]
-        subject = truncate(subject, :length => options[:truncate])
+      if truncate_length = options[:truncate]
+        subject = subject.truncate(truncate_length)
       end
     end
     only_path = options[:only_path].nil? ? true : options[:only_path]
