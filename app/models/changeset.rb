@@ -154,13 +154,14 @@ class Changeset < ActiveRecord::Base
   end
 
   def text_tag(ref_project=nil)
-    tag = if scmid?
-      "commit:#{scmid}"
-    else
-      "r#{revision}"
-    end
+    repo = ""
     if repository && repository.identifier.present?
-      tag = "#{repository.identifier}|#{tag}"
+      repo = "#{repository.identifier}|"
+    end
+    tag = if scmid?
+      "commit:#{repo}#{scmid}"
+    else
+      "#{repo}r#{revision}"
     end
     if ref_project && project && ref_project != project
       tag = "#{project.identifier}:#{tag}"
