@@ -1129,7 +1129,8 @@ RAW
 
   def test_link_to_user
     user = User.find(2)
-    assert_equal '<a href="/users/2" class="user active">John Smith</a>', link_to_user(user)
+    result = link_to("John Smith", "/users/2", :class => "user active")
+    assert_equal result, link_to_user(user)
   end
 
   def test_link_to_user_should_not_link_to_locked_user
