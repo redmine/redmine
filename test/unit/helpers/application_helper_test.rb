@@ -436,6 +436,41 @@ RAW
     end
   end
 
+  def test_link_to_issue_subject
+    issue = Issue.generate!(:subject => "01234567890123456789")
+    str = link_to_issue(issue, :truncate => 10)
+    result = link_to("Bug ##{issue.id}", "/issues/#{issue.id}", :class => issue.css_classes)
+    assert_equal "#{result}: 0123456...", str
+
+    issue = Issue.generate!(:subject => "<&>")
+    str = link_to_issue(issue)
+    result = link_to("Bug ##{issue.id}", "/issues/#{issue.id}", :class => issue.css_classes)
+    assert_equal "#{result}: &lt;&amp;&gt;", str
+
+    issue = Issue.generate!(:subject => "<&>0123456789012345")
+    str = link_to_issue(issue, :truncate => 10)
+    result = link_to("Bug ##{issue.id}", "/issues/#{issue.id}", :class => issue.css_classes)
+    assert_equal "#{result}: &lt;&amp;&gt;0123...", str
+  end
+
+  def test_link_to_issue_title
+    long_str = "0123456789" * 5
+
+    issue = Issue.generate!(:subject => "#{long_str}01234567890123456789")
+    str = link_to_issue(issue, :subject => false)
+    result = link_to("Bug ##{issue.id}", "/issues/#{issue.id}",
+                     :class => issue.css_classes,
+                     :title => "#{long_str}0123456...")
+    assert_equal result, str
+
+    issue = Issue.generate!(:subject => "<&>#{long_str}01234567890123456789")
+    str = link_to_issue(issue, :subject => false)
+    result = link_to("Bug ##{issue.id}", "/issues/#{issue.id}",
+                     :class => issue.css_classes,
+                     :title => "<&>#{long_str}0123...")
+    assert_equal result, str
+  end
+
   def test_multiple_repositories_redmine_links
     svn = Repository::Subversion.create!(:project_id => 1, :identifier => 'svn_repo-1', :url => 'file:///foo/hg')
     Changeset.create!(:repository => svn, :committed_on => Time.now, :revision => '123')
