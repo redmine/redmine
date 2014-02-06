@@ -781,7 +781,7 @@ module ApplicationHelper
                              {:only_path => only_path, :controller => 'issues',
                               :action => 'show', :id => oid, :anchor => anchor},
                              :class => issue.css_classes,
-                             :title => "#{truncate(issue.subject, :length => 100)} (#{issue.status.name})")
+                             :title => "#{issue.subject.truncate(100)} (#{issue.status.name})")
             end
           when 'document'
             if document = Document.visible.find_by_id(oid)
