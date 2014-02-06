@@ -216,7 +216,7 @@ class IssuesHelperTest < ActionView::TestCase
                                :prop_key => 'precedes',
                                :value    => 1)
     assert_equal "Precedes Bug #1: Can't print recipes added", show_detail(detail, true)
-    assert_match %r{<strong>Precedes</strong> <i><a href="/issues/1" class=".+">Bug #1</a>: Can&#x27;t print recipes</i> added},
+    assert_match %r{<strong>Precedes</strong> <i><a href="/issues/1" class=".+">Bug #1</a>: #{ESCAPED_UCANT} print recipes</i> added},
                  show_detail(detail, false)
   end
 
@@ -245,7 +245,7 @@ class IssuesHelperTest < ActionView::TestCase
                                :prop_key  => 'precedes',
                                :old_value => 1)
     assert_equal "Precedes deleted (Bug #1: Can't print recipes)", show_detail(detail, true)
-    assert_match %r{<strong>Precedes</strong> deleted \(<i><a href="/issues/1" class=".+">Bug #1</a>: Can&#x27;t print recipes</i>\)},
+    assert_match %r{<strong>Precedes</strong> deleted \(<i><a href="/issues/1" class=".+">Bug #1</a>: #{ESCAPED_UCANT} print recipes</i>\)},
                  show_detail(detail, false)
   end
 
