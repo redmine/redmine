@@ -1346,8 +1346,8 @@ RAW
     result = truncate_single_line("#{str}\n#{str}", :length => 10)
     assert_equal "01234 0...", result
     assert !result.html_safe?
-    result = truncate_single_line("#{str}<&#>\n#{str}\n#{str}", :length => 15)
-    assert_equal "01234<&#> 01...", result
+    result = truncate_single_line("#{str}<&#>\n#{str}#{str}", :length => 16)
+    assert_equal "01234<&#> 012...", result
     assert !result.html_safe?
   end
 
