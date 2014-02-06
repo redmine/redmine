@@ -1340,4 +1340,22 @@ RAW
   ensure
     Redmine::Utils.relative_url_root = ''
   end
+
+  def test_truncate_single_line
+    str = "01234"
+    result = truncate_single_line("#{str}\n#{str}", :length => 10)
+    assert_equal "01234 0...", result
+    assert !result.html_safe?
+    result = truncate_single_line("#{str}<&#>\n#{str}\n#{str}", :length => 15)
+    assert_equal "01234<&#> 01...", result
+    assert !result.html_safe?
+  end
+
+  def test_truncate_single_line_non_ascii
+    ja = "\xe6\x97\xa5\xe6\x9c\xac\xe8\xaa\x9e"
+    ja.force_encoding('UTF-8') if ja.respond_to?(:force_encoding)
+    result = truncate_single_line("#{ja}\n#{ja}\n#{ja}", :length => 10)
+    assert_equal "#{ja} #{ja}...", result
+    assert !result.html_safe?
+  end
 end
