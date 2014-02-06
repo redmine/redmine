@@ -1388,10 +1388,10 @@ RAW
 
   def test_truncate_single_line
     str = "01234"
-    result = truncate_single_line("#{str}\n#{str}", :length => 10)
+    result = truncate_single_line_raw("#{str}\n#{str}", 10)
     assert_equal "01234 0...", result
     assert !result.html_safe?
-    result = truncate_single_line("#{str}<&#>\n#{str}#{str}", :length => 16)
+    result = truncate_single_line_raw("#{str}<&#>\n#{str}#{str}", 16)
     assert_equal "01234<&#> 012...", result
     assert !result.html_safe?
   end
@@ -1399,7 +1399,7 @@ RAW
   def test_truncate_single_line_non_ascii
     ja = "\xe6\x97\xa5\xe6\x9c\xac\xe8\xaa\x9e"
     ja.force_encoding('UTF-8') if ja.respond_to?(:force_encoding)
-    result = truncate_single_line("#{ja}\n#{ja}\n#{ja}", :length => 10)
+    result = truncate_single_line_raw("#{ja}\n#{ja}\n#{ja}", 10)
     assert_equal "#{ja} #{ja}...", result
     assert !result.html_safe?
   end

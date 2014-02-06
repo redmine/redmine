@@ -224,7 +224,7 @@ module ApplicationHelper
   end
 
   def format_activity_title(text)
-    h(truncate_single_line(text, :length => 100))
+    h(truncate_single_line_raw(text, 100))
   end
 
   def format_activity_day(date)
@@ -397,7 +397,15 @@ module ApplicationHelper
 
   # Truncates and returns the string as a single line
   def truncate_single_line(string, *args)
+    ActiveSupport::Deprecation.warn(
+      "ApplicationHelper#truncate_single_line is deprecated and will be removed in Rails 4 poring")
+    # Rails 4 ActionView::Helpers::TextHelper#truncate escapes.
+    # So, result is broken.
     truncate(string.to_s, *args).gsub(%r{[\r\n]+}m, ' ')
+  end
+
+  def truncate_single_line_raw(string, length)
+    string.truncate(length).gsub(%r{[\r\n]+}m, ' ')
   end
 
   # Truncates at line break after 250 characters or options[:length]
@@ -759,7 +767,7 @@ module ApplicationHelper
                               :repository_id => repository.identifier_param,
                               :rev => changeset.revision},
                              :class => 'changeset',
-                             :title => truncate_single_line(changeset.comments, :length => 100))
+                             :title => truncate_single_line_raw(changeset.comments, 100))
             end
           end
         elsif sep == '#'
@@ -841,7 +849,7 @@ module ApplicationHelper
                 if repository && (changeset = Changeset.visible.where("repository_id = ? AND scmid LIKE ?", repository.id, "#{name}%").first)
                   link = link_to h("#{project_prefix}#{repo_prefix}#{name}"), {:only_path => only_path, :controller => 'repositories', :action => 'revision', :id => project, :repository_id => repository.identifier_param, :rev => changeset.identifier},
                                                :class => 'changeset',
-                                               :title => truncate_single_line(changeset.comments, :length => 100)
+                                               :title => truncate_single_line_raw(changeset.comments, 100)
                 end
               else
                 if repository && User.current.allowed_to?(:browse_repository, project)
