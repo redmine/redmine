@@ -816,9 +816,17 @@ EXPECTED
 </pre>
 RAW
 
+    result1 = link_to("CookBook documentation",
+                      "/projects/ecookbook/wiki/CookBook_documentation",
+                      :class => "wiki-page")
+    result2 = link_to('#1',
+                      "/issues/1",
+                      :class => Issue.find(1).css_classes,
+                      :title => "Can't print recipes (New)")
+
     expected = <<-EXPECTED
-<p><a href="/projects/ecookbook/wiki/CookBook_documentation" class="wiki-page">CookBook documentation</a></p>
-<p><a href="/issues/1" class="#{Issue.find(1).css_classes}" title="#{ESCAPED_UCANT} print recipes (New)">#1</a></p>
+<p>#{result1}</p>
+<p>#{result2}</p>
 <pre>
 [[CookBook documentation]]
 
