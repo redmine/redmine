@@ -1145,7 +1145,8 @@ RAW
     with_current_user User.find(1) do
       user = User.find(5)
       assert user.locked?
-      assert_equal '<a href="/users/5" class="user locked">Dave2 Lopper2</a>', link_to_user(user)
+      result = link_to("Dave2 Lopper2", "/users/5", :class => "user locked")
+      assert_equal result, link_to_user(user)
     end
   end
 
