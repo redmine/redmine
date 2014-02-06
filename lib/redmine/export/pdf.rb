@@ -604,13 +604,12 @@ module Redmine
         unless issue.leaf?
           # for CJK
           truncate_length = ( l(:general_pdf_encoding).upcase == "UTF-8" ? 90 : 65 )
-
           pdf.SetFontStyle('B',9)
           pdf.RDMCell(35+155,5, l(:label_subtask_plural) + ":", "LTR")
           pdf.Ln
           issue_list(issue.descendants.visible.sort_by(&:lft)) do |child, level|
-            buf = truncate("#{child.tracker} # #{child.id}: #{child.subject}",
-                           :length => truncate_length)
+            buf = "#{child.tracker} # #{child.id}: #{child.subject}".
+                    truncate(truncate_length)
             level = 10 if level >= 10
             pdf.SetFontStyle('',8)
             pdf.RDMCell(35+135,5, (level >=1 ? "  " * level : "") + buf, "L")
@@ -624,7 +623,6 @@ module Redmine
         unless relations.empty?
           # for CJK
           truncate_length = ( l(:general_pdf_encoding).upcase == "UTF-8" ? 80 : 60 )
-
           pdf.SetFontStyle('B',9)
           pdf.RDMCell(35+155,5, l(:label_related_issues) + ":", "LTR")
           pdf.Ln
@@ -639,7 +637,7 @@ module Redmine
             end
             buf += "#{relation.other_issue(issue).tracker}" +
                    " # #{relation.other_issue(issue).id}: #{relation.other_issue(issue).subject}"
-            buf = truncate(buf, :length => truncate_length)
+            buf = buf.truncate(truncate_length)
             pdf.SetFontStyle('', 8)
             pdf.RDMCell(35+155-60, 5, buf, "L")
             pdf.SetFontStyle('B',8)
