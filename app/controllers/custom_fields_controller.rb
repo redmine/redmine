@@ -27,7 +27,6 @@ class CustomFieldsController < ApplicationController
     respond_to do |format|
       format.html {
         @custom_fields_by_type = CustomField.all.group_by {|f| f.class.name }
-        @tab = params[:tab] || 'IssueCustomField'
       }
       format.api {
         @custom_fields = CustomField.all
