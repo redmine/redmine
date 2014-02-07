@@ -25,6 +25,7 @@ before_install:
 script:
   - "SCMS=bazaar,cvs,subversion,git,mercurial,filesystem"
   - "export SCMS"
+  - "git --version"
   - "bundle install"
   - "RUN_ON_NOT_OFFICIAL='' RUBY_VER=1.9 BRANCH=trunk bundle exec rake config/database.yml"
   - "bundle install"
