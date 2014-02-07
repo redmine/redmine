@@ -431,10 +431,6 @@ class ApplicationController < ActionController::Base
       format.html {
         render :template => 'common/error', :layout => use_layout, :status => @status
       }
-      format.js {
-        # Can't use an error status here, browsers wouldn't execute the JS response
-        render :template => 'common/error', :layout => false, :status => 200
-      }
       format.any { head @status }
     end
   end
