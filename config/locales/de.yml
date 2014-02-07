@@ -1120,3 +1120,5 @@ de:
 
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
   label_link: Link
+  label_custom_field_select_type: Select the type of object to which the custom field
+    is to be attached

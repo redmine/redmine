@@ -1135,3 +1135,5 @@ ja:
   label_link_values_to: 値に設定するリンクURL
   setting_force_default_language_for_anonymous: 匿名ユーザーに既定の言語を強制
   setting_force_default_language_for_loggedin: ログインユーザーに既定の言語を強制
+  label_custom_field_select_type: Select the type of object to which the custom field
+    is to be attached

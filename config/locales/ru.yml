@@ -1217,3 +1217,5 @@ ru:
   label_link_values_to: Значения ссылки для URL
   setting_force_default_language_for_anonymous: Не определять язык для анонимных пользователей
   setting_force_default_language_for_loggedin: Не определять язык для зарегистрированных пользователей
+  label_custom_field_select_type: Select the type of object to which the custom field
+    is to be attached

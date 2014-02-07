@@ -1144,3 +1144,5 @@ es:
   label_link_values_to: Enlazar valores a la URL
   setting_force_default_language_for_anonymous: Forzar lenguaje por defecto a usuarios anónimos
   setting_force_default_language_for_loggedin: Forzar lenguaje por defecto para usuarios identificados
+  label_custom_field_select_type: Select the type of object to which the custom field
+    is to be attached

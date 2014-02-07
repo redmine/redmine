@@ -1159,3 +1159,5 @@ ko:
     users
   setting_force_default_language_for_loggedin: Force default language for logged-in
     users
+  label_custom_field_select_type: Select the type of object to which the custom field
+    is to be attached
