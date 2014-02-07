@@ -730,6 +730,7 @@ class ProjectTest < ActiveSupport::TestCase
   def test_activities_should_use_the_system_activities
     project = Project.find(1)
     assert_equal project.activities, TimeEntryActivity.where(:active => true).all
+    assert_kind_of ActiveRecord::Relation, project.activities
   end
 
 
@@ -739,6 +740,7 @@ class ProjectTest < ActiveSupport::TestCase
     assert overridden_activity.save!
 
     assert project.activities.include?(overridden_activity), "Project specific Activity not found"
+    assert_kind_of ActiveRecord::Relation, project.activities
   end
 
   def test_activities_should_not_include_the_inactive_project_specific_activities

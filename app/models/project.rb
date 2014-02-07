@@ -995,15 +995,15 @@ class Project < ActiveRecord::Base
 
   # Returns the systemwide active activities merged with the project specific overrides
   def system_activities_and_project_overrides(include_inactive=false)
-    if include_inactive
-      return TimeEntryActivity.shared.
-        where("id NOT IN (?)", self.time_entry_activities.collect(&:parent_id)).all +
-        self.time_entry_activities
-    else
-      return TimeEntryActivity.shared.active.
-        where("id NOT IN (?)", self.time_entry_activities.collect(&:parent_id)).all +
-        self.time_entry_activities.active
+    t = TimeEntryActivity.table_name
+    scope = TimeEntryActivity.where(
+      "(#{t}.project_id IS NULL AND #{t}.id NOT IN (?)) OR (#{t}.project_id = ?)",
+      time_entry_activities.map(&:parent_id), id
+    )
+    unless include_inactive
+      scope = scope.active
     end
+    scope
   end
 
   # Archives subprojects recursively
