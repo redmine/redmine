@@ -326,6 +326,12 @@ class RepositoryTest < ActiveSupport::TestCase
     assert_equal true, klass.scm_available
   end
 
+  def test_extra_info_should_not_return_non_hash_value
+    repo = Repository.new
+    repo.extra_info = "foo"
+    assert_nil repo.extra_info
+  end
+
   def test_merge_extra_info
     repo = Repository::Subversion.new(:project => Project.find(3))
     assert !repo.save

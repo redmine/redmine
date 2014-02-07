@@ -153,6 +153,12 @@ class Repository < ActiveRecord::Base
     end
   end
 
+  # TODO: should return an empty hash instead of nil to avoid many ||{}
+  def extra_info
+    h = read_attribute(:extra_info)
+    h.is_a?(Hash) ? h : nil
+  end
+
   def merge_extra_info(arg)
     h = extra_info || {}
     return h if arg.nil?
