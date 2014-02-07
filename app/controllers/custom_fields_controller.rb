@@ -77,7 +77,7 @@ class CustomFieldsController < ApplicationController
   def build_new_custom_field
     @custom_field = CustomField.new_subclass_instance(params[:type], params[:custom_field])
     if @custom_field.nil?
-      render_404
+      render :action => 'select_type'
     end
   end
 

@@ -910,6 +910,7 @@ en:
   label_drop_down_list: drop-down list
   label_checkboxes: checkboxes
   label_link_values_to: Link values to URL
+  label_custom_field_select_type: Select the type of object to which the custom field is to be attached
 
   button_login: Login
   button_submit: Submit

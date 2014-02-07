@@ -309,9 +309,13 @@ module ApplicationHelper
   end
 
   # Renders tabs and their content
-  def render_tabs(tabs)
+  def render_tabs(tabs, selected=params[:tab])
     if tabs.any?
-      render :partial => 'common/tabs', :locals => {:tabs => tabs}
+      unless tabs.detect {|tab| tab[:name] == selected}
+        selected = nil
+      end
+      selected ||= tabs.first[:name]
+      render :partial => 'common/tabs', :locals => {:tabs => tabs, :selected_tab => selected}
     else
       content_tag 'p', l(:label_no_data), :class => "nodata"
     end

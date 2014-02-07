@@ -40,8 +40,13 @@ module CustomFieldsHelper
      :label => DocumentCategory::OptionName}
   ]
 
-  def custom_fields_tabs
-    CUSTOM_FIELDS_TABS
+  def render_custom_fields_tabs(types)
+    tabs = CUSTOM_FIELDS_TABS.select {|h| types.include?(h[:name]) }
+    render_tabs tabs
+  end
+
+  def custom_field_type_options
+    CUSTOM_FIELDS_TABS.map {|h| [l(h[:label]), h[:name]]}
   end
 
   def render_custom_field_format_partial(form, custom_field)
