@@ -885,7 +885,7 @@ a.wiki-anchor { display: none; margin-left: 6px; text-decoration: none; }
 a.wiki-anchor:hover { color: #aaa !important; text-decoration: none; }
 h1:hover a.wiki-anchor, h2:hover a.wiki-anchor, h3:hover a.wiki-anchor { display: inline; color: #ddd; }
 
-div.wiki img { vertical-align: middle; }
+div.wiki img {vertical-align:middle; max-width:100%;}
 
 /***** My page layout *****/
 .block-receiver {
