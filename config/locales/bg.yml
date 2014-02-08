@@ -913,6 +913,7 @@ bg:
   label_drop_down_list: drop-down списък
   label_checkboxes: чек-бокс
   label_link_values_to: URL (опция)
+  label_custom_field_select_type: "Изберете тип на обект, към който потребителското поле да бъде асоциирано"
 
   button_login: Вход
   button_submit: Изпращане
@@ -1105,5 +1106,3 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  label_custom_field_select_type: Select the type of object to which the custom field
-    is to be attached
