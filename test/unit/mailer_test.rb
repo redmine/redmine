@@ -470,7 +470,7 @@ class MailerTest < ActiveSupport::TestCase
   def test_news_added_should_notify_project_news_watchers
     user1 = User.generate!
     user2 = User.generate!
-    news = News.first
+    news = News.find(1)
     news.project.enabled_module('news').add_watcher(user1)
 
     Mailer.news_added(news).deliver
