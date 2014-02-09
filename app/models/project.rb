@@ -622,14 +622,14 @@ class Project < ActiveRecord::Base
     end
   end
 
-	# Return the enabled module with the given name
-	# or nil if the module is not enabled for the project
+  # Return the enabled module with the given name
+  # or nil if the module is not enabled for the project
   def enabled_module(name)
     name = name.to_s
     enabled_modules.detect {|m| m.name == name}
   end
 
-	# Return true if the module with the given name is enabled
+  # Return true if the module with the given name is enabled
   def module_enabled?(name)
     enabled_module(name).present?
   end
