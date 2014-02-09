@@ -17,6 +17,7 @@
 
 class EnabledModule < ActiveRecord::Base
   belongs_to :project
+  acts_as_watchable
 
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => :project_id

@@ -158,6 +158,7 @@ class Mailer < ActionMailer::Base
     @news = news
     @news_url = url_for(:controller => 'news', :action => 'show', :id => news)
     mail :to => news.recipients,
+      :cc => news.cc_for_added_news,
       :subject => "[#{news.project.name}] #{l(:label_news)}: #{news.title}"
   end
 

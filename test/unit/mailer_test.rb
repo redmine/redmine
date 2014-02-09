@@ -467,6 +467,17 @@ class MailerTest < ActiveSupport::TestCase
     end
   end
 
+  def test_news_added_should_notify_project_news_watchers
+    user1 = User.generate!
+    user2 = User.generate!
+    news = News.first
+    news.project.enabled_module('news').add_watcher(user1)
+
+    Mailer.news_added(news).deliver
+    assert_include user1.mail, last_email.bcc
+    assert_not_include user2.mail, last_email.bcc
+  end
+
   def test_news_comment_added
     comment = Comment.find(2)
     valid_languages.each do |lang|
