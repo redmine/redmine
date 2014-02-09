@@ -27,6 +27,7 @@ module WatchersHelper
   def watcher_link(objects, user)
     return '' unless user && user.logged?
     objects = Array.wrap(objects)
+    return '' unless objects.any?
 
     watched = Watcher.any_watched?(objects, user)
     css = [watcher_css(objects), watched ? 'icon icon-fav' : 'icon icon-fav-off'].join(' ')

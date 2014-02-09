@@ -57,6 +57,10 @@ class WatchersHelperTest < ActionView::TestCase
     assert_equal expected, watcher_link([Issue.find(1), Issue.find(3)], User.find(1))
   end
 
+  def test_watcher_link_with_nil_should_return_empty_string
+    assert_equal '', watcher_link(nil, User.find(1))
+  end
+
   test '#watcher_link with a watched object' do
     Watcher.create!(:watchable => Issue.find(1), :user => User.find(1))
 
