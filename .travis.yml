@@ -8,6 +8,11 @@ rvm:
   - 2.0.0
   - 2.1.0
   - jruby
+matrix:
+  allow_failures:
+    # SCM tests fail randomly due to IO.popen().
+    # https://github.com/jruby/jruby/issues/779
+    - rvm: jruby
 env:
   - "TEST_SUITE=units       DATABASE_ADAPTER=postgresql"
   - "TEST_SUITE=functionals DATABASE_ADAPTER=postgresql"
