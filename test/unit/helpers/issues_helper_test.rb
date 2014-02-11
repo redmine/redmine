@@ -216,8 +216,9 @@ class IssuesHelperTest < ActionView::TestCase
                                :prop_key => 'precedes',
                                :value    => 1)
     assert_equal "Precedes Bug #1: Can't print recipes added", show_detail(detail, true)
-    assert_match %r{<strong>Precedes</strong> <i><a href="/issues/1" class=".+">Bug #1</a>: #{ESCAPED_UCANT} print recipes</i> added},
-                 show_detail(detail, false)
+    str = link_to("Bug #1", "/issues/1", :class => Issue.find(1).css_classes)
+    assert_equal "<strong>Precedes</strong> <i>#{str}: #{ESCAPED_UCANT} print recipes</i> added",
+                  show_detail(detail, false)
   end
 
   def test_show_detail_relation_added_with_inexistant_issue
@@ -245,7 +246,10 @@ class IssuesHelperTest < ActionView::TestCase
                                :prop_key  => 'precedes',
                                :old_value => 1)
     assert_equal "Precedes deleted (Bug #1: Can't print recipes)", show_detail(detail, true)
-    assert_match %r{<strong>Precedes</strong> deleted \(<i><a href="/issues/1" class=".+">Bug #1</a>: #{ESCAPED_UCANT} print recipes</i>\)},
+    str = link_to("Bug #1",
+                  "/issues/1",
+                  :class => Issue.find(1).css_classes)
+    assert_equal "<strong>Precedes</strong> deleted (<i>#{str}: #{ESCAPED_UCANT} print recipes</i>)",
                  show_detail(detail, false)
   end
 
