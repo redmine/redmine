@@ -644,36 +644,86 @@ RAW
   def test_wiki_links
     russian_eacape = CGI.escape(@russian_test)
     to_test = {
-      '[[CookBook documentation]]' => '<a href="/projects/ecookbook/wiki/CookBook_documentation" class="wiki-page">CookBook documentation</a>',
-      '[[Another page|Page]]' => '<a href="/projects/ecookbook/wiki/Another_page" class="wiki-page">Page</a>',
+      '[[CookBook documentation]]' =>
+          link_to("CookBook documentation",
+                  "/projects/ecookbook/wiki/CookBook_documentation",
+                  :class => "wiki-page"),
+      '[[Another page|Page]]' =>
+          link_to("Page",
+                  "/projects/ecookbook/wiki/Another_page",
+                  :class => "wiki-page"),
       # title content should be formatted
-      '[[Another page|With _styled_ *title*]]' => '<a href="/projects/ecookbook/wiki/Another_page" class="wiki-page">With <em>styled</em> <strong>title</strong></a>',
-      '[[Another page|With title containing <strong>HTML entities &amp; markups</strong>]]' => '<a href="/projects/ecookbook/wiki/Another_page" class="wiki-page">With title containing &lt;strong&gt;HTML entities &amp; markups&lt;/strong&gt;</a>',
+      '[[Another page|With _styled_ *title*]]' =>
+          link_to("With <em>styled</em> <strong>title</strong>".html_safe,
+                  "/projects/ecookbook/wiki/Another_page",
+                  :class => "wiki-page"),
+      '[[Another page|With title containing <strong>HTML entities &amp; markups</strong>]]' =>
+          link_to("With title containing &lt;strong&gt;HTML entities &amp; markups&lt;/strong&gt;".html_safe,
+                  "/projects/ecookbook/wiki/Another_page",
+                  :class => "wiki-page"),
       # link with anchor
-      '[[CookBook documentation#One-section]]' => '<a href="/projects/ecookbook/wiki/CookBook_documentation#One-section" class="wiki-page">CookBook documentation</a>',
-      '[[Another page#anchor|Page]]' => '<a href="/projects/ecookbook/wiki/Another_page#anchor" class="wiki-page">Page</a>',
+      '[[CookBook documentation#One-section]]' =>
+          link_to("CookBook documentation",
+                  "/projects/ecookbook/wiki/CookBook_documentation#One-section",
+                  :class => "wiki-page"),
+      '[[Another page#anchor|Page]]' =>
+          link_to("Page",
+                  "/projects/ecookbook/wiki/Another_page#anchor",
+                  :class => "wiki-page"),
       # UTF8 anchor
       "[[Another_page##{@russian_test}|#{@russian_test}]]" =>
-         %|<a href="/projects/ecookbook/wiki/Another_page##{russian_eacape}" class="wiki-page">#{@russian_test}</a>|,
+          link_to(@russian_test,
+                  "/projects/ecookbook/wiki/Another_page##{russian_eacape}",
+                  :class => "wiki-page"),
       # page that doesn't exist
-      '[[Unknown page]]' => '<a href="/projects/ecookbook/wiki/Unknown_page" class="wiki-page new">Unknown page</a>',
-      '[[Unknown page|404]]' => '<a href="/projects/ecookbook/wiki/Unknown_page" class="wiki-page new">404</a>',
+      '[[Unknown page]]' =>
+          link_to("Unknown page",
+                  "/projects/ecookbook/wiki/Unknown_page",
+                  :class => "wiki-page new"),
+      '[[Unknown page|404]]' =>
+          link_to("404",
+                  "/projects/ecookbook/wiki/Unknown_page",
+                  :class => "wiki-page new"),
       # link to another project wiki
-      '[[onlinestore:]]' => '<a href="/projects/onlinestore/wiki" class="wiki-page">onlinestore</a>',
-      '[[onlinestore:|Wiki]]' => '<a href="/projects/onlinestore/wiki" class="wiki-page">Wiki</a>',
-      '[[onlinestore:Start page]]' => '<a href="/projects/onlinestore/wiki/Start_page" class="wiki-page">Start page</a>',
-      '[[onlinestore:Start page|Text]]' => '<a href="/projects/onlinestore/wiki/Start_page" class="wiki-page">Text</a>',
-      '[[onlinestore:Unknown page]]' => '<a href="/projects/onlinestore/wiki/Unknown_page" class="wiki-page new">Unknown page</a>',
+      '[[onlinestore:]]' =>
+          link_to("onlinestore",
+                  "/projects/onlinestore/wiki",
+                  :class => "wiki-page"),
+      '[[onlinestore:|Wiki]]' =>
+          link_to("Wiki",
+                  "/projects/onlinestore/wiki",
+                  :class => "wiki-page"),
+      '[[onlinestore:Start page]]' =>
+          link_to("Start page",
+                  "/projects/onlinestore/wiki/Start_page",
+                  :class => "wiki-page"),
+      '[[onlinestore:Start page|Text]]' =>
+          link_to("Text",
+                  "/projects/onlinestore/wiki/Start_page",
+                  :class => "wiki-page"),
+      '[[onlinestore:Unknown page]]' =>
+          link_to("Unknown page",
+                  "/projects/onlinestore/wiki/Unknown_page",
+                  :class => "wiki-page new"),
       # striked through link
-      '-[[Another page|Page]]-' => '<del><a href="/projects/ecookbook/wiki/Another_page" class="wiki-page">Page</a></del>',
-      '-[[Another page|Page]] link-' => '<del><a href="/projects/ecookbook/wiki/Another_page" class="wiki-page">Page</a> link</del>',
+      '-[[Another page|Page]]-' =>
+          "<del>".html_safe +
+            link_to("Page",
+                    "/projects/ecookbook/wiki/Another_page",
+                    :class => "wiki-page").html_safe +
+            "</del>".html_safe,
+      '-[[Another page|Page]] link-' =>
+          "<del>".html_safe +
+            link_to("Page",
+                    "/projects/ecookbook/wiki/Another_page",
+                    :class => "wiki-page").html_safe +
+            " link</del>".html_safe,
       # escaping
       '![[Another page|Page]]' => '[[Another page|Page]]',
       # project does not exist
       '[[unknowproject:Start]]' => '[[unknowproject:Start]]',
       '[[unknowproject:Start|Page title]]' => '[[unknowproject:Start|Page title]]',
     }
-
     @project = Project.find(1)
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
   end
