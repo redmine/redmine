@@ -286,18 +286,30 @@ class Redmine::WikiFormatting::MacrosTest < ActionView::TestCase
   end
 
   def test_macro_thumbnail
-    assert_equal '<p><a href="/attachments/17" class="thumbnail" title="testfile.PNG"><img alt="testfile.PNG" src="/attachments/thumbnail/17" /></a></p>',
-      textilizable("{{thumbnail(testfile.png)}}", :object => Issue.find(14))
+    link = link_to('<img alt="testfile.PNG" src="/attachments/thumbnail/17" />'.html_safe,
+                   "/attachments/17",
+                   :class => "thumbnail",
+                   :title => "testfile.PNG")
+    assert_equal "<p>#{link}</p>",
+                 textilizable("{{thumbnail(testfile.png)}}", :object => Issue.find(14))
   end
 
   def test_macro_thumbnail_with_size
-    assert_equal '<p><a href="/attachments/17" class="thumbnail" title="testfile.PNG"><img alt="testfile.PNG" src="/attachments/thumbnail/17/200" /></a></p>',
-      textilizable("{{thumbnail(testfile.png, size=200)}}", :object => Issue.find(14))
+    link = link_to('<img alt="testfile.PNG" src="/attachments/thumbnail/17/200" />'.html_safe,
+                   "/attachments/17",
+                   :class => "thumbnail",
+                   :title => "testfile.PNG")
+    assert_equal "<p>#{link}</p>",
+                 textilizable("{{thumbnail(testfile.png, size=200)}}", :object => Issue.find(14))
   end
 
   def test_macro_thumbnail_with_title
-    assert_equal '<p><a href="/attachments/17" class="thumbnail" title="Cool image"><img alt="testfile.PNG" src="/attachments/thumbnail/17" /></a></p>',
-      textilizable("{{thumbnail(testfile.png, title=Cool image)}}", :object => Issue.find(14))
+    link = link_to('<img alt="testfile.PNG" src="/attachments/thumbnail/17" />'.html_safe,
+                   "/attachments/17",
+                   :class => "thumbnail",
+                   :title => "Cool image")
+    assert_equal "<p>#{link}</p>",
+                 textilizable("{{thumbnail(testfile.png, title=Cool image)}}", :object => Issue.find(14))
   end
 
   def test_macro_thumbnail_with_invalid_filename_should_fail
