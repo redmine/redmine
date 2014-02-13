@@ -32,6 +32,7 @@ platforms :mri, :mingw do
   group :markdown do
     # TODO: upgrade to redcarpet 3.x when ruby1.8 support is dropped
     gem "redcarpet", "~> 2.3.0"
+    gem "loofah", "~> 1.2.0"
   end
 end
 
