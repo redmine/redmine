@@ -60,5 +60,10 @@ STR
     assert_equal '<p>This is a <a href="/issues">link</a></p>', @formatter.new(text).to_html.strip
   end
 
+  def test_html_is_safe
+    text = '<script>alert(1)</script> <b onclick="alert(1)">clickable</b> [bad link](javascript:alert(1\\))'
+    assert_equal '<p>alert(1) <b>clickable</b> <a class="external">bad link</a></p>', @formatter.new(text).to_html.strip
+  end
+
   end
 end

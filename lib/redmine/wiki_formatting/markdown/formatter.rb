@@ -16,6 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require 'cgi'
+require 'loofah'
 
 module Redmine
   module WikiFormatting
@@ -57,7 +58,8 @@ module Redmine
           html.gsub!(/(\w):&quot;(.+?)&quot;/) do
             "#{$1}:\"#{$2}\""
           end
-          html
+          # return scrubbed HTML
+          Loofah.fragment(html).scrub!(:strip).to_s
         end
 
         def get_section(index)
@@ -119,7 +121,6 @@ module Redmine
         def formatter
           @@formatter ||= Redcarpet::Markdown.new(
             Redmine::WikiFormatting::Markdown::HTML.new(
-              :filter_html => true,
               :hard_wrap => true
             ),
             :autolink => true,
