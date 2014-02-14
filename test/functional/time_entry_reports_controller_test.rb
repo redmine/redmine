@@ -23,7 +23,9 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
 
   fixtures :projects, :enabled_modules, :roles, :members, :member_roles,
            :issues, :time_entries, :users, :trackers, :enumerations,
-           :issue_statuses, :custom_fields, :custom_values
+           :issue_statuses, :custom_fields, :custom_values,
+           :projects_trackers, :custom_fields_trackers,
+           :custom_fields_projects
 
   include Redmine::I18n
 
