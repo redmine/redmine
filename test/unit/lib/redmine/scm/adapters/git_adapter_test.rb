@@ -392,7 +392,7 @@ begin
         assert_equal "4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8", last_rev.scmid
         assert_equal "4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8", last_rev.identifier
         assert_equal "Adam Soltys <asoltys@gmail.com>", last_rev.author
-        assert_equal "2009-06-24 05:27:38".to_time, last_rev.time
+        assert_equal Time.gm(2009, 6, 24, 5, 27, 38), last_rev.time
       end
 
       def test_last_rev_with_spaces_in_filename
@@ -403,7 +403,7 @@ begin
         assert_equal "ed5bb786bbda2dee66a2d50faf51429dbc043a7b", last_rev.identifier
         assert_equal "#{@str_felix_hex} <felix@fachschaften.org>",
                        last_rev.author
-        assert_equal "2010-09-18 19:59:46".to_time, last_rev.time
+        assert_equal Time.gm(2010, 9, 18, 19, 59, 46), last_rev.time
       end
 
       def test_latin_1_path
