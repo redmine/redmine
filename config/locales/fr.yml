@@ -100,7 +100,7 @@ fr:
         units:
           byte:
             one: "octet"
-            other: "octet"
+            other: "octets"
           kb: "ko"
           mb: "Mo"
           gb: "Go"
@@ -146,7 +146,7 @@ fr:
         not_same_project: "n'appartient pas au même projet"
         circular_dependency: "Cette relation créerait une dépendance circulaire"
         cant_link_an_issue_with_a_descendant: "Une demande ne peut pas être liée à l'une de ses sous-tâches"
-        earlier_than_minimum_start_date: "ne peut pas être antérieure au %{date} à cause des demandes qui précédent"
+        earlier_than_minimum_start_date: "ne peut pas être antérieure au %{date} à cause des demandes qui précèdent"
 
   actionview_instancetag_blank_option: Choisir
 
@@ -235,13 +235,13 @@ fr:
   field_is_required: Obligatoire
   field_firstname: Prénom
   field_lastname: Nom
-  field_mail: "Email "
+  field_mail: Email
   field_filename: Fichier
   field_filesize: Taille
   field_downloads: Téléchargements
   field_author: Auteur
-  field_created_on: "Créé "
-  field_updated_on: "Mis-à-jour "
+  field_created_on: Créé
+  field_updated_on: Mis-à-jour
   field_closed_on: Fermé
   field_field_format: Format
   field_is_for_all: Pour tous les projets
@@ -266,14 +266,14 @@ fr:
   field_fixed_version: Version cible
   field_user: Utilisateur
   field_role: Rôle
-  field_homepage: "Site web "
+  field_homepage: Site web
   field_is_public: Public
   field_parent: Sous-projet de
   field_is_in_roadmap: Demandes affichées dans la roadmap
-  field_login: "Identifiant "
+  field_login: Identifiant
   field_mail_notification: Notifications par mail
   field_admin: Administrateur
-  field_last_login_on: "Dernière connexion "
+  field_last_login_on: Dernière connexion
   field_language: Langue
   field_effective_date: Date
   field_password: Mot de passe
@@ -547,10 +547,10 @@ fr:
   label_login: Connexion
   label_logout: Déconnexion
   label_help: Aide
-  label_reported_issues: "Demandes soumises "
+  label_reported_issues: Demandes soumises
   label_assigned_to_me_issues: Demandes qui me sont assignées
-  label_last_login: "Dernière connexion "
-  label_registered_on: "Inscrit le "
+  label_last_login: Dernière connexion
+  label_registered_on: Inscrit le
   label_activity: Activité
   label_overall_activity: Activité globale
   label_user_activity: "Activité de %{value}"
@@ -655,7 +655,7 @@ fr:
   label_query_plural: Rapports personnalisés
   label_query_new: Nouveau rapport
   label_my_queries: Mes rapports personnalisés
-  label_filter_add: "Ajouter le filtre "
+  label_filter_add: Ajouter le filtre
   label_filter_plural: Filtres
   label_equals: égal
   label_not_equals: différent
@@ -688,7 +688,7 @@ fr:
   label_repository_new: Nouveau dépôt
   label_repository_plural: Dépôts
   label_browse: Parcourir
-  label_revision: "Révision "
+  label_revision: Révision
   label_revision_plural: Révisions
   label_associated_revisions: Révisions associées
   label_added: ajouté
@@ -708,7 +708,7 @@ fr:
   label_roadmap_due_in: "Échéance dans %{value}"
   label_roadmap_overdue: "En retard de %{value}"
   label_roadmap_no_issues: Aucune demande pour cette version
-  label_search: "Recherche "
+  label_search: Recherche
   label_result_plural: Résultats
   label_all_words: Tous les mots
   label_wiki: Wiki
@@ -879,7 +879,7 @@ fr:
   label_cross_project_system: Avec tous les projets
   label_gantt_progress_line: Ligne de progression
   label_visibility_private: par moi uniquement
-  label_visibility_roles: par ces roles uniquement
+  label_visibility_roles: par ces rôles uniquement
   label_visibility_public: par tout le monde
   label_link: Lien
   label_only: seulement
@@ -1014,9 +1014,9 @@ fr:
   text_project_closed: Ce projet est fermé et accessible en lecture seule.
   text_turning_multiple_off: "Si vous désactivez les valeurs multiples, les valeurs multiples seront supprimées pour n'en conserver qu'une par objet."
 
-  default_role_manager: "Manager "
-  default_role_developer: "Développeur "
-  default_role_reporter: "Rapporteur "
+  default_role_manager: Manager
+  default_role_developer: Développeur
+  default_role_reporter: Rapporteur
   default_tracker_bug: Anomalie
   default_tracker_feature: Evolution
   default_tracker_support: Assistance
