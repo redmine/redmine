@@ -118,7 +118,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       assert_equal "jsmith <jsmith@foo.bar>", commit.committer
       assert_equal User.find_by_login('jsmith'), commit.user
       # TODO: add a commit with commit time <> author time to the test repository
-      assert_equal "2007-12-14 09:22:52".to_time, commit.committed_on
+      assert_equal Time.gm(2007, 12, 14, 9, 22, 52), commit.committed_on
       assert_equal "2007-12-14".to_date, commit.commit_date
       assert_equal 3, commit.filechanges.count
       change = commit.filechanges.sort_by(&:path).first
