@@ -333,9 +333,7 @@ class IssueQuery < Query
       limit(options[:limit]).
       offset(options[:offset])
 
-    if has_custom_field_column?
-      scope = scope.preload(:custom_values)
-    end
+    scope = scope.preload(:custom_values)
 
     issues = scope.all
 
