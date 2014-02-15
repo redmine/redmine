@@ -146,7 +146,7 @@ fr:
         not_same_project: "n'appartient pas au même projet"
         circular_dependency: "Cette relation créerait une dépendance circulaire"
         cant_link_an_issue_with_a_descendant: "Une demande ne peut pas être liée à l'une de ses sous-tâches"
-        earlier_than_minimum_start_date: "ne peut pas être antérieure au %{date} à cause des demandes qui précédent"
+        earlier_than_minimum_start_date: "ne peut pas être antérieure au %{date} à cause des demandes qui précèdent"
 
   actionview_instancetag_blank_option: Choisir
 
@@ -879,7 +879,7 @@ fr:
   label_cross_project_system: Avec tous les projets
   label_gantt_progress_line: Ligne de progression
   label_visibility_private: par moi uniquement
-  label_visibility_roles: par ces roles uniquement
+  label_visibility_roles: par ces rôles uniquement
   label_visibility_public: par tout le monde
   label_link: Lien
   label_only: seulement
