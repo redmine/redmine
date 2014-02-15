@@ -221,7 +221,7 @@ module Redmine
         out = ''.html_safe
         out << link_to_function(show_label, js, :id => "#{html_id}-show", :class => 'collapsible collapsed')
         out << link_to_function(hide_label, js, :id => "#{html_id}-hide", :class => 'collapsible', :style => 'display:none;')
-        out << content_tag('div', textilizable(text, :object => obj), :id => html_id, :class => 'collapsed-text', :style => 'display:none;')
+        out << content_tag('div', textilizable(text, :object => obj, :headings => false), :id => html_id, :class => 'collapsed-text', :style => 'display:none;')
         out
       end
 
