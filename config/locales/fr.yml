@@ -100,7 +100,7 @@ fr:
         units:
           byte:
             one: "octet"
-            other: "octet"
+            other: "octets"
           kb: "ko"
           mb: "Mo"
           gb: "Go"
