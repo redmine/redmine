@@ -529,6 +529,17 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal str, issue.subject
   end
 
+  def test_quoted_printable_utf8
+    issue = submit_email(
+              'quoted_printable_utf8.eml',
+              :issue => {:project => 'ecookbook'}
+            )
+    assert_kind_of Issue, issue
+    str = "Freundliche Gr\xc3\xbcsse"
+    str.force_encoding('UTF-8') if str.respond_to?(:force_encoding)
+    assert_equal str, issue.description
+  end
+
   def test_add_issue_with_japanese_subject
     issue = submit_email(
               'subject_japanese_1.eml',
