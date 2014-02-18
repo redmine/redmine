@@ -540,6 +540,17 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal str, issue.description
   end
 
+  def test_gmail_iso8859_2
+    issue = submit_email(
+              'gmail-iso8859-2.eml',
+              :issue => {:project => 'ecookbook'}
+            )
+    assert_kind_of Issue, issue
+    str = "Na \xc5\xa1triku se su\xc5\xa1i \xc5\xa1osi\xc4\x87."
+    str.force_encoding('UTF-8') if str.respond_to?(:force_encoding)
+    assert issue.description.include?(str)
+  end
+
   def test_add_issue_with_japanese_subject
     issue = submit_email(
               'subject_japanese_1.eml',
