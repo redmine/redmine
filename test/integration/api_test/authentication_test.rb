@@ -31,11 +31,13 @@ class Redmine::ApiTest::AuthenticationTest < Redmine::ApiTest::Base
   def test_api_should_trigger_basic_http_auth_with_basic_authorization_header
     ApplicationController.any_instance.expects(:authenticate_with_http_basic).once
     get '/users/current.xml', {}, credentials('jsmith')
+    assert_response 401
   end
 
   def test_api_should_not_trigger_basic_http_auth_with_non_basic_authorization_header
     ApplicationController.any_instance.expects(:authenticate_with_http_basic).never
     get '/users/current.xml', {}, 'HTTP_AUTHORIZATION' => 'Digest foo bar'
+    assert_response 401
   end
 
   def test_invalid_utf8_credentials_should_not_trigger_an_error
