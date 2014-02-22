@@ -30,12 +30,18 @@ class Redmine::ApiTest::AuthenticationTest < Redmine::ApiTest::Base
 
   def test_api_should_trigger_basic_http_auth_with_basic_authorization_header
     ApplicationController.any_instance.expects(:authenticate_with_http_basic).once
-    get '/users/current.xml', {}, credentials('admin')
+    get '/users/current.xml', {}, credentials('jsmith')
   end
 
   def test_api_should_not_trigger_basic_http_auth_with_non_basic_authorization_header
     ApplicationController.any_instance.expects(:authenticate_with_http_basic).never
     get '/users/current.xml', {}, 'HTTP_AUTHORIZATION' => 'Digest foo bar'
+  end
+
+  def test_invalid_utf8_credentials_should_not_trigger_an_error
+    assert_nothing_raised do
+      get '/users/current.xml', {}, credentials("\x82", "foo")
+    end
   end
 
   def test_api_request_should_not_use_user_session

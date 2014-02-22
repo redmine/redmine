@@ -384,8 +384,8 @@ class User < Principal
   # Find a user account by matching the exact login and then a case-insensitive
   # version.  Exact matches will be given priority.
   def self.find_by_login(login)
+    login = Redmine::CodesetUtil.replace_invalid_utf8(login.to_s)
     if login.present?
-      login = login.to_s
       # First look for an exact match
       user = where(:login => login).detect {|u| u.login == login}
       unless user
