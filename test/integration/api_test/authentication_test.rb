@@ -28,6 +28,16 @@ class Redmine::ApiTest::AuthenticationTest < Redmine::ApiTest::Base
     Setting.rest_api_enabled = '0'
   end
 
+  def test_api_should_trigger_basic_http_auth_with_basic_authorization_header
+    ApplicationController.any_instance.expects(:authenticate_with_http_basic).once
+    get '/users/current.xml', {}, credentials('admin')
+  end
+
+  def test_api_should_not_trigger_basic_http_auth_with_non_basic_authorization_header
+    ApplicationController.any_instance.expects(:authenticate_with_http_basic).never
+    get '/users/current.xml', {}, 'HTTP_AUTHORIZATION' => 'Digest foo bar'
+  end
+
   def test_api_request_should_not_use_user_session
     log_user('jsmith', 'jsmith')
 
