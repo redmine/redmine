@@ -51,7 +51,7 @@ class News < ActiveRecord::Base
   end
 
   def recipients
-    project.users.select {|user| user.notify_about?(self)}.map(&:mail)
+    project.users.select {|user| user.notify_about?(self) && user.allowed_to?(:view_news, project)}.map(&:mail)
   end
 
   # Returns the email addresses that should be cc'd when a new news is added
