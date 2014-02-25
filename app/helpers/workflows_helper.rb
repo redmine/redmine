@@ -37,7 +37,7 @@ module WorkflowsHelper
     if multiple
       all_tag_options.merge!(:style => "display:none;")
     end
-    option_tags << content_tag('option', 'All', all_tag_options)
+    option_tags << content_tag('option', l(:label_all), all_tag_options)
     option_tags << options_from_collection_for_select(objects, "id", "name", selected)
     select_tag name, option_tags, {:multiple => multiple}.merge(options)
   end
@@ -85,7 +85,11 @@ module WorkflowsHelper
             :class => "old-status-#{old_status.id} new-status-#{new_status.id}")
     else
       select_tag tag_name,
-        options_for_select([["Oui", "1"], ["Non", "0"], [l(:label_no_change_option), "no_change"]], "no_change")
+        options_for_select([
+            [l(:general_text_Yes), "1"],
+            [l(:general_text_No), "0"],
+            [l(:label_no_change_option), "no_change"]
+          ], "no_change")
     end
   end
 end
