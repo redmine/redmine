@@ -1,4 +1,4 @@
-<table class="list transitions transitions-<%= name %>">
+<table class="list workflows transitions transitions-<%= name %>">
 <thead>
   <tr>
     <th>
@@ -31,8 +31,7 @@
     <% for new_status in @statuses -%>
     <% checked = workflows.detect {|w| w.old_status_id == old_status.id && w.new_status_id == new_status.id} %>
     <td class="<%= checked ? 'enabled' : '' %>">
-      <%= check_box_tag "issue_status[#{ old_status.id }][#{new_status.id}][]", name, checked,
-            :class => "old-status-#{old_status.id} new-status-#{new_status.id}" %>
+      <%= transition_tag workflows, old_status, new_status, name %>
     </td>
     <% end -%>
   </tr>
