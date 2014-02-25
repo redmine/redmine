@@ -1312,19 +1312,13 @@ class Issue < ActiveRecord::Base
         move_to_right_of(root)
       end
       old_root_id = root_id
-      in_tenacious_transaction do
-        @parent_issue.reload_nested_set if @parent_issue
-        self.reload_nested_set
-        self.root_id = (@parent_issue.nil? ? id : @parent_issue.root_id)
-        cond = ["root_id = ? AND lft >= ? AND rgt <= ? ", old_root_id, lft, rgt]
-        self.class.base_class.select('id').lock(true).where(cond)
-        target_maxright = nested_set_scope.maximum(right_column_name) || 0
-        offset = target_maxright + 1 - lft
-        Issue.where(cond).
-          update_all(["root_id = ?, lft = lft + ?, rgt = rgt + ?", root_id, offset, offset])
-        self[left_column_name]  = lft + offset
-        self[right_column_name] = rgt + offset
-      end
+      self.root_id = (@parent_issue.nil? ? id : @parent_issue.root_id )
+      target_maxright = nested_set_scope.maximum(right_column_name) || 0
+      offset = target_maxright + 1 - lft
+      Issue.where(["root_id = ? AND lft >= ? AND rgt <= ? ", old_root_id, lft, rgt]).
+        update_all(["root_id = ?, lft = lft + ?, rgt = rgt + ?", root_id, offset, offset])
+      self[left_column_name] = lft + offset
+      self[right_column_name] = rgt + offset
       if @parent_issue
         move_to_child_of(@parent_issue)
       end
