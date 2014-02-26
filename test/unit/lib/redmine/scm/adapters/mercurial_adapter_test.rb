@@ -89,8 +89,8 @@ begin
           adp = Redmine::Scm::Adapters::MercurialAdapter.new(repo)
           repo_path =  adp.info.root_url.gsub(/\\/, "/")
           assert_equal REPOSITORY_PATH, repo_path
-          assert_equal '31', adp.info.lastrev.revision
-          assert_equal '31eeee7395c8c78e66dd54c50addd078d10b2355',adp.info.lastrev.scmid
+          assert_equal '33', adp.info.lastrev.revision
+          assert_equal '2e6d546429230f377d7d19c2078abd2dd909f235',adp.info.lastrev.scmid
         end
       end
 
