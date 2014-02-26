@@ -23,7 +23,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
   include Redmine::I18n
 
   REPOSITORY_PATH = Rails.root.join('tmp/test/mercurial_repository').to_s
-  NUM_REV = 32
+  NUM_REV = 34
   CHAR_1_HEX = "\xc3\x9c"
 
   def setup
@@ -263,7 +263,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
 
       # with_limit
       changesets = @repository.latest_changesets('', nil, 2)
-      assert_equal %w|31 30|, changesets.collect(&:revision)
+      assert_equal ["#{NUM_REV - 1}", "#{NUM_REV - 2}"], changesets.collect(&:revision)
 
       # with_filepath
       changesets = @repository.latest_changesets(
@@ -600,7 +600,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      %w|31 31eeee7395c8 31eee|.each do |r1|
+      ["#{NUM_REV - 1}", "2e6d54642923", "2e6d5"].each do |r1|
         changeset = @repository.find_changeset_by_name(r1)
         assert_nil changeset.next
       end
