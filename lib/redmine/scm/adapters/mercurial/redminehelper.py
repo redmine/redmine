@@ -79,7 +79,7 @@ def _tags(ui, repo):
 def _branches(ui, repo):
     # see mercurial/commands.py:branches
     def iterbranches():
-        if hasattr(repo, 'branchtags'):
+        if getattr(repo, 'branchtags', None) is not None:
             # Mercurial < 2.9
             for t, n in repo.branchtags().iteritems():
                 yield t, n, repo.changelog.rev(n)
