@@ -350,7 +350,7 @@ class CustomField < ActiveRecord::Base
   # Returns the error message for the given value regarding its format
   def validate_field_value_format(value)
     errs = []
-    if value.present?
+    unless value.to_s == ''
       errs << ::I18n.t('activerecord.errors.messages.invalid') unless regexp.blank? or value =~ Regexp.new(regexp)
       errs << ::I18n.t('activerecord.errors.messages.too_short', :count => min_length) if min_length > 0 and value.length < min_length
       errs << ::I18n.t('activerecord.errors.messages.too_long', :count => max_length) if max_length > 0 and value.length > max_length
