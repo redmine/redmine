@@ -131,7 +131,8 @@ module Redmine
       # Returns the validation error messages for custom_value
       # Should return an empty array if custom_value is valid
       def validate_custom_value(custom_value)
-        errors = Array.wrap(custom_value.value).reject(&:blank?).map do |value|
+        values = Array.wrap(custom_value.value).reject {|value| value.to_s == ''}
+        errors = values.map do |value|
           validate_single_value(custom_value.custom_field, value, custom_value.customized)
         end
         errors.flatten.uniq
@@ -252,16 +253,15 @@ module Redmine
     class Unbounded < Base
       def validate_single_value(custom_field, value, customized=nil)
         errs = super
-        if value.present?
-          unless custom_field.regexp.blank? or value =~ Regexp.new(custom_field.regexp)
-            errs << ::I18n.t('activerecord.errors.messages.invalid')
-          end
-          if custom_field.min_length && value.length < custom_field.min_length
-            errs << ::I18n.t('activerecord.errors.messages.too_short', :count => custom_field.min_length)
-          end
-          if custom_field.max_length && custom_field.max_length > 0 && value.length > custom_field.max_length
-            errs << ::I18n.t('activerecord.errors.messages.too_long', :count => custom_field.max_length)
-          end
+        value = value.to_s
+        unless custom_field.regexp.blank? or value =~ Regexp.new(custom_field.regexp)
+          errs << ::I18n.t('activerecord.errors.messages.invalid')
+        end
+        if custom_field.min_length && value.length < custom_field.min_length
+          errs << ::I18n.t('activerecord.errors.messages.too_short', :count => custom_field.min_length)
+        end
+        if custom_field.max_length && custom_field.max_length > 0 && value.length > custom_field.max_length
+          errs << ::I18n.t('activerecord.errors.messages.too_long', :count => custom_field.max_length)
         end
         errs
       end
@@ -528,8 +528,9 @@ module Redmine
       end
 
       def validate_custom_value(custom_value)
-        invalid_values = Array.wrap(custom_value.value) - Array.wrap(custom_value.value_was) - custom_value.custom_field.possible_values
-        if invalid_values.select(&:present?).any?
+        values = Array.wrap(custom_value.value).reject {|value| value.to_s == ''}
+        invalid_values = values - Array.wrap(custom_value.value_was) - custom_value.custom_field.possible_values
+        if invalid_values.any?
           [::I18n.t('activerecord.errors.messages.inclusion')]
         else
           []
