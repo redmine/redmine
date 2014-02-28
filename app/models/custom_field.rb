@@ -241,9 +241,7 @@ class CustomField < ActiveRecord::Base
         errs << ::I18n.t('activerecord.errors.messages.blank')
       end
     end
-    if custom_value.value.present?
-      errs += format.validate_custom_value(custom_value)
-    end
+    errs += format.validate_custom_value(custom_value)
     errs
   end
 
