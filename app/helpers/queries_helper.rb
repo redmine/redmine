@@ -155,6 +155,10 @@ module QueriesHelper
     when 'IssueRelation'
       other = value.other_issue(issue)
       l(value.label_for(issue)) + " ##{other.id}"
+    when 'TrueClass'
+      l(:general_text_Yes)
+    when 'FalseClass'
+      l(:general_text_No)
     else
       value.to_s
     end
