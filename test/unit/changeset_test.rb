@@ -536,6 +536,17 @@ class ChangesetTest < ActiveSupport::TestCase
     end
   end
 
+  def test_comments_should_accept_more_than_64k
+    c = Changeset.new(:repository   => Repository.first,
+                      :committed_on => Time.now,
+                      :revision     => '123',
+                      :scmid        => '12345',
+                      :comments     => "a" * 500.kilobyte)
+    assert c.save
+    c.reload
+    assert_equal 500.kilobyte, c.comments.size
+  end
+
   def test_identifier
     c = Changeset.find_by_revision('1')
     assert_equal c.revision, c.identifier
