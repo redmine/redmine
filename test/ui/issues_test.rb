@@ -113,9 +113,8 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
     assert page.has_no_content?('Some Watcher')
     click_link 'Search for watchers to add'
     within('form#new-watcher-form') do
-      assert page.has_content?('Some One')
       fill_in 'user_search', :with => 'watch'
-      assert page.has_no_content?('Some One')
+      assert page.has_content?('Some Watcher')
       check 'Some Watcher'
       click_button 'Add'
     end
