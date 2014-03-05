@@ -140,11 +140,25 @@ module CustomFieldsHelper
     end
   end
 
-  # Return a string used to display a custom value
-  def show_value(custom_value)
+  # Return a string used to display a custom value. If check_url check url properly formed
+  def show_value(custom_value, check_url=false)
     return "" unless custom_value
-    format_value(custom_value.value, custom_value.custom_field.field_format)
+    if check_url == false
+      format_value(custom_value.value, custom_value.custom_field.field_format)
+    else
+      addHttpURL(format_value(custom_value.value, custom_value.custom_field.field_format))
+    end    
+    
   end
+  
+  # Check if url begins with http and add if necessary
+  def addHttpURL(url)
+    if (url.starts_with?"http") == false
+      return "http://" + url
+    end  
+      
+    return url
+  end  
 
   # Return a string used to display a custom value
   def format_value(value, field_format)
