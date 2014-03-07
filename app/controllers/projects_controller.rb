@@ -103,29 +103,31 @@ class ProjectsController < ApplicationController
   
   
   def validateGitHubRepo(repository)
+   
     if repository!=""
       #checks is valid
       #check is already cloned?
       gitFolder=File.basename(repository)
       if gitFolder!=""
         if not File.directory? "/home/svnsvn/myGitRepositories/"+gitFolder
-          if File.extname(gitFolder)==".git"
-            return true
+          if File.extname(gitFolder)==".git" and (repository.starts_with?"http")
+            #exit_code = system("git ls-remote "+repository + " &> /dev/null")
+            if url_exists(repository[0..-5])
+              return true
+            else  
+              @project.errors.add " ", "Can not connect to repository. Check url format (we are expecting something like https://github.com/user/myProject.git) and connectivity."
+            end  
           else
-            @project.errors.add "", "The specified URL is not a valid Git repository."
+            @project.errors.add " ", "The specified URL is not a valid Git repository. We are expecting something like https://github.com/user/myProject.git"
           end
         else
-          @project.errors.add "", "The Git repository specified is already referenced by some other project."
+          @project.errors.add " ", "The Git repository specified is already referenced by some other project."
         end
       else
-        @project.errors.add "", "You need to specify a Git repository."
+        @project.errors.add " ", "You need to specify a Git repository."
       end
     else
-      if (User.current.admin?)==false
-        @project.errors.add "", "You need to specify a Git repository."
-      else
         return true
-      end  
     end
     return false
   end
@@ -174,6 +176,7 @@ class ProjectsController < ApplicationController
         m = Member.new(:user => User.current, :roles => [r])
         @project.members << m
       end
+      
       respond_to do |format|
         format.html {
           flash[:success] = l(:notice_successful_create)
@@ -352,4 +355,6 @@ class ProjectsController < ApplicationController
     end
     true
   end
+  
+
 end
