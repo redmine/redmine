@@ -59,6 +59,7 @@ class UsersController < ApplicationController
   end
 
   def show
+    
     # show projects based on current user visibility
     @memberships = @user.memberships.where(Project.visible_condition(User.current)).all
     
@@ -72,7 +73,8 @@ class UsersController < ApplicationController
     @events_by_day = events.group_by(&:event_date)
 
     unless User.current.admin?
-      if !@user.active? || (@user != User.current  && @memberships.empty? && events.empty?)
+      if !@user.active? 
+        #render_error "You are not allow to see this page"
         render_404
         return
       end
