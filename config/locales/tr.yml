@@ -357,7 +357,7 @@ tr:
   label_tracker_new: Yeni iş tipi
   label_workflow: İş akışı
   label_issue_status: İş durumu
-  label_issue_status_plural: İş durumuları
+  label_issue_status_plural: İş durumları
   label_issue_status_new: Yeni durum
   label_issue_category: İş kategorisi
   label_issue_category_plural: İş kategorileri
