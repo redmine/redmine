@@ -347,7 +347,15 @@ class RepositoriesController < ApplicationController
     end
     (render_404; return false) unless @repository
     @path = params[:path].is_a?(Array) ? params[:path].join('/') : params[:path].to_s
-    @rev = params[:rev].blank? ? @repository.default_branch : params[:rev].to_s.strip
+      
+    #Here we are using default_branch parameter while in other files we are hardcoding master 
+    #Redmine does not provide default_branch for bitbucket repositories so we implement this quick fix
+    if (@project.repository.scm_name == 'Mercurial')
+      @rev = params[:rev].blank? ? "default" : params[:rev].to_s.strip
+    else    
+      @rev = params[:rev].blank? ? @repository.default_branch : params[:rev].to_s.strip
+    end    
+     
     @rev_to = params[:rev_to]
 
     unless @rev.to_s.match(REV_PARAM_RE) && @rev_to.to_s.match(REV_PARAM_RE)

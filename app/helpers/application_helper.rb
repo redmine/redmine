@@ -228,9 +228,33 @@ module ApplicationHelper
     logfile.unlink
     end
 
-  def git_command(command, repository)
-    "git --git-dir='#{repository.url}' #{command}"
+  def repository_command(command, repository)
+    if (repository.scm_name == 'Mercurial')
+      "hg -R #{repository.url} #{command}"
+    else
+      "git --git-dir='#{repository.url}' #{command}"
+    end  
   end
+  
+  def getHttpRepositoryPath(repository)
+    if (repository.scm_name == 'Mercurial')
+      return "/raw/default/"
+    else  
+      return "/master/"
+    end
+  end  
+  
+  def getHttpRepositoryURL()
+    if (@project.repository.scm_name == 'Mercurial')
+      repo=getCustomField(@project,"Bitbucket repository")
+      if(repo!=nil)
+        @repourl=repo.dup
+        return @repourl 
+      end      
+    else
+      return getHttpGitURL()
+    end  
+  end  
   
   def getHttpGitURL()
     repo=getCustomField(@project,"GitHub repository")
@@ -257,9 +281,13 @@ module ApplicationHelper
   def getNML2Files(repository)
     @NML2files = []
     if(repository)
-      command = git_command("ls-tree -r master | cut -f2", repository)
+      if (repository.scm_name == 'Mercurial')
+        command = repository_command("manifest -r default", repository)
+      else  
+        command = repository_command("ls-tree -r master | cut -f2", repository)
+      end  
+
       @output=exec(command)
-      # print @output
       for line in @output
         if line.strip.ends_with?(".nml")
         @NML2files.push(line.strip)
