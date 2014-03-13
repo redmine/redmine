@@ -40,4 +40,32 @@ module WikiHelper
       link_to(h(parent.pretty_title), {:controller => 'wiki', :action => 'show', :id => parent.title, :project_id => parent.project, :version => nil})
     })
   end
+
+  def contributors(project, mode)
+    contributorsDict = Hash.new
+
+    if mode == 'committers'
+      project.repository.committers.each do |committer, user_id|
+        contributorsDict[user_id] = committer
+      end
+
+    else
+      project.memberships.each do |user|
+        print "taka"
+        print user.user_id
+
+        contributorsDict[user.user_id] = user.name
+      end
+
+    end
+
+    #    @comittersArray = project.repository.committers
+
+    #    return repository.
+    #      changesets.
+    #      reorder("#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC").
+    #      all
+    return contributorsDict
+  end
+
 end
