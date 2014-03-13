@@ -1382,3 +1382,30 @@ iframe {
 	right: 0;
 	top: 52px;
 }
+
+/* Information on OSB styles*/
+#guidesContainer h3, #themesContainer  h3 {
+	font-size: 16px;
+	font-weight:100;
+	margin:0px;
+	height:25px;
+}
+
+#guidesContainer p, #themesContainer p{
+	margin-top: 10px;
+	line-height: 20px;
+}
+
+#guidesContainer p:nth-child(2), #themesContainer p:nth-child(2){
+	display: none;
+}
+
+/*#themesContainer div:nth-child(n+4){
+	display: none;
+}*/
+
+#informationOSB > div{
+	margin-bottom: 20px;
+	border-bottom: 1px solid #E5E5E5;
+}
+

@@ -19,8 +19,8 @@ class ProjectsController < ApplicationController
   menu_item :roadmap, :only => :roadmap
   menu_item :settings, :only => :settings
 
-  before_filter :find_project, :except => [ :index, :list, :new, :create, :copy ]
-  before_filter :authorize, :except => [ :index, :list, :new, :create, :copy, :archive, :unarchive, :destroy]
+  before_filter :find_project, :except => [ :index, :list, :new, :create, :copy, :loadTabsLibs ]
+  before_filter :authorize, :except => [ :index, :list, :new, :create, :copy, :archive, :unarchive, :destroy, :loadTabsLibs]
   before_filter :authorize_global, :only => [:new, :create]
   before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
   accept_rss_auth :index
@@ -84,8 +84,36 @@ class ProjectsController < ApplicationController
         end
       end
     end
-
   end
+  
+  def getVariablesFor
+
+    scope = Project
+    unless params[:closed]
+    scope = scope.active
+    end
+    @projects = scope.visible.order('lft').all
+        
+    @groups = Group.find(:all, :order => 'lastname')
+        
+    userscope = User.logged.status(@status)
+    userscope = userscope.like(params[:name]) if params[:name].present?
+    userscope = userscope.in_group(params[:group_id]) if params[:group_id].present?
+    @users = userscope.find(:all, :order => 'lastname')
+    
+    @modelProjects=[]
+    @showcaseProjects=[]
+    for p in @projects
+      if isApproved?(p)
+        category=getCustomField(p,'Category')
+        if category=='Project'
+          @modelProjects.push(p)
+        elsif category=='Showcase'
+          @showcaseProjects.push(p)
+        end
+      end
+    end
+  end  
 
   def new
     @issue_custom_fields = IssueCustomField.sorted.all
@@ -101,6 +129,11 @@ class ProjectsController < ApplicationController
     @project.safe_attributes = params[:project]
   end
   
+  def loadTabsLibs
+    getVariablesFor
+    render 'loadTabs.js.erb'
+  end
+
   
   def validateGitHubRepo(repository)
    

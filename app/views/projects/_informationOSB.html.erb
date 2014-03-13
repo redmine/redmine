@@ -1,0 +1,45 @@
+        		<div>
+        			<a class="capitalize" href="about">About OSB</a>
+        			<p><small>Find out who we are and what motivates us to develop OpenSourceBrain.org.</small></p>
+        		</div>
+        		<div>
+        			<a class="capitalize" href="projects/osb/wiki/Faq">Frequently Asked Questions</a>
+        			<p><small>These FAQs are designed to provide a better undestanding of the Open Source Brain initiative.</small></p>
+        		</div>
+        		<div>
+        			<a class="capitalize" href="projects/osb/wiki/Meetings">Meetings</a>
+        			<p><small>Periodically we issue specific meetings. Have a look to which have being organized and what is coming soon...</small></p>
+	        			<div id="innerMeetingsContainer">
+		        			<div>
+		        				<small>Latest meetings</small>
+		        				<ul>
+		        					<li><small><a href="projects/osb/wiki/OSB2014">OSB2014</a> in Sardinia in May 2014</small></li>
+		        				</ul>
+		        			</div>
+		        			<div>
+		        				<small>Past meetings</small>
+		        				<ul>
+		        					<li><small><a href="projects/osb/wiki/Hackathon2013">Hackathon2013</a> in London in Nov 2013</small></li>
+		        					<li><small><a href="projects/osb/wiki/Sardinia2013">Sardinia2013</a> OSB kickoff meeting in May 2013</small></li>
+		        				</ul>
+		        			</div>
+		        		</div>	  
+        		</div>  
+        		<div>
+        			<a class="capitalize" href="guides">Guides</a>
+        			<p><small>Guides are short introductions to various aspects of the functionality of Open Source Brain and related tools.</small></p>
+        			<div class="row-fluid">	
+	        			<div id="guidesContainer">
+	        				<small><%= render_guide_hierarchy(@projects)%></small>
+	        			</div>	
+        			</div>	
+        		</div>
+        		<div>
+        			<a class="capitalize" href="themes">Themes</a>
+        			<p><small>Themes summarise projects present in the OSB related to specific areas of neuronal modelling, e.g. a particular brain region or a disease state.</small></p>
+        			<div class="row-fluid">	
+	        			<div id="themesContainer">
+	        				<small><%= render_theme_hierarchy(@projects)%></small>
+	        			</div>
+	        		</div>		
+        		</div>  

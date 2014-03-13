@@ -45,23 +45,6 @@ jQuery(function()
 	
 	
 	// **************
-	// EXPLORE PAGE
-	// **************
-	
-	// -- Add filters
-	setupFilter('#cellsfilter', '#cellslist');
-	setupFilter('#groupsfilter', '#groupslist');
-	setupFilter('#technologyfilter', '#technologylist');
-	setupFilter('#peoplefilter', '#peoplelist');
-
-	// -- Expands the first element of every list
-	jQuery.each(jQuery(".projects-list"), function()
-	{
-		jQuery(this).find("a").first().click();
-	});
-	
-	
-	// **************
 	// PROJECT PAGE
 	// **************
 	
