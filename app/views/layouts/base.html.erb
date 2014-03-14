@@ -138,7 +138,22 @@
 		<%= call_hook :view_layouts_base_body_bottom %>
 		<footer class="footer">
 			<div class="container">
-				<a href="http://www.wellcome.ac.uk/"> <div id="wellcomelogo"></div> </a>
+				<a href="https://twitter.com/OSBTeam" class="twitter-follow-button" data-show-count="true" data-lang="en">Follow @OSBTeam</a>
+				<script>
+				!function(d,s,id){
+					var js,fjs=d.getElementsByTagName(s)[0];
+					if(!d.getElementById(id)){
+						js=d.createElement(s);
+						js.id=id;
+						js.src="//platform.twitter.com/widgets.js";
+						fjs.parentNode.insertBefore(js,fjs);
+					}
+				}
+				(document,"script","twitter-wjs");
+				</script>
+				
+				<a href="http://www.wellcome.ac.uk/" id="wellcomelogolink"> <div id="wellcomelogo"></div> </a>
+				
 				<ul class="footer-links">
 					<li>
 						<a href="/about.html">About</a>
@@ -187,25 +202,28 @@ jQuery(function()
 	<% end %>
 	//Projects index page
 	<% if @projects!=nil %>
-		var family=getParameterByName('family');
-		var specie=getParameterByName('specie');
-		var brain=getParameterByName('brain');
-		var cell=getParameterByName('cell');
-		var spine=getParameterByName('spine');
-		if(spine!="")
-		{
-			openSpecificTree(spine,family,specie,brain,cell);
-		}
-		else
-		{
-			standardOpening();
-		}
-
-		$.ajax({
-		  type: 'GET',
-		  url: '/projects/loadTabsLibs',
-		  dataType : 'script'
-		})
+		var a = location.pathname.split("/");
+		if ( a.length > 1 && a[1] == "projects" ) {
+			var family=getParameterByName('family');
+			var specie=getParameterByName('specie');
+			var brain=getParameterByName('brain');
+			var cell=getParameterByName('cell');
+			var spine=getParameterByName('spine');
+			if(spine!="")
+			{
+				openSpecificTree(spine,family,specie,brain,cell);
+			}
+			else
+			{
+				standardOpening();
+			}
+	
+			$.ajax({
+			  type: 'GET',
+			  url: '/projects/loadTabsLibs',
+			  dataType : 'script'
+			})
+		}	
 	<% end %>
 })
 </script>

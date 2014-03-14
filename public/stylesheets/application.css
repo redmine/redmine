@@ -445,6 +445,7 @@ tr.open span.expander:before {
 }
 .footer-links {
 	margin: 10px 0;
+	width: 70%;
 }
 .footer-links li {
 	display: inline;
@@ -807,6 +808,15 @@ section p {
 	}
 }
 
+.twitter-follow-button{
+	float: left;
+	margin-top: 20px;
+}
+
+#wellcomelogolink{
+	float: right;
+}
+
 #wellcomelogo {
 	float: right;
 	width: 154px;
@@ -1063,6 +1073,7 @@ path.link {
 	color: white;
 	margin-top: 0px;
 	margin-left: 20px;
+	
 }
 
 .jumplabel {
