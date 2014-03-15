@@ -26,7 +26,6 @@ end
 class AccountTest < ActionController::IntegrationTest
   fixtures :users, :roles
 
-  # Replace this with your real tests.
   def test_login
     get "my/page"
     assert_redirected_to "/login?back_url=http%3A%2F%2Fwww.example.com%2Fmy%2Fpage"
