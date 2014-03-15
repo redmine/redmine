@@ -161,6 +161,11 @@ class WikiControllerTest < ActionController::TestCase
     assert_template 'edit'
   end
 
+  def test_show_specific_version_of_an_unexistent_page_without_edit_right
+    get :show, :project_id => 1, :id => 'Unexistent page', :version => 1
+    assert_response 404
+  end
+
   def test_show_unexistent_page_with_parent_should_preselect_parent
     @request.session[:user_id] = 2
     get :show, :project_id => 1, :id => 'Unexistent page', :parent => 'Another_page'
