@@ -148,7 +148,7 @@ module Redmine
 
       def formatted_value(view, custom_field, value, customized=nil, html=false)
         casted = cast_value(custom_field, value, customized)
-        if custom_field.url_pattern.present?
+        if html && custom_field.url_pattern.present?
           texts_and_urls = Array.wrap(casted).map do |single_value|
             text = view.format_object(single_value, false).to_s
             url = url_from_pattern(custom_field, single_value, customized)

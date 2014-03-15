@@ -51,4 +51,12 @@ class Redmine::FieldFormatTest < ActionView::TestCase
     assert_equal "*foo*\nbar", field.format.formatted_custom_value(self, custom_value, false)
     assert_include "<strong>foo</strong>", field.format.formatted_custom_value(self, custom_value, true)
   end
+
+  def test_text_field_with_url_pattern_should_format_as_link
+    field = IssueCustomField.new(:field_format => 'string', :url_pattern => 'http://foo/%value%')
+    custom_value = CustomValue.new(:custom_field => field, :customized => Issue.new, :value => "bar")
+
+    assert_equal "bar", field.format.formatted_custom_value(self, custom_value, false)
+    assert_equal '<a href="http://foo/bar">bar</a>', field.format.formatted_custom_value(self, custom_value, true)
+  end
 end
