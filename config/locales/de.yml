@@ -1121,3 +1121,4 @@ de:
 
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
   label_link: Link
+  label_issue_assigned_to_updated: Assignee updated

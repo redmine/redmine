@@ -1136,3 +1136,4 @@ ja:
   setting_force_default_language_for_anonymous: 匿名ユーザーに既定の言語を強制
   setting_force_default_language_for_loggedin: ログインユーザーに既定の言語を強制
   label_custom_field_select_type: カスタムフィールドを追加するオブジェクトを選択してください
+  label_issue_assigned_to_updated: Assignee updated

@@ -502,6 +502,7 @@ fr:
   label_issue_updated: Demande mise à jour
   label_issue_note_added: Note ajoutée
   label_issue_status_updated: Statut changé
+  label_issue_assigned_to_updated: Assigné changé
   label_issue_priority_updated: Priorité changée
   label_issues_by: "Demandes par %{value}"
   label_document: Document
