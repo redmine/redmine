@@ -87,7 +87,6 @@ class JournalObserverTest < ActiveSupport::TestCase
     assert_equal 0, ActionMailer::Base.deliveries.size
   end
 
-  # context: issue_status_updated notified_events
   def test_create_should_send_email_notification_with_issue_status_updated
     issue = Issue.first
     user = User.first
@@ -112,7 +111,44 @@ class JournalObserverTest < ActiveSupport::TestCase
     assert_equal 0, ActionMailer::Base.deliveries.size
   end
 
-  # context: issue_priority_updated notified_events
+  def test_create_without_status_update_should_not_send_email_notification_with_issue_status_updated
+    issue = Issue.first
+    user = User.first
+    issue.init_journal(user, issue)
+    issue.subject = "No status update"
+
+    with_settings :notified_events => %w(issue_status_updated) do
+      assert issue.save
+    end
+    assert_equal 0, ActionMailer::Base.deliveries.size
+  end
+
+  def test_create_should_send_email_notification_with_issue_assignee_updated
+    issue = Issue.generate!(:assigned_to_id => 2)
+    ActionMailer::Base.deliveries.clear
+    user = User.first
+    issue.init_journal(user, issue)
+    issue.assigned_to = User.find(3)
+
+    with_settings :notified_events => %w(issue_assigned_to_updated) do
+      assert issue.save
+    end
+    assert_equal 1, ActionMailer::Base.deliveries.size
+  end
+
+  def test_create_should_not_send_email_notification_without_issue_assignee_updated
+    issue = Issue.generate!(:assigned_to_id => 2)
+    ActionMailer::Base.deliveries.clear
+    user = User.first
+    issue.init_journal(user, issue)
+    issue.assigned_to = User.find(3)
+
+    with_settings :notified_events => [] do
+      assert issue.save
+    end
+    assert_equal 0, ActionMailer::Base.deliveries.size
+  end
+
   def test_create_should_send_email_notification_with_issue_priority_updated
     issue = Issue.first
     user = User.first
