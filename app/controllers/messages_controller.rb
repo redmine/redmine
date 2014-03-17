@@ -113,7 +113,7 @@ class MessagesController < ApplicationController
     @subject = "RE: #{@subject}" unless @subject.starts_with?('RE:')
 
     @content = "#{ll(Setting.default_language, :text_user_wrote, @message.author)}\n> "
-    @content << @message.content.to_s.strip.gsub(%r{<pre>((.|\s)*?)</pre>}m, '[...]').gsub(/(\r?\n|\r\n?)/, "\n> ") + "\n\n"
+    @content << @message.content.to_s.strip.gsub(%r{<pre>(.*?)</pre>}m, '[...]').gsub(/(\r?\n|\r\n?)/, "\n> ") + "\n\n"
   end
 
   def preview
