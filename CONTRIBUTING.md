@@ -1,8 +1,4 @@
+Feel free to open issues on this OSB redmine fork.
 
-**Do not send a pull requst to this github repository**.
-
-For more detail, please see [official website] wiki [Contribute].
-
-[official website]: http://www.redmine.org
-[Contribute]: http://www.redmine.org/projects/redmine/wiki/Contribute
+Alternatively get in contact via: info@opensourcebrain.org
 
