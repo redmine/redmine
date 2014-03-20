@@ -42,15 +42,17 @@
 <tr>
 	<td>
 	  <ul class="unstyled">
-	    <% contributors(@project, 'committers').each do |user_id, committer| %>
-	      <li><a href="/users/<%= user_id %>"><%= committer.to_s.split('<').first %></a></li>
+	    <% contributors(@project, @page).each do |user_id, committer| %>
+	      <li>
+	      	<% if user_id != committer[:name].to_s.split('<').first  %>
+	      		<a href="/users/<%= user_id %>"><%= committer[:name].to_s.split('<').first %> (<%= committer[:contributorTo] %>)</a>
+	      	<% else %>
+	      		<%= committer[:name].to_s.split('<').first %> (<%= committer[:contributorTo] %>)
+	      	<% end %>		
+	      </li>
 	    <% end %>	  	
-		<% contributors(@project, 'others').each do |user_id, committer| %>
-	      <li><a href="/users/<%= user_id %>"><%= committer.to_s.split('<').first %></a></li>
-	    <% end %>
-
 	  </ul>
-	  </td>
+	</td>
   </tr>
   </table>	
 </div>
