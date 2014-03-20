@@ -2,7 +2,7 @@
 <%= link_to(l(:button_edit), edit_user_path(@user), :class => 'btn icon icon-edit pull-right') if User.current.admin? %>
 </div>
 
-<p class="big-lead pagination-centered"><%= avatar(@user, :size => "70", :class => "img-rounded") %> <%=h @user.name %></p>
+<p class="big-lead pagination-centered capitalize"><%= avatar(@user, :size => "70", :class => "img-rounded") %> <%=h @user.name %></p>
 
 <div class="row-fluid"> 
 	<div class="span6">
@@ -107,4 +107,4 @@
 
 <%= call_hook :view_account_right_bottom, :user => @user %>
 
-<% html_title @user.name %>
+<% html_title @user.name.split.map(&:capitalize).join(' ') %>
