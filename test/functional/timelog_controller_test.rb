@@ -289,6 +289,28 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal 2, entry.user_id
   end
 
+  def test_update_should_allow_to_change_issue_to_another_project
+    entry = TimeEntry.generate!(:issue_id => 1)
+
+    @request.session[:user_id] = 1
+    put :update, :id => entry.id, :time_entry => {:issue_id => '5'}
+    assert_response 302
+    entry.reload
+
+    assert_equal 5, entry.issue_id
+    assert_equal 3, entry.project_id
+  end
+
+  def test_update_should_not_allow_to_change_issue_to_an_invalid_project
+    entry = TimeEntry.generate!(:issue_id => 1)
+    Project.find(3).disable_module!(:time_tracking)
+
+    @request.session[:user_id] = 1
+    put :update, :id => entry.id, :time_entry => {:issue_id => '5'}
+    assert_response 200
+    assert_include "Issue is invalid", assigns(:time_entry).errors.full_messages
+  end
+
   def test_get_bulk_edit
     @request.session[:user_id] = 2
     get :bulk_edit, :ids => [1, 2]

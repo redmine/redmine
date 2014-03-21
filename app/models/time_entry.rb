@@ -77,6 +77,16 @@ class TimeEntry < ActiveRecord::Base
     end
   end
 
+  def safe_attributes=(attrs, user=User.current)
+    attrs = super
+    if !new_record? && issue && issue.project_id != project_id
+      if user.allowed_to?(:log_time, issue.project)
+        self.project_id = issue.project_id
+      end
+    end
+    attrs
+  end
+
   def set_project_if_nil
     self.project = issue.project if issue && project.nil?
   end
