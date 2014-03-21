@@ -103,11 +103,12 @@ class AdminControllerTest < ActionController::TestCase
   end
 
   def test_no_plugins
-    Redmine::Plugin.clear
+    Redmine::Plugin.stubs(:registered_plugins).returns({})
 
     get :plugins
     assert_response :success
     assert_template 'plugins'
+    assert_equal [], assigns(:plugins)
   end
 
   def test_plugins
