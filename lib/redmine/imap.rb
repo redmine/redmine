@@ -32,7 +32,7 @@ module Redmine
         imap.uid_search(['NOT', 'SEEN']).each do |uid|
           msg = imap.uid_fetch(uid,'RFC822')[0].attr['RFC822']
           logger.debug "Receiving message #{uid}" if logger && logger.debug?
-          if MailHandler.receive(msg, options)
+          if MailHandler.safe_receive(msg, options)
             logger.debug "Message #{uid} successfully received" if logger && logger.debug?
             if imap_options[:move_on_success]
               imap.uid_copy(uid, imap_options[:move_on_success])

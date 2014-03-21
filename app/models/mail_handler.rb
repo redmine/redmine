@@ -46,6 +46,14 @@ class MailHandler < ActionMailer::Base
     super(email)
   end
 
+  # Receives an email and rescues any exception
+  def self.safe_receive(*args)
+    receive(*args)
+  rescue => e
+    logger.error "An unexpected error occurred when receiving email: #{e.message}" if logger
+    return false
+  end
+
   # Extracts MailHandler options from environment variables
   # Use when receiving emails with rake tasks
   def self.extract_options_from_env(env)

@@ -36,7 +36,7 @@ module Redmine
             pop_session.each_mail do |msg|
               message = msg.pop
               message_id = (message =~ /^Message-I[dD]: (.*)/ ? $1 : '').strip
-              if MailHandler.receive(message, options)
+              if MailHandler.safe_receive(message, options)
                 msg.delete
                 logger.debug "--> Message #{message_id} processed and deleted from the server" if logger && logger.debug?
               else
