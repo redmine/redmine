@@ -20,7 +20,7 @@
 module ProjectsHelper
   def link_to_version(version, options = {})
     return '' unless version && version.is_a?(Version)
-    link_to_if version.visible?, format_version_name(version), { :controller => 'versions', :action => 'show', :id => version }, options
+    link_to_if version.visible?, format_version_name(version), version_path(version), options
   end
 
   def project_settings_tabs
@@ -53,10 +53,16 @@ module ProjectsHelper
 
   def render_project_action_links
     links = []
-    links << link_to(l(:label_project_new), {:controller => 'projects', :action => 'new'}, :class => 'icon icon-add') if User.current.allowed_to?(:add_project, nil, :global => true)
-    links << link_to(l(:label_issue_view_all), issues_path) if User.current.allowed_to?(:view_issues, nil, :global => true)
-    links << link_to(l(:label_overall_spent_time), time_entries_path) if User.current.allowed_to?(:view_time_entries, nil, :global => true)
-    links << link_to(l(:label_overall_activity), { :controller => 'activities', :action => 'index', :id => nil })
+    if User.current.allowed_to?(:add_project, nil, :global => true)
+      links << link_to(l(:label_project_new), new_project_path, :class => 'icon icon-add')
+    end
+    if User.current.allowed_to?(:view_issues, nil, :global => true)
+      links << link_to(l(:label_issue_view_all), issues_path)
+    end
+    if User.current.allowed_to?(:view_time_entries, nil, :global => true)
+      links << link_to(l(:label_overall_spent_time), time_entries_path)
+    end
+    links << link_to(l(:label_overall_activity), activity_path)
     links.join(" | ").html_safe
   end
 
