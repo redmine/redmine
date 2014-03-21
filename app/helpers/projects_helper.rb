@@ -51,6 +51,15 @@ module ProjectsHelper
     content_tag('select', options.html_safe, :name => 'project[parent_id]', :id => 'project_parent_id')
   end
 
+  def render_project_action_links
+    links = []
+    links << link_to(l(:label_project_new), {:controller => 'projects', :action => 'new'}, :class => 'icon icon-add') if User.current.allowed_to?(:add_project, nil, :global => true)
+    links << link_to(l(:label_issue_view_all), issues_path) if User.current.allowed_to?(:view_issues, nil, :global => true)
+    links << link_to(l(:label_overall_spent_time), time_entries_path) if User.current.allowed_to?(:view_time_entries, nil, :global => true)
+    links << link_to(l(:label_overall_activity), { :controller => 'activities', :action => 'index', :id => nil })
+    links.join(" | ").html_safe
+  end
+
   # Renders the projects index
   def render_project_hierarchy(projects)
     render_project_nested_lists(projects) do |project|
