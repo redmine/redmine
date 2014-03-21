@@ -1175,12 +1175,14 @@ RAW
     end
   end
 
+  if Object.const_defined?(:Redcarpet)
   def test_toc_with_markdown_formatting_should_be_parsed
     with_settings :text_formatting => 'markdown' do
       assert_select_in textilizable("{{toc}}\n\n# Heading"), 'ul.toc li', :text => 'Heading'
       assert_select_in textilizable("{{<toc}}\n\n# Heading"), 'ul.toc.left li', :text => 'Heading'
       assert_select_in textilizable("{{>toc}}\n\n# Heading"), 'ul.toc.right li', :text => 'Heading'
     end
+  end
   end
 
   def test_section_edit_links
