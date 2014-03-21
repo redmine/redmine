@@ -113,6 +113,12 @@ module Redmine #:nodoc:
       @registered_plugins = {}
     end
 
+    # Removes a plugin from the registered plugins
+    # It doesn't unload the plugin
+    def self.unregister(id)
+      @registered_plugins.delete(id)
+    end
+
     # Checks if a plugin is installed
     #
     # @param [String] id name of the plugin

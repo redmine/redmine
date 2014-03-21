@@ -148,7 +148,8 @@ class SettingsControllerTest < ActionController::TestCase
     assert_tag 'form', :attributes => {:action => '/settings/plugin/foo'},
       :descendant => {:tag => 'input', :attributes => {:name => 'settings[sample_setting]', :value => 'Plugin setting value'}}
 
-    Redmine::Plugin.clear
+  ensure
+    Redmine::Plugin.unregister(:foo)
   end
 
   def test_get_invalid_plugin_settings
@@ -162,7 +163,8 @@ class SettingsControllerTest < ActionController::TestCase
     get :plugin, :id => 'foo'
     assert_response 404
 
-    Redmine::Plugin.clear
+  ensure
+    Redmine::Plugin.unregister(:foo)
   end
 
   def test_post_plugin_settings
@@ -181,6 +183,7 @@ class SettingsControllerTest < ActionController::TestCase
     post :plugin, :id => 'foo', :settings => {'sample_setting' => 'Value'}
     assert_response 404
 
-    Redmine::Plugin.clear
+  ensure
+    Redmine::Plugin.unregister(:foo)
   end
 end
