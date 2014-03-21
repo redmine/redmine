@@ -978,19 +978,20 @@ module ApplicationHelper
     end
   end
 
-  TOC_RE = /<p>\{\{([<>]?)toc\}\}<\/p>/i unless const_defined?(:TOC_RE)
+  TOC_RE = /<p>\{\{((<|&lt;)|(>|&gt;))?toc\}\}<\/p>/i unless const_defined?(:TOC_RE)
 
   # Renders the TOC with given headings
   def replace_toc(text, headings)
     text.gsub!(TOC_RE) do
+      left_align, right_align = $2, $3
       # Keep only the 4 first levels
       headings = headings.select{|level, anchor, item| level <= 4}
       if headings.empty?
         ''
       else
         div_class = 'toc'
-        div_class << ' right' if $1 == '>'
-        div_class << ' left' if $1 == '<'
+        div_class << ' right' if right_align
+        div_class << ' left' if left_align
         out = "<ul class=\"#{div_class}\"><li>"
         root = headings.map(&:first).min
         current = root
