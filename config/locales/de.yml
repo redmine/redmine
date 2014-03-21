@@ -568,6 +568,7 @@ de:
   label_internal: Intern
   label_issue: Ticket
   label_issue_added: Ticket hinzugefügt
+  label_issue_assigned_to_updated: Bearbeiter aktualisiert
   label_issue_category: Ticket-Kategorie
   label_issue_category_new: Neue Kategorie
   label_issue_category_plural: Ticket-Kategorien
@@ -1121,4 +1122,3 @@ de:
   version_status_open: offen
 
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
-  label_issue_assigned_to_updated: Assignee updated
