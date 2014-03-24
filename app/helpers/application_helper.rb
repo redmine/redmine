@@ -245,7 +245,7 @@ module ApplicationHelper
   end  
   
   def getHttpRepositoryURL()
-    if (@project.repository.scm_name == 'Mercurial')
+    if (@project.repository != nil and @project.repository.scm_name == 'Mercurial')
       repo=getCustomField(@project,"Bitbucket repository")
       if(repo!=nil)
         @repourl=repo.dup

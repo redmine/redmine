@@ -89,9 +89,9 @@
 						</div>
 						<% if isAProject %>
 							<% @repourl=getHttpRepositoryURL() %>
-							<% @repopath=getHttpRepositoryPath(@project.repository) %>
 							
 							<% if(@repourl)%>
+							<% @repopath=getHttpRepositoryPath(@project.repository) %>
 								<% @networkfiles=[] %>
 								<% for nml2file in @neuroml2files %>
 									<% if nml2file.ends_with?(".net.nml") %>
