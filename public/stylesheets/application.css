@@ -445,7 +445,6 @@ tr.open span.expander:before {
 }
 .footer-links {
 	margin: 10px 0;
-	width: 70%;
 }
 .footer-links li {
 	display: inline;
@@ -454,7 +453,9 @@ tr.open span.expander:before {
 .footer-links li:first-child {
 	padding-left: 0;
 }
-
+.footer .license{
+	margin-left: 200px;
+}
 /* Sections
  -------------------------------------------------- */
 
