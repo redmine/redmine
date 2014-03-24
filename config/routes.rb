@@ -24,7 +24,11 @@ RedmineApp::Application.routes.draw do
   match 'themes', :to => 'themes#index'
   match 'status', :to => 'status#index'
   match 'projects/adminnew', :to => 'projects#adminnew', :via => :post
-  match 'projects/loadTabsLibs', :to => 'projects#loadTabsLibs'
+  match 'projects/cells', :to => 'projects#cells'
+  match 'projects/technology', :to => 'projects#technology'
+  match 'projects/groups', :to => 'projects#groups'
+  match 'projects/people', :to => 'projects#people'
+  match 'projects/informationOSB', :to => 'projects#informationOSB'
   ##
 
   match 'login', :to => 'account#login', :as => 'signin', :via => [:get, :post]

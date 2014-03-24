@@ -1420,3 +1420,11 @@ iframe {
 	border-bottom: 1px solid #E5E5E5;
 }
 
+.active .bannerImage img{
+	display: block;
+	margin: 0 auto;
+}
+#myCarousel .caption{
+	margin-top: 60px;
+}
+

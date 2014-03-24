@@ -44,3 +44,16 @@
 			<% end %>
 		</div>
 	</div>
+	
+	<script>
+	jQuery(function()
+	{
+		// -- Add filter
+		setupFilter('#peoplefilter', '#peoplelist');
+		// -- Expands the first element of every list
+		jQuery.each(jQuery(".projects-list"), function()
+		{
+			jQuery(this).find("a").first().click();
+		});
+	})
+	</script>

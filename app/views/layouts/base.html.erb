@@ -200,31 +200,9 @@ jQuery(function()
 			<% end %>
 		}
 	<% end %>
-	//Projects index page
-	<% if @projects!=nil %>
-		var a = location.pathname.split("/");
-		if ( a.length > 1 && a[1] == "projects" ) {
-			var family=getParameterByName('family');
-			var specie=getParameterByName('specie');
-			var brain=getParameterByName('brain');
-			var cell=getParameterByName('cell');
-			var spine=getParameterByName('spine');
-			if(spine!="")
-			{
-				openSpecificTree(spine,family,specie,brain,cell);
-			}
-			else
-			{
-				standardOpening();
-			}
 	
-			$.ajax({
-			  type: 'GET',
-			  url: '/projects/loadTabsLibs',
-			  dataType : 'script'
-			})
-		}	
-	<% end %>
+	
+	
 })
 </script>
 
