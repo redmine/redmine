@@ -230,7 +230,7 @@ module ApplicationHelper
 
   def repository_command(command, repository)
     if (repository.scm_name == 'Mercurial')
-      "hg -R #{repository.url} #{command}"
+      "hg -R '#{repository.url}' #{command}"
     else
       "git --git-dir='#{repository.url}' #{command}"
     end  
