@@ -36,8 +36,18 @@
 			            <span class="icon-bar"></span>
 			        </button>
 			        <div class="span5" id="osblogo" onclick="window.location.href='/';"></div>
+		            <% if User.current.logged? || !Setting.login_required? %>
+				    <div id="quick-search" class="span4">
+				        <%= form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
+					        <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
+					        <%= text_field_tag 'q', @question, :size => 20, :class => 'small', :accesskey => accesskey(:quick_search) %>
+					        <%= link_to '<icon class="icon-question-sign"/>'.html_safe, {:controller => 'search', :action => 'index', :id => @project}, :accesskey => accesskey(:search) %>:
+				        <% end %>
+				        <%= render_project_jump_box %>
+				    </div>
+				    <% end %>
 					<div class="nav-collapse collapse">
-						<div id="header_menu" class="span8 pull-right">
+						<div id="header_menu" class="span5 pull-right">
 							<%= render_menu :account_menu -%>
 							<%= content_tag('div', "#{l(:label_logged_as)} #{link_to_user(User.current, :format => :username)}".html_safe, :id => 'loggedas') if User.current.logged? %>
 							<%= render_menu :top_menu if User.current.logged? || !Setting.login_required? -%>
@@ -169,7 +179,7 @@
 							<a href="/projects#informationOSB">Help</a>
 						</li>
 					</ul>
-					<div class="license">Open Source Brain &#169; 2013. All rights reserved. Website powered by <%= link_to Redmine::Info.app_name, Redmine::Info.url %></div>
+					<div class="license">The Open Source Brain Initiative 2014. Website powered by <%= link_to Redmine::Info.app_name, Redmine::Info.url %></div>
 				</div>
 			</div>
 		</footer>

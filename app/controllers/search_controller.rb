@@ -69,7 +69,7 @@ class SearchController < ApplicationController
       @results = []
       @results_by_type = Hash.new {|h,k| h[k] = 0}
 
-      limit = 10
+      limit = 20
       @scope.each do |s|
         r, c = s.singularize.camelcase.constantize.search(@tokens, projects_to_search,
           :all_words => @all_words,

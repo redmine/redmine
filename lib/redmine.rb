@@ -208,13 +208,13 @@ Redmine::MenuManager.map :top_menu do |menu|
 end
 
 Redmine::MenuManager.map :account_menu do |menu|
-  menu.push :about, { :controller => 'about', :action => 'index' }, :caption => 'About'
-  menu.push :administration, { :controller => 'admin', :action => 'index' }, :if => Proc.new { User.current.admin? }, :last => true
-  menu.push :projects, { :controller => 'projects', :action => 'index' }, :caption => 'Explore Open Source Brain'
+#  menu.push :about, { :controller => 'about', :action => 'index' }, :caption => 'About'
+  menu.push :administration, { :controller => 'admin', :action => 'index' }, :caption => 'Admin', :if => Proc.new { User.current.admin? }, :last => true
+  menu.push :projects, { :controller => 'projects', :action => 'index' }, :caption => 'Explore OSB'
   menu.push :login, :signin_path, :if => Proc.new { !User.current.logged? }
   menu.push :register, :register_path, :if => Proc.new { !User.current.logged? && Setting.self_registration? }
-  menu.push :my_account, { :controller => 'my', :action => 'account' }, :if => Proc.new { User.current.logged? }
-  menu.push :logout, :signout_path, :html => {:method => 'post'}, :if => Proc.new { User.current.logged? }
+#  menu.push :my_account, { :controller => 'my', :action => 'account' }, :if => Proc.new { User.current.logged? }
+  menu.push :logout, :signout_path, :html => {:method => 'post'}, :caption => '<icon class="icon-signout"/>'.html_safe, :if => Proc.new { User.current.logged? }
 end
 
 Redmine::MenuManager.map :application_menu do |menu|

@@ -730,6 +730,20 @@ section p {
 #header_menu {
 	margin-top: 5px;
 }
+#quick-search form{
+	clear: none;
+	float: left;
+}
+#quick-search select{
+	float: left;
+	width: 165px;
+}
+#quick-search #q{
+	width: 140px;
+}
+#quick-search {
+	margin-top: 10px; 
+}
 .tooltiplink {
 	cursor: help;
 }
@@ -1421,6 +1435,7 @@ iframe {
 	border-bottom: 1px solid #E5E5E5;
 }
 
+/* GALLERY */
 .active .bannerImage img{
 	display: block;
 	margin: 0 auto;
@@ -1429,3 +1444,18 @@ iframe {
 	margin-top: 60px;
 }
 
+/* SEARCH FORM */
+#search-form .inline-element{
+	display: inline-block;	
+}
+#search-form #search-types label{
+	display: inline-block;	
+}
+#search_box{
+	border: 1px solid #ddd;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	padding: 20px 20px 0px 20px;
+	margin-bottom: 20px;
+}
