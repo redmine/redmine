@@ -41,30 +41,38 @@ module WikiHelper
     })
   end
 
-  def contributors(project, mode)
-    contributorsDict = Hash.new
+  def contributors(project, page)
+    contributorsDict = ActiveSupport::OrderedHash.new
 
-    if mode == 'committers'
-      project.repository.committers.each do |committer, user_id|
-        contributorsDict[user_id] = committer
-      end
+    versions = page.content.versions.
+      select("id, author_id, version").
+      reorder('version DESC').
+      all
 
-    else
-      project.memberships.each do |user|
-        print "taka"
-        print user.user_id
-
-        contributorsDict[user.user_id] = user.name
-      end
-
+    versions.each do |ver|
+      unless ver.author.id.nil?
+        contributorsDict[ver.author.id] = {:name => ver.author.name, :contributorTo => 'wiki contributor'}
+      end    
     end
 
-    #    @comittersArray = project.repository.committers
+    unless project.repository.nil?
+      project.repository.committers.each do |committer, user_id|
+        unless user_id.nil?
+          if contributorsDict.has_key?(user_id)
+            contributorsDict[user_id] = {:name => committer, :contributorTo => 'wiki & code contributor'}
+          else
+            contributorsDict[user_id] = {:name => committer, :contributorTo => 'code contributor'}
+          end
+        else  
+          contributorsDict[committer.to_s.split('<').first] = {:name => committer, :contributorTo => 'code contributor'}
+        end  
+      end
+    end
 
-    #    return repository.
-    #      changesets.
-    #      reorder("#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC").
-    #      all
+    #    project.memberships.each do |user|
+    #      contributorsDict[user.user_id] = user.name
+    #    end
+
     return contributorsDict
   end
 
