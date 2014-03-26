@@ -1,0 +1,8 @@
+awesome_nested_set.sqlite3.db
+spec/debug.log
+rdoc
+coverage
+pkg
+*.gem
+Gemfile.lock
+gemfiles/Gemfile*.lock
