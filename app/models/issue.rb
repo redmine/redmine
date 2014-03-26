@@ -1316,8 +1316,7 @@ class Issue < ActiveRecord::Base
         self.root_id = (@parent_issue.nil? ? id : @parent_issue.root_id)
         cond = ["root_id = ? AND lft >= ? AND rgt <= ? ", old_root_id, lft, rgt]
         self.class.base_class.select('id').lock(true).where(cond)
-        target_maxright = nested_set_scope.maximum(right_column_name) || 0
-        offset = target_maxright + 1 - lft
+        offset = right_most_bound + 1 - lft
         Issue.where(cond).
           update_all(["root_id = ?, lft = lft + ?, rgt = rgt + ?", root_id, offset, offset])
         self[left_column_name]  = lft + offset
