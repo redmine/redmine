@@ -538,15 +538,18 @@ module CollectiveIdea #:nodoc:
           end
         end
 
-        # on creation, set automatically lft and rgt to the end of the tree
-        def set_default_left_and_right
-          highest_right_row =
+        def right_most_bound
+          right_most_node =
             self.class.base_class.unscoped.
               order("#{quoted_right_column_full_name} desc").limit(1).lock(true).first
-          maxright = highest_right_row ? (highest_right_row[right_column_name] || 0) : 0
+          right_most_node ? right_most_node[right_column_name] : 0
+        end
+
+        # on creation, set automatically lft and rgt to the end of the tree
+        def set_default_left_and_right
           # adds the new node to the right of all existing nodes
-          self[left_column_name] = maxright + 1
-          self[right_column_name] = maxright + 2
+          self[left_column_name] = right_most_bound + 1
+          self[right_column_name] = right_most_bound + 2
         end
 
         def in_tenacious_transaction(&block)
