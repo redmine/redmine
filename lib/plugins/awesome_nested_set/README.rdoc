@@ -1,0 +1,153 @@
+= AwesomeNestedSet
+
+Awesome Nested Set is an implementation of the nested set pattern for ActiveRecord models. It is replacement for acts_as_nested_set and BetterNestedSet, but more awesome.
+
+Version 2 supports Rails 3. Gem versions prior to 2.0 support Rails 2.
+
+== What makes this so awesome?
+
+This is a new implementation of nested set based off of BetterNestedSet that fixes some bugs, removes tons of duplication, adds a few useful methods, and adds STI support.
+
+== Installation
+
+  Add to your Gemfile:
+
+  gem 'awesome_nested_set'
+
+== Usage
+
+To make use of awesome_nested_set, your model needs to have 3 fields: lft, rgt, and parent_id.
+You can also have an optional field: depth:
+
+  class CreateCategories < ActiveRecord::Migration
+    def self.up
+      create_table :categories do |t|
+        t.string :name
+        t.integer :parent_id
+        t.integer :lft
+        t.integer :rgt
+        t.integer :depth # this is optional.
+      end
+    end
+
+    def self.down
+      drop_table :categories
+    end
+  end
+
+Enable the nested set functionality by declaring acts_as_nested_set on your model
+
+  class Category < ActiveRecord::Base
+    acts_as_nested_set
+  end
+
+Run `rake rdoc` to generate the API docs and see CollectiveIdea::Acts::NestedSet for more info.
+
+== Callbacks
+
+There are three callbacks called when moving a node. `before_move`, `after_move` and `around_move`.
+
+  class Category < ActiveRecord::Base
+    acts_as_nested_set
+
+    after_move :rebuild_slug
+    around_move :da_fancy_things_around
+
+    private
+    
+    def rebuild_slug
+      # do whatever
+    end
+
+    def da_fancy_things_around
+      # do something...
+      yield # actually moves
+      # do something else...
+    end
+  end
+
+Beside this there are also hooks to act on the newly added or removed children.
+
+  class Category < ActiveRecord::Base  
+    acts_as_nested_set  :before_add     => :do_before_add_stuff,
+                        :after_add      => :do_after_add_stuff,
+                        :before_remove  => :do_before_remove_stuff,
+                        :after_remove   => :do_after_remove_stuff
+
+    private
+
+    def do_before_add_stuff(child_node)
+      # do whatever with the child
+    end
+
+    def do_after_add_stuff(child_node)
+      # do whatever with the child
+    end
+
+    def do_before_remove_stuff(child_node)
+      # do whatever with the child
+    end
+
+    def do_after_remove_stuff(child_node)
+      # do whatever with the child
+    end
+  end
+
+
+== Protecting attributes from mass assignment
+
+It's generally best to "white list" the attributes that can be used in mass assignment:
+
+  class Category < ActiveRecord::Base
+    acts_as_nested_set
+    attr_accessible :name, :parent_id
+  end
+
+If for some reason that is not possible, you will probably want to protect the lft and rgt attributes:
+
+  class Category < ActiveRecord::Base
+    acts_as_nested_set
+    attr_protected :lft, :rgt
+  end
+
+== Conversion from other trees
+
+Coming from acts_as_tree or another system where you only have a parent_id? No problem. Simply add the lft & rgt fields as above, and then run
+
+  Category.rebuild!
+
+Your tree will be converted to a valid nested set. Awesome!
+
+== View Helper
+
+The view helper is called #nested_set_options.
+
+Example usage:
+
+  <%= f.select :parent_id, nested_set_options(Category, @category) {|i| "#{'-' * i.level} #{i.name}" } %>
+
+  <%= select_tag 'parent_id', options_for_select(nested_set_options(Category) {|i| "#{'-' * i.level} #{i.name}" } ) %>
+
+See CollectiveIdea::Acts::NestedSet::Helper for more information about the helpers.
+
+== References
+
+You can learn more about nested sets at: http://threebit.net/tutorials/nestedset/tutorial1.html
+
+== How to contribute
+
+If you find what you might think is a bug:
+
+1. Check the GitHub issue tracker to see if anyone else has had the same issue.
+   https://github.com/collectiveidea/awesome_nested_set/issues/
+2. If you don't see anything, create an issue with information on how to reproduce it.
+
+If you want to contribute an enhancement or a fix:
+
+1. Fork the project on GitHub.
+   https://github.com/collectiveidea/awesome_nested_set/
+2. Make your changes with tests.
+3. Commit the changes without making changes to the Rakefile, VERSION, or any other files that aren't related to your enhancement or fix
+4. Send a pull request.
+
+Copyright ©2008 Collective Idea, released under the MIT license

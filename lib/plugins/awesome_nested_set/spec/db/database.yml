@@ -1,0 +1,27 @@
+sqlite3:
+  adapter: <%= "jdbc" if defined? JRUBY_VERSION %>sqlite3
+  database: awesome_nested_set.sqlite3.db
+sqlite3mem:
+  adapter: <%= "jdbc" if defined? JRUBY_VERSION %>sqlite3
+  database: ":memory:"
+postgresql:
+  adapter: postgresql
+  encoding: unicode
+  database: awesome_nested_set_plugin_test
+  pool: 5
+  username: postgres
+  password: postgres
+  min_messages: warning
+mysql:
+  adapter: mysql2
+  host: localhost
+  username: root
+  password:
+  database: awesome_nested_set_plugin_test
+## Add DB Configuration to run Oracle tests
+oracle:
+  adapter: oracle_enhanced
+  host: localhost
+  username: awesome_nested_set_dev
+  password:
+  database: xe
