@@ -36,8 +36,26 @@
 			            <span class="icon-bar"></span>
 			        </button>
 			        <div class="span5" id="osblogo" onclick="window.location.href='/';"></div>
+		            <% if User.current.logged? || !Setting.login_required? %>
+				    <div id="quick-search" class="span4">
+				        <%= form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
+					        <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
+					        <!--<%= link_to '<icon class="icon-question-sign"/>'.html_safe, {:controller => 'search', :action => 'index', :id => @project}, :accesskey => accesskey(:search) %>-->
+					        <%= text_field_tag 'q', @question, :size => 20, :class => 'small', :accesskey => accesskey(:quick_search) %>
+					        <a href="#" id="searchLink"><icon class="icon-search"/></a>
+					        <% if User.current.logged? %>
+					        	<a href="#" id="toolsLink"><icon class="icon-plus-sign"/></a>
+					        <% end %>	
+					        <%= javascript_tag 'jQuery("#searchLink").click(function(){$(this).closest("form").submit(); return false;})' %>
+					        <%= javascript_tag 'jQuery("#toolsLink").click(function(){$(this).children("icon").toggleClass("icon-plus-sign").toggleClass("icon-minus-sign"); $("#project_quick_jump_box").toggle();})' %>
+				        <% end %>
+				        
+				        <%= render_project_jump_box %>
+				        
+				    </div>
+				    <% end %>
 					<div class="nav-collapse collapse">
-						<div id="header_menu" class="span8 pull-right">
+						<div id="header_menu" class="span5 pull-right">
 							<%= render_menu :account_menu -%>
 							<%= content_tag('div', "#{l(:label_logged_as)} #{link_to_user(User.current, :format => :username)}".html_safe, :id => 'loggedas') if User.current.logged? %>
 							<%= render_menu :top_menu if User.current.logged? || !Setting.login_required? -%>
@@ -88,8 +106,10 @@
 							</div>
 						</div>
 						<% if isAProject %>
-							<% @repourl=getHttpGitURL() %>
+							<% @repourl=getHttpRepositoryURL() %>
+							
 							<% if(@repourl)%>
+							<% @repopath=getHttpRepositoryPath(@project.repository) %>
 								<% @networkfiles=[] %>
 								<% for nml2file in @neuroml2files %>
 									<% if nml2file.ends_with?(".net.nml") %>
@@ -99,7 +119,7 @@
 								<% if not @networkfiles.empty? %>
 									<%= javascript_tag 'jQuery("#explorermenu").append("<li class=dropdown-submenu ><a tabindex=-1 href=#>Networks</a><ul class=dropdown-menu id=networkmenu></ul></li>");' %>
 									<% for nml2file in @networkfiles %>
-										<%= javascript_tag 'jQuery("#networkmenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + "/master/" + nml2file + '&quot;));>'+ nml2file + '</a></li>");'%>
+										<%= javascript_tag 'jQuery("#networkmenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + @repopath + nml2file + '&quot;));>'+ nml2file + '</a></li>");'%>
 									<% end %>
 									</ul>
 								<% end %>
@@ -107,7 +127,7 @@
 									<%= javascript_tag 'jQuery("#explorermenu").append("<li class=dropdown-submenu ><a tabindex=-1 href=#>Cells</a><ul class=dropdown-menu id=cellsmenu></ul></li>");' %>
 									<% for nml2file in @neuroml2files %>
 										<% if not nml2file.ends_with?(".net.nml") %>
-											<%= javascript_tag 'jQuery("#cellsmenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + "/master/" + nml2file + '&quot;));>'+ nml2file + '</a></li>");'%>
+											<%= javascript_tag 'jQuery("#cellsmenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + @repopath + nml2file + '&quot;));>'+ nml2file + '</a></li>");'%>
 										<% end %>									
 									<% end %>
 								<% else %>
@@ -136,19 +156,39 @@
 		<%= call_hook :view_layouts_base_body_bottom %>
 		<footer class="footer">
 			<div class="container">
-				<a href="http://www.wellcome.ac.uk/"> <div id="wellcomelogo"></div> </a>
-				<ul class="footer-links">
-					<li>
-						<a href="/about.html">About</a>
-					</li>
-					<li>
-						<a href="/guides.html">Guides</a>
-					</li>
-					<li>
-						<a href="/themes.html">Research Themes</a>
-					</li>
-				</ul>
-				</p>Open Source Brain &#169; 2013. All rights reserved. Website powered by <%= link_to Redmine::Info.app_name, Redmine::Info.url %></p>
+				<a href="https://twitter.com/OSBTeam" class="twitter-follow-button" data-show-count="true" data-lang="en">Follow @OSBTeam</a>
+				<script>
+				!function(d,s,id){
+					var js,fjs=d.getElementsByTagName(s)[0];
+					if(!d.getElementById(id)){
+						js=d.createElement(s);
+						js.id=id;
+						js.src="//platform.twitter.com/widgets.js";
+						fjs.parentNode.insertBefore(js,fjs);
+					}
+				}
+				(document,"script","twitter-wjs");
+				</script>
+				
+				<a href="http://www.wellcome.ac.uk/" id="wellcomelogolink"> <div id="wellcomelogo"></div> </a>
+				
+				<div>
+					<ul class="footer-links">
+						<li>
+							<a href="/about.html">About</a> |
+						</li>
+						<li>
+							<a href="/guides.html">Guides</a> |
+						</li>
+						<li>
+							<a href="/themes.html">Research Themes</a> |
+						</li>
+						<li>
+							<a href="/projects#informationOSB">Help</a>
+						</li>
+					</ul>
+					<div class="license">The Open Source Brain Initiative 2014. Website powered by <%= link_to Redmine::Info.app_name, Redmine::Info.url %></div>
+				</div>
 			</div>
 		</footer>
 	</body>
@@ -183,22 +223,9 @@ jQuery(function()
 			<% end %>
 		}
 	<% end %>
-	//Projects index page
-	<% if @projects!=nil %>
-		var family=getParameterByName('family');
-		var specie=getParameterByName('specie');
-		var brain=getParameterByName('brain');
-		var cell=getParameterByName('cell');
-		var spine=getParameterByName('spine');
-		if(spine!="")
-		{
-			openSpecificTree(spine,family,specie,brain,cell);
-		}
-		else
-		{
-			standardOpening();
-		}
-	<% end %>
+	
+	
+	
 })
 </script>
 

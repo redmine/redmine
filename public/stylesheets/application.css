@@ -453,7 +453,9 @@ tr.open span.expander:before {
 .footer-links li:first-child {
 	padding-left: 0;
 }
-
+.footer .license{
+	margin-left: 200px;
+}
 /* Sections
  -------------------------------------------------- */
 
@@ -728,6 +730,21 @@ section p {
 #header_menu {
 	margin-top: 5px;
 }
+#quick-search form{
+	clear: none;
+	float: left;
+	margin-bottom: 0px;
+}
+#quick-search select{
+	float: left;
+	width: 165px;
+}
+#quick-search #q{
+	width: 140px;
+}
+#quick-search {
+	margin-top: 10px; 
+}
 .tooltiplink {
 	cursor: help;
 }
@@ -805,6 +822,15 @@ section p {
 		background-image: url('/images/osblogo@2x.png');
 		background-size: 212px 30px;
 	}
+}
+
+.twitter-follow-button{
+	float: left;
+	margin-top: 20px;
+}
+
+#wellcomelogolink{
+	float: right;
 }
 
 #wellcomelogo {
@@ -1063,6 +1089,7 @@ path.link {
 	color: white;
 	margin-top: 0px;
 	margin-left: 20px;
+	
 }
 
 .jumplabel {
@@ -1381,4 +1408,58 @@ iframe {
 .vert .simply-scroll-btn-down {
 	right: 0;
 	top: 52px;
+}
+
+/* Information on OSB styles*/
+#guidesContainer h3, #themesContainer  h3 {
+	font-size: 16px;
+	font-weight:100;
+	margin:0px;
+	height:25px;
+}
+
+#guidesContainer p, #themesContainer p{
+	margin-top: 10px;
+	line-height: 20px;
+}
+
+#guidesContainer p:nth-child(2), #themesContainer p:nth-child(2){
+	display: none;
+}
+
+/*#themesContainer div:nth-child(n+4){
+	display: none;
+}*/
+
+#informationOSB > div{
+	margin-bottom: 20px;
+	border-bottom: 1px solid #E5E5E5;
+}
+
+/* GALLERY */
+.active .bannerImage img{
+	display: block;
+	margin: 0 auto;
+}
+#myCarousel .caption{
+	margin-top: 60px;
+}
+#myCarousel .caption  img{
+	display: none;
+}
+
+/* SEARCH FORM */
+#search-form .inline-element{
+	display: inline-block;	
+}
+#search-form #search-types label{
+	display: inline-block;	
+}
+#search_box{
+	border: 1px solid #ddd;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	padding: 20px 20px 0px 20px;
+	margin-bottom: 20px;
 }

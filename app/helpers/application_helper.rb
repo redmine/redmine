@@ -228,9 +228,33 @@ module ApplicationHelper
     logfile.unlink
     end
 
-  def git_command(command, repository)
-    "git --git-dir='#{repository.url}' #{command}"
+  def repository_command(command, repository)
+    if (repository.scm_name == 'Mercurial')
+      "hg -R '#{repository.url}' #{command}"
+    else
+      "git --git-dir='#{repository.url}' #{command}"
+    end  
   end
+  
+  def getHttpRepositoryPath(repository)
+    if (repository.scm_name == 'Mercurial')
+      return "/raw/default/"
+    else  
+      return "/master/"
+    end
+  end  
+  
+  def getHttpRepositoryURL()
+    if (@project.repository != nil and @project.repository.scm_name == 'Mercurial')
+      repo=getCustomField(@project,"Bitbucket repository")
+      if(repo!=nil)
+        @repourl=repo.dup
+        return @repourl 
+      end      
+    else
+      return getHttpGitURL()
+    end  
+  end  
   
   def getHttpGitURL()
     repo=getCustomField(@project,"GitHub repository")
@@ -257,9 +281,13 @@ module ApplicationHelper
   def getNML2Files(repository)
     @NML2files = []
     if(repository)
-      command = git_command("ls-tree -r master | cut -f2", repository)
+      if (repository.scm_name == 'Mercurial')
+        command = repository_command("manifest -r default", repository)
+      else  
+        command = repository_command("ls-tree -r master | cut -f2", repository)
+      end  
+
       @output=exec(command)
-      # print @output
       for line in @output
         if line.strip.ends_with?(".nml")
         @NML2files.push(line.strip)
@@ -521,7 +549,23 @@ module ApplicationHelper
         { :value => project_path(:id => p, :jump => current_menu_item) }
       end
 
-      select_tag('project_quick_jump_box', options, :onchange => 'if (this.value != \'\') { window.location = this.value; }')
+      select_tag('project_quick_jump_box', options, :onchange => 'if (this.value != \'\') { window.location = this.value; }', :style => 'display:none;')
+    end
+  end
+  
+  # Renders the project quick-jump box
+  def render_project_popover
+    return unless User.current.logged?
+    projects = User.current.memberships.collect(&:project).compact.select(&:active?).uniq
+    if projects.any?
+      options =
+        ('<h3 class="popover-title">#{ l(:label_jump_to_a_project) }</h3>' +
+         '<div class="popover-content">').html_safe
+         
+      projects.each do |p|
+        options << '<p>'+project_path(:id => p, :jump => current_menu_item)+'</p>'
+      end
+      options << '</div>'.html_safe
     end
   end
 
@@ -1246,7 +1290,7 @@ module ApplicationHelper
 
     link_to l(:button_delete), url, options
   end
-
+  
   def preview_link(url, form, target='preview', options={})
     content_tag 'a', " "+l(:label_preview), {
         :href => "#",

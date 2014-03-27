@@ -1,0 +1,34 @@
+<div class="tab-pane row-fluid" id="listcells">
+	<div class="span4 navbar">
+    	<div class="nav">
+    		<form class="filterform form-search" action="#">
+    			<div class="input-prepend">
+				  <span class="add-on"><i class="icon-filter"></i></span>
+				  <input id="technologyfilter"class="filter search-query" type="text" placeholder="Filter technologies...">
+				</div>
+			</form>
+	    	<ul id="technologylist" class="nav overflow-list">
+				<% for p in @showcaseProjects %>
+					<li class="capitalize"><a data-toggle="tab" href="#cell<%= p.id %>"><%= p.name %></a></li>
+				<% end %>		 
+			</ul>
+		 </div>
+	 </div>	 	
+	<div class="span8 tab-content">
+		<% for p in @showcaseProjects %>
+			<div class="tab-pane" id="cell<%= p.id %>">
+				<a class="btn btn-large btn-info pull-right" href="<%= url_for({:controller => 'projects', :action => 'show', :id => p}) %>"><icon class="icon-folder-open"></icon> Open project</a>
+				<br/><br/>
+				<%= textilizable(p.short_description, :project => p) %>
+			</div>
+		<% end %>
+	</div>	    
+</div>
+
+<script>
+jQuery(function()
+{
+	// -- Add filter
+	setupFilter('#technologyfilter', '#technologylist');
+})
+</script>

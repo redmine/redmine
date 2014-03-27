@@ -19,8 +19,8 @@ class ProjectsController < ApplicationController
   menu_item :roadmap, :only => :roadmap
   menu_item :settings, :only => :settings
 
-  before_filter :find_project, :except => [ :index, :list, :new, :create, :copy ]
-  before_filter :authorize, :except => [ :index, :list, :new, :create, :copy, :archive, :unarchive, :destroy]
+  before_filter :find_project, :except => [ :index, :list, :new, :create, :copy, :cells, :technology, :groups, :people, :informationOSB]
+  before_filter :authorize, :except => [ :index, :list, :new, :create, :copy, :archive, :unarchive, :destroy, :cells, :technology, :groups, :people, :informationOSB]
   before_filter :authorize_global, :only => [:new, :create]
   before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
   accept_rss_auth :index
@@ -45,8 +45,12 @@ class ProjectsController < ApplicationController
   include ApplicationHelper
 	helper :members
 	
-  # Lists visible projects
+  # Load projects base page....TODO: check if this is necessary
   def index
+  end
+  
+  # Lists visible projects
+  def cells
     respond_to do |format|
       format.html {
         scope = Project
@@ -65,17 +69,17 @@ class ProjectsController < ApplicationController
         render_feed(projects, :title => "#{Setting.app_title}: #{l(:label_project_latest)}")
       }
     end
-    @groups = Group.find(:all, :order => 'lastname')
-    
-    userscope = User.logged.status(@status)
-    userscope = userscope.like(params[:name]) if params[:name].present?
-    userscope = userscope.in_group(params[:group_id]) if params[:group_id].present?
-    @users = userscope.find(:all, :order => 'lastname')
     
     @modelProjects=[]
     @showcaseProjects=[]
+    @galleryImages=[]  
     for p in @projects
       if isApproved?(p)
+        projectDescription = p.description
+        firstLine = projectDescription.lines.first.chomp
+        if (firstLine.start_with?("!http") and firstLine.end_with?("!"))
+          @galleryImages.push({:image => firstLine, :project => p})
+        end  
         category=getCustomField(p,'Category')
         if category=='Project'
           @modelProjects.push(p)
@@ -84,9 +88,84 @@ class ProjectsController < ApplicationController
         end
       end
     end
-
+    
+    render :layout => false
   end
-
+  
+  
+  # Lists groups
+  def groups
+    @groups = Group.find(:all, :order => 'lastname')
+    render :layout => false
+  end
+ 
+  # Lists people
+  def people
+    userscope = User.logged.status(@status)
+    userscope = userscope.like(params[:name]) if params[:name].present?
+    userscope = userscope.in_group(params[:group_id]) if params[:group_id].present?
+    @users = userscope.find(:all, :order => 'lastname')
+    render :layout => false
+  end
+ 
+  # Lists showcase projects in technology tabs
+  def technology
+    respond_to do |format|
+      format.html {
+        scope = Project
+        unless params[:closed]
+        scope = scope.active
+        end
+        @projects = scope.visible.order('lft').all
+      }
+      format.api  {
+        @offset, @limit = api_offset_and_limit
+        @project_count = Project.visible.count
+        @projects = Project.visible.offset(@offset).limit(@limit).order('lft').all
+      }
+      format.atom {
+        projects = Project.visible.order('created_on DESC').limit(Setting.feeds_limit.to_i).all
+        render_feed(projects, :title => "#{Setting.app_title}: #{l(:label_project_latest)}")
+      }
+    end
+    
+    @showcaseProjects=[]
+    for p in @projects
+      if isApproved?(p)
+        category=getCustomField(p,'Category')
+        if category=='Showcase'
+          @showcaseProjects.push(p)
+        end
+      end
+    end
+    
+    render :layout => false
+  end
+      
+  # Lists projects in information OSB tab
+  def informationOSB
+    respond_to do |format|
+      format.html {
+        scope = Project
+        unless params[:closed]
+        scope = scope.active
+        end
+        @projects = scope.visible.order('lft').all
+      }
+      format.api  {
+        @offset, @limit = api_offset_and_limit
+        @project_count = Project.visible.count
+        @projects = Project.visible.offset(@offset).limit(@limit).order('lft').all
+      }
+      format.atom {
+        projects = Project.visible.order('created_on DESC').limit(Setting.feeds_limit.to_i).all
+        render_feed(projects, :title => "#{Setting.app_title}: #{l(:label_project_latest)}")
+      }
+    end
+      
+    render :layout => false
+  end
+     
   def new
     @issue_custom_fields = IssueCustomField.sorted.all
     @trackers = Tracker.sorted.all
@@ -100,32 +179,33 @@ class ProjectsController < ApplicationController
     @project = Project.new
     @project.safe_attributes = params[:project]
   end
-  
-  
+    
   def validateGitHubRepo(repository)
+   
     if repository!=""
       #checks is valid
       #check is already cloned?
       gitFolder=File.basename(repository)
       if gitFolder!=""
         if not File.directory? "/home/svnsvn/myGitRepositories/"+gitFolder
-          if File.extname(gitFolder)==".git"
-            return true
+          if File.extname(gitFolder)==".git" and (repository.starts_with?"http")
+            #exit_code = system("git ls-remote "+repository + " &> /dev/null")
+            if url_exists(repository[0..-5])
+              return true
+            else  
+              @project.errors.add " ", "Can not connect to repository. Check url format (we are expecting something like https://github.com/user/myProject.git) and connectivity."
+            end  
           else
-            @project.errors.add "", "The specified URL is not a valid Git repository."
+            @project.errors.add " ", "The specified URL is not a valid Git repository. We are expecting something like https://github.com/user/myProject.git"
           end
         else
-          @project.errors.add "", "The Git repository specified is already referenced by some other project."
+          @project.errors.add " ", "The Git repository specified is already referenced by some other project."
         end
       else
-        @project.errors.add "", "You need to specify a Git repository."
+        @project.errors.add " ", "You need to specify a Git repository."
       end
     else
-      if (User.current.admin?)==false
-        @project.errors.add "", "You need to specify a Git repository."
-      else
         return true
-      end  
     end
     return false
   end
@@ -174,6 +254,7 @@ class ProjectsController < ApplicationController
         m = Member.new(:user => User.current, :roles => [r])
         @project.members << m
       end
+      
       respond_to do |format|
         format.html {
           flash[:success] = l(:notice_successful_create)
@@ -352,4 +433,6 @@ class ProjectsController < ApplicationController
     end
     true
   end
+  
+
 end

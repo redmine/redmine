@@ -29,6 +29,34 @@
 <%= link_to_if_authorized(l(:label_history), {:action => 'history', :id => @page.title}, :class => 'btn icon icon-history') %>
 </div>
 
+<div class="clearfix"></div>
+
+<div class="span3 pull-right" style="margin-top:20px; margin-bottom: 20px;">
+
+  <table class='borderless projecttable'>
+    <thead>
+      <tr>
+        <td>Contributors</td>
+      <tr>
+    </thead>
+<tr>
+	<td>
+	  <ul class="unstyled">
+	    <% contributors(@project, @page).each do |user_id, committer| %>
+	      <li>
+	      	<% if user_id != committer[:name].to_s.split('<').first  %>
+	      		<a href="/users/<%= user_id %>"><%= committer[:name].to_s.split('<').first %> (<%= committer[:contributorTo] %>)</a>
+	      	<% else %>
+	      		<%= committer[:name].to_s.split('<').first %> (<%= committer[:contributorTo] %>)
+	      	<% end %>		
+	      </li>
+	    <% end %>	  	
+	  </ul>
+	</td>
+  </tr>
+  </table>	
+</div>
+
 <%= wiki_page_breadcrumb(@page) %>
 
 <% unless @content.current_version? %>

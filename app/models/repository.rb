@@ -271,7 +271,7 @@ class Repository < ActiveRecord::Base
   # Returns an array of committers usernames and associated user_id
   def committers
     @committers ||= Changeset.connection.select_rows(
-         "SELECT DISTINCT committer, user_id FROM #{Changeset.table_name} WHERE repository_id = #{id}")
+         "SELECT DISTINCT committer, user_id FROM #{Changeset.table_name} WHERE repository_id = #{id} ORDER BY committed_on DESC")
   end
 
   # Maps committers username to a user ids

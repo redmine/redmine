@@ -17,6 +17,7 @@
 
 require 'uri'
 require 'cgi'
+require "net/http"
 
 class Unauthorized < Exception; end
 
@@ -613,4 +614,17 @@ class ApplicationController < ActionController::Base
   def _include_layout?(*args)
     api_request? ? false : super
   end
+  
+  #Check if a url exists (return code 200)
+  def url_exists(path)
+    url = URI.parse(path)
+    req = Net::HTTP.new(url.host, url.port)
+    req.use_ssl = (url.scheme == 'https')
+    res = req.request_head(url.path)
+    if res.code == "200"
+      return true
+    end
+    return false
+  end
+    
 end

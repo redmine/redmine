@@ -1,8 +1,8 @@
-<div class="contextual">
+<div class="contextual"> 
 <%= link_to(l(:button_edit), edit_user_path(@user), :class => 'btn icon icon-edit pull-right') if User.current.admin? %>
-</div>
+</div> 
 
-<p class="big-lead pagination-centered"><%= avatar(@user, :size => "70", :class => "img-rounded") %> <%=h @user.name %></p>
+<p class="big-lead pagination-centered capitalize"><%= avatar(@user, :size => "70", :class => "img-rounded") %> <%=h @user.name %></p>
 
 <div class="row-fluid"> 
 	<div class="span6">
@@ -15,14 +15,12 @@
 	    <% if !custom_value.value.blank? %>
 	
 	      <% if custom_value.custom_field.name == 'URL' %>
-	        <li><a href="<%=h show_value(custom_value) %>"><%=h show_value(custom_value) %></a></li>
+	        <li><a href="<%=h show_value(custom_value, true) %>"><%=h show_value(custom_value) %></a></li>
 	      <% elsif custom_value.custom_field.name == 'INCF Profile' %>
-	
-	
 	        <% if show_value(custom_value).index('incf.org') == nil %>
 	          <li><a href="http://www.incf.org/community/people/<%=h show_value(custom_value) %>/person_view"><%=h custom_value.custom_field.name%></a></li>
 	        <% else %>
-	          <li><a href="<%=h show_value(custom_value) %>"><%=h custom_value.custom_field.name%></a></li>
+	          <li><a href="<%=h show_value(custom_value, true) %>"><%=h custom_value.custom_field.name%></a></li>
 	        <% end %>
 	
 	      <% elsif custom_value.custom_field.name == 'GitHub username' %>
@@ -30,16 +28,22 @@
 	        <% if show_value(custom_value).index('github.com') == nil %>
 	          <li><a href="https://github.com/<%=h show_value(custom_value) %>" target="_blank">GitHub user</a></li>
 	        <% else %>
-	          <li><a href="<%=h show_value(custom_value) %>" target="_blank">GitHub user</a></li>
+	          <li><a href="<%=h show_value(custom_value, true) %>" target="_blank">GitHub user</a></li>
 	        <% end %>
 	      <% elsif custom_value.custom_field.name == 'Bitbucket username' %>
 	
 	        <% if show_value(custom_value).index('bitbucket.com') == nil %>
 	          <li><a href="https://bitbucket.com/<%=h show_value(custom_value) %>" target="_blank">Bitbucket user</a></li>
 	        <% else %>
-	          <li><a href="<%=h show_value(custom_value) %>" target="_blank">Bitbucket user</a></li>
+	          <li><a href="<%=h show_value(custom_value, true) %>" target="_blank">Bitbucket user</a></li>
 	        <% end %>
 		
+		  <% elsif custom_value.custom_field.name == 'ORCID ID' %>
+			<li><%=h custom_value.custom_field.name%>: <a href="http://orcid.org/<%=h show_value(custom_value) %>" target="_blank"><%=h show_value(custom_value) %></a></li>
+	    
+	      <% elsif custom_value.custom_field.name == 'Neurotree ID' %>
+			<li><%=h custom_value.custom_field.name%>: <a href="http://neurotree.org/neurotree/tree.php?pid=<%=h show_value(custom_value) %>" target="_blank"><%=h show_value(custom_value) %></a></li>
+	    
 	      <% else %>
 	        <li><%=h custom_value.custom_field.name%>: <%=h show_value(custom_value) %></li>
 	      <% end %>
@@ -52,7 +56,7 @@
 	    <!--<li><%=l(:field_last_login_on)%>: <%= format_date(@user.last_login_on) %></li>-->
 	  <% end %>
 	</ul>
-	
+
 	<% unless @events_by_day.empty? %>
 		<%= link_to l(:label_activity), {:controller => 'activities',
 		                :action => 'index', :id => nil, :user_id => @user,
@@ -103,4 +107,4 @@
 
 <%= call_hook :view_account_right_bottom, :user => @user %>
 
-<% html_title @user.name %>
+<% html_title @user.name.split.map(&:capitalize).join(' ') %>
