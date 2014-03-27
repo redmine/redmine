@@ -733,6 +733,7 @@ section p {
 #quick-search form{
 	clear: none;
 	float: left;
+	margin-bottom: 0px;
 }
 #quick-search select{
 	float: left;
@@ -1442,6 +1443,9 @@ iframe {
 }
 #myCarousel .caption{
 	margin-top: 60px;
+}
+#myCarousel .caption  img{
+	display: none;
 }
 
 /* SEARCH FORM */

@@ -59,7 +59,7 @@
 			                    	<h3><a href="<%= url_for({:controller => 'projects', :action => 'show', :id => p}) %>"><%= galleryImage[:project].name %></a></h3>
 			                    </div>
 			                	<div class="span8">
-			                		<p><%= textilizable(galleryImage[:description], :project => galleryImage[:project]) %></p>
+			                		<p><%= textilizable(galleryImage[:project].description, :project => galleryImage[:project]) %></p>
 			                	</div>
 			                </div>
 			            </div>

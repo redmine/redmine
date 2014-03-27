@@ -78,7 +78,7 @@ class ProjectsController < ApplicationController
         projectDescription = p.description
         firstLine = projectDescription.lines.first.chomp
         if (firstLine.start_with?("!http") and firstLine.end_with?("!"))
-          @galleryImages.push({:image => firstLine, :description => projectDescription.to_a[1..-1].join, :project => p})
+          @galleryImages.push({:image => firstLine, :project => p})
         end  
         category=getCustomField(p,'Category')
         if category=='Project'
