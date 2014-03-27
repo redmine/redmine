@@ -43,7 +43,9 @@
 					        <!--<%= link_to '<icon class="icon-question-sign"/>'.html_safe, {:controller => 'search', :action => 'index', :id => @project}, :accesskey => accesskey(:search) %>-->
 					        <%= text_field_tag 'q', @question, :size => 20, :class => 'small', :accesskey => accesskey(:quick_search) %>
 					        <a href="#" id="searchLink"><icon class="icon-search"/></a>
-					        <a href="#" id="toolsLink"><icon class="icon-plus-sign"/></a>
+					        <% if User.current.logged? %>
+					        	<a href="#" id="toolsLink"><icon class="icon-plus-sign"/></a>
+					        <% end %>	
 					        <%= javascript_tag 'jQuery("#searchLink").click(function(){$(this).closest("form").submit(); return false;})' %>
 					        <%= javascript_tag 'jQuery("#toolsLink").click(function(){$(this).children("icon").toggleClass("icon-plus-sign").toggleClass("icon-minus-sign"); $("#project_quick_jump_box").toggle();})' %>
 				        <% end %>
