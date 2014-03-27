@@ -52,7 +52,7 @@
 					<% @galleryImages.each_with_index do |galleryImage, index| %>
 						<div class="item <% if index == 0 %>active<% end %>">
 			                <div class="bannerImage">
-			                    <a href="#"><img src="<%= galleryImage[:image] %>" alt=""></a>
+			                    <a href="#"><%= textilizable(galleryImage[:image]) %></a>
 			                </div>
 			                <div class="caption row-fluid">
 			                    <div class="span4">
