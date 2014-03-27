@@ -14,7 +14,7 @@
 
 <p id="search-types">
 <% @object_types.each do |t| %>
-<label><%= check_box_tag t, 1, @scope.include?(t) %> <%= link_to type_label(t), "#" %></label>
+<label><%= check_box_tag t, 1, @scope.include?(t) %> <%= type_label(t) %></label>
 <% end %>
 </p>
 

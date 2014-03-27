@@ -549,7 +549,23 @@ module ApplicationHelper
         { :value => project_path(:id => p, :jump => current_menu_item) }
       end
 
-      select_tag('project_quick_jump_box', options, :onchange => 'if (this.value != \'\') { window.location = this.value; }')
+      select_tag('project_quick_jump_box', options, :onchange => 'if (this.value != \'\') { window.location = this.value; }', :style => 'display:none;')
+    end
+  end
+  
+  # Renders the project quick-jump box
+  def render_project_popover
+    return unless User.current.logged?
+    projects = User.current.memberships.collect(&:project).compact.select(&:active?).uniq
+    if projects.any?
+      options =
+        ('<h3 class="popover-title">#{ l(:label_jump_to_a_project) }</h3>' +
+         '<div class="popover-content">').html_safe
+         
+      projects.each do |p|
+        options << '<p>'+project_path(:id => p, :jump => current_menu_item)+'</p>'
+      end
+      options << '</div>'.html_safe
     end
   end
 
@@ -1274,7 +1290,7 @@ module ApplicationHelper
 
     link_to l(:button_delete), url, options
   end
-
+  
   def preview_link(url, form, target='preview', options={})
     content_tag 'a', " "+l(:label_preview), {
         :href => "#",
