@@ -1,4 +1,4 @@
-# Update to 2.2, 2.4 by Karel Picman <karel.picman@kontron.com>
+# Update to 2.2, 2.4, 2.5 by Karel Picman <karel.picman@kontron.com>
 # Update to 1.1 by Michal Gebauer <mishak@mishak.net>
 # Updated by Josef Liška <jl@chl.cz>
 # CZ translation by Maxim Krušina | Massimo Filippi, s.r.o. | maxim@mxm.cz
@@ -1104,15 +1104,14 @@ cs:
   notice_new_password_must_be_different: Nové heslo se musí lišit od stávajícího
   setting_mail_handler_excluded_filenames: Vyřadit přílohy podle jména
   text_convert_available: ImageMagick convert k dispozici (volitelné)
-  label_link: Link
-  label_only: only
-  label_drop_down_list: drop-down list
-  label_checkboxes: checkboxes
-  label_link_values_to: Link values to URL
-  setting_force_default_language_for_anonymous: Force default language for anonymous
+  label_link: Odkaz 
+  label_only: jenom 
+  label_drop_down_list: rozbalovací seznam
+  label_checkboxes: zaškrtávátka
+  label_link_values_to: Propojit hodnoty s URL
+  setting_force_default_language_for_anonymous: Vynutit výchozí jazyk pro anonymní uživatele
     users
-  setting_force_default_language_for_loggedin: Force default language for logged-in
+  setting_force_default_language_for_loggedin: Vynutit výchozí jazyk pro přihlášené uživatele
     users
-  label_custom_field_select_type: Select the type of object to which the custom field
-    is to be attached
+  label_custom_field_select_type: Vybrat typ objektu, ke kterému bude přiřazeno uživatelské pole
   label_issue_assigned_to_updated: Assignee updated
