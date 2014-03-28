@@ -45,8 +45,21 @@ class ProjectsController < ApplicationController
   include ApplicationHelper
 	helper :members
 	
-  # Load projects base page....TODO: check if this is necessary
+  # Load projects base page....
   def index
+    respond_to do |format|
+      format.api  {
+        @offset, @limit = api_offset_and_limit
+        @project_count = Project.visible.count
+        @projects = Project.visible.offset(@offset).limit(@limit).order('lft').all
+      }
+      format.html {
+      }
+      format.atom {
+        projects = Project.visible.order('created_on DESC').limit(Setting.feeds_limit.to_i).all
+        render_feed(projects, :title => "#{Setting.app_title}: #{l(:label_project_latest)}")
+      }
+    end
   end
   
   # Lists visible projects
@@ -58,15 +71,6 @@ class ProjectsController < ApplicationController
         scope = scope.active
         end
         @projects = scope.visible.order('lft').all
-      }
-      format.api  {
-        @offset, @limit = api_offset_and_limit
-        @project_count = Project.visible.count
-        @projects = Project.visible.offset(@offset).limit(@limit).order('lft').all
-      }
-      format.atom {
-        projects = Project.visible.order('created_on DESC').limit(Setting.feeds_limit.to_i).all
-        render_feed(projects, :title => "#{Setting.app_title}: #{l(:label_project_latest)}")
       }
     end
     
