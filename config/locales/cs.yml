@@ -1114,4 +1114,4 @@ cs:
   setting_force_default_language_for_loggedin: Vynutit výchozí jazyk pro přihlášené uživatele
     users
   label_custom_field_select_type: Vybrat typ objektu, ke kterému bude přiřazeno uživatelské pole
-  label_issue_assigned_to_updated: Assignee updated
+  label_issue_assigned_to_updated: Přiřazený uživatel aktualizován
