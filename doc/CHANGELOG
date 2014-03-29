@@ -4,6 +4,10 @@ Redmine - project management software
 Copyright (C) 2006-2014  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2014-03-29 v2.4.5
+
+* Defect #16466: Fixed back url verification
+
 == 2014-03-02 v2.4.4
 
 * Defect #16081: Export CSV - Custom field true/false not using translation
