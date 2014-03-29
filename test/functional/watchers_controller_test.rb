@@ -237,6 +237,13 @@ class WatchersControllerTest < ActionController::TestCase
     end
   end
 
+  def test_append_without_user_should_render_nothing
+    @request.session[:user_id] = 2
+    xhr :post, :append, :project_id => 'ecookbook'
+    assert_response :success
+    assert response.body.blank?
+  end
+
   def test_remove_watcher
     @request.session[:user_id] = 2
     assert_difference('Watcher.count', -1) do

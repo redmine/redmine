@@ -55,6 +55,9 @@ class WatchersController < ApplicationController
       user_ids = params[:watcher][:user_ids] || [params[:watcher][:user_id]]
       @users = User.active.where(:id => user_ids).all
     end
+    if @users.blank?
+      render :nothing => true
+    end
   end
 
   def destroy
