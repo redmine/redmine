@@ -4,6 +4,27 @@ Redmine - project management software
 Copyright (C) 2006-2014  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2014-03-29 v2.5.1
+
+* Defect #14298: Error generated on 'search for watchers to add' after clicking add without selected users
+* Defect #16236: Right-aligned table of contents (TOC) not working with markdown
+* Defect #16255: Internal Error for specific version of non-existent wiki page
+* Defect #16259: Changing Tracker value on new issue form makes hidden fields appearing after hitting F5
+* Defect #16321: Custom Fields with "Link values to URL" set are displayed as escaped html in email
+* Defect #16338: Can't choose an issue of a different project when updating time entries
+* Defect #16353: Regexp bug in JournalsController regexp handling when quoting existing journal entries
+* Feature #16326: Custom queries, buttons to move column to top and bottom
+* Patch #16291: Japanese translation update
+* Patch #16319: Random crash when using custom fields
+* Patch #16320: Turkish typo fix
+* Patch #16334: Korean Translation
+* Patch #16336: Russian translation
+* Patch #16356: Spanish Translation: label_custom_field_select_type
+* Patch #16368: Polish translation update
+* Patch #16381: Extract code to render project context links to helper
+* Patch #16453: Czech localisation
+* Defect #16466: Fixed back url verification
+
 == 2014-03-02 v2.5.0
 
 * Defect #3163: Large inline images overflow
