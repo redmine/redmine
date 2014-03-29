@@ -66,8 +66,14 @@ class AccountControllerTest < ActionController::TestCase
   end
 
   def test_login_should_not_redirect_to_another_host
-    post :login, :username => 'jsmith', :password => 'jsmith', :back_url => 'http://test.foo/fake'
-    assert_redirected_to '/my/page'
+    back_urls = [
+      'http://test.foo/fake',
+      '//test.foo/fake'
+    ]
+    back_urls.each do |back_url|
+      post :login, :username => 'jsmith', :password => 'jsmith', :back_url => back_url
+      assert_redirected_to '/my/page'
+    end
   end
 
   def test_login_with_wrong_password
