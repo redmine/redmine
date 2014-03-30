@@ -10,6 +10,7 @@ gem "awesome_nested_set", "2.1.6"
 
 # added
 gem 'thin'
+gem 'json'
 
 # Optional gem for LDAP authentication
 group :ldap do
