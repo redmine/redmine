@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -57,7 +57,7 @@ class Repository::Bazaar < Repository
     scm.diff(path, rev, rev_to)
   end
 
-  def entries(path=nil, identifier=nil)
+  def scm_entries(path=nil, identifier=nil)
     scm.bzr_path_encodig = log_encoding
     entries = scm.entries(path, identifier)
     if entries
@@ -68,15 +68,11 @@ class Repository::Bazaar < Repository
           full_path = File.join(root_url, e.path)
           e.size = File.stat(full_path).size if File.file?(full_path)
         end
-        c = Change.find(
-               :first,
-               :include    => :changeset,
-               :conditions => [
-                   "#{Change.table_name}.revision = ? and #{Changeset.table_name}.repository_id = ?",
-                   e.lastrev.revision,
-                   id
-                   ],
-               :order => "#{Changeset.table_name}.revision DESC")
+        c = Change.
+              includes(:changeset).
+              where("#{Change.table_name}.revision = ? and #{Changeset.table_name}.repository_id = ?", e.lastrev.revision, id).
+              order("#{Changeset.table_name}.revision DESC").
+              first
         if c
           e.lastrev.identifier = c.changeset.revision
           e.lastrev.name       = c.changeset.revision
@@ -84,9 +80,9 @@ class Repository::Bazaar < Repository
         end
       end
     end
-    load_entries_changesets(entries)
     entries
   end
+  protected :scm_entries
 
   def fetch_changesets
     scm.bzr_path_encodig = log_encoding

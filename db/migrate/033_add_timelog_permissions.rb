@@ -7,6 +7,6 @@ class AddTimelogPermissions < ActiveRecord::Migration
   end
 
   def self.down
-    Permission.find_by_controller_and_action('timelog', 'edit').destroy
+    Permission.where(:controller => "timelog", :action => "edit").each {|p| p.destroy}
   end
 end

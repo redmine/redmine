@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -256,8 +256,8 @@ module Redmine
       def fetch_row_values(issue, query, level)
         query.inline_columns.collect do |column|
           s = if column.is_a?(QueryCustomFieldColumn)
-            cv = issue.custom_field_values.detect {|v| v.custom_field_id == column.custom_field.id}
-            show_value(cv)
+            cv = issue.visible_custom_field_values.detect {|v| v.custom_field_id == column.custom_field.id}
+            show_value(cv, false)
           else
             value = issue.send(column.name)
             if column.name == :subject
@@ -394,7 +394,7 @@ module Redmine
 
         # write the cells on page
         issues_to_pdf_write_cells(pdf, query.inline_columns, col_width, row_height, true)
-        issues_to_pdf_draw_borders(pdf, base_x, base_y, base_y + max_height, col_width)
+        issues_to_pdf_draw_borders(pdf, base_x, base_y, base_y + max_height, 0, col_width)
         pdf.SetY(base_y + max_height);
 
         # rows
@@ -474,7 +474,7 @@ module Redmine
 
           # write the cells on page
           issues_to_pdf_write_cells(pdf, col_values, col_width, row_height)
-          issues_to_pdf_draw_borders(pdf, base_x, base_y, base_y + max_height, col_width)
+          issues_to_pdf_draw_borders(pdf, base_x, base_y, base_y + max_height, 0, col_width)
           pdf.SetY(base_y + max_height);
 
           if query.has_column?(:description) && issue.description?
@@ -510,7 +510,10 @@ module Redmine
       end
 
       # Draw lines to close the row (MultiCell border drawing in not uniform)
-      def issues_to_pdf_draw_borders(pdf, top_x, top_y, lower_y, col_widths)
+      #
+      #  parameter "col_id_width" is not used. it is kept for compatibility.
+      def issues_to_pdf_draw_borders(pdf, top_x, top_y, lower_y,
+                                     col_id_width, col_widths)
         col_x = top_x
         pdf.Line(col_x, top_y, col_x, lower_y)    # id right border
         col_widths.each do |width|
@@ -568,9 +571,9 @@ module Redmine
           right << nil
         end
 
-        half = (issue.custom_field_values.size / 2.0).ceil
-        issue.custom_field_values.each_with_index do |custom_value, i|
-          (i < half ? left : right) << [custom_value.custom_field.name, show_value(custom_value)]
+        half = (issue.visible_custom_field_values.size / 2.0).ceil
+        issue.visible_custom_field_values.each_with_index do |custom_value, i|
+          (i < half ? left : right) << [custom_value.custom_field.name, show_value(custom_value, false)]
         end
 
         rows = left.size > right.size ? left.size : right.size
@@ -601,13 +604,12 @@ module Redmine
         unless issue.leaf?
           # for CJK
           truncate_length = ( l(:general_pdf_encoding).upcase == "UTF-8" ? 90 : 65 )
-
           pdf.SetFontStyle('B',9)
           pdf.RDMCell(35+155,5, l(:label_subtask_plural) + ":", "LTR")
           pdf.Ln
           issue_list(issue.descendants.visible.sort_by(&:lft)) do |child, level|
-            buf = truncate("#{child.tracker} # #{child.id}: #{child.subject}",
-                           :length => truncate_length)
+            buf = "#{child.tracker} # #{child.id}: #{child.subject}".
+                    truncate(truncate_length)
             level = 10 if level >= 10
             pdf.SetFontStyle('',8)
             pdf.RDMCell(35+135,5, (level >=1 ? "  " * level : "") + buf, "L")
@@ -621,7 +623,6 @@ module Redmine
         unless relations.empty?
           # for CJK
           truncate_length = ( l(:general_pdf_encoding).upcase == "UTF-8" ? 80 : 60 )
-
           pdf.SetFontStyle('B',9)
           pdf.RDMCell(35+155,5, l(:label_related_issues) + ":", "LTR")
           pdf.Ln
@@ -636,7 +637,7 @@ module Redmine
             end
             buf += "#{relation.other_issue(issue).tracker}" +
                    " # #{relation.other_issue(issue).id}: #{relation.other_issue(issue).subject}"
-            buf = truncate(buf, :length => truncate_length)
+            buf = buf.truncate(truncate_length)
             pdf.SetFontStyle('', 8)
             pdf.RDMCell(35+155-60, 5, buf, "L")
             pdf.SetFontStyle('B',8)
@@ -680,7 +681,7 @@ module Redmine
             pdf.RDMCell(190,5, title)
             pdf.Ln
             pdf.SetFontStyle('I',8)
-            details_to_strings(journal.details, true).each do |string|
+            details_to_strings(journal.visible_details, true).each do |string|
               pdf.RDMMultiCell(190,5, "- " + string)
             end
             if journal.notes?

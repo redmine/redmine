@@ -335,7 +335,7 @@ module Redmine
         # :pserver:anonymous@foo.bar:/path => /path
         # :ext:cvsservername:/path => /path
         def root_url_path
-          root_url.to_s.gsub(/^:.+:\d*/, '')
+          root_url.to_s.gsub(%r{^:.+?(?=/)}, '')
         end
 
         # convert a date/time into the CVS-format

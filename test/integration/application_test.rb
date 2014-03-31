@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -36,17 +36,20 @@ class ApplicationTest < ActionController::IntegrationTest
     assert_response :success
     assert_tag :tag => 'h2', :content => 'Projets'
     assert_equal :fr, current_language
+    assert_select "html[lang=?]", "fr"
 
     # then an italien user
     get 'projects', { }, 'HTTP_ACCEPT_LANGUAGE' => 'it;q=0.8,en-us;q=0.5,en;q=0.3'
     assert_response :success
     assert_tag :tag => 'h2', :content => 'Progetti'
     assert_equal :it, current_language
+    assert_select "html[lang=?]", "it"
 
     # not a supported language: default language should be used
     get 'projects', { }, 'HTTP_ACCEPT_LANGUAGE' => 'zz'
     assert_response :success
     assert_tag :tag => 'h2', :content => 'Projects'
+    assert_select "html[lang=?]", "en"
   end
 
   def test_token_based_access_should_not_start_session
@@ -63,5 +66,14 @@ class ApplicationTest < ActionController::IntegrationTest
   def test_missing_template_should_respond_with_404
     get '/login.png'
     assert_response 404
+  end
+
+  def test_invalid_token_should_call_custom_handler
+    ActionController::Base.allow_forgery_protection = true
+    post '/issues'
+    assert_response 422
+    assert_include "Invalid form authenticity token.", response.body
+  ensure
+    ActionController::Base.allow_forgery_protection = false
   end
 end

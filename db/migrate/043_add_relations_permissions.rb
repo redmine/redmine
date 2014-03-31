@@ -8,7 +8,7 @@ class AddRelationsPermissions < ActiveRecord::Migration
   end
 
   def self.down
-    Permission.find_by_controller_and_action("issue_relations", "new").destroy
-    Permission.find_by_controller_and_action("issue_relations", "destroy").destroy
+    Permission.where(:controller => "issue_relations", :action => "new").each {|p| p.destroy}
+    Permission.where(:controller => "issue_relations", :action => "destroy").each {|p| p.destroy}
   end
 end

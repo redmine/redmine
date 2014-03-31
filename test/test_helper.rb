@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -24,11 +24,19 @@ require Rails.root.join('test', 'mocks', 'open_id_authentication_mock.rb').to_s
 require File.expand_path(File.dirname(__FILE__) + '/object_helpers')
 include ObjectHelpers
 
+require 'awesome_nested_set/version'
+
 class ActiveSupport::TestCase
   include ActionDispatch::TestProcess
 
   self.use_transactional_fixtures = true
   self.use_instantiated_fixtures  = false
+
+  ESCAPED_CANT  = 'can&#x27;t'
+  ESCAPED_UCANT = 'Can&#x27;t'
+  # Rails 4.0.2
+  #ESCAPED_CANT  = 'can&#39;t'
+  #ESCAPED_UCANT = 'Can&#39;t'
 
   def log_user(login, password)
     User.anonymous
@@ -111,8 +119,16 @@ class ActiveSupport::TestCase
     User.current = saved_user
   end
 
+  def with_locale(locale, &block)
+    saved_localed = ::I18n.locale
+    ::I18n.locale = locale
+    yield
+  ensure
+    ::I18n.locale = saved_localed
+  end
+
   def change_user_password(login, new_password)
-    user = User.first(:conditions => {:login => login})
+    user = User.where(:login => login).first
     user.password, user.password_confirmation = new_password, new_password
     user.save!
   end
@@ -169,8 +185,8 @@ class ActiveSupport::TestCase
     assert s.include?(expected), (message || "\"#{expected}\" not found in \"#{s}\"")
   end
 
-  def assert_not_include(expected, s)
-    assert !s.include?(expected), "\"#{expected}\" found in \"#{s}\""
+  def assert_not_include(expected, s, message=nil)
+    assert !s.include?(expected), (message || "\"#{expected}\" found in \"#{s}\"")
   end
 
   def assert_select_in(text, *args, &block)
@@ -178,24 +194,35 @@ class ActiveSupport::TestCase
     assert_select(d, *args, &block)
   end
 
-  def assert_mail_body_match(expected, mail)
+  def assert_mail_body_match(expected, mail, message=nil)
     if expected.is_a?(String)
-      assert_include expected, mail_body(mail)
+      assert_include expected, mail_body(mail), message
     else
-      assert_match expected, mail_body(mail)
+      assert_match expected, mail_body(mail), message
     end
   end
 
-  def assert_mail_body_no_match(expected, mail)
+  def assert_mail_body_no_match(expected, mail, message=nil)
     if expected.is_a?(String)
-      assert_not_include expected, mail_body(mail)
+      assert_not_include expected, mail_body(mail), message
     else
-      assert_no_match expected, mail_body(mail)
+      assert_no_match expected, mail_body(mail), message
     end
   end
 
   def mail_body(mail)
     mail.parts.first.body.encoded
+  end
+
+  # awesome_nested_set new node lft and rgt value changed this refactor revision.
+  #   https://github.com/collectiveidea/awesome_nested_set/commit/199fca9bb938e40200cd90714dc69247ef017c61
+  # The reason of behavior change is that "self.class.base_class.unscoped" was added to this line.
+  #   https://github.com/collectiveidea/awesome_nested_set/commit/199fca9bb9#diff-f61b59a5e6319024e211b0ffdd0e4ef1R273
+  # It seems correct behavior because of this line comment.
+  #   https://github.com/collectiveidea/awesome_nested_set/blame/199fca9bb9/lib/awesome_nested_set/model.rb#L278
+  def new_issue_lft
+    # ::AwesomeNestedSet::VERSION > "2.1.6" ? Issue.maximum(:rgt) + 1 : 1
+    Issue.maximum(:rgt) + 1
   end
 end
 

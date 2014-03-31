@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -31,11 +31,13 @@ class QueriesController < ApplicationController
     else
       @limit = per_page_option
     end
-
     @query_count = IssueQuery.visible.count
     @query_pages = Paginator.new @query_count, @limit, params['page']
-    @queries = IssueQuery.visible.all(:limit => @limit, :offset => @offset, :order => "#{Query.table_name}.name")
-
+    @queries = IssueQuery.visible.
+                    order("#{Query.table_name}.name").
+                    limit(@limit).
+                    offset(@offset).
+                    all
     respond_to do |format|
       format.api
     end
@@ -45,7 +47,7 @@ class QueriesController < ApplicationController
     @query = IssueQuery.new
     @query.user = User.current
     @query.project = @project
-    @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
+    @query.visibility = IssueQuery::VISIBILITY_PRIVATE unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
     @query.build_from_params(params)
   end
 
@@ -53,13 +55,13 @@ class QueriesController < ApplicationController
     @query = IssueQuery.new(params[:query])
     @query.user = User.current
     @query.project = params[:query_is_for_all] ? nil : @project
-    @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
+    @query.visibility = IssueQuery::VISIBILITY_PRIVATE unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
     @query.build_from_params(params)
     @query.column_names = nil if params[:default_columns]
 
     if @query.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to _project_issues_path(@project, :query_id => @query)
+      redirect_to_issues(:query_id => @query)
     else
       render :action => 'new', :layout => !request.xhr?
     end
@@ -71,13 +73,13 @@ class QueriesController < ApplicationController
   def update
     @query.attributes = params[:query]
     @query.project = nil if params[:query_is_for_all]
-    @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
+    @query.visibility = IssueQuery::VISIBILITY_PRIVATE unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
     @query.build_from_params(params)
     @query.column_names = nil if params[:default_columns]
 
     if @query.save
       flash[:notice] = l(:notice_successful_update)
-      redirect_to _project_issues_path(@project, :query_id => @query)
+      redirect_to_issues(:query_id => @query)
     else
       render :action => 'edit'
     end
@@ -85,7 +87,7 @@ class QueriesController < ApplicationController
 
   def destroy
     @query.destroy
-    redirect_to _project_issues_path(@project, :set_filter => 1)
+    redirect_to_issues(:set_filter => 1)
   end
 
 private
@@ -102,5 +104,17 @@ private
     render_403 unless User.current.allowed_to?(:save_queries, @project, :global => true)
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def redirect_to_issues(options)
+    if params[:gantt]
+      if @project
+        redirect_to project_gantt_path(@project, options)
+      else
+        redirect_to issues_gantt_path(options)
+      end
+    else
+      redirect_to _project_issues_path(@project, options)
+    end
   end
 end

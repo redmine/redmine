@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -249,8 +249,8 @@ namespace :redmine do
           if name_attr = TracSessionAttribute.find_by_sid_and_name(username, 'name')
             name = name_attr.value
           end
-          name =~ (/(.*)(\s+\w+)?/)
-          fn = $1.strip
+          name =~ (/(\w+)(\s+\w+)?/)
+          fn = ($1 || "-").strip
           ln = ($2 || '-').strip
 
           u = User.new :mail => mail.gsub(/[^-@a-z0-9\.]/i, '-'),
@@ -263,7 +263,7 @@ namespace :redmine do
           # finally, a default user is used if the new user is not valid
           u = User.first unless u.save
         end
-        # Make sure he is a member of the project
+        # Make sure user is a member of the project
         if project_member && !u.member_of?(@target_project)
           role = DEFAULT_ROLE
           if u.admin
@@ -327,9 +327,9 @@ namespace :redmine do
         # We would like to convert the Code highlighting too
         # This will go into the next line.
         shebang_line = false
-        # Reguar expression for start of code
+        # Regular expression for start of code
         pre_re = /\{\{\{/
-        # Code hightlighing...
+        # Code highlighting...
         shebang_re = /^\#\!([a-z]+)/
         # Regular expression for end of code
         pre_end_re = /\}\}\}/
@@ -767,15 +767,17 @@ namespace :redmine do
     puts
 
     old_notified_events = Setting.notified_events
+    old_password_min_length = Setting.password_min_length
     begin
       # Turn off email notifications temporarily
       Setting.notified_events = []
+      Setting.password_min_length = 4
       # Run the migration
       TracMigrate.migrate
     ensure
-      # Restore previous notification settings even if the migration fails
+      # Restore previous settings
       Setting.notified_events = old_notified_events
+      Setting.password_min_length = old_password_min_length
     end
   end
 end
-

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,7 +18,7 @@
 require 'SVG/Graph/Bar'
 require 'SVG/Graph/BarHorizontal'
 require 'digest/sha1'
-require 'redmine/scm/adapters/abstract_adapter'
+require 'redmine/scm/adapters'
 
 class ChangesetNotFound < Exception; end
 class InvalidRevisionParam < Exception; end
@@ -94,7 +94,7 @@ class RepositoriesController < ApplicationController
     @committers = @repository.committers
     @users = @project.users
     additional_user_ids = @committers.collect(&:last).collect(&:to_i) - @users.collect(&:id)
-    @users += User.find_all_by_id(additional_user_ids) unless additional_user_ids.empty?
+    @users += User.where(:id => additional_user_ids).all unless additional_user_ids.empty?
     @users.compact!
     @users.sort!
     if request.post? && params[:committers].is_a?(Hash)
@@ -229,7 +229,8 @@ class RepositoriesController < ApplicationController
   # Adds a related issue to a changeset
   # POST /projects/:project_id/repository/(:repository_id/)revisions/:rev/issues
   def add_related_issue
-    @issue = @changeset.find_referenced_issue_by_id(params[:issue_id])
+    issue_id = params[:issue_id].to_s.sub(/^#/,'')
+    @issue = @changeset.find_referenced_issue_by_id(issue_id)
     if @issue && (!@issue.visible? || @changeset.issues.include?(@issue))
       @issue = nil
     end
@@ -352,15 +353,18 @@ class RepositoriesController < ApplicationController
     @date_to = Date.today
     @date_from = @date_to << 11
     @date_from = Date.civil(@date_from.year, @date_from.month, 1)
-    commits_by_day = Changeset.count(
-                          :all, :group => :commit_date,
-                          :conditions => ["repository_id = ? AND commit_date BETWEEN ? AND ?", repository.id, @date_from, @date_to])
+    commits_by_day = Changeset.
+      where("repository_id = ? AND commit_date BETWEEN ? AND ?", repository.id, @date_from, @date_to).
+      group(:commit_date).
+      count
     commits_by_month = [0] * 12
     commits_by_day.each {|c| commits_by_month[(@date_to.month - c.first.to_date.month) % 12] += c.last }
 
-    changes_by_day = Change.count(
-                          :all, :group => :commit_date, :include => :changeset,
-                          :conditions => ["#{Changeset.table_name}.repository_id = ? AND #{Changeset.table_name}.commit_date BETWEEN ? AND ?", repository.id, @date_from, @date_to])
+    changes_by_day = Change.
+      joins(:changeset).
+      where("#{Changeset.table_name}.repository_id = ? AND #{Changeset.table_name}.commit_date BETWEEN ? AND ?", repository.id, @date_from, @date_to).
+      group(:commit_date).
+      count
     changes_by_month = [0] * 12
     changes_by_day.each {|c| changes_by_month[(@date_to.month - c.first.to_date.month) % 12] += c.last }
 
@@ -393,10 +397,10 @@ class RepositoriesController < ApplicationController
   end
 
   def graph_commits_per_author(repository)
-    commits_by_author = Changeset.count(:all, :group => :committer, :conditions => ["repository_id = ?", repository.id])
+    commits_by_author = Changeset.where("repository_id = ?", repository.id).group(:committer).count
     commits_by_author.to_a.sort! {|x, y| x.last <=> y.last}
 
-    changes_by_author = Change.count(:all, :group => :committer, :include => :changeset, :conditions => ["#{Changeset.table_name}.repository_id = ?", repository.id])
+    changes_by_author = Change.joins(:changeset).where("#{Changeset.table_name}.repository_id = ?", repository.id).group(:committer).count
     h = changes_by_author.inject({}) {|o, i| o[i.first] = i.last; o}
 
     fields = commits_by_author.collect {|r| r.first}

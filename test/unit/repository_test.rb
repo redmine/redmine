@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -97,6 +97,31 @@ class RepositoryTest < ActiveSupport::TestCase
     assert_equal [repository1, repository2], Project.find(3).repositories.sort
   end
 
+  def test_default_repository_should_be_one
+    assert_equal 0, Project.find(3).repositories.count
+    repository1 = Repository::Subversion.new(
+                      :project => Project.find(3),
+                      :identifier => 'svn1',
+                      :url => 'file:///svn1'
+                    )
+    assert repository1.save
+    assert repository1.is_default?
+
+    repository2 = Repository::Subversion.new(
+                      :project => Project.find(3),
+                      :identifier => 'svn2',
+                      :url => 'file:///svn2',
+                      :is_default => true
+                    )
+    assert repository2.save
+    assert repository2.is_default?
+    repository1.reload
+    assert !repository1.is_default?
+
+    assert_equal repository2, Project.find(3).repository
+    assert_equal [repository2, repository1], Project.find(3).repositories.sort
+  end
+
   def test_identifier_should_accept_letters_digits_dashes_and_underscores
     r = Repository::Subversion.new(
       :project_id => 3,
@@ -105,20 +130,18 @@ class RepositoryTest < ActiveSupport::TestCase
     )
     assert r.save
   end
-  
+
   def test_identifier_should_not_be_frozen_for_a_new_repository
     assert_equal false, Repository.new.identifier_frozen?
   end
 
   def test_identifier_should_not_be_frozen_for_a_saved_repository_with_blank_identifier
-    Repository.update_all(["identifier = ''"], "id = 10")
-
+    Repository.where(:id => 10).update_all(["identifier = ''"])
     assert_equal false, Repository.find(10).identifier_frozen?
   end
 
   def test_identifier_should_be_frozen_for_a_saved_repository_with_valid_identifier
-    Repository.update_all(["identifier = 'abc123'"], "id = 10")
-
+    Repository.where(:id => 10).update_all(["identifier = 'abc123'"])
     assert_equal true, Repository.find(10).identifier_frozen?
   end
 
@@ -152,18 +175,16 @@ class RepositoryTest < ActiveSupport::TestCase
 
   def test_destroy_should_delete_parents_associations
     changeset = Changeset.find(102)
-    changeset.parents = Changeset.find_all_by_id([100, 101])
-
-    assert_difference 'Changeset.connection.select_all("select * from changeset_parents").size', -2 do
+    changeset.parents = Changeset.where(:id => [100, 101]).all
+    assert_difference 'Changeset.connection.select_all("select * from changeset_parents").count', -2 do
       Repository.find(10).destroy
     end
   end
 
   def test_destroy_should_delete_issues_associations
     changeset = Changeset.find(102)
-    changeset.issues = Issue.find_all_by_id([1, 2])
-
-    assert_difference 'Changeset.connection.select_all("select * from changesets_issues").size', -2 do
+    changeset.issues = Issue.where(:id => [1, 2]).all
+    assert_difference 'Changeset.connection.select_all("select * from changesets_issues").count', -2 do
       Repository.find(10).destroy
     end
   end
@@ -181,14 +202,12 @@ class RepositoryTest < ActiveSupport::TestCase
 
   def test_scan_changesets_for_issue_ids
     Setting.default_language = 'en'
-
-    # choosing a status to apply to fix issues
-    Setting.commit_fix_status_id = IssueStatus.find(
-                                     :first,
-                                     :conditions => ["is_closed = ?", true]).id
-    Setting.commit_fix_done_ratio = "90"
     Setting.commit_ref_keywords = 'refs , references, IssueID'
-    Setting.commit_fix_keywords = 'fixes , closes'
+    Setting.commit_update_keywords = [
+      {'keywords' => 'fixes , closes',
+       'status_id' => IssueStatus.where(:is_closed => true).first.id,
+       'done_ratio' => '90'}
+    ]
     Setting.default_language = 'en'
     ActionMailer::Base.deliveries.clear
 
@@ -278,7 +297,7 @@ class RepositoryTest < ActiveSupport::TestCase
   end
 
   def test_manual_user_mapping
-    assert_no_difference "Changeset.count(:conditions => 'user_id <> 2')" do
+    assert_no_difference "Changeset.where('user_id <> 2').count" do
       c = Changeset.create!(
               :repository => @repository,
               :committer => 'foo',
@@ -327,6 +346,12 @@ class RepositoryTest < ActiveSupport::TestCase
     klass = Repository::Filesystem
     assert klass.scm_adapter_class
     assert_equal true, klass.scm_available
+  end
+
+  def test_extra_info_should_not_return_non_hash_value
+    repo = Repository.new
+    repo.extra_info = "foo"
+    assert_nil repo.extra_info
   end
 
   def test_merge_extra_info

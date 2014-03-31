@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<title>Wikiformatierung</title>
+<style type="text/css">
+h1 { font-family: Verdana, sans-serif; font-size: 14px; text-align: center; color: #444; }
+body { font-family: Verdana, sans-serif; font-size: 12px; color: #444; }
+table th { padding-top: 1em; }
+table td { vertical-align: top; background-color: #f5f5f5; height: 2em; vertical-align: middle;}
+table td code { font-size: 1.2em; }
+table td h1 { font-size: 1.8em; text-align: left; }
+table td h2 { font-size: 1.4em; text-align: left; }
+table td h3 { font-size: 1.2em; text-align: left; }
+
+</style>
+</head>
+<body>
+
+<h1>Wiki Syntax Schnellreferenz</h1>
+
+<table style="width:100%">
+<tr><th colspan="3">Schriftarten</th></tr>
+<tr><th><img src="../../images/jstoolbar/bt_strong.png" style="border: 1px solid #bbb;" alt="Fett" /></th><td style="width:50%;">*Fett*</td><td style="width:50%;"><strong>Fett</strong></td></tr>
+<tr><th><img src="../../images/jstoolbar/bt_em.png" style="border: 1px solid #bbb;" alt="Kursiv" /></th><td>_Kursiv_</td><td><em>Kursiv</em></td></tr>
+<tr><th><img src="../../images/jstoolbar/bt_ins.png" style="border: 1px solid #bbb;" alt="Unterstrichen" /></th><td>+Unterstrichen+</td><td><ins>Unterstrichen</ins></td></tr>
+<tr><th><img src="../../images/jstoolbar/bt_del.png" style="border: 1px solid #bbb;" alt="Durchgestrichen" /></th><td>-Durchgestrichen-</td><td><del>Durchgestrichen</del></td></tr>
+<tr><th></th><td>??Zitat??</td><td><cite>Zitat</cite></td></tr>
+<tr><th><img src="../../images/jstoolbar/bt_code.png" style="border: 1px solid #bbb;" alt="Inline-Code" /></th><td>@Inline-Code@</td><td><code>Inline-Code</code></td></tr>
+<tr><th><img src="../../images/jstoolbar/bt_pre.png" style="border: 1px solid #bbb;" alt="Vorformatierter Text" /></th><td>&lt;pre&gt;<br />&nbsp;vorformatierte<br />&nbsp;Codezeilen<br />&lt;/pre&gt;</td><td>
+<pre>
+ vorformartierte
+ Codezeilen
+</pre>
+</td></tr>
+
+<tr><th colspan="3">Listen</th></tr>
+<tr><th><img src="../../images/jstoolbar/bt_ul.png" style="border: 1px solid #bbb;" alt="Unsortierte Liste" /></th><td>* Element 1<br />* Element 2</td><td><ul><li>Element 1</li><li>Element 2</li></ul></td></tr>
+<tr><th><img src="../../images/jstoolbar/bt_ol.png" style="border: 1px solid #bbb;" alt="Sortierte Liste" /></th><td># Element 1<br /># Element 2</td><td><ol><li>Element 1</li><li>Element 2</li></ol></td></tr>
+
+<tr><th colspan="3">&Uuml;berschriften</th></tr>
+<tr><th><img src="../../images/jstoolbar/bt_h1.png" style="border: 1px solid #bbb;" alt="&Uuml;berschrift 1" /></th><td>h1. &Uuml;berschrift 1</td><td><h1>&Uuml;berschrift 1</h1></td></tr>
+<tr><th><img src="../../images/jstoolbar/bt_h2.png" style="border: 1px solid #bbb;" alt="&Uuml;berschrift 2" /></th><td>h2. &Uuml;berschrift 2</td><td><h2>&Uuml;berschrift 2</h2></td></tr>
+<tr><th><img src="../../images/jstoolbar/bt_h3.png" style="border: 1px solid #bbb;" alt="&Uuml;berschrift 3" /></th><td>h3. &Uuml;berschrift 3</td><td><h3>&Uuml;berschrift 3</h3></td></tr>
+
+<tr><th colspan="3">Links</th></tr>
+<tr><th></th><td>http://foo.bar</td><td><a href="#">http://foo.bar</a></td></tr>
+<tr><th></th><td>"Foo":http://foo.bar</td><td><a href="#">Foo</a></td></tr>
+
+<tr><th colspan="3">Redmine Links</th></tr>
+<tr><th><img src="../../images/jstoolbar/bt_link.png" style="border: 1px solid #bbb;" alt="Link zu einer Wiki Seite" /></th><td>[[Wiki Seite]]</td><td><a href="#">Wiki Seite</a></td></tr>
+<tr><th></th><td>Ticket #12</td><td>Ticket <a href="#">#12</a></td></tr>
+<tr><th></th><td>Revision r43</td><td>Revision <a href="#">r43</a></td></tr>
+<tr><th></th><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
+<tr><th></th><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
+
+<tr><th colspan="3">eingebettete Bilder</th></tr>
+<tr><th><img src="../../images/jstoolbar/bt_img.png" style="border: 1px solid #bbb;" alt="Bild" /></th><td>!<em>URL_zu_dem_Bild</em>!</td><td></td></tr>
+<tr><th></th><td>!<em>angeh&auml;ngtes_Bild</em>!</td><td></td></tr>
+</table>
+
+<p><a href="wiki_syntax_detailed.html" onclick="window.open('wiki_syntax_detailed.html', '', ''); return false;">weitere Informationen</a></p>
+
+</body>
+</html>

@@ -34,7 +34,7 @@ entries_by_day = entries.group_by(&:spent_on)
     <td class="subject"><%=h entry.project %> <%= h(' - ') + link_to_issue(entry.issue, :truncate => 50) if entry.issue %></td>
     <td class="comments"><%=h entry.comments %></td>
     <td class="hours"><%= html_hours("%.2f" % entry.hours) %></td>
-    <td align="center">
+    <td class="buttons">
     <% if entry.editable_by?(@user) -%>
         <%= link_to image_tag('edit.png'), {:controller => 'timelog', :action => 'edit', :id => entry},
                                            :title => l(:button_edit) %>

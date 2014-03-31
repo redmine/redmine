@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -56,12 +56,12 @@ class WatcherTest < ActiveSupport::TestCase
 
   def test_watcher_users
     watcher_users = Issue.find(2).watcher_users
-    assert_kind_of Array, watcher_users
+    assert_kind_of Array, watcher_users.collect{|w| w}
     assert_kind_of User, watcher_users.first
   end
 
   def test_watcher_users_should_not_validate_user
-    User.update_all("firstname = ''", "id=1")
+    User.where(:id => 1).update_all("firstname = ''")
     @user.reload
     assert !@user.valid?
 
@@ -97,6 +97,23 @@ class WatcherTest < ActiveSupport::TestCase
   def test_addable_watcher_users_should_not_include_user_that_cannot_view_the_object
     issue = Issue.new(:project => Project.find(1), :is_private => true)
     assert_nil issue.addable_watcher_users.detect {|user| !issue.visible?(user)}
+  end
+
+  def test_any_watched_should_return_false_if_no_object_is_watched
+    objects = (0..2).map {Issue.generate!}
+
+    assert_equal false, Watcher.any_watched?(objects, @user)
+  end
+
+  def test_any_watched_should_return_true_if_one_object_is_watched
+    objects = (0..2).map {Issue.generate!}
+    objects.last.add_watcher(@user)
+
+    assert_equal true, Watcher.any_watched?(objects, @user)
+  end
+
+  def test_any_watched_should_return_false_with_no_object
+    assert_equal false, Watcher.any_watched?([], @user)
   end
 
   def test_recipients

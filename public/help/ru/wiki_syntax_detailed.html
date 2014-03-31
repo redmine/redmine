@@ -1,0 +1,329 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>Форматирование Wiki Redmine</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<style type="text/css">
+    body { font:80% Verdana,Tahoma,Arial,sans-serif; }
+    h1, h2, h3, h4 {  font-family: Trebuchet MS,Georgia,"Times New Roman",serif; }
+    pre, code { font-size:120%; }
+    pre code { font-size:100%; }
+    pre {
+        margin: 1em 1em 1em 1.6em;
+        padding: 2px;
+        background-color: #fafafa;
+        border: 1px solid #dadada;
+        width:95%;
+        overflow-x: auto;
+    }
+    a.new { color: #b73535; }
+
+    .syntaxhl .line-numbers { padding: 2px 4px 2px 4px; background-color: #eee; margin:0 }
+    .syntaxhl .comment  { color:#666; }
+
+    .syntaxhl .class { color:#B06; font-weight:bold }
+    .syntaxhl .delimiter { color:black }
+    .syntaxhl .function { color:#06B; font-weight:bold }
+
+    .syntaxhl .inline { background: #eee }
+    .syntaxhl .inline .inline-delimiter { font-weight: bold; color: #888 }
+
+    .syntaxhl .instance-variable { color:#33B }
+    .syntaxhl .reserved { color:#080; font-weight:bold }
+
+    .syntaxhl .string { background-color:#fff0f0; color: #D20; }
+    .syntaxhl .string .delimiter { color:#710 }
+
+</style>
+</head>
+
+<body>
+<h1><a name="1" class="wiki-page"></a>Форматирование Wiki</h1>
+
+    <h2><a name="2" class="wiki-page"></a>Ссылки</h2>
+
+        <h3><a name="3" class="wiki-page"></a>Ссылки Redmine</h3>
+
+        <p>Redmine allows hyperlinking between resources (issues, changesets, wiki pages...) from anywhere wiki formatting is used.</p>
+        <ul>
+            <li>Ссылка на задачу: <strong>#124</strong>
+              (
+              <del><a href="#" class="issue"
+                title="bulk edit doesn't change the category or fixed version properties (Closed)">#124</a></del>
+              - ссылка зачёркнута, если задача закрыта)
+            </li>
+            <li>Link to an issue note: <strong>#124-6</strong>, or <strong>#124#note-6</strong></li>
+        </ul>
+
+        <p>Wiki ссылки:</p>
+
+        <ul>
+    <li><strong>[[Руководство]]</strong> выводит ссылку на страницу с названием 'Руководство': <a href="#"
+                                                                                                  class="wiki-page">Руководство</a>
+    </li>
+    <li><strong>[[Руководство#дальнейшее-чтение]]</strong> направляет на метку "дальнейшее-чтение". Заголовкам
+        автоматически
+        метки, таким образом, вы можете на них ссылаться: <a href="#" class="wiki-page">Руководство</a></li>
+    <li><strong>[[Руководство|Руководство пользователя]]</strong> выводит ссылку на саму страницу, но с другим текстом:
+        <a href="#" class="wiki-page">Руководство пользователя</a>
+    </li>
+        </ul>
+
+<p>Также вы можете ссылаться на wiki:</p>
+
+        <ul>
+    <li><strong>[[sandbox:Некоторая страница]]</strong> выводит ссылку на страницу с названием 'Некоторая страница' wiki
+        проекта Sandbox
+    </li>
+    <li><strong>[[sandbox:]]</strong> выводит ссылку на главную страницу wiki проекта Sandbox</li>
+        </ul>
+
+<p>Ссылки на wiki окрашены в красный, если страница ещё не создана, пример: <a href="#" class="wiki-page new">Несуществующая
+    страница</a>.</p>
+
+<p>ССылки на другие ресурсы:</p>
+
+        <ul>
+    <li>Документы:
+                <ul>
+            <li><strong>document#17</strong> (ссылка на документ с id 17)</li>
+            <li><strong>document:Приветствие</strong> (ссылка на документ с названием "Приветствие")</li>
+            <li><strong>document:"Некоторый документ"</strong> (двойные кавычки использоются в случае, когда название
+                документа содержит пробелы)
+            </li>
+            <li><strong>sandbox:document:"Приветствие"</strong> (ссылка на документ с названием "Приветствие" в проекте
+                "sandbox")
+            </li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>Этапы:
+                <ul>
+                  <li><strong>version#3</strong> (ссылка на этап с id 3)</li>
+                  <li><strong>version:1.0.0</strong> (ссылка на этап с названием "1.0.0")</li>
+                  <li><strong>version:"1.0 beta 2"</strong> (двойные кавычки использоются в случае, когда название
+                этапа содержит пробелы)
+                  </li>
+                  <li><strong>sandbox:version:1.0.0</strong> (ссылка на этап "1.0.0" проекта "sandbox")</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>Вложения:
+                <ul>
+                  <li><strong>attachment:file.zip</strong> (ссылка на вложение текущего объекта с именем file.zip)</li>
+                  <li>Сейчас можно ссылаться только на вложения текущего объекта (если вы просматриваете задачу, то возможно
+                ссылаться только на вложения этой задачи)
+                  </li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>Changesets:
+                <ul>
+                    <li><strong>r758</strong>                       (link to a changeset)</li>
+                    <li><strong>commit:c6f4d0fd</strong>            (link to a changeset with a non-numeric hash)</li>
+                    <li><strong>svn1|r758</strong>                  (link to a changeset of a specific repository, for projects with multiple repositories)</li>
+                    <li><strong>commit:hg|c6f4d0fd</strong>         (link to a changeset with a non-numeric hash of a specific repository)</li>
+                    <li><strong>sandbox:r758</strong>               (link to a changeset of another project)</li>
+                    <li><strong>sandbox:commit:c6f4d0fd</strong>    (link to a changeset with a non-numeric hash of another project)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+              <li>Файлы хранилища:
+                <ul>
+            <li><strong>source:some/file</strong> (ссылка на файл /some/file, расположенный в хранилище проекта)
+            </li>
+            <li><strong>source:some/file@52</strong> (ссылка на 52 ревизию файла)</li>
+            <li><strong>source:some/file#L120</strong> (ссылка на 120 строку файла)</li>
+            <li><strong>source:some/file@52#L120</strong> (ссылка на 120 строку в 52 ревизии файла)</li>
+            <li><strong>source:"some file@52#L120"</strong> (используйте use double quotes when the URL contains spaces</li>
+            <li><strong>export:some/file</strong> (ссылка на загрузку файла)</li>
+                    <li><strong>source:svn1|some/file</strong>      (link to a file of a specific repository, for projects with multiple repositories)</li>
+            <li><strong>sandbox:source:some/file</strong> (ссылка на файл /some/file, расположенный в хранилище проекта
+                "sandbox")
+            </li>
+            <li><strong>sandbox:export:some/file</strong> (ссылка на загрузку файла)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>Сообщения форума:
+                <ul>
+                  <li><strong>message#1218</strong> (ссылка на сообщение с id 1218)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>Проекты:
+                <ul>
+                  <li><strong>project#3</strong> (ссылка на проект с id 3)</li>
+                  <li><strong>project:someproject</strong> (ссылка на проект "someproject")</li>
+                </ul></li>
+        </ul>
+
+
+        <p>Исключения:</p>
+
+        <ul>
+          <li>Вы можете отменить обработку ссылок с помощью восклицательного знака перед ссылкой: !http://foo.bar</li>
+        </ul>
+
+<h3><a name="4" class="wiki-page"></a>Внешние ссылки</h3>
+
+<p>HTTP и почтовые адреса автоматически транслируются в ссылки:</p>
+
+<pre>
+http://www.redmine.org, someone@foo.bar
+</pre>
+
+<p>выводится: <a class="external" href="http://www.redmine.org">http://www.redmine.org</a>, <a
+        href="mailto:someone@foo.bar" class="email">someone@foo.bar</a></p>
+
+<p>Если же вы хотите, чтобы отобразился текст вместо адреса URL, вы можете испольовать стандартный синтаксис
+    форматирования текста:</p>
+
+<pre>
+"Сайт Redmine":http://www.redmine.org
+</pre>
+
+<p>выводится: <a href="http://www.redmine.org" class="external">Сайт Redmine</a></p>
+
+
+<h2><a name="5" class="wiki-page"></a>Форматирование текста</h2>
+
+    <p>Для таких вещей, как заголовки, выделение, таблицы и списки, Redmine поддерживает синтакс Textile. Обратитесь за
+    руководством к странице <a class="external"
+                               href="http://en.wikipedia.org/wiki/Textile_%28markup_language%29">http://en.wikipedia.org/wiki/Textile_(markup_language)</a>
+    . Несколько примеров приведены ниже, Но сам текстовый процессор способен на гораздо большее.</p>
+
+<h3><a name="6" class="wiki-page"></a>Стиль шрифта</h3>
+
+<pre>
+* *выделенный*
+* _наклонный_
+* _*выделенный наклонный*_
+* +подчёркнутый+
+* -зачёркнутый-
+</pre>
+
+        <p>Выводится:</p>
+
+        <ul>
+            <li><strong>выделенный</strong></li>
+            <li><em>наклонный</em></li>
+            <li><em><strong>выделенный наклонный</strong></em></li>
+            <li><ins>подчёркнутый</ins></li>
+            <li><del>зачёркнутый</del></li>
+        </ul>
+
+        <h3><a name="7" class="wiki-page"></a>Вставка изображений</h3>
+
+        <ul>
+    <li><strong>!url_изображения!</strong> выводит изображение, расположенное по адресу url_изображения (синтакс textile)</li>
+    <li><strong>!&gt;url_изображения!</strong> выводит изображение, выровненное по правому краю</li>
+    <li>Прикреплённое к wiki-странице изображение можно отобразить в тексте, используя имя файла:
+        <strong>!вложенное_изображение.png!</strong>
+    </li>
+        </ul>
+
+<h3><a name="8" class="wiki-page"></a>Заголовки</h3>
+
+<pre>
+h1. Заголовок
+h2. Подзаголовок
+h3. Подзаголовок подзаголовка
+</pre>
+
+<p>Redmine присваивает якорь каждому заголовку, поэтому вы можете легко сослаться на любой, указав в тексте "#Заголовок",
+    "#Подзаголовок" и т.д.</p>
+
+
+<h3><a name="9" class="wiki-page"></a>Параграфы</h3>
+
+<pre>
+p&gt;. выровненный по правому краю
+p=. выровненный по центру
+</pre>
+
+<p style="text-align:center;">Это - выровненный по центру параграф.</p>
+
+
+<h3><a name="10" class="wiki-page"></a>Цитаты</h3>
+
+<p>Начните параграф с <strong>bq.</strong></p>
+
+<pre>
+bq. Rails - это полноценный, многоуровневый фреймворк для построения веб-приложений, использующих базы данных,
+    который основан на архитектуре Модель-Представление-Контроллер (Model-View-Controller, MVC).
+</pre>
+
+<p>Выводится:</p>
+
+        <blockquote>
+    <p>Rails - это полноценный, многоуровневый фреймворк для построения веб-приложений, использующих базы данных,
+    который основан на архитектуре Модель-Представление-Контроллер (Model-View-Controller, MVC).</p>
+        </blockquote>
+
+
+        <h3><a name="11" class="wiki-page"></a>Содержание</h3>
+
+<pre>
+{{Содержание}} =&gt; содержание, выровненное по левому краю
+{{&gt;Содержание}} =&gt; содержание, выровненное по правому краю
+</pre>
+
+        <h3><a name="14" class="wiki-page"></a>Horizontal Rule</h3>
+
+<pre>
+---
+</pre>
+
+    <h2><a name="12" class="wiki-page"></a>Макросы</h2>
+
+<p>В Redmine существуют следующие встроенные макросы:</p>
+
+<p>
+<dl>
+    <dt><code>hello_world</code></dt>
+    <dd><p>Некоторый макрос.</p></dd>
+    <dt><code>include</code></dt>
+    <dd><p>Вставить wiki страницу. Пример:</p>
+
+        <pre><code>{{include(Foo)}}</code></pre>
+    </dd>
+    <dt><code>macro_list</code></dt>
+    <dd><p>Выводит список доступных макросов с описаниями, если они имеются.</p></dd>
+</dl>
+</p>
+
+
+<h2><a name="13" class="wiki-page"></a>Подсветка кода</h2>
+
+    <p>Default code highlightment relies on <a href="http://coderay.rubychan.de/" class="external">CodeRay</a>, a fast syntax highlighting library written completely in Ruby. It currently supports c, cpp, css, delphi, groovy, html, java, javascript, json, php, python, rhtml, ruby, scheme, sql, xml and yaml languages.</p>
+
+<p>Вы можете включить подсветку кода используя данный синтаксис:</p>
+
+<pre>
+&lt;pre&gt;&lt;code class="ruby"&gt;
+  Поместите свой код сюда.
+&lt;/code&gt;&lt;/pre&gt;
+</pre>
+
+<p>Пример:</p>
+
+<pre><code class="ruby syntaxhl"><span class="line-numbers"> 1</span> <span class="comment"># The Greeter class</span>
+<span class="line-numbers"> 2</span> <span class="reserved">class</span> <span class="class">Greeter</span>
+<span class="line-numbers"> 3</span>   <span class="reserved">def</span> <span class="function">initialize</span>(name)
+<span class="line-numbers"> 4</span>     <span class="instance-variable">@name</span> = name.capitalize
+<span class="line-numbers"> 5</span>   <span class="reserved">end</span>
+<span class="line-numbers"> 6</span>
+<span class="line-numbers"> 7</span>   <span class="reserved">def</span> <span class="function">salute</span>
+<span class="line-numbers"> 8</span>     puts <span class="string"><span class="delimiter">"</span><span class="content">Hello </span><span class="inline"><span class="inline-delimiter">#{</span><span class="instance-variable">@name</span><span class="inline-delimiter">}</span></span><span class="content">!</span><span class="delimiter">"</span></span>
+<span class="line-numbers"> 9</span>   <span class="reserved">end</span>
+<span class="line-numbers"><strong>10</strong></span> <span class="reserved">end</span></code>
+</pre>
+</body>
+</html>

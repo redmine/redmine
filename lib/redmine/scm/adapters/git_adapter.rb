@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -333,7 +333,7 @@ module Redmine
 
         def annotate(path, identifier=nil)
           identifier = 'HEAD' if identifier.blank?
-          cmd_args = %w|blame|
+          cmd_args = %w|blame --encoding=UTF-8|
           cmd_args << "-p" << identifier << "--" <<  scm_iconv(@path_encoding, 'UTF-8', path)
           blame = Annotate.new
           content = nil

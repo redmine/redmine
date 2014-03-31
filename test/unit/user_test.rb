@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -34,13 +34,14 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_sorted_scope_should_sort_user_by_display_name
-    assert_equal User.all.map(&:name).map(&:downcase).sort, User.sorted.all.map(&:name).map(&:downcase)
+    assert_equal User.all.map(&:name).map(&:downcase).sort,
+                 User.sorted.map(&:name).map(&:downcase)
   end
 
   def test_generate
     User.generate!(:firstname => 'Testing connection')
     User.generate!(:firstname => 'Testing connection')
-    assert_equal 2, User.count(:all, :conditions => {:firstname => 'Testing connection'})
+    assert_equal 2, User.where(:firstname => 'Testing connection').count
   end
 
   def test_truth
@@ -138,7 +139,8 @@ class UserTest < ActiveSupport::TestCase
     u.login = 'newuser'
     u.password, u.password_confirmation = "password", "password"
     assert u.save
-    u = User.new(:firstname => "Similar", :lastname => "User", :mail => "similaruser@somenet.foo")
+    u = User.new(:firstname => "Similar", :lastname => "User",
+                 :mail => "similaruser@somenet.foo")
     u.login = 'NewUser'
     u.password, u.password_confirmation = "password", "password"
     assert !u.save
@@ -181,18 +183,18 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_destroy_should_delete_members_and_roles
-    members = Member.find_all_by_user_id(2)
-    ms = members.size
+    members = Member.where(:user_id => 2)
+    ms = members.count
     rs = members.collect(&:roles).flatten.size
-
+    assert ms > 0
+    assert rs > 0
     assert_difference 'Member.count', - ms do
       assert_difference 'MemberRole.count', - rs do
         User.find(2).destroy
       end
     end
-
     assert_nil User.find_by_id(2)
-    assert Member.find_all_by_user_id(2).empty?
+    assert_equal 0, Member.where(:user_id => 2).count
   end
 
   def test_destroy_should_update_attachments
@@ -207,7 +209,8 @@ class UserTest < ActiveSupport::TestCase
 
   def test_destroy_should_update_comments
     comment = Comment.create!(
-      :commented => News.create!(:project_id => 1, :author_id => 1, :title => 'foo', :description => 'foo'),
+      :commented => News.create!(:project_id => 1,
+                                 :author_id => 1, :title => 'foo', :description => 'foo'),
       :author => User.find(2),
       :comments => 'foo'
     )
@@ -218,7 +221,8 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_destroy_should_update_issues
-    issue = Issue.create!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'foo')
+    issue = Issue.create!(:project_id => 1, :author_id => 2,
+                          :tracker_id => 1, :subject => 'foo')
 
     User.find(2).destroy
     assert_nil User.find_by_id(2)
@@ -226,7 +230,8 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_destroy_should_unassign_issues
-    issue = Issue.create!(:project_id => 1, :author_id => 1, :tracker_id => 1, :subject => 'foo', :assigned_to_id => 2)
+    issue = Issue.create!(:project_id => 1, :author_id => 1,
+                          :tracker_id => 1, :subject => 'foo', :assigned_to_id => 2)
 
     User.find(2).destroy
     assert_nil User.find_by_id(2)
@@ -234,7 +239,8 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_destroy_should_update_journals
-    issue = Issue.create!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'foo')
+    issue = Issue.create!(:project_id => 1, :author_id => 2,
+                          :tracker_id => 1, :subject => 'foo')
     issue.init_journal(User.find(2), "update")
     issue.save!
 
@@ -244,13 +250,14 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_destroy_should_update_journal_details_old_value
-    issue = Issue.create!(:project_id => 1, :author_id => 1, :tracker_id => 1, :subject => 'foo', :assigned_to_id => 2)
+    issue = Issue.create!(:project_id => 1, :author_id => 1,
+                          :tracker_id => 1, :subject => 'foo', :assigned_to_id => 2)
     issue.init_journal(User.find(1), "update")
     issue.assigned_to_id = nil
     assert_difference 'JournalDetail.count' do
       issue.save!
     end
-    journal_detail = JournalDetail.first(:order => 'id DESC')
+    journal_detail = JournalDetail.order('id DESC').first
     assert_equal '2', journal_detail.old_value
 
     User.find(2).destroy
@@ -259,13 +266,14 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_destroy_should_update_journal_details_value
-    issue = Issue.create!(:project_id => 1, :author_id => 1, :tracker_id => 1, :subject => 'foo')
+    issue = Issue.create!(:project_id => 1, :author_id => 1,
+                          :tracker_id => 1, :subject => 'foo')
     issue.init_journal(User.find(1), "update")
     issue.assigned_to_id = 2
     assert_difference 'JournalDetail.count' do
       issue.save!
     end
-    journal_detail = JournalDetail.first(:order => 'id DESC')
+    journal_detail = JournalDetail.order('id DESC').first
     assert_equal '2', journal_detail.value
 
     User.find(2).destroy
@@ -275,23 +283,23 @@ class UserTest < ActiveSupport::TestCase
 
   def test_destroy_should_update_messages
     board = Board.create!(:project_id => 1, :name => 'Board', :description => 'Board')
-    message = Message.create!(:board_id => board.id, :author_id => 2, :subject => 'foo', :content => 'foo')
-
+    message = Message.create!(:board_id => board.id, :author_id => 2,
+                              :subject => 'foo', :content => 'foo')
     User.find(2).destroy
     assert_nil User.find_by_id(2)
     assert_equal User.anonymous, message.reload.author
   end
 
   def test_destroy_should_update_news
-    news = News.create!(:project_id => 1, :author_id => 2, :title => 'foo', :description => 'foo')
-
+    news = News.create!(:project_id => 1, :author_id => 2,
+                        :title => 'foo', :description => 'foo')
     User.find(2).destroy
     assert_nil User.find_by_id(2)
     assert_equal User.anonymous, news.reload.author
   end
 
   def test_destroy_should_delete_private_queries
-    query = Query.new(:name => 'foo', :is_public => false)
+    query = Query.new(:name => 'foo', :visibility => Query::VISIBILITY_PRIVATE)
     query.project_id = 1
     query.user_id = 2
     query.save!
@@ -302,7 +310,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_destroy_should_update_public_queries
-    query = Query.new(:name => 'foo', :is_public => true)
+    query = Query.new(:name => 'foo', :visibility => Query::VISIBILITY_PUBLIC)
     query.project_id = 1
     query.user_id = 2
     query.save!
@@ -313,7 +321,8 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_destroy_should_update_time_entries
-    entry = TimeEntry.new(:hours => '2', :spent_on => Date.today, :activity => TimeEntryActivity.create!(:name => 'foo'))
+    entry = TimeEntry.new(:hours => '2', :spent_on => Date.today,
+                          :activity => TimeEntryActivity.create!(:name => 'foo'))
     entry.project_id = 1
     entry.user_id = 2
     entry.save!
@@ -332,7 +341,8 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_destroy_should_delete_watchers
-    issue = Issue.create!(:project_id => 1, :author_id => 1, :tracker_id => 1, :subject => 'foo')
+    issue = Issue.create!(:project_id => 1, :author_id => 1,
+                          :tracker_id => 1, :subject => 'foo')
     watcher = Watcher.create!(:user_id => 2, :watchable => issue)
 
     User.find(2).destroy
@@ -344,7 +354,9 @@ class UserTest < ActiveSupport::TestCase
     wiki_content = WikiContent.create!(
       :text => 'foo',
       :author_id => 2,
-      :page => WikiPage.create!(:title => 'Foo', :wiki => Wiki.create!(:project_id => 1, :start_page => 'Start'))
+      :page => WikiPage.create!(:title => 'Foo',
+                                :wiki => Wiki.create!(:project_id => 3,
+                                                      :start_page => 'Start'))
     )
     wiki_content.text = 'bar'
     assert_difference 'WikiContent::Version.count' do
@@ -401,25 +413,7 @@ class UserTest < ActiveSupport::TestCase
     u = User.new
     u.mail_notification = 'foo'
     u.save
-    assert_not_nil u.errors[:mail_notification]
-  end
-
-  test "User#try_to_login should fall-back to case-insensitive if user login is not found as-typed" do
-    user = User.try_to_login("AdMin", "admin")
-    assert_kind_of User, user
-    assert_equal "admin", user.login
-  end
-
-  test "User#try_to_login should select the exact matching user first" do
-    case_sensitive_user = User.generate! do |user|
-      user.password = "admin123"
-    end
-    # bypass validations to make it appear like existing data
-    case_sensitive_user.update_attribute(:login, 'ADMIN')
-
-    user = User.try_to_login("ADMIN", "admin123")
-    assert_kind_of User, user
-    assert_equal "ADMIN", user.login
+    assert_not_equal [], u.errors[:mail_notification]
   end
 
   def test_password
@@ -436,7 +430,8 @@ class UserTest < ActiveSupport::TestCase
 
   def test_validate_password_length
     with_settings :password_min_length => '100' do
-      user = User.new(:firstname => "new100", :lastname => "user100", :mail => "newuser100@somenet.foo")
+      user = User.new(:firstname => "new100",
+                      :lastname => "user100", :mail => "newuser100@somenet.foo")
       user.login = "newuser100"
       user.password, user.password_confirmation = "password100", "password100"
       assert !user.save
@@ -447,6 +442,11 @@ class UserTest < ActiveSupport::TestCase
   def test_name_format
     assert_equal 'John S.', @jsmith.name(:firstname_lastinitial)
     assert_equal 'Smith, John', @jsmith.name(:lastname_coma_firstname)
+    assert_equal 'J. Smith', @jsmith.name(:firstinitial_lastname)
+    assert_equal 'J.-P. Lang', User.new(:firstname => 'Jean-Philippe', :lastname => 'Lang').name(:firstinitial_lastname)
+  end
+
+  def test_name_should_use_setting_as_default_format
     with_settings :user_format => :firstname_lastname do
       assert_equal 'John Smith', @jsmith.reload.name
     end
@@ -491,37 +491,30 @@ class UserTest < ActiveSupport::TestCase
 
   def test_fields_for_order_statement_should_return_fields_according_user_format_setting
     with_settings :user_format => 'lastname_coma_firstname' do
-      assert_equal ['users.lastname', 'users.firstname', 'users.id'], User.fields_for_order_statement
+      assert_equal ['users.lastname', 'users.firstname', 'users.id'],
+                   User.fields_for_order_statement
     end
   end
-  
+
   def test_fields_for_order_statement_width_table_name_should_prepend_table_name
     with_settings :user_format => 'lastname_firstname' do
-      assert_equal ['authors.lastname', 'authors.firstname', 'authors.id'], User.fields_for_order_statement('authors')
+      assert_equal ['authors.lastname', 'authors.firstname', 'authors.id'],
+                   User.fields_for_order_statement('authors')
     end
   end
-  
+
   def test_fields_for_order_statement_with_blank_format_should_return_default
     with_settings :user_format => '' do
-      assert_equal ['users.firstname', 'users.lastname', 'users.id'], User.fields_for_order_statement
+      assert_equal ['users.firstname', 'users.lastname', 'users.id'],
+                   User.fields_for_order_statement
     end
   end
-  
+
   def test_fields_for_order_statement_with_invalid_format_should_return_default
     with_settings :user_format => 'foo' do
-      assert_equal ['users.firstname', 'users.lastname', 'users.id'], User.fields_for_order_statement
+      assert_equal ['users.firstname', 'users.lastname', 'users.id'],
+                   User.fields_for_order_statement
     end
-  end
-
-  def test_lock
-    user = User.try_to_login("jsmith", "jsmith")
-    assert_equal @jsmith, user
-
-    @jsmith.status = User::STATUS_LOCKED
-    assert @jsmith.save
-
-    user = User.try_to_login("jsmith", "jsmith")
-    assert_equal nil, user
   end
 
   test ".try_to_login with good credentials should return the user" do
@@ -532,6 +525,40 @@ class UserTest < ActiveSupport::TestCase
 
   test ".try_to_login with wrong credentials should return nil" do
     assert_nil User.try_to_login("admin", "foo")
+  end
+
+  def test_try_to_login_with_locked_user_should_return_nil
+    @jsmith.status = User::STATUS_LOCKED
+    @jsmith.save!
+
+    user = User.try_to_login("jsmith", "jsmith")
+    assert_equal nil, user
+  end
+
+  def test_try_to_login_with_locked_user_and_not_active_only_should_return_user
+    @jsmith.status = User::STATUS_LOCKED
+    @jsmith.save!
+
+    user = User.try_to_login("jsmith", "jsmith", false)
+    assert_equal @jsmith, user
+  end
+
+  test ".try_to_login should fall-back to case-insensitive if user login is not found as-typed" do
+    user = User.try_to_login("AdMin", "admin")
+    assert_kind_of User, user
+    assert_equal "admin", user.login
+  end
+
+  test ".try_to_login should select the exact matching user first" do
+    case_sensitive_user = User.generate! do |user|
+      user.password = "admin123"
+    end
+    # bypass validations to make it appear like existing data
+    case_sensitive_user.update_attribute(:login, 'ADMIN')
+
+    user = User.try_to_login("ADMIN", "admin123")
+    assert_kind_of User, user
+    assert_equal "ADMIN", user.login
   end
 
   if ldap_configured?
@@ -609,7 +636,7 @@ class UserTest < ActiveSupport::TestCase
             @auth_source.account_password = ''
             @auth_source.save!
           end
-  
+
           context "with a successful authentication" do
             should "create a new user account if it doesn't exist" do
               assert_difference('User.count') do
@@ -618,7 +645,7 @@ class UserTest < ActiveSupport::TestCase
               end
             end
           end
-  
+
           context "with an unsuccessful authentication" do
             should "return nil" do
               assert_nil User.try_to_login('example1', '11111')
@@ -1093,38 +1120,35 @@ class UserTest < ActiveSupport::TestCase
   end
 
   if Object.const_defined?(:OpenID)
+    def test_setting_identity_url
+      normalized_open_id_url = 'http://example.com/'
+      u = User.new( :identity_url => 'http://example.com/' )
+      assert_equal normalized_open_id_url, u.identity_url
+    end
 
-  def test_setting_identity_url
-    normalized_open_id_url = 'http://example.com/'
-    u = User.new( :identity_url => 'http://example.com/' )
-    assert_equal normalized_open_id_url, u.identity_url
-  end
+    def test_setting_identity_url_without_trailing_slash
+      normalized_open_id_url = 'http://example.com/'
+      u = User.new( :identity_url => 'http://example.com' )
+      assert_equal normalized_open_id_url, u.identity_url
+    end
 
-  def test_setting_identity_url_without_trailing_slash
-    normalized_open_id_url = 'http://example.com/'
-    u = User.new( :identity_url => 'http://example.com' )
-    assert_equal normalized_open_id_url, u.identity_url
-  end
+    def test_setting_identity_url_without_protocol
+      normalized_open_id_url = 'http://example.com/'
+      u = User.new( :identity_url => 'example.com' )
+      assert_equal normalized_open_id_url, u.identity_url
+    end
 
-  def test_setting_identity_url_without_protocol
-    normalized_open_id_url = 'http://example.com/'
-    u = User.new( :identity_url => 'example.com' )
-    assert_equal normalized_open_id_url, u.identity_url
-  end
+    def test_setting_blank_identity_url
+      u = User.new( :identity_url => 'example.com' )
+      u.identity_url = ''
+      assert u.identity_url.blank?
+    end
 
-  def test_setting_blank_identity_url
-    u = User.new( :identity_url => 'example.com' )
-    u.identity_url = ''
-    assert u.identity_url.blank?
-  end
-
-  def test_setting_invalid_identity_url
-    u = User.new( :identity_url => 'this is not an openid url' )
-    assert u.identity_url.blank?
-  end
-
+    def test_setting_invalid_identity_url
+      u = User.new( :identity_url => 'this is not an openid url' )
+      assert u.identity_url.blank?
+    end
   else
     puts "Skipping openid tests."
   end
-
 end

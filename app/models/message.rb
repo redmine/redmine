@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -45,6 +45,7 @@ class Message < ActiveRecord::Base
   after_create :add_author_as_watcher, :reset_counters!
   after_update :update_messages_board
   after_destroy :reset_counters!
+  after_create :send_notification
 
   scope :visible, lambda {|*args|
     includes(:board => :project).where(Project.allowed_to_condition(args.shift || User.current, :view_messages, *args))
@@ -67,7 +68,7 @@ class Message < ActiveRecord::Base
 
   def update_messages_board
     if board_id_changed?
-      Message.update_all({:board_id => board_id}, ["id = ? OR parent_id = ?", root.id, root.id])
+      Message.where(["id = ? OR parent_id = ?", root.id, root.id]).update_all({:board_id => board_id})
       Board.reset_counters!(board_id_was)
       Board.reset_counters!(board_id)
     end
@@ -75,7 +76,7 @@ class Message < ActiveRecord::Base
 
   def reset_counters!
     if parent && parent.id
-      Message.update_all({:last_reply_id => parent.children.maximum(:id)}, {:id => parent.id})
+      Message.where({:id => parent.id}).update_all({:last_reply_id => parent.children.maximum(:id)})
     end
     board.reset_counters!
   end
@@ -104,5 +105,11 @@ class Message < ActiveRecord::Base
 
   def add_author_as_watcher
     Watcher.create(:watchable => self.root, :user => author)
+  end
+
+  def send_notification
+    if Setting.notified_events.include?('message_posted')
+      Mailer.message_posted(self).deliver
+    end
   end
 end

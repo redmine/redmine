@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -100,7 +100,7 @@ class BoardTest < ActiveSupport::TestCase
         end
       end
     end
-    assert_equal 0, Message.count(:conditions => {:board_id => 1})
+    assert_equal 0, Message.where(:board_id => 1).count
   end
 
   def test_destroy_should_nullify_children

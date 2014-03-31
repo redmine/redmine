@@ -3,7 +3,7 @@ var operatorLabels = <%= raw_json Query.operators_labels %>;
 var operatorByType = <%= raw_json Query.operators_by_filter_type %>;
 var availableFilters = <%= raw_json query.available_filters_as_json %>;
 var labelDayPlural = <%= raw_json l(:label_day_plural) %>;
-var allProjects = <%= raw query.all_projects_values.to_json %>;
+var allProjects = <%= raw_json query.all_projects_values %>;
 $(document).ready(function(){
   initFilters();
   <% query.filters.each do |field, options| %>

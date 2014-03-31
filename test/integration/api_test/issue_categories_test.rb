@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -51,7 +51,7 @@ class Redmine::ApiTest::IssueCategoriesTest < Redmine::ApiTest::Base
     assert_response :created
     assert_equal 'application/xml', @response.content_type
 
-    category = IssueCategory.first(:order => 'id DESC')
+    category = IssueCategory.order('id DESC').first
     assert_equal 'API', category.name
     assert_equal 1, category.project_id
   end
@@ -95,11 +95,11 @@ class Redmine::ApiTest::IssueCategoriesTest < Redmine::ApiTest::Base
   end
     
   test "DELETE /issue_categories/:id.xml should reassign issues with :reassign_to_id param" do
-    issue_count = Issue.count(:conditions => {:category_id => 1})
+    issue_count = Issue.where(:category_id => 1).count
     assert issue_count > 0
 
     assert_difference 'IssueCategory.count', -1 do
-      assert_difference 'Issue.count(:conditions => {:category_id => 2})', 3 do
+      assert_difference 'Issue.where(:category_id => 2).count', 3 do
         delete '/issue_categories/1.xml', {:reassign_to_id => 2}, credentials('jsmith')
       end
     end

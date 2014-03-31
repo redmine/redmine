@@ -129,6 +129,7 @@ en:
         not_same_project: "doesn't belong to the same project"
         circular_dependency: "This relation would create a circular dependency"
         cant_link_an_issue_with_a_descendant: "An issue cannot be linked to one of its subtasks"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   actionview_instancetag_blank_option: Please select
 
@@ -147,8 +148,10 @@ en:
   notice_account_invalid_creditentials: Invalid user or password
   notice_account_password_updated: Password was successfully updated.
   notice_account_wrong_password: Wrong password
-  notice_account_register_done: Account was successfully created. To activate your account, click on the link that was emailed to you.
+  notice_account_register_done: Account was successfully created. An email containing the instructions to activate your account was sent to %{email}.
   notice_account_unknown_email: Unknown user.
+  notice_account_not_activated_yet: You haven't activated your account yet. If you want to receive a new activation email, please <a href="%{url}">click this link</a>.
+  notice_account_locked: Your account is locked.
   notice_can_t_change_password: This account uses an external authentication source. Impossible to change the password.
   notice_account_lost_email_sent: An email with instructions to choose a new password has been sent to you.
   notice_account_activated: Your account has been activated. You can now log in.
@@ -178,6 +181,7 @@ en:
   notice_issue_update_conflict: "The issue has been updated by an other user while you were editing it."
   notice_account_deleted: "Your account has been permanently deleted."
   notice_user_successful_create: "User %{id} created."
+  notice_new_password_must_be_different: The new password must be different from the current password
 
   error_can_t_load_default_data: "Default configuration could not be loaded: %{value}"
   error_scm_not_found: "The entry or revision was not found in the repository."
@@ -332,6 +336,7 @@ en:
   field_private_notes: Private notes
   field_inherit_members: Inherit members
   field_generate_password: Generate password
+  field_must_change_passwd: Must change password at next logon
 
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle
@@ -402,6 +407,9 @@ en:
   setting_non_working_week_days: Non-working days
   setting_jsonp_enabled: Enable JSONP support
   setting_default_projects_tracker_ids: Default trackers for new projects
+  setting_mail_handler_excluded_filenames: Exclude attachments by name
+  setting_force_default_language_for_anonymous: Force default language for anonymous users
+  setting_force_default_language_for_loggedin: Force default language for logged-in users
 
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects
@@ -500,6 +508,7 @@ en:
   label_issue_updated: Issue updated
   label_issue_note_added: Note added
   label_issue_status_updated: Status updated
+  label_issue_assigned_to_updated: Assignee updated
   label_issue_priority_updated: Priority updated
   label_document: Document
   label_document_new: New document
@@ -882,6 +891,7 @@ en:
   label_fields_permissions: Fields permissions
   label_readonly: Read-only
   label_required: Required
+  label_hidden: Hidden
   label_attribute_of_project: "Project's %{name}"
   label_attribute_of_issue: "Issue's %{name}"
   label_attribute_of_author: "Author's %{name}"
@@ -893,6 +903,15 @@ en:
   label_cross_project_hierarchy: With project hierarchy
   label_cross_project_system: With all projects
   label_gantt_progress_line: Progress line
+  label_visibility_private: to me only
+  label_visibility_roles: to these roles only
+  label_visibility_public: to any users
+  label_link: Link
+  label_only: only
+  label_drop_down_list: drop-down list
+  label_checkboxes: checkboxes
+  label_link_values_to: Link values to URL
+  label_custom_field_select_type: Select the type of object to which the custom field is to be attached
 
   button_login: Login
   button_submit: Submit
@@ -1004,6 +1023,7 @@ en:
   text_file_repository_writable: Attachments directory writable
   text_plugin_assets_writable: Plugin assets directory writable
   text_rmagick_available: RMagick available (optional)
+  text_convert_available: ImageMagick convert available (optional)
   text_destroy_time_entries_question: "%{hours} hours were reported on the issues you are about to delete. What do you want to do?"
   text_destroy_time_entries: Delete reported hours
   text_assign_time_entries_to_project: Assign reported hours to the project

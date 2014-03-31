@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -22,5 +22,16 @@ class Comment < ActiveRecord::Base
 
   validates_presence_of :commented, :author, :comments
 
+  after_create :send_notification
+
   safe_attributes 'comments'
+
+  private
+
+  def send_notification
+    mailer_method = "#{commented.class.name.underscore}_comment_added"
+    if Setting.notified_events.include?(mailer_method)
+      Mailer.send(mailer_method, self).deliver
+    end
+  end
 end

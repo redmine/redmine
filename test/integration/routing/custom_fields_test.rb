@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -42,6 +42,13 @@ class RoutingCustomFieldsTest < ActionController::IntegrationTest
     assert_routing(
         { :method => 'delete', :path => "/custom_fields/2" },
         { :controller => 'custom_fields', :action => 'destroy', :id => '2' }
+      )
+  end
+
+  def test_custom_fields_api
+    assert_routing(
+        { :method => 'get', :path => "/custom_fields.xml" },
+        { :controller => 'custom_fields', :action => 'index', :format => 'xml' }
       )
   end
 end

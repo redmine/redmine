@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -82,7 +82,7 @@ class ProjectsController < ApplicationController
 
     if validate_parent_id && @project.save
       @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
-      # Add current user as a project member if he is not admin
+      # Add current user as a project member if current user is not admin
       unless User.current.admin?
         r = Role.givable.find_by_id(Setting.new_project_user_role_id.to_i) || Role.givable.first
         m = Member.new(:user => User.current, :roles => [r])
@@ -151,11 +151,11 @@ class ProjectsController < ApplicationController
 
     cond = @project.project_condition(Setting.display_subprojects_issues?)
 
-    @open_issues_by_tracker = Issue.visible.open.where(cond).count(:group => :tracker)
-    @total_issues_by_tracker = Issue.visible.where(cond).count(:group => :tracker)
+    @open_issues_by_tracker = Issue.visible.open.where(cond).group(:tracker).count
+    @total_issues_by_tracker = Issue.visible.where(cond).group(:tracker).count
 
     if User.current.allowed_to?(:view_time_entries, @project)
-      @total_hours = TimeEntry.visible.sum(:hours, :include => :project, :conditions => cond).to_f
+      @total_hours = TimeEntry.visible.where(cond).sum(:hours).to_f
     end
 
     @key = User.current.rss_key

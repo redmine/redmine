@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -131,6 +131,16 @@ class AccountControllerOpenidTest < ActionController::TestCase
       assert_select 'input[name=?][value=?]', 'user[identity_url]', 'http://openid.example.com/good_blank_user'
     end
 
+    def test_post_login_should_not_verify_token_when_using_open_id
+      ActionController::Base.allow_forgery_protection = true
+      AccountController.any_instance.stubs(:using_open_id?).returns(true)
+      AccountController.any_instance.stubs(:authenticate_with_open_id).returns(true)
+      post :login
+      assert_response 200
+    ensure
+      ActionController::Base.allow_forgery_protection = false
+    end
+
     def test_register_after_login_failure_should_not_require_user_to_enter_a_password
       Setting.self_registration = '3'
 
@@ -147,7 +157,7 @@ class AccountControllerOpenidTest < ActionController::TestCase
         assert_response 302
       end
 
-      user = User.first(:order => 'id DESC')
+      user = User.order('id DESC').first
       assert_equal 'http://openid.example.com/good_blank_user', user.identity_url
       assert user.hashed_password.blank?, "Hashed password was #{user.hashed_password}"
     end

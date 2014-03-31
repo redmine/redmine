@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -103,11 +103,12 @@ class AdminControllerTest < ActionController::TestCase
   end
 
   def test_no_plugins
-    Redmine::Plugin.clear
+    Redmine::Plugin.stubs(:registered_plugins).returns({})
 
     get :plugins
     assert_response :success
     assert_template 'plugins'
+    assert_equal [], assigns(:plugins)
   end
 
   def test_plugins

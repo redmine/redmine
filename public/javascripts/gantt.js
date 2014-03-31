@@ -167,6 +167,6 @@ function drawGanttHandler() {
   setDrawArea();
   if ($("#draw_progress_line").attr('checked'))
     drawGanttProgressLines();
-  if ($("#draw_rels").attr('checked'))
+  if ($("#draw_relations").attr('checked'))
     drawRelations();
 }

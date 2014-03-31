@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -75,8 +75,9 @@ class RepositorySubversionTest < ActiveSupport::TestCase
       assert_equal NUM_REV, @repository.changesets.count
 
       # Remove changesets with revision > 5
-      @repository.changesets.all.each {|c| c.destroy if c.revision.to_i > 5}
+      @repository.changesets.each {|c| c.destroy if c.revision.to_i > 5}
       @project.reload
+      @repository.reload
       assert_equal 5, @repository.changesets.count
 
       @repository.fetch_changesets

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -77,6 +77,22 @@ begin
                                   ""
                                 )
         assert_equal "UTF-8", adpt2.path_encoding
+      end
+
+      def test_root_url_path
+        to_test = {
+          ':pserver:cvs_user:cvs_password@123.456.789.123:9876/repo' => '/repo',
+          ':pserver:cvs_user:cvs_password@123.456.789.123/repo' => '/repo',
+          ':pserver:cvs_user:cvs_password@cvs_server:/repo' => '/repo',
+          ':pserver:cvs_user:cvs_password@cvs_server:9876/repo' => '/repo',
+          ':pserver:cvs_user:cvs_password@cvs_server/repo' => '/repo',
+          ':pserver:cvs_user:cvs_password@cvs_server/path/repo' => '/path/repo',
+          ':ext:cvsservername:/path' => '/path'
+        }
+
+        to_test.each do |string, expected|
+          assert_equal expected, Redmine::Scm::Adapters::CvsAdapter.new('foo', string).send(:root_url_path), "#{string} failed"
+        end
       end
 
       private

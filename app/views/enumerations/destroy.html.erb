@@ -1,4 +1,4 @@
-<h2><%= l(@enumeration.option_name) %>: <%=h @enumeration %></h2>
+<%= title [l(@enumeration.option_name), enumerations_path], @enumeration.name %>
 
 <%= form_tag({}, :method => :delete) do %>
 <div class="box">

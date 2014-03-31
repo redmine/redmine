@@ -123,12 +123,15 @@ a#toggle-completed-versions {color:#999;}
 /***** Tables *****/
 table.list { border: 1px solid #e4e4e4;  border-collapse: collapse; width: 100%; margin-bottom: 4px; }
 table.list th {  background-color:#EEEEEE; padding: 4px; white-space:nowrap; }
-table.list td { vertical-align: top; padding-right:10px; }
+table.list td {text-align:center; vertical-align:top; padding-right:10px;}
 table.list td.id { width: 2%; text-align: center;}
+table.list td.name, table.list td.description, table.list td.subject, table.list td.comments, table.list td.roles {text-align: left;}
+table.list td.tick {width:15%}
 table.list td.checkbox { width: 15px; padding: 2px 0 0 0; }
 table.list td.checkbox input {padding:0px;}
 table.list td.buttons { width: 15%; white-space:nowrap; text-align: right; }
 table.list td.buttons a { padding-right: 0.6em; }
+table.list td.reorder {width:15%; white-space:nowrap; text-align:center; }
 table.list caption { text-align: left; padding: 0.5em 0.5em 0.5em 0; }
 
 tr.project td.name a { white-space:nowrap; }
@@ -148,7 +151,7 @@ tr.project.idnt-9 td.name {padding-left: 12.5em;}
 
 tr.issue { text-align: center; white-space: nowrap; }
 tr.issue td.subject, tr.issue td.category, td.assigned_to, tr.issue td.string, tr.issue td.text, tr.issue td.relations { white-space: normal; }
-tr.issue td.subject, tr.issue td.relations { text-align: left; }
+tr.issue td.relations { text-align: left; }
 tr.issue td.done_ratio table.progress { margin-left:auto; margin-right: auto;}
 tr.issue td.relations span {white-space: nowrap;}
 table.issues td.description {color:#777; font-size:90%; padding:4px 4px 4px 24px; text-align:left; white-space:normal;}
@@ -165,10 +168,12 @@ tr.issue.idnt-7 td.subject {padding-left: 9.5em;}
 tr.issue.idnt-8 td.subject {padding-left: 11em;}
 tr.issue.idnt-9 td.subject {padding-left: 12.5em;}
 
+table.issue-report {table-layout:fixed;}
+
 tr.entry { border: 1px solid #f8f8f8; }
 tr.entry td { white-space: nowrap; }
-tr.entry td.filename { width: 30%; }
-tr.entry td.filename_no_report { width: 70%; }
+tr.entry td.filename {width:30%; text-align:left;}
+tr.entry td.filename_no_report {width:70%; text-align:left;}
 tr.entry td.size { text-align: right; font-size: 90%; }
 tr.entry td.revision, tr.entry td.author { text-align: center; }
 tr.entry td.age { text-align: right; }
@@ -184,7 +189,7 @@ tr.changeset td.revision_graph { width: 15%; background-color: #fffffb; }
 tr.changeset td.author { text-align: center; width: 15%; white-space:nowrap;}
 tr.changeset td.committed_on { text-align: center; width: 15%; white-space:nowrap;}
 
-table.files tr.file td { text-align: center; }
+table.files tbody th {text-align:left;}
 table.files tr.file td.filename { text-align: left; padding-left: 24px; }
 table.files tr.file td.digest { font-size: 80%; }
 
@@ -202,9 +207,9 @@ tr.version td.name { padding-left: 20px; }
 tr.version.shared td.name { background: url(../images/link.png) no-repeat 0% 70%; }
 tr.version td.date, tr.version td.status, tr.version td.sharing { text-align: center; white-space:nowrap; }
 
-tr.user td { width:13%; }
+tr.user td {width:13%;white-space: nowrap;}
+tr.user td.username, tr.user td.firstname, tr.user td.lastname, tr.user td.email {text-align:left;}
 tr.user td.email { width:18%; }
-tr.user td { white-space: nowrap; }
 tr.user.locked, tr.user.registered { color: #aaa; }
 tr.user.locked a, tr.user.registered a { color: #aaa; }
 
@@ -223,7 +228,7 @@ table.plugins span.name { font-weight: bold; display: block; margin-bottom: 6px;
 table.plugins span.description { display: block; font-size: 0.9em; }
 table.plugins span.url { display: block; font-size: 0.9em; }
 
-table.list tbody tr.group td { padding: 0.8em 0 0.5em 0.3em; font-weight: bold; border-bottom: 1px solid #ccc; }
+table.list tbody tr.group td { padding: 0.8em 0 0.5em 0.3em; font-weight: bold; border-bottom: 1px solid #ccc; text-align:left; }
 table.list tbody tr.group span.count {position:relative; top:-1px; color:#fff; font-size:10px; background:#9DB9D5; padding:0px 6px 1px 6px; border-radius:3px; margin-left:4px;}
 tr.group a.toggle-all { color: #aaa; font-size: 80%; font-weight: normal; display:none;}
 tr.group:hover a.toggle-all { display:inline;}
@@ -245,10 +250,11 @@ table.attributes th { vertical-align: top; text-align: left; }
 table.attributes td { vertical-align: top; }
 
 table.boards a.board, h3.comments { background: url(../images/comment.png) no-repeat 0% 50%; padding-left: 20px; }
-table.boards td.topic-count, table.boards td.message-count {text-align:center;}
-table.boards td.last-message {font-size:80%;}
+table.boards td.last-message {text-align:left;font-size:80%;}
 
-table.messages td.author, table.messages td.created_on, table.messages td.reply-count {text-align:center;}
+table.messages td.last_message {text-align:left;}
+
+#query_form_content {font-size:90%;}
 
 table.query-columns {
   border-collapse: collapse;
@@ -259,6 +265,7 @@ table.query-columns td.buttons {
   vertical-align: middle;
   text-align: center;
 }
+table.query-columns td.buttons input[type=button] {width:35px;}
 
 td.center {text-align:center;}
 
@@ -315,7 +322,7 @@ legend {color: #484848;}
 hr { width: 100%; height: 1px; background: #ccc; border: 0;}
 blockquote { font-style: italic; border-left: 3px solid #e0e0e0; padding-left: 0.6em; margin-left: 2.4em;}
 blockquote blockquote { margin-left: 0;}
-acronym  { border-bottom: 1px dotted; cursor: help; }
+abbr  { border-bottom: 1px dotted; cursor: help; }
 textarea.wiki-edit {width:99%; resize:vertical;}
 li p {margin-top: 0;}
 div.issue {background:#ffffdd; padding:6px; margin-bottom:6px;border: 1px solid #d7d7d7;}
@@ -336,7 +343,7 @@ div.issue table.attributes td {width:28%;}
 #issue_tree td.checkbox, #relations td.checkbox {display:none;}
 #relations td.buttons {padding:0;}
 
-fieldset.collapsible { border-width: 1px 0 0 0; font-size: 0.9em; }
+fieldset.collapsible {border-width: 1px 0 0 0;}
 fieldset.collapsible>legend { padding-left: 16px; background: url(../images/arrow_expanded.png) no-repeat 0% 40%; cursor:pointer; }
 fieldset.collapsible.collapsed>legend { background-image: url(../images/arrow_collapsed.png); }
 
@@ -433,7 +440,7 @@ ul.projects li {list-style-type:none;}
 #projects-index ul.projects div.root a.project { font-family: "Trebuchet MS", Verdana, sans-serif; font-weight: bold; font-size: 16px; margin: 0 0 10px 0; }
 .my-project { padding-left: 18px; background: url(../images/fav.png) no-repeat 0 50%; }
 
-#notified-projects ul, #tracker_project_ids ul {max-height:250px; overflow-y:auto;}
+#notified-projects>ul, #tracker_project_ids>ul, #custom_field_project_ids>ul {max-height:250px; overflow-y:auto;}
 
 #related-issues li img {vertical-align:middle;}
 
@@ -449,12 +456,14 @@ ul.properties li span {font-style:italic;}
 
 #workflow_copy_form select { width: 200px; }
 table.transitions td.enabled {background: #bfb;}
-table.fields_permissions select {font-size:90%}
+#workflow_form table select {font-size:90%; max-width:100px;}
 table.fields_permissions td.readonly {background:#ddd;}
 table.fields_permissions td.required {background:#d88;}
 
-textarea#custom_field_possible_values {width: 99%}
-textarea#custom_field_default_value {width: 99%}
+select.expandable {vertical-align:top;}
+
+textarea#custom_field_possible_values {width: 95%; resize:vertical}
+textarea#custom_field_default_value {width: 95%; resize:vertical}
 
 input#content_comments {width: 99%}
 
@@ -470,6 +479,10 @@ p.pagination {margin-top:8px; font-size: 90%}
 }
 
 html>body .tabular p {overflow:hidden;}
+
+.tabular input, .tabular select {max-width:95%}
+.tabular textarea {width:95%; resize:vertical;}
+.tabular span[title] {border-bottom:1px dotted #aaa;}
 
 .tabular label{
   font-weight: bold;
@@ -494,7 +507,7 @@ html>body .tabular p {overflow:hidden;}
   text-align: left;
   float: none;
   display: block;
-  width: auto;
+  width: auto !important;
 }
 
 .tabular label.inline{
@@ -528,6 +541,27 @@ fieldset#notified_events .parent { padding-left: 20px; }
 span.required {color: #bb0000;}
 .summary {font-style: italic;}
 
+.check_box_group {
+  display:block;
+  width:95%;
+  max-height:300px;
+  overflow-y:auto;
+  padding:2px 4px 4px 2px;
+  background:#fff;
+  border:1px solid #9EB1C2;
+  border-radius:2px
+}
+.check_box_group label {
+  font-weight: normal;
+  margin-left: 0px !important;
+  text-align: left;
+  float: none;
+  display: block;
+  width: auto;
+}
+.check_box_group.bool_cf {border:0; background:inherit;}
+.check_box_group.bool_cf label {display: inline;}
+
 #attachments_fields input.description {margin-left:4px; width:340px;}
 #attachments_fields span {display:block; white-space:nowrap;}
 #attachments_fields input.filename {border:0; height:1.8em; width:250px; color:#555; background-color:inherit; background:url(../images/attachment.png) no-repeat 1px 50%; padding-left:18px;}
@@ -556,7 +590,9 @@ a.atom { background: url(../images/feed.png) no-repeat 1px 50%; padding: 2px 0px
 em.info {font-style:normal;font-size:90%;color:#888;display:block;}
 em.info.error {padding-left:20px; background:url(../images/exclamation.png) no-repeat 0 50%;}
 
-textarea.text_cf {width:90%;}
+textarea.text_cf {width:95%; resize:vertical;}
+input.string_cf, input.link_cf {width:95%;}
+select.bool_cf {width:auto !important;}
 
 #tab-content-modules fieldset p {margin:3px 0 4px 0;}
 
@@ -577,12 +613,14 @@ table.members td.group { padding-left: 20px; background: url(../images/group.png
 input#principal_search, input#user_search {width:90%}
 
 input.autocomplete {
-  background: #fff url(../images/magnifier.png) no-repeat 2px 50%; padding-left:20px;
+  background: #fff url(../images/magnifier.png) no-repeat 2px 50%; padding-left:20px !important;
   border:1px solid #9EB1C2; border-radius:2px; height:1.5em;
 }
 input.autocomplete.ajax-loading {
   background-image: url(../images/loading.gif);
 }
+
+.role-visibility {padding-left:2em;}
 
 /***** Flash & error messages ****/
 #errorExplanation, div.flash, .nodata, .warning, .conflict {
@@ -852,7 +890,7 @@ a.wiki-anchor { display: none; margin-left: 6px; text-decoration: none; }
 a.wiki-anchor:hover { color: #aaa !important; text-decoration: none; }
 h1:hover a.wiki-anchor, h2:hover a.wiki-anchor, h3:hover a.wiki-anchor { display: inline; color: #ddd; }
 
-div.wiki img { vertical-align: middle; }
+div.wiki img {vertical-align:middle; max-width:100%;}
 
 /***** My page layout *****/
 .block-receiver {

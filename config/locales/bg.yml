@@ -51,8 +51,8 @@ bg:
         one:   "около 1 час"
         other: "около %{count} часа"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 час"
+        other: "%{count} часа"
       x_days:
         one:   "1 ден"
         other: "%{count} дена"
@@ -130,6 +130,7 @@ bg:
         not_same_project: "не е от същия проект"
         circular_dependency: "Тази релация ще доведе до безкрайна зависимост"
         cant_link_an_issue_with_a_descendant: "Една задача не може да бъде свързвана към своя подзадача"
+        earlier_than_minimum_start_date: "не може да бъде по-рано от %{date} поради предхождащи задачи"
 
   actionview_instancetag_blank_option: Изберете
 
@@ -148,11 +149,15 @@ bg:
   notice_account_invalid_creditentials: Невалиден потребител или парола.
   notice_account_password_updated: Паролата е успешно променена.
   notice_account_wrong_password: Грешна парола
-  notice_account_register_done: Профилът е създаден успешно.
+  notice_account_register_done: Профилът е създаден успешно. E-mail, съдържащ инструкции за активиране на профила
+    е изпратен на %{email}.
   notice_account_unknown_email: Непознат e-mail.
+  notice_account_not_activated_yet: Вие не сте активирали вашия профил все още. Ако искате да
+    получите нов e-mail за активиране, моля <a href="%{url}">натиснете тази връзка</a>.
+  notice_account_locked: Вашият профил е блокиран.
   notice_can_t_change_password: Този профил е с външен метод за оторизация. Невъзможна смяна на паролата.
   notice_account_lost_email_sent: Изпратен ви е e-mail с инструкции за избор на нова парола.
-  notice_account_activated: Профилът ви е активиран. Вече може да влезете в системата.
+  notice_account_activated: Профилът ви е активиран. Вече може да влезете в Redmine.
   notice_successful_create: Успешно създаване.
   notice_successful_update: Успешно обновяване.
   notice_successful_delete: Успешно изтриване.
@@ -179,6 +184,7 @@ bg:
   notice_issue_update_conflict: Задачата е била променена от друг потребител, докато вие сте я редактирали.
   notice_account_deleted: Вашият профил беше премахнат без възможност за възстановяване.
   notice_user_successful_create: Потребител %{id} е създаден.
+  notice_new_password_must_be_different: Новата парола трябва да бъде различна от сегашната парола
 
   error_can_t_load_default_data: "Грешка при зареждане на началната информация: %{value}"
   error_scm_not_found: Несъществуващ обект в хранилището.
@@ -333,12 +339,13 @@ bg:
   field_private_notes: Лични бележки
   field_inherit_members: Наследяване на членовете на родителския проект
   field_generate_password: Генериране на парола
+  field_must_change_passwd: Паролата трябва да бъде сменена при следващото влизане в Redmine
 
   setting_app_title: Заглавие
   setting_app_subtitle: Описание
   setting_welcome_text: Допълнителен текст
   setting_default_language: Език по подразбиране
-  setting_login_required: Изискване за вход в системата
+  setting_login_required: Изискване за вход в Redmine
   setting_self_registration: Регистрация от потребители
   setting_attachment_max_size: Максимална големина на прикачен файл
   setting_issues_export_limit: Максимален брой задачи за експорт
@@ -403,6 +410,9 @@ bg:
   setting_non_working_week_days: Не работни дни
   setting_jsonp_enabled: Разрешаване на поддръжка на JSONP
   setting_default_projects_tracker_ids: Тракери по подразбиране за нови проекти
+  setting_mail_handler_excluded_filenames: Имена на прикачени файлове, които да се пропускат при приемане на e-mail-и (например *.vcf, companylogo.gif).
+  setting_force_default_language_for_anonymous: Задължително език по подразбиране за анонимните потребители
+  setting_force_default_language_for_loggedin: Задължително език по подразбиране за потребителите, влезли в Redmine
 
   permission_add_project: Създаване на проект
   permission_add_subprojects: Създаване на подпроекти
@@ -501,6 +511,7 @@ bg:
   label_issue_updated: Обновена задача
   label_issue_note_added: Добавена бележка
   label_issue_status_updated: Обновено състояние
+  label_issue_assigned_to_updated: Задачата е с назначен нов изпълнител
   label_issue_priority_updated: Обновен приоритет
   label_document: Документ
   label_document_new: Нов документ
@@ -883,6 +894,7 @@ bg:
   label_fields_permissions: Видимост на полетата
   label_readonly: Само за четене
   label_required: Задължително
+  label_hidden: Скрит
   label_attribute_of_project: Project's %{name}
   label_attribute_of_issue: Issue's %{name}
   label_attribute_of_author: Author's %{name}
@@ -894,6 +906,15 @@ bg:
   label_cross_project_hierarchy: С проектна йерархия
   label_cross_project_system: С всички проекти
   label_gantt_progress_line: Линия на изпълнението
+  label_visibility_private: лични (само за мен)
+  label_visibility_roles: само за тези роли
+  label_visibility_public: за всички потребители
+  label_link: Връзка
+  label_only: само
+  label_drop_down_list: drop-down списък
+  label_checkboxes: чек-бокс
+  label_link_values_to: URL (опция)
+  label_custom_field_select_type: "Изберете тип на обект, към който потребителското поле да бъде асоциирано"
 
   button_login: Вход
   button_submit: Изпращане
@@ -1005,6 +1026,7 @@ bg:
   text_file_repository_writable: Възможност за писане в хранилището с файлове
   text_plugin_assets_writable: Папката на приставките е разрешена за запис
   text_rmagick_available: Наличен RMagick (по избор)
+  text_convert_available: Наличен ImageMagick convert (по избор)
   text_destroy_time_entries_question: "%{hours} часа са отделени на задачите, които искате да изтриете. Какво избирате?"
   text_destroy_time_entries: Изтриване на отделеното време
   text_assign_time_entries_to_project: Прехвърляне на отделеното време към проект

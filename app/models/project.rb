@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -39,7 +39,7 @@ class Project < ActiveRecord::Base
   has_many :issues, :dependent => :destroy, :include => [:status, :tracker]
   has_many :issue_changes, :through => :issues, :source => :journals
   has_many :versions, :dependent => :destroy, :order => "#{Version.table_name}.effective_date DESC, #{Version.table_name}.name DESC"
-  has_many :time_entries, :dependent => :delete_all
+  has_many :time_entries, :dependent => :destroy
   has_many :queries, :class_name => 'IssueQuery', :dependent => :delete_all
   has_many :documents, :dependent => :destroy
   has_many :news, :dependent => :destroy, :include => :author
@@ -56,7 +56,7 @@ class Project < ActiveRecord::Base
                           :join_table => "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
                           :association_foreign_key => 'custom_field_id'
 
-  acts_as_nested_set :order => 'name', :dependent => :destroy
+  acts_as_nested_set :dependent => :destroy
   acts_as_attachable :view_permission => :view_files,
                      :delete_permission => :manage_files
 
@@ -186,7 +186,7 @@ class Project < ActiveRecord::Base
     else
       statement_by_role = {}
       unless options[:member]
-        role = user.logged? ? Role.non_member : Role.anonymous
+        role = user.builtin_role
         if role.allowed_to?(permission)
           statement_by_role[role] = "#{Project.table_name}.is_public = #{connection.quoted_true}"
         end
@@ -249,18 +249,17 @@ class Project < ActiveRecord::Base
   # does not successfully save.
   def create_time_entry_activity_if_needed(activity)
     if activity['parent_id']
-
       parent_activity = TimeEntryActivity.find(activity['parent_id'])
       activity['name'] = parent_activity.name
       activity['position'] = parent_activity.position
-
       if Enumeration.overridding_change?(activity, parent_activity)
         project_activity = self.time_entry_activities.create(activity)
-
         if project_activity.new_record?
           raise ActiveRecord::Rollback, "Overridding TimeEntryActivity was not successfully saved"
         else
-          self.time_entries.update_all("activity_id = #{project_activity.id}", ["activity_id = ?", parent_activity.id])
+          self.time_entries.
+            where(["activity_id = ?", parent_activity.id]).
+            update_all("activity_id = #{project_activity.id}")
         end
       end
     end
@@ -422,6 +421,7 @@ class Project < ActiveRecord::Base
     transaction do
       update_all "lft = NULL, rgt = NULL"
       rebuild!(false)
+      all.each { |p| p.set_or_update_position_under(p.parent) }
     end
   end
 
@@ -440,7 +440,7 @@ class Project < ActiveRecord::Base
   # Closes open and locked project versions that are completed
   def close_completed_versions
     Version.transaction do
-      versions.where(:status => %w(open locked)).all.each do |version|
+      versions.where(:status => %w(open locked)).each do |version|
         if version.completed?
           version.update_attribute(:status, 'closed')
         end
@@ -480,7 +480,7 @@ class Project < ActiveRecord::Base
 
   # Returns a hash of project users grouped by role
   def users_by_role
-    members.includes(:user, :roles).all.inject({}) do |h, m|
+    members.includes(:user, :roles).inject({}) do |h, m|
       m.roles.each do |r|
         h[r] ||= []
         h[r] << m.user
@@ -513,10 +513,14 @@ class Project < ActiveRecord::Base
     members.select {|m| m.principal.present? && (m.mail_notification? || m.principal.mail_notification == 'all')}.collect {|m| m.principal}
   end
 
-  # Returns an array of all custom fields enabled for project issues
+  # Returns a scope of all custom fields enabled for project issues
   # (explictly associated custom fields and custom fields enabled for all projects)
   def all_issue_custom_fields
-    @all_issue_custom_fields ||= (IssueCustomField.for_all + issue_custom_fields).uniq.sort
+    @all_issue_custom_fields ||= IssueCustomField.
+      sorted.
+      where("is_for_all = ? OR id IN (SELECT DISTINCT cfp.custom_field_id" +
+        " FROM #{table_name_prefix}custom_fields_projects#{table_name_suffix} cfp" +
+        " WHERE cfp.project_id = ?)", true, id)
   end
 
   # Returns an array of all custom fields enabled for project time entries
@@ -618,9 +622,16 @@ class Project < ActiveRecord::Base
     end
   end
 
-  def module_enabled?(module_name)
-    module_name = module_name.to_s
-    enabled_modules.detect {|m| m.name == module_name}
+  # Return the enabled module with the given name
+  # or nil if the module is not enabled for the project
+  def enabled_module(name)
+    name = name.to_s
+    enabled_modules.detect {|m| m.name == name}
+  end
+
+  # Return true if the module with the given name is enabled
+  def module_enabled?(name)
+    enabled_module(name).present?
   end
 
   def enabled_module_names=(module_names)
@@ -684,7 +695,7 @@ class Project < ActiveRecord::Base
 
   # Returns an auto-generated project identifier based on the last identifier used
   def self.next_identifier
-    p = Project.order('created_on DESC').first
+    p = Project.order('id DESC').first
     p.nil? ? nil : p.identifier.to_s.succ
   end
 
@@ -847,7 +858,7 @@ class Project < ActiveRecord::Base
 
     # Get issues sorted by root_id, lft so that parent issues
     # get copied before their children
-    project.issues.reorder('root_id, lft').all.each do |issue|
+    project.issues.reorder('root_id, lft').each do |issue|
       new_issue = Issue.new
       new_issue.copy_from(issue, :subtasks => false, :link => false)
       new_issue.project = self
@@ -957,7 +968,7 @@ class Project < ActiveRecord::Base
 
   def allowed_permissions
     @allowed_permissions ||= begin
-      module_names = enabled_modules.pluck(:name)
+      module_names = enabled_modules.loaded? ? enabled_modules.map(&:name) : enabled_modules.pluck(:name)
       Redmine::AccessControl.modules_permissions(module_names).collect {|p| p.name}
     end
   end
@@ -991,15 +1002,15 @@ class Project < ActiveRecord::Base
 
   # Returns the systemwide active activities merged with the project specific overrides
   def system_activities_and_project_overrides(include_inactive=false)
-    if include_inactive
-      return TimeEntryActivity.shared.
-        where("id NOT IN (?)", self.time_entry_activities.collect(&:parent_id)).all +
-        self.time_entry_activities
-    else
-      return TimeEntryActivity.shared.active.
-        where("id NOT IN (?)", self.time_entry_activities.collect(&:parent_id)).all +
-        self.time_entry_activities.active
+    t = TimeEntryActivity.table_name
+    scope = TimeEntryActivity.where(
+      "(#{t}.project_id IS NULL AND #{t}.id NOT IN (?)) OR (#{t}.project_id = ?)",
+      time_entry_activities.map(&:parent_id), id
+    )
+    unless include_inactive
+      scope = scope.active
     end
+    scope
   end
 
   # Archives subprojects recursively
@@ -1013,6 +1024,8 @@ class Project < ActiveRecord::Base
   def update_position_under_parent
     set_or_update_position_under(parent)
   end
+
+  public
 
   # Inserts/moves the project so that target's children or root projects stay alphabetically sorted
   def set_or_update_position_under(target_parent)

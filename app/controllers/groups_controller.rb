@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -90,7 +90,7 @@ class GroupsController < ApplicationController
   end
 
   def add_users
-    @users = User.find_all_by_id(params[:user_id] || params[:user_ids])
+    @users = User.where(:id => (params[:user_id] || params[:user_ids])).all
     @group.users << @users if request.post?
     respond_to do |format|
       format.html { redirect_to edit_group_path(@group, :tab => 'users') }

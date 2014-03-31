@@ -1,4 +1,4 @@
-<h2><%= link_to l(:label_group_plural), groups_path %> &#187; <%= l(:label_group_new) %></h2>
+<%= title [l(:label_group_plural), groups_path], l(:label_group_new) %>
 
 <%= labelled_form_for @group do |f| %>
 <%= render :partial => 'form', :locals => { :f => f } %>

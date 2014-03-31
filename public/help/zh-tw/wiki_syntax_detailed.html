@@ -1,0 +1,287 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>RedmineWikiFormatting</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<style type="text/css">
+    body { font:80% Verdana,Tahoma,Arial,sans-serif; }
+    h1, h2, h3, h4 {  font-family: Trebuchet MS,Georgia,"Times New Roman",serif; }
+    pre, code { font-size:120%; }
+    pre code { font-size:100%; }
+    pre {
+        margin: 1em 1em 1em 1.6em;
+        padding: 2px;
+        background-color: #fafafa;
+        border: 1px solid #dadada;
+        width:95%;
+        overflow-x: auto;
+    }
+    a.new { color: #b73535; }
+
+    .syntaxhl .line-numbers { padding: 2px 4px 2px 4px; background-color: #eee; margin:0 }
+    .syntaxhl .comment  { color:#666; }
+
+    .syntaxhl .class { color:#B06; font-weight:bold }
+    .syntaxhl .delimiter { color:black }
+    .syntaxhl .function { color:#06B; font-weight:bold }
+
+    .syntaxhl .inline { background: #eee }
+    .syntaxhl .inline .inline-delimiter { font-weight: bold; color: #888 }
+
+    .syntaxhl .instance-variable { color:#33B }
+    .syntaxhl .reserved { color:#080; font-weight:bold }
+
+    .syntaxhl .string { background-color:#fff0f0; color: #D20; }
+    .syntaxhl .string .delimiter { color:#710 }
+
+</style>
+</head>
+
+<body>
+<h1><a name="1" class="wiki-page"></a>Wiki 格式設定</h1>
+
+    <h2><a name="2" class="wiki-page"></a>連結</h2>
+
+        <h3><a name="3" class="wiki-page"></a>Redmine 連結</h3>
+
+        <p>在任何可以使用 Wiki 格式設定的地方， Redmine 都允許在資源（問題、變更集、 Wiki 頁面...）間建立超連結。</p>
+        <ul>
+            <li>連結至一個問題： <strong>#124</strong> (若該問題已經結束，則使用刪除線顯示連結： <del><a href="#" class="issue" title="bulk edit doesn't change the category or fixed version properties (Closed)">#124</a></del>)</li>
+            <li>連結至一個問題的筆記： <strong>#124-6</strong>, or <strong>#124#note-6</strong></li>
+        </ul>
+
+        <p>Wiki 連結：</p>
+
+        <ul>
+            <li><strong>[[Guide]]</strong> 顯示一個頁面名稱為 'Guide' 的連結： <a href="#" class="wiki-page">Guide</a></li>
+            <li><strong>[[Guide#further-reading]]</strong> 會連結至一個 "further-reading" 的 HTML 錨定 (anchor) 。每個標題文字都會被自動指定一個 HTML 錨定，以便您可以用來連結它們： <a href="#" class="wiki-page">Guide</a></li>
+            <li><strong>[[Guide|User manual]]</strong> 使用不同的文字來顯示一個頁面名稱為 'Guide' 的連結： <a href="#" class="wiki-page">User manual</a></li>
+        </ul>
+
+        <p>您也可以連結至其他專案的 Wiki 頁面：</p>
+
+        <ul>
+            <li><strong>[[sandbox:some page]]</strong> 顯示一個 Sanbox wiki 中頁面名稱為 'Some page' 的連結</li>
+            <li><strong>[[sandbox:]]</strong> 顯示 Sandbox wiki 首頁頁面的連結</li>
+        </ul>
+
+        <p>當頁面不存在的時候， Wiki 連結會以紅色的方式顯示，例如： <a href="#" class="wiki-page new">Nonexistent page</a>.</p>
+
+        <p>連結至其他資源：</p>
+
+        <ul>
+            <li>文件：
+                <ul>
+                    <li><strong>document#17</strong> (連結到編號為 17 的文件)</li>
+                    <li><strong>document:Greetings</strong> (連結至文件標題為 "Greetings" 的文件)</li>
+                    <li><strong>document:"Some document"</strong> (文件標題包含空白字元時可以使用雙引號來標示)</li>
+                    <li><strong>sandbox:document:"Some document"</strong> (連結至另外一個 "sandbox" 專案中，文件標題為 "Some document" 的文件)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>版本：
+                <ul>
+                    <li><strong>version#3</strong> (連結至編號為 3 的版本)</li>
+                    <li><strong>version:1.0.0</strong> (連結至名稱為 "1.0.0" 的版本)</li>
+                    <li><strong>version:"1.0 beta 2"</strong> (版本名稱包含空白字元時可以使用雙引號來標示)</li>
+                    <li><strong>sandbox:version:1.0.0</strong> (連結至 "sandbox" 專案中，名稱為 "1.0.0" 的版本)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>附加檔案：
+                <ul>
+                    <li><strong>attachment:file.zip</strong> (連結至目前物件中，名稱為 file.zip 的附加檔案)</li>
+                    <li>目前僅提供參考到目前物件中的附加檔案 (若您正位於一個問題中，僅可參考位於此問題中之附加檔案)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>變更集：
+                <ul>
+                    <li><strong>r758</strong>                       (連結至一個變更集)</li>
+                    <li><strong>commit:c6f4d0fd</strong>            (連結至一個使用非數字雜湊的變更集)</li>
+                    <li><strong>svn1|r758</strong>                  (連結至指定儲存機制中之變更集，用於專案使用多個儲存機制時之情況)</li>
+                    <li><strong>commit:hg|c6f4d0fd</strong>         (連結至指定儲存機制中，使用非數字雜湊的變更集)</li>
+                    <li><strong>sandbox:r758</strong>               (連結至其他專案的變更集)</li>
+                    <li><strong>sandbox:commit:c6f4d0fd</strong>    (連結至其他專案中，使用非數字雜湊的變更集)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+             <li>儲存機制中之檔案：
+                <ul>
+                    <li><strong>source:some/file</strong>           (連結至專案儲存機制中，位於 /some/file 的檔案)</li>
+                    <li><strong>source:some/file@52</strong>        (連結至此檔案的 52 版次)</li>
+                    <li><strong>source:some/file#L120</strong>      (連結至此檔案的第 120 行)</li>
+                    <li><strong>source:some/file@52#L120</strong>   (連結至此檔案的 52 版刺中之第 120 行)</li>
+                    <li><strong>source:"some file@52#L120"</strong> (當 URL 中包含空白字元時，使用雙引號來標示)</li>
+                    <li><strong>export:some/file</strong>           (強制下載此檔案)</li>
+                    <li><strong>source:svn1|some/file</strong>      (連結至指定儲存機制中的此檔案，用於專案使用多個儲存機制時之情況)</li>
+                    <li><strong>sandbox:source:some/file</strong>   (連結至 "sandbox" 專案的儲存機制中，位於 /some/file 的檔案)</li>
+                    <li><strong>sandbox:export:some/file</strong>   (強迫下載該檔案)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>論壇訊息：
+                <ul>
+                    <li><strong>message#1218</strong> (連結至編號 1218 的訊息)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>專案：
+                <ul>
+                    <li><strong>project#3</strong> (連結至編號為 3 的專案)</li>
+                    <li><strong>project:someproject</strong> (連結至名稱為 "someproject" 的專案)</li>
+                </ul></li>
+        </ul>
+
+
+        <p>逸出字元：</p>
+
+        <ul>
+            <li>您可以在文字的前面加上驚嘆號 (!) 來避免該文字被剖析成 Remine 連結</li>
+        </ul>
+
+
+        <h3><a name="4" class="wiki-page"></a>外部連結</h3>
+
+        <p>HTTP URLs 與電子郵件地址會自動被轉換成可被點擊的連結：</p>
+
+<pre>
+http://www.redmine.org, someone@foo.bar
+</pre>
+
+        <p>顯示為： <a class="external" href="http://www.redmine.org">http://www.redmine.org</a>, <a href="mailto:someone@foo.bar" class="email">someone@foo.bar</a></p>
+
+        <p>若您想要顯示指定的文字而非該 URL ，您可以使用下列標準的 textile 語法:</p>
+
+<pre>
+"Redmine web site":http://www.redmine.org
+</pre>
+
+        <p>顯示為： <a href="http://www.redmine.org" class="external">Redmine web site</a></p>
+
+
+    <h2><a name="5" class="wiki-page"></a>文字格式設定</h2>
+
+
+    <p>對於諸如標題、粗體、表格、清單等項目， Redmine 支援使用 Textile 語法。可參考 <a class="external" href="http://en.wikipedia.org/wiki/Textile_%28markup_language%29">http://en.wikipedia.org/wiki/Textile_(markup_language)</a> 中關於使用這些格式化功能的說明資訊。 下面包含了一些使用範例，但格式化引擎的處理能力遠多於這些簡單的使用範例。</p>
+
+        <h3><a name="6" class="wiki-page"></a>字型樣式</h3>
+
+<pre>
+* *粗體*
+* _斜體_
+* _*粗斜體*_
+* +底線+
+* -刪除線-
+</pre>
+
+        <p>顯示為：</p>
+
+        <ul>
+            <li><strong>粗體</strong></li>
+            <li><em>斜體</em></li>
+            <li><em><strong>粗斜體</strong></em></li>
+            <li><ins>底線</ins></li>
+            <li><del>刪除線</del></li>
+        </ul>
+
+        <h3><a name="7" class="wiki-page"></a>內置圖像</h3>
+
+        <ul>
+            <li><strong>!圖像_url!</strong> 顯示一個位於 圖像_url 位址的圖像(textile 語法)</li>
+            <li><strong>!&gt;image_url!</strong> 右側浮動圖像</li>
+            <li>若您附加了一個圖像到 Wiki 頁面中，可以使用他的檔案名稱來顯示成內置圖像： <strong>!attached_image.png!</strong></li>
+        </ul>
+
+        <h3><a name="8" class="wiki-page"></a>標題</h3>
+
+<pre>
+h1. 標題
+h2. 次標題
+h3. 次次標題
+</pre>
+
+        <p>Redmine 為每一種標題指定一個 HTML 錨定 (anchor) ，因此您可使用 "#Heading" 、 "#Subheading" 等方式連結至這些標題。</p>
+
+
+        <h3><a name="9" class="wiki-page"></a>段落</h3>
+
+<pre>
+p&gt;. 靠右對齊
+p=. 置中對齊
+</pre>
+
+        <p style="text-align:center;">這是一個置中對齊的段落。</p>
+
+
+        <h3><a name="10" class="wiki-page"></a>引用文字</h3>
+
+        <p>使用 <strong>bq.</strong> 開始一個引文的段落</p>
+
+<pre>
+bq. Rails is a full-stack framework for developing database-backed web applications according to the Model-View-Control pattern.
+To go live, all you need to add is a database and a web server.
+</pre>
+
+        <p>顯示為：</p>
+
+        <blockquote>
+                <p>Rails is a full-stack framework for developing database-backed web applications according to the Model-View-Control pattern.<br />To go live, all you need to add is a database and a web server.</p>
+        </blockquote>
+
+
+        <h3><a name="11" class="wiki-page"></a>目錄</h3>
+
+<pre>
+{{toc}} =&gt; 靠左對齊目錄
+{{&gt;toc}} =&gt; 靠右對齊目錄
+</pre>
+
+        <h3><a name="14" class="wiki-page"></a>水平線</h3>
+
+<pre>
+---
+</pre>
+
+    <h2><a name="12" class="wiki-page"></a>巨集</h2>
+
+    <p>Redmine 內建下列巨集：</p>
+
+    <p><dl><dt><code>hello_world</code></dt><dd><p>範例巨集。</p></dd><dt><code>include</code></dt><dd><p>引入一個 wiki 頁面。例子：</p>
+
+    <pre><code>{{include(Foo)}}</code></pre></dd><dt><code>macro_list</code></dt><dd><p>顯示所有可用巨集的清單，若巨集有提供說明也會一併顯示。</p></dd></dl></p>
+
+
+    <h2><a name="13" class="wiki-page"></a>程式碼醒目提示</h2>
+
+    <p>預設使用 <a href="http://coderay.rubychan.de/" class="external">CodeRay</a> 作為程式碼醒目提示的機制，它是一個使用 Ruby 撰寫的語法醒目提示函式庫。它目前支援 c 、 cpp 、 css 、 delphi 、 groovy 、 html 、 java 、 javascript 、 json 、 php 、 python 、 rhtml 、 ruby 、 scheme 、 sql 、 xml 與 yaml 等程式語言。</p>
+
+    <p>您可以使用下列語法，在 Wiki 頁面中將程式碼標示為醒目提示：</p>
+
+<pre>
+&lt;pre&gt;&lt;code class="ruby"&gt;
+  將程式碼放在這裡。
+&lt;/code&gt;&lt;/pre&gt;
+</pre>
+
+    <p>例子：</p>
+
+<pre><code class="ruby syntaxhl"><span class="line-numbers"> 1</span> <span class="comment"># The Greeter class</span>
+<span class="line-numbers"> 2</span> <span class="reserved">class</span> <span class="class">Greeter</span>
+<span class="line-numbers"> 3</span>   <span class="reserved">def</span> <span class="function">initialize</span>(name)
+<span class="line-numbers"> 4</span>     <span class="instance-variable">@name</span> = name.capitalize
+<span class="line-numbers"> 5</span>   <span class="reserved">end</span>
+<span class="line-numbers"> 6</span>
+<span class="line-numbers"> 7</span>   <span class="reserved">def</span> <span class="function">salute</span>
+<span class="line-numbers"> 8</span>     puts <span class="string"><span class="delimiter">"</span><span class="content">Hello </span><span class="inline"><span class="inline-delimiter">#{</span><span class="instance-variable">@name</span><span class="inline-delimiter">}</span></span><span class="content">!</span><span class="delimiter">"</span></span>
+<span class="line-numbers"> 9</span>   <span class="reserved">end</span>
+<span class="line-numbers"><strong>10</strong></span> <span class="reserved">end</span></code>
+</pre>
+</body>
+</html>

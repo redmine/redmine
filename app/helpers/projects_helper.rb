@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,7 +20,7 @@
 module ProjectsHelper
   def link_to_version(version, options = {})
     return '' unless version && version.is_a?(Version)
-    link_to_if version.visible?, format_version_name(version), { :controller => 'versions', :action => 'show', :id => version }, options
+    link_to_if version.visible?, format_version_name(version), version_path(version), options
   end
 
   def project_settings_tabs
@@ -46,9 +46,24 @@ module ProjectsHelper
     end
 
     options = ''
-    options << "<option value=''></option>" if project.allowed_parents.include?(nil)
+    options << "<option value=''>&nbsp;</option>" if project.allowed_parents.include?(nil)
     options << project_tree_options_for_select(project.allowed_parents.compact, :selected => selected)
     content_tag('select', options.html_safe, :name => 'project[parent_id]', :id => 'project_parent_id')
+  end
+
+  def render_project_action_links
+    links = []
+    if User.current.allowed_to?(:add_project, nil, :global => true)
+      links << link_to(l(:label_project_new), new_project_path, :class => 'icon icon-add')
+    end
+    if User.current.allowed_to?(:view_issues, nil, :global => true)
+      links << link_to(l(:label_issue_view_all), issues_path)
+    end
+    if User.current.allowed_to?(:view_time_entries, nil, :global => true)
+      links << link_to(l(:label_overall_spent_time), time_entries_path)
+    end
+    links << link_to(l(:label_overall_activity), activity_path)
+    links.join(" | ").html_safe
   end
 
   # Renders the projects index

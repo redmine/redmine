@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -190,8 +190,7 @@ class SearchControllerTest < ActionController::TestCase
   end
 
   def test_search_content
-    Issue.update_all("description = 'This is a searchkeywordinthecontent'", "id=1")
-
+    Issue.where(:id => 1).update_all("description = 'This is a searchkeywordinthecontent'")
     get :index, :id => 1, :q => 'searchkeywordinthecontent', :titles_only => ''
     assert_equal false, assigns(:titles_only)
     results = assigns(:results)

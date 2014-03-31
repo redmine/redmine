@@ -3,6 +3,7 @@
             new_project_news_path(@project),
             :class => 'icon icon-add',
             :onclick => 'showAndScrollTo("add-news", "news_title"); return false;') if @project && User.current.allowed_to?(:manage_news, @project) %>
+<%= watcher_link(@project.enabled_module('news'), User.current) if @project && User.current.logged? %>
 </div>
 
 <div id="add-news" style="display:none;">

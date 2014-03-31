@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -33,7 +33,7 @@ class UserPreference < ActiveRecord::Base
   end
 
   def [](attr_name)
-    if attribute_present? attr_name
+    if has_attribute? attr_name
       super
     else
       others ? others[attr_name] : nil
@@ -41,7 +41,7 @@ class UserPreference < ActiveRecord::Base
   end
 
   def []=(attr_name, value)
-    if attribute_present? attr_name
+    if has_attribute? attr_name
       super
     else
       h = (read_attribute(:others) || {}).dup

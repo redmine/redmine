@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -79,17 +79,29 @@ module SettingsHelper
 
   def setting_label(setting, options={})
     label = options.delete(:label)
-    label != false ? label_tag("settings_#{setting}", l(label || "setting_#{setting}")).html_safe : ''
+    label != false ? label_tag("settings_#{setting}", l(label || "setting_#{setting}"), options[:label_options]).html_safe : ''
   end
 
   # Renders a notification field for a Redmine::Notifiable option
   def notification_field(notifiable)
-    return content_tag(:label,
-                       check_box_tag('settings[notified_events][]',
-                                     notifiable.name,
-                                     Setting.notified_events.include?(notifiable.name), :id => nil).html_safe +
-                         l_or_humanize(notifiable.name, :prefix => 'label_').html_safe,
-                       :class => notifiable.parent.present? ? "parent" : '').html_safe
+    tag_data = notifiable.parent.present? ?
+      {:parent_notifiable => notifiable.parent} :
+      {:disables => "input[data-parent-notifiable=#{notifiable.name}]"}
+
+    tag = check_box_tag('settings[notified_events][]',
+      notifiable.name,
+      Setting.notified_events.include?(notifiable.name),
+      :id => nil,
+      :data => tag_data)
+
+    text = l_or_humanize(notifiable.name, :prefix => 'label_')
+
+    options = {}
+    if notifiable.parent.present?
+      options[:class] = "parent"
+    end
+
+    content_tag(:label, tag + text, options)
   end
 
   def cross_project_subtasks_options

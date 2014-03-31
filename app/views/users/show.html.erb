@@ -40,7 +40,7 @@
                 :from => @events_by_day.keys.first %></h3>
 
 <p>
-<%=l(:label_reported_issues)%>: <%= Issue.count(:conditions => ["author_id=?", @user.id]) %>
+<%=l(:label_reported_issues)%>: <%= Issue.where(:author_id => @user.id).count %>
 </p>
 
 <div id="activity">

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -52,6 +52,7 @@ class Role < ActiveRecord::Base
       WorkflowRule.copy(nil, source_role, nil, proxy_association.owner)
     end
   end
+  has_and_belongs_to_many :custom_fields, :join_table => "#{table_name_prefix}custom_fields_roles#{table_name_suffix}", :foreign_key => "role_id"
 
   has_many :member_roles, :dependent => :destroy
   has_many :members, :through => :member_roles

@@ -1,6 +1,4 @@
-<%= render :partial => 'action_menu' %>
-
-<h2><%=l(:label_workflow)%></h2>
+<%= title [l(:label_workflow), workflows_edit_path], l(:field_summary) %>
 
 <% if @workflow_counts.empty? %>
 <p class="nodata"><%= l(:label_no_data) %></p>
@@ -21,9 +19,9 @@
 <tbody>
 <% @workflow_counts.each do |tracker, roles| -%>
 <tr class="<%= cycle('odd', 'even') %>">
-  <td><%= h tracker %></td>
+  <td class="name"><%= h tracker %></td>
   <% roles.each do |role, count| -%>
-    <td align="center">
+    <td>
       <%= link_to((count > 0 ? count : image_tag('false.png')), {:action => 'edit', :role_id => role, :tracker_id => tracker}, :title => l(:button_edit)) %>
     </td>
   <% end -%>

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -37,7 +37,7 @@ class ContextMenusControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     get :issues, :ids => [1]
     assert_response :success
-    assert_template 'context_menu'
+    assert_template 'context_menus/issues'
 
     assert_select 'a.icon-edit[href=?]', '/issues/1/edit', :text => 'Edit'
     assert_select 'a.icon-copy[href=?]', '/projects/ecookbook/issues/1/copy', :text => 'Copy'
@@ -58,7 +58,7 @@ class ContextMenusControllerTest < ActionController::TestCase
   def test_context_menu_one_issue_by_anonymous
     get :issues, :ids => [1]
     assert_response :success
-    assert_template 'context_menu'
+    assert_template 'context_menus/issues'
     assert_tag :tag => 'a', :content => 'Delete',
                             :attributes => { :href => '#',
                                              :class => 'icon-del disabled' }
@@ -68,7 +68,7 @@ class ContextMenusControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     get :issues, :ids => [1, 2]
     assert_response :success
-    assert_template 'context_menu'
+    assert_template 'context_menus/issues'
     assert_not_nil assigns(:issues)
     assert_equal [1, 2], assigns(:issues).map(&:id).sort
 
@@ -87,7 +87,7 @@ class ContextMenusControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     get :issues, :ids => [1, 2, 6]
     assert_response :success
-    assert_template 'context_menu'
+    assert_template 'context_menus/issues'
     assert_not_nil assigns(:issues)
     assert_equal [1, 2, 6], assigns(:issues).map(&:id).sort
 
@@ -202,7 +202,7 @@ class ContextMenusControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     get :issues, :ids => [1]
     assert_response :success
-    assert_template 'context_menu'
+    assert_template 'context_menus/issues'
 
     assert_select 'a[href=?]', '/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bassigned_to_id%5D=2', :text => / me /
   end
@@ -213,17 +213,15 @@ class ContextMenusControllerTest < ActionController::TestCase
 
     get :issues, :ids => [1, 4]
     assert_response :success
-    assert_template 'context_menu'
+    assert_template 'context_menus/issues'
 
     assert_include version, assigns(:versions)
     assert_select 'a', :text => 'eCookbook - Shared'
   end
 
-  def test_context_menu_issue_visibility
-    get :issues, :ids => [1, 4]
-    assert_response :success
-    assert_template 'context_menu'
-    assert_equal [1], assigns(:issues).collect(&:id)
+  def test_context_menu_with_issue_that_is_not_visible_should_fail
+    get :issues, :ids => [1, 4] # issue 4 is not visible
+    assert_response 302
   end
 
   def test_should_respond_with_404_without_ids
@@ -235,7 +233,7 @@ class ContextMenusControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     get :time_entries, :ids => [1, 2]
     assert_response :success
-    assert_template 'time_entries'
+    assert_template 'context_menus/time_entries'
 
     assert_select 'a:not(.disabled)', :text => 'Edit'
   end
@@ -246,7 +244,7 @@ class ContextMenusControllerTest < ActionController::TestCase
     
     get :time_entries, :ids => [1, 2]
     assert_response :success
-    assert_template 'time_entries'
+    assert_template 'context_menus/time_entries'
     assert_select 'a.disabled', :text => 'Edit'
   end
 end

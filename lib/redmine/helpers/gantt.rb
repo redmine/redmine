@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -162,11 +162,12 @@ module Redmine
         ids = issues.collect(&:project).uniq.collect(&:id)
         if ids.any?
           # All issues projects and their visible ancestors
-          @projects = Project.visible.all(
-            :joins => "LEFT JOIN #{Project.table_name} child ON #{Project.table_name}.lft <= child.lft AND #{Project.table_name}.rgt >= child.rgt",
-            :conditions => ["child.id IN (?)", ids],
-            :order => "#{Project.table_name}.lft ASC"
-          ).uniq
+          @projects = Project.visible.
+            joins("LEFT JOIN #{Project.table_name} child ON #{Project.table_name}.lft <= child.lft AND #{Project.table_name}.rgt >= child.rgt").
+            where("child.id IN (?)", ids).
+            order("#{Project.table_name}.lft ASC").
+            uniq.
+            all
         else
           @projects = []
         end
@@ -310,9 +311,9 @@ module Redmine
           html_class << (version.behind_schedule? ? 'version-behind-schedule' : '') << " "
           html_class << (version.overdue? ? 'version-overdue' : '')
           html_class << ' version-closed' unless version.open?
-          if version.start_date && version.due_date && version.completed_pourcent
+          if version.start_date && version.due_date && version.completed_percent
             progress_date = calc_progress_date(version.start_date,
-                                               version.due_date, version.completed_pourcent)
+                                               version.due_date, version.completed_percent)
             html_class << ' behind-start-date' if progress_date < self.date_from
             html_class << ' over-end-date' if progress_date > self.date_to
           end
@@ -692,11 +693,7 @@ module Redmine
       end
 
       def self.sort_versions!(versions)
-        versions.sort! {|a, b| sort_version_logic(a) <=> sort_version_logic(b)}
-      end
-
-      def self.sort_version_logic(version)
-        [(version.start_date || Date.new()), version.id]
+        versions.sort!
       end
 
       def current_limit

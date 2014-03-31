@@ -1,12 +1,8 @@
 /* Redmine - project management software
-   Copyright (C) 2006-2013  Jean-Philippe Lang */
+   Copyright (C) 2006-2014  Jean-Philippe Lang */
 
 function checkAll(id, checked) {
-  if (checked) {
-    $('#'+id).find('input[type=checkbox]').attr('checked', true);
-  } else {
-    $('#'+id).find('input[type=checkbox]').removeAttr('checked');
-  }
+  $('#'+id).find('input[type=checkbox]:enabled').attr('checked', checked);
 }
 
 function toggleCheckboxesBySelector(selector) {
@@ -117,6 +113,7 @@ function buildFilterRow(field, operator, values) {
   var fieldId = field.replace('.', '_');
   var filterTable = $("#filters-table");
   var filterOptions = availableFilters[field];
+  if (!filterOptions) return;
   var operators = operatorByType[filterOptions['type']];
   var filterValues = filterOptions['values'];
   var i, select;
@@ -280,8 +277,13 @@ function toggleOperator(field) {
 function toggleMultiSelect(el) {
   if (el.attr('multiple')) {
     el.removeAttr('multiple');
+    el.attr('size', 1);
   } else {
     el.attr('multiple', true);
+    if (el.children().length > 10)
+      el.attr('size', 10);
+    else
+      el.attr('size', 4);
   }
 }
 
@@ -411,7 +413,7 @@ function expandScmEntry(id) {
 }
 
 function scmEntryClick(id, url) {
-    el = $('#'+id);
+    var el = $('#'+id);
     if (el.hasClass('open')) {
         collapseScmEntry(id);
         el.addClass('collapsed');
@@ -444,13 +446,27 @@ function randomKey(size) {
   return key;
 }
 
-// Can't use Rails' remote select because we need the form data
 function updateIssueFrom(url) {
+  $('#all_attributes input, #all_attributes textarea, #all_attributes select').each(function(){
+    $(this).data('valuebeforeupdate', $(this).val());
+  });
   $.ajax({
     url: url,
     type: 'post',
     data: $('#issue-form').serialize()
   });
+}
+
+function replaceIssueFormWith(html){
+  var replacement = $(html);
+  $('#all_attributes input, #all_attributes textarea, #all_attributes select').each(function(){
+    var object_id = $(this).attr('id');
+    if (object_id && $(this).data('valuebeforeupdate')!=$(this).val()) {
+      replacement.find('#'+object_id).val($(this).val());
+    }
+  });
+  $('#all_attributes').empty();
+  $('#all_attributes').prepend(replacement);
 }
 
 function updateBulkEditFrom(url) {
@@ -503,20 +519,6 @@ function observeSearchfield(fieldId, targetId, url) {
   });
 }
 
-function observeProjectModules() {
-  var f = function() {
-    /* Hides trackers and issues custom fields on the new project form when issue_tracking module is disabled */
-    if ($('#project_enabled_module_names_issue_tracking').attr('checked')) {
-      $('#project_trackers').show();
-    } else {
-      $('#project_trackers').hide();
-    }
-  };
-
-  $(window).load(f);
-  $('#project_enabled_module_names_issue_tracking').change(f);
-}
-
 function initMyPageSortable(list, url) {
   $('#list-'+list).sortable({
     connectWith: '.block-receiver',
@@ -535,10 +537,10 @@ function initMyPageSortable(list, url) {
 var warnLeavingUnsavedMessage;
 function warnLeavingUnsaved(message) {
   warnLeavingUnsavedMessage = message;
-  $('form').submit(function(){
+  $('form').live('submit', function(){
     $('textarea').removeData('changed');
   });
-  $('textarea').change(function(){
+  $('textarea').live('change', function(){
     $(this).data('changed', 'changed');
   });
   window.onbeforeunload = function(){
@@ -581,11 +583,32 @@ function addFormObserversForDoubleSubmit() {
   });
 }
 
+function defaultFocus(){
+  if ($('#content :focus').length == 0) {
+    $('#content input[type=text], #content textarea').first().focus();
+  }
+}
+
 function blockEventPropagation(event) {
   event.stopPropagation();
   event.preventDefault();
 }
 
+function toggleDisabledOnChange() {
+  var checked = $(this).is(':checked');
+  $($(this).data('disables')).attr('disabled', checked);
+  $($(this).data('enables')).attr('disabled', !checked);
+}
+function toggleDisabledInit() {
+  $('input[data-disables], input[data-enables]').each(toggleDisabledOnChange);
+}
+$(document).ready(function(){
+  $('#content').on('change', 'input[data-disables], input[data-enables]', toggleDisabledOnChange);
+  toggleDisabledInit();
+});
+
 $(document).ready(setupAjaxIndicator);
 $(document).ready(hideOnLoad);
 $(document).ready(addFormObserversForDoubleSubmit);
+$(document).ready(defaultFocus);
+

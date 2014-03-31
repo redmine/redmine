@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,8 +18,10 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class ProjectsControllerTest < ActionController::TestCase
-  fixtures :projects, :versions, :users, :roles, :members, :member_roles, :issues, :journals, :journal_details,
-           :trackers, :projects_trackers, :issue_statuses, :enabled_modules, :enumerations, :boards, :messages,
+  fixtures :projects, :versions, :users, :roles, :members,
+           :member_roles, :issues, :journals, :journal_details,
+           :trackers, :projects_trackers, :issue_statuses,
+           :enabled_modules, :enumerations, :boards, :messages,
            :attachments, :custom_fields, :custom_values, :time_entries
 
   def setup
@@ -51,7 +53,7 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'common/feed'
     assert_select 'feed>title', :text => 'Redmine: Latest projects'
-    assert_select 'feed>entry', :count => Project.count(:conditions => Project.visible_condition(User.current))
+    assert_select 'feed>entry', :count => Project.visible(User.current).count
   end
 
   test "#index by non-admin user with view_time_entries permission should show overall spent time link" do
@@ -209,7 +211,7 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_response :success
     project = assigns(:project)
     assert_kind_of Project, project
-    assert_not_nil project.errors[:parent_id]
+    assert_not_equal [], project.errors[:parent_id]
   end
 
   test "#create by non-admin user with add_subprojects permission should create a project with a parent_id" do
@@ -244,7 +246,7 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_response :success
     project = assigns(:project)
     assert_kind_of Project, project
-    assert_not_nil project.errors[:parent_id]
+    assert_not_equal [], project.errors[:parent_id]
   end
 
   test "#create by non-admin user with add_subprojects permission should fail with unauthorized parent_id" do
@@ -265,7 +267,7 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_response :success
     project = assigns(:project)
     assert_kind_of Project, project
-    assert_not_nil project.errors[:parent_id]
+    assert_not_equal [], project.errors[:parent_id]
   end
 
   def test_create_subproject_with_inherit_members_should_inherit_members
@@ -318,6 +320,16 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_equal Project.find_by_identifier('ecookbook'), assigns(:project)
 
     assert_select 'li', :text => /Development status/
+  end
+
+  def test_show_should_not_display_empty_sidebar
+    p = Project.find(1)
+    p.enabled_module_names = []
+    p.save!
+
+    get :show, :id => 'ecookbook'
+    assert_response :success
+    assert_select '#main.nosidebar'
   end
 
   def test_show_should_not_display_hidden_custom_fields
@@ -410,7 +422,7 @@ class ProjectsControllerTest < ActionController::TestCase
     post :update, :id => 1, :project => {:name => ''}
     assert_response :success
     assert_template 'settings'
-    assert_error_tag :content => /name can&#x27;t be blank/i
+    assert_error_tag :content => /name #{ESCAPED_CANT} be blank/i
   end
 
   def test_update_should_be_denied_for_member_on_closed_project
@@ -588,5 +600,10 @@ class ProjectsControllerTest < ActionController::TestCase
     get :show, :id => 3, :jump => 'foobar'
     assert_response :success
     assert_template 'show'
+  end
+
+  def test_body_should_have_project_css_class
+    get :show, :id => 1
+    assert_select 'body.project-ecookbook'
   end
 end

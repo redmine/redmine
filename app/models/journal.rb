@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -39,6 +39,7 @@ class Journal < ActiveRecord::Base
                                                              " (#{JournalDetail.table_name}.prop_key = 'status_id' OR #{Journal.table_name}.notes <> '')"}
 
   before_create :split_private_notes
+  after_create :send_notification
 
   scope :visible, lambda {|*args|
     user = args.shift || User.current
@@ -53,15 +54,46 @@ class Journal < ActiveRecord::Base
     (details.empty? && notes.blank?) ? false : super
   end
 
+  # Returns journal details that are visible to user
+  def visible_details(user=User.current)
+    details.select do |detail|
+      if detail.property == 'cf'
+        detail.custom_field && detail.custom_field.visible_by?(project, user)
+      elsif detail.property == 'relation'
+        Issue.find_by_id(detail.value || detail.old_value).try(:visible?, user)
+      else
+        true
+      end
+    end
+  end
+
+  def each_notification(users, &block)
+    if users.any?
+      users_by_details_visibility = users.group_by do |user|
+        visible_details(user)
+      end
+      users_by_details_visibility.each do |visible_details, users|
+        if notes? || visible_details.any?
+          yield(users)
+        end
+      end
+    end
+  end
+
+  # Returns the JournalDetail for the given attribute, or nil if the attribute
+  # was not updated
+  def detail_for_attribute(attribute)
+    details.detect {|detail| detail.prop_key == attribute}
+  end
+
   # Returns the new status if the journal contains a status change, otherwise nil
   def new_status
-    c = details.detect {|detail| detail.prop_key == 'status_id'}
-    (c && c.value) ? IssueStatus.find_by_id(c.value.to_i) : nil
+    s = new_value_for('status_id')
+    s ? IssueStatus.find_by_id(s.to_i) : nil
   end
 
   def new_value_for(prop)
-    c = details.detect {|detail| detail.prop_key == prop}
-    c ? c.value : nil
+    detail_for_attribute(prop).try(:value)
   end
 
   def editable_by?(usr)
@@ -93,20 +125,44 @@ class Journal < ActiveRecord::Base
     @notify = arg
   end
 
-  def recipients
+  def notified_users
     notified = journalized.notified_users
     if private_notes?
       notified = notified.select {|user| user.allowed_to?(:view_private_notes, journalized.project)}
     end
-    notified.map(&:mail)
+    notified
   end
 
-  def watcher_recipients
+  def recipients
+    notified_users.map(&:mail)
+  end
+
+  def notified_watchers
     notified = journalized.notified_watchers
     if private_notes?
       notified = notified.select {|user| user.allowed_to?(:view_private_notes, journalized.project)}
     end
-    notified.map(&:mail)
+    notified
+  end
+
+  def watcher_recipients
+    notified_watchers.map(&:mail)
+  end
+
+  # Sets @custom_field instance variable on journals details using a single query
+  def self.preload_journals_details_custom_fields(journals)
+    field_ids = journals.map(&:details).flatten.select {|d| d.property == 'cf'}.map(&:prop_key).uniq
+    if field_ids.any?
+      fields_by_id = CustomField.where(:id => field_ids).inject({}) {|h, f| h[f.id] = f; h}
+      journals.each do |journal|
+        journal.details.each do |detail|
+          if detail.property == 'cf'
+            detail.instance_variable_set "@custom_field", fields_by_id[detail.prop_key.to_i]
+          end
+        end
+      end
+    end
+    journals
   end
 
   private
@@ -128,5 +184,16 @@ class Journal < ActiveRecord::Base
       end
     end
     true
+  end
+
+  def send_notification
+    if notify? && (Setting.notified_events.include?('issue_updated') ||
+        (Setting.notified_events.include?('issue_note_added') && notes.present?) ||
+        (Setting.notified_events.include?('issue_status_updated') && new_status.present?) ||
+        (Setting.notified_events.include?('issue_assigned_to_updated') && detail_for_attribute('assigned_to_id').present?) ||
+        (Setting.notified_events.include?('issue_priority_updated') && new_value_for('priority_id').present?)
+      )
+      Mailer.deliver_issue_edit(self)
+    end
   end
 end

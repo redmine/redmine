@@ -3,7 +3,7 @@
 <% next if hours_for_value.empty? -%>
 <tr class="<%= cycle('odd', 'even') %> <%= criterias.length > level+1 ? 'subtotal' : 'last-level' %>">
 <%= ("<td></td>" * level).html_safe %>
-<td><%= h(format_criteria_value(@report.available_criteria[criterias[level]], value)) %></td>
+<td class="name"><%= h(format_criteria_value(@report.available_criteria[criterias[level]], value)) %></td>
 <%= ("<td></td>" * (criterias.length - level - 1)).html_safe -%>
   <% total = 0 -%>
   <% @report.periods.each do |period| -%>

@@ -25,7 +25,7 @@
 <td class="revision"><%= link_to_revision(entry.changeset, @repository) if entry.changeset %></td>
 <td class="age"><%= distance_of_time_in_words(entry.lastrev.time, Time.now) if entry.lastrev && entry.lastrev.time %></td>
 <td class="author"><%= entry.author %></td>
-<td class="comments"><%=h truncate(entry.changeset.comments, :length => 50) if entry.changeset %></td>
+<td class="comments"><%= entry.changeset.comments.truncate(50) if entry.changeset %></td>
 <% end %>
 </tr>
 <% end %>

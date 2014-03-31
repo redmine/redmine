@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -46,6 +46,14 @@ class MailHandler < ActionMailer::Base
     super(email)
   end
 
+  # Receives an email and rescues any exception
+  def self.safe_receive(*args)
+    receive(*args)
+  rescue => e
+    logger.error "An unexpected error occurred when receiving email: #{e.message}" if logger
+    return false
+  end
+
   # Extracts MailHandler options from environment variables
   # Use when receiving emails with rake tasks
   def self.extract_options_from_env(env)
@@ -76,7 +84,7 @@ class MailHandler < ActionMailer::Base
     sender_email = email.from.to_a.first.to_s.strip
     # Ignore emails received from the application emission address to avoid hell cycles
     if sender_email.downcase == Setting.mail_from.to_s.strip.downcase
-      if logger && logger.info
+      if logger
         logger.info  "MailHandler: ignoring email from Redmine emission address [#{sender_email}]"
       end
       return false
@@ -87,7 +95,7 @@ class MailHandler < ActionMailer::Base
       if value
         value = value.to_s.downcase
         if (ignored_value.is_a?(Regexp) && value.match(ignored_value)) || value == ignored_value
-          if logger && logger.info
+          if logger
             logger.info "MailHandler: ignoring email with #{key}:#{value} header"
           end
           return false
@@ -96,7 +104,7 @@ class MailHandler < ActionMailer::Base
     end
     @user = User.find_by_mail(sender_email) if sender_email.present?
     if @user && !@user.active?
-      if logger && logger.info
+      if logger
         logger.info  "MailHandler: ignoring email from non-active user [#{@user.login}]"
       end
       return false
@@ -109,7 +117,7 @@ class MailHandler < ActionMailer::Base
       when 'create'
         @user = create_user_from_email
         if @user
-          if logger && logger.info
+          if logger
             logger.info "MailHandler: [#{@user.login}] account created"
           end
           add_user_to_group(@@handler_options[:default_group])
@@ -117,14 +125,14 @@ class MailHandler < ActionMailer::Base
             Mailer.account_information(@user, @user.password).deliver
           end
         else
-          if logger && logger.error
+          if logger
             logger.error "MailHandler: could not create account for [#{sender_email}]"
           end
           return false
         end
       else
         # Default behaviour, emails from unknown users are ignored
-        if logger && logger.info
+        if logger
           logger.info  "MailHandler: ignoring email from unknown user [#{sender_email}]"
         end
         return false
@@ -136,7 +144,7 @@ class MailHandler < ActionMailer::Base
 
   private
 
-  MESSAGE_ID_RE = %r{^<?redmine\.([a-z0-9_]+)\-(\d+)\.\d+@}
+  MESSAGE_ID_RE = %r{^<?redmine\.([a-z0-9_]+)\-(\d+)\.\d+(\.[a-f0-9]+)?@}
   ISSUE_REPLY_SUBJECT_RE = %r{\[[^\]]*#(\d+)\]}
   MESSAGE_REPLY_SUBJECT_RE = %r{\[[^\]]*msg(\d+)\]}
 
@@ -195,7 +203,7 @@ class MailHandler < ActionMailer::Base
     add_watchers(issue)
     issue.save!
     add_attachments(issue)
-    logger.info "MailHandler: issue ##{issue.id} created by #{user}" if logger && logger.info
+    logger.info "MailHandler: issue ##{issue.id} created by #{user}" if logger
     issue
   end
 
@@ -224,7 +232,7 @@ class MailHandler < ActionMailer::Base
     journal.notes = cleaned_up_text_body
     add_attachments(issue)
     issue.save!
-    if logger && logger.info
+    if logger
       logger.info "MailHandler: issue ##{issue.id} updated by #{user}"
     end
     journal
@@ -257,7 +265,7 @@ class MailHandler < ActionMailer::Base
         add_attachments(reply)
         reply
       else
-        if logger && logger.info
+        if logger
           logger.info "MailHandler: ignoring reply from [#{sender_email}] to a locked topic"
         end
       end
@@ -267,6 +275,7 @@ class MailHandler < ActionMailer::Base
   def add_attachments(obj)
     if email.attachments && email.attachments.any?
       email.attachments.each do |attachment|
+        next unless accept_attachment?(attachment)
         obj.attachments << Attachment.create(:container => obj,
                           :file => attachment.decoded,
                           :filename => attachment.filename,
@@ -276,14 +285,28 @@ class MailHandler < ActionMailer::Base
     end
   end
 
+  # Returns false if the +attachment+ of the incoming email should be ignored
+  def accept_attachment?(attachment)
+    @excluded ||= Setting.mail_handler_excluded_filenames.to_s.split(',').map(&:strip).reject(&:blank?)
+    @excluded.each do |pattern|
+      regexp = %r{\A#{Regexp.escape(pattern).gsub("\\*", ".*")}\z}i
+      if attachment.filename.to_s =~ regexp
+        logger.info "MailHandler: ignoring attachment #{attachment.filename} matching #{pattern}"
+        return false
+      end
+    end
+    true
+  end
+
   # Adds To and Cc as watchers of the given object if the sender has the
   # appropriate permission
   def add_watchers(obj)
     if user.allowed_to?("add_#{obj.class.name.underscore}_watchers".to_sym, obj.project)
       addresses = [email.to, email.cc].flatten.compact.uniq.collect {|a| a.strip.downcase}
       unless addresses.empty?
-        watchers = User.active.where('LOWER(mail) IN (?)', addresses).all
-        watchers.each {|w| obj.add_watcher(w)}
+        User.active.where('LOWER(mail) IN (?)', addresses).each do |w|
+          obj.add_watcher(w)
+        end
       end
     end
   end
@@ -333,6 +356,13 @@ class MailHandler < ActionMailer::Base
     # * parse the email To field
     # * specific project (eg. Setting.mail_handler_target_project)
     target = Project.find_by_identifier(get_keyword(:project))
+    if target.nil?
+      # Invalid project keyword, use the project specified as the default one
+      default_project = @@handler_options[:issue][:project]
+      if default_project.present?
+        target = Project.find_by_identifier(default_project)
+      end
+    end
     raise MissingInformation.new('Unable to determine target project') if target.nil?
     target
   end
@@ -384,7 +414,16 @@ class MailHandler < ActionMailer::Base
             else
               [email]
             end
-    @plain_text_body = parts.map {|p| Redmine::CodesetUtil.to_utf8(p.body.decoded, p.charset)}.join("\r\n")
+
+    parts.reject! do |part|
+      part.header[:content_disposition].try(:disposition_type) == 'attachment'
+    end
+
+    @plain_text_body = parts.map do |p|
+      body_charset = p.charset.respond_to?(:force_encoding) ?
+                       Mail::RubyVer.pick_encoding(p.charset).to_s : p.charset
+      Redmine::CodesetUtil.to_utf8(p.body.decoded, body_charset)
+    end.join("\r\n")
 
     # strip html tags and remove doctype directive
     if parts.any? {|p| p.mime_type == 'text/html'}

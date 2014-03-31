@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -72,10 +72,12 @@ module Redmine
             if values.has_key?(key)
               value = values[key]
               if value.is_a?(Array)
-                value = value.reject(&:blank?).uniq
+                value = value.reject(&:blank?).map(&:to_s).uniq
                 if value.empty?
                   value << ''
                 end
+              else
+                value = value.to_s
               end
               custom_field_value.value = value
             end
@@ -99,6 +101,7 @@ module Redmine
               cv ||= custom_values.build(:customized => self, :custom_field => field, :value => nil)
               x.value = cv.value
             end
+            x.value_was = x.value.dup if x.value
             x
           end
         end

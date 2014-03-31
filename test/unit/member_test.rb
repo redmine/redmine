@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -69,7 +69,8 @@ class MemberTest < ActiveSupport::TestCase
     assert !member.save
 
     # must have one role at least
-    user = User.new(:firstname => "new1", :lastname => "user1", :mail => "test_validate@somenet.foo")
+    user = User.new(:firstname => "new1", :lastname => "user1",
+                    :mail => "test_validate@somenet.foo")
     user.login = "test_validate"
     user.password, user.password_confirmation = "password", "password"
     assert user.save
@@ -84,7 +85,8 @@ class MemberTest < ActiveSupport::TestCase
   end
 
   def test_validate_member_role
-    user = User.new(:firstname => "new1", :lastname => "user1", :mail => "test_validate@somenet.foo")
+    user = User.new(:firstname => "new1", :lastname => "user1",
+                    :mail => "test_validate@somenet.foo")
     user.login = "test_validate_member_role"
     user.password, user.password_confirmation = "password", "password"
     assert user.save

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -41,21 +41,35 @@ class SettingTest < ActiveSupport::TestCase
     assert_equal "My other title", Setting.find_by_name('app_title').value
   end
 
+  def test_setting_with_int_format_should_accept_numeric_only
+    with_settings :session_timeout => 30 do
+      Setting.session_timeout = 'foo'
+      assert_equal "30", Setting.session_timeout
+      Setting.session_timeout = 40
+      assert_equal "40", Setting.session_timeout
+    end
+  end
+
+  def test_setting_with_invalid_name_should_be_valid
+    setting = Setting.new(:name => "does_not_exist", :value => "should_not_be_allowed")
+    assert !setting.save
+  end
+
   def test_serialized_setting
     Setting.notified_events = ['issue_added', 'issue_updated', 'news_added']
     assert_equal ['issue_added', 'issue_updated', 'news_added'], Setting.notified_events
     assert_equal ['issue_added', 'issue_updated', 'news_added'], Setting.find_by_name('notified_events').value
   end
-  
+
   def test_setting_should_be_reloaded_after_clear_cache
     Setting.app_title = "My title"
     assert_equal "My title", Setting.app_title
-    
+
     s = Setting.find_by_name("app_title")
     s.value = 'New title'
     s.save!
     assert_equal "My title", Setting.app_title
-    
+
     Setting.clear_cache
     assert_equal "New title", Setting.app_title
   end

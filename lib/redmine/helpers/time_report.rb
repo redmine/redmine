@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -45,10 +45,10 @@ module Redmine
         unless @criteria.empty?
           time_columns = %w(tyear tmonth tweek spent_on)
           @hours = []
-          @scope.sum(:hours,
-              :include => [:issue, :activity],
-              :group => @criteria.collect{|criteria| @available_criteria[criteria][:sql]} + time_columns,
-              :joins => @criteria.collect{|criteria| @available_criteria[criteria][:joins]}.compact).each do |hash, hours|
+          @scope.includes(:issue, :activity).
+              group(@criteria.collect{|criteria| @available_criteria[criteria][:sql]} + time_columns).
+              joins(@criteria.collect{|criteria| @available_criteria[criteria][:joins]}.compact).
+              sum(:hours).each do |hash, hours|
             h = {'hours' => hours}
             (@criteria + time_columns).each_with_index do |name, i|
               h[name] = hash[i]
@@ -138,9 +138,10 @@ module Redmine
 
         # Add list and boolean custom fields as available criteria
         custom_fields.select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
-          @available_criteria["cf_#{cf.id}"] = {:sql => "#{cf.join_alias}.value",
+          @available_criteria["cf_#{cf.id}"] = {:sql => cf.group_statement,
                                                  :joins => cf.join_for_order_statement,
                                                  :format => cf.field_format,
+                                                 :custom_field => cf,
                                                  :label => cf.name}
         end
 

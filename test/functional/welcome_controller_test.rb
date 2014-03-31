@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -52,6 +52,35 @@ class WelcomeControllerTest < ActionController::TestCase
     @request.env['HTTP_ACCEPT_LANGUAGE'] = 'fr-CA'
     get :index
     assert_equal :fr, @controller.current_language
+  end
+
+  def test_browser_language_should_be_ignored_with_force_default_language_for_anonymous
+    Setting.default_language = 'en'
+    @request.env['HTTP_ACCEPT_LANGUAGE'] = 'fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3'
+    with_settings :force_default_language_for_anonymous => '1' do
+      get :index
+      assert_equal :en, @controller.current_language
+    end
+  end
+
+  def test_user_language_should_be_used
+    Setting.default_language = 'fi'
+    user = User.find(2).update_attribute :language, 'it'
+    @request.session[:user_id] = 2
+    @request.env['HTTP_ACCEPT_LANGUAGE'] = 'fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3'
+    get :index
+    assert_equal :it, @controller.current_language
+  end
+
+  def test_user_language_should_be_ignored_if_force_default_language_for_loggedin
+    Setting.default_language = 'fi'
+    user = User.find(2).update_attribute :language, 'it'
+    @request.session[:user_id] = 2
+    @request.env['HTTP_ACCEPT_LANGUAGE'] = 'fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3'
+    with_settings :force_default_language_for_loggedin => '1' do
+      get :index
+      assert_equal :fi, @controller.current_language
+    end
   end
 
   def test_robots
@@ -135,5 +164,21 @@ class WelcomeControllerTest < ActionController::TestCase
   def test_api_offset_and_limit_with_page_and_limit
     assert_equal [0, 100], @controller.api_offset_and_limit({:page => 1, :limit => 100})
     assert_equal [200, 100], @controller.api_offset_and_limit({:page => 3, :limit => 100})
+  end
+
+  def test_unhautorized_exception_with_anonymous_should_redirect_to_login
+    WelcomeController.any_instance.stubs(:index).raises(::Unauthorized)
+
+    get :index
+    assert_response 302
+    assert_redirected_to('/login?back_url='+CGI.escape('http://test.host/'))
+  end
+
+  def test_unhautorized_exception_with_anonymous_and_xmlhttprequest_should_respond_with_401_to_anonymous
+    WelcomeController.any_instance.stubs(:index).raises(::Unauthorized)
+
+    @request.env["HTTP_X_REQUESTED_WITH"] = "XMLHttpRequest"
+    get :index
+    assert_response 401
   end
 end

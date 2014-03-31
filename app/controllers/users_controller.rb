@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -60,7 +60,7 @@ class UsersController < ApplicationController
 
   def show
     # show projects based on current user visibility
-    @memberships = @user.memberships.all(:conditions => Project.visible_condition(User.current))
+    @memberships = @user.memberships.where(Project.visible_condition(User.current)).all
 
     events = Redmine::Activity::Fetcher.new(User.current, :author => @user).events(nil, nil, :limit => 10)
     @events_by_day = events.group_by(&:event_date)
@@ -90,11 +90,9 @@ class UsersController < ApplicationController
     @user.admin = params[:user][:admin] || false
     @user.login = params[:user][:login]
     @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation] unless @user.auth_source_id
+    @user.pref.attributes = params[:pref]
 
     if @user.save
-      @user.pref.attributes = params[:pref]
-      @user.pref.save
-
       Mailer.account_information(@user, @user.password).deliver if params[:send_information]
 
       respond_to do |format|

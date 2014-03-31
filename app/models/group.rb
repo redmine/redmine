@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,8 +18,10 @@
 class Group < Principal
   include Redmine::SafeAttributes
 
-  has_and_belongs_to_many :users, :after_add => :user_added,
-                                  :after_remove => :user_removed
+  has_and_belongs_to_many :users,
+                          :join_table   => "#{table_name_prefix}groups_users#{table_name_suffix}",
+                          :after_add => :user_added,
+                          :after_remove => :user_removed
 
   acts_as_customizable
 
@@ -66,7 +68,6 @@ class Group < Principal
       MemberRole.
         includes(:member).
         where("#{Member.table_name}.user_id = ? AND #{MemberRole.table_name}.inherited_from IN (?)", user.id, member.member_role_ids).
-        all.
         each(&:destroy)
     end
   end
@@ -85,6 +86,6 @@ class Group < Principal
   def remove_references_before_destroy
     return if self.id.nil?
 
-    Issue.update_all 'assigned_to_id = NULL', ['assigned_to_id = ?', id]
+    Issue.where(['assigned_to_id = ?', id]).update_all('assigned_to_id = NULL')
   end
 end

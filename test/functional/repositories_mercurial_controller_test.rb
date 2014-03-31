@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -26,7 +26,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
   REPOSITORY_PATH = Rails.root.join('tmp/test/mercurial_repository').to_s
   CHAR_1_HEX = "\xc3\x9c"
   PRJ_ID     = 3
-  NUM_REV    = 32
+  NUM_REV    = 34
 
   ruby19_non_utf8_pass =
      (RUBY_VERSION >= '1.9' && Encoding.default_external.to_s != 'UTF-8')
@@ -432,30 +432,15 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
             :rev => r1
         assert_response :success
         assert_template 'annotate'
-        assert_tag :tag => 'th',
-                 :content => '1',
-                 :attributes => { :class => 'line-num' },
-                 :sibling =>
-                       {
-                         :tag => 'td',
-                         :attributes => { :class => 'revision' },
-                         :child => { :tag => 'a', :content => '20:709858aafd1b' }
-                       }
-        assert_tag :tag => 'th',
-                 :content => '1',
-                 :attributes => { :class => 'line-num' },
-                 :sibling =>
-                       {
-                          :tag     => 'td'    ,
-                          :content => 'jsmith' ,
-                          :attributes => { :class   => 'author' },
-                        }
-        assert_tag :tag => 'th',
-                 :content => '1',
-                 :attributes => { :class => 'line-num' },
-                 :sibling => { :tag => 'td',
-                               :content => /Mercurial is a distributed version control system/ }
-
+        assert_select "th.line-num", :text => '1' do
+          assert_select "+ td.revision" do
+            assert_select "a", :text => '20:709858aafd1b'
+            assert_select "+ td.author", :text => "jsmith" do
+              assert_select "+ td",
+                            :text => "Mercurial is a distributed version control system."
+            end
+          end
+        end
       end
     end
 

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -79,7 +79,7 @@ module Redmine #:nodoc:
 
       # Adds plugin locales if any
       # YAML translation files should be found under <plugin>/config/locales/
-      ::I18n.load_path += Dir.glob(File.join(p.directory, 'config', 'locales', '*.yml'))
+      Rails.application.config.i18n.load_path += Dir.glob(File.join(p.directory, 'config', 'locales', '*.yml'))
 
       # Prepends the app/views directory of the plugin to the view path
       view_path = File.join(p.directory, 'app', 'views')
@@ -111,6 +111,12 @@ module Redmine #:nodoc:
     # It doesn't unload installed plugins
     def self.clear
       @registered_plugins = {}
+    end
+
+    # Removes a plugin from the registered plugins
+    # It doesn't unload the plugin
+    def self.unregister(id)
+      @registered_plugins.delete(id)
     end
 
     # Checks if a plugin is installed
@@ -443,7 +449,7 @@ module Redmine #:nodoc:
     class Migrator < ActiveRecord::Migrator
       # We need to be able to set the 'current' plugin being migrated.
       cattr_accessor :current_plugin
-    
+
       class << self
         # Runs the migrations from a plugin, up (or down) to the version given
         def migrate_plugin(plugin, version)
@@ -451,7 +457,7 @@ module Redmine #:nodoc:
           return if current_version(plugin) == version
           migrate(plugin.migration_directory, version)
         end
-        
+
         def current_version(plugin=current_plugin)
           # Delete migrations that don't match .. to_i will work because the number comes first
           ::ActiveRecord::Base.connection.select_values(
@@ -459,14 +465,14 @@ module Redmine #:nodoc:
           ).delete_if{ |v| v.match(/-#{plugin.id}/) == nil }.map(&:to_i).max || 0
         end
       end
-           
+
       def migrated
         sm_table = self.class.schema_migrations_table_name
         ::ActiveRecord::Base.connection.select_values(
           "SELECT version FROM #{sm_table}"
         ).delete_if{ |v| v.match(/-#{current_plugin.id}/) == nil }.map(&:to_i).sort
       end
-      
+
       def record_version_state_after_migrating(version)
         super(version.to_s + "-" + current_plugin.id.to_s)
       end

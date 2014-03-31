@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -24,7 +24,7 @@ module ReportsHelper
     data.each { |row|
       match = 1
       criteria.each { |k, v|
-        match = 0 unless (row[k].to_s == v.to_s) || (k == 'closed' && row[k] == (v == 0 ? "f" : "t"))
+        match = 0 unless (row[k].to_s == v.to_s) || (k == 'closed' &&  (v == 0 ? ['f', false] : ['t', true]).include?(row[k]))
       } unless criteria.nil?
       a = a + row["total"].to_i if match == 1
     } unless data.nil?

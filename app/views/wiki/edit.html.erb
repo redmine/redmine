@@ -22,7 +22,8 @@
       <label><%= l(:field_parent_title) %></label>
       <%= fp.select :parent_id,
                     content_tag('option', '', :value => '') +
-                       wiki_page_options_for_select(@wiki.pages.all(:include => :parent) -
+                       wiki_page_options_for_select(
+                         @wiki.pages.includes(:parent).all -
                          @page.self_and_descendants, @page.parent) %>
     </p>
   <% end %>

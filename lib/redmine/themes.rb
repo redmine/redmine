@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -75,6 +75,18 @@ module Redmine
         @javascripts ||= assets("javascripts", "js")
       end
 
+      def favicons
+        @favicons ||= assets("favicon")
+      end
+
+      def favicon
+        favicons.first
+      end
+
+      def favicon?
+        favicon.present?
+      end
+
       def stylesheet_path(source)
         "/themes/#{dir}/stylesheets/#{source}"
       end
@@ -85,6 +97,10 @@ module Redmine
 
       def javascript_path(source)
         "/themes/#{dir}/javascripts/#{source}"
+      end
+
+      def favicon_path
+        "/themes/#{dir}/favicon/#{favicon}"
       end
 
       private

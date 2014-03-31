@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -115,7 +115,7 @@ class MessageTest < ActiveSupport::TestCase
     board.reload
 
     # Replies deleted
-    assert Message.find_all_by_parent_id(1).empty?
+    assert Message.where(:parent_id => 1).empty?
     # Checks counters
     assert_equal topics_count - 1, board.topics_count
     assert_equal messages_count - 3, board.messages_count

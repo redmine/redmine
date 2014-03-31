@@ -16,14 +16,24 @@ namespace :ci do
     Rake::Task["db:create:all"].invoke
     Rake::Task["db:migrate"].invoke
     Rake::Task["db:schema:dump"].invoke
-    Rake::Task["test:scm:setup:all"].invoke
+    if scms = ENV['SCMS']
+      scms.split(',').each do |scm|
+        Rake::Task["test:scm:setup:#{scm}"].invoke
+      end
+    else
+      Rake::Task["test:scm:setup:all"].invoke
+    end
     Rake::Task["test:scm:update"].invoke
   end
 
   desc "Build Redmine"
   task :build do
-    Rake::Task["test"].invoke
-    Rake::Task["test:ui"].invoke if RUBY_VERSION >= '2.0.0'
+    if test_suite = ENV['TEST_SUITE']
+      Rake::Task["test:#{test_suite}"].invoke
+    else
+      Rake::Task["test"].invoke
+    end
+    # Rake::Task["test:ui"].invoke if RUBY_VERSION >= '1.9.3'
   end
 
   desc "Finish the build"
@@ -42,16 +52,35 @@ file 'config/database.yml' do
 
   case database
   when 'mysql'
-    dev_conf =  {'adapter' => (RUBY_VERSION >= '1.9' ? 'mysql2' : 'mysql'), 'database' => dev_db_name, 'host' => 'localhost', 'username' => 'jenkins', 'password' => 'jenkins', 'encoding' => 'utf8'}
+    dev_conf =  {'adapter' => (RUBY_VERSION >= '1.9' ? 'mysql2' : 'mysql'),
+                 'database' => dev_db_name, 'host' => 'localhost',
+                 'encoding' => 'utf8'}
+    if ENV['RUN_ON_NOT_OFFICIAL']
+      dev_conf['username'] = 'root'
+    else
+      dev_conf['username'] = 'jenkins'
+      dev_conf['password'] = 'jenkins'
+    end
     test_conf = dev_conf.merge('database' => test_db_name)
   when 'postgresql'
-    dev_conf =  {'adapter' => 'postgresql', 'database' => dev_db_name, 'host' => 'localhost', 'username' => 'jenkins', 'password' => 'jenkins'}
+    dev_conf =  {'adapter' => 'postgresql', 'database' => dev_db_name,
+                 'host' => 'localhost'}
+    if ENV['RUN_ON_NOT_OFFICIAL']
+      dev_conf['username'] = 'postgres'
+    else
+      dev_conf['username'] = 'jenkins'
+      dev_conf['password'] = 'jenkins'
+    end
     test_conf = dev_conf.merge('database' => test_db_name)
-  when 'sqlite3'
-    dev_conf =  {'adapter' => 'sqlite3', 'database' => "db/#{dev_db_name}.sqlite3"}
+  when /sqlite3/
+    dev_conf =  {'adapter' => (Object.const_defined?(:JRUBY_VERSION) ?
+                                 'jdbcsqlite3' : 'sqlite3'),
+                 'database' => "db/#{dev_db_name}.sqlite3"}
     test_conf = dev_conf.merge('database' => "db/#{test_db_name}.sqlite3")
   when 'sqlserver'
-    dev_conf =  {'adapter' => 'sqlserver', 'database' => dev_db_name, 'host' => 'mssqlserver', 'port' => 1433, 'username' => 'jenkins', 'password' => 'jenkins'}
+    dev_conf =  {'adapter' => 'sqlserver', 'database' => dev_db_name,
+                 'host' => 'mssqlserver', 'port' => 1433,
+                 'username' => 'jenkins', 'password' => 'jenkins'}
     test_conf = dev_conf.merge('database' => test_db_name)
   else
     abort "Unknown database"

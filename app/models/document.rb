@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -30,6 +30,8 @@ class Document < ActiveRecord::Base
   validates_presence_of :project, :title, :category
   validates_length_of :title, :maximum => 60
 
+  after_create :send_notification
+
   scope :visible, lambda {|*args|
     includes(:project).where(Project.allowed_to_condition(args.shift || User.current, :view_documents, *args))
   }
@@ -53,5 +55,13 @@ class Document < ActiveRecord::Base
       @updated_on = (a && a.created_on) || created_on
     end
     @updated_on
+  end
+
+  private
+
+  def send_notification
+    if Setting.notified_events.include?('document_added')
+      Mailer.document_added(self).deliver
+    end
   end
 end

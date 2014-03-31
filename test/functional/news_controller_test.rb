@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -102,8 +102,8 @@ class NewsControllerTest < ActionController::TestCase
           :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
       end
     end
-    attachment = Attachment.first(:order => 'id DESC')
-    news = News.first(:order => 'id DESC')
+    attachment = Attachment.order('id DESC').first
+    news = News.order('id DESC').first
     assert_equal news, attachment.container
   end
 
@@ -116,7 +116,7 @@ class NewsControllerTest < ActionController::TestCase
     assert_template 'new'
     assert_not_nil assigns(:news)
     assert assigns(:news).new_record?
-    assert_error_tag :content => /title can&#x27;t be blank/i
+    assert_error_tag :content => /title #{ESCAPED_CANT} be blank/i
   end
 
   def test_get_edit
@@ -144,7 +144,7 @@ class NewsControllerTest < ActionController::TestCase
           :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
       end
     end
-    attachment = Attachment.first(:order => 'id DESC')
+    attachment = Attachment.order('id DESC').first
     assert_equal News.find(1), attachment.container
   end
 
@@ -153,7 +153,7 @@ class NewsControllerTest < ActionController::TestCase
     put :update, :id => 1, :news => { :description => '' }
     assert_response :success
     assert_template 'edit'
-    assert_error_tag :content => /description can&#x27;t be blank/i
+    assert_error_tag :content => /description #{ESCAPED_CANT} be blank/i
   end
 
   def test_destroy

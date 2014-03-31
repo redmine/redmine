@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,11 +19,7 @@ class SysController < ActionController::Base
   before_filter :check_enabled
 
   def projects
-    p = Project.active.has_module(:repository).find(
-                   :all,
-                   :include => :repository,
-                   :order => "#{Project.table_name}.identifier"
-                 )
+    p = Project.active.has_module(:repository).order("#{Project.table_name}.identifier").preload(:repository).all
     # extra_info attribute from repository breaks activeresource client
     render :xml => p.to_xml(
                        :only => [:id, :identifier, :name, :is_public, :status],

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -82,12 +82,12 @@ class WikiPage < ActiveRecord::Base
     # Manage redirects if the title has changed
     if !@previous_title.blank? && (@previous_title != title) && !new_record?
       # Update redirects that point to the old title
-      wiki.redirects.find_all_by_redirects_to(@previous_title).each do |r|
+      wiki.redirects.where(:redirects_to => @previous_title).each do |r|
         r.redirects_to = title
         r.title == r.redirects_to ? r.destroy : r.save
       end
       # Remove redirects for the new title
-      wiki.redirects.find_all_by_title(title).each(&:destroy)
+      wiki.redirects.where(:title => title).each(&:destroy)
       # Create a redirect to the new title
       wiki.redirects << WikiRedirect.new(:title => @previous_title, :redirects_to => title) unless redirect_existing_links == "0"
       @previous_title = nil
@@ -96,7 +96,7 @@ class WikiPage < ActiveRecord::Base
 
   def remove_redirects
     # Remove redirects to this page
-    wiki.redirects.find_all_by_redirects_to(title).each(&:destroy)
+    wiki.redirects.where(:redirects_to => title).each(&:destroy)
   end
 
   def pretty_title
@@ -104,9 +104,11 @@ class WikiPage < ActiveRecord::Base
   end
 
   def content_for_version(version=nil)
-    result = content.versions.find_by_version(version.to_i) if version
-    result ||= content
-    result
+    if content
+      result = content.versions.find_by_version(version.to_i) if version
+      result ||= content
+      result
+    end
   end
 
   def diff(version_to=nil, version_from=nil)
@@ -175,9 +177,10 @@ class WikiPage < ActiveRecord::Base
   end
 
   # Saves the page and its content if text was changed
-  def save_with_content
+  def save_with_content(content)
     ret = nil
     transaction do
+      self.content = content
       if new_record?
         # Rails automatically saves associated content
         ret = save

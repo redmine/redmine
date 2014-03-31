@@ -50,8 +50,8 @@ ko:
         one:   "약 한시간"
         other: "약 %{count}시간"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 시간"
+        other: "%{count} 시간"
       x_days:
         one:   "하루"
         other: "%{count}일"
@@ -176,6 +176,7 @@ ko:
         not_same_project: "는 같은 프로젝트에 속해 있지 않습니다"
         circular_dependency: "이 관계는 순환 의존관계를 만들 수 있습니다"
         cant_link_an_issue_with_a_descendant: "일감은 하위 일감과 연결할 수 없습니다."
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   actionview_instancetag_blank_option: 선택하세요
 
@@ -1130,10 +1131,29 @@ ko:
   permission_add_documents: 문서 추가
   permission_edit_documents: 문서 편집
   permission_delete_documents: 문서 삭제
-  label_gantt_progress_line: Progress line
+  label_gantt_progress_line: 진행 선
   setting_jsonp_enabled: JSONP 허용
   field_inherit_members: 상위 프로젝트로부터 구성원을 상속
   field_closed_on: 완료일
-  field_generate_password: Generate password
+  field_generate_password: 비밀번호 생성
   setting_default_projects_tracker_ids: 새 프로젝트에 기본적으로 추가할 일감 유형
   label_total_time: 합계
+  notice_account_not_activated_yet: 계정이 활성화되지 않았습니다. 계정을 활성화하기 위해 메일을 다시 수신하려면 <a href="%{url}">여기를 클릭해 주세요</a>.
+  notice_account_locked: 계정이 잠겨 있습니다.
+  label_hidden: 숨김
+  label_visibility_private: 자신 만
+  label_visibility_roles: 다음 역할 만
+  label_visibility_public: 모든 사용자
+  field_must_change_passwd: 다음 로그온 시 반드시 암호를 변경해야 함
+  notice_new_password_must_be_different: 새 암호는 현재 암호와 달라야 합니다.
+  setting_mail_handler_excluded_filenames: 제외할 첨부 파일명
+  text_convert_available: ImageMagick 변환 사용 가능 (옵션)
+  label_link: 링크
+  label_only: 다음의 것만
+  label_drop_down_list: 드롭다운 목록
+  label_checkboxes: 체크박스
+  label_link_values_to: URL 링크 값
+  setting_force_default_language_for_anonymous: 익명 사용자의 기본 언어 강제
+  setting_force_default_language_for_loggedin: 로그인 사용자의 기본 언어 강제
+  label_custom_field_select_type: 사용자 정의 필드에 추가할 대상을 선택해주세요.
+  label_issue_assigned_to_updated: Assignee updated

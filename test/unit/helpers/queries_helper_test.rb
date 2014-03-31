@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -35,5 +35,19 @@ class QueriesHelperTest < ActionView::TestCase
     fo = filters_options(query)
     assert_equal filter_count + 1, fo.size
     assert_equal [], fo[0]
+  end
+
+  def test_query_to_csv_should_translate_boolean_custom_field_values
+    f = IssueCustomField.generate!(:field_format => 'bool', :name => 'Boolean', :is_for_all => true, :trackers => Tracker.all)
+    issues = [
+      Issue.generate!(:project_id => 1, :tracker_id => 1, :custom_field_values => {f.id.to_s => '0'}),
+      Issue.generate!(:project_id => 1, :tracker_id => 1, :custom_field_values => {f.id.to_s => '1'})
+    ]
+
+    with_locale 'fr' do
+      csv = query_to_csv(issues, IssueQuery.new, :columns => 'all')
+      assert_include "Oui", csv
+      assert_include "Non", csv
+    end
   end
 end

@@ -1,4 +1,4 @@
-<h2><%=l(:label_issue_new)%></h2>
+<%= title l(:label_issue_new) %>
 
 <%= call_hook(:view_issues_new_top, {:issue => @issue}) %>
 
@@ -44,8 +44,6 @@
   <%= submit_tag l(:button_create) %>
   <%= submit_tag l(:button_create_and_continue), :name => 'continue' %>
   <%= preview_link preview_new_issue_path(:project_id => @project), 'issue-form' %>
-
-  <%= javascript_tag "$('#issue_subject').focus();" %>
 <% end %>
 
 <div id="preview" class="wiki"></div>

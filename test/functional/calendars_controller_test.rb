@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -29,12 +29,12 @@ class CalendarsControllerTest < ActionController::TestCase
   def test_show
     get :show, :project_id => 1
     assert_response :success
-    assert_template 'calendar'
+    assert_template :partial => '_calendar'
     assert_not_nil assigns(:calendar)
   end
 
   def test_show_should_run_custom_queries
-    @query = IssueQuery.create!(:name => 'Calendar', :is_public => true)
+    @query = IssueQuery.create!(:name => 'Calendar', :visibility => IssueQuery::VISIBILITY_PUBLIC)
 
     get :show, :query_id => @query.id
     assert_response :success
@@ -43,7 +43,7 @@ class CalendarsControllerTest < ActionController::TestCase
   def test_cross_project_calendar
     get :show
     assert_response :success
-    assert_template 'calendar'
+    assert_template :partial => '_calendar'
     assert_not_nil assigns(:calendar)
   end
 

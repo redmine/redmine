@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -60,7 +60,7 @@ module Redmine
           !perm.nil? && perm.read?
         else
           s = "#{action[:controller]}/#{action[:action]}"
-          permissions.detect {|p| p.actions.include?(s) && !p.read?}.nil?
+          permissions.detect {|p| p.actions.include?(s) && p.read?}.present?
         end
       end
 

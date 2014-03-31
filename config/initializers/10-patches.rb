@@ -91,6 +91,43 @@ end
 
 ActionView::Base.field_error_proc = Proc.new{ |html_tag, instance| html_tag || ''.html_safe }
 
+# HTML5: <option value=""></option> is invalid, use <option value="">&nbsp;</option> instead
+module ActionView
+  module Helpers
+    class InstanceTag
+      private
+      def add_options_with_non_empty_blank_option(option_tags, options, value = nil)
+        if options[:include_blank] == true
+          options = options.dup
+          options[:include_blank] = '&nbsp;'.html_safe
+        end
+        add_options_without_non_empty_blank_option(option_tags, options, value)
+      end
+      alias_method_chain :add_options, :non_empty_blank_option
+    end
+
+    module FormTagHelper
+      def select_tag_with_non_empty_blank_option(name, option_tags = nil, options = {})
+        if options.delete(:include_blank)
+          options[:prompt] = '&nbsp;'.html_safe
+        end
+        select_tag_without_non_empty_blank_option(name, option_tags, options)
+      end
+      alias_method_chain :select_tag, :non_empty_blank_option
+    end
+
+    module FormOptionsHelper
+      def options_for_select_with_non_empty_blank_option(container, selected = nil)
+        if container.is_a?(Array)
+          container = container.map {|element| element.blank? ? ["&nbsp;".html_safe, ""] : element}
+        end
+        options_for_select_without_non_empty_blank_option(container, selected)
+      end
+      alias_method_chain :options_for_select, :non_empty_blank_option
+    end
+  end
+end
+
 require 'mail'
 
 module DeliveryMethods
@@ -162,6 +199,38 @@ module ActionController
       $stderr.puts "Please remove config/initializers/session_store.rb and run `rake generate_secret_token`.\n" +
         "Setting the session secret with ActionController.session= is no longer supported in Rails 3."
       exit 1
+    end
+  end
+end
+
+require 'awesome_nested_set/version'
+
+module CollectiveIdea
+  module Acts
+    module NestedSet
+      module Model
+        def leaf_with_new_record?
+          new_record? || leaf_without_new_record?
+        end
+        alias_method_chain :leaf?, :new_record
+        # Reload is needed because children may have updated
+        # their parent (self) during deletion.
+        if ::AwesomeNestedSet::VERSION > "2.1.6"
+          module Prunable
+            def destroy_descendants_with_reload
+              destroy_descendants_without_reload
+              reload
+            end
+            alias_method_chain :destroy_descendants, :reload
+          end
+        else
+          def destroy_descendants_with_reload
+            destroy_descendants_without_reload
+            reload
+          end
+          alias_method_chain :destroy_descendants, :reload
+        end
+      end
     end
   end
 end

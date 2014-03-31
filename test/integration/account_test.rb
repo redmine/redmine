@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -26,7 +26,6 @@ end
 class AccountTest < ActionController::IntegrationTest
   fixtures :users, :roles
 
-  # Replace this with your real tests.
   def test_login
     get "my/page"
     assert_redirected_to "/login?back_url=http%3A%2F%2Fwww.example.com%2Fmy%2Fpage"
@@ -59,7 +58,7 @@ class AccountTest < ActionController::IntegrationTest
     user.update_attribute :last_login_on, nil
     assert_nil user.reload.last_login_on
 
-    # User comes back with his autologin cookie
+    # User comes back with user's autologin cookie
     cookies[:autologin] = token.value
     get '/my/page'
     assert_response :success
@@ -126,6 +125,35 @@ class AccountTest < ActionController::IntegrationTest
 
     log_user('jsmith', 'newpass123')
     assert_equal 0, Token.count
+  end
+
+  def test_user_with_must_change_passwd_should_be_forced_to_change_its_password
+    User.find_by_login('jsmith').update_attribute :must_change_passwd, true
+
+    post '/login', :username => 'jsmith', :password => 'jsmith'
+    assert_redirected_to '/my/page'
+    follow_redirect!
+    assert_redirected_to '/my/password'
+
+    get '/issues'
+    assert_redirected_to '/my/password'
+  end
+
+  def test_user_with_must_change_passwd_should_be_able_to_change_its_password
+    User.find_by_login('jsmith').update_attribute :must_change_passwd, true
+
+    post '/login', :username => 'jsmith', :password => 'jsmith'
+    assert_redirected_to '/my/page'
+    follow_redirect!
+    assert_redirected_to '/my/password'
+    follow_redirect!
+    assert_response :success
+    post '/my/password', :password => 'jsmith', :new_password => 'newpassword', :new_password_confirmation => 'newpassword'
+    assert_redirected_to '/my/account'
+    follow_redirect!
+    assert_response :success
+
+    assert_equal false, User.find_by_login('jsmith').must_change_passwd?
   end
 
   def test_register_with_automatic_activation
@@ -220,5 +248,50 @@ class AccountTest < ActionController::IntegrationTest
     assert user.is_a?(User)
     assert_equal 66, user.auth_source_id
     assert user.hashed_password.blank?
+  end
+
+  def test_registered_user_should_be_able_to_get_a_new_activation_email
+    Token.delete_all
+
+    with_settings :self_registration => '1', :default_language => 'en' do
+      # register a new account
+      assert_difference 'User.count' do
+        assert_difference 'Token.count' do
+          post 'account/register',
+             :user => {:login => "newuser", :language => "en",
+                       :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar",
+                       :password => "newpass123", :password_confirmation => "newpass123"}
+        end
+      end
+      user = User.order('id desc').first
+      assert_equal User::STATUS_REGISTERED, user.status
+      reset!
+
+      # try to use "lost password"
+      assert_no_difference 'ActionMailer::Base.deliveries.size' do
+        post '/account/lost_password', :mail => 'newuser@foo.bar'
+      end
+      assert_redirected_to '/account/lost_password'
+      follow_redirect!
+      assert_response :success
+      assert_select 'div.flash', :text => /new activation email/
+      assert_select 'div.flash a[href=/account/activation_email]'
+
+      # request a new action activation email
+      assert_difference 'ActionMailer::Base.deliveries.size' do
+        get '/account/activation_email'
+      end
+      assert_redirected_to '/login'
+      token = Token.order('id desc').first
+      activation_path = "/account/activate?token=#{token.value}"
+      assert_include activation_path, mail_body(ActionMailer::Base.deliveries.last)
+
+      # activate the account
+      get activation_path
+      assert_redirected_to '/login'
+
+      post '/login', :username => 'newuser', :password => 'newpass123'
+      assert_redirected_to '/my/page'
+    end
   end
 end

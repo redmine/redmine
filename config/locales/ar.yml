@@ -50,8 +50,8 @@ ar:
         one:   "حوالي ساعة"
         other: "ساعات %{count}حوالي "
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "%{count} ساعة"
+        other: "%{count} ساعات"
       x_days:
         one:   "يوم"
         other: "%{count} أيام"
@@ -128,6 +128,7 @@ ar:
         not_same_project: "لا ينتمي الى نفس المشروع"
         circular_dependency: "هذه العلاقة سوف تخلق علاقة تبعية دائرية"
         cant_link_an_issue_with_a_descendant: "لا يمكن ان تكون المشكلة مرتبطة بواحدة من المهام الفرعية"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   actionview_instancetag_blank_option: الرجاء التحديد
 
@@ -1088,3 +1089,27 @@ ar:
   field_generate_password: Generate password
   setting_default_projects_tracker_ids: Default trackers for new projects
   label_total_time: الإجمالي
+  notice_account_not_activated_yet: You haven't activated your account yet. If you want
+    to receive a new activation email, please <a href="%{url}">click this link</a>.
+  notice_account_locked: Your account is locked.
+  label_hidden: Hidden
+  label_visibility_private: to me only
+  label_visibility_roles: to these roles only
+  label_visibility_public: to any users
+  field_must_change_passwd: Must change password at next logon
+  notice_new_password_must_be_different: The new password must be different from the
+    current password
+  setting_mail_handler_excluded_filenames: Exclude attachments by name
+  text_convert_available: ImageMagick convert available (optional)
+  label_link: Link
+  label_only: only
+  label_drop_down_list: drop-down list
+  label_checkboxes: checkboxes
+  label_link_values_to: Link values to URL
+  setting_force_default_language_for_anonymous: Force default language for anonymous
+    users
+  setting_force_default_language_for_loggedin: Force default language for logged-in
+    users
+  label_custom_field_select_type: Select the type of object to which the custom field
+    is to be attached
+  label_issue_assigned_to_updated: Assignee updated

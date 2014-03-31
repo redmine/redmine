@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -25,7 +25,7 @@ class BoardsController < ApplicationController
   helper :watchers
 
   def index
-    @boards = @project.boards.includes(:last_message => :author).all
+    @boards = @project.boards.includes(:project, :last_message => :author).all
     # show the board if there is only one
     if @boards.size == 1
       @board = @boards.first

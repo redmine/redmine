@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -43,22 +43,18 @@ class TimelogController < ApplicationController
 
   def index
     @query = TimeEntryQuery.build_from_params(params, :project => @project, :name => '_')
-    scope = time_entry_scope
 
     sort_init(@query.sort_criteria.empty? ? [['spent_on', 'desc']] : @query.sort_criteria)
     sort_update(@query.sortable_columns)
+    scope = time_entry_scope(:order => sort_clause).
+      includes(:project, :user, :issue).
+      preload(:issue => [:project, :tracker, :status, :assigned_to, :priority])
 
     respond_to do |format|
       format.html {
-        # Paginate results
         @entry_count = scope.count
         @entry_pages = Paginator.new @entry_count, per_page_option, params['page']
-        @entries = scope.all(
-          :include => [:project, :activity, :user, {:issue => :tracker}],
-          :order => sort_clause,
-          :limit  =>  @entry_pages.per_page,
-          :offset =>  @entry_pages.offset
-        )
+        @entries = scope.offset(@entry_pages.offset).limit(@entry_pages.per_page).all
         @total_hours = scope.sum(:hours).to_f
 
         render :layout => !request.xhr?
@@ -66,27 +62,15 @@ class TimelogController < ApplicationController
       format.api  {
         @entry_count = scope.count
         @offset, @limit = api_offset_and_limit
-        @entries = scope.all(
-          :include => [:project, :activity, :user, {:issue => :tracker}],
-          :order => sort_clause,
-          :limit  => @limit,
-          :offset => @offset
-        )
+        @entries = scope.offset(@offset).limit(@limit).preload(:custom_values => :custom_field).all
       }
       format.atom {
-        entries = scope.all(
-          :include => [:project, :activity, :user, {:issue => :tracker}],
-          :order => "#{TimeEntry.table_name}.created_on DESC",
-          :limit => Setting.feeds_limit.to_i
-        )
+        entries = scope.limit(Setting.feeds_limit.to_i).reorder("#{TimeEntry.table_name}.created_on DESC").all
         render_feed(entries, :title => l(:label_spent_time))
       }
       format.csv {
         # Export all entries
-        @entries = scope.all(
-          :include => [:project, :activity, :user, {:issue => [:tracker, :assigned_to, :priority]}],
-          :order => sort_clause
-        )
+        @entries = scope.all
         send_data(query_to_csv(@entries, @query, params), :type => 'text/csv; header=present', :filename => 'timelog.csv')
       }
     end
@@ -248,7 +232,7 @@ private
   end
 
   def find_time_entries
-    @time_entries = TimeEntry.find_all_by_id(params[:id] || params[:ids])
+    @time_entries = TimeEntry.where(:id => params[:id] || params[:ids]).all
     raise ActiveRecord::RecordNotFound if @time_entries.empty?
     @projects = @time_entries.collect(&:project).compact.uniq
     @project = @projects.first if @projects.size == 1
@@ -296,12 +280,10 @@ private
   end
 
   # Returns the TimeEntry scope for index and report actions
-  def time_entry_scope
-    scope = TimeEntry.visible.where(@query.statement)
+  def time_entry_scope(options={})
+    scope = @query.results_scope(options)
     if @issue
       scope = scope.on_issue(@issue)
-    elsif @project
-      scope = scope.on_project(@project, Setting.display_subprojects_issues?)
     end
     scope
   end

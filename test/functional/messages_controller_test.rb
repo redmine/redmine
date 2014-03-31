@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -48,16 +48,19 @@ class MessagesControllerTest < ActionController::TestCase
     message = Message.find(1)
     assert_difference 'Message.count', 30 do
       30.times do
-        message.children << Message.new(:subject => 'Reply', :content => 'Reply body', :author_id => 2, :board_id => 1)
+        message.children << Message.new(:subject => 'Reply',
+                                        :content => 'Reply body',
+                                        :author_id => 2,
+                                        :board_id => 1)
       end
     end
-    get :show, :board_id => 1, :id => 1, :r => message.children.last(:order => 'id').id
+    get :show, :board_id => 1, :id => 1, :r => message.children.order('id').last.id
     assert_response :success
     assert_template 'show'
     replies = assigns(:replies)
     assert_not_nil replies
-    assert !replies.include?(message.children.first(:order => 'id'))
-    assert replies.include?(message.children.last(:order => 'id'))
+    assert !replies.include?(message.children.order('id').first)
+    assert replies.include?(message.children.order('id').last)
   end
 
   def test_show_with_reply_permission

@@ -1,4 +1,4 @@
-<h2><%= link_to l(:label_role_plural), roles_path %> &#187; <%=l(:label_permissions_report)%></h2>
+<%= title [l(:label_role_plural), roles_path], l(:label_permissions_report) %>
 
 <%= form_tag(permissions_roles_path, :id => 'permissions_form') do %>
 <%= hidden_field_tag 'permissions[0]', '', :id => nil %>
@@ -32,13 +32,13 @@
     <% end %>
     <% perms_by_module[mod].each do |permission| %>
         <tr class="<%= cycle('odd', 'even') %> permission-<%= permission.name %>">
-        <td>
+        <td class="name">
             <%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('.permission-#{permission.name} input')",
                                                                 :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
             <%= l_or_humanize(permission.name, :prefix => 'permission_') %>
         </td>
         <% @roles.each do |role| %>
-        <td align="center">
+        <td>
         <% if role.setable_permissions.include? permission %>
           <%= check_box_tag "permissions[#{role.id}][]", permission.name, (role.permissions.include? permission.name), :id => nil, :class => "role-#{role.id}" %>
         <% end %>

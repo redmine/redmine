@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -80,6 +80,61 @@ class SettingsControllerTest < ActionController::TestCase
     Setting.clear_cache
   end
 
+  def test_edit_commit_update_keywords
+    with_settings :commit_update_keywords => [
+      {"keywords" => "fixes, resolves", "status_id" => "3"},
+      {"keywords" => "closes", "status_id" => "5", "done_ratio" => "100", "if_tracker_id" => "2"}
+    ] do
+      get :edit
+    end
+    assert_response :success
+    assert_select 'tr.commit-keywords', 2
+    assert_select 'tr.commit-keywords:nth-child(1)' do
+      assert_select 'input[name=?][value=?]', 'settings[commit_update_keywords][keywords][]', 'fixes, resolves'
+      assert_select 'select[name=?]', 'settings[commit_update_keywords][status_id][]' do
+        assert_select 'option[value=3][selected=selected]'
+      end
+    end
+    assert_select 'tr.commit-keywords:nth-child(2)' do
+      assert_select 'input[name=?][value=?]', 'settings[commit_update_keywords][keywords][]', 'closes'
+      assert_select 'select[name=?]', 'settings[commit_update_keywords][status_id][]' do
+        assert_select 'option[value=5][selected=selected]', :text => 'Closed'
+      end
+      assert_select 'select[name=?]', 'settings[commit_update_keywords][done_ratio][]' do
+        assert_select 'option[value=100][selected=selected]', :text => '100 %'
+      end
+      assert_select 'select[name=?]', 'settings[commit_update_keywords][if_tracker_id][]' do
+        assert_select 'option[value=2][selected=selected]', :text => 'Feature request'
+      end
+    end
+  end
+
+  def test_edit_without_commit_update_keywords_should_show_blank_line
+    with_settings :commit_update_keywords => [] do
+      get :edit
+    end
+    assert_response :success
+    assert_select 'tr.commit-keywords', 1 do
+      assert_select 'input[name=?]:not([value])', 'settings[commit_update_keywords][keywords][]'
+    end
+  end
+
+  def test_post_edit_commit_update_keywords
+    post :edit, :settings => {
+      :commit_update_keywords => {
+        :keywords => ["resolves", "closes"],
+        :status_id => ["3", "5"],
+        :done_ratio => ["", "100"],
+        :if_tracker_id => ["", "2"]
+      }
+    }
+    assert_redirected_to '/settings'
+    assert_equal([
+      {"keywords" => "resolves", "status_id" => "3"},
+      {"keywords" => "closes", "status_id" => "5", "done_ratio" => "100", "if_tracker_id" => "2"}
+    ], Setting.commit_update_keywords)
+  end
+
   def test_get_plugin_settings
     Setting.stubs(:plugin_foo).returns({'sample_setting' => 'Plugin setting value'})
     ActionController::Base.append_view_path(File.join(Rails.root, "test/fixtures/plugins"))
@@ -93,7 +148,8 @@ class SettingsControllerTest < ActionController::TestCase
     assert_tag 'form', :attributes => {:action => '/settings/plugin/foo'},
       :descendant => {:tag => 'input', :attributes => {:name => 'settings[sample_setting]', :value => 'Plugin setting value'}}
 
-    Redmine::Plugin.clear
+  ensure
+    Redmine::Plugin.unregister(:foo)
   end
 
   def test_get_invalid_plugin_settings
@@ -107,7 +163,8 @@ class SettingsControllerTest < ActionController::TestCase
     get :plugin, :id => 'foo'
     assert_response 404
 
-    Redmine::Plugin.clear
+  ensure
+    Redmine::Plugin.unregister(:foo)
   end
 
   def test_post_plugin_settings
@@ -126,6 +183,7 @@ class SettingsControllerTest < ActionController::TestCase
     post :plugin, :id => 'foo', :settings => {'sample_setting' => 'Value'}
     assert_response 404
 
-    Redmine::Plugin.clear
+  ensure
+    Redmine::Plugin.unregister(:foo)
   end
 end

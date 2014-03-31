@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -138,9 +138,9 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
         get '/issues.xml',
             {:set_filter => 1, :f => ['cf_1'], :op => {:cf_1 => '='},
              :v => {:cf_1 => ['MySQL']}}
-        expected_ids = Issue.visible.all(
-            :include => :custom_values,
-            :conditions => {:custom_values => {:custom_field_id => 1, :value => 'MySQL'}}).map(&:id)
+        expected_ids = Issue.visible.
+            joins(:custom_values).
+            where(:custom_values => {:custom_field_id => 1, :value => 'MySQL'}).map(&:id)
         assert_select 'issues > issue > id', :count => expected_ids.count do |ids|
            ids.each { |id| assert expected_ids.delete(id.children.first.content.to_i) }
         end
@@ -151,15 +151,38 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
       should "show only issues with the custom field value" do
         get '/issues.xml', { :cf_1 => 'MySQL' }
 
-        expected_ids = Issue.visible.all(
-            :include => :custom_values,
-            :conditions => {:custom_values => {:custom_field_id => 1, :value => 'MySQL'}}).map(&:id)
+        expected_ids = Issue.visible.
+            joins(:custom_values).
+            where(:custom_values => {:custom_field_id => 1, :value => 'MySQL'}).map(&:id)
 
         assert_select 'issues > issue > id', :count => expected_ids.count do |ids|
           ids.each { |id| assert expected_ids.delete(id.children.first.content.to_i) }
         end
       end
     end
+  end
+
+  def test_index_should_allow_timestamp_filtering
+    Issue.delete_all
+    Issue.generate!(:subject => '1').update_column(:updated_on, Time.parse("2014-01-02T10:25:00Z"))
+    Issue.generate!(:subject => '2').update_column(:updated_on, Time.parse("2014-01-02T12:13:00Z"))
+
+    get '/issues.xml',
+      {:set_filter => 1, :f => ['updated_on'], :op => {:updated_on => '<='},
+       :v => {:updated_on => ['2014-01-02T12:00:00Z']}}
+    assert_select 'issues>issue', :count => 1
+    assert_select 'issues>issue>subject', :text => '1'
+
+    get '/issues.xml',
+      {:set_filter => 1, :f => ['updated_on'], :op => {:updated_on => '>='},
+       :v => {:updated_on => ['2014-01-02T12:00:00Z']}}
+    assert_select 'issues>issue', :count => 1
+    assert_select 'issues>issue>subject', :text => '2'
+
+    get '/issues.xml',
+      {:set_filter => 1, :f => ['updated_on'], :op => {:updated_on => '>='},
+       :v => {:updated_on => ['2014-01-02T08:00:00Z']}}
+    assert_select 'issues>issue', :count => 2
   end
 
   context "/index.json" do
@@ -170,7 +193,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     should "show only issues with the status_id" do
       get '/issues.xml?status_id=5'
 
-      expected_ids = Issue.visible.all(:conditions => {:status_id => 5}).map(&:id)
+      expected_ids = Issue.visible.where(:status_id => 5).map(&:id)
 
       assert_select 'issues > issue > id', :count => expected_ids.count do |ids|
          ids.each { |id| assert expected_ids.delete(id.children.first.content.to_i) }
@@ -481,7 +504,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
              {:issue => {:project_id => 1, :subject => 'API test',
               :tracker_id => 2, :status_id => 3}}, credentials('jsmith')
       end
-      issue = Issue.first(:order => 'id DESC')
+      issue = Issue.order('id DESC').first
       assert_equal 1, issue.project_id
       assert_equal 2, issue.tracker_id
       assert_equal 3, issue.status_id
@@ -530,7 +553,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
              credentials('jsmith')
       end
 
-      issue = Issue.first(:order => 'id DESC')
+      issue = Issue.order('id DESC').first
       assert_equal 1, issue.project_id
       assert_equal 2, issue.tracker_id
       assert_equal 3, issue.status_id
@@ -781,7 +804,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     end
     xml = Hash.from_xml(response.body)
     token = xml['upload']['token']
-    attachment = Attachment.first(:order => 'id DESC')
+    attachment = Attachment.order('id DESC').first
 
     # create the issue with the upload's token
     assert_difference 'Issue.count' do
@@ -792,7 +815,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
            credentials('jsmith')
       assert_response :created
     end
-    issue = Issue.first(:order => 'id DESC')
+    issue = Issue.order('id DESC').first
     assert_equal 1, issue.attachments.count
     assert_equal attachment, issue.attachments.first
 
@@ -827,7 +850,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     end
     xml = Hash.from_xml(response.body)
     token = xml['upload']['token']
-    attachment = Attachment.first(:order => 'id DESC')
+    attachment = Attachment.order('id DESC').first
 
     # update the issue with the upload's token
     assert_difference 'Journal.count' do

@@ -129,7 +129,7 @@
 #
 # Will become:
 #
-#  <acronym title="American Civil Liberties Union">ACLU</acronym>
+#  <abbr title="American Civil Liberties Union">ACLU</abbr>
 #
 # == Adding Tables
 #
@@ -457,7 +457,7 @@ class RedCloth3 < String
         #    text.gsub! re, resub
         #end
         text.gsub!(/\b([A-Z][A-Z0-9]{1,})\b(?:[(]([^)]*)[)])/) do |m|
-          "<acronym title=\"#{htmlesc $2}\">#{$1}</acronym>"
+          "<abbr title=\"#{htmlesc $2}\">#{$1}</abbr>"
         end
     end
 

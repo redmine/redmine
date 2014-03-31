@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -14,8 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-
-require 'diff'
 
 # The WikiController follows the Rails REST controller pattern but with
 # a few differences
@@ -64,7 +62,12 @@ class WikiController < ApplicationController
 
   # display a page (in editing mode if it doesn't exist)
   def show
-    if @page.new_record?
+    if params[:version] && !User.current.allowed_to?(:view_wiki_edits, @project)
+      deny_access
+      return
+    end
+    @content = @page.content_for_version(params[:version])
+    if @content.nil?
       if User.current.allowed_to?(:edit_wiki_pages, @project) && editable? && !api_request?
         edit
         render :action => 'edit'
@@ -73,11 +76,6 @@ class WikiController < ApplicationController
       end
       return
     end
-    if params[:version] && !User.current.allowed_to?(:view_wiki_edits, @project)
-      deny_access
-      return
-    end
-    @content = @page.content_for_version(params[:version])
     if User.current.allowed_to?(:export_wiki_pages, @project)
       if params[:format] == 'pdf'
         send_data(wiki_page_to_pdf(@page, @project), :type => 'application/pdf', :filename => "#{@page.title}.pdf")
@@ -106,19 +104,19 @@ class WikiController < ApplicationController
   def edit
     return render_403 unless editable?
     if @page.new_record?
-      @page.content = WikiContent.new(:page => @page)
       if params[:parent].present?
         @page.parent = @page.wiki.find_page(params[:parent].to_s)
       end
     end
 
     @content = @page.content_for_version(params[:version])
+    @content ||= WikiContent.new(:page => @page)
     @content.text = initial_page_content(@page) if @content.text.blank?
     # don't keep previous comment
     @content.comments = nil
 
     # To prevent StaleObjectError exception when reverting to a previous version
-    @content.version = @page.content.version
+    @content.version = @page.content.version if @page.content
 
     @text = @content.text
     if params[:section].present? && Redmine::WikiFormatting.supports_section_edit?
@@ -132,10 +130,9 @@ class WikiController < ApplicationController
   def update
     return render_403 unless editable?
     was_new_page = @page.new_record?
-    @page.content = WikiContent.new(:page => @page) if @page.new_record?
     @page.safe_attributes = params[:wiki_page]
 
-    @content = @page.content
+    @content = @page.content || WikiContent.new(:page => @page)
     content_params = params[:content]
     if content_params.nil? && params[:wiki_page].is_a?(Hash)
       content_params = params[:wiki_page].slice(:text, :comments, :version)
@@ -147,20 +144,23 @@ class WikiController < ApplicationController
     if params[:section].present? && Redmine::WikiFormatting.supports_section_edit?
       @section = params[:section].to_i
       @section_hash = params[:section_hash]
-      @content.text = Redmine::WikiFormatting.formatter.new(@content.text).update_section(params[:section].to_i, @text, @section_hash)
+      @content.text = Redmine::WikiFormatting.formatter.new(@content.text).update_section(@section, @text, @section_hash)
     else
       @content.version = content_params[:version] if content_params[:version]
       @content.text = @text
     end
     @content.author = User.current
 
-    if @page.save_with_content
+    if @page.save_with_content(@content)
       attachments = Attachment.attach_files(@page, params[:attachments])
       render_attachment_warning_if_needed(@page)
       call_hook(:controller_wiki_edit_after_save, { :params => params, :page => @page})
 
       respond_to do |format|
-        format.html { redirect_to project_wiki_page_path(@project, @page.title) }
+        format.html {
+          anchor = @section ? "section-#{@section}" : nil
+          redirect_to project_wiki_page_path(@project, @page.title, :anchor => anchor)
+        }
         format.api {
           if was_new_page
             render :action => 'show', :status => :created, :location => project_wiki_page_path(@project, @page.title)
@@ -277,14 +277,19 @@ class WikiController < ApplicationController
 
   # Export wiki to a single pdf or html file
   def export
-    @pages = @wiki.pages.all(:order => 'title', :include => [:content, {:attachments => :author}])
+    @pages = @wiki.pages.
+                      order('title').
+                      includes([:content, {:attachments => :author}]).
+                      all
     respond_to do |format|
       format.html {
         export = render_to_string :action => 'export_multiple', :layout => false
         send_data(export, :type => 'text/html', :filename => "wiki.html")
       }
       format.pdf {
-        send_data(wiki_pages_to_pdf(@pages, @project), :type => 'application/pdf', :filename => "#{@project.identifier}.pdf")
+        send_data(wiki_pages_to_pdf(@pages, @project),
+                  :type => 'application/pdf',
+                  :filename => "#{@project.identifier}.pdf")
       }
     end
   end
@@ -351,6 +356,10 @@ private
   end
 
   def load_pages_for_index
-    @pages = @wiki.pages.with_updated_on.reorder("#{WikiPage.table_name}.title").includes(:wiki => :project).includes(:parent).all
+    @pages = @wiki.pages.with_updated_on.
+                reorder("#{WikiPage.table_name}.title").
+                includes(:wiki => :project).
+                includes(:parent).
+                all
   end
 end

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -161,6 +161,11 @@ class WikiControllerTest < ActionController::TestCase
     assert_template 'edit'
   end
 
+  def test_show_specific_version_of_an_unexistent_page_without_edit_right
+    get :show, :project_id => 1, :id => 'Unexistent page', :version => 1
+    assert_response 404
+  end
+
   def test_show_unexistent_page_with_parent_should_preselect_parent
     @request.session[:user_id] = 2
     get :show, :project_id => 1, :id => 'Unexistent page', :parent => 'Another_page'
@@ -175,6 +180,16 @@ class WikiControllerTest < ActionController::TestCase
     get :show, :project_id => 1, :id => 'Page with sections', :version => 2
 
     assert_response 302
+  end
+
+  def test_show_page_without_content_should_display_the_edit_form
+    @request.session[:user_id] = 2
+    WikiPage.create!(:title => 'NoContent', :wiki => Project.find(1).wiki)
+
+    get :show, :project_id => 1, :id => 'NoContent'
+    assert_response :success
+    assert_template 'edit'
+    assert_select 'textarea[name=?]', 'content[text]'
   end
 
   def test_create_page
@@ -412,6 +427,19 @@ class WikiControllerTest < ActionController::TestCase
     assert_equal 2, c.version
   end
 
+  def test_update_page_without_content_should_create_content
+    @request.session[:user_id] = 2
+    page = WikiPage.create!(:title => 'NoContent', :wiki => Project.find(1).wiki)
+
+    assert_no_difference 'WikiPage.count' do
+      assert_difference 'WikiContent.count' do
+        put :update, :project_id => 1, :id => 'NoContent', :content => {:text => 'Some content'}
+        assert_response 302
+      end
+    end
+    assert_equal 'Some content', page.reload.content.text
+  end
+
   def test_update_section
     @request.session[:user_id] = 2
     page = WikiPage.find_by_title('Page_with_sections')
@@ -431,7 +459,7 @@ class WikiControllerTest < ActionController::TestCase
         end
       end
     end
-    assert_redirected_to '/projects/ecookbook/wiki/Page_with_sections'
+    assert_redirected_to '/projects/ecookbook/wiki/Page_with_sections#section-2'
     assert_equal Redmine::WikiFormatting::Textile::Formatter.new(text).update_section(2, "New section content"), page.reload.content.text
   end
 
@@ -454,7 +482,7 @@ class WikiControllerTest < ActionController::TestCase
         end
       end
     end
-    assert_redirected_to '/projects/ecookbook/wiki/Page_with_sections'
+    assert_redirected_to '/projects/ecookbook/wiki/Page_with_sections#section-2'
     page.reload
     assert_equal Redmine::WikiFormatting::Textile::Formatter.new(text).update_section(2, "New section content"), page.content.text
     assert_equal 4, page.content.version
@@ -925,9 +953,12 @@ class WikiControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     assert_difference 'Attachment.count' do
       post :add_attachment, :project_id => 1, :id => 'CookBook_documentation',
-        :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain'), 'description' => 'test file'}}
+           :attachments => {
+             '1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain'),
+                     'description' => 'test file'}
+           }
     end
-    attachment = Attachment.first(:order => 'id DESC')
+    attachment = Attachment.order('id DESC').first
     assert_equal Wiki.find(1).find_page('CookBook_documentation'), attachment.container
   end
 end

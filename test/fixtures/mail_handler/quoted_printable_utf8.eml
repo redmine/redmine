@@ -1,0 +1,19 @@
+Date: Tue, 13 Aug 2013 10:56:04 +0700
+From: John Smith <JSmith@somenet.foo>
+Content-Type: multipart/alternative; boundary=001a11c260fa53f8dc04e3cc380b
+Subject: issue 14675
+To: redmine@somenet.foo
+
+--001a11c260fa53f8dc04e3cc380b
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+Freundliche Gr=C3=BCsse
+
+--001a11c260fa53f8dc04e3cc380b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Freundliche Gr=C3=BCsse<br></div>
+
+--001a11c260fa53f8dc04e3cc380b--

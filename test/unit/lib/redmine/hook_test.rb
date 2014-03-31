@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -154,14 +154,14 @@ class Redmine::Hook::ManagerTest < ActionView::TestCase
     issue = Issue.find(1)
 
     ActionMailer::Base.deliveries.clear
-    Mailer.issue_add(issue).deliver
+    Mailer.deliver_issue_add(issue)
     mail = ActionMailer::Base.deliveries.last
 
     @hook_module.add_listener(TestLinkToHook)
     hook_helper.call_hook(:view_layouts_base_html_head)
 
     ActionMailer::Base.deliveries.clear
-    Mailer.issue_add(issue).deliver
+    Mailer.deliver_issue_add(issue)
     mail2 = ActionMailer::Base.deliveries.last
 
     assert_equal mail_body(mail), mail_body(mail2)

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -36,7 +36,7 @@ module Redmine
             pop_session.each_mail do |msg|
               message = msg.pop
               message_id = (message =~ /^Message-I[dD]: (.*)/ ? $1 : '').strip
-              if MailHandler.receive(message, options)
+              if MailHandler.safe_receive(message, options)
                 msg.delete
                 logger.debug "--> Message #{message_id} processed and deleted from the server" if logger && logger.debug?
               else

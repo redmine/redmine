@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -224,7 +224,7 @@ class TimelogControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to '/projects/ecookbook/time_entries'
-    time_entry = TimeEntry.first(:order => 'id DESC')
+    time_entry = TimeEntry.order('id DESC').first
     assert_equal 1, time_entry.project_id
   end
 
@@ -289,6 +289,28 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal 2, entry.user_id
   end
 
+  def test_update_should_allow_to_change_issue_to_another_project
+    entry = TimeEntry.generate!(:issue_id => 1)
+
+    @request.session[:user_id] = 1
+    put :update, :id => entry.id, :time_entry => {:issue_id => '5'}
+    assert_response 302
+    entry.reload
+
+    assert_equal 5, entry.issue_id
+    assert_equal 3, entry.project_id
+  end
+
+  def test_update_should_not_allow_to_change_issue_to_an_invalid_project
+    entry = TimeEntry.generate!(:issue_id => 1)
+    Project.find(3).disable_module!(:time_tracking)
+
+    @request.session[:user_id] = 1
+    put :update, :id => entry.id, :time_entry => {:issue_id => '5'}
+    assert_response 200
+    assert_include "Issue is invalid", assigns(:time_entry).errors.full_messages
+  end
+
   def test_get_bulk_edit
     @request.session[:user_id] = 2
     get :bulk_edit, :ids => [1, 2]
@@ -326,7 +348,7 @@ class TimelogControllerTest < ActionController::TestCase
 
     assert_response 302
     # check that the issues were updated
-    assert_equal [9, 9], TimeEntry.find_all_by_id([1, 2]).collect {|i| i.activity_id}
+    assert_equal [9, 9], TimeEntry.where(:id => [1, 2]).collect {|i| i.activity_id}
   end
 
   def test_bulk_update_with_failure
@@ -347,7 +369,7 @@ class TimelogControllerTest < ActionController::TestCase
 
     assert_response 302
     # check that the issues were updated
-    assert_equal [9, 9, 9], TimeEntry.find_all_by_id([1, 2, 4]).collect {|i| i.activity_id}
+    assert_equal [9, 9, 9], TimeEntry.where(:id => [1, 2, 4]).collect {|i| i.activity_id}
   end
 
   def test_bulk_update_on_different_projects_without_rights
@@ -365,7 +387,7 @@ class TimelogControllerTest < ActionController::TestCase
     post :bulk_update, :ids => [1, 2], :time_entry => { :custom_field_values => {'10' => '0'} }
 
     assert_response 302
-    assert_equal ["0", "0"], TimeEntry.find_all_by_id([1, 2]).collect {|i| i.custom_value_for(10).value}
+    assert_equal ["0", "0"], TimeEntry.where(:id => [1, 2]).collect {|i| i.custom_value_for(10).value}
   end
 
   def test_post_bulk_update_should_redirect_back_using_the_back_url_parameter
@@ -449,6 +471,28 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal "162.90", "%.2f" % assigns(:total_hours)
     assert_tag :form,
       :attributes => {:action => "/projects/ecookbook/time_entries", :id => 'query_form'}
+  end
+
+  def test_index_with_display_subprojects_issues_to_false_should_not_include_subproject_entries
+    entry = TimeEntry.generate!(:project => Project.find(3))
+
+    with_settings :display_subprojects_issues => '0' do
+      get :index, :project_id => 'ecookbook'
+      assert_response :success
+      assert_template 'index'
+      assert_not_include entry, assigns(:entries)
+    end
+  end
+
+  def test_index_with_display_subprojects_issues_to_false_and_subproject_filter_should_include_subproject_entries
+    entry = TimeEntry.generate!(:project => Project.find(3))
+
+    with_settings :display_subprojects_issues => '0' do
+      get :index, :project_id => 'ecookbook', :subproject_id => 3
+      assert_response :success
+      assert_template 'index'
+      assert_include entry, assigns(:entries)
+    end
   end
 
   def test_index_at_project_level_with_date_range
@@ -546,6 +590,35 @@ class TimelogControllerTest < ActionController::TestCase
     assert_response :success
     assert_include :'issue.cf_2', assigns(:query).column_names
     assert_select 'td.issue_cf_2', :text => 'filter_on_issue_custom_field'
+  end
+
+  def test_index_with_time_entry_custom_field_column
+    field = TimeEntryCustomField.generate!(:field_format => 'string')
+    entry = TimeEntry.generate!(:hours => 2.5, :custom_field_values => {field.id => 'CF Value'})
+    field_name = "cf_#{field.id}"
+
+    get :index, :c => ["hours", field_name]
+    assert_response :success
+    assert_include field_name.to_sym, assigns(:query).column_names
+    assert_select "td.#{field_name}", :text => 'CF Value'
+  end
+
+  def test_index_with_time_entry_custom_field_sorting
+    field = TimeEntryCustomField.generate!(:field_format => 'string', :name => 'String Field')
+    TimeEntry.generate!(:hours => 2.5, :custom_field_values => {field.id => 'CF Value 1'})
+    TimeEntry.generate!(:hours => 2.5, :custom_field_values => {field.id => 'CF Value 3'})
+    TimeEntry.generate!(:hours => 2.5, :custom_field_values => {field.id => 'CF Value 2'})
+    field_name = "cf_#{field.id}"
+
+    get :index, :c => ["hours", field_name], :sort => field_name
+    assert_response :success
+    assert_include field_name.to_sym, assigns(:query).column_names
+    assert_select "th a.sort", :text => 'String Field'
+
+    # Make sure that values are properly sorted
+    values = assigns(:entries).map {|e| e.custom_field_value(field)}.compact
+    assert_equal 3, values.size
+    assert_equal values.sort, values
   end
 
   def test_index_atom_feed
