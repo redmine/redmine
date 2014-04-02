@@ -4,7 +4,7 @@
 <table class="list plugins">
     <% @plugins.each do |plugin| %>
         <tr id="plugin-<%= plugin.id %>" class="<%= cycle('odd', 'even') %>">
-        <td><span class="name"><%=h plugin.name %></span>
+        <td class="name"><span class="name"><%=h plugin.name %></span>
             <%= content_tag('span', h(plugin.description), :class => 'description') unless plugin.description.blank? %>
             <%= content_tag('span', link_to(h(plugin.url), plugin.url), :class => 'url') unless plugin.url.blank? %>
         </td>

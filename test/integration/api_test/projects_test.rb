@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -49,8 +49,8 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
     assert_response :success
     assert_equal 'application/xml', @response.content_type
 
-    assert_tag :tag => 'projects',
-      :child => {:tag => 'project', :child => {:tag => 'id', :content => '1'}}
+    assert_select 'projects>project>id', :text => '1'
+    assert_select 'projects>project>status', :text => '1'
   end
 
   test "GET /projects.json should return projects" do
@@ -70,10 +70,9 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
     assert_response :success
     assert_equal 'application/xml', @response.content_type
 
-    assert_tag :tag => 'project',
-      :child => {:tag => 'id', :content => '1'}
-    assert_tag :tag => 'custom_field',
-      :attributes => {:name => 'Development status'}, :content => 'Stable'
+    assert_select 'project>id', :text => '1'
+    assert_select 'project>status', :text => '1'
+    assert_select 'custom_field[name=Development status]', :text => 'Stable'
 
     assert_no_tag 'trackers'
     assert_no_tag 'issue_categories'
@@ -140,7 +139,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
         credentials('admin')
     end
 
-    project = Project.first(:order => 'id DESC')
+    project = Project.order('id DESC').first
     assert_equal 'API test', project.name
     assert_equal 'api-test', project.identifier
     assert_equal ['issue_tracking', 'repository'], project.enabled_module_names.sort
@@ -158,7 +157,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
         credentials('admin')
     end
 
-    project = Project.first(:order => 'id DESC')
+    project = Project.order('id DESC').first
     assert_equal ['issue_tracking', 'news', 'time_tracking'], project.enabled_module_names.sort
   end
 
@@ -169,7 +168,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
         credentials('admin')
     end
 
-    project = Project.first(:order => 'id DESC')
+    project = Project.order('id DESC').first
     assert_equal [1, 3], project.trackers.map(&:id).sort
   end
 

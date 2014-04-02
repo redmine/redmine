@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -47,7 +47,7 @@ class TimelogController < ApplicationController
     sort_init(@query.sort_criteria.empty? ? [['spent_on', 'desc']] : @query.sort_criteria)
     sort_update(@query.sortable_columns)
     scope = time_entry_scope(:order => sort_clause).
-      includes(:project, :activity, :user, :issue).
+      includes(:project, :user, :issue).
       preload(:issue => [:project, :tracker, :status, :assigned_to, :priority])
 
     respond_to do |format|
@@ -232,7 +232,7 @@ private
   end
 
   def find_time_entries
-    @time_entries = TimeEntry.find_all_by_id(params[:id] || params[:ids])
+    @time_entries = TimeEntry.where(:id => params[:id] || params[:ids]).all
     raise ActiveRecord::RecordNotFound if @time_entries.empty?
     @projects = @time_entries.collect(&:project).compact.uniq
     @project = @projects.first if @projects.size == 1

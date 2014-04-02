@@ -16,7 +16,7 @@ I/O encoding:
 :file path: urlencoded, raw string
 :tag name: utf-8
 :branch name: utf-8
-:node: 12-digits (short) hex string
+:node: hex string
 
 Output example of rhsummary::
 
@@ -60,7 +60,7 @@ def _tip(ui, repo):
             return repo.changelog.count() - 1
     tipctx = repo.changectx(tiprev())
     ui.write('<tip revision="%d" node="%s"/>\n'
-             % (tipctx.rev(), _x(node.short(tipctx.node()))))
+             % (tipctx.rev(), _x(node.hex(tipctx.node()))))
 
 _SPECIAL_TAGS = ('tip',)
 
@@ -74,13 +74,18 @@ def _tags(ui, repo):
         except error.LookupError:
             continue
         ui.write('<tag revision="%d" node="%s" name="%s"/>\n'
-                 % (r, _x(node.short(n)), _x(t)))
+                 % (r, _x(node.hex(n)), _x(t)))
 
 def _branches(ui, repo):
     # see mercurial/commands.py:branches
     def iterbranches():
-        for t, n in repo.branchtags().iteritems():
-            yield t, n, repo.changelog.rev(n)
+        if getattr(repo, 'branchtags', None) is not None:
+            # Mercurial < 2.9
+            for t, n in repo.branchtags().iteritems():
+                yield t, n, repo.changelog.rev(n)
+        else:
+            for tag, heads, tip, isclosed in repo.branchmap().iterbranches():
+                yield tag, tip, repo.changelog.rev(tip)
     def branchheads(branch):
         try:
             return repo.branchheads(branch, closed=False)
@@ -89,7 +94,7 @@ def _branches(ui, repo):
     for t, n, r in sorted(iterbranches(), key=lambda e: e[2], reverse=True):
         if repo.lookup(r) in branchheads(t):
             ui.write('<branch revision="%d" node="%s" name="%s"/>\n'
-                     % (r, _x(node.short(n)), _x(t)))
+                     % (r, _x(node.hex(n)), _x(t)))
 
 def _manifest(ui, repo, path, rev):
     ctx = repo.changectx(rev)
@@ -114,7 +119,7 @@ def _manifest(ui, repo, path, rev):
             tm, tzoffset = fctx.date()
             ui.write('<file name="%s" revision="%d" node="%s" '
                      'time="%d" size="%d"/>\n'
-                     % (_u(name), fctx.rev(), _x(node.short(fctx.node())),
+                     % (_u(name), fctx.rev(), _x(node.hex(fctx.node())),
                         tm, fctx.size(), ))
 
     ui.write('</manifest>\n')

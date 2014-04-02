@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -55,7 +55,7 @@ class MailerTest < ActiveSupport::TestCase
       # link to a referenced ticket
       assert_select 'a[href=?][title=?]',
                     'https://mydomain.foo/issues/1',
-                    'Can&#x27;t print recipes (New)',
+                    "#{ESCAPED_UCANT} print recipes (New)",
                     :text => '#1'
       # link to a changeset
       assert_select 'a[href=?][title=?]',
@@ -94,7 +94,7 @@ class MailerTest < ActiveSupport::TestCase
       # link to a referenced ticket
       assert_select 'a[href=?][title=?]',
                     'http://mydomain.foo/rdm/issues/1',
-                    'Can&#x27;t print recipes (New)',
+                    "#{ESCAPED_UCANT} print recipes (New)",
                     :text => '#1'
       # link to a changeset
       assert_select 'a[href=?][title=?]',
@@ -110,6 +110,16 @@ class MailerTest < ActiveSupport::TestCase
       assert_select 'a[href=?]',
                     'http://mydomain.foo/rdm/attachments/download/4/source.rb',
                     :text => 'source.rb'
+    end
+  end
+
+  def test_issue_edit_should_generate_url_with_hostname_for_relations
+    journal = Journal.new(:journalized => Issue.find(1), :user => User.find(1), :created_on => Time.now)
+    journal.details << JournalDetail.new(:property => 'relation', :prop_key => 'label_relates_to', :value => 2)
+    Mailer.deliver_issue_edit(journal)
+    assert_not_nil last_email
+    assert_select_email do
+      assert_select 'a[href=?]', 'http://mydomain.foo/issues/2', :text => 'Feature request #2'
     end
   end
 
@@ -134,7 +144,7 @@ class MailerTest < ActiveSupport::TestCase
       # link to a referenced ticket
       assert_select 'a[href=?][title=?]',
                     'http://mydomain.foo/rdm/issues/1',
-                    'Can&#x27;t print recipes (New)',
+                    "#{ESCAPED_UCANT} print recipes (New)",
                     :text => '#1'
       # link to a changeset
       assert_select 'a[href=?][title=?]',
@@ -455,6 +465,17 @@ class MailerTest < ActiveSupport::TestCase
       Setting.default_language = lang.to_s
       assert Mailer.news_added(news).deliver
     end
+  end
+
+  def test_news_added_should_notify_project_news_watchers
+    user1 = User.generate!
+    user2 = User.generate!
+    news = News.find(1)
+    news.project.enabled_module('news').add_watcher(user1)
+
+    Mailer.news_added(news).deliver
+    assert_include user1.mail, last_email.bcc
+    assert_not_include user2.mail, last_email.bcc
   end
 
   def test_news_comment_added

@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -41,6 +41,7 @@ class MailHandlerTest < ActiveSupport::TestCase
 
   def test_add_issue
     ActionMailer::Base.deliveries.clear
+    lft1 = new_issue_lft
     # This email contains: 'Project: onlinestore'
     issue = submit_email('ticket_on_given_project.eml')
     assert issue.is_a?(Issue)
@@ -58,7 +59,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal Version.find_by_name('Alpha'), issue.fixed_version
     assert_equal 2.5, issue.estimated_hours
     assert_equal 30, issue.done_ratio
-    assert_equal [issue.id, 1, 2], [issue.root_id, issue.lft, issue.rgt]
+    assert_equal [issue.id, lft1, lft1 + 1], [issue.root_id, issue.lft, issue.rgt]
     # keywords should be removed from the email body
     assert !issue.description.match(/^Project:/i)
     assert !issue.description.match(/^Status:/i)
@@ -264,6 +265,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_issue_by_anonymous_user_on_private_project_without_permission_check
+    lft1 = new_issue_lft
     assert_no_difference 'User.count' do
       assert_difference 'Issue.count' do
         issue = submit_email(
@@ -275,7 +277,7 @@ class MailHandlerTest < ActiveSupport::TestCase
         assert issue.is_a?(Issue)
         assert issue.author.anonymous?
         assert !issue.project.is_public?
-        assert_equal [issue.id, 1, 2], [issue.root_id, issue.lft, issue.rgt]
+        assert_equal [issue.id, lft1, lft1 + 1], [issue.root_id, issue.lft, issue.rgt]
       end
     end
   end
@@ -501,11 +503,19 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 'd8e8fca2dc0f896fd7cb4cb0031ba249', attachment.digest
   end
 
-  def test_multiple_text_parts
+  def test_multiple_inline_text_parts_should_be_appended_to_issue_description
     issue = submit_email('multiple_text_parts.eml', :issue => {:project => 'ecookbook'})
     assert_include 'first', issue.description
     assert_include 'second', issue.description
     assert_include 'third', issue.description
+  end
+
+  def test_attachment_text_part_should_be_added_as_issue_attachment
+    issue = submit_email('multiple_text_parts.eml', :issue => {:project => 'ecookbook'})
+    assert_not_include 'Plain text attachment', issue.description
+    attachment = issue.attachments.detect {|a| a.filename == 'textfile.txt'}
+    assert_not_nil attachment
+    assert_include 'Plain text attachment', File.read(attachment.diskfile)
   end
 
   def test_add_issue_with_iso_8859_1_subject
@@ -528,6 +538,23 @@ class MailHandlerTest < ActiveSupport::TestCase
     ja = "\xe3\x83\x86\xe3\x82\xb9\xe3\x83\x88"
     ja.force_encoding('UTF-8') if ja.respond_to?(:force_encoding)
     assert_equal ja, issue.subject
+  end
+
+  def test_add_issue_with_korean_body
+    # Make sure mail bodies with a charset unknown to Ruby
+    # but known to the Mail gem 2.5.4 are handled correctly
+    kr = "\xEA\xB3\xA0\xEB\xA7\x99\xEC\x8A\xB5\xEB\x8B\x88\xEB\x8B\xA4."
+    if !kr.respond_to?(:force_encoding)
+      puts "\nOn Ruby 1.8, skip Korean encoding mail body test"
+    else
+      kr.force_encoding('UTF-8')
+      issue = submit_email(
+              'body_ks_c_5601-1987.eml',
+              :issue => {:project => 'ecookbook'}
+            )
+      assert_kind_of Issue, issue
+      assert_equal kr, issue.description
+    end
   end
 
   def test_add_issue_with_no_subject_header
@@ -638,7 +665,7 @@ class MailHandlerTest < ActiveSupport::TestCase
         end
       end
     end
-    journal = Journal.first(:order => 'id DESC')
+    journal = Journal.order('id DESC').first
     assert_equal Issue.find(2), journal.journalized
     assert_equal 1, journal.details.size
 
@@ -821,8 +848,7 @@ class MailHandlerTest < ActiveSupport::TestCase
                 :unknown_user => 'create'
               )
     end
-
-    user = User.first(:order => 'id DESC')
+    user = User.order('id DESC').first
     assert_equal "foo@example.org", user.mail
     str1 = "\xc3\x84\xc3\xa4"
     str2 = "\xc3\x96\xc3\xb6"

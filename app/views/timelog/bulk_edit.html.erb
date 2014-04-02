@@ -39,7 +39,7 @@
     </p>
 
     <% @custom_fields.each do |custom_field| %>
-      <p><label><%= h(custom_field.name) %></label> <%= custom_field_tag_for_bulk_edit('time_entry', custom_field, @projects) %></p>
+      <p><label><%= h(custom_field.name) %></label> <%= custom_field_tag_for_bulk_edit('time_entry', custom_field, @time_entries) %></p>
     <% end %>
 
     <%= call_hook(:view_time_entries_bulk_edit_details_bottom, { :time_entries => @time_entries }) %>

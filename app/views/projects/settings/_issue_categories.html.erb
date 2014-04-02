@@ -9,7 +9,7 @@
 <% for category in @project.issue_categories %>
   <% unless category.new_record? %>
   <tr class="<%= cycle 'odd', 'even' %>">
-    <td><%=h(category.name) %></td>
+    <td class="name"><%=h(category.name) %></td>
     <td><%=h(category.assigned_to.name) if category.assigned_to %></td>
     <td class="buttons">
       <% if User.current.allowed_to?(:manage_categories, @project) %>

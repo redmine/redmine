@@ -1,0 +1,7 @@
+<p>
+  <%= f.text_area :possible_values, :value => @custom_field.possible_values.to_a.join("\n"), :rows => 15 %>
+  <em class="info"><%= l(:text_custom_field_possible_values_info) %></em>
+</p>
+<p><%= f.text_field(:default_value) %></p>
+<p><%= f.text_field :url_pattern, :size => 50, :label => :label_link_values_to %></p>
+<p><%= edit_tag_style_tag f %></p>

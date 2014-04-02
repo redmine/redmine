@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -154,7 +154,7 @@ class IssueTest < ActiveSupport::TestCase
       assert Issue.new(:project_id => 2, :tracker_id => 1, :author_id => 1,
                        :subject => 'Group assignment',
                        :assigned_to_id => 11).save
-      issue = Issue.first(:order => 'id DESC')
+      issue = Issue.order('id DESC').first
       assert_kind_of Group, issue.assigned_to
       assert_equal Group.find(11), issue.assigned_to
     end
@@ -330,7 +330,23 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_visible_and_nested_set_scopes
-    assert_equal 0, Issue.find(1).descendants.visible.all.size
+    user = User.generate!
+    parent = Issue.generate!(:assigned_to => user)
+    assert parent.visible?(user)
+    child1 = Issue.generate!(:parent_issue_id => parent.id, :assigned_to => user)
+    child2 = Issue.generate!(:parent_issue_id => parent.id, :assigned_to => user)
+    parent.reload
+    child1.reload
+    child2.reload
+    assert child1.visible?(user)
+    assert child2.visible?(user)
+    assert_equal 2, parent.descendants.count
+    assert_equal 2, parent.descendants.visible(user).count
+    # awesome_nested_set 2-1-stable branch has regression.
+    # https://github.com/collectiveidea/awesome_nested_set/commit/3d5ac746542b564f6586c2316180254b088bebb6
+    # ActiveRecord::StatementInvalid: SQLite3::SQLException: ambiguous column name: lft:
+    assert_equal 2, parent.descendants.collect{|i| i}.size
+    assert_equal 2, parent.descendants.visible(user).collect{|i| i}.size
   end
 
   def test_open_scope
@@ -564,8 +580,8 @@ class IssueTest < ActiveSupport::TestCase
     issue = Issue.find(1)
     assert !admin.member_of?(issue.project)
     expected_statuses = [issue.status] +
-                            WorkflowTransition.find_all_by_old_status_id(
-                                issue.status_id).map(&:new_status).uniq.sort
+                            WorkflowTransition.where(:old_status_id => issue.status_id).
+                                map(&:new_status).uniq.sort
     assert_equal expected_statuses, issue.new_statuses_allowed_to(admin)
   end
 
@@ -1375,6 +1391,15 @@ class IssueTest < ActiveSupport::TestCase
     assert_nil TimeEntry.find_by_issue_id(1)
   end
 
+  def test_destroy_should_delete_time_entries_custom_values
+    issue = Issue.generate!
+    time_entry = TimeEntry.generate!(:issue => issue, :custom_field_values => {10 => '1'})
+
+    assert_difference 'CustomValue.where(:customized_type => "TimeEntry").count', -1 do
+      assert issue.destroy
+    end
+  end
+
   def test_destroying_a_deleted_issue_should_not_raise_an_error
     issue = Issue.find(1)
     Issue.find(1).destroy
@@ -1695,9 +1720,47 @@ class IssueTest < ActiveSupport::TestCase
                       :author_id => 3, :status_id => 1,
                       :priority => IssuePriority.all.first,
                       :subject => 'test_create', :estimated_hours => '1:30')
+    with_settings :notified_events => %w(issue_added) do
+      assert issue.save
+      assert_equal 1, ActionMailer::Base.deliveries.size
+    end
+  end
 
-    assert issue.save
-    assert_equal 1, ActionMailer::Base.deliveries.size
+  def test_create_should_send_one_email_notification_with_both_settings
+    ActionMailer::Base.deliveries.clear
+    issue = Issue.new(:project_id => 1, :tracker_id => 1,
+                      :author_id => 3, :status_id => 1,
+                      :priority => IssuePriority.all.first,
+                      :subject => 'test_create', :estimated_hours => '1:30')
+    with_settings :notified_events => %w(issue_added issue_updated) do
+      assert issue.save
+      assert_equal 1, ActionMailer::Base.deliveries.size
+    end
+  end
+
+  def test_create_should_not_send_email_notification_with_no_setting
+    ActionMailer::Base.deliveries.clear
+    issue = Issue.new(:project_id => 1, :tracker_id => 1,
+                      :author_id => 3, :status_id => 1,
+                      :priority => IssuePriority.all.first,
+                      :subject => 'test_create', :estimated_hours => '1:30')
+    with_settings :notified_events => [] do
+      assert issue.save
+      assert_equal 0, ActionMailer::Base.deliveries.size
+    end
+  end
+
+  def test_update_should_notify_previous_assignee
+    ActionMailer::Base.deliveries.clear
+    user = User.find(3)
+    user.members.update_all ["mail_notification = ?", false]
+    user.update_attribute :mail_notification, 'only_assigned'
+
+    issue = Issue.find(2)
+    issue.init_journal User.find(1)
+    issue.assigned_to = nil
+    issue.save!
+    assert_include user.mail, ActionMailer::Base.deliveries.last.bcc
   end
 
   def test_stale_issue_should_not_send_email_notification
@@ -1707,16 +1770,18 @@ class IssueTest < ActiveSupport::TestCase
 
     issue.init_journal(User.find(1))
     issue.subject = 'Subjet update'
-    assert issue.save
-    assert_equal 1, ActionMailer::Base.deliveries.size
-    ActionMailer::Base.deliveries.clear
+    with_settings :notified_events => %w(issue_updated) do
+      assert issue.save
+      assert_equal 1, ActionMailer::Base.deliveries.size
+      ActionMailer::Base.deliveries.clear
 
-    stale.init_journal(User.find(1))
-    stale.subject = 'Another subjet update'
-    assert_raise ActiveRecord::StaleObjectError do
-      stale.save
+      stale.init_journal(User.find(1))
+      stale.subject = 'Another subjet update'
+      assert_raise ActiveRecord::StaleObjectError do
+        stale.save
+      end
+      assert ActionMailer::Base.deliveries.empty?
     end
-    assert ActionMailer::Base.deliveries.empty?
   end
 
   def test_journalized_description
@@ -1734,7 +1799,7 @@ class IssueTest < ActiveSupport::TestCase
       end
     end
 
-    detail = JournalDetail.first(:order => 'id DESC')
+    detail = JournalDetail.order('id DESC').first
     assert_equal i, detail.journal.journalized
     assert_equal 'attr', detail.property
     assert_equal 'description', detail.prop_key
@@ -1744,7 +1809,7 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_blank_descriptions_should_not_be_journalized
     IssueCustomField.delete_all
-    Issue.update_all("description = NULL", "id=1")
+    Issue.where(:id => 1).update_all("description = NULL")
 
     i = Issue.find(1)
     i.init_journal(User.find(2))
@@ -1978,7 +2043,7 @@ class IssueTest < ActiveSupport::TestCase
     r = IssueRelation.create!(:issue_from => Issue.find(3),
                              :issue_to   => Issue.find(7),
                              :relation_type => IssueRelation::TYPE_PRECEDES)
-    IssueRelation.update_all("issue_to_id = 1", ["id = ?", r.id])
+    IssueRelation.where(["id = ?", r.id]).update_all("issue_to_id = 1")
 
     assert_equal [2, 3], Issue.find(1).all_dependent_issues.collect(&:id).sort
   end
@@ -1998,12 +2063,12 @@ class IssueTest < ActiveSupport::TestCase
     r = IssueRelation.create!(:issue_from => Issue.find(8),
                              :issue_to   => Issue.find(7),
                              :relation_type => IssueRelation::TYPE_RELATES)
-    IssueRelation.update_all("issue_to_id = 2", ["id = ?", r.id])
+    IssueRelation.where(["id = ?", r.id]).update_all("issue_to_id = 2")
 
     r = IssueRelation.create!(:issue_from => Issue.find(3),
                              :issue_to   => Issue.find(7),
                              :relation_type => IssueRelation::TYPE_RELATES)
-    IssueRelation.update_all("issue_to_id = 1", ["id = ?", r.id])
+    IssueRelation.where(["id = ?", r.id]).update_all("issue_to_id = 1")
 
     assert_equal [2, 3, 8], Issue.find(1).all_dependent_issues.collect(&:id).sort
   end
@@ -2189,16 +2254,19 @@ class IssueTest < ActiveSupport::TestCase
     assert_include 'priority-highest', classes
   end
 
-  def test_css_classes_should_include_user_assignment
-    issue = Issue.generate(:assigned_to_id => 2)
-    assert_include 'assigned-to-me', issue.css_classes(User.find(2))
-    assert_not_include 'assigned-to-me', issue.css_classes(User.find(3))
-  end
-
-  def test_css_classes_should_include_user_group_assignment
-    issue = Issue.generate(:assigned_to_id => 10)
-    assert_include 'assigned-to-my-group', issue.css_classes(Group.find(10).users.first)
-    assert_not_include 'assigned-to-my-group', issue.css_classes(User.find(3))
+  def test_css_classes_should_include_user_and_group_assignment
+    project = Project.first
+    user = User.generate!
+    group = Group.generate!
+    Member.create!(:principal => group, :project => project, :role_ids => [1, 2])
+    group.users << user
+    assert user.member_of?(project)
+    issue1 = Issue.generate(:assigned_to_id => group.id)
+    assert_include 'assigned-to-my-group', issue1.css_classes(user)
+    assert_not_include 'assigned-to-me', issue1.css_classes(user)
+    issue2 = Issue.generate(:assigned_to_id => user.id)
+    assert_not_include 'assigned-to-my-group', issue2.css_classes(user)
+    assert_include 'assigned-to-me', issue2.css_classes(user)
   end
 
   def test_save_attachments_with_hash_should_save_attachments_in_keys_order

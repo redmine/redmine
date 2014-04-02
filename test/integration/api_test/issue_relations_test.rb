@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -53,7 +53,7 @@ class Redmine::ApiTest::IssueRelationsTest < Redmine::ApiTest::Base
       post '/issues/2/relations.xml', {:relation => {:issue_to_id => 7, :relation_type => 'relates'}}, credentials('jsmith')
     end
 
-    relation = IssueRelation.first(:order => 'id DESC')
+    relation = IssueRelation.order('id DESC').first
     assert_equal 2, relation.issue_from_id
     assert_equal 7, relation.issue_to_id
     assert_equal 'relates', relation.relation_type

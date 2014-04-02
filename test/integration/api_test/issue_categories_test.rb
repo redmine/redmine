@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -51,7 +51,7 @@ class Redmine::ApiTest::IssueCategoriesTest < Redmine::ApiTest::Base
     assert_response :created
     assert_equal 'application/xml', @response.content_type
 
-    category = IssueCategory.first(:order => 'id DESC')
+    category = IssueCategory.order('id DESC').first
     assert_equal 'API', category.name
     assert_equal 1, category.project_id
   end

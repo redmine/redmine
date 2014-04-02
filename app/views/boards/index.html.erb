@@ -10,7 +10,7 @@
   <tbody>
 <% Board.board_tree(@boards) do |board, level| %>
   <tr class="<%= cycle 'odd', 'even' %>">
-    <td style="padding-left: <%= level * 18 %>px;">
+    <td class="name" style="padding-left: <%= level * 18 %>px;">
       <%= link_to h(board.name), project_board_path(board.project, board), :class => "board" %><br />
       <%=h board.description %>
     </td>

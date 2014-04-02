@@ -1,12 +1,10 @@
 --- 
 custom_fields_001: 
   name: Database
-  min_length: 0
   regexp: ""
   is_for_all: true
   is_filter: true
   type: IssueCustomField
-  max_length: 0
   possible_values: 
   - MySQL
   - PostgreSQL
@@ -35,12 +33,10 @@ custom_fields_002:
   position: 1
 custom_fields_003: 
   name: Development status
-  min_length: 0
   regexp: ""
   is_for_all: false
   is_filter: true
   type: ProjectCustomField
-  max_length: 0
   possible_values: 
   - Stable
   - Beta
@@ -54,11 +50,9 @@ custom_fields_003:
   position: 1
 custom_fields_004: 
   name: Phone number
-  min_length: 0
   regexp: ""
   is_for_all: false
   type: UserCustomField
-  max_length: 0
   possible_values: ""
   id: 4
   is_required: false
@@ -68,11 +62,9 @@ custom_fields_004:
   position: 1
 custom_fields_005: 
   name: Money
-  min_length: 0
   regexp: ""
   is_for_all: false
   type: UserCustomField
-  max_length: 0
   possible_values: ""
   id: 5
   is_required: false
@@ -82,11 +74,9 @@ custom_fields_005:
   position: 2
 custom_fields_006: 
   name: Float field
-  min_length: 0
   regexp: ""
   is_for_all: true
   type: IssueCustomField
-  max_length: 0
   possible_values: ""
   id: 6
   is_required: false
@@ -96,12 +86,10 @@ custom_fields_006:
   position: 3
 custom_fields_007: 
   name: Billable
-  min_length: 0
   regexp: ""
   is_for_all: false
   is_filter: true
   type: TimeEntryActivityCustomField
-  max_length: 0
   possible_values: ""
   id: 7
   is_required: false
@@ -111,12 +99,10 @@ custom_fields_007:
   position: 1
 custom_fields_008: 
   name: Custom date
-  min_length: 0
   regexp: ""
   is_for_all: true
   is_filter: false
   type: IssueCustomField
-  max_length: 0
   possible_values: ""
   id: 8
   is_required: false
@@ -126,12 +112,10 @@ custom_fields_008:
   position: 4
 custom_fields_009: 
   name: Project 1 cf
-  min_length: 0
   regexp: ""
   is_for_all: false
   is_filter: true
   type: IssueCustomField
-  max_length: 0
   possible_values: ""
   id: 9
   is_required: false
@@ -141,12 +125,10 @@ custom_fields_009:
   position: 5
 custom_fields_010: 
   name: Overtime
-  min_length: 0
   regexp: ""
   is_for_all: false
   is_filter: false
   type: TimeEntryCustomField
-  max_length: 0
   possible_values: ""
   id: 10
   is_required: false

@@ -6,7 +6,7 @@ api.wiki_page do
   api.text @content.text
   api.version @content.version
   api.author(:id => @content.author_id, :name => @content.author.name)
-  api.comments @page.content.comments
+  api.comments @content.comments
   api.created_on @page.created_on
   api.updated_on @content.updated_on
 

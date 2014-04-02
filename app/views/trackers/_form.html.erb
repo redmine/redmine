@@ -10,7 +10,7 @@
   <label><%= l(:field_core_fields) %></label>
   <% Tracker::CORE_FIELDS.each do |field| %>
   <label class="block">
-    <%= check_box_tag 'tracker[core_fields][]', field, @tracker.core_fields.include?(field) %>
+    <%= check_box_tag 'tracker[core_fields][]', field, @tracker.core_fields.include?(field), :id => nil %>
     <%= l("field_#{field}".sub(/_id$/, '')) %>
   </label>
   <% end %>
@@ -22,7 +22,7 @@
   <label><%= l(:label_custom_field_plural) %></label>
   <% IssueCustomField.all.each do |field| %>
     <label class="block">
-      <%= check_box_tag 'tracker[custom_field_ids][]',field.id, @tracker.custom_fields.to_a.include?(field) %>
+      <%= check_box_tag 'tracker[custom_field_ids][]',field.id, @tracker.custom_fields.to_a.include?(field), :id => nil %>
       <%=h field.name %>
     </label>
   <% end %>

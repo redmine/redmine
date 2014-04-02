@@ -150,7 +150,7 @@ pl:
   # Wiktor Wandachowicz <siryes@gmail.com>, 2010
 
   actionview_instancetag_blank_option: Proszę wybrać
-  actionview_instancetag_blank_option: Proszę wybierz
+  actionview_instancetag_blank_option: wybierz
 
   button_activate: Aktywuj
   button_add: Dodaj
@@ -228,18 +228,18 @@ pl:
   field_attr_lastname: Nazwisko atrybut
   field_attr_login: Login atrybut
   field_attr_mail: E-mail atrybut
-  field_auth_source: Tryb identyfikacji
+  field_auth_source: Tryb uwierzytelniania
   field_author: Autor
   field_base_dn: Base DN
   field_category: Kategoria
   field_column_names: Nazwy kolumn
   field_comments: Komentarz
   field_comments_sorting: Pokazuj komentarze
-  field_created_on: Stworzone
+  field_created_on: Data utworzenia
   field_default_value: Domyślny
   field_delay: Opóźnienie
   field_description: Opis
-  field_done_ratio: "% Wykonane"
+  field_done_ratio: "% Wykonania"
   field_downloads: Pobrań
   field_due_date: Data oddania
   field_effective_date: Data
@@ -298,7 +298,7 @@ pl:
   field_title: Tytuł
   field_tracker: Typ zagadnienia
   field_type: Typ
-  field_updated_on: Zmienione
+  field_updated_on: Data modyfikacji
   field_url: URL
   field_user: Użytkownik
   field_value: Wartość
@@ -337,10 +337,10 @@ pl:
   label_attachment_plural: Pliki
   label_attribute: Atrybut
   label_attribute_plural: Atrybuty
-  label_auth_source: Tryb identyfikacji
-  label_auth_source_new: Nowy tryb identyfikacji
-  label_auth_source_plural: Tryby identyfikacji
-  label_authentication: Identyfikacja
+  label_auth_source: Tryb uwierzytelniania
+  label_auth_source_new: Nowy tryb uwierzytelniania
+  label_auth_source_plural: Tryby uwierzytelniania
+  label_authentication: Uwierzytelnianie
   label_blocked_by: blokowane przez
   label_blocks: blokuje
   label_board: Forum
@@ -411,7 +411,7 @@ pl:
   label_diff_inline: w linii
   label_diff_side_by_side: obok siebie
   label_disabled: zablokowany
-  label_display_per_page: "Na stronę: %{value}"
+  label_display_per_page: "Na stronie: %{value}"
   label_document: Dokument
   label_document_added: Dodano dokument
   label_document_new: Nowy dokument
@@ -477,8 +477,8 @@ pl:
   label_last_week: ostatni tydzień
   label_latest_revision: Najnowsza rewizja
   label_latest_revision_plural: Najnowsze rewizje
-  label_ldap_authentication: Autoryzacja LDAP
-  label_less_than_ago: dni mniej
+  label_ldap_authentication: Uwierzytelnianie LDAP
+  label_less_than_ago: dni temu
   label_list: Lista
   label_loading: Ładowanie...
   label_logged_as: Zalogowany jako
@@ -499,7 +499,7 @@ pl:
   label_month: Miesiąc
   label_months_from: miesiące od
   label_more: Więcej
-  label_more_than_ago: dni więcej
+  label_more_than_ago: dni od teraz
   label_my_account: Moje konto
   label_my_page: Moja strona
   label_my_projects: Moje projekty
@@ -603,7 +603,7 @@ pl:
   label_string: Tekst
   label_subproject_plural: Podprojekty
   label_text: Długi tekst
-  label_theme: Temat
+  label_theme: Motyw
   label_this_month: ten miesiąc
   label_this_week: ten tydzień
   label_this_year: ten rok
@@ -655,7 +655,7 @@ pl:
   notice_account_unknown_email: Nieznany użytkownik.
   notice_account_updated: Konto prawidłowo zaktualizowane.
   notice_account_wrong_password: Złe hasło
-  notice_can_t_change_password: To konto ma zewnętrzne źródło identyfikacji. Nie możesz zmienić hasła.
+  notice_can_t_change_password: To konto ma zewnętrzne źródło uwierzytelniania. Nie możesz zmienić hasła.
   notice_default_data_loaded: Domyślna konfiguracja została pomyślnie załadowana.
   notice_email_error: "Wystąpił błąd w trakcie wysyłania e-maila (%{value})"
   notice_email_sent: "E-mail został wysłany do %{value}"
@@ -666,9 +666,9 @@ pl:
   notice_no_issue_selected: "Nie wybrano zagadnienia! Zaznacz zagadnienie, które chcesz edytować."
   notice_not_authorized: Nie posiadasz autoryzacji do oglądania tej strony.
   notice_successful_connection: Udane nawiązanie połączenia.
-  notice_successful_create: Utworzenie zakończone sukcesem.
-  notice_successful_delete: Usunięcie zakończone sukcesem.
-  notice_successful_update: Uaktualnienie zakończone sukcesem.
+  notice_successful_create: Utworzenie zakończone pomyślnie.
+  notice_successful_delete: Usunięcie zakończone pomyślnie.
+  notice_successful_update: Uaktualnienie zakończone pomyślnie.
   notice_unable_delete_version: Nie można usunąć wersji
   permission_add_issue_notes: Dodawanie notatek
   permission_add_issue_watchers: Dodawanie obserwatorów
@@ -732,7 +732,7 @@ pl:
   setting_autofetch_changesets: Automatyczne pobieranie zmian
   setting_autologin: Automatyczne logowanie
   setting_bcc_recipients: Odbiorcy kopii tajnej (kt/bcc)
-  setting_commit_fix_keywords: Słowa zmieniające status
+  setting_commit_fix_keywords: Słowo zmieniające status
   setting_commit_ref_keywords: Słowa tworzące powiązania
   setting_cross_project_issue_relations: Zezwól na powiązania zagadnień między projektami
   setting_date_format: Format daty
@@ -758,7 +758,7 @@ pl:
   setting_sys_api_enabled: Włączenie WS do zarządzania repozytorium
   setting_text_formatting: Formatowanie tekstu
   setting_time_format: Format czasu
-  setting_user_format: Własny format wyświetlania
+  setting_user_format: Format wyświetlania użytkownika
   setting_welcome_text: Tekst powitalny
   setting_wiki_compression: Kompresja historii Wiki
   status_active: aktywny
@@ -782,7 +782,7 @@ pl:
   text_issue_category_reassign_to: Przydziel zagadnienie do tej kategorii
   text_issue_updated: "Zagadnienie %{id} zostało zaktualizowane (przez %{author})."
   text_issues_destroy_confirmation: 'Czy jesteś pewien, że chcesz usunąć wskazane zagadnienia?'
-  text_issues_ref_in_commit_messages: Odwołania do zagadnień w komentarzach zatwierdzeń
+  text_issues_ref_in_commit_messages: Odwołania do zagadnień Redmine w komentarzach w repozytorium
   text_length_between: "Długość pomiędzy %{min} i %{max} znaków."
   text_load_default_configuration: Załaduj domyślną konfigurację
   text_min_max_length_info: 0 oznacza brak restrykcji
@@ -888,7 +888,7 @@ pl:
   label_version_sharing_system: Ze wszystkimi projektami
   label_version_sharing_tree: Z drzewem projektów
   notice_api_access_key_reseted: Twój klucz dostępu do API został zresetowany.
-  notice_issue_done_ratios_updated: Uaktualnienie % wykonania zakończone sukcesem.
+  notice_issue_done_ratios_updated: Uaktualnienie % wykonania zakończone pomyślnie.
   permission_add_subprojects: Tworzenie podprojektów
   permission_delete_issue_watchers: Usuń obserwatorów
   permission_view_issues: Przeglądanie zagadnień
@@ -935,45 +935,45 @@ pl:
   project_module_calendar: Kalendarz
   button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   field_text: Text field
-  label_user_mail_option_only_owner: Only for things I am the owner of
-  setting_default_notification_option: Default notification option
-  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
-  label_user_mail_option_only_assigned: Only for things I am assigned to
-  label_user_mail_option_none: "Tylko to, co obserwuję lub w czym biorę udział"
-  field_member_of_group: Assignee's group
-  field_assigned_to_role: Assignee's role
+  label_user_mail_option_only_owner: Tylko to, czego jestem właścicielem (autorem)
+  setting_default_notification_option: Domyślna opcja powiadomień
+  label_user_mail_option_only_my_events: "Tylko to, co obserwuję lub w czym biorę udział"
+  label_user_mail_option_only_assigned: "Tylko to, do czego jestem przypisany"
+  label_user_mail_option_none: "Brak powiadomień"
+  field_member_of_group: Grupa osoby przypisanej
+  field_assigned_to_role: Rola osoby przypisanej
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
   label_principal_search: "Szukaj użytkownika lub grupy:"
   label_user_search: "Szukaj użytkownika:"
-  field_visible: Visible
-  setting_commit_logtime_activity_id: Activity for logged time
+  field_visible: Widoczne
+  setting_commit_logtime_activity_id: Aktywność dla śledzonego czasu
   text_time_logged_by_changeset: Applied in changeset %{value}.
-  setting_commit_logtime_enabled: Enable time logging
+  setting_commit_logtime_enabled: Włącz śledzenie czasu
   notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
-  field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
+  setting_gantt_items_limit: Maksymalna liczba elementów wyświetlanych na diagramie Gantta
+  field_warn_on_leaving_unsaved: Ostrzegaj mnie, gdy opuszczam stronę z niezapisanym tekstem
   text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
-  label_my_queries: My custom queries
+  label_my_queries: Moje kwerendy
   text_journal_changed_no_detail: "%{label} updated"
-  label_news_comment_added: Comment added to a news
-  button_expand_all: Expand all
-  button_collapse_all: Collapse all
+  label_news_comment_added: Dodano komentarz do komunikatu
+  button_expand_all: Rozwiń wszystkie
+  button_collapse_all: Zwiń wszystkie
   label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
   label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
   label_bulk_edit_selected_time_entries: Bulk edit selected time entries
   text_time_entries_destroy_confirmation: Are you sure you want to delete the selected time entr(y/ies)?
-  label_role_anonymous: Anonymous
-  label_role_non_member: Non member
-  label_issue_note_added: Note added
-  label_issue_status_updated: Status updated
-  label_issue_priority_updated: Priority updated
-  label_issues_visibility_own: Issues created by or assigned to the user
-  field_issues_visibility: Issues visibility
-  label_issues_visibility_all: All issues
-  permission_set_own_issues_private: Set own issues public or private
-  field_is_private: Private
-  permission_set_issues_private: Set issues public or private
-  label_issues_visibility_public: All non private issues
+  label_role_anonymous: Anonimowy
+  label_role_non_member: Bez roli
+  label_issue_note_added: Dodano notatkę
+  label_issue_status_updated: Uaktualniono status
+  label_issue_priority_updated: Uaktualniono priorytet
+  label_issues_visibility_own: Utworzone lub przypisane do użytkownika
+  field_issues_visibility: Widoczne zagadnienia
+  label_issues_visibility_all: Wszystkie
+  permission_set_own_issues_private: Ustawianie własnych zagadnień jako prywatne/publiczne
+  field_is_private: Prywatne
+  permission_set_issues_private: Ustawianie zagadnień jako prywatne/publiczne
+  label_issues_visibility_public: Wszystkie nie prywatne
   text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
   field_commit_logs_encoding: Kodowanie komentarzy zatwierdzeń
   field_scm_path_encoding: Path encoding
@@ -983,12 +983,12 @@ pl:
   field_cvs_module: Module
   field_cvsroot: CVSROOT
   text_mercurial_repository_note: Local repository (e.g. /hgrepo, c:\hgrepo)
-  text_scm_command: Command
-  text_scm_command_version: Version
+  text_scm_command: Polecenie
+  text_scm_command_version: Wersja
   label_git_report_last_commit: Report last commit for files and directories
   notice_issue_successful_create: Issue %{id} created.
-  label_between: between
-  setting_issue_group_assignment: Allow issue assignment to groups
+  label_between: pomiędzy
+  setting_issue_group_assignment: Zezwól przypisywać zagadnienia do grup
   label_diff: diff
   text_git_repository_note: Repository is bare and local (e.g. /gitrepo, c:\gitrepo)
   description_query_sort_criteria_direction: Sort direction
@@ -997,7 +997,7 @@ pl:
   description_user_mail_notification: Mail notification settings
   description_date_from: Enter start date
   description_message_content: Message content
-  description_available_columns: Available Columns
+  description_available_columns: Dostępne kolumny
   description_date_range_interval: Choose range by selecting start and end date
   description_issue_category_reassign: Choose issue category
   description_search: Searchfield
@@ -1007,13 +1007,13 @@ pl:
   description_date_to: Enter end date
   description_query_sort_criteria_attribute: Sort attribute
   description_wiki_subpages_reassign: Choose new parent page
-  description_selected_columns: Selected Columns
+  description_selected_columns: Wybrane kolumny
   label_parent_revision: Parent
   label_child_revision: Child
   error_scm_annotate_big_text_file: The entry cannot be annotated, as it exceeds the maximum text file size.
-  setting_default_issue_start_date_to_creation_date: Use current date as start date for new issues
+  setting_default_issue_start_date_to_creation_date: Użyj bieżącej daty jako daty rozpoczęcia nowych zagadnień
   button_edit_section: Edit this section
-  setting_repositories_encodings: Attachments and repositories encodings
+  setting_repositories_encodings: Kodowanie znaków załączników i repozytoriów
   description_all_columns: All Columns
   button_export: Export
   label_export_options: "%{export_format} export options"
@@ -1030,95 +1030,105 @@ pl:
   label_completed_versions: Completed versions
   text_project_identifier_info: 'Dozwolone małe litery (a-z), liczby i myślniki.<br />Raz zapisany, identyfikator nie może być zmieniony.'
   field_multiple: Multiple values
-  setting_commit_cross_project_ref: Allow issues of all the other projects to be referenced and fixed
+  setting_commit_cross_project_ref: Zezwól na odwołania do innych projektów i zamykanie zagadnień innych projektów
   text_issue_conflict_resolution_add_notes: Add my notes and discard my other changes
   text_issue_conflict_resolution_overwrite: Apply my changes anyway (previous notes will be kept but some changes may be overwritten)
   notice_issue_update_conflict: The issue has been updated by an other user while you were editing it.
   text_issue_conflict_resolution_cancel: Discard all my changes and redisplay %{link}
-  permission_manage_related_issues: Manage related issues
+  permission_manage_related_issues: Zarządzanie powiązanymi zagadnieniami
   field_auth_source_ldap_filter: LDAP filter
-  label_search_for_watchers: Search for watchers to add
-  notice_account_deleted: Your account has been permanently deleted.
-  setting_unsubscribe: Allow users to delete their own account
-  button_delete_my_account: Delete my account
+  label_search_for_watchers: Wyszukaj obserwatorów do dodania
+  notice_account_deleted: Twoje konto zostało trwale usunięte.
+  setting_unsubscribe: Zezwól użytkownikom usuwać swoje konta
+  button_delete_my_account: Usuń moje konto
   text_account_destroy_confirmation: |-
-    Are you sure you want to proceed?
-    Your account will be permanently deleted, with no way to reactivate it.
-  error_session_expired: Your session has expired. Please login again.
-  text_session_expiration_settings: "Warning: changing these settings may expire the current sessions including yours."
-  setting_session_lifetime: Session maximum lifetime
-  setting_session_timeout: Session inactivity timeout
-  label_session_expiration: Session expiration
-  permission_close_project: Close / reopen the project
-  label_show_closed_projects: View closed projects
-  button_close: Close
-  button_reopen: Reopen
-  project_status_active: active
-  project_status_closed: closed
-  project_status_archived: archived
-  text_project_closed: This project is closed and read-only.
-  notice_user_successful_create: User %{id} created.
-  field_core_fields: Standard fields
-  field_timeout: Timeout (in seconds)
-  setting_thumbnails_enabled: Display attachment thumbnails
-  setting_thumbnails_size: Thumbnails size (in pixels)
-  label_status_transitions: Status transitions
-  label_fields_permissions: Fields permissions
-  label_readonly: Read-only
-  label_required: Required
+    Czy jesteś pewien?
+    Twoje konto zostanie trwale usunięte, bez możliwości przywrócenia go.
+  error_session_expired: Twoja sesja wygasła. Zaloguj się ponownie.
+  text_session_expiration_settings: "Uwaga: zmiana tych ustawień może spowodować przeterminowanie sesji obecnie zalogowanych użytkowników, w tym twojej."
+  setting_session_lifetime: Maksymalny czas życia sesji
+  setting_session_timeout: Maksymalny czas życia nieaktywnej sesji
+  label_session_expiration: Przeterminowywanie sesji
+  permission_close_project: Zamykanie / otwieranie projektów
+  label_show_closed_projects: Przeglądanie zamkniętych projektów
+  button_close: Zamknij projekt
+  button_reopen: Otwórz projekt
+  project_status_active: aktywny
+  project_status_closed: zamknięty
+  project_status_archived: zarchiwizowany
+  text_project_closed: Ten projekt jest zamknięty i dostępny tylko do odczytu.
+  notice_user_successful_create: Utworzono użytkownika %{id}.
+  field_core_fields: Pola standardowe
+  field_timeout: Limit czasu (w sekundach)
+  setting_thumbnails_enabled: Wyświetlaj miniatury załączników
+  setting_thumbnails_size: Rozmiar minuatury (w pikselach)
+  label_status_transitions: Przejścia między statusami
+  label_fields_permissions: Uprawnienia do pól
+  label_readonly: Tylko do odczytu
+  label_required: Wymagane
   text_repository_identifier_info: Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.
   field_board_parent: Parent forum
   label_attribute_of_project: Project's %{name}
   label_attribute_of_author: Author's %{name}
   label_attribute_of_assigned_to: Assignee's %{name}
   label_attribute_of_fixed_version: Target version's %{name}
-  label_copy_subtasks: Copy subtasks
-  label_copied_to: copied to
-  label_copied_from: copied from
-  label_any_issues_in_project: any issues in project
-  label_any_issues_not_in_project: any issues not in project
-  field_private_notes: Private notes
-  permission_view_private_notes: View private notes
-  permission_set_notes_private: Set notes as private
-  label_no_issues_in_project: no issues in project
+  label_copy_subtasks: Kopiuj podzagadnienia
+  label_copied_to: skopiowane do
+  label_copied_from: skopiowane z
+  label_any_issues_in_project: dowolne zagadnienie w projekcie
+  label_any_issues_not_in_project: dowolne zagadnienie w innym projekcie
+  field_private_notes: Prywatne notatki
+  permission_view_private_notes: Podgląd prywatnych notatek
+  permission_set_notes_private: Ustawianie notatek jako prywatnych
+  label_no_issues_in_project: brak zagadnień w projekcie
   label_any: wszystko
-  label_last_n_weeks: last %{count} weeks
-  setting_cross_project_subtasks: Allow cross-project subtasks
+  label_last_n_weeks: ostatnie %{count} tygodnie
+  setting_cross_project_subtasks: Powiązania zagadnień między projektami
   label_cross_project_descendants: Z podprojektami
   label_cross_project_tree: Z drzewem projektów
   label_cross_project_hierarchy: Z hierarchią projektów
   label_cross_project_system: Ze wszystkimi projektami
-  button_hide: Hide
-  setting_non_working_week_days: Non-working days
-  label_in_the_next_days: in the next
-  label_in_the_past_days: in the past
+  button_hide: Ukryj
+  setting_non_working_week_days: Dni nie-robocze
+  label_in_the_next_days: w ciągu następnych dni
+  label_in_the_past_days: w ciągu poprzednich dni
   label_attribute_of_user: User's %{name}
   text_turning_multiple_off: If you disable multiple values, multiple values will be
     removed in order to preserve only one value per item.
   label_attribute_of_issue: Issue's %{name}
-  permission_add_documents: Add documents
-  permission_edit_documents: Edit documents
-  permission_delete_documents: Delete documents
-  label_gantt_progress_line: Progress line
-  setting_jsonp_enabled: Enable JSONP support
-  field_inherit_members: Inherit members
-  field_closed_on: Closed
-  field_generate_password: Generate password
-  setting_default_projects_tracker_ids: Default trackers for new projects
+  permission_add_documents: Dodawanie dokumentów
+  permission_edit_documents: Edycja dokumentów
+  permission_delete_documents: Usuwanie dokumentów
+  label_gantt_progress_line: Linia postępu
+  setting_jsonp_enabled: Uaktywnij wsparcie dla JSONP
+  field_inherit_members: Dziedziczenie członków
+  field_closed_on: Data zamknięcia
+  field_generate_password: Wygeneruj hasło
+  setting_default_projects_tracker_ids: Domyślne typy zagadnień dla nowych projektów
   label_total_time: Ogółem
-  text_scm_config: You can configure your SCM commands in config/configuration.yml. Please restart the application after editing it.
-  text_scm_command_not_available: SCM command is not available. Please check settings on the administration panel.
-  setting_emails_header: Email header
-  notice_account_not_activated_yet: You haven't activated your account yet. If you want
-    to receive a new activation email, please <a href="%{url}">click this link</a>.
-  notice_account_locked: Your account is locked.
-  notice_account_register_done: Account was successfully created. An email containing
-    the instructions to activate your account was sent to %{email}.
+  text_scm_config: Możesz skonfigurować polecenia SCM w pliku config/configuration.yml. Zrestartuj aplikację po wykonaniu zmian.
+  text_scm_command_not_available: Polecenie SCM nie jest dostępne. Proszę sprawdzić ustawienia w panelu administracyjnym.
+  setting_emails_header: Nagłówek e-maili
+  notice_account_not_activated_yet: Jeszcze nie aktywowałeś swojego konta. Jeśli chcesz
+    otrzymać nowy e-mail aktywanyjny, <a href="%{url}">kliknij tutaj</a>.
+  notice_account_locked: Twoje konto jest zablokowane.
+  notice_account_register_done: Konto zostało pomyślnie utworzone. E-mail zawierający
+    instrukcję aktywacji konta został wysłany na adres %{email}.
   label_hidden: Hidden
-  label_visibility_private: to me only
-  label_visibility_roles: to these roles only
-  label_visibility_public: to any users
-  field_must_change_passwd: Must change password at next logon
+  label_visibility_private: tylko dla mnie
+  label_visibility_roles: tylko dla ról
+  label_visibility_public: dla wszystkich
+  field_must_change_passwd: Musi zmienić hasło przy następnym logowaniu
   notice_new_password_must_be_different: The new password must be different from the
     current password
-  setting_mail_handler_excluded_filenames: Exclude attachments by name
+  setting_mail_handler_excluded_filenames: Wyklucz załączniki wg nazwy
+  text_convert_available: Konwersja przez ImageMagick dostępna (optional)
+  label_link: Link
+  label_only: only
+  label_drop_down_list: drop-down list
+  label_checkboxes: checkboxes
+  label_link_values_to: Link values to URL
+  setting_force_default_language_for_anonymous: Wymuś domyślny język dla anonimowych użytkowników
+  setting_force_default_language_for_loggedin: Wymuś domyślny język dla zalogowanych użytkowników
+  label_custom_field_select_type: Select the type of object to which the custom field
+    is to be attached

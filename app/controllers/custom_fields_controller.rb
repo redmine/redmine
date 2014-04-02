@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -27,7 +27,6 @@ class CustomFieldsController < ApplicationController
     respond_to do |format|
       format.html {
         @custom_fields_by_type = CustomField.all.group_by {|f| f.class.name }
-        @tab = params[:tab] || 'IssueCustomField'
       }
       format.api {
         @custom_fields = CustomField.all
@@ -36,6 +35,8 @@ class CustomFieldsController < ApplicationController
   end
 
   def new
+    @custom_field.field_format = 'string' if @custom_field.field_format.blank?
+    @custom_field.default_value = nil
   end
 
   def create
@@ -75,9 +76,7 @@ class CustomFieldsController < ApplicationController
   def build_new_custom_field
     @custom_field = CustomField.new_subclass_instance(params[:type], params[:custom_field])
     if @custom_field.nil?
-      render_404
-    else
-      @custom_field.default_value = nil
+      render :action => 'select_type'
     end
   end
 

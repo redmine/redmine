@@ -46,8 +46,10 @@ module ActiveRecord
           belongs_to :parent, :class_name => name, :foreign_key => configuration[:foreign_key], :counter_cache => configuration[:counter_cache]
           has_many :children, :class_name => name, :foreign_key => configuration[:foreign_key], :order => configuration[:order], :dependent => configuration[:dependent]
 
-          scope :roots, where("#{configuration[:foreign_key]} IS NULL").order(configuration[:order])
-
+          scope :roots, lambda {
+                          where("#{configuration[:foreign_key]} IS NULL").
+                            order(configuration[:order])
+                        }
           send :include, ActiveRecord::Acts::Tree::InstanceMethods
         end
       end

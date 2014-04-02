@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -105,12 +105,12 @@ class Redmine::I18nTest < ActiveSupport::TestCase
     now = Time.parse('2011-02-20 15:45:22')
     with_settings :time_format => '' do
       with_settings :date_format => '' do
-        assert_equal '02/20/2011 03:45 pm', format_time(now)
-        assert_equal '03:45 pm', format_time(now, false)
+        assert_equal '02/20/2011 03:45 PM', format_time(now)
+        assert_equal '03:45 PM', format_time(now, false)
       end
       with_settings :date_format => '%Y-%m-%d' do
-        assert_equal '2011-02-20 03:45 pm', format_time(now)
-        assert_equal '03:45 pm', format_time(now, false)
+        assert_equal '2011-02-20 03:45 PM', format_time(now)
+        assert_equal '03:45 PM', format_time(now, false)
       end
     end
   end

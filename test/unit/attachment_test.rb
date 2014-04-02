@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -22,10 +22,10 @@ require File.expand_path('../../test_helper', __FILE__)
 class AttachmentTest < ActiveSupport::TestCase
   fixtures :users, :projects, :roles, :members, :member_roles,
            :enabled_modules, :issues, :trackers, :attachments
-  
+
   class MockFile
     attr_reader :original_filename, :content_type, :content, :size
-    
+
     def initialize(attributes)
       @original_filename = attributes[:original_filename]
       @content_type = attributes[:content_type]
@@ -153,12 +153,12 @@ class AttachmentTest < ActiveSupport::TestCase
                             :author => User.find(1))
     assert a1.disk_filename != a2.disk_filename
   end
-  
+
   def test_filename_should_be_basenamed
     a = Attachment.new(:file => MockFile.new(:original_filename => "path/to/the/file"))
     assert_equal 'file', a.filename
   end
-  
+
   def test_filename_should_be_sanitized
     a = Attachment.new(:file => MockFile.new(:original_filename => "valid:[] invalid:?%*|\"'<>chars"))
     assert_equal 'valid_[] invalid_chars', a.filename
@@ -214,8 +214,7 @@ class AttachmentTest < ActiveSupport::TestCase
           'description' => 'test'
         })
     end
-
-    attachment = Attachment.first(:order => 'id DESC')
+    attachment = Attachment.order('id DESC').first
     assert_equal issue, attachment.container
     assert_equal 'testfile.txt', attachment.filename
     assert_equal 59, attachment.filesize

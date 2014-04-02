@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -148,7 +148,7 @@ class Journal < ActiveRecord::Base
   def self.preload_journals_details_custom_fields(journals)
     field_ids = journals.map(&:details).flatten.select {|d| d.property == 'cf'}.map(&:prop_key).uniq
     if field_ids.any?
-      fields_by_id = CustomField.find_all_by_id(field_ids).inject({}) {|h, f| h[f.id] = f; h}
+      fields_by_id = CustomField.where(:id => field_ids).inject({}) {|h, f| h[f.id] = f; h}
       journals.each do |journal|
         journal.details.each do |detail|
           if detail.property == 'cf'

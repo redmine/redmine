@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -113,7 +113,7 @@ class MessagesController < ApplicationController
     @subject = "RE: #{@subject}" unless @subject.starts_with?('RE:')
 
     @content = "#{ll(Setting.default_language, :text_user_wrote, @message.author)}\n> "
-    @content << @message.content.to_s.strip.gsub(%r{<pre>((.|\s)*?)</pre>}m, '[...]').gsub(/(\r?\n|\r\n?)/, "\n> ") + "\n\n"
+    @content << @message.content.to_s.strip.gsub(%r{<pre>(.*?)</pre>}m, '[...]').gsub(/(\r?\n|\r\n?)/, "\n> ") + "\n\n"
   end
 
   def preview
@@ -126,14 +126,14 @@ class MessagesController < ApplicationController
 private
   def find_message
     return unless find_board
-    @message = @board.messages.find(params[:id], :include => :parent)
+    @message = @board.messages.includes(:parent).find(params[:id])
     @topic = @message.root
   rescue ActiveRecord::RecordNotFound
     render_404
   end
 
   def find_board
-    @board = Board.find(params[:board_id], :include => :project)
+    @board = Board.includes(:project).find(params[:board_id])
     @project = @board.project
   rescue ActiveRecord::RecordNotFound
     render_404

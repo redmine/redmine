@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -32,7 +32,7 @@ class PreviewsControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     post :issue, :project_id => '1', :issue => {:description => 'Foo'}
     assert_response :success
-    assert_template 'preview'
+    assert_template 'previews/issue'
     assert_not_nil assigns(:description)
   end
 
@@ -41,7 +41,7 @@ class PreviewsControllerTest < ActionController::TestCase
     post :issue, :project_id => '1', :id => 1,
          :issue => {:description => Issue.find(1).description, :notes => 'Foo'}
     assert_response :success
-    assert_template 'preview'
+    assert_template 'previews/issue'
     assert_not_nil assigns(:notes)
   end
 
@@ -49,9 +49,17 @@ class PreviewsControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     post :issue, :project_id => '1', :id => 1, :notes => 'Foo'
     assert_response :success
-    assert_template 'preview'
+    assert_template 'previews/issue'
     assert_not_nil assigns(:notes)
     assert_tag :p, :content => 'Foo'
+  end
+
+  def test_preview_issue_notes_should_support_links_to_existing_attachments
+    Attachment.generate!(:container => Issue.find(1), :filename => 'foo.bar')
+    @request.session[:user_id] = 2
+    post :issue, :project_id => '1', :id => 1, :notes => 'attachment:foo.bar'
+    assert_response :success
+    assert_select 'a.attachment', :text => 'foo.bar'
   end
 
   def test_preview_new_news

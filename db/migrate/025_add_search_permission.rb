@@ -7,6 +7,6 @@ class AddSearchPermission < ActiveRecord::Migration
   end
 
   def self.down
-    Permission.find_by_controller_and_action('projects', 'search').destroy
+    Permission.where(:controller => "projects", :action => "search").each {|p| p.destroy}
   end
 end

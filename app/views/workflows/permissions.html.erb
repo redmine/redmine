@@ -35,14 +35,14 @@
     <table class="list fields_permissions">
     <thead>
       <tr>
-        <th align="left">
+        <th>
         </th>
-        <th align="center" colspan="<%= @statuses.length %>"><%=l(:label_issue_status)%></th>
+        <th colspan="<%= @statuses.length %>"><%=l(:label_issue_status)%></th>
       </tr>
       <tr>
         <td></td>
         <% for status in @statuses %>
-        <td width="<%= 75 / @statuses.size %>%" align="center">
+        <td style="width:<%= 75 / @statuses.size %>%;">
           <%=h status.name %>
         </td>
         <% end %>
@@ -57,11 +57,11 @@
       </tr>
       <% @fields.each do |field, name| %>
       <tr class="<%= cycle("odd", "even") %>">
-        <td>
+        <td class="name">
           <%=h name %> <%= content_tag('span', '*', :class => 'required') if field_required?(field) %>
         </td>
         <% for status in @statuses -%>
-        <td align="center" class="<%= @permissions[status.id][field] %>">
+        <td class="<%= @permissions[status.id][field] %>">
           <%= field_permission_tag(@permissions, status, field, @role) %>
           <% unless status == @statuses.last %><a href="#" class="repeat-value">&#187;</a><% end %>
         </td>
@@ -77,11 +77,11 @@
         </tr>
         <% @custom_fields.each do |field| %>
         <tr class="<%= cycle("odd", "even") %>">
-          <td>
+          <td class="name">
             <%=h field.name %> <%= content_tag('span', '*', :class => 'required') if field_required?(field) %>
           </td>
           <% for status in @statuses -%>
-          <td align="center" class="<%= @permissions[status.id][field.id.to_s] %>">
+          <td class="<%= @permissions[status.id][field.id.to_s] %>">
             <%= field_permission_tag(@permissions, status, field, @role) %>
             <% unless status == @statuses.last %><a href="#" class="repeat-value">&#187;</a><% end %>
           </td>

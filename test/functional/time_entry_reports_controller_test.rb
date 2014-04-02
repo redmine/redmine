@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -23,7 +23,9 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
 
   fixtures :projects, :enabled_modules, :roles, :members, :member_roles,
            :issues, :time_entries, :users, :trackers, :enumerations,
-           :issue_statuses, :custom_fields, :custom_values
+           :issue_statuses, :custom_fields, :custom_values,
+           :projects_trackers, :custom_fields_trackers,
+           :custom_fields_projects
 
   include Redmine::I18n
 

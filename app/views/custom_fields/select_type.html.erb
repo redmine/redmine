@@ -1,0 +1,15 @@
+<%= title [l(:label_custom_field_plural), custom_fields_path],
+  l(:label_custom_field_new) %>
+
+<% selected = 0 %>
+<%= form_tag new_custom_field_path, :method => 'get' do %>
+  <div class="box">
+  <p><%= l(:label_custom_field_select_type) %>:</p>
+  <p>
+  <% custom_field_type_options.each do |name, type| %>
+    <label style="display:block;"><%= radio_button_tag 'type', type, 1==selected+=1 %> <%= name %></label>
+  <% end %>
+  </p>
+  </div>
+  <p><%= submit_tag l(:label_next).html_safe + " &#187;".html_safe, :name => nil %></p>
+<% end %>

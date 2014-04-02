@@ -8,8 +8,8 @@ class ChangeAttachmentsContainerDefaults < ActiveRecord::Migration
 
     change_column :attachments, :container_id, :integer, :default => nil, :null => true
     change_column :attachments, :container_type, :string, :limit => 30, :default => nil, :null => true
-    Attachment.update_all "container_id = NULL", "container_id = 0"
-    Attachment.update_all "container_type = NULL", "container_type = ''"
+    Attachment.where("container_id = 0").update_all("container_id = NULL")
+    Attachment.where("container_type = ''").update_all("container_type = NULL")
 
     add_index :attachments, [:container_id, :container_type]
   end

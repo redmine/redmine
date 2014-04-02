@@ -8,20 +8,18 @@
 <table class="list"><thead>
 <tr>
     <th><%= l(:field_name) %></th>
-    <th style="width:15%;"><%= l(:field_is_default) %></th>
-    <th style="width:15%;"><%= l(:field_active) %></th>
-    <th style="width:15%;"><%=l(:button_sort)%></th>
-    <th align="center" style="width:10%;"> </th>
+    <th><%= l(:field_is_default) %></th>
+    <th><%= l(:field_active) %></th>
+    <th><%=l(:button_sort)%></th>
+    <th></th>
 </tr></thead>
 <% enumerations.each do |enumeration| %>
 <tr class="<%= cycle('odd', 'even') %>">
-    <td><%= link_to h(enumeration), edit_enumeration_path(enumeration) %></td>
-    <td class="center" style="width:15%;"><%= checked_image enumeration.is_default? %></td>
-    <td class="center" style="width:15%;"><%= checked_image enumeration.active? %></td>
-    <td align="center" style="width:15%;"><%= reorder_links('enumeration', {:action => 'update', :id => enumeration}, :put) %></td>
-    <td class="buttons">
-    <%= delete_link enumeration_path(enumeration) %>
-    </td>
+    <td class="name"><%= link_to h(enumeration), edit_enumeration_path(enumeration) %></td>
+    <td class="tick"><%= checked_image enumeration.is_default? %></td>
+    <td class="tick"><%= checked_image enumeration.active? %></td>
+    <td class="reorder"><%= reorder_links('enumeration', {:action => 'update', :id => enumeration}, :put) %></td>
+    <td class="buttons"><%= delete_link enumeration_path(enumeration) %></td>
 </tr>
 <% end %>
 </table>

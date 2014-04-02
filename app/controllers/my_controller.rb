@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -139,7 +139,7 @@ class MyController < ApplicationController
     @blocks = @user.pref[:my_page_layout] || DEFAULT_LAYOUT.dup
     @block_options = []
     BLOCKS.each do |k, v|
-      unless %w(top left right).detect {|f| (@blocks[f] ||= []).include?(k)}
+      unless @blocks.values.flatten.include?(k)
         @block_options << [l("my.blocks.#{v}", :default => [v, v.to_s.humanize]), k.dasherize]
       end
     end

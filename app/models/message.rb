@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -68,7 +68,7 @@ class Message < ActiveRecord::Base
 
   def update_messages_board
     if board_id_changed?
-      Message.update_all({:board_id => board_id}, ["id = ? OR parent_id = ?", root.id, root.id])
+      Message.where(["id = ? OR parent_id = ?", root.id, root.id]).update_all({:board_id => board_id})
       Board.reset_counters!(board_id_was)
       Board.reset_counters!(board_id)
     end
@@ -76,7 +76,7 @@ class Message < ActiveRecord::Base
 
   def reset_counters!
     if parent && parent.id
-      Message.update_all({:last_reply_id => parent.children.maximum(:id)}, {:id => parent.id})
+      Message.where({:id => parent.id}).update_all({:last_reply_id => parent.children.maximum(:id)})
     end
     board.reset_counters!
   end

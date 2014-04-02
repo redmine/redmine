@@ -52,4 +52,11 @@ Content-Type: text/plain;
 
 The third one.
 
+--Apple-Mail=_33C8180A-B097-4B87-A925-441300BDB9C9
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: attachment; filename="textfile.txt"
+
+Plain text attachment
+
 --Apple-Mail=_33C8180A-B097-4B87-A925-441300BDB9C9--

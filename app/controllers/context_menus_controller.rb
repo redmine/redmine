@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -55,12 +55,10 @@ class ContextMenusController < ApplicationController
 
     @options_by_custom_field = {}
     if @can[:edit]
-      custom_fields = @issues.map(&:available_custom_fields).reduce(:&).select do |f|
-        %w(bool list user version).include?(f.field_format) && !f.multiple?
-      end
+      custom_fields = @issues.map(&:available_custom_fields).reduce(:&).reject(&:multiple?)
       custom_fields.each do |field|
         values = field.possible_values_options(@projects)
-        if values.any?
+        if values.present?
           @options_by_custom_field[field] = values
         end
       end

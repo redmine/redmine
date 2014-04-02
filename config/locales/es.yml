@@ -2,6 +2,7 @@
 # by Francisco Fernando García Nieto (ffgarcianieto@gmail.com)
 # Redmine spanish translation:
 # by J. Cayetano Delgado (Cayetano _dot_ Delgado _at_ ioko _dot_ com)
+# Contributors: @borjacampina
 
 es:
   number:
@@ -1126,12 +1127,21 @@ es:
   setting_default_projects_tracker_ids: Tipos de petición habilitados por defecto
   label_total_time: Total
   notice_account_not_activated_yet: No ha activado su cuenta aún. Si quiere
-    recibir un nuevo correo de activación, por favor <a href="%{url}">haga click en este enlace</a>.
+    recibir un nuevo correo de activación, por favor <a href="%{url}">haga clic en este enlace</a>.
   notice_account_locked: Su cuenta está bloqueada.
   label_hidden: Oculto
   label_visibility_private: solamente para mí
   label_visibility_roles: solamente para estos roles
   label_visibility_public: para cualquier usuario
-  field_must_change_passwd: Cambiar la contraseña en el siguiente identificación
-  notice_new_password_must_be_different: Nueva contraseña debe ser diferente de la actual
-  setting_mail_handler_excluded_filenames: Exclude attachments by name
+  field_must_change_passwd: Cambiar contraseña en el próximo inicio de sesión
+  notice_new_password_must_be_different: La nueva contraseña debe ser diferente de la actual
+  setting_mail_handler_excluded_filenames: Excluir adjuntos por nombre
+  text_convert_available: Conversión ImageMagick disponible (opcional)
+  label_link: Enlace
+  label_only: sólo
+  label_drop_down_list: Lista desplegable
+  label_checkboxes: casillas de selección
+  label_link_values_to: Enlazar valores a la URL
+  setting_force_default_language_for_anonymous: Forzar lenguaje por defecto a usuarios anónimos
+  setting_force_default_language_for_loggedin: Forzar lenguaje por defecto para usuarios identificados
+  label_custom_field_select_type: Seleccione el tipo de objeto al que unir el campo personalizado

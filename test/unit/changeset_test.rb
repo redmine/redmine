@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -96,7 +96,7 @@ class ChangesetTest < ActiveSupport::TestCase
       end
       assert_equal [1], c.issue_ids.sort
 
-      time = TimeEntry.first(:order => 'id desc')
+      time = TimeEntry.order('id desc').first
       assert_equal 1, time.issue_id
       assert_equal 1, time.project_id
       assert_equal 2, time.user_id
@@ -111,7 +111,8 @@ class ChangesetTest < ActiveSupport::TestCase
 
   def test_ref_keywords_closing_with_timelog
     Setting.commit_ref_keywords = '*'
-    Setting.commit_update_keywords = [{'keywords' => 'fixes , closes', 'status_id' => IssueStatus.where(:is_closed => true).first.id.to_s}]
+    Setting.commit_update_keywords = [{'keywords' => 'fixes , closes',
+                                       'status_id' => IssueStatus.where(:is_closed => true).first.id.to_s}]
     Setting.commit_logtime_enabled = '1'
 
     c = Changeset.new(:repository   => Project.find(1).repository,
@@ -126,7 +127,7 @@ class ChangesetTest < ActiveSupport::TestCase
     assert Issue.find(1).closed?
     assert Issue.find(2).closed?
 
-    times = TimeEntry.all(:order => 'id desc', :limit => 2)
+    times = TimeEntry.order('id desc').limit(2)
     assert_equal [1, 2], times.collect(&:issue_id).sort
   end
 
@@ -225,7 +226,7 @@ class ChangesetTest < ActiveSupport::TestCase
         assert c.save
       end
       assert issue.reload.closed?
-      journal = Journal.first(:order => 'id DESC')
+      journal = Journal.order('id DESC').first
       assert_equal issue, journal.issue
       assert_include "Applied in changeset ecookbook:r12345.", journal.notes
     end
@@ -249,7 +250,6 @@ class ChangesetTest < ActiveSupport::TestCase
     r = Repository::Subversion.create!(
           :project => Project.find(3),
           :url     => 'svn://localhost/test')
-          
     with_settings :commit_cross_project_ref => '0' do
       c = Changeset.new(:repository   => r,
                         :committed_on => Time.now,
@@ -264,7 +264,6 @@ class ChangesetTest < ActiveSupport::TestCase
     r = Repository::Subversion.create!(
           :project => Project.find(3),
           :url     => 'svn://localhost/test')
-          
     with_settings :commit_cross_project_ref => '1' do
       c = Changeset.new(:repository   => r,
                         :committed_on => Time.now,
@@ -317,7 +316,6 @@ class ChangesetTest < ActiveSupport::TestCase
           :project_id => 1,
           :url     => 'svn://localhost/test',
           :identifier => 'documents')
-    
     c = Changeset.new(:revision => '520', :repository => r)
     assert_equal 'documents|r520', c.text_tag
     assert_equal 'ecookbook:documents|r520', c.text_tag(Project.find(2))
@@ -343,6 +341,16 @@ class ChangesetTest < ActiveSupport::TestCase
   def test_text_tag_hash_all_number
     c = Changeset.new(:scmid => '0123456789', :revision => '0123456789')
     assert_equal 'commit:0123456789', c.text_tag
+  end
+
+  def test_text_tag_hash_with_repository_identifier
+    r = Repository::Subversion.new(
+          :project_id => 1,
+          :url     => 'svn://localhost/test',
+          :identifier => 'documents')
+    c = Changeset.new(:revision => '7234cb27', :scmid => '7234cb27', :repository => r)
+    assert_equal 'commit:documents|7234cb27', c.text_tag
+    assert_equal 'ecookbook:commit:documents|7234cb27', c.text_tag(Project.find(2))
   end
 
   def test_previous
@@ -526,6 +534,17 @@ class ChangesetTest < ActiveSupport::TestCase
       assert_equal "UTF-8", c.comments.encoding.to_s
       assert_equal "UTF-8", c.committer.encoding.to_s
     end
+  end
+
+  def test_comments_should_accept_more_than_64k
+    c = Changeset.new(:repository   => Repository.first,
+                      :committed_on => Time.now,
+                      :revision     => '123',
+                      :scmid        => '12345',
+                      :comments     => "a" * 500.kilobyte)
+    assert c.save
+    c.reload
+    assert_equal 500.kilobyte, c.comments.size
   end
 
   def test_identifier

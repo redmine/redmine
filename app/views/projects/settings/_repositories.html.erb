@@ -12,11 +12,11 @@
   <tbody>
   <% @project.repositories.sort.each do |repository| %>
     <tr class="<%= cycle 'odd', 'even' %>">
-      <td>
+      <td class="name">
       <%= link_to repository.identifier, 
             {:controller => 'repositories', :action => 'show',:id => @project, :repository_id => repository.identifier_param} if repository.identifier.present? %>
       </td>
-      <td align="center"><%= checked_image repository.is_default? %></td>
+      <td><%= checked_image repository.is_default? %></td>
       <td><%=h repository.scm_name %></td>
       <td><%=h repository.url %></td>
       <td class="buttons">

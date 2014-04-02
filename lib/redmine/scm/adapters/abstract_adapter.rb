@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,6 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require 'cgi'
+require 'redmine/scm/adapters'
 
 if RUBY_VERSION < '1.9'
   require 'iconv'
@@ -24,9 +25,6 @@ end
 module Redmine
   module Scm
     module Adapters
-      class CommandFailed < StandardError #:nodoc:
-      end
-
       class AbstractAdapter #:nodoc:
 
         # raised if scm command exited with error, e.g. unknown revision.
@@ -184,7 +182,7 @@ module Redmine
         def without_trailling_slash(path)
           path ||= ''
           (path[-1,1] == "/") ? path[0..-2] : path
-         end
+        end
 
         def shell_quote(str)
           self.class.shell_quote(str)

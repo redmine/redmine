@@ -93,7 +93,7 @@
 <% @custom_fields.each do |custom_field| %>
   <p>
     <label><%= h(custom_field.name) %></label>
-    <%= custom_field_tag_for_bulk_edit('issue', custom_field, @projects, @issue_params[:custom_field_values][custom_field.id.to_s]) %>
+    <%= custom_field_tag_for_bulk_edit('issue', custom_field, @issues, @issue_params[:custom_field_values][custom_field.id.to_s]) %>
   </p>
 <% end %>
 

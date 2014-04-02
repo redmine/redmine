@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -30,6 +30,7 @@ class WatchersController < ApplicationController
   accept_api_auth :create, :destroy
 
   def new
+    @users = users_for_new_watcher
   end
 
   def create
@@ -44,7 +45,7 @@ class WatchersController < ApplicationController
     end
     respond_to do |format|
       format.html { redirect_to_referer_or {render :text => 'Watcher added.', :layout => true}}
-      format.js
+      format.js { @users = users_for_new_watcher }
       format.api { render_api_ok }
     end
   end
@@ -52,7 +53,10 @@ class WatchersController < ApplicationController
   def append
     if params[:watcher].is_a?(Hash)
       user_ids = params[:watcher][:user_ids] || [params[:watcher][:user_id]]
-      @users = User.active.find_all_by_id(user_ids)
+      @users = User.active.where(:id => user_ids).all
+    end
+    if @users.blank?
+      render :nothing => true
     end
   end
 
@@ -66,10 +70,7 @@ class WatchersController < ApplicationController
   end
 
   def autocomplete_for_user
-    @users = User.active.sorted.like(params[:q]).limit(100).all
-    if @watched
-      @users -= @watched.watcher_users
-    end
+    @users = users_for_new_watcher
     render :layout => false
   end
 
@@ -91,8 +92,14 @@ class WatchersController < ApplicationController
   def find_watchables
     klass = Object.const_get(params[:object_type].camelcase) rescue nil
     if klass && klass.respond_to?('watched_by')
-      @watchables = klass.find_all_by_id(Array.wrap(params[:object_id]))
-      raise Unauthorized if @watchables.any? {|w| w.respond_to?(:visible?) && !w.visible?}
+      @watchables = klass.where(:id => Array.wrap(params[:object_id])).all
+      raise Unauthorized if @watchables.any? {|w|
+        if w.respond_to?(:visible?)
+          !w.visible?
+        elsif w.respond_to?(:project) && w.project
+          !w.project.visible?
+        end
+      }
     end
     render_404 unless @watchables.present?
   end
@@ -105,5 +112,18 @@ class WatchersController < ApplicationController
       format.html { redirect_to_referer_or {render :text => (watching ? 'Watcher added.' : 'Watcher removed.'), :layout => true}}
       format.js { render :partial => 'set_watcher', :locals => {:user => user, :watched => watchables} }
     end
+  end
+
+  def users_for_new_watcher
+    users = []
+    if params[:q].blank? && @project.present?
+      users = @project.users.sorted
+    else
+      users = User.active.sorted.like(params[:q]).limit(100)
+    end
+    if @watched
+      users -= @watched.watcher_users
+    end
+    users
   end
 end

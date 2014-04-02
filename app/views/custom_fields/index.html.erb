@@ -1,3 +1,11 @@
+<div class="contextual">
+<%= link_to l(:label_custom_field_new), new_custom_field_path, :class => 'icon icon-add' %>
+</div>
+
 <%= title l(:label_custom_field_plural) %>
 
-<%= render_tabs custom_fields_tabs %>
+<% if @custom_fields_by_type.present? %>
+  <%= render_custom_fields_tabs(@custom_fields_by_type.keys) %>
+<% else %>
+  <p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>

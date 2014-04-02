@@ -45,13 +45,8 @@
 						<div class="page-header">
 							<h2>Status</h2>
 						</div>
-
-
-						<p class="lead">
-							<%= textilizable show_value(custom_value) %>
-						</p>
+						<%= show_value(custom_value) %>	
 						<%= getStatusBadges(@project) %>
-						
 					</section>
 				<% end %>
 			<% end %>

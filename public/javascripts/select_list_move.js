@@ -51,11 +51,33 @@ function moveOptionUp(theSel) {
   }
 }
 
+function moveOptionTop(theSel) {
+  var index = theSel.selectedIndex;
+
+  if (index > 0) {
+    for (i=index; i>0; i--) {
+      swapOptions(theSel, i-1, i);
+    }
+    theSel.selectedIndex = 0;
+  }
+}
+
 function moveOptionDown(theSel) {
   var index = theSel.selectedIndex;
   if (index < theSel.length - 1) {
     swapOptions(theSel, index, index+1);
     theSel.selectedIndex = index+1;
+  }
+}
+
+function moveOptionBottom(theSel) {
+  var index = theSel.selectedIndex;
+  var indexTop = theSel.length - 1;
+  if (index < theSel.length - 1) {
+    for (i=index; i<indexTop; i++) {
+      swapOptions(theSel, i+1, i);
+    }
+    theSel.selectedIndex = indexTop;
   }
 }
 

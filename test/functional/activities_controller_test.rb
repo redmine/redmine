@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -51,7 +51,7 @@ class ActivitiesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:events_by_day)
 
     assert_select 'h3', :text => /#{3.days.ago.to_date.day}/
-    assert_select 'dl dt.issue a', :text => /Can&#x27;t print recipes/
+    assert_select 'dl dt.issue a', :text => /#{ESCAPED_UCANT} print recipes/
   end
 
   def test_global_index
@@ -81,7 +81,7 @@ class ActivitiesControllerTest < ActionController::TestCase
     d1 = User.find(1).time_to_date(i1.created_on)
 
     assert_select 'h3', :text => /#{d1.day}/
-    assert_select 'dl dt.issue a', :text => /Can&#x27;t print recipes/
+    assert_select 'dl dt.issue a', :text => /#{ESCAPED_UCANT} print recipes/
   end
 
   def test_user_index_with_invalid_user_id_should_respond_404

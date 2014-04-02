@@ -1,0 +1,38 @@
+# Redmine runs tests on own continuous integration server.
+# http://www.redmine.org/projects/redmine/wiki/Continuous_integration
+# You can also run tests on your environment.
+language: ruby
+rvm:
+  - 1.8.7
+  - 1.9.3
+  - 2.0.0
+  - 2.1.0
+  - jruby
+matrix:
+  allow_failures:
+    # SCM tests fail randomly due to IO.popen().
+    # https://github.com/jruby/jruby/issues/779
+    - rvm: jruby
+env:
+  - "TEST_SUITE=units       DATABASE_ADAPTER=postgresql"
+  - "TEST_SUITE=functionals DATABASE_ADAPTER=postgresql"
+  - "TEST_SUITE=integration DATABASE_ADAPTER=postgresql"
+  - "TEST_SUITE=units       DATABASE_ADAPTER=mysql"
+  - "TEST_SUITE=functionals DATABASE_ADAPTER=mysql"
+  - "TEST_SUITE=integration DATABASE_ADAPTER=mysql"
+  - "TEST_SUITE=units       DATABASE_ADAPTER=sqlite3"
+  - "TEST_SUITE=functionals DATABASE_ADAPTER=sqlite3"
+  - "TEST_SUITE=integration DATABASE_ADAPTER=sqlite3"
+before_install:
+  - "sudo apt-get update -qq"
+  - "sudo apt-get --no-install-recommends install bzr cvs git mercurial subversion"
+script:
+  - "SCMS=bazaar,cvs,subversion,git,mercurial,filesystem"
+  - "export SCMS"
+  - "git --version"
+  - "bundle install"
+  - "RUN_ON_NOT_OFFICIAL='' RUBY_VER=1.9 BRANCH=trunk bundle exec rake config/database.yml"
+  - "bundle install"
+  - "JRUBY_OPTS=-J-Xmx1024m bundle exec rake ci"
+notifications:
+  email: false

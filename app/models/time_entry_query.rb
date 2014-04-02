@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -91,8 +91,10 @@ class TimeEntryQuery < Query
   def available_columns
     return @available_columns if @available_columns
     @available_columns = self.class.available_columns.dup
-    @available_columns += TimeEntryCustomField.visible.all.map {|cf| QueryCustomFieldColumn.new(cf) }
-    @available_columns += IssueCustomField.visible.all.map {|cf| QueryAssociationCustomFieldColumn.new(:issue, cf) }
+    @available_columns += TimeEntryCustomField.visible.
+                            map {|cf| QueryCustomFieldColumn.new(cf) }
+    @available_columns += IssueCustomField.visible.
+                            map {|cf| QueryAssociationCustomFieldColumn.new(:issue, cf) }
     @available_columns
   end
 
@@ -106,7 +108,20 @@ class TimeEntryQuery < Query
     TimeEntry.visible.
       where(statement).
       order(order_option).
-      joins(joins_for_order_statement(order_option.join(',')))
+      joins(joins_for_order_statement(order_option.join(','))).
+      includes(:activity)
+  end
+
+  def sql_for_activity_id_field(field, operator, value)
+    condition_on_id = sql_for_field(field, operator, value, Enumeration.table_name, 'id')
+    condition_on_parent_id = sql_for_field(field, operator, value, Enumeration.table_name, 'parent_id')
+    ids = value.map(&:to_i).join(',')
+    table_name = Enumeration.table_name
+    if operator == '='
+      "(#{table_name}.id IN (#{ids}) OR #{table_name}.parent_id IN (#{ids}))"
+    else
+      "(#{table_name}.id NOT IN (#{ids}) AND (#{table_name}.parent_id IS NULL OR #{table_name}.parent_id NOT IN (#{ids})))"
+    end
   end
 
   # Accepts :from/:to params as shortcut filters

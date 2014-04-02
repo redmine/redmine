@@ -19,13 +19,13 @@
   <tbody>
 <% for status in @issue_statuses %>
   <tr class="<%= cycle("odd", "even") %>">
-  <td><%= link_to h(status.name), edit_issue_status_path(status) %></td>
+  <td class="name"><%= link_to h(status.name), edit_issue_status_path(status) %></td>
   <% if Issue.use_status_for_done_ratio? %>
-  <td align="center"><%= h status.default_done_ratio %></td>
+  <td><%= h status.default_done_ratio %></td>
   <% end %>
-  <td align="center"><%= checked_image status.is_default? %></td>
-  <td align="center"><%= checked_image status.is_closed? %></td>
-  <td align="center" style="width:15%;"><%= reorder_links('issue_status', {:action => 'update', :id => status}, :put) %></td>
+  <td><%= checked_image status.is_default? %></td>
+  <td><%= checked_image status.is_closed? %></td>
+  <td class="reorder"><%= reorder_links('issue_status', {:action => 'update', :id => status}, :put) %></td>
   <td class="buttons">
     <%= delete_link issue_status_path(status) %>
   </td>

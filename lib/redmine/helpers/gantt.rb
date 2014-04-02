@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -311,9 +311,9 @@ module Redmine
           html_class << (version.behind_schedule? ? 'version-behind-schedule' : '') << " "
           html_class << (version.overdue? ? 'version-overdue' : '')
           html_class << ' version-closed' unless version.open?
-          if version.start_date && version.due_date && version.completed_pourcent
+          if version.start_date && version.due_date && version.completed_percent
             progress_date = calc_progress_date(version.start_date,
-                                               version.due_date, version.completed_pourcent)
+                                               version.due_date, version.completed_percent)
             html_class << ' behind-start-date' if progress_date < self.date_from
             html_class << ' over-end-date' if progress_date > self.date_to
           end
@@ -693,11 +693,7 @@ module Redmine
       end
 
       def self.sort_versions!(versions)
-        versions.sort! {|a, b| sort_version_logic(a) <=> sort_version_logic(b)}
-      end
-
-      def self.sort_version_logic(version)
-        [(version.start_date || Date.new()), version.id]
+        versions.sort!
       end
 
       def current_limit

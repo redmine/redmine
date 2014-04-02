@@ -15,12 +15,12 @@
 	    <% if !custom_value.value.blank? %>
 	
 	      <% if custom_value.custom_field.name == 'URL' %>
-	        <li><a href="<%=h show_value(custom_value, true) %>"><%=h show_value(custom_value) %></a></li>
+	        <li><a href="<%=h show_http_value(custom_value) %>"><%=h show_value(custom_value) %></a></li>
 	      <% elsif custom_value.custom_field.name == 'INCF Profile' %>
 	        <% if show_value(custom_value).index('incf.org') == nil %>
 	          <li><a href="http://www.incf.org/community/people/<%=h show_value(custom_value) %>/person_view"><%=h custom_value.custom_field.name%></a></li>
 	        <% else %>
-	          <li><a href="<%=h show_value(custom_value, true) %>"><%=h custom_value.custom_field.name%></a></li>
+	          <li><a href="<%=h show_http_value(custom_value) %>"><%=h custom_value.custom_field.name%></a></li>
 	        <% end %>
 	
 	      <% elsif custom_value.custom_field.name == 'GitHub username' %>
@@ -28,14 +28,14 @@
 	        <% if show_value(custom_value).index('github.com') == nil %>
 	          <li><a href="https://github.com/<%=h show_value(custom_value) %>" target="_blank">GitHub user</a></li>
 	        <% else %>
-	          <li><a href="<%=h show_value(custom_value, true) %>" target="_blank">GitHub user</a></li>
+	          <li><a href="<%=h show_http_value(custom_value) %>" target="_blank">GitHub user</a></li>
 	        <% end %>
 	      <% elsif custom_value.custom_field.name == 'Bitbucket username' %>
 	
 	        <% if show_value(custom_value).index('bitbucket.com') == nil %>
 	          <li><a href="https://bitbucket.com/<%=h show_value(custom_value) %>" target="_blank">Bitbucket user</a></li>
 	        <% else %>
-	          <li><a href="<%=h show_value(custom_value, true) %>" target="_blank">Bitbucket user</a></li>
+	          <li><a href="<%=h show_http_value(custom_value) %>" target="_blank">Bitbucket user</a></li>
 	        <% end %>
 		
 		  <% elsif custom_value.custom_field.name == 'ORCID ID' %>
