@@ -1146,3 +1146,5 @@ es:
   setting_force_default_language_for_loggedin: Forzar lenguaje por defecto para usuarios identificados
   label_custom_field_select_type: Seleccione el tipo de objeto al que unir el campo personalizado
   label_issue_assigned_to_updated: Assignee updated
+  label_check_for_updates: Check for updates
+  label_latest_compatible_version: Latest compatible version

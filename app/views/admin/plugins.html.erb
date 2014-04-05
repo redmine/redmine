@@ -14,7 +14,7 @@
         </tr>
     <% end %>
 </table>
-<p><a href="#" id="check-for-updates">Check for updates</a>
+<p><a href="#" id="check-for-updates"><%= l(:label_check_for_updates) %></a>
 <% else %>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
@@ -48,7 +48,7 @@ $(document).ready(function(){
             s.addClass("icon-checked");
           } else if (plugin_data.c) {
             s.addClass("icon-warning");
-            s.attr("title", "Latest compatible version: "+plugin_data.c);
+            s.attr("title", "<%= escape_javascript l(:label_latest_compatible_version) %>: "+plugin_data.c);
           }
         });
         $("table.plugins td.version span.unknown").addClass("icon-help").attr("title", "Unknown plugin");

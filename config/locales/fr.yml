@@ -888,6 +888,8 @@ fr:
   label_checkboxes: cases à cocher
   label_link_values_to: Lier les valeurs vers l'URL
   label_custom_field_select_type: Selectionner le type d'objet auquel attacher le champ personnalisé
+  label_check_for_updates: Vérifier les mises à jour
+  label_latest_compatible_version: Dernière version compatible
 
   button_login: Connexion
   button_submit: Soumettre

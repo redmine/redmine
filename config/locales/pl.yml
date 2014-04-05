@@ -1133,3 +1133,5 @@ pl:
   label_custom_field_select_type: Select the type of object to which the custom field
     is to be attached
   label_issue_assigned_to_updated: Uaktualniono osobę przypisaną
+  label_check_for_updates: Check for updates
+  label_latest_compatible_version: Latest compatible version
