@@ -44,6 +44,7 @@ class ApplicationController < ActionController::Base
     unless api_request?
       super
       cookies.delete(autologin_cookie_name)
+      self.logged_user = nil
       render_error :status => 422, :message => "Invalid form authenticity token."
     end
   end
