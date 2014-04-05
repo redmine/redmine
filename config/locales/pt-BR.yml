@@ -1131,3 +1131,6 @@ pt-BR:
     users
   label_custom_field_select_type: Select the type of object to which the custom field
     is to be attached
+  label_check_for_updates: Check for updates
+  label_latest_compatible_version: Latest compatible version
+  label_unknown_plugin: Unknown plugin

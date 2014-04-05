@@ -1121,3 +1121,6 @@ de:
 
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
   label_link: Link
+  label_check_for_updates: Check for updates
+  label_latest_compatible_version: Latest compatible version
+  label_unknown_plugin: Unknown plugin

@@ -1156,3 +1156,6 @@ ko:
   setting_force_default_language_for_anonymous: 익명 사용자의 기본 언어 강제
   setting_force_default_language_for_loggedin: 로그인 사용자의 기본 언어 강제
   label_custom_field_select_type: 사용자 정의 필드에 추가할 대상을 선택해주세요.
+  label_check_for_updates: Check for updates
+  label_latest_compatible_version: Latest compatible version
+  label_unknown_plugin: Unknown plugin
