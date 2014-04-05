@@ -890,6 +890,7 @@ fr:
   label_custom_field_select_type: Selectionner le type d'objet auquel attacher le champ personnalisé
   label_check_for_updates: Vérifier les mises à jour
   label_latest_compatible_version: Dernière version compatible
+  label_unknown_plugin: Plugin inconnu
 
   button_login: Connexion
   button_submit: Soumettre

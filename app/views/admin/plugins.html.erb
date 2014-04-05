@@ -51,7 +51,7 @@ $(document).ready(function(){
             s.attr("title", "<%= escape_javascript l(:label_latest_compatible_version) %>: "+plugin_data.c);
           }
         });
-        $("table.plugins td.version span.unknown").addClass("icon-help").attr("title", "Unknown plugin");
+        $("table.plugins td.version span.unknown").addClass("icon-help").attr("title", "<%= escape_javascript l(:label_unknown_plugin) %>");
       },
       error: function(){
         $('#ajax-indicator').hide();
