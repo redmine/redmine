@@ -252,10 +252,10 @@ class Project < ActiveRecord::Base
       parent_activity = TimeEntryActivity.find(activity['parent_id'])
       activity['name'] = parent_activity.name
       activity['position'] = parent_activity.position
-      if Enumeration.overridding_change?(activity, parent_activity)
+      if Enumeration.overriding_change?(activity, parent_activity)
         project_activity = self.time_entry_activities.create(activity)
         if project_activity.new_record?
-          raise ActiveRecord::Rollback, "Overridding TimeEntryActivity was not successfully saved"
+          raise ActiveRecord::Rollback, "Overriding TimeEntryActivity was not successfully saved"
         else
           self.time_entries.
             where(["activity_id = ?", parent_activity.id]).
