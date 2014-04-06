@@ -81,7 +81,7 @@ module Redmine
           end
         end
 
-        # Returns the mail adresses of users that should be notified
+        # Returns the mail addresses of users that should be notified
         def recipients
           notified = project.notified_users
           notified.reject! {|user| !visible?(user)}
