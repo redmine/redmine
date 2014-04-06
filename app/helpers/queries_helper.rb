@@ -18,6 +18,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module QueriesHelper
+  include ApplicationHelper
+
   def filters_options_for_select(query)
     options_for_select(filters_options(query))
   end
@@ -81,7 +83,7 @@ module QueriesHelper
   end
 
   def column_content(column, issue)
-    value = column.value(issue)
+    value = column.value_object(issue)
     if value.is_a?(Array)
       value.collect {|v| column_value(column, issue, v)}.compact.join(', ').html_safe
     else
@@ -110,7 +112,7 @@ module QueriesHelper
   end
 
   def csv_content(column, issue)
-    value = column.value(issue)
+    value = column.value_object(issue)
     if value.is_a?(Array)
       value.collect {|v| csv_value(column, issue, v)}.compact.join(', ')
     else
@@ -119,22 +121,16 @@ module QueriesHelper
   end
 
   def csv_value(column, issue, value)
-    case value.class.name
-    when 'Time'
-      format_time(value)
-    when 'Date'
-      format_date(value)
-    when 'Float'
-      sprintf("%.2f", value).gsub('.', l(:general_csv_decimal_separator))
-    when 'IssueRelation'
-      other = value.other_issue(issue)
-      l(value.label_for(issue)) + " ##{other.id}"
-    when 'TrueClass'
-      l(:general_text_Yes)
-    when 'FalseClass'
-      l(:general_text_No)
-    else
-      value.to_s
+    format_object(value, false) do |value|
+      case value.class.name
+      when 'Float'
+        sprintf("%.2f", value).gsub('.', l(:general_csv_decimal_separator))
+      when 'IssueRelation'
+        other = value.other_issue(issue)
+        l(value.label_for(issue)) + " ##{other.id}"
+      else
+        value
+      end
     end
   end
 

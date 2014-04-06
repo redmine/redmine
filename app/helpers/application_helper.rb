@@ -158,7 +158,10 @@ module ApplicationHelper
   end
 
   # Helper that formats object for html or text rendering
-  def format_object(object, html=true)
+  def format_object(object, html=true, &block)
+    if block_given?
+      object = yield object
+    end
     case object.class.name
     when 'Array'
       object.map {|o| format_object(o, html)}.join(', ').html_safe
@@ -188,7 +191,7 @@ module ApplicationHelper
         if f.nil? || f.is_a?(String)
           f
         else
-          format_object(f, html)
+          format_object(f, html, &block)
         end
       else
         object.value.to_s
