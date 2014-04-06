@@ -502,7 +502,7 @@ class Project < ActiveRecord::Base
     assignable.select {|m| m.roles.detect {|role| role.assignable?}}.collect {|m| m.principal}.sort
   end
 
-  # Returns the mail adresses of users that should be always notified on project events
+  # Returns the mail addresses of users that should be always notified on project events
   def recipients
     notified_users.collect {|user| user.mail}
   end
@@ -514,7 +514,7 @@ class Project < ActiveRecord::Base
   end
 
   # Returns a scope of all custom fields enabled for project issues
-  # (explictly associated custom fields and custom fields enabled for all projects)
+  # (explicitly associated custom fields and custom fields enabled for all projects)
   def all_issue_custom_fields
     @all_issue_custom_fields ||= IssueCustomField.
       sorted.
