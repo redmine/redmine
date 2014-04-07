@@ -26,7 +26,7 @@ class Project < ActiveRecord::Base
   # Maximum length for project identifiers
   IDENTIFIER_MAX_LENGTH = 100
 
-  # Specific overidden Activities
+  # Specific overridden Activities
   has_many :time_entry_activities
   has_many :members, :include => [:principal, :roles], :conditions => "#{Principal.table_name}.type='User' AND #{Principal.table_name}.status=#{Principal::STATUS_ACTIVE}"
   has_many :memberships, :class_name => 'Member'
@@ -74,7 +74,7 @@ class Project < ActiveRecord::Base
   validates_length_of :name, :maximum => 255
   validates_length_of :homepage, :maximum => 255
   validates_length_of :identifier, :in => 1..IDENTIFIER_MAX_LENGTH
-  # donwcase letters, digits, dashes but not digits only
+  # downcase letters, digits, dashes but not digits only
   validates_format_of :identifier, :with => /\A(?!\d+$)[a-z0-9\-_]*\z/, :if => Proc.new { |p| p.identifier_changed? }
   # reserved words
   validates_exclusion_of :identifier, :in => %w( new )
@@ -847,7 +847,7 @@ class Project < ActiveRecord::Base
   # Copies issues from +project+
   def copy_issues(project)
     # Stores the source issue id as a key and the copied issues as the
-    # value.  Used to map the two togeather for issue relations.
+    # value.  Used to map the two together for issue relations.
     issues_map = {}
 
     # Store status and reopen locked/closed versions
