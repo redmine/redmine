@@ -1331,7 +1331,7 @@ module ApplicationHelper
   def api_meta(options)
     if params[:nometa].present? || request.headers['X-Redmine-Nometa']
       # compatibility mode for activeresource clients that raise
-      # an error when unserializing an array with attributes
+      # an error when deserializing an array with attributes
       nil
     else
       options
