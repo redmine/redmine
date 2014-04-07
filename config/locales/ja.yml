@@ -354,8 +354,8 @@ ja:
   setting_attachment_max_size: 添付ファイルサイズの上限
   setting_issues_export_limit: エクスポートするチケット数の上限
   setting_mail_from: 送信元メールアドレス
-  setting_bcc_recipients: ブラインドカーボンコピーで受信(bcc)
-  setting_plain_text_mail: プレインテキストのみ(HTMLなし)
+  setting_bcc_recipients: 宛先を非表示(bcc)
+  setting_plain_text_mail: プレインテキスト形式(HTMLなし)
   setting_host_name: ホスト名
   setting_text_formatting: テキストの書式
   setting_cache_formatted_text: 書式化されたテキストをキャッシュする
@@ -489,12 +489,12 @@ ja:
   label_issue_plural: チケット
   label_issue_view_all: すべてのチケットを見る
   label_issues_by: "%{value} 別のチケット"
-  label_issue_added: チケットが追加されました
-  label_issue_updated: チケットが更新されました
+  label_issue_added: チケットの追加
+  label_issue_updated: チケットの更新
   label_document: 文書
   label_document_new: 新しい文書
   label_document_plural: 文書
-  label_document_added: 文書が追加されました
+  label_document_added: 文書の追加
   label_role: ロール
   label_role_plural: ロール
   label_role_new: 新しいロール
@@ -566,7 +566,7 @@ ja:
   label_attachment_new: 新しいファイル
   label_attachment_delete: ファイルを削除
   label_attachment_plural: ファイル
-  label_file_added: ファイルが追加されました
+  label_file_added: ファイルの追加
   label_report: レポート
   label_report_plural: レポート
   label_news: ニュース
@@ -574,8 +574,8 @@ ja:
   label_news_plural: ニュース
   label_news_latest: 最新ニュース
   label_news_view_all: すべてのニュースを見る
-  label_news_added: ニュースが追加されました
-  label_news_comment_added: ニュースにコメントが追加されました
+  label_news_added: ニュースの追加
+  label_news_comment_added: ニュースへのコメント追加
   label_settings: 設定
   label_overview: 概要
   label_version: バージョン
@@ -748,7 +748,7 @@ ja:
   label_message_plural: メッセージ
   label_message_last: 最新のメッセージ
   label_message_new: 新しいメッセージ
-  label_message_posted: メッセージが追加されました
+  label_message_posted: メッセージの追加
   label_reply_plural: 返答
   label_send_information: アカウント情報をユーザーに送信
   label_year: 年
@@ -809,8 +809,8 @@ ja:
   label_ascending: 昇順
   label_descending: 降順
   label_date_from_to: "%{start}から%{end}まで"
-  label_wiki_content_added: Wikiページが追加されました
-  label_wiki_content_updated: Wikiページが更新されました
+  label_wiki_content_added: Wikiページの追加
+  label_wiki_content_updated: Wikiページの更新
   label_group: グループ
   label_group_plural: グループ
   label_group_new: 新しいグループ
@@ -894,7 +894,7 @@ ja:
 
   field_active: 有効
 
-  text_select_mail_notifications: どのメール通知を送信するか、アクションを選択してください。
+  text_select_mail_notifications: メール通知の送信対象とする操作を選択してください。
   text_regexp_info: 例) ^[A-Z0-9]+$
   text_min_max_length_info: 0だと無制限になります
   text_project_destroy_confirmation: 本当にこのプロジェクトと関連データを削除しますか？
@@ -995,9 +995,9 @@ ja:
   label_role_anonymous: 匿名ユーザー
   label_role_non_member: 非メンバー
 
-  label_issue_note_added: 注記が追加されました
-  label_issue_status_updated: ステータスが更新されました
-  label_issue_priority_updated: 優先度が更新されました
+  label_issue_note_added: 注記の追加
+  label_issue_status_updated: ステータスの更新
+  label_issue_priority_updated: 優先度の更新
   label_issues_visibility_own: 作成者か担当者であるチケット
   field_issues_visibility: 表示できるチケット
   label_issues_visibility_all: すべてのチケット
@@ -1136,7 +1136,7 @@ ja:
   setting_force_default_language_for_anonymous: 匿名ユーザーに既定の言語を強制
   setting_force_default_language_for_loggedin: ログインユーザーに既定の言語を強制
   label_custom_field_select_type: カスタムフィールドを追加するオブジェクトを選択してください
-  label_issue_assigned_to_updated: Assignee updated
+  label_issue_assigned_to_updated: 担当者の更新
   label_check_for_updates: Check for updates
   label_latest_compatible_version: Latest compatible version
   label_unknown_plugin: Unknown plugin
